@@ -99,13 +99,32 @@ Prerequisites
 
 * `node.js`  JavaScript runtime https://nodejs.org/en/download/
 * `npm` JavaScript package manager  https://www.npmjs.com/
+
+additional project dependencies:
+
+from the root directory of the project:
+
+```
+npm install
+```
+
+e.g.
 * `express` web framework for node.js ```npm install express```
 
 
 Development
 -----------
 
+PreReqs:
+* `grunt` JavaScript task runner ```npm install grunt```
+* `grunt-cli` ```npm install -g grunt-cli```
 * `jest` testing framework ```npm install jest```
+
+Run grunt:
+
+```
+grunt
+```
 
 
 Roadmap
