@@ -1,19 +1,19 @@
 [bfe][demo-page]
 =======================
 
-`bfe` is a standalone Editor for the Library of Congress's [Bibliographic Framework 
-(BIBFRAME) Initiative][bfi].  It can be used more generically as an editor for RDF data. 
-`bfe` uses [BIBFRAME Profiles][profilespec] to render an HTML/UI input form; it is 
+`bfe` is a standalone Editor for the Library of Congress's [Bibliographic Framework
+(BIBFRAME) Initiative][bfi].  It can be used more generically as an editor for RDF data.
+`bfe` uses [BIBFRAME Profiles][profilespec] to render an HTML/UI input form; it is
 capable of integrating 'lookup' services, which query data from external Web APIs;
 and implementers can define the input and extract the output.
 
-This repository includes a development example, a "production" example, and 
-various BIBFRAME Profiles with which to begin experimenting. In order 
-to get started with `bfe` quickly and easily, there are two main aspects of `bfe`: 
-a javascript library and an accompanying CSS file.  The packaged javascript 
-library bundles a few additional libraries, some of which are [JQuery], [Lo-Dash], 
-elements from Twitter's [Bootstrap.js][Bootstrap], and 
-Twitter's [typeahead.js].  The CSS bundle includes mostly elements of 
+This repository includes a development example, a "production" example, and
+various BIBFRAME Profiles with which to begin experimenting. In order
+to get started with `bfe` quickly and easily, there are two main aspects of `bfe`:
+a javascript library and an accompanying CSS file.  The packaged javascript
+library bundles a few additional libraries, some of which are [JQuery], [Lo-Dash],
+elements from Twitter's [Bootstrap.js][Bootstrap], and
+Twitter's [typeahead.js].  The CSS bundle includes mostly elements of
 Twitter's [Bootstrap] and a few additional custom CSS declarations.
 
 <!-- section links -->
@@ -27,14 +27,14 @@ Getting Started
 ---------------
 `bfe` is currently submodule of [recto](http://github.com/lcnetdev/recto), an express-based webserver, which uses [verso](http://github.com/lcnetdev/verso) a loopback-based server for backend data. The current recommendation is to install recto and verso and use bfe as part of the demonstration environment.
 
-`bfe` can be run as a demo or development version using a simple express-based server - found in the main `bfe` directory - 
+`bfe` can be run as a demo or development version using a simple express-based server - found in the main `bfe` directory -
 that ships with `bfe`:
 
 ```bash
 node server-bfe.js
 ```
 
-Documentation 
+Documentation
 -------------
 
 * [API]
@@ -77,14 +77,14 @@ https://github.com/lcnetdev/bfe/issues
 Support
 ----------------
 
-For technical questions about `bfe`, you can use the GitHub [Issues] feature, but 
+For technical questions about `bfe`, you can use the GitHub [Issues] feature, but
 please "label" your question a 'question.'
 
-Although you are encouraged to ask your quesion publicly (the answer might 
-help everyone), you may also email this repository's [maintainer][khes] 
-directly. 
+Although you are encouraged to ask your quesion publicly (the answer might
+help everyone), you may also email this repository's [maintainer][khes]
+directly.
 
-For general questions about BIBFRAME, you can subscribe to the [BIBFRAME Listserv][listserv] 
+For general questions about BIBFRAME, you can subscribe to the [BIBFRAME Listserv][listserv]
 and ask in that forum.
 
 <!-- section links -->
@@ -92,6 +92,20 @@ and ask in that forum.
 [Issues]: https://github.com/lcnetdev/bfe/issues
 [khes]: mailto:khes@loc.gov
 [listserv]: http://listserv.loc.gov/cgi-bin/wa?SUBED1=bibframe&A=1
+
+
+Prerequisites
+-------------
+
+* `node.js`  JavaScript runtime https://nodejs.org/en/download/
+* `npm` JavaScript package manager  https://www.npmjs.com/
+* `express` web framework for node.js ```npm install express```
+
+
+Development
+-----------
+
+* `jest` testing framework ```npm install jest```
 
 
 Roadmap
@@ -120,14 +134,14 @@ v1.x
 Developers
 ----------
 
-From a design standpoint, the objective with `bfe` was to create the simplest 
-'pluggable' form editor one can to maximize experimental implementer's abilities 
+From a design standpoint, the objective with `bfe` was to create the simplest
+'pluggable' form editor one can to maximize experimental implementer's abilities
 to create/edit BIBFRAME data.  The current focus is to transform bfe into a production ready tool.
 
-All contributions are welcome.  If you do not code, surely you will discover an 
+All contributions are welcome.  If you do not code, surely you will discover an
 [issue] you can report.  
 
-'Building' `bfe` requires npm, bundled with [node.js] and [grunt].  See `package.json` for dependencies. 
+'Building' `bfe` requires npm, bundled with [node.js] and [grunt].  See `package.json` for dependencies.
 See `Gruntfile.json` for build dependencies.
 
 Basic build steps:
@@ -145,24 +159,24 @@ Basic build steps:
 Acknowledgements
 ----------
 
-In addition to all the good people who have worked on [JQuery], [Lo-Dash], 
-Twitter's [Bootstrap], Twitter's [typeahead.js], [require.js], [dryice], and 
-more, all of whom made this simpler, special recognition needs to 
-go to the developers who have worked on [Ajax.org's Ace editor][ace] and 
+In addition to all the good people who have worked on [JQuery], [Lo-Dash],
+Twitter's [Bootstrap], Twitter's [typeahead.js], [require.js], [dryice], and
+more, all of whom made this simpler, special recognition needs to
+go to the developers who have worked on [Ajax.org's Ace editor][ace] and
 the fine individuals at [Zepheira].
 
-Using `require.js`, `Ace`'s developers figured out a great way to bundle their code 
-into a single distributable.  `Ace`'s methods were studied and emulated, and when 
-that wasn't enough, their code was ported (with credit, of course, and those 
-snippets were ported only in support of building the package with `dryice`).  The 
-`Ace`'s devs also just have a really smart way of approaching this type of 
+Using `require.js`, `Ace`'s developers figured out a great way to bundle their code
+into a single distributable.  `Ace`'s methods were studied and emulated, and when
+that wasn't enough, their code was ported (with credit, of course, and those
+snippets were ported only in support of building the package with `dryice`).  The
+`Ace`'s devs also just have a really smart way of approaching this type of
 javascript project.
 
 In late 2013, and demoed at the American Library Association's Midwinter Conference,
-Zepheira developed a prototype BIBFRAME Editor.  Although that project never moved 
-beyond an experimental phase, Zepheira's work was nevertheless extremely influential, 
-especially with respect to `bfe`'s UI design. (None of the code in `bfe` was ported 
-from Zepheira's prototype.)  Zepheira also developed the [BIBFRAME Profile 
+Zepheira developed a prototype BIBFRAME Editor.  Although that project never moved
+beyond an experimental phase, Zepheira's work was nevertheless extremely influential,
+especially with respect to `bfe`'s UI design. (None of the code in `bfe` was ported
+from Zepheira's prototype.)  Zepheira also developed the [BIBFRAME Profile
 Specification][profilespec].
 
 <!-- section links -->
@@ -192,7 +206,7 @@ Contributors
 Maintainer
 -----------
 
-* **Kirk Hess** 
+* **Kirk Hess**
   * [GitHub](https://github.com/kirkhess)
 
 
@@ -203,6 +217,6 @@ Unless otherwise noted, code that is original to `bfe` is in the Public Domain.
 
 http://creativecommons.org/publicdomain/mark/1.0/
 
-**NOTE:**  `bfe` includes or depends on software from other open source projects, all or 
-most of which will carry their own license and copyright.  The Public Domain mark 
+**NOTE:**  `bfe` includes or depends on software from other open source projects, all or
+most of which will carry their own license and copyright.  The Public Domain mark
 stops at `bfe` original code and does not convey to these projects.
