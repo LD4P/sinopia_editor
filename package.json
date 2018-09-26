@@ -41,7 +41,7 @@
     "doc": "docs"
   },
   "scripts": {
-    "test": "jest"
+    "test": "jest --colors"
   },
   "license": "ISC",
   "dependencies": {
