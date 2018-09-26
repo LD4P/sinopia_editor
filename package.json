@@ -24,6 +24,7 @@
     "eslint-plugin-security": "^1.4.0",
     "express": "^4.16.3",
     "grunt-eslint": "^21.0.0",
+    "grunt-run": "^0.8.1",
     "jest": "^23.6.0",
     "serve-static": "^1.13.2"
   },
@@ -40,7 +41,7 @@
     "doc": "docs"
   },
   "scripts": {
-    "test" : "jest"
+    "test": "jest"
   },
   "license": "ISC",
   "dependencies": {
