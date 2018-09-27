@@ -48,6 +48,15 @@ module.exports = function(grunt) {
           'test',
           '--silent'
         ]
+      },
+      npm_test_jest_cov: {
+        cmd: 'npm',
+        args: [
+          'run',
+          'jest-coverage',
+          '--coverage',
+          '--silent'
+        ]
       }
     }
   });
@@ -60,4 +69,5 @@ module.exports = function(grunt) {
 
   grunt.registerTask('default', ['concat', 'uglify', 'cssmin']);
   grunt.registerTask('test', [ 'run:npm_test_jest' ]);
+  grunt.registerTask('test-cov', [ 'run:npm_test_jest_cov' ]);
 };
