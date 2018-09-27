@@ -1,4 +1,6 @@
+.DS_Store
 builds/*
+coverage
 examples
 node_modules
 static/profiles/bibframe/*

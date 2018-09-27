@@ -39,6 +39,25 @@ module.exports = function(grunt) {
     },
     eslint: {
         target: ['src/*.js']
+    },
+    run: {
+      npm_test_jest: {
+        cmd: 'npm',
+        args: [
+          'run',
+          'test',
+          '--silent'
+        ]
+      },
+      npm_test_jest_cov: {
+        cmd: 'npm',
+        args: [
+          'run',
+          'jest-coverage',
+          '--coverage',
+          '--silent'
+        ]
+      }
     }
   });
 
@@ -46,6 +65,9 @@ module.exports = function(grunt) {
   grunt.loadNpmTasks('grunt-contrib-cssmin');
   grunt.loadNpmTasks('grunt-contrib-concat');
   grunt.loadNpmTasks('grunt-eslint');
+  grunt.loadNpmTasks('grunt-run');
 
   grunt.registerTask('default', ['concat', 'uglify', 'cssmin']);
+  grunt.registerTask('test', [ 'run:npm_test_jest' ]);
+  grunt.registerTask('test-cov', [ 'run:npm_test_jest_cov' ]);
 };

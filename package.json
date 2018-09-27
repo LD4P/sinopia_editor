@@ -24,6 +24,8 @@
     "eslint-plugin-security": "^1.4.0",
     "express": "^4.16.3",
     "grunt-eslint": "^21.0.0",
+    "grunt-run": "^0.8.1",
+    "jest": "^23.6.0",
     "serve-static": "^1.13.2"
   },
   "bugs": {
@@ -39,7 +41,8 @@
     "doc": "docs"
   },
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "jest --colors",
+    "jest-coverage": "jest --coverage --colors"
   },
   "license": "ISC",
   "dependencies": {
