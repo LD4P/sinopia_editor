@@ -1,6 +1,7 @@
 module.exports = function(grunt) {
   grunt.initConfig({
     pkg: grunt.file.readJSON('package.json'),
+    clean: ['builds'],
     concat: {
       options: {
         stripBanners: true,
@@ -58,10 +59,11 @@ module.exports = function(grunt) {
   grunt.loadNpmTasks('grunt-contrib-uglify-es');
   grunt.loadNpmTasks('grunt-contrib-cssmin');
   grunt.loadNpmTasks('grunt-contrib-concat');
+  grunt.loadNpmTasks('grunt-contrib-clean');
   grunt.loadNpmTasks('grunt-eslint');
   grunt.loadNpmTasks('grunt-run');
 
-  grunt.registerTask('default', ['concat', 'uglify', 'cssmin']);
-  grunt.registerTask('test', [ 'run:npm_jest' ]);
-  grunt.registerTask('test-cov', [ 'run:npm_jest_cov' ]);
+  grunt.registerTask('default', ['clean', 'concat', 'uglify', 'cssmin']);
+  grunt.registerTask('test', [ 'default', 'run:npm_jest' ]);
+  grunt.registerTask('test-cov', [ 'default', 'run:npm_jest_cov' ]);
 };
