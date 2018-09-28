@@ -26,8 +26,15 @@ jobs:
             - node_modules
       - run:
           name: Run jest tests
-          command: npm run jest-cov --silent
+          command: npm run jest-ci --silent
           # command: grunt test-cov  # see https://github.com/LD4P/sinopia_editor/issues/19
+          environment:
+            JEST_JUNIT_OUTPUT: "test-results/jest/jest-results.xml"
+      - store_test_results:
+          path: test-results
+      - store_artifacts:
+          path: coverage
+          destination: jest-coverage
 
 workflows:
   version: 2
