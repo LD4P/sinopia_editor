@@ -26,6 +26,7 @@
     "grunt-eslint": "^21.0.0",
     "grunt-run": "^0.8.1",
     "jest": "^23.6.0",
+    "jest-junit": "^5.1.0",
     "serve-static": "^1.13.2"
   },
   "bugs": {
@@ -42,7 +43,8 @@
   },
   "scripts": {
     "test": "jest --colors",
-    "jest-cov": "jest --coverage --colors"
+    "jest-cov": "jest --coverage --colors",
+    "jest-ci": "jest --ci --runInBand --coverage --reporters=default --reporters=jest-junit --colors"
   },
   "license": "ISC",
   "dependencies": {
