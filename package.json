@@ -9,11 +9,11 @@
   "version": "0.0.1",
   "homepage": "http://github.com/LD4P/sinopia_editor/",
   "engines": {
-    "node": ">= 0.9.0"
+    "node": "10.11.x"
   },
   "contributors": [
-     "Kirk Hess <khes@loc.gov>",
-     "Jeremy Nelson"
+    "Kirk Hess <khes@loc.gov>",
+    "Jeremy Nelson"
   ],
   "main": "Gruntfile.js",
   "repository": {
