@@ -2,6 +2,7 @@
 builds/*
 coverage
 examples
+junit.xml
 node_modules
 static/profiles/bibframe/*
 tmp
