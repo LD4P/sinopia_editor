@@ -41,7 +41,7 @@ module.exports = function(grunt) {
         target: ['src/*.js']
     },
     run: {
-      npm_test_jest: {
+      npm_jest: {
         cmd: 'npm',
         args: [
           'run',
@@ -49,12 +49,11 @@ module.exports = function(grunt) {
           '--silent'
         ]
       },
-      npm_test_jest_cov: {
+      npm_jest_cov: {
         cmd: 'npm',
         args: [
           'run',
-          'jest-coverage',
-          '--coverage',
+          'jest-cov',
           '--silent'
         ]
       }
@@ -68,6 +67,6 @@ module.exports = function(grunt) {
   grunt.loadNpmTasks('grunt-run');
 
   grunt.registerTask('default', ['concat', 'uglify', 'cssmin']);
-  grunt.registerTask('test', [ 'run:npm_test_jest' ]);
-  grunt.registerTask('test-cov', [ 'run:npm_test_jest_cov' ]);
+  grunt.registerTask('test', [ 'run:npm_jest' ]);
+  grunt.registerTask('test-cov', [ 'run:npm_jest_cov' ]);
 };

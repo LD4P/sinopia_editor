@@ -42,7 +42,7 @@
   },
   "scripts": {
     "test": "jest --colors",
-    "jest-coverage": "jest --coverage --colors"
+    "jest-cov": "jest --coverage --colors"
   },
   "license": "ISC",
   "dependencies": {
