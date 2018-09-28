@@ -1,21 +1,24 @@
 {
-  "name": "bfe",
-  "description": "Editor for BIBFRAME data (but more generically an RDF editor)",
+  "name": "sinopia_editor",
+  "description": "Editor for BIBFRAME data forked from http://github.com/lcnetdev/bfe",
   "keywords": [
     "bibframe",
     "editor",
     "rdf"
   ],
-  "version": "0.4.0",
-  "homepage": "http://github.com/lcnetdev/bfe",
+  "version": "0.0.1",
+  "homepage": "http://github.com/LD4P/sinopia_editor/",
   "engines": {
     "node": ">= 0.9.0"
   },
-  "author": "Kirk Hess <khes@loc.gov>",
+  "contributors": [
+     "Kirk Hess <khes@loc.gov>",
+     "Jeremy Nelson"
+  ],
   "main": "Gruntfile.js",
   "repository": {
     "type": "git",
-    "url": "http://github.com/lcnetdev/bfe.git"
+    "url": "https://github.com/LD4P/sinopia_editor.git"
   },
   "devDependencies": {
     "eslint": "^5.6.0",
@@ -30,7 +33,7 @@
     "serve-static": "^1.13.2"
   },
   "bugs": {
-    "url": "http://github.com/lcnetdev/bfe/issues"
+    "url": "http://github.com/LD4P/sinopia_editor/issues"
   },
   "licenses": [
     {
