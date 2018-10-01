@@ -28,12 +28,15 @@ module.exports = function(grunt) {
       },
       static_mappings: {
         files: [
+          // note:  also need index.html, static/css and static/images files
+          {src: 'server-bfe.js', dest: 'builds/server-bfe.js'},
           {src: 'static/js/config.js', dest: 'builds/config.js'},
           {src: 'static/js/jsonld-vis.js', dest: 'builds/jsonld-vis.js'},
           {src: 'static/js/n3-browser.min.js', dest: 'builds/n3-browser.min.js'},
-          {src: 'static/js/rdf-ext.js', dest: 'builds/rdf-et.js'},
-          {src: 'static/js/rdfstore.js', dest: 'builds/rdfstore.js'},
-          {src: 'static/js/require.js', dest: 'builds/require.js'},
+          // the three below are not used in index.html; not sure if they are needed
+          // {src: 'static/js/rdf-ext.js', dest: 'builds/rdf-ext.js'},
+          // {src: 'static/js/rdfstore.js', dest: 'builds/rdfstore.js'},
+          // {src: 'static/js/require.js', dest: 'builds/require.js'},
           {src: 'static/js/short-uuid.min.js', dest: 'builds/short-uuid.min.js'},
           {src: 'static/js/twitter-typeahead-0.10.2.js', dest: 'builds/twitter-typeahead-0.10.2.js'}
         ]
