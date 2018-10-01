@@ -17,7 +17,7 @@ module.exports = function(grunt) {
             'src/bfelookups.js',
             'src/lib/aceconfig.js'
           ],
-          'builds/bfe.css': ['src/css/bootstrap.css', 'src/css/typeahead.css'],
+          'builds/css/bfe.css': ['src/css/bootstrap.css', 'src/css/typeahead.css'],
         }
       },
     },
@@ -51,7 +51,7 @@ module.exports = function(grunt) {
     cssmin: {
       combine: {
         files: {
-          'builds/bfe.min.css': ['builds/bfe.css']
+          'builds/css/bfe.min.css': ['src/css/bootstrap.css', 'src/css/typeahead.css']
         }
       }
     },
