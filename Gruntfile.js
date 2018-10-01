@@ -30,7 +30,6 @@ module.exports = function(grunt) {
         files: [
           {src: 'static/js/config.js', dest: 'builds/config.js'},
           {src: 'static/js/jsonld-vis.js', dest: 'builds/jsonld-vis.js'},
-          {src: 'static/js/lodash.min.js', dest: 'builds/lodash.min.js'},
           {src: 'static/js/n3-browser.min.js', dest: 'builds/n3-browser.min.js'},
           {src: 'static/js/rdf-ext.js', dest: 'builds/rdf-et.js'},
           {src: 'static/js/rdfstore.js', dest: 'builds/rdfstore.js'},
