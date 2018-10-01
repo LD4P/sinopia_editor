@@ -34,6 +34,8 @@
     "grunt-run": "^0.8.1",
     "jest": "^23.6.0",
     "jest-junit": "^5.1.0",
+    "jest-puppeteer": "^3.4.0",
+    "puppeteer": "^1.8.0",
     "serve-static": "^1.13.2"
   },
   "bugs": {
@@ -56,5 +58,12 @@
   "license": "ISC",
   "dependencies": {
     "grunt": "^1.x.x"
+  },
+  "jest": {
+    "preset": "jest-puppeteer",
+    "reporters": [
+      "default",
+      "jest-junit"
+    ]
   }
 }
