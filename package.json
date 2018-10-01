@@ -51,7 +51,7 @@
   "scripts": {
     "test": "jest --colors",
     "jest-cov": "jest --coverage --colors",
-    "jest-ci": "jest --ci --runInBand --coverage --reporters=default --reporters=jest-junit --colors"
+    "jest-ci": "grunt && jest --ci --runInBand --coverage --reporters=default --reporters=jest-junit --colors"
   },
   "license": "ISC",
   "dependencies": {
