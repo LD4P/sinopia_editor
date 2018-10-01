@@ -26,11 +26,6 @@ module.exports = function(grunt) {
       },
     },
     cssmin: {
-      add_banner: {
-        options: {
-          banner: '/* <%= pkg.name %> <%= grunt.template.today("yyyy-mm-dd") %> */'
-        },
-      },
       combine: {
         files: {
           'builds/bfe.min.css': ['builds/bfe.css']
