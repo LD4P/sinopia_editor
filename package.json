@@ -51,9 +51,9 @@
     "doc": "docs"
   },
   "scripts": {
-    "test": "jest --colors",
-    "jest-cov": "jest --coverage --colors",
-    "jest-ci": "grunt && jest --ci --runInBand --coverage --reporters=default --reporters=jest-junit --colors"
+    "test": "node_modules/.bin/jest --colors",
+    "jest-cov": "node_modules/.bin/jest --coverage --colors",
+    "jest-ci": "grunt && node_modules/.bin/jest --ci --runInBand --coverage --reporters=default --reporters=jest-junit --colors"
   },
   "license": "ISC",
   "dependencies": {

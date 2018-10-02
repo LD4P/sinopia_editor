@@ -1,6 +1,6 @@
 module.exports = {
   launch: {
-    headless: process.env.CI === 'true',
+    headless: process.env.CI === 'true'
   },
   server: {
     command: 'node server-bfe.js',
