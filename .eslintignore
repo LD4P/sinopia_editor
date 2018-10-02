@@ -1,0 +1,6 @@
+build_support/*
+builds/*
+coverage/*
+docs/*
+node_modules/*
+static/*
