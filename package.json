@@ -25,7 +25,6 @@
     "eslint-plugin-jest": "^21.22.1",
     "eslint-plugin-node": "^7.0.1",
     "eslint-plugin-security": "^1.4.0",
-    "express": "^4.16.3",
     "grunt-contrib-clean": "^2.0.0",
     "grunt-contrib-concat": "^1.0.1",
     "grunt-contrib-cssmin": "^3.0.0",
@@ -59,6 +58,7 @@
   },
   "license": "ISC",
   "dependencies": {
+    "express": "^4.16.3",
     "grunt": "^1.x.x"
   },
   "jest": {
