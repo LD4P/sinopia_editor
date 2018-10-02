@@ -51,7 +51,7 @@
   },
   "scripts": {
     "grunt": "grunt",
-    "eslint": "node_modules/.bin/eslint --color -c .eslintrc.js .",
+    "eslint": "node_modules/.bin/eslint --max-warnings 1319 --color -c .eslintrc.js .",
     "test": "node_modules/.bin/jest --colors",
     "jest-cov": "node_modules/.bin/jest --coverage --colors",
     "jest-ci": "node_modules/.bin/jest --ci --runInBand --coverage --reporters=default --reporters=jest-junit --colors"
