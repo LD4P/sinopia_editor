@@ -132,7 +132,7 @@ bfe.define('src/lookups/lcnames', ['require', 'exports', 'module', 'src/lookups/
       var triple = {};
       triple.s = subjecturi;
       triple.p = property.propertyURI;
-      selected.uri = selected.uri;
+      // selected.uri = selected.uri;  // FIXME: I *think* this line is useless but feel too green to remove it
       triple.o = selected.uri;
       triple.otype = 'uri';
       triples.push(triple);
