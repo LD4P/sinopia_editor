@@ -26,6 +26,7 @@
     "eslint-plugin-node": "^7.0.1",
     "eslint-plugin-security": "^1.4.0",
     "express": "^4.16.3",
+    "grunt-contrib-clean": "^2.0.0",
     "grunt-contrib-concat": "^1.0.1",
     "grunt-contrib-cssmin": "^3.0.0",
     "grunt-contrib-uglify-es": "^3.3.0",
@@ -33,6 +34,8 @@
     "grunt-run": "^0.8.1",
     "jest": "^23.6.0",
     "jest-junit": "^5.1.0",
+    "jest-puppeteer": "^3.4.0",
+    "puppeteer": "^1.8.0",
     "serve-static": "^1.13.2"
   },
   "bugs": {
@@ -48,12 +51,19 @@
     "doc": "docs"
   },
   "scripts": {
-    "test": "jest --colors",
-    "jest-cov": "jest --coverage --colors",
-    "jest-ci": "jest --ci --runInBand --coverage --reporters=default --reporters=jest-junit --colors"
+    "test": "node_modules/.bin/jest --colors",
+    "jest-cov": "node_modules/.bin/jest --coverage --colors",
+    "jest-ci": "grunt && node_modules/.bin/jest --ci --runInBand --coverage --reporters=default --reporters=jest-junit --colors"
   },
   "license": "ISC",
   "dependencies": {
     "grunt": "^1.x.x"
+  },
+  "jest": {
+    "preset": "jest-puppeteer",
+    "reporters": [
+      "default",
+      "jest-junit"
+    ]
   }
 }

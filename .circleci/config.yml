@@ -18,6 +18,9 @@ jobs:
       - restore_cache:
           key: dependency-cache-{{ checksum "package.json" }}
       - run:
+          name: Workaround for GoogleChrome/puppeteer#290
+          command: 'sh .circleci/setup_puppeteer.sh'
+      - run:
           name: Run "npm install"
           command: npm install
       - save_cache:
@@ -27,7 +30,6 @@ jobs:
       - run:
           name: Run jest tests
           command: npm run jest-ci --silent
-          # command: grunt test-cov  # see https://github.com/LD4P/sinopia_editor/issues/19
           environment:
             JEST_JUNIT_OUTPUT: "test-results/jest/jest-results.xml"
       - store_test_results:
