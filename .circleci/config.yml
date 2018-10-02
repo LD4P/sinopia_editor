@@ -28,8 +28,11 @@ jobs:
           paths:
             - node_modules
       - run:
+          name: Run eslint
+          command: npm run eslint --silent
+      - run:
           name: Build the project with grunt
-          command: npm run grunt
+          command: npm run grunt --silent
       - run:
           name: Run jest tests
           command: npm run jest-ci --silent
