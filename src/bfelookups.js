@@ -132,7 +132,6 @@ bfe.define('src/lookups/lcnames', ['require', 'exports', 'module', 'src/lookups/
       var triple = {};
       triple.s = subjecturi;
       triple.p = property.propertyURI;
-      selected.uri = selected.uri;
       triple.o = selected.uri;
       triple.otype = 'uri';
       triples.push(triple);
