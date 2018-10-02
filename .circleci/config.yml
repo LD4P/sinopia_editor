@@ -28,11 +28,14 @@ jobs:
           paths:
             - node_modules
       - run:
+          name: Run eslint
+          command: npm run eslint
+      - run:
           name: Build the project with grunt
           command: npm run grunt
       - run:
           name: Run jest tests
-          command: npm run jest-ci --silent
+          command: npm run jest-ci
           environment:
             JEST_JUNIT_OUTPUT: "test-results/jest/jest-results.xml"
       - store_test_results:
