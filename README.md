@@ -1,4 +1,5 @@
 [![CircleCI](https://circleci.com/gh/LD4P/sinopia_editor.svg?style=svg)](https://circleci.com/gh/LD4P/sinopia_editor)
+[![Coverage Status](https://coveralls.io/repos/github/LD4P/sinopia_editor/badge.svg?branch=master)](https://coveralls.io/github/LD4P/sinopia_editor?branch=master)
 
 [bfe][demo-page]
 =======================

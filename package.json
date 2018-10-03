@@ -21,6 +21,7 @@
     "url": "https://github.com/LD4P/sinopia_editor.git"
   },
   "devDependencies": {
+    "coveralls": "^3.0.2",
     "eslint": "^5.6.0",
     "eslint-plugin-jest": "^21.22.1",
     "eslint-plugin-node": "^7.0.1",
@@ -54,7 +55,7 @@
     "eslint": "node_modules/.bin/eslint --max-warnings 1319 --color -c .eslintrc.js .",
     "test": "node_modules/.bin/jest --colors",
     "jest-cov": "node_modules/.bin/jest --coverage --colors",
-    "jest-ci": "node_modules/.bin/jest --ci --runInBand --coverage --reporters=default --reporters=jest-junit --colors"
+    "jest-ci": "node_modules/.bin/jest --ci --runInBand --coverage --reporters=default --reporters=jest-junit --colors  && cat ./coverage/lcov.info | ./node_modules/coveralls/bin/coveralls.js"
   },
   "license": "ISC",
   "dependencies": {
@@ -63,6 +64,10 @@
   },
   "jest": {
     "preset": "jest-puppeteer",
+    "collectCoverage": true,
+    "collectCoverageFrom": [
+      "src/**/*.js"
+    ],
     "reporters": [
       "default",
       "jest-junit"
