@@ -25,7 +25,6 @@
     "eslint-plugin-jest": "^21.22.1",
     "eslint-plugin-node": "^7.0.1",
     "eslint-plugin-security": "^1.4.0",
-    "express": "^4.16.3",
     "grunt-contrib-clean": "^2.0.0",
     "grunt-contrib-concat": "^1.0.1",
     "grunt-contrib-cssmin": "^3.0.0",
@@ -52,12 +51,14 @@
   },
   "scripts": {
     "grunt": "grunt",
+    "eslint": "node_modules/.bin/eslint --max-warnings 1319 --color -c .eslintrc.js .",
     "test": "node_modules/.bin/jest --colors",
     "jest-cov": "node_modules/.bin/jest --coverage --colors",
     "jest-ci": "node_modules/.bin/jest --ci --runInBand --coverage --reporters=default --reporters=jest-junit --colors"
   },
   "license": "ISC",
   "dependencies": {
+    "express": "^4.16.3",
     "grunt": "^1.x.x"
   },
   "jest": {
