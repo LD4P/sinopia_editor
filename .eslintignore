@@ -2,5 +2,10 @@ build_support/*
 builds/*
 coverage/*
 docs/*
-node_modules/*
-static/*
+static/css/*
+static/images/*
+static/js/jsonld-vis.js
+static/js/n3-browser.min.js
+static/js/r*
+static/js/short-uuid.min.js
+static/js/twitter-typeahead-0.10.2.js
