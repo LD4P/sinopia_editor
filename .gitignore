@@ -1,14 +1,11 @@
 .DS_Store
-builds/*
+builds
 coverage
 examples
 junit.xml
 node_modules
 static/profiles/bibframe/*
+static-analysis
 tmp
 
 test.html
-
-.csslintrc
-.jshintrc
-.eslintrc
