@@ -1,12 +1,12 @@
-# Javascript Node CircleCI 2.0 configuration file
+# Node.js Javascript CircleCI 2.0 configuration file
 #
-# Check https://circleci.com/docs/2.0/language-javascript/ for more details
+# Check https://hub.docker.com/r/circleci/node/ for more details
 #
 version: 2
 jobs:
   build:
     docker:
-      - image: circleci/node:10.11.0
+      - image: circleci/node:10.11-browsers
 
     working_directory: ~/sinopia_editor
 
@@ -17,9 +17,6 @@ jobs:
           command: 'sudo npm install -g npm@latest'
       - restore_cache:
           key: dependency-cache-{{ checksum "package.json" }}
-      - run:
-          name: Workaround for GoogleChrome/puppeteer#290
-          command: 'sh .circleci/setup_puppeteer.sh'
       - run:
           name: Run "npm install"
           command: npm install
