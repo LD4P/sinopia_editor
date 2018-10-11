@@ -1,14 +1,88 @@
 [![CircleCI](https://circleci.com/gh/LD4P/sinopia_editor.svg?style=svg)](https://circleci.com/gh/LD4P/sinopia_editor)
 [![Coverage Status](https://coveralls.io/repos/github/LD4P/sinopia_editor/badge.svg?branch=master)](https://coveralls.io/github/LD4P/sinopia_editor?branch=master)
 
-[bfe][demo-page]
-=======================
+# LD4P's BIBFRAME Editor
 
-`bfe` is a standalone Editor for the Library of Congress's [Bibliographic Framework
+forked from https://github.com/lcnetdev/bfe
+
+## Overview
+From lcnetdev description: `bfe` is a standalone Editor for the Library of Congress's [Bibliographic Framework
 (BIBFRAME) Initiative][bfi].  It can be used more generically as an editor for RDF data.
 `bfe` uses [BIBFRAME Profiles][profilespec] to render an HTML/UI input form; it is
 capable of integrating 'lookup' services, which query data from external Web APIs;
 and implementers can define the input and extract the output.
+...
+From a design standpoint, the objective with `bfe` was to create the simplest
+'pluggable' form editor one can to maximize experimental implementer's abilities
+to create/edit BIBFRAME data.  The current focus is to transform bfe into a production ready tool.
+
+# Sinopia BIBFRAME Editor
+
+Technical documentation specific to the Sinopia BIBFRAME Editor may also be found in the [wiki](https://github.com/LD4P/sinopia_editor/wiki/Sinopia-Editor).
+
+## Installation (without docker image)
+
+### Prerequisites
+* `node.js` JavaScript runtime https://nodejs.org/en/download/
+* `npm` JavaScript package manager https://www.npmjs.com/
+
+### Installation Instructions
+1.  Install [node.js](https://nodejs.org/en/download/)
+2.  Install [npm](https://www.npmjs.com/)
+3.  Run `npm init`, and follow the instructions that appear.
+4.  Get latest npm: `npm install -g npm@latest`
+5.  Run `npm install grunt-cli` to install grunt-cli.
+6.  Run `npm install`. This installs everything needed for the build to run successfully.
+7.  Run `grunt` to build the code.
+
+## Running the code
+
+Follow installation instructions, then run `node server-bfe.js`.  This will start up the editor at http://localhost:8000
+
+## Developers
+
+- See `package.json` for npm package dependencies.
+- The web server used is `express` web framework for node.js
+
+### Build with grunt
+
+The javascript code uses grunt as a build tool. See `Gruntfile.js` for build dependencies and configuration.
+
+- To build the code, `grunt` or `npm run grunt`
+
+### Linter for JavaScript
+
+`npm run eslint`
+
+#### Generate a list of all eslint errors
+
+```
+npx eslint-takeoff
+```
+
+creates `.eslintrc-todo.yml` showing which linter rules give errors or warnings for each javascript file, per `.eslintrc.yml`
+
+See https://www.npmjs.com/package/eslint-takeoff for more info.
+
+### test
+
+Tests are written in jest, also utilizing puppeteer for end-to-end tests.  To run them `npm test`.
+
+#### test coverage
+To get coverage data, `npm run test-cov`.  Use a web browser to open `coverage/lcov-report/index.html`.  There is a project view and also a view of each file.  You can also check [coveralls](https://coveralls.io/repos/github/LD4P/sinopia_editor).
+
+### static analysis
+
+We use plato (actually es6-plato) to get static analysis info such as code complexity, etc.  `npm run analysis` will create a folder `static-analysis`; use a web browser to open `static-analysis/index.html`.  There is a project view and also a view of each file.
+
+### continuous integration
+
+We use [circleci](https://circleci.com/gh/Ld4p/sinopia_profile_editor).  The steps are in `.circleci/config.yml`.
+
+In the "artifacts" tab of a particular build, you can look at code coverage (`coverage/lcov-report/index.html`) and at static analysis output (`static-analysis/index.html`).
+
+
+# lcnetdev info below
 
 This repository includes a development example, a "production" example, and
 various BIBFRAME Profiles with which to begin experimenting. In order
@@ -37,24 +111,6 @@ that ships with `bfe`:
 node server-bfe.js
 ```
 
-Documentation
--------------
-
-* [API]
-* [Lookups][lookups-info]
-
-[API]: https://github.com/lcnetdev/bfe/blob/master/docs/bfe-api.md
-[lookups-info]: https://github.com/lcnetdev/bfe/blob/master/docs/bfe-lookups.md
-
-
-Demo?
---------
-
-[Online Demo][demo-page]
-
-<!-- section links -->
-
-[demo-page]: http://bibframe.org/bibliomata/bfe/index.html
 
 Browser Support
 ---------------
@@ -68,66 +124,6 @@ Browser Support
 **NOTE:** `bfe` has also not been **thoroughly** tested in the browsers for which
 support is currently listed.  It has been developed primarily using Chrome.
 It has been tested in both Chrome and Safari mobile versions.
-
-Issues
-------
-
-Log them here:
-
-https://github.com/lcnetdev/bfe/issues
-
-
-Support
-----------------
-
-For technical questions about `bfe`, you can use the GitHub [Issues] feature, but
-please "label" your question a 'question.'
-
-Although you are encouraged to ask your quesion publicly (the answer might
-help everyone), you may also email this repository's [maintainer][khes]
-directly.
-
-For general questions about BIBFRAME, you can subscribe to the [BIBFRAME Listserv][listserv]
-and ask in that forum.
-
-<!-- section links -->
-
-[Issues]: https://github.com/lcnetdev/bfe/issues
-[khes]: mailto:khes@loc.gov
-[listserv]: http://listserv.loc.gov/cgi-bin/wa?SUBED1=bibframe&A=1
-
-
-Prerequisites
--------------
-
-* `node.js`  JavaScript runtime https://nodejs.org/en/download/
-* `npm` JavaScript package manager  https://www.npmjs.com/
-
-additional project dependencies:
-
-from the root directory of the project:
-
-```
-npm install
-```
-
-e.g.
-* `express` web framework for node.js ```npm install express```
-
-
-Development
------------
-
-PreReqs:
-* `grunt` JavaScript task runner ```npm install grunt```
-* `grunt-cli` ```npm install -g grunt-cli```
-* `jest` testing framework ```npm install jest```
-
-Run grunt:
-
-```
-grunt
-```
 
 
 Roadmap
@@ -162,21 +158,6 @@ to create/edit BIBFRAME data.  The current focus is to transform bfe into a prod
 
 All contributions are welcome.  If you do not code, surely you will discover an
 [issue] you can report.  
-
-'Building' `bfe` requires npm, bundled with [node.js] and [grunt].  See `package.json` for dependencies.
-See `Gruntfile.json` for build dependencies.
-
-Basic build steps:
-* npm init
-* npm install
-* grunt
-
-<!-- section links -->
-
-[issue]: https://github.com/lcnetdev/bfe/issues
-[Lookup]: https://github.com/lcnetdev/bfe/tree/master/src/bfelookups.js
-[node.js]: http://nodejs.org
-[Grunt]: http://gruntjs.com
 
 Acknowledgements
 ----------
