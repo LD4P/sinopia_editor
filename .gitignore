@@ -4,6 +4,7 @@ coverage
 examples
 junit.xml
 node_modules
+scss-lint-report.xml
 static/profiles/bibframe/*
 static-analysis
 tmp

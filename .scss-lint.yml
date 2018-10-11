@@ -1,0 +1,11 @@
+scss_files: src/css/*.css
+
+exclude:
+  - static/css/**
+  - build_support/*
+  - builds/*
+  - coverage/*
+  - docs/*
+  - static-analysis/*
+
+# linters:
