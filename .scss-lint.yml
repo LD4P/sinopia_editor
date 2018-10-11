@@ -8,4 +8,83 @@ exclude:
   - docs/*
   - static-analysis/*
 
-# linters:
+# $ scss-lint --format=Stats -c .scss-lint.yml --color src/css/bootstrap.css src/css/typeahead.css
+#  909  EmptyLineBetweenBlocks         (across 1 files)
+#  398  ColorVariable                  (across 2 files)
+#  258  QualifyingElement              (across 2 files)
+#  224  PropertySortOrder              (across 2 files)
+#  137  HexLength                      (across 1 files)
+#  135  MergeableSelector              (across 2 files)
+#   94  LeadingZero                    (across 2 files)
+#   91  SingleLinePerSelector          (across 1 files)
+#   62  VendorPrefix                   (across 2 files)
+#   59  PseudoElement                  (across 1 files)
+#   47  SelectorDepth                  (across 1 files)
+#   43  ImportantRule                  (across 1 files)
+#   28  Indentation                    (across 2 files)
+#   27  SpaceAfterPropertyColon        (across 1 files)
+#   12  SpaceBeforeBrace               (across 2 files)
+#    8  StringQuotes                   (across 1 files)
+#    8  Comment                        (across 2 files)
+#    7  SpaceAroundOperator            (across 1 files)
+#    6  SpaceAfterComma                (across 1 files)
+#    5  DuplicateProperty              (across 1 files)
+#    3  ZeroUnit                       (across 2 files)
+#    1  Shorthand                      (across 1 files)
+#    1  TrailingSemicolon              (across 1 files)
+#    1  IdSelector                     (across 1 files)
+# ----  -----------------------        ----------------
+# 2564  total                          (across 2 files)
+
+# Below was generated with
+# $ scss-lint --format=Config -c .scss-lint.yml src/css/bootstrap.css src/css/typeahead.css >>.scss-lint.init.yml
+---
+linters:
+  ColorVariable:
+    enabled: false
+  Comment:
+    enabled: false
+  DuplicateProperty:
+    enabled: false
+  EmptyLineBetweenBlocks:
+    enabled: false
+  HexLength:
+    enabled: false
+  IdSelector:
+    enabled: false
+  ImportantRule:
+    enabled: false
+  Indentation:
+    enabled: false
+  LeadingZero:
+    enabled: false
+  MergeableSelector:
+    enabled: false
+  PropertySortOrder:
+    enabled: false
+  PseudoElement:
+    enabled: false
+  QualifyingElement:
+    enabled: false
+  SelectorDepth:
+    enabled: false
+  Shorthand:
+    enabled: false
+  SingleLinePerSelector:
+    enabled: false
+  SpaceAfterComma:
+    enabled: false
+  SpaceAfterPropertyColon:
+    enabled: false
+  SpaceAroundOperator:
+    enabled: false
+  SpaceBeforeBrace:
+    enabled: false
+  StringQuotes:
+    enabled: false
+  TrailingSemicolon:
+    enabled: false
+  VendorPrefix:
+    enabled: false
+  ZeroUnit:
+    enabled: false
