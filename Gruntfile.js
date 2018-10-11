@@ -75,6 +75,19 @@ module.exports = function(grunt) {
           '--silent'
         ]
       }
+    },
+    scsslint: {
+      allFiles: [
+        'src/css/*.css',
+      ],
+      options: {
+        // bundleExec: true,
+        colorizeOutput: true,
+        config: '.scss-lint.yml',
+        failOnWarning: true,
+        maxBuffer: 512000,
+        reporterOutput: 'scss-lint-report.xml',
+      },
     }
   });
 
@@ -84,6 +97,7 @@ module.exports = function(grunt) {
   grunt.loadNpmTasks('grunt-contrib-clean');
   grunt.loadNpmTasks('grunt-eslint');
   grunt.loadNpmTasks('grunt-run');
+  grunt.loadNpmTasks('grunt-scss-lint');
 
   grunt.registerTask('default', ['clean', 'concat', 'uglify', 'cssmin']);
   grunt.registerTask('test', [ 'default', 'run:npm_jest' ]);
