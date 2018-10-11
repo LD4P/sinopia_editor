@@ -1,0 +1,69 @@
+overrides:
+  -
+    rules:
+      no-undef: warn
+    files:
+      - __tests__/integration/basic.test.js
+  -
+    rules:
+      no-console: warn
+    files:
+      - server-bfe.js
+  -
+    rules:
+      no-undef: warn
+      no-unused-vars: warn
+      security/detect-object-injection: warn
+      security/detect-non-literal-require: warn
+      no-useless-escape: warn
+      no-console: warn
+      security/detect-non-literal-regexp: warn
+      no-redeclare: warn
+    files:
+      - src/bfe.js
+  -
+    rules:
+      no-undef: warn
+      no-unused-vars: warn
+      no-console: warn
+    files:
+      - src/bfelogging.js
+  -
+    rules:
+      no-undef: warn
+      no-unused-vars: warn
+      no-console: warn
+      security/detect-object-injection: warn
+    files:
+      - src/bfelookups.js
+  -
+    rules:
+      no-undef: warn
+      no-unused-vars: warn
+      no-console: warn
+      security/detect-object-injection: warn
+    files:
+      - src/bfestore.js
+  -
+    rules:
+      no-undef: warn
+      security/detect-object-injection: warn
+      security/detect-unsafe-regex: warn
+      no-useless-escape: warn
+      no-console: warn
+    files:
+      - src/lib/aceconfig.js
+  -
+    rules:
+      no-undef: warn
+      no-unused-vars: warn
+      security/detect-object-injection: warn
+    files:
+      - static/js/config-dev.js
+  -
+    rules:
+      no-undef: warn
+      no-unused-vars: warn
+      security/detect-object-injection: warn
+    files:
+      - static/js/config.js
