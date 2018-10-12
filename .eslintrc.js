@@ -18,6 +18,9 @@ module.exports = {
         "no-undef": "warn",
         "no-unused-vars": "warn",
         "no-useless-escape": "warn"
+      },
+      globals: {
+        "page": true
       }
     }
   ]
