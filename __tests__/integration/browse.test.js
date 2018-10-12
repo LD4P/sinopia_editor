@@ -1,4 +1,4 @@
-describe('Profiles Datatable in the Sinopia BIBFRAME Editor', () => {
+describe('Browse', () => {
   beforeAll(async () => {
     await page.goto('http://127.0.0.1:8000/');
   });
@@ -10,7 +10,7 @@ describe('Profiles Datatable in the Sinopia BIBFRAME Editor', () => {
     await expect(search_input).toMatch(/search/)
   })
 
-  it('displays Profile table columns', async () => {
+  it('displays datatable columns', async () => {
     const id_column = await page.$eval("#table_id > thead > tr > th:nth-child(1)", e => e.textContent)
     const name_column = await page.$eval("#table_id > thead > tr > th:nth-child(2)", e => e.textContent)
     const title_column = await page.$eval("#table_id > thead > tr > th:nth-child(3)", e => e.textContent)
@@ -27,7 +27,7 @@ describe('Profiles Datatable in the Sinopia BIBFRAME Editor', () => {
     await expect(edit_column).toMatch(/edit/)
   })
 
-  it('displays Previous and Next pagination links', async () => {
+  it('loads datatable js, which has Previous and Next pagination links', async () => {
     const previous = await page.$eval('#table_id_previous', e => e.textContent)
     const next = await page.$eval('#table_id_next', e => e.textContent)
     await expect(previous).toMatch(/Previous/)
