@@ -1,6 +1,7 @@
 module.exports = {
   launch: {
-    headless: process.env.CI === 'true'
+    headless: process.env.HEADLESS !== 'false',
+    'args' : [ '--disable-web-security' ],
   },
   server: {
     command: 'node server-bfe.js',
