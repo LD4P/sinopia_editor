@@ -54,7 +54,7 @@
   },
   "scripts": {
     "grunt": "grunt",
-    "eslint": "eslint --max-warnings 775 --color -c .eslintrc.js .",
+    "eslint": "eslint --max-warnings 760 --color -c .eslintrc.js .",
     "test": "jest --colors",
     "jest-cov": "jest --coverage --colors",
     "jest-ci": "jest --ci --runInBand --coverage --reporters=default --reporters=jest-junit --colors  && cat ./coverage/lcov.info | coveralls",
