@@ -19,8 +19,11 @@ describe('Profiles load', () => {
 
     // await page.screenshot({path: 'screenshot.png', fullPage: true})
 
-    const ptitle_sel = 'div#bfeditor-formdiv > form > div > h4'
-    const profile_title = await page.$eval(ptitle_sel, e => e.textContent)
-    await expect(profile_title).toMatch(/BIBFRAME Instance/)
+    await expect_regex_in_selector_textContent('div#bfeditor-formdiv > form > div > h4', /^BIBFRAME Instance/)
   })
+
+  async function expect_regex_in_selector_textContent(sel, regex) {
+    const sel_text  = await page.$eval(sel, e => e.textContent)
+    expect(sel_text).toMatch(regex)
+  }
 })
