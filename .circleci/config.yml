@@ -2,36 +2,27 @@
 #
 # Check https://hub.docker.com/r/circleci/node/ for more details
 #
+defaults: &defaults
+  docker:
+    - image: circleci/node:10.11-browsers
+  working_directory: ~/sinopia_editor
+
 version: 2
 jobs:
   build:
-    docker:
-      - image: circleci/node:10.11-browsers
-
-    working_directory: ~/sinopia_editor
-
+    <<: *defaults
     steps:
       - checkout
-      - run:
-          name: Install latest npm
-          command: 'sudo npm install -g npm@latest'
       - restore_cache:
           key: dependency-cache-{{ checksum "package.json" }}
-      - run:
-          name: Run "npm install"
-          command: npm install
+      - run: npm install
       - save_cache:
           key: dependency-cache-{{ checksum "package.json" }}
           paths:
             - node_modules
+      - run: npm run eslint
+      - run: npm run grunt
       - run:
-          name: Run eslint
-          command: npm run eslint
-      - run:
-          name: Build the project with grunt
-          command: npm run grunt
-      - run:
-          name: Run jest tests
           command: npm run jest-ci
           environment:
             JEST_JUNIT_OUTPUT: "test-results/jest/jest-results.xml"
@@ -40,9 +31,7 @@ jobs:
       - store_artifacts:
           path: coverage
           destination: jest-coverage
-      - run:
-          name: Run static analysis
-          command: npm run analysis
+      - run: npm run analysis
       - store_artifacts:
           path: static-analysis
           destination: static-analysis
