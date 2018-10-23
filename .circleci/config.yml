@@ -9,17 +9,31 @@ defaults: &defaults
 
 version: 2
 jobs:
+  # Maintains cache of 2 sets of node_modules: production and CI
+  dependencies:
+    <<: *defaults
+    steps:
+      - checkout
+      - restore_cache:
+          key: dependencies-prod-{{ checksum "package.json" }}
+      - run: npm install --only=production
+      - save_cache:
+          key: dependencies-prod-{{ checksum "package.json" }}
+          paths:
+            - node_modules
+      - restore_cache:
+          key: dependencies-ci-{{ checksum "package.json" }}
+      - run: npm install # including CI/Test dependencies
+      - save_cache:
+          key: dependencies-ci-{{ checksum "package.json" }}
+          paths:
+            - node_modules
   build:
     <<: *defaults
     steps:
       - checkout
       - restore_cache:
-          key: dependency-cache-{{ checksum "package.json" }}
-      - run: npm install
-      - save_cache:
-          key: dependency-cache-{{ checksum "package.json" }}
-          paths:
-            - node_modules
+          key: dependencies-ci-{{ checksum "package.json" }}
       - run: npm run eslint
       - run: npm run grunt
       - run:
@@ -36,8 +50,30 @@ jobs:
           path: static-analysis
           destination: static-analysis
 
+  register_image:
+    <<: *defaults
+    steps:
+      - checkout
+      - setup_remote_docker
+      - restore_cache: # gives us back matching node_modules
+          key: dependencies-prod-{{ checksum "package.json" }}
+      - attach_workspace:
+          at: dist
+      - run:
+          name: Build & Register Image
+          command: |
+            docker build -t ld4p/sinopia_editor:latest .
+            echo $DOCKER_PASS | docker login -u $DOCKER_USER --password-stdin
+            docker push ld4p/sinopia_editor:latest
+
 workflows:
   version: 2
   build:
     jobs:
-      - build
+      - dependencies
+      - build:
+          requires:
+            - dependencies
+      - register_image:
+          requires:
+            - build
