@@ -75,6 +75,9 @@
       "default",
       "jest-junit"
     ],
-    "testPathIgnorePatterns" : ["/node_modules/", "test-config.js"]
+    "testPathIgnorePatterns": [
+      "/node_modules/",
+      "test-config.js"
+    ]
   }
 }
