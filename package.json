@@ -21,6 +21,10 @@
     "url": "https://github.com/LD4P/sinopia_editor.git"
   },
   "devDependencies": {
+    "@babel/core": "^7.1.2",
+    "@babel/preset-env": "^7.1.0",
+    "@babel/preset-react": "^7.0.0",
+    "babel-loader": "^8.0.4",
     "coveralls": "^3.0.2",
     "es6-plato": "^1.0.18",
     "eslint": "^5.6.0",
@@ -38,7 +42,11 @@
     "jest-junit": "^5.1.0",
     "jest-puppeteer": "^3.4.0",
     "puppeteer": "^1.8.0",
-    "serve-static": "^1.13.2"
+    "react-hot-loader": "^4.3.11",
+    "serve-static": "^1.13.2",
+    "webpack": "^4.23.1",
+    "webpack-cli": "^3.1.2",
+    "webpack-dev-server": "^3.1.10"
   },
   "bugs": {
     "url": "http://github.com/LD4P/sinopia_editor/issues"
@@ -53,6 +61,7 @@
     "doc": "docs"
   },
   "scripts": {
+    "start": "webpack-dev-server --config ./webpack.config.js --mode development",
     "grunt": "grunt",
     "eslint": "eslint --max-warnings 775 --color -c .eslintrc.js .",
     "test": "jest --colors",
@@ -63,7 +72,9 @@
   "license": "ISC",
   "dependencies": {
     "express": "^4.16.3",
-    "grunt": "^1.x.x"
+    "grunt": "^1.x.x",
+    "react": "^16.6.0",
+    "react-dom": "^16.6.0"
   },
   "jest": {
     "preset": "jest-puppeteer",
@@ -75,6 +86,9 @@
       "default",
       "jest-junit"
     ],
-    "testPathIgnorePatterns" : ["/node_modules/", "test-config.js"]
+    "testPathIgnorePatterns": [
+      "/node_modules/",
+      "test-config.js"
+    ]
   }
 }
