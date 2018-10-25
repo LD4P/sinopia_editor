@@ -1,11 +1,11 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
+import App from './components/App';
 
-const title = 'Lets Get it';
+const root = document.createElement('div');
+document.body.appendChild(root);
 
 ReactDOM.render(
-  <div>{title}</div>,
-  document.getElementById('app')
+  React.createElement(App),
+  root,
 );
-
-module.hot.accept();
