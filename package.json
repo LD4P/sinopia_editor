@@ -28,6 +28,7 @@
     "babel-jest": "^23.6.0",
     "babel-loader": "^8.0.4",
     "coveralls": "^3.0.2",
+    "css-loader": "^1.0.0",
     "es6-plato": "^1.0.18",
     "eslint": "^5.7.0",
     "eslint-import-resolver-webpack": "^0.10.1",
@@ -52,6 +53,7 @@
     "puppeteer": "^1.8.0",
     "react-hot-loader": "^4.3.11",
     "serve-static": "^1.13.2",
+    "style-loader": "^0.23.1",
     "webpack": "^4.23.1",
     "webpack-cli": "^3.1.2",
     "webpack-dev-server": "^3.1.10"
