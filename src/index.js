@@ -7,5 +7,5 @@ document.body.appendChild(root);
 
 ReactDOM.render(
   React.createElement(App),
-  root,
+  root
 );

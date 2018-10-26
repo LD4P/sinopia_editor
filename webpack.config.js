@@ -32,7 +32,7 @@ module.exports = {
     new webpack.HotModuleReplacementPlugin(),
     new HtmlWebpackPlugin({
       template: path.resolve('./', 'index.html'),
-      filename: 'indext.html',
+      filename: 'index.html',
       hash:true    
     })
   ],
