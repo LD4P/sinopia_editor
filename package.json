@@ -86,12 +86,18 @@
     "babel-core": "^7.0.0-bridge.0",
     "express": "^4.16.3",
     "grunt": "^1.x.x",
+    "identity-obj-proxy": "^3.0.0",
     "react": "^16.6.0",
     "react-bootstrap": "^0.32.4",
     "react-dom": "^16.6.0"
   },
   "jest": {
     "preset": "jest-puppeteer",
+    "setupTestFrameworkScriptFile": "<rootDir>/setupEnzyme.js",
+    "moduleNameMapper": {
+      "\\.(jpg|jpeg|png|gif|eot|otf|webp|svg|ttf|woff|woff2|mp4|webm|wav|mp3|m4a|aac|oga)$": "<rootDir>/__mocks__/fileMock.js",
+      "\\.(css|less)$": "identity-obj-proxy"
+    },
     "collectCoverageFrom": [
       "src/**/*.js",
       "static/js/config*.js"
