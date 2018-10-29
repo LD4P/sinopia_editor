@@ -29,6 +29,8 @@
     "babel-loader": "^8.0.4",
     "coveralls": "^3.0.2",
     "css-loader": "^1.0.0",
+    "enzyme": "^3.7.0",
+    "enzyme-adapter-react-16": "^1.6.0",
     "es6-plato": "^1.0.18",
     "eslint": "^5.7.0",
     "eslint-import-resolver-webpack": "^0.10.1",
