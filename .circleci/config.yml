@@ -2,36 +2,41 @@
 #
 # Check https://hub.docker.com/r/circleci/node/ for more details
 #
+defaults: &defaults
+  docker:
+    - image: circleci/node:10.11-browsers
+  working_directory: ~/sinopia_editor
+
 version: 2
 jobs:
-  build:
-    docker:
-      - image: circleci/node:10.11-browsers
-
-    working_directory: ~/sinopia_editor
-
+  # Maintains cache of 2 sets of node_modules: production and CI
+  dependencies:
+    <<: *defaults
     steps:
       - checkout
-      - run:
-          name: Install latest npm
-          command: 'sudo npm install -g npm@latest'
       - restore_cache:
-          key: dependency-cache-{{ checksum "package.json" }}
-      - run:
-          name: Run "npm install"
-          command: npm install
+          key: dependencies-prod-{{ checksum "package.json" }}
+      - run: npm install --only=production
       - save_cache:
-          key: dependency-cache-{{ checksum "package.json" }}
+          key: dependencies-prod-{{ checksum "package.json" }}
           paths:
             - node_modules
+      - restore_cache:
+          key: dependencies-ci-{{ checksum "package.json" }}
+      - run: npm install # including CI/Test dependencies
+      - save_cache:
+          key: dependencies-ci-{{ checksum "package.json" }}
+          paths:
+            - node_modules
+  build:
+    <<: *defaults
+    steps:
+      - checkout
+      - restore_cache:
+          key: dependencies-ci-{{ checksum "package.json" }}
+      - run: npm run eslint
+      - run: npm run grunt
       - run:
-          name: Run eslint
-          command: npm run eslint
-      - run:
-          name: Build the project with grunt
-          command: npm run grunt
-      - run:
-          name: Run jest tests
           command: npm run jest-ci
           environment:
             JEST_JUNIT_OUTPUT: "test-results/jest/jest-results.xml"
@@ -40,15 +45,39 @@ jobs:
       - store_artifacts:
           path: coverage
           destination: jest-coverage
-      - run:
-          name: Run static analysis
-          command: npm run analysis
+      - run: npm run analysis
       - store_artifacts:
           path: static-analysis
           destination: static-analysis
+
+  register_image:
+    <<: *defaults
+    steps:
+      - checkout
+      - setup_remote_docker
+      - restore_cache: # gives us back matching node_modules
+          key: dependencies-prod-{{ checksum "package.json" }}
+      - attach_workspace:
+          at: dist
+      - run:
+          name: Build & Register Image
+          command: |
+            docker build -t ld4p/sinopia_editor:latest .
+            echo $DOCKER_PASS | docker login -u $DOCKER_USER --password-stdin
+            docker push ld4p/sinopia_editor:latest
 
 workflows:
   version: 2
   build:
     jobs:
-      - build
+      - dependencies
+      - build:
+          requires:
+            - dependencies
+      - register_image:
+          requires:
+            - build
+          filters:
+            branches:
+              only:
+                - master
