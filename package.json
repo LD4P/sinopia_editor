@@ -73,6 +73,7 @@
   },
   "scripts": {
     "dev-start": "webpack-dev-server --config ./webpack.config.js --mode development",
+    "build": "webpack -p --progress",
     "grunt": "grunt",
     "eslint": "eslint --max-warnings 775 --color -c .eslintrc.js ./src",
     "test": "jest --colors",
