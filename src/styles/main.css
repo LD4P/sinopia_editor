@@ -14,11 +14,13 @@
   padding-top:2%;
 }
 body {
-  margin: 0 19%;
+  margin: 0 10%;
 }
-
 .panel {
   margin: 3% 10%;
   padding: 2%;
   opacity:0.7;
+}
+.jumbotron h1{
+  font-size: 35px;
 }
