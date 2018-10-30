@@ -24,3 +24,9 @@ body {
 .jumbotron h1{
   font-size: 35px;
 }
+.desc-panel{
+  padding: 0 10%;
+}
+.desc-panel h4{
+  font-weight: 600;
+}
