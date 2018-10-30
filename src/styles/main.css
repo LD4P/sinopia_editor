@@ -1,20 +1,15 @@
+body {
+  font-family: 'Source Sans Pro', sans-serif;
+  margin: 0 10%;
+}
 .banner {
-
   background-size: cover;
   background-image: url("home-background.png");
   /*margin: 0 19%;*/
 }
 .navbar {
-  /*margin: 0 19%;*/
-  /*border-style: solid;*/
-   /*border-width: 10px;*/
-   /*border-color: black;*/
-  /*margin-bottom: 50px;*/
   padding-bottom: 2% ;
   padding-top:2%;
-}
-body {
-  margin: 0 10%;
 }
 .panel {
   margin: 3% 10%;
@@ -27,6 +22,10 @@ body {
 .desc-panel{
   padding: 0 10%;
 }
-.desc-panel h4{
+.desc-panel h4 {
   font-weight: 600;
+  margin: 5% 0;
+}
+.desc-panel p {
+  font-size: 15px;
 }
