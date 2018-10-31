@@ -13,6 +13,10 @@ module.exports = {
         use: ['babel-loader']
       },
       {
+        test: /\.css$/,
+        use: [ 'style-loader', 'css-loader' ]
+      },
+      {
         test: /\.(png|jpg|gif)$/,
         use: [
           'file-loader'
@@ -25,7 +29,7 @@ module.exports = {
   },
   output: {
     path: __dirname + '/dist',
-    publicPath: '/',
+    publicPath: '/dist/',
     filename: 'bundle.js'
   },
   plugins: [
