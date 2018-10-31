@@ -52,7 +52,6 @@
     "jest-puppeteer": "^3.4.0",
     "puppeteer": "^1.8.0",
     "react-hot-loader": "^4.3.11",
-    "serve-static": "^1.13.2",
     "style-loader": "^0.23.1",
     "webpack": "^4.23.1",
     "webpack-cli": "^3.1.2",
