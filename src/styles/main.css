@@ -14,7 +14,7 @@ body {
 .panel {
   margin: 3% 10%;
   padding: 2%;
-  opacity:0.7;
+  opacity:0.85;
 }
 .jumbotron h1{
   font-size: 30px;
@@ -35,4 +35,10 @@ body {
 }
 .header-text{
   font-size:15px;
+}
+.panel {
+  box-shadow: -3px 3px 10px 0px #999999;
+}
+.menu-item{
+  color: #337ab7 !important;
 }
