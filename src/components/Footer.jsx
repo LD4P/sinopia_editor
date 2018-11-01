@@ -10,7 +10,7 @@ const Footer = () => (
     <div id="footer-text" className="col-xs-10">  
       <p>
         <small>
-        Sinopia is a project of <a href="">Linked Data for Production 2 (LD4P2)</a>, generously funded by the Andrew W. Mellon Foundation.
+        Sinopia is a project of <a href="http://www.ld4p.org">Linked Data for Production 2 (LD4P2)</a>, generously funded by the Andrew W. Mellon Foundation.
         All content in Sinopia is licensed under a <a rel="license" href="http://creativecommons.org/licenses/by/4.0/">Creative Commons Attribution 4.0 International License</a>.
         </small>
       </p>
