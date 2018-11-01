@@ -1,14 +1,14 @@
-import React from 'react';
+ import React from 'react';
 
 // TODO: This will need to be re-written in the correct "react" way.
 const LoginPanel = () => (
   <form className="login-form">
     <div className = "form-group">
-      <label for="exampleInputEmail1" className="text-uppercase">Username</label>
+      <label htmlFor="exampleInputEmail1" className="text-uppercase">Username</label>
       <input type="text" className="form-control" placeholder=""></input>
     </div>
     <div className="form-group">
-      <label for="exampleInputPassword1" className="text-uppercase">Password</label>
+      <label htmlFor="exampleInputPassword1" className="text-uppercase">Password</label>
       <input type="password" className="form-control" placeholder=""></input>
     </div>
     <div className="row">
