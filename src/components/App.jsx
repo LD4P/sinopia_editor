@@ -1,17 +1,13 @@
 import React from 'react';
 import { hot } from 'react-hot-loader';
-import Header from './Header';
-import NewsPanel from './NewsPanel';
-import DescPanel from './DescPanel';
+import HomePage from './HomePage';
 import Footer from './Footer';
 import '../styles/main.css';
 
 
 const App = () => (
   <div id="app">
-    <Header />
-    <NewsPanel />
-    <DescPanel />
+    <HomePage /> 
     <Footer />
   </div>
 );
