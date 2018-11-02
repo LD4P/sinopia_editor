@@ -33,17 +33,16 @@ Technical documentation specific to the Sinopia BIBFRAME Editor may also be foun
 4.  Get latest npm: `npm install -g npm@latest`
 5.  Run `npm install grunt-cli` to install grunt-cli.
 6.  Run `npm install`. This installs everything needed for the build to run successfully.
-7.  Run `grunt` to build the code.
+7.  Run `npm run build` to build the code.  (TEMP: Run `npm run grunt` or `grunt` to build the BFE code.)
 
 ## Running the code
 
-WIP here -- things in flux ...
-
 `npm start`
 
-Follow installation instructions, then run `npm start` or `node server.js`.  This will start up the code at http://localhost:8000.  
+Follow installation instructions, then run `npm start` or `node server.js` to start the web server using Express.
+This will start up the code at http://localhost:8000.
 
-TEMP: The Sinopia Editor is currently available via http://localhost:8000/bfe-index.html.
+TEMP: The Sinopia Editor code is currently available via http://localhost:8000/bfe-index.html.
 
 TEMP:  Note that `index.html` is meant to show the Sinopia home page via React.
 
@@ -52,11 +51,29 @@ TEMP:  Note that `index.html` is meant to show the Sinopia home page via React.
 - See `package.json` for npm package dependencies.
 - The web server used is `express` web framework for node.js
 
-### Build with grunt
+### Run the server with webpack-dev-webserver
 
-The javascript code uses grunt as a build tool. See `Gruntfile.js` for build dependencies and configuration.
+`npm run dev-start`
 
-- To build the code, `grunt` or `npm run grunt`
+This runs the webpack-dev-server, allowing immediate loading of live code changes without having to restart the server.
+
+### Build with webpack
+
+`npm run build`
+
+We are using webpack as a build tool.  See `webapck.config.js` for build dependencies and configuration.
+
+#### TEMP: Build with grunt
+
+The inherited javascript code uses grunt as a build tool. See `Gruntfile.js` for those build dependencies and configuration.
+
+- To build the inherited (non-react) code, `grunt` or `npm run grunt`.  This is needed for `bfe-index.html` to work.
+
+### NPM && build
+
+`npm run install-build`
+
+This does `npm install` following by `npm run grunt` in a single step.
 
 ### Linter for JavaScript
 
