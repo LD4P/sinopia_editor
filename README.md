@@ -100,18 +100,6 @@ Twitter's [Bootstrap] and a few additional custom CSS declarations.
 [bfi]: http://www.loc.gov/bibframe/
 [profilespec]: http://bibframe.org/documentation/bibframe-profilespec/
 
-Getting Started
----------------
-`bfe` is currently submodule of [recto](http://github.com/lcnetdev/recto), an express-based webserver, which uses [verso](http://github.com/lcnetdev/verso) a loopback-based server for backend data. The current recommendation is to install recto and verso and use bfe as part of the demonstration environment.
-
-`bfe` can be run as a demo or development version using a simple express-based server - found in the main `bfe` directory -
-that ships with `bfe`:
-
-```bash
-node server-bfe.js
-```
-
-
 Browser Support
 ---------------
 

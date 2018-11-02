@@ -4,7 +4,7 @@ module.exports = {
     'args' : [ '--disable-web-security' ],
   },
   server: {
-    command: 'node server-bfe.js',
+    command: 'node server.js',
     port: 8000,
   },
 };
