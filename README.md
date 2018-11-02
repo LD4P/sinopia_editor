@@ -37,11 +37,15 @@ Technical documentation specific to the Sinopia BIBFRAME Editor may also be foun
 
 ## Running the code
 
+WIP here -- things in flux ...
+
 `npm start`
 
-Follow installation instructions, then run `npm start` or `node server.js`.  This will start up the code at http://localhost:8000, loading `index.html` which shows the Sinopia home page.
+Follow installation instructions, then run `npm start` or `node server.js`.  This will start up the code at http://localhost:8000.  
 
 TEMP: The Sinopia Editor is currently available via http://localhost:8000/bfe-index.html.
+
+TEMP:  Note that `index.html` is meant to show the Sinopia home page via React.
 
 ## Developers
 
@@ -118,29 +122,6 @@ support is currently listed.  It has been developed primarily using Chrome.
 It has been tested in both Chrome and Safari mobile versions.
 
 
-Roadmap
-----------
-v0.2.x
-* Support LC Bibframe Pilot
-* Request.js has been deprecated
-* Dryice build has been replaced with Grunt.
-
-v0.3.x
-* Implement BF 2.0 Ontology
-* LC Bibframe Pilot 2.0 support.
-* Implement save/load api
-
-v0.4.x
-* Additional features to support LC Bibframe Pilot 2.0
-* Additional features to support requirements for LD4P2
-
-v1.x
-* Support for LD4P2 requirements
-* Refactor into MVC
-* Implement common javascript framework (React, Angular, etc)
-* Implement automated testing.
-
-
 Developers
 ----------
 
@@ -181,7 +162,6 @@ Specification][profilespec].
 [Bootstrap]: http://getbootstrap.com/
 [typeahead.js]: https://github.com/twitter/typeahead.js
 [require.js]: http://requirejs.org/
-[dryice]: https://github.com/mozilla/dryice
 [ace]: https://github.com/ajaxorg/ace
 [Zepheira]: https://zepheira.com/
 [profilespec]: http://bibframe.org/documentation/bibframe-profilespec/
