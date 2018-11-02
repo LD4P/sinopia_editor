@@ -6,7 +6,7 @@ const NewsPanel = () => (
     <div className="panel panel-default">
       <div className="panel-body">
         <div className="row">
-          <div className="col-md-8">
+          <div className="col-md-7">
             <h1> Latest News </h1>
             <ul>
             <li>We are looking for a Wikipedian in residence to join our team and boost our productivity. Send applications to hiring at dlss dot com.</li>
