@@ -37,7 +37,11 @@ Technical documentation specific to the Sinopia BIBFRAME Editor may also be foun
 
 ## Running the code
 
-Follow installation instructions, then run `node server-bfe.js`.  This will start up the editor at http://localhost:8000
+`npm start`
+
+Follow installation instructions, then run `npm start` or `node server.js`.  This will start up the code at http://localhost:8000, loading `index.html` which shows the Sinopia home page.
+
+TEMP: The Sinopia Editor is currently available via http://localhost:8000/bfe-index.html.
 
 ## Developers
 
