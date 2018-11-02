@@ -7,4 +7,4 @@ COPY . .
 # docker daemon maps app's port
 EXPOSE 8000
 
-CMD ["node", "server-bfe.js"]
+CMD ["npm", "start"]
