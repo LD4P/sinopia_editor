@@ -14,18 +14,31 @@ body {
 .panel {
   margin: 3% 10%;
   padding: 2%;
-  opacity:0.7;
+  opacity:0.85;
 }
 .jumbotron h1{
-  font-size: 35px;
+  font-size: 30px;
 }
 .desc-panel{
   padding: 0 10%;
+  margin-bottom: 10%;
 }
 .desc-panel h4 {
   font-weight: 600;
   margin: 5% 0;
 }
 .desc-panel p {
-  font-size: 15px;
+  font-size: 13.5px;
+}
+#footer {
+  padding: 0 10%;
+}
+.header-text{
+  font-size:15px;
+}
+.panel {
+  box-shadow: -3px 3px 10px 0px #999999;
+}
+.menu-item{
+  color: #337ab7 !important;
 }

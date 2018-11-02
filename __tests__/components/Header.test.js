@@ -18,7 +18,7 @@ describe('<Header />', () => {
   it ('renders a dropdown menu option', () => {
     const wrapper = shallow(<Header />)
     expect(wrapper.find('a[href="#"]').at(0).text()).toEqual("Help and Resources")
-    expect(wrapper.find('a[href="#"]').at(3).text()).toEqual("Website Usage")
+    expect(wrapper.find('a[href="#"]').at(3).text()).toEqual("E-mail Sinopia group")
   });
 });
 
