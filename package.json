@@ -29,6 +29,8 @@
     "babel-loader": "^8.0.4",
     "coveralls": "^3.0.2",
     "css-loader": "^1.0.0",
+    "enzyme": "^3.7.0",
+    "enzyme-adapter-react-16": "^1.6.0",
     "es6-plato": "^1.0.18",
     "eslint": "^5.7.0",
     "eslint-import-resolver-webpack": "^0.10.1",
@@ -83,12 +85,18 @@
     "babel-core": "^7.0.0-bridge.0",
     "express": "^4.16.3",
     "grunt": "^1.x.x",
+    "identity-obj-proxy": "^3.0.0",
     "react": "^16.6.0",
     "react-bootstrap": "^0.32.4",
     "react-dom": "^16.6.0"
   },
   "jest": {
     "preset": "jest-puppeteer",
+    "setupTestFrameworkScriptFile": "<rootDir>/setupEnzyme.js",
+    "moduleNameMapper": {
+      "\\.(jpg|jpeg|png|gif|eot|otf|webp|svg|ttf|woff|woff2|mp4|webm|wav|mp3|m4a|aac|oga)$": "<rootDir>/__mocks__/fileMock.js",
+      "\\.(css|less)$": "identity-obj-proxy"
+    },
     "collectCoverageFrom": [
       "src/**/*.js",
       "static/js/config*.js"
