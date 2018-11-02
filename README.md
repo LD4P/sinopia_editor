@@ -33,22 +33,47 @@ Technical documentation specific to the Sinopia BIBFRAME Editor may also be foun
 4.  Get latest npm: `npm install -g npm@latest`
 5.  Run `npm install grunt-cli` to install grunt-cli.
 6.  Run `npm install`. This installs everything needed for the build to run successfully.
-7.  Run `grunt` to build the code.
+7.  Run `npm run build` to build the code.  (TEMP: Run `npm run grunt` or `grunt` to build the BFE code.)
 
 ## Running the code
 
-Follow installation instructions, then run `node server-bfe.js`.  This will start up the editor at http://localhost:8000
+`npm start`
+
+Follow installation instructions, then run `npm start` or `node server.js` to start the web server using Express.
+This will start up the code at http://localhost:8000.
+
+TEMP: The Sinopia Editor code is currently available via http://localhost:8000/bfe-index.html.
+
+TEMP:  Note that `index.html` is meant to show the Sinopia home page via React.
 
 ## Developers
 
 - See `package.json` for npm package dependencies.
 - The web server used is `express` web framework for node.js
 
-### Build with grunt
+### Run the server with webpack-dev-webserver
 
-The javascript code uses grunt as a build tool. See `Gruntfile.js` for build dependencies and configuration.
+`npm run dev-start`
 
-- To build the code, `grunt` or `npm run grunt`
+This runs the webpack-dev-server, allowing immediate loading of live code changes without having to restart the server.
+
+### Build with webpack
+
+`npm run build`
+
+We are using webpack as a build tool.  See `webapck.config.js` for build dependencies and configuration.
+
+#### TEMP: Build with grunt
+
+The inherited javascript code uses grunt as a build tool. See `Gruntfile.js` for those build dependencies and configuration.
+
+- To build the inherited (non-react) code, `grunt` or `npm run grunt`.  This is needed for `bfe-index.html` to work.
+
+### NPM && build
+
+`npm run install-build`
+
+This does `npm install` following by `npm run grunt` in a single step.
 
 ### Linter for JavaScript
 
@@ -100,18 +125,6 @@ Twitter's [Bootstrap] and a few additional custom CSS declarations.
 [bfi]: http://www.loc.gov/bibframe/
 [profilespec]: http://bibframe.org/documentation/bibframe-profilespec/
 
-Getting Started
----------------
-`bfe` is currently submodule of [recto](http://github.com/lcnetdev/recto), an express-based webserver, which uses [verso](http://github.com/lcnetdev/verso) a loopback-based server for backend data. The current recommendation is to install recto and verso and use bfe as part of the demonstration environment.
-
-`bfe` can be run as a demo or development version using a simple express-based server - found in the main `bfe` directory -
-that ships with `bfe`:
-
-```bash
-node server-bfe.js
-```
-
-
 Browser Support
 ---------------
 
@@ -124,29 +137,6 @@ Browser Support
 **NOTE:** `bfe` has also not been **thoroughly** tested in the browsers for which
 support is currently listed.  It has been developed primarily using Chrome.
 It has been tested in both Chrome and Safari mobile versions.
-
-
-Roadmap
-----------
-v0.2.x
-* Support LC Bibframe Pilot
-* Request.js has been deprecated
-* Dryice build has been replaced with Grunt.
-
-v0.3.x
-* Implement BF 2.0 Ontology
-* LC Bibframe Pilot 2.0 support.
-* Implement save/load api
-
-v0.4.x
-* Additional features to support LC Bibframe Pilot 2.0
-* Additional features to support requirements for LD4P2
-
-v1.x
-* Support for LD4P2 requirements
-* Refactor into MVC
-* Implement common javascript framework (React, Angular, etc)
-* Implement automated testing.
 
 
 Developers
@@ -189,7 +179,6 @@ Specification][profilespec].
 [Bootstrap]: http://getbootstrap.com/
 [typeahead.js]: https://github.com/twitter/typeahead.js
 [require.js]: http://requirejs.org/
-[dryice]: https://github.com/mozilla/dryice
 [ace]: https://github.com/ajaxorg/ace
 [Zepheira]: https://zepheira.com/
 [profilespec]: http://bibframe.org/documentation/bibframe-profilespec/

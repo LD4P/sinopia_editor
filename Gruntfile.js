@@ -29,7 +29,7 @@ module.exports = function(grunt) {
       static_mappings: {
         files: [
           // note:  also need index.html, static/css and static/images files
-          {src: 'server-bfe.js', dest: 'builds/server-bfe.js'},
+          {src: 'server.js', dest: 'builds/server.js'},
           {src: 'static/js/config.js', dest: 'builds/config.js'},
           {src: 'static/js/jsonld-vis.js', dest: 'builds/jsonld-vis.js'},
           {src: 'static/js/n3-browser.min.js', dest: 'builds/n3-browser.min.js'},
