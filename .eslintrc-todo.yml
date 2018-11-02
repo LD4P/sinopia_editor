@@ -1,20 +1,56 @@
 overrides:
   -
     rules:
-      no-undef: warn
+      'null': warn
     files:
-      - __tests__/integration/basic.test.js
+      - __tests__/components/App.test.js
   -
     rules:
-      no-console: warn
+      'null': warn
     files:
-      - server-bfe.js
+      - __tests__/components/DescPanel.test.js
   -
     rules:
+      'null': warn
+    files:
+      - __tests__/components/Footer.test.js
+  -
+    rules:
+      'null': warn
+    files:
+      - __tests__/components/Header.test.js
+  -
+    rules:
+      'null': warn
+    files:
+      - __tests__/components/LoginPanel.test.js
+  -
+    rules:
+      'null': warn
+    files:
+      - __tests__/components/NewsItem.test.js
+  -
+    rules:
+      'null': warn
+    files:
+      - __tests__/components/NewsPanel.test.js
+  -
+    rules:
+      no-unused-vars: warn
       no-undef: warn
+    files:
+      - __tests__/integration/test-config.js
+  -
+    rules:
+      node/no-unsupported-features/es-syntax: warn
+    files:
+      - setupEnzyme.js
+  -
+    rules:
       no-unused-vars: warn
       security/detect-object-injection: warn
       security/detect-non-literal-require: warn
+      no-undef: warn
       no-useless-escape: warn
       no-console: warn
       security/detect-non-literal-regexp: warn
@@ -23,31 +59,35 @@ overrides:
       - src/bfe.js
   -
     rules:
-      no-undef: warn
       no-unused-vars: warn
       no-console: warn
     files:
       - src/bfelogging.js
   -
     rules:
-      no-undef: warn
       no-unused-vars: warn
+      no-undef: warn
       no-console: warn
       security/detect-object-injection: warn
     files:
       - src/bfelookups.js
   -
     rules:
-      no-undef: warn
       no-unused-vars: warn
+      no-undef: warn
       no-console: warn
       security/detect-object-injection: warn
     files:
       - src/bfestore.js
   -
     rules:
-      no-undef: warn
+      node/no-unsupported-features/es-syntax: warn
+    files:
+      - src/index.js
+  -
+    rules:
       security/detect-object-injection: warn
+      no-undef: warn
       security/detect-unsafe-regex: warn
       no-useless-escape: warn
       no-console: warn
@@ -55,15 +95,13 @@ overrides:
       - src/lib/aceconfig.js
   -
     rules:
-      no-undef: warn
       no-unused-vars: warn
       security/detect-object-injection: warn
-    files:
-      - static/js/config-dev.js
-  -
-    rules:
       no-undef: warn
-      no-unused-vars: warn
-      security/detect-object-injection: warn
     files:
       - static/js/config.js
+  -
+    rules:
+      node/no-unpublished-require: warn
+    files:
+      - webpack.config.js
