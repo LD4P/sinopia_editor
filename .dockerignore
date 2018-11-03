@@ -1,0 +1,15 @@
+__mocks__
+__tests__
+.circleci
+.git
+.gitignore
+/.eslint*.*
+build_support
+coverage
+docs
+development.html
+jest-puppeteer.config.js
+junit.xml
+npm-debug.log
+static-analysis
+setupEnzyme.js
