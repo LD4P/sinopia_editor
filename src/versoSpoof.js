@@ -98,7 +98,7 @@ function loadOwlOntologies() {
           }
         )
       } else if (mappingEl['type'] == 'json') {
-        const filePath = path.join(__dirname, '..', 'static', 'id.loc.gov', 'ontologies', 'bibframe', fileName)
+        const filePath = path.join(__dirname, '..', 'static', 'cachedHttp', 'id.loc.gov', 'ontologies', 'bibframe', fileName)
         owlOntUrl2JsonMappings.push(
           {
             url: mappingEl['url'],
