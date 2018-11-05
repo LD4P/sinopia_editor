@@ -35,7 +35,12 @@ jobs:
       - restore_cache:
           key: dependencies-ci-{{ checksum "package.json" }}
       - run: npm run eslint
-      - run: npm run grunt
+      - run: npm run grunt # eventually, this goes away
+      - run: npm run build
+      - persist_to_workspace:
+          root: .
+          paths:
+            - dist # ignoring ./builds (producted by grunt)
       - run:
           command: npm run jest-ci
           environment:
@@ -58,7 +63,7 @@ jobs:
       - restore_cache: # gives us back matching node_modules
           key: dependencies-prod-{{ checksum "package.json" }}
       - attach_workspace:
-          at: dist
+          at: .
       - run:
           name: Build & Register Image
           command: |
