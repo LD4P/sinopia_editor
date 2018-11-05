@@ -35,7 +35,7 @@ Congress `bfe` project.
 `npm start`
 
 Follow installation instructions, then run `npm start` or `node server.js` to start the web server using Express.
-This will start up the code at http://localhost:8000.
+This will start up the code at [http://localhost:8000](http://localhost:8000).
 
 The Sinopia Editor code is currently available via [stage.sinopia.io][staging]
 
@@ -50,9 +50,8 @@ The Sinopia Editor code is currently available via [stage.sinopia.io][staging]
 `npm run dev-start`
 
 Runs the webpack-dev-server, allowing immediate loading of live code changes
-without having to restart the server. Be sure to `npm run build` before Running
-the webpack server. The webpack-dev-server is available on at
-[http://localhost:8080](http://localhost:8080)
+without having to restart the server. The webpack-dev-server is available on at
+[http://localhost:8080](http://localhost:8080).
 
 ### Building with webpack
 
