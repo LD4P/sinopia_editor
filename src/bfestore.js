@@ -1,12 +1,12 @@
 bfe.define('src/bfestore', ['require', 'exports', 'module'], function (require, exports, module) {
     exports.n3store = N3.Store();
-  
+
     exports.store = [];
-  
+
     exports.rdfxml2store = function (rdf, loadtemplates, recid, callback) {
       var url = 'http://rdf-translator.appspot.com/convert/xml/json-ld/content';
       var bfestore = this;
-  
+
       $.ajax({
         contentType: 'application/x-www-form-urlencoded',
         type: "POST",
@@ -27,24 +27,24 @@ bfe.define('src/bfestore', ['require', 'exports', 'module'], function (require, 
                 nnode.o = nnode.o.replace(/bibframe.example.org\/.+#(Work|Topic).*/, 'id.loc.gov/resources/works/c' + recid);
                 nnode.o = nnode.o.replace(/bibframe.example.org\/.+#Instance.*/, 'id.loc.gov/resources/instances/c' + recid + '0001');
                 nnode.o = nnode.o.replace(/bibframe.example.org\/.+#Item.*/, 'id.loc.gov/resources/items/c' + recid + '0001');
-              } 
+              }
               console.log(nnode);
             });
             callback(loadtemplates);
           });
         },
-        error: function(XMLHttpRequest, textStatus, errorThrown) { 
+        error: function(XMLHttpRequest, textStatus, errorThrown) {
           bfelog.addMsg(new Error(), "ERROR", "FAILED to load external source: " + url);
           bfelog.addMsg(new Error(), "ERROR", "Request status: " + textStatus + "; Error msg: " + errorThrown);
         }
       });
     }
-  
+
     exports.addTriple = function (triple) {
       exports.store.push(triple);
       if (triple.rtid !== undefined) { exports.n3store.addTriple(triple.s, triple.p, triple.o, triple.rtID); } else { exports.n3store.addTriple(triple.s, triple.p, triple.o); }
     };
-  
+
     exports.storeDedup = function () {
       exports.store = _.uniq(exports.store, function (t) {
         if (t.olang !== undefined) {
@@ -59,7 +59,7 @@ bfe.define('src/bfestore', ['require', 'exports', 'module'], function (require, 
       });
       return exports.store;
     };
-  
+
     exports.store2rdfxml = function (jsonld, callback) {
       exports.store2jsonldnormalized(jsonld, function (expanded) {
         /*$.ajax({
@@ -86,7 +86,7 @@ bfe.define('src/bfestore', ['require', 'exports', 'module'], function (require, 
               if (triple) {
                   turtlestore.addTriple(triple);
               } else {
-                  turtlestore.addPrefixes(theprefixes);                
+                  turtlestore.addPrefixes(theprefixes);
                   var turtleWriter = N3.Writer({
                       prefixes: {
                           bf: 'http://id.loc.gov/ontologies/bibframe/',
@@ -100,7 +100,7 @@ bfe.define('src/bfestore', ['require', 'exports', 'module'], function (require, 
                   });
                   turtleWriter.addTriples(turtlestore.getTriples(null, null, null));
                   //turtleWriter.addTriples(exports.n3store.getTriples(null, null, null));
-                  turtleWriter.end(function(error, result) {                    
+                  turtleWriter.end(function(error, result) {
                   var input = {};
                   input.n3 = result;
                   $.ajax({
@@ -120,10 +120,10 @@ bfe.define('src/bfestore', ['require', 'exports', 'module'], function (require, 
                 });
               }
             });
-        });  
-      });  
+        });
+      });
     };
-  
+
     exports.n32store = function (n3, graph, tempstore, callback) {
       var parser = N3.Parser();
       var triples = parser.parse(n3);
@@ -154,7 +154,7 @@ bfe.define('src/bfestore', ['require', 'exports', 'module'], function (require, 
     //		}
     //        });
     //    }
-  
+
     exports.jsonld2store = function (jsonld) {
       jsonld.forEach(function (resource) {
         var s = typeof resource['@id'] !== 'undefined' ? resource['@id'] : '_:b' + guid();
@@ -210,7 +210,7 @@ bfe.define('src/bfestore', ['require', 'exports', 'module'], function (require, 
       });
       return exports.store;
     };
-  
+
     exports.store2jsonldExpanded = function () {
       var json = [];
       exports.storeDedup();
@@ -255,7 +255,7 @@ bfe.define('src/bfestore', ['require', 'exports', 'module'], function (require, 
       }
       return json;
     };
-  
+
     exports.store2turtle = function (jsonstr, callback) {
       jsonld.toRDF(jsonstr, {
         format: 'application/nquads'
@@ -267,7 +267,7 @@ bfe.define('src/bfestore', ['require', 'exports', 'module'], function (require, 
             if (triple) {
                 turtlestore.addTriple(triple);
             } else {
-                turtlestore.addPrefixes(theprefixes);                
+                turtlestore.addPrefixes(theprefixes);
                 var turtleWriter = N3.Writer({
                     prefixes: {
                         bf: 'http://id.loc.gov/ontologies/bibframe/',
@@ -304,7 +304,7 @@ bfe.define('src/bfestore', ['require', 'exports', 'module'], function (require, 
         });
       });
     };
-  
+
     exports.store2jsonldcompacted = function (jsonstr, callback) {
       context = {
         'rdf': 'http://www.w3.org/1999/02/22-rdf-syntax-ns#',
@@ -315,24 +315,24 @@ bfe.define('src/bfestore', ['require', 'exports', 'module'], function (require, 
         'madsrdf': 'http://www.loc.gov/mads/rdf/v1#',
         'pmo': 'http://performedmusicontology.org/ontology/',
       };
-  
+
       jsonld.compact(jsonstr, context, function (err, compacted) {
         callback(compacted);
       });
     };
-  
+
     exports.store2jsonldnormalized = function (jsonstr, callback) {
       jsonld.expand(jsonstr, context, function (err, jsonld) {
         callback(jsonld);
       });
     };
-  
+
     exports.jsonldcompacted2store = function (json, callback) {
       jsonld.expand(json, function (err, expanded) {
         callback(expanded);
       });
     };
-  
+
     exports.store2text = function () {
       var nl = '\n';
       var nlindent = nl + '\t';
@@ -372,7 +372,7 @@ bfe.define('src/bfestore', ['require', 'exports', 'module'], function (require, 
       });
       return predata;
     };
-  
+
     /**
        * Generates a GUID string.
        * @returns {String} The generated GUID.

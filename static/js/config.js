@@ -16,14 +16,14 @@ var ie = (function(){
   function myCB(data) {
     document.body.scrollTop = document.documentElement.scrollTop = 0;
   }
-  
+
   function csrfSafeMethod(method) {
     // these HTTP methods do not require CSRF protection
     return (/^(GET|HEAD|OPTIONS|TRACE)$/.test(method));
   }
-  
+
   function getCSRF(){
-    //eventually you'll have to login       
+    //eventually you'll have to login
     var cookieValue = null;
     if (document.cookie && document.cookie != '') {
       var cookies = document.cookie.split(';');
@@ -35,21 +35,21 @@ var ie = (function(){
           break;
         }
       }
-    }       
-    return cookieValue;            
+    }
+    return cookieValue;
   }
-  
+
   function setCSRF(xhr, settings, csrf) {
     if (!csrfSafeMethod(settings.type) && !this.crossDomain) {
       xhr.setRequestHeader("X-CSRFToken", csrf);
     }
   }
-  
+
   function save(data, csrf, bfelog, callback){
     var $messagediv = $('<div>', {id: "bfeditor-messagediv", class:"col-md-10 main"});
-  
+
     var url = config.url + "/verso/api/bfs/upsertWithWhere?where=%7B%22name%22%3A%20%22"+data.name+"%22%7D";
-  
+
     $.ajax({
       url: url,
       type: "POST",
@@ -77,18 +77,18 @@ var ie = (function(){
       bfelog.addMsg(new Error(), "ERROR", "Request status: " + textStatus + "; Error msg: " + errorThrown);
       $messagediv.append('<div class="alert alert-danger"><strong>Save Failed:</strong>'+errorThrown+'</span>');
       $messagediv.insertBefore('.nav-tabs');
-    }).always(function(){                       
+    }).always(function(){
       $('#table_id').DataTable().ajax.reload();
     });
   }
-  
+
   function publish(data, rdfxml, savename, bfelog, callback){
     var $messagediv = $('<div>', {id: "bfeditor-messagediv", class:"col-md-10 main"});
-  
+
     //var url = "http://mlvlp04.loc.gov:8201/bibrecs/bfe2mets.xqy";
     var url = config.url + "/profile-edit/server/publish";
     var saveurl = "/verso/api/bfs/upsertWithWhere?where=%7B%22name%22%3A%20%22"+savename+"%22%7D";
-  
+
     var savedata = {};
     savedata.name = savename;
     savedata.profile = data.profile;
@@ -97,9 +97,9 @@ var ie = (function(){
     savedata.modified = data.modified;
     savedata.status = data.status;
     savedata.rdf = data.rdf;
-  
+
     data.rdfxml = JSON.stringify(rdfxml);
-    
+
     $.when(
       $.ajax({
         url: saveurl,
@@ -126,7 +126,7 @@ var ie = (function(){
         $('.nav-tabs a[href="#browse"]').tab('show')
         bfeditor.bfestore.store = [];
         window.location.hash = "";
-        callback(true, data.name);                
+        callback(true, data.name);
       }).fail(function (XMLHttpRequest, textStatus, errorThrown){
         bfelog.addMsg(new Error(), "ERROR", "FAILED to save");
         bfelog.addMsg(new Error(), "ERROR", "Request status: " + textStatus + "; Error msg: " + errorThrown);
@@ -136,13 +136,13 @@ var ie = (function(){
         $('#table_id').DataTable().ajax.reload();
       });
   }
-  
-  
+
+
   function retrieve(uri, bfestore, loadtemplates, bfelog, callback){
     var $messagediv = $('<div>', {id: "bfeditor-messagediv", class:"col-md-10 main"});
     var url = config.url + "/profile-edit/server/whichrt";
     var dType = (bfestore.state == 'loadmarc') ? 'xml' : 'json';
-  
+
     $.ajax({
       dataType: dType,
       type: "GET",
@@ -152,7 +152,7 @@ var ie = (function(){
       success: function (data) {
         bfelog.addMsg(new Error(), "INFO", "Fetched external source baseURI " + uri);
         bfelog.addMsg(new Error(), "DEBUG", "Source data", data);
-        
+
         if (dType == 'xml') {
           var recCount = $('zs\\:numberOfRecords', data).text();
           if (recCount != '0') {
@@ -176,17 +176,17 @@ var ie = (function(){
         }
         //bfestore.n32store(data, url, tempstore, callback);
       },
-      error: function(XMLHttpRequest, textStatus, errorThrown) { 
+      error: function(XMLHttpRequest, textStatus, errorThrown) {
         bfelog.addMsg(new Error(), "ERROR", "FAILED to load external source: " + url);
         bfelog.addMsg(new Error(), "ERROR", "Request status: " + textStatus + "; Error msg: " + errorThrown);
       }
     });
   }
-  
+
   function retrieveLDS(uri, bfestore, loadtemplates, bfelog, callback){
-  
+
     var url = config.url + "/profile-edit/server/retrieveLDS";
-  
+
     $.ajax({
       dataType: "json",
       type: "GET",
@@ -210,17 +210,17 @@ var ie = (function(){
       }
     });
   }
-  
-  
+
+
   function deleteId(id, csrf, bfelog){
     var url = config.url + "/verso/api/bfs/" + id;
-  
+
     //$.ajaxSetup({
     //    beforeSend: function(xhr, settings){getCSRF(xhr, settings, csrf);}
     //});
-  
+
     $.ajax({
-      type: "DELETE",                
+      type: "DELETE",
       url: url,
       dataType: "json",
       csrf: csrf,
@@ -232,9 +232,9 @@ var ie = (function(){
         bfelog.addMsg(new Error(), "ERROR", "Request status: " + textStatus + "; Error msg: " + errorThrown);
       }
     });
-  
+
   }
-  
+
   /* Config object profiles
    * Editor profiles are read from a WS endpoint
    * The data are expected to be in a JSON array, with each object
@@ -243,11 +243,11 @@ var ie = (function(){
    * base URL of verso in the "config" definition below.
    */
   var rectoBase = "http://bibframe.org/bibliomata";
-  
+
   // The following line is for local developement
   // rectoBase = "http://localhost:3000";
   var versoURL = rectoBase + "/verso/api";
-  
+
   var config = {
                 /* "logging": {
                   "level": "DEBUG",
@@ -273,7 +273,7 @@ var ie = (function(){
            type: ["http://id.loc.gov/ontologies/bibframe/Work"],
            useResourceTemplates: [ "profile:bf2:Monograph:Work" ]
          }
-  
+
        ]},
       {"menuGroup": "Notated Music",
        "menuItems": [
@@ -288,7 +288,7 @@ var ie = (function(){
            useResourceTemplates: [ "profile:bf2:NotatedMusic:Expression" ]
          },
          {
-           label: "Create Instance", 
+           label: "Create Instance",
            type: ["http://id.loc.gov/ontologies/bibframe/Instance"],
            useResourceTemplates: [ "profile:bf2:NotatedMusic:Instance" ]
          }
@@ -305,7 +305,7 @@ var ie = (function(){
            type: ["http://id.loc.gov/ontologies/bibframe/Text"],
            useResourceTemplates: [ "profile:bf2:Serial:Work" ]
          }
-  
+
        ]},
       {"menuGroup": "Cartographic",
        "menuItems": [
@@ -319,7 +319,7 @@ var ie = (function(){
            type: ["http://id.loc.gov/ontologies/bibframe/Work"],
            useResourceTemplates: [ "profile:bf2:Cartographic:Work" ]
          }
-  
+
        ]},
       {"menuGroup": "Sound Recording: Audio CD",
        "menuItems": [
@@ -333,7 +333,7 @@ var ie = (function(){
            type: ["http://id.loc.gov/ontologies/bibframe/Work"],
            useResourceTemplates: [ "profile:bf2:SoundRecording:Work" ]
          }
-  
+
        ]},
       {"menuGroup": "Sound Recording: Audio CD-R",
        "menuItems": [
@@ -347,7 +347,7 @@ var ie = (function(){
            type: ["http://id.loc.gov/ontologies/bibframe/Work"],
            useResourceTemplates: [ "profile:bf2:SoundCDR:Work" ]
          }
-  
+
        ]},
       {"menuGroup": "Sound Recording: Analog",
        "menuItems": [
@@ -361,7 +361,7 @@ var ie = (function(){
            type: ["http://id.loc.gov/ontologies/bibframe/Work"],
            useResourceTemplates: [ "profile:bf2:Analog:Work" ]
          }
-  
+
        ]},
       {"menuGroup": "Moving Image: BluRay DVD",
        "menuItems": [
@@ -375,7 +375,7 @@ var ie = (function(){
            type: ["http://id.loc.gov/ontologies/bibframe/Work"],
            useResourceTemplates: [ "profile:bf2:MIBluRayDVD:Work" ]
          }
-  
+
        ]},
       {"menuGroup": "Moving Image: 35mm Feature Film",
        "menuItems": [
@@ -389,7 +389,7 @@ var ie = (function(){
            type: ["http://id.loc.gov/ontologies/bibframe/Work"],
            useResourceTemplates: [ "profile:bf2:35mmFeatureFilm:Work" ]
          }
-  
+
        ]},
       {"menuGroup": "Prints and Photographs",
        "menuItems": [
@@ -403,7 +403,7 @@ var ie = (function(){
            type: ["http://id.loc.gov/ontologies/bibframe/Work"],
            useResourceTemplates: [ "profile:bf2:Graphics:Work" ]
          }
-  
+
        ]},
       {"menuGroup": "Rare Materials",
        "menuItems": [
@@ -417,7 +417,7 @@ var ie = (function(){
            type: ["http://id.loc.gov/ontologies/bibframe/Work"],
            useResourceTemplates: [ "profile:bf2:RareMat:Work" ]
          }
-  
+
        ]},
       {"menuGroup": "Authorities",
        "menuItems": [
@@ -440,14 +440,14 @@ var ie = (function(){
            label: "Conference",
            type: ["http://www.loc.gov/standards/mads/rdf/v1.html#Conference"],
            useResourceTemplates: [ "profile:bf2:Agent:Conference" ]
-         },                            
+         },
          {
            label: "Jurisdiction",
            type: ["http://www.loc.gov/standards/mads/rdf/v1.html#Territory"],
            useResourceTemplates: [ "profile:bf2:Agent:Jurisdiction" ]
          }
        ]}
-  
+
     ],
     "save": {
       "callback": save
@@ -457,13 +457,13 @@ var ie = (function(){
     },
     "retrieveLDS": {
       "callback":retrieveLDS
-    },            
+    },
     "retrieve": {
       "callback": retrieve
     },
     "deleteId": {
       "callback": deleteId
-    },            
+    },
     "getCSRF":{
       "callback": getCSRF
     },
@@ -485,4 +485,3 @@ var ie = (function(){
     }
   }
   var bfeditor = bfe.fulleditor(config, "bfeditor");
-  
