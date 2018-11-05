@@ -36,8 +36,8 @@ describe('spoofed verso', () => {
   })
 
   describe('ontologyUrls', () => {
-    it('array of length 5', () => {
-      expect(versoSpoof.ontologyUrls).toHaveLength(5)
+    it('array of length 7', () => {
+      expect(versoSpoof.ontologyUrls).toHaveLength(7)
     })
     it('ontologyUrl is Url', () => {
       versoSpoof.ontologyUrls.forEach(url => {
@@ -47,14 +47,16 @@ describe('spoofed verso', () => {
   })
 
   describe('owlOntUrl2JsonMappings', () => {
-    it('array of length 5', () => {
-      expect(versoSpoof.owlOntUrl2JsonMappings).toHaveLength(5)
+    it('array of length 7', () => {
+      expect(versoSpoof.owlOntUrl2JsonMappings).toHaveLength(7)
     })
     it('mapping has url', () => {
       expect(versoSpoof.owlOntUrl2JsonMappings[0]['url']).toBe('http://id.loc.gov/ontologies/bibframe.rdf')
+      expect(versoSpoof.owlOntUrl2JsonMappings[6]['url']).toBe('http://id.loc.gov/ontologies/bibframe/Work.json')
     })
     it('mapping has json', () => {
       expect(versoSpoof.owlOntUrl2JsonMappings[0]['json']).toBeDefined()
+      expect(versoSpoof.owlOntUrl2JsonMappings[6]['json']).toBeDefined()
     })
   })
 
