@@ -59,13 +59,13 @@ const ontologies = [
 module.exports.ontologies = ontologies
 
 const owlOntUrl2FileMappings = [
-  {'url': 'http://id.loc.gov/ontologies/bibframe.rdf', 'type': 'rdfxml', 'fname': 'bibframe.rdf.xml'},
-  {'url': 'http://id.loc.gov/ontologies/bflc.rdf', 'type': 'rdfxml', 'fname': 'bflc.rdf.xml'},
-  {'url': 'http://www.loc.gov/standards/mads/rdf/v1.rdf', 'type': 'rdfxml', 'fname': 'mads-v1.rdf.xml'},
-  {'url': 'http://www.w3.org/1999/02/22-rdf-syntax-ns.rdf', 'type': 'rdfxml', 'fname': 'rdf-syntax-ns.rdf.xml'},
-  {'url': 'http://www.w3.org/2000/01/rdf-schema.rdf', 'type': 'rdfxml', 'fname': 'rdf-schema.rdf.xml'},
-  {'url': 'http://id.loc.gov/ontologies/bibframe/Instance.json', 'type': 'json', 'fname': 'Instance.json'},
-  {'url': 'http://id.loc.gov/ontologies/bibframe/Work.json', 'type': 'json', 'fname': 'Work.json'}
+  {'url': 'http://id.loc.gov/ontologies/bibframe.rdf', 'type': 'rdfxml', 'fname': ['id.loc.gov', 'ontologies', 'bibframe.rdf']},
+  {'url': 'http://id.loc.gov/ontologies/bflc.rdf', 'type': 'rdfxml', 'fname': ['id.loc.gov', 'ontologies', 'bflc.rdf']},
+  {'url': 'http://www.loc.gov/standards/mads/rdf/v1.rdf', 'type': 'rdfxml', 'fname': ['www.loc.gov', 'standards', 'mads', 'rdf', 'v1.rdf']},
+  {'url': 'http://www.w3.org/1999/02/22-rdf-syntax-ns.rdf', 'type': 'rdfxml', 'fname': ['www.w3.org', '1999', '02', '22-rdf-syntax-ns.rdf']},
+  {'url': 'http://www.w3.org/2000/01/rdf-schema.rdf', 'type': 'rdfxml', 'fname': ['www.w3.org', '2000', '01','rdf-schema.rdf']},
+  {'url': 'http://id.loc.gov/ontologies/bibframe/Instance.json', 'type': 'json', 'fname': ['id.loc.gov', 'ontologies', 'bibframe', 'Instance.json']},
+  {'url': 'http://id.loc.gov/ontologies/bibframe/Work.json', 'type': 'json', 'fname': ['id.loc.gov', 'ontologies', 'bibframe', 'Work.json']}
 ]
 
 const ontologyUrls = []
@@ -87,22 +87,23 @@ function loadOwlOntologies() {
   const x2json_parser = new x2js()
   if (owlOntUrl2JsonMappings.length == 0) {
     owlOntUrl2FileMappings.forEach(function (mappingEl) {
-      const fileName = mappingEl['fname']
+      var fullFilePath = path.join(__dirname, '..', 'static', 'cachedHttp')
+      mappingEl['fname'].forEach(function (p) {
+        fullFilePath = path.join(fullFilePath, p)
+      })
+      const fileContents = fs.readFileSync(fullFilePath, {encoding: 'utf8'})
       if (mappingEl['type'] == 'rdfxml') {
-        const filePath = path.join(__dirname, '..', 'static', 'rdfxml', fileName)
-        const oxml = fs.readFileSync(filePath, {encoding: 'utf8'})
         owlOntUrl2JsonMappings.push(
           {
             url: mappingEl['url'],
-            json: x2json_parser.xml2js(oxml)
+            json: x2json_parser.xml2js(fileContents)
           }
         )
       } else if (mappingEl['type'] == 'json') {
-        const filePath = path.join(__dirname, '..', 'static', 'cachedHttp', 'id.loc.gov', 'ontologies', 'bibframe', fileName)
         owlOntUrl2JsonMappings.push(
           {
             url: mappingEl['url'],
-            json: fs.readFileSync(filePath, {encoding: 'utf8'})
+            json: fileContents
           }
         )
       }
