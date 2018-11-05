@@ -1,24 +1,15 @@
 [![CircleCI](https://circleci.com/gh/LD4P/sinopia_editor.svg?style=svg)](https://circleci.com/gh/LD4P/sinopia_editor)
 [![Coverage Status](https://coveralls.io/repos/github/LD4P/sinopia_editor/badge.svg?branch=master)](https://coveralls.io/github/LD4P/sinopia_editor?branch=master)
 
-# LD4P's BIBFRAME Editor
-
-forked from https://github.com/lcnetdev/bfe
-
-## Overview
-From lcnetdev description: `bfe` is a standalone Editor for the Library of Congress's [Bibliographic Framework
-(BIBFRAME) Initiative][bfi].  It can be used more generically as an editor for RDF data.
-`bfe` uses [BIBFRAME Profiles][profilespec] to render an HTML/UI input form; it is
-capable of integrating 'lookup' services, which query data from external Web APIs;
-and implementers can define the input and extract the output.
-...
-From a design standpoint, the objective with `bfe` was to create the simplest
-'pluggable' form editor one can to maximize experimental implementer's abilities
-to create/edit BIBFRAME data.  The current focus is to transform bfe into a production ready tool.
 
 # Sinopia BIBFRAME Editor
 
-Technical documentation specific to the Sinopia BIBFRAME Editor may also be found in the [wiki](https://github.com/LD4P/sinopia_editor/wiki/Sinopia-Editor).
+Technical documentation specific to the Sinopia BIBFRAME Editor may also be found in the [wiki](https://github.com/LD4P/sinopia_editor/wiki/Sinopia-Editor). The
+[Sinopia Editor][GIT_REPO] is also available in staging at
+[stage.sinopia.io][staging]. The Sinopia Editor is a [React][REACT] application
+with all new user interfaces and functionality using React and the React
+ecosystem. Portions of the codebase originally extracted from the Library of
+Congress `bfe` project.
 
 ## Installation (without docker image)
 
@@ -31,9 +22,13 @@ Technical documentation specific to the Sinopia BIBFRAME Editor may also be foun
 2.  Install [npm](https://www.npmjs.com/)
 3.  Run `npm init`, and follow the instructions that appear.
 4.  Get latest npm: `npm install -g npm@latest`
-5.  Run `npm install grunt-cli` to install grunt-cli.
-6.  Run `npm install`. This installs everything needed for the build to run successfully.
-7.  Run `npm run build` to build the code.  (TEMP: Run `npm run grunt` or `grunt` to build the BFE code.)
+5.  Run `npm run build` to build the code.
+
+### Installing BFE code
+1.  Run `npm install grunt-cli` to install grunt-cli.
+2.  Run `npm run grunt` or `grunt` to build the BFE code.
+3.  Run `npm install`. This installs everything needed for the build to run successfully.
+
 
 ## Running the code
 
@@ -42,34 +37,36 @@ Technical documentation specific to the Sinopia BIBFRAME Editor may also be foun
 Follow installation instructions, then run `npm start` or `node server.js` to start the web server using Express.
 This will start up the code at http://localhost:8000.
 
-TEMP: The Sinopia Editor code is currently available via http://localhost:8000/bfe-index.html.
-
-TEMP:  Note that `index.html` is meant to show the Sinopia home page via React.
+The Sinopia Editor code is currently available via [stage.sinopia.io][staging]
 
 ## Developers
 
 - See `package.json` for npm package dependencies.
-- The web server used is `express` web framework for node.js
+- The web server used is the `express` web framework for node.js
+- React components are located in `src/components/` directory
 
 ### Run the server with webpack-dev-webserver
 
 `npm run dev-start`
 
-This runs the webpack-dev-server, allowing immediate loading of live code changes without having to restart the server.
+Runs the webpack-dev-server, allowing immediate loading of live code changes
+without having to restart the server. Be sure to `npm run build` before Running
+the webpack server. The webpack-dev-server is available on at
+[http://localhost:8080](http://localhost:8080)
 
-### Build with webpack
+### Building with webpack
 
 `npm run build`
 
 We are using webpack as a build tool.  See `webapck.config.js` for build dependencies and configuration.
 
-#### TEMP: Build with grunt
+#### BFE Support - Building with grunt
 
 The inherited javascript code uses grunt as a build tool. See `Gruntfile.js` for those build dependencies and configuration.
 
 - To build the inherited (non-react) code, `grunt` or `npm run grunt`.  This is needed for `bfe-index.html` to work.
 
-### NPM && build
+#### NPM && build
 
 `npm run install-build`
 
@@ -89,25 +86,54 @@ creates `.eslintrc-todo.yml` showing which linter rules give errors or warnings 
 
 See https://www.npmjs.com/package/eslint-takeoff for more info.
 
-### test
+### Test
 
-Tests are written in jest, also utilizing puppeteer for end-to-end tests.  To run them `npm test`.
+Tests are written in jest, also utilizing puppeteer for end-to-end tests.  
+To run them `npm test`.
 
-#### test coverage
+#### Test coverage
 To get coverage data, `npm run test-cov`.  Use a web browser to open `coverage/lcov-report/index.html`.  There is a project view and also a view of each file.  You can also check [coveralls](https://coveralls.io/repos/github/LD4P/sinopia_editor).
 
-### static analysis
+### Static Analysis
 
 We use plato (actually es6-plato) to get static analysis info such as code complexity, etc.  `npm run analysis` will create a folder `static-analysis`; use a web browser to open `static-analysis/index.html`.  There is a project view and also a view of each file.
 
-### continuous integration
+### Continuous Integration
 
 We use [circleci](https://circleci.com/gh/Ld4p/sinopia_profile_editor).  The steps are in `.circleci/config.yml`.
 
 In the "artifacts" tab of a particular build, you can look at code coverage (`coverage/lcov-report/index.html`) and at static analysis output (`static-analysis/index.html`).
 
+## Running with Docker
 
-# lcnetdev info below
+The [Sinopia Editor][GIT_REPO] supports [Docker](https://www.docker.com/), both
+with images hosted on [Dockerhub](https://hub.docker.com/r/ld4p/sinopia_editor/)
+and with an available Dockerfile to build locally.
+
+### Running latest Dockerhub Image
+To run the Docker image, first download the latest image by 
+`docker pull ld4p/sinopia_editor:latest` and then to run the editor locally
+in the foreground, `docker run -p 8000:8000 --rm --name=sinopia_editor ld4p/sinopia_editor`. The running Sinopia Editor should now be available locally at 
+[http://localhost:8000](https://hub.docker.com/r/ld4p/sinopia_editor/). 
+
+### Building latest Docker Image
+To build the latest version of the [Sinopia Editor][GIT_REPO], you 
+can build with the
+`docker build -t ld4p/sinopia_editor --no-cache=true .` command.
+
+# LD4P's fork of the BIBFRAME Editor
+The Sinopia Editor is forked from https://github.com/lcnetdev/bfe.
+
+## History of BFE
+From lcnetdev description: `bfe` is a standalone Editor for the Library of Congress's [Bibliographic Framework
+(BIBFRAME) Initiative][bfi].  It can be used more generically as an editor for RDF data.
+`bfe` uses [BIBFRAME Profiles][profilespec] to render an HTML/UI input form; it is
+capable of integrating 'lookup' services, which query data from external Web APIs;
+and implementers can define the input and extract the output.
+...
+From a design standpoint, the objective with `bfe` was to create the simplest
+'pluggable' form editor one can to maximize experimental implementer's abilities
+to create/edit BIBFRAME data.  The current focus is to transform bfe into a production ready tool.
 
 This repository includes a development example, a "production" example, and
 various BIBFRAME Profiles with which to begin experimenting. In order
@@ -120,7 +146,7 @@ Twitter's [Bootstrap] and a few additional custom CSS declarations.
 
 <!-- section links -->
 
-[demo-page]: http://bibframe.org/bibliomata/bfe/index.html
+[staging]: http://stage.sinopia.io/
 [ontology]: http://id.loc.gov/ontologies/bibframe/
 [bfi]: http://www.loc.gov/bibframe/
 [profilespec]: http://bibframe.org/documentation/bibframe-profilespec/
@@ -198,17 +224,23 @@ Contributors
 Maintainer
 -----------
 
-* **Kirk Hess**
-  * [GitHub](https://github.com/kirkhess)
+* **LD4P2 Sinopia Project Team**
+  * [GitHub](https://github.com/ld4p/)
 
 
 License
 -------
 
-Unless otherwise noted, code that is original to `bfe` is in the Public Domain.
+Unless otherwise noted, code that is original to the `Sinopia Editor` is licensed
+under the [Apache 2](https://www.apache.org/licenses/LICENSE-2.0).  
+
+Original `bfe` code is in the Public Domain.
 
 http://creativecommons.org/publicdomain/mark/1.0/
 
 **NOTE:**  `bfe` includes or depends on software from other open source projects, all or
 most of which will carry their own license and copyright.  The Public Domain mark
 stops at `bfe` original code and does not convey to these projects.
+
+[GIT_REPO]: https://github.com/LD4P/sinopia_editor
+[REACT]: https://reactjs.org/
