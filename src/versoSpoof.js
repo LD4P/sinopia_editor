@@ -8,7 +8,7 @@ module.exports.profiles = profiles
 
 function loadProfiles () {
   if (profiles.length == 0) {
-    const profilesDirPath = path.join(__dirname, '..', 'sample_data_from_verso', 'data', 'profiles')
+    const profilesDirPath = path.join(__dirname, '..', 'static', 'spoofedFilesFromServer', 'from_verso', 'data', 'profiles')
     fs.readdirSync(profilesDirPath).forEach(file => {
       const fileJson = require(path.join(profilesDirPath, file))
       profiles.push(
