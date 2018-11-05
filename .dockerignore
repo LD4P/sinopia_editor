@@ -5,6 +5,7 @@ __tests__
 .gitignore
 /.eslint*.*
 build_support
+builds
 coverage
 docs
 development.html
