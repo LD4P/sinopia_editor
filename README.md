@@ -4,12 +4,7 @@
 
 # Sinopia BIBFRAME Editor
 
-Technical documentation specific to the Sinopia BIBFRAME Editor may also be found in the [wiki](https://github.com/LD4P/sinopia_editor/wiki/Sinopia-Editor). The
-[Sinopia Editor][GIT_REPO] is also available in staging at
-[stage.sinopia.io][staging]. The Sinopia Editor is a [React][REACT] application
-with all new user interfaces and functionality using React and the React
-ecosystem. Portions of the codebase originally extracted from the Library of
-Congress `bfe` project.
+Technical documentation specific to the Sinopia BIBFRAME Editor may also be found in the [wiki](https://github.com/LD4P/sinopia_editor/wiki/Sinopia-Editor). The [Sinopia Editor][GIT_REPO] homepage is available in staging at [stage.sinopia.io][staging]. The Sinopia Editor is a [React][REACT] application with all new user interfaces and functionality using React and the React ecosystem. Portions of the codebase originally extracted from the Library of Congress `bfe` [project][BFE_GIT].
 
 ## Installation (without docker image)
 
@@ -49,9 +44,7 @@ The Sinopia Editor code is currently available via [stage.sinopia.io][staging]
 
 `npm run dev-start`
 
-Runs the webpack-dev-server, allowing immediate loading of live code changes
-without having to restart the server. The webpack-dev-server is available on at
-[http://localhost:8080](http://localhost:8080).
+Runs the webpack-dev-server, allowing immediate loading of live code changes without having to restart the server. The webpack-dev-server is available on at [http://localhost:8080](http://localhost:8080).
 
 ### Building with webpack
 
@@ -110,18 +103,18 @@ with images hosted on [Dockerhub](https://hub.docker.com/r/ld4p/sinopia_editor/)
 and with an available Dockerfile to build locally.
 
 ### Running latest Dockerhub Image
-To run the Docker image, first download the latest image by 
+To run the Docker image, first download the latest image by
 `docker pull ld4p/sinopia_editor:latest` and then to run the editor locally
-in the foreground, `docker run -p 8000:8000 --rm --name=sinopia_editor ld4p/sinopia_editor`. The running Sinopia Editor should now be available locally at 
-[http://localhost:8000](https://hub.docker.com/r/ld4p/sinopia_editor/). 
+in the foreground, `docker run -p 8000:8000 --rm --name=sinopia_editor ld4p/sinopia_editor`. The running Sinopia Editor should now be available locally at
+[http://localhost:8000](https://hub.docker.com/r/ld4p/sinopia_editor/).
 
 ### Building latest Docker Image
-To build the latest version of the [Sinopia Editor][GIT_REPO], you 
+To build the latest version of the [Sinopia Editor][GIT_REPO], you
 can build with the
 `docker build -t ld4p/sinopia_editor --no-cache=true .` command.
 
 # LD4P's fork of the BIBFRAME Editor
-The Sinopia Editor is forked from https://github.com/lcnetdev/bfe.
+The Sinopia Editor is forked from [https://github.com/lcnetdev/bfe][BFE_GIT].
 
 ## History of BFE
 From lcnetdev description: `bfe` is a standalone Editor for the Library of Congress's [Bibliographic Framework
@@ -241,5 +234,6 @@ http://creativecommons.org/publicdomain/mark/1.0/
 most of which will carry their own license and copyright.  The Public Domain mark
 stops at `bfe` original code and does not convey to these projects.
 
+[BFE_GIT]: https://github.com/lcnetdev/bfe
 [GIT_REPO]: https://github.com/LD4P/sinopia_editor
 [REACT]: https://reactjs.org/
