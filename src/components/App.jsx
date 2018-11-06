@@ -13,8 +13,8 @@ const App = () => (
     <div id="app">
       <Switch>
         <Route exact path='/' component={HomePage} />
-        <Route path='/search' component={BFF} />
-        <Route component={FourOhFour} />
+        <Route exact path='/search' component={BFF} />
+        <Route id="404" component={FourOhFour} />
       </Switch>
       <Footer />
     </div>

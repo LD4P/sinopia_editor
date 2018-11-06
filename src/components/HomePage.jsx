@@ -4,7 +4,7 @@ import NewsPanel from './NewsPanel';
 import DescPanel from './DescPanel';
 
 const HomePage = () => (
-  <div>
+  <div id="home-page">
     <Header />
     <NewsPanel />
     <DescPanel />

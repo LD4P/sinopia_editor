@@ -11,7 +11,7 @@ const Header = () => (
     </div>
     <ul className= "nav navbar-nav pull-right">
       <li>
-        <Link to='/search'> BFF (Bib Editor) </Link>
+        <Link to='/editor'> BFF (Bib Editor) </Link>
       </li>
       <li>
         <a className="header-text" href="https://sinopia-pe.dev.sul.stanford.edu">Profile Editor</a>
