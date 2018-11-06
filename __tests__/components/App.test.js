@@ -1,9 +1,6 @@
-import 'jsdom-global/register'; //at the top of file , even  , before importing react
-
+import 'jsdom-global/register';
 import React from 'react';
-import { Route, Switch } from "react-router-dom";
 import { mount, shallow } from "enzyme";
-
 import { MemoryRouter } from "react-router";
 import App from '../../src/components/App';
 import HomePage from '../../src/components/HomePage';
