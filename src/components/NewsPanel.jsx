@@ -1,4 +1,4 @@
-import React from 'react';
+import React from 'react'
 import NewsItem from './NewsItem.jsx'
 import LoginPanel from './LoginPanel.jsx'
 
@@ -18,6 +18,6 @@ const NewsPanel = () => (
     </div>
   </div>
 
-);
+)
 
-export default NewsPanel;
+export default NewsPanel

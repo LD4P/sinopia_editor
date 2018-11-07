@@ -1,5 +1,6 @@
-import React from 'react';
-import SinopiaLogo from '../styles/sinopia-logo.png';
+import React from 'react'
+import SinopiaLogo from '../styles/sinopia-logo.png'
+import { Link } from 'react-router-dom'
 
 const Header = () => (
   <div className="navbar">
@@ -9,6 +10,9 @@ const Header = () => (
       </a>
     </div>
     <ul className= "nav navbar-nav pull-right">
+      <li>
+        <Link to='/editor'> BFF (Bib Editor) </Link>
+      </li>
       <li>
         <a className="header-text" href="https://sinopia-pe.dev.sul.stanford.edu">Profile Editor</a>
       </li>
@@ -49,6 +53,6 @@ const Header = () => (
       </li>
     </ul>
   </div>
-);
+)
 
-export default Header;
+export default Header

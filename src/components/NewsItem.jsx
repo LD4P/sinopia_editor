@@ -1,4 +1,4 @@
-import React from 'react';
+import React from 'react'
 
 const NewsItem = () => (
   <div className="news-item">
@@ -9,6 +9,6 @@ const NewsItem = () => (
       <li>We achieved our first milestone on November 1. The Profile Editor has been released into production, and we are actively testing it.</li>
     </ul>
   </div>
-);
+)
 
-export default NewsItem;
+export default NewsItem
