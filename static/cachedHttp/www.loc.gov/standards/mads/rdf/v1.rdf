@@ -1,0 +1,1403 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- from http://www.loc.gov/standards/mads/rdf/v1.rdf 2018-10-29 -->
+<rdf:RDF xmlns:foaf="http://xmlns.com/foaf/0.1/" xmlns:madsrdf="http://www.loc.gov/mads/rdf/v1#"
+  xmlns:owl="http://www.w3.org/2002/07/owl#" xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+  xmlns:rdfs="http://www.w3.org/2000/01/rdf-schema#" xmlns:xsd="http://www.w3.org/2001/XMLSchema#"
+  xmlns="http://www.loc.gov/standards/mads/rdf/v1.rdf#">
+  <owl:Class rdf:about="http://www.loc.gov/mads/rdf/v1#Address">
+    <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#Class"/>
+    <rdfs:label xml:lang="en">Address</rdfs:label>
+  </owl:Class>
+  <owl:Class rdf:about="http://www.loc.gov/mads/rdf/v1#Affiliation">
+    <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#Class"/>
+    <rdfs:comment xml:lang="en">A resource that describes an individual's affiliation with an
+      organization or group, such as the nature of the affiliation and the active
+      dates.</rdfs:comment>
+    <rdfs:label xml:lang="en">Affiliation</rdfs:label>
+  </owl:Class>
+  <owl:Class rdf:about="http://www.loc.gov/mads/rdf/v1#Area">
+    <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#Class"/>
+    <rdfs:comment rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Describes a resource whose
+      label is a non-jurisdictional geographic entity.</rdfs:comment>
+    <rdfs:label xml:lang="en">Area Type</rdfs:label>
+    <rdfs:subClassOf rdf:resource="http://www.loc.gov/mads/rdf/v1#Geographic"/>
+  </owl:Class>
+  <owl:Class rdf:about="http://www.loc.gov/mads/rdf/v1#Authority">
+    <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#Class"/>
+    <rdfs:comment rdf:datatype="http://www.w3.org/2001/XMLSchema#string">A concept with a controlled
+      label.</rdfs:comment>
+    <rdfs:label xml:lang="en">Authority</rdfs:label>
+    <rdfs:subClassOf rdf:resource="http://www.w3.org/2002/07/owl#Thing"/>
+    <rdfs:subClassOf rdf:resource="http://www.w3.org/2004/02/skos/core#Concept"/>
+    <owl:disjointWith rdf:resource="http://www.loc.gov/mads/rdf/v1#DeprecatedAuthority"/>
+    <owl:disjointWith rdf:resource="http://www.loc.gov/mads/rdf/v1#MADSCollection"/>
+    <owl:disjointWith rdf:resource="http://www.loc.gov/mads/rdf/v1#MADSScheme"/>
+    <owl:disjointWith rdf:resource="http://www.loc.gov/mads/rdf/v1#Variant"/>
+  </owl:Class>
+  <owl:Class rdf:about="http://www.loc.gov/mads/rdf/v1#City">
+    <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#Class"/>
+    <rdfs:comment rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Describes a resource whose
+      label is an inhabited place incorporated as a city, town, etc.</rdfs:comment>
+    <rdfs:label xml:lang="en">City Type</rdfs:label>
+    <rdfs:subClassOf rdf:resource="http://www.loc.gov/mads/rdf/v1#Geographic"/>
+  </owl:Class>
+  <owl:Class rdf:about="http://www.loc.gov/mads/rdf/v1#CitySection">
+    <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#Class"/>
+    <rdfs:comment rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Describes a resource whose
+      label is a smaller unit within a populated place, e.g., a neighborhood, park, or
+      street.</rdfs:comment>
+    <rdfs:label xml:lang="en">City Section Type</rdfs:label>
+    <rdfs:subClassOf rdf:resource="http://www.loc.gov/mads/rdf/v1#Geographic"/>
+  </owl:Class>
+  <owl:Class rdf:about="http://www.loc.gov/mads/rdf/v1#ComplexSubject">
+    <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#Class"/>
+    <rdfs:comment xml:lang="en">The label of a madsrdf:ComplexSubject is the concatenation of labels
+      from two or more madsrdf:SimpleType descriptions, except that the combination of
+      madsrdf:SimpleType labels for the madsrdf:ComplexSubject does not meet the conditions to be
+      the label of a madsrdf:NameTitle resource or madsrdf:HierarchicalGeographic
+      resource.</rdfs:comment>
+    <rdfs:label xml:lang="en">Complex Subject Type</rdfs:label>
+    <rdfs:subClassOf rdf:resource="http://www.loc.gov/mads/rdf/v1#ComplexType"/>
+  </owl:Class>
+  <owl:Class rdf:about="http://www.loc.gov/mads/rdf/v1#ComplexType">
+    <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#Class"/>
+    <rdfs:comment xml:lang="en">madsrdf:ComplexType is a resource whose label is the concatenation
+      of labels from two or more Authority descriptions or two or more Variant descriptions or some
+      combination of Authority and Variant descriptions, each of a
+      madsrdf:SimpleType.</rdfs:comment>
+    <rdfs:label xml:lang="en">Complex Type</rdfs:label>
+    <rdfs:subClassOf rdf:resource="http://www.loc.gov/mads/rdf/v1#MADSType"/>
+    <owl:disjointUnionOf>
+      <rdf:Description>
+        <rdf:first rdf:resource="http://www.loc.gov/mads/rdf/v1#HierarchicalGeographic"/>
+        <rdf:rest>
+          <rdf:Description>
+            <rdf:first rdf:resource="http://www.loc.gov/mads/rdf/v1#ComplexSubject"/>
+            <rdf:rest>
+              <rdf:Description>
+                <rdf:first rdf:resource="http://www.loc.gov/mads/rdf/v1#NameTitle"/>
+                <rdf:rest rdf:resource="http://www.w3.org/1999/02/22-rdf-syntax-ns#nil"/>
+              </rdf:Description>
+            </rdf:rest>
+          </rdf:Description>
+        </rdf:rest>
+      </rdf:Description>
+    </owl:disjointUnionOf>
+    <owl:disjointWith rdf:resource="http://www.loc.gov/mads/rdf/v1#SimpleType"/>
+    <owl:equivalentClass>
+      <owl:Restriction>
+        <owl:cardinality rdf:datatype="http://www.w3.org/2001/XMLSchema#nonNegativeInteger"
+          >1</owl:cardinality>
+        <owl:onProperty rdf:resource="http://www.loc.gov/mads/rdf/v1#componentList"/>
+      </owl:Restriction>
+    </owl:equivalentClass>
+  </owl:Class>
+  <owl:Class rdf:about="http://www.loc.gov/mads/rdf/v1#ConferenceName">
+    <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#Class"/>
+    <rdfs:comment rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Describes a resource whose
+      label represents a conference name.</rdfs:comment>
+    <rdfs:label xml:lang="en">Conference Name Type</rdfs:label>
+    <rdfs:subClassOf rdf:resource="http://www.loc.gov/mads/rdf/v1#Name"/>
+  </owl:Class>
+  <owl:Class rdf:about="http://www.loc.gov/mads/rdf/v1#Continent">
+    <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#Class"/>
+    <rdfs:comment rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Describes a resource whose
+      label is one of seven large landmasses on Earth. These are: Asia, Africa, Europe, North
+      America, South America, Australia, and Antarctica.</rdfs:comment>
+    <rdfs:label xml:lang="en">Continent Type</rdfs:label>
+    <rdfs:subClassOf rdf:resource="http://www.loc.gov/mads/rdf/v1#Geographic"/>
+  </owl:Class>
+  <owl:Class rdf:about="http://www.loc.gov/mads/rdf/v1#CorporateName">
+    <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#Class"/>
+    <rdfs:comment rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Describes a resource whose
+      label is the name of a corporate entity, which may include political or ecclesiastical
+      entities.</rdfs:comment>
+    <rdfs:label xml:lang="en">Corporate Name Type</rdfs:label>
+    <rdfs:subClassOf rdf:resource="http://www.loc.gov/mads/rdf/v1#Name"/>
+  </owl:Class>
+  <owl:Class rdf:about="http://www.loc.gov/mads/rdf/v1#Country">
+    <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#Class"/>
+    <rdfs:comment rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Describes a resource whose
+      label is a country, i.e. a political entity considered a country. </rdfs:comment>
+    <rdfs:label xml:lang="en">Country Type</rdfs:label>
+    <rdfs:subClassOf rdf:resource="http://www.loc.gov/mads/rdf/v1#Geographic"/>
+  </owl:Class>
+  <owl:Class rdf:about="http://www.loc.gov/mads/rdf/v1#County">
+    <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#Class"/>
+    <rdfs:comment rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Describes a resource whose
+      label is the largest local administrative unit, e.g. Warwickshire, in a country, e.g.
+      England.</rdfs:comment>
+    <rdfs:label xml:lang="en">County Type</rdfs:label>
+    <rdfs:subClassOf rdf:resource="http://www.loc.gov/mads/rdf/v1#Geographic"/>
+  </owl:Class>
+  <owl:Class rdf:about="http://www.loc.gov/mads/rdf/v1#DateNameElement">
+    <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#Class"/>
+    <rdfs:label rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Date Name
+      Element</rdfs:label>
+    <rdfs:subClassOf rdf:resource="http://www.loc.gov/mads/rdf/v1#NameElement"/>
+  </owl:Class>
+  <owl:Class rdf:about="http://www.loc.gov/mads/rdf/v1#DeprecatedAuthority">
+    <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#Class"/>
+    <rdfs:comment rdf:datatype="http://www.w3.org/2001/XMLSchema#string">A former
+      Authority.</rdfs:comment>
+    <rdfs:label rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Deprecated
+      Authority</rdfs:label>
+    <rdfs:subClassOf rdf:resource="http://www.w3.org/2002/07/owl#Thing"/>
+    <owl:disjointWith rdf:resource="http://www.loc.gov/mads/rdf/v1#Authority"/>
+    <owl:disjointWith rdf:resource="http://www.loc.gov/mads/rdf/v1#MADSCollection"/>
+    <owl:disjointWith rdf:resource="http://www.loc.gov/mads/rdf/v1#MADSScheme"/>
+  </owl:Class>
+  <owl:Class rdf:about="http://www.loc.gov/mads/rdf/v1#Element">
+    <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#Class"/>
+    <rdfs:comment rdf:datatype="http://www.w3.org/2001/XMLSchema#string">madsrdf:Element types
+      describe the various parts of labels.</rdfs:comment>
+    <rdfs:label xml:lang="en">Element</rdfs:label>
+    <owl:equivalentClass>
+      <owl:Restriction>
+        <owl:cardinality rdf:datatype="http://www.w3.org/2001/XMLSchema#nonNegativeInteger"
+          >1</owl:cardinality>
+        <owl:onProperty rdf:resource="http://www.loc.gov/mads/rdf/v1#elementValue"/>
+      </owl:Restriction>
+    </owl:equivalentClass>
+  </owl:Class>
+  <owl:Class rdf:about="http://www.loc.gov/mads/rdf/v1#ExtraterrestrialArea">
+    <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#Class"/>
+    <rdfs:comment rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Describes a resource whose
+      label is any extraterrestrial entity or space, including a solar system, a galaxy, a star
+      system, and a planet, including a geographic feature of an individual planet.</rdfs:comment>
+    <rdfs:label xml:lang="en">Extraterrestrial Area Type</rdfs:label>
+    <rdfs:subClassOf rdf:resource="http://www.loc.gov/mads/rdf/v1#Geographic"/>
+  </owl:Class>
+  <owl:Class rdf:about="http://www.loc.gov/mads/rdf/v1#FamilyName">
+    <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#Class"/>
+    <rdfs:comment rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Describes a resource whose
+      label represents a family name.</rdfs:comment>
+    <rdfs:label xml:lang="en">Family Name Type</rdfs:label>
+    <rdfs:subClassOf rdf:resource="http://www.loc.gov/mads/rdf/v1#Name"/>
+  </owl:Class>
+  <owl:Class rdf:about="http://www.loc.gov/mads/rdf/v1#FamilyNameElement">
+    <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#Class"/>
+    <rdfs:label rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Family Name
+      Element</rdfs:label>
+    <rdfs:subClassOf rdf:resource="http://www.loc.gov/mads/rdf/v1#NameElement"/>
+  </owl:Class>
+  <owl:Class rdf:about="http://www.loc.gov/mads/rdf/v1#FullNameElement">
+    <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#Class"/>
+    <rdfs:label rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Fullname Element</rdfs:label>
+    <rdfs:subClassOf rdf:resource="http://www.loc.gov/mads/rdf/v1#NameElement"/>
+  </owl:Class>
+  <owl:Class rdf:about="http://www.loc.gov/mads/rdf/v1#GenreForm">
+    <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#Class"/>
+    <rdfs:comment xml:lang="en">Describes a resource whose label is a genre or form term. Genre
+      terms for textual materials designate specific kinds of materials distinguished by the style
+      or technique of their intellectual contents; for example, biographies, catechisms, essays,
+      hymns, or reviews. Form terms designate historically and functionally specific kinds of
+      materials as distinguished by an examination of their physical character, characteristics of
+      their intellectual content, or the order of information within them; for example, daybooks,
+      diaries, directories, journals, memoranda, questionnaires, syllabi, or time sheets. In the
+      context of graphic materials, genre headings denote categories of material distinguished by
+      vantage point, intended purpose, characteristics of the creator, publication status, or method
+      of representation.</rdfs:comment>
+    <rdfs:label xml:lang="en">Genre/Form Type</rdfs:label>
+    <rdfs:subClassOf rdf:resource="http://www.loc.gov/mads/rdf/v1#SimpleType"/>
+  </owl:Class>
+  <owl:Class rdf:about="http://www.loc.gov/mads/rdf/v1#GenreFormElement">
+    <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#Class"/>
+    <rdfs:label xml:lang="en">Genre/Form Element</rdfs:label>
+    <rdfs:subClassOf rdf:resource="http://www.loc.gov/mads/rdf/v1#Element"/>
+  </owl:Class>
+  <owl:Class rdf:about="http://www.loc.gov/mads/rdf/v1#Geographic">
+    <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#Class"/>
+    <rdfs:comment xml:lang="en">Describes a resource whose label represents a geographic place or
+      feature, especially when a more precise geographic determination (City, Country, Region, etc.)
+      cannot be made.</rdfs:comment>
+    <rdfs:label xml:lang="en">Geographic Authority</rdfs:label>
+    <rdfs:subClassOf rdf:resource="http://www.loc.gov/mads/rdf/v1#SimpleType"/>
+  </owl:Class>
+  <owl:Class rdf:about="http://www.loc.gov/mads/rdf/v1#GeographicElement">
+    <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#Class"/>
+    <rdfs:label xml:lang="en">Geographic Element</rdfs:label>
+    <rdfs:subClassOf rdf:resource="http://www.loc.gov/mads/rdf/v1#Element"/>
+  </owl:Class>
+  <owl:Class rdf:about="http://www.loc.gov/mads/rdf/v1#GivenNameElement">
+    <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#Class"/>
+    <rdfs:label rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Given Name
+      Element</rdfs:label>
+    <rdfs:subClassOf rdf:resource="http://www.loc.gov/mads/rdf/v1#NameElement"/>
+  </owl:Class>
+  <owl:Class rdf:about="http://www.loc.gov/mads/rdf/v1#HierarchicalGeographic">
+    <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#Class"/>
+    <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#Class"/>
+    <rdfs:comment xml:lang="en">A madsrdf:HierarchicalGeographic indicates that its label is the
+      concatenation of labels from a sequence of madsrdf:Geographic types taken from one of the
+      madsrdf:Geographic sub-classes such as madsrdf:City, madsrdf:Country, madsrdf:State,
+      madsrdf:Region, madsrdf:Area, etc. The madsrdf:Geographic resources that constitute the
+      madsrdf:HierarchicalGeographic should have a broader to narrower hierarchical relationship
+      between them.</rdfs:comment>
+    <rdfs:label xml:lang="en">Hierarchical Geographic Type</rdfs:label>
+    <rdfs:subClassOf rdf:resource="http://www.loc.gov/mads/rdf/v1#ComplexType"/>
+  </owl:Class>
+  <owl:Class rdf:about="http://www.loc.gov/mads/rdf/v1#Identifier">
+    <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#Class"/>
+    <rdfs:comment rdf:datatype="http://www.w3.org/2001/XMLSchema#string">A madsrdf:Identifier
+      resource describes an identifier by associating the identifier value with its type. To be used
+      to record identifiers for a resource in the absence of URIs.</rdfs:comment>
+    <rdfs:label rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Other Identifier</rdfs:label>
+  </owl:Class>
+  <owl:Class rdf:about="http://www.loc.gov/mads/rdf/v1#Island">
+    <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#Class"/>
+    <rdfs:comment rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Describes a resource whose
+      label is a tract of land surrounded by water and smaller than a continent but is not itself a
+      separate country. </rdfs:comment>
+    <rdfs:label xml:lang="en">Island Type</rdfs:label>
+    <rdfs:subClassOf rdf:resource="http://www.loc.gov/mads/rdf/v1#Geographic"/>
+  </owl:Class>
+  <owl:Class rdf:about="http://www.loc.gov/mads/rdf/v1#Language">
+    <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#Class"/>
+    <rdfs:comment xml:lang="en">Describes a resource whose label represents a
+      language.</rdfs:comment>
+    <rdfs:label xml:lang="en">Language Type</rdfs:label>
+    <rdfs:subClassOf rdf:resource="http://www.loc.gov/mads/rdf/v1#SimpleType"/>
+    <owl:equivalentClass rdf:resource="http://purl.org/dc/terms/LinguisticSystem"/>
+  </owl:Class>
+  <owl:Class rdf:about="http://www.loc.gov/mads/rdf/v1#LanguageElement">
+    <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#Class"/>
+    <rdfs:label rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Language Element</rdfs:label>
+    <rdfs:subClassOf rdf:resource="http://www.loc.gov/mads/rdf/v1#Element"/>
+  </owl:Class>
+  <owl:Class rdf:about="http://www.loc.gov/mads/rdf/v1#MADSCollection">
+    <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#Class"/>
+    <rdfs:comment rdf:datatype="http://www.w3.org/2001/XMLSchema#string">A madsrdf:Collection is an
+      organizational unit, members of which will have some form of intellectually unifying theme but
+      not to the extent that it defines an independent knowledge organization system. It aggregates
+      madsrdf:Authority descriptions or other madsrdf:MADSCollection resources.</rdfs:comment>
+    <rdfs:label rdf:datatype="http://www.w3.org/2001/XMLSchema#string">MADS Collection</rdfs:label>
+    <rdfs:subClassOf rdf:resource="http://www.w3.org/2004/02/skos/core#Collection"/>
+    <owl:disjointWith rdf:resource="http://www.loc.gov/mads/rdf/v1#Authority"/>
+    <owl:disjointWith rdf:resource="http://www.loc.gov/mads/rdf/v1#MADSScheme"/>
+    <owl:disjointWith rdf:resource="http://www.loc.gov/mads/rdf/v1#Variant"/>
+  </owl:Class>
+  <owl:Class rdf:about="http://www.loc.gov/mads/rdf/v1#MADSScheme">
+    <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#Class"/>
+    <rdfs:comment xml:lang="en">MADS Scheme is an organizational unit that describes a knowledge
+      organization system. It aggregates madsrdf:Authority descriptions and/or
+      madsrdf:MADSCollection resources included in the knowledge organization system. Including a
+      madsrdf:MADSCollection within a madsrdf:MADSScheme should be done with care; when a
+      madsrdf:MADSCollection is part of a madsrdf:MADSScheme, then any madsrdf:Authority within that
+      madsrdf:MADSCollection is effectively also in the madsrdf:MADSScheme.</rdfs:comment>
+    <rdfs:label xml:lang="en">MADS Scheme</rdfs:label>
+    <rdfs:subClassOf rdf:resource="http://www.w3.org/2004/02/skos/core#ConceptScheme"/>
+    <owl:disjointWith rdf:resource="http://www.loc.gov/mads/rdf/v1#Authority"/>
+    <owl:disjointWith rdf:resource="http://www.loc.gov/mads/rdf/v1#MADSCollection"/>
+    <owl:disjointWith rdf:resource="http://www.loc.gov/mads/rdf/v1#Variant"/>
+  </owl:Class>
+  <owl:Class rdf:about="http://www.loc.gov/mads/rdf/v1#MADSType">
+    <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#Class"/>
+    <rdfs:label rdf:datatype="http://www.w3.org/2001/XMLSchema#string">MADS Type</rdfs:label>
+    <owl:disjointWith rdf:resource="http://www.loc.gov/mads/rdf/v1#MADSCollection"/>
+    <owl:disjointWith rdf:resource="http://www.loc.gov/mads/rdf/v1#MADSScheme"/>
+  </owl:Class>
+  <owl:Class rdf:about="http://www.loc.gov/mads/rdf/v1#MainTitleElement">
+    <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#Class"/>
+    <rdfs:label rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Main Title
+      Element</rdfs:label>
+    <rdfs:subClassOf rdf:resource="http://www.loc.gov/mads/rdf/v1#TitleElement"/>
+  </owl:Class>
+  <owl:Class rdf:about="http://www.loc.gov/mads/rdf/v1#Name">
+    <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#Class"/>
+    <rdfs:comment xml:lang="en">Describes a resource whose label represents a name, especially when
+      a more precise Name type (madsrdf:ConferenceName, masdrdf:FamilyName, etc.) cannot be
+      identified.</rdfs:comment>
+    <rdfs:label xml:lang="en">Name Type</rdfs:label>
+    <rdfs:subClassOf rdf:resource="http://www.loc.gov/mads/rdf/v1#SimpleType"/>
+  </owl:Class>
+  <owl:Class rdf:about="http://www.loc.gov/mads/rdf/v1#NameElement">
+    <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#Class"/>
+    <rdfs:label xml:lang="en">Name Element</rdfs:label>
+    <rdfs:subClassOf rdf:resource="http://www.loc.gov/mads/rdf/v1#Element"/>
+  </owl:Class>
+  <owl:Class rdf:about="http://www.loc.gov/mads/rdf/v1#NameTitle">
+    <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#Class"/>
+    <rdfs:comment xml:lang="en">The label of a madsrdf:NameTitle resource is the concatenation of a
+      label of a madsrdf:Name description and the label of a madsrdf:Title description. Both
+      description types (madsrdf:Name and madsrdf:Title) are of madsrdf:SimpleType
+      types.</rdfs:comment>
+    <rdfs:label xml:lang="en">Name/Title Type</rdfs:label>
+    <rdfs:subClassOf rdf:resource="http://www.loc.gov/mads/rdf/v1#ComplexType"/>
+  </owl:Class>
+  <owl:Class rdf:about="http://www.loc.gov/mads/rdf/v1#NonSortElement">
+    <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#Class"/>
+    <rdfs:label rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Non-sort Element</rdfs:label>
+    <rdfs:subClassOf rdf:resource="http://www.loc.gov/mads/rdf/v1#TitleElement"/>
+  </owl:Class>
+  <owl:Class rdf:about="http://www.loc.gov/mads/rdf/v1#Occupation">
+    <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#Class"/>
+    <rdfs:comment rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Describes a resource whose
+      label represents an occcupation.</rdfs:comment>
+    <rdfs:label xml:lang="en">Occupation Type</rdfs:label>
+    <rdfs:subClassOf rdf:resource="http://www.loc.gov/mads/rdf/v1#SimpleType"/>
+  </owl:Class>
+  <owl:Class rdf:about="http://www.loc.gov/mads/rdf/v1#PartNameElement">
+    <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#Class"/>
+    <rdfs:label rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Part Name
+      Element</rdfs:label>
+    <rdfs:subClassOf rdf:resource="http://www.loc.gov/mads/rdf/v1#TitleElement"/>
+  </owl:Class>
+  <owl:Class rdf:about="http://www.loc.gov/mads/rdf/v1#PartNumberElement">
+    <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#Class"/>
+    <rdfs:label rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Part Number
+      Element</rdfs:label>
+    <rdfs:subClassOf rdf:resource="http://www.loc.gov/mads/rdf/v1#TitleElement"/>
+  </owl:Class>
+  <owl:Class rdf:about="http://www.loc.gov/mads/rdf/v1#PersonalName">
+    <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#Class"/>
+    <rdfs:comment rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Describes a resource whose
+      label represents a personal name.</rdfs:comment>
+    <rdfs:label xml:lang="en">Personal Name Type</rdfs:label>
+    <rdfs:subClassOf rdf:resource="http://www.loc.gov/mads/rdf/v1#Name"/>
+  </owl:Class>
+  <owl:Class rdf:about="http://www.loc.gov/mads/rdf/v1#Province">
+    <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#Class"/>
+    <rdfs:comment rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Describes a resource whose
+      label is a first order political division, e.g. Ontario, within a country, e.g. Canada. </rdfs:comment>
+    <rdfs:label xml:lang="en">Province Type</rdfs:label>
+    <rdfs:subClassOf rdf:resource="http://www.loc.gov/mads/rdf/v1#Geographic"/>
+  </owl:Class>
+  <owl:Class rdf:about="http://www.loc.gov/mads/rdf/v1#RWO">
+    <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#Class"/>
+    <rdfs:comment rdf:datatype="http://www.w3.org/2001/XMLSchema#string">A madsrdf:RWO is an
+      abstract entity and identifies a Real World Object (RWO) identified by the label of a
+      madsrdf:Authority or madsrdf:DeprecatedAuthority.</rdfs:comment>
+    <rdfs:label rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Real World
+      Object</rdfs:label>
+    <rdfs:subClassOf rdf:resource="http://www.w3.org/2002/07/owl#Thing"/>
+  </owl:Class>
+  <owl:Class rdf:about="http://www.loc.gov/mads/rdf/v1#Region">
+    <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#Class"/>
+    <rdfs:comment rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Describes a resource whose
+      label is an area that has the status of a jurisdiction, usually incorporating more than one
+      first level jurisdiction. </rdfs:comment>
+    <rdfs:label xml:lang="en">Region Type</rdfs:label>
+    <rdfs:subClassOf rdf:resource="http://www.loc.gov/mads/rdf/v1#Geographic"/>
+  </owl:Class>
+  <owl:Class rdf:about="http://www.loc.gov/mads/rdf/v1#SimpleType">
+    <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#Class"/>
+    <rdfs:comment xml:lang="en">madsrdf:SimpleType is a resource with a label constituting a single
+      word or phrase.</rdfs:comment>
+    <rdfs:label xml:lang="en">Simple Type</rdfs:label>
+    <rdfs:subClassOf rdf:resource="http://www.loc.gov/mads/rdf/v1#MADSType"/>
+  </owl:Class>
+  <owl:Class rdf:about="http://www.loc.gov/mads/rdf/v1#Source">
+    <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#Class"/>
+    <rdfs:comment rdf:datatype="http://www.w3.org/2001/XMLSchema#string">A resource that represents
+      the source of information about another resource. madsrdf:Source is a type of
+      citation.</rdfs:comment>
+    <rdfs:label rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Source</rdfs:label>
+  </owl:Class>
+  <owl:Class rdf:about="http://www.loc.gov/mads/rdf/v1#State">
+    <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#Class"/>
+    <rdfs:comment rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Describes a resource whose
+      label is a first order political division, e.g. Montana, within a country, e.g.
+      U.S.</rdfs:comment>
+    <rdfs:label xml:lang="en">State Type</rdfs:label>
+    <rdfs:subClassOf rdf:resource="http://www.loc.gov/mads/rdf/v1#Geographic"/>
+  </owl:Class>
+  <owl:Class rdf:about="http://www.loc.gov/mads/rdf/v1#SubTitleElement">
+    <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#Class"/>
+    <rdfs:label rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Subtitle Element</rdfs:label>
+    <rdfs:subClassOf rdf:resource="http://www.loc.gov/mads/rdf/v1#TitleElement"/>
+  </owl:Class>
+  <owl:Class rdf:about="http://www.loc.gov/mads/rdf/v1#Temporal">
+    <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#Class"/>
+    <rdfs:comment rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Describes a resource whose
+      label represents a time-based notion.</rdfs:comment>
+    <rdfs:label xml:lang="en">Temporal Type</rdfs:label>
+    <rdfs:subClassOf rdf:resource="http://www.loc.gov/mads/rdf/v1#SimpleType"/>
+  </owl:Class>
+  <owl:Class rdf:about="http://www.loc.gov/mads/rdf/v1#TemporalElement">
+    <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#Class"/>
+    <rdfs:label rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Temporal Element</rdfs:label>
+    <rdfs:subClassOf rdf:resource="http://www.loc.gov/mads/rdf/v1#Element"/>
+  </owl:Class>
+  <owl:Class rdf:about="http://www.loc.gov/mads/rdf/v1#TermsOfAddressNameElement">
+    <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#Class"/>
+    <rdfs:label rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Terms of Address
+      Element</rdfs:label>
+    <rdfs:subClassOf rdf:resource="http://www.loc.gov/mads/rdf/v1#NameElement"/>
+  </owl:Class>
+  <owl:Class rdf:about="http://www.loc.gov/mads/rdf/v1#Territory">
+    <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#Class"/>
+    <rdfs:comment rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Describes a resource whose
+      label is a geographical area belonging to or under the jurisdiction of a governmental
+      authority. </rdfs:comment>
+    <rdfs:label xml:lang="en">Territory Type</rdfs:label>
+    <rdfs:subClassOf rdf:resource="http://www.loc.gov/mads/rdf/v1#Geographic"/>
+  </owl:Class>
+  <owl:Class rdf:about="http://www.loc.gov/mads/rdf/v1#Title">
+    <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#Class"/>
+    <rdfs:comment rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Describes a resource whose
+      label represents a title.</rdfs:comment>
+    <rdfs:label xml:lang="en">Title Type</rdfs:label>
+    <rdfs:subClassOf rdf:resource="http://www.loc.gov/mads/rdf/v1#SimpleType"/>
+  </owl:Class>
+  <owl:Class rdf:about="http://www.loc.gov/mads/rdf/v1#TitleElement">
+    <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#Class"/>
+    <rdfs:label xml:lang="en">Title Element</rdfs:label>
+    <rdfs:subClassOf rdf:resource="http://www.loc.gov/mads/rdf/v1#Element"/>
+  </owl:Class>
+  <owl:Class rdf:about="http://www.loc.gov/mads/rdf/v1#Topic">
+    <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#Class"/>
+    <rdfs:comment rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Describes a resource whose
+      label represents a topic.</rdfs:comment>
+    <rdfs:label xml:lang="en">Topic Type</rdfs:label>
+    <rdfs:subClassOf rdf:resource="http://www.loc.gov/mads/rdf/v1#SimpleType"/>
+  </owl:Class>
+  <owl:Class rdf:about="http://www.loc.gov/mads/rdf/v1#TopicElement">
+    <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#Class"/>
+    <rdfs:label xml:lang="en">Topic Element</rdfs:label>
+    <rdfs:subClassOf rdf:resource="http://www.loc.gov/mads/rdf/v1#Element"/>
+  </owl:Class>
+  <owl:Class rdf:about="http://www.loc.gov/mads/rdf/v1#Variant">
+    <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#Class"/>
+    <rdfs:comment xml:lang="en">A resource whose label is the alternate form of an Authority or
+      Deprecated Authority.</rdfs:comment>
+    <rdfs:label xml:lang="en">Variant</rdfs:label>
+    <rdfs:subClassOf rdf:resource="http://www.w3.org/2002/07/owl#Thing"/>
+    <rdfs:subClassOf rdf:resource="http://www.w3.org/2008/05/skos-xl#Label"/>
+    <owl:disjointWith rdf:resource="http://www.loc.gov/mads/rdf/v1#Authority"/>
+    <owl:disjointWith rdf:resource="http://www.loc.gov/mads/rdf/v1#MADSCollection"/>
+    <owl:disjointWith rdf:resource="http://www.loc.gov/mads/rdf/v1#MADSScheme"/>
+  </owl:Class>
+  <owl:ObjectProperty rdf:about="http://www.loc.gov/mads/rdf/v1#adminMetadata">
+    <rdf:type rdf:resource="http://www.w3.org/1999/02/22-rdf-syntax-ns#Property"/>
+    <rdfs:comment xml:lang="en">This relates an Authority or Variant to its administrative metadata,
+      which is, minimimally, a Class defined outside of the MADS/RDF namespace. The RecordInfo Class
+      from the RecordInfo ontology is recommended.</rdfs:comment>
+    <rdfs:domain>
+      <owl:Class>
+        <owl:unionOf>
+          <rdf:Description>
+            <rdf:first rdf:resource="http://www.loc.gov/mads/rdf/v1#Authority"/>
+            <rdf:rest>
+              <rdf:Description>
+                <rdf:first rdf:resource="http://www.loc.gov/mads/rdf/v1#DeprecatedAuthority"/>
+                <rdf:rest>
+                  <rdf:Description>
+                    <rdf:first rdf:resource="http://www.loc.gov/mads/rdf/v1#Variant"/>
+                    <rdf:rest rdf:resource="http://www.w3.org/1999/02/22-rdf-syntax-ns#nil"/>
+                  </rdf:Description>
+                </rdf:rest>
+              </rdf:Description>
+            </rdf:rest>
+          </rdf:Description>
+        </owl:unionOf>
+      </owl:Class>
+    </rdfs:domain>
+    <rdfs:label xml:lang="en">Administrative Metadata</rdfs:label>
+  </owl:ObjectProperty>
+  <rdf:Property rdf:about="http://www.loc.gov/mads/rdf/v1#activityEndDate">
+    <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#DatatypeProperty"/>
+    <rdfs:comment rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Latest date in a period of activity.
+    </rdfs:comment>
+    <rdfs:domain rdf:resource="http://www.loc.gov/mads/rdf/v1#RWO"/>
+    <rdfs:label rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Activity End</rdfs:label>
+  </rdf:Property>
+  <rdf:Property rdf:about="http://www.loc.gov/mads/rdf/v1#activityStartDate">
+    <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#DatatypeProperty"/>
+    <rdfs:comment rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Earliest date in a period of activity.
+    </rdfs:comment>
+    <rdfs:domain rdf:resource="http://www.loc.gov/mads/rdf/v1#RWO"/>
+    <rdfs:label rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Activity Start</rdfs:label>
+  </rdf:Property>
+  <rdf:Property rdf:about="http://www.loc.gov/mads/rdf/v1#affiliationEnd">
+    <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#DatatypeProperty"/>
+    <rdfs:comment rdf:datatype="http://www.w3.org/2001/XMLSchema#string">The date an individual
+      ceased to be affiliated with an organization.</rdfs:comment>
+    <rdfs:domain rdf:resource="http://www.loc.gov/mads/rdf/v1#Affiliation"/>
+    <rdfs:label rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Affiliation
+      Ended</rdfs:label>
+    <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#date"/>
+  </rdf:Property>
+  <rdf:Property rdf:about="http://www.loc.gov/mads/rdf/v1#affiliationStart">
+    <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#DatatypeProperty"/>
+    <rdfs:comment rdf:datatype="http://www.w3.org/2001/XMLSchema#string">The date an individual
+      established an affiliation with an organization.</rdfs:comment>
+    <rdfs:domain rdf:resource="http://www.loc.gov/mads/rdf/v1#Affiliation"/>
+    <rdfs:label rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Affiliation
+      Started</rdfs:label>
+    <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#date"/>
+  </rdf:Property>
+  <rdf:Property rdf:about="http://www.loc.gov/mads/rdf/v1#associatedLanguage">
+    <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#ObjectProperty"/>
+    <rdfs:comment rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Language that a person,
+      organization, or family uses for publication, communication, etc., or in which a work is
+      expressed. </rdfs:comment>
+    <rdfs:domain rdf:resource="http://www.loc.gov/mads/rdf/v1#RWO"/>
+    <rdfs:range rdf:resource="http://www.loc.gov/mads/rdf/v1#Language"/>
+    <rdfs:label rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Associated
+      Language</rdfs:label>
+  </rdf:Property>
+  <rdf:Property rdf:about="http://www.loc.gov/mads/rdf/v1#associatedLocale">
+    <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#ObjectProperty"/>
+    <rdfs:comment rdf:datatype="http://www.w3.org/2001/XMLSchema#string">A town, city, province,
+      state, and/or country associated with persons, corporate bodies, families, works, and
+      expressions.</rdfs:comment>
+    <rdfs:domain rdf:resource="http://www.loc.gov/mads/rdf/v1#RWO"/>
+    <rdfs:range rdf:resource="http://www.loc.gov/mads/rdf/v1#Geographic"/>
+    <rdfs:label rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Associated Locale</rdfs:label>
+  </rdf:Property>
+  <owl:AnnotationProperty rdf:about="http://www.loc.gov/mads/rdf/v1#authoritativeLabel">
+    <rdf:type rdf:resource="http://www.w3.org/1999/02/22-rdf-syntax-ns#Property"/>
+    <rdfs:comment xml:lang="en">A lexical string representing a controlled, curated label for the
+      Authority.</rdfs:comment>
+    <rdfs:domain rdf:resource="http://www.loc.gov/mads/rdf/v1#Authority"/>
+    <rdfs:label xml:lang="en">Authoritative Label</rdfs:label>
+    <rdfs:subPropertyOf rdf:resource="http://www.w3.org/2000/01/rdf-schema#label"/>
+    <rdfs:subPropertyOf rdf:resource="http://www.w3.org/2004/02/skos/core#prefLabel"/>
+  </owl:AnnotationProperty>
+  <rdf:Property rdf:about="http://www.loc.gov/mads/rdf/v1#birthDate">
+    <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#DatatypeProperty"/>
+    <rdfs:comment rdf:datatype="http://www.w3.org/2001/XMLSchema#string">The year a person was born.
+      Date of birth may also include the month and day of the person’s birth. (RDA
+      9.3.2.1)</rdfs:comment>
+    <rdfs:domain rdf:resource="http://www.loc.gov/mads/rdf/v1#RWO"/>
+    <rdfs:label rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Birth Date</rdfs:label>
+  </rdf:Property>
+  <rdf:Property rdf:about="http://www.loc.gov/mads/rdf/v1#birthPlace">
+    <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#ObjectProperty"/>
+    <rdfs:comment rdf:datatype="http://www.w3.org/2001/XMLSchema#string">The town, city, province,
+      state, and/or country in which a person was born.</rdfs:comment>
+    <rdfs:domain rdf:resource="http://www.loc.gov/mads/rdf/v1#RWO"/>
+    <rdfs:range rdf:resource="http://www.loc.gov/mads/rdf/v1#Geographic"/>
+    <rdfs:label rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Place of Birth</rdfs:label>
+  </rdf:Property>
+  <owl:AnnotationProperty rdf:about="http://www.loc.gov/mads/rdf/v1#changeNote">
+    <rdf:type rdf:resource="http://www.w3.org/1999/02/22-rdf-syntax-ns#Property"/>
+    <rdfs:comment xml:lang="en">A note detailing a modification to an Authority or
+      Variant.</rdfs:comment>
+    <rdfs:label xml:lang="en">Change Note</rdfs:label>
+    <rdfs:subPropertyOf rdf:resource="http://www.loc.gov/mads/rdf/v1#note"/>
+    <owl:equivalentProperty rdf:resource="http://www.w3.org/2004/02/skos/core#changeNote"/>
+  </owl:AnnotationProperty>
+  <owl:AnnotationProperty rdf:about="http://www.loc.gov/mads/rdf/v1#citationNote">
+    <rdf:type rdf:resource="http://www.w3.org/1999/02/22-rdf-syntax-ns#Property"/>
+    <rdfs:comment xml:lang="en">A note about how the madsrdf:Source relates to the resource about
+      which the madsrdf:Source is the information source.</rdfs:comment>
+    <rdfs:domain rdf:resource="http://www.loc.gov/mads/rdf/v1#Source"/>
+    <rdfs:label xml:lang="en">Citation Note</rdfs:label>
+  </owl:AnnotationProperty>
+  <owl:AnnotationProperty rdf:about="http://www.loc.gov/mads/rdf/v1#citationSource">
+    <rdf:type rdf:resource="http://www.w3.org/1999/02/22-rdf-syntax-ns#Property"/>
+    <rdfs:comment xml:lang="en">The cited resource.</rdfs:comment>
+    <rdfs:domain rdf:resource="http://www.loc.gov/mads/rdf/v1#Source"/>
+    <rdfs:label xml:lang="en">Citation Source</rdfs:label>
+  </owl:AnnotationProperty>
+  <owl:DatatypeProperty rdf:about="http://www.loc.gov/mads/rdf/v1#citationStatus">
+    <rdf:type rdf:resource="http://www.w3.org/1999/02/22-rdf-syntax-ns#Property"/>
+    <rdfs:comment xml:lang="en">Should use a standard term - such as 'found' or 'not found' - to
+      indicate whether the cited resource yielded information about the resource related to the
+      madsrdf:Source.</rdfs:comment>
+    <rdfs:domain rdf:resource="http://www.loc.gov/mads/rdf/v1#Source"/>
+    <rdfs:label xml:lang="en">Citation Status</rdfs:label>
+    <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#string"/>
+  </owl:DatatypeProperty>
+  <owl:AnnotationProperty rdf:about="http://www.loc.gov/mads/rdf/v1#city">
+    <rdf:type rdf:resource="http://www.w3.org/1999/02/22-rdf-syntax-ns#Property"/>
+    <rdfs:comment xml:lang="en">The city component of an address.</rdfs:comment>
+    <rdfs:domain rdf:resource="http://www.loc.gov/mads/rdf/v1#Address"/>
+    <rdfs:label xml:lang="en">City</rdfs:label>
+  </owl:AnnotationProperty>
+  <owl:AnnotationProperty rdf:about="http://www.loc.gov/mads/rdf/v1#classification">
+    <rdf:type rdf:resource="http://www.w3.org/1999/02/22-rdf-syntax-ns#Property"/>
+    <rdfs:comment xml:lang="en">The classification code associated with a
+      madsrdf:Authority.</rdfs:comment>
+    <rdfs:domain rdf:resource="http://www.loc.gov/mads/rdf/v1#Authority"/>
+    <rdfs:label xml:lang="en">Classification</rdfs:label>
+    <rdfs:subPropertyOf rdf:resource="http://www.w3.org/2004/02/skos/core#semanticRelation"/>
+  </owl:AnnotationProperty>
+  <owl:DatatypeProperty rdf:about="http://www.loc.gov/mads/rdf/v1#code">
+    <rdf:type rdf:resource="http://www.w3.org/1999/02/22-rdf-syntax-ns#Property"/>
+    <rdfs:comment rdf:datatype="http://www.w3.org/2001/XMLSchema#string">A code is a string of
+      characters associated with a the authoritative or deprecated label. It may record an
+      historical notation once used to uniquely identify a concept.</rdfs:comment>
+    <rdfs:domain>
+      <owl:Class>
+        <owl:unionOf>
+          <rdf:Description>
+            <rdf:first rdf:resource="http://www.loc.gov/mads/rdf/v1#Authority"/>
+            <rdf:rest>
+              <rdf:Description>
+                <rdf:first rdf:resource="http://www.loc.gov/mads/rdf/v1#DeprecatedAuthority"/>
+                <rdf:rest rdf:resource="http://www.w3.org/1999/02/22-rdf-syntax-ns#nil"/>
+              </rdf:Description>
+            </rdf:rest>
+          </rdf:Description>
+        </owl:unionOf>
+      </owl:Class>
+    </rdfs:domain>
+    <rdfs:label rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Code</rdfs:label>
+    <rdfs:subPropertyOf rdf:resource="http://www.w3.org/2004/02/skos/core#notation"/>
+  </owl:DatatypeProperty>
+  <rdf:Property rdf:about="http://www.loc.gov/mads/rdf/v1#componentList">
+    <rdf:type rdf:resource="http://www.w3.org/1999/02/22-rdf-syntax-ns#Property"/>
+    <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#ObjectProperty"/>
+    <rdfs:comment rdf:datatype="http://www.w3.org/2001/XMLSchema#string">madsrdf:componentList
+      organizes the madsrdf:SimpleType resources whose labels are represented in the label of the
+      associated madsrdf:ComplexType resource.</rdfs:comment>
+    <rdfs:domain rdf:resource="http://www.loc.gov/mads/rdf/v1#ComplexType"/>
+    <rdfs:label rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Component List</rdfs:label>
+    <rdfs:range>
+      <owl:Class>
+        <owl:unionOf>
+          <rdf:Description>
+            <rdf:first rdf:resource="http://www.w3.org/1999/02/22-rdf-syntax-ns#List"/>
+            <rdf:rest>
+              <rdf:Description>
+                <rdf:first rdf:resource="http://www.w3.org/1999/02/22-rdf-syntax-ns#Seq"/>
+                <rdf:rest rdf:resource="http://www.w3.org/1999/02/22-rdf-syntax-ns#nil"/>
+              </rdf:Description>
+            </rdf:rest>
+          </rdf:Description>
+        </owl:unionOf>
+      </owl:Class>
+    </rdfs:range>
+  </rdf:Property>
+  <owl:AnnotationProperty rdf:about="http://www.loc.gov/mads/rdf/v1#country">
+    <rdf:type rdf:resource="http://www.w3.org/1999/02/22-rdf-syntax-ns#Property"/>
+    <rdfs:comment rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Country associated with an
+      address.</rdfs:comment>
+    <rdfs:domain rdf:resource="http://www.loc.gov/mads/rdf/v1#Address"/>
+    <rdfs:label rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Country</rdfs:label>
+  </owl:AnnotationProperty>
+  <rdf:Property rdf:about="http://www.loc.gov/mads/rdf/v1#creationDateEnd">
+    <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#DatatypeProperty"/>
+    <rdfs:comment rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Ending date of the date range for which the beginning date is recorded in madsrdf:creationDateStart.</rdfs:comment>
+    <rdfs:label rdf:datatype="http://www.w3.org/2001/XMLSchema#string"></rdfs:label>
+  </rdf:Property>
+  <rdf:Property rdf:about="http://www.loc.gov/mads/rdf/v1#creationDateStart">
+    <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#DatatypeProperty"/>
+    <rdfs:comment rdf:datatype="http://www.w3.org/2001/XMLSchema#string">For a work, earliest date (normally the year) associated with a work; that date may be the date the work was created or first published or released. For an expression, the earliest date (normally the year) associated with an expression; that date may be the date of the earliest known manifestation of that expression. In both cases the date may be the starting date of a range or a single date.</rdfs:comment>
+    <rdfs:label rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Work begun</rdfs:label>
+  </rdf:Property>
+  <rdf:Property rdf:about="http://www.loc.gov/mads/rdf/v1#deathDate">
+    <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#DatatypeProperty"/>
+    <rdfs:comment rdf:datatype="http://www.w3.org/2001/XMLSchema#string">The year a person died.
+      Date of death may also include the month and day of the person’s death. (RDA
+      9.3.3.1)</rdfs:comment>
+    <rdfs:domain rdf:resource="http://www.loc.gov/mads/rdf/v1#RWO"/>
+    <rdfs:label rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Death Date</rdfs:label>
+  </rdf:Property>
+  <rdf:Property rdf:about="http://www.loc.gov/mads/rdf/v1#deathPlace">
+    <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#ObjectProperty"/>
+    <rdfs:comment rdf:datatype="http://www.w3.org/2001/XMLSchema#string">The town, city, province,
+      state, and/or country in which a person died.</rdfs:comment>
+    <rdfs:domain rdf:resource="http://www.loc.gov/mads/rdf/v1#RWO"/>
+    <rdfs:range rdf:resource="http://www.loc.gov/mads/rdf/v1#Geographic"/>
+    <rdfs:label rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Place of Death</rdfs:label>
+  </rdf:Property>
+  <owl:AnnotationProperty rdf:about="http://www.loc.gov/mads/rdf/v1#definitionNote">
+    <rdf:type rdf:resource="http://www.w3.org/1999/02/22-rdf-syntax-ns#Property"/>
+    <rdfs:comment xml:lang="en">An explanation of the meaning of an Authority, DeprecatedAuthority,
+      or Variant description.</rdfs:comment>
+    <rdfs:label xml:lang="en">Definition Note</rdfs:label>
+    <rdfs:subPropertyOf rdf:resource="http://www.loc.gov/mads/rdf/v1#note"/>
+    <owl:equivalentProperty rdf:resource="http://www.w3.org/2004/02/skos/core#definition"/>
+  </owl:AnnotationProperty>
+  <owl:AnnotationProperty rdf:about="http://www.loc.gov/mads/rdf/v1#deletionNote">
+    <rdf:type rdf:resource="http://www.w3.org/1999/02/22-rdf-syntax-ns#Property"/>
+    <rdfs:comment rdf:datatype="http://www.w3.org/2001/XMLSchema#string">A note pertaining to the
+      deletion of a resource.</rdfs:comment>
+    <rdfs:label rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Deletion Note</rdfs:label>
+    <rdfs:subPropertyOf rdf:resource="http://www.loc.gov/mads/rdf/v1#changeNote"/>
+  </owl:AnnotationProperty>
+  <rdf:Property rdf:about="http://www.loc.gov/mads/rdf/v1#deprecatedLabel">
+    <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#AnnotationProperty"/>
+    <rdfs:comment rdf:datatype="http://www.w3.org/2001/XMLSchema#string">A label once considered
+      authoritative (controlled and curated) but which is no longer.</rdfs:comment>
+    <rdfs:domain rdf:resource="http://www.loc.gov/mads/rdf/v1#DeprecatedAuthority"/>
+    <rdfs:label rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Deprecated Label</rdfs:label>
+    <rdfs:subPropertyOf rdf:resource="http://www.w3.org/2000/01/rdf-schema#label"/>
+    <rdfs:subPropertyOf rdf:resource="http://www.w3.org/2004/02/skos/core#hiddenLabel"/>
+  </rdf:Property>
+  <owl:AnnotationProperty rdf:about="http://www.loc.gov/mads/rdf/v1#editorialNote">
+    <rdf:type rdf:resource="http://www.w3.org/1999/02/22-rdf-syntax-ns#Property"/>
+    <rdfs:comment rdf:datatype="http://www.w3.org/2001/XMLSchema#string">A note pertaining to the
+      management of the label associated with the resource.</rdfs:comment>
+    <rdfs:label rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Editorial Note</rdfs:label>
+    <rdfs:subPropertyOf rdf:resource="http://www.loc.gov/mads/rdf/v1#note"/>
+    <owl:equivalentProperty rdf:resource="http://www.w3.org/2004/02/skos/core#editorialNote"/>
+  </owl:AnnotationProperty>
+  <owl:ObjectProperty rdf:about="http://www.loc.gov/mads/rdf/v1#elementList">
+    <rdf:type rdf:resource="http://www.w3.org/1999/02/22-rdf-syntax-ns#Property"/>
+    <rdfs:comment xml:lang="en">The madsrdf:elementList property is used to organize the various
+      parts of labels.</rdfs:comment>
+    <rdfs:label rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Element List</rdfs:label>
+    <rdfs:range>
+      <owl:Class>
+        <owl:unionOf>
+          <rdf:Description>
+            <rdf:first rdf:resource="http://www.w3.org/1999/02/22-rdf-syntax-ns#List"/>
+            <rdf:rest>
+              <rdf:Description>
+                <rdf:first rdf:resource="http://www.w3.org/1999/02/22-rdf-syntax-ns#Seq"/>
+                <rdf:rest rdf:resource="http://www.w3.org/1999/02/22-rdf-syntax-ns#nil"/>
+              </rdf:Description>
+            </rdf:rest>
+          </rdf:Description>
+        </owl:unionOf>
+      </owl:Class>
+    </rdfs:range>
+  </owl:ObjectProperty>
+  <owl:DatatypeProperty rdf:about="http://www.loc.gov/mads/rdf/v1#elementValue">
+    <rdf:type rdf:resource="http://www.w3.org/1999/02/22-rdf-syntax-ns#Property"/>
+    <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#DatatypeProperty"/>
+    <rdfs:domain rdf:resource="http://www.loc.gov/mads/rdf/v1#Element"/>
+    <rdfs:label rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Element Value</rdfs:label>
+    <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#string"/>
+  </owl:DatatypeProperty>
+  <owl:DatatypeProperty rdf:about="http://www.loc.gov/mads/rdf/v1#email">
+    <rdf:type rdf:resource="http://www.w3.org/1999/02/22-rdf-syntax-ns#Property"/>
+    <rdfs:domain rdf:resource="http://www.loc.gov/mads/rdf/v1#Affiliation"/>
+    <rdfs:label rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Email</rdfs:label>
+  </owl:DatatypeProperty>
+  <rdf:Property rdf:about="http://www.loc.gov/mads/rdf/v1#entityDescriptor">
+    <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#DatatypeProperty"/>
+    <rdfs:comment rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Any attribute that serves
+      to characterize a person, family or corporate body or that may be needed for differentiation
+      from other persons. families or corporate bodies and for which separate content designation is
+      not already defined.Or </rdfs:comment>
+    <rdfs:domain rdf:resource="http://www.loc.gov/mads/rdf/v1#RWO"/>
+    <rdfs:label rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Entity
+      Descriptor</rdfs:label>
+  </rdf:Property>
+  <rdf:Property rdf:about="http://www.loc.gov/mads/rdf/v1#establishDate">
+    <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#DatatypeProperty"/>
+    <rdfs:comment rdf:datatype="http://www.w3.org/2001/XMLSchema#string">The year a corporate body was established. Date of establishment may also include the month and day of the corporate body’s establishment.
+    </rdfs:comment>
+    <rdfs:domain rdf:resource="http://www.loc.gov/mads/rdf/v1#RWO"/>
+    <rdfs:label rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Established</rdfs:label>
+  </rdf:Property>
+  <owl:AnnotationProperty rdf:about="http://www.loc.gov/mads/rdf/v1#exampleNote">
+    <rdf:type rdf:resource="http://www.w3.org/1999/02/22-rdf-syntax-ns#Property"/>
+    <rdfs:comment rdf:datatype="http://www.w3.org/2001/XMLSchema#string">A example of how the
+      resource might be used.</rdfs:comment>
+    <rdfs:label rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Example Note</rdfs:label>
+    <rdfs:subPropertyOf rdf:resource="http://www.loc.gov/mads/rdf/v1#note"/>
+    <owl:equivalentProperty rdf:resource="http://www.w3.org/2004/02/skos/core#example"/>
+  </owl:AnnotationProperty>
+  <owl:DatatypeProperty rdf:about="http://www.loc.gov/mads/rdf/v1#extendedAddress">
+    <rdf:type rdf:resource="http://www.w3.org/1999/02/22-rdf-syntax-ns#Property"/>
+    <rdfs:comment rdf:datatype="http://www.w3.org/2001/XMLSchema#string">The second address line, if
+      needed.</rdfs:comment>
+    <rdfs:domain rdf:resource="http://www.loc.gov/mads/rdf/v1#Address"/>
+    <rdfs:label rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Extended Address</rdfs:label>
+  </owl:DatatypeProperty>
+  <owl:ObjectProperty rdf:about="http://www.loc.gov/mads/rdf/v1#extension">
+    <rdf:type rdf:resource="http://www.w3.org/1999/02/22-rdf-syntax-ns#Property"/>
+    <rdfs:label rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Extension</rdfs:label>
+  </owl:ObjectProperty>
+  <owl:DatatypeProperty rdf:about="http://www.loc.gov/mads/rdf/v1#fax">
+    <rdf:type rdf:resource="http://www.w3.org/1999/02/22-rdf-syntax-ns#Property"/>
+    <rdfs:comment rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Fax number</rdfs:comment>
+    <rdfs:domain rdf:resource="http://www.loc.gov/mads/rdf/v1#Affiliation"/>
+    <rdfs:label rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Fax</rdfs:label>
+  </owl:DatatypeProperty>
+  <rdf:Property rdf:about="http://www.loc.gov/mads/rdf/v1#fieldOfActivity">
+    <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#ObjectProperty"/>
+    <rdfs:comment rdf:datatype="http://www.w3.org/2001/XMLSchema#string">The field of activity
+      associated with an individual.</rdfs:comment>
+    <rdfs:domain rdf:resource="http://www.loc.gov/mads/rdf/v1#RWO"/>
+    <rdfs:label rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Field of
+      Activity</rdfs:label>
+  </rdf:Property>
+  <rdf:Property rdf:about="http://www.loc.gov/mads/rdf/v1#fullerName">
+    <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#ObjectProperty"/>
+    <rdfs:comment rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Full form of name needed to
+      distinguish a person from another person with the same preferred name.</rdfs:comment>
+    <rdfs:range rdf:resource="http://www.loc.gov/mads/rdf/v1#PersonalName"/>
+    <rdfs:label rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Fuller Name</rdfs:label>
+  </rdf:Property>
+  <rdf:Property rdf:about="http://www.loc.gov/mads/rdf/v1#gender">
+    <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#DataTypeProperty"/>
+    <rdfs:comment rdf:datatype="http://www.w3.org/2001/XMLSchema#string">The gender with which a
+      person identifies. </rdfs:comment>
+    <rdfs:domain rdf:resource="http://www.loc.gov/mads/rdf/v1#RWO"/>
+    <rdfs:label rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Gender</rdfs:label>
+  </rdf:Property>
+  <owl:ObjectProperty rdf:about="http://www.loc.gov/mads/rdf/v1#hasAbbreviationVariant">
+    <rdf:type rdf:resource="http://www.w3.org/1999/02/22-rdf-syntax-ns#Property"/>
+    <rdfs:label rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Has Abbreviation
+      Variant</rdfs:label>
+    <rdfs:subPropertyOf rdf:resource="http://www.loc.gov/mads/rdf/v1#hasVariant"/>
+  </owl:ObjectProperty>
+  <owl:ObjectProperty rdf:about="http://www.loc.gov/mads/rdf/v1#hasAcronymVariant">
+    <rdf:type rdf:resource="http://www.w3.org/1999/02/22-rdf-syntax-ns#Property"/>
+    <rdfs:label rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Has Acronym
+      Variant</rdfs:label>
+    <rdfs:subPropertyOf rdf:resource="http://www.loc.gov/mads/rdf/v1#hasVariant"/>
+  </owl:ObjectProperty>
+  <owl:ObjectProperty rdf:about="http://www.loc.gov/mads/rdf/v1#hasAffiliation">
+    <rdf:type rdf:resource="http://www.w3.org/1999/02/22-rdf-syntax-ns#Property"/>
+    <rdfs:comment rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Property to associate an
+      individual, such as a foaf:Agent, to a group or organization with which an individual is or
+      has been affiliated.</rdfs:comment>
+    <rdfs:domain rdf:resource="http://www.loc.gov/mads/rdf/v1#RWO"/>
+    <rdfs:label rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Has Affiliation</rdfs:label>
+    <rdfs:range rdf:resource="http://www.loc.gov/mads/rdf/v1#Affiliation"/>
+  </owl:ObjectProperty>
+  <owl:ObjectProperty rdf:about="http://www.loc.gov/mads/rdf/v1#hasAffiliationAddress">
+    <rdf:type rdf:resource="http://www.w3.org/1999/02/22-rdf-syntax-ns#Property"/>
+    <rdfs:comment rdf:datatype="http://www.w3.org/2001/XMLSchema#string">The address of the group or
+      organization with which an individual is associated.</rdfs:comment>
+    <rdfs:domain rdf:resource="http://www.loc.gov/mads/rdf/v1#Affiliation"/>
+    <rdfs:label rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Has Affiliation
+      Address</rdfs:label>
+    <rdfs:range rdf:resource="http://www.loc.gov/mads/rdf/v1#Address"/>
+  </owl:ObjectProperty>
+  <owl:ObjectProperty rdf:about="http://www.loc.gov/mads/rdf/v1#hasBroaderAuthority">
+    <rdf:type rdf:resource="http://www.w3.org/1999/02/22-rdf-syntax-ns#Property"/>
+    <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#ObjectProperty"/>
+    <rdfs:label rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Has Broader
+      Authority</rdfs:label>
+    <rdfs:subPropertyOf rdf:resource="http://www.loc.gov/mads/rdf/v1#hasRelatedAuthority"/>
+    <rdfs:subPropertyOf rdf:resource="http://www.w3.org/2004/02/skos/core#broader"/>
+    <owl:inverseOf rdf:resource="http://www.loc.gov/mads/rdf/v1#hasNarrowerAuthority"/>
+  </owl:ObjectProperty>
+  <owl:ObjectProperty rdf:about="http://www.loc.gov/mads/rdf/v1#hasBroaderExternalAuthority">
+    <rdf:type rdf:resource="http://www.w3.org/1999/02/22-rdf-syntax-ns#Property"/>
+    <rdfs:comment rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Creates a direct
+      relationship between an Authority and a more broadly defined Authority from a different MADS
+      Scheme.</rdfs:comment>
+    <rdfs:label rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Has Broader External
+      Authority</rdfs:label>
+    <rdfs:subPropertyOf rdf:resource="http://www.loc.gov/mads/rdf/v1#hasBroaderAuthority"/>
+    <rdfs:subPropertyOf rdf:resource="http://www.w3.org/2004/02/skos/core#broadMatch"/>
+  </owl:ObjectProperty>
+  <rdf:Property rdf:about="http://www.loc.gov/mads/rdf/v1#hasChararacteristic">
+    <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#ObjectProperty"/>
+    <rdfs:comment rdf:datatype="http://www.w3.org/2001/XMLSchema#string">A term that specifies a characteristic that differentiates a work or expression from another one.
+    </rdfs:comment>
+    <rdfs:label rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Other characteristic</rdfs:label>
+  </rdf:Property>
+  <owl:ObjectProperty rdf:about="http://www.loc.gov/mads/rdf/v1#hasCloseExternalAuthority">
+    <rdf:type rdf:resource="http://www.w3.org/1999/02/22-rdf-syntax-ns#Property"/>
+    <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#ObjectProperty"/>
+    <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#SymmetricProperty"/>
+    <rdfs:comment rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Records a relationship
+      between an Authority and one that is closely related from a different MADS
+      Scheme.</rdfs:comment>
+    <rdfs:label rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Has Close External
+      Authority</rdfs:label>
+    <rdfs:subPropertyOf rdf:resource="http://www.loc.gov/mads/rdf/v1#hasRelatedAuthority"/>
+    <rdfs:subPropertyOf rdf:resource="http://www.w3.org/2004/02/skos/core#closeMatch"/>
+  </owl:ObjectProperty>
+  <rdf:Property rdf:about="http://www.loc.gov/mads/rdf/v1#hasCorporateParentAuthority">
+    <rdf:type rdf:resource="http://www.w3.org/1999/02/22-rdf-syntax-ns#Property"/>
+    <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#ObjectProperty"/>
+    <rdfs:comment rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Establishes a relationship
+      between a CorporateName Authority and one of the same that is more broadly
+      defined.</rdfs:comment>
+    <rdfs:domain rdf:resource="http://www.loc.gov/mads/rdf/v1#CorporateName"/>
+    <rdfs:label rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Has Parent
+      Organization</rdfs:label>
+    <rdfs:range rdf:resource="http://www.loc.gov/mads/rdf/v1#CorporateName"/>
+    <rdfs:subPropertyOf rdf:resource="http://www.loc.gov/mads/rdf/v1#hasRelatedAuthority"/>
+  </rdf:Property>
+  <owl:ObjectProperty rdf:about="http://www.loc.gov/mads/rdf/v1#hasCorporateSubsidiaryAuthority">
+    <rdf:type rdf:resource="http://www.w3.org/1999/02/22-rdf-syntax-ns#Property"/>
+    <rdfs:comment rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Establishes a relationship
+      between a CorporateName Authority and one of the same that is more narrowly
+      defined.</rdfs:comment>
+    <rdfs:domain rdf:resource="http://www.loc.gov/mads/rdf/v1#CorporateName"/>
+    <rdfs:label rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Is Parent Organization
+      Of</rdfs:label>
+    <rdfs:range rdf:resource="http://www.loc.gov/mads/rdf/v1#CorporateName"/>
+    <rdfs:subPropertyOf rdf:resource="http://www.loc.gov/mads/rdf/v1#hasRelatedAuthority"/>
+    <owl:inverseOf rdf:resource="http://www.loc.gov/mads/rdf/v1#hasCorporateParentAuthority"/>
+  </owl:ObjectProperty>
+  <owl:ObjectProperty rdf:about="http://www.loc.gov/mads/rdf/v1#hasEarlierEstablishedForm">
+    <rdf:type rdf:resource="http://www.w3.org/1999/02/22-rdf-syntax-ns#Property"/>
+    <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#ObjectProperty"/>
+    <rdfs:comment xml:lang="en">Used to reference a resource that was an earlier form. This is
+      Related type='earlier' in MADS XML.</rdfs:comment>
+    <rdfs:label rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Has Earlier Established
+      Form</rdfs:label>
+    <rdfs:subPropertyOf rdf:resource="http://www.loc.gov/mads/rdf/v1#see"/>
+    <owl:inverseOf rdf:resource="http://www.loc.gov/mads/rdf/v1#hasLaterEstablishedForm"/>
+  </owl:ObjectProperty>
+  <owl:ObjectProperty rdf:about="http://www.loc.gov/mads/rdf/v1#hasExactExternalAuthority">
+    <rdf:type rdf:resource="http://www.w3.org/1999/02/22-rdf-syntax-ns#Property"/>
+    <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#SymmetricProperty"/>
+    <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#TransitiveProperty"/>
+    <rdfs:comment rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Records a relationship
+      between an Authority and one to which it matches exactly but from a different MADS
+      Scheme.</rdfs:comment>
+    <rdfs:label rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Has Exact External
+      Authority</rdfs:label>
+    <rdfs:subPropertyOf rdf:resource="http://www.loc.gov/mads/rdf/v1#hasCloseExternalAuthority"/>
+    <rdfs:subPropertyOf rdf:resource="http://www.w3.org/2004/02/skos/core#exactMatch"/>
+  </owl:ObjectProperty>
+  <owl:ObjectProperty rdf:about="http://www.loc.gov/mads/rdf/v1#hasExpansionVariant">
+    <rdf:type rdf:resource="http://www.w3.org/1999/02/22-rdf-syntax-ns#Property"/>
+    <rdfs:label rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Has Expansion
+      Variant</rdfs:label>
+    <rdfs:subPropertyOf rdf:resource="http://www.loc.gov/mads/rdf/v1#hasVariant"/>
+  </owl:ObjectProperty>
+  <owl:ObjectProperty rdf:about="http://www.loc.gov/mads/rdf/v1#hasHiddenVariant">
+    <rdf:type rdf:resource="http://www.w3.org/1999/02/22-rdf-syntax-ns#Property"/>
+    <rdfs:comment xml:lang="en">Use for variants that are searchable, but not necessarily for
+      display.</rdfs:comment>
+    <rdfs:domain rdf:resource="http://www.loc.gov/mads/rdf/v1#Authority"/>
+    <rdfs:label xml:lang="en">Has Hidden Variant</rdfs:label>
+    <rdfs:range rdf:resource="http://www.loc.gov/mads/rdf/v1#Variant"/>
+    <rdfs:subPropertyOf rdf:resource="http://www.w3.org/2008/05/skos-xl#hiddenLabel"/>
+  </owl:ObjectProperty>
+  <owl:ObjectProperty rdf:about="http://www.loc.gov/mads/rdf/v1#hasIdentifier">
+    <rdf:type rdf:resource="http://www.w3.org/1999/02/22-rdf-syntax-ns#Property"/>
+    <rdfs:comment rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Associates a resource with
+      a madsrdf:Identifier.</rdfs:comment>
+    <rdfs:label rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Has Identifier</rdfs:label>
+    <rdfs:range rdf:resource="http://www.loc.gov/mads/rdf/v1#Identifier"/>
+  </owl:ObjectProperty>
+  <owl:ObjectProperty rdf:about="http://www.loc.gov/mads/rdf/v1#hasLaterEstablishedForm">
+    <rdf:type rdf:resource="http://www.w3.org/1999/02/22-rdf-syntax-ns#Property"/>
+    <rdfs:comment xml:lang="en">Use to reference the later form of a resource. This is Related
+      type='later' in MADS XML.</rdfs:comment>
+    <rdfs:label rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Has Later Established
+      Form</rdfs:label>
+    <rdfs:subPropertyOf rdf:resource="http://www.loc.gov/mads/rdf/v1#see"/>
+    <owl:inverseOf rdf:resource="http://www.loc.gov/mads/rdf/v1#hasEarlierEstablishedForm"/>
+  </owl:ObjectProperty>
+  <rdf:Property rdf:about="http://www.loc.gov/mads/rdf/v1#hasMADSCollectionMember">
+    <rdf:type rdf:resource="http://www.w3.org/1999/02/22-rdf-syntax-ns#Property"/>
+    <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#ObjectProperty"/>
+    <rdfs:comment xml:lang="en">Associates an Authority or other Collection with a
+      madsrdf:MADSCollection.</rdfs:comment>
+    <rdfs:domain rdf:resource="http://www.loc.gov/mads/rdf/v1#MADSCollection"/>
+    <rdfs:label xml:lang="en">Has MADSCollection Member</rdfs:label>
+    <rdfs:range>
+      <owl:Class>
+        <owl:unionOf>
+          <rdf:Description>
+            <rdf:first rdf:resource="http://www.loc.gov/mads/rdf/v1#Authority"/>
+            <rdf:rest>
+              <rdf:Description>
+                <rdf:first rdf:resource="http://www.loc.gov/mads/rdf/v1#MADSCollection"/>
+                <rdf:rest rdf:resource="http://www.w3.org/1999/02/22-rdf-syntax-ns#nil"/>
+              </rdf:Description>
+            </rdf:rest>
+          </rdf:Description>
+        </owl:unionOf>
+      </owl:Class>
+    </rdfs:range>
+    <rdfs:subPropertyOf rdf:resource="http://www.w3.org/2004/02/skos/core#member"/>
+    <owl:inverseOf rdf:resource="http://www.loc.gov/mads/rdf/v1#isMemberOfMADSCollection"/>
+  </rdf:Property>
+  <rdf:Property rdf:about="http://www.loc.gov/mads/rdf/v1#hasMADSSchemeMember">
+    <rdf:type rdf:resource="http://www.w3.org/1999/02/22-rdf-syntax-ns#Property"/>
+    <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#ObjectProperty"/>
+    <rdfs:comment xml:lang="en">Associates an Authority or Collection with a
+      madsrdf:MADSScheme.</rdfs:comment>
+    <rdfs:domain rdf:resource="http://www.loc.gov/mads/rdf/v1#MADSScheme"/>
+    <rdfs:label rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Has MADS Scheme
+      Member</rdfs:label>
+    <rdfs:range>
+      <owl:Class>
+        <owl:unionOf>
+          <rdf:Description>
+            <rdf:first rdf:resource="http://www.loc.gov/mads/rdf/v1#Authority"/>
+            <rdf:rest>
+              <rdf:Description>
+                <rdf:first rdf:resource="http://www.loc.gov/mads/rdf/v1#MADSCollection"/>
+                <rdf:rest rdf:resource="http://www.w3.org/1999/02/22-rdf-syntax-ns#nil"/>
+              </rdf:Description>
+            </rdf:rest>
+          </rdf:Description>
+        </owl:unionOf>
+      </owl:Class>
+    </rdfs:range>
+    <owl:inverseOf rdf:resource="http://www.loc.gov/mads/rdf/v1#isMemberOfMADSScheme"/>
+  </rdf:Property>
+  <owl:ObjectProperty rdf:about="http://www.loc.gov/mads/rdf/v1#hasNarrowerAuthority">
+    <rdf:type rdf:resource="http://www.w3.org/1999/02/22-rdf-syntax-ns#Property"/>
+    <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#ObjectProperty"/>
+    <rdfs:comment rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Creates a direct
+      relationship between an Authority and one that is more narrowly defined.</rdfs:comment>
+    <rdfs:label rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Has Narrower
+      Authority</rdfs:label>
+    <rdfs:subPropertyOf rdf:resource="http://www.loc.gov/mads/rdf/v1#hasRelatedAuthority"/>
+    <rdfs:subPropertyOf rdf:resource="http://www.w3.org/2004/02/skos/core#narrower"/>
+    <owl:inverseOf rdf:resource="http://www.loc.gov/mads/rdf/v1#hasBroaderAuthority"/>
+  </owl:ObjectProperty>
+  <owl:ObjectProperty rdf:about="http://www.loc.gov/mads/rdf/v1#hasNarrowerExternalAuthority">
+    <rdf:type rdf:resource="http://www.w3.org/1999/02/22-rdf-syntax-ns#Property"/>
+    <rdfs:comment rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Creates a direct
+      relationship between an Authority and a more narrowly defined Authority from a different MADS
+      Scheme.</rdfs:comment>
+    <rdfs:label rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Has Narrower External
+      Authority</rdfs:label>
+    <rdfs:subPropertyOf rdf:resource="http://www.loc.gov/mads/rdf/v1#hasNarrowerAuthority"/>
+    <rdfs:subPropertyOf rdf:resource="http://www.w3.org/2004/02/skos/core#narrowMatch"/>
+  </owl:ObjectProperty>
+  <owl:SymmetricProperty rdf:about="http://www.loc.gov/mads/rdf/v1#hasReciprocalAuthority">
+    <rdf:type rdf:resource="http://www.w3.org/1999/02/22-rdf-syntax-ns#Property"/>
+    <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#ObjectProperty"/>
+    <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#SymmetricProperty"/>
+    <rdfs:comment xml:lang="en">Establishes a relationship between two Authority resources. It is
+      reciprocal, so the relationship must be shared. This is Related type='equivalent' in MADS
+      XML.</rdfs:comment>
+    <rdfs:label rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Has Reciprocal
+      Authority</rdfs:label>
+    <rdfs:subPropertyOf rdf:resource="http://www.loc.gov/mads/rdf/v1#hasRelatedAuthority"/>
+    <rdfs:subPropertyOf rdf:resource="http://www.w3.org/2004/02/skos/core#related"/>
+  </owl:SymmetricProperty>
+  <owl:SymmetricProperty rdf:about="http://www.loc.gov/mads/rdf/v1#hasReciprocalExternalAuthority">
+    <rdf:type rdf:resource="http://www.w3.org/1999/02/22-rdf-syntax-ns#Property"/>
+    <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#ObjectProperty"/>
+    <rdfs:comment rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Establishes a relationship
+      between an Authority and one from a different MADS Scheme. It is reciprocal, so the
+      relationship must be shared.</rdfs:comment>
+    <rdfs:label rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Has Reciprocal External
+      Authority</rdfs:label>
+    <rdfs:subPropertyOf rdf:resource="http://www.loc.gov/mads/rdf/v1#hasReciprocalAuthority"/>
+    <rdfs:subPropertyOf rdf:resource="http://www.w3.org/2004/02/skos/core#relatedMatch"/>
+  </owl:SymmetricProperty>
+  <owl:ObjectProperty rdf:about="http://www.loc.gov/mads/rdf/v1#hasRelatedAuthority">
+    <rdf:type rdf:resource="http://www.w3.org/1999/02/22-rdf-syntax-ns#Property"/>
+    <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#ObjectProperty"/>
+    <rdfs:comment xml:lang="en">Unless the relationship can be more specifically identified, use
+      'hasRelatedAuthority.'</rdfs:comment>
+    <rdfs:domain rdf:resource="http://www.loc.gov/mads/rdf/v1#Authority"/>
+    <rdfs:label xml:lang="en">Has Related Authority</rdfs:label>
+    <rdfs:range rdf:resource="http://www.loc.gov/mads/rdf/v1#Authority"/>
+    <rdfs:subPropertyOf rdf:resource="http://www.w3.org/2004/02/skos/core#semanticRelation"/>
+  </owl:ObjectProperty>
+  <owl:ObjectProperty rdf:about="http://www.loc.gov/mads/rdf/v1#hasSource">
+    <rdf:type rdf:resource="http://www.w3.org/1999/02/22-rdf-syntax-ns#Property"/>
+    <rdfs:comment xml:lang="en">Associates a resource description with its Source.</rdfs:comment>
+    <rdfs:label rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Has Source</rdfs:label>
+    <rdfs:range rdf:resource="http://www.loc.gov/mads/rdf/v1#Source"/>
+  </owl:ObjectProperty>
+  <owl:ObjectProperty rdf:about="http://www.loc.gov/mads/rdf/v1#hasTopMemberOfMADSScheme">
+    <rdf:type rdf:resource="http://www.w3.org/1999/02/22-rdf-syntax-ns#Property"/>
+    <rdfs:comment rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Identifies an Authority
+      that is at the top of the hierarchy of authorities within the MADS Scheme.</rdfs:comment>
+    <rdfs:domain rdf:resource="http://www.loc.gov/mads/rdf/v1#MADSScheme"/>
+    <rdfs:label rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Has Top Member of MADS
+      Scheme</rdfs:label>
+    <rdfs:range rdf:resource="http://www.loc.gov/mads/rdf/v1#Authority"/>
+    <rdfs:subPropertyOf rdf:resource="http://www.loc.gov/mads/rdf/v1#hasMADSSchemeMember"/>
+    <rdfs:subPropertyOf rdf:resource="http://www.w3.org/2004/02/skos/core#hasTopConcept"/>
+  </owl:ObjectProperty>
+  <owl:ObjectProperty rdf:about="http://www.loc.gov/mads/rdf/v1#hasTranslationVariant">
+    <rdf:type rdf:resource="http://www.w3.org/1999/02/22-rdf-syntax-ns#Property"/>
+    <rdfs:comment rdf:datatype="http://www.w3.org/2001/XMLSchema#string">A Variant whose label
+      represents a translation of that of the authoritative label.</rdfs:comment>
+    <rdfs:label rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Has Translation
+      Variant</rdfs:label>
+    <rdfs:subPropertyOf rdf:resource="http://www.loc.gov/mads/rdf/v1#hasVariant"/>
+  </owl:ObjectProperty>
+  <owl:ObjectProperty rdf:about="http://www.loc.gov/mads/rdf/v1#hasVariant">
+    <rdf:type rdf:resource="http://www.w3.org/1999/02/22-rdf-syntax-ns#Property"/>
+    <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#ObjectProperty"/>
+    <rdfs:comment xml:lang="en">Associates a Variant with an Authority or Deprecrated Authority.
+      Unless the variant type can be more specifically identified, use 'hasVariant.'</rdfs:comment>
+    <rdfs:domain rdf:resource="http://www.loc.gov/mads/rdf/v1#Authority"/>
+    <rdfs:label rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Has Variant</rdfs:label>
+    <rdfs:range rdf:resource="http://www.loc.gov/mads/rdf/v1#Variant"/>
+    <rdfs:subPropertyOf rdf:resource="http://www.w3.org/2008/05/skos-xl#altLabel"/>
+  </owl:ObjectProperty>
+  <rdf:Property rdf:about="http://www.loc.gov/mads/rdf/v1#hiddenLabel">
+    <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#DatatypeProperty"/>
+    <rdfs:comment rdf:datatype="http://www.w3.org/2001/XMLSchema#string">A label entered for
+      discovery purposes but not shown.</rdfs:comment>
+    <rdfs:domain rdf:resource="http://www.loc.gov/mads/rdf/v1#Variant"/>
+    <rdfs:label rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Hidden Label</rdfs:label>
+    <rdfs:subPropertyOf rdf:resource="http://www.w3.org/2008/05/skos-xl#literalForm"/>
+  </rdf:Property>
+  <owl:AnnotationProperty rdf:about="http://www.loc.gov/mads/rdf/v1#historyNote">
+    <rdfs:comment rdf:datatype="http://www.w3.org/2001/XMLSchema#string">A note pertaining to the
+      history of the resource.</rdfs:comment>
+    <rdfs:label rdf:datatype="http://www.w3.org/2001/XMLSchema#string">History Note</rdfs:label>
+    <rdfs:subPropertyOf rdf:resource="http://www.loc.gov/mads/rdf/v1#note"/>
+    <owl:equivalentProperty rdf:resource="http://www.w3.org/2004/02/skos/core#historyNote"/>
+  </owl:AnnotationProperty>
+  <rdf:Property rdf:about="http://www.loc.gov/mads/rdf/v1#honoraryTitle">
+    <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#DatatypeProperty"/>
+    <rdfs:comment rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Designation indicative of
+      royalty, nobility, or ecclesiastical rank or office, or a term of address for a person of
+      religious vocation.</rdfs:comment>
+    <rdfs:domain rdf:resource="http://www.loc.gov/mads/rdf/v1#RWO"/>
+    <rdfs:label rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Honorary Title</rdfs:label>
+  </rdf:Property>
+  <owl:DatatypeProperty rdf:about="http://www.loc.gov/mads/rdf/v1#hours">
+    <rdf:type rdf:resource="http://www.w3.org/1999/02/22-rdf-syntax-ns#Property"/>
+    <rdfs:domain rdf:resource="http://www.loc.gov/mads/rdf/v1#Affiliation"/>
+    <rdfs:label rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Hours</rdfs:label>
+  </owl:DatatypeProperty>
+  <owl:AnnotationProperty rdf:about="http://www.loc.gov/mads/rdf/v1#idScheme">
+    <rdf:type rdf:resource="http://www.w3.org/1999/02/22-rdf-syntax-ns#Property"/>
+    <rdfs:comment rdf:datatype="http://www.w3.org/2001/XMLSchema#string">The scheme associated with
+      the identifier. For example, "LCCN" would be used when the Identifier Value (madsrdf:idValue)
+      is a LC Control Number.</rdfs:comment>
+    <rdfs:domain rdf:resource="http://www.loc.gov/mads/rdf/v1#Identifier"/>
+    <rdfs:label rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Identifier
+      Scheme</rdfs:label>
+  </owl:AnnotationProperty>
+  <owl:DatatypeProperty rdf:about="http://www.loc.gov/mads/rdf/v1#idValue">
+    <rdf:type rdf:resource="http://www.w3.org/1999/02/22-rdf-syntax-ns#Property"/>
+    <rdfs:comment rdf:datatype="http://www.w3.org/2001/XMLSchema#string">The value of the identifier
+      conforming to the Identifier Scheme syntax.</rdfs:comment>
+    <rdfs:domain rdf:resource="http://www.loc.gov/mads/rdf/v1#Identifier"/>
+    <rdfs:label rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Identifier Value</rdfs:label>
+    <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#string"/>
+  </owl:DatatypeProperty>
+  <rdf:Property rdf:about="http://www.loc.gov/mads/rdf/v1#identifiesRWO">
+    <rdf:type rdf:resource="http://www.w3.org/1999/02/22-rdf-syntax-ns#Property"/>
+    <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#ObjectProperty"/>
+    <rdfs:comment rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Associates a
+      madsrdf:Authority with the Real World Object that is the subject of the authority's
+      label.</rdfs:comment>
+    <rdfs:domain rdf:resource="http://www.loc.gov/mads/rdf/v1#Authority"/>
+    <rdfs:label rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Identifies RWO</rdfs:label>
+    <rdfs:range rdf:resource="http://www.loc.gov/mads/rdf/v1#RWO"/>
+    <rdfs:subPropertyOf rdf:resource="http://xmlns.com/foaf/0.1/focus"/>
+    <owl:inverseOf rdf:resource="http://www.loc.gov/mads/rdf/v1#isIdentifiedByAuthority"/>
+  </rdf:Property>
+  <owl:ObjectProperty rdf:about="http://www.loc.gov/mads/rdf/v1#isIdentifiedByAuthority">
+    <rdf:type rdf:resource="http://www.w3.org/1999/02/22-rdf-syntax-ns#Property"/>
+    <rdfs:comment rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Associates a Real World
+      Object with its Authority description.</rdfs:comment>
+    <rdfs:domain rdf:resource="http://www.loc.gov/mads/rdf/v1#RWO"/>
+    <rdfs:label rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Is Identified By
+      Authority</rdfs:label>
+    <rdfs:range rdf:resource="http://www.loc.gov/mads/rdf/v1#Authority"/>
+    <owl:inverseOf rdf:resource="http://www.loc.gov/mads/rdf/v1#identifiesRWO"/>
+  </owl:ObjectProperty>
+  <rdf:Property rdf:about="http://www.loc.gov/mads/rdf/v1#isMemberOfMADSCollection">
+    <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#ObjectProperty"/>
+    <rdfs:comment xml:lang="en">Associates a Collection with a madsrdf:Authority or another
+      madsrdf:MADSCollection.</rdfs:comment>
+    <rdfs:domain>
+      <owl:Class>
+        <owl:unionOf>
+          <rdf:Description>
+            <rdf:first rdf:resource="http://www.loc.gov/mads/rdf/v1#Authority"/>
+            <rdf:rest>
+              <rdf:Description>
+                <rdf:first rdf:resource="http://www.loc.gov/mads/rdf/v1#MADSCollection"/>
+                <rdf:rest rdf:resource="http://www.w3.org/1999/02/22-rdf-syntax-ns#nil"/>
+              </rdf:Description>
+            </rdf:rest>
+          </rdf:Description>
+        </owl:unionOf>
+      </owl:Class>
+    </rdfs:domain>
+    <rdfs:label xml:lang="en">Is Member Of MADSCollection</rdfs:label>
+    <rdfs:range rdf:resource="http://www.loc.gov/mads/rdf/v1#MADSCollection"/>
+    <owl:inverseOf rdf:resource="http://www.loc.gov/mads/rdf/v1#hasMADSCollectionMember"/>
+  </rdf:Property>
+  <rdf:Property rdf:about="http://www.loc.gov/mads/rdf/v1#isMemberOfMADSScheme">
+    <rdf:type rdf:resource="http://www.w3.org/1999/02/22-rdf-syntax-ns#Property"/>
+    <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#ObjectProperty"/>
+    <rdfs:domain>
+      <owl:Class>
+        <owl:unionOf>
+          <rdf:Description>
+            <rdf:first rdf:resource="http://www.loc.gov/mads/rdf/v1#Authority"/>
+            <rdf:rest>
+              <rdf:Description>
+                <rdf:first rdf:resource="http://www.loc.gov/mads/rdf/v1#MADSCollection"/>
+                <rdf:rest rdf:resource="http://www.w3.org/1999/02/22-rdf-syntax-ns#nil"/>
+              </rdf:Description>
+            </rdf:rest>
+          </rdf:Description>
+        </owl:unionOf>
+      </owl:Class>
+    </rdfs:domain>
+    <rdfs:label rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Is Member of MADS
+      Scheme</rdfs:label>
+    <rdfs:range rdf:resource="http://www.loc.gov/mads/rdf/v1#MADSScheme"/>
+    <rdfs:subPropertyOf rdf:resource="http://www.w3.org/2004/02/skos/core#inScheme"/>
+    <owl:inverseOf rdf:resource="http://www.loc.gov/mads/rdf/v1#hasMADSSchemeMember"/>
+  </rdf:Property>
+  <rdf:Property rdf:about="http://www.loc.gov/mads/rdf/v1#isTopMemberOfMADSScheme">
+    <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#ObjectProperty"/>
+    <rdfs:comment rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Identifies a MADS Scheme in
+      which the Authority is at the top of the hierarchy.</rdfs:comment>
+    <rdfs:domain>
+      <owl:Class>
+        <owl:unionOf>
+          <rdf:Description>
+            <rdf:first rdf:resource="http://www.loc.gov/mads/rdf/v1#Authority"/>
+            <rdf:rest>
+              <rdf:Description>
+                <rdf:first rdf:resource="http://www.loc.gov/mads/rdf/v1#MADSCollection"/>
+                <rdf:rest rdf:resource="http://www.w3.org/1999/02/22-rdf-syntax-ns#nil"/>
+              </rdf:Description>
+            </rdf:rest>
+          </rdf:Description>
+        </owl:unionOf>
+      </owl:Class>
+    </rdfs:domain>
+    <rdfs:label rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Is Top Member of MADS
+      Scheme</rdfs:label>
+    <rdfs:range rdf:resource="http://www.loc.gov/mads/rdf/v1#MADSScheme"/>
+    <rdfs:subPropertyOf rdf:resource="http://www.loc.gov/mads/rdf/v1#isMemberOfMADSScheme"/>
+    <rdfs:subPropertyOf rdf:resource="http://www.w3.org/2004/02/skos/core#topConceptOf"/>
+    <owl:inverseOf rdf:resource="http://www.loc.gov/mads/rdf/v1#hasTopMemberOfMADSScheme"/>
+  </rdf:Property>
+  <rdf:Property rdf:about="http://www.loc.gov/mads/rdf/v1#natureOfAffiliation">
+    <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#AnnotationProperty"/>
+    <rdfs:comment rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Records the individual's
+      role or position in the organization with which the individual is affiliated. A "job title"
+      might be appropriate.</rdfs:comment>
+    <rdfs:domain rdf:resource="http://www.loc.gov/mads/rdf/v1#Affiliation"/>
+    <rdfs:label rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Nature of
+      Affiliation</rdfs:label>
+  </rdf:Property>
+  <rdf:Property rdf:about="http://www.loc.gov/mads/rdf/v1#note">
+    <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#AnnotationProperty"/>
+    <rdfs:comment rdf:datatype="http://www.w3.org/2001/XMLSchema#string">A note about the
+      resource.</rdfs:comment>
+    <rdfs:label rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Note</rdfs:label>
+    <owl:equivalentProperty rdf:resource="http://www.w3.org/2004/02/skos/core#note"/>
+  </rdf:Property>
+  <rdf:Property rdf:about="http://www.loc.gov/mads/rdf/v1#occupation">
+    <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#ObjectProperty"/>
+    <rdfs:comment rdf:datatype="http://www.w3.org/2001/XMLSchema#string">A profession or occupation
+      in which the person works or has worked.</rdfs:comment>
+    <rdfs:domain rdf:resource="http://www.loc.gov/mads/rdf/v1#RWO"/>
+    <rdfs:range rdf:resource="http://www.loc.gov/mads/rdf/v1#Occupation"/>
+    <rdfs:label rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Occupation</rdfs:label>
+  </rdf:Property>
+  <owl:AnnotationProperty rdf:about="http://www.loc.gov/mads/rdf/v1#organization">
+    <rdf:type rdf:resource="http://www.w3.org/1999/02/22-rdf-syntax-ns#Property"/>
+    <rdfs:comment rdf:datatype="http://www.w3.org/2001/XMLSchema#string">The group or organization
+      with which an individual is associated.</rdfs:comment>
+    <rdfs:domain rdf:resource="http://www.loc.gov/mads/rdf/v1#Affiliation"/>
+    <rdfs:label rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Organization or
+      Group</rdfs:label>
+  </owl:AnnotationProperty>
+  <owl:DatatypeProperty rdf:about="http://www.loc.gov/mads/rdf/v1#phone">
+    <rdf:type rdf:resource="http://www.w3.org/1999/02/22-rdf-syntax-ns#Property"/>
+    <rdfs:domain rdf:resource="http://www.loc.gov/mads/rdf/v1#Affiliation"/>
+    <rdfs:label rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Phone</rdfs:label>
+  </owl:DatatypeProperty>
+  <owl:DatatypeProperty rdf:about="http://www.loc.gov/mads/rdf/v1#postcode">
+    <rdf:type rdf:resource="http://www.w3.org/1999/02/22-rdf-syntax-ns#Property"/>
+    <rdfs:domain rdf:resource="http://www.loc.gov/mads/rdf/v1#Address"/>
+    <rdfs:label rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Post Code / Zip
+      Code</rdfs:label>
+  </owl:DatatypeProperty>
+  <rdf:Property rdf:about="http://www.loc.gov/mads/rdf/v1#prominentFamilyMember">
+    <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#DatatypeProperty"/>
+    <rdfs:comment rdf:datatype="http://www.w3.org/2001/XMLSchema#string">A well-known individual who
+      is a member of the family.</rdfs:comment>
+    <rdfs:domain rdf:resource="http://www.loc.gov/mads/rdf/v1#RWO"/>
+    <rdfs:label rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Prominent Family
+      Member</rdfs:label>
+  </rdf:Property>
+  <owl:AnnotationProperty rdf:about="http://www.loc.gov/mads/rdf/v1#scopeNote">
+    <rdf:type rdf:resource="http://www.w3.org/1999/02/22-rdf-syntax-ns#Property"/>
+    <rdfs:label rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Scope Note</rdfs:label>
+    <rdfs:subPropertyOf rdf:resource="http://www.loc.gov/mads/rdf/v1#note"/>
+    <owl:equivalentProperty rdf:resource="http://www.w3.org/2004/02/skos/core#scopeNote"/>
+  </owl:AnnotationProperty>
+  <owl:ObjectProperty rdf:about="http://www.loc.gov/mads/rdf/v1#see">
+    <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#ObjectProperty"/>
+    <rdfs:comment rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Denotes a relationship
+      between an Authority and/or DeprecatedAuthority. The relationship may or may or may not be
+      reciprocated and there is no certainty that the related resource will further illuminate the
+      original resource.</rdfs:comment>
+    <rdfs:domain>
+      <owl:Class>
+        <owl:unionOf>
+          <rdf:Description>
+            <rdf:first rdf:resource="http://www.loc.gov/mads/rdf/v1#Authority"/>
+            <rdf:rest>
+              <rdf:Description>
+                <rdf:first rdf:resource="http://www.loc.gov/mads/rdf/v1#DeprecatedAuthority"/>
+                <rdf:rest rdf:resource="http://www.w3.org/1999/02/22-rdf-syntax-ns#nil"/>
+              </rdf:Description>
+            </rdf:rest>
+          </rdf:Description>
+        </owl:unionOf>
+      </owl:Class>
+    </rdfs:domain>
+    <rdfs:label rdf:datatype="http://www.w3.org/2001/XMLSchema#string">See Also</rdfs:label>
+    <rdfs:range>
+      <owl:Class>
+        <owl:unionOf>
+          <rdf:Description>
+            <rdf:first rdf:resource="http://www.loc.gov/mads/rdf/v1#Authority"/>
+            <rdf:rest>
+              <rdf:Description>
+                <rdf:first rdf:resource="http://www.loc.gov/mads/rdf/v1#DeprecatedAuthority"/>
+                <rdf:rest rdf:resource="http://www.w3.org/1999/02/22-rdf-syntax-ns#nil"/>
+              </rdf:Description>
+            </rdf:rest>
+          </rdf:Description>
+        </owl:unionOf>
+      </owl:Class>
+    </rdfs:range>
+    <rdfs:subPropertyOf rdf:resource="http://www.w3.org/2000/01/rdf-schema#seeAlso"/>
+  </owl:ObjectProperty>
+  <owl:AnnotationProperty rdf:about="http://www.loc.gov/mads/rdf/v1#state">
+    <rdf:type rdf:resource="http://www.w3.org/1999/02/22-rdf-syntax-ns#Property"/>
+    <rdfs:comment rdf:datatype="http://www.w3.org/2001/XMLSchema#string">The state associated with
+      an address.</rdfs:comment>
+    <rdfs:domain rdf:resource="http://www.loc.gov/mads/rdf/v1#Address"/>
+    <rdfs:label rdf:datatype="http://www.w3.org/2001/XMLSchema#string">State</rdfs:label>
+  </owl:AnnotationProperty>
+  <owl:DatatypeProperty rdf:about="http://www.loc.gov/mads/rdf/v1#streetAddress">
+    <rdf:type rdf:resource="http://www.w3.org/1999/02/22-rdf-syntax-ns#Property"/>
+    <rdfs:comment rdf:datatype="http://www.w3.org/2001/XMLSchema#string">First line of address. For
+      second line, use madsrdf:extendedAddress.</rdfs:comment>
+    <rdfs:domain rdf:resource="http://www.loc.gov/mads/rdf/v1#Address"/>
+    <rdfs:label rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Street Address</rdfs:label>
+  </owl:DatatypeProperty>
+  <rdf:Property rdf:about="http://www.loc.gov/mads/rdf/v1#terminateDate">
+    <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#DatatypeProperty"/>
+    <rdfs:comment rdf:datatype="http://www.w3.org/2001/XMLSchema#string">The year a corporate body was terminated. Date of termination may also include the month and day of the corporate body’s termination.
+    </rdfs:comment>
+    <rdfs:domain rdf:resource="http://www.loc.gov/mads/rdf/v1#RWO"/>
+    <rdfs:label rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Terminated</rdfs:label>
+  </rdf:Property>
+  <rdf:Property rdf:about="http://www.loc.gov/mads/rdf/v1#useFor">
+    <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#ObjectProperty"/>
+    <rdfs:comment rdf:datatype="http://www.w3.org/2001/XMLSchema#string">"Use [This Resource] For."
+      Traditional "USE FOR" reference.</rdfs:comment>
+    <rdfs:label rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Use For</rdfs:label>
+    <rdfs:subPropertyOf rdf:resource="http://www.loc.gov/mads/rdf/v1#see"/>
+    <owl:inverseOf rdf:resource="http://www.loc.gov/mads/rdf/v1#useInstead"/>
+  </rdf:Property>
+  <owl:ObjectProperty rdf:about="http://www.loc.gov/mads/rdf/v1#useInstead">
+    <rdf:type rdf:resource="http://www.w3.org/1999/02/22-rdf-syntax-ns#Property"/>
+    <rdfs:comment rdf:datatype="http://www.w3.org/2001/XMLSchema#string">"Use [This Other Resource]
+      Instead." Traditional "USE" reference.</rdfs:comment>
+    <rdfs:label rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Use Instead</rdfs:label>
+    <rdfs:subPropertyOf rdf:resource="http://www.loc.gov/mads/rdf/v1#see"/>
+  </owl:ObjectProperty>
+  <owl:DatatypeProperty rdf:about="http://www.loc.gov/mads/rdf/v1#variantLabel">
+    <rdf:type rdf:resource="http://www.w3.org/1999/02/22-rdf-syntax-ns#Property"/>
+    <rdfs:comment rdf:datatype="http://www.w3.org/2001/XMLSchema#string">The lexical, variant form
+      of an authoritative label.</rdfs:comment>
+    <rdfs:domain rdf:resource="http://www.loc.gov/mads/rdf/v1#Variant"/>
+    <rdfs:label rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Variant Label</rdfs:label>
+    <rdfs:subPropertyOf rdf:resource="http://www.w3.org/2008/05/skos-xl#literalForm"/>
+  </owl:DatatypeProperty>
+  <rdf:Property rdf:about="http://www.loc.gov/mads/rdf/v1#workOrigin">
+    <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#ObjectProperty"/>
+    <rdfs:comment rdf:datatype="http://www.w3.org/2001/XMLSchema#string">The country or other territorial jurisdiction from which a work originated.</rdfs:comment>
+    <rdfs:range rdf:resource="http://www.loc.gov/mads/rdf/v1#Geographic"/>
+    <rdfs:label rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Work locale</rdfs:label>
+  </rdf:Property>
+  <owl:Ontology rdf:about="http://www.loc.gov/standards/mads/rdf/v1.rdf">
+    <rdfs:comment xml:lang="en">Updated: 29 October 2015</rdfs:comment>
+  </owl:Ontology>
+  <owl:AnnotationProperty rdf:about="http://www.w3.org/2000/01/rdf-schema#comment"/>
+  <owl:AnnotationProperty rdf:about="http://www.w3.org/2000/01/rdf-schema#label"/>
+  <rdfs:Datatype rdf:about="http://www.w3.org/2001/XMLSchema#date"/>
+  <owl:Class rdf:about="http://www.w3.org/2002/07/owl#Thing"/>
+</rdf:RDF>
