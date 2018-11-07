@@ -1,4 +1,4 @@
- import React from 'react';
+ import React from 'react'
 
 // TODO: This will need to be re-written in the correct "react" way.
 const LoginPanel = () => (
@@ -22,6 +22,6 @@ const LoginPanel = () => (
       </div>
     </div>
   </form>
-);
+)
 
-export default LoginPanel;
+export default LoginPanel

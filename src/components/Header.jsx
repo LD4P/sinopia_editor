@@ -1,5 +1,5 @@
-import React from 'react';
-import SinopiaLogo from '../styles/sinopia-logo.png';
+import React from 'react'
+import SinopiaLogo from '../styles/sinopia-logo.png'
 import { Link } from 'react-router-dom'
 
 const Header = () => (
@@ -53,6 +53,6 @@ const Header = () => (
       </li>
     </ul>
   </div>
-);
+)
 
-export default Header;
+export default Header

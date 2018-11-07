@@ -1,13 +1,13 @@
-import React from 'react';
-import { hot } from 'react-hot-loader';
-import HomePage from './HomePage';
-import Footer from './Footer';
-import '../styles/main.css';
-import BFF from './BFF';
+import React from 'react'
+import { hot } from 'react-hot-loader'
+import HomePage from './HomePage'
+import Footer from './Footer'
+import '../styles/main.css'
+import BFF from './BFF'
 
-import { BrowserRouter, Route, Switch } from 'react-router-dom';
+import { BrowserRouter, Route, Switch } from 'react-router-dom'
 
-const FourOhFour = () => <h1>404</h1>;
+const FourOhFour = () => <h1>404</h1>
 const App = () => (
   <BrowserRouter>
     <div id="app">
@@ -19,6 +19,6 @@ const App = () => (
       <Footer />
     </div>
   </BrowserRouter>
-);
+)
 
-export default hot(module)(App);
+export default hot(module)(App)
