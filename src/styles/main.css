@@ -6,7 +6,7 @@ body {
   background-size: cover;
   background-image: url("home-background.png");
 }
-.navbar {
+.homepage-navbar {
   padding-bottom: 2% ;
   padding-top:2%;
 }
@@ -60,6 +60,20 @@ body {
   color: white;
   font-size: 1.2em;
 }
-#footer-image{
+.editor-navbar{
+  background-image: url('./editorheaderbg.png');
+}
+#sinopia-editor{
+  height: 10%;
+  padding-left: 10%;
+  padding-top: 10%;
+  padding-bottom: 20%;
+}
+.editor-header-text{
+  font-size: 12px;
+}
+a.editor-help-resources {
+  font-size: 12px;
+}#footer-image{
   padding-right: 10%;
 }
