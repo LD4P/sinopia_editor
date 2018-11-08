@@ -5,7 +5,7 @@ import { Link } from 'react-router-dom'
 class Header extends Component {
   render() {
     return (
-      <div className="navbar">
+      <div className="navbar homepage-navbar">
         <div className="navbar-header">
           <a className="navbar-brand" href="https://google.com">
             <img src={SinopiaLogo} height="55px" />
@@ -19,7 +19,7 @@ class Header extends Component {
             <a className="header-text" href="https://profile-editor.sinopia.io/">Profile Editor</a>
           </li>
           <li className="menu">
-            <a href="#" className="help-resources" onClick={this.props.triggerHandleOffsetMenu}>Help and Resources</a>
+            <a href="#" className="help-resources" onClick={this.props.triggerHomePageMenu}>Help and Resources</a>
           </li>
         </ul>
       </div>
