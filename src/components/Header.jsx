@@ -16,7 +16,7 @@ class Header extends Component {
             <Link to='/editor'> BFF (Bib Editor) </Link>
           </li>
           <li>
-            <a className="header-text" href="https://google.com">Profile Editor</a>
+            <a className="header-text" href="https://profile-editor.sinopia.io/">Profile Editor</a>
           </li>
           <li className="menu">
             <a href="#" className="help-resources" onClick={this.props.triggerHandleOffsetMenu}>Help and Resources</a>
