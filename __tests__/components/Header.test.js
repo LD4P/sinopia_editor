@@ -1,5 +1,5 @@
 import React from 'react'
-import { shallow, render } from 'enzyme'
+import { shallow } from 'enzyme'
 import Header from '../../src/components/Header'
 import SinopiaLogo from '../../styles/sinopia-logo.png'
 
@@ -9,21 +9,18 @@ describe('<Header />', () => {
     expect(wrapper.find("img").prop('src')).toEqual(SinopiaLogo)
   })
 
-  it ('renders a ".navbar" w/ 4 dropdown menu options', () => {
+  it ('renders a ".navbar"', () => {
     expect(wrapper.find('.navbar').length).toBe(1)
-    expect(wrapper.find('.divider').length).toBe(4)
   })
 
-  it ('renders a dropdown menu sections', () => {
-    expect(wrapper.find('strong').at(0).text()).toEqual("Sinopia User Dashboard")
-    expect(wrapper.find('strong').at(1).text()).toEqual("Contact Us")
-    expect(wrapper.find('strong').at(2).text()).toEqual("Training Resources")
-    expect(wrapper.find('strong').at(3).text()).toEqual("Website Usage")
-    expect(wrapper.find('strong').at(4).text()).toEqual("External Resources")
+  it ('mock renders an offcanvas menu', () => {
+    const mockCB = jest.fn()
+    const wrapper = shallow(<Header triggerHandleOffsetMenu={mockCB} />)
+    wrapper.find('.help-resources').simulate('click')
+    expect(mockCB.mock.calls.length).toEqual(1)
   })
 
   it ('renders dropdown menu links', () => {
     expect(wrapper.find('a[href="https://ld4.slack.com/messages/#sinopia"]')).toBeDefined()
   })
 })
-
