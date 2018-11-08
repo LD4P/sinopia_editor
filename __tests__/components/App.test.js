@@ -4,32 +4,32 @@ import { mount, shallow } from "enzyme"
 import { MemoryRouter } from "react-router"
 import App from '../../src/components/App'
 import HomePage from '../../src/components/HomePage'
-import BFF from '../../src/components/BFF'
+import Editor from '../../src/components/editor/Editor'
 
 
 describe('<App />', () =>{
   it('selectable by id "#app"', () => {
     const wrapper = shallow(<App />)
-    expect(wrapper.find('#app').length).toBe(1)
+    expect(wrapper.find('div#app')).toBeDefined()
   })
 })
 
-const renderRoutes = path =>
-  mount(
-    <MemoryRouter initialEntries={[path]}>
-      <App />
-    </MemoryRouter>
-  )
-
 describe("#routes", () => {
-  it("renders home page on initial route", () => {
+  const renderRoutes = path =>
+    mount(
+      <MemoryRouter initialEntries={[path]}>
+        <App />
+      </MemoryRouter>
+    )
+
+  it("renders home page at root", () => {
     const component = renderRoutes("/")
-    expect(component.contains(HomePage)).toEqual(true)
+    expect(component.find(HomePage)).toBeDefined()
   })
 
   it("renders the editor page", () => {
     const component = renderRoutes("/editor")
-    expect(component.contains(BFF)).toEqual(true)
+    expect(component.find(Editor)).toBeDefined()
   })
 
   it("renders a 404", () => {
