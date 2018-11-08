@@ -1,7 +1,6 @@
 import React from 'react'
 import { hot } from 'react-hot-loader'
 import HomePage from './HomePage'
-import Footer from './Footer'
 import '../styles/main.css'
 import BFF from './BFF'
 
@@ -16,7 +15,6 @@ const App = () => (
         <Route exact path='/editor' component={BFF} />
         <Route id="404" component={FourOhFour} />
       </Switch>
-      <Footer />
     </div>
   </BrowserRouter>
 )

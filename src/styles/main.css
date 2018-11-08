@@ -5,7 +5,6 @@ body {
 .banner {
   background-size: cover;
   background-image: url("home-background.png");
-  /*margin: 0 19%;*/
 }
 .navbar {
   padding-bottom: 2% ;
@@ -15,6 +14,7 @@ body {
   margin: 3% 10%;
   padding: 2%;
   opacity:0.85;
+  box-shadow: -3px 3px 10px 0px #999999;
 }
 .jumbotron h1{
   font-size: 30px;
@@ -36,9 +36,27 @@ body {
 .header-text{
   font-size:15px;
 }
-.panel {
-  box-shadow: -3px 3px 10px 0px #999999;
+.offcanvas-menu{
+  background-color: rgb(55,66,79);
+  height: 100%;
+}
+.offcanvas-menu a{
+  color: white;
+}
+.closeMargin{
+  margin-right: -12.5%;
 }
 .menu-item{
-  color: #337ab7 !important;
+  margin-left: 1.4em;
+}
+.close-icon{
+  font-size: 1.6em;
+  margin-top: 10%;
+  margin-right: 10%;
+  color: white;
+  float: right;
+}
+.arrow-icon{
+  color: white;
+  font-size: 1.2em;
 }
