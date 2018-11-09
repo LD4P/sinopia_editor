@@ -5,12 +5,17 @@ import { MemoryRouter } from "react-router"
 import App from '../../src/components/App'
 import HomePage from '../../src/components/HomePage'
 import Editor from '../../src/components/editor/Editor'
+import Footer from '../../src/components/Footer'
 
 
 describe('<App />', () =>{
+  const wrapper = shallow(<App />)
   it('selectable by id "#app"', () => {
     const wrapper = shallow(<App />)
     expect(wrapper.find('div#app').length).toEqual(1)
+  })
+  it('renders <Footer />', () => {
+    expect(wrapper.find(Footer).length).toBe(1)
   })
 })
 

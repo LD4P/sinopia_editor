@@ -56,24 +56,26 @@ body {
   color: white;
   float: right;
 }
-.arrow-icon{
+.arrow-icon{ 
   color: white;
   font-size: 1.2em;
 }
 .editor-navbar{
   background-image: url('./editorheaderbg.png');
-}
-#sinopia-editor{
-  height: 10%;
-  padding-left: 10%;
-  padding-top: 10%;
-  padding-bottom: 20%;
+  padding-bottom: 1em; 
 }
 .editor-header-text{
-  font-size: 12px;
+  font-size: .85em;
 }
 a.editor-help-resources {
-  font-size: 12px;
-}#footer-image{
+  font-size: .85em;
+}
+#footer-image{
   padding-right: 10%;
+}
+.editor-logo a{
+  text-decoration: none;
+  font-family: "Copperplate Gothic Light"; 
+  font-size: 1.3em; 
+  color: #2F2424; 
 }
