@@ -10,7 +10,7 @@ import Editor from '../../src/components/editor/Editor'
 describe('<App />', () =>{
   it('selectable by id "#app"', () => {
     const wrapper = shallow(<App />)
-    expect(wrapper.find('div#app')).toBeDefined()
+    expect(wrapper.find('div#app').length).toEqual(1)
   })
 })
 
@@ -22,17 +22,17 @@ describe("#routes", () => {
       </MemoryRouter>
     )
 
-  it("renders home page at root", () => {
+  it("root renders HomePage component", () => {
     const component = renderRoutes("/")
-    expect(component.find(HomePage)).toBeDefined()
+    expect(component.find(HomePage).length).toEqual(1)
   })
 
-  it("renders the editor page", () => {
+  it("/editor renders Editor component", () => {
     const component = renderRoutes("/editor")
-    expect(component.find(Editor)).toBeDefined()
+    expect(component.find(Editor).length).toEqual(1)
   })
 
-  it("renders a 404", () => {
+  it("invalid path renders a 404", () => {
     const component = renderRoutes("/blah")
     expect(component.contains(<h1>404</h1>)).toEqual(true)
   })
