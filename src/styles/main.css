@@ -56,13 +56,13 @@ body {
   color: white;
   float: right;
 }
-.arrow-icon{ 
+.arrow-icon{
   color: white;
   font-size: 1.2em;
 }
 .editor-navbar{
   background-image: url('./editorheaderbg.png');
-  padding-bottom: 1em; 
+  padding-bottom: 1em;
 }
 .editor-header-text{
   font-size: .85em;
@@ -75,7 +75,7 @@ a.editor-help-resources {
 }
 .editor-logo a{
   text-decoration: none;
-  font-family: "Copperplate Gothic Light"; 
-  font-size: 1.3em; 
-  color: #2F2424; 
+  font-family: "Copperplate Gothic Light";
+  font-size: 1.3em;
+  color: #2F2424;
 }

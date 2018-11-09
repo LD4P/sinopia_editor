@@ -11,7 +11,6 @@ import Footer from '../../src/components/Footer'
 describe('<App />', () =>{
   const wrapper = shallow(<App />)
   it('selectable by id "#app"', () => {
-    const wrapper = shallow(<App />)
     expect(wrapper.find('div#app').length).toEqual(1)
   })
   it('renders <Footer />', () => {
