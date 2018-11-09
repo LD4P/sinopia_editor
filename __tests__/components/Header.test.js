@@ -23,4 +23,8 @@ describe('<Header />', () => {
   it ('renders dropdown menu links', () => {
     expect(wrapper.find('a[href="https://ld4.slack.com/messages/#sinopia"]')).toBeDefined()
   })
+
+  it('links to Sinopia Profile Editor', () => {
+    expect(wrapper.find('a[href="https://profile-editor.sinopia.io/"]').text()).toBe('Profile Editor')
+  })
 })
