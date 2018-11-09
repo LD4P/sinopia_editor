@@ -4,35 +4,35 @@ import { mount, shallow } from "enzyme"
 import { MemoryRouter } from "react-router"
 import App from '../../src/components/App'
 import HomePage from '../../src/components/HomePage'
-import BFF from '../../src/components/BFF'
+import Editor from '../../src/components/editor/Editor'
 
 
 describe('<App />', () =>{
   it('selectable by id "#app"', () => {
     const wrapper = shallow(<App />)
-    expect(wrapper.find('#app').length).toBe(1)
+    expect(wrapper.find('div#app').length).toEqual(1)
   })
 })
 
-const renderRoutes = path =>
-  mount(
-    <MemoryRouter initialEntries={[path]}>
-      <App />
-    </MemoryRouter>
-  )
-
 describe("#routes", () => {
-  it("renders home page on initial route", () => {
+  const renderRoutes = path =>
+    mount(
+      <MemoryRouter initialEntries={[path]}>
+        <App />
+      </MemoryRouter>
+    )
+
+  it("root renders HomePage component", () => {
     const component = renderRoutes("/")
-    expect(component.contains(HomePage)).toEqual(true)
+    expect(component.find(HomePage).length).toEqual(1)
   })
 
-  it("renders the editor page", () => {
+  it("/editor renders Editor component", () => {
     const component = renderRoutes("/editor")
-    expect(component.contains(BFF)).toEqual(true)
+    expect(component.find(Editor).length).toEqual(1)
   })
 
-  it("renders a 404", () => {
+  it("invalid path renders a 404", () => {
     const component = renderRoutes("/blah")
     expect(component.contains(<h1>404</h1>)).toEqual(true)
   })

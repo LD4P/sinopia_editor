@@ -6,9 +6,8 @@ import NewsPanel from '../../src/components/NewsPanel'
 import DescPanel from '../../src/components/DescPanel'
 import Footer from '../../src/components/Footer'
 
-
 describe('<HomePage />', () =>{
-  it('should be selectable by id "app"', () => {
+  it('selectable by id "home-page"', () => {
     expect(shallow(<HomePage />).is('#home-page')).toBe(true)
   })
 
@@ -20,4 +19,3 @@ describe('<HomePage />', () =>{
     expect(wrapper.find(Footer).length).toBe(1)
   })
 })
-
