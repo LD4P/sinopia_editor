@@ -4,7 +4,6 @@ import HomePage from '../../src/components/HomePage'
 import Header from '../../src/components/Header'
 import NewsPanel from '../../src/components/NewsPanel'
 import DescPanel from '../../src/components/DescPanel'
-import Footer from '../../src/components/Footer'
 
 describe('<HomePage />', () =>{
   it('selectable by id "home-page"', () => {
@@ -16,6 +15,5 @@ describe('<HomePage />', () =>{
     expect(wrapper.find(Header).length).toBe(1)
     expect(wrapper.find(NewsPanel).length).toBe(1)
     expect(wrapper.find(DescPanel).length).toBe(1)
-    expect(wrapper.find(Footer).length).toBe(1)
   })
 })

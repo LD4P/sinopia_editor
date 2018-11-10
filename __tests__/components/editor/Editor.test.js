@@ -2,7 +2,7 @@ import React from 'react'
 import { shallow } from 'enzyme'
 import Editor from '../../../src/components/editor/Editor'
 import ResourceTemplate from '../../../src/components/editor/ResourceTemplate'
-import Footer from '../../../src/components/Footer'
+import EditorHeader from '../../../src/components/EditorHeader'
 
 describe('<Editor />', () => {
   const wrapper = shallow(<Editor />)
@@ -14,7 +14,7 @@ describe('<Editor />', () => {
     expect(wrapper.find(ResourceTemplate).length).toBe(1)
   })
 
-  it('renders <Footer />', () => {
-    expect(wrapper.find(Footer).length).toBe(1)
+  it('renders <EditorHeader />', () => {
+    expect(wrapper.find(EditorHeader).length).toBe(1)
   })
 })

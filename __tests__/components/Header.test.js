@@ -15,7 +15,7 @@ describe('<Header />', () => {
 
   it ('mock renders an offcanvas menu', () => {
     const mockCB = jest.fn()
-    const wrapper = shallow(<Header triggerHandleOffsetMenu={mockCB} />)
+    const wrapper = shallow(<Header triggerHomePageMenu={mockCB} />)
     wrapper.find('.help-resources').simulate('click')
     expect(mockCB.mock.calls.length).toEqual(1)
   })

@@ -1,6 +1,6 @@
 import React, {Component} from 'react'
 import ResourceTemplate from './ResourceTemplate'
-import Footer from '../Footer'
+import EditorHeader from '../EditorHeader'
 
 class Editor extends Component {
   constructor(props) {
@@ -120,13 +120,13 @@ class Editor extends Component {
   render() {
     return(
       <div id="editor">
-        <h2>Editor Page</h2>
+        <EditorHeader triggerEditorMenu={this.props.triggerHandleOffsetMenu}/>
+        <h1> Editor Page </h1>
         <p>(will have a "Choose Resource Template" area + editing area)</p>
         <p>The selected resource template is <strong>{this.state.resourceTemplates[0].id}</strong></p>
         <ResourceTemplate
           resourceTemplates = {this.state.resourceTemplates}
           />
-        <Footer />
       </div>
     )
   }
