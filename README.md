@@ -223,12 +223,12 @@ Maintainer
 License
 -------
 
-Unless otherwise noted, code that is original to the `Sinopia Editor` is licensed
-under the [Apache 2](https://www.apache.org/licenses/LICENSE-2.0).  
+Unless otherwise noted, code that is originally developed by Stanford University
+in the `Sinopia Editor` is licensed under the [Apache 2](https://www.apache.org/licenses/LICENSE-2.0).  
 
 Original `bfe` code is in the Public Domain.
 
-http://creativecommons.org/publicdomain/mark/1.0/
+http://creativecommons.org/publicdomain/zero/1.0/
 
 **NOTE:**  `bfe` includes or depends on software from other open source projects, all or
 most of which will carry their own license and copyright.  The Public Domain mark
