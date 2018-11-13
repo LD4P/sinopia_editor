@@ -110,6 +110,32 @@ class Editor extends Component {
                 "valueDataType": {},
                 "defaults": []
               }
+            },
+            {
+              "propertyLabel": "Carrier Type (RDA 3.3)",
+              "propertyURI": "http://id.loc.gov/ontologies/bibframe/carrier",
+              "repeatable": "true",
+              "resourceTemplates": [],
+              "type": "resource",
+              "valueConstraint": {
+                "valueTemplateRefs": [],
+                "useValuesFrom": [
+                  "http://id.loc.gov/vocabulary/carriers"
+                ],
+                "valueDataType": {
+                  "dataTypeURI": "http://id.loc.gov/ontologies/bibframe/Carrier"
+                },
+                "repeatable": "true",
+                "editable": "false",
+                "defaults": [
+                  {
+                    "defaultURI": "http://id.loc.gov/vocabulary/carriers/nc",
+                    "defaultLiteral": "volume"
+                  }
+                ]
+              },
+              "mandatory": "false",
+              "remark": "http://access.rdatoolkit.org/3.3.html"
             }
           ]
         }
