@@ -1,0 +1,38 @@
+{
+  "id": "resourceTemplate:bf2:WorkVariantTitle",
+  "resourceLabel": "Work Title Variation",
+  "resourceURI": "http://id.loc.gov/ontologies/bibframe/VariantTitle",
+  "propertyTemplates": [
+    {
+      "propertyLabel": "Variant Title for Work (RDA 6.2.3, 6.14.3 (Music))",
+      "remark": "http://access.rdatoolkit.org/rdachp6_rda6-2658.html",
+      "propertyURI": "http://id.loc.gov/ontologies/bibframe/mainTitle",
+      "mandatory": "false",
+      "repeatable": "true",
+      "type": "literal",
+      "resourceTemplates": [],
+      "valueConstraint": {
+        "valueTemplateRefs": [],
+        "useValuesFrom": [],
+        "valueDataType": {},
+        "defaults": []
+      }
+    },
+    {
+      "propertyURI": "http://id.loc.gov/ontologies/bibframe/note",
+      "propertyLabel": "Note on title",
+      "mandatory": "false",
+      "repeatable": "true",
+      "type": "resource",
+      "resourceTemplates": [],
+      "valueConstraint": {
+        "valueTemplateRefs": [
+          "resourceTemplate:bf2:Title:Note"
+        ],
+        "useValuesFrom": [],
+        "valueDataType": {},
+        "defaults": []
+      }
+    }
+  ]
+}

@@ -1,0 +1,151 @@
+{
+  "id": "resourceTemplate:bf2:Monograph:Work",
+  "resourceURI": "http://id.loc.gov/ontologies/bibframe/Work",
+  "resourceLabel": "BIBFRAME Work",
+  "propertyTemplates": [
+    {
+      "propertyURI": "http://id.loc.gov/ontologies/bibframe/title",
+      "propertyLabel": "Title Information",
+      "mandatory": "false",
+      "repeatable": "true",
+      "type": "resource",
+      "resourceTemplates": [],
+      "valueConstraint": {
+        "valueTemplateRefs": [
+          "resourceTemplate:bf2:WorkTitle",
+          "resourceTemplate:bf2:WorkVariantTitle",
+          "resourceTemplate:bflc:TranscribedTitle"
+        ],
+        "useValuesFrom": [],
+        "valueDataType": {},
+        "defaults": []
+      }
+    },
+    {
+      "propertyURI": "http://id.loc.gov/ontologies/bibframe/temporalCoverage",
+      "propertyLabel": "(Time) Coverage of the Content (RDA 7.3)",
+      "remark": "http://access.rdatoolkit.org/7.3.html",
+      "mandatory": "false",
+      "repeatable": "true",
+      "type": "literal",
+      "resourceTemplates": [],
+      "valueConstraint": {
+        "valueTemplateRefs": [],
+        "useValuesFrom": [],
+        "valueDataType": {},
+        "defaults": []
+      }
+    },
+    {
+      "propertyURI": "http://id.loc.gov/ontologies/bibframe/note",
+      "propertyLabel": "Notes about the Work",
+      "mandatory": "false",
+      "repeatable": "true",
+      "type": "resource",
+      "resourceTemplates": [],
+      "valueConstraint": {
+        "valueTemplateRefs": [
+          "resourceTemplate:bf2:Note"
+        ],
+        "useValuesFrom": [],
+        "valueDataType": {},
+        "defaults": []
+      }
+    },
+    {
+      "propertyURI": "http://id.loc.gov/ontologies/bibframe/content",
+      "propertyLabel": "Content Type (RDA 6.9)",
+      "remark": "http://access.rdatoolkit.org/6.9.html",
+      "mandatory": "false",
+      "repeatable": "true",
+      "type": "resource",
+      "resourceTemplates": [],
+      "valueConstraint": {
+        "valueTemplateRefs": [],
+        "useValuesFrom": [
+          "http://id.loc.gov/vocabulary/contentTypes"
+        ],
+        "valueDataType": {
+          "dataTypeURI": "http://id.loc.gov/ontologies/bibframe/Content"
+        },
+        "editable": "false",
+        "repeatable": "true",
+        "defaults": [
+          {
+            "defaultURI": "http://id.loc.gov/vocabulary/contentTypes/txt",
+            "defaultLiteral": "text"
+          }
+        ]
+      }
+    },
+    {
+      "propertyURI": "http://id.loc.gov/ontologies/bibframe/illustrativeContent",
+      "propertyLabel": "Illustrative Content (RDA 7.15)",
+      "remark": "http://access.rdatoolkit.org/7.15.html",
+      "mandatory": "false",
+      "repeatable": "true",
+      "type": "resource",
+      "resourceTemplates": [],
+      "valueConstraint": {
+        "valueTemplateRefs": [],
+        "useValuesFrom": [
+          "http://id.loc.gov/vocabulary/millus"
+        ],
+        "valueDataType": {
+          "dataTypeURI": "http://id.loc.gov/ontologies/bibframe/Illustration"
+        },
+        "repeatable": "true",
+        "editable": "false",
+        "defaults": []
+      }
+    },
+    {
+      "propertyURI": "http://id.loc.gov/ontologies/bibframe/colorContent",
+      "propertyLabel": "Color Content (RDA 7.17)",
+      "remark": "http://access.rdatoolkit.org/7.17.html",
+      "mandatory": "false",
+      "repeatable": "true",
+      "type": "resource",
+      "resourceTemplates": [],
+      "valueConstraint": {
+        "valueTemplateRefs": [
+          "resourceTemplate:bf2:Note"
+        ],
+        "useValuesFrom": [],
+        "valueDataType": {},
+        "defaults": []
+      }
+    },
+    {
+      "propertyURI": "http://id.loc.gov/ontologies/bibframe/hasInstance",
+      "propertyLabel": "Has BIBFRAME Instance",
+      "mandatory": "false",
+      "repeatable": "true",
+      "type": "resource",
+      "resourceTemplates": [],
+      "valueConstraint": {
+        "valueTemplateRefs": [
+          "resourceTemplate:bf2:Monograph:Instance"
+        ],
+        "useValuesFrom": [],
+        "valueDataType": {},
+        "defaults": []
+      }
+    },
+    {
+      "propertyURI": "http://www.w3.org/2000/01/rdf-schema#label",
+      "propertyLabel": "Authorized Access Point Representing the Work (RDA 6.27.1)",
+      "remark": "http://access.rdatoolkit.org/6.27.1.html",
+      "mandatory": "false",
+      "repeatable": "true",
+      "type": "literal",
+      "resourceTemplates": [],
+      "valueConstraint": {
+        "valueTemplateRefs": [],
+        "useValuesFrom": [],
+        "valueDataType": {},
+        "defaults": []
+      }
+    }
+  ]
+}
