@@ -110,6 +110,68 @@ class Editor extends Component {
                 "valueDataType": {},
                 "defaults": []
               }
+            },
+            {
+              "propertyLabel": "Carrier Type (RDA 3.3)",
+              "propertyURI": "http://id.loc.gov/ontologies/bibframe/carrier",
+              "repeatable": "true",
+              "resourceTemplates": [],
+              "type": "resource",
+              "valueConstraint": {
+                "valueTemplateRefs": [],
+                "useValuesFrom": [
+                  "http://id.loc.gov/vocabulary/carriers"
+                ],
+                "valueDataType": {
+                  "dataTypeURI": "http://id.loc.gov/ontologies/bibframe/Carrier"
+                },
+                "repeatable": "true",
+                "editable": "false",
+                "defaults": [
+                  {
+                    "defaultURI": "http://id.loc.gov/vocabulary/carriers/nc",
+                    "defaultLiteral": "volume"
+                  }
+                ]
+              },
+              "mandatory": "false",
+              "remark": "http://access.rdatoolkit.org/3.3.html"
+            },
+            {
+              "propertyLabel": "WITH ALL VALUE CONSTRAINTS",
+              "propertyURI": "http://id.loc.gov/ontologies/fake",
+              "repeatable": "true",
+              "resourceTemplates": [],
+              "type": "resource",
+              "valueConstraint": {
+                "defaults": [
+                  {
+                    "defaultLiteral": "DEFAULT",
+                    "defaultURI": "http://default"
+                  }
+                ],
+                "editable": "true",
+                "languageLabel": "LANGUAGE LABEL",
+                "languageURI": "http://id.loc.gov/vocabulary/languages/eng",
+                "remark": "REMARK",
+                "repeatable": "false",
+                "useValuesFrom": [
+                  "http://VALUES"
+                ],
+                "validatePattern": "PATTERN",
+                "valueDataType": {
+                  "dataTypeLabel": "Classification item number",
+                  "dataTypeLabelHint": "HINT",
+                  "dataTypeURI": "http://id.loc.gov/ontologies/bibframe/itemPortion",
+                  "remark": "REMARK"
+                },
+                "valueLanguage": "VALUE LANGUAGE",
+                "valueTemplateRefs": [
+                  "profile:bf2:Identifiers:Barcode"
+                ]
+              },
+              "mandatory": "false",
+              "remark": "http://access.rdatoolkit.org/3.3.html"
             }
           ]
         }
