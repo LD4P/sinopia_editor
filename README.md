@@ -109,9 +109,15 @@ in the foreground, `docker run -p 8000:8000 --rm --name=sinopia_editor ld4p/sino
 [http://localhost:8000](https://hub.docker.com/r/ld4p/sinopia_editor/).
 
 ### Building latest Docker Image
+Before building the latest Docker Image, run `npm run build` to update the `dist` folder with the current build.
 To build the latest version of the [Sinopia Editor][GIT_REPO], you
 can build with the
 `docker build -t ld4p/sinopia_editor --no-cache=true .` command.
+
+### Pushing Docker Image to Dockerhub
+Run `docker login` and enter the correct credentials to your docker account.
+Once successfully authenticated, run `docker push ld4p/sinopia_editor:latest`.
+Ask a member on the DevOps team to go into the AWS console to udpate https://sinopia.io
 
 # LD4P's fork of the BIBFRAME Editor
 The Sinopia Editor is forked from [https://github.com/lcnetdev/bfe][BFE_GIT].
