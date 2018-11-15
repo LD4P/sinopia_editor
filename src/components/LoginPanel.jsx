@@ -1,4 +1,6 @@
- import React from 'react'
+// Copyright 2018 Stanford University see Apache2.txt for license
+
+import React from 'react'
 
 // TODO: This will need to be re-written in the correct "react" way.
 const LoginPanel = () => (

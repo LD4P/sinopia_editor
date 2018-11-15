@@ -1,3 +1,5 @@
+// Copyright 2018 Stanford Junior University see Apache2.txt for license
+
 import React from 'react'
 import NewsItem from './NewsItem.jsx'
 import LoginPanel from './LoginPanel.jsx'

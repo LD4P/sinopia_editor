@@ -1,3 +1,5 @@
+// Copyright 2018 Stanford University see Apache2.txt for license
+
 import React from 'react'
 import { shallow } from 'enzyme'
 import Footer from '../../src/components/Footer'
@@ -11,4 +13,3 @@ describe('<Footer />', () => {
     expect(wrapper.find('a[href="http://www.ld4p.org"]')).toBeDefined()
   })
 })
-

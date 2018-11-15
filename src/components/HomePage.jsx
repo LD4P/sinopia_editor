@@ -1,3 +1,5 @@
+// Copyright 2018 Stanford University see Apache2.txt for license
+
 import React, { Component } from 'react'
 import Header from './Header'
 import NewsPanel from './NewsPanel'
@@ -10,7 +12,7 @@ class HomePage extends Component {
         <Header triggerHomePageMenu={this.props.triggerHandleOffsetMenu} />
         <NewsPanel />
         <DescPanel />
-      </div>   
+      </div>
     )
   }
 }

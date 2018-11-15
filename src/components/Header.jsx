@@ -1,3 +1,5 @@
+// Copyright 2018 Leland Stanford Junior University see Apache2.txt for license
+
 import React, { Component } from 'react'
 import SinopiaLogo from '../styles/sinopia-logo.png'
 import { Link } from 'react-router-dom'

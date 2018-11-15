@@ -1,3 +1,5 @@
+// Copyright 2018 Stanford University see Apache2.txt for license
+
 import React from 'react'
 
 const NewsItem = () => (

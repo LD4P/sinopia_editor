@@ -1,3 +1,5 @@
+// Copyright 2018 Stanford University see Apache2.txt for license
+
 describe('Browse', () => {
 //   beforeAll(async () => {
 //     await page.goto('http://127.0.0.1:8000/');

@@ -1,3 +1,5 @@
+// Copyright 2018 Stanford University see Apache2.txt for license
+
 // spoof verso calls to get profiles and ontologies
 const path = require('path')
 const fs = require('fs')
