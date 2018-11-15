@@ -184,11 +184,9 @@ class Editor extends Component {
       <div id="editor">
         <EditorHeader triggerEditorMenu={this.props.triggerHandleOffsetMenu}/>
         <h1> Editor Page </h1>
-        <p>(will have a "Choose Resource Template" area + editing area)</p>
+        <p>(will have a "Choose Resource Template / Starting Points" area + editing area)</p>
         <p>The selected resource template is <strong>{this.state.resourceTemplates[0].id}</strong></p>
-        <ResourceTemplate
-          resourceTemplates = {this.state.resourceTemplates}
-          />
+        <ResourceTemplate resourceTemplates = {this.state.resourceTemplates ? this.state.resourceTemplates : []} />
       </div>
     )
   }
