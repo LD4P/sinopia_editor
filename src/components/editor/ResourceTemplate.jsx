@@ -42,17 +42,21 @@ class PropertiesWrapper extends Component{
       border: '1px dashed',
       padding: '10px',
     }
-    return (
-      <div className='PropertiesWrapper' style={dashedBorder}>
-        <p>BEGIN PropertiesWrapper</p>
-          <div>
-            {this.props.propertyTemplates[0].map(function(pt, index){
-              return <PropertyTemplate key={index} propertyTemplates={[pt]}/>
-            })}
-          </div>
-        <p>END PropertiesWrapper</p>
-      </div>
-    )
+    if (this.props.propertyTemplates.length == 0 || this.props.propertyTemplates[0] == {}) {
+      return <h1>We should have propertyTemplates but we don't.</h1>
+    } else {
+      return (
+        <div className='PropertiesWrapper' style={dashedBorder}>
+          <p>BEGIN PropertiesWrapper</p>
+            <div>
+              {this.props.propertyTemplates[0].map(function(pt, index){
+                return <PropertyTemplate key={index} propertyTemplates={[pt]}/>
+              })}
+            </div>
+          <p>END PropertiesWrapper</p>
+        </div>
+      )
+    }
   }
 }
 

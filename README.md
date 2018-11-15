@@ -17,15 +17,19 @@ Technical documentation specific to the Sinopia BIBFRAME Editor may also be foun
 2.  Install [npm](https://www.npmjs.com/)
 3.  Run `npm init`, and follow the instructions that appear.
 4.  Get latest npm: `npm install -g npm@latest`
-5.  Run `npm run build` to build the code.
+5.  Run `npm install`. This installs everything needed for the build to run successfully.
 
-### Installing BFE code
+### Building the Sinopia Editor code
+1.  Run `npm run dev-build` to build the code quickly, un-minimized.
+OR
+2.  Run `npm run build` to build the code minimized for client consumption.
+
+### Building the BFE code (temporary)
 1.  Run `npm install grunt-cli` to install grunt-cli.
 2.  Run `npm run grunt` or `grunt` to build the BFE code.
-3.  Run `npm install`. This installs everything needed for the build to run successfully.
 
 
-## Running the code
+## Running the BFE code
 
 `npm start`
 
@@ -44,19 +48,27 @@ The Sinopia Editor code is currently available via [stage.sinopia.io][staging]
 
 `npm run dev-start`
 
-Runs the webpack-dev-server, allowing immediate loading of live code changes without having to restart the server. The webpack-dev-server is available on at [http://localhost:8080](http://localhost:8080).
+Runs the webpack-dev-server, allowing immediate loading of live code changes without having to restart the server. The webpack-dev-server is available on at [http://localhost:8080](http://localhost:8080).  
+Note that running the webpack server does NOT call server.js
 
 ### Building with webpack
 
-`npm run build`
+`npm run dev-build`  (no minimization)  or `npm run build` (with minimization)
 
 We are using webpack as a build tool.  See `webapck.config.js` for build dependencies and configuration.
 
-#### BFE Support - Building with grunt
+#### BFE Support
+
+##### Building with grunt
 
 The inherited javascript code uses grunt as a build tool. See `Gruntfile.js` for those build dependencies and configuration.
 
 - To build the inherited (non-react) code, `grunt` or `npm run grunt`.  This is needed for `bfe-index.html` to work.
+
+##### Running the server with express directory
+
+`npm start` will spin up express directly.
+The express server is available on at [http://localhost:8000](http://localhost:8000).  
 
 #### NPM && build
 
@@ -109,9 +121,15 @@ in the foreground, `docker run -p 8000:8000 --rm --name=sinopia_editor ld4p/sino
 [http://localhost:8000](https://hub.docker.com/r/ld4p/sinopia_editor/).
 
 ### Building latest Docker Image
+Before building the latest Docker Image, run `npm run build` to update the `dist` folder with the current build.
 To build the latest version of the [Sinopia Editor][GIT_REPO], you
 can build with the
 `docker build -t ld4p/sinopia_editor --no-cache=true .` command.
+
+### Pushing Docker Image to Dockerhub
+Run `docker login` and enter the correct credentials to your docker account.
+Once successfully authenticated, run `docker push ld4p/sinopia_editor:latest`.
+Ask a member on the DevOps team to go into the AWS console to udpate https://sinopia.io
 
 # LD4P's fork of the BIBFRAME Editor
 The Sinopia Editor is forked from [https://github.com/lcnetdev/bfe][BFE_GIT].
