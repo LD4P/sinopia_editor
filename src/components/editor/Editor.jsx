@@ -4,182 +4,41 @@ import React, {Component} from 'react'
 import ResourceTemplate from './ResourceTemplate'
 import EditorHeader from '../EditorHeader'
 import StartingPoints from './StartingPoints'
+const sinopiaServerSpoof = require('../../sinopiaServerSpoof.js')
 
 class Editor extends Component {
   constructor(props) {
     super(props)
-    this.state = {
-      // selecting a resource template will happen in the left-nav "Create Resource" menu, another child of this component
-      // NOTE: temporarily hardcoded here.
-      resourceTemplates: [
-        {
-          "id": "profile:bf2:Monograph:Instance",
-          "resourceLabel": "BIBFRAME Instance",
-          "resourceURI": "http://id.loc.gov/ontologies/bibframe/Instance",
-          "remark": "Can you believe we're doing this!?",
-          "propertyTemplates": [
-            {
-              "propertyLabel": "Instance of",
-              "propertyURI": "http://id.loc.gov/ontologies/bibframe/instanceOf",
-              "resourceTemplates": [],
-              "type": "resource",
-              "valueConstraint": {
-                "valueTemplateRefs": [
-                  "profile:bf2:Monograph:Work"
-                ],
-                "useValuesFrom": [],
-                "valueDataType": {},
-                "defaults": []
-              },
-              "mandatory": "false",
-              "repeatable": "true"
-            },
-            {
-              "propertyLabel": "Title Information",
-              "propertyURI": "http://id.loc.gov/ontologies/bibframe/title",
-              "resourceTemplates": [],
-              "valueConstraint": {
-                "valueTemplateRefs": [
-                  "profile:bf2:Title",
-                  "profile:bf2:Title:VarTitle",
-                  "profile:bf2:ParallelTitle",
-                  "profile:bflc:TranscribedTitle"
-                ],
-                "useValuesFrom": [],
-                "valueDataType": {
-                  "remark": ""
-                },
-                "defaults": []
-              },
-              "mandatory": "false",
-              "repeatable": "true",
-              "type": "resource",
-              "remark": ""
-            },
-            {
-              "propertyLabel": "Statement of Responsibility Relating to Title Proper (RDA 2.4.2)",
-              "remark": "http://access.rdatoolkit.org/2.4.2.html",
-              "propertyURI": "http://id.loc.gov/ontologies/bibframe/responsibilityStatement",
-              "mandatory": "false",
-              "repeatable": "true",
-              "type": "literal",
-              "resourceTemplates": [],
-              "valueConstraint": {
-                "valueTemplateRefs": [],
-                "useValuesFrom": [],
-                "valueDataType": {},
-                "defaults": []
-              }
-            },
-            {
-              "propertyURI": "http://id.loc.gov/ontologies/bibframe/issuance",
-              "propertyLabel": "Mode of Issuance (RDA 2.13)",
-              "remark": "http://access.rdatoolkit.org/2.13.html",
-              "mandatory": "false",
-              "repeatable": "true",
-              "type": "resource",
-              "resourceTemplates": [],
-              "valueConstraint": {
-                "valueTemplateRefs": [],
-                "useValuesFrom": [
-                  "http://id.loc.gov/vocabulary/issuance"
-                ],
-                "valueDataType": {
-                  "dataTypeURI": "http://id.loc.gov/ontologies/bibframe/Issuance"
-                },
-                "editable": "false",
-                "repeatable": "true",
-                "defaults": [
-                  {
-                    "defaultURI": "http://id.loc.gov/vocabulary/issuance/mono",
-                    "defaultLiteral": "single unit"
-                  }
-                ]
-              }
-            },
-            {
-              "propertyLabel": "Notes about the Instance",
-              "remark": "http://access.rdatoolkit.org/2.17.html",
-              "propertyURI": "http://id.loc.gov/ontologies/bibframe/note",
-              "mandatory": "false",
-              "repeatable": "true",
-              "type": "resource",
-              "resourceTemplates": [],
-              "valueConstraint": {
-                "valueTemplateRefs": [
-                  "profile:bf2:Note"
-                ],
-                "useValuesFrom": [],
-                "valueDataType": {},
-                "defaults": []
-              }
-            },
-            {
-              "propertyLabel": "Carrier Type (RDA 3.3)",
-              "propertyURI": "http://id.loc.gov/ontologies/bibframe/carrier",
-              "repeatable": "true",
-              "resourceTemplates": [],
-              "type": "resource",
-              "valueConstraint": {
-                "valueTemplateRefs": [],
-                "useValuesFrom": [
-                  "http://id.loc.gov/vocabulary/carriers"
-                ],
-                "valueDataType": {
-                  "dataTypeURI": "http://id.loc.gov/ontologies/bibframe/Carrier"
-                },
-                "repeatable": "true",
-                "editable": "false",
-                "defaults": [
-                  {
-                    "defaultURI": "http://id.loc.gov/vocabulary/carriers/nc",
-                    "defaultLiteral": "volume"
-                  }
-                ]
-              },
-              "mandatory": "false",
-              "remark": "http://access.rdatoolkit.org/3.3.html"
-            },
-            {
-              "propertyLabel": "WITH ALL VALUE CONSTRAINTS",
-              "propertyURI": "http://id.loc.gov/ontologies/fake",
-              "repeatable": "true",
-              "resourceTemplates": [],
-              "type": "resource",
-              "valueConstraint": {
-                "defaults": [
-                  {
-                    "defaultLiteral": "DEFAULT",
-                    "defaultURI": "http://default"
-                  }
-                ],
-                "editable": "true",
-                "languageLabel": "LANGUAGE LABEL",
-                "languageURI": "http://id.loc.gov/vocabulary/languages/eng",
-                "remark": "REMARK",
-                "repeatable": "false",
-                "useValuesFrom": [
-                  "http://VALUES"
-                ],
-                "validatePattern": "PATTERN",
-                "valueDataType": {
-                  "dataTypeLabel": "Classification item number",
-                  "dataTypeLabelHint": "HINT",
-                  "dataTypeURI": "http://id.loc.gov/ontologies/bibframe/itemPortion",
-                  "remark": "REMARK"
-                },
-                "valueLanguage": "VALUE LANGUAGE",
-                "valueTemplateRefs": [
-                  "profile:bf2:Identifiers:Barcode"
-                ]
-              },
-              "mandatory": "false",
-              "remark": "http://access.rdatoolkit.org/3.3.html"
-            }
-          ]
-        }
-      ]
+
+    this.getResourceTemplate = this.getResourceTemplate.bind(this)
+
+    // TODO: temporarily hardcoded here.
+    //  Selecting a resource template will happen in the left-nav "Starting Points" menu,
+    //   another child of the Editor component;  it will call this.getResourceTemplate
+    const defaultResourceTemplate = 'resourceTemplate:bf2:Monograph:Instance'
+    this.state = { resourceTemplates: [this.getResourceTemplate(defaultResourceTemplate)]}
+  }
+
+  // TODO: eventually, this will do an http request to the sinopiaServer via fetch or axios
+  //  Note that the spoofing uses sinopiaServerSpoof, which uses some files in static
+  getResourceTemplate(rtId) {
+    // console.debug(`DEBUG: getResourceTemplate: ${rtId}`)
+    var rTemplate = {propertyTemplates : [{}] }
+    if (rtId != null) {
+      if (sinopiaServerSpoof.resourceTemplateIds.includes(rtId)) {
+        // FIXME:  there's probably a better way to find the value in array than forEach
+        sinopiaServerSpoof.resourceTemplateId2Json.forEach( function(el) {
+          if (rtId == el.id) {
+            rTemplate = el.json
+          }
+        })
+      } else {
+        console.error(`un-spoofed resourceTemplate: ${rtId}`)
+      }
+    } else {
+      console.error(`asked for resourceTemplate with null id`)
     }
+    return rTemplate
   }
 
   render() {
