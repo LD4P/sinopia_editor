@@ -1,3 +1,4 @@
+// Copyright 2018 Stanford University see Apache2.txt for license
 // Minimal BIBFRAME Editor Node.js server. To run from the command-line:
 //  npm start  or node server.js
 

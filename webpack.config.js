@@ -1,3 +1,4 @@
+// Copyright 2018 Stanford University see Apache2.txt for license
 const path = require('path');
 const webpack = require('webpack');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
@@ -37,7 +38,7 @@ module.exports = {
     new HtmlWebpackPlugin({
       template: path.resolve('./', 'index.html'),
       filename: 'index.html',
-      hash:true    
+      hash:true
     })
   ],
   devServer: {
