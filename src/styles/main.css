@@ -31,7 +31,8 @@ body {
   font-size: 13.5px;
 }
 #footer {
-  padding: 0 10%;
+  float: right;
+  padding: 3% 10% 0 3%;
 }
 .header-text{
   font-size:15px;
@@ -70,8 +71,8 @@ body {
 a.editor-help-resources {
   font-size: .85em;
 }
-#footer-image{
-  padding-right: 10%;
+#footer-text{
+  padding-left: 10%;
 }
 .editor-logo a{
   text-decoration: none;

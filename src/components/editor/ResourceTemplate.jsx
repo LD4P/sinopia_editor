@@ -12,9 +12,12 @@ class ResourceTemplate extends Component {
       border: '1px dotted',
       padding: '10px'
     }
-
+    let float = {
+      float: 'left',
+      width:'75%'
+    }
     return (
-      <div className='ResourceTemplate' style={dashedBorder}>
+      <div className='ResourceTemplate' style={Object.assign(dashedBorder, float)}>
         <h3>Resource Template Container </h3>
         <p>Resource Template selected:</p>
         <ul>

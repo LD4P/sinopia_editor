@@ -1,6 +1,7 @@
 import React, {Component} from 'react'
 import ResourceTemplate from './ResourceTemplate'
 import EditorHeader from '../EditorHeader'
+import StartingPoints from './StartingPoints'
 
 class Editor extends Component {
   constructor(props) {
@@ -184,8 +185,8 @@ class Editor extends Component {
       <div id="editor">
         <EditorHeader triggerEditorMenu={this.props.triggerHandleOffsetMenu}/>
         <h1> Editor Page </h1>
-        <p>(will have a "Choose Resource Template / Starting Points" area + editing area)</p>
         <p>The selected resource template is <strong>{this.state.resourceTemplates[0].id}</strong></p>
+        <StartingPoints/>
         <ResourceTemplate resourceTemplates = {this.state.resourceTemplates ? this.state.resourceTemplates : []} />
       </div>
     )
