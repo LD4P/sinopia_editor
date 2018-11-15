@@ -11,6 +11,7 @@ app.listen(port);
 
 const versoSpoof = require('./src/versoSpoof.js')
 
+
 app.all("/verso/api/configs", function (req, res, next) {
   if (req.query.filter.where.configType === 'profile') {
     res.json(versoSpoof.profiles)
@@ -43,6 +44,10 @@ app.all("/profile-edit/server/whichrt", function (req, res) {
     console.error(`/profile-edit/server/whichrt called without uri ${req.originalUrl}`)
     res.status(400).send(`/profile-edit/server/whichrt called without uri ${req.originalUrl}`)
   }
+})
+
+app.get("*", function(req, res) {
+  res.sendFile(`${__dirname}/index.html`)
 })
 
 console.log('BIBFRAME Editor running on ' + port);
