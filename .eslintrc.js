@@ -40,19 +40,21 @@ module.exports = {
     "node": true
   },
   rules: {
-    "jsx-a11y/anchor-is-valid": "warn",
-    "jsx-a11y/label-has-for": "warn",
+    "jsx-a11y/anchor-is-valid": "warn", // see #172
+    "jsx-a11y/label-has-for": "warn", // see #173
     "no-console": "warn",
     "no-extra-semi": "off", // because it isn't that important
-    "no-unused-vars": "warn",
-    "react/jsx-no-target-blank": "warn",
-    "react/prop-types": "warn"
+    "react/jsx-no-target-blank": "warn", // see #174
+    "react/prop-types": "warn" // see #175
   },
   overrides: [
     {
       "files": ["**/*.jsx", "src/index.js"],
       "rules": {
-        "node/no-unsupported-features/es-syntax": "off" // FIXME: getting these "Import and export declarations are not supported yet"
+        // See https://github.com/mysticatea/eslint-plugin-node/blob/master/docs/rules/no-unsupported-features/es-syntax.md
+        //   rule supposedly matches ECMA version with node
+        //   we get: "Import and export declarations are not supported yet"
+        "node/no-unsupported-features/es-syntax": "off"
       }
     }
   ]
