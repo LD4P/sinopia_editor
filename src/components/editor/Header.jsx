@@ -1,8 +1,6 @@
 // Copyright 2018 Stanford University see Apache2.txt for license
 
 import React, { Component } from 'react'
-import SinopiaLogo from '../../styles/editorsinopialogo.png'
-import { Link } from 'react-router-dom'
 
 class Header extends Component {
   render() {
