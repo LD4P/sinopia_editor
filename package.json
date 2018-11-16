@@ -68,8 +68,7 @@
     "dev-build": "webpack --progress --mode development",
     "dev-build-test": "npm run dev-build && npm run test",
     "dev-start": "webpack-dev-server --config ./webpack.config.js --mode development",
-    "eslint": "eslint --max-warnings 775 --color -c .eslintrc.js ./src",
-    "install-build": "npm install && npm run build",
+    "eslint": "eslint --max-warnings 600 --color -c .eslintrc.js --ext js,jsx ./src",
     "jest-cov": "jest --coverage --colors",
     "jest-ci": "jest --ci --runInBand --coverage --reporters=default --reporters=jest-junit --colors  && cat ./coverage/lcov.info | coveralls",
     "test": "jest --colors"
