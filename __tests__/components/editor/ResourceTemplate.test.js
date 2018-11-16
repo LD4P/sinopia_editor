@@ -3,6 +3,7 @@ import React from 'react'
 import { shallow } from 'enzyme'
 import ResourceTemplate from '../../../src/components/editor/ResourceTemplate'
 import PropertyTemplate from '../../../src/components/editor/PropertyTemplate'
+import FormWrapper from '../../../src/components/editor/FormWrapper'
 
 const rtProps = {
   resourceTemplates: [
@@ -34,28 +35,9 @@ describe('<ResourceTemplate />', () => {
   })
 
   // TODO: if we have more than one resourceTemplate form, they need to have unique ids (see #130)
-  it('contains <form> with id resourceTemplate', () => {
-    expect(wrapper.find('form#resourceTemplate').length).toEqual(1)
+  it('contains <div> with id resourceTemplate', () => {
+    expect(wrapper.find('div#resourceTemplate').length).toEqual(1)
   })
 
-  it('<form> does not contain redundant form attribute', () => {
-    expect(wrapper.find('form[role="form"]').length).toEqual(0)
-  })
 
-  describe('<PropertiesWrapper />', () => {
-    it('renders the PropertiesWrapper text nodes', () => {
-      wrapper.find('PropertiesWrapper').dive().find('div.PropertiesWrapper > p').forEach((node) => {
-        expect(node.containsAnyMatchingElements([
-          'BEGIN PropertiesWrapper',
-          'END PropertiesWrapper'
-        ]))
-      })
-    })
-    it('renders PropertiesWrapper nested component', () => {
-      expect(wrapper.find('PropertiesWrapper')
-        .dive()
-        .find('div.PropertiesWrapper > div > PropertyTemplate'))
-        .toHaveLength(3)
-    })
-  })
 })
