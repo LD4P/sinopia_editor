@@ -113,7 +113,10 @@
     },
     "collectCoverageFrom": [
       "src/**/*.js",
-      "static/js/config*.js"
+      "src/**/*.jsx",
+      "!src/bfe*.js",
+      "!src/lib/aceconfig.js",
+      "!static/js/config*.js"
     ],
     "reporters": [
       "default",
