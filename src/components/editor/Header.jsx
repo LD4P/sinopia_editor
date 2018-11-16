@@ -1,10 +1,8 @@
 // Copyright 2018 Stanford University see Apache2.txt for license
 
 import React, { Component } from 'react'
-import SinopiaLogo from '../styles/editorsinopialogo.png'
-import { Link } from 'react-router-dom'
 
-class EditorHeader extends Component {
+class Header extends Component {
   render() {
     return (
       <div className="navbar editor-navbar">
@@ -26,4 +24,4 @@ class EditorHeader extends Component {
   }
 }
 
-export default EditorHeader
+export default Header
