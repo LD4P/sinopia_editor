@@ -42,4 +42,9 @@ describe("#routes", () => {
     const component = renderRoutes("/blah")
     expect(component.contains(<h1>404</h1>)).toEqual(true)
   })
+
+  afterAll(() => {
+    renderRoutes.unmount()
+  })
+
 })
