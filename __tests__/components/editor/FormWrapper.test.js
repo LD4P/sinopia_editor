@@ -1,19 +1,22 @@
 // Copyright 2018 Stanford University see Apache2.txt for license
 import React from 'react'
 import { shallow } from 'enzyme'
-import PropertyTemplate from '../../../src/components/editor/PropertyTemplate'
+import InputLiteral from '../../../src/components/editor/InputLiteral'
 import FormWrapper from '../../../src/components/editor/FormWrapper'
 
 const rtProps = {
   "propertyTemplates": [
     [{
-      "propertyLabel": "Instance of"
+      "propertyLabel": "Instance of",
+      "type": "literal"
     }],
     [{
-      "propertyLabel": "Instance of"
+      "propertyLabel": "Instance of",
+      "type": "lookup"
     }],
     [{
-      "propertyLabel": "Instance of"
+      "propertyLabel": "Instance of",
+      "type": "resource"
     }]
   ]
 }
@@ -31,7 +34,7 @@ describe('<FormWrapper />', () => {
   })
   it('renders FormWrapper nested component', () => {
     expect(wrapper
-      .find('div.FormWrapper > div > PropertyTemplate').length)
+      .find('div.FormWrapper > div > InputLiteral').length)
       .toEqual(1)
   })
   it('<form> does not contain redundant form attribute', () => {
