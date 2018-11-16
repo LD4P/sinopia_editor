@@ -9,7 +9,7 @@ module.exports = {
     "plugin:security/recommended"
   ],
   "parserOptions": {
-    "ecmaVersion": 2018,
+    "ecmaVersion": 2019,
     "sourceType": "module",
     "ecmaFeatures": {
         "jsx": true
