@@ -19,24 +19,14 @@ Technical documentation specific to the Sinopia BIBFRAME Editor may also be foun
 4.  Get latest npm: `npm install -g npm@latest`
 5.  Run `npm install`. This installs everything needed for the build to run successfully.
 
-### Building the Sinopia Editor code
-1.  Run `npm run dev-build` to build the code quickly, un-minimized.
-OR
-2.  Run `npm run build` to build the code minimized for client consumption.
-
-### Building the BFE code (temporary)
-1.  Run `npm install grunt-cli` to install grunt-cli.
-2.  Run `npm run grunt` or `grunt` to build the BFE code.
-
-
-## Running the BFE code
+## Running the code
 
 `npm start`
 
 Follow installation instructions, then run `npm start` or `node server.js` to start the web server using Express.
 This will start up the code at [http://localhost:8000](http://localhost:8000).
 
-The Sinopia Editor code is currently available via [stage.sinopia.io][staging]
+The Sinopia Editor code is currently available via [sinopia.io](https://sinopia.io)
 
 ## Developers
 
@@ -57,25 +47,12 @@ Note that running the webpack server does NOT call server.js
 
 We are using webpack as a build tool.  See `webapck.config.js` for build dependencies and configuration.
 
-#### BFE Support
-
-##### Building with grunt
-
-The inherited javascript code uses grunt as a build tool. See `Gruntfile.js` for those build dependencies and configuration.
-
-- To build the inherited (non-react) code, `grunt` or `npm run grunt`.  This is needed for `bfe-index.html` to work.
-
 ##### Running the server with express directory
 
 `npm start` will spin up express directly.
 The express server is available on at [http://localhost:8000](http://localhost:8000).  
 
-#### NPM && build
-
-`npm run install-build`
-
-This does `npm install` following by `npm run grunt` in a single step.
-
+>>>>>>> Update README and remove references to grunt
 ### Linter for JavaScript
 
 `npm run eslint`

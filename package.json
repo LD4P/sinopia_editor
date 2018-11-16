@@ -15,11 +15,6 @@
     "Kirk Hess <khes@loc.gov>",
     "Jeremy Nelson"
   ],
-  "main": "Gruntfile.js",
-  "repository": {
-    "type": "git",
-    "url": "https://github.com/LD4P/sinopia_editor.git"
-  },
   "devDependencies": {
     "@babel/core": "^7.1.2",
     "@babel/preset-env": "^7.1.0",
@@ -42,13 +37,6 @@
     "eslint-plugin-security": "^1.4.0",
     "eslint-takeoff": "0.0.1",
     "file-loader": "^2.0.0",
-    "grunt-cli": "^1.3.2",
-    "grunt-contrib-clean": "^2.0.0",
-    "grunt-contrib-concat": "^1.0.1",
-    "grunt-contrib-cssmin": "^3.0.0",
-    "grunt-contrib-uglify-es": "^3.3.0",
-    "grunt-eslint": "^21.0.0",
-    "grunt-run": "^0.8.1",
     "html-webpack-plugin": "^3.2.0",
     "jest": "^23.6.0",
     "jest-junit": "^5.1.0",
@@ -81,8 +69,7 @@
     "dev-build-test": "npm run dev-build && npm run test",
     "dev-start": "webpack-dev-server --config ./webpack.config.js --mode development",
     "eslint": "eslint --max-warnings 775 --color -c .eslintrc.js ./src",
-    "grunt": "grunt",
-    "install-build": "npm install && npm run build && npm run grunt",
+    "install-build": "npm install && npm run build",
     "jest-cov": "jest --coverage --colors",
     "jest-ci": "jest --ci --runInBand --coverage --reporters=default --reporters=jest-junit --colors  && cat ./coverage/lcov.info | coveralls",
     "test": "jest --colors"
@@ -94,7 +81,6 @@
     "@fortawesome/react-fontawesome": "^0.1.3",
     "babel-core": "^7.0.0-bridge.0",
     "express": "^4.16.3",
-    "grunt": "^1.x.x",
     "identity-obj-proxy": "^3.0.0",
     "merge": "^1.2.1",
     "react": "^16.6.0",
