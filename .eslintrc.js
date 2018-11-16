@@ -1,10 +1,18 @@
 // Copyright 2018 Stanford University see Apache2.txt for license
 module.exports = {
+  plugins: [
+    "import",
+    "jest",
+    "jsx-a11y",
+    "react",
+    "security"
+  ],
   extends: [
     "eslint:recommended",
     "plugin:node/recommended",
     "plugin:react/recommended",
     "plugin:import/errors",
+    "plugin:import/warnings",
     "plugin:jsx-a11y/recommended",
     "plugin:security/recommended"
   ],
@@ -27,23 +35,28 @@ module.exports = {
     }
   },
   env: {
-    "es6": true,
     "browser": true,
+    "jest": true,
     "node": true
   },
-  plugins: ["import", "jsx-a11y", "security"],
-
+  rules: {
+    "jsx-a11y/anchor-is-valid": "warn",
+    "jsx-a11y/label-has-for": "warn",
+    "jsx-a11y/alt-text": "warn",
+    "jsx-a11y/no-redundant-roles": "warn",
+    "no-console": "warn",
+    "no-extra-semi": "warn",
+    "no-unused-vars": "warn",
+    "react/jsx-no-target-blank": "warn",
+    "react/no-unescaped-entities": "warn",
+    "react/prop-types": "warn"
+  },
   overrides: [
     {
-      files: "**/*.js",
-      env: {
-        jest: true
-      },
-      plugins: ["jest", "security"],
-      rules: {
-        "no-console": "off",
-        "node/no-unsupported-features/es-syntax": "warn" // FIXME: want this to be error
+      "files": ["**/*.jsx", "src/index.js"],
+      "rules": {
+        "node/no-unsupported-features/es-syntax": "off" // FIXME: getting these "Import and export declarations are not supported yet"
       }
     }
   ]
-};
+}
