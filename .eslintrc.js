@@ -5,7 +5,8 @@ module.exports = {
     "plugin:node/recommended",
     "plugin:react/recommended",
     "plugin:import/errors",
-    "plugin:jsx-a11y/recommended"
+    "plugin:jsx-a11y/recommended",
+    "plugin:security/recommended"
   ],
   "parserOptions": {
     "ecmaVersion": 2018,
@@ -29,7 +30,7 @@ module.exports = {
     "browser": true,
     "node": true
   },
-  plugins: ["import", "jsx-a11y"],
+  plugins: ["import", "jsx-a11y", "security"],
 
   overrides: [
     {
