@@ -8,6 +8,7 @@ module.exports = {
     "plugin:jsx-a11y/recommended",
     "plugin:security/recommended"
   ],
+  "parser": "babel-eslint",
   "parserOptions": {
     "ecmaVersion": 2019,
     "sourceType": "module",
