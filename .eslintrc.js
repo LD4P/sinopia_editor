@@ -46,7 +46,6 @@ module.exports = {
     "no-extra-semi": "warn",
     "no-unused-vars": "warn",
     "react/jsx-no-target-blank": "warn",
-    "react/no-unescaped-entities": "warn",
     "react/prop-types": "warn"
   },
   overrides: [
