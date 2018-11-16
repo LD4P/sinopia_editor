@@ -43,7 +43,7 @@ module.exports = {
     "jsx-a11y/anchor-is-valid": "warn",
     "jsx-a11y/label-has-for": "warn",
     "no-console": "warn",
-    "no-extra-semi": "warn",
+    "no-extra-semi": "off", // because it isn't that important
     "no-unused-vars": "warn",
     "react/jsx-no-target-blank": "warn",
     "react/prop-types": "warn"
