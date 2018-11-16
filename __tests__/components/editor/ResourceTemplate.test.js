@@ -33,6 +33,11 @@ describe('<ResourceTemplate />', () => {
     expect(wrapper.find('div.ResourceTemplate').length).toEqual(1)
   })
 
+  // TODO: if we have more than one resourceTemplate form, they need to have unique ids (see #130)
+  it('contains <form> with id resourceTemplate', () => {
+    expect(wrapper.find('form#resourceTemplate').length).toEqual(1)
+  })
+
   describe('<PropertiesWrapper />', () => {
     it('renders the PropertiesWrapper text nodes', () => {
       wrapper.find('PropertiesWrapper').dive().find('div.PropertiesWrapper > p').forEach((node) => {
@@ -49,27 +54,4 @@ describe('<ResourceTemplate />', () => {
         .toHaveLength(3)
     })
   })
-
-  // TODO: if we have more than one resourceTemplate form, they need to have unique ids (see #130)
-  it('contains <form> with id resourceTemplate', () => {
-    expect(wrapper.find('form#resourceTemplate').length).toEqual(1)
-  })
-
 })
-
-
-// TODO: see #132 - testing PropertiesWrapper
-// describe('<PropertiesWrapper />', () => {
-//   const wrapper = shallow(<PropertiesWrapper {...rtProps} />)
-//
-//   it('contains div with class PropertiesWrapper', () => {
-//     expect(wrapper.find('div.PropertiesWrapper').length).toBe(1)
-//   })
-//
-//   // it('renders <PropertyTemplate /> component for each property', () => {
-//   //   expect(wrapper.find(PropertyTemplate)).toHaveLength(3)
-//   //   expect(wrapper.find('.propertyTemplate')).toHaveLength(3)
-//   //   // expect(wrapper.find(PropertyTemplate).length).toBe(1)
-//   // })
-//
-// })
