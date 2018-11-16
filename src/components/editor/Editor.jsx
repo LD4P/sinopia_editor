@@ -22,7 +22,6 @@ class Editor extends Component {
   // TODO: eventually, this will do an http request to the sinopiaServer via fetch or axios
   //  Note that the spoofing uses sinopiaServerSpoof, which uses some files in static
   getResourceTemplate(rtId) {
-    // console.debug(`DEBUG: getResourceTemplate: ${rtId}`)
     var rTemplate = {propertyTemplates : [{}] }
     if (rtId != null) {
       if (sinopiaServerSpoof.resourceTemplateIds.includes(rtId)) {
