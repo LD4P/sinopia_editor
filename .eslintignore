@@ -2,11 +2,10 @@ build_support/*
 builds/*
 coverage/*
 docs/*
-static/css/*
-static/images/*
-static/js/jsonld-vis.js
-static/js/n3-browser.min.js
-static/js/r*
-static/js/short-uuid.min.js
-static/js/twitter-typeahead-0.10.2.js
+src/bfe.js
+src/bfelogging.js
+src/bfelookups.js
+src/bfestore.js
+src/lib/aceconfig.js
+static/*
 static-analysis/*
