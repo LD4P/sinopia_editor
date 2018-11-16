@@ -1,0 +1,36 @@
+{
+  "id": "resourceTemplate:bf2:Title:VarTitle",
+  "resourceURI": "http://id.loc.gov/ontologies/bibframe/VariantTitle",
+  "resourceLabel": "Variant Title",
+  "propertyTemplates": [
+    {
+      "propertyURI": "http://id.loc.gov/ontologies/bibframe/mainTitle",
+      "propertyLabel": "Variant Title (RDA 2.3.6)",
+      "remark": "http://access.rdatoolkit.org/rdachp2_rda2-4013.html",
+      "mandatory": "false",
+      "repeatable": "true",
+      "type": "literal",
+      "resourceTemplates": [],
+      "valueConstraint": {
+        "valueTemplateRefs": [],
+        "useValuesFrom": [],
+        "valueDataType": {},
+        "defaults": []
+      }
+    },
+    {
+      "propertyURI": "http://id.loc.gov/ontologies/bibframe/variantType",
+      "propertyLabel": "Variant title type",
+      "mandatory": "false",
+      "repeatable": "true",
+      "type": "literal",
+      "resourceTemplates": [],
+      "valueConstraint": {
+        "valueTemplateRefs": [],
+        "useValuesFrom": [],
+        "valueDataType": {},
+        "defaults": []
+      }
+    }
+  ]
+}

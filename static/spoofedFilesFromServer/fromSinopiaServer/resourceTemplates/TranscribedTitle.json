@@ -1,0 +1,38 @@
+{
+  "id": "resourceTemplate:bflc:TranscribedTitle",
+  "resourceURI": "http://id.loc.gov/ontologies/bflc/TransliteratedTitle",
+  "resourceLabel": "Transliterated Title",
+  "propertyTemplates": [
+    {
+      "propertyURI": "http://id.loc.gov/ontologies/bibframe/mainTitle",
+      "propertyLabel": "Title",
+      "mandatory": "false",
+      "repeatable": "true",
+      "type": "literal",
+      "resourceTemplates": [],
+      "valueConstraint": {
+        "valueTemplateRefs": [],
+        "useValuesFrom": [],
+        "valueDataType": {},
+        "defaults": []
+      }
+    },
+    {
+      "propertyURI": "http://id.loc.gov/ontologies/bibframe/note",
+      "propertyLabel": "Note on title",
+      "remark": "http://access.rdatoolkit.org/2.17.2.html",
+      "mandatory": "false",
+      "repeatable": "true",
+      "type": "resource",
+      "resourceTemplates": [],
+      "valueConstraint": {
+        "valueTemplateRefs": [
+          "resourceTemplate:bf2:Title:Note"
+        ],
+        "useValuesFrom": [],
+        "valueDataType": {},
+        "defaults": []
+      }
+    }
+  ]
+}
