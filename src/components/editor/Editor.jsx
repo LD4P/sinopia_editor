@@ -2,7 +2,7 @@
 
 import React, {Component} from 'react'
 import ResourceTemplate from './ResourceTemplate'
-import EditorHeader from '../EditorHeader'
+import Header from './Header'
 import StartingPoints from './StartingPoints'
 const sinopiaServerSpoof = require('../../sinopiaServerSpoof.js')
 
@@ -43,7 +43,7 @@ class Editor extends Component {
   render() {
     return(
       <div id="editor">
-        <EditorHeader triggerEditorMenu={this.props.triggerHandleOffsetMenu}/>
+        <Header triggerEditorMenu={this.props.triggerHandleOffsetMenu}/>
         <h1> Editor Page </h1>
         <p>The selected resource template is <strong>{this.state.resourceTemplates[0].id}</strong></p>
         <StartingPoints/>
