@@ -10,7 +10,7 @@ class Header extends Component {
       <div className="navbar homepage-navbar">
         <div className="navbar-header">
           <a className="navbar-brand" href="https://google.com">
-            <img src={SinopiaLogo} height="55px" />
+            <img src={SinopiaLogo} height="55px" alt="Sinopia logo" />
           </a>
         </div>
         <ul className= "nav navbar-nav pull-right">

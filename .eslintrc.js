@@ -1,14 +1,24 @@
 // Copyright 2018 Stanford University see Apache2.txt for license
 module.exports = {
+  plugins: [
+    "import",
+    "jest",
+    "jsx-a11y",
+    "react",
+    "security"
+  ],
   extends: [
     "eslint:recommended",
     "plugin:node/recommended",
     "plugin:react/recommended",
     "plugin:import/errors",
-    "plugin:jsx-a11y/recommended"
+    "plugin:import/warnings",
+    "plugin:jsx-a11y/recommended",
+    "plugin:security/recommended"
   ],
+  "parser": "babel-eslint",
   "parserOptions": {
-    "ecmaVersion": 2018,
+    "ecmaVersion": 2019,
     "sourceType": "module",
     "ecmaFeatures": {
         "jsx": true
@@ -19,42 +29,33 @@ module.exports = {
       "node": {
         "extensions": ['.js','.jsx']
       }
+    },
+    "react": {
+      "version": "16.6"
     }
   },
   env: {
-    "es6": true,
     "browser": true,
+    "jest": true,
     "node": true
   },
-  plugins: ["react", "import", "jsx-a11y"],
-
+  rules: {
+    "jsx-a11y/anchor-is-valid": "warn", // see #172
+    "jsx-a11y/label-has-for": "warn", // see #173
+    "no-console": "warn",
+    "no-extra-semi": "off", // because it isn't that important
+    "react/jsx-no-target-blank": "warn", // see #174
+    "react/prop-types": "warn" // see #175
+  },
   overrides: [
     {
-      files: "**/*.js",
-      env: {
-        jest: true
-      },
-      plugins: ["jest", "security"],
-      rules: {
-        "no-console": "off",
-        "no-redeclare": "warn", // FIXME: want this to be error, but don't want to address in 5000 line bfe.js
-        "no-undef": "warn",
-        "no-unused-vars": "warn",
-        "no-useless-escape": "warn",
-        "node/no-unsupported-features/es-syntax": "warn" // FIXME: want this to be error
-      },
-      globals: {
-        // FIXME: this is a cheap way to reduce warnings, but perhaps code practices should improve for our own stuff?
-        "$": true,
-        "bfe": true,
-        "bfeditor": true,
-        "bfelog": true,
-        "config": true,
-        "document": true,
-        "jQuery": true,
-        "page": true,
-        "window": true
+      "files": ["**/*.jsx", "src/index.js"],
+      "rules": {
+        // See https://github.com/mysticatea/eslint-plugin-node/blob/master/docs/rules/no-unsupported-features/es-syntax.md
+        //   rule supposedly matches ECMA version with node
+        //   we get: "Import and export declarations are not supported yet"
+        "node/no-unsupported-features/es-syntax": "off"
       }
     }
   ]
-};
+}

@@ -11,6 +11,10 @@ describe('<Header />', () => {
     expect(wrapper.find("img").prop('src')).toEqual(SinopiaLogo)
   })
 
+  it('has alt text for the image', () => {
+    expect(wrapper.find("img").prop('alt')).toEqual('Sinopia logo')
+  })
+
   it ('renders a ".navbar"', () => {
     expect(wrapper.find('.navbar').length).toBe(1)
   })

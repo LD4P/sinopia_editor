@@ -10,9 +10,9 @@ class PropertyTemplate extends Component {
       padding: '10px'
     }
     if (this.props.propertyTemplates.length == 0) {
-      return <h1>We should have propertyTemplates but we don't.</h1>
+      return <h3 color="red">There are no propertyTemplates - probably an error.</h3>
     } else if (this.props.propertyTemplates[0].resourceTemplates == undefined ) {
-      return <h1>We should have propertyTemplate contents but we don't.</h1>
+      return <h3 color="red">There are no propertyTemplate contents - probably an error.</h3>
     } else {
       return (
         <div className='PropertyTemplate' style={dottedBorder}>

@@ -28,7 +28,7 @@ class ResourceTemplate extends Component {
           <li>id: <strong>{this.props.resourceTemplates[0].id}</strong></li>
           <li>remark: <strong>{this.props.resourceTemplates[0].remark}</strong></li>
         </ul>
-        <form id="resourceTemplate" className="form-horizontal" role="form" style={dottedBorder}>
+        <form id="resourceTemplate" className="form-horizontal" style={dottedBorder}>
           <h4>BEGINNING OF FORM</h4>
           <PropertiesWrapper propertyTemplates = {[this.props.resourceTemplates[0].propertyTemplates]} />
           <h4>END OF FORM</h4>
@@ -45,7 +45,7 @@ class PropertiesWrapper extends Component{
       padding: '10px',
     }
     if (this.props.propertyTemplates.length == 0 || this.props.propertyTemplates[0] == {}) {
-      return <h1>We should have propertyTemplates but we don't.</h1>
+      return <h3 color="red">There are no propertyTemplates - probably an error.</h3>
     } else {
       return (
         <div className='PropertiesWrapper' style={dashedBorder}>
