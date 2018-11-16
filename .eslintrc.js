@@ -19,6 +19,9 @@ module.exports = {
       "node": {
         "extensions": ['.js','.jsx']
       }
+    },
+    "react": {
+      "version": "16.6"
     }
   },
   env: {
