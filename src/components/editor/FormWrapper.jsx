@@ -4,13 +4,12 @@ import PropertyTemplate from './PropertyTemplate'
 
 class FormWrapper extends Component{
   render () {
-    console.log(this.props.propertyTemplates[0])
     let dashedBorder = {
       border: '1px dashed',
       padding: '10px',
     }
     if (this.props.propertyTemplates.length == 0 || this.props.propertyTemplates[0] == {}) {
-      return <h1>We should have propertyTemplates but we don't.</h1>
+      return <h1>There are no propertyTemplates - probably an error.</h1>
     } else {
       return (
         <form className="form-horizontal" style={dashedBorder}>

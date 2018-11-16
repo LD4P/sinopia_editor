@@ -10,10 +10,6 @@ class ResourceTemplate extends Component {
       border: '1px dashed',
       padding: '10px',
     }
-    let dottedBorder = {
-      border: '1px dotted',
-      padding: '10px'
-    }
     let float = {
       float: 'left',
       width:'75%'
