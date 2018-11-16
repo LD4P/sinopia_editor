@@ -38,6 +38,10 @@ describe('<ResourceTemplate />', () => {
     expect(wrapper.find('form#resourceTemplate').length).toEqual(1)
   })
 
+  it('<form> does not contain redundant form attribute', () => {
+    expect(wrapper.find('form[role="form"]').length).toEqual(0)
+  })
+
   describe('<PropertiesWrapper />', () => {
     it('renders the PropertiesWrapper text nodes', () => {
       wrapper.find('PropertiesWrapper').dive().find('div.PropertiesWrapper > p').forEach((node) => {

@@ -28,7 +28,7 @@ class ResourceTemplate extends Component {
           <li>id: <strong>{this.props.resourceTemplates[0].id}</strong></li>
           <li>remark: <strong>{this.props.resourceTemplates[0].remark}</strong></li>
         </ul>
-        <form id="resourceTemplate" className="form-horizontal" role="form" style={dottedBorder}>
+        <form id="resourceTemplate" className="form-horizontal" style={dottedBorder}>
           <h4>BEGINNING OF FORM</h4>
           <PropertiesWrapper propertyTemplates = {[this.props.resourceTemplates[0].propertyTemplates]} />
           <h4>END OF FORM</h4>

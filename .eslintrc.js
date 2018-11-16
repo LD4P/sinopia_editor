@@ -42,7 +42,6 @@ module.exports = {
   rules: {
     "jsx-a11y/anchor-is-valid": "warn",
     "jsx-a11y/label-has-for": "warn",
-    "jsx-a11y/no-redundant-roles": "warn",
     "no-console": "warn",
     "no-extra-semi": "warn",
     "no-unused-vars": "warn",
