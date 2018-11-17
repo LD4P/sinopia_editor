@@ -1,7 +1,7 @@
 // Copyright 2018 Stanford University see Apache2.txt for license
 
 import React, { Component }  from 'react'
-import PropertyTemplate from './PropertyTemplate'
+import FormWrapper from './FormWrapper'
 
 class ResourceTemplate extends Component {
 
@@ -9,10 +9,6 @@ class ResourceTemplate extends Component {
     let dashedBorder = {
       border: '1px dashed',
       padding: '10px',
-    }
-    let dottedBorder = {
-      border: '1px dotted',
-      padding: '10px'
     }
     let float = {
       float: 'left',
@@ -28,37 +24,13 @@ class ResourceTemplate extends Component {
           <li>id: <strong>{this.props.resourceTemplates[0].id}</strong></li>
           <li>remark: <strong>{this.props.resourceTemplates[0].remark}</strong></li>
         </ul>
-        <form id="resourceTemplate" className="form-horizontal" style={dottedBorder}>
+        <div id="resourceTemplate">
           <h4>BEGINNING OF FORM</h4>
-          <PropertiesWrapper propertyTemplates = {[this.props.resourceTemplates[0].propertyTemplates]} />
+          <FormWrapper propertyTemplates = {[this.props.resourceTemplates[0].propertyTemplates]} />
           <h4>END OF FORM</h4>
-        </form>
+        </div>
       </div>
     )
-  }
-}
-
-class PropertiesWrapper extends Component{
-  render () {
-    let dashedBorder = {
-      border: '1px dashed',
-      padding: '10px',
-    }
-    if (this.props.propertyTemplates.length == 0 || this.props.propertyTemplates[0] == {}) {
-      return <h3 color="red">There are no propertyTemplates - probably an error.</h3>
-    } else {
-      return (
-        <div className='PropertiesWrapper' style={dashedBorder}>
-          <p>BEGIN PropertiesWrapper</p>
-            <div>
-              {this.props.propertyTemplates[0].map(function(pt, index){
-                return <PropertyTemplate key={index} propertyTemplates={[pt]}/>
-              })}
-            </div>
-          <p>END PropertiesWrapper</p>
-        </div>
-      )
-    }
   }
 }
 
