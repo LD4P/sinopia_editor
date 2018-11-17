@@ -12,4 +12,9 @@ describe('<Footer />', () => {
   it ('contains the ld4p link', () => {
     expect(wrapper.find('a[href="http://www.ld4p.org"]')).toBeDefined()
   })
+  it('checks if links with target="_blank" also have "noopener noreferrer" in rel attribute', () => {
+    wrapper.find('a[target="_blank"]').forEach((node) => {
+      expect(node.prop('rel')).toMatch(/noopener noreferrer/)
+    })
+  })
 })

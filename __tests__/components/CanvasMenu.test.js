@@ -17,4 +17,10 @@ describe('<CanvasMenu />', () => {
   it('renders the FontAwesome closes icon', () =>{
     expect(wrapper.find(".close-icon")).toBeDefined()
   })
+
+  it('checks if links with target="_blank" also have rel="noopener noreferrer"', () => {
+    wrapper.find('a[target="_blank"]').forEach((node) => {
+      expect(node.prop('rel')).toEqual("noopener noreferrer")
+    })
+  })
 })
