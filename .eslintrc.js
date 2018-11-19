@@ -44,7 +44,6 @@ module.exports = {
     "jsx-a11y/label-has-for": "warn", // see #173
     "no-console": "warn",
     "no-extra-semi": "off", // because it isn't that important
-    "react/jsx-no-target-blank": "warn", // see #174
     "react/prop-types": "warn" // see #175
   },
   overrides: [
