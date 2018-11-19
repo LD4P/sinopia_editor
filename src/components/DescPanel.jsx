@@ -5,8 +5,18 @@ import React from 'react'
 const DescPanel = () => (
   <div className="desc-panel">
     <h4>The underdrawing for the new world of linked data in libraries</h4>
-    <p>With the support of a $1.5 million dollar grant from the Andrew W. Mellon Foundation, Linked Data for Libraries: LD4L Labs is a collaboration of Cornell, Harvard, Iowa, and Stanford to continue to advance the use and usefulness of linked data in libraries. Project team members will create and assemble tools, ontologies, services, and approaches that use linked data to improve the discovery, use, and understanding of scholarly information resources. The goal is to pilot tools and services and to create solutions that can be implemented in production at research libraries within the next three to five years.</p>
-    <p>Sinopia is one of those tools which will allow the team to link metadata. Just as the term, Sinopia, means the underdrawing to prepare a fresco for painting, Sinopia, the LD4P project, will be the underdrawing preparing the team to launch a metadata editor for linked data.</p>
+    <p>Sinopia is a linked data creation environment where libraries can:
+      <ul>
+        <li>create metadata in a linked data environment without having to set up and maintain tools</li>
+        <li>learn best practices related to linked data creation</li>
+        <li>explore the idea of cooperative cataloging (linking to shared descriptions and identifiers) in a linked data environment</li>
+        <li>contribute feedback and expertise to iterative development of tools for working in a linked data environment</li>
+      </ul>
+    </p>
+    <p>Sinopia is developed by the <a href="http://www.ld4p.org">Linked Data for Production: Pathway to Implementation (LD4P2)</a> project, a collaboration among Cornell University, Harvard University, the Library of Congress, Stanford University, the University of Iowa, and the Program for Cooperative Cataloging (PCC).
+    </p>  
+    <p>The term <i>sinopia</i> refers to &quot;The preliminary drawing for a fresco or mural, named for the reddish-brown pigment traditionally used to draw or transfer it.&quot; (<a href="http://www.lynnerutter.com/glossary.php#s">Glossary of Esoteric Architectural and Design Terms by Lynne Rutter</a>) LD4P&apos;s Sinopia is also a preliminary step, a sketch of what&apos;s possible, on the way to a full-fledged linked data production environment.
+    </p>
   </div>
 )
 
