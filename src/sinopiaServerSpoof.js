@@ -1,4 +1,5 @@
 // data structures to support spoofing Sinopia Server calls to get resource templates, etc.
+// TODO: eventually, this will do an http request to the sinopiaServer via fetch or axios
 
 const monographInstanceRt = require('../static/spoofedFilesFromServer/fromSinopiaServer/resourceTemplates/MonographInstance.json')
 const monographWorkRt = require('../static/spoofedFilesFromServer/fromSinopiaServer/resourceTemplates/MonographWork.json')
@@ -27,6 +28,7 @@ const resourceTemplateIds = []
 loadResourceTemplates()
 module.exports.resourceTemplateIds = resourceTemplateIds
 module.exports.resourceTemplateId2Json = resourceTemplateId2Json
+module.exports.getResourceTemplate = getResourceTemplate
 
 function loadResourceTemplates() {
   if (resourceTemplateIds.length == 0) {
@@ -34,4 +36,23 @@ function loadResourceTemplates() {
       resourceTemplateIds.push(el.id)
     })
   }
+}
+
+function getResourceTemplate(rtId) {
+  var rTemplate = {propertyTemplates : [{}] }
+  if (rtId != null) {
+    if (resourceTemplateIds.includes(rtId)) {
+      // FIXME:  there's probably a better way to find the value in array than forEach
+      resourceTemplateId2Json.forEach( function(el) {
+        if (rtId == el.id) {
+          rTemplate = el.json
+        }
+      })
+    } else {
+      console.error(`ERROR: un-spoofed resourceTemplate: ${rtId}`)
+    }
+  } else {
+    console.error(`ERROR: asked for resourceTemplate with null id`)
+  }
+  return rTemplate
 }
