@@ -30,7 +30,6 @@ const rtProps = {
 
 describe('<ResourceTemplate />', () => {
   const wrapper = shallow(<ResourceTemplate {...rtProps} />)
-
   it('has div with class "ResourceTemplate"', () => {
     expect(wrapper.find('div.ResourceTemplate').length).toEqual(1)
   })
@@ -39,4 +38,5 @@ describe('<ResourceTemplate />', () => {
   it('contains <div> with id resourceTemplate', () => {
     expect(wrapper.find('div#resourceTemplate').length).toEqual(1)
   })
+
 })

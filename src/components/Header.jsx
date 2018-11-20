@@ -1,6 +1,7 @@
 // Copyright 2018 Leland Stanford Junior University see Apache2.txt for license
 
 import React, { Component } from 'react'
+import PropTypes from 'prop-types'
 import SinopiaLogo from '../styles/sinopia-logo.png'
 import { Link } from 'react-router-dom'
 
@@ -27,6 +28,10 @@ class Header extends Component {
       </div>
     )
   }
+}
+
+Header.propTypes = {
+  triggerHomePageMenu: PropTypes.func
 }
 
 export default Header

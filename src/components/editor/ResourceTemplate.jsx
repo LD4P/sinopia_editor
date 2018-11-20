@@ -3,6 +3,7 @@
 import React, { Component }  from 'react'
 import FormWrapper from './FormWrapper'
 const { getResourceTemplate } = require('../../sinopiaServerSpoof.js')
+import PropTypes from 'prop-types'
 
 class ResourceTemplate extends Component {
 
@@ -34,6 +35,11 @@ class ResourceTemplate extends Component {
       </div>
     )
   }
+}
+
+ResourceTemplate.propTypes = {
+  resourceTemplates: PropTypes.array,
+  resourceTemplateId: PropTypes.string
 }
 
 export default ResourceTemplate;

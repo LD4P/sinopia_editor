@@ -23,4 +23,5 @@ describe('<CanvasMenu />', () => {
       expect(node.prop('rel')).toEqual("noopener noreferrer")
     })
   })
+  
 })

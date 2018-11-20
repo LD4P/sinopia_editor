@@ -33,4 +33,5 @@ describe('<Header />', () => {
   it('links to Sinopia Profile Editor', () => {
     expect(wrapper.find('a[href="https://profile-editor.sinopia.io/"]').text()).toBe('Profile Editor')
   })
+
 })
