@@ -45,15 +45,6 @@ jobs:
           command: npm run jest-ci
           environment:
             JEST_JUNIT_OUTPUT: "test-results/jest/jest-results.xml"
-      - store_test_results:
-          path: test-results
-      - store_artifacts:
-          path: coverage
-          destination: jest-coverage
-      - run: npm run analysis
-      - store_artifacts:
-          path: static-analysis
-          destination: static-analysis
 
   register_image:
     <<: *defaults
