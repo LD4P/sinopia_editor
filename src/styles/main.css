@@ -27,7 +27,8 @@ body {
 }
 .desc-panel h4 {
   font-weight: 600;
-  margin: 5% 0;
+  margin-top: 5%;
+  margin-bottom: 2%
 }
 .desc-panel p {
   font-size: 13.5px;
