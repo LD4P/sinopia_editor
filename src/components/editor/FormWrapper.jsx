@@ -22,6 +22,15 @@ class FormWrapper extends Component{
                       <InputLiteral propertyTemplate = {pt} key = {index} />
                     )
                   }
+                  else if (pt.type == 'resource'){
+                    return (<p> {pt.propertyLabel}: I am a resource type </p>)
+                  }
+                  else if (pt.type == 'lookup'){
+                    return (<p> {pt.propertyLabel}: I am a lookup type! </p>)
+                  }
+                  else if (pt.type == 'target') {
+                    return (<p> {pt.propertyLabel}: I am a target type! </p>)
+                  }
                 })}
               </div>
             <p>END FormWrapper</p>
