@@ -25,4 +25,33 @@ describe('sinopiaServerSpoof', () => {
       expect(sinopiaServerSpoof.resourceTemplateId2Json[9]['json']).toBeDefined()
     })
   })
+
+  describe('getResourceTemplate', () => {
+    it('known id: returns JSON for resource template', () => {
+      expect(sinopiaServerSpoof.getResourceTemplate('resourceTemplate:bf2:Title').id).toEqual('resourceTemplate:bf2:Title')
+      expect(sinopiaServerSpoof.getResourceTemplate('resourceTemplate:bf2:Title').resourceLabel).toEqual('Instance Title')
+    })
+    it('unknown id: returns empty resource template and logs error', () => {
+      let output = ''
+      let storeErr = inputs => (output += inputs)
+      console["error"] = jest.fn(storeErr)
+      expect(sinopiaServerSpoof.getResourceTemplate('not:there')).toEqual({"propertyTemplates": [{}]})
+      expect(output).toEqual('ERROR: un-spoofed resourceTemplate: not:there')
+    })
+    it('null id: returns empty resource template and logs error', () => {
+      let output = ''
+      let storeErr = inputs => (output += inputs)
+      console["error"] = jest.fn(storeErr)
+      expect(sinopiaServerSpoof.getResourceTemplate()).toEqual({"propertyTemplates": [{}]})
+      expect(output).toEqual('ERROR: asked for resourceTemplate with null id')
+      output = ''
+      expect(sinopiaServerSpoof.getResourceTemplate(null)).toEqual({"propertyTemplates": [{}]})
+      expect(output).toEqual('ERROR: asked for resourceTemplate with null id')
+      output = ''
+      expect(sinopiaServerSpoof.getResourceTemplate(undefined)).toEqual({"propertyTemplates": [{}]})
+      expect(output).toEqual('ERROR: asked for resourceTemplate with null id')
+      expect(sinopiaServerSpoof.getResourceTemplate('')).toEqual({"propertyTemplates": [{}]})
+    })
+
+  })
 })

@@ -23,13 +23,13 @@ class FormWrapper extends Component{
                     )
                   }
                   else if (pt.type == 'resource'){
-                    return (<p> {pt.propertyLabel}: I am a resource type </p>)
+                    return (<p key={index}><b>{pt.propertyLabel}</b>: <i>resource</i> type</p>)
                   }
                   else if (pt.type == 'lookup'){
-                    return (<p> {pt.propertyLabel}: I am a lookup type! </p>)
+                    return (<p key={index}><b>{pt.propertyLabel}</b>: <i>lookup</i> type</p>)
                   }
                   else if (pt.type == 'target') {
-                    return (<p> {pt.propertyLabel}: I am a target type! </p>)
+                    return (<p key={index}><b>{pt.propertyLabel}</b>: <i>target</i> type</p>)
                   }
                 })}
               </div>

@@ -38,6 +38,4 @@ describe('<ResourceTemplate />', () => {
   it('contains <div> with id resourceTemplate', () => {
     expect(wrapper.find('div#resourceTemplate').length).toEqual(1)
   })
-
-
 })
