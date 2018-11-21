@@ -1,3 +1,5 @@
+// Copyright 2018 Stanford University see Apache2.txt for license
+
 import React from 'react'
 import { shallow } from 'enzyme'
 import StartingPoints from '../../../src/components/editor/StartingPoints'

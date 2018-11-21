@@ -1,4 +1,5 @@
 // Copyright 2018 Stanford University see Apache2.txt for license
+
 import React from 'react'
 import { shallow } from 'enzyme'
 import InputLiteral from '../../../src/components/editor/InputLiteral'
