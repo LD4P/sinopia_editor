@@ -1,0 +1,59 @@
+[
+  {
+  "label": "Semimonthly"
+  },
+  {
+  "label": "Three times a month"
+  },
+  {
+  "label": "Three times a year"
+  },
+  {
+  "label": "Bimonthly"
+  },
+  {
+  "label": "Biennial"
+  },
+  {
+  "label": "Unknown"
+  },
+  {
+  "label": "Other"
+  },
+  {
+  "label": "Quarterly"
+  },
+  {
+  "label": "Semiweekly"
+  },
+  {
+  "label": "Biweekly"
+  },
+  {
+  "label": "Monthly"
+  },
+  {
+  "label": "Triennial"
+  },
+  {
+  "label": "Daily"
+  },
+  {
+  "label": "Semiannual"
+  },
+  {
+  "label": "Irregular"
+  },
+  {
+  "label": "Annual"
+  },
+  {
+  "label": "Three times a week"
+  },
+  {
+  "label": "Weekly"
+  },
+  {
+  "label": "Continuously updated"
+  }
+]

@@ -2,6 +2,7 @@
 
 import React, { Component }  from 'react'
 import InputLiteral from './InputLiteral'
+import InputTarget from './InputTarget'
 
 class FormWrapper extends Component{
   render () {
@@ -30,7 +31,9 @@ class FormWrapper extends Component{
                     return (<p key={index}><b>{pt.propertyLabel}</b>: <i>lookup</i> type</p>)
                   }
                   else if (pt.type == 'target') {
-                    return (<p key={index}><b>{pt.propertyLabel}</b>: <i>target</i> type</p>)
+                    return(
+                      <InputTarget propertyTemplate = {pt} key = {index} />
+                    )
                   }
                 })}
               </div>
