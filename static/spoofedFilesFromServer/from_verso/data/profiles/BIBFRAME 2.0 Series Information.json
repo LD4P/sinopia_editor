@@ -86,10 +86,10 @@
                 "remark": "http://access.rdatoolkit.org/rdachp2_rda2-7632.html"
             }
         ],
-        "id": "profile:bf2:SeriesInformation",
+        "id": "bf2:SeriesInformation",
         "title": "BIBFRAME 2.0 Series Information",
         "date": "2017-06-07",
-        "contact": "NDMSO",
+        "author": "NDMSO",
         "description": "Instance, Series Information"
     }
 }

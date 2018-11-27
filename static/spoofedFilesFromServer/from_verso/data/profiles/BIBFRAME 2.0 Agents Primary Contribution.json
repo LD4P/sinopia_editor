@@ -27,7 +27,7 @@
                     },
                     {
                         "mandatory": "false",
-                        "repeatable": "false",
+                        "repeatable": "true",
                         "type": "resource",
                         "resourceTemplates": [],
                         "valueConstraint": {
@@ -36,9 +36,9 @@
                             ],
                             "useValuesFrom": [],
                             "valueDataType": {},
-                            "repeatable": "false",
+                            "repeatable": "true",
                             "defaults": [],
-                            "editable": "true"
+                            "editable": "false"
                         },
                         "propertyURI": "http://id.loc.gov/ontologies/bibframe/role",
                         "propertyLabel": "Relationship Designator (RDA Appendix I)",
@@ -94,7 +94,7 @@
                 "resourceURI": "http://id.loc.gov/ontologies/bflc/PrimaryContribution"
             }
         ],
-        "contact": "NDMSO",
+        "author": "NDMSO",
         "id": "profile:bflc:PrimaryContribution",
         "title": "BIBFRAME 2.0 Agents Primary Contribution",
         "description": "Primary Contribution",

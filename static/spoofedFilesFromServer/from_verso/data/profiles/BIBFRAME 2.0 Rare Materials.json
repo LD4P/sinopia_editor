@@ -34,7 +34,8 @@
                             "valueDataType": {
                                 "dataTypeURI": "http://id.loc.gov/ontologies/bflc/PrimaryContribution"
                             },
-                            "defaults": []
+                            "defaults": [],
+                            "editable": "false"
                         },
                         "propertyURI": "http://id.loc.gov/ontologies/bibframe/contribution",
                         "propertyLabel": "Creator of Work (RDA 19.2)",
@@ -107,7 +108,8 @@
                             ],
                             "useValuesFrom": [],
                             "valueDataType": {},
-                            "defaults": []
+                            "defaults": [],
+                            "editable": "true"
                         },
                         "propertyURI": "http://id.loc.gov/ontologies/bibframe/genreForm",
                         "propertyLabel": "Form of Work"
@@ -426,7 +428,8 @@
                             ],
                             "useValuesFrom": [],
                             "valueDataType": {},
-                            "defaults": []
+                            "defaults": [],
+                            "editable": "false"
                         },
                         "propertyURI": "http://id.loc.gov/ontologies/bibframe/contribution",
                         "propertyLabel": "Contributors"
@@ -1550,6 +1553,6 @@
         "title": "BIBFRAME 2.0 Rare Materials",
         "description": "Work, Expression, Instance for Rare Materials",
         "date": "2017-08-30",
-        "contact": "NDMSO"
+        "author": "NDMSO"
     }
 }

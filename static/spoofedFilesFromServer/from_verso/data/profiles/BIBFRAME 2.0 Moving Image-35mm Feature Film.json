@@ -114,7 +114,8 @@
                             ],
                             "useValuesFrom": [],
                             "valueDataType": {},
-                            "defaults": []
+                            "defaults": [],
+                            "editable": "true"
                         },
                         "propertyURI": "http://id.loc.gov/ontologies/bibframe/geographicCoverage",
                         "propertyLabel": "(Geographic) Coverage of the Content"
@@ -260,7 +261,8 @@
                             ],
                             "useValuesFrom": [],
                             "valueDataType": {},
-                            "defaults": []
+                            "defaults": [],
+                            "editable": "false"
                         },
                         "propertyURI": "http://id.loc.gov/ontologies/bibframe/contribution",
                         "propertyLabel": "Creator of Work (RDA 19.2)",
@@ -277,7 +279,8 @@
                             ],
                             "useValuesFrom": [],
                             "valueDataType": {},
-                            "defaults": []
+                            "defaults": [],
+                            "editable": "false"
                         },
                         "propertyURI": "http://id.loc.gov/ontologies/bibframe/contribution",
                         "propertyLabel": "Contribution (RDA 19.3 and 20.2)",
@@ -913,7 +916,8 @@
                             ],
                             "useValuesFrom": [],
                             "valueDataType": {},
-                            "defaults": []
+                            "defaults": [],
+                            "editable": "false"
                         },
                         "propertyLabel": "Persons, Families, Corporate Bodies Associated with the Manifestation (RDA 21.1.2)",
                         "propertyURI": "http://id.loc.gov/ontologies/bibframe/contribution",
@@ -1953,7 +1957,7 @@
                 "resourceLabel": "BIBFRAME Work (RDA Expression Elements)"
             }
         ],
-        "contact": "NDMSO",
+        "author": "NDMSO",
         "date": "2017-05-20",
         "description": "Work, Expression, Instance for 35mmFeatureFilm",
         "id": "profile:bf2:35mmFeatureFilm",

@@ -322,10 +322,10 @@
                 "resourceLabel": "Subject of Work"
             }
         ],
-        "id": "profile:bf2:Topic",
+        "id": "bf2:Topic",
         "title": "BIBFRAME 2.0 Topic",
         "description": "Subject of Work",
         "date": "2017-05-13",
-        "contact": "NDMSO"
+        "author": "NDMSO"
     }
 }

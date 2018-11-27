@@ -268,6 +268,73 @@
                 "propertyTemplates": [
                     {
                         "mandatory": "false",
+                        "repeatable": "true",
+                        "type": "literal",
+                        "resourceTemplates": [],
+                        "valueConstraint": {
+                            "valueTemplateRefs": [],
+                            "useValuesFrom": [],
+                            "defaults": [],
+                            "valueDataType": {}
+                        },
+                        "propertyURI": "http://www.w3.org/1999/02/22-rdf-syntax-ns#value",
+                        "propertyLabel": "Audio Issue Number"
+                    },
+                    {
+                        "mandatory": "false",
+                        "repeatable": "true",
+                        "type": "resource",
+                        "resourceTemplates": [],
+                        "valueConstraint": {
+                            "valueTemplateRefs": [
+                                "profile:bf2:Identifiers:Source"
+                            ],
+                            "useValuesFrom": [],
+                            "defaults": [],
+                            "valueDataType": {}
+                        },
+                        "propertyURI": "http://id.loc.gov/ontologies/bibframe/source",
+                        "propertyLabel": "Source of Number"
+                    },
+                    {
+                        "mandatory": "false",
+                        "repeatable": "true",
+                        "type": "literal",
+                        "resourceTemplates": [],
+                        "valueConstraint": {
+                            "valueTemplateRefs": [],
+                            "useValuesFrom": [],
+                            "defaults": [],
+                            "valueDataType": {}
+                        },
+                        "propertyURI": "http://id.loc.gov/ontologies/bibframe/qualifier",
+                        "propertyLabel": "Qualifier"
+                    },
+                    {
+                        "mandatory": "false",
+                        "repeatable": "true",
+                        "type": "resource",
+                        "resourceTemplates": [],
+                        "valueConstraint": {
+                            "valueTemplateRefs": [
+                                "profile:bf2:Note"
+                            ],
+                            "useValuesFrom": [],
+                            "defaults": [],
+                            "valueDataType": {}
+                        },
+                        "propertyURI": "http://id.loc.gov/ontologies/bibframe/note",
+                        "propertyLabel": "Note on Audio Issue Number"
+                    }
+                ],
+                "id": "profile:bf2:Identifiers:AudioIssue",
+                "resourceURI": "http://id.loc.gov/ontologies/bibframe/AudioIssueNumber",
+                "resourceLabel": "Audio Issue Number"
+            },
+            {
+                "propertyTemplates": [
+                    {
+                        "mandatory": "false",
                         "repeatable": "false",
                         "type": "literal",
                         "resourceTemplates": [],
@@ -636,7 +703,7 @@
                         "propertyLabel": "Note on ISRC"
                     }
                 ],
-                "id": "profile:bf2:TestProfile:ISRC",
+                "id": "profile:bf2:Identifiers:ISRC",
                 "resourceURI": "http://id.loc.gov/ontologies/bibframe/Isrc",
                 "resourceLabel": "ISRC"
             },
@@ -1463,10 +1530,10 @@
                 "resourceLabel": "Accession or copy number"
             }
         ],
-        "id": "profile:bf2:Identifiers",
+        "id": "bf2:Identifiers",
         "title": "BIBFRAME 2.0 Identifiers",
         "description": "Identifiers for BIBFRAME Resources",
         "date": "2017-08-16",
-        "contact": "NDMSO"
+        "author": "NDMSO"
     }
 }

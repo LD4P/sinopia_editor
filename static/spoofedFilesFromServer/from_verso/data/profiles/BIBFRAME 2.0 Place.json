@@ -47,12 +47,13 @@
                 "id": "profile:bf2:Place",
                 "resourceURI": "http://id.loc.gov/ontologies/bibframe/Place",
                 "resourceLabel": "Place Associated with a Work",
-                "contact": ""
+                "author": "NDMSO"
             }
         ],
-        "id": "profile:bf2:Place",
+        "id": "bf2:Place",
         "title": "BIBFRAME 2.0 Place",
         "date": "2017-05-13",
-        "description": "Place Associated with a Resource"
+        "description": "Place Associated with a Resource",
+        "author": "NDMSO"
     }
 }

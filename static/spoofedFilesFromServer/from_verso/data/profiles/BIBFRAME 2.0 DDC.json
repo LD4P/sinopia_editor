@@ -42,10 +42,10 @@
                 "resourceURI": "http://id.loc.gov/ontologies/bibframe/ClassificationDdc"
             }
         ],
-        "id": "profile:bf2:DDC",
+        "id": "bf2:DDC",
         "description": "Dewey Decimal Classification",
         "title": "BIBFRAME 2.0 DDC",
         "date": "2017-07-28",
-        "contact": "NDMSO"
+        "author": "NDMSO"
     }
 }

@@ -18,7 +18,8 @@
                                 "dataTypeURI": ""
                             },
                             "valueLanguage": "",
-                            "defaults": []
+                            "defaults": [],
+                            "editable": "true"
                         },
                         "propertyURI": "http://www.loc.gov/mads/rdf/v1#PersonalName",
                         "type": "lookup",
@@ -37,7 +38,8 @@
                             "valueDataType": {
                                 "dataTypeURI": "http://www.loc.gov/mads/rdf/v1#PersonalName"
                             },
-                            "defaults": []
+                            "defaults": [],
+                            "editable": "true"
                         },
                         "propertyURI": "http://www.w3.org/2000/01/rdf-schema#label",
                         "propertyLabel": "Preferred Name for Person (RDA 9.2.2) CORE ELEMENT",
@@ -71,7 +73,7 @@
                             "valueDataType": {},
                             "defaults": []
                         },
-                        "propertyURI": "http://www.loc.gov/mads/rdf/v1#identifiesRWO",
+                        "propertyURI": "http://www.loc.gov/mads/rdf/v1#isIdentifiedByAuthority",
                         "propertyLabel": "Other Identifying Attributes (RDA 9.6-9.11)",
                         "remark": "http://access.rdatoolkit.org/rdachp9_rda9-5161.html"
                     },
@@ -178,9 +180,7 @@
                         "remark": "http://access.rdatoolkit.org/rdachp8_rda8-479.html",
                         "propertyURI": "http://www.loc.gov/mads/rdf/v1#hasSource"
                     }
-                ],
-                "contact": "",
-                "remark": ""
+                ]
             },
             {
                 "resourceURI": "http://www.loc.gov/mads/rdf/v1#FamilyName",
@@ -198,7 +198,8 @@
                                 "dataTypeURI": ""
                             },
                             "repeatable": "true",
-                            "defaults": []
+                            "defaults": [],
+                            "editable": "true"
                         },
                         "propertyURI": "http://www.loc.gov/mads/rdf/v1#FamilyName",
                         "type": "lookup",
@@ -441,7 +442,8 @@
                                 "dataTypeURI": ""
                             },
                             "repeatable": "true",
-                            "defaults": []
+                            "defaults": [],
+                            "editable": "true"
                         },
                         "propertyURI": "http://www.loc.gov/mads/rdf/v1#CorporateName",
                         "type": "lookup",
@@ -700,7 +702,8 @@
                                 "dataTypeURI": ""
                             },
                             "repeatable": "true",
-                            "defaults": []
+                            "defaults": [],
+                            "editable": "true"
                         },
                         "propertyURI": "http://www.loc.gov/mads/rdf/v1#ConferenceName",
                         "type": "lookup",
@@ -962,7 +965,8 @@
                                 "dataTypeURI": ""
                             },
                             "repeatable": "true",
-                            "defaults": []
+                            "defaults": [],
+                            "editable": "true"
                         }
                     },
                     {
@@ -1063,8 +1067,7 @@
                         "propertyURI": "http://www.loc.gov/mads/rdf/v1#hasSource",
                         "remark": "http://access.rdatoolkit.org/rdachp8_rda8-479.html"
                     }
-                ],
-                "contact": ""
+                ]
             },
             {
                 "propertyTemplates": [
@@ -1674,6 +1677,7 @@
         "id": "profile:bf2:Agents:Attributes",
         "title": "BIBFRAME 2.0 Agents",
         "date": "2017-05-22",
-        "description": "Agents are people, organizations, jurisdictions, etc., associated with a Work or Instance through roles such as author, editor, artist, photographer, composer, illustrator, etc."
+        "description": "Agents are people, organizations, jurisdictions, etc., associated with a Work or Instance through roles such as author, editor, artist, photographer, composer, illustrator, etc.",
+        "author": "NDMSO"
     }
 }

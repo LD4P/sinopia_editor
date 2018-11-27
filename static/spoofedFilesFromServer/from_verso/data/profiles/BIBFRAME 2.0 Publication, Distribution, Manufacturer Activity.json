@@ -74,7 +74,7 @@
                     }
                 ],
                 "id": "profile:bf2:PublicationInformation",
-                "contact": "",
+                "author": "NDMSO",
                 "resourceURI": "http://id.loc.gov/ontologies/bibframe/Publication",
                 "resourceLabel": "Publication Activity"
             },
@@ -421,6 +421,6 @@
         "title": "BIBFRAME 2.0 Publication, Distribution, Manufacturer Activity",
         "description": "Publication, Distribution, Manufacture Activity",
         "date": "2017-06-02",
-        "contact": "NDMSO"
+        "author": "NDMSO"
     }
 }

@@ -920,13 +920,13 @@
                 "id": "profile:bf2:Agent:RWO",
                 "resourceURI": "http://www.loc.gov/mads/rdf/v1#RWO",
                 "resourceLabel": "Other Identifying Attributes",
-                "contact": "NDMSO"
+                "author": "NDMSO"
             }
         ],
         "title": "BIBFRAME 2.0 RWO",
         "id": "profile:bf2:Agents:RWO",
         "description": "A madsrdf:RWO is an abstract entity and identifies a Real World Object (RWO) identified by the label of a madsrdf:Authority or madsrdf:DeprecatedAuthority",
-        "contact": "NDMSO",
+        "author": "NDMSO",
         "date": "2017-05-17"
     }
 }

@@ -74,7 +74,7 @@
                 "resourceLabel": "Language of Content"
             }
         ],
-        "id": "profile:bf2:Language",
+        "id": "bf2:Language",
         "title": "BIBFRAME 2.0 Language",
         "date": "2017-05-13",
         "description": "Language"

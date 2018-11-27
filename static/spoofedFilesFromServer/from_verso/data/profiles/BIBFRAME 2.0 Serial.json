@@ -69,7 +69,8 @@
                             ],
                             "useValuesFrom": [],
                             "valueDataType": {},
-                            "defaults": []
+                            "defaults": [],
+                            "editable": "false"
                         },
                         "propertyURI": "http://id.loc.gov/ontologies/bibframe/genreForm",
                         "propertyLabel": "Form of Work (RDA 6.3)",
@@ -1073,7 +1074,7 @@
                 "id": "profile:bf2:Serial:Title",
                 "resourceURI": "http://id.loc.gov/ontologies/bibframe/Title",
                 "resourceLabel": "Title",
-                "contact": "NDMSO"
+                "author": "NDMSO"
             },
             {
                 "propertyTemplates": [
@@ -2155,7 +2156,7 @@
                 "resourceLabel": "BIBFRAME Work (RDA Expression Elements)"
             }
         ],
-        "contact": "NDMSO",
+        "author": "NDMSO",
         "date": "2017-05-20",
         "description": "Work, Expression, Instance for Serials",
         "id": "profile:bf2:Serial",

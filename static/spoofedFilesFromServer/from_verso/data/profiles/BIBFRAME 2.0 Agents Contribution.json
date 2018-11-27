@@ -87,10 +87,10 @@
                 ]
             }
         ],
-        "id": "profile:bf2:AgentsContribution",
+        "id": "bf2:AgentsContribution",
         "title": "BIBFRAME 2.0 Agents Contribution",
         "date": "2017-05-13",
         "description": "Creators and Contributors",
-        "contact": "NDMSO"
+        "author": "NDMSO"
     }
 }

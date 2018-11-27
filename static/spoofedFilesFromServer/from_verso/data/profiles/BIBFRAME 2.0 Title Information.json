@@ -413,119 +413,6 @@
                             "valueDataType": {},
                             "defaults": []
                         },
-                        "propertyLabel": "Parallel Title Proper (RDA 2.3.3)",
-                        "propertyURI": "http://id.loc.gov/ontologies/bibframe/ParallelTitle",
-                        "remark": "http://access.rdatoolkit.org/rdachp2_rda2-3695.html"
-                    },
-                    {
-                        "mandatory": "false",
-                        "repeatable": "true",
-                        "type": "literal",
-                        "resourceTemplates": [],
-                        "valueConstraint": {
-                            "valueTemplateRefs": [],
-                            "useValuesFrom": [],
-                            "valueDataType": {},
-                            "defaults": []
-                        },
-                        "propertyURI": "http://id.loc.gov/ontologies/bibframe/subtitle",
-                        "propertyLabel": "Parallel Other Title Information (RDA 2.3.5)",
-                        "remark": "http://access.rdatoolkit.org/rdachp2_rda2-3939.html"
-                    },
-                    {
-                        "mandatory": "false",
-                        "repeatable": "true",
-                        "type": "literal",
-                        "resourceTemplates": [],
-                        "valueConstraint": {
-                            "valueTemplateRefs": [],
-                            "useValuesFrom": [],
-                            "valueDataType": {},
-                            "defaults": []
-                        },
-                        "propertyURI": "http://id.loc.gov/ontologies/bibframe/KeyTitle",
-                        "propertyLabel": "Key title"
-                    },
-                    {
-                        "mandatory": "false",
-                        "repeatable": "true",
-                        "type": "literal",
-                        "resourceTemplates": [],
-                        "valueConstraint": {
-                            "valueTemplateRefs": [],
-                            "useValuesFrom": [],
-                            "valueDataType": {},
-                            "defaults": []
-                        },
-                        "propertyURI": "http://id.loc.gov/ontologies/bibframe/AbbreviatedTitle",
-                        "propertyLabel": "Abbreviated title"
-                    },
-                    {
-                        "mandatory": "false",
-                        "repeatable": "true",
-                        "type": "literal",
-                        "resourceTemplates": [],
-                        "valueConstraint": {
-                            "valueTemplateRefs": [],
-                            "useValuesFrom": [],
-                            "valueDataType": {},
-                            "defaults": []
-                        },
-                        "propertyURI": "http://id.loc.gov/ontologies/bibframe/CollectiveTitle",
-                        "propertyLabel": "Collective title"
-                    },
-                    {
-                        "mandatory": "false",
-                        "repeatable": "true",
-                        "type": "literal",
-                        "resourceTemplates": [],
-                        "valueConstraint": {
-                            "valueTemplateRefs": [],
-                            "useValuesFrom": [],
-                            "valueDataType": {},
-                            "defaults": []
-                        },
-                        "propertyURI": "http://www.w3.org/2000/01/rdf-schema#label",
-                        "remark": "http://access.rdatoolkit.org/rdachp2_rda2-4013.html",
-                        "propertyLabel": "Variant Title (RDA 2.3.6)"
-                    },
-                    {
-                        "mandatory": "false",
-                        "repeatable": "true",
-                        "type": "resource",
-                        "resourceTemplates": [],
-                        "valueConstraint": {
-                            "valueTemplateRefs": [
-                                "profile:bf2:Title:Note"
-                            ],
-                            "useValuesFrom": [],
-                            "valueDataType": {},
-                            "defaults": []
-                        },
-                        "propertyURI": "http://id.loc.gov/ontologies/bibframe/note",
-                        "propertyLabel": "Note on title",
-                        "remark": "http://access.rdatoolkit.org/2.17.2.html"
-                    }
-                ],
-                "contact": "Title variation",
-                "resourceLabel": "Instance Title Variation",
-                "resourceURI": "http://id.loc.gov/ontologies/bibframe/VariantTitle",
-                "id": "profile:bf2:VariantTitle",
-                "remark": "Title associated with the resource that is different from the Work or Instance title."
-            },
-            {
-                "propertyTemplates": [
-                    {
-                        "mandatory": "false",
-                        "repeatable": "true",
-                        "type": "literal",
-                        "resourceTemplates": [],
-                        "valueConstraint": {
-                            "valueTemplateRefs": [],
-                            "useValuesFrom": [],
-                            "valueDataType": {},
-                            "defaults": []
-                        },
                         "propertyURI": "http://id.loc.gov/ontologies/bflc/title00MarcKey",
                         "propertyLabel": "LC Extension: title00MarcKey"
                     },
@@ -677,8 +564,8 @@
         ],
         "title": "BIBFRAME 2.0 Title Information",
         "date": "2017-05-26",
-        "contact": "NDMSO",
-        "id": "profile:bf2:Title",
+        "author": "NDMSO",
+        "id": "bf2:Title",
         "remark": "",
         "description": "Title information relating to a resource: work title, preferred title, instance title, transcribed title, translated title, variant form of title, etc."
     }

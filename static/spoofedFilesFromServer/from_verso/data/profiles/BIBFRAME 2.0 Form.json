@@ -16,17 +16,17 @@
                             "valueDataType": {
                                 "dataTypeURI": ""
                             },
-                            "repeatable": "false"
+                            "repeatable": "false",
+                            "defaults": []
                         },
                         "propertyLabel": "Search LCGFT (RDA 6.3)",
-                        "propertyURI": "http://id.loc.gov/ontologies/bibframe/GenreForm",
+                        "propertyURI": "http://id.loc.gov/ontologies/bibframe/genreForm",
                         "remark": "http://access.rdatoolkit.org/6.3.html"
                     }
                 ],
                 "id": "profile:bf2:Form",
                 "resourceURI": "http://id.loc.gov/ontologies/bibframe/GenreForm",
-                "resourceLabel": "Form/Genre",
-                "contact": "NDMSO"
+                "resourceLabel": "Form/Genre"
             },
             {
                 "propertyTemplates": [
@@ -46,7 +46,8 @@
                                 "remark": ""
                             },
                             "repeatable": "false",
-                            "remark": ""
+                            "remark": "",
+                            "defaults": []
                         },
                         "propertyLabel": "(Geographic) Coverage of the Content (RDA 7.3)",
                         "remark": "http://access.rdatoolkit.org/7.3.html",
@@ -62,7 +63,8 @@
                                 "profile:bf2:Note"
                             ],
                             "useValuesFrom": [],
-                            "valueDataType": {}
+                            "valueDataType": {},
+                            "defaults": []
                         },
                         "propertyURI": "http://id.loc.gov/ontologies/bibframe/note",
                         "propertyLabel": "Note about Geographic coverage"
@@ -84,7 +86,8 @@
                             "useValuesFrom": [
                                 "http://id.loc.gov/authorities/genreForms"
                             ],
-                            "valueDataType": {}
+                            "valueDataType": {},
+                            "defaults": []
                         },
                         "propertyLabel": "Search LCGFT",
                         "propertyURI": "http://id.loc.gov/ontologies/bflc/target"
@@ -95,10 +98,10 @@
                 "resourceLabel": "Form/Genre Test"
             }
         ],
-        "id": "profile:bf2:Form",
+        "id": "bf2:Form",
         "title": "BIBFRAME 2.0 Form",
         "description": "Form of Work",
         "date": "2017-05-13",
-        "contact": "NDMSO"
+        "author": "NDMSO"
     }
 }

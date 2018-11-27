@@ -190,10 +190,10 @@
                 "resourceLabel": "System Requirement"
             }
         ],
-        "id": "profile:bf2:Note",
+        "id": "bf2:Note",
         "title": "BIBFRAME 2.0 Note",
         "description": "Notes (and more) for BIBFRAME resources",
         "date": "2017-08-21",
-        "contact": "NDMSO"
+        "author": "NDMSO"
     }
 }
