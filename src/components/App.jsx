@@ -2,6 +2,7 @@
 
 import React, { Component } from 'react'
 import { hot } from 'react-hot-loader'
+import 'react-bootstrap-typeahead/css/Typeahead.css'
 import HomePage from './HomePage'
 import '../styles/main.css'
 import Editor from './editor/Editor'

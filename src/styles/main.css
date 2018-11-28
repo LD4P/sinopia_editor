@@ -83,3 +83,6 @@ a.editor-help-resources {
   font-size: 1.3em;
   color: #2F2424;
 }
+input.rbt-input-main {
+  min-width: 300px;
+}
