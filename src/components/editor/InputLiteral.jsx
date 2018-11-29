@@ -1,6 +1,7 @@
 // Copyright 2018 Stanford University see Apache2.txt for license
 
-import React, {Component} from 'react';
+import React, {Component} from 'react'
+import PropTypes from 'prop-types'
 
 class InputLiteral extends Component {
 
@@ -126,6 +127,14 @@ class InputLiteral extends Component {
       </div>
     )
   }
+}
+
+InputLiteral.propTypes = {
+  propertyTemplate: PropTypes.shape({
+    propertyLabel: PropTypes.string.isRequired,
+    mandatory: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
+    repeatable: PropTypes.oneOfType([PropTypes.string, PropTypes.bool])
+  }).isRequired
 }
 
 export default InputLiteral;
