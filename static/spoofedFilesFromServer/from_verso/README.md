@@ -3,7 +3,7 @@ This directory and sub-directories contain JSON Profiles
 from the Library of Congress [Verso][VERSO] middleware source code repository.
 
 ### 2018-11-27
-Updated and removed profiles from master branch in [Verso][VERSO]. Current
+Updated profiles from master branch in [Verso][VERSO]. Current
 listing of profiles from SHA commit ecb3c1e55fe8c0109207d49e44bbc4a087246280.
 
   BIBFRAME 2.0 Admin Metadata.json

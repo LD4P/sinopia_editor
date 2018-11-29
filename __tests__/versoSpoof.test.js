@@ -8,7 +8,6 @@ describe('spoofed verso', () => {
       expect(versoSpoof.profiles).toHaveLength(30)
     })
     it('profile has id', () => {
-      console.log(`ID of 0 is : ${versoSpoof.profiles[0]['id']}`)
       expect(versoSpoof.profiles[0]['id']).toBe('bf2:AdminMetadata')
     })
     it('profile has name', () => {
