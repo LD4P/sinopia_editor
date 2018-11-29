@@ -1,6 +1,7 @@
 // Copyright 2018 Stanford University see Apache2.txt for license
 
 import React, { Component } from 'react'
+import PropTypes from 'prop-types'
 
 class Header extends Component {
   render() {
@@ -22,6 +23,10 @@ class Header extends Component {
       </div>
     )
   }
+}
+
+Header.propTypes = {
+  triggerEditorMenu: PropTypes.func
 }
 
 export default Header

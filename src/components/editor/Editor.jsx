@@ -1,6 +1,7 @@
 // Copyright 2018 Stanford University see Apache2.txt for license
 
 import React, {Component} from 'react'
+import PropTypes from 'prop-types'
 import ResourceTemplate from './ResourceTemplate'
 import Header from './Header'
 import StartingPoints from './StartingPoints'
@@ -27,6 +28,11 @@ class Editor extends Component {
       </div>
     )
   }
+}
+
+Editor.propTypes = {
+  children: PropTypes.array,
+  triggerHandleOffsetMenu: PropTypes.func
 }
 
 export default Editor

@@ -2,6 +2,7 @@
 
 import React, { Component }  from 'react'
 import InputLiteral from './InputLiteral'
+import PropTypes from 'prop-types'
 
 class FormWrapper extends Component{
   render () {
@@ -9,7 +10,7 @@ class FormWrapper extends Component{
       border: '1px dashed',
       padding: '10px',
     }
-    if (this.props.propertyTemplates.length == 0 || this.props.propertyTemplates[0] == {}) {
+    if (this.props.propertyTemplates.length === 0 || this.props.propertyTemplates[0] === {}) {
       return <h1>There are no propertyTemplates - probably an error.</h1>
     } else {
       return (
@@ -40,6 +41,11 @@ class FormWrapper extends Component{
       )
     }
   }
+}
+
+FormWrapper.propTypes= {
+  propertyTemplates: PropTypes.array,
+  
 }
 
 export default FormWrapper;

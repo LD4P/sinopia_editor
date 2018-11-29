@@ -33,12 +33,15 @@ describe('<FormWrapper />', () => {
       ]))
     })
   })
+
   it('renders FormWrapper nested component', () => {
     expect(wrapper
       .find('div.FormWrapper > div > InputLiteral').length)
       .toEqual(1)
   })
+
   it('<form> does not contain redundant form attribute', () => {
     expect(wrapper.find('form[role="form"]').length).toEqual(0)
   })
+
 })

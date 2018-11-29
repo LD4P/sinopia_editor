@@ -174,6 +174,7 @@ describe('when values are not present', () => {
 })
 
 describe('cleanup', () => {
+
   it('unmounts the wrapper', () => {
     expect(wrapper.debug().length).toBeGreaterThanOrEqual(1)
     wrapper.unmount();
