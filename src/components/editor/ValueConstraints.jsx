@@ -1,8 +1,10 @@
 // Copyright 2018 Stanford University see Apache2.txt for license
 
 import React, { Component } from 'react'
+import PropTypes from 'prop-types'
 
 class ValueConstraints extends Component {
+
   render() {
     let dashedBorder = {
       border: '1px dashed',
@@ -42,6 +44,25 @@ class ValueConstraints extends Component {
   }
 }
 
+ValueConstraints.propTypes = {
+    defaults: PropTypes.oneOfType([PropTypes.array, PropTypes.string]),
+    editable: PropTypes.oneOfType([ PropTypes.string, PropTypes.bool]),
+    languageLabel: PropTypes.string,
+    // TODO: Use URL PropType see https://www.npmjs.com/package/url-prop-type
+    languageURI: PropTypes.string,
+    mandatory: PropTypes.oneOfType([ PropTypes.string, PropTypes.bool]),
+    remark: PropTypes.string,
+    repeatable: PropTypes.oneOfType([ PropTypes.string, PropTypes.bool]),
+    useValuesFrom: PropTypes.oneOfType([ PropTypes.string, PropTypes.array ]),
+    // Inconsistency in use of valueDataType in props
+    valueDataType: PropTypes.any,
+    valueDataTypes: PropTypes.oneOfType([PropTypes.array, PropTypes.string]),
+    // TODO: Use a custom validator to check controlled vocab for languages?
+    valueLanguage: PropTypes.string,
+    validatePattern: PropTypes.string,
+    valueTemplateRefs: PropTypes.oneOfType([ PropTypes.array, PropTypes.string])
+}
+
 class ValueDataTypes extends Component {
   render() {
     const obj = this.props.valueDataTypes
@@ -68,6 +89,10 @@ class ValueDataTypes extends Component {
   }
 }
 
+ValueDataTypes.propTypes = {
+  valueDataTypes: PropTypes.array
+}
+
 class Defaults extends Component {
   render() {
     const obj = this.props.defaults[0]
@@ -86,6 +111,10 @@ class Defaults extends Component {
       )
     }
   }
+}
+
+Defaults.propTypes = {
+  defaults: PropTypes.array
 }
 
 class UseValuesFrom extends Component {
@@ -111,6 +140,10 @@ class UseValuesFrom extends Component {
   }
 }
 
+UseValuesFrom.propTypes = {
+  useValuesFrom: PropTypes.array
+}
+
 class ValueTemplateRefs extends Component {
   render() {
     const obj = this.props.valueTemplateRefs
@@ -132,6 +165,10 @@ class ValueTemplateRefs extends Component {
       )
     }
   }
+}
+
+ValueTemplateRefs.propTypes = {
+    valueTemplateRefs: PropTypes.array
 }
 
 function hasValues(obj) {

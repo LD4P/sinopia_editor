@@ -1,6 +1,7 @@
 // Copyright 2018 Stanford University see Apache2.txt for license
 
 import React, { Component } from 'react'
+import PropTypes from 'prop-types'
 import ValueConstraints from './ValueConstraints'
 
 class PropertyTemplate extends Component {
@@ -35,5 +36,14 @@ class PropertyTemplate extends Component {
   }
 }
 
+PropertyTemplate.propTypes = {
+  propertyLabel: PropTypes.string,
+  propertyURI: PropTypes.string,
+  remark: PropTypes.string,
+  mandatory: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
+  repeatable: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
+  type: PropTypes.string,
+  resourceTemplates: PropTypes.array
+}
 
 export default PropertyTemplate

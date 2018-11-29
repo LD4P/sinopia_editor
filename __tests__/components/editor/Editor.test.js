@@ -19,4 +19,5 @@ describe('<Editor />', () => {
   it('renders <Header />', () => {
     expect(wrapper.find(Header).length).toBe(1)
   })
+
 })
