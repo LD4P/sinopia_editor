@@ -3,33 +3,11 @@
 import React from 'react'
 import { shallow } from 'enzyme'
 import ResourceTemplate from '../../../src/components/editor/ResourceTemplate'
-import PropertyTemplate from '../../../src/components/editor/PropertyTemplate'
-import FormWrapper from '../../../src/components/editor/FormWrapper'
-
-const rtProps = {
-  resourceTemplates: [
-    {
-      "id": "profile:bf2:Monograph:Instance",
-      "resourceLabel": "BIBFRAME Instance",
-      "resourceURI": "http://id.loc.gov/ontologies/bibframe/Instance",
-      "remark": "Can you believe we're doing this!?",
-      "propertyTemplates": [
-        {
-          "propertyLabel": "Instance of"
-        },
-        {
-          "propertyLabel": "foo"
-        },
-        {
-          "propertyLabel": "bar"
-        }
-      ]
-    }
-  ]
-}
+import ResourceTemplateForm from '../../../src/components/editor/ResourceTemplateForm'
 
 describe('<ResourceTemplate />', () => {
-  const wrapper = shallow(<ResourceTemplate {...rtProps} />)
+  const wrapper = shallow(<ResourceTemplate resourceTemplateId='resourceTemplate:bf2:Monograph:Instance' />)
+
   it('has div with class "ResourceTemplate"', () => {
     expect(wrapper.find('div.ResourceTemplate').length).toEqual(1)
   })
@@ -39,4 +17,7 @@ describe('<ResourceTemplate />', () => {
     expect(wrapper.find('div#resourceTemplate').length).toEqual(1)
   })
 
+  it('renders ResourceTemplateForm', () => {
+    expect(wrapper.find(ResourceTemplateForm).length).toEqual(1)
+  })
 })

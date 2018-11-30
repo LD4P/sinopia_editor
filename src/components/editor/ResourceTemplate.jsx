@@ -1,7 +1,7 @@
 // Copyright 2018 Stanford University see Apache2.txt for license
 
 import React, { Component }  from 'react'
-import FormWrapper from './FormWrapper'
+import ResourceTemplateForm from './ResourceTemplateForm'
 const { getResourceTemplate } = require('../../sinopiaServerSpoof.js')
 import PropTypes from 'prop-types'
 
@@ -28,9 +28,9 @@ class ResourceTemplate extends Component {
           <li>remark: <strong>{resourceTemplate.remark}</strong></li>
         </ul>
         <div id="resourceTemplate">
-          <h4>BEGINNING OF FORM</h4>
-          <FormWrapper propertyTemplates = {[resourceTemplate.propertyTemplates]} />
-          <h4>END OF FORM</h4>
+          <h4>BEGIN ResourceTemplate</h4>
+          <ResourceTemplateForm propertyTemplates = {resourceTemplate.propertyTemplates} />
+          <h4>END ResourceTemplate</h4>
         </div>
       </div>
     )
@@ -38,7 +38,6 @@ class ResourceTemplate extends Component {
 }
 
 ResourceTemplate.propTypes = {
-  resourceTemplates: PropTypes.array,
   resourceTemplateId: PropTypes.string
 }
 
