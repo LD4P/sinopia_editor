@@ -175,7 +175,7 @@
         },
         "valueLanguage": "VALUE LANGUAGE",
         "valueTemplateRefs": [
-          "profile:bf2:Identifiers:Barcode"
+          "resourceTemplate:bf2:Identifiers:Barcode"
         ]
       },
       "mandatory": "false",
