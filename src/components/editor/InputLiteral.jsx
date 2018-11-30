@@ -11,8 +11,8 @@ class InputLiteral extends Component {
     this.handleKeypress = this.handleKeypress.bind(this)
     this.handleClick = this.handleClick.bind(this)
     this.checkMandatoryRepeatable = this.checkMandatoryRepeatable.bind(this)
-    this.nonRepeatableNonMandatory = this.nonRepeatableNonMandatory.bind(this)
-    this.nonRepeatableMandatory = this.nonRepeatableMandatory.bind(this)
+    this.noRepeatableNoMandatory = this.noRepeatableNoMandatory.bind(this)
+    this.noRepeatableYesMandatory = this.noRepeatableYesMandatory.bind(this)
     this.addUserInput = this.addUserInput.bind(this)
     this.state = {
       content_add: "",
@@ -26,15 +26,13 @@ class InputLiteral extends Component {
     this.setState({ content_add: usr_input })
   }
 
-  /** repeatable = false and mandatory = true **/
-  nonRepeatableMandatory(userInputArray, currentcontent) {
+  noRepeatableYesMandatory(userInputArray, currentcontent) {
     if (userInputArray.length == 0) {
       this.addUserInput(userInputArray, currentcontent)
     }
   }
 
-  /** repeatable = false and mandatory = false **/
-  nonRepeatableNonMandatory(userInputArray, currentcontent) {
+  noRepeatableNoMandatory(userInputArray, currentcontent) {
     if (userInputArray.length < 1) {
       this.addUserInput(userInputArray, currentcontent)
     }
@@ -61,10 +59,10 @@ class InputLiteral extends Component {
       } else if (this.props.propertyTemplate.repeatable == "false") {
        /** Mandatory true, means array must have only 1 item in the array **/ 
         if (this.props.propertyTemplate.mandatory == "true") {
-          this.nonRepeatableMandatory(userInputArray, currentcontent)
+          this.noRepeatableYesMandatory(userInputArray, currentcontent)
         /** Mandatory is false, or not defined. Array can have either 0 or 1 item in array. **/
         } else {
-          this.nonRepeatableNonMandatory(userInputArray, currentcontent)
+          this.noRepeatableNoMandatory(userInputArray, currentcontent)
         }
       }
       this.setState({
@@ -97,13 +95,21 @@ class InputLiteral extends Component {
 
   makeAddedList() {
     const elements = this.state.myItems.map((listitem) => (
-      <button
+      <div
         key={listitem.id}
-        onClick={this.handleClick}
-        data-item={listitem.id}
       >
         {listitem.content}
-      </button>
+      
+        <button
+          id="displayedItem"
+          type="button"
+          onClick={this.handleClick}
+          key={listitem.id}
+          data-item={listitem.id}
+          >X
+        </button>
+      </div>
+
     ))
     return elements
   }
@@ -113,13 +119,13 @@ class InputLiteral extends Component {
         <label htmlFor="typeLiteral">
           {this.props.propertyTemplate.propertyLabel}
           <input
-            { ...(this.checkMandatoryRepeatable() ? {required: 'required'} : null) }
+            required={this.checkMandatoryRepeatable()}
             className="form-control"
             placeholder={this.props.propertyTemplate.propertyLabel}
             onChange={this.handleChange}
             onKeyPress={this.handleKeypress}
             value={this.state.content_add}
-            it="typeLiteral"
+            id="typeLiteral"
           />
           {this.makeAddedList()}
         </label>

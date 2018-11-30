@@ -26,7 +26,7 @@ describe('<InputLiteral />', () => {
  it('contains required="true" attribute on input tag when mandatory is true', () => {
     wrapper.instance().props.propertyTemplate.mandatory = "true"
     wrapper.instance().forceUpdate() /** update plProps with mandatory: "true" **/  
-    expect(wrapper.find('input').prop('required')).toEqual('required')
+    expect(wrapper.find('input').prop('required')).toBeTruthy()
   })
   it('contains required="false" attribute on input tag when mandatory is false', () => {
     wrapper.instance().props.propertyTemplate.mandatory = "false"
@@ -59,21 +59,36 @@ describe('<InputLiteral />', () => {
     expect(wrapper.state('myItems').length).toEqual(1)
     wrapper.setState({content_add : '', myItems: []})
   })
-  it('after adding one item into myItems array, required turns to false.', () => {
+  it('required is only true for first item in myItems array', () => {
     wrapper.instance().props.propertyTemplate.mandatory = "true"
     wrapper.instance().props.propertyTemplate.repeatable = "true"
     wrapper.instance().forceUpdate()
 
-    expect(wrapper.find('input').prop('required')).toEqual('required')
+    expect(wrapper.find('input').prop('required')).toBeTruthy()
     wrapper.find('input').simulate("change", { target: { value: "foo" }})
     expect(wrapper.state('content_add')).toEqual('foo')
     wrapper.find('input').simulate('keypress', {key: 'Enter', preventDefault: () => {}})
     expect(wrapper.find('input').prop('required')).toBeFalsy()
+    wrapper.setState({content_add : '', myItems: []}) /** reset state **/
+
   })
-  it('click on user added list item to remove that item', () => {
+  it('required turns from false to true when user deletes all items', () => {
+    wrapper.instance().props.propertyTemplate.mandatory = "true"
+    wrapper.instance().props.propertyTemplate.repeatable = "true"
+    wrapper.instance().forceUpdate()
+
+    wrapper.find('input').simulate("change", { target: { value: "foo" }})
+    expect(wrapper.state('content_add')).toEqual('foo')
+    wrapper.find('input').simulate('keypress', {key: 'Enter', preventDefault: () => {}})
+    expect(wrapper.find('button#displayedItem').length).toEqual(1)
+    expect(wrapper.find('input').prop('required')).toBeFalsy()
+    wrapper.find('button#displayedItem').first().simulate('click', { target: { "dataset": {"item": 4 }}});
+    expect(wrapper.find('input').prop('required')).toBeTruthy()
+  })
+  it('remove item when user clicks on it', () => {
     wrapper.setState({content_add : '', myItems: [ {content: 'foo', id: 0}, {content: 'bar', id: 1}]})
-    expect(wrapper.find('button').length).toEqual(2)
-    wrapper.find('button').first().simulate('click', { target: { "dataset": {"item": 0 }}});
-    expect(wrapper.find('button').length).toEqual(1)
+    expect(wrapper.find('button#displayedItem').length).toEqual(2)
+    wrapper.find('button#displayedItem').first().simulate('click', { target: { "dataset": {"item": 0 }}});
+    expect(wrapper.find('button#displayedItem').length).toEqual(1)
   })
 })
