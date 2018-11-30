@@ -74,7 +74,7 @@ describe('<ResourceTemplateForm />', () => {
     })
     it('passes appropriate props to ModalToggle(s)', () => {
       wrapper.find('ModalToggle').forEach((node) => {
-        expect(node.prop('buttonLabel')).toEqual('Note') // TODO: ensure we get from spoofed resourceTemplate
+        expect(node.prop('buttonLabel')).toEqual('Note')
         expect(node.prop('rtId')).toEqual('resourceTemplate:bf2:Note')
         expect(node.prop('propertyTemplates')).toBeInstanceOf(Array)
       })
