@@ -2,8 +2,8 @@ describe('sinopiaServerSpoof', () => {
   let sinopiaServerSpoof  = require('../src/sinopiaServerSpoof.js')
 
   describe('resourceTemplateIds', () => {
-    it('array of length 10', () => {
-      expect(sinopiaServerSpoof.resourceTemplateIds).toHaveLength(12)
+    it('array of length 13', () => {
+      expect(sinopiaServerSpoof.resourceTemplateIds).toHaveLength(13)
     })
     it('resourceTemplateId is in expected format', () => {
       sinopiaServerSpoof.resourceTemplateIds.forEach(id => {
@@ -13,13 +13,13 @@ describe('sinopiaServerSpoof', () => {
   })
 
   describe('resourceTemplateId2Json', () => {
-    it('array of length 10', () => {
-      expect(sinopiaServerSpoof.resourceTemplateId2Json).toHaveLength(12)
+    it('array of length 13', () => {
+      expect(sinopiaServerSpoof.resourceTemplateId2Json).toHaveLength(13)
     })
     it('mapping has id', () => {
       expect(sinopiaServerSpoof.resourceTemplateId2Json[0]['id']).toBe('resourceTemplate:bf2:Monograph:Instance')
-      expect(sinopiaServerSpoof.resourceTemplateId2Json[10]['id']).toBe('resourceTemplate:bf2:WorkVariantTitle')
-      expect(sinopiaServerSpoof.resourceTemplateId2Json[11]['id']).toBe('vocabulary:bf2:frequencies')
+      expect(sinopiaServerSpoof.resourceTemplateId2Json[11]['id']).toBe('resourceTemplate:bf2:WorkVariantTitle')
+      expect(sinopiaServerSpoof.resourceTemplateId2Json[12]['id']).toBe('vocabulary:bf2:frequencies')
     })
     it('mapping has json', () => {
       expect(sinopiaServerSpoof.resourceTemplateId2Json[0]['json']).toBeDefined()

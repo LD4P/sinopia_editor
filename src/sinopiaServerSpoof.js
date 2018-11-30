@@ -1,6 +1,7 @@
 // data structures to support spoofing Sinopia Server calls to get resource templates, etc.
 // TODO: eventually, this will do an http request to the sinopiaServer via fetch or axios
 
+const barcodeRt = require('../static/spoofedFilesFromServer/fromSinopiaServer/resourceTemplates/Barcode.json')
 const monographInstanceRt = require('../static/spoofedFilesFromServer/fromSinopiaServer/resourceTemplates/MonographInstance.json')
 const monographWorkRt = require('../static/spoofedFilesFromServer/fromSinopiaServer/resourceTemplates/MonographWork.json')
 const noteRt = require('../static/spoofedFilesFromServer/fromSinopiaServer/resourceTemplates/Note.json')
@@ -16,6 +17,7 @@ const qaLocVocabFrequencies = require('../static/spoofedFilesFromServer/fromQA/f
 const resourceTemplateId2Json = [
   {'id': 'resourceTemplate:bf2:Monograph:Instance', 'json': monographInstanceRt},
   {'id': 'resourceTemplate:bf2:Monograph:Work', 'json': monographWorkRt},
+  {'id': 'resourceTemplate:bf2:Identifiers:Barcode', 'json': barcodeRt},
   {'id': 'resourceTemplate:bf2:Note', 'json': noteRt},
   {'id': 'resourceTemplate:bf2:ParallelTitle', 'json': parallelTitleRt},
   {'id': 'resourceTemplate:bf2:Serial:Frequency', 'json': serialRt},
