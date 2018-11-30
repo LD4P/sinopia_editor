@@ -2,7 +2,7 @@
   "id": "resourceTemplate:bf2:Monograph:Instance",
   "resourceLabel": "BIBFRAME Instance",
   "resourceURI": "http://id.loc.gov/ontologies/bibframe/Instance",
-  "remark": "Can you believe we're doing this!?",
+  "remark": "This is altered greatly for testing purposes",
   "propertyTemplates": [
     {
       "propertyLabel": "Instance of",
