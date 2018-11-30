@@ -2,7 +2,7 @@
   "id": "resourceTemplate:bf2:Monograph:Instance",
   "resourceLabel": "BIBFRAME Instance",
   "resourceURI": "http://id.loc.gov/ontologies/bibframe/Instance",
-  "remark": "Can you believe we're doing this!?",
+  "remark": "This is altered greatly for testing purposes",
   "propertyTemplates": [
     {
       "propertyLabel": "Instance of",
@@ -125,6 +125,25 @@
       },
       "mandatory": "false",
       "remark": "http://access.rdatoolkit.org/3.3.html"
+    },
+    {
+      "propertyURI": "http://id.loc.gov/ontologies/bflc/target",
+      "propertyLabel": "Frequency (RDA 2.14)",
+      "remark": "http://access.rdatoolkit.org/2.14.html",
+      "mandatory": "false",
+      "repeatable": "true",
+      "type": "target",
+      "resourceTemplates": [],
+      "valueConstraint": {
+        "valueTemplateRefs": [],
+        "useValuesFrom": [
+          "vocabulary:bf2:frequencies"
+        ],
+        "valueDataType": {
+          "dataTypeURI": "http://id.loc.gov/ontologies/bibframe/Frequency"
+        },
+        "defaults": []
+      }
     },
     {
       "propertyLabel": "WITH ALL VALUE CONSTRAINTS",

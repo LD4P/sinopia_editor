@@ -13,8 +13,7 @@ class Editor extends Component {
     // TODO: temporarily hardcoded here.
     //  Selecting a resource template will happen in the left-nav "Starting Points" menu,
     //   another child of the Editor component;  it will set state.resourceTemplateId
-    // const defaultRtId = 'resourceTemplate:bf2:Monograph:Instance'
-    const defaultRtId = 'resourceTemplate:bf2:Serial:Frequency'
+    const defaultRtId = 'resourceTemplate:bf2:Monograph:Instance'
     this.state = { resourceTemplateId: defaultRtId}
   }
 
