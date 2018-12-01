@@ -4,7 +4,7 @@ import React, {Component} from 'react';
 import {Typeahead} from 'react-bootstrap-typeahead'
 import PropTypes from 'prop-types'
 
-class InputTarget extends Component {
+class InputResource extends Component {
   constructor(props) {
     super(props)
     this.state = {
@@ -16,7 +16,7 @@ class InputTarget extends Component {
 
   render() {
     //TODO: change target_url to use live ld4l lookup when it is available (#226)
-    const target_url = './static/spoofedFilesFromServer/fromQA/frequencies.json'
+    const target_url = this.props.propertyTemplate.valueConstraint.useValuesFrom[0]
     const isMandatory = JSON.parse(this.props.propertyTemplate.mandatory)
     const isRepeatable = JSON.parse(this.props.propertyTemplate.repeatable)
 
@@ -54,7 +54,7 @@ class InputTarget extends Component {
   }
 }
 
-InputTarget.propTypes = {
+InputResource.propTypes = {
   propertyTemplate: PropTypes.shape({
     propertyLabel: PropTypes.string,
     mandatory: PropTypes.oneOfType([ PropTypes.string, PropTypes.bool]),
@@ -65,4 +65,4 @@ InputTarget.propTypes = {
   }).isRequired
 }
 
-export default InputTarget
+export default InputResource

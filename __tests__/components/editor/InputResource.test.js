@@ -1,7 +1,7 @@
 // Copyright 2018 Stanford University see Apache2.txt for license
 import React from 'react'
 import { shallow } from 'enzyme'
-import InputTarget from '../../../src/components/editor/InputTarget'
+import InputResource from '../../../src/components/editor/InputResource'
 
 const plProps = {
   "propertyTemplate":
@@ -25,8 +25,8 @@ const plProps = {
     }
 }
 
-describe('<InputTarget />', () => {
-  const wrapper = shallow(<InputTarget {...plProps} />)
+describe('<InputResource />', () => {
+  const wrapper = shallow(<InputResource {...plProps} />)
 
   it('contains a label with the value of propertyLabel', () => {
     expect(wrapper.find('label').text()).toMatch('Frequency (RDA 2.14)')

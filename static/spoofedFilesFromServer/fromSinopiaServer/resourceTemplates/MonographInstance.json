@@ -109,7 +109,7 @@
       "valueConstraint": {
         "valueTemplateRefs": [],
         "useValuesFrom": [
-          "http://id.loc.gov/vocabulary/carriers"
+          "./static/spoofedFilesFromServer/fromQA/carriers.json"
         ],
         "valueDataType": {
           "dataTypeURI": "http://id.loc.gov/ontologies/bibframe/Carrier"
@@ -125,25 +125,6 @@
       },
       "mandatory": "false",
       "remark": "http://access.rdatoolkit.org/3.3.html"
-    },
-    {
-      "propertyURI": "http://id.loc.gov/ontologies/bflc/target",
-      "propertyLabel": "Frequency (RDA 2.14)",
-      "remark": "http://access.rdatoolkit.org/2.14.html",
-      "mandatory": "false",
-      "repeatable": "true",
-      "type": "target",
-      "resourceTemplates": [],
-      "valueConstraint": {
-        "valueTemplateRefs": [],
-        "useValuesFrom": [
-          "vocabulary:bf2:frequencies"
-        ],
-        "valueDataType": {
-          "dataTypeURI": "http://id.loc.gov/ontologies/bibframe/Frequency"
-        },
-        "defaults": []
-      }
     },
     {
       "propertyLabel": "WITH ALL VALUE CONSTRAINTS",
@@ -187,12 +168,12 @@
       "remark": "http://access.rdatoolkit.org/2.14.html",
       "mandatory": "false",
       "repeatable": "true",
-      "type": "target",
+      "type": "resource",
       "resourceTemplates": [],
       "valueConstraint": {
         "valueTemplateRefs": [],
         "useValuesFrom": [
-          "vocabulary:bf2:frequencies"
+          "./static/spoofedFilesFromServer/fromQA/frequencies.json"
         ],
         "valueDataType": {
           "dataTypeURI": "http://id.loc.gov/ontologies/bibframe/Frequency"

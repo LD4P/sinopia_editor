@@ -18,8 +18,13 @@ const rtProps = {
       "type": "lookup"
     },
     {
-      "propertyLabel": "Bullseye!",
-      "type": "target"
+      "propertyLabel": "What's the frequency Kenneth?",
+      "type": "resource",
+      "valueConstraint": {
+        "useValuesFrom": [
+          "./static/spoofedFilesFromServer/fromQA/frequencies.json"
+        ]
+      }
     },
     {
       "propertyLabel": "Chain chain chains",
@@ -60,9 +65,9 @@ describe('<ResourceTemplateForm />', () => {
       .toEqual(1)
   })
 
-  it('renders InputTarget nested component (b/c we have a property of type "target")', () => {
+  it('renders InputResource nested component (b/c we have a property of type "resource" with a "useValuesFrom" value)', () => {
     expect(wrapper
-      .find('div.ResourceTemplateForm InputTarget').length)
+      .find('div.ResourceTemplateForm InputResource').length)
       .toEqual(1)
   })
 
