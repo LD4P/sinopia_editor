@@ -43,4 +43,16 @@ describe('<InputResource />', () => {
   it('sets the typeahead component multiple attribute according to the repeatable value from the template', () => {
     expect(wrapper.find('#targetComponent').props().multiple).toBe(true)
   })
+
+  it('sets the typeahead component placeholder attribute', () => {
+    expect(wrapper.find('#targetComponent').props().placeholder).toMatch('Frequency (RDA 2.14)')
+  })
+
+  it('should call the onChange event and set the state with the selected option', () => {
+    const event = (wrap) => {
+      wrap.setState({options: ["{uri: 'URI', label: 'LABEL'}"]})
+    }
+    wrapper.find('#targetComponent').simulate('change', event(wrapper))
+    expect(wrapper.state().options[0]).toBe("{uri: 'URI', label: 'LABEL'}")
+  })
 })
