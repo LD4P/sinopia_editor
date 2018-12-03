@@ -43,4 +43,12 @@ describe('<InputLookup />', () => {
   it('sets the typeahead component placeholder attribute to be the propertyLabel', () => {
     expect(wrapper.find('#lookupComponent').props().placeholder).toBe('Name Lookup')
   })
+
+  it('should call onChange prop', () => {
+    const event = (wrap) => {
+      wrap.setState({options: ["{uri: 'URI', label: 'LABEL'}"]})
+    }
+    wrapper.find('#lookupComponent').simulate('change', event(wrapper))
+    expect(wrapper.state().options[0]).toBe("{uri: 'URI', label: 'LABEL'}")
+  });
 })
