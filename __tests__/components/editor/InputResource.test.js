@@ -1,7 +1,7 @@
 // Copyright 2018 Stanford University see Apache2.txt for license
 import React from 'react'
 import { shallow } from 'enzyme'
-import InputTarget from '../../../src/components/editor/InputTarget'
+import InputResource from '../../../src/components/editor/InputResource'
 
 const plProps = {
   "propertyTemplate":
@@ -25,10 +25,10 @@ const plProps = {
     }
 }
 
-describe('<InputTarget />', () => {
-  const wrapper = shallow(<InputTarget {...plProps} />)
+describe('<InputResource />', () => {
+  const wrapper = shallow(<InputResource {...plProps} />)
 
-  it('contains a label with "Instance of"', () => {
+  it('contains a label with the value of propertyLabel', () => {
     expect(wrapper.find('label').text()).toMatch('Frequency (RDA 2.14)')
   })
 
@@ -36,15 +36,11 @@ describe('<InputTarget />', () => {
     expect(wrapper.find('#targetComponent').props().placeholder).toBe('Frequency (RDA 2.14)')
   })
 
-  it('sets the typeahead component required attribute', () => {
+  it('sets the typeahead component required attribute according to the mandatory value from the template', () => {
     expect(wrapper.find('#targetComponent').props().required).toBe(false)
   })
 
-  it('sets the typeahead component multiple attribute', () => {
+  it('sets the typeahead component multiple attribute according to the repeatable value from the template', () => {
     expect(wrapper.find('#targetComponent').props().multiple).toBe(true)
-  })
-
-  it('sets the typeahead component placeholder attribute', () => {
-    expect(wrapper.find('#targetComponent').props().placeholder).toMatch('Frequency (RDA 2.14)')
   })
 })
