@@ -14,11 +14,14 @@ class InputLiteral extends Component {
     this.noRepeatableNoMandatory = this.noRepeatableNoMandatory.bind(this)
     this.noRepeatableYesMandatory = this.noRepeatableYesMandatory.bind(this)
     this.addUserInput = this.addUserInput.bind(this)
+    this.defaultLiteralValue = this.defaultLiteralValue.bind(this)
+
     this.state = {
       content_add: "",
       myItems: []
     }
     this.lastId = -1
+    this.defaultLiteralValue()
   }
   
   handleChange(event) {
@@ -113,6 +116,15 @@ class InputLiteral extends Component {
     ))
     return elements
   }
+
+  defaultLiteralValue() {
+    const valConstraint = this.props.propertyTemplate.valueConstraint
+    if (valConstraint == undefined || valConstraint == "") return
+    const defvalues = valConstraint.defaults[0]
+    if (defvalues == undefined) return
+    this.state.myItems.push({content: defvalues.defaultLiteral, id: ++this.lastId})
+  }
+
   render() {
     return (
       <div className="form-group">

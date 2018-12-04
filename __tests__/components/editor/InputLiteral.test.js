@@ -9,6 +9,7 @@ const plProps = {
     {
       "propertyLabel": "Instance of",
       "type": "literal",
+      "valueConstraint": {"defaults":[]},
       "mandatory": "",
       "repeatable": ""
     }
@@ -90,5 +91,32 @@ describe('<InputLiteral />', () => {
     expect(wrapper.find('button#displayedItem').length).toEqual(2)
     wrapper.find('button#displayedItem').first().simulate('click', { target: { "dataset": {"item": 0 }}});
     expect(wrapper.find('button#displayedItem').length).toEqual(1)
+    wrapper.setState({content_add : '', myItems: []}) /** reset state **/
+
+  })
+  it('valueConstraint contains defaults but it is an empty array', () => {
+    wrapper.instance().defaultLiteralValue()
+    wrapper.instance().forceUpdate()
+    console.log(wrapper.html())
+    expect(wrapper.find('button#displayedItem').length).toEqual(0)
+    wrapper.setState({content_add : '', myItems: []}) /** reset state **/
+  })
+  it('populates the myItems array if there is a defaultLiteral in valueConstraint', () => {
+    wrapper.instance().props.propertyTemplate.valueConstraint = {
+      "defaults": [
+        {
+          "defaultURI": "http://id.loc.gov/vocabulary/organizations/dlc",
+          "defaultLiteral": "DLC"
+        }
+      ]
+    }
+    wrapper.instance().defaultLiteralValue()
+    wrapper.instance().forceUpdate()
+    expect(wrapper.find('button#displayedItem').length).toEqual(1)
+    wrapper.setState({content_add : '', myItems: []}) /** reset state **/
+  })
+  it('does not do anything if there is no defaultLiteral in valueConstraint', () => {
+    wrapper.instance().defaultLiteralValue()
+    expect(wrapper.find('button#displayedItem').length).toEqual(0)
   })
 })
