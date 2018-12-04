@@ -215,6 +215,27 @@
         "valueDataType": {},
         "defaults": []
       }
+    },
+    {
+      "propertyLabel": "LITERAL WITH DEFAULT",
+      "propertyURI": "http://id.loc.gov/ontologies/bibframe/heldBy",
+      "resourceTemplates": [],
+      "type": "literal",
+      "valueConstraint": {
+        "valueTemplateRefs": [],
+        "useValuesFrom": [],
+        "valueDataType": {
+          "dataTypeURI": "http://id.loc.gov/ontologies/bibframe/Agent"
+        },
+        "defaults": [
+          {
+            "defaultURI": "http://id.loc.gov/vocabulary/organizations/dlc",
+            "defaultLiteral": "DLC"
+          }
+        ]
+      },
+      "mandatory": "false",
+      "repeatable": "true"
     }
   ]
 }
