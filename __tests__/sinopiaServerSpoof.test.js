@@ -2,8 +2,8 @@ describe('sinopiaServerSpoof', () => {
   let sinopiaServerSpoof  = require('../src/sinopiaServerSpoof.js')
 
   describe('resourceTemplateIds', () => {
-    it('array of length 13', () => {
-      expect(sinopiaServerSpoof.resourceTemplateIds).toHaveLength(11)
+    it('array of length 19', () => {
+      expect(sinopiaServerSpoof.resourceTemplateIds).toHaveLength(19)
     })
     it('resourceTemplateId is in expected format', () => {
       sinopiaServerSpoof.resourceTemplateIds.forEach(id => {
@@ -13,8 +13,8 @@ describe('sinopiaServerSpoof', () => {
   })
 
   describe('resourceTemplateId2Json', () => {
-    it('array of length 13', () => {
-      expect(sinopiaServerSpoof.resourceTemplateId2Json).toHaveLength(11)
+    it('array of length 19', () => {
+      expect(sinopiaServerSpoof.resourceTemplateId2Json).toHaveLength(19)
     })
     it('mapping has id', () => {
       expect(sinopiaServerSpoof.resourceTemplateId2Json[0]['id']).toBe('resourceTemplate:bf2:Monograph:Instance')
@@ -34,14 +34,14 @@ describe('sinopiaServerSpoof', () => {
     it('unknown id: returns empty resource template and logs error', () => {
       let output = ''
       let storeErr = inputs => (output += inputs)
-      console["error"] = jest.fn(storeErr)
+      console["log"] = jest.fn(storeErr)
       expect(sinopiaServerSpoof.getResourceTemplate('not:there')).toEqual({"propertyTemplates": [{}]})
       expect(output).toEqual('ERROR: un-spoofed resourceTemplate: not:there')
     })
     it('null id: returns empty resource template and logs error', () => {
       let output = ''
       let storeErr = inputs => (output += inputs)
-      console["error"] = jest.fn(storeErr)
+      console["log"] = jest.fn(storeErr)
       expect(sinopiaServerSpoof.getResourceTemplate()).toEqual({"propertyTemplates": [{}]})
       expect(output).toEqual('ERROR: asked for resourceTemplate with null id')
       output = ''

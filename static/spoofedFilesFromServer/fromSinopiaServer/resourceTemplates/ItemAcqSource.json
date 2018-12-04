@@ -1,0 +1,21 @@
+{
+  "id": "resourceTemplate:bf2:Item:ItemAcqSource",
+  "resourceURI": "http://id.loc.gov/ontologies/bibframe/ImmediateAcquisition",
+  "resourceLabel": "Immediate Source of Acquisition",
+  "propertyTemplates": [
+    {
+      "mandatory": "false",
+      "repeatable": "true",
+      "type": "literal",
+      "resourceTemplates": [],
+      "valueConstraint": {
+        "valueTemplateRefs": [],
+        "useValuesFrom": [],
+        "valueDataType": {}
+      },
+      "propertyURI": "http://www.w3.org/2000/01/rdf-schema#label",
+      "propertyLabel": "Immediate Source of Acquisition of Item (RDA 2.19)",
+      "remark": "http://access.rdatoolkit.org/2.19.html"
+    }
+  ]
+}

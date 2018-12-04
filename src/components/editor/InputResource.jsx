@@ -8,7 +8,7 @@ class InputResource extends Component {
   constructor(props) {
     super(props)
     this.state = {
-      isLoading: true,
+      isLoading: false,
       options: [],
       selected: []
     }
@@ -16,22 +16,32 @@ class InputResource extends Component {
 
   render() {
     //TODO: change target_url to use live ld4l lookup when it is available (#226)
-    const target_url = this.props.propertyTemplate.valueConstraint.useValuesFrom[0]
-    const isMandatory = JSON.parse(this.props.propertyTemplate.mandatory)
-    const isRepeatable = JSON.parse(this.props.propertyTemplate.repeatable)
+    let target_url, isMandatory, isRepeatable
+    try {
+      target_url = this.props.propertyTemplate.valueConstraint.useValuesFrom[0]
+      isMandatory = JSON.parse(this.props.propertyTemplate.mandatory)
+      isRepeatable = JSON.parse(this.props.propertyTemplate.repeatable)
+    } catch (error) {
+      console.log(`Some properties were not defined in the json file: ${error}`)
+    }
+
+    var typeaheadProps = {
+      id: "targetComponent",
+      required: isMandatory,
+      multiple: isRepeatable,
+      placeholder: this.props.propertyTemplate.propertyLabel,
+      useCache: true,
+      selectHintOnEnter: true,
+      isLoading: this.state.isLoading,
+      options: this.state.options,
+      selected: this.state.selected,
+      labelKey: "label"
+    }
 
     return (
       <div>
         <label htmlFor="targetComponent">{this.props.propertyTemplate.propertyLabel}
         <Typeahead
-          id="targetComponent"
-          required={isMandatory}
-          multiple={isRepeatable}
-          placeholder={this.props.propertyTemplate.propertyLabel}
-          useCache={true}
-          selectHintOnEnter={true}
-          isLoading={this.state.isLoading}
-          options={this.state.options}
           onFocus={() => {
             this.setState({isLoading: true});
             //TODO: this fetch function will be replaced with a swagger API call function (#197):
@@ -42,11 +52,11 @@ class InputResource extends Component {
                 options: json
               }))
           }}
-          selected={this.state.selected}
           onChange={selected => {
             this.setState({selected})
             }
           }
+          {...typeaheadProps}
         />
         </label>
       </div>

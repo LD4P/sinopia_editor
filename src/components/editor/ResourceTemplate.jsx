@@ -16,29 +16,55 @@ class ResourceTemplate extends Component {
       float: 'left',
       width:'75%'
     }
-    let resourceTemplate = getResourceTemplate(this.props.resourceTemplateId)
+
+    var resourceTemplateData = (rtd) => {
+      let json, result
+      if(rtd !== undefined) {
+        json = JSON.parse(rtd)
+        result = json['Profile']['resourceTemplates'] // from the profile editor
+        console.info(`Using resource templates from profile: ${json['Profile'].id}`)
+      }
+      else {
+        result = [getResourceTemplate(this.props.resourceTemplateId)]
+        console.info(`Using resource template: ${this.props.resourceTemplateId}`)
+      }
+      return result
+    }
+
+    let rtData = resourceTemplateData(this.props.resourceTemplateData)
+
     return (
-      <div className='ResourceTemplate' style={Object.assign(dashedBorder, float)}>
-        <h3>Resource Template Container </h3>
-        <p>Resource Template selected:</p>
-        <ul>
-          <li>resourceLabel: <strong>{resourceTemplate.resourceLabel}</strong></li>
-          <li>resourceURI: <strong>{resourceTemplate.resourceURI}</strong></li>
-          <li>id: <strong>{this.props.resourceTemplateId}</strong></li>
-          <li>remark: <strong>{resourceTemplate.remark}</strong></li>
-        </ul>
-        <div id="resourceTemplate">
-          <h4>BEGIN ResourceTemplate</h4>
-          <ResourceTemplateForm propertyTemplates = {resourceTemplate.propertyTemplates} />
-          <h4>END ResourceTemplate</h4>
-        </div>
+      <div>
+        {rtData.map((rt, index) => {
+          return(
+            <div className='ResourceTemplate' style={Object.assign(dashedBorder, float)} key={index}>
+              <h4>Resource Template Container </h4>
+              <p>Resource Template selected:</p>
+              <ul>
+                <li>resourceLabel: <strong>{rt.resourceLabel}</strong></li>
+                <li>resourceURI: <strong>{rt.resourceURI}</strong></li>
+                <li>id: <strong>{rt.id}</strong></li>
+                <li>remark: <strong>{rt.remark}</strong></li>
+              </ul>
+              <div id="resourceTemplate">
+                <h4>BEGIN ResourceTemplate</h4>
+                  <ResourceTemplateForm
+                    propertyTemplates = {rt.propertyTemplates}
+                    resourceTemplate = {rt}
+                  />
+                <h4>END ResourceTemplate</h4>
+              </div>
+            </div>
+          )
+        })}
       </div>
     )
   }
 }
 
 ResourceTemplate.propTypes = {
-  resourceTemplateId: PropTypes.string
+  resourceTemplateId: PropTypes.string,
+  resourceTemplateData: PropTypes.string
 }
 
 export default ResourceTemplate;

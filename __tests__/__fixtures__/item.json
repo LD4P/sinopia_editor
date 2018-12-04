@@ -10,7 +10,7 @@
             "resourceTemplates": [],
             "valueConstraint": {
               "valueTemplateRefs": [
-                "profile:bf2:Identifiers:Barcode"
+                "resourceTemplate:bf2:Identifiers:Barcode"
               ],
               "useValuesFrom": [],
               "valueDataType": {}
@@ -25,9 +25,9 @@
             "resourceTemplates": [],
             "valueConstraint": {
               "valueTemplateRefs": [
-                "profile:bf2:Identifiers:LC",
-                "profile:bf2:Identifiers:DDC",
-                "profile:bf2:Identifiers:Shelfmark"
+                "resourceTemplate:bf2:Identifiers:LC",
+                "resourceTemplate:bf2:Identifiers:DDC",
+                "resourceTemplate:bf2:Identifiers:Shelfmark"
               ],
               "useValuesFrom": [],
               "valueDataType": {}
@@ -134,7 +134,7 @@
         ],
         "resourceURI": "http://id.loc.gov/ontologies/bibframe/Item",
         "resourceLabel": "BIBFRAME 2.0 Item",
-        "id": "profile:bf2:Item"
+        "id": "resourceTemplate:bf2:Item"
       },
       {
         "propertyTemplates": [
@@ -198,7 +198,7 @@
             "propertyLabel": "Retention Policy"
           }
         ],
-        "id": "profile:bf2:Item:Retention",
+        "id": "resourceTemplate:bf2:Item:Retention",
         "resourceURI": "http://id.loc.gov/ontologies/bibframe/RetentionPolicy",
         "resourceLabel": "Retention Policy"
       },
@@ -219,7 +219,7 @@
             "remark": "http://access.rdatoolkit.org/2.19.html"
           }
         ],
-        "id": "profile:bf2:Item:ImmAcqSource",
+        "id": "resourceTemplate:bf2:Item:ImmAcqSource",
         "resourceURI": "http://id.loc.gov/ontologies/bibframe/ImmediateAcquisition",
         "resourceLabel": "Immediate Source of Acquisition"
       },
@@ -239,7 +239,7 @@
             "propertyLabel": "Enumeration"
           }
         ],
-        "id": "profile:bf2:Item:Enumeration",
+        "id": "resourceTemplate:bf2:Item:Enumeration",
         "resourceURI": "http://id.loc.gov/ontologies/bibframe/Enumeration",
         "resourceLabel": "Enumeration"
       },
@@ -259,7 +259,7 @@
             "propertyLabel": "Chronology"
           }
         ],
-        "id": "profile:bf2:Item:Chronology",
+        "id": "resourceTemplate:bf2:Item:Chronology",
         "resourceURI": "http://id.loc.gov/ontologies/bibframe/Chronology",
         "resourceLabel": "Chronology"
       }

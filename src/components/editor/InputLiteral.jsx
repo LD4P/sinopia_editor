@@ -120,7 +120,14 @@ class InputLiteral extends Component {
   defaultLiteralValue() {
     const valConstraint = this.props.propertyTemplate.valueConstraint
     if (valConstraint == undefined || valConstraint == "") return
-    const defvalues = valConstraint.defaults[0]
+
+    let defvalues
+    try{
+      defvalues = valConstraint.defaults[0]
+    } catch (error) {
+      console.info("valConstraint.defaults is empty in profile")
+    }
+
     if (defvalues == undefined) return
     this.state.myItems.push({content: defvalues.defaultLiteral, id: ++this.lastId})
   }

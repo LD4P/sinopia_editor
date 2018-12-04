@@ -12,6 +12,14 @@ const transcribedTitleRt = require('../static/spoofedFilesFromServer/fromSinopia
 const varTitleRt = require('../static/spoofedFilesFromServer/fromSinopiaServer/resourceTemplates/VarTitle.json')
 const workTitleRt = require('../static/spoofedFilesFromServer/fromSinopiaServer/resourceTemplates/WorkTitle.json')
 const workVariantTitleRt = require('../static/spoofedFilesFromServer/fromSinopiaServer/resourceTemplates/WorkVariantTitle.json')
+const lccnRt = require('../static/spoofedFilesFromServer/fromSinopiaServer/resourceTemplates/LCCN.json')
+const ddcRt = require('../static/spoofedFilesFromServer/fromSinopiaServer/resourceTemplates/DDC.json')
+const shelfMarkRt = require('../static/spoofedFilesFromServer/fromSinopiaServer/resourceTemplates/Shelfmark.json')
+const itemRt = require('../static/spoofedFilesFromServer/fromSinopiaServer/resourceTemplates/Item.json')
+const retentionRt = require('../static/spoofedFilesFromServer/fromSinopiaServer/resourceTemplates/ItemRetention.json')
+const itemAcqSourceRt = require('../static/spoofedFilesFromServer/fromSinopiaServer/resourceTemplates/ItemAcqSource.json')
+const enumerationRt = require('../static/spoofedFilesFromServer/fromSinopiaServer/resourceTemplates/ItemEnumeration.json')
+const chronologyRt = require('../static/spoofedFilesFromServer/fromSinopiaServer/resourceTemplates/ItemChronology.json')
 const resourceTemplateId2Json = [
   {'id': 'resourceTemplate:bf2:Monograph:Instance', 'json': monographInstanceRt},
   {'id': 'resourceTemplate:bf2:Monograph:Work', 'json': monographWorkRt},
@@ -23,7 +31,15 @@ const resourceTemplateId2Json = [
   {'id': 'resourceTemplate:bflc:TranscribedTitle', 'json': transcribedTitleRt},
   {'id': 'resourceTemplate:bf2:Title:VarTitle', 'json': varTitleRt},
   {'id': 'resourceTemplate:bf2:WorkTitle', 'json': workTitleRt},
-  {'id': 'resourceTemplate:bf2:WorkVariantTitle', 'json': workVariantTitleRt}
+  {'id': 'resourceTemplate:bf2:WorkVariantTitle', 'json': workVariantTitleRt},
+  {'id': 'resourceTemplate:bf2:Identifiers:LC', 'json': lccnRt},
+  {'id': 'resourceTemplate:bf2:Identifiers:DDC', 'json': ddcRt},
+  {'id': 'resourceTemplate:bf2:Identifiers:Shelfmark', 'json':shelfMarkRt},
+  {'id': 'resourceTemplate:bf2:Item', 'json': itemRt},
+  {'id': 'resourceTemplate:bf2:Item:Retention', 'json': retentionRt},
+  {'id': 'resourceTemplate:bf2:Item:ItemAcqSource', 'json': itemAcqSourceRt},
+  {'id': 'resourceTemplate:bf2:Item:Enumeration', 'json': enumerationRt},
+  {'id': 'resourceTemplate:bf2:Item:Chronology', 'json': chronologyRt}
 ]
 
 const resourceTemplateIds = []
@@ -51,10 +67,10 @@ function getResourceTemplate(rtId) {
         }
       })
     } else {
-      console.error(`ERROR: un-spoofed resourceTemplate: ${rtId}`)
+      console.log(`ERROR: un-spoofed resourceTemplate: ${rtId}`)
     }
   } else {
-    console.error(`ERROR: asked for resourceTemplate with null id`)
+    console.log(`ERROR: asked for resourceTemplate with null id`)
   }
   return rTemplate
 }
