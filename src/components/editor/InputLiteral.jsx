@@ -151,7 +151,10 @@ InputLiteral.propTypes = {
   propertyTemplate: PropTypes.shape({
     propertyLabel: PropTypes.string.isRequired,
     mandatory: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
-    repeatable: PropTypes.oneOfType([PropTypes.string, PropTypes.bool])
+    repeatable: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
+    valueConstraint: PropTypes.shape({
+      defaults: PropTypes.array
+    })
   }).isRequired
 }
 
