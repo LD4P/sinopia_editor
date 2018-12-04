@@ -13,9 +13,10 @@ const { getResourceTemplate } = require('../../sinopiaServerSpoof.js')
 class ResourceTemplateForm extends Component {
   constructor(props) {
     super(props)
-
     this.rtModalButton = this.rtModalButton.bind(this)
     this.resourceTemplateButtons = this.resourceTemplateButtons.bind(this)
+    this.defaultValues = this.defaultValues.bind(this)
+    this.defaultValues()
   }
 
   rtModalButton = (rtId) => {
@@ -37,6 +38,14 @@ class ResourceTemplateForm extends Component {
       buttons.push(<ButtonGroup key={`${rtId}-${i}`}>{this.rtModalButton(rtId)}</ButtonGroup>)
     })
     return buttons
+  }
+
+  defaultValues = () => {
+    this.props.propertyTemplates.map( (pt) =>{
+      if (pt.mandatory == undefined) pt.mandatory = "true"
+      if (pt.repeatable == undefined) pt.repeatable = "false"
+      if (pt.editable == undefined) pt.editable = "true"
+    })
   }
 
   render() {
