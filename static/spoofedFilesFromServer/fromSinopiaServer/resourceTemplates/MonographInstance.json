@@ -163,6 +163,24 @@
       "remark": "http://access.rdatoolkit.org/3.3.html"
     },
     {
+      "mandatory": "false",
+      "repeatable": "true",
+      "type": "lookup",
+      "resourceTemplates": [],
+      "valueConstraint": {
+        "valueTemplateRefs": [],
+        "useValuesFrom": [
+          "https://lookup.ld4l.org/authorities/search/linked_data/locnames_ld4l_cache/person"
+        ],
+        "valueDataType": {
+          "dataTypeURI": "http://id.loc.gov/ontologies/bibframe/Agent"
+        },
+        "defaults": []
+      },
+      "propertyURI": "http://id.loc.gov/ontologies/bflc/target",
+      "propertyLabel": "LOC Names: locnames_ld4l_cache/person"
+    },
+    {
       "propertyURI": "http://id.loc.gov/ontologies/bflc/target",
       "propertyLabel": "Frequency (RDA 2.14)",
       "remark": "http://access.rdatoolkit.org/2.14.html",

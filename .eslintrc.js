@@ -44,8 +44,7 @@ module.exports = {
     "jsx-a11y/label-has-for": "warn", // see #173
     "no-console": "warn",
     "no-extra-semi": "off", // because it isn't that important
-    "react/prop-types": "warn", // see #175
-    "jsx-a11y/no-onchange": "warn"
+    "react/prop-types": "warn" // see #175
   },
   overrides: [
     {

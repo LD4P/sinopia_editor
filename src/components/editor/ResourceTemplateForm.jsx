@@ -6,6 +6,7 @@ import ButtonGroup from 'react-bootstrap/lib/ButtonGroup'
 import ButtonToolbar from 'react-bootstrap/lib/ButtonToolbar'
 import InputLiteral from './InputLiteral'
 import InputResource from './InputResource'
+import InputLookup from './InputLookup'
 import ModalToggle from './ModalToggle'
 const { getResourceTemplate } = require('../../sinopiaServerSpoof.js')
 
@@ -77,7 +78,9 @@ class ResourceTemplateForm extends Component {
                     }
                   }
                   else if (pt.type == 'lookup'){
-                    return (<p key={index}><b>{pt.propertyLabel}</b>: <i>lookup</i> type</p>)
+                    return(
+                      <InputLookup propertyTemplate = {pt} key = {index} />
+                    )
                   }
                 })}
               </div>
