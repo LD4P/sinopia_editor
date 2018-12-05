@@ -97,7 +97,6 @@ describe('<InputLiteral />', () => {
   it('valueConstraint contains defaults but it is an empty array', () => {
     wrapper.instance().defaultLiteralValue()
     wrapper.instance().forceUpdate()
-    console.log(wrapper.html())
     expect(wrapper.find('button#displayedItem').length).toEqual(0)
     wrapper.setState({content_add : '', myItems: []}) /** reset state **/
   })
