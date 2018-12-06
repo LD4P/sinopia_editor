@@ -6,7 +6,7 @@ module.exports = {
     'args' : [ '--disable-web-security' ],
   },
   server: {
-    command: 'node server.js',
-    port: 8000,
+    command: 'npm run dev-start',
+    port: 8080,
   },
 };
