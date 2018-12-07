@@ -1,0 +1,2592 @@
+[
+  {
+    "@id": "http://id.loc.gov/vocabulary/classSchemes/agricola",
+    "@type": [
+      "http://www.loc.gov/mads/rdf/v1#Authority"
+    ],
+    "http://www.loc.gov/mads/rdf/v1#authoritativeLabel": [
+      {
+        "@value": "AGRICOLA subject category codes"
+      }
+    ]
+  },
+  {
+    "@id": "http://id.loc.gov/vocabulary/classSchemes/clc",
+    "@type": [
+      "http://www.loc.gov/mads/rdf/v1#Authority"
+    ],
+    "http://www.loc.gov/mads/rdf/v1#authoritativeLabel": [
+      {
+        "@value": "Zhongguo tu shu guan fen lei fa = Chinese library classification"
+      }
+    ]
+  },
+  {
+    "@id": "http://id.loc.gov/vocabulary/classSchemes/moys",
+    "@type": [
+      "http://www.loc.gov/mads/rdf/v1#Authority"
+    ],
+    "http://www.loc.gov/mads/rdf/v1#authoritativeLabel": [
+      {
+        "@value": "Moys, Elizabeth M. Moys classification and thesaurus for legal materials"
+      }
+    ]
+  },
+  {
+    "@id": "http://id.loc.gov/vocabulary/classSchemes/no-ujur-cnip",
+    "@type": [
+      "http://www.loc.gov/mads/rdf/v1#Authority"
+    ],
+    "http://www.loc.gov/mads/rdf/v1#authoritativeLabel": [
+      {
+        "@value": "NifsP-klassifikasjon"
+      }
+    ]
+  },
+  {
+    "@id": "http://id.loc.gov/vocabulary/classSchemes/scdocs",
+    "@type": [
+      "http://www.loc.gov/mads/rdf/v1#Authority"
+    ],
+    "http://www.loc.gov/mads/rdf/v1#authoritativeLabel": [
+      {
+        "@value": "South Carolina state documents classification system"
+      }
+    ]
+  },
+  {
+    "@id": "http://id.loc.gov/vocabulary/classSchemes/siblcs",
+    "@type": [
+      "http://www.loc.gov/mads/rdf/v1#Authority"
+    ],
+    "http://www.loc.gov/mads/rdf/v1#authoritativeLabel": [
+      {
+        "@value": "Sibelius-Akatemian kirjaston luokitusjärjestelmä = Sibelius Academy Library classification system Two versions . Sibelius-Akatemian kirjaston luokitusjärjestelmä - kirjojen luokitus = Sibelius Academy Library classification system - book classification scheme Sibelius-Akatemian kirjaston luokitusjärjestelmä - nuottien luokitus = Sibelius Academy Library classification system - sheet music classification scheme"
+      }
+    ]
+  },
+  {
+    "@id": "http://id.loc.gov/vocabulary/classSchemes/celex",
+    "@type": [
+      "http://www.loc.gov/mads/rdf/v1#Authority"
+    ],
+    "http://www.loc.gov/mads/rdf/v1#authoritativeLabel": [
+      {
+        "@value": "CELEX document number"
+      }
+    ]
+  },
+  {
+    "@id": "http://id.loc.gov/vocabulary/classSchemes/ddc11",
+    "@type": [
+      "http://www.loc.gov/mads/rdf/v1#Authority"
+    ],
+    "http://www.loc.gov/mads/rdf/v1#authoritativeLabel": [
+      {
+        "@value": "Dewey decimal classification and relative index (Dublin, Ohio: OCLC Online Computer Center), Edition 11"
+      }
+    ]
+  },
+  {
+    "@id": "http://id.loc.gov/vocabulary/classSchemes/lcc",
+    "@type": [
+      "http://www.loc.gov/mads/rdf/v1#Authority"
+    ],
+    "http://www.loc.gov/mads/rdf/v1#authoritativeLabel": [
+      {
+        "@value": "Library of Congress classification"
+      }
+    ]
+  },
+  {
+    "@id": "http://id.loc.gov/vocabulary/classSchemes/blissc",
+    "@type": [
+      "http://www.loc.gov/mads/rdf/v1#Authority"
+    ],
+    "http://www.loc.gov/mads/rdf/v1#authoritativeLabel": [
+      {
+        "@value": "British Library Inside service subject classification"
+      }
+    ]
+  },
+  {
+    "@id": "http://id.loc.gov/vocabulary/classSchemes/rich",
+    "@type": [
+      "http://www.loc.gov/mads/rdf/v1#Authority"
+    ],
+    "http://www.loc.gov/mads/rdf/v1#authoritativeLabel": [
+      {
+        "@value": "Richardson classification system"
+      }
+    ]
+  },
+  {
+    "@id": "http://id.loc.gov/vocabulary/classSchemes/ridocs",
+    "@type": [
+      "http://www.loc.gov/mads/rdf/v1#Authority"
+    ],
+    "http://www.loc.gov/mads/rdf/v1#authoritativeLabel": [
+      {
+        "@value": "Alphabetical list of state agencies and corresponding Swank classification"
+      }
+    ]
+  },
+  {
+    "@id": "http://id.loc.gov/vocabulary/classSchemes/niv",
+    "@type": [
+      "http://www.loc.gov/mads/rdf/v1#Authority"
+    ],
+    "http://www.loc.gov/mads/rdf/v1#authoritativeLabel": [
+      {
+        "@value": "Norsk inndeling av vitenskapsdisipliner [PDF: 195 KB]"
+      }
+    ]
+  },
+  {
+    "@id": "http://id.loc.gov/vocabulary/classSchemes/udc",
+    "@type": [
+      "http://www.loc.gov/mads/rdf/v1#Authority"
+    ],
+    "http://www.loc.gov/mads/rdf/v1#authoritativeLabel": [
+      {
+        "@value": "Universal decimal classification"
+      }
+    ]
+  },
+  {
+    "@id": "http://id.loc.gov/vocabulary/classSchemes/ddc22",
+    "@type": [
+      "http://www.loc.gov/mads/rdf/v1#Authority"
+    ],
+    "http://www.loc.gov/mads/rdf/v1#authoritativeLabel": [
+      {
+        "@value": "Dewey decimal classification and relative index (Dublin, Ohio: OCLC Online Computer Center), Edition 22"
+      }
+    ]
+  },
+  {
+    "@id": "http://id.loc.gov/vocabulary/classSchemes/undocs",
+    "@type": [
+      "http://www.loc.gov/mads/rdf/v1#Authority"
+    ],
+    "http://www.loc.gov/mads/rdf/v1#authoritativeLabel": [
+      {
+        "@value": "United Nations document series symbols: 1946-77 cumulative"
+      }
+    ]
+  },
+  {
+    "@id": "http://id.loc.gov/vocabulary/classSchemes/fiaf",
+    "@type": [
+      "http://www.loc.gov/mads/rdf/v1#Authority"
+    ],
+    "http://www.loc.gov/mads/rdf/v1#authoritativeLabel": [
+      {
+        "@value": "Moulds, Michael. Classification scheme for literature on film and television"
+      }
+    ]
+  },
+  {
+    "@id": "http://id.loc.gov/vocabulary/classSchemes/ddc14",
+    "@type": [
+      "http://www.loc.gov/mads/rdf/v1#Authority"
+    ],
+    "http://www.loc.gov/mads/rdf/v1#authoritativeLabel": [
+      {
+        "@value": "Dewey decimal classification and relative index (Dublin, Ohio: OCLC Online Computer Center), Edition 14"
+      }
+    ]
+  },
+  {
+    "@id": "http://id.loc.gov/vocabulary/classSchemes/knt",
+    "@type": [
+      "http://www.loc.gov/mads/rdf/v1#Authority"
+    ],
+    "http://www.loc.gov/mads/rdf/v1#authoritativeLabel": [
+      {
+        "@value": "Klassifikasjonsnøkkel til norsk topografi"
+      }
+    ]
+  },
+  {
+    "@id": "http://id.loc.gov/vocabulary/classSchemes/ddc17",
+    "@type": [
+      "http://www.loc.gov/mads/rdf/v1#Authority"
+    ],
+    "http://www.loc.gov/mads/rdf/v1#authoritativeLabel": [
+      {
+        "@value": "Dewey decimal classification and relative index (Dublin, Ohio: OCLC Online Computer Center), Edition 17"
+      }
+    ]
+  },
+  {
+    "@id": "http://id.loc.gov/vocabulary/classSchemes",
+    "@type": [
+      "http://www.loc.gov/mads/rdf/v1#MADSScheme",
+      "http://www.w3.org/2004/02/skos/core#ConceptScheme"
+    ],
+    "http://www.loc.gov/mads/rdf/v1#hasMADSSchemeMember": [
+      {
+        "@id": "http://id.loc.gov/vocabulary/classSchemes/cadocs"
+      },
+      {
+        "@id": "http://id.loc.gov/vocabulary/classSchemes/bliss"
+      },
+      {
+        "@id": "http://id.loc.gov/vocabulary/classSchemes/nlm"
+      },
+      {
+        "@id": "http://id.loc.gov/vocabulary/classSchemes/msdocs"
+      },
+      {
+        "@id": "http://id.loc.gov/vocabulary/classSchemes/ddc9"
+      },
+      {
+        "@id": "http://id.loc.gov/vocabulary/classSchemes/rubbkm"
+      },
+      {
+        "@id": "http://id.loc.gov/vocabulary/classSchemes/no-ujur-cnip"
+      },
+      {
+        "@id": "http://id.loc.gov/vocabulary/classSchemes/ddc14"
+      },
+      {
+        "@id": "http://id.loc.gov/vocabulary/classSchemes/codocs"
+      },
+      {
+        "@id": "http://id.loc.gov/vocabulary/classSchemes/ddc17"
+      },
+      {
+        "@id": "http://id.loc.gov/vocabulary/classSchemes/mpilcs"
+      },
+      {
+        "@id": "http://id.loc.gov/vocabulary/classSchemes/rubbk"
+      },
+      {
+        "@id": "http://id.loc.gov/vocabulary/classSchemes/rugasnti"
+      },
+      {
+        "@id": "http://id.loc.gov/vocabulary/classSchemes/skb"
+      },
+      {
+        "@id": "http://id.loc.gov/vocabulary/classSchemes/sswd"
+      },
+      {
+        "@id": "http://id.loc.gov/vocabulary/classSchemes/stub"
+      },
+      {
+        "@id": "http://id.loc.gov/vocabulary/classSchemes/cstud"
+      },
+      {
+        "@id": "http://id.loc.gov/vocabulary/classSchemes/undocs"
+      },
+      {
+        "@id": "http://id.loc.gov/vocabulary/classSchemes/zdbs"
+      },
+      {
+        "@id": "http://id.loc.gov/vocabulary/classSchemes/fldocs"
+      },
+      {
+        "@id": "http://id.loc.gov/vocabulary/classSchemes/cutterec"
+      },
+      {
+        "@id": "http://id.loc.gov/vocabulary/classSchemes/iadocs"
+      },
+      {
+        "@id": "http://id.loc.gov/vocabulary/classSchemes/ddc11"
+      },
+      {
+        "@id": "http://id.loc.gov/vocabulary/classSchemes/cslj"
+      },
+      {
+        "@id": "http://id.loc.gov/vocabulary/classSchemes/loovs"
+      },
+      {
+        "@id": "http://id.loc.gov/vocabulary/classSchemes/veera"
+      },
+      {
+        "@id": "http://id.loc.gov/vocabulary/classSchemes/ardocs"
+      },
+      {
+        "@id": "http://id.loc.gov/vocabulary/classSchemes/acmccs"
+      },
+      {
+        "@id": "http://id.loc.gov/vocabulary/classSchemes/ddc6"
+      },
+      {
+        "@id": "http://id.loc.gov/vocabulary/classSchemes/vsiso"
+      },
+      {
+        "@id": "http://id.loc.gov/vocabulary/classSchemes/ohdocs"
+      },
+      {
+        "@id": "http://id.loc.gov/vocabulary/classSchemes/rich"
+      },
+      {
+        "@id": "http://id.loc.gov/vocabulary/classSchemes/ddc22"
+      },
+      {
+        "@id": "http://id.loc.gov/vocabulary/classSchemes/ladocs"
+      },
+      {
+        "@id": "http://id.loc.gov/vocabulary/classSchemes/blsrissc"
+      },
+      {
+        "@id": "http://id.loc.gov/vocabulary/classSchemes/ddc3"
+      },
+      {
+        "@id": "http://id.loc.gov/vocabulary/classSchemes/sudocs"
+      },
+      {
+        "@id": "http://id.loc.gov/vocabulary/classSchemes/mpkkl"
+      },
+      {
+        "@id": "http://id.loc.gov/vocabulary/classSchemes/ykl"
+      },
+      {
+        "@id": "http://id.loc.gov/vocabulary/classSchemes/swank"
+      },
+      {
+        "@id": "http://id.loc.gov/vocabulary/classSchemes/rilm"
+      },
+      {
+        "@id": "http://id.loc.gov/vocabulary/classSchemes/celex"
+      },
+      {
+        "@id": "http://id.loc.gov/vocabulary/classSchemes/rpb"
+      },
+      {
+        "@id": "http://id.loc.gov/vocabulary/classSchemes/dopaed"
+      },
+      {
+        "@id": "http://id.loc.gov/vocabulary/classSchemes/cacodoc"
+      },
+      {
+        "@id": "http://id.loc.gov/vocabulary/classSchemes/fiaf"
+      },
+      {
+        "@id": "http://id.loc.gov/vocabulary/classSchemes/kktb"
+      },
+      {
+        "@id": "http://id.loc.gov/vocabulary/classSchemes/kuvacs"
+      },
+      {
+        "@id": "http://id.loc.gov/vocabulary/classSchemes/nydocs"
+      },
+      {
+        "@id": "http://id.loc.gov/vocabulary/classSchemes/txdocs"
+      },
+      {
+        "@id": "http://id.loc.gov/vocabulary/classSchemes/utklklass"
+      },
+      {
+        "@id": "http://id.loc.gov/vocabulary/classSchemes/no-ujur-cmr"
+      },
+      {
+        "@id": "http://id.loc.gov/vocabulary/classSchemes/ddc7"
+      },
+      {
+        "@id": "http://id.loc.gov/vocabulary/classSchemes/rubbknp"
+      },
+      {
+        "@id": "http://id.loc.gov/vocabulary/classSchemes/inspec"
+      },
+      {
+        "@id": "http://id.loc.gov/vocabulary/classSchemes/ridocs"
+      },
+      {
+        "@id": "http://id.loc.gov/vocabulary/classSchemes/udc"
+      },
+      {
+        "@id": "http://id.loc.gov/vocabulary/classSchemes/nicem"
+      },
+      {
+        "@id": "http://id.loc.gov/vocabulary/classSchemes/kfmod"
+      },
+      {
+        "@id": "http://id.loc.gov/vocabulary/classSchemes/frtav"
+      },
+      {
+        "@id": "http://id.loc.gov/vocabulary/classSchemes/ddc4"
+      },
+      {
+        "@id": "http://id.loc.gov/vocabulary/classSchemes/no-ureal-cb"
+      },
+      {
+        "@id": "http://id.loc.gov/vocabulary/classSchemes/rswk"
+      },
+      {
+        "@id": "http://id.loc.gov/vocabulary/classSchemes/usgslcs"
+      },
+      {
+        "@id": "http://id.loc.gov/vocabulary/classSchemes/ddc23"
+      },
+      {
+        "@id": "http://id.loc.gov/vocabulary/classSchemes/teatkl"
+      },
+      {
+        "@id": "http://id.loc.gov/vocabulary/classSchemes/nwbib"
+      },
+      {
+        "@id": "http://id.loc.gov/vocabulary/classSchemes/bar"
+      },
+      {
+        "@id": "http://id.loc.gov/vocabulary/classSchemes/accs"
+      },
+      {
+        "@id": "http://id.loc.gov/vocabulary/classSchemes/farl"
+      },
+      {
+        "@id": "http://id.loc.gov/vocabulary/classSchemes/rubbks"
+      },
+      {
+        "@id": "http://id.loc.gov/vocabulary/classSchemes/widocs"
+      },
+      {
+        "@id": "http://id.loc.gov/vocabulary/classSchemes/ddc1"
+      },
+      {
+        "@id": "http://id.loc.gov/vocabulary/classSchemes/lcc"
+      },
+      {
+        "@id": "http://id.loc.gov/vocabulary/classSchemes/rubbkk"
+      },
+      {
+        "@id": "http://id.loc.gov/vocabulary/classSchemes/suaslc"
+      },
+      {
+        "@id": "http://id.loc.gov/vocabulary/classSchemes/ddc20"
+      },
+      {
+        "@id": "http://id.loc.gov/vocabulary/classSchemes/midocs"
+      },
+      {
+        "@id": "http://id.loc.gov/vocabulary/classSchemes/azdocs"
+      },
+      {
+        "@id": "http://id.loc.gov/vocabulary/classSchemes/ncdocs"
+      },
+      {
+        "@id": "http://id.loc.gov/vocabulary/classSchemes/cddir"
+      },
+      {
+        "@id": "http://id.loc.gov/vocabulary/classSchemes/msc"
+      },
+      {
+        "@id": "http://id.loc.gov/vocabulary/classSchemes/niv"
+      },
+      {
+        "@id": "http://id.loc.gov/vocabulary/classSchemes/agrissc"
+      },
+      {
+        "@id": "http://id.loc.gov/vocabulary/classSchemes/fcps"
+      },
+      {
+        "@id": "http://id.loc.gov/vocabulary/classSchemes/nvdocs"
+      },
+      {
+        "@id": "http://id.loc.gov/vocabulary/classSchemes/z"
+      },
+      {
+        "@id": "http://id.loc.gov/vocabulary/classSchemes/okdocs"
+      },
+      {
+        "@id": "http://id.loc.gov/vocabulary/classSchemes/utk"
+      },
+      {
+        "@id": "http://id.loc.gov/vocabulary/classSchemes/agricola"
+      },
+      {
+        "@id": "http://id.loc.gov/vocabulary/classSchemes/ddc2"
+      },
+      {
+        "@id": "http://id.loc.gov/vocabulary/classSchemes/ddc21"
+      },
+      {
+        "@id": "http://id.loc.gov/vocabulary/classSchemes/ifzs"
+      },
+      {
+        "@id": "http://id.loc.gov/vocabulary/classSchemes/sbb"
+      },
+      {
+        "@id": "http://id.loc.gov/vocabulary/classSchemes/upsylon"
+      },
+      {
+        "@id": "http://id.loc.gov/vocabulary/classSchemes/utdocs"
+      },
+      {
+        "@id": "http://id.loc.gov/vocabulary/classSchemes/ipc"
+      },
+      {
+        "@id": "http://id.loc.gov/vocabulary/classSchemes/uef"
+      },
+      {
+        "@id": "http://id.loc.gov/vocabulary/classSchemes/chfbn"
+      },
+      {
+        "@id": "http://id.loc.gov/vocabulary/classSchemes/tykoma"
+      },
+      {
+        "@id": "http://id.loc.gov/vocabulary/classSchemes/jelc"
+      },
+      {
+        "@id": "http://id.loc.gov/vocabulary/classSchemes/anscr"
+      },
+      {
+        "@id": "http://id.loc.gov/vocabulary/classSchemes/rubbkmv"
+      },
+      {
+        "@id": "http://id.loc.gov/vocabulary/classSchemes/clutscny"
+      },
+      {
+        "@id": "http://id.loc.gov/vocabulary/classSchemes/ddc"
+      },
+      {
+        "@id": "http://id.loc.gov/vocabulary/classSchemes/rubbkd"
+      },
+      {
+        "@id": "http://id.loc.gov/vocabulary/classSchemes/nasasscg"
+      },
+      {
+        "@id": "http://id.loc.gov/vocabulary/classSchemes/nhcp"
+      },
+      {
+        "@id": "http://id.loc.gov/vocabulary/classSchemes/bcmc"
+      },
+      {
+        "@id": "http://id.loc.gov/vocabulary/classSchemes/ddc18"
+      },
+      {
+        "@id": "http://id.loc.gov/vocabulary/classSchemes/bcl"
+      },
+      {
+        "@id": "http://id.loc.gov/vocabulary/classSchemes/oosk"
+      },
+      {
+        "@id": "http://id.loc.gov/vocabulary/classSchemes/gfdc"
+      },
+      {
+        "@id": "http://id.loc.gov/vocabulary/classSchemes/kssb"
+      },
+      {
+        "@id": "http://id.loc.gov/vocabulary/classSchemes/no-ureal-cg"
+      },
+      {
+        "@id": "http://id.loc.gov/vocabulary/classSchemes/laclaw"
+      },
+      {
+        "@id": "http://id.loc.gov/vocabulary/classSchemes/siso"
+      },
+      {
+        "@id": "http://id.loc.gov/vocabulary/classSchemes/rubbkn"
+      },
+      {
+        "@id": "http://id.loc.gov/vocabulary/classSchemes/rueskl"
+      },
+      {
+        "@id": "http://id.loc.gov/vocabulary/classSchemes/gadocs"
+      },
+      {
+        "@id": "http://id.loc.gov/vocabulary/classSchemes/ddc12"
+      },
+      {
+        "@id": "http://id.loc.gov/vocabulary/classSchemes/bkl"
+      },
+      {
+        "@id": "http://id.loc.gov/vocabulary/classSchemes/ccpgq"
+      },
+      {
+        "@id": "http://id.loc.gov/vocabulary/classSchemes/finagri"
+      },
+      {
+        "@id": "http://id.loc.gov/vocabulary/classSchemes/no-ureal-ca"
+      },
+      {
+        "@id": "http://id.loc.gov/vocabulary/classSchemes/ordocs"
+      },
+      {
+        "@id": "http://id.loc.gov/vocabulary/classSchemes/ddc15"
+      },
+      {
+        "@id": "http://id.loc.gov/vocabulary/classSchemes/rvk"
+      },
+      {
+        "@id": "http://id.loc.gov/vocabulary/classSchemes/egedeklass"
+      },
+      {
+        "@id": "http://id.loc.gov/vocabulary/classSchemes/ncsclt"
+      },
+      {
+        "@id": "http://id.loc.gov/vocabulary/classSchemes/methepp"
+      },
+      {
+        "@id": "http://id.loc.gov/vocabulary/classSchemes/sfb"
+      },
+      {
+        "@id": "http://id.loc.gov/vocabulary/classSchemes/noterlyd"
+      },
+      {
+        "@id": "http://id.loc.gov/vocabulary/classSchemes/pssppbkj"
+      },
+      {
+        "@id": "http://id.loc.gov/vocabulary/classSchemes/ssd"
+      },
+      {
+        "@id": "http://id.loc.gov/vocabulary/classSchemes/bisacsh"
+      },
+      {
+        "@id": "http://id.loc.gov/vocabulary/classSchemes/taykl"
+      },
+      {
+        "@id": "http://id.loc.gov/vocabulary/classSchemes/kab"
+      },
+      {
+        "@id": "http://id.loc.gov/vocabulary/classSchemes/misklass"
+      },
+      {
+        "@id": "http://id.loc.gov/vocabulary/classSchemes/flarch"
+      },
+      {
+        "@id": "http://id.loc.gov/vocabulary/classSchemes/mmlcc"
+      },
+      {
+        "@id": "http://id.loc.gov/vocabulary/classSchemes/nmdocs"
+      },
+      {
+        "@id": "http://id.loc.gov/vocabulary/classSchemes/wydocs"
+      },
+      {
+        "@id": "http://id.loc.gov/vocabulary/classSchemes/pim"
+      },
+      {
+        "@id": "http://id.loc.gov/vocabulary/classSchemes/farma"
+      },
+      {
+        "@id": "http://id.loc.gov/vocabulary/classSchemes/nbdocs"
+      },
+      {
+        "@id": "http://id.loc.gov/vocabulary/classSchemes/ddc16"
+      },
+      {
+        "@id": "http://id.loc.gov/vocabulary/classSchemes/blissc"
+      },
+      {
+        "@id": "http://id.loc.gov/vocabulary/classSchemes/sddocs"
+      },
+      {
+        "@id": "http://id.loc.gov/vocabulary/classSchemes/modocs"
+      },
+      {
+        "@id": "http://id.loc.gov/vocabulary/classSchemes/rubbko"
+      },
+      {
+        "@id": "http://id.loc.gov/vocabulary/classSchemes/scdocs"
+      },
+      {
+        "@id": "http://id.loc.gov/vocabulary/classSchemes/asb"
+      },
+      {
+        "@id": "http://id.loc.gov/vocabulary/classSchemes/smm"
+      },
+      {
+        "@id": "http://id.loc.gov/vocabulary/classSchemes/ssgn"
+      },
+      {
+        "@id": "http://id.loc.gov/vocabulary/classSchemes/utklklassex"
+      },
+      {
+        "@id": "http://id.loc.gov/vocabulary/classSchemes/naics"
+      },
+      {
+        "@id": "http://id.loc.gov/vocabulary/classSchemes/knt"
+      },
+      {
+        "@id": "http://id.loc.gov/vocabulary/classSchemes/ekl"
+      },
+      {
+        "@id": "http://id.loc.gov/vocabulary/classSchemes/siblcs"
+      },
+      {
+        "@id": "http://id.loc.gov/vocabulary/classSchemes/ddc13"
+      },
+      {
+        "@id": "http://id.loc.gov/vocabulary/classSchemes/clc"
+      },
+      {
+        "@id": "http://id.loc.gov/vocabulary/classSchemes/taikclas"
+      },
+      {
+        "@id": "http://id.loc.gov/vocabulary/classSchemes/ddc8"
+      },
+      {
+        "@id": "http://id.loc.gov/vocabulary/classSchemes/njb"
+      },
+      {
+        "@id": "http://id.loc.gov/vocabulary/classSchemes/sdnb"
+      },
+      {
+        "@id": "http://id.loc.gov/vocabulary/classSchemes/ksdocs"
+      },
+      {
+        "@id": "http://id.loc.gov/vocabulary/classSchemes/ghbs"
+      },
+      {
+        "@id": "http://id.loc.gov/vocabulary/classSchemes/fid"
+      },
+      {
+        "@id": "http://id.loc.gov/vocabulary/classSchemes/padocs"
+      },
+      {
+        "@id": "http://id.loc.gov/vocabulary/classSchemes/mu"
+      },
+      {
+        "@id": "http://id.loc.gov/vocabulary/classSchemes/wadocs"
+      },
+      {
+        "@id": "http://id.loc.gov/vocabulary/classSchemes/moys"
+      },
+      {
+        "@id": "http://id.loc.gov/vocabulary/classSchemes/ddc19"
+      },
+      {
+        "@id": "http://id.loc.gov/vocabulary/classSchemes/mf-klass"
+      },
+      {
+        "@id": "http://id.loc.gov/vocabulary/classSchemes/ivdcc"
+      },
+      {
+        "@id": "http://id.loc.gov/vocabulary/classSchemes/ddc5"
+      },
+      {
+        "@id": "http://id.loc.gov/vocabulary/classSchemes/ics"
+      },
+      {
+        "@id": "http://id.loc.gov/vocabulary/classSchemes/ddc10"
+      },
+      {
+        "@id": "http://id.loc.gov/vocabulary/classSchemes/ubtkl/2"
+      }
+    ],
+    "http://www.w3.org/2000/01/rdf-schema#label": [
+      {
+        "@language": "en",
+        "@value": "Classification Schemes"
+      }
+    ],
+    "http://www.w3.org/2000/01/rdf-schema#comment": [
+      {
+        "@value": "                                                            Classification Schemes  contains a list of classification                      schemes and assigns a URI to each scheme. The purpose of these properties is to                      permit users to associate classification numbers with the appropriate classification                     scheme.                                                               An individual URI has been assigned for each edition of Dewey.                                                     "
+      }
+    ],
+    "http://www.loc.gov/mads/rdf/v1#adminMetadata": [
+      {
+        "@id": "_:b738idlocgovvocabularyclassSchemes"
+      }
+    ],
+    "http://www.w3.org/2004/02/skos/core#changeNote": [
+      {
+        "@id": "_:b751idlocgovvocabularyclassSchemes"
+      }
+    ]
+  },
+  {
+    "@id": "http://id.loc.gov/vocabulary/classSchemes/skb",
+    "@type": [
+      "http://www.loc.gov/mads/rdf/v1#Authority"
+    ],
+    "http://www.loc.gov/mads/rdf/v1#authoritativeLabel": [
+      {
+        "@value": "Sachbuch-Systematik für Katholische öffentliche Büchereien"
+      }
+    ]
+  },
+  {
+    "@id": "http://id.loc.gov/vocabulary/classSchemes/accs",
+    "@type": [
+      "http://www.loc.gov/mads/rdf/v1#Authority"
+    ],
+    "http://www.loc.gov/mads/rdf/v1#authoritativeLabel": [
+      {
+        "@value": "Annehurst curriculum classification system"
+      }
+    ]
+  },
+  {
+    "@id": "http://id.loc.gov/vocabulary/classSchemes/ipc",
+    "@type": [
+      "http://www.loc.gov/mads/rdf/v1#Authority"
+    ],
+    "http://www.loc.gov/mads/rdf/v1#authoritativeLabel": [
+      {
+        "@value": "International Patent Classification"
+      }
+    ]
+  },
+  {
+    "@id": "http://id.loc.gov/vocabulary/classSchemes/kssb",
+    "@type": [
+      "http://www.loc.gov/mads/rdf/v1#Authority"
+    ],
+    "http://www.loc.gov/mads/rdf/v1#authoritativeLabel": [
+      {
+        "@value": "Klassifikationssystem for svenska bibliotek"
+      }
+    ]
+  },
+  {
+    "@id": "http://id.loc.gov/vocabulary/classSchemes/widocs",
+    "@type": [
+      "http://www.loc.gov/mads/rdf/v1#Authority"
+    ],
+    "http://www.loc.gov/mads/rdf/v1#authoritativeLabel": [
+      {
+        "@value": "Organizing Wisconsin public documents: cataloging and classification of documents at the State Historical Society Library"
+      }
+    ]
+  },
+  {
+    "@id": "http://id.loc.gov/vocabulary/classSchemes/ncsclt",
+    "@type": [
+      "http://www.loc.gov/mads/rdf/v1#Authority"
+    ],
+    "http://www.loc.gov/mads/rdf/v1#authoritativeLabel": [
+      {
+        "@value": "New classification scheme for Chinese libraries"
+      }
+    ]
+  },
+  {
+    "@id": "http://id.loc.gov/vocabulary/classSchemes/ddc8",
+    "@type": [
+      "http://www.loc.gov/mads/rdf/v1#Authority"
+    ],
+    "http://www.loc.gov/mads/rdf/v1#authoritativeLabel": [
+      {
+        "@value": "Dewey decimal classification and relative index (Dublin, Ohio: OCLC Online Computer Center), Edition 8"
+      }
+    ]
+  },
+  {
+    "@id": "http://id.loc.gov/vocabulary/classSchemes/mpkkl",
+    "@type": [
+      "http://www.loc.gov/mads/rdf/v1#Authority"
+    ],
+    "http://www.loc.gov/mads/rdf/v1#authoritativeLabel": [
+      {
+        "@value": "Maanpuolustuskorkeakoulun kirjaston luokitusjärjestelmä"
+      }
+    ]
+  },
+  {
+    "@id": "http://id.loc.gov/vocabulary/classSchemes/kab",
+    "@type": [
+      "http://www.loc.gov/mads/rdf/v1#Authority"
+    ],
+    "http://www.loc.gov/mads/rdf/v1#authoritativeLabel": [
+      {
+        "@value": "Klassifikation für Allgemeinbibliotheken"
+      }
+    ]
+  },
+  {
+    "@id": "http://id.loc.gov/vocabulary/classSchemes/wydocs",
+    "@type": [
+      "http://www.loc.gov/mads/rdf/v1#Authority"
+    ],
+    "http://www.loc.gov/mads/rdf/v1#authoritativeLabel": [
+      {
+        "@value": "WyDocs: the Wyoming state documents classification system"
+      }
+    ]
+  },
+  {
+    "@id": "http://id.loc.gov/vocabulary/classSchemes/rvk",
+    "@type": [
+      "http://www.loc.gov/mads/rdf/v1#Authority"
+    ],
+    "http://www.loc.gov/mads/rdf/v1#authoritativeLabel": [
+      {
+        "@value": "Regensburger Verbundklassifikation"
+      }
+    ]
+  },
+  {
+    "@id": "http://id.loc.gov/vocabulary/classSchemes/ivdcc",
+    "@type": [
+      "http://www.loc.gov/mads/rdf/v1#Authority"
+    ],
+    "http://www.loc.gov/mads/rdf/v1#authoritativeLabel": [
+      {
+        "@value": "intranda viewer digital collection classification"
+      }
+    ]
+  },
+  {
+    "@id": "http://id.loc.gov/vocabulary/classSchemes/ykl",
+    "@type": [
+      "http://www.loc.gov/mads/rdf/v1#Authority"
+    ],
+    "http://www.loc.gov/mads/rdf/v1#authoritativeLabel": [
+      {
+        "@value": "Yleisten kirjastojen luokitusjärjestelmä = Finnish public libraries classification system [former code: fplcs]"
+      }
+    ]
+  },
+  {
+    "@id": "http://id.loc.gov/vocabulary/classSchemes/utklklass",
+    "@type": [
+      "http://www.loc.gov/mads/rdf/v1#Authority"
+    ],
+    "http://www.loc.gov/mads/rdf/v1#authoritativeLabel": [
+      {
+        "@value": "L-klassifikasjon"
+      }
+    ]
+  },
+  {
+    "@id": "http://id.loc.gov/vocabulary/classSchemes/utk",
+    "@type": [
+      "http://www.loc.gov/mads/rdf/v1#Authority"
+    ],
+    "http://www.loc.gov/mads/rdf/v1#authoritativeLabel": [
+      {
+        "@value": "University of Oslo Library Classification"
+      }
+    ]
+  },
+  {
+    "@id": "http://id.loc.gov/vocabulary/classSchemes/fldocs",
+    "@type": [
+      "http://www.loc.gov/mads/rdf/v1#Authority"
+    ],
+    "http://www.loc.gov/mads/rdf/v1#authoritativeLabel": [
+      {
+        "@value": "A Keyword-in-context to Florida public documents in the Florida Atlantic University Library"
+      }
+    ]
+  },
+  {
+    "@id": "http://id.loc.gov/vocabulary/classSchemes/mmlcc",
+    "@type": [
+      "http://www.loc.gov/mads/rdf/v1#Authority"
+    ],
+    "http://www.loc.gov/mads/rdf/v1#authoritativeLabel": [
+      {
+        "@value": "Manual of map library classification and cataloguing"
+      }
+    ]
+  },
+  {
+    "@id": "http://id.loc.gov/vocabulary/classSchemes/rubbko",
+    "@type": [
+      "http://www.loc.gov/mads/rdf/v1#Authority"
+    ],
+    "http://www.loc.gov/mads/rdf/v1#authoritativeLabel": [
+      {
+        "@value": "Tablitsy bibliotechno-bibliograficheskoi klassifikatsii dlíà oblastvykh bibliotek v 4-kh tomakh"
+      }
+    ]
+  },
+  {
+    "@id": "http://id.loc.gov/vocabulary/classSchemes/swank",
+    "@type": [
+      "http://www.loc.gov/mads/rdf/v1#Authority"
+    ],
+    "http://www.loc.gov/mads/rdf/v1#authoritativeLabel": [
+      {
+        "@value": "Swank, Raynard Coe. A classification for state, county, and municipal documents"
+      }
+    ]
+  },
+  {
+    "@id": "http://id.loc.gov/vocabulary/classSchemes/rueskl",
+    "@type": [
+      "http://www.loc.gov/mads/rdf/v1#Authority"
+    ],
+    "http://www.loc.gov/mads/rdf/v1#authoritativeLabel": [
+      {
+        "@value": "Edinaíà skhema klassifikatsii literatury dlíà knigoizdaniíà v SSSR"
+      }
+    ]
+  },
+  {
+    "@id": "http://id.loc.gov/vocabulary/classSchemes/msdocs",
+    "@type": [
+      "http://www.loc.gov/mads/rdf/v1#Authority"
+    ],
+    "http://www.loc.gov/mads/rdf/v1#authoritativeLabel": [
+      {
+        "@value": "Mississippi state government publications. Vol. 1, July 1975/June 1980"
+      }
+    ]
+  },
+  {
+    "@id": "http://id.loc.gov/vocabulary/classSchemes/bkl",
+    "@type": [
+      "http://www.loc.gov/mads/rdf/v1#Authority"
+    ],
+    "http://www.loc.gov/mads/rdf/v1#authoritativeLabel": [
+      {
+        "@value": "Basisklassifikation"
+      }
+    ]
+  },
+  {
+    "@id": "http://id.loc.gov/vocabulary/classSchemes/modocs",
+    "@type": [
+      "http://www.loc.gov/mads/rdf/v1#Authority"
+    ],
+    "http://www.loc.gov/mads/rdf/v1#authoritativeLabel": [
+      {
+        "@value": "Missouri state documents classification: post-reorganization agency codes and form divisions"
+      }
+    ]
+  },
+  {
+    "@id": "http://id.loc.gov/vocabulary/classSchemes/rubbk",
+    "@type": [
+      "http://www.loc.gov/mads/rdf/v1#Authority"
+    ],
+    "http://www.loc.gov/mads/rdf/v1#authoritativeLabel": [
+      {
+        "@value": "Tablitsy bibliotechno-bibliograficheskoi klassifikatsii dlíà nauchnykh bibliotek v 30-ti tomakh"
+      }
+    ]
+  },
+  {
+    "@id": "http://id.loc.gov/vocabulary/classSchemes/naics",
+    "@type": [
+      "http://www.loc.gov/mads/rdf/v1#Authority"
+    ],
+    "http://www.loc.gov/mads/rdf/v1#authoritativeLabel": [
+      {
+        "@value": "North American industry classification system"
+      }
+    ]
+  },
+  {
+    "@id": "http://id.loc.gov/vocabulary/classSchemes/smm",
+    "@type": [
+      "http://www.loc.gov/mads/rdf/v1#Authority"
+    ],
+    "http://www.loc.gov/mads/rdf/v1#authoritativeLabel": [
+      {
+        "@value": "Systematik des Musikschrifttums u.d. Musikalien fr ffentl. Musikbibliotheken SMM"
+      }
+    ]
+  },
+  {
+    "@id": "http://id.loc.gov/vocabulary/classSchemes/bcl",
+    "@type": [
+      "http://www.loc.gov/mads/rdf/v1#Authority"
+    ],
+    "http://www.loc.gov/mads/rdf/v1#authoritativeLabel": [
+      {
+        "@value": "Nederlandse Basisclassificatie = Dutch Basic Classification Codes"
+      }
+    ]
+  },
+  {
+    "@id": "http://id.loc.gov/vocabulary/classSchemes/mu",
+    "@type": [
+      "http://www.loc.gov/mads/rdf/v1#Authority"
+    ],
+    "http://www.loc.gov/mads/rdf/v1#authoritativeLabel": [
+      {
+        "@value": "Clasificación Musical de la Bibliografía Nacional de España"
+      }
+    ]
+  },
+  {
+    "@id": "http://id.loc.gov/vocabulary/classSchemes/nwbib",
+    "@type": [
+      "http://www.loc.gov/mads/rdf/v1#Authority"
+    ],
+    "http://www.loc.gov/mads/rdf/v1#authoritativeLabel": [
+      {
+        "@value": "Nordrhein-Westfälische Bibliographie"
+      }
+    ]
+  },
+  {
+    "@id": "http://id.loc.gov/vocabulary/classSchemes/ardocs",
+    "@type": [
+      "http://www.loc.gov/mads/rdf/v1#Authority"
+    ],
+    "http://www.loc.gov/mads/rdf/v1#authoritativeLabel": [
+      {
+        "@value": "Arkansas state documents classification scheme"
+      }
+    ]
+  },
+  {
+    "@id": "http://id.loc.gov/vocabulary/classSchemes/ohdocs",
+    "@type": [
+      "http://www.loc.gov/mads/rdf/v1#Authority"
+    ],
+    "http://www.loc.gov/mads/rdf/v1#authoritativeLabel": [
+      {
+        "@value": "Ohio documents classification scheme"
+      }
+    ]
+  },
+  {
+    "@id": "http://id.loc.gov/vocabulary/classSchemes/rubbkk",
+    "@type": [
+      "http://www.loc.gov/mads/rdf/v1#Authority"
+    ],
+    "http://www.loc.gov/mads/rdf/v1#authoritativeLabel": [
+      {
+        "@value": "Tablitsy bibliotechno-bibliograficheskoi klassifikatsii dlíà kraevedcheskikh katalogov bibliotek"
+      }
+    ]
+  },
+  {
+    "@id": "http://id.loc.gov/vocabulary/classSchemes/azdocs",
+    "@type": [
+      "http://www.loc.gov/mads/rdf/v1#Authority"
+    ],
+    "http://www.loc.gov/mads/rdf/v1#authoritativeLabel": [
+      {
+        "@value": "Arizona documents: KWOC manual"
+      }
+    ]
+  },
+  {
+    "@id": "http://id.loc.gov/vocabulary/classSchemes/kuvacs",
+    "@type": [
+      "http://www.loc.gov/mads/rdf/v1#Authority"
+    ],
+    "http://www.loc.gov/mads/rdf/v1#authoritativeLabel": [
+      {
+        "@value": "Kuvataideakatemian kirjaston luokitusjärjestelmä = Finnish Academy of Fine Arts Library Classification"
+      }
+    ]
+  },
+  {
+    "@id": "http://id.loc.gov/vocabulary/classSchemes/rubbkn",
+    "@type": [
+      "http://www.loc.gov/mads/rdf/v1#Authority"
+    ],
+    "http://www.loc.gov/mads/rdf/v1#authoritativeLabel": [
+      {
+        "@value": "Tablitsy bibliotechno-bibliograficheskoi klassifikatsii dlíà nauchnykh bibliotek v 4-kh tomakh"
+      }
+    ]
+  },
+  {
+    "@id": "http://id.loc.gov/vocabulary/classSchemes/ddc16",
+    "@type": [
+      "http://www.loc.gov/mads/rdf/v1#Authority"
+    ],
+    "http://www.loc.gov/mads/rdf/v1#authoritativeLabel": [
+      {
+        "@value": "Dewey decimal classification and relative index (Dublin, Ohio: OCLC Online Computer Center), Edition 16"
+      }
+    ]
+  },
+  {
+    "@id": "http://id.loc.gov/vocabulary/classSchemes/cacodoc",
+    "@type": [
+      "http://www.loc.gov/mads/rdf/v1#Authority"
+    ],
+    "http://www.loc.gov/mads/rdf/v1#authoritativeLabel": [
+      {
+        "@value": "CODOC [Canadian federal and provincial government documents classification scheme]"
+      }
+    ]
+  },
+  {
+    "@id": "http://id.loc.gov/vocabulary/classSchemes/ncdocs",
+    "@type": [
+      "http://www.loc.gov/mads/rdf/v1#Authority"
+    ],
+    "http://www.loc.gov/mads/rdf/v1#authoritativeLabel": [
+      {
+        "@value": "Classification scheme for North Carolina state publications: as applied to the documents collection of the N.C. Dept. of Cultural Resources"
+      }
+    ]
+  },
+  {
+    "@id": "http://id.loc.gov/vocabulary/classSchemes/ddc",
+    "@type": [
+      "http://www.loc.gov/mads/rdf/v1#Authority"
+    ],
+    "http://www.loc.gov/mads/rdf/v1#authoritativeLabel": [
+      {
+        "@value": "Dewey decimal classification and relative index"
+      }
+    ]
+  },
+  {
+    "@id": "http://id.loc.gov/vocabulary/classSchemes/teatkl",
+    "@type": [
+      "http://www.loc.gov/mads/rdf/v1#Authority"
+    ],
+    "http://www.loc.gov/mads/rdf/v1#authoritativeLabel": [
+      {
+        "@value": "Teatterikorkeakoulun kirjaston luokitusopas"
+      }
+    ]
+  },
+  {
+    "@id": "_:b751idlocgovvocabularyclassSchemes",
+    "@type": [
+      "http://purl.org/vocab/changeset/schema#ChangeSet"
+    ],
+    "http://purl.org/vocab/changeset/schema#subjectOfChange": [
+      {
+        "@id": "http://id.loc.gov/vocabulary/classSchemes"
+      }
+    ],
+    "http://purl.org/vocab/changeset/schema#creatorName": [
+      {
+        "@id": "http://id.loc.gov/vocabulary/organizations/dlcmrc"
+      }
+    ],
+    "http://purl.org/vocab/changeset/schema#createdDate": [
+      {
+        "@type": "http://www.w3.org/2001/XMLSchema#dateTime",
+        "@value": "2012-05-01T00:00:00"
+      }
+    ],
+    "http://purl.org/vocab/changeset/schema#changeReason": [
+      {
+        "@type": "http://www.w3.org/2001/XMLSchema#string",
+        "@value": "new"
+      }
+    ]
+  },
+  {
+    "@id": "http://id.loc.gov/vocabulary/classSchemes/no-ujur-cmr",
+    "@type": [
+      "http://www.loc.gov/mads/rdf/v1#Authority"
+    ],
+    "http://www.loc.gov/mads/rdf/v1#authoritativeLabel": [
+      {
+        "@value": "Menneskerettighets-klassifikasjon"
+      }
+    ]
+  },
+  {
+    "@id": "http://id.loc.gov/vocabulary/classSchemes/fid",
+    "@type": [
+      "http://www.loc.gov/mads/rdf/v1#Authority"
+    ],
+    "http://www.loc.gov/mads/rdf/v1#authoritativeLabel": [
+      {
+        "@value": "Fachinformationsdienste für die Wissenschaft"
+      }
+    ]
+  },
+  {
+    "@id": "http://id.loc.gov/vocabulary/classSchemes/ddc19",
+    "@type": [
+      "http://www.loc.gov/mads/rdf/v1#Authority"
+    ],
+    "http://www.loc.gov/mads/rdf/v1#authoritativeLabel": [
+      {
+        "@value": "Dewey decimal classification and relative index (Dublin, Ohio: OCLC Online Computer Center), Edition 19"
+      }
+    ]
+  },
+  {
+    "@id": "http://id.loc.gov/vocabulary/classSchemes/egedeklass",
+    "@type": [
+      "http://www.loc.gov/mads/rdf/v1#Authority"
+    ],
+    "http://www.loc.gov/mads/rdf/v1#authoritativeLabel": [
+      {
+        "@value": "Egede-instituttets klassifikasjonsystem"
+      }
+    ]
+  },
+  {
+    "@id": "http://id.loc.gov/vocabulary/classSchemes/nlm",
+    "@type": [
+      "http://www.loc.gov/mads/rdf/v1#Authority"
+    ],
+    "http://www.loc.gov/mads/rdf/v1#authoritativeLabel": [
+      {
+        "@value": "National Library of Medicine classification"
+      }
+    ]
+  },
+  {
+    "@id": "http://id.loc.gov/vocabulary/classSchemes/kktb",
+    "@type": [
+      "http://www.loc.gov/mads/rdf/v1#Authority"
+    ],
+    "http://www.loc.gov/mads/rdf/v1#authoritativeLabel": [
+      {
+        "@value": "Kokuritsu kokkai toshokan bunruihyo = National Diet Library classification"
+      }
+    ]
+  },
+  {
+    "@id": "http://id.loc.gov/vocabulary/classSchemes/sswd",
+    "@type": [
+      "http://www.loc.gov/mads/rdf/v1#Authority"
+    ],
+    "http://www.loc.gov/mads/rdf/v1#authoritativeLabel": [
+      {
+        "@value": "Subject Classes of the Schlagwortnormdatei"
+      }
+    ]
+  },
+  {
+    "@id": "http://id.loc.gov/vocabulary/classSchemes/ddc20",
+    "@type": [
+      "http://www.loc.gov/mads/rdf/v1#Authority"
+    ],
+    "http://www.loc.gov/mads/rdf/v1#authoritativeLabel": [
+      {
+        "@value": "Dewey decimal classification and relative index (Dublin, Ohio: OCLC Online Computer Center), Edition 20"
+      }
+    ]
+  },
+  {
+    "@id": "http://id.loc.gov/vocabulary/classSchemes/usgslcs",
+    "@type": [
+      "http://www.loc.gov/mads/rdf/v1#Authority"
+    ],
+    "http://www.loc.gov/mads/rdf/v1#authoritativeLabel": [
+      {
+        "@value": "U.S. Geological Survey library classification"
+      }
+    ]
+  },
+  {
+    "@id": "http://id.loc.gov/vocabulary/classSchemes/clutscny",
+    "@type": [
+      "http://www.loc.gov/mads/rdf/v1#Authority"
+    ],
+    "http://www.loc.gov/mads/rdf/v1#authoritativeLabel": [
+      {
+        "@value": "Classification of the Library of Union Theological Seminary in the City of New York"
+      }
+    ]
+  },
+  {
+    "@id": "http://id.loc.gov/vocabulary/classSchemes/cslj",
+    "@type": [
+      "http://www.loc.gov/mads/rdf/v1#Authority"
+    ],
+    "http://www.loc.gov/mads/rdf/v1#authoritativeLabel": [
+      {
+        "@value": "Elazar, David H. & Elazar, Daniel J. A classification system for libraries of Judaica"
+      }
+    ]
+  },
+  {
+    "@id": "http://id.loc.gov/vocabulary/classSchemes/anscr",
+    "@type": [
+      "http://www.loc.gov/mads/rdf/v1#Authority"
+    ],
+    "http://www.loc.gov/mads/rdf/v1#authoritativeLabel": [
+      {
+        "@value": "The Alpha-numeric system for classification of recordings"
+      }
+    ]
+  },
+  {
+    "@id": "http://id.loc.gov/vocabulary/classSchemes/finagri",
+    "@type": [
+      "http://www.loc.gov/mads/rdf/v1#Authority"
+    ],
+    "http://www.loc.gov/mads/rdf/v1#authoritativeLabel": [
+      {
+        "@value": "Finagri-luokitus"
+      }
+    ]
+  },
+  {
+    "@id": "http://id.loc.gov/vocabulary/classSchemes/noterlyd",
+    "@type": [
+      "http://www.loc.gov/mads/rdf/v1#Authority"
+    ],
+    "http://www.loc.gov/mads/rdf/v1#authoritativeLabel": [
+      {
+        "@value": "Klassifikasjonssystem for noter og lydopptak = Music classification system (Norges musikkhgskole Biblioteket)"
+      }
+    ]
+  },
+  {
+    "@id": "http://id.loc.gov/vocabulary/classSchemes/agrissc",
+    "@type": [
+      "http://www.loc.gov/mads/rdf/v1#Authority"
+    ],
+    "http://www.loc.gov/mads/rdf/v1#authoritativeLabel": [
+      {
+        "@value": "AGRIS: subject categories"
+      }
+    ]
+  },
+  {
+    "@id": "http://id.loc.gov/vocabulary/classSchemes/siso",
+    "@type": [
+      "http://www.loc.gov/mads/rdf/v1#Authority"
+    ],
+    "http://www.loc.gov/mads/rdf/v1#authoritativeLabel": [
+      {
+        "@value": "Schema voor de Indeling van de Systematische Catalogus in Openbare Bibliotheken"
+      }
+    ]
+  },
+  {
+    "@id": "http://id.loc.gov/vocabulary/classSchemes/ddc2",
+    "@type": [
+      "http://www.loc.gov/mads/rdf/v1#Authority"
+    ],
+    "http://www.loc.gov/mads/rdf/v1#authoritativeLabel": [
+      {
+        "@value": "Dewey decimal classification and relative index (Dublin, Ohio: OCLC Online Computer Center), Edition 2"
+      }
+    ]
+  },
+  {
+    "@id": "http://id.loc.gov/vocabulary/classSchemes/msc",
+    "@type": [
+      "http://www.loc.gov/mads/rdf/v1#Authority"
+    ],
+    "http://www.loc.gov/mads/rdf/v1#authoritativeLabel": [
+      {
+        "@value": "Mathematical subject classification"
+      }
+    ]
+  },
+  {
+    "@id": "http://id.loc.gov/vocabulary/classSchemes/asb",
+    "@type": [
+      "http://www.loc.gov/mads/rdf/v1#Authority"
+    ],
+    "http://www.loc.gov/mads/rdf/v1#authoritativeLabel": [
+      {
+        "@value": "Allgemeine Systematik für ööffentliche Bibliotheken (ASB)"
+      }
+    ]
+  },
+  {
+    "@id": "http://id.loc.gov/vocabulary/classSchemes/frtav",
+    "@type": [
+      "http://www.loc.gov/mads/rdf/v1#Authority"
+    ],
+    "http://www.loc.gov/mads/rdf/v1#authoritativeLabel": [
+      {
+        "@value": "Referentiel du format INTERMAC Bibliographique: Audiovisuel - Matière generale"
+      }
+    ]
+  },
+  {
+    "@id": "http://id.loc.gov/vocabulary/classSchemes/vsiso",
+    "@type": [
+      "http://www.loc.gov/mads/rdf/v1#Authority"
+    ],
+    "http://www.loc.gov/mads/rdf/v1#authoritativeLabel": [
+      {
+        "@value": "Vlaamse SISO [schema voor de indeling van de systematische catalogus in openbare bibliotheken]"
+      }
+    ]
+  },
+  {
+    "@id": "http://id.loc.gov/vocabulary/classSchemes/okdocs",
+    "@type": [
+      "http://www.loc.gov/mads/rdf/v1#Authority"
+    ],
+    "http://www.loc.gov/mads/rdf/v1#authoritativeLabel": [
+      {
+        "@value": "Oklahoma state documents classification and list of Oklahoma state agencies from statehood to the present"
+      }
+    ]
+  },
+  {
+    "@id": "http://id.loc.gov/vocabulary/classSchemes/rugasnti",
+    "@type": [
+      "http://www.loc.gov/mads/rdf/v1#Authority"
+    ],
+    "http://www.loc.gov/mads/rdf/v1#authoritativeLabel": [
+      {
+        "@value": "Rubrikator Gosudarstvennoi avtomatizirovannoi sistemy nauchno-tekhnicheskoi informatsii"
+      }
+    ]
+  },
+  {
+    "@id": "http://id.loc.gov/vocabulary/classSchemes/ddc5",
+    "@type": [
+      "http://www.loc.gov/mads/rdf/v1#Authority"
+    ],
+    "http://www.loc.gov/mads/rdf/v1#authoritativeLabel": [
+      {
+        "@value": "Dewey decimal classification and relative index (Dublin, Ohio: OCLC Online Computer Center), Edition 5"
+      }
+    ]
+  },
+  {
+    "@id": "http://id.loc.gov/vocabulary/classSchemes/farl",
+    "@type": [
+      "http://www.loc.gov/mads/rdf/v1#Authority"
+    ],
+    "http://www.loc.gov/mads/rdf/v1#authoritativeLabel": [
+      {
+        "@value": "Frick Art Reference Library book classification system"
+      }
+    ]
+  },
+  {
+    "@id": "http://id.loc.gov/vocabulary/classSchemes/bar",
+    "@type": [
+      "http://www.loc.gov/mads/rdf/v1#Authority"
+    ],
+    "http://www.loc.gov/mads/rdf/v1#authoritativeLabel": [
+      {
+        "@value": "Barnard, Cyril C. A classification for medical and veterinary libraries"
+      }
+    ]
+  },
+  {
+    "@id": "http://id.loc.gov/vocabulary/classSchemes/nydocs",
+    "@type": [
+      "http://www.loc.gov/mads/rdf/v1#Authority"
+    ],
+    "http://www.loc.gov/mads/rdf/v1#authoritativeLabel": [
+      {
+        "@value": "New York state documents: an introductory manual"
+      }
+    ]
+  },
+  {
+    "@id": "http://id.loc.gov/vocabulary/classSchemes/cutterec",
+    "@type": [
+      "http://www.loc.gov/mads/rdf/v1#Authority"
+    ],
+    "http://www.loc.gov/mads/rdf/v1#authoritativeLabel": [
+      {
+        "@value": "Cutter, Charles Ammi. Expansive classification"
+      }
+    ]
+  },
+  {
+    "@id": "http://id.loc.gov/vocabulary/classSchemes/ekl",
+    "@type": [
+      "http://www.loc.gov/mads/rdf/v1#Authority"
+    ],
+    "http://www.loc.gov/mads/rdf/v1#authoritativeLabel": [
+      {
+        "@value": "Eduskunnan kirjaston luokitus = Library of Parliament Classification"
+      }
+    ]
+  },
+  {
+    "@id": "http://id.loc.gov/vocabulary/classSchemes/rubbks",
+    "@type": [
+      "http://www.loc.gov/mads/rdf/v1#Authority"
+    ],
+    "http://www.loc.gov/mads/rdf/v1#authoritativeLabel": [
+      {
+        "@value": "Bibliotechno-bibliograficheskaíà klassifikatsiíàe: Srednye tablitsy"
+      }
+    ]
+  },
+  {
+    "@id": "http://id.loc.gov/vocabulary/classSchemes/laclaw",
+    "@type": [
+      "http://www.loc.gov/mads/rdf/v1#Authority"
+    ],
+    "http://www.loc.gov/mads/rdf/v1#authoritativeLabel": [
+      {
+        "@value": "Los Angeles County Law Library, class K-Law"
+      }
+    ]
+  },
+  {
+    "@id": "http://id.loc.gov/vocabulary/classSchemes/gadocs",
+    "@type": [
+      "http://www.loc.gov/mads/rdf/v1#Authority"
+    ],
+    "http://www.loc.gov/mads/rdf/v1#authoritativeLabel": [
+      {
+        "@value": "Official publications of the State of Georgia: list of classes with index by name of agency and subject/keyword"
+      }
+    ]
+  },
+  {
+    "@id": "http://id.loc.gov/vocabulary/classSchemes/bisacsh",
+    "@type": [
+      "http://www.loc.gov/mads/rdf/v1#Authority"
+    ],
+    "http://www.loc.gov/mads/rdf/v1#authoritativeLabel": [
+      {
+        "@value": "BISAC Subject Headings"
+      }
+    ]
+  },
+  {
+    "@id": "http://id.loc.gov/vocabulary/classSchemes/ics",
+    "@type": [
+      "http://www.loc.gov/mads/rdf/v1#Authority"
+    ],
+    "http://www.loc.gov/mads/rdf/v1#authoritativeLabel": [
+      {
+        "@value": "International Classification for Standards [PDF: 427 KB]"
+      }
+    ]
+  },
+  {
+    "@id": "http://id.loc.gov/vocabulary/classSchemes/utklklassex",
+    "@type": [
+      "http://www.loc.gov/mads/rdf/v1#Authority"
+    ],
+    "http://www.loc.gov/mads/rdf/v1#authoritativeLabel": [
+      {
+        "@value": "L-klassifikasjon with extensions"
+      }
+    ]
+  },
+  {
+    "@id": "http://id.loc.gov/vocabulary/classSchemes/cadocs",
+    "@type": [
+      "http://www.loc.gov/mads/rdf/v1#Authority"
+    ],
+    "http://www.loc.gov/mads/rdf/v1#authoritativeLabel": [
+      {
+        "@value": "California state agency classification scheme."
+      }
+    ]
+  },
+  {
+    "@id": "http://id.loc.gov/vocabulary/classSchemes/flarch",
+    "@type": [
+      "http://www.loc.gov/mads/rdf/v1#Authority"
+    ],
+    "http://www.loc.gov/mads/rdf/v1#authoritativeLabel": [
+      {
+        "@value": "Florida State Archives arrangement and description procedures manual"
+      }
+    ]
+  },
+  {
+    "@id": "http://id.loc.gov/vocabulary/classSchemes/pim",
+    "@type": [
+      "http://www.loc.gov/mads/rdf/v1#Authority"
+    ],
+    "http://www.loc.gov/mads/rdf/v1#authoritativeLabel": [
+      {
+        "@value": "PIM [Presentatiesysteem Informatieve Media]"
+      }
+    ]
+  },
+  {
+    "@id": "http://id.loc.gov/vocabulary/classSchemes/rubbkm",
+    "@type": [
+      "http://www.loc.gov/mads/rdf/v1#Authority"
+    ],
+    "http://www.loc.gov/mads/rdf/v1#authoritativeLabel": [
+      {
+        "@value": "Tablitsy bibliotechno-bibliograficheskoi klassifikatsii dlíà massovykh bibliotek v 1. t."
+      }
+    ]
+  },
+  {
+    "@id": "http://id.loc.gov/vocabulary/classSchemes/ddc1",
+    "@type": [
+      "http://www.loc.gov/mads/rdf/v1#Authority"
+    ],
+    "http://www.loc.gov/mads/rdf/v1#authoritativeLabel": [
+      {
+        "@value": "Dewey decimal classification and relative index (Dublin, Ohio: OCLC Online Computer Center), Edition 1"
+      }
+    ]
+  },
+  {
+    "@id": "http://id.loc.gov/vocabulary/classSchemes/nvdocs",
+    "@type": [
+      "http://www.loc.gov/mads/rdf/v1#Authority"
+    ],
+    "http://www.loc.gov/mads/rdf/v1#authoritativeLabel": [
+      {
+        "@value": "Nevada state documents"
+      }
+    ]
+  },
+  {
+    "@id": "http://id.loc.gov/vocabulary/classSchemes/wadocs",
+    "@type": [
+      "http://www.loc.gov/mads/rdf/v1#Authority"
+    ],
+    "http://www.loc.gov/mads/rdf/v1#authoritativeLabel": [
+      {
+        "@value": "Washington State Library state documents collection: State documents call number"
+      }
+    ]
+  },
+  {
+    "@id": "_:b738idlocgovvocabularyclassSchemes",
+    "@type": [
+      "http://id.loc.gov/ontologies/RecordInfo#RecordInfo"
+    ],
+    "http://id.loc.gov/ontologies/RecordInfo#recordStatus": [
+      {
+        "@type": "http://www.w3.org/2001/XMLSchema#string",
+        "@value": "new"
+      }
+    ],
+    "http://id.loc.gov/ontologies/RecordInfo#recordChangeDate": [
+      {
+        "@type": "http://www.w3.org/2001/XMLSchema#dateTime",
+        "@value": "2012-05-01T00:00:00"
+      }
+    ],
+    "http://id.loc.gov/ontologies/RecordInfo#recordContentSource": [
+      {
+        "@id": "http://id.loc.gov/vocabulary/organizations/dlcmrc"
+      }
+    ]
+  },
+  {
+    "@id": "http://id.loc.gov/vocabulary/classSchemes/z",
+    "@type": [
+      "http://www.loc.gov/mads/rdf/v1#Authority"
+    ],
+    "http://www.loc.gov/mads/rdf/v1#authoritativeLabel": [
+      {
+        "@value": "Other [used when a source code has not yet been assigned to a classification scheme]"
+      }
+    ]
+  },
+  {
+    "@id": "http://id.loc.gov/vocabulary/classSchemes/nhcp",
+    "@type": [
+      "http://www.loc.gov/mads/rdf/v1#Authority"
+    ],
+    "http://www.loc.gov/mads/rdf/v1#authoritativeLabel": [
+      {
+        "@value": "NH classification for photography [PDF: 208 KB]"
+      }
+    ]
+  },
+  {
+    "@id": "http://id.loc.gov/vocabulary/classSchemes/sddocs",
+    "@type": [
+      "http://www.loc.gov/mads/rdf/v1#Authority"
+    ],
+    "http://www.loc.gov/mads/rdf/v1#authoritativeLabel": [
+      {
+        "@value": "[South Dakota] State documents classification schedule"
+      }
+    ]
+  },
+  {
+    "@id": "http://id.loc.gov/vocabulary/classSchemes/sdnb",
+    "@type": [
+      "http://www.loc.gov/mads/rdf/v1#Authority"
+    ],
+    "http://www.loc.gov/mads/rdf/v1#authoritativeLabel": [
+      {
+        "@value": "Systematik der Deutschen Nationalbibliographie"
+      }
+    ]
+  },
+  {
+    "@id": "http://id.loc.gov/vocabulary/classSchemes/acmccs",
+    "@type": [
+      "http://www.loc.gov/mads/rdf/v1#Authority"
+    ],
+    "http://www.loc.gov/mads/rdf/v1#authoritativeLabel": [
+      {
+        "@value": "ACM Computing Classification System [1998 Version]"
+      }
+    ]
+  },
+  {
+    "@id": "http://id.loc.gov/vocabulary/classSchemes/txdocs",
+    "@type": [
+      "http://www.loc.gov/mads/rdf/v1#Authority"
+    ],
+    "http://www.loc.gov/mads/rdf/v1#authoritativeLabel": [
+      {
+        "@value": "Texas state documents classification & almost compleat [sic] list of Texas state agencies from statehood to the present"
+      }
+    ]
+  },
+  {
+    "@id": "http://id.loc.gov/vocabulary/classSchemes/kfmod",
+    "@type": [
+      "http://www.loc.gov/mads/rdf/v1#Authority"
+    ],
+    "http://www.loc.gov/mads/rdf/v1#authoritativeLabel": [
+      {
+        "@value": "KF classification, modified for use in Canadian law libraries"
+      }
+    ]
+  },
+  {
+    "@id": "http://id.loc.gov/vocabulary/classSchemes/stub",
+    "@type": [
+      "http://www.loc.gov/mads/rdf/v1#Authority"
+    ],
+    "http://www.loc.gov/mads/rdf/v1#authoritativeLabel": [
+      {
+        "@value": "Systematik der TUB München"
+      }
+    ]
+  },
+  {
+    "@id": "http://id.loc.gov/vocabulary/classSchemes/mf-klass",
+    "@type": [
+      "http://www.loc.gov/mads/rdf/v1#Authority"
+    ],
+    "http://www.loc.gov/mads/rdf/v1#authoritativeLabel": [
+      {
+        "@value": "Klassifikasjonssystemet ved Menighetsfakultetes bibliotek"
+      }
+    ]
+  },
+  {
+    "@id": "http://id.loc.gov/vocabulary/classSchemes/rubbkmv",
+    "@type": [
+      "http://www.loc.gov/mads/rdf/v1#Authority"
+    ],
+    "http://www.loc.gov/mads/rdf/v1#authoritativeLabel": [
+      {
+        "@value": "Tablitsy bibliotechno-bibliograficheskoi klassifikatsii dlíà massovykh voennykh bibliotek"
+      }
+    ]
+  },
+  {
+    "@id": "http://id.loc.gov/vocabulary/classSchemes/ddc4",
+    "@type": [
+      "http://www.loc.gov/mads/rdf/v1#Authority"
+    ],
+    "http://www.loc.gov/mads/rdf/v1#authoritativeLabel": [
+      {
+        "@value": "Dewey decimal classification and relative index (Dublin, Ohio: OCLC Online Computer Center), Edition 4"
+      }
+    ]
+  },
+  {
+    "@id": "http://id.loc.gov/vocabulary/classSchemes/suaslc",
+    "@type": [
+      "http://www.loc.gov/mads/rdf/v1#Authority"
+    ],
+    "http://www.loc.gov/mads/rdf/v1#authoritativeLabel": [
+      {
+        "@value": "Seinjoen korkeakoulukirjaston luokitus"
+      }
+    ]
+  },
+  {
+    "@id": "http://id.loc.gov/vocabulary/classSchemes/blsrissc",
+    "@type": [
+      "http://www.loc.gov/mads/rdf/v1#Authority"
+    ],
+    "http://www.loc.gov/mads/rdf/v1#authoritativeLabel": [
+      {
+        "@value": "British Library - Science reference information service subject classification"
+      }
+    ]
+  },
+  {
+    "@id": "http://id.loc.gov/vocabulary/classSchemes/njb",
+    "@type": [
+      "http://www.loc.gov/mads/rdf/v1#Authority"
+    ],
+    "http://www.loc.gov/mads/rdf/v1#authoritativeLabel": [
+      {
+        "@value": "Nihon jisshin bunruihō = Nippon decimal classification"
+      }
+    ]
+  },
+  {
+    "@id": "http://id.loc.gov/vocabulary/classSchemes/no-ureal-cb",
+    "@type": [
+      "http://www.loc.gov/mads/rdf/v1#Authority"
+    ],
+    "http://www.loc.gov/mads/rdf/v1#authoritativeLabel": [
+      {
+        "@value": "Biologisk hylleoppstilling"
+      }
+    ]
+  },
+  {
+    "@id": "http://id.loc.gov/vocabulary/classSchemes/taikclas",
+    "@type": [
+      "http://www.loc.gov/mads/rdf/v1#Authority"
+    ],
+    "http://www.loc.gov/mads/rdf/v1#authoritativeLabel": [
+      {
+        "@value": "Taideteollisen korkeakoulun kirjaston luokitus = University of Art and Design Helsinki Library Classification"
+      }
+    ]
+  },
+  {
+    "@id": "http://id.loc.gov/vocabulary/classSchemes/tykoma",
+    "@type": [
+      "http://www.loc.gov/mads/rdf/v1#Authority"
+    ],
+    "http://www.loc.gov/mads/rdf/v1#authoritativeLabel": [
+      {
+        "@value": "Turun yliopiston kirjaston vanha luokitus"
+      }
+    ]
+  },
+  {
+    "@id": "http://id.loc.gov/vocabulary/classSchemes/fcps",
+    "@type": [
+      "http://www.loc.gov/mads/rdf/v1#Authority"
+    ],
+    "http://www.loc.gov/mads/rdf/v1#authoritativeLabel": [
+      {
+        "@value": "Class FC: a classification for Canadian history, Class PS8000: a classification for Canadian literature"
+      }
+    ]
+  },
+  {
+    "@id": "http://id.loc.gov/vocabulary/classSchemes/ddc23",
+    "@type": [
+      "http://www.loc.gov/mads/rdf/v1#Authority"
+    ],
+    "http://www.loc.gov/mads/rdf/v1#authoritativeLabel": [
+      {
+        "@value": "Dewey decimal classification and relative index (Dublin, Ohio: OCLC Online Computer Center), Edition 23"
+      }
+    ]
+  },
+  {
+    "@id": "http://id.loc.gov/vocabulary/classSchemes/ifzs",
+    "@type": [
+      "http://www.loc.gov/mads/rdf/v1#Authority"
+    ],
+    "http://www.loc.gov/mads/rdf/v1#authoritativeLabel": [
+      {
+        "@value": "Systematik der IfZ-Bibliothek"
+      }
+    ]
+  },
+  {
+    "@id": "http://id.loc.gov/vocabulary/classSchemes/ddc7",
+    "@type": [
+      "http://www.loc.gov/mads/rdf/v1#Authority"
+    ],
+    "http://www.loc.gov/mads/rdf/v1#authoritativeLabel": [
+      {
+        "@value": "Dewey decimal classification and relative index (Dublin, Ohio: OCLC Online Computer Center), Edition 7"
+      }
+    ]
+  },
+  {
+    "@id": "http://id.loc.gov/vocabulary/classSchemes/methepp",
+    "@type": [
+      "http://www.loc.gov/mads/rdf/v1#Authority"
+    ],
+    "http://www.loc.gov/mads/rdf/v1#authoritativeLabel": [
+      {
+        "@value": "Methode Eppelsheimer"
+      }
+    ]
+  },
+  {
+    "@id": "http://id.loc.gov/vocabulary/classSchemes/sfb",
+    "@type": [
+      "http://www.loc.gov/mads/rdf/v1#Authority"
+    ],
+    "http://www.loc.gov/mads/rdf/v1#authoritativeLabel": [
+      {
+        "@value": "SfB: Systematik für Bibliotheken"
+      }
+    ]
+  },
+  {
+    "@id": "http://id.loc.gov/vocabulary/classSchemes/oosk",
+    "@type": [
+      "http://www.loc.gov/mads/rdf/v1#Authority"
+    ],
+    "http://www.loc.gov/mads/rdf/v1#authoritativeLabel": [
+      {
+        "@value": "Oversikt over systematisk katalog"
+      }
+    ]
+  },
+  {
+    "@id": "http://id.loc.gov/vocabulary/classSchemes/jelc",
+    "@type": [
+      "http://www.loc.gov/mads/rdf/v1#Authority"
+    ],
+    "http://www.loc.gov/mads/rdf/v1#authoritativeLabel": [
+      {
+        "@value": "Journal of Economic Literature classification"
+      }
+    ]
+  },
+  {
+    "@id": "http://id.loc.gov/vocabulary/classSchemes/cstud",
+    "@type": [
+      "http://www.loc.gov/mads/rdf/v1#Authority"
+    ],
+    "http://www.loc.gov/mads/rdf/v1#authoritativeLabel": [
+      {
+        "@value": "Classificatieschema's Bibliotheek TU Delft"
+      }
+    ]
+  },
+  {
+    "@id": "http://id.loc.gov/vocabulary/classSchemes/chfbn",
+    "@type": [
+      "http://www.loc.gov/mads/rdf/v1#Authority"
+    ],
+    "http://www.loc.gov/mads/rdf/v1#authoritativeLabel": [
+      {
+        "@value": "Classification de l'Histoire de France"
+      }
+    ]
+  },
+  {
+    "@id": "http://id.loc.gov/vocabulary/classSchemes/mpilcs",
+    "@type": [
+      "http://www.loc.gov/mads/rdf/v1#Authority"
+    ],
+    "http://www.loc.gov/mads/rdf/v1#authoritativeLabel": [
+      {
+        "@value": "MPI Luxembourg Classification System [PDF: 4200 KB]"
+      }
+    ]
+  },
+  {
+    "@id": "http://id.loc.gov/vocabulary/classSchemes/misklass",
+    "@type": [
+      "http://www.loc.gov/mads/rdf/v1#Authority"
+    ],
+    "http://www.loc.gov/mads/rdf/v1#authoritativeLabel": [
+      {
+        "@value": "Klassifikasjonsskjema"
+      }
+    ]
+  },
+  {
+    "@id": "http://id.loc.gov/vocabulary/classSchemes/ddc13",
+    "@type": [
+      "http://www.loc.gov/mads/rdf/v1#Authority"
+    ],
+    "http://www.loc.gov/mads/rdf/v1#authoritativeLabel": [
+      {
+        "@value": "Dewey decimal classification and relative index (Dublin, Ohio: OCLC Online Computer Center), Edition 13"
+      }
+    ]
+  },
+  {
+    "@id": "http://id.loc.gov/vocabulary/classSchemes/padocs",
+    "@type": [
+      "http://www.loc.gov/mads/rdf/v1#Authority"
+    ],
+    "http://www.loc.gov/mads/rdf/v1#authoritativeLabel": [
+      {
+        "@value": "Classification scheme for Pennsylvania state publications"
+      }
+    ]
+  },
+  {
+    "@id": "http://id.loc.gov/vocabulary/classSchemes/rpb",
+    "@type": [
+      "http://www.loc.gov/mads/rdf/v1#Authority"
+    ],
+    "http://www.loc.gov/mads/rdf/v1#authoritativeLabel": [
+      {
+        "@value": "Rheinland-Pfälzische Bibliographie"
+      }
+    ]
+  },
+  {
+    "@id": "http://id.loc.gov/vocabulary/classSchemes/ddc10",
+    "@type": [
+      "http://www.loc.gov/mads/rdf/v1#Authority"
+    ],
+    "http://www.loc.gov/mads/rdf/v1#authoritativeLabel": [
+      {
+        "@value": "Dewey decimal classification and relative index (Dublin, Ohio: OCLC Online Computer Center), Edition 10"
+      }
+    ]
+  },
+  {
+    "@id": "http://id.loc.gov/vocabulary/classSchemes/ddc9",
+    "@type": [
+      "http://www.loc.gov/mads/rdf/v1#Authority"
+    ],
+    "http://www.loc.gov/mads/rdf/v1#authoritativeLabel": [
+      {
+        "@value": "Dewey decimal classification and relative index (Dublin, Ohio: OCLC Online Computer Center), Edition 9"
+      }
+    ]
+  },
+  {
+    "@id": "http://id.loc.gov/vocabulary/classSchemes/zdbs",
+    "@type": [
+      "http://www.loc.gov/mads/rdf/v1#Authority"
+    ],
+    "http://www.loc.gov/mads/rdf/v1#authoritativeLabel": [
+      {
+        "@value": "ZDB-Systematik = ZDB-Classification"
+      }
+    ]
+  },
+  {
+    "@id": "http://id.loc.gov/vocabulary/classSchemes/ladocs",
+    "@type": [
+      "http://www.loc.gov/mads/rdf/v1#Authority"
+    ],
+    "http://www.loc.gov/mads/rdf/v1#authoritativeLabel": [
+      {
+        "@value": "Louisiana documents classification schedule"
+      }
+    ]
+  },
+  {
+    "@id": "http://id.loc.gov/vocabulary/classSchemes/rubbknp",
+    "@type": [
+      "http://www.loc.gov/mads/rdf/v1#Authority"
+    ],
+    "http://www.loc.gov/mads/rdf/v1#authoritativeLabel": [
+      {
+        "@value": "Pereizdanidiíà tablits bibliotechno-bibliograficheskoi klassifikatsii dlíà nauchnykh bibliotek v 30-ti tomakh"
+      }
+    ]
+  },
+  {
+    "@id": "http://id.loc.gov/vocabulary/classSchemes/ccpgq",
+    "@type": [
+      "http://www.loc.gov/mads/rdf/v1#Authority"
+    ],
+    "http://www.loc.gov/mads/rdf/v1#authoritativeLabel": [
+      {
+        "@value": "Cadre de classement des publications gouvernementales du Quábec"
+      }
+    ]
+  },
+  {
+    "@id": "http://id.loc.gov/vocabulary/classSchemes/inspec",
+    "@type": [
+      "http://www.loc.gov/mads/rdf/v1#Authority"
+    ],
+    "http://www.loc.gov/mads/rdf/v1#authoritativeLabel": [
+      {
+        "@value": "INSPEC classification"
+      }
+    ]
+  },
+  {
+    "@id": "http://id.loc.gov/vocabulary/classSchemes/rswk",
+    "@type": [
+      "http://www.loc.gov/mads/rdf/v1#Authority"
+    ],
+    "http://www.loc.gov/mads/rdf/v1#authoritativeLabel": [
+      {
+        "@value": "Regeln für den Schlagwortkatalog"
+      }
+    ]
+  },
+  {
+    "@id": "http://id.loc.gov/vocabulary/classSchemes/codocs",
+    "@type": [
+      "http://www.loc.gov/mads/rdf/v1#Authority"
+    ],
+    "http://www.loc.gov/mads/rdf/v1#authoritativeLabel": [
+      {
+        "@value": "Colorado State Publications Depository and Distribution Center. Classification schedule"
+      }
+    ]
+  },
+  {
+    "@id": "http://id.loc.gov/vocabulary/classSchemes/ddc3",
+    "@type": [
+      "http://www.loc.gov/mads/rdf/v1#Authority"
+    ],
+    "http://www.loc.gov/mads/rdf/v1#authoritativeLabel": [
+      {
+        "@value": "Dewey decimal classification and relative index (Dublin, Ohio: OCLC Online Computer Center), Edition 3"
+      }
+    ]
+  },
+  {
+    "@id": "http://id.loc.gov/vocabulary/classSchemes/nicem",
+    "@type": [
+      "http://www.loc.gov/mads/rdf/v1#Authority"
+    ],
+    "http://www.loc.gov/mads/rdf/v1#authoritativeLabel": [
+      {
+        "@value": "NICEM subject headings and classification system"
+      }
+    ]
+  },
+  {
+    "@id": "http://id.loc.gov/vocabulary/classSchemes/ordocs",
+    "@type": [
+      "http://www.loc.gov/mads/rdf/v1#Authority"
+    ],
+    "http://www.loc.gov/mads/rdf/v1#authoritativeLabel": [
+      {
+        "@value": "OrDocs: history authority list and classification scheme for Oregon state agencies"
+      }
+    ]
+  },
+  {
+    "@id": "http://id.loc.gov/vocabulary/classSchemes/bcmc",
+    "@type": [
+      "http://www.loc.gov/mads/rdf/v1#Authority"
+    ],
+    "http://www.loc.gov/mads/rdf/v1#authoritativeLabel": [
+      {
+        "@value": "Coates, E.J. The British catalogue of music classification"
+      }
+    ]
+  },
+  {
+    "@id": "http://id.loc.gov/vocabulary/classSchemes/no-ureal-ca",
+    "@type": [
+      "http://www.loc.gov/mads/rdf/v1#Authority"
+    ],
+    "http://www.loc.gov/mads/rdf/v1#authoritativeLabel": [
+      {
+        "@value": "Astrofysikk"
+      }
+    ]
+  },
+  {
+    "@id": "http://id.loc.gov/vocabulary/classSchemes/loovs",
+    "@type": [
+      "http://www.loc.gov/mads/rdf/v1#Authority"
+    ],
+    "http://www.loc.gov/mads/rdf/v1#authoritativeLabel": [
+      {
+        "@value": "Løøvs klassifikationssystem"
+      }
+    ]
+  },
+  {
+    "@id": "http://id.loc.gov/vocabulary/classSchemes/ddc6",
+    "@type": [
+      "http://www.loc.gov/mads/rdf/v1#Authority"
+    ],
+    "http://www.loc.gov/mads/rdf/v1#authoritativeLabel": [
+      {
+        "@value": "Dewey decimal classification and relative index (Dublin, Ohio: OCLC Online Computer Center), Edition 6"
+      }
+    ]
+  },
+  {
+    "@id": "http://id.loc.gov/vocabulary/classSchemes/ssd",
+    "@type": [
+      "http://www.loc.gov/mads/rdf/v1#Authority"
+    ],
+    "http://www.loc.gov/mads/rdf/v1#authoritativeLabel": [
+      {
+        "@value": "Systematik: Stadtbücherei Duisburg: Buchaufstellung und Ordnung des systematischen Kataloges"
+      }
+    ]
+  },
+  {
+    "@id": "http://id.loc.gov/vocabulary/classSchemes/pssppbkj",
+    "@type": [
+      "http://www.loc.gov/mads/rdf/v1#Authority"
+    ],
+    "http://www.loc.gov/mads/rdf/v1#authoritativeLabel": [
+      {
+        "@value": "Popis strucnih skupina i svih podskupina s podacima o broju kataloskih jedinica"
+      }
+    ]
+  },
+  {
+    "@id": "http://id.loc.gov/vocabulary/classSchemes/ksdocs",
+    "@type": [
+      "http://www.loc.gov/mads/rdf/v1#Authority"
+    ],
+    "http://www.loc.gov/mads/rdf/v1#authoritativeLabel": [
+      {
+        "@value": "State documents of Kansas: list of classes"
+      }
+    ]
+  },
+  {
+    "@id": "http://id.loc.gov/vocabulary/classSchemes/rilm",
+    "@type": [
+      "http://www.loc.gov/mads/rdf/v1#Authority"
+    ],
+    "http://www.loc.gov/mads/rdf/v1#authoritativeLabel": [
+      {
+        "@value": "RILM classification system"
+      }
+    ]
+  },
+  {
+    "@id": "http://id.loc.gov/vocabulary/classSchemes/gfdc",
+    "@type": [
+      "http://www.loc.gov/mads/rdf/v1#Authority"
+    ],
+    "http://www.loc.gov/mads/rdf/v1#authoritativeLabel": [
+      {
+        "@value": "Global forest decimal classification (Vienna: IUFRO)"
+      }
+    ]
+  },
+  {
+    "@id": "http://id.loc.gov/vocabulary/classSchemes/sudocs",
+    "@type": [
+      "http://www.loc.gov/mads/rdf/v1#Authority"
+    ],
+    "http://www.loc.gov/mads/rdf/v1#authoritativeLabel": [
+      {
+        "@value": "Superintendent of Documents classification system"
+      }
+    ]
+  },
+  {
+    "@id": "http://id.loc.gov/vocabulary/classSchemes/ssgn",
+    "@type": [
+      "http://www.loc.gov/mads/rdf/v1#Authority"
+    ],
+    "http://www.loc.gov/mads/rdf/v1#authoritativeLabel": [
+      {
+        "@value": "Sondersammelgebiets-Nummer"
+      }
+    ]
+  },
+  {
+    "@id": "http://id.loc.gov/vocabulary/classSchemes/iadocs",
+    "@type": [
+      "http://www.loc.gov/mads/rdf/v1#Authority"
+    ],
+    "http://www.loc.gov/mads/rdf/v1#authoritativeLabel": [
+      {
+        "@value": "Classification of Iowa state documents"
+      }
+    ]
+  },
+  {
+    "@id": "http://id.loc.gov/vocabulary/classSchemes/taykl",
+    "@type": [
+      "http://www.loc.gov/mads/rdf/v1#Authority"
+    ],
+    "http://www.loc.gov/mads/rdf/v1#authoritativeLabel": [
+      {
+        "@value": "Tampereen yliopiston kirjaston luokitus: Systemaattinen osa & Aakkosellinen osa"
+      }
+    ]
+  },
+  {
+    "@id": "http://id.loc.gov/vocabulary/classSchemes/veera",
+    "@type": [
+      "http://www.loc.gov/mads/rdf/v1#Authority"
+    ],
+    "http://www.loc.gov/mads/rdf/v1#authoritativeLabel": [
+      {
+        "@value": "VEERA-luokitus = VEERA-классификация"
+      }
+    ]
+  },
+  {
+    "@id": "http://id.loc.gov/vocabulary/classSchemes/ddc12",
+    "@type": [
+      "http://www.loc.gov/mads/rdf/v1#Authority"
+    ],
+    "http://www.loc.gov/mads/rdf/v1#authoritativeLabel": [
+      {
+        "@value": "Dewey decimal classification and relative index (Dublin, Ohio: OCLC Online Computer Center), Edition 12"
+      }
+    ]
+  },
+  {
+    "@id": "http://id.loc.gov/vocabulary/classSchemes/midocs",
+    "@type": [
+      "http://www.loc.gov/mads/rdf/v1#Authority"
+    ],
+    "http://www.loc.gov/mads/rdf/v1#authoritativeLabel": [
+      {
+        "@value": "Michigan documents classification scheme"
+      }
+    ]
+  },
+  {
+    "@id": "http://id.loc.gov/vocabulary/classSchemes/ghbs",
+    "@type": [
+      "http://www.loc.gov/mads/rdf/v1#Authority"
+    ],
+    "http://www.loc.gov/mads/rdf/v1#authoritativeLabel": [
+      {
+        "@value": "GHB-Aufstellungssystematik: HBZ Köln"
+      }
+    ]
+  },
+  {
+    "@id": "http://id.loc.gov/vocabulary/classSchemes/no-ureal-cg",
+    "@type": [
+      "http://www.loc.gov/mads/rdf/v1#Authority"
+    ],
+    "http://www.loc.gov/mads/rdf/v1#authoritativeLabel": [
+      {
+        "@value": "Geofysikk oppstillingssystem"
+      }
+    ]
+  },
+  {
+    "@id": "http://id.loc.gov/vocabulary/classSchemes/rubbkd",
+    "@type": [
+      "http://www.loc.gov/mads/rdf/v1#Authority"
+    ],
+    "http://www.loc.gov/mads/rdf/v1#authoritativeLabel": [
+      {
+        "@value": "Tablitsy bibliotechno-bibliograficheskoi klassifikatsii dlíà detskikh bibliotek v 1 t."
+      }
+    ]
+  },
+  {
+    "@id": "http://id.loc.gov/vocabulary/classSchemes/ddc15",
+    "@type": [
+      "http://www.loc.gov/mads/rdf/v1#Authority"
+    ],
+    "http://www.loc.gov/mads/rdf/v1#authoritativeLabel": [
+      {
+        "@value": "Dewey decimal classification and relative index (Dublin, Ohio: OCLC Online Computer Center), Edition 15"
+      }
+    ]
+  },
+  {
+    "@id": "http://id.loc.gov/vocabulary/classSchemes/nasasscg",
+    "@type": [
+      "http://www.loc.gov/mads/rdf/v1#Authority"
+    ],
+    "http://www.loc.gov/mads/rdf/v1#authoritativeLabel": [
+      {
+        "@value": "NASA scope and subject category guide"
+      }
+    ]
+  },
+  {
+    "@id": "http://id.loc.gov/vocabulary/classSchemes/farma",
+    "@type": [
+      "http://www.loc.gov/mads/rdf/v1#Authority"
+    ],
+    "http://www.loc.gov/mads/rdf/v1#authoritativeLabel": [
+      {
+        "@value": "Oversigt over systematisk catalog"
+      }
+    ]
+  },
+  {
+    "@id": "http://id.loc.gov/vocabulary/classSchemes/bliss",
+    "@type": [
+      "http://www.loc.gov/mads/rdf/v1#Authority"
+    ],
+    "http://www.loc.gov/mads/rdf/v1#authoritativeLabel": [
+      {
+        "@value": "BLISS bibliographic classification"
+      }
+    ]
+  },
+  {
+    "@id": "http://id.loc.gov/vocabulary/classSchemes/nbdocs",
+    "@type": [
+      "http://www.loc.gov/mads/rdf/v1#Authority"
+    ],
+    "http://www.loc.gov/mads/rdf/v1#authoritativeLabel": [
+      {
+        "@value": "Guide to Nebraska state agencies: state publications classification and ordering directory"
+      }
+    ]
+  },
+  {
+    "@id": "http://id.loc.gov/vocabulary/classSchemes/sbb",
+    "@type": [
+      "http://www.loc.gov/mads/rdf/v1#Authority"
+    ],
+    "http://www.loc.gov/mads/rdf/v1#authoritativeLabel": [
+      {
+        "@value": "Systematik der Bayerischen Bibliographie"
+      }
+    ]
+  },
+  {
+    "@id": "http://id.loc.gov/vocabulary/classSchemes/nmdocs",
+    "@type": [
+      "http://www.loc.gov/mads/rdf/v1#Authority"
+    ],
+    "http://www.loc.gov/mads/rdf/v1#authoritativeLabel": [
+      {
+        "@value": "The New Mexico state documents classification system"
+      }
+    ]
+  },
+  {
+    "@id": "http://id.loc.gov/vocabulary/classSchemes/cddir",
+    "@type": [
+      "http://www.loc.gov/mads/rdf/v1#Authority"
+    ],
+    "http://www.loc.gov/mads/rdf/v1#authoritativeLabel": [
+      {
+        "@value": "Classifiação Decimal de Direito"
+      }
+    ]
+  },
+  {
+    "@id": "http://id.loc.gov/vocabulary/classSchemes/dopaed",
+    "@type": [
+      "http://www.loc.gov/mads/rdf/v1#Authority"
+    ],
+    "http://www.loc.gov/mads/rdf/v1#authoritativeLabel": [
+      {
+        "@value": "DOPAED der UB Erlangen"
+      }
+    ]
+  },
+  {
+    "@id": "http://id.loc.gov/vocabulary/classSchemes/ddc21",
+    "@type": [
+      "http://www.loc.gov/mads/rdf/v1#Authority"
+    ],
+    "http://www.loc.gov/mads/rdf/v1#authoritativeLabel": [
+      {
+        "@value": "Dewey decimal classification and relative index (Dublin, Ohio: OCLC Online Computer Center), Edition 21"
+      }
+    ]
+  },
+  {
+    "@id": "http://id.loc.gov/vocabulary/classSchemes/uef",
+    "@type": [
+      "http://www.loc.gov/mads/rdf/v1#Authority"
+    ],
+    "http://www.loc.gov/mads/rdf/v1#authoritativeLabel": [
+      {
+        "@value": "Itä-Suomen yliopiston kokoelmaluokitus = Collection classification of The University of Eastern Finland"
+      }
+    ]
+  },
+  {
+    "@id": "http://id.loc.gov/vocabulary/classSchemes/upsylon",
+    "@type": [
+      "http://www.loc.gov/mads/rdf/v1#Authority"
+    ],
+    "http://www.loc.gov/mads/rdf/v1#authoritativeLabel": [
+      {
+        "@value": "UPSYLON: classification systématique de la Bibliothèque de la Faculté de psychologie et des sciences de l'éducation de l'Université catholique de Louvain"
+      }
+    ]
+  },
+  {
+    "@id": "http://id.loc.gov/vocabulary/classSchemes/ddc18",
+    "@type": [
+      "http://www.loc.gov/mads/rdf/v1#Authority"
+    ],
+    "http://www.loc.gov/mads/rdf/v1#authoritativeLabel": [
+      {
+        "@value": "Dewey decimal classification and relative index (Dublin, Ohio: OCLC Online Computer Center), Edition 18"
+      }
+    ]
+  },
+  {
+    "@id": "http://id.loc.gov/vocabulary/classSchemes/utdocs",
+    "@type": [
+      "http://www.loc.gov/mads/rdf/v1#Authority"
+    ],
+    "http://www.loc.gov/mads/rdf/v1#authoritativeLabel": [
+      {
+        "@value": "Utah documents classification schedules"
+      }
+    ]
+  }
+]

@@ -42,7 +42,7 @@ module.exports = {
   rules: {
     "jsx-a11y/anchor-is-valid": "warn", // see #172
     "jsx-a11y/label-has-for": "warn", // see #173
-    "no-console": "warn",
+    "no-console": ["warn", { allow: ["info", "log"] }], //for development purposes
     "no-extra-semi": "off", // because it isn't that important
     "react/prop-types": "warn" // see #175
   },

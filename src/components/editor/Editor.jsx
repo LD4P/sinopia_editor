@@ -14,7 +14,12 @@ class Editor extends Component {
     //  Selecting a resource template will happen in the left-nav "Starting Points" menu,
     //   another child of the Editor component;  it will set state.resourceTemplateId
     const defaultRtId = 'resourceTemplate:bf2:Monograph:Instance'
-    this.state = { resourceTemplateId: defaultRtId}
+    this.state = {resourceTemplateId: defaultRtId}
+  }
+
+  //resource templates are set via StartingPoints and passed to ResourceTemplate
+  setResourceTemplates = (content) => {
+    this.setState({resourceTemplateData: content})
   }
 
   render() {
@@ -23,8 +28,11 @@ class Editor extends Component {
         <Header triggerEditorMenu={this.props.triggerHandleOffsetMenu}/>
         <h1> Editor Page </h1>
         <p>The selected resource template is <strong>{this.state.resourceTemplateId}</strong></p>
-        <StartingPoints/>
-        <ResourceTemplate resourceTemplateId = {this.state.resourceTemplateId} />
+        <StartingPoints setResourceTemplateCallback={this.setResourceTemplates}/>
+        <ResourceTemplate
+          resourceTemplateId = {this.state.resourceTemplateId}
+          resourceTemplateData = {this.state.resourceTemplateData}
+        />
       </div>
     )
   }

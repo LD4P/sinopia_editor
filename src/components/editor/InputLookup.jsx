@@ -9,25 +9,36 @@ class InputLookup extends Component {
   constructor(props) {
     super(props)
     this.state = {
-      isLoading: true
+      isLoading: false
     }
   }
 
   render() {
-    const lookup_url = this.props.propertyTemplate.valueConstraint.useValuesFrom[0]
-    const isRequired = JSON.parse(this.props.propertyTemplate.mandatory)
-    const isRepeatable = JSON.parse(this.props.propertyTemplate.repeatable)
+    let lookup_url, isMandatory, isRepeatable
+    try {
+      lookup_url = this.props.propertyTemplate.valueConstraint.useValuesFrom[0]
+      isMandatory = JSON.parse(this.props.propertyTemplate.mandatory)
+      isRepeatable = JSON.parse(this.props.propertyTemplate.repeatable)
+    } catch (error) {
+      console.log(`Some properties were not defined in the json file: ${error}`)
+    }
+
+    var typeaheadProps = {
+      id: "lookupComponent",
+      required: isMandatory,
+      multiple: isRepeatable,
+      placeholder: this.props.propertyTemplate.propertyLabel,
+      useCache: true,
+      isLoading: this.state.isLoading,
+      options: this.state.options,
+      selected: this.state.selected,
+      delay: 300
+    }
 
     return (
       <div>
         <label htmlFor="lookupComponent">{this.props.propertyTemplate.propertyLabel}
         <AsyncTypeahead
-          id="lookupComponent"
-          required={isRequired}
-          multiple={isRepeatable}
-          placeholder={this.props.propertyTemplate.propertyLabel}
-          useCache={true}
-          isLoading={this.state.isLoading}
           onSearch={query => {
             this.setState({isLoading: true});
             //TODO: this fetch function will be replaced with a swagger API call function (#197):
@@ -42,8 +53,7 @@ class InputLookup extends Component {
             this.setState({selected})
             }
           }
-          options={this.state.options}
-          selected={this.state.selected}
+          {...typeaheadProps}
         />
         </label>
       </div>
