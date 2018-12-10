@@ -3,7 +3,6 @@ const path = require('path');
 const webpack = require('webpack');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 
-
 module.exports = {
   entry: './src/index.js',
   module: {
@@ -22,6 +21,10 @@ module.exports = {
         use: [
           'file-loader'
         ]
+      },
+      {
+        test: /qa_api\/.*\.js$/,
+        use: 'imports-loader?define=>false'
       }
     ]
   },
