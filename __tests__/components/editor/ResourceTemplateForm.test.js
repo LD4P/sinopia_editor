@@ -15,7 +15,10 @@ const rtProps = {
     },
     {
       "propertyLabel": "Look up, look down",
-      "type": "lookup"
+      "type": "lookup",
+      "editable": "do not override me!",
+      "repeatable": "do not override me!",
+      "mandatory": "do not override me!"
     },
     {
       "propertyLabel": "What's the frequency Kenneth?",
@@ -95,5 +98,20 @@ describe('<ResourceTemplateForm />', () => {
 
   it('<form> does not contain redundant form attribute', () => {
     expect(wrapper.find('form[role="form"]').length).toEqual(0)
+  })
+
+  it('sets mandatory, editable and repeatable to the default values, if they are not specified', () => {
+    wrapper.instance().defaultValues()
+    wrapper.instance().forceUpdate()
+    expect(rtProps.propertyTemplates[0].mandatory).toBe("true")
+    expect(rtProps.propertyTemplates[0].repeatable).toBe("false")
+    expect(rtProps.propertyTemplates[0].editable).toBe("true")
+  })
+  it('does not override "mandatory", "repeatable", or "editable" that has already been specified', () => {
+    wrapper.instance().defaultValues()
+    wrapper.instance().forceUpdate()
+    expect(rtProps.propertyTemplates[1].mandatory).toBe("do not override me!")
+    expect(rtProps.propertyTemplates[1].repeatable).toBe("do not override me!")
+    expect(rtProps.propertyTemplates[1].editable).toBe("do not override me!")
   })
 })
