@@ -19,8 +19,7 @@ class InputLiteral extends Component {
     this.defaultLiteralValue = this.defaultLiteralValue.bind(this)
 
     this.state = {
-      content_add: "",
-      myItems: []
+      content_add: ""
     }
     this.lastId = -1
     this.defaultLiteralValue()
@@ -52,7 +51,7 @@ class InputLiteral extends Component {
 
   handleKeypress(event) {
     if (event.key == "Enter") {
-      var userInputArray = this.state.myItems
+      var userInputArray = []
       var currentcontent = this.state.content_add.trim()
       if (!currentcontent) {
         return
@@ -70,9 +69,13 @@ class InputLiteral extends Component {
           this.noRepeatableNoMandatory(userInputArray, currentcontent)
         }
       }
+      const user_input = {
+        id: this.props.propertyTemplate.propertyLabel,
+        items: userInputArray
+      }
+      this.props.handleMyItemsChange(user_input)
       this.setState({
-        myItems: userInputArray,
-        content_add: "",
+        content_add: ""
       })
       event.preventDefault()
     }
@@ -99,40 +102,43 @@ class InputLiteral extends Component {
   }
 
   makeAddedList() {
-    const elements = this.state.myItems.map((listitem) => (
-      <div
-        key={listitem.id}
-      >
-        {listitem.content}
-      
+    const elements = this.props.formData.map((obj) => {
+      console.warn(obj)
+      if (obj.id === "LITERAL WITH DEFAULT"){
+        <div
+          key={obj.id}
+        >
+        {console.log(obj.items)}
+        {obj.items[0].content[0]}
+        
         <button
           id="displayedItem"
           type="button"
           onClick={this.handleClick}
-          key={listitem.id}
-          data-item={listitem.id}
+          // key={listitem.id}
+          // data-item={listitem.id}
           >X
-        </button>
-      </div>
-
-    ))
+       </button>
+        </div>
+      }
+    })
     return elements
   }
 
-  defaultLiteralValue() {
-    const valConstraint = this.props.propertyTemplate.valueConstraint
-    if (valConstraint == undefined || valConstraint == "") return
+  // defaultLiteralValue() {
+  //   const valConstraint = this.props.propertyTemplate.valueConstraint
+  //   if (valConstraint == undefined || valConstraint == "") return
 
-    let defvalues
-    try{
-      defvalues = valConstraint.defaults[0]
-    } catch (error) {
-      console.info("valConstraint.defaults is empty in profile")
-    }
+  //   let defvalues
+  //   try{
+  //     defvalues = valConstraint.defaults[0]
+  //   } catch (error) {
+  //     console.info("valConstraint.defaults is empty in profile")
+  //   }
 
-    if (defvalues == undefined) return
-    this.state.myItems.push({content: defvalues.defaultLiteral, id: ++this.lastId})
-  }
+  //   if (defvalues == undefined) return
+  //   this.state.myItems.push({content: defvalues.defaultLiteral, id: ++this.lastId})
+  // }
 
   render() {
     return (
@@ -167,4 +173,16 @@ InputLiteral.propTypes = {
   }).isRequired
 }
 
-export default InputLiteral;
+const mapStatetoProps = (state) => {
+  return {
+    formData: state.formData
+  }
+}
+
+const mapDispatchtoProps = dispatch => ({
+  handleMyItemsChange(user_input){
+    dispatch(setItems(user_input))
+  }
+})
+
+export default connect(mapStatetoProps, mapDispatchtoProps)(InputLiteral);

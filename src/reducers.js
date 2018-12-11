@@ -25,9 +25,9 @@ const setMyItems = (state, action) => {
   }
 
   if (needNewItemArray) {
-      console.log("action.payload", action.payload)
       newFormData.push(action.payload)
   }
+  console.log("formdata", newFormData)
   return {formData: newFormData}
 }
 
