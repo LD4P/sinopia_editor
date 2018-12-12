@@ -1,5 +1,3 @@
-import { SET_ITEMS } from './actions'
-
 const DEFAULT_STATE = {
   formData: [
     {
@@ -31,14 +29,13 @@ const setMyItems = (state, action) => {
   return {formData: newFormData}
 }
 
-
-const rootReducer = (state = DEFAULT_STATE, action) => {
+const literal = (state=DEFAULT_STATE, action) => {
   switch(action.type) {
-    case SET_ITEMS:
-      return setMyItems(state, action)
+    case 'SET_ITEMS':
+      return setMyItems(state,action)
     default:
       return state
   }
 }
 
-export default rootReducer
+export default literal

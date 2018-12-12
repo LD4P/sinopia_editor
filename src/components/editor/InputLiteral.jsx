@@ -3,7 +3,7 @@
 import React, {Component} from 'react'
 import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
-import { setItems } from '../../actionCreators'
+import { setItems, showItems } from '../../actions/index'
 
 class InputLiteral extends Component {
 
@@ -102,26 +102,26 @@ class InputLiteral extends Component {
   }
 
   makeAddedList() {
-    const elements = this.props.formData.map((obj) => {
-      console.warn(obj)
-      if (obj.id === "LITERAL WITH DEFAULT"){
-        <div
-          key={obj.id}
-        >
-        {console.log(obj.items)}
-        {obj.items[0].content[0]}
-        
-        <button
-          id="displayedItem"
-          type="button"
-          onClick={this.handleClick}
-          // key={listitem.id}
-          // data-item={listitem.id}
-          >X
-       </button>
-        </div>
-      }
-    })
+    let temp = this.props.formData
+      if (temp == undefined) return
+      const elements = temp.items.map((obj) => {
+        console.log(obj.content)
+        return <div
+                key = {obj.id}
+                  > 
+                  {obj.content}
+
+                  <button
+                    id="displayedItem"
+                    type="button"
+                    onClick={this.handleClick}
+                    key={obj.id}
+                    data-item={obj.id}
+                          >X
+                  </button>
+                </div>
+      })
+    
     return elements
   }
 
@@ -173,9 +173,9 @@ InputLiteral.propTypes = {
   }).isRequired
 }
 
-const mapStatetoProps = (state) => {
+const mapStatetoProps = (state, props) => {
   return {
-    formData: state.formData
+    formData: state.formData.find(obj => obj.id === props.propertyTemplate.propertyLabel)
   }
 }
 
