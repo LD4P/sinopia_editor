@@ -5,7 +5,9 @@ import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
 import { setItems, showItems } from '../../actions/index'
 
-class InputLiteral extends Component {
+
+// Redux recommends exporting the unconnected component for unit tests.
+export class InputLiteral extends Component {
 
   constructor(props) {
     super(props)
@@ -13,8 +15,7 @@ class InputLiteral extends Component {
     this.handleKeypress = this.handleKeypress.bind(this)
     this.handleClick = this.handleClick.bind(this)
     this.checkMandatoryRepeatable = this.checkMandatoryRepeatable.bind(this)
-    this.noRepeatableNoMandatory = this.noRepeatableNoMandatory.bind(this)
-    this.noRepeatableYesMandatory = this.noRepeatableYesMandatory.bind(this)
+    this.notRepeatable = this.notRepeatable.bind(this)
     this.addUserInput = this.addUserInput.bind(this)
     this.state = {
       content_add: ""
@@ -27,14 +28,8 @@ class InputLiteral extends Component {
     this.setState({ content_add: usr_input })
   }
 
-  noRepeatableYesMandatory(userInputArray, currentcontent) {
-    if (userInputArray.length == 0) {
-      this.addUserInput(userInputArray, currentcontent)
-    }
-  }
-
-  noRepeatableNoMandatory(userInputArray, currentcontent) {
-    if (userInputArray.length < 1) {
+  notRepeatable(userInputArray,currentcontent){
+    if (this.props.formData == undefined){
       this.addUserInput(userInputArray, currentcontent)
     }
   }
@@ -58,13 +53,7 @@ class InputLiteral extends Component {
         this.addUserInput(userInputArray, currentcontent)
       /** Input field is not repeatable **/
       } else if (this.props.propertyTemplate.repeatable == "false") {
-       /** Mandatory true, means array must have only 1 item in the array **/ 
-        if (this.props.propertyTemplate.mandatory == "true") {
-          this.noRepeatableYesMandatory(userInputArray, currentcontent)
-        /** Mandatory is false, or not defined. Array can have either 0 or 1 item in array. **/
-        } else {
-          this.noRepeatableNoMandatory(userInputArray, currentcontent)
-        }
+        this.notRepeatable(userInputArray, currentcontent)
       }
       const user_input = {
         id: this.props.propertyTemplate.propertyLabel,
@@ -86,7 +75,9 @@ class InputLiteral extends Component {
   
   checkMandatoryRepeatable() {
      if (this.props.propertyTemplate.mandatory == "true") {
-      if (this.makeAddedList().length > 0) {
+      if (this.props.formData == undefined) return true
+      const inputLength = (this.props.formData.items).length
+      if (inputLength > 0) {
         return false
       } 
       else {
@@ -102,7 +93,6 @@ class InputLiteral extends Component {
     let temp = this.props.formData
       if (temp == undefined) return
       const elements = temp.items.map((obj) => {
-        console.log(obj.content)
         return <div
                 key = {obj.id}
                   > 
