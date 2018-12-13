@@ -26,7 +26,7 @@ const plProps = {
 }
 
 describe('<InputList />', () => {
-  const wrapper = shallow(<InputResource {...plProps} />)
+  const wrapper = shallow(<InputList {...plProps} />)
 
   it('contains a label with the value of propertyLabel', () => {
     expect(wrapper.find('label').text()).toMatch('Frequency (RDA 2.14)')
