@@ -109,7 +109,7 @@
       "valueConstraint": {
         "valueTemplateRefs": [],
         "useValuesFrom": [
-          "./static/spoofedFilesFromServer/fromQA/carriers.json"
+          "http://id.loc.gov/vocabulary/carriers"
         ],
         "valueDataType": {
           "dataTypeURI": "http://id.loc.gov/ontologies/bibframe/Carrier"
@@ -191,7 +191,7 @@
       "valueConstraint": {
         "valueTemplateRefs": [],
         "useValuesFrom": [
-          "./static/spoofedFilesFromServer/fromQA/frequencies.json"
+          "http://id.loc.gov/vocabulary/frequencies"
         ],
         "valueDataType": {
           "dataTypeURI": "http://id.loc.gov/ontologies/bibframe/Frequency"
