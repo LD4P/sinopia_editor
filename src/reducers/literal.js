@@ -1,13 +1,5 @@
 const DEFAULT_STATE = {
-  formData: [
-    {
-      id: "Statement of Responsibility Relating to Title Proper (RDA 2.4.2)",
-      items: [
-        {content:"food", id: 10},
-        {content:"bar", id: 11}
-      ]
-    }
-  ]
+  formData: []
 }
 
 const setMyItems = (state, action) => {
