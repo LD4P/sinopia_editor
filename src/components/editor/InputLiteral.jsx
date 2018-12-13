@@ -3,7 +3,7 @@
 import React, {Component} from 'react'
 import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
-import { setItems, showItems } from '../../actions/index'
+import { setItems } from '../../actions/index'
 
 
 // Redux recommends exporting the unconnected component for unit tests.
