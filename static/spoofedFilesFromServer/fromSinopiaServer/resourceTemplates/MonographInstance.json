@@ -170,7 +170,7 @@
       "valueConstraint": {
         "valueTemplateRefs": [],
         "useValuesFrom": [
-          "https://lookup.ld4l.org/authorities/search/linked_data/locnames_ld4l_cache/person"
+          "locnames_ld4l_cache:person"
         ],
         "valueDataType": {
           "dataTypeURI": "http://id.loc.gov/ontologies/bibframe/Agent"

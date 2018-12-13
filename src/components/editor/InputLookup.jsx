@@ -2,6 +2,7 @@
 import React, {Component} from 'react'
 import {asyncContainer, Typeahead} from 'react-bootstrap-typeahead'
 import PropTypes from 'prop-types'
+import Swagger from 'swagger-client'
 
 const AsyncTypeahead = asyncContainer(Typeahead)
 
@@ -14,17 +15,19 @@ class InputLookup extends Component {
   }
 
   render() {
-    let lookup_url, isMandatory, isRepeatable
+    let isMandatory, isRepeatable, authority, vocab, subauthority, language
     try {
-      lookup_url = this.props.propertyTemplate.valueConstraint.useValuesFrom[0]
       isMandatory = JSON.parse(this.props.propertyTemplate.mandatory)
       isRepeatable = JSON.parse(this.props.propertyTemplate.repeatable)
+      authority = this.props.propertyTemplate.valueConstraint.useValuesFrom[0]
+      vocab = authority.split(':')[0]
+      subauthority = authority.split(':')[1]
+      language = authority.split(':')[2]
     } catch (error) {
-      console.log(`Some properties were not defined in the json file: ${error}`)
+      console.log(`Problem with properties fetched from resource template: ${error}`)
     }
 
-    var typeaheadProps = {
-      id: "lookupComponent",
+    const typeaheadProps = {
       required: isMandatory,
       multiple: isRepeatable,
       placeholder: this.props.propertyTemplate.propertyLabel,
@@ -38,16 +41,25 @@ class InputLookup extends Component {
     return (
       <div>
         <label htmlFor="lookupComponent">{this.props.propertyTemplate.propertyLabel}
-        <AsyncTypeahead
+        <AsyncTypeahead id="lookupComponent"
           onSearch={query => {
             this.setState({isLoading: true});
-            //TODO: this fetch function will be replaced with a swagger API call function (#197):
-            fetch(`${lookup_url}?q=${query}&maxRecords=6`)
-              .then(resp => resp.json())
-              .then(json => this.setState({
+            Swagger({ url: "src/lib/apidoc.json" }).then((client) => {
+              client
+                .apis
+                .SearchQuery
+                .GET_searchAuthority({
+                  q: query,
+                  vocab: vocab,
+                  subauthority: subauthority,
+                  maxRecords: 8,
+                  lang: language
+                })
+                .then(response => this.setState({
                 isLoading: false,
-                options: json
+                options: response.body
               }))
+            })
           }}
           onChange={selected => {
             this.setState({selected})
