@@ -1,7 +1,7 @@
 // Copyright 2018 Stanford University see Apache2.txt for license
 import React from 'react'
 import { shallow } from 'enzyme'
-import InputResource from '../../../src/components/editor/InputResource'
+import InputList from '../../../src/components/editor/InputList'
 
 const plProps = {
   "propertyTemplate":
@@ -25,7 +25,7 @@ const plProps = {
     }
 }
 
-describe('<InputResource />', () => {
+describe('<InputList />', () => {
   const wrapper = shallow(<InputResource {...plProps} />)
 
   it('contains a label with the value of propertyLabel', () => {
