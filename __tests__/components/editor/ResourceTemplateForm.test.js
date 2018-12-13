@@ -70,7 +70,7 @@ describe('<ResourceTemplateForm />', () => {
 
   it('renders InputResource nested component (b/c we have a property of type "resource" with a "useValuesFrom" value)', () => {
     expect(wrapper
-      .find('div.ResourceTemplateForm InputResource').length)
+      .find('div.ResourceTemplateForm InputList').length)
       .toEqual(1)
   })
 

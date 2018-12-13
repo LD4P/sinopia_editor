@@ -5,7 +5,7 @@ import PropTypes from 'prop-types'
 import ButtonGroup from 'react-bootstrap/lib/ButtonGroup'
 import ButtonToolbar from 'react-bootstrap/lib/ButtonToolbar'
 import InputLiteral from './InputLiteral'
-import InputResource from './InputResource'
+import InputList from './InputList'
 import InputLookup from './InputLookup'
 import ModalToggle from './ModalToggle'
 const { getResourceTemplate } = require('../../sinopiaServerSpoof.js')
@@ -80,7 +80,7 @@ class ResourceTemplateForm extends Component {
                       )
                     } else if (pt.valueConstraint.useValuesFrom[0] != null && pt.valueConstraint.useValuesFrom.length > 0) {
                       return (
-                        <InputResource propertyTemplate = {pt} key = {index} />
+                        <InputList propertyTemplate = {pt} key = {index} />
                       )
                     } else {
                       return (<p key={index}><b>{pt.propertyLabel}</b>: <i>NON-modal resource</i></p>)

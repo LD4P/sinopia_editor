@@ -4,7 +4,8 @@ import React, {Component} from 'react';
 import {Typeahead} from 'react-bootstrap-typeahead'
 import PropTypes from 'prop-types'
 
-class InputResource extends Component {
+class
+  InputList extends Component {
   constructor(props) {
     super(props)
     this.state = {
@@ -44,13 +45,15 @@ class InputResource extends Component {
         <Typeahead
           onFocus={() => {
             this.setState({isLoading: true});
-            //TODO: this fetch function will be replaced with a swagger API call function (#197):
             fetch(`${target_url}`)
               .then(resp => resp.json())
               .then(json => this.setState({
                 isLoading: false,
                 options: json
               }))
+          }}
+          onBlur={() => {
+            this.setState({isLoading: false});
           }}
           onChange={selected => {
             this.setState({selected})
@@ -64,7 +67,7 @@ class InputResource extends Component {
   }
 }
 
-InputResource.propTypes = {
+InputList.propTypes = {
   propertyTemplate: PropTypes.shape({
     propertyLabel: PropTypes.string,
     mandatory: PropTypes.oneOfType([ PropTypes.string, PropTypes.bool]),
@@ -75,4 +78,4 @@ InputResource.propTypes = {
   }).isRequired
 }
 
-export default InputResource
+export default InputList
