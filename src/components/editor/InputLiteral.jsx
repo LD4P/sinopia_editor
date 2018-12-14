@@ -3,7 +3,8 @@
 import React, {Component} from 'react'
 import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
-import { setItems } from '../../actions/index'
+import { setItems, removeItem } from '../../actions/index'
+
 
 
 // Redux recommends exporting the unconnected component for unit tests.
@@ -68,9 +69,15 @@ export class InputLiteral extends Component {
   }
 
   handleClick(event) {
+    // console.warn(event.target.dataset["label"])
+    // console.log(event.target.dataset["item"])
+    const labelToRemove = event.target.dataset["label"]
     const idToRemove = Number(event.target.dataset["item"])
-    const userInputArray = this.state.myItems.filter((listitem) => {return listitem.id !== idToRemove})
-    this.setState({ myItems: userInputArray })
+
+    this.props.handleRemoveItem(
+    {
+      id: idToRemove, label: labelToRemove
+    })
   }
   
   checkMandatoryRepeatable() {
@@ -103,7 +110,9 @@ export class InputLiteral extends Component {
                     type="button"
                     onClick={this.handleClick}
                     key={obj.id}
+                    test={temp.id}
                     data-item={obj.id}
+                    data-label={temp.id}
                           >X
                   </button>
                 </div>
@@ -154,6 +163,9 @@ const mapStatetoProps = (state, props) => {
 const mapDispatchtoProps = dispatch => ({
   handleMyItemsChange(user_input){
     dispatch(setItems(user_input))
+  }, 
+  handleRemoveItem(id){
+    dispatch(removeItem(id))
   }
 })
 

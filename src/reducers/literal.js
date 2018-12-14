@@ -2,6 +2,13 @@ const DEFAULT_STATE = {
   formData: []
 }
 
+const removeMyItem = (state, action) => {
+  console.log(action.payload)
+
+  console.log(state.formData)
+  return state
+}
+
 const setMyItems = (state, action) => {
   let newFormData = state.formData.slice(0)
   let needNewItemArray = true;
@@ -25,6 +32,8 @@ const literal = (state=DEFAULT_STATE, action) => {
   switch(action.type) {
     case 'SET_ITEMS':
       return setMyItems(state,action)
+    case 'REMOVE_ITEM':
+      return removeMyItem(state,action)
     default:
       return state
   }
