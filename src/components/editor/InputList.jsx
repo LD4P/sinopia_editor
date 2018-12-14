@@ -16,10 +16,9 @@ class
   }
 
   render() {
-    //TODO: change target_url to use live ld4l lookup when it is available (#226)
-    let target_url, isMandatory, isRepeatable
+    let list_url, isMandatory, isRepeatable
     try {
-      target_url = this.props.propertyTemplate.valueConstraint.useValuesFrom[0]
+      list_url = this.props.propertyTemplate.valueConstraint.useValuesFrom[0]
       isMandatory = JSON.parse(this.props.propertyTemplate.mandatory)
       isRepeatable = JSON.parse(this.props.propertyTemplate.repeatable)
     } catch (error) {
@@ -36,20 +35,29 @@ class
       isLoading: this.state.isLoading,
       options: this.state.options,
       selected: this.state.selected,
-      labelKey: "label"
+      labelKey: "@value"
     }
-
+    var opts = []
     return (
       <div>
         <label htmlFor="targetComponent">{this.props.propertyTemplate.propertyLabel}
         <Typeahead
           onFocus={() => {
             this.setState({isLoading: true});
-            fetch(`${target_url}`)
+            fetch(`${list_url}.json`)
               .then(resp => resp.json())
-              .then(json => this.setState({
+              .then(json => {
+                for(var i in json){
+                  try{
+                    opts.push(json[i]["http://www.loc.gov/mads/rdf/v1#authoritativeLabel"][0]["@value"])
+                  } catch (error) {
+                    //ignore
+                  }
+                }
+              })
+              .then(() => this.setState({
                 isLoading: false,
-                options: json
+                options: opts
               }))
           }}
           onBlur={() => {
