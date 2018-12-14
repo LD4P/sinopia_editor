@@ -2,8 +2,12 @@
 
 import React, {Component} from 'react'
 import PropTypes from 'prop-types'
+import { connect } from 'react-redux'
+import { setItems } from '../../actions/index'
 
-class InputLiteral extends Component {
+
+// Redux recommends exporting the unconnected component for unit tests.
+export class InputLiteral extends Component {
 
   constructor(props) {
     super(props)
@@ -11,17 +15,12 @@ class InputLiteral extends Component {
     this.handleKeypress = this.handleKeypress.bind(this)
     this.handleClick = this.handleClick.bind(this)
     this.checkMandatoryRepeatable = this.checkMandatoryRepeatable.bind(this)
-    this.noRepeatableNoMandatory = this.noRepeatableNoMandatory.bind(this)
-    this.noRepeatableYesMandatory = this.noRepeatableYesMandatory.bind(this)
+    this.notRepeatable = this.notRepeatable.bind(this)
     this.addUserInput = this.addUserInput.bind(this)
-    this.defaultLiteralValue = this.defaultLiteralValue.bind(this)
-
     this.state = {
-      content_add: "",
-      myItems: []
+      content_add: ""
     }
     this.lastId = -1
-    this.defaultLiteralValue()
   }
   
   handleChange(event) {
@@ -29,14 +28,8 @@ class InputLiteral extends Component {
     this.setState({ content_add: usr_input })
   }
 
-  noRepeatableYesMandatory(userInputArray, currentcontent) {
-    if (userInputArray.length == 0) {
-      this.addUserInput(userInputArray, currentcontent)
-    }
-  }
-
-  noRepeatableNoMandatory(userInputArray, currentcontent) {
-    if (userInputArray.length < 1) {
+  notRepeatable(userInputArray,currentcontent){
+    if (this.props.formData == undefined){
       this.addUserInput(userInputArray, currentcontent)
     }
   }
@@ -50,7 +43,7 @@ class InputLiteral extends Component {
 
   handleKeypress(event) {
     if (event.key == "Enter") {
-      var userInputArray = this.state.myItems
+      var userInputArray = []
       var currentcontent = this.state.content_add.trim()
       if (!currentcontent) {
         return
@@ -60,17 +53,15 @@ class InputLiteral extends Component {
         this.addUserInput(userInputArray, currentcontent)
       /** Input field is not repeatable **/
       } else if (this.props.propertyTemplate.repeatable == "false") {
-       /** Mandatory true, means array must have only 1 item in the array **/ 
-        if (this.props.propertyTemplate.mandatory == "true") {
-          this.noRepeatableYesMandatory(userInputArray, currentcontent)
-        /** Mandatory is false, or not defined. Array can have either 0 or 1 item in array. **/
-        } else {
-          this.noRepeatableNoMandatory(userInputArray, currentcontent)
-        }
+        this.notRepeatable(userInputArray, currentcontent)
       }
+      const user_input = {
+        id: this.props.propertyTemplate.propertyLabel,
+        items: userInputArray
+      }
+      this.props.handleMyItemsChange(user_input)
       this.setState({
-        myItems: userInputArray,
-        content_add: "",
+        content_add: ""
       })
       event.preventDefault()
     }
@@ -84,7 +75,9 @@ class InputLiteral extends Component {
   
   checkMandatoryRepeatable() {
      if (this.props.propertyTemplate.mandatory == "true") {
-      if (this.makeAddedList().length > 0) {
+      if (this.props.formData == undefined) return true
+      const inputLength = (this.props.formData.items).length
+      if (inputLength > 0) {
         return false
       } 
       else {
@@ -97,39 +90,26 @@ class InputLiteral extends Component {
   }
 
   makeAddedList() {
-    const elements = this.state.myItems.map((listitem) => (
-      <div
-        key={listitem.id}
-      >
-        {listitem.content}
-      
-        <button
-          id="displayedItem"
-          type="button"
-          onClick={this.handleClick}
-          key={listitem.id}
-          data-item={listitem.id}
-          >X
-        </button>
-      </div>
+    let temp = this.props.formData
+      if (temp == undefined) return
+      const elements = temp.items.map((obj) => {
+        return <div
+                key = {obj.id}
+                  > 
+                  {obj.content}
 
-    ))
+                  <button
+                    id="displayedItem"
+                    type="button"
+                    onClick={this.handleClick}
+                    key={obj.id}
+                    data-item={obj.id}
+                          >X
+                  </button>
+                </div>
+      })
+    
     return elements
-  }
-
-  defaultLiteralValue() {
-    const valConstraint = this.props.propertyTemplate.valueConstraint
-    if (valConstraint == undefined || valConstraint == "") return
-
-    let defvalues
-    try{
-      defvalues = valConstraint.defaults[0]
-    } catch (error) {
-      console.info("valConstraint.defaults is empty in profile")
-    }
-
-    if (defvalues == undefined) return
-    this.state.myItems.push({content: defvalues.defaultLiteral, id: ++this.lastId})
   }
 
   render() {
@@ -165,4 +145,16 @@ InputLiteral.propTypes = {
   }).isRequired
 }
 
-export default InputLiteral;
+const mapStatetoProps = (state, props) => {
+  return {
+    formData: state.formData.find(obj => obj.id === props.propertyTemplate.propertyLabel)
+  }
+}
+
+const mapDispatchtoProps = dispatch => ({
+  handleMyItemsChange(user_input){
+    dispatch(setItems(user_input))
+  }
+})
+
+export default connect(mapStatetoProps, mapDispatchtoProps)(InputLiteral);

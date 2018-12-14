@@ -64,7 +64,7 @@ describe('<ResourceTemplateForm />', () => {
 
   it('renders InputLiteral nested component (b/c we have a property of type "literal")', () => {
     expect(wrapper
-      .find('div.ResourceTemplateForm InputLiteral').length)
+      .find('div.ResourceTemplateForm Connect(InputLiteral)').length)
       .toEqual(1)
   })
 

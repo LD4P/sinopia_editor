@@ -48,7 +48,7 @@ module.exports = {
   },
   overrides: [
     {
-      "files": ["**/*.jsx", "src/index.js"],
+      "files": ["**/*.jsx", "src/index.js", "src/*/*.js", "src/store.js"],
       "rules": {
         // See https://github.com/mysticatea/eslint-plugin-node/blob/master/docs/rules/no-unsupported-features/es-syntax.md
         //   rule supposedly matches ECMA version with node
