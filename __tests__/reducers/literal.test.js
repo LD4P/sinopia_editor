@@ -1,6 +1,6 @@
 import literal from '../../src/reducers/literal'
 
-describe('todos reducer', () => {
+describe('literal reducer', () => {
   it('should handle initial state', () => {
     expect(
       literal(undefined, {})
@@ -31,6 +31,37 @@ describe('todos reducer', () => {
       "formData": [
         {"id": "Run the tests", "items": []},
         {"id": "add this!", "items": []}
+      ]
+    })
+  })
+  it('should handle REMOVE_ITEM', () => {
+    expect(
+      literal({formData: [{id:"Test", items:[
+        {content: "test content", id: 0},
+        {content: "more content", id: 1}
+        ]}]}, {
+        type: 'REMOVE_ITEM',
+        payload: {id: 0, label: "Test"}
+      })
+    ).toEqual({
+      "formData": [{
+        "id": "Test", "items": [{content: "more content", id: 1}]
+      }]
+    })
+
+
+    expect(
+      literal({formData: [
+        {id:"Test", items:[{content: "test content", id: 0}]},
+        {id:"Statement", items:[{content: "more test content", id: 0}]}
+      ]}, {
+        type: 'REMOVE_ITEM',
+        payload: {id: 0, label: "Statement"}
+      })
+    ).toEqual({
+      "formData": [
+        {"id": "Test", "items": [{content: "test content", id: 0}]},
+        {"id": "Statement", "items": []}
       ]
     })
   })

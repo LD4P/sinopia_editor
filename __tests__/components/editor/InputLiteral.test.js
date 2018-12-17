@@ -60,16 +60,12 @@ describe('<InputLiteral />', () => {
   //   wrapper.setState({content_add : '', myItems: []}) /** reset state **/
   // })
 
-
-
-
-
-
 describe('When the user enters input into field', ()=>{
   let mock_wrapper;
   // our mock formData function to replace the one provided by mapDispatchToProps
   const mockFormDataFn = jest.fn()
-  mock_wrapper = shallow(<InputLiteral {...plProps} handleMyItemsChange={mockFormDataFn} />)
+  const removeMockDataFn = jest.fn()
+  mock_wrapper = shallow(<InputLiteral {...plProps} handleMyItemsChange={mockFormDataFn} handleRemoveItem={removeMockDataFn}/>)
 
   it('calls the mockFormDataFn', () => {
     mock_wrapper.find('input').simulate("change", { target: { value: "foo" }})
@@ -122,6 +118,8 @@ describe('When the user enters input into field', ()=>{
     expect(mockFormDataFn.mock.calls[1][0]).toEqual(
       {id: "Instance of", items:[]}
     )
+    mockFormDataFn.mock.calls = [] // reset the redux store to empty    
+
     mock_wrapper.setProps({formData: undefined }) // reset props for next test
   })
   it('required is only true for first item in myItems array', () => {
@@ -135,7 +133,22 @@ describe('When the user enters input into field', ()=>{
     mock_wrapper.setProps({formData: { id: "Instance of", items: [{content: "foo", id: 4}]} })
     expect(mock_wrapper.find('input').prop('required')).toBeFalsy()
     mock_wrapper.setProps({formData: undefined }) // reset props for next test
+  })
 
+  it('item appears when user inputs text into the field', () => {
+    mock_wrapper.instance().props.propertyTemplate.repeatable = "false"
+    mock_wrapper.instance().forceUpdate()
+    mock_wrapper.setProps({formData: { id: "Instance of", items: [{content: "foo", id: 4}]} })
+    expect(mock_wrapper.find('div#userInput').text()).toEqual('fooX') // contains X as a button to delete the input
+    mock_wrapper.setProps({formData: undefined }) // reset props for next test
+    mockFormDataFn.mock.calls = [] // reset the redux store to empty    
+  })
+
+  it('should call the removeMockDataFn when X is clicked', () => {
+    mock_wrapper.setProps({formData: { id: "Instance of", items: [{content: "test", id: 5}]} })
+    expect(removeMockDataFn.mock.calls.length).toEqual(0);
+    mock_wrapper.find('button#displayedItem').first().simulate('click', { target: { "dataset": {"item": 5 }}})
+    expect(removeMockDataFn.mock.calls.length).toEqual(1);
   })
 })
 
