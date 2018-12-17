@@ -2,11 +2,25 @@ const DEFAULT_STATE = {
   formData: []
 }
 
-const removeMyItem = (state, action) => {
-  console.log(action.payload)
+const deleteItem = (obj, itemToDelete) => {
+  const new_items = obj.items.filter(item => {
+    return item.id != itemToDelete.id
+  })
+  return new_items
+}
 
-  console.log(state.formData)
-  return state
+const removeMyItem = (state, action) => {
+  let newListItems = state.formData.slice(0)
+  const itemToDelete = action.payload
+  let new_state = newListItems.map(obj => {
+    if(obj.id == itemToDelete.label){
+      const newItemArray = deleteItem(obj, itemToDelete)
+      return {id: obj.id, items: newItemArray}
+    } else {
+      return obj
+    }
+  })
+  return {formData: new_state}
 }
 
 const setMyItems = (state, action) => {
@@ -24,7 +38,6 @@ const setMyItems = (state, action) => {
   if (needNewItemArray) {
       newFormData.push(action.payload)
   }
-  console.log("formdata", newFormData)
   return {formData: newFormData}
 }
 
