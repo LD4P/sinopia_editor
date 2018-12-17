@@ -69,11 +69,8 @@ export class InputLiteral extends Component {
   }
 
   handleClick(event) {
-    // console.warn(event.target.dataset["label"])
-    // console.log(event.target.dataset["item"])
     const labelToRemove = event.target.dataset["label"]
     const idToRemove = Number(event.target.dataset["item"])
-
     this.props.handleRemoveItem(
     {
       id: idToRemove, label: labelToRemove
@@ -101,6 +98,7 @@ export class InputLiteral extends Component {
       if (temp == undefined) return
       const elements = temp.items.map((obj) => {
         return <div
+                id="userInput"
                 key = {obj.id}
                   > 
                   {obj.content}
