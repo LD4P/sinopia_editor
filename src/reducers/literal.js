@@ -26,7 +26,6 @@ const removeMyItem = (state, action) => {
 const setMyItems = (state, action) => {
   let newFormData = state.formData.slice(0)
   let needNewItemArray = true;
-
   for (let field of newFormData) {
     if (field.id == action.payload.id) {
       field.items = field.items.concat(action.payload.items)
