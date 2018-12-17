@@ -156,7 +156,7 @@ InputLiteral.propTypes = {
 
 const mapStatetoProps = (state, props) => {
   return {
-    formData: state.formData.find(obj => obj.id === props.propertyTemplate.propertyLabel)
+    formData: state.literal.formData.find(obj => obj.id === props.propertyTemplate.propertyLabel)
   }
 }
 
