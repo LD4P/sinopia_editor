@@ -26,7 +26,9 @@ const plProps = {
 }
 
 describe('<InputList />', () => {
-  const wrapper = shallow(<InputList {...plProps} />)
+  // our mock formData function to replace the one provided by mapDispatchToProps
+  const mockFormDataFn = jest.fn()
+  const wrapper = shallow(<InputList.WrappedComponent {...plProps} handleSelectedChange={mockFormDataFn} />)
 
   it('contains a label with the value of propertyLabel', () => {
     expect(wrapper.find('label').text()).toMatch('Frequency (RDA 2.14)')
@@ -48,11 +50,18 @@ describe('<InputList />', () => {
     expect(wrapper.find('#targetComponent').props().placeholder).toMatch('Frequency (RDA 2.14)')
   })
 
-  it('should call the onChange event and set the state with the selected option', () => {
+  it('should call the onFocus event and set the selected option', () => {
+    const opts = {id: 'URI', label: 'LABEL', uri: 'URI'}
+    wrapper.instance().opts = opts
     const event = (wrap) => {
-      wrap.setState({options: ["{uri: 'URI', label: 'LABEL'}"]})
+      global.fetch = jest.fn().mockImplementation(async () => await ({ok: true, resp: wrapper.instance().opts }))
+      wrap.setState({options: [ wrapper.instance().opts ]})
+      wrap.setState({selected: [ wrapper.instance().opts ]})
     }
+    wrapper.find('#targetComponent').simulate('focus', event(wrapper))
+    expect(wrapper.state().options[0]).toEqual(opts)
+
     wrapper.find('#targetComponent').simulate('change', event(wrapper))
-    expect(wrapper.state().options[0]).toBe("{uri: 'URI', label: 'LABEL'}")
+    expect(wrapper.state().selected[0]).toEqual(opts)
   })
 })

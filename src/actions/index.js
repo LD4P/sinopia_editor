@@ -7,3 +7,8 @@ export const removeItem = item => ({
   type: 'REMOVE_ITEM',
   payload: item
 })
+
+export const changeSelections = item => ({
+  type: 'CHANGE_SELECTIONS',
+  payload: item
+})
