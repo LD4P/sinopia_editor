@@ -31,8 +31,7 @@ describe('literal reducer', () => {
       "formData": [
         {"id": "Run the tests", "items": []},
         {"id": "add this!", "items": []}
-      ]
-    })
+    ]})
   })
   it('should handle REMOVE_ITEM', () => {
     expect(

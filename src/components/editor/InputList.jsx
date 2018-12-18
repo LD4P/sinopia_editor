@@ -1,8 +1,10 @@
 // Copyright 2018 Stanford University see Apache2.txt for license
 
-import React, {Component} from 'react';
-import {Typeahead} from 'react-bootstrap-typeahead'
+import React, { Component } from 'react';
+import { Typeahead } from 'react-bootstrap-typeahead'
 import PropTypes from 'prop-types'
+import { connect } from 'react-redux'
+import { changeSelections } from '../../actions/index'
 
 class
   InputList extends Component {
@@ -10,8 +12,7 @@ class
     super(props)
     this.state = {
       isLoading: false,
-      options: [],
-      selected: []
+      options: []
     }
   }
 
@@ -34,8 +35,7 @@ class
       selectHintOnEnter: true,
       isLoading: this.state.isLoading,
       options: this.state.options,
-      selected: this.state.selected,
-      labelKey: "@value"
+      selected: this.state.selected
     }
     var opts = []
     return (
@@ -49,22 +49,30 @@ class
               .then(json => {
                 for(var i in json){
                   try{
-                    opts.push(json[i]["http://www.loc.gov/mads/rdf/v1#authoritativeLabel"][0]["@value"])
+                    const item = Object.getOwnPropertyDescription(json, i)
+                    const uri = item["@id"]
+                    const label = item["http://www.loc.gov/mads/rdf/v1#authoritativeLabel"][0]["@value"]
+                    opts.push({ id: uri, uri: uri, label: label })
                   } catch (error) {
                     //ignore
                   }
                 }
               })
               .then(() => this.setState({
-                isLoading: false,
-                options: opts
+                  isLoading: false,
+                  options: opts
               }))
+              .catch(() => {return false})
           }}
           onBlur={() => {
             this.setState({isLoading: false});
           }}
           onChange={selected => {
-            this.setState({selected})
+            let payload = {
+                id: this.props.propertyTemplate.propertyLabel,
+                items: selected
+              }
+              this.props.handleSelectedChange(payload)
             }
           }
           {...typeaheadProps}
@@ -86,4 +94,19 @@ InputList.propTypes = {
   }).isRequired
 }
 
-export default InputList
+const mapStatetoProps = (state) => {
+  let data = state.list.formData
+  let result = {}
+  if (data !== undefined){
+    result = { formData: data }
+  }
+  return result
+}
+
+const mapDispatchtoProps = dispatch => ({
+  handleSelectedChange(selected){
+    dispatch(changeSelections(selected))
+  }
+})
+
+export default connect(mapStatetoProps, mapDispatchtoProps)(InputList)
