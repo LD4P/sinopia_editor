@@ -57,7 +57,7 @@ export class InputLiteral extends Component {
         this.notRepeatable(userInputArray, currentcontent)
       }
       const user_input = {
-        id: this.props.propertyTemplate.propertyLabel,
+        id: this.props.propertyTemplate.propertyURI,
         items: userInputArray
       }
       this.props.handleMyItemsChange(user_input)
@@ -143,6 +143,7 @@ export class InputLiteral extends Component {
 InputLiteral.propTypes = {
   propertyTemplate: PropTypes.shape({
     propertyLabel: PropTypes.string.isRequired,
+    propertyURI: PropTypes.string.isRequired,
     mandatory: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
     repeatable: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
     valueConstraint: PropTypes.shape({
@@ -153,7 +154,7 @@ InputLiteral.propTypes = {
 
 const mapStatetoProps = (state, props) => {
   return {
-    formData: state.literal.formData.find(obj => obj.id === props.propertyTemplate.propertyLabel)
+    formData: state.literal.formData.find(obj => obj.id === props.propertyTemplate.propertyURI)
   }
 }
 
