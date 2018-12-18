@@ -95,7 +95,7 @@ InputList.propTypes = {
 }
 
 const mapStatetoProps = (state) => {
-  let data = state.list.formData
+  let data = state.lookups.formData
   let result = {}
   if (data !== undefined){
     result = { formData: data }

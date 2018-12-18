@@ -26,7 +26,9 @@ const plProps = {
 }
 
 describe('<InputLookup />', () => {
-  const wrapper = shallow(<InputLookup {...plProps} />)
+  // our mock formData function to replace the one provided by mapDispatchToProps
+  const mockFormDataFn = jest.fn()
+  const wrapper = shallow(<InputLookup.WrappedComponent {...plProps} handleSelectedChange={mockFormDataFn} />)
 
   it('uses the propertyLabel from the template as the form control label', () => {
     expect(wrapper.find('label').text()).toMatch('Name Lookup')
@@ -50,5 +52,20 @@ describe('<InputLookup />', () => {
     }
     wrapper.find('#lookupComponent').simulate('change', event(wrapper))
     expect(wrapper.state().options[0]).toBe("{uri: 'URI', label: 'LABEL'}")
+  })
+
+  it('should call the Search and Change events and set the state with the returned json', () => {
+    const json = "{uri: 'URI', label: 'LABEL'}"
+    const event = (wrap) => {
+      wrap.setState({options: [json]})
+      wrap.setState({selected: [json]})
+    }
+    wrapper.find('#lookupComponent').simulate('search', event(wrapper))
+    expect(wrapper.state().options[0]).toEqual(json)
+
+    wrapper.find('#lookupComponent').simulate('change', event(wrapper))
+    expect(wrapper.state().selected[0]).toEqual(json)
+
+    expect(mockFormDataFn.mock.calls.length).toBe(2)
   })
 })

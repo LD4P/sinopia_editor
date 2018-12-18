@@ -1,19 +1,19 @@
-import list from '../../src/reducers/list'
+import lookups from '../../src/reducers/lookups'
 
-describe('todos reducer', () => {
+describe('changing the reducer state', () => {
   const item_one = { "id": "http://uri1", "uri": "http://uri1", "label": "selection1" }
   const item_two = { "id": "http://uri2", "uri": "http://uri2", "label": "selection2" }
   const item_three = { "id": "http://uri3", "uri": "http://uri3", "label": "selection3" }
 
   it('should handle initial state', () => {
     expect(
-      list(undefined, {})
+      lookups(undefined, {})
     ).toEqual({formData: []})
   })
 
   it('should handle CHANGE_SELECTIONS', () => {
     expect(
-      list({formData: []}, {
+      lookups({formData: []}, {
         type: 'CHANGE_SELECTIONS',
         payload: {id:'Run the tests', items: [ item_one ]}
       })
@@ -24,7 +24,7 @@ describe('todos reducer', () => {
     })
 
     expect(
-      list({
+      lookups({
         "formData": [{
           "id": "Run the tests", "items": [ item_one ]
         }]}, {
@@ -39,9 +39,9 @@ describe('todos reducer', () => {
     })
   })
 
-  it('handles the change when there are more than one items selected from a list', () => {
+  it('handles the change when there are more than one items selected from a lookup', () => {
     expect(
-      list({
+      lookups({
         "formData": [
           {"id": "Run the tests", "items": [ item_one ]},
           {"id": "add this!", "items": [ item_two ]}
@@ -59,7 +59,7 @@ describe('todos reducer', () => {
 
   it('handles removing selections', () => {
     expect(
-      list({
+      lookups({
         "formData": [
           {"id": "Run the tests", "items": [ item_one ]},
           {"id": "remove items!", "items": [ item_two, item_three ]}

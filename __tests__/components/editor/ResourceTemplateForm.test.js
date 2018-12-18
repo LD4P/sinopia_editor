@@ -68,6 +68,12 @@ describe('<ResourceTemplateForm />', () => {
       .toEqual(1)
   })
 
+  it('renders the InputLookup nested component (b/c we have a property of type "lookup")', () => {
+    expect(wrapper
+      .find('div.ResourceTemplateForm Connect(InputLookup)').length)
+      .toEqual(1)
+  })
+
   it('renders InputResource nested component (b/c we have a property of type "resource" with a "useValuesFrom" value)', () => {
     expect(wrapper
       .find('div.ResourceTemplateForm Connect(InputList)').length)
