@@ -49,9 +49,9 @@ class
               .then(json => {
                 for(var i in json){
                   try{
-                    // warns about security/detect-object-injection, but is safe because user cannot inject anything for `var i`
-                    const uri = json[i]["@id"]
-                    const label = json[i]["http://www.loc.gov/mads/rdf/v1#authoritativeLabel"][0]["@value"]
+                    const item = Object.getOwnPropertyDescription(json, i)
+                    const uri = item["@id"]
+                    const label = item["http://www.loc.gov/mads/rdf/v1#authoritativeLabel"][0]["@value"]
                     opts.push({ id: uri, uri: uri, label: label })
                   } catch (error) {
                     //ignore
