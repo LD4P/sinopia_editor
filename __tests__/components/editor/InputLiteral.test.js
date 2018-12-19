@@ -8,6 +8,7 @@ const plProps = {
   "propertyTemplate": 
     {
       "propertyLabel": "Instance of",
+      "propertyURI": "http://id.loc.gov/ontologies/bibframe/instanceOf",
       "type": "literal",
       "mandatory": "",
       "repeatable": ""
@@ -80,7 +81,7 @@ describe('When the user enters input into field', ()=>{
     mock_wrapper.find('input').simulate('keypress', {key: 'Enter', preventDefault: () => {}})
     // test to see arguments used after its been submitted
     expect(mockFormDataFn.mock.calls[1][0]).toEqual(
-      {id: "Instance of", items:[{content: 'foo', id: 0}]}
+      {id: "http://id.loc.gov/ontologies/bibframe/instanceOf", items:[{content: 'foo', id: 0}]}
     )
     mockFormDataFn.mock.calls = [] // reset the redux store to empty
   })
@@ -93,10 +94,10 @@ describe('When the user enters input into field', ()=>{
     mock_wrapper.find('input').simulate('keypress', {key: 'Enter', preventDefault: () => {}})
 
     expect(mockFormDataFn.mock.calls[0][0]).toEqual(
-      {id: "Instance of", items:[{content: 'fooby', id: 1}]}
+      {id: "http://id.loc.gov/ontologies/bibframe/instanceOf", items:[{content: 'fooby', id: 1}]}
     )
     expect(mockFormDataFn.mock.calls[1][0]).toEqual(
-      {id: "Instance of", items:[{content: 'bar', id: 2}]}
+      {id: "http://id.loc.gov/ontologies/bibframe/instanceOf", items:[{content: 'bar', id: 2}]}
     )
     mockFormDataFn.mock.calls = [] // reset the redux store to empty    
   })
@@ -107,16 +108,16 @@ describe('When the user enters input into field', ()=>{
     mock_wrapper.find('input').simulate("change", { target: { value: "fooby" }})
     mock_wrapper.find('input').simulate('keypress', {key: 'Enter', preventDefault: () => {}})
     
-    mock_wrapper.setProps({formData: { id: "Instance of", items: [{content: "fooby", id: 0}]} })
+    mock_wrapper.setProps({formData: { id: "http://id.loc.gov/ontologies/bibframe/instanceOf", items: [{content: "fooby", id: 0}]} })
   
     mock_wrapper.find('input').simulate("change", { target: { value: "bar" }})
     mock_wrapper.find('input').simulate('keypress', {key: 'Enter', preventDefault: () => {}})    
 
     expect(mockFormDataFn.mock.calls[0][0]).toEqual(
-      {id: "Instance of", items:[{content: 'fooby', id: 3}]}
+      {id: "http://id.loc.gov/ontologies/bibframe/instanceOf", items:[{content: 'fooby', id: 3}]}
     )
     expect(mockFormDataFn.mock.calls[1][0]).toEqual(
-      {id: "Instance of", items:[]}
+      {id: "http://id.loc.gov/ontologies/bibframe/instanceOf", items:[]}
     )
     mockFormDataFn.mock.calls = [] // reset the redux store to empty    
 
@@ -130,7 +131,7 @@ describe('When the user enters input into field', ()=>{
     mock_wrapper.find('input').simulate("change", { target: { value: "foo" }})
     expect(mock_wrapper.state('content_add')).toEqual('foo')
     mock_wrapper.find('input').simulate('keypress', {key: 'Enter', preventDefault: () => {}})
-    mock_wrapper.setProps({formData: { id: "Instance of", items: [{content: "foo", id: 4}]} })
+    mock_wrapper.setProps({formData: { id: "http://id.loc.gov/ontologies/bibframe/instanceOf", items: [{content: "foo", id: 4}]} })
     expect(mock_wrapper.find('input').prop('required')).toBeFalsy()
     mock_wrapper.setProps({formData: undefined }) // reset props for next test
   })
@@ -138,14 +139,14 @@ describe('When the user enters input into field', ()=>{
   it('item appears when user inputs text into the field', () => {
     mock_wrapper.instance().props.propertyTemplate.repeatable = "false"
     mock_wrapper.instance().forceUpdate()
-    mock_wrapper.setProps({formData: { id: "Instance of", items: [{content: "foo", id: 4}]} })
+    mock_wrapper.setProps({formData: { id: "http://id.loc.gov/ontologies/bibframe/instanceOf", items: [{content: "foo", id: 4}]} })
     expect(mock_wrapper.find('div#userInput').text()).toEqual('fooX') // contains X as a button to delete the input
     mock_wrapper.setProps({formData: undefined }) // reset props for next test
     mockFormDataFn.mock.calls = [] // reset the redux store to empty    
   })
 
   it('should call the removeMockDataFn when X is clicked', () => {
-    mock_wrapper.setProps({formData: { id: "Instance of", items: [{content: "test", id: 5}]} })
+    mock_wrapper.setProps({formData: { id: "http://id.loc.gov/ontologies/bibframe/instanceOf", items: [{content: "test", id: 5}]} })
     expect(removeMockDataFn.mock.calls.length).toEqual(0);
     mock_wrapper.find('button#displayedItem').first().simulate('click', { target: { "dataset": {"item": 5 }}})
     expect(removeMockDataFn.mock.calls.length).toEqual(1);

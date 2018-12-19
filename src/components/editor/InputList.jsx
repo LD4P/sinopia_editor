@@ -69,7 +69,7 @@ class
           }}
           onChange={selected => {
             let payload = {
-                id: this.props.propertyTemplate.propertyLabel,
+                id: this.props.propertyTemplate.propertyURI,
                 items: selected
               }
               this.props.handleSelectedChange(payload)
@@ -86,6 +86,7 @@ class
 InputList.propTypes = {
   propertyTemplate: PropTypes.shape({
     propertyLabel: PropTypes.string,
+    propertyURI: PropTypes.string,
     mandatory: PropTypes.oneOfType([ PropTypes.string, PropTypes.bool]),
     repeatable: PropTypes.oneOfType([ PropTypes.string, PropTypes.bool]),
     valueConstraint: PropTypes.shape({

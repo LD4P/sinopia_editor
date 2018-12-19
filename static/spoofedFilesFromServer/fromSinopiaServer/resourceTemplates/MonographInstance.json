@@ -177,11 +177,11 @@
         },
         "defaults": []
       },
-      "propertyURI": "http://id.loc.gov/ontologies/bflc/target",
+      "propertyURI": "http://id.loc.gov/ontologies/bibframe/contribution",
       "propertyLabel": "LOC Names: locnames_ld4l_cache/person"
     },
     {
-      "propertyURI": "http://id.loc.gov/ontologies/bflc/target",
+      "propertyURI": "http://id.loc.gov/ontologies/bibframe/frequency",
       "propertyLabel": "Frequency (RDA 2.14)",
       "remark": "http://access.rdatoolkit.org/2.14.html",
       "mandatory": "false",
