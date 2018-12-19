@@ -49,9 +49,9 @@ class
               .then(json => {
                 for(var i in json){
                   try{
-                    const item = Object.getOwnPropertyDescription(json, i)
-                    const uri = item["@id"]
-                    const label = item["http://www.loc.gov/mads/rdf/v1#authoritativeLabel"][0]["@value"]
+                    const item = Object.getOwnPropertyDescriptor(json, i)
+                    const uri = item.value["@id"]
+                    const label = item.value["http://www.loc.gov/mads/rdf/v1#authoritativeLabel"][0]["@value"]
                     opts.push({ id: uri, uri: uri, label: label })
                   } catch (error) {
                     //ignore
