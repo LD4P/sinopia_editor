@@ -148,7 +148,13 @@ InputLiteral.propTypes = {
     valueConstraint: PropTypes.shape({
       defaults: PropTypes.array
     })
-  }).isRequired
+  }).isRequired,
+  formData: PropTypes.shape({
+    id: PropTypes.string.isRequired,
+    items: PropTypes.array
+  }),
+  handleMyItemsChange: PropTypes.func,
+  handleRemoveItem: PropTypes.func
 }
 
 const mapStatetoProps = (state, props) => {
