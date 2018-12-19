@@ -36,31 +36,6 @@ describe('<InputLiteral />', () => {
   })
 })
 
-
-
-
-// Need to implement in ticket #245
-  // it('required turns from false to true when user deletes all items', () => {
-  //   wrapper.instance().props.propertyTemplate.mandatory = "true"
-  //   wrapper.instance().props.propertyTemplate.repeatable = "true"
-  //   wrapper.instance().forceUpdate()
-
-  //   wrapper.find('input').simulate("change", { target: { value: "foo" }})
-  //   expect(wrapper.state('content_add')).toEqual('foo')
-  //   wrapper.find('input').simulate('keypress', {key: 'Enter', preventDefault: () => {}})
-  //   expect(wrapper.find('button#displayedItem').length).toEqual(1)
-  //   expect(wrapper.find('input').prop('required')).toBeFalsy()
-  //   wrapper.find('button#displayedItem').first().simulate('click', { target: { "dataset": {"item": 4 }}});
-  //   expect(wrapper.find('input').prop('required')).toBeTruthy()
-  // })
-  // it('remove item when user clicks on it', () => {
-  //   wrapper.setState({content_add : '', myItems: [ {content: 'foo', id: 0}, {content: 'bar', id: 1}]})
-  //   expect(wrapper.find('button#displayedItem').length).toEqual(2)
-  //   wrapper.find('button#displayedItem').first().simulate('click', { target: { "dataset": {"item": 0 }}});
-  //   expect(wrapper.find('button#displayedItem').length).toEqual(1)
-  //   wrapper.setState({content_add : '', myItems: []}) /** reset state **/
-  // })
-
 describe('When the user enters input into field', ()=>{
   let mock_wrapper;
   // our mock formData function to replace the one provided by mapDispatchToProps
