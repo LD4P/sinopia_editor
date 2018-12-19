@@ -63,5 +63,7 @@ describe('<InputList />', () => {
 
     wrapper.find('#targetComponent').simulate('change', event(wrapper))
     expect(wrapper.state().selected[0]).toEqual(opts)
+
+    expect(mockFormDataFn.mock.calls.length).toBe(1)
   })
 })
