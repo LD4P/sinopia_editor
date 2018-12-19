@@ -1,7 +1,7 @@
 import { combineReducers } from 'redux'
 import literal from './literal'
-import list from './list'
+import lookups from './lookups'
 
 export default combineReducers({
-  literal, list
+  literal, lookups
 })

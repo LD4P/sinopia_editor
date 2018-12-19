@@ -20,13 +20,13 @@ const changeMyItems = (state, action) => {
   return {formData: newFormData}
 }
 
-const list = (state=DEFAULT_STATE, action) => {
+const lookups = (state=DEFAULT_STATE, action) => {
   switch(action.type) {
     case 'CHANGE_SELECTIONS':
-      return changeMyItems(state,action)
+      return changeMyItems(state, action)
     default:
       return state
   }
 }
 
-export default list
+export default lookups

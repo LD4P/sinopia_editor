@@ -1,8 +1,10 @@
 // Copyright 2018 Stanford University see Apache2.txt for license
-import React, {Component} from 'react'
-import {asyncContainer, Typeahead} from 'react-bootstrap-typeahead'
+import React, { Component } from 'react'
+import { asyncContainer, Typeahead } from 'react-bootstrap-typeahead'
 import PropTypes from 'prop-types'
 import Swagger from 'swagger-client'
+import { connect } from 'react-redux'
+import { changeSelections } from '../../actions/index'
 
 const AsyncTypeahead = asyncContainer(Typeahead)
 
@@ -59,10 +61,14 @@ class InputLookup extends Component {
                 isLoading: false,
                 options: response.body
               }))
-            })
+            }).catch(() => { return false })
           }}
           onChange={selected => {
-            this.setState({selected})
+            let payload = {
+                id: this.props.propertyTemplate.propertyLabel,
+                items: selected
+              }
+              this.props.handleSelectedChange(payload)
             }
           }
           {...typeaheadProps}
@@ -84,4 +90,19 @@ InputLookup.propTypes = {
   }).isRequired
 }
 
-export default InputLookup
+const mapStatetoProps = (state) => {
+  let data = state.lookups.formData
+  let result = {}
+  if (data !== undefined){
+    result = { formData: data }
+  }
+  return result
+}
+
+const mapDispatchtoProps = dispatch => ({
+  handleSelectedChange(selected){
+    dispatch(changeSelections(selected))
+  }
+})
+
+export default connect(mapStatetoProps, mapDispatchtoProps)(InputLookup)
