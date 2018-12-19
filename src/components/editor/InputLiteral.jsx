@@ -4,6 +4,11 @@ import React, {Component} from 'react'
 import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
 import { setItems, removeItem } from '../../actions/index'
+import InputLang from './InputLang'
+import Modal from 'react-bootstrap/lib/Modal'
+import Button from 'react-bootstrap/lib/Button'
+import store from '../../store.js';
+
 
 
 
@@ -19,7 +24,13 @@ export class InputLiteral extends Component {
     this.checkMandatoryRepeatable = this.checkMandatoryRepeatable.bind(this)
     this.notRepeatable = this.notRepeatable.bind(this)
     this.addUserInput = this.addUserInput.bind(this)
+    this.handleShow = this.handleShow.bind(this)
+    this.handleClose = this.handleClose.bind(this)
+    this.dispModal = this.dispModal.bind(this)
+    this.dispLang = this.dispLang.bind(this)
+
     this.state = {
+      show: false,
       content_add: ""
     }
     this.lastId = -1
@@ -29,7 +40,6 @@ export class InputLiteral extends Component {
   handleFocus(event) {
     document.getElementById(event.target.id).focus()
   }
-
 
   handleChange(event) {
     const usr_input = event.target.value
@@ -101,6 +111,41 @@ export class InputLiteral extends Component {
      }
   }
 
+  dispModal (content) {
+    return(
+      <Modal show={this.state.show} onHide={this.handleClose}>
+        <Modal.Header closeButton>
+          <Modal.Title>Languages</Modal.Title>
+        </Modal.Header>
+        <Modal.Body>
+          <InputLang textValue={content}/> 
+        </Modal.Body>
+        <Modal.Footer>
+          <Button onClick={this.handleClose}>Submit</Button>
+          <Button onClick={this.handleClose}>Close</Button>
+        </Modal.Footer>
+      </Modal>
+    )
+  }
+
+  dispLang(content){
+    var newState = store.getState()
+    console.log("this is the whole store", newState)
+    console.log(content)
+    
+    var index = newState.lookups.formData.map(function(o) { return o.id; }).indexOf(content);
+    console.log(index)
+    try {
+      // Once we get a default set up, .items[0] will never be undefined, so then we can just display 
+      // newLang as the button every time.
+      var newLang = newState.lookups.formData[index].items[0].label
+      console.log(newLang)
+    } catch (error) {
+      console.log("in error")
+      // ignore
+    }
+  }
+
   makeAddedList() {
     let formInfo = this.props.formData
       if (formInfo == undefined) return
@@ -118,8 +163,15 @@ export class InputLiteral extends Component {
                     key={obj.id}
                     data-item={obj.id}
                     data-label={formInfo.id}
-                          >X
+                  >X
                   </button>
+                  <Button
+                    bsSize="small"
+                    onClick = {this.handleShow}>
+                    language
+                    {this.dispLang(obj.content)}
+                  </Button>
+                  {this.dispModal(obj.content)}
                 </div>
       })
 
