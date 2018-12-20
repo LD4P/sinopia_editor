@@ -15,3 +15,18 @@ describe('setItems actions', () => {
   })
 })
 
+describe('getRDF action', () => {
+  it('getRDF should create GENERATE_RDF action', () => {
+    const inputs = { literals: {id: "Instance of",
+                                items: [{ id: 0,
+                                          content: "A Work"}]},
+                     lookups: {id: "http://example.com/1234",
+                               uri: "http://example.com/1234",
+                               label: "An example"}
+    }
+    expect(actions.getRDF(inputs)).toEqual({
+      type: 'GENERATE_RDF',
+      payload: inputs
+    })
+  })
+})
