@@ -12,8 +12,30 @@ class
     super(props)
     this.state = {
       isLoading: false,
-      options: []
+      options: [],
+      defaults: []
     }
+    let defaultValue
+    try {
+      defaultValue = this.props.propertyTemplate.valueConstraint.defaults[0]
+      const defaults = [{
+        id: defaultValue.defaultURI,
+        uri: defaultValue.defaultURI,
+        label: defaultValue.defaultLiteral
+      }]
+      this.state.defaults = defaults
+      this.setPayLoad(defaults)
+    } catch (error) {
+      console.log(`defaults not defined in the property template: ${error}`)
+    }
+  }
+
+  setPayLoad(items) {
+    let payload = {
+      id: this.props.propertyTemplate.propertyURI,
+      items: items
+    }
+    this.props.handleSelectedChange(payload)
   }
 
   render() {
@@ -35,7 +57,8 @@ class
       selectHintOnEnter: true,
       isLoading: this.state.isLoading,
       options: this.state.options,
-      selected: this.state.selected
+      selected: this.state.selected,
+      defaultSelected: this.state.defaults
     }
     var opts = []
     return (
@@ -43,7 +66,7 @@ class
         <label htmlFor="targetComponent">{this.props.propertyTemplate.propertyLabel}
         <Typeahead
           onFocus={() => {
-            this.setState({isLoading: true});
+            this.setState({isLoading: true})
             fetch(`${list_url}.json`)
               .then(resp => resp.json())
               .then(json => {
@@ -64,17 +87,8 @@ class
               }))
               .catch(() => {return false})
           }}
-          onBlur={() => {
-            this.setState({isLoading: false});
-          }}
-          onChange={selected => {
-            let payload = {
-                id: this.props.propertyTemplate.propertyURI,
-                items: selected
-              }
-              this.props.handleSelectedChange(payload)
-            }
-          }
+          onBlur={() => {this.setState({isLoading: false})}}
+          onChange={selected => this.setPayLoad(selected)}
           {...typeaheadProps}
         />
         </label>

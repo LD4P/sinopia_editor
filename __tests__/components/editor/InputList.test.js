@@ -11,9 +11,12 @@ const plProps = {
       "remark": "http://access.rdatoolkit.org/2.14.html",
       "mandatory": "false",
       "repeatable": "true",
-      "type": "target",
-      "resourceTemplates": [],
+      "type": "lookup",
       "valueConstraint": {
+        "defaults": [{
+          "defaultURI": "http://id.loc.gov/vocabulary/carriers/nc",
+          "defaultLiteral": "volume"
+        }],
         "valueTemplateRefs": [],
         "useValuesFrom": [
           "vocabulary:bf2:frequencies"
@@ -50,6 +53,15 @@ describe('<InputList />', () => {
     expect(wrapper.find('#targetComponent').props().placeholder).toMatch('Frequency (RDA 2.14)')
   })
 
+  it('sets the default values according to the property template if they exist', () => {
+    const defaults = [{
+      id: 'http://id.loc.gov/vocabulary/carriers/nc',
+      uri: 'http://id.loc.gov/vocabulary/carriers/nc',
+      label: 'volume'
+    }]
+    expect(wrapper.state('defaults')).toEqual(defaults)
+  })
+
   it('should call the onFocus event and set the selected option', () => {
     const opts = {id: 'URI', label: 'LABEL', uri: 'URI'}
     wrapper.instance().opts = opts
@@ -63,7 +75,9 @@ describe('<InputList />', () => {
 
     wrapper.find('#targetComponent').simulate('change', event(wrapper))
     expect(wrapper.state().selected[0]).toEqual(opts)
+  })
 
-    expect(mockFormDataFn.mock.calls.length).toBe(1)
+  it('sets the formData store with the total number or objects sent to "selected" when a change event happens', () => {
+    expect(mockFormDataFn.mock.calls.length).toBe(2)
   })
 })
