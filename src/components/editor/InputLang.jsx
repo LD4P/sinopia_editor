@@ -4,15 +4,28 @@ import React, { Component } from 'react';
 import { Typeahead } from 'react-bootstrap-typeahead'
 import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
-import { changeSelections } from '../../actions/index'
+import { test } from '../../actions/index'
 
 class InputLang extends Component {
   constructor(props) {
     super(props)
+    this.getEnglishLanguages = this.getEnglishLanguages.bind(this)
     this.state = {
       isLoading: false,
       options: []
     }
+  }
+
+
+  // [{@language: "en", @value: "French, Old (ca. 842-1300)"},
+  //  {@language: "de", @value: "Altfranzösisch"}]
+  getEnglishLanguages(valueArray) {
+    valueArray.forEach(function(obj){
+      if (obj["@language"] == "en"){
+        obj
+      }
+
+    })
   }
 
   render() {
@@ -39,8 +52,16 @@ class InputLang extends Component {
                   try{
                     const item = Object.getOwnPropertyDescriptor(json, i)
                     const uri = item.value["@id"]
-                    // It so happens that LC's QA Language list has english in the 2nd place.
-                    const label = item.value["http://www.loc.gov/mads/rdf/v1#authoritativeLabel"][1]["@value"]
+
+                    let valArr = item.value["http://www.loc.gov/mads/rdf/v1#authoritativeLabel"]
+                    var label;
+                    valArr.forEach(function(obj){
+                      if (obj["@language"] == "en"){
+                        console.log(obj)
+                        label = obj["@value"]
+                      }
+                    })
+                    
                     opts.push({ id: uri, uri: uri, label: label })
                   } catch (error) {
                     //ignore
@@ -72,19 +93,12 @@ class InputLang extends Component {
   }
 }
 
-// InputList.propTypes = {
-//   propertyTemplate: PropTypes.shape({
-//     propertyLabel: PropTypes.string,
-//     mandatory: PropTypes.oneOfType([ PropTypes.string, PropTypes.bool]),
-//     repeatable: PropTypes.oneOfType([ PropTypes.string, PropTypes.bool]),
-//     valueConstraint: PropTypes.shape({
-//       useValuesFrom: PropTypes.oneOfType([ PropTypes.string, PropTypes.array])
-//     })
-//   }).isRequired
-// }
+InputLang.propTypes = {
+    textValue: PropTypes.string.isRequired
+}
 
 const mapStatetoProps = (state) => {
-  let data = state.lookups.formData
+  let data = state.lang.formData
   let result = {}
   if (data !== undefined){
     result = { formData: data }
@@ -94,7 +108,7 @@ const mapStatetoProps = (state) => {
 
 const mapDispatchtoProps = dispatch => ({
   handleSelectedChange(selected){
-    dispatch(changeSelections(selected))
+    dispatch(test(selected))
   }
 })
 

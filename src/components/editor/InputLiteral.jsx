@@ -28,7 +28,6 @@ export class InputLiteral extends Component {
     this.handleClose = this.handleClose.bind(this)
     this.dispModal = this.dispModal.bind(this)
     this.dispLang = this.dispLang.bind(this)
-
     this.state = {
       show: false,
       content_add: ""
@@ -129,22 +128,36 @@ export class InputLiteral extends Component {
   }
 
   dispLang(content){
-    var newState = store.getState()
-    console.log("this is the whole store", newState)
-    console.log(content)
-    
-    var index = newState.lookups.formData.map(function(o) { return o.id; }).indexOf(content);
-    console.log(index)
+    let newState = store.getState()
+    var index = newState.lang.formData.map(function(o) { return o.id; }).indexOf(content);
+    var newLang;
     try {
+      // Bug #2
       // Once we get a default set up, .items[0] will never be undefined, so then we can just display 
       // newLang as the button every time.
-      var newLang = newState.lookups.formData[index].items[0].label
-      console.log(newLang)
+      newLang = newState.lang.formData[index].items[0].label
     } catch (error) {
-      console.log("in error")
       // ignore
     }
+
+    if (newLang == undefined) {
+      return "English"
+    } else{
+      return newLang
+    }
   }
+
+  // Bug #1
+  // When adding the same value twice to the input field, the languages concat and then we have a problem.
+  // English is the default value, but is not set in the redux.lang.store. Needs to be set manually in the
+  // generation of RDF. 
+
+  // Bug #3
+  // When clicking Cancel make it not save the language
+
+  // Bug #4
+  // When clicking X to remove the input for the literal, it leaves the redux store for the language but nothing
+  // will be associated with it.
 
   makeAddedList() {
     let formInfo = this.props.formData
@@ -183,6 +196,7 @@ export class InputLiteral extends Component {
       <div className="form-group">
         <label htmlFor={"typeLiteral" + this.props.id}>
           {this.props.propertyTemplate.propertyLabel}
+
           <input
             required={this.checkMandatoryRepeatable()}
             className="form-control"
