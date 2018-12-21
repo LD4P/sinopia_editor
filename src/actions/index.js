@@ -17,3 +17,8 @@ export const getRDF = inputs => ({
   type: 'GENERATE_RDF',
   payload: inputs
 })
+
+export const test = item => ({
+  type: "BOO",
+  payload: item
+})
