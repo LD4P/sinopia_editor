@@ -22,11 +22,9 @@ class ResourceTemplate extends Component {
       if(rtd !== undefined) {
         json = JSON.parse(rtd)
         result = json['Profile']['resourceTemplates'] // from the profile editor
-        console.info(`Using resource templates from profile: ${json['Profile'].id}`)
       }
       else {
         result = [getResourceTemplate(this.props.resourceTemplateId)]
-        console.info(`Using resource template: ${this.props.resourceTemplateId}`)
       }
       return result
     }
@@ -51,6 +49,7 @@ class ResourceTemplate extends Component {
                   <ResourceTemplateForm
                     propertyTemplates = {rt.propertyTemplates}
                     resourceTemplate = {rt}
+                    rtId = {rt.id}
                   />
                 <h4>END ResourceTemplate</h4>
               </div>

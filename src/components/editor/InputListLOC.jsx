@@ -33,7 +33,8 @@ class
   setPayLoad(items) {
     let payload = {
       id: this.props.propertyTemplate.propertyURI,
-      items: items
+      items: items,
+      rtId: this.props.rtId
     }
     this.props.handleSelectedChange(payload)
   }

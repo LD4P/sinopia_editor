@@ -30,16 +30,19 @@ class ResourceTemplateForm extends Component {
     const inputs = {}
     inputs['literals'] = this.props.literals
     inputs['lookups'] = this.props.lookups
+    inputs['rtId'] = this.props.rtId
+    inputs['type'] = this.props.resourceTemplate.resourceURI
     // TODO: Add Modal to inputs
     this.props.handleGenerateRDF(inputs)
   }
 
-  rtModalButton = (rtId) => {
+  rtModalButton = (rtId, rtType) => {
     let resourceTemplate = getResourceTemplate(rtId)
     return (
       <ModalToggle
         key={rtId}
         rtId={rtId}
+        rtType={rtType}
         buttonLabel={resourceTemplate.resourceLabel}
         propertyTemplates ={resourceTemplate.propertyTemplates}
       />
@@ -116,7 +119,7 @@ class ResourceTemplateForm extends Component {
                   }
                   else if(pt.type == 'literal'){
                     return(
-                      <InputLiteral propertyTemplate = {pt} key = {index} id = {index} />
+                      <InputLiteral propertyTemplate = {pt} key = {index} id = {index} {this.props.rtId} />
                     )
                   }
                   else if (isResourceWithValueTemplateRefs) {
@@ -148,10 +151,12 @@ class ResourceTemplateForm extends Component {
 }
 
 ResourceTemplateForm.propTypes = {
-  literals: PropTypes.array.isRequired,
-  lookups: PropTypes.array.isRequired,
+  literals: PropTypes.oneOfType([PropTypes.array, PropTypes.object]).isRequired,
+  lookups: PropTypes.oneOfType([PropTypes.array, PropTypes.object]).isRequired,
   handleGenerateRDF: PropTypes.func.isRequired,
-  propertyTemplates: PropTypes.arrayOf(PropTypes.object).isRequired
+  propertyTemplates: PropTypes.arrayOf(PropTypes.object).isRequired,
+  resourceTemplate: PropTypes.object.isRequired,
+  rtId: PropTypes.string.isRequired
 }
 
 const mapStateToProps = (state) => {

@@ -64,8 +64,9 @@ class InputLookupQA extends Component {
           }}
           onChange={selected => {
             let payload = {
-                id: this.props.propertyTemplate.propertyLabel,
-                items: selected
+                id: this.props.propertyTemplate.propertyURI,
+                items: selected,
+                rtId: this.props.rtId
               }
               this.props.handleSelectedChange(payload)
             }

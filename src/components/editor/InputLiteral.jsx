@@ -25,10 +25,12 @@ export class InputLiteral extends Component {
     this.lastId = -1
   }
 
+
   handleFocus(event) {
     document.getElementById(event.target.id).focus()
   }
-  
+
+
   handleChange(event) {
     const usr_input = event.target.value
     this.setState({ content_add: usr_input })
@@ -63,6 +65,7 @@ export class InputLiteral extends Component {
       }
       const user_input = {
         id: this.props.propertyTemplate.propertyURI,
+        rtId: this.props.rtId,
         items: userInputArray
       }
       this.props.handleMyItemsChange(user_input)
@@ -81,14 +84,14 @@ export class InputLiteral extends Component {
       id: idToRemove, label: labelToRemove
     })
   }
-  
+
   checkMandatoryRepeatable() {
      if (this.props.propertyTemplate.mandatory == "true") {
       if (this.props.formData == undefined) return true
       const inputLength = (this.props.formData.items).length
       if (inputLength > 0) {
         return false
-      } 
+      }
       else {
         return true
       }
@@ -105,7 +108,7 @@ export class InputLiteral extends Component {
         return <div
                 id="userInput"
                 key = {obj.id}
-                  > 
+                  >
                   {obj.content}
 
                   <button
@@ -119,7 +122,7 @@ export class InputLiteral extends Component {
                   </button>
                 </div>
       })
-    
+
     return elements
   }
 
@@ -140,14 +143,14 @@ export class InputLiteral extends Component {
           />
           {this.makeAddedList()}
         </label>
-        
+
       </div>
     )
   }
 }
 
 InputLiteral.propTypes = {
-  id: PropTypes.number.isRequired,
+  id: PropTypes.number,
   propertyTemplate: PropTypes.shape({
     propertyLabel: PropTypes.string.isRequired,
     propertyURI: PropTypes.string.isRequired,
@@ -162,7 +165,8 @@ InputLiteral.propTypes = {
     items: PropTypes.array
   }),
   handleMyItemsChange: PropTypes.func,
-  handleRemoveItem: PropTypes.func
+  handleRemoveItem: PropTypes.func,
+  rtId: PropTypes.string.isRequired
 }
 
 const mapStatetoProps = (state, props) => {
@@ -174,7 +178,7 @@ const mapStatetoProps = (state, props) => {
 const mapDispatchtoProps = dispatch => ({
   handleMyItemsChange(user_input){
     dispatch(setItems(user_input))
-  }, 
+  },
   handleRemoveItem(id){
     dispatch(removeItem(id))
   }

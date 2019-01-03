@@ -109,14 +109,18 @@ describe('<ResourceTemplateForm />', () => {
   })
 
   describe('a generate RDF button', () => {
-
+    const rtTest = { resourceURI: "http://id.loc.gov/ontologies/bibframe/Work" }
+    const rdf_wrapper = shallow(<ResourceTemplateForm.WrappedComponent
+      {...rtProps}
+      resourceTemplate = {rtTest}
+      handleGenerateRDF = {mockHandleGenerateRDF} />)
     it('renders a Preview RDF button', () =>{
-      expect(wrapper
+      expect(rdf_wrapper
         .find('div > button.btn-success').length)
         .toEqual(1)
     })
     it('displays a pop-up alert when clicked', () => {
-      wrapper.find('div > button.btn-success').simulate('click')
+      rdf_wrapper.find('div > button.btn-success').simulate('click')
       expect(mockHandleGenerateRDF.mock.calls.length).toBe(1)
     })
   })

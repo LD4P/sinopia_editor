@@ -1,10 +1,31 @@
 const N3 = require('n3')
 
 const { DataFactory } = N3
+// TODO: Use N3.Store() for graph state
 const { namedNode, literal, blankNode, quad } = DataFactory
 
 const DEFAULT_STATE = {
-  graph: null
+  graph: {}
+}
+
+const addTriples = (subject, formData, rtId, testProperty, graph) => {
+  formData.forEach(field => {
+    if (field.rtId === rtId ) {
+      field.items.forEach(item => {
+        if(item.hasOwnProperty(testProperty)) {
+          let obj = null
+          if (testProperty === 'uri') {
+            obj = namedNode(item[`uri`])
+          } else {
+            obj = literal(item[`${testProperty}`])
+          }
+          graph.addQuad(
+            quad(subject, namedNode(field.id), obj)
+          )
+        }
+      })
+    }
+  })
 }
 
 const generateMyRDF = (state, action) => {
@@ -12,28 +33,31 @@ const generateMyRDF = (state, action) => {
     prefixes: { bf: 'http://id.loc.gov/ontologies/bibframe/'}
   })
   const subject = blankNode()
-  action.payload.literals.formData.forEach(field => {
-    field.items.forEach(item => {
-      if(item.hasOwnProperty('content')) {
-        writer.addQuad(
-          quad(subject, namedNode(field.id), literal(item.content))
-        )
-      }
-    })
-  })
-  action.payload.lookups.formData.forEach(field => {
-    field.items.forEach(item => {
-      if(item.hasOwnProperty('uri')) {
-        writer.addQuad(subject, namedNode(field.id), namedNode(item.uri))
-      }
-    })
-  })
+  writer.addQuad(
+    quad(subject,
+         namedNode('http://www.w3.org/1999/02/22-rdf-syntax-ns#type'),
+         namedNode(action.payload.type))
+  )
+  addTriples(
+    subject,
+    action.payload.literals.formData,
+    action.payload.rtId,
+    'content',
+     writer
+   )
+  addTriples(
+    subject,
+    action.payload.lookups.formData,
+    action.payload.rtId,
+    'uri',
+    writer
+  )
   // Temp solution displays RDF in Turtle, likely use a Modal Component
   // to display graph in multiple formats.
   writer.end((error, result) => {
     alert(result)
-    return { ...state, graph: result }
   })
+  return { ...state, graph: writer }
 }
 
 const generateRDF = (state=DEFAULT_STATE, action) => {
@@ -45,4 +69,4 @@ const generateRDF = (state=DEFAULT_STATE, action) => {
   }
 }
 
-export default generateRDF
+export { generateRDF, addTriples }
