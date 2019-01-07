@@ -4,34 +4,20 @@ import React, { Component } from 'react';
 import { Typeahead } from 'react-bootstrap-typeahead'
 import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
-import { test } from '../../actions/index'
+import { setLang } from '../../actions/index'
 
 class InputLang extends Component {
   constructor(props) {
     super(props)
-    this.getEnglishLanguages = this.getEnglishLanguages.bind(this)
     this.state = {
       isLoading: false,
       options: []
     }
   }
 
-
-  // [{@language: "en", @value: "French, Old (ca. 842-1300)"},
-  //  {@language: "de", @value: "Altfranzösisch"}]
-  getEnglishLanguages(valueArray) {
-    valueArray.forEach(function(obj){
-      if (obj["@language"] == "en"){
-        obj
-      }
-
-    })
-  }
-
   render() {
     var typeaheadProps = {
       id: "langComponent",
-      placeholder: "placeholder",
       useCache: true,
       selectHintOnEnter: true,
       isLoading: this.state.isLoading,
@@ -108,7 +94,7 @@ const mapStatetoProps = (state) => {
 
 const mapDispatchtoProps = dispatch => ({
   handleSelectedChange(selected){
-    dispatch(test(selected))
+    dispatch(setLang(selected))
   }
 })
 

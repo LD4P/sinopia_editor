@@ -23,8 +23,6 @@ export class InputLiteral extends Component {
     this.mandatorySuperscript = this.mandatorySuperscript.bind(this)
     this.notRepeatable = this.notRepeatable.bind(this)
     this.addUserInput = this.addUserInput.bind(this)
-    this.handleShow = this.handleShow.bind(this)
-    this.handleClose = this.handleClose.bind(this)
     this.dispModal = this.dispModal.bind(this)
     this.dispLang = this.dispLang.bind(this)
     this.state = {
@@ -137,9 +135,6 @@ export class InputLiteral extends Component {
     var index = newState.lang.formData.map(function(o) { return o.id; }).indexOf(content);
     var newLang;
     try {
-      // Bug #2
-      // Once we get a default set up, .items[0] will never be undefined, so then we can just display 
-      // newLang as the button every time.
       newLang = newState.lang.formData[index].items[0].label
     } catch (error) {
       // ignore
@@ -152,15 +147,14 @@ export class InputLiteral extends Component {
     }
   }
 
-  // Bug #1
+  // Bug
   // When adding the same value twice to the input field, the languages concat and then we have a problem.
   // English is the default value, but is not set in the redux.lang.store. Needs to be set manually in the
   // generation of RDF. 
 
-  // Bug #3
-  // When clicking Cancel make it not save the language
+  // When clicking Cancel make it not save the language #275
 
-  // Bug #4
+  // Note:
   // When clicking X to remove the input for the literal, it leaves the redux store for the language but nothing
   // will be associated with it.
 
