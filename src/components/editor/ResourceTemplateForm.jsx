@@ -64,7 +64,7 @@ class ResourceTemplateForm extends Component {
                 {this.props.propertyTemplates.map( (pt, index) => {
                   if(pt.type == 'literal'){
                     return(
-                      <InputLiteral propertyTemplate = {pt} key = {index} />
+                      <InputLiteral propertyTemplate = {pt} key = {index} id = {index} />
                     )
                   }
                   else if (pt.type == 'resource') {
