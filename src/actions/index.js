@@ -18,7 +18,7 @@ export const getRDF = inputs => ({
   payload: inputs
 })
 
-export const test = item => ({
-  type: "BOO",
+export const setLang = item => ({
+  type: "SET_LANG",
   payload: item
 })

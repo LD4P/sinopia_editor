@@ -22,7 +22,7 @@ const changeMyItems = (state, action) => {
 
 const lang = (state=DEFAULT_STATE, action) => {
   switch(action.type) {
-    case 'BOO':
+    case 'SET_LANG':
       return changeMyItems(state, action)
     default:
       return state
