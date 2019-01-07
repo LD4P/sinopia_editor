@@ -13,6 +13,12 @@ describe('setItems actions', () => {
       payload: {id: 0, label: "Instance of"}
     })
   })
+  it('setLang should create SET_LANG action', () => {
+    expect(actions.setLang({id:"Instance of", items: [{label: "food", id: "http://uri1", uri: "URI"}]})).toEqual({
+      type: 'SET_LANG',
+      payload: {id:"Instance of", items: [{label: "food", id: "http://uri1", uri:"URI"}]}
+    })
+  })
 })
 
 describe('getRDF action', () => {
