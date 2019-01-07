@@ -2,7 +2,7 @@ const DEFAULT_STATE = {
   formData: []
 }
 
-const changeMyItems = (state, action) => {
+const setMyItems = (state, action) => {
   let newFormData = state.formData.slice(0)
   let needNewItemArray = true;
 
@@ -23,7 +23,7 @@ const changeMyItems = (state, action) => {
 const lang = (state=DEFAULT_STATE, action) => {
   switch(action.type) {
     case 'SET_LANG':
-      return changeMyItems(state, action)
+      return setMyItems(state, action)
     default:
       return state
   }
