@@ -147,7 +147,7 @@ export class InputLiteral extends Component {
 }
 
 InputLiteral.propTypes = {
-  id: PropTypes.string.isRequired,
+  id: PropTypes.number.isRequired,
   propertyTemplate: PropTypes.shape({
     propertyLabel: PropTypes.string.isRequired,
     propertyURI: PropTypes.string.isRequired,
