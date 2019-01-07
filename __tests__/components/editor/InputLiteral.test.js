@@ -41,7 +41,13 @@ describe('When the user enters input into field', ()=>{
   // our mock formData function to replace the one provided by mapDispatchToProps
   const mockFormDataFn = jest.fn()
   const removeMockDataFn = jest.fn()
-  mock_wrapper = shallow(<InputLiteral {...plProps} handleMyItemsChange={mockFormDataFn} handleRemoveItem={removeMockDataFn}/>)
+  mock_wrapper = shallow(<InputLiteral {...plProps} id={"11"}
+                                       handleMyItemsChange={mockFormDataFn}
+                                       handleRemoveItem={removeMockDataFn}/>)
+
+  it('has an id value as a unique property', () => {
+    expect(mock_wrapper.find('input').prop('id')).toEqual("typeLiteral11")
+  })
 
   it('calls the mockFormDataFn', () => {
     mock_wrapper.find('input').simulate("change", { target: { value: "foo" }})

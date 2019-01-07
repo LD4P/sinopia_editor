@@ -15,6 +15,7 @@ export class InputLiteral extends Component {
     this.handleChange = this.handleChange.bind(this)
     this.handleKeypress = this.handleKeypress.bind(this)
     this.handleClick = this.handleClick.bind(this)
+    this.handleFocus = this.handleFocus.bind(this)
     this.checkMandatoryRepeatable = this.checkMandatoryRepeatable.bind(this)
     this.notRepeatable = this.notRepeatable.bind(this)
     this.addUserInput = this.addUserInput.bind(this)
@@ -22,6 +23,10 @@ export class InputLiteral extends Component {
       content_add: ""
     }
     this.lastId = -1
+  }
+
+  handleFocus(event) {
+    document.getElementById(event.target.id).focus()
   }
   
   handleChange(event) {
@@ -121,7 +126,7 @@ export class InputLiteral extends Component {
   render() {
     return (
       <div className="form-group">
-        <label htmlFor="typeLiteral">
+        <label htmlFor={"typeLiteral" + this.props.id}>
           {this.props.propertyTemplate.propertyLabel}
           <input
             required={this.checkMandatoryRepeatable()}
@@ -130,7 +135,8 @@ export class InputLiteral extends Component {
             onChange={this.handleChange}
             onKeyPress={this.handleKeypress}
             value={this.state.content_add}
-            id="typeLiteral"
+            id={"typeLiteral" + this.props.id}
+            onClick={this.handleFocus}
           />
           {this.makeAddedList()}
         </label>
@@ -141,6 +147,7 @@ export class InputLiteral extends Component {
 }
 
 InputLiteral.propTypes = {
+  id: PropTypes.string.isRequired,
   propertyTemplate: PropTypes.shape({
     propertyLabel: PropTypes.string.isRequired,
     propertyURI: PropTypes.string.isRequired,
