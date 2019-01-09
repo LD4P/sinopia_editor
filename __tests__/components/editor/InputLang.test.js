@@ -13,7 +13,7 @@ const plProps = {
   "textValue": "test1"
 }
 
-describe('<InputList />', () => {
+describe('<InputLang />', () => {
   // our mock formData function to replace the one provided by mapDispatchToProps
   const mockFormDataFn = jest.fn()
   const wrapper = shallow(<InputLang.WrappedComponent {...plProps} handleSelectedChange={mockFormDataFn} />)
@@ -33,6 +33,14 @@ describe('<InputList />', () => {
     expect(wrapper.find('#langComponent').props().selectHintOnEnter).toBeTruthy()
   })
 
+  it('should call the onChange event and set the state with the selected option', () => {
+    const event = (wrap) => {
+      wrap.setState({options: ["{id: 'test1', uri: 'URI', label: 'LABEL'}"]})
+    }
+    wrapper.find('#langComponent').simulate('change', event(wrapper))
+    expect(wrapper.state().options[0]).toBe("{id: 'test1', uri: 'URI', label: 'LABEL'}")
+  })
+
   it('should call the onFocus event and set the selected option', () => {
     const opts = {id: 'URI', label: 'LABEL', uri: 'URI'}
     wrapper.instance().opts = opts
@@ -46,9 +54,13 @@ describe('<InputList />', () => {
 
     wrapper.find('#langComponent').simulate('change', event(wrapper))
     expect(wrapper.state().selected[0]).toEqual(opts)
+
+    wrapper.find('#langComponent').simulate('blur', event(wrapper))
+    expect(wrapper.state("isLoading")).toBeFalsy()
+
   })
 
   it('sets the formData store with the total number of objects sent to selected', () => {
-    expect(mockFormDataFn.mock.calls.length).toBe(1)
+    expect(mockFormDataFn.mock.calls.length).toBe(2)
   })
 })
