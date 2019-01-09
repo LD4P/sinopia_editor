@@ -15,6 +15,14 @@ class InputLang extends Component {
     }
   }
 
+  setPayLoad(items) {
+    let payload = {
+        id: this.props.textValue,
+        items: items
+    }
+    this.props.handleSelectedChange(payload)
+  }
+
   render() {
     var typeaheadProps = {
       id: "langComponent",
@@ -43,7 +51,6 @@ class InputLang extends Component {
                     var label;
                     valArr.forEach(function(obj){
                       if (obj["@language"] == "en"){
-                        console.log(obj)
                         label = obj["@value"]
                       }
                     })
@@ -63,14 +70,7 @@ class InputLang extends Component {
           onBlur={() => {
             this.setState({isLoading: false});
           }}
-          onChange={selected => {
-            let payload = {
-                id: this.props.textValue,
-                items: selected
-              }
-              this.props.handleSelectedChange(payload)
-            }
-          }
+          onChange={selected => this.setPayLoad(selected)}
           {...typeaheadProps}
         />
         </label>

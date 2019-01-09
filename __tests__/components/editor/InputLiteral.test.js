@@ -16,8 +16,7 @@ const plProps = {
 }
 
 describe('<InputLiteral />', () => {
-  const wrapper = shallow(<InputLiteral {...plProps} id={10}/>)
-  
+  const wrapper = shallow(<InputLiteral {...plProps} id={10} />)  
   it('contains a label with "Instance of"', () => {
     expect(wrapper.find('label').text()).toBe('Instance of')
   })
@@ -33,6 +32,14 @@ describe('<InputLiteral />', () => {
     wrapper.instance().props.propertyTemplate.mandatory = "false"
     wrapper.instance().forceUpdate()    
     expect(wrapper.find('input').prop('required')).toBeFalsy()
+  })
+  it('changes show state to False', () => {
+    wrapper.instance().handleClose()
+    expect(wrapper.state('show')).toBeFalsy()
+  })
+  it('changes show state to True', () => {
+    wrapper.instance().handleShow()
+    expect(wrapper.state('show')).toBeTruthy()
   })
 })
 
