@@ -1,7 +1,7 @@
 // Copyright 2018 Stanford University see Apache2.txt for license
 import React from 'react'
 import { shallow } from 'enzyme'
-import InputLookup from '../../../src/components/editor/InputLookup'
+import InputLookup from '../../../src/components/editor/InputLookupQA'
 
 const plProps = {
   "propertyTemplate":

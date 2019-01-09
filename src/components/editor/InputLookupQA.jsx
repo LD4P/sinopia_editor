@@ -8,7 +8,7 @@ import { changeSelections } from '../../actions/index'
 
 const AsyncTypeahead = asyncContainer(Typeahead)
 
-class InputLookup extends Component {
+class InputLookupQA extends Component {
   constructor(props) {
     super(props)
     this.state = {
@@ -17,14 +17,13 @@ class InputLookup extends Component {
   }
 
   render() {
-    let isMandatory, isRepeatable, authority, vocab, subauthority, language
+    let isMandatory, isRepeatable, authority, subauthority, language
     try {
       isMandatory = JSON.parse(this.props.propertyTemplate.mandatory)
       isRepeatable = JSON.parse(this.props.propertyTemplate.repeatable)
-      authority = this.props.propertyTemplate.valueConstraint.useValuesFrom[0]
-      vocab = authority.split(':')[0]
-      subauthority = authority.split(':')[1]
-      language = authority.split(':')[2]
+      authority = this.props.lookupConfig.value.authority
+      subauthority = this.props.lookupConfig.value.authority
+      language = this.props.lookupConfig.value.language
     } catch (error) {
       console.log(`Problem with properties fetched from resource template: ${error}`)
     }
@@ -52,7 +51,7 @@ class InputLookup extends Component {
                 .SearchQuery
                 .GET_searchAuthority({
                   q: query,
-                  vocab: vocab,
+                  vocab: authority,
                   subauthority: subauthority,
                   maxRecords: 8,
                   lang: language
@@ -79,7 +78,7 @@ class InputLookup extends Component {
   }
 }
 
-InputLookup.propTypes = {
+InputLookupQA.propTypes = {
   propertyTemplate: PropTypes.shape({
     propertyLabel: PropTypes.string,
     mandatory: PropTypes.oneOfType([ PropTypes.string, PropTypes.bool]),
@@ -105,4 +104,4 @@ const mapDispatchtoProps = dispatch => ({
   }
 })
 
-export default connect(mapStatetoProps, mapDispatchtoProps)(InputLookup)
+export default connect(mapStatetoProps, mapDispatchtoProps)(InputLookupQA)
