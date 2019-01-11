@@ -26,8 +26,7 @@ class Editor extends Component {
     return(
       <div id="editor">
         <Header triggerEditorMenu={this.props.triggerHandleOffsetMenu}/>
-        <h1> Editor Page </h1>
-        <p>The selected resource template is <strong>{this.state.resourceTemplateId}</strong></p>
+        <h1>[Clone|Edit] title.of.resource</h1>
         <StartingPoints setResourceTemplateCallback={this.setResourceTemplates}/>
         <ResourceTemplate
           resourceTemplateId = {this.state.resourceTemplateId}
