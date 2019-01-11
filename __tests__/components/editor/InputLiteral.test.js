@@ -16,7 +16,7 @@ const plProps = {
 }
 
 describe('<InputLiteral />', () => {
-  const wrapper = shallow(<InputLiteral {...plProps} />)
+  const wrapper = shallow(<InputLiteral {...plProps} id={10}/>)
   
   it('contains a label with "Instance of"', () => {
     expect(wrapper.find('label').text()).toBe('Instance of')
@@ -41,7 +41,7 @@ describe('When the user enters input into field', ()=>{
   // our mock formData function to replace the one provided by mapDispatchToProps
   const mockFormDataFn = jest.fn()
   const removeMockDataFn = jest.fn()
-  mock_wrapper = shallow(<InputLiteral {...plProps} id={"11"}
+  mock_wrapper = shallow(<InputLiteral {...plProps} id={11}
                                        handleMyItemsChange={mockFormDataFn}
                                        handleRemoveItem={removeMockDataFn}/>)
 

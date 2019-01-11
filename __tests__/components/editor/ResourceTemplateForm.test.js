@@ -18,14 +18,19 @@ const rtProps = {
       "type": "lookup",
       "editable": "do not override me!",
       "repeatable": "do not override me!",
-      "mandatory": "do not override me!"
+      "mandatory": "do not override me!",
+      "valueConstraint": {
+        "useValuesFrom": [
+          "urn:ld4p:qa:names:person"
+        ]
+      }
     },
     {
       "propertyLabel": "What's the frequency Kenneth?",
       "type": "resource",
       "valueConstraint": {
         "useValuesFrom": [
-          "./static/spoofedFilesFromServer/fromQA/frequencies.json"
+          "http://id.loc.gov/vocabulary/frequencies"
         ]
       }
     },
@@ -46,6 +51,10 @@ const rtProps = {
           "resourceTemplate:bf2:Note"
         ]
       }
+    },
+    {
+      "propertyLabel": "Non-modal resource",
+      "type": "resource"
     }
   ]
 }
@@ -70,13 +79,13 @@ describe('<ResourceTemplateForm />', () => {
 
   it('renders the InputLookup nested component (b/c we have a property of type "lookup")', () => {
     expect(wrapper
-      .find('div.ResourceTemplateForm Connect(InputLookup)').length)
+      .find('div.ResourceTemplateForm Connect(InputLookupQA)').length)
       .toEqual(1)
   })
 
   it('renders InputResource nested component (b/c we have a property of type "resource" with a "useValuesFrom" value)', () => {
     expect(wrapper
-      .find('div.ResourceTemplateForm Connect(InputList)').length)
+      .find('div.ResourceTemplateForm Connect(InputListLOC)').length)
       .toEqual(1)
   })
 
