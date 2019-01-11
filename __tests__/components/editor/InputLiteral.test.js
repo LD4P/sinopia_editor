@@ -33,14 +33,6 @@ describe('<InputLiteral />', () => {
     wrapper.instance().forceUpdate()    
     expect(wrapper.find('input').prop('required')).toBeFalsy()
   })
-  it('changes show state to False', () => {
-    wrapper.instance().handleClose()
-    expect(wrapper.state('show')).toBeFalsy()
-  })
-  it('changes show state to True', () => {
-    wrapper.instance().handleShow()
-    expect(wrapper.state('show')).toBeTruthy()
-  })
 })
 
 describe('When the user enters input into field', ()=>{

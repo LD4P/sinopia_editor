@@ -145,13 +145,13 @@ export class InputLiteral extends Component {
   // Bug
   // When adding the same value twice to the input field, the languages concat and then we have a problem.
   // English is the default value, but is not set in the redux.lang.store. Needs to be set manually in the
-  // generation of RDF. 
+  // generation of RDF. ticket #290
 
   // When clicking Cancel make it not save the language #275
 
   // Note:
-  // When clicking X to remove the input for the literal, it leaves the redux store for the language but nothing
-  // will be associated with it.
+  // When clicking X to remove the input for the literal, it leaves the input in the redux store for the 
+  // language but nothing will be associated with it.
 
   makeAddedList() {
     let formInfo = this.props.formData
