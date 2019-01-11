@@ -9,11 +9,8 @@ import InputLiteral from './InputLiteral'
 import InputListLOC from './InputListLOC'
 import InputLookupQA from './InputLookupQA'
 import ModalToggle from './ModalToggle'
-<<<<<<< HEAD
 import lookupConfig from '../../../static/spoofedFilesFromServer/fromSinopiaServer/lookupConfig.json'
-=======
 import { getRDF } from '../../actions/index'
->>>>>>> d4220fd... RDF reducer with generateRDF action, displays literals and URIs from
 const { getResourceTemplate } = require('../../sinopiaServerSpoof.js')
 
 class ResourceTemplateForm extends Component {
@@ -109,17 +106,17 @@ class ResourceTemplateForm extends Component {
 
                   if (listComponent === 'list'){
                     return (
-                      <InputListLOC propertyTemplate = {pt} lookupConfig = {lookupConfigItem} key = {index} />
+                      <InputListLOC propertyTemplate = {pt} lookupConfig = {lookupConfigItem} key = {index} rtId = {this.props.rtId} />
                     )
                   }
                   else if (listComponent ===  'lookup'){
                     return(
-                      <InputLookupQA propertyTemplate = {pt} lookupConfig = {lookupConfigItem} key = {index} />
+                      <InputLookupQA propertyTemplate = {pt} lookupConfig = {lookupConfigItem} key = {index} rtId = {this.props.rtId} />
                     )
                   }
                   else if(pt.type == 'literal'){
                     return(
-                      <InputLiteral propertyTemplate = {pt} key = {index} id = {index} {this.props.rtId} />
+                      <InputLiteral propertyTemplate = {pt} key = {index} id = {index} rtId = {this.props.rtId} />
                     )
                   }
                   else if (isResourceWithValueTemplateRefs) {

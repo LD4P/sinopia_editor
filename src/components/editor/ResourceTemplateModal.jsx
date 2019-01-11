@@ -35,8 +35,7 @@ class ResourceTemplateModal extends Component {
           <Modal.Title>{rtId}</Modal.Title>
         </Modal.Header>
         <Modal.Body>
-          <ResourceTemplateForm propertyTemplates = {this.props.propertyTemplates}
-            rtType = {this.props.rtType} />
+          <ResourceTemplateForm propertyTemplates = {this.props.propertyTemplates} />
         </Modal.Body>
         <Modal.Footer>
           <Button onClick={this.handleClose}>Cancel</Button>
