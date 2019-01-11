@@ -1,0 +1,890 @@
+[
+  {
+    "label": "AGROVOC (QA)",
+    "uri": "urn:ld4p:qa:agrovoc",
+    "authority": "agrovoc_ld4l_cache",
+    "subauthority": "",
+    "language": "en",
+    "component": "lookup"
+  },
+  {
+    "label": "DBPEDIA_(QA)",
+    "uri": "urn:ld4p:qa:dbpedia",
+    "authority": "dbpedia_ld4l_cache",
+    "subauthority": "",
+    "language": "en",
+    "component": "lookup"
+  },
+  {
+    "label": "GEONAMES_all (QA)",
+    "uri": "urn:ld4p:qa:geonames",
+    "authority": "geonames_ld4l_cache",
+    "subauthority": "",
+    "language": "en",
+    "component": "lookup"
+  },
+  {
+    "label": "GEONAMES_area (QA)",
+    "uri": "urn:ld4p:qa:geonames:area",
+    "authority": "geonames_ld4l_cache",
+    "subauthority": "area",
+    "language": "en",
+    "component": "lookup"
+  },
+  {
+    "label": "GEONAMES_place (QA)",
+    "uri": "urn:ld4p:qa:geonames:place",
+    "authority": "geonames_ld4l_cache",
+    "subauthority": "place",
+    "language": "en",
+    "component": "lookup"
+  },
+  {
+    "label": "GEONAMES_area_and_place (QA)",
+    "uri": "urn:ld4p:qa:geonames:area_and_place",
+    "authority": "geonames_ld4l_cache",
+    "subauthority": "area_and_place",
+    "language": "en",
+    "component": "lookup"
+  },
+  {
+    "label": "GEONAMES_water (QA)",
+    "uri": "urn:ld4p:qa:geonames:water",
+    "authority": "geonames_ld4l_cache",
+    "subauthority": "water",
+    "language": "en",
+    "component": "lookup"
+  },
+  {
+    "label": "GEONAMES_park (QA)",
+    "uri": "urn:ld4p:qa:geonames:park",
+    "authority": "geonames_ld4l_cache",
+    "subauthority": "park",
+    "language": "en",
+    "component": "lookup"
+  },
+  {
+    "label": "GEONAMES_road (QA)",
+    "uri": "urn:ld4p:qa:geonames:road",
+    "authority": "geonames_ld4l_cache",
+    "subauthority": "road",
+    "language": "en",
+    "component": "lookup"
+  },
+  {
+    "label": "GEONAMES_spot (QA)",
+    "uri": "urn:ld4p:qa:geonames:spot",
+    "authority": "geonames_ld4l_cache",
+    "subauthority": "spot",
+    "language": "en",
+    "component": "lookup"
+  },
+  {
+    "label": "GEONAMES_terrain (QA)",
+    "uri": "urn:ld4p:qa:geonames:terrain",
+    "authority": "geonames_ld4l_cache",
+    "subauthority": "terrain",
+    "language": "en",
+    "component": "lookup"
+  },
+  {
+    "label": "GEONAMES_undersea (QA)",
+    "uri": "urn:ld4p:qa:geonames:undersea",
+    "authority": "geonames_ld4l_cache",
+    "subauthority": "undersea",
+    "language": "en",
+    "component": "lookup"
+  },
+  {
+    "label": "GEONAMES_vegetation (QA)",
+    "uri": "urn:ld4p:qa:geonames:vegetation",
+    "authority": "geonames_ld4l_cache",
+    "subauthority": "vegetation",
+    "language": "en",
+    "component": "lookup"
+  },
+  {
+    "label": "GETTY_AAT all terms (QA)",
+    "uri": "urn:ld4p:qa:gettyaat",
+    "authority": "getty_att_ld4l_cache",
+    "subauthority": "",
+    "language": "en",
+    "component": "lookup"
+  },
+  {
+    "label": "GETTY_AAT Activities (QA)",
+    "uri": "urn:ld4p:qa:gettyaat:Activities",
+    "authority": "getty_att_ld4l_cache",
+    "subauthority": "Activities",
+    "language": "en",
+    "component": "lookup"
+  },
+  {
+    "label": "GETTY_AAT Activities__Disciplines (QA)",
+    "uri": "urn:ld4p:qa:gettyaat:Activities__Disciplines",
+    "authority": "getty_att_ld4l_cache",
+    "subauthority": "Activities__Disciplines",
+    "language": "en",
+    "component": "lookup"
+  },
+  {
+    "label": "GETTY_AAT Activities__Events (QA)",
+    "uri": "urn:ld4p:qa:gettyaat:Activities__Events",
+    "authority": "getty_att_ld4l_cache",
+    "subauthority": "Activities__Events",
+    "language": "en",
+    "component": "lookup"
+  },
+  {
+    "label": "GETTY_AAT Activities__Functions (QA)",
+    "uri": "urn:ld4p:qa:gettyaat:Activities__Functions",
+    "authority": "getty_att_ld4l_cache",
+    "subauthority": "Activities__Functions",
+    "language": "en",
+    "component": "lookup"
+  },
+  {
+    "label": "GETTY_AAT Activities__Physical_and_Mental (QA)",
+    "uri": "urn:ld4p:qa:gettyaat:Activities__Physical_and_Mental",
+    "authority": "getty_att_ld4l_cache",
+    "subauthority": "Activities__Physical_and_Mental",
+    "language": "en",
+    "component": "lookup"
+  },
+  {
+    "label": "GETTY_AAT Activities__Processes_and_Techniques (QA)",
+    "uri": "urn:ld4p:qa:gettyaat:Activities__Processes_and_Techniques",
+    "authority": "getty_att_ld4l_cache",
+    "subauthority": "Activities__Processes_and_Techniques",
+    "language": "en",
+    "component": "lookup"
+  },
+  {
+    "label": "GETTY_AAT Agents (QA)",
+    "uri": "urn:ld4p:qa:gettyaat:Agents",
+    "authority": "getty_att_ld4l_cache",
+    "subauthority": "Agents",
+    "language": "en",
+    "component": "lookup"
+  },
+  {
+    "label": "GETTY_AAT Agents__Living_Organisms (QA)",
+    "uri": "urn:ld4p:qa:gettyaat:Agents__Living_Organisms",
+    "authority": "getty_att_ld4l_cache",
+    "subauthority": "Agents__Living_Organisms",
+    "language": "en",
+    "component": "lookup"
+  },
+  {
+    "label": "GETTY_AAT Agents__Organizations (QA)",
+    "uri": "urn:ld4p:qa:gettyaat:Agents__Organizations",
+    "authority": "getty_att_ld4l_cache",
+    "subauthority": "Agents__Organizations",
+    "language": "en",
+    "component": "lookup"
+  },
+  {
+    "label": "GETTY_AAT Agents__People (QA)",
+    "uri": "urn:ld4p:qa:gettyaat:Agents__People",
+    "authority": "getty_att_ld4l_cache",
+    "subauthority": "Agents__People",
+    "language": "en",
+    "component": "lookup"
+  },
+  {
+    "label": "GETTY_AAT Associated_Concepts (QA)",
+    "uri": "urn:ld4p:qa:gettyaat:Associated_Concepts",
+    "authority": "getty_att_ld4l_cache",
+    "subauthority": "Associated_Concepts",
+    "language": "en",
+    "component": "lookup"
+  },
+  {
+    "label": "GETTY_AAT Associated_Concepts__Associated_Concepts (QA)",
+    "uri": "urn:ld4p:qa:gettyaat:Associated_Concepts__Associated_Concepts",
+    "authority": "getty_att_ld4l_cache",
+    "subauthority": "Associated_Concepts__Associated_Concepts",
+    "language": "en",
+    "component": "lookup"
+  },
+  {
+    "label": "GETTY_AAT Brand_Names (QA)",
+    "uri": "urn:ld4p:qa:gettyaat:Brand_Names",
+    "authority": "getty_att_ld4l_cache",
+    "subauthority": "Brand_Names",
+    "language": "en",
+    "component": "lookup"
+  },
+  {
+    "label": "GETTY_AAT Brand_Names__Brand_Names (QA)",
+    "uri": "urn:ld4p:qa:gettyaat:Brand_Names__Brand_Names",
+    "authority": "getty_att_ld4l_cache",
+    "subauthority": "Brand_Names__Brand_Names",
+    "language": "en",
+    "component": "lookup"
+  },
+  {
+    "label": "GETTY_AAT Materials (QA)",
+    "uri": "urn:ld4p:qa:gettyaat:Materials",
+    "authority": "getty_att_ld4l_cache",
+    "subauthority": "Materials",
+    "language": "en",
+    "component": "lookup"
+  },
+  {
+    "label": "GETTY_AAT Materials__Materials (QA)",
+    "uri": "urn:ld4p:qa:gettyaat:Materials__Materials",
+    "authority": "getty_att_ld4l_cache",
+    "subauthority": "Materials__Materials",
+    "language": "en",
+    "component": "lookup"
+  },
+  {
+    "label": "GETTY_AAT Objects (QA)",
+    "uri": "urn:ld4p:qa:gettyaat:Objects",
+    "authority": "getty_att_ld4l_cache",
+    "subauthority": "Objects",
+    "language": "en",
+    "component": "lookup"
+  },
+  {
+    "label": "GETTY_AAT Objects__Built_Environment (QA)",
+    "uri": "urn:ld4p:qa:gettyaat:Objects__Built_Environment",
+    "authority": "getty_att_ld4l_cache",
+    "subauthority": "Objects__Built_Environment",
+    "language": "en",
+    "component": "lookup"
+  },
+  {
+    "label": "GETTY_AAT Objects__Components (QA)",
+    "uri": "urn:ld4p:qa:gettyaat:Objects__Components",
+    "authority": "getty_att_ld4l_cache",
+    "subauthority": "Objects__Components",
+    "language": "en",
+    "component": "lookup"
+  },
+  {
+    "label": "GETTY_AAT Objects__Furnishings_and_Equipment (QA)",
+    "uri": "urn:ld4p:qa:gettyaat:Objects__Furnishings_and_Equipment",
+    "authority": "getty_att_ld4l_cache",
+    "subauthority": "Objects__Furnishings_and_Equipment",
+    "language": "en",
+    "component": "lookup"
+  },
+  {
+    "label": "GETTY_AAT Objects__Object_Genres (QA)",
+    "uri": "urn:ld4p:qa:gettyaat:Objects__Object_Genres",
+    "authority": "getty_att_ld4l_cache",
+    "subauthority": "Objects__Object_Genres",
+    "language": "en",
+    "component": "lookup"
+  },
+  {
+    "label": "GETTY_AAT Objects__Object_Groupings and Systems (QA)",
+    "uri": "urn:ld4p:qa:gettyaat:Objects__Object_Groupings and Systems",
+    "authority": "getty_att_ld4l_cache",
+    "subauthority": "Objects__Object_Groupings and Systems",
+    "language": "en",
+    "component": "lookup"
+  },
+  {
+    "label": "GETTY_AAT Objects__Visual_and_Verbal_Communication (QA)",
+    "uri": "urn:ld4p:qa:gettyaat:Objects__Visual_and_Verbal_Communication",
+    "authority": "getty_att_ld4l_cache",
+    "subauthority": "Objects__Visual_and_Verbal_Communication",
+    "language": "en",
+    "component": "lookup"
+  },
+  {
+    "label": "GETTY_AAT Physical_Attributes (QA)",
+    "uri": "urn:ld4p:qa:gettyaat:Physical_Attributes",
+    "authority": "getty_att_ld4l_cache",
+    "subauthority": "Physical_Attributes",
+    "language": "en",
+    "component": "lookup"
+  },
+  {
+    "label": "GETTY_AAT Physical_Attributes__Attributes_and_Properties (QA)",
+    "uri": "urn:ld4p:qa:gettyaat:Physical_Attributes__Attributes_and_Properties",
+    "authority": "getty_att_ld4l_cache",
+    "subauthority": "Physical_Attributes__Attributes_and_Properties",
+    "language": "en",
+    "component": "lookup"
+  },
+  {
+    "label": "GETTY_AAT Physical_Attributes__Color (QA)",
+    "uri": "urn:ld4p:qa:gettyaat:Physical_Attributes__Color",
+    "authority": "getty_att_ld4l_cache",
+    "subauthority": "Physical_Attributes__Color",
+    "language": "en",
+    "component": "lookup"
+  },
+  {
+    "label": "GETTY_AAT Physical_Attributes__Conditions_and_Effects (QA)",
+    "uri": "urn:ld4p:qa:gettyaat:Physical_Attributes__Conditions_and_Effects",
+    "authority": "getty_att_ld4l_cache",
+    "subauthority": "Physical_Attributes__Conditions_and_Effects",
+    "language": "en",
+    "component": "lookup"
+  },
+  {
+    "label": "GETTY_AAT Physical_Attributes__Design_Elements (QA)",
+    "uri": "urn:ld4p:qa:gettyaat:Physical_Attributes__Design_Elements",
+    "authority": "getty_att_ld4l_cache",
+    "subauthority": "Physical_Attributes__Design_Elements",
+    "language": "en",
+    "component": "lookup"
+  },
+  {
+    "label": "GETTY_AAT  (QA)",
+    "uri": "urn:ld4p:qa:gettyaat",
+    "authority": "getty_att_ld4l_cache",
+    "subauthority": "",
+    "language": "en",
+    "component": "lookup"
+  },
+  {
+    "label": "GETTY_AAT Styles_and_Periods (QA)",
+    "uri": "urn:ld4p:qa:gettyaat:Styles_and_Periods",
+    "authority": "getty_att_ld4l_cache",
+    "subauthority": "Styles_and_Periods",
+    "language": "en",
+    "component": "lookup"
+  },
+  {
+    "label": "GETTY_AAT Styles_and_Periods__Styles_and_Periods (QA)",
+    "uri": "urn:ld4p:qa:gettyaat:Styles_and_Periods__Styles_and_Periods",
+    "authority": "getty_att_ld4l_cache",
+    "subauthority": "Styles_and_Periods__Styles_and_Periods",
+    "language": "en",
+    "component": "lookup"
+  },
+  {
+    "label": "GETTY_TGN (QA)",
+    "uri": "urn:ld4p:qa:gettytgn",
+    "authority": "getty_att_ld4l_cache",
+    "subauthority": "",
+    "language": "en",
+    "component": "lookup"
+  },
+  {
+    "label": "GETTY_ULAN (QA)",
+    "uri": "urn:ld4p:qa:gettyulan",
+    "authority": "getty_att_ld4l_cache",
+    "subauthority": "",
+    "language": "en",
+    "component": "lookup"
+  },
+  {
+    "label": "GETTY_ULAN person (QA)",
+    "uri": "urn:ld4p:qa:gettyulan:person",
+    "authority": "getty_att_ld4l_cache",
+    "subauthority": "person",
+    "language": "en",
+    "component": "lookup"
+  },
+  {
+    "label": "GETTY_ULAN organization (QA)",
+    "uri": "urn:ld4p:qa:gettyulan:organization",
+    "authority": "getty_att_ld4l_cache",
+    "subauthority": "organization",
+    "language": "en",
+    "component": "lookup"
+  },
+  {
+    "label": "LOC demographics (QA)",
+    "uri": "urn:ld4p:qa:demographics",
+    "authority": "locdemographics_ld4l_cache",
+    "subauthority": "",
+    "language": "en",
+    "component": "lookup"
+  },
+  {
+    "label": "LOC performance (QA)",
+    "uri": "urn:ld4p:qa:performance",
+    "authority": "locperformance_ld4l_cache",
+    "subauthority": "",
+    "language": "en",
+    "component": "lookup"
+  },
+  {
+    "label": "LOC all genres (QA)",
+    "uri": "urn:ld4p:qa:genres",
+    "authority": "locgenres_ld4l_cache",
+    "subauthority": "",
+    "language": "en",
+    "component": "lookup"
+  },
+  {
+    "label": "LOC person [genres] (QA)",
+    "uri": "urn:ld4p:qa:genres:person",
+    "authority": "locgenres_ld4l_cache",
+    "subauthority": "person",
+    "language": "en",
+    "component": "lookup"
+  },
+  {
+    "label": "LOC organization [genres] (QA)",
+    "uri": "urn:ld4p:qa:genres:organization",
+    "authority": "locgenres_ld4l_cache",
+    "subauthority": "organization",
+    "language": "en",
+    "component": "lookup"
+  },
+  {
+    "label": "LOC place [genres] (QA)",
+    "uri": "urn:ld4p:qa:genres:place",
+    "authority": "locgenres_ld4l_cache",
+    "subauthority": "place",
+    "language": "en",
+    "component": "lookup"
+  },
+  {
+    "label": "LOC intangible [genres] (QA)",
+    "uri": "urn:ld4p:qa:genres:intangible",
+    "authority": "locgenres_ld4l_cache",
+    "subauthority": "intangible",
+    "language": "en",
+    "component": "lookup"
+  },
+  {
+    "label": "LOC geocoordinates [genres] (QA)",
+    "uri": "urn:ld4p:qa:genres:geocoordinates",
+    "authority": "locgenres_ld4l_cache",
+    "subauthority": "geocoordinates",
+    "language": "en",
+    "component": "lookup"
+  },
+  {
+    "label": "LOC work [genres] (QA)",
+    "uri": "urn:ld4p:qa:genres:work",
+    "authority": "locgenres_ld4l_cache",
+    "subauthority": "work",
+    "language": "en",
+    "component": "lookup"
+  },
+  {
+    "label": "LOC all names (QA)",
+    "uri": "urn:ld4p:qa:names",
+    "authority": "locnames_ld4l_cache",
+    "subauthority": "",
+    "language": "en",
+    "component": "lookup"
+  },
+  {
+    "label": "LOC person [names] (QA)",
+    "uri": "urn:ld4p:qa:names:person",
+    "authority": "locnames_ld4l_cache",
+    "subauthority": "person",
+    "language": "en",
+    "component": "lookup"
+  },
+  {
+    "label": "LOC organization [names] (QA)",
+    "uri": "urn:ld4p:qa:names:organization",
+    "authority": "locnames_ld4l_cache",
+    "subauthority": "organization",
+    "language": "en",
+    "component": "lookup"
+  },
+  {
+    "label": "LOC place [names] (QA)",
+    "uri": "urn:ld4p:qa:names:place",
+    "authority": "locnames_ld4l_cache",
+    "subauthority": "place",
+    "language": "en",
+    "component": "lookup"
+  },
+  {
+    "label": "LOC intangible [names] (QA)",
+    "uri": "urn:ld4p:qa:names:intangible",
+    "authority": "locnames_ld4l_cache",
+    "subauthority": "intangible",
+    "language": "en",
+    "component": "lookup"
+  },
+  {
+    "label": "LOC geocoordinates [names] (QA)",
+    "uri": "urn:ld4p:qa:names:geocoordinates",
+    "authority": "locnames_ld4l_cache",
+    "subauthority": "geocoordinates",
+    "language": "en",
+    "component": "lookup"
+  },
+  {
+    "label": "LOC work [names] (QA)",
+    "uri": "urn:ld4p:qa:names:work",
+    "authority": "locnames_ld4l_cache",
+    "subauthority": "work",
+    "language": "en",
+    "component": "lookup"
+  },
+  {
+    "label": "LOC all subjects (QA)",
+    "uri": "urn:ld4p:qa:subjects",
+    "authority": "locnames_ld4l_cache",
+    "subauthority": "",
+    "language": "en",
+    "component": "lookup"
+  },
+  {
+    "label": "LOC person [subjects] (QA)",
+    "uri": "urn:ld4p:qa:subjects:person",
+    "authority": "locsubjects_ld4l_cache",
+    "subauthority": "person",
+    "language": "en",
+    "component": "lookup"
+  },
+  {
+    "label": "LOC organization [subjects] (QA)",
+    "uri": "urn:ld4p:qa:subjects:organization",
+    "authority": "locsubjects_ld4l_cache",
+    "subauthority": "organization",
+    "language": "en",
+    "component": "lookup"
+  },
+  {
+    "label": "LOC place [subjects] (QA)",
+    "uri": "urn:ld4p:qa:subjects:place",
+    "authority": "locsubjects_ld4l_cache",
+    "subauthority": "place",
+    "language": "en",
+    "component": "lookup"
+  },
+  {
+    "label": "LOC intangible [subjects] (QA)",
+    "uri": "urn:ld4p:qa:subjects:intangible",
+    "authority": "locsubjects_ld4l_cache",
+    "subauthority": "intangible",
+    "language": "en",
+    "component": "lookup"
+  },
+  {
+    "label": "LOC geocoordinates [subjects] (QA)",
+    "uri": "urn:ld4p:qa:subjects:geocoordinates",
+    "authority": "locsubjects_ld4l_cache",
+    "subauthority": "geocoordinates",
+    "language": "en",
+    "component": "lookup"
+  },
+  {
+    "label": "LOC work [subjects] (QA)",
+    "uri": "urn:ld4p:qa:subjects:work",
+    "authority": "locsubjects_ld4l_cache",
+    "subauthority": "work",
+    "language": "en",
+    "component": "lookup"
+  },
+  {
+    "label": "MESH (QA)",
+    "uri": "urn:ld4p:qa:mesh",
+    "authority": "mesh_ld4l_cache",
+    "subauthority": "",
+    "language": "en",
+    "component": "lookup"
+  },
+  {
+    "label": "NALT (QA)",
+    "uri": "urn:ld4p:qa:nalt",
+    "authority": "nalt_ld4l_cache",
+    "subauthority": "",
+    "language": "en",
+    "component": "lookup"
+  },
+  {
+    "label": "OCLCFAST (QA)",
+    "uri": "urn:ld4p:qa:fast",
+    "authority": "oclcfast_ld4l_cache",
+    "subauthority": "",
+    "language": "en",
+    "component": "lookup"
+  },
+  {
+    "label": "OCLCFAST concept (QA)",
+    "uri": "urn:ld4p:qa:fast:concept",
+    "authority": "oclcfast_ld4l_cache",
+    "subauthority": "concept",
+    "language": "en",
+    "component": "lookup"
+  },
+  {
+    "label": "OCLCFAST event (QA)",
+    "uri": "urn:ld4p:qa:fast:event",
+    "authority": "oclcfast_ld4l_cache",
+    "subauthority": "event",
+    "language": "en",
+    "component": "lookup"
+  },
+  {
+    "label": "OCLCFAST person (QA)",
+    "uri": "urn:ld4p:qa:fast:person",
+    "authority": "oclcfast_ld4l_cache",
+    "subauthority": "person",
+    "language": "en",
+    "component": "lookup"
+  },
+  {
+    "label": "OCLCFAST organization (QA)",
+    "uri": "urn:ld4p:qa:fast:organization",
+    "authority": "oclcfast_ld4l_cache",
+    "subauthority": "organization",
+    "language": "en",
+    "component": "lookup"
+  },
+  {
+    "label": "OCLCFAST place (QA)",
+    "uri": "urn:ld4p:qa:fast:place",
+    "authority": "oclcfast_ld4l_cache",
+    "subauthority": "place",
+    "language": "en",
+    "component": "lookup"
+  },
+  {
+    "label": "OCLCFAST intangible (QA)",
+    "uri": "urn:ld4p:qa:fast:intangible",
+    "authority": "oclcfast_ld4l_cache",
+    "subauthority": "intangible",
+    "language": "en",
+    "component": "lookup"
+  },
+  {
+    "label": "OCLCFAST work (QA)",
+    "uri": "urn:ld4p:qa:fast:work",
+    "authority": "oclcfast_ld4l_cache",
+    "subauthority": "work",
+    "language": "en",
+    "component": "lookup"
+  },
+  {
+    "label": "OCLCFAST topic (QA)",
+    "uri": "urn:ld4p:qa:oclc_fast:topic",
+    "authority": "oclc_fast",
+    "subauthority": "topic",
+    "language": "en",
+    "component": "lookup"
+  },
+  {
+    "label": "OCLCFAST geographic (QA)",
+    "uri": "urn:ld4p:qa:oclc_fast:geographic",
+    "authority": "oclc_fast",
+    "subauthority": "geographic",
+    "language": "en",
+    "component": "lookup"
+  },
+  {
+    "label": "OCLCFAST event_name (QA)",
+    "uri": "urn:ld4p:qa:oclc_fast:event_name",
+    "authority": "oclc_fast",
+    "subauthority": "event_name",
+    "language": "en",
+    "component": "lookup"
+  },
+  {
+    "label": "OCLCFAST personal_name (QA)",
+    "uri": "urn:ld4p:qa:oclc_fast:personal_name",
+    "authority": "oclc_fast",
+    "subauthority": "personal_name",
+    "language": "en",
+    "component": "lookup"
+  },
+  {
+    "label": "OCLCFAST corporate_name (QA)",
+    "uri": "urn:ld4p:qa:oclc_fast:corporate_name",
+    "authority": "oclc_fast",
+    "subauthority": "corporate_name",
+    "language": "en",
+    "component": "lookup"
+  },
+  {
+    "label": "OCLCFAST uniform_title (QA)",
+    "uri": "urn:ld4p:qa:oclc_fast:uniform_title",
+    "authority": "oclc_fast",
+    "subauthority": "uniform_title",
+    "language": "en",
+    "component": "lookup"
+  },
+  {
+    "label": "OCLCFAST period (QA)",
+    "uri": "urn:ld4p:qa:oclc_fast:period",
+    "authority": "oclc_fast",
+    "subauthority": "period",
+    "language": "en",
+    "component": "lookup"
+  },
+  {
+    "label": "OCLCFAST form (QA)",
+    "uri": "urn:ld4p:qa:oclc_fast:form",
+    "authority": "oclc_fast",
+    "subauthority": "form",
+    "language": "en",
+    "component": "lookup"
+  },
+  {
+    "label": "OCLCFAST alt_lc (QA)",
+    "uri": "urn:ld4p:qa:oclc_fast:alt_lc",
+    "authority": "oclc_fast",
+    "subauthority": "alt_lc",
+    "language": "en",
+    "component": "lookup"
+  },
+  {
+    "label": "MARC relator terms",
+    "uri": "http://id.loc.gov/vocabulary/relators",
+    "component": "list"
+  },
+  {
+    "label": "carrier",
+    "uri": "http://id.loc.gov/vocabulary/carriers",
+    "component": "list"
+  },
+  {
+    "label": "class schedule used",
+    "uri": "http://id.loc.gov/vocabulary/classSchemes",
+    "component": "list"
+  },
+  {
+    "label": "color",
+    "uri": "http://id.loc.gov/vocabulary/mcolor",
+    "component": "list"
+  },
+  {
+    "label": "content type",
+    "uri": "http://id.loc.gov/vocabulary/contentTypes",
+    "component": "list"
+  },
+  {
+    "label": "description authentication",
+    "uri": "http://id.loc.gov/vocabulary/marcauthen",
+    "component": "list"
+  },
+  {
+    "label": "description conventions",
+    "uri": "http://id.loc.gov/vocabulary/descriptionConventions",
+    "component": "list"
+  },
+  {
+    "label": "encoding level",
+    "uri": "http://mlvlp04.loc.gov:8080/vocabulary/menclvl",
+    "component": "list"
+  },
+  {
+    "label": "illustrative content",
+    "uri": "http://id.loc.gov/vocabulary/millus",
+    "component": "list"
+  },
+  {
+    "label": "intended audience",
+    "uri": "http://id.loc.gov/vocabulary/maudience",
+    "component": "list"
+  },
+  {
+    "label": "language",
+    "uri": "http://id.loc.gov/vocabulary/languages",
+    "component": "list"
+  },
+  {
+    "label": "media type",
+    "uri": "http://id.loc.gov/vocabulary/mediaTypes",
+    "component": "list"
+  },
+  {
+    "label": "mode of issuance",
+    "uri": "http://id.loc.gov/vocabulary/issuance",
+    "component": "list"
+  },
+  {
+    "label": "applied material",
+    "uri": "http://id.loc.gov/vocabulary/mmaterial",
+    "component": "list"
+  },
+  {
+    "label": "aspect ratio",
+    "uri": "http://id.loc.gov/vocabulary/maspect",
+    "component": "list"
+  },
+  {
+    "label": "base material",
+    "uri": "http://id.loc.gov/vocabulary/mmaterial",
+    "component": "list"
+  },
+  {
+    "label": "broadcast standard",
+    "uri": "http://id.loc.gov/vocabulary/mbroadstd",
+    "component": "list"
+  },
+  {
+    "label": "file type",
+    "uri": "http://id.loc.gov/vocabulary/mfiletype",
+    "component": "list"
+  },
+  {
+    "label": "form of musical notation",
+    "uri": "http://id.loc.gov/vocabulary/mmusnotation",
+    "component": "list"
+  },
+  {
+    "label": "format of notated music",
+    "uri": "http://id.loc.gov/vocabulary/mmusicformat",
+    "component": "list"
+  },
+  {
+    "label": "frequency",
+    "uri": "http://id.loc.gov/vocabulary/frequencies",
+    "component": "list"
+  },
+  {
+    "label": "genre/form scheme",
+    "uri": "http://id.loc.gov/vocabulary/genreFormSchemes",
+    "component": "list"
+  },
+  {
+    "label": "groove characteristics",
+    "uri": "http://id.loc.gov/vocabulary/mgroove",
+    "component": "list"
+  },
+  {
+    "label": "layout",
+    "uri": "http://id.loc.gov/vocabulary/mlayout",
+    "component": "list"
+  },
+  {
+    "label": "playback channels",
+    "uri": "http://id.loc.gov/vocabulary/mplayback",
+    "component": "list"
+  },
+  {
+    "label": "polarity",
+    "uri": "http://id.loc.gov/vocabulary/mpolarity",
+    "component": "list"
+  },
+  {
+    "label": "production method",
+    "uri": "http://id.loc.gov/vocabulary/mproduction",
+    "component": "list"
+  },
+  {
+    "label": "recording medium",
+    "uri": "http://id.loc.gov/vocabulary/mrecmedium",
+    "component": "list"
+  },
+  {
+    "label": "regional encoding",
+    "uri": "http://id.loc.gov/vocabulary/mregencoding",
+    "component": "list"
+  },
+  {
+    "label": "sound content",
+    "uri": "http://id.loc.gov/vocabulary/msoundcontent",
+    "component": "list"
+  },
+  {
+    "label": "special playback characteristics",
+    "uri": "http://id.loc.gov/vocabulary/mplayback",
+    "component": "list"
+  },
+  {
+    "label": "type of recording",
+    "uri": "http://id.loc.gov/vocabulary/mrectype",
+    "component": "list"
+  }
+]

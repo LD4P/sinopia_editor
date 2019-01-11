@@ -7,7 +7,7 @@ import { connect } from 'react-redux'
 import { changeSelections } from '../../actions/index'
 
 class
-  InputList extends Component {
+  InputListLOC extends Component {
   constructor(props) {
     super(props)
     this.state = {
@@ -39,11 +39,11 @@ class
   }
 
   render() {
-    let list_url, isMandatory, isRepeatable
+    let lookupUri, isMandatory, isRepeatable
     try {
-      list_url = this.props.propertyTemplate.valueConstraint.useValuesFrom[0]
       isMandatory = JSON.parse(this.props.propertyTemplate.mandatory)
       isRepeatable = JSON.parse(this.props.propertyTemplate.repeatable)
+      lookupUri = this.props.lookupConfig.value.uri
     } catch (error) {
       console.log(`Some properties were not defined in the json file: ${error}`)
     }
@@ -67,7 +67,7 @@ class
         <Typeahead
           onFocus={() => {
             this.setState({isLoading: true})
-            fetch(`${list_url}.json`)
+            fetch(`${lookupUri}.json`)
               .then(resp => resp.json())
               .then(json => {
                 for(var i in json){
@@ -97,7 +97,7 @@ class
   }
 }
 
-InputList.propTypes = {
+InputListLOC.propTypes = {
   propertyTemplate: PropTypes.shape({
     propertyLabel: PropTypes.string,
     propertyURI: PropTypes.string,
@@ -124,4 +124,4 @@ const mapDispatchtoProps = dispatch => ({
   }
 })
 
-export default connect(mapStatetoProps, mapDispatchtoProps)(InputList)
+export default connect(mapStatetoProps, mapDispatchtoProps)(InputListLOC)

@@ -5,9 +5,10 @@ import PropTypes from 'prop-types'
 import ButtonGroup from 'react-bootstrap/lib/ButtonGroup'
 import ButtonToolbar from 'react-bootstrap/lib/ButtonToolbar'
 import InputLiteral from './InputLiteral'
-import InputList from './InputList'
-import InputLookup from './InputLookup'
+import InputListLOC from './InputListLOC'
+import InputLookupQA from './InputLookupQA'
 import ModalToggle from './ModalToggle'
+import lookupConfig from '../../../static/spoofedFilesFromServer/fromSinopiaServer/lookupConfig.json'
 const { getResourceTemplate } = require('../../sinopiaServerSpoof.js')
 
 class ResourceTemplateForm extends Component {
@@ -62,34 +63,61 @@ class ResourceTemplateForm extends Component {
             <p>BEGIN ResourceTemplateForm</p>
               <div>
                 {this.props.propertyTemplates.map( (pt, index) => {
-                  if(pt.type == 'literal'){
+
+                  let isLookupWithConfig = Boolean(
+                    lookupConfig !== undefined &&
+                    pt.valueConstraint !== undefined &&
+                    pt.valueConstraint.useValuesFrom
+                  )
+
+                  let lookupConfigItem, templateUri, listComponent
+
+                  if (isLookupWithConfig) {
+                    templateUri = pt.valueConstraint.useValuesFrom[0]
+                    for(var i in lookupConfig){
+                      lookupConfigItem = Object.getOwnPropertyDescriptor(lookupConfig, i)
+                      if(lookupConfigItem.value.uri === templateUri){
+                        listComponent = lookupConfigItem.value.component
+                        break
+                      }
+                    }
+                  }
+
+                  let isResourceWithValueTemplateRefs = Boolean(
+                    pt.type == 'resource' &&
+                    pt.valueConstraint != null &&
+                    pt.valueConstraint.valueTemplateRefs != null
+                    && pt.valueConstraint.valueTemplateRefs.length > 0
+                  )
+
+                  if (listComponent === 'list'){
+                    return (
+                      <InputListLOC propertyTemplate = {pt} lookupConfig = {lookupConfigItem} key = {index} />
+                    )
+                  }
+                  else if (listComponent ===  'lookup'){
+                    return(
+                      <InputLookupQA propertyTemplate = {pt} lookupConfig = {lookupConfigItem} key = {index} />
+                    )
+                  }
+                  else if(pt.type == 'literal'){
                     return(
                       <InputLiteral propertyTemplate = {pt} key = {index} id = {index} />
                     )
                   }
-                  else if (pt.type == 'resource') {
-                    if (pt.valueConstraint != null && pt.valueConstraint.valueTemplateRefs != null && pt.valueConstraint.valueTemplateRefs.length > 0) {
-                      // TODO: some valueTemplateRefs may be lookups??
-                      return (
-                        <ButtonToolbar key={index}>
-                          <div>
-                            <b>{pt.propertyLabel}</b>
-                          </div>
-                          {this.resourceTemplateButtons(pt.valueConstraint.valueTemplateRefs)}
-                        </ButtonToolbar>
-                      )
-                    } else if (pt.valueConstraint.useValuesFrom[0] != null && pt.valueConstraint.useValuesFrom.length > 0) {
-                      return (
-                        <InputList propertyTemplate = {pt} key = {index} />
-                      )
-                    } else {
-                      return (<p key={index}><b>{pt.propertyLabel}</b>: <i>NON-modal resource</i></p>)
-                    }
-                  }
-                  else if (pt.type == 'lookup'){
-                    return(
-                      <InputLookup propertyTemplate = {pt} key = {index} />
+                  else if (isResourceWithValueTemplateRefs) {
+                    // TODO: some valueTemplateRefs may be lookups??
+                    return (
+                      <ButtonToolbar key={index}>
+                        <div>
+                          <b>{pt.propertyLabel}</b>
+                        </div>
+                        {this.resourceTemplateButtons(pt.valueConstraint.valueTemplateRefs)}
+                      </ButtonToolbar>
                     )
+                  }
+                  else if (pt.type == 'resource'){
+                    return (<p key={index}><b>{pt.propertyLabel}</b>: <i>NON-modal resource</i></p>)
                   }
                 })}
               </div>
@@ -102,7 +130,8 @@ class ResourceTemplateForm extends Component {
 }
 
 ResourceTemplateForm.propTypes = {
-  propertyTemplates: PropTypes.arrayOf(PropTypes.object).isRequired
+  propertyTemplates: PropTypes.arrayOf(PropTypes.object).isRequired,
+  lookupConfig: PropTypes.object
 }
 
 export default ResourceTemplateForm
