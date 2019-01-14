@@ -1,6 +1,7 @@
 // Copyright 2018 Stanford University see Apache2.txt for license
 
 import React, {Component} from 'react'
+import { connect } from 'react-redux'
 import PropTypes from 'prop-types'
 import ButtonGroup from 'react-bootstrap/lib/ButtonGroup'
 import ButtonToolbar from 'react-bootstrap/lib/ButtonToolbar'
@@ -9,6 +10,7 @@ import InputListLOC from './InputListLOC'
 import InputLookupQA from './InputLookupQA'
 import ModalToggle from './ModalToggle'
 import lookupConfig from '../../../static/spoofedFilesFromServer/fromSinopiaServer/lookupConfig.json'
+import { getRDF } from '../../actions/index'
 const { getResourceTemplate } = require('../../sinopiaServerSpoof.js')
 
 class ResourceTemplateForm extends Component {
@@ -17,15 +19,27 @@ class ResourceTemplateForm extends Component {
     this.rtModalButton = this.rtModalButton.bind(this)
     this.resourceTemplateButtons = this.resourceTemplateButtons.bind(this)
     this.defaultValues = this.defaultValues.bind(this)
+    this.previewRDF = this.previewRDF.bind(this)
     this.defaultValues()
   }
 
-  rtModalButton = (rtId) => {
+  previewRDF = () => {
+    const inputs = {}
+    inputs['literals'] = this.props.literals
+    inputs['lookups'] = this.props.lookups
+    inputs['rtId'] = this.props.rtId
+    inputs['type'] = this.props.resourceTemplate.resourceURI
+    // TODO: Add Modal to inputs
+    this.props.handleGenerateRDF(inputs)
+  }
+
+  rtModalButton = (rtId, rtType) => {
     let resourceTemplate = getResourceTemplate(rtId)
     return (
       <ModalToggle
         key={rtId}
         rtId={rtId}
+        rtType={rtType}
         buttonLabel={resourceTemplate.resourceLabel}
         propertyTemplates ={resourceTemplate.propertyTemplates}
       />
@@ -92,17 +106,17 @@ class ResourceTemplateForm extends Component {
 
                   if (listComponent === 'list'){
                     return (
-                      <InputListLOC propertyTemplate = {pt} lookupConfig = {lookupConfigItem} key = {index} />
+                      <InputListLOC propertyTemplate = {pt} lookupConfig = {lookupConfigItem} key = {index} rtId = {this.props.rtId} />
                     )
                   }
                   else if (listComponent ===  'lookup'){
                     return(
-                      <InputLookupQA propertyTemplate = {pt} lookupConfig = {lookupConfigItem} key = {index} />
+                      <InputLookupQA propertyTemplate = {pt} lookupConfig = {lookupConfigItem} key = {index} rtId = {this.props.rtId} />
                     )
                   }
                   else if(pt.type == 'literal'){
                     return(
-                      <InputLiteral propertyTemplate = {pt} key = {index} id = {index} />
+                      <InputLiteral propertyTemplate = {pt} key = {index} id = {index} rtId = {this.props.rtId} />
                     )
                   }
                   else if (isResourceWithValueTemplateRefs) {
@@ -122,6 +136,10 @@ class ResourceTemplateForm extends Component {
                 })}
               </div>
             <p>END ResourceTemplateForm</p>
+            <button
+              type="button"
+              className="btn btn-success btn-sm"
+              onClick={this.previewRDF}>Preview RDF</button>
           </div>
         </form>
       )
@@ -130,8 +148,26 @@ class ResourceTemplateForm extends Component {
 }
 
 ResourceTemplateForm.propTypes = {
+  literals: PropTypes.oneOfType([PropTypes.array, PropTypes.object]).isRequired,
+  lookups: PropTypes.oneOfType([PropTypes.array, PropTypes.object]).isRequired,
+  handleGenerateRDF: PropTypes.func.isRequired,
   propertyTemplates: PropTypes.arrayOf(PropTypes.object).isRequired,
-  lookupConfig: PropTypes.object
+  resourceTemplate: PropTypes.object.isRequired,
+  rtId: PropTypes.string.isRequired
 }
 
-export default ResourceTemplateForm
+const mapStateToProps = (state) => {
+  return {
+    literals: state.literal,
+    lookups: state.lookups
+  }
+}
+
+const mapDispatchToProps = dispatch => (
+  {
+  handleGenerateRDF(inputs){
+    dispatch(getRDF(inputs))
+  }
+})
+
+export default connect(mapStateToProps, mapDispatchToProps)(ResourceTemplateForm)

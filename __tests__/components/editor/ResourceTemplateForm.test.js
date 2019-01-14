@@ -2,7 +2,7 @@
 
 import React from 'react'
 import ButtonToolbar from 'react-bootstrap/lib/ButtonToolbar'
-import { shallow } from 'enzyme'
+import { mount, shallow } from 'enzyme'
 import InputLiteral from '../../../src/components/editor/InputLiteral'
 import ModalToggle from '../../../src/components/editor/ModalToggle'
 import ResourceTemplateForm from '../../../src/components/editor/ResourceTemplateForm'
@@ -60,7 +60,10 @@ const rtProps = {
 }
 
 describe('<ResourceTemplateForm />', () => {
-  const wrapper = shallow(<ResourceTemplateForm {...rtProps} />)
+  const mockHandleGenerateRDF = jest.fn()
+  const wrapper = shallow(<ResourceTemplateForm.WrappedComponent
+    {...rtProps}
+    handleGenerateRDF = {mockHandleGenerateRDF} />)
 
   it('renders the ResourceTemplateForm text nodes', () => {
     wrapper.find('div.ResourceTemplateForm > p').forEach((node) => {
@@ -102,10 +105,28 @@ describe('<ResourceTemplateForm />', () => {
         expect(node.prop('propertyTemplates')).toBeInstanceOf(Array)
       })
     })
+
+  })
+
+  describe('a generate RDF button', () => {
+    const rtTest = { resourceURI: "http://id.loc.gov/ontologies/bibframe/Work" }
+    const rdf_wrapper = shallow(<ResourceTemplateForm.WrappedComponent
+      {...rtProps}
+      resourceTemplate = {rtTest}
+      handleGenerateRDF = {mockHandleGenerateRDF} />)
+    it('renders a Preview RDF button', () =>{
+      expect(rdf_wrapper
+        .find('div > button.btn-success').length)
+        .toEqual(1)
+    })
+    it('displays a pop-up alert when clicked', () => {
+      rdf_wrapper.find('div > button.btn-success').simulate('click')
+      expect(mockHandleGenerateRDF.mock.calls.length).toBe(1)
+    })
   })
 
   it('renders error text when there are no propertyTemplates', () => {
-    const myWrap = shallow(<ResourceTemplateForm propertyTemplates={[]} />)
+    const myWrap = shallow(<ResourceTemplateForm.WrappedComponent propertyTemplates={[]} />)
     const errorEl = myWrap.find('h1')
     expect(errorEl).toHaveLength(1)
     expect(errorEl.text()).toEqual('There are no propertyTemplates - probably an error.')
