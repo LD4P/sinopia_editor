@@ -77,12 +77,28 @@ a.editor-help-resources {
 #footer-text{
   padding-left: 10%;
 }
-.editor-logo a{
+h1.editor-logo {
   text-decoration: none;
   font-family: "Copperplate Gothic Light";
-  font-size: 1.3em;
+  font-size: 3.5em;
   color: #2F2424;
+  margin-top: 5px;
+  padding-left: 25px;
 }
+
+h2.editor-subtitle {
+  font-size: 1.2em;
+  margin-bottom: 5px;
+}
+
+a.editor-subtitle {
+  text-decoration: none;
+  font-family: "Copperplate Gothic Light";
+  color: #2F2424 !important;
+  padding-left: 25px;
+
+}
+
 input.rbt-input-main {
   min-width: 300px;
 }
