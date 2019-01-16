@@ -1,10 +1,10 @@
 import { combineReducers } from 'redux'
 import literal from './literal'
 import lookups from './lookups'
-import { generateRDF } from './rdf'
+import { generateLD } from './linkedData'
 
 export default combineReducers({
   literal,
   lookups,
-  generateRDF
+  generateLD
 })

@@ -13,7 +13,8 @@ export const changeSelections = item => ({
   payload: item
 })
 
-export const getRDF = inputs => ({
-  type: 'GENERATE_RDF',
+export const getLD = inputs => ({
+  type: 'GENERATE_LD',
   payload: inputs
 })
+

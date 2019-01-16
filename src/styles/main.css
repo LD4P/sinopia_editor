@@ -86,3 +86,6 @@ a.editor-help-resources {
 input.rbt-input-main {
   min-width: 300px;
 }
+ .rdf-modal-content {
+  padding: 20px 25px 20px 20px;
+}
