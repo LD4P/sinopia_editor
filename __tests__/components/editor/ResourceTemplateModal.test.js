@@ -9,13 +9,15 @@ import ResourceTemplateModal from '../../../src/components/editor/ResourceTempla
 
 describe('<ResourceTemplateModal />', () => {
   const propTemplates = [{key: 'value'}]
+  const rTemplate = {key: 'value'}
   const tvFunc = () => {}
-  const wrapper = shallow(<ResourceTemplateModal
+  const wrapper = shallow(<ResourceTemplateModal.WrappedComponent
                             rtId='a'
                             modalId='a'
                             visible={true}
                             toggleVisibility={tvFunc}
                             propertyTemplates={propTemplates}
+                            resourceTemplate={rTemplate}
                           />)
 
   describe('header', () => {
@@ -47,7 +49,7 @@ describe('<ResourceTemplateModal />', () => {
       expect(wrapper.find(Modal.Footer).length).toBe(1)
     })
     it('has two Buttons (Cancel and Save)', () => {
-      expect(wrapper.find(Modal.Footer).find(Button).length).toBe(2)
+      expect(wrapper.find(Modal.Footer).find(Button).length).toBe(1)
     })
   })
 })

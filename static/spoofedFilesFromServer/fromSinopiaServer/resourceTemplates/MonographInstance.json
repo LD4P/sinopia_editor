@@ -128,7 +128,7 @@
     },
     {
       "propertyLabel": "WITH ALL VALUE CONSTRAINTS",
-      "propertyURI": "http://id.loc.gov/ontologies/fake",
+      "propertyURI": "http://id.loc.gov/ontologies/bibframe/itemPortion",
       "repeatable": "true",
       "resourceTemplates": [],
       "type": "resource",

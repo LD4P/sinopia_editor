@@ -4,6 +4,7 @@ import React from 'react'
 import { shallow, mount } from 'enzyme'
 import StartingPoints from '../../../src/components/editor/StartingPoints'
 import DropZone from '../../../src/components/editor/StartingPoints'
+import { MemoryRouter } from 'react-router-dom'
 
 const jsdom = require("jsdom")
 require('isomorphic-fetch')
@@ -26,9 +27,11 @@ describe('<StartingPoints />', () => {
 })
 
 describe('<DropZone />', () => {
-  let wrapper = mount(<DropZone/>)
+  const tempStateCallbackFn = jest.fn()
+  let wrapper = mount(<MemoryRouter><DropZone tempStateCallback={tempStateCallbackFn}/></MemoryRouter>)
 
   it('shows the dropzone div when button is clicked', () => {
+    wrapper.setState({showDropZone: false})
     wrapper.find('button.btn').simulate('click')
     expect(wrapper.find('DropZone > section > p').text())
       .toEqual('Drop resource template file or click to select a file to upload:')
@@ -40,9 +43,20 @@ describe('<DropZone />', () => {
   })
 
   it('hides the dropzone div when the file dialog is canceled', () => {
+    wrapper.setState({showDropZone: true})
     wrapper.find('button.btn').simulate('click')
     expect(wrapper.state('showDropZone')).toBeTruthy()
-    wrapper.instance().updateShowDropZone(false)
+    wrapper.find(DropZone).instance().updateShowDropZone(false)
+    wrapper.setState({showDropZone: false})
+    expect(wrapper.state('showDropZone')).toBeFalsy()
+  })
+
+  it('hides the dropzone div when the resource template menu link is clicked', () => {
+    wrapper.setState({showDropZone: true})
+    wrapper.find('button.btn').simulate('click')
+    expect(wrapper.state('showDropZone')).toBeTruthy()
+    wrapper.find(DropZone).instance().resetShowDropZone()
+    wrapper.setState({showDropZone: false})
     expect(wrapper.state('showDropZone')).toBeFalsy()
   })
 
