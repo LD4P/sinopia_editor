@@ -10,9 +10,13 @@ import InputListLOC from './InputListLOC'
 import InputLookupQA from './InputLookupQA'
 import RequiredSuperscript from './RequiredSuperscript'
 import ModalToggle from './ModalToggle'
+import RDFModal from './RDFModal'
 import lookupConfig from '../../../static/spoofedFilesFromServer/fromSinopiaServer/lookupConfig.json'
-import { getRDF } from '../../actions/index'
+import { getLD } from '../../actions/index'
 const { getResourceTemplate } = require('../../sinopiaServerSpoof.js')
+const N3 = require('n3')
+const { DataFactory } = N3
+const { blankNode } = DataFactory
 
 class ResourceTemplateForm extends Component {
   constructor(props) {
@@ -20,30 +24,63 @@ class ResourceTemplateForm extends Component {
     this.rtModalButton = this.rtModalButton.bind(this)
     this.resourceTemplateButtons = this.resourceTemplateButtons.bind(this)
     this.defaultValues = this.defaultValues.bind(this)
-    this.previewRDF = this.previewRDF.bind(this)
     this.mandatorySuperscript = this.mandatorySuperscript.bind(this)
+    this.rdfClose = this.rdfClose.bind(this)
+    this.makeSubject = this.makeSubject.bind(this)
+    this.handleSave = this.handleSave.bind(this)
+    this.setInputs = this.setInputs.bind(this)
     this.defaultValues()
+    this.state = {
+      showRdf: false,
+      rdfOuterSubject: this.makeSubject(),
+      inputs: {}
+    }
   }
 
-  previewRDF = () => {
-    const inputs = {}
-    inputs['literals'] = this.props.literals
-    inputs['lookups'] = this.props.lookups
-    inputs['rtId'] = this.props.rtId
-    inputs['type'] = this.props.resourceTemplate.resourceURI
-    // TODO: Add Modal to inputs
-    this.props.handleGenerateRDF(inputs)
+  defaultValues = () => {
+    this.props.propertyTemplates.map( (pt) =>{
+      if (pt.mandatory == undefined) pt.mandatory = "true"
+      if (pt.repeatable == undefined) pt.repeatable = "false"
+      if (pt.editable == undefined) pt.editable = "true"
+    })
   }
 
-  rtModalButton = (rtId, rtType) => {
+  handleSave = () => {
+    this.setState( { showRdf: true } )
+    this.props.handleGenerateLD(this.setInputs())
+  }
+
+  makeSubject() {
+    // in the future we will return a blank node or an IRI (using namedNode in the DataFactory ^^)...
+    // return namedNode('http://example.com')
+    return blankNode()
+  }
+
+  rdfClose = () => {
+    this.setState( { showRdf: false } )
+  }
+
+  // Note: rtIds is expected to be an array of length at least one
+  resourceTemplateButtons = (rtIds, propURI) => {
+    let buttons = []
+    rtIds.map((rtId, i) => {
+      buttons.push(<ButtonGroup key={`${rtId}-${i}`}>{this.rtModalButton(rtId, propURI)}</ButtonGroup>)
+    })
+    return buttons
+  }
+
+  rtModalButton = (rtId, propURI) => {
     let resourceTemplate = getResourceTemplate(rtId)
     return (
       <ModalToggle
         key={rtId}
         rtId={rtId}
-        rtType={rtType}
         buttonLabel={resourceTemplate.resourceLabel}
-        propertyTemplates ={resourceTemplate.propertyTemplates}
+        propertyTemplates={resourceTemplate.propertyTemplates}
+        resourceTemplate={resourceTemplate}
+        rdfOuterSubject = {this.state.rdfOuterSubject}
+        rdfPredicate = {propURI}
+        handleRDFDisplay = {this.handleRDFDisplay}
       />
     )
   }
@@ -64,11 +101,21 @@ class ResourceTemplateForm extends Component {
   }
 
   defaultValues = () => {
-    this.props.propertyTemplates.map( (pt) =>{
+    this.props.propertyTemplates.map((pt) => {
       if (pt.mandatory == undefined) pt.mandatory = "true"
       if (pt.repeatable == undefined) pt.repeatable = "false"
       if (pt.editable == undefined) pt.editable = "true"
     })
+  }
+
+  setInputs() {
+    let inputs = {}
+    inputs['literals'] = this.props.literals
+    inputs['lookups'] = this.props.lookups
+    inputs['rtId'] = this.props.rtId
+    inputs['resourceURI'] = this.props.resourceTemplate.resourceURI
+    inputs['linkedNode'] = this.state.rdfOuterSubject
+    return inputs
   }
 
   render() {
@@ -80,30 +127,37 @@ class ResourceTemplateForm extends Component {
       return <h1>There are no propertyTemplates - probably an error.</h1>
     } else {
       return (
-        <form style={dashedBorder}>
-          <div className='ResourceTemplateForm'>
-            <p>BEGIN ResourceTemplateForm</p>
-              <div>
-                {this.props.propertyTemplates.map( (pt, index) => {
+        <div>
+          <div>
+            <RDFModal show={this.state.showRdf}
+                      close={this.rdfClose}
+                      rtId={this.props.rtId}
+                      linkedData={ JSON.stringify(this.props.generateLD) }/>
+          </div>
+          <form style={dashedBorder}>
+            <div className='ResourceTemplateForm'>
+              <p>BEGIN ResourceTemplateForm</p>
+                <div>
+                  { this.props.propertyTemplates.map( (pt, index) => {
 
-                  let isLookupWithConfig = Boolean(
-                    lookupConfig !== undefined &&
-                    pt.valueConstraint !== undefined &&
-                    pt.valueConstraint.useValuesFrom
-                  )
+                    let isLookupWithConfig = Boolean(
+                      lookupConfig !== undefined &&
+                      pt.valueConstraint !== undefined &&
+                      pt.valueConstraint.useValuesFrom
+                    )
 
-                  let lookupConfigItem, templateUri, listComponent
+                    let lookupConfigItem, templateUri, listComponent
 
-                  if (isLookupWithConfig) {
-                    templateUri = pt.valueConstraint.useValuesFrom[0]
-                    for(var i in lookupConfig){
-                      lookupConfigItem = Object.getOwnPropertyDescriptor(lookupConfig, i)
-                      if(lookupConfigItem.value.uri === templateUri){
-                        listComponent = lookupConfigItem.value.component
-                        break
+                    if (isLookupWithConfig) {
+                      templateUri = pt.valueConstraint.useValuesFrom[0]
+                      for(var i in lookupConfig){
+                        lookupConfigItem = Object.getOwnPropertyDescriptor(lookupConfig, i)
+                        if(lookupConfigItem.value.uri === templateUri){
+                          listComponent = lookupConfigItem.value.component
+                          break
+                        }
                       }
                     }
-                  }
 
                   let isResourceWithValueTemplateRefs = Boolean(
                     pt.type == 'resource' &&
@@ -136,20 +190,21 @@ class ResourceTemplateForm extends Component {
                         </div>
                         {this.resourceTemplateButtons(pt.valueConstraint.valueTemplateRefs)}
                       </ButtonToolbar>
-                    )
-                  }
-                  else if (pt.type == 'resource'){
-                    return (<p key={index}><b>{pt.propertyLabel}</b>: <i>NON-modal resource</i></p>)
-                  }
-                })}
+                      )
+                    }
+                    else if (pt.type == 'resource'){
+                      return (<p key={index}><b>{pt.propertyLabel}</b>: <i>NON-modal resource</i></p>)
+                    }
+                  })
+                 }
+                </div>
+              <p>END ResourceTemplateForm</p>
+              <div>
+                {(this.props.rdfOuterSubject === undefined) ? (<button type="button" className="btn btn-success btn-sm" onClick={this.handleSave}>Preview RDF</button>) : null}
               </div>
-            <p>END ResourceTemplateForm</p>
-            <button
-              type="button"
-              className="btn btn-success btn-sm"
-              onClick={this.previewRDF}>Preview RDF</button>
-          </div>
-        </form>
+            </div>
+          </form>
+        </div>
       )
     }
   }
@@ -158,24 +213,27 @@ class ResourceTemplateForm extends Component {
 ResourceTemplateForm.propTypes = {
   literals: PropTypes.oneOfType([PropTypes.array, PropTypes.object]).isRequired,
   lookups: PropTypes.oneOfType([PropTypes.array, PropTypes.object]).isRequired,
-  handleGenerateRDF: PropTypes.func.isRequired,
+  handleGenerateLD: PropTypes.func,
   propertyTemplates: PropTypes.arrayOf(PropTypes.object).isRequired,
   resourceTemplate: PropTypes.object.isRequired,
-  rtId: PropTypes.string.isRequired
+  rtId: PropTypes.string,
+  parentResourceTemplate: PropTypes.string,
+  rdfOuterSubject: PropTypes.object,
+  rdfPredicate: PropTypes.string,
+  generateLD: PropTypes.object.isRequired
 }
 
 const mapStateToProps = (state) => {
   return {
     literals: state.literal,
-    lookups: state.lookups
+    lookups: state.lookups,
+    generateLD: state.generateLD
   }
 }
 
-const mapDispatchToProps = dispatch => (
-  {
-  handleGenerateRDF(inputs){
-    dispatch(getRDF(inputs))
-  }
+const mapDispatchToProps = dispatch => ({
+  handleGenerateLD(inputs){
+    dispatch(getLD(inputs))}
 })
 
 export default connect(mapStateToProps, mapDispatchToProps)(ResourceTemplateForm)

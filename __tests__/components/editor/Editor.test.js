@@ -7,7 +7,7 @@ import ResourceTemplate from '../../../src/components/editor/ResourceTemplate'
 import Header from '../../../src/components/editor/Header'
 
 describe('<Editor />', () => {
-  const wrapper = shallow(<Editor />)
+  const wrapper = shallow(<Editor.WrappedComponent />)
   it('has div with id "editor"', () => {
     expect(wrapper.find('div#editor').length).toBe(1)
   })

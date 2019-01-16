@@ -21,7 +21,13 @@ class ResourceTemplate extends Component {
       let json, result
       if(rtd !== undefined) {
         json = JSON.parse(rtd)
-        result = json['Profile']['resourceTemplates'] // from the profile editor
+        if (json['Profile'] !== undefined){
+          if (json['Profile']['resourceTemplates'] !== undefined){
+            result = json['Profile']['resourceTemplates'] // from the profile editor
+          }
+        } else {
+          result = [json] //from sinopia server
+        }
       }
       else {
         result = [getResourceTemplate(this.props.resourceTemplateId)]
@@ -49,6 +55,7 @@ class ResourceTemplate extends Component {
                   <ResourceTemplateForm
                     propertyTemplates = {rt.propertyTemplates}
                     resourceTemplate = {rt}
+                    parentResourceTemplate = {this.props.resourceTemplateId}
                     rtId = {rt.id}
                   />
                 <h4>END ResourceTemplate</h4>
@@ -66,4 +73,4 @@ ResourceTemplate.propTypes = {
   resourceTemplateData: PropTypes.string
 }
 
-export default ResourceTemplate;
+export default  ResourceTemplate

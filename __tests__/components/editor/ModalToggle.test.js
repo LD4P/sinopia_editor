@@ -7,10 +7,12 @@ import ModalToggle from '../../../src/components/editor/ModalToggle'
 
 describe('<ModalToggle />', () => {
   const propTemplates = [{key: 'value'}]
+  const rTemplate = {key: 'value'}
   const wrapper = shallow(<ModalToggle
                             rtId='a:b:c'
                             buttonLabel='alpha'
                             propertyTemplates={propTemplates}
+                            resourceTemplate={rTemplate}
                           />)
 
   describe('button for modal', () => {

@@ -71,7 +71,7 @@
     "dev-build": "webpack --progress --mode development",
     "dev-build-test": "npm run dev-build && npm run test",
     "dev-start": "webpack-dev-server --config ./webpack.config.js --mode development",
-    "eslint": "eslint --max-warnings 32 --color -c .eslintrc.js --ext js,jsx ./src",
+    "eslint": "eslint --max-warnings 33 --color -c .eslintrc.js --ext js,jsx ./src",
     "jest-cov": "jest --coverage --colors",
     "jest-ci": "jest --ci --runInBand --coverage --reporters=default --reporters=jest-junit --colors  && cat ./coverage/lcov.info | coveralls",
     "test": "jest --colors"
@@ -93,6 +93,7 @@
     "react-bootstrap-typeahead": "^3.2.4",
     "react-dom": "^16.6.3",
     "react-dropzone": "^7.0.1",
+    "react-json-pretty": "^2.0.0",
     "react-offcanvas": "^0.3.1",
     "react-redux": "^6.0.0",
     "react-router-dom": "^4.3.1",

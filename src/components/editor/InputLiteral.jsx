@@ -25,11 +25,9 @@ export class InputLiteral extends Component {
     this.lastId = -1
   }
 
-
   handleFocus(event) {
     document.getElementById(event.target.id).focus()
   }
-
 
   handleChange(event) {
     const usr_input = event.target.value
@@ -45,7 +43,9 @@ export class InputLiteral extends Component {
   addUserInput(userInputArray, currentcontent) {
     userInputArray.push({
       content: currentcontent,
-      id: ++this.lastId
+      id: ++this.lastId,
+      type: this.props.rdfPredicate,
+      bnode: this.props.blankNodeForLiteral
     })
   }
 
@@ -173,7 +173,9 @@ InputLiteral.propTypes = {
   }),
   handleMyItemsChange: PropTypes.func,
   handleRemoveItem: PropTypes.func,
-  rtId: PropTypes.string.isRequired
+  rtId: PropTypes.string,
+  blankNodeForLiteral: PropTypes.object,
+  rdfPredicate: PropTypes.string
 }
 
 const mapStatetoProps = (state, props) => {
