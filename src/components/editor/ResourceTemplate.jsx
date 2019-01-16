@@ -49,6 +49,7 @@ class ResourceTemplate extends Component {
                   <ResourceTemplateForm
                     propertyTemplates = {rt.propertyTemplates}
                     resourceTemplate = {rt}
+                    parentResourceTemplate = {this.props.resourceTemplateId}
                     rtId = {rt.id}
                   />
                 <h4>END ResourceTemplate</h4>

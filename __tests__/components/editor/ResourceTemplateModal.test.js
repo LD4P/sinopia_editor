@@ -9,6 +9,7 @@ import ResourceTemplateModal from '../../../src/components/editor/ResourceTempla
 
 describe('<ResourceTemplateModal />', () => {
   const propTemplates = [{key: 'value'}]
+  const rTemplate = {key: 'value'}
   const tvFunc = () => {}
   const wrapper = shallow(<ResourceTemplateModal
                             rtId='a'
@@ -16,6 +17,7 @@ describe('<ResourceTemplateModal />', () => {
                             visible={true}
                             toggleVisibility={tvFunc}
                             propertyTemplates={propTemplates}
+                            resourceTemplate={rTemplate}
                           />)
 
   describe('header', () => {

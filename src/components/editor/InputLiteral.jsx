@@ -166,7 +166,7 @@ InputLiteral.propTypes = {
   }),
   handleMyItemsChange: PropTypes.func,
   handleRemoveItem: PropTypes.func,
-  rtId: PropTypes.string.isRequired
+  rtId: PropTypes.string
 }
 
 const mapStatetoProps = (state, props) => {

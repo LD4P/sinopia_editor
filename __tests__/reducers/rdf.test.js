@@ -1,9 +1,4 @@
-import { generateRDF, addTriples } from '../../src/reducers/rdf'
-
-const N3 = require('n3')
-
-const { DataFactory } = N3
-const { blankNode, defaultGraph } = DataFactory
+import { generateRDF } from '../../src/reducers/rdf'
 
 describe('generateRDF reducer', () => {
   it('should handle initial state', () => {
@@ -15,79 +10,128 @@ describe('generateRDF reducer', () => {
   it('should generate a triple that has a blank-node subject with a BIBFRAME Instance Type', () => {
     let action = { type: 'GENERATE_RDF',
       payload: {
+        parentRt: 'resourceTemplate:bf2:Monograph:Instance',
+        rtId: 'resourceTemplate:bf2:Monograph:Instance',
         literals: { formData: []},
         lookups: { formData: []},
         type: 'http://id.loc.gov/ontologies/bibframe/Instance'
       }
     }
-    let graph = generateRDF(null, action)['graph']
-    graph.end((error, result) => {
-      expect( result ).toBe(`@prefix bf: <http://id.loc.gov/ontologies/bibframe/>.
-
-    _:n3-0 a bf:Instance.`)
-    })
-  })
-})
-
-describe('addTriples function', () => {
-
-  it('throws an error if missing parameters',
-    () => {
-    expect(
-      addTriples
-    ).toThrowError(TypeError)
+    let graph = generateRDF(null, action)['rdf']
+    const triple = `@prefix bf: <http://id.loc.gov/ontologies/bibframe/>. _:n3-0 a bf:Instance.`
+    expect(equalsIgnoreWhitespace(graph)).toEqual(equalsIgnoreWhitespace(triple))
   })
 
-  it('does not add triple if resourceTemplate ID is null', () => {
-    const subject = blankNode()
-    const graph = N3.Store()
-    addTriples(subject, [], null, null, graph)
-    expect(graph.size).toBe(0)
+  it('does not add triple from lookup field if uri is not present', () => {
+    let action = { type: 'GENERATE_RDF',
+      payload: {
+        parentRt: 'resourceTemplate:bf2:Monograph:Instance',
+        rtId: 'resourceTemplate:bf2:Monograph:Instance',
+        literals: { formData: []},
+        lookups: { formData: [
+          {
+            id: "http://id.loc.gov/ontologies/bibframe/issuance",
+            rtId: "resourceTemplate:bf2:Monograph:Instance",
+            items: [
+              {
+                "id": "http://id.loc.gov/vocabulary/issuance/mono",
+                "label": "single unit"
+              }
+            ]
+          }
+        ]},
+        type: 'http://id.loc.gov/ontologies/bibframe/Instance'
+      }
+    }
+    let graph = generateRDF(null, action)['rdf']
+    const triple = `@prefix bf: <http://id.loc.gov/ontologies/bibframe/>. _:n3-0 a bf:Instance.`
+    expect(equalsIgnoreWhitespace(graph)).toEqual(equalsIgnoreWhitespace(triple))
+  })
+
+  it('adds a triple with a URI for the object in case of a lookup', () => {
+    let action = { type: 'GENERATE_RDF',
+      payload: {
+        parentRt: 'resourceTemplate:bf2:Monograph:Instance',
+        rtId: 'resourceTemplate:bf2:Monograph:Instance',
+        literals: { formData: []},
+        lookups: { formData: [
+          {
+            id: "http://id.loc.gov/ontologies/bibframe/issuance",
+            rtId: "resourceTemplate:bf2:Monograph:Instance",
+            items: [
+              {
+                "uri": "http://id.loc.gov/vocabulary/issuance/mono",
+                "id": "http://id.loc.gov/vocabulary/issuance/mono",
+                "label": "single unit"
+              }
+            ]
+          }
+        ]},
+        type: 'http://id.loc.gov/ontologies/bibframe/Instance'
+      }
+    }
+    let graph = generateRDF(null, action)['rdf']
+    const triple = `@prefix bf: <http://id.loc.gov/ontologies/bibframe/>. _:n3-0 a bf:Instance;
+                    bf:issuance <http://id.loc.gov/vocabulary/issuance/mono>.`
+    expect(equalsIgnoreWhitespace(graph)).toEqual(equalsIgnoreWhitespace(triple))
   })
 
   it('adds triple with a literal for the object', () => {
-    const formData = [
-      { id: "http://id.loc.gov/ontologies/bibframe/responsibilityStatement",
-        rtId: "resourceTemplate:bf2:Monograph:Instance",
-        items: [{
-          id: 0,
-          content: "A test string"
-        }]}
-    ]
-    const subject = blankNode()
-    const graph = N3.Store()
-    addTriples(subject,
-      formData,
-      "resourceTemplate:bf2:Monograph:Instance",
-      'content',
-      graph)
-    const object = graph.getObjects(subject, null, null)[0]
-    expect(graph.size).toBe(1)
-    expect(object.id).toMatch("A test string")
+    let action = { type: 'GENERATE_RDF',
+      payload: {
+        parentRt: 'resourceTemplate:bf2:Monograph:Instance',
+        rtId: 'resourceTemplate:bf2:Monograph:Instance',
+        literals: { formData: [
+          {
+            id: "http://id.loc.gov/ontologies/bibframe/responsibilityStatement",
+            rtId: "resourceTemplate:bf2:Monograph:Instance",
+            items: [
+              {
+                "id": 0,
+                "content": "Psych papers"
+              }
+            ]
+          }
+        ]},
+        lookups: { formData: []},
+        type: 'http://id.loc.gov/ontologies/bibframe/Instance'
+      }
+    }
+    let graph = generateRDF(null, action)['rdf']
+    const triple = `@prefix bf: <http://id.loc.gov/ontologies/bibframe/>. _:n3-0 a bf:Instance; 
+                    bf:issuance <http://id.loc.gov/vocabulary/issuance/mono>; bf:responsibilityStatement \"Psychpapers\".`
+    expect(equalsIgnoreWhitespace(graph)).toEqual(equalsIgnoreWhitespace(triple))
   })
 
-  it('adds a triple with a URI for the object', () => {
-    const monograph = "http://id.loc.gov/vocabulary/issuance/mono"
-    const formData = [
-      { id: "http://id.loc.gov/ontologies/bibframe/issuance",
-        rtId: "resourceTemplate:bf2:Monograph:Instance",
-        items: [{
-          id: monograph,
-          uri: monograph,
-          label: "single unit"
-        }]}
-    ]
-    const subject = blankNode()
-    const graph = N3.Store()
-    addTriples(subject,
-      formData,
-      "resourceTemplate:bf2:Monograph:Instance",
-      'uri',
-      graph)
-    const object = graph.getObjects(subject, null, null)[0]
-    expect(graph.size).toBe(1)
-    expect(object.id).toMatch(monograph)
+  it('generates the scoped rdf for a modal', () => {
+    let action = { type: 'GENERATE_RDF',
+      payload: {
+        parentRt: 'resourceTemplate:bf2:Monograph:Instance',
+        rtId: 'resourceTemplate:bf2:Note',
+        literals: { formData: [
+          {
+            id: "http://id.loc.gov/ontologies/bibframe/note",
+            rtId: "resourceTemplate:bf2:Note",
+            items: [
+              {
+                "id": 0,
+                "content": "noted"
+              }
+            ]
+          }
+        ]},
+        lookups: { formData: []},
+        type: 'http://id.loc.gov/ontologies/bibframe/Note'
+      }
+    }
+    let graph = generateRDF(null, action)['rdf']
+    const triple = `@prefix bf: <http://id.loc.gov/ontologies/bibframe/>. _:n3-0 a bf:Instance; 
+                    bf:issuance <http://id.loc.gov/vocabulary/issuance/mono>; bf:responsibilityStatement \"Psychpapers\". 
+                    _:n3-1 a bf:Note; bf:note \"noted\".`
+    expect(equalsIgnoreWhitespace(graph)).toEqual(equalsIgnoreWhitespace(triple))
   })
-
-
 })
+
+function equalsIgnoreWhitespace(str){
+  return str.replace(/\s/g, '')
+}

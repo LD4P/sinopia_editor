@@ -6,6 +6,7 @@ import { mount, shallow } from 'enzyme'
 import InputLiteral from '../../../src/components/editor/InputLiteral'
 import ModalToggle from '../../../src/components/editor/ModalToggle'
 import ResourceTemplateForm from '../../../src/components/editor/ResourceTemplateForm'
+import {generateRDF} from "../../../src/reducers/rdf";
 
 const rtProps = {
   "propertyTemplates": [
@@ -59,11 +60,23 @@ const rtProps = {
   ]
 }
 
+const lits = { id: 0, content: 'content' }
+const lups = { id: 'id', uri: 'uri', label: 'label' }
+const rdf = { generateRDF: `@prefix bf: <http://id.loc.gov/ontologies/bibframe/>. _:n3-0 a bf:Instance.`}
+
 describe('<ResourceTemplateForm />', () => {
   const mockHandleGenerateRDF = jest.fn()
+  const rtTest = { resourceURI: "http://id.loc.gov/ontologies/bibframe/Work" }
   const wrapper = shallow(<ResourceTemplateForm.WrappedComponent
     {...rtProps}
-    handleGenerateRDF = {mockHandleGenerateRDF} />)
+    resourceTemplate = {rtTest}
+    handleGenerateRDF = {mockHandleGenerateRDF}
+    literals = {lits}
+    lookups = {lups}
+    rtId = {"resourceTemplate:bf2:Monograph:Instance"}
+    parentResourceTemplate = {"resourceTemplate:bf2:Monograph:Instance"}
+    generateRDF = { rdf }
+  />)
 
   it('renders the ResourceTemplateForm text nodes', () => {
     wrapper.find('div.ResourceTemplateForm > p').forEach((node) => {
@@ -109,11 +122,16 @@ describe('<ResourceTemplateForm />', () => {
   })
 
   describe('a generate RDF button', () => {
-    const rtTest = { resourceURI: "http://id.loc.gov/ontologies/bibframe/Work" }
     const rdf_wrapper = shallow(<ResourceTemplateForm.WrappedComponent
       {...rtProps}
       resourceTemplate = {rtTest}
-      handleGenerateRDF = {mockHandleGenerateRDF} />)
+      handleGenerateRDF = {mockHandleGenerateRDF}
+      literals = {lits}
+      lookups = {lups}
+      rtId = {"resourceTemplate:bf2:Monograph:Instance"}
+      parentResourceTemplate = {"resourceTemplate:bf2:Monograph:Instance"}
+      generateRDF = { rdf }
+    />)
     it('renders a Preview RDF button', () =>{
       expect(rdf_wrapper
         .find('div > button.btn-success').length)
@@ -126,7 +144,16 @@ describe('<ResourceTemplateForm />', () => {
   })
 
   it('renders error text when there are no propertyTemplates', () => {
-    const myWrap = shallow(<ResourceTemplateForm.WrappedComponent propertyTemplates={[]} />)
+    const myWrap = shallow(<ResourceTemplateForm.WrappedComponent
+      propertyTemplates={[]}
+      resourceTemplate = {rtTest}
+      handleGenerateRDF = {mockHandleGenerateRDF}
+      literals = {lits}
+      lookups = {lups}
+      rtId = {"resourceTemplate:bf2:Monograph:Instance"}
+      parentResourceTemplate = {"resourceTemplate:bf2:Monograph:Instance"}
+      generateRDF = { rdf }
+    />)
     const errorEl = myWrap.find('h1')
     expect(errorEl).toHaveLength(1)
     expect(errorEl.text()).toEqual('There are no propertyTemplates - probably an error.')

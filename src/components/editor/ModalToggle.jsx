@@ -33,9 +33,12 @@ class ModalToggle extends Component {
         <ResourceTemplateModal
           modalId={modalId}
           rtId={rtId}
+          resourceTemplate={this.props.resourceTemplate}
           propertyTemplates={this.props.propertyTemplates}
           visible={this.state.visible}
           toggleVisibility={this.toggleModal}
+          rdfOuterSubject={this.props.rdfOuterSubject}
+          rdfPredicate={this.props.rdfPredicate}
         />
       </div>
     )
@@ -45,6 +48,7 @@ class ModalToggle extends Component {
 ModalToggle.propTypes = {
   buttonLabel: PropTypes.string.isRequired,
   propertyTemplates: PropTypes.arrayOf(PropTypes.object).isRequired,
+  resourceTemplate: PropTypes.object.isRequired,
   rtId: PropTypes.string.isRequired
 }
 
