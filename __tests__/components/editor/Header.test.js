@@ -8,7 +8,7 @@ describe('<Header />', () => {
   const wrapper = shallow(<Header />)
 
   it ('displays the Sinopia text', () => {
-    expect(wrapper.find("h1.editor-logo").text()).toBe("SINOPIA")
+    expect(wrapper.find("h1.editor-logo").text()).toBe("LINKED DATA EDITOR")
   })
 
 })

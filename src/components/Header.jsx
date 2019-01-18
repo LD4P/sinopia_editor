@@ -16,7 +16,7 @@ class Header extends Component {
         </div>
         <ul className= "nav navbar-nav pull-right">
           <li>
-            <Link to='/editor'> BFF (Bib Editor) </Link>
+            <Link to='/editor'>Linked Data Editor</Link>
           </li>
           <li>
             <a className="header-text" href="https://profile-editor.sinopia.io/">Profile Editor</a>
