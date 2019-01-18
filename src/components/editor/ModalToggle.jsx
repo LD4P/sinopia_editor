@@ -49,7 +49,9 @@ ModalToggle.propTypes = {
   buttonLabel: PropTypes.string.isRequired,
   propertyTemplates: PropTypes.arrayOf(PropTypes.object).isRequired,
   resourceTemplate: PropTypes.object.isRequired,
-  rtId: PropTypes.string.isRequired
+  rtId: PropTypes.string.isRequired,
+  rdfOuterSubject: PropTypes.string,
+  rdfPredicate: PropTypes.string,
 }
 
 export default ModalToggle

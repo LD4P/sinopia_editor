@@ -15,7 +15,7 @@ import { getRDF } from '../../actions/index'
 const { getResourceTemplate } = require('../../sinopiaServerSpoof.js')
 const N3 = require('n3')
 const { DataFactory } = N3
-const { namedNode, blankNode } = DataFactory
+const { blankNode } = DataFactory
 
 class ResourceTemplateForm extends Component {
   constructor(props) {
@@ -34,9 +34,9 @@ class ResourceTemplateForm extends Component {
   }
 
   makeSubject() {
-    // will return a blank node or an IRI in the future (using namedNode)...
-    return namedNode('http://example.com')
-    // return blankNode()
+    // in the future we will return a blank node or an IRI (using namedNode in the DataFactory ^^)...
+    // return namedNode('http://example.com')
+    return blankNode()
   }
 
   handleRDFDisplay() {
@@ -188,6 +188,8 @@ ResourceTemplateForm.propTypes = {
   resourceTemplate: PropTypes.object.isRequired,
   rtId: PropTypes.string,
   parentResourceTemplate: PropTypes.string,
+  rdfOuterSubject: PropTypes.string,
+  rdfPredicate: PropTypes.string,
   generateRDF: PropTypes.object.isRequired
 }
 

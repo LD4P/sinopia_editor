@@ -1,6 +1,6 @@
 // Copyright 2018 Stanford University see Apache2.txt for license
 
-import React, {Component, createRef} from 'react'
+import React, {Component} from 'react'
 import PropTypes from 'prop-types'
 import Button from 'react-bootstrap/lib/Button'
 import Modal from 'react-bootstrap/lib/Modal'
@@ -59,7 +59,9 @@ ResourceTemplateModal.propTypes = {
   resourceTemplate: PropTypes.object.isRequired,
   rtId: PropTypes.string.isRequired,
   toggleVisibility: PropTypes.func.isRequired,
-  visible: PropTypes.bool.isRequired
+  visible: PropTypes.bool.isRequired,
+  rdfOuterSubject: PropTypes.string,
+  rdfPredicate: PropTypes.string
 }
 
 export default ResourceTemplateModal
