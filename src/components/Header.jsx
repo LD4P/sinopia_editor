@@ -10,7 +10,7 @@ class Header extends Component {
     return (
       <div className="navbar homepage-navbar">
         <div className="navbar-header">
-          <a className="navbar-brand" href="https://google.com">
+          <a className="navbar-brand" href="https://sinopia.io/">
             <img src={SinopiaLogo} height="55px" alt="Sinopia logo" />
           </a>
         </div>
