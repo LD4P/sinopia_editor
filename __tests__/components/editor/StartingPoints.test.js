@@ -5,15 +5,23 @@ import { shallow, mount } from 'enzyme'
 import StartingPoints from '../../../src/components/editor/StartingPoints'
 import DropZone from '../../../src/components/editor/StartingPoints'
 
-const jsdom = require("jsdom");
+const jsdom = require("jsdom")
+require('isomorphic-fetch')
 
-setUpDomEnvironment();
+setUpDomEnvironment()
 
 describe('<StartingPoints />', () => {
   let wrapper = shallow(<StartingPoints />)
 
   it('Has a div with headings', () => {
     expect(wrapper.find('div > h3').text()).toEqual('Create Resource')
+  })
+
+  it('fetches JSON schemas once (for validation of resourceTemplate)', () => {
+    const instance = wrapper.instance()
+    jest.spyOn(instance, 'fetchSchemaObjectsPromise')
+    instance.componentDidMount()
+    expect(instance.fetchSchemaObjectsPromise).toHaveBeenCalledTimes(1)
   })
 })
 
