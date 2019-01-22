@@ -3,7 +3,7 @@
 module.exports = {
   launch: {
     headless: process.env.HEADLESS !== 'false',
-    'args' : [ '--disable-web-security' ],
+    args : [ '--disable-web-security' ]
   },
   server: {
     command: 'npm run dev-start',
