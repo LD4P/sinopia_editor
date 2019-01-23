@@ -41,7 +41,8 @@ const rtProps = {
         "valueTemplateRefs": [
           "resourceTemplate:bf2:Note"
         ]
-      }
+      },
+      "mandatory": "true"
     },
     {
       "propertyLabel": "YAM (yet another modal)",
@@ -103,6 +104,11 @@ describe('<ResourceTemplateForm />', () => {
         expect(node.prop('buttonLabel')).toEqual('Note')
         expect(node.prop('rtId')).toEqual('resourceTemplate:bf2:Note')
         expect(node.prop('propertyTemplates')).toBeInstanceOf(Array)
+      })
+    })
+    it('displays a FontAwesome Asterisk for a mandatory property', () => {
+      wrapper.find('div.ResourceTemplateForm ButtonToolbar > div > b > sup').forEach((node) => {
+        expect(node.text()).toBe("<FontAwesomeIcon />")
       })
     })
 

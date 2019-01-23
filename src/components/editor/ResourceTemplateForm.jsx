@@ -5,6 +5,8 @@ import { connect } from 'react-redux'
 import PropTypes from 'prop-types'
 import ButtonGroup from 'react-bootstrap/lib/ButtonGroup'
 import ButtonToolbar from 'react-bootstrap/lib/ButtonToolbar'
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { faAsterisk } from '@fortawesome/free-solid-svg-icons'
 import InputLiteral from './InputLiteral'
 import InputListLOC from './InputListLOC'
 import InputLookupQA from './InputLookupQA'
@@ -20,6 +22,7 @@ class ResourceTemplateForm extends Component {
     this.resourceTemplateButtons = this.resourceTemplateButtons.bind(this)
     this.defaultValues = this.defaultValues.bind(this)
     this.previewRDF = this.previewRDF.bind(this)
+    this.mandatorySuperscript = this.mandatorySuperscript.bind(this)
     this.defaultValues()
   }
 
@@ -53,6 +56,12 @@ class ResourceTemplateForm extends Component {
       buttons.push(<ButtonGroup key={`${rtId}-${i}`}>{this.rtModalButton(rtId)}</ButtonGroup>)
     })
     return buttons
+  }
+
+  mandatorySuperscript = (propMandatory) => {
+    if (JSON.parse(propMandatory)) {
+      return <sup><FontAwesomeIcon className="asterick text-danger" icon={faAsterisk} /></sup>
+    }
   }
 
   defaultValues = () => {
@@ -124,7 +133,7 @@ class ResourceTemplateForm extends Component {
                     return (
                       <ButtonToolbar key={index}>
                         <div>
-                          <b>{pt.propertyLabel}</b>
+                          <b>{pt.propertyLabel} {this.mandatorySuperscript(pt.mandatory)}</b>
                         </div>
                         {this.resourceTemplateButtons(pt.valueConstraint.valueTemplateRefs)}
                       </ButtonToolbar>

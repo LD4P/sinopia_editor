@@ -3,6 +3,8 @@
 import React, {Component} from 'react'
 import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { faAsterisk } from '@fortawesome/free-solid-svg-icons'
 import { setItems, removeItem } from '../../actions/index'
 
 
@@ -17,6 +19,7 @@ export class InputLiteral extends Component {
     this.handleClick = this.handleClick.bind(this)
     this.handleFocus = this.handleFocus.bind(this)
     this.checkMandatoryRepeatable = this.checkMandatoryRepeatable.bind(this)
+    this.mandatorySuperscript = this.mandatorySuperscript.bind(this)
     this.notRepeatable = this.notRepeatable.bind(this)
     this.addUserInput = this.addUserInput.bind(this)
     this.state = {
@@ -101,6 +104,12 @@ export class InputLiteral extends Component {
      }
   }
 
+  mandatorySuperscript() {
+    if (this.props.propertyTemplate.mandatory === "true") {
+      return <sup><FontAwesomeIcon className="asterick text-danger" icon={faAsterisk} /></sup>
+    }
+  }
+
   makeAddedList() {
     let formInfo = this.props.formData
       if (formInfo == undefined) return
@@ -131,6 +140,7 @@ export class InputLiteral extends Component {
       <div className="form-group">
         <label htmlFor={"typeLiteral" + this.props.id}>
           {this.props.propertyTemplate.propertyLabel}
+          {this.mandatorySuperscript()}
           <input
             required={this.checkMandatoryRepeatable()}
             className="form-control"

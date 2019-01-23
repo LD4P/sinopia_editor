@@ -38,6 +38,12 @@ describe('<InputLookup />', () => {
     expect(wrapper.find('#lookupComponent').props().required).toBeFalsy()
   })
 
+  it('displays FontAwesome Asterisk if mandatory from template is true', () => {
+    wrapper.instance().props.propertyTemplate.mandatory = "true"
+    wrapper.instance().forceUpdate()
+    expect(wrapper.find('label > sup').text()).toBe("<FontAwesomeIcon />")
+  })
+
   it('sets the typeahead component multiple attribute according to the repeatable property from the template', () => {
     expect(wrapper.find('#lookupComponent').props().multiple).toBeTruthy()
   })

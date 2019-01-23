@@ -3,6 +3,8 @@ import React, { Component } from 'react'
 import { asyncContainer, Typeahead } from 'react-bootstrap-typeahead'
 import PropTypes from 'prop-types'
 import Swagger from 'swagger-client'
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { faAsterisk } from '@fortawesome/free-solid-svg-icons'
 import { connect } from 'react-redux'
 import { changeSelections } from '../../actions/index'
 
@@ -11,8 +13,15 @@ const AsyncTypeahead = asyncContainer(Typeahead)
 class InputLookupQA extends Component {
   constructor(props) {
     super(props)
+    this.mandatorySuperscript = this.mandatorySuperscript.bind(this)
     this.state = {
       isLoading: false
+    }
+  }
+
+  mandatorySuperscript() {
+    if (JSON.parse(this.props.propertyTemplate.mandatory)) {
+      return <sup><FontAwesomeIcon className="asterick text-danger" icon={faAsterisk} /></sup>
     }
   }
 
@@ -42,6 +51,7 @@ class InputLookupQA extends Component {
     return (
       <div>
         <label htmlFor="lookupComponent">{this.props.propertyTemplate.propertyLabel}
+        {this.mandatorySuperscript()}
         <AsyncTypeahead id="lookupComponent"
           onSearch={query => {
             this.setState({isLoading: true});

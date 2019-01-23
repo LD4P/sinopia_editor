@@ -5,7 +5,7 @@ import { shallow } from 'enzyme'
 import { InputLiteral } from '../../../src/components/editor/InputLiteral'
 
 const plProps = {
-  "propertyTemplate": 
+  "propertyTemplate":
     {
       "propertyLabel": "Instance of",
       "propertyURI": "http://id.loc.gov/ontologies/bibframe/instanceOf",
@@ -17,7 +17,7 @@ const plProps = {
 
 describe('<InputLiteral />', () => {
   const wrapper = shallow(<InputLiteral {...plProps} id={10}/>)
-  
+
   it('contains a label with "Instance of"', () => {
     expect(wrapper.find('label').text()).toBe('Instance of')
   })
@@ -26,12 +26,13 @@ describe('<InputLiteral />', () => {
   })
  it('contains required="true" attribute on input tag when mandatory is true', () => {
     wrapper.instance().props.propertyTemplate.mandatory = "true"
-    wrapper.instance().forceUpdate() /** update plProps with mandatory: "true" **/  
+    wrapper.instance().forceUpdate() /** update plProps with mandatory: "true" **/
     expect(wrapper.find('input').prop('required')).toBeTruthy()
+    expect(wrapper.find('label > sup').text()).toBe("<FontAwesomeIcon />")
   })
   it('contains required="false" attribute on input tag when mandatory is false', () => {
     wrapper.instance().props.propertyTemplate.mandatory = "false"
-    wrapper.instance().forceUpdate()    
+    wrapper.instance().forceUpdate()
     expect(wrapper.find('input').prop('required')).toBeFalsy()
   })
 })
@@ -80,7 +81,7 @@ describe('When the user enters input into field', ()=>{
     expect(mockFormDataFn.mock.calls[1][0]).toEqual(
       {id: "http://id.loc.gov/ontologies/bibframe/instanceOf", items:[{content: 'bar', id: 2}]}
     )
-    mockFormDataFn.mock.calls = [] // reset the redux store to empty    
+    mockFormDataFn.mock.calls = [] // reset the redux store to empty
   })
   it('property template contains repeatable "false", only allowed to add one item to redux', () => {
     mock_wrapper.instance().props.propertyTemplate.repeatable = "false"
@@ -88,11 +89,11 @@ describe('When the user enters input into field', ()=>{
 
     mock_wrapper.find('input').simulate("change", { target: { value: "fooby" }})
     mock_wrapper.find('input').simulate('keypress', {key: 'Enter', preventDefault: () => {}})
-    
+
     mock_wrapper.setProps({formData: { id: "http://id.loc.gov/ontologies/bibframe/instanceOf", items: [{content: "fooby", id: 0}]} })
-  
+
     mock_wrapper.find('input').simulate("change", { target: { value: "bar" }})
-    mock_wrapper.find('input').simulate('keypress', {key: 'Enter', preventDefault: () => {}})    
+    mock_wrapper.find('input').simulate('keypress', {key: 'Enter', preventDefault: () => {}})
 
     expect(mockFormDataFn.mock.calls[0][0]).toEqual(
       {id: "http://id.loc.gov/ontologies/bibframe/instanceOf", items:[{content: 'fooby', id: 3}]}
@@ -100,7 +101,7 @@ describe('When the user enters input into field', ()=>{
     expect(mockFormDataFn.mock.calls[1][0]).toEqual(
       {id: "http://id.loc.gov/ontologies/bibframe/instanceOf", items:[]}
     )
-    mockFormDataFn.mock.calls = [] // reset the redux store to empty    
+    mockFormDataFn.mock.calls = [] // reset the redux store to empty
 
     mock_wrapper.setProps({formData: undefined }) // reset props for next test
   })
@@ -123,7 +124,7 @@ describe('When the user enters input into field', ()=>{
     mock_wrapper.setProps({formData: { id: "http://id.loc.gov/ontologies/bibframe/instanceOf", items: [{content: "foo", id: 4}]} })
     expect(mock_wrapper.find('div#userInput').text()).toEqual('fooX') // contains X as a button to delete the input
     mock_wrapper.setProps({formData: undefined }) // reset props for next test
-    mockFormDataFn.mock.calls = [] // reset the redux store to empty    
+    mockFormDataFn.mock.calls = [] // reset the redux store to empty
   })
 
   it('should call the removeMockDataFn when X is clicked', () => {
@@ -133,5 +134,3 @@ describe('When the user enters input into field', ()=>{
     expect(removeMockDataFn.mock.calls.length).toEqual(1);
   })
 })
-
-  
