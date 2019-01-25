@@ -28,7 +28,7 @@ describe('<InputLiteral />', () => {
     wrapper.instance().props.propertyTemplate.mandatory = "true"
     wrapper.instance().forceUpdate() /** update plProps with mandatory: "true" **/
     expect(wrapper.find('input').prop('required')).toBeTruthy()
-    expect(wrapper.find('label > sup').text()).toBe("<FontAwesomeIcon />")
+    expect(wrapper.find('label > RequiredSuperscript')).toBeTruthy()
   })
   it('contains required="false" attribute on input tag when mandatory is false', () => {
     wrapper.instance().props.propertyTemplate.mandatory = "false"

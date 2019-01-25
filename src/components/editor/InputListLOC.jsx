@@ -3,8 +3,8 @@
 import React, { Component } from 'react';
 import { Typeahead } from 'react-bootstrap-typeahead'
 import PropTypes from 'prop-types'
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faAsterisk } from '@fortawesome/free-solid-svg-icons'
+import RequiredSuperscript from './RequiredSuperscript'
+
 import { connect } from 'react-redux'
 import { changeSelections } from '../../actions/index'
 
@@ -43,7 +43,7 @@ class
 
   mandatorySuperscript() {
     if (JSON.parse(this.props.propertyTemplate.mandatory)) {
-      return <sup><FontAwesomeIcon className="asterick text-danger" icon={faAsterisk} /></sup>
+      return <RequiredSuperscript />
     }
   }
 

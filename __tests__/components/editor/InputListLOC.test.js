@@ -45,10 +45,10 @@ describe('<InputList />', () => {
     expect(wrapper.find('#targetComponent').props().required).toBe(false)
   })
 
-  it('displays FontAwesome Asterisk if mandatory from template is true', () => {
+  it('displays RequiredSuperscript if mandatory from template is true', () => {
     wrapper.instance().props.propertyTemplate.mandatory = "true"
     wrapper.instance().forceUpdate()
-    expect(wrapper.find('label > sup').text()).toBe("<FontAwesomeIcon />")
+    expect(wrapper.find('label > RequiredSuperscript')).toBeTruthy()
   })
 
   it('sets the typeahead component multiple attribute according to the repeatable value from the template', () => {

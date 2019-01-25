@@ -5,11 +5,10 @@ import { connect } from 'react-redux'
 import PropTypes from 'prop-types'
 import ButtonGroup from 'react-bootstrap/lib/ButtonGroup'
 import ButtonToolbar from 'react-bootstrap/lib/ButtonToolbar'
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faAsterisk } from '@fortawesome/free-solid-svg-icons'
 import InputLiteral from './InputLiteral'
 import InputListLOC from './InputListLOC'
 import InputLookupQA from './InputLookupQA'
+import RequiredSuperscript from './RequiredSuperscript'
 import ModalToggle from './ModalToggle'
 import lookupConfig from '../../../static/spoofedFilesFromServer/fromSinopiaServer/lookupConfig.json'
 import { getRDF } from '../../actions/index'
@@ -60,7 +59,7 @@ class ResourceTemplateForm extends Component {
 
   mandatorySuperscript = (propMandatory) => {
     if (JSON.parse(propMandatory)) {
-      return <sup><FontAwesomeIcon className="asterick text-danger" icon={faAsterisk} /></sup>
+      return <RequiredSuperscript />
     }
   }
 

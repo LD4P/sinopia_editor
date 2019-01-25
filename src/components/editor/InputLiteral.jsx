@@ -3,11 +3,8 @@
 import React, {Component} from 'react'
 import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faAsterisk } from '@fortawesome/free-solid-svg-icons'
 import { setItems, removeItem } from '../../actions/index'
-
-
+import RequiredSuperscript from './RequiredSuperscript'
 
 // Redux recommends exporting the unconnected component for unit tests.
 export class InputLiteral extends Component {
@@ -106,7 +103,7 @@ export class InputLiteral extends Component {
 
   mandatorySuperscript() {
     if (this.props.propertyTemplate.mandatory === "true") {
-      return <sup><FontAwesomeIcon className="asterick text-danger" icon={faAsterisk} /></sup>
+      return <RequiredSuperscript />
     }
   }
 
