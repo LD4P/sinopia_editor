@@ -25,7 +25,7 @@ describe('should handle initial state', () => {
         lookups: { formData: []},
         type: 'http://id.loc.gov/ontologies/bibframe/Instance',
         resourceURI: 'http://id.loc.gov/ontologies/bibframe/Instance',
-        linkedNode: {value: '_:n3-0'}
+        linkedNode: {value: 'n3-0'}
       }
     }
     let graph = generateLD(null, action)['jsonld']
@@ -65,7 +65,6 @@ describe('should handle initial state', () => {
       '"@type": "http://id.loc.gov/ontologies/bibframe/Instance", ' +
       '"http://id.loc.gov/ontologies/bibframe/carrier": {"@id": "http://id.loc.gov/vocabulary/carriers/nc"}, ' +
       '"http://id.loc.gov/ontologies/bibframe/issuance": {"@id": "http://id.loc.gov/vocabulary/issuance/mono"}}, ' +
-      '{"@id": "n3-0", "@type": "http://id.loc.gov/ontologies/bibframe/Instance"}, ' +
       '{"@id": "http://id.loc.gov/vocabulary/issuance/mono", "@type": "http://id.loc.gov/ontologies/bibframe/issuance", "rdfs:label": "single unit"}, ' +
       '{"@id": "http://id.loc.gov/vocabulary/carriers/nc", "@type": "http://id.loc.gov/ontologies/bibframe/carrier", "rdfs:label": "volume"}]}'
     expect(graph).toEqual(JSON.parse(jsonld))
@@ -102,13 +101,11 @@ describe('should handle initial state', () => {
       '"http://id.loc.gov/ontologies/bibframe/carrier": {"@id": "http://id.loc.gov/vocabulary/carriers/nc"}, ' +
       '"http://id.loc.gov/ontologies/bibframe/heldBy": "STF", ' +
       '"http://id.loc.gov/ontologies/bibframe/issuance": {"@id": "http://id.loc.gov/vocabulary/issuance/mono"}, ' +
-      '"http://id.loc.gov/ontologies/bibframe/note": {"@id": "n3-14"}, ' +
+      '"http://id.loc.gov/ontologies/bibframe/note": {"@id": "_:n3-14"}, ' +
       '"http://id.loc.gov/ontologies/bibframe/responsibilityStatement": "STATEMENT"}, ' +
-      '{"@id": "n3-0", "@type": "http://id.loc.gov/ontologies/bibframe/Instance"}, ' +
       '{"@id": "http://id.loc.gov/vocabulary/issuance/mono", "@type": "http://id.loc.gov/ontologies/bibframe/issuance", "rdfs:label": "single unit"}, ' +
       '{"@id": "http://id.loc.gov/vocabulary/carriers/nc", "@type": "http://id.loc.gov/ontologies/bibframe/carrier", "rdfs:label": "volume"}, ' +
-      '{"@id": "n3-0", "@type": "http://id.loc.gov/ontologies/bibframe/Instance"}, ' +
-      '{"@id": "n3-14", "@type": "http://id.loc.gov/ontologies/bibframe/Note", "http://www.w3.org/2000/01/rdf-schema#label": "NOTE"}]}'
+      '{"@id": "_:n3-14", "@type": "http://id.loc.gov/ontologies/bibframe/Note", "http://www.w3.org/2000/01/rdf-schema#label": "NOTE"}]}'
     expect(graph).toEqual(JSON.parse(jsonld))
   })
 

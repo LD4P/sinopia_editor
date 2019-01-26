@@ -22,8 +22,9 @@ const generateLinkedData = (state, action) => {
   subject = action.payload.linkedNode.value
   resourceUri = action.payload.resourceURI
 
+  if(jsonLD['@graph'][0] === undefined)
   jsonLD['@graph'].push({
-    "@id": subject,
+    "@id": `_:${subject}`,
     "@type": resourceUri
   })
 
@@ -51,40 +52,37 @@ function createRDFLinks(s, p, o, resourceUri, label) {
   const entity = jsonLD['@graph'].some(thing => thing["@type"] === resourceUri)
   if(entity){
     jsonLD['@graph'][0][p] =  { "@id": o }
-  } else {
-    jsonLD['@graph'].push({
-      "@id": s,
-      "@type": resourceUri,
-      [p]: { "@id": o }
-    })
   }
 
   const duplicate = jsonLD['@graph'].some(thing => thing["@id"] === o)
   if(!duplicate){
-    jsonLD['@graph'].push({
+    const obj = {
       "@id": o,
       "@type": p,
       "rdfs:label": label
-    })
+    }
+    jsonLD['@graph'].push(obj)
   }
 }
 
 function createRDFLiterals(p, o, rtId, bnode) {
   let resourceTemplateForEntity = getResourceTemplate(rtId)
-  const entity = jsonLD['@graph'].some(thing => thing["@type"] === resourceTemplateForEntity.resourceURI)
+  let entityResourceUri = resourceTemplateForEntity.resourceURI
+
+  const entity = jsonLD['@graph'].some(thing => thing["@type"] === entityResourceUri)
   if(entity){
     jsonLD['@graph'][0][p] = o
-
   } else {
-    jsonLD['@graph'][0][p] = { "@id": bnode.value }
+    jsonLD['@graph'][0][p] = { "@id": `_:${bnode.value}` }
 
     let predicate = resourceTemplateForEntity.propertyTemplates[0].propertyURI
 
-    jsonLD['@graph'].push({
-      "@id": bnode.value,
+    const obj = {
+      "@id": `_:${bnode.value}`,
       "@type": resourceTemplateForEntity.resourceURI,
       [predicate]: o
-    })
+    }
+    jsonLD['@graph'].push(obj)
   }
 }
 
