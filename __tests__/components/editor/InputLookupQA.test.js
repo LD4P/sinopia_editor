@@ -38,6 +38,12 @@ describe('<InputLookup />', () => {
     expect(wrapper.find('#lookupComponent').props().required).toBeFalsy()
   })
 
+  it('displays RequiredSuperscript if mandatory from template is true', () => {
+    wrapper.instance().props.propertyTemplate.mandatory = "true"
+    wrapper.instance().forceUpdate()
+    expect(wrapper.find('label > RequiredSuperscript')).toBeTruthy()
+  })
+
   it('sets the typeahead component multiple attribute according to the repeatable property from the template', () => {
     expect(wrapper.find('#lookupComponent').props().multiple).toBeTruthy()
   })

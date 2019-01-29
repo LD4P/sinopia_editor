@@ -4,8 +4,7 @@ import React, {Component} from 'react'
 import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
 import { setItems, removeItem } from '../../actions/index'
-
-
+import RequiredSuperscript from './RequiredSuperscript'
 
 // Redux recommends exporting the unconnected component for unit tests.
 export class InputLiteral extends Component {
@@ -17,6 +16,7 @@ export class InputLiteral extends Component {
     this.handleClick = this.handleClick.bind(this)
     this.handleFocus = this.handleFocus.bind(this)
     this.checkMandatoryRepeatable = this.checkMandatoryRepeatable.bind(this)
+    this.mandatorySuperscript = this.mandatorySuperscript.bind(this)
     this.notRepeatable = this.notRepeatable.bind(this)
     this.addUserInput = this.addUserInput.bind(this)
     this.state = {
@@ -101,6 +101,12 @@ export class InputLiteral extends Component {
      }
   }
 
+  mandatorySuperscript() {
+    if (this.props.propertyTemplate.mandatory === "true") {
+      return <RequiredSuperscript />
+    }
+  }
+
   makeAddedList() {
     let formInfo = this.props.formData
       if (formInfo == undefined) return
@@ -131,6 +137,7 @@ export class InputLiteral extends Component {
       <div className="form-group">
         <label htmlFor={"typeLiteral" + this.props.id}>
           {this.props.propertyTemplate.propertyLabel}
+          {this.mandatorySuperscript()}
           <input
             required={this.checkMandatoryRepeatable()}
             className="form-control"

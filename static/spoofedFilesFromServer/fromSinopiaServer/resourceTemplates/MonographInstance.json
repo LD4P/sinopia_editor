@@ -17,7 +17,7 @@
         "valueDataType": {},
         "defaults": []
       },
-      "mandatory": "false",
+      "mandatory": "true",
       "repeatable": "true"
     },
     {
@@ -46,7 +46,7 @@
       "propertyLabel": "Statement of Responsibility Relating to Title Proper (RDA 2.4.2)",
       "remark": "http://access.rdatoolkit.org/2.4.2.html",
       "propertyURI": "http://id.loc.gov/ontologies/bibframe/responsibilityStatement",
-      "mandatory": "false",
+      "mandatory": "true",
       "repeatable": "true",
       "type": "literal",
       "resourceTemplates": [],
@@ -61,7 +61,7 @@
       "propertyURI": "http://id.loc.gov/ontologies/bibframe/issuance",
       "propertyLabel": "Mode of Issuance (RDA 2.13)",
       "remark": "http://access.rdatoolkit.org/2.13.html",
-      "mandatory": "false",
+      "mandatory": "true",
       "repeatable": "true",
       "type": "resource",
       "resourceTemplates": [],
@@ -163,7 +163,7 @@
       "remark": "http://access.rdatoolkit.org/3.3.html"
     },
     {
-      "mandatory": "false",
+      "mandatory": "true",
       "repeatable": "true",
       "type": "lookup",
       "resourceTemplates": [],

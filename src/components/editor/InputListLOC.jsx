@@ -3,6 +3,8 @@
 import React, { Component } from 'react';
 import { Typeahead } from 'react-bootstrap-typeahead'
 import PropTypes from 'prop-types'
+import RequiredSuperscript from './RequiredSuperscript'
+
 import { connect } from 'react-redux'
 import { changeSelections } from '../../actions/index'
 
@@ -39,6 +41,12 @@ class
     this.props.handleSelectedChange(payload)
   }
 
+  mandatorySuperscript() {
+    if (JSON.parse(this.props.propertyTemplate.mandatory)) {
+      return <RequiredSuperscript />
+    }
+  }
+
   render() {
     let lookupUri, isMandatory, isRepeatable
     try {
@@ -65,6 +73,7 @@ class
     return (
       <div>
         <label htmlFor="targetComponent">{this.props.propertyTemplate.propertyLabel}
+        {this.mandatorySuperscript()}
         <Typeahead
           onFocus={() => {
             this.setState({isLoading: true})

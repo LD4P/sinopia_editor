@@ -8,6 +8,7 @@ import ButtonToolbar from 'react-bootstrap/lib/ButtonToolbar'
 import InputLiteral from './InputLiteral'
 import InputListLOC from './InputListLOC'
 import InputLookupQA from './InputLookupQA'
+import RequiredSuperscript from './RequiredSuperscript'
 import ModalToggle from './ModalToggle'
 import lookupConfig from '../../../static/spoofedFilesFromServer/fromSinopiaServer/lookupConfig.json'
 import { getRDF } from '../../actions/index'
@@ -20,6 +21,7 @@ class ResourceTemplateForm extends Component {
     this.resourceTemplateButtons = this.resourceTemplateButtons.bind(this)
     this.defaultValues = this.defaultValues.bind(this)
     this.previewRDF = this.previewRDF.bind(this)
+    this.mandatorySuperscript = this.mandatorySuperscript.bind(this)
     this.defaultValues()
   }
 
@@ -53,6 +55,12 @@ class ResourceTemplateForm extends Component {
       buttons.push(<ButtonGroup key={`${rtId}-${i}`}>{this.rtModalButton(rtId)}</ButtonGroup>)
     })
     return buttons
+  }
+
+  mandatorySuperscript = (propMandatory) => {
+    if (JSON.parse(propMandatory)) {
+      return <RequiredSuperscript />
+    }
   }
 
   defaultValues = () => {
@@ -124,7 +132,7 @@ class ResourceTemplateForm extends Component {
                     return (
                       <ButtonToolbar key={index}>
                         <div>
-                          <b>{pt.propertyLabel}</b>
+                          <b>{pt.propertyLabel} {this.mandatorySuperscript(pt.mandatory)}</b>
                         </div>
                         {this.resourceTemplateButtons(pt.valueConstraint.valueTemplateRefs)}
                       </ButtonToolbar>
