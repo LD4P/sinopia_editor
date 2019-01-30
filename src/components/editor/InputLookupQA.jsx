@@ -3,6 +3,7 @@ import React, { Component } from 'react'
 import { asyncContainer, Typeahead } from 'react-bootstrap-typeahead'
 import PropTypes from 'prop-types'
 import Swagger from 'swagger-client'
+import PropertyRemark from './PropertyRemark'
 import RequiredSuperscript from './RequiredSuperscript'
 import { connect } from 'react-redux'
 import { changeSelections } from '../../actions/index'
@@ -12,10 +13,19 @@ const AsyncTypeahead = asyncContainer(Typeahead)
 class InputLookupQA extends Component {
   constructor(props) {
     super(props)
+    this.hasPropertyRemark = this.hasPropertyRemark.bind(this)
     this.mandatorySuperscript = this.mandatorySuperscript.bind(this)
     this.state = {
       isLoading: false
     }
+  }
+
+  hasPropertyRemark() {
+    if(this.props.propertyTemplate.remark) {
+      return <PropertyRemark remark={this.props.propertyTemplate.remark}
+          label={this.props.propertyTemplate.propertyLabel} />;
+    }
+    return this.props.propertyTemplate.propertyLabel;
   }
 
   mandatorySuperscript() {
@@ -49,7 +59,8 @@ class InputLookupQA extends Component {
 
     return (
       <div>
-        <label htmlFor="lookupComponent">{this.props.propertyTemplate.propertyLabel}
+        <label htmlFor="lookupComponent">
+        {this.hasPropertyRemark()}
         {this.mandatorySuperscript()}
         <AsyncTypeahead id="lookupComponent"
           onSearch={query => {

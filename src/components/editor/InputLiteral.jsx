@@ -1,9 +1,10 @@
-// Copyright 2018 Stanford University see Apache2.txt for license
+// Copyright 2018, 2019 Stanford University see Apache2.txt for license
 
 import React, {Component} from 'react'
 import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
 import { setItems, removeItem } from '../../actions/index'
+import PropertyRemark from './PropertyRemark'
 import RequiredSuperscript from './RequiredSuperscript'
 
 // Redux recommends exporting the unconnected component for unit tests.
@@ -16,6 +17,7 @@ export class InputLiteral extends Component {
     this.handleClick = this.handleClick.bind(this)
     this.handleFocus = this.handleFocus.bind(this)
     this.checkMandatoryRepeatable = this.checkMandatoryRepeatable.bind(this)
+    this.hasPropertyRemark = this.hasPropertyRemark.bind(this)
     this.mandatorySuperscript = this.mandatorySuperscript.bind(this)
     this.notRepeatable = this.notRepeatable.bind(this)
     this.addUserInput = this.addUserInput.bind(this)
@@ -101,6 +103,14 @@ export class InputLiteral extends Component {
      }
   }
 
+  hasPropertyRemark() {
+    if(this.props.propertyTemplate.remark) {
+      return <PropertyRemark remark={this.props.propertyTemplate.remark}
+          label={this.props.propertyTemplate.propertyLabel} />;
+    }
+    return this.props.propertyTemplate.propertyLabel;
+  }
+
   mandatorySuperscript() {
     if (this.props.propertyTemplate.mandatory === "true") {
       return <RequiredSuperscript />
@@ -136,7 +146,7 @@ export class InputLiteral extends Component {
     return (
       <div className="form-group">
         <label htmlFor={"typeLiteral" + this.props.id}>
-          {this.props.propertyTemplate.propertyLabel}
+          {this.hasPropertyRemark()}
           {this.mandatorySuperscript()}
           <input
             required={this.checkMandatoryRepeatable()}
@@ -163,6 +173,7 @@ InputLiteral.propTypes = {
     propertyURI: PropTypes.string.isRequired,
     mandatory: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
     repeatable: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
+    remark: PropTypes.string,
     valueConstraint: PropTypes.shape({
       defaults: PropTypes.array
     })
