@@ -1,0 +1,33 @@
+{
+  "Profile": {
+    "date": "2017-05-20",
+    "description": "note",
+    "id": "profile:note2",
+    "title": "note two",
+    "resourceTemplates": [
+      {
+        "id": "resourceTemplate:bf2:Note",
+        "resourceURI": "http://id.loc.gov/ontologies/bibframe/Note",
+        "resourceLabel": "Note",
+        "propertyTemplates": [
+          {
+            "propertyURI": "http://www.w3.org/2000/01/rdf-schema#label",
+            "propertyLabel": "Note",
+            "mandatory": "false",
+            "repeatable": "false",
+            "type": "literal",
+            "resourceTemplates": [],
+            "valueConstraint": {
+              "valueTemplateRefs": [],
+              "useValuesFrom": [],
+              "valueDataType": {},
+              "editable": "true",
+              "repeatable": "false",
+              "defaults": []
+            }
+          }
+        ]
+      }
+    ]
+  }
+}
