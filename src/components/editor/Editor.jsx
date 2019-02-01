@@ -31,7 +31,9 @@ class Editor extends Component {
       if(this.state.tempRtState){
         const rtId = nextProps.location.state.rtId
         const data = getResourceTemplate(rtId)
-        this.setState({resourceTemplateId: rtId})
+        if (!this.state.resourceTemplateId) {
+          this.setState({resourceTemplateId: rtId})
+        }
         this.setResourceTemplates(JSON.stringify(data))
       }
     }
@@ -56,6 +58,7 @@ class Editor extends Component {
           tempStateCallback={this.resetTempState}
           resourceTemplatesCallback={this.setResourceTemplates}
           resourceTemplateId = {this.state.resourceTemplateId}
+          setResourceTemplateCallback={this.setResourceTemplates}
         />
         <ResourceTemplate
           resourceTemplateId = {this.state.resourceTemplateId}
