@@ -4,7 +4,7 @@ import React from 'react'
 import { shallow, mount } from 'enzyme'
 import StartingPoints from '../../../src/components/editor/StartingPoints'
 import DropZone from '../../../src/components/editor/StartingPoints'
-import { Link, MemoryRouter } from 'react-router-dom'
+import { MemoryRouter } from 'react-router-dom'
 
 const jsdom = require("jsdom")
 require('isomorphic-fetch')
