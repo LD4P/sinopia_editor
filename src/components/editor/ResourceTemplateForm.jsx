@@ -145,7 +145,7 @@ class ResourceTemplateForm extends Component {
                     return (
                       <ButtonToolbar key={index}>
                         <div>
-                          <b>{this.hasPropertyRemark(pt)}{this.mandatorySuperscript(pt.mandatory)}</b>
+                          <label title={pt.remark}>{this.hasPropertyRemark(pt)}{this.mandatorySuperscript(pt.mandatory)}</label>
                         </div>
                         {this.resourceTemplateButtons(pt.valueConstraint.valueTemplateRefs)}
                       </ButtonToolbar>

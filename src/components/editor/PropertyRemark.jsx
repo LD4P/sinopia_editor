@@ -8,11 +8,18 @@ export class PropertyRemark extends Component {
     super(props)
   }
 
-  render() {
-    return (<a href={this.props.remark} className="prop-remark">
-           <span className="prop-remark">{this.props.label}</span>
-        </a>)
+  render () {
+    try {
+      const url = new URL(this.props.remark)
+      return <a href={url} className="prop-remark" alt={this.props.remark}>
+              <span className="prop-remark">{this.props.label}</span>
+             </a>
+
+    } catch (_) {
+      return this.props.label
+    }
   }
+
 }
 
 PropertyRemark.propTypes = {

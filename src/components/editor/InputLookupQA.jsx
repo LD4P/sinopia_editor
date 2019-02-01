@@ -59,7 +59,8 @@ class InputLookupQA extends Component {
 
     return (
       <div>
-        <label htmlFor="lookupComponent">
+        <label htmlFor="lookupComponent"
+               title={this.props.propertyTemplate.remark}>
         {this.hasPropertyRemark()}
         {this.mandatorySuperscript()}
         <AsyncTypeahead id="lookupComponent"

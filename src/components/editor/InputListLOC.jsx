@@ -83,7 +83,8 @@ class
     var opts = []
     return (
       <div>
-        <label htmlFor="targetComponent">
+        <label htmlFor="targetComponent"
+               title={this.props.propertyTemplate.remark}>
         {this.hasPropertyRemark(this.props.propertyTemplate)}
         {this.mandatorySuperscript()}
         <Typeahead

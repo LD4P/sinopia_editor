@@ -145,7 +145,8 @@ export class InputLiteral extends Component {
   render() {
     return (
       <div className="form-group">
-        <label htmlFor={"typeLiteral" + this.props.id}>
+        <label htmlFor={"typeLiteral" + this.props.id}
+               title={this.props.propertyTemplate.remark}>
           {this.hasPropertyRemark()}
           {this.mandatorySuperscript()}
           <input

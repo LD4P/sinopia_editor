@@ -13,11 +13,17 @@ describe('<PropertyRemark />', () => {
 
   it('contains a href with the value of the remark', () => {
     const anchor = wrapper.find('a')
-    expect(anchor.prop('href')).toEqual("http://access.rdatoolkit.org/example")
+    expect(anchor.prop('href')).toEqual(new URL("http://access.rdatoolkit.org/example"))
   })
 
   it('contains a span with the value of the label', () => {
     const span = wrapper.find('a > span')
     expect(span.text()).toEqual("Example RDA")
+  })
+
+  it('displays just a string label if remark is not a valid URL', () => {
+    const no_link_wrapper = shallow(<PropertyRemark remark="A test remark"
+        label="Example RDA" />)
+    expect(no_link_wrapper.text()).toBe("Example RDA")
   })
 })
