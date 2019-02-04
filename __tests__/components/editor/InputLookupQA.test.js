@@ -74,4 +74,11 @@ describe('<InputLookup />', () => {
 
     expect(mockFormDataFn.mock.calls.length).toBe(2)
   })
+
+  it('should have a PropertyRemark when a remark is present', () => {
+    wrapper.instance().props.propertyTemplate.remark = "http://rda.test.org/1.1"
+    wrapper.instance().forceUpdate()
+    const propertyRemark = wrapper.find('label > PropertyRemark')
+    expect(propertyRemark).toBeTruthy()
+  })
 })

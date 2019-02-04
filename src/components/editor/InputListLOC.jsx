@@ -3,6 +3,7 @@
 import React, { Component } from 'react';
 import { Typeahead } from 'react-bootstrap-typeahead'
 import PropTypes from 'prop-types'
+import PropertyRemark from './PropertyRemark'
 import RequiredSuperscript from './RequiredSuperscript'
 
 import { connect } from 'react-redux'
@@ -17,6 +18,8 @@ class
       options: [],
       defaults: []
     }
+    this.hasPropertyRemark = this.hasPropertyRemark.bind(this)
+
     let defaultValue
     try {
       defaultValue = this.props.propertyTemplate.valueConstraint.defaults[0]
@@ -39,6 +42,14 @@ class
       rtId: this.props.rtId
     }
     this.props.handleSelectedChange(payload)
+  }
+
+  hasPropertyRemark(propertyTemplate) {
+    if(propertyTemplate.remark) {
+      return <PropertyRemark remark={propertyTemplate.remark}
+          label={propertyTemplate.propertyLabel} />;
+    }
+    return propertyTemplate.propertyLabel;
   }
 
   mandatorySuperscript() {
@@ -72,7 +83,9 @@ class
     var opts = []
     return (
       <div>
-        <label htmlFor="targetComponent">{this.props.propertyTemplate.propertyLabel}
+        <label htmlFor="targetComponent"
+               title={this.props.propertyTemplate.remark}>
+        {this.hasPropertyRemark(this.props.propertyTemplate)}
         {this.mandatorySuperscript()}
         <Typeahead
           onFocus={() => {

@@ -8,6 +8,7 @@ import ButtonToolbar from 'react-bootstrap/lib/ButtonToolbar'
 import InputLiteral from './InputLiteral'
 import InputListLOC from './InputListLOC'
 import InputLookupQA from './InputLookupQA'
+import PropertyRemark from './PropertyRemark'
 import RequiredSuperscript from './RequiredSuperscript'
 import ModalToggle from './ModalToggle'
 import lookupConfig from '../../../static/spoofedFilesFromServer/fromSinopiaServer/lookupConfig.json'
@@ -21,6 +22,7 @@ class ResourceTemplateForm extends Component {
     this.resourceTemplateButtons = this.resourceTemplateButtons.bind(this)
     this.defaultValues = this.defaultValues.bind(this)
     this.previewRDF = this.previewRDF.bind(this)
+    this.hasPropertyRemark = this.hasPropertyRemark.bind(this)
     this.mandatorySuperscript = this.mandatorySuperscript.bind(this)
     this.defaultValues()
   }
@@ -61,6 +63,17 @@ class ResourceTemplateForm extends Component {
     if (JSON.parse(propMandatory)) {
       return <RequiredSuperscript />
     }
+  }
+
+  hasPropertyRemark = (prop) => {
+    let output;
+    if(prop.remark) {
+      output = <PropertyRemark remark={prop.remark}
+                label={prop.propertyLabel} />
+    } else {
+      output = prop.propertyLabel
+    }
+    return output
   }
 
   defaultValues = () => {
@@ -132,7 +145,7 @@ class ResourceTemplateForm extends Component {
                     return (
                       <ButtonToolbar key={index}>
                         <div>
-                          <b>{pt.propertyLabel} {this.mandatorySuperscript(pt.mandatory)}</b>
+                          <label title={pt.remark}>{this.hasPropertyRemark(pt)}{this.mandatorySuperscript(pt.mandatory)}</label>
                         </div>
                         {this.resourceTemplateButtons(pt.valueConstraint.valueTemplateRefs)}
                       </ButtonToolbar>
