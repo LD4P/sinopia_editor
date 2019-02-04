@@ -2,6 +2,7 @@
 import React from 'react'
 import { shallow } from 'enzyme'
 import InputList from '../../../src/components/editor/InputListLOC'
+import PropertyRemark from '../../../src/components/editor/PropertyRemark'
 
 const plProps = {
   "propertyTemplate":
@@ -34,7 +35,9 @@ describe('<InputList />', () => {
   const wrapper = shallow(<InputList.WrappedComponent {...plProps} handleSelectedChange={mockFormDataFn} />)
 
   it('contains a label with the value of propertyLabel', () => {
-    expect(wrapper.find('label').text()).toMatch('Frequency (RDA 2.14)')
+    const label = wrapper.find('label')
+    const propertyRemark = label.find('PropertyRemark')
+    expect(propertyRemark.html()).toMatch("Frequency (RDA 2.14)")
   })
 
   it('typeahead component should have a placeholder attribute with value propertyLabel', () => {
@@ -49,6 +52,13 @@ describe('<InputList />', () => {
     wrapper.instance().props.propertyTemplate.mandatory = "true"
     wrapper.instance().forceUpdate()
     expect(wrapper.find('label > RequiredSuperscript')).toBeTruthy()
+  })
+
+  it('displays a text label if remark from template is absent', () => {
+    wrapper.instance().props.propertyTemplate.remark = undefined
+    wrapper.instance().forceUpdate()
+    const label = wrapper.find('label').text()
+    expect(label.startsWith("Frequency (RDA 2.14)")).toBeTruthy()
   })
 
   it('sets the typeahead component multiple attribute according to the repeatable value from the template', () => {
