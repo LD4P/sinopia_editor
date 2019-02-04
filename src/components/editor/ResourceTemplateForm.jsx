@@ -79,19 +79,10 @@ class ResourceTemplateForm extends Component {
         propertyTemplates={resourceTemplate.propertyTemplates}
         resourceTemplate={resourceTemplate}
         rdfOuterSubject = {this.state.rdfOuterSubject}
-        rdfPredicate = {propURI}
+        propPredicate = {propURI}
         handleRDFDisplay = {this.handleRDFDisplay}
       />
     )
-  }
-
-  // Note: rtIds is expected to be an array of length at least one
-  resourceTemplateButtons = (rtIds) => {
-    let buttons = []
-    rtIds.map((rtId, i) => {
-      buttons.push(<ButtonGroup key={`${rtId}-${i}`}>{this.rtModalButton(rtId)}</ButtonGroup>)
-    })
-    return buttons
   }
 
   mandatorySuperscript = (propMandatory) => {
@@ -178,7 +169,7 @@ class ResourceTemplateForm extends Component {
                   }
                   else if(pt.type == 'literal'){
                     return(
-                      <InputLiteral propertyTemplate = {pt} key = {index} id = {index} rtId = {this.props.rtId} />
+                      <InputLiteral propertyTemplate = {pt} key = {index} id = {index} rtId = {this.props.rtId} blankNodeForLiteral={this.state.rdfOuterSubject} propPredicate={this.props.propPredicate}/>
                     )
                   }
                   else if (isResourceWithValueTemplateRefs) {
@@ -188,7 +179,7 @@ class ResourceTemplateForm extends Component {
                         <div>
                           <b>{pt.propertyLabel} {this.mandatorySuperscript(pt.mandatory)}</b>
                         </div>
-                        {this.resourceTemplateButtons(pt.valueConstraint.valueTemplateRefs)}
+                        {this.resourceTemplateButtons(pt.valueConstraint.valueTemplateRefs, pt.propertyURI)}
                       </ButtonToolbar>
                       )
                     }
@@ -219,7 +210,7 @@ ResourceTemplateForm.propTypes = {
   rtId: PropTypes.string,
   parentResourceTemplate: PropTypes.string,
   rdfOuterSubject: PropTypes.object,
-  rdfPredicate: PropTypes.string,
+  propPredicate: PropTypes.string,
   generateLD: PropTypes.object.isRequired
 }
 

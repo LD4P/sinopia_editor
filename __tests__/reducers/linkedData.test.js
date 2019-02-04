@@ -28,11 +28,11 @@ describe('should handle initial state', () => {
         linkedNode: { value: 'n3-0' }
       }
     }
-    const expectedGraph = generateLD(null, action)['jsonld']
-    const jsonld = context +
+    const receivedGraph = generateLD(null, action)['jsonld']
+    const expectedJsonld = context +
       '"@graph": [' +
       '{"@id": "_:n3-0", "@type": "http://id.loc.gov/ontologies/bibframe/Instance"}]}'
-    expect(expectedGraph).toEqual(JSON.parse(jsonld))
+    expect(receivedGraph).toEqual(JSON.parse(expectedJsonld))
   })
 
   it('should clear out the graph', () => {
@@ -74,8 +74,8 @@ describe('should handle initial state', () => {
         linkedNode: { "termType":"BlankNode","value":"n3-0" }
       }
     }
-    const expectedGraph = generateLD(null, action)['jsonld']
-    const jsonld = context +
+    const receivedGraph = generateLD(null, action)['jsonld']
+    const expectedJsonld = context +
       '"@graph": [' +
       '{"@id": "_:n3-0", ' +
       '"@type": "http://id.loc.gov/ontologies/bibframe/Instance", ' +
@@ -83,7 +83,7 @@ describe('should handle initial state', () => {
       '"http://id.loc.gov/ontologies/bibframe/issuance": {"@id": "http://id.loc.gov/vocabulary/issuance/mono"}}, ' +
       '{"@id": "http://id.loc.gov/vocabulary/issuance/mono", "@type": "http://id.loc.gov/ontologies/bibframe/issuance", "rdfs:label": "single unit"}, ' +
       '{"@id": "http://id.loc.gov/vocabulary/carriers/nc", "@type": "http://id.loc.gov/ontologies/bibframe/carrier", "rdfs:label": "volume"}]}'
-    expect(expectedGraph).toEqual(JSON.parse(jsonld))
+    expect(receivedGraph).toEqual(JSON.parse(expectedJsonld))
   })
 
   it('should clear out the graph', () => {
@@ -113,10 +113,11 @@ describe('should handle initial state', () => {
             "rtId":"resourceTemplate:bf2:Note",
             "items":[
               {
-                "content":"NOTE",
-                "id":0,
-                "type":"http://id.loc.gov/ontologies/bibframe/note",
-                "bnode":{"termType":"BlankNode","value":"n3-14"}
+                "content": "NOTE",
+                "id": 0,
+                "type": "http://id.loc.gov/ontologies/bibframe/note",
+                "bnode": { "termType":"BlankNode","value":"n3-14" },
+                "propPredicate": "http://id.loc.gov/ontologies/bibframe/note"
               }
             ]
           }
@@ -150,8 +151,8 @@ describe('should handle initial state', () => {
         linkedNode: {"termType":"BlankNode","value":"n3-0"}
       }
     }
-    const expectedGraph = generateLD(null, action)['jsonld']
-    const jsonld = context +
+    const receivedGraph = generateLD(null, action)['jsonld']
+    const expectedJsonld = context +
       '"@graph": [' +
       '{"@id": "_:n3-0", ' +
       '"@type": "http://id.loc.gov/ontologies/bibframe/Instance", ' +
@@ -163,7 +164,7 @@ describe('should handle initial state', () => {
       '{"@id": "http://id.loc.gov/vocabulary/issuance/mono", "@type": "http://id.loc.gov/ontologies/bibframe/issuance", "rdfs:label": "single unit"}, ' +
       '{"@id": "http://id.loc.gov/vocabulary/carriers/nc", "@type": "http://id.loc.gov/ontologies/bibframe/carrier", "rdfs:label": "volume"}, ' +
       '{"@id": "_:n3-14", "@type": "http://id.loc.gov/ontologies/bibframe/Note", "http://www.w3.org/2000/01/rdf-schema#label": "NOTE"}]}'
-    expect(expectedGraph).toEqual(JSON.parse(jsonld))
+    expect(receivedGraph).toEqual(JSON.parse(expectedJsonld))
   })
 
   it('should clear out the graph', () => {
@@ -187,7 +188,11 @@ describe('should handle initial state', () => {
             "id":"http://id.loc.gov/ontologies/bibframe/heldBy",
             "rtId":"resourceTemplate:bf2:Monograph:Instance",
             "items":[
-              {"content":"STF","id":0,"bnode":{"termType":"BlankNode","value":"n3-10"}}
+              {
+                "content": "STF",
+                "id": 0,
+                "bnode": { "termType":"BlankNode", "value":"n3-10" }
+              }
             ]
           },
           {
@@ -195,10 +200,11 @@ describe('should handle initial state', () => {
             "rtId":"resourceTemplate:bf2:Note",
             "items":[
               {
-                "content":"NOTE",
-                "id":0,
-                "type":"http://id.loc.gov/ontologies/bibframe/note",
-                "bnode":{"termType":"BlankNode","value":"n3-14"}
+                "content": "NOTE",
+                "id": 0,
+                "type": "http://id.loc.gov/ontologies/bibframe/note",
+                "bnode": { "termType":"BlankNode","value":"n3-14" },
+                "propPredicate": "http://id.loc.gov/ontologies/bibframe/note"
               }
             ]
           }
@@ -232,8 +238,8 @@ describe('should handle initial state', () => {
         linkedNode: {"termType":"BlankNode","value":"n3-0"}
       }
     }
-    const expectedGraph = generateLD(null, action)['jsonld']
-    const jsonld = context +
+    const receivedGraph = generateLD(null, action)['jsonld']
+    const expectedJsonld = context +
       '"@graph": [' +
       '{"@id": "_:n3-0", ' +
       '"@type": "http://id.loc.gov/ontologies/bibframe/Instance", ' +
@@ -249,7 +255,7 @@ describe('should handle initial state', () => {
       '{"@id": "http://id.loc.gov/vocabulary/issuance/mono", "@type": "http://id.loc.gov/ontologies/bibframe/issuance", "rdfs:label": "single unit"}, ' +
       '{"@id": "http://id.loc.gov/vocabulary/carriers/nc", "@type": "http://id.loc.gov/ontologies/bibframe/carrier", "rdfs:label": "volume"}, ' +
       '{"@id": "_:n3-14", "@type": "http://id.loc.gov/ontologies/bibframe/Note", "http://www.w3.org/2000/01/rdf-schema#label": "NOTE"}]}'
-    expect(expectedGraph).toEqual(JSON.parse(jsonld))
+    expect(receivedGraph).toEqual(JSON.parse(expectedJsonld))
   })
 
   function clearTestGraph(){

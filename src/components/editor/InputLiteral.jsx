@@ -45,7 +45,8 @@ export class InputLiteral extends Component {
       content: currentcontent,
       id: ++this.lastId,
       type: this.props.rdfPredicate,
-      bnode: this.props.blankNodeForLiteral
+      bnode: this.props.blankNodeForLiteral,
+      propPredicate: this.props.propPredicate
     })
   }
 

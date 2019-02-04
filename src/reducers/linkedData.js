@@ -53,7 +53,7 @@ const generateLinkedData = (state, action) => {
     field.items.forEach(item => {
       object = item.uri
       label = item.label
-      createRDFLinks(subject, predicate, object, resourceUri, label)
+      createRDFLinks(predicate, object, resourceUri, label)
     })
   })
 
@@ -61,14 +61,14 @@ const generateLinkedData = (state, action) => {
     field.items.forEach(item => {
       object = item.content
       item.type ? predicate = item.type : predicate = field.id
-      createRDFLiterals(predicate, field.items, field.rtId, item.bnode)
+      createRDFLiterals(predicate, field.items, field.rtId, item.bnode, item.propPredicate)
     })
   })
 
   return { jsonld: jsonLD }
 }
 
-function createRDFLinks(s, p, o, resourceUri, label) {
+function createRDFLinks(p, o, resourceUri, label) {
   const entity = jsonLD['@graph'].some(thing => thing["@type"] === resourceUri)
   if(entity){
     jsonLD['@graph'][0][p] =  { "@id": o }
@@ -85,7 +85,7 @@ function createRDFLinks(s, p, o, resourceUri, label) {
   }
 }
 
-function createRDFLiterals(p, o, rtId, bnode) {
+function createRDFLiterals(p, o, rtId, bnode, propPredicate) {
   let resourceTemplateForEntity = getResourceTemplate(rtId)
   let entityResourceUri = resourceTemplateForEntity.resourceURI
   let literalItems = createLiteralArray(o)
@@ -101,13 +101,13 @@ function createRDFLiterals(p, o, rtId, bnode) {
   if(entity){
     jsonLD['@graph'][0][p] = literalValue
   } else {
-    jsonLD['@graph'][0][p] = { "@id": `_:${bnode.value}` }
+    jsonLD['@graph'][0][propPredicate] = { "@id": `_:${bnode.value}` }
 
     let predicate = resourceTemplateForEntity.propertyTemplates[0].propertyURI
 
     const obj = {
       "@id": `_:${bnode.value}`,
-      "@type": resourceTemplateForEntity.resourceURI,
+      "@type": entityResourceUri,
       [predicate]: literalValue
     }
     jsonLD['@graph'].push(obj)

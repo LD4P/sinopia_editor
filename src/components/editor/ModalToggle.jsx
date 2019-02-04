@@ -38,7 +38,7 @@ class ModalToggle extends Component {
           visible={this.state.visible}
           toggleVisibility={this.toggleModal}
           rdfOuterSubject={this.props.rdfOuterSubject}
-          rdfPredicate={this.props.rdfPredicate}
+          propPredicate={this.props.propPredicate}
         />
       </div>
     )
