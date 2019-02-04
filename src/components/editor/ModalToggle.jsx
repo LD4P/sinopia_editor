@@ -51,7 +51,7 @@ ModalToggle.propTypes = {
   resourceTemplate: PropTypes.object.isRequired,
   rtId: PropTypes.string.isRequired,
   rdfOuterSubject: PropTypes.object,
-  rdfPredicate: PropTypes.string,
+  propPredicate: PropTypes.string,
 }
 
 export default ModalToggle

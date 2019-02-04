@@ -60,7 +60,7 @@ const generateLinkedData = (state, action) => {
   action.payload.literals.formData.forEach(field => {
     field.items.forEach(item => {
       object = item.content
-      item.type ? predicate = item.type : predicate = field.id
+      item.propPredicate ? predicate = item.propPredicate : predicate = field.id
       createRDFLiterals(predicate, field.items, field.rtId, item.bnode, item.propPredicate)
     })
   })

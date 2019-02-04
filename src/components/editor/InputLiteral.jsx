@@ -44,7 +44,6 @@ export class InputLiteral extends Component {
     userInputArray.push({
       content: currentcontent,
       id: ++this.lastId,
-      type: this.props.rdfPredicate,
       bnode: this.props.blankNodeForLiteral,
       propPredicate: this.props.propPredicate
     })
@@ -176,7 +175,7 @@ InputLiteral.propTypes = {
   handleRemoveItem: PropTypes.func,
   rtId: PropTypes.string,
   blankNodeForLiteral: PropTypes.object,
-  rdfPredicate: PropTypes.string
+  propPredicate: PropTypes.string
 }
 
 const mapStatetoProps = (state, props) => {
