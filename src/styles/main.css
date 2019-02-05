@@ -91,6 +91,16 @@ h2.editor-subtitle {
   margin-bottom: 5px;
 }
 
+a.prop-remark {
+  text-decoration: none;
+}
+
+span.prop-remark {
+  border-width: thin;
+  border-bottom-style: dashed !important;
+  color: #2F2424;
+}
+
 a.editor-subtitle {
   text-decoration: none;
   font-family: "Copperplate Gothic Light";

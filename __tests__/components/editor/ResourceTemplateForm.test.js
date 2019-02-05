@@ -168,11 +168,19 @@ describe('<ResourceTemplateForm />', () => {
     expect(rtProps.propertyTemplates[0].repeatable).toBe("false")
     expect(rtProps.propertyTemplates[0].editable).toBe("true")
   })
+
   it('does not override "mandatory", "repeatable", or "editable" that has already been specified', () => {
     wrapper.instance().defaultValues()
     wrapper.instance().forceUpdate()
     expect(rtProps.propertyTemplates[1].mandatory).toBe("do not override me!")
     expect(rtProps.propertyTemplates[1].repeatable).toBe("do not override me!")
     expect(rtProps.propertyTemplates[1].editable).toBe("do not override me!")
+  })
+
+  it('displays a PropertyRemark when a remark is present', () => {
+    wrapper.instance().props.propertyTemplates[2].remark = "https://www.youtube.com/watch?v=jWkMhCLkVOg"
+    wrapper.instance().forceUpdate()
+    const propertyRemark = wrapper.find('label > PropertyRemark')
+    expect(propertyRemark).toBeTruthy()
   })
 })

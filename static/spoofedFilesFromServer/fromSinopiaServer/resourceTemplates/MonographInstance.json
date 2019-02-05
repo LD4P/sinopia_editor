@@ -85,7 +85,7 @@
     },
     {
       "propertyLabel": "Notes about the Instance",
-      "remark": "http://access.rdatoolkit.org/2.17.html",
+      "remark": "This is a great note",
       "propertyURI": "http://id.loc.gov/ontologies/bibframe/note",
       "mandatory": "false",
       "repeatable": "true",
@@ -178,7 +178,8 @@
         "defaults": []
       },
       "propertyURI": "http://id.loc.gov/ontologies/bibframe/contribution",
-      "propertyLabel": "LOC Names: locnames_ld4l_cache/person"
+      "propertyLabel": "LOC Names: locnames_ld4l_cache/person",
+      "remark": "http://id.loc.gov/authorities/names.html"
     },
     {
       "propertyURI": "http://id.loc.gov/ontologies/bibframe/frequency",
