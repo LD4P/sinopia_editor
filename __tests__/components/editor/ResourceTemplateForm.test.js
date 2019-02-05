@@ -60,11 +60,20 @@ const rtProps = {
   ]
 }
 
+const rtTest = { resourceURI: "http://id.loc.gov/ontologies/bibframe/Work" }
+const mockHandleGenerateRDF = jest.fn()
+const lits = { id: 0, content: 'content' }
+const lups = { id: 'id', uri: 'uri', label: 'label' }
+
 describe('<ResourceTemplateForm />', () => {
-  const mockHandleGenerateRDF = jest.fn()
   const wrapper = shallow(<ResourceTemplateForm.WrappedComponent
     {...rtProps}
-    handleGenerateRDF = {mockHandleGenerateRDF} />)
+    rtId={'resourceTemplate:bf2:Monograph:Instance'}
+    resourceTemplate = {rtTest}
+    handleGenerateRDF = {mockHandleGenerateRDF}
+    literals={lits}
+    lookups={lups}
+  />)
 
   it('renders the ResourceTemplateForm text nodes', () => {
     wrapper.find('div.ResourceTemplateForm > p').forEach((node) => {
@@ -115,11 +124,14 @@ describe('<ResourceTemplateForm />', () => {
   })
 
   describe('a generate RDF button', () => {
-    const rtTest = { resourceURI: "http://id.loc.gov/ontologies/bibframe/Work" }
     const rdf_wrapper = shallow(<ResourceTemplateForm.WrappedComponent
       {...rtProps}
       resourceTemplate = {rtTest}
-      handleGenerateRDF = {mockHandleGenerateRDF} />)
+      rtId={'resourceTemplate:bf2:Monograph:Instance'}
+      handleGenerateRDF = {mockHandleGenerateRDF}
+      literals={lits}
+      lookups={lups}
+    />)
     it('renders a Preview RDF button', () =>{
       expect(rdf_wrapper
         .find('div > button.btn-success').length)
@@ -132,7 +144,14 @@ describe('<ResourceTemplateForm />', () => {
   })
 
   it('renders error text when there are no propertyTemplates', () => {
-    const myWrap = shallow(<ResourceTemplateForm.WrappedComponent propertyTemplates={[]} />)
+    const myWrap = shallow(<ResourceTemplateForm.WrappedComponent
+      propertyTemplates={[]}
+      rtId={'resourceTemplate:bf2:Monograph:Instance'}
+      resourceTemplate = {rtTest}
+      handleGenerateRDF = {mockHandleGenerateRDF}
+      literals={lits}
+      lookups={lups}
+    />)
     const errorEl = myWrap.find('h1')
     expect(errorEl).toHaveLength(1)
     expect(errorEl.text()).toEqual('There are no propertyTemplates - probably an error.')
