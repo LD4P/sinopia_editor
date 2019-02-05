@@ -16,7 +16,7 @@ const plProps = {
 }
 
 describe('<InputLiteral />', () => {
-  const wrapper = shallow(<InputLiteral {...plProps} id={10} />)  
+  const wrapper = shallow(<InputLiteral {...plProps} id={10} rtId={'resourceTemplate:bf2:Monograph:Instance'} />)
 
   it('contains a label with "Instance of"', () => {
     expect(wrapper.find('label').text()).toBe('Instance of')
@@ -42,9 +42,9 @@ describe('When the user enters input into field', ()=>{
   // our mock formData function to replace the one provided by mapDispatchToProps
   const mockFormDataFn = jest.fn()
   const removeMockDataFn = jest.fn()
-  mock_wrapper = shallow(<InputLiteral {...plProps} id={11}
+  mock_wrapper = shallow(<InputLiteral {...plProps} id={11} rtId={'resourceTemplate:bf2:Monograph:Instance'}
                                        handleMyItemsChange={mockFormDataFn}
-                                       handleRemoveItem={removeMockDataFn}/>)
+                                       handleRemoveItem={removeMockDataFn} />)
 
   it('has an id value as a unique property', () => {
     expect(mock_wrapper.find('input').prop('id')).toEqual("typeLiteral11")
@@ -63,7 +63,11 @@ describe('When the user enters input into field', ()=>{
     mock_wrapper.find('input').simulate('keypress', {key: 'Enter', preventDefault: () => {}})
     // test to see arguments used after its been submitted
     expect(mockFormDataFn.mock.calls[1][0]).toEqual(
-      {id: "http://id.loc.gov/ontologies/bibframe/instanceOf", items:[{content: 'foo', id: 0}]}
+      {
+        id: "http://id.loc.gov/ontologies/bibframe/instanceOf",
+        items:[{ content: 'foo', id: 0 }],
+        rtId: "resourceTemplate:bf2:Monograph:Instance"
+      }
     )
     mockFormDataFn.mock.calls = [] // reset the redux store to empty
   })
@@ -76,10 +80,18 @@ describe('When the user enters input into field', ()=>{
     mock_wrapper.find('input').simulate('keypress', {key: 'Enter', preventDefault: () => {}})
 
     expect(mockFormDataFn.mock.calls[0][0]).toEqual(
-      {id: "http://id.loc.gov/ontologies/bibframe/instanceOf", items:[{content: 'fooby', id: 1}]}
+      {
+        id: "http://id.loc.gov/ontologies/bibframe/instanceOf",
+        items:[{ content: 'fooby', id: 1 }],
+        rtId: "resourceTemplate:bf2:Monograph:Instance"
+      }
     )
     expect(mockFormDataFn.mock.calls[1][0]).toEqual(
-      {id: "http://id.loc.gov/ontologies/bibframe/instanceOf", items:[{content: 'bar', id: 2}]}
+      {
+        id: "http://id.loc.gov/ontologies/bibframe/instanceOf",
+        items:[{ content: 'bar', id: 2 }],
+        rtId: "resourceTemplate:bf2:Monograph:Instance"
+      }
     )
     mockFormDataFn.mock.calls = [] // reset the redux store to empty
   })
@@ -96,10 +108,18 @@ describe('When the user enters input into field', ()=>{
     mock_wrapper.find('input').simulate('keypress', {key: 'Enter', preventDefault: () => {}})
 
     expect(mockFormDataFn.mock.calls[0][0]).toEqual(
-      {id: "http://id.loc.gov/ontologies/bibframe/instanceOf", items:[{content: 'fooby', id: 3}]}
+      {
+        id: "http://id.loc.gov/ontologies/bibframe/instanceOf",
+        items:[{ content: 'fooby', id: 3 }],
+        rtId: "resourceTemplate:bf2:Monograph:Instance"
+      }
     )
     expect(mockFormDataFn.mock.calls[1][0]).toEqual(
-      {id: "http://id.loc.gov/ontologies/bibframe/instanceOf", items:[]}
+      {
+        id: "http://id.loc.gov/ontologies/bibframe/instanceOf",
+        items:[],
+        rtId: "resourceTemplate:bf2:Monograph:Instance"
+      }
     )
     mockFormDataFn.mock.calls = [] // reset the redux store to empty
 
