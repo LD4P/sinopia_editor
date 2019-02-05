@@ -15,6 +15,15 @@ class InputLang extends Component {
     }
   }
 
+  // TODO:
+  // English is the default value, but is not set in the redux.lang.store, so it currently would need to be set manually
+  // in the generation of RDF.
+  // See https://github.com/LD4P/sinopia_editor/issues/290
+
+  // When clicking Cancel make it not save the language. Clicking X to remove the input for the literal
+  // leaves the input in the lang redux store but nothing will be associated with it in the "literal" store.
+  // See https://github.com/LD4P/sinopia_editor/issues/275
+
   setPayLoad(items) {
     let payload = {
         id: this.props.textValue,

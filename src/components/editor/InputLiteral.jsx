@@ -19,6 +19,8 @@ export class InputLiteral extends Component {
     this.handleKeypress = this.handleKeypress.bind(this)
     this.handleClick = this.handleClick.bind(this)
     this.handleFocus = this.handleFocus.bind(this)
+    this.handleShow = this.handleShow.bind(this)
+    this.handleClose = this.handleClose.bind(this)
     this.checkMandatoryRepeatable = this.checkMandatoryRepeatable.bind(this)
     this.mandatorySuperscript = this.mandatorySuperscript.bind(this)
     this.notRepeatable = this.notRepeatable.bind(this)
@@ -32,6 +34,13 @@ export class InputLiteral extends Component {
     this.lastId = -1
   }
 
+  handleShow() {
+    this.setState({ show: true })
+  }
+
+  handleClose() {
+    this.setState({ show: false })
+  }
 
   handleFocus(event) {
     document.getElementById(event.target.id).focus()
@@ -147,17 +156,6 @@ export class InputLiteral extends Component {
     }
   }
 
-  // Bug
-  // When adding the same value twice to the input field, the languages concat and then we have a problem.
-  // English is the default value, but is not set in the redux.lang.store. Needs to be set manually in the
-  // generation of RDF. ticket #290
-
-  // When clicking Cancel make it not save the language #275
-
-  // Note:
-  // When clicking X to remove the input for the literal, it leaves the input in the redux store for the 
-  // language but nothing will be associated with it.
-
   makeAddedList() {
     let formInfo = this.props.formData
       if (formInfo == undefined) return
@@ -180,8 +178,7 @@ export class InputLiteral extends Component {
                   <Button
                     bsSize="small"
                     onClick = {this.handleShow}>
-                    language
-                    {this.dispLang(obj.content)}
+                    Language: {this.dispLang(obj.content)}
                   </Button>
                   {this.dispModal(obj.content)}
                 </div>
