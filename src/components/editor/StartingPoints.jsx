@@ -5,6 +5,7 @@ import Dropzone from 'react-dropzone'
 import PropTypes from 'prop-types'
 const Ajv = require('ajv') // JSON schema validation
 const util = require('util') // for JSON schema validation errors
+import { Link } from 'react-router-dom'
 
 class StartingPoints extends Component {
   constructor() {
@@ -26,12 +27,14 @@ class StartingPoints extends Component {
           verbose: true
         })
       })
-      .catch(err => {console.error(`componentDidMount: error getting json schemas ${err}`)})
+      .catch(err => {
+        console.error(`componentDidMount: error getting json schemas ${err}`)
+      })
   }
 
   handleClick() {
     let val = this.state.showDropZone
-    this.setState({ showDropZone: !val })
+    this.setState({showDropZone: !val})
   }
 
   onDropFile(files) {
@@ -59,7 +62,7 @@ class StartingPoints extends Component {
   }
 
   updateShowDropZone = (val) => {
-    this.setState({ showDropZone: val })
+    this.setState({showDropZone: val})
   }
 
   validateTemplate = (template) => {
@@ -87,7 +90,7 @@ class StartingPoints extends Component {
       'https://ld4p.github.io/sinopia/schemas/0.0.1/property-template.json'
     ]
     const schemaFetchPromises = []
-    schemaUrls.forEach( (url) => {
+    schemaUrls.forEach((url) => {
       schemaFetchPromises.push(this.fetchJsonPromise(url))
     })
 
@@ -97,22 +100,31 @@ class StartingPoints extends Component {
   fetchJsonPromise = (uri) => {
     return new Promise((resolve, reject) => {
       fetch(uri)
-      .then(resp => {
-        if (resp.ok) {
-          resp.json()
-            .then(data => {
-              resolve(data)
-            })
-            .catch(err => { reject(new Error(`Error parsing json schema ${uri} - ${err}`))})
-        }
-        else {
-          reject(new Error(`HTTP error fetching schema: ${resp.status} - ${resp.statusText}`))
-        }
-      })
-      .catch((err) => {
-        reject(new Error(`Error fetching schema ${uri} - ${err}`))
-      })
+        .then(resp => {
+          if (resp.ok) {
+            resp.json()
+              .then(data => {
+                resolve(data)
+              })
+              .catch(err => {
+                reject(new Error(`Error parsing json schema ${uri} - ${err}`))
+              })
+          }
+          else {
+            reject(new Error(`HTTP error fetching schema: ${resp.status} - ${resp.statusText}`))
+          }
+        })
+        .catch((err) => {
+          reject(new Error(`Error fetching schema ${uri} - ${err}`))
+        })
     })
+  }
+
+  resetShowDropZone() {
+    this.updateShowDropZone(false)
+    this.setState({files: []})
+    this.props.tempStateCallback()
+
   }
 
   render() {
@@ -123,11 +135,12 @@ class StartingPoints extends Component {
     }
     return (
       <section>
-        <div className="StartingPoints" style={startingPoints}>
-          <h3>Create Resource</h3>
-          <button className="btn btn-primary btn-small" onClick={this.handleClick} >Import Profile</button>
-          { this.state.showDropZone ? <DropZone showDropZoneCallback={this.updateShowDropZone} dropFileCallback={this.onDropFile} filesCallback={this.state.files}/> : null }
-        </div>
+              <div className="StartingPoints" style={startingPoints}>
+                      <h3>Create Resource</h3>
+                      <div><Link to={{pathname: "/editor", state: {rtId: this.props.resourceTemplateId}}} onClick={() => {this.resetShowDropZone()}}>{this.props.resourceTemplateId}</Link></div>
+                      <button className="btn btn-primary btn-small" onClick={this.handleClick}>Import Profile</button>
+                {this.state.showDropZone ? <DropZone showDropZoneCallback={this.updateShowDropZone} dropFileCallback={this.onDropFile} filesCallback={this.state.files}/> : null}
+              </div>
       </section>
     )
   }
@@ -163,7 +176,10 @@ DropZone.propTypes = {
   filesCallback: PropTypes.array
 }
 StartingPoints.propTypes = {
-  setResourceTemplateCallback: PropTypes.func
+  tempStateCallback: PropTypes.func,
+  resourceTemplatesCallback: PropTypes.func,
+  setResourceTemplateCallback: PropTypes.func,
+  resourceTemplateId: PropTypes.string
 }
 
 export default StartingPoints;

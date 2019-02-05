@@ -6,6 +6,7 @@ import { mount, shallow } from 'enzyme'
 import InputLiteral from '../../../src/components/editor/InputLiteral'
 import ModalToggle from '../../../src/components/editor/ModalToggle'
 import ResourceTemplateForm from '../../../src/components/editor/ResourceTemplateForm'
+import {generateLD} from "../../../src/reducers/linkedData";
 
 const rtProps = {
   "propertyTemplates": [
@@ -60,11 +61,64 @@ const rtProps = {
   ]
 }
 
+const lits = { id: 0, content: 'content' }
+const lups = { id: 'id', uri: 'uri', label: 'label' }
+const ld = {
+  "@context": {
+    "rdf": "http://www.w3.org/1999/02/22-rdf-syntax-ns#",
+    "rdfs": "http://www.w3.org/2000/01/rdf-schema#",
+    "xsd": "http://www.w3.org/2001/XMLSchema#",
+    "bf": "http://id.loc.gov/ontologies/bibframe/",
+    "bflc": "http://id.loc.gov/ontologies/bflc/",
+    "madsrdf": "http://www.loc.gov/mads/rdf/v1#",
+    "pmo": "http://performedmusicontology.org/ontology/"
+  },
+  "@graph": [
+    {
+      "@id": "n3-0",
+      "@type": "http://id.loc.gov/ontologies/bibframe/Instance",
+      "http://id.loc.gov/ontologies/bibframe/issuance": {
+        "@id": "http://id.loc.gov/vocabulary/issuance/mono"
+      },
+      "http://id.loc.gov/ontologies/bibframe/carrier": {
+        "@id": "http://id.loc.gov/vocabulary/carriers/nc"
+      },
+      "http://id.loc.gov/ontologies/bibframe/responsibilityStatement": "STMT",
+      "http://id.loc.gov/ontologies/bibframe/note": {
+        "@id": "n3-8"
+      }
+    },
+    {
+      "@id": "http://id.loc.gov/vocabulary/issuance/mono",
+      "@type": "http://id.loc.gov/ontologies/bibframe/issuance",
+      "rdfs:label": "single unit"
+    },
+    {
+      "@id": "http://id.loc.gov/vocabulary/carriers/nc",
+      "@type": "http://id.loc.gov/ontologies/bibframe/carrier",
+      "rdfs:label": "volume"
+    },
+    {
+      "@id": "n3-8",
+      "@type": "http://id.loc.gov/ontologies/bibframe/Note",
+      "http://www.w3.org/2000/01/rdf-schema#label": "NOTE"
+    }
+  ]
+}
+
 describe('<ResourceTemplateForm />', () => {
-  const mockHandleGenerateRDF = jest.fn()
+  const mockHandleGenerateLD = jest.fn()
+  const rtTest = { resourceURI: "http://id.loc.gov/ontologies/bibframe/Work" }
   const wrapper = shallow(<ResourceTemplateForm.WrappedComponent
     {...rtProps}
-    handleGenerateRDF = {mockHandleGenerateRDF} />)
+    resourceTemplate = {rtTest}
+    handleGenerateRDF = {mockHandleGenerateLD}
+    literals = {lits}
+    lookups = {lups}
+    rtId = {"resourceTemplate:bf2:Monograph:Instance"}
+    parentResourceTemplate = {"resourceTemplate:bf2:Monograph:Instance"}
+    generateLD = { ld }
+  />)
 
   it('renders the ResourceTemplateForm text nodes', () => {
     wrapper.find('div.ResourceTemplateForm > p').forEach((node) => {
@@ -115,11 +169,16 @@ describe('<ResourceTemplateForm />', () => {
   })
 
   describe('a generate RDF button', () => {
-    const rtTest = { resourceURI: "http://id.loc.gov/ontologies/bibframe/Work" }
     const rdf_wrapper = shallow(<ResourceTemplateForm.WrappedComponent
       {...rtProps}
       resourceTemplate = {rtTest}
-      handleGenerateRDF = {mockHandleGenerateRDF} />)
+      handleGenerateLD =  {mockHandleGenerateLD}
+      literals = {lits}
+      lookups = {lups}
+      rtId = {"resourceTemplate:bf2:Monograph:Instance"}
+      parentResourceTemplate = {"resourceTemplate:bf2:Monograph:Instance"}
+      generateLD = { ld }
+    />)
     it('renders a Preview RDF button', () =>{
       expect(rdf_wrapper
         .find('div > button.btn-success').length)
@@ -127,12 +186,21 @@ describe('<ResourceTemplateForm />', () => {
     })
     it('displays a pop-up alert when clicked', () => {
       rdf_wrapper.find('div > button.btn-success').simulate('click')
-      expect(mockHandleGenerateRDF.mock.calls.length).toBe(1)
+      expect(mockHandleGenerateLD.mock.calls.length).toBe(1)
     })
   })
 
   it('renders error text when there are no propertyTemplates', () => {
-    const myWrap = shallow(<ResourceTemplateForm.WrappedComponent propertyTemplates={[]} />)
+    const myWrap = shallow(<ResourceTemplateForm.WrappedComponent
+      propertyTemplates={[]}
+      resourceTemplate = {rtTest}
+      handleGenerateRDF = {mockHandleGenerateLD}
+      literals = {lits}
+      lookups = {lups}
+      rtId = {"resourceTemplate:bf2:Monograph:Instance"}
+      parentResourceTemplate = {"resourceTemplate:bf2:Monograph:Instance"}
+      generateLD = { ld }
+    />)
     const errorEl = myWrap.find('h1')
     expect(errorEl).toHaveLength(1)
     expect(errorEl.text()).toEqual('There are no propertyTemplates - probably an error.')
