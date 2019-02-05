@@ -1,0 +1,35 @@
+{
+  "id": "sinopia:resourceTemplate:bf2:EditionInformation",
+  "resourceURI": "http://id.loc.gov/ontologies/bibframe/editionStatement",
+  "resourceLabel": "Edition Bad Schema",
+  "remark": "http://access.rdatoolkit.org/2.5.html",
+  "author": "NDMSO",
+  "date": "2017-06-08",
+  "schema": "https://ld4p.github.io/sinopia/schemas/not-there.json",
+  "propertyTemplates": [
+    {
+      "mandatory": "false",
+      "repeatable": "true",
+      "type": "literal",
+      "propertyURI": "http://id.loc.gov/ontologies/bibframe/editionStatement",
+      "propertyLabel": "Edition Statement (RDA 2.5)",
+      "remark": "http://access.rdatoolkit.org/2.5.html"
+    },
+    {
+      "mandatory": "false",
+      "repeatable": "true",
+      "type": "literal",
+      "propertyLabel": "Designation of Edition (RDA 2.5.2)",
+      "propertyURI": "http://id.loc.gov/ontologies/bibframe/editionEnumeration",
+      "remark": "http://access.rdatoolkit.org/2.5.2.html"
+    },
+    {
+      "mandatory": "false",
+      "repeatable": "true",
+      "type": "literal",
+      "propertyURI": "http://id.loc.gov/ontologies/bibframe/responsibilityStatement",
+      "propertyLabel": "Statement of Responsibility Relating to the Edition (RDA 2.5.4)",
+      "remark": "http://access.rdatoolkit.org/2.5.4.html"
+    }
+  ]
+}
