@@ -7,7 +7,7 @@ const setMyItems = (state, action) => {
   let needNewItemArray = true;
 
   for (let field of newFormData) {
-    if (field.id == action.payload.id) {
+    if (newFormData.length === 0 || field.id === action.payload.id) {
       field.items = action.payload.items
       needNewItemArray = false;
       break;
