@@ -16,7 +16,7 @@ const plProps = {
 }
 
 describe('<InputLiteral />', () => {
-  const wrapper = shallow(<InputLiteral {...plProps} id={10}/>)
+  const wrapper = shallow(<InputLiteral {...plProps} id={10} />)  
 
   it('contains a label with "Instance of"', () => {
     expect(wrapper.find('label').text()).toBe('Instance of')
