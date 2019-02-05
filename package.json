@@ -68,7 +68,7 @@
     "doc": "docs"
   },
   "scripts": {
-    "analysis": "es6-plato -d static-analysis -n -e .eslintrc.js src src/lib static/js/config.js",
+    "analysis": "es6-plato -d static-analysis -n -e .eslintrc.js src src/lib",
     "build": "webpack -p --progress --mode production",
     "ci": "npm i && npm run eslint && npm run dev-build && npm run jest-cov",
     "dev-build": "webpack --progress --mode development",
@@ -113,18 +113,14 @@
     },
     "collectCoverageFrom": [
       "src/**/*.js",
-      "src/**/*.jsx",
-      "!src/bfe*.js",
-      "!src/lib/aceconfig.js",
-      "!static/js/config*.js"
+      "src/**/*.jsx"
     ],
     "reporters": [
       "default",
       "jest-junit"
     ],
     "testPathIgnorePatterns": [
-      "/node_modules/",
-      "test-config.js"
+      "/node_modules/"
     ]
   }
 }
