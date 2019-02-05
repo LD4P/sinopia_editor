@@ -17,3 +17,8 @@ export const getRDF = inputs => ({
   type: 'GENERATE_RDF',
   payload: inputs
 })
+
+export const setLang = item => ({
+  type: "SET_LANG",
+  payload: item
+})

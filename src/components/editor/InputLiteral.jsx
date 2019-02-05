@@ -6,6 +6,10 @@ import { connect } from 'react-redux'
 import { setItems, removeItem } from '../../actions/index'
 import PropertyRemark from './PropertyRemark'
 import RequiredSuperscript from './RequiredSuperscript'
+import InputLang from './InputLang'
+import Modal from 'react-bootstrap/lib/Modal'
+import Button from 'react-bootstrap/lib/Button'
+import store from '../../store.js'
 
 // Redux recommends exporting the unconnected component for unit tests.
 export class InputLiteral extends Component {
@@ -16,17 +20,29 @@ export class InputLiteral extends Component {
     this.handleKeypress = this.handleKeypress.bind(this)
     this.handleClick = this.handleClick.bind(this)
     this.handleFocus = this.handleFocus.bind(this)
+    this.handleShow = this.handleShow.bind(this)
+    this.handleClose = this.handleClose.bind(this)
     this.checkMandatoryRepeatable = this.checkMandatoryRepeatable.bind(this)
     this.hasPropertyRemark = this.hasPropertyRemark.bind(this)
     this.mandatorySuperscript = this.mandatorySuperscript.bind(this)
     this.notRepeatable = this.notRepeatable.bind(this)
     this.addUserInput = this.addUserInput.bind(this)
+    this.dispModal = this.dispModal.bind(this)
+    this.dispLang = this.dispLang.bind(this)
     this.state = {
+      show: false,
       content_add: ""
     }
     this.lastId = -1
   }
 
+  handleShow() {
+    this.setState({ show: true })
+  }
+
+  handleClose() {
+    this.setState({ show: false })
+  }
 
   handleFocus(event) {
     document.getElementById(event.target.id).focus()
@@ -88,7 +104,7 @@ export class InputLiteral extends Component {
   }
 
   checkMandatoryRepeatable() {
-     if (this.props.propertyTemplate.mandatory == "true") {
+     if (this.props.propertyTemplate.mandatory === "true") {
       if (this.props.formData == undefined) return true
       const inputLength = (this.props.formData.items).length
       if (inputLength > 0) {
@@ -98,7 +114,7 @@ export class InputLiteral extends Component {
         return true
       }
      }
-     else if (this.props.propertyTemplate.mandatory == "false") {
+     else if (this.props.propertyTemplate.mandatory === "false") {
       return false
      }
   }
@@ -117,26 +133,62 @@ export class InputLiteral extends Component {
     }
   }
 
+  dispModal (content) {
+    return(
+      <Modal show={this.state.show} onHide={this.handleClose}>
+        <Modal.Header closeButton>
+          <Modal.Title>Languages</Modal.Title>
+        </Modal.Header>
+        <Modal.Body>
+          <InputLang textValue={content}/>
+        </Modal.Body>
+        <Modal.Footer>
+          <Button onClick={this.handleClose}>Submit</Button>
+          <Button onClick={this.handleClose}>Close</Button>
+        </Modal.Footer>
+      </Modal>
+    )
+  }
+
+  dispLang(content){
+    let newState = store.getState()
+    var index = newState.lang.formData.map(function(o) { return o.id; }).indexOf(content);
+    var newLang;
+    try {
+      newLang = newState.lang.formData[index].items[0].label
+    } catch (error) {
+      // ignore
+    }
+
+    if (newLang === undefined) {
+      return "English"
+    } else{
+      return newLang
+    }
+  }
+
   makeAddedList() {
     let formInfo = this.props.formData
       if (formInfo == undefined) return
       const elements = formInfo.items.map((obj) => {
-        return <div
-                id="userInput"
-                key = {obj.id}
-                  >
+        return <div id="userInput" key = {obj.id} >
                   {obj.content}
-
-                  <button
-                    id="displayedItem"
-                    type="button"
-                    onClick={this.handleClick}
-                    key={obj.id}
-                    data-item={obj.id}
-                    data-label={formInfo.id}
-                          >X
-                  </button>
-                </div>
+            <button
+              id="displayedItem"
+              type="button"
+              onClick={this.handleClick}
+              key={obj.id}
+              data-item={obj.id}
+              data-label={formInfo.id}
+                    >X
+            </button>
+            <Button
+              bsSize="small"
+              onClick = {this.handleShow}>
+              Language: {this.dispLang(obj.content)}
+            </Button>
+            {this.dispModal(obj.content)}
+        </div>
       })
 
     return elements
