@@ -90,7 +90,7 @@ class
         <Typeahead
           onFocus={() => {
             this.setState({isLoading: true})
-            fetch(`${lookupUri}.json`)
+            fetch(`${lookupUri}.json`, { mode: 'cors' })
               .then(resp => resp.json())
               .then(json => {
                 for(var i in json){
