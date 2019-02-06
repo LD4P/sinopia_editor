@@ -764,7 +764,7 @@
   },
   {
     "label": "encoding level",
-    "uri": "https://mlvlp04.loc.gov:8080/vocabulary/menclvl",
+    "uri": "https://id.loc.gov/vocabulary/menclvl",
     "component": "list"
   },
   {
