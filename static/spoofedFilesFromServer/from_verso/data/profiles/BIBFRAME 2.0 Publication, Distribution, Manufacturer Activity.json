@@ -1,426 +1,333 @@
 {
-    "Profile": {
-        "resourceTemplates": [
-            {
-                "propertyTemplates": [
-                    {
-                        "mandatory": "false",
-                        "repeatable": "true",
-                        "type": "resource",
-                        "resourceTemplates": [],
-                        "valueConstraint": {
-                            "valueTemplateRefs": [
-                                "profile:bf2:Provision:Place"
-                            ],
-                            "useValuesFrom": [],
-                            "valueDataType": {},
-                            "repeatable": "true",
-                            "editable": "true",
-                            "defaults": []
-                        },
-                        "propertyURI": "http://id.loc.gov/ontologies/bibframe/place",
-                        "propertyLabel": "Place",
-                        "remark": ""
-                    },
-                    {
-                        "mandatory": "false",
-                        "repeatable": "true",
-                        "type": "resource",
-                        "resourceTemplates": [],
-                        "valueConstraint": {
-                            "valueTemplateRefs": [
-                                "profile:bf2:Provision:Name"
-                            ],
-                            "useValuesFrom": [],
-                            "valueDataType": {},
-                            "repeatable": "true",
-                            "editable": "true",
-                            "defaults": []
-                        },
-                        "propertyURI": "http://id.loc.gov/ontologies/bibframe/agent",
-                        "propertyLabel": "Name",
-                        "remark": ""
-                    },
-                    {
-                        "mandatory": "false",
-                        "repeatable": "true",
-                        "type": "literal",
-                        "resourceTemplates": [],
-                        "valueConstraint": {
-                            "valueTemplateRefs": [],
-                            "useValuesFrom": [],
-                            "valueDataType": {},
-                            "defaults": []
-                        },
-                        "propertyURI": "http://id.loc.gov/ontologies/bibframe/date",
-                        "propertyLabel": "Date (RDA 2.8.6)",
-                        "remark": "http://access.rdatoolkit.org/2.8.6.html"
-                    },
-                    {
-                        "mandatory": "false",
-                        "repeatable": "true",
-                        "type": "resource",
-                        "resourceTemplates": [],
-                        "valueConstraint": {
-                            "valueTemplateRefs": [
-                                "profile:bf2:Note"
-                            ],
-                            "useValuesFrom": [],
-                            "defaults": [],
-                            "valueDataType": {}
-                        },
-                        "propertyURI": "http://id.loc.gov/ontologies/bibframe/note",
-                        "propertyLabel": "Note about publisher"
-                    }
-                ],
-                "id": "profile:bf2:PublicationInformation",
-                "contact": "",
-                "resourceURI": "http://id.loc.gov/ontologies/bibframe/Publication",
-                "resourceLabel": "Publication Activity"
+  "Profile": {
+    "resourceTemplates": [
+      {
+        "propertyTemplates": [
+          {
+            "mandatory": "false",
+            "repeatable": "true",
+            "type": "resource",
+            "resourceTemplates": [],
+            "valueConstraint": {
+              "valueTemplateRefs": [
+                "sinopia:resourceTemplate:bf2:Provision:Place"
+              ]
             },
-            {
-                "propertyTemplates": [
-                    {
-                        "mandatory": "false",
-                        "repeatable": "true",
-                        "type": "resource",
-                        "resourceTemplates": [],
-                        "valueConstraint": {
-                            "valueTemplateRefs": [
-                                "profile:bf2:Provision:Place"
-                            ],
-                            "useValuesFrom": [],
-                            "valueDataType": {},
-                            "repeatable": "true",
-                            "editable": "true",
-                            "defaults": []
-                        },
-                        "propertyURI": "http://id.loc.gov/ontologies/bibframe/place",
-                        "propertyLabel": "Place",
-                        "remark": ""
-                    },
-                    {
-                        "mandatory": "false",
-                        "repeatable": "true",
-                        "type": "resource",
-                        "resourceTemplates": [],
-                        "valueConstraint": {
-                            "valueTemplateRefs": [
-                                "profile:bf2:Provision:Name"
-                            ],
-                            "useValuesFrom": [],
-                            "valueDataType": {},
-                            "repeatable": "true",
-                            "editable": "true",
-                            "defaults": []
-                        },
-                        "propertyURI": "http://id.loc.gov/ontologies/bibframe/agent",
-                        "propertyLabel": "Name",
-                        "remark": ""
-                    },
-                    {
-                        "mandatory": "false",
-                        "repeatable": "true",
-                        "type": "literal",
-                        "resourceTemplates": [],
-                        "valueConstraint": {
-                            "valueTemplateRefs": [],
-                            "useValuesFrom": [],
-                            "valueDataType": {},
-                            "defaults": []
-                        },
-                        "propertyURI": "http://id.loc.gov/ontologies/bibframe/date",
-                        "propertyLabel": "Date (RDA 2.9.6)",
-                        "remark": "http://access.rdatoolkit.org/2.9.6.html"
-                    },
-                    {
-                        "mandatory": "false",
-                        "repeatable": "true",
-                        "type": "resource",
-                        "resourceTemplates": [],
-                        "valueConstraint": {
-                            "valueTemplateRefs": [
-                                "profile:bf2:Note"
-                            ],
-                            "useValuesFrom": [],
-                            "valueDataType": {},
-                            "defaults": []
-                        },
-                        "propertyURI": "http://id.loc.gov/ontologies/bibframe/note",
-                        "propertyLabel": "Statement of Function (RDA 2.9.4.4)",
-                        "remark": "http://access.rdatoolkit.org/2.9.4.4.html"
-                    },
-                    {
-                        "mandatory": "false",
-                        "repeatable": "true",
-                        "type": "resource",
-                        "resourceTemplates": [],
-                        "valueConstraint": {
-                            "valueTemplateRefs": [
-                                "profile:bf2:Note"
-                            ],
-                            "useValuesFrom": [],
-                            "defaults": [],
-                            "valueDataType": {}
-                        },
-                        "propertyURI": "http://id.loc.gov/ontologies/bibframe/note",
-                        "propertyLabel": "Note about distributor"
-                    }
-                ],
-                "resourceLabel": "Distribution Activity",
-                "id": "profile:bf2:DistributionInformation",
-                "resourceURI": "http://id.loc.gov/ontologies/bibframe/Distribution"
+            "propertyURI": "http://id.loc.gov/ontologies/bibframe/place",
+            "propertyLabel": "Place"
+          },
+          {
+            "mandatory": "false",
+            "repeatable": "true",
+            "type": "resource",
+            "resourceTemplates": [],
+            "valueConstraint": {
+              "valueTemplateRefs": [
+                "sinopia:resourceTemplate:bf2:Provision:Name"
+              ]
             },
-            {
-                "propertyTemplates": [
-                    {
-                        "mandatory": "false",
-                        "repeatable": "true",
-                        "type": "resource",
-                        "resourceTemplates": [],
-                        "valueConstraint": {
-                            "valueTemplateRefs": [
-                                "profile:bf2:Provision:Place"
-                            ],
-                            "useValuesFrom": [],
-                            "valueDataType": {
-                                "dataTypeURI": ""
-                            },
-                            "repeatable": "true",
-                            "editable": "true",
-                            "defaults": []
-                        },
-                        "propertyURI": "http://id.loc.gov/ontologies/bibframe/place",
-                        "propertyLabel": "Place",
-                        "remark": ""
-                    },
-                    {
-                        "mandatory": "false",
-                        "repeatable": "true",
-                        "type": "resource",
-                        "resourceTemplates": [],
-                        "valueConstraint": {
-                            "valueTemplateRefs": [
-                                "profile:bf2:Provision:Name"
-                            ],
-                            "useValuesFrom": [],
-                            "valueDataType": {
-                                "dataTypeURI": ""
-                            },
-                            "repeatable": "true",
-                            "editable": "true",
-                            "defaults": []
-                        },
-                        "propertyURI": "http://id.loc.gov/ontologies/bibframe/agent",
-                        "propertyLabel": "Name",
-                        "remark": ""
-                    },
-                    {
-                        "mandatory": "false",
-                        "repeatable": "true",
-                        "type": "literal",
-                        "resourceTemplates": [],
-                        "valueConstraint": {
-                            "valueTemplateRefs": [],
-                            "useValuesFrom": [],
-                            "valueDataType": {},
-                            "defaults": []
-                        },
-                        "propertyURI": "http://id.loc.gov/ontologies/bibframe/date",
-                        "propertyLabel": "Date (RDA 2.10.6)",
-                        "remark": "http://access.rdatoolkit.org/2.10.6.html"
-                    },
-                    {
-                        "mandatory": "false",
-                        "repeatable": "true",
-                        "type": "resource",
-                        "resourceTemplates": [],
-                        "valueConstraint": {
-                            "valueTemplateRefs": [
-                                "profile:bf2:Note"
-                            ],
-                            "useValuesFrom": [],
-                            "defaults": [],
-                            "valueDataType": {}
-                        },
-                        "propertyURI": "http://id.loc.gov/ontologies/bibframe/note",
-                        "propertyLabel": "Note about manufacturer"
-                    }
-                ],
-                "id": "profile:bf2:ManufactureInformation",
-                "resourceLabel": "Manufacture Activity",
-                "resourceURI": "http://id.loc.gov/ontologies/bibframe/Manufacture"
+            "propertyURI": "http://id.loc.gov/ontologies/bibframe/agent",
+            "propertyLabel": "Name"
+          },
+          {
+            "mandatory": "false",
+            "repeatable": "true",
+            "type": "literal",
+            "propertyURI": "http://id.loc.gov/ontologies/bibframe/date",
+            "propertyLabel": "Date (RDA 2.8.6)",
+            "remark": "http://access.rdatoolkit.org/2.8.6.html"
+          },
+          {
+            "mandatory": "false",
+            "repeatable": "true",
+            "type": "resource",
+            "resourceTemplates": [],
+            "valueConstraint": {
+              "valueTemplateRefs": [
+                "sinopia:resourceTemplate:bf2:Note"
+              ]
             },
-            {
-                "propertyTemplates": [
-                    {
-                        "mandatory": "false",
-                        "repeatable": "true",
-                        "type": "literal",
-                        "resourceTemplates": [],
-                        "valueConstraint": {
-                            "valueTemplateRefs": [],
-                            "useValuesFrom": [],
-                            "valueDataType": {},
-                            "repeatable": "true",
-                            "editable": "true",
-                            "defaults": []
-                        },
-                        "propertyURI": "http://www.w3.org/2000/01/rdf-schema#label",
-                        "propertyLabel": "Place (RDA 2.10.2)",
-                        "remark": "http://access.rdatoolkit.org/2.10.2.html"
-                    }
-                ],
-                "id": "profile:bf2:Provision:Place",
-                "resourceURI": "http://id.loc.gov/ontologies/bibframe/Place",
-                "resourceLabel": "Place"
-            },
-            {
-                "propertyTemplates": [
-                    {
-                        "mandatory": "false",
-                        "repeatable": "true",
-                        "type": "literal",
-                        "resourceTemplates": [],
-                        "valueConstraint": {
-                            "valueTemplateRefs": [],
-                            "useValuesFrom": [],
-                            "valueDataType": {},
-                            "repeatable": "true",
-                            "editable": "true",
-                            "defaults": []
-                        },
-                        "propertyURI": "http://www.w3.org/2000/01/rdf-schema#label",
-                        "propertyLabel": "Name (RDA 2.8.4)",
-                        "remark": "http://access.rdatoolkit.org/2.8.4.html"
-                    }
-                ],
-                "id": "profile:bf2:Provision:Name",
-                "resourceURI": "http://id.loc.gov/ontologies/bibframe/Agent",
-                "resourceLabel": "Name"
-            },
-            {
-                "propertyTemplates": [
-                    {
-                        "mandatory": "false",
-                        "repeatable": "true",
-                        "type": "resource",
-                        "resourceTemplates": [],
-                        "valueConstraint": {
-                            "valueTemplateRefs": [
-                                "profile:bf2:Provision:PlaceTest"
-                            ],
-                            "useValuesFrom": [],
-                            "valueDataType": {},
-                            "defaults": []
-                        },
-                        "propertyURI": "http://id.loc.gov/ontologies/bibframe/place",
-                        "propertyLabel": "Place"
-                    },
-                    {
-                        "mandatory": "false",
-                        "repeatable": "true",
-                        "type": "resource",
-                        "resourceTemplates": [],
-                        "valueConstraint": {
-                            "valueTemplateRefs": [
-                                "profile:bf2:Provision:NameTest"
-                            ],
-                            "useValuesFrom": [],
-                            "valueDataType": {},
-                            "defaults": []
-                        },
-                        "propertyURI": "http://id.loc.gov/ontologies/bibframe/agent",
-                        "propertyLabel": "Name"
-                    },
-                    {
-                        "mandatory": "false",
-                        "repeatable": "true",
-                        "type": "literal",
-                        "resourceTemplates": [],
-                        "valueConstraint": {
-                            "valueTemplateRefs": [],
-                            "useValuesFrom": [],
-                            "valueDataType": {},
-                            "defaults": []
-                        },
-                        "propertyURI": "http://id.loc.gov/ontologies/bibframe/date",
-                        "propertyLabel": "Date"
-                    },
-                    {
-                        "mandatory": "false",
-                        "repeatable": "true",
-                        "type": "literal",
-                        "resourceTemplates": [],
-                        "valueConstraint": {
-                            "valueTemplateRefs": [],
-                            "useValuesFrom": [],
-                            "valueDataType": {},
-                            "defaults": []
-                        },
-                        "propertyURI": "http://id.loc.gov/ontologies/bibframe/provisionActivityStatement",
-                        "propertyLabel": "Provision activity statement"
-                    }
-                ],
-                "id": "profile:bf2:PublicationInformationTest",
-                "resourceURI": "http://id.loc.gov/ontologies/bibframe/Publication",
-                "resourceLabel": "Publication Test"
-            },
-            {
-                "propertyTemplates": [
-                    {
-                        "mandatory": "false",
-                        "repeatable": "true",
-                        "type": "lookup",
-                        "resourceTemplates": [],
-                        "valueConstraint": {
-                            "valueTemplateRefs": [],
-                            "useValuesFrom": [
-                                "http://id.loc.gov/authorities/names"
-                            ],
-                            "valueDataType": {
-                                "dataTypeURI": "http://id.loc.gov/ontologies/bibframe/Place"
-                            },
-                            "defaults": []
-                        },
-                        "propertyURI": "http://id.loc.gov/ontologies/bflc/target",
-                        "propertyLabel": "Place"
-                    }
-                ],
-                "id": "profile:bf2:Provision:PlaceTest",
-                "resourceURI": "http://id.loc.gov/ontologies/bibframe/Place",
-                "resourceLabel": "Place Test"
-            },
-            {
-                "propertyTemplates": [
-                    {
-                        "mandatory": "false",
-                        "repeatable": "true",
-                        "type": "lookup",
-                        "resourceTemplates": [],
-                        "valueConstraint": {
-                            "valueTemplateRefs": [],
-                            "useValuesFrom": [
-                                "http://id.loc.gov/authorities/names"
-                            ],
-                            "valueDataType": {
-                                "dataTypeURI": "http://id.loc.gov/ontologies/bibframe/Agent"
-                            },
-                            "defaults": []
-                        },
-                        "propertyURI": "http://id.loc.gov/ontologies/bflc/target",
-                        "propertyLabel": "Name"
-                    }
-                ],
-                "resourceURI": "http://id.loc.gov/ontologies/bibframe/Agent",
-                "id": "profile:bf2:Provision:NameTest",
-                "resourceLabel": "Name Test"
-            }
+            "propertyURI": "http://id.loc.gov/ontologies/bibframe/note",
+            "propertyLabel": "Note about publisher"
+          }
         ],
-        "id": "profile:bf2:PublicationDistributionManufactureInformation",
-        "title": "BIBFRAME 2.0 Publication, Distribution, Manufacturer Activity",
-        "description": "Publication, Distribution, Manufacture Activity",
+        "id": "sinopia:resourceTemplate:bf2:PublicationInformation",
+        "author": "NDMSO",
+        "resourceURI": "http://id.loc.gov/ontologies/bibframe/Publication",
+        "resourceLabel": "Publication Activity",
         "date": "2017-06-02",
-        "contact": "NDMSO"
-    }
+        "schema": "https://ld4p.github.io/sinopia/schemas/0.1.0/resource-template.json"
+      },
+      {
+        "propertyTemplates": [
+          {
+            "mandatory": "false",
+            "repeatable": "true",
+            "type": "resource",
+            "resourceTemplates": [],
+            "valueConstraint": {
+              "valueTemplateRefs": [
+                "sinopia:resourceTemplate:bf2:Provision:Place"
+              ]
+            },
+            "propertyURI": "http://id.loc.gov/ontologies/bibframe/place",
+            "propertyLabel": "Place"
+          },
+          {
+            "mandatory": "false",
+            "repeatable": "true",
+            "type": "resource",
+            "resourceTemplates": [],
+            "valueConstraint": {
+              "valueTemplateRefs": [
+                "sinopia:resourceTemplate:bf2:Provision:Name"
+              ]
+            },
+            "propertyURI": "http://id.loc.gov/ontologies/bibframe/agent",
+            "propertyLabel": "Name"
+          },
+          {
+            "mandatory": "false",
+            "repeatable": "true",
+            "type": "literal",
+            "propertyURI": "http://id.loc.gov/ontologies/bibframe/date",
+            "propertyLabel": "Date (RDA 2.9.6)",
+            "remark": "http://access.rdatoolkit.org/2.9.6.html"
+          },
+          {
+            "mandatory": "false",
+            "repeatable": "true",
+            "type": "resource",
+            "resourceTemplates": [],
+            "valueConstraint": {
+              "valueTemplateRefs": [
+                "sinopia:resourceTemplate:bf2:Note"
+              ]
+            },
+            "propertyURI": "http://id.loc.gov/ontologies/bibframe/note",
+            "propertyLabel": "Statement of Function (RDA 2.9.4.4)",
+            "remark": "http://access.rdatoolkit.org/2.9.4.4.html"
+          },
+          {
+            "mandatory": "false",
+            "repeatable": "true",
+            "type": "resource",
+            "resourceTemplates": [],
+            "valueConstraint": {
+              "valueTemplateRefs": [
+                "sinopia:resourceTemplate:bf2:Note"
+              ]
+            },
+            "propertyURI": "http://id.loc.gov/ontologies/bibframe/note",
+            "propertyLabel": "Note about distributor"
+          }
+        ],
+        "resourceLabel": "Distribution Activity",
+        "id": "sinopia:resourceTemplate:bf2:DistributionInformation",
+        "resourceURI": "http://id.loc.gov/ontologies/bibframe/Distribution",
+        "date": "2017-06-02",
+        "author": "NDMSO",
+        "schema": "https://ld4p.github.io/sinopia/schemas/0.1.0/resource-template.json"
+      },
+      {
+        "propertyTemplates": [
+          {
+            "mandatory": "false",
+            "repeatable": "true",
+            "type": "resource",
+            "resourceTemplates": [],
+            "valueConstraint": {
+              "valueTemplateRefs": [
+                "sinopia:resourceTemplate:bf2:Provision:Place"
+              ]
+            },
+            "propertyURI": "http://id.loc.gov/ontologies/bibframe/place",
+            "propertyLabel": "Place"
+          },
+          {
+            "mandatory": "false",
+            "repeatable": "true",
+            "type": "resource",
+            "resourceTemplates": [],
+            "valueConstraint": {
+              "valueTemplateRefs": [
+                "sinopia:resourceTemplate:bf2:Provision:Name"
+              ]
+            },
+            "propertyURI": "http://id.loc.gov/ontologies/bibframe/agent",
+            "propertyLabel": "Name"
+          },
+          {
+            "mandatory": "false",
+            "repeatable": "true",
+            "type": "literal",
+            "propertyURI": "http://id.loc.gov/ontologies/bibframe/date",
+            "propertyLabel": "Date (RDA 2.10.6)",
+            "remark": "http://access.rdatoolkit.org/2.10.6.html"
+          },
+          {
+            "mandatory": "false",
+            "repeatable": "true",
+            "type": "resource",
+            "resourceTemplates": [],
+            "valueConstraint": {
+              "valueTemplateRefs": [
+                "sinopia:resourceTemplate:bf2:Note"
+              ]
+            },
+            "propertyURI": "http://id.loc.gov/ontologies/bibframe/note",
+            "propertyLabel": "Note about manufacturer"
+          }
+        ],
+        "id": "sinopia:resourceTemplate:bf2:ManufactureInformation",
+        "resourceLabel": "Manufacture Activity",
+        "resourceURI": "http://id.loc.gov/ontologies/bibframe/Manufacture",
+        "date": "2017-06-02",
+        "author": "NDMSO",
+        "schema": "https://ld4p.github.io/sinopia/schemas/0.1.0/resource-template.json"
+      },
+      {
+        "propertyTemplates": [
+          {
+            "mandatory": "false",
+            "repeatable": "true",
+            "type": "literal",
+            "propertyURI": "http://www.w3.org/2000/01/rdf-schema#label",
+            "propertyLabel": "Place (RDA 2.10.2)",
+            "remark": "http://access.rdatoolkit.org/2.10.2.html"
+          }
+        ],
+        "id": "sinopia:resourceTemplate:bf2:Provision:Place",
+        "resourceURI": "http://id.loc.gov/ontologies/bibframe/Place",
+        "resourceLabel": "Place",
+        "date": "2017-06-02",
+        "author": "NDMSO",
+        "schema": "https://ld4p.github.io/sinopia/schemas/0.1.0/resource-template.json"
+      },
+      {
+        "propertyTemplates": [
+          {
+            "mandatory": "false",
+            "repeatable": "true",
+            "type": "literal",
+            "propertyURI": "http://www.w3.org/2000/01/rdf-schema#label",
+            "propertyLabel": "Name (RDA 2.8.4)",
+            "remark": "http://access.rdatoolkit.org/2.8.4.html"
+          }
+        ],
+        "id": "sinopia:resourceTemplate:bf2:Provision:Name",
+        "resourceURI": "http://id.loc.gov/ontologies/bibframe/Agent",
+        "resourceLabel": "Name",
+        "date": "2017-06-02",
+        "author": "NDMSO",
+        "schema": "https://ld4p.github.io/sinopia/schemas/0.1.0/resource-template.json"
+      },
+      {
+        "propertyTemplates": [
+          {
+            "mandatory": "false",
+            "repeatable": "true",
+            "type": "resource",
+            "resourceTemplates": [],
+            "valueConstraint": {
+              "valueTemplateRefs": [
+                "sinopia:resourceTemplate:bf2:Provision:PlaceTest"
+              ]
+            },
+            "propertyURI": "http://id.loc.gov/ontologies/bibframe/place",
+            "propertyLabel": "Place"
+          },
+          {
+            "mandatory": "false",
+            "repeatable": "true",
+            "type": "resource",
+            "resourceTemplates": [],
+            "valueConstraint": {
+              "valueTemplateRefs": [
+                "sinopia:resourceTemplate:bf2:Provision:NameTest"
+              ]
+            },
+            "propertyURI": "http://id.loc.gov/ontologies/bibframe/agent",
+            "propertyLabel": "Name"
+          },
+          {
+            "mandatory": "false",
+            "repeatable": "true",
+            "type": "literal",
+            "propertyURI": "http://id.loc.gov/ontologies/bibframe/date",
+            "propertyLabel": "Date"
+          },
+          {
+            "mandatory": "false",
+            "repeatable": "true",
+            "type": "literal",
+            "propertyURI": "http://id.loc.gov/ontologies/bibframe/provisionActivityStatement",
+            "propertyLabel": "Provision activity statement"
+          }
+        ],
+        "id": "sinopia:resourceTemplate:bf2:PublicationInformationTest",
+        "resourceURI": "http://id.loc.gov/ontologies/bibframe/Publication",
+        "resourceLabel": "Publication Test",
+        "date": "2017-06-02",
+        "author": "NDMSO",
+        "schema": "https://ld4p.github.io/sinopia/schemas/0.1.0/resource-template.json"
+      },
+      {
+        "propertyTemplates": [
+          {
+            "mandatory": "false",
+            "repeatable": "true",
+            "type": "lookup",
+            "valueConstraint": {
+              "useValuesFrom": [
+                "http://id.loc.gov/authorities/names"
+              ],
+              "valueDataType": {
+                "dataTypeURI": "http://id.loc.gov/ontologies/bibframe/Place"
+              }
+            },
+            "propertyURI": "http://id.loc.gov/ontologies/bflc/target",
+            "propertyLabel": "Place"
+          }
+        ],
+        "id": "sinopia:resourceTemplate:bf2:Provision:PlaceTest",
+        "resourceURI": "http://id.loc.gov/ontologies/bibframe/Place",
+        "resourceLabel": "Place Test",
+        "date": "2017-06-02",
+        "author": "NDMSO",
+        "schema": "https://ld4p.github.io/sinopia/schemas/0.1.0/resource-template.json"
+      },
+      {
+        "propertyTemplates": [
+          {
+            "mandatory": "false",
+            "repeatable": "true",
+            "type": "lookup",
+            "valueConstraint": {
+              "useValuesFrom": [
+                "http://id.loc.gov/authorities/names"
+              ],
+              "valueDataType": {
+                "dataTypeURI": "http://id.loc.gov/ontologies/bibframe/Agent"
+              }
+            },
+            "propertyURI": "http://id.loc.gov/ontologies/bflc/target",
+            "propertyLabel": "Name"
+          }
+        ],
+        "resourceURI": "http://id.loc.gov/ontologies/bibframe/Agent",
+        "id": "sinopia:resourceTemplate:bf2:Provision:NameTest",
+        "resourceLabel": "Name Test",
+        "date": "2017-06-02",
+        "author": "NDMSO",
+        "schema": "https://ld4p.github.io/sinopia/schemas/0.1.0/resource-template.json"
+      }
+    ],
+    "id": "sinopia:profile:bf2:PublicationDistributionManufactureInformation",
+    "title": "BIBFRAME 2.0 Publication, Distribution, Manufacturer Activity",
+    "description": "Publication, Distribution, Manufacture Activity",
+    "date": "2017-06-02",
+    "author": "NDMSO",
+    "schema": "https://ld4p.github.io/sinopia/schemas/0.1.0/profile.json"
+  }
 }

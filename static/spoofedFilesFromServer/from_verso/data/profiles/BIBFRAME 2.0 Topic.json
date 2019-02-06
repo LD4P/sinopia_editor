@@ -1,331 +1,260 @@
 {
-    "Profile": {
-        "resourceTemplates": [
-            {
-                "propertyTemplates": [
-                    {
-                        "mandatory": "false",
-                        "repeatable": "true",
-                        "type": "lookup",
-                        "resourceTemplates": [],
-                        "valueConstraint": {
-                            "valueTemplateRefs": [],
-                            "useValuesFrom": [
-                                "http://id.loc.gov/authorities/subjects",
-                                "http://id.loc.gov/authorities/names"
-                            ],
-                            "valueDataType": {
-                                "dataTypeURI": ""
-                            },
-                            "repeatable": "false",
-                            "editable": "true",
-                            "defaults": []
-                        },
-                        "propertyURI": "http://www.loc.gov/mads/rdf/v1#authoritativeLabel",
-                        "propertyLabel": "Search LCSH/LCNAF"
-                    }
-                ],
-                "id": "profile:bf2:TopicSearch",
-                "resourceURI": "http://id.loc.gov/ontologies/bibframe/Topic",
-                "resourceLabel": "Search subjects"
+  "Profile": {
+    "resourceTemplates": [
+      {
+        "propertyTemplates": [
+          {
+            "mandatory": "false",
+            "repeatable": "true",
+            "type": "lookup",
+            "valueConstraint": {
+              "useValuesFrom": [
+                "http://id.loc.gov/authorities/subjects",
+                "http://id.loc.gov/authorities/names"
+              ]
             },
-            {
-                "propertyTemplates": [
-                    {
-                        "mandatory": "false",
-                        "repeatable": "true",
-                        "type": "resource",
-                        "resourceTemplates": [],
-                        "valueConstraint": {
-                            "valueTemplateRefs": [
-                                "profile:bf2:Topic:madsTopic",
-                                "profile:bf2:Topic:madsGeographic",
-                                "profile:bf2:Topic:madsTemporal",
-                                "profile:bf2:Topic:madsGenreForm"
-                            ],
-                            "useValuesFrom": [],
-                            "valueDataType": {
-                                "dataTypeURI": "http://www.loc.gov/mads/rdf/v1#ComplexSubject"
-                            },
-                            "repeatable": "false",
-                            "defaults": []
-                        },
-                        "propertyURI": "http://www.loc.gov/mads/rdf/v1#componentList",
-                        "propertyLabel": "Search Subject Components"
-                    }
-                ],
-                "id": "profile:bf2:Components",
-                "resourceURI": "http://id.loc.gov/ontologies/bibframe/Topic",
-                "resourceLabel": "Search subject components"
-            },
-            {
-                "propertyTemplates": [
-                    {
-                        "mandatory": "false",
-                        "repeatable": "false",
-                        "type": "literal",
-                        "resourceTemplates": [],
-                        "valueConstraint": {
-                            "valueTemplateRefs": [],
-                            "useValuesFrom": [],
-                            "valueDataType": {},
-                            "editable": "true",
-                            "repeatable": "false",
-                            "defaults": []
-                        },
-                        "propertyURI": "http://www.loc.gov/mads/rdf/v1#authoritativeLabel",
-                        "propertyLabel": "Input Subject + Subdivision string"
-                    },
-                    {
-                        "mandatory": "false",
-                        "repeatable": "false",
-                        "type": "resource",
-                        "resourceTemplates": [],
-                        "valueConstraint": {
-                            "valueTemplateRefs": [],
-                            "useValuesFrom": [
-                                "http://id.loc.gov/vocabulary/subjectSchemes"
-                            ],
-                            "valueDataType": {
-                                "dataTypeURI": "http://id.loc.gov/ontologies/bibframe/Source"
-                            },
-                            "defaults": [
-                                {
-                                    "defaultURI": "http://id.loc.gov/vocabulary/subjectSchemes/lcsh",
-                                    "defaultLiteral": "LCSH"
-                                }
-                            ]
-                        },
-                        "propertyURI": "http://id.loc.gov/ontologies/bibframe/source",
-                        "propertyLabel": "Subject source"
-                    }
-                ],
-                "id": "profile:bf2:TopicInput",
-                "resourceURI": "http://id.loc.gov/ontologies/bibframe/Topic",
-                "resourceLabel": "Input subject strings"
-            },
-            {
-                "propertyTemplates": [
-                    {
-                        "mandatory": "false",
-                        "repeatable": "true",
-                        "type": "lookup",
-                        "resourceTemplates": [],
-                        "valueConstraint": {
-                            "valueTemplateRefs": [],
-                            "useValuesFrom": [
-                                "http://id.loc.gov/authorities/subjects",
-                                "http://id.loc.gov/authorities/names"
-                            ],
-                            "valueDataType": {
-                                "dataTypeURI": ""
-                            },
-                            "repeatable": "true",
-                            "editable": "true",
-                            "defaults": []
-                        },
-                        "propertyLabel": "Search LCSH/LCNAF",
-                        "propertyURI": "http://www.loc.gov/mads/rdf/v1#authoritativeLabel"
-                    }
-                ],
-                "id": "profile:bf2:Topic:madsTopic",
-                "resourceURI": "http://www.loc.gov/mads/rdf/v1#Topic",
-                "resourceLabel": "Heading or Topical subdivision"
-            },
-            {
-                "propertyTemplates": [
-                    {
-                        "mandatory": "false",
-                        "repeatable": "true",
-                        "type": "lookup",
-                        "resourceTemplates": [],
-                        "valueConstraint": {
-                            "valueTemplateRefs": [],
-                            "useValuesFrom": [
-                                "http://id.loc.gov/authorities/subjects"
-                            ],
-                            "valueDataType": {
-                                "dataTypeURI": ""
-                            },
-                            "editable": "true",
-                            "repeatable": "true",
-                            "defaults": []
-                        },
-                        "propertyLabel": "Search LCSH",
-                        "propertyURI": "http://www.loc.gov/mads/rdf/v1#authoritativeLabel"
-                    }
-                ],
-                "id": "profile:bf2:Topic:madsGenreForm",
-                "resourceURI": "http://www.loc.gov/mads/rdf/v1#GenreForm",
-                "resourceLabel": "Form subdivision"
-            },
-            {
-                "propertyTemplates": [
-                    {
-                        "mandatory": "false",
-                        "repeatable": "true",
-                        "type": "lookup",
-                        "resourceTemplates": [],
-                        "valueConstraint": {
-                            "valueTemplateRefs": [],
-                            "useValuesFrom": [
-                                "http://id.loc.gov/authorities/subjects"
-                            ],
-                            "valueDataType": {
-                                "dataTypeURI": ""
-                            },
-                            "repeatable": "true",
-                            "editable": "true",
-                            "defaults": []
-                        },
-                        "propertyLabel": "Search LCSH",
-                        "propertyURI": "http://www.loc.gov/mads/rdf/v1#authoritativeLabel"
-                    }
-                ],
-                "id": "profile:bf2:Topic:madsTemporal",
-                "resourceURI": "http://www.loc.gov/mads/rdf/v1#Temporal",
-                "resourceLabel": "Chronological subdivision"
-            },
-            {
-                "propertyTemplates": [
-                    {
-                        "mandatory": "false",
-                        "repeatable": "true",
-                        "type": "lookup",
-                        "resourceTemplates": [],
-                        "valueConstraint": {
-                            "valueTemplateRefs": [],
-                            "useValuesFrom": [
-                                "http://id.loc.gov/authorities/names",
-                                "http://id.loc.gov/authorities/subjects"
-                            ],
-                            "valueDataType": {
-                                "dataTypeURI": ""
-                            },
-                            "editable": "true",
-                            "repeatable": "true",
-                            "defaults": []
-                        },
-                        "propertyLabel": "Search LCNAF/LCSH",
-                        "propertyURI": "http://www.loc.gov/mads/rdf/v1#authoritativeLabel"
-                    },
-                    {
-                        "mandatory": "false",
-                        "repeatable": "false",
-                        "type": "literal",
-                        "resourceTemplates": [],
-                        "valueConstraint": {
-                            "valueTemplateRefs": [],
-                            "useValuesFrom": [],
-                            "valueDataType": {},
-                            "editable": "true",
-                            "repeatable": "false",
-                            "defaults": []
-                        },
-                        "propertyURI": "http://www.loc.gov/mads/rdf/v1#authoritativeLabel",
-                        "propertyLabel": "Input Geographic Term"
-                    }
-                ],
-                "id": "profile:bf2:Topic:madsGeographic",
-                "resourceURI": "http://www.loc.gov/mads/rdf/v1#Geographic",
-                "resourceLabel": "Geographic heading or subdivision"
-            },
-            {
-                "propertyTemplates": [
-                    {
-                        "mandatory": "false",
-                        "repeatable": "false",
-                        "type": "lookup",
-                        "resourceTemplates": [],
-                        "valueConstraint": {
-                            "valueTemplateRefs": [],
-                            "useValuesFrom": [
-                                "http://id.loc.gov/authorities/subjects",
-                                "http://id.loc.gov/authorities/names"
-                            ],
-                            "valueDataType": {
-                                "dataTypeURI": ""
-                            },
-                            "editable": "true",
-                            "repeatable": "false",
-                            "defaults": []
-                        },
-                        "propertyLabel": "Search LCSH/LCNAF",
-                        "propertyURI": "http://www.loc.gov/mads/rdf/v1#Topic"
-                    },
-                    {
-                        "mandatory": "false",
-                        "repeatable": "false",
-                        "type": "resource",
-                        "resourceTemplates": [],
-                        "valueConstraint": {
-                            "valueTemplateRefs": [
-                                "profile:bf2:Topic:madsTopic",
-                                "profile:bf2:Topic:madsGeographic",
-                                "profile:bf2:Topic:madsTemporal",
-                                "profile:bf2:Topic:madsGenreForm"
-                            ],
-                            "useValuesFrom": [],
-                            "valueDataType": {
-                                "remark": "",
-                                "dataTypeURI": ""
-                            },
-                            "editable": "true",
-                            "repeatable": "false",
-                            "defaults": []
-                        },
-                        "propertyURI": "http://www.loc.gov/mads/rdf/v1#componentList",
-                        "propertyLabel": "Search Subject Components"
-                    },
-                    {
-                        "mandatory": "false",
-                        "repeatable": "false",
-                        "type": "literal",
-                        "resourceTemplates": [],
-                        "valueConstraint": {
-                            "valueTemplateRefs": [],
-                            "useValuesFrom": [],
-                            "valueDataType": {
-                                "dataTypeURI": ""
-                            },
-                            "repeatable": "false",
-                            "editable": "true",
-                            "defaults": []
-                        },
-                        "propertyURI": "http://www.loc.gov/mads/rdf/v1#authoritativeLabel",
-                        "propertyLabel": "Input Subject + Subdivision string"
-                    },
-                    {
-                        "mandatory": "false",
-                        "repeatable": "false",
-                        "type": "resource",
-                        "resourceTemplates": [],
-                        "valueConstraint": {
-                            "valueTemplateRefs": [],
-                            "useValuesFrom": [
-                                "http://id.loc.gov/vocabulary/subjectSchemes"
-                            ],
-                            "valueDataType": {
-                                "dataTypeURI": "http://id.loc.gov/ontologies/bibframe/Source"
-                            },
-                            "defaultURI": "",
-                            "repeatable": "false",
-                            "editable": "true",
-                            "defaults": []
-                        },
-                        "propertyURI": "http://id.loc.gov/ontologies/bibframe/source",
-                        "propertyLabel": "Subject source"
-                    }
-                ],
-                "id": "profile:bf2:Topic",
-                "resourceURI": "http://id.loc.gov/ontologies/bibframe/Topic",
-                "resourceLabel": "Subject of Work"
-            }
+            "propertyURI": "http://www.loc.gov/mads/rdf/v1#authoritativeLabel",
+            "propertyLabel": "Search LCSH/LCNAF"
+          }
         ],
-        "id": "profile:bf2:Topic",
-        "title": "BIBFRAME 2.0 Topic",
-        "description": "Subject of Work",
+        "id": "sinopia:resourceTemplate:bf2:TopicSearch",
+        "resourceURI": "http://id.loc.gov/ontologies/bibframe/Topic",
+        "resourceLabel": "Search subjects",
         "date": "2017-05-13",
-        "contact": "NDMSO"
-    }
+        "author": "NDMSO",
+        "schema": "https://ld4p.github.io/sinopia/schemas/0.1.0/resource-template.json"
+      },
+      {
+        "propertyTemplates": [
+          {
+            "mandatory": "false",
+            "repeatable": "true",
+            "type": "resource",
+            "resourceTemplates": [],
+            "valueConstraint": {
+              "valueTemplateRefs": [
+                "sinopia:resourceTemplate:bf2:Topic:madsTopic",
+                "sinopia:resourceTemplate:bf2:Topic:madsGeographic",
+                "sinopia:resourceTemplate:bf2:Topic:madsTemporal",
+                "sinopia:resourceTemplate:bf2:Topic:madsGenreForm"
+              ],
+              "valueDataType": {
+                "dataTypeURI": "http://www.loc.gov/mads/rdf/v1#ComplexSubject"
+              }
+            },
+            "propertyURI": "http://www.loc.gov/mads/rdf/v1#componentList",
+            "propertyLabel": "Search Subject Components"
+          }
+        ],
+        "id": "sinopia:resourceTemplate:bf2:Components",
+        "resourceURI": "http://id.loc.gov/ontologies/bibframe/Topic",
+        "resourceLabel": "Search subject components",
+        "date": "2017-05-13",
+        "author": "NDMSO",
+        "schema": "https://ld4p.github.io/sinopia/schemas/0.1.0/resource-template.json"
+      },
+      {
+        "propertyTemplates": [
+          {
+            "mandatory": "false",
+            "repeatable": "false",
+            "type": "literal",
+            "propertyURI": "http://www.loc.gov/mads/rdf/v1#authoritativeLabel",
+            "propertyLabel": "Input Subject + Subdivision string"
+          },
+          {
+            "mandatory": "false",
+            "repeatable": "false",
+            "type": "lookup",
+            "valueConstraint": {
+              "useValuesFrom": [
+                "http://id.loc.gov/vocabulary/subjectSchemes"
+              ],
+              "valueDataType": {
+                "dataTypeURI": "http://id.loc.gov/ontologies/bibframe/Source"
+              },
+              "defaults": [
+                {
+                  "defaultURI": "http://id.loc.gov/vocabulary/subjectSchemes/lcsh",
+                  "defaultLiteral": "LCSH"
+                }
+              ]
+            },
+            "propertyURI": "http://id.loc.gov/ontologies/bibframe/source",
+            "propertyLabel": "Subject source"
+          }
+        ],
+        "id": "sinopia:resourceTemplate:bf2:TopicInput",
+        "resourceURI": "http://id.loc.gov/ontologies/bibframe/Topic",
+        "resourceLabel": "Input subject strings",
+        "date": "2017-05-13",
+        "author": "NDMSO",
+        "schema": "https://ld4p.github.io/sinopia/schemas/0.1.0/resource-template.json"
+      },
+      {
+        "propertyTemplates": [
+          {
+            "mandatory": "false",
+            "repeatable": "true",
+            "type": "lookup",
+            "valueConstraint": {
+              "useValuesFrom": [
+                "http://id.loc.gov/authorities/subjects",
+                "http://id.loc.gov/authorities/names"
+              ]
+            },
+            "propertyLabel": "Search LCSH/LCNAF",
+            "propertyURI": "http://www.loc.gov/mads/rdf/v1#authoritativeLabel"
+          }
+        ],
+        "id": "sinopia:resourceTemplate:bf2:Topic:madsTopic",
+        "resourceURI": "http://www.loc.gov/mads/rdf/v1#Topic",
+        "resourceLabel": "Heading or Topical subdivision",
+        "date": "2017-05-13",
+        "author": "NDMSO",
+        "schema": "https://ld4p.github.io/sinopia/schemas/0.1.0/resource-template.json"
+      },
+      {
+        "propertyTemplates": [
+          {
+            "mandatory": "false",
+            "repeatable": "true",
+            "type": "lookup",
+            "valueConstraint": {
+              "useValuesFrom": [
+                "http://id.loc.gov/authorities/subjects"
+              ]
+            },
+            "propertyLabel": "Search LCSH",
+            "propertyURI": "http://www.loc.gov/mads/rdf/v1#authoritativeLabel"
+          }
+        ],
+        "id": "sinopia:resourceTemplate:bf2:Topic:madsGenreForm",
+        "resourceURI": "http://www.loc.gov/mads/rdf/v1#GenreForm",
+        "resourceLabel": "Form subdivision",
+        "date": "2017-05-13",
+        "author": "NDMSO",
+        "schema": "https://ld4p.github.io/sinopia/schemas/0.1.0/resource-template.json"
+      },
+      {
+        "propertyTemplates": [
+          {
+            "mandatory": "false",
+            "repeatable": "true",
+            "type": "lookup",
+            "valueConstraint": {
+              "useValuesFrom": [
+                "http://id.loc.gov/authorities/subjects"
+              ]
+            },
+            "propertyLabel": "Search LCSH",
+            "propertyURI": "http://www.loc.gov/mads/rdf/v1#authoritativeLabel"
+          }
+        ],
+        "id": "sinopia:resourceTemplate:bf2:Topic:madsTemporal",
+        "resourceURI": "http://www.loc.gov/mads/rdf/v1#Temporal",
+        "resourceLabel": "Chronological subdivision",
+        "date": "2017-05-13",
+        "author": "NDMSO",
+        "schema": "https://ld4p.github.io/sinopia/schemas/0.1.0/resource-template.json"
+      },
+      {
+        "propertyTemplates": [
+          {
+            "mandatory": "false",
+            "repeatable": "true",
+            "type": "lookup",
+            "valueConstraint": {
+              "useValuesFrom": [
+                "http://id.loc.gov/authorities/names",
+                "http://id.loc.gov/authorities/subjects"
+              ]
+            },
+            "propertyLabel": "Search LCNAF/LCSH",
+            "propertyURI": "http://www.loc.gov/mads/rdf/v1#authoritativeLabel"
+          },
+          {
+            "mandatory": "false",
+            "repeatable": "false",
+            "type": "literal",
+            "propertyURI": "http://www.loc.gov/mads/rdf/v1#authoritativeLabel",
+            "propertyLabel": "Input Geographic Term"
+          }
+        ],
+        "id": "sinopia:resourceTemplate:bf2:Topic:madsGeographic",
+        "resourceURI": "http://www.loc.gov/mads/rdf/v1#Geographic",
+        "resourceLabel": "Geographic heading or subdivision",
+        "date": "2017-05-13",
+        "author": "NDMSO",
+        "schema": "https://ld4p.github.io/sinopia/schemas/0.1.0/resource-template.json"
+      },
+      {
+        "propertyTemplates": [
+          {
+            "mandatory": "false",
+            "repeatable": "false",
+            "type": "lookup",
+            "valueConstraint": {
+              "useValuesFrom": [
+                "http://id.loc.gov/authorities/subjects",
+                "http://id.loc.gov/authorities/names"
+              ]
+            },
+            "propertyLabel": "Search LCSH/LCNAF",
+            "propertyURI": "http://www.loc.gov/mads/rdf/v1#Topic"
+          },
+          {
+            "mandatory": "false",
+            "repeatable": "false",
+            "type": "resource",
+            "resourceTemplates": [],
+            "valueConstraint": {
+              "valueTemplateRefs": [
+                "sinopia:resourceTemplate:bf2:Topic:madsTopic",
+                "sinopia:resourceTemplate:bf2:Topic:madsGeographic",
+                "sinopia:resourceTemplate:bf2:Topic:madsTemporal",
+                "sinopia:resourceTemplate:bf2:Topic:madsGenreForm"
+              ]
+            },
+            "propertyURI": "http://www.loc.gov/mads/rdf/v1#componentList",
+            "propertyLabel": "Search Subject Components"
+          },
+          {
+            "mandatory": "false",
+            "repeatable": "false",
+            "type": "literal",
+            "propertyURI": "http://www.loc.gov/mads/rdf/v1#authoritativeLabel",
+            "propertyLabel": "Input Subject + Subdivision string"
+          },
+          {
+            "mandatory": "false",
+            "repeatable": "false",
+            "type": "lookup",
+            "valueConstraint": {
+              "useValuesFrom": [
+                "http://id.loc.gov/vocabulary/subjectSchemes"
+              ],
+              "valueDataType": {
+                "dataTypeURI": "http://id.loc.gov/ontologies/bibframe/Source"
+              }
+            },
+            "propertyURI": "http://id.loc.gov/ontologies/bibframe/source",
+            "propertyLabel": "Subject source"
+          }
+        ],
+        "id": "sinopia:resourceTemplate:bf2:Topic",
+        "resourceURI": "http://id.loc.gov/ontologies/bibframe/Topic",
+        "resourceLabel": "Subject of Work",
+        "date": "2017-05-13",
+        "author": "NDMSO",
+        "schema": "https://ld4p.github.io/sinopia/schemas/0.1.0/resource-template.json"
+      }
+    ],
+    "id": "sinopia:profile:bf2:Topic",
+    "title": "BIBFRAME 2.0 Topic",
+    "description": "Subject of Work",
+    "date": "2017-05-13",
+    "author": "NDMSO",
+    "schema": "https://ld4p.github.io/sinopia/schemas/0.1.0/profile.json"
+  }
 }

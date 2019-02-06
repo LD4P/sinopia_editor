@@ -1,82 +1,75 @@
 {
-    "Profile": {
-        "resourceTemplates": [
-            {
-                "propertyTemplates": [
-                    {
-                        "mandatory": "false",
-                        "repeatable": "false",
-                        "type": "target",
-                        "resourceTemplates": [],
-                        "valueConstraint": {
-                            "valueTemplateRefs": [],
-                            "useValuesFrom": [
-                                "http://id.loc.gov/vocabulary/languages"
-                            ],
-                            "valueDataType": {
-                                "dataTypeURI": "http://id.loc.gov/ontologies/bibframe/Language",
-                                "remark": ""
-                            },
-                            "valueLanguage": "",
-                            "remark": "",
-                            "editable": "true",
-                            "repeatable": "false",
-                            "defaults": []
-                        },
-                        "propertyURI": "http://id.loc.gov/ontologies/bflc/target",
-                        "propertyLabel": "Language of Expression (RDA 6.11)",
-                        "remark": "http://access.rdatoolkit.org/6.11.html"
-                    },
-                    {
-                        "mandatory": "false",
-                        "repeatable": "true",
-                        "type": "resource",
-                        "resourceTemplates": [],
-                        "valueConstraint": {
-                            "valueTemplateRefs": [
-                                "profile:bf2:Note"
-                            ],
-                            "useValuesFrom": [],
-                            "valueDataType": {},
-                            "defaults": []
-                        },
-                        "propertyURI": "http://id.loc.gov/ontologies/bibframe/note",
-                        "propertyLabel": "Language of Content (RDA 7.12)",
-                        "remark": "http://access.rdatoolkit.org/7.12.html"
-                    }
-                ],
-                "resourceURI": "http://id.loc.gov/ontologies/bibframe/Language",
-                "id": "profile:bf2:Language2",
-                "resourceLabel": "Language",
-                "remark": ""
+  "Profile": {
+    "resourceTemplates": [
+      {
+        "propertyTemplates": [
+          {
+            "mandatory": "false",
+            "repeatable": "false",
+            "type": "lookup",
+            "valueConstraint": {
+              "useValuesFrom": [
+                "http://id.loc.gov/vocabulary/languages"
+              ],
+              "valueDataType": {
+                "dataTypeURI": "http://id.loc.gov/ontologies/bibframe/Language"
+              }
             },
-            {
-                "propertyTemplates": [
-                    {
-                        "mandatory": "false",
-                        "repeatable": "true",
-                        "type": "resource",
-                        "resourceTemplates": [],
-                        "valueConstraint": {
-                            "valueTemplateRefs": [
-                                "profile:bf2:Note"
-                            ],
-                            "useValuesFrom": [],
-                            "valueDataType": {},
-                            "defaults": []
-                        },
-                        "propertyURI": "http://id.loc.gov/ontologies/bibframe/note",
-                        "propertyLabel": "Language of Content"
-                    }
-                ],
-                "id": "profile:bf2:Language:Note",
-                "resourceURI": "http://id.loc.gov/ontologies/bibframe/Language",
-                "resourceLabel": "Language of Content"
-            }
+            "propertyURI": "http://id.loc.gov/ontologies/bflc/target",
+            "propertyLabel": "Language of Expression (RDA 6.11)",
+            "remark": "http://access.rdatoolkit.org/6.11.html"
+          },
+          {
+            "mandatory": "false",
+            "repeatable": "true",
+            "type": "resource",
+            "resourceTemplates": [],
+            "valueConstraint": {
+              "valueTemplateRefs": [
+                "sinopia:resourceTemplate:bf2:Note"
+              ]
+            },
+            "propertyURI": "http://id.loc.gov/ontologies/bibframe/note",
+            "propertyLabel": "Language of Content (RDA 7.12)",
+            "remark": "http://access.rdatoolkit.org/7.12.html"
+          }
         ],
-        "id": "profile:bf2:Language",
-        "title": "BIBFRAME 2.0 Language",
+        "resourceURI": "http://id.loc.gov/ontologies/bibframe/Language",
+        "id": "sinopia:resourceTemplate:bf2:Language2",
+        "resourceLabel": "Language",
         "date": "2017-05-13",
-        "description": "Language"
-    }
+        "author": "NDMSO",
+        "schema": "https://ld4p.github.io/sinopia/schemas/0.1.0/resource-template.json"
+      },
+      {
+        "propertyTemplates": [
+          {
+            "mandatory": "false",
+            "repeatable": "true",
+            "type": "resource",
+            "resourceTemplates": [],
+            "valueConstraint": {
+              "valueTemplateRefs": [
+                "sinopia:resourceTemplate:bf2:Note"
+              ]
+            },
+            "propertyURI": "http://id.loc.gov/ontologies/bibframe/note",
+            "propertyLabel": "Language of Content"
+          }
+        ],
+        "id": "sinopia:resourceTemplate:bf2:Language:Note",
+        "resourceURI": "http://id.loc.gov/ontologies/bibframe/Language",
+        "resourceLabel": "Language of Content",
+        "date": "2017-05-13",
+        "author": "NDMSO",
+        "schema": "https://ld4p.github.io/sinopia/schemas/0.1.0/resource-template.json"
+      }
+    ],
+    "id": "sinopia:profile:bf2:Language",
+    "title": "BIBFRAME 2.0 Language",
+    "date": "2017-05-13",
+    "author": "NDMSO",
+    "description": "Language",
+    "schema": "https://ld4p.github.io/sinopia/schemas/0.1.0/profile.json"
+  }
 }
