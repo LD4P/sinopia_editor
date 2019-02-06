@@ -18,19 +18,23 @@ class ResourceTemplate extends Component {
     }
 
     var resourceTemplateData = (rtd) => {
-      let json, result
-      if(rtd !== undefined) {
-        json = JSON.parse(rtd)
-        if (json['Profile'] !== undefined){
-          if (json['Profile']['resourceTemplates'] !== undefined){
-            result = json['Profile']['resourceTemplates'] // from the profile editor
-          }
-        } else {
-          result = [json] //from sinopia server
-        }
+      let result
+      if (rtd == undefined) {
+        // e.g. at startup
+        result = [getResourceTemplate(this.props.resourceTemplateId)]
       }
       else {
-        result = [getResourceTemplate(this.props.resourceTemplateId)]
+        if (typeof rtd == 'object') {
+          // Enable us to  use profiles or resourceTemplate
+          if (rtd.propertyTemplates){
+            result = [rtd]
+          }
+          else if (rtd.Profile) {
+            // TODO:  if we allow profiles to be "imported" into BFF,
+            //  ask user which resourceTemplate they want?
+            result = rtd.Profile.resourceTemplates
+          }
+        }
       }
       return result
     }
@@ -70,7 +74,7 @@ class ResourceTemplate extends Component {
 
 ResourceTemplate.propTypes = {
   resourceTemplateId: PropTypes.string,
-  resourceTemplateData: PropTypes.string
+  resourceTemplateData: PropTypes.object
 }
 
 export default  ResourceTemplate
