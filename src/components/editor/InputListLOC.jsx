@@ -9,8 +9,7 @@ import RequiredSuperscript from './RequiredSuperscript'
 import { connect } from 'react-redux'
 import { changeSelections } from '../../actions/index'
 
-class
-InputListLOC extends Component {
+class InputListLOC extends Component {
   constructor(props) {
     super(props)
     this.state = {

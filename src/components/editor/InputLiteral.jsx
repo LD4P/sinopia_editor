@@ -22,9 +22,33 @@ export class InputLiteral extends Component {
     this.notRepeatable = this.notRepeatable.bind(this)
     this.addUserInput = this.addUserInput.bind(this)
     this.state = {
-      content_add: ""
+      content_add: "",
+      defaults: []
     }
     this.lastId = -1
+
+    let defaultValue
+    try {
+      defaultValue = this.props.propertyTemplate.valueConstraint.defaults[0]
+      this.state.defaults = [{
+        content: defaultValue.defaultLiteral,
+        id: ++this.lastId,
+        bnode: this.props.blankNodeForLiteral,
+        propPredicate: this.props.propPredicate
+      }]
+      this.setPayLoad(this.state.defaults)
+    } catch (error) {
+      console.log(`defaults not defined in the property template: ${error}`)
+    }
+  }
+
+  setPayLoad(defaults) {
+    const payload = {
+      id: this.props.propertyTemplate.propertyURI,
+      items: defaults,
+      rtId: this.props.rtId
+    }
+    this.props.handleMyItemsChange(payload)
   }
 
   handleFocus(event) {
