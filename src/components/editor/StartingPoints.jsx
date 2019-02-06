@@ -3,7 +3,7 @@
 import React, { Component }  from 'react'
 import Dropzone from 'react-dropzone'
 import PropTypes from 'prop-types'
-const Ajv = require('ajv') // JSON schema validation
+import Ajv from 'ajv' // JSON schema validation
 const util = require('util') // for JSON schema validation errors
 import { Link } from 'react-router-dom'
 
@@ -12,24 +12,14 @@ class StartingPoints extends Component {
     super()
     this.handleClick = this.handleClick.bind(this)
     this.onDropFile = this.onDropFile.bind(this)
+    this.ajv = new Ajv({
+      allErrors: true,
+      verbose: true
+    })
     this.state = {
       files: [],
       showDropZone: false
     }
-  }
-
-  componentDidMount() {
-    this.fetchSchemaObjectsPromise()
-      .then(schemaObjs => {
-        this.ajv = new Ajv({
-          schemas: schemaObjs,
-          allErrors: true,
-          verbose: true
-        })
-      })
-      .catch(err => {
-        console.error(`componentDidMount: error getting json schemas ${err}`)
-      })
   }
 
   handleClick() {
@@ -40,14 +30,27 @@ class StartingPoints extends Component {
   onDropFile(files) {
     // supplies the json loaded from the resource template
     const handleFileRead = () => {
-      const content = fileReader.result
-      const valid = this.validateTemplate(JSON.parse(content))
-      if (valid) {
-        this.props.setResourceTemplateCallback(content)
-      }
-      else {
-        // TODO: don't continue on with display of ResourceTemplate component (#295)
-        console.error("ERROR: unable to use template as it isn't valid - we shouldn't display form")
+      let template
+      try {
+        template = JSON.parse(fileReader.result)
+        var schemaUrl = template.schema || (template.Profile && template.Profile.schema)
+        if (schemaUrl == undefined) {
+          if (template.Profile) {
+            schemaUrl = "https://ld4p.github.io/sinopia/schemas/0.0.2/profile.json"
+          } else {
+            schemaUrl = "https://ld4p.github.io/sinopia/schemas/0.0.2/resource-template.json"
+          }
+          console.error(`No schema url found in template. Using ${schemaUrl}`)
+        }
+        this.promiseTemplateValidated(template, schemaUrl)
+        .then(() => {
+          this.props.setResourceTemplateCallback(template)
+        })
+        .catch(err => {
+          alert(`ERROR - CANNOT USE PROFILE/RESOURCE TEMPLATE: problem validating template: ${err}`)
+        })
+      } catch (err) {
+        alert(`ERROR - CANNOT USE PROFILE/RESOURCE TEMPLATE: problem parsing JSON template: ${err}`)
       }
     }
 
@@ -65,32 +68,64 @@ class StartingPoints extends Component {
     this.setState({showDropZone: val})
   }
 
-  validateTemplate = (template) => {
-    // TODO: get schema $id from template being validated (#294)
-    const valid = this.ajv.validate('https://ld4p.github.io/sinopia/schemas/0.0.1/profile.json', template)
-    // TODO:  indicate template validity to user (#295)
-    console.debug(`resource template is valid? ${valid}`)
-    if (!valid) {
-      // TODO:  indicate template errors to user (#295)
-      console.error(`template isn't valid: ${util.inspect(this.ajv.errors)}`)
-    }
-    return valid
+  promiseTemplateValidated = (template, schemaUrl) => {
+    return new Promise((resolve, reject) => {
+      this.promiseSchemasLoaded(schemaUrl)
+        .then(() => {
+          const valid = this.ajv.validate(schemaUrl, template)
+          console.debug(`resource template is valid? ${valid}`)
+          if (!valid) {
+            reject(new Error(`${util.inspect(this.ajv.errors)}`))
+          }
+          resolve()
+        })
+        .catch(err => {
+          reject(err)
+        })
+    })
   }
 
-  // return array of objects - one for each fetched json schema file
+  promiseSchemasLoaded = (schemaUrl) => {
+    return new Promise((resolve, reject) => {
+      try {
+        var schemaFunction = this.ajv.getSchema(schemaUrl)
+        if (!schemaFunction) {
+          this.fetchSchemaObjectsPromise(schemaUrl)
+            .then(schemaObjs => {
+              schemaObjs.forEach( (schemaObj) => {
+                this.ajv.addSchema(schemaObj, schemaObj.id)
+              })
+            })
+            .then(() => {
+              resolve()
+            })
+            .catch(err => {
+              reject(new Error(`error getting json schemas ${err}`))
+            })
+        } else {
+          resolve()
+        }
+      }
+      catch(err) {
+        reject(new Error(`error getting json schemas ${err}`))
+      }
+    })
+  }
+
   // TODO: cache the schemas in local storage (#292)
-  fetchSchemaObjectsPromise = () => {
-    // TODO: get schema url from template json ... once it is in the template json (#294)
+  fetchSchemaObjectsPromise = (schemaUrl) => {
+    const schemaPrefixWithVersion = schemaUrl.match(/^(.*\d\.\d\.\d).*$/)[1]
     // TODO: recurse to fetch schemas from any $ref urls found in schema?
-    const schemaUrls = [
-      'https://ld4p.github.io/sinopia/schemas/0.0.1/profile.json',
-      'https://ld4p.github.io/sinopia/schemas/0.0.1/resource-templates-array.json',
-      'https://ld4p.github.io/sinopia/schemas/0.0.1/resource-template.json',
-      'https://ld4p.github.io/sinopia/schemas/0.0.1/property-templates-array.json',
-      'https://ld4p.github.io/sinopia/schemas/0.0.1/property-template.json'
+    const schemaSuffixes = [
+      "profile.json",
+      "resource-templates-array.json",
+      "resource-template.json",
+      "property-templates-array.json",
+      "property-template.json"
     ]
     const schemaFetchPromises = []
-    schemaUrls.forEach((url) => {
+    schemaSuffixes.forEach( (schemaSuffix) => {
+      var url = `${schemaPrefixWithVersion}/${schemaSuffix}`
       schemaFetchPromises.push(this.fetchJsonPromise(url))
     })
 
@@ -100,23 +135,21 @@ class StartingPoints extends Component {
   fetchJsonPromise = (uri) => {
     return new Promise((resolve, reject) => {
       fetch(uri)
-        .then(resp => {
-          if (resp.ok) {
-            resp.json()
-              .then(data => {
-                resolve(data)
-              })
-              .catch(err => {
-                reject(new Error(`Error parsing json schema ${uri} - ${err}`))
-              })
-          }
-          else {
-            reject(new Error(`HTTP error fetching schema: ${resp.status} - ${resp.statusText}`))
-          }
-        })
-        .catch((err) => {
-          reject(new Error(`Error fetching schema ${uri} - ${err}`))
-        })
+      .then(resp => {
+        if (resp.ok) {
+          resp.json()
+            .then(data => {
+              resolve(data)
+            })
+            .catch(err => { reject(new Error(`Error parsing json ${uri} - ${err}`))})
+        }
+        else {
+          reject(new Error(`HTTP error fetching ${uri}: ${resp.status} - ${resp.statusText}`))
+        }
+      })
+      .catch((err) => {
+        reject(new Error(`Error fetching ${uri} - ${err}`))
+      })
     })
   }
 
@@ -135,12 +168,12 @@ class StartingPoints extends Component {
     }
     return (
       <section>
-              <div className="StartingPoints" style={startingPoints}>
-                      <h3>Create Resource</h3>
-                      <div><Link to={{pathname: "/editor", state: {rtId: this.props.resourceTemplateId}}} onClick={() => {this.resetShowDropZone()}}>{this.props.resourceTemplateId}</Link></div>
-                      <button className="btn btn-primary btn-small" onClick={this.handleClick}>Import Profile</button>
-                {this.state.showDropZone ? <DropZone showDropZoneCallback={this.updateShowDropZone} dropFileCallback={this.onDropFile} filesCallback={this.state.files}/> : null}
-              </div>
+        <div className="StartingPoints" style={startingPoints}>
+          <h3>Create Resource</h3>
+          <div><Link to={{pathname: "/editor", state: {rtId: this.props.resourceTemplateId}}} onClick={() => {this.resetShowDropZone()}}>{this.props.resourceTemplateId}</Link></div>
+          <button id="ImportProfile" className="btn btn-primary btn-small" onClick={this.handleClick}>Import Profile</button>
+          { this.state.showDropZone ? <DropZone showDropZoneCallback={this.updateShowDropZone} dropFileCallback={this.onDropFile} filesCallback={this.state.files}/> : null }
+        </div>
       </section>
     )
   }
@@ -152,7 +185,7 @@ class DropZone extends Component {
       <section>
         <br /><p>Drop resource template file <br />
         or click to select a file to upload:</p>
-        <div>
+        <div className="DropZone">
           <Dropzone
             onFileDialogCancel={() => this.props.showDropZoneCallback(false)}
             onDrop={this.props.dropFileCallback.bind(this)}
