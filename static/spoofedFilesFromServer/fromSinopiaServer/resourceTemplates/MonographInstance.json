@@ -192,7 +192,7 @@
       "valueConstraint": {
         "valueTemplateRefs": [],
         "useValuesFrom": [
-          "http://id.loc.gov/vocabulary/frequencies"
+          "https://id.loc.gov/vocabulary/frequencies"
         ],
         "valueDataType": {
           "dataTypeURI": "http://id.loc.gov/ontologies/bibframe/Frequency"
