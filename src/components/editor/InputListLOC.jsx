@@ -3,11 +3,14 @@
 import React, { Component } from 'react';
 import { Typeahead } from 'react-bootstrap-typeahead'
 import PropTypes from 'prop-types'
+import PropertyRemark from './PropertyRemark'
+import RequiredSuperscript from './RequiredSuperscript'
+
 import { connect } from 'react-redux'
 import { changeSelections } from '../../actions/index'
 
 class
-  InputListLOC extends Component {
+InputListLOC extends Component {
   constructor(props) {
     super(props)
     this.state = {
@@ -15,6 +18,8 @@ class
       options: [],
       defaults: []
     }
+    this.hasPropertyRemark = this.hasPropertyRemark.bind(this)
+
     let defaultValue
     try {
       defaultValue = this.props.propertyTemplate.valueConstraint.defaults[0]
@@ -37,6 +42,20 @@ class
       rtId: this.props.rtId
     }
     this.props.handleSelectedChange(payload)
+  }
+
+  hasPropertyRemark(propertyTemplate) {
+    if(propertyTemplate.remark) {
+      return <PropertyRemark remark={propertyTemplate.remark}
+                             label={propertyTemplate.propertyLabel} />;
+    }
+    return propertyTemplate.propertyLabel;
+  }
+
+  mandatorySuperscript() {
+    if (JSON.parse(this.props.propertyTemplate.mandatory)) {
+      return <RequiredSuperscript />
+    }
   }
 
   render() {
@@ -64,34 +83,37 @@ class
     var opts = []
     return (
       <div>
-        <label htmlFor="targetComponent">{this.props.propertyTemplate.propertyLabel}
-        <Typeahead
-          onFocus={() => {
-            this.setState({isLoading: true})
-            fetch(`${lookupUri}.json`)
-              .then(resp => resp.json())
-              .then(json => {
-                for(var i in json){
-                  try{
-                    const item = Object.getOwnPropertyDescriptor(json, i)
-                    const uri = item.value["@id"]
-                    const label = item.value["http://www.loc.gov/mads/rdf/v1#authoritativeLabel"][0]["@value"]
-                    opts.push({ id: uri, uri: uri, label: label })
-                  } catch (error) {
-                    //ignore
+        <label htmlFor="targetComponent"
+               title={this.props.propertyTemplate.remark}>
+          {this.hasPropertyRemark(this.props.propertyTemplate)}
+          {this.mandatorySuperscript()}
+          <Typeahead
+            onFocus={() => {
+              this.setState({isLoading: true})
+              fetch(`${lookupUri}.json`)
+                .then(resp => resp.json())
+                .then(json => {
+                  for(var i in json){
+                    try{
+                      const item = Object.getOwnPropertyDescriptor(json, i)
+                      const uri = item.value["@id"]
+                      const label = item.value["http://www.loc.gov/mads/rdf/v1#authoritativeLabel"][0]["@value"]
+                      opts.push({ id: uri, uri: uri, label: label })
+                    } catch (error) {
+                      //ignore
+                    }
                   }
-                }
-              })
-              .then(() => this.setState({
+                })
+                .then(() => this.setState({
                   isLoading: false,
                   options: opts
-              }))
-              .catch(() => {return false})
-          }}
-          onBlur={() => {this.setState({isLoading: false})}}
-          onChange={selected => this.setPayLoad(selected)}
-          {...typeaheadProps}
-        />
+                }))
+                .catch(() => {return false})
+            }}
+            onBlur={() => {this.setState({isLoading: false})}}
+            onChange={selected => this.setPayLoad(selected)}
+            {...typeaheadProps}
+          />
         </label>
       </div>
     )
