@@ -31,7 +31,7 @@ const rtProps = {
       "type": "resource",
       "valueConstraint": {
         "useValuesFrom": [
-          "http://id.loc.gov/vocabulary/frequencies"
+          "https://id.loc.gov/vocabulary/frequencies"
         ]
       }
     },

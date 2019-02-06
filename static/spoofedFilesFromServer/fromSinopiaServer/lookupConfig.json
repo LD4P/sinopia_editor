@@ -829,7 +829,7 @@
   },
   {
     "label": "frequency",
-    "uri": "http://id.loc.gov/vocabulary/frequencies",
+    "uri": "https://id.loc.gov/vocabulary/frequencies",
     "component": "list"
   },
   {
