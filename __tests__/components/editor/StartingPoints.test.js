@@ -18,11 +18,8 @@ describe('<StartingPoints />', () => {
     expect(wrapper.find('div > h3').text()).toEqual('Create Resource')
   })
 
-  it('fetches JSON schemas once (for validation of resourceTemplate)', () => {
-    const instance = wrapper.instance()
-    jest.spyOn(instance, 'fetchSchemaObjectsPromise')
-    instance.componentDidMount()
-    expect(instance.fetchSchemaObjectsPromise).toHaveBeenCalledTimes(1)
+  it('has an upload button', async() => {
+    expect(wrapper.find('button#ImportProfile').exists()).toBeTruthy()
   })
 })
 
