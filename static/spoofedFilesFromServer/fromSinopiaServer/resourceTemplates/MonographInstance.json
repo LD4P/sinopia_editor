@@ -68,7 +68,7 @@
       "valueConstraint": {
         "valueTemplateRefs": [],
         "useValuesFrom": [
-          "http://id.loc.gov/vocabulary/issuance"
+          "https://id.loc.gov/vocabulary/issuance"
         ],
         "valueDataType": {
           "dataTypeURI": "http://id.loc.gov/ontologies/bibframe/Issuance"
@@ -109,7 +109,7 @@
       "valueConstraint": {
         "valueTemplateRefs": [],
         "useValuesFrom": [
-          "http://id.loc.gov/vocabulary/carriers"
+          "https://id.loc.gov/vocabulary/carriers"
         ],
         "valueDataType": {
           "dataTypeURI": "http://id.loc.gov/ontologies/bibframe/Carrier"
@@ -145,7 +145,7 @@
         "remark": "REMARK",
         "repeatable": "false",
         "useValuesFrom": [
-          "http://VALUES"
+          "https://VALUES"
         ],
         "validatePattern": "PATTERN",
         "valueDataType": {

@@ -26,7 +26,7 @@
       "valueConstraint": {
         "valueTemplateRefs": [],
         "useValuesFrom": [
-          "http://id.loc.gov/vocabulary/mstatus"
+          "https://id.loc.gov/vocabulary/mstatus"
         ],
         "valueDataType": {
           "dataTypeURI": "http://id.loc.gov/ontologies/bibframe/Status"
