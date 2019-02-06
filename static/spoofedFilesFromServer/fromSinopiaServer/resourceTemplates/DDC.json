@@ -24,7 +24,7 @@
       "valueConstraint": {
         "valueTemplateRefs": [],
         "useValuesFrom": [
-          "http://id.loc.gov/vocabulary/classSchemes.json"
+          "https://id.loc.gov/vocabulary/classSchemes.json"
         ],
         "valueDataType": {
           "dataTypeURI": "http://id.loc.gov/ontologies/bibframe/edition"

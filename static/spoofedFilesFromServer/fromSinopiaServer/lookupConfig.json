@@ -729,102 +729,102 @@
   },
   {
     "label": "MARC relator terms",
-    "uri": "http://id.loc.gov/vocabulary/relators",
+    "uri": "https://id.loc.gov/vocabulary/relators",
     "component": "list"
   },
   {
     "label": "carrier",
-    "uri": "http://id.loc.gov/vocabulary/carriers",
+    "uri": "https://id.loc.gov/vocabulary/carriers",
     "component": "list"
   },
   {
     "label": "class schedule used",
-    "uri": "http://id.loc.gov/vocabulary/classSchemes",
+    "uri": "https://id.loc.gov/vocabulary/classSchemes",
     "component": "list"
   },
   {
     "label": "color",
-    "uri": "http://id.loc.gov/vocabulary/mcolor",
+    "uri": "https://id.loc.gov/vocabulary/mcolor",
     "component": "list"
   },
   {
     "label": "content type",
-    "uri": "http://id.loc.gov/vocabulary/contentTypes",
+    "uri": "https://id.loc.gov/vocabulary/contentTypes",
     "component": "list"
   },
   {
     "label": "description authentication",
-    "uri": "http://id.loc.gov/vocabulary/marcauthen",
+    "uri": "https://id.loc.gov/vocabulary/marcauthen",
     "component": "list"
   },
   {
     "label": "description conventions",
-    "uri": "http://id.loc.gov/vocabulary/descriptionConventions",
+    "uri": "https://id.loc.gov/vocabulary/descriptionConventions",
     "component": "list"
   },
   {
     "label": "encoding level",
-    "uri": "http://mlvlp04.loc.gov:8080/vocabulary/menclvl",
+    "uri": "https://mlvlp04.loc.gov:8080/vocabulary/menclvl",
     "component": "list"
   },
   {
     "label": "illustrative content",
-    "uri": "http://id.loc.gov/vocabulary/millus",
+    "uri": "https://id.loc.gov/vocabulary/millus",
     "component": "list"
   },
   {
     "label": "intended audience",
-    "uri": "http://id.loc.gov/vocabulary/maudience",
+    "uri": "https://id.loc.gov/vocabulary/maudience",
     "component": "list"
   },
   {
     "label": "language",
-    "uri": "http://id.loc.gov/vocabulary/languages",
+    "uri": "https://id.loc.gov/vocabulary/languages",
     "component": "list"
   },
   {
     "label": "media type",
-    "uri": "http://id.loc.gov/vocabulary/mediaTypes",
+    "uri": "https://id.loc.gov/vocabulary/mediaTypes",
     "component": "list"
   },
   {
     "label": "mode of issuance",
-    "uri": "http://id.loc.gov/vocabulary/issuance",
+    "uri": "https://id.loc.gov/vocabulary/issuance",
     "component": "list"
   },
   {
     "label": "applied material",
-    "uri": "http://id.loc.gov/vocabulary/mmaterial",
+    "uri": "https://id.loc.gov/vocabulary/mmaterial",
     "component": "list"
   },
   {
     "label": "aspect ratio",
-    "uri": "http://id.loc.gov/vocabulary/maspect",
+    "uri": "https://id.loc.gov/vocabulary/maspect",
     "component": "list"
   },
   {
     "label": "base material",
-    "uri": "http://id.loc.gov/vocabulary/mmaterial",
+    "uri": "https://id.loc.gov/vocabulary/mmaterial",
     "component": "list"
   },
   {
     "label": "broadcast standard",
-    "uri": "http://id.loc.gov/vocabulary/mbroadstd",
+    "uri": "https://id.loc.gov/vocabulary/mbroadstd",
     "component": "list"
   },
   {
     "label": "file type",
-    "uri": "http://id.loc.gov/vocabulary/mfiletype",
+    "uri": "https://id.loc.gov/vocabulary/mfiletype",
     "component": "list"
   },
   {
     "label": "form of musical notation",
-    "uri": "http://id.loc.gov/vocabulary/mmusnotation",
+    "uri": "https://id.loc.gov/vocabulary/mmusnotation",
     "component": "list"
   },
   {
     "label": "format of notated music",
-    "uri": "http://id.loc.gov/vocabulary/mmusicformat",
+    "uri": "https://id.loc.gov/vocabulary/mmusicformat",
     "component": "list"
   },
   {
@@ -834,57 +834,57 @@
   },
   {
     "label": "genre/form scheme",
-    "uri": "http://id.loc.gov/vocabulary/genreFormSchemes",
+    "uri": "https://id.loc.gov/vocabulary/genreFormSchemes",
     "component": "list"
   },
   {
     "label": "groove characteristics",
-    "uri": "http://id.loc.gov/vocabulary/mgroove",
+    "uri": "https://id.loc.gov/vocabulary/mgroove",
     "component": "list"
   },
   {
     "label": "layout",
-    "uri": "http://id.loc.gov/vocabulary/mlayout",
+    "uri": "https://id.loc.gov/vocabulary/mlayout",
     "component": "list"
   },
   {
     "label": "playback channels",
-    "uri": "http://id.loc.gov/vocabulary/mplayback",
+    "uri": "https://id.loc.gov/vocabulary/mplayback",
     "component": "list"
   },
   {
     "label": "polarity",
-    "uri": "http://id.loc.gov/vocabulary/mpolarity",
+    "uri": "https://id.loc.gov/vocabulary/mpolarity",
     "component": "list"
   },
   {
     "label": "production method",
-    "uri": "http://id.loc.gov/vocabulary/mproduction",
+    "uri": "https://id.loc.gov/vocabulary/mproduction",
     "component": "list"
   },
   {
     "label": "recording medium",
-    "uri": "http://id.loc.gov/vocabulary/mrecmedium",
+    "uri": "https://id.loc.gov/vocabulary/mrecmedium",
     "component": "list"
   },
   {
     "label": "regional encoding",
-    "uri": "http://id.loc.gov/vocabulary/mregencoding",
+    "uri": "https://id.loc.gov/vocabulary/mregencoding",
     "component": "list"
   },
   {
     "label": "sound content",
-    "uri": "http://id.loc.gov/vocabulary/msoundcontent",
+    "uri": "https://id.loc.gov/vocabulary/msoundcontent",
     "component": "list"
   },
   {
     "label": "special playback characteristics",
-    "uri": "http://id.loc.gov/vocabulary/mplayback",
+    "uri": "https://id.loc.gov/vocabulary/mplayback",
     "component": "list"
   },
   {
     "label": "type of recording",
-    "uri": "http://id.loc.gov/vocabulary/mrectype",
+    "uri": "https://id.loc.gov/vocabulary/mrectype",
     "component": "list"
   }
 ]
