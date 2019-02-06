@@ -10,7 +10,7 @@ import { connect } from 'react-redux'
 import { changeSelections } from '../../actions/index'
 
 class
-  InputListLOC extends Component {
+InputListLOC extends Component {
   constructor(props) {
     super(props)
     this.state = {
@@ -47,7 +47,7 @@ class
   hasPropertyRemark(propertyTemplate) {
     if(propertyTemplate.remark) {
       return <PropertyRemark remark={propertyTemplate.remark}
-          label={propertyTemplate.propertyLabel} />;
+                             label={propertyTemplate.propertyLabel} />;
     }
     return propertyTemplate.propertyLabel;
   }
@@ -85,35 +85,35 @@ class
       <div>
         <label htmlFor="targetComponent"
                title={this.props.propertyTemplate.remark}>
-        {this.hasPropertyRemark(this.props.propertyTemplate)}
-        {this.mandatorySuperscript()}
-        <Typeahead
-          onFocus={() => {
-            this.setState({isLoading: true})
-            fetch(`${lookupUri}.json`, { mode: 'cors' })
-              .then(resp => resp.json())
-              .then(json => {
-                for(var i in json){
-                  try{
-                    const item = Object.getOwnPropertyDescriptor(json, i)
-                    const uri = item.value["@id"]
-                    const label = item.value["http://www.loc.gov/mads/rdf/v1#authoritativeLabel"][0]["@value"]
-                    opts.push({ id: uri, uri: uri, label: label })
-                  } catch (error) {
-                    //ignore
+          {this.hasPropertyRemark(this.props.propertyTemplate)}
+          {this.mandatorySuperscript()}
+          <Typeahead
+            onFocus={() => {
+              this.setState({isLoading: true})
+              fetch(`${lookupUri}.json`)
+                .then(resp => resp.json())
+                .then(json => {
+                  for(var i in json){
+                    try{
+                      const item = Object.getOwnPropertyDescriptor(json, i)
+                      const uri = item.value["@id"]
+                      const label = item.value["http://www.loc.gov/mads/rdf/v1#authoritativeLabel"][0]["@value"]
+                      opts.push({ id: uri, uri: uri, label: label })
+                    } catch (error) {
+                      //ignore
+                    }
                   }
-                }
-              })
-              .then(() => this.setState({
+                })
+                .then(() => this.setState({
                   isLoading: false,
                   options: opts
-              }))
-              .catch(() => {return false})
-          }}
-          onBlur={() => {this.setState({isLoading: false})}}
-          onChange={selected => this.setPayLoad(selected)}
-          {...typeaheadProps}
-        />
+                }))
+                .catch(() => {return false})
+            }}
+            onBlur={() => {this.setState({isLoading: false})}}
+            onChange={selected => this.setPayLoad(selected)}
+            {...typeaheadProps}
+          />
         </label>
       </div>
     )
