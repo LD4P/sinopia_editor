@@ -2,10 +2,5 @@ build_support/*
 builds/*
 coverage/*
 docs/*
-src/bfe.js
-src/bfelogging.js
-src/bfelookups.js
-src/bfestore.js
-src/lib/aceconfig.js
 static/*
 static-analysis/*
