@@ -73,11 +73,10 @@ class StartingPoints extends Component {
       this.promiseSchemasLoaded(schemaUrl)
         .then(() => {
           const valid = this.ajv.validate(schemaUrl, template)
-          console.debug(`resource template is valid? ${valid}`)
           if (!valid) {
             reject(new Error(`${util.inspect(this.ajv.errors)}`))
           }
-          resolve()
+          resolve() // w00t!
         })
         .catch(err => {
           reject(err)
