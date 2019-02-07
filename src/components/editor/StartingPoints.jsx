@@ -36,9 +36,9 @@ class StartingPoints extends Component {
         var schemaUrl = template.schema || (template.Profile && template.Profile.schema)
         if (schemaUrl == undefined) {
           if (template.Profile) {
-            schemaUrl = "https://ld4p.github.io/sinopia/schemas/0.0.2/profile.json"
+            schemaUrl = "https://ld4p.github.io/sinopia/schemas/0.0.1/profile.json"
           } else {
-            schemaUrl = "https://ld4p.github.io/sinopia/schemas/0.0.2/resource-template.json"
+            schemaUrl = "https://ld4p.github.io/sinopia/schemas/0.0.1/resource-template.json"
           }
           console.error(`No schema url found in template. Using ${schemaUrl}`)
         }
