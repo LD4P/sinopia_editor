@@ -9,8 +9,7 @@ import RequiredSuperscript from './RequiredSuperscript'
 import { connect } from 'react-redux'
 import { changeSelections } from '../../actions/index'
 
-class
-InputListLOC extends Component {
+class InputListLOC extends Component {
   constructor(props) {
     super(props)
     this.state = {
@@ -20,9 +19,8 @@ InputListLOC extends Component {
     }
     this.hasPropertyRemark = this.hasPropertyRemark.bind(this)
 
-    let defaultValue
     try {
-      defaultValue = this.props.propertyTemplate.valueConstraint.defaults[0]
+      const defaultValue = this.props.propertyTemplate.valueConstraint.defaults[0]
       const defaults = [{
         id: defaultValue.defaultURI,
         uri: defaultValue.defaultURI,

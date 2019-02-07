@@ -12,7 +12,12 @@
         "valueTemplateRefs": [],
         "useValuesFrom": [],
         "valueDataType": {},
-        "defaults": []
+        "defaults": [
+          {
+            "defaultURI": "http://id.loc.gov/vocabulary/itemPart",
+            "defaultLiteral": "12345"
+          }
+        ]
       },
       "propertyURI": "http://www.w3.org/1999/02/22-rdf-syntax-ns#value",
       "propertyLabel": "Barcode"
