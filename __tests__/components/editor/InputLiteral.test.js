@@ -161,6 +161,12 @@ describe('When the user enters input into field', ()=>{
     mock_wrapper.find('button#displayedItem').first().simulate('click', { target: { "dataset": {"item": 5 }}})
     expect(removeMockDataFn.mock.calls.length).toEqual(1);
   })
+
+  it('shows the <InputLang> modal when the <Button/> is clicked', () => {
+    mock_wrapper.find('Button').first().simulate('click')
+    expect(mock_wrapper.find('ModalTitle').render().text()).toEqual('Languages')
+  })
+
 })
 
 describe('when there is a default literal value in the property template', () => {
