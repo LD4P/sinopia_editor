@@ -106,9 +106,10 @@ const ld = {
   ]
 }
 
+const rtTest = { resourceURI: "http://id.loc.gov/ontologies/bibframe/Work" }
+
 describe('<ResourceTemplateForm />', () => {
   const mockHandleGenerateLD = jest.fn()
-  const rtTest = { resourceURI: "http://id.loc.gov/ontologies/bibframe/Work" }
   const wrapper = shallow(<ResourceTemplateForm.WrappedComponent
     {...rtProps}
     resourceTemplate = {rtTest}
