@@ -40,7 +40,7 @@ class StartingPoints extends Component {
           } else {
             schemaUrl = "https://ld4p.github.io/sinopia/schemas/0.0.1/resource-template.json"
           }
-          console.error(`No schema url found in template. Using ${schemaUrl}`)
+          alert(`No schema url found in template. Using ${schemaUrl}`)
         }
         this.promiseTemplateValidated(template, schemaUrl)
         .then(() => {
