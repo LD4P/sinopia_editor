@@ -58,7 +58,9 @@ describe('<DropZone />', () => {
   })
 
   describe('simulating a file drop calls the file reading functions', () => {
-    // Dropzone throws an error when performing a drop simulate on the input. This is for code coverage only.
+    // NOTE: This is for code coverage only;  there are no expect statements
+    //  NOTE: this is covered by integration/schemaValidation.test but that doesn't show coverage
+    // Dropzone throws an error when performing a drop simulate on the input.
     it('lets you input a selected file', () => {
       console.error = jest.fn()
       wrapper.find('button.btn').simulate('click')
