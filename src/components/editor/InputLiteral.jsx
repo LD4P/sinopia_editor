@@ -27,9 +27,8 @@ export class InputLiteral extends Component {
     }
     this.lastId = -1
 
-    let defaultValue
     try {
-      defaultValue = this.props.propertyTemplate.valueConstraint.defaults[0]
+     const defaultValue = this.props.propertyTemplate.valueConstraint.defaults[0]
       this.state.defaults = [{
         content: defaultValue.defaultLiteral,
         id: ++this.lastId,

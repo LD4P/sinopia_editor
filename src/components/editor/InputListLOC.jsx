@@ -19,9 +19,8 @@ class InputListLOC extends Component {
     }
     this.hasPropertyRemark = this.hasPropertyRemark.bind(this)
 
-    let defaultValue
     try {
-      defaultValue = this.props.propertyTemplate.valueConstraint.defaults[0]
+      const defaultValue = this.props.propertyTemplate.valueConstraint.defaults[0]
       const defaults = [{
         id: defaultValue.defaultURI,
         uri: defaultValue.defaultURI,
