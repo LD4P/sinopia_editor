@@ -1,0 +1,14 @@
+{
+  "id": "sinopia:resourceTemplate:bf2:LCC",
+  "resourceLabel": "Invalid Resource Template",
+  "resourceURI": "http://id.loc.gov/ontologies/bibframe/ClassificationLcc",
+  "schema": "https://ld4p.github.io/sinopia/schemas/0.1.0/resource-template.json",
+  "propertyTemplates": [
+    {
+      "mandatory": "false",
+      "repeatable": "true",
+      "type": "literal",
+      "propertyLabel": "Invalid Property Template"
+    }
+  ]
+}

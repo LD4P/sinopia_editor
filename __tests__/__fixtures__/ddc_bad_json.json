@@ -1,0 +1,32 @@
+{
+  "id": "sinopia:resourceTemplate:bf2:DDC",
+  "resourceLabel": "DDC Bad JSON",
+  "resourceURI": "http://id.loc.gov/ontologies/bibframe/ClassificationDdc",
+  "date": "2017-07-28",
+  "author": "NDMSO",
+  "schema": "https://ld4p.github.io/sinopia/schemas/0.1.0/resource-template.json",
+  "propertyTemplates": [
+    {
+      "mandatory": "false",
+      "repeatable": "true",
+      "type": "literal",
+      "propertyURI": "http://id.loc.gov/ontologies/bibframe/classificationPortion",
+      "propertyLabel": "DDC Classification number",
+    },
+    {
+      "mandatory": "false",
+      "repeatable": "false",
+      "type": "lookup",
+      "valueConstraint": {
+        "useValuesFrom": [
+          "http://id.loc.gov/vocabulary/classSchemes"
+        ],
+        "valueDataType": {
+          "dataTypeURI": "http://id.loc.gov/ontologies/bibframe/edition"
+        },
+      },
+      "propertyURI": "http://id.loc.gov/ontologies/bibframe/edition",
+      "propertyLabel": "Dewey Edition",
+    },
+  ]
+}

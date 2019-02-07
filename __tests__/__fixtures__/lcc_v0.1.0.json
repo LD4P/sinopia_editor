@@ -1,0 +1,17 @@
+{
+  "id": "sinopia:resourceTemplate:bf2:LCC",
+  "resourceLabel": "Library of Congress Classification",
+  "resourceURI": "http://id.loc.gov/ontologies/bibframe/ClassificationLcc",
+  "date": "2017-05-13",
+  "author": "NDMSO",
+  "schema": "https://ld4p.github.io/sinopia/schemas/0.1.0/resource-template.json",
+  "propertyTemplates": [
+    {
+      "mandatory": "false",
+      "repeatable": "true",
+      "type": "literal",
+      "propertyURI": "http://id.loc.gov/ontologies/bibframe/classificationPortion",
+      "propertyLabel": "LC Classification Number"
+    }
+  ]
+}

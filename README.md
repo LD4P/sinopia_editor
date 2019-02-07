@@ -45,7 +45,7 @@ Note that running the webpack server does NOT call server.js
 
 `npm run dev-build`  (no minimization)  or `npm run build` (with minimization)
 
-We are using webpack as a build tool.  See `webapck.config.js` for build dependencies and configuration.
+We are using webpack as a build tool.  See `webpack.config.js` for build dependencies and configuration.
 
 ##### Running the server with express directory
 

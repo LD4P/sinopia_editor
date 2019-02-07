@@ -1,872 +1,790 @@
 {
-    "Profile": {
-        "resourceTemplates": [
-            {
-                "propertyTemplates": [
-                    {
-                        "mandatory": "false",
-                        "repeatable": "true",
-                        "type": "target",
-                        "resourceTemplates": [],
-                        "valueConstraint": {
-                            "valueTemplateRefs": [],
-                            "useValuesFrom": [
-                                "http://id.loc.gov/vocabulary/mbroadstd"
-                            ],
-                            "defaults": [],
-                            "valueDataType": {
-                                "dataTypeURI": "http://id.loc.gov/ontologies/bibframe/BroadcastStandard"
-                            }
-                        },
-                        "propertyURI": "http://id.loc.gov/ontologies/bflc/target",
-                        "propertyLabel": "Broadcast Standard (RDA 3.18.3)",
-                        "remark": "http://access.rdatoolkit.org/3.18.3.html"
-                    },
-                    {
-                        "mandatory": "false",
-                        "repeatable": "true",
-                        "type": "resource",
-                        "resourceTemplates": [],
-                        "valueConstraint": {
-                            "valueTemplateRefs": [
-                                "profile:bf2:Note"
-                            ],
-                            "useValuesFrom": [],
-                            "defaults": [],
-                            "valueDataType": {}
-                        },
-                        "propertyURI": "http://id.loc.gov/ontologies/bibframe/note",
-                        "propertyLabel": "Details of Broadcast Standard (RDA 3.18.3.4)",
-                        "remark": "http://access.rdatoolkit.org/3.18.3.4.html"
-                    }
-                ],
-                "id": "profile:bf2:BroadStd",
-                "resourceURI": "http://id.loc.gov/ontologies/bibframe/BroadcastStandard",
-                "resourceLabel": "Broadcast Standard"
+  "Profile": {
+    "resourceTemplates": [
+      {
+        "propertyTemplates": [
+          {
+            "mandatory": "false",
+            "repeatable": "true",
+            "type": "lookup",
+            "valueConstraint": {
+              "useValuesFrom": [
+                "http://id.loc.gov/vocabulary/mbroadstd"
+              ],
+              "valueDataType": {
+                "dataTypeURI": "http://id.loc.gov/ontologies/bibframe/BroadcastStandard"
+              }
             },
-            {
-                "propertyTemplates": [
-                    {
-                        "mandatory": "false",
-                        "repeatable": "true",
-                        "type": "resource",
-                        "resourceTemplates": [],
-                        "valueConstraint": {
-                            "valueTemplateRefs": [
-                                "profile:bf2:Place"
-                            ],
-                            "useValuesFrom": [],
-                            "defaults": [],
-                            "valueDataType": {}
-                        },
-                        "propertyURI": "http://id.loc.gov/ontologies/bibframe/place",
-                        "propertyLabel": "Place of Capture (RDA 7.11.2)",
-                        "remark": "http://access.rdatoolkit.org/7.11.2.html"
-                    },
-                    {
-                        "mandatory": "false",
-                        "repeatable": "true",
-                        "type": "literal",
-                        "resourceTemplates": [],
-                        "valueConstraint": {
-                            "valueTemplateRefs": [],
-                            "useValuesFrom": [],
-                            "defaults": [],
-                            "valueDataType": {}
-                        },
-                        "propertyURI": "http://id.loc.gov/ontologies/bibframe/date",
-                        "propertyLabel": "Date of Capture (RDA 7.11.3)",
-                        "remark": "http://access.rdatoolkit.org/7.11.3.html"
-                    },
-                    {
-                        "mandatory": "false",
-                        "repeatable": "true",
-                        "type": "resource",
-                        "resourceTemplates": [],
-                        "valueConstraint": {
-                            "valueTemplateRefs": [
-                                "profile:bf2:Note"
-                            ],
-                            "useValuesFrom": [],
-                            "defaults": [],
-                            "valueDataType": {}
-                        },
-                        "propertyURI": "http://id.loc.gov/ontologies/bibframe/note",
-                        "propertyLabel": "Capture note"
-                    }
-                ],
-                "id": "profile:bf2:Capture",
-                "resourceURI": "http://id.loc.gov/ontologies/bibframe/Capture",
-                "resourceLabel": "Capture information"
+            "propertyURI": "http://id.loc.gov/ontologies/bflc/target",
+            "propertyLabel": "Broadcast Standard (RDA 3.18.3)",
+            "remark": "http://access.rdatoolkit.org/3.18.3.html"
+          },
+          {
+            "mandatory": "false",
+            "repeatable": "true",
+            "type": "resource",
+            "resourceTemplates": [],
+            "valueConstraint": {
+              "valueTemplateRefs": [
+                "sinopia:resourceTemplate:bf2:Note"
+              ]
             },
-            {
-                "propertyTemplates": [
-                    {
-                        "mandatory": "false",
-                        "repeatable": "true",
-                        "type": "resource",
-                        "resourceTemplates": [],
-                        "valueConstraint": {
-                            "valueTemplateRefs": [
-                                "profile:bf2:Note"
-                            ],
-                            "useValuesFrom": [],
-                            "defaults": [],
-                            "valueDataType": {}
-                        },
-                        "propertyURI": "http://id.loc.gov/ontologies/bibframe/note",
-                        "propertyLabel": "Details of Digital File Characteristic (RDA 3.19.1.4)",
-                        "remark": "http://access.rdatoolkit.org/3.19.1.4.html"
-                    }
-                ],
-                "id": "profile:bf2:DigChar",
-                "resourceURI": "http://id.loc.gov/ontologies/bibframe/DigitalCharacteristic",
-                "resourceLabel": "Digital Characteristics"
-            },
-            {
-                "propertyTemplates": [
-                    {
-                        "mandatory": "false",
-                        "repeatable": "true",
-                        "type": "literal",
-                        "resourceTemplates": [],
-                        "valueConstraint": {
-                            "valueTemplateRefs": [],
-                            "useValuesFrom": [],
-                            "defaults": [],
-                            "valueDataType": {}
-                        },
-                        "propertyURI": "http://www.w3.org/2000/01/rdf-schema#label",
-                        "propertyLabel": "Encoding Format (RDA 3.19.3)",
-                        "remark": "http://access.rdatoolkit.org/3.19.3.html"
-                    }
-                ],
-                "id": "profile:bf2:EncFmt",
-                "resourceURI": "http://id.loc.gov/ontologies/bibframe/EncodingFormat",
-                "resourceLabel": "Encoding Format"
-            },
-            {
-                "propertyTemplates": [
-                    {
-                        "mandatory": "false",
-                        "repeatable": "true",
-                        "type": "literal",
-                        "resourceTemplates": [],
-                        "valueConstraint": {
-                            "valueTemplateRefs": [],
-                            "useValuesFrom": [],
-                            "defaults": [],
-                            "valueDataType": {}
-                        },
-                        "propertyURI": "http://www.w3.org/2000/01/rdf-schema#label",
-                        "propertyLabel": "Extent (RDA 3.4)",
-                        "remark": "http://access.rdatoolkit.org/3.4.html"
-                    },
-                    {
-                        "mandatory": "false",
-                        "repeatable": "true",
-                        "type": "resource",
-                        "resourceTemplates": [],
-                        "valueConstraint": {
-                            "valueTemplateRefs": [
-                                "profile:bf2:Note"
-                            ],
-                            "useValuesFrom": [],
-                            "defaults": [],
-                            "valueDataType": {}
-                        },
-                        "propertyURI": "http://id.loc.gov/ontologies/bibframe/note",
-                        "propertyLabel": "Note on extent"
-                    }
-                ],
-                "id": "profile:bf2:Extent",
-                "resourceURI": "http://id.loc.gov/ontologies/bibframe/Extent",
-                "resourceLabel": "Extent"
-            },
-            {
-                "propertyTemplates": [
-                    {
-                        "mandatory": "false",
-                        "repeatable": "true",
-                        "type": "literal",
-                        "resourceTemplates": [],
-                        "valueConstraint": {
-                            "valueTemplateRefs": [],
-                            "useValuesFrom": [],
-                            "defaults": [],
-                            "valueDataType": {}
-                        },
-                        "propertyURI": "http://www.w3.org/2000/01/rdf-schema#label",
-                        "propertyLabel": "File Size (RDA 3.19.4)",
-                        "remark": "http://access.rdatoolkit.org/3.19.4.html"
-                    }
-                ],
-                "id": "profile:bf2:FileSize",
-                "resourceURI": "http://id.loc.gov/ontologies/bibframe/FileSize",
-                "resourceLabel": "File Size"
-            },
-            {
-                "propertyTemplates": [
-                    {
-                        "mandatory": "false",
-                        "repeatable": "true",
-                        "type": "target",
-                        "resourceTemplates": [],
-                        "valueConstraint": {
-                            "valueTemplateRefs": [],
-                            "useValuesFrom": [
-                                "http://id.loc.gov/vocabulary/mfiletype"
-                            ],
-                            "defaults": [],
-                            "valueDataType": {
-                                "dataTypeURI": "http://id.loc.gov/ontologies/bibframe/FileType"
-                            }
-                        },
-                        "propertyURI": "http://id.loc.gov/ontologies/bflc/target",
-                        "propertyLabel": "File Type (RDA 3.19.2)",
-                        "remark": "http://access.rdatoolkit.org/3.19.2.html"
-                    },
-                    {
-                        "mandatory": "false",
-                        "repeatable": "true",
-                        "type": "resource",
-                        "resourceTemplates": [],
-                        "valueConstraint": {
-                            "valueTemplateRefs": [
-                                "profile:bf2:Note"
-                            ],
-                            "useValuesFrom": [],
-                            "defaults": [],
-                            "valueDataType": {}
-                        },
-                        "propertyURI": "http://id.loc.gov/ontologies/bibframe/note",
-                        "propertyLabel": "Details of File Type (RDA 3.19.2.4)",
-                        "remark": "http://access.rdatoolkit.org/3.19.2.4.html"
-                    }
-                ],
-                "id": "profile:bf2:FileType",
-                "resourceURI": "http://id.loc.gov/ontologies/bibframe/FileType",
-                "resourceLabel": "File Type"
-            },
-            {
-                "propertyTemplates": [
-                    {
-                        "mandatory": "false",
-                        "repeatable": "true",
-                        "type": "target",
-                        "resourceTemplates": [],
-                        "valueConstraint": {
-                            "valueTemplateRefs": [],
-                            "useValuesFrom": [
-                                "http://id.loc.gov/vocabulary/maudience"
-                            ],
-                            "defaults": [],
-                            "valueDataType": {
-                                "dataTypeURI": "http://id.loc.gov/ontologies/bibframe/IntendedAudience"
-                            }
-                        },
-                        "propertyURI": "http://id.loc.gov/ontologies/bflc/target",
-                        "propertyLabel": "Intended Audience (RDA 7.7)",
-                        "remark": "http://access.rdatoolkit.org/7.7.html"
-                    },
-                    {
-                        "mandatory": "false",
-                        "repeatable": "true",
-                        "type": "resource",
-                        "resourceTemplates": [],
-                        "valueConstraint": {
-                            "valueTemplateRefs": [
-                                "profile:bf2:Note"
-                            ],
-                            "useValuesFrom": [],
-                            "defaults": [],
-                            "valueDataType": {}
-                        },
-                        "propertyURI": "http://id.loc.gov/ontologies/bibframe/note",
-                        "propertyLabel": "Note about Audience"
-                    }
-                ],
-                "id": "profile:bf2:Audience",
-                "resourceLabel": "Intended Audience",
-                "resourceURI": "http://id.loc.gov/ontologies/bibframe/IntendedAudience"
-            },
-            {
-                "propertyTemplates": [
-                    {
-                        "mandatory": "false",
-                        "repeatable": "true",
-                        "type": "target",
-                        "resourceTemplates": [],
-                        "valueConstraint": {
-                            "valueTemplateRefs": [],
-                            "useValuesFrom": [
-                                "http://id.loc.gov/vocabulary/mplayback"
-                            ],
-                            "defaults": [],
-                            "valueDataType": {
-                                "dataTypeURI": "http://id.loc.gov/ontologies/bibframe/PlaybackChannels"
-                            }
-                        },
-                        "propertyURI": "http://id.loc.gov/ontologies/bflc/target",
-                        "propertyLabel": "Configuration of Playback Channels (RDA 3.16.8)",
-                        "remark": "http://access.rdatoolkit.org/3.16.8.html"
-                    },
-                    {
-                        "mandatory": "false",
-                        "repeatable": "true",
-                        "type": "resource",
-                        "resourceTemplates": [],
-                        "valueConstraint": {
-                            "valueTemplateRefs": [
-                                "profile:bf2:Note"
-                            ],
-                            "useValuesFrom": [],
-                            "defaults": [],
-                            "valueDataType": {}
-                        },
-                        "propertyURI": "http://id.loc.gov/ontologies/bibframe/note",
-                        "propertyLabel": "Details of Configuration of Playback Channels (RDA 3.16.8.4)",
-                        "remark": "http://access.rdatoolkit.org/3.16.8.4.html"
-                    }
-                ],
-                "id": "profile:bf2:Playback",
-                "resourceURI": "http://id.loc.gov/ontologies/bibframe/PlaybackChannels",
-                "resourceLabel": "Playback Channels"
-            },
-            {
-                "propertyTemplates": [
-                    {
-                        "mandatory": "false",
-                        "repeatable": "true",
-                        "type": "literal",
-                        "resourceTemplates": [],
-                        "valueConstraint": {
-                            "valueTemplateRefs": [],
-                            "useValuesFrom": [],
-                            "defaults": [],
-                            "valueDataType": {}
-                        },
-                        "propertyURI": "http://www.w3.org/2000/01/rdf-schema#label",
-                        "propertyLabel": "Playing Speed (RDA 3.16.4)",
-                        "remark": "http://access.rdatoolkit.org/3.16.4.html"
-                    }
-                ],
-                "id": "profile:bf2:PlayingSpeed",
-                "resourceURI": "http://id.loc.gov/ontologies/bibframe/PlayingSpeed",
-                "resourceLabel": "Playing Speed"
-            },
-            {
-                "propertyTemplates": [
-                    {
-                        "mandatory": "false",
-                        "repeatable": "true",
-                        "type": "target",
-                        "resourceTemplates": [],
-                        "valueConstraint": {
-                            "valueTemplateRefs": [],
-                            "useValuesFrom": [
-                                "http://id.loc.gov/vocabulary/mproduction"
-                            ],
-                            "defaults": [],
-                            "valueDataType": {
-                                "dataTypeLabel": "",
-                                "dataTypeURI": "http://id.loc.gov/ontologies/bibframe/ProductionMethod"
-                            }
-                        },
-                        "propertyURI": "http://id.loc.gov/ontologies/bflc/target",
-                        "propertyLabel": "Production Method (RDA 3.9.1.3)",
-                        "remark": "http://access.rdatoolkit.org/3.9.1.3.html"
-                    },
-                    {
-                        "mandatory": "false",
-                        "repeatable": "true",
-                        "type": "resource",
-                        "resourceTemplates": [],
-                        "valueConstraint": {
-                            "valueTemplateRefs": [
-                                "profile:bf2:Note"
-                            ],
-                            "useValuesFrom": [],
-                            "defaults": [],
-                            "valueDataType": {}
-                        },
-                        "propertyURI": "http://id.loc.gov/ontologies/bibframe/note",
-                        "propertyLabel": "Details of Production Method (RDA 3.9.1.4)",
-                        "remark": "http://access.rdatoolkit.org/3.9.1.4.html"
-                    }
-                ],
-                "id": "profile:bf2:ProdMeth",
-                "resourceURI": "http://id.loc.gov/ontologies/bibframe/ProductionMethod",
-                "resourceLabel": "Production Method"
-            },
-            {
-                "propertyTemplates": [
-                    {
-                        "mandatory": "false",
-                        "repeatable": "true",
-                        "type": "target",
-                        "resourceTemplates": [],
-                        "valueConstraint": {
-                            "valueTemplateRefs": [],
-                            "useValuesFrom": [
-                                "http://id.loc.gov/vocabulary/mrecmedium"
-                            ],
-                            "defaults": [
-                                {
-                                    "defaultURI": "http://id.loc.gov/vocabulary/mrecmedium/opt",
-                                    "defaultLiteral": "optical"
-                                }
-                            ],
-                            "valueDataType": {
-                                "dataTypeURI": "http://id.loc.gov/ontologies/bibframe/RecordingMedium"
-                            }
-                        },
-                        "propertyLabel": "Recording Medium (RDA 3.16.3)",
-                        "propertyURI": "http://id.loc.gov/ontologies/bflc/target",
-                        "remark": "http://access.rdatoolkit.org/3.16.3.html"
-                    },
-                    {
-                        "mandatory": "false",
-                        "repeatable": "true",
-                        "type": "resource",
-                        "resourceTemplates": [],
-                        "valueConstraint": {
-                            "valueTemplateRefs": [
-                                "profile:bf2:Note"
-                            ],
-                            "useValuesFrom": [],
-                            "defaults": [],
-                            "valueDataType": {}
-                        },
-                        "propertyURI": "http://id.loc.gov/ontologies/bibframe/note",
-                        "propertyLabel": "Details of Recording Medium (RDA 3.16.3.4)",
-                        "remark": "http://access.rdatoolkit.org/3.16.3.4.html"
-                    }
-                ],
-                "id": "profile:bf2:RecMedium",
-                "resourceURI": "http://id.loc.gov/ontologies/bibframe/RecordingMedium",
-                "resourceLabel": "Recording Medium"
-            },
-            {
-                "propertyTemplates": [
-                    {
-                        "mandatory": "false",
-                        "repeatable": "true",
-                        "type": "target",
-                        "resourceTemplates": [],
-                        "valueConstraint": {
-                            "valueTemplateRefs": [],
-                            "useValuesFrom": [
-                                "http://id.loc.gov/vocabulary/mregencoding"
-                            ],
-                            "defaults": [],
-                            "valueDataType": {
-                                "dataTypeURI": "http://id.loc.gov/ontologies/bibframe/RegionalEncoding"
-                            }
-                        },
-                        "propertyURI": "http://id.loc.gov/ontologies/bflc/target",
-                        "propertyLabel": "Regional Encoding (RDA 3.19.6.3)",
-                        "remark": "http://access.rdatoolkit.org/3.19.6.3.html"
-                    }
-                ],
-                "id": "profile:bf2:RegEncoding",
-                "resourceURI": "http://id.loc.gov/ontologies/bibframe/RegionalEncoding",
-                "resourceLabel": "Regional Encoding"
-            },
-            {
-                "propertyTemplates": [
-                    {
-                        "mandatory": "false",
-                        "repeatable": "true",
-                        "type": "literal",
-                        "resourceTemplates": [],
-                        "valueConstraint": {
-                            "valueTemplateRefs": [],
-                            "useValuesFrom": [],
-                            "defaults": [],
-                            "valueDataType": {}
-                        },
-                        "propertyURI": "http://www.w3.org/2000/01/rdf-schema#label",
-                        "propertyLabel": "Resolution (RDA 3.19.5)",
-                        "remark": "http://access.rdatoolkit.org/3.19.5.html"
-                    }
-                ],
-                "id": "profile:bf2:Resolution",
-                "resourceURI": "http://id.loc.gov/ontologies/bibframe/Resolution",
-                "resourceLabel": "Resolution"
-            },
-            {
-                "propertyTemplates": [
-                    {
-                        "mandatory": "false",
-                        "repeatable": "true",
-                        "type": "target",
-                        "resourceTemplates": [],
-                        "valueConstraint": {
-                            "valueTemplateRefs": [],
-                            "useValuesFrom": [
-                                "http://id.loc.gov/vocabulary/msoundcontent"
-                            ],
-                            "defaults": [
-                                {
-                                    "defaultURI": "http://id.loc.gov/vocabulary/msoundcontent/sound",
-                                    "defaultLiteral": "sound"
-                                }
-                            ],
-                            "valueDataType": {
-                                "dataTypeURI": "http://id.loc.gov/ontologies/bibframe/SoundContent"
-                            }
-                        },
-                        "propertyURI": "http://id.loc.gov/ontologies/bflc/target",
-                        "propertyLabel": "Sound Content (RDA 7.18)",
-                        "remark": "http://access.rdatoolkit.org/7.18.html"
-                    },
-                    {
-                        "mandatory": "false",
-                        "repeatable": "true",
-                        "type": "resource",
-                        "resourceTemplates": [],
-                        "valueConstraint": {
-                            "valueTemplateRefs": [
-                                "profile:bf2:Note"
-                            ],
-                            "useValuesFrom": [],
-                            "defaults": [],
-                            "valueDataType": {}
-                        },
-                        "propertyURI": "http://id.loc.gov/ontologies/bibframe/note",
-                        "propertyLabel": "Details of Sound Content (RDA 7.18)",
-                        "remark": "http://access.rdatoolkit.org/7.18.html"
-                    }
-                ],
-                "id": "profile:bf2:SoundContent",
-                "resourceURI": "http://id.loc.gov/ontologies/bibframe/SoundContent",
-                "resourceLabel": "Sound Content"
-            },
-            {
-                "propertyTemplates": [
-                    {
-                        "mandatory": "false",
-                        "repeatable": "true",
-                        "type": "target",
-                        "resourceTemplates": [],
-                        "valueConstraint": {
-                            "valueTemplateRefs": [],
-                            "useValuesFrom": [
-                                "http://id.loc.gov/vocabulary/mspecplayback"
-                            ],
-                            "defaults": [],
-                            "valueDataType": {
-                                "dataTypeURI": "http://id.loc.gov/ontologies/bibframe/PlaybackCharacteristic"
-                            }
-                        },
-                        "propertyURI": "http://id.loc.gov/ontologies/bflc/target",
-                        "propertyLabel": "Special Playback Characteristic (RDA 3.16.9)",
-                        "remark": "http://access.rdatoolkit.org/3.16.9.html"
-                    },
-                    {
-                        "mandatory": "false",
-                        "repeatable": "true",
-                        "type": "resource",
-                        "resourceTemplates": [],
-                        "valueConstraint": {
-                            "valueTemplateRefs": [
-                                "profile:bf2:Note"
-                            ],
-                            "useValuesFrom": [],
-                            "defaults": [],
-                            "valueDataType": {}
-                        },
-                        "propertyURI": "http://id.loc.gov/ontologies/bibframe/note",
-                        "propertyLabel": "Note on Playback Characteristic"
-                    }
-                ],
-                "id": "profile:bf2:SpecPlayback",
-                "resourceURI": "http://id.loc.gov/ontologies/bibframe/PlaybackCharacteristic",
-                "resourceLabel": "Special Playback Characteristic"
-            },
-            {
-                "propertyTemplates": [
-                    {
-                        "mandatory": "false",
-                        "repeatable": "true",
-                        "type": "target",
-                        "resourceTemplates": [],
-                        "valueConstraint": {
-                            "valueTemplateRefs": [],
-                            "useValuesFrom": [
-                                "http://id.loc.gov/vocabulary/mrectype"
-                            ],
-                            "defaults": [
-                                {
-                                    "defaultURI": "http://id.loc.gov/vocabulary/mrectype/digital",
-                                    "defaultLiteral": "digital"
-                                }
-                            ],
-                            "valueDataType": {
-                                "dataTypeURI": "http://id.loc.gov/ontologies/bibframe/RecordingMethod"
-                            }
-                        },
-                        "propertyURI": "http://id.loc.gov/ontologies/bflc/target",
-                        "propertyLabel": "Type of Recording (RDA 3.16.2)",
-                        "remark": "http://access.rdatoolkit.org/3.16.2.html"
-                    },
-                    {
-                        "mandatory": "false",
-                        "repeatable": "true",
-                        "type": "resource",
-                        "resourceTemplates": [],
-                        "valueConstraint": {
-                            "valueTemplateRefs": [
-                                "profile:bf2:Note"
-                            ],
-                            "useValuesFrom": [],
-                            "defaults": [],
-                            "valueDataType": {}
-                        },
-                        "propertyURI": "http://id.loc.gov/ontologies/bibframe/note",
-                        "propertyLabel": "Details of Type of Recording (RDA 3.16.2.4)",
-                        "remark": "http://access.rdatoolkit.org/3.16.2.4.html"
-                    }
-                ],
-                "id": "profile:bf2:TypeRec",
-                "resourceURI": "http://id.loc.gov/ontologies/bibframe/RecordingMethod",
-                "resourceLabel": "Type of Recording"
-            },
-            {
-                "propertyTemplates": [
-                    {
-                        "mandatory": "false",
-                        "repeatable": "true",
-                        "type": "target",
-                        "resourceTemplates": [],
-                        "valueConstraint": {
-                            "valueTemplateRefs": [],
-                            "useValuesFrom": [
-                                "http://id.loc.gov/authorities/performanceMediums"
-                            ],
-                            "defaults": [],
-                            "valueDataType": {
-                                "dataTypeURI": "http://id.loc.gov/ontologies/bibframe/MusicInstrument"
-                            }
-                        },
-                        "propertyURI": "http://id.loc.gov/ontologies/bflc/target",
-                        "propertyLabel": "LCMPT for Instrument"
-                    },
-                    {
-                        "mandatory": "false",
-                        "repeatable": "true",
-                        "type": "literal",
-                        "resourceTemplates": [],
-                        "valueConstraint": {
-                            "valueTemplateRefs": [],
-                            "useValuesFrom": [],
-                            "defaults": [],
-                            "valueDataType": {}
-                        },
-                        "propertyURI": "http://id.loc.gov/ontologies/bibframe/count",
-                        "propertyLabel": "Number"
-                    },
-                    {
-                        "mandatory": "false",
-                        "repeatable": "true",
-                        "type": "literal",
-                        "resourceTemplates": [],
-                        "valueConstraint": {
-                            "valueTemplateRefs": [],
-                            "useValuesFrom": [],
-                            "defaults": [],
-                            "valueDataType": {}
-                        },
-                        "propertyURI": "http://id.loc.gov/ontologies/bibframe/instrumentalType",
-                        "propertyLabel": "Type of instrument"
-                    },
-                    {
-                        "mandatory": "false",
-                        "repeatable": "true",
-                        "type": "resource",
-                        "resourceTemplates": [],
-                        "valueConstraint": {
-                            "valueTemplateRefs": [
-                                "profile:bf2:Note"
-                            ],
-                            "useValuesFrom": [],
-                            "defaults": [],
-                            "valueDataType": {}
-                        },
-                        "propertyURI": "http://id.loc.gov/ontologies/bibframe/note",
-                        "propertyLabel": "Note"
-                    }
-                ],
-                "id": "profile:bf2:MOPInstrument",
-                "resourceURI": "http://id.loc.gov/ontologies/bibframe/MusicInstrument",
-                "resourceLabel": "Instrument"
-            },
-            {
-                "propertyTemplates": [
-                    {
-                        "mandatory": "false",
-                        "repeatable": "true",
-                        "type": "target",
-                        "resourceTemplates": [],
-                        "valueConstraint": {
-                            "valueTemplateRefs": [],
-                            "useValuesFrom": [
-                                "http://id.loc.gov/authorities/performanceMediums"
-                            ],
-                            "defaults": [],
-                            "valueDataType": {
-                                "dataTypeURI": "http://id.loc.gov/ontologies/bibframe/MusicVoice"
-                            }
-                        },
-                        "propertyURI": "http://id.loc.gov/ontologies/bflc/target",
-                        "propertyLabel": "LCMPT for Voice"
-                    },
-                    {
-                        "mandatory": "false",
-                        "repeatable": "true",
-                        "type": "literal",
-                        "resourceTemplates": [],
-                        "valueConstraint": {
-                            "valueTemplateRefs": [],
-                            "useValuesFrom": [],
-                            "defaults": [],
-                            "valueDataType": {}
-                        },
-                        "propertyURI": "http://id.loc.gov/ontologies/bibframe/count",
-                        "propertyLabel": "Number"
-                    },
-                    {
-                        "mandatory": "false",
-                        "repeatable": "true",
-                        "type": "literal",
-                        "resourceTemplates": [],
-                        "valueConstraint": {
-                            "valueTemplateRefs": [],
-                            "useValuesFrom": [],
-                            "defaults": [],
-                            "valueDataType": {}
-                        },
-                        "propertyURI": "http://id.loc.gov/ontologies/bibframe/voiceType",
-                        "propertyLabel": "Type of voice"
-                    },
-                    {
-                        "mandatory": "false",
-                        "repeatable": "true",
-                        "type": "resource",
-                        "resourceTemplates": [],
-                        "valueConstraint": {
-                            "valueTemplateRefs": [
-                                "profile:bf2:Note"
-                            ],
-                            "useValuesFrom": [],
-                            "defaults": [],
-                            "valueDataType": {}
-                        },
-                        "propertyURI": "http://id.loc.gov/ontologies/bibframe/note",
-                        "propertyLabel": "Note"
-                    }
-                ],
-                "id": "profile:bf2:MOPVoice",
-                "resourceURI": "http://id.loc.gov/ontologies/bibframe/MusicVoice",
-                "resourceLabel": "Voice"
-            },
-            {
-                "propertyTemplates": [
-                    {
-                        "mandatory": "false",
-                        "repeatable": "true",
-                        "type": "target",
-                        "resourceTemplates": [],
-                        "valueConstraint": {
-                            "valueTemplateRefs": [],
-                            "useValuesFrom": [
-                                "http://id.loc.gov/authorities/performanceMediums"
-                            ],
-                            "defaults": [],
-                            "valueDataType": {
-                                "dataTypeURI": "http://id.loc.gov/ontologies/bibframe/MusicEnsemble"
-                            }
-                        },
-                        "propertyURI": "http://id.loc.gov/ontologies/bflc/target",
-                        "propertyLabel": "LCMPT for Ensemble"
-                    },
-                    {
-                        "mandatory": "false",
-                        "repeatable": "true",
-                        "type": "literal",
-                        "resourceTemplates": [],
-                        "valueConstraint": {
-                            "valueTemplateRefs": [],
-                            "useValuesFrom": [],
-                            "defaults": [],
-                            "valueDataType": {}
-                        },
-                        "propertyURI": "http://id.loc.gov/ontologies/bibframe/count",
-                        "propertyLabel": "Number"
-                    },
-                    {
-                        "mandatory": "false",
-                        "repeatable": "true",
-                        "type": "literal",
-                        "resourceTemplates": [],
-                        "valueConstraint": {
-                            "valueTemplateRefs": [],
-                            "useValuesFrom": [],
-                            "defaults": [],
-                            "valueDataType": {}
-                        },
-                        "propertyURI": "http://id.loc.gov/ontologies/bibframe/ensembleType",
-                        "propertyLabel": "Type of Ensemble"
-                    },
-                    {
-                        "mandatory": "false",
-                        "repeatable": "true",
-                        "type": "resource",
-                        "resourceTemplates": [],
-                        "valueConstraint": {
-                            "valueTemplateRefs": [
-                                "profile:bf2:Note"
-                            ],
-                            "useValuesFrom": [],
-                            "defaults": [],
-                            "valueDataType": {}
-                        },
-                        "propertyURI": "http://id.loc.gov/ontologies/bibframe/note",
-                        "propertyLabel": "Note"
-                    }
-                ],
-                "id": "profile:bf2:MOPEnsemble",
-                "resourceURI": "http://id.loc.gov/ontologies/bibframe/MusicEnsemble",
-                "resourceLabel": "Ensemble"
-            },
-            {
-                "propertyTemplates": [
-                    {
-                        "mandatory": "false",
-                        "repeatable": "true",
-                        "type": "literal",
-                        "resourceTemplates": [],
-                        "valueConstraint": {
-                            "valueTemplateRefs": [],
-                            "useValuesFrom": [],
-                            "defaults": [],
-                            "valueDataType": {}
-                        },
-                        "propertyURI": "http://www.w3.org/2000/01/rdf-schema#label",
-                        "propertyLabel": "Medium of Performance (RDA 7.21)",
-                        "remark": "http://access.rdatoolkit.org/7.21.html"
-                    }
-                ],
-                "id": "profile:bf2:MOPStatement",
-                "resourceURI": "http://id.loc.gov/ontologies/bibframe/MusicMedium",
-                "resourceLabel": "Medium of Performance Statement"
-            }
+            "propertyURI": "http://id.loc.gov/ontologies/bibframe/note",
+            "propertyLabel": "Details of Broadcast Standard (RDA 3.18.3.4)",
+            "remark": "http://access.rdatoolkit.org/3.18.3.4.html"
+          }
         ],
-        "id": "profile:bf2:Xtras",
-        "title": "BIBFRAME 2.0 Extra menus",
+        "id": "sinopia:resourceTemplate:bf2:BroadStd",
+        "resourceURI": "http://id.loc.gov/ontologies/bibframe/BroadcastStandard",
+        "resourceLabel": "Broadcast Standard",
         "date": "2018-09-26",
-        "contact": "NDMSO",
-        "description": "Extra submenus for format profiles"
-    }
+        "author": "NDMSO",
+        "schema": "https://ld4p.github.io/sinopia/schemas/0.1.0/resource-template.json"
+      },
+      {
+        "propertyTemplates": [
+          {
+            "mandatory": "false",
+            "repeatable": "true",
+            "type": "resource",
+            "resourceTemplates": [],
+            "valueConstraint": {
+              "valueTemplateRefs": [
+                "sinopia:resourceTemplate:bf2:Capture:Place"
+              ]
+            },
+            "propertyURI": "http://id.loc.gov/ontologies/bibframe/place",
+            "propertyLabel": "Place of Capture (RDA 7.11.2)",
+            "remark": "http://access.rdatoolkit.org/7.11.2.html"
+          },
+          {
+            "mandatory": "false",
+            "repeatable": "true",
+            "type": "literal",
+            "propertyURI": "http://id.loc.gov/ontologies/bibframe/date",
+            "propertyLabel": "Date of Capture (RDA 7.11.3)",
+            "remark": "http://access.rdatoolkit.org/7.11.3.html"
+          },
+          {
+            "mandatory": "false",
+            "repeatable": "true",
+            "type": "resource",
+            "resourceTemplates": [],
+            "valueConstraint": {
+              "valueTemplateRefs": [
+                "sinopia:resourceTemplate:bf2:Note"
+              ]
+            },
+            "propertyURI": "http://id.loc.gov/ontologies/bibframe/note",
+            "propertyLabel": "Capture note"
+          }
+        ],
+        "id": "sinopia:resourceTemplate:bf2:Capture",
+        "resourceURI": "http://id.loc.gov/ontologies/bibframe/Capture",
+        "resourceLabel": "Capture information",
+        "date": "2018-09-26",
+        "author": "NDMSO",
+        "schema": "https://ld4p.github.io/sinopia/schemas/0.1.0/resource-template.json"
+      },
+      {
+        "propertyTemplates": [
+          {
+            "mandatory": "false",
+            "repeatable": "true",
+            "type": "lookup",
+            "valueConstraint": {
+              "useValuesFrom": [
+                "http://id.loc.gov/authorities/names",
+                "http://id.loc.gov/authorities/subjects"
+              ]
+            },
+            "propertyURI": "http://id.loc.gov/ontologies/bflc/target",
+            "propertyLabel": "Search LCNAF/LCSH"
+          },
+          {
+            "mandatory": "false",
+            "repeatable": "true",
+            "type": "literal",
+            "propertyURI": "http://www.w3.org/2000/01/rdf-schema#label",
+            "propertyLabel": "Record Place (if it does not appear above)"
+          }
+        ],
+        "id": "sinopia:resourceTemplate:bf2:Capture:Place",
+        "resourceURI": "http://id.loc.gov/ontologies/bibframe/Place",
+        "resourceLabel": "Place of capture",
+        "date": "2018-09-26",
+        "author": "NDMSO",
+        "schema": "https://ld4p.github.io/sinopia/schemas/0.1.0/resource-template.json"
+      },
+      {
+        "propertyTemplates": [
+          {
+            "mandatory": "false",
+            "repeatable": "true",
+            "type": "resource",
+            "resourceTemplates": [],
+            "valueConstraint": {
+              "valueTemplateRefs": [
+                "sinopia:resourceTemplate:bf2:Note"
+              ]
+            },
+            "propertyURI": "http://id.loc.gov/ontologies/bibframe/note",
+            "propertyLabel": "Details of Digital File Characteristic (RDA 3.19.1.4)",
+            "remark": "http://access.rdatoolkit.org/3.19.1.4.html"
+          }
+        ],
+        "id": "sinopia:resourceTemplate:bf2:DigChar",
+        "resourceURI": "http://id.loc.gov/ontologies/bibframe/DigitalCharacteristic",
+        "resourceLabel": "Digital Characteristics",
+        "date": "2018-09-26",
+        "author": "NDMSO",
+        "schema": "https://ld4p.github.io/sinopia/schemas/0.1.0/resource-template.json"
+      },
+      {
+        "propertyTemplates": [
+          {
+            "mandatory": "false",
+            "repeatable": "true",
+            "type": "literal",
+            "propertyURI": "http://www.w3.org/2000/01/rdf-schema#label",
+            "propertyLabel": "Encoding Format (RDA 3.19.3)",
+            "remark": "http://access.rdatoolkit.org/3.19.3.html"
+          }
+        ],
+        "id": "sinopia:resourceTemplate:bf2:EncFmt",
+        "resourceURI": "http://id.loc.gov/ontologies/bibframe/EncodingFormat",
+        "resourceLabel": "Encoding Format",
+        "date": "2018-09-26",
+        "author": "NDMSO",
+        "schema": "https://ld4p.github.io/sinopia/schemas/0.1.0/resource-template.json"
+      },
+      {
+        "propertyTemplates": [
+          {
+            "mandatory": "false",
+            "repeatable": "true",
+            "type": "literal",
+            "propertyURI": "http://www.w3.org/2000/01/rdf-schema#label",
+            "propertyLabel": "Extent (RDA 3.4)",
+            "remark": "http://access.rdatoolkit.org/3.4.html"
+          },
+          {
+            "mandatory": "false",
+            "repeatable": "true",
+            "type": "resource",
+            "resourceTemplates": [],
+            "valueConstraint": {
+              "valueTemplateRefs": [
+                "sinopia:resourceTemplate:bf2:Note"
+              ]
+            },
+            "propertyURI": "http://id.loc.gov/ontologies/bibframe/note",
+            "propertyLabel": "Note on extent"
+          }
+        ],
+        "id": "sinopia:resourceTemplate:bf2:Extent",
+        "resourceURI": "http://id.loc.gov/ontologies/bibframe/Extent",
+        "resourceLabel": "Extent",
+        "date": "2018-09-26",
+        "author": "NDMSO",
+        "schema": "https://ld4p.github.io/sinopia/schemas/0.1.0/resource-template.json"
+      },
+      {
+        "propertyTemplates": [
+          {
+            "mandatory": "false",
+            "repeatable": "true",
+            "type": "literal",
+            "propertyURI": "http://www.w3.org/2000/01/rdf-schema#label",
+            "propertyLabel": "File Size (RDA 3.19.4)",
+            "remark": "http://access.rdatoolkit.org/3.19.4.html"
+          }
+        ],
+        "id": "sinopia:resourceTemplate:bf2:FileSize",
+        "resourceURI": "http://id.loc.gov/ontologies/bibframe/FileSize",
+        "resourceLabel": "File Size",
+        "date": "2018-09-26",
+        "author": "NDMSO",
+        "schema": "https://ld4p.github.io/sinopia/schemas/0.1.0/resource-template.json"
+      },
+      {
+        "propertyTemplates": [
+          {
+            "mandatory": "false",
+            "repeatable": "true",
+            "type": "lookup",
+            "valueConstraint": {
+              "useValuesFrom": [
+                "http://id.loc.gov/vocabulary/mfiletype"
+              ],
+              "valueDataType": {
+                "dataTypeURI": "http://id.loc.gov/ontologies/bibframe/FileType"
+              }
+            },
+            "propertyURI": "http://id.loc.gov/ontologies/bflc/target",
+            "propertyLabel": "File Type (RDA 3.19.2)",
+            "remark": "http://access.rdatoolkit.org/3.19.2.html"
+          },
+          {
+            "mandatory": "false",
+            "repeatable": "true",
+            "type": "resource",
+            "resourceTemplates": [],
+            "valueConstraint": {
+              "valueTemplateRefs": [
+                "sinopia:resourceTemplate:bf2:Note"
+              ]
+            },
+            "propertyURI": "http://id.loc.gov/ontologies/bibframe/note",
+            "propertyLabel": "Details of File Type (RDA 3.19.2.4)",
+            "remark": "http://access.rdatoolkit.org/3.19.2.4.html"
+          }
+        ],
+        "id": "sinopia:resourceTemplate:bf2:FileType",
+        "resourceURI": "http://id.loc.gov/ontologies/bibframe/FileType",
+        "resourceLabel": "File Type",
+        "date": "2018-09-26",
+        "author": "NDMSO",
+        "schema": "https://ld4p.github.io/sinopia/schemas/0.1.0/resource-template.json"
+      },
+      {
+        "propertyTemplates": [
+          {
+            "mandatory": "false",
+            "repeatable": "true",
+            "type": "lookup",
+            "valueConstraint": {
+              "useValuesFrom": [
+                "http://id.loc.gov/vocabulary/maudience"
+              ],
+              "valueDataType": {
+                "dataTypeURI": "http://id.loc.gov/ontologies/bibframe/IntendedAudience"
+              }
+            },
+            "propertyURI": "http://id.loc.gov/ontologies/bflc/target",
+            "propertyLabel": "Intended Audience (RDA 7.7)",
+            "remark": "http://access.rdatoolkit.org/7.7.html"
+          },
+          {
+            "mandatory": "false",
+            "repeatable": "true",
+            "type": "resource",
+            "resourceTemplates": [],
+            "valueConstraint": {
+              "valueTemplateRefs": [
+                "sinopia:resourceTemplate:bf2:Note"
+              ]
+            },
+            "propertyURI": "http://id.loc.gov/ontologies/bibframe/note",
+            "propertyLabel": "Note about Audience"
+          }
+        ],
+        "id": "sinopia:resourceTemplate:bf2:Audience",
+        "resourceLabel": "Intended Audience",
+        "resourceURI": "http://id.loc.gov/ontologies/bibframe/IntendedAudience",
+        "date": "2018-09-26",
+        "author": "NDMSO",
+        "schema": "https://ld4p.github.io/sinopia/schemas/0.1.0/resource-template.json"
+      },
+      {
+        "propertyTemplates": [
+          {
+            "mandatory": "false",
+            "repeatable": "true",
+            "type": "lookup",
+            "valueConstraint": {
+              "useValuesFrom": [
+                "http://id.loc.gov/vocabulary/mplayback"
+              ],
+              "valueDataType": {
+                "dataTypeURI": "http://id.loc.gov/ontologies/bibframe/PlaybackChannels"
+              }
+            },
+            "propertyURI": "http://id.loc.gov/ontologies/bflc/target",
+            "propertyLabel": "Configuration of Playback Channels (RDA 3.16.8)",
+            "remark": "http://access.rdatoolkit.org/3.16.8.html"
+          },
+          {
+            "mandatory": "false",
+            "repeatable": "true",
+            "type": "resource",
+            "resourceTemplates": [],
+            "valueConstraint": {
+              "valueTemplateRefs": [
+                "sinopia:resourceTemplate:bf2:Note"
+              ]
+            },
+            "propertyURI": "http://id.loc.gov/ontologies/bibframe/note",
+            "propertyLabel": "Details of Configuration of Playback Channels (RDA 3.16.8.4)",
+            "remark": "http://access.rdatoolkit.org/3.16.8.4.html"
+          }
+        ],
+        "id": "sinopia:resourceTemplate:bf2:Playback",
+        "resourceURI": "http://id.loc.gov/ontologies/bibframe/PlaybackChannels",
+        "resourceLabel": "Playback Channels",
+        "date": "2018-09-26",
+        "author": "NDMSO",
+        "schema": "https://ld4p.github.io/sinopia/schemas/0.1.0/resource-template.json"
+      },
+      {
+        "propertyTemplates": [
+          {
+            "mandatory": "false",
+            "repeatable": "true",
+            "type": "literal",
+            "propertyURI": "http://www.w3.org/2000/01/rdf-schema#label",
+            "propertyLabel": "Playing Speed (RDA 3.16.4)",
+            "remark": "http://access.rdatoolkit.org/3.16.4.html"
+          }
+        ],
+        "id": "sinopia:resourceTemplate:bf2:PlayingSpeed",
+        "resourceURI": "http://id.loc.gov/ontologies/bibframe/PlayingSpeed",
+        "resourceLabel": "Playing Speed",
+        "date": "2018-09-26",
+        "author": "NDMSO",
+        "schema": "https://ld4p.github.io/sinopia/schemas/0.1.0/resource-template.json"
+      },
+      {
+        "propertyTemplates": [
+          {
+            "mandatory": "false",
+            "repeatable": "true",
+            "type": "lookup",
+            "valueConstraint": {
+              "useValuesFrom": [
+                "http://id.loc.gov/vocabulary/mproduction"
+              ],
+              "valueDataType": {
+                "dataTypeURI": "http://id.loc.gov/ontologies/bibframe/ProductionMethod"
+              }
+            },
+            "propertyURI": "http://id.loc.gov/ontologies/bflc/target",
+            "propertyLabel": "Production Method (RDA 3.9.1.3)",
+            "remark": "http://access.rdatoolkit.org/3.9.1.3.html"
+          },
+          {
+            "mandatory": "false",
+            "repeatable": "true",
+            "type": "resource",
+            "resourceTemplates": [],
+            "valueConstraint": {
+              "valueTemplateRefs": [
+                "sinopia:resourceTemplate:bf2:Note"
+              ]
+            },
+            "propertyURI": "http://id.loc.gov/ontologies/bibframe/note",
+            "propertyLabel": "Details of Production Method (RDA 3.9.1.4)",
+            "remark": "http://access.rdatoolkit.org/3.9.1.4.html"
+          }
+        ],
+        "id": "sinopia:resourceTemplate:bf2:ProdMeth",
+        "resourceURI": "http://id.loc.gov/ontologies/bibframe/ProductionMethod",
+        "resourceLabel": "Production Method",
+        "date": "2018-09-26",
+        "author": "NDMSO",
+        "schema": "https://ld4p.github.io/sinopia/schemas/0.1.0/resource-template.json"
+      },
+      {
+        "propertyTemplates": [
+          {
+            "mandatory": "false",
+            "repeatable": "true",
+            "type": "lookup",
+            "valueConstraint": {
+              "useValuesFrom": [
+                "http://id.loc.gov/vocabulary/mrecmedium"
+              ],
+              "defaults": [
+                {
+                  "defaultURI": "http://id.loc.gov/vocabulary/mrecmedium/opt",
+                  "defaultLiteral": "optical"
+                }
+              ],
+              "valueDataType": {
+                "dataTypeURI": "http://id.loc.gov/ontologies/bibframe/RecordingMedium"
+              }
+            },
+            "propertyLabel": "Recording Medium (RDA 3.16.3)",
+            "propertyURI": "http://id.loc.gov/ontologies/bflc/target",
+            "remark": "http://access.rdatoolkit.org/3.16.3.html"
+          },
+          {
+            "mandatory": "false",
+            "repeatable": "true",
+            "type": "resource",
+            "resourceTemplates": [],
+            "valueConstraint": {
+              "valueTemplateRefs": [
+                "sinopia:resourceTemplate:bf2:Note"
+              ]
+            },
+            "propertyURI": "http://id.loc.gov/ontologies/bibframe/note",
+            "propertyLabel": "Details of Recording Medium (RDA 3.16.3.4)",
+            "remark": "http://access.rdatoolkit.org/3.16.3.4.html"
+          }
+        ],
+        "id": "sinopia:resourceTemplate:bf2:RecMedium",
+        "resourceURI": "http://id.loc.gov/ontologies/bibframe/RecordingMedium",
+        "resourceLabel": "Recording Medium",
+        "date": "2018-09-26",
+        "author": "NDMSO",
+        "schema": "https://ld4p.github.io/sinopia/schemas/0.1.0/resource-template.json"
+      },
+      {
+        "propertyTemplates": [
+          {
+            "mandatory": "false",
+            "repeatable": "true",
+            "type": "lookup",
+            "valueConstraint": {
+              "useValuesFrom": [
+                "http://id.loc.gov/vocabulary/mregencoding"
+              ],
+              "valueDataType": {
+                "dataTypeURI": "http://id.loc.gov/ontologies/bibframe/RegionalEncoding"
+              }
+            },
+            "propertyURI": "http://id.loc.gov/ontologies/bflc/target",
+            "propertyLabel": "Regional Encoding (RDA 3.19.6.3)",
+            "remark": "http://access.rdatoolkit.org/3.19.6.3.html"
+          }
+        ],
+        "id": "sinopia:resourceTemplate:bf2:RegEncoding",
+        "resourceURI": "http://id.loc.gov/ontologies/bibframe/RegionalEncoding",
+        "resourceLabel": "Regional Encoding",
+        "date": "2018-09-26",
+        "author": "NDMSO",
+        "schema": "https://ld4p.github.io/sinopia/schemas/0.1.0/resource-template.json"
+      },
+      {
+        "propertyTemplates": [
+          {
+            "mandatory": "false",
+            "repeatable": "true",
+            "type": "literal",
+            "propertyURI": "http://www.w3.org/2000/01/rdf-schema#label",
+            "propertyLabel": "Resolution (RDA 3.19.5)",
+            "remark": "http://access.rdatoolkit.org/3.19.5.html"
+          }
+        ],
+        "id": "sinopia:resourceTemplate:bf2:Resolution",
+        "resourceURI": "http://id.loc.gov/ontologies/bibframe/Resolution",
+        "resourceLabel": "Resolution",
+        "date": "2018-09-26",
+        "author": "NDMSO",
+        "schema": "https://ld4p.github.io/sinopia/schemas/0.1.0/resource-template.json"
+      },
+      {
+        "propertyTemplates": [
+          {
+            "mandatory": "false",
+            "repeatable": "true",
+            "type": "lookup",
+            "valueConstraint": {
+              "useValuesFrom": [
+                "http://id.loc.gov/vocabulary/msoundcontent"
+              ],
+              "defaults": [
+                {
+                  "defaultURI": "http://id.loc.gov/vocabulary/msoundcontent/sound",
+                  "defaultLiteral": "sound"
+                }
+              ],
+              "valueDataType": {
+                "dataTypeURI": "http://id.loc.gov/ontologies/bibframe/SoundContent"
+              }
+            },
+            "propertyURI": "http://id.loc.gov/ontologies/bflc/target",
+            "propertyLabel": "Sound Content (RDA 7.18)",
+            "remark": "http://access.rdatoolkit.org/7.18.html"
+          },
+          {
+            "mandatory": "false",
+            "repeatable": "true",
+            "type": "resource",
+            "resourceTemplates": [],
+            "valueConstraint": {
+              "valueTemplateRefs": [
+                "sinopia:resourceTemplate:bf2:Note"
+              ]
+            },
+            "propertyURI": "http://id.loc.gov/ontologies/bibframe/note",
+            "propertyLabel": "Details of Sound Content (RDA 7.18)",
+            "remark": "http://access.rdatoolkit.org/7.18.html"
+          }
+        ],
+        "id": "sinopia:resourceTemplate:bf2:SoundContent",
+        "resourceURI": "http://id.loc.gov/ontologies/bibframe/SoundContent",
+        "resourceLabel": "Sound Content",
+        "date": "2018-09-26",
+        "author": "NDMSO",
+        "schema": "https://ld4p.github.io/sinopia/schemas/0.1.0/resource-template.json"
+      },
+      {
+        "propertyTemplates": [
+          {
+            "mandatory": "false",
+            "repeatable": "true",
+            "type": "lookup",
+            "valueConstraint": {
+              "useValuesFrom": [
+                "http://id.loc.gov/vocabulary/mspecplayback"
+              ],
+              "valueDataType": {
+                "dataTypeURI": "http://id.loc.gov/ontologies/bibframe/PlaybackCharacteristic"
+              }
+            },
+            "propertyURI": "http://id.loc.gov/ontologies/bflc/target",
+            "propertyLabel": "Special Playback Characteristic (RDA 3.16.9)",
+            "remark": "http://access.rdatoolkit.org/3.16.9.html"
+          },
+          {
+            "mandatory": "false",
+            "repeatable": "true",
+            "type": "resource",
+            "resourceTemplates": [],
+            "valueConstraint": {
+              "valueTemplateRefs": [
+                "sinopia:resourceTemplate:bf2:Note"
+              ]
+            },
+            "propertyURI": "http://id.loc.gov/ontologies/bibframe/note",
+            "propertyLabel": "Note on Playback Characteristic"
+          }
+        ],
+        "id": "sinopia:resourceTemplate:bf2:SpecPlayback",
+        "resourceURI": "http://id.loc.gov/ontologies/bibframe/PlaybackCharacteristic",
+        "resourceLabel": "Special Playback Characteristic",
+        "date": "2018-09-26",
+        "author": "NDMSO",
+        "schema": "https://ld4p.github.io/sinopia/schemas/0.1.0/resource-template.json"
+      },
+      {
+        "propertyTemplates": [
+          {
+            "mandatory": "false",
+            "repeatable": "true",
+            "type": "lookup",
+            "valueConstraint": {
+              "useValuesFrom": [
+                "http://id.loc.gov/vocabulary/mrectype"
+              ],
+              "defaults": [
+                {
+                  "defaultURI": "http://id.loc.gov/vocabulary/mrectype/digital",
+                  "defaultLiteral": "digital"
+                }
+              ],
+              "valueDataType": {
+                "dataTypeURI": "http://id.loc.gov/ontologies/bibframe/RecordingMethod"
+              }
+            },
+            "propertyURI": "http://id.loc.gov/ontologies/bflc/target",
+            "propertyLabel": "Type of Recording (RDA 3.16.2)",
+            "remark": "http://access.rdatoolkit.org/3.16.2.html"
+          },
+          {
+            "mandatory": "false",
+            "repeatable": "true",
+            "type": "resource",
+            "resourceTemplates": [],
+            "valueConstraint": {
+              "valueTemplateRefs": [
+                "sinopia:resourceTemplate:bf2:Note"
+              ]
+            },
+            "propertyURI": "http://id.loc.gov/ontologies/bibframe/note",
+            "propertyLabel": "Details of Type of Recording (RDA 3.16.2.4)",
+            "remark": "http://access.rdatoolkit.org/3.16.2.4.html"
+          }
+        ],
+        "id": "sinopia:resourceTemplate:bf2:TypeRec",
+        "resourceURI": "http://id.loc.gov/ontologies/bibframe/RecordingMethod",
+        "resourceLabel": "Type of Recording",
+        "date": "2018-09-26",
+        "author": "NDMSO",
+        "schema": "https://ld4p.github.io/sinopia/schemas/0.1.0/resource-template.json"
+      },
+      {
+        "propertyTemplates": [
+          {
+            "mandatory": "false",
+            "repeatable": "true",
+            "type": "lookup",
+            "valueConstraint": {
+              "useValuesFrom": [
+                "http://id.loc.gov/authorities/performanceMediums"
+              ],
+              "valueDataType": {
+                "dataTypeURI": "http://id.loc.gov/ontologies/bibframe/MusicInstrument"
+              }
+            },
+            "propertyURI": "http://id.loc.gov/ontologies/bflc/target",
+            "propertyLabel": "LCMPT for Instrument"
+          },
+          {
+            "mandatory": "false",
+            "repeatable": "true",
+            "type": "literal",
+            "propertyURI": "http://id.loc.gov/ontologies/bibframe/count",
+            "propertyLabel": "Number"
+          },
+          {
+            "mandatory": "false",
+            "repeatable": "true",
+            "type": "literal",
+            "propertyURI": "http://id.loc.gov/ontologies/bibframe/instrumentalType",
+            "propertyLabel": "Type of instrument"
+          },
+          {
+            "mandatory": "false",
+            "repeatable": "true",
+            "type": "resource",
+            "resourceTemplates": [],
+            "valueConstraint": {
+              "valueTemplateRefs": [
+                "sinopia:resourceTemplate:bf2:Note"
+              ]
+            },
+            "propertyURI": "http://id.loc.gov/ontologies/bibframe/note",
+            "propertyLabel": "Note"
+          }
+        ],
+        "id": "sinopia:resourceTemplate:bf2:MOPInstrument",
+        "resourceURI": "http://id.loc.gov/ontologies/bibframe/MusicInstrument",
+        "resourceLabel": "Instrument",
+        "date": "2018-09-26",
+        "author": "NDMSO",
+        "schema": "https://ld4p.github.io/sinopia/schemas/0.1.0/resource-template.json"
+      },
+      {
+        "propertyTemplates": [
+          {
+            "mandatory": "false",
+            "repeatable": "true",
+            "type": "lookup",
+            "valueConstraint": {
+              "useValuesFrom": [
+                "http://id.loc.gov/authorities/performanceMediums"
+              ],
+              "valueDataType": {
+                "dataTypeURI": "http://id.loc.gov/ontologies/bibframe/MusicVoice"
+              }
+            },
+            "propertyURI": "http://id.loc.gov/ontologies/bflc/target",
+            "propertyLabel": "LCMPT for Voice"
+          },
+          {
+            "mandatory": "false",
+            "repeatable": "true",
+            "type": "literal",
+            "propertyURI": "http://id.loc.gov/ontologies/bibframe/count",
+            "propertyLabel": "Number"
+          },
+          {
+            "mandatory": "false",
+            "repeatable": "true",
+            "type": "literal",
+            "propertyURI": "http://id.loc.gov/ontologies/bibframe/voiceType",
+            "propertyLabel": "Type of voice"
+          },
+          {
+            "mandatory": "false",
+            "repeatable": "true",
+            "type": "resource",
+            "resourceTemplates": [],
+            "valueConstraint": {
+              "valueTemplateRefs": [
+                "sinopia:resourceTemplate:bf2:Note"
+              ]
+            },
+            "propertyURI": "http://id.loc.gov/ontologies/bibframe/note",
+            "propertyLabel": "Note"
+          }
+        ],
+        "id": "sinopia:resourceTemplate:bf2:MOPVoice",
+        "resourceURI": "http://id.loc.gov/ontologies/bibframe/MusicVoice",
+        "resourceLabel": "Voice",
+        "date": "2018-09-26",
+        "author": "NDMSO",
+        "schema": "https://ld4p.github.io/sinopia/schemas/0.1.0/resource-template.json"
+      },
+      {
+        "propertyTemplates": [
+          {
+            "mandatory": "false",
+            "repeatable": "true",
+            "type": "lookup",
+            "valueConstraint": {
+              "useValuesFrom": [
+                "http://id.loc.gov/authorities/performanceMediums"
+              ],
+              "valueDataType": {
+                "dataTypeURI": "http://id.loc.gov/ontologies/bibframe/MusicEnsemble"
+              }
+            },
+            "propertyURI": "http://id.loc.gov/ontologies/bflc/target",
+            "propertyLabel": "LCMPT for Ensemble"
+          },
+          {
+            "mandatory": "false",
+            "repeatable": "true",
+            "type": "literal",
+            "propertyURI": "http://id.loc.gov/ontologies/bibframe/count",
+            "propertyLabel": "Number"
+          },
+          {
+            "mandatory": "false",
+            "repeatable": "true",
+            "type": "literal",
+            "propertyURI": "http://id.loc.gov/ontologies/bibframe/ensembleType",
+            "propertyLabel": "Type of Ensemble"
+          },
+          {
+            "mandatory": "false",
+            "repeatable": "true",
+            "type": "resource",
+            "resourceTemplates": [],
+            "valueConstraint": {
+              "valueTemplateRefs": [
+                "sinopia:resourceTemplate:bf2:Note"
+              ]
+            },
+            "propertyURI": "http://id.loc.gov/ontologies/bibframe/note",
+            "propertyLabel": "Note"
+          }
+        ],
+        "id": "sinopia:resourceTemplate:bf2:MOPEnsemble",
+        "resourceURI": "http://id.loc.gov/ontologies/bibframe/MusicEnsemble",
+        "resourceLabel": "Ensemble",
+        "date": "2018-09-26",
+        "author": "NDMSO",
+        "schema": "https://ld4p.github.io/sinopia/schemas/0.1.0/resource-template.json"
+      },
+      {
+        "propertyTemplates": [
+          {
+            "mandatory": "false",
+            "repeatable": "true",
+            "type": "literal",
+            "propertyURI": "http://www.w3.org/2000/01/rdf-schema#label",
+            "propertyLabel": "Medium of Performance (RDA 7.21)",
+            "remark": "http://access.rdatoolkit.org/7.21.html"
+          }
+        ],
+        "id": "sinopia:resourceTemplate:bf2:MOPStatement",
+        "resourceURI": "http://id.loc.gov/ontologies/bibframe/MusicMedium",
+        "resourceLabel": "Medium of Performance Statement",
+        "date": "2018-09-26",
+        "author": "NDMSO",
+        "schema": "https://ld4p.github.io/sinopia/schemas/0.1.0/resource-template.json"
+      }
+    ],
+    "id": "sinopia:profile:bf2:Xtras",
+    "title": "BIBFRAME 2.0 Extra menus",
+    "date": "2018-09-26",
+    "author": "NDMSO",
+    "description": "Extra submenus for format profiles",
+    "schema": "https://ld4p.github.io/sinopia/schemas/0.1.0/profile.json"
+  }
 }

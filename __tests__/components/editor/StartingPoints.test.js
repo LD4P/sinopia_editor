@@ -18,11 +18,8 @@ describe('<StartingPoints />', () => {
     expect(wrapper.find('div > h3').text()).toEqual('Create Resource')
   })
 
-  it('fetches JSON schemas once (for validation of resourceTemplate)', () => {
-    const instance = wrapper.instance()
-    jest.spyOn(instance, 'fetchSchemaObjectsPromise')
-    instance.componentDidMount()
-    expect(instance.fetchSchemaObjectsPromise).toHaveBeenCalledTimes(1)
+  it('has an upload button', async() => {
+    expect(wrapper.find('button#ImportProfile').exists()).toBeTruthy()
   })
 })
 
@@ -61,7 +58,9 @@ describe('<DropZone />', () => {
   })
 
   describe('simulating a file drop calls the file reading functions', () => {
-    // Dropzone throws an error when performing a drop simulate on the input. This is for code coverage only.
+    // NOTE: This is for code coverage only;  there are no expect statements
+    //  NOTE: this is covered by integration/schemaValidation.test but that doesn't show coverage
+    // Dropzone throws an error when performing a drop simulate on the input.
     it('lets you input a selected file', () => {
       console.error = jest.fn()
       wrapper.find('button.btn').simulate('click')

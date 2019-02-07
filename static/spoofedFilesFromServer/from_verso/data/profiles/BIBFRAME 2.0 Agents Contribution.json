@@ -1,96 +1,94 @@
 {
-    "Profile": {
-        "resourceTemplates": [
-            {
-                "resourceURI": "http://id.loc.gov/ontologies/bibframe/Contribution",
-                "id": "profile:bf2:Agents:Contribution",
-                "resourceLabel": "Contribution",
-                "propertyTemplates": [
-                    {
-                        "propertyLabel": "Agent",
-                        "valueConstraint": {
-                            "repeatable": "true",
-                            "useValuesFrom": [],
-                            "valueTemplateRefs": [
-                                "profile:bf2:Agent:Person",
-                                "profile:bf2:Agent:Family",
-                                "profile:bf2:Agent:CorporateBody",
-                                "profile:bf2:Agent:Jurisdiction",
-                                "profile:bf2:Agent:Conference"
-                            ],
-                            "editable": "true"
-                        },
-                        "propertyURI": "http://id.loc.gov/ontologies/bibframe/agent",
-                        "type": "resource",
-                        "mandatory": "false",
-                        "repeatable": "true",
-                        "resourceTemplates": []
-                    },
-                    {
-                        "propertyURI": "http://id.loc.gov/ontologies/bibframe/role",
-                        "propertyLabel": "Relationship Designator (RDA Appendix I)",
-                        "type": "resource",
-                        "mandatory": "false",
-                        "repeatable": "true",
-                        "resourceTemplates": [],
-                        "valueConstraint": {
-                            "valueTemplateRefs": [
-                                "profile:bf2:Agent:Role"
-                            ],
-                            "useValuesFrom": [],
-                            "editable": "true",
-                            "repeatable": "true"
-                        },
-                        "remark": "http://access.rdatoolkit.org/rdaappi_rdai-34.html"
-                    }
-                ]
-            },
-            {
-                "resourceURI": "http://id.loc.gov/ontologies/bibframe/Contribution",
-                "id": "profile:bf2:Agents:bfContribution",
-                "resourceLabel": "Contribution (test)",
-                "propertyTemplates": [
-                    {
-                        "propertyLabel": "Agent",
-                        "valueConstraint": {
-                            "repeatable": "true",
-                            "useValuesFrom": [],
-                            "valueTemplateRefs": [
-                                "profile:bf2:Agent:bfPerson",
-                                "profile:bf2:Agent:Family",
-                                "profile:bf2:Agent:CorporateBody",
-                                "profile:bf2:Agent:Jurisdiction",
-                                "profile:bf2:Agent:Conference"
-                            ]
-                        },
-                        "propertyURI": "http://id.loc.gov/ontologies/bibframe/agent",
-                        "type": "resource",
-                        "mandatory": "false",
-                        "repeatable": "true",
-                        "resourceTemplates": []
-                    },
-                    {
-                        "propertyURI": "http://id.loc.gov/ontologies/bibframe/role",
-                        "propertyLabel": "Relationship Designator (RDA Appendix I)",
-                        "type": "resource",
-                        "mandatory": "false",
-                        "repeatable": "true",
-                        "resourceTemplates": [],
-                        "valueConstraint": {
-                            "valueTemplateRefs": [
-                                "profile:bf2:Agent:Role"
-                            ],
-                            "useValuesFrom": []
-                        },
-                        "remark": "http://access.rdatoolkit.org/rdaappi_rdai-34.html"
-                    }
-                ]
-            }
-        ],
-        "id": "profile:bf2:AgentsContribution",
-        "title": "BIBFRAME 2.0 Agents Contribution",
+  "Profile": {
+    "resourceTemplates": [
+      {
+        "resourceURI": "http://id.loc.gov/ontologies/bibframe/Contribution",
+        "id": "sinopia:resourceTemplate:bf2:Agents:Contribution",
+        "resourceLabel": "Contribution",
         "date": "2017-05-13",
-        "description": "Creators and Contributors",
-        "contact": "NDMSO"
-    }
+        "author": "NDMSO",
+        "schema": "https://ld4p.github.io/sinopia/schemas/0.1.0/resource-template.json",
+        "propertyTemplates": [
+          {
+            "propertyLabel": "Agent",
+            "valueConstraint": {
+              "valueTemplateRefs": [
+                "sinopia:resourceTemplate:bf2:Agent:Person",
+                "sinopia:resourceTemplate:bf2:Agent:Family",
+                "sinopia:resourceTemplate:bf2:Agent:CorporateBody",
+                "sinopia:resourceTemplate:bf2:Agent:Jurisdiction",
+                "sinopia:resourceTemplate:bf2:Agent:Conference"
+              ]
+            },
+            "propertyURI": "http://id.loc.gov/ontologies/bibframe/agent",
+            "type": "resource",
+            "mandatory": "false",
+            "repeatable": "true",
+            "resourceTemplates": []
+          },
+          {
+            "propertyURI": "http://id.loc.gov/ontologies/bibframe/role",
+            "propertyLabel": "Relationship Designator (RDA Appendix I)",
+            "type": "resource",
+            "mandatory": "false",
+            "repeatable": "true",
+            "resourceTemplates": [],
+            "valueConstraint": {
+              "valueTemplateRefs": [
+                "sinopia:resourceTemplate:bf2:Agent:Role"
+              ]
+            },
+            "remark": "http://access.rdatoolkit.org/rdaappi_rdai-34.html"
+          }
+        ]
+      },
+      {
+        "resourceURI": "http://id.loc.gov/ontologies/bibframe/Contribution",
+        "id": "sinopia:resourceTemplate:bf2:Agents:bfContribution",
+        "resourceLabel": "Contribution (test)",
+        "date": "2017-05-13",
+        "author": "NDMSO",
+        "schema": "https://ld4p.github.io/sinopia/schemas/0.1.0/resource-template.json",
+        "propertyTemplates": [
+          {
+            "propertyLabel": "Agent",
+            "valueConstraint": {
+              "valueTemplateRefs": [
+                "sinopia:resourceTemplate:bf2:Agent:bfPerson",
+                "sinopia:resourceTemplate:bf2:Agent:Family",
+                "sinopia:resourceTemplate:bf2:Agent:CorporateBody",
+                "sinopia:resourceTemplate:bf2:Agent:Jurisdiction",
+                "sinopia:resourceTemplate:bf2:Agent:Conference"
+              ]
+            },
+            "propertyURI": "http://id.loc.gov/ontologies/bibframe/agent",
+            "type": "resource",
+            "mandatory": "false",
+            "repeatable": "true",
+            "resourceTemplates": []
+          },
+          {
+            "propertyURI": "http://id.loc.gov/ontologies/bibframe/role",
+            "propertyLabel": "Relationship Designator (RDA Appendix I)",
+            "type": "resource",
+            "mandatory": "false",
+            "repeatable": "true",
+            "resourceTemplates": [],
+            "valueConstraint": {
+              "valueTemplateRefs": [
+                "sinopia:resourceTemplate:bf2:Agent:Role"
+              ]
+            },
+            "remark": "http://access.rdatoolkit.org/rdaappi_rdai-34.html"
+          }
+        ]
+      }
+    ],
+    "id": "sinopia:profile:bf2:AgentsContribution",
+    "title": "BIBFRAME 2.0 Agents Contribution",
+    "date": "2017-05-13",
+    "description": "Creators and Contributors",
+    "author": "NDMSO",
+    "schema": "https://ld4p.github.io/sinopia/schemas/0.1.0/profile.json"
+  }
 }

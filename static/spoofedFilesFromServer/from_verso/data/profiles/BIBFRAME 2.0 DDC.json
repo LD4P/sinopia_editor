@@ -1,51 +1,44 @@
 {
-    "Profile": {
-        "resourceTemplates": [
-            {
-                "propertyTemplates": [
-                    {
-                        "mandatory": "false",
-                        "repeatable": "true",
-                        "type": "literal",
-                        "resourceTemplates": [],
-                        "valueConstraint": {
-                            "valueTemplateRefs": [],
-                            "useValuesFrom": [],
-                            "valueDataType": {}
-                        },
-                        "propertyURI": "http://id.loc.gov/ontologies/bibframe/classificationPortion",
-                        "propertyLabel": "DDC Classification number"
-                    },
-                    {
-                        "mandatory": "false",
-                        "repeatable": "false",
-                        "type": "resource",
-                        "resourceTemplates": [],
-                        "valueConstraint": {
-                            "valueTemplateRefs": [],
-                            "useValuesFrom": [
-                                "http://id.loc.gov/vocabulary/classSchemes"
-                            ],
-                            "valueDataType": {
-                                "dataTypeURI": "http://id.loc.gov/ontologies/bibframe/edition"
-                            },
-                            "defaultURI": "",
-                            "defaultLiteral": "",
-                            "editable": "true"
-                        },
-                        "propertyURI": "http://id.loc.gov/ontologies/bibframe/edition",
-                        "propertyLabel": "Dewey Edition"
-                    }
-                ],
-                "id": "profile:bf2:DDC",
-                "resourceLabel": "Dewey Decimal Classification",
-                "resourceURI": "http://id.loc.gov/ontologies/bibframe/ClassificationDdc"
-            }
+  "Profile": {
+    "resourceTemplates": [
+      {
+        "propertyTemplates": [
+          {
+            "mandatory": "false",
+            "repeatable": "true",
+            "type": "literal",
+            "propertyURI": "http://id.loc.gov/ontologies/bibframe/classificationPortion",
+            "propertyLabel": "DDC Classification number"
+          },
+          {
+            "mandatory": "false",
+            "repeatable": "false",
+            "type": "lookup",
+            "valueConstraint": {
+              "useValuesFrom": [
+                "http://id.loc.gov/vocabulary/classSchemes"
+              ],
+              "valueDataType": {
+                "dataTypeURI": "http://id.loc.gov/ontologies/bibframe/edition"
+              }
+            },
+            "propertyURI": "http://id.loc.gov/ontologies/bibframe/edition",
+            "propertyLabel": "Dewey Edition"
+          }
         ],
-        "id": "profile:bf2:DDC",
-        "description": "Dewey Decimal Classification",
-        "title": "BIBFRAME 2.0 DDC",
+        "id": "sinopia:resourceTemplate:bf2:DDC",
+        "resourceLabel": "Dewey Decimal Classification",
+        "resourceURI": "http://id.loc.gov/ontologies/bibframe/ClassificationDdc",
         "date": "2017-07-28",
-        "contact": "NDMSO"
-    }
+        "author": "NDMSO",
+        "schema": "https://ld4p.github.io/sinopia/schemas/0.1.0/resource-template.json"
+      }
+    ],
+    "id": "sinopia:profile:bf2:DDC",
+    "description": "Dewey Decimal Classification",
+    "title": "BIBFRAME 2.0 DDC",
+    "date": "2017-07-28",
+    "author": "NDMSO",
+    "schema": "https://ld4p.github.io/sinopia/schemas/0.1.0/profile.json"
+  }
 }
