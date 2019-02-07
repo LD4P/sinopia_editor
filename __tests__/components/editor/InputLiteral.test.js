@@ -150,7 +150,7 @@ describe('When the user enters input into field', ()=>{
     mock_wrapper.instance().props.propertyTemplate.repeatable = "false"
     mock_wrapper.instance().forceUpdate()
     mock_wrapper.setProps({formData: { id: "http://id.loc.gov/ontologies/bibframe/instanceOf", items: [{content: "foo", id: 4}]} })
-    expect(mock_wrapper.find('div#userInput').text()).toEqual('fooX') // contains X as a button to delete the input
+    expect(mock_wrapper.find('div#userInput').text()).toEqual('fooX<Button /><Modal />') // contains X as a button to delete the input
     mock_wrapper.setProps({formData: undefined }) // reset props for next test
     mockFormDataFn.mock.calls = [] // reset the redux store to empty
   })
@@ -161,6 +161,12 @@ describe('When the user enters input into field', ()=>{
     mock_wrapper.find('button#displayedItem').first().simulate('click', { target: { "dataset": {"item": 5 }}})
     expect(removeMockDataFn.mock.calls.length).toEqual(1);
   })
+
+  it('shows the <InputLang> modal when the <Button/> is clicked', () => {
+    mock_wrapper.find('Button').first().simulate('click')
+    expect(mock_wrapper.find('ModalTitle').render().text()).toEqual('Languages')
+  })
+
 })
 
 describe('when there is a default literal value in the property template', () => {

@@ -23,3 +23,7 @@ export const getLD = inputs => ({
   payload: inputs
 })
 
+export const setLang = item => ({
+  type: "SET_LANG",
+  payload: item
+})

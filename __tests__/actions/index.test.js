@@ -7,12 +7,21 @@ describe('setItems actions', () => {
       payload: {id:"Instance of", items: [{content: "food", id: 0}]}
     })
   })
+
   it('removeItem should create REMOVE_ITEM action', () => {
     expect(actions.removeItem({id:0, label: "Instance of"})).toEqual({
       type: 'REMOVE_ITEM',
       payload: {id: 0, label: "Instance of"}
     })
   })
+
+  it('setLang should create SET_LANG action', () => {
+    expect(actions.setLang({id:"Instance of", items: [{label: "food", id: "http://uri1", uri: "URI"}]})).toEqual({
+      type: 'SET_LANG',
+      payload: {id:"Instance of", items: [{label: "food", id: "http://uri1", uri:"URI"}]}
+    })
+  })
+
 })
 
 describe('getLD action', () => {

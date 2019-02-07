@@ -1,12 +1,14 @@
 import { combineReducers } from 'redux'
+import { generateLD } from './linkedData'
+import lang from './lang'
 import literal from './literal'
 import lookups from './lookups'
-import { generateLD } from './linkedData'
 
 const appReducer = combineReducers({
+  generateLD,
+  lang,
   literal,
-  lookups,
-  generateLD
+  lookups
 })
 
 const rootReducer = (state, action) => {
