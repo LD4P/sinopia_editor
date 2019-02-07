@@ -40,13 +40,23 @@ describe('Editor', () => {
         it('displays resource template passing validation', async () => {
           pupExpect(page).not.toMatch('LC Classification Number')
           const fileInput = await page.$('.DropZone input[type="file"]')
-          await fileInput.uploadFile("__tests__/__fixtures__/lcc_v0.0.2.json")
+          const dialog = await pupExpect(page).toDisplayDialog(async () => {
+            await fileInput.uploadFile("__tests__/__fixtures__/lcc_v0.0.2.json")
+          })
+          const exp_msg = "No schema url found in template. Using https://ld4p.github.io/sinopia/schemas/0.0.1/resource-template.json"
+          await expect(dialog.message()).toMatch(exp_msg)
+          await dialog.dismiss()
           await pupExpect(page).toMatch('LC Classification Number')
         })
         it('displays profile passing validation', async () => {
           pupExpect(page).not.toMatch('Place Associated with a Work')
           const fileInput = await page.$('.DropZone input[type="file"]')
-          await fileInput.uploadFile("__tests__/__fixtures__/place_profile_v0.0.2.json")
+          const dialog = await pupExpect(page).toDisplayDialog(async () => {
+            await fileInput.uploadFile("__tests__/__fixtures__/place_profile_v0.0.2.json")
+          })
+          const exp_msg = "No schema url found in template. Using https://ld4p.github.io/sinopia/schemas/0.0.1/profile.json"
+          await expect(dialog.message()).toMatch(exp_msg)
+          await dialog.dismiss()
           await pupExpect(page).toMatch('Place Associated with a Work')
         })
       })
