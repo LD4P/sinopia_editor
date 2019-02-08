@@ -147,14 +147,12 @@
         "useValuesFrom": [
           "https://VALUES"
         ],
-        "validatePattern": "PATTERN",
         "valueDataType": {
           "dataTypeLabel": "Classification item number",
           "dataTypeLabelHint": "HINT",
           "dataTypeURI": "http://id.loc.gov/ontologies/bibframe/itemPortion",
           "remark": "REMARK"
         },
-        "valueLanguage": "VALUE LANGUAGE",
         "valueTemplateRefs": [
           "resourceTemplate:bf2:Identifiers:Barcode"
         ]
