@@ -160,9 +160,11 @@ describe('When the user enters input into field', ()=>{
     expect(removeMockDataFn.mock.calls.length).toEqual(0);
     mock_wrapper.find('button#displayedItem').first().simulate('click', { target: { "dataset": {"item": 5 }}})
     expect(removeMockDataFn.mock.calls.length).toEqual(1);
+    mockFormDataFn.mock.calls = []
   })
 
   it('shows the <InputLang> modal when the <Button/> is clicked', () => {
+    mock_wrapper.setProps({formData: { id: "http://id.loc.gov/ontologies/bibframe/instanceOf", items: [{content: "test", id: 6}]} })
     mock_wrapper.find('Button').first().simulate('click')
     expect(mock_wrapper.find('ModalTitle').render().text()).toEqual('Languages')
   })
@@ -194,3 +196,37 @@ describe('when there is a default literal value in the property template', () =>
   })
 })
 
+describe('<InputLiteral /> when repeatable="false"', () => {
+  const nrProps = {
+    "propertyTemplate":
+      {
+        "propertyLabel": "Instance of",
+        "propertyURI": "http://id.loc.gov/ontologies/bibframe/instanceOf",
+        "type": "literal",
+        "mandatory": "",
+        "repeatable": "false"
+      }
+  }
+
+  const mockMyItemsChange = jest.fn()
+  const mockRemoveItem = jest.fn()
+
+  const nonrepeat_wrapper = shallow(
+    <InputLiteral {...nrProps}
+      id={11}
+      rtId={'resourceTemplate:bf2:Monograph:Instance'}
+      handleMyItemsChange={mockMyItemsChange}
+      handleRemoveItem={mockRemoveItem} />)
+
+  it('input has disabled attribute set to "true" when repeatable is "false" and an item is added', () => {
+    nonrepeat_wrapper.find('input').simulate("change", { target: { value: "fooby" }})
+    nonrepeat_wrapper.find('input').simulate('keypress', {key: 'Enter', preventDefault: () => {}})
+    nonrepeat_wrapper.setProps({formData: { id: "http://id.loc.gov/ontologies/bibframe/instanceOf", items: [{content: "fooby", id: 0}]} })
+    expect(nonrepeat_wrapper.find('input').props('disabled')).toBeTruthy()
+  })
+
+  it('input no longer disabled if item is removed when repeatable="false"', () => {
+    nonrepeat_wrapper.find('button#displayedItem').first().simulate('click', { target: { "dataset": {"item": 0 }}})
+    expect(nonrepeat_wrapper.find('input').props().disabled).toBeFalsy()
+  })
+})
