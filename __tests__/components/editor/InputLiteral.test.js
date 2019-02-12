@@ -74,7 +74,7 @@ describe('When the user enters input into field', ()=>{
     expect(mock_wrapper.find('input').prop('id')).toEqual("typeLiteral11")
   })
 
-  it('calls the mockFormDataFn', () => {
+  it('calls handleMyItemsChange function', () => {
     mock_wrapper.find('input').simulate("change", { target: { value: "foo" }})
     expect(mock_wrapper.state('content_add')).toEqual('foo') /** expect state to have value onChange **/
     mock_wrapper.find('input').simulate('keypress', {key: 'Enter', preventDefault: () => {}})
