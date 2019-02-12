@@ -16,5 +16,4 @@ export class RequiredSuperscript extends Component {
   }
 }
 
-
 export default RequiredSuperscript;
