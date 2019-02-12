@@ -8,7 +8,6 @@ import ResourceTemplateModal from './ResourceTemplateModal'
 class ModalToggle extends Component {
   constructor(props) {
     super(props)
-    this.toggleModal = this.toggleModal.bind(this)
     this.state = {
       visible: false
     }

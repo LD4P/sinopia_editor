@@ -16,19 +16,6 @@ export class InputLiteral extends Component {
 
   constructor(props) {
     super(props)
-    this.handleChange = this.handleChange.bind(this)
-    this.handleKeypress = this.handleKeypress.bind(this)
-    this.handleClick = this.handleClick.bind(this)
-    this.handleFocus = this.handleFocus.bind(this)
-    this.handleShow = this.handleShow.bind(this)
-    this.handleClose = this.handleClose.bind(this)
-    this.checkMandatoryRepeatable = this.checkMandatoryRepeatable.bind(this)
-    this.hasPropertyRemark = this.hasPropertyRemark.bind(this)
-    this.mandatorySuperscript = this.mandatorySuperscript.bind(this)
-    this.notRepeatable = this.notRepeatable.bind(this)
-    this.addUserInput = this.addUserInput.bind(this)
-    this.dispModal = this.dispModal.bind(this)
-    this.dispLang = this.dispLang.bind(this)
     this.state = {
       show: false,
       content_add: "",
@@ -51,7 +38,7 @@ export class InputLiteral extends Component {
     }
   }
 
-  setPayLoad(defaults) {
+  setPayLoad = (defaults) => {
     const payload = {
       id: this.props.propertyTemplate.propertyURI,
       items: defaults,
@@ -60,31 +47,31 @@ export class InputLiteral extends Component {
     this.props.handleMyItemsChange(payload)
   }
 
-  handleShow() {
+  handleShow = () => {
     this.setState({ show: true })
   }
 
-  handleClose() {
+  handleClose = () => {
     this.setState({ show: false })
   }
 
-  handleFocus(event) {
+  handleFocus = (event) => {
     document.getElementById(event.target.id).focus()
   }
 
-  handleChange(event) {
+  handleChange = (event) => {
     const usr_input = event.target.value
     this.setState({ content_add: usr_input })
   }
 
-  notRepeatable(userInputArray, currentcontent){
+  notRepeatable = (userInputArray, currentcontent) => {
     if (this.props.formData == undefined || this.props.formData.items < 1){
       this.addUserInput(userInputArray, currentcontent)
       this.setState({ disabled: true})
     }
   }
 
-  addUserInput(userInputArray, currentcontent) {
+  addUserInput = (userInputArray, currentcontent) => {
     userInputArray.push({
       content: currentcontent,
       id: ++this.lastId,
@@ -93,7 +80,7 @@ export class InputLiteral extends Component {
     })
   }
 
-  handleKeypress(event) {
+  handleKeypress = (event) => {
     if (event.key == "Enter") {
       var userInputArray = []
       var currentcontent = this.state.content_add.trim()
@@ -120,7 +107,7 @@ export class InputLiteral extends Component {
     }
   }
 
-  handleClick(event) {
+  handleClick = (event) => {
     const labelToRemove = event.target.dataset["label"]
     const idToRemove = Number(event.target.dataset["item"])
     this.props.handleRemoveItem(
@@ -135,7 +122,7 @@ export class InputLiteral extends Component {
     this.setState({disabled: false})
   }
 
-  checkMandatoryRepeatable() {
+  checkMandatoryRepeatable = () => {
      if (this.props.propertyTemplate.mandatory == "true") {
       if (this.props.formData == undefined) return true
       const inputLength = (this.props.formData.items).length
@@ -151,7 +138,7 @@ export class InputLiteral extends Component {
      }
   }
 
-  hasPropertyRemark() {
+  hasPropertyRemark = () => {
     if(this.props.propertyTemplate.remark) {
       return <PropertyRemark remark={this.props.propertyTemplate.remark}
           label={this.props.propertyTemplate.propertyLabel} />;
@@ -159,13 +146,13 @@ export class InputLiteral extends Component {
     return this.props.propertyTemplate.propertyLabel;
   }
 
-  mandatorySuperscript() {
+  mandatorySuperscript = () => {
     if (this.props.propertyTemplate.mandatory === "true") {
       return <RequiredSuperscript />
     }
   }
 
-  dispModal (content) {
+  dispModal = (content) => {
     return(
       <Modal show={this.state.show} onHide={this.handleClose}>
         <Modal.Header closeButton>
@@ -182,7 +169,7 @@ export class InputLiteral extends Component {
     )
   }
 
-  dispLang(content){
+  dispLang = (content) => {
     let newState = store.getState()
     const index = newState.lang.formData.map(function(o) { return o.id; }).indexOf(content);
     let newLang
@@ -199,7 +186,7 @@ export class InputLiteral extends Component {
     }
   }
 
-  makeAddedList() {
+  makeAddedList = () => {
     let formInfo = this.props.formData
     if (formInfo == undefined) return
     const elements = formInfo.items.map((obj) => {
@@ -246,7 +233,6 @@ export class InputLiteral extends Component {
           />
           {this.makeAddedList()}
         </label>
-
       </div>
     )
   }

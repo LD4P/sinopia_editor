@@ -13,14 +13,12 @@ const AsyncTypeahead = asyncContainer(Typeahead)
 class InputLookupQA extends Component {
   constructor(props) {
     super(props)
-    this.hasPropertyRemark = this.hasPropertyRemark.bind(this)
-    this.mandatorySuperscript = this.mandatorySuperscript.bind(this)
     this.state = {
       isLoading: false
     }
   }
 
-  hasPropertyRemark() {
+  hasPropertyRemark = () => {
     if(this.props.propertyTemplate.remark) {
       return <PropertyRemark remark={this.props.propertyTemplate.remark}
           label={this.props.propertyTemplate.propertyLabel} />;
@@ -28,7 +26,7 @@ class InputLookupQA extends Component {
     return this.props.propertyTemplate.propertyLabel;
   }
 
-  mandatorySuperscript() {
+  mandatorySuperscript = () => {
     if (JSON.parse(this.props.propertyTemplate.mandatory)) {
       return <RequiredSuperscript />
     }
