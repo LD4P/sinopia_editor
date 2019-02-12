@@ -32,7 +32,8 @@ export class InputLiteral extends Component {
     this.state = {
       show: false,
       content_add: "",
-      defaults: []
+      defaults: [],
+      disabled: false
     }
     this.lastId = -1
 
@@ -76,9 +77,10 @@ export class InputLiteral extends Component {
     this.setState({ content_add: usr_input })
   }
 
-  notRepeatable(userInputArray,currentcontent){
-    if (this.props.formData == undefined){
+  notRepeatable(userInputArray, currentcontent){
+    if (this.props.formData == undefined || this.props.formData.items < 1){
       this.addUserInput(userInputArray, currentcontent)
+      this.setState({ disabled: true})
     }
   }
 
@@ -125,6 +127,12 @@ export class InputLiteral extends Component {
     {
       id: idToRemove, label: labelToRemove
     })
+    this.props.formData.items.forEach(item => {
+      if(item.id === idToRemove) {
+        this.props.formData.items.pop(item)
+      }
+    })
+    this.setState({disabled: false})
   }
 
   checkMandatoryRepeatable() {
@@ -232,6 +240,7 @@ export class InputLiteral extends Component {
             onChange={this.handleChange}
             onKeyPress={this.handleKeypress}
             value={this.state.content_add}
+            disabled={this.state.disabled}
             id={"typeLiteral" + this.props.id}
             onClick={this.handleFocus}
           />
