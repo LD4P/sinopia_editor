@@ -4,6 +4,7 @@ import React, {Component} from 'react'
 import PropTypes from 'prop-types'
 import ResourceTemplateModal from './ResourceTemplateModal'
 
+// displays button to display ResourceTemplateModal component
 class ModalToggle extends Component {
   constructor(props) {
     super(props)

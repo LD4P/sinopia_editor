@@ -8,6 +8,7 @@ import Button from 'react-bootstrap/lib/Button'
 import Modal from 'react-bootstrap/lib/Modal'
 import ResourceTemplateForm from './ResourceTemplateForm'
 
+// displays ResourceTemplateForm as a Modal
 class ResourceTemplateModal extends Component {
   constructor(props) {
     super(props)

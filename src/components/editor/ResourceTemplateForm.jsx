@@ -19,6 +19,7 @@ const N3 = require('n3')
 const { DataFactory } = N3
 const { blankNode } = DataFactory
 
+// renders the input form for a ResourceTemplate
 class ResourceTemplateForm extends Component {
   constructor(props) {
     super(props)
