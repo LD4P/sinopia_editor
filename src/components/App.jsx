@@ -17,21 +17,18 @@ const FourOhFour = () => <h1>404</h1>
 class App extends Component{
   constructor(props) {
     super(props)
-    this.handleOffsetMenu = this.handleOffsetMenu.bind(this)
-    this.closeMenu = this.closeMenu.bind(this)
     this.state = {
       isMenuOpened: false
     }
   }
 
-  handleOffsetMenu() {
-    console.log('AM I GETTING CLICKED?')
+  handleOffsetMenu = () => {
     this.setState({
       isMenuOpened: !this.state.isMenuOpened
     })
   }
 
-  closeMenu() {
+  closeMenu = () => {
     this.setState({
       isMenuOpened: false
     })

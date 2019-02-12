@@ -10,8 +10,6 @@ import { Link } from 'react-router-dom'
 class StartingPoints extends Component {
   constructor() {
     super()
-    this.handleClick = this.handleClick.bind(this)
-    this.onDropFile = this.onDropFile.bind(this)
     this.ajv = new Ajv({
       allErrors: true,
       verbose: true
@@ -22,12 +20,12 @@ class StartingPoints extends Component {
     }
   }
 
-  handleClick() {
+  handleClick = () => {
     let val = this.state.showDropZone
     this.setState({showDropZone: !val})
   }
 
-  onDropFile(files) {
+  onDropFile = (files) => {
     // supplies the json loaded from the resource template
     const handleFileRead = () => {
       let template
@@ -214,4 +212,4 @@ StartingPoints.propTypes = {
   resourceTemplateId: PropTypes.string
 }
 
-export default StartingPoints;
+export default StartingPoints

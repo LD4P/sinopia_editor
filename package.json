@@ -75,9 +75,10 @@
     "dev-build-test": "npm run dev-build && npm run test",
     "dev-start": "webpack-dev-server --config ./webpack.config.js --mode development",
     "eslint": "eslint --max-warnings 34 --color -c .eslintrc.js --ext js,jsx ./src",
-    "jest-cov": "jest --coverage --colors",
-    "jest-ci": "jest --ci --runInBand --coverage --reporters=default --reporters=jest-junit --colors  && cat ./coverage/lcov.info | coveralls",
-    "test": "jest --colors"
+    "jest-cov": "jest --coverage --colors --silent --runInBand",
+    "jest-ci": "jest  --colors --silent --ci --runInBand --coverage --reporters=default --reporters=jest-junit && cat ./coverage/lcov.info | coveralls",
+    "test": "jest --colors --silent --runInBand",
+    "test-verbose": "jest --colors --runInBand"
   },
   "license": "ISC",
   "dependencies": {

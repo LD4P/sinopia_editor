@@ -19,18 +19,10 @@ const N3 = require('n3')
 const { DataFactory } = N3
 const { blankNode } = DataFactory
 
+// renders the input form for a ResourceTemplate
 class ResourceTemplateForm extends Component {
   constructor(props) {
     super(props)
-    this.rtModalButton = this.rtModalButton.bind(this)
-    this.resourceTemplateButtons = this.resourceTemplateButtons.bind(this)
-    this.defaultValues = this.defaultValues.bind(this)
-    this.hasPropertyRemark = this.hasPropertyRemark.bind(this)
-    this.mandatorySuperscript = this.mandatorySuperscript.bind(this)
-    this.rdfClose = this.rdfClose.bind(this)
-    this.makeSubject = this.makeSubject.bind(this)
-    this.handleSave = this.handleSave.bind(this)
-    this.setInputs = this.setInputs.bind(this)
     this.defaultValues()
     this.state = {
       showRdf: false,
@@ -52,7 +44,7 @@ class ResourceTemplateForm extends Component {
     this.props.handleGenerateLD(this.setInputs())
   }
 
-  makeSubject() {
+  makeSubject = () => {
     // in the future we will return a blank node or an IRI (using namedNode in the DataFactory ^^)...
     // return namedNode('http://example.com')
     return blankNode()
@@ -112,7 +104,7 @@ class ResourceTemplateForm extends Component {
     })
   }
 
-  setInputs() {
+  setInputs = () => {
     let inputs = {}
     inputs['literals'] = this.props.literals
     inputs['lookups'] = this.props.lookups
