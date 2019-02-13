@@ -13,7 +13,7 @@ import RequiredSuperscript from './RequiredSuperscript'
 import ModalToggle from './ModalToggle'
 import RDFModal from './RDFModal'
 import lookupConfig from '../../../static/spoofedFilesFromServer/fromSinopiaServer/lookupConfig.json'
-import { getLD } from '../../actions/index'
+import { getLD, setItems } from '../../actions/index'
 const { getResourceTemplate } = require('../../sinopiaServerSpoof.js')
 const N3 = require('n3')
 const { DataFactory } = N3
@@ -54,21 +54,61 @@ class ResourceTemplateForm extends Component {
     this.setState( { showRdf: false } )
   }
 
+  // TODO: deal with more than one default value?
+  defaultsForLiteral = (content, predicate) => {
+    return [{
+      content: content,
+      id: 0,
+      bnode: this.state.rdfOuterSubject,
+      propPredicate: predicate
+    }]
+  }
+
+  setDefaultsForLiteralWithPayLoad = (button, propURI, defaults, rtid) => {
+    const payload = {
+      id: button,
+      uri: propURI,
+      items: defaults,
+      rtId: rtid
+    }
+    if (defaults != undefined) {
+      this.props.handleMyItemsChange(payload)
+    }
+  }
+
+  getContentForModalButton = (rtId) => {
+    let content
+    let resourceTemplate = getResourceTemplate(rtId)
+    const pt = resourceTemplate.propertyTemplates[0]
+    if (this.isLiteralWithDefaultValue(pt)) {
+      content = pt.valueConstraint.defaults[0].defaultLiteral
+    }
+    return content
+  }
+
   // Note: rtIds is expected to be an array of length at least one
-  resourceTemplateButtons = (rtIds, propURI) => {
+  resourceTemplateButtons = (rtIds, propURI, buttonID) => {
     let buttons = []
     rtIds.map((rtId, i) => {
-      buttons.push(<ButtonGroup key={`${rtId}-${i}`}>{this.rtModalButton(rtId, propURI)}</ButtonGroup>)
+      buttons.push(<ButtonGroup key={`${rtId}-${i}`}>{this.rtModalButton(rtId, propURI, buttonID)}</ButtonGroup>)
+      let content = this.getContentForModalButton(rtId)
+      let defaults = this.defaultsForLiteral(content, propURI)
+      if (defaults[0].content !== undefined) {
+        if (this.props.literals.formData.length === 0) {
+          this.setDefaultsForLiteralWithPayLoad(buttonID, propURI, defaults, rtId)
+        }
+      }
     })
     return buttons
   }
 
-  rtModalButton = (rtId, propURI) => {
+  rtModalButton = (rtId, propURI, buttonID) => {
     let resourceTemplate = getResourceTemplate(rtId)
     return (
       <ModalToggle
         key={rtId}
         rtId={rtId}
+        buttonID={buttonID}
         buttonLabel={resourceTemplate.resourceLabel}
         propertyTemplates={resourceTemplate.propertyTemplates}
         resourceTemplate={resourceTemplate}
@@ -104,7 +144,25 @@ class ResourceTemplateForm extends Component {
     })
   }
 
-  setInputs = () => {
+  isLiteralWithDefaultValue = (pt) => {
+    return Boolean(
+      pt.type === 'literal' &&
+      pt.valueConstraint !== undefined &&
+      pt.valueConstraint.defaults !== undefined &&
+      pt.valueConstraint.defaults.length > 0
+    )
+  }
+
+  isResourceWithValueTemplateRef = (pt) => {
+    return Boolean(
+      pt.type === 'resource' &&
+      pt.valueConstraint != null &&
+      pt.valueConstraint.valueTemplateRefs != null &&
+      pt.valueConstraint.valueTemplateRefs.length > 0
+    )
+  }
+
+  setInputs() {
     let inputs = {}
     inputs['literals'] = this.props.literals
     inputs['lookups'] = this.props.lookups
@@ -112,6 +170,18 @@ class ResourceTemplateForm extends Component {
     inputs['resourceURI'] = this.props.resourceTemplate.resourceURI
     inputs['linkedNode'] = this.state.rdfOuterSubject
     return inputs
+  }
+
+  renderValueButton(buttonValue) {
+    if (buttonValue != undefined) {
+      return (
+        <div className="btn-group btn-group-xs">
+          <button type="button" className="btn btn-sm btn-default">{buttonValue}</button>
+          <button disabled className="btn btn-warning" type="button"><span className="glyphicon glyphicon-pencil"></span></button>
+          <button disabled className="btn btn-danger" type="button"><span className="glyphicon glyphicon-trash"></span> </button>
+        </div>
+      )
+    }
   }
 
   render() {
@@ -155,43 +225,59 @@ class ResourceTemplateForm extends Component {
                       }
                     }
 
-                  let isResourceWithValueTemplateRefs = Boolean(
-                    pt.type == 'resource' &&
-                    pt.valueConstraint != null &&
-                    pt.valueConstraint.valueTemplateRefs != null
-                    && pt.valueConstraint.valueTemplateRefs.length > 0
-                  )
-
-                  if (listComponent === 'list'){
-                    return (
-                      <InputListLOC propertyTemplate = {pt} lookupConfig = {lookupConfigItem} key = {index} rtId = {this.props.rtId} />
-                    )
-                  }
-                  else if (listComponent ===  'lookup'){
-                    return(
-                      <InputLookupQA propertyTemplate = {pt} lookupConfig = {lookupConfigItem} key = {index} rtId = {this.props.rtId} />
-                    )
-                  }
-                  else if(pt.type == 'literal'){
-                    return(
-                      <InputLiteral propertyTemplate = {pt} key = {index} id = {index} rtId = {this.props.rtId} blankNodeForLiteral={this.state.rdfOuterSubject} propPredicate={this.props.propPredicate}/>
-                    )
-                  }
-                  else if (isResourceWithValueTemplateRefs) {
-                    // TODO: some valueTemplateRefs may be lookups??
-                    return (
-                      <ButtonToolbar key={index}>
-                        <div>
-                          <label title={pt.remark}>{this.hasPropertyRemark(pt)}{this.mandatorySuperscript(pt.mandatory)}</label>
-                        </div>
-                        {this.resourceTemplateButtons(pt.valueConstraint.valueTemplateRefs, pt.propertyURI)}
-                      </ButtonToolbar>
+                    if (listComponent === 'list'){
+                      return (
+                        <InputListLOC propertyTemplate = {pt} lookupConfig = {lookupConfigItem} key = {index} rtId = {this.props.rtId} />
                       )
                     }
-                    else if (pt.type == 'resource'){
-                      return (<p key={index}><b>{pt.propertyLabel}</b>: <i>NON-modal resource</i></p>)
+                    else if (listComponent ===  'lookup'){
+                      return(
+                        <InputLookupQA propertyTemplate = {pt} lookupConfig = {lookupConfigItem} key = {index} rtId = {this.props.rtId} />
+                      )
                     }
-                  })
+                    else if(pt.type == 'literal'){
+                      return(
+                        <InputLiteral propertyTemplate={pt} key={index} id={index}
+                                      rtId={this.props.rtId}
+                                      blankNodeForLiteral={this.state.rdfOuterSubject}
+                                      propPredicate={this.props.propPredicate}
+                                      buttonID={this.props.buttonID}
+                                      defaultsForLiteral={this.defaultsForLiteral}
+                                      setDefaultsForLiteralWithPayLoad={this.setDefaultsForLiteralWithPayLoad} />
+                      )
+                    }
+                    else if (this.isResourceWithValueTemplateRef(pt)) {
+                      let buttonId
+                      let valueButton
+                      this.props.literals.formData.map((obj) => {
+                        buttonId = obj.id
+                        if (buttonId !== undefined && buttonId === index) {
+                          const buttonContent = obj.items
+                          if (buttonContent == undefined) return
+                          buttonContent.map((item) => {
+                            valueButton = item.content
+                          })
+                        }
+                      })
+                      // TODO: some valueTemplateRefs may be lookups??
+                      return (
+                        <ButtonToolbar key={index}>
+                          <div>
+                            <label title={pt.remark}>{this.hasPropertyRemark(pt)}{this.mandatorySuperscript(pt.mandatory)}</label>
+                          </div>
+                          <div>
+                            {this.resourceTemplateButtons(pt.valueConstraint.valueTemplateRefs, pt.propertyURI, index)}
+                          </div>
+                          <br/><br/>
+                          {this.renderValueButton(valueButton)}
+                        </ButtonToolbar>
+                        )
+                      }
+                      else if (pt.type == 'resource'){
+                        return (<p key={index}><b>{pt.propertyLabel}</b>: <i>NON-modal resource</i></p>)
+                      }
+                    }
+                  )
                  }
                 </div>
               <p>END ResourceTemplateForm</p>
@@ -216,7 +302,9 @@ ResourceTemplateForm.propTypes = {
   parentResourceTemplate: PropTypes.string,
   rdfOuterSubject: PropTypes.object,
   propPredicate: PropTypes.string,
-  generateLD: PropTypes.object.isRequired
+  buttonID: PropTypes.number,
+  generateLD: PropTypes.object.isRequired,
+  handleMyItemsChange: PropTypes.func
 }
 
 const mapStateToProps = (state) => {
@@ -228,8 +316,12 @@ const mapStateToProps = (state) => {
 }
 
 const mapDispatchToProps = dispatch => ({
+  handleMyItemsChange(user_input){
+    dispatch(setItems(user_input))
+  },
   handleGenerateLD(inputs){
-    dispatch(getLD(inputs))}
+    dispatch(getLD(inputs))
+  }
 })
 
 export default connect(mapStateToProps, mapDispatchToProps)(ResourceTemplateForm)

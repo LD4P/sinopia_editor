@@ -34,6 +34,7 @@ class ResourceTemplateModal extends Component {
               rdfOuterSubject={this.props.rdfOuterSubject}
               propPredicate={this.props.propPredicate}
               rtId={this.props.rtId}
+              buttonID={this.props.buttonID}
             />
           </Modal.Body>
           <Modal.Footer>
@@ -53,7 +54,8 @@ ResourceTemplateModal.propTypes = {
   toggleVisibility: PropTypes.func.isRequired,
   visible: PropTypes.bool.isRequired,
   rdfOuterSubject: PropTypes.object,
-  propPredicate: PropTypes.string
+  propPredicate: PropTypes.string,
+  buttonID: PropTypes.number
 }
 
 const mapDispatchToProps = dispatch => (

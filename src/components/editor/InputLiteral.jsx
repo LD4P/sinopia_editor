@@ -19,35 +19,21 @@ export class InputLiteral extends Component {
     this.state = {
       show: false,
       content_add: "",
-      defaults: [],
       disabled: false
     }
     this.lastId = -1
 
     try {
-     const defaultValue = this.props.propertyTemplate.valueConstraint.defaults[0]
-      this.state.defaults = [{
-        content: defaultValue.defaultLiteral,
-        id: ++this.lastId,
-        bnode: this.props.blankNodeForLiteral,
-        propPredicate: this.props.propPredicate
-      }]
-      this.setPayLoad(this.state.defaults)
+      const defaultValue = this.props.propertyTemplate.valueConstraint.defaults[0]
+      const propPredicate = this.props.propPredicate
+      let defaults = this.props.defaultsForLiteral(defaultValue.defaultLiteral, propPredicate)
+      this.props.setDefaultsForLiteralWithPayLoad(this.props.buttonID, this.props.propertyTemplate.propertyURI, defaults, this.props.rtId)
       if (this.props.propertyTemplate.repeatable == "false") {
         this.state.disabled = true
       }
     } catch (error) {
       console.log(`defaults not defined in the property template: ${error}`)
     }
-  }
-
-  setPayLoad = (defaults) => {
-    const payload = {
-      id: this.props.propertyTemplate.propertyURI,
-      items: defaults,
-      rtId: this.props.rtId
-    }
-    this.props.handleMyItemsChange(payload)
   }
 
   handleShow = () => {
@@ -67,7 +53,7 @@ export class InputLiteral extends Component {
     this.setState({ content_add: usr_input })
   }
 
-  notRepeatable = (userInputArray, currentcontent) => {
+  notRepeatableAfterUserInput = (userInputArray, currentcontent) => {
     if (this.props.formData == undefined || this.props.formData.items < 1){
       this.addUserInput(userInputArray, currentcontent)
       this.setState({ disabled: true })
@@ -95,10 +81,11 @@ export class InputLiteral extends Component {
         this.addUserInput(userInputArray, currentcontent)
       /** Input field is not repeatable **/
       } else if (this.props.propertyTemplate.repeatable == "false") {
-        this.notRepeatable(userInputArray, currentcontent)
+        this.notRepeatableAfterUserInput(userInputArray, currentcontent)
       }
       const user_input = {
-        id: this.props.propertyTemplate.propertyURI,
+        id: this.props.buttonID,
+        uri: this.props.propertyTemplate.propertyURI,
         rtId: this.props.rtId,
         items: userInputArray
       }
@@ -201,7 +188,7 @@ export class InputLiteral extends Component {
           onClick={this.handleClick}
           key={obj.id}
           data-item={obj.id}
-          data-label={formInfo.id}
+          data-label={formInfo.uri}
         >X
         </button>
         <Button
@@ -254,19 +241,22 @@ InputLiteral.propTypes = {
     })
   }).isRequired,
   formData: PropTypes.shape({
-    id: PropTypes.string.isRequired,
+    uri: PropTypes.string.isRequired,
     items: PropTypes.array
   }),
   handleMyItemsChange: PropTypes.func,
   handleRemoveItem: PropTypes.func,
   rtId: PropTypes.string,
   blankNodeForLiteral: PropTypes.object,
-  propPredicate: PropTypes.string
+  propPredicate: PropTypes.string,
+  buttonID: PropTypes.number,
+  setDefaultsForLiteralWithPayLoad: PropTypes.func,
+  defaultsForLiteral: PropTypes.func
 }
 
 const mapStatetoProps = (state, props) => {
   return {
-    formData: state.literal.formData.find(obj => obj.id === props.propertyTemplate.propertyURI)
+    formData: state.literal.formData.find(obj => obj.uri === props.propertyTemplate.propertyURI)
   }
 }
 

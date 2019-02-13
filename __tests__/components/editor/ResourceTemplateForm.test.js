@@ -61,7 +61,10 @@ const rtProps = {
   ]
 }
 
-const lits = { id: 0, content: 'content' }
+// const lits = { id: 0, content: 'content' }
+const lits =  {formData: [{id: 0, uri: 'http://uri', items: [
+        {content: '12345', id: 0, bnode: {termType: 'BlankNode', value: 'n3-0'}, propPredicate: 'http://predicate'}
+      ], rtId: 'resourceTemplate:bf2'}]}
 const lups = { id: 'id', uri: 'uri', label: 'label' }
 const ld = {
   "@context": {
