@@ -11,31 +11,31 @@ describe('literal reducer', () => {
     expect(
       literal({formData: []}, {
         type: 'SET_ITEMS',
-        payload: {id:'Run the tests', items: []}
+        payload: {uri:'Run the tests', items: []}
       })
     ).toEqual({
       "formData": [{
-        "id": "Run the tests", "items": []
+        "uri": "Run the tests", "items": []
       }]
     })
 
     expect(
       literal({
         "formData": [{
-          "id": "Run the tests", "items": []
+          "uri": "Run the tests", "items": []
         }]}, {
         type: 'SET_ITEMS',
-        payload: {id: "add this!", items: []}
+        payload: {uri: "add this!", items: []}
       })
     ).toEqual({
       "formData": [
-        {"id": "Run the tests", "items": []},
-        {"id": "add this!", "items": []}
+        {"uri": "Run the tests", "items": []},
+        {"uri": "add this!", "items": []}
     ]})
   })
   it('should handle REMOVE_ITEM', () => {
     expect(
-      literal({formData: [{id:"Test", items:[
+      literal({formData: [{uri:"Test", items:[
         {content: "test content", id: 0},
         {content: "more content", id: 1}
         ]}]}, {
@@ -44,23 +44,23 @@ describe('literal reducer', () => {
       })
     ).toEqual({
       "formData": [{
-        "id": "Test", "items": [{content: "more content", id: 1}]
+        "uri": "Test", "items": [{content: "more content", id: 1}]
       }]
     })
 
 
     expect(
       literal({formData: [
-        {id:"Test", items:[{content: "test content", id: 0}]},
-        {id:"Statement", items:[{content: "more test content", id: 0}]}
+        {uri:"Test", items:[{content: "test content", id: 0}]},
+        {uri:"Statement", items:[{content: "more test content", id: 0}]}
       ]}, {
         type: 'REMOVE_ITEM',
         payload: {id: 0, label: "Statement"}
       })
     ).toEqual({
       "formData": [
-        {"id": "Test", "items": [{content: "test content", id: 0}]},
-        {"id": "Statement", "items": []}
+        {"uri": "Test", "items": [{content: "test content", id: 0}]},
+        {"uri": "Statement", "items": []}
       ]
     })
   })
