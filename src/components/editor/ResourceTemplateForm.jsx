@@ -172,6 +172,18 @@ class ResourceTemplateForm extends Component {
     return inputs
   }
 
+  renderValueButton(buttonValue) {
+    if (buttonValue != undefined) {
+      return (
+        <div className="btn-group btn-group-xs">
+          <button type="button" className="btn btn-sm btn-default">{buttonValue}</button>
+          <button disabled className="btn btn-warning" type="button"><span className="glyphicon glyphicon-pencil"></span></button>
+          <button disabled className="btn btn-danger" type="button"><span className="glyphicon glyphicon-trash"></span> </button>
+        </div>
+      )
+    }
+  }
+
   render() {
     let dashedBorder = {
       border: '1px dashed',
@@ -236,14 +248,14 @@ class ResourceTemplateForm extends Component {
                     }
                     else if (this.isResourceWithValueTemplateRef(pt)) {
                       let buttonId
-                      let littleButton
+                      let valueButton
                       this.props.literals.formData.map((obj) => {
                         buttonId = obj.id
                         if (buttonId !== undefined && buttonId === index) {
                           const buttonContent = obj.items
                           if (buttonContent == undefined) return
                           buttonContent.map((item) => {
-                            littleButton = item.content
+                            valueButton = item.content
                           })
                         }
                       })
@@ -257,9 +269,7 @@ class ResourceTemplateForm extends Component {
                             {this.resourceTemplateButtons(pt.valueConstraint.valueTemplateRefs, pt.propertyURI, index)}
                           </div>
                           <br/><br/>
-                          <div>
-                            {littleButton}
-                          </div>
+                          {this.renderValueButton(valueButton)}
                         </ButtonToolbar>
                         )
                       }
@@ -292,9 +302,9 @@ ResourceTemplateForm.propTypes = {
   parentResourceTemplate: PropTypes.string,
   rdfOuterSubject: PropTypes.object,
   propPredicate: PropTypes.string,
-  buttonID: PropTypes.string,
+  buttonID: PropTypes.number,
   generateLD: PropTypes.object.isRequired,
-  handleMyItemsChange: PropTypes.object.isRequired
+  handleMyItemsChange: PropTypes.func
 }
 
 const mapStateToProps = (state) => {

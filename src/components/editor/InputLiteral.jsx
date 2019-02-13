@@ -254,9 +254,9 @@ InputLiteral.propTypes = {
   rtId: PropTypes.string,
   blankNodeForLiteral: PropTypes.object,
   propPredicate: PropTypes.string,
-  buttonID: PropTypes.string,
-  setDefaultsForLiteralWithPayLoad: PropTypes.func.isRequired,
-  defaultsForLiteral: PropTypes.func.isRequired
+  buttonID: PropTypes.number,
+  setDefaultsForLiteralWithPayLoad: PropTypes.func,
+  defaultsForLiteral: PropTypes.func
 }
 
 const mapStatetoProps = (state, props) => {
