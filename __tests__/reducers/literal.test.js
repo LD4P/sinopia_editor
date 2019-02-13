@@ -64,5 +64,26 @@ describe('literal reducer', () => {
       ]
     })
   })
+
+  it('should handle REMOVE_ALL_CONTENT', () => {
+    expect(
+      literal({
+        formData: [
+          {id: 1, uri:"Test", items:[
+            {content: "test content", id: 0},
+            {content: "test content2", id: 1}
+          ]},
+          {id: 2, uri:"Test2", items:[
+            {content: "test2 content", id: 0},
+            {content: "test2 content2", id: 1}
+          ]}
+        ]},
+        { type: 'REMOVE_ALL_CONTENT', payload: 1})
+    ).toEqual({
+      "formData": [
+        {"id": 2, "uri": "Test2", "items": [{content: "test2 content", id: 0}, {content: "test2 content2", id: 1}]}
+      ]
+    })
+  })
 })
 

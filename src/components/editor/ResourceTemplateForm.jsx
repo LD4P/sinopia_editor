@@ -313,7 +313,8 @@ ResourceTemplateForm.propTypes = {
   propPredicate: PropTypes.string,
   buttonID: PropTypes.number,
   generateLD: PropTypes.object.isRequired,
-  handleMyItemsChange: PropTypes.func
+  handleMyItemsChange: PropTypes.func,
+  handleRemoveAllContent: PropTypes.func
 }
 
 const mapStateToProps = (state) => {
