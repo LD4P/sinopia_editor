@@ -97,7 +97,7 @@ export class InputLiteral extends Component {
     }
   }
 
-  handleClick = (event) => {
+  handleItemClick = (event) => {
     const labelToRemove = event.target.dataset["label"]
     const idToRemove = Number(event.target.dataset["item"])
     this.props.handleRemoveItem(
@@ -185,7 +185,7 @@ export class InputLiteral extends Component {
         <button
           id="displayedItem"
           type="button"
-          onClick={this.handleClick}
+          onClick={this.handleItemClick}
           key={obj.id}
           data-item={obj.id}
           data-label={formInfo.uri}
