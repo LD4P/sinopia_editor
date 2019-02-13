@@ -33,6 +33,9 @@ export class InputLiteral extends Component {
         propPredicate: this.props.propPredicate
       }]
       this.setPayLoad(this.state.defaults)
+      if (this.props.propertyTemplate.repeatable == "false") {
+        this.state.disabled = true
+      }
     } catch (error) {
       console.log(`defaults not defined in the property template: ${error}`)
     }
@@ -67,7 +70,7 @@ export class InputLiteral extends Component {
   notRepeatable = (userInputArray, currentcontent) => {
     if (this.props.formData == undefined || this.props.formData.items < 1){
       this.addUserInput(userInputArray, currentcontent)
-      this.setState({ disabled: true})
+      this.setState({ disabled: true })
     }
   }
 

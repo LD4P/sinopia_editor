@@ -230,3 +230,32 @@ describe('when there is a default literal value in the property template', () =>
     })
   })
 })
+
+describe('when repeatable="false" and defaults exist', () => {
+  const defaultProps = {
+    "propertyTemplate":
+    {
+      "propertyLabel": "Instance of",
+      "propertyURI": "http://id.loc.gov/ontologies/bibframe/instanceOf",
+      "type": "literal",
+      "mandatory": "",
+      "repeatable": "false",
+      "valueConstraint": {
+        "defaults": [
+          {
+            "defaultURI": "http://id.loc.gov/vocabulary/organizations/dlc",
+            "defaultLiteral": "DLC"
+          }
+        ]
+      }
+    }
+  }
+
+  const default_wrapper =  shallow(
+     <InputLiteral {...defaultProps}
+      id={13}
+      rtId={'resourceTemplate:bf2:Monograph:Item'} />)
+  it('in the initial display, the input field is disabled ', () => {
+    expect(default_wrapper.find('input').props('disabled')).toBeTruthy()
+  })
+})
