@@ -13,7 +13,7 @@ import RequiredSuperscript from './RequiredSuperscript'
 import ModalToggle from './ModalToggle'
 import RDFModal from './RDFModal'
 import lookupConfig from '../../../static/spoofedFilesFromServer/fromSinopiaServer/lookupConfig.json'
-import { getLD, setItems } from '../../actions/index'
+import {getLD, setItems, removeAllContent} from '../../actions/index'
 const { getResourceTemplate } = require('../../sinopiaServerSpoof.js')
 const N3 = require('n3')
 const { DataFactory } = N3
@@ -172,13 +172,21 @@ class ResourceTemplateForm extends Component {
     return inputs
   }
 
-  renderValueButton(buttonValue) {
+  handleTrashValue = (buttonIndex) => {
+    this.props.handleRemoveAllContent(buttonIndex)
+  }
+
+  renderValueForButton(buttonValue, buttonIndex) {
     if (buttonValue != undefined) {
       return (
         <div className="btn-group btn-group-xs">
           <button type="button" className="btn btn-sm btn-default">{buttonValue}</button>
-          <button disabled className="btn btn-warning" type="button"><span className="glyphicon glyphicon-pencil"></span></button>
-          <button disabled className="btn btn-danger" type="button"><span className="glyphicon glyphicon-trash"></span> </button>
+          <button disabled className="btn btn-warning" type="button">
+            <span className="glyphicon glyphicon-pencil"/>
+          </button>
+          <button className="btn btn-danger" type="button" onClick={() => this.handleTrashValue(buttonIndex)}>
+            <span className="glyphicon glyphicon-trash"/>
+          </button>
         </div>
       )
     }
@@ -248,15 +256,16 @@ class ResourceTemplateForm extends Component {
                     }
                     else if (this.isResourceWithValueTemplateRef(pt)) {
                       let buttonId
-                      let valueButton
+                      let valueForButton
                       this.props.literals.formData.map((obj) => {
                         buttonId = obj.id
                         if (buttonId !== undefined && buttonId === index) {
                           const buttonContent = obj.items
-                          if (buttonContent == undefined) return
-                          buttonContent.map((item) => {
-                            valueButton = item.content
-                          })
+                          if (buttonContent !== undefined) {
+                            buttonContent.map((item, i) => {
+                              i === 0 ? valueForButton = `${item.content} ` : valueForButton += `${item.content} `
+                            })
+                          }
                         }
                       })
                       // TODO: some valueTemplateRefs may be lookups??
@@ -269,7 +278,7 @@ class ResourceTemplateForm extends Component {
                             {this.resourceTemplateButtons(pt.valueConstraint.valueTemplateRefs, pt.propertyURI, index)}
                           </div>
                           <br/><br/>
-                          {this.renderValueButton(valueButton)}
+                          {this.renderValueForButton(valueForButton, index)}
                         </ButtonToolbar>
                         )
                       }
@@ -318,6 +327,9 @@ const mapStateToProps = (state) => {
 const mapDispatchToProps = dispatch => ({
   handleMyItemsChange(user_input){
     dispatch(setItems(user_input))
+  },
+  handleRemoveAllContent(id){
+    dispatch(removeAllContent(id))
   },
   handleGenerateLD(inputs){
     dispatch(getLD(inputs))
