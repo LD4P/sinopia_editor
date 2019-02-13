@@ -34,6 +34,7 @@ class ResourceTemplateModal extends Component {
               rdfOuterSubject={this.props.rdfOuterSubject}
               propPredicate={this.props.propPredicate}
               rtId={this.props.rtId}
+              buttonID={this.props.buttonID}
             />
           </Modal.Body>
           <Modal.Footer>

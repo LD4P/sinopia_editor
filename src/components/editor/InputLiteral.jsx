@@ -19,38 +19,29 @@ export class InputLiteral extends Component {
     this.state = {
       show: false,
       content_add: "",
-      defaults: [],
       disabled: false
     }
     this.lastId = -1
 
     try {
-     const defaultValue = this.props.propertyTemplate.valueConstraint.defaults[0]
-      this.state.defaults = [{
-        content: defaultValue.defaultLiteral,
-        id: ++this.lastId,
-        bnode: this.props.blankNodeForLiteral,
-        propPredicate: this.props.propPredicate
-      }]
-      this.setPayLoad(this.state.defaults)
       if (this.props.propertyTemplate.repeatable == "false") {
         this.state.disabled = true
       }
+    } catch (error) {
+      console.log(`repeatable not defined in the property template: ${error}`)
+    }
+
+    try {
+      const defaultValue = this.props.propertyTemplate.valueConstraint.defaults[0]
+      const propPredicate = this.props.propPredicate
+      let defaults = this.props.defaultsForLiteral(defaultValue.defaultLiteral, propPredicate)
+      this.props.setDefaultsForLiteralWithPayLoad(this.props.buttonID, this.props.propertyTemplate.propertyURI, defaults, this.props.rtId)
     } catch (error) {
       console.log(`defaults not defined in the property template: ${error}`)
     }
   }
 
-  setPayLoad = (defaults) => {
-    const payload = {
-      id: this.props.propertyTemplate.propertyURI,
-      items: defaults,
-      rtId: this.props.rtId
-    }
-    this.props.handleMyItemsChange(payload)
-  }
-
-  handleShow = () => {
+  handleShow() {
     this.setState({ show: true })
   }
 
@@ -98,7 +89,8 @@ export class InputLiteral extends Component {
         this.notRepeatable(userInputArray, currentcontent)
       }
       const user_input = {
-        id: this.props.propertyTemplate.propertyURI,
+        id: this.props.buttonID,
+        uri: this.props.propertyTemplate.propertyURI,
         rtId: this.props.rtId,
         items: userInputArray
       }
@@ -201,7 +193,7 @@ export class InputLiteral extends Component {
           onClick={this.handleClick}
           key={obj.id}
           data-item={obj.id}
-          data-label={formInfo.id}
+          data-label={formInfo.uri}
         >X
         </button>
         <Button
@@ -254,7 +246,7 @@ InputLiteral.propTypes = {
     })
   }).isRequired,
   formData: PropTypes.shape({
-    id: PropTypes.string.isRequired,
+    uri: PropTypes.string.isRequired,
     items: PropTypes.array
   }),
   handleMyItemsChange: PropTypes.func,
@@ -266,7 +258,7 @@ InputLiteral.propTypes = {
 
 const mapStatetoProps = (state, props) => {
   return {
-    formData: state.literal.formData.find(obj => obj.id === props.propertyTemplate.propertyURI)
+    formData: state.literal.formData.find(obj => obj.uri === props.propertyTemplate.propertyURI)
   }
 }
 
