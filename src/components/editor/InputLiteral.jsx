@@ -24,24 +24,19 @@ export class InputLiteral extends Component {
     this.lastId = -1
 
     try {
-      if (this.props.propertyTemplate.repeatable == "false") {
-        this.state.disabled = true
-      }
-    } catch (error) {
-      console.log(`repeatable not defined in the property template: ${error}`)
-    }
-
-    try {
       const defaultValue = this.props.propertyTemplate.valueConstraint.defaults[0]
       const propPredicate = this.props.propPredicate
       let defaults = this.props.defaultsForLiteral(defaultValue.defaultLiteral, propPredicate)
       this.props.setDefaultsForLiteralWithPayLoad(this.props.buttonID, this.props.propertyTemplate.propertyURI, defaults, this.props.rtId)
+      if (this.props.propertyTemplate.repeatable == "false") {
+        this.state.disabled = true
+      }
     } catch (error) {
       console.log(`defaults not defined in the property template: ${error}`)
     }
   }
 
-  handleShow() {
+  handleShow = () => {
     this.setState({ show: true })
   }
 
@@ -58,7 +53,7 @@ export class InputLiteral extends Component {
     this.setState({ content_add: usr_input })
   }
 
-  notRepeatable = (userInputArray, currentcontent) => {
+  notRepeatableAfterUserInput = (userInputArray, currentcontent) => {
     if (this.props.formData == undefined || this.props.formData.items < 1){
       this.addUserInput(userInputArray, currentcontent)
       this.setState({ disabled: true })
@@ -86,7 +81,7 @@ export class InputLiteral extends Component {
         this.addUserInput(userInputArray, currentcontent)
       /** Input field is not repeatable **/
       } else if (this.props.propertyTemplate.repeatable == "false") {
-        this.notRepeatable(userInputArray, currentcontent)
+        this.notRepeatableAfterUserInput(userInputArray, currentcontent)
       }
       const user_input = {
         id: this.props.buttonID,
