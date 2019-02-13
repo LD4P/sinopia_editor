@@ -115,3 +115,25 @@ input.rbt-input-main {
  .rdf-modal-content {
   padding: 20px 25px 20px 20px;
 }
+
+/** For header tabs **/
+.editor-navtabs {
+    margin-bottom:-15px;
+    font-size: 1.5em;
+    color: #2F2424;
+    /** top right bottom left **/
+    margin:0 5px -15px 5px;
+    border:0px;
+}
+
+.editor-navtabs .active {
+    background-color:#fff; /** Based on body background-color color **/
+}
+
+.editor-navtabs .hover {
+    background-color:transparent;
+}
+
+.editor-navtabs a {
+    color: #2F2424;
+}

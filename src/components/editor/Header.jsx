@@ -20,6 +20,13 @@ class Header extends Component {
             <h2 className="editor-subtitle"><a className="editor-subtitle" href="/">SINOPIA</a></h2>
             <h1 className="editor-logo">LINKED DATA EDITOR</h1>
           </div>
+          <div>
+              <ul className="nav nav-tabs pull-left editor-navtabs">
+                <li className="nav-item"><a className="nav-link" href="/browse">Browse</a></li>
+                <li className="nav-item"><a className="nav-link active" href="/editor">Editor</a></li>
+                <li className="nav-item"><a className="nav-link" href="/import">Import Resource Template</a></li>
+              </ul>
+          </div>
         </div>
       </div>
     )
