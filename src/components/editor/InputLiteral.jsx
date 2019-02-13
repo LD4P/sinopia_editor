@@ -27,6 +27,7 @@ export class InputLiteral extends Component {
       const defaultValue = this.props.propertyTemplate.valueConstraint.defaults[0]
       const propPredicate = this.props.propPredicate
       let defaults = this.props.defaultsForLiteral(defaultValue.defaultLiteral, propPredicate)
+      if (defaults !== undefined) ++this.lastId
       this.props.setDefaultsForLiteralWithPayLoad(this.props.buttonID, this.props.propertyTemplate.propertyURI, defaults, this.props.rtId)
       if (this.props.propertyTemplate.repeatable == "false") {
         this.state.disabled = true
@@ -241,7 +242,8 @@ InputLiteral.propTypes = {
     })
   }).isRequired,
   formData: PropTypes.shape({
-    uri: PropTypes.string.isRequired,
+    id: PropTypes.string,
+    uri: PropTypes.string,
     items: PropTypes.array
   }),
   handleMyItemsChange: PropTypes.func,
