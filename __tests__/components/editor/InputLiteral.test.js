@@ -172,27 +172,17 @@ describe('When the user enters input into field', ()=>{
 })
 
 describe('when there is a default literal value in the property template', () => {
-  plProps.propertyTemplate['valueConstraint'] = valConstraintProps
-  const mockFormDataFn = jest.fn()
-  const wrapper = shallow(<InputLiteral {...plProps} id={12}
-                                        blankNodeForLiteral={{ termType: 'BlankNode', value: 'n3-0'}}
-                                        rtId={'resourceTemplate:bf2:Monograph:Instance'}
-                                        handleMyItemsChange={mockFormDataFn} />)
-
   it('sets the default values according to the property template if they exist', () => {
-    const defaults = [{
-      content: 'DLC',
-      id: 0,
-      bnode: { termType: 'BlankNode', value: 'n3-0'}
-    }]
-    expect(wrapper.state('defaults')).toEqual(defaults)
-    expect(mockFormDataFn.mock.calls[0][0]).toEqual(
-      {
-        uri: "http://id.loc.gov/ontologies/bibframe/instanceOf",
-        items:[{ content: 'DLC', id: 0, bnode: { termType: 'BlankNode', value: 'n3-0' }, propPredicate: undefined }],
-        rtId: "resourceTemplate:bf2:Monograph:Instance"
-      }
-    )
+    plProps.propertyTemplate['valueConstraint'] = valConstraintProps
+    const setDefaultsForLiteralWithPayLoad = jest.fn()
+    const defaultsForLiteral = jest.fn()
+    shallow(<InputLiteral {...plProps} id={12}
+                          blankNodeForLiteral={{ termType: 'BlankNode', value: 'n3-0'}}
+                          rtId={'resourceTemplate:bf2:Monograph:Instance'}
+                          setDefaultsForLiteralWithPayLoad={setDefaultsForLiteralWithPayLoad}
+                          defaultsForLiteral={defaultsForLiteral} />)
+    expect(setDefaultsForLiteralWithPayLoad).toHaveBeenCalledTimes(1)
+    expect(defaultsForLiteral).toHaveBeenCalledTimes(1)
   })
 
   describe('when repeatable="false"', () => {
