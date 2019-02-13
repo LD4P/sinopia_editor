@@ -54,7 +54,8 @@ ResourceTemplateModal.propTypes = {
   toggleVisibility: PropTypes.func.isRequired,
   visible: PropTypes.bool.isRequired,
   rdfOuterSubject: PropTypes.object,
-  propPredicate: PropTypes.string
+  propPredicate: PropTypes.string,
+  buttonID: PropTypes.string
 }
 
 const mapDispatchToProps = dispatch => (

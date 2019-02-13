@@ -292,7 +292,9 @@ ResourceTemplateForm.propTypes = {
   parentResourceTemplate: PropTypes.string,
   rdfOuterSubject: PropTypes.object,
   propPredicate: PropTypes.string,
-  generateLD: PropTypes.object.isRequired
+  buttonID: PropTypes.string,
+  generateLD: PropTypes.object.isRequired,
+  handleMyItemsChange: PropTypes.object.isRequired
 }
 
 const mapStateToProps = (state) => {

@@ -253,7 +253,10 @@ InputLiteral.propTypes = {
   handleRemoveItem: PropTypes.func,
   rtId: PropTypes.string,
   blankNodeForLiteral: PropTypes.object,
-  propPredicate: PropTypes.string
+  propPredicate: PropTypes.string,
+  buttonID: PropTypes.string,
+  setDefaultsForLiteralWithPayLoad: PropTypes.func.isRequired,
+  defaultsForLiteral: PropTypes.func.isRequired
 }
 
 const mapStatetoProps = (state, props) => {
