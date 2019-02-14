@@ -12,6 +12,8 @@ import { OffCanvas, OffCanvasMenu, OffCanvasBody } from 'react-offcanvas'
 import { BrowserRouter, Route, Switch } from 'react-router-dom'
 import { Provider } from 'react-redux'
 import store from '../store'
+import ImportResourceTemplate from './editor/ImportResourceTemplate';
+import Browse from './editor/Browse';
 
 const FourOhFour = () => <h1>404</h1>
 class App extends Component{
@@ -45,6 +47,8 @@ class App extends Component{
                   <Switch>
                     <Route exact path='/' render={(props)=><HomePage {...props} triggerHandleOffsetMenu={this.handleOffsetMenu} />} />
                     <Route exact path='/editor' render={(props)=><Editor {...props} triggerHandleOffsetMenu={this.handleOffsetMenu} />} />
+                    <Route exact path='/import' render={(props)=><ImportResourceTemplate {...props} triggerHandleOffsetMenu={this.handleOffsetMenu} />} />
+                    <Route exact path='/browse' render={(props)=><Browse {...props} triggerHandleOffsetMenu={this.handleOffsetMenu} />} />
                     <Route id="404" component={FourOhFour} />
                   </Switch>
                   <Footer />

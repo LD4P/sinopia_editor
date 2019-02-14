@@ -2,7 +2,7 @@
 
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
-
+import {NavLink} from 'react-router-dom'
 class Header extends Component {
   render() {
     return (
@@ -19,6 +19,14 @@ class Header extends Component {
           <div>
             <h2 className="editor-subtitle"><a className="editor-subtitle" href="/">SINOPIA</a></h2>
             <h1 className="editor-logo">LINKED DATA EDITOR</h1>
+          </div>
+          <div>
+              <ul className="nav nav-tabs pull-left editor-navtabs">
+                { /*Navlinks enable highlighting the appropriate tab based on route, active style is defined in css */}
+                <li className="nav-item"><NavLink className="nav-link" to="/browse">Browse</NavLink></li>
+                <li className="nav-item"><NavLink className="nav-link" to="/editor">Editor</NavLink></li>
+                <li className="nav-item"><NavLink className="nav-link" to="/import">Import Resource Template</NavLink></li>
+              </ul>
           </div>
         </div>
       </div>
