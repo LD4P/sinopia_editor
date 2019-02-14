@@ -46,7 +46,7 @@ class ImportResourceTemplate extends Component {
 
   render() {
     return(
-      <div id="editor">
+      <div id="importResourceTemplate">
         <Header triggerEditorMenu={this.props.triggerHandleOffsetMenu}/>
         <StartingPoints
           tempStateCallback={this.resetTempState}
