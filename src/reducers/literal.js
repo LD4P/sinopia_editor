@@ -24,7 +24,7 @@ const removeMyItem = (state, action) => {
   let new_state = newListItems.map(obj => {
     if(obj.uri == itemToDelete.label){
       const newItemArray = deleteItem(obj, itemToDelete)
-      return {uri: obj.uri, items: newItemArray}
+      return {id: obj.id, uri: obj.uri, items: newItemArray}
     } else {
       return obj
     }
@@ -36,7 +36,7 @@ const setMyItems = (state, action) => {
   let newFormData = state.formData.slice(0)
   let needNewItemArray = true;
   for (let field of newFormData) {
-    if (field.uri == action.payload.uri) {
+    if (field.id == action.payload.id) {
       field.items = field.items.concat(action.payload.items)
       needNewItemArray = false;
       break;
