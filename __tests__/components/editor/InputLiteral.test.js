@@ -174,15 +174,25 @@ describe('When the user enters input into field', ()=>{
 describe('when there is a default literal value in the property template', () => {
   it('sets the default values according to the property template if they exist', () => {
     plProps.propertyTemplate['valueConstraint'] = valConstraintProps
+
     const setDefaultsForLiteralWithPayLoad = jest.fn()
     const defaultsForLiteral = jest.fn()
-    shallow(<InputLiteral {...plProps} id={12}
+    defaultsForLiteral.mockReturnValue({
+      content: "content",
+      id: 0,
+      bnode: { termType: 'BlankNode', value: 'n3-0'},
+      propPredicate: "predicate"
+    })
+
+    const wrapper = shallow(<InputLiteral {...plProps} id={12}
                           blankNodeForLiteral={{ termType: 'BlankNode', value: 'n3-0'}}
                           rtId={'resourceTemplate:bf2:Monograph:Instance'}
                           setDefaultsForLiteralWithPayLoad={setDefaultsForLiteralWithPayLoad}
-                          defaultsForLiteral={defaultsForLiteral} />)
+                          defaultsForLiteral={defaultsForLiteral}
+    />)
     expect(setDefaultsForLiteralWithPayLoad).toHaveBeenCalledTimes(1)
     expect(defaultsForLiteral).toHaveBeenCalledTimes(1)
+    expect(wrapper.instance().lastId).toEqual(0)
   })
 
   describe('when repeatable="false"', () => {
