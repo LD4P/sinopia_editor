@@ -11,31 +11,31 @@ describe('literal reducer', () => {
     expect(
       literal({formData: []}, {
         type: 'SET_ITEMS',
-        payload: {uri:'Run the tests', items: []}
+        payload: {id: 1, uri:'Run the tests', items: []}
       })
     ).toEqual({
       "formData": [{
-        "uri": "Run the tests", "items": []
+        "id": 1, "uri": "Run the tests", "items": []
       }]
     })
 
     expect(
       literal({
         "formData": [{
-          "uri": "Run the tests", "items": []
+          "id": 1, "uri": "Run the tests", "items": []
         }]}, {
         type: 'SET_ITEMS',
-        payload: {uri: "add this!", items: []}
+        payload: {id:2, uri: "add this!", items: []}
       })
     ).toEqual({
       "formData": [
-        {"uri": "Run the tests", "items": []},
-        {"uri": "add this!", "items": []}
+        {"id": 1, "uri": "Run the tests", "items": []},
+        {"id": 2, "uri": "add this!", "items": []}
     ]})
   })
   it('should handle REMOVE_ITEM', () => {
     expect(
-      literal({formData: [{uri:"Test", items:[
+      literal({formData: [{id: 1, uri:"Test", items:[
         {content: "test content", id: 0},
         {content: "more content", id: 1}
         ]}]}, {
@@ -44,23 +44,23 @@ describe('literal reducer', () => {
       })
     ).toEqual({
       "formData": [{
-        "uri": "Test", "items": [{content: "more content", id: 1}]
+        id: 1, uri: "Test", "items": [{content: "more content", id: 1}]
       }]
     })
 
 
     expect(
       literal({formData: [
-        {uri:"Test", items:[{content: "test content", id: 0}]},
-        {uri:"Statement", items:[{content: "more test content", id: 0}]}
+        {id: 1, uri:"Test", items:[{content: "test content", id: 0}]},
+        {id: 2, uri:"Statement", items:[{content: "more test content", id: 0}]}
       ]}, {
         type: 'REMOVE_ITEM',
         payload: {id: 0, label: "Statement"}
       })
     ).toEqual({
       "formData": [
-        {"uri": "Test", "items": [{content: "test content", id: 0}]},
-        {"uri": "Statement", "items": []}
+        {"id": 1, "uri": "Test", "items": [{content: "test content", id: 0}]},
+        {"id": 2, "uri": "Statement", "items": []}
       ]
     })
   })
