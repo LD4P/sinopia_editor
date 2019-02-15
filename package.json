@@ -78,7 +78,8 @@
     "jest-cov": "jest --coverage --colors --silent --runInBand",
     "jest-ci": "jest  --colors --silent --ci --runInBand --coverage --reporters=default --reporters=jest-junit && cat ./coverage/lcov.info | coveralls",
     "test": "jest --colors --silent --runInBand",
-    "test-verbose": "jest --colors --runInBand"
+    "test-verbose": "jest --colors --runInBand",
+    "test-async": "jest --colors --runInBand --detectOpenHandles"
   },
   "license": "ISC",
   "dependencies": {

@@ -22,7 +22,9 @@ export class InputLiteral extends Component {
       disabled: false
     }
     this.lastId = -1
+  }
 
+  componentDidMount() {
     try {
       const defaultValue = this.props.propertyTemplate.valueConstraint.defaults[0]
       const propPredicate = this.props.propPredicate
@@ -30,7 +32,7 @@ export class InputLiteral extends Component {
       if (defaults !== undefined) ++this.lastId
       this.props.setDefaultsForLiteralWithPayLoad(this.props.buttonID, this.props.propertyTemplate.propertyURI, defaults, this.props.rtId)
       if (this.props.propertyTemplate.repeatable == "false") {
-        this.state.disabled = true
+        this.setState({ disabled: true })
       }
     } catch (error) {
       console.log(`defaults not defined in the property template: ${error}`)

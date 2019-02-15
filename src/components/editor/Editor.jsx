@@ -3,7 +3,6 @@
 import React, {Component} from 'react'
 import { connect } from 'react-redux'
 import { removeAllItems } from '../../actions/index'
-const { getResourceTemplate } = require('../../sinopiaServerSpoof.js')
 import PropTypes from 'prop-types'
 import ResourceTemplate from './ResourceTemplate'
 import Header from './Header'
@@ -23,29 +22,13 @@ class Editor extends Component {
     }
   }
 
-  componentDidUpdate(nextProps){
-    if (nextProps.location.state) {
-      //reset the store with the removeAllItems action
-      this.props.handleGenerateLD()
-
-      if(this.state.tempRtState){
-        const rtId = nextProps.location.state.rtId
-        const data = getResourceTemplate(rtId)
-        if (!this.state.resourceTemplateId) {
-          this.setState({resourceTemplateId: rtId})
-        }
-        this.setResourceTemplates(JSON.stringify(data))
-      }
-    }
-  }
-
   resetTempState = () => {
     this.setState({tempRtState: true})
   }
 
   //resource templates are set via StartingPoints and passed to ResourceTemplate
   setResourceTemplates = (content) => {
-    this.setState({tempRtState: false})
+    this.props.resetStore()
     this.setState({resourceTemplateData: content})
   }
 
@@ -57,7 +40,7 @@ class Editor extends Component {
         <StartingPoints
           tempStateCallback={this.resetTempState}
           resourceTemplatesCallback={this.setResourceTemplates}
-          resourceTemplateId = {this.state.resourceTemplateId}
+          defaultRtId = {this.state.resourceTemplateId}
           setResourceTemplateCallback={this.setResourceTemplates}
         />
         <ResourceTemplate
@@ -72,11 +55,11 @@ class Editor extends Component {
 Editor.propTypes = {
   children: PropTypes.array,
   triggerHandleOffsetMenu: PropTypes.func,
-  handleGenerateLD: PropTypes.func
+  resetStore: PropTypes.func
 }
 
 const mapDispatchToProps = dispatch => ({
-  handleGenerateLD(){
+  resetStore(){
     dispatch(removeAllItems())}
 })
 

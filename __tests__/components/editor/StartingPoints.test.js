@@ -5,6 +5,7 @@ import { shallow, mount } from 'enzyme'
 import StartingPoints from '../../../src/components/editor/StartingPoints'
 import DropZone from '../../../src/components/editor/StartingPoints'
 import { MemoryRouter } from 'react-router-dom'
+import { Link } from 'react-router-dom'
 
 const jsdom = require("jsdom")
 require('isomorphic-fetch')
@@ -12,7 +13,8 @@ require('isomorphic-fetch')
 setUpDomEnvironment()
 
 describe('<StartingPoints />', () => {
-  let wrapper = shallow(<StartingPoints />)
+  const reloadEditor = jest.fn()
+  let wrapper = shallow(<StartingPoints reloadEditor={reloadEditor}/>)
 
   it('Has a div with headings', () => {
     expect(wrapper.find('div > h3').text()).toEqual('Create Resource')
@@ -20,6 +22,10 @@ describe('<StartingPoints />', () => {
 
   it('has an upload button', async() => {
     expect(wrapper.find('button#ImportProfile').exists()).toBeTruthy()
+  })
+
+  it('has a link to the default resource template', () => {
+    expect(wrapper.find(Link).exists()).toBeTruthy()
   })
 })
 
