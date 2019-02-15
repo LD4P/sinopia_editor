@@ -74,7 +74,7 @@ class ResourceTemplate extends Component {
 
 ResourceTemplate.propTypes = {
   resourceTemplateId: PropTypes.string,
-  resourceTemplateData: PropTypes.string
+  resourceTemplateData: PropTypes.oneOfType([PropTypes.string, PropTypes.object])
 }
 
 export default  ResourceTemplate
