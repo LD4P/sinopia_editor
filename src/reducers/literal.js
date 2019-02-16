@@ -1,3 +1,5 @@
+const formDataCollection = require('lodash/collection')
+
 const DEFAULT_STATE = {
   formData: []
 }
@@ -34,10 +36,25 @@ const removeMyItem = (state, action) => {
 
 const setMyItems = (state, action) => {
   let newFormData = state.formData.slice(0)
+
+  let exists
+  if (action.payload.items !== undefined && action.payload.items.length > 0) {
+    exists = formDataCollection.find(newFormData, {
+      id: action.payload.id,
+      rtId: action.payload.rtId,
+      items: [{
+        content: action.payload.items[0].content,
+        propPredicate: action.payload.items[0].propPredicate
+      }]
+    })
+  }
+
   let needNewItemArray = true;
   for (let field of newFormData) {
     if (field.id == action.payload.id) {
-      field.items = field.items.concat(action.payload.items)
+      if (exists === undefined) {
+        field.items = field.items.concat(action.payload.items)
+      }
       needNewItemArray = false;
       break;
     }

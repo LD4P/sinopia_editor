@@ -64,13 +64,17 @@ class ResourceTemplateForm extends Component {
     }]
   }
 
-  setDefaultsForLiteralWithPayLoad = (button, propURI, defaults, rtid) => {
+  setDefaultsForLiteralWithPayLoad = (button, propURI, propPredicate, defaults, rtid) => {
+    let useUri
+    propPredicate !== undefined ? useUri = propPredicate : useUri = propURI
+
     const payload = {
       id: button,
-      uri: propURI,
+      uri: useUri,
       items: defaults,
       rtId: rtid
     }
+
     if (defaults != undefined) {
       this.props.handleMyItemsChange(payload)
     }
@@ -95,7 +99,8 @@ class ResourceTemplateForm extends Component {
       let defaults = this.defaultsForLiteral(content, propURI)
       if (defaults[0].content !== undefined) {
         if (this.props.literals.formData.length === 0) {
-          this.setDefaultsForLiteralWithPayLoad(buttonID, propURI, defaults, rtId)
+          const propPredicate = undefined
+          this.setDefaultsForLiteralWithPayLoad(buttonID, propURI, propPredicate, defaults, rtId)
         }
       }
     })
@@ -245,7 +250,8 @@ class ResourceTemplateForm extends Component {
                     }
                     else if(pt.type == 'literal'){
                       return(
-                        <InputLiteral propertyTemplate={pt} key={index} id={index}
+                        <InputLiteral key={index} id={index}
+                                      propertyTemplate={pt}
                                       rtId={this.props.rtId}
                                       blankNodeForLiteral={this.state.rdfOuterSubject}
                                       propPredicate={this.props.propPredicate}
