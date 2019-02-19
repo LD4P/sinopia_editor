@@ -30,7 +30,13 @@ export class InputLiteral extends Component {
       const propPredicate = this.props.propPredicate
       let defaults = this.props.defaultsForLiteral(defaultValue.defaultLiteral, propPredicate)
       if (defaults !== undefined) ++this.lastId
-      this.props.setDefaultsForLiteralWithPayLoad(this.props.buttonID, this.props.propertyTemplate.propertyURI, defaults, this.props.rtId)
+
+      this.props.setDefaultsForLiteralWithPayLoad(this.props.buttonID,
+                                                  this.props.propertyTemplate.propertyURI,
+                                                  propPredicate,
+                                                  defaults,
+                                                  this.props.rtId)
+
       if (this.props.propertyTemplate.repeatable == "false") {
         this.setState({ disabled: true })
       }
@@ -244,7 +250,7 @@ InputLiteral.propTypes = {
     })
   }).isRequired,
   formData: PropTypes.shape({
-    id: PropTypes.string,
+    id: PropTypes.number,
     uri: PropTypes.string,
     items: PropTypes.array
   }),
@@ -262,7 +268,7 @@ const mapStatetoProps = (state, props) => {
   return {
     formData: state.literal.formData.find(obj =>
       obj.id === props.buttonID &&
-      obj.uri === props.propertyTemplate.propertyURI
+      (obj.uri === props.propertyTemplate.propertyURI || obj.uri === props.propPredicate)
     )
   }
 }

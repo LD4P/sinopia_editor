@@ -141,7 +141,7 @@ describe('When the user enters input into field', ()=>{
     mock_wrapper.find('input').simulate("change", { target: { value: "foo" }})
     expect(mock_wrapper.state('content_add')).toEqual('foo')
     mock_wrapper.find('input').simulate('keypress', {key: 'Enter', preventDefault: () => {}})
-    mock_wrapper.setProps({formData: { uri: "http://id.loc.gov/ontologies/bibframe/instanceOf", items: [{content: "foo", id: 4}]} })
+    mock_wrapper.setProps({formData: { id: 1, uri: "http://id.loc.gov/ontologies/bibframe/instanceOf", items: [{content: "foo", id: 4}]} })
     expect(mock_wrapper.find('input').prop('required')).toBeFalsy()
     mock_wrapper.setProps({formData: undefined }) // reset props for next test
   })
@@ -149,14 +149,14 @@ describe('When the user enters input into field', ()=>{
   it('item appears when user inputs text into the field', () => {
     mock_wrapper.instance().props.propertyTemplate.repeatable = "false"
     mock_wrapper.instance().forceUpdate()
-    mock_wrapper.setProps({formData: { uri: "http://id.loc.gov/ontologies/bibframe/instanceOf", items: [{content: "foo", id: 4}]} })
+    mock_wrapper.setProps({formData: { id: 1, uri: "http://id.loc.gov/ontologies/bibframe/instanceOf", items: [{content: "foo", id: 4}]} })
     expect(mock_wrapper.find('div#userInput').text()).toEqual('fooX<Button /><Modal />') // contains X as a button to delete the input
     mock_wrapper.setProps({formData: undefined }) // reset props for next test
     mockFormDataFn.mock.calls = [] // reset the redux store to empty
   })
 
   it('should call the removeMockDataFn when X is clicked', () => {
-    mock_wrapper.setProps({formData: { uri: "http://id.loc.gov/ontologies/bibframe/instanceOf", items: [{content: "test", id: 5}]} })
+    mock_wrapper.setProps({formData: { id: 1,  uri: "http://id.loc.gov/ontologies/bibframe/instanceOf", items: [{content: "test", id: 5}]} })
     expect(removeMockDataFn.mock.calls.length).toEqual(0);
     mock_wrapper.find('button#displayedItem').first().simulate('click', { target: { "dataset": {"item": 5 }}})
     expect(removeMockDataFn.mock.calls.length).toEqual(1);
@@ -164,7 +164,7 @@ describe('When the user enters input into field', ()=>{
   })
 
   it('shows the <InputLang> modal when the <Button/> is clicked', () => {
-    mock_wrapper.setProps({formData: { id: "http://id.loc.gov/ontologies/bibframe/instanceOf", items: [{content: "test", id: 6}]} })
+    mock_wrapper.setProps({formData: { id: 1, uri: "http://id.loc.gov/ontologies/bibframe/instanceOf", items: [{content: "test", id: 6}]} })
     mock_wrapper.find('Button').first().simulate('click')
     expect(mock_wrapper.find('ModalTitle').render().text()).toEqual('Languages')
   })
@@ -220,7 +220,7 @@ describe('when there is a default literal value in the property template', () =>
     it('input has disabled attribute set to "true" when repeatable is "false" and an item is added', () => {
       nonrepeat_wrapper.find('input').simulate("change", { target: { value: "fooby" }})
       nonrepeat_wrapper.find('input').simulate('keypress', {key: 'Enter', preventDefault: () => {}})
-      nonrepeat_wrapper.setProps({formData: { id: "http://id.loc.gov/ontologies/bibframe/instanceOf", items: [{content: "fooby", id: 0}]} })
+      nonrepeat_wrapper.setProps({formData: { id: 1, uri: "http://id.loc.gov/ontologies/bibframe/instanceOf", items: [{content: "fooby", id: 0}]} })
       expect(nonrepeat_wrapper.find('input').props('disabled')).toBeTruthy()
     })
 
