@@ -44,17 +44,6 @@ class StartingPoints extends Component {
         .then(() => {
           this.props.setResourceTemplateCallback(template)
         })
-
-        // let fileReader = new window.FileReader()
-        // fileReader.onloadend = handleFileRead
-        //
-        // //currently ResourceTemplate parses the profile and gets an array of objects; want just the objects
-        // fileReader.readAsText(files[0])
-        //
-        // this.setState({
-        //   files
-        // })
-
         .catch(err => {
           alert(`ERROR - CANNOT USE PROFILE/RESOURCE TEMPLATE: problem validating template: ${err}`)
         })
