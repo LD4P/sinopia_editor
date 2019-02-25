@@ -1,7 +1,9 @@
 // Copyright 2018 Stanford University see Apache2.txt for license
 
 import React, { Component }  from 'react'
+import { connect } from 'react-redux'
 import ResourceTemplateForm from './ResourceTemplateForm'
+import { setResourceTemplate } from '../../actions/index'
 const { getResourceTemplate } = require('../../sinopiaServerSpoof.js')
 import PropTypes from 'prop-types'
 
@@ -45,6 +47,7 @@ class ResourceTemplate extends Component {
     return (
       <div>
         {rtData.map((rt, index) => {
+          this.props.handleResourceTemplate(rt)
           return(
             <div className='ResourceTemplate' style={Object.assign(dashedBorder, float)} key={index}>
               <h4>Resource Template Container </h4>
@@ -74,8 +77,19 @@ class ResourceTemplate extends Component {
 }
 
 ResourceTemplate.propTypes = {
+  handleResourceTemplate: PropTypes.func,
   resourceTemplateId: PropTypes.string,
   resourceTemplateData: PropTypes.oneOfType([PropTypes.string, PropTypes.object])
 }
 
-export default  ResourceTemplate
+const mapStatetoProps = (state, props) => {
+
+}
+
+const mapDispatchToProps = dispatch => ({
+  handleResourceTemplate(resource_template) {
+    dispatch(setResourceTemplate(resource_template))
+  }
+})
+
+export default connect(null, mapDispatchToProps)(ResourceTemplate);

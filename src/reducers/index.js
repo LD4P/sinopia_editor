@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 import { combineReducers } from 'redux'
 import { generateLD } from './linkedData'
 import lang from './lang'
@@ -12,28 +13,63 @@ const appReducer = combineReducers({
   lookups,
   authenticate
 })
+=======
 
-const rootReducer = (state, action) => {
-  if (action.type === 'REMOVE_ALL') {
-    state = {
-      literal: {
-        formData: [
-          {id: '', items: []}
-        ]
-      },
-      lookups: {
-        formData: [
-          // if action.payload.items contains items (from defaults)
-          // {id: 'http://id.loc.gov/ontologies/bibframe/issuance', items: [ {label: 'single unit', id: "http://id.loc.gov/vocabulary/issuance/mono", uri: 'http://id.loc.gov/vocabulary/issuance/mono'} ]}
-          // else :
-          {id: '', items: []}
-        ]
-      },
-      generateLD: { jsonld: {}}
+export const setResourceTemplate = (state, action) => {
+  const rtKey = action.payload.id
+>>>>>>> Started refactoring of Redux store
+
+  let output = Object.create(state)
+  output[rtKey] = {}
+  action.payload.propertyTemplates.forEach((property) => {
+    output[rtKey][property.propertyURI] = []
+    console.log(`Property ${property.propertyLabel} ${property.valueConstraint.defaults.length}`)
+    if (property.valueConstraint.defaults.length > 0) {
+      property.valueConstraint.defaults.forEach((row) => {
+        output[rtKey][property.propertyURI].push(
+          {
+            value: row.defaultLiteral,
+            uri: row.defaultURI
+          }
+        )
+      })
+      // property.valueConstrant.defaults.forEach((row) => {
+      //   console.log(`\t${row}`)
+        // output[rtKey][property.propertyURI].push(
+        //   {
+        //     value: row.defaultLiteral,
+        //     uri: row.defaultURI
+        //   }
+        // )
+      // })
     }
-  }
+    // console.log(`\tdefault? ${Object.keys(property.valueConstrant)}`)
+    // property.valueConstrant.defaults.forEach((row) => {
+    //   console.log(`Property ${property.propertyLabel} len=${row.length}`)
+      // output[rtKey][property.propertyURI].push(
+      //   {
+      //     value: default.defaultLiteral,
+      //     uri: default.defaultURI
+      //   }
+      // )
+    // })
+  })
+  return output
+}
 
-  return appReducer(state, action)
+const rootReducer = (state={}, action) => {
+  switch(action.type) {
+    case 'SET_RESOURCE_TEMPLATE':
+      return setResourceTemplate(state, action)
+    case 'SET_ITEMS':
+      return setMyItems(state, action)
+    case 'REMOVE_ITEM':
+      return removeMyItem(state, action)
+    case 'REMOVE_ALL_CONTENT':
+      return removeAllContent(state, action)
+    default:
+      return state
+  }
 }
 
 export default rootReducer

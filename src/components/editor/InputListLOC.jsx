@@ -131,11 +131,12 @@ InputListLOC.propTypes = {
 }
 
 const mapStatetoProps = (state) => {
-  let data = state.lookups.formData
+  // let data = state.lookups.formData
   let result = {}
-  if (data !== undefined){
-    result = { formData: data }
-  }
+  // if (data !== undefined){
+  //   result = { formData: data }
+  // }
+
   return result
 }
 

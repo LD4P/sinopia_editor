@@ -98,10 +98,10 @@ class ResourceTemplateForm extends Component {
       let content = this.getContentForModalButton(rtId)
       let defaults = this.defaultsForLiteral(content, propURI)
       if (defaults[0].content !== undefined) {
-        if (this.props.literals.formData.length === 0) {
-          const propPredicate = undefined
-          this.setDefaultsForLiteralWithPayLoad(buttonID, propURI, propPredicate, defaults, rtId)
-        }
+        // if (this.props.literals.formData.length === 0) {
+        //   const propPredicate = undefined
+        //   this.setDefaultsForLiteralWithPayLoad(buttonID, propURI, propPredicate, defaults, rtId)
+        // }
       }
     })
     return buttons
@@ -263,17 +263,17 @@ class ResourceTemplateForm extends Component {
                     else if (this.isResourceWithValueTemplateRef(pt)) {
                       let buttonId
                       let valueForButton
-                      this.props.literals.formData.map((obj) => {
-                        buttonId = obj.id
-                        if (buttonId !== undefined && buttonId === index) {
-                          const buttonContent = obj.items
-                          if (buttonContent !== undefined) {
-                            buttonContent.map((item, i) => {
-                              i === 0 ? valueForButton = `${item.content} ` : valueForButton += `${item.content} `
-                            })
-                          }
-                        }
-                      })
+                      // this.props.literals.formData.map((obj) => {
+                      //   buttonId = obj.id
+                      //   if (buttonId !== undefined && buttonId === index) {
+                      //     const buttonContent = obj.items
+                      //     if (buttonContent !== undefined) {
+                      //       buttonContent.map((item, i) => {
+                      //         i === 0 ? valueForButton = `${item.content} ` : valueForButton += `${item.content} `
+                      //       })
+                      //     }
+                      //   }
+                      // })
                       // TODO: some valueTemplateRefs may be lookups??
                       return (
                         <ButtonToolbar key={index}>
@@ -308,9 +308,9 @@ class ResourceTemplateForm extends Component {
 }
 
 ResourceTemplateForm.propTypes = {
-  literals: PropTypes.oneOfType([PropTypes.array, PropTypes.object]).isRequired,
-  lookups: PropTypes.oneOfType([PropTypes.array, PropTypes.object]).isRequired,
-  handleGenerateLD: PropTypes.func,
+  // literals: PropTypes.oneOfType([PropTypes.array, PropTypes.object]).isRequired,
+  // lookups: PropTypes.oneOfType([PropTypes.array, PropTypes.object]).isRequired,
+  // handleGenerateLD: PropTypes.func,
   propertyTemplates: PropTypes.arrayOf(PropTypes.object).isRequired,
   resourceTemplate: PropTypes.object.isRequired,
   rtId: PropTypes.string,
@@ -318,7 +318,7 @@ ResourceTemplateForm.propTypes = {
   rdfOuterSubject: PropTypes.object,
   propPredicate: PropTypes.string,
   buttonID: PropTypes.number,
-  generateLD: PropTypes.object.isRequired,
+  // generateLD: PropTypes.object.isRequired,
   handleMyItemsChange: PropTypes.func,
   handleRemoveAllContent: PropTypes.func
 }

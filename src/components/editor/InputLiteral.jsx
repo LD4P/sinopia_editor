@@ -265,12 +265,7 @@ InputLiteral.propTypes = {
 }
 
 const mapStatetoProps = (state, props) => {
-  return {
-    formData: state.literal.formData.find(obj =>
-      obj.id === props.buttonID &&
-      (obj.uri === props.propertyTemplate.propertyURI || obj.uri === props.propPredicate)
-    )
-  }
+  return { }
 }
 
 const mapDispatchtoProps = dispatch => ({
