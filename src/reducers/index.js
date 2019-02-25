@@ -23,7 +23,6 @@ export const setResourceTemplate = (state, action) => {
   output[rtKey] = {}
   action.payload.propertyTemplates.forEach((property) => {
     output[rtKey][property.propertyURI] = []
-    console.log(`Property ${property.propertyLabel} ${property.valueConstraint.defaults.length}`)
     if (property.valueConstraint.defaults.length > 0) {
       property.valueConstraint.defaults.forEach((row) => {
         output[rtKey][property.propertyURI].push(
@@ -33,26 +32,17 @@ export const setResourceTemplate = (state, action) => {
           }
         )
       })
-      // property.valueConstrant.defaults.forEach((row) => {
-      //   console.log(`\t${row}`)
-        // output[rtKey][property.propertyURI].push(
-        //   {
-        //     value: row.defaultLiteral,
-        //     uri: row.defaultURI
-        //   }
-        // )
-      // })
     }
-    // console.log(`\tdefault? ${Object.keys(property.valueConstrant)}`)
-    // property.valueConstrant.defaults.forEach((row) => {
-    //   console.log(`Property ${property.propertyLabel} len=${row.length}`)
-      // output[rtKey][property.propertyURI].push(
-      //   {
-      //     value: default.defaultLiteral,
-      //     uri: default.defaultURI
-      //   }
-      // )
-    // })
+    if (property.valueConstraint.valueTemplateRefs.length > 0) {
+      property.valueConstraint.valueTemplateRefs.forEach((row) => {
+        output[row] = {} // Should be a Sinopia Server?
+        output[rtKey][property.propertyURI].push(
+          {
+            resourceTemplate: row
+          }
+        )
+      })
+    }
   })
   return output
 }
