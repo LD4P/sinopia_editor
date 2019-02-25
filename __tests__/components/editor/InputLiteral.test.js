@@ -251,11 +251,41 @@ describe('when repeatable="false" and defaults exist', () => {
     }
   }
 
-  const default_wrapper =  shallow(
+  const default_wrapper = shallow(
      <InputLiteral {...defaultProps}
       id={13}
       rtId={'resourceTemplate:bf2:Monograph:Item'} />)
   it('in the initial display, the input field is disabled ', () => {
     expect(default_wrapper.find('input').props('disabled')).toBeTruthy()
+  })
+})
+
+describe('When a user enters non-roman text like a transliterated title', () => {
+  const art_of_war = "战争的艺术" // Chinese characters for Sun Tzu's Art of War
+  const mockTransliteratedFormDataFn = jest.fn()
+
+  const transcribedProps =  {
+    "propertyTemplate":
+    {
+      "propertyLabel": "Transliterated Title",
+      "propertyURI": "http://id.loc.gov/ontologies/bibframe/title",
+      "type": "literal",
+      "mandatory": "false",
+      "repeatable": "true"
+    }
+  }
+
+  const transliterated_wrapper = shallow(
+    <InputLiteral {...transcribedProps}
+      id={14}
+      handleMyItemsChange={mockTransliteratedFormDataFn}
+      rtId={'resourceTemplate:bflc:TranscribedTitle'} />
+  )
+
+  it('allows user to enter Chinese characters', () => {
+    transliterated_wrapper.find('input').simulate("change", { target: { value: art_of_war }})
+    transliterated_wrapper.find('input').simulate('keypress', { key: 'Enter', preventDefault: () => {}})
+    transliterated_wrapper.setProps({formData: { id: 1, uri: "http://id.loc.gov/ontologies/bibframe/title", items: [{content: art_of_war, id: 1}]} })
+    expect(transliterated_wrapper.find('div#userInput').text().includes(art_of_war)).toBeTruthy()
   })
 })
