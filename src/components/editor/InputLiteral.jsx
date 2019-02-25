@@ -243,13 +243,9 @@ InputLiteral.propTypes = {
   defaultsForLiteral: PropTypes.func
 }
 
-// TODO: Add selector to return current state in tree
-// const mapStateToProps = (state, props) => {
-//
-//   return {
-    // formData: { items: getProperty(state, props.rtId, props.propertyTemplate.propertyURI) }
-//   }
-// }
+const mapStatetoProps = (state, props) => {
+  return { }
+}
 
 const mapDispatchToProps = dispatch => ({
   handleMyItemsChange(user_input){
