@@ -3,6 +3,7 @@
 import React, {Component} from 'react'
 import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
+import { getProperty } from '../../reducers/index'
 import { setItems, removeItem } from '../../actions/index'
 import PropertyRemark from './PropertyRemark'
 import RequiredSuperscript from './RequiredSuperscript'
@@ -264,11 +265,13 @@ InputLiteral.propTypes = {
   defaultsForLiteral: PropTypes.func
 }
 
-const mapStatetoProps = (state, props) => {
-  return { }
+const mapStateToProps = (state, props) => {
+  return {
+    formData: getProperty(state, props.rtId, props.propertyURI)
+  }
 }
 
-const mapDispatchtoProps = dispatch => ({
+const mapDispatchToProps = dispatch => ({
   handleMyItemsChange(user_input){
     dispatch(setItems(user_input))
   },
@@ -277,4 +280,4 @@ const mapDispatchtoProps = dispatch => ({
   }
 })
 
-export default connect(mapStatetoProps, mapDispatchtoProps)(InputLiteral);
+export default connect(mapStateToProps, mapDispatchToProps)(InputLiteral);

@@ -1,4 +1,5 @@
 <<<<<<< HEAD
+<<<<<<< HEAD
 import { combineReducers } from 'redux'
 import { generateLD } from './linkedData'
 import lang from './lang'
@@ -14,6 +15,22 @@ const appReducer = combineReducers({
   authenticate
 })
 =======
+=======
+// Copyright 2018, 2019 Stanford University see Apache2.txt for license
+
+import { createSelector } from 'reselect'
+
+const resourceTemplateSelector = (state, id) => state[id]
+
+const propertySelector = (state, rtId, id) => state[rtId][id]
+
+export const getProperty = createSelector(
+  [resourceTemplateSelector, propertySelector],
+  (resourceTemplate, propertyURI)  => {
+    return resourceTemplate[propertyURI]
+  }
+)
+>>>>>>> resourceTemplateSelector, propertySelector, and getProperty functions, added
 
 export const setResourceTemplate = (state, action) => {
   const rtKey = action.payload.id
