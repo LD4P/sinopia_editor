@@ -1,3 +1,4 @@
+
 import { combineReducers } from 'redux'
 import { createSelector } from 'reselect'
 import { generateLD } from './linkedData'
@@ -71,6 +72,9 @@ const appReducer = combineReducers({
   authenticate,
   selectorReducer
 })
+
+export const setResourceTemplate = (state, action) => {
+  const rtKey = action.payload.id
 
   let output = Object.create(state)
   output[rtKey] = {}

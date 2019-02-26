@@ -243,8 +243,10 @@ InputLiteral.propTypes = {
   defaultsForLiteral: PropTypes.func
 }
 
-const mapStatetoProps = (state, props) => {
-  return { }
+const mapStateToProps = (state, props) => {
+  return {
+    formData: getProperty(state, props.rtId, props.propertyURI)
+  }
 }
 
 const mapDispatchToProps = dispatch => ({
