@@ -39,3 +39,21 @@ describe('getLD action', () => {
     })
   })
 })
+
+describe('logIn action', () => {
+  it('logIn should create LOG_IN action', () => {
+    const jwt = {login: {id_token: '1a2b3c', access_token: 'a1b2c3', expires_in: 3600, isAuthenticated: true} }
+    expect(actions.logIn(jwt)).toEqual({
+      type: 'LOG_IN',
+      payload: jwt
+    })
+  })
+})
+
+describe('logOut action', () => {
+  it('logOut should create LOG_OUT action', () => {
+    expect(actions.logOut()).toEqual({
+      type: 'LOG_OUT'
+    })
+  })
+})

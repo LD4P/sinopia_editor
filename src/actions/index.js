@@ -32,3 +32,12 @@ export const setLang = item => ({
   type: "SET_LANG",
   payload: item
 })
+
+export const logIn = jwt => ({
+  type: "LOG_IN",
+  payload: jwt
+})
+
+export const logOut = () => ({
+  type: "LOG_OUT"
+})
