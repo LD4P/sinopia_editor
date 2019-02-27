@@ -22,8 +22,7 @@ class NewsPanel extends Component {
               <div className="col-md-4 login-sec">
                 <LoginPanel logOut={this.props.logOut} />
               </div>
-            </div>
-         </div>
+          </div>
         </div>
       </div>
     )
