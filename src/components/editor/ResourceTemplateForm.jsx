@@ -262,9 +262,6 @@ class ResourceTemplateForm extends Component {
 
             </div>
           </form>
-          <div class="panel panel-default">
-
-          </div>
         </div>
       )
     }

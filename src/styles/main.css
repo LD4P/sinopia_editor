@@ -84,6 +84,7 @@ body {
 }
 
 .rOutline-property {
+<<<<<<< HEAD
   margin: .5em;
   border: 1px dotted;
   background-color: white;
@@ -92,6 +93,10 @@ body {
 
 .rOutline-property div {
   padding: .5em;
+=======
+  margin-let: 1em;
+
+>>>>>>> Displays first level of resource template properties in a collapse
 }
 
 .arrow-icon{
