@@ -21,6 +21,9 @@ body {
 .jumbotron h1{
   font-size: 30px;
 }
+
+
+
 .desc-panel{
   padding: 0 10%;
   margin-bottom: 10%;
@@ -50,6 +53,20 @@ body {
 .closeMargin{
   margin-right: -12.5%;
 }
+
+.prop-heading {
+  background-color: #8C8A83 !important;
+  color: white !important;
+}
+
+.panel-property {
+  width: 40%;
+  border-color: #8C8A83;
+  border-style: solid;
+  border-width: 1px;
+  background-color: #F8F6EF;
+}
+
 .menu-item{
   margin-left: 1.4em;
 }
@@ -60,6 +77,16 @@ body {
   color: white;
   float: right;
 }
+
+.rtOutline a {
+  color: rgb(51, 51, 51);
+}
+
+.rOutline-property {
+  margin-let: 1em;
+  
+}
+
 .arrow-icon{
   color: white;
   font-size: 1.2em;
@@ -93,12 +120,12 @@ h2.editor-subtitle {
 
 a.prop-remark {
   text-decoration: none;
+  color: white;
 }
 
 span.prop-remark {
   border-width: thin;
   border-bottom-style: dashed !important;
-  color: #2F2424;
 }
 
 a.editor-subtitle {

@@ -27,8 +27,8 @@ export default class PropertyPanel extends Component {
 
   render() {
     return (
-      <div className="panel panel-default">
-        <div className="panel-heading">
+      <div className="panel float-left panel-property">
+        <div className="panel-heading prop-heading">
           {this.generateTitle()}
         </div>
         <div className="panel-body">

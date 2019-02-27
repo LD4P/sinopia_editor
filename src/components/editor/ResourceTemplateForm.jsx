@@ -11,7 +11,6 @@ import PropertyPanel from './PropertyPanel'
 import PropertyRemark from './PropertyRemark'
 import PropertyResourceTemplate from './PropertyResourceTemplate'
 import RequiredSuperscript from './RequiredSuperscript'
-import RDFModal from './RDFModal'
 import lookupConfig from '../../../static/spoofedFilesFromServer/fromSinopiaServer/lookupConfig.json'
 import {getLD, setItems, removeAllContent} from '../../actions/index'
 const { getResourceTemplate } = require('../../sinopiaServerSpoof.js')
@@ -102,23 +101,6 @@ class ResourceTemplateForm extends Component {
     return rtProperties
   }
 
-  rtModalButton = (rtId, propURI, buttonID) => {
-    let resourceTemplate = getResourceTemplate(rtId)
-    return (
-      <ModalToggle
-        key={rtId}
-        rtId={rtId}
-        buttonID={buttonID}
-        buttonLabel={resourceTemplate.resourceLabel}
-        propertyTemplates={resourceTemplate.propertyTemplates}
-        resourceTemplate={resourceTemplate}
-        rdfOuterSubject = {this.state.rdfOuterSubject}
-        propPredicate = {propURI}
-        handleRDFDisplay = {this.handleRDFDisplay}
-      />
-    )
-  }
-
   mandatorySuperscript = (propMandatory) => {
     if (JSON.parse(propMandatory)) {
       return <RequiredSuperscript />
@@ -199,15 +181,9 @@ class ResourceTemplateForm extends Component {
     } else {
       return (
         <div>
-          <div>
-            <RDFModal show={this.state.showRdf}
-                      close={this.rdfClose}
-                      rtId={this.props.rtId}
-                      linkedData={ JSON.stringify(this.props.generateLD) }/>
-          </div>
+
           <form>
             <div className='ResourceTemplateForm row'>
-                <div className="col-md-6">
                   { this.props.propertyTemplates.map( (pt, index) => {
 
                     let isLookupWithConfig = Boolean(
@@ -285,15 +261,9 @@ class ResourceTemplateForm extends Component {
                     }
                   )
                  }
-                </div>
-              <div>
-                {(this.props.rdfOuterSubject === undefined) ? (<button type="button" className="btn btn-success btn-sm" onClick={this.handleSave}>Preview RDF</button>) : null}
-              </div>
+
             </div>
           </form>
-          <div class="panel panel-default">
-
-          </div>
         </div>
       )
     }
