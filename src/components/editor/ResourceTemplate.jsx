@@ -10,14 +10,6 @@ import PropTypes from 'prop-types'
 class ResourceTemplate extends Component {
 
   render () {
-    let dashedBorder = {
-      border: '1px dashed',
-      padding: '10px',
-    }
-    let float = {
-      float: 'left',
-      width:'75%'
-    }
 
     const resourceTemplateData = (rtd) => {
       let result
@@ -44,29 +36,20 @@ class ResourceTemplate extends Component {
 
     const rtData = resourceTemplateData(this.props.resourceTemplateData)
 
+
     return (
       <div>
         {rtData.map((rt, index) => {
           this.props.handleResourceTemplate(rt)
           return(
-            <div className='ResourceTemplate' style={Object.assign(dashedBorder, float)} key={index}>
-              <h4>Resource Template Container </h4>
-              <p>Resource Template selected:</p>
-              <ul>
-                <li>resourceLabel: <strong>{rt.resourceLabel}</strong></li>
-                <li>resourceURI: <strong>{rt.resourceURI}</strong></li>
-                <li>id: <strong>{rt.id}</strong></li>
-                <li>remark: <strong>{rt.remark}</strong></li>
-              </ul>
+            <div className='ResourceTemplate' key={index}>
               <div id="resourceTemplate">
-                <h4>BEGIN ResourceTemplate</h4>
                   <ResourceTemplateForm
                     propertyTemplates = {rt.propertyTemplates}
                     resourceTemplate = {rt}
                     parentResourceTemplate = {this.props.resourceTemplateId}
                     rtId = {rt.id}
                   />
-                <h4>END ResourceTemplate</h4>
               </div>
             </div>
           )
@@ -82,8 +65,10 @@ ResourceTemplate.propTypes = {
   resourceTemplateData: PropTypes.oneOfType([PropTypes.string, PropTypes.object])
 }
 
-const mapStatetoProps = (state, props) => {
-
+const mapStateToProps = (state, props) => {
+  return {
+    
+  }
 }
 
 const mapDispatchToProps = dispatch => ({

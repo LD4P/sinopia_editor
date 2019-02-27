@@ -18,20 +18,6 @@ class InputLookupQA extends Component {
     }
   }
 
-  hasPropertyRemark = () => {
-    if(this.props.propertyTemplate.remark) {
-      return <PropertyRemark remark={this.props.propertyTemplate.remark}
-          label={this.props.propertyTemplate.propertyLabel} />;
-    }
-    return this.props.propertyTemplate.propertyLabel;
-  }
-
-  mandatorySuperscript = () => {
-    if (JSON.parse(this.props.propertyTemplate.mandatory)) {
-      return <RequiredSuperscript />
-    }
-  }
-
   render() {
     let isMandatory, isRepeatable, authority, subauthority, language
     try {
@@ -57,10 +43,6 @@ class InputLookupQA extends Component {
 
     return (
       <div>
-        <label htmlFor="lookupComponent"
-               title={this.props.propertyTemplate.remark}>
-        {this.hasPropertyRemark()}
-        {this.mandatorySuperscript()}
         <AsyncTypeahead id="lookupComponent"
           onSearch={query => {
             this.setState({isLoading: true});
@@ -92,7 +74,6 @@ class InputLookupQA extends Component {
           }
           {...typeaheadProps}
         />
-        </label>
       </div>
     )
   }

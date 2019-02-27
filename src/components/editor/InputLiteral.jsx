@@ -138,20 +138,6 @@ export class InputLiteral extends Component {
      }
   }
 
-  hasPropertyRemark = () => {
-    if(this.props.propertyTemplate.remark) {
-      return <PropertyRemark remark={this.props.propertyTemplate.remark}
-          label={this.props.propertyTemplate.propertyLabel} />;
-    }
-    return this.props.propertyTemplate.propertyLabel;
-  }
-
-  mandatorySuperscript = () => {
-    if (this.props.propertyTemplate.mandatory === "true") {
-      return <RequiredSuperscript />
-    }
-  }
-
   dispModal = (content) => {
     return(
       <Modal show={this.state.show} onHide={this.handleClose}>
@@ -215,25 +201,22 @@ export class InputLiteral extends Component {
 
   render() {
     return (
-      <div className="form-group">
-        <label htmlFor={"typeLiteral" + this.props.id}
-               title={this.props.propertyTemplate.remark}>
-          {this.hasPropertyRemark()}
-          {this.mandatorySuperscript()}
-          <input
-            required={this.checkMandatoryRepeatable()}
-            className="form-control"
-            placeholder={this.props.propertyTemplate.propertyLabel}
-            onChange={this.handleChange}
-            onKeyPress={this.handleKeypress}
-            value={this.state.content_add}
-            disabled={this.state.disabled}
-            id={"typeLiteral" + this.props.id}
-            onClick={this.handleFocus}
-          />
-          {this.makeAddedList()}
-        </label>
-      </div>
+          // {this.hasPropertyRemark()}
+          // {this.mandatorySuperscript()}
+          <div>
+            <input
+              required={this.checkMandatoryRepeatable()}
+              className="form-control"
+              placeholder={this.props.propertyTemplate.propertyLabel}
+              onChange={this.handleChange}
+              onKeyPress={this.handleKeypress}
+              value={this.state.content_add}
+              disabled={this.state.disabled}
+              id={"typeLiteral" + this.props.id}
+              onClick={this.handleFocus}
+            />
+            {this.makeAddedList()}
+        </div>
     )
   }
 }
