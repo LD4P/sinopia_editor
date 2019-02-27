@@ -7,9 +7,8 @@ import authenticate from './authenticate'
 import { removeMyItem, setMyItems } from './literal'
 
 
-const removeAllContent = () => {
-
-}
+import { createSelector } from 'reselect'
+const { getResourceTemplate } = require('../sinopiaServerSpoof.js')
 
 const resourceTemplateSelector = (state, id) => state[id]
 
@@ -79,10 +78,11 @@ export const setResourceTemplate = (state, action) => {
   let output = Object.create(state)
   output[rtKey] = {}
   action.payload.propertyTemplates.forEach((property) => {
-    output[rtKey][property.propertyURI] = []
+    output[rtKey][property.propertyURI] = { items: [] }
     if (property.valueConstraint.defaults.length > 0) {
       property.valueConstraint.defaults.forEach((row) => {
-        output[rtKey][property.propertyURI].push(
+        // This items payload needs to vary if type is literal or lookup
+        output[rtKey][property.propertyURI].items.push(
           {
             value: row.defaultLiteral,
             uri: row.defaultURI
@@ -91,13 +91,9 @@ export const setResourceTemplate = (state, action) => {
       })
     }
     if (property.valueConstraint.valueTemplateRefs.length > 0) {
-      property.valueConstraint.valueTemplateRefs.forEach((row) => {
-        output[row] = {} // Should be a Sinopia Server?
-        output[rtKey][property.propertyURI].push(
-          {
-            resourceTemplate: row
-          }
-        )
+      property.valueConstraint.valueTemplateRefs.map((row, i) => {
+        // Should be recursive call to getResourceTemplate
+        output[rtKey][property.propertyURI] = { [row]: {} }
       })
     }
   })
@@ -120,4 +116,3 @@ const rootReducer = (state={}, action) => {
 }
 
 export default rootReducer
->>>>>>> Started refactoring of Redux store
