@@ -207,21 +207,21 @@ class ResourceTemplateForm extends Component {
 
                     if (listComponent === 'list'){
                       return (
-                        <PropertyPanel pt={pt}>
+                        <PropertyPanel pt={pt} float={index}>
                           <InputListLOC propertyTemplate = {pt} lookupConfig = {lookupConfigItem} key = {index} rtId = {this.props.rtId} />
                         </PropertyPanel>
                       )
                     }
                     else if (listComponent ===  'lookup'){
                       return(
-                        <PropertyPanel pt={pt}>
+                        <PropertyPanel pt={pt} float={index}>
                           <InputLookupQA propertyTemplate = {pt} lookupConfig = {lookupConfigItem} key = {index} rtId = {this.props.rtId} />
                         </PropertyPanel>
                       )
                     }
                     else if(pt.type == 'literal'){
                       return(
-                        <PropertyPanel pt={pt}>
+                        <PropertyPanel pt={pt} float={index}>
                           <InputLiteral key={index} id={index}
                                         propertyTemplate={pt}
                                         rtId={this.props.rtId}
@@ -249,7 +249,7 @@ class ResourceTemplateForm extends Component {
                       // })
                       // TODO: some valueTemplateRefs may be lookups??
                       return (
-                        <PropertyPanel pt={pt}>
+                        <PropertyPanel pt={pt} float={index}>
                             {this.resourceTemplateFields(pt.valueConstraint.valueTemplateRefs, pt.propertyURI, index)}
                             {this.renderValueForButton(valueForButton, index)}
                         </PropertyPanel>

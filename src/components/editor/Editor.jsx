@@ -51,7 +51,7 @@ class Editor extends Component {
         { authenticationMessage }
         <div className="row">
           <section className="col-md-9">
-            <h1>[Clone|Edit] title.of.resource</h1>
+            <h1>[Clone|Edit] </h1>
           </section>
           <section className="col-md-3">
             <button type="button" className="btn btn-primary btn-sm">Preview RDF</button>

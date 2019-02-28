@@ -60,6 +60,7 @@ body {
 }
 
 .panel-property {
+  margin: 1em;
   width: 40%;
   border-color: #8C8A83;
   border-style: solid;
@@ -84,7 +85,7 @@ body {
 
 .rOutline-property {
   margin-let: 1em;
-  
+
 }
 
 .arrow-icon{

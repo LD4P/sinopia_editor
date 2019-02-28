@@ -25,9 +25,19 @@ export default class PropertyPanel extends Component {
     return title
   }
 
+  getCssClasses = () => {
+    let floatClass = 'pull-left'
+    if (this.props.float > 0) {
+      if(this.props.float%0 > 0) {
+        floatClass = 'pull-right'
+      }
+    }
+    return `panel panel-property ${floatClass}`
+  }
+
   render() {
     return (
-      <div className="panel float-left panel-property">
+      <div className={this.getCssClasses()}>
         <div className="panel-heading prop-heading">
           {this.generateTitle()}
         </div>
