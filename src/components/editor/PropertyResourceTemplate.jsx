@@ -30,19 +30,20 @@ export class PropertyTemplateOutline extends Component {
 
   generateInputs = () => {
     const output = []
-    output.push(<OutlineHeader spacer={1}
-      label={this.props.propertyTemplate.propertyLabel}
-    />)
+    output.push()
 
     switch (this.props.propertyTemplate.type) {
       case "literal":
-        output.push(<div>Input Literal</div>)
-          // <InputLiteral
-          //   id={this.props.propertyTemplate.propertyURI} // ID should be blank node or URI
-          //   propertyTemplate={this.props.propertyTemplate}
-          //   rtId={this.props.rtId}/>
-        // )
-        // output.push(<PropertyTemplateOutline propertyTemplate={this.props.propertyTemplate} />)
+        output.push(<div className="row" >
+                      <section className="col-sm-4">
+                       {this.props.propertyTemplate.propertyLabel}
+                      </section>
+                      <section className="col-sm-8">
+                        <input className="form-control"
+                               placeholder="PropertyResourceTemplate or InputListLOC" />
+                      </section>
+        </div>)
+
         break;
 
       case "resource":
@@ -73,9 +74,13 @@ export class PropertyTemplateOutline extends Component {
           collapsed={this.state.collapsed}
           isRequired={this.isRequired()}
           handleCollapsed={this.handleCollapsed} />
-
+        <OutlineHeader spacer={1}
+            label={this.props.propertyTemplate.propertyLabel}
+          />
         <div className="rOutline-property">
+          <p>
           {this.generateInputs()}
+          </p>
         </div>
       </div>
     )
