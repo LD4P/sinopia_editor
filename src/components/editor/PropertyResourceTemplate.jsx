@@ -30,23 +30,38 @@ export class PropertyTemplateOutline extends Component {
 
   generateInputs = () => {
     const output = []
+    output.push(<OutlineHeader spacer={1}
+      label={this.props.propertyTemplate.propertyLabel}
+    />)
+
     switch (this.props.propertyTemplate.type) {
       case "literal":
-        // output.push(<InputLiteral id={1} rtId={null} />)
-        output.push(<OutlineHeader spacer={1}
-            label={this.props.propertyTemplate.propertyLabel}
-             />)
-        console.log(`Generate <InputLiteral />`)
+        output.push(<div>Input Literal</div>)
+          // <InputLiteral
+          //   id={this.props.propertyTemplate.propertyURI} // ID should be blank node or URI
+          //   propertyTemplate={this.props.propertyTemplate}
+          //   rtId={this.props.rtId}/>
+        // )
         // output.push(<PropertyTemplateOutline propertyTemplate={this.props.propertyTemplate} />)
         break;
 
       case "resource":
-        console.log(`Generate <PropertyResourceTemplate /> or <InputListLOC />`)
+        output.push(<div className="row">
+                      <section className="col-sm-4">
+                       {this.props.propertyTemplate.propertyLabel}
+                      </section>
+                      <section className="col-sm-8">
+                        <input className="form-control"
+                               placeholder="PropertyResourceTemplate or InputListLOC" />
+                      </section>
+                    </div>)
         break;
 
       case "lookup":
-        console.log(`Generate <InputLookupQA />`)
+        output.push(<div><input className="form-control"
+                          placeholder="Generate InputLookupQA" /></div>)
         break;
+
     }
     return output
   }
@@ -87,11 +102,7 @@ class PropertyResourceTemplate extends Component {
    }
 
   isCollapsed = () => {
-    let icon = 'faChevronDown'
-    return (
-      <div className="pull-right">
-        <FontAwesomeIcon icon={icon} />
-      </div>)
+
   }
 
 
@@ -115,7 +126,10 @@ class PropertyResourceTemplate extends Component {
           this.props.resourceTemplate.propertyTemplates.map((property, i) => {
             return(<PropertyTemplateOutline
                     propertyTemplate={property}
+<<<<<<< HEAD
                     key={`propRT-` + i}
+=======
+>>>>>>> Initial creation of Property Outline
                     count={i}  />)
           })
         }
