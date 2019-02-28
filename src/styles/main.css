@@ -90,6 +90,10 @@ body {
   margin: .5em;
 }
 
+.rOutline-property p {
+  padding: .5em;
+}
+
 .arrow-icon{
   color: white;
   font-size: 1.2em;

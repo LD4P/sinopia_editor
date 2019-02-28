@@ -35,19 +35,20 @@ export class PropertyTemplateOutline extends Component {
 
   generateInputs = () => {
     const output = []
-    output.push(<OutlineHeader spacer={1}
-      label={this.props.propertyTemplate.propertyLabel}
-    />)
+    output.push()
 
     switch (this.props.propertyTemplate.type) {
       case "literal":
-        output.push(<div>Input Literal</div>)
-          // <InputLiteral
-          //   id={this.props.propertyTemplate.propertyURI} // ID should be blank node or URI
-          //   propertyTemplate={this.props.propertyTemplate}
-          //   rtId={this.props.rtId}/>
-        // )
-        // output.push(<PropertyTemplateOutline propertyTemplate={this.props.propertyTemplate} />)
+        output.push(<div className="row" >
+                      <section className="col-sm-4">
+                       {this.props.propertyTemplate.propertyLabel}
+                      </section>
+                      <section className="col-sm-8">
+                        <input className="form-control"
+                               placeholder="PropertyResourceTemplate or InputListLOC" />
+                      </section>
+        </div>)
+
         break;
 
       case "resource":
@@ -78,9 +79,13 @@ export class PropertyTemplateOutline extends Component {
           collapsed={this.state.collapsed}
           isRequired={this.isRequired()}
           handleCollapsed={this.handleCollapsed} />
-
+        <OutlineHeader spacer={1}
+            label={this.props.propertyTemplate.propertyLabel}
+          />
         <div className="rOutline-property">
+          <p>
           {this.generateInputs()}
+          </p>
         </div>
       </div>
     )
@@ -110,12 +115,15 @@ class PropertyResourceTemplate extends Component {
     return (
       <div>
         <div className="row">
-          <section className="col-md-10">
+          <section className="col-md-8">
             <h4>{this.props.resourceTemplate.resourceLabel}</h4>
             {this.isCollapsed()}
           </section>
-          <section className="col-md-2">
-            <button className="btn btn-default" onClick={this.handleAddClick}>Add</button>
+          <section className="col-md-4">
+            <div className="btn-group" role="group" aria-label="...">
+              <button onClick={this.handleMintUri} className="btn btn-success btn-sm">Mint URI</button>
+              <button className="btn btn-default btn-sm" onClick={this.handleAddClick}>Add</button>
+            </div>
           </section>
         </div>
         <div>
