@@ -4,7 +4,7 @@ import React, { Component } from 'react'
 import PropertyTemplateOutline from './PropertyTemplateOutline'
 import PropTypes from 'prop-types'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faMinusSquare, faPlusSquare } from '@fortawesome/free-solid-svg-icons'
+import { faChevronDown, faMinusSquare, faPlusSquare } from '@fortawesome/free-solid-svg-icons'
 
 
 export class PropertyTemplateOutline extends Component {
@@ -12,7 +12,6 @@ export class PropertyTemplateOutline extends Component {
   constructor(props) {
     super(props)
     this.state = {
-      label: this.props.propertyTemplate.propertyLabel,
       collapsed: true
     }
   }
@@ -20,13 +19,6 @@ export class PropertyTemplateOutline extends Component {
   handleCollapsed = (event) => {
     event.preventDefault()
     this.setState( { collapsed: !this.state.collapsed })
-  }
-
-  isCollapsed = () => {
-    if(this.state.collapsed == true) {
-      return faPlusSquare
-    }
-    return faMinusSquare
   }
 
   isRequired = () => {
@@ -41,6 +33,9 @@ export class PropertyTemplateOutline extends Component {
     switch (this.props.propertyTemplate.type) {
       case "literal":
         // output.push(<InputLiteral id={1} rtId={null} />)
+        output.push(<OutlineHeader spacer={1}
+            label={this.props.propertyTemplate.propertyLabel}
+             />)
         console.log(`Generate <InputLiteral />`)
         // output.push(<PropertyTemplateOutline propertyTemplate={this.props.propertyTemplate} />)
         break;
@@ -59,13 +54,11 @@ export class PropertyTemplateOutline extends Component {
   render() {
     return(
       <div className="rtOutline">
-        <div className="rOutline-header">
-          <a href="#"  onClick={this.handleCollapsed}>
-            <FontAwesomeIcon icon={this.isCollapsed()} />&nbsp;
-          </a>
-          {this.state.label}
-          {this.isRequired()}
-        </div>
+        <OutlineHeader label={this.props.propertyTemplate.propertyLabel}
+          collapsed={this.state.collapsed}
+          isRequired={this.isRequired()}
+          handleCollapsed={this.handleCollapsed} />
+
         <div className="rOutline-property">
           {this.generateInputs()}
         </div>
@@ -84,19 +77,23 @@ class PropertyResourceTemplate extends Component {
     }
   }
 
-<<<<<<< HEAD
+
   isCollapsed  = () => {
 
   }
 
   handleAddClick = (event) => {
      event.preventDefault()
-=======
-  handleAddClick = (event) => {
-     event.preventDefault()
-     console.log(`In AddClick`)
->>>>>>> Displays first level of resource template properties in a collapse
+   }
+
+  isCollapsed = () => {
+    let icon = 'faChevronDown'
+    return (
+      <div className="pull-right">
+        <FontAwesomeIcon icon={icon} />
+      </div>)
   }
+
 
   render() {
     return (
@@ -106,29 +103,20 @@ class PropertyResourceTemplate extends Component {
             <h4>{this.props.resourceTemplate.resourceLabel}</h4>
             {this.isCollapsed()}
           </section>
-<<<<<<< HEAD
           <section className="col-md-4">
             <div className="btn-group" role="group" aria-label="...">
               <button onClick={this.handleMintUri} className="btn btn-success btn-sm">Mint URI</button>
               <button className="btn btn-default btn-sm" onClick={this.handleAddClick}>Add</button>
             </div>
-=======
-          <section className="col-md-2">
-            <button className="btn btn-default" onClick={this.handleAddClick}>Add</button>
->>>>>>> Displays first level of resource template properties in a collapse
           </section>
         </div>
         <div>
         {
           this.props.resourceTemplate.propertyTemplates.map((property, i) => {
-<<<<<<< HEAD
             return(<PropertyTemplateOutline
                     propertyTemplate={property}
                     key={`propRT-` + i}
                     count={i}  />)
-=======
-            return(<PropertyTemplateOutline propertyTemplate={property} count={i} />)
->>>>>>> Displays first level of resource template properties in a collapse
           })
         }
         </div>
@@ -137,20 +125,8 @@ class PropertyResourceTemplate extends Component {
   }
 }
 
-<<<<<<< HEAD
 PropertyResourceTemplate.propTypes = {
   resourceTemplate: PropTypes.object
 }
-=======
-// const mapStateToProps = (state, props) => {
-//   return ( {
-//
-//   })
-// }
-//
-// const mapDispatchToProps = dispatch => ({
-//
-// })
->>>>>>> Displays first level of resource template properties in a collapse
 
 export default PropertyResourceTemplate;
