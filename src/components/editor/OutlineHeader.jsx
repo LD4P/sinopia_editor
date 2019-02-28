@@ -19,8 +19,11 @@ class OutlineHeader extends Component {
   }
 
   spacer = () => {
-    let nbspList
-    return(nbspList)
+    let unicode_spacer = ""
+    for(var i=0; i <= this.props.spacer; i++) {
+      unicode_spacer += "\u00a0"
+    }
+    return(unicode_spacer)
   }
 
   render() {

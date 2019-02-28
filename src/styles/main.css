@@ -84,8 +84,10 @@ body {
 }
 
 .rOutline-property {
-  margin-let: 1em;
-
+  margin: .5em;
+  border: 1px dotted;
+  background-color: white;
+  margin: .5em;
 }
 
 .arrow-icon{

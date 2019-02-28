@@ -8,7 +8,7 @@ export default class PropertyPanel extends Component {
 
   constructor(props) {
     super(props)
-    // this.generateTitle = this.generateTitle.bind(this)
+
   }
 
   generateTitle = () => {
@@ -40,6 +40,10 @@ export default class PropertyPanel extends Component {
       <div className={this.getCssClasses()}>
         <div className="panel-heading prop-heading">
           {this.generateTitle()}
+          <div className="pull-right">
+            <a href="#" className="btn btn-sm btn-success">Mint URI</a>
+            <br />
+          </div>
         </div>
         <div className="panel-body">
           {this.props.children}
