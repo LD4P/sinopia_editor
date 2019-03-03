@@ -34,7 +34,7 @@ export class PropertyTemplateOutline extends Component {
 
     switch (this.props.propertyTemplate.type) {
       case "literal":
-        output.push(<div className="row" >
+        output.push(<div className="row" > // This should be turned into a React component
                       <section className="col-sm-4">
                        {this.props.propertyTemplate.propertyLabel}
                       </section>
