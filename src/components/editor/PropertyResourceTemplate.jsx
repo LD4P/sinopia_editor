@@ -6,7 +6,7 @@ import InputListLOC from './InputListLOC'
 import InputLookupQA from './InputLookupQA'
 import OutlineHeader from './OutlineHeader'
 import RequiredSuperscript from './RequiredSuperscript'
-import { connect } from 'react-redux'
+// import { connect } from 'react-redux'
 import PropTypes from 'prop-types'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faChevronDown, faMinusSquare, faPlusSquare } from '@fortawesome/free-solid-svg-icons'
@@ -39,7 +39,7 @@ export class PropertyTemplateOutline extends Component {
 
     switch (this.props.propertyTemplate.type) {
       case "literal":
-        output.push(<div className="row" >
+        output.push(<div className="row" > // This should be turned into a React component
                       <section className="col-sm-4">
                        {this.props.propertyTemplate.propertyLabel}
                       </section>

@@ -37,13 +37,20 @@ describe('<Editor />', () => {
 
   })
 
-  describe('authenticated user', () => {
+  it('shows resource title', () => {
+    expect(wrapper.find('div#editor > div > section > h1').text()).toMatch('[Clone|Edit] Name of Resource')
+  })
 
-    it('does not displays a login warning message', () => {
-      wrapper.setState({userAuthenticated: true})
-      expect(wrapper.find('div.alert-warning').exists()).toBeFalsy()
+  it('renders a Preview RDF button', () =>{
+      expect(wrapper
+        .find('div > div > section > button.btn-primary').length)
+        .toEqual(1)
     })
 
+  it('displays a pop-up alert when clicked', () => {
+    wrapper.find('div > div > section > button.btn-primary').simulate('click')
+    // TODO: Enable function in UI
+    // expect(handleGenerateLDFn.mock.calls.length).toBe(1)
   })
 
 })

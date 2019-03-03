@@ -4,7 +4,6 @@ import React from 'react'
 import ButtonToolbar from 'react-bootstrap/lib/ButtonToolbar'
 import { mount, shallow } from 'enzyme'
 import InputLiteral from '../../../src/components/editor/InputLiteral'
-import ModalToggle from '../../../src/components/editor/ModalToggle'
 import ResourceTemplateForm from '../../../src/components/editor/ResourceTemplateForm'
 import {generateLD} from "../../../src/reducers/linkedData";
 
@@ -151,48 +150,7 @@ describe('<ResourceTemplateForm />', () => {
       .toEqual(1)
   })
 
-  describe('buttons for resource template modals (b/c we have a property of type "resource" with correct valueTemplateRefs)', () => {
-    it('renders ButtonToolbar containing ModalToggle(s)', () => {
-      expect(wrapper
-        .find('div.ResourceTemplateForm ButtonToolbar ModalToggle').length)
-        .toEqual(2)
-    })
-    it('passes appropriate props to ModalToggle(s)', () => {
-      wrapper.find('ModalToggle').forEach((node) => {
-        expect(node.prop('buttonLabel')).toEqual('Note')
-        expect(node.prop('rtId')).toEqual('resourceTemplate:bf2:Note')
-        expect(node.prop('propertyTemplates')).toBeInstanceOf(Array)
-      })
-    })
-    it('displays a FontAwesome Asterisk for a mandatory property', () => {
-      wrapper.find('div.ResourceTemplateForm ButtonToolbar > div > b > sup').forEach((node) => {
-        expect(node.text()).toBe("<FontAwesomeIcon />")
-      })
-    })
-
-  })
-
-  describe('a generate RDF button', () => {
-    const rdf_wrapper = shallow(<ResourceTemplateForm.WrappedComponent
-      {...rtProps}
-      resourceTemplate = {rtTest}
-      handleGenerateLD =  {mockHandleGenerateLD}
-      literals = {lits}
-      lookups = {lups}
-      rtId = {"resourceTemplate:bf2:Monograph:Instance"}
-      parentResourceTemplate = {"resourceTemplate:bf2:Monograph:Instance"}
-      generateLD = { ld }
-    />)
-    it('renders a Preview RDF button', () =>{
-      expect(rdf_wrapper
-        .find('div > button.btn-success').length)
-        .toEqual(1)
-    })
-    it('displays a pop-up alert when clicked', () => {
-      rdf_wrapper.find('div > button.btn-success').simulate('click')
-      expect(mockHandleGenerateLD.mock.calls.length).toBe(1)
-    })
-  })
+  // TODO: Move this describe to when we are testing the Editor Header
 
   it('renders error text when there are no propertyTemplates', () => {
     const myWrap = shallow(<ResourceTemplateForm.WrappedComponent
