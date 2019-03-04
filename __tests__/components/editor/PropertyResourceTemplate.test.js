@@ -3,6 +3,7 @@
 import React from 'react'
 import { shallow } from 'enzyme'
 import PropertyResourceTemplate from '../../../src/components/editor/PropertyResourceTemplate'
+import PropertyTypeRow from '../../../src/components/editor/PropertyTypeRow'
 
 describe('<PropertyPanel />', () => {
   let propertyRtProps = {
@@ -15,5 +16,9 @@ describe('<PropertyPanel />', () => {
 
   it('Contains label of "Test Schema Thing Template"', () => {
     expect(wrapper.find("h4").text()).toBe("Test Schema Thing Template")
+  })
+
+  it('Contains a <PropertyTypeRow />', () => {
+    expect(wrapper.find(PropertyTypeRow)).toBeTruthy()
   })
 })
