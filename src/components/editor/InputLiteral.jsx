@@ -32,8 +32,7 @@ export class InputLiteral extends Component {
       let defaults = this.props.defaultsForLiteral(defaultValue.defaultLiteral, propPredicate)
       if (defaults !== undefined) ++this.lastId
 
-      this.props.setDefaultsForLiteralWithPayLoad(this.props.buttonID,
-                                                  this.props.propertyTemplate.propertyURI,
+      this.props.setDefaultsForLiteralWithPayLoad(this.props.propertyTemplate.propertyURI,
                                                   propPredicate,
                                                   defaults,
                                                   this.props.rtId)
@@ -94,7 +93,6 @@ export class InputLiteral extends Component {
         this.notRepeatableAfterUserInput(userInputArray, currentcontent)
       }
       const user_input = {
-        id: this.props.buttonID,
         uri: this.props.propertyTemplate.propertyURI,
         rtId: this.props.rtId,
         items: userInputArray
@@ -243,7 +241,6 @@ InputLiteral.propTypes = {
   rtId: PropTypes.string,
   blankNodeForLiteral: PropTypes.object,
   propPredicate: PropTypes.string,
-  buttonID: PropTypes.number,
   setDefaultsForLiteralWithPayLoad: PropTypes.func,
   defaultsForLiteral: PropTypes.func
 }

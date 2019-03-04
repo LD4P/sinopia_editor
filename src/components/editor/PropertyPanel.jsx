@@ -8,7 +8,6 @@ export default class PropertyPanel extends Component {
 
   constructor(props) {
     super(props)
-
   }
 
   generateTitle = () => {
