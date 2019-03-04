@@ -5,7 +5,7 @@ const OLD_ENV = process.env
 describe('Config', () => {
   describe('static default values', () => {
     it('sinopia uri has static value', () => {
-      expect(Config.sinopiaUri).toEqual('sinopia.io')
+      expect(Config.sinopiaDomainName).toEqual('sinopia.io')
     })
 
     it('sinopia url has static value', () => {

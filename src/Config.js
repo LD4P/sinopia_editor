@@ -1,10 +1,10 @@
 class Config {
-  static get sinopiaUri() {
+  static get sinopiaDomainName() {
     return process.env.SINOPIA_URI || 'sinopia.io'
   }
 
   static get sinopiaUrl() {
-    return `https://${this.sinopiaUri}`
+    return `https://${this.sinopiaDomainName}`
   }
 
   static get awsClientID() {
