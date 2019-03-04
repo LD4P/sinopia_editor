@@ -29,12 +29,16 @@ export class PropertyTemplateOutline extends Component {
 
   generateInputs = () => {
     const output = []
-    output.push()
+    console.log(`In PropertyResourceTemplate`)
+    console.warn(this.props)
 
     switch (this.props.propertyTemplate.type) {
       case "literal":
-        output.push(<PropertyTypeRow propertyTemplate={this.props.propertyTemplate} />)
-
+        output.push(<PropertyTypeRow propertyTemplate={this.props.propertyTemplate}>
+          <InputLiteral id={this.props.propertyTemplate.propertyURI}
+            propertyTemplate={this.props.propertyTemplate}
+            rtId={this.props.rtId} />
+        </PropertyTypeRow>)
         break;
 
       case "resource":
@@ -122,12 +126,7 @@ class PropertyResourceTemplate extends Component {
           this.props.resourceTemplate.propertyTemplates.map((property, i) => {
             return(<PropertyTemplateOutline
                     propertyTemplate={property}
-<<<<<<< HEAD
-                    key={`propRT-` + i}
-=======
->>>>>>> Initial creation of Property Outline
-                    count={i}  />)
-          })
+                    key={`propRT-` + i} />)
         }
         </div>
       </div>

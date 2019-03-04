@@ -248,7 +248,7 @@ class ResourceTemplateForm extends Component {
                       // TODO: some valueTemplateRefs may be lookups??
                       return (
                         <PropertyPanel pt={pt} float={index} rtId={this.props.rtId}>
-                            {this.resourceTemplateFields(pt.valueConstraint.valueTemplateRefs)}
+                            {this.resourceTemplateFields(pt.valueConstraint.valueTemplateRefs, pt.propertyURI, index)}
                             {this.renderValueForButton(valueForButton, index)}
                         </PropertyPanel>
                         )
