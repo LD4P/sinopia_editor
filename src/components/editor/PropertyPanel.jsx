@@ -4,6 +4,7 @@ import React, {Component} from 'react'
 import PropertyRemark from './PropertyRemark'
 import RequiredSuperscript from './RequiredSuperscript'
 
+
 export default class PropertyPanel extends Component {
 
   constructor(props) {

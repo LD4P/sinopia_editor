@@ -12,6 +12,10 @@ import PropTypes from 'prop-types'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faChevronDown, faMinusSquare, faPlusSquare } from '@fortawesome/free-solid-svg-icons'
 
+const PanelContext = React.createContext({
+  collapsed: true
+})
+
 export class PropertyTemplateOutline extends Component {
 
   constructor(props) {
@@ -27,7 +31,6 @@ export class PropertyTemplateOutline extends Component {
   }
 
   isRequired = () => {
-    console.log(this.props.propertyTemplate.mandatory)
     if (this.props.propertyTemplate.mandatory === "true") {
       return <RequiredSuperscript />
     }
@@ -35,33 +38,28 @@ export class PropertyTemplateOutline extends Component {
 
   generateInputs = () => {
     const output = []
-    console.log(`In PropertyResourceTemplate`)
-    console.warn(this.props)
 
     switch (this.props.propertyTemplate.type) {
       case "literal":
-        output.push(<PropertyTypeRow propertyTemplate={this.props.propertyTemplate}>
-          <InputLiteral id={this.props.propertyTemplate.propertyURI}
-            propertyTemplate={this.props.propertyTemplate}
-            rtId={this.props.rtId} />
-        </PropertyTypeRow>)
+        // output.push(
+        //     <InputLiteral id={this.props.propertyTemplate.propertyURI}
+        //       propertyTemplate={this.props.propertyTemplate}
+        //       rtId={this.props.rtId} />
+        // )
         break;
 
       case "resource":
-        output.push(<div className="row">
-                      <section className="col-sm-4">
-                       {this.props.propertyTemplate.propertyLabel}
-                      </section>
-                      <section className="col-sm-8">
-                        <input className="form-control"
-                               placeholder="PropertyResourceTemplate or InputListLOC" />
-                      </section>
-                    </div>)
+        output.push(
+            <input className="form-control"
+              placeholder="PropertyResourceTemplate or InputListLOC" />
+        )
         break;
 
       case "lookup":
-        output.push(<div><input className="form-control"
-                          placeholder="Generate InputLookupQA" /></div>)
+        output.push(
+            <input className="form-control"
+              placeholder="Generate InputLookupQA" />
+        )
         break;
 
     }
@@ -69,21 +67,22 @@ export class PropertyTemplateOutline extends Component {
   }
 
   render() {
+    console.log(`PropertyResourceTemplate`)
+    console.warn(this.props)
     return(
-      <div className="rtOutline">
-        <OutlineHeader label={this.props.propertyTemplate.propertyLabel}
-          collapsed={this.state.collapsed}
-          isRequired={this.isRequired()}
-          handleCollapsed={this.handleCollapsed} />
-        <OutlineHeader spacer={1}
-            label={this.props.propertyTemplate.propertyLabel}
-          />
-        <div className="rOutline-property">
-          <p>
-          {this.generateInputs()}
-          </p>
+      <PanelContext.Provider resourceTemplate={this.props.rtId}>
+        <div className="rtOutline">
+          <OutlineHeader label={this.props.propertyTemplate.propertyLabel}
+            collapsed={this.state.collapsed}
+            isRequired={this.isRequired()}
+            handleCollapsed={this.handleCollapsed} />
+          <div className="rOutline-property">
+            <PropertyTypeRow key={this.props.count} propertyTemplate={this.props.propertyTemplate}>
+              {this.generateInputs()}
+            </PropertyTypeRow>
+          </div>
         </div>
-      </div>
+      </PanelContext.Provider>
     )
   }
 
