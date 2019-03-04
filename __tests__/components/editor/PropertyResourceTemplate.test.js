@@ -21,4 +21,8 @@ describe('<PropertyPanel />', () => {
   it('Contains a <PropertyTypeRow />', () => {
     expect(wrapper.find(PropertyTypeRow)).toBeTruthy()
   })
+
+  it('Contains a <PropertyTypeRow />', () => {
+    expect(wrapper.find(PropertyTypeRow)).toBeTruthy()
+  })
 })

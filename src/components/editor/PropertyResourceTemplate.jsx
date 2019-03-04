@@ -6,7 +6,6 @@ import PropTypes from 'prop-types'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faChevronDown, faMinusSquare, faPlusSquare } from '@fortawesome/free-solid-svg-icons'
 
-
 export class PropertyTemplateOutline extends Component {
 
   constructor(props) {
@@ -34,15 +33,7 @@ export class PropertyTemplateOutline extends Component {
 
     switch (this.props.propertyTemplate.type) {
       case "literal":
-        output.push(<div className="row" > // This should be turned into a React component
-                      <section className="col-sm-4">
-                       {this.props.propertyTemplate.propertyLabel}
-                      </section>
-                      <section className="col-sm-8">
-                        <input className="form-control"
-                               placeholder="PropertyResourceTemplate or InputListLOC" />
-                      </section>
-        </div>)
+        output.push(<PropertyTypeRow propertyTemplate={this.props.propertyTemplate} />)
 
         break;
 
