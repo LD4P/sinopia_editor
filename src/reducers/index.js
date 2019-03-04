@@ -3,12 +3,14 @@ import { generateLD } from './linkedData'
 import lang from './lang'
 import literal from './literal'
 import lookups from './lookups'
+import authenticate from './authenticate'
 
 const appReducer = combineReducers({
   generateLD,
   lang,
   literal,
-  lookups
+  lookups,
+  authenticate
 })
 
 const rootReducer = (state, action) => {

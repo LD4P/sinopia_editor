@@ -39,7 +39,7 @@
     "eslint-plugin-node": "^7.0.1",
     "eslint-plugin-react": "^7.11.1",
     "eslint-plugin-security": "^1.4.0",
-    "eslint-takeoff": "0.0.1",
+    "eslint-takeoff": "0.0.3",
     "expect-puppeteer": "^3.5.1",
     "file-loader": "^2.0.0",
     "html-webpack-plugin": "^3.2.0",
@@ -77,9 +77,8 @@
     "eslint": "eslint --max-warnings 34 --color -c .eslintrc.js --ext js,jsx ./src",
     "jest-cov": "jest --coverage --colors --silent --runInBand",
     "jest-ci": "jest  --colors --silent --ci --runInBand --coverage --reporters=default --reporters=jest-junit && cat ./coverage/lcov.info | coveralls",
-    "test": "jest --colors --silent --runInBand",
-    "test-verbose": "jest --colors --runInBand",
-    "test-async": "jest --colors --runInBand --detectOpenHandles"
+    "test": "jest --colors --silent --runInBand --detectOpenHandles",
+    "test-verbose": "jest --colors --runInBand"
   },
   "license": "ISC",
   "dependencies": {
@@ -94,6 +93,7 @@
     "lodash": "^4.17.11",
     "merge": "^1.2.1",
     "n3": "^1.0.2",
+    "query-string": "^6.2.0",
     "react": "^16.6.3",
     "react-bootstrap": "^0.32.4",
     "react-bootstrap-typeahead": "^3.2.4",
