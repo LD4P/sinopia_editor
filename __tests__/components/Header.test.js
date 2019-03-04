@@ -4,6 +4,8 @@ import React from 'react'
 import { shallow } from 'enzyme'
 import Header from '../../src/components/Header'
 import SinopiaLogo from '../../styles/sinopia-logo.png'
+import Config from '../../src/Config'
+import { Link } from 'react-router-dom'
 
 describe('<Header />', () => {
   const wrapper = shallow(<Header />)
@@ -31,7 +33,12 @@ describe('<Header />', () => {
   })
 
   it('links to Sinopia Profile Editor', () => {
-    expect(wrapper.find('a[href="https://profile-editor.sinopia.io/"]').text()).toBe('Profile Editor')
+    expect(wrapper.find(`a[href="https://profile-editor.${Config.sinopiaUri}/"]`).text()).toBe('Profile Editor')
+  })
+
+  it('links to Linked Data Editor', () => {
+    expect(wrapper.find(Link).props().to).toBe('/editor')
+    expect(wrapper.find(Link).children(0).text()).toBe('Linked Data Editor')
   })
 
 })
