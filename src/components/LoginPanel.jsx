@@ -1,29 +1,66 @@
 // Copyright 2018 Stanford University see Apache2.txt for license
 
-import React from 'react'
+import React, {Component} from 'react'
+import PropTypes from 'prop-types'
+import { NavLink, withRouter } from 'react-router-dom'
+import Config from '../Config.js'
 
-// TODO: This will need to be re-written in the correct "react" way.
-const LoginPanel = () => (
-  <form className="login-form">
-    <div className = "form-group">
-      <label htmlFor="exampleInputEmail1" className="text-uppercase">Username</label>
-      <input type="text" className="form-control" placeholder=""></input>
-    </div>
-    <div className="form-group">
-      <label htmlFor="exampleInputPassword1" className="text-uppercase">Password</label>
-      <input type="password" className="form-control" placeholder=""></input>
-    </div>
-    <div className="row">
-      <div className="col-xs-6">
-        <button className="btn btn-block btn-primary" type="submit">Login</button>
-      </div>
-      <div className="col-xs-6">
-        <a href="#"><small>Forgot Password</small></a>
-        <br></br>
-        <a href="#"><small>Request Account</small></a>
-      </div>
-    </div>
-  </form>
-)
+class LoginPanel extends Component {
+  constructor(props){
+    super(props)
+  }
+
+  render(){
+    const AuthButton = withRouter(() =>
+        this.props.jwtAuth.isAuthenticated ? (
+          <p>
+            Welcome!{" "}
+            <button onClick={() => {
+              this.props.logOut()
+            }}>
+              Sign out
+            </button>
+          </p>
+        ) : (
+        <p>You are not logged in.</p>
+      )
+    )
+
+    let loginButton = <div className="col-xs-6">
+      <NavLink className="btn btn-block btn-primary nav-link" type="button" to="/login">Login</NavLink>
+    </div>;
+
+    if (this.props.jwtAuth.isAuthenticated) {
+      loginButton = <p/>;
+    }
+
+    return(
+      <form className="login-form">
+        <div className="form-group">
+          <div className="row">
+            <AuthButton jwtAuth={this.props.jwtAuth} signout={this.props.signout}/>
+            {loginButton}
+          </div>
+          <div className="row">
+            <div className="col-xs-8">
+              <a href={Config.awsCognitoForgotPasswordUrl}><small>Forgot Password?</small></a>
+            </div>
+          </div>
+          <div className="row">
+            <div className="col-xs-8">
+              <a href={Config.awsCognitoResetPasswordUrl}><small>Request Account</small></a>
+            </div>
+          </div>
+        </div>
+      </form>
+    )
+  }
+}
+
+LoginPanel.propTypes = {
+  signout: PropTypes.func,
+  logOut: PropTypes.func,
+  jwtAuth: PropTypes.object
+}
 
 export default LoginPanel

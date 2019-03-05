@@ -1,18 +1,17 @@
 // Copyright 2018 Stanford University see Apache2.txt for license
 
+import 'jsdom-global/register'
 import React from 'react'
 import { shallow, mount } from 'enzyme'
 import StartingPoints from '../../../src/components/editor/StartingPoints'
 import DropZone from '../../../src/components/editor/StartingPoints'
 import { MemoryRouter } from 'react-router-dom'
-
-const jsdom = require("jsdom")
+import { Link } from 'react-router-dom'
 require('isomorphic-fetch')
 
-setUpDomEnvironment()
-
 describe('<StartingPoints />', () => {
-  let wrapper = shallow(<StartingPoints />)
+  const reloadEditor = jest.fn()
+  let wrapper = shallow(<StartingPoints reloadEditor={reloadEditor}/>)
 
   it('Has a div with headings', () => {
     expect(wrapper.find('div > h3').text()).toEqual('Create Resource')
@@ -20,6 +19,10 @@ describe('<StartingPoints />', () => {
 
   it('has an upload button', async() => {
     expect(wrapper.find('button#ImportProfile').exists()).toBeTruthy()
+  })
+
+  it('has a link to the default resource template', () => {
+    expect(wrapper.find(Link).exists()).toBeTruthy()
   })
 })
 
@@ -79,23 +82,3 @@ describe('<DropZone />', () => {
     })
   })
 })
-
-function setUpDomEnvironment() {
-  const { JSDOM } = jsdom
-  const dom = new JSDOM('<!doctype html><html><body></body></html>', {url: 'http://localhost/'})
-  const { window } = dom
-
-  global.window = window
-  global.document = window.document
-  global.navigator = {
-    userAgent: 'node.js'
-  }
-  copyProps(window, global)
-}
-function copyProps(src, target) {
-  const props = Object.getOwnPropertyNames(src)
-    .filter(prop => typeof target[prop] === 'undefined')
-    .map(prop => Object.getOwnPropertyDescriptor(src, prop))
-  Object.defineProperties(target, props)
-
-}

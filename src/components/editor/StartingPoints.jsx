@@ -54,8 +54,13 @@ class StartingPoints extends Component {
 
     let fileReader = new window.FileReader()
     fileReader.onloadend = handleFileRead
-    //currently ResourceTemplate parses the profile and gets an array of objects; want just the objects
-    fileReader.readAsText(files[0])
+
+    try {
+      //currently ResourceTemplate parses the profile and gets an array of objects; want just the objects
+      fileReader.readAsText(files[0])
+    } catch(err) {
+      console.error(`error reading the loaded template as text: ${err}`)
+    }
 
     this.setState({
       files
@@ -157,6 +162,10 @@ class StartingPoints extends Component {
 
   }
 
+  reloadEditor = () => {
+    window.location.reload()
+  }
+
   render() {
     let startingPoints = {
       border: '1px dotted',
@@ -167,7 +176,7 @@ class StartingPoints extends Component {
       <section>
         <div className="StartingPoints" style={startingPoints}>
           <h3>Create Resource</h3>
-          <div><Link to={{pathname: "/editor", state: {rtId: this.props.resourceTemplateId}}} onClick={() => {this.resetShowDropZone()}}>{this.props.resourceTemplateId}</Link></div>
+          <div><Link to="/editor" onClick={() => {this.reloadEditor()}}>{this.props.defaultRtId}</Link></div>
           <button id="ImportProfile" className="btn btn-primary btn-small" onClick={this.handleClick}>Import Profile</button>
           { this.state.showDropZone ? <DropZone showDropZoneCallback={this.updateShowDropZone} dropFileCallback={this.onDropFile} filesCallback={this.state.files}/> : null }
         </div>
@@ -209,7 +218,8 @@ StartingPoints.propTypes = {
   tempStateCallback: PropTypes.func,
   resourceTemplatesCallback: PropTypes.func,
   setResourceTemplateCallback: PropTypes.func,
-  resourceTemplateId: PropTypes.string
+  resourceTemplateId: PropTypes.string,
+  defaultRtId: PropTypes.string
 }
 
 export default StartingPoints

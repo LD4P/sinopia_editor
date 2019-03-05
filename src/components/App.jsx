@@ -1,68 +1,74 @@
 // Copyright 2018 Stanford University see Apache2.txt for license
 
 import React, { Component } from 'react'
-import { hot } from 'react-hot-loader'
+import { connect } from 'react-redux'
 import 'react-bootstrap-typeahead/css/Typeahead.css'
 import HomePage from './HomePage'
 import '../styles/main.css'
 import Editor from './editor/Editor'
 import Footer from './Footer'
-import CanvasMenu from './CanvasMenu'
-import { OffCanvas, OffCanvasMenu, OffCanvasBody } from 'react-offcanvas'
-import { BrowserRouter, Route, Switch } from 'react-router-dom'
-import { Provider } from 'react-redux'
-import store from '../store'
-import ImportResourceTemplate from './editor/ImportResourceTemplate';
-import Browse from './editor/Browse';
+import { Route, Switch, Redirect, withRouter } from 'react-router-dom'
+import { logIn } from '../actions/index'
+import ImportResourceTemplate from './editor/ImportResourceTemplate'
+import Browse from './editor/Browse'
+import Login from './Login'
 
 const FourOhFour = () => <h1>404</h1>
+
 class App extends Component{
   constructor(props) {
     super(props)
     this.state = {
+      redirectToReferrer: false,
       isMenuOpened: false
     }
   }
 
-  handleOffsetMenu = () => {
-    this.setState({
-      isMenuOpened: !this.state.isMenuOpened
-    })
-  }
-
-  closeMenu = () => {
-    this.setState({
-      isMenuOpened: false
-    })
-  }
   render() {
-    let offcanvas_class = this.state.isMenuOpened? "closeMargin" : null
+    const PrivateRoute = ({ component: ImportResourceTemplate, ...rest }) => (
+      <Route
+        {...rest}
+        render={props =>
+          this.props.jwtAuth.isAuthenticated ? (
+            <ImportResourceTemplate {...props} />
+          ) : (
+            <Redirect
+              to={{
+                pathname: "/login",
+                state: { from: props.location }
+              }}
+            />
+          )
+        }
+      />
+    )
+
     return(
-      <div id="home-page">
-        <OffCanvas width={300} transitionDuration={300} isMenuOpened={this.state.isMenuOpened} position={"right"}>
-          <OffCanvasBody className={offcanvas_class}>
-            <BrowserRouter>
-              <Provider store={store}>
-                <div id="app">
-                  <Switch>
-                    <Route exact path='/' render={(props)=><HomePage {...props} triggerHandleOffsetMenu={this.handleOffsetMenu} />} />
-                    <Route exact path='/editor' render={(props)=><Editor {...props} triggerHandleOffsetMenu={this.handleOffsetMenu} />} />
-                    <Route exact path='/import' render={(props)=><ImportResourceTemplate {...props} triggerHandleOffsetMenu={this.handleOffsetMenu} />} />
-                    <Route exact path='/browse' render={(props)=><Browse {...props} triggerHandleOffsetMenu={this.handleOffsetMenu} />} />
-                    <Route id="404" component={FourOhFour} />
-                  </Switch>
-                  <Footer />
-                </div>
-              </Provider>
-            </BrowserRouter>
-          </OffCanvasBody>
-          <OffCanvasMenu className="offcanvas-menu">
-            <CanvasMenu closeHandleMenu={this.closeMenu} />
-          </OffCanvasMenu>
-        </OffCanvas>
+      <div id="app">
+        <Switch>
+          <Route exact path='/' render={(props)=><HomePage {...props} triggerHandleOffsetMenu={this.props.handleOffsetMenu} />} />
+          <Route exact path='/editor' render={(props)=><Editor {...props} triggerHandleOffsetMenu={this.props.handleOffsetMenu} />} />
+          <PrivateRoute exact path='/import' component={(props)=><ImportResourceTemplate {...props} triggerHandleOffsetMenu={this.props.handleOffsetMenu} />}/>
+          <Route exact path='/browse' render={(props)=><Browse {...props} triggerHandleOffsetMenu={this.props.handleOffsetMenu} />} />
+          <Route path="/login" render={(props)=><Login {...props} />} />
+          <Route id="404" component={FourOhFour} />
+        </Switch>
+        <Footer />
       </div>
     )
   }
 }
 
-export default hot(module)(App)
+const mapStateToProps = (state) => {
+  return {
+    jwtAuth: state.authenticate.loginJwt
+  }
+}
+
+const mapDispatchToProps = dispatch => ({
+  authenticate(jwt){
+    dispatch(logIn(jwt))
+  }
+})
+
+export default withRouter(connect(mapStateToProps, mapDispatchToProps)(App))

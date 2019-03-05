@@ -22,15 +22,23 @@ export class InputLiteral extends Component {
       disabled: false
     }
     this.lastId = -1
+  }
 
+  componentDidMount() {
     try {
       const defaultValue = this.props.propertyTemplate.valueConstraint.defaults[0]
       const propPredicate = this.props.propPredicate
       let defaults = this.props.defaultsForLiteral(defaultValue.defaultLiteral, propPredicate)
       if (defaults !== undefined) ++this.lastId
-      this.props.setDefaultsForLiteralWithPayLoad(this.props.buttonID, this.props.propertyTemplate.propertyURI, defaults, this.props.rtId)
+
+      this.props.setDefaultsForLiteralWithPayLoad(this.props.buttonID,
+                                                  this.props.propertyTemplate.propertyURI,
+                                                  propPredicate,
+                                                  defaults,
+                                                  this.props.rtId)
+
       if (this.props.propertyTemplate.repeatable == "false") {
-        this.state.disabled = true
+        this.setState({ disabled: true })
       }
     } catch (error) {
       console.log(`defaults not defined in the property template: ${error}`)
@@ -242,7 +250,7 @@ InputLiteral.propTypes = {
     })
   }).isRequired,
   formData: PropTypes.shape({
-    id: PropTypes.string,
+    id: PropTypes.number,
     uri: PropTypes.string,
     items: PropTypes.array
   }),
@@ -260,7 +268,7 @@ const mapStatetoProps = (state, props) => {
   return {
     formData: state.literal.formData.find(obj =>
       obj.id === props.buttonID &&
-      obj.uri === props.propertyTemplate.propertyURI
+      (obj.uri === props.propertyTemplate.propertyURI || obj.uri === props.propPredicate)
     )
   }
 }

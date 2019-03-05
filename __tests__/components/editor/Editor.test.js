@@ -33,11 +33,5 @@ describe('<Editor />', () => {
   it('shows resource title', () => {
     expect(wrapper.find('div#editor > h1').text()).toMatch('[Clone|Edit] title.of.resource')
   })
-
-  it('resets the state and resource template when updated', () => {
-    wrapper.instance().componentDidUpdate(props)
-    expect(wrapper.state('tempRtState')).toBeFalsy()
-    expect(wrapper.state('resourceTemplateData').length).toBeGreaterThanOrEqual(1)
-  })
   
 })
