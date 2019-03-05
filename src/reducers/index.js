@@ -1,25 +1,9 @@
-<<<<<<< HEAD
-<<<<<<< HEAD
 import { combineReducers } from 'redux'
+import { createSelector } from 'reselect'
 import { generateLD } from './linkedData'
 import lang from './lang'
-import literal from './literal'
-import lookups from './lookups'
 import authenticate from './authenticate'
 
-const appReducer = combineReducers({
-  generateLD,
-  lang,
-  literal,
-  lookups,
-  authenticate
-})
-=======
-=======
-// Copyright 2018, 2019 Stanford University see Apache2.txt for license
-
-import { createSelector } from 'reselect'
-const { getResourceTemplate } = require('../sinopiaServerSpoof.js')
 
 const resourceTemplateSelector = (state, id) => state[id]
 
@@ -31,11 +15,10 @@ export const getProperty = createSelector(
     return resourceTemplate[propertyURI]
   }
 )
->>>>>>> resourceTemplateSelector, propertySelector, and getProperty functions, added
+
 
 export const setResourceTemplate = (state, action) => {
   const rtKey = action.payload.id
->>>>>>> Started refactoring of Redux store
 
   let output = Object.create(state)
   output[rtKey] = {}
@@ -54,7 +37,7 @@ export const setResourceTemplate = (state, action) => {
     }
     if (property.valueConstraint.valueTemplateRefs.length > 0) {
       property.valueConstraint.valueTemplateRefs.map((row, i) => {
-        // Should be recursive call to getResourceTemplate 
+        // Should be recursive call to getResourceTemplate
         output[rtKey][property.propertyURI] = { [row]: {} }
       })
     }
@@ -62,7 +45,7 @@ export const setResourceTemplate = (state, action) => {
   return output
 }
 
-const rootReducer = (state={}, action) => {
+const selectorReducer = (state={}, action) => {
   switch(action.type) {
     case 'SET_RESOURCE_TEMPLATE':
       return setResourceTemplate(state, action)
@@ -77,4 +60,12 @@ const rootReducer = (state={}, action) => {
   }
 }
 
-export default rootReducer
+const appReducer = combineReducers({
+  generateLD,
+  lang,
+  authenticate,
+  selectorReducer
+})
+
+
+export default appReducer

@@ -5,7 +5,6 @@ import PropTypes from 'prop-types'
 import NewsItem from './NewsItem.jsx'
 import LoginPanel from './LoginPanel.jsx'
 
-<<<<<<< HEAD
 class NewsPanel extends Component {
   constructor(props) {
     super(props)
@@ -24,19 +23,7 @@ class NewsPanel extends Component {
                 <LoginPanel logOut={this.props.logOut} />
               </div>
             </div>
-=======
-const NewsPanel = () => (
-  <div className="jumbotron banner center-block">
-    <div className="panel panel-news panel-default">
-      <div className="panel-body">
-        <div className="row">
-          <div className="col-md-7">
-            <NewsItem />
-          </div>
-          <div className="col-md-4 login-sec">
-            <LoginPanel />
->>>>>>> New PropertyPanel now works on all propertyTemplates, removed
-          </div>
+         </div>
         </div>
       </div>
     )
