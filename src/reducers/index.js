@@ -100,7 +100,7 @@ export const setResourceTemplate = (state, action) => {
   return output
 }
 
-const rootReducer = (state={}, action) => {
+const selectorReducer = (state={}, action) => {
   switch(action.type) {
     case 'SET_RESOURCE_TEMPLATE':
       return setResourceTemplate(state, action)
@@ -115,4 +115,12 @@ const rootReducer = (state={}, action) => {
   }
 }
 
-export default rootReducer
+const appReducer = combineReducers({
+  generateLD,
+  lang,
+  authenticate,
+  selectorReducer
+})
+
+
+export default appReducer

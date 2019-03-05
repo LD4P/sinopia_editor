@@ -6,9 +6,7 @@ import PropTypes from 'prop-types'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faChevronDown, faMinusSquare, faPlusSquare } from '@fortawesome/free-solid-svg-icons'
 
-const PanelContext = React.createContext({
-  collapsed: true
-})
+const PanelContext = React.createContext()
 
 export class PropertyTemplateOutline extends Component {
 
@@ -17,6 +15,7 @@ export class PropertyTemplateOutline extends Component {
     this.state = {
       collapsed: true
     }
+
   }
 
   handleCollapsed = (event) => {
@@ -30,16 +29,21 @@ export class PropertyTemplateOutline extends Component {
     }
   }
 
+  outlinerClasses = () => {
+    let classNames = "rOutline-property"
+    if (this.state.collapsed) { classNames += " collapse"}
+    return classNames
+  }
+
   generateInputs = () => {
     const output = []
-
     switch (this.props.propertyTemplate.type) {
       case "literal":
-        // output.push(
-        //     <InputLiteral id={this.props.propertyTemplate.propertyURI}
-        //       propertyTemplate={this.props.propertyTemplate}
-        //       rtId={this.props.rtId} />
-        // )
+        output.push(
+            <InputLiteral id={this.props.propertyTemplate.propertyURI}
+              propertyTemplate={this.props.propertyTemplate}
+              rtId={this.props.rtId} />
+        )
         break;
 
       case "resource":
@@ -61,8 +65,6 @@ export class PropertyTemplateOutline extends Component {
   }
 
   render() {
-    console.log(`PropertyResourceTemplate`)
-    console.warn(this.props)
     return(
       <PanelContext.Provider resourceTemplate={this.props.rtId}>
         <div className="rtOutline">
@@ -70,7 +72,7 @@ export class PropertyTemplateOutline extends Component {
             collapsed={this.state.collapsed}
             isRequired={this.isRequired()}
             handleCollapsed={this.handleCollapsed} />
-          <div className="rOutline-property">
+          <div className={this.outlinerClasses()}>
             <PropertyTypeRow key={this.props.count} propertyTemplate={this.props.propertyTemplate}>
               {this.generateInputs()}
             </PropertyTypeRow>

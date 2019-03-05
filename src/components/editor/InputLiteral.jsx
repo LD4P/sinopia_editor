@@ -244,9 +244,10 @@ InputLiteral.propTypes = {
 }
 
 const mapStateToProps = (state, props) => {
-  console.log(`GetProperty rtId=${props.rtId}, props.propertyURI=${props.propertyURI}`)
+
   return {
-    formData: getProperty(state, props.rtId, props.propertyURI)
+    formData: { items: [] }
+    // formData: getProperty(state, props.rtId, props.propertyTemplate.propertyURI)
   }
 }
 
