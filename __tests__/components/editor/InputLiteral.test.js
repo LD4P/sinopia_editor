@@ -1,4 +1,4 @@
-// Copyright 2018 Stanford University see Apache2.txt for license
+// Copyright 2018, 2019 Stanford University see Apache2.txt for license
 
 import React from 'react'
 import { shallow } from 'enzyme'
@@ -30,8 +30,8 @@ const valConstraintProps = {
 describe('<InputLiteral />', () => {
   const wrapper = shallow(<InputLiteral {...plProps} id={10} rtId={'resourceTemplate:bf2:Monograph:Instance'}/>)
 
-  it('contains a label with "Instance of"', () => {
-    expect(wrapper.find('label').text()).toBe('Instance of')
+  it('contains a placeholder of "Instance of"', () => {
+    expect(wrapper.find('input').props().placeholder).toBe('Instance of')
   })
 
   it('<input> element should have a placeholder attribute with value propertyLabel', () => {

@@ -1,6 +1,7 @@
 // Copyright 2018 Stanford University see Apache2.txt for license
 import React from 'react'
 import { shallow } from 'enzyme'
+import { asyncContainer, Typeahead } from 'react-bootstrap-typeahead'
 import InputLookup from '../../../src/components/editor/InputLookupQA'
 
 const plProps = {
@@ -31,7 +32,8 @@ describe('<InputLookup />', () => {
   const wrapper = shallow(<InputLookup.WrappedComponent {...plProps} handleSelectedChange={mockFormDataFn} />)
 
   it('uses the propertyLabel from the template as the form control label', () => {
-    expect(wrapper.find('label').text()).toMatch('Name Lookup')
+    expect(wrapper.find('#lookupComponent').props().placeholder).toMatch('Name Lookup')
+
   })
 
   it('sets the typeahead component required attribute according to the mandatory property from the template', () => {

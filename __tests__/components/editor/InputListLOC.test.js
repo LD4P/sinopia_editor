@@ -1,6 +1,8 @@
-// Copyright 2018 Stanford University see Apache2.txt for license
+// Copyright 2018, 2019 Stanford University see Apache2.txt for license
+
 import React from 'react'
 import { shallow } from 'enzyme'
+import { Typeahead } from 'react-bootstrap-typeahead'
 import InputList from '../../../src/components/editor/InputListLOC'
 import PropertyRemark from '../../../src/components/editor/PropertyRemark'
 
@@ -34,10 +36,8 @@ describe('<InputList />', () => {
   const mockFormDataFn = jest.fn()
   const wrapper = shallow(<InputList.WrappedComponent {...plProps} handleSelectedChange={mockFormDataFn} />)
 
-  it('contains a label with the value of propertyLabel', () => {
-    const label = wrapper.find('label')
-    const propertyRemark = label.find('PropertyRemark')
-    expect(propertyRemark.html()).toMatch("Frequency (RDA 2.14)")
+  it('contains a placeholder with the value of propertyLabel', () => {
+    expect(wrapper.find(Typeahead).props().placeholder).toMatch("Frequency (RDA 2.14)")
   })
 
   it('typeahead component should have a placeholder attribute with value propertyLabel', () => {
@@ -57,8 +57,7 @@ describe('<InputList />', () => {
   it('displays a text label if remark from template is absent', () => {
     wrapper.instance().props.propertyTemplate.remark = undefined
     wrapper.instance().forceUpdate()
-    const label = wrapper.find('label').text()
-    expect(label.startsWith("Frequency (RDA 2.14)")).toBeTruthy()
+    expect(wrapper.find(Typeahead).props().placeholder).toMatch("Frequency (RDA 2.14)")
   })
 
   it('sets the typeahead component multiple attribute according to the repeatable value from the template', () => {
