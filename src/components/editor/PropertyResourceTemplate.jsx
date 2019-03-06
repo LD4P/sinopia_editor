@@ -1,20 +1,8 @@
 // Copyright 2019 Stanford University see Apache2.txt for license
 
-import React, {Component} from 'react'
-import InputLiteral from './InputLiteral'
-// import InputListLOC from './InputListLOC'
-// import InputLookupQA from './InputLookupQA'
-import OutlineHeader from './OutlineHeader'
-import PropertyTypeRow from './PropertyTypeRow'
-import RequiredSuperscript from './RequiredSuperscript'
+import React, { Component } from 'react'
 import PropertyTemplateOutline from './PropertyTemplateOutline'
-const { getResourceTemplate } = require('../../sinopiaServerSpoof.js')
-// import { connect } from 'react-redux'
 import PropTypes from 'prop-types'
-
-const PanelContext = React.createContext()
-
-
 
 class PropertyResourceTemplate extends Component {
 

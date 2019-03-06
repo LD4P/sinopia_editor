@@ -10,6 +10,10 @@ import { removeMyItem, setMyItems } from './literal'
 import { createSelector } from 'reselect'
 const { getResourceTemplate } = require('../sinopiaServerSpoof.js')
 
+const removeAllContent = () => {
+
+}
+
 const resourceTemplateSelector = (state, id) => state[id]
 
 const propertySelector = (state, rtId, id) => state[rtId][id]
@@ -42,7 +46,6 @@ export const setResourceTemplate = (state, action) => {
     }
     if (property.valueConstraint.valueTemplateRefs.length > 0) {
       property.valueConstraint.valueTemplateRefs.map((row) => {
-        // Should be recursive call to getResourceTemplate
         output[rtKey][property.propertyURI] = { [row]: {} }
       })
     }

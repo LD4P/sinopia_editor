@@ -248,7 +248,7 @@ class ResourceTemplateForm extends Component {
                       // TODO: some valueTemplateRefs may be lookups??
                       return (
                         <PropertyPanel pt={pt} float={index} rtId={this.props.rtId}>
-                            {this.resourceTemplateFields(pt.valueConstraint.valueTemplateRefs, pt.propertyURI, index)}
+                            {this.resourceTemplateFields(pt.valueConstraint.valueTemplateRefs)}
                             {this.renderValueForButton(valueForButton, index)}
                         </PropertyPanel>
                         )
@@ -269,9 +269,9 @@ class ResourceTemplateForm extends Component {
 }
 
 ResourceTemplateForm.propTypes = {
-  // literals: PropTypes.oneOfType([PropTypes.array, PropTypes.object]).isRequired,
-  // lookups: PropTypes.oneOfType([PropTypes.array, PropTypes.object]).isRequired,
-  // handleGenerateLD: PropTypes.func,
+  literals: PropTypes.oneOfType([PropTypes.array, PropTypes.object]).isRequired,
+  lookups: PropTypes.oneOfType([PropTypes.array, PropTypes.object]).isRequired,
+  handleGenerateLD: PropTypes.func,
   propertyTemplates: PropTypes.arrayOf(PropTypes.object).isRequired,
   resourceTemplate: PropTypes.object.isRequired,
   rtId: PropTypes.string,
@@ -279,7 +279,7 @@ ResourceTemplateForm.propTypes = {
   rdfOuterSubject: PropTypes.object,
   propPredicate: PropTypes.string,
   buttonID: PropTypes.number,
-  // generateLD: PropTypes.object.isRequired,
+  generateLD: PropTypes.object.isRequired,
   handleMyItemsChange: PropTypes.func,
   handleRemoveAllContent: PropTypes.func
 }

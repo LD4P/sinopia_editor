@@ -14,8 +14,8 @@ describe('<PropertyTemplateOutline />', () => {
   }
   const wrapper = shallow(<PropertyTemplateOutline {...propertyRtProps} />)
 
-  it('Contains label from props', () => {
-    expect(wrapper.find("h4").text()).toBe(`${propertyRtProps.resourceTemplate.resourceLabel}`)
+  it('Contains label of "Test Schema Thing Template"', () => {
+    expect(wrapper.find("h4").text()).toBe("Test Schema Thing Template")
   })
 
   it('Contains a <PropertyTypeRow />', () => {
