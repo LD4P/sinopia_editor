@@ -6,6 +6,7 @@ import { logIn, logOut } from '../actions/index'
 import PropTypes from 'prop-types'
 import Header from './Header'
 import NewsPanel from './NewsPanel'
+import LoginData from '../../src/LoginData'
 import Logout from '../../src/Logout'
 import DescPanel from './DescPanel'
 const qs = require('query-string')
@@ -26,9 +27,13 @@ class HomePage extends Component {
     const jwtHash = qs.parse(this.props.location.hash)
     const user = this.props.jwtAuth
 
+    const loginData = new LoginData()
+    const userName = loginData.cognitoLoginData(jwtHash.access_token)
+
     if (user !== undefined) {
       if (!user.isAuthenticated) {
         if(!_.isEmpty(jwtHash)) {
+          jwtHash['username'] = userName
           this.props.authenticate(jwtHash)
         }
       }
@@ -37,7 +42,7 @@ class HomePage extends Component {
     return(
       <div id="home-page">
         <Header triggerHomePageMenu={this.props.triggerHandleOffsetMenu} />
-        <NewsPanel jwtAuth={this.props.jwtAuth} logOut={this.logOut}/>
+        <NewsPanel jwtAuth={this.props.jwtAuth} logOut={this.logOut} userName={userName}/>
         <DescPanel />
       </div>
     )
@@ -69,3 +74,4 @@ const mapDispatchToProps = dispatch => ({
 })
 
 export default connect(mapStateToProps, mapDispatchToProps)(HomePage)
+// export default HomePage

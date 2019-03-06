@@ -20,7 +20,7 @@ class NewsPanel extends Component {
                 <NewsItem />
               </div>
               <div className="col-md-4 login-sec">
-                <LoginPanel jwtAuth={this.props.jwtAuth} logOut={this.props.logOut}/>
+                <LoginPanel jwtAuth={this.props.jwtAuth} logOut={this.props.logOut} userName={this.props.userName}/>
               </div>
             </div>
           </div>
@@ -32,7 +32,8 @@ class NewsPanel extends Component {
 
 NewsPanel.propTypes = {
   jwtAuth: PropTypes.object,
-  logOut: PropTypes.func
+  logOut: PropTypes.func,
+  userName: PropTypes.string
 }
 
 export default NewsPanel

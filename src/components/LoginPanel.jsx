@@ -14,7 +14,7 @@ class LoginPanel extends Component {
     const AuthButton = withRouter(() =>
         this.props.jwtAuth.isAuthenticated ? (
           <p>
-            Welcome!{" "}
+            Welcome{` ${this.props.userName}`}!
             <button onClick={() => {
               this.props.logOut()
             }}>
@@ -60,7 +60,8 @@ class LoginPanel extends Component {
 LoginPanel.propTypes = {
   signout: PropTypes.func,
   logOut: PropTypes.func,
-  jwtAuth: PropTypes.object
+  jwtAuth: PropTypes.object,
+  userName: PropTypes.string
 }
 
 export default LoginPanel

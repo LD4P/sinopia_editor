@@ -12,10 +12,10 @@ describe('changing the reducer state', () => {
     expect(
       authenticate({loginJwt: {}}, {
         type: 'LOG_IN',
-        payload: {id_token: '1a2b3c', access_token: 'a1b2c3', expires_in: 3600, isAuthenticated: true}
+        payload: {id_token: '1a2b3c', access_token: 'a1b2c3', expires_in: 3600, username: 'some-user', isAuthenticated: true}
       })
     ).toEqual(
-      {loginJwt: {id_token: '1a2b3c', access_token: 'a1b2c3', isAuthenticated: true}}
+      {loginJwt: {id_token: '1a2b3c', access_token: 'a1b2c3', username: 'some-user', isAuthenticated: true}}
     )
   })
 
@@ -25,7 +25,7 @@ describe('changing the reducer state', () => {
         type: 'LOG_OUT'
       })
     ).toEqual(
-      {loginJwt: {id_token: '', access_token: '', isAuthenticated: false}}
+      {loginJwt: {id_token: '', access_token: '', username: '', isAuthenticated: false}}
     )
   })
 
