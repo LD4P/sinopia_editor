@@ -4,7 +4,7 @@
   "resourceLabel": "Barcode",
   "propertyTemplates": [
     {
-      "mandatory": "false",
+      "mandatory": "true",
       "repeatable": "false",
       "type": "literal",
       "resourceTemplates": [],

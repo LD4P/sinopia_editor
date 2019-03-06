@@ -7,6 +7,7 @@ import InputLookupQA from './InputLookupQA'
 import OutlineHeader from './OutlineHeader'
 import PropertyTypeRow from './PropertyTypeRow'
 import RequiredSuperscript from './RequiredSuperscript'
+const { getResourceTemplate } = require('../../sinopiaServerSpoof.js')
 // import { connect } from 'react-redux'
 import PropTypes from 'prop-types'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
@@ -21,7 +22,6 @@ export class PropertyTemplateOutline extends Component {
     this.state = {
       collapsed: true
     }
-
   }
 
   handleCollapsed = (event) => {
@@ -29,8 +29,8 @@ export class PropertyTemplateOutline extends Component {
     this.setState( { collapsed: !this.state.collapsed })
   }
 
-  isRequired = () => {
-    if (this.props.propertyTemplate.mandatory === "true") {
+  isRequired = (property) => {
+    if (property.mandatory === "true") {
       return <RequiredSuperscript />
     }
   }
@@ -41,33 +41,61 @@ export class PropertyTemplateOutline extends Component {
     return classNames
   }
 
-  generateInputs = () => {
+  valueTemplateRefTest = (property) => {
+    return Boolean(property.valueConstraint != null &&
+     property.valueConstraint.valueTemplateRefs != null &&
+     property.valueConstraint.valueTemplateRefs.length > 0)
+  }
+
+  generateInputs = (property, rtId, depth) => {
     const output = []
-    switch (this.props.propertyTemplate.type) {
-      case "literal":
-        output.push(
-            <InputLiteral id={this.props.propertyTemplate.propertyURI}
-              propertyTemplate={this.props.propertyTemplate}
-              rtId={this.props.rtId} />
-        )
-        break;
+    if(this.valueTemplateRefTest(property)) {
+      // if (depth <= 5) {
+        let resourceTemplate = getResourceTemplate(rtId)
+        output.push(<h5>{resourceTemplate.resourceLabel}</h5>)
+        resourceTemplate.propertyTemplates.map((row) => {
+            output.push(<OutlineHeader label={row.propertyLabel}
+              isRequired={this.isRequired(row)}
+              handleCollapsed={this.handleCollapsed}
+              collapsed={true} />)
+          })
+         // }
+        // output.push(<PropertyResourceTemplate resourceTemplate={getResourceTemplate(rtId)} />)
+        // output.push(<h4>{resourceTemplate.resourceLabel}</h4>)
+        // resourceTemplate.propertyTemplates.map((row, i) => {
+        //     output.push(<OutlineHeader label={row.propertyLabel}
+        //       isRequired={this.isRequired(row)}
+        //       handleCollapsed={this.handleCollapsed}
+        //       collapsed={true} />)
 
-      case "resource":
-        output.push(
-            <input className="form-control"
-              placeholder="PropertyResourceTemplate or InputListLOC" />
-        )
-        break;
 
-      case "lookup":
-        output.push(
-            <input className="form-control"
-              placeholder="Generate InputLookupQA" />
-        )
-        break;
+      return (output)
+    } else {
+      switch (property.type) {
+        case "literal":
+          output.push(
+              <InputLiteral id={property.propertyURI}
+                propertyTemplate={property}
+                rtId={rtId} />
+          )
+          break;
 
+        case "resource":
+          output.push(<input className="form-control" placeholder="Lookup" />)
+
+          break;
+
+        case "lookup":
+          output.push(
+              <input className="form-control"
+                placeholder="Generate InputLookupQA" />
+          )
+          break;
+      }
+     return (<PropertyTypeRow key={this.props.count} propertyTemplate={property}>
+            {output}
+           </PropertyTypeRow>)
     }
-    return output
   }
 
   render() {
@@ -76,12 +104,13 @@ export class PropertyTemplateOutline extends Component {
         <div className="rtOutline">
           <OutlineHeader label={this.props.propertyTemplate.propertyLabel}
             collapsed={this.state.collapsed}
-            isRequired={this.isRequired()}
+            isRequired={this.isRequired(this.props.propertyTemplate)}
             handleCollapsed={this.handleCollapsed} />
           <div className={this.outlinerClasses()}>
-            <PropertyTypeRow key={this.props.count} propertyTemplate={this.props.propertyTemplate}>
-              {this.generateInputs()}
-            </PropertyTypeRow>
+            {this.generateInputs(
+              this.props.propertyTemplate,
+              this.props.rtId,
+              this.props.depth ? this.props.depth : 0)}
           </div>
         </div>
       </PanelContext.Provider>
