@@ -2,7 +2,8 @@
 
 import React, {Component} from 'react'
 import { connect } from 'react-redux'
-import { removeAllItems } from '../../actions/index'
+import { removeAllItems, logIn } from '../../actions/index'
+import { Link } from 'react-router-dom'
 import PropTypes from 'prop-types'
 import ResourceTemplate from './ResourceTemplate'
 import Header from './Header'
@@ -33,9 +34,24 @@ class Editor extends Component {
   }
 
   render() {
+    const user = this.props.jwtAuth
+
+    let authenticationMessage = <div className="alert alert-warning alert-dismissible">
+      <a href="#" className="close" data-dismiss="alert" aria-label="close">&times;</a>
+      Alert! No data can be saved unless you are logged in with group permissions.
+      Log in <Link to={{pathname: "/login", state: { from: this.props.location }}} ><span className="alert-link" href="/login">here</span>.</Link>
+    </div>;
+
+    if (user !== undefined) {
+      if (user.isAuthenticated) {
+        authenticationMessage = ''
+      }
+    }
+
     return(
       <div id="editor">
         <Header triggerEditorMenu={this.props.triggerHandleOffsetMenu}/>
+        { authenticationMessage }
         <h1>[Clone|Edit] title.of.resource</h1>
         <StartingPoints
           tempStateCallback={this.resetTempState}
@@ -55,12 +71,18 @@ class Editor extends Component {
 Editor.propTypes = {
   children: PropTypes.array,
   triggerHandleOffsetMenu: PropTypes.func,
-  resetStore: PropTypes.func
+  resetStore: PropTypes.func,
+  jwtAuth: PropTypes.object,
+  location: PropTypes.object
 }
 
 const mapDispatchToProps = dispatch => ({
   resetStore(){
-    dispatch(removeAllItems())}
+    dispatch(removeAllItems())
+  },
+  authenticate(jwt){
+    dispatch(logIn(jwt))
+  }
 })
 
 export default connect(null, mapDispatchToProps)(Editor)
