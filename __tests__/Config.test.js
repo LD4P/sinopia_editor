@@ -5,7 +5,11 @@ const OLD_ENV = process.env
 describe('Config', () => {
   describe('static default values', () => {
     it('sinopia uri has static value', () => {
-      expect(Config.sinopiaUri).toEqual('https://sinopia.io')
+      expect(Config.sinopiaDomainName).toEqual('sinopia.io')
+    })
+
+    it('sinopia url has static value', () => {
+      expect(Config.sinopiaUrl).toEqual('https://sinopia.io')
     })
 
     it('aws client ID has static value', () => {
@@ -48,14 +52,14 @@ describe('Config', () => {
 
     beforeAll(() => {
       process.env = {
-        SINOPIA_URI: 'https://sinopia.foo',
+        SINOPIA_URI: 'sinopia.foo',
         AWS_CLIENT_ID: '1a2b3c',
         AWS_COGNITO_DOMAIN: 'sinopia-foo.amazoncognito.com'
       }
     })
 
-    it('sinopia uri has static value', () => {
-      expect(Config.sinopiaUri).toEqual('https://sinopia.foo')
+    it('sinopia url has static value', () => {
+      expect(Config.sinopiaUrl).toEqual('https://sinopia.foo')
     })
 
     it('aws client ID has static value', () => {
