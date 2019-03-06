@@ -21,12 +21,9 @@ export class PropertyTypeRow extends Component {
   }
 }
 
-<<<<<<< HEAD
 PropertyTypeRow.propTypes = {
   children: PropTypes.object,
   propertyTemplate: PropTypes.object
 }
 
-=======
->>>>>>> New PropertyTypeRow component with tests
 export default PropertyTypeRow;
