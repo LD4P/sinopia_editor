@@ -75,6 +75,8 @@ class Editor extends Component {
 
 Editor.propTypes = {
   children: PropTypes.array,
+  generateLD: PropTypes.func,
+  rtId: PropTypes.string,
   triggerHandleOffsetMenu: PropTypes.func,
   resetStore: PropTypes.func,
   jwtAuth: PropTypes.object,

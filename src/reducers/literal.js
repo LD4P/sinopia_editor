@@ -20,7 +20,7 @@ const deleteItem = (obj, itemToDelete) => {
   return new_items
 }
 
-const removeMyItem = (state, action) => {
+export const removeMyItem = (state, action) => {
   let newListItems = state.formData.slice(0)
   const itemToDelete = action.payload
   let new_state = newListItems.map(obj => {
@@ -34,7 +34,7 @@ const removeMyItem = (state, action) => {
   return {formData: new_state}
 }
 
-const setMyItems = (state, action) => {
+export const setMyItems = (state, action) => {
   let newFormData = state.formData.slice(0)
 
   let exists
@@ -66,7 +66,7 @@ const setMyItems = (state, action) => {
   return {formData: newFormData}
 }
 
-const literal = (state=DEFAULT_STATE, action) => {
+export const literal = (state=DEFAULT_STATE, action) => {
   switch(action.type) {
     case 'SET_ITEMS':
       return setMyItems(state,action)
@@ -78,5 +78,3 @@ const literal = (state=DEFAULT_STATE, action) => {
       return state
   }
 }
-
-export default literal

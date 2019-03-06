@@ -11,6 +11,8 @@ const { getResourceTemplate } = require('../../sinopiaServerSpoof.js')
 // import { connect } from 'react-redux'
 import PropTypes from 'prop-types'
 
+const PanelContext = React.createContext()
+
 export class PropertyTemplateOutline extends Component {
 
   constructor(props) {
@@ -51,6 +53,7 @@ export class PropertyTemplateOutline extends Component {
         resourceTemplate.propertyTemplates.map((row) => {
             output.push(<OutlineHeader label={row.propertyLabel}
               isRequired={this.isRequired(row)}
+              spacer={depth}
               handleCollapsed={this.handleCollapsed}
               collapsed={true} />)
           })
@@ -105,7 +108,10 @@ export class PropertyTemplateOutline extends Component {
 }
 
 PropertyTemplateOutline.propTypes = {
+  count: PropTypes.number,
+  depth: PropTypes.number,
   handleCollapsed: PropTypes.func,
+  isRequired: PropTypes.func,
   propertyTemplate: PropTypes.object,
   rtId: PropTypes.string
 }

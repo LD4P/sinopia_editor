@@ -29,14 +29,23 @@ class OutlineHeader extends Component {
   render() {
     return(
       <div className="rOutline-header">
+          {this.spacer()}
           <a href="#" onClick={this.props.handleCollapsed}>
-            {this.spacer()}
             <FontAwesomeIcon icon={this.isCollapsed()} />&nbsp;
           </a>
           {this.props.label}
           {this.props.isRequired}
       </div>)
   }
+}
+
+OutlineHeader.propTypes = {
+  collapsed: PropTypes.boolean,
+  handleCollapsed: PropTypes.func,
+  // isCollapsed: PropTypes.func,
+  isRequired: PropTypes.func,
+  label: PropTypes.string,
+  spacer: PropTypes.string
 }
 
 export default OutlineHeader;

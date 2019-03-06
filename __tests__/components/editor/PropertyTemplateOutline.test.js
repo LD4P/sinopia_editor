@@ -2,17 +2,17 @@
 
 import React from 'react'
 import { shallow } from 'enzyme'
-import PropertyResourceTemplate from '../../../src/components/editor/PropertyResourceTemplate'
+import PropertyTemplateOutline from '../../../src/components/editor/PropertyResourceTemplate'
 import PropertyTypeRow from '../../../src/components/editor/PropertyTypeRow'
 
-describe('<PropertyPanel />', () => {
+describe('<PropertyTemplateOutline />', () => {
   let propertyRtProps = {
     resourceTemplate: {
       resourceLabel: "Test Schema Thing Template",
       propertyTemplates: []
     }
   }
-  const wrapper = shallow(<PropertyResourceTemplate {...propertyRtProps} />)
+  const wrapper = shallow(<PropertyTemplateOutline {...propertyRtProps} />)
 
   it('Contains label of "Test Schema Thing Template"', () => {
     expect(wrapper.find("h4").text()).toBe("Test Schema Thing Template")

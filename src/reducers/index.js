@@ -3,7 +3,12 @@ import { createSelector } from 'reselect'
 import { generateLD } from './linkedData'
 import lang from './lang'
 import authenticate from './authenticate'
+import { removeMyItem, setMyItems } from './literal'
 
+
+const removeAllContent = () => {
+
+}
 
 const resourceTemplateSelector = (state, id) => state[id]
 
@@ -36,7 +41,7 @@ export const setResourceTemplate = (state, action) => {
       })
     }
     if (property.valueConstraint.valueTemplateRefs.length > 0) {
-      property.valueConstraint.valueTemplateRefs.map((row, i) => {
+      property.valueConstraint.valueTemplateRefs.map((row) => {
         // Should be recursive call to getResourceTemplate
         output[rtKey][property.propertyURI] = { [row]: {} }
       })

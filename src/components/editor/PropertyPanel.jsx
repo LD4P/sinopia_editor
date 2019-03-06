@@ -1,6 +1,7 @@
 // Copyright 2019 Stanford University see Apache2.txt for license
 
-import React, {Component} from 'react'
+import React, { Component } from 'react'
+import PropTypes from 'prop-types'
 import PropertyRemark from './PropertyRemark'
 import RequiredSuperscript from './RequiredSuperscript'
 
@@ -20,7 +21,7 @@ export default class PropertyPanel extends Component {
       title = this.props.pt.propertyLabel
     }
     if (this.props.pt.mandatory === "true") {
-      title = [title, <RequiredSuperscript />]
+      title = [title, <RequiredSuperscript key={null}/>]
     }
     return title
   }
@@ -48,4 +49,10 @@ export default class PropertyPanel extends Component {
     )
   }
 
+}
+
+PropertyPanel.propTypes = {
+  children: PropTypes.object,
+  float: PropTypes.number,
+  pt: PropTypes.object
 }

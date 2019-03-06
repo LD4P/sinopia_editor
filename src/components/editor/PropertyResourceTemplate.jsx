@@ -1,20 +1,8 @@
 // Copyright 2019 Stanford University see Apache2.txt for license
 
-import React, {Component} from 'react'
-import InputLiteral from './InputLiteral'
-// import InputListLOC from './InputListLOC'
-// import InputLookupQA from './InputLookupQA'
-import OutlineHeader from './OutlineHeader'
-import PropertyTypeRow from './PropertyTypeRow'
-import RequiredSuperscript from './RequiredSuperscript'
+import React, { Component } from 'react'
 import PropertyTemplateOutline from './PropertyTemplateOutline'
-const { getResourceTemplate } = require('../../sinopiaServerSpoof.js')
-// import { connect } from 'react-redux'
 import PropTypes from 'prop-types'
-
-const PanelContext = React.createContext()
-
-
 
 class PropertyResourceTemplate extends Component {
 
@@ -25,10 +13,9 @@ class PropertyResourceTemplate extends Component {
     }
   }
 
-  isCollapsed = () => {
+  isCollapsed  = () => {
 
   }
-
 
   handleAddClick = (event) => {
      event.preventDefault()
@@ -54,6 +41,7 @@ class PropertyResourceTemplate extends Component {
           this.props.resourceTemplate.propertyTemplates.map((property, i) => {
             return(<PropertyTemplateOutline
                     propertyTemplate={property}
+                    key={`propRT-` + i}
                     count={i}  />)
           })
         }
@@ -63,17 +51,8 @@ class PropertyResourceTemplate extends Component {
   }
 }
 
-PropertyResourceTemplate.propTypes = {}
-
-// const mapStateToProps = (state, props) => {
-//   return ( {
-//
-//   })
-// }
-//
-// const mapDispatchToProps = dispatch => ({
-//
-// })
+PropertyResourceTemplate.propTypes = {
+  resourceTemplate: PropTypes.object
+}
 
 export default PropertyResourceTemplate;
-// export default connect(mapStateToProps, mapDispatchToProps)(PropertyResourceTemplate)

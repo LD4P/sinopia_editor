@@ -3,8 +3,6 @@ import React, { Component } from 'react'
 import { asyncContainer, Typeahead } from 'react-bootstrap-typeahead'
 import PropTypes from 'prop-types'
 import Swagger from 'swagger-client'
-import PropertyRemark from './PropertyRemark'
-import RequiredSuperscript from './RequiredSuperscript'
 import { connect } from 'react-redux'
 import { changeSelections } from '../../actions/index'
 
@@ -92,7 +90,7 @@ InputLookupQA.propTypes = {
 
 const mapStatetoProps = (state) => {
   // let data = state.lookups.formData
-  let result = {}
+  let result = Object.assign({},state)
   // if (data !== undefined){
   //   result = { formData: data }
   // }

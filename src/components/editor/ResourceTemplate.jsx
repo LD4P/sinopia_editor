@@ -65,11 +65,11 @@ ResourceTemplate.propTypes = {
   resourceTemplateData: PropTypes.oneOfType([PropTypes.string, PropTypes.object])
 }
 
-const mapStateToProps = (state, props) => {
-  return {
-    
-  }
-}
+// const mapStateToProps = (state, props) => {
+//   return {
+//
+//   }
+// }
 
 const mapDispatchToProps = dispatch => ({
   handleResourceTemplate(resource_template) {

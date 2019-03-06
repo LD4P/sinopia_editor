@@ -3,10 +3,8 @@
 import React, {Component} from 'react'
 import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
-import { getProperty } from '../../reducers/index'
+// import { getProperty } from '../../reducers/index'
 import { setItems, removeItem } from '../../actions/index'
-import PropertyRemark from './PropertyRemark'
-import RequiredSuperscript from './RequiredSuperscript'
 import InputLang from './InputLang'
 import Modal from 'react-bootstrap/lib/Modal'
 import Button from 'react-bootstrap/lib/Button'
@@ -245,13 +243,13 @@ InputLiteral.propTypes = {
   defaultsForLiteral: PropTypes.func
 }
 
-const mapStateToProps = (state, props) => {
-
-  return {
-    formData: { items: [] }
-    // formData: getProperty(state, props.rtId, props.propertyTemplate.propertyURI)
-  }
-}
+// TODO: Add selector to return current state in tree
+// const mapStateToProps = (state, props) => {
+//
+//   return {
+    // formData: { items: getProperty(state, props.rtId, props.propertyTemplate.propertyURI) }
+//   }
+// }
 
 const mapDispatchToProps = dispatch => ({
   handleMyItemsChange(user_input){
@@ -262,4 +260,4 @@ const mapDispatchToProps = dispatch => ({
   }
 })
 
-export default connect(mapStateToProps, mapDispatchToProps)(InputLiteral);
+export default connect(null, mapDispatchToProps)(InputLiteral);
