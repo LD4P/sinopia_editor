@@ -21,4 +21,8 @@ export class PropertyTypeRow extends Component {
   }
 }
 
+PropertyTypeRow.propTypes = {
+  p
+}
+
 export default PropertyTypeRow;
