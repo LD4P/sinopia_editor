@@ -33,13 +33,16 @@ class InputLookupQA extends Component {
   }
 
   render() {
-    let isMandatory, isRepeatable, authority, subauthority, language
+    let isMandatory, isRepeatable, lookupConfigs, authority, subauthority, language
     try {
       isMandatory = JSON.parse(this.props.propertyTemplate.mandatory)
       isRepeatable = JSON.parse(this.props.propertyTemplate.repeatable)
-      authority = this.props.lookupConfig.value.authority
-      subauthority = this.props.lookupConfig.value.authority
-      language = this.props.lookupConfig.value.language
+      /***Passing lookupConfig as array of configs and not just one config***/
+      lookupConfigs = this.props.lookupConfig
+      let lookupConfig = lookupConfigs[0]
+      authority = lookupConfig.value.authority
+      subauthority = lookupConfig.value.authority
+      language = lookupConfig.value.language
     } catch (error) {
       console.log(`Problem with properties fetched from resource template: ${error}`)
     }
@@ -65,30 +68,24 @@ class InputLookupQA extends Component {
           onSearch={query => {
             this.setState({isLoading: true});
             Swagger({ url: "src/lib/apidoc.json" }).then((client) => {
-              console.log("authority is");
-              console.log(authority);console.log(subauthority);
-               let clientPromise =  client
-                .apis
-                .SearchQuery
-                .GET_searchAuthority({
-                  q: query,
-                  vocab: authority,
-                  subauthority: subauthority,
-                  maxRecords: 5,
-                  lang: language
-                });
-                
-                let secondClientPromise =  client
-                .apis
-                .SearchQuery
-                .GET_searchAuthority({
-                  q: query,
-                  vocab: "LOCGENRES_LD4L_CACHE",
-                  subauthority: "LOCGENRES_LD4L_CACHE",
-                  maxRecords: 5,
-                  lang: language
-                });
-       		 Promise.all([clientPromise, secondClientPromise]).then(values => {
+              //create array of promises based on the lookup config array that is sent in
+              let lookupPromises = lookupConfigs.map(lookupConfig => {
+              	authority = lookupConfig.value.authority;
+      			subauthority = lookupConfig.value.authority;
+      			language = lookupConfig.value.language;
+      			//return the 'promise' 
+      			return client
+	                .apis
+	                .SearchQuery
+	                .GET_searchAuthority({
+	                  q: query,
+	                  vocab: authority,
+	                  subauthority: subauthority,
+	                  maxRecords: 8,
+	                  lang: language
+	                });
+              });
+             Promise.all(lookupPromises).then(values => {
        		     let responseBody = [];
                		 let valuesLength = values.length;
                		 let i, r;

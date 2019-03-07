@@ -225,27 +225,35 @@ class ResourceTemplateForm extends Component {
                       pt.valueConstraint.useValuesFrom
                     )
 
-                    let lookupConfigItem, templateUris, templateUri, listComponent, listComponents
+                    let lookupConfigItem, templateUris, templateUri, listComponent, lookupConfigItems
 
-                    if (isLookupWithConfig) { 
-                      console.log("Resource Template: What are lookup value config?");
-                      console.log(pt.valueConstraint.useValuesFrom);
-                      templateUris =  pt.valueConstraint.useValuesFrom;
-                      
-                      let listComponents = templateUris.map(templateUri => {
+                    if (isLookupWithConfig) {
+                      templateUris = pt.valueConstraint.useValuesFrom;
+                      /*Only one input is possible even with multiple vocabularies
+                      or value in "useValuesFrom" which is an array
+                      The first templateUri that matches is used to generate
+                      the listComponent but we need to pass on multiple values for useValueFrom
+                      Assumption here is multi-useValuesFrom will still all be the same type
+                      of list component */
+                      lookupConfigItems = [];
+                      templateUris.forEach(templateUri => {	
+                      	  console.log(templateUri);
 	                      for(var i in lookupConfig){
 	                        lookupConfigItem = Object.getOwnPropertyDescriptor(lookupConfig, i);
-	                        //console.log("Lookup config item value uri");
-	                        //console.log(lookupConfigItem.value.uri);
 	                        if(lookupConfigItem.value.uri === templateUri){
-	                        	console.log("match found");
-	                        	console.log(lookupConfigItem.value);
-	                          listComponent = lookupConfigItem.value.component;
-	                          return listComponent;
+	                          /*listComponent = lookupConfigItem.value.component
+	                          break*/
+	                          console.log("uri equals templateuri");
+	                          console.log(lookupConfigItem);
+	                          lookupConfigItems.push(lookupConfigItem);
 	                        }
 	                      }
-	                	});
-	                  listComponent = listComponents[0];	
+                      });
+                      console.log(lookupConfigItems);
+                      if(lookupConfigItems.length > 0) {
+                      	listComponent = lookupConfigItems[0].value.component;
+             			lookupConfigItem = lookupConfigItems[0];
+                      }
                     }
 
                     if (listComponent === 'list'){
@@ -254,8 +262,9 @@ class ResourceTemplateForm extends Component {
                       )
                     }
                     else if (listComponent ===  'lookup'){
+                    	/**Changing to pass along the array of lookup configs and not just a single item in case more than one useValueFrom is specified**/
                       return(
-                        <InputLookupQA propertyTemplate = {pt} lookupConfig = {lookupConfigItem} key = {index} rtId = {this.props.rtId} />
+                        <InputLookupQA propertyTemplate = {pt} lookupConfig = {lookupConfigItems} key = {index} rtId = {this.props.rtId} />
                       )
                     }
                     else if(pt.type == 'literal'){
