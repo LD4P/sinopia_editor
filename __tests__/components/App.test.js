@@ -46,9 +46,10 @@ describe("#routes", () => {
       expect(component.find(Editor).length).toEqual(1)
     })
 
-    it('/import renders the Login component if the user is not authenticated', () => {
+    it('/import renders the Login component (with location props) if the user is not authenticated', () => {
       const component = renderRoutes("/import")
       expect(component.find(Login).length).toEqual(1)
+      expect(component.find(Login).prop('location')).toBeDefined()
     })
 
     it('/browse renders the Browse component', () => {

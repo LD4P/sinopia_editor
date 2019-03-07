@@ -50,7 +50,7 @@ class App extends Component{
           <Route exact path='/editor' render={(props)=><Editor {...props} triggerHandleOffsetMenu={this.props.handleOffsetMenu} />} />
           <PrivateRoute exact path='/import' component={(props)=><ImportResourceTemplate {...props} triggerHandleOffsetMenu={this.props.handleOffsetMenu} />}/>
           <Route exact path='/browse' render={(props)=><Browse {...props} triggerHandleOffsetMenu={this.props.handleOffsetMenu} />} />
-          <Route path="/login" render={(props)=><Login {...props} />} />
+          <Route path="/login" render={(props)=><Login {...props} location={{state: { from: props.location }}}/>} />
           <Route id="404" component={FourOhFour} />
         </Switch>
         <Footer />
