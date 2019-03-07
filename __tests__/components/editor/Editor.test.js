@@ -13,25 +13,45 @@ const props = {
 
 describe('<Editor />', () => {
   const handleGenerateLDFn = jest.fn()
-  const wrapper = shallow(<Editor.WrappedComponent {...props} handleGenerateLD={handleGenerateLDFn}/>)
-  it('has div with id "editor"', () => {
-    expect(wrapper.find('div#editor').length).toBe(1)
+  describe('any user', () => {
+    const wrapper = shallow(<Editor.WrappedComponent {...props}
+                                                     handleGenerateLD={handleGenerateLDFn}
+                                                     jwtAuth={{isAuthenticated: false}} />)
+
+    it('has div with id "editor"', () => {
+      expect(wrapper.find('div#editor').length).toBe(1)
+    })
+
+    it('renders <ResourceTemplate /> component', () => {
+      expect(wrapper.find(ResourceTemplate).length).toBe(1)
+    })
+
+    it('renders <StartingPoints /> component', () => {
+      expect(wrapper.find(StartingPoints).length).toBe(1)
+    })
+
+    it('renders <Header />', () => {
+      expect(wrapper.find(Header).length).toBe(1)
+    })
+
+    it('shows resource title', () => {
+      expect(wrapper.find('div#editor > h1').text()).toMatch('[Clone|Edit] title.of.resource')
+    })
+
+    it('displays an login warning message', () => {
+      expect(wrapper.find('div.alert-warning').text()).toMatch('Alert! No data can be saved unless you are logged in with group permissions.')
+    })
+
   })
 
-  it('renders <ResourceTemplate /> component', () => {
-    expect(wrapper.find(ResourceTemplate).length).toBe(1)
+  describe('authenticated user', () => {
+    const wrapper = shallow(<Editor.WrappedComponent {...props}
+                                                     handleGenerateLD={handleGenerateLDFn}
+                                                     jwtAuth={{isAuthenticated: true}} />)
+
+    it('does not displays a login warning message', () => {
+      expect(wrapper.find('div.alert-warning').exists()).toBeFalsy()
+    })
   })
 
-  it('renders <StartingPoints /> component', () => {
-    expect(wrapper.find(StartingPoints).length).toBe(1)
-  })
-
-  it('renders <Header />', () => {
-    expect(wrapper.find(Header).length).toBe(1)
-  })
-
-  it('shows resource title', () => {
-    expect(wrapper.find('div#editor > h1').text()).toMatch('[Clone|Edit] title.of.resource')
-  })
-  
 })

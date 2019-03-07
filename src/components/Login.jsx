@@ -12,15 +12,30 @@ class Login extends React.Component {
   }
 
   cognitoLogin = (url) => {
-    setTimeout(function(){
-      window.location.assign(url)
-    }, 500);
+    //TODO: find way to fix tests, which otherwise throw  "Error: Not implemented: navigation (except hash changes)", meaning that the tests cannot mutate and mock window.location
+    if(!this.props.test) {
+      setTimeout(function(){
+        window.location.assign(url)
+      }, 3000);
+    }
   }
 
   render() {
+    const pathName = JSON.stringify(this.props.location.state.from.pathname.slice(1))
+
+    let authenticationMessage = ''
+
+    if(pathName === '"import"') {
+      authenticationMessage = <div className="alert alert-warning alert-dismissible">
+        <a href="#" className="close" data-dismiss="alert" aria-label="close">&times;</a>
+        You must be logged in to access the {pathName} path
+        <p>Please wait to be directed to the login service...</p>
+      </div>;
+    }
+
     return (
       <div className="jumbotron center-block">
-        <p>Please wait to be directed to the login service...</p>
+        { authenticationMessage }
         {this.cognitoLogin(Config.awsCognitoLoginUrl)}
       </div>
     )
@@ -28,7 +43,8 @@ class Login extends React.Component {
 }
 
 Login.propTypes = {
-  location: PropTypes.object
+  location: PropTypes.object,
+  test: PropTypes.bool
 }
 
 export default Login
