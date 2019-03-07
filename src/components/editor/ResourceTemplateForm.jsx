@@ -225,17 +225,27 @@ class ResourceTemplateForm extends Component {
                       pt.valueConstraint.useValuesFrom
                     )
 
-                    let lookupConfigItem, templateUri, listComponent
+                    let lookupConfigItem, templateUris, templateUri, listComponent, listComponents
 
-                    if (isLookupWithConfig) {
-                      templateUri = pt.valueConstraint.useValuesFrom[0]
-                      for(var i in lookupConfig){
-                        lookupConfigItem = Object.getOwnPropertyDescriptor(lookupConfig, i)
-                        if(lookupConfigItem.value.uri === templateUri){
-                          listComponent = lookupConfigItem.value.component
-                          break
-                        }
-                      }
+                    if (isLookupWithConfig) { 
+                      console.log("Resource Template: What are lookup value config?");
+                      console.log(pt.valueConstraint.useValuesFrom);
+                      templateUris =  pt.valueConstraint.useValuesFrom;
+                      
+                      let listComponents = templateUris.map(templateUri => {
+	                      for(var i in lookupConfig){
+	                        lookupConfigItem = Object.getOwnPropertyDescriptor(lookupConfig, i);
+	                        //console.log("Lookup config item value uri");
+	                        //console.log(lookupConfigItem.value.uri);
+	                        if(lookupConfigItem.value.uri === templateUri){
+	                        	console.log("match found");
+	                        	console.log(lookupConfigItem.value);
+	                          listComponent = lookupConfigItem.value.component;
+	                          return listComponent;
+	                        }
+	                      }
+	                	});
+	                  listComponent = listComponents[0];	
                     }
 
                     if (listComponent === 'list'){
