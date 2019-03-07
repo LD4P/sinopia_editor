@@ -4,7 +4,7 @@ import React from 'react'
 
 const NewsItem = () => (
   <div className="news-item">
-    <h1> What's New </h1>
+    <h1> What&#8217;s New </h1>
     <ul>
       <li>Release 0.2.0 is live, including these features</li>
       <ul>
