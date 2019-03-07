@@ -5,7 +5,7 @@ import InputLiteral from './InputLiteral'
 import OutlineHeader from './OutlineHeader'
 import PropertyTypeRow from './PropertyTypeRow'
 import RequiredSuperscript from './RequiredSuperscript'
-const { getResourceTemplate } = require('../../sinopiaServerSpoof.js')
+import { getResourceTemplate } from '../../sinopiaServer'
 import PropTypes from 'prop-types'
 import shortid from 'shortid'
 

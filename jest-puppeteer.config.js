@@ -7,6 +7,6 @@ module.exports = {
   },
   server: {
     command: 'npm run dev-start',
-    port: 8080,
+    port: 8888
   },
 };

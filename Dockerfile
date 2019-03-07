@@ -1,4 +1,5 @@
-FROM node:10.11
+FROM circleci/node:10.11
+
 WORKDIR /opt/sinopia_editor/
 
 # Everything that isn't in .dockerignore ships
