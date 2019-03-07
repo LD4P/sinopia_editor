@@ -13,7 +13,7 @@ const NewsItem = () => (
       <li>Specify lookups via Questioning Authority in Profile Editor, and do lookups in the Linked Data Editor.
       </li>
       </ul>
-      <li> <a href="https://github.com/LD4P/sinopia/wiki/Sinopia-Help">User support page is live</a>
+      <li> <a href="https://github.com/LD4P/sinopia/wiki/">User support page is live</a>
       </li>
     </ul>
 
