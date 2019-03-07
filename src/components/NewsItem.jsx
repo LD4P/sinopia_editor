@@ -6,7 +6,7 @@ const NewsItem = () => (
   <div className="news-item">
     <h1> Latest News </h1>
     <ul>
-      <li>We achieved our first milestone on November 1. The Profile Editor has been released into production, and we are actively testing it.</li>
+      <li>NEW! We achieved our first milestone on November 1. The Profile Editor has been released into production, and we are actively testing it.</li>
     </ul>
   </div>
 )
