@@ -18,7 +18,7 @@ describe('Login', () => {
     expect(wrapper.find('div.alert-warning').text()).toMatch('You must be logged in to access the "import" path')
   })
 
-  it('displays', () => {
+  it('does not display a message when routing from the editor path', () => {
     const fromEditor = {state: {from: { pathname: '/editor'}}}
     const wrapper = mount(<Login location={fromEditor} test={true}/>)
     expect(wrapper.find('div.alert-warning').exists()).toBeFalsy()
