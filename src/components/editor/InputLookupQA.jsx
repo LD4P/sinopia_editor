@@ -1,12 +1,13 @@
 // Copyright 2018 Stanford University see Apache2.txt for license
 import React, { Component } from 'react'
-import { asyncContainer, Typeahead } from 'react-bootstrap-typeahead'
+import { asyncContainer, Typeahead, Menu, MenuItem } from 'react-bootstrap-typeahead'
 import PropTypes from 'prop-types'
 import Swagger from 'swagger-client'
 import PropertyRemark from './PropertyRemark'
 import RequiredSuperscript from './RequiredSuperscript'
 import { connect } from 'react-redux'
 import { changeSelections } from '../../actions/index'
+import {groupBy} from 'lodash';
 
 const AsyncTypeahead = asyncContainer(Typeahead)
 
@@ -31,31 +32,34 @@ class InputLookupQA extends Component {
       return <RequiredSuperscript />
     }
   }
-
+  
+  
   render() {
-    let isMandatory, isRepeatable, lookupConfigs, authority, subauthority, language
+    
+    let isMandatory, isRepeatable, authority, subauthority, language, lookupConfigs, lookupConfig
+    const testConfig = this.props.lookupConfig
+    
     try {
       isMandatory = JSON.parse(this.props.propertyTemplate.mandatory)
       isRepeatable = JSON.parse(this.props.propertyTemplate.repeatable)
       /***Passing lookupConfig as array of configs and not just one config***/
       lookupConfigs = this.props.lookupConfig
-      let lookupConfig = lookupConfigs[0]
-      authority = lookupConfig.value.authority
-      subauthority = lookupConfig.value.authority
-      language = lookupConfig.value.language
+      //lookupConfig = lookupConfigs[0]
+      //authority = lookupConfig.value.authority
+      //subauthority = lookupConfig.value.authority
+      //language = lookupConfig.value.language
     } catch (error) {
       console.log(`Problem with properties fetched from resource template: ${error}`)
     }
-    console.log("What does lookupConfig look like?"); console.log(this.props.lookupConfig);
     const typeaheadProps = {
       required: isMandatory,
       multiple: isRepeatable,
       placeholder: this.props.propertyTemplate.propertyLabel,
-      useCache: false,
+      useCache: true,
       isLoading: this.state.isLoading,
       options: this.state.options,
       selected: this.state.selected,
-      delay: 3000 // was 300
+      delay: 300 // was 300
     }
 
     return (
@@ -65,6 +69,37 @@ class InputLookupQA extends Component {
         {this.hasPropertyRemark()}
         {this.mandatorySuperscript()}
         <AsyncTypeahead id="lookupComponent"
+        
+         renderMenu={(results, menuProps) => {
+         		//Returning results per each promise
+         		const items = [];
+         		let r, i, authLabel, resultsLength;
+         		resultsLength = results.length;
+         		let idx = 0;
+         		for(i = 0; i < resultsLength; i++) {
+               		r = results[i].body;
+               		authLabel = results[i].authLabel;
+               		items.push(  <Menu.Header key={'${authLabel}-header'}>
+			            {authLabel}
+			          </Menu.Header>);
+			        //For this authority, display results
+			        r.forEach(function(result) {
+			        	items.push( <MenuItem option={result} position={idx} key={idx}>
+    			          {result.label}
+    			        </MenuItem>);
+    			        idx++;
+			        });
+               	}
+         		
+	         return (
+			    <Menu {...menuProps}>
+			     {items}
+			    </Menu>
+			  )
+		  	}
+		  }
+        
+        
           onSearch={query => {
             this.setState({isLoading: true});
             Swagger({ url: "src/lib/apidoc.json" }).then((client) => {
@@ -85,19 +120,30 @@ class InputLookupQA extends Component {
 	                  lang: language
 	                });
               });
-             Promise.all(lookupPromises).then(values => {
+              
+             Promise.all(lookupPromises).then((values) => {
+                
        		     let responseBody = [];
                		 let valuesLength = values.length;
                		 let i, r;
                		 for(i = 0; i < valuesLength; i++) {
                		 	r = values[i].body;
+						values[i]["authLabel"]=testConfig[i].value.label;
+               		 	
+               		 	//Add authority and order
+               		 	r.forEach(function(ritem, index) {
+               		 	    
+               		 		ritem["index"]=index;
+               		 		ritem["authLabel"]=testConfig[i].value.label;
+               		 		ritem["authURI"]=testConfig[i].value.uri;
+               		 	});
                		 	responseBody = responseBody.concat(r);
                		 }
-               		 console.log("response body is concatenated");
-                     console.log(responseBody);
+               		
                 this.setState({
 	                isLoading: false,
-	                options: responseBody
+	                options:values
+	                //options: responseBody
 	              })
                }
               )
@@ -113,6 +159,12 @@ class InputLookupQA extends Component {
             }
           }
           {...typeaheadProps}
+
+			filterBy={(option, props) => {
+				/** Currently don't want any default filtering as we want all the results returned from QA, also we are passing in a complex object **/
+    			/* Your own filtering code goes here. */
+    			return true;
+  			}}
         />
         </label>
       </div>

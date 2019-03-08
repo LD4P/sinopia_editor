@@ -237,19 +237,15 @@ class ResourceTemplateForm extends Component {
                       of list component */
                       lookupConfigItems = [];
                       templateUris.forEach(templateUri => {	
-                      	  console.log(templateUri);
 	                      for(var i in lookupConfig){
 	                        lookupConfigItem = Object.getOwnPropertyDescriptor(lookupConfig, i);
 	                        if(lookupConfigItem.value.uri === templateUri){
 	                          /*listComponent = lookupConfigItem.value.component
 	                          break*/
-	                          console.log("uri equals templateuri");
-	                          console.log(lookupConfigItem);
 	                          lookupConfigItems.push(lookupConfigItem);
 	                        }
 	                      }
                       });
-                      console.log(lookupConfigItems);
                       if(lookupConfigItems.length > 0) {
                       	listComponent = lookupConfigItems[0].value.component;
              			lookupConfigItem = lookupConfigItems[0];
