@@ -13,7 +13,7 @@ class NewsPanel extends Component {
   render(){
     return(
       <div className="jumbotron banner center-block">
-        <div className="panel panel-default">
+        <div className="panel panel-news">
           <div className="panel-body">
             <div className="row">
               <div className="col-md-7">

@@ -234,18 +234,6 @@ class ResourceTemplateForm extends Component {
                     }
                     else if (this.isResourceWithValueTemplateRef(pt)) {
                       let valueForButton
-                      // this.props.literals.formData.map((obj) => {
-                      //   buttonId = obj.id
-                      //   if (buttonId !== undefined && buttonId === index) {
-                      //     const buttonContent = obj.items
-                      //     if (buttonContent !== undefined) {
-                      //       buttonContent.map((item, i) => {
-                      //         i === 0 ? valueForButton = `${item.content} ` : valueForButton += `${item.content} `
-                      //       })
-                      //     }
-                      //   }
-                      // })
-                      // TODO: some valueTemplateRefs may be lookups??
                       return (
                         <PropertyPanel pt={pt} float={index} rtId={this.props.rtId}>
                             {this.resourceTemplateFields(pt.valueConstraint.valueTemplateRefs)}

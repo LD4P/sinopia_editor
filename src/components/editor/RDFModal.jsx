@@ -12,6 +12,7 @@ class RDFModal extends Component {
   }
 
   render() {
+    // TODO: Fix as part of issue #404
     // const json = JSON.parse(this.props.linkedData)
     const json = JSON.parse(`{ "jsonld": {}}`)
     const jsonld = json.jsonld
