@@ -3,7 +3,6 @@
 import React, {Component} from 'react'
 import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
-// import { getProperty } from '../../reducers/index'
 import { setItems, removeItem } from '../../actions/index'
 import InputLang from './InputLang'
 import Modal from 'react-bootstrap/lib/Modal'
@@ -197,8 +196,6 @@ export class InputLiteral extends Component {
 
   render() {
     return (
-          // {this.hasPropertyRemark()}
-          // {this.mandatorySuperscript()}
           <div>
             <input
               required={this.checkMandatoryRepeatable()}
@@ -243,7 +240,7 @@ InputLiteral.propTypes = {
   defaultsForLiteral: PropTypes.func
 }
 
-// TODO: Add selector to return current state in tree
+// TODO: #387 Add selector to return current state in tree
 // const mapStateToProps = (state, props) => {
 //
 //   return {

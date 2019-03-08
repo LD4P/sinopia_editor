@@ -89,11 +89,7 @@ InputLookupQA.propTypes = {
 }
 
 const mapStatetoProps = (state) => {
-  // let data = state.lookups.formData
   let result = Object.assign({},state)
-  // if (data !== undefined){
-  //   result = { formData: data }
-  // }
   return result
 }
 

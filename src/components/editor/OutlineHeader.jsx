@@ -1,4 +1,4 @@
-// Copyright 2018 Stanford University see Apache2.txt for license
+// Copyright 2019 Stanford University see Apache2.txt for license
 
 import React, {Component} from 'react'
 import PropTypes from 'prop-types'
@@ -42,7 +42,6 @@ class OutlineHeader extends Component {
 OutlineHeader.propTypes = {
   collapsed: PropTypes.boolean,
   handleCollapsed: PropTypes.func,
-  // isCollapsed: PropTypes.func,
   isRequired: PropTypes.func,
   label: PropTypes.string,
   spacer: PropTypes.string

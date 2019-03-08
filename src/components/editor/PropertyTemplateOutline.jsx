@@ -2,13 +2,10 @@
 
 import React, {Component} from 'react'
 import InputLiteral from './InputLiteral'
-// import InputListLOC from './InputListLOC'
-// import InputLookupQA from './InputLookupQA'
 import OutlineHeader from './OutlineHeader'
 import PropertyTypeRow from './PropertyTypeRow'
 import RequiredSuperscript from './RequiredSuperscript'
 const { getResourceTemplate } = require('../../sinopiaServerSpoof.js')
-// import { connect } from 'react-redux'
 import PropTypes from 'prop-types'
 
 const PanelContext = React.createContext()
