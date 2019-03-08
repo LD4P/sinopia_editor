@@ -5,11 +5,15 @@ const OLD_ENV = process.env
 describe('Config', () => {
   describe('static default values', () => {
     it('sinopia uri has static value', () => {
-      expect(Config.sinopiaUri).toEqual('https://sinopia.io')
+      expect(Config.sinopiaDomainName).toEqual('sinopia.io')
+    })
+
+    it('sinopia url has static value', () => {
+      expect(Config.sinopiaUrl).toEqual('https://sinopia.io')
     })
 
     it('aws client ID has static value', () => {
-      expect(Config.awsClientID).toEqual('69u288s9ia8ible8gg1n4k0gou')
+      expect(Config.awsClientID).toEqual('543cav95u0q1rqcags1nedc68a')
     })
 
     it('aws cognito domain has static value', () => {
@@ -19,25 +23,25 @@ describe('Config', () => {
     describe('interpolated links from default values', () => {
       it('', () => {
         expect(Config.awsCognitoLoginUrl).toEqual(
-          'https://sinopia-development.auth.us-west-2.amazoncognito.com/login?response_type=token&client_id=69u288s9ia8ible8gg1n4k0gou&redirect_uri=https://sinopia.io'
+          `https://sinopia-development.auth.us-west-2.amazoncognito.com/login?response_type=token&client_id=${Config.awsClientID}&redirect_uri=https://sinopia.io`
         )
       })
 
       it('', () => {
         expect(Config.awsCognitoLogoutUrl).toEqual(
-          'https://sinopia-development.auth.us-west-2.amazoncognito.com/logout?response_type=token&client_id=69u288s9ia8ible8gg1n4k0gou&logout_uri=https://sinopia.io&redirect_uri=https://sinopia.io'
+          `https://sinopia-development.auth.us-west-2.amazoncognito.com/logout?response_type=token&client_id=${Config.awsClientID}&logout_uri=https://sinopia.io&redirect_uri=https://sinopia.io`
         )
       })
 
       it('', () => {
         expect(Config.awsCognitoForgotPasswordUrl).toEqual(
-          'https://sinopia-development.auth.us-west-2.amazoncognito.com/forgotPassword?response_type=token&client_id=69u288s9ia8ible8gg1n4k0gou&redirect_uri=https://sinopia.io'
+          `https://sinopia-development.auth.us-west-2.amazoncognito.com/forgotPassword?response_type=token&client_id=${Config.awsClientID}&redirect_uri=https://sinopia.io`
         )
       })
 
       it('', () => {
         expect(Config.awsCognitoResetPasswordUrl).toEqual(
-          'https://sinopia-development.auth.us-west-2.amazoncognito.com/signup?response_type=token&client_id=69u288s9ia8ible8gg1n4k0gou&redirect_uri=https://sinopia.io'
+          `https://sinopia-development.auth.us-west-2.amazoncognito.com/signup?response_type=token&client_id=${Config.awsClientID}&redirect_uri=https://sinopia.io`
         )
       })
     })
@@ -48,14 +52,14 @@ describe('Config', () => {
 
     beforeAll(() => {
       process.env = {
-        SINOPIA_URI: 'https://sinopia.foo',
-        AWS_CLIENT_ID: '1a2b3c',
+        SINOPIA_URI: 'sinopia.foo',
+        COGNITO_CLIENT_ID: '1a2b3c',
         AWS_COGNITO_DOMAIN: 'sinopia-foo.amazoncognito.com'
       }
     })
 
-    it('sinopia uri has static value', () => {
-      expect(Config.sinopiaUri).toEqual('https://sinopia.foo')
+    it('sinopia url has static value', () => {
+      expect(Config.sinopiaUrl).toEqual('https://sinopia.foo')
     })
 
     it('aws client ID has static value', () => {

@@ -7,8 +7,10 @@ import Header from '../../src/components/Header'
 import NewsPanel from '../../src/components/NewsPanel'
 import DescPanel from '../../src/components/DescPanel'
 
+const mockJWTString = require('../../__mocks__/mockAWSData')
+
 describe('<HomePage />', () =>{
-  let location = { hash: 'id_token=abcd1234' }
+  let location = { hash: `id_token=abcd1234&access_token=${mockJWTString}`}
 
   const mockJwtAuth = {
     isAuthenticated: false,
@@ -18,7 +20,11 @@ describe('<HomePage />', () =>{
   }
 
   const mockAuthenticate = jest.fn()
-  const wrapper = shallow(<HomePage.WrappedComponent location={location} jwtAuth={{mockJwtAuth}} authenticate={mockAuthenticate}/>)
+  const mockLoginData = jest.fn()
+  const wrapper = shallow(<HomePage.WrappedComponent location={location}
+                                                     jwtAuth={{mockJwtAuth}}
+                                                     loginData={mockLoginData}
+                                                     authenticate={mockAuthenticate}/>)
 
   it('selectable by id "home-page"', () => {
     expect(wrapper.is('#home-page')).toBe(true)
