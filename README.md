@@ -165,7 +165,10 @@ All contributions are welcome.  If you do not code, surely you will discover an
 #### User Authentication with AWS Cognito
 
 We currently use AWS Cognito to manage the authentication of users. Cognito uses a client id to manage the connection to 
-this application (see `awsClientID()` in `src/Config.js`). Whenever changes are made to the AWS configuration this client_id changes and so you must also submit a PR to change the client id in this application as well. In the production environment this will be handled via an environment variable, but for local functionality and testing, the hard-coded value must be updated, or you must set the environment variable `AWS_CLIENT_ID` to be the current client id.
+this application (see `awsClientID()` in `src/Config.js`). Whenever changes are made to the AWS configuration this client_id 
+changes and so you must also submit a PR to change the client id in this application as well. In the production environment 
+this will be handled via an environment variable, but for local functionality and testing, the hard-coded value must be updated, 
+or you must set the environment variable `AWS_CLIENT_ID` to be the current client id.
 
 Acknowledgements
 ----------
