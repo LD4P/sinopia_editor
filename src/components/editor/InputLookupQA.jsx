@@ -73,13 +73,16 @@ class InputLookupQA extends Component {
          renderMenu={(results, menuProps) => {
          		//Returning results per each promise
          		const items = [];
-         		let r, i, authLabel, resultsLength;
+         		let r, i, authLabel, resultsLength, authURI, headerKey;
          		resultsLength = results.length;
          		let idx = 0;
          		for(i = 0; i < resultsLength; i++) {
                		r = results[i].body;
                		authLabel = results[i].authLabel;
-               		items.push(  <Menu.Header key={'${authLabel}-header'}>
+               		authURI = results[i].authURI;
+               		headerKey = authURI + "-header";
+               		console.log(authLabel + "=" + authURI);
+               		items.push(  <Menu.Header key={headerKey}>
 			            {authLabel}
 			          </Menu.Header>);
 			        //For this authority, display results
@@ -123,27 +126,16 @@ class InputLookupQA extends Component {
               
              Promise.all(lookupPromises).then((values) => {
                 
-       		     let responseBody = [];
                		 let valuesLength = values.length;
-               		 let i, r;
+               		 let i;
                		 for(i = 0; i < valuesLength; i++) {
-               		 	r = values[i].body;
 						values[i]["authLabel"]=testConfig[i].value.label;
-               		 	
-               		 	//Add authority and order
-               		 	r.forEach(function(ritem, index) {
-               		 	    
-               		 		ritem["index"]=index;
-               		 		ritem["authLabel"]=testConfig[i].value.label;
-               		 		ritem["authURI"]=testConfig[i].value.uri;
-               		 	});
-               		 	responseBody = responseBody.concat(r);
+               		 	values[i]["authURI"]=testConfig[i].value.uri;
                		 }
                		
                 this.setState({
 	                isLoading: false,
 	                options:values
-	                //options: responseBody
 	              })
                }
               )
