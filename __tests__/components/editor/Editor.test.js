@@ -41,16 +41,16 @@ describe('<Editor />', () => {
     expect(wrapper.find('div#editor > div > section > h1').text()).toMatch('[Clone|Edit] Name of Resource')
   })
 
-  it('renders a Preview RDF button', () =>{
-      expect(wrapper
-        .find('div > div > section > button.btn-primary').length)
-        .toEqual(1)
+  describe('Preview RDF Button ', () => {
+    it('renders a Preview RDF button', () =>{
+        expect(wrapper
+          .find('div > div > section > button.btn-primary').length)
+          .toEqual(1)
+      })
+
+    it('displays a pop-up alert when clicked', () => {
+      wrapper.find('div > div > section > button.btn-primary').simulate('click')
+      expect(handleGenerateLDFn.mock.calls.length).toBe(0)
     })
-
-  it('displays a pop-up alert when clicked', () => {
-    wrapper.find('div > div > section > button.btn-primary').simulate('click')
-    // TODO: Enable function in UI
-    // expect(handleGenerateLDFn.mock.calls.length).toBe(1)
   })
-
 })

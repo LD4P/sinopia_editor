@@ -13,7 +13,7 @@ describe('<PropertyTypeRow />', () => {
   }
   const wrapper = shallow(<PropertyTypeRow {...rowProps} />)
 
-  it('displays "This is a property label"', () => {
-    expect(wrapper.find("This is a property label")).toBeTruthy()
+  it('displays propertyLabel from props', () => {
+    expect(wrapper.find(`${rowProps.propertyTemplate.propertyLabel}`)).toBeTruthy()
   })
 })

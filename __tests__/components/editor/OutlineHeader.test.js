@@ -13,7 +13,7 @@ describe('<OutlineHeader />', () => {
   }
   const wrapper = shallow(<OutlineHeader {...headerProps} />)
 
-  it('Contains a FontAwesomeIcon and label of "Schema Thing"', () => {
-    expect(wrapper.find("div").text()).toBe(" <FontAwesomeIcon /> Schema Thing")
+  it('Contains a FontAwesomeIcon and label value from props', () => {
+    expect(wrapper.find("div").text()).toBe(` <FontAwesomeIcon /> ${headerProps.label}`)
   })
 })

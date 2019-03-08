@@ -150,8 +150,6 @@ describe('<ResourceTemplateForm />', () => {
       .toEqual(1)
   })
 
-  // TODO: Move this describe to when we are testing the Editor Header
-
   it('renders error text when there are no propertyTemplates', () => {
     const myWrap = shallow(<ResourceTemplateForm.WrappedComponent
       propertyTemplates={[]}
