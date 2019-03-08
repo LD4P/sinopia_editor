@@ -21,7 +21,7 @@ class Editor extends Component {
 
   render() {
     let authenticationMessage = <div className="alert alert-warning alert-dismissible">
-      <a href="#" className="close" data-dismiss="alert" aria-label="close">&times;</a>
+      <button className="close" data-dismiss="alert" aria-label="close">&times;</button>
       Alert! No data can be saved unless you are logged in with group permissions.
       Log in <Link to={{pathname: "/login", state: { from: this.props.location }}} ><span className="alert-link" href="/login">here</span>.</Link>
     </div>;
