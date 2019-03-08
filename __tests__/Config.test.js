@@ -53,7 +53,7 @@ describe('Config', () => {
     beforeAll(() => {
       process.env = {
         SINOPIA_URI: 'sinopia.foo',
-        AWS_CLIENT_ID: '1a2b3c',
+        COGNITO_CLIENT_ID: '1a2b3c',
         AWS_COGNITO_DOMAIN: 'sinopia-foo.amazoncognito.com'
       }
     })
