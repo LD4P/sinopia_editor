@@ -1,5 +1,4 @@
 // Copyright 2018 Stanford University see Apache2.txt for license
-
 import React from 'react'
 import { shallow } from 'enzyme'
 import Editor from '../../../src/components/editor/Editor'
@@ -13,10 +12,9 @@ const props = {
 
 describe('<Editor />', () => {
   const handleGenerateLDFn = jest.fn()
+  const wrapper = shallow(<Editor.WrappedComponent {...props} handleGenerateLD={handleGenerateLDFn} />)
+
   describe('any user', () => {
-    const wrapper = shallow(<Editor.WrappedComponent {...props}
-                                                     handleGenerateLD={handleGenerateLDFn}
-                                                     jwtAuth={{isAuthenticated: false}} />)
 
     it('has div with id "editor"', () => {
       expect(wrapper.find('div#editor').length).toBe(1)
@@ -45,13 +43,12 @@ describe('<Editor />', () => {
   })
 
   describe('authenticated user', () => {
-    const wrapper = shallow(<Editor.WrappedComponent {...props}
-                                                     handleGenerateLD={handleGenerateLDFn}
-                                                     jwtAuth={{isAuthenticated: true}} />)
 
     it('does not displays a login warning message', () => {
+      wrapper.setState({userAuthenticated: true})
       expect(wrapper.find('div.alert-warning').exists()).toBeFalsy()
     })
+
   })
 
 })
