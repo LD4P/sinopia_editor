@@ -9,6 +9,7 @@ import NewsPanel from './NewsPanel'
 import LoginData from '../../src/LoginData'
 import Logout from '../../src/Logout'
 import DescPanel from './DescPanel'
+import { saveState } from '../localStorage'
 const qs = require('query-string')
 const _ = require('lodash')
 
@@ -25,24 +26,22 @@ class HomePage extends Component {
 
   render() {
     const jwtHash = qs.parse(this.props.location.hash)
-    const user = this.props.jwtAuth
-
     const loginData = new LoginData()
     const userName = loginData.cognitoLoginData(jwtHash.access_token)
 
-    if (user !== undefined) {
-      if (!user.isAuthenticated) {
-        if(!_.isEmpty(jwtHash)) {
-          jwtHash['username'] = userName
-          this.props.authenticate(jwtHash)
-        }
+    if (!this.props.jwtAuth.isAuthenticated) {
+      if(!_.isEmpty(jwtHash)) {
+        jwtHash['username'] = userName
+        this.props.authenticate(jwtHash)
       }
+    } else {
+      saveState(this.props.jwtAuth)
     }
 
     return(
       <div id="home-page">
         <Header triggerHomePageMenu={this.props.triggerHandleOffsetMenu} />
-        <NewsPanel jwtAuth={this.props.jwtAuth} logOut={this.logOut} userName={userName}/>
+        <NewsPanel logOut={this.logOut} />
         <DescPanel />
       </div>
     )
