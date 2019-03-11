@@ -21,6 +21,7 @@ class HomePage extends Component {
   logOut = () => {
     this.props.signout()
     const logout = new Logout()
+    logout.stateLogout()
     logout.cognitoLogout()
   }
 

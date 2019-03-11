@@ -7,8 +7,11 @@ class Logout {
   }
 
   cognitoLogout() {
-    clearState()
     window.location = this.url
+  }
+
+  stateLogout() {
+    clearState()
   }
 }
 
