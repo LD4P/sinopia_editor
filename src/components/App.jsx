@@ -8,10 +8,10 @@ import '../styles/main.css'
 import Editor from './editor/Editor'
 import Footer from './Footer'
 import { Route, Switch, Redirect, withRouter } from 'react-router-dom'
-import { logIn } from '../actions/index'
 import ImportResourceTemplate from './editor/ImportResourceTemplate'
 import Browse from './editor/Browse'
 import Login from './Login'
+import { loadState } from '../localStorage'
 
 const FourOhFour = () => <h1>404</h1>
 
@@ -25,11 +25,13 @@ class App extends Component{
   }
 
   render() {
+    const user = loadState('jwtAuth')
+
     const PrivateRoute = ({ component: ImportResourceTemplate, ...rest }) => (
       <Route
         {...rest}
         render={props =>
-          this.props.jwtAuth.isAuthenticated ? (
+          (user !== undefined && user.isAuthenticated) ? (
             <ImportResourceTemplate {...props} />
           ) : (
             <Redirect
@@ -65,10 +67,4 @@ const mapStateToProps = (state) => {
   }
 }
 
-const mapDispatchToProps = dispatch => ({
-  authenticate(jwt){
-    dispatch(logIn(jwt))
-  }
-})
-
-export default withRouter(connect(mapStateToProps, mapDispatchToProps)(App))
+export default withRouter(connect(mapStateToProps, null)(App))
