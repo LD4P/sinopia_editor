@@ -1,7 +1,6 @@
 // Copyright 2018 Stanford University see Apache2.txt for license
 
 import React, { Component } from 'react'
-import { connect } from 'react-redux'
 import 'react-bootstrap-typeahead/css/Typeahead.css'
 import HomePage from './HomePage'
 import '../styles/main.css'
@@ -61,10 +60,4 @@ class App extends Component{
   }
 }
 
-const mapStateToProps = (state) => {
-  return {
-    jwtAuth: state.authenticate.loginJwt
-  }
-}
-
-export default withRouter(connect(mapStateToProps, null)(App))
+export default withRouter(App)
