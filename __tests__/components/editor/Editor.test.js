@@ -2,7 +2,6 @@
 import React from 'react'
 import { shallow } from 'enzyme'
 import Editor from '../../../src/components/editor/Editor'
-import StartingPoints from '../../../src/components/editor/StartingPoints'
 import ResourceTemplate from '../../../src/components/editor/ResourceTemplate'
 import Header from '../../../src/components/editor/Header'
 
@@ -22,10 +21,6 @@ describe('<Editor />', () => {
 
     it('renders <ResourceTemplate /> component', () => {
       expect(wrapper.find(ResourceTemplate).length).toBe(1)
-    })
-
-    it('renders <StartingPoints /> component', () => {
-      expect(wrapper.find(StartingPoints).length).toBe(1)
     })
 
     it('renders <Header />', () => {

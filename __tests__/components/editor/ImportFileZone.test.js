@@ -3,18 +3,18 @@
 import 'jsdom-global/register'
 import React from 'react'
 import { shallow, mount } from 'enzyme'
-import StartingPoints from '../../../src/components/editor/StartingPoints'
-import DropZone from '../../../src/components/editor/StartingPoints'
+import ImportFileZone from '../../../src/components/editor/ImportFileZone'
+import DropZone from '../../../src/components/editor/ImportFileZone'
 import { MemoryRouter } from 'react-router-dom'
 import { Link } from 'react-router-dom'
 require('isomorphic-fetch')
 
-describe('<StartingPoints />', () => {
+describe('<ImportFileZone />', () => {
   const reloadEditor = jest.fn()
-  let wrapper = shallow(<StartingPoints reloadEditor={reloadEditor}/>)
+  let wrapper = shallow(<ImportFileZone reloadEditor={reloadEditor}/>)
 
   it('Has a div with headings', () => {
-    expect(wrapper.find('div > h3').text()).toEqual('Create Resource')
+    expect(wrapper.find('div > h3').text()).toEqual('Import a Template')
   })
 
   it('has an upload button', async() => {
@@ -55,7 +55,7 @@ describe('<DropZone />', () => {
     wrapper.setState({showDropZone: true})
     wrapper.find('button.btn').simulate('click')
     expect(wrapper.state('showDropZone')).toBeTruthy()
-    wrapper.find(DropZone).instance().resetShowDropZone()
+    wrapper.find(DropZone).instance().handleClick()
     wrapper.setState({showDropZone: false})
     expect(wrapper.state('showDropZone')).toBeFalsy()
   })
