@@ -155,13 +155,6 @@ class StartingPoints extends Component {
     })
   }
 
-  resetShowDropZone() {
-    this.updateShowDropZone(false)
-    this.setState({files: []})
-    this.props.tempStateCallback()
-
-  }
-
   reloadEditor = () => {
     window.location.reload()
   }
@@ -216,7 +209,6 @@ DropZone.propTypes = {
 }
 StartingPoints.propTypes = {
   tempStateCallback: PropTypes.func,
-  resourceTemplatesCallback: PropTypes.func,
   setResourceTemplateCallback: PropTypes.func,
   resourceTemplateId: PropTypes.string,
   defaultRtId: PropTypes.string
