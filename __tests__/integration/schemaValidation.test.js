@@ -16,9 +16,12 @@ describe('Editor', () => {
     // TODO: show it only fetches and loads any individual schema once
 
     describe('schema valid', () => {
+      beforeEach(async () => {
+        await page.goto('http://127.0.0.1:8080/import')
+      })
+
       describe('schema url in JSON', () => {
         it('displays resource template passing validation', async () => {
-          await page.goto('http://127.0.0.1:8080/import')
           pupExpect(page).not.toMatch('LC Classification Number')
 
           await page.waitForSelector('button#ImportProfile')
@@ -31,7 +34,6 @@ describe('Editor', () => {
         })
 
         it('displays profile passing validation', async () => {
-          await page.goto('http://127.0.0.1:8080/import')
           pupExpect(page).not.toMatch('Place Associated with a Work')
 
           await page.waitForSelector('button#ImportProfile')
@@ -45,7 +47,6 @@ describe('Editor', () => {
       })
       describe('schema url not in JSON - v0.0.2 schemas used', () => {
         it('displays resource template passing validation', async () => {
-          await page.goto('http://127.0.0.1:8080/import')
           pupExpect(page).not.toMatch('LC Classification Number')
 
           await page.waitForSelector('button#ImportProfile')
@@ -62,7 +63,6 @@ describe('Editor', () => {
           await pupExpect(page).toMatch('LC Classification Number')
         })
         it('displays profile passing validation', async () => {
-          await page.goto('http://127.0.0.1:8080/import')
           pupExpect(page).not.toMatch('Place Associated with a Work')
 
           await page.waitForSelector('button#ImportProfile')
