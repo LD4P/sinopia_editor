@@ -20,7 +20,7 @@ class Header extends Component {
             <Link to='/editor'>Linked Data Editor</Link>
           </li>
           <li>
-            <a className="header-text" href={`https://profile-editor.${Config.sinopiaUri}/`}>Profile Editor</a>
+            <a className="header-text" href={`https://profile-editor.${Config.sinopiaDomainName}/`}>Profile Editor</a>
           </li>
           <li className="menu">
             <a href="#" className="help-resources" onClick={this.props.triggerHomePageMenu}>Help and Resources</a>
