@@ -7,7 +7,7 @@ import Ajv from 'ajv' // JSON schema validation
 const util = require('util') // for JSON schema validation errors
 import { Link } from 'react-router-dom'
 
-class StartingPoints extends Component {
+class ImportFileZone extends Component {
   constructor() {
     super()
     this.ajv = new Ajv({
@@ -155,29 +155,22 @@ class StartingPoints extends Component {
     })
   }
 
-  resetShowDropZone() {
-    this.updateShowDropZone(false)
-    this.setState({files: []})
-    this.props.tempStateCallback()
-
-  }
-
   reloadEditor = () => {
     window.location.reload()
   }
 
   render() {
-    let startingPoints = {
+    let importFileZone = {
       border: '1px dotted',
       float: 'left',
       padding: '20px',
     }
     return (
       <section>
-        <div className="StartingPoints" style={startingPoints}>
-          <h3>Create Resource</h3>
+        <div className="ImportFileZone" style={importFileZone}>
+          <h3>Import a Template</h3>
           <div><Link to="/editor" onClick={() => {this.reloadEditor()}}>{this.props.defaultRtId}</Link></div>
-          <button id="ImportProfile" className="btn btn-primary btn-small" onClick={this.handleClick}>Import Profile</button>
+          <button id="ImportProfile" className="btn btn-primary btn-small" onClick={this.handleClick}>Import</button>
           { this.state.showDropZone ? <DropZone showDropZoneCallback={this.updateShowDropZone} dropFileCallback={this.onDropFile} filesCallback={this.state.files}/> : null }
         </div>
       </section>
@@ -214,12 +207,11 @@ DropZone.propTypes = {
   showDropZoneCallback: PropTypes.func,
   filesCallback: PropTypes.array
 }
-StartingPoints.propTypes = {
+ImportFileZone.propTypes = {
   tempStateCallback: PropTypes.func,
-  resourceTemplatesCallback: PropTypes.func,
   setResourceTemplateCallback: PropTypes.func,
   resourceTemplateId: PropTypes.string,
   defaultRtId: PropTypes.string
 }
 
-export default StartingPoints
+export default ImportFileZone

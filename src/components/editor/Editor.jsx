@@ -7,32 +7,15 @@ import { Link } from 'react-router-dom'
 import PropTypes from 'prop-types'
 import ResourceTemplate from './ResourceTemplate'
 import Header from './Header'
-import StartingPoints from './StartingPoints'
 import { loadState } from '../../localStorage'
 
 class Editor extends Component {
   constructor(props) {
     super(props)
-
-    // TODO: temporarily hardcoded here.
-    //  Selecting a resource template will happen in the left-nav "Starting Points" menu,
-    //   another child of the Editor component;  it will set state.resourceTemplateId
-    const defaultRtId = 'resourceTemplate:bf2:Monograph:Instance'
     this.state = {
-      resourceTemplateId: defaultRtId,
       tempRtState: true,
       userAuthenticated: false
     }
-  }
-
-  resetTempState = () => {
-    this.setState({tempRtState: true})
-  }
-
-  //resource templates are set via StartingPoints and passed to ResourceTemplate
-  setResourceTemplates = (content) => {
-    this.props.resetStore()
-    this.setState({resourceTemplateData: content})
   }
 
   render() {
@@ -54,19 +37,20 @@ class Editor extends Component {
       authenticationMessage = <span/>
     }
 
+    if (this.props.location.state !== undefined && this.state.tempRtState) {
+      this.setState({
+        resourceTemplateData: this.props.location.state.resourceTemplateData,
+        tempRtState: false
+      })
+    }
+
     return(
       <div id="editor">
         <Header triggerEditorMenu={this.props.triggerHandleOffsetMenu}/>
         { authenticationMessage }
         <h1>[Clone|Edit] title.of.resource</h1>
-        <StartingPoints
-          tempStateCallback={this.resetTempState}
-          resourceTemplatesCallback={this.setResourceTemplates}
-          defaultRtId = {this.state.resourceTemplateId}
-          setResourceTemplateCallback={this.setResourceTemplates}
-        />
         <ResourceTemplate
-          resourceTemplateId = {this.state.resourceTemplateId}
+          resourceTemplateId = {this.props.resourceTemplateId}
           resourceTemplateData = {this.state.resourceTemplateData}
         />
       </div>
@@ -79,7 +63,8 @@ Editor.propTypes = {
   triggerHandleOffsetMenu: PropTypes.func,
   resetStore: PropTypes.func,
   jwtAuth: PropTypes.object,
-  location: PropTypes.object
+  location: PropTypes.object,
+  resourceTemplateId: PropTypes.string
 }
 
 const mapDispatchToProps = dispatch => ({

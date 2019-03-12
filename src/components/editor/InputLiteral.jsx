@@ -188,8 +188,8 @@ export class InputLiteral extends Component {
   makeAddedList = () => {
     let formInfo = this.props.formData
     if (formInfo == undefined) return
-    const elements = formInfo.items.map((obj) => {
-      return <div id="userInput" key = {obj.id} >
+    const elements = formInfo.items.map((obj, index) => {
+      return <div id="userInput" key = {index} >
         {obj.content}
         <button
           id="displayedItem"

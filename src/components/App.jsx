@@ -25,7 +25,6 @@ class App extends Component{
 
   render() {
     const user = loadState('jwtAuth')
-
     const PrivateRoute = ({ component: ImportResourceTemplate, ...rest }) => (
       <Route
         {...rest}
@@ -44,11 +43,13 @@ class App extends Component{
       />
     )
 
+    const defaultRtId = 'resourceTemplate:bf2:Monograph:Instance'
+
     return(
       <div id="app">
         <Switch>
           <Route exact path='/' render={(props)=><HomePage {...props} triggerHandleOffsetMenu={this.props.handleOffsetMenu} />} />
-          <Route exact path='/editor' render={(props)=><Editor {...props} triggerHandleOffsetMenu={this.props.handleOffsetMenu} />} />
+          <Route exact path='/editor' render={(props)=><Editor {...props} resourceTemplateId={defaultRtId} triggerHandleOffsetMenu={this.props.handleOffsetMenu} />} />
           <PrivateRoute exact path='/import' component={(props)=><ImportResourceTemplate {...props} triggerHandleOffsetMenu={this.props.handleOffsetMenu} />}/>
           <Route exact path='/browse' render={(props)=><Browse {...props} triggerHandleOffsetMenu={this.props.handleOffsetMenu} />} />
           <Route path="/login" render={(props)=><Login {...props} location={{state: { from: props.location }}}/>} />
