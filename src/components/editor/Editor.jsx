@@ -63,7 +63,8 @@ Editor.propTypes = {
   triggerHandleOffsetMenu: PropTypes.func,
   resetStore: PropTypes.func,
   jwtAuth: PropTypes.object,
-  location: PropTypes.object
+  location: PropTypes.object,
+  resourceTemplateId: PropTypes.string
 }
 
 const mapDispatchToProps = dispatch => ({
