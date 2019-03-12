@@ -33,7 +33,7 @@ describe('<Header />', () => {
   })
 
   it('links to Sinopia Profile Editor', () => {
-    expect(wrapper.find(`a[href="https://profile-editor.${Config.sinopiaUri}/"]`).text()).toBe('Profile Editor')
+    expect(wrapper.find(`a[href="https://profile-editor.${Config.sinopiaDomainName}/"]`).text()).toBe('Profile Editor')
   })
 
   it('links to Linked Data Editor', () => {
