@@ -4,7 +4,7 @@ import React, {Component} from 'react'
 import { Redirect } from 'react-router-dom'
 import PropTypes from 'prop-types'
 import Header from './Header'
-import StartingPoints from './StartingPoints'
+import ImportFileZone from './ImportFileZone'
 
 class ImportResourceTemplate extends Component {
   constructor(props) {
@@ -20,7 +20,7 @@ class ImportResourceTemplate extends Component {
     }
   }
 
-  //resource templates are set via StartingPoints and passed to ResourceTemplate via redirect to Editor
+  //resource templates are set via ImportFileZone and passed to ResourceTemplate via redirect to Editor
   setResourceTemplates = (content) => {
     this.setState({resourceTemplateData: content})
   }
@@ -30,7 +30,7 @@ class ImportResourceTemplate extends Component {
       return(
         <div id="importResourceTemplate">
           <Header triggerEditorMenu={this.props.triggerHandleOffsetMenu}/>
-          <StartingPoints setResourceTemplateCallback={this.setResourceTemplates} />
+          <ImportFileZone setResourceTemplateCallback={this.setResourceTemplates} />
         </div>
       )
     } else {
