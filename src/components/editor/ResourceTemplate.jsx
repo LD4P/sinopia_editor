@@ -17,14 +17,15 @@ class ResourceTemplate extends Component {
       width:'75%'
     }
 
-    var resourceTemplateData = (rtd) => {
+    const resourceTemplateData = (rtd) => {
       let result
-      if (rtd == undefined) {
-        // e.g. at startup
+      // if there is no data, lookup the data with the resource template id
+      // e.g. at startup
+      if (rtd === undefined) {
         result = [getResourceTemplate(this.props.resourceTemplateId)]
       }
       else {
-        if (typeof rtd == 'object') {
+        if (typeof rtd === 'object') {
           // Enable us to  use profiles or resourceTemplate
           if (rtd.propertyTemplates){
             result = [rtd]
@@ -39,7 +40,7 @@ class ResourceTemplate extends Component {
       return result
     }
 
-    let rtData = resourceTemplateData(this.props.resourceTemplateData)
+    const rtData = resourceTemplateData(this.props.resourceTemplateData)
 
     return (
       <div>
