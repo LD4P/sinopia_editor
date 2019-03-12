@@ -45,6 +45,7 @@
     "html-webpack-plugin": "^3.2.0",
     "jest": "^23.6.0",
     "jest-junit": "^5.2.0",
+    "jest-localstorage-mock": "^2.4.0",
     "jest-puppeteer": "^3.9.0",
     "jsdom": "13.0.0",
     "jsdom-global": "3.0.2",
@@ -124,6 +125,9 @@
     ],
     "testPathIgnorePatterns": [
       "/node_modules/"
+    ],
+    "setupFiles": [
+      "jest-localstorage-mock"
     ]
   }
 }

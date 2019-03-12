@@ -4,17 +4,28 @@ import React, {Component} from 'react'
 import PropTypes from 'prop-types'
 import { NavLink, withRouter } from 'react-router-dom'
 import Config from '../Config.js'
+import { loadState } from '../localStorage'
 
 class LoginPanel extends Component {
   constructor(props){
     super(props)
+    this.state = {
+      userAuthenticated: false
+    }
   }
 
   render(){
+    const user = loadState('jwtAuth')
+    if (user !== undefined && user.isAuthenticated) {
+      if (!this.state.userAuthenticated) {
+        this.setState({userAuthenticated: true, userName: user.username})
+      }
+    }
+
     const AuthButton = withRouter(() =>
-        this.props.jwtAuth.isAuthenticated ? (
+        (this.state.userAuthenticated) ? (
           <p>
-            Welcome{` ${this.props.userName}`}!
+            Welcome{` ${this.state.userName}`}!
             <button onClick={() => {
               this.props.logOut()
             }}>
@@ -30,7 +41,7 @@ class LoginPanel extends Component {
       <NavLink className="btn btn-block btn-primary nav-link" type="button" to="/login">Login</NavLink>
     </div>;
 
-    if (this.props.jwtAuth.isAuthenticated) {
+    if (this.state.userAuthenticated) {
       loginButton = <p/>;
     }
 
@@ -38,7 +49,7 @@ class LoginPanel extends Component {
       <form className="login-form">
         <div className="form-group">
           <div className="row">
-            <AuthButton jwtAuth={this.props.jwtAuth} signout={this.props.signout}/>
+            <AuthButton />
             {loginButton}
           </div>
           <div className="row">

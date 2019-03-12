@@ -29,13 +29,13 @@ class Login extends React.Component {
       authenticationMessage = <div className="alert alert-warning alert-dismissible">
         <a href="#" className="close" data-dismiss="alert" aria-label="close">&times;</a>
         You must be logged in to access the {pathName} path
-        <p>Please wait to be directed to the login service...</p>
       </div>;
     }
 
     return (
       <div className="jumbotron center-block">
         { authenticationMessage }
+        <p>Please wait to be directed to the login service...</p>
         {this.cognitoLogin(Config.awsCognitoLoginUrl)}
       </div>
     )

@@ -20,7 +20,7 @@ class NewsPanel extends Component {
                 <NewsItem />
               </div>
               <div className="col-md-4 login-sec">
-                <LoginPanel jwtAuth={this.props.jwtAuth} logOut={this.props.logOut} userName={this.props.userName}/>
+                <LoginPanel logOut={this.props.logOut} />
               </div>
             </div>
           </div>
