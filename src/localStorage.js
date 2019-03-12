@@ -4,7 +4,15 @@ export const loadState = (stored) => {
     if (serializedState === null) {
       return undefined
     } else {
-      return JSON.parse(serializedState)
+      let state = JSON.parse(serializedState)
+
+      let time = new Date()
+      const expires = time.setSeconds(time.getSeconds())
+
+      if (expires > state.expiry) {
+        state = undefined
+      }
+      return state
     }
   } catch (err) {
     return undefined
