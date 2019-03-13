@@ -8,7 +8,6 @@ import RequiredSuperscript from './RequiredSuperscript'
 const { getResourceTemplate } = require('../../sinopiaServerSpoof.js')
 import PropTypes from 'prop-types'
 import shortid from 'shortid'
-const PanelContext = React.createContext()
 
 export class PropertyTemplateOutline extends Component {
 
@@ -89,22 +88,18 @@ export class PropertyTemplateOutline extends Component {
   }
 
   render() {
-    return(
-      <PanelContext.Provider resourceTemplate={this.props.rtId}>
-        <div className="rtOutline">
-          <OutlineHeader label={this.props.propertyTemplate.propertyLabel}
-            collapsed={this.state.collapsed}
-            isRequired={this.isRequired(this.props.propertyTemplate)}
-            handleCollapsed={this.handleCollapsed} />
-          <div className={this.outlinerClasses()}>
-            {this.generateInputs(
-              this.props.propertyTemplate,
-              this.props.rtId,
-              this.props.depth ? this.props.depth : 0)}
-          </div>
-        </div>
-      </PanelContext.Provider>
-    )
+    return(<div className="rtOutline">
+            <OutlineHeader label={this.props.propertyTemplate.propertyLabel}
+              collapsed={this.state.collapsed}
+              isRequired={this.isRequired(this.props.propertyTemplate)}
+              handleCollapsed={this.handleCollapsed} />
+              <div className={this.outlinerClasses()}>
+                {this.generateInputs(
+                  this.props.propertyTemplate,
+                  this.props.rtId,
+                  this.props.depth ? this.props.depth : 0)}
+              </div>
+        </div>)
   }
 
 }

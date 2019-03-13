@@ -2,6 +2,7 @@
 
 import React, { Component } from 'react'
 import PropertyTemplateOutline from './PropertyTemplateOutline'
+import shortid from 'shortid'
 import PropTypes from 'prop-types'
 
 class PropertyResourceTemplate extends Component {
@@ -11,10 +12,6 @@ class PropertyResourceTemplate extends Component {
     this.state = {
       collapse: false
     }
-  }
-
-  isCollapsed  = () => {
-
   }
 
   handleAddClick = (event) => {
@@ -27,7 +24,6 @@ class PropertyResourceTemplate extends Component {
         <div className="row">
           <section className="col-md-8">
             <h4>{this.props.resourceTemplate.resourceLabel}</h4>
-            {this.isCollapsed()}
           </section>
           <section className="col-md-4">
             <div className="btn-group" role="group" aria-label="...">
@@ -41,7 +37,7 @@ class PropertyResourceTemplate extends Component {
           this.props.resourceTemplate.propertyTemplates.map((property, i) => {
             return(<PropertyTemplateOutline
                     propertyTemplate={property}
-                    key={`propRT-` + i}
+                    key={shortid.generate()}
                     count={i}  />)
           })
         }

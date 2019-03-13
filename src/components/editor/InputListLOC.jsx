@@ -4,7 +4,6 @@ import React, { Component } from 'react';
 import { Typeahead } from 'react-bootstrap-typeahead'
 import PropTypes from 'prop-types'
 import PropertyRemark from './PropertyRemark'
-import RequiredSuperscript from './RequiredSuperscript'
 
 import { connect } from 'react-redux'
 import { changeSelections } from '../../actions/index'
@@ -48,12 +47,6 @@ class InputListLOC extends Component {
                              label={propertyTemplate.propertyLabel} />;
     }
     return propertyTemplate.propertyLabel;
-  }
-
-  mandatorySuperscript() {
-    if (JSON.parse(this.props.propertyTemplate.mandatory)) {
-      return <RequiredSuperscript />
-    }
   }
 
   render() {

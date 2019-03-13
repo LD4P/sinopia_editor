@@ -42,7 +42,7 @@ class OutlineHeader extends Component {
 OutlineHeader.propTypes = {
   collapsed: PropTypes.any,
   handleCollapsed: PropTypes.func,
-  isRequired: PropTypes.oneOfType([PropTypes.func, PropTypes.object]),
+  isRequired: PropTypes.any,
   label: PropTypes.string,
   spacer: PropTypes.oneOfType([PropTypes.string, PropTypes.number])
 }

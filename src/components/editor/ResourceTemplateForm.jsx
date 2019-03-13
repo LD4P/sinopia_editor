@@ -8,9 +8,7 @@ import InputLiteral from './InputLiteral'
 import InputListLOC from './InputListLOC'
 import InputLookupQA from './InputLookupQA'
 import PropertyPanel from './PropertyPanel'
-import PropertyRemark from './PropertyRemark'
 import PropertyResourceTemplate from './PropertyResourceTemplate'
-import RequiredSuperscript from './RequiredSuperscript'
 import lookupConfig from '../../../static/spoofedFilesFromServer/fromSinopiaServer/lookupConfig.json'
 import {getLD, setItems, removeAllContent} from '../../actions/index'
 const { getResourceTemplate } = require('../../sinopiaServerSpoof.js')
@@ -36,11 +34,6 @@ class ResourceTemplateForm extends Component {
       if (pt.repeatable == undefined) pt.repeatable = "false"
       if (pt.editable == undefined) pt.editable = "true"
     })
-  }
-
-  handleSave = () => {
-    this.setState( { showRdf: true } )
-    this.props.handleGenerateLD(this.setInputs())
   }
 
   makeSubject = () => {
@@ -99,23 +92,6 @@ class ResourceTemplateForm extends Component {
       }
     })
     return rtProperties
-  }
-
-  mandatorySuperscript = (propMandatory) => {
-    if (JSON.parse(propMandatory)) {
-      return <RequiredSuperscript />
-    }
-  }
-
-  hasPropertyRemark = (prop) => {
-    let output;
-    if(prop.remark) {
-      output = <PropertyRemark remark={prop.remark}
-                label={prop.propertyLabel} />
-    } else {
-      output = prop.propertyLabel
-    }
-    return output
   }
 
   defaultValues = () => {
