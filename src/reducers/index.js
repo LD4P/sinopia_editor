@@ -5,7 +5,6 @@ import { generateLD } from './linkedData'
 import lang from './lang'
 import authenticate from './authenticate'
 import { removeMyItem, setMyItems } from './literal'
-const { getResourceTemplate } = require('../sinopiaServerSpoof.js')
 
 const removeAllContent = () => {
 
