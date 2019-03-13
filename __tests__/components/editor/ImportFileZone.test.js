@@ -13,12 +13,9 @@ describe('<ImportFileZone />', () => {
   const reloadEditor = jest.fn()
   let wrapper = shallow(<ImportFileZone reloadEditor={reloadEditor}/>)
 
-  it('Has a div with headings', () => {
-    expect(wrapper.find('div > h3').text()).toEqual('Import a Template')
-  })
-
-  it('has an upload button', async() => {
+  it('has an upload button', () => {
     expect(wrapper.find('button#ImportProfile').exists()).toBeTruthy()
+    expect(wrapper.find('button#ImportProfile').text()).toEqual('Import New or Revised Resource Template')
   })
 
   it('has a link to the default resource template', () => {
