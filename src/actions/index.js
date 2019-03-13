@@ -3,6 +3,11 @@ export const setItems = item => ({
   payload: item
 })
 
+export const setResourceTemplate = resource_template => ({
+  type: 'SET_RESOURCE_TEMPLATE',
+  payload: resource_template
+})
+
 export const removeItem = item => ({
   type: 'REMOVE_ITEM',
   payload: item

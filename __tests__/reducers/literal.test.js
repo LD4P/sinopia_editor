@@ -1,4 +1,4 @@
-import literal from '../../src/reducers/literal'
+import { literal } from '../../src/reducers/literal'
 
 describe('literal reducer', () => {
   it('should handle initial state', () => {
@@ -86,4 +86,3 @@ describe('literal reducer', () => {
     })
   })
 })
-

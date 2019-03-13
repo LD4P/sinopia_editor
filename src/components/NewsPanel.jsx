@@ -13,7 +13,7 @@ class NewsPanel extends Component {
   render(){
     return(
       <div className="jumbotron banner center-block">
-        <div className="panel panel-default">
+        <div className="panel panel-news">
           <div className="panel-body">
             <div className="row">
               <div className="col-md-7">
@@ -22,8 +22,8 @@ class NewsPanel extends Component {
               <div className="col-md-4 login-sec">
                 <LoginPanel logOut={this.props.logOut} />
               </div>
-            </div>
-          </div>
+           </div>
+         </div>
         </div>
       </div>
     )

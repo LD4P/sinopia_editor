@@ -1,4 +1,5 @@
-// Copyright 2018 Stanford University see Apache2.txt for license
+// Copyright 2018, 2019 Stanford University see Apache2.txt for license
+
 import React from 'react'
 import { shallow } from 'enzyme'
 import Editor from '../../../src/components/editor/Editor'
@@ -28,7 +29,13 @@ describe('<Editor />', () => {
     })
 
     it('shows resource title', () => {
-      expect(wrapper.find('div#editor > h1').text()).toMatch('[Clone|Edit] title.of.resource')
+      expect(wrapper.find('div#editor > div > section > h1').text()).toMatch('[Clone|Edit] Name of Resource')
+    })
+
+    it('renders a Preview RDF button', () =>{
+            expect(wrapper
+              .find('div > div > section > button.btn-primary').length)
+              .toEqual(1)
     })
 
     it('displays an login warning message', () => {

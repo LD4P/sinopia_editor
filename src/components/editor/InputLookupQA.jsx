@@ -3,8 +3,6 @@ import React, { Component } from 'react'
 import { asyncContainer, Typeahead } from 'react-bootstrap-typeahead'
 import PropTypes from 'prop-types'
 import Swagger from 'swagger-client'
-import PropertyRemark from './PropertyRemark'
-import RequiredSuperscript from './RequiredSuperscript'
 import { connect } from 'react-redux'
 import { changeSelections } from '../../actions/index'
 
@@ -15,20 +13,6 @@ class InputLookupQA extends Component {
     super(props)
     this.state = {
       isLoading: false
-    }
-  }
-
-  hasPropertyRemark = () => {
-    if(this.props.propertyTemplate.remark) {
-      return <PropertyRemark remark={this.props.propertyTemplate.remark}
-          label={this.props.propertyTemplate.propertyLabel} />;
-    }
-    return this.props.propertyTemplate.propertyLabel;
-  }
-
-  mandatorySuperscript = () => {
-    if (JSON.parse(this.props.propertyTemplate.mandatory)) {
-      return <RequiredSuperscript />
     }
   }
 
@@ -57,10 +41,6 @@ class InputLookupQA extends Component {
 
     return (
       <div>
-        <label htmlFor="lookupComponent"
-               title={this.props.propertyTemplate.remark}>
-        {this.hasPropertyRemark()}
-        {this.mandatorySuperscript()}
         <AsyncTypeahead id="lookupComponent"
           onSearch={query => {
             this.setState({isLoading: true});
@@ -92,7 +72,6 @@ class InputLookupQA extends Component {
           }
           {...typeaheadProps}
         />
-        </label>
       </div>
     )
   }
@@ -110,11 +89,7 @@ InputLookupQA.propTypes = {
 }
 
 const mapStatetoProps = (state) => {
-  let data = state.lookups.formData
-  let result = {}
-  if (data !== undefined){
-    result = { formData: data }
-  }
+  let result = Object.assign({},state)
   return result
 }
 

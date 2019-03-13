@@ -4,8 +4,6 @@ import React, {Component} from 'react'
 import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
 import { setItems, removeItem } from '../../actions/index'
-import PropertyRemark from './PropertyRemark'
-import RequiredSuperscript from './RequiredSuperscript'
 import InputLang from './InputLang'
 import Modal from 'react-bootstrap/lib/Modal'
 import Button from 'react-bootstrap/lib/Button'
@@ -31,8 +29,7 @@ export class InputLiteral extends Component {
       let defaults = this.props.defaultsForLiteral(defaultValue.defaultLiteral, propPredicate)
       if (defaults !== undefined) ++this.lastId
 
-      this.props.setDefaultsForLiteralWithPayLoad(this.props.buttonID,
-                                                  this.props.propertyTemplate.propertyURI,
+      this.props.setDefaultsForLiteralWithPayLoad(this.props.propertyTemplate.propertyURI,
                                                   propPredicate,
                                                   defaults,
                                                   this.props.rtId)
@@ -93,7 +90,6 @@ export class InputLiteral extends Component {
         this.notRepeatableAfterUserInput(userInputArray, currentcontent)
       }
       const user_input = {
-        id: this.props.buttonID,
         uri: this.props.propertyTemplate.propertyURI,
         rtId: this.props.rtId,
         items: userInputArray
@@ -135,20 +131,6 @@ export class InputLiteral extends Component {
      else if (this.props.propertyTemplate.mandatory == "false") {
       return false
      }
-  }
-
-  hasPropertyRemark = () => {
-    if(this.props.propertyTemplate.remark) {
-      return <PropertyRemark remark={this.props.propertyTemplate.remark}
-          label={this.props.propertyTemplate.propertyLabel} />;
-    }
-    return this.props.propertyTemplate.propertyLabel;
-  }
-
-  mandatorySuperscript = () => {
-    if (this.props.propertyTemplate.mandatory === "true") {
-      return <RequiredSuperscript />
-    }
   }
 
   dispModal = (content) => {
@@ -214,25 +196,20 @@ export class InputLiteral extends Component {
 
   render() {
     return (
-      <div className="form-group">
-        <label htmlFor={"typeLiteral" + this.props.id}
-               title={this.props.propertyTemplate.remark}>
-          {this.hasPropertyRemark()}
-          {this.mandatorySuperscript()}
-          <input
-            required={this.checkMandatoryRepeatable()}
-            className="form-control"
-            placeholder={this.props.propertyTemplate.propertyLabel}
-            onChange={this.handleChange}
-            onKeyPress={this.handleKeypress}
-            value={this.state.content_add}
-            disabled={this.state.disabled}
-            id={"typeLiteral" + this.props.id}
-            onClick={this.handleFocus}
-          />
-          {this.makeAddedList()}
-        </label>
-      </div>
+          <div>
+            <input
+              required={this.checkMandatoryRepeatable()}
+              className="form-control"
+              placeholder={this.props.propertyTemplate.propertyLabel}
+              onChange={this.handleChange}
+              onKeyPress={this.handleKeypress}
+              value={this.state.content_add}
+              disabled={this.state.disabled}
+              id={"typeLiteral" + this.props.id}
+              onClick={this.handleFocus}
+            />
+            {this.makeAddedList()}
+        </div>
     )
   }
 }
@@ -259,21 +236,19 @@ InputLiteral.propTypes = {
   rtId: PropTypes.string,
   blankNodeForLiteral: PropTypes.object,
   propPredicate: PropTypes.string,
-  buttonID: PropTypes.number,
   setDefaultsForLiteralWithPayLoad: PropTypes.func,
   defaultsForLiteral: PropTypes.func
 }
 
-const mapStatetoProps = (state, props) => {
-  return {
-    formData: state.literal.formData.find(obj =>
-      obj.id === props.buttonID &&
-      (obj.uri === props.propertyTemplate.propertyURI || obj.uri === props.propPredicate)
-    )
-  }
-}
+// TODO: #387 Add selector to return current state in tree
+// const mapStateToProps = (state, props) => {
+//
+//   return {
+    // formData: { items: getProperty(state, props.rtId, props.propertyTemplate.propertyURI) }
+//   }
+// }
 
-const mapDispatchtoProps = dispatch => ({
+const mapDispatchToProps = dispatch => ({
   handleMyItemsChange(user_input){
     dispatch(setItems(user_input))
   },
@@ -282,4 +257,4 @@ const mapDispatchtoProps = dispatch => ({
   }
 })
 
-export default connect(mapStatetoProps, mapDispatchtoProps)(InputLiteral);
+export default connect(null, mapDispatchToProps)(InputLiteral);

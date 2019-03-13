@@ -1,39 +1,74 @@
+
 import { combineReducers } from 'redux'
+import { createSelector } from 'reselect'
 import { generateLD } from './linkedData'
 import lang from './lang'
-import literal from './literal'
-import lookups from './lookups'
 import authenticate from './authenticate'
+import { removeMyItem, setMyItems } from './literal'
+
+const removeAllContent = () => {
+
+}
+
+const resourceTemplateSelector = (state, id) => state[id]
+
+const propertySelector = (state, rtId, id) => state[rtId][id]
+
+export const getProperty = createSelector(
+  [resourceTemplateSelector, propertySelector],
+  (resourceTemplate, propertyURI)  => {
+    return resourceTemplate[propertyURI]
+  }
+)
+
+
+export const setResourceTemplate = (state, action) => {
+  const rtKey = action.payload.id
+
+  let output = Object.create(state)
+  output[rtKey] = {}
+  action.payload.propertyTemplates.forEach((property) => {
+    output[rtKey][property.propertyURI] = { items: [] }
+    if (property.valueConstraint.defaults.length > 0) {
+      property.valueConstraint.defaults.forEach((row) => {
+        // This items payload needs to vary if type is literal or lookup
+        output[rtKey][property.propertyURI].items.push(
+          {
+            value: row.defaultLiteral,
+            uri: row.defaultURI
+          }
+        )
+      })
+    }
+    if (property.valueConstraint.valueTemplateRefs.length > 0) {
+      property.valueConstraint.valueTemplateRefs.map((row) => {
+        output[rtKey][property.propertyURI] = { [row]: {} }
+      })
+    }
+  })
+  return output
+}
+
+const selectorReducer = (state={}, action) => {
+  switch(action.type) {
+    case 'SET_RESOURCE_TEMPLATE':
+      return setResourceTemplate(state, action)
+    case 'SET_ITEMS':
+      return setMyItems(state, action)
+    case 'REMOVE_ITEM':
+      return removeMyItem(state, action)
+    case 'REMOVE_ALL_CONTENT':
+      return removeAllContent(state, action)
+    default:
+      return state
+  }
+}
 
 const appReducer = combineReducers({
   generateLD,
   lang,
-  literal,
-  lookups,
-  authenticate
+  authenticate,
+  selectorReducer
 })
 
-const rootReducer = (state, action) => {
-  if (action.type === 'REMOVE_ALL') {
-    state = {
-      literal: {
-        formData: [
-          {id: '', items: []}
-        ]
-      },
-      lookups: {
-        formData: [
-          // if action.payload.items contains items (from defaults)
-          // {id: 'http://id.loc.gov/ontologies/bibframe/issuance', items: [ {label: 'single unit', id: "http://id.loc.gov/vocabulary/issuance/mono", uri: 'http://id.loc.gov/vocabulary/issuance/mono'} ]}
-          // else :
-          {id: '', items: []}
-        ]
-      },
-      generateLD: { jsonld: {}}
-    }
-  }
-
-  return appReducer(state, action)
-}
-
-export default rootReducer
+export default appReducer
