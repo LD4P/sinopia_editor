@@ -22,7 +22,7 @@ export class PropertyTypeRow extends Component {
 }
 
 PropertyTypeRow.propTypes = {
-  children: PropTypes.object,
+  children: PropTypes.oneOfType([PropTypes.object, PropTypes.array]),
   propertyTemplate: PropTypes.object
 }
 

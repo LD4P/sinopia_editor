@@ -3,6 +3,7 @@
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 import PropertyRemark from './PropertyRemark'
+import shortid from 'shortid'
 import RequiredSuperscript from './RequiredSuperscript'
 
 
@@ -16,12 +17,13 @@ export default class PropertyPanel extends Component {
     let title
     if (this.props.pt.remark) {
       title = <PropertyRemark remark={this.props.pt.remark}
+        key={shortid.generate()}
         label={this.props.pt.propertyLabel} />
     } else {
       title = this.props.pt.propertyLabel
     }
     if (this.props.pt.mandatory === "true") {
-      title = [title, <RequiredSuperscript key={null}/>]
+      title = [title, <RequiredSuperscript key={shortid.generate()}/>]
     }
     return title
   }
@@ -52,7 +54,7 @@ export default class PropertyPanel extends Component {
 }
 
 PropertyPanel.propTypes = {
-  children: PropTypes.object,
+  children: PropTypes.oneOfType([PropTypes.array, PropTypes.object]),
   float: PropTypes.number,
   pt: PropTypes.object
 }

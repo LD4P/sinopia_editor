@@ -3,7 +3,7 @@
 import React, {Component} from 'react'
 import { connect } from 'react-redux'
 import PropTypes from 'prop-types'
-
+import shortid from 'shortid'
 import InputLiteral from './InputLiteral'
 import InputListLOC from './InputListLOC'
 import InputLookupQA from './InputLookupQA'
@@ -93,9 +93,9 @@ class ResourceTemplateForm extends Component {
   resourceTemplateFields = (rtIds) => {
     const rtProperties = []
     rtIds.map((rtId, i) => {
-      rtProperties.push(<PropertyResourceTemplate resourceTemplate={getResourceTemplate(rtId)} />)
+      rtProperties.push(<PropertyResourceTemplate key={shortid.generate()} resourceTemplate={getResourceTemplate(rtId)} />)
       if ((rtIds.length - i) > 1) {
-        rtProperties.push(<hr />)
+        rtProperties.push(<hr key={i} />)
       }
     })
     return rtProperties
@@ -207,21 +207,21 @@ class ResourceTemplateForm extends Component {
 
                     if (listComponent === 'list'){
                       return (
-                        <PropertyPanel pt={pt} float={index} rtId={this.props.rtId}>
+                        <PropertyPanel pt={pt} key={index} float={index} rtId={this.props.rtId}>
                           <InputListLOC propertyTemplate = {pt} lookupConfig = {lookupConfigItem} key = {index} rtId = {this.props.rtId} />
                         </PropertyPanel>
                       )
                     }
                     else if (listComponent ===  'lookup'){
                       return(
-                        <PropertyPanel pt={pt} float={index} rtId={this.props.rtId}>
+                        <PropertyPanel pt={pt} key={index} float={index} rtId={this.props.rtId}>
                           <InputLookupQA propertyTemplate = {pt} lookupConfig = {lookupConfigItem} key = {index} rtId = {this.props.rtId} />
                         </PropertyPanel>
                       )
                     }
                     else if(pt.type == 'literal'){
                       return(
-                        <PropertyPanel pt={pt} float={index} rtId={this.props.rtId}>
+                        <PropertyPanel pt={pt} key={index} float={index} rtId={this.props.rtId}>
                           <InputLiteral key={index} id={index}
                                         propertyTemplate={pt}
                                         rtId={this.props.rtId}
@@ -235,7 +235,7 @@ class ResourceTemplateForm extends Component {
                     else if (this.isResourceWithValueTemplateRef(pt)) {
                       let valueForButton
                       return (
-                        <PropertyPanel pt={pt} float={index} rtId={this.props.rtId}>
+                        <PropertyPanel pt={pt} key={index} float={index} rtId={this.props.rtId}>
                             {this.resourceTemplateFields(pt.valueConstraint.valueTemplateRefs)}
                             {this.renderValueForButton(valueForButton, index)}
                         </PropertyPanel>
@@ -257,8 +257,8 @@ class ResourceTemplateForm extends Component {
 }
 
 ResourceTemplateForm.propTypes = {
-  literals: PropTypes.oneOfType([PropTypes.array, PropTypes.object]).isRequired,
-  lookups: PropTypes.oneOfType([PropTypes.array, PropTypes.object]).isRequired,
+  literals: PropTypes.oneOfType([PropTypes.array, PropTypes.object]),
+  lookups: PropTypes.oneOfType([PropTypes.array, PropTypes.object]),
   handleGenerateLD: PropTypes.func,
   propertyTemplates: PropTypes.arrayOf(PropTypes.object).isRequired,
   resourceTemplate: PropTypes.object.isRequired,

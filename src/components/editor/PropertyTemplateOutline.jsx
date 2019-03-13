@@ -7,7 +7,7 @@ import PropertyTypeRow from './PropertyTypeRow'
 import RequiredSuperscript from './RequiredSuperscript'
 const { getResourceTemplate } = require('../../sinopiaServerSpoof.js')
 import PropTypes from 'prop-types'
-
+import shortid from 'shortid'
 const PanelContext = React.createContext()
 
 export class PropertyTemplateOutline extends Component {
@@ -46,11 +46,12 @@ export class PropertyTemplateOutline extends Component {
     const output = []
     if(this.valueTemplateRefTest(property)) {
         let resourceTemplate = getResourceTemplate(rtId)
-        output.push(<h5>{resourceTemplate.resourceLabel}</h5>)
+        output.push(<h5 key={shortid.generate()}>{resourceTemplate.resourceLabel}</h5>)
         resourceTemplate.propertyTemplates.map((row) => {
             output.push(<OutlineHeader label={row.propertyLabel}
               isRequired={this.isRequired(row)}
               spacer={depth}
+              key={shortid.generate()}
               handleCollapsed={this.handleCollapsed}
               collapsed={true} />)
           })
@@ -59,25 +60,29 @@ export class PropertyTemplateOutline extends Component {
       switch (property.type) {
         case "literal":
           output.push(
-              <InputLiteral id={property.propertyURI}
+              <InputLiteral id={this.props.count}
                 propertyTemplate={property}
+                key={shortid.generate()}
                 rtId={rtId} />
           )
           break;
 
         case "resource":
-          output.push(<input className="form-control" placeholder="Lookup" />)
+          output.push(<input className="form-control"
+            key={shortid.generate()}
+            placeholder="Lookup" />)
 
           break;
 
         case "lookup":
           output.push(
               <input className="form-control"
+                key={shortid.generate()}
                 placeholder="Generate InputLookupQA" />
           )
           break;
       }
-     return (<PropertyTypeRow key={this.props.count} propertyTemplate={property}>
+     return (<PropertyTypeRow key={shortid.generate()} propertyTemplate={property}>
             {output}
            </PropertyTypeRow>)
     }

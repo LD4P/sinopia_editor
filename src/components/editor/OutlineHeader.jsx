@@ -40,11 +40,11 @@ class OutlineHeader extends Component {
 }
 
 OutlineHeader.propTypes = {
-  collapsed: PropTypes.boolean,
+  collapsed: PropTypes.any,
   handleCollapsed: PropTypes.func,
-  isRequired: PropTypes.func,
+  isRequired: PropTypes.oneOfType([PropTypes.func, PropTypes.object]),
   label: PropTypes.string,
-  spacer: PropTypes.string
+  spacer: PropTypes.oneOfType([PropTypes.string, PropTypes.number])
 }
 
 export default OutlineHeader;

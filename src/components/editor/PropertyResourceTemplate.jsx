@@ -13,19 +13,13 @@ class PropertyResourceTemplate extends Component {
     }
   }
 
-
   isCollapsed  = () => {
 
   }
 
   handleAddClick = (event) => {
      event.preventDefault()
-   }
-
-  isCollapsed = () => {
-
   }
-
 
   render() {
     return (
@@ -47,8 +41,10 @@ class PropertyResourceTemplate extends Component {
           this.props.resourceTemplate.propertyTemplates.map((property, i) => {
             return(<PropertyTemplateOutline
                     propertyTemplate={property}
-                    key={`propRT-` + i} />)
-        })
+                    key={`propRT-` + i}
+                    count={i}  />)
+          })
+        }
         </div>
       </div>
     )
