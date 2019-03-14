@@ -48,13 +48,9 @@ module.exports = {
   overrides: [
     {
       "files": ["**/*.jsx",
-                "src/index.js",
-                "src/*/*.js",
-                "src/store.js",
-                "src/Config.js",
-                "src/LoginData.js",
-                "src/Logout.js",
-                "src/localStorage.js"],
+                "src/**/*.js",
+                "__tests__/**/*.js",
+                "__mocks__/**/*.js"],
       "rules": {
         // See https://github.com/mysticatea/eslint-plugin-node/blob/master/docs/rules/no-unsupported-features/es-syntax.md
         //   rule supposedly matches ECMA version with node

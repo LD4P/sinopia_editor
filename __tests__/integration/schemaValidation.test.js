@@ -4,7 +4,8 @@ import Config from '../../src/Config'
 
 describe('Editor', () => {
   beforeAll(async () => {
-    await page.goto(`http://127.0.0.1:8080/${Config.awsCognitoJWTHashForTest}`)
+    jest.setTimeout(15000);
+    await page.goto(`http://127.0.0.1:8888/${Config.awsCognitoJWTHashForTest}`)
   })
 
   describe('importing a profile/template', () => {
@@ -17,7 +18,7 @@ describe('Editor', () => {
 
     describe('schema valid', () => {
       beforeEach(async () => {
-        await page.goto('http://127.0.0.1:8080/import')
+        await page.goto('http://127.0.0.1:8888/import')
       })
 
       describe('schema url in JSON', () => {
@@ -84,7 +85,7 @@ describe('Editor', () => {
     describe('not schema valid', () => {
       let dialog
       beforeAll(async() => {
-        await page.goto('http://127.0.0.1:8080/import')
+        await page.goto('http://127.0.0.1:8888/import')
         await page.waitForSelector('button#ImportProfile')
         await page.click('button#ImportProfile')
         await pupExpect(page).toMatch('select a file to upload:')

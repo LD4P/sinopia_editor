@@ -4,7 +4,7 @@ import React, { Component }  from 'react'
 import { connect } from 'react-redux'
 import ResourceTemplateForm from './ResourceTemplateForm'
 import { setResourceTemplate } from '../../actions/index'
-const { getResourceTemplate } = require('../../sinopiaServerSpoof.js')
+import { getResourceTemplate } from '../../sinopiaServer'
 import PropTypes from 'prop-types'
 
 class ResourceTemplate extends Component {
