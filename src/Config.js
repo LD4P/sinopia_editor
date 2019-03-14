@@ -8,7 +8,7 @@ class Config {
   }
 
   static get awsClientID() {
-    return process.env.COGNITO_CLIENT_ID || '543cav95u0q1rqcags1nedc68a'
+    return process.env.COGNITO_CLIENT_ID || '2u6s7pqkc1grq1qs464fsi82at'
   }
 
   static get awsCognitoDomain() {
