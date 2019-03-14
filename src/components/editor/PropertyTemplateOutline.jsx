@@ -1,13 +1,18 @@
 // Copyright 2019 Stanford University see Apache2.txt for license
 
 import React, {Component} from 'react'
+import ReactDOM from 'react-dom'
 import InputLiteral from './InputLiteral'
+import InputListLOC from './InputListLOC'
 import OutlineHeader from './OutlineHeader'
 import PropertyTypeRow from './PropertyTypeRow'
 import RequiredSuperscript from './RequiredSuperscript'
 import { getResourceTemplate } from '../../sinopiaServer'
+import lookupConfig from '../../../static/spoofedFilesFromServer/fromSinopiaServer/lookupConfig.json'
 import PropTypes from 'prop-types'
 import shortid from 'shortid'
+
+
 
 export class PropertyTemplateOutline extends Component {
 
@@ -21,6 +26,10 @@ export class PropertyTemplateOutline extends Component {
   handleCollapsed = (event) => {
     event.preventDefault()
     this.setState( { collapsed: !this.state.collapsed })
+  }
+
+  getRtOrHandleCollapsed = (property) => (event) => {
+      event.preventDefault()
   }
 
   isRequired = (property) => {
@@ -44,16 +53,19 @@ export class PropertyTemplateOutline extends Component {
   generateInputs = (property, rtId, depth) => {
     const output = []
     if(this.valueTemplateRefTest(property)) {
-        let resourceTemplate = getResourceTemplate(rtId)
+      property.valueConstraint.valueTemplateRefs.map((row, i) => {
+        let resourceTemplate = getResourceTemplate(row)
         output.push(<h5 key={shortid.generate()}>{resourceTemplate.resourceLabel}</h5>)
         resourceTemplate.propertyTemplates.map((row) => {
-            output.push(<OutlineHeader label={row.propertyLabel}
-              isRequired={this.isRequired(row)}
-              spacer={depth}
-              key={shortid.generate()}
-              handleCollapsed={this.handleCollapsed}
-              collapsed={true} />)
-          })
+          output.push(<div key={shortid.generate()} className="internalPropertyTemplate">
+            <OutlineHeader label={row.propertyLabel}
+            isRequired={this.isRequired(row)}
+            spacer={depth}
+            handleCollapsed={this.getRtOrHandleCollapsed(row)}
+            collapsed={true} />
+          </div>)
+        })
+      })
       return (output)
     } else {
       switch (property.type) {
@@ -67,13 +79,22 @@ export class PropertyTemplateOutline extends Component {
           break;
 
         case "resource":
-          output.push(<input className="form-control"
-            key={shortid.generate()}
-            placeholder="Lookup" />)
-
+          let templateUri = property.valueConstraint.useValuesFrom[0]
+          let lookupConfigItem
+          lookupConfig.forEach((configItem) => {
+            if (configItem.uri === templateUri) {
+              lookupConfigItem = { value: configItem }
+            }
+          })
+          output.push(
+            <InputListLOC propertyTemplate = {property}
+               lookupConfig = {lookupConfigItem}
+               rtId = {rtId} />
+          )
           break;
 
         case "lookup":
+
           output.push(
               <input className="form-control"
                 key={shortid.generate()}
