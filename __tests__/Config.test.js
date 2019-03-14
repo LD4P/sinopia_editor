@@ -13,7 +13,7 @@ describe('Config', () => {
     })
 
     it('aws client ID has static value', () => {
-      expect(Config.awsClientID).toEqual('543cav95u0q1rqcags1nedc68a')
+      expect(Config.awsClientID).toEqual('2u6s7pqkc1grq1qs464fsi82at')
     })
 
     it('aws cognito domain has static value', () => {
