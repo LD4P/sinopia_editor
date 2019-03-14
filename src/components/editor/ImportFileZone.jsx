@@ -161,16 +161,21 @@ class ImportFileZone extends Component {
 
   render() {
     let importFileZone = {
-      border: '1px dotted',
-      float: 'left',
-      padding: '20px',
+      display: 'flex',
+      justifyContent: 'center',
+      padding: '40px'
+    }
+    let dropzoneContainer = {
+      display: 'flex',
+      justifyContent: 'center'
     }
     return (
       <section>
         <div className="ImportFileZone" style={importFileZone}>
-          <h3>Import a Template</h3>
           <div><Link to="/editor" onClick={() => {this.reloadEditor()}}>{this.props.defaultRtId}</Link></div>
-          <button id="ImportProfile" className="btn btn-primary btn-small" onClick={this.handleClick}>Import</button>
+          <button id="ImportProfile" className="btn btn-primary btn-lg" onClick={this.handleClick}>Import New or Revised Resource Template</button>
+        </div>
+        <div className="dropzoneContainer" style={dropzoneContainer}>
           { this.state.showDropZone ? <DropZone showDropZoneCallback={this.updateShowDropZone} dropFileCallback={this.onDropFile} filesCallback={this.state.files}/> : null }
         </div>
       </section>
@@ -180,6 +185,12 @@ class ImportFileZone extends Component {
 
 class DropZone extends Component {
   render() {
+    let fileName = {
+      fontSize: '18px'
+    }
+    let listStyle = {
+      listStyleType: 'none'
+    }
     return (
       <section>
         <br /><p>Drop resource template file <br />
@@ -191,9 +202,9 @@ class DropZone extends Component {
           >
           </Dropzone>
           <aside>
-            <h4>Loaded resource template file:</h4>
-            <ul>
-              { this.props.filesCallback.map(f => <li key={f.name}>{f.name} - {f.size} bytes</li>) }
+            <h5>Loaded resource template file:</h5>
+            <ul style={listStyle}>
+              { this.props.filesCallback.map(f => <li style={fileName} key={f.name}>{f.name} - {f.size} bytes</li>) }
             </ul>
           </aside>
         </div>
