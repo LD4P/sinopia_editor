@@ -7,6 +7,14 @@ class Config {
     return `https://${this.sinopiaDomainName}`
   }
 
+  static get sinopiaServerUrl() {
+    return process.env.SINOPIA_SERVER_URL || 'http://localhost:8080'
+  }
+
+  static get searchUrl() {
+    return process.env.SEARCH_URL || 'http://localhost:9200'
+  }
+
   static get spoofSinopiaServer() {
     // There are two value types of `process.env` variables:
     //   1. When undefined, `if` condition it not satisfied and default `true` is returned

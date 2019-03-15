@@ -106,3 +106,8 @@ overrides:
       node/no-unpublished-require: warn
     files:
       - webpack.config.js
+  -
+    rules:
+      security/detect-non-literal-fs-filename: off
+    files:
+      - src/loadTemplates.js

@@ -4,7 +4,9 @@ services:
     build:
       context: .
     environment:
-      SPOOF_SINOPIA_SERVER: true
+      SPOOF_SINOPIA_SERVER: 'false'
+      SINOPIA_SERVER_URL: http://platform:8080
+      SEARCH_URL: http://search:9200
     ports:
       - 8000:8000
     depends_on:

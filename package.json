@@ -20,6 +20,7 @@
   ],
   "devDependencies": {
     "@babel/core": "^7.1.6",
+    "@babel/node": "^7.2.2",
     "@babel/plugin-proposal-class-properties": "^7.1.0",
     "@babel/preset-env": "^7.1.6",
     "@babel/preset-react": "^7.0.0",
@@ -52,6 +53,7 @@
     "puppeteer": "^1.11.0",
     "react-hot-loader": "^4.3.12",
     "style-loader": "^0.23.1",
+    "superagent": "^4.1.0",
     "webpack": "^4.25.1",
     "webpack-cli": "^3.1.2",
     "webpack-dev-server": "^3.1.14"
@@ -75,9 +77,10 @@
     "dev-build": "webpack --progress --mode development",
     "dev-build-test": "npm run dev-build && npm run test",
     "dev-start": "webpack-dev-server --config ./webpack.config.js --mode development",
-    "eslint": "eslint --max-warnings 34 --color -c .eslintrc.js --ext js,jsx ./src",
+    "eslint": "eslint --max-warnings 37 --color -c .eslintrc.yml --ext js,jsx ./src",
     "jest-cov": "jest --coverage --colors --silent --runInBand",
     "jest-ci": "jest  --colors --silent --ci --runInBand --coverage --reporters=default --reporters=jest-junit && cat ./coverage/lcov.info | coveralls",
+    "load-templates": "babel-node src/loadTemplates.js",
     "test": "jest --colors --silent --runInBand --detectOpenHandles",
     "test-verbose": "jest --colors --runInBand"
   },
