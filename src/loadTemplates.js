@@ -3,8 +3,8 @@ import superagent from 'superagent'
 import Config from './Config'
 
 const templateDir = 'static/spoofedFilesFromServer/fromSinopiaServer/resourceTemplates/'
-const templateContainer = 'ld4p'
-const templateContainerUrl = `${Config.sinopiaServerUrl}/${templateContainer}`
+const templateContainer = Config.resourceTemplateContainerPath
+const templateContainerUrl = Config.resourceTemplateContainerUrl
 // Load list of template files
 const templates = fs.readdirSync(templateDir)
 

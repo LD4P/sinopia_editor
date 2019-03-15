@@ -16,12 +16,16 @@ describe('Config', () => {
       expect(Config.spoofSinopiaServer).toEqual(true)
     })
 
-    it('sinopia server url has static value', () => {
-      expect(Config.sinopiaServerUrl).toEqual('http://localhost:8080')
+    it('resource template container path has static value', () => {
+      expect(Config.resourceTemplateContainerPath).toEqual('ld4p')
     })
 
-    it('search url has static value', () => {
-      expect(Config.searchUrl).toEqual('http://localhost:9200')
+    it('resource template container url has static value', () => {
+      expect(Config.resourceTemplateContainerUrl).toEqual('http://localhost:8080/ld4p')
+    })
+
+    it('sinopia server url has static value', () => {
+      expect(Config.sinopiaServerUrl).toEqual('http://localhost:8080')
     })
 
     it('aws client ID has static value', () => {
@@ -83,10 +87,6 @@ describe('Config', () => {
 )
     it('sinopia server url has static value', () => {
       expect(Config.sinopiaServerUrl).toEqual('http://platform:8080')
-    })
-
-    it('search url has static value', () => {
-      expect(Config.searchUrl).toEqual('http://search:9200')
     })
 
     it('aws client ID has static value', () => {

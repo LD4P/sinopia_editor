@@ -11,8 +11,12 @@ class Config {
     return process.env.SINOPIA_SERVER_URL || 'http://localhost:8080'
   }
 
-  static get searchUrl() {
-    return process.env.SEARCH_URL || 'http://localhost:9200'
+  static get resourceTemplateContainerPath() {
+    return 'ld4p'
+  }
+
+  static get resourceTemplateContainerUrl() {
+    return `${this.sinopiaServerUrl}/${this.resourceTemplateContainerPath}`
   }
 
   static get spoofSinopiaServer() {

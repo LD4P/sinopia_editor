@@ -1,3 +1,6 @@
+import superagent from 'superagent'
+import Config from './Config'
+
 const barcodeRt = require('../static/spoofedFilesFromServer/fromSinopiaServer/resourceTemplates/Barcode.json')
 const monographInstanceRt = require('../static/spoofedFilesFromServer/fromSinopiaServer/resourceTemplates/MonographInstance.json')
 const monographWorkRt = require('../static/spoofedFilesFromServer/fromSinopiaServer/resourceTemplates/MonographWork.json')
@@ -42,7 +45,7 @@ export const resourceTemplateId2Json = [
 
 export const resourceTemplateIds = resourceTemplateId2Json.map(template => template.id)
 
-export const getResourceTemplate = (templateId) => {
+const getSpoofedResourceTemplate = (templateId) => {
   const emptyTemplate = { propertyTemplates : [{}] }
 
   if (!templateId) {
@@ -58,4 +61,16 @@ export const getResourceTemplate = (templateId) => {
   return resourceTemplateId2Json.find((template) => {
     return template.id == templateId
   }).json
+}
+
+const getResourceTemplateFromServer = (templateId) => {
+  return superagent.get(`${Config.resourceTemplateContainerUrl}/${templateId}`)
+    .then(response => response)
+}
+
+export const getResourceTemplate = (templateId) => {
+  if (Config.spoofSinopiaServer)
+    return getSpoofedResourceTemplate(templateId)
+
+  return getResourceTemplateFromServer(templateId)
 }
