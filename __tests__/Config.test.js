@@ -12,6 +12,10 @@ describe('Config', () => {
       expect(Config.sinopiaUrl).toEqual('https://sinopia.io')
     })
 
+    it('spoof sinopia server has static value', () => {
+      expect(Config.spoofSinopiaServer).toEqual(true)
+    })
+
     it('aws client ID has static value', () => {
       expect(Config.awsClientID).toEqual('2u6s7pqkc1grq1qs464fsi82at')
     })
@@ -52,6 +56,7 @@ describe('Config', () => {
 
     beforeAll(() => {
       process.env = {
+        SPOOF_SINOPIA_SERVER: 'false',
         SINOPIA_URI: 'sinopia.foo',
         COGNITO_CLIENT_ID: '1a2b3c',
         AWS_COGNITO_DOMAIN: 'sinopia-foo.amazoncognito.com'
@@ -60,6 +65,10 @@ describe('Config', () => {
 
     it('sinopia url has static value', () => {
       expect(Config.sinopiaUrl).toEqual('https://sinopia.foo')
+    })
+
+    it('spoof sinopia server has static value', () => {
+      expect(Config.spoofSinopiaServer).toEqual(false)
     })
 
     it('aws client ID has static value', () => {

@@ -3,6 +3,8 @@ services:
   editor:
     build:
       context: .
+    environment:
+      SPOOF_SINOPIA_SERVER: true
     ports:
       - 8000:8000
     depends_on:

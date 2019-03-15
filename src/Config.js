@@ -7,6 +7,17 @@ class Config {
     return `https://${this.sinopiaDomainName}`
   }
 
+  static get spoofSinopiaServer() {
+    // There are two value types of `process.env` variables:
+    //   1. When undefined, `if` condition it not satisfied and default `true` is returned
+    //   2. When defined, will always be a string.
+    //     a. When set to 'true' return `true` (use spoof)
+    //     b. When set to 'false' or any other string, return `false` (don't use spoof)
+    if (process.env.SPOOF_SINOPIA_SERVER)
+      return process.env.SPOOF_SINOPIA_SERVER === 'true'
+    return true
+  }
+
   static get awsClientID() {
     return process.env.COGNITO_CLIENT_ID || '2u6s7pqkc1grq1qs464fsi82at'
   }
