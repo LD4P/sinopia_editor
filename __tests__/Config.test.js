@@ -4,17 +4,24 @@ const OLD_ENV = process.env
 
 describe('Config', () => {
   describe('static default values', () => {
-
     it('sinopia has a default schema version', () => {
       expect(Config.defaultProfileSchemaVersion).toEqual('0.0.2')
     })
 
-    it('sinopia uri has static value', () => {
+    it('sinopia domain name has static value', () => {
       expect(Config.sinopiaDomainName).toEqual('sinopia.io')
+    })
+
+    it('default sinopia group id has static value', () => {
+      expect(Config.defaultSinopiaGroupId).toEqual('ld4p')
     })
 
     it('sinopia url has static value', () => {
       expect(Config.sinopiaUrl).toEqual('https://sinopia.io')
+    })
+
+    it('spoof sinopia server has static value', () => {
+      expect(Config.spoofSinopiaServer).toEqual(true)
     })
 
     it('aws client ID has static value', () => {
@@ -74,7 +81,9 @@ describe('Config', () => {
     beforeAll(() => {
       process.env = {
         DEFAULT_PROFILE_SCHEMA_VERSION: '0.1.0',
+        SPOOF_SINOPIA_SERVER: 'false',
         SINOPIA_URI: 'sinopia.foo',
+        SINOPIA_GROUP: 'foobar',
         TRELLIS_BASE_URL: 'https://sinopia_server.foo',
         COGNITO_CLIENT_ID: '1a2b3c',
         AWS_COGNITO_DOMAIN: 'sinopia-foo.amazoncognito.com'
@@ -86,6 +95,10 @@ describe('Config', () => {
       expect(Config.defaultProfileSchemaVersion).toEqual('0.1.0')
     })
 
+    it('default sinopia group id overrides static value', () => {
+      expect(Config.defaultSinopiaGroupId).toEqual('foobar')
+    })
+
     it('sinopia url overrides static value', () => {
       expect(Config.sinopiaUrl).toEqual('https://sinopia.foo')
     })
@@ -94,6 +107,10 @@ describe('Config', () => {
       expect(Config.sinopiaServerBase).toEqual('https://sinopia_server.foo')
     })
 
+    it('spoof sinopia server overrides static value', () => {
+      expect(Config.spoofSinopiaServer).toEqual(false)
+    }
+)
     it('aws client ID overrides static value', () => {
       expect(Config.awsClientID).toEqual('1a2b3c')
     })
@@ -132,5 +149,4 @@ describe('Config', () => {
       process.env = OLD_ENV
     })
   })
-
 })

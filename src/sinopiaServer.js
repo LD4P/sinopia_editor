@@ -1,6 +1,8 @@
+import SinopiaServer from 'sinopia_server'
+
 import { loadState } from './localStorage'
 import Config from './Config'
-const SinopiaServer = require('sinopia_server')
+
 const instance = new SinopiaServer.LDPApi()
 const curJwt = loadState('jwtAuth')
 instance.apiClient.basePath = Config.sinopiaServerBase
@@ -50,11 +52,10 @@ export const resourceTemplateId2Json = [
   {id: 'resourceTemplate:bf2:Item:Chronology', json: chronologyRt}
 ]
 
+const emptyTemplate = { propertyTemplates : [{}] }
 export const resourceTemplateIds = resourceTemplateId2Json.map(template => template.id)
 
-export const getResourceTemplate = (templateId) => {
-  const emptyTemplate = { propertyTemplates : [{}] }
-
+const getSpoofedResourceTemplate = (templateId) => {
   if (!templateId) {
     console.log(`ERROR: asked for resourceTemplate with null/undefined id`)
     return emptyTemplate
@@ -65,14 +66,13 @@ export const getResourceTemplate = (templateId) => {
     return emptyTemplate
   }
 
+  console.log(`returning template ${templateId} from spoof`)
   return resourceTemplateId2Json.find((template) => {
     return template.id == templateId
   }).json
 }
 
-export const getResourceTemplateFromServer = async (group, id) => {
-  const emptyTemplate = { propertyTemplates : [{}] }
-
+const getResourceTemplateFromServer = async (group, id) => {
   if (!id) {
     console.log(`ERROR: asked for resourceTemplate with null/undefined id`)
     return emptyTemplate
@@ -81,8 +81,15 @@ export const getResourceTemplateFromServer = async (group, id) => {
   return getResourcePromise(group, id)
 }
 
-function getResourcePromise(group, id) {
+const getResourcePromise = (group, id) => {
   return new Promise(resolve => {
     resolve(instance.getResourceWithHttpInfo(group, id, { acceptEncoding: 'application/json' }))
   })
+}
+
+export const getResourceTemplate = async (group, templateId) => {
+  if (Config.spoofSinopiaServer)
+    return getSpoofedResourceTemplate(templateId)
+
+  return await getResourceTemplateFromServer(group, templateId)
 }

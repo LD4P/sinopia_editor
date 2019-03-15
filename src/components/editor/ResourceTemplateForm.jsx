@@ -11,7 +11,7 @@ import PropertyPanel from './PropertyPanel'
 import PropertyResourceTemplate from './PropertyResourceTemplate'
 import lookupConfig from '../../../static/spoofedFilesFromServer/fromSinopiaServer/lookupConfig.json'
 import { getLD, setItems, removeAllContent } from '../../actions/index'
-import { getResourceTemplateFromServer } from '../../sinopiaServer'
+import { getResourceTemplate } from '../../sinopiaServer'
 const N3 = require('n3')
 const { DataFactory } = N3
 const { blankNode } = DataFactory
@@ -58,7 +58,7 @@ export class ResourceTemplateForm extends Component {
 
   resourceTemplatePromises = async (templateRefs) => {
     return Promise.all(templateRefs.map(rtId =>
-      getResourceTemplateFromServer('ld4p', rtId)
+      getResourceTemplate('ld4p', rtId)
     ))
   }
 
