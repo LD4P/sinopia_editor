@@ -4,6 +4,7 @@ import React, {Component} from 'react'
 import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
 import { setItems, removeItem } from '../../actions/index'
+import { getProperty } from '../../reducers/index'
 import InputLang from './InputLang'
 import Modal from 'react-bootstrap/lib/Modal'
 import Button from 'react-bootstrap/lib/Button'
@@ -20,26 +21,6 @@ export class InputLiteral extends Component {
       disabled: false
     }
     this.lastId = -1
-  }
-
-  componentDidMount() {
-    try {
-      const defaultValue = this.props.propertyTemplate.valueConstraint.defaults[0]
-      const propPredicate = this.props.propPredicate
-      let defaults = this.props.defaultsForLiteral(defaultValue.defaultLiteral, propPredicate)
-      if (defaults !== undefined) ++this.lastId
-
-      this.props.setDefaultsForLiteralWithPayLoad(this.props.propertyTemplate.propertyURI,
-                                                  propPredicate,
-                                                  defaults,
-                                                  this.props.rtId)
-
-      if (this.props.propertyTemplate.repeatable == "false") {
-        this.setState({ disabled: true })
-      }
-    } catch (error) {
-      console.log(`defaults not defined in the property template: ${error}`)
-    }
   }
 
   handleShow = () => {
@@ -69,9 +50,7 @@ export class InputLiteral extends Component {
   addUserInput = (userInputArray, currentcontent) => {
     userInputArray.push({
       content: currentcontent,
-      id: ++this.lastId,
-      bnode: this.props.blankNodeForLiteral,
-      propPredicate: this.props.propPredicate
+      id: ++this.lastId
     })
   }
 
@@ -103,23 +82,21 @@ export class InputLiteral extends Component {
   }
 
   handleItemClick = (event) => {
-    const labelToRemove = event.target.dataset["label"]
+    const labelToRemove = event.target.dataset["content"]
     const idToRemove = Number(event.target.dataset["item"])
     this.props.handleRemoveItem(
     {
-      id: idToRemove, label: labelToRemove
-    })
-    this.props.formData.items.forEach(item => {
-      if(item.id === idToRemove) {
-        this.props.formData.items.pop(item)
-      }
+      id: idToRemove,
+      label: labelToRemove,
+      rtId: this.props.rtId,
+      uri: this.props.propertyTemplate.propertyURI
     })
     this.setState({disabled: false})
   }
 
   checkMandatoryRepeatable = () => {
      if (this.props.propertyTemplate.mandatory == "true") {
-      if (this.props.formData == undefined) return true
+      if (this.props.formData == undefined || this.props.formData.items == undefined) return true
       const inputLength = (this.props.formData.items).length
       if (inputLength > 0) {
         return false
@@ -169,7 +146,9 @@ export class InputLiteral extends Component {
 
   makeAddedList = () => {
     let formInfo = this.props.formData
-    if (formInfo == undefined) return
+    // console.log(`makeAddedList ${this.props.propertyTemplate.propertyLabel}`)
+    // console.warn(formInfo)
+    if (formInfo == undefined || formInfo.items == undefined) return
     const elements = formInfo.items.map((obj, index) => {
       return <div id="userInput" key = {index} >
         {obj.content}
@@ -240,13 +219,10 @@ InputLiteral.propTypes = {
   defaultsForLiteral: PropTypes.func
 }
 
-// TODO: #387 Add selector to return current state in tree
-// const mapStateToProps = (state, props) => {
-//
-//   return {
-    // formData: { items: getProperty(state, props.rtId, props.propertyTemplate.propertyURI) }
-//   }
-// }
+const mapStateToProps = (state, props) => {
+  let result = getProperty(state, props)
+  return { formData: { items: result } }
+}
 
 const mapDispatchToProps = dispatch => ({
   handleMyItemsChange(user_input){
@@ -257,4 +233,4 @@ const mapDispatchToProps = dispatch => ({
   }
 })
 
-export default connect(null, mapDispatchToProps)(InputLiteral);
+export default connect(mapStateToProps, mapDispatchToProps)(InputLiteral);

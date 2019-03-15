@@ -172,27 +172,20 @@ describe('When the user enters input into field', ()=>{
 })
 
 describe('when there is a default literal value in the property template', () => {
+  const mockMyItemsChange = jest.fn()
+  const mockRemoveItem = jest.fn()
+
   it('sets the default values according to the property template if they exist', () => {
     plProps.propertyTemplate['valueConstraint'] = valConstraintProps
 
-    const setDefaultsForLiteralWithPayLoad = jest.fn()
-    const defaultsForLiteral = jest.fn()
-    defaultsForLiteral.mockReturnValue({
-      content: "content",
-      id: 0,
-      bnode: { termType: 'BlankNode', value: 'n3-0'},
-      propPredicate: "predicate"
-    })
-
     const wrapper = shallow(<InputLiteral {...plProps} id={12}
                           blankNodeForLiteral={{ termType: 'BlankNode', value: 'n3-0'}}
+                          handleMyItemsChange={mockMyItemsChange}
                           rtId={'resourceTemplate:bf2:Monograph:Instance'}
-                          setDefaultsForLiteralWithPayLoad={setDefaultsForLiteralWithPayLoad}
-                          defaultsForLiteral={defaultsForLiteral}
     />)
-    expect(setDefaultsForLiteralWithPayLoad).toHaveBeenCalledTimes(1)
-    expect(defaultsForLiteral).toHaveBeenCalledTimes(1)
-    expect(wrapper.instance().lastId).toEqual(0)
+    wrapper.setProps({ formData: { items: valConstraintProps.defaults } })
+    wrapper.instance().forceUpdate()
+    expect(wrapper.find('#userInput')).toBeTruthy()
   })
 
   describe('when repeatable="false"', () => {
@@ -206,9 +199,6 @@ describe('when there is a default literal value in the property template', () =>
         "repeatable": "false"
       }
     }
-
-    const mockMyItemsChange = jest.fn()
-    const mockRemoveItem = jest.fn()
 
     const nonrepeat_wrapper = shallow(
       <InputLiteral {...nrProps}
