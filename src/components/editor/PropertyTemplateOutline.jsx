@@ -19,17 +19,59 @@ export class PropertyTemplateOutline extends Component {
   constructor(props) {
     super(props)
     this.state = {
-      collapsed: true
+      collapsed: true,
+      output: []
     }
   }
 
-  handleCollapsed = (event) => {
-    event.preventDefault()
-    this.setState( { collapsed: !this.state.collapsed })
+  getLookupConfigItem = (property) => {
+    let templateUri = property.valueConstraint.useValuesFrom[0]
+    lookupConfig.forEach((configItem) => {
+      if (configItem.uri === templateUri) {
+        return { value: configItem }
+      }
+    })
   }
 
-  getRtOrHandleCollapsed = (property) => (event) => {
-      event.preventDefault()
+  handleCollapsed = (property) => (event) => {
+    event.preventDefault()
+    let newOutput = this.state.output
+
+    let input
+
+    switch (property.type) {
+      case "literal":
+        input = <InputLiteral id={this.props.count}
+              propertyTemplate={property}
+              key={shortid.generate()}
+              rtId={property.rtId} />
+        break;
+
+      case "resource":
+          if (this.valueTemplateRefTest(property)){
+            input = []
+            property.valueConstraint.valueTemplateRefs.map((rtId, i) => {
+              let resourceTemplate = getResourceTemplate(rtId)
+              resourceTemplate.propertyTemplates.map((rtProperty) => {
+                input.push(<PropertyTemplateOutline propertyTemplate={rtProperty}
+                  resourceTemplate={getResourceTemplate(rtId)} />)
+              })
+            })
+            break;
+          }
+          let lookupConfigItem = this.getLookupConfigItem(property)
+          input = <InputListLOC propertyTemplate = {property}
+               lookupConfig = {lookupConfigItem}
+               rtId = {property.rtId} />
+
+          break;
+    }
+    // Needs to dedup property in state before pushing
+    newOutput.push(<PropertyTypeRow key={shortid.generate()} propertyTemplate={property}>
+      {input}
+    </PropertyTypeRow>)
+    this.setState( { collapsed: !this.state.collapsed,
+                     output: newOutput })
   }
 
   isRequired = (property) => {
@@ -50,76 +92,13 @@ export class PropertyTemplateOutline extends Component {
      property.valueConstraint.valueTemplateRefs.length > 0)
   }
 
-  generateInputs = (property, rtId, depth) => {
-    const output = []
-    if(this.valueTemplateRefTest(property)) {
-      property.valueConstraint.valueTemplateRefs.map((row, i) => {
-        let resourceTemplate = getResourceTemplate(row)
-        output.push(<h5 key={shortid.generate()}>{resourceTemplate.resourceLabel}</h5>)
-        resourceTemplate.propertyTemplates.map((row) => {
-          output.push(<div key={shortid.generate()} className="internalPropertyTemplate">
-            <OutlineHeader label={row.propertyLabel}
-            isRequired={this.isRequired(row)}
-            spacer={depth}
-            handleCollapsed={this.getRtOrHandleCollapsed(row)}
-            collapsed={true} />
-          </div>)
-        })
-      })
-      return (output)
-    } else {
-      switch (property.type) {
-        case "literal":
-          output.push(
-              <InputLiteral id={this.props.count}
-                propertyTemplate={property}
-                key={shortid.generate()}
-                rtId={rtId} />
-          )
-          break;
-
-        case "resource":
-          let templateUri = property.valueConstraint.useValuesFrom[0]
-          let lookupConfigItem
-          lookupConfig.forEach((configItem) => {
-            if (configItem.uri === templateUri) {
-              lookupConfigItem = { value: configItem }
-            }
-          })
-          output.push(
-            <InputListLOC propertyTemplate = {property}
-               lookupConfig = {lookupConfigItem}
-               rtId = {rtId} />
-          )
-          break;
-
-        case "lookup":
-
-          output.push(
-              <input className="form-control"
-                key={shortid.generate()}
-                placeholder="Generate InputLookupQA" />
-          )
-          break;
-      }
-     return (<PropertyTypeRow key={shortid.generate()} propertyTemplate={property}>
-            {output}
-           </PropertyTypeRow>)
-    }
-  }
-
   render() {
     return(<div className="rtOutline">
             <OutlineHeader label={this.props.propertyTemplate.propertyLabel}
               collapsed={this.state.collapsed}
               isRequired={this.isRequired(this.props.propertyTemplate)}
-              handleCollapsed={this.handleCollapsed} />
-              <div className={this.outlinerClasses()}>
-                {this.generateInputs(
-                  this.props.propertyTemplate,
-                  this.props.rtId,
-                  this.props.depth ? this.props.depth : 0)}
-              </div>
+              handleCollapsed={this.handleCollapsed(this.props.propertyTemplate)} />
+            <div className={this.outlinerClasses()}>{this.state.output}</div>
         </div>)
   }
 
