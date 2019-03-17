@@ -30,16 +30,17 @@ export class PropertyTemplateOutline extends Component {
 
   getLookupConfigItem = (property) => {
     let templateUri = property.valueConstraint.useValuesFrom[0]
+    let templateConfigItem
     lookupConfig.forEach((configItem) => {
       if (configItem.uri === templateUri) {
-        return { value: configItem }
+        templateConfigItem = { value: configItem }
       }
     })
+    return templateConfigItem
   }
 
   handleAddClick = (event) => {
     event.preventDefault()
-    console.log(`In HandleAddClick`)
   }
 
   handleMintUri = (event) => {
@@ -61,8 +62,6 @@ export class PropertyTemplateOutline extends Component {
 
       case "lookup":
         lookupConfigItem = this.getLookupConfigItem(property)
-        console.log(`lookupConfigItem`)
-        console.warn(lookupConfigItem)
         input = <InputLookupQA propertyTemplate={property}
              lookupConfig={lookupConfigItem}
              rtId = {property.rtId} />
