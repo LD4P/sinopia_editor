@@ -73,7 +73,8 @@ export class PropertyTemplateOutline extends Component {
           property.valueConstraint.valueTemplateRefs.map((rtId) => {
             let resourceTemplate = getResourceTemplate(rtId)
             resourceTemplate.propertyTemplates.map((rtProperty, i) => {
-              input.push(<PropertyTemplateOutline key={i} propertyTemplate={rtProperty}
+              input.push(<PropertyTemplateOutline key={shortid.generate()}
+                propertyTemplate={rtProperty}
                 resourceTemplate={getResourceTemplate(rtId)} />)
             })
           })
@@ -86,14 +87,22 @@ export class PropertyTemplateOutline extends Component {
 
         break;
     }
-    // Needs to dedup property in state before pushing
-    newOutput.push(<PropertyTypeRow
-      key={shortid.generate()}
-      handleAddClick={this.props.handleAddClick}
-      handleMintUri={this.props.handleMintUri}
-      propertyTemplate={property}>
-      {input}
-    </PropertyTypeRow>)
+    let existingInput
+    newOutput.forEach((input) => {
+      if (this.props.propertyTemplate.propertyURI === input.props.propertyTemplate.propertyURI) {
+        existingInput = input
+        return
+      }
+    })
+    if (existingInput === undefined) {
+      newOutput.push(<PropertyTypeRow
+          key={shortid.generate()}
+          handleAddClick={this.props.handleAddClick}
+          handleMintUri={this.props.handleMintUri}
+          propertyTemplate={property}>
+          {input}
+        </PropertyTypeRow>)
+    }
     this.setState( { collapsed: !this.state.collapsed,
                      output: newOutput })
   }
@@ -113,9 +122,10 @@ export class PropertyTemplateOutline extends Component {
 
 
   render() {
-    return(<div className="rtOutline">
+    return(<div className="rtOutline" key={shortid.generate()}>
             <OutlineHeader label={this.props.propertyTemplate.propertyLabel}
               collapsed={this.state.collapsed}
+              key={shortid.generate()}
               isRequired={this.isRequired(this.props.propertyTemplate)}
               handleCollapsed={this.handleClick(this.props.propertyTemplate)} />
             <div className={this.outlinerClasses()}>

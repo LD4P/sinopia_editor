@@ -20,9 +20,7 @@ export class PropertyTypeRow extends Component {
   }
 
   render() {
-    console.log(`PropertyTypeRow ${this.props.propertyTemplate.propertyLabel} ${valueTemplateRefTest(this.props.propertyTemplate)}`)
-    console.log()
-    return(<React.Fragment>
+    return(<React.Fragment key={shortid.generate()}>
       <div className="row">
         <section className="col-sm-8">
         {this.props.propertyTemplate.propertyLabel}
