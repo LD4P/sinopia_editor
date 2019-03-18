@@ -36,7 +36,7 @@ export class PropertyTypeRow extends Component {
 
 PropertyTypeRow.propTypes = {
   children: PropTypes.oneOfType([PropTypes.object, PropTypes.array]),
-  handleAddUri: PropTypes.func,
+  handleAddClick: PropTypes.func,
   handleMintUri: PropTypes.func,
   propertyTemplate: PropTypes.object,
 }

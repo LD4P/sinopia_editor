@@ -72,7 +72,7 @@ export class PropertyTemplateOutline extends Component {
           input = []
           property.valueConstraint.valueTemplateRefs.map((rtId) => {
             let resourceTemplate = getResourceTemplate(rtId)
-            resourceTemplate.propertyTemplates.map((rtProperty, i) => {
+            resourceTemplate.propertyTemplates.map((rtProperty) => {
               input.push(<PropertyTemplateOutline key={shortid.generate()}
                 propertyTemplate={rtProperty}
                 resourceTemplate={getResourceTemplate(rtId)} />)
@@ -139,6 +139,8 @@ export class PropertyTemplateOutline extends Component {
 PropertyTemplateOutline.propTypes = {
   count: PropTypes.number,
   depth: PropTypes.number,
+  handleAddClick: PropTypes.func,
+  handleMintUri: PropTypes.func,
   handleCollapsed: PropTypes.func,
   isRequired: PropTypes.func,
   propertyTemplate: PropTypes.object,

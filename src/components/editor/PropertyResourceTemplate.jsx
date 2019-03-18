@@ -20,6 +20,10 @@ class PropertyResourceTemplate extends Component {
      event.preventDefault()
   }
 
+  handleMintUri = (event) => {
+    event.preventDefault()
+  }
+
   render() {
     return (
       <div>

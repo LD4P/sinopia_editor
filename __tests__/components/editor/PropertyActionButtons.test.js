@@ -6,22 +6,14 @@ import { shallow } from 'enzyme'
 import PropertyActionButtons from '../../../src/components/editor/PropertyActionButtons'
 
 describe('<PropertyActionButtons />', () => {
-  const props = {
-    handleAddClick: jest.fn(),
-    handleMintUri: jest.fn()
-  }
-  const wrapper = shallow(<PropertyActionButtons {...props} />)
+
+  const wrapper = shallow(<PropertyActionButtons />)
   const buttons = wrapper.find('button')
 
   it('has two buttons', () => {
     expect(buttons.length).toEqual(2)
+    expect(buttons.find('.btn-default')).toBeTruthy()
+    expect(buttons.find('.btn-success')).toBeTruthy()
   })
 
-  it('calls handleAddClick', () => {
-    console.log(`buttons `)
-    console.log(buttons.debug())
-    buttons.find('.btn-default').simulate('click', { target: {}})
-    //.simulate('click', { target: {}})
-    expect(props.handleAddClick.mock.calls.length).toEqual(1)
-  })
 })
