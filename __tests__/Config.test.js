@@ -68,9 +68,8 @@ describe('Config', () => {
 
     beforeAll(() => {
       process.env = {
-        SPOOF_SINOPIA_SERVER: 'false',
-        SINOPIA_SERVER_URL: 'http://platform:8080',
-        SEARCH_URL: 'http://search:9200',
+        REACT_APP_SPOOF_SINOPIA_SERVER: 'false',
+        REACT_APP_SINOPIA_SERVER_URL: 'http://platform:8080',
         SINOPIA_URI: 'sinopia.foo',
         COGNITO_CLIENT_ID: '1a2b3c',
         AWS_COGNITO_DOMAIN: 'sinopia-foo.amazoncognito.com'

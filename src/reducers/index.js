@@ -1,4 +1,3 @@
-
 import { combineReducers } from 'redux'
 import { createSelector } from 'reselect'
 import { generateLD } from './linkedData'
@@ -7,7 +6,7 @@ import authenticate from './authenticate'
 import { removeMyItem, setMyItems } from './literal'
 
 const removeAllContent = () => {
-
+  // TODO: write me?
 }
 
 const resourceTemplateSelector = (state, id) => state[id]
@@ -16,22 +15,25 @@ const propertySelector = (state, rtId, id) => state[rtId][id]
 
 export const getProperty = createSelector(
   [resourceTemplateSelector, propertySelector],
-  (resourceTemplate, propertyURI)  => {
+  (resourceTemplate, propertyURI) => {
     return resourceTemplate[propertyURI]
   }
 )
 
+export const setResourceTemplate = async (state, action) => {
+  let resourceTemplate = await action.payload
 
-export const setResourceTemplate = (state, action) => {
-  const rtKey = action.payload.id
+  console.dir(resourceTemplate)
+  let rtKey = resourceTemplate.id
 
   let output = Object.create(state)
   output[rtKey] = {}
-  action.payload.propertyTemplates.forEach((property) => {
+  resourceTemplate.propertyTemplates.forEach((property) => {
+    console.dir(property)
     output[rtKey][property.propertyURI] = { items: [] }
     if (property.valueConstraint.defaults.length > 0) {
       property.valueConstraint.defaults.forEach((row) => {
-        // This items payload needs to vary if type is literal or lookup
+        // This item's payload needs to vary if type is literal or lookup
         output[rtKey][property.propertyURI].items.push(
           {
             value: row.defaultLiteral,
@@ -46,6 +48,8 @@ export const setResourceTemplate = (state, action) => {
       })
     }
   })
+  console.log('returning:')
+  console.dir(output)
   return output
 }
 

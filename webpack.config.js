@@ -1,7 +1,7 @@
 // Copyright 2018 Stanford University see Apache2.txt for license
-const path = require('path');
-const webpack = require('webpack');
-const HtmlWebpackPlugin = require('html-webpack-plugin');
+const path = require('path')
+const webpack = require('webpack')
+const HtmlWebpackPlugin = require('html-webpack-plugin')
 
 module.exports = {
   entry: './src/index.js',
@@ -38,11 +38,17 @@ module.exports = {
       template: path.resolve('./', 'index.html'),
       filename: 'index.html',
       hash: true
-    })
+    }),
+    new webpack.EnvironmentPlugin(
+      [
+        'REACT_APP_SPOOF_SINOPIA_SERVER',
+        'REACT_APP_SINOPIA_SERVER_URL'
+      ]
+    )
   ],
   devServer: {
     historyApiFallback: true,
     hot: true,
     port: 8888
   }
-};
+}

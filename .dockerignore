@@ -14,3 +14,4 @@ junit.xml
 npm-debug.log
 static-analysis
 setupEnzyme.js
+node_modules

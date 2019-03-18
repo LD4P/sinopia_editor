@@ -8,7 +8,7 @@ class Config {
   }
 
   static get sinopiaServerUrl() {
-    return process.env.SINOPIA_SERVER_URL || 'http://localhost:8080'
+    return process.env.REACT_APP_SINOPIA_SERVER_URL || 'http://localhost:8080'
   }
 
   static get resourceTemplateContainerPath() {
@@ -25,8 +25,8 @@ class Config {
     //   2. When defined, will always be a string.
     //     a. When set to 'true' return `true` (use spoof)
     //     b. When set to 'false' or any other string, return `false` (don't use spoof)
-    if (process.env.SPOOF_SINOPIA_SERVER)
-      return process.env.SPOOF_SINOPIA_SERVER === 'true'
+    if (process.env.REACT_APP_SPOOF_SINOPIA_SERVER)
+      return process.env.REACT_APP_SPOOF_SINOPIA_SERVER === 'true'
     return true
   }
 

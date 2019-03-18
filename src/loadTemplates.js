@@ -9,48 +9,66 @@ const templateContainerUrl = Config.resourceTemplateContainerUrl
 const templates = fs.readdirSync(templateDir)
 
 // Create templates container if it doesn't exist
-superagent.get(templateContainerUrl)
-  .then(() => {
-    console.log('templates container already exists')
-  })
-  .catch(error => {
-    if (error.status !== 404) {
-      console.log(`templates container retrieval failed with ${error}`)
+const createTemplatesContainer = async () => {
+  await superagent.get(templateContainerUrl)
+    .then(() => {
+      console.log('templates container already exists')
+      return true
+    })
+    .catch(async error => {
+      if (error.status !== 404) {
+        console.log(`templates container retrieval failed with ${error}`)
+        return null
+      }
+
+      console.log('creating templates container')
+
+      await superagent.post(Config.sinopiaServerUrl)
+        .type('application/ld+json')
+        .set('Link', '<http://www.w3.org/ns/ldp#BasicContainer>; rel="type"')
+        .set('Slug', templateContainer)
+        .send('{ "@context": { "dcterms": "http://purl.org/dc/terms/" }, "@id": "", "dcterms:title": "LD4P group" }')
+        .then(() => {
+          console.log('container creation succeeded')
+          return true
+        })
+        .catch(error => {
+          console.log(`container creation failed with ${error}`)
+          return null
+        })
       return null
-    }
+    })
+}
 
-    console.log('creating templates container')
+const createTemplates = () => {
+  templates.forEach(async template => {
+    // Skip the note profile
+    if (template === 'Note(Profile).json')
+      return
+    // Without second arg, a buffer (vs. a string) is returned
+    let templateJson = fs.readFileSync(`${templateDir}/${template}`, 'utf8')
+    let identifier = JSON.parse(templateJson).id
 
-    superagent.post(Config.sinopiaServerUrl)
-      .type('application/ld+json')
-      .set('Link', '<http://www.w3.org/ns/ldp#BasicContainer>; rel="type"')
-      .set('Slug', templateContainer)
-      .send('{ "@context": { "dcterms": "http://purl.org/dc/terms/" }, "@id": "", "dcterms:title": "LD4P group" }')
+    await superagent.post(templateContainerUrl)
+      .type('application/json')
+      .set('Link', '<http://www.w3.org/ns/ldp#NonRDFSource>; rel="type"')
+      .set('Slug', identifier)
+      .send(templateJson)
       .then(() => {
-        console.log('container creation succeeded')
+        console.log(`template created ${templateContainerUrl}/${identifier}`)
+        return true
       })
       .catch(error => {
-        console.log(`container creation failed with ${error}`)
+        console.log(`template creation failed with ${error}`)
+        return null
       })
   })
+}
 
-templates.forEach((template) => {
-  // Skip the note profile
-  if (template === 'Note(Profile).json')
-    return
-  // Without second arg, a buffer (vs. a string) is returned
-  let templateJson = fs.readFileSync(`${templateDir}/${template}`, 'utf8')
-  let identifier = JSON.parse(templateJson).id
+const createContainerBeforeTemplates = async () => {
+  await createTemplatesContainer()
+  await createTemplates()
+  return null
+}
 
-  superagent.post(templateContainerUrl)
-    .type('application/json')
-    .set('Link', '<http://www.w3.org/ns/ldp#NonRDFSource>; rel="type"')
-    .set('Slug', identifier)
-    .send(templateJson)
-    .then(() => {
-      console.log(`template created ${templateContainerUrl}/${identifier}`)
-    })
-    .catch(error => {
-      console.log(`template creation failed with ${error}`)
-    })
-})
+createContainerBeforeTemplates()

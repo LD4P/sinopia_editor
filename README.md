@@ -39,7 +39,10 @@ The Sinopia Editor code is currently available via [sinopia.io](https://sinopia.
 `npm run dev-start`
 
 Runs the webpack-dev-server, allowing immediate loading of live code changes without having to restart the server. The webpack-dev-server is available on at [http://localhost:8888](http://localhost:8888).
-Note that running the webpack server does NOT call server.js
+
+Note 1: you can prefix this command with `REACT_APP_SPOOF_SINOPIA_SERVER=false` to force the application to load resource templates from the Sinopia server. To load said templates into the server manually, run `npm run load-templates`.
+
+Note 2: running the webpack server does NOT call server.js
 
 ### Building with webpack
 

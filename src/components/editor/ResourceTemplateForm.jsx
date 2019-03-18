@@ -29,7 +29,7 @@ class ResourceTemplateForm extends Component {
   }
 
   defaultValues = () => {
-    this.props.propertyTemplates.map( (pt) =>{
+    this.props.propertyTemplates.map((pt) =>{
       if (pt.mandatory == undefined) pt.mandatory = "true"
       if (pt.repeatable == undefined) pt.repeatable = "false"
       if (pt.editable == undefined) pt.editable = "true"
@@ -72,34 +72,17 @@ class ResourceTemplateForm extends Component {
     }
   }
 
-  getContentForModalButton = (rtId) => {
-    let content
-    let resourceTemplate = getResourceTemplate(rtId)
-    const pt = resourceTemplate.propertyTemplates[0]
-    if (this.isLiteralWithDefaultValue(pt)) {
-      content = pt.valueConstraint.defaults[0].defaultLiteral
-    }
-    return content
-  }
-
   // Note: rtIds is expected to be an array of length at least one
   resourceTemplateFields = (rtIds) => {
     const rtProperties = []
-    rtIds.map((rtId, i) => {
-      rtProperties.push(<PropertyResourceTemplate key={shortid.generate()} resourceTemplate={getResourceTemplate(rtId)} />)
+    rtIds.map(async (rtId, i) => {
+      let template = await getResourceTemplate(rtId)
+      rtProperties.push(<PropertyResourceTemplate key={shortid.generate()} resourceTemplate={template} />)
       if ((rtIds.length - i) > 1) {
         rtProperties.push(<hr key={i} />)
       }
     })
     return rtProperties
-  }
-
-  defaultValues = () => {
-    this.props.propertyTemplates.map((pt) => {
-      if (pt.mandatory == undefined) pt.mandatory = "true"
-      if (pt.repeatable == undefined) pt.repeatable = "false"
-      if (pt.editable == undefined) pt.editable = "true"
-    })
   }
 
   isLiteralWithDefaultValue = (pt) => {
@@ -160,7 +143,7 @@ class ResourceTemplateForm extends Component {
 
           <form>
             <div className='ResourceTemplateForm row'>
-                  { this.props.propertyTemplates.map( (pt, index) => {
+                  { this.props.propertyTemplates.map((pt, index) => {
 
                     let isLookupWithConfig = Boolean(
                       lookupConfig !== undefined &&

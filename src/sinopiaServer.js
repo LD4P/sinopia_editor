@@ -58,19 +58,21 @@ const getSpoofedResourceTemplate = (templateId) => {
     return emptyTemplate
   }
 
+  console.log(`returning template ${templateId} from spoof`)
   return resourceTemplateId2Json.find((template) => {
     return template.id == templateId
   }).json
 }
 
-const getResourceTemplateFromServer = (templateId) => {
-  return superagent.get(`${Config.resourceTemplateContainerUrl}/${templateId}`)
-    .then(response => response)
+const getResourceTemplateFromServer = async (templateId) => {
+  console.log(`returning template ${templateId} from server`)
+  let response = await superagent.get(`${Config.resourceTemplateContainerUrl}/${templateId}`).accept('json')
+  return response.body
 }
 
-export const getResourceTemplate = (templateId) => {
+export const getResourceTemplate = async (templateId) => {
   if (Config.spoofSinopiaServer)
     return getSpoofedResourceTemplate(templateId)
 
-  return getResourceTemplateFromServer(templateId)
+  return await getResourceTemplateFromServer(templateId)
 }
