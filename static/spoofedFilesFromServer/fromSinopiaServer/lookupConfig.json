@@ -522,7 +522,7 @@
   {
     "label": "LOC all subjects (QA)",
     "uri": "urn:ld4p:qa:subjects",
-    "authority": "locnames_ld4l_cache",
+    "authority": "locsubjects_ld4l_cache",
     "subauthority": "",
     "language": "en",
     "component": "lookup"
