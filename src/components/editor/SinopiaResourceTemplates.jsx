@@ -1,7 +1,7 @@
 // Copyright 2019 Stanford University see Apache2.txt for license
 
 import React, {Component} from 'react'
-import PropTypes from 'prop-types'
+// import PropTypes from 'prop-types'
 const SinopiaServer = require('sinopia_server')
 const instance = new SinopiaServer.LDPApi()
 instance.apiClient.basePath = 'http://localhost:8080'
@@ -25,19 +25,20 @@ class SinopiaResourceTemplates extends Component {
 
   componentDidMount() {
     groupPromise.then((data) => {
-      if(typeof data.response.body.contains === 'Array') {
+      const contains = data.response.body.contains
+      if(typeof contains.constructor === Array) {
         this.setState({groupData: data.response.body.contains})
       } else {
         this.setState({groupData: [data.response.body.contains]})
       }
     }, function(error) {
-      console.error(error)
+      alert(error)
     })
 
     ld4pGroupDataPromise.then((data) => {
       this.setState({ld4pGroupData: data.response.body.contains})
     }, function(error) {
-      console.error(error)
+      alert(error)
     })
 
     // this.state.ld4pGroupData.map((resource, index) => {
@@ -92,8 +93,8 @@ class SinopiaResourceTemplates extends Component {
   }
 }
 
-SinopiaResourceTemplates.propTypes = {
-
-}
+// SinopiaResourceTemplates.propTypes = {
+//
+// }
 
 export default (SinopiaResourceTemplates)
