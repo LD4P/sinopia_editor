@@ -107,6 +107,7 @@
     "redux": "^4.0.1",
     "reselect": "^4.0.0",
     "shortid": "^2.2.14",
+    "sinopia_server": "^2.0.0",
     "swagger-client": "^3.8.22",
     "x2js": "^3.2.3"
   },

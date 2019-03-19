@@ -21,6 +21,11 @@ module.exports = {
         use: [
           'file-loader'
         ]
+      },
+      {
+        parser: {
+          amd: false
+        }
       }
     ]
   },

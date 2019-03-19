@@ -5,6 +5,7 @@ import { Redirect } from 'react-router-dom'
 import PropTypes from 'prop-types'
 import Header from './Header'
 import ImportFileZone from './ImportFileZone'
+import SinopiaResourceTemplates from './SinopiaResourceTemplates'
 
 class ImportResourceTemplate extends Component {
   constructor(props) {
@@ -31,6 +32,7 @@ class ImportResourceTemplate extends Component {
         <div id="importResourceTemplate">
           <Header triggerEditorMenu={this.props.triggerHandleOffsetMenu}/>
           <ImportFileZone setResourceTemplateCallback={this.setResourceTemplates} />
+          <SinopiaResourceTemplates/>
         </div>
       )
     } else {
