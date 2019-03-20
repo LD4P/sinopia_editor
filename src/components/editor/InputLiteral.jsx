@@ -15,12 +15,18 @@ export class InputLiteral extends Component {
 
   constructor(props) {
     super(props)
+    let lastId
+    try {
+      lastId =  Number(props.propertyTemplate.valueConstraint.defaults.length)-1
+    } catch (err) {
+      lastId = -1
+    }
     this.state = {
       show: false,
       content_add: "",
-      disabled: false
+      disabled: false,
+      lastId: lastId
     }
-    this.lastId = -1
   }
 
   handleShow = () => {
@@ -48,10 +54,12 @@ export class InputLiteral extends Component {
   }
 
   addUserInput = (userInputArray, currentcontent) => {
+    const newId = this.state.lastId + 1
     userInputArray.push({
       content: currentcontent,
-      id: ++this.lastId
+      id: newId
     })
+    this.setState( { lastId: newId } )
   }
 
   handleKeypress = (event) => {
@@ -84,6 +92,7 @@ export class InputLiteral extends Component {
   handleItemClick = (event) => {
     const labelToRemove = event.target.dataset["content"]
     const idToRemove = Number(event.target.dataset["item"])
+
     this.props.handleRemoveItem(
     {
       id: idToRemove,
@@ -91,7 +100,7 @@ export class InputLiteral extends Component {
       rtId: this.props.rtId,
       uri: this.props.propertyTemplate.propertyURI
     })
-    this.setState({disabled: false})
+    this.setState({ disabled: false })
   }
 
   checkMandatoryRepeatable = () => {
@@ -157,7 +166,7 @@ export class InputLiteral extends Component {
           type="button"
           onClick={this.handleItemClick}
           key={obj.id}
-          data-item={obj.id}
+          data-item={index}
           data-label={formInfo.uri}
         >X
         </button>

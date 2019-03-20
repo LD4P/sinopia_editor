@@ -17,8 +17,8 @@ const resourceTemplateSelector = (state, props) => {
   if (props.propertyTemplate.propertyURI in resTemp) {
     items = resTemp[props.propertyTemplate.propertyURI]
   } else {
-    resTemp[props.propertyTemplate.propertyURI] = []
     items = []
+    resTemp[props.propertyTemplate.propertyURI] = items
   }
   return items
 }
@@ -44,6 +44,7 @@ export const setResourceTemplate = (state, action) => {
         // This items payload needs to vary if type is literal or lookup
         output[rtKey][property.propertyURI].items.push(
           {
+            id: output[rtKey][property.propertyURI].items.length,
             content: row.defaultLiteral,
             uri: row.defaultURI
           }

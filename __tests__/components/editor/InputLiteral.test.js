@@ -1,5 +1,5 @@
 // Copyright 2018, 2019 Stanford University see Apache2.txt for license
-
+import 'jsdom-global/register'
 import React from 'react'
 import { shallow } from 'enzyme'
 import { InputLiteral } from '../../../src/components/editor/InputLiteral'
@@ -176,16 +176,33 @@ describe('when there is a default literal value in the property template', () =>
   const mockRemoveItem = jest.fn()
 
   it('sets the default values according to the property template if they exist', () => {
-    plProps.propertyTemplate['valueConstraint'] = valConstraintProps
-
-    const wrapper = shallow(<InputLiteral {...plProps} id={12}
+    const plProps =  {
+      "propertyTemplate":
+        {
+          "propertyLabel": "Instance of",
+          "propertyURI": "http://id.loc.gov/ontologies/bibframe/instanceOf",
+          "type": "literal",
+          "mandatory": "",
+          "repeatable": "",
+          "valueConstraint": valConstraintProps
+        }
+    }
+    const wrapper = shallow(<InputLiteral propertyTemplate={plProps.propertyTemplate} id={12}
                           blankNodeForLiteral={{ termType: 'BlankNode', value: 'n3-0'}}
                           handleMyItemsChange={mockMyItemsChange}
-                          rtId={'resourceTemplate:bf2:Monograph:Instance'}
-    />)
-    wrapper.setProps({ formData: { items: valConstraintProps.defaults } })
+                          rtId={'resourceTemplate:bf2:Monograph:Instance'} />)
+    // Mocking a call to the Redux store
+    const items = [{
+      "uri": "http://id.loc.gov/vocabulary/organizations/dlc",
+      "content": "DLC"
+    }]
+    wrapper.setProps({
+      formData: {
+        items: items
+      }
+    })
     wrapper.instance().forceUpdate()
-    expect(wrapper.find('#userInput')).toBeTruthy()
+    expect(wrapper.find('#userInput').text()).toMatch(items[0].content)
   })
 
   describe('when repeatable="false"', () => {
