@@ -1,8 +1,8 @@
 import { removeAllContent, removeMyItem, setMyItems  } from '../../src/reducers/literal'
 
-describe('literal reducer', () => {
+describe('literal reducer functions', () => {
 
-  it('should handle SET_ITEMS', () => {
+  it('SET_ITEMS adds item to state', () => {
     const literalSetItems = setMyItems({ "resourceTemplate:Monograph:Instance": {
       'http://schema.org/name': { items: [] }
     }}, {
@@ -20,7 +20,9 @@ describe('literal reducer', () => {
         }
       }
     })
+  })
 
+  it('SET_ITEMS adds new item to state when state has existing selector for another literal', () => {
     expect(
       setMyItems({ "resourceTemplate:Monograph:Instance": {
         'http://schema.org/name': {
@@ -48,7 +50,8 @@ describe('literal reducer', () => {
       }
     })
   })
-  it('should handle REMOVE_ITEM', () => {
+
+  it('REMOVE_ITEM removes an item from state', () => {
     expect(removeMyItem({
       "resourceTemplate:Monograph:Instance": {
        'http://schema.org/name': {
@@ -74,7 +77,9 @@ describe('literal reducer', () => {
         }
       }
     })
+   })
 
+  it('Calling REMOVE_ITEMS with non-existent id does not change state', () => {
     expect(removeMyItem({
       "resourceTemplate:Monograph:Instance": {
        'http://schema.org/name': {
@@ -94,7 +99,7 @@ describe('literal reducer', () => {
         content: "test content"
       }
     })
-  ).toEqual({
+   ).toEqual({
     "resourceTemplate:Monograph:Instance": {
      'http://schema.org/name': {
        items: [
