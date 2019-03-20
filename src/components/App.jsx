@@ -45,8 +45,6 @@ class App extends Component{
 
     const defaultRtId = 'resourceTemplate:bf2:Monograph:Instance'
 
-    // const defaultRtId = 'resourceTemplate:bf2:Identifiers:Barcode'
-
     return(
       <div id="app">
         <Switch>

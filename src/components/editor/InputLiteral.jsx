@@ -146,9 +146,9 @@ export class InputLiteral extends Component {
 
   makeAddedList = () => {
     let formInfo = this.props.formData
-    // console.log(`makeAddedList ${this.props.propertyTemplate.propertyLabel}`)
-    // console.warn(formInfo)
-    if (formInfo == undefined || formInfo.items == undefined) return
+    if (formInfo == undefined || formInfo.items == undefined) {
+      return
+    }
     const elements = formInfo.items.map((obj, index) => {
       return <div id="userInput" key = {index} >
         {obj.content}
