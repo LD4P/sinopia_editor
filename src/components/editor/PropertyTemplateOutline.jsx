@@ -18,6 +18,17 @@ export const valueTemplateRefTest = (property) => {
    property.valueConstraint.valueTemplateRefs.length > 0)
 }
 
+export const getLookupConfigItem = (property) => {
+  let templateUri = property.valueConstraint.useValuesFrom[0]
+  let templateConfigItem
+  lookupConfig.forEach((configItem) => {
+    if (configItem.uri === templateUri) {
+      templateConfigItem = { value: configItem }
+    }
+  })
+  return templateConfigItem
+}
+
 export class PropertyTemplateOutline extends Component {
 
   constructor(props) {
@@ -26,17 +37,6 @@ export class PropertyTemplateOutline extends Component {
       collapsed: true,
       output: []
     }
-  }
-
-  getLookupConfigItem = (property) => {
-    let templateUri = property.valueConstraint.useValuesFrom[0]
-    let templateConfigItem
-    lookupConfig.forEach((configItem) => {
-      if (configItem.uri === templateUri) {
-        templateConfigItem = { value: configItem }
-      }
-    })
-    return templateConfigItem
   }
 
   handleAddClick = (event) => {
@@ -61,7 +61,7 @@ export class PropertyTemplateOutline extends Component {
         break;
 
       case "lookup":
-        lookupConfigItem = this.getLookupConfigItem(property)
+        lookupConfigItem = getLookupConfigItem(property)
         input = <InputLookupQA propertyTemplate={property}
              lookupConfig={lookupConfigItem}
              rtId = {property.rtId} />
@@ -80,7 +80,7 @@ export class PropertyTemplateOutline extends Component {
           })
           break;
         }
-        lookupConfigItem = this.getLookupConfigItem(property)
+        lookupConfigItem = getLookupConfigItem(property)
         input = <InputListLOC propertyTemplate = {property}
              lookupConfig = {lookupConfigItem}
              rtId = {property.rtId} />

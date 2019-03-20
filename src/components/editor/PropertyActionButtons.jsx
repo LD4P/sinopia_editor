@@ -11,8 +11,8 @@ export class PropertyButtonActions extends Component {
 
   render() {
     return(<div className="btn-group" role="group" aria-label="...">
-      <button onClick={this.handleMintUri} className="btn btn-success btn-sm">Mint URI</button>
-      <button className="btn btn-default btn-sm" onClick={this.handleAddClick}>Add</button>
+      <button onClick={this.props.handleMintUri} className="btn btn-success btn-sm">Mint URI</button>
+      <button className="btn btn-default btn-sm" onClick={this.props.handleAddClick}>Add</button>
     </div>)
   }
 }
