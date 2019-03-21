@@ -1,7 +1,9 @@
 // Copyright 2019 Stanford University see Apache2.txt for license
 
 import React, { Component } from 'react'
+import PropertyActionButtons from './PropertyActionButtons'
 import PropertyTemplateOutline from './PropertyTemplateOutline'
+
 import shortid from 'shortid'
 import PropTypes from 'prop-types'
 
@@ -18,6 +20,10 @@ class PropertyResourceTemplate extends Component {
      event.preventDefault()
   }
 
+  handleMintUri = (event) => {
+    event.preventDefault()
+  }
+
   render() {
     return (
       <div>
@@ -26,10 +32,8 @@ class PropertyResourceTemplate extends Component {
             <h4>{this.props.resourceTemplate.resourceLabel}</h4>
           </section>
           <section className="col-md-4">
-            <div className="btn-group" role="group" aria-label="...">
-              <button onClick={this.handleMintUri} className="btn btn-success btn-sm">Mint URI</button>
-              <button className="btn btn-default btn-sm" onClick={this.handleAddClick}>Add</button>
-            </div>
+            <PropertyActionButtons handleAddClick={this.handleAddClick}
+              handleMintUri={this.handleMintUri} key={shortid.generate()} />
           </section>
         </div>
         <div>
