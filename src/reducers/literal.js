@@ -1,80 +1,23 @@
-const formDataCollection = require('lodash/collection')
+// Copyright 2018, 2019 Stanford University see Apache2.txt for license
 
-const DEFAULT_STATE = {
-  formData: []
-}
-
-const removeAllContent = (state, action) => {
-  let newFormData = state.formData.slice(0)
-  const idToDelete = action.payload
-  let new_state = newFormData.filter(data => {
-    return data.id !== idToDelete
-  })
-  return {formData: new_state}
-}
-
-const deleteItem = (obj, itemToDelete) => {
-  const new_items = obj.items.filter(item => {
-    return item.id != itemToDelete.id
-  })
-  return new_items
-}
-
-export const removeMyItem = (state, action) => {
-  let newListItems = state.formData.slice(0)
-  const itemToDelete = action.payload
-  let new_state = newListItems.map(obj => {
-    if(obj.uri == itemToDelete.label){
-      const newItemArray = deleteItem(obj, itemToDelete)
-      return {id: obj.id, uri: obj.uri, items: newItemArray}
-    } else {
-      return obj
-    }
-  })
-  return {formData: new_state}
+export const removeAllContent = (state, action) => {
+  let newState = Object.assign({}, state)
+  newState[action.payload.rtId][action.payload.uri].items = []
+  return newState
 }
 
 export const setMyItems = (state, action) => {
-  let newFormData = state.formData.slice(0)
-
-  let exists
-  if (action.payload.items !== undefined && action.payload.items.length > 0) {
-    exists = formDataCollection.find(newFormData, {
-      id: action.payload.id,
-      rtId: action.payload.rtId,
-      items: [{
-        content: action.payload.items[0].content,
-        propPredicate: action.payload.items[0].propPredicate
-      }]
-    })
-  }
-
-  let needNewItemArray = true;
-  for (let field of newFormData) {
-    if (field.id == action.payload.id) {
-      if (exists === undefined) {
-        field.items = field.items.concat(action.payload.items)
-      }
-      needNewItemArray = false;
-      break;
-    }
-  }
-
-  if (needNewItemArray) {
-      newFormData.push(action.payload)
-  }
-  return {formData: newFormData}
+  let newState = Object.assign({}, state)
+  action.payload.items.map((row) => {
+    newState[action.payload.rtId][action.payload.uri].items.push(row)
+  })
+  return newState
 }
 
-export const literal = (state=DEFAULT_STATE, action) => {
-  switch(action.type) {
-    case 'SET_ITEMS':
-      return setMyItems(state,action)
-    case 'REMOVE_ITEM':
-      return removeMyItem(state,action)
-    case 'REMOVE_ALL_CONTENT':
-      return removeAllContent(state,action)
-    default:
-      return state
-  }
+export const removeMyItem = (state, action) => {
+  const newState = Object.assign({}, state)
+  const newItems = newState[action.payload.rtId][action.payload.uri].items.filter(
+    row => row.id != action.payload.id)
+  newState[action.payload.rtId][action.payload.uri].items = newItems
+  return newState
 }
