@@ -6,11 +6,11 @@ const SinopiaServer = require('sinopia_server')
 const instance = new SinopiaServer.LDPApi()
 instance.apiClient.basePath = 'http://localhost:8080'
 
-const groupPromise = new Promise((resolve, reject) => {
+const groupPromise = new Promise((resolve) => {
   resolve(instance.getBaseWithHttpInfo())
 })
 
-const ld4pGroupDataPromise = new Promise((resolve, reject) => {
+const ld4pGroupDataPromise = new Promise((resolve) => {
   resolve(instance.getGroupWithHttpInfo('ld4p'))
 })
 
@@ -25,6 +25,11 @@ class SinopiaResourceTemplates extends Component {
   }
 
   componentDidMount() {
+    this.fulfillGroupPromise()
+    this.fulfillGroupDataPromise()
+  }
+
+  fulfillGroupPromise = () => {
     groupPromise.then((data) => {
       const contains = data.response.body.contains
       if(typeof contains.constructor === Array) {
@@ -35,8 +40,10 @@ class SinopiaResourceTemplates extends Component {
     }).catch((error) => {
       this.setState({message: error})
     })
+  }
 
-    //TODO: get resource templates for other groups
+  //TODO: get resource templates for other groups
+  fulfillGroupDataPromise = () => {
     ld4pGroupDataPromise.then((data) => {
       let joined = []
       data.response.body.contains.map((c) => {
