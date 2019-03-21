@@ -4,6 +4,7 @@ import React from 'react'
 import { shallow } from 'enzyme'
 import ImportResourceTemplate from '../../../src/components/editor/ImportResourceTemplate'
 import ImportFileZone from '../../../src/components/editor/ImportFileZone'
+import SinopiaResourceTemplates from '../../../src/components/editor/SinopiaResourceTemplates'
 
 describe('<ImportResourceTemplate />', () => {
   const wrapper = shallow(<ImportResourceTemplate />)
@@ -14,6 +15,10 @@ describe('<ImportResourceTemplate />', () => {
 
   it('contains the place to import a file', () => {
     expect(wrapper.find(ImportFileZone).length).toBe(1)
+  })
+
+  it('contains a place to display the resource templates stored on the server', () => {
+    expect(wrapper.find(SinopiaResourceTemplates).length).toBe(1)
   })
 
 })
