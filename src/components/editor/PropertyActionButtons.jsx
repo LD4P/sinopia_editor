@@ -3,7 +3,7 @@
 import React, {Component} from 'react'
 import PropTypes from 'prop-types'
 
-export class PropertyButtonActions extends Component {
+export class PropertyActionButtons extends Component {
 
   constructor(props) {
     super(props)
@@ -17,9 +17,9 @@ export class PropertyButtonActions extends Component {
   }
 }
 
-PropertyButtonActions.propTypes = {
+PropertyActionButtons.propTypes = {
   handleAddClick: PropTypes.func,
   handleMintUri: PropTypes.func
 }
 
-export default PropertyButtonActions;
+export default PropertyActionButtons;
