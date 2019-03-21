@@ -97,6 +97,7 @@
     "query-string": "^6.2.0",
     "react": "^16.6.3",
     "react-bootstrap": "^0.32.4",
+    "react-bootstrap-table-next": "^3.0.2",
     "react-bootstrap-typeahead": "^3.2.4",
     "react-dom": "^16.6.3",
     "react-dropzone": "^7.0.1",
@@ -107,7 +108,7 @@
     "redux": "^4.0.1",
     "reselect": "^4.0.0",
     "shortid": "^2.2.14",
-    "sinopia_server": "^2.0.0",
+    "sinopia_server": "^3.0.0-beta2",
     "swagger-client": "^3.8.22",
     "x2js": "^3.2.3"
   },
