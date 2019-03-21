@@ -25,26 +25,24 @@ class SinopiaResourceTemplates extends Component {
   }
 
   componentDidMount() {
-    this.fulfillGroupPromise()
-    this.fulfillGroupDataPromise()
+    this.fulfillGroupPromise(groupPromise)
+    this.fulfillGroupDataPromise(ld4pGroupDataPromise)
   }
 
-  fulfillGroupPromise = () => {
-    groupPromise.then((data) => {
-      const contains = data.response.body.contains
-      if(typeof contains.constructor === Array) {
-        this.setState({groupData: data.response.body.contains})
-      } else {
-        this.setState({groupData: [data.response.body.contains]})
-      }
+
+  fulfillGroupPromise = (promise) => {
+    promise.then((data) => {
+      const contains = [].concat(data.response.body.contains)
+      this.setState({groupData: contains})
     }).catch((error) => {
       this.setState({message: error})
     })
+    return promise
   }
 
   //TODO: get resource templates for other groups
-  fulfillGroupDataPromise = () => {
-    ld4pGroupDataPromise.then((data) => {
+  fulfillGroupDataPromise = (promise) => {
+    promise.then((data) => {
       let joined = []
       data.response.body.contains.map((c) => {
         const name = this.resourceToName(c)
@@ -62,6 +60,7 @@ class SinopiaResourceTemplates extends Component {
     }).catch((error) => {
       this.setState({message: error})
     })
+    return promise
   }
 
   resourceToName = (resource) => {
