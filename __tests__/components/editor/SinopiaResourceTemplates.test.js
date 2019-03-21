@@ -3,6 +3,7 @@ import React from 'react'
 import { shallow } from 'enzyme'
 import SinopiaResourceTemplates from '../../../src/components/editor/SinopiaResourceTemplates'
 import BootstrapTable from 'react-bootstrap-table-next'
+import 'isomorphic-fetch'
 
 describe('<SinopiaResourceTemplates />', () => {
 
@@ -22,7 +23,34 @@ describe('<SinopiaResourceTemplates />', () => {
 
   describe('gettiong data from the sinopia_server', () => {
 
-    it('sets the state with group data from sinopia_server', () => {
+    const mockResponse = (status, statusText, response) => {
+      return new Response(response, {
+        status: status,
+        statusText: statusText,
+        headers: {
+          'Content-type': 'application/json'
+        }
+      }).body
+    }
+
+    it('sets the state with group data (as Array) from sinopia_server', async() => {
+      const bodyContains = {
+        response: {
+          body: {
+            contains: [
+              'ld4p'
+            ]
+          }
+        }
+      }
+
+      const promise = Promise.resolve(mockResponse(200, null, bodyContains))
+      const wrapper2 = shallow(<SinopiaResourceTemplates />)
+      await wrapper2.instance().fulfillGroupPromise(promise)
+      expect(wrapper2.state('groupData')).toEqual(['ld4p'])
+    })
+
+    it('sets the state with a list of resource templates from the server', async() => {
       const bodyContains = {
         response: {
           body: {
@@ -36,31 +64,12 @@ describe('<SinopiaResourceTemplates />', () => {
         }
       }
 
-      jest.fn(() => new Promise(resolve => resolve(JSON.stringify(bodyContains))))
-      const wrapper2 = shallow(<SinopiaResourceTemplates />)
-
-      wrapper2.instance().fulfillGroupPromise()
-      wrapper2.update()
-      wrapper2.setState({groupData: bodyContains.response.body.contains})
-      console.warn(wrapper2.state())
-      expect(wrapper2.state('groupData').length).toEqual(4)
-    })
-
-    it('sets the state with a list of resource templates from the server', () => {
-      const joined = [
-        {name: 'Note', uri: "http://localhost:8080/repository/ld4p/Note", id: 'resourceTemplate:bf2:Note', group: 'ld4p'},
-        {name: 'Barcode', uri: "http://localhost:8080/repository/ld4p/Barcode", id: 'resourceTemplate:bf2:Barcode', group: 'ld4p'},
-        {name: 'Title', uri: "http://localhost:8080/repository/ld4p/Title", id: 'resourceTemplate:bf2:Title', group: 'ld4p'},
-        {name: 'Item', uri: "http://localhost:8080/repository/ld4p/Item", id: 'resourceTemplate:bf2:Item', group: 'ld4p'}
-      ]
-      jest.fn(() => new Promise(resolve => resolve(JSON.stringify(joined))))
+      const promise = Promise.resolve(mockResponse(200, null, bodyContains))
       const wrapper3 = shallow(<SinopiaResourceTemplates />)
-      wrapper3.instance().fulfillGroupDataPromise()
-      wrapper3.update()
-
-      wrapper3.setState({templatesForGroup: joined})
-      console.warn(wrapper3.state())
-      expect(wrapper3.state('templatesForGroup').length).toEqual(4)
+      //TODO: figure out how to mock and test a nested promise...
+      const spy = jest.spyOn(wrapper3.instance(), 'fulfillGroupDataPromise')
+      await wrapper3.instance().fulfillGroupDataPromise(promise)
+      expect(spy).toHaveBeenCalled()
     })
 
   })
