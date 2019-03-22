@@ -23,17 +23,18 @@ describe('<SinopiaResourceTemplates />', () => {
 
   describe('gettiong data from the sinopia_server', () => {
 
-    const mockResponse = (status, statusText, response) => {
-      return new Response(response, {
-        status: status,
-        statusText: statusText,
-        headers: {
-          'Content-type': 'application/json'
-        }
-      }).body
-    }
-
     it('sets the state with group data (as Array) from sinopia_server', async() => {
+
+      const mockResponse = (status, statusText, response) => {
+        return new Response(response, {
+          status: status,
+          statusText: statusText,
+          headers: {
+            'Content-type': 'application/json'
+          }
+        }).body
+      }
+
       const bodyContains = {
         response: {
           body: {
@@ -66,9 +67,8 @@ describe('<SinopiaResourceTemplates />', () => {
         }
       }
 
-      const promise = Promise.resolve(mockResponse(200, null, bodyContains))
       const wrapper3 = shallow(<SinopiaResourceTemplates />)
-      // //TODO: figure out how to mock and test a nested promise...
+      //TODO: figure out how to mock and test a nested promise...
       const spy = jest.spyOn(wrapper3.instance(), 'fulfillGroupData')
       await wrapper3.instance().fulfillGroupData(bodyContains)
       wrapper3.update()
