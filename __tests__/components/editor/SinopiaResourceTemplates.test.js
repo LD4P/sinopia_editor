@@ -38,7 +38,7 @@ describe('<SinopiaResourceTemplates />', () => {
         response: {
           body: {
             contains: [
-              'ld4p'
+              'ld4p', 'pcc'
             ]
           }
         }
@@ -48,13 +48,14 @@ describe('<SinopiaResourceTemplates />', () => {
       const wrapper2 = shallow(<SinopiaResourceTemplates />)
       await wrapper2.instance().fulfillGroupPromise(promise)
       wrapper2.update()
-      expect(wrapper2.state('groupData')).toEqual(['ld4p'])
+      expect(wrapper2.state('groupData')).toEqual(['ld4p', 'pcc'])
     })
 
     it('sets the state with a list of resource templates from the server', async() => {
       const bodyContains = {
         response: {
           body: {
+            "@id": 'ld4p',
             contains: [
               "http://localhost:8080/repository/ld4p/Note",
               "http://localhost:8080/repository/ld4p/Barcode",
@@ -67,9 +68,9 @@ describe('<SinopiaResourceTemplates />', () => {
 
       const promise = Promise.resolve(mockResponse(200, null, bodyContains))
       const wrapper3 = shallow(<SinopiaResourceTemplates />)
-      //TODO: figure out how to mock and test a nested promise...
-      const spy = jest.spyOn(wrapper3.instance(), 'fulfillGroupDataPromise')
-      await wrapper3.instance().fulfillGroupDataPromise(promise)
+      // //TODO: figure out how to mock and test a nested promise...
+      const spy = jest.spyOn(wrapper3.instance(), 'fulfillGroupData')
+      await wrapper3.instance().fulfillGroupData(bodyContains)
       wrapper3.update()
       expect(spy).toHaveBeenCalled()
     })

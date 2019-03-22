@@ -12,6 +12,7 @@ class SinopiaResourceTemplates extends Component {
     this.state = {
       isLoading: false,
       groupData: [],
+      joined: [],
       templatesForGroup: []
     }
   }
@@ -19,16 +20,19 @@ class SinopiaResourceTemplates extends Component {
   async componentDidMount() {
     const groupPromise = new Promise((resolve) => {
       resolve(instance.getBaseWithHttpInfo())
-    }).then((data) => data).catch(() => {})
+    }).then((data) => {
+      return data
+    }).catch(() => {})
 
     await this.fulfillGroupPromise(groupPromise).then(async () => {
-      const groupDataPromise = new Promise((resolve) => {
-        this.state.groupData.map((group) => {
-          const name = this.resourceToName(group)
+      this.state.groupData.map((group) => {
+        const name = this.resourceToName(group)
+        new Promise((resolve) => {
           resolve(instance.getGroupWithHttpInfo(name))
-        })
-      }).then((data) => data).catch(() => {})
-      await this.fulfillGroupDataPromise(groupDataPromise)
+        }).then((data) => {
+          this.fulfillGroupData(data)
+        }).catch(() => {})
+      })
     })
   }
 
@@ -43,28 +47,24 @@ class SinopiaResourceTemplates extends Component {
     return promise
   }
 
-  //TODO: get resource templates for other groups
-  fulfillGroupDataPromise = (promise) => {
-    promise.then((data) => {
-      let joined = []
-      const groupName = this.resourceToName(data.response.body['@id'])
+  fulfillGroupData = (data) => {
+    const groupName = this.resourceToName(data.response.body['@id'])
 
-      data.response.body.contains.map((c) => {
-        const name = this.resourceToName(c)
-        const promise = new Promise((resolve) => {
-          resolve(instance.getResourceWithHttpInfo(groupName, name, { acceptEncoding: 'application/json' }))
-        })
+    data.response.body.contains.map((c) => {
+      const name = this.resourceToName(c)
 
-        promise.then((response_and_data) => {
-          joined.push({name: name, uri: c, id: response_and_data.response.body.id, group: 'ld4p'})
-          this.setState({templatesForGroup: joined})
-        })
-
+      const promise = new Promise(async (resolve) => {
+        await resolve(instance.getResourceWithHttpInfo(groupName, name, { acceptEncoding: 'application/json' }))
       })
-    }).catch((error) => {
-      this.setState({message: error})
+
+      promise.then((response_and_data) => {
+        this.setState({tempState: {name: name, uri: c, id: `${groupName}:${response_and_data.response.body.id}`, group: groupName}})
+        const joined = this.state.templatesForGroup.slice(0)
+        joined.push(this.state.tempState)
+        this.setState({templatesForGroup: joined})
+      })
+
     })
-    return promise
   }
 
   resourceToName = (resource) => {
@@ -83,7 +83,8 @@ class SinopiaResourceTemplates extends Component {
       sort: true
     }, {
       dataField: 'group',
-      text: 'Group'
+      text: 'Group',
+      sort: true
     }];
 
     if (this.state.message) {
