@@ -22,13 +22,13 @@ class SinopiaResourceTemplates extends Component {
     }).then((data) => data).catch(() => {})
 
     await this.fulfillGroupPromise(groupPromise).then(async () => {
-      const ld4pGroupDataPromise = new Promise((resolve) => {
+      const groupDataPromise = new Promise((resolve) => {
         this.state.groupData.map((group) => {
           const name = this.resourceToName(group)
           resolve(instance.getGroupWithHttpInfo(name))
         })
       }).then((data) => data).catch(() => {})
-      await this.fulfillGroupDataPromise(ld4pGroupDataPromise)
+      await this.fulfillGroupDataPromise(groupDataPromise)
     })
   }
 
@@ -47,12 +47,12 @@ class SinopiaResourceTemplates extends Component {
   fulfillGroupDataPromise = (promise) => {
     promise.then((data) => {
       let joined = []
+      const groupName = this.resourceToName(data.response.body['@id'])
+
       data.response.body.contains.map((c) => {
         const name = this.resourceToName(c)
-
-
         const promise = new Promise((resolve) => {
-          resolve(instance.getResourceWithHttpInfo('ld4p', name, { acceptEncoding: 'application/json' }))
+          resolve(instance.getResourceWithHttpInfo(groupName, name, { acceptEncoding: 'application/json' }))
         })
 
         promise.then((response_and_data) => {
