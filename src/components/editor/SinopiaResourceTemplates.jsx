@@ -19,7 +19,7 @@ class SinopiaResourceTemplates extends Component {
   async componentDidMount() {
     const groupPromise = new Promise((resolve) => {
       resolve(instance.getBaseWithHttpInfo())
-    })
+    }).then((data) => data).catch(() => {})
 
     await this.fulfillGroupPromise(groupPromise).then(async () => {
       const ld4pGroupDataPromise = new Promise((resolve) => {
@@ -27,7 +27,7 @@ class SinopiaResourceTemplates extends Component {
           const name = this.resourceToName(group)
           resolve(instance.getGroupWithHttpInfo(name))
         })
-      })
+      }).then((data) => data).catch(() => {})
       await this.fulfillGroupDataPromise(ld4pGroupDataPromise)
     })
   }
@@ -49,6 +49,7 @@ class SinopiaResourceTemplates extends Component {
       let joined = []
       data.response.body.contains.map((c) => {
         const name = this.resourceToName(c)
+
 
         const promise = new Promise((resolve) => {
           resolve(instance.getResourceWithHttpInfo('ld4p', name, { acceptEncoding: 'application/json' }))
