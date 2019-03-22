@@ -47,6 +47,7 @@ describe('<SinopiaResourceTemplates />', () => {
       const promise = Promise.resolve(mockResponse(200, null, bodyContains))
       const wrapper2 = shallow(<SinopiaResourceTemplates />)
       await wrapper2.instance().fulfillGroupPromise(promise)
+      wrapper2.update()
       expect(wrapper2.state('groupData')).toEqual(['ld4p'])
     })
 
@@ -69,6 +70,7 @@ describe('<SinopiaResourceTemplates />', () => {
       //TODO: figure out how to mock and test a nested promise...
       const spy = jest.spyOn(wrapper3.instance(), 'fulfillGroupDataPromise')
       await wrapper3.instance().fulfillGroupDataPromise(promise)
+      wrapper3.update()
       expect(spy).toHaveBeenCalled()
     })
 
