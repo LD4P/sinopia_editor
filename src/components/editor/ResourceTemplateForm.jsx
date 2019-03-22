@@ -134,23 +134,7 @@ class ResourceTemplateForm extends Component {
         this.props.handleRemoveAllContent( buttonIndex )
     }
 
-    renderValueForButton( buttonValue, buttonIndex ) {
-        if ( buttonValue != undefined ) {
-            return (
-                <div className="btn-group btn-group-xs">
-                    <button type="button" className="btn btn-sm btn-default">{buttonValue}</button>
-                    <button disabled className="btn btn-warning" type="button">
-                        <span className="glyphicon glyphicon-pencil" />
-                    </button>
-                    <button className="btn btn-danger" type="button" onClick={() => this.handleTrashValue( buttonIndex )}>
-                        <span className="glyphicon glyphicon-trash" />
-                    </button>
-                </div>
-            )
-        }
-    }
-
-    render() {
+  render() {
 
         if ( this.props.propertyTemplates.length === 0 || this.props.propertyTemplates[0] === {} ) {
             return <h1>There are no propertyTemplates - probably an error.</h1>
