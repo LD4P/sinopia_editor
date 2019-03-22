@@ -21,35 +21,43 @@ describe('<SinopiaResourceTemplates />', () => {
     expect(wrapper.find(BootstrapTable).dive().length).toEqual(1)
   })
 
-  describe('gettiong data from the sinopia_server', () => {
+  describe('getting data from the sinopia_server', () => {
 
-    it('sets the state with group data (as Array) from sinopia_server', async() => {
+    const mockResponse = (status, statusText, response) => {
+      return new Response(response, {
+        status: status,
+        statusText: statusText,
+        headers: {
+          'Content-type': 'application/json'
+        }
+      }).body
+    }
 
-      const mockResponse = (status, statusText, response) => {
-        return new Response(response, {
-          status: status,
-          statusText: statusText,
-          headers: {
-            'Content-type': 'application/json'
-          }
-        }).body
-      }
-
-      const bodyContains = {
-        response: {
-          body: {
-            contains: [
-              'ld4p', 'pcc'
-            ]
-          }
+    const bodyContains = {
+      response: {
+        body: {
+          contains: [
+            'ld4p', 'pcc'
+          ]
         }
       }
+    }
+
+    it('sets the state with group data (as Array) from sinopia_server', async() => {
 
       const promise = Promise.resolve(mockResponse(200, null, bodyContains))
       const wrapper2 = shallow(<SinopiaResourceTemplates />)
       await wrapper2.instance().fulfillGroupPromise(promise)
       wrapper2.update()
       expect(wrapper2.state('groupData')).toEqual(['ld4p', 'pcc'])
+    })
+
+    it('sets a message if there is no server response', async() => {
+      const promise = Promise.resolve(mockResponse(200, null, undefined))
+      const wrapper2 = shallow(<SinopiaResourceTemplates />)
+      await wrapper2.instance().fulfillGroupPromise(promise)
+      await wrapper2.update()
+      expect(wrapper2.state('message')).toBeTruthy()
     })
 
     it('sets the state with a list of resource templates from the server', async() => {

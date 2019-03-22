@@ -10,9 +10,8 @@ class SinopiaResourceTemplates extends Component {
   constructor(props) {
     super(props)
     this.state = {
-      isLoading: false,
+      message: '',
       groupData: [],
-      joined: [],
       templatesForGroup: []
     }
   }
