@@ -17,8 +17,6 @@ class CanvasMenu extends Component {
         <ul style={{listStyleType:'none'}}>
           <br></br>
           <br></br>
-          <br></br>
-          <br></br>
 
           <li>
             <FontAwesomeIcon className="arrow-icon" icon={faArrowAltCircleRight} /> <a><strong>Help</strong></a>
@@ -28,12 +26,10 @@ class CanvasMenu extends Component {
           <li><a href="https://github.com/LD4P/sinopia/issues" target="_blank" rel="noopener noreferrer" className="menu-item">Report an issue in github</a></li>
           <li><a href="https://ld4.slack.com/messages/#sinopia" target="_blank" rel="noopener noreferrer" className="menu-item">Join Slack channel</a></li>
           <br></br>
-          <br></br>
           <li>
             <FontAwesomeIcon className="arrow-icon" icon={faArrowAltCircleRight} /> <a><strong>Training Resources</strong></a>
           </li>
           <li><a href="https://github.com/LD4P/sinopia/wiki/Training-Videos-based-on-Library-of-Congress-tools" target="_blank" rel="noopener noreferrer" className="menu-item">LC Training Modules</a></li>
-          <br></br>
           <br></br>
           <li>
             <FontAwesomeIcon className="arrow-icon" icon={faArrowAltCircleRight} /> <a><strong>External Identifier Sources and Vocabularies</strong></a>
@@ -52,7 +48,6 @@ class CanvasMenu extends Component {
           <li><a href="http://www.getty.edu/research/tools/vocabularies/tgn/index.html" rel="noopener noreferrer"  target="_blank" className="menu-item">Getty Thes. of Geographic Names</a></li>
           <li><a href="https://viaf.org" rel="noopener noreferrer"  target="_blank" className="menu-item">VIAF</a></li>
           <li><a href="https://www.wikidata.org/wiki/Wikidata:Main_Page" target="_blank" rel="noopener noreferrer" className="menu-item">Wikidata</a></li>
-          <br></br>
           <br></br>
           <li>
             <FontAwesomeIcon className="arrow-icon" icon={faArrowAltCircleRight} /> <a><strong>Other External Resources</strong></a>
