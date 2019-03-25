@@ -11,7 +11,7 @@ describe('<LoginPanel /> when the user is not authenticated', () => {
 
   let wrapper = mount(
     <MemoryRouter>
-      <LoginPanel jwtAuth={{isAuthenticated: false}} />
+      <LoginPanel />
     </MemoryRouter>
   )
 
@@ -30,9 +30,12 @@ describe('<LoginPanel /> when the user is authenticated', () => {
   const mockLogOut = jest.fn()
   const wrapper = mount(
     <MemoryRouter>
-      <LoginPanel jwtAuth={{isAuthenticated: true}} logOut={mockLogOut} userName={'some-user'}/>
+      <LoginPanel logOut={mockLogOut} />
     </MemoryRouter>
   )
+
+  wrapper.find(LoginPanel).instance().setState({userAuthenticated: true, userName: 'some-user'})
+  wrapper.update()
 
   it('renders the welcome text with username', () => {
     expect(wrapper.find('form').text()).toMatch('Welcome some-user!')

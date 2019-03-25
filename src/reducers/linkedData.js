@@ -1,5 +1,4 @@
-//TODO: Replace this resource template call to Trellis
-const { getResourceTemplate } = require('../sinopiaServerSpoof.js')
+import { getResourceTemplate } from '../sinopiaServer'
 
 const DEFAULT_STATE = {
   generateLD: {}

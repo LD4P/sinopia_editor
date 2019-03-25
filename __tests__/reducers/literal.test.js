@@ -1,89 +1,141 @@
-import literal from '../../src/reducers/literal'
+import { removeAllContent, removeMyItem, setMyItems  } from '../../src/reducers/literal'
 
-describe('literal reducer', () => {
-  it('should handle initial state', () => {
-    expect(
-      literal(undefined, {})
-    ).toEqual({formData: []})
+describe('literal reducer functions', () => {
+
+  it('SET_ITEMS adds item to state', () => {
+    const literalSetItems = setMyItems({ "resourceTemplate:Monograph:Instance": {
+      'http://schema.org/name': { items: [] }
+    }}, {
+      type: 'SET_ITEMS',
+      payload: {
+        rtId: 'resourceTemplate:Monograph:Instance',
+        uri:'http://schema.org/name',
+        items: [ { id: 0, content: 'Run the tests'} ]
+      }
+    })
+    expect(literalSetItems).toEqual({
+      "resourceTemplate:Monograph:Instance": {
+        'http://schema.org/name': {
+          items: [{ id: 0, content: 'Run the tests'}]
+        }
+      }
+    })
   })
 
-  it('should handle SET_ITEMS', () => {
+  it('SET_ITEMS adds new item to state when state has existing selector for another literal', () => {
     expect(
-      literal({formData: []}, {
+      setMyItems({ "resourceTemplate:Monograph:Instance": {
+        'http://schema.org/name': {
+          items: [{ id: 1, content: "Run the tests" }] },
+        'http://schema.org/description': {
+          items: []}
+        }
+      },
+      {
         type: 'SET_ITEMS',
-        payload: {id: 1, uri:'Run the tests', items: []}
+        payload: {
+          rtId: "resourceTemplate:Monograph:Instance",
+          uri: 'http://schema.org/description',
+          items: [ { id: 2, content: "add this!"}]
+        }
       })
     ).toEqual({
-      "formData": [{
-        "id": 1, "uri": "Run the tests", "items": []
-      }]
+      "resourceTemplate:Monograph:Instance": {
+        'http://schema.org/name': {
+          items: [{ id: 1, content: 'Run the tests'}]
+        },
+        'http://schema.org/description': {
+          items: [{ id: 2, content: "add this!"}]
+        }
+      }
     })
-
-    expect(
-      literal({
-        "formData": [{
-          "id": 1, "uri": "Run the tests", "items": []
-        }]}, {
-        type: 'SET_ITEMS',
-        payload: {id:2, uri: "add this!", items: []}
-      })
-    ).toEqual({
-      "formData": [
-        {"id": 1, "uri": "Run the tests", "items": []},
-        {"id": 2, "uri": "add this!", "items": []}
-    ]})
   })
-  it('should handle REMOVE_ITEM', () => {
-    expect(
-      literal({formData: [{id: 1, uri:"Test", items:[
-        {content: "test content", id: 0},
-        {content: "more content", id: 1}
-        ]}]}, {
-        type: 'REMOVE_ITEM',
-        payload: {id: 0, label: "Test"}
-      })
-    ).toEqual({
-      "formData": [{
-        id: 1, uri: "Test", "items": [{content: "more content", id: 1}]
-      }]
-    })
 
-
-    expect(
-      literal({formData: [
-        {id: 1, uri:"Test", items:[{content: "test content", id: 0}]},
-        {id: 2, uri:"Statement", items:[{content: "more test content", id: 0}]}
-      ]}, {
-        type: 'REMOVE_ITEM',
-        payload: {id: 0, label: "Statement"}
-      })
-    ).toEqual({
-      "formData": [
-        {"id": 1, "uri": "Test", "items": [{content: "test content", id: 0}]},
-        {"id": 2, "uri": "Statement", "items": []}
-      ]
+  it('REMOVE_ITEM removes an item from state', () => {
+    expect(removeMyItem({
+      "resourceTemplate:Monograph:Instance": {
+       'http://schema.org/name': {
+         items: [
+           {content: "test content", id: 0},
+           {content: "more content", id: 1}
+         ]
+       }
+      }
+    },
+    {
+      type: 'REMOVE_ITEM',
+      payload: {
+        id: 0,
+        rtId: "resourceTemplate:Monograph:Instance",
+        uri: "http://schema.org/name",
+        content: "test content"
+      }
+    })).toEqual({
+      "resourceTemplate:Monograph:Instance": {
+        'http://schema.org/name': {
+          items: [{ id: 1, content: "more content" }]
+        }
+      }
     })
+   })
+
+  it('Calling REMOVE_ITEMS with non-existent id does not change state', () => {
+    expect(removeMyItem({
+      "resourceTemplate:Monograph:Instance": {
+       'http://schema.org/name': {
+         items: [
+           {content: "Test", id: 1},
+           {content: "Statement", id: 2}
+         ]
+       }
+      }
+    },
+    {
+      type: 'REMOVE_ITEM',
+      payload: {
+        id: 0,
+        rtId: "resourceTemplate:Monograph:Instance",
+        uri: "http://schema.org/name",
+        content: "test content"
+      }
+    })
+   ).toEqual({
+    "resourceTemplate:Monograph:Instance": {
+     'http://schema.org/name': {
+       items: [
+         {content: "Test", id: 1},
+         {content: "Statement", id: 2}
+       ]
+     }
+    }
+   })
   })
 
   it('should handle REMOVE_ALL_CONTENT', () => {
     expect(
-      literal({
-        formData: [
-          {id: 1, uri:"Test", items:[
-            {content: "test content", id: 0},
-            {content: "test content2", id: 1}
-          ]},
-          {id: 2, uri:"Test2", items:[
-            {content: "test2 content", id: 0},
-            {content: "test2 content2", id: 1}
-          ]}
-        ]},
-        { type: 'REMOVE_ALL_CONTENT', payload: 1})
+      removeAllContent({
+        "resourceTemplate:Monograph:Instance": {
+          'http://schema.org/name': {
+            items: [
+              {content: "Test", id: 1},
+              {content: "Statement", id: 2}
+            ]
+          }
+        }
+      },
+      {
+        type: "REMOVE_ALL_CONTENT",
+        payload:{
+          rtId: "resourceTemplate:Monograph:Instance",
+          uri: 'http://schema.org/name'
+        }
+      })
     ).toEqual({
-      "formData": [
-        {"id": 2, "uri": "Test2", "items": [{content: "test2 content", id: 0}, {content: "test2 content2", id: 1}]}
-      ]
+      "resourceTemplate:Monograph:Instance": {
+        'http://schema.org/name': {
+          items: []
+        }
+      }
     })
   })
 })
-

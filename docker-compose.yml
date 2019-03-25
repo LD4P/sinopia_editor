@@ -1,0 +1,71 @@
+version: "3"
+services:
+  editor:
+    build:
+      context: .
+    ports:
+      - 8000:8000
+    depends_on:
+      - pipeline
+  pipeline:
+    image: ld4p/sinopia_indexing_pipeline:latest
+    environment:
+      INDEX_HOST: search
+      BROKER_HOST: broker
+    command: dockerize -wait tcp://broker:61613 -wait tcp://search:9200 -timeout 3m npm start
+    depends_on:
+      - broker
+      - search
+      - platform
+  broker:
+    image: rmohr/activemq
+    ports:
+      - 61613:61613
+  platform:
+    image: ld4p/trellis-ext-db:latest
+    environment:
+      TRELLIS_BASE_URL: http://platform:8080
+      TRELLIS_LOGGING_LEVEL: INFO
+      TRELLIS_CONSOLE_LOGGING_THRESHOLD: INFO
+    ports:
+      - 8080:8080
+      - 8081:8081
+    depends_on:
+      - database
+      - broker
+      - migration
+  database:
+    image: postgres:latest
+    environment:
+      POSTGRES_USER: sinopia
+      POSTGRES_DB: sinopia
+      POSTGRES_PASSWORD: S1n0p1a
+      PGDATA: /var/lib/postgresql/data/pgdata/mydata
+    ports:
+      - 5432:5432
+  search:
+    image: docker.elastic.co/elasticsearch/elasticsearch:6.3.2
+    entrypoint:
+      - elasticsearch
+      - -Ehttp.port=9200
+      - -Ehttp.cors.enabled=true
+      - -Ehttp.cors.allow-origin=http://searchui:1358,http://localhost:1358,http://127.0.0.1:1358
+      - -Ehttp.cors.allow-headers=X-Requested-With,X-Auth-Token,Content-Type,Content-Length,Authorization
+      - -Ehttp.cors.allow-credentials=true
+      - -Etransport.host=localhost
+      - -Ebootstrap.system_call_filter=false
+    user: elasticsearch
+    ports:
+      - 9200:9200
+      - 9300:9300
+  searchui:
+    image: appbaseio/dejavu:latest
+    ports:
+      - 1358:1358
+    depends_on:
+      - search
+  migration:
+    image: ld4p/trellis-ext-db:latest
+    command: ["/opt/trellis/bin/trellis-db", "db", "migrate", "/opt/trellis/etc/config.yml"]
+    depends_on:
+      - database

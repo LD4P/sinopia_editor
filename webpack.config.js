@@ -3,7 +3,6 @@ const path = require('path');
 const webpack = require('webpack');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 
-
 module.exports = {
   entry: './src/index.js',
   module: {
@@ -25,6 +24,9 @@ module.exports = {
       }
     ]
   },
+  node: {
+   fs: "empty"
+ },
   resolve: {
     extensions: ['*', '.js', '.jsx']
   },
@@ -38,11 +40,12 @@ module.exports = {
     new HtmlWebpackPlugin({
       template: path.resolve('./', 'index.html'),
       filename: 'index.html',
-      hash:true
+      hash: true
     })
   ],
   devServer: {
     historyApiFallback: true,
-    hot: true
+    hot: true,
+    port: 8888
   }
 };

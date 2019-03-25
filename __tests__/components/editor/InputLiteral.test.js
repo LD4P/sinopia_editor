@@ -1,5 +1,5 @@
-// Copyright 2018 Stanford University see Apache2.txt for license
-
+// Copyright 2018, 2019 Stanford University see Apache2.txt for license
+import 'jsdom-global/register'
 import React from 'react'
 import { shallow } from 'enzyme'
 import { InputLiteral } from '../../../src/components/editor/InputLiteral'
@@ -30,8 +30,8 @@ const valConstraintProps = {
 describe('<InputLiteral />', () => {
   const wrapper = shallow(<InputLiteral {...plProps} id={10} rtId={'resourceTemplate:bf2:Monograph:Instance'}/>)
 
-  it('contains a label with "Instance of"', () => {
-    expect(wrapper.find('label').text()).toBe('Instance of')
+  it('contains a placeholder of "Instance of"', () => {
+    expect(wrapper.find('input').props().placeholder).toBe('Instance of')
   })
 
   it('<input> element should have a placeholder attribute with value propertyLabel', () => {
@@ -172,27 +172,37 @@ describe('When the user enters input into field', ()=>{
 })
 
 describe('when there is a default literal value in the property template', () => {
+  const mockMyItemsChange = jest.fn()
+  const mockRemoveItem = jest.fn()
+
   it('sets the default values according to the property template if they exist', () => {
-    plProps.propertyTemplate['valueConstraint'] = valConstraintProps
-
-    const setDefaultsForLiteralWithPayLoad = jest.fn()
-    const defaultsForLiteral = jest.fn()
-    defaultsForLiteral.mockReturnValue({
-      content: "content",
-      id: 0,
-      bnode: { termType: 'BlankNode', value: 'n3-0'},
-      propPredicate: "predicate"
-    })
-
-    const wrapper = shallow(<InputLiteral {...plProps} id={12}
+    const plProps =  {
+      "propertyTemplate":
+        {
+          "propertyLabel": "Instance of",
+          "propertyURI": "http://id.loc.gov/ontologies/bibframe/instanceOf",
+          "type": "literal",
+          "mandatory": "",
+          "repeatable": "",
+          "valueConstraint": valConstraintProps
+        }
+    }
+    const wrapper = shallow(<InputLiteral propertyTemplate={plProps.propertyTemplate} id={12}
                           blankNodeForLiteral={{ termType: 'BlankNode', value: 'n3-0'}}
-                          rtId={'resourceTemplate:bf2:Monograph:Instance'}
-                          setDefaultsForLiteralWithPayLoad={setDefaultsForLiteralWithPayLoad}
-                          defaultsForLiteral={defaultsForLiteral}
-    />)
-    expect(setDefaultsForLiteralWithPayLoad).toHaveBeenCalledTimes(1)
-    expect(defaultsForLiteral).toHaveBeenCalledTimes(1)
-    expect(wrapper.instance().lastId).toEqual(0)
+                          handleMyItemsChange={mockMyItemsChange}
+                          rtId={'resourceTemplate:bf2:Monograph:Instance'} />)
+    // Mocking a call to the Redux store
+    const items = [{
+      "uri": "http://id.loc.gov/vocabulary/organizations/dlc",
+      "content": "DLC"
+    }]
+    wrapper.setProps({
+      formData: {
+        items: items
+      }
+    })
+    wrapper.instance().forceUpdate()
+    expect(wrapper.find('#userInput').text()).toMatch(items[0].content)
   })
 
   describe('when repeatable="false"', () => {
@@ -206,9 +216,6 @@ describe('when there is a default literal value in the property template', () =>
         "repeatable": "false"
       }
     }
-
-    const mockMyItemsChange = jest.fn()
-    const mockRemoveItem = jest.fn()
 
     const nonrepeat_wrapper = shallow(
       <InputLiteral {...nrProps}

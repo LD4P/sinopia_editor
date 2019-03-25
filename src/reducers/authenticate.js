@@ -32,18 +32,41 @@ const logInWithJWT = (state, action) => {
     }
   }
 
-
   if (isAuthenticated) {
-    loginState = {loginJwt: {id_token: id_token, access_token: access_token, username: username, isAuthenticated: isAuthenticated}}
+    loginState = {
+      loginJwt: {
+        id_token: id_token,
+        access_token: access_token,
+        username: username,
+        isAuthenticated: isAuthenticated,
+        expiry: expiry
+      }
+    }
   } else {
-    loginState = {loginJwt: {id_token: '', access_token: '', username: '', isAuthenticated: false}}
+    loginState = {
+      loginJwt: {
+        id_token: '',
+        access_token: '',
+        username: '',
+        isAuthenticated: false,
+        expiry: 0
+      }
+    }
   }
   
   return loginState
 }
 
 const logOut = () => {
-  return {loginJwt: {id_token: '', access_token: '', username: '', isAuthenticated: false}}
+  return {
+    loginJwt: {
+      id_token: '',
+      access_token: '',
+      username: '',
+      isAuthenticated: false,
+      expiry: 0
+    }
+  }
 }
 
 const authenticate = (state=DEFAULT_STATE, action) => {

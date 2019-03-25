@@ -1,4 +1,5 @@
 import Config from './Config'
+import { clearState } from './localStorage'
 
 class Logout {
   constructor() {
@@ -7,6 +8,10 @@ class Logout {
 
   cognitoLogout() {
     window.location = this.url
+  }
+
+  stateLogout() {
+    clearState()
   }
 }
 

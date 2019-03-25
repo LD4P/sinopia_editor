@@ -522,7 +522,7 @@
   {
     "label": "LOC all subjects (QA)",
     "uri": "urn:ld4p:qa:subjects",
-    "authority": "locnames_ld4l_cache",
+    "authority": "locsubjects_ld4l_cache",
     "subauthority": "",
     "language": "en",
     "component": "lookup"
@@ -724,6 +724,54 @@
     "uri": "urn:ld4p:qa:oclc_fast:alt_lc",
     "authority": "oclc_fast",
     "subauthority": "alt_lc",
+    "language": "en",
+    "component": "lookup"
+  },
+  {
+    "label": "SHAREVDE CORNELL INSTANCE",
+    "uri": "urn:ld4p:qa:sharevde_cornell_instance_ld4l_cache",
+    "authority": "sharevde_cornell_instance_ld4l_cache",
+    "subauthority": "",
+    "language": "en",
+    "component": "lookup"
+  },
+  {
+    "label": "SHAREVDE CORNELL WORK",
+    "uri": "urn:ld4p:qa:sharevde_cornell_work_ld4l_cache",
+    "authority": "sharevde_cornell_work_ld4l_cache",
+    "subauthority": "",
+    "language": "en",
+    "component": "lookup"
+  },
+  {
+    "label": "SHAREVDE STANFORD INSTANCE",
+    "uri": "urn:ld4p:qa:sharevde_stanford_instance_ld4l_cache",
+    "authority": "sharevde_stanford_instance_ld4l_cache",
+    "subauthority": "",
+    "language": "en",
+    "component": "lookup"
+  },
+  {
+    "label": "SHAREVDE STANFORD WORK",
+    "uri": "urn:ld4p:qa:sharevde_stanford_work_ld4l_cache",
+    "authority": "sharevde_stanford_work_ld4l_cache",
+    "subauthority": "",
+    "language": "en",
+    "component": "lookup"
+  },
+  {
+    "label": "SHAREVDE UCSD INSTANCE",
+    "uri": "urn:ld4p:qa:sharevde_ucsd_instance_ld4l_cache",
+    "authority": "sharevde_ucsd_instance_ld4l_cache",
+    "subauthority": "",
+    "language": "en",
+    "component": "lookup"
+  },
+  {
+    "label": "SHAREVDE UCSD WORK",
+    "uri": "urn:ld4p:qa:sharevde_ucsd_work_ld4l_cache",
+    "authority": "sharevde_ucsd_work_ld4l_cache",
+    "subauthority": "",
     "language": "en",
     "component": "lookup"
   },

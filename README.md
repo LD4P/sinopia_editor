@@ -38,7 +38,7 @@ The Sinopia Editor code is currently available via [sinopia.io](https://sinopia.
 
 `npm run dev-start`
 
-Runs the webpack-dev-server, allowing immediate loading of live code changes without having to restart the server. The webpack-dev-server is available on at [http://localhost:8080](http://localhost:8080).  
+Runs the webpack-dev-server, allowing immediate loading of live code changes without having to restart the server. The webpack-dev-server is available on at [http://localhost:8888](http://localhost:8888).
 Note that running the webpack server does NOT call server.js
 
 ### Building with webpack
@@ -50,7 +50,7 @@ We are using webpack as a build tool.  See `webpack.config.js` for build depende
 ##### Running the server with express directory
 
 `npm start` will spin up express directly.
-The express server is available on at [http://localhost:8000](http://localhost:8000).  
+The express server is available on at [http://localhost:8000](http://localhost:8000).
 
 >>>>>>> Update README and remove references to grunt
 ### Linter for JavaScript
@@ -69,7 +69,7 @@ See https://www.npmjs.com/package/eslint-takeoff for more info.
 
 ### Test
 
-Tests are written in jest, also utilizing puppeteer for end-to-end tests.  
+Tests are written in jest, also utilizing puppeteer for end-to-end tests.
 To run them `npm test`.
 
 #### Test coverage
@@ -164,10 +164,10 @@ All contributions are welcome.  If you do not code, surely you will discover an
 
 #### User Authentication with AWS Cognito
 
-We currently use AWS Cognito to manage the authentication of users. Cognito uses a client id to manage the connection to 
-this application (see `awsClientID()` in `src/Config.js`). Whenever changes are made to the AWS configuration this client_id 
-changes and so you must also submit a PR to change the client id in this application as well. In the production environment 
-this will be handled via an environment variable, but for local functionality and testing, the hard-coded value must be updated, 
+We currently use AWS Cognito to manage the authentication of users. Cognito uses a client id to manage the connection to
+this application (see `awsClientID()` in `src/Config.js`). Whenever changes are made to the AWS configuration this client_id
+changes and so you must also submit a PR to change the client id in this application as well. In the production environment
+this will be handled via an environment variable, but for local functionality and testing, the hard-coded value must be updated,
 or you must set the environment variable `AWS_CLIENT_ID` to be the current client id.
 
 Acknowledgements
@@ -227,7 +227,7 @@ License
 -------
 
 Unless otherwise noted, code that is originally developed by Stanford University
-in the `Sinopia Editor` is licensed under the [Apache 2](https://www.apache.org/licenses/LICENSE-2.0).  
+in the `Sinopia Editor` is licensed under the [Apache 2](https://www.apache.org/licenses/LICENSE-2.0).
 
 Original `bfe` code is in the Public Domain.
 

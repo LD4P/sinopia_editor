@@ -31,7 +31,8 @@ describe('<InputLookup />', () => {
   const wrapper = shallow(<InputLookup.WrappedComponent {...plProps} handleSelectedChange={mockFormDataFn} />)
 
   it('uses the propertyLabel from the template as the form control label', () => {
-    expect(wrapper.find('label').text()).toMatch('Name Lookup')
+    expect(wrapper.find('#lookupComponent').props().placeholder).toMatch('Name Lookup')
+
   })
 
   it('sets the typeahead component required attribute according to the mandatory property from the template', () => {

@@ -6,7 +6,10 @@ import ResourceTemplate from '../../../src/components/editor/ResourceTemplate'
 import ResourceTemplateForm from '../../../src/components/editor/ResourceTemplateForm'
 
 describe('<ResourceTemplate />', () => {
-  const wrapper = shallow(<ResourceTemplate resourceTemplateId='resourceTemplate:bf2:Monograph:Instance' />)
+  const mockHandleResourceTemplate = jest.fn()
+  const wrapper = shallow(<ResourceTemplate.WrappedComponent
+    resourceTemplateId='resourceTemplate:bf2:Monograph:Instance'
+    handleResourceTemplate={mockHandleResourceTemplate} />)
 
   it('has div with class "ResourceTemplate"', () => {
     expect(wrapper.find('div.ResourceTemplate').length).toEqual(1)

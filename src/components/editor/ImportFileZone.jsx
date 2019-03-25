@@ -7,7 +7,7 @@ import Ajv from 'ajv' // JSON schema validation
 const util = require('util') // for JSON schema validation errors
 import { Link } from 'react-router-dom'
 
-class StartingPoints extends Component {
+class ImportFileZone extends Component {
   constructor() {
     super()
     this.ajv = new Ajv({
@@ -155,29 +155,27 @@ class StartingPoints extends Component {
     })
   }
 
-  resetShowDropZone() {
-    this.updateShowDropZone(false)
-    this.setState({files: []})
-    this.props.tempStateCallback()
-
-  }
-
   reloadEditor = () => {
     window.location.reload()
   }
 
   render() {
-    let startingPoints = {
-      border: '1px dotted',
-      float: 'left',
-      padding: '20px',
+    let importFileZone = {
+      display: 'flex',
+      justifyContent: 'center',
+      padding: '40px'
+    }
+    let dropzoneContainer = {
+      display: 'flex',
+      justifyContent: 'center'
     }
     return (
       <section>
-        <div className="StartingPoints" style={startingPoints}>
-          <h3>Create Resource</h3>
+        <div className="ImportFileZone" style={importFileZone}>
           <div><Link to="/editor" onClick={() => {this.reloadEditor()}}>{this.props.defaultRtId}</Link></div>
-          <button id="ImportProfile" className="btn btn-primary btn-small" onClick={this.handleClick}>Import Profile</button>
+          <button id="ImportProfile" className="btn btn-primary btn-lg" onClick={this.handleClick}>Import New or Revised Resource Template</button>
+        </div>
+        <div className="dropzoneContainer" style={dropzoneContainer}>
           { this.state.showDropZone ? <DropZone showDropZoneCallback={this.updateShowDropZone} dropFileCallback={this.onDropFile} filesCallback={this.state.files}/> : null }
         </div>
       </section>
@@ -187,6 +185,12 @@ class StartingPoints extends Component {
 
 class DropZone extends Component {
   render() {
+    let fileName = {
+      fontSize: '18px'
+    }
+    let listStyle = {
+      listStyleType: 'none'
+    }
     return (
       <section>
         <br /><p>Drop resource template file <br />
@@ -198,9 +202,9 @@ class DropZone extends Component {
           >
           </Dropzone>
           <aside>
-            <h4>Loaded resource template file:</h4>
-            <ul>
-              { this.props.filesCallback.map(f => <li key={f.name}>{f.name} - {f.size} bytes</li>) }
+            <h5>Loaded resource template file:</h5>
+            <ul style={listStyle}>
+              { this.props.filesCallback.map(f => <li style={fileName} key={f.name}>{f.name} - {f.size} bytes</li>) }
             </ul>
           </aside>
         </div>
@@ -214,12 +218,11 @@ DropZone.propTypes = {
   showDropZoneCallback: PropTypes.func,
   filesCallback: PropTypes.array
 }
-StartingPoints.propTypes = {
+ImportFileZone.propTypes = {
   tempStateCallback: PropTypes.func,
-  resourceTemplatesCallback: PropTypes.func,
   setResourceTemplateCallback: PropTypes.func,
   resourceTemplateId: PropTypes.string,
   defaultRtId: PropTypes.string
 }
 
-export default StartingPoints
+export default ImportFileZone

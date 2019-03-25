@@ -4,7 +4,7 @@
   "resourceLabel": "Barcode",
   "propertyTemplates": [
     {
-      "mandatory": "false",
+      "mandatory": "true",
       "repeatable": "false",
       "type": "literal",
       "resourceTemplates": [],
@@ -21,6 +21,19 @@
       },
       "propertyURI": "http://www.w3.org/1999/02/22-rdf-syntax-ns#value",
       "propertyLabel": "Barcode"
+    },
+    {
+      "mandatory": "false",
+      "repeatable": "true",
+      "type": "literal",
+      "resourceTemplates": [],
+      "valueConstraint": {
+        "valueTemplateRefs": [],
+        "useValuesFrom": [],
+        "valueDataType": {}
+      },
+      "propertyURI": "http://id.loc.gov/ontologies/bibframe/enumerationAndChronology",
+      "propertyLabel": "Enumeration and chronology"
     }
   ]
 }

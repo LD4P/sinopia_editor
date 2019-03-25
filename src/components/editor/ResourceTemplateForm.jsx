@@ -3,18 +3,15 @@
 import React, {Component} from 'react'
 import { connect } from 'react-redux'
 import PropTypes from 'prop-types'
-import ButtonGroup from 'react-bootstrap/lib/ButtonGroup'
-import ButtonToolbar from 'react-bootstrap/lib/ButtonToolbar'
+import shortid from 'shortid'
 import InputLiteral from './InputLiteral'
 import InputListLOC from './InputListLOC'
 import InputLookupQA from './InputLookupQA'
-import PropertyRemark from './PropertyRemark'
-import RequiredSuperscript from './RequiredSuperscript'
-import ModalToggle from './ModalToggle'
-import RDFModal from './RDFModal'
+import PropertyPanel from './PropertyPanel'
+import PropertyResourceTemplate from './PropertyResourceTemplate'
 import lookupConfig from '../../../static/spoofedFilesFromServer/fromSinopiaServer/lookupConfig.json'
 import {getLD, setItems, removeAllContent} from '../../actions/index'
-const { getResourceTemplate } = require('../../sinopiaServerSpoof.js')
+import { getResourceTemplate } from '../../sinopiaServer'
 const N3 = require('n3')
 const { DataFactory } = N3
 const { blankNode } = DataFactory
@@ -37,11 +34,6 @@ class ResourceTemplateForm extends Component {
       if (pt.repeatable == undefined) pt.repeatable = "false"
       if (pt.editable == undefined) pt.editable = "true"
     })
-  }
-
-  handleSave = () => {
-    this.setState( { showRdf: true } )
-    this.props.handleGenerateLD(this.setInputs())
   }
 
   makeSubject = () => {
@@ -91,54 +83,15 @@ class ResourceTemplateForm extends Component {
   }
 
   // Note: rtIds is expected to be an array of length at least one
-  resourceTemplateButtons = (rtIds, propURI, buttonID) => {
-    let buttons = []
+  resourceTemplateFields = (rtIds) => {
+    const rtProperties = []
     rtIds.map((rtId, i) => {
-      buttons.push(<ButtonGroup key={`${rtId}-${i}`}>{this.rtModalButton(rtId, propURI, buttonID)}</ButtonGroup>)
-      let content = this.getContentForModalButton(rtId)
-      let defaults = this.defaultsForLiteral(content, propURI)
-      if (defaults[0].content !== undefined) {
-        if (this.props.literals.formData.length === 0) {
-          const propPredicate = undefined
-          this.setDefaultsForLiteralWithPayLoad(buttonID, propURI, propPredicate, defaults, rtId)
-        }
+      rtProperties.push(<PropertyResourceTemplate key={shortid.generate()} resourceTemplate={getResourceTemplate(rtId)} />)
+      if ((rtIds.length - i) > 1) {
+        rtProperties.push(<hr key={i} />)
       }
     })
-    return buttons
-  }
-
-  rtModalButton = (rtId, propURI, buttonID) => {
-    let resourceTemplate = getResourceTemplate(rtId)
-    return (
-      <ModalToggle
-        key={rtId}
-        rtId={rtId}
-        buttonID={buttonID}
-        buttonLabel={resourceTemplate.resourceLabel}
-        propertyTemplates={resourceTemplate.propertyTemplates}
-        resourceTemplate={resourceTemplate}
-        rdfOuterSubject = {this.state.rdfOuterSubject}
-        propPredicate = {propURI}
-        handleRDFDisplay = {this.handleRDFDisplay}
-      />
-    )
-  }
-
-  mandatorySuperscript = (propMandatory) => {
-    if (JSON.parse(propMandatory)) {
-      return <RequiredSuperscript />
-    }
-  }
-
-  hasPropertyRemark = (prop) => {
-    let output;
-    if(prop.remark) {
-      output = <PropertyRemark remark={prop.remark}
-                label={prop.propertyLabel} />
-    } else {
-      output = prop.propertyLabel
-    }
-    return output
+    return rtProperties
   }
 
   defaultValues = () => {
@@ -198,25 +151,15 @@ class ResourceTemplateForm extends Component {
   }
 
   render() {
-    let dashedBorder = {
-      border: '1px dashed',
-      padding: '10px',
-    }
+
     if (this.props.propertyTemplates.length === 0 || this.props.propertyTemplates[0] === {}) {
       return <h1>There are no propertyTemplates - probably an error.</h1>
     } else {
       return (
         <div>
-          <div>
-            <RDFModal show={this.state.showRdf}
-                      close={this.rdfClose}
-                      rtId={this.props.rtId}
-                      linkedData={ JSON.stringify(this.props.generateLD) }/>
-          </div>
-          <form style={dashedBorder}>
-            <div className='ResourceTemplateForm'>
-              <p>BEGIN ResourceTemplateForm</p>
-                <div>
+
+          <form>
+            <div className='ResourceTemplateForm row'>
                   { this.props.propertyTemplates.map( (pt, index) => {
 
                     let isLookupWithConfig = Boolean(
@@ -254,53 +197,40 @@ class ResourceTemplateForm extends Component {
 
                     if (listComponent === 'list'){
                       return (
-                        <InputListLOC propertyTemplate = {pt} lookupConfig = {lookupConfigItem} key = {index} rtId = {this.props.rtId} />
+                        <PropertyPanel pt={pt} key={index} float={index} rtId={this.props.rtId}>
+                          <InputListLOC propertyTemplate = {pt} lookupConfig = {lookupConfigItem} key = {index} rtId = {this.props.rtId} />
+                        </PropertyPanel>
                       )
                     }
                     else if (listComponent ===  'lookup'){
                     	/**Changing to pass along the array of lookup configs and not just a single item in case more than one useValueFrom is specified**/
                       return(
-                        <InputLookupQA propertyTemplate = {pt} lookupConfig = {lookupConfigItems} key = {index} rtId = {this.props.rtId} />
+
+                        <PropertyPanel pt={pt} key={index} float={index} rtId={this.props.rtId}>
+                          <InputLookupQA propertyTemplate = {pt} lookupConfig = {lookupConfigItems} key = {index} rtId = {this.props.rtId} />
+                        </PropertyPanel>
                       )
                     }
                     else if(pt.type == 'literal'){
                       return(
-                        <InputLiteral key={index} id={index}
-                                      propertyTemplate={pt}
-                                      rtId={this.props.rtId}
-                                      blankNodeForLiteral={this.state.rdfOuterSubject}
-                                      propPredicate={this.props.propPredicate}
-                                      buttonID={this.props.buttonID}
-                                      defaultsForLiteral={this.defaultsForLiteral}
-                                      setDefaultsForLiteralWithPayLoad={this.setDefaultsForLiteralWithPayLoad} />
+                        <PropertyPanel pt={pt} key={index} float={index} rtId={this.props.rtId}>
+                          <InputLiteral key={index} id={index}
+                                        propertyTemplate={pt}
+                                        rtId={this.props.rtId}
+                                        blankNodeForLiteral={this.state.rdfOuterSubject}
+                                        propPredicate={this.props.propPredicate}
+                                        defaultsForLiteral={this.defaultsForLiteral}
+                                        setDefaultsForLiteralWithPayLoad={this.setDefaultsForLiteralWithPayLoad} />
+                        </PropertyPanel>
                       )
                     }
                     else if (this.isResourceWithValueTemplateRef(pt)) {
-                      let buttonId
                       let valueForButton
-                      this.props.literals.formData.map((obj) => {
-                        buttonId = obj.id
-                        if (buttonId !== undefined && buttonId === index) {
-                          const buttonContent = obj.items
-                          if (buttonContent !== undefined) {
-                            buttonContent.map((item, i) => {
-                              i === 0 ? valueForButton = `${item.content} ` : valueForButton += `${item.content} `
-                            })
-                          }
-                        }
-                      })
-                      // TODO: some valueTemplateRefs may be lookups??
                       return (
-                        <ButtonToolbar key={index}>
-                          <div>
-                            <label title={pt.remark}>{this.hasPropertyRemark(pt)}{this.mandatorySuperscript(pt.mandatory)}</label>
-                          </div>
-                          <div>
-                            {this.resourceTemplateButtons(pt.valueConstraint.valueTemplateRefs, pt.propertyURI, index)}
-                          </div>
-                          <br/><br/>
-                          {this.renderValueForButton(valueForButton, index)}
-                        </ButtonToolbar>
+                        <PropertyPanel pt={pt} key={index} float={index} rtId={this.props.rtId}>
+                            {this.resourceTemplateFields(pt.valueConstraint.valueTemplateRefs)}
+                            {this.renderValueForButton(valueForButton, index)}
+                        </PropertyPanel>
                         )
                       }
                       else if (pt.type == 'resource'){
@@ -309,11 +239,7 @@ class ResourceTemplateForm extends Component {
                     }
                   )
                  }
-                </div>
-              <p>END ResourceTemplateForm</p>
-              <div>
-                {(this.props.rdfOuterSubject === undefined) ? (<button type="button" className="btn btn-success btn-sm" onClick={this.handleSave}>Preview RDF</button>) : null}
-              </div>
+
             </div>
           </form>
         </div>
@@ -323,8 +249,8 @@ class ResourceTemplateForm extends Component {
 }
 
 ResourceTemplateForm.propTypes = {
-  literals: PropTypes.oneOfType([PropTypes.array, PropTypes.object]).isRequired,
-  lookups: PropTypes.oneOfType([PropTypes.array, PropTypes.object]).isRequired,
+  literals: PropTypes.oneOfType([PropTypes.array, PropTypes.object]),
+  lookups: PropTypes.oneOfType([PropTypes.array, PropTypes.object]),
   handleGenerateLD: PropTypes.func,
   propertyTemplates: PropTypes.arrayOf(PropTypes.object).isRequired,
   resourceTemplate: PropTypes.object.isRequired,
