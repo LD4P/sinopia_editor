@@ -41,9 +41,9 @@ export default class PropertyPanel extends Component {
   render() {
     return (
       <div className={this.getCssClasses()}>
-        <div className="panel-heading prop-heading">
-          {this.generateTitle()}
-        </div>
+      <div className="panel-heading prop-heading">
+        {this.generateTitle()}
+      </div>
         <div className="panel-body">
           {this.props.children}
         </div>

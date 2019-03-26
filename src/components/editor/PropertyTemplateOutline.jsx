@@ -1,12 +1,15 @@
 // Copyright 2019 Stanford University see Apache2.txt for license
 
 import React, {Component} from 'react'
+import { connect } from 'react-redux'
 import InputLiteral from './InputLiteral'
 import InputListLOC from './InputListLOC'
 import InputLookupQA from './InputLookupQA'
 import OutlineHeader from './OutlineHeader'
+import PropertyActionButtons from './PropertyActionButtons'
 import PropertyTypeRow from './PropertyTypeRow'
 import RequiredSuperscript from './RequiredSuperscript'
+import { setResourceTemplate } from '../../reducers/index'
 import { getResourceTemplate } from '../../sinopiaServer'
 import lookupConfig from '../../../static/spoofedFilesFromServer/fromSinopiaServer/lookupConfig.json'
 import PropTypes from 'prop-types'
@@ -67,6 +70,15 @@ export class PropertyTemplateOutline extends Component {
     event.preventDefault()
   }
 
+  addDynamicResourceTemplate = (resourceTemplate, parentRt) => {
+    //!! Should check Redux state to if key exists
+
+    if (this.state.collapsed) {
+      console.log(`In addDynamicResourceTemplate ${resourceTemplate.resourceLabel} parent ${parentRt}`)
+      console.warn(this.props)
+    }
+  }
+
   handleClick = (property) => (event) => {
     event.preventDefault()
     let newOutput = this.state.output
@@ -92,9 +104,25 @@ export class PropertyTemplateOutline extends Component {
           input = []
           property.valueConstraint.valueTemplateRefs.map((rtId) => {
             let resourceTemplate = getResourceTemplate(rtId)
+            let rtReduxPath = Object.assign([], this.props.reduxPath)
+            rtReduxPath.push(rtId)
+            input.push(<div className="row" key={shortid.generate()}>
+              <section className="col-sm-8">
+                <h5>{resourceTemplate.resourceLabel}</h5>
+              </section>
+              <section className="col-sm-4">
+                <PropertyActionButtons handleAddClick={this.handleAddClick}
+                  handleMintUri={this.handleMintUri} key={shortid.generate()} />
+              </section>
+            </div>)
+
             resourceTemplate.propertyTemplates.map((rtProperty) => {
+              let newReduxPath = Object.assign([], rtReduxPath)
+              newReduxPath.push(rtProperty.propertyURI)
+              console.warn(newReduxPath)
               input.push(<PropertyTemplateOutline key={shortid.generate()}
                 propertyTemplate={rtProperty}
+                reduxPath={newReduxPath}
                 resourceTemplate={getResourceTemplate(rtId)} />)
             })
           })
@@ -167,4 +195,10 @@ PropertyTemplateOutline.propTypes = {
   rtId: PropTypes.string
 }
 
-export default PropertyTemplateOutline;
+const mapDispatchToProps = dispatch => ({
+  handleNewResourceTemplate(rt_context) {
+    dispatch(setResourceTemplate(rt_context))
+  }
+})
+
+export default connect(null, mapDispatchToProps)(PropertyTemplateOutline);

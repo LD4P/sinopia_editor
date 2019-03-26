@@ -82,17 +82,21 @@ class ResourceTemplateForm extends Component {
         return content
     }
 
-    // Note: rtIds is expected to be an array of length at least one
-    resourceTemplateFields = ( rtIds ) => {
-        const rtProperties = []
-        rtIds.map(( rtId, i ) => {
-            rtProperties.push( <PropertyResourceTemplate key={shortid.generate()} resourceTemplate={getResourceTemplate( rtId )} /> )
-            if ( ( rtIds.length - i ) > 1 ) {
-                rtProperties.push( <hr key={i} /> )
-            }
-        } )
-        return rtProperties
-    }
+  // Note: rtIds is expected to be an array of length at least one
+  resourceTemplateFields = (rtIds, propUri) => {
+    const rtProperties = []
+    rtIds.map((rtId, i) => {
+      let resourceTemplate = getResourceTemplate(rtId)
+      rtProperties.push(<PropertyResourceTemplate
+        key={shortid.generate()}
+        resourceTemplate={resourceTemplate}
+        reduxPath={[this.props.rtId, propUri, rtId]} />)
+      if ((rtIds.length - i) > 1) {
+        rtProperties.push(<hr key={i} />)
+      }
+    })
+    return rtProperties
+  }
 
     defaultValues = () => {
         this.props.propertyTemplates.map(( pt ) => {

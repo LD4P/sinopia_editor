@@ -39,6 +39,7 @@ export class InputLiteral extends Component {
 
   handleFocus = (event) => {
     document.getElementById(event.target.id).focus()
+    event.preventDefault()
   }
 
   handleChange = (event) => {
