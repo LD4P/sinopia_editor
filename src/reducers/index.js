@@ -30,7 +30,11 @@ export const getProperty = createSelector(
   }
 )
 
-
+export const refreshResourceTemplate = (state, action) => {
+  let newState = Object.create(state)
+  const reduxPath = action.payload.reduxPath
+  return newState
+}
 
 export const setResourceTemplate = (state, action) => {
   const rtKey = action.payload.id
@@ -67,6 +71,8 @@ const selectorReducer = (state={}, action) => {
       return setResourceTemplate(state, action)
     case 'SET_ITEMS':
       return setMyItems(state, action)
+    case 'REFRESH_RESOURCE_TEMPLATE':
+      return refreshResourceTemplate(state, action)
     case 'REMOVE_ITEM':
       return removeMyItem(state, action)
     case 'REMOVE_ALL_CONTENT':

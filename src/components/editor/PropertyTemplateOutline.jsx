@@ -9,7 +9,7 @@ import OutlineHeader from './OutlineHeader'
 import PropertyActionButtons from './PropertyActionButtons'
 import PropertyTypeRow from './PropertyTypeRow'
 import RequiredSuperscript from './RequiredSuperscript'
-import { setResourceTemplate } from '../../reducers/index'
+import { refreshResourceTemplate } from '../../actions/index'
 import { getResourceTemplate } from '../../sinopiaServer'
 import lookupConfig from '../../../static/spoofedFilesFromServer/fromSinopiaServer/lookupConfig.json'
 import PropTypes from 'prop-types'
@@ -115,11 +115,10 @@ export class PropertyTemplateOutline extends Component {
                   handleMintUri={this.handleMintUri} key={shortid.generate()} />
               </section>
             </div>)
-
             resourceTemplate.propertyTemplates.map((rtProperty) => {
               let newReduxPath = Object.assign([], rtReduxPath)
               newReduxPath.push(rtProperty.propertyURI)
-              console.warn(newReduxPath)
+              this.props.handleNewResourceTemplate({ reduxPath: newReduxPath })
               input.push(<PropertyTemplateOutline key={shortid.generate()}
                 propertyTemplate={rtProperty}
                 reduxPath={newReduxPath}
@@ -197,7 +196,7 @@ PropertyTemplateOutline.propTypes = {
 
 const mapDispatchToProps = dispatch => ({
   handleNewResourceTemplate(rt_context) {
-    dispatch(setResourceTemplate(rt_context))
+    dispatch(refreshResourceTemplate(rt_context))
   }
 })
 
