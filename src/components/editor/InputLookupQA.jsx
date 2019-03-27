@@ -19,14 +19,14 @@ class InputLookupQA extends Component {
 
   render() {
     
-    let isMandatory, isRepeatable, authority, subauthority, language, lookupConfigs, lookupConfig
-    const testConfig = this.props.lookupConfig
+    let isMandatory, isRepeatable, authority, subauthority, language, lookupConfig
+    const lookupConfigs = this.props.lookupConfig
     
     try {
       isMandatory = JSON.parse(this.props.propertyTemplate.mandatory)
       isRepeatable = JSON.parse(this.props.propertyTemplate.repeatable)
       /***Passing lookupConfig as array of configs and not just one config***/
-      lookupConfigs = this.props.lookupConfig
+      //lookupConfigs = this.props.lookupConfig
       //lookupConfig = lookupConfigs[0]
       //authority = lookupConfig.value.authority
       //subauthority = lookupConfig.value.authority
@@ -51,26 +51,51 @@ class InputLookupQA extends Component {
         
          renderMenu={(results, menuProps) => {
          		//Returning results per each promise
+         		//If error is returned, it will be used to display for that source
          		const items = [];
-         		let r, i, authLabel, resultsLength, authURI, headerKey;
+         		let r, i, authLabel, resultsLength, authURI, headerKey, result;
          		resultsLength = results.length;
          		let idx = 0;
          		for(i = 0; i < resultsLength; i++) {
-               		r = results[i].body;
+         		    result = results[i];
                		authLabel = results[i].authLabel;
                		authURI = results[i].authURI;
                		headerKey = authURI + "-header";
                		console.log(authLabel + "=" + authURI);
-               		items.push(  <Menu.Header key={headerKey}>
-			            {authLabel}
-			          </Menu.Header>);
+               		//Add header only if more than one authority request
+               		if(resultsLength > 1)
+               			items.push(  <Menu.Header key={headerKey}>
+			            	{authLabel}
+			          	</Menu.Header>);
 			        //For this authority, display results
-			        r.forEach(function(result) {
-			        	items.push( <MenuItem option={result} position={idx} key={idx}>
-    			          {result.label}
-    			        </MenuItem>);
-    			        idx++;
-			        });
+			        if("isError" in result) {
+			        	//if error, then get error from within result and display that message
+			        	let errorMessage = "An error occurred in retrieving results";
+			        	let errorHeaderKey = headerKey + "-error";
+			        	items.push(  <Menu.Header key={errorHeaderKey}>
+			            	{errorMessage}
+			          	</Menu.Header>);
+			        	//console.log(result["errorObject"]);
+			        } else {
+			        	//if not error, print out items for result
+				        r = result.body;
+				        //to test, r = [];
+				        r.forEach(function(result) {
+				        	items.push( <MenuItem option={result} position={idx} key={idx}>
+	    			          {result.label}
+	    			        </MenuItem>);
+	    			        idx++;
+				        });
+				        //if the length of results is zero we need to show that as well
+				        if(r.length == 0) {
+				        	let noResultsMessage = "No results for this lookup";
+				        	let noResultsHeaderKey = headerKey + "-noResults";
+				        	items.push(  <Menu.Header key={noResultsHeaderKey}>
+	    			          {noResultsMessage}
+	    			        </Menu.Header>);
+				        }
+				        
+			        }
                	}
          		
 	         return (
@@ -91,6 +116,9 @@ class InputLookupQA extends Component {
       			subauthority = lookupConfig.value.authority;
       			language = lookupConfig.value.language;
       			//return the 'promise' 
+      			//Since we don't want promise.all to fail if
+      			//one of the lookups fails, we want a catch statement
+      			//at this level which will then return the error
       			return client
 	                .apis
 	                .SearchQuery
@@ -100,16 +128,28 @@ class InputLookupQA extends Component {
 	                  subauthority: subauthority,
 	                  maxRecords: 8,
 	                  lang: language
+	                })
+	                .catch(function(err) {
+	                	console.error("ERROR", err);
+	                	//return information along with the error in its own object
+	                	return {"isError":true, "errorObject":err};
 	                });
+	                
               });
+             //to test 
+             //lookupPromises[0] = new Promise(function(resolve, reject) { reject("rejection is hard"); }).catch(function(err){console.error(err);return {"isError":true, "errorObject":new Error(err)};});
               
              Promise.all(lookupPromises).then((values) => {
                 
                		 let valuesLength = values.length;
                		 let i;
                		 for(i = 0; i < valuesLength; i++) {
-						values[i]["authLabel"]=testConfig[i].value.label;
-               		 	values[i]["authURI"]=testConfig[i].value.uri;
+               		 	//If undefined, add info - note if error, error object returned in object
+               		 	//which allows attaching label and uri for authority
+               		 	if(values[i]) {
+							values[i]["authLabel"]=lookupConfigs[i].value.label;
+	               		 	values[i]["authURI"]=lookupConfigs[i].value.uri;
+               		 	}
                		 }
                		
                 this.setState({
