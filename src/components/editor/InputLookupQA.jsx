@@ -5,7 +5,6 @@ import PropTypes from 'prop-types'
 import Swagger from 'swagger-client'
 import { connect } from 'react-redux'
 import { changeSelections } from '../../actions/index'
-import {groupBy} from 'lodash';
 
 const AsyncTypeahead = asyncContainer(Typeahead)
 
@@ -19,7 +18,7 @@ class InputLookupQA extends Component {
 
   render() {
     
-    let isMandatory, isRepeatable, authority, subauthority, language, lookupConfig
+    let isMandatory, isRepeatable, authority, subauthority, language
     const lookupConfigs = this.props.lookupConfig
     
     try {
@@ -55,7 +54,6 @@ class InputLookupQA extends Component {
                		authLabel = result.authLabel;
                		authURI = result.authURI;
                		headerKey = authURI + "-header";
-               		console.log(authLabel + "=" + authURI);
                		//Add header only if more than one authority request
                		if(resultsLength > 1)
                			items.push(  <Menu.Header key={headerKey}>
@@ -67,9 +65,8 @@ class InputLookupQA extends Component {
 			        	let errorMessage = "An error occurred in retrieving results";
 			        	let errorHeaderKey = headerKey + "-error";
 			        	items.push(  <Menu.Header key={errorHeaderKey}>
-			            	<span class='dropdown-error'>{errorMessage}</span>
+			            	<span className='dropdown-error'>{errorMessage}</span>
 			          	</Menu.Header>);
-			        	//console.log(result["errorObject"]);
 			        } else {
 			        	//if not error, print out items for result
 				        r = result.body;
@@ -84,7 +81,7 @@ class InputLookupQA extends Component {
 				        	let noResultsMessage = "No results for this lookup";
 				        	let noResultsHeaderKey = headerKey + "-noResults";
 				        	items.push(  <Menu.Header key={noResultsHeaderKey}>
-	    			          <span class='dropdown-empty'>{noResultsMessage}</span>
+	    			          <span className='dropdown-empty'>{noResultsMessage}</span>
 	    			        </Menu.Header>);
 				        }
 				        
@@ -123,14 +120,12 @@ class InputLookupQA extends Component {
 	                  lang: language
 	                })
 	                .catch(function(err) {
-	                	console.error("ERROR", err);
+	                	console.error("Error in executing lookup against source", err);
 	                	//return information along with the error in its own object
 	                	return {"isError":true, "errorObject":err};
 	                });
 	                
               });
-             //to test 
-             //lookupPromises[0] = new Promise(function(resolve, reject) { reject("rejection is hard"); }).catch(function(err){console.error(err);return {"isError":true, "errorObject":new Error(err)};});
               
              Promise.all(lookupPromises).then((values) => {
                 
@@ -164,7 +159,7 @@ class InputLookupQA extends Component {
           }
           {...typeaheadProps}
 
-			filterBy={(option, props) => {
+			filterBy={() => {
 				/** Currently don't want any default filtering as we want all the results returned from QA, also we are passing in a complex object **/
     			/* Your own filtering code goes here. */
     			return true;

@@ -168,7 +168,7 @@ class ResourceTemplateForm extends Component {
                       pt.valueConstraint.useValuesFrom
                     )
 
-                    let lookupConfigItem, templateUris, templateUri, listComponent, lookupConfigItems
+                    let lookupConfigItem, templateUris, listComponent, lookupConfigItems
 
                     if (isLookupWithConfig) {
                       templateUris = pt.valueConstraint.useValuesFrom;
