@@ -1,7 +1,8 @@
 // Copyright 2019 Stanford University see Apache2.txt for license
 
 import React, {Component} from 'react'
-import BootstrapTable from 'react-bootstrap-table-next'
+import { Link } from 'react-router-dom'
+import {BootstrapTable, TableHeaderColumn} from 'react-bootstrap-table'
 const SinopiaServer = require('sinopia_server')
 const instance = new SinopiaServer.LDPApi()
 instance.apiClient.basePath = 'http://localhost:8080'
@@ -57,7 +58,8 @@ class SinopiaResourceTemplates extends Component {
       })
 
       promise.then((response_and_data) => {
-        this.setState({tempState: {name: name, uri: c, id: `${groupName}:${response_and_data.response.body.id}`, group: groupName}})
+        const data = response_and_data.response.body
+        this.setState({tempState: {name: name, uri: c, id: `${groupName}:${data.id}`, group: groupName, data: data}})
         const joined = this.state.templatesForGroup.slice(0)
         joined.push(this.state.tempState)
         this.setState({templatesForGroup: joined})
@@ -71,33 +73,13 @@ class SinopiaResourceTemplates extends Component {
     return resource.substring(idx+1)
   }
 
-  //TODO: replace this with a link to the Editor component, passing in the resource template ID
-  handleRowSelect = (key) => {
-    alert(key)
+  linkFormatter = (cell, row) => {
+    return(
+      <Link to={{pathname: '/editor', state: { resourceTemplateData: row.data }}}>{cell}</Link>
+    )
   }
 
   render(){
-    const columns = [{
-      dataField: 'id',
-      text: 'Template name',
-      sort: true
-    }, {
-      dataField: 'name',
-      text: 'ID',
-      sort: true
-    }, {
-      dataField: 'group',
-      text: 'Group',
-      sort: true
-    }];
-
-    //TODO: select a row and get the RtId from it to link to Editor tab.
-    //TODO: this may help: https://github.com/AllenFang/react-bootstrap-table/blob/master/examples/js/selection/custom-multi-select-table.js
-    const selectRow = {
-      mode: 'radio',
-      onSelect: this.handleRowSelect
-    }
-
     if (this.state.message) {
       return (
         <div className="alert alert-warning alert-dismissible">
@@ -106,6 +88,13 @@ class SinopiaResourceTemplates extends Component {
         </div>
       )
     }
+
+    const thIDClass = { backgroundColor: '#F8F6EF', width: '50%' }
+    const thNameClass = { backgroundColor: '#F8F6EF', width: '25%' }
+    const thGroupClass = { backgroundColor: '#F8F6EF', width: '25%' }
+    const tdIDClass = { width: '50%' }
+    const tdNameClass = { width: '25%' }
+    const tdGroupClass = { width: '25%' }
 
     return(
       <div>
@@ -118,7 +107,11 @@ class SinopiaResourceTemplates extends Component {
           })}
         </ul>
         <h4>Available Resource Templates in Sinopia</h4>
-        <BootstrapTable keyField='id' data={ this.state.templatesForGroup } columns={ columns } selectRow={ selectRow } />
+        <BootstrapTable keyField='id' data={ this.state.templatesForGroup } >
+          <TableHeaderColumn thStyle={ thNameClass } tdStyle={ tdNameClass } dataFormat={ this.linkFormatter } dataField='name' dataSort={true} >Template name</TableHeaderColumn>
+          <TableHeaderColumn thStyle={ thIDClass } tdStyle={ tdIDClass } dataField='id' dataSort={true} >ID</TableHeaderColumn>
+          <TableHeaderColumn thStyle={ thGroupClass } tdStyle={ tdGroupClass } dataField='group' dataSort={true} >Group</TableHeaderColumn>
+        </BootstrapTable>
       </div>
     )
   }

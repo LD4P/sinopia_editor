@@ -18,7 +18,7 @@ describe('<SinopiaResourceTemplates />', () => {
   })
 
   it('has a bootstrap table that displays the results from the calls to sinopia_server', () => {
-    expect(wrapper.find(BootstrapTable).dive().length).toEqual(1)
+    expect(wrapper.find('BootstrapTable').length).toEqual(1)
   })
 
   describe('getting data from the sinopia_server', () => {
@@ -83,6 +83,50 @@ describe('<SinopiaResourceTemplates />', () => {
       expect(spy).toHaveBeenCalled()
     })
 
+  })
+
+  describe('linking back to the Editor component', () => {
+
+    const cell = 'Note'
+    const row = {
+      name: "Note",
+      uri: "http://localhost:8080/repository/ld4p/Note",
+      id: "ld4p:resourceTemplate:bf2:Note",
+      group: "ld4p",
+      data: {
+        "id": "resourceTemplate:bf2:Title:Note",
+        "resourceURI": "http://id.loc.gov/ontologies/bibframe/Note",
+        "resourceLabel": "Title note",
+        "propertyTemplates": [
+          {
+            "propertyURI": "http://www.w3.org/2000/01/rdf-schema#label",
+            "propertyLabel": "Note Text",
+            "mandatory": "false",
+            "repeatable": "true",
+            "type": "literal",
+            "resourceTemplates": [],
+            "valueConstraint": {
+              "valueTemplateRefs": [],
+              "useValuesFrom": [],
+              "valueDataType": {},
+              "defaults": []
+            }
+          }
+        ]
+      }
+    }
+
+    const wrapper4 = shallow(<SinopiaResourceTemplates />)
+
+    it('has the header columns for the table of linked resource templates', async () => {
+      await expect(wrapper4.find('BootstrapTable').find('TableHeaderColumn').length).toEqual(3)
+    })
+
+    it('renders a link to the Editor with a payload of data', async () => {
+      const link = await wrapper4.instance().linkFormatter(cell, row)
+      await expect(link.props.to.pathname).toEqual('/editor')
+      await expect(link.props.to.state.resourceTemplateData).toEqual(row.data)
+    })
   })
 
 })

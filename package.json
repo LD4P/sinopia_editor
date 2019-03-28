@@ -99,7 +99,7 @@
     "query-string": "^6.2.0",
     "react": "^16.6.3",
     "react-bootstrap": "^0.32.4",
-    "react-bootstrap-table-next": "^3.0.2",
+    "react-bootstrap-table": "^4.3.1",
     "react-bootstrap-typeahead": "^3.2.4",
     "react-dom": "^16.6.3",
     "react-dropzone": "^7.0.1",

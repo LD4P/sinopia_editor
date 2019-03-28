@@ -32,7 +32,7 @@ class ImportResourceTemplate extends Component {
         <div id="importResourceTemplate">
           <Header triggerEditorMenu={this.props.triggerHandleOffsetMenu}/>
           <ImportFileZone setResourceTemplateCallback={this.setResourceTemplates} />
-          <SinopiaResourceTemplates/>
+          <SinopiaResourceTemplates />
         </div>
       )
     } else {
