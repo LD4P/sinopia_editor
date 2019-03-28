@@ -171,3 +171,13 @@ input.rbt-input-main {
 .editor-navtabs a {
     color: #2F2424;
 }
+
+/** For lookup menu headers **/
+.dropdown-header {
+	font-weight:800;
+	color:#333;
+}
+.dropdown-empty, .dropdown-error {
+	font-weight:400;
+	 color: #999999;
+}

@@ -25,12 +25,6 @@ class InputLookupQA extends Component {
     try {
       isMandatory = JSON.parse(this.props.propertyTemplate.mandatory)
       isRepeatable = JSON.parse(this.props.propertyTemplate.repeatable)
-      /***Passing lookupConfig as array of configs and not just one config***/
-      //lookupConfigs = this.props.lookupConfig
-      //lookupConfig = lookupConfigs[0]
-      //authority = lookupConfig.value.authority
-      //subauthority = lookupConfig.value.authority
-      //language = lookupConfig.value.language
     } catch (error) {
       console.log(`Problem with properties fetched from resource template: ${error}`)
     }
@@ -42,7 +36,7 @@ class InputLookupQA extends Component {
       isLoading: this.state.isLoading,
       options: this.state.options,
       selected: this.state.selected,
-      delay: 300 // was 300
+      delay: 300 
     }
 
     return (
@@ -73,13 +67,12 @@ class InputLookupQA extends Component {
 			        	let errorMessage = "An error occurred in retrieving results";
 			        	let errorHeaderKey = headerKey + "-error";
 			        	items.push(  <Menu.Header key={errorHeaderKey}>
-			            	{errorMessage}
+			            	<span class='dropdown-error'>{errorMessage}</span>
 			          	</Menu.Header>);
 			        	//console.log(result["errorObject"]);
 			        } else {
 			        	//if not error, print out items for result
 				        r = result.body;
-				        //to test, r = [];
 				        r.forEach(function(result) {
 				        	items.push( <MenuItem option={result} position={idx} key={idx}>
 	    			          {result.label}
@@ -91,7 +84,7 @@ class InputLookupQA extends Component {
 				        	let noResultsMessage = "No results for this lookup";
 				        	let noResultsHeaderKey = headerKey + "-noResults";
 				        	items.push(  <Menu.Header key={noResultsHeaderKey}>
-	    			          {noResultsMessage}
+	    			          <span class='dropdown-empty'>{noResultsMessage}</span>
 	    			        </Menu.Header>);
 				        }
 				        
