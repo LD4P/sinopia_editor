@@ -52,8 +52,8 @@ class InputLookupQA extends Component {
          		let idx = 0;
          		for(i = 0; i < resultsLength; i++) {
          		    result = results[i];
-               		authLabel = results[i].authLabel;
-               		authURI = results[i].authURI;
+               		authLabel = result.authLabel;
+               		authURI = result.authURI;
                		headerKey = authURI + "-header";
                		console.log(authLabel + "=" + authURI);
                		//Add header only if more than one authority request

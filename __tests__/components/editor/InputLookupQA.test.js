@@ -23,7 +23,31 @@ const plProps = {
       "propertyURI": "http://id.loc.gov/ontologies/bflc/target",
       "propertyLabel": "Name Lookup"
     }
-}
+};
+const p2Props = {
+  "propertyTemplate":
+    {
+      "mandatory": "false",
+      "repeatable": "true",
+      "type": "lookup",
+      "resourceTemplates": [],
+      "valueConstraint": {
+        "valueTemplateRefs": [],
+        "useValuesFrom": [
+          'lookupQaLocNames',
+          'lookupQaLocSubjects'
+        ],
+        "valueDataType": {
+          "dataTypeURI": "http://id.loc.gov/ontologies/bibframe/Agent"
+        },
+        "defaults": []
+      },
+      "propertyURI": "http://id.loc.gov/ontologies/bflc/target",
+      "propertyLabel": "Name Lookup"
+    }
+};
+
+
 
 describe('<InputLookup />', () => {
   // our mock formData function to replace the one provided by mapDispatchToProps
@@ -82,4 +106,26 @@ describe('<InputLookup />', () => {
     const propertyRemark = wrapper.find('label > PropertyRemark')
     expect(propertyRemark).toBeTruthy()
   })
+
+  //Institute wrapper with multiple lookup options
+  const multipleWrapper = shallow(<InputLookup.WrappedComponent {...p2Props} handleSelectedChange={mockFormDataFn} />)
+  it('should pass multiple lookup results in state with search event', () => {
+	   const multipleResults = [{
+		   "authLabel":"Person",
+		   "authURI":"PersonURI",
+		   "body":[{"uri":"puri","label":"plabel"}]},  
+		   {"authLabel":"Subject",
+			   "authURI":"SubjectURI",
+			   "body":[{"uri":"suri","label":"slabel"}]
+   			}];
+	   const event = (wrap) => {
+		   wrap.setState({options: multipleResults})
+	   }
+	   multipleWrapper.find('#lookupComponent').simulate('search', event(multipleWrapper))
+	   expect(multipleWrapper.state().options[0]).toEqual(multipleResults[0]) 
+	   expect(multipleWrapper.state().options[1]).toEqual(multipleResults[1]) 
+
+	  })
+
+  
 })
