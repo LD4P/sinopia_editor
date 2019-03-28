@@ -2,7 +2,7 @@ import 'jsdom-global/register'
 import React from 'react'
 import { shallow } from 'enzyme'
 import SinopiaResourceTemplates from '../../../src/components/editor/SinopiaResourceTemplates'
-import BootstrapTable from 'react-bootstrap-table-next'
+import BootstrapTable from 'react-bootstrap-table'
 import 'isomorphic-fetch'
 
 describe('<SinopiaResourceTemplates />', () => {
