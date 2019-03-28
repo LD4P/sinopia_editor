@@ -60,6 +60,7 @@ export class PropertyTemplateOutline extends Component {
       collapsed: true,
       output: []
     }
+    // this.handleNewResourceTemplate = this.handleNewResourceTemplate.bind(this)
   }
 
   handleAddClick = (event) => {
@@ -70,18 +71,10 @@ export class PropertyTemplateOutline extends Component {
     event.preventDefault()
   }
 
-  addDynamicResourceTemplate = (resourceTemplate, parentRt) => {
-    //!! Should check Redux state to if key exists
-
-    if (this.state.collapsed) {
-      console.log(`In addDynamicResourceTemplate ${resourceTemplate.resourceLabel} parent ${parentRt}`)
-      console.warn(this.props)
-    }
-  }
-
   handleClick = (property) => (event) => {
     event.preventDefault()
     let newOutput = this.state.output
+    let rtReduxPath = Object.assign([], this.props.reduxPath)
     let input
     let lookupConfigItem, lookupConfigItems
     switch (property.type) {
@@ -104,8 +97,6 @@ export class PropertyTemplateOutline extends Component {
           input = []
           property.valueConstraint.valueTemplateRefs.map((rtId) => {
             let resourceTemplate = getResourceTemplate(rtId)
-            let rtReduxPath = Object.assign([], this.props.reduxPath)
-            rtReduxPath.push(rtId)
             input.push(<div className="row" key={shortid.generate()}>
               <section className="col-sm-8">
                 <h5>{resourceTemplate.resourceLabel}</h5>
@@ -117,8 +108,24 @@ export class PropertyTemplateOutline extends Component {
             </div>)
             resourceTemplate.propertyTemplates.map((rtProperty) => {
               let newReduxPath = Object.assign([], rtReduxPath)
+              newReduxPath.push(rtId)
               newReduxPath.push(rtProperty.propertyURI)
-              this.props.handleNewResourceTemplate({ reduxPath: newReduxPath })
+              const payload = { reduxPath: newReduxPath }
+              if (rtProperty.valueConstraint.defaults && rtProperty.valueConstraint.defaults.length > 0) {
+                payload['defaults'] = []
+                rtProperty.valueConstraint.defaults.map((row, i) => {
+                  payload['defaults'].push({
+                    id: i,
+                    content: row.defaultLiteral,
+                    uri: row.defaultURI
+                  })
+                })
+              }
+
+              this.props.handleNewResourceTemplate(payload)
+              console.log(`Current props`)
+              console.warn(this.props)
+
               input.push(<PropertyTemplateOutline key={shortid.generate()}
                 propertyTemplate={rtProperty}
                 reduxPath={newReduxPath}
