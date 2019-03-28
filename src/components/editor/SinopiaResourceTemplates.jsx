@@ -71,6 +71,11 @@ class SinopiaResourceTemplates extends Component {
     return resource.substring(idx+1)
   }
 
+  //TODO: replace this with a link to the Editor component, passing in the resource template ID
+  handleRowSelect = (key) => {
+    alert(key)
+  }
+
   render(){
     const columns = [{
       dataField: 'id',
@@ -85,6 +90,13 @@ class SinopiaResourceTemplates extends Component {
       text: 'Group',
       sort: true
     }];
+
+    //TODO: select a row and get the RtId from it to link to Editor tab.
+    //TODO: this may help: https://github.com/AllenFang/react-bootstrap-table/blob/master/examples/js/selection/custom-multi-select-table.js
+    const selectRow = {
+      mode: 'radio',
+      onSelect: this.handleRowSelect
+    }
 
     if (this.state.message) {
       return (
@@ -106,7 +118,7 @@ class SinopiaResourceTemplates extends Component {
           })}
         </ul>
         <h4>Available Resource Templates in Sinopia</h4>
-        <BootstrapTable keyField='id' data={ this.state.templatesForGroup } columns={ columns } />
+        <BootstrapTable keyField='id' data={ this.state.templatesForGroup } columns={ columns } selectRow={ selectRow } />
       </div>
     )
   }
