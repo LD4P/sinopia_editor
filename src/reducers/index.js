@@ -7,14 +7,17 @@ import authenticate from './authenticate'
 import { removeAllContent, setMyItems, removeMyItem } from './literal'
 
 
-const resourceTemplateSelector = (state, props) => {
-
-  const resTemp = state.selectorReducer[props.rtId]
+const inputPropertySelector = (state, props) => {
+  console.log(`In resourceTemplateSelector`)
+  console.warn(props)
+  const reduxPath = props.reduxPath
+  const resTemp = state.selectorReducer[reduxPath[0]]
   if (resTemp == undefined) {
     return state
   }
   let items
   if (props.propertyTemplate.propertyURI in resTemp) {
+  // if (reduxPath[1] in resTemp) {
     items = resTemp[props.propertyTemplate.propertyURI]
   } else {
     items = []
@@ -24,7 +27,7 @@ const resourceTemplateSelector = (state, props) => {
 }
 
 export const getProperty = createSelector(
-  [ resourceTemplateSelector ],
+  [ inputPropertySelector ],
   (propertyURI) => {
     return propertyURI.items
   }
@@ -33,7 +36,6 @@ export const getProperty = createSelector(
 export const refreshResourceTemplate = (state, action) => {
   let newState = Object.assign({}, state)
   const reduxPath = action.payload.reduxPath
-  console.warn(action.payload)
   const items = action.payload.defaults || { items: [] }
   const lastKey = reduxPath.pop()
   const lastObject = reduxPath.reduce((newState, key) =>

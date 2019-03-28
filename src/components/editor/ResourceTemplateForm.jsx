@@ -156,7 +156,45 @@ class ResourceTemplateForm extends Component {
                                     pt.valueConstraint.useValuesFrom
                                 )
 
-                                let lookupConfigItem, templateUris, listComponent, lookupConfigItems
+                    if (listComponent === 'list'){
+                      return (
+                        <PropertyPanel pt={pt} key={index} rtId={this.props.rtId}>
+                          <InputListLOC propertyTemplate = {pt} lookupConfig = {lookupConfigItem} key = {index} rtId = {this.props.rtId} />
+                        </PropertyPanel>
+                      )
+                    }
+                    else if (listComponent ===  'lookup'){
+                      return(
+                        <PropertyPanel pt={pt} key={index} rtId={this.props.rtId}>
+                          <InputLookupQA propertyTemplate = {pt} lookupConfig = {lookupConfigItem} key = {index} rtId = {this.props.rtId} />
+                        </PropertyPanel>
+                      )
+                    }
+                    else if(pt.type == 'literal'){
+                      return(
+                        <PropertyPanel pt={pt} key={index} rtId={this.props.rtId}>
+                          <InputLiteral key={index} id={index}
+                                        propertyTemplate={pt}
+                                        rtId={this.props.rtId}
+                                        reduxPath={[this.props.rtId, pt.propertyURI]}
+                                       />
+                        </PropertyPanel>
+                      )
+                    }
+                    else if (this.isResourceWithValueTemplateRef(pt)) {
+                      let valueForButton
+                      return (
+                        <PropertyPanel pt={pt} key={index} rtId={this.props.rtId}>
+                            {this.resourceTemplateFields(pt.valueConstraint.valueTemplateRefs, pt.propertyURI)}
+                        </PropertyPanel>
+                        )
+                      }
+                      else if (pt.type == 'resource'){
+                        return (<p key={index}><b>{pt.propertyLabel}</b>: <i>NON-modal resource</i></p>)
+                      }
+                    }
+                  )
+                 }
 
                                 if ( isLookupWithConfig ) {
                                     templateUris = pt.valueConstraint.useValuesFrom;

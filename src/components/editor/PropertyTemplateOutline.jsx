@@ -60,7 +60,6 @@ export class PropertyTemplateOutline extends Component {
       collapsed: true,
       output: []
     }
-    // this.handleNewResourceTemplate = this.handleNewResourceTemplate.bind(this)
   }
 
   handleAddClick = (event) => {
@@ -79,9 +78,15 @@ export class PropertyTemplateOutline extends Component {
     let lookupConfigItem, lookupConfigItems
     switch (property.type) {
       case "literal":
+        let localReduxPath = Object.assign([], rtReduxPath)
+        if (!property.propertyURI in localReduxPath) {
+          localReduxPath.push(property.propertyURI)
+        }
+
         input = <InputLiteral id={this.props.count}
               propertyTemplate={property}
               key={shortid.generate()}
+              reduxPath={localReduxPath}
               rtId={property.rtId} />
         break;
 
@@ -121,14 +126,11 @@ export class PropertyTemplateOutline extends Component {
                   })
                 })
               }
-
-              this.props.handleNewResourceTemplate(payload)
-              console.log(`Current props`)
-              console.warn(this.props)
-
+              this.props.initNewResourceTemplate(payload)
               input.push(<PropertyTemplateOutline key={shortid.generate()}
                 propertyTemplate={rtProperty}
                 reduxPath={newReduxPath}
+                initNewResourceTemplate={this.props.initNewResourceTemplate}
                 resourceTemplate={getResourceTemplate(rtId)} />)
             })
           })
@@ -191,8 +193,6 @@ export class PropertyTemplateOutline extends Component {
 }
 
 PropertyTemplateOutline.propTypes = {
-  count: PropTypes.number,
-  depth: PropTypes.number,
   handleAddClick: PropTypes.func,
   handleMintUri: PropTypes.func,
   handleCollapsed: PropTypes.func,
@@ -202,7 +202,7 @@ PropertyTemplateOutline.propTypes = {
 }
 
 const mapDispatchToProps = dispatch => ({
-  handleNewResourceTemplate(rt_context) {
+  initNewResourceTemplate(rt_context) {
     dispatch(refreshResourceTemplate(rt_context))
   }
 })
