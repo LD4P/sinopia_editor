@@ -16,6 +16,60 @@ class InputLookupQA extends Component {
         }
     }
 
+    //Render menu function to be used by typeahead
+    renderMenuFunc = ( results, menuProps ) => {
+        //Returning results per each promise
+        //If error is returned, it will be used to display for that source
+        const items = [];
+        let r, i, authLabel, resultsLength, authURI, headerKey, result;
+        resultsLength = results.length;
+        let idx = 0;
+        for ( i = 0; i < resultsLength; i++ ) {
+            result = results[i];
+            authLabel = result.authLabel;
+            authURI = result.authURI;
+            headerKey = authURI + "-header";
+            //Add header only if more than one authority request
+            if ( resultsLength > 1 )
+                items.push( <Menu.Header key={headerKey}>
+                    {authLabel}
+                </Menu.Header> );
+            //For this authority, display results
+            if ( "isError" in result ) {
+                //if error, then get error from within result and display that message
+                let errorMessage = "An error occurred in retrieving results";
+                let errorHeaderKey = headerKey + "-error";
+                items.push( <Menu.Header key={errorHeaderKey}>
+                    <span className='dropdown-error'>{errorMessage}</span>
+                </Menu.Header> );
+            } else {
+                //if not error, print out items for result
+                r = result.body;
+                r.forEach( function( result ) {
+                    items.push( <MenuItem option={result} position={idx} key={idx}>
+                        {result.label}
+                    </MenuItem> );
+                    idx++;
+                } );
+                //if the length of results is zero we need to show that as well
+                if ( r.length == 0 ) {
+                    let noResultsMessage = "No results for this lookup";
+                    let noResultsHeaderKey = headerKey + "-noResults";
+                    items.push( <Menu.Header key={noResultsHeaderKey}>
+                        <span className='dropdown-empty'>{noResultsMessage}</span>
+                    </Menu.Header> );
+                }
+
+            }
+        }
+
+        return (
+            <Menu {...menuProps}>
+                {items}
+            </Menu>
+        )
+    }
+
     render() {
 
         let isMandatory, isRepeatable, authority, subauthority, language
@@ -43,56 +97,7 @@ class InputLookupQA extends Component {
                 <AsyncTypeahead id="lookupComponent"
 
                     renderMenu={( results, menuProps ) => {
-                        //Returning results per each promise
-                        //If error is returned, it will be used to display for that source
-                        const items = [];
-                        let r, i, authLabel, resultsLength, authURI, headerKey, result;
-                        resultsLength = results.length;
-                        let idx = 0;
-                        for ( i = 0; i < resultsLength; i++ ) {
-                            result = results[i];
-                            authLabel = result.authLabel;
-                            authURI = result.authURI;
-                            headerKey = authURI + "-header";
-                            //Add header only if more than one authority request
-                            if ( resultsLength > 1 )
-                                items.push( <Menu.Header key={headerKey}>
-                                    {authLabel}
-                                </Menu.Header> );
-                            //For this authority, display results
-                            if ( "isError" in result ) {
-                                //if error, then get error from within result and display that message
-                                let errorMessage = "An error occurred in retrieving results";
-                                let errorHeaderKey = headerKey + "-error";
-                                items.push( <Menu.Header key={errorHeaderKey}>
-                                    <span className='dropdown-error'>{errorMessage}</span>
-                                </Menu.Header> );
-                            } else {
-                                //if not error, print out items for result
-                                r = result.body;
-                                r.forEach( function( result ) {
-                                    items.push( <MenuItem option={result} position={idx} key={idx}>
-                                        {result.label}
-                                    </MenuItem> );
-                                    idx++;
-                                } );
-                                //if the length of results is zero we need to show that as well
-                                if ( r.length == 0 ) {
-                                    let noResultsMessage = "No results for this lookup";
-                                    let noResultsHeaderKey = headerKey + "-noResults";
-                                    items.push( <Menu.Header key={noResultsHeaderKey}>
-                                        <span className='dropdown-empty'>{noResultsMessage}</span>
-                                    </Menu.Header> );
-                                }
-
-                            }
-                        }
-
-                        return (
-                            <Menu {...menuProps}>
-                                {items}
-                            </Menu>
-                        )
+                        return ( this.renderMenuFunc( results, menuProps ) );
                     }
                     }
 

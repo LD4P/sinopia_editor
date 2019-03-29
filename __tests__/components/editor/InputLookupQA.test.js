@@ -1,6 +1,8 @@
 // Copyright 2018 Stanford University see Apache2.txt for license
+import 'jsdom-global/register'
 import React from 'react'
 import { shallow } from 'enzyme'
+import { mount } from "enzyme"
 import InputLookup from '../../../src/components/editor/InputLookupQA'
 
 const plProps = {
@@ -47,7 +49,13 @@ const p2Props = {
     }
 };
 
-
+const multipleResults = [{"authLabel":"Person",
+	   "authURI":"PersonURI",
+	   "body":[{"uri":"puri","label":"plabel"}]},  
+	   {"authLabel":"Subject",
+		   "authURI":"SubjectURI",
+		   "body":[{"uri":"suri","label":"slabel"}]
+		}];
 
 describe('<InputLookup />', () => {
   // our mock formData function to replace the one provided by mapDispatchToProps
@@ -110,22 +118,34 @@ describe('<InputLookup />', () => {
   //Institute wrapper with multiple lookup options
   const multipleWrapper = shallow(<InputLookup.WrappedComponent {...p2Props} handleSelectedChange={mockFormDataFn} />)
   it('should pass multiple lookup results in state with search event', () => {
-	   const multipleResults = [{
-		   "authLabel":"Person",
-		   "authURI":"PersonURI",
-		   "body":[{"uri":"puri","label":"plabel"}]},  
-		   {"authLabel":"Subject",
-			   "authURI":"SubjectURI",
-			   "body":[{"uri":"suri","label":"slabel"}]
-   			}];
-	   const event = (wrap) => {
-		   wrap.setState({options: multipleResults})
-	   }
-	   multipleWrapper.find('#lookupComponent').simulate('search', event(multipleWrapper))
+   const event = (wrap) => {
+	   wrap.setState({options: multipleResults})
+   }
+   multipleWrapper.find('#lookupComponent').simulate('search', event(multipleWrapper))
 	   expect(multipleWrapper.state().options[0]).toEqual(multipleResults[0]) 
 	   expect(multipleWrapper.state().options[1]).toEqual(multipleResults[1]) 
 
-	  })
+  })
+  //Headers expected
+
+  it('should show menu headers with lookup source labels and values in the dropdown when provided results', () => {
+	  console.log("Wrapper instance");
+	  const instance = multipleWrapper.instance();
+	  const menuWrapper = shallow(instance.renderMenuFunc(multipleResults, p2Props));
+	  //console.log(menuWrapper.childAt(0).render().html());
+	  //console.log(menuWrapper.find('Component').render());
+	  const menuChildrenNumber = menuWrapper.children().length;
+	  //One top level menu component
+	  expect(menuWrapper.find('ul').length).toEqual(1);
+	  //Four children, with two headings and two items
+	  expect(menuChildrenNumber).toEqual(4);
+	  expect(menuWrapper.childAt(0).html()).toEqual("<li class=\"dropdown-header\">Person</li>");
+	  expect(menuWrapper.childAt(1).childAt(0).text()).toEqual("plabel");
+	  expect(menuWrapper.childAt(2).html()).toEqual("<li class=\"dropdown-header\">Subject</li>");
+	  expect(menuWrapper.childAt(3).childAt(0).text()).toEqual("slabel");  
+  })  
+
+  
 
   
 })
