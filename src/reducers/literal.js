@@ -8,9 +8,18 @@ export const removeAllContent = (state, action) => {
 
 export const setMyItems = (state, action) => {
   let newState = Object.assign({}, state)
-  action.payload.items.map((row) => {
-    newState[action.payload.rtId][action.payload.uri].items.push(row)
-  })
+  const reduxPath = action.payload.reduxPath
+  let level = 0
+  reduxPath.reduce((obj, key) => {
+    level++
+    console.warn(obj, key)
+    if (level === reduxPath.length) {
+      action.payload.items.map((row) => {
+        obj[key].items.push(row)
+      })
+    }
+    return obj[key]
+  }, newState)
   return newState
 }
 

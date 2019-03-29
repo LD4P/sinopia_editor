@@ -79,7 +79,7 @@ export class InputLiteral extends Component {
       }
       const user_input = {
         uri: this.props.propertyTemplate.propertyURI,
-        rtId: this.props.rtId,
+        reduxPath: this.props.reduxPath,
         items: userInputArray
       }
       this.props.handleMyItemsChange(user_input)
@@ -204,7 +204,7 @@ export class InputLiteral extends Component {
 }
 
 InputLiteral.propTypes = {
-  id: PropTypes.number,
+  id: PropTypes.oneOfType([PropTypes.number, PropTypes.string]),
   propertyTemplate: PropTypes.shape({
     propertyLabel: PropTypes.string.isRequired,
     propertyURI: PropTypes.string.isRequired,
@@ -222,6 +222,7 @@ InputLiteral.propTypes = {
   }),
   handleMyItemsChange: PropTypes.func,
   handleRemoveItem: PropTypes.func,
+  reduxPath: PropTypes.string,
   rtId: PropTypes.string,
   blankNodeForLiteral: PropTypes.object,
   propPredicate: PropTypes.string,

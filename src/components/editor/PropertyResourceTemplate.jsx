@@ -38,7 +38,7 @@ class PropertyResourceTemplate extends Component {
       </div>
       <div>
       {
-        this.props.resourceTemplate.propertyTemplates.map((property, i) => {
+        this.props.resourceTemplate.propertyTemplates.map((property) => {
           let newReduxPath = Object.assign([], this.props.reduxPath)
           newReduxPath.push(property.propertyURI)
           return(<PropertyTemplateOutline
@@ -55,6 +55,7 @@ class PropertyResourceTemplate extends Component {
 }
 
 PropertyResourceTemplate.propTypes = {
+  reduxPath: PropTypes.string,
   resourceTemplate: PropTypes.object
 }
 

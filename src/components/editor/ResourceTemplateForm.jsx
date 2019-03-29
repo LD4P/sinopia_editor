@@ -182,7 +182,6 @@ class ResourceTemplateForm extends Component {
                       )
                     }
                     else if (this.isResourceWithValueTemplateRef(pt)) {
-                      let valueForButton
                       return (
                         <PropertyPanel pt={pt} key={index} rtId={this.props.rtId}>
                             {this.resourceTemplateFields(pt.valueConstraint.valueTemplateRefs, pt.propertyURI)}

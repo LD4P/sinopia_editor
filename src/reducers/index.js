@@ -8,20 +8,12 @@ import { removeAllContent, setMyItems, removeMyItem } from './literal'
 
 
 const inputPropertySelector = (state, props) => {
-  console.log(`In resourceTemplateSelector`)
-  console.warn(props)
   const reduxPath = props.reduxPath
-  const resTemp = state.selectorReducer[reduxPath[0]]
-  if (resTemp == undefined) {
-    return state
-  }
-  let items
-  if (props.propertyTemplate.propertyURI in resTemp) {
-  // if (reduxPath[1] in resTemp) {
-    items = resTemp[props.propertyTemplate.propertyURI]
-  } else {
+  let items = reduxPath.reduce((obj, key) =>
+    (obj && obj[key] !== 'undefined') ? obj[key] : undefined,
+    state.selectorReducer)
+  if (items === undefined) {
     items = []
-    resTemp[props.propertyTemplate.propertyURI] = items
   }
   return items
 }
@@ -41,7 +33,7 @@ export const refreshResourceTemplate = (state, action) => {
   const lastObject = reduxPath.reduce((newState, key) =>
     newState[key] = newState[key] || {},
     newState)
-  lastObject[lastKey] = items
+  lastObject[lastKey] = { items: items }
   return newState
 }
 

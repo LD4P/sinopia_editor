@@ -74,25 +74,22 @@ export class PropertyTemplateOutline extends Component {
     event.preventDefault()
     let newOutput = this.state.output
     let rtReduxPath = Object.assign([], this.props.reduxPath)
-    let input
+    let input, key
     let lookupConfigItem, lookupConfigItems
     switch (property.type) {
       case "literal":
-        let localReduxPath = Object.assign([], rtReduxPath)
-        if (!property.propertyURI in localReduxPath) {
-          localReduxPath.push(property.propertyURI)
-        }
-
-        input = <InputLiteral id={this.props.count}
+        rtReduxPath.push(property.propertyURI)
+        key = shortid.generate()
+        input = <InputLiteral id={key}
               propertyTemplate={property}
-              key={shortid.generate()}
-              reduxPath={localReduxPath}
+              key={key}
+              reduxPath={rtReduxPath}
               rtId={property.rtId} />
         break;
 
       case "lookup":
         lookupConfigItems = getLookupConfigItems(property);
-        input = <InputLookupQA propertyTemplate={property} 
+        input = <InputLookupQA propertyTemplate={property}
              lookupConfig={lookupConfigItems}
              rtId = {property.rtId} />
         break;
@@ -196,8 +193,10 @@ PropertyTemplateOutline.propTypes = {
   handleAddClick: PropTypes.func,
   handleMintUri: PropTypes.func,
   handleCollapsed: PropTypes.func,
+  initNewResourceTemplate: PropTypes.func,
   isRequired: PropTypes.func,
   propertyTemplate: PropTypes.object,
+  reduxPath: PropTypes.string,
   rtId: PropTypes.string
 }
 
