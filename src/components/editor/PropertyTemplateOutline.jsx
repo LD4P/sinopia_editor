@@ -84,7 +84,9 @@ export class PropertyTemplateOutline extends Component {
     let lookupConfigItem, lookupConfigItems
     switch (property.type) {
       case "literal":
-        rtReduxPath.push(property.propertyURI)
+        if (rtReduxPath[rtReduxPath.length - 1] !== property.propertyURI) {
+          rtReduxPath.push(property.propertyURI)
+        }
         key = shortid.generate()
         input = <InputLiteral id={key}
               propertyTemplate={property}

@@ -140,21 +140,45 @@ class ResourceTemplateForm extends Component {
 
   render() {
 
-        if ( this.props.propertyTemplates.length === 0 || this.props.propertyTemplates[0] === {} ) {
-            return <h1>There are no propertyTemplates - probably an error.</h1>
-        } else {
-            return (
-                <div>
+    if ( this.props.propertyTemplates.length === 0 || this.props.propertyTemplates[0] === {} ) {
+        return <h1>There are no propertyTemplates - probably an error.</h1>
+    } else {
+      return (
+          <div>
+            <form>
+              <div className='ResourceTemplateForm row'>
+                  {this.props.propertyTemplates.map(( pt, index ) => {
+                    let isLookupWithConfig = Boolean(
+                        lookupConfig !== undefined &&
+                        pt.valueConstraint !== undefined &&
+                        pt.valueConstraint.useValuesFrom
+                    )
+                    let lookupConfigItem, templateUris, listComponent, lookupConfigItems
 
-                    <form>
-                        <div className='ResourceTemplateForm row'>
-                            {this.props.propertyTemplates.map(( pt, index ) => {
-
-                                let isLookupWithConfig = Boolean(
-                                    lookupConfig !== undefined &&
-                                    pt.valueConstraint !== undefined &&
-                                    pt.valueConstraint.useValuesFrom
-                                )
+                    if ( isLookupWithConfig ) {
+                        templateUris = pt.valueConstraint.useValuesFrom;
+                        /*Only one input is possible even with multiple vocabularies
+                        or value in "useValuesFrom" which is an array
+                        The first templateUri that matches is used to generate
+                        the listComponent but we need to pass on multiple values for useValueFrom
+                        Assumption here is multi-useValuesFrom will still all be the same type
+                        of list component */
+                        lookupConfigItems = [];
+                        templateUris.forEach( templateUri => {
+                            for ( var i in lookupConfig ) {
+                                lookupConfigItem = Object.getOwnPropertyDescriptor( lookupConfig, i );
+                                if ( lookupConfigItem.value.uri === templateUri ) {
+                                    /*listComponent = lookupConfigItem.value.component
+                                    break*/
+                                    lookupConfigItems.push( lookupConfigItem );
+                                }
+                            }
+                        } );
+                        if ( lookupConfigItems.length > 0 ) {
+                            listComponent = lookupConfigItems[0].value.component;
+                            lookupConfigItem = lookupConfigItems[0];
+                        }
+                    }
 
                     if (listComponent === 'list'){
                       return (
@@ -163,12 +187,14 @@ class ResourceTemplateForm extends Component {
                         </PropertyPanel>
                       )
                     }
-                    else if (listComponent ===  'lookup'){
-                      return(
-                        <PropertyPanel pt={pt} key={index} rtId={this.props.rtId}>
-                          <InputLookupQA propertyTemplate = {pt} lookupConfig = {lookupConfigItem} key = {index} rtId = {this.props.rtId} />
-                        </PropertyPanel>
-                      )
+                    else if ( listComponent === 'lookup' ) {
+                        /**Changing to pass along the array of lookup configs and not just a single item in case more than one useValueFrom is specified**/
+                        return (
+
+                            <PropertyPanel pt={pt} key={index} float={index} rtId={this.props.rtId}>
+                                <InputLookupQA propertyTemplate={pt} lookupConfig={lookupConfigItems} key={index} rtId={this.props.rtId} />
+                            </PropertyPanel>
+                        )
                     }
                     else if(pt.type == 'literal'){
                       return(
@@ -188,86 +214,15 @@ class ResourceTemplateForm extends Component {
                         </PropertyPanel>
                         )
                       }
-                      else if (pt.type == 'resource'){
+                    else if (pt.type == 'resource'){
                         return (<p key={index}><b>{pt.propertyLabel}</b>: <i>NON-modal resource</i></p>)
-                      }
                     }
-                  )
-                 }
-
-                                if ( isLookupWithConfig ) {
-                                    templateUris = pt.valueConstraint.useValuesFrom;
-                                    /*Only one input is possible even with multiple vocabularies
-                                    or value in "useValuesFrom" which is an array
-                                    The first templateUri that matches is used to generate
-                                    the listComponent but we need to pass on multiple values for useValueFrom
-                                    Assumption here is multi-useValuesFrom will still all be the same type
-                                    of list component */
-                                    lookupConfigItems = [];
-                                    templateUris.forEach( templateUri => {
-                                        for ( var i in lookupConfig ) {
-                                            lookupConfigItem = Object.getOwnPropertyDescriptor( lookupConfig, i );
-                                            if ( lookupConfigItem.value.uri === templateUri ) {
-                                                /*listComponent = lookupConfigItem.value.component
-                                                break*/
-                                                lookupConfigItems.push( lookupConfigItem );
-                                            }
-                                        }
-                                    } );
-                                    if ( lookupConfigItems.length > 0 ) {
-                                        listComponent = lookupConfigItems[0].value.component;
-                                        lookupConfigItem = lookupConfigItems[0];
-                                    }
-                                }
-
-                                if ( listComponent === 'list' ) {
-                                    return (
-                                        <PropertyPanel pt={pt} key={index} float={index} rtId={this.props.rtId}>
-                                            <InputListLOC propertyTemplate={pt} lookupConfig={lookupConfigItem} key={index} rtId={this.props.rtId} />
-                                        </PropertyPanel>
-                                    )
-                                }
-                                else if ( listComponent === 'lookup' ) {
-                                    /**Changing to pass along the array of lookup configs and not just a single item in case more than one useValueFrom is specified**/
-                                    return (
-
-                                        <PropertyPanel pt={pt} key={index} float={index} rtId={this.props.rtId}>
-                                            <InputLookupQA propertyTemplate={pt} lookupConfig={lookupConfigItems} key={index} rtId={this.props.rtId} />
-                                        </PropertyPanel>
-                                    )
-                                }
-                                else if ( pt.type == 'literal' ) {
-                                    return (
-                                        <PropertyPanel pt={pt} key={index} float={index} rtId={this.props.rtId}>
-                                            <InputLiteral key={index} id={index}
-                                                propertyTemplate={pt}
-                                                rtId={this.props.rtId}
-                                                blankNodeForLiteral={this.state.rdfOuterSubject}
-                                                propPredicate={this.props.propPredicate}
-                                                defaultsForLiteral={this.defaultsForLiteral}
-                                                setDefaultsForLiteralWithPayLoad={this.setDefaultsForLiteralWithPayLoad} />
-                                        </PropertyPanel>
-                                    )
-                                }
-                                else if ( this.isResourceWithValueTemplateRef( pt ) ) {
-                                    let valueForButton
-                                    return (
-                                        <PropertyPanel pt={pt} key={index} float={index} rtId={this.props.rtId}>
-                                            {this.resourceTemplateFields( pt.valueConstraint.valueTemplateRefs )}
-                                            {this.renderValueForButton( valueForButton, index )}
-                                        </PropertyPanel>
-                                    )
-                                }
-                                else if ( pt.type == 'resource' ) {
-                                    return ( <p key={index}><b>{pt.propertyLabel}</b>: <i>NON-modal resource</i></p> )
-                                }
-                            }
-                            )
-                            }
-
-                        </div>
-                    </form>
-                </div>
+                  }
+                )
+              }
+              </div>
+            </form>
+        </div>
             )
         }
     }

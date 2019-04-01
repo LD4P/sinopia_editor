@@ -5,7 +5,7 @@ import { generateLD } from './linkedData'
 import lang from './lang'
 import authenticate from './authenticate'
 import { removeAllContent, setMyItems, removeMyItem } from './literal'
-
+import shortid from 'shortid'
 
 const inputPropertySelector = (state, props) => {
   const reduxPath = props.reduxPath
@@ -28,12 +28,18 @@ export const getProperty = createSelector(
 export const refreshResourceTemplate = (state, action) => {
   let newState = Object.assign({}, state)
   const reduxPath = action.payload.reduxPath
-  const items = action.payload.defaults || { items: [] }
+  let items
+  // const items = action.payload.defaults || { items: [] }
+  if (action.payload.defaults) {
+    items = action.payload.defaults
+  } else   {
+    items = { items: [] }
+  }
   const lastKey = reduxPath.pop()
   const lastObject = reduxPath.reduce((newState, key) =>
     newState[key] = newState[key] || {},
     newState)
-  lastObject[lastKey] = { items: items }
+  lastObject[lastKey] = items
   return newState
 }
 
@@ -47,9 +53,10 @@ export const setResourceTemplate = (state, action) => {
     if (property.valueConstraint.defaults && property.valueConstraint.defaults.length > 0) {
       property.valueConstraint.defaults.forEach((row) => {
         // This items payload needs to vary if type is literal or lookup
+
         output[rtKey][property.propertyURI].items.push(
           {
-            id: output[rtKey][property.propertyURI].items.length,
+            id: shortid.generate(),
             content: row.defaultLiteral,
             uri: row.defaultURI
           }

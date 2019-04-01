@@ -55,7 +55,7 @@ class PropertyResourceTemplate extends Component {
 }
 
 PropertyResourceTemplate.propTypes = {
-  reduxPath: PropTypes.string,
+  reduxPath: PropTypes.array,
   resourceTemplate: PropTypes.object
 }
 

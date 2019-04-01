@@ -13,6 +13,9 @@ export const setMyItems = (state, action) => {
   reduxPath.reduce((obj, key) => {
     level++
     if (level === reduxPath.length) {
+      if ((key in obj) != true) {
+        obj[key] = { items: [] }
+      }
       action.payload.items.map((row) => {
         obj[key].items.push(row)
       })
@@ -24,8 +27,17 @@ export const setMyItems = (state, action) => {
 
 export const removeMyItem = (state, action) => {
   const newState = Object.assign({}, state)
-  const newItems = newState[action.payload.rtId][action.payload.uri].items.filter(
-    row => row.id != action.payload.id)
-  newState[action.payload.rtId][action.payload.uri].items = newItems
+  const reduxPath = action.payload.reduxPath
+  let level = 0
+  reduxPath.reduce((obj, key) => {
+    level++
+    if (level === reduxPath.length) {
+      console.log(`remove items ${action.payload.id}`)
+      console.warn(obj[key].items)
+      obj[key].items = obj[key].items.filter(
+        row => row.id != action.payload.id)
+    }
+    return obj[key]
+  }, newState)
   return newState
 }
