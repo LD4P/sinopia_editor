@@ -12,7 +12,8 @@ let plProps = {
       "type": "literal",
       "mandatory": "",
       "repeatable": ""
-    }
+    },
+    reduxPath: []
 }
 
 const valConstraintProps = {
@@ -88,7 +89,9 @@ describe('When the user enters input into field', ()=>{
     mock_wrapper.find('input').simulate('keypress', {key: 'Enter', preventDefault: () => {}})
     // test to see arguments used after its been submitted
     expect(mockFormDataFn.mock.calls[1][0]).toEqual(
-      {uri: "http://id.loc.gov/ontologies/bibframe/instanceOf", items:[{content: 'foo', id: 0}], "rtId": "resourceTemplate:bf2:Monograph:Instance"}
+      {uri: "http://id.loc.gov/ontologies/bibframe/instanceOf",
+      items:[{content: 'foo', id: 0}],
+      reduxPath: []}
     )
     mockFormDataFn.mock.calls = [] // reset the redux store to empty
   })
@@ -102,10 +105,16 @@ describe('When the user enters input into field', ()=>{
     mock_wrapper.find('input').simulate('keypress', {key: 'Enter', preventDefault: () => {}})
 
     expect(mockFormDataFn.mock.calls[0][0]).toEqual(
-      {uri: "http://id.loc.gov/ontologies/bibframe/instanceOf", items:[{content: 'fooby', id: 1}], "rtId": "resourceTemplate:bf2:Monograph:Instance"}
+      {uri: "http://id.loc.gov/ontologies/bibframe/instanceOf",
+       items:[{content: 'fooby', id: 1}],
+       reduxPath: []}
     )
     expect(mockFormDataFn.mock.calls[1][0]).toEqual(
-      {uri: "http://id.loc.gov/ontologies/bibframe/instanceOf", items:[{content: 'bar', id: 2}], "rtId": "resourceTemplate:bf2:Monograph:Instance"}
+      {
+       uri: "http://id.loc.gov/ontologies/bibframe/instanceOf",
+       items:[{content: 'bar', id: 2}],
+       reduxPath: []
+      }
     )
     mockFormDataFn.mock.calls = [] // reset the redux store to empty
   })
@@ -123,10 +132,15 @@ describe('When the user enters input into field', ()=>{
     mock_wrapper.find('input').simulate('keypress', {key: 'Enter', preventDefault: () => {}})
 
     expect(mockFormDataFn.mock.calls[0][0]).toEqual(
-      {uri: "http://id.loc.gov/ontologies/bibframe/instanceOf", items:[{content: 'fooby', id: 3}], "rtId": "resourceTemplate:bf2:Monograph:Instance"}
+      {uri: "http://id.loc.gov/ontologies/bibframe/instanceOf",
+       items:[{content: 'fooby', id: 3}],
+       reduxPath: []}
     )
     expect(mockFormDataFn.mock.calls[1][0]).toEqual(
-      {uri: "http://id.loc.gov/ontologies/bibframe/instanceOf", items:[], "rtId": "resourceTemplate:bf2:Monograph:Instance"}
+      { uri: "http://id.loc.gov/ontologies/bibframe/instanceOf",
+        items:[],
+        reduxPath: []
+      }
     )
     mockFormDataFn.mock.calls = [] // reset the redux store to empty
 

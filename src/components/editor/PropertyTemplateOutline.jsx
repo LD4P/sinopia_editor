@@ -64,10 +64,16 @@ export class PropertyTemplateOutline extends Component {
 
   handleAddClick = (event) => {
     event.preventDefault()
+    if (this.props.handleAddClick !== undefined) {
+      this.props.handleAddClick(event)
+    }
   }
 
   handleMintUri = (event) => {
     event.preventDefault()
+    if (this.props.handleMintUri !== undefined) {
+      this.props.handleMintUri(event)
+    }
   }
 
   handleClick = (property) => (event) => {
@@ -196,7 +202,7 @@ PropertyTemplateOutline.propTypes = {
   initNewResourceTemplate: PropTypes.func,
   isRequired: PropTypes.func,
   propertyTemplate: PropTypes.object,
-  reduxPath: PropTypes.string,
+  reduxPath: PropTypes.array,
   rtId: PropTypes.string
 }
 

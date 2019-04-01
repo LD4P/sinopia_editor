@@ -39,6 +39,7 @@ describe('getLookupConfigItem module function', () => {
 })
 
 describe('<PropertyTemplateOutline />', () => {
+  const mockInitNewResourceTemplate = jest.fn()
   let propertyRtProps = {
     propertyTemplate:
         {
@@ -46,7 +47,8 @@ describe('<PropertyTemplateOutline />', () => {
           propertyURI: "http://schema.org/name"
         }
   }
-  const wrapper = shallow(<PropertyTemplateOutline {...propertyRtProps} />)
+  const wrapper = shallow(<PropertyTemplateOutline {...propertyRtProps}
+    initNewResourceTemplate={mockInitNewResourceTemplate} />)
   const childPropertyTemplateOutline = wrapper.find(PropertyTemplateOutline)
 
   it('Contains a <PropertyTypeRow />', () => {
@@ -134,6 +136,7 @@ describe('<PropertyTemplateOutline /> with propertyTemplate Refs', () => {
   const mockHandleCollapsed = jest.fn()
   const mockHandleAddClick = jest.fn()
   const mockHandleMintUri = jest.fn()
+  const mockInitNewResourceTemplate = jest.fn()
   const property = {
     propertyTemplate: {
         "propertyLabel": "Notes about the CreativeWork",
@@ -156,9 +159,11 @@ describe('<PropertyTemplateOutline /> with propertyTemplate Refs', () => {
   const wrapper = mount(<PropertyTemplateOutline {...property}
     handleCollapsed={mockHandleCollapsed}
     handleAddClick={mockHandleAddClick}
-    handleMintUri={mockHandleMintUri} />)
+    handleMintUri={mockHandleMintUri}
+    initNewResourceTemplate={mockInitNewResourceTemplate} />)
   const childOutlineHeader = wrapper.find(OutlineHeader)
   const actionButtons = wrapper.find(PropertyActionButtons)
+  console.log(actionButtons.debug())
 
   it('displays a collapsed OutlineHeader of the propertyTemplate label', () => {
     expect(childOutlineHeader.props().label).toEqual(property.propertyTemplate.propertyLabel)
@@ -171,13 +176,14 @@ describe('<PropertyTemplateOutline /> with propertyTemplate Refs', () => {
   })
 
   it('handles "Add" button click', () => {
-    const addButton = wrapper.find('.btn-default')
+    const addButton = wrapper.find('div > section > PropertyActionButtons > div > button.btn-default')
+    addButton.handleClick = mockHandleAddClick
     addButton.simulate('click')
     expect(mockHandleAddClick.mock.calls.length).toBe(1)
   })
 
   it('handles "Mint URI" button click', () => {
-    const mintButton = wrapper.find('.btn-success')
+    const mintButton = wrapper.find('div > section > PropertyActionButtons > div > button.btn-success')
     mintButton.simulate('click')
     expect(mockHandleMintUri.mock.calls.length).toBe(1)
   })

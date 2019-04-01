@@ -12,7 +12,6 @@ export const setMyItems = (state, action) => {
   let level = 0
   reduxPath.reduce((obj, key) => {
     level++
-    console.warn(obj, key)
     if (level === reduxPath.length) {
       action.payload.items.map((row) => {
         obj[key].items.push(row)

@@ -9,7 +9,8 @@ describe('literal reducer functions', () => {
       type: 'SET_ITEMS',
       payload: {
         rtId: 'resourceTemplate:Monograph:Instance',
-        uri:'http://schema.org/name',
+        uri: 'http://schema.org/name',
+        reduxPath: ['resourceTemplate:Monograph:Instance', 'http://schema.org/name'],
         items: [ { id: 0, content: 'Run the tests'} ]
       }
     })
@@ -26,9 +27,13 @@ describe('literal reducer functions', () => {
     expect(
       setMyItems({ "resourceTemplate:Monograph:Instance": {
         'http://schema.org/name': {
-          items: [{ id: 1, content: "Run the tests" }] },
+          items: [{ id: 1, content: "Run the tests" }],
+          reduxPath: ['resourceTemplate:Monograph:Instance', 'http://schema.org/name']
+        },
         'http://schema.org/description': {
-          items: []}
+          items: [],
+          reduxPath: ['resourceTemplate:Monograph:Instance', 'http://schema.org/description']
+        }
         }
       },
       {
@@ -36,16 +41,19 @@ describe('literal reducer functions', () => {
         payload: {
           rtId: "resourceTemplate:Monograph:Instance",
           uri: 'http://schema.org/description',
+          reduxPath: ['resourceTemplate:Monograph:Instance', 'http://schema.org/description'],
           items: [ { id: 2, content: "add this!"}]
         }
       })
     ).toEqual({
       "resourceTemplate:Monograph:Instance": {
         'http://schema.org/name': {
-          items: [{ id: 1, content: 'Run the tests'}]
+          items: [{ id: 1, content: 'Run the tests'}],
+          reduxPath: ['resourceTemplate:Monograph:Instance', 'http://schema.org/name']
         },
         'http://schema.org/description': {
-          items: [{ id: 2, content: "add this!"}]
+          items: [{ id: 2, content: "add this!"}],
+          reduxPath: ['resourceTemplate:Monograph:Instance', 'http://schema.org/description']
         }
       }
     })
