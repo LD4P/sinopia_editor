@@ -129,11 +129,8 @@ describe('<InputLookup />', () => {
   //Headers expected
 
   it('should show menu headers with lookup source labels and values in the dropdown when provided results', () => {
-	  console.log("Wrapper instance");
 	  const instance = multipleWrapper.instance();
 	  const menuWrapper = shallow(instance.renderMenuFunc(multipleResults, p2Props));
-	  //console.log(menuWrapper.childAt(0).render().html());
-	  //console.log(menuWrapper.find('Component').render());
 	  const menuChildrenNumber = menuWrapper.children().length;
 	  //One top level menu component
 	  expect(menuWrapper.find('ul').length).toEqual(1);
