@@ -176,6 +176,7 @@ input.rbt-input-main {
 .dropdown-header {
 	font-weight:800;
 	color:#333;
+	background-color:#d3d3d3; 
 }
 .dropdown-empty, .dropdown-error {
 	font-weight:400;
