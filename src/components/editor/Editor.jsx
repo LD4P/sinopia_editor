@@ -15,16 +15,9 @@ class Editor extends Component {
     super(props)
     this.state = {
       tempRtState: true,
-      userAuthenticated: false,
-      resourceName: 'Default Name of Resource'
-    }
+      userAuthenticated: false
   }
-  
-  //Set state in response to changes to selection of resource template
-  
-  updateTemplateInfo = ( resourceName ) => {
-      this.setState({resourceName: resourceName});
-  }
+}
 
   render() {
     let authenticationMessage = <div className="alert alert-warning alert-dismissible">
@@ -57,11 +50,7 @@ class Editor extends Component {
         <Header triggerEditorMenu={this.props.triggerHandleOffsetMenu}/>
         { authenticationMessage }
         <div className="row">
-          <section className="col-md-9">
-            <h3>Resource Template Label</h3>
-            <h1>[Clone|Edit] <em>{this.state.resourceName}</em></h1>
-          </section>
-          <section className="col-md-3">
+          <section className="col-md-3 pull-right">
             <button type="button" className="btn btn-primary btn-sm">Preview RDF</button>
           </section>
         </div>
@@ -74,7 +63,6 @@ class Editor extends Component {
         <ResourceTemplate
           resourceTemplateId = {this.props.resourceTemplateId}
           resourceTemplateData = {this.state.resourceTemplateData}
-          updateTemplateInfo ={this.updateTemplateInfo} 
         />
       </div>
     )

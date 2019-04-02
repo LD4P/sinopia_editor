@@ -36,13 +36,19 @@ class ResourceTemplate extends Component {
 
     const rtData = resourceTemplateData(this.props.resourceTemplateData)
 
-
+    //TODO: Make rt not an array and just a single element.  You. Shall. Not. Pass.
     return (
       <div>
         {rtData.map((rt, index) => {
           this.props.handleResourceTemplate(rt)
-          this.props.updateTemplateInfo(rt["resourceLabel"])
-          return(
+          return(    
+            <div>
+              <div className='row'> 
+                  <section className='col-md-9'>
+                      <h3>{rt.resourceURI}</h3>
+                      <h1>[Clone|Edit] <em>{rt.resourceLabel}</em></h1>
+                  </section>
+            </div>   
             <div className='ResourceTemplate' key={index}>
               <div id="resourceTemplate">
                   <ResourceTemplateForm
@@ -52,6 +58,7 @@ class ResourceTemplate extends Component {
                     rtId = {rt.id}
                   />
               </div>
+            </div>
             </div>
           )
         })}
