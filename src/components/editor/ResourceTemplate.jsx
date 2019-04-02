@@ -41,6 +41,7 @@ class ResourceTemplate extends Component {
       <div>
         {rtData.map((rt, index) => {
           this.props.handleResourceTemplate(rt)
+          this.props.updateTemplateInfo(rt["resourceLabel"])
           return(
             <div className='ResourceTemplate' key={index}>
               <div id="resourceTemplate">

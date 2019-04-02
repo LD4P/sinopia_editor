@@ -15,8 +15,15 @@ class Editor extends Component {
     super(props)
     this.state = {
       tempRtState: true,
-      userAuthenticated: false
+      userAuthenticated: false,
+      resourceName: 'Default Name of Resource'
     }
+  }
+  
+  //Set state in response to changes to selection of resource template
+  
+  updateTemplateInfo = ( resourceName ) => {
+      this.setState({resourceName: resourceName});
   }
 
   render() {
@@ -52,7 +59,7 @@ class Editor extends Component {
         <div className="row">
           <section className="col-md-9">
             <h3>Resource Template Label</h3>
-            <h1>[Clone|Edit] <em>Name of Resource</em></h1>
+            <h1>[Clone|Edit] <em>{this.state.resourceName}</em></h1>
           </section>
           <section className="col-md-3">
             <button type="button" className="btn btn-primary btn-sm">Preview RDF</button>
@@ -67,6 +74,7 @@ class Editor extends Component {
         <ResourceTemplate
           resourceTemplateId = {this.props.resourceTemplateId}
           resourceTemplateData = {this.state.resourceTemplateData}
+          updateTemplateInfo ={this.updateTemplateInfo} 
         />
       </div>
     )
