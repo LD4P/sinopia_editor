@@ -40,9 +40,10 @@ class ResourceTemplate extends Component {
     return (
       <div>
         {rtData.map((rt, index) => {
-          this.props.handleResourceTemplate(rt)
+          this.props.handleResourceTemplate(rt);
+          let headingKey = "label-" + index;
           return(    
-            <div>
+            <div key={headingKey}>
               <div className='row'> 
                   <section className='col-md-9'>
                       <h3>{rt.resourceURI}</h3>
