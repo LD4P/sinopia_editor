@@ -10,6 +10,9 @@ describe('<ResourceTemplate />', () => {
   const wrapper = shallow(<ResourceTemplate.WrappedComponent
     resourceTemplateId='resourceTemplate:bf2:Monograph:Instance'
     handleResourceTemplate={mockHandleResourceTemplate} />)
+	it('shows resource title', () => {
+	  expect(wrapper.find('section > h1').text()).toMatch('[Clone|Edit] BIBFRAME Instance')
+	})
 
   it('has div with class "ResourceTemplate"', () => {
     expect(wrapper.find('div.ResourceTemplate').length).toEqual(1)

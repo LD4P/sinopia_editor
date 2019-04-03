@@ -28,10 +28,6 @@ describe('<Editor />', () => {
       expect(wrapper.find(Header).length).toBe(1)
     })
 
-    it('shows resource title', () => {
-      expect(wrapper.find('div#editor > div > section > h1').text()).toMatch('[Clone|Edit] Name of Resource')
-    })
-
     it('renders a Preview RDF button', () =>{
             expect(wrapper
               .find('div > div > section > button.btn-primary').length)
