@@ -17,10 +17,6 @@ describe('<ImportFileZone />', () => {
     expect(wrapper.find('button#ImportProfile').exists()).toBeTruthy()
     expect(wrapper.find('button#ImportProfile').text()).toEqual('Import New or Revised Resource Template')
   })
-
-  it('has a link to the default resource template', () => {
-    expect(wrapper.find(Link).exists()).toBeTruthy()
-  })
 })
 
 describe('<DropZone />', () => {
@@ -30,8 +26,10 @@ describe('<DropZone />', () => {
   it('shows the dropzone div when button is clicked', () => {
     wrapper.setState({showDropZone: false})
     wrapper.find('button.btn').simulate('click')
-    expect(wrapper.find('DropZone > section > p').text())
-      .toEqual('Drop resource template file or click to select a file to upload:')
+    expect(wrapper.find('DropZone > section > strong').last().text())
+      .toMatch('Drag and drop a resource template file in the box')
+    expect(wrapper.find('DropZone > section > strong').last().text())
+      .toMatch('or click it to select a file to upload:')
   })
 
   it('hides the dropzone div when button is clicked again', () => {

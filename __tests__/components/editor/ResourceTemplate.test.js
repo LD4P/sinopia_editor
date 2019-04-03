@@ -6,20 +6,48 @@ import ResourceTemplate from '../../../src/components/editor/ResourceTemplate'
 import ResourceTemplateForm from '../../../src/components/editor/ResourceTemplateForm'
 
 describe('<ResourceTemplate />', () => {
-  const mockHandleResourceTemplate = jest.fn()
-  const wrapper = shallow(<ResourceTemplate.WrappedComponent
-    resourceTemplateId='resourceTemplate:bf2:Monograph:Instance'
-    handleResourceTemplate={mockHandleResourceTemplate} />)
-	
-  it('renders a Preview RDF button', () =>{
-      expect(wrapper
-        .find('div > div > section > button.btn-primary').length)
-        .toEqual(1)
-  })
 
-  it('shows resource title', () => {
-	  expect(wrapper.find('section > h1').text()).toMatch('[Clone|Edit] BIBFRAME Instance')
-	})
+  const mockResponse = (status, statusText, response) => {
+    return new Response(response, {
+      status: status,
+      statusText: statusText,
+      headers: {
+        'Content-type': 'application/json'
+      }
+    }).body
+  }
+
+  const responseBody = {
+    response: {
+      body: {
+        "id": "resourceTemplate:bf2:Note",
+        "resourceURI": "http://id.loc.gov/ontologies/bibframe/Note",
+        "resourceLabel": "Note",
+        "propertyTemplates": [
+          {
+            "propertyURI": "http://www.w3.org/2000/01/rdf-schema#label",
+            "propertyLabel": "Note",
+            "mandatory": "false",
+            "repeatable": "false",
+            "type": "literal",
+            "resourceTemplates": [],
+            "valueConstraint": {
+              "valueTemplateRefs": [],
+              "useValuesFrom": [],
+              "valueDataType": {},
+              "editable": "true",
+              "repeatable": "false",
+              "defaults": []
+            }
+          }
+        ]
+      }
+    }
+  }
+
+  const wrapper = shallow(<ResourceTemplate.WrappedComponent resourceTemplateId='resourceTemplate:bf2:Note' />)
+  const promise = Promise.resolve(mockResponse(200, null, responseBody))
+  wrapper.instance().getResourceTemplate(promise)
 
   it('has div with class "ResourceTemplate"', () => {
     expect(wrapper.find('div.ResourceTemplate').length).toEqual(1)

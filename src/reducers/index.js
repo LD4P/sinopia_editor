@@ -6,11 +6,12 @@ import lang from './lang'
 import authenticate from './authenticate'
 import { removeAllContent, setMyItems, removeMyItem } from './literal'
 import shortid from 'shortid'
+const _ = require('lodash')
 
 const inputPropertySelector = (state, props) => {
   const reduxPath = props.reduxPath
   let items = reduxPath.reduce((obj, key) =>
-    (obj && obj[key] !== 'undefined') ? obj[key] : undefined,
+      (obj && obj[key] !== 'undefined') ? obj[key] : undefined,
     state.selectorReducer)
   if (items === undefined) {
     items = []
@@ -29,13 +30,13 @@ export const refreshResourceTemplate = (state, action) => {
   let newState = Object.assign({}, state)
   const reduxPath = action.payload.reduxPath
   if (reduxPath === undefined || reduxPath.length < 1) {
-      return newState
+    return newState
   }
   const items = action.payload.defaults || { items: [] }
 
   const lastKey = reduxPath.pop()
   const lastObject = reduxPath.reduce((newState, key) =>
-    newState[key] = newState[key] || {},
+      newState[key] = newState[key] || {},
     newState)
   if (Object.keys(items).includes('items')) {
     lastObject[lastKey] = items
@@ -52,27 +53,35 @@ export const setResourceTemplate = (state, action) => {
   output[rtKey] = {}
   action.payload.propertyTemplates.forEach((property) => {
     output[rtKey][property.propertyURI] = { items: [] }
-    if (property.valueConstraint.defaults && property.valueConstraint.defaults.length > 0) {
-      property.valueConstraint.defaults.forEach((row) => {
-        // This items payload needs to vary if type is literal or lookup
+    if (_.has(property.valueConstraint, 'defaults')) {
+      if (property.valueConstraint.defaults.length > 0) {
+        property.valueConstraint.defaults.forEach((row) => {
+          // This items payload needs to vary if type is literal or lookup
 
-        output[rtKey][property.propertyURI].items.push(
-          {
-            id: shortid.generate(),
-            content: row.defaultLiteral,
-            uri: row.defaultURI
-          }
-        )
-      })
+          output[rtKey][property.propertyURI].items.push(
+            {
+              id: makeShortID(),
+              content: row.defaultLiteral,
+              uri: row.defaultURI
+            }
+          )
+        })
+      }
     }
-    if (property.valueConstraint.valueTemplateRefs.length > 0) {
-      output[rtKey][property.propertyURI] = {}
-      property.valueConstraint.valueTemplateRefs.map((row) => {
-        output[rtKey][property.propertyURI][row] = {}
-      })
+    if (_.has(property.valueConstraint, 'valueTemplateRefs')) {
+      if (property.valueConstraint.valueTemplateRefs.length > 0) {
+        output[rtKey][property.propertyURI] = {}
+        property.valueConstraint.valueTemplateRefs.map((row) => {
+          output[rtKey][property.propertyURI][row] = {}
+        })
+      }
     }
   })
   return output
+}
+
+export const makeShortID = () => {
+  return shortid.generate()
 }
 
 const selectorReducer = (state={}, action) => {

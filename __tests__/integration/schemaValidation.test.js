@@ -18,6 +18,7 @@ describe('Editor', () => {
 
     describe('schema valid', () => {
       beforeEach(async () => {
+        console.warn(process.env.NODE_ENV)
         await page.goto('http://127.0.0.1:8888/import')
       })
 
