@@ -64,7 +64,7 @@ class ResourceTemplate extends Component {
             <div>
                 <RDFModal show={this.state.showRdf}
                           close={this.rdfClose}
-                          rtId={this.props.rtId}
+                          rtId={rt.id}
                           linkedData={ JSON.stringify(this.props.generateLD) }/>
             </div>                       
             <div className='ResourceTemplate' key={index}>
@@ -89,8 +89,7 @@ ResourceTemplate.propTypes = {
   handleResourceTemplate: PropTypes.func,
   resourceTemplateId: PropTypes.string,
   resourceTemplateData: PropTypes.oneOfType([PropTypes.string, PropTypes.object]),
-  generateLD: PropTypes.func,
-  rtId: PropTypes.string
+  generateLD: PropTypes.func
 }
 
 const mapDispatchToProps = dispatch => ({
