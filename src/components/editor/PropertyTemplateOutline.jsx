@@ -43,8 +43,8 @@ export const getLookupConfigItems = (property) => {
     let templateConfigItems = [];
     templateUris.forEach(templateUri => {
         let configItem = getLookupConfigForTemplateUri(templateUri);
-        if(configItem != null)         
-            templateConfigItems.push(configItem);
+        //TODO: Handle when this is undefined?
+        templateConfigItems.push(configItem);
     });
     return templateConfigItems;
 }
