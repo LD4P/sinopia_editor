@@ -9,6 +9,7 @@ import shortid from 'shortid'
 
 const inputPropertySelector = (state, props) => {
   const reduxPath = props.reduxPath
+  console.log(`${props.reduxPath}`)
   let items = reduxPath.reduce((obj, key) =>
     (obj && obj[key] !== 'undefined') ? obj[key] : undefined,
     state.selectorReducer)
@@ -28,18 +29,18 @@ export const getProperty = createSelector(
 export const refreshResourceTemplate = (state, action) => {
   let newState = Object.assign({}, state)
   const reduxPath = action.payload.reduxPath
-  let items
-  // const items = action.payload.defaults || { items: [] }
-  if (action.payload.defaults) {
-    items = action.payload.defaults
-  } else   {
-    items = { items: [] }
-  }
+  const items = action.payload.defaults || { items: [] }
+  // let items
+  // if (action.payload.defaults) {
+  //   items = action.payload.defaults
+  // } else   {
+  //   items = { items: [] }
+  // }
   const lastKey = reduxPath.pop()
   const lastObject = reduxPath.reduce((newState, key) =>
     newState[key] = newState[key] || {},
     newState)
-  lastObject[lastKey] = items
+  lastObject[lastKey] = { items: items }
   return newState
 }
 

@@ -102,9 +102,9 @@ describe('literal reducer functions', () => {
       type: 'REMOVE_ITEM',
       payload: {
         id: 0,
-        rtId: "resourceTemplate:Monograph:Instance",
         uri: "http://schema.org/name",
-        content: "test content"
+        content: "test content",
+        reduxPath: ["resourceTemplate:Monograph:Instance", "http://schema.org/name"]
       }
     })
    ).toEqual({
@@ -134,8 +134,8 @@ describe('literal reducer functions', () => {
       {
         type: "REMOVE_ALL_CONTENT",
         payload:{
-          rtId: "resourceTemplate:Monograph:Instance",
-          uri: 'http://schema.org/name'
+          uri: 'http://schema.org/name',
+          reduxPath: ["resourceTemplate:Monograph:Instance", "http://schema.org/name"]
         }
       })
     ).toEqual({
