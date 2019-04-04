@@ -89,7 +89,8 @@ ResourceTemplate.propTypes = {
   handleResourceTemplate: PropTypes.func,
   resourceTemplateId: PropTypes.string,
   resourceTemplateData: PropTypes.oneOfType([PropTypes.string, PropTypes.object]),
-  generateLD: PropTypes.func
+  generateLD: PropTypes.func,
+  rtId: PropTypes.string
 }
 
 const mapDispatchToProps = dispatch => ({
