@@ -28,12 +28,6 @@ describe('<Editor />', () => {
       expect(wrapper.find(Header).length).toBe(1)
     })
 
-    it('renders a Preview RDF button', () =>{
-            expect(wrapper
-              .find('div > div > section > button.btn-primary').length)
-              .toEqual(1)
-    })
-
     it('displays an login warning message', () => {
       expect(wrapper.find('div.alert-warning').text()).toMatch('Alert! No data can be saved unless you are logged in with group permissions.')
     })

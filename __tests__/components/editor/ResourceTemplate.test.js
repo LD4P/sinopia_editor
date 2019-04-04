@@ -10,7 +10,14 @@ describe('<ResourceTemplate />', () => {
   const wrapper = shallow(<ResourceTemplate.WrappedComponent
     resourceTemplateId='resourceTemplate:bf2:Monograph:Instance'
     handleResourceTemplate={mockHandleResourceTemplate} />)
-	it('shows resource title', () => {
+	
+  it('renders a Preview RDF button', () =>{
+      expect(wrapper
+        .find('div > div > section > button.btn-primary').length)
+        .toEqual(1)
+  })
+
+  it('shows resource title', () => {
 	  expect(wrapper.find('section > h1').text()).toMatch('[Clone|Edit] BIBFRAME Instance')
 	})
 

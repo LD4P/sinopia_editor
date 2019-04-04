@@ -6,9 +6,17 @@ import ResourceTemplateForm from './ResourceTemplateForm'
 import { setResourceTemplate } from '../../actions/index'
 import { getResourceTemplate } from '../../sinopiaServer'
 import PropTypes from 'prop-types'
+import RDFModal from './RDFModal'
 
 class ResourceTemplate extends Component {
 
+    constructor(props) {
+        super(props)
+        this.state = {
+            showRdf: false //this may not belong here but inserted constructor
+            //and variable to enable this.state.showRdf to exist
+      }
+    }
   render () {
 
     const resourceTemplateData = (rtd) => {
@@ -41,15 +49,24 @@ class ResourceTemplate extends Component {
       <div>
         {rtData.map((rt, index) => {
           this.props.handleResourceTemplate(rt);
-          let headingKey = "label-" + index;
+          let headingKey = "heading-" + index;
           return(    
-            <div key={headingKey}>
-              <div className='row'> 
-                  <section className='col-md-9'>
-                      <h3>{rt.resourceURI}</h3>
-                      <h1>[Clone|Edit] <em>{rt.resourceLabel}</em></h1>
-                  </section>
-            </div>   
+          <div key={headingKey}>
+            <div className="row">
+                <section className="col-md-9">
+                    <h3>{rt.resourceURI}</h3>
+                    <h1>[Clone|Edit] <em>{rt.resourceLabel}</em></h1>
+                </section>
+                <section className="col-md-3">
+                        <button type="button" className="btn btn-primary btn-sm">Preview RDF</button>
+                </section>
+            </div>
+            <div>
+                <RDFModal show={this.state.showRdf}
+                          close={this.rdfClose}
+                          rtId={this.props.rtId}
+                          linkedData={ JSON.stringify(this.props.generateLD) }/>
+            </div>                       
             <div className='ResourceTemplate' key={index}>
               <div id="resourceTemplate">
                   <ResourceTemplateForm
@@ -60,7 +77,7 @@ class ResourceTemplate extends Component {
                   />
               </div>
             </div>
-            </div>
+        </div>
           )
         })}
       </div>
@@ -71,7 +88,8 @@ class ResourceTemplate extends Component {
 ResourceTemplate.propTypes = {
   handleResourceTemplate: PropTypes.func,
   resourceTemplateId: PropTypes.string,
-  resourceTemplateData: PropTypes.oneOfType([PropTypes.string, PropTypes.object])
+  resourceTemplateData: PropTypes.oneOfType([PropTypes.string, PropTypes.object]),
+  generateLD: PropTypes.func
 }
 
 const mapDispatchToProps = dispatch => ({
