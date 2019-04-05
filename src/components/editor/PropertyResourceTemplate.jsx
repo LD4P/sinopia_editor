@@ -18,7 +18,6 @@ class PropertyResourceTemplate extends Component {
 
   handleAddClick = (event) => {
      event.preventDefault()
-     console.log(`in handleAddClick PropertyResourceTemplate`)
   }
 
   handleMintUri = (event) => {

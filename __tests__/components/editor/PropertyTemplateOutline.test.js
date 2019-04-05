@@ -163,7 +163,6 @@ describe('<PropertyTemplateOutline /> with propertyTemplate Refs', () => {
     initNewResourceTemplate={mockInitNewResourceTemplate} />)
   const childOutlineHeader = wrapper.find(OutlineHeader)
   const actionButtons = wrapper.find(PropertyActionButtons)
-  console.log(actionButtons.debug())
 
   it('displays a collapsed OutlineHeader of the propertyTemplate label', () => {
     expect(childOutlineHeader.props().label).toEqual(property.propertyTemplate.propertyLabel)

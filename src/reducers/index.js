@@ -9,7 +9,6 @@ import shortid from 'shortid'
 
 const inputPropertySelector = (state, props) => {
   const reduxPath = props.reduxPath
-  console.log(`${props.reduxPath}`)
   let items = reduxPath.reduce((obj, key) =>
     (obj && obj[key] !== 'undefined') ? obj[key] : undefined,
     state.selectorReducer)

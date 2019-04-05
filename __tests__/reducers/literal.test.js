@@ -75,6 +75,7 @@ describe('literal reducer functions', () => {
       payload: {
         id: 0,
         rtId: "resourceTemplate:Monograph:Instance",
+        reduxPath: ["resourceTemplate:Monograph:Instance", "http://schema.org/name"],
         uri: "http://schema.org/name",
         content: "test content"
       }
