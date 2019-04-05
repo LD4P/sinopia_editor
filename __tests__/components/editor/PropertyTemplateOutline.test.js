@@ -8,7 +8,7 @@ import InputListLOC from '../../../src/components/editor/InputListLOC'
 import InputLookupQA from '../../../src/components/editor/InputLookupQA'
 import OutlineHeader from '../../../src/components/editor/OutlineHeader'
 import PropertyActionButtons from '../../../src/components/editor/PropertyActionButtons'
-import { getLookupConfigItem, PropertyTemplateOutline } from '../../../src/components/editor/PropertyTemplateOutline'
+import { getLookupConfigItem, getLookupConfigItems, getLookupConfigForTemplateUri, PropertyTemplateOutline } from '../../../src/components/editor/PropertyTemplateOutline'
 import PropertyTypeRow from '../../../src/components/editor/PropertyTypeRow'
 
 describe('getLookupConfigItem module function', () => {
@@ -181,5 +181,43 @@ describe('<PropertyTemplateOutline /> with propertyTemplate Refs', () => {
     mintButton.simulate('click')
     expect(mockHandleMintUri.mock.calls.length).toBe(1)
   })
+  //Adding tests for assessing new methods added
+  describe('Multiple lookup configs can be retrieved and returned', () => {
+const property = {   
+	propertyTemplate : {
+		"mandatory": "true",
+		"repeatable": "true",
+		"type": "lookup",
+		"resourceTemplates": [],
+		"valueConstraint": {
+		  "valueTemplateRefs": [],
+		  "useValuesFrom": [
+		"urn:ld4p:qa:names:person",
+		"urn:ld4p:qa:subjects:person"
+		  ],
+		  "valueDataType": {
+		"dataTypeURI": "http://id.loc.gov/ontologies/bibframe/Agent"
+		  },
+		  "defaults": []
+		},
+		"propertyURI": "http://id.loc.gov/ontologies/bibframe/contribution",
+		"propertyLabel": "LOC Names: locnames_ld4l_cache/person",
+		"remark": "http://id.loc.gov/authorities/names.html" 
+	}
+}
+
+  const wrapper = shallow(<PropertyTemplateOutline {...property} />)
+  const childPropertyTemplateOutline = wrapper.find(PropertyTemplateOutline)
+  //For specific template uri, should return the configuration matching
+  const templateUri = "urn:ld4p:qa:names:person";
+  it('template uri for person returns appropriate config', () => {
+	  expect(getLookupConfigForTemplateUri(templateUri).value.uri).toBe(templateUri)
+  })
+  
+   it('multiple use values from should return the same number of configurations', () => {
+	  expect(getLookupConfigItems(property.propertyTemplate).length).toBe(2)
+  })
+  
+})
 
 })
