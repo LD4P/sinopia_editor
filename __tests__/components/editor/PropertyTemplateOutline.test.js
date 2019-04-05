@@ -183,28 +183,28 @@ describe('<PropertyTemplateOutline /> with propertyTemplate Refs', () => {
   })
   //Adding tests for assessing new methods added
   describe('Multiple lookup configs can be retrieved and returned', () => {
-const property = {   
-	propertyTemplate : {
-		"mandatory": "true",
-		"repeatable": "true",
-		"type": "lookup",
-		"resourceTemplates": [],
-		"valueConstraint": {
-		  "valueTemplateRefs": [],
-		  "useValuesFrom": [
-		"urn:ld4p:qa:names:person",
-		"urn:ld4p:qa:subjects:person"
-		  ],
-		  "valueDataType": {
-		"dataTypeURI": "http://id.loc.gov/ontologies/bibframe/Agent"
-		  },
-		  "defaults": []
-		},
-		"propertyURI": "http://id.loc.gov/ontologies/bibframe/contribution",
-		"propertyLabel": "LOC Names: locnames_ld4l_cache/person",
-		"remark": "http://id.loc.gov/authorities/names.html" 
+	const property = {   
+		propertyTemplate : {
+			"mandatory": "true",
+			"repeatable": "true",
+			"type": "lookup",
+			"resourceTemplates": [],
+			"valueConstraint": {
+			  "valueTemplateRefs": [],
+			  "useValuesFrom": [
+			"urn:ld4p:qa:names:person",
+			"urn:ld4p:qa:subjects:person"
+			  ],
+			  "valueDataType": {
+			"dataTypeURI": "http://id.loc.gov/ontologies/bibframe/Agent"
+			  },
+			  "defaults": []
+			},
+			"propertyURI": "http://id.loc.gov/ontologies/bibframe/contribution",
+			"propertyLabel": "LOC Names: locnames_ld4l_cache/person",
+			"remark": "http://id.loc.gov/authorities/names.html" 
+		}
 	}
-}
 
   const wrapper = shallow(<PropertyTemplateOutline {...property} />)
   const childPropertyTemplateOutline = wrapper.find(PropertyTemplateOutline)
