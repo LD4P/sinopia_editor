@@ -28,13 +28,11 @@ export const getProperty = createSelector(
 export const refreshResourceTemplate = (state, action) => {
   let newState = Object.assign({}, state)
   const reduxPath = action.payload.reduxPath
+  if (reduxPath === undefined || reduxPath.length < 1) {
+      return newState
+  }
   const items = action.payload.defaults || { items: [] }
-  // let items
-  // if (action.payload.defaults) {
-  //   items = action.payload.defaults
-  // } else   {
-  //   items = { items: [] }
-  // }
+
   const lastKey = reduxPath.pop()
   const lastObject = reduxPath.reduce((newState, key) =>
     newState[key] = newState[key] || {},
