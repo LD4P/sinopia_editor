@@ -6,7 +6,6 @@ import { removeAllItems, logIn } from '../../actions/index'
 import { Link } from 'react-router-dom'
 import PropTypes from 'prop-types'
 import ResourceTemplate from './ResourceTemplate'
-import RDFModal from './RDFModal'
 import Header from './Header'
 import { loadState } from '../../localStorage'
 
@@ -16,8 +15,8 @@ class Editor extends Component {
     this.state = {
       tempRtState: true,
       userAuthenticated: false
-    }
   }
+}
 
   render() {
     let authenticationMessage = <div className="alert alert-warning alert-dismissible">
@@ -49,21 +48,6 @@ class Editor extends Component {
       <div id="editor">
         <Header triggerEditorMenu={this.props.triggerHandleOffsetMenu}/>
         { authenticationMessage }
-        <div className="row">
-          <section className="col-md-9">
-            <h3>Resource Template Label</h3>
-            <h1>[Clone|Edit] <em>Name of Resource</em></h1>
-          </section>
-          <section className="col-md-3">
-            <button type="button" className="btn btn-primary btn-sm">Preview RDF</button>
-          </section>
-        </div>
-        <div>
-            <RDFModal show={this.state.showRdf}
-                      close={this.rdfClose}
-                      rtId={this.props.rtId}
-                      linkedData={ JSON.stringify(this.props.generateLD) }/>
-        </div>
         <ResourceTemplate
           resourceTemplateId = {this.props.resourceTemplateId}
           resourceTemplateData = {this.state.resourceTemplateData}
@@ -75,7 +59,6 @@ class Editor extends Component {
 
 Editor.propTypes = {
   children: PropTypes.array,
-  generateLD: PropTypes.func,
   rtId: PropTypes.string,
   triggerHandleOffsetMenu: PropTypes.func,
   resetStore: PropTypes.func,
