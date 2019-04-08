@@ -18,15 +18,35 @@ export const valueTemplateRefTest = (property) => {
    property.valueConstraint.valueTemplateRefs.length > 0)
 }
 
+
+export const getLookupConfigForTemplateUri = (templateUri) => {
+    let returnConfigItem
+    lookupConfig.forEach((configItem) => {
+        if (configItem.uri === templateUri) {
+            returnConfigItem = configItem;
+        }
+    })
+    return {value: returnConfigItem};
+}
+
+//This method is used for input list loc below, with just one lookup config passed back
+// in {value : configItem } format
 export const getLookupConfigItem = (property) => {
-  let templateUri = property.valueConstraint.useValuesFrom[0]
-  let templateConfigItem
-  lookupConfig.forEach((configItem) => {
-    if (configItem.uri === templateUri) {
-      templateConfigItem = { value: configItem }
-    }
-  })
-  return templateConfigItem
+  let templateUri = property.valueConstraint.useValuesFrom[0];
+  let configItem = getLookupConfigForTemplateUri(templateUri);
+  return configItem
+}
+
+export const getLookupConfigItems = (property) => {
+    //More than one value possible so this returns all the lookup configs associated with property
+    let templateUris = property.valueConstraint.useValuesFrom;
+    let templateConfigItems = [];
+    templateUris.forEach(templateUri => {
+        let configItem = getLookupConfigForTemplateUri(templateUri);
+        //TODO: Handle when this is undefined?
+        templateConfigItems.push(configItem);
+    });
+    return templateConfigItems;
 }
 
 export class PropertyTemplateOutline extends Component {
@@ -51,7 +71,7 @@ export class PropertyTemplateOutline extends Component {
     event.preventDefault()
     let newOutput = this.state.output
     let input
-    let lookupConfigItem
+    let lookupConfigItem, lookupConfigItems
     switch (property.type) {
       case "literal":
         input = <InputLiteral id={this.props.count}
@@ -61,9 +81,9 @@ export class PropertyTemplateOutline extends Component {
         break;
 
       case "lookup":
-        lookupConfigItem = getLookupConfigItem(property)
-        input = <InputLookupQA propertyTemplate={property}
-             lookupConfig={lookupConfigItem}
+        lookupConfigItems = getLookupConfigItems(property);
+        input = <InputLookupQA propertyTemplate={property} 
+             lookupConfig={lookupConfigItems}
              rtId = {property.rtId} />
         break;
 
