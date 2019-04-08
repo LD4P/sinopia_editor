@@ -75,7 +75,7 @@ describe(`Takes a resource template ID and populates the global state`, () => {
     expect(
       selectorReducer(undefined, {})
     ).toMatchObject(
-      { "authenticate": {"loginJwt": {}},
+      { "authenticate": {"authenticationState": {currentUser: null, currentSession: null, authenticationError: null}},
         "lang": {"formData": []},
         "selectorReducer": {}
       }
@@ -93,7 +93,7 @@ describe(`Takes a resource template ID and populates the global state`, () => {
         }
       })
     ).toMatchObject(
-      { "authenticate": {"loginJwt": {}},
+      { "authenticate": {"authenticationState": {currentUser: null, currentSession: null, authenticationError: null}},
         "lang": {"formData": []},
         "selectorReducer": { 'resourceTemplate:bf2:Monograph:Instance':
           { 'http://id.loc.gov/ontologies/bibframe/instanceOf': {},

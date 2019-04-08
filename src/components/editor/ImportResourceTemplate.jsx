@@ -7,8 +7,9 @@ import Header from './Header'
 import ImportFileZone from './ImportFileZone'
 import SinopiaResourceTemplates from './SinopiaResourceTemplates'
 import UpdateResourceModal from './UpdateResourceModal'
-import { loadState } from '../../localStorage'
 import Config from '../../../src/Config'
+import CognitoUtils from '../../../src/CognitoUtils'
+import { connect } from 'react-redux'
 
 class ImportResourceTemplate extends Component {
   constructor(props) {
@@ -21,12 +22,8 @@ class ImportResourceTemplate extends Component {
     }
     // Moving this into the constructor makes it easier to stub in tests
     this.instance = new SinopiaServer.LDPApi()
-    const curJwt = loadState('jwtAuth')
 
     this.instance.apiClient.basePath = Config.sinopiaServerBase
-    if (curJwt !== undefined) {
-      this.instance.apiClient.authentications['CognitoUser'].accessToken = curJwt.id_token
-    }
   }
 
   componentDidMount() {
@@ -59,6 +56,20 @@ class ImportResourceTemplate extends Component {
   }
 
   createResource = async (content, group) => {
+    try {
+      // first, make sure the client instance has a valid JWT id token set
+      await CognitoUtils.getIdTokenString(this.props.authenticationState.currentUser)
+              .then((idToken) => this.instance.apiClient.authentications['CognitoUser'].accessToken = idToken)
+    } catch(error) {
+      // TODO: add auth-related error handling similar to the catch on the createResourceWithHttpInfo try below, e.g.
+      // * display a warning that the operation failed due to error with current session
+      //   * add action and reducer for session expired, have LoginPanel display specific err msg.  reducer should clear session (and
+      //     user as needed) so the login panel goes back to the not logged in state.  highlight LoginPanel or something too (along w/ the err msg).
+      //   * user logs in via login panel again.  app state now has a valid cognito user with a valid session.
+      //   * user tries to do this action again, now that they have a valid sesison, hopefully succeeds.
+      return error
+    }
+
     try {
       const response = await this.instance.createResourceWithHttpInfo(group, content, { slug: content.id, contentType: 'application/json' })
       return response.response
@@ -141,7 +152,21 @@ class ImportResourceTemplate extends Component {
 
 ImportResourceTemplate.propTypes = {
   children: PropTypes.array,
-  triggerHandleOffsetMenu: PropTypes.func
+  triggerHandleOffsetMenu: PropTypes.func,
+  authenticationState: PropTypes.object
 }
 
-export default ImportResourceTemplate
+const mapStateToProps = (state) => {
+  return {
+    authenticationState: Object.assign({}, state.authenticate.authenticationState)
+  }
+}
+
+//TODO: likely to end up wiring up auth error reporting via redux dispatch
+// const mapDispatchToProps = dispatch => {
+//   return { }
+// }
+
+
+export default connect(mapStateToProps)(ImportResourceTemplate)
+// export default connect(mapStateToProps, mapDispatchToProps)(ImportResourceTemplate)

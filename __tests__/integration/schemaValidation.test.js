@@ -5,8 +5,16 @@ import Config from '../../src/Config'
 describe('Importing a profile/template with bad JSON', () => {
 
   it('Displays an error message', async () => {
-    jest.setTimeout(5000);
-    await page.goto(`http://127.0.0.1:8888/${Config.awsCognitoJWTHashForTest}`)
+    jest.setTimeout(60000); // this seems to take around 10s in practice, but be generous, just in case
+    await page.goto(`http://127.0.0.1:8888/`)
+
+    // attempt to enter and submit login info
+    await page.type('form.login-form input[name=username]', Config.cognitoTestUserName);
+    await page.type('form.login-form input[name=password]', Config.cognitoTestUserPass);
+    await page.click('form.login-form button[type=submit]');
+
+    // sign out button should only show up after successful login
+    await page.waitForSelector('button.signout-btn')
 
     await page.goto('http://127.0.0.1:8888/templates')
 

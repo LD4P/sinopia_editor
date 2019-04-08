@@ -5,37 +5,49 @@ describe('changing the reducer state', () => {
   it('should handle initial state', () => {
     expect(
       authenticate(undefined, {})
-    ).toEqual({loginJwt: {}})
+    ).toEqual({
+      authenticationState: {
+        currentUser: null,
+        currentSession: null,
+        authenticationError: null
+      }
+    })
   })
 
-  it('handles LOG_IN', () => {
-    let time = new Date()
-    const expiry = time.setSeconds(time.getSeconds() + 3600)
+  let currentUser = { username: 'current_user@institution.edu' } // IRL, this would be a CognitoUser object
+  let currentSession = { wouldBe: 'an instance of CognitoUserSession IRL' }
+
+  it('handles AUTHENTICATION_FAILURE', () => {
+    let errInfoObj = {err_code: 'SHORTER', message: 'A more descriptive human readable error message', maybe: 'someotherfields'}
 
     expect(
-      authenticate({loginJwt: {}}, {
-        type: 'LOG_IN',
-        payload: {id_token: '1a2b3c', access_token: 'a1b2c3', expires_in: 3600, username: 'some-user', isAuthenticated: true}
-      })
-    ).toMatchObject(
-      {loginJwt: {id_token: '1a2b3c', access_token: 'a1b2c3', username: 'some-user', isAuthenticated: true}}
-    )
-
-    const expires = authenticate({loginJwt: {}}, {
-      type: 'LOG_IN',
-      payload: {id_token: '1a2b3c', access_token: 'a1b2c3', expires_in: 3600, username: 'some-user', isAuthenticated: true}
-    }).loginJwt['expiry']
-
-    expect(expires).toBeGreaterThanOrEqual(expiry)
-  })
-
-  it('handles LOG_OUT', () => {
-    expect(
-      authenticate({loginJwt: {}}, {
-        type: 'LOG_OUT'
+      authenticate({authenticationState: {currentUser: currentUser, currentSession: currentSession, authenticationError: null}}, {
+        type: 'AUTHENTICATION_FAILURE',
+        payload: {currentUser: currentUser, authenticationError: errInfoObj}
       })
     ).toEqual(
-      {loginJwt: {id_token: '', access_token: '', username: '', isAuthenticated: false, expiry: 0}}
+      {authenticationState: {currentUser: currentUser, currentSession: null, authenticationError: errInfoObj}}
+    )
+  })
+
+  it('handles AUTHENTICATION_SUCCESS', () => {
+    expect(
+      authenticate({}, {
+        type: 'AUTHENTICATION_SUCCESS',
+        payload: {currentUser: currentUser, currentSession: currentSession}
+      })
+    ).toMatchObject(
+      {authenticationState: {currentUser: currentUser, currentSession: currentSession}}
+    )
+  })
+
+  it('handles SIGN_OUT_SUCCESS', () => {
+    expect(
+      authenticate({authenticationState: {currentUser: currentUser, currentSession: currentSession}}, {
+        type: 'SIGN_OUT_SUCCESS'
+      })
+    ).toEqual(
+      {authenticationState: {currentUser: null, currentSession: null, authenticationError: null}}
     )
   })
 

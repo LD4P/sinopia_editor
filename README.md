@@ -149,26 +149,6 @@ $ cluster_arn=$(aws ecs list-clusters --region us-west-2  --profile $AWS_PROFILE
 $ aws ecs update-service --service sinopia-homepage --region us-west-2 --cluster $cluster_arn --task-definition $task_arn --force-new-deployment --profile $AWS_PROFILE
 ```
 
-## Temporary Spoofing Authentication during Development
-
-1. Start up the development localhost server as described above
-
-2. Go to `localhost:8888/login` or `localhost:8000/login` (or whatever port is currently running the app via localhost). This will redirect you to the AWS Cognito login service, and once you are authenticated you will be redirected back to `https://sinopia.io` with a JWT hash. It will look like this:
-```
-https://sinopia.io/#id_token={some very long.base64-encoded.JWT-id-key}&access_token={some-very-long.base64-encoded.JWT-access-key}&expires_in=3600&token_type=Bearer
-```
-3. Leave this url in your browser until the last step.
-
-4. Copy everything after the `/` (from `#id_token` to the end) and paste in a temporary text file.
-
-5. Also paste it in as the value for `awsCognitoJWTHashForTest()` in `src/Config.js`
-
-6. From the text file, copy just the `id_token` and paste that in as the value for `awsCognitoIdToken()` in `src/Config.js`
-
-7. Go back to your browser and replace `https://sinopia.io` with your localhost domain (e.g. `localhost:8888`) and hit enter. You are now temporarily authenticated in development for the life of the JWT token.
-
-Note: this process is ticketed to be improved in upcoming work ticket [https://github.com/LD4P/sinopia_server/issues/89](issues/89)
-
 # LD4P's fork of the BIBFRAME Editor
 The Sinopia Editor is forked from [https://github.com/lcnetdev/bfe][BFE_GIT].
 

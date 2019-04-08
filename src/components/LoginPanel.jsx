@@ -2,77 +2,154 @@
 
 import React, {Component} from 'react'
 import PropTypes from 'prop-types'
-import { NavLink, withRouter } from 'react-router-dom'
 import Config from '../Config.js'
-import { loadState } from '../localStorage'
+import CognitoUtils from '../CognitoUtils.js'
+import { connect } from 'react-redux'
+import { authenticationFailure, authenticationSuccess, signOutSuccess } from '../actions/index'
+
 
 class LoginPanel extends Component {
   constructor(props){
     super(props)
-    this.state = {
-      userAuthenticated: false
+    this.state = {}
+
+    // If the Cognito user info was just retrieved from local storage, as when the app first
+    // loads, the session info we need won't be present on it.  However, the associated id,
+    // access, and refresh tokens are all saved in local storage also. As such, the getSession()
+    // method will attempt to use the refresh token (if present) to get new id and access tokens.
+
+    let currentUser = this.props.currentUser || CognitoUtils.cognitoUserPool().getCurrentUser()
+    let currentSession = this.props.currentSession
+
+    if(currentUser && !currentSession) {
+      CognitoUtils.getSession(currentUser)
+        .then((sessionData) => {
+          this.props.authenticate({ currentUser: currentUser, currentSession: sessionData })
+        }).catch((errInfo) => {
+          this.props.failToAuthenticate({ currentUser: currentUser, authenticationError: errInfo })
+        })
     }
   }
 
-  render(){
-    const user = loadState('jwtAuth')
-    if (user !== undefined && user.isAuthenticated) {
-      if (!this.state.userAuthenticated) {
-        this.setState({userAuthenticated: true, userName: user.username})
+  handleLoginSubmit = (event) => {
+    event.preventDefault()
+
+    let cognitoUser = CognitoUtils.cognitoUser(this.state.username)
+    CognitoUtils.authenticateUser(cognitoUser, this.state.password)
+      .then((cognitoUserSession) => {
+        this.props.authenticate({ currentUser: cognitoUser, currentSession: cognitoUserSession })
+      }).catch((errInfo) => {
+        this.props.failToAuthenticate({ currentUser: cognitoUser, authenticationError: errInfo })
+      })
+  }
+
+  handleChange = (event) => {
+    this.setState({ [event.target.name]: event.target.value })
+  }
+
+  handleSignout = () => {
+    this.props.currentUser.globalSignOut({
+      onSuccess: (result) => {
+        console.log('handleSignout result: ' + result)
+        this.props.signout()
+        console.log('handleSignout redux dispatch handler called')
+      },
+      onFailure: (err) => {
+        // TODO: capture error in state so you can display an error somewhere in the UI
+        console.error(err)
       }
-    }
+    })
+  }
 
-    const AuthButton = withRouter(() =>
-        (this.state.userAuthenticated) ? (
-          <p>
-            Welcome{` ${this.state.userName}`}!
-            <button onClick={() => {
-              this.props.logOut()
-            }}>
-              Sign out
-            </button>
-          </p>
-        ) : (
-        <p>You are not logged in.</p>
-      )
-    )
+  render(){
+    let currentUser = this.props.currentUser
+    let currentSession = this.props.currentSession
+    let authenticationError = this.props.authenticationError
 
-    let loginButton = <div className="col-xs-6">
-      <NavLink className="btn btn-block btn-primary nav-link" type="button" to="/login">Login</NavLink>
-    </div>;
+    let currentUserInfoPanel = <div className="row logged-in-user-info">
+        <div>current cognito user: { currentUser ? currentUser.username : null }</div>
+      </div>
 
-    if (this.state.userAuthenticated) {
-      loginButton = <p/>;
-    }
-
-    return(
-      <form className="login-form">
+    let inlineLoginForm = <div className="row">
+          <div className = "form-group">
+          <label htmlFor="username" className="text-uppercase">
+            Username
+            <input id="username" name="username" type="text" className="form-control" placeholder="" onChange={this.handleChange}></input>
+          </label>
+        </div>
         <div className="form-group">
-          <div className="row">
-            <AuthButton />
-            {loginButton}
-          </div>
-          <div className="row">
-            <div className="col-xs-8">
-              <a href={Config.awsCognitoForgotPasswordUrl}><small>Forgot Password?</small></a>
-            </div>
-          </div>
-          <div className="row">
-            <div className="col-xs-8">
-              <a href={Config.awsCognitoResetPasswordUrl}><small>Request Account</small></a>
-            </div>
+          <label htmlFor="password" className="text-uppercase">
+            Password
+            <input id="password" name="password" type="password" className="form-control" placeholder="" onChange={this.handleChange}></input>
+          </label>
+        </div>
+        <div className="col-xs-6">
+          <button className="btn btn-block btn-primary" type="submit">Login</button>
+        </div>
+        <div className="row">
+          <div className="col-xs-8">
+            <a href={Config.awsCognitoForgotPasswordUrl}><small>Forgot Password?</small></a>
           </div>
         </div>
+        <div className="row">
+          <div className="col-xs-8">
+            <a href={Config.awsCognitoResetPasswordUrl}><small>Request Account</small></a>
+          </div>
+        </div>
+      </div>
+
+    let logoutButton = <div className="row">
+        <button className="signout-btn" onClick={this.handleSignout}>Sign out</button>
+      </div>
+
+    // TODO:
+    //   * polish the look of this now that it's been pulled up higher in component tree (directly in App)
+    return(
+      <form className="login-form" onSubmit={this.handleLoginSubmit}>
+        { currentUser ? currentUserInfoPanel : null }
+        { authenticationError ? <div className="row">{ authenticationError.message }</div> : null }
+        { currentSession ? logoutButton : inlineLoginForm }
       </form>
     )
   }
 }
 
 LoginPanel.propTypes = {
-  signout: PropTypes.func,
-  logOut: PropTypes.func,
-  jwtAuth: PropTypes.object,
-  userName: PropTypes.string
+  // separate props for currentUser, currentSession, authenticationError.  see https://redux.js.org/faq/react-redux#why-is-my-component-re-rendering-too-often
+  //   "React Redux implements several optimizations to ensure your actual component only re-renders when actually necessary. One of those is a shallow equality
+  //   check on the combined props object generated by the mapStateToProps and mapDispatchToProps arguments passed to connect. Unfortunately, shallow equality does
+  //   not help in cases where new array or object instances are created each time mapStateToProps is called."
+  currentUser: PropTypes.object,
+  currentSession: PropTypes.object,
+  authenticationError: PropTypes.object,
+
+  failToAuthenticate: PropTypes.func,
+  authenticate: PropTypes.func,
+  signout: PropTypes.func
 }
 
-export default LoginPanel
+//TODO: make testing these part of the new tests you write (that is, unit test mapStateToProps and mapDispatchToProps, since
+// you're testing the bare WrappedComponent, and not the HoC generated by calling connect(...)(LoginPanel))
+const mapStateToProps = (state) => {
+  return {
+    currentUser: state.authenticate.authenticationState ? state.authenticate.authenticationState.currentUser : null,
+    currentSession: state.authenticate.authenticationState ? state.authenticate.authenticationState.currentSession : null,
+    authenticationError: state.authenticate.authenticationState ? state.authenticate.authenticationState.authenticationError : null
+  }
+}
+
+const mapDispatchToProps = dispatch => {
+  return {
+    failToAuthenticate: (authenticationResult) => {
+      dispatch(authenticationFailure(authenticationResult))
+    },
+    authenticate: (authenticationResult) => {
+      dispatch(authenticationSuccess(authenticationResult))
+    },
+    signout: () => {
+      dispatch(signOutSuccess())
+    }
+  }
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(LoginPanel)

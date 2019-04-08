@@ -1,14 +1,8 @@
 import SinopiaServer from 'sinopia_server'
-import { loadState } from './localStorage'
 import Config from './Config'
 
 const instance = new SinopiaServer.LDPApi()
-const curJwt = loadState('jwtAuth')
-
 instance.apiClient.basePath = Config.sinopiaServerBase
-if (curJwt !== undefined) {
-  instance.apiClient.authentications['CognitoUser'].accessToken = curJwt.id_token
-}
 
 const barcodeRt = require('../static/spoofedFilesFromServer/fromSinopiaServer/resourceTemplates/Barcode.json')
 const monographInstanceRt = require('../static/spoofedFilesFromServer/fromSinopiaServer/resourceTemplates/MonographInstance.json')
