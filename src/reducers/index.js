@@ -37,7 +37,11 @@ export const refreshResourceTemplate = (state, action) => {
   const lastObject = reduxPath.reduce((newState, key) =>
     newState[key] = newState[key] || {},
     newState)
-  lastObject[lastKey] = { items: items }
+  if (Object.keys(items).includes('items')) {
+    lastObject[lastKey] = items
+  } else {
+    lastObject[lastKey] = { items: items }
+  }
   return newState
 }
 

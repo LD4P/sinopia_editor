@@ -12,7 +12,7 @@ describe(`Takes a resource template ID and populates the global state`, () => {
       }
     })
     expect(emptyStateResult).toEqual({
-      'http://sinopia.io/example': { items: { items: [] } }
+      'http://sinopia.io/example': { items: [] }
     })
 
   })
