@@ -1,4 +1,8 @@
 class Config {
+  static get defaultProfileSchemaVersion() {
+    return process.env.DEFAULT_PROFILE_SCHEMA_VERSION || '0.0.9'
+  }
+
   static get sinopiaDomainName() {
     return process.env.SINOPIA_URI || 'sinopia.io'
   }
