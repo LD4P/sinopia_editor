@@ -58,7 +58,7 @@ describe('Editor', () => {
           // const dialog = await pupExpect(page).toDisplayDialog(async () => {
           //   await fileInput.uploadFile("__tests__/__fixtures__/lcc_v0.0.2.json")
           // })
-          const exp_msg = "No schema url found in template. Using https://ld4p.github.io/sinopia/schemas/0.0.1/resource-template.json"
+          const exp_msg = `No schema url found in template. Using https://ld4p.github.io/sinopia/schemas/${Config.defaultProfileSchemaVersion}/resource-template.json`
           // await expect(dialog.message()).toMatch(exp_msg)
           // await dialog.dismiss()
           // await pupExpect(page).toMatch('LC Classification Number')
@@ -74,7 +74,7 @@ describe('Editor', () => {
           // const dialog = await pupExpect(page).toDisplayDialog(async () => {
           //   await fileInput.uploadFile("__tests__/__fixtures__/place_profile_v0.0.2.json")
           // })
-          const exp_msg = "No schema url found in template. Using https://ld4p.github.io/sinopia/schemas/0.0.1/profile.json"
+          const exp_msg = `No schema url found in template. Using https://ld4p.github.io/sinopia/schemas/${Config.defaultProfileSchemaVersion}/profile.json`
           // await expect(dialog.message()).toMatch(exp_msg)
           // await dialog.dismiss()
           // await pupExpect(page).toMatch('Place Associated with a Work')
