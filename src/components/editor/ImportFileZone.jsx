@@ -1,5 +1,6 @@
 // Copyright 2018 Stanford University see Apache2.txt for license
 
+import Config from '../../Config'
 import React, { Component }  from 'react'
 import Dropzone from 'react-dropzone'
 import PropTypes from 'prop-types'
@@ -34,9 +35,9 @@ class ImportFileZone extends Component {
         var schemaUrl = template.schema || (template.Profile && template.Profile.schema)
         if (schemaUrl == undefined) {
           if (template.Profile) {
-            schemaUrl = "https://ld4p.github.io/sinopia/schemas/0.0.1/profile.json"
+            schemaUrl = `https://ld4p.github.io/sinopia/schemas/${Config.defaultProfileSchemaVersion}/profile.json`
           } else {
-            schemaUrl = "https://ld4p.github.io/sinopia/schemas/0.0.1/resource-template.json"
+            schemaUrl = `https://ld4p.github.io/sinopia/schemas/${Config.defaultProfileSchemaVersion}/resource-template.json`
           }
           alert(`No schema url found in template. Using ${schemaUrl}`)
         }
