@@ -97,6 +97,20 @@ To run the Docker image, first download the latest image by
 in the foreground, `docker run -p 8000:8000 --rm --name=sinopia_editor ld4p/sinopia_editor`. The running Sinopia Editor should now be available locally at
 [http://localhost:8000](https://hub.docker.com/r/ld4p/sinopia_editor/).
 
+### Docker-Compose
+
+A docker-compose configuration is also provided to allow integration of the editor with Sinopia's platform components, including Trellis, ElasticSearch, ActiveMQ, Postgres, and the Sinopia indexing pipeline. You can spin up these components, with Trellis listening on http://localhost:8080/, via:
+
+```sh
+$ docker-compose up # add the '-d' flag to daemonize and run in background
+```
+
+Note that this will provide you with "out-of-the-box" Trellis, with no data in it. To spin up Trellis and its dependencies with the Sinopia container structure (root, repository, and group containers) and ACLs (declared on root container) pre-created, you can do using the `platformdata` docker-compose service:
+
+```shell
+$ docker-compose up platformdata # add the '-d' flag to daemonize and run in background
+```
+
 ### Building latest Docker Image
 Before building the latest Docker Image, run `npm run build` to update the `dist` folder with the current build.
 To build the latest version of the [Sinopia Editor][GIT_REPO], you
