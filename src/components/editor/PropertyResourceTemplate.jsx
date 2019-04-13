@@ -25,33 +25,36 @@ class PropertyResourceTemplate extends Component {
   }
 
   render() {
-    return (
-      <div>
-        <div className="row">
-          <section className="col-md-8">
-            <h4>{this.props.resourceTemplate.resourceLabel}</h4>
-          </section>
-          <section className="col-md-4">
-            <PropertyActionButtons handleAddClick={this.handleAddClick}
-              handleMintUri={this.handleMintUri} key={shortid.generate()} />
-          </section>
-        </div>
-        <div>
-        {
-          this.props.resourceTemplate.propertyTemplates.map((property, i) => {
-            return(<PropertyTemplateOutline
-                    propertyTemplate={property}
-                    key={shortid.generate()}
-                    count={i}  />)
-          })
-        }
-        </div>
+    return (<div>
+      <div className="row" key={shortid.generate()}>
+        <section className="col-md-8">
+          <h4>{this.props.resourceTemplate.resourceLabel}</h4>
+        </section>
+        <section className="col-md-4">
+          <PropertyActionButtons handleAddClick={this.handleAddClick}
+            handleMintUri={this.handleMintUri} key={shortid.generate()} />
+        </section>
       </div>
+      <div>
+      {
+        this.props.resourceTemplate.propertyTemplates.map((property) => {
+          let newReduxPath = Object.assign([], this.props.reduxPath)
+          newReduxPath.push(property.propertyURI)
+          return(<PropertyTemplateOutline
+                  propertyTemplate={property}
+                  rtId={this.props.resourceTemplate.id}
+                  reduxPath={newReduxPath}
+                  key={shortid.generate()} />)
+        })
+      }
+      </div>
+    </div>
     )
   }
 }
 
 PropertyResourceTemplate.propTypes = {
+  reduxPath: PropTypes.array,
   resourceTemplate: PropTypes.object
 }
 

@@ -57,3 +57,12 @@ describe('logOut action', () => {
     })
   })
 })
+
+describe('initializes the Redux State', () => {
+  it('should return Redux state based on SET_RESOURCE_TEMPLATE action', () => {
+    expect(actions.setResourceTemplate({}, { reduxPath: ['http://sinopia.io/example']})).toEqual({
+      type: 'SET_RESOURCE_TEMPLATE',
+      payload: {}
+    })
+  })
+})

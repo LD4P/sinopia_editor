@@ -8,6 +8,7 @@ import { getProperty } from '../../reducers/index'
 import InputLang from './InputLang'
 import Modal from 'react-bootstrap/lib/Modal'
 import Button from 'react-bootstrap/lib/Button'
+import shortid from 'shortid'
 import store from '../../store.js'
 
 // Redux recommends exporting the unconnected component for unit tests.
@@ -15,17 +16,10 @@ export class InputLiteral extends Component {
 
   constructor(props) {
     super(props)
-    let lastId
-    try {
-      lastId =  Number(props.propertyTemplate.valueConstraint.defaults.length)-1
-    } catch (err) {
-      lastId = -1
-    }
     this.state = {
       show: false,
       content_add: "",
-      disabled: false,
-      lastId: lastId
+      disabled: false
     }
   }
 
@@ -39,6 +33,7 @@ export class InputLiteral extends Component {
 
   handleFocus = (event) => {
     document.getElementById(event.target.id).focus()
+    event.preventDefault()
   }
 
   handleChange = (event) => {
@@ -54,12 +49,11 @@ export class InputLiteral extends Component {
   }
 
   addUserInput = (userInputArray, currentcontent) => {
-    const newId = this.state.lastId + 1
+    const newId = shortid.generate()
     userInputArray.push({
       content: currentcontent,
       id: newId
     })
-    this.setState( { lastId: newId } )
   }
 
   handleKeypress = (event) => {
@@ -78,7 +72,7 @@ export class InputLiteral extends Component {
       }
       const user_input = {
         uri: this.props.propertyTemplate.propertyURI,
-        rtId: this.props.rtId,
+        reduxPath: this.props.reduxPath,
         items: userInputArray
       }
       this.props.handleMyItemsChange(user_input)
@@ -91,13 +85,12 @@ export class InputLiteral extends Component {
 
   handleItemClick = (event) => {
     const labelToRemove = event.target.dataset["content"]
-    const idToRemove = Number(event.target.dataset["item"])
-
+    const idToRemove = event.target.dataset["item"]
     this.props.handleRemoveItem(
     {
       id: idToRemove,
       label: labelToRemove,
-      rtId: this.props.rtId,
+      reduxPath: this.props.reduxPath,
       uri: this.props.propertyTemplate.propertyURI
     })
     this.setState({ disabled: false })
@@ -158,15 +151,16 @@ export class InputLiteral extends Component {
     if (formInfo == undefined || formInfo.items == undefined) {
       return
     }
-    const elements = formInfo.items.map((obj, index) => {
-      return <div id="userInput" key = {index} >
+    const elements = formInfo.items.map((obj) => {
+      const itemId = obj.id || shortid.generate()
+      return <div id="userInput" key = {itemId} >
         {obj.content}
         <button
           id="displayedItem"
           type="button"
           onClick={this.handleItemClick}
           key={obj.id}
-          data-item={index}
+          data-item={itemId}
           data-label={formInfo.uri}
         >X
         </button>
@@ -203,7 +197,7 @@ export class InputLiteral extends Component {
 }
 
 InputLiteral.propTypes = {
-  id: PropTypes.number,
+  id: PropTypes.oneOfType([PropTypes.number, PropTypes.string]),
   propertyTemplate: PropTypes.shape({
     propertyLabel: PropTypes.string.isRequired,
     propertyURI: PropTypes.string.isRequired,
@@ -215,12 +209,13 @@ InputLiteral.propTypes = {
     })
   }).isRequired,
   formData: PropTypes.shape({
-    id: PropTypes.number,
+    id: PropTypes.string,
     uri: PropTypes.string,
     items: PropTypes.array
   }),
   handleMyItemsChange: PropTypes.func,
   handleRemoveItem: PropTypes.func,
+  reduxPath: PropTypes.oneOfType([PropTypes.string, PropTypes.array]),
   rtId: PropTypes.string,
   blankNodeForLiteral: PropTypes.object,
   propPredicate: PropTypes.string,

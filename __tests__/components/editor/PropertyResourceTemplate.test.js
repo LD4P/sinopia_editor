@@ -2,7 +2,7 @@
 
 import React from 'react'
 import 'jsdom-global/register'
-import { shallow, mount } from 'enzyme'
+import { shallow } from 'enzyme'
 import PropertyActionButtons from '../../../src/components/editor/PropertyActionButtons'
 import PropertyResourceTemplate from '../../../src/components/editor/PropertyResourceTemplate'
 import PropertyTemplateOutline from '../../../src/components/editor/PropertyTemplateOutline'
@@ -17,7 +17,8 @@ describe('<PropertyResourceTemplate />', () => {
           propertyURI: "http://schema.org/"
         }
       ]
-    }
+    },
+    reduxPath: ''
   }
   const wrapper = shallow(<PropertyResourceTemplate {...propertyRtProps} />)
 
@@ -36,7 +37,7 @@ describe('<PropertyResourceTemplate />', () => {
 
   describe('<PropertyResourceTemplate /> has the "Add Click" and "Mint URI" buttons', () => {
 
-    const wrapper = mount(<PropertyResourceTemplate {...propertyRtProps} />)
+    const wrapper = shallow(<PropertyResourceTemplate {...propertyRtProps} />)
     const actionButtons = wrapper.find(PropertyActionButtons)
 
     it("Contains a PropertyActionButtons component", () => {

@@ -1,12 +1,15 @@
 // Copyright 2019 Stanford University see Apache2.txt for license
 
 import React, {Component} from 'react'
+import { connect } from 'react-redux'
 import InputLiteral from './InputLiteral'
 import InputListLOC from './InputListLOC'
 import InputLookupQA from './InputLookupQA'
 import OutlineHeader from './OutlineHeader'
+import PropertyActionButtons from './PropertyActionButtons'
 import PropertyTypeRow from './PropertyTypeRow'
 import RequiredSuperscript from './RequiredSuperscript'
+import { refreshResourceTemplate } from '../../actions/index'
 import { getResourceTemplate } from '../../sinopiaServer'
 import lookupConfig from '../../../static/spoofedFilesFromServer/fromSinopiaServer/lookupConfig.json'
 import PropTypes from 'prop-types'
@@ -61,28 +64,40 @@ export class PropertyTemplateOutline extends Component {
 
   handleAddClick = (event) => {
     event.preventDefault()
+    if (this.props.handleAddClick !== undefined) {
+      this.props.handleAddClick(event)
+    }
   }
 
   handleMintUri = (event) => {
     event.preventDefault()
+    if (this.props.handleMintUri !== undefined) {
+      this.props.handleMintUri(event)
+    }
   }
 
   handleClick = (property) => (event) => {
     event.preventDefault()
     let newOutput = this.state.output
-    let input
+    let rtReduxPath = Object.assign([], this.props.reduxPath)
+    let input, key
     let lookupConfigItem, lookupConfigItems
     switch (property.type) {
       case "literal":
-        input = <InputLiteral id={this.props.count}
+        if (rtReduxPath[rtReduxPath.length - 1] !== property.propertyURI) {
+          rtReduxPath.push(property.propertyURI)
+        }
+        key = shortid.generate()
+        input = <InputLiteral id={key}
               propertyTemplate={property}
-              key={shortid.generate()}
+              key={key}
+              reduxPath={rtReduxPath}
               rtId={property.rtId} />
         break;
 
       case "lookup":
         lookupConfigItems = getLookupConfigItems(property);
-        input = <InputLookupQA propertyTemplate={property} 
+        input = <InputLookupQA propertyTemplate={property}
              lookupConfig={lookupConfigItems}
              rtId = {property.rtId} />
         break;
@@ -92,9 +107,35 @@ export class PropertyTemplateOutline extends Component {
           input = []
           property.valueConstraint.valueTemplateRefs.map((rtId) => {
             let resourceTemplate = getResourceTemplate(rtId)
+            input.push(<div className="row" key={shortid.generate()}>
+              <section className="col-sm-8">
+                <h5>{resourceTemplate.resourceLabel}</h5>
+              </section>
+              <section className="col-sm-4">
+                <PropertyActionButtons handleAddClick={this.handleAddClick}
+                  handleMintUri={this.handleMintUri} key={shortid.generate()} />
+              </section>
+            </div>)
             resourceTemplate.propertyTemplates.map((rtProperty) => {
+              let newReduxPath = Object.assign([], rtReduxPath)
+              newReduxPath.push(rtId)
+              newReduxPath.push(rtProperty.propertyURI)
+              const payload = { reduxPath: newReduxPath }
+              if (rtProperty.valueConstraint.defaults && rtProperty.valueConstraint.defaults.length > 0) {
+                payload['defaults'] = []
+                rtProperty.valueConstraint.defaults.map((row, i) => {
+                  payload['defaults'].push({
+                    id: i,
+                    content: row.defaultLiteral,
+                    uri: row.defaultURI
+                  })
+                })
+              }
+              this.props.initNewResourceTemplate(payload)
               input.push(<PropertyTemplateOutline key={shortid.generate()}
                 propertyTemplate={rtProperty}
+                reduxPath={newReduxPath}
+                initNewResourceTemplate={this.props.initNewResourceTemplate}
                 resourceTemplate={getResourceTemplate(rtId)} />)
             })
           })
@@ -157,14 +198,20 @@ export class PropertyTemplateOutline extends Component {
 }
 
 PropertyTemplateOutline.propTypes = {
-  count: PropTypes.number,
-  depth: PropTypes.number,
   handleAddClick: PropTypes.func,
   handleMintUri: PropTypes.func,
   handleCollapsed: PropTypes.func,
+  initNewResourceTemplate: PropTypes.func,
   isRequired: PropTypes.func,
   propertyTemplate: PropTypes.object,
+  reduxPath: PropTypes.array,
   rtId: PropTypes.string
 }
 
-export default PropertyTemplateOutline;
+const mapDispatchToProps = dispatch => ({
+  initNewResourceTemplate(rt_context) {
+    dispatch(refreshResourceTemplate(rt_context))
+  }
+})
+
+export default connect(null, mapDispatchToProps)(PropertyTemplateOutline);

@@ -43,7 +43,8 @@ module.exports = {
     "jsx-a11y/anchor-is-valid": "warn", // see #172
     "jsx-a11y/label-has-for": "warn", // see #173
     "no-console": ["warn", { allow: ["info", "log"] }], //for development purposes
-    "no-extra-semi": "off"
+    "no-extra-semi": "off",
+    "security/detect-object-injection": "off"
   },
   overrides: [
     {
