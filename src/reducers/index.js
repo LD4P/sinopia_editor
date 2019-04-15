@@ -5,32 +5,45 @@ import { generateLD } from './linkedData'
 import lang from './lang'
 import authenticate from './authenticate'
 import { removeAllContent, setMyItems, removeMyItem } from './literal'
+import shortid from 'shortid'
 
-
-const resourceTemplateSelector = (state, props) => {
-
-  const resTemp = state.selectorReducer[props.rtId]
-  if (resTemp == undefined) {
-    return state
-  }
-  let items
-  if (props.propertyTemplate.propertyURI in resTemp) {
-    items = resTemp[props.propertyTemplate.propertyURI]
-  } else {
+const inputPropertySelector = (state, props) => {
+  const reduxPath = props.reduxPath
+  let items = reduxPath.reduce((obj, key) =>
+    (obj && obj[key] !== 'undefined') ? obj[key] : undefined,
+    state.selectorReducer)
+  if (items === undefined) {
     items = []
-    resTemp[props.propertyTemplate.propertyURI] = items
   }
   return items
 }
 
 export const getProperty = createSelector(
-  [ resourceTemplateSelector ],
+  [ inputPropertySelector ],
   (propertyURI) => {
     return propertyURI.items
   }
 )
 
+export const refreshResourceTemplate = (state, action) => {
+  let newState = Object.assign({}, state)
+  const reduxPath = action.payload.reduxPath
+  if (reduxPath === undefined || reduxPath.length < 1) {
+      return newState
+  }
+  const items = action.payload.defaults || { items: [] }
 
+  const lastKey = reduxPath.pop()
+  const lastObject = reduxPath.reduce((newState, key) =>
+    newState[key] = newState[key] || {},
+    newState)
+  if (Object.keys(items).includes('items')) {
+    lastObject[lastKey] = items
+  } else {
+    lastObject[lastKey] = { items: items }
+  }
+  return newState
+}
 
 export const setResourceTemplate = (state, action) => {
   const rtKey = action.payload.id
@@ -42,9 +55,10 @@ export const setResourceTemplate = (state, action) => {
     if (property.valueConstraint.defaults && property.valueConstraint.defaults.length > 0) {
       property.valueConstraint.defaults.forEach((row) => {
         // This items payload needs to vary if type is literal or lookup
+
         output[rtKey][property.propertyURI].items.push(
           {
-            id: output[rtKey][property.propertyURI].items.length,
+            id: shortid.generate(),
             content: row.defaultLiteral,
             uri: row.defaultURI
           }
@@ -67,6 +81,8 @@ const selectorReducer = (state={}, action) => {
       return setResourceTemplate(state, action)
     case 'SET_ITEMS':
       return setMyItems(state, action)
+    case 'REFRESH_RESOURCE_TEMPLATE':
+      return refreshResourceTemplate(state, action)
     case 'REMOVE_ITEM':
       return removeMyItem(state, action)
     case 'REMOVE_ALL_CONTENT':

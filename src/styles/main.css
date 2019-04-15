@@ -88,11 +88,12 @@ body {
   border: 1px dotted;
   background-color: white;
   margin: .5em;
+  padding: .25em;
 }
 
-.rOutline-property div {
-  padding: .5em;
-}
+/* .rOutline-property div {
+  padding-left: .5em;
+} */
 
 .arrow-icon{
   color: white;
