@@ -1,11 +1,14 @@
 // Copyright 2019 Stanford University see Apache2.txt for license
 
 import React, {Component} from 'react'
+import PropTypes from 'prop-types'
 import { Link } from 'react-router-dom'
 import {BootstrapTable, TableHeaderColumn} from 'react-bootstrap-table'
+import Config from '../../../src/Config'
+const _ = require('lodash')
 const SinopiaServer = require('sinopia_server')
 const instance = new SinopiaServer.LDPApi()
-instance.apiClient.basePath = 'http://localhost:8080'
+instance.apiClient.basePath = Config.sinopiaServerBase
 
 class SinopiaResourceTemplates extends Component {
   constructor(props) {
@@ -17,25 +20,29 @@ class SinopiaResourceTemplates extends Component {
     }
   }
 
-  async componentDidMount() {
-    const groupPromise = new Promise((resolve) => {
-      resolve(instance.getBaseWithHttpInfo())
-    }).then((data) => {
-      return data
-    }).catch(() => {})
+  //TODO: use componentDidUpdate? and checl prevProps...
 
-    await this.fulfillGroupPromise(groupPromise).then(async () => {
-      this.state.groupData.map((group) => {
-        const name = this.resourceToName(group)
-        new Promise((resolve) => {
-          resolve(instance.getGroupWithHttpInfo(name))
-        }).then((data) => {
-          this.fulfillGroupData(data)
-        }).catch(() => {})
+  async componentDidUpdate(prevProps) {
+    if (this.props.updateKey > prevProps.updateKey) {
+
+      const groupPromise = new Promise((resolve) => {
+        resolve(instance.getBaseWithHttpInfo())
+      }).then((data) => {
+        return data
+      }).catch(() => {})
+
+      await this.fulfillGroupPromise(groupPromise).then(async () => {
+        this.state.groupData.map((group) => {
+          const groupName = this.resourceToName(group)
+          new Promise((resolve) => {
+            resolve(instance.getGroupWithHttpInfo(groupName))
+          }).then((data) => {
+            this.fulfillGroupData(data)
+          }).catch(() => {})
+        })
       })
-    })
+    }
   }
-
 
   fulfillGroupPromise = (promise) => {
     promise.then((data) => {
@@ -57,14 +64,15 @@ class SinopiaResourceTemplates extends Component {
         await resolve(instance.getResourceWithHttpInfo(groupName, name, { acceptEncoding: 'application/json' }))
       })
 
-      promise.then((response_and_data) => {
-        const data = response_and_data.response.body
-        this.setState({tempState: {name: name, uri: c, id: `${groupName}:${data.id}`, group: groupName, data: data}})
+      promise.then((data) => {
+        const rt = data.response.body
+        this.setState({tempState: {key: rt.id, name: rt.resourceLabel, uri: c, id: rt.id, group: groupName}})
         const joined = this.state.templatesForGroup.slice(0)
-        joined.push(this.state.tempState)
+        if (!_.find(joined, this.state.tempState)) {
+          joined.push(this.state.tempState)
+        }
         this.setState({templatesForGroup: joined})
-      })
-
+      }).catch(() => {})
     })
   }
 
@@ -75,7 +83,7 @@ class SinopiaResourceTemplates extends Component {
 
   linkFormatter = (cell, row) => {
     return(
-      <Link to={{pathname: '/editor', state: { resourceTemplateData: row.data }}}>{cell}</Link>
+      <Link to={{pathname: '/editor', state: { resourceTemplateId: row.id }}}>{cell}</Link>
     )
   }
 
@@ -89,6 +97,15 @@ class SinopiaResourceTemplates extends Component {
       )
     }
 
+    let createResourceMessage = <div className="alert alert-info alert-dismissible">
+      <button className="close" data-dismiss="alert" aria-label="close">&times;</button>
+      { this.props.message.join(', ') }
+    </div>;
+
+    if(this.props.message.length === 0) {
+      createResourceMessage = <span />
+    }
+
     const thIDClass = { backgroundColor: '#F8F6EF', width: '50%' }
     const thNameClass = { backgroundColor: '#F8F6EF', width: '25%' }
     const thGroupClass = { backgroundColor: '#F8F6EF', width: '25%' }
@@ -98,6 +115,7 @@ class SinopiaResourceTemplates extends Component {
 
     return(
       <div>
+        { createResourceMessage }
         <h4>Groups in Sinopia</h4>
         <ul>
           { this.state.groupData.map((container, index) => {
@@ -107,7 +125,7 @@ class SinopiaResourceTemplates extends Component {
           })}
         </ul>
         <h4>Available Resource Templates in Sinopia</h4>
-        <BootstrapTable keyField='id' data={ this.state.templatesForGroup } >
+        <BootstrapTable keyField='key' data={ this.state.templatesForGroup } >
           <TableHeaderColumn thStyle={ thNameClass } tdStyle={ tdNameClass } dataFormat={ this.linkFormatter } dataField='name' dataSort={true} >Template name</TableHeaderColumn>
           <TableHeaderColumn thStyle={ thIDClass } tdStyle={ tdIDClass } dataField='id' dataSort={true} >ID</TableHeaderColumn>
           <TableHeaderColumn thStyle={ thGroupClass } tdStyle={ tdGroupClass } dataField='group' dataSort={true} >Group</TableHeaderColumn>
@@ -115,6 +133,11 @@ class SinopiaResourceTemplates extends Component {
       </div>
     )
   }
+}
+
+SinopiaResourceTemplates.propTypes = {
+  message: PropTypes.array,
+  updateKey: PropTypes.number
 }
 
 export default (SinopiaResourceTemplates)
