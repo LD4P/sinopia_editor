@@ -64,7 +64,7 @@ describe('<InputLang />', () => {
     expect(mockFormDataFn.mock.calls.length).toBe(2)
   })
 
-  it('creates a has of options that it renders in the form field', () => {
+  it('creates a hash of options that it renders in the form field', () => {
     const lcLanguage = [
       {
         "@id": "http://id.loc.gov/vocabulary/languages/sna",
