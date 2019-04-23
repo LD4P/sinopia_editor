@@ -1,30 +1,30 @@
 class Config {
-  static get sinopiaServerBase() {
-    return process.env.SINOPIA_SERVER_BASE || 'http://localhost:8080'
+  static get defaultProfileSchemaVersion() {
+    return process.env.DEFAULT_PROFILE_SCHEMA_VERSION || '0.0.9'
   }
 
   static get defaultSinopiaGroupId() {
     return process.env.SINOPIA_GROUP || 'ld4p'
   }
 
-  static get defaultProfileSchemaVersion() {
-    return process.env.DEFAULT_PROFILE_SCHEMA_VERSION || '0.0.9'
-  }
-
   static get sinopiaDomainName() {
     return process.env.SINOPIA_URI || 'sinopia.io'
   }
 
-  static get sinopiaUrl() {
-    return `https://${this.sinopiaDomainName}`
+  static get sinopiaServerBase() {
+    return process.env.TRELLIS_BASE_URL || 'http://localhost:8080'
+  }
+
+  static get awsCognitoDomain() {
+    return process.env.AWS_COGNITO_DOMAIN || 'sinopia-development.auth.us-west-2.amazoncognito.com'
   }
 
   static get awsClientID() {
     return process.env.COGNITO_CLIENT_ID || '2u6s7pqkc1grq1qs464fsi82at'
   }
 
-  static get awsCognitoDomain() {
-    return process.env.AWS_COGNITO_DOMAIN || 'sinopia-development.auth.us-west-2.amazoncognito.com'
+  static get sinopiaUrl() {
+    return `https://${this.sinopiaDomainName}`
   }
 
   static get awsCognitoLoginUrl() {

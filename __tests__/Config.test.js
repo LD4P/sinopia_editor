@@ -20,6 +20,10 @@ describe('Config', () => {
       expect(Config.awsCognitoDomain).toEqual('sinopia-development.auth.us-west-2.amazoncognito.com')
     })
 
+    it('sinopia server url has a static value', () => {
+      expect(Config.sinopiaServerBase).toEqual('http://localhost:8080')
+    })
+
     describe('interpolated links from default values', () => {
       it('produces the Cognito Login URL', () => {
         expect(Config.awsCognitoLoginUrl).toEqual(
@@ -65,43 +69,48 @@ describe('Config', () => {
     beforeAll(() => {
       process.env = {
         SINOPIA_URI: 'sinopia.foo',
+        TRELLIS_BASE_URL: 'https://sinopia_server.foo',
         COGNITO_CLIENT_ID: '1a2b3c',
         AWS_COGNITO_DOMAIN: 'sinopia-foo.amazoncognito.com'
       }
     })
 
-    it('sinopia url has static value', () => {
+    it('sinopia url overrides static value', () => {
       expect(Config.sinopiaUrl).toEqual('https://sinopia.foo')
     })
 
-    it('aws client ID has static value', () => {
+    it('sinopia server url overrides static value', () => {
+      expect(Config.sinopiaServerBase).toEqual('https://sinopia_server.foo')
+    })
+
+    it('aws client ID overrides static value', () => {
       expect(Config.awsClientID).toEqual('1a2b3c')
     })
 
-    it('aws cognito domain has static value', () => {
+    it('aws cognito domain overrides static value', () => {
       expect(Config.awsCognitoDomain).toEqual('sinopia-foo.amazoncognito.com')
     })
 
     describe('interpolated links from environmental overrides', () => {
-      it('', () => {
+      it('interpolates the cognito login url', () => {
         expect(Config.awsCognitoLoginUrl).toEqual(
           'https://sinopia-foo.amazoncognito.com/login?response_type=token&client_id=1a2b3c&redirect_uri=https://sinopia.foo'
         )
       })
 
-      it('', () => {
+      it('interpolates the cognito logout url', () => {
         expect(Config.awsCognitoLogoutUrl).toEqual(
           'https://sinopia-foo.amazoncognito.com/logout?response_type=token&client_id=1a2b3c&logout_uri=https://sinopia.foo&redirect_uri=https://sinopia.foo'
         )
       })
 
-      it('', () => {
+      it('interpolates the forgot password url', () => {
         expect(Config.awsCognitoForgotPasswordUrl).toEqual(
           'https://sinopia-foo.amazoncognito.com/forgotPassword?response_type=token&client_id=1a2b3c&redirect_uri=https://sinopia.foo'
         )
       })
 
-      it('', () => {
+      it('interpolates the reset password url', () => {
         expect(Config.awsCognitoResetPasswordUrl).toEqual(
           'https://sinopia-foo.amazoncognito.com/signup?response_type=token&client_id=1a2b3c&redirect_uri=https://sinopia.foo'
         )
