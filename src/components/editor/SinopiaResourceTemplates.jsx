@@ -16,15 +16,13 @@ class SinopiaResourceTemplates extends Component {
     this.state = {
       message: '',
       groupData: [],
-      templatesForGroup: []
+      templatesForGroup: [],
+      contains: []
     }
   }
 
-  //TODO: use componentDidUpdate? and checl prevProps...
-
   async componentDidUpdate(prevProps) {
     if (this.props.updateKey > prevProps.updateKey) {
-
       const groupPromise = new Promise((resolve) => {
         resolve(instance.getBaseWithHttpInfo())
       }).then((data) => {
@@ -57,24 +55,29 @@ class SinopiaResourceTemplates extends Component {
   fulfillGroupData = (data) => {
     const groupName = this.resourceToName(data.response.body['@id'])
 
-    data.response.body.contains.map((c) => {
-      const name = this.resourceToName(c)
+    if (data.response.body.contains !== undefined) {
+      const contains = [].concat(data.response.body.contains)
 
-      const promise = new Promise(async (resolve) => {
-        await resolve(instance.getResourceWithHttpInfo(groupName, name, { acceptEncoding: 'application/json' }))
+      contains.map((c) => {
+        const name = this.resourceToName(c)
+
+        this.groupDataPromise(groupName, name).then((data) => {
+          const rt = data.response.body
+          this.setState({tempState: {key: rt.id, name: rt.resourceLabel, uri: c, id: rt.id, group: groupName}})
+          const joined = this.state.templatesForGroup.slice(0)
+          if (!_.find(joined, ['key', this.state.tempState.key])) {
+            joined.push(this.state.tempState)
+          }
+          this.setState({templatesForGroup: joined})
+        }).catch(() => {})
       })
+    }
 
-      promise.then((data) => {
-        const rt = data.response.body
-        this.setState({tempState: {key: rt.id, name: rt.resourceLabel, uri: c, id: rt.id, group: groupName}})
-        const joined = this.state.templatesForGroup.slice(0)
-        if (!_.find(joined, this.state.tempState)) {
-          joined.push(this.state.tempState)
-        }
-        this.setState({templatesForGroup: joined})
-      }).catch(() => {})
-    })
   }
+
+  groupDataPromise = (groupName, name) => new Promise(async (resolve) => {
+    await resolve(instance.getResourceWithHttpInfo(groupName, name, { acceptEncoding: 'application/json' }))
+  })
 
   resourceToName = (resource) => {
     const idx = resource.lastIndexOf('/')

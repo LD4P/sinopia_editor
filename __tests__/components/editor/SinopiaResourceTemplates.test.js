@@ -49,17 +49,19 @@ describe('<SinopiaResourceTemplates />', () => {
     it('sets the state with group data (as Array) from sinopia_server', async() => {
 
       const promise = Promise.resolve(mockResponse(200, null, bodyContains))
-      const wrapper2 = shallow(<SinopiaResourceTemplates message={message}/>)
+      const wrapper2 = shallow(<SinopiaResourceTemplates message={message} />)
       await wrapper2.instance().fulfillGroupPromise(promise).then(() => wrapper2.update()).then(() => {
         expect(wrapper2.state('groupData')).toEqual(['ld4p', 'pcc'])
+        expect(resourceToName).toHaveBeenCalled()
       }).catch(e => {})
     })
 
     it('sets a message if there is no server response', async() => {
       const promise = Promise.resolve(mockResponse(200, null, undefined))
-      const wrapper2 = shallow(<SinopiaResourceTemplates message={message}/>)
+      const wrapper2 = shallow(<SinopiaResourceTemplates message={message} />)
       await wrapper2.instance().fulfillGroupPromise(promise).then(() => wrapper2.update()).then(() => {
         expect(wrapper2.state('message')).toBeTruthy()
+        expect(resourceToName).toHaveBeenCalled()
       }).catch(e => {})
     })
 
