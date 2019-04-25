@@ -87,7 +87,7 @@ describe('<ImportFileZone />', () => {
     it('displays an error message when missing required property', async () => {
       await wrapper.instance().promiseTemplateValidated(template, schemaUrl).catch((err) => {
         expect(wrapper.state().validTemplate).toBeFalsy()
-        expect(err.toString()).toMatch("should have required property 'author'")
+        expect(err.toString()).toMatch("should have required property")
       })
     })
 
