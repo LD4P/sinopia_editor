@@ -6,6 +6,7 @@ import Dropzone from 'react-dropzone'
 import PropTypes from 'prop-types'
 import Ajv from 'ajv' // JSON schema validation
 const util = require('util') // for JSON schema validation errors
+const fileReader = new window.FileReader()
 
 class ImportFileZone extends Component {
   constructor() {
@@ -20,6 +21,7 @@ class ImportFileZone extends Component {
     }
   }
 
+
   handleClick = () => {
     let val = this.state.showDropZone
     this.setState({showDropZone: !val})
@@ -30,34 +32,7 @@ class ImportFileZone extends Component {
   }
 
   onDropFile = (files) => {
-    // supplies the json loaded from the resource template
-    const handleFileRead = () => {
-      let template
-      try {
-        template = JSON.parse(fileReader.result)
-        var schemaUrl = template.schema || (template.Profile && template.Profile.schema)
-        if (schemaUrl == undefined) {
-          if (template.Profile) {
-            schemaUrl = `https://ld4p.github.io/sinopia/schemas/${Config.defaultProfileSchemaVersion}/profile.json`
-          } else {
-            schemaUrl = `https://ld4p.github.io/sinopia/schemas/${Config.defaultProfileSchemaVersion}/resource-template.json`
-          }
-          alert(`No schema url found in template. Using ${schemaUrl}`)
-        }
-        this.promiseTemplateValidated(template, schemaUrl)
-          .then(() => {
-            this.props.setResourceTemplateCallback(template, this.state.group)
-          })
-          .catch(err => {
-            alert(`ERROR - CANNOT USE PROFILE/RESOURCE TEMPLATE: problem validating template: ${err}`)
-          })
-      } catch (err) {
-        alert(`ERROR - CANNOT USE PROFILE/RESOURCE TEMPLATE: problem parsing JSON template: ${err}`)
-      }
-    }
-
-    let fileReader = new window.FileReader()
-    fileReader.onloadend = handleFileRead
+    fileReader.onloadend = this.handleFileRead
 
     try {
       //currently ResourceTemplate parses the profile and gets an array of objects; want just the objects
@@ -75,14 +50,47 @@ class ImportFileZone extends Component {
     this.setState({showDropZone: val})
   }
 
+  handleFileRead = () => {
+    let template
+    try {
+      template = JSON.parse(fileReader.result)
+
+      this.promiseTemplateValidated(template, this.schemaUrl(template))
+        .then(() => {
+          this.props.setResourceTemplateCallback(template, this.state.group)
+        })
+        .catch(err => {
+          this.setState({message: `ERROR - CANNOT USE PROFILE/RESOURCE TEMPLATE: problem validating template: ${err}`})
+        })
+    } catch (err) {
+      this.setState({message: `ERROR - CANNOT USE PROFILE/RESOURCE TEMPLATE: problem parsing JSON template: ${err}`})
+    }
+  }
+
+  schemaUrl = (template) => {
+    let schemaUrl = template.schema || (template.Profile && template.Profile.schema)
+
+    if (schemaUrl === undefined) {
+      if (template.Profile) {
+        schemaUrl = `https://ld4p.github.io/sinopia/schemas/${Config.defaultProfileSchemaVersion}/profile.json`
+      } else {
+        schemaUrl = `https://ld4p.github.io/sinopia/schemas/${Config.defaultProfileSchemaVersion}/resource-template.json`
+      }
+      this.setState({message: `No schema url found in template. Using ${schemaUrl}`})
+    }
+    return schemaUrl
+  }
+
   promiseTemplateValidated = (template, schemaUrl) => {
     return new Promise((resolve, reject) => {
       this.promiseSchemasLoaded(schemaUrl)
         .then(() => {
-          const valid = this.ajv.validate(schemaUrl, template)
-          if (!valid) {
+          this.setState({validTemplate: this.ajv.validate(schemaUrl, template)})
+
+          if (!this.state.validTemplate) {
             reject(new Error(`${util.inspect(this.ajv.errors)}`))
           }
+
           resolve() // w00t!
         })
         .catch(err => {
@@ -172,20 +180,30 @@ class ImportFileZone extends Component {
       display: 'flex',
       justifyContent: 'center'
     }
-    return (
-      <section>
-        <div className="ImportFileZone" style={importFileZone}>
-          <button id="ImportProfile" className="btn btn-primary btn-lg" onClick={this.handleClick}>Import New or Revised Resource Template</button>
+
+    if (this.state.message) {
+      return (
+        <div className="alert alert-warning alert-dismissible">
+          <button className="close" data-dismiss="alert" aria-label="close">&times;</button>
+          {this.state.message}
         </div>
-        <div className="dropzoneContainer" style={dropzoneContainer}>
-          { this.state.showDropZone ? ( <DropZone showDropZoneCallback={this.updateShowDropZone}
-                                                  dropFileCallback={this.onDropFile}
-                                                  filesCallback={this.state.files}
-                                                  groupCallback={this.state.group}
-                                                  setGroupCallback={this.setGroup} />) : null }
-        </div>
-      </section>
-    )
+      )
+    } else {
+      return (
+        <section>
+          <div className="ImportFileZone" style={importFileZone}>
+            <button id="ImportProfile" className="btn btn-primary btn-lg" onClick={this.handleClick}>Import New or Revised Resource Template</button>
+          </div>
+          <div className="dropzoneContainer" style={dropzoneContainer}>
+            { this.state.showDropZone ? ( <DropZone showDropZoneCallback={this.updateShowDropZone}
+                                                    dropFileCallback={this.onDropFile}
+                                                    filesCallback={this.state.files}
+                                                    groupCallback={this.state.group}
+                                                    setGroupCallback={this.setGroup} />) : null }
+          </div>
+        </section>
+      )
+    }
   }
 }
 
