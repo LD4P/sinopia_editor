@@ -22,7 +22,7 @@ const changeMyItems = (state, action) => {
 
 const lookups = (state=DEFAULT_STATE, action) => {
   switch(action.type) {
-    case 'CHANGE_SELECTIONS':
+    case 'CHANGE_SELECTIONS': console.log("lookups change selections");
       return changeMyItems(state, action)
     default:
       return state

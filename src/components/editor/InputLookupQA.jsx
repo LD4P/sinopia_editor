@@ -4,7 +4,8 @@ import { asyncContainer, Typeahead, Menu, MenuItem } from 'react-bootstrap-typea
 import PropTypes from 'prop-types'
 import Swagger from 'swagger-client'
 import { connect } from 'react-redux'
-import { changeSelections } from '../../actions/index'
+import { getProperty } from '../../reducers/index'
+import { changeQASelections, setItems, removeItem  } from '../../actions/index'
 
 const AsyncTypeahead = asyncContainer( Typeahead )
 
@@ -155,7 +156,7 @@ class InputLookupQA extends Component {
                     }}
                     onChange={selected => {
                         let payload = {
-                            id: this.props.propertyTemplate.propertyURI,
+                            uri: this.props.propertyTemplate.propertyURI,
                             items: selected,
                             rtId: this.props.rtId
                         }
@@ -186,15 +187,37 @@ InputLookupQA.propTypes = {
     } ).isRequired
 }
 
-const mapStatetoProps = ( state ) => {
-    let result = Object.assign( {}, state )
-    return result
+
+const mapStateToProps = ( state, props ) => {
+    let result = getProperty(state, props);
+    result = Object.assign( {}, state );
+    return result;
+    //let result = getProperty(state, props)
+    //return { formData: { items: result } }
 }
 
-const mapDispatchtoProps = dispatch => ( {
+const mapDispatchToProps = dispatch => ( {
     handleSelectedChange( selected ) {
-        dispatch( changeSelections( selected ) )
+        dispatch( changeQASelections( selected ) )
     }
 } )
 
-export default connect( mapStatetoProps, mapDispatchtoProps )( InputLookupQA )
+//Copying from InputLiteral
+/*
+const mapStateToProps = (state, props) => {
+  let result = getProperty(state, props)
+  return { formData: { items: result } }
+}
+
+const mapDispatchToProps = dispatch => ({
+  handleMyItemsChange(user_input){
+    dispatch(setItems(user_input))
+  },
+  handleRemoveItem(id){
+    dispatch(removeItem(id))
+  }
+})
+*/
+
+
+export default connect( mapStateToProps, mapDispatchToProps )( InputLookupQA )

@@ -28,6 +28,12 @@ export const changeSelections = item => ({
   payload: item
 })
 
+//InputLOC uses the same action, trying a different one to keep functionality separate
+export const changeQASelections = item => ({
+  type: 'CHANGE_QA_SELECTIONS',
+  payload: item
+})
+
 export const getLD = inputs => ({
   type: 'GENERATE_LD',
   payload: inputs
