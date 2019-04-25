@@ -100,7 +100,7 @@ describe('<ImportFileZone />', () => {
     it('displays an error message when the id is invalid', async () => {
       await wrapper.instance().promiseTemplateValidated(template, schemaUrl).catch((err) => {
         expect(wrapper.state().validTemplate).toBeFalsy()
-        expect(err.toString()).toMatch('should match pattern "^\\S+$"')
+        expect(err.toString()).toMatch('should match pattern')
       })
     })
 
