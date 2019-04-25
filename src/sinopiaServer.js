@@ -91,6 +91,7 @@ export const getResourceTemplate = async (templateId, group) => {
   if (Config.spoofSinopiaServer)
     return getSpoofedResourceTemplate(templateId)
 
+  // Allow function to be called without second arg
   if (!group)
     group = Config.defaultSinopiaGroupId
 
