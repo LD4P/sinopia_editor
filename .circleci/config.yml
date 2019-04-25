@@ -36,7 +36,10 @@ jobs:
       - restore_cache:
           key: dependencies-ci-{{ checksum "package.json" }}
       - run: npm run eslint
-      - run: npm run build
+      - run:
+          command: npm run build
+          environment:
+            SPOOF_SINOPIA_SERVER: "false"
       - persist_to_workspace:
           root: .
           paths:
