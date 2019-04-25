@@ -4,6 +4,11 @@ const OLD_ENV = process.env
 
 describe('Config', () => {
   describe('static default values', () => {
+
+    it('sinopia has a default schema version', () => {
+      expect(Config.defaultProfileSchemaVersion).toEqual('0.0.2')
+    })
+
     it('sinopia uri has static value', () => {
       expect(Config.sinopiaDomainName).toEqual('sinopia.io')
     })
@@ -68,11 +73,17 @@ describe('Config', () => {
 
     beforeAll(() => {
       process.env = {
+        DEFAULT_PROFILE_SCHEMA_VERSION: '0.1.0',
         SINOPIA_URI: 'sinopia.foo',
         TRELLIS_BASE_URL: 'https://sinopia_server.foo',
         COGNITO_CLIENT_ID: '1a2b3c',
         AWS_COGNITO_DOMAIN: 'sinopia-foo.amazoncognito.com'
       }
+    })
+
+
+    it('sinopia has a default schema version', () => {
+      expect(Config.defaultProfileSchemaVersion).toEqual('0.1.0')
     })
 
     it('sinopia url overrides static value', () => {

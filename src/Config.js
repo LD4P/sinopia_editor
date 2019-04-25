@@ -1,10 +1,11 @@
 class Config {
-  static get defaultProfileSchemaVersion() {
-    return process.env.DEFAULT_PROFILE_SCHEMA_VERSION || '0.0.9'
-  }
 
   static get defaultSinopiaGroupId() {
     return process.env.SINOPIA_GROUP || 'ld4p'
+  }
+
+  static get defaultProfileSchemaVersion() {
+    return process.env.DEFAULT_PROFILE_SCHEMA_VERSION || '0.0.2'
   }
 
   static get sinopiaDomainName() {
