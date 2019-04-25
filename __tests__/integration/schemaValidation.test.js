@@ -4,7 +4,7 @@ import Config from '../../src/Config'
 
 describe('Importing a profile/template with bad JSON', () => {
 
-  it('Displays and error message', async () => {
+  it('Displays an error message', async () => {
     jest.setTimeout(5000);
     await page.goto(`http://127.0.0.1:8888/${Config.awsCognitoJWTHashForTest}`)
 
