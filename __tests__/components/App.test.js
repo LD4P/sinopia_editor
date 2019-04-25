@@ -68,7 +68,8 @@ describe("#routes", () => {
 
   })
 
-  //TODO: Fix getting jwtAuth props to appear in the App component so that PrivateRoute will not trigger the Login component
+  //TODO: https://github.com/LD4P/sinopia_editor/issues/380
+  //  Fix getting jwtAuth props to appear in the App component so that PrivateRoute will not trigger the Login component
   // describe('Private route', () => {
   //   const renderRoutes = path =>
   //     mount(
