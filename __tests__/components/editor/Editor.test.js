@@ -7,7 +7,7 @@ import ResourceTemplate from '../../../src/components/editor/ResourceTemplate'
 import Header from '../../../src/components/editor/Header'
 
 const props = {
-  location: { state: {rtId: 'resourceTemplate:bf:Note'}}
+  location: { state: {resourceTemplateId: 'resourceTemplate:bf:Note'}}
 }
 
 describe('<Editor />', () => {

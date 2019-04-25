@@ -11,7 +11,7 @@ class Logout {
   }
 
   stateLogout() {
-    clearState()
+    clearState('jwtAuth')
   }
 }
 

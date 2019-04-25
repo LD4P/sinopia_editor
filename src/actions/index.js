@@ -3,6 +3,11 @@ export const setItems = item => ({
   payload: item
 })
 
+export const refreshResourceTemplate  = update => ({
+  type: 'REFRESH_RESOURCE_TEMPLATE',
+  payload: update
+})
+
 export const setResourceTemplate = resource_template => ({
   type: 'SET_RESOURCE_TEMPLATE',
   payload: resource_template

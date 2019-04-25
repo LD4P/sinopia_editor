@@ -22,7 +22,7 @@ services:
     ports:
       - 61613:61613
   platformdata:
-    image: ld4p/sinopia_acl
+    image: ld4p/sinopia_acl:0.2
     environment:
       INSIDE_CONTAINER: 'true'
       TRELLIS_BASE_URL: http://platform:8080

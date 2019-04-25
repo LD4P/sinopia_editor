@@ -32,6 +32,27 @@ class InputLang extends Component {
     this.props.handleSelectedChange(payload)
   }
 
+  createOptions = (json) => {
+    for(var i in json){
+      try{
+        const item = Object.getOwnPropertyDescriptor(json, i)
+        const uri = item.value["@id"]
+
+        let valArr = item.value["http://www.loc.gov/mads/rdf/v1#authoritativeLabel"]
+        var label;
+        valArr.forEach(function(obj){
+          if (obj["@language"] == "en"){
+            label = obj["@value"]
+          }
+        })
+
+        return { id: uri, uri: uri, label: label }
+      } catch (error) {
+        //ignore
+      }
+    }
+  }
+
   render() {
     var typeaheadProps = {
       id: "langComponent",
@@ -51,24 +72,7 @@ class InputLang extends Component {
             fetch("https://id.loc.gov/vocabulary/languages.json")
               .then(resp => resp.json())
               .then(json => {
-                for(var i in json){
-                  try{
-                    const item = Object.getOwnPropertyDescriptor(json, i)
-                    const uri = item.value["@id"]
-
-                    let valArr = item.value["http://www.loc.gov/mads/rdf/v1#authoritativeLabel"]
-                    var label;
-                    valArr.forEach(function(obj){
-                      if (obj["@language"] == "en"){
-                        label = obj["@value"]
-                      }
-                    })
-                    
-                    opts.push({ id: uri, uri: uri, label: label })
-                  } catch (error) {
-                    //ignore
-                  }
-                }
+                opts.push(this.createOptions(json))
               })
               .then(() => this.setState({
                   isLoading: false,

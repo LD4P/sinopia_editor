@@ -6,8 +6,11 @@ import BootstrapTable from 'react-bootstrap-table'
 import 'isomorphic-fetch'
 
 describe('<SinopiaResourceTemplates />', () => {
-
-  const wrapper = shallow(<SinopiaResourceTemplates />)
+  const message = [
+    'Created http://localhost:8080/repository/ld4p/Note/sinopia:resourceTemplate:bf2:Note1',
+    'Created http://localhost:8080/repository/ld4p/Note/sinopia:resourceTemplate:bf2:Note2'
+  ]
+  const wrapper = shallow(<SinopiaResourceTemplates message={message}/>)
 
   it('has a header for the area where the list of groups in sinopia_Server are displayed', () => {
     expect(wrapper.find('div > h4').first().text()).toEqual('Groups in Sinopia')
@@ -46,18 +49,20 @@ describe('<SinopiaResourceTemplates />', () => {
     it('sets the state with group data (as Array) from sinopia_server', async() => {
 
       const promise = Promise.resolve(mockResponse(200, null, bodyContains))
-      const wrapper2 = shallow(<SinopiaResourceTemplates />)
-      await wrapper2.instance().fulfillGroupPromise(promise)
-      wrapper2.update()
-      expect(wrapper2.state('groupData')).toEqual(['ld4p', 'pcc'])
+      const wrapper2 = shallow(<SinopiaResourceTemplates message={message} />)
+      await wrapper2.instance().fulfillGroupPromise(promise).then(() => wrapper2.update()).then(() => {
+        expect(wrapper2.state('groupData')).toEqual(['ld4p', 'pcc'])
+        expect(resourceToName).toHaveBeenCalled()
+      }).catch(e => {})
     })
 
     it('sets a message if there is no server response', async() => {
       const promise = Promise.resolve(mockResponse(200, null, undefined))
-      const wrapper2 = shallow(<SinopiaResourceTemplates />)
-      await wrapper2.instance().fulfillGroupPromise(promise)
-      await wrapper2.update()
-      expect(wrapper2.state('message')).toBeTruthy()
+      const wrapper2 = shallow(<SinopiaResourceTemplates message={message} />)
+      await wrapper2.instance().fulfillGroupPromise(promise).then(() => wrapper2.update()).then(() => {
+        expect(wrapper2.state('message')).toBeTruthy()
+        expect(resourceToName).toHaveBeenCalled()
+      }).catch(e => {})
     })
 
     it('sets the state with a list of resource templates from the server', async() => {
@@ -75,11 +80,10 @@ describe('<SinopiaResourceTemplates />', () => {
         }
       }
 
-      const wrapper3 = shallow(<SinopiaResourceTemplates />)
+      const wrapper3 = shallow(<SinopiaResourceTemplates message={message}/>)
       //TODO: figure out how to mock and test a nested promise...
       const spy = jest.spyOn(wrapper3.instance(), 'fulfillGroupData')
       await wrapper3.instance().fulfillGroupData(bodyContains)
-      wrapper3.update()
       expect(spy).toHaveBeenCalled()
     })
 
@@ -92,41 +96,19 @@ describe('<SinopiaResourceTemplates />', () => {
       name: "Note",
       uri: "http://localhost:8080/repository/ld4p/Note",
       id: "ld4p:resourceTemplate:bf2:Note",
-      group: "ld4p",
-      data: {
-        "id": "resourceTemplate:bf2:Title:Note",
-        "resourceURI": "http://id.loc.gov/ontologies/bibframe/Note",
-        "resourceLabel": "Title note",
-        "propertyTemplates": [
-          {
-            "propertyURI": "http://www.w3.org/2000/01/rdf-schema#label",
-            "propertyLabel": "Note Text",
-            "mandatory": "false",
-            "repeatable": "true",
-            "type": "literal",
-            "resourceTemplates": [],
-            "valueConstraint": {
-              "valueTemplateRefs": [],
-              "useValuesFrom": [],
-              "valueDataType": {},
-              "defaults": []
-            }
-          }
-        ]
-      }
+      group: "ld4p"
     }
 
-    const wrapper4 = shallow(<SinopiaResourceTemplates />)
+    const wrapper4 = shallow(<SinopiaResourceTemplates message={message}/>)
 
     it('has the header columns for the table of linked resource templates', async () => {
       await expect(wrapper4.find('BootstrapTable').find('TableHeaderColumn').length).toEqual(3)
     })
 
-    it('renders a link to the Editor with a payload of data', async () => {
+    it('renders a link to the Editor with the id of the resource template to fetch', async () => {
       const link = await wrapper4.instance().linkFormatter(cell, row)
       await expect(link.props.to.pathname).toEqual('/editor')
-      await expect(link.props.to.state.resourceTemplateData).toEqual(row.data)
+      await expect(link.props.to.state.resourceTemplateId).toEqual(row.id)
     })
   })
-
 })

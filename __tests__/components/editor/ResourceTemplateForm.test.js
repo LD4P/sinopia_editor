@@ -1,10 +1,11 @@
 // Copyright 2018 Stanford University see Apache2.txt for license
 
 import React from 'react'
+import 'jsdom-global/register'
 import ButtonToolbar from 'react-bootstrap/lib/ButtonToolbar'
 import { mount, shallow } from 'enzyme'
 import InputLiteral from '../../../src/components/editor/InputLiteral'
-import ResourceTemplateForm from '../../../src/components/editor/ResourceTemplateForm'
+import { ResourceTemplateForm } from '../../../src/components/editor/ResourceTemplateForm'
 import {generateLD} from "../../../src/reducers/linkedData";
 
 const rtProps = {
@@ -60,6 +61,44 @@ const rtProps = {
   ]
 }
 
+const mockResponse = (status, statusText, response) => {
+  return new Response(response, {
+    status: status,
+    statusText: statusText,
+    headers: {
+      'Content-type': 'application/json'
+    }
+  }).body
+}
+
+const responseBody = [{
+  response: {
+    body: {
+      "id": "resourceTemplate:bf2:Note",
+      "resourceURI": "http://id.loc.gov/ontologies/bibframe/Note",
+      "resourceLabel": "Note",
+      "propertyTemplates": [
+        {
+          "propertyURI": "http://www.w3.org/2000/01/rdf-schema#label",
+          "propertyLabel": "Note",
+          "mandatory": "false",
+          "repeatable": "false",
+          "type": "literal",
+          "resourceTemplates": [],
+          "valueConstraint": {
+            "valueTemplateRefs": [],
+            "useValuesFrom": [],
+            "valueDataType": {},
+            "editable": "true",
+            "repeatable": "false",
+            "defaults": []
+          }
+        }
+      ]
+    }
+  }
+}]
+
 // const lits = { id: 0, content: 'content' }
 const lits =  {formData: [{id: 0, uri: 'http://uri', items: [
         {content: '12345', id: 0, bnode: {termType: 'BlankNode', value: 'n3-0'}, propPredicate: 'http://predicate'}
@@ -109,50 +148,19 @@ const ld = {
 }
 
 const rtTest = { resourceURI: "http://id.loc.gov/ontologies/bibframe/Work" }
+const mockHandleGenerateLD = jest.fn()
 
-describe('<ResourceTemplateForm />', () => {
-  const mockHandleGenerateLD = jest.fn()
-  const wrapper = shallow(<ResourceTemplateForm.WrappedComponent
-    {...rtProps}
-    resourceTemplate = {rtTest}
-    handleGenerateRDF = {mockHandleGenerateLD}
-    literals = {lits}
-    lookups = {lups}
-    rtId = {"resourceTemplate:bf2:Monograph:Instance"}
-    parentResourceTemplate = {"resourceTemplate:bf2:Monograph:Instance"}
-    generateLD = { ld }
-  />)
+describe('<ResourceTemplateForm /> after fetching data from sinopia server', () => {
 
-  it('renders the ResourceTemplateForm text nodes', () => {
-    wrapper.find('div.ResourceTemplateForm > p').forEach((node) => {
-      expect(node.containsAnyMatchingElements([
-        'BEGIN ResourceTemplateForm',
-        'END ResourceTemplateForm'
-      ]))
-    })
-  })
+  const asyncCall = (index) => {
+    const response = mockResponse(200, null, responseBody[index])
+    return response
+  }
 
-  it('renders InputLiteral nested component (b/c we have a property of type "literal")', () => {
-    expect(wrapper
-      .find('div.ResourceTemplateForm Connect(InputLiteral)').length)
-      .toEqual(1)
-  })
+  const promises = Promise.all([ asyncCall(0) ])
 
-  it('renders the InputLookup nested component (b/c we have a property of type "lookup")', () => {
-    expect(wrapper
-      .find('div.ResourceTemplateForm Connect(InputLookupQA)').length)
-      .toEqual(1)
-  })
-
-  it('renders InputResource nested component (b/c we have a property of type "resource" with a "useValuesFrom" value)', () => {
-    expect(wrapper
-      .find('div.ResourceTemplateForm Connect(InputListLOC)').length)
-      .toEqual(1)
-  })
-
-  it('renders error text when there are no propertyTemplates', () => {
-    const myWrap = shallow(<ResourceTemplateForm.WrappedComponent
-      propertyTemplates={[]}
+  const wrapper = shallow(
+    <ResourceTemplateForm {...rtProps}
       resourceTemplate = {rtTest}
       handleGenerateRDF = {mockHandleGenerateLD}
       literals = {lits}
@@ -160,10 +168,60 @@ describe('<ResourceTemplateForm />', () => {
       rtId = {"resourceTemplate:bf2:Monograph:Instance"}
       parentResourceTemplate = {"resourceTemplate:bf2:Monograph:Instance"}
       generateLD = { ld }
-    />)
-    const errorEl = myWrap.find('h1')
-    expect(errorEl).toHaveLength(1)
-    expect(errorEl.text()).toEqual('There are no propertyTemplates - probably an error.')
+    />
+  )
+
+  describe('configured component types', () => {
+    const lookup = {
+      "propertyLabel": "Look up, look down",
+      "type": "lookup",
+      "editable": "do not override me!",
+      "repeatable": "do not override me!",
+      "mandatory": "do not override me!",
+      "valueConstraint": {
+        "useValuesFrom": [
+          "urn:ld4p:qa:names:person"
+        ]
+      }
+    }
+
+    it('renders a lookup component', async () => {
+      const instance = wrapper.instance()
+      await instance.fullfillRTPromises(promises).then(() => wrapper.update()).then(() => {
+        instance.configuredComponent(lookup, 1)
+        expect(wrapper
+          .find('div.ResourceTemplateForm Connect(InputLookupQA)').length)
+          .toEqual(1)
+      }).catch(e => {})
+    })
+
+    const list = {
+      "propertyLabel": "What's the frequency Kenneth?",
+      "type": "resource",
+      "valueConstraint": {
+        "useValuesFrom": [
+          "https://id.loc.gov/vocabulary/frequencies"
+        ]
+      }
+    }
+
+    it('renders a list component', async () => {
+      const instance = wrapper.instance()
+      await instance.fullfillRTPromises(promises).then(() => wrapper.update()).then(() => {
+        instance.configuredComponent(list, 1)
+        expect(wrapper
+          .find('div.ResourceTemplateForm Connect(InputListLOC)').length)
+          .toEqual(1)
+      }).catch(e => {})
+    })
+  })
+
+  it('renders InputLiteral nested component (b/c we have a property of type "literal")', async () => {
+    await wrapper.instance().fullfillRTPromises(promises).then(() => wrapper.update()).then(() => {
+      expect(wrapper
+        .find('div.ResourceTemplateForm Connect(InputLiteral)').length)
+        .toEqual(1)
+    }).catch(e => {})
   })
 
   it('<form> does not contain redundant form attribute', () => {
@@ -191,5 +249,34 @@ describe('<ResourceTemplateForm />', () => {
     wrapper.instance().forceUpdate()
     const propertyRemark = wrapper.find('label > PropertyRemark')
     expect(propertyRemark).toBeTruthy()
+  })
+})
+
+describe('when there are no findable nested resource templates', () => {
+  const asyncCall = () => {
+    const response = mockResponse(200, null, undefined)
+    return response
+  }
+
+  const promises = Promise.all([ asyncCall ])
+
+  const wrapper = shallow(<ResourceTemplateForm
+    propertyTemplates={[]}
+    resourceTemplate = {rtTest}
+    handleGenerateRDF = {mockHandleGenerateLD}
+    literals = {lits}
+    lookups = {lups}
+    rtId = {"resourceTemplate:bf2:Monograph:Instance"}
+    parentResourceTemplate = {"resourceTemplate:bf2:Monograph:Instance"}
+    generateLD = { ld }
+  />)
+
+  it('renders error alert box', async () => {
+    await wrapper.instance().fullfillRTPromises(promises).then(() => wrapper.update()).then(() => {
+        expect(wrapper.state.errot).toBeTruthy()
+        const errorEl = wrapper.find('div.alert')
+        expect(errorEl).toHaveLength(1)
+        expect(errorEl.text()).toEqual('Sinopia server is offline or has no resource templates to display')
+    }).catch(e => {})
   })
 })

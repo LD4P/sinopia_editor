@@ -63,4 +63,20 @@ describe('<InputLang />', () => {
   it('sets the formData store with the total number of objects sent to selected', () => {
     expect(mockFormDataFn.mock.calls.length).toBe(2)
   })
+
+  it('creates a hash of options that it renders in the form field', () => {
+    const lcLanguage = [
+      {
+        "@id": "http://id.loc.gov/vocabulary/languages/sna",
+        "http://www.loc.gov/mads/rdf/v1#authoritativeLabel": [
+          {
+            "@language": "en",
+            "@value": "Shona"
+          }
+        ]
+      }
+    ]
+    const options = wrapper.instance().createOptions(lcLanguage)
+    expect(options).toEqual({ id: 'http://id.loc.gov/vocabulary/languages/sna', uri: 'http://id.loc.gov/vocabulary/languages/sna', label: 'Shona' })
+  })
 })

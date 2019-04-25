@@ -42,8 +42,10 @@ module.exports = {
   rules: {
     "jsx-a11y/anchor-is-valid": "warn", // see #172
     "jsx-a11y/label-has-for": "warn", // see #173
+    "jsx-a11y/no-onchange": "warn", // The DropZone select form needs an onChange prop to set the state with the new group
     "no-console": ["warn", { allow: ["info", "log"] }], //for development purposes
-    "no-extra-semi": "off"
+    "no-extra-semi": "off",
+    "security/detect-object-injection": "off"
   },
   overrides: [
     {

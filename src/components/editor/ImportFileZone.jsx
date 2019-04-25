@@ -6,7 +6,7 @@ import Dropzone from 'react-dropzone'
 import PropTypes from 'prop-types'
 import Ajv from 'ajv' // JSON schema validation
 const util = require('util') // for JSON schema validation errors
-import { Link } from 'react-router-dom'
+const fileReader = new window.FileReader()
 
 class ImportFileZone extends Component {
   constructor() {
@@ -21,40 +21,18 @@ class ImportFileZone extends Component {
     }
   }
 
+
   handleClick = () => {
     let val = this.state.showDropZone
     this.setState({showDropZone: !val})
   }
 
-  onDropFile = (files) => {
-    // supplies the json loaded from the resource template
-    const handleFileRead = () => {
-      let template
-      try {
-        template = JSON.parse(fileReader.result)
-        var schemaUrl = template.schema || (template.Profile && template.Profile.schema)
-        if (schemaUrl == undefined) {
-          if (template.Profile) {
-            schemaUrl = `https://ld4p.github.io/sinopia/schemas/${Config.defaultProfileSchemaVersion}/profile.json`
-          } else {
-            schemaUrl = `https://ld4p.github.io/sinopia/schemas/${Config.defaultProfileSchemaVersion}/resource-template.json`
-          }
-          alert(`No schema url found in template. Using ${schemaUrl}`)
-        }
-        this.promiseTemplateValidated(template, schemaUrl)
-        .then(() => {
-          this.props.setResourceTemplateCallback(template)
-        })
-        .catch(err => {
-          alert(`ERROR - CANNOT USE PROFILE/RESOURCE TEMPLATE: problem validating template: ${err}`)
-        })
-      } catch (err) {
-        alert(`ERROR - CANNOT USE PROFILE/RESOURCE TEMPLATE: problem parsing JSON template: ${err}`)
-      }
-    }
+  setGroup = (group) => {
+    this.setState({group: group})
+  }
 
-    let fileReader = new window.FileReader()
-    fileReader.onloadend = handleFileRead
+  onDropFile = (files) => {
+    fileReader.onloadend = this.handleFileRead
 
     try {
       //currently ResourceTemplate parses the profile and gets an array of objects; want just the objects
@@ -72,14 +50,47 @@ class ImportFileZone extends Component {
     this.setState({showDropZone: val})
   }
 
+  handleFileRead = () => {
+    let template
+    try {
+      template = JSON.parse(fileReader.result)
+
+      this.promiseTemplateValidated(template, this.schemaUrl(template))
+        .then(() => {
+          this.props.setResourceTemplateCallback(template, this.state.group)
+        })
+        .catch(err => {
+          this.setState({message: `ERROR - CANNOT USE PROFILE/RESOURCE TEMPLATE: problem validating template: ${err}`})
+        })
+    } catch (err) {
+      this.setState({message: `ERROR - CANNOT USE PROFILE/RESOURCE TEMPLATE: problem parsing JSON template: ${err}`})
+    }
+  }
+
+  schemaUrl = (template) => {
+    let schemaUrl = template.schema || (template.Profile && template.Profile.schema)
+
+    if (schemaUrl === undefined) {
+      if (template.Profile) {
+        schemaUrl = `https://ld4p.github.io/sinopia/schemas/${Config.defaultProfileSchemaVersion}/profile.json`
+      } else {
+        schemaUrl = `https://ld4p.github.io/sinopia/schemas/${Config.defaultProfileSchemaVersion}/resource-template.json`
+      }
+      this.setState({message: `No schema url found in template. Using ${schemaUrl}`})
+    }
+    return schemaUrl
+  }
+
   promiseTemplateValidated = (template, schemaUrl) => {
     return new Promise((resolve, reject) => {
       this.promiseSchemasLoaded(schemaUrl)
         .then(() => {
-          const valid = this.ajv.validate(schemaUrl, template)
-          if (!valid) {
+          this.setState({validTemplate: this.ajv.validate(schemaUrl, template)})
+
+          if (!this.state.validTemplate) {
             reject(new Error(`${util.inspect(this.ajv.errors)}`))
           }
+
           resolve() // w00t!
         })
         .catch(err => {
@@ -103,7 +114,10 @@ class ImportFileZone extends Component {
               resolve()
             })
             .catch(err => {
-              reject(new Error(`error getting json schemas ${err}`))
+              if (err.indexOf('already exists') > 0)
+                resolve()
+              else
+                reject(new Error(`error getting json schemas ${err}`))
             })
         } else {
           resolve()
@@ -156,10 +170,6 @@ class ImportFileZone extends Component {
     })
   }
 
-  reloadEditor = () => {
-    window.location.reload()
-  }
-
   render() {
     let importFileZone = {
       display: 'flex',
@@ -170,21 +180,49 @@ class ImportFileZone extends Component {
       display: 'flex',
       justifyContent: 'center'
     }
-    return (
-      <section>
-        <div className="ImportFileZone" style={importFileZone}>
-          <div><Link to="/editor" onClick={() => {this.reloadEditor()}}>{this.props.defaultRtId}</Link></div>
-          <button id="ImportProfile" className="btn btn-primary btn-lg" onClick={this.handleClick}>Import New or Revised Resource Template</button>
+
+    if (this.state.message) {
+      return (
+        <div className="alert alert-warning alert-dismissible">
+          <button className="close" data-dismiss="alert" aria-label="close">&times;</button>
+          {this.state.message}
         </div>
-        <div className="dropzoneContainer" style={dropzoneContainer}>
-          { this.state.showDropZone ? <DropZone showDropZoneCallback={this.updateShowDropZone} dropFileCallback={this.onDropFile} filesCallback={this.state.files}/> : null }
-        </div>
-      </section>
-    )
+      )
+    } else {
+      return (
+        <section>
+          <div className="ImportFileZone" style={importFileZone}>
+            <button id="ImportProfile" className="btn btn-primary btn-lg" onClick={this.handleClick}>Import New or Revised Resource Template</button>
+          </div>
+          <div className="dropzoneContainer" style={dropzoneContainer}>
+            { this.state.showDropZone ? ( <DropZone showDropZoneCallback={this.updateShowDropZone}
+                                                    dropFileCallback={this.onDropFile}
+                                                    filesCallback={this.state.files}
+                                                    groupCallback={this.state.group}
+                                                    setGroupCallback={this.setGroup} />) : null }
+          </div>
+        </section>
+      )
+    }
   }
 }
 
 class DropZone extends Component {
+  constructor(props) {
+    super(props)
+    this.state = {}
+  }
+
+  //TODO: When we need to let the user select a group:
+  // handleChange = (event) => {
+  //   this.props.setGroupCallback(event.target.value)
+  //   this.setState({group: event.target.value})
+  // }
+  handleOnDrop = (files) => {
+    this.props.setGroupCallback(Config.defaultSinopiaGroupId)
+    this.props.dropFileCallback(files)
+  }
+
   render() {
     let fileName = {
       fontSize: '18px'
@@ -192,16 +230,38 @@ class DropZone extends Component {
     let listStyle = {
       listStyleType: 'none'
     }
+    //TODO: fetch all the existing groups from trellis or a config source and render the select form:
     return (
       <section>
-        <br /><p>Drop resource template file <br />
-        or click to select a file to upload:</p>
-        <div className="DropZone">
+        {/*<strong>*/}
+          {/*1.) Pick your Sinopia group:*/}
+        {/*</strong>*/}
+        {/*<form style={{paddingTop: '10px'}}>*/}
+          {/*<select value={this.state.group} onChange={this.handleChange}>*/}
+            {/*<option value="ld4p">LD4P</option>*/}
+            {/*<option value="pcc">PCC</option>*/}
+            {/*<option value="cub">University of Colorado Boulder</option>*/}
+            {/*<option value="cornell">Cornell University</option>*/}
+            {/*<option value="harvard">Harvard University</option>*/}
+            {/*<option value="nlm">National Library of Medicine</option>*/}
+            {/*<option value="stanford">Stanford University</option>*/}
+            {/*<option value="ucsd">University of California, San Diego</option>*/}
+            {/*<option value="penn">University of Pennsylvania</option>*/}
+            {/*<option value="hrc">Harry Ransom Center, University of Texas at Austin</option>*/}
+            {/*<option value="wau">University of Washington</option>*/}
+          {/*</select>*/}
+        {/*</form>*/}
+        <strong>
+          Drag and drop a resource template file in the box
+          <div style={{paddingLeft: '20px'}}>
+            or click it to select a file to upload:
+          </div>
+        </strong>
+        <div className="DropZone" style={{paddingTop: '20px', paddingLeft: '20px'}}>
           <Dropzone
             onFileDialogCancel={() => this.props.showDropZoneCallback(false)}
-            onDrop={this.props.dropFileCallback.bind(this)}
-          >
-          </Dropzone>
+            onDrop={this.handleOnDrop.bind(this)}
+          />
           <aside>
             <h5>Loaded resource template file:</h5>
             <ul style={listStyle}>
@@ -217,7 +277,8 @@ class DropZone extends Component {
 DropZone.propTypes = {
   dropFileCallback: PropTypes.func,
   showDropZoneCallback: PropTypes.func,
-  filesCallback: PropTypes.array
+  filesCallback: PropTypes.array,
+  setGroupCallback: PropTypes.func
 }
 ImportFileZone.propTypes = {
   tempStateCallback: PropTypes.func,
@@ -225,5 +286,4 @@ ImportFileZone.propTypes = {
   resourceTemplateId: PropTypes.string,
   defaultRtId: PropTypes.string
 }
-
 export default ImportFileZone

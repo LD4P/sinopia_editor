@@ -16,7 +16,7 @@ class Login extends React.Component {
     if(!this.props.test) {
       setTimeout(function(){
         window.location.assign(url)
-      }, 3000);
+      }, 1000);
     }
   }
 

@@ -36,7 +36,7 @@ class HomePage extends Component {
         this.props.authenticate(jwtHash)
       }
     } else {
-      saveState(this.props.jwtAuth)
+      saveState(this.props.jwtAuth, 'jwtAuth')
     }
 
     return(

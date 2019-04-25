@@ -1,3 +1,13 @@
+import { loadState } from './localStorage'
+import Config from './Config'
+const SinopiaServer = require('sinopia_server')
+const instance = new SinopiaServer.LDPApi()
+const curJwt = loadState('jwtAuth')
+instance.apiClient.basePath = Config.sinopiaServerBase
+if (curJwt !== undefined) {
+  instance.apiClient.authentications['CognitoUser'].accessToken = curJwt.id_token
+}
+
 const barcodeRt = require('../static/spoofedFilesFromServer/fromSinopiaServer/resourceTemplates/Barcode.json')
 const monographInstanceRt = require('../static/spoofedFilesFromServer/fromSinopiaServer/resourceTemplates/MonographInstance.json')
 const monographWorkRt = require('../static/spoofedFilesFromServer/fromSinopiaServer/resourceTemplates/MonographWork.json')
@@ -58,4 +68,21 @@ export const getResourceTemplate = (templateId) => {
   return resourceTemplateId2Json.find((template) => {
     return template.id == templateId
   }).json
+}
+
+export const getResourceTemplateFromServer = async (group, id) => {
+  const emptyTemplate = { propertyTemplates : [{}] }
+
+  if (!id) {
+    console.log(`ERROR: asked for resourceTemplate with null/undefined id`)
+    return emptyTemplate
+  }
+
+  return getResourcePromise(group, id)
+}
+
+function getResourcePromise(group, id) {
+  return new Promise(resolve => {
+    resolve(instance.getResourceWithHttpInfo(group, id, { acceptEncoding: 'application/json' }))
+  })
 }
