@@ -87,9 +87,12 @@ const getResourcePromise = (group, id) => {
   })
 }
 
-export const getResourceTemplate = async (group, templateId) => {
+export const getResourceTemplate = async (templateId, group) => {
   if (Config.spoofSinopiaServer)
     return getSpoofedResourceTemplate(templateId)
+
+  if (!group)
+    group = Config.defaultSinopiaGroupId
 
   return await getResourceTemplateFromServer(group, templateId)
 }

@@ -6,7 +6,6 @@ import ResourceTemplateForm from './ResourceTemplateForm'
 import { setResourceTemplate } from '../../actions/index'
 import { getResourceTemplate } from '../../sinopiaServer'
 import PropTypes from 'prop-types'
-import Config from '../../Config'
 const _ = require('lodash')
 
 class ResourceTemplate extends Component {
@@ -31,7 +30,7 @@ class ResourceTemplate extends Component {
   }
 
   resourceTemplatePromise = () => {
-    return getResourceTemplate(Config.defaultSinopiaGroupId, this.props.resourceTemplateId)
+    return getResourceTemplate(this.props.resourceTemplateId)
   }
 
   renderRtData = () => {

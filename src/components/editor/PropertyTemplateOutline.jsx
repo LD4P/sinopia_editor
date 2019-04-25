@@ -75,7 +75,7 @@ export class PropertyTemplateOutline extends Component {
 
   resourceTemplatePromises = (templateRefs) => {
     return Promise.all(templateRefs.map(rtId =>
-      getResourceTemplate('ld4p', rtId)
+      getResourceTemplate(rtId)
     ))
   }
 
