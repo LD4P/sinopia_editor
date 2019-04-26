@@ -31,6 +31,8 @@ describe('sinopiaServerSpoof', () => {
       // TODO: This only works with spoofed resource templates. prefix w/
       // `await` when `sinopiaServer.getSpoofedResourceTemplate()` returns a
       // promise.
+      //
+      // See https://github.com/LD4P/sinopia_editor/issues/473
       const template = sinopiaServer.getResourceTemplate('resourceTemplate:bf2:Title')
       expect(template.id).toEqual('resourceTemplate:bf2:Title')
       expect(template.resourceLabel).toEqual('Instance Title')

@@ -74,6 +74,8 @@ const getSpoofedResourceTemplate = (templateId) => {
   //     return template.id == templateId
   //   }).json)
   // })
+  //
+  // See https://github.com/LD4P/sinopia_editor/issues/473
   return resourceTemplateId2Json.find((template) => {
     return template.id == templateId
   }).json

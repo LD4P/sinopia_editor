@@ -84,7 +84,10 @@ const createRDFLinks = (p, o, resourceUri, label) => {
 }
 
 const createRDFLiterals = (p, o, rtId, bnode, propPredicate) => {
-  // TODO: This only works for spoofed resource templates! Needs to be reworked to deal with promises.
+  // TODO: This only works for spoofed resource templates! Needs to be reworked
+  // to deal with promises.
+  //
+  // See https://github.com/LD4P/sinopia_editor/issues/473
   let resourceTemplateForEntity = getResourceTemplate(rtId)
   let entityResourceUri = resourceTemplateForEntity.resourceURI
   let literalItems = createLiteralArray(o)
