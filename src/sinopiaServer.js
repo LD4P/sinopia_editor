@@ -1,6 +1,8 @@
+import SinopiaServer from 'sinopia_server'
+
 import { loadState } from './localStorage'
 import Config from './Config'
-const SinopiaServer = require('sinopia_server')
+
 const instance = new SinopiaServer.LDPApi()
 const curJwt = loadState('jwtAuth')
 instance.apiClient.basePath = Config.sinopiaServerBase
@@ -50,11 +52,10 @@ export const resourceTemplateId2Json = [
   {id: 'resourceTemplate:bf2:Item:Chronology', json: chronologyRt}
 ]
 
+const emptyTemplate = { propertyTemplates : [{}] }
 export const resourceTemplateIds = resourceTemplateId2Json.map(template => template.id)
 
-export const getResourceTemplate = (templateId) => {
-  const emptyTemplate = { propertyTemplates : [{}] }
-
+const getSpoofedResourceTemplate = (templateId) => {
   if (!templateId) {
     console.log(`ERROR: asked for resourceTemplate with null/undefined id`)
     return emptyTemplate
@@ -65,24 +66,39 @@ export const getResourceTemplate = (templateId) => {
     return emptyTemplate
   }
 
+  // TODO: Replace the current return value with a promise, so both functions
+  // called by getResourceTemplate() have a uniform interface, like so:
+  //
+  // return new Promise(resolve => {
+  //   resolve(resourceTemplateId2Json.find((template) => {
+  //     return template.id == templateId
+  //   }).json)
+  // })
+  //
+  // See https://github.com/LD4P/sinopia_editor/issues/473
   return resourceTemplateId2Json.find((template) => {
     return template.id == templateId
   }).json
 }
 
-export const getResourceTemplateFromServer = async (group, id) => {
-  const emptyTemplate = { propertyTemplates : [{}] }
+const getResourceTemplateFromServer = (templateId, group) => {
+  // Allow function to be called without second arg
+  if (!group)
+    group = Config.defaultSinopiaGroupId
 
-  if (!id) {
+  if (!templateId) {
     console.log(`ERROR: asked for resourceTemplate with null/undefined id`)
     return emptyTemplate
   }
 
-  return getResourcePromise(group, id)
+  return new Promise(resolve => {
+    resolve(instance.getResourceWithHttpInfo(group, templateId, { acceptEncoding: 'application/json' }))
+  })
 }
 
-function getResourcePromise(group, id) {
-  return new Promise(resolve => {
-    resolve(instance.getResourceWithHttpInfo(group, id, { acceptEncoding: 'application/json' }))
-  })
+export const getResourceTemplate = (templateId, group) => {
+  if (Config.spoofSinopiaServer)
+    return getSpoofedResourceTemplate(templateId)
+
+  return getResourceTemplateFromServer(templateId, group)
 }

@@ -2,11 +2,11 @@
 
 import React from 'react'
 import { shallow } from 'enzyme'
+import Config from '../../../src/Config'
 import ResourceTemplate from '../../../src/components/editor/ResourceTemplate'
 import ResourceTemplateForm from '../../../src/components/editor/ResourceTemplateForm'
 
 describe('<ResourceTemplate />', () => {
-
   const mockResponse = (status, statusText, response) => {
     return new Response(response, {
       status: status,
@@ -45,9 +45,11 @@ describe('<ResourceTemplate />', () => {
     }
   }
 
+  // Stub `Config.spoofSinopiaServer` static getter to force RT to come from server
+  jest.spyOn(Config, 'spoofSinopiaServer', 'get').mockReturnValue(false)
   const wrapper = shallow(<ResourceTemplate.WrappedComponent resourceTemplateId='resourceTemplate:bf2:Note' />)
   const promise = Promise.resolve(mockResponse(200, null, responseBody))
-  wrapper.instance().getResourceTemplate(promise)
+  wrapper.instance().getResourceTemplatePromise(promise)
 
   it('has div with class "ResourceTemplate"', () => {
     expect(wrapper.find('div.ResourceTemplate').length).toEqual(1)

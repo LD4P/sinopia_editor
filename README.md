@@ -73,7 +73,7 @@ Tests are written in jest, also utilizing puppeteer for end-to-end tests.
 To run them `npm test`.
 
 #### Test coverage
-To get coverage data, `npm run test-cov`.  Use a web browser to open `coverage/lcov-report/index.html`.  There is a project view and also a view of each file.  You can also check [coveralls](https://coveralls.io/repos/github/LD4P/sinopia_editor).
+To get coverage data, `npm run jest-cov`.  Use a web browser to open `coverage/lcov-report/index.html`.  There is a project view and also a view of each file.  You can also check [coveralls](https://coveralls.io/repos/github/LD4P/sinopia_editor).
 
 ### Static Analysis
 

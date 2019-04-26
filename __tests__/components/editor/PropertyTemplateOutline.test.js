@@ -7,7 +7,7 @@ import InputLiteral from '../../../src/components/editor/InputLiteral'
 import InputListLOC from '../../../src/components/editor/InputListLOC'
 import InputLookupQA from '../../../src/components/editor/InputLookupQA'
 import OutlineHeader from '../../../src/components/editor/OutlineHeader'
-import PropertyActionButtons from '../../../src/components/editor/PropertyActionButtons'
+import Config from '../../../src/Config'
 import { getLookupConfigItem, PropertyTemplateOutline, valueTemplateRefTest, getLookupConfigItems } from '../../../src/components/editor/PropertyTemplateOutline'
 import PropertyTypeRow from '../../../src/components/editor/PropertyTypeRow'
 
@@ -285,8 +285,10 @@ describe('<PropertyTemplateOutline /> with propertyTemplate Refs', () => {
                                                  initNewResourceTemplate={mockInitNewResourceTemplate} />)
 
   const childOutlineHeader = wrapper.find(OutlineHeader)
-  const actionButtons = wrapper.find(PropertyActionButtons)
   const event = { preventDefault() {} }
+
+  // Stub `Config.spoofSinopiaServer` static getter to force RT to come from server
+  jest.spyOn(Config, 'spoofSinopiaServer', 'get').mockReturnValue(false)
 
   it('displays a collapsed OutlineHeader of the propertyTemplate label', () => {
     expect(childOutlineHeader.props().label).toEqual(property.propertyTemplate.propertyLabel)
@@ -297,7 +299,7 @@ describe('<PropertyTemplateOutline /> with propertyTemplate Refs', () => {
     await wrapper.instance().fullfillRTPromises(promises).then(() => wrapper.update()).then(() => {
       childOutlineHeader.find('a').simulate('click')
       expect(wrapper.state().collapsed).toBeFalsy()
-    }).catch(e => {})
+    }).catch(() => {})
   })
 
   it('handles "Add" button click', async () => {
@@ -306,7 +308,7 @@ describe('<PropertyTemplateOutline /> with propertyTemplate Refs', () => {
       addButton.handleClick = mockHandleAddClick
       addButton.simulate('click')
       expect(mockHandleAddClick.mock.calls.length).toBe(1)
-    }).catch(e => {})
+    }).catch(() => {})
 
   })
 
@@ -320,7 +322,7 @@ describe('<PropertyTemplateOutline /> with propertyTemplate Refs', () => {
       const mintButton = wrapper.find('div > section > PropertyActionButtons > div > button.btn-success')
       mintButton.simulate('click')
       expect(mockHandleMintUri.mock.calls.length).toBe(1)
-    }).catch(e => {})
+    }).catch(() => {})
   })
 
   it('handles the mintUri method callback call', () => {
