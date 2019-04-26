@@ -285,7 +285,6 @@ describe('<PropertyTemplateOutline /> with propertyTemplate Refs', () => {
                                                  initNewResourceTemplate={mockInitNewResourceTemplate} />)
 
   const childOutlineHeader = wrapper.find(OutlineHeader)
-  const actionButtons = wrapper.find(PropertyActionButtons)
   const event = { preventDefault() {} }
 
   it('displays a collapsed OutlineHeader of the propertyTemplate label', () => {
@@ -297,7 +296,7 @@ describe('<PropertyTemplateOutline /> with propertyTemplate Refs', () => {
     await wrapper.instance().fullfillRTPromises(promises).then(() => wrapper.update()).then(() => {
       childOutlineHeader.find('a').simulate('click')
       expect(wrapper.state().collapsed).toBeFalsy()
-    }).catch(e => {})
+    }).catch(() => {})
   })
 
   it('handles "Add" button click', async () => {
@@ -306,7 +305,7 @@ describe('<PropertyTemplateOutline /> with propertyTemplate Refs', () => {
       addButton.handleClick = mockHandleAddClick
       addButton.simulate('click')
       expect(mockHandleAddClick.mock.calls.length).toBe(1)
-    }).catch(e => {})
+    }).catch(() => {})
 
   })
 
@@ -320,7 +319,7 @@ describe('<PropertyTemplateOutline /> with propertyTemplate Refs', () => {
       const mintButton = wrapper.find('div > section > PropertyActionButtons > div > button.btn-success')
       mintButton.simulate('click')
       expect(mockHandleMintUri.mock.calls.length).toBe(1)
-    }).catch(e => {})
+    }).catch(() => {})
   })
 
   it('handles the mintUri method callback call', () => {

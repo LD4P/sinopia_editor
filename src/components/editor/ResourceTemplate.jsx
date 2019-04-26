@@ -4,7 +4,7 @@ import React, { Component }  from 'react'
 import { connect } from 'react-redux'
 import ResourceTemplateForm from './ResourceTemplateForm'
 import { setResourceTemplate } from '../../actions/index'
-import { getResourceTemplate } from '../../sinopiaServer'
+import { getResourceTemplateFromServer } from '../../sinopiaServer'
 import PropTypes from 'prop-types'
 const _ = require('lodash')
 
@@ -17,10 +17,10 @@ class ResourceTemplate extends Component {
   }
 
   componentDidMount() {
-    this.getResourceTemplatePromise(this.resourceTemplatePromise())
+    this.getResourceTemplate(this.resourceTemplatePromise())
   }
 
-  getResourceTemplatePromise = (promise) => {
+  getResourceTemplate = (promise) => {
     promise.then(response_and_body => {
       this.setState({rtData: response_and_body.response.body})
       this.props.handleResourceTemplate(this.state.rtData)
@@ -30,7 +30,7 @@ class ResourceTemplate extends Component {
   }
 
   resourceTemplatePromise = () => {
-    return getResourceTemplate(this.props.resourceTemplateId)
+    return getResourceTemplateFromServer(this.props.resourceTemplateId)
   }
 
   renderRtData = () => {

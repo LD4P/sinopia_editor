@@ -55,7 +55,7 @@ export const resourceTemplateId2Json = [
 const emptyTemplate = { propertyTemplates : [{}] }
 export const resourceTemplateIds = resourceTemplateId2Json.map(template => template.id)
 
-const getSpoofedResourceTemplate = (templateId) => {
+export const getResourceTemplate = (templateId) => {
   if (!templateId) {
     console.log(`ERROR: asked for resourceTemplate with null/undefined id`)
     return emptyTemplate
@@ -66,19 +66,22 @@ const getSpoofedResourceTemplate = (templateId) => {
     return emptyTemplate
   }
 
-  console.log(`returning template ${templateId} from spoof`)
   return resourceTemplateId2Json.find((template) => {
     return template.id == templateId
   }).json
 }
 
-const getResourceTemplateFromServer = async (group, id) => {
-  if (!id) {
+export const getResourceTemplateFromServer = async (templateId, group) => {
+  // Allow function to be called without second arg
+  if (!group)
+    group = Config.defaultSinopiaGroupId
+
+  if (!templateId) {
     console.log(`ERROR: asked for resourceTemplate with null/undefined id`)
     return emptyTemplate
   }
 
-  return getResourcePromise(group, id)
+  return await getResourcePromise(group, templateId)
 }
 
 const getResourcePromise = (group, id) => {
@@ -87,13 +90,9 @@ const getResourcePromise = (group, id) => {
   })
 }
 
-export const getResourceTemplate = async (templateId, group) => {
-  if (Config.spoofSinopiaServer)
-    return getSpoofedResourceTemplate(templateId)
+// export const getResourceTemplate = async (templateId, group) => {
+//   if (Config.spoofSinopiaServer)
+//     return getSpoofedResourceTemplate(templateId)
 
-  // Allow function to be called without second arg
-  if (!group)
-    group = Config.defaultSinopiaGroupId
-
-  return await getResourceTemplateFromServer(group, templateId)
-}
+//   return await getResourceTemplateFromServer(templateId, group)
+// }
