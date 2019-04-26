@@ -55,7 +55,7 @@ export const resourceTemplateId2Json = [
 const emptyTemplate = { propertyTemplates : [{}] }
 export const resourceTemplateIds = resourceTemplateId2Json.map(template => template.id)
 
-export const getResourceTemplate = (templateId) => {
+const getSpoofedResourceTemplate = (templateId) => {
   if (!templateId) {
     console.log(`ERROR: asked for resourceTemplate with null/undefined id`)
     return emptyTemplate
@@ -66,12 +66,20 @@ export const getResourceTemplate = (templateId) => {
     return emptyTemplate
   }
 
+  // TODO: Replace the current return value with a promise, so both functions
+  // called by getResourceTemplate() have a uniform interface, like so:
+  //
+  // return new Promise(resolve => {
+  //   resolve(resourceTemplateId2Json.find((template) => {
+  //     return template.id == templateId
+  //   }).json)
+  // })
   return resourceTemplateId2Json.find((template) => {
     return template.id == templateId
   }).json
 }
 
-export const getResourceTemplateFromServer = async (templateId, group) => {
+const getResourceTemplateFromServer = (templateId, group) => {
   // Allow function to be called without second arg
   if (!group)
     group = Config.defaultSinopiaGroupId
@@ -81,18 +89,14 @@ export const getResourceTemplateFromServer = async (templateId, group) => {
     return emptyTemplate
   }
 
-  return await getResourcePromise(group, templateId)
-}
-
-const getResourcePromise = (group, id) => {
   return new Promise(resolve => {
-    resolve(instance.getResourceWithHttpInfo(group, id, { acceptEncoding: 'application/json' }))
+    resolve(instance.getResourceWithHttpInfo(group, templateId, { acceptEncoding: 'application/json' }))
   })
 }
 
-// export const getResourceTemplate = async (templateId, group) => {
-//   if (Config.spoofSinopiaServer)
-//     return getSpoofedResourceTemplate(templateId)
+export const getResourceTemplate = (templateId, group) => {
+  if (Config.spoofSinopiaServer)
+    return getSpoofedResourceTemplate(templateId)
 
-//   return await getResourceTemplateFromServer(templateId, group)
-// }
+  return getResourceTemplateFromServer(templateId, group)
+}

@@ -10,7 +10,7 @@ import PropertyActionButtons from './PropertyActionButtons'
 import PropertyTypeRow from './PropertyTypeRow'
 import RequiredSuperscript from './RequiredSuperscript'
 import { refreshResourceTemplate } from '../../actions/index'
-import { getResourceTemplateFromServer } from '../../sinopiaServer'
+import { getResourceTemplate } from '../../sinopiaServer'
 import lookupConfig from '../../../static/spoofedFilesFromServer/fromSinopiaServer/lookupConfig.json'
 import PropTypes from 'prop-types'
 import shortid from 'shortid'
@@ -75,7 +75,7 @@ export class PropertyTemplateOutline extends Component {
 
   resourceTemplatePromises = (templateRefs) => {
     return Promise.all(templateRefs.map(rtId =>
-      getResourceTemplateFromServer(rtId)
+      getResourceTemplate(rtId)
     ))
   }
 

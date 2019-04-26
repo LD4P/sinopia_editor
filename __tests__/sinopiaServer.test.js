@@ -27,7 +27,10 @@ describe('sinopiaServerSpoof', () => {
   })
 
   describe('getResourceTemplate', () => {
-    it('known id: returns JSON for resource template', () => {
+    it('known id: returns JSON for resource template', async () => {
+      // TODO: This only works with spoofed resource templates. prefix w/
+      // `await` when `sinopiaServer.getSpoofedResourceTemplate()` returns a
+      // promise.
       const template = sinopiaServer.getResourceTemplate('resourceTemplate:bf2:Title')
       expect(template.id).toEqual('resourceTemplate:bf2:Title')
       expect(template.resourceLabel).toEqual('Instance Title')
