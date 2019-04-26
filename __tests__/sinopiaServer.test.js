@@ -1,3 +1,8 @@
+import Config from '../src/Config'
+
+// Stub `Config.spoofSinopiaServer` static getter to force RT to come from spoofs
+jest.spyOn(Config, 'spoofSinopiaServer', 'get').mockReturnValue(true)
+
 describe('sinopiaServerSpoof', () => {
   let sinopiaServer = require('../src/sinopiaServer')
 
