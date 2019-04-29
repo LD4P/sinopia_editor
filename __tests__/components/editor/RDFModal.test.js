@@ -4,7 +4,7 @@ import React from 'react'
 import Modal from 'react-bootstrap/lib/Modal'
 import Button from 'react-bootstrap/lib/Button'
 import { shallow } from 'enzyme'
-import RDFModal from "../../../src/components/editor/RDFModal";
+import RDFModal from "../../../src/components/editor/RDFModal"
 
 describe('<RDFModal />', () => {
   const closeFunc = jest.fn()
@@ -28,7 +28,9 @@ describe('<RDFModal />', () => {
     })
 
     it('shows the RDF Preview title with the resource template id', () => {
-      expect(wrapper.find(Modal.Header).find(Modal.Title).childAt(0).text()).toMatch(/RDF Preview/)
+      const title = wrapper.find(Modal.Header).find(Modal.Title)
+      expect(title.childAt(0).text()).toMatch(/RDF Preview/)
+      expect(title.childAt(1).text()).toMatch(/a:b:c/)
     })
   })
 
@@ -42,8 +44,8 @@ describe('<RDFModal />', () => {
     it('has a Modal.Footer', () => {
       expect(wrapper.find(Modal.Footer).length).toBe(1)
     })
-    it('has two Buttons (Cancel and Save)', () => {
-      expect(wrapper.find(Modal.Footer).find(Button).length).toBe(1)
+    it('has a Close Button', () => {
+      expect(wrapper.find(Modal.Footer).find(Button).childAt(0).text()).toBe('Close')
     })
   })
 
