@@ -22,13 +22,13 @@ class Config {
 
   static get spoofSinopiaServer() {
     // There are two value types of `process.env` variables:
-    //   1. When undefined, `if` condition it not satisfied and default `true` is returned
+    //   1. When undefined, `if` condition is not satisfied and default `false` is returned
     //   2. When defined, will always be a string.
     //     a. When set to 'true' return `true` (use spoof)
     //     b. When set to 'false' or any other string, return `false` (don't use spoof)
     if (process.env.SPOOF_SINOPIA_SERVER)
       return process.env.SPOOF_SINOPIA_SERVER === 'true'
-    return true
+    return false
   }
 
   static get awsClientID() {

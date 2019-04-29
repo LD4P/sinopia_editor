@@ -34,6 +34,10 @@ The Sinopia Editor code is currently available via [sinopia.io](https://sinopia.
 - The web server used is the `express` web framework for node.js
 - React components are located in `src/components/` directory
 
+### Use static resource templates instead of hitting Trellis
+
+Specify the environment variable `SPOOF_SINOPIA_SERVER=true` when building the application if you would like it to load resource templates from the filesystem instead of looking for Trellis.
+
 ### Run the server with webpack-dev-webserver
 
 `npm run dev-start`
