@@ -35,7 +35,6 @@ const clearLinkedData = () => {
 }
 
 const generateLinkedData = (state, action) => {
-
   let subject, predicate, object, resourceUri, label
   subject = action.payload.linkedNode.value
   resourceUri = action.payload.resourceURI
@@ -67,7 +66,7 @@ const generateLinkedData = (state, action) => {
   return { jsonld: jsonLD }
 }
 
-function createRDFLinks(p, o, resourceUri, label) {
+const createRDFLinks = (p, o, resourceUri, label) => {
   const entity = jsonLD['@graph'].some(thing => thing["@type"] === resourceUri)
   if(entity){
     jsonLD['@graph'][0][p] =  { "@id": o }
@@ -84,14 +83,18 @@ function createRDFLinks(p, o, resourceUri, label) {
   }
 }
 
-function createRDFLiterals(p, o, rtId, bnode, propPredicate) {
+const createRDFLiterals = (p, o, rtId, bnode, propPredicate) => {
+  // TODO: This only works for spoofed resource templates! Needs to be reworked
+  // to deal with promises.
+  //
+  // See https://github.com/LD4P/sinopia_editor/issues/473
   let resourceTemplateForEntity = getResourceTemplate(rtId)
   let entityResourceUri = resourceTemplateForEntity.resourceURI
   let literalItems = createLiteralArray(o)
   let literalValue = ''
   const entity = jsonLD['@graph'].some(thing => thing["@type"] === entityResourceUri)
 
-  if(literalItems.length === 1) {
+  if (literalItems.length === 1) {
     literalValue = literalItems[0]
   } else {
     literalValue = literalItems

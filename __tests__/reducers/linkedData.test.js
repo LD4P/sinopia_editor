@@ -266,4 +266,3 @@ describe('should handle initial state', () => {
     expect(emptyGraph).toEqual(JSON.parse(jsonld))
   }
 })
-

@@ -1,7 +1,7 @@
 // Copyright 2018 Stanford University see Apache2.txt for license
-const path = require('path');
-const webpack = require('webpack');
-const HtmlWebpackPlugin = require('html-webpack-plugin');
+const path = require('path')
+const webpack = require('webpack')
+const HtmlWebpackPlugin = require('html-webpack-plugin')
 
 module.exports = {
   entry: './src/index.js',
@@ -46,11 +46,22 @@ module.exports = {
       template: path.resolve('./', 'index.html'),
       filename: 'index.html',
       hash: true
-    })
+    }),
+    new webpack.EnvironmentPlugin(
+      [
+        'SPOOF_SINOPIA_SERVER',
+        'TRELLIS_BASE_URL',
+        'DEFAULT_PROFILE_SCHEMA_VERSION',
+        'SINOPIA_GROUP',
+        'SINOPIA_URI',
+        'AWS_COGNITO_DOMAIN',
+        'COGNITO_CLIENT_ID'
+      ]
+    )
   ],
   devServer: {
     historyApiFallback: true,
     hot: true,
     port: 8888
   }
-};
+}

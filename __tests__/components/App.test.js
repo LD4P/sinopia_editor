@@ -6,10 +6,10 @@ import { mount, shallow } from "enzyme"
 import { MemoryRouter } from "react-router"
 import RootContainer from '../../src/components/RootContainer'
 import App from '../../src/components/App'
+import Config from '../../src/Config'
 import HomePage from '../../src/components/HomePage'
 import Editor from '../../src/components/editor/Editor'
 import Browse from '../../src/components/editor/Browse'
-import ImportResourceTemplate from "../../src/components/editor/ImportResourceTemplate";
 import Login from '../../src/components/Login'
 import Footer from '../../src/components/Footer'
 
@@ -42,6 +42,8 @@ describe("#routes", () => {
     })
 
     it('/editor renders Editor component', () => {
+      // Stub `Config.spoofSinopiaServer` static getter to force RT to come from server
+      jest.spyOn(Config, 'spoofSinopiaServer', 'get').mockReturnValue(false)
       const component = renderRoutes("/editor")
       expect(component.find(Editor).length).toEqual(1)
     })
