@@ -21,7 +21,7 @@ describe('Config', () => {
     })
 
     it('spoof sinopia server has static value', () => {
-      expect(Config.spoofSinopiaServer).toEqual(true)
+      expect(Config.spoofSinopiaServer).toEqual(false)
     })
 
     it('aws client ID has static value', () => {
@@ -81,7 +81,7 @@ describe('Config', () => {
     beforeAll(() => {
       process.env = {
         DEFAULT_PROFILE_SCHEMA_VERSION: '0.1.0',
-        SPOOF_SINOPIA_SERVER: 'false',
+        SPOOF_SINOPIA_SERVER: 'true',
         SINOPIA_URI: 'sinopia.foo',
         SINOPIA_GROUP: 'foobar',
         TRELLIS_BASE_URL: 'https://sinopia_server.foo',
@@ -108,7 +108,7 @@ describe('Config', () => {
     })
 
     it('spoof sinopia server overrides static value', () => {
-      expect(Config.spoofSinopiaServer).toEqual(false)
+      expect(Config.spoofSinopiaServer).toEqual(true)
     }
 )
     it('aws client ID overrides static value', () => {

@@ -1,4 +1,8 @@
+import Config from '../../src/Config'
 import { generateLD } from '../../src/reducers/linkedData'
+
+// Stub `Config.spoofSinopiaServer` static getter to force RT to come from spoofs
+jest.spyOn(Config, 'spoofSinopiaServer', 'get').mockReturnValue(true)
 
 describe('should handle initial state', () => {
   it('should handle initial state', () => {
