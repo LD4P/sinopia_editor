@@ -223,6 +223,8 @@ InputLiteral.propTypes = {
 
 const mapStateToProps = (state, props) => {
   let result = getProperty(state, props)
+  console.log(`in mapStateToProps`)
+  console.warn(result)
   return { formData: { items: result } }
 }
 

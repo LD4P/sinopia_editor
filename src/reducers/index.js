@@ -18,12 +18,18 @@ const inputPropertySelector = (state, props) => {
   return items
 }
 
-export const getProperty = createSelector(
-  [ inputPropertySelector ],
-  (propertyURI) => {
-    return propertyURI.items
-  }
-)
+// export const getProperty = createSelector(
+//   [ inputPropertySelector ],
+//   (propertyURI) => {
+//
+//     return propertyURI.items
+//   }
+// )
+
+export const getProperty = (state, props) => {
+  let result = inputPropertySelector(state, props)
+  return result.items
+}
 
 export const getAllRdf = (state, action) => {
   // TODO: Fix as part of issue #481 - it should return ... jsonld?

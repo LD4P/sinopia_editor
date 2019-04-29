@@ -74,6 +74,8 @@ export class PropertyTemplateOutline extends Component {
   }
 
   resourceTemplatePromises = (templateRefs) => {
+    console.log(`in resourceTemplatePromises`)
+    console.warn(templateRefs)
     return Promise.all(templateRefs.map(rtId =>
       getResourceTemplate(rtId)
     ))
