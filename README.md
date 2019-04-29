@@ -111,6 +111,8 @@ Note that this will provide you with "out-of-the-box" Trellis, with no data in i
 $ docker-compose up platformdata # add the '-d' flag to daemonize and run in background
 ```
 
+**NOTE**: In order for the above to work, you will need to set `COGNITO_ADMIN_PASSWORD`, `AWS_ACCESS_KEY_ID`, and `AWS_SECRET_ACCESS_KEY` in a file named `.env` in the sinopia_server root.
+
 ### Building latest Docker Image
 Before building the latest Docker Image, run `npm run build` to update the `dist` folder with the current build.
 To build the latest version of the [Sinopia Editor][GIT_REPO], you
