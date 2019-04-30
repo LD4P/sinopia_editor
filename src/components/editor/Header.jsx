@@ -27,7 +27,7 @@ class Header extends Component {
                 { /*Navlinks enable highlighting the appropriate tab based on route, active style is defined in css */}
                 <li className="nav-item"><NavLink className="nav-link" to="/browse">Browse</NavLink></li>
                 <li className="nav-item"><NavLink className="nav-link" to="/editor">Editor</NavLink></li>
-                <li className="nav-item"><NavLink className="nav-link" to="/import">Resource Templates</NavLink></li>
+                <li className="nav-item"><NavLink className="nav-link" to="/templates">Resource Templates</NavLink></li>
               </ul>
           </div>
         </div>

@@ -25,7 +25,7 @@ class Login extends React.Component {
 
     let authenticationMessage = ''
 
-    if(pathName === '"import"') {
+    if(pathName === '"templates"') {
       authenticationMessage = <div className="alert alert-warning alert-dismissible">
         <a href="#" className="close" data-dismiss="alert" aria-label="close">&times;</a>
         You must be logged in to access the {pathName} path
