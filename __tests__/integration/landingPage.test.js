@@ -1,5 +1,6 @@
 // Copyright 2018 Stanford University see Apache2.txt for license
 import expect from 'expect-puppeteer'
+import 'isomorphic-fetch'
 
 describe('Basic end to end Sinopia Linked Data Editor', () => {
   beforeAll(async () => {

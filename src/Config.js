@@ -39,6 +39,10 @@ class Config {
     return `${this.sinopiaUrl}`.replace('https://', '')
   }
 
+  static get sinopiaHelpAndResourcesMenuContent() {
+    return 'https://ld4p.github.io/sinopia/help_and_resources/menu_content.html'
+  }
+
   static get awsCognitoLoginUrl() {
     return `${this.awsCognitoDomain}/login?response_type=token&client_id=${this.awsClientID}&redirect_uri=${this.sinopiaUrl}`
   }

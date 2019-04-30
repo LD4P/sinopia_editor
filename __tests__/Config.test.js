@@ -32,6 +32,10 @@ describe('Config', () => {
       expect(Config.awsCognitoDomain).toEqual('https://sinopia-development.auth.us-west-2.amazoncognito.com')
     })
 
+    it('sinopia help and resource menu content has a link to github pages', () => {
+      expect(Config.sinopiaHelpAndResourcesMenuContent).toEqual('https://ld4p.github.io/sinopia/help_and_resources/menu_content.html')
+    })
+
     it('sinopia server url has a static value', () => {
       expect(Config.sinopiaServerBase).toEqual('http://localhost:8080')
     })
