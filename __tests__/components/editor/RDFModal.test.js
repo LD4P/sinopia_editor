@@ -4,16 +4,16 @@ import React from 'react'
 import Modal from 'react-bootstrap/lib/Modal'
 import Button from 'react-bootstrap/lib/Button'
 import { shallow } from 'enzyme'
-import RDFModal from "../../../src/components/editor/RDFModal";
+import RDFModal from "../../../src/components/editor/RDFModal"
 
 describe('<RDFModal />', () => {
   const closeFunc = jest.fn()
-  const data = '{"@context": {"bf": "http://id.loc.gov/ontologies/bibframe/"}, "@graph": [{"@id": "n3-0", "@type": "http://id.loc.gov/ontologies/bibframe/Instance"}]}'
+  // leaving this here in the unlikely event it's useful for #481 - have reducer produce correct RDF
+  // const data = '{"@context": {"bf": "http://id.loc.gov/ontologies/bibframe/"}, "@graph": [{"@id": "n3-0", "@type": "http://id.loc.gov/ontologies/bibframe/Instance"}]}'
 
-  const wrapper = shallow(<RDFModal show={true}
+  const wrapper = shallow(<RDFModal.WrappedComponent show={true}
                                     close={closeFunc}
-                                    rtId='a:b:c'
-                                    linkedData={ data } />)
+                                    rtId='a:b:c' />)
 
   it('renders the <RDFModal /> component as a Modal', () => {
     expect(wrapper.find(Modal).length).toBe(1)
@@ -28,7 +28,9 @@ describe('<RDFModal />', () => {
     })
 
     it('shows the RDF Preview title with the resource template id', () => {
-      expect(wrapper.find(Modal.Header).find(Modal.Title).childAt(0).text()).toMatch(/RDF Preview/)
+      const title = wrapper.find(Modal.Header).find(Modal.Title)
+      expect(title.childAt(0).text()).toMatch(/RDF Preview/)
+      expect(title.childAt(1).text()).toMatch(/a:b:c/)
     })
   })
 
@@ -42,8 +44,8 @@ describe('<RDFModal />', () => {
     it('has a Modal.Footer', () => {
       expect(wrapper.find(Modal.Footer).length).toBe(1)
     })
-    it('has two Buttons (Cancel and Save)', () => {
-      expect(wrapper.find(Modal.Footer).find(Button).length).toBe(1)
+    it('has a Close Button', () => {
+      expect(wrapper.find(Modal.Footer).find(Button).childAt(0).text()).toBe('Close')
     })
   })
 
