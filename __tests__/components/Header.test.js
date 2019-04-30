@@ -37,7 +37,7 @@ describe('<Header />', () => {
   })
 
   it('links to Linked Data Editor', () => {
-    expect(wrapper.find(Link).props().to).toBe('/import')
+    expect(wrapper.find(Link).props().to).toBe('/templates')
     expect(wrapper.find(Link).children(0).text()).toBe('Linked Data Editor')
   })
 

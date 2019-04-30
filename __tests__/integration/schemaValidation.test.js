@@ -8,7 +8,7 @@ describe('Importing a profile/template with bad JSON', () => {
     jest.setTimeout(5000);
     await page.goto(`http://127.0.0.1:8888/${Config.awsCognitoJWTHashForTest}`)
 
-    await page.goto('http://127.0.0.1:8888/import')
+    await page.goto('http://127.0.0.1:8888/templates')
 
     await page.waitForSelector('button#ImportProfile')
     await page.click('button#ImportProfile')

@@ -48,8 +48,8 @@ describe("#routes", () => {
       expect(component.find(Editor).length).toEqual(1)
     })
 
-    it('/import renders the Login component (with location props) if the user is not authenticated', () => {
-      const component = renderRoutes("/import")
+    it('/templates renders the Login component (with location props) if the user is not authenticated', () => {
+      const component = renderRoutes("/templates")
       expect(component.find(Login).length).toEqual(1)
       expect(component.find(Login).prop('location')).toBeDefined()
     })
@@ -82,8 +82,8 @@ describe("#routes", () => {
   //       </MemoryRouter>
   //     )
   //
-  //   it('/import renders the Import component if user is authenticated', () => {
-  //     const component = renderRoutes("/import").setProps({jwtAuth:{isAuthenticated: true}})
+  //   it('/templates renders the Import component if user is authenticated', () => {
+  //     const component = renderRoutes("/templates").setProps({jwtAuth:{isAuthenticated: true}})
   //     console.warn(component.props())
   //     component.update()
   //     expect(component.find(ImportResourceTemplate).length).toEqual(1)

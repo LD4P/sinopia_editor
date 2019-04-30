@@ -22,7 +22,7 @@ describe('<Header />', () => {
       expect(wrapper.find("ul.editor-navtabs NavLink[to='/editor']").length).toBe(1)
     })
     it ('has Import Resource Template URL', () => {
-      expect(wrapper.find("ul.editor-navtabs NavLink[to='/import']").length).toBe(1)
+      expect(wrapper.find("ul.editor-navtabs NavLink[to='/templates']").length).toBe(1)
     })
   })
 })
