@@ -82,7 +82,7 @@ describe('Config', () => {
       process.env = {
         DEFAULT_PROFILE_SCHEMA_VERSION: '0.1.0',
         SPOOF_SINOPIA_SERVER: 'true',
-        SINOPIA_URI: 'sinopia.foo',
+        SINOPIA_URI: 'https://sinopia.foo',
         SINOPIA_GROUP: 'foobar',
         TRELLIS_BASE_URL: 'https://sinopia_server.foo',
         COGNITO_CLIENT_ID: '1a2b3c',
