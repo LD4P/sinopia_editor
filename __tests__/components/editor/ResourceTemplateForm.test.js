@@ -6,7 +6,6 @@ import ButtonToolbar from 'react-bootstrap/lib/ButtonToolbar'
 import { mount, shallow } from 'enzyme'
 import InputLiteral from '../../../src/components/editor/InputLiteral'
 import { ResourceTemplateForm } from '../../../src/components/editor/ResourceTemplateForm'
-import {generateLD} from "../../../src/reducers/linkedData";
 
 const rtProps = {
   "propertyTemplates": [

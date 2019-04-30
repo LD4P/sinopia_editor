@@ -33,35 +33,28 @@ describe('sinopiaServerSpoof', () => {
 
   describe('getResourceTemplate', () => {
     it('known id: returns JSON for resource template', async () => {
-      // TODO: This only works with spoofed resource templates. prefix w/
-      // `await` when `sinopiaServer.getSpoofedResourceTemplate()` returns a
-      // promise.
-      //
-      // See https://github.com/LD4P/sinopia_editor/issues/473
-      const template = sinopiaServer.getResourceTemplate('resourceTemplate:bf2:Title')
-      expect(template.id).toEqual('resourceTemplate:bf2:Title')
-      expect(template.resourceLabel).toEqual('Instance Title')
+      const template = await sinopiaServer.getResourceTemplate('resourceTemplate:bf2:Title')
+      expect(template.response.body.id).toEqual('resourceTemplate:bf2:Title')
+      expect(template.response.body.resourceLabel).toEqual('Instance Title')
     })
     it('unknown id: returns empty resource template and logs error', () => {
-      let output = ''
-      let storeErr = inputs => (output += inputs)
-      console["log"] = jest.fn(storeErr)
-      expect(sinopiaServer.getResourceTemplate('not:there')).toEqual({"propertyTemplates": [{}]})
-      expect(output).toEqual('ERROR: un-spoofed resourceTemplate: not:there')
+      expect(sinopiaServer.getResourceTemplate('not:there')).toEqual(
+        {"error":'ERROR: un-spoofed resourceTemplate: not:there',
+         "propertyTemplates": [{}]})
     })
     it('null id: returns empty resource template and logs error', () => {
-      let output = ''
-      let storeErr = inputs => (output += inputs)
-      console["log"] = jest.fn(storeErr)
-      expect(sinopiaServer.getResourceTemplate()).toEqual({"propertyTemplates": [{}]})
-      expect(output).toEqual('ERROR: asked for resourceTemplate with null/undefined id')
-      output = ''
-      expect(sinopiaServer.getResourceTemplate(null)).toEqual({"propertyTemplates": [{}]})
-      expect(output).toEqual('ERROR: asked for resourceTemplate with null/undefined id')
-      output = ''
-      expect(sinopiaServer.getResourceTemplate(undefined)).toEqual({"propertyTemplates": [{}]})
-      expect(output).toEqual('ERROR: asked for resourceTemplate with null/undefined id')
-      expect(sinopiaServer.getResourceTemplate('')).toEqual({"propertyTemplates": [{}]})
+      expect(sinopiaServer.getResourceTemplate()).toEqual(
+        {"error": "ERROR: asked for resourceTemplate with null/undefined id",
+         "propertyTemplates": [{}]})
+      expect(sinopiaServer.getResourceTemplate(null)).toEqual({
+        "error": "ERROR: asked for resourceTemplate with null/undefined id",
+        "propertyTemplates": [{}]})
+      expect(sinopiaServer.getResourceTemplate(undefined)).toEqual({
+        "error": "ERROR: asked for resourceTemplate with null/undefined id",
+        "propertyTemplates": [{}]})
+      expect(sinopiaServer.getResourceTemplate('')).toEqual({
+        "error": "ERROR: asked for resourceTemplate with null/undefined id",
+        "propertyTemplates": [{}]})
     })
 
   })
