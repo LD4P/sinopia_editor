@@ -8,10 +8,6 @@ class Config {
     return process.env.DEFAULT_PROFILE_SCHEMA_VERSION || '0.0.2'
   }
 
-  static get sinopiaDomainName() {
-    return process.env.SINOPIA_URI || 'sinopia.io'
-  }
-
   static get sinopiaServerBase() {
     return process.env.TRELLIS_BASE_URL || 'http://localhost:8080'
   }
@@ -36,7 +32,11 @@ class Config {
   }
 
   static get sinopiaUrl() {
-    return `https://${this.sinopiaDomainName}`
+    return process.env.SINOPIA_URI || 'https://sinopia.io'
+  }
+
+  static get sinopiaDomainName() {
+    return `${this.sinopiaUrl}`.replace('https://', '')
   }
 
   static get awsCognitoLoginUrl() {

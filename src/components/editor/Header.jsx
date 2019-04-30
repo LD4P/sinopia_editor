@@ -3,6 +3,8 @@
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 import {NavLink} from 'react-router-dom'
+import Config from '../../../src/Config'
+
 class Header extends Component {
   render() {
     return (
@@ -10,7 +12,7 @@ class Header extends Component {
         <div>
           <ul className="nav navbar-nav pull-right">
             <li>
-              <a className="editor-header-text" href="https://profile-editor.sinopia.io/">Profile Editor</a>
+              <a className="editor-header-text" href={`https://profile-editor.${Config.sinopiaDomainName}/`}>Profile Editor</a>
             </li>
             <li className="menu">
               <a href="#" className="editor-help-resources" onClick={this.props.triggerEditorMenu}>Help and Resources</a>
@@ -25,7 +27,7 @@ class Header extends Component {
                 { /*Navlinks enable highlighting the appropriate tab based on route, active style is defined in css */}
                 <li className="nav-item"><NavLink className="nav-link" to="/browse">Browse</NavLink></li>
                 <li className="nav-item"><NavLink className="nav-link" to="/editor">Editor</NavLink></li>
-                <li className="nav-item"><NavLink className="nav-link" to="/import">Import Resource Template</NavLink></li>
+                <li className="nav-item"><NavLink className="nav-link" to="/import">Resource Templates</NavLink></li>
               </ul>
           </div>
         </div>
