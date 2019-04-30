@@ -8,12 +8,12 @@ import RDFModal from "../../../src/components/editor/RDFModal"
 
 describe('<RDFModal />', () => {
   const closeFunc = jest.fn()
-  const data = '{"@context": {"bf": "http://id.loc.gov/ontologies/bibframe/"}, "@graph": [{"@id": "n3-0", "@type": "http://id.loc.gov/ontologies/bibframe/Instance"}]}'
+  // leaving this here in the unlikely event it's useful for #481 - have reducer produce correct RDF
+  // const data = '{"@context": {"bf": "http://id.loc.gov/ontologies/bibframe/"}, "@graph": [{"@id": "n3-0", "@type": "http://id.loc.gov/ontologies/bibframe/Instance"}]}'
 
-  const wrapper = shallow(<RDFModal show={true}
+  const wrapper = shallow(<RDFModal.WrappedComponent show={true}
                                     close={closeFunc}
-                                    rtId='a:b:c'
-                                    linkedData={ data } />)
+                                    rtId='a:b:c' />)
 
   it('renders the <RDFModal /> component as a Modal', () => {
     expect(wrapper.find(Modal).length).toBe(1)

@@ -26,6 +26,14 @@ export const getProperty = createSelector(
   }
 )
 
+export const getAllRdf = (state, action) => {
+  // TODO: Fix as part of issue #481 - it should return ... jsonld?
+  let output = Object.create(state)
+  // TODO: temporary no-op to pass eslint ...
+  action.payload
+  return output.selectorReducer
+}
+
 export const refreshResourceTemplate = (state, action) => {
   let newState = Object.assign({}, state)
   const reduxPath = action.payload.reduxPath
