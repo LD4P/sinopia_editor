@@ -75,7 +75,6 @@ describe(`Takes a resource template ID and populates the global state`, () => {
       selectorReducer(undefined, {})
     ).toMatchObject(
       { "authenticate": {"loginJwt": {}},
-        "generateLD": {"generateLD": {}},
         "lang": {"formData": []},
         "selectorReducer": {}
       }
@@ -93,7 +92,6 @@ describe(`Takes a resource template ID and populates the global state`, () => {
       })
     ).toMatchObject(
       { "authenticate": {"loginJwt": {}},
-        "generateLD": {"generateLD": {}},
         "lang": {"formData": []},
         "selectorReducer": { 'resourceTemplate:bf2:Monograph:Instance':
           { 'http://id.loc.gov/ontologies/bibframe/instanceOf': { 'resourceTemplate:bf2:Monograph:Work': {} },

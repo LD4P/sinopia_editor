@@ -1,7 +1,6 @@
 // Copyright 2018, 2019 Stanford University see Apache2.txt for license
 import { combineReducers } from 'redux'
 import { createSelector } from 'reselect'
-import { generateLD } from './linkedData'
 import lang from './lang'
 import authenticate from './authenticate'
 import { removeAllContent, setMyItems, removeMyItem } from './literal'
@@ -102,7 +101,6 @@ const selectorReducer = (state={}, action) => {
 }
 
 const appReducer = combineReducers({
-  generateLD,
   lang,
   authenticate,
   selectorReducer

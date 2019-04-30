@@ -88,7 +88,9 @@ describe('Config', () => {
         COGNITO_CLIENT_ID: '1a2b3c',
         AWS_COGNITO_DOMAIN: 'https://sinopia-foo.amazoncognito.com'
       }
-    })
+    }
+
+    )
 
 
     it('sinopia has a default schema version', () => {

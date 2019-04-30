@@ -57,28 +57,21 @@ export const resourceTemplateIds = resourceTemplateId2Json.map(template => templ
 
 const getSpoofedResourceTemplate = (templateId) => {
   if (!templateId) {
-    console.log(`ERROR: asked for resourceTemplate with null/undefined id`)
+    emptyTemplate['error'] = `ERROR: asked for resourceTemplate with null/undefined id`
     return emptyTemplate
   }
 
   if (!resourceTemplateIds.includes(templateId)) {
-    console.log(`ERROR: un-spoofed resourceTemplate: ${templateId}`)
+    emptyTemplate['error'] = `ERROR: un-spoofed resourceTemplate: ${templateId}`
     return emptyTemplate
   }
-
-  // TODO: Replace the current return value with a promise, so both functions
-  // called by getResourceTemplate() have a uniform interface, like so:
-  //
-  // return new Promise(resolve => {
-  //   resolve(resourceTemplateId2Json.find((template) => {
-  //     return template.id == templateId
-  //   }).json)
-  // })
-  //
-  // See https://github.com/LD4P/sinopia_editor/issues/473
-  return resourceTemplateId2Json.find((template) => {
-    return template.id == templateId
+  const spoofedResponse = { response: {} }
+  spoofedResponse['response']['body'] = resourceTemplateId2Json.find((template) => {
+    if(template.id == templateId) return template
   }).json
+  return new Promise(resolve => {
+    resolve(spoofedResponse)
+  })
 }
 
 const getResourceTemplateFromServer = (templateId, group) => {
@@ -87,7 +80,7 @@ const getResourceTemplateFromServer = (templateId, group) => {
     group = Config.defaultSinopiaGroupId
 
   if (!templateId) {
-    console.log(`ERROR: asked for resourceTemplate with null/undefined id`)
+    emptyTemplate['error'] = `ERROR: asked for resourceTemplate with null/undefined id`
     return emptyTemplate
   }
 
