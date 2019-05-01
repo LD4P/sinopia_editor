@@ -12,6 +12,8 @@ import Editor from '../../src/components/editor/Editor'
 import Browse from '../../src/components/editor/Browse'
 import Login from '../../src/components/Login'
 import Footer from '../../src/components/Footer'
+import { saveState } from '../../src/localStorage'
+import ImportResourceTemplate from "../../src/components/editor/ImportResourceTemplate";
 
 describe('<App />', () =>{
   const wrapper = shallow(<App.WrappedComponent />)
@@ -36,6 +38,17 @@ describe("#routes", () => {
         </MemoryRouter>
       )
 
+    const renderEditorRoute = path =>
+      mount(
+        <MemoryRouter initialEntries={[path]}>
+          <RootContainer>
+            <App>
+              <Editor location={{state: { resourceTemplateId: 'resourceTemplate:bf2:Monograph:Instance' }}} />
+            </App>
+          </RootContainer>
+        </MemoryRouter>
+      )
+
     it('root renders HomePage component', async () => {
       const component = renderRoutes("/")
       await expect(component.find(HomePage).length).toEqual(1)
@@ -44,11 +57,13 @@ describe("#routes", () => {
     it('/editor renders Editor component', () => {
       // Stub `Config.spoofSinopiaServer` static getter to force RT to come from server
       jest.spyOn(Config, 'spoofSinopiaServer', 'get').mockReturnValue(false)
-      const component = renderRoutes("/editor")
-      expect(component.find(Editor).length).toEqual(1)
+      saveState({loginJwt: Config.awsCognitoJWTHashForTest, isAuthenticated: true}, 'jwtAuth')
+      const component = renderEditorRoute("/editor")
+      expect(component.find(ImportResourceTemplate).length).toEqual(1)
     })
 
     it('/templates renders the Login component (with location props) if the user is not authenticated', () => {
+      saveState({loginJwt: {}, isAuthenticated: false}, 'jwtAuth')
       const component = renderRoutes("/templates")
       expect(component.find(Login).length).toEqual(1)
       expect(component.find(Login).prop('location')).toBeDefined()

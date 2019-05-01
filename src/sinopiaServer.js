@@ -74,6 +74,22 @@ const getSpoofedResourceTemplate = (templateId) => {
   })
 }
 
+export const spoofedResourcesInGroupContainer = (group) => {
+  const container = `http://spoof.trellis.io/${group}`
+  const ids = []
+  resourceTemplateId2Json.map(rt => {
+    ids.push(`${container}/${rt.id}`)
+  })
+  return {
+    response: {
+      body: {
+        "@id": container,
+        contains: ids
+      }
+    }
+  }
+}
+
 const getResourceTemplateFromServer = (templateId, group) => {
   // Allow function to be called without second arg
   if (!group)
@@ -94,4 +110,32 @@ export const getResourceTemplate = (templateId, group) => {
     return getSpoofedResourceTemplate(templateId)
 
   return getResourceTemplateFromServer(templateId, group)
+}
+
+export const getGroups = () => {
+  if (Config.spoofSinopiaServer)
+    return new Promise(resolve => {
+      resolve({
+        response: {
+          body: {
+            contains: 'http://spoof.trellis.io/ld4p'
+          }
+        }
+      })
+    })
+
+  return new Promise(resolve => {
+    resolve(instance.getBaseWithHttpInfo())
+  })
+}
+
+export const listReourcesInGroupContainer = (group) => {
+  if (Config.spoofSinopiaServer)
+    return new Promise(resolve => {
+      resolve(spoofedResourcesInGroupContainer(group))
+    })
+
+  return new Promise(resolve => {
+    resolve(instance.getGroupWithHttpInfo(group))
+  })
 }

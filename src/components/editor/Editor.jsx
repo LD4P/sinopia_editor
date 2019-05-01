@@ -29,9 +29,7 @@ class Editor extends Component {
           resourceTemplateId: this.props.location.state.resourceTemplateId
         })
       } else {
-        this.setState({
-          resourceTemplateId: this.props.resourceTemplateId
-        })
+        this.props.history.push("/templates");
       }
       this.setState({tempRtState: false})
     }
@@ -51,6 +49,7 @@ class Editor extends Component {
   )
 
   render() {
+
     let authenticationMessage = <div className="alert alert-warning alert-dismissible">
       <button className="close" data-dismiss="alert" aria-label="close">&times;</button>
       Alert! No data can be saved unless you are logged in with group permissions.
@@ -98,7 +97,8 @@ Editor.propTypes = {
   resetStore: PropTypes.func,
   jwtAuth: PropTypes.object,
   location: PropTypes.object,
-  resourceTemplateId: PropTypes.string
+  resourceTemplateId: PropTypes.string,
+  history: PropTypes.object
 }
 
 const mapDispatchToProps = dispatch => ({

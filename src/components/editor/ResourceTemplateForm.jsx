@@ -233,7 +233,6 @@ ResourceTemplateForm.propTypes = {
   rdfOuterSubject: PropTypes.object,
   propPredicate: PropTypes.string,
   buttonID: PropTypes.number,
-  generateLD: PropTypes.object.isRequired,
   handleMyItemsChange: PropTypes.func,
   handleRemoveAllContent: PropTypes.func
 }
