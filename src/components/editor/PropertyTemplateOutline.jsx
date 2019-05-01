@@ -74,8 +74,6 @@ export class PropertyTemplateOutline extends Component {
   }
 
   resourceTemplatePromises = (templateRefs) => {
-    console.log(`in resourceTemplatePromises`)
-    console.warn(templateRefs)
     return Promise.all(templateRefs.map(rtId =>
       getResourceTemplate(rtId)
     ))
@@ -137,17 +135,7 @@ export class PropertyTemplateOutline extends Component {
               let newReduxPath = Object.assign([], rtReduxPath)
               newReduxPath.push(rtId)
               newReduxPath.push(rtProperty.propertyURI)
-              const payload = { reduxPath: newReduxPath }
-              if (rtProperty.valueConstraint.defaults && rtProperty.valueConstraint.defaults.length > 0) {
-                payload['defaults'] = []
-                rtProperty.valueConstraint.defaults.map((row, i) => {
-                  payload['defaults'].push({
-                    id: i,
-                    content: row.defaultLiteral,
-                    uri: row.defaultURI
-                  })
-                })
-              }
+              const payload = { reduxPath: newReduxPath, property: rtProperty }
               this.props.initNewResourceTemplate(payload)
               input.push(<PropertyTemplateOutline key={shortid.generate()}
                                                   propertyTemplate={rtProperty}

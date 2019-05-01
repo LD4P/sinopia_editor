@@ -73,6 +73,8 @@ export class InputLiteral extends Component {
         reduxPath: this.props.reduxPath,
         items: userInputArray
       }
+      console.log(`User Input`)
+      console.warn(currentcontent, this.props.formData)
       this.props.handleMyItemsChange(user_input)
       this.setState({
         content_add: ""
@@ -223,8 +225,6 @@ InputLiteral.propTypes = {
 
 const mapStateToProps = (state, props) => {
   let result = getProperty(state, props)
-  console.log(`in mapStateToProps`)
-  console.warn(result)
   return { formData: { items: result } }
 }
 

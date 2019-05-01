@@ -43,10 +43,21 @@ export const getAllRdf = (state, action) => {
 export const refreshResourceTemplate = (state, action) => {
   let newState = Object.assign({}, state)
   const reduxPath = action.payload.reduxPath
+  const propertyTemplate = action.payload.property
   if (reduxPath === undefined || reduxPath.length < 1) {
     return newState
   }
-  const items = action.payload.defaults || { items: [] }
+  const defaults = []
+  if (propertyTemplate.valueConstraint.defaults && propertyTemplate.valueConstraint.defaults.length > 0) {
+    propertyTemplate.valueConstraint.defaults.map((row, i) => {
+      defaults.push({
+        id: makeShortID(),
+        content: row.defaultLiteral,
+        uri: row.defaultURI
+      })
+    })
+  }
+  const items =  { items: defaults }
 
   const lastKey = reduxPath.pop()
   const lastObject = reduxPath.reduce((newState, key) =>
@@ -62,34 +73,15 @@ export const refreshResourceTemplate = (state, action) => {
 
 export const setResourceTemplate = (state, action) => {
   const rtKey = action.payload.id
-
   let output = Object.create(state)
-  output[rtKey] = {}
   action.payload.propertyTemplates.forEach((property) => {
-    output[rtKey][property.propertyURI] = { items: [] }
-    if (_.has(property.valueConstraint, 'defaults')) {
-      if (property.valueConstraint.defaults.length > 0) {
-        property.valueConstraint.defaults.forEach((row) => {
-          // This items payload needs to vary if type is literal or lookup
-
-          output[rtKey][property.propertyURI].items.push(
-            {
-              id: makeShortID(),
-              content: row.defaultLiteral,
-              uri: row.defaultURI
-            }
-          )
-        })
+    let propertyAction = {
+      payload: {
+        reduxPath: [rtKey, property.propertyURI],
+        property: property
       }
     }
-    if (_.has(property.valueConstraint, 'valueTemplateRefs')) {
-      if (property.valueConstraint.valueTemplateRefs.length > 0) {
-        output[rtKey][property.propertyURI] = {}
-        property.valueConstraint.valueTemplateRefs.map((row) => {
-          output[rtKey][property.propertyURI][row] = {}
-        })
-      }
-    }
+    output = refreshResourceTemplate(output, propertyAction)
   })
   return output
 }
