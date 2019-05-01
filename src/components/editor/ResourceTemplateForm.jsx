@@ -241,8 +241,7 @@ ResourceTemplateForm.propTypes = {
 const mapStateToProps = ( state ) => {
   return {
     literals: state.literal,
-    lookups: state.lookups,
-    generateLD: state.generateLD
+    lookups: state.lookups
   }
 }
 

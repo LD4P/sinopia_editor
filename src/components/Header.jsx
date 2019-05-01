@@ -17,7 +17,7 @@ class Header extends Component {
         </div>
         <ul className= "nav navbar-nav pull-right">
           <li>
-            <Link to='/editor'>Linked Data Editor</Link>
+            <Link to='/templates'>Linked Data Editor</Link>
           </li>
           <li>
             <a className="header-text" href={`https://profile-editor.${Config.sinopiaDomainName}/`}>Profile Editor</a>

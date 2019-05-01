@@ -7,6 +7,7 @@ import { Link } from 'react-router-dom'
 import PropTypes from 'prop-types'
 import ResourceTemplate from './ResourceTemplate'
 import Header from './Header'
+import RDFModal from './RDFModal'
 import { loadState } from '../../localStorage'
 const _ = require('lodash')
 
@@ -16,9 +17,9 @@ class Editor extends Component {
     this.state = {
       tempRtState: true,
       userAuthenticated: false,
-      resourceTemplateId: ''
+      resourceTemplateId: '',
+      showRdf: false
     }
-
   }
 
   componentDidMount () {
@@ -34,6 +35,15 @@ class Editor extends Component {
       }
       this.setState({tempRtState: false})
     }
+  }
+
+  handleRdfShow = () => {
+    this.setState({showRdf: true})
+  }
+
+  // NOTE: it's possible these handle methods for RDFModal could live in RDFModal component
+  handleRdfClose = () => {
+    this.setState({showRdf: false})
   }
 
   renderResourceTemplate = () => (
@@ -69,9 +79,13 @@ class Editor extends Component {
             <h1>[Clone|Edit] <em>Name of Resource</em></h1>
           </section>
           <section className="col-md-3">
-            <button type="button" className="btn btn-primary btn-sm">Preview RDF</button>
+            <button type="button" className="btn btn-primary btn-sm" onClick={this.handleRdfShow}>Preview RDF</button>
           </section>
         </div>
+        <div>
+           <RDFModal show={this.state.showRdf}
+                     close={this.handleRdfClose}/>
+         </div>
           { _.isEmpty(this.state.resourceTemplateId) ? ( <div>Loading resource template...</div> ) : this.renderResourceTemplate() }
       </div>
     )
@@ -80,7 +94,6 @@ class Editor extends Component {
 
 Editor.propTypes = {
   children: PropTypes.array,
-  rtId: PropTypes.string,
   triggerHandleOffsetMenu: PropTypes.func,
   resetStore: PropTypes.func,
   jwtAuth: PropTypes.object,

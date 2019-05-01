@@ -8,16 +8,12 @@ class Config {
     return process.env.DEFAULT_PROFILE_SCHEMA_VERSION || '0.0.2'
   }
 
-  static get sinopiaDomainName() {
-    return process.env.SINOPIA_URI || 'sinopia.io'
-  }
-
   static get sinopiaServerBase() {
     return process.env.TRELLIS_BASE_URL || 'http://localhost:8080'
   }
 
   static get awsCognitoDomain() {
-    return process.env.AWS_COGNITO_DOMAIN || 'sinopia-development.auth.us-west-2.amazoncognito.com'
+    return process.env.AWS_COGNITO_DOMAIN || 'https://sinopia-development.auth.us-west-2.amazoncognito.com'
   }
 
   static get spoofSinopiaServer() {
@@ -36,23 +32,31 @@ class Config {
   }
 
   static get sinopiaUrl() {
-    return `https://${this.sinopiaDomainName}`
+    return process.env.SINOPIA_URI || 'https://sinopia.io'
+  }
+
+  static get sinopiaDomainName() {
+    return `${this.sinopiaUrl}`.replace('https://', '')
+  }
+
+  static get sinopiaHelpAndResourcesMenuContent() {
+    return 'https://ld4p.github.io/sinopia/help_and_resources/menu_content.html'
   }
 
   static get awsCognitoLoginUrl() {
-    return `https://${this.awsCognitoDomain}/login?response_type=token&client_id=${this.awsClientID}&redirect_uri=${this.sinopiaUrl}`
+    return `${this.awsCognitoDomain}/login?response_type=token&client_id=${this.awsClientID}&redirect_uri=${this.sinopiaUrl}`
   }
 
   static get awsCognitoLogoutUrl() {
-    return `https://${this.awsCognitoDomain}/logout?response_type=token&client_id=${this.awsClientID}&logout_uri=${this.sinopiaUrl}&redirect_uri=${this.sinopiaUrl}`
+    return `${this.awsCognitoDomain}/logout?response_type=token&client_id=${this.awsClientID}&logout_uri=${this.sinopiaUrl}&redirect_uri=${this.sinopiaUrl}`
   }
 
   static get awsCognitoForgotPasswordUrl() {
-    return `https://${this.awsCognitoDomain}/forgotPassword?response_type=token&client_id=${this.awsClientID}&redirect_uri=${this.sinopiaUrl}`
+    return `${this.awsCognitoDomain}/forgotPassword?response_type=token&client_id=${this.awsClientID}&redirect_uri=${this.sinopiaUrl}`
   }
 
   static get awsCognitoResetPasswordUrl() {
-    return `https://${this.awsCognitoDomain}/signup?response_type=token&client_id=${this.awsClientID}&redirect_uri=${this.sinopiaUrl}`
+    return `${this.awsCognitoDomain}/signup?response_type=token&client_id=${this.awsClientID}&redirect_uri=${this.sinopiaUrl}`
   }
 
   static get awsCognitoJWTHashForTest() {

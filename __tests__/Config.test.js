@@ -29,7 +29,11 @@ describe('Config', () => {
     })
 
     it('aws cognito domain has static value', () => {
-      expect(Config.awsCognitoDomain).toEqual('sinopia-development.auth.us-west-2.amazoncognito.com')
+      expect(Config.awsCognitoDomain).toEqual('https://sinopia-development.auth.us-west-2.amazoncognito.com')
+    })
+
+    it('sinopia help and resource menu content has a link to github pages', () => {
+      expect(Config.sinopiaHelpAndResourcesMenuContent).toEqual('https://ld4p.github.io/sinopia/help_and_resources/menu_content.html')
     })
 
     it('sinopia server url has a static value', () => {
@@ -82,13 +86,15 @@ describe('Config', () => {
       process.env = {
         DEFAULT_PROFILE_SCHEMA_VERSION: '0.1.0',
         SPOOF_SINOPIA_SERVER: 'true',
-        SINOPIA_URI: 'sinopia.foo',
+        SINOPIA_URI: 'https://sinopia.foo',
         SINOPIA_GROUP: 'foobar',
         TRELLIS_BASE_URL: 'https://sinopia_server.foo',
         COGNITO_CLIENT_ID: '1a2b3c',
-        AWS_COGNITO_DOMAIN: 'sinopia-foo.amazoncognito.com'
+        AWS_COGNITO_DOMAIN: 'https://sinopia-foo.amazoncognito.com'
       }
-    })
+    }
+
+    )
 
 
     it('sinopia has a default schema version', () => {
@@ -116,7 +122,7 @@ describe('Config', () => {
     })
 
     it('aws cognito domain overrides static value', () => {
-      expect(Config.awsCognitoDomain).toEqual('sinopia-foo.amazoncognito.com')
+      expect(Config.awsCognitoDomain).toEqual('https://sinopia-foo.amazoncognito.com')
     })
 
     describe('interpolated links from environmental overrides', () => {

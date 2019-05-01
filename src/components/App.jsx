@@ -11,6 +11,7 @@ import ImportResourceTemplate from './editor/ImportResourceTemplate'
 import Browse from './editor/Browse'
 import Login from './Login'
 import { loadState } from '../localStorage'
+import CanvasMenu from "./CanvasMenu";
 
 const FourOhFour = () => <h1>404</h1>
 
@@ -50,9 +51,10 @@ class App extends Component{
         <Switch>
           <Route exact path='/' render={(props)=><HomePage {...props} triggerHandleOffsetMenu={this.props.handleOffsetMenu} />} />
           <Route exact path='/editor' render={(props)=><Editor {...props} resourceTemplateId={defaultRtId} triggerHandleOffsetMenu={this.props.handleOffsetMenu} />} />
-          <PrivateRoute exact path='/import' component={(props)=><ImportResourceTemplate {...props} triggerHandleOffsetMenu={this.props.handleOffsetMenu} />}/>
+          <PrivateRoute exact path='/templates' component={(props)=><ImportResourceTemplate {...props} triggerHandleOffsetMenu={this.props.handleOffsetMenu} />}/>
           <Route exact path='/browse' render={(props)=><Browse {...props} triggerHandleOffsetMenu={this.props.handleOffsetMenu} />} />
           <Route path="/login" render={(props)=><Login {...props} location={{state: { from: props.location }}}/>} />
+          <Route path="/menu" render={(props)=><CanvasMenu {...props} />} />
           <Route id="404" component={FourOhFour} />
         </Switch>
         <Footer />

@@ -17,13 +17,15 @@ COPY . .
 
 # Allow circleci user to run npm build
 USER root
-RUN /bin/bash -c 'chown -R circleci dist'
+RUN /bin/bash -c 'chown -R circleci dist node_modules'
 
-# Run app using non-privileged account
+# Build and run app using non-privileged account
 USER circleci
 
-# Build the app *within* the container because environment variables are fixed at build-time
+# Install dependencies
 RUN npm install
+
+# Build the app *within* the container because environment variables are fixed at build-time
 RUN npm run build
 
 # docker daemon maps app's port

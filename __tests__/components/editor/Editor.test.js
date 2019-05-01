@@ -4,6 +4,7 @@ import React from 'react'
 import { shallow } from 'enzyme'
 import Editor from '../../../src/components/editor/Editor'
 import ResourceTemplate from '../../../src/components/editor/ResourceTemplate'
+import RDFModal from '../../../src/components/editor/RDFModal'
 import Header from '../../../src/components/editor/Header'
 
 const props = {
@@ -41,6 +42,18 @@ describe('<Editor />', () => {
       expect(wrapper.find('div.alert-warning').exists()).toBeFalsy()
     })
 
+  })
+
+  describe('RDFModal button', () => {
+    beforeAll(() => {
+      wrapper.setState({userAuthenticated: true})
+    })
+    it('has preview RDF button', () => {
+      expect(wrapper.find('button').text()).toBe('Preview RDF')
+    })
+    it('does not have RDFModal by default', () => {
+      expect(wrapper.find('.modal-dialog').length).toBe(0)
+    })
   })
 
 })
