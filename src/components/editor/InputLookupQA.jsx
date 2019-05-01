@@ -158,7 +158,8 @@ class InputLookupQA extends Component {
                         let payload = {
                             uri: this.props.propertyTemplate.propertyURI,
                             items: selected,
-                            rtId: this.props.rtId
+                            rtId: this.props.rtId,
+                            reduxPath: this.props.reduxPath
                         }
                         this.props.handleSelectedChange( payload )
                     }
@@ -184,7 +185,8 @@ InputLookupQA.propTypes = {
         valueConstraint: PropTypes.shape( {
             useValuesFrom: PropTypes.oneOfType( [PropTypes.string, PropTypes.array] )
         } )
-    } ).isRequired
+    } ).isRequired,
+    reduxPath: PropTypes.oneOfType([PropTypes.string, PropTypes.array])
 }
 
 
