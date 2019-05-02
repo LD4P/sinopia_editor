@@ -17,12 +17,9 @@ export const removeAllContent = (state, action) => {
 export const setMyItems = (state, action) => {
   let newState = Object.assign({}, state)
   const reduxPath = action.payload.reduxPath
-  console.log(`in setMyItems`)
-  console.warn(reduxPath, newState)
   let level = 0
   reduxPath.reduce((obj, key) => {
     level++
-    console.log(`Level: ${level} ${key} ${level === reduxPath.length}`)
     if (level === reduxPath.length) {
 
       if ((key in obj) != true) {
@@ -35,7 +32,6 @@ export const setMyItems = (state, action) => {
     if (!Object.keys(obj).includes(key)) {
       obj[key] = {}
     }
-    // console.log(`object key ${obj[key]}`)
     return obj[key]
   }, newState)
   return newState

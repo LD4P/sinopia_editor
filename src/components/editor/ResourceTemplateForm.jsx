@@ -93,7 +93,6 @@ export class ResourceTemplateForm extends Component {
       const rt = this.rtForPt(rtId)
       if (rt !== undefined) {
         const reduxPath = [this.props.rtId, propUri, rtId]
-        console.log(`Redux Path ${reduxPath}`)
         rtProperties.push(<PropertyResourceTemplate
           key={shortid.generate()}
           resourceTemplate={rt}
