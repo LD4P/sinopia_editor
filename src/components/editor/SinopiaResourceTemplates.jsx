@@ -5,7 +5,8 @@ import PropTypes from 'prop-types'
 import { Link } from 'react-router-dom'
 import {BootstrapTable, TableHeaderColumn} from 'react-bootstrap-table'
 import Config from '../../../src/Config'
-import { getGroups, listReourcesInGroupContainer, getResourceTemplate } from '../../sinopiaServer'
+import { getGroups, listResourcesInGroupContainer,
+         getResourceTemplate, listResourcesInGroupContainer } from '../../sinopiaServer'
 const _ = require('lodash')
 const SinopiaServer = require('sinopia_server')
 const instance = new SinopiaServer.LDPApi()
@@ -31,7 +32,7 @@ class SinopiaResourceTemplates extends Component {
       await this.fulfillGroupPromise(groupPromise).then(async () => {
         this.state.groupData.map(group => {
           const groupName = this.resourceToName(group)
-          listReourcesInGroupContainer(groupName).then((data) => {
+          listResourcesInGroupContainer(groupName).then((data) => {
             this.fulfillGroupData(data)
           }).catch(() => {})
         })

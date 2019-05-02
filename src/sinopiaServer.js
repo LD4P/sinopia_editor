@@ -129,7 +129,7 @@ export const getGroups = () => {
   })
 }
 
-export const listReourcesInGroupContainer = (group) => {
+export const listResourcesInGroupContainer = (group) => {
   if (Config.spoofSinopiaServer)
     return new Promise(resolve => {
       resolve(spoofedResourcesInGroupContainer(group))
