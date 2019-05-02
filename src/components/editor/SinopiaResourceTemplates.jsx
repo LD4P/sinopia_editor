@@ -5,8 +5,7 @@ import PropTypes from 'prop-types'
 import { Link } from 'react-router-dom'
 import {BootstrapTable, TableHeaderColumn} from 'react-bootstrap-table'
 import Config from '../../../src/Config'
-import { getGroups, listResourcesInGroupContainer,
-         getResourceTemplate, listResourcesInGroupContainer } from '../../sinopiaServer'
+import { getGroups, listResourcesInGroupContainer, getResourceTemplate } from '../../sinopiaServer'
 const _ = require('lodash')
 const SinopiaServer = require('sinopia_server')
 const instance = new SinopiaServer.LDPApi()
