@@ -291,25 +291,25 @@ describe('<PropertyTemplateOutline /> with propertyTemplate Refs', () => {
     expect(childOutlineHeader.props().collapsed).toBeTruthy()
   })
 
-  it('clicking removes collapsed state', async () => {
-    // FIXME: this test gives false positive
-    await wrapper.instance().fullfillRTPromises(promises).then(() => wrapper.update()).then(() => {
-      const childOutlineHeader = wrapper.find(OutlineHeader)
-      childOutlineHeader.find('a').simulate('click')
-      expect(wrapper.state().collapsed).toBeFalsy() // correct
-      expect(wrapper.state().collapsed).toBeTruthy() // incorrect
-    }).catch(() => {})
+  it.skip('clicking removes collapsed state', async () => {
+    // FIXME: this test gives false positive - see github issue #496
+    // await wrapper.instance().fullfillRTPromises(promises).then(() => wrapper.update()).then(() => {
+    //   const childOutlineHeader = wrapper.find(OutlineHeader)
+    //   childOutlineHeader.find('a').simulate('click')
+    //   expect(wrapper.state().collapsed).toBeFalsy() // correct
+    //   expect(wrapper.state().collapsed).toBeTruthy() // incorrect
+    // }).catch(() => {})
   })
 
-  it('handles "Add" button click', async () => {
-    // FIXME: this test gives false positive
-    await wrapper.instance().fullfillRTPromises(promises).then(() => wrapper.update()).then(() => {
-      const addButton = wrapper.find('div > section > PropertyActionButtons > div > AddButton')
-      addButton.handleClick = mockHandleAddClick
-      addButton.simulate('click')
-      expect(mockHandleAddClick.mock.calls.length).toBe(1) // correct
-      expect(mockHandleAddClick.mock.calls.length).toBe(0) // incorrect
-    }).catch(() => {})
+  it.skip('handles "Add" button click', async () => {
+    // FIXME: this test gives false positive - see github issue #496
+    // await wrapper.instance().fullfillRTPromises(promises).then(() => wrapper.update()).then(() => {
+    //   const addButton = wrapper.find('div > section > PropertyActionButtons > div > AddButton')
+    //   addButton.handleClick = mockHandleAddClick
+    //   addButton.simulate('click')
+    //   expect(mockHandleAddClick.mock.calls.length).toBe(1) // correct
+    //   expect(mockHandleAddClick.mock.calls.length).toBe(0) // incorrect
+    // }).catch(() => {})
   })
 
   it('handles the addClick method callback call', () => {
@@ -317,15 +317,15 @@ describe('<PropertyTemplateOutline /> with propertyTemplate Refs', () => {
     expect(mockHandleAddClick.mock.calls.length).toBe(1)
   })
 
-  it ('handles "Mint URI" button click', async () => {
-    // FIXME: this test gives false positive
-    await wrapper.instance().fullfillRTPromises(promises).then(() => wrapper.update()).then(() => {
-      const mintButton = wrapper.find('div > section > PropertyActionButtons > div > MintButton')
-      mintButton.handleClick = mockHandleAddClick
-      mintButton.simulate('click')
-      expect(mockHandleMintUri.mock.calls.length).toBe(1) // correct
-      expect(mockHandleMintUri.mock.calls.length).toBe(1) // incorrect
-    }).catch(() => {})
+  it.skip('handles "Mint URI" button click', async () => {
+    // FIXME: this test gives false positive - see github issue #496
+    // await wrapper.instance().fullfillRTPromises(promises).then(() => wrapper.update()).then(() => {
+    //   const mintButton = wrapper.find('div > section > PropertyActionButtons > div > MintButton')
+    //   mintButton.handleClick = mockHandleAddClick
+    //   mintButton.simulate('click')
+    //   expect(mockHandleMintUri.mock.calls.length).toBe(1) // correct
+    //   expect(mockHandleMintUri.mock.calls.length).toBe(1) // incorrect
+    // }).catch(() => {})
   })
 
   // TODO: revisit when MintButton is enabled (see github issue #283)
