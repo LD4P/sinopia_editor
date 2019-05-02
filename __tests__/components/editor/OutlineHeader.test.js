@@ -3,6 +3,7 @@
 import React from 'react'
 import { shallow } from 'enzyme'
 import OutlineHeader from '../../../src/components/editor/OutlineHeader'
+import { faMinusSquare, faPlusSquare } from '@fortawesome/free-solid-svg-icons'
 
 describe('<OutlineHeader />', () => {
   let headerProps = {
@@ -15,5 +16,18 @@ describe('<OutlineHeader />', () => {
 
   it('Contains a FontAwesomeIcon and label value from props', () => {
     expect(wrapper.find("div").text()).toBe(` <FontAwesomeIcon /> ${headerProps.label}`)
+  })
+
+  it('anchor is plus when collapsed', () => {
+    const faWrapper = wrapper.find('[icon]')
+    expect(faWrapper.getElement(0).props.icon).toEqual(faPlusSquare)
+  })
+
+  it('anchor is minus when expanded', () => {
+    let expandedProps = Object.assign({}, headerProps)
+    expandedProps.collapsed = false
+    const expWrapper = shallow(<OutlineHeader {...expandedProps} />)
+    const faWrapper = expWrapper.find('[icon]')
+    expect(faWrapper.getElement(0).props.icon).toEqual(faMinusSquare)
   })
 })
