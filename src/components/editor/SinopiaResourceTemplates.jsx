@@ -5,6 +5,7 @@ import PropTypes from 'prop-types'
 import { Link } from 'react-router-dom'
 import {BootstrapTable, TableHeaderColumn} from 'react-bootstrap-table'
 import Config from '../../../src/Config'
+import { getGroups, listResourcesInGroupContainer, getResourceTemplate } from '../../sinopiaServer'
 const _ = require('lodash')
 const SinopiaServer = require('sinopia_server')
 const instance = new SinopiaServer.LDPApi()
@@ -23,18 +24,14 @@ class SinopiaResourceTemplates extends Component {
 
   async componentDidUpdate(prevProps) {
     if (this.props.updateKey > prevProps.updateKey) {
-      const groupPromise = new Promise((resolve) => {
-        resolve(instance.getBaseWithHttpInfo())
-      }).then((data) => {
+      const groupPromise = getGroups().then(data => {
         return data
       }).catch(() => {})
 
       await this.fulfillGroupPromise(groupPromise).then(async () => {
-        this.state.groupData.map((group) => {
+        this.state.groupData.map(group => {
           const groupName = this.resourceToName(group)
-          new Promise((resolve) => {
-            resolve(instance.getGroupWithHttpInfo(groupName))
-          }).then((data) => {
+          listResourcesInGroupContainer(groupName).then((data) => {
             this.fulfillGroupData(data)
           }).catch(() => {})
         })
@@ -43,7 +40,7 @@ class SinopiaResourceTemplates extends Component {
   }
 
   fulfillGroupPromise = (promise) => {
-    promise.then((data) => {
+    promise.then(data => {
       const contains = [].concat(data.response.body.contains)
       this.setState({groupData: contains})
     }).catch((error) => {
@@ -58,7 +55,7 @@ class SinopiaResourceTemplates extends Component {
     if (data.response.body.contains !== undefined) {
       const contains = [].concat(data.response.body.contains)
 
-      contains.map((c) => {
+      contains.map(c => {
         const name = this.resourceToName(c)
 
         this.groupDataPromise(groupName, name).then((data) => {
@@ -76,7 +73,8 @@ class SinopiaResourceTemplates extends Component {
   }
 
   groupDataPromise = (groupName, name) => new Promise(async (resolve) => {
-    await resolve(instance.getResourceWithHttpInfo(groupName, name, { acceptEncoding: 'application/json' }))
+    // await resolve(instance.getResourceWithHttpInfo(groupName, name, { acceptEncoding: 'application/json' }))
+    await resolve(getResourceTemplate(name, groupName))
   })
 
   resourceToName = (resource) => {
