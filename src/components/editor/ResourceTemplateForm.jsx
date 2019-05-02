@@ -120,8 +120,40 @@ export class ResourceTemplateForm extends Component {
   }
 
   configuredComponent = (pt, index) => {
-    let lookupConfigItem, templateUri, listComponent, result
+    let lookupConfigItem, lookupConfigItems, templateUris, listComponent, result
+    
+    let isLookupWithConfig = Boolean(
+            lookupConfig !== undefined &&
+            pt.valueConstraint !== undefined &&
+            pt.valueConstraint.useValuesFrom
+    )
+    if ( isLookupWithConfig ) {
+        templateUris = pt.valueConstraint.useValuesFrom;
+        /*Only one input is possible even with multiple vocabularies
+        or value in "useValuesFrom" which is an array
+        The first templateUri that matches is used to generate
+        the listComponent but we need to pass on multiple values for useValueFrom
+        Assumption here is multi-useValuesFrom will still all be the same type
+        of list component */
+        lookupConfigItems = [];
+        templateUris.forEach( templateUri => {
+            for ( var i in lookupConfig ) {
+                lookupConfigItem = Object.getOwnPropertyDescriptor( lookupConfig, i );
+                if ( lookupConfigItem.value.uri === templateUri ) {
+                    /*listComponent = lookupConfigItem.value.component
+                    break*/
+                    lookupConfigItems.push( lookupConfigItem );
+                }
+            }
+        } );
 
+        if ( lookupConfigItems.length > 0 ) {
+            listComponent = lookupConfigItems[0].value.component;
+            lookupConfigItem = lookupConfigItems[0];
+        }
+    }
+    
+    /*
     if (_.find([pt], 'valueConstraint.useValuesFrom')) {
       templateUri = pt.valueConstraint.useValuesFrom[0]
     }
@@ -133,7 +165,8 @@ export class ResourceTemplateForm extends Component {
         break
       }
     }
-
+    */
+    
     if (listComponent === 'list'){
       result = (
         <PropertyPanel pt={pt} key={index} float={index} rtId={this.props.rtId}>
@@ -143,7 +176,7 @@ export class ResourceTemplateForm extends Component {
     } else if (listComponent ===  'lookup'){
       result = (
         <PropertyPanel pt={pt} key={index} float={index} rtId={this.props.rtId}>
-          <InputLookupQA propertyTemplate = {pt} lookupConfig = {lookupConfigItem} key = {index} rtId = {this.props.rtId} reduxPath={[this.props.rtId, pt.propertyURI]} />
+          <InputLookupQA propertyTemplate = {pt} lookupConfig = {lookupConfigItems} key = {index} rtId = {this.props.rtId} reduxPath={[this.props.rtId, pt.propertyURI]} />
         </PropertyPanel>
       )
     } else result = false
