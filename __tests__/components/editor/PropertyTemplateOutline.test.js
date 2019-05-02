@@ -61,7 +61,8 @@ const mockHandleMintUri = jest.fn()
 const mockInitNewResourceTemplate = jest.fn()
 
 describe('getLookupConfigItem module function', () => {
-
+  const authority = 'sharevde_stanford_instance_ld4l_cache'
+  const lookupUri = `urn:ld4p:qa:${authority}`
   const property = {
     "mandatory": "true",
     "repeatable": "true",
@@ -70,7 +71,7 @@ describe('getLookupConfigItem module function', () => {
     "valueConstraint": {
       "valueTemplateRefs": [],
       "useValuesFrom": [
-        "urn:ld4p:qa:sharevde_stanford_instance_ld4l_cache"
+        lookupUri
       ],
       "valueDataType": {
         "dataTypeURI": "http://id.loc.gov/ontologies/bibframe/Instance"
@@ -81,10 +82,11 @@ describe('getLookupConfigItem module function', () => {
     "propertyLabel": "ShareVDE Stanford Instances"
   }
 
-  it('returns a JSON array based on useValuesForm', () => {
+  it('returns a JSON object based on useValuesFrom', () => {
     const shareVdeStanfordInstancesConfig = getLookupConfigItem(property)
+    expect(shareVdeStanfordInstancesConfig.value.authority).toEqual(authority)
+    expect(shareVdeStanfordInstancesConfig.value.uri).toEqual(lookupUri)
   })
-
 })
 
 describe('<PropertyTemplateOutline />', () => {
@@ -103,7 +105,6 @@ describe('<PropertyTemplateOutline />', () => {
       }
     }
   }
-
   const useValues = {
     propertyTemplate: {
       valueConstraint: {
@@ -151,7 +152,6 @@ describe('<PropertyTemplateOutline />', () => {
     expect(input.props.reduxpath).toEqual(literal.propertyURI)
     expect(input.props.propertyTemplate.type).toEqual("literal")
   })
-
 })
 
 describe('<PropertyTemplateOutline /> with InputListLOC component', () => {
@@ -181,7 +181,6 @@ describe('<PropertyTemplateOutline /> with InputListLOC component', () => {
     const childPropertyTemplateOutline = wrapper.find(PropertyTemplateOutline)
     expect(childPropertyTemplateOutline.find(InputListLOC)).toBeTruthy()
   })
-
 
   it('renders the case of an InputListLOC component with', async () => {
     const resource = {
@@ -248,7 +247,6 @@ describe('<PropertyTemplateOutline /> with <InputLookupQA /> component', () => {
       "remark": "http://access.rdatoolkit.org/3.3.html"
     }
   }
-
   const wrapper = mount(<PropertyTemplateOutline {...property} />)
   const childPropertyTemplateOutline = wrapper.find(PropertyTemplateOutline)
 
@@ -277,39 +275,41 @@ describe('<PropertyTemplateOutline /> with propertyTemplate Refs', () => {
       }
     }
   }
-
   const wrapper = mount(<PropertyTemplateOutline {...property}
                                                  handleCollapsed={mockHandleCollapsed}
                                                  handleAddClick={mockHandleAddClick}
                                                  handleMintUri={mockHandleMintUri}
                                                  initNewResourceTemplate={mockInitNewResourceTemplate} />)
-
-  const childOutlineHeader = wrapper.find(OutlineHeader)
   const event = { preventDefault() {} }
 
   // Stub `Config.spoofSinopiaServer` static getter to force RT to come from server
   jest.spyOn(Config, 'spoofSinopiaServer', 'get').mockReturnValue(false)
 
   it('displays a collapsed OutlineHeader of the propertyTemplate label', () => {
+    const childOutlineHeader = wrapper.find(OutlineHeader)
     expect(childOutlineHeader.props().label).toEqual(property.propertyTemplate.propertyLabel)
     expect(childOutlineHeader.props().collapsed).toBeTruthy()
   })
 
   it('clicking removes collapsed state', async () => {
+    // FIXME: this test gives false positive
     await wrapper.instance().fullfillRTPromises(promises).then(() => wrapper.update()).then(() => {
+      const childOutlineHeader = wrapper.find(OutlineHeader)
       childOutlineHeader.find('a').simulate('click')
-      expect(wrapper.state().collapsed).toBeFalsy()
+      expect(wrapper.state().collapsed).toBeFalsy() // correct
+      expect(wrapper.state().collapsed).toBeTruthy() // incorrect
     }).catch(() => {})
   })
 
   it('handles "Add" button click', async () => {
+    // FIXME: this test gives false positive
     await wrapper.instance().fullfillRTPromises(promises).then(() => wrapper.update()).then(() => {
-      const addButton = wrapper.find('div > section > PropertyActionButtons > div > button.btn-default')
+      const addButton = wrapper.find('div > section > PropertyActionButtons > div > AddButton')
       addButton.handleClick = mockHandleAddClick
       addButton.simulate('click')
-      expect(mockHandleAddClick.mock.calls.length).toBe(1)
+      expect(mockHandleAddClick.mock.calls.length).toBe(1) // correct
+      expect(mockHandleAddClick.mock.calls.length).toBe(0) // incorrect
     }).catch(() => {})
-
   })
 
   it('handles the addClick method callback call', () => {
@@ -318,16 +318,19 @@ describe('<PropertyTemplateOutline /> with propertyTemplate Refs', () => {
   })
 
   it ('handles "Mint URI" button click', async () => {
+    // FIXME: this test gives false positive
     await wrapper.instance().fullfillRTPromises(promises).then(() => wrapper.update()).then(() => {
-      const mintButton = wrapper.find('div > section > PropertyActionButtons > div > button.btn-success')
+      const mintButton = wrapper.find('div > section > PropertyActionButtons > div > MintButton')
+      mintButton.handleClick = mockHandleAddClick
       mintButton.simulate('click')
-      expect(mockHandleMintUri.mock.calls.length).toBe(1)
+      expect(mockHandleMintUri.mock.calls.length).toBe(1) // correct
+      expect(mockHandleMintUri.mock.calls.length).toBe(1) // incorrect
     }).catch(() => {})
   })
 
+  // TODO: revisit when MintButton is enabled (see github issue #283)
   it('handles the mintUri method callback call', () => {
     wrapper.instance().handleMintUri(event)
     expect(mockHandleMintUri.mock.calls.length).toBe(1)
   })
-
 })
