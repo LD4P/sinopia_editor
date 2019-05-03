@@ -303,7 +303,7 @@ describe('<PropertyTemplateOutline /> with propertyTemplate Refs', () => {
     // FIXME:  I believe for this to work, mockHandleCollapsed has to mock the implementation ...
     //   which leads me to believe that this should be an integration test
     // FIXME: the approach below is a failed attempted to 'inject' info to an inner method
-    // await wrapper.instance().fullfillRTPromises(promises).then(() => wrapper.update()).then(() => {
+    // await wrapper.instance().fulfillRTPromises(promises).then(() => wrapper.update()).then(() => {
     //   const childOutlineHeader = wrapper.find(OutlineHeader)
     //   childOutlineHeader.find('a').simulate('click')
     //   expect(wrapper.state().collapsed).toBeFalsy() // correct
@@ -316,7 +316,7 @@ describe('<PropertyTemplateOutline /> with propertyTemplate Refs', () => {
     // FIXME: wrapper has OutlineHeader but no PropertyActionButtons, no PropertyTypeRow
     // - it needs to be expanded first?  implying an integration test
     // FIXME: the approach below is a failed attempted to 'inject' info to an inner method
-    // await wrapper.instance().fullfillRTPromises(promises).then(() => wrapper.update()).then(() => {
+    // await wrapper.instance().fulfillRTPromises(promises).then(() => wrapper.update()).then(() => {
     //   const addButton = wrapper.find('div > section > PropertyActionButtons > div > AddButton')
     //   addButton.handleClick = mockHandleAddClick
     //   addButton.simulate('click')
@@ -335,7 +335,7 @@ describe('<PropertyTemplateOutline /> with propertyTemplate Refs', () => {
     // FIXME: wrapper has OutlineHeader but no PropertyActionButtons, no PropertyTypeRow
     // - it needs to be expanded first?  implying an integration test
     // FIXME: the approach below is a failed attempted to 'inject' info to an inner method
-    // await wrapper.instance().fullfillRTPromises(promises).then(() => wrapper.update()).then(() => {
+    // await wrapper.instance().fulfillRTPromises(promises).then(() => wrapper.update()).then(() => {
     //   const mintButton = wrapper.find('div > section > PropertyActionButtons > div > MintButton')
     //   mintButton.handleClick = mockHandleAddClick
     //   mintButton.simulate('click')

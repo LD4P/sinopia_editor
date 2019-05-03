@@ -2,9 +2,7 @@
 
 import React from 'react'
 import 'jsdom-global/register'
-import ButtonToolbar from 'react-bootstrap/lib/ButtonToolbar'
-import { mount, shallow } from 'enzyme'
-import InputLiteral from '../../../src/components/editor/InputLiteral'
+import { shallow } from 'enzyme'
 import { ResourceTemplateForm } from '../../../src/components/editor/ResourceTemplateForm'
 
 const rtProps = {
@@ -98,7 +96,6 @@ const responseBody = [{
   }
 }]
 
-// const lits = { id: 0, content: 'content' }
 const lits =  {formData: [{id: 0, uri: 'http://uri', items: [
         {content: '12345', id: 0, bnode: {termType: 'BlankNode', value: 'n3-0'}, propPredicate: 'http://predicate'}
       ], rtId: 'resourceTemplate:bf2'}]}
@@ -151,12 +148,12 @@ const mockHandleGenerateLD = jest.fn()
 
 describe('<ResourceTemplateForm /> after fetching data from sinopia server', () => {
 
-  const asyncCall = (index) => {
-    const response = mockResponse(200, null, responseBody[index])
-    return response
-  }
-
-  const promises = Promise.all([ asyncCall(0) ])
+  // FIXME: from tests giving false positive - see github issue #496
+  // const asyncCall = (index) => {
+  //   const response = mockResponse(200, null, responseBody[index])
+  //   return response
+  // }
+  // const promises = Promise.all([ asyncCall(0) ])
 
   const wrapper = shallow(
     <ResourceTemplateForm {...rtProps}
@@ -171,56 +168,58 @@ describe('<ResourceTemplateForm /> after fetching data from sinopia server', () 
   )
 
   describe('configured component types', () => {
-    const lookup = {
-      "propertyLabel": "Look up, look down",
-      "type": "lookup",
-      "editable": "do not override me!",
-      "repeatable": "do not override me!",
-      "mandatory": "do not override me!",
-      "valueConstraint": {
-        "useValuesFrom": [
-          "urn:ld4p:qa:names:person"
-        ]
-      }
-    }
 
-    it('renders a lookup component', async () => {
-      const instance = wrapper.instance()
-      await instance.fullfillRTPromises(promises).then(() => wrapper.update()).then(() => {
-        instance.configuredComponent(lookup, 1)
-        expect(wrapper
-          .find('div.ResourceTemplateForm Connect(InputLookupQA)').length)
-          .toEqual(1)
-      }).catch(e => {})
+    it.skip('renders a lookup component', async () => {
+      // FIXME: this test gives false positive - see github issue #496 - perhaps we need an integration test
+      // const lookup = {
+      //   "propertyLabel": "Look up, look down",
+      //   "type": "lookup",
+      //   "editable": "do not override me!",
+      //   "repeatable": "do not override me!",
+      //   "mandatory": "do not override me!",
+      //   "valueConstraint": {
+      //     "useValuesFrom": [
+      //       "urn:ld4p:qa:names:person"
+      //     ]
+      //   }
+      // }
+      // const instance = wrapper.instance()
+      // await instance.fulfillRTPromises(promises).then(() => wrapper.update()).then(() => {
+      //   instance.configuredComponent(lookup, 1)
+      //   expect(wrapper
+      //     .find('div.ResourceTemplateForm Connect(InputLookupQA)').length)
+      //     .toEqual(1)
+      // }).catch(e => {})
     })
 
-    const list = {
-      "propertyLabel": "What's the frequency Kenneth?",
-      "type": "resource",
-      "valueConstraint": {
-        "useValuesFrom": [
-          "https://id.loc.gov/vocabulary/frequencies"
-        ]
-      }
-    }
-
-    it('renders a list component', async () => {
-      const instance = wrapper.instance()
-      await instance.fullfillRTPromises(promises).then(() => wrapper.update()).then(() => {
-        instance.configuredComponent(list, 1)
-        expect(wrapper
-          .find('div.ResourceTemplateForm Connect(InputListLOC)').length)
-          .toEqual(1)
-      }).catch(e => {})
+    it.skip('renders a list component', async () => {
+      // FIXME: this test gives false positive - see github issue #496 - perhaps we need an integration test
+      // const list = {
+      //   "propertyLabel": "What's the frequency Kenneth?",
+      //   "type": "resource",
+      //   "valueConstraint": {
+      //     "useValuesFrom": [
+      //       "https://id.loc.gov/vocabulary/frequencies"
+      //     ]
+      //   }
+      // }
+      // const instance = wrapper.instance()
+      // await instance.fulfillRTPromises(promises).then(() => wrapper.update()).then(() => {
+      //   instance.configuredComponent(list, 1)
+      //   expect(wrapper
+      //     .find('div.ResourceTemplateForm Connect(InputListLOC)').length)
+      //     .toEqual(1)
+      // }).catch(e => {})
     })
   })
 
-  it('renders InputLiteral nested component (b/c we have a property of type "literal")', async () => {
-    await wrapper.instance().fullfillRTPromises(promises).then(() => wrapper.update()).then(() => {
-      expect(wrapper
-        .find('div.ResourceTemplateForm Connect(InputLiteral)').length)
-        .toEqual(1)
-    }).catch(e => {})
+  it.skip('renders InputLiteral nested component (b/c we have a property of type "literal")', async () => {
+    // FIXME: this test gives false positive - see github issue #496 - perhaps we need an integration test
+    // await wrapper.instance().fulfillRTPromises(promises).then(() => wrapper.update()).then(() => {
+    //   expect(wrapper
+    //     .find('div.ResourceTemplateForm Connect(InputLiteral)').length)
+    //     .toEqual(1)
+    // }).catch(e => {})
   })
 
   it('<form> does not contain redundant form attribute', () => {
@@ -252,30 +251,31 @@ describe('<ResourceTemplateForm /> after fetching data from sinopia server', () 
 })
 
 describe('when there are no findable nested resource templates', () => {
-  const asyncCall = () => {
-    const response = mockResponse(200, null, undefined)
-    return response
-  }
+  // FIXME: from tests giving false positive - see github issue #496
+  // const asyncCall = () => {
+  //   const response = mockResponse(200, null, undefined)
+  //   return response
+  // }
+  // const promises = Promise.all([ asyncCall ])
+  //
+  // const wrapper = shallow(<ResourceTemplateForm
+  //   propertyTemplates={[]}
+  //   resourceTemplate = {rtTest}
+  //   handleGenerateRDF = {mockHandleGenerateLD}
+  //   literals = {lits}
+  //   lookups = {lups}
+  //   rtId = {"resourceTemplate:bf2:Monograph:Instance"}
+  //   parentResourceTemplate = {"resourceTemplate:bf2:Monograph:Instance"}
+  //   generateLD = { ld }
+  // />)
 
-  const promises = Promise.all([ asyncCall ])
-
-  const wrapper = shallow(<ResourceTemplateForm
-    propertyTemplates={[]}
-    resourceTemplate = {rtTest}
-    handleGenerateRDF = {mockHandleGenerateLD}
-    literals = {lits}
-    lookups = {lups}
-    rtId = {"resourceTemplate:bf2:Monograph:Instance"}
-    parentResourceTemplate = {"resourceTemplate:bf2:Monograph:Instance"}
-    generateLD = { ld }
-  />)
-
-  it('renders error alert box', async () => {
-    await wrapper.instance().fullfillRTPromises(promises).then(() => wrapper.update()).then(() => {
-        expect(wrapper.state.errot).toBeTruthy()
-        const errorEl = wrapper.find('div.alert')
-        expect(errorEl).toHaveLength(1)
-        expect(errorEl.text()).toEqual('Sinopia server is offline or has no resource templates to display')
-    }).catch(e => {})
+  it.skip('renders error alert box', async () => {
+    // FIXME: this test gives false positive - see github issue #496 - perhaps we need an integration test
+    // await wrapper.instance().fulfillRTPromises(promises).then(() => wrapper.update()).then(() => {
+    //   expect(wrapper.state.errot).toBeTruthy()
+    //   const errorEl = wrapper.find('div.alert')
+    //   expect(errorEl).toHaveLength(1)
+    //   expect(errorEl.text()).toEqual('Sinopia server is offline or has no resource templates to display')
+    // }).catch(e => {})
   })
 })
