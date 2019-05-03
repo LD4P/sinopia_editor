@@ -184,7 +184,7 @@ describe('<ResourceTemplateForm /> after fetching data from sinopia server', () 
       //   }
       // }
       // const instance = wrapper.instance()
-      // await instance.fullfillRTPromises(promises).then(() => wrapper.update()).then(() => {
+      // await instance.fulfillRTPromises(promises).then(() => wrapper.update()).then(() => {
       //   instance.configuredComponent(lookup, 1)
       //   expect(wrapper
       //     .find('div.ResourceTemplateForm Connect(InputLookupQA)').length)
@@ -204,7 +204,7 @@ describe('<ResourceTemplateForm /> after fetching data from sinopia server', () 
       //   }
       // }
       // const instance = wrapper.instance()
-      // await instance.fullfillRTPromises(promises).then(() => wrapper.update()).then(() => {
+      // await instance.fulfillRTPromises(promises).then(() => wrapper.update()).then(() => {
       //   instance.configuredComponent(list, 1)
       //   expect(wrapper
       //     .find('div.ResourceTemplateForm Connect(InputListLOC)').length)
@@ -215,7 +215,7 @@ describe('<ResourceTemplateForm /> after fetching data from sinopia server', () 
 
   it.skip('renders InputLiteral nested component (b/c we have a property of type "literal")', async () => {
     // FIXME: this test gives false positive - see github issue #496 - perhaps we need an integration test
-    // await wrapper.instance().fullfillRTPromises(promises).then(() => wrapper.update()).then(() => {
+    // await wrapper.instance().fulfillRTPromises(promises).then(() => wrapper.update()).then(() => {
     //   expect(wrapper
     //     .find('div.ResourceTemplateForm Connect(InputLiteral)').length)
     //     .toEqual(1)
@@ -271,7 +271,7 @@ describe('when there are no findable nested resource templates', () => {
 
   it.skip('renders error alert box', async () => {
     // FIXME: this test gives false positive - see github issue #496 - perhaps we need an integration test
-    // await wrapper.instance().fullfillRTPromises(promises).then(() => wrapper.update()).then(() => {
+    // await wrapper.instance().fulfillRTPromises(promises).then(() => wrapper.update()).then(() => {
     //   expect(wrapper.state.errot).toBeTruthy()
     //   const errorEl = wrapper.find('div.alert')
     //   expect(errorEl).toHaveLength(1)

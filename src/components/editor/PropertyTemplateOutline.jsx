@@ -62,7 +62,7 @@ export class PropertyTemplateOutline extends Component {
     }
   }
 
-  fullfillRTPromises = async (promiseAll) => {
+  fulfillRTPromises = async (promiseAll) => {
     await promiseAll.then(rts => {
       rts.map(rt => {
         this.setState({tempState: rt.response.body})
@@ -171,7 +171,7 @@ export class PropertyTemplateOutline extends Component {
     event.preventDefault()
     let newOutput = this.state.output
 
-    this.fullfillRTPromises(this.resourceTemplatePromises(property.valueConstraint.valueTemplateRefs)).then(() => {
+    this.fulfillRTPromises(this.resourceTemplatePromises(property.valueConstraint.valueTemplateRefs)).then(() => {
 
       const input = this.handleComponentCase(property)
 

@@ -34,7 +34,7 @@ export class ResourceTemplateForm extends Component {
   }
 
   componentDidMount() {
-    this.fullfillRTPromises(this.resourceTemplatePromises(this.joinedRTs())).then(() => {
+    this.fulfillRTPromises(this.resourceTemplatePromises(this.joinedRTs())).then(() => {
       this.setState({
         componentForm: (
           this.renderComponentForm()
@@ -43,7 +43,7 @@ export class ResourceTemplateForm extends Component {
     })
   }
 
-  fullfillRTPromises = async (promiseAll) => {
+  fulfillRTPromises = async (promiseAll) => {
     await promiseAll.then(async (rts) => {
       rts.map(rt => {
         this.setState({tempState: rt.response.body})
