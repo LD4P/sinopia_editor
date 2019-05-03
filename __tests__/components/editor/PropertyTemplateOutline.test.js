@@ -10,7 +10,7 @@ import OutlineHeader from '../../../src/components/editor/OutlineHeader'
 // FIXME: from tests giving false positive - see github issue #496
 // import { PropertyActionButtons, AddButton } from '../../../src/components/editor/PropertyActionButtons'
 import Config from '../../../src/Config'
-import { getLookupConfigItem, PropertyTemplateOutline, valueTemplateRefTest, getLookupConfigItems } from '../../../src/components/editor/PropertyTemplateOutline'
+import { getLookupConfigItem, PropertyTemplateOutline, hasValueTemplateRef, getLookupConfigItems } from '../../../src/components/editor/PropertyTemplateOutline'
 import PropertyTypeRow from '../../../src/components/editor/PropertyTypeRow'
 
 const responseBody = [{
@@ -113,9 +113,13 @@ describe('<PropertyTemplateOutline />', () => {
     expect(childPropertyTemplateOutline.find(InputLiteral)).toBeTruthy()
   })
 
-  it('checks if a property has a valueTemplateRef', () => {
-    expect(valueTemplateRefTest(propertyRtProps.propertyTemplate)).toBeFalsy()
-    expect(valueTemplateRefTest(valConstraint.propertyTemplate)).toBeTruthy()
+  describe('hasValueTemplateRef()', () => {
+    it('returns true if propertyTemplate has a valueTemplateRef', () => {
+      expect(hasValueTemplateRef(valConstraint.propertyTemplate)).toBeTruthy()
+    })
+    it('returns false if propertyTemplate has no valueTemplateRef', () => {
+      expect(hasValueTemplateRef(propertyRtProps.propertyTemplate)).toBeFalsy()
+    })
   })
 
   it('gets the uri for the lookup from the config', () => {
@@ -135,7 +139,7 @@ describe('<PropertyTemplateOutline />', () => {
       }
     }
     const wrapper = shallow(<PropertyTemplateOutline {...literal} />)
-    const input = wrapper.instance().handleComponentCase(literal.propertyTemplate)
+    const input = wrapper.instance().propertyComponentJsx(literal.propertyTemplate)
     expect(input.props.reduxpath).toEqual(literal.propertyURI)
     expect(input.props.propertyTemplate.type).toEqual("literal")
   })
@@ -183,7 +187,7 @@ describe('<PropertyTemplateOutline /> with InputListLOC component', () => {
       }
     }
     const wrapper = shallow(<PropertyTemplateOutline {...resource} />)
-    const input = wrapper.instance().handleComponentCase(resource.propertyTemplate)
+    const input = wrapper.instance().propertyComponentJsx(resource.propertyTemplate)
     expect(input.props.lookupConfig.value.component).toEqual("list")
   })
 
@@ -200,7 +204,7 @@ describe('<PropertyTemplateOutline /> with InputListLOC component', () => {
     }
     const wrapper = shallow(<PropertyTemplateOutline {...resource} initNewResourceTemplate={mockInitNewResourceTemplate} />)
     wrapper.setState({nestedResourceTemplates: [responseBody[0].response.body]})
-    const input = wrapper.instance().handleComponentCase(resource.propertyTemplate)
+    const input = wrapper.instance().propertyComponentJsx(resource.propertyTemplate)
     expect(input[1].props.resourceTemplate.id).toEqual("resourceTemplate:bf2:Note")
     expect(input[1].props.reduxPath).toEqual(['resourceTemplate:bf2:Note', 'http://www.w3.org/2000/01/rdf-schema#label'])
   })
