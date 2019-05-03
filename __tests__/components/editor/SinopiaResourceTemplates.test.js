@@ -25,7 +25,6 @@ describe('<SinopiaResourceTemplates />', () => {
   })
 
   describe('getting data from the sinopia_server', () => {
-
     const mockResponse = (status, statusText, response) => {
       return new Response(response, {
         status: status,
@@ -46,23 +45,32 @@ describe('<SinopiaResourceTemplates />', () => {
       }
     }
 
-    it('sets the state with group data (as Array) from sinopia_server', async() => {
-
+    it('sets the state with group data (as Array) from sinopia_server', async () => {
       const promise = Promise.resolve(mockResponse(200, null, bodyContains))
       const wrapper2 = shallow(<SinopiaResourceTemplates message={message} />)
+      // FIXME: Using this pattern without `return` in front will hide errors
+      //        and cause false positives. This test is actually failing.
       await wrapper2.instance().fulfillGroupPromise(promise).then(() => wrapper2.update()).then(() => {
         expect(wrapper2.state('groupData')).toEqual(['ld4p', 'pcc'])
+        // FIXME: `resourceToName` is undefined
         expect(resourceToName).toHaveBeenCalled()
-      }).catch(e => {})
+      }).catch(() => {
+        // FIXME: Eating errors seems like a good way to miss test suite problems
+      })
     })
 
-    it('sets a message if there is no server response', async() => {
+    it('sets a message if there is no server response', async () => {
       const promise = Promise.resolve(mockResponse(200, null, undefined))
       const wrapper2 = shallow(<SinopiaResourceTemplates message={message} />)
+      // FIXME: Using this pattern without `return` in front will hide errors
+      //        and cause false positives. This test is actually failing.
       await wrapper2.instance().fulfillGroupPromise(promise).then(() => wrapper2.update()).then(() => {
         expect(wrapper2.state('message')).toBeTruthy()
+        // FIXME: `resourceToName` is undefined
         expect(resourceToName).toHaveBeenCalled()
-      }).catch(e => {})
+      }).catch(() => {
+        // FIXME: Eating errors seems like a good way to miss test suite problems
+      })
     })
 
     it('sets the state with a list of resource templates from the server', async() => {
@@ -86,11 +94,9 @@ describe('<SinopiaResourceTemplates />', () => {
       await wrapper3.instance().fulfillGroupData(bodyContains)
       expect(spy).toHaveBeenCalled()
     })
-
   })
 
   describe('linking back to the Editor component', () => {
-
     const cell = 'Note'
     const row = {
       name: "Note",

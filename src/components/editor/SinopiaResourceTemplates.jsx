@@ -26,14 +26,18 @@ class SinopiaResourceTemplates extends Component {
     if (this.props.updateKey > prevProps.updateKey) {
       const groupPromise = getGroups().then(data => {
         return data
-      }).catch(() => {})
+      }).catch(error => {
+        console.error(`error getting groups: ${error}`)
+      })
 
       await this.fulfillGroupPromise(groupPromise).then(async () => {
         this.state.groupData.map(group => {
           const groupName = this.resourceToName(group)
           listResourcesInGroupContainer(groupName).then((data) => {
             this.fulfillGroupData(data)
-          }).catch(() => {})
+          }).catch(error => {
+            console.error(`error listing resources in group: ${error}`)
+          })
         })
       })
     }
@@ -44,6 +48,7 @@ class SinopiaResourceTemplates extends Component {
       const contains = [].concat(data.response.body.contains)
       this.setState({groupData: contains})
     }).catch((error) => {
+      console.error(`error fulfilling group promise: ${error}`)
       this.setState({message: error})
     })
     return promise
@@ -66,10 +71,11 @@ class SinopiaResourceTemplates extends Component {
             joined.push(this.state.tempState)
           }
           this.setState({templatesForGroup: joined})
-        }).catch(() => {})
+        }).catch(error => {
+          console.error(`error with group data promise: ${error}`)
+        })
       })
     }
-
   }
 
   groupDataPromise = (groupName, name) => new Promise(async (resolve) => {
@@ -88,12 +94,12 @@ class SinopiaResourceTemplates extends Component {
     )
   }
 
-  render(){
+  render() {
     if (this.state.message) {
       return (
         <div className="alert alert-warning alert-dismissible">
           <button className="close" data-dismiss="alert" aria-label="close">&times;</button>
-          No connection to the Sinopia Server is available, or there are no resources for any group
+          No connection to the Sinopia Server is available, or there are no resources for any group: {this.state.message}
         </div>
       )
     }
