@@ -1,11 +1,9 @@
 // Copyright 2018, 2019 Stanford University see Apache2.txt for license
 import { combineReducers } from 'redux'
-import { createSelector } from 'reselect'
 import lang from './lang'
 import authenticate from './authenticate'
 import { removeAllContent, setMyItems, removeMyItem } from './literal'
 import shortid from 'shortid'
-const _ = require('lodash')
 
 const inputPropertySelector = (state, props) => {
   const reduxPath = props.reduxPath
@@ -18,14 +16,9 @@ const inputPropertySelector = (state, props) => {
   return items
 }
 
-// export const getProperty = createSelector(
-//   [ inputPropertySelector ],
-//   (propertyURI) => {
-//
-//     return propertyURI.items
-//   }
-// )
-
+// TODO: Renable use of reselect's createSelector, will need to adjust
+// individual components InputLiteral, InputLookupQA, InputListLOC, etc.,
+// see https://github.com/reduxjs/reselect#sharing-selectors-with-props-across-multiple-component-instances
 export const getProperty = (state, props) => {
   let result = inputPropertySelector(state, props)
   return result.items
@@ -40,16 +33,13 @@ export const getAllRdf = (state, action) => {
   return output.selectorReducer
 }
 
-export const refreshResourceTemplate = (state, action) => {
-  let newState = Object.assign({}, state)
-  const reduxPath = action.payload.reduxPath
-  const propertyTemplate = action.payload.property
-  if (reduxPath === undefined || reduxPath.length < 1) {
-    return newState
-  }
+export const populateDefaults = (propertyTemplate) => {
   const defaults = []
+  if (propertyTemplate === undefined || propertyTemplate === null || Object.keys(propertyTemplate).length < 1) {
+    return defaults
+  }
   if (propertyTemplate.valueConstraint.defaults && propertyTemplate.valueConstraint.defaults.length > 0) {
-    propertyTemplate.valueConstraint.defaults.map((row, i) => {
+    propertyTemplate.valueConstraint.defaults.map((row) => {
       defaults.push({
         id: makeShortID(),
         content: row.defaultLiteral,
@@ -57,16 +47,29 @@ export const refreshResourceTemplate = (state, action) => {
       })
     })
   }
-  const items =  { items: defaults }
+  return defaults
+}
+
+export const refreshResourceTemplate = (state, action) => {
+  let newState = Object.assign({}, state)
+  const reduxPath = action.payload.reduxPath
+  const propertyTemplate = action.payload.property
+  if (reduxPath === undefined || reduxPath.length < 1) {
+    return newState
+  }
+  const defaults = populateDefaults(propertyTemplate)
+
+  const items =  defaults.length > 0 ? { items: defaults } : {}
 
   const lastKey = reduxPath.pop()
   const lastObject = reduxPath.reduce((newState, key) =>
       newState[key] = newState[key] || {},
-    newState)
+  newState)
   if (Object.keys(items).includes('items')) {
     lastObject[lastKey] = items
   } else {
-    lastObject[lastKey] = { items: items }
+    // lastObject[lastKey] = { items: items }
+    lastObject[lastKey] = {}
   }
   return newState
 }

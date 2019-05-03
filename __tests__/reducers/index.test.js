@@ -1,5 +1,6 @@
 // Copyright 2019 Stanford University see Apache2.txt for license
-import { refreshResourceTemplate  } from '../../src/reducers/index'
+import shortid from 'shortid'
+import { refreshResourceTemplate, populateDefaults  } from '../../src/reducers/index'
 import selectorReducer from '../../src/reducers/index'
 
 describe(`Takes a resource template ID and populates the global state`, () => {
@@ -82,6 +83,7 @@ describe(`Takes a resource template ID and populates the global state`, () => {
   })
 
   it('handles SET_RESOURCE_TEMPLATE', () => {
+    const testId = jest.spyOn(shortid, 'generate').mockReturnValue(0)
     expect(
       selectorReducer({"selectorReducer": {}}, {
         type: 'SET_RESOURCE_TEMPLATE',
@@ -94,15 +96,15 @@ describe(`Takes a resource template ID and populates the global state`, () => {
       { "authenticate": {"loginJwt": {}},
         "lang": {"formData": []},
         "selectorReducer": { 'resourceTemplate:bf2:Monograph:Instance':
-          { 'http://id.loc.gov/ontologies/bibframe/instanceOf': { 'resourceTemplate:bf2:Monograph:Work': {} },
+          { 'http://id.loc.gov/ontologies/bibframe/instanceOf': {},
             'http://id.loc.gov/ontologies/bibframe/issuance':
               { items:
-                [ { id: {},
+                [ { id: 0,
                   content: 'single unit',
                   uri: 'http://id.loc.gov/vocabulary/issuance/mono' } ] },
             'http://id.loc.gov/ontologies/bibframe/heldBy':
               { items:
-                [ { id: {},
+                [ { id: 0,
                   content: 'DLC',
                   uri: 'http://id.loc.gov/vocabulary/organizations/dlc' } ] } } }}
     )
@@ -116,7 +118,7 @@ describe(`Takes a resource template ID and populates the global state`, () => {
       }
     })
     expect(emptyStateResult).toEqual({
-      'http://sinopia.io/example': { items: [] }
+      'http://sinopia.io/example': {}
     })
 
   })
@@ -130,20 +132,88 @@ describe(`Takes a resource template ID and populates the global state`, () => {
   })
 
   it('tests with a more realistic payload with defaults', () => {
+    const testId = jest.spyOn(shortid, 'generate').mockReturnValue(0)
     const defaultStateResult = refreshResourceTemplate({}, {
       type: 'REFRESH_RESOURCE_TEMPLATE',
       payload: {
         reduxPath: ['resourceTemplate:bf2:Item', 'http://schema.org/name'],
-        defaults: ['Sinopia Name']
+        property: { valueConstraint: { defaults: [ { defaultLiteral: 'Sinopia Name' } ] }}
       }
     })
     expect(defaultStateResult).toEqual({
       'resourceTemplate:bf2:Item': {
         'http://schema.org/name':{
-          items: [ "Sinopia Name" ]
+          items: [ {content: "Sinopia Name", id: 0, uri: undefined } ]
         }
       }
     })
   })
 
+})
+
+describe('Takes a property and returns an empty or a populated array', () => {
+
+  const propertyTemplate = {}
+
+  it('tests empty and undefined templates', () => {
+    const undefinedResult = populateDefaults()
+    expect(undefinedResult).toEqual([])
+    const nullResult = populateDefaults(null)
+    expect(nullResult).toEqual([])
+    const emptyObjectResult = populateDefaults({})
+    expect(emptyObjectResult).toEqual([])
+  })
+
+  it('tests a propertyTemplate without any defaults', () => {
+    const simpleProperty = populateDefaults(
+      {
+        "mandatory": "false",
+        "repeatable": "true",
+        "type": "resource",
+        "resourceTemplates": [],
+        "valueConstraint": {
+          "valueTemplateRefs": [
+            "resourceTemplate:bf2:Identifiers:LC",
+            "resourceTemplate:bf2:Identifiers:DDC",
+            "resourceTemplate:bf2:Identifiers:Shelfmark"
+          ],
+          "useValuesFrom": [],
+          "valueDataType": {}
+        },
+        "propertyURI": "http://id.loc.gov/ontologies/bibframe/identifiedBy",
+        "propertyLabel": "Call numbers"
+      })
+    expect(simpleProperty).toEqual([])
+  })
+
+  it('tests a propertyTemplate with defaults', () => {
+    const propertyWithDefaults = populateDefaults(
+      {
+        "propertyLabel": "LITERAL WITH DEFAULT",
+        "propertyURI": "http://id.loc.gov/ontologies/bibframe/heldBy",
+        "resourceTemplates": [],
+        "type": "literal",
+        "valueConstraint": {
+          "valueTemplateRefs": [],
+          "useValuesFrom": [],
+          "valueDataType": {
+            "dataTypeURI": "http://id.loc.gov/ontologies/bibframe/Agent"
+          },
+          "defaults": [
+            {
+              "defaultURI": "http://id.loc.gov/vocabulary/organizations/dlc",
+              "defaultLiteral": "DLC"
+            }
+          ]
+        },
+        "mandatory": "false",
+        "repeatable": "true"
+      }
+    )
+    expect(propertyWithDefaults).toEqual([{
+      content: "DLC",
+      id: 0,
+      uri: "http://id.loc.gov/vocabulary/organizations/dlc"
+    }])
+  })
 })

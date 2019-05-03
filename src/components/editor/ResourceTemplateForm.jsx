@@ -92,9 +92,10 @@ export class ResourceTemplateForm extends Component {
     rtIds.map((rtId, i) => {
       const rt = this.rtForPt(rtId)
       if (rt !== undefined) {
-        const reduxPath = [this.props.rtId, propUri, rtId]
+        const keyId = shortid.generate()
+        const reduxPath = [this.props.rtId, propUri, keyId, rtId]
         rtProperties.push(<PropertyResourceTemplate
-          key={shortid.generate()}
+          key={keyId}
           resourceTemplate={rt}
           reduxPath={reduxPath} />)
         if ((rtIds.length - i) > 1) {

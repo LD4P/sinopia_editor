@@ -131,7 +131,8 @@ describe('When the user enters input into field', ()=>{
     mock_wrapper.find('input').simulate("change", { target: { value: "fooby" }})
     mock_wrapper.find('input').simulate('keypress', {key: 'Enter', preventDefault: () => {}})
 
-    mock_wrapper.setProps({formData: { uri: "http://id.loc.gov/ontologies/bibframe/instanceOf", items: [{content: "fooby", id: 0}]} })
+    mock_wrapper.setProps({formData: { uri: "http://id.loc.gov/ontologies/bibframe/instanceOf",
+                                      items: [{content: "fooby", id: 0}]} })
 
     mock_wrapper.find('input').simulate("change", { target: { value: "bar" }})
     mock_wrapper.find('input').simulate('keypress', {key: 'Enter', preventDefault: () => {}})

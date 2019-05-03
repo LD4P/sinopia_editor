@@ -132,12 +132,13 @@ export class PropertyTemplateOutline extends Component {
               </section>
             </div>)
             resourceTemplate.propertyTemplates.map((rtProperty) => {
+              let keyId = shortid.generate()
               let newReduxPath = Object.assign([], rtReduxPath)
               newReduxPath.push(rtId)
               newReduxPath.push(rtProperty.propertyURI)
               const payload = { reduxPath: newReduxPath, property: rtProperty }
               this.props.initNewResourceTemplate(payload)
-              input.push(<PropertyTemplateOutline key={shortid.generate()}
+              input.push(<PropertyTemplateOutline key={keyId}
                                                   propertyTemplate={rtProperty}
                                                   reduxPath={newReduxPath}
                                                   initNewResourceTemplate={this.props.initNewResourceTemplate}
