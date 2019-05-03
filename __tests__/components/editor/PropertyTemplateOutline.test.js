@@ -7,19 +7,11 @@ import InputLiteral from '../../../src/components/editor/InputLiteral'
 import InputListLOC from '../../../src/components/editor/InputListLOC'
 import InputLookupQA from '../../../src/components/editor/InputLookupQA'
 import OutlineHeader from '../../../src/components/editor/OutlineHeader'
+// FIXME: from tests giving false positive - see github issue #496
+// import { PropertyActionButtons, AddButton } from '../../../src/components/editor/PropertyActionButtons'
 import Config from '../../../src/Config'
 import { getLookupConfigItem, PropertyTemplateOutline, valueTemplateRefTest, getLookupConfigItems } from '../../../src/components/editor/PropertyTemplateOutline'
 import PropertyTypeRow from '../../../src/components/editor/PropertyTypeRow'
-
-const mockResponse = (status, statusText, response) => {
-  return new Response(response, {
-    status: status,
-    statusText: statusText,
-    headers: {
-      'Content-type': 'application/json'
-    }
-  }).body
-}
 
 const responseBody = [{
   response: {
@@ -49,12 +41,6 @@ const responseBody = [{
   }
 }]
 
-const asyncCall = (index) => {
-  const response = mockResponse(200, null, responseBody[index])
-  return response
-}
-
-const promises = Promise.all([ asyncCall(0) ])
 const mockHandleCollapsed = jest.fn()
 const mockHandleAddClick = jest.fn()
 const mockHandleMintUri = jest.fn()
@@ -90,7 +76,6 @@ describe('getLookupConfigItem module function', () => {
 })
 
 describe('<PropertyTemplateOutline />', () => {
-  const mockInitNewResourceTemplate = jest.fn()
   const propertyRtProps = {
     propertyTemplate:
       {
@@ -257,7 +242,8 @@ describe('<PropertyTemplateOutline /> with <InputLookupQA /> component', () => {
 
 describe('<PropertyTemplateOutline /> with propertyTemplate Refs', () => {
   const property = {
-    propertyTemplate: {
+    propertyTemplate:
+    {
       "propertyLabel": "Notes about the CreativeWork",
       "remark": "This is a great note",
       "propertyURI": "http://id.loc.gov/ontologies/bibframe/note",
@@ -291,25 +277,52 @@ describe('<PropertyTemplateOutline /> with propertyTemplate Refs', () => {
     expect(childOutlineHeader.props().collapsed).toBeTruthy()
   })
 
-  it('clicking removes collapsed state', async () => {
-    // FIXME: this test gives false positive
-    await wrapper.instance().fullfillRTPromises(promises).then(() => wrapper.update()).then(() => {
-      const childOutlineHeader = wrapper.find(OutlineHeader)
-      childOutlineHeader.find('a').simulate('click')
-      expect(wrapper.state().collapsed).toBeFalsy() // correct
-      expect(wrapper.state().collapsed).toBeTruthy() // incorrect
-    }).catch(() => {})
+
+  // FIXME: from tests giving false positive - see github issue #496
+
+  // const mockResponse = (status, statusText, response) => {
+  //   return new Response(response, {
+  //     status: status,
+  //     statusText: statusText,
+  //     headers: {
+  //       'Content-type': 'application/json'
+  //     }
+  //   }).body
+  // }
+  // const asyncCall = (index) => {
+  //   const response = mockResponse(200, null, responseBody[index])
+  //   return response
+  // }
+  // const promises = Promise.all([ asyncCall(0) ])
+
+  it.skip('clicking removes collapsed state', async () => {
+    // FIXME: this test gives false positive - see github issue #496
+    // FIXME:  collapsed isn't a state, it's a prop
+    // FIXME:  in order to examine STATE after simulate, you must do a fresh "find" from the root component
+    //  https://github.com/airbnb/enzyme/issues/1229#issuecomment-462496246
+    // FIXME:  I believe for this to work, mockHandleCollapsed has to mock the implementation ...
+    //   which leads me to believe that this should be an integration test
+    // FIXME: the approach below is a failed attempted to 'inject' info to an inner method
+    // await wrapper.instance().fullfillRTPromises(promises).then(() => wrapper.update()).then(() => {
+    //   const childOutlineHeader = wrapper.find(OutlineHeader)
+    //   childOutlineHeader.find('a').simulate('click')
+    //   expect(wrapper.state().collapsed).toBeFalsy() // correct
+    //   expect(wrapper.state().collapsed).toBeTruthy() // incorrect
+    // }).catch(() => {})
   })
 
-  it('handles "Add" button click', async () => {
-    // FIXME: this test gives false positive
-    await wrapper.instance().fullfillRTPromises(promises).then(() => wrapper.update()).then(() => {
-      const addButton = wrapper.find('div > section > PropertyActionButtons > div > AddButton')
-      addButton.handleClick = mockHandleAddClick
-      addButton.simulate('click')
-      expect(mockHandleAddClick.mock.calls.length).toBe(1) // correct
-      expect(mockHandleAddClick.mock.calls.length).toBe(0) // incorrect
-    }).catch(() => {})
+  it.skip('handles "Add" button click', async () => {
+    // FIXME: this test gives false positive - see github issue #496
+    // FIXME: wrapper has OutlineHeader but no PropertyActionButtons, no PropertyTypeRow
+    // - it needs to be expanded first?  implying an integration test
+    // FIXME: the approach below is a failed attempted to 'inject' info to an inner method
+    // await wrapper.instance().fullfillRTPromises(promises).then(() => wrapper.update()).then(() => {
+    //   const addButton = wrapper.find('div > section > PropertyActionButtons > div > AddButton')
+    //   addButton.handleClick = mockHandleAddClick
+    //   addButton.simulate('click')
+    //   expect(mockHandleAddClick.mock.calls.length).toBe(1) // correct
+    //   expect(mockHandleAddClick.mock.calls.length).toBe(0) // incorrect
+    // }).catch(() => {})
   })
 
   it('handles the addClick method callback call', () => {
@@ -317,15 +330,18 @@ describe('<PropertyTemplateOutline /> with propertyTemplate Refs', () => {
     expect(mockHandleAddClick.mock.calls.length).toBe(1)
   })
 
-  it ('handles "Mint URI" button click', async () => {
-    // FIXME: this test gives false positive
-    await wrapper.instance().fullfillRTPromises(promises).then(() => wrapper.update()).then(() => {
-      const mintButton = wrapper.find('div > section > PropertyActionButtons > div > MintButton')
-      mintButton.handleClick = mockHandleAddClick
-      mintButton.simulate('click')
-      expect(mockHandleMintUri.mock.calls.length).toBe(1) // correct
-      expect(mockHandleMintUri.mock.calls.length).toBe(1) // incorrect
-    }).catch(() => {})
+  it.skip('handles "Mint URI" button click', async () => {
+    // FIXME: this test gives false positive - see github issue #496
+    // FIXME: wrapper has OutlineHeader but no PropertyActionButtons, no PropertyTypeRow
+    // - it needs to be expanded first?  implying an integration test
+    // FIXME: the approach below is a failed attempted to 'inject' info to an inner method
+    // await wrapper.instance().fullfillRTPromises(promises).then(() => wrapper.update()).then(() => {
+    //   const mintButton = wrapper.find('div > section > PropertyActionButtons > div > MintButton')
+    //   mintButton.handleClick = mockHandleAddClick
+    //   mintButton.simulate('click')
+    //   expect(mockHandleMintUri.mock.calls.length).toBe(1) // correct
+    //   expect(mockHandleMintUri.mock.calls.length).toBe(1) // incorrect
+    // }).catch(() => {})
   })
 
   // TODO: revisit when MintButton is enabled (see github issue #283)

@@ -63,10 +63,8 @@ export class InputLiteral extends Component {
       if (!currentcontent) {
         return
       }
-      /** Input field is repeatable, add user input to array.**/
       if (this.props.propertyTemplate.repeatable == "true") {
         this.addUserInput(userInputArray, currentcontent)
-      /** Input field is not repeatable **/
       } else if (this.props.propertyTemplate.repeatable == "false") {
         this.notRepeatableAfterUserInput(userInputArray, currentcontent)
       }
