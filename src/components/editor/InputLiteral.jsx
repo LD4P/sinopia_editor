@@ -232,7 +232,6 @@ InputLiteral.propTypes = {
 
 const mapStateToProps = (state, props) => {
   let result = getProperty(state, props)
-  if (result === undefined) result = []
   return { formData: { items: result } }
 }
 

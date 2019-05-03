@@ -43,7 +43,7 @@ describe('literal reducer functions', () => {
      })
   })
 
-  it('SET_ITEMS adds item to populated state', () => {
+  it('SET_ITEMS appends item to populated state', () => {
     expect(
       setMyItems({ "resourceTemplate:Book": {} },
       {
@@ -64,7 +64,7 @@ describe('literal reducer functions', () => {
     })
   })
 
-  it('SET_ITEMS creates intermediate objects in state if present in reduxPath', () => {
+  it('SET_ITEMS creates intermediate objects in the Redux state if present in reduxPath', () => {
     const createPersonResult =  setMyItems({
       "resourceTemplate:Monograph:Instance": {
         "abcdeCode": {

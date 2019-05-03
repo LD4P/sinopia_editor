@@ -1,6 +1,6 @@
 // Copyright 2019 Stanford University see Apache2.txt for license
 import shortid from 'shortid'
-import { refreshResourceTemplate, populateDefaults  } from '../../src/reducers/index'
+import { refreshResourceTemplate, populatePropertyDefaults  } from '../../src/reducers/index'
 import selectorReducer from '../../src/reducers/index'
 
 describe(`Takes a resource template ID and populates the global state`, () => {
@@ -151,21 +151,21 @@ describe(`Takes a resource template ID and populates the global state`, () => {
 
 })
 
-describe('Takes a property and returns an empty or a populated array', () => {
+describe('Takes a property and returns an empty or a populated array from populatePropertyDefaults()', () => {
 
   const propertyTemplate = {}
 
-  it('tests empty and undefined templates', () => {
-    const undefinedResult = populateDefaults()
+  it('empty and undefined properties return empty array', () => {
+    const undefinedResult = populatePropertyDefaults()
     expect(undefinedResult).toEqual([])
-    const nullResult = populateDefaults(null)
+    const nullResult = populatePropertyDefaults(null)
     expect(nullResult).toEqual([])
-    const emptyObjectResult = populateDefaults({})
+    const emptyObjectResult = populatePropertyDefaults({})
     expect(emptyObjectResult).toEqual([])
   })
 
-  it('tests a propertyTemplate without any defaults', () => {
-    const simpleProperty = populateDefaults(
+  it('propertyTemplate without defaults returns empty array', () => {
+    const simpleProperty = populatePropertyDefaults(
       {
         "mandatory": "false",
         "repeatable": "true",
@@ -186,8 +186,8 @@ describe('Takes a property and returns an empty or a populated array', () => {
     expect(simpleProperty).toEqual([])
   })
 
-  it('tests a propertyTemplate with defaults', () => {
-    const propertyWithDefaults = populateDefaults(
+  it('tests propertyTemplate with defaults returns array with object containing default values', () => {
+    const propertyWithDefaults = populatePropertyDefaults(
       {
         "propertyLabel": "LITERAL WITH DEFAULT",
         "propertyURI": "http://id.loc.gov/ontologies/bibframe/heldBy",

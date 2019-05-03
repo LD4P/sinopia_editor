@@ -120,7 +120,9 @@ describe('<PropertyTemplateOutline />', () => {
 
   it('gets the uri for the lookup from the config', () => {
     expect(getLookupConfigItems(useValues.propertyTemplate)).toEqual(
-      [ { "value": {"component": "list", "label": "frequency", "uri": "https://id.loc.gov/vocabulary/frequencies"} } ]
+      [ { "value": {"component": "list",
+                    "label": "frequency",
+                    "uri": "https://id.loc.gov/vocabulary/frequencies"} } ]
     )
   })
 
@@ -200,7 +202,9 @@ describe('<PropertyTemplateOutline /> with InputListLOC component', () => {
     wrapper.setState({nestedResourceTemplates: [responseBody[0].response.body]})
     const input = wrapper.instance().handleComponentCase(resource.propertyTemplate)
     expect(input[1].props.resourceTemplate.id).toEqual("resourceTemplate:bf2:Note")
+    expect(input[1].props.reduxPath).toEqual(['resourceTemplate:bf2:Note', 'http://www.w3.org/2000/01/rdf-schema#label'])
   })
+
 })
 
 describe('<PropertyTemplateOutline /> with <InputLookupQA /> component', () => {

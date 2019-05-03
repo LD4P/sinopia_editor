@@ -20,20 +20,20 @@ const inputPropertySelector = (state, props) => {
 // individual components InputLiteral, InputLookupQA, InputListLOC, etc.,
 // see https://github.com/reduxjs/reselect#sharing-selectors-with-props-across-multiple-component-instances
 export const getProperty = (state, props) => {
-  let result = inputPropertySelector(state, props)
-  return result.items
+  const result = inputPropertySelector(state, props)
+  return result.items || []
 }
 
 export const getAllRdf = (state, action) => {
   // TODO: Fix as part of issue #481 - it should return ... jsonld?
   // NOTE:  avoid creating unnec. new objects (see https://react-redux.js.org/using-react-redux/connect-mapstate)
-  let output = Object.create(state)
+  const output = Object.create(state)
   // TODO: temporary no-op to pass eslint ...
   action.payload
   return output.selectorReducer
 }
 
-export const populateDefaults = (propertyTemplate) => {
+export const populatePropertyDefaults = (propertyTemplate) => {
   const defaults = []
   if (propertyTemplate === undefined || propertyTemplate === null || Object.keys(propertyTemplate).length < 1) {
     return defaults
@@ -51,13 +51,13 @@ export const populateDefaults = (propertyTemplate) => {
 }
 
 export const refreshResourceTemplate = (state, action) => {
-  let newState = Object.assign({}, state)
+  const newState = Object.assign({}, state)
   const reduxPath = action.payload.reduxPath
   const propertyTemplate = action.payload.property
   if (reduxPath === undefined || reduxPath.length < 1) {
     return newState
   }
-  const defaults = populateDefaults(propertyTemplate)
+  const defaults = populatePropertyDefaults(propertyTemplate)
 
   const items =  defaults.length > 0 ? { items: defaults } : {}
 
@@ -68,7 +68,6 @@ export const refreshResourceTemplate = (state, action) => {
   if (Object.keys(items).includes('items')) {
     lastObject[lastKey] = items
   } else {
-    // lastObject[lastKey] = { items: items }
     lastObject[lastKey] = {}
   }
   return newState

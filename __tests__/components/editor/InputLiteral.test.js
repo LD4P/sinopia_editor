@@ -239,7 +239,7 @@ describe('when there is a default literal value in the property template', () =>
 
     const nonrepeat_wrapper = shallow(
       <InputLiteral {...nrProps}
-        id={11}
+        id={'11tydg'}
         rtId={'resourceTemplate:bf2:Monograph:Instance'}
         handleMyItemsChange={mockMyItemsChange}
         handleRemoveItem={mockRemoveItem} />)
@@ -280,21 +280,22 @@ describe('when repeatable="false" and defaults exist', () => {
 
   const default_wrapper = shallow(
      <InputLiteral {...defaultProps}
-      id={13}
-      rtId={'resourceTemplate:bf2:Monograph:Item'} />)
+      id={'234abcd'}
+      rtId={'resourceTemplate:bf2:Monograph:Item'}
+      formData={{ items: [{ id: 'iop12', content: 'DLC'}] }} />)
   it('in the initial display, the input field is disabled ', () => {
-    expect(default_wrapper.find('input').props('disabled')).toBeTruthy()
+    expect(default_wrapper.find('input').props().disabled).toBeTruthy()
   })
 })
 
-describe('When a user enters non-roman text like a transliterated title', () => {
+describe('When a user enters non-roman text in a work title', () => {
   const art_of_war = "战争的艺术" // Chinese characters for Sun Tzu's Art of War
-  const mockTransliteratedFormDataFn = jest.fn()
+  const mockDataFn = jest.fn()
 
-  const transcribedProps =  {
+  const workTitleProps =  {
     "propertyTemplate":
     {
-      "propertyLabel": "Transliterated Title",
+      "propertyLabel": "Work Title",
       "propertyURI": "http://id.loc.gov/ontologies/bibframe/title",
       "type": "literal",
       "mandatory": "false",
@@ -302,17 +303,17 @@ describe('When a user enters non-roman text like a transliterated title', () => 
     }
   }
 
-  const transliterated_wrapper = shallow(
-    <InputLiteral {...transcribedProps}
+  const workTitleWrapper = shallow(
+    <InputLiteral {...workTitleProps}
       id={14}
-      handleMyItemsChange={mockTransliteratedFormDataFn}
-      rtId={'resourceTemplate:bflc:TranscribedTitle'} />
+      handleMyItemsChange={mockDataFn}
+      rtId={'resourceTemplate:bflc:WorkTitle'} />
   )
 
   it('allows user to enter Chinese characters', () => {
-    transliterated_wrapper.find('input').simulate("change", { target: { value: art_of_war }})
-    transliterated_wrapper.find('input').simulate('keypress', { key: 'Enter', preventDefault: () => {}})
-    transliterated_wrapper.setProps({formData: { id: 1, uri: "http://id.loc.gov/ontologies/bibframe/title", items: [{content: art_of_war, id: 1}]} })
-    expect(transliterated_wrapper.find('div#userInput').text().includes(art_of_war)).toBeTruthy()
+    workTitleWrapper.find('input').simulate("change", { target: { value: art_of_war }})
+    workTitleWrapper.find('input').simulate('keypress', { key: 'Enter', preventDefault: () => {}})
+    workTitleWrapper.setProps({formData: { id: 1, uri: "http://id.loc.gov/ontologies/bibframe/title", items: [{content: art_of_war, id: 1}]} })
+    expect(workTitleWrapper.find('div#userInput').text().includes(art_of_war)).toBeTruthy()
   })
 })
