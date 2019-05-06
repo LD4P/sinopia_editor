@@ -6,6 +6,7 @@ import { mount } from "enzyme"
 import InputLookup from '../../../src/components/editor/InputLookupQA'
 
 const plProps = {
+  "id": "lookupComponent",
   "propertyTemplate":
     {
       "mandatory": "false",
@@ -27,6 +28,7 @@ const plProps = {
     }
 };
 const p2Props = {
+  "id": "lookupComponent",
   "propertyTemplate":
     {
       "mandatory": "false",

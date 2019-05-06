@@ -207,7 +207,7 @@ InputLiteral.propTypes = {
     })
   }).isRequired,
   formData: PropTypes.shape({
-    id: PropTypes.string,
+    id: PropTypes.oneOfType([PropTypes.number, PropTypes.string]),
     uri: PropTypes.string,
     items: PropTypes.array
   }),

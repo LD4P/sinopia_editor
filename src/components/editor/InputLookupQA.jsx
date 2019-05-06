@@ -64,7 +64,7 @@ class InputLookupQA extends Component {
         }
 
         return (
-            <Menu {...menuProps}>
+            <Menu {...menuProps} id={menuProps.id} >
                 {items}
             </Menu>
         )
@@ -98,7 +98,7 @@ class InputLookupQA extends Component {
 
                     renderMenu={( results, menuProps ) => {
                         return ( this.renderMenuFunc( results, menuProps ) );
-                    }
+                        }
                     }
 
 

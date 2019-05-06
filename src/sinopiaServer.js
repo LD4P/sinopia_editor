@@ -42,7 +42,7 @@ export const resourceTemplateId2Json = [
   {id: 'resourceTemplate:bf2:Title:VarTitle', json: varTitleRt},
   {id: 'resourceTemplate:bf2:WorkTitle', json: workTitleRt},
   {id: 'resourceTemplate:bf2:WorkVariantTitle', json: workVariantTitleRt},
-  {id: 'resourceTemplate:bf2:Identifiers:LC', json: lccnRt},
+  {id: 'resourceTemplate:bf2:Identifiers:LCCN', json: lccnRt},
   {id: 'resourceTemplate:bf2:Identifiers:DDC', json: ddcRt},
   {id: 'resourceTemplate:bf2:Identifiers:Shelfmark', json:shelfMarkRt},
   {id: 'resourceTemplate:bf2:Item', json: itemRt},
