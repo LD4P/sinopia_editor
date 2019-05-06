@@ -67,7 +67,7 @@ describe('When the user enters input into field', ()=>{
   // our mock formData function to replace the one provided by mapDispatchToProps
   const mockFormDataFn = jest.fn()
   const removeMockDataFn = jest.fn()
-  const testId = jest.spyOn(shortid, 'generate').mockReturnValue(0)
+  jest.spyOn(shortid, 'generate').mockReturnValue(0)
   mock_wrapper = shallow(<InputLiteral {...plProps} id={11}
                             rtId={'resourceTemplate:bf2:Monograph:Instance'}
                             reduxPath={['resourceTemplate:bf2:Monograph:Instance',
