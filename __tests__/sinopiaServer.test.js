@@ -77,7 +77,7 @@ describe('sinopiaServerSpoof', () => {
               "http://spoof.trellis.io/ld4p/resourceTemplate:bf2:Title:VarTitle",
               "http://spoof.trellis.io/ld4p/resourceTemplate:bf2:WorkTitle",
               "http://spoof.trellis.io/ld4p/resourceTemplate:bf2:WorkVariantTitle",
-              "http://spoof.trellis.io/ld4p/resourceTemplate:bf2:Identifiers:LC",
+              "http://spoof.trellis.io/ld4p/resourceTemplate:bf2:Identifiers:LCCN",
               "http://spoof.trellis.io/ld4p/resourceTemplate:bf2:Identifiers:DDC",
               "http://spoof.trellis.io/ld4p/resourceTemplate:bf2:Identifiers:Shelfmark",
               "http://spoof.trellis.io/ld4p/resourceTemplate:bf2:Item",

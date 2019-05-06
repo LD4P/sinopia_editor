@@ -17,8 +17,8 @@ describe('Importing a profile/template with bad JSON', () => {
     const fileInput = await page.$('.DropZone input[type="file"]')
     await fileInput.uploadFile("__tests__/__fixtures__/ddc_bad_json.json")
 
-    jest.setTimeout(5000);
-    pupExpect(page).toMatchElement('div.alert-warning', { text: 'ERROR - CANNOT USE PROFILE/RESOURCE TEMPLATE: problem parsing JSON template: SyntaxError: Unexpected token # in JSON at position 0' })
+    jest.setTimeout(500)
+    await pupExpect(page).toMatchElement('div.alert-warning', { text: 'ERROR - CANNOT USE PROFILE/RESOURCE TEMPLATE: problem parsing JSON template' })
   })
 
 })

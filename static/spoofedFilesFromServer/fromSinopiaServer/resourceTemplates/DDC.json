@@ -1,5 +1,5 @@
 {
-  "id": "resourceTemplate:bf2:DDC",
+  "id": "resourceTemplate:bf2:Identifiers:DDC",
   "resourceLabel": "Dewey Decimal Classification",
   "resourceURI": "http://id.loc.gov/ontologies/bibframe/ClassificationDdc",
   "propertyTemplates": [

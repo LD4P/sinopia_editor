@@ -18,7 +18,7 @@ describe('<PropertyResourceTemplate />', () => {
         }
       ]
     },
-    reduxPath: ''
+    reduxPath: []
   }
   const wrapper = shallow(<PropertyResourceTemplate {...propertyRtProps} />)
 
