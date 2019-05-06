@@ -85,7 +85,7 @@ describe('<ImportFileZone />', () => {
     })
 
     it('displays an error message when missing required property', async () => {
-      await wrapper.instance().promiseTemplateValidated(template, schemaUrl).catch((err) => {
+      return await wrapper.instance().promiseTemplateValidated(template, schemaUrl).catch((err) => {
         expect(wrapper.state().validTemplate).toBeFalsy()
         expect(err.toString()).toMatch("should have required property")
       })
@@ -98,7 +98,7 @@ describe('<ImportFileZone />', () => {
     })
 
     it('displays an error message when the id is invalid', async () => {
-      await wrapper.instance().promiseTemplateValidated(template, schemaUrl).catch((err) => {
+      return await wrapper.instance().promiseTemplateValidated(template, schemaUrl).catch((err) => {
         expect(wrapper.state().validTemplate).toBeFalsy()
         expect(err.toString()).toMatch('should match pattern')
       })
@@ -117,7 +117,7 @@ describe('<ImportFileZone />', () => {
     })
 
     it('displays an error message', async () => {
-      await wrapper.instance().promiseTemplateValidated(template, schemaUrl).catch((err) => {
+      return await wrapper.instance().promiseTemplateValidated(template, schemaUrl).catch((err) => {
         expect(wrapper.state().validTemplate).toBeFalsy()
         expect(err.toString()).toMatch("Error: error getting json schemas")
       })

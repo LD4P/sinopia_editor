@@ -25,7 +25,6 @@ describe('<SinopiaResourceTemplates />', () => {
   })
 
   describe('getting data from the sinopia_server', () => {
-
     const mockResponse = (status, statusText, response) => {
       return new Response(response, {
         status: status,
@@ -47,22 +46,21 @@ describe('<SinopiaResourceTemplates />', () => {
     }
 
     it('sets the state with group data (as Array) from sinopia_server', async() => {
-
       const promise = Promise.resolve(mockResponse(200, null, bodyContains))
       const wrapper2 = shallow(<SinopiaResourceTemplates message={message} />)
-      await wrapper2.instance().fulfillGroupPromise(promise).then(() => wrapper2.update()).then(() => {
+      return await wrapper2.instance().fulfillGroupPromise(promise).then(() => wrapper2.update()).then(() => {
         expect(wrapper2.state('groupData')).toEqual(['ld4p', 'pcc'])
         expect(resourceToName).toHaveBeenCalled()
-      }).catch(e => {})
+      })
     })
 
     it('sets a message if there is no server response', async() => {
       const promise = Promise.resolve(mockResponse(200, null, undefined))
       const wrapper2 = shallow(<SinopiaResourceTemplates message={message} />)
-      await wrapper2.instance().fulfillGroupPromise(promise).then(() => wrapper2.update()).then(() => {
+      return await wrapper2.instance().fulfillGroupPromise(promise).then(() => wrapper2.update()).then(() => {
         expect(wrapper2.state('message')).toBeTruthy()
         expect(resourceToName).toHaveBeenCalled()
-      }).catch(e => {})
+      })
     })
 
     it('sets the state with a list of resource templates from the server', async() => {
@@ -83,14 +81,13 @@ describe('<SinopiaResourceTemplates />', () => {
       const wrapper3 = shallow(<SinopiaResourceTemplates message={message}/>)
       //TODO: figure out how to mock and test a nested promise...
       const spy = jest.spyOn(wrapper3.instance(), 'fulfillGroupData')
-      await wrapper3.instance().fulfillGroupData(bodyContains)
-      expect(spy).toHaveBeenCalled()
+      return await wrapper3.instance().fulfillGroupData(bodyContains).then(() => {
+        expect(spy).toHaveBeenCalled()
+      })
     })
-
   })
 
   describe('linking back to the Editor component', () => {
-
     const cell = 'Note'
     const row = {
       name: "Note",
@@ -102,13 +99,13 @@ describe('<SinopiaResourceTemplates />', () => {
     const wrapper4 = shallow(<SinopiaResourceTemplates message={message}/>)
 
     it('has the header columns for the table of linked resource templates', async () => {
-      await expect(wrapper4.find('BootstrapTable').find('TableHeaderColumn').length).toEqual(3)
+      return await expect(wrapper4.find('BootstrapTable').find('TableHeaderColumn').length).toEqual(3)
     })
 
     it('renders a link to the Editor with the id of the resource template to fetch', async () => {
       const link = await wrapper4.instance().linkFormatter(cell, row)
-      await expect(link.props.to.pathname).toEqual('/editor')
-      await expect(link.props.to.state.resourceTemplateId).toEqual(row.id)
+      expect(link.props.to.pathname).toEqual('/editor')
+      expect(link.props.to.state.resourceTemplateId).toEqual(row.id)
     })
   })
 })

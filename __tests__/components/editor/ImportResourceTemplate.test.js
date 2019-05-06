@@ -48,8 +48,9 @@ describe('creating a non-rdf resource from an uploaded profile', () => {
   it('sets an info message that the resource was created on success', async () => {
     const wrapper = shallow(<ImportResourceTemplate />)
     const promise = Promise.resolve(mockResponse(201, "Created", result))
-    await wrapper.instance().fulfillCreateResourcePromise(promise)
-    expect(wrapper.state('message')).toEqual([ `${result.response.statusText} ${result.response.headers.location}` ])
+    return await wrapper.instance().fulfillCreateResourcePromise(promise).then(() => {
+      expect(wrapper.state('message')).toEqual([ `${result.response.statusText} ${result.response.headers.location}` ])
+    })
   })
 
   it('shows the error message if resource creation fails', async () => {
@@ -99,6 +100,5 @@ describe('creating a non-rdf resource from an uploaded profile', () => {
     wrapper.update()
     expect(wrapper.state().createResourceError).toEqual([responseMock.response])
   })
-  
-})
 
+})

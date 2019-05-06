@@ -51,7 +51,7 @@ describe("#routes", () => {
 
     it('root renders HomePage component', async () => {
       const component = renderRoutes("/")
-      await expect(component.find(HomePage).length).toEqual(1)
+      return await expect(component.find(HomePage).length).toEqual(1)
     })
 
     it('/editor renders Editor component', () => {
