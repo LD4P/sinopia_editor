@@ -132,13 +132,13 @@ Then push the `dev`-tagged issue to DockerHub:
 $ docker push ld4p/sinopia_editor:dev
 ```
 
-Next, set an environment variable to the name of the DLSS AWS dev profile as described in the documentation above:
+Next, set an environment variable to the name of the AWS `DevelopersRole` profile as described in the documentation above (as stored in `~/.aws/config`):
 
 ```shell
-$ export AWS_PROFILE=development
+$ export AWS_PROFILE=change_to_whatever_you_named_your_dlss_development_profile
 ```
 
-And, finally, run the following `aws` CLI commands to refresh the dev ECS instance that runs the editor:
+And, finally, run the following commands to refresh the dev ECS instance that runs the editor:
 
 ```shell
 $ task_arn=$(aws ecs list-task-definitions --family-prefix sinopia-homepage --region us-west-2 --sort DESC --max-items 1 --profile $AWS_PROFILE | jq --raw-output --exit-status '.taskDefinitionArns[]')
