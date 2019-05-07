@@ -10,7 +10,7 @@ import OutlineHeader from '../../../src/components/editor/OutlineHeader'
 // FIXME: from tests giving false positive - see github issue #496
 // import { PropertyActionButtons, AddButton } from '../../../src/components/editor/PropertyActionButtons'
 import Config from '../../../src/Config'
-import { getLookupConfigItem, PropertyTemplateOutline, valueTemplateRefTest, getLookupConfigItems } from '../../../src/components/editor/PropertyTemplateOutline'
+import { getLookupConfigItem, PropertyTemplateOutline, hasValueTemplateRef, getLookupConfigItems } from '../../../src/components/editor/PropertyTemplateOutline'
 import PropertyTypeRow from '../../../src/components/editor/PropertyTypeRow'
 
 const responseBody = [{
@@ -75,6 +75,46 @@ describe('getLookupConfigItem module function', () => {
   })
 })
 
+it('getLookupConfigItems() retrieves info from the lookup config', () => {
+  const pt = {
+    valueConstraint: {
+      useValuesFrom: [ "https://id.loc.gov/vocabulary/frequencies" ]
+    }
+  }
+  expect(getLookupConfigItems(pt)).toEqual(
+    [ { "value": {"component": "list",
+    "label": "frequency",
+    "uri": "https://id.loc.gov/vocabulary/frequencies"} } ]
+  )
+})
+
+describe('hasValueTemplateRef()', () => {
+  it('returns true if propertyTemplate has a valueTemplateRef', () => {
+    const propertyTemplate = {
+      valueConstraint: {
+        valueTemplateRefs: ["resourceTemplate:bf2:Note"]
+      }
+    }
+    expect(hasValueTemplateRef(propertyTemplate)).toBeTruthy()
+  })
+  it('returns false if propertyTemplate has no valueTemplateRef', () => {
+    const propertyTemplate = {
+      propertyLabel: "Test Schema name as a literal",
+      propertyURI: "http://schema.org/name"
+    }
+
+    expect(hasValueTemplateRef(propertyTemplate)).toBeFalsy()
+  })
+  it('returns false if propertyTemplate has valueTemplateRefs as empty array', () => {
+    const propertyTemplate = {
+      valueConstraint: {
+        valueTemplateRefs: []
+      }
+    }
+    expect(hasValueTemplateRef(propertyTemplate)).toBeFalsy()
+  })
+})
+
 describe('<PropertyTemplateOutline />', () => {
   const propertyRtProps = {
     propertyTemplate:
@@ -83,65 +123,41 @@ describe('<PropertyTemplateOutline />', () => {
         propertyURI: "http://schema.org/name"
       }
   }
-  const valConstraint = {
-    propertyTemplate: {
-      valueConstraint: {
-        valueTemplateRefs: ["resourceTemplate:bf2:Note"]
-      }
-    }
-  }
-  const useValues = {
-    propertyTemplate: {
-      valueConstraint: {
-        useValuesFrom: [ "https://id.loc.gov/vocabulary/frequencies" ]
-      }
-    }
-  }
   const wrapper = shallow(<PropertyTemplateOutline {...propertyRtProps}
-                                                   initNewResourceTemplate={mockInitNewResourceTemplate}/>)
-  const childPropertyTemplateOutline = wrapper.find(PropertyTemplateOutline)
+                            initNewResourceTemplate={mockInitNewResourceTemplate}/>)
 
   it('Contains a <PropertyTypeRow />', () => {
     expect(wrapper.find(PropertyTypeRow)).toBeTruthy()
   })
 
-  it('has an <PropertyTemplateOutline /> as a child', () => {
+  it('has an <PropertyTemplateOutline /> as a child (of connect(PropertyTemplateOutline)', () => {
     expect(wrapper.find(PropertyTemplateOutline)).toBeTruthy()
-  })
-
-  it('child PropertyTemplateOutline has an InputLiteral', () => {
-    expect(childPropertyTemplateOutline.find(InputLiteral)).toBeTruthy()
-  })
-
-  it('checks if a property has a valueTemplateRef', () => {
-    expect(valueTemplateRefTest(propertyRtProps.propertyTemplate)).toBeFalsy()
-    expect(valueTemplateRefTest(valConstraint.propertyTemplate)).toBeTruthy()
-  })
-
-  it('gets the uri for the lookup from the config', () => {
-    expect(getLookupConfigItems(useValues.propertyTemplate)).toEqual(
-      [ { "value": {"component": "list",
-                    "label": "frequency",
-                    "uri": "https://id.loc.gov/vocabulary/frequencies"} } ]
-    )
-  })
-
-  it('renders the case of an InputLiteral component', () => {
-    const literal = {
-      propertyTemplate: {
-        "type": "literal",
-        "propertyURI": "http://id.loc.gov/ontologies/bibframe/hasInstance",
-        "propertyLabel": "ShareVDE Stanford Instances"
-      }
-    }
-    const wrapper = shallow(<PropertyTemplateOutline {...literal} />)
-    const input = wrapper.instance().handleComponentCase(literal.propertyTemplate)
-    expect(input.props.reduxpath).toEqual(literal.propertyURI)
-    expect(input.props.propertyTemplate.type).toEqual("literal")
   })
 })
 
-describe('<PropertyTemplateOutline /> with InputListLOC component', () => {
+describe('<PropertyTemplateOutline /> with <InputLiteral> component', () => {
+  const literal = {
+    propertyTemplate: {
+      "type": "literal",
+      "propertyURI": "http://id.loc.gov/ontologies/bibframe/hasInstance",
+      "propertyLabel": "ShareVDE Stanford Instances"
+    }
+  }
+  const wrapper = shallow(<PropertyTemplateOutline {...literal} />)
+
+  it('<PropertyTemplateOutline> contains <InputLiteral>', () => {
+    const inputLiteral = wrapper.find(InputLiteral)
+    expect(inputLiteral).toBeTruthy()
+  })
+
+  it('renders <InputLiteral> component', () => {
+    const jsx = wrapper.instance().propertyComponentJsx(literal.propertyTemplate)
+    expect(jsx.props.reduxpath).toEqual(literal.propertyURI)
+    expect(jsx.props.propertyTemplate.type).toEqual("literal")
+  })
+})
+
+describe('<PropertyTemplateOutline /> with <InputListLOC> component', () => {
   const property = {
     propertyTemplate: {
       "mandatory": "true",
@@ -163,13 +179,13 @@ describe('<PropertyTemplateOutline /> with InputListLOC component', () => {
     }
   }
 
-  it('child PropertyTemplateOutline has an InputListLOC component', () => {
+  it('<PropertyTemplateOutline> contains <InputListLOC>', () => {
     const wrapper = mount(<PropertyTemplateOutline {...property} />)
     const childPropertyTemplateOutline = wrapper.find(PropertyTemplateOutline)
     expect(childPropertyTemplateOutline.find(InputListLOC)).toBeTruthy()
   })
 
-  it('renders the case of an InputListLOC component with', async () => {
+  it('renders <InputListLOC> component', async () => {
     const resource = {
       propertyTemplate: {
         "type": "resource",
@@ -183,31 +199,12 @@ describe('<PropertyTemplateOutline /> with InputListLOC component', () => {
       }
     }
     const wrapper = shallow(<PropertyTemplateOutline {...resource} />)
-    const input = wrapper.instance().handleComponentCase(resource.propertyTemplate)
+    const input = wrapper.instance().propertyComponentJsx(resource.propertyTemplate)
     expect(input.props.lookupConfig.value.component).toEqual("list")
   })
-
-  it('renders the case of a nested outline component', async () => {
-    const resource = {
-      propertyTemplate: {
-        "type": "resource",
-        "valueConstraint": {
-          "valueTemplateRefs": [ "resourceTemplate:bf2:Note" ]
-        },
-        "propertyURI": "http://id.loc.gov/ontologies/bibframe/hasInstance",
-        "propertyLabel": "ShareVDE Stanford Instances"
-      }
-    }
-    const wrapper = shallow(<PropertyTemplateOutline {...resource} initNewResourceTemplate={mockInitNewResourceTemplate} />)
-    wrapper.setState({nestedResourceTemplates: [responseBody[0].response.body]})
-    const input = wrapper.instance().handleComponentCase(resource.propertyTemplate)
-    expect(input[1].props.resourceTemplate.id).toEqual("resourceTemplate:bf2:Note")
-    expect(input[1].props.reduxPath).toEqual(['resourceTemplate:bf2:Note', 'http://www.w3.org/2000/01/rdf-schema#label'])
-  })
-
 })
 
-describe('<PropertyTemplateOutline /> with <InputLookupQA /> component', () => {
+describe('<PropertyTemplateOutline /> with <InputLookupQA> component', () => {
   const property = {
     propertyTemplate: {
       "propertyLabel": "Carrier Type (RDA 3.3)",
@@ -239,12 +236,30 @@ describe('<PropertyTemplateOutline /> with <InputLookupQA /> component', () => {
   const wrapper = mount(<PropertyTemplateOutline {...property} />)
   const childPropertyTemplateOutline = wrapper.find(PropertyTemplateOutline)
 
-  it('child PropertyTemplateOutline has an InputLookupQA component', () => {
+  it('<PropertyTemplateOutline> contains <InputLookupQA> component', () => {
     expect(childPropertyTemplateOutline .find(InputLookupQA)).toBeTruthy()
   })
 })
 
-describe('<PropertyTemplateOutline /> with propertyTemplate Refs', () => {
+describe('<PropertyTemplateOutline /> with propertyTemplate of type resource', () => {
+  it('renders the case of a nested outline component', async () => {
+    const resource = {
+      propertyTemplate: {
+        "type": "resource",
+        "valueConstraint": {
+          "valueTemplateRefs": [ "resourceTemplate:bf2:Note" ]
+        },
+        "propertyURI": "http://id.loc.gov/ontologies/bibframe/hasInstance",
+        "propertyLabel": "ShareVDE Stanford Instances"
+      }
+    }
+    const wrapper = shallow(<PropertyTemplateOutline {...resource} initNewResourceTemplate={mockInitNewResourceTemplate} />)
+    wrapper.setState({nestedResourceTemplates: [responseBody[0].response.body]})
+    const input = wrapper.instance().propertyComponentJsx(resource.propertyTemplate)
+    expect(input[1].props.resourceTemplate.id).toEqual("resourceTemplate:bf2:Note")
+    expect(input[1].props.reduxPath).toEqual(['resourceTemplate:bf2:Note', 'http://www.w3.org/2000/01/rdf-schema#label'])
+  })
+
   const property = {
     propertyTemplate:
     {
