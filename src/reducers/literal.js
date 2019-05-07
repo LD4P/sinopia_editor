@@ -21,12 +21,15 @@ export const setMyItems = (state, action) => {
   reduxPath.reduce((obj, key) => {
     level++
     if (level === reduxPath.length) {
-      if ((key in obj) != true) {
+      if ((key in obj) != true || !Object.keys(obj[key]).includes('items')) {
         obj[key] = { items: [] }
       }
       action.payload.items.map((row) => {
         obj[key].items.push(row)
       })
+    }
+    if (!Object.keys(obj).includes(key)) {
+      obj[key] = {}
     }
     return obj[key]
   }, newState)

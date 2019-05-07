@@ -1,9 +1,61 @@
-// Copyright 2018 Stanford University see Apache2.txt for license
+// Copyright 2018, 2019 Stanford University see Apache2.txt for license
 
 import React from 'react'
 import 'jsdom-global/register'
 import { shallow } from 'enzyme'
+import shortid from 'shortid'
 import { ResourceTemplateForm } from '../../../src/components/editor/ResourceTemplateForm'
+
+describe('<ResourceTemplateForm /> functional testing', () => {
+
+ const basicRt = { resourceURI: 'http://schema.org/name' }
+ const basicWrapper = shallow(<ResourceTemplateForm propertyTemplates={[]}
+    rtId={'resource:schema:Name'}
+    resourceTemplate={ basicRt } />)
+
+ const testId = jest.spyOn(shortid, 'generate').mockReturnValue('abcd45')
+
+ describe('resourceTemplateFields expectations and outputs', () => {
+
+    it('empty array, null, or undefined resource templates', () => {
+      expect(basicWrapper.instance().resourceTemplateFields([])).toEqual([])
+      expect(basicWrapper.instance().resourceTemplateFields(null)).toEqual([])
+      expect(basicWrapper.instance().resourceTemplateFields()).toEqual([])
+    })
+
+    it('resourceTemplateFields returns an array with one <PropertyResourceTemplate /> and has expected Redux state', () => {
+      basicWrapper.instance().setState( { nestedResourceTemplates: [
+        {
+          "id": "resourceTemplate:bf2:Note",
+          "resourceURI": "http://id.loc.gov/ontologies/bibframe/Note",
+          "resourceLabel": "Note",
+          "propertyTemplates": [
+            {
+              "propertyURI": "http://www.w3.org/2000/01/rdf-schema#label",
+              "propertyLabel": "Note",
+              "mandatory": "false",
+              "repeatable": "false",
+              "type": "literal",
+              "resourceTemplates": [],
+              "valueConstraint": {
+                "valueTemplateRefs": []
+              }
+            }
+          ]
+        }
+       ]
+      })
+      const result = basicWrapper.instance().resourceTemplateFields(
+       ["resourceTemplate:bf2:Note"],
+       "http://www.w3.org/2000/01/rdf-schema#label")
+      expect(result[0].props.reduxPath).toEqual(["resource:schema:Name",
+        "http://www.w3.org/2000/01/rdf-schema#label",
+        "abcd45",
+        "resourceTemplate:bf2:Note"])
+    })
+
+  })
+})
 
 const rtProps = {
   "propertyTemplates": [
@@ -145,6 +197,8 @@ const ld = {
 
 const rtTest = { resourceURI: "http://id.loc.gov/ontologies/bibframe/Work" }
 const mockHandleGenerateLD = jest.fn()
+
+
 
 describe('<ResourceTemplateForm /> after fetching data from sinopia server', () => {
 

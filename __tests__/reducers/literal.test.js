@@ -23,6 +23,81 @@ describe('literal reducer functions', () => {
     })
   })
 
+  it('SET_ITEMS adds item to an empty state', () => {
+    const emptyState = setMyItems({},
+     {
+       type: 'SET_ITEMS',
+       payload: {
+         rtId: 'resourceTemplate:Monograph:Instance',
+         uri: 'http://schema.org/name',
+         reduxPath: ['resourceTemplate:Monograph:Instance', 'http://schema.org/name'],
+         items: [ { id: 0, content: 'Run the tests'} ]
+       }
+     })
+     expect(emptyState).toEqual({
+       "resourceTemplate:Monograph:Instance": {
+         'http://schema.org/name': {
+           items: [{ id: 0, content: 'Run the tests'}]
+         }
+       }
+     })
+  })
+
+  it('SET_ITEMS appends item to populated state', () => {
+    expect(
+      setMyItems({ "resourceTemplate:Book": {} },
+      {
+        type: 'SET_ITEMS',
+        payload: {
+          rtId: "resourceTemplate:Monograph:Instance",
+          uri: 'http://schema.org/description',
+          reduxPath: ['resourceTemplate:Monograph:Instance', 'http://schema.org/description'],
+          items: [ { id: 2, content: "add this!"}]
+        }
+      })
+    ).toEqual({
+       "resourceTemplate:Book": {},
+      'resourceTemplate:Monograph:Instance': {
+        "http://schema.org/description": {
+          items: [{ id: 2, content: "add this!"}]}
+      }
+    })
+  })
+
+  it('SET_ITEMS creates intermediate objects in the Redux state if present in reduxPath', () => {
+    const createPersonResult =  setMyItems({
+      "resourceTemplate:Monograph:Instance": {
+        "abcdeCode": {
+          "http://schema.org/name": "A fun name"
+        }
+      }
+    },
+    {
+      type: 'SET_ITEMS',
+      payload: {
+        rtId: "resourceTemplate:Monograph:Instance",
+        uri: 'http://schema.org/description',
+        reduxPath: ['resourceTemplate:Monograph:Instance',
+                    "abcdeCode",
+                    'http://schema.org/Person',
+                    'http://schema.org/givenName'],
+        items: [ { id: 2, content: "Melissa"}]
+      }
+    })
+    expect(createPersonResult).toEqual({
+      "resourceTemplate:Monograph:Instance": {
+        "abcdeCode": {
+          "http://schema.org/name": "A fun name",
+          "http://schema.org/Person": {
+            "http://schema.org/givenName": {
+              "items": [ { id: 2, content: "Melissa"}]
+            }
+          }
+        }
+      }
+    })
+  })
+
   it('SET_ITEMS adds new item to state when state has existing selector for another literal', () => {
     expect(
       setMyItems({ "resourceTemplate:Monograph:Instance": {

@@ -17,6 +17,9 @@ const { DataFactory } = N3
 const { blankNode } = DataFactory
 const _ = require('lodash')
 
+
+
+
 // renders the input form for a ResourceTemplate
 export class ResourceTemplateForm extends Component {
   constructor(props) {
@@ -56,6 +59,30 @@ export class ResourceTemplateForm extends Component {
     })
   }
 
+  resourceTemplateFields = (rtIds, propUri) => {
+    const rtProperties = []
+    if (rtIds === null || rtIds === undefined) {
+      return rtProperties
+    }
+    rtIds.map((rtId, i) => {
+      const rt = this.rtForPt(rtId)
+      if (rt !== undefined) {
+        const keyId = shortid.generate()
+        const reduxPath = [this.props.rtId, propUri, keyId, rtId]
+        rtProperties.push(<PropertyResourceTemplate
+          key={keyId}
+          resourceTemplate={rt}
+          reduxPath={reduxPath} />)
+        if ((rtIds.length - i) > 1) {
+          rtProperties.push(<hr key={i} />)
+        }
+      } else {
+        this.setState({templateError: true})
+      }
+    })
+    return rtProperties
+  }
+
   resourceTemplatePromises = async (templateRefs) => {
     return Promise.all(templateRefs.map(rtId =>
       getResourceTemplate(rtId)
@@ -86,25 +113,7 @@ export class ResourceTemplateForm extends Component {
     return blankNode()
   }
 
-  // Note: rtIds is expected to be an array of length at least one
-  resourceTemplateFields = (rtIds, propUri) => {
-    const rtProperties = []
-    rtIds.map((rtId, i) => {
-      const rt = this.rtForPt(rtId)
-      if (rt !== undefined) {
-        rtProperties.push(<PropertyResourceTemplate
-          key={shortid.generate()}
-          resourceTemplate={rt}
-          reduxPath={[this.props.rtId, propUri, rtId]} />)
-        if ((rtIds.length - i) > 1) {
-          rtProperties.push(<hr key={i} />)
-        }
-      } else {
-        this.setState({templateError: true})
-      }
-    })
-    return rtProperties
-  }
+
 
   rtForPt = (rtId) => {
     return _.find(this.state.nestedResourceTemplates, ['id', rtId])
@@ -191,7 +200,7 @@ export class ResourceTemplateForm extends Component {
                 let valueForButton
                 return (
                   <PropertyPanel pt={pt} key={index} float={index} rtId={this.props.rtId}>
-                    {this.resourceTemplateFields(pt.valueConstraint.valueTemplateRefs)}
+                    {this.resourceTemplateFields(pt.valueConstraint.valueTemplateRefs, pt.propertyURI)}
                     {this.renderValueForButton(valueForButton, index)}
                   </PropertyPanel>
                 )

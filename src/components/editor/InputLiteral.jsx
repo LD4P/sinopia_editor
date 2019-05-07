@@ -23,6 +23,15 @@ export class InputLiteral extends Component {
     }
   }
 
+  componentDidMount = () => {
+    if (this.props.propertyTemplate.repeatable === "false" &&
+        this.props.formData !== undefined &&
+        this.props.formData.items.length > 0) {
+      this.setState( { disabled: true })
+    }
+  }
+
+
   handleShow = () => {
     this.setState({ show: true })
   }
