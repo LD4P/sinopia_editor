@@ -2,7 +2,7 @@
 import { combineReducers } from 'redux'
 import lang from './lang'
 import authenticate from './authenticate'
-import { removeAllContent, setMyItems, removeMyItem } from './literal'
+import {removeAllContent, setMyItems, removeMyItem, setMySelections} from './inputs'
 import shortid from 'shortid'
 
 const inputPropertySelector = (state, props) => {
@@ -98,6 +98,8 @@ const selectorReducer = (state={}, action) => {
       return setResourceTemplate(state, action)
     case 'SET_ITEMS':
       return setMyItems(state, action)
+    case 'CHANGE_SELECTIONS':
+      return setMySelections(state, action)
     case 'REFRESH_RESOURCE_TEMPLATE':
       return refreshResourceTemplate(state, action)
     case 'REMOVE_ITEM':

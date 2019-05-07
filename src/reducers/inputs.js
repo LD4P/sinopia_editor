@@ -36,6 +36,23 @@ export const setMyItems = (state, action) => {
   return newState
 }
 
+export const setMySelections = (state, action) => {
+  const newState = Object.assign({}, state)
+  const reduxPath = action.payload.reduxPath
+  let level = 0
+  reduxPath.reduce((obj, key) => {
+    level++
+    if (level === reduxPath.length) {
+      if ((key in obj) != true) {
+        obj[key] = { items: [] }
+      }
+      obj[key].items = action.payload.items
+    }
+    return obj[key]
+  }, newState)
+  return newState
+}
+
 export const removeMyItem = (state, action) => {
   const newState = Object.assign({}, state)
   const reduxPath = action.payload.reduxPath

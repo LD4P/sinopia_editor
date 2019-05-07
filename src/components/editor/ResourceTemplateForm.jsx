@@ -146,7 +146,9 @@ export class ResourceTemplateForm extends Component {
     if (listComponent === 'list'){
       result = (
         <PropertyPanel pt={pt} key={index} float={index} rtId={this.props.rtId}>
-          <InputListLOC propertyTemplate = {pt} lookupConfig = {lookupConfigItem} key = {index} rtId = {this.props.rtId} />
+          <InputListLOC key = {index} propertyTemplate = {pt}
+                        lookupConfig = {lookupConfigItem}
+                        reduxPath={[this.props.rtId, pt.propertyURI]} />
         </PropertyPanel>
       )
     } else if (listComponent ===  'lookup'){
