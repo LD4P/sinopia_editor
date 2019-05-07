@@ -12,10 +12,6 @@ describe('<SinopiaResourceTemplates />', () => {
   ]
   const wrapper = shallow(<SinopiaResourceTemplates message={message}/>)
 
-  it('has a header for the area where the list of groups in sinopia_Server are displayed', () => {
-    expect(wrapper.find('div > h4').first().text()).toEqual('Groups in Sinopia')
-  })
-
   it('has a header for the area where the table of resource templates for the groups are displayed', () => {
     expect(wrapper.find('div > h4').last().text()).toEqual('Available Resource Templates in Sinopia')
   })
