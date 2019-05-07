@@ -1,7 +1,6 @@
 [![CircleCI](https://circleci.com/gh/LD4P/sinopia_editor.svg?style=svg)](https://circleci.com/gh/LD4P/sinopia_editor)
 [![Coverage Status](https://coveralls.io/repos/github/LD4P/sinopia_editor/badge.svg?branch=master)](https://coveralls.io/github/LD4P/sinopia_editor?branch=master)
 
-
 # Sinopia BIBFRAME Editor
 
 Technical documentation specific to the Sinopia BIBFRAME Editor may also be found in the [wiki](https://github.com/LD4P/sinopia_editor/wiki/Sinopia-Editor). The [Sinopia Editor][GIT_REPO] homepage is available in staging at [stage.sinopia.io][staging]. The Sinopia Editor is a [React][REACT] application with all new user interfaces and functionality using React and the React ecosystem. Portions of the codebase originally extracted from the Library of Congress `bfe` [project][BFE_GIT].
@@ -107,15 +106,45 @@ $ docker-compose up platformdata # add the '-d' flag to daemonize and run in bac
 **NOTE**: In order for the above to work, you will need to set `COGNITO_ADMIN_PASSWORD`, `AWS_ACCESS_KEY_ID`, and `AWS_SECRET_ACCESS_KEY` in a file named `.env` in the sinopia_editor root.
 
 ### Building latest Docker Image
-Before building the latest Docker Image, run `npm run build` to update the `dist` folder with the current build.
-To build the latest version of the [Sinopia Editor][GIT_REPO], you
-can build with the
-`docker build -t ld4p/sinopia_editor --no-cache=true .` command.
 
-### Pushing Docker Image to Dockerhub
+Before building the latest Docker Image, run `npm run build` to update the `dist` folder with the current build.
+To build the latest version of the [Sinopia Editor][GIT_REPO], you can build with the `docker build -t ld4p/sinopia_editor:latest --no-cache=true .` command. **NOTE** that images tagged with `latest` will not be deployed to any of our AWS environments. See below for how to build and deploy images
+
+### Pushing Docker Image to DockerHub
+
 Run `docker login` and enter the correct credentials to your docker account.
 Once successfully authenticated, run `docker push ld4p/sinopia_editor:latest`.
-Ask a member on the DevOps team to go into the AWS console to udpate https://sinopia.io
+Ask a member on the DevOps team to go into the AWS console to update https://sinopia.io
+
+### Updating Docker Image in AWS Dev Environment
+
+This section assumes you've already authenticated to DockerHub via `docker login` in the previous section, and also assumes you've run through the [AWS development environment setup](https://github.com/sul-dlss/terraform-aws/wiki/AWS-DLSS-Dev-Env-Setup) documentation and configured the AWS CLI.
+
+First, build a new `sinopia_editor` image tagged with `dev`. In order to do this, you **MUST** provide the dev-specific build args:
+
+```shell
+$ docker build -t ld4p/sinopia_editor:dev --build-arg SPOOF_SINOPIA_SERVER=false --build-arg TRELLIS_BASE_URL=https://trellis.development.sinopia.io --build-arg DEFAULT_PROFILE_SCHEMA_VERSION=0.0.2 --build-arg SINOPIA_GROUP=ld4p --build-arg SINOPIA_URI=https://development.sinopia.io --build-arg AWS_COGNITO_DOMAIN=https://sinopia-development.auth.us-west-2.amazoncognito.com --build-arg COGNITO_CLIENT_ID=2u6s7pqkc1grq1qs464fsi82at .
+```
+
+Then push the `dev`-tagged issue to DockerHub:
+
+```shell
+$ docker push ld4p/sinopia_editor:dev
+```
+
+Next, set an environment variable to the name of the AWS `DevelopersRole` profile as described in the documentation above (as stored in `~/.aws/config`):
+
+```shell
+$ export AWS_PROFILE=change_to_whatever_you_named_your_dlss_development_profile
+```
+
+And, finally, run the following commands to refresh the dev ECS instance that runs the editor:
+
+```shell
+$ task_arn=$(aws ecs list-task-definitions --family-prefix sinopia-homepage --region us-west-2 --sort DESC --max-items 1 --profile $AWS_PROFILE | jq --raw-output --exit-status '.taskDefinitionArns[]')
+$ cluster_arn=$(aws ecs list-clusters --region us-west-2  --profile $AWS_PROFILE | jq --raw-output --exit-status '.clusterArns[] | select(contains(":cluster/sinopia-dev"))')
+$ aws ecs update-service --service sinopia-homepage --region us-west-2 --cluster $cluster_arn --task-definition $task_arn --force-new-deployment --profile $AWS_PROFILE
+```
 
 ## Temporary Spoofing Authentication during Development
 
