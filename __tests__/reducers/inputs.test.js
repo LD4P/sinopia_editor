@@ -1,4 +1,4 @@
-import { removeAllContent, removeMyItem, setMyItems  } from '../../src/reducers/literal'
+import { removeAllContent, removeMyItem, setMyItems, setMySelections } from '../../src/reducers/inputs'
 
 describe('literal reducer functions', () => {
 
@@ -130,6 +130,78 @@ describe('literal reducer functions', () => {
           items: [{ id: 2, content: "add this!"}],
           reduxPath: ['resourceTemplate:Monograph:Instance', 'http://schema.org/description']
         }
+      }
+    })
+  })
+
+  it('CHANGE_SELECTIONS adds items to state', () => {
+    const listSetSelections = setMySelections({ "resourceTemplate:Monograph:Instance": {
+      'http://schema.org/name': { items: [] }
+    }}, {
+      type: 'CHANGE_SELECTIONS',
+      payload: {
+        id: 'abc123',
+        uri: 'http://schema.org/name',
+        reduxPath: ['resourceTemplate:Monograph:Instance', 'http://schema.org/name'],
+        items: [ { id: 0, label: 'Run the tests', uri: 'http://schema.org/abc'} ]
+      }
+    })
+    expect(listSetSelections).toEqual({
+      "resourceTemplate:Monograph:Instance": {
+        'http://schema.org/name': {
+          items: [{ id: 0, label: 'Run the tests', uri: 'http://schema.org/abc'}]
+        }
+      }
+    })
+  })
+
+  it('CHANGE_SELECTIONS overwites items in  current state', () => {
+    const listSetSelections = setMySelections({ "resourceTemplate:Monograph:Instance": {
+      'http://schema.org/name': { items: [{ id: 0, label: 'Run the tests', uri: 'http://schema.org/abc'}] }
+    }}, {
+      type: 'CHANGE_SELECTIONS',
+      payload: {
+        id: 'def456',
+        uri: 'http://schema.org/name',
+        reduxPath: ['resourceTemplate:Monograph:Instance', 'http://schema.org/name'],
+        items: [
+          { id: 0, label: 'Run the tests', uri: 'http://schema.org/abc'},
+          { id: 1, label: 'See if they pass', uri: 'http://schema.org/def'}
+        ]
+      }
+    })
+    expect(listSetSelections).toEqual({
+      "resourceTemplate:Monograph:Instance": {
+        'http://schema.org/name': {
+          items: [
+            { id: 0, label: 'Run the tests', uri: 'http://schema.org/abc'},
+            { id: 1, label: 'See if they pass', uri: 'http://schema.org/def'}
+          ]
+        }
+      }
+    })
+  })
+
+  it('CHANGE_SELECTIONS removes all items in  current state by overwriting with an empty object', () => {
+    const listSetSelections = setMySelections({ "resourceTemplate:Monograph:Instance": {
+      'http://schema.org/name': {
+        items: [
+          { id: 0, label: 'Run the tests', uri: 'http://schema.org/abc'},
+          { id: 1, label: 'See if they pass', uri: 'http://schema.org/def'}
+        ]
+      }
+    }}, {
+      type: 'CHANGE_SELECTIONS',
+      payload: {
+        id: 'nomatter',
+        uri: 'http://not/importanr',
+        reduxPath: ['resourceTemplate:Monograph:Instance', 'http://schema.org/name'],
+        items: []
+      }
+    })
+    expect(listSetSelections).toEqual({
+      "resourceTemplate:Monograph:Instance": {
+        'http://schema.org/name': {items: []}
       }
     })
   })
