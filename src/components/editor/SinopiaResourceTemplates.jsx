@@ -117,14 +117,6 @@ class SinopiaResourceTemplates extends Component {
     return(
       <div>
         { createResourceMessage }
-        <h4>Groups in Sinopia</h4>
-        <ul>
-          { this.state.groupData.map((container, index) => {
-            return(
-              <li key={index}>{this.resourceToName(container)}</li>
-            )
-          })}
-        </ul>
         <h4>Available Resource Templates in Sinopia</h4>
         <BootstrapTable keyField='key' data={ this.state.templatesForGroup } >
           <TableHeaderColumn thStyle={ thNameClass } tdStyle={ tdNameClass } dataFormat={ this.linkFormatter } dataField='name' dataSort={true} >Template name</TableHeaderColumn>
