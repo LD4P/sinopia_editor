@@ -127,7 +127,7 @@
       "remark": "http://access.rdatoolkit.org/3.3.html"
     },
     {
-      "propertyLabel": "WITH ALL VALUE CONSTRAINTS",
+      "propertyLabel": "Item Information",
       "propertyURI": "http://id.loc.gov/ontologies/bibframe/itemPortion",
       "repeatable": "true",
       "resourceTemplates": [],
@@ -177,7 +177,7 @@
         "defaults": []
       },
       "propertyURI": "http://id.loc.gov/ontologies/bibframe/contribution",
-      "propertyLabel": "LOC Names: locnames_ld4l_cache/person",
+      "propertyLabel": "Agent Contribution",
       "remark": "http://id.loc.gov/authorities/names.html"
     },
     {
@@ -217,7 +217,7 @@
       }
     },
     {
-      "propertyLabel": "LITERAL WITH DEFAULT",
+      "propertyLabel": "Holdings",
       "propertyURI": "http://id.loc.gov/ontologies/bibframe/heldBy",
       "resourceTemplates": [],
       "type": "literal",

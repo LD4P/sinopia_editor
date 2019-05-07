@@ -36,7 +36,10 @@ class ResourceTemplate extends Component {
   renderRtData = () => {
     return (
       <div className='ResourceTemplate'>
-        <div id="resourceTemplate">
+        <div id="resourceTemplate" style={{marginTop: '-30px'}}>
+          <section className="col-md-9">
+            <h1><em>{this.state.rtData.resourceLabel}</em></h1>
+          </section>
           <ResourceTemplateForm
             propertyTemplates = {this.state.rtData.propertyTemplates}
             resourceTemplate = {this.state.rtData}

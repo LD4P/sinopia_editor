@@ -73,11 +73,7 @@ class Editor extends Component {
         <Header triggerEditorMenu={this.props.triggerHandleOffsetMenu}/>
         { authenticationMessage }
         <div className="row">
-          <section className="col-md-9">
-            <h3>Resource Template Label</h3>
-            <h1>[Clone|Edit] <em>Name of Resource</em></h1>
-          </section>
-          <section className="col-md-3">
+          <section className="col-md-3" style={{float: 'right'}}>
             <button type="button" className="btn btn-primary btn-sm" onClick={this.handleRdfShow}>Preview RDF</button>
           </section>
         </div>
