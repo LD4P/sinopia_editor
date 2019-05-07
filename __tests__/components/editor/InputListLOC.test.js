@@ -13,9 +13,10 @@ const plProps = {
       "propertyLabel": "Frequency (RDA 2.14)",
       "remark": "http://access.rdatoolkit.org/2.14.html",
       "mandatory": "false",
-      "repeatable": "true",
+      "repeatable": "false",
       "type": "lookup",
       "valueConstraint": {
+        "repeatable": "true",
         "defaults": [{
           "defaultURI": "http://id.loc.gov/vocabulary/carriers/nc",
           "defaultLiteral": "volume"
@@ -60,7 +61,7 @@ describe('<InputList />', () => {
     expect(wrapper.find(Typeahead).props().placeholder).toMatch("Frequency (RDA 2.14)")
   })
 
-  it('sets the typeahead component multiple attribute according to the repeatable value from the template', () => {
+  it('sets the typeahead component multiple attribute according to the repeatable value from valueContraints in the property template', () => {
     expect(wrapper.find('#targetComponent').props().multiple).toBe(true)
   })
 
