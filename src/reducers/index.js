@@ -3,7 +3,7 @@ import { combineReducers } from 'redux'
 import { createSelector } from 'reselect'
 import lang from './lang'
 import authenticate from './authenticate'
-import { removeAllContent, setMyItems, removeMyItem } from './literal'
+import { removeAllContent, setMyItems, removeMyItem, replaceMyItems } from './literal'
 import shortid from 'shortid'
 const _ = require('lodash')
 

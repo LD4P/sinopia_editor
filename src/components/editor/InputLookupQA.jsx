@@ -192,10 +192,7 @@ InputLookupQA.propTypes = {
 
 const mapStateToProps = ( state, props ) => {
     let result = getProperty(state, props);
-    result = Object.assign( {}, state );
-    return result;
-    //let result = getProperty(state, props)
-    //return { formData: { items: result } }
+    return {selected: result};
 }
 
 const mapDispatchToProps = dispatch => ( {
