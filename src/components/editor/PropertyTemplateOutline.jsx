@@ -182,7 +182,9 @@ export class PropertyTemplateOutline extends Component {
     let newOutput = this.state.output
     const templateRefList = []
     if(hasValueTemplateRef(property)) {
-      templateRefList.splice(0,0,property.valueConstraint.valueTemplateRefs)
+      property.valueConstraint.valueTemplateRefs.map((row) => {
+        templateRefList.push(row)
+      })
     }
     this.fulfillRTPromises(this.resourceTemplatePromises(templateRefList))
       .then(() => {
