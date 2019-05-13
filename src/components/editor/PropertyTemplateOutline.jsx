@@ -180,8 +180,8 @@ export class PropertyTemplateOutline extends Component {
   handleClick = (property) => (event) => {
     event.preventDefault()
     let newOutput = this.state.output
-
-    this.fulfillRTPromises(this.resourceTemplatePromises(property.valueConstraint.valueTemplateRefs))
+    const templateRefList = hasValueTemplateRef(property) ? property.valueConstraint.valueTemplateRefs : []
+    this.fulfillRTPromises(this.resourceTemplatePromises(templateRefList))
       .then(() => {
         const propertyJsx = this.propertyComponentJsx(property)
         let existingJsx

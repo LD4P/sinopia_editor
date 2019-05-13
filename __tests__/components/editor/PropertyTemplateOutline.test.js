@@ -369,3 +369,43 @@ describe('<PropertyTemplateOutline /> with propertyTemplate of type resource', (
     expect(mockHandleMintUri.mock.calls.length).toBe(1)
   })
 })
+
+describe('<PropertyTemplateOutline /> handles propertyTemplate variations', () => {
+
+  it('displays the propertyLabel when missing valueConstraint.valueTemplateRefs', () => {
+    const missingValueTemplateRefsProperty = {
+      "propertyTemplate": {
+        "mandatory": "false",
+        "repeatable": "true",
+        "type": "lookup",
+        "valueConstraint": {
+          "useValuesFrom": [
+            "http://id.loc.gov/authorities/subjects"
+          ]
+        },
+        "propertyLabel": "Search LCSH",
+        "propertyURI": "http://www.loc.gov/mads/rdf/v1#authoritativeLabel"
+        }
+    }
+    const wrapper = shallow(<PropertyTemplateOutline {...missingValueTemplateRefsProperty} />)
+    const outlineHeader = wrapper.find(OutlineHeader)
+    expect(outlineHeader.props().label).toEqual(
+      missingValueTemplateRefsProperty.propertyTemplate.propertyLabel)
+ })
+
+ it('displays the propertyLabel when missing valueConstraint', () => {
+   const missingValueConstraintProperty = {
+     "propertyTemplate": {
+       "mandatory": "false",
+       "repeatable": "true",
+       "type": "literal",
+       "propertyLabel": "A Book",
+       "propertyURI": "http:///schema.org/Book"
+     }
+   }
+   const wrapper = shallow(<PropertyTemplateOutline {...missingValueConstraintProperty} />)
+   const outlineHeader = wrapper.find(OutlineHeader)
+   expect(outlineHeader.props().label).toEqual(
+     missingValueConstraintProperty.propertyTemplate.propertyLabel)
+ })
+})
