@@ -180,12 +180,7 @@ export class PropertyTemplateOutline extends Component {
   handleClick = (property) => (event) => {
     event.preventDefault()
     let newOutput = this.state.output
-    const templateRefList = []
-    if(hasValueTemplateRef(property)) {
-      property.valueConstraint.valueTemplateRefs.map((row) => {
-        templateRefList.push(row)
-      })
-    }
+    const templateRefList = hasValueTemplateRef(property) ? property.valueConstraint.valueTemplateRefs : []
     this.fulfillRTPromises(this.resourceTemplatePromises(templateRefList))
       .then(() => {
         const propertyJsx = this.propertyComponentJsx(property)
