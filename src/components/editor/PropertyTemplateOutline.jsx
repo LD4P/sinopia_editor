@@ -11,7 +11,6 @@ import PropTypes from 'prop-types'
 import shortid from 'shortid'
 import ResourceProperty from "./ResourceProperty";
 
-
 export class PropertyTemplateOutline extends Component {
   constructor(props) {
     super(props)

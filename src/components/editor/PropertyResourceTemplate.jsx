@@ -17,7 +17,7 @@ class PropertyResourceTemplate extends Component {
   }
 
   handleAddClick = (event) => {
-     event.preventDefault()
+    event.preventDefault()
   }
 
   handleMintUri = (event) => {
@@ -31,8 +31,11 @@ class PropertyResourceTemplate extends Component {
           <h4>{this.props.resourceTemplate.resourceLabel}</h4>
         </section>
         <section className="col-md-4">
-          <PropertyActionButtons handleAddClick={this.handleAddClick}
-            handleMintUri={this.handleMintUri} key={shortid.generate()} />
+          <PropertyActionButtons
+            handleAddClick={this.handleAddClick}
+            handleMintUri={this.handleMintUri}
+            reduxPath={this.props.reduxPath}
+            key={shortid.generate()} />
         </section>
       </div>
       <div>

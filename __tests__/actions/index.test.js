@@ -74,3 +74,18 @@ describe('initializes the Redux State', () => {
     })
   })
 })
+
+describe('tests if resource is repeatable and size > 1', () => {
+  it.skip('should return true if resource is repeatable and the number of items is less then 1', () => {
+    const reduxState = {
+
+    }
+    expect(actions.isRepeatable({}, { reduxPath: ['http://sinopia.io/example', 'abcde'],
+                                      repeatable: "true" }))
+    .toEqual({ payload: true,
+               type: "IS_REPEATABLE"})
+  })
+
+  it.todo('should return false if resource is not repeatable and items is 1')
+
+})

@@ -2,7 +2,7 @@
 import { combineReducers } from 'redux'
 import lang from './lang'
 import authenticate from './authenticate'
-import {removeAllContent, setMyItems, removeMyItem, setMySelections} from './inputs'
+import {removeAllContent, setMyItems, removeMyItem, setMySelections } from './inputs'
 import shortid from 'shortid'
 
 const inputPropertySelector = (state, props) => {
@@ -14,6 +14,21 @@ const inputPropertySelector = (state, props) => {
     items = []
   }
   return items
+}
+
+export const isPropertyRepeatable = (state, action) => {
+  // Expected default
+  let defaultCondition = true
+  const payload = action.payload
+  if (payload.property.repeatable === "true") return defaultCondition
+  const reduxPath = payload.reduxPath
+  const propertyList = reduxPath.reduce((obj, key) =>
+     (obj && obj[key] !== 'undefined') ? obj[key] : undefined,
+    state.selectorReducer)
+  if (payload.property.repeatable === "false" && propertyList > 1) {
+    defaultCondition = false
+  }
+  return defaultCondition
 }
 
 // TODO: Renable use of reselect's createSelector, will need to adjust

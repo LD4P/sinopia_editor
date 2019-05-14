@@ -218,3 +218,50 @@ describe('Takes a property and returns an empty or a populated array from popula
     }])
   })
 })
+
+describe(`Takes a resource property and state and returns if resource can be increased`, () => {
+
+  it(`returns true when repeatable is true`, () => {
+    const defaultIsPropertyRepeatable = isPropertyRepeatable(
+      {}, // Empty Redux State
+      payload = {
+        property: { repeatable: "true" }
+      }
+    )
+    expect(defaultIsPropertyRepeatable).toEqual(true)
+  })
+
+  it(`returns false when repeatable is false and there is at least one existing property`, () => {
+    const existingState = {
+       "http://id.loc.gov/ontologies/bibframe/itemPortion": {
+         jpzoz3jkgD: {
+          'resourceTemplate:bf2:Identifiers:Barcode': {
+            'http://www.w3.org/1999/02/22-rdf-syntax-ns#value': {
+              w74CpSomVjJ: {
+               'http://www.w3.org/1999/02/22-rdf-syntax-ns#value': {
+                 items: [
+                   {
+                     content: '456801',
+                     id: '3UN67--JA'
+                   }
+                 ]
+               }
+             }
+            }
+          }
+        }
+      }
+    }
+    const payload = {
+      property: { repeatable: "false" },
+      reduxPath: ["http://id.loc.gov/ontologies/bibframe/itemPortion",
+                  "jpzoz3jkgD",
+                  "resourceTemplate:bf2:Identifiers:Barcode",
+                  'http://www.w3.org/1999/02/22-rdf-syntax-ns#value']
+    }
+    const existingItemRepeatableFalse = isPropertyRepeatable(existingState, payload)
+    expect(existingItemRepeatableFalse).toBe(false)
+  })
+  it.todo(`returns true when repeatable is false and there is not an existing property`)
+
+})

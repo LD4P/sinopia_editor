@@ -12,6 +12,7 @@ export class AddButton extends Component {
     }
   }
 
+  compon
   render() {
     return(<button className="btn btn-default btn-sm"
             onClick={this.props.onClick}
