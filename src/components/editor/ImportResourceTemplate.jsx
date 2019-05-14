@@ -96,10 +96,8 @@ class ImportResourceTemplate extends Component {
 
   updateStateForResourceError = (error) => {
     if(_.get(error, 'response.statusText') === 'Conflict') {
-      const response = error.response
-      const joinedConflicts = this.state.createResourceError.slice(0)
-      this.setState({tempConflictError: response})
-      joinedConflicts.push(this.state.tempConflictError)
+      const joinedConflicts = [...this.state.createResourceError]
+      joinedConflicts.push(error.response)
       this.setState({createResourceError: joinedConflicts})
     }
   }
