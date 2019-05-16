@@ -6,6 +6,7 @@ import { Link } from 'react-router-dom'
 import {BootstrapTable, TableHeaderColumn} from 'react-bootstrap-table'
 import Config from '../../../src/Config'
 import { getGroups, listResourcesInGroupContainer, getResourceTemplate } from '../../sinopiaServer'
+import { resourceToName } from '../../Utilities'
 const _ = require('lodash')
 const SinopiaServer = require('sinopia_server')
 const instance = new SinopiaServer.LDPApi()
@@ -30,7 +31,7 @@ class SinopiaResourceTemplates extends Component {
 
       await this.fulfillGroupPromise(groupPromise).then(async () => {
         this.state.groupData.map(group => {
-          const groupName = this.resourceToName(group)
+          const groupName = resourceToName(group)
           listResourcesInGroupContainer(groupName).then((data) => {
             this.fulfillGroupData(data)
           }).catch(() => {})
@@ -50,13 +51,13 @@ class SinopiaResourceTemplates extends Component {
   }
 
   fulfillGroupData = (data) => {
-    const groupName = this.resourceToName(data.response.body['@id'])
+    const groupName = resourceToName(data.response.body['@id'])
 
     if (data.response.body.contains !== undefined) {
       const contains = [].concat(data.response.body.contains)
 
       contains.map(c => {
-        const name = this.resourceToName(c)
+        const name = resourceToName(c)
 
         this.groupDataPromise(groupName, name).then((data) => {
           const rt = data.response.body
@@ -73,14 +74,9 @@ class SinopiaResourceTemplates extends Component {
   }
 
   groupDataPromise = (groupName, name) => new Promise(async (resolve) => {
-    // await resolve(instance.getResourceWithHttpInfo(groupName, name, { acceptEncoding: 'application/json' }))
     await resolve(getResourceTemplate(name, groupName))
   })
 
-  resourceToName = (resource) => {
-    const idx = resource.lastIndexOf('/')
-    return resource.substring(idx+1)
-  }
 
   linkFormatter = (cell, row) => {
     return(

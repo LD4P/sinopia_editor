@@ -4,6 +4,7 @@ import React, {Component} from 'react'
 import PropTypes from 'prop-types'
 import Button from 'react-bootstrap/lib/Button'
 import Modal from 'react-bootstrap/lib/Modal'
+import { resourceToName } from '../../Utilities'
 const _ = require('lodash')
 
 class UpdateResourceModal extends Component {
@@ -15,11 +16,6 @@ class UpdateResourceModal extends Component {
     }
   }
 
-  resourceToName = (resource) => {
-    const idx = resource.lastIndexOf('/')
-    return resource.substring(idx+1)
-  }
-
   componentDidMount() {
     let group = ''
     let rts = []
@@ -29,7 +25,7 @@ class UpdateResourceModal extends Component {
     messages.map(message => {
       if(_.get(message, 'req._data.id')) {
         const req = message.req
-        group = this.resourceToName(req.url)
+        group = resourceToName(req.url)
         const rt = req._data
         rts.push(rt)
         titleMessages.push(`${rt.id} already exisits`)
