@@ -112,8 +112,11 @@ To build the latest version of the [Sinopia Editor][GIT_REPO], you can build wit
 
 ### Pushing Docker Image to DockerHub
 
-Run `docker login` and enter the correct credentials to your docker account.
-Once successfully authenticated, run `docker push ld4p/sinopia_editor:latest`.
+Run `docker login` and enter the correct credentials to your docker account (hub.docker.com).
+Once successfully authenticated, run
+
+`docker push ld4p/sinopia_editor:latest`
+
 Ask a member on the DevOps team to go into the AWS console to update https://sinopia.io
 
 ### Updating Docker Image in AWS Dev Environment
@@ -126,7 +129,7 @@ First, build a new `sinopia_editor` image tagged with `dev`. In order to do this
 $ docker build -t ld4p/sinopia_editor:dev --build-arg SPOOF_SINOPIA_SERVER=false --build-arg TRELLIS_BASE_URL=https://trellis.development.sinopia.io --build-arg DEFAULT_PROFILE_SCHEMA_VERSION=0.0.2 --build-arg SINOPIA_GROUP=ld4p --build-arg SINOPIA_URI=https://development.sinopia.io --build-arg AWS_COGNITO_DOMAIN=https://sinopia-development.auth.us-west-2.amazoncognito.com --build-arg COGNITO_CLIENT_ID=2u6s7pqkc1grq1qs464fsi82at .
 ```
 
-Then push the `dev`-tagged issue to DockerHub:
+Then push the `dev`-tagged image to DockerHub:
 
 ```shell
 $ docker push ld4p/sinopia_editor:dev
