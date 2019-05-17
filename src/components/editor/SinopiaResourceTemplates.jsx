@@ -63,11 +63,11 @@ class SinopiaResourceTemplates extends Component {
       }
 
       const templates = [...this.state.resourceTemplates]
-      console.dir(templates)
+
       // Check if newly retrieved template is already stored in component state. If not, add it.
       if (!templates.some(template => template.key === retrievedTemplateObject.key))
         templates.push(retrievedTemplateObject)
-      console.dir(retrievedTemplateObject)
+
       this.setState({
         resourceTemplates: templates
       })
