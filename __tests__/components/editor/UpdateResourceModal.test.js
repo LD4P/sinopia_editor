@@ -43,7 +43,7 @@ describe('<UpdateResourceModal> with conflict message', () => {
   })
 
   it('has a modal title with the status text and template id', () => {
-    expect(wrapper.find(Modal.Title).dive().text()).toEqual('sinopia:resourceTemplate:bf2:LCC already exisits')
+    expect(wrapper.find(Modal.Title).dive().text()).toEqual('sinopia:resourceTemplate:bf2:LCC already exists')
   })
 
   it('has a modal body with a question', () => {
@@ -52,7 +52,7 @@ describe('<UpdateResourceModal> with conflict message', () => {
 
   it('has a Yes button, when clicked will call the update function', () => {
     const button = wrapper.find(Button).first()
-    expect(button.dive().text()).toEqual('Yes, overwite')
+    expect(button.dive().text()).toEqual('Yes, overwrite')
     button.simulate('click')
     expect(mockUpdate).toHaveBeenCalled()
   })
