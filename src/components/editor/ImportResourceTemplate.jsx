@@ -10,25 +10,23 @@ import UpdateResourceModal from './UpdateResourceModal'
 import { loadState } from '../../localStorage'
 import Config from '../../../src/Config'
 
-const instance = new SinopiaServer.LDPApi()
-const curJwt = loadState('jwtAuth')
-
-instance.apiClient.basePath = Config.sinopiaServerBase
-if (curJwt !== undefined) {
-  instance.apiClient.authentications['CognitoUser'].accessToken = curJwt.id_token
-}
-
 class ImportResourceTemplate extends Component {
   constructor(props) {
     super(props)
     this.state = {
-      redirect: false,
-      group: '',
       message: [],
       createResourceError: [],
       updateResourceError: '',
       updateKey: 0,
       modalShow: false
+    }
+    // Moving this into the constructor makes it easier to stub in tests
+    this.instance = new SinopiaServer.LDPApi()
+    const curJwt = loadState('jwtAuth')
+
+    this.instance.apiClient.basePath = Config.sinopiaServerBase
+    if (curJwt !== undefined) {
+      this.instance.apiClient.authentications['CognitoUser'].accessToken = curJwt.id_token
     }
   }
 
@@ -54,7 +52,7 @@ class ImportResourceTemplate extends Component {
 
   createResource = async (content, group) => {
     try {
-      const response = await instance.createResourceWithHttpInfo(group, content, { slug: content.id, contentType: 'application/json' })
+      const response = await this.instance.createResourceWithHttpInfo(group, content, { slug: content.id, contentType: 'application/json' })
       return response.response
     } catch(error) {
       this.setState({
@@ -66,10 +64,10 @@ class ImportResourceTemplate extends Component {
 
   updateResource = async (content, group) => {
     try {
-      const response = await instance.updateResourceWithHttpInfo(group, content.id, content, { contentType: 'application/json' })
+      const response = await this.instance.updateResourceWithHttpInfo(group, content.id, content, { contentType: 'application/json' })
       return response.response
     } catch(error) {
-      this.setState({ updateResourceError: error })
+      this.setState({ updateResourceError: error.response })
       return error.response
     }
   }
@@ -81,6 +79,7 @@ class ImportResourceTemplate extends Component {
       this.state.updateResourceError ?
         this.setState({ message: [`${msg}: ${this.state.updateResourceError}`] }) :
         this.setState({ message: [msg] })
+      return
     }
 
     // HTTP status 409 == Conflict
@@ -114,9 +113,9 @@ class ImportResourceTemplate extends Component {
     rts.forEach(async rt => {
       const response = await this.updateResource(rt, group)
       this.updateStateFromServerResponse(response, 'update')
+      const incrementedKey = this.state.updateKey + 1
+      this.setState({ updateKey: incrementedKey })
     })
-    const incrementedKey = this.state.updateKey + 1
-    this.setState({ updateKey: incrementedKey })
     this.modalClose()
     window.location.reload()
   }
