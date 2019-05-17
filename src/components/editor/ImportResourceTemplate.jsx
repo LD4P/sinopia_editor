@@ -16,7 +16,6 @@ class ImportResourceTemplate extends Component {
     this.state = {
       message: [],
       createResourceError: [],
-      updateResourceError: '',
       updateKey: 0,
       modalShow: false
     }
@@ -32,11 +31,20 @@ class ImportResourceTemplate extends Component {
 
   componentDidMount() {
     const incrementedKey = this.state.updateKey + 1
+    // This causes the `SinopiaResourceTemplates` component to do the initial load of RTs
     this.setState({ updateKey: incrementedKey })
   }
 
-  modalClose = () => {
-    this.setState( { modalShow: false } )
+  modalClose = newKey => {
+    const newState = {
+      modalShow: false
+    }
+    // Inject the incremented key if given an integer
+    if (newKey && Number.isInteger(newKey)) {
+      newState.updateKey = newKey
+    }
+
+    this.setState( newState )
   }
 
   // Resource templates are set via ImportFileZone and passed to ResourceTemplate via redirect to Editor
@@ -44,10 +52,10 @@ class ImportResourceTemplate extends Component {
     const profileCount = content.Profile.resourceTemplates.length
     content.Profile.resourceTemplates.forEach(async rt => {
       const response = await this.createResource(rt, group)
-      this.updateStateFromServerResponse(response, 'create', profileCount)
-      const incrementedKey = this.state.updateKey + 1
-      this.setState({ updateKey: incrementedKey })
+      this.updateStateFromServerResponse(response, profileCount)
     })
+    const incrementedKey = this.state.updateKey + 1
+    this.setState({ updateKey: incrementedKey })
   }
 
   createResource = async (content, group) => {
@@ -67,31 +75,24 @@ class ImportResourceTemplate extends Component {
       const response = await this.instance.updateResourceWithHttpInfo(group, content.id, content, { contentType: 'application/json' })
       return response.response
     } catch(error) {
-      this.setState({ updateResourceError: error.response })
       return error.response
     }
   }
 
-  updateStateFromServerResponse = (response, operation, profileCount) => {
+  updateStateFromServerResponse = (response, profileCount) => {
     // HTTP status 409 == Conflict
-    if (operation == 'update' && response.status !== 409) {
-      const msg = 'The sinopia server is not accepting the request for this resource.'
-      this.state.updateResourceError ?
-        this.setState({ message: [`${msg}: ${this.state.updateResourceError}`] }) :
-        this.setState({ message: [msg] })
-      return
-    }
-
-    // HTTP status 409 == Conflict
-    if (response.status === 409 && this.state.createResourceError.length >= profileCount) {
-      this.setState({ modalShow: true })
-    }
+    const showModal = response.status === 409 && this.state.createResourceError.length >= profileCount
 
     const location = response.headers.location || ''
     const newMessage = `${this.humanReadableStatus(response.status)} ${location}`
-    this.setState({
+    const newState = {
       message: [...this.state.message, newMessage]
-    })
+    }
+
+    if (showModal)
+      newState.modalShow = true
+
+    this.setState(newState)
   }
 
   humanReadableStatus = status => {
@@ -112,12 +113,10 @@ class ImportResourceTemplate extends Component {
   handleUpdateResource = (rts, group) => {
     rts.forEach(async rt => {
       const response = await this.updateResource(rt, group)
-      this.updateStateFromServerResponse(response, 'update')
-      const incrementedKey = this.state.updateKey + 1
-      this.setState({ updateKey: incrementedKey })
+      this.updateStateFromServerResponse(response)
     })
-    this.modalClose()
-    window.location.reload()
+    const incrementedKey = this.state.updateKey + 1
+    this.modalClose(incrementedKey)
   }
 
   render() {

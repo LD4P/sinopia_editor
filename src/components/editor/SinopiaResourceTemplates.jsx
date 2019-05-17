@@ -6,7 +6,7 @@ import PropTypes from 'prop-types'
 import { Link } from 'react-router-dom'
 import { BootstrapTable, TableHeaderColumn } from 'react-bootstrap-table'
 import Config from '../../../src/Config'
-import { getGroups, listResourcesInGroupContainer, getResourceTemplate } from '../../sinopiaServer'
+import { listResourcesInGroupContainer, getResourceTemplate } from '../../sinopiaServer'
 import { resourceToName } from '../../Utilities'
 
 const instance = new SinopiaServer.LDPApi()
@@ -31,15 +31,22 @@ class SinopiaResourceTemplates extends Component {
 
   fetchResourceTemplatesFromGroups = async () => {
     try {
-      const getGroupsResponse = await getGroups()
-      const contains = [].concat(getGroupsResponse.response.body.contains).filter(Boolean)
-      contains.forEach(async group => {
-        const groupName = resourceToName(group)
-        const listResourcesInGroupResponse = await listResourcesInGroupContainer(groupName)
-        // Short-circuit listing resources in a group if it contains nothing
-        if (listResourcesInGroupResponse.response.body.contains)
-          this.setStateFromServerResponse(groupName, listResourcesInGroupResponse.response.body.contains)
-      })
+      // TODO: once we begin storing RTs in different groups, in a future work cycle, do this:
+      //
+      // const getGroupsResponse = await getGroups()
+      // const contains = [].concat(getGroupsResponse.response.body.contains).filter(Boolean)
+      // contains.forEach(async group => {
+      //   const groupName = resourceToName(group)
+      //   const listResourcesInGroupResponse = await listResourcesInGroupContainer(groupName)
+      //   // Short-circuit listing resources in a group if it contains nothing
+      //   if (listResourcesInGroupResponse.response.body.contains)
+      //     this.setStateFromServerResponse(groupName, listResourcesInGroupResponse.response.body.contains)
+      // })
+      const groupName = Config.defaultSinopiaGroupId
+      const resourceTemplatesResponse = await listResourcesInGroupContainer(groupName)
+      // Short-circuit listing resources in a group if it contains nothing
+      if (resourceTemplatesResponse.response.body.contains)
+        this.setStateFromServerResponse(groupName, resourceTemplatesResponse.response.body.contains)
     } catch(error) {
       const errors = [...this.state.errors, error]
       this.setState({ errors: errors })
@@ -65,9 +72,18 @@ class SinopiaResourceTemplates extends Component {
 
       const templates = [...this.state.resourceTemplates]
 
-      // Check if newly retrieved template is already stored in component state. If not, add it.
-      if (!templates.some(template => template.key === retrievedTemplateObject.key))
+      // Check if list of templates already in state contain a template w/ the same key as the retrieved one
+      const templateIndex = templates.findIndex(template => template.key === retrievedTemplateObject.key)
+      // When Array.prototype.findIndex() returns -1, that means the element was
+      // not found in the array. The `if` condition here is true when an element
+      // is found.
+      if (templateIndex !== -1) {
+        // Replace the current template with the retrieved one (in case it has been updated)
+        templates.splice(templateIndex, 1, retrievedTemplateObject)
+      } else {
+        // Add missing/new template to list
         templates.push(retrievedTemplateObject)
+      }
 
       this.setState({
         resourceTemplates: templates

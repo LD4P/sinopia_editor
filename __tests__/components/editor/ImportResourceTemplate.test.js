@@ -56,7 +56,7 @@ describe('<ImportResourceTemplate />', () => {
 
       expect(createResourceSpy).toHaveBeenCalledTimes(2)
       expect(updateStateSpy).toHaveBeenCalledTimes(2)
-      expect(setStateSpy).toHaveBeenCalledTimes(2)
+      expect(setStateSpy).toHaveBeenCalledTimes(1)
     })
   })
 
@@ -91,16 +91,12 @@ describe('<ImportResourceTemplate />', () => {
       expect(response).toEqual('i am a response for an updated object')
     })
 
-    it('returns error response and adds to state when client call fails', async () => {
+    it('returns error response when client call fails', async () => {
       wrapper.instance().instance = new SinopiaClientErrorFake()
 
-      const setStateSpy = jest.spyOn(wrapper.instance(), 'setState').mockReturnValue(null)
       const response = await wrapper.instance().updateResource({ foo: 'bar'}, 'ld4p')
 
       expect(response).toEqual('i am an error for an updated object')
-      expect(setStateSpy).toHaveBeenCalledWith({
-        updateResourceError: 'i am an error for an updated object'
-      })
     })
   })
 
@@ -111,9 +107,9 @@ describe('<ImportResourceTemplate />', () => {
 
       expect(wrapper.state().message).toEqual([])
 
-      wrapper.instance().updateStateFromServerResponse({ status: 200 }, 'update')
+      wrapper.instance().updateStateFromServerResponse({ status: 200, headers: {} })
 
-      expect(wrapper.state().message).toEqual(['The sinopia server is not accepting the request for this resource.'])
+      expect(wrapper.state().message).toEqual(['Unexpected response (200)! '])
     })
     it('sets modalShow to true when receiving HTTP 409 and errors >= profileCount', () => {
       // Set new wrapper in each of these tests because we are changing state
@@ -121,7 +117,7 @@ describe('<ImportResourceTemplate />', () => {
 
       expect(wrapper.state().modalShow).toBe(false)
 
-      wrapper.instance().updateStateFromServerResponse({ status: 409 , headers: {} }, 'create', 0)
+      wrapper.instance().updateStateFromServerResponse({ status: 409 , headers: {} }, 0)
       expect(wrapper.state().modalShow).toBe(true)
     })
     it('sets message in state with any create operation not resulting in HTTP 409', () => {
@@ -130,7 +126,7 @@ describe('<ImportResourceTemplate />', () => {
 
       expect(wrapper.state().message).toEqual([])
 
-      wrapper.instance().updateStateFromServerResponse({ status: 201 , headers: { location: 'http://foo.bar' } }, 'create')
+      wrapper.instance().updateStateFromServerResponse({ status: 201 , headers: { location: 'http://foo.bar' } })
 
       expect(wrapper.state().message).toEqual(['Created http://foo.bar'])
     })
@@ -167,16 +163,12 @@ describe('<ImportResourceTemplate />', () => {
     it('updates every template, updates state, closes the modal and reloads', async () => {
       const updateResourceSpy = jest.spyOn(wrapper.instance(), 'updateResource').mockImplementation(async () => {})
       const updateStateSpy = jest.spyOn(wrapper.instance(), 'updateStateFromServerResponse').mockReturnValue(null)
-      const setStateSpy = jest.spyOn(wrapper.instance(), 'setState').mockReturnValue(null)
       const modalCloseSpy = jest.spyOn(wrapper.instance(), 'modalClose').mockReturnValue(null)
-      // TODO: Figure out how to test that window.location.reload fires. Can not spy on read-only property.
-      // const windowLocationSpy = jest.spyOn(window.location, 'reload').mockReturnValue(null)
 
       await wrapper.instance().handleUpdateResource(templates, 'ld4p')
 
       expect(updateResourceSpy).toHaveBeenCalledTimes(2)
       expect(updateStateSpy).toHaveBeenCalledTimes(2)
-      expect(setStateSpy).toHaveBeenCalledTimes(2)
       expect(modalCloseSpy).toHaveBeenCalledTimes(1)
     })
   })
