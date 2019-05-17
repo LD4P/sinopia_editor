@@ -1,10 +1,10 @@
 import SinopiaServer from 'sinopia_server'
-
 import { loadState } from './localStorage'
 import Config from './Config'
 
 const instance = new SinopiaServer.LDPApi()
 const curJwt = loadState('jwtAuth')
+
 instance.apiClient.basePath = Config.sinopiaServerBase
 if (curJwt !== undefined) {
   instance.apiClient.authentications['CognitoUser'].accessToken = curJwt.id_token
@@ -65,10 +65,14 @@ const getSpoofedResourceTemplate = (templateId) => {
     emptyTemplate['error'] = `ERROR: un-spoofed resourceTemplate: ${templateId}`
     return emptyTemplate
   }
+
   const spoofedResponse = { response: {} }
+
   spoofedResponse['response']['body'] = resourceTemplateId2Json.find((template) => {
-    if(template.id == templateId) return template
+    if(template.id == templateId)
+      return template
   }).json
+
   return new Promise(resolve => {
     resolve(spoofedResponse)
   })
@@ -100,9 +104,7 @@ const getResourceTemplateFromServer = (templateId, group) => {
     return emptyTemplate
   }
 
-  return new Promise(resolve => {
-    resolve(instance.getResourceWithHttpInfo(group, templateId, { acceptEncoding: 'application/json' }))
-  })
+  return instance.getResourceWithHttpInfo(group, templateId, { acceptEncoding: 'application/json' })
 }
 
 export const getResourceTemplate = (templateId, group) => {
@@ -124,9 +126,7 @@ export const getGroups = () => {
       })
     })
 
-  return new Promise(resolve => {
-    resolve(instance.getBaseWithHttpInfo())
-  })
+  return instance.getBaseWithHttpInfo()
 }
 
 export const listResourcesInGroupContainer = (group) => {
@@ -135,7 +135,5 @@ export const listResourcesInGroupContainer = (group) => {
       resolve(spoofedResourcesInGroupContainer(group))
     })
 
-  return new Promise(resolve => {
-    resolve(instance.getGroupWithHttpInfo(group))
-  })
+  return instance.getGroupWithHttpInfo(group)
 }

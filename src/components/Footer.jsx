@@ -6,7 +6,7 @@ const Footer = () => (
   <div id="footer" className="row">
     <div id="footer-image" className="col-xs-6 col-sm-1">
       <a className='footer-image' rel="license noopener noreferrer" href="http://creativecommons.org/publicdomain/zero/1.0/" target="_blank">
-        <img alt="CC0" src="http://i.creativecommons.org/p/zero/1.0/88x31.png" />
+        <img alt="CC0" src="https://licensebuttons.net/p/zero/1.0/88x31.png" />
       </a>
     </div>
     <div id="footer-text" className="col-xs-6 col-sm-10">

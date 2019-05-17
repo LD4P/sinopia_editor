@@ -28,7 +28,7 @@ class UpdateResourceModal extends Component {
         group = resourceToName(req.url)
         const rt = req._data
         rts.push(rt)
-        titleMessages.push(`${rt.id} already exisits`)
+        titleMessages.push(`${rt.id} already exists`)
       }
     })
 
@@ -50,7 +50,7 @@ class UpdateResourceModal extends Component {
             Do you want to overwrite these resource templates?
           </Modal.Body>
           <Modal.Footer>
-            <Button onClick={() => {this.props.update(this.state.rts, this.state.group)}}>Yes, overwite</Button>
+            <Button onClick={() => {this.props.update(this.state.rts, this.state.group)}}>Yes, overwrite</Button>
             <Button onClick={this.props.close}>No, get me out of here!</Button>
           </Modal.Footer>
         </Modal>
@@ -66,4 +66,4 @@ UpdateResourceModal.propTypes = {
   update: PropTypes.func,
 }
 
-export default (UpdateResourceModal)
+export default UpdateResourceModal

@@ -155,7 +155,7 @@ describe('literal reducer functions', () => {
     })
   })
 
-  it('CHANGE_SELECTIONS overwites items in  current state', () => {
+  it('CHANGE_SELECTIONS overwrites items in  current state', () => {
     const listSetSelections = setMySelections({ "resourceTemplate:Monograph:Instance": {
       'http://schema.org/name': { items: [{ id: 0, label: 'Run the tests', uri: 'http://schema.org/abc'}] }
     }}, {
