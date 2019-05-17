@@ -12,13 +12,11 @@ import PropertyResourceTemplate from './PropertyResourceTemplate'
 import lookupConfig from '../../../static/spoofedFilesFromServer/fromSinopiaServer/lookupConfig.json'
 import { getLD, setItems, removeAllContent } from '../../actions/index'
 import { getResourceTemplate } from '../../sinopiaServer'
+import { resourceToName } from "../../Utilities";
 const N3 = require('n3')
 const { DataFactory } = N3
 const { blankNode } = DataFactory
 const _ = require('lodash')
-
-
-
 
 // renders the input form for a ResourceTemplate
 export class ResourceTemplateForm extends Component {
@@ -32,6 +30,7 @@ export class ResourceTemplateForm extends Component {
       nestedResourceTemplates: [],
       ptRtIds: [],
       templateError: false,
+      templateErrors: [],
       componentForm: <div/>
     }
   }
@@ -49,9 +48,8 @@ export class ResourceTemplateForm extends Component {
   fulfillRTPromises = async (promiseAll) => {
     await promiseAll.then(async (rts) => {
       rts.map(rt => {
-        this.setState({tempState: rt.response.body})
-        const joinedRts = this.state.nestedResourceTemplates.slice(0)
-        joinedRts.push(this.state.tempState)
+        const joinedRts = [...this.state.nestedResourceTemplates]
+        joinedRts.push(rt.response.body)
         this.setState({nestedResourceTemplates: joinedRts})
       })
     }).catch((err) => {
@@ -85,7 +83,11 @@ export class ResourceTemplateForm extends Component {
 
   resourceTemplatePromises = async (templateRefs) => {
     return Promise.all(templateRefs.map(rtId =>
-      getResourceTemplate(rtId)
+      getResourceTemplate(rtId).catch(err => {
+        const joinedErrorUrls = [...this.state.templateErrors]
+        joinedErrorUrls.push(decodeURIComponent(resourceToName(err.url)))
+        this.setState({templateErrors: _.sortedUniq(joinedErrorUrls)})
+      })
     ))
   }
 
@@ -222,7 +224,9 @@ export class ResourceTemplateForm extends Component {
     const errMessage = <div className="alert alert-warning">
       There are missing resource templates required by resource template: <strong>{this.props.resourceTemplate.resourceURI}</strong>.
       <br />
-      Make sure all referenced templates in property template are uploaded first
+      Please make sure all referenced templates in property template are uploaded first. Missing templates:
+      <br />
+      {this.state.templateErrors.join(", ")}
     </div>;
 
     if (this.state.templateError) {

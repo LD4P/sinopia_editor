@@ -7,6 +7,7 @@ import { Link } from 'react-router-dom'
 import { BootstrapTable, TableHeaderColumn } from 'react-bootstrap-table'
 import Config from '../../../src/Config'
 import { getGroups, listResourcesInGroupContainer, getResourceTemplate } from '../../sinopiaServer'
+import { resourceToName } from '../../Utilities'
 
 const instance = new SinopiaServer.LDPApi()
 instance.apiClient.basePath = Config.sinopiaServerBase
@@ -33,7 +34,7 @@ class SinopiaResourceTemplates extends Component {
       const getGroupsResponse = await getGroups()
       const contains = [].concat(getGroupsResponse.response.body.contains).filter(Boolean)
       contains.forEach(async group => {
-        const groupName = this.resourceToName(group)
+        const groupName = resourceToName(group)
         const listResourcesInGroupResponse = await listResourcesInGroupContainer(groupName)
         // Short-circuit listing resources in a group if it contains nothing
         if (listResourcesInGroupResponse.response.body.contains)
@@ -50,7 +51,7 @@ class SinopiaResourceTemplates extends Component {
     const templateIds = [].concat(groupContains)
 
     templateIds.forEach(async templateId => {
-      const templateName = this.resourceToName(templateId)
+      const templateName = resourceToName(templateId)
       const templateResponse = await getResourceTemplate(templateName, groupName)
       const resourceTemplateBody = templateResponse.response.body
 
@@ -72,11 +73,6 @@ class SinopiaResourceTemplates extends Component {
         resourceTemplates: templates
       })
     })
-  }
-
-  resourceToName = resource => {
-    const idx = resource.lastIndexOf('/')
-    return resource.substring(idx + 1)
   }
 
   linkFormatter = (cell, row) => {
