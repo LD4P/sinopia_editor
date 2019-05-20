@@ -12,16 +12,36 @@ class PropertyResourceTemplate extends Component {
   constructor(props) {
     super(props)
     this.state = {
-      collapse: false
+      collapse: false,
+      output: []
     }
+    this.populatePropertyTemplates()
   }
 
   handleAddClick = (event) => {
     event.preventDefault()
+    const existingOutputs = this.state.output
+    existingOutputs.push(<h4 key={shortid.generate()}>{this.props.resourceTemplate.resourceLabel}</h4>)
+    this.populatePropertyTemplates()
+    console.log(`Redux Path ${this.props.reduxPath}`)
+    this.setState({ output: existingOutputs})
   }
 
   handleMintUri = (event) => {
     event.preventDefault()
+  }
+
+  populatePropertyTemplates = () => {
+    this.props.resourceTemplate.propertyTemplates.map((property) => {
+      let keyId = shortid.generate()
+      let newReduxPath = Object.assign([], this.props.reduxPath)
+      newReduxPath.push(keyId)
+      this.state.output.push(<PropertyTemplateOutline
+              propertyTemplate={property}
+              rtId={this.props.resourceTemplate.id}
+              reduxPath={newReduxPath}
+              key={keyId} />)
+    })
   }
 
   render() {
@@ -39,19 +59,7 @@ class PropertyResourceTemplate extends Component {
         </section>
       </div>
       <div>
-      {
-        this.props.resourceTemplate.propertyTemplates.map((property) => {
-          let keyId = shortid.generate()
-          let newReduxPath = Object.assign([], this.props.reduxPath)
-          newReduxPath.push(property.propertyURI)
-          newReduxPath.push(keyId)
-          return(<PropertyTemplateOutline
-                  propertyTemplate={property}
-                  rtId={this.props.resourceTemplate.id}
-                  reduxPath={newReduxPath}
-                  key={keyId} />)
-        })
-      }
+      { this.state.output }
       </div>
     </div>
     )

@@ -22,9 +22,13 @@ export const isPropertyRepeatable = (state, action) => {
   const payload = action.payload
   if (payload.property.repeatable === "true") return defaultCondition
   const reduxPath = payload.reduxPath
-  const propertyList = reduxPath.reduce((obj, key) =>
-     (obj && obj[key] !== 'undefined') ? obj[key] : undefined,
+  const propertyList = reduxPath.reduce((obj, key) => {
+    console.log(obj, key);
+     (obj && obj[key] !== 'undefined') ? obj[key] : []
+    },
     state.selectorReducer)
+
+  console.warn(propertyList)
   if (payload.property.repeatable === "false" && propertyList > 1) {
     defaultCondition = false
   }

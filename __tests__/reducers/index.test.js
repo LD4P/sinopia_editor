@@ -224,20 +224,23 @@ describe(`Takes a resource property and state and returns if resource can be inc
   it(`returns true when repeatable is true`, () => {
     const defaultIsPropertyRepeatable = isPropertyRepeatable(
       {}, // Empty Redux State
-      payload = {
-        property: { repeatable: "true" }
-      }
+      {
+        payload: {
+          property: { repeatable: "true" }
+       }
+     }
     )
     expect(defaultIsPropertyRepeatable).toEqual(true)
   })
 
   it(`returns false when repeatable is false and there is at least one existing property`, () => {
     const existingState = {
+      selectorReducer: {
        "http://id.loc.gov/ontologies/bibframe/itemPortion": {
-         jpzoz3jkgD: {
+         "jpzoz3jkgD": {
           'resourceTemplate:bf2:Identifiers:Barcode': {
             'http://www.w3.org/1999/02/22-rdf-syntax-ns#value': {
-              w74CpSomVjJ: {
+              "w74CpSomVjJ": {
                'http://www.w3.org/1999/02/22-rdf-syntax-ns#value': {
                  items: [
                    {
@@ -251,15 +254,18 @@ describe(`Takes a resource property and state and returns if resource can be inc
           }
         }
       }
+     }
+   }
+    const action = {
+      payload: {
+        property: { repeatable: "false" },
+        reduxPath: ["http://id.loc.gov/ontologies/bibframe/itemPortion",
+                    "jpzoz3jkgD",
+                    "resourceTemplate:bf2:Identifiers:Barcode",
+                    'http://www.w3.org/1999/02/22-rdf-syntax-ns#value']
+      }
     }
-    const payload = {
-      property: { repeatable: "false" },
-      reduxPath: ["http://id.loc.gov/ontologies/bibframe/itemPortion",
-                  "jpzoz3jkgD",
-                  "resourceTemplate:bf2:Identifiers:Barcode",
-                  'http://www.w3.org/1999/02/22-rdf-syntax-ns#value']
-    }
-    const existingItemRepeatableFalse = isPropertyRepeatable(existingState, payload)
+    const existingItemRepeatableFalse = isPropertyRepeatable(existingState, action)
     expect(existingItemRepeatableFalse).toBe(false)
   })
   it.todo(`returns true when repeatable is false and there is not an existing property`)

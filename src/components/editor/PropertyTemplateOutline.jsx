@@ -29,9 +29,12 @@ export class PropertyTemplateOutline extends Component {
 
   handleAddClick = (event) => {
     event.preventDefault()
+    const output = Object.assign([], this.state.output)
+    output.push(<h4 key={shortid.generate()}>{this.props.propertyTemplate.propertyLabel}</h4>)
     if (this.props.handleAddClick !== undefined) {
       this.props.handleAddClick(event)
     }
+    this.setState( { output: output })
   }
 
   handleMintUri = (event) => {
