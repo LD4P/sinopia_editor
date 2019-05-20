@@ -7,15 +7,16 @@ import ResourceTemplate from '../../../src/components/editor/ResourceTemplate'
 import RDFModal from '../../../src/components/editor/RDFModal'
 import Header from '../../../src/components/editor/Header'
 
-const props = {
-  location: { state: {resourceTemplateId: 'resourceTemplate:bf:Note'}}
+let props = {
+  location: { state: {resourceTemplateId: 'resourceTemplate:bf:Note'}},
+  authenticationState: {}
 }
 
 describe('<Editor />', () => {
   const handleGenerateLDFn = jest.fn()
-  const wrapper = shallow(<Editor.WrappedComponent {...props} handleGenerateLD={handleGenerateLDFn} />)
 
   describe('any user', () => {
+    const wrapper = shallow(<Editor.WrappedComponent {...props} handleGenerateLD={handleGenerateLDFn} />)
 
     it('has div with id "editor"', () => {
       expect(wrapper.find('div#editor').length).toBe(1)
@@ -36,18 +37,18 @@ describe('<Editor />', () => {
   })
 
   describe('authenticated user', () => {
+    props.authenticationState = { currentSession: 'should be CognitoUserSession instance, but just checked for presence at present' }
+    const wrapper = shallow(<Editor.WrappedComponent {...props} handleGenerateLD={handleGenerateLDFn} />)
 
     it('does not displays a login warning message', () => {
-      wrapper.setState({userAuthenticated: true})
       expect(wrapper.find('div.alert-warning').exists()).toBeFalsy()
     })
 
   })
 
   describe('RDFModal button', () => {
-    beforeAll(() => {
-      wrapper.setState({userAuthenticated: true})
-    })
+    const wrapper = shallow(<Editor.WrappedComponent {...props} handleGenerateLD={handleGenerateLDFn} />)
+
     it('has preview RDF button', () => {
       expect(wrapper.find('button').text()).toBe('Preview RDF')
     })
