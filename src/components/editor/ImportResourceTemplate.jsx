@@ -35,16 +35,10 @@ class ImportResourceTemplate extends Component {
     this.setState({ updateKey: incrementedKey })
   }
 
-  modalClose = newKey => {
-    const newState = {
+  modalClose = () => {
+    this.setState({
       modalShow: false
-    }
-    // Inject the incremented key if given an integer
-    if (newKey && Number.isInteger(newKey)) {
-      newState.updateKey = newKey
-    }
-
-    this.setState( newState )
+    })
   }
 
   // Resource templates are set via ImportFileZone and passed to ResourceTemplate via redirect to Editor
@@ -52,10 +46,9 @@ class ImportResourceTemplate extends Component {
     const profileCount = content.Profile.resourceTemplates.length
     content.Profile.resourceTemplates.forEach(async rt => {
       const response = await this.createResource(rt, group)
-      this.updateStateFromServerResponse(response, profileCount)
+      const incrementedKey = this.state.updateKey + 1
+      this.updateStateFromServerResponse(response, profileCount, incrementedKey)
     })
-    const incrementedKey = this.state.updateKey + 1
-    this.setState({ updateKey: incrementedKey })
   }
 
   createResource = async (content, group) => {
@@ -79,14 +72,15 @@ class ImportResourceTemplate extends Component {
     }
   }
 
-  updateStateFromServerResponse = (response, profileCount) => {
+  updateStateFromServerResponse = (response, profileCount, updateKey) => {
     // HTTP status 409 == Conflict
     const showModal = response.status === 409 && this.state.createResourceError.length >= profileCount
 
     const location = response.headers.location || ''
     const newMessage = `${this.humanReadableStatus(response.status)} ${location}`
     const newState = {
-      message: [...this.state.message, newMessage]
+      message: [...this.state.message, newMessage],
+      updateKey: updateKey
     }
 
     if (showModal)
@@ -113,10 +107,11 @@ class ImportResourceTemplate extends Component {
   handleUpdateResource = (rts, group) => {
     rts.forEach(async rt => {
       const response = await this.updateResource(rt, group)
-      this.updateStateFromServerResponse(response)
+      const incrementedKey = this.state.updateKey + 1
+      // The 0 is the profileCount which is only used for tracking create errors
+      this.updateStateFromServerResponse(response, 0, incrementedKey)
     })
-    const incrementedKey = this.state.updateKey + 1
-    this.modalClose(incrementedKey)
+    this.modalClose()
   }
 
   render() {
