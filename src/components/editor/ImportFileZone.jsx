@@ -283,7 +283,6 @@ DropZone.propTypes = {
 }
 ImportFileZone.propTypes = {
   setResourceTemplateCallback: PropTypes.func,
-  resourceTemplateId: PropTypes.string,
-  defaultRtId: PropTypes.string
+  resourceTemplateId: PropTypes.string
 }
 export default ImportFileZone
