@@ -22,9 +22,8 @@ class SinopiaResourceTemplates extends Component {
   }
 
   async componentDidUpdate(prevProps) {
-    if (this.props.updateKey <= prevProps.updateKey) {
+    if (this.props.updateKey <= prevProps.updateKey)
       return
-    }
 
     await this.fetchResourceTemplatesFromGroups()
   }
