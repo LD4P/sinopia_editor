@@ -261,6 +261,7 @@ class DropZone extends Component {
           <Dropzone
             onFileDialogCancel={() => this.props.showDropZoneCallback(false)}
             onDrop={this.handleOnDrop.bind(this)}
+            multiple={false}
           />
           <aside>
             <h5>Loaded resource template file:</h5>
@@ -281,7 +282,6 @@ DropZone.propTypes = {
   setGroupCallback: PropTypes.func
 }
 ImportFileZone.propTypes = {
-  tempStateCallback: PropTypes.func,
   setResourceTemplateCallback: PropTypes.func,
   resourceTemplateId: PropTypes.string,
   defaultRtId: PropTypes.string
