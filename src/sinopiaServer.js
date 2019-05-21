@@ -98,7 +98,7 @@ const getResourceTemplateFromServer = (templateId, group) => {
     return emptyTemplate
   }
 
-  return instance.getResourceWithHttpInfo(group, templateId, { acceptEncoding: 'application/json' })
+  return instance.getResourceWithHttpInfo(group, templateId, { accept: 'application/json' })
 }
 
 export const getResourceTemplate = (templateId, group) => {
