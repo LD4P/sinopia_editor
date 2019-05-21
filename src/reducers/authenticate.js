@@ -1,80 +1,43 @@
 const DEFAULT_STATE = {
-  loginJwt: {}
+  authenticationState: {
+    currentUser: null,
+    currentSession: null,
+    authenticationError: null
+  }
 }
 
-const logInWithJWT = (state, action) => {
-
-  let loginState = {}
-  let isAuthenticated = false
-
-  const id_token = action.payload.id_token
-  const access_token = action.payload.access_token
-  const username = action.payload.username
-  //TODO: expire token after the specified time
-  const expires_in = action.payload.expires_in
-
-  let time = new Date()
-  const expiry = time.setSeconds(time.getSeconds() + parseInt(expires_in))
-
-  if (id_token !== undefined && id_token !== state.loginJwt.id_token) {
-    loginState['id_token'] = id_token
-
-    if (access_token !== undefined && access_token !== state.loginJwt.access_token) {
-      loginState['access_token'] = access_token
-
-      if (username !== undefined && username !== state.loginJwt.username) {
-        loginState['username'] = username
-
-        if (expires_in !== undefined && expiry > new Date()) {
-          isAuthenticated = true
-        }
-      }
-    }
-  }
-
-  if (isAuthenticated) {
-    loginState = {
-      loginJwt: {
-        id_token: id_token,
-        access_token: access_token,
-        username: username,
-        isAuthenticated: isAuthenticated,
-        expiry: expiry
-      }
-    }
-  } else {
-    loginState = {
-      loginJwt: {
-        id_token: '',
-        access_token: '',
-        username: '',
-        isAuthenticated: false,
-        expiry: 0
-      }
-    }
-  }
-  
-  return loginState
-}
-
-const logOut = () => {
+const authenticationFailure = (state, action) => {
   return {
-    loginJwt: {
-      id_token: '',
-      access_token: '',
-      username: '',
-      isAuthenticated: false,
-      expiry: 0
+    authenticationState: {
+      currentUser: action.payload.currentUser,
+      currentSession: null,
+      authenticationError: action.payload.authenticationError
     }
   }
+}
+
+const authenticationSuccess = (state, action) => {
+  return {
+    authenticationState: {
+      currentUser: action.payload.currentUser,
+      currentSession: action.payload.currentSession,
+      authenticationError: null
+    }
+  }
+}
+
+const signOutSuccess = () => {
+  return Object.assign({}, DEFAULT_STATE)
 }
 
 const authenticate = (state=DEFAULT_STATE, action) => {
   switch(action.type) {
-    case 'LOG_IN':
-      return logInWithJWT(state, action)
-    case 'LOG_OUT':
-      return logOut()
+    case 'AUTHENTICATION_FAILURE':
+      return authenticationFailure(state, action)
+    case 'AUTHENTICATION_SUCCESS':
+      return authenticationSuccess(state, action)
+    case 'SIGN_OUT_SUCCESS':
+      return signOutSuccess()
     default:
       return state
   }

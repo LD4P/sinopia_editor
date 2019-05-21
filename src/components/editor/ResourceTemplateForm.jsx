@@ -12,6 +12,7 @@ import PropertyResourceTemplate from './PropertyResourceTemplate'
 import lookupConfig from '../../../static/spoofedFilesFromServer/fromSinopiaServer/lookupConfig.json'
 import { getLD, setItems, removeAllContent } from '../../actions/index'
 import { getResourceTemplate } from '../../sinopiaServer'
+import { resourceToName } from "../../Utilities";
 const N3 = require('n3')
 const { DataFactory } = N3
 const { blankNode } = DataFactory
@@ -29,12 +30,13 @@ export class ResourceTemplateForm extends Component {
       nestedResourceTemplates: [],
       ptRtIds: [],
       templateError: false,
+      templateErrors: [],
       componentForm: <div/>
     }
   }
 
   componentDidMount() {
-    this.fullfillRTPromises(this.resourceTemplatePromises(this.joinedRTs())).then(() => {
+    this.fulfillRTPromises(this.resourceTemplatePromises(this.joinedRTs())).then(() => {
       this.setState({
         componentForm: (
           this.renderComponentForm()
@@ -43,12 +45,11 @@ export class ResourceTemplateForm extends Component {
     })
   }
 
-  fullfillRTPromises = async (promiseAll) => {
+  fulfillRTPromises = async (promiseAll) => {
     await promiseAll.then(async (rts) => {
       rts.map(rt => {
-        this.setState({tempState: rt.response.body})
-        const joinedRts = this.state.nestedResourceTemplates.slice(0)
-        joinedRts.push(this.state.tempState)
+        const joinedRts = [...this.state.nestedResourceTemplates]
+        joinedRts.push(rt.response.body)
         this.setState({nestedResourceTemplates: joinedRts})
       })
     }).catch((err) => {
@@ -56,9 +57,37 @@ export class ResourceTemplateForm extends Component {
     })
   }
 
+  resourceTemplateFields = (rtIds, propUri) => {
+    const rtProperties = []
+    if (rtIds === null || rtIds === undefined) {
+      return rtProperties
+    }
+    rtIds.map((rtId, i) => {
+      const rt = this.rtForPt(rtId)
+      if (rt !== undefined) {
+        const keyId = shortid.generate()
+        const reduxPath = [this.props.rtId, propUri, keyId, rtId]
+        rtProperties.push(<PropertyResourceTemplate
+          key={keyId}
+          resourceTemplate={rt}
+          reduxPath={reduxPath} />)
+        if ((rtIds.length - i) > 1) {
+          rtProperties.push(<hr key={i} />)
+        }
+      } else {
+        this.setState({templateError: true})
+      }
+    })
+    return rtProperties
+  }
+
   resourceTemplatePromises = async (templateRefs) => {
     return Promise.all(templateRefs.map(rtId =>
-      getResourceTemplate(rtId)
+      getResourceTemplate(rtId).catch(err => {
+        const joinedErrorUrls = [...this.state.templateErrors]
+        joinedErrorUrls.push(decodeURIComponent(resourceToName(err.url)))
+        this.setState({templateErrors: _.sortedUniq(joinedErrorUrls)})
+      })
     ))
   }
 
@@ -86,25 +115,7 @@ export class ResourceTemplateForm extends Component {
     return blankNode()
   }
 
-  // Note: rtIds is expected to be an array of length at least one
-  resourceTemplateFields = (rtIds, propUri) => {
-    const rtProperties = []
-    rtIds.map((rtId, i) => {
-      const rt = this.rtForPt(rtId)
-      if (rt !== undefined) {
-        rtProperties.push(<PropertyResourceTemplate
-          key={shortid.generate()}
-          resourceTemplate={rt}
-          reduxPath={[this.props.rtId, propUri, rtId]} />)
-        if ((rtIds.length - i) > 1) {
-          rtProperties.push(<hr key={i} />)
-        }
-      } else {
-        this.setState({templateError: true})
-      }
-    })
-    return rtProperties
-  }
+
 
   rtForPt = (rtId) => {
     return _.find(this.state.nestedResourceTemplates, ['id', rtId])
@@ -170,7 +181,9 @@ export class ResourceTemplateForm extends Component {
     if (listComponent === 'list'){
       result = (
         <PropertyPanel pt={pt} key={index} float={index} rtId={this.props.rtId}>
-          <InputListLOC propertyTemplate = {pt} lookupConfig = {lookupConfigItem} key = {index} rtId = {this.props.rtId} />
+          <InputListLOC key = {index} propertyTemplate = {pt}
+                        lookupConfig = {lookupConfigItem}
+                        reduxPath={[this.props.rtId, pt.propertyURI]} />
         </PropertyPanel>
       )
     } else if (listComponent ===  'lookup'){
@@ -224,7 +237,7 @@ export class ResourceTemplateForm extends Component {
                 let valueForButton
                 return (
                   <PropertyPanel pt={pt} key={index} float={index} rtId={this.props.rtId}>
-                    {this.resourceTemplateFields(pt.valueConstraint.valueTemplateRefs)}
+                    {this.resourceTemplateFields(pt.valueConstraint.valueTemplateRefs, pt.propertyURI)}
                     {this.renderValueForButton(valueForButton, index)}
                   </PropertyPanel>
                 )
@@ -244,7 +257,9 @@ export class ResourceTemplateForm extends Component {
     const errMessage = <div className="alert alert-warning">
       There are missing resource templates required by resource template: <strong>{this.props.resourceTemplate.resourceURI}</strong>.
       <br />
-      Make sure all referenced templates in property template are uploaded first
+      Please make sure all referenced templates in property template are uploaded first. Missing templates:
+      <br />
+      {this.state.templateErrors.join(", ")}
     </div>;
 
     if (this.state.templateError) {
@@ -266,7 +281,6 @@ ResourceTemplateForm.propTypes = {
   rdfOuterSubject: PropTypes.object,
   propPredicate: PropTypes.string,
   buttonID: PropTypes.number,
-  generateLD: PropTypes.object.isRequired,
   handleMyItemsChange: PropTypes.func,
   handleRemoveAllContent: PropTypes.func
 }

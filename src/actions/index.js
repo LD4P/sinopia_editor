@@ -49,11 +49,16 @@ export const setLang = item => ({
   payload: item
 })
 
-export const logIn = jwt => ({
-  type: "LOG_IN",
-  payload: jwt
+export const authenticationFailure = authenticationResult => ({
+  type: "AUTHENTICATION_FAILURE",
+  payload: authenticationResult
 })
 
-export const logOut = () => ({
-  type: "LOG_OUT"
+export const authenticationSuccess = authenticationResult => ({
+  type: "AUTHENTICATION_SUCCESS",
+  payload: authenticationResult
+})
+
+export const signOutSuccess = () => ({
+  type: "SIGN_OUT_SUCCESS"
 })

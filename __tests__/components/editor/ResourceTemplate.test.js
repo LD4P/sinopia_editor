@@ -55,6 +55,10 @@ describe('<ResourceTemplate />', () => {
     expect(wrapper.find('div.ResourceTemplate').length).toEqual(1)
   })
 
+  it('displays the resource label of the resource template', () => {
+    expect(wrapper.find('h1').text()).toEqual(responseBody.response.body.resourceLabel)
+  })
+
   // TODO: if we have more than one resourceTemplate form, they need to have unique ids (see #130)
   it('contains <div> with id resourceTemplate', () => {
     expect(wrapper.find('div#resourceTemplate').length).toEqual(1)

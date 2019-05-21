@@ -1,11 +1,10 @@
 // Copyright 2018, 2019 Stanford University see Apache2.txt for license
 import { combineReducers } from 'redux'
-import { createSelector } from 'reselect'
 import lang from './lang'
 import authenticate from './authenticate'
-import { removeAllContent, setMyItems, removeMyItem, replaceMyItems } from './literal'
+
+import {removeAllContent, setMyItems, removeMyItem, setMySelections} from './inputs'
 import shortid from 'shortid'
-const _ = require('lodash')
 
 const inputPropertySelector = (state, props) => {
   const reduxPath = props.reduxPath
@@ -18,72 +17,74 @@ const inputPropertySelector = (state, props) => {
   return items
 }
 
-export const getProperty = createSelector(
-  [ inputPropertySelector ],
-  (propertyURI) => {
-    return propertyURI.items
-  }
-)
+// TODO: Renable use of reselect's createSelector, will need to adjust
+// individual components InputLiteral, InputLookupQA, InputListLOC, etc.,
+// see https://github.com/reduxjs/reselect#sharing-selectors-with-props-across-multiple-component-instances
+export const getProperty = (state, props) => {
+  const result = inputPropertySelector(state, props)
+  return result.items || []
+}
 
 export const getAllRdf = (state, action) => {
   // TODO: Fix as part of issue #481 - it should return ... jsonld?
   // NOTE:  avoid creating unnec. new objects (see https://react-redux.js.org/using-react-redux/connect-mapstate)
-  let output = Object.create(state)
+  const output = Object.create(state)
   // TODO: temporary no-op to pass eslint ...
   action.payload
   return output.selectorReducer
 }
 
+export const populatePropertyDefaults = (propertyTemplate) => {
+  const defaults = []
+  if (propertyTemplate === undefined || propertyTemplate === null || Object.keys(propertyTemplate).length < 1) {
+    return defaults
+  }
+  if (propertyTemplate.valueConstraint.defaults && propertyTemplate.valueConstraint.defaults.length > 0) {
+    propertyTemplate.valueConstraint.defaults.map((row) => {
+      defaults.push({
+        id: makeShortID(),
+        content: row.defaultLiteral,
+        uri: row.defaultURI
+      })
+    })
+  }
+  return defaults
+}
+
 export const refreshResourceTemplate = (state, action) => {
-  let newState = Object.assign({}, state)
+  const newState = Object.assign({}, state)
   const reduxPath = action.payload.reduxPath
+  const propertyTemplate = action.payload.property
   if (reduxPath === undefined || reduxPath.length < 1) {
     return newState
   }
-  const items = action.payload.defaults || { items: [] }
+  const defaults = populatePropertyDefaults(propertyTemplate)
+
+  const items =  defaults.length > 0 ? { items: defaults } : {}
 
   const lastKey = reduxPath.pop()
   const lastObject = reduxPath.reduce((newState, key) =>
       newState[key] = newState[key] || {},
-    newState)
+  newState)
   if (Object.keys(items).includes('items')) {
     lastObject[lastKey] = items
   } else {
-    lastObject[lastKey] = { items: items }
+    lastObject[lastKey] = {}
   }
   return newState
 }
 
 export const setResourceTemplate = (state, action) => {
   const rtKey = action.payload.id
-
   let output = Object.create(state)
-  output[rtKey] = {}
   action.payload.propertyTemplates.forEach((property) => {
-    output[rtKey][property.propertyURI] = { items: [] }
-    if (_.has(property.valueConstraint, 'defaults')) {
-      if (property.valueConstraint.defaults.length > 0) {
-        property.valueConstraint.defaults.forEach((row) => {
-          // This items payload needs to vary if type is literal or lookup
-
-          output[rtKey][property.propertyURI].items.push(
-            {
-              id: makeShortID(),
-              content: row.defaultLiteral,
-              uri: row.defaultURI
-            }
-          )
-        })
+    let propertyAction = {
+      payload: {
+        reduxPath: [rtKey, property.propertyURI],
+        property: property
       }
     }
-    if (_.has(property.valueConstraint, 'valueTemplateRefs')) {
-      if (property.valueConstraint.valueTemplateRefs.length > 0) {
-        output[rtKey][property.propertyURI] = {}
-        property.valueConstraint.valueTemplateRefs.map((row) => {
-          output[rtKey][property.propertyURI][row] = {}
-        })
-      }
-    }
+    output = refreshResourceTemplate(output, propertyAction)
   })
   return output
 }
@@ -98,6 +99,8 @@ const selectorReducer = (state={}, action) => {
       return setResourceTemplate(state, action)
     case 'SET_ITEMS':
       return setMyItems(state, action)
+    case 'CHANGE_SELECTIONS':
+      return setMySelections(state, action)
     case 'REFRESH_RESOURCE_TEMPLATE':
       return refreshResourceTemplate(state, action)
     case 'REMOVE_ITEM':
@@ -105,7 +108,7 @@ const selectorReducer = (state={}, action) => {
     case 'REMOVE_ALL_CONTENT':
       return removeAllContent(state, action)
     case 'CHANGE_QA_SELECTIONS':
-      return replaceMyItems(state, action)  
+      return setMySelections(state, action)  
     default:
       return state
   }

@@ -3,6 +3,38 @@
 import React, {Component} from 'react'
 import PropTypes from 'prop-types'
 
+export class AddButton extends Component {
+
+  constructor(props) {
+    super(props)
+    this.state = {
+      disabled: false
+    }
+  }
+
+  render() {
+    return(<button className="btn btn-default btn-sm"
+            onClick={this.props.onClick}
+            disabled={this.state.disabled}>Add</button>)
+  }
+}
+
+export class MintButton extends Component {
+
+  constructor(props) {
+    super(props)
+    this.state = {
+      disabled: true
+    }
+  }
+
+  render() {
+    return(<button onClick={this.props.onClick}
+                   disabled={this.state.disabled}
+                   className="btn btn-success btn-sm">Mint URI</button>)
+  }
+}
+
 export class PropertyActionButtons extends Component {
 
   constructor(props) {
@@ -11,10 +43,18 @@ export class PropertyActionButtons extends Component {
 
   render() {
     return(<div className="btn-group" role="group" aria-label="...">
-      <button onClick={this.props.handleMintUri} className="btn btn-success btn-sm">Mint URI</button>
-      <button className="btn btn-default btn-sm" onClick={this.props.handleAddClick}>Add</button>
+      <MintButton onClick={this.props.handleMintUri} />
+      <AddButton onClick={this.props.handleAddClick} />
     </div>)
   }
+}
+
+AddButton.propTypes = {
+  onClick: PropTypes.func
+}
+
+MintButton.propTypes = {
+  onClick: PropTypes.func
 }
 
 PropertyActionButtons.propTypes = {

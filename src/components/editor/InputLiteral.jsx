@@ -23,6 +23,15 @@ export class InputLiteral extends Component {
     }
   }
 
+  componentDidMount = () => {
+    if (this.props.propertyTemplate.repeatable === "false" &&
+        this.props.formData !== undefined &&
+        this.props.formData.items.length > 0) {
+      this.setState( { disabled: true })
+    }
+  }
+
+
   handleShow = () => {
     this.setState({ show: true })
   }
@@ -63,10 +72,8 @@ export class InputLiteral extends Component {
       if (!currentcontent) {
         return
       }
-      /** Input field is repeatable, add user input to array.**/
       if (this.props.propertyTemplate.repeatable == "true") {
         this.addUserInput(userInputArray, currentcontent)
-      /** Input field is not repeatable **/
       } else if (this.props.propertyTemplate.repeatable == "false") {
         this.notRepeatableAfterUserInput(userInputArray, currentcontent)
       }
@@ -209,7 +216,7 @@ InputLiteral.propTypes = {
     })
   }).isRequired,
   formData: PropTypes.shape({
-    id: PropTypes.string,
+    id: PropTypes.oneOfType([PropTypes.number, PropTypes.string]),
     uri: PropTypes.string,
     items: PropTypes.array
   }),

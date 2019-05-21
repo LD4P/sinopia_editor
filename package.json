@@ -75,7 +75,7 @@
     "dev-build": "webpack --progress --mode development",
     "dev-build-test": "npm run dev-build && npm run test",
     "dev-start": "webpack-dev-server --config ./webpack.config.js --mode development",
-    "eslint": "eslint --max-warnings 15 --color -c .eslintrc.js --ext js,jsx ./src",
+    "eslint": "eslint --max-warnings 11 --color -c .eslintrc.js --ext js,jsx ./src",
     "jest-cov": "jest --coverage --colors --silent --runInBand",
     "jest-ci": "jest  --colors --silent --ci --runInBand --coverage --reporters=default --reporters=jest-junit && cat ./coverage/lcov.info | coveralls",
     "test": "jest --colors --silent --runInBand --detectOpenHandles",
@@ -84,6 +84,7 @@
   "license": "ISC",
   "dependencies": {
     "ajv": "^6.10.0",
+    "amazon-cognito-identity-js": "^3.0.10",
     "@babel/runtime": "^7.4.3",
     "@fortawesome/fontawesome-svg-core": "^1.2.17",
     "@fortawesome/free-solid-svg-icons": "^5.8.1",
@@ -109,7 +110,7 @@
     "redux": "^4.0.1",
     "reselect": "^4.0.0",
     "shortid": "^2.2.14",
-    "sinopia_server": "^3.0.0-beta3",
+    "sinopia_server": "^3.0.0-beta4",
     "swagger-client": "^3.8.25",
     "x2js": "^3.2.6"
   },

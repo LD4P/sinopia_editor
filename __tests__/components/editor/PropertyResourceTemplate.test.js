@@ -3,6 +3,7 @@
 import React from 'react'
 import 'jsdom-global/register'
 import { shallow } from 'enzyme'
+import shortid from 'shortid'
 import PropertyActionButtons from '../../../src/components/editor/PropertyActionButtons'
 import PropertyResourceTemplate from '../../../src/components/editor/PropertyResourceTemplate'
 import PropertyTemplateOutline from '../../../src/components/editor/PropertyTemplateOutline'
@@ -14,25 +15,32 @@ describe('<PropertyResourceTemplate />', () => {
       propertyTemplates: [
         {
           propertyLabel: "Description",
-          propertyURI: "http://schema.org/"
+          propertyURI: "http://schema.org/description"
         }
       ]
     },
-    reduxPath: ''
+    reduxPath: ['resourceTemplate:test']
   }
+  const testId = jest.spyOn(shortid, 'generate').mockReturnValue('abcd45')
   const wrapper = shallow(<PropertyResourceTemplate {...propertyRtProps} />)
+  const propTemplateOutline = wrapper.find(PropertyTemplateOutline)
 
   it('Contains label of from the props', () => {
     expect(wrapper.find("h4").text()).toBe(`${propertyRtProps.resourceTemplate.resourceLabel}`)
   })
 
   it('Contains a <PropertyTemplateOutline />', () => {
-      expect(wrapper.find(PropertyTemplateOutline)).toBeTruthy()
-    })
+    expect(wrapper.find(PropertyTemplateOutline)).toBeTruthy()
+  })
 
   it('<PropertyTemplateOutline /> contains a propertyTemplate', () => {
-      const propTemplateOutline = wrapper.find(PropertyTemplateOutline)
-      expect(propTemplateOutline.props().propertyTemplate).toBeTruthy()
+    expect(propTemplateOutline.props().propertyTemplate).toBeTruthy()
+  })
+
+  it('<PropertyTemplateOutline /> has the expected Redux path', () => {
+    expect(propTemplateOutline.props().reduxPath).toEqual(
+      ['resourceTemplate:test', 'http://schema.org/description', 'abcd45']
+    )
   })
 
   describe('<PropertyResourceTemplate /> has the "Add Click" and "Mint URI" buttons', () => {
@@ -56,6 +64,4 @@ describe('<PropertyResourceTemplate />', () => {
       expect(mintEvent.preventDefault.mock.calls.length).toBe(1)
     })
   })
-
-
 })

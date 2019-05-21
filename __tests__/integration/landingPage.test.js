@@ -4,7 +4,6 @@ import 'isomorphic-fetch'
 
 describe('Basic end to end Sinopia Linked Data Editor', () => {
   beforeAll(async () => {
-    jest.setTimeout(15000);
     await page.goto('http://127.0.0.1:8888/');
   });
 

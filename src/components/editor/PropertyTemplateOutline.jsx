@@ -16,40 +16,39 @@ import PropTypes from 'prop-types'
 import shortid from 'shortid'
 const _ = require('lodash')
 
-export const valueTemplateRefTest = (property) => {
-  return Boolean(property.valueConstraint != null &&
-    property.valueConstraint.valueTemplateRefs != null &&
-    property.valueConstraint.valueTemplateRefs.length > 0)
+export const hasValueTemplateRef = (property) => {
+  return (property.valueConstraint &&
+          property.valueConstraint.valueTemplateRefs &&
+          property.valueConstraint.valueTemplateRefs.length > 0)
 }
 
 export const getLookupConfigForTemplateUri = (templateUri) => {
   let returnConfigItem
   lookupConfig.forEach((configItem) => {
     if (configItem.uri === templateUri) {
-      returnConfigItem = configItem;
+      returnConfigItem = configItem
     }
   })
-  return {value: returnConfigItem};
+  return {value: returnConfigItem}
 }
 
 //This method is used for input list loc below, with just one lookup config passed back
 // in {value : configItem } format
 export const getLookupConfigItem = (property) => {
-  let templateUri = property.valueConstraint.useValuesFrom[0];
-  let configItem = getLookupConfigForTemplateUri(templateUri);
-  return configItem
+  const templateUri = property.valueConstraint.useValuesFrom[0]
+  return getLookupConfigForTemplateUri(templateUri)
 }
 
+//More than one value possible so this returns all the lookup configs associated with property
 export const getLookupConfigItems = (property) => {
-  //More than one value possible so this returns all the lookup configs associated with property
-  let templateUris = property.valueConstraint.useValuesFrom;
-  let templateConfigItems = [];
+  const templateUris = property.valueConstraint.useValuesFrom
+  const templateConfigItems = []
   templateUris.forEach(templateUri => {
-    let configItem = getLookupConfigForTemplateUri(templateUri);
+    const configItem = getLookupConfigForTemplateUri(templateUri)
     //TODO: Handle when this is undefined?
-    templateConfigItems.push(configItem);
-  });
-  return templateConfigItems;
+    templateConfigItems.push(configItem)
+  })
+  return templateConfigItems
 }
 
 export class PropertyTemplateOutline extends Component {
@@ -62,17 +61,22 @@ export class PropertyTemplateOutline extends Component {
     }
   }
 
-  fullfillRTPromises = async (promiseAll) => {
+  /**
+   * @private
+   */
+  fulfillRTPromises = async (promiseAll) => {
     await promiseAll.then(rts => {
       rts.map(rt => {
-        this.setState({tempState: rt.response.body})
-        const joinedRts = this.state.nestedResourceTemplates.slice(0)
-        joinedRts.push(this.state.tempState)
+        const joinedRts = [...this.state.nestedResourceTemplates]
+        joinedRts.push(rt.response.body)
         this.setState({nestedResourceTemplates: joinedRts})
       })
     }).catch(() => {})
   }
 
+  /**
+   * @private
+   */
   resourceTemplatePromises = (templateRefs) => {
     return Promise.all(templateRefs.map(rtId =>
       getResourceTemplate(rtId)
@@ -93,9 +97,13 @@ export class PropertyTemplateOutline extends Component {
     }
   }
 
-  handleComponentCase = (property) => {
-    let rtReduxPath = Object.assign([], this.props.reduxPath)
-    let input, key, lookupConfigItem
+  /**
+   * returns jsx to render for passed property
+   * @private
+   */
+  propertyComponentJsx = (property) => {
+    const rtReduxPath = Object.assign([], this.props.reduxPath)
+    let jsx, key, lookupConfigItem
 
     switch (property.type) {
       case "literal":
@@ -103,105 +111,113 @@ export class PropertyTemplateOutline extends Component {
           rtReduxPath.push(property.propertyURI)
         }
         key = shortid.generate()
-        input = <InputLiteral id={key}
+        jsx = <InputLiteral id={key}
                               propertyTemplate={property}
                               key={key}
                               reduxPath={rtReduxPath}
                               rtId={property.rtId} />
-        break;
-
+        break
       case "lookup":
         lookupConfigItem = getLookupConfigItems(property)
-        input = <InputLookupQA propertyTemplate={property}
+        jsx = <InputLookupQA propertyTemplate={property}
                                lookupConfig={lookupConfigItem}
                                rtId = {property.rtId} />
-        break;
-
+        break
       case "resource":
-        if (valueTemplateRefTest(property)){
-          input = []
-          property.valueConstraint.valueTemplateRefs.map((rtId) => {
-            let resourceTemplate = _.find(this.state.nestedResourceTemplates, ['id', rtId])
-            input.push(<div className="row" key={shortid.generate()}>
-              <section className="col-sm-8">
-                <h5>{resourceTemplate.resourceLabel}</h5>
-              </section>
-              <section className="col-sm-4">
-                <PropertyActionButtons handleAddClick={this.handleAddClick}
-                                       handleMintUri={this.handleMintUri} key={shortid.generate()} />
-              </section>
-            </div>)
-            resourceTemplate.propertyTemplates.map((rtProperty) => {
-              let newReduxPath = Object.assign([], rtReduxPath)
-              newReduxPath.push(rtId)
-              newReduxPath.push(rtProperty.propertyURI)
-              const payload = { reduxPath: newReduxPath }
-              if (rtProperty.valueConstraint.defaults && rtProperty.valueConstraint.defaults.length > 0) {
-                payload['defaults'] = []
-                rtProperty.valueConstraint.defaults.map((row, i) => {
-                  payload['defaults'].push({
-                    id: i,
-                    content: row.defaultLiteral,
-                    uri: row.defaultURI
-                  })
-                })
-              }
-              this.props.initNewResourceTemplate(payload)
-              input.push(<PropertyTemplateOutline key={shortid.generate()}
-                                                  propertyTemplate={rtProperty}
-                                                  reduxPath={newReduxPath}
-                                                  initNewResourceTemplate={this.props.initNewResourceTemplate}
-                                                  resourceTemplate={resourceTemplate} />)
-            })
-          })
-          break;
-        }
-        lookupConfigItem = getLookupConfigItem(property)
-        input = <InputListLOC propertyTemplate = {property}
-                              lookupConfig = {lookupConfigItem}
-                              rtId = {property.rtId} />
-
-        break;
+        jsx = this.resourcePropertyJsx(property, rtReduxPath)
     }
-
-    return input
+    return jsx
   }
 
+  /**
+   * returns jsx to render for property of type resource
+   * @private
+   */
+  resourcePropertyJsx = (property, rtReduxPath) => {
+    if (hasValueTemplateRef(property)){
+      const jsx = []
+      property.valueConstraint.valueTemplateRefs.map((rtId) => {
+        const resourceTemplate = _.find(this.state.nestedResourceTemplates, ['id', rtId])
+        jsx.push(<div className="row" key={shortid.generate()}>
+            <section className="col-sm-8">
+              <h5>{resourceTemplate.resourceLabel}</h5>
+            </section>
+            <section className="col-sm-4">
+              <PropertyActionButtons handleAddClick={this.handleAddClick}
+                                     handleMintUri={this.handleMintUri} key={shortid.generate()} />
+            </section>
+          </div>)
+        resourceTemplate.propertyTemplates.map((rtProperty) => {
+          const keyId = shortid.generate()
+          const newReduxPath = Object.assign([], rtReduxPath)
+          newReduxPath.push(rtId)
+          newReduxPath.push(rtProperty.propertyURI)
+          const payload = { reduxPath: newReduxPath, property: rtProperty }
+          this.props.initNewResourceTemplate(payload)
+          jsx.push(<PropertyTemplateOutline key={keyId}
+                                              propertyTemplate={rtProperty}
+                                              reduxPath={newReduxPath}
+                                              initNewResourceTemplate={this.props.initNewResourceTemplate}
+                                              resourceTemplate={resourceTemplate} />)
+        })
+      })
+      return jsx
+    } else {
+      // TODO: remove this case
+      // if no valueTemplateRef, assume it is a confused propertyTemplate intended to be of type lookup
+      // NOTE: this case is due to orig LC resourceTemplates;  sinopia schemas v0.0.9 and up do NOT allow this
+      return <InputListLOC propertyTemplate = {property}
+                            lookupConfig = {getLookupConfigItem(property)}
+                            rtId = {property.rtId} />
+    }
+  }
+
+  /**
+  * expanded vs collapsed property outline
+  * @private
+  */
   handleClick = (property) => (event) => {
     event.preventDefault()
     let newOutput = this.state.output
-
-    this.fullfillRTPromises(this.resourceTemplatePromises(property.valueConstraint.valueTemplateRefs)).then(() => {
-
-      const input = this.handleComponentCase(property)
-
-      let existingInput
-      newOutput.forEach((input) => {
-        if (this.props.propertyTemplate.propertyURI === input.props.propertyTemplate.propertyURI) {
-          existingInput = input
-          return
+    const templateRefList = hasValueTemplateRef(property) ? property.valueConstraint.valueTemplateRefs : []
+    this.fulfillRTPromises(this.resourceTemplatePromises(templateRefList))
+      .then(() => {
+        const propertyJsx = this.propertyComponentJsx(property)
+        let existingJsx
+        newOutput.forEach((propertyJsx) => {
+          if (this.props.propertyTemplate.propertyURI === propertyJsx.props.propertyTemplate.propertyURI) {
+            existingJsx = propertyJsx
+            return
+          }
+        })
+        if (existingJsx === undefined) {
+          newOutput.push(<PropertyTypeRow
+            key={shortid.generate()}
+            handleAddClick={this.props.handleAddClick}
+            handleMintUri={this.props.handleMintUri}
+            propertyTemplate={property}>
+            {propertyJsx}
+          </PropertyTypeRow>)
         }
-      })
-      if (existingInput === undefined) {
-        newOutput.push(<PropertyTypeRow
-          key={shortid.generate()}
-          handleAddClick={this.props.handleAddClick}
-          handleMintUri={this.props.handleMintUri}
-          propertyTemplate={property}>
-          {input}
-        </PropertyTypeRow>)
-      }
-      this.setState( { collapsed: !this.state.collapsed,
-        output: newOutput })
+        this.setState({
+          collapsed: !this.state.collapsed,
+          output: newOutput
+        })
     })
   }
 
+  /**
+   * @private
+   */
   isRequired = (property) => {
     if (property.mandatory === "true") {
       return <RequiredSuperscript />
     }
   }
 
+  /**
+   * @private
+   */
   outlinerClasses = () => {
     let classNames = "rOutline-property"
     if (this.state.collapsed) { classNames += " collapse"}
@@ -239,4 +255,4 @@ const mapDispatchToProps = dispatch => ({
   }
 })
 
-export default connect(null, mapDispatchToProps)(PropertyTemplateOutline);
+export default connect(null, mapDispatchToProps)(PropertyTemplateOutline)

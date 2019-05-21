@@ -4,9 +4,9 @@ import React, { Component } from 'react';
 import { Typeahead } from 'react-bootstrap-typeahead'
 import PropTypes from 'prop-types'
 import PropertyRemark from './PropertyRemark'
-
 import { connect } from 'react-redux'
 import { changeSelections } from '../../actions/index'
+import shortid from 'shortid'
 
 class InputListLOC extends Component {
   constructor(props) {
@@ -22,8 +22,8 @@ class InputListLOC extends Component {
       const defaultValue = this.props.propertyTemplate.valueConstraint.defaults[0]
       const defaults = [{
         id: defaultValue.defaultURI,
-        uri: defaultValue.defaultURI,
-        label: defaultValue.defaultLiteral
+        label: defaultValue.defaultLiteral,
+        uri: defaultValue.defaultURI
       }]
       this.state.defaults = defaults
       this.setPayLoad(defaults)
@@ -36,7 +36,7 @@ class InputListLOC extends Component {
     let payload = {
       id: this.props.propertyTemplate.propertyURI,
       items: items,
-      rtId: this.props.rtId
+      reduxPath: this.props.reduxPath,
     }
     this.props.handleSelectedChange(payload)
   }
@@ -53,7 +53,7 @@ class InputListLOC extends Component {
     let lookupUri, isMandatory, isRepeatable
     try {
       isMandatory = JSON.parse(this.props.propertyTemplate.mandatory)
-      isRepeatable = JSON.parse(this.props.propertyTemplate.repeatable)
+      isRepeatable = JSON.parse(this.props.propertyTemplate.valueConstraint.repeatable)
       lookupUri = this.props.lookupConfig.value.uri
     } catch (error) {
       console.log(`Some properties were not defined in the json file: ${error}`)
@@ -82,10 +82,11 @@ class InputListLOC extends Component {
               .then(json => {
                 for(var i in json){
                   try{
+                    const newId = shortid.generate()
                     const item = Object.getOwnPropertyDescriptor(json, i)
                     const uri = item.value["@id"]
                     const label = item.value["http://www.loc.gov/mads/rdf/v1#authoritativeLabel"][0]["@value"]
-                    opts.push({ id: uri, uri: uri, label: label })
+                    opts.push({ id: newId, label: label, uri: uri })
                   } catch (error) {
                     //ignore
                   }
@@ -119,13 +120,7 @@ InputListLOC.propTypes = {
 }
 
 const mapStatetoProps = (state) => {
-  // let data = state.lookups.formData
-  let result = Object.assign({}, state)
-  // if (data !== undefined){
-  //   result = { formData: data }
-  // }
-
-  return result
+  return Object.assign({}, state)
 }
 
 const mapDispatchtoProps = dispatch => ({

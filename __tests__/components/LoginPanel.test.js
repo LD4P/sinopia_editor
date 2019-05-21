@@ -1,66 +1,98 @@
 // Copyright 2018 Stanford University see Apache2.txt for license
 
-import 'jsdom-global/register'
 import React from 'react'
-import { mount } from 'enzyme'
+import { shallow } from 'enzyme'
 import { MemoryRouter } from "react-router"
 import LoginPanel from '../../src/components/LoginPanel'
 import Config from '../../src/Config'
+import CognitoUtils from '../../src/CognitoUtils'
+import { CognitoUserSession, CognitoAccessToken, CognitoIdToken, CognitoRefreshToken } from 'amazon-cognito-identity-js'
+
 
 describe('<LoginPanel /> when the user is not authenticated', () => {
 
-  let wrapper = mount(
-    <MemoryRouter>
-      <LoginPanel />
-    </MemoryRouter>
-  )
+  let wrapper = shallow(<LoginPanel.WrappedComponent />)
 
-  it('renders text You are not logged in', () => {
-    expect(wrapper.find('form').text()).toMatch('You are not logged in.')
+  it ('renders a username field', () => {
+    expect(wrapper.find('label.text-uppercase input#username[type="text"]')).toHaveLength(1)
+  })
+
+  it ('renders a password field', () => {
+    expect(wrapper.find('label.text-uppercase input#password[type="password"]')).toHaveLength(1)
   })
 
   it ('renders a login button', () => {
-    expect(wrapper.find('a.nav-link[type="button"]').text()).toEqual("Login")
+    expect(wrapper.find('.login-form button.btn-primary[type="submit"]').text()).toEqual("Login")
   })
 
+  it ('renders forgot password link, with URL from config', () => {
+    const forgotPasswordLinkElts = wrapper.find(`.login-form a[href^="${Config.awsCognitoForgotPasswordUrl}"]`)
+    expect(forgotPasswordLinkElts).toHaveLength(1)
+    expect(forgotPasswordLinkElts.text()).toMatch("Forgot Password")
+  })
+
+  it ('renders request account link, with URL from config', () => {
+    const requestAccountLinkElts = wrapper.find(`.login-form a[href^="${Config.awsCognitoResetPasswordUrl}"]`)
+    expect(requestAccountLinkElts).toHaveLength(1)
+    expect(requestAccountLinkElts.text()).toMatch("Request Account")
+  })
 })
 
 describe('<LoginPanel /> when the user is authenticated', () => {
+  const username = 't.mctesterson'
+  const currentUser = CognitoUtils.cognitoUser(username)
+  const currentSession = new CognitoUserSession({
+    IdToken: new CognitoIdToken(), RefreshToken: new CognitoRefreshToken(), AccessToken: new CognitoAccessToken(), 
+  })
+  currentUser.setSignInUserSession(currentSession)
 
-  const mockLogOut = jest.fn()
-  const wrapper = mount(
-    <MemoryRouter>
-      <LoginPanel logOut={mockLogOut} />
-    </MemoryRouter>
-  )
+  const failToAuthenticate = jest.fn()
+  const authenticate = jest.fn()
+  const signout = jest.fn()
 
-  wrapper.find(LoginPanel).instance().setState({userAuthenticated: true, userName: 'some-user'})
-  wrapper.update()
+  const wrapper = shallow(<LoginPanel.WrappedComponent currentUser={currentUser}
+                                                       currentSession={currentSession}
+                                                       failToAuthenticate={failToAuthenticate}
+                                                       authenticate={authenticate}
+                                                       signout={signout}/>)
 
-  it('renders the welcome text with username', () => {
-    expect(wrapper.find('form').text()).toMatch('Welcome some-user!')
+  it("renders the welcome text with the logged in user's username", () => {
+    expect(wrapper.find('div.logged-in-user-info').text()).toMatch(`current cognito user: ${username}`)
   })
 
   it ('renders a sign-out button', () => {
     expect(wrapper.find('button').text()).toEqual("Sign out")
   })
 
-  it('does a cognito aws logout', () => {
-    wrapper.find('button').simulate('click')
-    expect(mockLogOut).toHaveBeenCalled()
-  })
+  describe('user tries to sign out of cognito', () => {
+    const signoutSpy = jest.spyOn(wrapper.instance().props.currentUser, 'globalSignOut')
+    const consoleSpy = jest.spyOn(console, 'log')
 
-  it ('renders forgot password link', () => {
-    expect(wrapper.find('.login-form').text()).toMatch("Forgot Password")
-  })
+    afterEach(() => {
+      signoutSpy.mockReset()
+      consoleSpy.mockReset()
+      signout.mockReset()
+    })
 
-  it ('renders request account link', () => {
-    expect(wrapper.find('.login-form').text()).toMatch("Request Account")
-  })
+    afterAll(() => {
+      signoutSpy.mockRestore()
+      consoleSpy.mockRestore()
+    })
 
-  it('renders both links with AWS client id and domain name', () => {
-    expect(wrapper.find(`a[href^="${Config.awsCognitoForgotPasswordUrl}"]`)).toHaveLength(1)
-    expect(wrapper.find(`a[href^="${Config.awsCognitoResetPasswordUrl}"]`)).toHaveLength(1)
+    it('signout succeeds', () => {
+      signoutSpy.mockImplementation((resultHandler) => { resultHandler.onSuccess('all signed out!') })
+      wrapper.find('button.signout-btn').simulate('click')
+      expect(signout).toHaveBeenCalled()
+      expect(signoutSpy).toHaveBeenCalled()
+      expect(consoleSpy).toHaveBeenCalledWith('handleSignout result: all signed out!')
+    })
+
+    it('signout fails', () => {
+      signoutSpy.mockImplementation((resultHandler) => { resultHandler.onFailure('must have already signed out or something') })
+      wrapper.find('button.signout-btn').simulate('click')
+      expect(signout).not.toHaveBeenCalled()
+      expect(signoutSpy).toHaveBeenCalled()
+    })
   })
 
 })

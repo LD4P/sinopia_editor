@@ -65,7 +65,7 @@ class InputLookupQA extends Component {
         }
 
         return (
-            <Menu {...menuProps}>
+            <Menu {...menuProps} id={menuProps.id} >
                 {items}
             </Menu>
         )
@@ -99,7 +99,7 @@ class InputLookupQA extends Component {
 
                     renderMenu={( results, menuProps ) => {
                         return ( this.renderMenuFunc( results, menuProps ) );
-                    }
+                        }
                     }
 
 
@@ -200,23 +200,6 @@ const mapDispatchToProps = dispatch => ( {
         dispatch( changeQASelections( selected ) )
     }
 } )
-
-//Copying from InputLiteral
-/*
-const mapStateToProps = (state, props) => {
-  let result = getProperty(state, props)
-  return { formData: { items: result } }
-}
-
-const mapDispatchToProps = dispatch => ({
-  handleMyItemsChange(user_input){
-    dispatch(setItems(user_input))
-  },
-  handleRemoveItem(id){
-    dispatch(removeItem(id))
-  }
-})
-*/
 
 
 export default connect( mapStateToProps, mapDispatchToProps )( InputLookupQA )

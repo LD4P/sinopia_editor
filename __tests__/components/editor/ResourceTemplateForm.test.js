@@ -1,64 +1,59 @@
-// Copyright 2018 Stanford University see Apache2.txt for license
+// Copyright 2018, 2019 Stanford University see Apache2.txt for license
 
 import React from 'react'
 import 'jsdom-global/register'
-import ButtonToolbar from 'react-bootstrap/lib/ButtonToolbar'
-import { mount, shallow } from 'enzyme'
-import InputLiteral from '../../../src/components/editor/InputLiteral'
+import { shallow } from 'enzyme'
+import shortid from 'shortid'
 import { ResourceTemplateForm } from '../../../src/components/editor/ResourceTemplateForm'
 
-const rtProps = {
-  "propertyTemplates": [
-    {
-      "propertyLabel": "Literally",
-      "type": "literal"
-    },
-    {
-      "propertyLabel": "Look up, look down",
-      "type": "lookup",
-      "editable": "do not override me!",
-      "repeatable": "do not override me!",
-      "mandatory": "do not override me!",
-      "valueConstraint": {
-        "useValuesFrom": [
-          "urn:ld4p:qa:names:person"
-        ]
-      }
-    },
-    {
-      "propertyLabel": "What's the frequency Kenneth?",
-      "type": "resource",
-      "valueConstraint": {
-        "useValuesFrom": [
-          "https://id.loc.gov/vocabulary/frequencies"
-        ]
-      }
-    },
-    {
-      "propertyLabel": "Chain chain chains",
-      "type": "resource",
-      "valueConstraint": {
-        "valueTemplateRefs": [
-          "resourceTemplate:bf2:Note"
-        ]
-      },
-      "mandatory": "true"
-    },
-    {
-      "propertyLabel": "YAM (yet another modal)",
-      "type": "resource",
-      "valueConstraint": {
-        "valueTemplateRefs": [
-          "resourceTemplate:bf2:Note"
-        ]
-      }
-    },
-    {
-      "propertyLabel": "Non-modal resource",
-      "type": "resource"
-    }
-  ]
-}
+describe('<ResourceTemplateForm /> functional testing', () => {
+
+  const basicRt = { resourceURI: 'http://schema.org/name' }
+  const basicWrapper = shallow(<ResourceTemplateForm propertyTemplates={[]}
+                                                     rtId={'resource:schema:Name'}
+                                                     resourceTemplate={ basicRt } />)
+
+  shortid.generate = jest.fn().mockReturnValue('abcd45')
+
+  describe('resourceTemplateFields expectations and outputs', () => {
+    it('empty array, null, or undefined resource templates', () => {
+      expect(basicWrapper.instance().resourceTemplateFields([])).toEqual([])
+      expect(basicWrapper.instance().resourceTemplateFields(null)).toEqual([])
+      expect(basicWrapper.instance().resourceTemplateFields()).toEqual([])
+    })
+
+    it('resourceTemplateFields returns an array with one <PropertyResourceTemplate /> and has expected Redux state', () => {
+      basicWrapper.instance().setState( { nestedResourceTemplates: [
+        {
+          "id": "resourceTemplate:bf2:Note",
+          "resourceURI": "http://id.loc.gov/ontologies/bibframe/Note",
+          "resourceLabel": "Note",
+          "propertyTemplates": [
+            {
+              "propertyURI": "http://www.w3.org/2000/01/rdf-schema#label",
+              "propertyLabel": "Note",
+              "mandatory": "false",
+              "repeatable": "false",
+              "type": "literal",
+              "resourceTemplates": [],
+              "valueConstraint": {
+                "valueTemplateRefs": []
+              }
+            }
+          ]
+        }
+       ]
+      })
+      const result = basicWrapper.instance().resourceTemplateFields(
+       ["resourceTemplate:bf2:Note"],
+       "http://www.w3.org/2000/01/rdf-schema#label")
+      expect(result[0].props.reduxPath).toEqual(["resource:schema:Name",
+        "http://www.w3.org/2000/01/rdf-schema#label",
+        "abcd45",
+        "resourceTemplate:bf2:Note"])
+    })
+  })
+})
 
 const mockResponse = (status, statusText, response) => {
   return new Response(response, {
@@ -98,130 +93,143 @@ const responseBody = [{
   }
 }]
 
-// const lits = { id: 0, content: 'content' }
-const lits =  {formData: [{id: 0, uri: 'http://uri', items: [
-        {content: '12345', id: 0, bnode: {termType: 'BlankNode', value: 'n3-0'}, propPredicate: 'http://predicate'}
-      ], rtId: 'resourceTemplate:bf2'}]}
-const lups = { id: 'id', uri: 'uri', label: 'label' }
-const ld = {
-  "@context": {
-    "rdf": "http://www.w3.org/1999/02/22-rdf-syntax-ns#",
-    "rdfs": "http://www.w3.org/2000/01/rdf-schema#",
-    "xsd": "http://www.w3.org/2001/XMLSchema#",
-    "bf": "http://id.loc.gov/ontologies/bibframe/",
-    "bflc": "http://id.loc.gov/ontologies/bflc/",
-    "madsrdf": "http://www.loc.gov/mads/rdf/v1#",
-    "pmo": "http://performedmusicontology.org/ontology/"
-  },
-  "@graph": [
-    {
-      "@id": "n3-0",
-      "@type": "http://id.loc.gov/ontologies/bibframe/Instance",
-      "http://id.loc.gov/ontologies/bibframe/issuance": {
-        "@id": "http://id.loc.gov/vocabulary/issuance/mono"
-      },
-      "http://id.loc.gov/ontologies/bibframe/carrier": {
-        "@id": "http://id.loc.gov/vocabulary/carriers/nc"
-      },
-      "http://id.loc.gov/ontologies/bibframe/responsibilityStatement": "STMT",
-      "http://id.loc.gov/ontologies/bibframe/note": {
-        "@id": "n3-8"
-      }
-    },
-    {
-      "@id": "http://id.loc.gov/vocabulary/issuance/mono",
-      "@type": "http://id.loc.gov/ontologies/bibframe/issuance",
-      "rdfs:label": "single unit"
-    },
-    {
-      "@id": "http://id.loc.gov/vocabulary/carriers/nc",
-      "@type": "http://id.loc.gov/ontologies/bibframe/carrier",
-      "rdfs:label": "volume"
-    },
-    {
-      "@id": "n3-8",
-      "@type": "http://id.loc.gov/ontologies/bibframe/Note",
-      "http://www.w3.org/2000/01/rdf-schema#label": "NOTE"
-    }
-  ]
-}
-
 const rtTest = { resourceURI: "http://id.loc.gov/ontologies/bibframe/Work" }
-const mockHandleGenerateLD = jest.fn()
 
 describe('<ResourceTemplateForm /> after fetching data from sinopia server', () => {
 
-  const asyncCall = (index) => {
+  const mockAsyncCall = (index) => {
     const response = mockResponse(200, null, responseBody[index])
     return response
   }
-
-  const promises = Promise.all([ asyncCall(0) ])
-
-  const wrapper = shallow(
-    <ResourceTemplateForm {...rtProps}
-      resourceTemplate = {rtTest}
-      handleGenerateRDF = {mockHandleGenerateLD}
-      literals = {lits}
-      lookups = {lups}
-      rtId = {"resourceTemplate:bf2:Monograph:Instance"}
-      parentResourceTemplate = {"resourceTemplate:bf2:Monograph:Instance"}
-      generateLD = { ld }
-    />
-  )
+  const promises = Promise.all([ mockAsyncCall(0) ])
 
   describe('configured component types', () => {
-    const lookup = {
-      "propertyLabel": "Look up, look down",
-      "type": "lookup",
-      "editable": "do not override me!",
-      "repeatable": "do not override me!",
-      "mandatory": "do not override me!",
-      "valueConstraint": {
-        "useValuesFrom": [
-          "urn:ld4p:qa:names:person"
-        ]
-      }
-    }
 
     it('renders a lookup component', async () => {
-      const instance = wrapper.instance()
-      await instance.fullfillRTPromises(promises).then(() => wrapper.update()).then(() => {
-        instance.configuredComponent(lookup, 1)
-        expect(wrapper
-          .find('div.ResourceTemplateForm Connect(InputLookupQA)').length)
-          .toEqual(1)
-      }).catch(e => {})
-    })
-
-    const list = {
-      "propertyLabel": "What's the frequency Kenneth?",
-      "type": "resource",
-      "valueConstraint": {
-        "useValuesFrom": [
-          "https://id.loc.gov/vocabulary/frequencies"
+      const rtProps = {
+        "propertyTemplates": [
+          {
+            "propertyLabel": "Look up, look down",
+            "type": "lookup",
+            "editable": "do not override me!",
+            "repeatable": "do not override me!",
+            "mandatory": "do not override me!",
+            "valueConstraint": {
+              "useValuesFrom": [
+                "urn:ld4p:qa:names:person"
+              ]
+            }
+          }
         ]
       }
-    }
+
+      const wrapper = shallow(<ResourceTemplateForm {...rtProps} resourceTemplate = {rtTest}/>)
+
+      expect.assertions(2)
+      const instance = await wrapper.instance()
+      await instance.fulfillRTPromises(promises).then(() => wrapper.update())
+      expect(wrapper.find('div.ResourceTemplateForm Connect(InputLookupQA)').length).toEqual(1)
+      expect(wrapper.find('div.ResourceTemplateForm Connect(InputListLOC)').length).toEqual(0)
+    })
 
     it('renders a list component', async () => {
-      const instance = wrapper.instance()
-      await instance.fullfillRTPromises(promises).then(() => wrapper.update()).then(() => {
-        instance.configuredComponent(list, 1)
-        expect(wrapper
-          .find('div.ResourceTemplateForm Connect(InputListLOC)').length)
-          .toEqual(1)
-      }).catch(e => {})
+      const rtProps = {
+        "propertyTemplates": [
+          {
+            "propertyLabel": "What's the frequency Kenneth?",
+            "type": "resource",
+            "valueConstraint": {
+              "useValuesFrom": [
+                "https://id.loc.gov/vocabulary/frequencies"
+              ]
+            }
+          }
+        ]
+      }
+
+      const wrapper = shallow(<ResourceTemplateForm {...rtProps} resourceTemplate = {rtTest}/>)
+
+      expect.assertions(2)
+      const instance = await wrapper.instance()
+      await instance.fulfillRTPromises(promises).then(() => wrapper.update())
+      expect(wrapper.find('div.ResourceTemplateForm Connect(InputListLOC)').length).toEqual(1)
+      expect(wrapper.find('div.ResourceTemplateForm Connect(InputLookupQA)').length).toEqual(0)
     })
   })
 
   it('renders InputLiteral nested component (b/c we have a property of type "literal")', async () => {
-    await wrapper.instance().fullfillRTPromises(promises).then(() => wrapper.update()).then(() => {
-      expect(wrapper
-        .find('div.ResourceTemplateForm Connect(InputLiteral)').length)
-        .toEqual(1)
-    }).catch(e => {})
+    const rtProps = {
+      "propertyTemplates": [
+        {
+          "propertyLabel": "Literally",
+          "type": "literal"
+        }
+      ]
+    }
+
+    const wrapper = shallow(<ResourceTemplateForm {...rtProps} resourceTemplate = {rtTest}/>)
+
+    expect.assertions(2)
+    const instance = await wrapper.instance()
+    await instance.fulfillRTPromises(promises).then(() => wrapper.update())
+    expect(wrapper.find('div.ResourceTemplateForm Connect(InputLiteral)').length).toEqual(1)
+    expect(wrapper.find('div.ResourceTemplateForm Connect(InputListLOC)').length).toEqual(0)
   })
+
+  const rtProps = {
+    "propertyTemplates": [
+      {
+        "propertyLabel": "Literally",
+        "type": "literal"
+      },
+      {
+        "propertyLabel": "Look up, look down",
+        "type": "lookup",
+        "editable": "do not override me!",
+        "repeatable": "do not override me!",
+        "mandatory": "do not override me!",
+        "valueConstraint": {
+          "useValuesFrom": [
+            "urn:ld4p:qa:names:person"
+          ]
+        }
+      },
+      {
+        "propertyLabel": "What's the frequency Kenneth?",
+        "type": "resource",
+        "valueConstraint": {
+          "useValuesFrom": [
+            "https://id.loc.gov/vocabulary/frequencies"
+          ]
+        }
+      },
+      {
+        "propertyLabel": "Chain chain chains",
+        "type": "resource",
+        "valueConstraint": {
+          "valueTemplateRefs": [
+            "resourceTemplate:bf2:Note"
+          ]
+        },
+        "mandatory": "true"
+      },
+      {
+        "propertyLabel": "YAM (yet another modal)",
+        "type": "resource",
+        "valueConstraint": {
+          "valueTemplateRefs": [
+            "resourceTemplate:bf2:Note"
+          ]
+        }
+      },
+      {
+        "propertyLabel": "Non-modal resource",
+        "type": "resource"
+      }
+    ]
+  }
+
+  const wrapper = shallow(<ResourceTemplateForm {...rtProps} resourceTemplate = {rtTest}/>)
 
   it('<form> does not contain redundant form attribute', () => {
     expect(wrapper.find('form[role="form"]').length).toEqual(0)
@@ -252,30 +260,60 @@ describe('<ResourceTemplateForm /> after fetching data from sinopia server', () 
 })
 
 describe('when there are no findable nested resource templates', () => {
-  const asyncCall = () => {
+
+  const mockAsyncCall = () => {
     const response = mockResponse(200, null, undefined)
     return response
   }
+  const promises = Promise.all([ mockAsyncCall ])
 
-  const promises = Promise.all([ asyncCall ])
+  const rtProps = {
+    "propertyTemplates": [
+      {
+        "propertyLabel": "Look up, look down",
+        "type": "lookup",
+        "editable": "do not override me!",
+        "repeatable": "do not override me!",
+        "mandatory": "do not override me!",
+        "valueConstraint": {
+          "useValuesFrom": [
+            "urn:ld4p:qa:names:person"
+          ]
+        }
+      },
+      {
+        "propertyLabel": "Chain chain chains",
+        "type": "resource",
+        "valueConstraint": {
+          "valueTemplateRefs": [
+            "resourceTemplate:bf2:Note"
+          ]
+        },
+        "mandatory": "true"
+      },
+      {
+        "propertyLabel": "YAM (yet another modal)",
+        "type": "resource",
+        "valueConstraint": {
+          "valueTemplateRefs": [
+            "resourceTemplate:bf2:Note"
+          ]
+        }
+      }
+    ]
+  }
 
-  const wrapper = shallow(<ResourceTemplateForm
-    propertyTemplates={[]}
-    resourceTemplate = {rtTest}
-    handleGenerateRDF = {mockHandleGenerateLD}
-    literals = {lits}
-    lookups = {lups}
-    rtId = {"resourceTemplate:bf2:Monograph:Instance"}
-    parentResourceTemplate = {"resourceTemplate:bf2:Monograph:Instance"}
-    generateLD = { ld }
-  />)
+  const wrapper = shallow(<ResourceTemplateForm {...rtProps} resourceTemplate = {rtTest}/>)
 
   it('renders error alert box', async () => {
-    await wrapper.instance().fullfillRTPromises(promises).then(() => wrapper.update()).then(() => {
-        expect(wrapper.state.errot).toBeTruthy()
-        const errorEl = wrapper.find('div.alert')
-        expect(errorEl).toHaveLength(1)
-        expect(errorEl.text()).toEqual('Sinopia server is offline or has no resource templates to display')
-    }).catch(e => {})
+    expect.assertions(3)
+    const instance = await wrapper.instance()
+    await instance.fulfillRTPromises(promises).then(() => wrapper.update())
+
+    expect(await wrapper.state('templateError')).toBeTruthy()
+
+    const errorEl = wrapper.find('div.alert')
+    expect(errorEl).toHaveLength(1)
+    expect(errorEl.text()).toMatch('There are missing resource templates required by resource template: http://id.loc.gov/ontologies/bibframe/Work.Please make sure all referenced templates in property template are uploaded first.')
   })
 })

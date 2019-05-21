@@ -5,8 +5,16 @@ import Config from '../../src/Config'
 describe('Importing a profile/template with bad JSON', () => {
 
   it('Displays an error message', async () => {
-    jest.setTimeout(5000);
-    await page.goto(`http://127.0.0.1:8888/${Config.awsCognitoJWTHashForTest}`)
+    jest.setTimeout(60000); // this seems to take around 10s in practice, but be generous, just in case
+    await page.goto(`http://127.0.0.1:8888/`)
+
+    // attempt to enter and submit login info
+    await page.type('form.login-form input[name=username]', Config.cognitoTestUserName);
+    await page.type('form.login-form input[name=password]', Config.cognitoTestUserPass);
+    await page.click('form.login-form button[type=submit]');
+
+    // sign out button should only show up after successful login
+    await page.waitForSelector('button.signout-btn')
 
     await page.goto('http://127.0.0.1:8888/templates')
 
@@ -17,8 +25,7 @@ describe('Importing a profile/template with bad JSON', () => {
     const fileInput = await page.$('.DropZone input[type="file"]')
     await fileInput.uploadFile("__tests__/__fixtures__/ddc_bad_json.json")
 
-    jest.setTimeout(5000);
-    pupExpect(page).toMatchElement('div.alert-warning', { text: 'ERROR - CANNOT USE PROFILE/RESOURCE TEMPLATE: problem parsing JSON template: SyntaxError: Unexpected token # in JSON at position 0' })
+    await pupExpect(page).toMatchElement('div.alert-warning', { text: 'ERROR - CANNOT USE PROFILE/RESOURCE TEMPLATE: problem parsing JSON template' })
   })
 
 })

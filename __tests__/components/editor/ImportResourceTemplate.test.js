@@ -1,15 +1,31 @@
 // Copyright 2019 Stanford University see Apache2.txt for license
 
+import 'isomorphic-fetch'
 import 'jsdom-global/register'
 import React from 'react'
 import { shallow } from 'enzyme'
-import ImportResourceTemplate from '../../../src/components/editor/ImportResourceTemplate'
+import CognitoUtils from '../../../src/CognitoUtils'
 import ImportFileZone from '../../../src/components/editor/ImportFileZone'
+import ImportResourceTemplate from '../../../src/components/editor/ImportResourceTemplate'
 import SinopiaResourceTemplates from '../../../src/components/editor/SinopiaResourceTemplates'
-import 'isomorphic-fetch'
+
+// Fake out the sinopia client
+import SinopiaClientErrorFake from '../../../__mocks__/SinopiaClientErrorFake'
+import SinopiaClientSuccessFake from '../../../__mocks__/SinopiaClientSuccessFake'
 
 describe('<ImportResourceTemplate />', () => {
-  const wrapper = shallow(<ImportResourceTemplate />)
+  let authenticationState = {
+    currentUser: {
+      wouldActuallyBe: 'a CognitoUser object, IRL'
+    }
+  }
+  let wrapper = shallow(<ImportResourceTemplate.WrappedComponent authenticationState={authenticationState}/>)
+
+  // Make sure spies/mocks don't leak between tests
+  afterEach(() => {
+    jest.restoreAllMocks()
+  })
+
   //This test should be expanded when the Import Resource Template page is further defined
   it('contains the main div', () => {
     expect(wrapper.find("div#importResourceTemplate").length).toBe(1)
@@ -23,82 +39,155 @@ describe('<ImportResourceTemplate />', () => {
     expect(wrapper.find(SinopiaResourceTemplates).length).toBe(1)
   })
 
-})
-
-const mockResponse = (status, statusText, response) => {
-  return new Response(response, {
-    status: status,
-    statusText: statusText,
-    headers: {
-      'Content-type': 'application/json'
-    }
-  }).body
-}
-
-describe('creating a non-rdf resource from an uploaded profile', () => {
-  const result = {
-    data: null,
-    response: {
-      headers: {
-        location: "http://localhost:8080/repository/ld4p/resourceTemplate:bf2:Note"
+  describe('setResourceTemplates()', () => {
+    const content = {
+      Profile: {
+        resourceTemplates: [
+          {
+            id: 'template1'
+          },
+          {
+            id: 'template2'
+          }
+        ]
       }
     }
-  }
 
-  it('sets an info message that the resource was created on success', async () => {
-    const wrapper = shallow(<ImportResourceTemplate />)
-    const promise = Promise.resolve(mockResponse(201, "Created", result))
-    await wrapper.instance().fulfillCreateResourcePromise(promise)
-    expect(wrapper.state('message')).toEqual([ `${result.response.statusText} ${result.response.headers.location}` ])
+    it('invokes createResource() and updateStateFromServerResponse() once per template', async () => {
+      const createResourceSpy = jest.spyOn(wrapper.instance(), 'createResource').mockImplementation(async () => {})
+      const updateStateSpy = jest.spyOn(wrapper.instance(), 'updateStateFromServerResponse').mockReturnValue(null)
+
+      await wrapper.instance().setResourceTemplates(content, 'ld4p')
+
+      expect(createResourceSpy).toHaveBeenCalledTimes(2)
+      expect(updateStateSpy).toHaveBeenCalledTimes(2)
+    })
   })
 
-  it('shows the error message if resource creation fails', async () => {
-    const wrapper = shallow(<ImportResourceTemplate />)
-    const promise = Promise.resolve(mockResponse(500, "Bad request", null))
-    wrapper.setState({createResourceError: [{statusText: "Bad request"}]})
-    await wrapper.instance().fulfillCreateResourcePromise(promise)
-    await wrapper.update()
-    expect(wrapper.state().message).toEqual( [ 'The sinopia server is not accepting the request for this resource.' ])
+  describe('createResource()', () => {
+    // TODO: may need to mock in the same way as e.g. SinopiaClientSuccessFake, per https://jestjs.io/docs/en/manual-mocks.html#mocking-user-modules
+    // incorrect mock approach may explay why below still tries to call out to cognitoUser.getSession, when the CognitoUtils wrapper that ultimately
+    // calls that should have been replaced by a simple mocked implementation (which returns a promise that resolves to a fake token).
+    // const tokenSpy = jest.spyOn(CognitoUtils, 'getIdTokenString')
+    //                   .mockImplementation(() => new Promise(function(resolve, _reject) { resolve('entirelyLegitIdToken') }))
+    // const tokenSpy = jest.spyOn(CognitoUtils, 'getIdTokenString').mockReturnValue(async () => 'entirelyLegitIdToken')
+    // const tokenSpy = jest.spyOn(CognitoUtils, 'getIdTokenString').mockImplementation(async () => 'entirelyLegitIdToken')
+
+    // afterAll(() => { tokenSpy.mockRestore() })
+
+    // TODO: will fix as part of #528 (or a ticket spawned by #528)
+    it.skip('returns response from sinopia client call when successful', async () => {
+      wrapper.instance().instance = new SinopiaClientSuccessFake()
+
+      const response = await wrapper.instance().createResource({ foo: 'bar'}, 'ld4p')
+
+      expect(response).toEqual('i am a response for a created object')
+    })
+
+    // TODO: will fix as part of #528 (or a ticket spawned by #528)
+    it.skip('returns error response and adds to state when client call fails', async () => {
+      wrapper.instance().instance = new SinopiaClientErrorFake()
+
+      const setStateSpy = jest.spyOn(wrapper.instance(), 'setState').mockReturnValue(null)
+      const response = await wrapper.instance().createResource({ foo: 'bar'}, 'ld4p')
+
+      expect(response).toEqual('i am an error for a created object')
+      expect(setStateSpy).toHaveBeenCalledWith({
+        createResourceError: ['i am an error for a created object']
+      })
+    })
+
+    // TODO: test scenario where id token retrieval fails (e.g. expired refresh token)
   })
 
-  it('does not display the error/info alert if the response status is Conflict', async () => {
-    const wrapper = shallow(<ImportResourceTemplate />)
-    const promise = Promise.resolve(mockResponse(409, "Conflict", null))
-    wrapper.setState({createResourceError: [{statusText: "Conflict"}]})
-    await wrapper.instance().fulfillCreateResourcePromise(promise)
-    await wrapper.update()
-    expect(wrapper.state().message).toEqual([])
+  describe('updateResource()', () => {
+    it('returns response from sinopia client call when successful', async () => {
+      wrapper.instance().instance = new SinopiaClientSuccessFake()
+
+      const response = await wrapper.instance().updateResource({ foo: 'bar'}, 'ld4p')
+
+      expect(response).toEqual('i am a response for an updated object')
+    })
+
+    it('returns error response when client call fails', async () => {
+      wrapper.instance().instance = new SinopiaClientErrorFake()
+
+      const response = await wrapper.instance().updateResource({ foo: 'bar'}, 'ld4p')
+
+      expect(response).toEqual('i am an error for an updated object')
+    })
   })
 
-  const content = { Profile: { resourceTemplates: [ {propertyTemplates: {}} ]}}
+  describe('updateStateFromServerResponse()', () => {
+    it('adds error message to state when update operation does *not* result in HTTP 409 Conflict', () => {
+      // Set new wrapper in each of these tests because we are changing state
+      wrapper = shallow(<ImportResourceTemplate.WrappedComponent authenticationState={authenticationState}/>)
 
-  it('increments and sets the state with an update key to pass into child component to avoid infinite recursion', async () => {
-    const wrapper = shallow(<ImportResourceTemplate />)
-    const promise = Promise.resolve(mockResponse(201, "Created", result))
-    wrapper.instance().fulfillCreateResourcePromise(promise)
-    wrapper.instance().setResourceTemplates(content, 'ld4p')
-    expect(wrapper.state().updateKey).toBeGreaterThan(0)
+      expect(wrapper.state().message).toEqual([])
+
+      wrapper.instance().updateStateFromServerResponse({ status: 200, headers: {} })
+
+      expect(wrapper.state().message).toEqual(['Unexpected response (200)! '])
+    })
+    it('sets modalShow to true when receiving HTTP 409 and errors >= profileCount', () => {
+      // Set new wrapper in each of these tests because we are changing state
+      wrapper = shallow(<ImportResourceTemplate.WrappedComponent authenticationState={authenticationState}/>)
+
+      expect(wrapper.state().modalShow).toBe(false)
+
+      wrapper.instance().updateStateFromServerResponse({ status: 409 , headers: {} }, 0)
+      expect(wrapper.state().modalShow).toBe(true)
+    })
+    it('sets message in state with any create operation not resulting in HTTP 409', () => {
+      // Set new wrapper in each of these tests because we are changing state
+      wrapper = shallow(<ImportResourceTemplate.WrappedComponent authenticationState={authenticationState}/>)
+
+      expect(wrapper.state().message).toEqual([])
+
+      wrapper.instance().updateStateFromServerResponse({ status: 201 , headers: { location: 'http://foo.bar' } })
+
+      expect(wrapper.state().message).toEqual(['Created http://foo.bar'])
+    })
   })
 
-  it('sets the conflict errors to be handles by the update functionality', () => {
-    const responseMock = {
-      response: {
-        "req": {
-          "method":"POST",
-          "url":"http://localhost:8080/repository/ld4p",
-          "_data": {},
-        },
-        "statusText":"Conflict",
-        "statusCode":409,
-        "status":409
+  describe('humanReadableStatus()', () => {
+    it('returns human-readable label for HTTP 201', () => {
+      expect(wrapper.instance().humanReadableStatus(201)).toEqual('Created')
+    })
+    it('returns human-readable label for HTTP 204', () => {
+      expect(wrapper.instance().humanReadableStatus(204)).toEqual('Updated')
+    })
+    it('returns human-readable label for HTTP 401', () => {
+      expect(wrapper.instance().humanReadableStatus(401)).toEqual('You are not authorized to do this. Try logging in again!')
+    })
+    it('returns human-readable label for HTTP 409', () => {
+      expect(wrapper.instance().humanReadableStatus(409)).toEqual('Attempting to update')
+    })
+    it('returns human-readable label for any other HTTP status', () => {
+      expect(wrapper.instance().humanReadableStatus(400)).toEqual('Unexpected response (400)!')
+    })
+  })
+
+  describe('handleUpdateResource()', () => {
+    const templates =  [
+      {
+        id: 'template1'
+      },
+      {
+        id: 'template2'
       }
-    }
-    const wrapper = shallow(<ImportResourceTemplate />)
-    const error = mockResponse(409, "Conflict", responseMock)
-    wrapper.instance().updateStateForResourceError(error)
-    wrapper.update()
-    expect(wrapper.state().createResourceError).toEqual([responseMock.response])
-  })
-  
-})
+    ]
 
+    it('updates every template, updates state, closes the modal and reloads', async () => {
+      const updateResourceSpy = jest.spyOn(wrapper.instance(), 'updateResource').mockImplementation(async () => {})
+      const updateStateSpy = jest.spyOn(wrapper.instance(), 'updateStateFromServerResponse').mockReturnValue(null)
+      const modalCloseSpy = jest.spyOn(wrapper.instance(), 'modalClose').mockReturnValue(null)
+
+      await wrapper.instance().handleUpdateResource(templates, 'ld4p')
+
+      expect(updateResourceSpy).toHaveBeenCalledTimes(2)
+      expect(updateStateSpy).toHaveBeenCalledTimes(2)
+      expect(modalCloseSpy).toHaveBeenCalledTimes(1)
+    })
+  })
+})

@@ -19,6 +19,8 @@ services:
     environment:
       INSIDE_CONTAINER: 'true'
       TRELLIS_BASE_URL: http://platform:8080
+      COGNITO_USER_POOL_ID: ${COGNITO_USER_POOL_ID:-us-west-2_CGd9Wq136}
+      AWS_REGION: ${AWS_REGION:-us-west-2}
       COGNITO_ADMIN_PASSWORD: "${COGNITO_ADMIN_PASSWORD}" # add to .env file (DO NOT CHECK IN)
       AWS_ACCESS_KEY_ID: "${AWS_ACCESS_KEY_ID}" # add to .env file (DO NOT CHECK IN)
       AWS_SECRET_ACCESS_KEY: "${AWS_SECRET_ACCESS_KEY}" # add to .env file (DO NOT CHECK IN)
@@ -31,6 +33,8 @@ services:
       TRELLIS_BASE_URL: http://platform:8080
       TRELLIS_LOGGING_LEVEL: INFO
       TRELLIS_CONSOLE_LOGGING_THRESHOLD: INFO
+      COGNITO_USER_POOL_ID: ${COGNITO_USER_POOL_ID:-us-west-2_CGd9Wq136}
+      AWS_REGION: ${AWS_REGION:-us-west-2}
     ports:
       - 8080:8080
       - 8081:8081

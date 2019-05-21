@@ -6,7 +6,8 @@ module.exports = {
     args : [ '--disable-web-security' ]
   },
   server: {
-    command: 'npm run dev-start',
-    port: 8888
-  },
-};
+    command: 'SPOOF_SINOPIA_SERVER=true npm run dev-start',
+    port: 8888,
+    launchTimeout: 10000
+  }
+}

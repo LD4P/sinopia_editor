@@ -58,4 +58,38 @@ describe('sinopiaServerSpoof', () => {
     })
 
   })
+
+  describe('spoofedResourcesInGroupContainer', () => {
+    it('returns a spoofed response object with contained resource template IDs', () => {
+      expect(sinopiaServer.spoofedResourcesInGroupContainer('ld4p')).toMatchObject({
+        response: {
+          body: {
+            "@id": "http://spoof.trellis.io/ld4p",
+            contains: [
+              "http://spoof.trellis.io/ld4p/resourceTemplate:bf2:Monograph:Instance",
+              "http://spoof.trellis.io/ld4p/resourceTemplate:bf2:Monograph:Work",
+              "http://spoof.trellis.io/ld4p/resourceTemplate:bf2:Identifiers:Barcode",
+              "http://spoof.trellis.io/ld4p/resourceTemplate:bf2:Note",
+              "http://spoof.trellis.io/ld4p/resourceTemplate:bf2:ParallelTitle",
+              "http://spoof.trellis.io/ld4p/resourceTemplate:bf2:Title",
+              "http://spoof.trellis.io/ld4p/resourceTemplate:bf2:Title:Note",
+              "http://spoof.trellis.io/ld4p/resourceTemplate:bflc:TranscribedTitle",
+              "http://spoof.trellis.io/ld4p/resourceTemplate:bf2:Title:VarTitle",
+              "http://spoof.trellis.io/ld4p/resourceTemplate:bf2:WorkTitle",
+              "http://spoof.trellis.io/ld4p/resourceTemplate:bf2:WorkVariantTitle",
+              "http://spoof.trellis.io/ld4p/resourceTemplate:bf2:Identifiers:LCCN",
+              "http://spoof.trellis.io/ld4p/resourceTemplate:bf2:Identifiers:DDC",
+              "http://spoof.trellis.io/ld4p/resourceTemplate:bf2:Identifiers:Shelfmark",
+              "http://spoof.trellis.io/ld4p/resourceTemplate:bf2:Item",
+              "http://spoof.trellis.io/ld4p/resourceTemplate:bf2:Item:Retention",
+              "http://spoof.trellis.io/ld4p/resourceTemplate:bf2:Item:ItemAcqSource",
+              "http://spoof.trellis.io/ld4p/resourceTemplate:bf2:Item:Enumeration",
+              "http://spoof.trellis.io/ld4p/resourceTemplate:bf2:Item:Chronology"
+            ]
+          }
+        }
+      })
+    })
+  })
+
 })

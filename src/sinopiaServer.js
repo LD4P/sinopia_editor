@@ -1,14 +1,8 @@
 import SinopiaServer from 'sinopia_server'
-
-import { loadState } from './localStorage'
 import Config from './Config'
 
 const instance = new SinopiaServer.LDPApi()
-const curJwt = loadState('jwtAuth')
 instance.apiClient.basePath = Config.sinopiaServerBase
-if (curJwt !== undefined) {
-  instance.apiClient.authentications['CognitoUser'].accessToken = curJwt.id_token
-}
 
 const barcodeRt = require('../static/spoofedFilesFromServer/fromSinopiaServer/resourceTemplates/Barcode.json')
 const monographInstanceRt = require('../static/spoofedFilesFromServer/fromSinopiaServer/resourceTemplates/MonographInstance.json')
@@ -42,7 +36,7 @@ export const resourceTemplateId2Json = [
   {id: 'resourceTemplate:bf2:Title:VarTitle', json: varTitleRt},
   {id: 'resourceTemplate:bf2:WorkTitle', json: workTitleRt},
   {id: 'resourceTemplate:bf2:WorkVariantTitle', json: workVariantTitleRt},
-  {id: 'resourceTemplate:bf2:Identifiers:LC', json: lccnRt},
+  {id: 'resourceTemplate:bf2:Identifiers:LCCN', json: lccnRt},
   {id: 'resourceTemplate:bf2:Identifiers:DDC', json: ddcRt},
   {id: 'resourceTemplate:bf2:Identifiers:Shelfmark', json:shelfMarkRt},
   {id: 'resourceTemplate:bf2:Item', json: itemRt},
@@ -65,13 +59,33 @@ const getSpoofedResourceTemplate = (templateId) => {
     emptyTemplate['error'] = `ERROR: un-spoofed resourceTemplate: ${templateId}`
     return emptyTemplate
   }
+
   const spoofedResponse = { response: {} }
+
   spoofedResponse['response']['body'] = resourceTemplateId2Json.find((template) => {
-    if(template.id == templateId) return template
+    if(template.id == templateId)
+      return template
   }).json
+
   return new Promise(resolve => {
     resolve(spoofedResponse)
   })
+}
+
+export const spoofedResourcesInGroupContainer = (group) => {
+  const container = `http://spoof.trellis.io/${group}`
+  const ids = []
+  resourceTemplateId2Json.map(rt => {
+    ids.push(`${container}/${rt.id}`)
+  })
+  return {
+    response: {
+      body: {
+        "@id": container,
+        contains: ids
+      }
+    }
+  }
 }
 
 const getResourceTemplateFromServer = (templateId, group) => {
@@ -84,9 +98,7 @@ const getResourceTemplateFromServer = (templateId, group) => {
     return emptyTemplate
   }
 
-  return new Promise(resolve => {
-    resolve(instance.getResourceWithHttpInfo(group, templateId, { acceptEncoding: 'application/json' }))
-  })
+  return instance.getResourceWithHttpInfo(group, templateId, { acceptEncoding: 'application/json' })
 }
 
 export const getResourceTemplate = (templateId, group) => {
@@ -94,4 +106,28 @@ export const getResourceTemplate = (templateId, group) => {
     return getSpoofedResourceTemplate(templateId)
 
   return getResourceTemplateFromServer(templateId, group)
+}
+
+export const getGroups = () => {
+  if (Config.spoofSinopiaServer)
+    return new Promise(resolve => {
+      resolve({
+        response: {
+          body: {
+            contains: 'http://spoof.trellis.io/ld4p'
+          }
+        }
+      })
+    })
+
+  return instance.getBaseWithHttpInfo()
+}
+
+export const listResourcesInGroupContainer = (group) => {
+  if (Config.spoofSinopiaServer)
+    return new Promise(resolve => {
+      resolve(spoofedResourcesInGroupContainer(group))
+    })
+
+  return instance.getGroupWithHttpInfo(group)
 }

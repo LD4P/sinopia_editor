@@ -1,122 +1,128 @@
 // Copyright 2018 Stanford University see Apache2.txt for license
 
-import React, {Component} from 'react'
+import SinopiaServer from 'sinopia_server'
+import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 import Header from './Header'
 import ImportFileZone from './ImportFileZone'
 import SinopiaResourceTemplates from './SinopiaResourceTemplates'
 import UpdateResourceModal from './UpdateResourceModal'
-import { loadState } from '../../localStorage'
 import Config from '../../../src/Config'
-const SinopiaServer = require('sinopia_server')
-const instance = new SinopiaServer.LDPApi()
-const curJwt = loadState('jwtAuth')
-const _ = require('lodash')
-instance.apiClient.basePath = Config.sinopiaServerBase
-if (curJwt !== undefined) {
-  instance.apiClient.authentications['CognitoUser'].accessToken = curJwt.id_token
-}
+import CognitoUtils from '../../../src/CognitoUtils'
+import { connect } from 'react-redux'
 
 class ImportResourceTemplate extends Component {
   constructor(props) {
     super(props)
     this.state = {
-      redirect: false,
-      group: '',
       message: [],
       createResourceError: [],
-      updateResourceError: '',
       updateKey: 0,
       modalShow: false
     }
+    // Moving this into the constructor makes it easier to stub in tests
+    this.instance = new SinopiaServer.LDPApi()
+
+    this.instance.apiClient.basePath = Config.sinopiaServerBase
   }
 
   componentDidMount() {
-    const incrementedKey = this.state.updateKey +1
-    this.setState({updateKey: incrementedKey})
+    const incrementedKey = this.state.updateKey + 1
+    // This causes the `SinopiaResourceTemplates` component to do the initial load of RTs
+    this.setState({ updateKey: incrementedKey })
   }
 
   modalClose = () => {
-    this.setState( { modalShow: false } )
+    this.setState({
+      modalShow: false
+    })
   }
 
-  //resource templates are set via ImportFileZone and passed to ResourceTemplate via redirect to Editor
+  // Resource templates are set via ImportFileZone and passed to ResourceTemplate via redirect to Editor
   setResourceTemplates = (content, group) => {
     const profileCount = content.Profile.resourceTemplates.length
-    content.Profile.resourceTemplates.map(rt => {
-      this.fulfillCreateResourcePromise(this.createResourcePromise(rt, group, profileCount))
+    content.Profile.resourceTemplates.forEach(async rt => {
+      const response = await this.createResource(rt, group)
       const incrementedKey = this.state.updateKey + 1
-      this.setState({updateKey: incrementedKey})
+      this.updateStateFromServerResponse(response, profileCount, incrementedKey)
     })
   }
 
-  createResourcePromise = (content, group, profileCount) => new Promise(async (resolve) => {
-    resolve(
-      await instance.createResourceWithHttpInfo(group, content, { slug: content.id, contentType: 'application/json' }).catch((error) => {
-        this.updateStateForResourceError(error)
-      })
-    )
-  }).then(response => {
-    if(this.state.createResourceError.length === profileCount) {
-      this.setState({modalShow: true})
+  createResource = async (content, group) => {
+    try {
+      // first, make sure the client instance has a valid JWT id token set
+      await CognitoUtils.getIdTokenString(this.props.authenticationState.currentUser)
+              .then((idToken) => this.instance.apiClient.authentications['CognitoUser'].accessToken = idToken)
+    } catch(error) {
+      // TODO: add auth-related error handling similar to the catch on the createResourceWithHttpInfo try below, e.g.
+      // * display a warning that the operation failed due to error with current session
+      //   * add action and reducer for session expired, have LoginPanel display specific err msg.  reducer should clear session (and
+      //     user as needed) so the login panel goes back to the not logged in state.  highlight LoginPanel or something too (along w/ the err msg).
+      //   * user logs in via login panel again.  app state now has a valid cognito user with a valid session.
+      //   * user tries to do this action again, now that they have a valid sesison, hopefully succeeds.
+      return error
     }
-    return response
-  }).catch(() => {})
 
-  updateResourcePromise = (content, group) => new Promise(async (resolve) => {
-    resolve(
-      await instance.updateResourceWithHttpInfo(group, content.id, content, { contentType: 'application/json' }).catch((error) => {
-        this.setState({
-          updateResourceError: error
-        })
+    try {
+      const response = await this.instance.createResourceWithHttpInfo(group, content, { slug: content.id, contentType: 'application/json' })
+      return response.response
+    } catch(error) {
+      this.setState({
+        createResourceError: [...this.state.createResourceError, error.response]
       })
-    )
-  }).then(response => {
-
-    return response
-  }).catch(() => {})
-
-  fulfillCreateResourcePromise = async (promise) => {
-    await promise.then(result => {
-      const joinedMessages = this.state.message.slice(0)
-
-      if(result.response.statusText !== 'No Content') {
-        this.setState({tempState: `${result.response.statusText} ${result.response.headers.location}`})
-        joinedMessages.push(this.state.tempState)
-        this.setState({message: joinedMessages})
-      }
-
-    }).catch(() => {
-      if (this.state.createResourceError[0].statusText !== 'Conflict') {
-        const msg = 'The sinopia server is not accepting the request for this resource.'
-        this.state.updateResourceError ? this.setState({message: [`${msg}: ${this.state.updateResourceError}`]}) : this.setState({message: [msg]})
-      }
-    })
-  }
-
-  updateStateForResourceError = (error) => {
-    if(_.get(error, 'response.statusText') === 'Conflict') {
-      const response = error.response
-      const joinedConflicts = this.state.createResourceError.slice(0)
-      this.setState({tempConflictError: response})
-      joinedConflicts.push(this.state.tempConflictError)
-      this.setState({createResourceError: joinedConflicts})
+      return error.response
     }
   }
 
-  updateAllResources = (rts, group) => {
-    return Promise.all(rts.map(async rt =>
-      await this.fulfillCreateResourcePromise(this.updateResourcePromise(rt, group))
-    ))
+  updateResource = async (content, group) => {
+    try {
+      const response = await this.instance.updateResourceWithHttpInfo(group, content.id, content, { contentType: 'application/json' })
+      return response.response
+    } catch(error) {
+      return error.response
+    }
   }
 
-  handleUpdateResource = async (rts, group) => {
-    await this.updateAllResources(rts, group).then(() => {
+  updateStateFromServerResponse = (response, profileCount, updateKey) => {
+    // HTTP status 409 == Conflict
+    const showModal = response.status === 409 && this.state.createResourceError.length >= profileCount
+
+    const location = response.headers.location || ''
+    const newMessage = `${this.humanReadableStatus(response.status)} ${location}`
+    const newState = {
+      message: [...this.state.message, newMessage],
+      updateKey: updateKey
+    }
+
+    if (showModal)
+      newState.modalShow = true
+
+    this.setState(newState)
+  }
+
+  humanReadableStatus = status => {
+    switch(status) {
+      case 201:
+        return 'Created'
+      case 204:
+        return 'Updated'
+      case 401:
+        return 'You are not authorized to do this. Try logging in again!'
+      case 409:
+        return 'Attempting to update'
+      default:
+        return `Unexpected response (${status})!`
+    }
+  }
+
+  handleUpdateResource = (rts, group) => {
+    rts.forEach(async rt => {
+      const response = await this.updateResource(rt, group)
       const incrementedKey = this.state.updateKey + 1
-      this.setState({updateKey: incrementedKey})
-      this.modalClose()
-      window.location.reload()
+      // The 0 is the profileCount which is only used for tracking create errors
+      this.updateStateFromServerResponse(response, 0, incrementedKey)
     })
+    this.modalClose()
   }
 
   render() {
@@ -141,7 +147,21 @@ class ImportResourceTemplate extends Component {
 
 ImportResourceTemplate.propTypes = {
   children: PropTypes.array,
-  triggerHandleOffsetMenu: PropTypes.func
+  triggerHandleOffsetMenu: PropTypes.func,
+  authenticationState: PropTypes.object
 }
 
-export default (ImportResourceTemplate)
+const mapStateToProps = (state) => {
+  return {
+    authenticationState: Object.assign({}, state.authenticate.authenticationState)
+  }
+}
+
+//TODO: likely to end up wiring up auth error reporting via redux dispatch
+// const mapDispatchToProps = dispatch => {
+//   return { }
+// }
+
+
+export default connect(mapStateToProps)(ImportResourceTemplate)
+// export default connect(mapStateToProps, mapDispatchToProps)(ImportResourceTemplate)
