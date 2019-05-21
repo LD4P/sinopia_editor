@@ -53,16 +53,14 @@ describe('<ImportResourceTemplate />', () => {
       }
     }
 
-    it('invokes createResource(), updateStateFromServerResponse(), and setState() once per template', async () => {
+    it('invokes createResource() and updateStateFromServerResponse() once per template', async () => {
       const createResourceSpy = jest.spyOn(wrapper.instance(), 'createResource').mockImplementation(async () => {})
       const updateStateSpy = jest.spyOn(wrapper.instance(), 'updateStateFromServerResponse').mockReturnValue(null)
-      const setStateSpy = jest.spyOn(wrapper.instance(), 'setState').mockReturnValue(null)
 
       await wrapper.instance().setResourceTemplates(content, 'ld4p')
 
       expect(createResourceSpy).toHaveBeenCalledTimes(2)
       expect(updateStateSpy).toHaveBeenCalledTimes(2)
-      expect(setStateSpy).toHaveBeenCalledTimes(1)
     })
   })
 

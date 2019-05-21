@@ -4,10 +4,20 @@ import 'jsdom-global/register'
 import React from 'react'
 import { shallow, mount } from 'enzyme'
 import ImportFileZone from '../../../src/components/editor/ImportFileZone'
-import DropZone from '../../../src/components/editor/ImportFileZone'
-import { MemoryRouter } from 'react-router-dom'
+import DropZone from 'react-dropzone'
 import Config from '../../../src/Config'
 require('isomorphic-fetch')
+// NOTE: Your editor may bark at you about isomorphic-fetch being an extraneous require. Removing this line, however, causes test failures that look like the following:
+//
+// TypeError: err.indexOf is not a function
+//
+//                     })
+//                     .catch(err => {
+//                       if (err.indexOf('already exists') > 0)
+//                               ^
+//                         resolve()
+//                       else
+//                         reject(new Error(`error getting json schemas ${err}`))
 
 describe('<ImportFileZone />', () => {
   it('has an upload button', () => {
@@ -42,7 +52,6 @@ describe('<ImportFileZone />', () => {
         await wrapper.instance().promiseTemplateValidated(template, schemaUrl)
         expect(wrapper.state().validTemplate).toBeTruthy()
       })
-
     })
 
     describe('schema url not in JSON - default schemas used', () => {
@@ -70,7 +79,6 @@ describe('<ImportFileZone />', () => {
         await wrapper.instance().promiseTemplateValidated(template, schemaUrl)
         expect(wrapper.state().validTemplate).toBeTruthy()
       })
-
     })
   })
 
@@ -103,7 +111,6 @@ describe('<ImportFileZone />', () => {
         expect(err.toString()).toMatch('should match pattern')
       })
     })
-
   })
 
   describe('unfindable schema', () => {
@@ -122,14 +129,11 @@ describe('<ImportFileZone />', () => {
         expect(err.toString()).toMatch("Error: error getting json schemas")
       })
     })
-
   })
-
 })
 
 describe('<DropZone />', () => {
-  const tempStateCallbackFn = jest.fn()
-  let wrapper = mount(<MemoryRouter><DropZone tempStateCallback={tempStateCallbackFn}/></MemoryRouter>)
+  const wrapper = mount(<ImportFileZone />)
 
   it('shows the dropzone div when button is clicked', () => {
     wrapper.setState({showDropZone: false})
@@ -146,21 +150,25 @@ describe('<DropZone />', () => {
   })
 
   it('hides the dropzone div when the file dialog is canceled', () => {
-    wrapper.setState({showDropZone: true})
+    wrapper.setState({showDropZone: false})
     wrapper.find('button.btn').simulate('click')
     expect(wrapper.state('showDropZone')).toBeTruthy()
-    wrapper.find(DropZone).instance().updateShowDropZone(false)
     wrapper.setState({showDropZone: false})
     expect(wrapper.state('showDropZone')).toBeFalsy()
   })
 
   it('hides the dropzone div when the resource template menu link is clicked', () => {
-    wrapper.setState({showDropZone: true})
+    wrapper.setState({showDropZone: false})
     wrapper.find('button.btn').simulate('click')
     expect(wrapper.state('showDropZone')).toBeTruthy()
-    wrapper.find(DropZone).instance().handleClick()
+    wrapper.instance().handleClick()
     wrapper.setState({showDropZone: false})
     expect(wrapper.state('showDropZone')).toBeFalsy()
+  })
+
+  it('disallows multi-file uploads', () => {
+    wrapper.setState({showDropZone: true})
+    expect(wrapper.find(DropZone).instance().props.multiple).toEqual(false)
   })
 
   describe('simulating a file drop calls the file reading functions', () => {
@@ -168,7 +176,7 @@ describe('<DropZone />', () => {
     // Dropzone throws an error when performing a drop simulate on the input.
     it('lets you input a selected file', () => {
       console.error = jest.fn()
-      wrapper.find('button.btn').simulate('click')
+      wrapper.setState({showDropZone: true})
       wrapper.find('input[type="file"]').simulate('drop', {
         target: {files: ['item.json']}
       })
