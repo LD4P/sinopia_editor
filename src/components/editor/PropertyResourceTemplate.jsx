@@ -23,7 +23,6 @@ class PropertyResourceTemplate extends Component {
     const existingOutputs = this.state.output
     existingOutputs.push(<h4 key={shortid.generate()}>{this.props.resourceTemplate.resourceLabel}</h4>)
     this.populatePropertyTemplates()
-    console.log(`Redux Path ${this.props.reduxPath}`)
     this.setState({ output: existingOutputs})
   }
 

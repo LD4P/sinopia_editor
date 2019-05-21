@@ -27,10 +27,22 @@ export class PropertyTemplateOutline extends Component {
     return classNames
   }
 
-  handleAddClick = (event) => {
+  handleAddClick = (resourceTemplate, property) => (event) => {
     event.preventDefault()
     const output = Object.assign([], this.state.output)
-    output.push(<h4 key={shortid.generate()}>{this.props.propertyTemplate.propertyLabel}</h4>)
+    // TODO: Add delete button
+    output.push(<h5 key={shortid.generate()}>{resourceTemplate.resourceLabel}</h5>)
+    // TODO: DRY out this code, replicates some of the loop in resourcePropertyJsx
+    resourceTemplate.propertyTemplates.map((rtProperty) => {
+      const newReduxPath = Object.assign([], this.props.reduxPath)
+      newReduxPath.push(resourceTemplate.resourceId)
+      newReduxPath.push(rtProperty.propertyURI)
+      output.push(<PropertyTemplateOutline key={shortid.generate()}
+                  propertyTemplate={rtProperty}
+                  reduxPath={newReduxPath}
+                  initNewResourceTemplate={this.props.initNewResourceTemplate}
+                  resourceTemplate={resourceTemplate} />)
+    })
     if (this.props.handleAddClick !== undefined) {
       this.props.handleAddClick(event)
     }
