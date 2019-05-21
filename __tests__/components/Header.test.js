@@ -3,7 +3,7 @@
 import React from 'react'
 import { shallow } from 'enzyme'
 import Header from '../../src/components/Header'
-import SinopiaLogo from '../../styles/sinopia-logo.png'
+import SinopiaLogo from '../../src/styles/sinopia-logo.png'
 import Config from '../../src/Config'
 import { Link } from 'react-router-dom'
 

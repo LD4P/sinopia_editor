@@ -129,15 +129,17 @@ describe('<SinopiaResourceTemplates />', () => {
       }
     }
 
-    const containsGroups = {
-      response: {
-        body: {
-          contains: [
-            'ld4p'
-          ]
-        }
-      }
-    }
+    // TODO: Restore this once RTs are stored in multiple groups
+    //
+    // const containsGroups = {
+    //   response: {
+    //     body: {
+    //       contains: [
+    //         'ld4p'
+    //       ]
+    //     }
+    //   }
+    // }
 
     const containsTemplate = {
       response: {

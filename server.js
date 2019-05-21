@@ -51,5 +51,5 @@ app.get("*", function(req, res) {
   res.sendFile(`${__dirname}/index.html`)
 })
 
-console.log('BIBFRAME Editor running on ' + port);
-console.log('Press Ctrl + C to stop.');
+console.info('BIBFRAME Editor running on ' + port);
+console.info('Press Ctrl + C to stop.');

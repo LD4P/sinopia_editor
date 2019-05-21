@@ -21,7 +21,7 @@ describe('<PropertyResourceTemplate />', () => {
     },
     reduxPath: ['resourceTemplate:test']
   }
-  const testId = jest.spyOn(shortid, 'generate').mockReturnValue('abcd45')
+  jest.spyOn(shortid, 'generate').mockReturnValue('abcd45')
   const wrapper = shallow(<PropertyResourceTemplate {...propertyRtProps} />)
   const propTemplateOutline = wrapper.find(PropertyTemplateOutline)
 

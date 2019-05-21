@@ -79,7 +79,7 @@ class InputLookupQA extends Component {
             isMandatory = JSON.parse( this.props.propertyTemplate.mandatory )
             isRepeatable = JSON.parse( this.props.propertyTemplate.repeatable )
         } catch ( error ) {
-            console.log( `Problem with properties fetched from resource template: ${error}` )
+            console.error( `Problem with properties fetched from resource template: ${error}` )
         }
         const typeaheadProps = {
             required: isMandatory,
@@ -110,7 +110,7 @@ class InputLookupQA extends Component {
                                 authority = lookupConfig.value.authority;
                                 subauthority = lookupConfig.value.authority;
                                 language = lookupConfig.value.language;
-                                //return the 'promise' 
+                                //return the 'promise'
                                 //Since we don't want promise.all to fail if
                                 //one of the lookups fails, we want a catch statement
                                 //at this level which will then return the error

@@ -15,7 +15,7 @@ describe('<OutlineHeader />', () => {
   const wrapper = shallow(<OutlineHeader {...headerProps} />)
 
   it('Contains a FontAwesomeIcon and label value from props', () => {
-    expect(wrapper.find("div").text()).toBe(` <FontAwesomeIcon /> ${headerProps.label}`)
+    expect(wrapper.find("div").text()).toEqual(` <FontAwesomeIcon /> ${headerProps.label}`)
   })
 
   it('anchor is plus when collapsed', () => {

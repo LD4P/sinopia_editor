@@ -4,7 +4,6 @@ import React from 'react'
 import { shallow } from 'enzyme'
 import Editor from '../../../src/components/editor/Editor'
 import ResourceTemplate from '../../../src/components/editor/ResourceTemplate'
-import RDFModal from '../../../src/components/editor/RDFModal'
 import Header from '../../../src/components/editor/Header'
 
 let props = {
