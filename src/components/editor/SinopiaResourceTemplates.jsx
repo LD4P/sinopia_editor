@@ -18,14 +18,34 @@ class SinopiaResourceTemplates extends Component {
     this.state = {
       errors: [],
       resourceTemplates: [],
+      resourceTemplatesEtag: ''
     }
   }
 
   async componentDidUpdate(prevProps) {
-    if (this.props.updateKey <= prevProps.updateKey)
-      return
+    if (this.props.updateKey > prevProps.updateKey || await this.serverHasNewTemplates()) {
+      // Reset errors when component updates, else errors from a prior update will prevent RTs from displaying
+      this.setState({ errors: [] })
+      await this.fetchResourceTemplatesFromGroups()
+    }
+  }
 
-    await this.fetchResourceTemplatesFromGroups()
+  serverHasNewTemplates = async () => {
+    try {
+      const response = await fetch(`${Config.sinopiaServerBase}/repository/${Config.defaultSinopiaGroupId}`, {
+        method: 'HEAD'
+      })
+      const currentEtag =  response.headers.get('etag')
+      if (this.state.resourceTemplatesEtag === currentEtag) {
+        return false
+      } else {
+        this.setState({ resourceTemplatesEtag: currentEtag })
+        return true
+      }
+    } catch(error) {
+      console.error(`error fetching RT group etag: ${error}`)
+      return false
+    }
   }
 
   fetchResourceTemplatesFromGroups = async () => {

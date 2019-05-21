@@ -30,26 +30,95 @@ describe('<SinopiaResourceTemplates />', () => {
     it('initializes this.resourceTemplates to empty array', () => {
       expect(wrapper.state().resourceTemplates).toEqual([])
     })
+
+    it('initializes this.resourceTemplatesEtag to blank string', () => {
+      expect(wrapper.state().resourceTemplatesEtag).toEqual('')
+    })
   })
 
   describe('componentDidUpdate()', () => {
     const initialUpdateKey = 1
 
-    it('calls fetchResourceTemplatesFromGroups() if updateKey has been incremented', async () => {
+    it('calls fetchResourceTemplatesFromGroups() and resets errors if updateKey has been incremented', async () => {
       const wrapper2 = shallow(<SinopiaResourceTemplates message={message} updateKey={initialUpdateKey} />)
       const fetchSpy = jest.spyOn(wrapper2.instance(), 'fetchResourceTemplatesFromGroups').mockReturnValue(null)
+      const setStateSpy = jest.spyOn(wrapper2.instance(), 'setState').mockReturnValue(null)
 
       await wrapper2.setProps({ updateKey: 2 })
 
       expect(fetchSpy).toHaveBeenCalledTimes(1)
+      expect(setStateSpy).toHaveBeenCalledWith({ errors: [] })
     })
-    it('returns early if updateKey has not changed', async () => {
+
+    it('calls fetchResourceTemplatesFromGroups() and resets errors if server has new templates', async () => {
       const wrapper2 = shallow(<SinopiaResourceTemplates message={message} updateKey={initialUpdateKey} />)
       const fetchSpy = jest.spyOn(wrapper2.instance(), 'fetchResourceTemplatesFromGroups').mockReturnValue(null)
+      const serverCheckSpy = jest.spyOn(wrapper2.instance(), 'serverHasNewTemplates').mockReturnValue(true)
+      const setStateSpy = jest.spyOn(wrapper2.instance(), 'setState').mockReturnValue(null)
+
+      await wrapper2.setProps({ updateKey: 1 })
+
+      expect(fetchSpy).toHaveBeenCalledTimes(1)
+      expect(serverCheckSpy).toHaveBeenCalledTimes(1)
+      expect(setStateSpy).toHaveBeenCalledWith({ errors: [] })
+    })
+
+    it('returns early if updateKey has not changed and no new templates on server', async () => {
+      const wrapper2 = shallow(<SinopiaResourceTemplates message={message} updateKey={initialUpdateKey} />)
+      const fetchSpy = jest.spyOn(wrapper2.instance(), 'fetchResourceTemplatesFromGroups').mockReturnValue(null)
+      const serverCheckSpy = jest.spyOn(wrapper2.instance(), 'serverHasNewTemplates').mockReturnValue(false)
+      const setStateSpy = jest.spyOn(wrapper2.instance(), 'setState').mockReturnValue(null)
 
       await wrapper2.setProps({ updateKey: 1 })
 
       expect(fetchSpy).not.toHaveBeenCalled()
+      expect(serverCheckSpy).toHaveBeenCalledTimes(1)
+      expect(setStateSpy).not.toHaveBeenCalled()
+    })
+  })
+
+  describe('serverHasNewTemplates()', () => {
+    it('returns false when etag has not changed', async () => {
+      global.fetch = jest.fn().mockImplementation(async () => {
+        return {
+          headers: {
+            get: () => { return 'foobar' }
+          }
+        }
+      })
+      const wrapper2 = shallow(<SinopiaResourceTemplates message={message} updateKey={1} />)
+      wrapper2.setState({ resourceTemplatesEtag: 'foobar' })
+
+      expect(await wrapper2.instance().serverHasNewTemplates()).toEqual(false)
+    })
+
+    it('returns true and resets etag value when etag changes', async () => {
+      global.fetch = jest.fn().mockImplementation(async () => {
+        return {
+          headers: {
+            get: () => { return 'bazquux' }
+          }
+        }
+      })
+      const wrapper2 = shallow(<SinopiaResourceTemplates message={message} updateKey={1} />)
+
+      expect(await wrapper2.instance().serverHasNewTemplates()).toEqual(true)
+      expect(wrapper2.state().resourceTemplatesEtag).toEqual('bazquux')
+    })
+
+    it('returns false and logs a message when there are errors', async () => {
+      global.fetch = jest.fn().mockImplementation(async () => {
+        return {
+          headers: {
+            get: () => { throw 'ack!' }
+          }
+        }
+      })
+      const wrapper2 = shallow(<SinopiaResourceTemplates message={message} updateKey={1} />)
+      const consoleSpy = jest.spyOn(console, 'error')
+
+      expect(await wrapper2.instance().serverHasNewTemplates()).toEqual(false)
+      expect(consoleSpy).toHaveBeenCalledWith('error fetching RT group etag: ack!')
     })
   })
 
