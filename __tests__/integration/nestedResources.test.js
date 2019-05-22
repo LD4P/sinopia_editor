@@ -10,9 +10,14 @@ describe('Expanding a resource property in a property panel', () => {
     await page.goto('http://127.0.0.1:8888/templates')
 
     // attempt to enter and submit login info
-    await page.type('form.login-form input[name=username]', Config.cognitoTestUserName);
-    await page.type('form.login-form input[name=password]', Config.cognitoTestUserPass);
-    await page.click('form.login-form button[type=submit]');
+    try {
+      await page.waitForSelector('form.login-form')
+      await page.type('form.login-form input[name=username]', Config.cognitoTestUserName);
+      await page.type('form.login-form input[name=password]', Config.cognitoTestUserPass);
+      await page.click('form.login-form button[type=submit]');
+    } catch (error) {
+      console.info(error)
+    }
 
     // sign out button should only show up after successful login
     await page.waitForSelector('button.signout-btn')
