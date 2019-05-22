@@ -67,13 +67,3 @@ export const removeMyItem = (state, action) => {
   }, newState)
   return newState
 }
-
-//Instead of adding items based on selection replace with what is currently in the state
-export const replaceMyItems = (state, action) => {
-	 let newState = Object.assign({}, state)
-	 newState[action.payload.rtId][action.payload.uri].items = []
-	  action.payload.items.map((row) => {
-	    newState[action.payload.rtId][action.payload.uri].items.push(row)
-	  })
-	  return newState
-}

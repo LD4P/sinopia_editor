@@ -5,7 +5,7 @@ import PropTypes from 'prop-types'
 import Swagger from 'swagger-client'
 import { connect } from 'react-redux'
 import { getProperty } from '../../reducers/index'
-import { changeQASelections, setItems, removeItem  } from '../../actions/index'
+import { changeSelections  } from '../../actions/index'
 
 const AsyncTypeahead = asyncContainer( Typeahead )
 
@@ -197,7 +197,7 @@ const mapStateToProps = ( state, props ) => {
 
 const mapDispatchToProps = dispatch => ( {
     handleSelectedChange( selected ) {
-        dispatch( changeQASelections( selected ) )
+        dispatch( changeSelections( selected ) )
     }
 } )
 

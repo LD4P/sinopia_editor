@@ -107,8 +107,6 @@ const selectorReducer = (state={}, action) => {
       return removeMyItem(state, action)
     case 'REMOVE_ALL_CONTENT':
       return removeAllContent(state, action)
-    case 'CHANGE_QA_SELECTIONS':
-      return setMySelections(state, action)  
     default:
       return state
   }
