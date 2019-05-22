@@ -22,7 +22,6 @@ class ImportResourceTemplate extends Component {
     }
     // Moving this into the constructor makes it easier to stub in tests
     this.instance = new SinopiaServer.LDPApi()
-
     this.instance.apiClient.basePath = Config.sinopiaServerBase
   }
 

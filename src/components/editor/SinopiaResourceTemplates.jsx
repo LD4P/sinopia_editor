@@ -1,16 +1,12 @@
 // Copyright 2019 Stanford University see Apache2.txt for license
 
-import SinopiaServer from 'sinopia_server'
 import React, {Component} from 'react'
 import PropTypes from 'prop-types'
 import { Link } from 'react-router-dom'
 import { BootstrapTable, TableHeaderColumn } from 'react-bootstrap-table'
 import Config from '../../../src/Config'
-import { listResourcesInGroupContainer, getResourceTemplate } from '../../sinopiaServer'
+import { getEntityTagFromGroupContainer, listResourcesInGroupContainer, getResourceTemplate } from '../../sinopiaServer'
 import { resourceToName } from '../../Utilities'
-
-const instance = new SinopiaServer.LDPApi()
-instance.apiClient.basePath = Config.sinopiaServerBase
 
 class SinopiaResourceTemplates extends Component {
   constructor(props) {
@@ -32,16 +28,12 @@ class SinopiaResourceTemplates extends Component {
 
   serverHasNewTemplates = async () => {
     try {
-      const response = await fetch(`${Config.sinopiaServerBase}/repository/${Config.defaultSinopiaGroupId}`, {
-        method: 'HEAD'
-      })
-      const currentEtag =  response.headers.get('etag')
+      const currentEtag = await getEntityTagFromGroupContainer(Config.defaultSinopiaGroupId)
       if (this.state.resourceTemplatesEtag === currentEtag) {
         return false
-      } else {
-        this.setState({ resourceTemplatesEtag: currentEtag })
-        return true
       }
+      this.setState({ resourceTemplatesEtag: currentEtag })
+      return true
     } catch(error) {
       console.error(`error fetching RT group etag: ${error}`)
       return false

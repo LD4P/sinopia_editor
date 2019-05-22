@@ -2,8 +2,7 @@ import 'jsdom-global/register'
 import React from 'react'
 import { shallow } from 'enzyme'
 import SinopiaResourceTemplates from '../../../src/components/editor/SinopiaResourceTemplates'
-import { listResourcesInGroupContainer, getResourceTemplate } from '../../../src/sinopiaServer'
-import 'isomorphic-fetch'
+import { getEntityTagFromGroupContainer, listResourcesInGroupContainer, getResourceTemplate } from '../../../src/sinopiaServer'
 
 jest.mock('../../../src/sinopiaServer')
 
@@ -79,12 +78,8 @@ describe('<SinopiaResourceTemplates />', () => {
 
   describe('serverHasNewTemplates()', () => {
     it('returns false when etag has not changed', async () => {
-      global.fetch = jest.fn().mockImplementation(async () => {
-        return {
-          headers: {
-            get: () => { return 'foobar' }
-          }
-        }
+      getEntityTagFromGroupContainer.mockImplementation(async () => {
+        return 'foobar'
       })
       const wrapper2 = shallow(<SinopiaResourceTemplates message={message} updateKey={1} />)
       wrapper2.setState({ resourceTemplatesEtag: 'foobar' })
@@ -93,12 +88,8 @@ describe('<SinopiaResourceTemplates />', () => {
     })
 
     it('returns true and resets etag value when etag changes', async () => {
-      global.fetch = jest.fn().mockImplementation(async () => {
-        return {
-          headers: {
-            get: () => { return 'bazquux' }
-          }
-        }
+      getEntityTagFromGroupContainer.mockImplementation(async () => {
+        return 'bazquux'
       })
       const wrapper2 = shallow(<SinopiaResourceTemplates message={message} updateKey={1} />)
 
@@ -107,12 +98,8 @@ describe('<SinopiaResourceTemplates />', () => {
     })
 
     it('returns false and logs a message when there are errors', async () => {
-      global.fetch = jest.fn().mockImplementation(async () => {
-        return {
-          headers: {
-            get: () => { throw 'ack!' }
-          }
-        }
+      getEntityTagFromGroupContainer.mockImplementation(async () => {
+        throw 'ack!'
       })
       const wrapper2 = shallow(<SinopiaResourceTemplates message={message} updateKey={1} />)
       const consoleSpy = jest.spyOn(console, 'error')
