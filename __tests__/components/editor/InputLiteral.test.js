@@ -67,13 +67,18 @@ describe('When the user enters input into field', ()=>{
   // our mock formData function to replace the one provided by mapDispatchToProps
   const mockFormDataFn = jest.fn()
   const removeMockDataFn = jest.fn()
-  jest.spyOn(shortid, 'generate').mockReturnValue(0)
+  shortid.generate = jest.fn().mockReturnValue(0)
   mock_wrapper = shallow(<InputLiteral {...plProps} id={11}
                             rtId={'resourceTemplate:bf2:Monograph:Instance'}
                             reduxPath={['resourceTemplate:bf2:Monograph:Instance',
                                         'http://id.loc.gov/ontologies/bibframe/instanceOf']}
                             handleMyItemsChange={mockFormDataFn}
                             handleRemoveItem={removeMockDataFn}/>)
+
+  // Make sure spies/mocks don't leak between tests
+  afterAll(() => {
+    jest.restoreAllMocks()
+  })
 
   it('has an id value as a unique property', () => {
     expect(mock_wrapper.find('input').prop('id')).toEqual("typeLiteral11")

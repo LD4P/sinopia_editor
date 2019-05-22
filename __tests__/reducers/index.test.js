@@ -3,6 +3,10 @@ import shortid from 'shortid'
 import selectorReducer, { refreshResourceTemplate, populatePropertyDefaults  } from '../../src/reducers/index'
 
 describe(`Takes a resource template ID and populates the global state`, () => {
+  // Make sure spies/mocks don't leak between tests
+  afterAll(() => {
+    jest.restoreAllMocks()
+  })
 
   const pt = [
     {
@@ -82,7 +86,7 @@ describe(`Takes a resource template ID and populates the global state`, () => {
   })
 
   it('handles SET_RESOURCE_TEMPLATE', () => {
-    jest.spyOn(shortid, 'generate').mockReturnValue(0)
+    shortid.generate = jest.fn().mockReturnValue(0)
     expect(
       selectorReducer({"selectorReducer": {}}, {
         type: 'SET_RESOURCE_TEMPLATE',
@@ -131,7 +135,7 @@ describe(`Takes a resource template ID and populates the global state`, () => {
   })
 
   it('tests with a more realistic payload with defaults', () => {
-    jest.spyOn(shortid, 'generate').mockReturnValue(0)
+    shortid.generate = jest.fn().mockReturnValue(0)
     const defaultStateResult = refreshResourceTemplate({}, {
       type: 'REFRESH_RESOURCE_TEMPLATE',
       payload: {
