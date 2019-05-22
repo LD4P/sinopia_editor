@@ -30,7 +30,7 @@ class OutlineHeader extends Component {
     return(
       <div className="rOutline-header">
           {this.spacer()}
-          <a href="#" onClick={this.props.handleCollapsed}>
+          <a href="#" onClick={this.props.handleCollapsed} data-id={this.props.id}>
             <FontAwesomeIcon icon={this.isCollapsed()} />&nbsp;
           </a>
           {this.props.label}
@@ -42,6 +42,7 @@ class OutlineHeader extends Component {
 OutlineHeader.propTypes = {
   collapsed: PropTypes.any,
   handleCollapsed: PropTypes.func,
+  id: PropTypes.string,
   isRequired: PropTypes.any,
   label: PropTypes.string,
   spacer: PropTypes.oneOfType([PropTypes.string, PropTypes.number])
