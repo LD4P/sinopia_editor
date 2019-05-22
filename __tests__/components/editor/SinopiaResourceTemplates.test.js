@@ -116,18 +116,6 @@ describe('<SinopiaResourceTemplates />', () => {
       }
     }
 
-    // TODO: Restore this once RTs are stored in multiple groups
-    //
-    // const containsGroups = {
-    //   response: {
-    //     body: {
-    //       contains: [
-    //         'ld4p'
-    //       ]
-    //     }
-    //   }
-    // }
-
     const containsTemplate = {
       response: {
         body: {
@@ -136,26 +124,7 @@ describe('<SinopiaResourceTemplates />', () => {
       }
     }
 
-    // TODO: Restore this test once RTs are stored in multiple groups
-    it.skip('does not set state if there are no groups', async () => {
-      // getGroups.mockReturnValue(new Promise(resolve => {
-      //   resolve(containsNothing)
-      // }))
-
-      // const wrapper2 = shallow(<SinopiaResourceTemplates message={message} />)
-      // const setStateFromServerResponseSpy = jest.spyOn(wrapper2.instance(), 'setStateFromServerResponse').mockReturnValue(null)
-
-      // await wrapper2.instance().fetchResourceTemplatesFromGroups()
-
-      // expect(setStateFromServerResponseSpy).not.toHaveBeenCalled()
-    })
-
     it('does not set state if groups have no resource templates', async () => {
-      // TODO: Restore this once RTs are stored in multiple groups
-      //
-      // getGroups.mockReturnValue(new Promise(resolve => {
-      //   resolve(containsGroups)
-      // }))
       listResourcesInGroupContainer.mockReturnValue(new Promise(resolve => {
         resolve(containsNothing)
       }))
@@ -169,11 +138,6 @@ describe('<SinopiaResourceTemplates />', () => {
     })
 
     it('sets state when there is a non-zero number of templates', async () => {
-      // TODO: Restore this once RTs are stored in multiple groups
-      //
-      // getGroups.mockReturnValue(new Promise(resolve => {
-      //   resolve(containsGroups)
-      // }))
       listResourcesInGroupContainer.mockReturnValue(new Promise(resolve => {
         resolve(containsTemplate)
       }))
