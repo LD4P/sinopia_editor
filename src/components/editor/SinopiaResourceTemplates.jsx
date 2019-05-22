@@ -1,16 +1,12 @@
 // Copyright 2019 Stanford University see Apache2.txt for license
 
-import SinopiaServer from 'sinopia_server'
 import React, {Component} from 'react'
 import PropTypes from 'prop-types'
 import { Link } from 'react-router-dom'
 import { BootstrapTable, TableHeaderColumn } from 'react-bootstrap-table'
 import Config from '../../../src/Config'
-import { listResourcesInGroupContainer, getResourceTemplate } from '../../sinopiaServer'
+import { getEntityTagFromGroupContainer, listResourcesInGroupContainer, getResourceTemplate } from '../../sinopiaServer'
 import { resourceToName } from '../../Utilities'
-
-const instance = new SinopiaServer.LDPApi()
-instance.apiClient.basePath = Config.sinopiaServerBase
 
 class SinopiaResourceTemplates extends Component {
   constructor(props) {
@@ -18,14 +14,30 @@ class SinopiaResourceTemplates extends Component {
     this.state = {
       errors: [],
       resourceTemplates: [],
+      resourceTemplatesEtag: ''
     }
   }
 
   async componentDidUpdate(prevProps) {
-    if (this.props.updateKey <= prevProps.updateKey)
-      return
+    if (this.props.updateKey > prevProps.updateKey || await this.serverHasNewTemplates()) {
+      // Reset errors when component updates, else errors from a prior update will prevent RTs from displaying
+      this.setState({ errors: [] })
+      await this.fetchResourceTemplatesFromGroups()
+    }
+  }
 
-    await this.fetchResourceTemplatesFromGroups()
+  serverHasNewTemplates = async () => {
+    try {
+      const currentEtag = await getEntityTagFromGroupContainer(Config.defaultSinopiaGroupId)
+      if (this.state.resourceTemplatesEtag === currentEtag) {
+        return false
+      }
+      this.setState({ resourceTemplatesEtag: currentEtag })
+      return true
+    } catch(error) {
+      console.error(`error fetching RT group etag: ${error}`)
+      return false
+    }
   }
 
   fetchResourceTemplatesFromGroups = async () => {

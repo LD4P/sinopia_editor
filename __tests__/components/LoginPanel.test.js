@@ -2,7 +2,6 @@
 
 import React from 'react'
 import { shallow } from 'enzyme'
-import { MemoryRouter } from "react-router"
 import LoginPanel from '../../src/components/LoginPanel'
 import Config from '../../src/Config'
 import CognitoUtils from '../../src/CognitoUtils'
@@ -42,7 +41,7 @@ describe('<LoginPanel /> when the user is authenticated', () => {
   const username = 't.mctesterson'
   const currentUser = CognitoUtils.cognitoUser(username)
   const currentSession = new CognitoUserSession({
-    IdToken: new CognitoIdToken(), RefreshToken: new CognitoRefreshToken(), AccessToken: new CognitoAccessToken(), 
+    IdToken: new CognitoIdToken(), RefreshToken: new CognitoRefreshToken(), AccessToken: new CognitoAccessToken(),
   })
   currentUser.setSignInUserSession(currentSession)
 
@@ -66,17 +65,14 @@ describe('<LoginPanel /> when the user is authenticated', () => {
 
   describe('user tries to sign out of cognito', () => {
     const signoutSpy = jest.spyOn(wrapper.instance().props.currentUser, 'globalSignOut')
-    const consoleSpy = jest.spyOn(console, 'log')
 
     afterEach(() => {
       signoutSpy.mockReset()
-      consoleSpy.mockReset()
       signout.mockReset()
     })
 
     afterAll(() => {
       signoutSpy.mockRestore()
-      consoleSpy.mockRestore()
     })
 
     it('signout succeeds', () => {
@@ -84,7 +80,6 @@ describe('<LoginPanel /> when the user is authenticated', () => {
       wrapper.find('button.signout-btn').simulate('click')
       expect(signout).toHaveBeenCalled()
       expect(signoutSpy).toHaveBeenCalled()
-      expect(consoleSpy).toHaveBeenCalledWith('handleSignout result: all signed out!')
     })
 
     it('signout fails', () => {

@@ -37,27 +37,55 @@ module.exports = {
   env: {
     "browser": true,
     "jest": true,
-    "node": true
+    "node": true,
+    "es6": true
   },
   rules: {
     "jsx-a11y/anchor-is-valid": "warn", // see #172
     "jsx-a11y/label-has-for": "warn", // see #173
     "jsx-a11y/no-onchange": "warn", // The DropZone select form needs an onChange prop to set the state with the new group
-    "no-console": ["warn", { allow: ["info", "log"] }], //for development purposes
+    "no-console": ["warn", { allow: ["error", "info"] }], // we want to see errors in the console
     "no-extra-semi": "off",
     "security/detect-object-injection": "off"
   },
   overrides: [
     {
-      "files": ["**/*.jsx",
-                "src/**/*.js",
-                "__tests__/**/*.js",
-                "__mocks__/**/*.js"],
+      // Allow all JS and JSX files to use new-style imports and exports
+      "files": ["**/*.jsx", "**/*.js"],
       "rules": {
         // See https://github.com/mysticatea/eslint-plugin-node/blob/master/docs/rules/no-unsupported-features/es-syntax.md
         //   rule supposedly matches ECMA version with node
         //   we get: "Import and export declarations are not supported yet"
         "node/no-unsupported-features/es-syntax": "off"
+      }
+    },
+    {
+      // Allow integration tests to use `page` global variable defined by puppeteer
+      "files": ["__tests__/integration/**"],
+      "rules": {
+        "no-undef": "off"
+      }
+    },
+    {
+      // Allow ImportFileZone test to require `isomorphic-fetch`
+      "files": ["__tests__/components/editor/ImportFileZone.test.js"],
+      "rules": {
+        "node/no-extraneous-require": "warn"
+      }
+    },
+    {
+      // Allow unicode whitespace in OutlineHeader test (bc apparently actually used in OutlineHeader component)
+      "files": ["__tests__/components/editor/OutlineHeader.test.js"],
+      "rules": {
+        "no-irregular-whitespace": "off"
+      }
+    },
+    {
+      // Allow react-router-dom mock to do things counter to React's linter preferences
+      "files": ["__mocks__/react-router-dom.js"],
+      "rules": {
+        "react/display-name": "warn",
+        "react/prop-types": "warn"
       }
     }
   ]

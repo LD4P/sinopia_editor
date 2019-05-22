@@ -49,10 +49,8 @@ class LoginPanel extends Component {
 
   handleSignout = () => {
     this.props.currentUser.globalSignOut({
-      onSuccess: (result) => {
-        console.log('handleSignout result: ' + result)
+      onSuccess: () => {
         this.props.signout()
-        console.log('handleSignout redux dispatch handler called')
       },
       onFailure: (err) => {
         // TODO: capture error in state so you can display an error somewhere in the UI

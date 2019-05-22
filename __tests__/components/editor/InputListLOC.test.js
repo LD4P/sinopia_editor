@@ -4,7 +4,6 @@ import React from 'react'
 import { shallow } from 'enzyme'
 import { Typeahead } from 'react-bootstrap-typeahead'
 import InputList from '../../../src/components/editor/InputListLOC'
-import PropertyRemark from '../../../src/components/editor/PropertyRemark'
 
 const plProps = {
   "propertyTemplate":

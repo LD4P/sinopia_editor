@@ -28,7 +28,7 @@ class InputListLOC extends Component {
       this.state.defaults = defaults
       this.setPayLoad(defaults)
     } catch (error) {
-      console.log(`defaults not defined in the property template: ${error}`)
+      console.error(`defaults not defined in the property template: ${error}`)
     }
   }
 
@@ -56,7 +56,7 @@ class InputListLOC extends Component {
       isRepeatable = JSON.parse(this.props.propertyTemplate.valueConstraint.repeatable)
       lookupUri = this.props.lookupConfig.value.uri
     } catch (error) {
-      console.log(`Some properties were not defined in the json file: ${error}`)
+      console.error(`Some properties were not defined in the json file: ${error}`)
     }
 
     var typeaheadProps = {

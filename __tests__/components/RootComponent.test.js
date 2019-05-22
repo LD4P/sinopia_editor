@@ -1,7 +1,6 @@
 import 'jsdom-global/register'
 import React from 'react'
 import { shallow } from "enzyme"
-import { MemoryRouter } from "react-router"
 import RootContainer from '../../src/components/RootContainer'
 import { OffCanvas } from 'react-offcanvas'
 import { Provider } from 'react-redux'

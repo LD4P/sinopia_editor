@@ -21,9 +21,14 @@ describe('<PropertyResourceTemplate />', () => {
     },
     reduxPath: ['resourceTemplate:test']
   }
-  const testId = jest.spyOn(shortid, 'generate').mockReturnValue('abcd45')
+  shortid.generate = jest.fn().mockReturnValue('abcd45')
   const wrapper = shallow(<PropertyResourceTemplate {...propertyRtProps} />)
   const propTemplateOutline = wrapper.find(PropertyTemplateOutline)
+
+  // Make sure spies/mocks don't leak between tests
+  afterAll(() => {
+    jest.restoreAllMocks()
+  })
 
   it('Contains label of from the props', () => {
     expect(wrapper.find("h4").text()).toBe(`${propertyRtProps.resourceTemplate.resourceLabel}`)

@@ -1,9 +1,12 @@
 // Copyright 2019 Stanford University see Apache2.txt for license
 import shortid from 'shortid'
-import { refreshResourceTemplate, populatePropertyDefaults  } from '../../src/reducers/index'
-import selectorReducer from '../../src/reducers/index'
+import selectorReducer, { refreshResourceTemplate, populatePropertyDefaults  } from '../../src/reducers/index'
 
 describe(`Takes a resource template ID and populates the global state`, () => {
+  // Make sure spies/mocks don't leak between tests
+  afterAll(() => {
+    jest.restoreAllMocks()
+  })
 
   const pt = [
     {
@@ -83,7 +86,7 @@ describe(`Takes a resource template ID and populates the global state`, () => {
   })
 
   it('handles SET_RESOURCE_TEMPLATE', () => {
-    const testId = jest.spyOn(shortid, 'generate').mockReturnValue(0)
+    shortid.generate = jest.fn().mockReturnValue(0)
     expect(
       selectorReducer({"selectorReducer": {}}, {
         type: 'SET_RESOURCE_TEMPLATE',
@@ -132,7 +135,7 @@ describe(`Takes a resource template ID and populates the global state`, () => {
   })
 
   it('tests with a more realistic payload with defaults', () => {
-    const testId = jest.spyOn(shortid, 'generate').mockReturnValue(0)
+    shortid.generate = jest.fn().mockReturnValue(0)
     const defaultStateResult = refreshResourceTemplate({}, {
       type: 'REFRESH_RESOURCE_TEMPLATE',
       payload: {
@@ -152,8 +155,6 @@ describe(`Takes a resource template ID and populates the global state`, () => {
 })
 
 describe('Takes a property and returns an empty or a populated array from populatePropertyDefaults()', () => {
-
-  const propertyTemplate = {}
 
   it('empty and undefined properties return empty array', () => {
     const undefinedResult = populatePropertyDefaults()

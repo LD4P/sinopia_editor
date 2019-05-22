@@ -67,13 +67,18 @@ describe('When the user enters input into field', ()=>{
   // our mock formData function to replace the one provided by mapDispatchToProps
   const mockFormDataFn = jest.fn()
   const removeMockDataFn = jest.fn()
-  jest.spyOn(shortid, 'generate').mockReturnValue(0)
+  shortid.generate = jest.fn().mockReturnValue(0)
   mock_wrapper = shallow(<InputLiteral {...plProps} id={11}
                             rtId={'resourceTemplate:bf2:Monograph:Instance'}
                             reduxPath={['resourceTemplate:bf2:Monograph:Instance',
                                         'http://id.loc.gov/ontologies/bibframe/instanceOf']}
                             handleMyItemsChange={mockFormDataFn}
                             handleRemoveItem={removeMockDataFn}/>)
+
+  // Make sure spies/mocks don't leak between tests
+  afterAll(() => {
+    jest.restoreAllMocks()
+  })
 
   it('has an id value as a unique property', () => {
     expect(mock_wrapper.find('input').prop('id')).toEqual("typeLiteral11")
@@ -110,13 +115,12 @@ describe('When the user enters input into field', ()=>{
 
     expect(mockFormDataFn.mock.calls[0][0]).toEqual(
       {uri: "http://id.loc.gov/ontologies/bibframe/instanceOf",
-       items:[{content: 'fooby', id: 0}],
+       items: [{content: 'fooby', id: 0}],
        reduxPath: ['resourceTemplate:bf2:Monograph:Instance', 'http://id.loc.gov/ontologies/bibframe/instanceOf']}
     )
     expect(mockFormDataFn.mock.calls[1][0]).toEqual(
       {
        uri: "http://id.loc.gov/ontologies/bibframe/instanceOf",
-       items:[{content: 'bar', id: 2}],
        items: [{"content": "bar", "id": 0}],
        reduxPath: ['resourceTemplate:bf2:Monograph:Instance', 'http://id.loc.gov/ontologies/bibframe/instanceOf']
       }
