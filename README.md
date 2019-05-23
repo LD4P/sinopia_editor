@@ -64,6 +64,17 @@ The express server is available on at [http://localhost:8000](http://localhost:8
 Tests are written in jest, also utilizing puppeteer for end-to-end tests.
 To run them `npm test`.
 
+To run the tests, you'll have to provide a couple environment variables, so that the tests have valid user info with which to login.  The env vars are:
+```sh
+COGNITO_TEST_USER_NAME='sinopia-devs+client-tester@lists.stanford.edu' # a test user we have on dev and stage
+COGNITO_TEST_USER_PASS='<get this from shared_configs or another developer>' # not committing the real value to a public repo
+```
+
+e.g.
+```sh
+COGNITO_TEST_USER_NAME='sinopia-devs+client-tester@lists.stanford.edu' COGNITO_TEST_USER_PASS='theActualPassword' npm run jest-cov
+```
+
 #### Test coverage
 To get coverage data, `npm run jest-cov`.  Use a web browser to open `coverage/lcov-report/index.html`.  There is a project view and also a view of each file.  You can also check [coveralls](https://coveralls.io/repos/github/LD4P/sinopia_editor).
 
