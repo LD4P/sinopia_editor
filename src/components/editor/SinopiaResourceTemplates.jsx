@@ -3,7 +3,8 @@
 import React, {Component} from 'react'
 import PropTypes from 'prop-types'
 import { Link } from 'react-router-dom'
-import { BootstrapTable, TableHeaderColumn } from 'react-bootstrap-table'
+import 'react-bootstrap-table-next/dist/react-bootstrap-table2.min.css'
+import BootstrapTable from 'react-bootstrap-table-next'
 import Config from '../../../src/Config'
 import { getEntityTagFromGroupContainer, listResourcesInGroupContainer, getResourceTemplate } from '../../sinopiaServer'
 import { resourceToName } from '../../Utilities'
@@ -118,30 +119,40 @@ class SinopiaResourceTemplates extends Component {
       )
     }
 
-    let createResourceMessage = <div className="alert alert-info">
-      { this.props.message.join(', ') }
-    </div>;
+    const createResourceMessage =
+          this.props.message.length === 0 ?
+          ( <span /> ) :
+          (
+            <div className="alert alert-info">
+              { this.props.message.join(', ') }
+            </div>
+          )
 
-    if (this.props.message.length === 0) {
-      createResourceMessage = <span />
-    }
-
-    const thIDClass = { backgroundColor: '#F8F6EF', width: '50%' }
-    const thNameClass = { backgroundColor: '#F8F6EF', width: '25%' }
-    const thGroupClass = { backgroundColor: '#F8F6EF', width: '25%' }
-    const tdIDClass = { width: '50%' }
-    const tdNameClass = { width: '25%' }
-    const tdGroupClass = { width: '25%' }
+    const columns = [{
+      dataField: 'name',
+      text: 'Template name',
+      sort: true,
+      formatter: this.linkFormatter,
+      headerStyle: { backgroundColor: '#F8F6EF', width: '25%' }
+    },
+    {
+      dataField: 'id',
+      text: 'ID',
+      sort: true,
+      headerStyle: { backgroundColor: '#F8F6EF', width: '50%' }
+    },
+    {
+      dataField: 'group',
+      text: 'Group',
+      sort: true,
+      headerStyle: { backgroundColor: '#F8F6EF', width: '25%' }
+    }]
 
     return(
       <div>
         { createResourceMessage }
         <h4>Available Resource Templates in Sinopia</h4>
-        <BootstrapTable keyField='key' data={ this.state.resourceTemplates } >
-          <TableHeaderColumn thStyle={ thNameClass } tdStyle={ tdNameClass } dataFormat={ this.linkFormatter } dataField='name' dataSort={true} >Template name</TableHeaderColumn>
-          <TableHeaderColumn thStyle={ thIDClass } tdStyle={ tdIDClass } dataField='id' dataSort={true} >ID</TableHeaderColumn>
-          <TableHeaderColumn thStyle={ thGroupClass } tdStyle={ tdGroupClass } dataField='group' dataSort={true} >Group</TableHeaderColumn>
-        </BootstrapTable>
+        <BootstrapTable keyField='key' data={ this.state.resourceTemplates } columns={ columns } />
       </div>
     )
   }

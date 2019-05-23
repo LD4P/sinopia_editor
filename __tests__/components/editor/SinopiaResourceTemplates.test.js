@@ -2,7 +2,7 @@
 
 import 'jsdom-global/register'
 import React from 'react'
-import { shallow } from 'enzyme'
+import { shallow, mount } from 'enzyme'
 import SinopiaResourceTemplates from '../../../src/components/editor/SinopiaResourceTemplates'
 import { getEntityTagFromGroupContainer, listResourcesInGroupContainer, getResourceTemplate } from '../../../src/sinopiaServer'
 
@@ -13,7 +13,7 @@ describe('<SinopiaResourceTemplates />', () => {
     'Created http://localhost:8080/repository/ld4p/Note/sinopia:resourceTemplate:bf2:Note1',
     'Created http://localhost:8080/repository/ld4p/Note/sinopia:resourceTemplate:bf2:Note2'
   ]
-  const wrapper = shallow(<SinopiaResourceTemplates message={message}/>)
+  const wrapper = mount(<SinopiaResourceTemplates message={message}/>)
 
   it('has a header for the area where the table of resource templates for the groups are displayed', () => {
     expect(wrapper.find('div > h4').last().text()).toEqual('Available Resource Templates in Sinopia')
@@ -270,10 +270,6 @@ describe('<SinopiaResourceTemplates />', () => {
     }
 
     const wrapper4 = shallow(<SinopiaResourceTemplates message={message}/>)
-
-    it('has the header columns for the table of linked resource templates', async () => {
-      await expect(wrapper4.find('BootstrapTable').find('TableHeaderColumn').length).toEqual(3)
-    })
 
     it('renders a link to the Editor with the id of the resource template to fetch', async () => {
       const link = await wrapper4.instance().linkFormatter(cell, row)
