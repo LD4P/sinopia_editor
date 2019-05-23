@@ -1,4 +1,6 @@
-import Config from './Config.js'
+// Copyright 2018 Stanford University see Apache2.txt for license
+
+import Config from './Config'
 import { AuthenticationDetails, CognitoUser, CognitoUserPool } from 'amazon-cognito-identity-js'
 
 class CognitoUtils {

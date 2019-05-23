@@ -1,3 +1,5 @@
+// Copyright 2018 Stanford University see Apache2.txt for license
+
 import Config from '../src/Config'
 
 const OLD_ENV = process.env

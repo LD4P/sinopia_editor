@@ -7,10 +7,9 @@ import { shallow } from 'enzyme'
 import ImportFileZone from '../../../src/components/editor/ImportFileZone'
 import ImportResourceTemplate from '../../../src/components/editor/ImportResourceTemplate'
 import SinopiaResourceTemplates from '../../../src/components/editor/SinopiaResourceTemplates'
+import { createResourceTemplate, updateResourceTemplate } from '../../../src/sinopiaServer'
 
-// Fake out the sinopia client
-import SinopiaClientErrorFake from '../../../__mocks__/SinopiaClientErrorFake'
-import SinopiaClientSuccessFake from '../../../__mocks__/SinopiaClientSuccessFake'
+jest.mock('../../../src/sinopiaServer')
 
 describe('<ImportResourceTemplate />', () => {
   let authenticationState = {
@@ -64,28 +63,24 @@ describe('<ImportResourceTemplate />', () => {
   })
 
   describe('createResource()', () => {
-    // TODO: may need to mock in the same way as e.g. SinopiaClientSuccessFake, per https://jestjs.io/docs/en/manual-mocks.html#mocking-user-modules
-    // incorrect mock approach may explay why below still tries to call out to cognitoUser.getSession, when the CognitoUtils wrapper that ultimately
-    // calls that should have been replaced by a simple mocked implementation (which returns a promise that resolves to a fake token).
-    // const tokenSpy = jest.spyOn(CognitoUtils, 'getIdTokenString')
-    //                   .mockImplementation(() => new Promise(function(resolve, _reject) { resolve('entirelyLegitIdToken') }))
-    // const tokenSpy = jest.spyOn(CognitoUtils, 'getIdTokenString').mockReturnValue(async () => 'entirelyLegitIdToken')
-    // const tokenSpy = jest.spyOn(CognitoUtils, 'getIdTokenString').mockImplementation(async () => 'entirelyLegitIdToken')
-
-    // afterAll(() => { tokenSpy.mockRestore() })
-
-    // TODO: will fix as part of #528 (or a ticket spawned by #528)
-    it.skip('returns response from sinopia client call when successful', async () => {
-      wrapper.instance().instance = new SinopiaClientSuccessFake()
+    it('returns response from sinopia client call when successful', async () => {
+      createResourceTemplate.mockImplementation(async () => {
+        return {
+          response: 'i am a response for a created object'
+        }
+      })
 
       const response = await wrapper.instance().createResource({ foo: 'bar'}, 'ld4p')
 
       expect(response).toEqual('i am a response for a created object')
     })
 
-    // TODO: will fix as part of #528 (or a ticket spawned by #528)
-    it.skip('returns error response and adds to state when client call fails', async () => {
-      wrapper.instance().instance = new SinopiaClientErrorFake()
+    it('returns error response and adds to state when client call fails', async () => {
+      createResourceTemplate.mockImplementation(async () => {
+        throw {
+          response: 'i am an error for a created object'
+        }
+      })
 
       const setStateSpy = jest.spyOn(wrapper.instance(), 'setState').mockReturnValue(null)
       const response = await wrapper.instance().createResource({ foo: 'bar'}, 'ld4p')
@@ -96,12 +91,16 @@ describe('<ImportResourceTemplate />', () => {
       })
     })
 
-    // TODO: test scenario where id token retrieval fails (e.g. expired refresh token)
+    // TODO: test scenario where id token retrieval fails (e.g. expired refresh token) for #528
   })
 
   describe('updateResource()', () => {
     it('returns response from sinopia client call when successful', async () => {
-      wrapper.instance().instance = new SinopiaClientSuccessFake()
+      updateResourceTemplate.mockImplementation(async () => {
+        return {
+          response: 'i am a response for an updated object'
+        }
+      })
 
       const response = await wrapper.instance().updateResource({ foo: 'bar'}, 'ld4p')
 
@@ -109,7 +108,11 @@ describe('<ImportResourceTemplate />', () => {
     })
 
     it('returns error response when client call fails', async () => {
-      wrapper.instance().instance = new SinopiaClientErrorFake()
+      updateResourceTemplate.mockImplementation(async () => {
+        throw {
+          response: 'i am an error for an updated object'
+        }
+      })
 
       const response = await wrapper.instance().updateResource({ foo: 'bar'}, 'ld4p')
 

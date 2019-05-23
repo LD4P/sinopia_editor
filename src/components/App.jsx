@@ -2,7 +2,7 @@
 
 import React, { Component } from 'react'
 import 'react-bootstrap-typeahead/css/Typeahead.css'
-import LoginPanel from './LoginPanel.jsx'
+import LoginPanel from './LoginPanel'
 import HomePage from './HomePage'
 import '../styles/main.css'
 import Editor from './editor/Editor'

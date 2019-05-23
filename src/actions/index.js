@@ -1,3 +1,5 @@
+// Copyright 2018 Stanford University see Apache2.txt for license
+
 export const setItems = item => ({
   type: 'SET_ITEMS',
   payload: item

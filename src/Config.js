@@ -1,5 +1,6 @@
-class Config {
+// Copyright 2018 Stanford University see Apache2.txt for license
 
+class Config {
   static get defaultSinopiaGroupId() {
     return process.env.SINOPIA_GROUP || 'ld4p'
   }

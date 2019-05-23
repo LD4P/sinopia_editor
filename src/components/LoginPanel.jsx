@@ -2,8 +2,8 @@
 
 import React, {Component} from 'react'
 import PropTypes from 'prop-types'
-import Config from '../Config.js'
-import CognitoUtils from '../CognitoUtils.js'
+import Config from '../Config'
+import CognitoUtils from '../CognitoUtils'
 import { connect } from 'react-redux'
 import { authenticationFailure, authenticationSuccess, signOutSuccess } from '../actions/index'
 
