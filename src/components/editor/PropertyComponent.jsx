@@ -19,13 +19,13 @@ export class PropertyComponent extends Component {
   inputComponentType = (property) => {
     let config, result
 
+    // We do not support mixed list and lookups, so we will just go with the value of the first config item found
     try {
       config = this.state.configuration[0].component
     } catch {
       // ignore undefined configuration
     }
 
-    // We do not support mixed list and lookups, so we will just go with the value of the first config item found
     switch(config) {
       case "lookup":
         result = (<InputLookupQA key = {this.props.index} rtId = {this.props.rtId}
@@ -68,26 +68,20 @@ export const getLookupConfigItems = (property) => {
   const templateConfigItems = []
 
   if (_.find([property], 'valueConstraint.useValuesFrom')) {
-    property.valueConstraint.useValuesFrom.forEach(templateUri => {
-      const configItem = getLookupConfigForTemplateUri(templateUri)
-      templateConfigItems.push(configItem)
+    property.valueConstraint.useValuesFrom.map(templateUri => {
+      lookupConfig.map(configItem => {
+        if (configItem.uri === templateUri) {
+          templateConfigItems.push(configItem)
+        }
+      })
     })
   }
+
   return templateConfigItems
 }
 
-export const getLookupConfigForTemplateUri = (templateUri) => {
-  let returnConfigItem = {}
-  lookupConfig.forEach(configItem => {
-    if (configItem.uri === templateUri) {
-      returnConfigItem = configItem
-    }
-  })
-  return returnConfigItem
-}
-
 PropertyComponent.propTypes = {
-  propertyTemplate: PropTypes.object,
+  propertyTemplate: PropTypes.array,
   rtId: PropTypes.string,
   index: PropTypes.number
 }
