@@ -118,8 +118,7 @@ class SinopiaResourceTemplates extends Component {
       )
     }
 
-    let createResourceMessage = <div className="alert alert-info alert-dismissible">
-      <button className="close" data-dismiss="alert" aria-label="close">&times;</button>
+    let createResourceMessage = <div className="alert alert-info">
       { this.props.message.join(', ') }
     </div>;
 

@@ -85,18 +85,37 @@ class ImportResourceTemplate extends Component {
   updateStateFromServerResponse = (response, profileCount, updateKey) => {
     // HTTP status 409 == Conflict
     const showModal = response.status === 409 && this.state.createResourceError.length >= profileCount
-
-    const location = response.headers.location || ''
-    const newMessage = `${this.humanReadableStatus(response.status)} ${location}`
-    const newState = {
-      message: [...this.state.message, newMessage],
-      updateKey: updateKey
-    }
+    const newMessage = `${this.humanReadableStatus(response.status)} ${this.humanReadableLocation(response)}`
+    const newState = { updateKey: updateKey }
 
     if (showModal)
       newState.modalShow = true
 
+    if (response.ok) {
+      // Wipe out past messages and errors if response was successful
+      newState.createResourceError = []
+      newState.message = [newMessage]
+    } else {
+      newState.message = [...this.state.message, newMessage]
+    }
+
     this.setState(newState)
+  }
+
+  // Returns a URL or an empty string
+  humanReadableLocation = response => {
+    if (response?.headers?.location)
+      return response.headers.location
+
+    if (response?.req?._data?.id) {
+      // If the request URL already contains the ID, don't bother appending
+      if (response.req.url.endsWith(response.req._data.id))
+        return response.req.url
+      return `${response.req.url}/${response.req._data.id}`
+    }
+
+    // Welp, we tried anyway
+    return ''
   }
 
   humanReadableStatus = status => {
@@ -120,6 +139,9 @@ class ImportResourceTemplate extends Component {
       const incrementedKey = this.state.updateKey + 1
       // The 0 is the profileCount which is only used for tracking create errors
       this.updateStateFromServerResponse(response, 0, incrementedKey)
+    })
+    this.setState({
+      message: []
     })
     this.modalClose()
   }

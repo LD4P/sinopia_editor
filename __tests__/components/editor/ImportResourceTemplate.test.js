@@ -124,10 +124,11 @@ describe('<ImportResourceTemplate />', () => {
 
       expect(wrapper.state().message).toEqual([])
 
-      wrapper.instance().updateStateFromServerResponse({ status: 200, headers: {} })
+      wrapper.instance().updateStateFromServerResponse({ status: 200, headers: {} }, 0)
 
       expect(wrapper.state().message).toEqual(['Unexpected response (200)! '])
     })
+
     it('sets modalShow to true when receiving HTTP 409 and errors >= profileCount', () => {
       // Set new wrapper in each of these tests because we are changing state
       wrapper = shallow(<ImportResourceTemplate.WrappedComponent authenticationState={authenticationState}/>)
@@ -135,17 +136,93 @@ describe('<ImportResourceTemplate />', () => {
       expect(wrapper.state().modalShow).toBe(false)
 
       wrapper.instance().updateStateFromServerResponse({ status: 409 , headers: {} }, 0)
+
       expect(wrapper.state().modalShow).toBe(true)
     })
+
     it('sets message in state with any create operation not resulting in HTTP 409', () => {
       // Set new wrapper in each of these tests because we are changing state
       wrapper = shallow(<ImportResourceTemplate.WrappedComponent authenticationState={authenticationState}/>)
 
       expect(wrapper.state().message).toEqual([])
 
-      wrapper.instance().updateStateFromServerResponse({ status: 201 , headers: { location: 'http://foo.bar' } })
+      wrapper.instance().updateStateFromServerResponse({ status: 201 , headers: { location: 'http://sinopia.io/repository/ld4p/myResourceTemplate' } }, 0)
 
-      expect(wrapper.state().message).toEqual(['Created http://foo.bar'])
+      expect(wrapper.state().message).toEqual(['Created http://sinopia.io/repository/ld4p/myResourceTemplate'])
+    })
+
+    it('resets createResourceError and message in component state when response is OK', () => {
+      // Set new wrapper in each of these tests because we are changing state
+      wrapper = shallow(<ImportResourceTemplate.WrappedComponent authenticationState={authenticationState}/>)
+
+      wrapper.setState({ createResourceError: ['Could not update resource!'], message: ['Updated http://sinopia.io/repository/ld4p/myResourceTemplate'] })
+      expect(wrapper.state().createResourceError).toEqual(['Could not update resource!'])
+      expect(wrapper.state().message).toEqual(['Updated http://sinopia.io/repository/ld4p/myResourceTemplate'])
+
+      wrapper.instance().updateStateFromServerResponse({ ok: true, status: 204 }, 0)
+
+      expect(wrapper.state().createResourceError).toEqual([])
+      expect(wrapper.state().message).toEqual(['Updated '])
+    })
+
+    it('leaves createResourceError alone and appends message in component state when response is not OK', () => {
+      // Set new wrapper in each of these tests because we are changing state
+      wrapper = shallow(<ImportResourceTemplate.WrappedComponent authenticationState={authenticationState}/>)
+
+      wrapper.setState({ createResourceError: ['Could not update resource!'], message: ['Updated http://sinopia.io/repository/ld4p/myResourceTemplate'] })
+      expect(wrapper.state().createResourceError).toEqual(['Could not update resource!'])
+      expect(wrapper.state().message).toEqual(['Updated http://sinopia.io/repository/ld4p/myResourceTemplate'])
+
+      wrapper.instance().updateStateFromServerResponse({ ok: false, status: 400 }, 0)
+
+      expect(wrapper.state().createResourceError).toEqual(['Could not update resource!'])
+      expect(wrapper.state().message).toEqual(['Updated http://sinopia.io/repository/ld4p/myResourceTemplate', 'Unexpected response (400)! '])
+    })
+  })
+
+  describe('humanReadableLocation()', () => {
+    it('returns human-readable label when Location header exists', () => {
+      const response = {
+        headers: {
+          location: 'http://sinopia.io/repository/ld4p/myResourceTemplate'
+        },
+        req: {
+          url: 'http://sinopia.io/repository/ld4p',
+          _data: {
+            id: 'myResourceTemplate'
+          }
+        }
+      }
+      expect(wrapper.instance().humanReadableLocation(response)).toEqual('http://sinopia.io/repository/ld4p/myResourceTemplate')
+    })
+
+    it('returns human-readable label when data ID exists', () => {
+      const response = {
+        req: {
+          url: 'http://sinopia.io/repository/ld4p',
+          _data: {
+            id: 'myResourceTemplate'
+          }
+        }
+      }
+      expect(wrapper.instance().humanReadableLocation(response)).toEqual('http://sinopia.io/repository/ld4p/myResourceTemplate')
+    })
+
+    it('returns human-readable label when request URL already includes data ID', () => {
+      const response = {
+        req: {
+          url: 'http://sinopia.io/repository/ld4p/myResourceTemplate',
+          _data: {
+            id: 'myResourceTemplate'
+          }
+        }
+      }
+      expect(wrapper.instance().humanReadableLocation(response)).toEqual('http://sinopia.io/repository/ld4p/myResourceTemplate')
+    })
+
+    it('returns an empty label otherwise', () => {
+      const response = undefined
+      expect(wrapper.instance().humanReadableLocation(response)).toEqual('')
     })
   })
 
@@ -153,15 +230,19 @@ describe('<ImportResourceTemplate />', () => {
     it('returns human-readable label for HTTP 201', () => {
       expect(wrapper.instance().humanReadableStatus(201)).toEqual('Created')
     })
+
     it('returns human-readable label for HTTP 204', () => {
       expect(wrapper.instance().humanReadableStatus(204)).toEqual('Updated')
     })
+
     it('returns human-readable label for HTTP 401', () => {
       expect(wrapper.instance().humanReadableStatus(401)).toEqual('You are not authorized to do this. Try logging in again!')
     })
+
     it('returns human-readable label for HTTP 409', () => {
       expect(wrapper.instance().humanReadableStatus(409)).toEqual('Attempting to update')
     })
+
     it('returns human-readable label for any other HTTP status', () => {
       expect(wrapper.instance().humanReadableStatus(400)).toEqual('Unexpected response (400)!')
     })
@@ -181,11 +262,13 @@ describe('<ImportResourceTemplate />', () => {
       const updateResourceSpy = jest.spyOn(wrapper.instance(), 'updateResource').mockImplementation(async () => {})
       const updateStateSpy = jest.spyOn(wrapper.instance(), 'updateStateFromServerResponse').mockReturnValue(null)
       const modalCloseSpy = jest.spyOn(wrapper.instance(), 'modalClose').mockReturnValue(null)
+      const setStateSpy = jest.spyOn(wrapper.instance(), 'setState').mockReturnValue(null)
 
       await wrapper.instance().handleUpdateResource(templates, 'ld4p')
 
       expect(updateResourceSpy).toHaveBeenCalledTimes(2)
       expect(updateStateSpy).toHaveBeenCalledTimes(2)
+      expect(setStateSpy).toHaveBeenNthCalledWith(1, { message: [] })
       expect(modalCloseSpy).toHaveBeenCalledTimes(1)
     })
   })
