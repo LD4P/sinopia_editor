@@ -30,12 +30,36 @@ describe('<MintButton />', () => {
 })
 
 describe('<PropertyActionButtons />', () => {
-  const propertyActionWrapper = shallow(<PropertyActionButtons />)
+  const mockAddClick = jest.fn()
+  const mockMintClick = jest.fn()
+  const propertyActionWrapper = shallow(<PropertyActionButtons handleMintUri={mockMintClick} handleAddClick={mockAddClick}/>)
 
-  it('contains AddButton', () => {
-    expect(propertyActionWrapper.find(AddButton)).toBeTruthy()
+  describe('Add Button', () => {
+    const addButton = propertyActionWrapper.find(AddButton)
+
+    it('contains AddButton', () => {
+      expect(addButton).toBeTruthy()
+    })
+
+    it('Add button responds when clicked', () => {
+      addButton.simulate('click')
+      expect(mockAddClick).toHaveBeenCalledTimes(1)
+    })
+
   })
-  it('contains MintButton', () => {
-    expect(propertyActionWrapper.find(MintButton)).toBeTruthy()
+
+  describe('Mint Button', () => {
+    const mintButton = propertyActionWrapper.find(MintButton)
+
+    it('contains MintButton', () => {
+      expect(mintButton).toBeTruthy()
+    })
+
+    it('Mint button responds when clicked', () => {
+      mintButton.simulate('click')
+      expect(mockMintClick).toHaveBeenCalledTimes(1)
+    })
+
   })
+
 })

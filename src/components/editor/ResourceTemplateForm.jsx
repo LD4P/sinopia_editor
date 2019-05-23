@@ -4,15 +4,12 @@ import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import PropTypes from 'prop-types'
 import shortid from 'shortid'
-import InputLiteral from './InputLiteral'
-import InputListLOC from './InputListLOC'
-import InputLookupQA from './InputLookupQA'
 import PropertyPanel from './PropertyPanel'
 import PropertyResourceTemplate from './PropertyResourceTemplate'
-import lookupConfig from '../../../static/spoofedFilesFromServer/fromSinopiaServer/lookupConfig.json'
+import PropertyComponent from './PropertyComponent'
 import { getLD, setItems, removeAllContent } from '../../actions/index'
 import { getResourceTemplate } from '../../sinopiaServer'
-import { resourceToName } from "../../Utilities";
+import { isResourceWithValueTemplateRef, resourceToName } from "../../Utilities";
 const N3 = require('n3')
 const { DataFactory } = N3
 const { blankNode } = DataFactory
@@ -36,7 +33,7 @@ export class ResourceTemplateForm extends Component {
   }
 
   componentDidMount() {
-    this.fulfillRTPromises(this.resourceTemplatePromises(this.joinedRTs())).then(() => {
+    this.fulfillRTPromises(this.resourceTemplatePromise(this.joinedRTs())).then(() => {
       this.setState({
         componentForm: (
           this.renderComponentForm()
@@ -81,7 +78,7 @@ export class ResourceTemplateForm extends Component {
     return rtProperties
   }
 
-  resourceTemplatePromises = async (templateRefs) => {
+  resourceTemplatePromise = async (templateRefs) => {
     return Promise.all(templateRefs.map(rtId =>
       getResourceTemplate(rtId).catch(err => {
         const joinedErrorUrls = [...this.state.templateErrors]
@@ -115,69 +112,8 @@ export class ResourceTemplateForm extends Component {
     return blankNode()
   }
 
-
-
   rtForPt = (rtId) => {
     return _.find(this.state.nestedResourceTemplates, ['id', rtId])
-  }
-
-  isResourceWithValueTemplateRef = ( pt ) => {
-    return Boolean(
-      pt.type === 'resource' &&
-      pt.valueConstraint != null &&
-      pt.valueConstraint.valueTemplateRefs != null &&
-      pt.valueConstraint.valueTemplateRefs.length > 0
-    )
-  }
-
-  configuredComponent = (pt, index) => {
-    let lookupConfigItem, templateUri, listComponent, result
-
-    if (_.find([pt], 'valueConstraint.useValuesFrom')) {
-      templateUri = pt.valueConstraint.useValuesFrom[0]
-    }
-
-    for(var i in lookupConfig){
-      lookupConfigItem = Object.getOwnPropertyDescriptor(lookupConfig, i)
-      if(lookupConfigItem.value.uri === templateUri){
-        listComponent = lookupConfigItem.value.component
-        break
-      }
-    }
-
-    if (listComponent === 'list'){
-      result = (
-        <PropertyPanel pt={pt} key={index} float={index} rtId={this.props.rtId}>
-          <InputListLOC key = {index} propertyTemplate = {pt}
-                        lookupConfig = {lookupConfigItem}
-                        reduxPath={[this.props.rtId, pt.propertyURI]} />
-        </PropertyPanel>
-      )
-    } else if (listComponent ===  'lookup'){
-      result = (
-        <PropertyPanel pt={pt} key={index} float={index} rtId={this.props.rtId}>
-          <InputLookupQA propertyTemplate = {pt} lookupConfig = {lookupConfigItem} key = {index} rtId = {this.props.rtId} />
-        </PropertyPanel>
-      )
-    } else result = false
-
-    return result
-  }
-
-  renderValueForButton(buttonValue, buttonIndex) {
-    if (buttonValue != undefined) {
-      return (
-        <div className="btn-group btn-group-xs">
-          <button type="button" className="btn btn-sm btn-default">{buttonValue}</button>
-          <button disabled className="btn btn-warning" type="button">
-            <span className="glyphicon glyphicon-pencil"/>
-          </button>
-          <button className="btn btn-danger" type="button" onClick={() => this.handleTrashValue(buttonIndex)}>
-            <span className="glyphicon glyphicon-trash"/>
-          </button>
-        </div>
-      )
-    }
   }
 
   renderComponentForm = () => (
@@ -186,31 +122,18 @@ export class ResourceTemplateForm extends Component {
         <div className='ResourceTemplateForm row'>
           { this.props.propertyTemplates.map((pt, index) => {
 
-              const configuredComponentType = this.configuredComponent(pt, index)
-
-              if (configuredComponentType) {
-                return configuredComponentType
-              }
-              else if(pt.type == 'literal'){
-                return(
-                  <PropertyPanel pt={pt} key={index} float={index} rtId={this.props.rtId}>
-                    <InputLiteral key={index} id={index}
-                                  propertyTemplate={pt}
-                                  rtId={this.props.rtId}
-                                  reduxPath={[this.props.rtId, pt.propertyURI]} />
-                  </PropertyPanel>
-                )
-              }  else if (this.isResourceWithValueTemplateRef(pt)) {
-                let valueForButton
+              if (isResourceWithValueTemplateRef(pt)) {
                 return (
                   <PropertyPanel pt={pt} key={index} float={index} rtId={this.props.rtId}>
                     {this.resourceTemplateFields(pt.valueConstraint.valueTemplateRefs, pt.propertyURI)}
-                    {this.renderValueForButton(valueForButton, index)}
                   </PropertyPanel>
                 )
-              }
-              else if (pt.type == 'resource'){
-                return (<p key={index}><b>{pt.propertyLabel}</b>: <i>NON-modal resource</i></p>)
+              } else {
+                return (
+                  <PropertyPanel pt={pt} key={index} float={index} rtId={this.props.rtId}>
+                    <PropertyComponent index={index} rtId={this.props.rtId} propertyTemplate={pt} />
+                  </PropertyPanel>
+                )
               }
             }
           )
@@ -244,10 +167,6 @@ ResourceTemplateForm.propTypes = {
   propertyTemplates: PropTypes.arrayOf( PropTypes.object ).isRequired,
   resourceTemplate: PropTypes.object.isRequired,
   rtId: PropTypes.string,
-  parentResourceTemplate: PropTypes.string,
-  rdfOuterSubject: PropTypes.object,
-  propPredicate: PropTypes.string,
-  buttonID: PropTypes.number,
   handleMyItemsChange: PropTypes.func,
   handleRemoveAllContent: PropTypes.func
 }
