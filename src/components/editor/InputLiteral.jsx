@@ -9,7 +9,7 @@ import InputLang from './InputLang'
 import Modal from 'react-bootstrap/lib/Modal'
 import Button from 'react-bootstrap/lib/Button'
 import shortid from 'shortid'
-import store from '../../store.js'
+import store from '../../store'
 
 // Redux recommends exporting the unconnected component for unit tests.
 export class InputLiteral extends Component {

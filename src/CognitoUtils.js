@@ -1,4 +1,4 @@
-import Config from './Config.js'
+import Config from './Config'
 import { AuthenticationDetails, CognitoUser, CognitoUserPool } from 'amazon-cognito-identity-js'
 
 class CognitoUtils {

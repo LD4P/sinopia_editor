@@ -1,14 +1,12 @@
 // Copyright 2018 Stanford University see Apache2.txt for license
 
-import SinopiaServer from 'sinopia_server'
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 import Header from './Header'
 import ImportFileZone from './ImportFileZone'
 import SinopiaResourceTemplates from './SinopiaResourceTemplates'
 import UpdateResourceModal from './UpdateResourceModal'
-import Config from '../../../src/Config'
-import CognitoUtils from '../../../src/CognitoUtils'
+import { createResourceTemplate, updateResourceTemplate } from '../../sinopiaServer'
 import { connect } from 'react-redux'
 
 class ImportResourceTemplate extends Component {
@@ -20,9 +18,6 @@ class ImportResourceTemplate extends Component {
       updateKey: 0,
       modalShow: false
     }
-    // Moving this into the constructor makes it easier to stub in tests
-    this.instance = new SinopiaServer.LDPApi()
-    this.instance.apiClient.basePath = Config.sinopiaServerBase
   }
 
   componentDidMount() {
@@ -49,21 +44,7 @@ class ImportResourceTemplate extends Component {
 
   createResource = async (content, group) => {
     try {
-      // first, make sure the client instance has a valid JWT id token set
-      await CognitoUtils.getIdTokenString(this.props.authenticationState.currentUser)
-              .then((idToken) => this.instance.apiClient.authentications['CognitoUser'].accessToken = idToken)
-    } catch(error) {
-      // TODO: add auth-related error handling similar to the catch on the createResourceWithHttpInfo try below, e.g.
-      // * display a warning that the operation failed due to error with current session
-      //   * add action and reducer for session expired, have LoginPanel display specific err msg.  reducer should clear session (and
-      //     user as needed) so the login panel goes back to the not logged in state.  highlight LoginPanel or something too (along w/ the err msg).
-      //   * user logs in via login panel again.  app state now has a valid cognito user with a valid session.
-      //   * user tries to do this action again, now that they have a valid sesison, hopefully succeeds.
-      return error
-    }
-
-    try {
-      const response = await this.instance.createResourceWithHttpInfo(group, content, { slug: content.id, contentType: 'application/json' })
+      const response = await createResourceTemplate(content, group, this.props.authenticationState)
       return response.response
     } catch(error) {
       this.setState({
@@ -75,7 +56,7 @@ class ImportResourceTemplate extends Component {
 
   updateResource = async (content, group) => {
     try {
-      const response = await this.instance.updateResourceWithHttpInfo(group, content.id, content, { contentType: 'application/json' })
+      const response = await updateResourceTemplate(content, group, this.props.authenticationState)
       return response.response
     } catch(error) {
       return error.response
