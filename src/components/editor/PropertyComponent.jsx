@@ -28,7 +28,7 @@ export class PropertyComponent extends Component {
 
     switch(config) {
       case "lookup":
-        result = (<InputLookupQA key = {this.props.index} rtId = {this.props.rtId}
+        result = (<InputLookupQA key = {this.props.index} rtId = {this.props.rtId} reduxPath={[this.props.rtId, property.propertyURI]}
                                  propertyTemplate = {property} lookupConfig = {this.state.configuration} />)
         break
       case "list":
@@ -81,7 +81,15 @@ export const getLookupConfigItems = (property) => {
 }
 
 PropertyComponent.propTypes = {
-  propertyTemplate: PropTypes.array,
+  propertyTemplate: PropTypes.shape({
+    propertyLabel: PropTypes.string,
+    propertyURI: PropTypes.string,
+    mandatory: PropTypes.oneOfType([ PropTypes.string, PropTypes.bool]),
+    repeatable: PropTypes.oneOfType([ PropTypes.string, PropTypes.bool]),
+    valueConstraint: PropTypes.shape({
+      useValuesFrom: PropTypes.oneOfType([ PropTypes.string, PropTypes.array])
+    })
+  }).isRequired,
   rtId: PropTypes.string,
   index: PropTypes.number
 }

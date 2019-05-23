@@ -54,7 +54,7 @@ class InputListLOC extends Component {
     try {
       isMandatory = JSON.parse(this.props.propertyTemplate.mandatory)
       isRepeatable = JSON.parse(this.props.propertyTemplate.valueConstraint.repeatable)
-      lookupUri = this.props.lookupConfig.value.uri
+      lookupUri = this.props.lookupConfig.uri
     } catch (error) {
       console.error(`Some properties were not defined in the json file: ${error}`)
     }
