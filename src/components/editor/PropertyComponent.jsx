@@ -54,9 +54,9 @@ export class PropertyComponent extends Component {
   render() {
     if (this.inputComponentType) {
       return(
-        <div>
+        <React.Fragment>
           { this.inputComponentType(this.props.propertyTemplate) }
-        </div>
+        </React.Fragment>
       )
     } else {
       return false
