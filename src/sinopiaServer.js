@@ -1,3 +1,5 @@
+// Copyright 2018 Stanford University see Apache2.txt for license
+
 import SinopiaServer from 'sinopia_server'
 import CognitoUtils from './CognitoUtils'
 import Config from './Config'

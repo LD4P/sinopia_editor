@@ -1,3 +1,5 @@
+// Copyright 2018 Stanford University see Apache2.txt for license
+
 import lookups from '../../src/reducers/lookups'
 
 describe('changing the reducer state', () => {

@@ -1,3 +1,5 @@
+// Copyright 2018 Stanford University see Apache2.txt for license
+
 const mockAWSHeader = {
   "kid":"x24+y25+z26",
   "alg":"RS256"

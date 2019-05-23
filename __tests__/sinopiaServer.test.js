@@ -1,3 +1,5 @@
+// Copyright 2018 Stanford University see Apache2.txt for license
+
 import Config from '../src/Config'
 import { getResourceTemplate } from '../src/sinopiaServer'
 

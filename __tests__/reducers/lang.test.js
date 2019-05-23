@@ -1,3 +1,5 @@
+// Copyright 2018 Stanford University see Apache2.txt for license
+
 import lang from '../../src/reducers/lang'
 
 describe('changing the reducer state', () => {
@@ -34,7 +36,7 @@ describe('changing the reducer state', () => {
       })
     ).toEqual({
       "formData": [
-        {"id": "Run the tests", "items": [ item_two ]}      
+        {"id": "Run the tests", "items": [ item_two ]}
       ]
     })
 

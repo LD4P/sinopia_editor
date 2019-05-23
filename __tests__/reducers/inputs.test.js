@@ -1,3 +1,5 @@
+// Copyright 2018 Stanford University see Apache2.txt for license
+
 import { removeAllContent, removeMyItem, setMyItems, setMySelections } from '../../src/reducers/inputs'
 
 describe('literal reducer functions', () => {
