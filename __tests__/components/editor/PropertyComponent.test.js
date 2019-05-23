@@ -8,7 +8,7 @@ describe('<PropertyComponent />', () => {
 
   describe('sets the configuration state based on values from the property template', () => {
 
-    describe('for templates configured as list', () => {
+    describe('for property templates configured as list', () => {
       const template = {
         "propertyURI": "http://id.loc.gov/ontologies/bibframe/issuance",
         "type": "resource",
@@ -50,7 +50,7 @@ describe('<PropertyComponent />', () => {
 
       const wrapper = shallow(<PropertyComponent propertyTemplate={template} />)
 
-      it('should find a configuration object in the lookup config', () => {
+      it('finds a configuration object in the lookup config', () => {
         expect(typeof wrapper.state('configuration')).toEqual("object")
         expect(wrapper.state('configuration').length).toEqual(2)
       })
@@ -59,7 +59,7 @@ describe('<PropertyComponent />', () => {
         expect(wrapper.state('configuration')[0].component).toEqual('lookup')
       })
 
-      it('it renders the lookup component', () => {
+      it('renders the lookup component', () => {
         expect(wrapper.find('Connect(InputLookupQA)').length).toEqual(1)
       })
 
@@ -76,11 +76,11 @@ describe('<PropertyComponent />', () => {
 
       const wrapper = shallow(<PropertyComponent propertyTemplate={template} />)
 
-      it('the config will be undefined', () => {
+      it('will return an empty array', () => {
         expect(wrapper.state('configuration').length).toEqual(0)
       })
 
-      it('it will check for a property type of literal and render InputLiteral component', () => {
+      it('renders an InputLiteral component', () => {
         expect(wrapper.find('Connect(InputLiteral)').length).toEqual(1)
       })
 

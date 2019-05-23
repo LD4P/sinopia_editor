@@ -78,7 +78,7 @@ describe('<PropertyTemplateOutline />', () => {
     expect(wrapper.find('OutlineHeader div').text().trim()).toEqual("Notes about the Instance")
   })
 
-  it('outline header anchor has an ID based on the property template prpoertyURI', () => {
+  it('outline header anchor has an ID based on the property template propertyURI', () => {
     expect(wrapper.find('OutlineHeader').prop('id')).toEqual("note")
   })
 
