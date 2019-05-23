@@ -5,7 +5,7 @@ const OLD_ENV = process.env
 describe('Config', () => {
   describe('static default values', () => {
     it('sinopia has a default schema version', () => {
-      expect(Config.defaultProfileSchemaVersion).toEqual('0.0.2')
+      expect(Config.defaultProfileSchemaVersion).toEqual('0.0.3')
     })
 
     it('sinopia domain name has static value', () => {
