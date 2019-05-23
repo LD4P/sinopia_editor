@@ -44,7 +44,7 @@ describe('<PropertyResourceTemplate />', () => {
 
   it('<PropertyTemplateOutline /> has the expected Redux path', () => {
     expect(propTemplateOutline.props().reduxPath).toEqual(
-      ['resourceTemplate:test', 'http://schema.org/description', 'abcd45']
+      ['resourceTemplate:test', 'abcd45']
     )
   })
 
