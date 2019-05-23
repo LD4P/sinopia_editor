@@ -158,7 +158,7 @@ class InputLookupQA extends Component {
                         let payload = {
                             uri: this.props.propertyTemplate.propertyURI,
                             items: selected,
-                            rtId: this.props.rtId
+                            reduxPath: this.props.reduxPath
                         }
                         this.props.handleSelectedChange( payload )
                     }
