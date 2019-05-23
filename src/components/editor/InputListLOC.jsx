@@ -36,7 +36,7 @@ class InputListLOC extends Component {
     let payload = {
       id: this.props.propertyTemplate.propertyURI,
       items: items,
-      reduxPath: this.props.reduxPath,
+      reduxPath: this.props.reduxPath
     }
     this.props.handleSelectedChange(payload)
   }
