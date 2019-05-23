@@ -64,6 +64,17 @@ The express server is available on at [http://localhost:8000](http://localhost:8
 Tests are written in jest, also utilizing puppeteer for end-to-end tests.
 To run them `npm test`.
 
+To run the tests, you'll have to provide a couple environment variables, so that the tests have valid user info with which to login.  The env vars are:
+```sh
+COGNITO_TEST_USER_NAME='sinopia-devs+client-tester@lists.stanford.edu' # a test user we have on dev and stage
+COGNITO_TEST_USER_PASS='<get this from shared_configs or another developer>' # not committing the real value to a public repo
+```
+
+e.g.
+```sh
+COGNITO_TEST_USER_NAME='sinopia-devs+client-tester@lists.stanford.edu' COGNITO_TEST_USER_PASS='theActualPassword' npm run jest-cov
+```
+
 #### Test coverage
 To get coverage data, `npm run jest-cov`.  Use a web browser to open `coverage/lcov-report/index.html`.  There is a project view and also a view of each file.  You can also check [coveralls](https://coveralls.io/repos/github/LD4P/sinopia_editor).
 
@@ -109,6 +120,18 @@ $ docker-compose up platformdata # add the '-d' flag to daemonize and run in bac
 
 Before building the latest Docker Image, run `npm run build` to update the `dist` folder with the current build.
 To build the latest version of the [Sinopia Editor][GIT_REPO], you can build with the `docker build -t ld4p/sinopia_editor:latest --no-cache=true .` command. **NOTE** that images tagged with `latest` will not be deployed to any of our AWS environments. See below for how to build and deploy images
+
+#### Important Docker Image Build Note
+
+If you add environment variables to which the Editor needs to pay attention (e.g. for configuring connections to Cognito or other external services on a per-instance basis), you'll need to make sure they're added to lists in three places besides e.g. the `Config.js` function that uses the environment variable.
+* the list given to `new webpack.EnvironmentPlugin()` in the `plugins` section of `webpack.config.js`
+  * e.g. https://github.com/LD4P/sinopia_editor/commit/aadd9d6170b08ff9261392d5b2ec2c6f56470e20#diff-11e9f7f953edc64ba14b0cc350ae7b9dR58
+* the build-time arguments section of `Dockerfile`
+  * e.g. https://github.com/LD4P/sinopia_editor/commit/aadd9d6170b08ff9261392d5b2ec2c6f56470e20#diff-3254677a7917c6c01f55212f86c57fbfR10
+* the env specific `docker build` commands in the `register_image` section of `.circleci/config.yml`
+  * e.g. https://github.com/LD4P/sinopia_editor/commit/1d3e381cb0f937300242cf896f62c2508e4a57e2#diff-1d37e48f9ceff6d8030570cd36286a61R63
+
+All three of those locations must have the environment variable name added correctly.  If the webpack configuration change is omitted, the environment variable value will not be picked up by the editor, even when running locally on a dev laptop.  If either of the other two changes is omitted, the environment variable value will not make it into the environment specific images that are built and deployed.
 
 ### Pushing Docker Image to DockerHub
 

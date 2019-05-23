@@ -55,7 +55,8 @@ module.exports = {
         'SINOPIA_GROUP',
         'SINOPIA_URI',
         'AWS_COGNITO_DOMAIN',
-        'COGNITO_CLIENT_ID'
+        'COGNITO_CLIENT_ID',
+        'COGNITO_USER_POOL_ID'
       ]
     )
   ],
