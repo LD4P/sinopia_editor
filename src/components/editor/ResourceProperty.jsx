@@ -66,9 +66,9 @@ ResourceProperty.propTypes = {
   handleAddClick: PropTypes.func,
   handleMintUri: PropTypes.func,
   initNewResourceTemplate: PropTypes.func,
-  nestedResourceTemplates: PropTypes.object,
+  nestedResourceTemplates: PropTypes.array,
   propertyTemplate: PropTypes.object,
-  reduxPath: PropTypes.object,
+  reduxPath: PropTypes.array,
   rtReduxPath: PropTypes.object
 }
 const mapDispatchToProps = dispatch => ({
