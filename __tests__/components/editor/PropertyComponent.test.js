@@ -31,7 +31,7 @@ describe('<PropertyComponent />', () => {
       })
 
       it('it renders the list component', () => {
-        expect(wrapper.find('div Connect(InputListLOC)').length).toEqual(1)
+        expect(wrapper.find('Connect(InputListLOC)').length).toEqual(1)
       })
 
     })
@@ -60,7 +60,7 @@ describe('<PropertyComponent />', () => {
       })
 
       it('it renders the lookup component', () => {
-        expect(wrapper.find('div Connect(InputLookupQA)').length).toEqual(1)
+        expect(wrapper.find('Connect(InputLookupQA)').length).toEqual(1)
       })
 
     })
@@ -81,7 +81,7 @@ describe('<PropertyComponent />', () => {
       })
 
       it('it will check for a property type of literal and render InputLiteral component', () => {
-        expect(wrapper.find('div Connect(InputLiteral)').length).toEqual(1)
+        expect(wrapper.find('Connect(InputLiteral)').length).toEqual(1)
       })
 
     })
@@ -99,10 +99,9 @@ describe('<PropertyComponent />', () => {
       }
 
       const wrapper = shallow(<PropertyComponent propertyTemplate={template} />)
-      expect(wrapper.find('div Connect(InputListLOC)').length).toEqual(0)
-      expect(wrapper.find('div Connect(InputLookupQA)').length).toEqual(0)
-      expect(wrapper.find('div Connect(InputLiteral)').length).toEqual(0)
-      expect(wrapper.find('div').length).toEqual(1)
+      expect(wrapper.find('Connect(InputListLOC)').length).toEqual(0)
+      expect(wrapper.find('Connect(InputLookupQA)').length).toEqual(0)
+      expect(wrapper.find('Connect(InputLiteral)').length).toEqual(0)
     })
   })
 
