@@ -16,7 +16,9 @@
     "Jeremy Nelson",
     "Joshua Greben",
     "Naomi Dushay",
-    "Sarav Shah"
+    "Sarav Shah",
+    "Johnathan Martin",
+    "Michael Giarlo"
   ],
   "devDependencies": {
     "@babel/core": "^7.4.3",
