@@ -59,7 +59,7 @@ describe('<ImportFileZone />', () => {
       let template, schemaUrl
 
       it('gets the schemaUrl from the resource-template', () => {
-        template = require('../../__fixtures__/lcc_v0.0.3_no_schema_specified.json')
+        template = require('../../__fixtures__/lcc_no_schema_specified.json')
         schemaUrl = wrapper.instance().schemaUrl(template)
         expect(schemaUrl).toEqual(`https://ld4p.github.io/sinopia/schemas/${Config.defaultProfileSchemaVersion}/resource-template.json`)
       })
@@ -70,7 +70,7 @@ describe('<ImportFileZone />', () => {
       })
 
       it('gets the schemaUrl from the profile', () => {
-        template = require('../../__fixtures__/place_profile_v0.0.3_no_schema_specified.json')
+        template = require('../../__fixtures__/place_profile_no_schema_specified.json')
         schemaUrl = wrapper.instance().schemaUrl(template)
         expect(schemaUrl).toEqual(`https://ld4p.github.io/sinopia/schemas/${Config.defaultProfileSchemaVersion}/profile.json`)
       })
