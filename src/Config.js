@@ -5,7 +5,7 @@ class Config {
   }
 
   static get defaultProfileSchemaVersion() {
-    return process.env.DEFAULT_PROFILE_SCHEMA_VERSION || '0.0.2'
+    return process.env.DEFAULT_PROFILE_SCHEMA_VERSION || '0.0.3'
   }
 
   static get sinopiaServerBase() {

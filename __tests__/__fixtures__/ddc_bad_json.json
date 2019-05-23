@@ -4,7 +4,7 @@
   "resourceURI": "http://id.loc.gov/ontologies/bibframe/ClassificationDdc",
   "date": "2017-07-28",
   "author": "NDMSO",
-  "schema": "https://ld4p.github.io/sinopia/schemas/0.1.0/resource-template.json",
+  "schema": "https://ld4p.github.io/sinopia/schemas/0.2.0/resource-template.json",
   "propertyTemplates": [
     {
       "mandatory": "false",
