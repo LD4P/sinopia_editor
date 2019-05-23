@@ -60,12 +60,6 @@
   "bugs": {
     "url": "http://github.com/LD4P/sinopia_editor/issues"
   },
-  "licenses": [
-    {
-      "type": "MIT",
-      "url": "http://opensource.org/licenses/MIT"
-    }
-  ],
   "directories": {
     "doc": "docs"
   },
@@ -82,7 +76,7 @@
     "test": "jest --colors --silent --runInBand --detectOpenHandles",
     "test-verbose": "jest --colors --runInBand"
   },
-  "license": "ISC",
+  "license": "Apache-2.0",
   "dependencies": {
     "ajv": "^6.10.0",
     "amazon-cognito-identity-js": "^3.0.10",
