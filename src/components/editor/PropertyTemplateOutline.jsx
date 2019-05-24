@@ -3,7 +3,6 @@
 import React, {Component} from 'react'
 import OutlineHeader from './OutlineHeader'
 import PropertyTypeRow from './PropertyTypeRow'
-import RequiredSuperscript from './RequiredSuperscript'
 import { getResourceTemplate } from '../../sinopiaServer'
 import { isResourceWithValueTemplateRef, resourceToName, templateBoolean } from '../../Utilities'
 import PropertyComponent from './PropertyComponent'
@@ -58,12 +57,6 @@ export class PropertyTemplateOutline extends Component {
     event.preventDefault()
     if (this.props.handleMintUri !== undefined) {
       this.props.handleMintUri(event)
-    }
-  }
-
-  isRequired = (property) => {
-    if (property.mandatory === "true") {
-      return <RequiredSuperscript />
     }
   }
 
@@ -134,11 +127,10 @@ export class PropertyTemplateOutline extends Component {
   render() {
     return(
       <div className="rtOutline" key={shortid.generate()}>
-        <OutlineHeader label={this.props.propertyTemplate.propertyLabel}
+        <OutlineHeader pt={this.props.propertyTemplate}
                        id={resourceToName(this.props.propertyTemplate.propertyURI)}
                        collapsed={this.state.collapsed}
                        key={shortid.generate()}
-                       isRequired={this.isRequired(this.props.propertyTemplate)}
                        handleCollapsed={this.handleClick(this.props.propertyTemplate)} />
         <div className={this.outlineRowClass()}>
           {this.state.propertyTypeRow}

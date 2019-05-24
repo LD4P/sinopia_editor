@@ -4,7 +4,6 @@ import React from 'react'
 import 'jsdom-global/register'
 import { shallow, mount } from 'enzyme'
 import { addResourceTemplate, PropertyTemplateOutline } from '../../../src/components/editor/PropertyTemplateOutline'
-import RequiredSuperscript from '../../../src/components/editor/RequiredSuperscript'
 
 describe('<PropertyTemplateOutline />', () => {
 
@@ -85,12 +84,6 @@ describe('<PropertyTemplateOutline />', () => {
   it('the outline header has a clickable icon', () => {
     expect(wrapper.find('div.rOutline-property')).toBeTruthy()
     expect(wrapper.find('OutlineHeader a FontAwesomeIcon').length).toEqual(1)
-  })
-
-  it('checks if the property is required', () => {
-    expect(wrapper.instance().isRequired(propertyRtProps.propertyTemplate)).toEqual(<RequiredSuperscript />)
-    propertyRtProps.propertyTemplate['mandatory'] = "false"
-    expect(wrapper.instance().isRequired(propertyRtProps.propertyTemplate)).toBeUndefined()
   })
 
   describe('Nested property components', () => {

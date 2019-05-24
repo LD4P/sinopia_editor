@@ -2,20 +2,31 @@
 
 import React from 'react'
 import { shallow } from 'enzyme'
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import OutlineHeader from '../../../src/components/editor/OutlineHeader'
 import { faMinusSquare, faPlusSquare } from '@fortawesome/free-solid-svg-icons'
+import PropertyTitle from "../../../src/components/editor/PropertyLabel";
 
 describe('<OutlineHeader />', () => {
+  const property = {
+    "propertyLabel": "Instance of",
+    "propertyURI": "http://id.loc.gov/ontologies/bibframe/instanceOf",
+    "mandatory": "false"
+  }
+
   let headerProps = {
     spacer: 0,
-    label: "Schema Thing",
     collapsed: true,
-    isRequired: false
+    pt: property
   }
   const wrapper = shallow(<OutlineHeader {...headerProps} />)
 
-  it('Contains a FontAwesomeIcon and label value from props', () => {
-    expect(wrapper.find("div").text()).toEqual(` <FontAwesomeIcon /> ${headerProps.label}`)
+  it('contains a FontAwesomeIcon', () => {
+    expect(wrapper.find(FontAwesomeIcon)).toBeTruthy()
+  })
+
+  it('contains a <PropertyLabel />', () => {
+    expect(wrapper.find(PropertyTitle)).toBeTruthy()
   })
 
   it('anchor is plus when collapsed', () => {

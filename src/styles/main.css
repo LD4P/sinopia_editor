@@ -131,6 +131,11 @@ a.prop-remark {
   color: white;
 }
 
+ .rOutline-header a.prop-remark {
+  text-decoration: none;
+  color: black;
+}
+
 span.prop-remark {
   border-width: thin;
   border-bottom-style: dashed !important;

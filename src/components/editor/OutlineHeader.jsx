@@ -4,6 +4,7 @@ import React, {Component} from 'react'
 import PropTypes from 'prop-types'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faMinusSquare, faPlusSquare } from '@fortawesome/free-solid-svg-icons'
+import PropertyLabel from './PropertyLabel'
 
 class OutlineHeader extends Component {
 
@@ -33,8 +34,7 @@ class OutlineHeader extends Component {
           <a href="#" onClick={this.props.handleCollapsed} data-id={this.props.id}>
             <FontAwesomeIcon icon={this.isCollapsed()} />&nbsp;
           </a>
-          {this.props.label}
-          {this.props.isRequired}
+          <PropertyLabel pt={this.props.pt} />
       </div>)
   }
 }
@@ -44,8 +44,8 @@ OutlineHeader.propTypes = {
   handleCollapsed: PropTypes.func,
   id: PropTypes.string,
   isRequired: PropTypes.any,
-  label: PropTypes.string,
-  spacer: PropTypes.oneOfType([PropTypes.string, PropTypes.number])
+  spacer: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
+  pt: PropTypes.object
 }
 
 export default OutlineHeader;
