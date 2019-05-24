@@ -4,7 +4,6 @@ import React, { Component } from 'react'
 import InputLiteral from './InputLiteral'
 import InputListLOC from './InputListLOC'
 import InputLookupQA from './InputLookupQA'
-import shortid from 'shortid'
 import lookupConfig from '../../../static/spoofedFilesFromServer/fromSinopiaServer/lookupConfig.json'
 import PropTypes from 'prop-types'
 const _ = require('lodash')
@@ -26,26 +25,23 @@ export class PropertyComponent extends Component {
     } catch {
       // ignore undefined configuration
     }
-    const reduxPath = Object.assign([], this.props.reduxPath)
-    reduxPath.push(property.propertyURI)
-    const keyId = shortid.generate()
+
     switch(config) {
       case "lookup":
         result = (<InputLookupQA key = {this.props.index} rtId = {this.props.rtId} reduxPath={[this.props.rtId, property.propertyURI]}
                                  propertyTemplate = {property} lookupConfig = {this.state.configuration} />)
         break
       case "list":
-        result = (<InputListLOC key = {keyId} reduxPath={[this.props.rtId, property.propertyURI]}
+        result = (<InputListLOC key = {this.props.index} reduxPath={[this.props.rtId, property.propertyURI]}
                                 propertyTemplate = {property} lookupConfig = {this.state.configuration}/>)
         break
       default:
-
         switch(property.type) {
           case "literal":
-            result = (<InputLiteral key={keyId} id={keyId}
+            result = (<InputLiteral key={this.props.index} id={this.props.index}
                                     propertyTemplate={property}
                                     rtId={this.props.rtId}
-                                    reduxPath={reduxPath} />)
+                                    reduxPath={[this.props.rtId, property.propertyURI]} />)
             break
           default:
             result = false
@@ -85,7 +81,6 @@ export const getLookupConfigItems = (property) => {
 }
 
 PropertyComponent.propTypes = {
-<<<<<<< HEAD
   propertyTemplate: PropTypes.shape({
     propertyLabel: PropTypes.string,
     propertyURI: PropTypes.string,
@@ -95,10 +90,6 @@ PropertyComponent.propTypes = {
       useValuesFrom: PropTypes.oneOfType([ PropTypes.string, PropTypes.array])
     })
   }).isRequired,
-=======
-  propertyTemplate: PropTypes.array,
-  reduxPath: PropTypes.array,
->>>>>>> fea5889... Refactor based on upstream commit
   rtId: PropTypes.string,
   index: PropTypes.number
 }

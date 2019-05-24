@@ -3,7 +3,7 @@
 import React from 'react'
 import 'jsdom-global/register'
 import { shallow, mount } from 'enzyme'
-import PropertyTemplateOutline from '../../../src/components/editor/PropertyTemplateOutline'
+import { AddResourceTemplate, PropertyTemplateOutline } from '../../../src/components/editor/PropertyTemplateOutline'
 import RequiredSuperscript from '../../../src/components/editor/RequiredSuperscript'
 
 describe('<PropertyTemplateOutline />', () => {
@@ -139,7 +139,41 @@ describe('<PropertyTemplateOutline />', () => {
       expect(wrapper.find('div PropertyTypeRow').length).toEqual(1)
       expect(wrapper.find('div PropertyComponent').length).toEqual(1)
     })
+  })
+})
 
+describe('AddResourceTemplate function', () => {
+  const noteResourceTemplate = {
+    "id": "resourceTemplate:bf2:Note",
+    "resourceURI": "http://id.loc.gov/ontologies/bibframe/Note",
+    "resourceLabel": "A Resource Template Note",
+    "propertyTemplates": [
+      {
+        "propertyURI": "http://www.w3.org/2000/01/rdf-schema#label",
+        "propertyLabel": "Note",
+        "mandatory": "false",
+        "repeatable": "false",
+        "type": "literal",
+        "resourceTemplates": [],
+        "valueConstraint": {
+          "valueTemplateRefs": [],
+          "useValuesFrom": [],
+          "valueDataType": {},
+          "editable": "true",
+          "repeatable": "false",
+          "defaults": []
+        }
+      }
+    ]
+  }
+  const propertyTemplate = AddResourceTemplate(noteResourceTemplate, ['resourceTemplate:bf2:Note'])
+
+  it('contains the Resource Template title as the first element', () => {
+    const firstElement = shallow(<h5>{noteResourceTemplate["resourceLabel"]}</h5>)
+    expect(firstElement.matchesElement(propertyTemplate[0])).toBeTruthy()
   })
 
+  it('contains a <PropertyTemplateOutline /> as the second element', () => {
+    expect(propertyTemplate[1].type).toBe(PropertyTemplateOutline)
+  })
 })

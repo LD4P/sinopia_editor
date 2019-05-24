@@ -11,6 +11,23 @@ import PropTypes from 'prop-types'
 import shortid from 'shortid'
 import ResourceProperty from "./ResourceProperty";
 
+export const AddResourceTemplate = (resourceTemplate, reduxPath) => {
+  const output = []
+  // TODO: Add delete button
+  output.push(<h5 key={shortid.generate()}>{resourceTemplate.resourceLabel}</h5>)
+  resourceTemplate.propertyTemplates.map((rtProperty) => {
+    const newReduxPath = Object.assign([], reduxPath)
+    const keyId = shortid.generate()
+    newReduxPath.push(resourceTemplate.id)
+    newReduxPath.push(keyId)
+    output.push(<PropertyTemplateOutline key={keyId}
+                propertyTemplate={rtProperty}
+                reduxPath={newReduxPath}
+                resourceTemplate={resourceTemplate} />)
+  })
+  return output
+}
+
 export class PropertyTemplateOutline extends Component {
   constructor(props) {
     super(props)
@@ -29,25 +46,15 @@ export class PropertyTemplateOutline extends Component {
 
   handleAddClick = (resourceTemplate) => (event) => {
     event.preventDefault()
-    const output = Object.assign([], this.state.propertyTypeRow)
-    // TODO: Add delete button
-    output.push(<h5 key={shortid.generate()}>{resourceTemplate.resourceLabel}</h5>)
-    // TODO: DRY out this code, replicates some of the loop in resourcePropertyJsx
-    resourceTemplate.propertyTemplates.map((rtProperty) => {
-      const newReduxPath = Object.assign([], this.props.reduxPath)
-      const keyId = shortid.generate()
-      newReduxPath.push(resourceTemplate.id)
-      newReduxPath.push(keyId)
-      output.push(<PropertyTemplateOutline key={keyId}
-                  propertyTemplate={rtProperty}
-                  reduxPath={newReduxPath}
-                  initNewResourceTemplate={this.props.initNewResourceTemplate}
-                  resourceTemplate={resourceTemplate} />)
+    const propertyTypeRows = Object.assign([], this.state.propertyTypeRow)
+    const output = AddResourceTemplate(resourceTemplate, this.props.reduxPath)
+    output.map((row) => {
+      propertyTypeRows.push(row)
     })
     if (this.props.handleAddClick !== undefined) {
       this.props.handleAddClick(event)
     }
-    this.setState( { propertyTypeRow: output })
+    this.setState( { propertyTypeRow: propertyTypeRows })
   }
 
   handleMintUri = (event) => {

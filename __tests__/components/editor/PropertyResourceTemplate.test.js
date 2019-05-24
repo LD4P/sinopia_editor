@@ -2,9 +2,9 @@
 
 import React from 'react'
 import 'jsdom-global/register'
-import { shallow } from 'enzyme'
+import { shallow, mount } from 'enzyme'
 import shortid from 'shortid'
-import PropertyActionButtons from '../../../src/components/editor/PropertyActionButtons'
+import { PropertyActionButtons } from '../../../src/components/editor/PropertyActionButtons'
 import PropertyResourceTemplate from '../../../src/components/editor/PropertyResourceTemplate'
 import PropertyTemplateOutline from '../../../src/components/editor/PropertyTemplateOutline'
 
@@ -67,6 +67,15 @@ describe('<PropertyResourceTemplate />', () => {
       const mintEvent = { preventDefault: jest.fn() }
       actionButtons.props().handleMintUri(mintEvent)
       expect(mintEvent.preventDefault.mock.calls.length).toBe(1)
+    })
+  })
+
+  describe("<PropertyResourceTemplate /> isRepeatable is false", () => {
+    const wrapper = mount(<PropertyResourceTemplate isRepeatable={"false"} {...propertyRtProps} />)
+
+    it('<PropertyActionButtons /> addButtonDisabled prop is true', () => {
+      const actionButtons = wrapper.find(PropertyActionButtons)
+      expect(actionButtons.props().addButtonDisabled).toBeTruthy()
     })
   })
 })

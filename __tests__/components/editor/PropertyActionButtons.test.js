@@ -15,6 +15,11 @@ describe('<AddButton />', () => {
   it('is not disabled by default', () => {
     expect(addButtonWrapper.instance().props.isDisabled).toBeFalsy()
   })
+
+  it('is disabled if isDisabled prop is true', () => {
+    const disabledAddButtonWrapper = shallow(<AddButton isDisabled={true} />)
+    expect(disabledAddButtonWrapper.instance().props.isDisabled).toBeTruthy()
+  })
 })
 
 describe('<MintButton />', () => {
