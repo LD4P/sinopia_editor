@@ -13,8 +13,8 @@ class ImportResourceTemplate extends Component {
   constructor(props) {
     super(props)
     this.state = {
-      message: [],
-      createResourceError: [],
+      flashMessages: [],
+      modalMessages: [],
       updateKey: 0,
       modalShow: false
     }
@@ -27,19 +27,19 @@ class ImportResourceTemplate extends Component {
   }
 
   modalClose = () => {
-    this.setState({
-      modalShow: false
-    })
+    this.setState({ modalShow: false })
   }
 
   // Resource templates are set via ImportFileZone and passed to ResourceTemplate via redirect to Editor
-  setResourceTemplates = (content, group) => {
-    const profileCount = content.Profile.resourceTemplates.length
-    content.Profile.resourceTemplates.forEach(async rt => {
+  setResourceTemplates = async (content, group) => {
+    this.resetMessages()
+    const responses = []
+    // Prefer for ... of to forEach when loop body uses async/await
+    for (const rt of content.Profile.resourceTemplates) {
       const response = await this.createResource(rt, group)
-      const incrementedKey = this.state.updateKey + 1
-      this.updateStateFromServerResponse(response, profileCount, incrementedKey)
-    })
+      responses.push(response)
+    }
+    this.updateStateFromServerResponses(responses)
   }
 
   createResource = async (content, group) => {
@@ -48,7 +48,7 @@ class ImportResourceTemplate extends Component {
       return response.response
     } catch(error) {
       this.setState({
-        createResourceError: [...this.state.createResourceError, error.response]
+        modalMessages: [...this.state.modalMessages, error.response]
       })
       return error.response
     }
@@ -63,22 +63,31 @@ class ImportResourceTemplate extends Component {
     }
   }
 
-  updateStateFromServerResponse = (response, profileCount, updateKey) => {
-    // HTTP status 409 == Conflict
-    const showModal = response.status === 409 && this.state.createResourceError.length >= profileCount
-    const newMessage = `${this.humanReadableStatus(response.status)} ${this.humanReadableLocation(response)}`
-    const newState = { updateKey: updateKey }
+  resetMessages = () => {
+    this.setState({
+      flashMessages: [],
+      modalMessages: []
+    })
+  }
+
+  updateStateFromServerResponses = (responses) => {
+    const newFlashMessages = []
+    const newState = {
+      updateKey: this.state.updateKey + 1
+    }
+    let showModal = false
+
+    responses.forEach(response => {
+      // If any responses are HTTP 409s, flip `showModal` to true
+      showModal = showModal || response.status === 409
+      newFlashMessages.push(`${this.humanReadableStatus(response.status)} ${this.humanReadableLocation(response)}`)
+    })
+
+    if (newFlashMessages.length > 0)
+      newState.flashMessages = [...this.state.flashMessages, ...newFlashMessages]
 
     if (showModal)
       newState.modalShow = true
-
-    if (response.ok) {
-      // Wipe out past messages and errors if response was successful
-      newState.createResourceError = []
-      newState.message = [newMessage]
-    } else {
-      newState.message = [...this.state.message, newMessage]
-    }
 
     this.setState(newState)
   }
@@ -89,10 +98,12 @@ class ImportResourceTemplate extends Component {
       return response.headers.location
 
     if (response?.req?._data?.id) {
+      // If RT has special characters—e.g., colons—in it, decode the URI to compare against ID
+      const decodedURI = decodeURIComponent(response.req.url)
       // If the request URL already contains the ID, don't bother appending
-      if (response.req.url.endsWith(response.req._data.id))
-        return response.req.url
-      return `${response.req.url}/${response.req._data.id}`
+      if (decodedURI.endsWith(response.req._data.id))
+        return decodedURI
+      return `${decodedURI}/${response.req._data.id}`
     }
 
     // Welp, we tried anyway
@@ -108,22 +119,20 @@ class ImportResourceTemplate extends Component {
       case 401:
         return 'You are not authorized to do this. Try logging in again!'
       case 409:
-        return 'Attempting to update'
+        return 'Prompting user about updating'
       default:
         return `Unexpected response (${status})!`
     }
   }
 
-  handleUpdateResource = (rts, group) => {
-    rts.forEach(async rt => {
+  handleUpdateResource = async (rts, group) => {
+    const responses = []
+    // Prefer for ... of to forEach when loop body uses async/await
+    for (const rt of rts) {
       const response = await this.updateResource(rt, group)
-      const incrementedKey = this.state.updateKey + 1
-      // The 0 is the profileCount which is only used for tracking create errors
-      this.updateStateFromServerResponse(response, 0, incrementedKey)
-    })
-    this.setState({
-      message: []
-    })
+      responses.push(response)
+    }
+    this.updateStateFromServerResponses(responses)
     this.modalClose()
   }
 
@@ -134,14 +143,14 @@ class ImportResourceTemplate extends Component {
         { (this.state.modalShow) ? (
           <UpdateResourceModal show={this.state.modalShow}
                                close={this.modalClose}
-                               message={this.state.createResourceError}
+                               messages={this.state.modalMessages}
                                update={this.handleUpdateResource} /> ) :
           ( <div/> ) }
         </div>
         <Header triggerEditorMenu={this.props.triggerHandleOffsetMenu}/>
         <ImportFileZone setResourceTemplateCallback={this.setResourceTemplates} />
         <SinopiaResourceTemplates updateKey={this.state.updateKey}
-                                  message={this.state.message} />
+                                  messages={this.state.flashMessages} />
       </div>
     )
   }

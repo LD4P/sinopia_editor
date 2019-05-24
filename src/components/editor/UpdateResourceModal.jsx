@@ -20,7 +20,7 @@ class UpdateResourceModal extends Component {
     let group = ''
     let rts = []
     let titleMessages = []
-    const messages = this.props.message
+    const messages = this.props.messages
 
     messages.map(message => {
       if(_.get(message, 'req._data.id')) {
@@ -50,7 +50,7 @@ class UpdateResourceModal extends Component {
             Do you want to overwrite these resource templates?
           </Modal.Body>
           <Modal.Footer>
-            <Button onClick={() => {this.props.update(this.state.rts, this.state.group)}}>Yes, overwrite</Button>
+            <Button onClick={async () => {await this.props.update(this.state.rts, this.state.group)}}>Yes, overwrite</Button>
             <Button onClick={this.props.close}>No, get me out of here!</Button>
           </Modal.Footer>
         </Modal>
@@ -61,8 +61,8 @@ class UpdateResourceModal extends Component {
 
 UpdateResourceModal.propTypes = {
   close: PropTypes.func,
-  show: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
-  message: PropTypes.array,
+  show: PropTypes.bool,
+  messages: PropTypes.array,
   update: PropTypes.func,
 }
 

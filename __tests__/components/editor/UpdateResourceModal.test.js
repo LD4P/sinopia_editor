@@ -8,7 +8,6 @@ import Button from 'react-bootstrap/lib/Button'
 import UpdateResourceModal from '../../../src/components/editor/UpdateResourceModal'
 
 describe('<UpdateResourceModal> with conflict message', () => {
-
   const messages = [{
     "req": {
       "method":"POST",
@@ -37,7 +36,7 @@ describe('<UpdateResourceModal> with conflict message', () => {
 
   const mockUpdate = jest.fn()
   const mockClose = jest.fn()
-  const wrapper = shallow(<UpdateResourceModal show={true} close={mockClose} message={messages} update={mockUpdate} />)
+  const wrapper = shallow(<UpdateResourceModal show={true} close={mockClose} messages={messages} update={mockUpdate} />)
   wrapper.update()
 
   it('renders the component as a Modal', () => {
@@ -82,7 +81,7 @@ describe('message with no data (or id)', () => {
 
   const mockUpdate = jest.fn()
   const mockClose = jest.fn()
-  const wrapper = shallow(<UpdateResourceModal show={true} close={mockClose} message={messages} update={mockUpdate} />)
+  const wrapper = shallow(<UpdateResourceModal show={true} close={mockClose} messages={messages} update={mockUpdate} />)
   wrapper.update()
 
   expect(wrapper.state().titleMessage).toEqual("")

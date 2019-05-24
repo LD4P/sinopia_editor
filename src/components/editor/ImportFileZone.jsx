@@ -56,8 +56,8 @@ class ImportFileZone extends Component {
       template = JSON.parse(fileReader.result)
 
       this.promiseTemplateValidated(template, this.schemaUrl(template))
-        .then(() => {
-          this.props.setResourceTemplateCallback(template, this.state.group)
+        .then(async () => {
+          await this.props.setResourceTemplateCallback(template, this.state.group)
         })
         .catch(err => {
           this.setState({message: `ERROR - CANNOT USE PROFILE/RESOURCE TEMPLATE: problem validating template: ${err}`})
