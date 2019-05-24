@@ -120,11 +120,11 @@ class SinopiaResourceTemplates extends Component {
     }
 
     const createResourceMessage =
-          this.props.message.length === 0 ?
+          this.props.messages.length === 0 ?
           ( <span /> ) :
           (
             <div className="alert alert-info">
-              { this.props.message.join(', ') }
+              { this.props.messages.join(', ') }
             </div>
           )
 
@@ -159,7 +159,7 @@ class SinopiaResourceTemplates extends Component {
 }
 
 SinopiaResourceTemplates.propTypes = {
-  message: PropTypes.array,
+  messages: PropTypes.array,
   updateKey: PropTypes.number
 }
 
