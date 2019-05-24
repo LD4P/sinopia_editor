@@ -46,7 +46,8 @@ describe('<ResourceTemplateForm /> functional testing', () => {
       })
       const result = basicWrapper.instance().resourceTemplateFields(
        ["resourceTemplate:bf2:Note"],
-       "http://www.w3.org/2000/01/rdf-schema#label")
+       { propertyURI: "http://www.w3.org/2000/01/rdf-schema#label",
+         repeatable: "true" })
       expect(result[0].props.reduxPath).toEqual(["resource:schema:Name",
         "http://www.w3.org/2000/01/rdf-schema#label",
         "abcd45",

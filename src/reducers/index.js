@@ -16,25 +16,6 @@ const inputPropertySelector = (state, props) => {
   return items
 }
 
-export const isPropertyRepeatable = (state, action) => {
-  // Expected default
-  let defaultCondition = true
-  const payload = action.payload
-  if (payload.property.repeatable === "true") return defaultCondition
-  const reduxPath = payload.reduxPath
-  const propertyList = reduxPath.reduce((obj, key) => {
-    console.log(obj, key);
-     (obj && obj[key] !== 'undefined') ? obj[key] : []
-    },
-    state.selectorReducer)
-
-  console.warn(propertyList)
-  if (payload.property.repeatable === "false" && propertyList > 1) {
-    defaultCondition = false
-  }
-  return defaultCondition
-}
-
 // TODO: Renable use of reselect's createSelector, will need to adjust
 // individual components InputLiteral, InputLookupQA, InputListLOC, etc.,
 // see https://github.com/reduxjs/reselect#sharing-selectors-with-props-across-multiple-component-instances

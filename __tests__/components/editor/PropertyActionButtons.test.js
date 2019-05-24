@@ -13,7 +13,7 @@ describe('<AddButton />', () => {
   })
 
   it('is not disabled by default', () => {
-    expect(addButtonWrapper.instance().state.disabled).toBeFalsy()
+    expect(addButtonWrapper.instance().props.isDisabled).toBeFalsy()
   })
 })
 

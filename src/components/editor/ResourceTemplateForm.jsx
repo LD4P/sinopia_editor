@@ -54,7 +54,7 @@ export class ResourceTemplateForm extends Component {
     })
   }
 
-  resourceTemplateFields = (rtIds, propUri) => {
+  resourceTemplateFields = (rtIds, property) => {
     const rtProperties = []
     if (rtIds === null || rtIds === undefined) {
       return rtProperties
@@ -63,9 +63,10 @@ export class ResourceTemplateForm extends Component {
       const rt = this.rtForPt(rtId)
       if (rt !== undefined) {
         const keyId = shortid.generate()
-        const reduxPath = [this.props.rtId, propUri, keyId, rtId]
+        const reduxPath = [this.props.rtId, property.propertyURI, keyId, rtId]
         rtProperties.push(<PropertyResourceTemplate
           key={keyId}
+          isRepeatable={property.repeatable}
           resourceTemplate={rt}
           reduxPath={reduxPath} />)
         if ((rtIds.length - i) > 1) {
@@ -125,7 +126,7 @@ export class ResourceTemplateForm extends Component {
               if (isResourceWithValueTemplateRef(pt)) {
                 return (
                   <PropertyPanel pt={pt} key={index} float={index} rtId={this.props.rtId}>
-                    {this.resourceTemplateFields(pt.valueConstraint.valueTemplateRefs, pt.propertyURI)}
+                    {this.resourceTemplateFields(pt.valueConstraint.valueTemplateRefs, pt)}
                   </PropertyPanel>
                 )
               } else {

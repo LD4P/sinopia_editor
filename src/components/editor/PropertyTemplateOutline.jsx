@@ -27,17 +27,18 @@ export class PropertyTemplateOutline extends Component {
     return classNames
   }
 
-  handleAddClick = (resourceTemplate, property) => (event) => {
+  handleAddClick = (resourceTemplate) => (event) => {
     event.preventDefault()
-    const output = Object.assign([], this.state.output)
+    const output = Object.assign([], this.state.propertyTypeRow)
     // TODO: Add delete button
     output.push(<h5 key={shortid.generate()}>{resourceTemplate.resourceLabel}</h5>)
     // TODO: DRY out this code, replicates some of the loop in resourcePropertyJsx
     resourceTemplate.propertyTemplates.map((rtProperty) => {
       const newReduxPath = Object.assign([], this.props.reduxPath)
-      newReduxPath.push(resourceTemplate.resourceId)
-      newReduxPath.push(rtProperty.propertyURI)
-      output.push(<PropertyTemplateOutline key={shortid.generate()}
+      const keyId = shortid.generate()
+      newReduxPath.push(resourceTemplate.id)
+      newReduxPath.push(keyId)
+      output.push(<PropertyTemplateOutline key={keyId}
                   propertyTemplate={rtProperty}
                   reduxPath={newReduxPath}
                   initNewResourceTemplate={this.props.initNewResourceTemplate}
@@ -46,7 +47,7 @@ export class PropertyTemplateOutline extends Component {
     if (this.props.handleAddClick !== undefined) {
       this.props.handleAddClick(event)
     }
-    this.setState( { output: output })
+    this.setState( { propertyTypeRow: output })
   }
 
   handleMintUri = (event) => {
@@ -92,15 +93,19 @@ export class PropertyTemplateOutline extends Component {
 
   addPropertyTypeRows = (property) => {
     let propertyJsx, existingJsx, newOutput = this.state.propertyTypeRow
-
     if (isResourceWithValueTemplateRef(property)) {
+      const addButtonDisabled = property.repeatable == "false" ? true : false
       propertyJsx = <ResourceProperty propertyTemplate={property}
                                       reduxPath={this.props.reduxPath}
                                       nestedResourceTemplates={this.state.nestedResourceTemplates}
-                                      handleAddClick={this.props.handleAddClick}
+                                      handleAddClick={this.handleAddClick}
+                                      addButtonDisabled={addButtonDisabled}
                                       handleMintUri={this.props.handleMintUri} />
     } else {
-      propertyJsx = <PropertyComponent index={0} rtId={property.rtId} propertyTemplate={property} />
+      propertyJsx = <PropertyComponent index={0}
+                                       rtId={this.props.rtId}
+                                       reduxPath={this.props.reduxPath}
+                                       propertyTemplate={property} />
     }
 
     newOutput.forEach((propertyJsx) => {
@@ -114,6 +119,8 @@ export class PropertyTemplateOutline extends Component {
           key={shortid.generate()}
           handleAddClick={this.props.handleAddClick}
           handleMintUri={this.props.handleMintUri}
+          reduxPath={this.props.reduxPath}
+          addButtonDisabled={this.props.addButtonDisabled}
           propertyTemplate={property}>
           {propertyJsx}
         </PropertyTypeRow>
@@ -141,9 +148,11 @@ export class PropertyTemplateOutline extends Component {
 }
 
 PropertyTemplateOutline.propTypes = {
+  addButtonDisabled: PropTypes.bool,
   handleAddClick: PropTypes.func,
   handleMintUri: PropTypes.func,
   handleCollapsed: PropTypes.func,
+  initNewResourceTemplate: PropTypes.func,
   isRequired: PropTypes.func,
   propertyTemplate: PropTypes.object,
   reduxPath: PropTypes.array,

@@ -44,6 +44,7 @@ class PropertyResourceTemplate extends Component {
   }
 
   render() {
+    const isAddDisabled = this.props.isRepeatable == "false" ? true : false
     return (<div>
       <div className="row" key={shortid.generate()}>
         <section className="col-md-8">
@@ -53,6 +54,7 @@ class PropertyResourceTemplate extends Component {
           <PropertyActionButtons
             handleAddClick={this.handleAddClick}
             handleMintUri={this.handleMintUri}
+            addButtonDisabled={isAddDisabled}
             reduxPath={this.props.reduxPath}
             key={shortid.generate()} />
         </section>
@@ -66,6 +68,7 @@ class PropertyResourceTemplate extends Component {
 }
 
 PropertyResourceTemplate.propTypes = {
+  isRepeatable: PropTypes.string,
   reduxPath: PropTypes.array,
   resourceTemplate: PropTypes.object
 }

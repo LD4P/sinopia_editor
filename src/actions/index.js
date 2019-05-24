@@ -45,11 +45,6 @@ export const setLang = item => ({
   payload: item
 })
 
-export const isRepeatable = reduxPath => ({
-  type: "IS_REPEATABLE",
-  payload: reduxPath
-})
-
 export const authenticationFailure = authenticationResult => ({
   type: "AUTHENTICATION_FAILURE",
   payload: authenticationResult
