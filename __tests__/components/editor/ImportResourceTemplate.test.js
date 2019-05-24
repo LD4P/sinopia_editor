@@ -51,7 +51,7 @@ describe('<ImportResourceTemplate />', () => {
       }
     }
 
-    it('invokes resets messages, creates one resource per template, and then updates state', async () => {
+    it('resets messages, creates one resource per template, and then updates state', async () => {
       const createResourceSpy = jest.spyOn(wrapper.instance(), 'createResource').mockImplementation(async () => {})
       const updateStateSpy = jest.spyOn(wrapper.instance(), 'updateStateFromServerResponses').mockReturnValue(null)
       const resetMessagesSpy = jest.spyOn(wrapper.instance(), 'resetMessages').mockReturnValue(null)
