@@ -50,22 +50,24 @@ const p2Props = {
     }
 };
 
-const multipleResults = [{"authLabel":"Person",
-                          "authURI":"PersonURI",
-                          "body":[{"uri":"puri","label":"plabel"}]},
-                         {"authLabel":"Subject",
-                          "authURI":"SubjectURI",
-                          "body":[{"uri":"suri","label":"slabel"}]
-                         }];
+const multipleResults = [{
+    "authLabel":"Person",
+    "authURI":"PersonURI",
+    "body":[{ "uri":"puri","label":"plabel" }]
+  },
+  {
+    "authLabel":"Subject",
+    "authURI":"SubjectURI",
+    "body":[{ "uri":"suri","label":"slabel" }]
+  }];
 
-describe('<InputLookup />', () => {
+describe('<InputLookupQA />', () => {
   // our mock formData function to replace the one provided by mapDispatchToProps
   const mockFormDataFn = jest.fn()
   const wrapper = shallow(<InputLookup.WrappedComponent {...plProps} handleSelectedChange={mockFormDataFn} />)
 
   it('uses the propertyLabel from the template as the form control label', () => {
     expect(wrapper.find('#lookupComponent').props().placeholder).toMatch('Name Lookup')
-
   })
 
   it('sets the typeahead component required attribute according to the mandatory property from the template', () => {
@@ -74,16 +76,11 @@ describe('<InputLookup />', () => {
 
   it('displays RequiredSuperscript if mandatory from template is true', () => {
     wrapper.instance().props.propertyTemplate.mandatory = "true"
-    wrapper.instance().forceUpdate()
     expect(wrapper.find('label > RequiredSuperscript')).toBeTruthy()
   })
 
   it('sets the typeahead component multiple attribute according to the repeatable property from the template', () => {
     expect(wrapper.find('#lookupComponent').props().multiple).toBeTruthy()
-  })
-
-  it('sets the typeahead component placeholder attribute to be the propertyLabel', () => {
-    expect(wrapper.find('#lookupComponent').props().placeholder).toBe('Name Lookup')
   })
 
   it('should call the onChange event and set the state with the selected option', () => {
@@ -94,7 +91,7 @@ describe('<InputLookup />', () => {
     expect(wrapper.state().options[0]).toBe("{uri: 'URI', label: 'LABEL'}")
   })
 
-  it('should call the Search and Change events and set the state with the returned json', () => {
+  it('calls the Search and Change events and set the state with the returned json', () => {
     const json = "{uri: 'URI', label: 'LABEL'}"
     const event = (wrap) => {
       wrap.setState({options: [json]})
@@ -109,7 +106,7 @@ describe('<InputLookup />', () => {
     expect(mockFormDataFn.mock.calls.length).toBe(2)
   })
 
-  it('should have a PropertyRemark when a remark is present', () => {
+  it('has a PropertyRemark when a remark is present', () => {
     wrapper.instance().props.propertyTemplate.remark = "http://rda.test.org/1.1"
     wrapper.instance().forceUpdate()
     const propertyRemark = wrapper.find('label > PropertyRemark')
@@ -118,7 +115,7 @@ describe('<InputLookup />', () => {
 
   //Institute wrapper with multiple lookup options
   const multipleWrapper = shallow(<InputLookup.WrappedComponent {...p2Props} handleSelectedChange={mockFormDataFn} />)
-  it('should pass multiple lookup results in state with search event', () => {
+  it('passes multiple lookup results in state with search event', () => {
    const event = (wrap) => {
      wrap.setState({options: multipleResults})
    }
@@ -129,7 +126,7 @@ describe('<InputLookup />', () => {
   })
   //Headers expected
 
-  it('should show menu headers with lookup source labels and values in the dropdown when provided results', () => {
+  it('shows menu headers with lookup source labels and values in the dropdown when provided results', () => {
     const instance = multipleWrapper.instance();
     const menuWrapper = shallow(instance.renderMenuFunc(multipleResults, p2Props));
     const menuChildrenNumber = menuWrapper.children().length;

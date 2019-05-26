@@ -4,6 +4,7 @@ import { asyncContainer, Typeahead, Menu, MenuItem } from 'react-bootstrap-typea
 import PropTypes from 'prop-types'
 import Swagger from 'swagger-client'
 import { connect } from 'react-redux'
+import { getProperty } from '../../reducers/index'
 import { changeSelections } from '../../actions/index'
 
 const AsyncTypeahead = asyncContainer( Typeahead )
@@ -107,9 +108,9 @@ class InputLookupQA extends Component {
                         Swagger( { url: "src/lib/apidoc.json" } ).then(( client ) => {
                             //create array of promises based on the lookup config array that is sent in
                             let lookupPromises = lookupConfigs.map( lookupConfig => {
-                                authority = lookupConfig.value.authority;
-                                subauthority = lookupConfig.value.authority;
-                                language = lookupConfig.value.language;
+                                authority = lookupConfig.authority;
+                                subauthority = lookupConfig.authority;
+                                language = lookupConfig.language;
                                 //return the 'promise'
                                 //Since we don't want promise.all to fail if
                                 //one of the lookups fails, we want a catch statement
@@ -140,8 +141,8 @@ class InputLookupQA extends Component {
                                     //If undefined, add info - note if error, error object returned in object
                                     //which allows attaching label and uri for authority
                                     if ( values[i] ) {
-                                        values[i]["authLabel"] = lookupConfigs[i].value.label;
-                                        values[i]["authURI"] = lookupConfigs[i].value.uri;
+                                        values[i]["authLabel"] = lookupConfigs[i].label;
+                                        values[i]["authURI"] = lookupConfigs[i].uri;
                                     }
                                 }
 
@@ -155,9 +156,9 @@ class InputLookupQA extends Component {
                     }}
                     onChange={selected => {
                         let payload = {
-                            id: this.props.propertyTemplate.propertyURI,
+                            uri: this.props.propertyTemplate.propertyURI,
                             items: selected,
-                            rtId: this.props.rtId
+                            reduxPath: this.props.reduxPath
                         }
                         this.props.handleSelectedChange( payload )
                     }
@@ -183,18 +184,19 @@ InputLookupQA.propTypes = {
         valueConstraint: PropTypes.shape( {
             useValuesFrom: PropTypes.oneOfType( [PropTypes.string, PropTypes.array] )
         } )
-    } ).isRequired
+    } ).isRequired,
+    reduxPath: PropTypes.oneOfType([PropTypes.string, PropTypes.array])
 }
 
-const mapStatetoProps = ( state ) => {
-    let result = Object.assign( {}, state )
-    return result
+const mapStateToProps = ( state, props ) => {
+  const result = getProperty(state, props)
+  return {selected: result}
 }
 
-const mapDispatchtoProps = dispatch => ( {
+const mapDispatchToProps = dispatch => ( {
     handleSelectedChange( selected ) {
         dispatch( changeSelections( selected ) )
     }
 } )
 
-export default connect( mapStatetoProps, mapDispatchtoProps )( InputLookupQA )
+export default connect( mapStateToProps, mapDispatchToProps )( InputLookupQA )
