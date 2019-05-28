@@ -87,29 +87,25 @@ describe(`Takes a resource template ID and populates the global state`, () => {
 
   it('handles SET_RESOURCE_TEMPLATE', () => {
     shortid.generate = jest.fn().mockReturnValue(0)
-    expect(
-      selectorReducer({"selectorReducer": {}}, {
-        type: 'SET_RESOURCE_TEMPLATE',
-        payload: {
-          id: 'resourceTemplate:bf2:Monograph:Instance',
-          propertyTemplates: pt
-        }
-      })
-    ).toMatchObject(
-      { "authenticate": {"authenticationState": {currentUser: null, currentSession: null, authenticationError: null}},
-        "lang": {"formData": []},
-        "selectorReducer": { 'resourceTemplate:bf2:Monograph:Instance':
-          { 'http://id.loc.gov/ontologies/bibframe/instanceOf': {},
-            'http://id.loc.gov/ontologies/bibframe/issuance':
-              { items:
-                [ { id: 0,
-                  content: 'single unit',
-                  uri: 'http://id.loc.gov/vocabulary/issuance/mono' } ] },
-            'http://id.loc.gov/ontologies/bibframe/heldBy':
-              { items:
-                [ { id: 0,
-                  content: 'DLC',
-                  uri: 'http://id.loc.gov/vocabulary/organizations/dlc' } ] } } }}
+    const reducerResult = selectorReducer({"selectorReducer": {}}, {
+      type: 'SET_RESOURCE_TEMPLATE',
+      payload: {
+        id: 'resourceTemplate:bf2:Monograph:Instance',
+        propertyTemplates: pt
+      }
+    })
+    expect(reducerResult["authenticate"]).toMatchObject(
+      {"authenticationState": {currentUser: null, currentSession: null, authenticationError: null}}
+    )
+    expect(reducerResult["lang"]).toMatchObject({"formData": []})
+    expect(reducerResult["selectorReducer"]['resourceTemplate:bf2:Monograph:Instance']['http://id.loc.gov/ontologies/bibframe/instanceOf'])
+    .toMatchObject({ rdfPredicate: 'http://id.loc.gov/ontologies/bibframe/instanceOf'})
+    expect(Object.keys(reducerResult["selectorReducer"]['resourceTemplate:bf2:Monograph:Instance']['http://id.loc.gov/ontologies/bibframe/issuance']))
+    .toEqual(["items", "rdfPredicate"])
+    expect(reducerResult["selectorReducer"]['resourceTemplate:bf2:Monograph:Instance']['http://id.loc.gov/ontologies/bibframe/heldBy']["items"][0]).toMatchObject(
+      { id: 0,
+        content: 'DLC',
+        uri: 'http://id.loc.gov/vocabulary/organizations/dlc' }
     )
   })
 
@@ -117,11 +113,12 @@ describe(`Takes a resource template ID and populates the global state`, () => {
     const emptyStateResult = refreshResourceTemplate({}, {
       type:  'REFRESH_RESOURCE_TEMPLATE',
       payload: {
+        property: { propertyURI: "http://schema.org/name" },
         reduxPath: ['http://sinopia.io/example']
       }
     })
     expect(emptyStateResult).toEqual({
-      'http://sinopia.io/example': {}
+      'http://sinopia.io/example': { "rdfPredicate": "http://schema.org/name" }
     })
 
   })
@@ -136,20 +133,28 @@ describe(`Takes a resource template ID and populates the global state`, () => {
 
   it('tests with a more realistic payload with defaults', () => {
     shortid.generate = jest.fn().mockReturnValue(0)
+    const payload = {
+      valueConstraint: {
+        defaults: [ { defaultLiteral: 'Sinopia Name' }]
+      },
+        propertyURI: "http://www.w3.org/1999/02/22-rdf-syntax#value"
+    }
     const defaultStateResult = refreshResourceTemplate({}, {
       type: 'REFRESH_RESOURCE_TEMPLATE',
       payload: {
         reduxPath: ['resourceTemplate:bf2:Item', 'http://schema.org/name'],
-        property: { valueConstraint: { defaults: [ { defaultLiteral: 'Sinopia Name' } ] }}
+        property: payload
       }
     })
-    expect(defaultStateResult).toEqual({
-      'resourceTemplate:bf2:Item': {
-        'http://schema.org/name':{
-          items: [ {content: "Sinopia Name", id: 0, uri: undefined } ]
-        }
-      }
-    })
+    expect(
+      Object.keys(defaultStateResult['resourceTemplate:bf2:Item']['http://schema.org/name']).length)
+      .toEqual(2)
+    expect(
+      defaultStateResult['resourceTemplate:bf2:Item']['http://schema.org/name']['items'])
+      .toEqual([{ content: "Sinopia Name", id: 0, uri: undefined }])
+    expect(
+      defaultStateResult['resourceTemplate:bf2:Item']['http://schema.org/name']['rdfPredicate'])
+      .toEqual(payload["propertyURI"])
   })
 
 })

@@ -38,7 +38,8 @@ export const populatePropertyDefaults = (propertyTemplate) => {
   if (propertyTemplate === undefined || propertyTemplate === null || Object.keys(propertyTemplate).length < 1) {
     return defaults
   }
-  if (propertyTemplate.valueConstraint.defaults && propertyTemplate.valueConstraint.defaults.length > 0) {
+
+  if (propertyTemplate?.valueConstraint?.defaults && propertyTemplate.valueConstraint.defaults.length > 0) {
     propertyTemplate.valueConstraint.defaults.map((row) => {
       defaults.push({
         id: makeShortID(),
@@ -59,8 +60,7 @@ export const refreshResourceTemplate = (state, action) => {
   }
   const defaults = populatePropertyDefaults(propertyTemplate)
 
-  const items =  defaults.length > 0 ? { items: defaults } : {}
-
+  const items =  defaults.length > 0 ? { items: defaults, rdfPredicate: propertyTemplate.propertyURI } : {}
   const lastKey = reduxPath.pop()
   const lastObject = reduxPath.reduce((newState, key) =>
       newState[key] = newState[key] || {},
@@ -68,7 +68,7 @@ export const refreshResourceTemplate = (state, action) => {
   if (Object.keys(items).includes('items')) {
     lastObject[lastKey] = items
   } else {
-    lastObject[lastKey] = {}
+    lastObject[lastKey] = { rdfPredicate: propertyTemplate.propertyURI }
   }
   return newState
 }
