@@ -223,7 +223,6 @@ InputLiteral.propTypes = {
   handleMyItemsChange: PropTypes.func,
   handleRemoveItem: PropTypes.func,
   reduxPath: PropTypes.oneOfType([PropTypes.string, PropTypes.array]),
-  rtId: PropTypes.string,
   blankNodeForLiteral: PropTypes.object,
   propPredicate: PropTypes.string,
   setDefaultsForLiteralWithPayLoad: PropTypes.func,

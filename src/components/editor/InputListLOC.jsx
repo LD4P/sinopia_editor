@@ -6,14 +6,16 @@ import PropTypes from 'prop-types'
 import PropertyRemark from './PropertyRemark'
 import { connect } from 'react-redux'
 import { changeSelections } from '../../actions/index'
-import { defaultValuesFromPropertyTemplate } from '../../Utilities'
+import { defaultValuesFromPropertyTemplate, booleanPropertyFromTemplate } from '../../Utilities'
 import shortid from 'shortid'
 
 class InputListLOC extends Component {
   constructor(props) {
     super(props)
-
-    this.hasPropertyRemark = this.hasPropertyRemark.bind(this)
+    this.state = {
+      isLoading: false,
+      options: []
+    }
 
     const defaults = defaultValuesFromPropertyTemplate(this.props.propertyTemplate)
 
@@ -22,12 +24,6 @@ class InputListLOC extends Component {
     } else {
       // Property templates do not require defaults but we like to know when this happens
       console.info(`no defaults defined in property template: ${JSON.stringify(this.props.propertyTemplate)}`)
-    }
-
-    this.state = {
-      isLoading: false,
-      options: [],
-      defaults: defaults
     }
   }
 
@@ -40,7 +36,7 @@ class InputListLOC extends Component {
     this.props.handleSelectedChange(payload)
   }
 
-  hasPropertyRemark(propertyTemplate) {
+  hasPropertyRemark = (propertyTemplate) => {
     if(propertyTemplate.remark) {
       return <PropertyRemark remark={propertyTemplate.remark}
                              label={propertyTemplate.propertyLabel} />;
@@ -49,14 +45,12 @@ class InputListLOC extends Component {
   }
 
   render() {
-    let lookupUri, isMandatory, isRepeatable
-    try {
-      isMandatory = JSON.parse(this.props.propertyTemplate.mandatory)
-      isRepeatable = JSON.parse(this.props.propertyTemplate.valueConstraint.repeatable)
-      lookupUri = this.props.lookupConfig.uri
-    } catch (error) {
-      console.error(`Some properties were not defined in the json file: ${error}`)
+    if (this.props.lookupConfig?.uri === undefined) {
+      alert(`There is no configured list lookup for ${this.props.propertyTemplate.propertyURI}`)
     }
+
+    const isMandatory = booleanPropertyFromTemplate(this.props.propertyTemplate, 'mandatory', false)
+    const isRepeatable = booleanPropertyFromTemplate(this.props.propertyTemplate.valueConstraint, 'repeatable', true)
 
     var typeaheadProps = {
       id: "targetComponent",
@@ -76,7 +70,7 @@ class InputListLOC extends Component {
         <Typeahead
           onFocus={() => {
             this.setState({isLoading: true})
-            fetch(`${lookupUri}.json`)
+            fetch(`${this.props.lookupConfig.uri}.json`)
               .then(resp => resp.json())
               .then(json => {
                 for(var i in json){
