@@ -1,4 +1,4 @@
-// Copyright 2018, 2019 Stanford University see Apache2.txt for license
+// Copyright 2018, 2019 Stanford University see LICENSE for license
 import { combineReducers } from 'redux'
 import lang from './lang'
 import authenticate from './authenticate'

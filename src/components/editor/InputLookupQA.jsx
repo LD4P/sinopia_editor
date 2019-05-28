@@ -1,4 +1,4 @@
-// Copyright 2018 Stanford University see Apache2.txt for license
+// Copyright 2018 Stanford University see LICENSE for license
 import React, { Component } from 'react'
 import { asyncContainer, Typeahead, Menu, MenuItem } from 'react-bootstrap-typeahead'
 import PropTypes from 'prop-types'

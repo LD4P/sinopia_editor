@@ -1,4 +1,4 @@
-// Copyright 2018 Stanford University see Apache2.txt for license
+// Copyright 2018 Stanford University see LICENSE for license
 
 const barcodeRt = require('../static/spoofedFilesFromServer/fromSinopiaServer/resourceTemplates/Barcode.json')
 const monographInstanceRt = require('../static/spoofedFilesFromServer/fromSinopiaServer/resourceTemplates/MonographInstance.json')

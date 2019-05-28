@@ -1,4 +1,4 @@
-// Copyright 2018 Stanford University see Apache2.txt for license
+// Copyright 2018 Stanford University see LICENSE for license
 
 import { AuthenticationDetails, CognitoUser, CognitoUserPool } from 'amazon-cognito-identity-js'
 import CognitoUtils from '../src/CognitoUtils'

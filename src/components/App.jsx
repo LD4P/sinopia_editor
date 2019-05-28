@@ -1,4 +1,4 @@
-// Copyright 2018 Stanford University see Apache2.txt for license
+// Copyright 2018 Stanford University see LICENSE for license
 
 import React, { Component } from 'react'
 import 'react-bootstrap-typeahead/css/Typeahead.css'

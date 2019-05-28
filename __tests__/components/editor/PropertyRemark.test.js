@@ -1,4 +1,4 @@
-// Copyright 2019 Stanford University see Apache2.txt for license
+// Copyright 2019 Stanford University see LICENSE for license
 import React from 'react'
 import { shallow } from 'enzyme'
 import PropertyRemark from '../../../src/components/editor/PropertyRemark'
