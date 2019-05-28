@@ -2,19 +2,18 @@
 
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
+import PropTypes from 'prop-types'
+import shortid from 'shortid'
 import PropertyActionButtons from './PropertyActionButtons'
 import PropertyTemplateOutline from './PropertyTemplateOutline'
 import { refreshResourceTemplate } from '../../actions/index'
-import PropTypes from 'prop-types'
-import shortid from 'shortid'
+import { templateBoolean } from '../../Utilities'
+
 const _ = require('lodash')
 
 export class ResourceProperty extends Component {
   constructor(props) {
     super(props)
-    this.state = {
-      jsx: []
-    }
   }
 
   renderResourcePropertyJsx = () => {
@@ -44,7 +43,7 @@ export class ResourceProperty extends Component {
         newReduxPath.push(rtProperty.propertyURI)
         const payload = { reduxPath: newReduxPath, property: rtProperty }
         this.props.initNewResourceTemplate(payload)
-        const isAddDisabled = rtProperty.repeatable == "false" ? false: true
+        const isAddDisabled = !templateBoolean(rtProperty.repeatable)
         jsx.push(
           <PropertyTemplateOutline key={keyId}
                                    propertyTemplate={rtProperty}

@@ -1,6 +1,6 @@
 // Copyright 2019 Stanford University see Apache2.txt for license
 
-import {isResourceWithValueTemplateRef, resourceToName } from '../src/Utilities'
+import { isResourceWithValueTemplateRef, resourceToName, templateBoolean } from '../src/Utilities'
 
 describe('Utilities', () => {
 
@@ -110,7 +110,28 @@ describe('Utilities', () => {
 
   })
 
+ describe('templateBoolean()', () => {
+
+  it('returns true when "true" is passed in as a string', () => {
+    expect(templateBoolean("true")).toBe(true)
+  })
+
+  it('returns true when a boolean true is passed into the function', () => {
+    expect(templateBoolean(true)).toBe(true)
+  })
+
+  it('returns true as the default if the parameter is null, undefined, or a random string', () => {
+    expect(templateBoolean(null)).toBe(true)
+    expect(templateBoolean(undefined)).toBe(true)
+    expect(templateBoolean("asdfdsafds")).toBe(true)
+  })
+
+  it('return false when "false" is passed in as a string', () => {
+    expect(templateBoolean("false")).toBe(false)
+  })
+
+  it('returns false when a boolean false is passed into the function', () => {
+    expect(templateBoolean(false)).toBe(false)
+  })
+ })
 })
-
-
-

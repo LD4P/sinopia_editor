@@ -3,7 +3,7 @@
 import React, { Component } from 'react'
 import PropertyActionButtons from './PropertyActionButtons'
 import PropertyTemplateOutline from './PropertyTemplateOutline'
-
+import { templateBoolean } from '../../Utilities'
 import shortid from 'shortid'
 import PropTypes from 'prop-types'
 
@@ -46,7 +46,7 @@ class PropertyResourceTemplate extends Component {
   }
 
   render() {
-    const isAddDisabled = this.props.isRepeatable == "false"
+    const isAddDisabled = !templateBoolean(this.props.isRepeatable)
     return (<div>
       <div className="row" key={shortid.generate()}>
         <section className="col-md-8">

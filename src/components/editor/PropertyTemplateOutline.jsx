@@ -5,7 +5,7 @@ import OutlineHeader from './OutlineHeader'
 import PropertyTypeRow from './PropertyTypeRow'
 import RequiredSuperscript from './RequiredSuperscript'
 import { getResourceTemplate } from '../../sinopiaServer'
-import { isResourceWithValueTemplateRef, resourceToName } from '../../Utilities'
+import { isResourceWithValueTemplateRef, resourceToName, templateBoolean } from '../../Utilities'
 import PropertyComponent from './PropertyComponent'
 import PropTypes from 'prop-types'
 import shortid from 'shortid'
@@ -48,13 +48,10 @@ export class PropertyTemplateOutline extends Component {
     event.preventDefault()
     const propertyTypeRows = [...this.state.propertyTypeRow]
     const output = addResourceTemplate(resourceTemplate, this.props.reduxPath)
-    output.map((row) => {
-      propertyTypeRows.push(row)
-    })
     if (this.props.handleAddClick !== undefined) {
       this.props.handleAddClick(event)
     }
-    this.setState( { propertyTypeRow: propertyTypeRows })
+    this.setState( { propertyTypeRow: propertyTypeRows.concat(output) })
   }
 
   handleMintUri = (event) => {
@@ -101,12 +98,12 @@ export class PropertyTemplateOutline extends Component {
   addPropertyTypeRows = (property) => {
     let propertyJsx, existingJsx, newOutput = this.state.propertyTypeRow
     if (isResourceWithValueTemplateRef(property)) {
-      const addButtonDisabled = property.repeatable == "false" ? true : false
+      const isAddDisabled = !templateBoolean(property.repeatable)
       propertyJsx = <ResourceProperty propertyTemplate={property}
                                       reduxPath={this.props.reduxPath}
                                       nestedResourceTemplates={this.state.nestedResourceTemplates}
                                       handleAddClick={this.handleAddClick}
-                                      addButtonDisabled={addButtonDisabled}
+                                      addButtonDisabled={isAddDisabled}
                                       handleMintUri={this.props.handleMintUri} />
     } else {
       propertyJsx = <PropertyComponent index={0}

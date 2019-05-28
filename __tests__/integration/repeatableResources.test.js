@@ -21,16 +21,14 @@ describe('Adding new embedded Resource Templates', () => {
 
     // sign out button should only show up after successful login
     await page.waitForSelector('button.signout-btn')
-
-
   })
 
   it('loads up a resource template from the list of loaded templates', async () => {
     await pupExpect(page).toClick('a', { text: 'BIBFRAME Instance' })
     await pupExpect(page).toMatch("BIBFRAME Instance")
-
   })
 
+  // TODO: Simplify CSS selectors in the tests below, see ticket #573
   it('clicks on an AddButton in Notes about the Instance and looks for a second resource template', async () => {
     await pupExpect(page).toClick('div.panel:nth-child(5) > div:nth-child(2) > div:nth-child(1) > div:nth-child(1) > section:nth-child(2) > div:nth-child(1) > button:nth-child(2)')
     await pupExpect(page).toMatchElement('div.panel:nth-child(5) > div:nth-child(2) > div:nth-child(1) > div:nth-child(2) > h4:nth-child(2)', { text: "Note"} )
