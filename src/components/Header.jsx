@@ -1,4 +1,4 @@
-// Copyright 2018 Leland Stanford Junior University see Apache2.txt for license
+// Copyright 2018 Leland Stanford Junior University see LICENSE for license
 
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'

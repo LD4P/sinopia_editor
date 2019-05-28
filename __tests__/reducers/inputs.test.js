@@ -1,4 +1,4 @@
-// Copyright 2018 Stanford University see Apache2.txt for license
+// Copyright 2018 Stanford University see LICENSE for license
 
 import { removeAllContent, removeMyItem, setMyItems, setMySelections } from '../../src/reducers/inputs'
 

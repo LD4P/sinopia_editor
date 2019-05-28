@@ -1,4 +1,4 @@
-// Copyright 2019 Stanford University see Apache2.txt for license
+// Copyright 2019 Stanford University see LICENSE for license
 
 import { isResourceWithValueTemplateRef, resourceToName, templateBoolean } from '../src/Utilities'
 

@@ -1,4 +1,4 @@
-// Copyright 2018 Stanford University see Apache2.txt for license
+// Copyright 2018 Stanford University see LICENSE for license
 
 import pupExpect from 'expect-puppeteer'
 import Config from '../../src/Config'

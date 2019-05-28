@@ -1,4 +1,4 @@
-// Copyright 2018, 2019 Stanford University see Apache2.txt for license
+// Copyright 2018, 2019 Stanford University see LICENSE for license
 
 export const removeAllContent = (state, action) => {
   let newState = Object.assign({}, state)

@@ -1,4 +1,4 @@
-// Copyright 2018 Stanford University see Apache2.txt for license
+// Copyright 2018 Stanford University see LICENSE for license
 
 describe('spoofed verso', () => {
   let versoSpoof  = require('../src/versoSpoof.js')

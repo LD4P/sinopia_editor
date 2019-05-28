@@ -1,4 +1,4 @@
-// Copyright 2018 Stanford University see Apache2.txt for license
+// Copyright 2018 Stanford University see LICENSE for license
 import React from 'react'
 import { shallow } from 'enzyme'
 import InputLang from '../../../src/components/editor/InputLang'
