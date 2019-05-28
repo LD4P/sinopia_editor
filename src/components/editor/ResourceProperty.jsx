@@ -2,11 +2,13 @@
 
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
+import PropTypes from 'prop-types'
+import shortid from 'shortid'
 import PropertyActionButtons from './PropertyActionButtons'
 import PropertyTemplateOutline from './PropertyTemplateOutline'
 import { refreshResourceTemplate } from '../../actions/index'
-import PropTypes from 'prop-types'
-import shortid from 'shortid'
+import { templateBoolean } from '../../Utilities'
+
 const _ = require('lodash')
 
 export class ResourceProperty extends Component {
@@ -26,7 +28,9 @@ export class ResourceProperty extends Component {
             <h5>{resourceTemplate.resourceLabel}</h5>
           </section>
           <section className="col-sm-4">
-            <PropertyActionButtons handleAddClick={this.props.handleAddClick}
+            <PropertyActionButtons handleAddClick={this.props.handleAddClick(resourceTemplate)}
+                                   reduxPath={this.props.reduxPath}
+                                   addButtonDisabled={this.props.addButtonDisabled}
                                    handleMintUri={this.props.handleMintUri} key={shortid.generate()} />
           </section>
         </div>
@@ -39,11 +43,12 @@ export class ResourceProperty extends Component {
         newReduxPath.push(rtProperty.propertyURI)
         const payload = { reduxPath: newReduxPath, property: rtProperty }
         this.props.initNewResourceTemplate(payload)
-
+        const isAddDisabled = !templateBoolean(rtProperty.repeatable)
         jsx.push(
           <PropertyTemplateOutline key={keyId}
                                    propertyTemplate={rtProperty}
                                    reduxPath={newReduxPath}
+                                   addButtonDisabled={isAddDisabled}
                                    initNewResourceTemplate={this.props.initNewResourceTemplate}
                                    resourceTemplate={resourceTemplate} />
         )
@@ -54,15 +59,17 @@ export class ResourceProperty extends Component {
   }
 
   render() {
+
     return(
       <div>
-        {this.renderResourcePropertyJsx()}
+        { this.renderResourcePropertyJsx() }
       </div>
     )
   }
 }
 
 ResourceProperty.propTypes = {
+  addButtonDisabled: PropTypes.bool,
   handleAddClick: PropTypes.func,
   handleMintUri: PropTypes.func,
   initNewResourceTemplate: PropTypes.func,

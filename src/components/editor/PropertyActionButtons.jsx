@@ -7,15 +7,12 @@ export class AddButton extends Component {
 
   constructor(props) {
     super(props)
-    this.state = {
-      disabled: false
-    }
   }
 
   render() {
     return(<button className="btn btn-default btn-sm"
             onClick={this.props.onClick}
-            disabled={this.state.disabled}>Add</button>)
+            disabled={this.props.isDisabled}>Add</button>)
   }
 }
 
@@ -44,13 +41,9 @@ export class PropertyActionButtons extends Component {
   render() {
     return(<div className="btn-group" role="group" aria-label="...">
       <MintButton onClick={this.props.handleMintUri} />
-      <AddButton onClick={this.props.handleAddClick} />
+      <AddButton onClick={this.props.handleAddClick} isDisabled={this.props.addButtonDisabled}/>
     </div>)
   }
-}
-
-AddButton.propTypes = {
-  onClick: PropTypes.func
 }
 
 MintButton.propTypes = {
@@ -58,8 +51,15 @@ MintButton.propTypes = {
 }
 
 PropertyActionButtons.propTypes = {
+  addButtonDisabled: PropTypes.bool,
   handleAddClick: PropTypes.func,
   handleMintUri: PropTypes.func
+}
+
+AddButton.propTypes = {
+  isDisabled: PropTypes.bool,
+  onClick: PropTypes.func,
+  reduxPath: PropTypes.array
 }
 
 export default PropertyActionButtons;

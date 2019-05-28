@@ -16,3 +16,20 @@ export const resourceToName = (uri) => {
     return undefined
   }
 }
+
+export const templateBoolean = (value) => {
+  let result
+  switch (value) {
+    case 'true':
+    case true:
+      result = true
+      break
+    case 'false':
+    case false:
+      result = false
+      break
+    default:
+      result = true
+  }
+  return Boolean(result)
+}

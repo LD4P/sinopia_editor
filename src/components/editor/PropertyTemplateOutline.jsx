@@ -5,12 +5,27 @@ import OutlineHeader from './OutlineHeader'
 import PropertyTypeRow from './PropertyTypeRow'
 import RequiredSuperscript from './RequiredSuperscript'
 import { getResourceTemplate } from '../../sinopiaServer'
-import { isResourceWithValueTemplateRef, resourceToName } from '../../Utilities'
+import { isResourceWithValueTemplateRef, resourceToName, templateBoolean } from '../../Utilities'
 import PropertyComponent from './PropertyComponent'
 import PropTypes from 'prop-types'
 import shortid from 'shortid'
 import ResourceProperty from "./ResourceProperty";
 
+export const addResourceTemplate = (resourceTemplate, reduxPath) => {
+  const output = []
+  // TODO: Add delete button, noted in issue #535
+  output.push(<h5 key={shortid.generate()}>{resourceTemplate.resourceLabel}</h5>)
+  resourceTemplate.propertyTemplates.map((rtProperty) => {
+    const newReduxPath = [...reduxPath]
+    const keyId = shortid.generate()
+    newReduxPath.push(resourceTemplate.id, keyId)
+    output.push(<PropertyTemplateOutline key={keyId}
+                propertyTemplate={rtProperty}
+                reduxPath={newReduxPath}
+                resourceTemplate={resourceTemplate} />)
+  })
+  return output
+}
 
 export class PropertyTemplateOutline extends Component {
   constructor(props) {
@@ -28,11 +43,15 @@ export class PropertyTemplateOutline extends Component {
     return classNames
   }
 
-  handleAddClick = (event) => {
+  // Uses currying to pass multiple parameters to handleAddClick
+  handleAddClick = (resourceTemplate) => (event) => {
     event.preventDefault()
+    const propertyTypeRows = [...this.state.propertyTypeRow]
+    const output = addResourceTemplate(resourceTemplate, this.props.reduxPath)
     if (this.props.handleAddClick !== undefined) {
       this.props.handleAddClick(event)
     }
+    this.setState( { propertyTypeRow: propertyTypeRows.concat(output) })
   }
 
   handleMintUri = (event) => {
@@ -78,15 +97,19 @@ export class PropertyTemplateOutline extends Component {
 
   addPropertyTypeRows = (property) => {
     let propertyJsx, existingJsx, newOutput = this.state.propertyTypeRow
-
     if (isResourceWithValueTemplateRef(property)) {
+      const isAddDisabled = !templateBoolean(property.repeatable)
       propertyJsx = <ResourceProperty propertyTemplate={property}
                                       reduxPath={this.props.reduxPath}
                                       nestedResourceTemplates={this.state.nestedResourceTemplates}
-                                      handleAddClick={this.props.handleAddClick}
+                                      handleAddClick={this.handleAddClick}
+                                      addButtonDisabled={isAddDisabled}
                                       handleMintUri={this.props.handleMintUri} />
     } else {
-      propertyJsx = <PropertyComponent index={0} rtId={property.rtId} propertyTemplate={property} />
+      propertyJsx = <PropertyComponent index={0}
+                                       rtId={this.props.rtId}
+                                       reduxPath={this.props.reduxPath}
+                                       propertyTemplate={property} />
     }
 
     newOutput.forEach((propertyJsx) => {
@@ -100,6 +123,8 @@ export class PropertyTemplateOutline extends Component {
           key={shortid.generate()}
           handleAddClick={this.props.handleAddClick}
           handleMintUri={this.props.handleMintUri}
+          reduxPath={this.props.reduxPath}
+          addButtonDisabled={this.props.addButtonDisabled}
           propertyTemplate={property}>
           {propertyJsx}
         </PropertyTypeRow>
@@ -127,9 +152,11 @@ export class PropertyTemplateOutline extends Component {
 }
 
 PropertyTemplateOutline.propTypes = {
+  addButtonDisabled: PropTypes.bool,
   handleAddClick: PropTypes.func,
   handleMintUri: PropTypes.func,
   handleCollapsed: PropTypes.func,
+  initNewResourceTemplate: PropTypes.func,
   isRequired: PropTypes.func,
   propertyTemplate: PropTypes.object,
   reduxPath: PropTypes.array,

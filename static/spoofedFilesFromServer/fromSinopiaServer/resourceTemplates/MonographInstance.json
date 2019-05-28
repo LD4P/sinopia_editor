@@ -129,7 +129,7 @@
     {
       "propertyLabel": "Item Information",
       "propertyURI": "http://id.loc.gov/ontologies/bibframe/itemPortion",
-      "repeatable": "true",
+      "repeatable": "false",
       "resourceTemplates": [],
       "type": "resource",
       "valueConstraint": {
