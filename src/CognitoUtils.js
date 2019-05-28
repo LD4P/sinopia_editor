@@ -53,7 +53,7 @@ class CognitoUtils {
       // and failure callbacks) than .getSession (a single callback with error and success parameters).  the Promise wrappers
       // give callers a more uniform API for interacting with asynchronous cognito session operations.
       cognitoUser.getSession((errInfo, sessionData) => {
-        if(errInfo) {
+        if (errInfo) {
           reject(errInfo)
         } else {
           resolve(sessionData)
@@ -65,7 +65,7 @@ class CognitoUtils {
   // a thin wrapper around CognitoUtils.getSession.  returns a Promise which resolves to the value from
   // sessionData that's most often useful to other parts of the editor (the JWT ID token string).
   static getIdTokenString(cognitoUser) {
-    return CognitoUtils.getSession(cognitoUser).then((sessionData) => sessionData.idToken.jwtToken)
+    return CognitoUtils.getSession(cognitoUser).then(sessionData => sessionData.idToken.jwtToken)
   }
 }
 
