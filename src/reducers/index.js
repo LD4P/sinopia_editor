@@ -76,7 +76,7 @@ export const refreshResourceTemplate = (state, action) => {
 export const setResourceTemplate = (state, action) => {
   const rtKey = action.payload.id
   let output = Object.create(state)
-  action.payload.propertyTemplates.forEach((property) => {
+  action.payload.propertyTemplates.map((property) => {
     let propertyAction = {
       payload: {
         reduxPath: [rtKey, property.propertyURI],

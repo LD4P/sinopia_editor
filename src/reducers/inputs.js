@@ -31,9 +31,9 @@ export const setMyItems = (state, action) => {
         obj[key].items.push(row)
       })
     }
-    if (!Object.keys(obj).includes(key)) {
-      obj[key] = {}
-    }
+    // if (!Object.keys(obj).includes(key)) {
+    //   obj[key] = {}
+    // }
     return obj[key]
   }, newState)
   return newState

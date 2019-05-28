@@ -1,0 +1,38 @@
+{
+  "propertyTemplates": [
+    {
+      "mandatory": "false",
+      "repeatable": "true",
+      "type": "literal",
+      "resourceTemplates": [],
+      "valueConstraint": {
+        "valueTemplateRefs": [],
+        "useValuesFrom": [],
+        "defaults": [],
+        "valueDataType": {}
+      },
+      "propertyLabel": "URI for Supplementary Content",
+      "propertyURI": "http://id.loc.gov/ontologies/bflc/target"
+    },
+    {
+      "mandatory": "false",
+      "repeatable": "true",
+      "type": "literal",
+      "resourceTemplates": [],
+      "valueConstraint": {
+        "valueTemplateRefs": [],
+        "useValuesFrom": [],
+        "defaults": [],
+        "valueDataType": {}
+      },
+      "propertyURI": "http://www.w3.org/2000/01/rdf-schema#label",
+      "propertyLabel": "Supplementary Content"
+    }
+  ],
+  "id": "Sinopia:RT:Fixture:Suppl",
+  "resourceURI": "http://id.loc.gov/ontologies/bibframe/SupplementaryContent",
+  "resourceLabel": "Supplementary Content",
+  "author": "michelle",
+  "remark": "this Resource Template is referred to by Sinopia:RT:Fixture:SampleResource",
+  "schema": "https://ld4p.github.io/sinopia/schemas/0.0.9/resource-template.json"
+}

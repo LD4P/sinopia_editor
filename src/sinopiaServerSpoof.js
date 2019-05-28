@@ -19,6 +19,8 @@ const retentionRt = require('../static/spoofedFilesFromServer/fromSinopiaServer/
 const itemAcqSourceRt = require('../static/spoofedFilesFromServer/fromSinopiaServer/resourceTemplates/ItemAcqSource.json')
 const enumerationRt = require('../static/spoofedFilesFromServer/fromSinopiaServer/resourceTemplates/ItemEnumeration.json')
 const chronologyRt = require('../static/spoofedFilesFromServer/fromSinopiaServer/resourceTemplates/ItemChronology.json')
+const sampleResource = require('../static/spoofedFilesFromServer/fromSinopiaServer/resourceTemplates/SampleResource.json')
+const supplementaryContent = require('../static/spoofedFilesFromServer/fromSinopiaServer/resourceTemplates/SupplementaryContent.json')
 
 export const resourceTemplateId2Json = [
   {id: 'resourceTemplate:bf2:Monograph:Instance', json: monographInstanceRt},
@@ -39,7 +41,9 @@ export const resourceTemplateId2Json = [
   {id: 'resourceTemplate:bf2:Item:Retention', json: retentionRt},
   {id: 'resourceTemplate:bf2:Item:ItemAcqSource', json: itemAcqSourceRt},
   {id: 'resourceTemplate:bf2:Item:Enumeration', json: enumerationRt},
-  {id: 'resourceTemplate:bf2:Item:Chronology', json: chronologyRt}
+  {id: 'resourceTemplate:bf2:Item:Chronology', json: chronologyRt},
+  {id: 'Sinopia:RT:Fixture:SampleResource', json: sampleResource},
+  {id: 'Sinopia:RT:Fixture:Suppl', json: supplementaryContent}
 ]
 
 const emptyTemplate = { propertyTemplates : [{}] }
