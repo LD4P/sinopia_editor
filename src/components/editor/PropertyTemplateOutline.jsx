@@ -11,15 +11,14 @@ import PropTypes from 'prop-types'
 import shortid from 'shortid'
 import ResourceProperty from "./ResourceProperty";
 
-export const AddResourceTemplate = (resourceTemplate, reduxPath) => {
+export const addResourceTemplate = (resourceTemplate, reduxPath) => {
   const output = []
-  // TODO: Add delete button
+  // TODO: Add delete button, noted in issue #535
   output.push(<h5 key={shortid.generate()}>{resourceTemplate.resourceLabel}</h5>)
   resourceTemplate.propertyTemplates.map((rtProperty) => {
-    const newReduxPath = Object.assign([], reduxPath)
+    const newReduxPath = [...reduxPath]
     const keyId = shortid.generate()
-    newReduxPath.push(resourceTemplate.id)
-    newReduxPath.push(keyId)
+    newReduxPath.push(resourceTemplate.id, keyId)
     output.push(<PropertyTemplateOutline key={keyId}
                 propertyTemplate={rtProperty}
                 reduxPath={newReduxPath}
@@ -44,10 +43,11 @@ export class PropertyTemplateOutline extends Component {
     return classNames
   }
 
+  // Uses currying to pass multiple parameters to handleAddClick
   handleAddClick = (resourceTemplate) => (event) => {
     event.preventDefault()
-    const propertyTypeRows = Object.assign([], this.state.propertyTypeRow)
-    const output = AddResourceTemplate(resourceTemplate, this.props.reduxPath)
+    const propertyTypeRows = [...this.state.propertyTypeRow]
+    const output = addResourceTemplate(resourceTemplate, this.props.reduxPath)
     output.map((row) => {
       propertyTypeRows.push(row)
     })

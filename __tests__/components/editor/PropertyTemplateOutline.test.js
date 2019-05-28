@@ -3,7 +3,7 @@
 import React from 'react'
 import 'jsdom-global/register'
 import { shallow, mount } from 'enzyme'
-import { AddResourceTemplate, PropertyTemplateOutline } from '../../../src/components/editor/PropertyTemplateOutline'
+import { addResourceTemplate, PropertyTemplateOutline } from '../../../src/components/editor/PropertyTemplateOutline'
 import RequiredSuperscript from '../../../src/components/editor/RequiredSuperscript'
 
 describe('<PropertyTemplateOutline />', () => {
@@ -142,7 +142,7 @@ describe('<PropertyTemplateOutline />', () => {
   })
 })
 
-describe('AddResourceTemplate function', () => {
+describe('addResourceTemplate function', () => {
   const noteResourceTemplate = {
     "id": "resourceTemplate:bf2:Note",
     "resourceURI": "http://id.loc.gov/ontologies/bibframe/Note",
@@ -166,9 +166,9 @@ describe('AddResourceTemplate function', () => {
       }
     ]
   }
-  const propertyTemplate = AddResourceTemplate(noteResourceTemplate, ['resourceTemplate:bf2:Note'])
+  const propertyTemplate = addResourceTemplate(noteResourceTemplate, ['resourceTemplate:bf2:Note'])
 
-  it('contains the Resource Template title as the first element', () => {
+  it("contains the Resource Template's resourceLabel as the first element", () => {
     const firstElement = shallow(<h5>{noteResourceTemplate["resourceLabel"]}</h5>)
     expect(firstElement.matchesElement(propertyTemplate[0])).toBeTruthy()
   })

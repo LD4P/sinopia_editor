@@ -13,17 +13,17 @@ class PropertyResourceTemplate extends Component {
     super(props)
     this.state = {
       collapse: false,
-      output: []
+      output: this.populatePropertyTemplates()
     }
-    this.populatePropertyTemplates()
   }
 
   handleAddClick = (event) => {
     event.preventDefault()
-    const existingOutputs = this.state.output
+    const existingOutputs = [...this.state.output]
+
     existingOutputs.push(<h4 key={shortid.generate()}>{this.props.resourceTemplate.resourceLabel}</h4>)
-    this.populatePropertyTemplates()
-    this.setState({ output: existingOutputs})
+    const result = this.populatePropertyTemplates()
+    this.setState({ output: existingOutputs.concat(result)})
   }
 
   handleMintUri = (event) => {
@@ -31,20 +31,22 @@ class PropertyResourceTemplate extends Component {
   }
 
   populatePropertyTemplates = () => {
+    const newOutput = []
     this.props.resourceTemplate.propertyTemplates.map((property) => {
-      let keyId = shortid.generate()
-      let newReduxPath = Object.assign([], this.props.reduxPath)
+      const keyId = shortid.generate()
+      const newReduxPath = [...this.props.reduxPath]
       newReduxPath.push(keyId)
-      this.state.output.push(<PropertyTemplateOutline
-              propertyTemplate={property}
-              rtId={this.props.resourceTemplate.id}
-              reduxPath={newReduxPath}
-              key={keyId} />)
+      newOutput.push(<PropertyTemplateOutline
+                      propertyTemplate={property}
+                      rtId={this.props.resourceTemplate.id}
+                      reduxPath={newReduxPath}
+                      key={keyId} />)
     })
+    return newOutput
   }
 
   render() {
-    const isAddDisabled = this.props.isRepeatable == "false" ? true : false
+    const isAddDisabled = this.props.isRepeatable == "false"
     return (<div>
       <div className="row" key={shortid.generate()}>
         <section className="col-md-8">

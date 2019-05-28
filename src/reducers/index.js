@@ -2,7 +2,7 @@
 import { combineReducers } from 'redux'
 import lang from './lang'
 import authenticate from './authenticate'
-import {removeAllContent, setMyItems, removeMyItem, setMySelections } from './inputs'
+import { removeAllContent, setMyItems, removeMyItem, setMySelections } from './inputs'
 import shortid from 'shortid'
 
 const inputPropertySelector = (state, props) => {
