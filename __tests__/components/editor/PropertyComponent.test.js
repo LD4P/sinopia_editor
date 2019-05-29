@@ -66,7 +66,7 @@ describe('<PropertyComponent />', () => {
   describe('when there are no configuration values from the property template', () => {
     describe('for unconfigured templates of type:literal', () => {
       const template = {
-        "propertyURI": "http//:id.loc.gov/ontologies/bibframe/heldBy",
+        "propertyURI": "http://id.loc.gov/ontologies/bibframe/heldBy",
         "type": "literal"
       }
 
