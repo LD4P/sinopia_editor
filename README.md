@@ -27,6 +27,13 @@ This will start up the code at [http://localhost:8000](http://localhost:8000).
 
 The Sinopia Editor code is currently available via [sinopia.io](https://sinopia.io)
 
+## Creating an account
+
+To log into the sinopia editor in localhost, you will need a development cognito account.  To do this,
+go to https://development.sinopia.io/ and click "Request Account".  Create your account here and
+confirm the email address.  Once created, you can go back to localhost and login with that account.
+You will need to be online to authenticate even when developing in localhost.
+
 ## Developers
 
 - See `package.json` for npm package dependencies.
