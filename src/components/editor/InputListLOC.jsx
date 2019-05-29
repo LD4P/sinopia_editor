@@ -6,29 +6,27 @@ import PropTypes from 'prop-types'
 import PropertyRemark from './PropertyRemark'
 import { connect } from 'react-redux'
 import { changeSelections } from '../../actions/index'
+import { defaultValuesFromPropertyTemplate } from '../../Utilities'
 import shortid from 'shortid'
 
 class InputListLOC extends Component {
   constructor(props) {
     super(props)
+
+    this.hasPropertyRemark = this.hasPropertyRemark.bind(this)
+
+    const defaults = defaultValuesFromPropertyTemplate(this.props.propertyTemplate)
+
+    if (defaults.length > 0) {
+      this.setPayLoad(defaults)
+    } else {
+      console.error(`no defaults defined in property template: ${JSON.stringify(this.props.propertyTemplate)}`)
+    }
+
     this.state = {
       isLoading: false,
       options: [],
-      defaults: []
-    }
-    this.hasPropertyRemark = this.hasPropertyRemark.bind(this)
-
-    try {
-      const defaultValue = this.props.propertyTemplate.valueConstraint.defaults[0]
-      const defaults = [{
-        id: defaultValue.defaultURI,
-        label: defaultValue.defaultLiteral,
-        uri: defaultValue.defaultURI
-      }]
-      this.state.defaults = defaults
-      this.setPayLoad(defaults)
-    } catch (error) {
-      console.error(`defaults not defined in the property template: ${error}`)
+      defaults: defaults
     }
   }
 

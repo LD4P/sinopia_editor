@@ -1,8 +1,9 @@
 // Copyright 2018 Stanford University see LICENSE for license
+
 import 'jsdom-global/register'
 import React from 'react'
 import { shallow } from 'enzyme'
-import InputLookup from '../../../src/components/editor/InputLookupQA'
+import InputLookupQA from '../../../src/components/editor/InputLookupQA'
 
 const plProps = {
   "id": "lookupComponent",
@@ -20,12 +21,16 @@ const plProps = {
         "valueDataType": {
           "dataTypeURI": "http://id.loc.gov/ontologies/bibframe/Agent"
         },
-        "defaults": []
+        "defaults": [{
+          "defaultURI": "http://id.loc.gov/vocabulary/carriers/nc",
+          "defaultLiteral": "volume"
+        }]
       },
       "propertyURI": "http://id.loc.gov/ontologies/bflc/target",
       "propertyLabel": "Name Lookup"
     }
-};
+}
+
 const p2Props = {
   "id": "lookupComponent",
   "propertyTemplate":
@@ -48,7 +53,7 @@ const p2Props = {
       "propertyURI": "http://id.loc.gov/ontologies/bflc/target",
       "propertyLabel": "Name Lookup"
     }
-};
+}
 
 const multipleResults = [{
     "authLabel":"Person",
@@ -59,12 +64,12 @@ const multipleResults = [{
     "authLabel":"Subject",
     "authURI":"SubjectURI",
     "body":[{ "uri":"suri","label":"slabel" }]
-  }];
+  }]
 
 describe('<InputLookupQA />', () => {
   // our mock formData function to replace the one provided by mapDispatchToProps
   const mockFormDataFn = jest.fn()
-  const wrapper = shallow(<InputLookup.WrappedComponent {...plProps} handleSelectedChange={mockFormDataFn} />)
+  const wrapper = shallow(<InputLookupQA.WrappedComponent {...plProps} handleSelectedChange={mockFormDataFn} />)
 
   it('uses the propertyLabel from the template as the form control label', () => {
     expect(wrapper.find('#lookupComponent').props().placeholder).toMatch('Name Lookup')
@@ -81,6 +86,61 @@ describe('<InputLookupQA />', () => {
 
   it('sets the typeahead component multiple attribute according to the repeatable property from the template', () => {
     expect(wrapper.find('#lookupComponent').props().multiple).toBeTruthy()
+  })
+
+  describe('default values', () => {
+    afterAll(() => {
+      jest.restoreAllMocks()
+    })
+
+    it('sets the default values according to the property template if they exist', () => {
+      const defaults = [{
+        id: 'http://id.loc.gov/vocabulary/carriers/nc',
+        uri: 'http://id.loc.gov/vocabulary/carriers/nc',
+        label: 'volume'
+      }]
+      expect(wrapper.state('defaults')).toEqual(defaults)
+    })
+
+    it('logs an error when no defaults are set', () => {
+      const plProps = {
+        "id": "lookupComponent",
+        "propertyTemplate":
+        {
+          "mandatory": "false",
+          "repeatable": "true",
+          "type": "lookup",
+          "resourceTemplates": [],
+          "valueConstraint": {
+            "valueTemplateRefs": [],
+            "useValuesFrom": [
+              'lookupQaLocNames'
+            ],
+            "valueDataType": {
+              "dataTypeURI": "http://id.loc.gov/ontologies/bibframe/Agent"
+            }
+          },
+          "propertyURI": "http://id.loc.gov/ontologies/bflc/target",
+          "propertyLabel": "Name Lookup"
+        }
+      }
+
+      const errorSpy = jest.spyOn(console, 'error').mockReturnValue(null)
+      const wrapper2 = shallow(<InputLookupQA.WrappedComponent {...plProps} handleSelectedChange={mockFormDataFn} />)
+
+      expect(wrapper2.state('defaults')).toEqual([])
+      expect(errorSpy).toBeCalledWith(`no defaults defined in property template: ${JSON.stringify(plProps.propertyTemplate)}`)
+    })
+
+    it('sets the async typeahead component defaultSelected attribute', () => {
+      const wrapper2 = shallow(<InputLookupQA.WrappedComponent {...plProps} handleSelectedChange={mockFormDataFn} />)
+
+      expect(wrapper2.find('#lookupComponent').props().defaultSelected).toEqual([{
+        id: 'http://id.loc.gov/vocabulary/carriers/nc',
+        uri: 'http://id.loc.gov/vocabulary/carriers/nc',
+        label: 'volume'
+      }])
+    })
   })
 
   it('should call the onChange event and set the state with the selected option', () => {
@@ -114,7 +174,7 @@ describe('<InputLookupQA />', () => {
   })
 
   //Institute wrapper with multiple lookup options
-  const multipleWrapper = shallow(<InputLookup.WrappedComponent {...p2Props} handleSelectedChange={mockFormDataFn} />)
+  const multipleWrapper = shallow(<InputLookupQA.WrappedComponent {...p2Props} handleSelectedChange={mockFormDataFn} />)
   it('passes multiple lookup results in state with search event', () => {
    const event = (wrap) => {
      wrap.setState({options: multipleResults})
