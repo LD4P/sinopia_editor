@@ -17,7 +17,7 @@ describe('<PropertyComponent />', () => {
         }
       }
 
-      const wrapper = shallow(<PropertyComponent propertyTemplate={template} />)
+      const wrapper = shallow(<PropertyComponent propertyTemplate={template} reduxPath={["http://id.loc.gov/ontologies/bibframe/issuance"]} />)
 
       it('should find a configuration object in the lookup config', () => {
         expect(typeof wrapper.state('configuration')).toEqual("object")
@@ -46,7 +46,7 @@ describe('<PropertyComponent />', () => {
         }
       }
 
-      const wrapper = shallow(<PropertyComponent propertyTemplate={template} />)
+      const wrapper = shallow(<PropertyComponent propertyTemplate={template} reduxPath={["http://id.loc.gov/ontologies/bibframe/contribution"]}/>)
 
       it('finds a configuration object in the lookup config', () => {
         expect(typeof wrapper.state('configuration')).toEqual("object")
@@ -70,7 +70,8 @@ describe('<PropertyComponent />', () => {
         "type": "literal"
       }
 
-      const wrapper = shallow(<PropertyComponent propertyTemplate={template} />)
+      const wrapper = shallow(<PropertyComponent propertyTemplate={template}
+                                reduxPath={["http://id.loc.gov/ontologies/bibframe/heldBy"]} />)
 
       it('returns an empty array', () => {
         expect(wrapper.state('configuration').length).toEqual(0)
@@ -93,7 +94,8 @@ describe('<PropertyComponent />', () => {
         }
       }
 
-      const wrapper = shallow(<PropertyComponent propertyTemplate={template} />)
+      const wrapper = shallow(<PropertyComponent propertyTemplate={template}
+                               reduxPath={["http://id.loc.gov/ontologies/bibframe/note"]}/>)
       expect(wrapper.find('Connect(InputListLOC)').length).toEqual(0)
       expect(wrapper.find('Connect(InputLookupQA)').length).toEqual(0)
       expect(wrapper.find('Connect(InputLiteral)').length).toEqual(0)
@@ -103,7 +105,7 @@ describe('<PropertyComponent />', () => {
   describe('getLookupConfigItems()', () => {
    it('returns an empty array if passed any value that fails to define a `valueConstraint.useValuesFrom` array', () => {
      const template = {}
-     const wrapper = shallow(<PropertyComponent propertyTemplate={template} />)
+     const wrapper = shallow(<PropertyComponent propertyTemplate={template} reduxPath={['nothing']}/>)
 
      expect(wrapper.instance().getLookupConfigItems(template)).toEqual([])
     })
@@ -114,7 +116,7 @@ describe('<PropertyComponent />', () => {
           useValuseFrom: []
         }
       }
-      const wrapper = shallow(<PropertyComponent propertyTemplate={template} />)
+      const wrapper = shallow(<PropertyComponent propertyTemplate={template} reduxPath={['nothing']}/>)
 
       expect(wrapper.instance().getLookupConfigItems(template)).toEqual([])
     })
@@ -130,7 +132,7 @@ describe('<PropertyComponent />', () => {
           ]
         }
       }
-      const wrapper = shallow(<PropertyComponent propertyTemplate={template} />)
+      const wrapper = shallow(<PropertyComponent propertyTemplate={template} reduxPath={['']}/>)
 
       expect(wrapper.instance().getLookupConfigItems(template)).toEqual([
         {
@@ -148,5 +150,25 @@ describe('<PropertyComponent />', () => {
         }
       ])
     })
+  })
+
+  it('logs an error if <PropertyComponent /> is missing reduxPath props', () => {
+    const template = {
+      "propertyURI": "http://id.loc.gov/ontologies/bibframe/note",
+      "type": "resource",
+      "valueConstraint": {
+        "valueTemplateRefs": [
+          "resourceTemplate:bf2:Note"
+        ],
+        "useValuesFrom": []
+      }
+    }
+    const originalError = console.error
+    console.error = jest.fn()
+    shallow(<PropertyComponent index={1}
+                              propertyTemplate={template}
+                              rtId={'resourceTemplate:test'} />)
+    expect(console.error).toHaveBeenCalledTimes(1)
+    console.error = originalError
   })
 })

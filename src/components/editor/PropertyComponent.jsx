@@ -87,7 +87,7 @@ PropertyComponent.propTypes = {
       useValuesFrom: PropTypes.oneOfType([ PropTypes.string, PropTypes.array])
     })
   }).isRequired,
-  reduxPath: PropTypes.array,
+  reduxPath: PropTypes.array.isRequired,
   rtId: PropTypes.string,
   index: PropTypes.number
 }

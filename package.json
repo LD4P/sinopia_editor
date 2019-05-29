@@ -50,6 +50,7 @@
     "jest": "^24.7.1",
     "jest-junit": "^6.3.0",
     "jest-localstorage-mock": "^2.4.0",
+    "jest-prop-type-error": "^1.1.0",
     "jest-puppeteer": "^4.1.1",
     "jsdom": "15.0.0",
     "jsdom-global": "3.0.2",
@@ -134,7 +135,8 @@
       "/node_modules/"
     ],
     "setupFiles": [
-      "jest-localstorage-mock"
+      "jest-localstorage-mock",
+      "jest-prop-type-error"
     ]
   }
 }

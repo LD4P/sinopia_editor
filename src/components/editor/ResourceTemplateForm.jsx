@@ -132,7 +132,7 @@ export class ResourceTemplateForm extends Component {
               } else {
                 return (
                   <PropertyPanel pt={pt} key={index} float={index} rtId={this.props.rtId}>
-                    <PropertyComponent index={index} rtId={this.props.rtId} propertyTemplate={pt} />
+                    <PropertyComponent index={index} reduxPath={[this.props.rtId]} rtId={this.props.rtId} propertyTemplate={pt} />
                   </PropertyPanel>
                 )
               }
