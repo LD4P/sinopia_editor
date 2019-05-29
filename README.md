@@ -20,7 +20,7 @@ Technical documentation specific to the Sinopia BIBFRAME Editor may also be foun
 
 ## Build the distribution
 
-`npm run-script build`
+`npm run build`
 
 ## Running the code
 
