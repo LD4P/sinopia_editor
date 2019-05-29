@@ -152,7 +152,7 @@ describe('<PropertyComponent />', () => {
     })
   })
 
-  it('error if <PropertyComponent /> is missing reduxPath props', () => {
+  it('logs an error if <PropertyComponent /> is missing reduxPath props', () => {
     const template = {
       "propertyURI": "http://id.loc.gov/ontologies/bibframe/note",
       "type": "resource",
@@ -163,12 +163,12 @@ describe('<PropertyComponent />', () => {
         "useValuesFrom": []
       }
     }
+    const originalError = console.error
     console.error = jest.fn()
-    const wrapper = shallow(<PropertyComponent index={1}
+    shallow(<PropertyComponent index={1}
                               propertyTemplate={template}
                               rtId={'resourceTemplate:test'} />)
-    expect(wrapper).toBeTruthy() // Needed to pass eslint
     expect(console.error).toHaveBeenCalledTimes(1)
-
+    console.error = originalError
   })
 })
