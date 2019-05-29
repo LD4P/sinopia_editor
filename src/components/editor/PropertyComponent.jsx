@@ -7,17 +7,27 @@ import InputLookupQA from './InputLookupQA'
 import shortid from 'shortid'
 import lookupConfig from '../../../static/spoofedFilesFromServer/fromSinopiaServer/lookupConfig.json'
 import PropTypes from 'prop-types'
-const _ = require('lodash')
 
 export class PropertyComponent extends Component {
   constructor(props) {
     super(props)
     this.state = {
-      configuration: getLookupConfigItems(this.props.propertyTemplate)
+      configuration: this.getLookupConfigItems(this.props.propertyTemplate)
     }
   }
 
-  inputComponentType = (property) => {
+  getLookupConfigItems = propertyTemplate => {
+    const vocabUriList = propertyTemplate?.valueConstraint?.useValuesFrom
+
+    if (vocabUriList === undefined || vocabUriList.length === 0)
+      return []
+
+    const templateConfigItems = lookupConfig.filter(configItem => vocabUriList.includes(configItem.uri))
+
+    return templateConfigItems
+  }
+
+  inputComponentType = property => {
     let config, result
 
     // We do not support mixed list and lookups, so we will just go with the value of the first config item found
@@ -65,22 +75,6 @@ export class PropertyComponent extends Component {
       return false
     }
   }
-}
-
-export const getLookupConfigItems = (property) => {
-  const templateConfigItems = []
-
-  if (_.find([property], 'valueConstraint.useValuesFrom')) {
-    property.valueConstraint.useValuesFrom.map(templateUri => {
-      lookupConfig.map(configItem => {
-        if (configItem.uri === templateUri) {
-          templateConfigItems.push(configItem)
-        }
-      })
-    })
-  }
-
-  return templateConfigItems
 }
 
 PropertyComponent.propTypes = {
