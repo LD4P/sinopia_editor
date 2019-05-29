@@ -17,7 +17,7 @@ describe('<PropertyComponent />', () => {
         }
       }
 
-      const wrapper = shallow(<PropertyComponent propertyTemplate={template} />)
+      const wrapper = shallow(<PropertyComponent propertyTemplate={template} reduxPath={["http://id.loc.gov/ontologies/bibframe/issuance"]} />)
 
       it('should find a configuration object in the lookup config', () => {
         expect(typeof wrapper.state('configuration')).toEqual("object")
@@ -46,7 +46,7 @@ describe('<PropertyComponent />', () => {
         }
       }
 
-      const wrapper = shallow(<PropertyComponent propertyTemplate={template} />)
+      const wrapper = shallow(<PropertyComponent propertyTemplate={template} reduxPath={["http://id.loc.gov/ontologies/bibframe/contribution"]}/>)
 
       it('finds a configuration object in the lookup config', () => {
         expect(typeof wrapper.state('configuration')).toEqual("object")
@@ -70,7 +70,8 @@ describe('<PropertyComponent />', () => {
         "type": "literal"
       }
 
-      const wrapper = shallow(<PropertyComponent propertyTemplate={template} />)
+      const wrapper = shallow(<PropertyComponent propertyTemplate={template}
+                                reduxPath={["http://id.loc.gov/ontologies/bibframe/heldBy"]} />)
 
       it('returns an empty array', () => {
         expect(wrapper.state('configuration').length).toEqual(0)
@@ -93,7 +94,8 @@ describe('<PropertyComponent />', () => {
         }
       }
 
-      const wrapper = shallow(<PropertyComponent propertyTemplate={template} />)
+      const wrapper = shallow(<PropertyComponent propertyTemplate={template}
+                               reduxPath={["http://id.loc.gov/ontologies/bibframe/note"]}/>)
       expect(wrapper.find('Connect(InputListLOC)').length).toEqual(0)
       expect(wrapper.find('Connect(InputLookupQA)').length).toEqual(0)
       expect(wrapper.find('Connect(InputLiteral)').length).toEqual(0)

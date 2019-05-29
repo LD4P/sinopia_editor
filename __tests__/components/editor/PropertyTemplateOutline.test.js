@@ -131,7 +131,8 @@ describe('<PropertyTemplateOutline />', () => {
         }
       }
 
-      const wrapper = shallow(<PropertyTemplateOutline {...propertyRtPropsLiteral} />)
+      const wrapper = shallow(<PropertyTemplateOutline {...propertyRtPropsLiteral}
+                               reduxPath={["http://id.loc.gov/ontologies/bibframe/heldBy"]} />)
 
       wrapper.setState({collapsed: false})
       wrapper.instance().outlineRowClass()
