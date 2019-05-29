@@ -18,6 +18,10 @@ Technical documentation specific to the Sinopia BIBFRAME Editor may also be foun
 4.  Get latest npm: `npm install -g npm@latest`
 5.  Run `npm install`. This installs everything needed for the build to run successfully.
 
+## Build the distribution
+
+`npm run-script build`
+
 ## Running the code
 
 `npm start`
