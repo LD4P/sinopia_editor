@@ -68,13 +68,47 @@ describe('<InputList />', () => {
     expect(wrapper.find('#targetComponent').props().placeholder).toMatch('Frequency (RDA 2.14)')
   })
 
-  it('sets the default values according to the property template if they exist', () => {
-    const defaults = [{
-      id: 'http://id.loc.gov/vocabulary/carriers/nc',
-      uri: 'http://id.loc.gov/vocabulary/carriers/nc',
-      label: 'volume'
-    }]
-    expect(wrapper.state('defaults')).toEqual(defaults)
+  describe('default values', () => {
+    afterAll(() => {
+      jest.restoreAllMocks()
+    })
+
+    it('sets the default values according to the property template if they exist', () => {
+      const defaults = [{
+        id: 'http://id.loc.gov/vocabulary/carriers/nc',
+        uri: 'http://id.loc.gov/vocabulary/carriers/nc',
+        label: 'volume'
+      }]
+      expect(wrapper.state('defaults')).toEqual(defaults)
+    })
+
+    it('logs an error when no defaults are set', () => {
+      const plProps = {
+        "propertyTemplate": {
+          "propertyURI": "http://id.loc.gov/ontologies/bflc/target",
+          "propertyLabel": "Frequency (RDA 2.14)",
+          "remark": "http://access.rdatoolkit.org/2.14.html",
+          "mandatory": "false",
+          "repeatable": "false",
+          "type": "lookup",
+          "valueConstraint": {
+            "repeatable": "true",
+            "valueTemplateRefs": [],
+            "useValuesFrom": [
+              "vocabulary:bf2:frequencies"
+            ],
+            "valueDataType": {
+              "dataTypeURI": "http://id.loc.gov/ontologies/bibframe/Frequency"
+            }
+          }
+        }
+      }
+      const errorSpy = jest.spyOn(console, 'error').mockReturnValue(null)
+      const wrapper2 = shallow(<InputList.WrappedComponent {...plProps} handleSelectedChange={mockFormDataFn} />)
+
+      expect(wrapper2.state('defaults')).toEqual([])
+      expect(errorSpy).toBeCalledWith(`no defaults defined in property template: ${JSON.stringify(plProps.propertyTemplate)}`)
+    })
   })
 
   it('should call the onFocus event and set the selected option', () => {
