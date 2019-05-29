@@ -105,7 +105,7 @@ describe('<PropertyComponent />', () => {
   describe('getLookupConfigItems()', () => {
    it('returns an empty array if passed any value that fails to define a `valueConstraint.useValuesFrom` array', () => {
      const template = {}
-     const wrapper = shallow(<PropertyComponent propertyTemplate={template} />)
+     const wrapper = shallow(<PropertyComponent propertyTemplate={template} reduxPath={['nothing']}/>)
 
      expect(wrapper.instance().getLookupConfigItems(template)).toEqual([])
     })
@@ -116,7 +116,7 @@ describe('<PropertyComponent />', () => {
           useValuseFrom: []
         }
       }
-      const wrapper = shallow(<PropertyComponent propertyTemplate={template} />)
+      const wrapper = shallow(<PropertyComponent propertyTemplate={template} reduxPath={['nothing']}/>)
 
       expect(wrapper.instance().getLookupConfigItems(template)).toEqual([])
     })
@@ -132,7 +132,7 @@ describe('<PropertyComponent />', () => {
           ]
         }
       }
-      const wrapper = shallow(<PropertyComponent propertyTemplate={template} />)
+      const wrapper = shallow(<PropertyComponent propertyTemplate={template} reduxPath={['']}/>)
 
       expect(wrapper.instance().getLookupConfigItems(template)).toEqual([
         {
@@ -150,5 +150,25 @@ describe('<PropertyComponent />', () => {
         }
       ])
     })
+  })
+
+  it('error if <PropertyComponent /> is missing reduxPath props', () => {
+    const template = {
+      "propertyURI": "http://id.loc.gov/ontologies/bibframe/note",
+      "type": "resource",
+      "valueConstraint": {
+        "valueTemplateRefs": [
+          "resourceTemplate:bf2:Note"
+        ],
+        "useValuesFrom": []
+      }
+    }
+    console.error = jest.fn()
+    const wrapper = shallow(<PropertyComponent index={1}
+                              propertyTemplate={template}
+                              rtId={'resourceTemplate:test'} />)
+    expect(wrapper).toBeTruthy() // Needed to pass eslint
+    expect(console.error).toHaveBeenCalledTimes(1)
+
   })
 })
