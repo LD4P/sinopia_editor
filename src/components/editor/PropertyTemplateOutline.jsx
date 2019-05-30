@@ -106,10 +106,7 @@ export class PropertyTemplateOutline extends Component {
                                       addButtonDisabled={isAddDisabled}
                                       handleMintUri={this.props.handleMintUri} />
     } else {
-      propertyJsx = <PropertyComponent index={0}
-                                       rtId={this.props.rtId}
-                                       reduxPath={this.props.reduxPath}
-                                       propertyTemplate={property} />
+      propertyJsx = <PropertyComponent index={0} propertyTemplate={property} reduxPath={this.props.reduxPath} />
     }
 
     newOutput.forEach((propertyJsx) => {

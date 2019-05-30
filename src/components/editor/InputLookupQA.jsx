@@ -6,7 +6,7 @@ import Swagger from 'swagger-client'
 import { connect } from 'react-redux'
 import { getProperty } from '../../reducers/index'
 import { changeSelections } from '../../actions/index'
-import { defaultValuesFromPropertyTemplate } from '../../Utilities'
+import { booleanPropertyFromTemplate, defaultValuesFromPropertyTemplate } from '../../Utilities'
 
 const AsyncTypeahead = asyncContainer(Typeahead)
 
@@ -85,12 +85,8 @@ class InputLookupQA extends Component {
     let authority, subauthority, language
     const lookupConfigs = this.props.lookupConfig
 
-    const isMandatory = this.props.propertyTemplate.mandatory === undefined ?
-          true :
-          JSON.parse(this.props.propertyTemplate.mandatory)
-    const isRepeatable = this.props.propertyTemplate.repeatable === undefined ?
-          true :
-          JSON.parse(this.props.propertyTemplate.repeatable)
+    const isMandatory = booleanPropertyFromTemplate(this.props.propertyTemplate, 'mandatory', false)
+    const isRepeatable = booleanPropertyFromTemplate(this.props.propertyTemplate.valueConstraint, 'repeatable', true)
 
     const typeaheadProps = {
       id: 'lookupComponent',

@@ -45,3 +45,18 @@ export const templateBoolean = (value) => {
   }
   return Boolean(result)
 }
+
+export const booleanPropertyFromTemplate = (template, key, defaultValue) => {
+  // Use safe navigation for dynamic properties: https://github.com/tc39/proposal-optional-chaining#syntax
+  const propertyValue = template?.[key]
+
+  if (!propertyValue)
+    return defaultValue
+
+  const parsedValue = JSON.parse(propertyValue)
+
+  if (parsedValue !== true && parsedValue !== false)
+    return defaultValue
+
+  return parsedValue
+}
