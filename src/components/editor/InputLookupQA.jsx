@@ -25,8 +25,7 @@ class InputLookupQA extends Component {
       isLoading: false,
       defaults: defaults
     }
-    //trying this out for test: ../../src/lib/apidoc.json from 
-    this.lookupClient = Swagger({ url: '../../src/lib/apidoc.json' })
+    this.lookupClient = Swagger({ url: 'src/lib/apidoc.json' })
   }
   
   //Select appropriate API call to be made for QA
