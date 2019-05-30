@@ -129,7 +129,8 @@ module.exports = {
     "require-unicode-regexp": "off",
     "import/order": "off",
     "no-throw-literal": "off",
-    "import/no-namespace": "off"
+    "import/no-namespace": "off",
+    "no-nested-ternary": "off"
   },
   overrides: [
     {

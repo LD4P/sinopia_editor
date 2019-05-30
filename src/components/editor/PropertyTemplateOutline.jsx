@@ -69,6 +69,7 @@ export class PropertyTemplateOutline extends Component {
   fulfillRTPromises = async promiseAll => await promiseAll.then((rts) => {
     rts.map((rt) => {
       const joinedRts = [...this.state.nestedResourceTemplates]
+
       joinedRts.push(rt.response.body)
       this.setState({ nestedResourceTemplates: joinedRts })
     })

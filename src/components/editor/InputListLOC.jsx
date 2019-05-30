@@ -5,7 +5,6 @@ import { Typeahead } from 'react-bootstrap-typeahead'
 import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
 import shortid from 'shortid'
-import PropertyRemark from './PropertyRemark'
 import { changeSelections } from '../../actions/index'
 import { booleanPropertyFromTemplate, defaultValuesFromPropertyTemplate } from '../../Utilities'
 

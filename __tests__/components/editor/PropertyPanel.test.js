@@ -3,7 +3,7 @@
 import React from 'react'
 import { shallow } from 'enzyme'
 import PropertyPanel from '../../../src/components/editor/PropertyPanel'
-import PropertyLabel from "../../../src/components/editor/PropertyLabel";
+import PropertyLabel from '../../../src/components/editor/PropertyLabel'
 
 describe('<PropertyPanel />', () => {
   const panelProps = {

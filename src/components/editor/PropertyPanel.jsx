@@ -2,7 +2,7 @@
 
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
-import PropertyLabel from "./PropertyLabel";
+import PropertyLabel from './PropertyLabel'
 
 export default class PropertyPanel extends Component {
   constructor(props) {
