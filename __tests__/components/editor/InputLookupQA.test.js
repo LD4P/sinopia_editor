@@ -43,8 +43,8 @@ const p2Props = {
       "valueConstraint": {
         "valueTemplateRefs": [],
         "useValuesFrom": [
-          'lookupQaLocNames',
-          'lookupQaLocSubjects'
+          'urn:ld4p:qa:names:person',
+          'urn:ld4p:qa:subjects'
         ],
         "valueDataType": {
           "dataTypeURI": "http://id.loc.gov/ontologies/bibframe/Agent"
@@ -53,7 +53,25 @@ const p2Props = {
       },
       "propertyURI": "http://id.loc.gov/ontologies/bflc/target",
       "propertyLabel": "Name Lookup"
-    }
+    },
+    "lookupConfig": [
+    	{
+			"label": "LOC person [names] (QA)",
+			"uri": "urn:ld4p:qa:names:person",
+			"authority": "locnames_ld4l_cache",
+			"subauthority": "person",
+			"language": "en",
+			"component": "lookup"
+    	}, 
+    	{
+    	    "label": "LOC all subjects (QA)",
+    	    "uri": "urn:ld4p:qa:subjects",
+    	    "authority": "locsubjects_ld4l_cache",
+    	    "subauthority": "",
+    	    "language": "en",
+    	    "component": "lookup"
+    	}
+    ]
 }
 
 const multipleResults = [{
@@ -204,5 +222,12 @@ describe('<InputLookupQA />', () => {
     expect(menuWrapper.childAt(1).childAt(0).text()).toEqual("plabel");
     expect(menuWrapper.childAt(2).html()).toEqual("<li class=\"dropdown-header\">Subject</li>");
     expect(menuWrapper.childAt(3).childAt(0).text()).toEqual("slabel");
+  })
+  
+  //Authority and subauthority calls are properly translated
+  it('selects subauthority API call based on lookup configuration', () => {
+    const instance = multipleWrapper.instance();
+    //subauthority selected in first
+    expect(instance.selectAPICall(instance.lookupClient, instance.props.lookupConfig[0]).toEqual(instance.lookupClient.apis.SearchQuery.GET_searchSubauthority));  
   })
 })

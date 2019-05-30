@@ -7,7 +7,7 @@ import { connect } from 'react-redux'
 import { getProperty } from '../../reducers/index'
 import { changeSelections } from '../../actions/index'
 import { booleanPropertyFromTemplate, defaultValuesFromPropertyTemplate } from '../../Utilities'
-import Config from '../../../src/Config'
+import Config from '../../Config'
 
 const AsyncTypeahead = asyncContainer(Typeahead)
 
@@ -26,6 +26,12 @@ class InputLookupQA extends Component {
       defaults: defaults
     }
     this.lookupClient = Swagger({ url: 'src/lib/apidoc.json' })
+  }
+  
+  //Select appropriate API call to be made for QA
+  //This may expand based on particular lookup options
+  selectAPICall = (client, lookupConfig) => {
+      return lookupConfig.subauthority === undefined ? client.apis.SearchQuery.GET_searchAuthority : client.apis.SearchQuery.GET_searchSubauthority
   }
 
   // Render menu function to be used by typeahead
@@ -121,8 +127,8 @@ class InputLookupQA extends Component {
                               //at this level which will then return the error
                               //Subauthorities require a different API call than authorities so need to check if subauthority is available
                               //The only difference between this call and the next one is the call to Get_searchSubauthority instead of 
-                              //Get_searchauthority.  If there is a way to somehow pass that in a variable name/dynamically, that would be better
-                              const actionFunction = subauthority === undefined ? client.apis.SearchQuery.GET_searchAuthority : client.apis.SearchQuery.GET_searchSubauthority
+                              //Get_searchauthority.  Passing API call in a variable name/dynamically, thanks @mjgiarlo
+                              const actionFunction = this.selectAPICall(client, lookupConfig)
                               return actionFunction({
                                 q: query,
                                 vocab: authority,
@@ -169,7 +175,7 @@ class InputLookupQA extends Component {
 
                         filterBy={() => {
                           /** Currently don't want any default filtering as we want all the results returned from QA, also we are passing in a complex object **/
-                          /* Your own filtering code goes here. */
+                          /* Not having filterBy is interpreted as including default filtering which only returns options matching the search term in some respect */
                           return true
                         }}
         />
