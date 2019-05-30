@@ -44,7 +44,7 @@ class ImportResourceTemplate extends Component {
 
   createResource = async (content, group) => {
     try {
-      const response = await createResourceTemplate(content, group, this.props.authenticationState)
+      const response = await createResourceTemplate(content, group, this.props.currentUser)
       return response.response
     } catch(error) {
       this.setState({
@@ -56,7 +56,7 @@ class ImportResourceTemplate extends Component {
 
   updateResource = async (content, group) => {
     try {
-      const response = await updateResourceTemplate(content, group, this.props.authenticationState)
+      const response = await updateResourceTemplate(content, group, this.props.currentUser)
       return response.response
     } catch(error) {
       return error.response
@@ -159,12 +159,12 @@ class ImportResourceTemplate extends Component {
 ImportResourceTemplate.propTypes = {
   children: PropTypes.array,
   triggerHandleOffsetMenu: PropTypes.func,
-  authenticationState: PropTypes.object
+  currentUser: PropTypes.object
 }
 
 const mapStateToProps = (state) => {
   return {
-    authenticationState: Object.assign({}, state.authenticate.authenticationState)
+    currentUser: Object.assign({}, state.authenticate.authenticationState.currentUser)
   }
 }
 
