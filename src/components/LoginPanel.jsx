@@ -1,4 +1,4 @@
-// Copyright 2018 Stanford University see LICENSE for license
+// Copyright 2019 Stanford University see LICENSE for license
 
 import React, {Component} from 'react'
 import PropTypes from 'prop-types'
@@ -105,7 +105,7 @@ class LoginPanel extends Component {
     return(
       <form className="login-form" onSubmit={this.handleLoginSubmit}>
         { currentUser ? currentUserInfoPanel : null }
-        { authenticationError ? <div className="row">{ authenticationError.message }</div> : null }
+        { authenticationError ? <div className="row error-message">{ authenticationError.message }</div> : null }
         { currentSession ? logoutButton : inlineLoginForm }
       </form>
     )
