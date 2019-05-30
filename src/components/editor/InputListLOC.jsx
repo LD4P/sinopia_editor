@@ -5,7 +5,7 @@ import { Typeahead } from 'react-bootstrap-typeahead'
 import PropTypes from 'prop-types'
 import PropertyRemark from './PropertyRemark'
 import { connect } from 'react-redux'
-import { changeSelections } from '../../actions/index'
+import { changeSelections  } from '../../actions/index'
 import { defaultValuesFromPropertyTemplate, booleanPropertyFromTemplate } from '../../Utilities'
 import shortid from 'shortid'
 
@@ -14,13 +14,12 @@ class InputListLOC extends Component {
     super(props)
     this.state = {
       isLoading: false,
-      options: []
+      options: [],
+      defaults: defaultValuesFromPropertyTemplate(this.props.propertyTemplate)
     }
 
-    const defaults = defaultValuesFromPropertyTemplate(this.props.propertyTemplate)
-
-    if (defaults.length > 0) {
-      this.setPayLoad(defaults)
+    if (this.state.defaults.length > 0) {
+      this.setPayLoad(this.state.defaults)
     } else {
       // Property templates do not require defaults but we like to know when this happens
       console.info(`no defaults defined in property template: ${JSON.stringify(this.props.propertyTemplate)}`)
@@ -33,6 +32,7 @@ class InputListLOC extends Component {
       items: items,
       reduxPath: this.props.reduxPath
     }
+
     this.props.handleSelectedChange(payload)
   }
 
@@ -112,14 +112,14 @@ InputListLOC.propTypes = {
   }).isRequired
 }
 
-const mapStatetoProps = (state) => {
+const mapStateToProps = (state, props) => {
   return Object.assign({}, state)
 }
 
-const mapDispatchtoProps = dispatch => ({
+const mapDispatchToProps = dispatch => ({
   handleSelectedChange(selected){
     dispatch(changeSelections(selected))
   }
 })
 
-export default connect(mapStatetoProps, mapDispatchtoProps)(InputListLOC)
+export default connect(mapStateToProps, mapDispatchToProps)(InputListLOC)

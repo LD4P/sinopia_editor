@@ -115,12 +115,17 @@ describe('<Typeahead /> component', () => {
       jest.restoreAllMocks()
     })
 
+    const defaults = [{
+      "defaultLiteral": "volume",
+      "defaultURI": "http://id.loc.gov/vocabulary/carriers/nc"
+    }]
+
     it('sets the default values according to the property template if they exist', () => {
-      const defaults = [{
-        "defaultLiteral": "volume",
-        "defaultURI": "http://id.loc.gov/vocabulary/carriers/nc"
-      }]
       expect(wrapper.instance().props.propertyTemplate.valueConstraint.defaults).toEqual(defaults)
+    })
+
+    it('sets the defaults state as the defaults array', () => {
+      expect(wrapper.state('defaults').length).toEqual(1)
     })
 
     it('logs an error when no defaults are set', () => {
