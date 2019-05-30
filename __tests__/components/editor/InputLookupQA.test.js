@@ -229,5 +229,7 @@ describe('<InputLookupQA />', () => {
     const instance = multipleWrapper.instance();
     //subauthority selected in first
     expect(instance.selectAPICall(instance.lookupClient, instance.props.lookupConfig[0]).toEqual(instance.lookupClient.apis.SearchQuery.GET_searchSubauthority));  
+    expect(instance.selectAPICall(instance.lookupClient, instance.props.lookupConfig[1]).toEqual(instance.lookupClient.apis.SearchQuery.GET_searchAuthority));  
+
   })
 })
