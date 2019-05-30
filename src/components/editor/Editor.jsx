@@ -7,6 +7,8 @@ import PropTypes from 'prop-types'
 import ResourceTemplate from './ResourceTemplate'
 import Header from './Header'
 import RDFModal from './RDFModal'
+import { getCurrentSession } from '../../authSelectors';
+
 const _ = require('lodash')
 
 class Editor extends Component {
@@ -87,7 +89,7 @@ Editor.propTypes = {
 
 const mapStateToProps = (state) => {
   return {
-    currentSession: Object.assign({}, state.authenticate.authenticationState.currentSession)
+    currentSession: getCurrentSession(state)
   }
 }
 
