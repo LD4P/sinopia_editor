@@ -2,13 +2,13 @@
 
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
+import { connect } from 'react-redux'
 import Header from './Header'
 import ImportFileZone from './ImportFileZone'
 import SinopiaResourceTemplates from './SinopiaResourceTemplates'
 import UpdateResourceModal from './UpdateResourceModal'
 import { createResourceTemplate, updateResourceTemplate } from '../../sinopiaServer'
-import { connect } from 'react-redux'
-import { getCurrentUser } from '../../authSelectors';
+import { getCurrentUser } from '../../authSelectors'
 
 class ImportResourceTemplate extends Component {
   constructor(props) {
@@ -17,13 +17,14 @@ class ImportResourceTemplate extends Component {
       flashMessages: [],
       modalMessages: [],
       updateKey: 0,
-      modalShow: false
+      modalShow: false,
     }
   }
 
   componentDidMount() {
     const incrementedKey = this.state.updateKey + 1
     // This causes the `SinopiaResourceTemplates` component to do the initial load of RTs
+
     this.setState({ updateKey: incrementedKey })
   }
 
@@ -36,8 +37,10 @@ class ImportResourceTemplate extends Component {
     this.resetMessages()
     const responses = []
     // Prefer for ... of to forEach when loop body uses async/await
+
     for (const rt of content.Profile.resourceTemplates) {
       const response = await this.createResource(rt, group)
+
       responses.push(response)
     }
     this.updateStateFromServerResponses(responses)
@@ -46,11 +49,14 @@ class ImportResourceTemplate extends Component {
   createResource = async (content, group) => {
     try {
       const response = await createResourceTemplate(content, group, this.props.currentUser)
+
+
       return response.response
-    } catch(error) {
+    } catch (error) {
       this.setState({
-        modalMessages: [...this.state.modalMessages, error.response]
+        modalMessages: [...this.state.modalMessages, error.response],
       })
+
       return error.response
     }
   }
@@ -58,8 +64,10 @@ class ImportResourceTemplate extends Component {
   updateResource = async (content, group) => {
     try {
       const response = await updateResourceTemplate(content, group, this.props.currentUser)
+
+
       return response.response
-    } catch(error) {
+    } catch (error) {
       return error.response
     }
   }
@@ -67,43 +75,41 @@ class ImportResourceTemplate extends Component {
   resetMessages = () => {
     this.setState({
       flashMessages: [],
-      modalMessages: []
+      modalMessages: [],
     })
   }
 
   updateStateFromServerResponses = (responses) => {
     const newFlashMessages = []
     const newState = {
-      updateKey: this.state.updateKey + 1
+      updateKey: this.state.updateKey + 1,
     }
     let showModal = false
 
-    responses.forEach(response => {
+    responses.forEach((response) => {
       // If any responses are HTTP 409s, flip `showModal` to true
       showModal = showModal || response.status === 409
       newFlashMessages.push(`${this.humanReadableStatus(response.status)} ${this.humanReadableLocation(response)}`)
     })
 
-    if (newFlashMessages.length > 0)
-      newState.flashMessages = [...this.state.flashMessages, ...newFlashMessages]
+    if (newFlashMessages.length > 0) newState.flashMessages = [...this.state.flashMessages, ...newFlashMessages]
 
-    if (showModal)
-      newState.modalShow = true
+    if (showModal) newState.modalShow = true
 
     this.setState(newState)
   }
 
   // Returns a URL or an empty string
-  humanReadableLocation = response => {
-    if (response?.headers?.location)
-      return response.headers.location
+  humanReadableLocation = (response) => {
+    if (response?.headers?.location) return response.headers.location
 
     if (response?.req?._data?.id) {
       // If RT has special characters—e.g., colons—in it, decode the URI to compare against ID
       const decodedURI = decodeURIComponent(response.req.url)
       // If the request URL already contains the ID, don't bother appending
-      if (decodedURI.endsWith(response.req._data.id))
-        return decodedURI
+
+      if (decodedURI.endsWith(response.req._data.id)) return decodedURI
+
       return `${decodedURI}/${response.req._data.id}`
     }
 
@@ -111,8 +117,8 @@ class ImportResourceTemplate extends Component {
     return ''
   }
 
-  humanReadableStatus = status => {
-    switch(status) {
+  humanReadableStatus = (status) => {
+    switch (status) {
       case 201:
         return 'Created'
       case 204:
@@ -129,8 +135,10 @@ class ImportResourceTemplate extends Component {
   handleUpdateResource = async (rts, group) => {
     const responses = []
     // Prefer for ... of to forEach when loop body uses async/await
+
     for (const rt of rts) {
       const response = await this.updateResource(rt, group)
+
       responses.push(response)
     }
     this.updateStateFromServerResponses(responses)
@@ -138,15 +146,15 @@ class ImportResourceTemplate extends Component {
   }
 
   render() {
-    return(
+    return (
       <div id="importResourceTemplate">
         <div>
-        { (this.state.modalShow) ? (
-          <UpdateResourceModal show={this.state.modalShow}
-                               close={this.modalClose}
-                               messages={this.state.modalMessages}
-                               update={this.handleUpdateResource} /> ) :
-          ( <div/> ) }
+          { this.state.modalShow ? (
+            <UpdateResourceModal show={this.state.modalShow}
+                                 close={this.modalClose}
+                                 messages={this.state.modalMessages}
+                                 update={this.handleUpdateResource} />)
+            : (<div/>) }
         </div>
         <Header triggerEditorMenu={this.props.triggerHandleOffsetMenu}/>
         <ImportFileZone setResourceTemplateCallback={this.setResourceTemplates} />
@@ -160,19 +168,19 @@ class ImportResourceTemplate extends Component {
 ImportResourceTemplate.propTypes = {
   children: PropTypes.array,
   triggerHandleOffsetMenu: PropTypes.func,
-  currentUser: PropTypes.object
+  currentUser: PropTypes.object,
 }
 
-const mapStateToProps = (state) => {
-  return {
-    currentUser: getCurrentUser(state)
-  }
-}
+const mapStateToProps = state => ({
+  currentUser: getCurrentUser(state),
+})
 
-//TODO: likely to end up wiring up auth error reporting via redux dispatch
-// const mapDispatchToProps = dispatch => {
-//   return { }
-// }
+/*
+ *TODO: likely to end up wiring up auth error reporting via redux dispatch
+ * const mapDispatchToProps = dispatch => {
+ *   return { }
+ * }
+ */
 
 
 export default connect(mapStateToProps)(ImportResourceTemplate)

@@ -6,29 +6,30 @@ import PropertyPanel from '../../../src/components/editor/PropertyPanel'
 import PropertyLabel from "../../../src/components/editor/PropertyLabel";
 
 describe('<PropertyPanel />', () => {
-  let panelProps = { pt: {
-      "propertyLabel": "Instance of",
-      "propertyURI": "http://id.loc.gov/ontologies/bibframe/instanceOf",
-      "resourceTemplates": [],
-      "type": "resource",
-      "valueConstraint": {
-        "valueTemplateRefs": [
-          "resourceTemplate:bf2:Monograph:Work"
+  const panelProps = {
+    pt: {
+      propertyLabel: 'Instance of',
+      propertyURI: 'http://id.loc.gov/ontologies/bibframe/instanceOf',
+      resourceTemplates: [],
+      type: 'resource',
+      valueConstraint: {
+        valueTemplateRefs: [
+          'resourceTemplate:bf2:Monograph:Work',
         ],
-        "useValuesFrom": [],
-        "valueDataType": {},
-        "defaults": []
+        useValuesFrom: [],
+        valueDataType: {},
+        defaults: [],
       },
-      "mandatory": "true",
-      "repeatable": "true"
-    }
+      mandatory: 'true',
+      repeatable: 'true',
+    },
   }
 
   const wrapper = shallow(<PropertyPanel {...panelProps} />)
 
   it('Contains a panel-header and panel-body divs', () => {
-    expect(wrapper.find(".panel-header")).toBeTruthy()
-    expect(wrapper.find(".panel-body")).toBeTruthy()
+    expect(wrapper.find('.panel-header')).toBeTruthy()
+    expect(wrapper.find('.panel-body')).toBeTruthy()
   })
 
   it('generates a <PropertyLabel />', () => {

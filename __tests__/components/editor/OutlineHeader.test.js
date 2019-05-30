@@ -2,22 +2,21 @@
 
 import React from 'react'
 import { shallow } from 'enzyme'
+import { faMinusSquare, faPlusSquare } from '@fortawesome/free-solid-svg-icons'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import OutlineHeader from '../../../src/components/editor/OutlineHeader'
-import { faMinusSquare, faPlusSquare } from '@fortawesome/free-solid-svg-icons'
 import PropertyLabel from '../../../src/components/editor/PropertyLabel'
 
 describe('<OutlineHeader />', () => {
   const property = {
-    "propertyLabel": "Instance of",
-    "propertyURI": "http://id.loc.gov/ontologies/bibframe/instanceOf",
-    "mandatory": "false"
+    propertyLabel: 'Instance of',
+    propertyURI: 'http://id.loc.gov/ontologies/bibframe/instanceOf',
+    mandatory: 'false',
   }
-
-  let headerProps = {
+  const headerProps = {
     spacer: 0,
     collapsed: true,
-    pt: property
+    pt: property,
   }
   const wrapper = shallow(<OutlineHeader {...headerProps} />)
 
@@ -31,14 +30,17 @@ describe('<OutlineHeader />', () => {
 
   it('anchor is plus when collapsed', () => {
     const faWrapper = wrapper.find('[icon]')
+
     expect(faWrapper.getElement(0).props.icon).toEqual(faPlusSquare)
   })
 
   it('anchor is minus when expanded', () => {
-    let expandedProps = Object.assign({}, headerProps)
+    const expandedProps = { ...headerProps }
+
     expandedProps.collapsed = false
     const expWrapper = shallow(<OutlineHeader {...expandedProps} />)
     const faWrapper = expWrapper.find('[icon]')
+
     expect(faWrapper.getElement(0).props.icon).toEqual(faMinusSquare)
   })
 })

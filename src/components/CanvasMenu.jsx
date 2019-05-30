@@ -2,9 +2,9 @@
 
 import React, { Component } from 'react'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faTimes  } from '@fortawesome/free-solid-svg-icons'
-import Config from '../../src/Config'
+import { faTimes } from '@fortawesome/free-solid-svg-icons'
 import PropTypes from 'prop-types'
+import Config from '../Config'
 
 class CanvasMenu extends Component {
   constructor(props) {
@@ -19,13 +19,13 @@ class CanvasMenu extends Component {
   }
 
   render() {
-    return(
+    return (
       <div>
         <a href="#" onClick={this.props.closeHandleMenu}>
           <FontAwesomeIcon className="close-icon" icon={faTimes} />
         </a>
 
-        <div dangerouslySetInnerHTML={{__html: this.state.content}} />
+        <div dangerouslySetInnerHTML={{ __html: this.state.content }} />
 
       </div>
     )
@@ -33,7 +33,7 @@ class CanvasMenu extends Component {
 }
 
 CanvasMenu.propTypes = {
-  closeHandleMenu: PropTypes.func
+  closeHandleMenu: PropTypes.func,
 }
 
 export default CanvasMenu

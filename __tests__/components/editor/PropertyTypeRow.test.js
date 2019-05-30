@@ -8,8 +8,8 @@ import PropertyTypeRow from '../../../src/components/editor/PropertyTypeRow'
 describe('<PropertyTypeRow />', () => {
   const rowProps = {
     propertyTemplate: {
-      propertyLabel: 'This is a property label'
-    }
+      propertyLabel: 'This is a property label',
+    },
   }
   const wrapper = shallow(<PropertyTypeRow {...rowProps} />)
 

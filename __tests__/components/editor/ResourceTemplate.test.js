@@ -7,48 +7,47 @@ import ResourceTemplate from '../../../src/components/editor/ResourceTemplate'
 import ResourceTemplateForm from '../../../src/components/editor/ResourceTemplateForm'
 
 describe('<ResourceTemplate />', () => {
-  const mockResponse = (status, statusText, response) => {
-    return new Response(response, {
-      status: status,
-      statusText: statusText,
-      headers: {
-        'Content-type': 'application/json'
-      }
-    }).body
-  }
+  const mockResponse = (status, statusText, response) => new Response(response, {
+    status,
+    statusText,
+    headers: {
+      'Content-type': 'application/json',
+    },
+  }).body
 
   const responseBody = {
     response: {
       body: {
-        "id": "resourceTemplate:bf2:Note",
-        "resourceURI": "http://id.loc.gov/ontologies/bibframe/Note",
-        "resourceLabel": "Note",
-        "propertyTemplates": [
+        id: 'resourceTemplate:bf2:Note',
+        resourceURI: 'http://id.loc.gov/ontologies/bibframe/Note',
+        resourceLabel: 'Note',
+        propertyTemplates: [
           {
-            "propertyURI": "http://www.w3.org/2000/01/rdf-schema#label",
-            "propertyLabel": "Note",
-            "mandatory": "false",
-            "repeatable": "false",
-            "type": "literal",
-            "resourceTemplates": [],
-            "valueConstraint": {
-              "valueTemplateRefs": [],
-              "useValuesFrom": [],
-              "valueDataType": {},
-              "editable": "true",
-              "repeatable": "false",
-              "defaults": []
-            }
-          }
-        ]
-      }
-    }
+            propertyURI: 'http://www.w3.org/2000/01/rdf-schema#label',
+            propertyLabel: 'Note',
+            mandatory: 'false',
+            repeatable: 'false',
+            type: 'literal',
+            resourceTemplates: [],
+            valueConstraint: {
+              valueTemplateRefs: [],
+              useValuesFrom: [],
+              valueDataType: {},
+              editable: 'true',
+              repeatable: 'false',
+              defaults: [],
+            },
+          },
+        ],
+      },
+    },
   }
 
   // Stub `Config.spoofSinopiaServer` static getter to force RT to come from server
   jest.spyOn(Config, 'spoofSinopiaServer', 'get').mockReturnValue(false)
-  const wrapper = shallow(<ResourceTemplate.WrappedComponent resourceTemplateId='resourceTemplate:bf2:Note' />)
+  const wrapper = shallow(<ResourceTemplate.WrappedComponent resourceTemplateId="resourceTemplate:bf2:Note" />)
   const promise = Promise.resolve(mockResponse(200, null, responseBody))
+
   wrapper.instance().getResourceTemplatePromise(promise)
 
   it('has div with class "ResourceTemplate"', () => {

@@ -7,32 +7,31 @@ import PropertyActionButtons from '../../../src/components/editor/PropertyAction
 import PropertyTemplateOutline from '../../../src/components/editor/PropertyTemplateOutline'
 
 describe('<ResourceProperty />', () => {
-
   const mockInitNewResourceTemplate = jest.fn()
 
   const property = {
-    "propertyLabel": "Notes about the Instance",
-    "remark": "This is a great note",
-    "propertyURI": "http://id.loc.gov/ontologies/bibframe/note",
-    "type": "resource",
-    "valueConstraint": {
-      "valueTemplateRefs": [
-        "resourceTemplate:bf2:Note"
-      ]
-    }
+    propertyLabel: 'Notes about the Instance',
+    remark: 'This is a great note',
+    propertyURI: 'http://id.loc.gov/ontologies/bibframe/note',
+    type: 'resource',
+    valueConstraint: {
+      valueTemplateRefs: [
+        'resourceTemplate:bf2:Note',
+      ],
+    },
   }
 
   const nestedRTs = [{
-    "id": "resourceTemplate:bf2:Note",
-    "resourceURI": "http://id.loc.gov/ontologies/bibframe/Note",
-    "resourceLabel": "Note",
-    "propertyTemplates": [
+    id: 'resourceTemplate:bf2:Note',
+    resourceURI: 'http://id.loc.gov/ontologies/bibframe/Note',
+    resourceLabel: 'Note',
+    propertyTemplates: [
       {
-        "propertyURI": "http://www.w3.org/2000/01/rdf-schema#label",
-        "propertyLabel": "Note",
-        "type": "literal"
-      }
-    ]
+        propertyURI: 'http://www.w3.org/2000/01/rdf-schema#label',
+        propertyLabel: 'Note',
+        type: 'literal',
+      },
+    ],
   }]
 
   const wrapper = shallow(<ResourceProperty.WrappedComponent
@@ -44,7 +43,7 @@ describe('<ResourceProperty />', () => {
                               handleMintUri={jest.fn()} />)
 
   it('creates a header section with the resource label', () => {
-    expect(wrapper.find('section h5').text()).toEqual("Note")
+    expect(wrapper.find('section h5').text()).toEqual('Note')
   })
 
   it('creates a section with the <PropertyActionButtons /> for the resource', () => {
@@ -53,15 +52,14 @@ describe('<ResourceProperty />', () => {
 
   it('creates a <PropertyTemplateOutline /> for the resource', () => {
     const propertyTemplateOutline = wrapper.find(PropertyTemplateOutline)
+
     expect(propertyTemplateOutline.length).toEqual(1)
     expect(propertyTemplateOutline.props().propertyTemplate).toEqual(nestedRTs[0].propertyTemplates[0])
-    expect(propertyTemplateOutline.props().reduxPath).toEqual([ 'resourceTemplate:bf2:Note', 'http://www.w3.org/2000/01/rdf-schema#label'])
+    expect(propertyTemplateOutline.props().reduxPath).toEqual(['resourceTemplate:bf2:Note', 'http://www.w3.org/2000/01/rdf-schema#label'])
     expect(propertyTemplateOutline.props().resourceTemplate).toEqual(nestedRTs[0])
   })
 
   it('calls redux to initialize the state with the nested resource', () => {
     expect(mockInitNewResourceTemplate).toHaveBeenCalledTimes(1)
   })
-
 })
-

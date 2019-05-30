@@ -8,6 +8,7 @@ import LoginPanel from '../../src/components/LoginPanel'
 
 describe('<NewsPanel />', () => {
   const wrapper = shallow(<NewsPanel />)
+
   it('renders <NewsItem /> component', () => {
     expect(wrapper.find(NewsItem)).toBeDefined()
   })
@@ -15,5 +16,4 @@ describe('<NewsPanel />', () => {
   it('renders <LoginPanel /> component', () => {
     expect(wrapper.find(LoginPanel)).toBeDefined()
   })
-
 })

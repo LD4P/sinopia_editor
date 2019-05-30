@@ -1,19 +1,18 @@
 // Copyright 2019 Stanford University see LICENSE for license
 
-import React, {Component} from 'react'
+import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 import shortid from 'shortid'
 
 export class PropertyTypeRow extends Component {
-
-  constructor (props) {
+  constructor(props) {
     super(props)
   }
 
   render() {
-    return(
+    return (
       <React.Fragment key={shortid.generate()}>
-      { this.props.children }
+        { this.props.children }
       </React.Fragment>
     )
   }
@@ -26,4 +25,4 @@ PropertyTypeRow.propTypes = {
   propertyTemplate: PropTypes.object,
 }
 
-export default PropertyTypeRow;
+export default PropertyTypeRow

@@ -1,6 +1,6 @@
-// Copyright 2018 Stanford Junior University see LICENSE for license
+// Copyright 2018 Stanford University see LICENSE for license
 
-import React, {Component} from 'react'
+import React, { Component } from 'react'
 import NewsItem from './NewsItem'
 
 class NewsPanel extends Component {
@@ -8,9 +8,8 @@ class NewsPanel extends Component {
     super(props)
   }
 
-  render(){
-
-    return(
+  render() {
+    return (
       <div className="jumbotron banner center-block">
         <div className="panel panel-news">
           <div className="panel-body">
@@ -18,8 +17,8 @@ class NewsPanel extends Component {
               <div className="col-md-7">
                 <NewsItem />
               </div>
-           </div>
-         </div>
+            </div>
+          </div>
         </div>
       </div>
     )
