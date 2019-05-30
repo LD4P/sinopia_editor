@@ -1,4 +1,4 @@
-// Copyright 2018 Stanford University see LICENSE for license
+// Copyright 2019 Stanford University see LICENSE for license
 
 import React from 'react'
 import { shallow } from 'enzyme'
@@ -9,8 +9,7 @@ import { CognitoUserSession, CognitoAccessToken, CognitoIdToken, CognitoRefreshT
 
 
 describe('<LoginPanel /> when the user is not authenticated', () => {
-
-  let wrapper = shallow(<LoginPanel.WrappedComponent />)
+  const wrapper = shallow(<LoginPanel.WrappedComponent />)
 
   it ('renders a username field', () => {
     expect(wrapper.find('label.text-uppercase input#username[type="text"]')).toHaveLength(1)
@@ -34,6 +33,15 @@ describe('<LoginPanel /> when the user is not authenticated', () => {
     const requestAccountLinkElts = wrapper.find(`.login-form a[href^="${Config.awsCognitoResetPasswordUrl}"]`)
     expect(requestAccountLinkElts).toHaveLength(1)
     expect(requestAccountLinkElts.text()).toMatch("Request Account")
+  })
+})
+
+describe('<LoginPanel /> when there is an authentication failure', () => {
+  const authenticationError = { message: 'borked!' }
+  const wrapper = shallow(<LoginPanel.WrappedComponent authenticationError={authenticationError}/>)
+
+  it('renders the failure message', () => {
+    expect(wrapper.find('.login-form .error-message').text()).toMatch('borked!')
   })
 })
 
