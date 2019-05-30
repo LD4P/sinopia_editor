@@ -7,6 +7,7 @@ import { connect } from 'react-redux'
 import { getProperty } from '../../reducers/index'
 import { changeSelections } from '../../actions/index'
 import { booleanPropertyFromTemplate, defaultValuesFromPropertyTemplate } from '../../Utilities'
+import Config from '../../../src/Config'
 
 const AsyncTypeahead = asyncContainer(Typeahead)
 
@@ -84,7 +85,6 @@ class InputLookupQA extends Component {
   render() {
     let authority, subauthority, language
     const lookupConfigs = this.props.lookupConfig
-    const maxRecords = 8
 
     const isMandatory = booleanPropertyFromTemplate(this.props.propertyTemplate, 'mandatory', false)
     const isRepeatable = booleanPropertyFromTemplate(this.props.propertyTemplate.valueConstraint, 'repeatable', true)
@@ -122,40 +122,20 @@ class InputLookupQA extends Component {
                               //Subauthorities require a different API call than authorities so need to check if subauthority is available
                               //The only difference between this call and the next one is the call to Get_searchSubauthority instead of 
                               //Get_searchauthority.  If there is a way to somehow pass that in a variable name/dynamically, that would be better
-                              if(subauthority) {
-                                  return client
-                                  .apis
-                                  .SearchQuery
-                                  .GET_searchSubauthority({
-                                    q: query,
-                                    vocab: authority,
-                                    subauthority: subauthority,
-                                    maxRecords: maxRecords,
-                                    lang: language
-                                  })
-                                  .catch(function(err) {
-                                    console.error("Error in executing lookup against source", err)
-                                    //return information along with the error in its own object
-                                    return { isError: true, errorObject: err }
-                                  })
-                                  
-                              } else {
-                                  return client
-                                    .apis
-                                    .SearchQuery
-                                    .GET_searchAuthority({
-                                      q: query,
-                                      vocab: authority,
-                                      subauthority: subauthority,
-                                      maxRecords: maxRecords,
-                                      lang: language
-                                    })
-                                    .catch(function(err) {
-                                      console.error("Error in executing lookup against source", err)
-                                      //return information along with the error in its own object
-                                      return { isError: true, errorObject: err }
-                                    })
-                              }
+                              const actionFunction = subauthority === undefined ? client.apis.SearchQuery.GET_searchAuthority : client.apis.SearchQuery.GET_searchSubauthority
+                              return actionFunction({
+                                q: query,
+                                vocab: authority,
+                                subauthority: subauthority,
+                                maxRecords: Config.maxRecordsForQALookups,
+                                lang: language
+                              })
+                              .catch(function(err) {
+                                console.error("Error in executing lookup against source", err)
+                                //return information along with the error in its own object
+                                return { isError: true, errorObject: err }
+                              })                                 
+                              
                             })
 
                             Promise.all(lookupPromises).then(values => {
