@@ -3,7 +3,6 @@
 import React, { Component } from 'react';
 import { Typeahead } from 'react-bootstrap-typeahead'
 import PropTypes from 'prop-types'
-import PropertyRemark from './PropertyRemark'
 import { connect } from 'react-redux'
 import { changeSelections  } from '../../actions/index'
 import { defaultValuesFromPropertyTemplate, booleanPropertyFromTemplate } from '../../Utilities'
@@ -34,14 +33,6 @@ class InputListLOC extends Component {
     }
 
     this.props.handleSelectedChange(payload)
-  }
-
-  hasPropertyRemark = (propertyTemplate) => {
-    if(propertyTemplate.remark) {
-      return <PropertyRemark remark={propertyTemplate.remark}
-                             label={propertyTemplate.propertyLabel} />;
-    }
-    return propertyTemplate.propertyLabel;
   }
 
   render() {

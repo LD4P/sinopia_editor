@@ -3,6 +3,7 @@
 import React from 'react'
 import { shallow } from 'enzyme'
 import PropertyPanel from '../../../src/components/editor/PropertyPanel'
+import PropertyLabel from "../../../src/components/editor/PropertyLabel";
 
 describe('<PropertyPanel />', () => {
   let panelProps = { pt: {
@@ -30,8 +31,7 @@ describe('<PropertyPanel />', () => {
     expect(wrapper.find(".panel-body")).toBeTruthy()
   })
 
-  it('generates a title', () => {
-    wrapper.instance().generateTitle()
-    expect(wrapper.find('.panel-heading').debug()).toMatch('Instance of')
+  it('generates a <PropertyLabel />', () => {
+    expect(wrapper.find(PropertyLabel)).toBeTruthy()
   })
 })
