@@ -103,11 +103,11 @@ describe('<InputList />', () => {
           }
         }
       }
-      const errorSpy = jest.spyOn(console, 'error').mockReturnValue(null)
+      const infoSpy = jest.spyOn(console, 'info').mockReturnValue(null)
       const wrapper2 = shallow(<InputList.WrappedComponent {...plProps} handleSelectedChange={mockFormDataFn} />)
 
       expect(wrapper2.state('defaults')).toEqual([])
-      expect(errorSpy).toBeCalledWith(`no defaults defined in property template: ${JSON.stringify(plProps.propertyTemplate)}`)
+      expect(infoSpy).toBeCalledWith(`no defaults defined in property template: ${JSON.stringify(plProps.propertyTemplate)}`)
     })
   })
 
