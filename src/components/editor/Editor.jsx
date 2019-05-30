@@ -1,4 +1,4 @@
-// Copyright 2018 Stanford University see LICENSE for license
+// Copyright 2019 Stanford University see LICENSE for license
 
 import React, {Component} from 'react'
 import { connect } from 'react-redux'
@@ -7,6 +7,8 @@ import PropTypes from 'prop-types'
 import ResourceTemplate from './ResourceTemplate'
 import Header from './Header'
 import RDFModal from './RDFModal'
+import { getCurrentSession } from '../../authSelectors';
+
 const _ = require('lodash')
 
 class Editor extends Component {
@@ -52,7 +54,7 @@ class Editor extends Component {
       Alert! No data can be saved unless you are logged in with group permissions.
     </div>;
 
-    if (this.props.authenticationState.currentSession) {
+    if (this.props.currentSession) {
       authenticationMessage = <span/>
     }
 
@@ -82,12 +84,12 @@ Editor.propTypes = {
   location: PropTypes.object,
   resourceTemplateId: PropTypes.string,
   history: PropTypes.object,
-  authenticationState: PropTypes.object
+  currentSession: PropTypes.object
 }
 
 const mapStateToProps = (state) => {
   return {
-    authenticationState: Object.assign({}, state.authenticate.authenticationState)
+    currentSession: getCurrentSession(state)
   }
 }
 

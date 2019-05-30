@@ -106,7 +106,7 @@
   {
     "label": "GETTY_AAT all terms (QA)",
     "uri": "urn:ld4p:qa:gettyaat",
-    "authority": "getty_att_ld4l_cache",
+    "authority": "getty_aat_ld4l_cache",
     "subauthority": "",
     "language": "en",
     "component": "lookup"
@@ -114,7 +114,7 @@
   {
     "label": "GETTY_AAT Activities (QA)",
     "uri": "urn:ld4p:qa:gettyaat:Activities",
-    "authority": "getty_att_ld4l_cache",
+    "authority": "getty_aat_ld4l_cache",
     "subauthority": "Activities",
     "language": "en",
     "component": "lookup"
@@ -122,7 +122,7 @@
   {
     "label": "GETTY_AAT Activities__Disciplines (QA)",
     "uri": "urn:ld4p:qa:gettyaat:Activities__Disciplines",
-    "authority": "getty_att_ld4l_cache",
+    "authority": "getty_aat_ld4l_cache",
     "subauthority": "Activities__Disciplines",
     "language": "en",
     "component": "lookup"
@@ -130,7 +130,7 @@
   {
     "label": "GETTY_AAT Activities__Events (QA)",
     "uri": "urn:ld4p:qa:gettyaat:Activities__Events",
-    "authority": "getty_att_ld4l_cache",
+    "authority": "getty_aat_ld4l_cache",
     "subauthority": "Activities__Events",
     "language": "en",
     "component": "lookup"
@@ -138,7 +138,7 @@
   {
     "label": "GETTY_AAT Activities__Functions (QA)",
     "uri": "urn:ld4p:qa:gettyaat:Activities__Functions",
-    "authority": "getty_att_ld4l_cache",
+    "authority": "getty_aat_ld4l_cache",
     "subauthority": "Activities__Functions",
     "language": "en",
     "component": "lookup"
@@ -146,7 +146,7 @@
   {
     "label": "GETTY_AAT Activities__Physical_and_Mental (QA)",
     "uri": "urn:ld4p:qa:gettyaat:Activities__Physical_and_Mental",
-    "authority": "getty_att_ld4l_cache",
+    "authority": "getty_aat_ld4l_cache",
     "subauthority": "Activities__Physical_and_Mental",
     "language": "en",
     "component": "lookup"
@@ -154,7 +154,7 @@
   {
     "label": "GETTY_AAT Activities__Processes_and_Techniques (QA)",
     "uri": "urn:ld4p:qa:gettyaat:Activities__Processes_and_Techniques",
-    "authority": "getty_att_ld4l_cache",
+    "authority": "getty_aat_ld4l_cache",
     "subauthority": "Activities__Processes_and_Techniques",
     "language": "en",
     "component": "lookup"
@@ -162,7 +162,7 @@
   {
     "label": "GETTY_AAT Agents (QA)",
     "uri": "urn:ld4p:qa:gettyaat:Agents",
-    "authority": "getty_att_ld4l_cache",
+    "authority": "getty_aat_ld4l_cache",
     "subauthority": "Agents",
     "language": "en",
     "component": "lookup"
@@ -170,7 +170,7 @@
   {
     "label": "GETTY_AAT Agents__Living_Organisms (QA)",
     "uri": "urn:ld4p:qa:gettyaat:Agents__Living_Organisms",
-    "authority": "getty_att_ld4l_cache",
+    "authority": "getty_aat_ld4l_cache",
     "subauthority": "Agents__Living_Organisms",
     "language": "en",
     "component": "lookup"
@@ -178,7 +178,7 @@
   {
     "label": "GETTY_AAT Agents__Organizations (QA)",
     "uri": "urn:ld4p:qa:gettyaat:Agents__Organizations",
-    "authority": "getty_att_ld4l_cache",
+    "authority": "getty_aat_ld4l_cache",
     "subauthority": "Agents__Organizations",
     "language": "en",
     "component": "lookup"
@@ -186,7 +186,7 @@
   {
     "label": "GETTY_AAT Agents__People (QA)",
     "uri": "urn:ld4p:qa:gettyaat:Agents__People",
-    "authority": "getty_att_ld4l_cache",
+    "authority": "getty_aat_ld4l_cache",
     "subauthority": "Agents__People",
     "language": "en",
     "component": "lookup"
@@ -194,7 +194,7 @@
   {
     "label": "GETTY_AAT Associated_Concepts (QA)",
     "uri": "urn:ld4p:qa:gettyaat:Associated_Concepts",
-    "authority": "getty_att_ld4l_cache",
+    "authority": "getty_aat_ld4l_cache",
     "subauthority": "Associated_Concepts",
     "language": "en",
     "component": "lookup"
@@ -202,7 +202,7 @@
   {
     "label": "GETTY_AAT Associated_Concepts__Associated_Concepts (QA)",
     "uri": "urn:ld4p:qa:gettyaat:Associated_Concepts__Associated_Concepts",
-    "authority": "getty_att_ld4l_cache",
+    "authority": "getty_aat_ld4l_cache",
     "subauthority": "Associated_Concepts__Associated_Concepts",
     "language": "en",
     "component": "lookup"
@@ -210,7 +210,7 @@
   {
     "label": "GETTY_AAT Brand_Names (QA)",
     "uri": "urn:ld4p:qa:gettyaat:Brand_Names",
-    "authority": "getty_att_ld4l_cache",
+    "authority": "getty_aat_ld4l_cache",
     "subauthority": "Brand_Names",
     "language": "en",
     "component": "lookup"
@@ -218,7 +218,7 @@
   {
     "label": "GETTY_AAT Brand_Names__Brand_Names (QA)",
     "uri": "urn:ld4p:qa:gettyaat:Brand_Names__Brand_Names",
-    "authority": "getty_att_ld4l_cache",
+    "authority": "getty_aat_ld4l_cache",
     "subauthority": "Brand_Names__Brand_Names",
     "language": "en",
     "component": "lookup"
@@ -226,7 +226,7 @@
   {
     "label": "GETTY_AAT Materials (QA)",
     "uri": "urn:ld4p:qa:gettyaat:Materials",
-    "authority": "getty_att_ld4l_cache",
+    "authority": "getty_aat_ld4l_cache",
     "subauthority": "Materials",
     "language": "en",
     "component": "lookup"
@@ -234,7 +234,7 @@
   {
     "label": "GETTY_AAT Materials__Materials (QA)",
     "uri": "urn:ld4p:qa:gettyaat:Materials__Materials",
-    "authority": "getty_att_ld4l_cache",
+    "authority": "getty_aat_ld4l_cache",
     "subauthority": "Materials__Materials",
     "language": "en",
     "component": "lookup"
@@ -242,7 +242,7 @@
   {
     "label": "GETTY_AAT Objects (QA)",
     "uri": "urn:ld4p:qa:gettyaat:Objects",
-    "authority": "getty_att_ld4l_cache",
+    "authority": "getty_aat_ld4l_cache",
     "subauthority": "Objects",
     "language": "en",
     "component": "lookup"
@@ -250,7 +250,7 @@
   {
     "label": "GETTY_AAT Objects__Built_Environment (QA)",
     "uri": "urn:ld4p:qa:gettyaat:Objects__Built_Environment",
-    "authority": "getty_att_ld4l_cache",
+    "authority": "getty_aat_ld4l_cache",
     "subauthority": "Objects__Built_Environment",
     "language": "en",
     "component": "lookup"
@@ -258,7 +258,7 @@
   {
     "label": "GETTY_AAT Objects__Components (QA)",
     "uri": "urn:ld4p:qa:gettyaat:Objects__Components",
-    "authority": "getty_att_ld4l_cache",
+    "authority": "getty_aat_ld4l_cache",
     "subauthority": "Objects__Components",
     "language": "en",
     "component": "lookup"
@@ -266,7 +266,7 @@
   {
     "label": "GETTY_AAT Objects__Furnishings_and_Equipment (QA)",
     "uri": "urn:ld4p:qa:gettyaat:Objects__Furnishings_and_Equipment",
-    "authority": "getty_att_ld4l_cache",
+    "authority": "getty_aat_ld4l_cache",
     "subauthority": "Objects__Furnishings_and_Equipment",
     "language": "en",
     "component": "lookup"
@@ -274,7 +274,7 @@
   {
     "label": "GETTY_AAT Objects__Object_Genres (QA)",
     "uri": "urn:ld4p:qa:gettyaat:Objects__Object_Genres",
-    "authority": "getty_att_ld4l_cache",
+    "authority": "getty_aat_ld4l_cache",
     "subauthority": "Objects__Object_Genres",
     "language": "en",
     "component": "lookup"
@@ -282,7 +282,7 @@
   {
     "label": "GETTY_AAT Objects__Object_Groupings and Systems (QA)",
     "uri": "urn:ld4p:qa:gettyaat:Objects__Object_Groupings and Systems",
-    "authority": "getty_att_ld4l_cache",
+    "authority": "getty_aat_ld4l_cache",
     "subauthority": "Objects__Object_Groupings and Systems",
     "language": "en",
     "component": "lookup"
@@ -290,7 +290,7 @@
   {
     "label": "GETTY_AAT Objects__Visual_and_Verbal_Communication (QA)",
     "uri": "urn:ld4p:qa:gettyaat:Objects__Visual_and_Verbal_Communication",
-    "authority": "getty_att_ld4l_cache",
+    "authority": "getty_aat_ld4l_cache",
     "subauthority": "Objects__Visual_and_Verbal_Communication",
     "language": "en",
     "component": "lookup"
@@ -298,7 +298,7 @@
   {
     "label": "GETTY_AAT Physical_Attributes (QA)",
     "uri": "urn:ld4p:qa:gettyaat:Physical_Attributes",
-    "authority": "getty_att_ld4l_cache",
+    "authority": "getty_aat_ld4l_cache",
     "subauthority": "Physical_Attributes",
     "language": "en",
     "component": "lookup"
@@ -306,7 +306,7 @@
   {
     "label": "GETTY_AAT Physical_Attributes__Attributes_and_Properties (QA)",
     "uri": "urn:ld4p:qa:gettyaat:Physical_Attributes__Attributes_and_Properties",
-    "authority": "getty_att_ld4l_cache",
+    "authority": "getty_aat_ld4l_cache",
     "subauthority": "Physical_Attributes__Attributes_and_Properties",
     "language": "en",
     "component": "lookup"
@@ -314,7 +314,7 @@
   {
     "label": "GETTY_AAT Physical_Attributes__Color (QA)",
     "uri": "urn:ld4p:qa:gettyaat:Physical_Attributes__Color",
-    "authority": "getty_att_ld4l_cache",
+    "authority": "getty_aat_ld4l_cache",
     "subauthority": "Physical_Attributes__Color",
     "language": "en",
     "component": "lookup"
@@ -322,7 +322,7 @@
   {
     "label": "GETTY_AAT Physical_Attributes__Conditions_and_Effects (QA)",
     "uri": "urn:ld4p:qa:gettyaat:Physical_Attributes__Conditions_and_Effects",
-    "authority": "getty_att_ld4l_cache",
+    "authority": "getty_aat_ld4l_cache",
     "subauthority": "Physical_Attributes__Conditions_and_Effects",
     "language": "en",
     "component": "lookup"
@@ -330,7 +330,7 @@
   {
     "label": "GETTY_AAT Physical_Attributes__Design_Elements (QA)",
     "uri": "urn:ld4p:qa:gettyaat:Physical_Attributes__Design_Elements",
-    "authority": "getty_att_ld4l_cache",
+    "authority": "getty_aat_ld4l_cache",
     "subauthority": "Physical_Attributes__Design_Elements",
     "language": "en",
     "component": "lookup"
@@ -338,7 +338,7 @@
   {
     "label": "GETTY_AAT  (QA)",
     "uri": "urn:ld4p:qa:gettyaat",
-    "authority": "getty_att_ld4l_cache",
+    "authority": "getty_aat_ld4l_cache",
     "subauthority": "",
     "language": "en",
     "component": "lookup"
@@ -346,7 +346,7 @@
   {
     "label": "GETTY_AAT Styles_and_Periods (QA)",
     "uri": "urn:ld4p:qa:gettyaat:Styles_and_Periods",
-    "authority": "getty_att_ld4l_cache",
+    "authority": "getty_aat_ld4l_cache",
     "subauthority": "Styles_and_Periods",
     "language": "en",
     "component": "lookup"
@@ -354,7 +354,7 @@
   {
     "label": "GETTY_AAT Styles_and_Periods__Styles_and_Periods (QA)",
     "uri": "urn:ld4p:qa:gettyaat:Styles_and_Periods__Styles_and_Periods",
-    "authority": "getty_att_ld4l_cache",
+    "authority": "getty_aat_ld4l_cache",
     "subauthority": "Styles_and_Periods__Styles_and_Periods",
     "language": "en",
     "component": "lookup"
@@ -362,7 +362,7 @@
   {
     "label": "GETTY_TGN (QA)",
     "uri": "urn:ld4p:qa:gettytgn",
-    "authority": "getty_att_ld4l_cache",
+    "authority": "getty_aat_ld4l_cache",
     "subauthority": "",
     "language": "en",
     "component": "lookup"
@@ -370,7 +370,7 @@
   {
     "label": "GETTY_ULAN (QA)",
     "uri": "urn:ld4p:qa:gettyulan",
-    "authority": "getty_att_ld4l_cache",
+    "authority": "getty_aat_ld4l_cache",
     "subauthority": "",
     "language": "en",
     "component": "lookup"
@@ -378,7 +378,7 @@
   {
     "label": "GETTY_ULAN person (QA)",
     "uri": "urn:ld4p:qa:gettyulan:person",
-    "authority": "getty_att_ld4l_cache",
+    "authority": "getty_aat_ld4l_cache",
     "subauthority": "person",
     "language": "en",
     "component": "lookup"
@@ -386,7 +386,7 @@
   {
     "label": "GETTY_ULAN organization (QA)",
     "uri": "urn:ld4p:qa:gettyulan:organization",
-    "authority": "getty_att_ld4l_cache",
+    "authority": "getty_aat_ld4l_cache",
     "subauthority": "organization",
     "language": "en",
     "component": "lookup"

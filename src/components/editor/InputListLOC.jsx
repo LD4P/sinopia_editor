@@ -20,7 +20,8 @@ class InputListLOC extends Component {
     if (defaults.length > 0) {
       this.setPayLoad(defaults)
     } else {
-      console.error(`no defaults defined in property template: ${JSON.stringify(this.props.propertyTemplate)}`)
+      // Property templates do not require defaults but we like to know when this happens
+      console.info(`no defaults defined in property template: ${JSON.stringify(this.props.propertyTemplate)}`)
     }
 
     this.state = {

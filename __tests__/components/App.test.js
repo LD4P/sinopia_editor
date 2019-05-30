@@ -4,80 +4,91 @@ import 'jsdom-global/register'
 import React from 'react'
 import { mount, shallow } from "enzyme"
 import { MemoryRouter } from "react-router"
-import RootContainer from '../../src/components/RootContainer'
+import { Provider } from 'react-redux'
 import App from '../../src/components/App'
-import Config from '../../src/Config'
+import LoginPanel from '../../src/components/LoginPanel'
 import HomePage from '../../src/components/HomePage'
 import Editor from '../../src/components/editor/Editor'
 import Browse from '../../src/components/editor/Browse'
+import CanvasMenu from '../../src/components/CanvasMenu'
 import Footer from '../../src/components/Footer'
-import ImportResourceTemplate from "../../src/components/editor/ImportResourceTemplate";
+import ImportResourceTemplate from '../../src/components/editor/ImportResourceTemplate'
+
+jest.mock('../../src/components/editor/Editor')
+jest.mock('../../src/components/editor/ImportResourceTemplate')
 
 describe('<App />', () =>{
   const wrapper = shallow(<App.WrappedComponent />)
 
-  it('selectable by id "#app"', () => {
+  it('is selectable by id "#app"', () => {
     expect(wrapper.find('div#app').length).toEqual(1)
   })
 
-  it('renders <Footer />', () => {
-    expect(wrapper.find(Footer).length).toBe(1)
+  it('renders the LoginPanel component', () => {
+    expect(wrapper.find(LoginPanel).length).toEqual(1)
   })
 
+  it('renders the Footer component', () => {
+    expect(wrapper.find(Footer).length).toBe(1)
+  })
 })
 
 describe("#routes", () => {
+  // pattern cribbed/adapted from https://stackoverflow.com/a/54807560
+  const makeStoreFake = state => ({
+      default: () => {
+      },
+      subscribe: () => {
+      },
+      dispatch: () => {
+      },
+      getState: () => ({ ...state })
+    });
 
   describe('public routes', () => {
+    const unauthenticatedStoreFake = makeStoreFake({
+        authenticate: {
+          authenticationState: {
+            currentSession: null
+          }
+        }
+      })
+
     const renderRoutes = path =>
       mount(
-        <MemoryRouter initialEntries={[path]}>
-          <RootContainer />
-        </MemoryRouter>
+        <Provider store={unauthenticatedStoreFake}>
+          <MemoryRouter initialEntries={[path]}>
+            <App />
+          </MemoryRouter>
+        </Provider>
       )
 
-    const renderEditorRoute = path =>
-      mount(
-        <MemoryRouter initialEntries={[path]}>
-          <RootContainer>
-            <App>
-              <Editor location={{state: { resourceTemplateId: 'resourceTemplate:bf2:Monograph:Instance' }}} />
-            </App>
-          </RootContainer>
-        </MemoryRouter>
-      )
-
-    it('root renders HomePage component', async () => {
+    it('renders the HomePage component when "/" is visited', () => {
       const component = renderRoutes("/")
-      await expect(component.find(HomePage).length).toEqual(1)
+      expect(component.find(HomePage).length).toEqual(1)
     })
 
-    // TODO: needs fixing for re-done authN approach, see #528
-    it.skip('/editor renders Editor component', () => {
-      // Stub `Config.spoofSinopiaServer` static getter to force RT to come from server
-      jest.spyOn(Config, 'spoofSinopiaServer', 'get').mockReturnValue(false)
-      // TODO: This method is undefined
-      // saveState({loginJwt: Config.awsCognitoJWTHashForTest, isAuthenticated: true}, 'jwtAuth')
-      const component = renderEditorRoute("/editor")
-      expect(component.find(ImportResourceTemplate).length).toEqual(1)
+    it('renders the Editor component when "/editor" is visited', () => {
+      const component = renderRoutes("/editor")
+      expect(component.find(Editor).length).toEqual(1)
     })
 
-    // TODO: needs fixing for re-done authN approach, see #528
-    it.skip('/templates renders the Login component (with location props) if the user is not authenticated', () => {
-      // TODO: This method is undefined
-      // saveState({loginJwt: {}, isAuthenticated: false}, 'jwtAuth')
-      // const component = renderRoutes("/templates")
-      // TODO: Login is not defined or imported
-      // expect(component.find(Login).length).toEqual(1)
-      // expect(component.find(Login).prop('location')).toBeDefined()
-    })
-
-    it('/browse renders the Browse component', () => {
+    it('renders the Browse component when "/browse" is visited', () => {
       const component = renderRoutes("/browse")
       expect(component.find(Browse).length).toEqual(1)
     })
 
-    it("invalid path renders a 404", () => {
+    it('renders the Menu component when "/menu" is visited', () => {
+      const component = renderRoutes("/menu")
+      expect(component.find(CanvasMenu).length).toEqual(1)
+    })
+
+    it('does not render ImportResourceTemplate component (even if user visits "/templates"), since user is not logged in', () => {
+      const component = renderRoutes("/templates")
+      expect(component.find(ImportResourceTemplate).length).toEqual(0)
+    })
+
+    it('renders a 404 for an unknown path', () => {
       const component = renderRoutes("/blah")
       expect(component.contains(<h1>404</h1>)).toEqual(true)
     })
@@ -85,27 +96,38 @@ describe("#routes", () => {
     afterAll(() => {
       renderRoutes.unmount()
     })
-
   })
 
-  //TODO: https://github.com/LD4P/sinopia_editor/issues/380
-  //  Fix getting jwtAuth props to appear in the App component so that PrivateRoute will not trigger the Login component
-  // describe('Private route', () => {
-  //   const renderRoutes = path =>
-  //     mount(
-  //       <MemoryRouter initialEntries={[path]}>
-  //         <RootContainer>
-  //           <App />
-  //         </RootContainer>
-  //       </MemoryRouter>
-  //     )
-  //
-  //   it('/templates renders the Import component if user is authenticated', () => {
-  //     const component = renderRoutes("/templates").setProps({jwtAuth:{isAuthenticated: true}})
-  //     console.warn(component.props())
-  //     component.update()
-  //     expect(component.find(ImportResourceTemplate).length).toEqual(1)
-  //   })
-  // })
+  describe('private routes', () => {
+    const authenticatedStoreFake = makeStoreFake({
+      authenticate: {
+        authenticationState: {
+          currentSession: { wouldBe: 'a CognitoSession obj IRL, but only presence is checked ATM' }
+        }
+      }
+    })
 
+    const renderRoutes = path =>
+      mount(
+        <Provider store={authenticatedStoreFake}>
+          <MemoryRouter initialEntries={[path]}>
+            <App />
+          </MemoryRouter>
+        </Provider>
+      )
+
+    it('renders the ImportResourceTemplate component when "/templates" is visited', () => {
+      const component = renderRoutes("/templates")
+      expect(component.find(ImportResourceTemplate).length).toEqual(1)
+    })
+
+    it('renders a 404 for an unknown path', () => {
+      const component = renderRoutes("/blah")
+      expect(component.contains(<h1>404</h1>)).toEqual(true)
+    })
+
+    afterAll(() => {
+      renderRoutes.unmount()
+    })
+  })
 })

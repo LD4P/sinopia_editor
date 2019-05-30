@@ -1,4 +1,4 @@
-// Copyright 2018 Stanford University see LICENSE for license
+// Copyright 2019 Stanford University see LICENSE for license
 
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
@@ -8,6 +8,7 @@ import SinopiaResourceTemplates from './SinopiaResourceTemplates'
 import UpdateResourceModal from './UpdateResourceModal'
 import { createResourceTemplate, updateResourceTemplate } from '../../sinopiaServer'
 import { connect } from 'react-redux'
+import { getCurrentUser } from '../../authSelectors';
 
 class ImportResourceTemplate extends Component {
   constructor(props) {
@@ -44,7 +45,7 @@ class ImportResourceTemplate extends Component {
 
   createResource = async (content, group) => {
     try {
-      const response = await createResourceTemplate(content, group, this.props.authenticationState)
+      const response = await createResourceTemplate(content, group, this.props.currentUser)
       return response.response
     } catch(error) {
       this.setState({
@@ -56,7 +57,7 @@ class ImportResourceTemplate extends Component {
 
   updateResource = async (content, group) => {
     try {
-      const response = await updateResourceTemplate(content, group, this.props.authenticationState)
+      const response = await updateResourceTemplate(content, group, this.props.currentUser)
       return response.response
     } catch(error) {
       return error.response
@@ -159,12 +160,12 @@ class ImportResourceTemplate extends Component {
 ImportResourceTemplate.propTypes = {
   children: PropTypes.array,
   triggerHandleOffsetMenu: PropTypes.func,
-  authenticationState: PropTypes.object
+  currentUser: PropTypes.object
 }
 
 const mapStateToProps = (state) => {
   return {
-    authenticationState: Object.assign({}, state.authenticate.authenticationState)
+    currentUser: getCurrentUser(state)
   }
 }
 

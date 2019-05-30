@@ -17,12 +17,14 @@ class InputLookupQA extends Component {
     const defaults = defaultValuesFromPropertyTemplate(this.props.propertyTemplate)
 
     if (defaults.length === 0)
-      console.error(`no defaults defined in property template: ${JSON.stringify(this.props.propertyTemplate)}`)
+      // Property templates do not require defaults but we like to know when this happens
+      console.info(`no defaults defined in property template: ${JSON.stringify(this.props.propertyTemplate)}`)
 
     this.state = {
       isLoading: false,
       defaults: defaults
     }
+    this.lookupClient = Swagger({ url: 'src/lib/apidoc.json' })
   }
 
   // Render menu function to be used by typeahead
@@ -91,10 +93,12 @@ class InputLookupQA extends Component {
           JSON.parse(this.props.propertyTemplate.repeatable)
 
     const typeaheadProps = {
+      id: 'lookupComponent',
       required: isMandatory,
       multiple: isRepeatable,
       placeholder: this.props.propertyTemplate.propertyLabel,
       useCache: true,
+      selectHintOnEnter: true,
       isLoading: this.state.isLoading,
       options: this.state.options,
       selected: this.state.selected,
@@ -104,13 +108,11 @@ class InputLookupQA extends Component {
 
     return (
       <div>
-        <AsyncTypeahead id="lookupComponent"
-
-                        renderMenu={(results, menuProps) => this.renderMenuFunc(results, menuProps)}
+        <AsyncTypeahead renderMenu={(results, menuProps) => this.renderMenuFunc(results, menuProps)}
 
                         onSearch={query => {
                           this.setState({ isLoading: true })
-                          Swagger({ url: "src/lib/apidoc.json" }).then(client => {
+                          this.lookupClient.then(client => {
                             //create array of promises based on the lookup config array that is sent in
                             const lookupPromises = lookupConfigs.map(lookupConfig => {
                               authority = lookupConfig.authority
@@ -160,13 +162,12 @@ class InputLookupQA extends Component {
                             })
 
                             Promise.all(lookupPromises).then(values => {
-                              let i
-                              for (i = 0; i < values.length; i++) {
+                              for (let i = 0; i < values.length; i++) {
                                 //If undefined, add info - note if error, error object returned in object
                                 //which allows attaching label and uri for authority
                                 if (values[i]) {
-                                  values[i]["authLabel"] = lookupConfigs[i].label
-                                  values[i]["authURI"] = lookupConfigs[i].uri
+                                  values[i].authLabel = lookupConfigs[i].label
+                                  values[i].authURI = lookupConfigs[i].uri
                                 }
                               }
 
@@ -185,8 +186,7 @@ class InputLookupQA extends Component {
                             reduxPath: this.props.reduxPath
                           }
                           this.props.handleSelectedChange(payload)
-                        }
-                                 }
+                        }}
 
                         {...typeaheadProps}
 

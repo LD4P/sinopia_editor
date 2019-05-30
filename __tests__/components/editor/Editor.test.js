@@ -8,7 +8,7 @@ import Header from '../../../src/components/editor/Header'
 
 let props = {
   location: { state: {resourceTemplateId: 'resourceTemplate:bf:Note'}},
-  authenticationState: {}
+  currentSession: null
 }
 
 describe('<Editor />', () => {
@@ -36,7 +36,7 @@ describe('<Editor />', () => {
   })
 
   describe('authenticated user', () => {
-    props.authenticationState = { currentSession: 'should be CognitoUserSession instance, but just checked for presence at present' }
+    props.currentSession = { dummy: 'should be CognitoUserSession instance, but just checked for presence at present' }
     const wrapper = shallow(<Editor.WrappedComponent {...props} handleGenerateLD={handleGenerateLDFn} />)
 
     it('does not displays a login warning message', () => {

@@ -71,6 +71,11 @@ describe('<InputLookupQA />', () => {
   const mockFormDataFn = jest.fn()
   const wrapper = shallow(<InputLookupQA.WrappedComponent {...plProps} handleSelectedChange={mockFormDataFn} />)
 
+  it('has a lookupClient', () => {
+    // The Swagger constructor returns a promise
+    expect(wrapper.instance().lookupClient).toBeInstanceOf(Promise)
+  })
+
   it('uses the propertyLabel from the template as the form control label', () => {
     expect(wrapper.find('#lookupComponent').props().placeholder).toMatch('Name Lookup')
   })
@@ -125,11 +130,11 @@ describe('<InputLookupQA />', () => {
         }
       }
 
-      const errorSpy = jest.spyOn(console, 'error').mockReturnValue(null)
+      const infoSpy = jest.spyOn(console, 'info').mockReturnValue(null)
       const wrapper2 = shallow(<InputLookupQA.WrappedComponent {...plProps} handleSelectedChange={mockFormDataFn} />)
 
       expect(wrapper2.state('defaults')).toEqual([])
-      expect(errorSpy).toBeCalledWith(`no defaults defined in property template: ${JSON.stringify(plProps.propertyTemplate)}`)
+      expect(infoSpy).toBeCalledWith(`no defaults defined in property template: ${JSON.stringify(plProps.propertyTemplate)}`)
     })
 
     it('sets the async typeahead component defaultSelected attribute', () => {
