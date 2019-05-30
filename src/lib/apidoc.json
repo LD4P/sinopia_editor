@@ -41,7 +41,7 @@
         "summary": "List currently loaded linked data authorities",
         "operationId": "GET_listAuthorities",
         "tags": [
-          "Authority Management"
+          "AuthorityManagement"
         ],
         "responses": {
           "200": {
@@ -70,7 +70,7 @@
         "summary": "Reload linked data authorities.  Using this command avoids having to restart the rails server.",
         "operationId": "GET_reloadAuthorities",
         "tags": [
-          "Authority Management"
+          "AuthorityManagement"
         ],
         "parameters": [
           {
@@ -224,7 +224,7 @@
         "summary": "CORS preflight request",
         "operationId": "OPTIONS_searchAuthority",
         "tags": [
-          "Search Query"
+          "SearchQuery"
         ],
         "parameters": [
           {
@@ -289,7 +289,7 @@
         "summary": "Send a query string to a subauthority in an authority and return search results.",
         "operationId": "GET_searchSubauthority",
         "tags": [
-          "Search Query"
+          "SearchQuery"
         ],
         "parameters": [
           {
@@ -401,7 +401,7 @@
         "summary": "CORS preflight request",
         "operationId": "OPTIONS_searchSubauthority",
         "tags": [
-          "Search Query"
+          "SearchQuery"
         ],
         "parameters": [
           {
@@ -476,7 +476,7 @@
         "operationId": "GET_fetchByIDFromAuthority",
         "summary": "Get a single term from an authority.  Generally there are no additional parameters.  See the authority's configuration file to be sure.  Some authorities support `lang` which can be used to filter the language of returned strings.",
         "tags": [
-          "Fetch Term"
+          "FetchTerm"
         ],
         "parameters": [
           {
@@ -588,7 +588,7 @@
         "summary": "CORS preflight request",
         "operationId": "OPTIONS_fetchByIDFromAuthority",
         "tags": [
-          "Fetch Term"
+          "FetchTerm"
         ],
         "parameters": [
           {
@@ -663,7 +663,7 @@
         "operationId": "GET_fetchByIDFromSubauthority",
         "summary": "Get a single term from a subauthority in an authority.  Generally there are no additional parameters.  See the authority's configuration file to be sure.  Some authorities support `lang` which can be used to filter the language of returned strings.",
         "tags": [
-          "Fetch Term"
+          "FetchTerm"
         ],
         "parameters": [
           {
@@ -785,7 +785,7 @@
         "summary": "CORS preflight request",
         "operationId": "OPTIONS_fetchByIDFromSubauthority",
         "tags": [
-          "Fetch Term"
+          "FetchTerm"
         ],
         "parameters": [
           {
@@ -870,7 +870,7 @@
         "operationId": "GET_fetchURIFromAuthority",
         "summary": "Get a single term from an authority given the term's URI.  Generally there are no additional parameters.  See the authority's configuration file to be sure.  Some authorities support `lang` which can be used to filter the language of returned strings.",
         "tags": [
-          "Fetch Term"
+          "FetchTerm"
         ],
         "parameters": [
           {
@@ -982,7 +982,7 @@
         "summary": "CORS preflight request",
         "operationId": "OPTIONS_fetchURIFromAuthority",
         "tags": [
-          "Fetch Term"
+          "FetchTerm"
         ],
         "parameters": [
           {

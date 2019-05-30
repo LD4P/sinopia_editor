@@ -82,7 +82,7 @@ class InputLookupQA extends Component {
   render() {
     let authority, subauthority, language
     const lookupConfigs = this.props.lookupConfig
-
+    const maxRecords = 8
     const isMandatory = this.props.propertyTemplate.mandatory === undefined ?
           true :
           JSON.parse(this.props.propertyTemplate.mandatory)
@@ -114,27 +114,49 @@ class InputLookupQA extends Component {
                             //create array of promises based on the lookup config array that is sent in
                             const lookupPromises = lookupConfigs.map(lookupConfig => {
                               authority = lookupConfig.authority
-                              subauthority = lookupConfig.authority
+                              subauthority = lookupConfig.subauthority
                               language = lookupConfig.language
                               //return the 'promise'
                               //Since we don't want promise.all to fail if
                               //one of the lookups fails, we want a catch statement
                               //at this level which will then return the error
-                              return client
-                                .apis
-                                .SearchQuery
-                                .GET_searchAuthority({
-                                  q: query,
-                                  vocab: authority,
-                                  subauthority: subauthority,
-                                  maxRecords: 8,
-                                  lang: language
-                                })
-                                .catch(function(err) {
-                                  console.error("Error in executing lookup against source", err)
-                                  //return information along with the error in its own object
-                                  return { isError: true, errorObject: err }
-                                })
+                              //Subauthorities require a different API call than authorities so need to check if subauthority is available
+                              //The only difference between this call and the next one is the call to Get_searchSubauthority instead of 
+                              //Get_searchauthority.  If there is a way to somehow pass that in a variable name/dynamically, that would be better
+                              if(subauthority) {
+                                  return client
+                                  .apis
+                                  .SearchQuery
+                                  .GET_searchSubauthority({
+                                    q: query,
+                                    vocab: authority,
+                                    subauthority: subauthority,
+                                    maxRecords: maxRecords,
+                                    lang: language
+                                  })
+                                  .catch(function(err) {
+                                    console.error("Error in executing lookup against source", err)
+                                    //return information along with the error in its own object
+                                    return { isError: true, errorObject: err }
+                                  })
+                                  
+                              } else {
+                                  return client
+                                    .apis
+                                    .SearchQuery
+                                    .GET_searchAuthority({
+                                      q: query,
+                                      vocab: authority,
+                                      subauthority: subauthority,
+                                      maxRecords: maxRecords,
+                                      lang: language
+                                    })
+                                    .catch(function(err) {
+                                      console.error("Error in executing lookup against source", err)
+                                      //return information along with the error in its own object
+                                      return { isError: true, errorObject: err }
+                                    })
+                              }
                             })
 
                             Promise.all(lookupPromises).then(values => {
