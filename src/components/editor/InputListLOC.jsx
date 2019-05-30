@@ -112,7 +112,7 @@ InputListLOC.propTypes = {
   }).isRequired
 }
 
-const mapStateToProps = (state, props) => {
+const mapStateToProps = (state) => {
   return Object.assign({}, state)
 }
 

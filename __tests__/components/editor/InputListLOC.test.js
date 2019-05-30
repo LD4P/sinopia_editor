@@ -150,17 +150,10 @@ describe('<Typeahead /> component', () => {
         }
       }
       const infoSpy = jest.spyOn(console, 'info').mockReturnValue(null)
-      const wrapper2 = shallow(<InputList.WrappedComponent {...plProps} handleSelectedChange={mockFormDataFn} />)
+      const wrapper2 = shallow(<InputListLOC.WrappedComponent {...plProps} handleSelectedChange={mockFormDataFn} />)
 
       expect(wrapper2.state('defaults')).toEqual([])
       expect(infoSpy).toBeCalledWith(`no defaults defined in property template: ${JSON.stringify(plProps.propertyTemplate)}`)
-// =======
-//       const errorSpy = jest.spyOn(console, 'error').mockReturnValue(null)
-//       const wrapper2 = shallow(<InputListLOC.WrappedComponent {...plProps} handleSelectedChange={mockFormDataFn} />)
-//
-//       expect(wrapper2.instance().props.propertyTemplate.valueConstraint.defaults).toBeUndefined()
-//       expect(errorSpy).toBeCalledWith(`no defaults defined in property template: ${JSON.stringify(plProps.propertyTemplate)}`)
-// >>>>>>> Fix bug where lookup config is returning an array and InputListLOC expects an object
     })
   })
 
