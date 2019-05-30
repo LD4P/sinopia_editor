@@ -6,7 +6,7 @@
     "editor",
     "rdf"
   ],
-  "version": "0.2.0",
+  "version": "0.3.0",
   "homepage": "http://github.com/LD4P/sinopia_editor/",
   "engines": {
     "node": "10.11.x"
@@ -18,7 +18,11 @@
     "Naomi Dushay",
     "Sarav Shah",
     "Johnathan Martin",
-    "Michael Giarlo"
+    "Michael Giarlo",
+    "Justin Coyne",
+    "Peter Mangiafico",
+    "Justin Littman",
+    "Aaron Collier"
   ],
   "devDependencies": {
     "@babel/core": "^7.4.3",
