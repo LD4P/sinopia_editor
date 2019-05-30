@@ -1,4 +1,4 @@
-// Copyright 2018 Stanford University see LICENSE for license
+// Copyright 2019 Stanford University see LICENSE for license
 
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
@@ -8,6 +8,7 @@ import SinopiaResourceTemplates from './SinopiaResourceTemplates'
 import UpdateResourceModal from './UpdateResourceModal'
 import { createResourceTemplate, updateResourceTemplate } from '../../sinopiaServer'
 import { connect } from 'react-redux'
+import { getCurrentUser } from '../../selectors';
 
 class ImportResourceTemplate extends Component {
   constructor(props) {
@@ -164,7 +165,7 @@ ImportResourceTemplate.propTypes = {
 
 const mapStateToProps = (state) => {
   return {
-    currentUser: Object.assign({}, state.authenticate.authenticationState.currentUser)
+    currentUser: getCurrentUser(state)
   }
 }
 
