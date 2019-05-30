@@ -46,7 +46,7 @@ module.exports = {
     "jsx-a11y/label-has-for": "warn", // see #173
     "jsx-a11y/no-onchange": "warn", // The DropZone select form needs an onChange prop to set the state with the new group
     "no-console": ["warn", { allow: ["error", "info"] }], // we want to see errors in the console
-    "no-extra-semi": "off",
+    "no-extra-semi": 2, // 0 = off, 1 = warn, 2 = error
     "security/detect-object-injection": "off"
   },
   overrides: [
