@@ -49,9 +49,9 @@ export const getEntityTagFromGroupContainer = async group => {
   return result.response.header.etag
 }
 
-const authenticate = async authenticationState => {
+const authenticate = async currentUser => {
   // first, make sure the client instance has a valid JWT id token set
-  await CognitoUtils.getIdTokenString(authenticationState.currentUser)
+  await CognitoUtils.getIdTokenString(currentUser)
     .then(idToken => instance.apiClient.authentications['CognitoUser'].accessToken = idToken)
   // TODO: add auth-related error handling similar to the catch on the createResourceWithHttpInfo try below, e.g.
   // * display a warning that the operation failed due to error with current session
@@ -62,14 +62,14 @@ const authenticate = async authenticationState => {
   // This will be done as part of https://github.com/LD4P/sinopia_editor/issues/528
 }
 
-export const createResourceTemplate = async (templateObject, group, authenticationState) => {
+export const createResourceTemplate = async (templateObject, group, currentUser) => {
   // If the authentication function throws, let the caller of this function catch it
-  await authenticate(authenticationState)
+  await authenticate(currentUser)
   return await instance.createResourceWithHttpInfo(group, templateObject, { slug: templateObject.id, contentType: 'application/json' })
 }
 
-export const updateResourceTemplate = async (templateObject, group, authenticationState) => {
+export const updateResourceTemplate = async (templateObject, group, currentUser) => {
   // If the authentication function throws, let the caller of this function catch it
-  await authenticate(authenticationState)
+  await authenticate(currentUser)
   return await instance.updateResourceWithHttpInfo(group, templateObject.id, templateObject, { contentType: 'application/json' })
 }
