@@ -41,6 +41,10 @@ describe('Config', () => {
     it('sinopia server url has a static value', () => {
       expect(Config.sinopiaServerBase).toEqual('http://localhost:8080')
     })
+    
+    it('max records for lookups/QA has static value', () => {
+      expect(Config. maxRecordsForQALookups).toEqual(8)
+    })
 
     describe('interpolated links from default values', () => {
       it('produces the Cognito Forgot Password URL', () => {
@@ -68,7 +72,8 @@ describe('Config', () => {
         SINOPIA_GROUP: 'foobar',
         TRELLIS_BASE_URL: 'https://sinopia_server.foo',
         COGNITO_CLIENT_ID: '1a2b3c',
-        AWS_COGNITO_DOMAIN: 'https://sinopia-foo.amazoncognito.com'
+        AWS_COGNITO_DOMAIN: 'https://sinopia-foo.amazoncognito.com',
+        MAX_RECORDS_FOR_QA_LOOKUPS: 15
       }
     }
 
@@ -101,6 +106,10 @@ describe('Config', () => {
 
     it('aws cognito domain overrides static value', () => {
       expect(Config.awsCognitoDomain).toEqual('https://sinopia-foo.amazoncognito.com')
+    })
+    
+    it('max records for lookups/QA environment variable overrides static value', () => {
+      expect(Config. maxRecordsForQALookups).toEqual(15)
     })
 
     describe('interpolated links from environmental overrides', () => {
