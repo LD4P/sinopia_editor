@@ -55,22 +55,21 @@ const p2Props = {
       "propertyLabel": "Name Lookup"
     },
     "lookupConfig": [
-    	{
-			"label": "LOC person [names] (QA)",
-			"uri": "urn:ld4p:qa:names:person",
-			"authority": "locnames_ld4l_cache",
-			"subauthority": "person",
+    	{ "label": "LOC person [names] (QA)",
+    		"uri": "urn:ld4p:qa:names:person",
+    		"authority": "locnames_ld4l_cache",
+    		"subauthority": "person",
+    		"language": "en",
+    		"component": "lookup"
+		}, 
+		{
+			"label": "LOC all subjects (QA)",
+			"uri": "urn:ld4p:qa:subjects",
+			"authority": "locsubjects_ld4l_cache",
+			"subauthority": "",
 			"language": "en",
 			"component": "lookup"
-    	}, 
-    	{
-    	    "label": "LOC all subjects (QA)",
-    	    "uri": "urn:ld4p:qa:subjects",
-    	    "authority": "locsubjects_ld4l_cache",
-    	    "subauthority": "",
-    	    "language": "en",
-    	    "component": "lookup"
-    	}
+		}
     ]
 }
 
