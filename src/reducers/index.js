@@ -7,6 +7,7 @@ import authenticate from './authenticate'
 import {
   removeAllContent, removeMyItem, setMyItems, setMySelections,
 } from './inputs'
+import GraphBuilder from '../GraphBuilder'
 
 const inputPropertySelector = (state, props) => {
   const reduxPath = props.reduxPath
@@ -31,9 +32,8 @@ export const getProperty = (state, props) => {
   return result.items || []
 }
 
-/*
- * TODO: Fix as part of issue #481 - it should return ... jsonld?
- * NOTE:  avoid creating unnec. new objects (see https://react-redux.js.org/using-react-redux/connect-mapstate)
+/**
+ * @returns {string} the serialized RDF
  */
 export const getAllRdf = (state, action) => {
   const output = Object.create(state)
@@ -41,7 +41,9 @@ export const getAllRdf = (state, action) => {
   // TODO: temporary no-op to pass eslint ...
   action.payload
 
-  return output.selectorReducer
+  const graph = new GraphBuilder(output.selectorReducer).graph
+
+  return graph.toString()
 }
 
 
