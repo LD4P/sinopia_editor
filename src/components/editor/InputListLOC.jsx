@@ -34,7 +34,7 @@ class InputListLOC extends Component {
 
     this.props.handleSelectedChange(payload)
   }
-  
+
   render() {
     if (this.props.lookupConfig?.uri === undefined) {
       alert(`There is no configured list lookup for ${this.props.propertyTemplate.propertyURI}`)

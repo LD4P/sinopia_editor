@@ -5,7 +5,7 @@ import { shallow } from 'enzyme'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import OutlineHeader from '../../../src/components/editor/OutlineHeader'
 import { faMinusSquare, faPlusSquare } from '@fortawesome/free-solid-svg-icons'
-import PropertyTitle from "../../../src/components/editor/PropertyLabel";
+import PropertyLabel from '../../../src/components/editor/PropertyLabel'
 
 describe('<OutlineHeader />', () => {
   const property = {
@@ -26,7 +26,7 @@ describe('<OutlineHeader />', () => {
   })
 
   it('contains a <PropertyLabel />', () => {
-    expect(wrapper.find(PropertyTitle)).toBeTruthy()
+    expect(wrapper.find(PropertyLabel)).toBeTruthy()
   })
 
   it('anchor is plus when collapsed', () => {

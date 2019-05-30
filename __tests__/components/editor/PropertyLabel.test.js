@@ -33,10 +33,6 @@ describe('<PropertyLabel />', () => {
       expect(span.text()).toEqual("Example RDA")
     })
 
-    it('does not has the RequiredSuperscript component if property: mandatory is false', () => {
-      expect(wrapper.find(RequiredSuperscript).length).toEqual(0)
-    })
-
   })
 
   describe('when the propertyTemplate has a remark and label, and the remark is not a URL', () => {
@@ -71,19 +67,33 @@ describe('<PropertyLabel />', () => {
 
   })
 
-  describe('when the propertyTemplaye has mandatory" true', () => {
-    const propsWithRequired = {
+  describe('the propertyTemplate mandatory property', () => {
+
+    const props = {
       "pt" : {
         remark: "http://access.rdatoolkit.org/example",
-        propertyLabel: "Example RDA",
-        mandatory: "true"
+        propertyLabel: "Example RDA"
       }
     }
-    const wrapperWithRequired = shallow(<PropertyLabel {...propsWithRequired} />)
+
+    it('does not have the RequiredSuperscript component if property: mandatory is undefined', () => {
+      const wrapperNoRequired = shallow(<PropertyLabel {...props} />)
+      expect(wrapperNoRequired.find(RequiredSuperscript).length).toEqual(0)
+    })
+
+    it('does not have the RequiredSuperscript component if property: mandatory is false', () => {
+      props.pt['mandatory'] = "false"
+      const wrapperNoRequired = shallow(<PropertyLabel {...props} />)
+      expect(wrapperNoRequired.find(RequiredSuperscript).length).toEqual(0)
+    })
 
     it('has the RequiredSuperscript component if property: mandatory is true', () => {
-      expect(wrapperWithRequired.find(RequiredSuperscript).length).toEqual(1)
+      props.pt['mandatory'] = "true"
+      const wrapperRequired = shallow(<PropertyLabel {...props} />)
+      expect(wrapperRequired.find(RequiredSuperscript).length).toEqual(1)
+
     })
+
   })
 
 })

@@ -1,4 +1,4 @@
-// Copyright 2019 Stanford University see Apache2.txt for license
+// Copyright 2019 Stanford University see LICENSE for license
 
 import shortid from 'shortid'
 import React, {Component} from 'react'
@@ -14,7 +14,7 @@ export class PropertyLabel extends Component {
 
   render () {
 
-    let title = []
+    const title = []
     const key = shortid.generate()
     const property = this.props.pt
 
@@ -24,24 +24,31 @@ export class PropertyLabel extends Component {
       </Popover>
     )
 
+    let url
     try {
-      const url = new URL(property.remark)
-      title.push(
-        <a href={url} className="prop-remark" alt={property.remark} key={key} >
-          <span className="prop-remark">{property.propertyLabel}</span>
-        </a>
-      )
-    } catch (_) {
-      if (property.remark) {
-        title.push(
-          <OverlayTrigger trigger={['hover', 'focus']} placement="right" overlay={popover} key={key} >
-            <span className="prop-remark" >{property.propertyLabel}</span>
-          </OverlayTrigger>
-        )
-      } else {
-        title.push(<span key={key}>{property.propertyLabel}</span>)
-      }
+      url = new URL(property.remark)
+    } catch {
+      //ignore
     }
+
+    const urlLabel = (
+      <a href={url} className="prop-remark" alt={property.remark} key={key} >
+        <span className="prop-remark">{property.propertyLabel}</span>
+      </a>
+    )
+
+    const toolTipLabel = (
+      <OverlayTrigger trigger={['hover', 'focus']} placement="right" overlay={popover} key={key} >
+        <span className="prop-remark" >{property.propertyLabel}</span>
+      </OverlayTrigger>
+    )
+
+    const plainLabel = (
+      <span key={key}>{property.propertyLabel}</span>
+    )
+
+    url !== undefined ? title.push(urlLabel) : (property.remark !== undefined) ? title.push(toolTipLabel) : title.push(plainLabel)
+
 
     if (property.mandatory === "true"){
       title.push(<RequiredSuperscript key={shortid.generate()} />)
