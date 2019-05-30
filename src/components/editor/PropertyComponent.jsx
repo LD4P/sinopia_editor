@@ -4,8 +4,8 @@ import React, { Component } from 'react'
 import InputLiteral from './InputLiteral'
 import InputListLOC from './InputListLOC'
 import InputLookupQA from './InputLookupQA'
-import shortid from 'shortid'
 import lookupConfig from '../../../static/spoofedFilesFromServer/fromSinopiaServer/lookupConfig.json'
+import shortid from 'shortid'
 import PropTypes from 'prop-types'
 
 export class PropertyComponent extends Component {
@@ -36,24 +36,25 @@ export class PropertyComponent extends Component {
     } catch {
       // ignore undefined configuration
     }
+
     const reduxPath = Object.assign([], this.props.reduxPath)
     reduxPath.push(property.propertyURI)
     const keyId = shortid.generate()
+
     switch(config) {
       case "lookup":
-        result = (<InputLookupQA key = {keyId} rtId = {this.props.rtId} reduxPath={[this.props.rtId, property.propertyURI]}
+        result = (<InputLookupQA key = {this.props.index} reduxPath={reduxPath}
                                  propertyTemplate = {property} lookupConfig = {this.state.configuration} />)
         break
       case "list":
-        result = (<InputListLOC key = {keyId} reduxPath={[this.props.rtId, property.propertyURI]}
-                                propertyTemplate = {property} lookupConfig = {this.state.configuration}/>)
+        result = (<InputListLOC key = {this.props.index} reduxPath={reduxPath}
+                                propertyTemplate = {property} lookupConfig = {this.state.configuration[0]} />)
         break
       default:
         switch(property.type) {
           case "literal":
             result = (<InputLiteral key={keyId} id={keyId}
                                     propertyTemplate={property}
-                                    rtId={this.props.rtId}
                                     reduxPath={reduxPath} />)
             break
           default:
@@ -88,7 +89,6 @@ PropertyComponent.propTypes = {
     })
   }).isRequired,
   reduxPath: PropTypes.array.isRequired,
-  rtId: PropTypes.string,
   index: PropTypes.number
 }
 

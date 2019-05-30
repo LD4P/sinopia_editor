@@ -14,6 +14,7 @@ const plProps = {
       "type": "lookup",
       "resourceTemplates": [],
       "valueConstraint": {
+        "repeatable": "true",
         "valueTemplateRefs": [],
         "useValuesFrom": [
           'lookupQaLocNames'

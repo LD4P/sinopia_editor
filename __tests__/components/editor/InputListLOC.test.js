@@ -3,7 +3,7 @@
 import React from 'react'
 import { shallow } from 'enzyme'
 import { Typeahead } from 'react-bootstrap-typeahead'
-import InputList from '../../../src/components/editor/InputListLOC'
+import InputListLOC from '../../../src/components/editor/InputListLOC'
 
 const plProps = {
   "propertyTemplate":
@@ -31,10 +31,52 @@ const plProps = {
     }
 }
 
-describe('<InputList />', () => {
+const mockLookupConfig = [
+  {
+    "label": "carriers",
+    "uri": "https://id.loc.gov/vocabulary/carriers",
+    "component": "list"
+  },
+  {
+    "label": "frequency",
+    "uri": undefined,
+    "component": "list"
+  }
+]
+
+describe('<InputListLOC /> configuration', () => {
   // our mock formData function to replace the one provided by mapDispatchToProps
   const mockFormDataFn = jest.fn()
-  const wrapper = shallow(<InputList.WrappedComponent {...plProps} handleSelectedChange={mockFormDataFn} />)
+
+  beforeEach(() => {
+    global.alert = jest.fn()
+  })
+
+  afterEach(() => {
+    global.alert = alert
+  })
+
+  it('expects a single lookupConfig object', () => {
+    shallow(<InputListLOC.WrappedComponent {...plProps} handleSelectedChange={mockFormDataFn} lookupConfig={mockLookupConfig[0]} />)
+    expect(global.alert.mock.calls.length).toEqual(0)
+  })
+
+  it('displays a browser alert if the lookupConfig is undefined', () => {
+    shallow(<InputListLOC.WrappedComponent {...plProps} handleSelectedChange={mockFormDataFn} lookupConfig={mockLookupConfig[1]} />)
+    expect(global.alert.mock.calls.length).toEqual(1)
+  })
+
+  it('displays a browser alert if the lookupConfig is an array of objects and not a single object', () => {
+    shallow(<InputListLOC.WrappedComponent {...plProps} handleSelectedChange={mockFormDataFn} lookupConfig={mockLookupConfig} />)
+    expect(global.alert.mock.calls.length).toEqual(1)
+  })
+
+})
+
+describe('<Typeahead /> component', () => {
+  // our mock formData function to replace the one provided by mapDispatchToProps
+  const mockFormDataFn = jest.fn()
+  const wrapper = shallow(<InputListLOC.WrappedComponent {...plProps} handleSelectedChange={mockFormDataFn} lookupConfig={mockLookupConfig[0]} />)
 
   it('contains a placeholder with the value of propertyLabel', () => {
     expect(wrapper.find(Typeahead).props().placeholder).toMatch("Frequency (RDA 2.14)")
@@ -73,13 +115,17 @@ describe('<InputList />', () => {
       jest.restoreAllMocks()
     })
 
+    const defaults = [{
+      "defaultLiteral": "volume",
+      "defaultURI": "http://id.loc.gov/vocabulary/carriers/nc"
+    }]
+
     it('sets the default values according to the property template if they exist', () => {
-      const defaults = [{
-        id: 'http://id.loc.gov/vocabulary/carriers/nc',
-        uri: 'http://id.loc.gov/vocabulary/carriers/nc',
-        label: 'volume'
-      }]
-      expect(wrapper.state('defaults')).toEqual(defaults)
+      expect(wrapper.instance().props.propertyTemplate.valueConstraint.defaults).toEqual(defaults)
+    })
+
+    it('sets the defaults state as the defaults array', () => {
+      expect(wrapper.state('defaults').length).toEqual(1)
     })
 
     it('logs an error when no defaults are set', () => {
@@ -104,7 +150,7 @@ describe('<InputList />', () => {
         }
       }
       const infoSpy = jest.spyOn(console, 'info').mockReturnValue(null)
-      const wrapper2 = shallow(<InputList.WrappedComponent {...plProps} handleSelectedChange={mockFormDataFn} />)
+      const wrapper2 = shallow(<InputListLOC.WrappedComponent {...plProps} handleSelectedChange={mockFormDataFn} />)
 
       expect(wrapper2.state('defaults')).toEqual([])
       expect(infoSpy).toBeCalledWith(`no defaults defined in property template: ${JSON.stringify(plProps.propertyTemplate)}`)
