@@ -7,7 +7,7 @@ import PropTypes from 'prop-types'
 import ResourceTemplate from './ResourceTemplate'
 import Header from './Header'
 import RDFModal from './RDFModal'
-import { getCurrentSession } from '../../selectors';
+import { getCurrentSession } from '../../authSelectors';
 
 const _ = require('lodash')
 

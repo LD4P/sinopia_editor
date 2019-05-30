@@ -8,7 +8,7 @@ import SinopiaResourceTemplates from './SinopiaResourceTemplates'
 import UpdateResourceModal from './UpdateResourceModal'
 import { createResourceTemplate, updateResourceTemplate } from '../../sinopiaServer'
 import { connect } from 'react-redux'
-import { getCurrentUser } from '../../selectors';
+import { getCurrentUser } from '../../authSelectors';
 
 class ImportResourceTemplate extends Component {
   constructor(props) {

@@ -5,8 +5,8 @@ import PropTypes from 'prop-types'
 import Config from '../Config'
 import CognitoUtils from '../CognitoUtils'
 import { connect } from 'react-redux'
-import { authenticationFailure, authenticationSuccess, signOutSuccess } from '../actions/index'
-import { getCurrentUser, getCurrentSession, getAuthenticationError } from '../selectors';
+import { getCurrentUser, getCurrentSession, getAuthenticationError } from '../authSelectors';
+import { authenticationFailed, authenticationSucceeded, signedOut } from '../actionCreators';
 
 class LoginPanel extends Component {
   constructor(props){
@@ -134,18 +134,8 @@ const mapStateToProps = (state) => {
   }
 }
 
-const mapDispatchToProps = dispatch => {
-  return {
-    failToAuthenticate: (authenticationResult) => {
-      dispatch(authenticationFailure(authenticationResult))
-    },
-    authenticate: (authenticationResult) => {
-      dispatch(authenticationSuccess(authenticationResult))
-    },
-    signout: () => {
-      dispatch(signOutSuccess())
-    }
-  }
-}
-
-export default connect(mapStateToProps, mapDispatchToProps)(LoginPanel)
+export default connect(mapStateToProps,
+  {failToAuthenticate: authenticationFailed,
+   authenticate: authenticationSucceeded,
+   signout: signedOut}
+)(LoginPanel)

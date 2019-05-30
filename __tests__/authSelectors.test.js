@@ -1,6 +1,6 @@
 // Copyright 2019 Stanford University see LICENSE for license
 
-import { getCurrentUser, getCurrentSession, getAuthenticationError, getAuthenticationState } from '../src/selectors';
+import { getCurrentUser, getCurrentSession, getAuthenticationError, getAuthenticationState } from '../src/authSelectors';
 
 describe('getCurrentUser', () => {
   const currentUser = { hello: 'world' }
