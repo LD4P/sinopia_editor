@@ -28,12 +28,12 @@ class CanvasMenu extends Component {
         <div dangerouslySetInnerHTML={{__html: this.state.content}} />
 
       </div>
-    );
-  };
-};
+    )
+  }
+}
 
 CanvasMenu.propTypes = {
   closeHandleMenu: PropTypes.func
 }
 
-export default CanvasMenu;
+export default CanvasMenu
