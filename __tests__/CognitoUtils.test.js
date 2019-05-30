@@ -32,6 +32,7 @@ describe('CognitoUtils', () => {
       expect(user).toBeInstanceOf(CognitoUser)
       expect(user.username).toEqual(username)
       expect(user.pool).toBeInstanceOf(CognitoUserPool)
+      expect(user.pool).toEqual(CognitoUtils.cognitoUserPool())
     })
   })
 
@@ -49,8 +50,8 @@ describe('CognitoUtils', () => {
 
     it('resolves on successful authentication', () => {
       const mockSession = {}
-      const authUserSpy = jest.spyOn(user, 'authenticateUser').mockImplementation((_details, callback) => {
-        return callback.onSuccess(mockSession)
+      const authUserSpy = jest.spyOn(user, 'authenticateUser').mockImplementation((_details, callbacksObject) => {
+        return callbacksObject.onSuccess(mockSession)
       })
       return CognitoUtils.authenticateUser(user, password)
         .then(authResult => {
@@ -62,8 +63,8 @@ describe('CognitoUtils', () => {
 
     it('rejects on failed authentication', () => {
       const mockError = {}
-      const authUserSpy = jest.spyOn(user, 'authenticateUser').mockImplementation((_details, callback) => {
-        return callback.onFailure(mockError)
+      const authUserSpy = jest.spyOn(user, 'authenticateUser').mockImplementation((_details, callbacksObject) => {
+        return callbacksObject.onFailure(mockError)
       })
       return CognitoUtils.authenticateUser(user, password)
         .then(result => { throw result })
@@ -89,8 +90,8 @@ describe('CognitoUtils', () => {
     it('resolves with session data when successful', () => {
       const mockError = null
       const mockSession = {}
-      const getSessionSpy = jest.spyOn(user, 'getSession').mockImplementation(callback => {
-        return callback(mockError, mockSession)
+      const getSessionSpy = jest.spyOn(user, 'getSession').mockImplementation(callbackFn => {
+        return callbackFn(mockError, mockSession)
       })
       return CognitoUtils.getSession(user)
         .then(result => {
@@ -102,8 +103,8 @@ describe('CognitoUtils', () => {
 
     it('rejects with error info when failing', () => {
       const mockError = 'uh oh!'
-      const getSessionSpy = jest.spyOn(user, 'getSession').mockImplementation(callback => {
-        return callback(mockError)
+      const getSessionSpy = jest.spyOn(user, 'getSession').mockImplementation(callbackFn => {
+        return callbackFn(mockError)
       })
       return CognitoUtils.getSession(user)
         .then(result => { throw result })
@@ -134,8 +135,8 @@ describe('CognitoUtils', () => {
           jwtToken: token
         }
       }
-      const getSessionSpy = jest.spyOn(user, 'getSession').mockImplementation(callback => {
-        return callback(mockError, mockSession)
+      const getSessionSpy = jest.spyOn(user, 'getSession').mockImplementation(callbackFn => {
+        return callbackFn(mockError, mockSession)
       })
       return CognitoUtils.getIdTokenString(user)
         .then(result => {
@@ -143,6 +144,20 @@ describe('CognitoUtils', () => {
           expect(result).toEqual(token)
         })
         .catch(error => { throw error })
+    })
+
+    it('bubbles up the error if obtaining a session fails', () => {
+      const mockError = 'refresh token expired (would be more complex error obj IRL)'
+      const mockSession = null
+      const getSessionSpy = jest.spyOn(user, 'getSession').mockImplementation(callbackFn => {
+        return callbackFn(mockError, mockSession)
+      })
+      return CognitoUtils.getIdTokenString(user)
+        .then(result => { throw result })
+        .catch(error => {
+          expect(getSessionSpy).toHaveBeenCalledTimes(1)
+          expect(error).toEqual(mockError)
+        })
     })
   })
 })
