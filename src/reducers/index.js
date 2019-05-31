@@ -44,6 +44,10 @@ export const getAllRdf = (state, action) => {
   return output.selectorReducer
 }
 
+
+/**
+ * This transforms the template fetched from the server into redux state
+ */
 export const populatePropertyDefaults = (propertyTemplate) => {
   const defaults = []
 
@@ -87,6 +91,9 @@ export const refreshResourceTemplate = (state, action) => {
   return newState
 }
 
+/**
+ * Called when a resource template is loaded
+ */
 export const setResourceTemplate = (state, action) => {
   const rtKey = action.payload.id
   let output = Object.create(state)
