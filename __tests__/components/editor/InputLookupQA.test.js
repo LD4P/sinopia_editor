@@ -75,19 +75,22 @@ const p2Props = {
 }
 
 const multipleResults = [{
-  'authLabel': 'Person',
-  'authURI': 'PersonURI',
-  'body': [{ 'uri': 'puri', 'label': 'plabel' }]
+  authLabel: 'Person',
+  authURI: 'PersonURI',
+  body: [{ uri: 'puri', label: 'plabel' }]
 },
 {
-  'authLabel': 'Subject',
-  'authURI': 'SubjectURI',
-  'body': [{ 'uri': 'suri', 'label': 'slabel' }]
+  authLabel: 'Subject',
+  authURI: 'SubjectURI',
+  body: [{ uri: 'suri', label: 'slabel' }]
 }]
 
 describe('<InputLookupQA />', () => {
-  /* our mock formData function to replace the one provided by
-   * mapDispatchToProps */
+  
+  /* 
+   * our mock formData function to replace the one provided by
+   * mapDispatchToProps 
+   */
   const mockFormDataFn = jest.fn()
   const wrapper = shallow(<InputLookupQA.WrappedComponent {...plProps} handleSelectedChange={mockFormDataFn} />)
 
@@ -231,9 +234,10 @@ describe('<InputLookupQA />', () => {
     expect(menuWrapper.childAt(3).childAt(0).text()).toEqual('slabel')
   })
 
-  // Authority and subauthority calls are properly translated
-  // Commenting out until I understand correct format for these tests
-  /*
+  /* 
+   * Authority and subauthority calls are properly translated
+   * Commenting out until I understand correct format for these tests
+   *
    * it('selects subauthority API call based on lookup configuration', () => {
    * const instance = multipleWrapper.instance(); // subauthority selected in
    * first expect(instance.selectAPICall(instance.lookupClient,
