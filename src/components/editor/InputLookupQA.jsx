@@ -126,7 +126,7 @@ class InputLookupQA extends Component {
                           this.setState({ isLoading: true })
                           this.lookupClient.then((client) => {
                             // create array of promises based on the lookup config array that is sent in
-                            const lookupPromises = lookupConfigs.map( (lookupConfig) => {
+                            const lookupPromises = lookupConfigs.map((lookupConfig) => {
                               authority = lookupConfig.authority
                               subauthority = lookupConfig.subauthority
                               language = lookupConfig.language
@@ -139,17 +139,17 @@ class InputLookupQA extends Component {
                                *The only difference between this call and the next one is the call to Get_searchSubauthority instead of
                                *Get_searchauthority.  Passing API call in a variable name/dynamically, thanks @mjgiarlo
                                */
-                              const actionFunction = (lookupConfig.subauthority) ? 'GET_searchSubauthority' : 'GET_searchAuthority' 
+                              const actionFunction = lookupConfig.subauthority ? 'GET_searchSubauthority' : 'GET_searchAuthority'
 
                               return client
-                                .apis
-                                .SearchQuery?.[actionFunction]({
-                                q: query,
-                                vocab: authority,
-                                subauthority,
-                                maxRecords: 8,
-                                lang: language,
-                              })
+                              .apis
+                              .SearchQuery?.[actionFunction]({
+                              q: query,
+                              vocab: authority,
+                              subauthority,
+                              maxRecords: 8,
+                              lang: language,
+                            })
                                 .catch((err) => {
                                   console.error('Error in executing lookup against source', err)
                                   // return information along with the error in its own object

@@ -234,21 +234,4 @@ describe('<InputLookupQA />', () => {
     expect(menuWrapper.childAt(3).childAt(0).text()).toEqual('slabel')
   })
 
-  it('selects subauthority API call based on lookup configuration', async () => {
-    const instance = multipleWrapper.instance()
-    const mockClient = {
-      apis: {
-        SearchQuery: {
-          GET_searchAuthority: 'authority',
-          GET_searchSubauthority: 'subauthority',
-        },
-      },
-    }
-    const client = new Promise(resolve => resolve(mockClient))
-
-    expect(await instance.selectAPICall(client, instance.props.lookupConfig[0]))
-      .toEqual(mockClient.apis.SearchQuery.GET_searchSubauthority)
-    expect(await instance.selectAPICall(client, instance.props.lookupConfig[1]))
-      .toEqual(mockClient.apis.SearchQuery.GET_searchAuthority)
-  })
 })
