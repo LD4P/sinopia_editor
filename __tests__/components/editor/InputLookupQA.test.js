@@ -233,5 +233,4 @@ describe('<InputLookupQA />', () => {
     expect(menuWrapper.childAt(2).html()).toEqual('<li class="dropdown-header">Subject</li>')
     expect(menuWrapper.childAt(3).childAt(0).text()).toEqual('slabel')
   })
-
 })

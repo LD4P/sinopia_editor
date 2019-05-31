@@ -142,14 +142,14 @@ class InputLookupQA extends Component {
                               const actionFunction = lookupConfig.subauthority ? 'GET_searchSubauthority' : 'GET_searchAuthority'
 
                               return client
-                              .apis
-                              .SearchQuery?.[actionFunction]({
-                              q: query,
-                              vocab: authority,
-                              subauthority,
-                              maxRecords: 8,
-                              lang: language,
-                            })
+                                .apis
+                                .SearchQuery?.[actionFunction]({
+                                  q: query,
+                                  vocab: authority,
+                                  subauthority,
+                                  maxRecords: 8,
+                                  lang: language,
+                                })
                                 .catch((err) => {
                                   console.error('Error in executing lookup against source', err)
                                   // return information along with the error in its own object
