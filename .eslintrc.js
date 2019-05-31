@@ -131,7 +131,8 @@ module.exports = {
     "import/order": "off",
     "no-throw-literal": "off",
     "import/no-namespace": "off",
-    "no-nested-ternary": "off"
+    "no-nested-ternary": "off",
+    'lines-around-comment': ['error', { 'allowBlockStart': true }]
   },
   overrides: [
     {
