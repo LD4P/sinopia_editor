@@ -33,8 +33,8 @@ class InputLookupQA extends Component {
    * Select appropriate API call to be made for QA
    * This may expand based on particular lookup options
    */
-  selectAPICall = (client, lookupConfig) => lookupConfig.subauthority === undefined ? client.apis.SearchQuery.GET_searchAuthority : client.apis.SearchQuery.GET_searchSubauthority
-  
+  selectAPICall = (client, lookupConfig) => { return (lookupConfig.subauthority === undefined) ? client.apis.SearchQuery.GET_searchAuthority : client.apis.SearchQuery.GET_searchSubauthority }
+
 
   // Render menu function to be used by typeahead
   renderMenuFunc = (results, menuProps) => {
