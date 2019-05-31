@@ -9,6 +9,9 @@ import Config from '../../Config'
 import { getEntityTagFromGroupContainer, getResourceTemplate, listResourcesInGroupContainer } from '../../sinopiaServer'
 import { resourceToName } from '../../Utilities'
 
+/**
+ * This is the list view of all the templates
+ */
 class SinopiaResourceTemplates extends Component {
   constructor(props) {
     super(props)

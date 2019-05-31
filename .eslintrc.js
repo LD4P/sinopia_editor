@@ -74,6 +74,7 @@ module.exports = {
     "no-sync": "off",
     "global-require": "off",
     "require-jsdoc": "off",
+    "valid-jsdoc": "off",
     "func-style": "off",
     "import/no-commonjs": "off",
     "import/group-exports": "off",
