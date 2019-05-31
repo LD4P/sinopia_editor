@@ -10,6 +10,7 @@ import { connect } from 'react-redux'
 import { getProperty } from '../../reducers/index'
 import { changeSelections } from '../../actions/index'
 import { booleanPropertyFromTemplate, defaultValuesFromPropertyTemplate } from '../../Utilities'
+import Config from '../../Config'
 
 const AsyncTypeahead = asyncContainer(Typeahead)
 
@@ -147,7 +148,7 @@ class InputLookupQA extends Component {
                                   q: query,
                                   vocab: authority,
                                   subauthority,
-                                  maxRecords: 8,
+                                  maxRecords: Config.maxRecordsForQALookups,
                                   lang: language,
                                 })
                                 .catch((err) => {
