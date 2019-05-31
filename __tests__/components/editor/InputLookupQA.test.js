@@ -54,22 +54,22 @@ const p2Props = {
       propertyURI: 'http://id.loc.gov/ontologies/bflc/target',
       propertyLabel: 'Name Lookup',
     },
-  'lookupConfig': [
+  lookupConfig: [
     {
-      'label': 'LOC person [names] (QA)',
-      'uri': 'urn:ld4p:qa:names:person',
-      'authority': 'locnames_ld4l_cache',
-      'subauthority': 'person',
-      'language': 'en',
-      'component': 'lookup'
+      label: 'LOC person [names] (QA)',
+      uri: 'urn:ld4p:qa:names:person',
+      authority: 'locnames_ld4l_cache',
+      subauthority: 'person',
+      language: 'en',
+      component: 'lookup',
     },
     {
-      'label': 'LOC all subjects (QA)',
-      'uri': 'urn:ld4p:qa:subjects',
-      'authority': 'locsubjects_ld4l_cache',
-      'subauthority': '',
-      'language': 'en',
-      'component': 'lookup'
+      label: 'LOC all subjects (QA)',
+      uri: 'urn:ld4p:qa:subjects',
+      authority: 'locsubjects_ld4l_cache',
+      subauthority: '',
+      language: 'en',
+      component: 'lookup',
     }
   ]
 }
@@ -86,8 +86,8 @@ const multipleResults = [{
 }]
 
 describe('<InputLookupQA />', () => {
-  // our mock formData function to replace the one provided by
-  // mapDispatchToProps
+  /* our mock formData function to replace the one provided by
+   * mapDispatchToProps */
   const mockFormDataFn = jest.fn()
   const wrapper = shallow(<InputLookupQA.WrappedComponent {...plProps} handleSelectedChange={mockFormDataFn} />)
 
