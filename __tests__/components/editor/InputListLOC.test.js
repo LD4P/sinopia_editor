@@ -6,42 +6,42 @@ import { Typeahead } from 'react-bootstrap-typeahead'
 import InputListLOC from '../../../src/components/editor/InputListLOC'
 
 const plProps = {
-  "propertyTemplate":
+  propertyTemplate:
     {
-      "propertyURI": "http://id.loc.gov/ontologies/bflc/target",
-      "propertyLabel": "Frequency (RDA 2.14)",
-      "remark": "http://access.rdatoolkit.org/2.14.html",
-      "mandatory": "false",
-      "repeatable": "false",
-      "type": "lookup",
-      "valueConstraint": {
-        "repeatable": "true",
-        "defaults": [{
-          "defaultURI": "http://id.loc.gov/vocabulary/carriers/nc",
-          "defaultLiteral": "volume"
+      propertyURI: 'http://id.loc.gov/ontologies/bflc/target',
+      propertyLabel: 'Frequency (RDA 2.14)',
+      remark: 'http://access.rdatoolkit.org/2.14.html',
+      mandatory: 'false',
+      repeatable: 'false',
+      type: 'lookup',
+      valueConstraint: {
+        repeatable: 'true',
+        defaults: [{
+          defaultURI: 'http://id.loc.gov/vocabulary/carriers/nc',
+          defaultLiteral: 'volume',
         }],
-        "valueTemplateRefs": [],
-        "useValuesFrom": [
-          "vocabulary:bf2:frequencies"
+        valueTemplateRefs: [],
+        useValuesFrom: [
+          'vocabulary:bf2:frequencies',
         ],
-        "valueDataType": {
-          "dataTypeURI": "http://id.loc.gov/ontologies/bibframe/Frequency"
-        }
-      }
-    }
+        valueDataType: {
+          dataTypeURI: 'http://id.loc.gov/ontologies/bibframe/Frequency',
+        },
+      },
+    },
 }
 
 const mockLookupConfig = [
   {
-    "label": "carriers",
-    "uri": "https://id.loc.gov/vocabulary/carriers",
-    "component": "list"
+    label: 'carriers',
+    uri: 'https://id.loc.gov/vocabulary/carriers',
+    component: 'list',
   },
   {
-    "label": "frequency",
-    "uri": undefined,
-    "component": "list"
-  }
+    label: 'frequency',
+    uri: undefined,
+    component: 'list',
+  },
 ]
 
 describe('<InputListLOC /> configuration', () => {
@@ -70,7 +70,6 @@ describe('<InputListLOC /> configuration', () => {
     shallow(<InputListLOC.WrappedComponent {...plProps} handleSelectedChange={mockFormDataFn} lookupConfig={mockLookupConfig} />)
     expect(global.alert.mock.calls.length).toEqual(1)
   })
-
 })
 
 describe('<Typeahead /> component', () => {
@@ -79,7 +78,7 @@ describe('<Typeahead /> component', () => {
   const wrapper = shallow(<InputListLOC.WrappedComponent {...plProps} handleSelectedChange={mockFormDataFn} lookupConfig={mockLookupConfig[0]} />)
 
   it('contains a placeholder with the value of propertyLabel', () => {
-    expect(wrapper.find(Typeahead).props().placeholder).toMatch("Frequency (RDA 2.14)")
+    expect(wrapper.find(Typeahead).props().placeholder).toMatch('Frequency (RDA 2.14)')
   })
 
   it('typeahead component should have a placeholder attribute with value propertyLabel', () => {
@@ -91,7 +90,7 @@ describe('<Typeahead /> component', () => {
   })
 
   it('displays RequiredSuperscript if mandatory from template is true', () => {
-    wrapper.instance().props.propertyTemplate.mandatory = "true"
+    wrapper.instance().props.propertyTemplate.mandatory = 'true'
     wrapper.instance().forceUpdate()
     expect(wrapper.find('label > RequiredSuperscript')).toBeTruthy()
   })
@@ -99,7 +98,7 @@ describe('<Typeahead /> component', () => {
   it('displays a text label if remark from template is absent', () => {
     wrapper.instance().props.propertyTemplate.remark = undefined
     wrapper.instance().forceUpdate()
-    expect(wrapper.find(Typeahead).props().placeholder).toMatch("Frequency (RDA 2.14)")
+    expect(wrapper.find(Typeahead).props().placeholder).toMatch('Frequency (RDA 2.14)')
   })
 
   it('sets the typeahead component multiple attribute according to the repeatable value from valueContraints in the property template', () => {
@@ -116,8 +115,8 @@ describe('<Typeahead /> component', () => {
     })
 
     const defaults = [{
-      "defaultLiteral": "volume",
-      "defaultURI": "http://id.loc.gov/vocabulary/carriers/nc"
+      defaultLiteral: 'volume',
+      defaultURI: 'http://id.loc.gov/vocabulary/carriers/nc',
     }]
 
     it('sets the default values according to the property template if they exist', () => {
@@ -130,24 +129,24 @@ describe('<Typeahead /> component', () => {
 
     it('logs an error when no defaults are set', () => {
       const plProps = {
-        "propertyTemplate": {
-          "propertyURI": "http://id.loc.gov/ontologies/bflc/target",
-          "propertyLabel": "Frequency (RDA 2.14)",
-          "remark": "http://access.rdatoolkit.org/2.14.html",
-          "mandatory": "false",
-          "repeatable": "false",
-          "type": "lookup",
-          "valueConstraint": {
-            "repeatable": "true",
-            "valueTemplateRefs": [],
-            "useValuesFrom": [
-              "vocabulary:bf2:frequencies"
+        propertyTemplate: {
+          propertyURI: 'http://id.loc.gov/ontologies/bflc/target',
+          propertyLabel: 'Frequency (RDA 2.14)',
+          remark: 'http://access.rdatoolkit.org/2.14.html',
+          mandatory: 'false',
+          repeatable: 'false',
+          type: 'lookup',
+          valueConstraint: {
+            repeatable: 'true',
+            valueTemplateRefs: [],
+            useValuesFrom: [
+              'vocabulary:bf2:frequencies',
             ],
-            "valueDataType": {
-              "dataTypeURI": "http://id.loc.gov/ontologies/bibframe/Frequency"
-            }
-          }
-        }
+            valueDataType: {
+              dataTypeURI: 'http://id.loc.gov/ontologies/bibframe/Frequency',
+            },
+          },
+        },
       }
       const infoSpy = jest.spyOn(console, 'info').mockReturnValue(null)
       const wrapper2 = shallow(<InputListLOC.WrappedComponent {...plProps} handleSelectedChange={mockFormDataFn} />)
@@ -158,13 +157,15 @@ describe('<Typeahead /> component', () => {
   })
 
   it('should call the onFocus event and set the selected option', () => {
-    const opts = {id: 'URI', label: 'LABEL', uri: 'URI'}
+    const opts = { id: 'URI', label: 'LABEL', uri: 'URI' }
+
     wrapper.instance().opts = opts
     const event = (wrap) => {
-      global.fetch = jest.fn().mockImplementation(async () => await ({ok: true, resp: wrapper.instance().opts }))
-      wrap.setState({options: [ wrapper.instance().opts ]})
-      wrap.setState({selected: [ wrapper.instance().opts ]})
+      global.fetch = jest.fn().mockImplementation(async () => await { ok: true, resp: wrapper.instance().opts })
+      wrap.setState({ options: [wrapper.instance().opts] })
+      wrap.setState({ selected: [wrapper.instance().opts] })
     }
+
     wrapper.find('#targetComponent').simulate('focus', event(wrapper))
     expect(wrapper.state().options[0]).toEqual(opts)
 

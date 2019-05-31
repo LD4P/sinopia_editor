@@ -7,8 +7,8 @@ describe('authenticationFailed', () => {
   const errInfoauthenticate = { foo: 'bar' }
 
   const authResult = {
-    currentUser: currentUser,
-    authenticationError: errInfoauthenticate
+    currentUser,
+    authenticationError: errInfoauthenticate,
   }
 
   it('returns the failure action', () => {
@@ -21,8 +21,8 @@ describe('authenticationSucceeded', () => {
   const sessionData = { foo: 'bar' }
 
   const authResult = {
-    currentUser: currentUser,
-    currentSession: sessionData
+    currentUser,
+    currentSession: sessionData,
   }
 
   it('returns the success action', () => {

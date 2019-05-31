@@ -1,6 +1,8 @@
 // Copyright 2018 Stanford University see LICENSE for license
 import React, { Component } from 'react'
-import { asyncContainer, Typeahead, Menu, MenuItem } from 'react-bootstrap-typeahead'
+import {
+  Menu, MenuItem, Typeahead, asyncContainer,
+} from 'react-bootstrap-typeahead'
 import PropTypes from 'prop-types'
 import Swagger from 'swagger-client'
 import { connect } from 'react-redux'
@@ -18,12 +20,12 @@ class InputLookupQA extends Component {
     const defaults = defaultValuesFromPropertyTemplate(this.props.propertyTemplate)
 
     if (defaults.length === 0)
-      // Property templates do not require defaults but we like to know when this happens
-      console.info(`no defaults defined in property template: ${JSON.stringify(this.props.propertyTemplate)}`)
+    // Property templates do not require defaults but we like to know when this happens
+    { console.info(`no defaults defined in property template: ${JSON.stringify(this.props.propertyTemplate)}`) }
 
     this.state = {
       isLoading: false,
-      defaults: defaults
+      defaults,
     }
     this.lookupClient = Swagger({ url: 'src/lib/apidoc.json' })
   }
@@ -36,24 +38,28 @@ class InputLookupQA extends Component {
 
   // Render menu function to be used by typeahead
   renderMenuFunc = (results, menuProps) => {
-    // Returning results per each promise
-    // If error is returned, it will be used to display for that source
     const items = []
     let menuItemIndex = 0
 
+    /*
+     * Returning results per each promise
+     * If error is returned, it will be used to display for that source
+     */
     results.forEach((result, _i, list) => {
       const authLabel = result.authLabel
       const headerKey = `${result.authURI}-header`
 
-      if (list.length > 1)
-        items.push(<Menu.Header key={headerKey}>{authLabel}</Menu.Header>)
+      if (list.length > 1) items.push(<Menu.Header key={headerKey}>{authLabel}</Menu.Header>)
 
       if (result.isError) {
         const errorMessage = 'An error occurred in retrieving results'
         const errorHeaderKey = `${headerKey}-error`
-        items.push(<Menu.Header key={errorHeaderKey}>
-                     <span className='dropdown-error'>{errorMessage}</span>
-                   </Menu.Header>)
+
+        items.push(
+          <Menu.Header key={errorHeaderKey}>
+            <span className="dropdown-error">{errorMessage}</span>
+          </Menu.Header>,
+        )
 
         // Effectively a `continue`/`next` statement within the `forEach()` context, skipping to the next iteration
         return
@@ -65,18 +71,22 @@ class InputLookupQA extends Component {
         const noResultsMessage = 'No results for this lookup'
         const noResultsHeaderKey = `${headerKey}-noResults`
 
-        items.push(<Menu.Header key={noResultsHeaderKey}>
-                     <span className='dropdown-empty'>{noResultsMessage}</span>
-                   </Menu.Header>)
+        items.push(
+          <Menu.Header key={noResultsHeaderKey}>
+            <span className="dropdown-empty">{noResultsMessage}</span>
+          </Menu.Header>,
+        )
 
         // Effectively a `continue`/`next` statement within the `forEach()` context, skipping to the next iteration
         return
       }
 
-      body.forEach(innerResult => {
-        items.push(<MenuItem option={innerResult} position={menuItemIndex} key={menuItemIndex}>
-                     {innerResult.label}
-                   </MenuItem>)
+      body.forEach((innerResult) => {
+        items.push(
+          <MenuItem option={innerResult} position={menuItemIndex} key={menuItemIndex}>
+            {innerResult.label}
+          </MenuItem>,
+        )
         menuItemIndex++
       })
     })
@@ -89,7 +99,8 @@ class InputLookupQA extends Component {
   }
 
   render() {
-    let authority, subauthority, language
+    let authority; let language; let
+      subauthority
     const lookupConfigs = this.props.lookupConfig
 
     const isMandatory = booleanPropertyFromTemplate(this.props.propertyTemplate, 'mandatory', false)
@@ -106,18 +117,18 @@ class InputLookupQA extends Component {
       options: this.state.options,
       selected: this.state.selected,
       defaultSelected: this.state.defaults,
-      delay: 300
+      delay: 300,
     }
 
     return (
       <div>
         <AsyncTypeahead renderMenu={(results, menuProps) => this.renderMenuFunc(results, menuProps)}
 
-                        onSearch={query => {
+                        onSearch={(query) => {
                           this.setState({ isLoading: true })
-                          this.lookupClient.then(client => {
-                            //create array of promises based on the lookup config array that is sent in
-                            const lookupPromises = lookupConfigs.map(lookupConfig => {
+                          this.lookupClient.then((client) => {
+                            // create array of promises based on the lookup config array that is sent in
+                            const lookupPromises = lookupConfigs.map((lookupConfig) => {
                               authority = lookupConfig.authority
                               subauthority = lookupConfig.subauthority
                               language = lookupConfig.language
@@ -144,40 +155,41 @@ class InputLookupQA extends Component {
                               
                             })
 
-                            Promise.all(lookupPromises).then(values => {
+                            /*
+                             * If undefined, add info - note if error, error object returned in object
+                             * which allows attaching label and uri for authority
+                             */
+                            Promise.all(lookupPromises).then((values) => {
                               for (let i = 0; i < values.length; i++) {
-                                //If undefined, add info - note if error, error object returned in object
-                                //which allows attaching label and uri for authority
                                 if (values[i]) {
                                   values[i].authLabel = lookupConfigs[i].label
                                   values[i].authURI = lookupConfigs[i].uri
                                 }
                               }
 
-                              this.setState( {
+                              this.setState({
                                 isLoading: false,
-                                options: values
+                                options: values,
                               })
                             })
                           }).catch(() => false)
                         }}
 
-                        onChange={selected => {
+                        onChange={(selected) => {
                           const payload = {
                             uri: this.props.propertyTemplate.propertyURI,
                             items: selected,
-                            reduxPath: this.props.reduxPath
+                            reduxPath: this.props.reduxPath,
                           }
+
                           this.props.handleSelectedChange(payload)
                         }}
 
                         {...typeaheadProps}
 
-                        filterBy={() => {
-                          /** Currently don't want any default filtering as we want all the results returned from QA, also we are passing in a complex object **/
-                          /* Not having filterBy is interpreted as including default filtering which only returns options matching the search term in some respect */
-                          return true
-                        }}
+
+                        filterBy={() => true
+                        }
         />
       </div>
     )
@@ -190,21 +202,23 @@ InputLookupQA.propTypes = {
     mandatory: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
     repeatable: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
     valueConstraint: PropTypes.shape({
-      useValuesFrom: PropTypes.oneOfType([PropTypes.string, PropTypes.array])
-    })
+      useValuesFrom: PropTypes.oneOfType([PropTypes.string, PropTypes.array]),
+    }),
   }).isRequired,
-  reduxPath: PropTypes.oneOfType([PropTypes.string, PropTypes.array])
+  reduxPath: PropTypes.oneOfType([PropTypes.string, PropTypes.array]),
 }
 
 const mapStateToProps = (state, props) => {
   const result = getProperty(state, props)
+
+
   return { selected: result }
 }
 
 const mapDispatchToProps = dispatch => ({
   handleSelectedChange(selected) {
     dispatch(changeSelections(selected))
-  }
+  },
 })
 
 export default connect(mapStateToProps, mapDispatchToProps)(InputLookupQA)

@@ -6,9 +6,9 @@ import Editor from '../../../src/components/editor/Editor'
 import ResourceTemplate from '../../../src/components/editor/ResourceTemplate'
 import Header from '../../../src/components/editor/Header'
 
-let props = {
-  location: { state: {resourceTemplateId: 'resourceTemplate:bf:Note'}},
-  currentSession: null
+const props = {
+  location: { state: { resourceTemplateId: 'resourceTemplate:bf:Note' } },
+  currentSession: null,
 }
 
 describe('<Editor />', () => {
@@ -32,7 +32,6 @@ describe('<Editor />', () => {
     it('displays an login warning message', () => {
       expect(wrapper.find('div.alert-warning').text()).toMatch('Alert! No data can be saved unless you are logged in with group permissions.')
     })
-
   })
 
   describe('authenticated user', () => {
@@ -42,7 +41,6 @@ describe('<Editor />', () => {
     it('does not displays a login warning message', () => {
       expect(wrapper.find('div.alert-warning').exists()).toBeFalsy()
     })
-
   })
 
   describe('RDFModal button', () => {
@@ -55,5 +53,4 @@ describe('<Editor />', () => {
       expect(wrapper.find('.modal-dialog').length).toBe(0)
     })
   })
-
 })

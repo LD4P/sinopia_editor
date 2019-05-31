@@ -2,26 +2,31 @@
 
 import 'jsdom-global/register'
 import React from 'react'
-import { shallow, mount } from 'enzyme'
-import ImportFileZone from '../../../src/components/editor/ImportFileZone'
+import { mount, shallow } from 'enzyme'
 import DropZone from 'react-dropzone'
+import ImportFileZone from '../../../src/components/editor/ImportFileZone'
 import Config from '../../../src/Config'
+
 require('isomorphic-fetch')
-// NOTE: Your editor may bark at you about isomorphic-fetch being an extraneous require. Removing this line, however, causes test failures that look like the following:
-//
-// TypeError: err.indexOf is not a function
-//
-//                     })
-//                     .catch(err => {
-//                       if (err.indexOf('already exists') > 0)
-//                               ^
-//                         resolve()
-//                       else
-//                         reject(new Error(`error getting json schemas ${err}`))
+
+/*
+ * NOTE: Your editor may bark at you about isomorphic-fetch being an extraneous require. Removing this line, however, causes test failures that look like the following:
+ *
+ * TypeError: err.indexOf is not a function
+ *
+ *                     })
+ *                     .catch(err => {
+ *                       if (err.indexOf('already exists') > 0)
+ *                               ^
+ *                         resolve()
+ *                       else
+ *                         reject(new Error(`error getting json schemas ${err}`))
+ */
 
 describe('<ImportFileZone />', () => {
   it('has an upload button', () => {
     const wrapper = shallow(<ImportFileZone />)
+
     expect(wrapper.find('button#ImportProfile').exists()).toBeTruthy()
     expect(wrapper.find('button#ImportProfile').text()).toEqual('Import New or Revised Resource Template')
   })
@@ -29,7 +34,8 @@ describe('<ImportFileZone />', () => {
   describe('schema valid', () => {
     describe('schema url in JSON', () => {
       const wrapper = shallow(<ImportFileZone />)
-      let template, schemaUrl
+      let schemaUrl; let
+        template
 
       it('gets the schemaUrl from the resource-template', () => {
         template = require('../../__fixtures__/lcc_v0.2.0.json')
@@ -56,7 +62,8 @@ describe('<ImportFileZone />', () => {
 
     describe('schema url not in JSON - default schemas used', () => {
       const wrapper = shallow(<ImportFileZone />)
-      let template, schemaUrl
+      let schemaUrl; let
+        template
 
       it('gets the schemaUrl from the resource-template', () => {
         template = require('../../__fixtures__/lcc_no_schema_specified.json')
@@ -84,7 +91,8 @@ describe('<ImportFileZone />', () => {
 
   describe('not schema valid', () => {
     const wrapper = shallow(<ImportFileZone />)
-    let template, schemaUrl
+    let schemaUrl; let
+      template
 
     it('gets the schemaUrl from the resource-template', () => {
       template = require('../../__fixtures__/lcc_v0.2.0_invalid.json')
@@ -95,7 +103,7 @@ describe('<ImportFileZone />', () => {
     it('displays an error message when missing required property', async () => {
       await wrapper.instance().promiseTemplateValidated(template, schemaUrl).catch((err) => {
         expect(wrapper.state().validTemplate).toBeFalsy()
-        expect(err.toString()).toMatch("should have required property")
+        expect(err.toString()).toMatch('should have required property')
       })
     })
 
@@ -115,7 +123,8 @@ describe('<ImportFileZone />', () => {
 
   describe('unfindable schema', () => {
     const wrapper = shallow(<ImportFileZone />)
-    let template, schemaUrl
+    let schemaUrl; let
+      template
 
     it('gets the schemaUrl from the resource-template', () => {
       template = require('../../__fixtures__/edition_bad_schema.json')
@@ -126,7 +135,7 @@ describe('<ImportFileZone />', () => {
     it('displays an error message', async () => {
       await wrapper.instance().promiseTemplateValidated(template, schemaUrl).catch((err) => {
         expect(wrapper.state().validTemplate).toBeFalsy()
-        expect(err.toString()).toMatch("Error: error getting json schemas")
+        expect(err.toString()).toMatch('Error: error getting json schemas')
       })
     })
   })
@@ -136,7 +145,7 @@ describe('<DropZone />', () => {
   const wrapper = mount(<ImportFileZone />)
 
   it('shows the dropzone div when button is clicked', () => {
-    wrapper.setState({showDropZone: false})
+    wrapper.setState({ showDropZone: false })
     wrapper.find('button.btn').simulate('click')
     expect(wrapper.find('DropZone > section > strong').last().text())
       .toMatch('Drag and drop a resource template file in the box')
@@ -150,35 +159,37 @@ describe('<DropZone />', () => {
   })
 
   it('hides the dropzone div when the file dialog is canceled', () => {
-    wrapper.setState({showDropZone: false})
+    wrapper.setState({ showDropZone: false })
     wrapper.find('button.btn').simulate('click')
     expect(wrapper.state('showDropZone')).toBeTruthy()
-    wrapper.setState({showDropZone: false})
+    wrapper.setState({ showDropZone: false })
     expect(wrapper.state('showDropZone')).toBeFalsy()
   })
 
   it('hides the dropzone div when the resource template menu link is clicked', () => {
-    wrapper.setState({showDropZone: false})
+    wrapper.setState({ showDropZone: false })
     wrapper.find('button.btn').simulate('click')
     expect(wrapper.state('showDropZone')).toBeTruthy()
     wrapper.instance().handleClick()
-    wrapper.setState({showDropZone: false})
+    wrapper.setState({ showDropZone: false })
     expect(wrapper.state('showDropZone')).toBeFalsy()
   })
 
   it('disallows multi-file uploads', () => {
-    wrapper.setState({showDropZone: true})
+    wrapper.setState({ showDropZone: true })
     expect(wrapper.find(DropZone).instance().props.multiple).toEqual(false)
   })
 
+  /*
+   * NOTE: This is for code coverage only;  there are no expect statements
+   * Dropzone throws an error when performing a drop simulate on the input.
+   */
   describe('simulating a file drop calls the file reading functions', () => {
-    // NOTE: This is for code coverage only;  there are no expect statements
-    // Dropzone throws an error when performing a drop simulate on the input.
     it('lets you input a selected file', () => {
       console.error = jest.fn()
-      wrapper.setState({showDropZone: true})
+      wrapper.setState({ showDropZone: true })
       wrapper.find('input[type="file"]').simulate('drop', {
-        target: {files: ['item.json']}
+        target: { files: ['item.json'] },
       })
       console.error.mockClear()
     })
@@ -187,7 +198,7 @@ describe('<DropZone />', () => {
   describe('cleanup', () => {
     it('unmounts the wrapper', () => {
       expect(wrapper.debug().length).toBeGreaterThanOrEqual(1)
-      wrapper.unmount();
+      wrapper.unmount()
       expect(wrapper.debug().length).toBe(0)
     })
   })

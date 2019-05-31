@@ -9,7 +9,7 @@ describe('<AddButton />', () => {
   const addButtonWrapper = shallow(<AddButton />)
 
   it('has label "Add"', () => {
-    expect(addButtonWrapper.text()).toEqual("Add")
+    expect(addButtonWrapper.text()).toEqual('Add')
   })
 
   it('is not disabled by default', () => {
@@ -18,6 +18,7 @@ describe('<AddButton />', () => {
 
   it('is disabled if isDisabled prop is true', () => {
     const disabledAddButtonWrapper = shallow(<AddButton isDisabled={true} />)
+
     expect(disabledAddButtonWrapper.instance().props.isDisabled).toBeTruthy()
   })
 })
@@ -26,7 +27,7 @@ describe('<MintButton />', () => {
   const mintButtonWrapper = shallow(<MintButton />)
 
   it('has label "Mint URI"', () => {
-    expect(mintButtonWrapper.text()).toEqual("Mint URI")
+    expect(mintButtonWrapper.text()).toEqual('Mint URI')
   })
 
   it('is disabled by default', () => {
@@ -50,7 +51,6 @@ describe('<PropertyActionButtons />', () => {
       addButton.simulate('click')
       expect(mockAddClick).toHaveBeenCalledTimes(1)
     })
-
   })
 
   describe('Mint Button', () => {
@@ -64,7 +64,5 @@ describe('<PropertyActionButtons />', () => {
       mintButton.simulate('click')
       expect(mockMintClick).toHaveBeenCalledTimes(1)
     })
-
   })
-
 })

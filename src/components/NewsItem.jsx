@@ -8,17 +8,14 @@ const NewsItem = () => (
     <ul>
       <li>Release 0.2.0 is live, including these features</li>
       <ul>
-      <li>Create profiles in Profile Editor and load into Linked Data Editor.
-      </li>
-      <li>Specify lookups via Questioning Authority in Profile Editor, and do lookups in the Linked Data Editor.
-      </li>
+        <li>Create profiles in Profile Editor and load into Linked Data Editor.
+        </li>
+        <li>Specify lookups via Questioning Authority in Profile Editor, and do lookups in the Linked Data Editor.
+        </li>
       </ul>
       <li> <a href="https://github.com/LD4P/sinopia/wiki/">User support page is live</a>
       </li>
     </ul>
-
-
-
   </div>
 )
 

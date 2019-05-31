@@ -1,29 +1,31 @@
 // Copyright 2019 Stanford University see LICENSE for license
 
-import React, {Component} from 'react'
+import React, { Component } from 'react'
+import PropTypes from 'prop-types'
+import shortid from 'shortid'
 import OutlineHeader from './OutlineHeader'
 import PropertyTypeRow from './PropertyTypeRow'
-import RequiredSuperscript from './RequiredSuperscript'
 import { getResourceTemplate } from '../../sinopiaServer'
 import { isResourceWithValueTemplateRef, resourceToName, templateBoolean } from '../../Utilities'
 import PropertyComponent from './PropertyComponent'
-import PropTypes from 'prop-types'
-import shortid from 'shortid'
-import ResourceProperty from "./ResourceProperty";
+import ResourceProperty from './ResourceProperty'
 
 export const addResourceTemplate = (resourceTemplate, reduxPath) => {
   const output = []
   // TODO: Add delete button, noted in issue #535
+
   output.push(<h5 key={shortid.generate()}>{resourceTemplate.resourceLabel}</h5>)
   resourceTemplate.propertyTemplates.map((rtProperty) => {
     const newReduxPath = [...reduxPath]
     const keyId = shortid.generate()
+
     newReduxPath.push(resourceTemplate.id, keyId)
     output.push(<PropertyTemplateOutline key={keyId}
-                propertyTemplate={rtProperty}
-                reduxPath={newReduxPath}
-                resourceTemplate={resourceTemplate} />)
+                                         propertyTemplate={rtProperty}
+                                         reduxPath={newReduxPath}
+                                         resourceTemplate={resourceTemplate} />)
   })
+
   return output
 }
 
@@ -33,25 +35,28 @@ export class PropertyTemplateOutline extends Component {
     this.state = {
       collapsed: true,
       propertyTypeRow: [],
-      nestedResourceTemplates: []
+      nestedResourceTemplates: [],
     }
   }
 
   outlineRowClass = () => {
-    let classNames = "rOutline-property"
-    if (this.state.collapsed) { classNames += " collapse"}
+    let classNames = 'rOutline-property'
+
+    if (this.state.collapsed) { classNames += ' collapse' }
+
     return classNames
   }
 
   // Uses currying to pass multiple parameters to handleAddClick
-  handleAddClick = (resourceTemplate) => (event) => {
+  handleAddClick = resourceTemplate => (event) => {
     event.preventDefault()
     const propertyTypeRows = [...this.state.propertyTypeRow]
     const output = addResourceTemplate(resourceTemplate, this.props.reduxPath)
+
     if (this.props.handleAddClick !== undefined) {
       this.props.handleAddClick(event)
     }
-    this.setState( { propertyTypeRow: propertyTypeRows.concat(output) })
+    this.setState({ propertyTypeRow: propertyTypeRows.concat(output) })
   }
 
   handleMintUri = (event) => {
@@ -61,32 +66,21 @@ export class PropertyTemplateOutline extends Component {
     }
   }
 
-  isRequired = (property) => {
-    if (property.mandatory === "true") {
-      return <RequiredSuperscript />
-    }
-  }
+  fulfillRTPromises = async promiseAll => await promiseAll.then((rts) => {
+    rts.map((rt) => {
+      const joinedRts = [...this.state.nestedResourceTemplates]
 
-  fulfillRTPromises = async (promiseAll) => {
-    return await promiseAll.then(rts => {
-      rts.map(rt => {
-        const joinedRts = [...this.state.nestedResourceTemplates]
-        joinedRts.push(rt.response.body)
-        this.setState({nestedResourceTemplates: joinedRts})
-      })
-    }).catch(() => {})
-  }
+      joinedRts.push(rt.response.body)
+      this.setState({ nestedResourceTemplates: joinedRts })
+    })
+  }).catch(() => {})
 
-  resourceTemplatePromises = (templateRefs) => {
-    return Promise.all(templateRefs.map(rtId =>
-      getResourceTemplate(rtId)
-    ))
-  }
+  resourceTemplatePromises = templateRefs => Promise.all(templateRefs.map(rtId => getResourceTemplate(rtId)))
 
-  handleClick = (property) => (event) => {
+  handleClick = property => (event) => {
     event.preventDefault()
 
-    this.setState({collapsed: !this.state.collapsed})
+    this.setState({ collapsed: !this.state.collapsed })
 
     const templateRefList = isResourceWithValueTemplateRef(property) ? property.valueConstraint.valueTemplateRefs : []
 
@@ -96,9 +90,13 @@ export class PropertyTemplateOutline extends Component {
   }
 
   addPropertyTypeRows = (property) => {
-    let propertyJsx, existingJsx, newOutput = this.state.propertyTypeRow
+    let existingJsx; let
+      propertyJsx
+    const newOutput = this.state.propertyTypeRow
+
     if (isResourceWithValueTemplateRef(property)) {
       const isAddDisabled = !templateBoolean(property.repeatable)
+
       propertyJsx = <ResourceProperty propertyTemplate={property}
                                       reduxPath={this.props.reduxPath}
                                       nestedResourceTemplates={this.state.nestedResourceTemplates}
@@ -124,21 +122,20 @@ export class PropertyTemplateOutline extends Component {
           addButtonDisabled={this.props.addButtonDisabled}
           propertyTemplate={property}>
           {propertyJsx}
-        </PropertyTypeRow>
+        </PropertyTypeRow>,
       )
     }
 
-    this.setState({propertyTypeRow: newOutput, rowAdded: true})
+    this.setState({ propertyTypeRow: newOutput, rowAdded: true })
   }
 
   render() {
-    return(
+    return (
       <div className="rtOutline" key={shortid.generate()}>
-        <OutlineHeader label={this.props.propertyTemplate.propertyLabel}
+        <OutlineHeader pt={this.props.propertyTemplate}
                        id={resourceToName(this.props.propertyTemplate.propertyURI)}
                        collapsed={this.state.collapsed}
                        key={shortid.generate()}
-                       isRequired={this.isRequired(this.props.propertyTemplate)}
                        handleCollapsed={this.handleClick(this.props.propertyTemplate)} />
         <div className={this.outlineRowClass()}>
           {this.state.propertyTypeRow}
@@ -157,7 +154,7 @@ PropertyTemplateOutline.propTypes = {
   isRequired: PropTypes.func,
   propertyTemplate: PropTypes.object,
   reduxPath: PropTypes.array,
-  rtId: PropTypes.string
+  rtId: PropTypes.string,
 }
 
 export default PropertyTemplateOutline

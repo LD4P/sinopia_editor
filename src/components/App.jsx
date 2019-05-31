@@ -10,18 +10,18 @@ import Footer from './Footer'
 import { Route, Switch, withRouter } from 'react-router-dom'
 import ImportResourceTemplate from './editor/ImportResourceTemplate'
 import Browse from './editor/Browse'
-import CanvasMenu from "./CanvasMenu";
+import CanvasMenu from './CanvasMenu'
 import { connect } from 'react-redux'
 
 
 const FourOhFour = () => <h1>404</h1>
 
-class App extends Component{
+class App extends Component {
   constructor(props) {
     super(props)
     this.state = {
       redirectToReferrer: false,
-      isMenuOpened: false
+      isMenuOpened: false,
     }
   }
 
@@ -29,21 +29,20 @@ class App extends Component{
     const PrivateRoute = ({ component: ImportResourceTemplate, ...rest }) => (
       <Route
         {...rest}
-        render={props =>
-          (this.props.currentSession) ? (<ImportResourceTemplate {...props} />) : null
+        render={props => (this.props.currentSession ? (<ImportResourceTemplate {...props} />) : null)
         }
       />
     )
 
-    return(
+    return (
       <div id="app">
         <LoginPanel />
         <Switch>
-          <Route exact path='/' render={(props)=><HomePage {...props} triggerHandleOffsetMenu={this.props.handleOffsetMenu} />} />
-          <Route exact path='/editor' render={(props)=><Editor {...props} triggerHandleOffsetMenu={this.props.handleOffsetMenu} />} />
-          <PrivateRoute exact path='/templates' component={(props)=><ImportResourceTemplate {...props} triggerHandleOffsetMenu={this.props.handleOffsetMenu} />}/>
-          <Route exact path='/browse' render={(props)=><Browse {...props} triggerHandleOffsetMenu={this.props.handleOffsetMenu} />} />
-          <Route path="/menu" render={(props)=><CanvasMenu {...props} />} />
+          <Route exact path="/" render={props => <HomePage {...props} triggerHandleOffsetMenu={this.props.handleOffsetMenu} />} />
+          <Route exact path="/editor" render={props => <Editor {...props} triggerHandleOffsetMenu={this.props.handleOffsetMenu} />} />
+          <PrivateRoute exact path="/templates" component={props => <ImportResourceTemplate {...props} triggerHandleOffsetMenu={this.props.handleOffsetMenu} />}/>
+          <Route exact path="/browse" render={props => <Browse {...props} triggerHandleOffsetMenu={this.props.handleOffsetMenu} />} />
+          <Route path="/menu" render={props => <CanvasMenu {...props} />} />
           <Route id="404" component={FourOhFour} />
         </Switch>
         <Footer />
@@ -52,12 +51,12 @@ class App extends Component{
   }
 }
 
-const mapStateToProps = (state) => {
-  return {
-    currentSession: state.authenticate.authenticationState ? state.authenticate.authenticationState.currentSession : null
-  }
-}
+const mapStateToProps = state => ({
+  currentSession: state.authenticate.authenticationState ? state.authenticate.authenticationState.currentSession : null,
+})
 
-// 2019-05-07: note that withRouter must wrap connect
-// see https://github.com/ReactTraining/react-router/blob/master/packages/react-router/docs/api/withRouter.md#important-note
+/*
+ * 2019-05-07: note that withRouter must wrap connect
+ * see https://github.com/ReactTraining/react-router/blob/master/packages/react-router/docs/api/withRouter.md#important-note
+ */
 export default withRouter(connect(mapStateToProps)(App))

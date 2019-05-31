@@ -2,10 +2,10 @@
 
 import 'jsdom-global/register'
 import React from 'react'
-import { shallow } from "enzyme"
-import RootContainer from '../../src/components/RootContainer'
+import { shallow } from 'enzyme'
 import { OffCanvas } from 'react-offcanvas'
 import { Provider } from 'react-redux'
+import RootContainer from '../../src/components/RootContainer'
 
 describe('<RootComponent />', () => {
   const wrapper = shallow(<RootContainer/>)

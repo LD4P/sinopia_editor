@@ -2,35 +2,32 @@
 
 const _ = require('lodash')
 
-export const isResourceWithValueTemplateRef = property => {
-  return property?.type === 'resource' &&
-    property?.valueConstraint?.valueTemplateRefs?.length > 0
-}
+export const isResourceWithValueTemplateRef = property => property?.type === 'resource'
+    && property?.valueConstraint?.valueTemplateRefs?.length > 0
 
-export const resourceToName = uri => {
-  if (!_.isString(uri))
-    return undefined
+export const resourceToName = (uri) => {
+  if (!_.isString(uri)) return undefined
 
   return uri.substr(uri.lastIndexOf('/') + 1)
 }
 
 
-export const defaultValuesFromPropertyTemplate = propertyTemplate => {
+export const defaultValuesFromPropertyTemplate = (propertyTemplate) => {
   // Use safe navigation to deal with differently shaped property templates
   const defaultValue = propertyTemplate?.valueConstraint?.defaults?.[0]
 
-  if (!defaultValue)
-    return []
+  if (!defaultValue) return []
 
   return [{
     id: defaultValue.defaultURI,
     label: defaultValue.defaultLiteral,
-    uri: defaultValue.defaultURI
+    uri: defaultValue.defaultURI,
   }]
 }
 
 export const templateBoolean = (value) => {
   let result
+
   switch (value) {
     case 'true':
     case true:
@@ -43,6 +40,7 @@ export const templateBoolean = (value) => {
     default:
       result = true
   }
+
   return Boolean(result)
 }
 
@@ -50,13 +48,11 @@ export const booleanPropertyFromTemplate = (template, key, defaultValue) => {
   // Use safe navigation for dynamic properties: https://github.com/tc39/proposal-optional-chaining#syntax
   const propertyValue = template?.[key]
 
-  if (!propertyValue)
-    return defaultValue
+  if (!propertyValue) return defaultValue
 
   const parsedValue = JSON.parse(propertyValue)
 
-  if (parsedValue !== true && parsedValue !== false)
-    return defaultValue
+  if (parsedValue !== true && parsedValue !== false) return defaultValue
 
   return parsedValue
 }

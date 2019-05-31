@@ -1,33 +1,32 @@
 // Copyright 2018, 2019 Stanford University see LICENSE for license
 
-import React, {Component} from 'react'
+import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
-import { setItems, removeItem } from '../../actions/index'
-import { getProperty } from '../../reducers/index'
-import InputLang from './InputLang'
 import Modal from 'react-bootstrap/lib/Modal'
 import Button from 'react-bootstrap/lib/Button'
 import shortid from 'shortid'
+import { removeItem, setItems } from '../../actions/index'
+import { getProperty } from '../../reducers/index'
+import InputLang from './InputLang'
 import store from '../../store'
 
 // Redux recommends exporting the unconnected component for unit tests.
 export class InputLiteral extends Component {
-
   constructor(props) {
     super(props)
     this.state = {
       show: false,
-      content_add: "",
-      disabled: false
+      content_add: '',
+      disabled: false,
     }
   }
 
   componentDidMount = () => {
-    if (this.props.propertyTemplate.repeatable === "false" &&
-        this.props.formData !== undefined &&
-        this.props.formData.items.length > 0) {
-      this.setState( { disabled: true })
+    if (this.props.propertyTemplate.repeatable === 'false'
+        && this.props.formData !== undefined
+        && this.props.formData.items.length > 0) {
+      this.setState({ disabled: true })
     }
   }
 
@@ -47,11 +46,12 @@ export class InputLiteral extends Component {
 
   handleChange = (event) => {
     const usr_input = event.target.value
+
     this.setState({ content_add: usr_input })
   }
 
   notRepeatableAfterUserInput = (userInputArray, currentcontent) => {
-    if (this.props.formData == undefined || this.props.formData.items < 1){
+    if (this.props.formData == undefined || this.props.formData.items < 1) {
       this.addUserInput(userInputArray, currentcontent)
       this.setState({ disabled: true })
     }
@@ -59,87 +59,91 @@ export class InputLiteral extends Component {
 
   addUserInput = (userInputArray, currentcontent) => {
     const newId = shortid.generate()
+
     userInputArray.push({
       content: currentcontent,
-      id: newId
+      id: newId,
     })
   }
 
   handleKeypress = (event) => {
-    if (event.key == "Enter") {
-      var userInputArray = []
-      var currentcontent = this.state.content_add.trim()
+    if (event.key == 'Enter') {
+      const userInputArray = []
+      const currentcontent = this.state.content_add.trim()
+
       if (!currentcontent) {
         return
       }
-      if (this.props.propertyTemplate.repeatable == "true") {
+      if (this.props.propertyTemplate.repeatable == 'true') {
         this.addUserInput(userInputArray, currentcontent)
-      } else if (this.props.propertyTemplate.repeatable == "false") {
+      } else if (this.props.propertyTemplate.repeatable == 'false') {
         this.notRepeatableAfterUserInput(userInputArray, currentcontent)
       }
       const user_input = {
         uri: this.props.propertyTemplate.propertyURI,
         reduxPath: this.props.reduxPath,
-        items: userInputArray
+        items: userInputArray,
       }
+
       this.props.handleMyItemsChange(user_input)
       this.setState({
-        content_add: ""
+        content_add: '',
       })
       event.preventDefault()
     }
   }
 
   handleItemClick = (event) => {
-    const labelToRemove = event.target.dataset["content"]
-    const idToRemove = event.target.dataset["item"]
+    const labelToRemove = event.target.dataset.content
+    const idToRemove = event.target.dataset.item
+
     this.props.handleRemoveItem(
-    {
-      id: idToRemove,
-      label: labelToRemove,
-      reduxPath: this.props.reduxPath,
-      uri: this.props.propertyTemplate.propertyURI
-    })
+      {
+        id: idToRemove,
+        label: labelToRemove,
+        reduxPath: this.props.reduxPath,
+        uri: this.props.propertyTemplate.propertyURI,
+      },
+    )
     this.setState({ disabled: false })
   }
 
   checkMandatoryRepeatable = () => {
-     if (this.props.propertyTemplate.mandatory == "true") {
+    if (this.props.propertyTemplate.mandatory == 'true') {
       if (this.props.formData == undefined || this.props.formData.items == undefined) return true
-      const inputLength = (this.props.formData.items).length
+      const inputLength = this.props.formData.items.length
+
       if (inputLength > 0) {
         return false
       }
-      else {
-        return true
-      }
-     }
-     else if (this.props.propertyTemplate.mandatory == "false") {
+
+      return true
+    }
+    if (this.props.propertyTemplate.mandatory == 'false') {
       return false
-     }
+    }
   }
 
-  dispModal = (content) => {
-    return(
-      <Modal show={this.state.show} onHide={this.handleClose}>
-        <Modal.Header closeButton>
-          <Modal.Title>Languages</Modal.Title>
-        </Modal.Header>
-        <Modal.Body>
-          <InputLang textValue={content}/>
-        </Modal.Body>
-        <Modal.Footer>
-          <Button onClick={this.handleClose}>Submit</Button>
-          <Button onClick={this.handleClose}>Close</Button>
-        </Modal.Footer>
-      </Modal>
-    )
-  }
+  dispModal = content => (
+    <Modal show={this.state.show} onHide={this.handleClose}>
+      <Modal.Header closeButton>
+        <Modal.Title>Languages</Modal.Title>
+      </Modal.Header>
+      <Modal.Body>
+        <InputLang textValue={content}/>
+      </Modal.Body>
+      <Modal.Footer>
+        <Button onClick={this.handleClose}>Submit</Button>
+        <Button onClick={this.handleClose}>Close</Button>
+      </Modal.Footer>
+    </Modal>
+  )
 
   dispLang = (content) => {
-    let newState = store.getState()
-    const index = newState.lang.formData.map(function(o) { return o.id; }).indexOf(content);
+    const newState = store.getState()
+    const index = newState.lang.formData.map(o => o.id).indexOf(content)
     let newLang
+
     try {
       newLang = newState.lang.formData[index].items[0].label
     } catch (error) {
@@ -147,19 +151,22 @@ export class InputLiteral extends Component {
     }
 
     if (newLang === undefined) {
-      return "English"
-    } else{
-      return newLang
+      return 'English'
     }
+
+    return newLang
   }
 
   makeAddedList = () => {
-    let formInfo = this.props.formData
+    const formInfo = this.props.formData
+
     if (formInfo == undefined || formInfo.items == undefined) {
       return
     }
     const elements = formInfo.items.map((obj) => {
       const itemId = obj.id || shortid.generate()
+
+
       return <div id="userInput" key = {itemId} >
         {obj.content}
         <button
@@ -185,8 +192,8 @@ export class InputLiteral extends Component {
 
   render() {
     return (
-          <div>
-            <input
+      <div>
+        <input
               required={this.checkMandatoryRepeatable()}
               className="form-control"
               placeholder={this.props.propertyTemplate.propertyLabel}
@@ -194,11 +201,11 @@ export class InputLiteral extends Component {
               onKeyPress={this.handleKeypress}
               value={this.state.content_add}
               disabled={this.state.disabled}
-              id={"typeLiteral" + this.props.id}
+              id={`typeLiteral${this.props.id}`}
               onClick={this.handleFocus}
-            />
-            {this.makeAddedList()}
-        </div>
+        />
+        {this.makeAddedList()}
+      </div>
     )
   }
 }
@@ -212,13 +219,13 @@ InputLiteral.propTypes = {
     repeatable: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
     remark: PropTypes.string,
     valueConstraint: PropTypes.shape({
-      defaults: PropTypes.array
-    })
+      defaults: PropTypes.array,
+    }),
   }).isRequired,
   formData: PropTypes.shape({
     id: PropTypes.oneOfType([PropTypes.number, PropTypes.string]),
     uri: PropTypes.string,
-    items: PropTypes.array
+    items: PropTypes.array,
   }),
   handleMyItemsChange: PropTypes.func,
   handleRemoveItem: PropTypes.func,
@@ -226,21 +233,23 @@ InputLiteral.propTypes = {
   blankNodeForLiteral: PropTypes.object,
   propPredicate: PropTypes.string,
   setDefaultsForLiteralWithPayLoad: PropTypes.func,
-  defaultsForLiteral: PropTypes.func
+  defaultsForLiteral: PropTypes.func,
 }
 
 const mapStateToProps = (state, props) => {
-  let result = getProperty(state, props)
+  const result = getProperty(state, props)
+
+
   return { formData: { items: result } }
 }
 
 const mapDispatchToProps = dispatch => ({
-  handleMyItemsChange(user_input){
+  handleMyItemsChange(user_input) {
     dispatch(setItems(user_input))
   },
-  handleRemoveItem(id){
+  handleRemoveItem(id) {
     dispatch(removeItem(id))
-  }
+  },
 })
 
-export default connect(mapStateToProps, mapDispatchToProps)(InputLiteral);
+export default connect(mapStateToProps, mapDispatchToProps)(InputLiteral)

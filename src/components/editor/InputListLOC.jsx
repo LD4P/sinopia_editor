@@ -1,13 +1,12 @@
 // Copyright 2018 Stanford University see LICENSE for license
 
-import React, { Component } from 'react';
+import React, { Component } from 'react'
 import { Typeahead } from 'react-bootstrap-typeahead'
 import PropTypes from 'prop-types'
-import PropertyRemark from './PropertyRemark'
 import { connect } from 'react-redux'
-import { changeSelections  } from '../../actions/index'
-import { defaultValuesFromPropertyTemplate, booleanPropertyFromTemplate } from '../../Utilities'
 import shortid from 'shortid'
+import { changeSelections } from '../../actions/index'
+import { booleanPropertyFromTemplate, defaultValuesFromPropertyTemplate } from '../../Utilities'
 
 class InputListLOC extends Component {
   constructor(props) {
@@ -15,7 +14,7 @@ class InputListLOC extends Component {
     this.state = {
       isLoading: false,
       options: [],
-      defaults: defaultValuesFromPropertyTemplate(this.props.propertyTemplate)
+      defaults: defaultValuesFromPropertyTemplate(this.props.propertyTemplate),
     }
 
     if (this.state.defaults.length > 0) {
@@ -27,21 +26,13 @@ class InputListLOC extends Component {
   }
 
   setPayLoad(items) {
-    let payload = {
+    const payload = {
       id: this.props.propertyTemplate.propertyURI,
-      items: items,
-      reduxPath: this.props.reduxPath
+      items,
+      reduxPath: this.props.reduxPath,
     }
 
     this.props.handleSelectedChange(payload)
-  }
-
-  hasPropertyRemark = (propertyTemplate) => {
-    if(propertyTemplate.remark) {
-      return <PropertyRemark remark={propertyTemplate.remark}
-                             label={propertyTemplate.propertyLabel} />;
-    }
-    return propertyTemplate.propertyLabel;
   }
 
   render() {
@@ -52,8 +43,8 @@ class InputListLOC extends Component {
     const isMandatory = booleanPropertyFromTemplate(this.props.propertyTemplate, 'mandatory', false)
     const isRepeatable = booleanPropertyFromTemplate(this.props.propertyTemplate.valueConstraint, 'repeatable', true)
 
-    var typeaheadProps = {
-      id: "targetComponent",
+    const typeaheadProps = {
+      id: 'targetComponent',
       required: isMandatory,
       multiple: isRepeatable,
       placeholder: this.props.propertyTemplate.propertyLabel,
@@ -62,36 +53,39 @@ class InputListLOC extends Component {
       isLoading: this.state.isLoading,
       options: this.state.options,
       selected: this.state.selected,
-      defaultSelected: this.state.defaults
+      defaultSelected: this.state.defaults,
     }
-    var opts = []
+    const opts = []
+
+
     return (
       <div>
         <Typeahead
           onFocus={() => {
-            this.setState({isLoading: true})
+            this.setState({ isLoading: true })
             fetch(`${this.props.lookupConfig.uri}.json`)
               .then(resp => resp.json())
-              .then(json => {
-                for(var i in json){
-                  try{
+              .then((json) => {
+                for (const i in json) {
+                  try {
                     const newId = shortid.generate()
                     const item = Object.getOwnPropertyDescriptor(json, i)
-                    const uri = item.value["@id"]
-                    const label = item.value["http://www.loc.gov/mads/rdf/v1#authoritativeLabel"][0]["@value"]
-                    opts.push({ id: newId, label: label, uri: uri })
+                    const uri = item.value['@id']
+                    const label = item.value['http://www.loc.gov/mads/rdf/v1#authoritativeLabel'][0]['@value']
+
+                    opts.push({ id: newId, label, uri })
                   } catch (error) {
-                    //ignore
+                    // ignore
                   }
                 }
               })
               .then(() => this.setState({
                 isLoading: false,
-                options: opts
+                options: opts,
               }))
-              .catch(() => {return false})
+              .catch(() => false)
           }}
-          onBlur={() => {this.setState({isLoading: false})}}
+          onBlur={() => { this.setState({ isLoading: false }) }}
           onChange={selected => this.setPayLoad(selected)}
           {...typeaheadProps}
         />
@@ -104,22 +98,20 @@ InputListLOC.propTypes = {
   propertyTemplate: PropTypes.shape({
     propertyLabel: PropTypes.string,
     propertyURI: PropTypes.string,
-    mandatory: PropTypes.oneOfType([ PropTypes.string, PropTypes.bool]),
-    repeatable: PropTypes.oneOfType([ PropTypes.string, PropTypes.bool]),
+    mandatory: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
+    repeatable: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
     valueConstraint: PropTypes.shape({
-      useValuesFrom: PropTypes.oneOfType([ PropTypes.string, PropTypes.array])
-    })
-  }).isRequired
+      useValuesFrom: PropTypes.oneOfType([PropTypes.string, PropTypes.array]),
+    }),
+  }).isRequired,
 }
 
-const mapStateToProps = (state) => {
-  return Object.assign({}, state)
-}
+const mapStateToProps = state => ({ ...state })
 
 const mapDispatchToProps = dispatch => ({
-  handleSelectedChange(selected){
+  handleSelectedChange(selected) {
     dispatch(changeSelections(selected))
-  }
+  },
 })
 
 export default connect(mapStateToProps, mapDispatchToProps)(InputListLOC)
