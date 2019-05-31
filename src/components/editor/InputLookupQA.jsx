@@ -5,10 +5,12 @@ import {
 } from 'react-bootstrap-typeahead'
 import PropTypes from 'prop-types'
 import Swagger from 'swagger-client'
+import swaggerSpec from '../../lib/apidoc.json'
 import { connect } from 'react-redux'
 import { getProperty } from '../../reducers/index'
 import { changeSelections } from '../../actions/index'
 import { booleanPropertyFromTemplate, defaultValuesFromPropertyTemplate } from '../../Utilities'
+import Config from '../../Config'
 
 const AsyncTypeahead = asyncContainer(Typeahead)
 
@@ -18,16 +20,19 @@ class InputLookupQA extends Component {
 
     const defaults = defaultValuesFromPropertyTemplate(this.props.propertyTemplate)
 
-    if (defaults.length === 0)
-    // Property templates do not require defaults but we like to know when this happens
-    { console.info(`no defaults defined in property template: ${JSON.stringify(this.props.propertyTemplate)}`) }
+    if (defaults.length === 0) {
+      // Property templates do not require defaults but we like to know when this happens
+      console.info(`no defaults defined in property template: ${JSON.stringify(this.props.propertyTemplate)}`)
+    }
 
     this.state = {
       isLoading: false,
       defaults,
     }
-    this.lookupClient = Swagger({ url: 'src/lib/apidoc.json' })
+
+    this.lookupClient = Swagger({ spec: swaggerSpec })
   }
+
 
   // Render menu function to be used by typeahead
   renderMenuFunc = (results, menuProps) => {
@@ -92,8 +97,9 @@ class InputLookupQA extends Component {
   }
 
   render() {
-    let authority; let language; let
-      subauthority
+    let authority
+    let language
+    let subauthority
     const lookupConfigs = this.props.lookupConfig
 
     const isMandatory = booleanPropertyFromTemplate(this.props.propertyTemplate, 'mandatory', false)
@@ -130,16 +136,19 @@ class InputLookupQA extends Component {
                                *return the 'promise'
                                *Since we don't want promise.all to fail if
                                *one of the lookups fails, we want a catch statement
-                               *at this level which will then return the error
+                               *at this level which will then return the error. Subauthorities require a different API call than authorities so need to check if subauthority is available
+                               *The only difference between this call and the next one is the call to Get_searchSubauthority instead of
+                               *Get_searchauthority.  Passing API call in a variable name/dynamically, thanks @mjgiarlo
                                */
+                              const actionFunction = lookupConfig.subauthority ? 'GET_searchSubauthority' : 'GET_searchAuthority'
+
                               return client
                                 .apis
-                                .SearchQuery
-                                .GET_searchAuthority({
+                                .SearchQuery?.[actionFunction]({
                                   q: query,
                                   vocab: authority,
                                   subauthority,
-                                  maxRecords: 8,
+                                  maxRecords: Config.maxRecordsForQALookups,
                                   lang: language,
                                 })
                                 .catch((err) => {

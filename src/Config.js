@@ -67,6 +67,10 @@ class Config {
   static get cognitoTestUserPass() {
     return process.env.COGNITO_TEST_USER_PASS
   }
+
+  static get maxRecordsForQALookups() {
+    return process.env.MAX_RECORDS_FOR_QA_LOOKUPS || 8
+  }
 }
 
 export default Config

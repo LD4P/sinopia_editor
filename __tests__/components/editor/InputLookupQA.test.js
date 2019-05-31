@@ -54,6 +54,24 @@ const p2Props = {
       propertyURI: 'http://id.loc.gov/ontologies/bflc/target',
       propertyLabel: 'Name Lookup',
     },
+  lookupConfig: [
+    {
+      label: 'LOC person [names] (QA)',
+      uri: 'urn:ld4p:qa:names:person',
+      authority: 'locnames_ld4l_cache',
+      subauthority: 'person',
+      language: 'en',
+      component: 'lookup',
+    },
+    {
+      label: 'LOC all subjects (QA)',
+      uri: 'urn:ld4p:qa:subjects',
+      authority: 'locsubjects_ld4l_cache',
+      subauthority: '',
+      language: 'en',
+      component: 'lookup',
+    },
+  ],
 }
 
 const multipleResults = [{
@@ -68,9 +86,13 @@ const multipleResults = [{
 }]
 
 describe('<InputLookupQA />', () => {
-  // our mock formData function to replace the one provided by mapDispatchToProps
   const mockFormDataFn = jest.fn()
   const wrapper = shallow(<InputLookupQA.WrappedComponent {...plProps} handleSelectedChange={mockFormDataFn} />)
+
+  /*
+   * our mock formData function to replace the one provided by
+   * mapDispatchToProps
+   */
 
   it('has a lookupClient', () => {
     // The Swagger constructor returns a promise
@@ -113,23 +135,23 @@ describe('<InputLookupQA />', () => {
       const plProps = {
         id: 'lookupComponent',
         propertyTemplate:
-        {
-          mandatory: 'false',
-          repeatable: 'true',
-          type: 'lookup',
-          resourceTemplates: [],
-          valueConstraint: {
-            valueTemplateRefs: [],
-            useValuesFrom: [
-              'lookupQaLocNames',
-            ],
-            valueDataType: {
-              dataTypeURI: 'http://id.loc.gov/ontologies/bibframe/Agent',
+          {
+            mandatory: 'false',
+            repeatable: 'true',
+            type: 'lookup',
+            resourceTemplates: [],
+            valueConstraint: {
+              valueTemplateRefs: [],
+              useValuesFrom: [
+                'lookupQaLocNames',
+              ],
+              valueDataType: {
+                dataTypeURI: 'http://id.loc.gov/ontologies/bibframe/Agent',
+              },
             },
+            propertyURI: 'http://id.loc.gov/ontologies/bflc/target',
+            propertyLabel: 'Name Lookup',
           },
-          propertyURI: 'http://id.loc.gov/ontologies/bflc/target',
-          propertyLabel: 'Name Lookup',
-        },
       }
 
       const infoSpy = jest.spyOn(console, 'info').mockReturnValue(null)
