@@ -6,25 +6,56 @@ const rdf = require('rdf-ext')
 
 describe('GraphBuilder', () => {
   const state = {
-    'rt:rda:work:monograph': {
-      'http://id.loc.gov/ontologies/bibframe/adminMetadata': {
-        WkIyKrneI: {
-          'rt:bf2:AdminMetadata': {
-            '8dB06xFbpU': {
-              'rt:bf2:AdminMetadata:Status': {
-                'http://id.loc.gov/ontologies/bibframe/code': {
-                  items: [
-                    {
-                      id: 'tIHStJ7DPW',
-                      content: 'n',
-                    },
-                  ],
-                },
+    'resourceTemplate:bf2:Monograph:Work': {
+      'http://id.loc.gov/ontologies/bibframe/title': {},
+      'http://id.loc.gov/ontologies/bibframe/temporalCoverage': {},
+      'http://id.loc.gov/ontologies/bibframe/note': {},
+      'http://id.loc.gov/ontologies/bibframe/content': {
+        items: [
+          {
+            id: 'http://id.loc.gov/vocabulary/contentTypes/txt',
+            label: 'text',
+            uri: 'http://id.loc.gov/vocabulary/contentTypes/txt',
+          },
+        ],
+      },
+      'http://id.loc.gov/ontologies/bibframe/illustrativeContent': {
+        items: [
+          {
+            id: '2_RmnVrDkk9',
+            label: 'Genealogical tables',
+            uri: 'http://id.loc.gov/vocabulary/millus/gnt',
+          },
+        ],
+      },
+      'http://id.loc.gov/ontologies/bibframe/colorContent': {
+        '-KACHlqQ4A': {
+          'resourceTemplate:bf2:Note': {
+            '67Bm64T0p2s': {
+              'http://www.w3.org/2000/01/rdf-schema#label': {
+                items: [
+                  {
+                    content: 'Very colorful',
+                    id: '3TzRpgv65',
+                  },
+                ],
+              },
+            },
+            '88Bm64T0p2s': {
+              'http://www.w3.org/2000/01/rdf-schema#label': {
+                items: [
+                  {
+                    content: 'Sparkly',
+                    id: '3TzRpgv65',
+                  },
+                ],
               },
             },
           },
         },
       },
+      'http://id.loc.gov/ontologies/bibframe/hasInstance': {},
+      'http://www.w3.org/2000/01/rdf-schema#label': {},
     },
   }
 
@@ -32,10 +63,25 @@ describe('GraphBuilder', () => {
 
 
   it('returns the graph', () => {
+    const graph = builder.graph
+
     const typeTriple = rdf.quad(rdf.namedNode(''),
       rdf.namedNode('http://www.w3.org/1999/02/22-rdf-syntax-ns#type'),
-      rdf.literal('rt:rda:work:monograph'))
+      rdf.literal('resourceTemplate:bf2:Monograph:Work'))
 
-    expect(builder.graph.has(typeTriple)).toBeTruthy()
+    expect(graph.has(typeTriple)).toBeTruthy()
+
+    const propertyTriple = rdf.quad(rdf.namedNode(''),
+      rdf.namedNode('http://id.loc.gov/ontologies/bibframe/illustrativeContent'),
+      rdf.namedNode('http://id.loc.gov/vocabulary/millus/gnt'))
+
+    expect(graph.has(propertyTriple)).toBeTruthy()
+
+    let result = graph.filter(quad => quad.object.equals(rdf.literal('Very colorful')))
+
+    expect(result.toArray().length).toEqual(1)
+
+    result = graph.filter(quad => quad.object.equals(rdf.literal('Sparkly')))
+    expect(result.toArray().length).toEqual(1)
   })
 })
