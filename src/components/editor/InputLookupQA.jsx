@@ -28,9 +28,9 @@ class InputLookupQA extends Component {
     }
     this.lookupClient = Swagger({ url: 'src/lib/apidoc.json' })
   }
-  
-  //Select appropriate API call to be made for QA
-  //This may expand based on particular lookup options
+
+  // Select appropriate API call to be made for QA
+  // This may expand based on particular lookup options
   selectAPICall = (client, lookupConfig) => {
     return lookupConfig.subauthority === undefined ? client.apis.SearchQuery.GET_searchAuthority : client.apis.SearchQuery.GET_searchSubauthority
   }
@@ -137,7 +137,7 @@ class InputLookupQA extends Component {
                                *Since we don't want promise.all to fail if
                                *one of the lookups fails, we want a catch statement
                                *at this level which will then return the error. Subauthorities require a different API call than authorities so need to check if subauthority is available
-                               *The only difference between this call and the next one is the call to Get_searchSubauthority instead of 
+                               *The only difference between this call and the next one is the call to Get_searchSubauthority instead of
                                *Get_searchauthority.  Passing API call in a variable name/dynamically, thanks @mjgiarlo
                                */
                               const actionFunction = this.selectAPICall(client, lookupConfig)

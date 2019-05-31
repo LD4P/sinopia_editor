@@ -1,4 +1,4 @@
-//Copyright 2018 Stanford University see LICENSE for license
+// Copyright 2018 Stanford University see LICENSE for license
 
 import 'jsdom-global/register'
 import React from 'react'
@@ -55,7 +55,8 @@ const p2Props = {
       propertyLabel: 'Name Lookup',
     },
   'lookupConfig': [
-    { 'label': 'LOC person [names] (QA)',
+    { 
+      'label': 'LOC person [names] (QA)',   
       'uri': 'urn:ld4p:qa:names:person',
       'authority': 'locnames_ld4l_cache',
       'subauthority': 'person',
@@ -74,14 +75,14 @@ const p2Props = {
 }
 
 const multipleResults = [{
-  'authLabel':'Person',
-  'authURI':'PersonURI',
-  'body':[{ 'uri':'puri','label':'plabel' }]
+  'authLabel': 'Person',
+  'authURI': 'PersonURI',
+  'body': [{ 'uri': 'puri', 'label': 'plabel' }]
 },
 {
-  'authLabel':'Subject',
-  'authURI':'SubjectURI',
-  'body':[{ 'uri':'suri','label':'slabel' }]
+  'authLabel': 'Subject',
+  'authURI':' SubjectURI',
+  'body': [{ 'uri': 'suri', 'label': 'slabel' }]
 }]
 
 describe('<InputLookupQA />', () => {

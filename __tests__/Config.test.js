@@ -41,9 +41,9 @@ describe('Config', () => {
     it('sinopia server url has a static value', () => {
       expect(Config.sinopiaServerBase).toEqual('http://localhost:8080')
     })
-    
+
     it('max records for lookups/QA has static value', () => {
-      expect(Config. maxRecordsForQALookups).toEqual(8)
+      expect(Config.maxRecordsForQALookups).toEqual(8)
     })
 
     describe('interpolated links from default values', () => {
@@ -102,9 +102,9 @@ describe('Config', () => {
     it('aws cognito domain overrides static value', () => {
       expect(Config.awsCognitoDomain).toEqual('https://sinopia-foo.amazoncognito.com')
     })
-    
+
     it('max records for lookups/QA environment variable overrides static value', () => {
-      expect(Config. maxRecordsForQALookups).toEqual(15)
+      expect(Config.maxRecordsForQALookups).toEqual(15)
     })
 
     describe('interpolated links from environmental overrides', () => {
