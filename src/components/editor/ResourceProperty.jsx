@@ -33,24 +33,27 @@ export class ResourceProperty extends Component {
                                    addButtonDisabled={this.props.addButtonDisabled}
                                    handleMintUri={this.props.handleMintUri} key={shortid.generate()} />
           </section>
-        </div>
+        </div>,
       )
 
       resourceTemplate.propertyTemplates.map((rtProperty) => {
         const keyId = shortid.generate()
         const newReduxPath = Object.assign([], this.props.reduxPath)
+
         newReduxPath.push(rtId)
         newReduxPath.push(rtProperty.propertyURI)
         const payload = { reduxPath: newReduxPath, property: rtProperty }
+
         this.props.initNewResourceTemplate(payload)
         const isAddDisabled = !templateBoolean(rtProperty.repeatable)
+
         jsx.push(
           <PropertyTemplateOutline key={keyId}
                                    propertyTemplate={rtProperty}
                                    reduxPath={newReduxPath}
                                    addButtonDisabled={isAddDisabled}
                                    initNewResourceTemplate={this.props.initNewResourceTemplate}
-                                   resourceTemplate={resourceTemplate} />
+                                   resourceTemplate={resourceTemplate} />,
         )
       })
     })
@@ -59,8 +62,7 @@ export class ResourceProperty extends Component {
   }
 
   render() {
-
-    return(
+    return (
       <div>
         { this.renderResourcePropertyJsx() }
       </div>
@@ -76,12 +78,12 @@ ResourceProperty.propTypes = {
   nestedResourceTemplates: PropTypes.array,
   propertyTemplate: PropTypes.object,
   reduxPath: PropTypes.array,
-  rtReduxPath: PropTypes.object
+  rtReduxPath: PropTypes.object,
 }
 const mapDispatchToProps = dispatch => ({
   initNewResourceTemplate(rt_context) {
     dispatch(refreshResourceTemplate(rt_context))
-  }
+  },
 })
 
 export default connect(null, mapDispatchToProps)(ResourceProperty)

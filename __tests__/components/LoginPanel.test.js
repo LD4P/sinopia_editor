@@ -2,37 +2,41 @@
 
 import React from 'react'
 import { shallow } from 'enzyme'
+import {
+  CognitoAccessToken, CognitoIdToken, CognitoRefreshToken, CognitoUserSession,
+} from 'amazon-cognito-identity-js'
 import LoginPanel from '../../src/components/LoginPanel'
 import Config from '../../src/Config'
 import CognitoUtils from '../../src/CognitoUtils'
-import { CognitoUserSession, CognitoAccessToken, CognitoIdToken, CognitoRefreshToken } from 'amazon-cognito-identity-js'
 
 
 describe('<LoginPanel /> when the user is not authenticated', () => {
   const wrapper = shallow(<LoginPanel.WrappedComponent />)
 
-  it ('renders a username field', () => {
+  it('renders a username field', () => {
     expect(wrapper.find('label.text-uppercase input#username[type="text"]')).toHaveLength(1)
   })
 
-  it ('renders a password field', () => {
+  it('renders a password field', () => {
     expect(wrapper.find('label.text-uppercase input#password[type="password"]')).toHaveLength(1)
   })
 
-  it ('renders a login button', () => {
-    expect(wrapper.find('.login-form button.btn-primary[type="submit"]').text()).toEqual("Login")
+  it('renders a login button', () => {
+    expect(wrapper.find('.login-form button.btn-primary[type="submit"]').text()).toEqual('Login')
   })
 
-  it ('renders forgot password link, with URL from config', () => {
+  it('renders forgot password link, with URL from config', () => {
     const forgotPasswordLinkElts = wrapper.find(`.login-form a[href^="${Config.awsCognitoForgotPasswordUrl}"]`)
+
     expect(forgotPasswordLinkElts).toHaveLength(1)
-    expect(forgotPasswordLinkElts.text()).toMatch("Forgot Password")
+    expect(forgotPasswordLinkElts.text()).toMatch('Forgot Password')
   })
 
-  it ('renders request account link, with URL from config', () => {
+  it('renders request account link, with URL from config', () => {
     const requestAccountLinkElts = wrapper.find(`.login-form a[href^="${Config.awsCognitoResetPasswordUrl}"]`)
+
     expect(requestAccountLinkElts).toHaveLength(1)
-    expect(requestAccountLinkElts.text()).toMatch("Request Account")
+    expect(requestAccountLinkElts.text()).toMatch('Request Account')
   })
 })
 
@@ -51,6 +55,7 @@ describe('<LoginPanel /> when the user is authenticated', () => {
   const currentSession = new CognitoUserSession({
     IdToken: new CognitoIdToken(), RefreshToken: new CognitoRefreshToken(), AccessToken: new CognitoAccessToken(),
   })
+
   currentUser.setSignInUserSession(currentSession)
 
   const failToAuthenticate = jest.fn()
@@ -63,12 +68,12 @@ describe('<LoginPanel /> when the user is authenticated', () => {
                                                        authenticate={authenticate}
                                                        signout={signout}/>)
 
-  it("renders the welcome text with the logged in user's username", () => {
+  it('renders the welcome text with the logged in user\'s username', () => {
     expect(wrapper.find('div.logged-in-user-info').text()).toMatch(`current cognito user: ${username}`)
   })
 
-  it ('renders a sign-out button', () => {
-    expect(wrapper.find('button').text()).toEqual("Sign out")
+  it('renders a sign-out button', () => {
+    expect(wrapper.find('button').text()).toEqual('Sign out')
   })
 
   describe('user tries to sign out of cognito', () => {
@@ -97,5 +102,4 @@ describe('<LoginPanel /> when the user is authenticated', () => {
       expect(signoutSpy).toHaveBeenCalled()
     })
   })
-
 })

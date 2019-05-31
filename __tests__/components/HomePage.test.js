@@ -7,7 +7,7 @@ import Header from '../../src/components/Header'
 import NewsPanel from '../../src/components/NewsPanel'
 import DescPanel from '../../src/components/DescPanel'
 
-describe('<HomePage />', () =>{
+describe('<HomePage />', () => {
   const wrapper = shallow(<HomePage triggerHandleOffsetMenu={jest.fn()}/>)
 
   it('selectable by id "home-page"', () => {

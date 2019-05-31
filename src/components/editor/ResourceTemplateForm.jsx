@@ -7,10 +7,12 @@ import shortid from 'shortid'
 import PropertyPanel from './PropertyPanel'
 import PropertyResourceTemplate from './PropertyResourceTemplate'
 import PropertyComponent from './PropertyComponent'
-import { getLD, setItems, removeAllContent } from '../../actions/index'
+import { getLD, removeAllContent, setItems } from '../../actions/index'
 import { getResourceTemplate } from '../../sinopiaServer'
-import { isResourceWithValueTemplateRef, resourceToName } from "../../Utilities";
+import { isResourceWithValueTemplateRef, resourceToName } from '../../Utilities'
+
 const N3 = require('n3')
+
 const { DataFactory } = N3
 const { blankNode } = DataFactory
 const _ = require('lodash')
@@ -28,42 +30,46 @@ export class ResourceTemplateForm extends Component {
       ptRtIds: [],
       templateError: false,
       templateErrors: [],
-      componentForm: <div/>
+      componentForm: <div/>,
     }
   }
 
   componentDidMount() {
     this.fulfillRTPromises(this.resourceTemplatePromise(this.joinedRTs())).then(() => {
       this.setState({
-        componentForm: (
-          this.renderComponentForm()
-        )
+        componentForm:
+          this.renderComponentForm(),
+
       })
     })
   }
 
   fulfillRTPromises = async (promiseAll) => {
     await promiseAll.then(async (rts) => {
-      rts.map(rt => {
+      rts.map((rt) => {
         const joinedRts = [...this.state.nestedResourceTemplates]
+
         joinedRts.push(rt.response.body)
-        this.setState({nestedResourceTemplates: joinedRts})
+        this.setState({ nestedResourceTemplates: joinedRts })
       })
     }).catch((err) => {
-      this.setState({templateError: err})
+      this.setState({ templateError: err })
     })
   }
 
   resourceTemplateFields = (rtIds, property) => {
     const rtProperties = []
+
     if (rtIds === null || rtIds === undefined) {
       return rtProperties
     }
     rtIds.map((rtId, i) => {
       const rt = this.rtForPt(rtId)
+
       if (rt !== undefined) {
         const keyId = shortid.generate()
         const reduxPath = [this.props.rtId, property.propertyURI, keyId, rtId]
+
         rtProperties.push(<PropertyResourceTemplate
           key={keyId}
           isRepeatable={property.repeatable}
@@ -73,71 +79,65 @@ export class ResourceTemplateForm extends Component {
           rtProperties.push(<hr key={i} />)
         }
       } else {
-        this.setState({templateError: true})
+        this.setState({ templateError: true })
       }
     })
+
     return rtProperties
   }
 
-  resourceTemplatePromise = async (templateRefs) => {
-    return Promise.all(templateRefs.map(rtId =>
-      getResourceTemplate(rtId).catch(err => {
-        const joinedErrorUrls = [...this.state.templateErrors]
-        joinedErrorUrls.push(decodeURIComponent(resourceToName(err.url)))
-        this.setState({templateErrors: _.sortedUniq(joinedErrorUrls)})
-      })
-    ))
-  }
+  resourceTemplatePromise = async templateRefs => Promise.all(templateRefs.map(rtId => getResourceTemplate(rtId).catch((err) => {
+    const joinedErrorUrls = [...this.state.templateErrors]
+
+    joinedErrorUrls.push(decodeURIComponent(resourceToName(err.url)))
+    this.setState({ templateErrors: _.sortedUniq(joinedErrorUrls) })
+  })))
 
   joinedRTs = () => {
     let joined = []
-    this.props.propertyTemplates.map(pt => {
-      if(_.has(pt.valueConstraint, 'valueTemplateRefs')) {
+
+    this.props.propertyTemplates.map((pt) => {
+      if (_.has(pt.valueConstraint, 'valueTemplateRefs')) {
         joined = joined.concat(pt.valueConstraint.valueTemplateRefs)
       }
     })
+
     return joined
   }
 
   defaultValues = () => {
-    this.props.propertyTemplates.map( (pt) =>{
-      if (pt.mandatory == undefined) pt.mandatory = "true"
-      if (pt.repeatable == undefined) pt.repeatable = "false"
-      if (pt.editable == undefined) pt.editable = "true"
+    this.props.propertyTemplates.map((pt) => {
+      if (pt.mandatory == undefined) pt.mandatory = 'true'
+      if (pt.repeatable == undefined) pt.repeatable = 'false'
+      if (pt.editable == undefined) pt.editable = 'true'
     })
   }
 
-  makeSubject = () => {
-    // in the future we will return a blank node or an IRI (using namedNode in the DataFactory ^^)...
-    // return namedNode('http://example.com')
-    return blankNode()
-  }
+  makeSubject = () => blankNode()
 
-  rtForPt = (rtId) => {
-    return _.find(this.state.nestedResourceTemplates, ['id', rtId])
-  }
+
+  rtForPt = rtId => _.find(this.state.nestedResourceTemplates, ['id', rtId])
 
   renderComponentForm = () => (
     <div>
       <form>
-        <div className='ResourceTemplateForm row'>
-          { this.props.propertyTemplates.map((pt, index) => {
-
+        <div className="ResourceTemplateForm row">
+          {
+            this.props.propertyTemplates.map((pt, index) => {
               if (isResourceWithValueTemplateRef(pt)) {
                 return (
                   <PropertyPanel pt={pt} key={index} float={index} rtId={this.props.rtId}>
                     {this.resourceTemplateFields(pt.valueConstraint.valueTemplateRefs, pt)}
                   </PropertyPanel>
                 )
-              } else {
-                return (
-                  <PropertyPanel pt={pt} key={index} float={index} rtId={this.props.rtId}>
-                    <PropertyComponent index={index} reduxPath={[this.props.rtId]} rtId={this.props.rtId} propertyTemplate={pt} />
-                  </PropertyPanel>
-                )
               }
-            }
-          )
+
+              return (
+                <PropertyPanel pt={pt} key={index} float={index} rtId={this.props.rtId}>
+                  <PropertyComponent index={index} reduxPath={[this.props.rtId]} rtId={this.props.rtId} propertyTemplate={pt} />
+                </PropertyPanel>
+              )
+            })
           }
         </div>
       </form>
@@ -150,45 +150,43 @@ export class ResourceTemplateForm extends Component {
       <br />
       Please make sure all referenced templates in property template are uploaded first. Missing templates:
       <br />
-      {this.state.templateErrors.join(", ")}
-    </div>;
+      {this.state.templateErrors.join(', ')}
+    </div>
 
     if (this.state.templateError) {
       return errMessage
-    } else {
-      return this.state.componentForm
     }
+
+    return this.state.componentForm
   }
 }
 
 ResourceTemplateForm.propTypes = {
-  literals: PropTypes.oneOfType( [PropTypes.array, PropTypes.object] ),
-  lookups: PropTypes.oneOfType( [PropTypes.array, PropTypes.object] ),
+  literals: PropTypes.oneOfType([PropTypes.array, PropTypes.object]),
+  lookups: PropTypes.oneOfType([PropTypes.array, PropTypes.object]),
   handleGenerateLD: PropTypes.func,
-  propertyTemplates: PropTypes.arrayOf( PropTypes.object ).isRequired,
+  propertyTemplates: PropTypes.arrayOf(PropTypes.object).isRequired,
   resourceTemplate: PropTypes.object.isRequired,
   rtId: PropTypes.string,
   handleMyItemsChange: PropTypes.func,
-  handleRemoveAllContent: PropTypes.func
+  handleRemoveAllContent: PropTypes.func,
 }
 
-const mapStateToProps = ( state ) => {
-  return {
-    literals: state.literal,
-    lookups: state.lookups
-  }
-}
+const mapStateToProps = state => ({
+  literals: state.literal,
+  lookups: state.lookups,
+})
 
-const mapDispatchToProps = dispatch => ( {
-  handleMyItemsChange( user_input ) {
-    dispatch( setItems( user_input ) )
+const mapDispatchToProps = dispatch => ({
+  handleMyItemsChange(user_input) {
+    dispatch(setItems(user_input))
   },
-  handleRemoveAllContent( id ) {
-    dispatch( removeAllContent( id ) )
+  handleRemoveAllContent(id) {
+    dispatch(removeAllContent(id))
   },
-  handleGenerateLD( inputs ) {
-    dispatch( getLD( inputs ) )
-  }
-} )
+  handleGenerateLD(inputs) {
+    dispatch(getLD(inputs))
+  },
+})
 
-export default connect( mapStateToProps, mapDispatchToProps )( ResourceTemplateForm)
+export default connect(mapStateToProps, mapDispatchToProps)(ResourceTemplateForm)

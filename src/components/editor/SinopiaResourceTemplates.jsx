@@ -1,12 +1,12 @@
 // Copyright 2019 Stanford University see LICENSE for license
 
-import React, {Component} from 'react'
+import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 import { Link } from 'react-router-dom'
 import 'react-bootstrap-table-next/dist/react-bootstrap-table2.min.css'
 import BootstrapTable from 'react-bootstrap-table-next'
-import Config from '../../../src/Config'
-import { getEntityTagFromGroupContainer, listResourcesInGroupContainer, getResourceTemplate } from '../../sinopiaServer'
+import Config from '../../Config'
+import { getEntityTagFromGroupContainer, getResourceTemplate, listResourcesInGroupContainer } from '../../sinopiaServer'
 import { resourceToName } from '../../Utilities'
 
 class SinopiaResourceTemplates extends Component {
@@ -15,7 +15,7 @@ class SinopiaResourceTemplates extends Component {
     this.state = {
       errors: [],
       resourceTemplates: [],
-      resourceTemplatesEtag: ''
+      resourceTemplatesEtag: '',
     }
   }
 
@@ -30,38 +30,44 @@ class SinopiaResourceTemplates extends Component {
   serverHasNewTemplates = async () => {
     try {
       const currentEtag = await getEntityTagFromGroupContainer(Config.defaultSinopiaGroupId)
+
       if (this.state.resourceTemplatesEtag === currentEtag) {
         return false
       }
       this.setState({ resourceTemplatesEtag: currentEtag })
+
       return true
-    } catch(error) {
+    } catch (error) {
       console.error(`error fetching RT group etag: ${error}`)
+
       return false
     }
   }
 
+  /*
+   * TODO: once we begin storing RTs in different groups, in a future work cycle, do this:
+   *
+   * const getGroupsResponse = await getGroups()
+   * const contains = [].concat(getGroupsResponse.response.body.contains).filter(Boolean)
+   * contains.forEach(async group => {
+   *   const groupName = resourceToName(group)
+   *   const listResourcesInGroupResponse = await listResourcesInGroupContainer(groupName)
+   *   // Short-circuit listing resources in a group if it contains nothing
+   *   if (listResourcesInGroupResponse.response.body.contains)
+   *     this.setStateFromServerResponse(groupName, listResourcesInGroupResponse.response.body.contains)
+   * })
+   */
   fetchResourceTemplatesFromGroups = async () => {
     try {
-      // TODO: once we begin storing RTs in different groups, in a future work cycle, do this:
-      //
-      // const getGroupsResponse = await getGroups()
-      // const contains = [].concat(getGroupsResponse.response.body.contains).filter(Boolean)
-      // contains.forEach(async group => {
-      //   const groupName = resourceToName(group)
-      //   const listResourcesInGroupResponse = await listResourcesInGroupContainer(groupName)
-      //   // Short-circuit listing resources in a group if it contains nothing
-      //   if (listResourcesInGroupResponse.response.body.contains)
-      //     this.setStateFromServerResponse(groupName, listResourcesInGroupResponse.response.body.contains)
-      // })
       const groupName = Config.defaultSinopiaGroupId
       const resourceTemplatesResponse = await listResourcesInGroupContainer(groupName)
       // Short-circuit listing resources in a group if it contains nothing
-      if (resourceTemplatesResponse.response.body.contains)
-        this.setStateFromServerResponse(groupName, resourceTemplatesResponse.response.body.contains)
-    } catch(error) {
+
+      if (resourceTemplatesResponse.response.body.contains) this.setStateFromServerResponse(groupName, resourceTemplatesResponse.response.body.contains)
+    } catch (error) {
       const errors = [...this.state.errors, error]
-      this.setState({ errors: errors })
+
+      this.setState({ errors })
     }
   }
 
@@ -69,7 +75,7 @@ class SinopiaResourceTemplates extends Component {
     // Array-ify the value of `groupContains` as it can be either a string or an array
     const templateIds = [].concat(groupContains)
 
-    templateIds.forEach(async templateId => {
+    templateIds.forEach(async (templateId) => {
       const templateName = resourceToName(templateId)
       const templateResponse = await getResourceTemplate(templateName, groupName)
       const resourceTemplateBody = templateResponse.response.body
@@ -79,16 +85,20 @@ class SinopiaResourceTemplates extends Component {
         name: resourceTemplateBody.resourceLabel,
         uri: templateId,
         id: resourceTemplateBody.id,
-        group: groupName
+        group: groupName,
       }
 
       const templates = [...this.state.resourceTemplates]
 
       // Check if list of templates already in state contain a template w/ the same key as the retrieved one
       const templateIndex = templates.findIndex(template => template.key === retrievedTemplateObject.key)
-      // When Array.prototype.findIndex() returns -1, that means the element was
-      // not found in the array. The `if` condition here is true when an element
-      // is found.
+
+      /*
+       * When Array.prototype.findIndex() returns -1, that means the element was
+       * not found in the array. The `if` condition here is true when an element
+       * is found.
+       */
+
       if (templateIndex !== -1) {
         // Replace the current template with the retrieved one (in case it has been updated)
         templates.splice(templateIndex, 1, retrievedTemplateObject)
@@ -98,16 +108,14 @@ class SinopiaResourceTemplates extends Component {
       }
 
       this.setState({
-        resourceTemplates: templates
+        resourceTemplates: templates,
       })
     })
   }
 
-  linkFormatter = (cell, row) => {
-    return(
-      <Link to={{pathname: '/editor', state: { resourceTemplateId: row.id }}}>{cell}</Link>
-    )
-  }
+  linkFormatter = (cell, row) => (
+    <Link to={{ pathname: '/editor', state: { resourceTemplateId: row.id } }}>{cell}</Link>
+  )
 
   render() {
     if (this.state.errors.length > 0) {
@@ -119,40 +127,39 @@ class SinopiaResourceTemplates extends Component {
       )
     }
 
-    const createResourceMessage =
-          this.props.messages.length === 0 ?
-          ( <span /> ) :
-          (
-            <div className="alert alert-info">
-              { this.props.messages.join(', ') }
-            </div>
-          )
+    const createResourceMessage = this.props.messages.length === 0
+      ? (<span />)
+      : (
+        <div className="alert alert-info">
+          { this.props.messages.join(', ') }
+        </div>
+      )
 
     const columns = [{
       dataField: 'name',
       text: 'Template name',
       sort: true,
       formatter: this.linkFormatter,
-      headerStyle: { backgroundColor: '#F8F6EF', width: '25%' }
+      headerStyle: { backgroundColor: '#F8F6EF', width: '25%' },
     },
     {
       dataField: 'id',
       text: 'ID',
       sort: true,
-      headerStyle: { backgroundColor: '#F8F6EF', width: '50%' }
+      headerStyle: { backgroundColor: '#F8F6EF', width: '50%' },
     },
     {
       dataField: 'group',
       text: 'Group',
       sort: true,
-      headerStyle: { backgroundColor: '#F8F6EF', width: '25%' }
+      headerStyle: { backgroundColor: '#F8F6EF', width: '25%' },
     }]
 
-    return(
+    return (
       <div>
         { createResourceMessage }
         <h4>Available Resource Templates in Sinopia</h4>
-        <BootstrapTable keyField='key' data={ this.state.resourceTemplates } columns={ columns } />
+        <BootstrapTable keyField="key" data={ this.state.resourceTemplates } columns={ columns } />
       </div>
     )
   }
@@ -160,7 +167,7 @@ class SinopiaResourceTemplates extends Component {
 
 SinopiaResourceTemplates.propTypes = {
   messages: PropTypes.array,
-  updateKey: PropTypes.number
+  updateKey: PropTypes.number,
 }
 
-export default (SinopiaResourceTemplates)
+export default SinopiaResourceTemplates

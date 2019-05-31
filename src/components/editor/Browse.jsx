@@ -1,6 +1,6 @@
 // Copyright 2018 Stanford University see LICENSE for license
 
-import React, {Component} from 'react'
+import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 import Header from './Header'
 
@@ -11,7 +11,7 @@ class Browse extends Component {
 
 
   render() {
-    return(
+    return (
       <div id="browse">
         <Header triggerEditorMenu={this.props.triggerHandleOffsetMenu}/>
       </div>
@@ -21,9 +21,8 @@ class Browse extends Component {
 
 Browse.propTypes = {
   children: PropTypes.array,
-  triggerHandleOffsetMenu: PropTypes.func
+  triggerHandleOffsetMenu: PropTypes.func,
 }
 
 
-
-export default (Browse)
+export default Browse

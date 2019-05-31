@@ -12,7 +12,7 @@ class HomePage extends Component {
   }
 
   render() {
-    return(
+    return (
       <div id="home-page">
         <Header triggerHomePageMenu={this.props.triggerHandleOffsetMenu} />
         <NewsPanel />
@@ -23,7 +23,7 @@ class HomePage extends Component {
 }
 
 HomePage.propTypes = {
-  triggerHandleOffsetMenu: PropTypes.func
+  triggerHandleOffsetMenu: PropTypes.func,
 }
 
 export default HomePage

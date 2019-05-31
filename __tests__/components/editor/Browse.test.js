@@ -6,9 +6,9 @@ import Browse from '../../../src/components/editor/Browse'
 
 describe('<Browse />', () => {
   const wrapper = shallow(<Browse />)
-  //This test should be expanded when the Browse page is further defined
-  it ('contains the main div', () => {
-    expect(wrapper.find("div#browse").length).toBe(1)
-  })
+  // This test should be expanded when the Browse page is further defined
 
+  it('contains the main div', () => {
+    expect(wrapper.find('div#browse').length).toBe(1)
+  })
 })

@@ -1,10 +1,11 @@
 // Copyright 2019 Stanford University see LICENSE for license
 
-import React, {Component} from 'react'
+import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 import Button from 'react-bootstrap/lib/Button'
 import Modal from 'react-bootstrap/lib/Modal'
 import { resourceToName } from '../../Utilities'
+
 const _ = require('lodash')
 
 class UpdateResourceModal extends Component {
@@ -12,21 +13,23 @@ class UpdateResourceModal extends Component {
     super(props)
     this.state = {
       titleMessage: [],
-      rts: []
+      rts: [],
     }
   }
 
   componentDidMount() {
     let group = ''
-    let rts = []
-    let titleMessages = []
+    const rts = []
+    const titleMessages = []
     const messages = this.props.messages
 
-    messages.map(message => {
-      if(_.get(message, 'req._data.id')) {
+    messages.map((message) => {
+      if (_.get(message, 'req._data.id')) {
         const req = message.req
+
         group = resourceToName(req.url)
         const rt = req._data
+
         rts.push(rt)
         titleMessages.push(`${rt.id} already exists`)
       }
@@ -34,8 +37,8 @@ class UpdateResourceModal extends Component {
 
     this.setState({
       titleMessage: titleMessages.join(', '),
-      rts: rts,
-      group: group
+      rts,
+      group,
     })
   }
 
@@ -50,7 +53,7 @@ class UpdateResourceModal extends Component {
             Do you want to overwrite these resource templates?
           </Modal.Body>
           <Modal.Footer>
-            <Button onClick={async () => {await this.props.update(this.state.rts, this.state.group)}}>Yes, overwrite</Button>
+            <Button onClick={async () => { await this.props.update(this.state.rts, this.state.group) }}>Yes, overwrite</Button>
             <Button onClick={this.props.close}>No, get me out of here!</Button>
           </Modal.Footer>
         </Modal>

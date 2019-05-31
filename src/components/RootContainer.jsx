@@ -2,11 +2,11 @@
 
 import React, { Component } from 'react'
 import { hot } from 'react-hot-loader'
-import App from './App'
-import CanvasMenu from './CanvasMenu'
-import { OffCanvas, OffCanvasMenu, OffCanvasBody } from 'react-offcanvas'
+import { OffCanvas, OffCanvasBody, OffCanvasMenu } from 'react-offcanvas'
 import { BrowserRouter } from 'react-router-dom'
 import { Provider } from 'react-redux'
+import CanvasMenu from './CanvasMenu'
+import App from './App'
 import store from '../store'
 
 class RootContainer extends Component {
@@ -14,27 +14,29 @@ class RootContainer extends Component {
     super(props)
     this.state = {
       isMenuOpened: false,
-      redirectToReferrer: false
+      redirectToReferrer: false,
     }
   }
 
   closeMenu = () => {
     this.setState({
-      isMenuOpened: false
+      isMenuOpened: false,
     })
   }
 
   handleOffsetMenu = () => {
     this.setState({
-      isMenuOpened: !this.state.isMenuOpened
+      isMenuOpened: !this.state.isMenuOpened,
     })
   }
 
-  render(){
-    let offcanvas_class = this.state.isMenuOpened? "closeMargin" : null
-    return(
+  render() {
+    const offcanvas_class = this.state.isMenuOpened ? 'closeMargin' : null
+
+
+    return (
       <div id="home-page">
-        <OffCanvas width={300} transitionDuration={300} isMenuOpened={this.state.isMenuOpened} position={"right"}>
+        <OffCanvas width={300} transitionDuration={300} isMenuOpened={this.state.isMenuOpened} position={'right'}>
           <OffCanvasBody className={offcanvas_class}>
             <BrowserRouter>
               <Provider store={store}>

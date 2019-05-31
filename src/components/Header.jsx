@@ -1,10 +1,10 @@
-// Copyright 2018 Leland Stanford Junior University see LICENSE for license
+// Copyright 2018 Stanford University see LICENSE for license
 
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
-import SinopiaLogo from '../styles/sinopia-logo.png'
 import { Link } from 'react-router-dom'
-import Config from '../../src/Config'
+import SinopiaLogo from '../styles/sinopia-logo.png'
+import Config from '../Config'
 
 class Header extends Component {
   render() {
@@ -17,7 +17,7 @@ class Header extends Component {
         </div>
         <ul className= "nav navbar-nav pull-right">
           <li>
-            <Link to='/templates'>Linked Data Editor</Link>
+            <Link to="/templates">Linked Data Editor</Link>
           </li>
           <li>
             <a className="header-text" href={`https://profile-editor.${Config.sinopiaDomainName}/`}>Profile Editor</a>
@@ -32,7 +32,7 @@ class Header extends Component {
 }
 
 Header.propTypes = {
-  triggerHomePageMenu: PropTypes.func
+  triggerHomePageMenu: PropTypes.func,
 }
 
 export default Header

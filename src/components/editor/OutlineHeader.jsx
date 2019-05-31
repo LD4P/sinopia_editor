@@ -1,41 +1,44 @@
 // Copyright 2019 Stanford University see LICENSE for license
 
-import React, {Component} from 'react'
+import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faMinusSquare, faPlusSquare } from '@fortawesome/free-solid-svg-icons'
 import PropertyLabel from './PropertyLabel'
 
 class OutlineHeader extends Component {
-
   constructor(props) {
     super(props)
   }
 
   isCollapsed = () => {
-    if(this.props.collapsed == true) {
+    if (this.props.collapsed == true) {
       return faPlusSquare
     }
+
     return faMinusSquare
   }
 
   spacer = () => {
-    let unicode_spacer = ""
-    for(var i=0; i <= this.props.spacer; i++) {
-      unicode_spacer += "\u00a0"
+    let unicode_spacer = ''
+
+    for (let i = 0; i <= this.props.spacer; i++) {
+      unicode_spacer += '\u00a0'
     }
-    return(unicode_spacer)
+
+    return unicode_spacer
   }
 
   render() {
-    return(
+    return (
       <div className="rOutline-header">
-          {this.spacer()}
-          <a href="#" onClick={this.props.handleCollapsed} data-id={this.props.id}>
-            <FontAwesomeIcon icon={this.isCollapsed()} />&nbsp;
-          </a>
-          <PropertyLabel pt={this.props.pt} />
-      </div>)
+        {this.spacer()}
+        <a href="#" onClick={this.props.handleCollapsed} data-id={this.props.id}>
+          <FontAwesomeIcon icon={this.isCollapsed()} />&nbsp;
+        </a>
+        <PropertyLabel pt={this.props.pt} />
+      </div>
+    )
   }
 }
 
@@ -44,8 +47,8 @@ OutlineHeader.propTypes = {
   handleCollapsed: PropTypes.func,
   id: PropTypes.string,
   isRequired: PropTypes.any,
+  pt: PropTypes.object,
   spacer: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
-  pt: PropTypes.object
 }
 
-export default OutlineHeader;
+export default OutlineHeader

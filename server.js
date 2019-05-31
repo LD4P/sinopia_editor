@@ -1,19 +1,21 @@
-// Copyright 2018 Stanford University see LICENSE for license
-// Minimal BIBFRAME Editor Node.js server. To run from the command-line:
-//  npm start  or node server.js
+/*
+ * Copyright 2018 Stanford University see LICENSE for license
+ * Minimal BIBFRAME Editor Node.js server. To run from the command-line:
+ *  npm start  or node server.js
+ */
 
-var port = 8000;
-var express = require('express');
+const port = 8000
+const express = require('express')
 
-var app = express();
+const app = express()
 
-app.use(express.static(__dirname + '/'));
-app.listen(port);
+app.use(express.static(`${__dirname}/`))
+app.listen(port)
 
 const versoSpoof = require('./src/versoSpoof.js')
 
 
-app.all("/verso/api/configs", function (req, res, next) {
+app.all('/verso/api/configs', (req, res, next) => {
   if (req.query.filter.where.configType === 'profile') {
     res.json(versoSpoof.profiles)
   } else if (req.query.filter.where.configType === 'ontology') {
@@ -24,14 +26,16 @@ app.all("/verso/api/configs", function (req, res, next) {
   next()
 })
 
-app.all("/profile-edit/server/whichrt", function (req, res) {
+app.all('/profile-edit/server/whichrt', (req, res) => {
   const reqUri = req.query.uri
-  if (reqUri != null) {
+
+  if (reqUri !== null) {
     // console.debug(`DEBUG: got server/whichrt for ${reqUri}.`)
     if (versoSpoof.ontologyUrls.includes(reqUri)) {
       // FIXME:  there's probably a better way to find the value in array than forEach, but there are only 5 urls
-      var json
-      versoSpoof.owlOntUrl2JsonMappings.forEach( function(el) {
+      let json
+
+      versoSpoof.owlOntUrl2JsonMappings.forEach((el) => {
         if (reqUri == el.url) {
           json = el.json
         }
@@ -47,9 +51,9 @@ app.all("/profile-edit/server/whichrt", function (req, res) {
   }
 })
 
-app.get("*", function(req, res) {
+app.get('*', (req, res) => {
   res.sendFile(`${__dirname}/index.html`)
 })
 
-console.info('BIBFRAME Editor running on ' + port);
-console.info('Press Ctrl + C to stop.');
+console.info(`BIBFRAME Editor running on ${port}`)
+console.info('Press Ctrl + C to stop.')

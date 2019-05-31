@@ -12,10 +12,10 @@ import { createResourceTemplate, updateResourceTemplate } from '../../../src/sin
 jest.mock('../../../src/sinopiaServer')
 
 describe('<ImportResourceTemplate />', () => {
-  let authenticationState = {
+  const authenticationState = {
     currentUser: {
-      wouldActuallyBe: 'a CognitoUser object, IRL'
-    }
+      wouldActuallyBe: 'a CognitoUser object, IRL',
+    },
   }
   let wrapper = shallow(<ImportResourceTemplate.WrappedComponent authenticationState={authenticationState}/>)
 
@@ -24,9 +24,9 @@ describe('<ImportResourceTemplate />', () => {
     jest.restoreAllMocks()
   })
 
-  //This test should be expanded when the Import Resource Template page is further defined
+  // This test should be expanded when the Import Resource Template page is further defined
   it('contains the main div', () => {
-    expect(wrapper.find("div#importResourceTemplate").length).toBe(1)
+    expect(wrapper.find('div#importResourceTemplate').length).toBe(1)
   })
 
   it('contains the place to import a file', () => {
@@ -42,13 +42,13 @@ describe('<ImportResourceTemplate />', () => {
       Profile: {
         resourceTemplates: [
           {
-            id: 'template1'
+            id: 'template1',
           },
           {
-            id: 'template2'
-          }
-        ]
-      }
+            id: 'template2',
+          },
+        ],
+      },
     }
 
     it('resets messages, creates one resource per template, and then updates state', async () => {
@@ -66,13 +66,11 @@ describe('<ImportResourceTemplate />', () => {
 
   describe('createResource()', () => {
     it('returns response from sinopia client call when successful', async () => {
-      createResourceTemplate.mockImplementation(async () => {
-        return {
-          response: 'i am a response for a created object'
-        }
-      })
+      createResourceTemplate.mockImplementation(async () => ({
+        response: 'i am a response for a created object',
+      }))
 
-      const response = await wrapper.instance().createResource({ foo: 'bar'}, 'ld4p')
+      const response = await wrapper.instance().createResource({ foo: 'bar' }, 'ld4p')
 
       expect(response).toEqual('i am a response for a created object')
     })
@@ -80,16 +78,16 @@ describe('<ImportResourceTemplate />', () => {
     it('returns error response and adds to state when client call fails', async () => {
       createResourceTemplate.mockImplementation(async () => {
         throw {
-          response: 'i am an error for a created object'
+          response: 'i am an error for a created object',
         }
       })
 
       const setStateSpy = jest.spyOn(wrapper.instance(), 'setState').mockReturnValue(null)
-      const response = await wrapper.instance().createResource({ foo: 'bar'}, 'ld4p')
+      const response = await wrapper.instance().createResource({ foo: 'bar' }, 'ld4p')
 
       expect(response).toEqual('i am an error for a created object')
       expect(setStateSpy).toHaveBeenCalledWith({
-        modalMessages: ['i am an error for a created object']
+        modalMessages: ['i am an error for a created object'],
       })
     })
 
@@ -98,13 +96,11 @@ describe('<ImportResourceTemplate />', () => {
 
   describe('updateResource()', () => {
     it('returns response from sinopia client call when successful', async () => {
-      updateResourceTemplate.mockImplementation(async () => {
-        return {
-          response: 'i am a response for an updated object'
-        }
-      })
+      updateResourceTemplate.mockImplementation(async () => ({
+        response: 'i am a response for an updated object',
+      }))
 
-      const response = await wrapper.instance().updateResource({ foo: 'bar'}, 'ld4p')
+      const response = await wrapper.instance().updateResource({ foo: 'bar' }, 'ld4p')
 
       expect(response).toEqual('i am a response for an updated object')
     })
@@ -112,11 +108,11 @@ describe('<ImportResourceTemplate />', () => {
     it('returns error response when client call fails', async () => {
       updateResourceTemplate.mockImplementation(async () => {
         throw {
-          response: 'i am an error for an updated object'
+          response: 'i am an error for an updated object',
         }
       })
 
-      const response = await wrapper.instance().updateResource({ foo: 'bar'}, 'ld4p')
+      const response = await wrapper.instance().updateResource({ foo: 'bar' }, 'ld4p')
 
       expect(response).toEqual('i am an error for an updated object')
     })
@@ -140,7 +136,7 @@ describe('<ImportResourceTemplate />', () => {
 
       expect(wrapper.state().modalShow).toBe(false)
 
-      wrapper.instance().updateStateFromServerResponses([{ status: 409 , headers: {} }])
+      wrapper.instance().updateStateFromServerResponses([{ status: 409, headers: {} }])
 
       expect(wrapper.state().modalShow).toBe(true)
     })
@@ -151,7 +147,7 @@ describe('<ImportResourceTemplate />', () => {
 
       expect(wrapper.state().flashMessages).toEqual([])
 
-      wrapper.instance().updateStateFromServerResponses([{ status: 201 , headers: { location: 'http://sinopia.io/repository/ld4p/myResourceTemplate' } }])
+      wrapper.instance().updateStateFromServerResponses([{ status: 201, headers: { location: 'http://sinopia.io/repository/ld4p/myResourceTemplate' } }])
 
       expect(wrapper.state().flashMessages).toEqual(['Created http://sinopia.io/repository/ld4p/myResourceTemplate'])
     })
@@ -171,7 +167,7 @@ describe('<ImportResourceTemplate />', () => {
 
       expect(wrapper.state().flashMessages).toEqual([
         'Created http://sinopia.io/repository/ld4p/myResourceTemplate1',
-        'Prompting user about updating http://sinopia.io/repository/ld4p/myResourceTemplate2'
+        'Prompting user about updating http://sinopia.io/repository/ld4p/myResourceTemplate2',
       ])
       expect(wrapper.state().modalShow).toEqual(true)
       expect(wrapper.state().updateKey).toEqual(2)
@@ -182,15 +178,16 @@ describe('<ImportResourceTemplate />', () => {
     it('returns human-readable label when Location header exists', () => {
       const response = {
         headers: {
-          location: 'http://sinopia.io/repository/ld4p/myResourceTemplate'
+          location: 'http://sinopia.io/repository/ld4p/myResourceTemplate',
         },
         req: {
           url: 'http://sinopia.io/repository/ld4p',
           _data: {
-            id: 'myResourceTemplate'
-          }
-        }
+            id: 'myResourceTemplate',
+          },
+        },
       }
+
       expect(wrapper.instance().humanReadableLocation(response)).toEqual('http://sinopia.io/repository/ld4p/myResourceTemplate')
     })
 
@@ -199,10 +196,11 @@ describe('<ImportResourceTemplate />', () => {
         req: {
           url: 'http://sinopia.io/repository/ld4p',
           _data: {
-            id: 'myResourceTemplate'
-          }
-        }
+            id: 'myResourceTemplate',
+          },
+        },
       }
+
       expect(wrapper.instance().humanReadableLocation(response)).toEqual('http://sinopia.io/repository/ld4p/myResourceTemplate')
     })
 
@@ -211,10 +209,11 @@ describe('<ImportResourceTemplate />', () => {
         req: {
           url: 'http://sinopia.io/repository/ld4p/myResourceTemplate',
           _data: {
-            id: 'myResourceTemplate'
-          }
-        }
+            id: 'myResourceTemplate',
+          },
+        },
       }
+
       expect(wrapper.instance().humanReadableLocation(response)).toEqual('http://sinopia.io/repository/ld4p/myResourceTemplate')
     })
 
@@ -223,15 +222,17 @@ describe('<ImportResourceTemplate />', () => {
         req: {
           url: 'http://sinopia.io/repository/ld4p/my%3AResource%3ATemplate',
           _data: {
-            id: 'my:Resource:Template'
-          }
-        }
+            id: 'my:Resource:Template',
+          },
+        },
       }
+
       expect(wrapper.instance().humanReadableLocation(response)).toEqual('http://sinopia.io/repository/ld4p/my:Resource:Template')
     })
 
     it('returns an empty label otherwise', () => {
       const response = undefined
+
       expect(wrapper.instance().humanReadableLocation(response)).toEqual('')
     })
   })
@@ -289,13 +290,13 @@ describe('<ImportResourceTemplate />', () => {
   })
 
   describe('handleUpdateResource()', () => {
-    const templates =  [
+    const templates = [
       {
-        id: 'template1'
+        id: 'template1',
       },
       {
-        id: 'template2'
-      }
+        id: 'template2',
+      },
     ]
 
     it('updates every template, updates state, closes the modal and reloads', async () => {

@@ -4,8 +4,9 @@ import { createStore } from 'redux'
 import reducer from './reducers/index'
 
 let store
-let initialState = {}
-if (process.env.NODE_ENV === "development") {
+const initialState = {}
+
+if (process.env.NODE_ENV === 'development') {
   store = createStore(reducer,
     initialState,
     window.__REDUX_DEVTOOLS_EXTENSION__ && window.__REDUX_DEVTOOLS_EXTENSION__())
