@@ -55,14 +55,14 @@ const p2Props = {
       propertyLabel: 'Name Lookup',
     },
   'lookupConfig': [
-    { 
-      'label': 'LOC person [names] (QA)',   
+    {
+      'label': 'LOC person [names] (QA)',
       'uri': 'urn:ld4p:qa:names:person',
       'authority': 'locnames_ld4l_cache',
       'subauthority': 'person',
       'language': 'en',
       'component': 'lookup'
-    }, 
+    },
     {
       'label': 'LOC all subjects (QA)',
       'uri': 'urn:ld4p:qa:subjects',
@@ -81,7 +81,7 @@ const multipleResults = [{
 },
 {
   'authLabel': 'Subject',
-  'authURI':' SubjectURI',
+  'authURI': 'SubjectURI',
   'body': [{ 'uri': 'suri', 'label': 'slabel' }]
 }]
 
