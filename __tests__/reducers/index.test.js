@@ -8,7 +8,7 @@ describe('Takes a resource template ID and populates the global state', () => {
     jest.restoreAllMocks()
   })
 
-  const pt = [
+  const samplePropertyTemplate = [
     {
       propertyLabel: 'Instance of',
       propertyURI: 'http://id.loc.gov/ontologies/bibframe/instanceOf',
@@ -74,7 +74,7 @@ describe('Takes a resource template ID and populates the global state', () => {
     },
   ]
 
-  it('should handle the initial state', () => {
+  it('handles the initial state', () => {
     expect(
       selectorReducer(undefined, {}),
     ).toMatchObject(
@@ -88,44 +88,42 @@ describe('Takes a resource template ID and populates the global state', () => {
 
   it('handles SET_RESOURCE_TEMPLATE', () => {
     shortid.generate = jest.fn().mockReturnValue(0)
-    expect(
-      selectorReducer({ selectorReducer: {} }, {
-        type: 'SET_RESOURCE_TEMPLATE',
-        payload: {
-          id: 'resourceTemplate:bf2:Monograph:Instance',
-          propertyTemplates: pt,
-        },
-      }),
-    ).toMatchObject(
-      {
-        authenticate: { authenticationState: { currentUser: null, currentSession: null, authenticationError: null } },
-        lang: { formData: [] },
-        selectorReducer: {
-          'resourceTemplate:bf2:Monograph:Instance':
-          {
-            'http://id.loc.gov/ontologies/bibframe/instanceOf': {},
-            'http://id.loc.gov/ontologies/bibframe/issuance':
-              {
-                items:
-                [{
-                  id: 0,
-                  content: 'single unit',
-                  uri: 'http://id.loc.gov/vocabulary/issuance/mono',
-                }],
-              },
-            'http://id.loc.gov/ontologies/bibframe/heldBy':
-              {
-                items:
-                [{
-                  id: 0,
-                  content: 'DLC',
-                  uri: 'http://id.loc.gov/vocabulary/organizations/dlc',
-                }],
-              },
-          },
-        },
+    const result = selectorReducer({
+      selectorReducer: {},
+    }, {
+      type: 'SET_RESOURCE_TEMPLATE',
+      payload: {
+        id: 'resourceTemplate:bf2:Monograph:Instance',
+        propertyTemplates: samplePropertyTemplate,
       },
-    )
+    })
+
+    expect(result.authenticate).toMatchObject({ authenticationState: { currentUser: null, currentSession: null, authenticationError: null } })
+    expect(result.lang).toMatchObject({ formData: [] })
+    expect(result.selectorReducer).toMatchObject({
+      'resourceTemplate:bf2:Monograph:Instance':
+      {
+        'http://id.loc.gov/ontologies/bibframe/instanceOf': {},
+        'http://id.loc.gov/ontologies/bibframe/issuance':
+          {
+            items:
+            [{
+              id: 0,
+              content: 'single unit',
+              uri: 'http://id.loc.gov/vocabulary/issuance/mono',
+            }],
+          },
+        'http://id.loc.gov/ontologies/bibframe/heldBy':
+          {
+            items:
+            [{
+              id: 0,
+              content: 'DLC',
+              uri: 'http://id.loc.gov/vocabulary/organizations/dlc',
+            }],
+          },
+      },
+    })
   })
 
   it('passing a payload to an empty state', () => {

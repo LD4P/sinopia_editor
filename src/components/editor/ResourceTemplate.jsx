@@ -9,6 +9,9 @@ import { getResourceTemplate } from '../../sinopiaServer'
 
 const _ = require('lodash')
 
+/**
+ * This is the root component of the editor on the resource edit page
+ */
 class ResourceTemplate extends Component {
   constructor(props) {
     super(props)

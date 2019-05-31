@@ -74,6 +74,7 @@ module.exports = {
     "no-sync": "off",
     "global-require": "off",
     "require-jsdoc": "off",
+    "valid-jsdoc": "off",
     "func-style": "off",
     "import/no-commonjs": "off",
     "import/group-exports": "off",
@@ -131,6 +132,7 @@ module.exports = {
     "no-throw-literal": "off",
     "import/no-namespace": "off",
     "no-nested-ternary": "off",
+    'lines-around-comment': ['error', { 'allowBlockStart': true }]
   },
   overrides: [
     {

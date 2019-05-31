@@ -11,6 +11,9 @@ import { getCurrentSession } from '../../authSelectors'
 
 const _ = require('lodash')
 
+/**
+ * This is the root component of the resource edit page
+ */
 class Editor extends Component {
   constructor(props) {
     super(props)
