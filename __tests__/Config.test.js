@@ -30,6 +30,10 @@ describe('Config', () => {
       expect(Config.awsClientID).toEqual('2u6s7pqkc1grq1qs464fsi82at')
     })
 
+    it('aws cognito user pool ID has static value', () => {
+      expect(Config.awsCognitoUserPoolId).toEqual('us-west-2_CGd9Wq136')
+    })
+
     it('aws cognito domain has static value', () => {
       expect(Config.awsCognitoDomain).toEqual('https://sinopia-development.auth.us-west-2.amazoncognito.com')
     })
@@ -70,6 +74,7 @@ describe('Config', () => {
         SINOPIA_GROUP: 'foobar',
         TRELLIS_BASE_URL: 'https://sinopia_server.foo',
         COGNITO_CLIENT_ID: '1a2b3c',
+        COGNITO_USER_POOL_ID: 'us-west-7_CGd9Wq142',
         AWS_COGNITO_DOMAIN: 'https://sinopia-foo.amazoncognito.com',
         MAX_RECORDS_FOR_QA_LOOKUPS: 15,
       }
@@ -97,6 +102,10 @@ describe('Config', () => {
 
     it('aws client ID overrides static value', () => {
       expect(Config.awsClientID).toEqual('1a2b3c')
+    })
+
+    it('aws cognito user pool id ID overrides static value', () => {
+      expect(Config.awsCognitoUserPoolId).toEqual('us-west-7_CGd9Wq142')
     })
 
     it('aws cognito domain overrides static value', () => {
