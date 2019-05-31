@@ -5,6 +5,7 @@ import {
 } from 'react-bootstrap-typeahead'
 import PropTypes from 'prop-types'
 import Swagger from 'swagger-client'
+import swaggerSpec from '../../lib/apidoc.json'
 import { connect } from 'react-redux'
 import { getProperty } from '../../reducers/index'
 import { changeSelections } from '../../actions/index'
@@ -18,22 +19,32 @@ class InputLookupQA extends Component {
 
     const defaults = defaultValuesFromPropertyTemplate(this.props.propertyTemplate)
 
-    if (defaults.length === 0)
-    // Property templates do not require defaults but we like to know when this happens
-    { console.info(`no defaults defined in property template: ${JSON.stringify(this.props.propertyTemplate)}`) }
+    if (defaults.length === 0) {
+      // Property templates do not require defaults but we like to know when this happens
+      console.info(`no defaults defined in property template: ${JSON.stringify(this.props.propertyTemplate)}`)
+    }
 
     this.state = {
       isLoading: false,
       defaults,
     }
-    this.lookupClient = Swagger({ url: 'src/lib/apidoc.json' })
+
+    this.lookupClient = Swagger({ spec: swaggerSpec })
   }
 
   /*
    * Select appropriate API call to be made for QA
    * This may expand based on particular lookup options
    */
-  selectAPICall = (client, lookupConfig) => lookupConfig.subauthority === undefined ? client.apis.SearchQuery.GET_searchAuthority : client.apis.SearchQuery.GET_searchSubauthority
+  selectAPICall = async (client, lookupConfig) => {
+    const lookupClient = await client
+
+    if (lookupConfig.subauthority) {
+      return lookupClient.apis.SearchQuery.GET_searchSubauthority
+    }
+
+    return lookupClient.apis.SearchQuery.GET_searchAuthority
+  }
 
 
   // Render menu function to be used by typeahead
@@ -99,8 +110,9 @@ class InputLookupQA extends Component {
   }
 
   render() {
-    let authority; let language; let
-      subauthority
+    let authority
+    let language
+    let subauthority
     const lookupConfigs = this.props.lookupConfig
 
     const isMandatory = booleanPropertyFromTemplate(this.props.propertyTemplate, 'mandatory', false)
