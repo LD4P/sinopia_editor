@@ -71,7 +71,7 @@ describe('Config', () => {
         TRELLIS_BASE_URL: 'https://sinopia_server.foo',
         COGNITO_CLIENT_ID: '1a2b3c',
         AWS_COGNITO_DOMAIN: 'https://sinopia-foo.amazoncognito.com',
-        MAX_RECORDS_FOR_QA_LOOKUPS: 15
+        MAX_RECORDS_FOR_QA_LOOKUPS: 15,
       }
     })
 

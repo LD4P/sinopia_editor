@@ -70,26 +70,25 @@ const p2Props = {
       subauthority: '',
       language: 'en',
       component: 'lookup',
-    }
-  ]
+    },
+  ],
 }
 
 const multipleResults = [{
   authLabel: 'Person',
   authURI: 'PersonURI',
-  body: [{ uri: 'puri', label: 'plabel' }]
+  body: [{ uri: 'puri', label: 'plabel' }],
 },
 {
   authLabel: 'Subject',
   authURI: 'SubjectURI',
-  body: [{ uri: 'suri', label: 'slabel' }]
+  body: [{ uri: 'suri', label: 'slabel' }],
 }]
 
 describe('<InputLookupQA />', () => {
-  
-  /* 
+  /*
    * our mock formData function to replace the one provided by
-   * mapDispatchToProps 
+   * mapDispatchToProps
    */
   const mockFormDataFn = jest.fn()
   const wrapper = shallow(<InputLookupQA.WrappedComponent {...plProps} handleSelectedChange={mockFormDataFn} />)
@@ -234,7 +233,7 @@ describe('<InputLookupQA />', () => {
     expect(menuWrapper.childAt(3).childAt(0).text()).toEqual('slabel')
   })
 
-  /* 
+  /*
    * Authority and subauthority calls are properly translated
    * Commenting out until I understand correct format for these tests
    *

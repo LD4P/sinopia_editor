@@ -29,9 +29,9 @@ class InputLookupQA extends Component {
     this.lookupClient = Swagger({ url: 'src/lib/apidoc.json' })
   }
 
-  /* 
+  /*
    * Select appropriate API call to be made for QA
-   * This may expand based on particular lookup options 
+   * This may expand based on particular lookup options
    */
   selectAPICall = (client, lookupConfig) => {
     return lookupConfig.subauthority === undefined ? client.apis.SearchQuery.GET_searchAuthority : client.apis.SearchQuery.GET_searchSubauthority
@@ -143,7 +143,7 @@ class InputLookupQA extends Component {
                                *Get_searchauthority.  Passing API call in a variable name/dynamically, thanks @mjgiarlo
                                */
                               const actionFunction = this.selectAPICall(client, lookupConfig)
-                              
+
                               return actionFunction({
                                 q: query,
                                 vocab: authority,
