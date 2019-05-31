@@ -86,12 +86,13 @@ const multipleResults = [{
 }]
 
 describe('<InputLookupQA />', () => {
+  const mockFormDataFn = jest.fn()
+  const wrapper = shallow(<InputLookupQA.WrappedComponent {...plProps} handleSelectedChange={mockFormDataFn} />)
+
   /*
    * our mock formData function to replace the one provided by
    * mapDispatchToProps
    */
-  const mockFormDataFn = jest.fn()
-  const wrapper = shallow(<InputLookupQA.WrappedComponent {...plProps} handleSelectedChange={mockFormDataFn} />)
 
   it('has a lookupClient', () => {
     // The Swagger constructor returns a promise
