@@ -69,7 +69,7 @@ class Config {
   }
   
   static get maxRecordsForQALookups() {
-	return process.env.MAX_RECORDS_FOR_QA_LOOKUPS || 8
+    return process.env.MAX_RECORDS_FOR_QA_LOOKUPS || 8
   }
 }
 

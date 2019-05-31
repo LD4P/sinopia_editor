@@ -54,34 +54,34 @@ const p2Props = {
       propertyURI: 'http://id.loc.gov/ontologies/bflc/target',
       propertyLabel: 'Name Lookup',
     },
-    "lookupConfig": [
-      { "label": "LOC person [names] (QA)",
-        "uri": "urn:ld4p:qa:names:person",
-        "authority": "locnames_ld4l_cache",
-        "subauthority": "person",
-        "language": "en",
-        "component": "lookup"
-      }, 
-      {
-        "label": "LOC all subjects (QA)",
-        "uri": "urn:ld4p:qa:subjects",
-        "authority": "locsubjects_ld4l_cache",
-        "subauthority": "",
-        "language": "en",
-        "component": "lookup"
-      }
-      ]
+  'lookupConfig': [
+    { 'label': 'LOC person [names] (QA)',
+      'uri': 'urn:ld4p:qa:names:person',
+      'authority': 'locnames_ld4l_cache',
+      'subauthority': 'person',
+      'language': 'en',
+      'component': 'lookup'
+    }, 
+    {
+      'label': 'LOC all subjects (QA)',
+      'uri': 'urn:ld4p:qa:subjects',
+      'authority': 'locsubjects_ld4l_cache',
+      'subauthority': '',
+      'language': 'en',
+      'component': 'lookup'
+    }
+  ]
 }
 
 const multipleResults = [{
-  "authLabel":"Person",
-  "authURI":"PersonURI",
-  "body":[{ "uri":"puri","label":"plabel" }]
+  'authLabel':'Person',
+  'authURI':'PersonURI',
+  'body':[{ 'uri':'puri','label':'plabel' }]
 },
 {
-  "authLabel":"Subject",
-  "authURI":"SubjectURI",
-  "body":[{ "uri":"suri","label":"slabel" }]
+  'authLabel':'Subject',
+  'authURI':'SubjectURI',
+  'body':[{ 'uri':'suri','label':'slabel' }]
 }]
 
 describe('<InputLookupQA />', () => {
@@ -131,23 +131,23 @@ describe('<InputLookupQA />', () => {
       const plProps = {
         id: 'lookupComponent',
         propertyTemplate:
-        {
-          mandatory: 'false',
-          repeatable: 'true',
-          type: 'lookup',
-          resourceTemplates: [],
-          valueConstraint: {
-            valueTemplateRefs: [],
-            useValuesFrom: [
-              'lookupQaLocNames',
-            ],
-            valueDataType: {
-              dataTypeURI: 'http://id.loc.gov/ontologies/bibframe/Agent',
+          {
+            mandatory: 'false',
+            repeatable: 'true',
+            type: 'lookup',
+            resourceTemplates: [],
+            valueConstraint: {
+              valueTemplateRefs: [],
+              useValuesFrom: [
+                'lookupQaLocNames',
+              ],
+              valueDataType: {
+                dataTypeURI: 'http://id.loc.gov/ontologies/bibframe/Agent',
+              },
             },
+            propertyURI: 'http://id.loc.gov/ontologies/bflc/target',
+            propertyLabel: 'Name Lookup',
           },
-          propertyURI: 'http://id.loc.gov/ontologies/bflc/target',
-          propertyLabel: 'Name Lookup',
-        },
       }
 
       const infoSpy = jest.spyOn(console, 'info').mockReturnValue(null)
@@ -187,10 +187,10 @@ describe('<InputLookupQA />', () => {
     wrapper.find('#lookupComponent').simulate('search', event(wrapper))
     expect(wrapper.state().options[0]).toEqual(json)
 
-      wrapper.find('#lookupComponent').simulate('change', event(wrapper))
-      expect(wrapper.state().selected[0]).toEqual(json)
+    wrapper.find('#lookupComponent').simulate('change', event(wrapper))
+    expect(wrapper.state().selected[0]).toEqual(json)
 
-      expect(mockFormDataFn.mock.calls.length).toBe(2)
+    expect(mockFormDataFn.mock.calls.length).toBe(2)
   })
 
   it('has a PropertyRemark when a remark is present', () => {
@@ -238,7 +238,6 @@ describe('<InputLookupQA />', () => {
    * first expect(instance.selectAPICall(instance.lookupClient,
    * instance.props.lookupConfig[0])).toEqual(instance.lookupClient.apis.SearchQuery.GET_searchSubauthority);
    * expect(instance.selectAPICall(instance.lookupClient,
-   * instance.props.lookupConfig[1])).toEqual(instance.lookupClient.apis.SearchQuery.GET_searchAuthority);
-   *  })
+   * instance.props.lookupConfig[1])).toEqual(instance.lookupClient.apis.SearchQuery.GET_searchAuthority); })
    */
 })

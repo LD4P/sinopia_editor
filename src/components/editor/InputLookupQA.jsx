@@ -9,7 +9,6 @@ import { connect } from 'react-redux'
 import { getProperty } from '../../reducers/index'
 import { changeSelections } from '../../actions/index'
 import { booleanPropertyFromTemplate, defaultValuesFromPropertyTemplate } from '../../Utilities'
-import Config from '../../Config'
 
 const AsyncTypeahead = asyncContainer(Typeahead)
 
@@ -33,7 +32,7 @@ class InputLookupQA extends Component {
   //Select appropriate API call to be made for QA
   //This may expand based on particular lookup options
   selectAPICall = (client, lookupConfig) => {
-      return lookupConfig.subauthority === undefined ? client.apis.SearchQuery.GET_searchAuthority : client.apis.SearchQuery.GET_searchSubauthority
+    return lookupConfig.subauthority === undefined ? client.apis.SearchQuery.GET_searchAuthority : client.apis.SearchQuery.GET_searchSubauthority
   }
 
   // Render menu function to be used by typeahead
@@ -132,27 +131,28 @@ class InputLookupQA extends Component {
                               authority = lookupConfig.authority
                               subauthority = lookupConfig.subauthority
                               language = lookupConfig.language
-                              //return the 'promise'
-                              //Since we don't want promise.all to fail if
-                              //one of the lookups fails, we want a catch statement
-                              //at this level which will then return the error
-                              //Subauthorities require a different API call than authorities so need to check if subauthority is available
-                              //The only difference between this call and the next one is the call to Get_searchSubauthority instead of 
-                              //Get_searchauthority.  Passing API call in a variable name/dynamically, thanks @mjgiarlo
+
+                              /*
+                               *return the 'promise'
+                               *Since we don't want promise.all to fail if
+                               *one of the lookups fails, we want a catch statement
+                               *at this level which will then return the error. Subauthorities require a different API call than authorities so need to check if subauthority is available
+                               *The only difference between this call and the next one is the call to Get_searchSubauthority instead of 
+                               *Get_searchauthority.  Passing API call in a variable name/dynamically, thanks @mjgiarlo
+                               */
                               const actionFunction = this.selectAPICall(client, lookupConfig)
                               return actionFunction({
                                 q: query,
                                 vocab: authority,
-                                subauthority: subauthority,
-                                maxRecords: Config.maxRecordsForQALookups,
-                                lang: language
+                                subauthority,
+                                maxRecords: 8,
+                                lang: language,
                               })
-                              .catch(function(err) {
-                                console.error("Error in executing lookup against source", err)
-                                //return information along with the error in its own object
-                                return { isError: true, errorObject: err }
-                              })                                 
-                              
+                                .catch((err) => {
+                                  console.error('Error in executing lookup against source', err)
+                                  // return information along with the error in its own object
+                                  return { isError: true, errorObject: err }
+                                })
                             })
 
                             /*
@@ -186,7 +186,6 @@ class InputLookupQA extends Component {
                         }}
 
                         {...typeaheadProps}
-
 
                         filterBy={() => true
                         }
