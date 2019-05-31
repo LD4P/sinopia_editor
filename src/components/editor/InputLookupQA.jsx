@@ -32,20 +32,6 @@ class InputLookupQA extends Component {
     this.lookupClient = Swagger({ spec: swaggerSpec })
   }
 
-  /*
-   * Select appropriate API call to be made for QA
-   * This may expand based on particular lookup options
-   */
-  selectAPICall = async (client, lookupConfig) => {
-    const lookupClient = await client
-
-    if (lookupConfig.subauthority) {
-      return lookupClient.apis.SearchQuery.GET_searchSubauthority
-    }
-
-    return lookupClient.apis.SearchQuery.GET_searchAuthority
-  }
-
 
   // Render menu function to be used by typeahead
   renderMenuFunc = (results, menuProps) => {
@@ -140,7 +126,7 @@ class InputLookupQA extends Component {
                           this.setState({ isLoading: true })
                           this.lookupClient.then((client) => {
                             // create array of promises based on the lookup config array that is sent in
-                            const lookupPromises = lookupConfigs.map((lookupConfig) => {
+                            const lookupPromises = lookupConfigs.map( (lookupConfig) => {
                               authority = lookupConfig.authority
                               subauthority = lookupConfig.subauthority
                               language = lookupConfig.language
@@ -153,9 +139,11 @@ class InputLookupQA extends Component {
                                *The only difference between this call and the next one is the call to Get_searchSubauthority instead of
                                *Get_searchauthority.  Passing API call in a variable name/dynamically, thanks @mjgiarlo
                                */
-                              const actionFunction = this.selectAPICall(client, lookupConfig)
+                              const actionFunction = (lookupConfig.subauthority) ? 'GET_searchSubauthority' : 'GET_searchAuthority' 
 
-                              return actionFunction({
+                              return client
+                                .apis
+                                .SearchQuery?.[actionFunction]({
                                 q: query,
                                 vocab: authority,
                                 subauthority,
