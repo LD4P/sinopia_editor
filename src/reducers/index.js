@@ -98,7 +98,7 @@ export const refreshResourceTemplate = (state, action) => {
  */
 export const setResourceTemplate = (state, action) => {
   const rtKey = action.payload.id
-  let output = Object.create(state)
+  let output = state
 
   action.payload.propertyTemplates.forEach((property) => {
     const propertyAction = {
