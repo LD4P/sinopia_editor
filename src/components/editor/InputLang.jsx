@@ -72,7 +72,7 @@ class InputLang extends Component {
 
     return (
       <div>
-        <label htmlFor="langComponent">Select langauge for {this.props.textValue}
+        <label htmlFor="langComponent">Select language for {this.props.textValue}
           <Typeahead
             onFocus={() => {
               this.setState({ isLoading: true })

@@ -19,7 +19,7 @@ describe('<InputLang />', () => {
   const wrapper = shallow(<InputLang.WrappedComponent {...plProps} handleSelectedChange={mockFormDataFn} />)
 
   it('contains a label with the value of propertyLabel', () => {
-    const expected = 'Select langauge for test1'
+    const expected = 'Select language for test1'
 
     expect(wrapper.find('label').text()).toEqual(
       expect.stringContaining(expected),
