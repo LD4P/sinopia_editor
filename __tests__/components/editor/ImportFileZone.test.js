@@ -4,6 +4,7 @@ import 'jsdom-global/register'
 import React from 'react'
 import { mount, shallow } from 'enzyme'
 import DropZone from 'react-dropzone'
+import { resourceTemplateExists } from '../../../src/sinopiaServer'
 import ImportFileZone from '../../../src/components/editor/ImportFileZone'
 import Config from '../../../src/Config'
 
@@ -23,6 +24,9 @@ require('isomorphic-fetch')
  *                         reject(new Error(`error getting json schemas ${err}`))
  */
 
+// Don't actually make requests to the server
+jest.mock('../../../src/sinopiaServer')
+
 describe('<ImportFileZone />', () => {
   it('has an upload button', () => {
     const wrapper = shallow(<ImportFileZone />)
@@ -31,11 +35,108 @@ describe('<ImportFileZone />', () => {
     expect(wrapper.find('button#ImportProfile').text()).toEqual('Import New or Revised Resource Template')
   })
 
+  describe('missingReferences()', () => {
+    const wrapper = shallow(<ImportFileZone />)
+
+    it('returns references not defined in template and not on server', async () => {
+      const template = {
+        thingOne: {
+          id: 'RT1',
+          subThing: {
+            valueTemplateRefs: [
+              'RT2',
+            ],
+          },
+        },
+        thingTwo: {
+          id: 'RT2',
+          subThing: {
+            valueTemplateRefs: [
+              'RT3',
+            ],
+          },
+        },
+        thingThree: {
+          id: 'RT3',
+          subThing: {
+            valueTemplateRefs: [
+              'RT4',
+            ],
+          },
+        },
+      }
+
+      resourceTemplateExists.mockImplementation(async () => false)
+      expect(await wrapper.instance().missingReferences(template)).toEqual(['RT4'])
+    })
+
+    it('returns an empty list if all references defined in resource template', async () => {
+      const template = {
+        thingOne: {
+          id: 'RT1',
+          subThing: {
+            valueTemplateRefs: [
+              'RT2',
+            ],
+          },
+        },
+        thingTwo: {
+          id: 'RT2',
+          subThing: {
+            valueTemplateRefs: [
+              'RT3',
+            ],
+          },
+        },
+        thingThree: {
+          id: 'RT3',
+          subThing: {
+            valueTemplateRefs: [],
+          },
+        },
+      }
+
+      expect(await wrapper.instance().missingReferences(template)).toEqual([])
+    })
+
+    it('returns an empty list if all missing references exist on the server', async () => {
+      const template = {
+        thingOne: {
+          id: 'RT1',
+          subThing: {
+            valueTemplateRefs: [
+              'RT2',
+            ],
+          },
+        },
+        thingTwo: {
+          id: 'RT2',
+          subThing: {
+            valueTemplateRefs: [
+              'RT3',
+            ],
+          },
+        },
+        thingThree: {
+          id: 'RT3',
+          subThing: {
+            valueTemplateRefs: [
+              'RT4',
+            ],
+          },
+        },
+      }
+
+      resourceTemplateExists.mockImplementation(async () => true)
+      expect(await wrapper.instance().missingReferences(template)).toEqual([])
+    })
+  })
+
   describe('schema valid', () => {
     describe('schema url in JSON', () => {
       const wrapper = shallow(<ImportFileZone />)
-      let schemaUrl; let
-        template
+      let schemaUrl
+      let template
 
       it('gets the schemaUrl from the resource-template', () => {
         template = require('../../__fixtures__/lcc_v0.2.0.json')
@@ -44,8 +145,11 @@ describe('<ImportFileZone />', () => {
       })
 
       it('displays resource template passing validation', async () => {
-        await wrapper.instance().promiseTemplateValidated(template, schemaUrl)
-        expect(wrapper.state().validTemplate).toBeTruthy()
+        template = require('../../__fixtures__/lcc_v0.2.0.json')
+        schemaUrl = wrapper.instance().schemaUrl(template)
+        const resolution = await wrapper.instance().promiseTemplateValidated(template, schemaUrl)
+
+        expect(resolution).toBeUndefined()
       })
 
       it('gets the schemaUrl from the profile', () => {
@@ -55,15 +159,18 @@ describe('<ImportFileZone />', () => {
       })
 
       it('displays profile passing validation', async () => {
-        await wrapper.instance().promiseTemplateValidated(template, schemaUrl)
-        expect(wrapper.state().validTemplate).toBeTruthy()
+        template = require('../../__fixtures__/place_profile_v0.2.0.json')
+        schemaUrl = wrapper.instance().schemaUrl(template)
+        const resolution = await wrapper.instance().promiseTemplateValidated(template, schemaUrl)
+
+        expect(resolution).toBeUndefined()
       })
     })
 
     describe('schema url not in JSON - default schemas used', () => {
       const wrapper = shallow(<ImportFileZone />)
-      let schemaUrl; let
-        template
+      let schemaUrl
+      let template
 
       it('gets the schemaUrl from the resource-template', () => {
         template = require('../../__fixtures__/lcc_no_schema_specified.json')
@@ -72,8 +179,11 @@ describe('<ImportFileZone />', () => {
       })
 
       it('displays resource template passing validation', async () => {
-        await wrapper.instance().promiseTemplateValidated(template, schemaUrl)
-        expect(wrapper.state().validTemplate).toBeTruthy()
+        template = require('../../__fixtures__/lcc_no_schema_specified.json')
+        schemaUrl = wrapper.instance().schemaUrl(template)
+        const resolution = await wrapper.instance().promiseTemplateValidated(template, schemaUrl)
+
+        expect(resolution).toBeUndefined()
       })
 
       it('gets the schemaUrl from the profile', () => {
@@ -83,16 +193,38 @@ describe('<ImportFileZone />', () => {
       })
 
       it('displays profile passing validation', async () => {
-        await wrapper.instance().promiseTemplateValidated(template, schemaUrl)
-        expect(wrapper.state().validTemplate).toBeTruthy()
+        template = require('../../__fixtures__/place_profile_no_schema_specified.json')
+        schemaUrl = wrapper.instance().schemaUrl(template)
+        const resolution = await wrapper.instance().promiseTemplateValidated(template, schemaUrl)
+
+        expect(resolution).toBeUndefined()
+      })
+    })
+
+    describe('missing references', () => {
+      const wrapper = shallow(<ImportFileZone />)
+      let schemaUrl
+      let template
+
+      afterEach(() => {
+        jest.restoreAllMocks()
+      })
+
+      it('returns an error when references are missing', () => {
+        jest.spyOn(wrapper.instance(), 'missingReferences').mockReturnValue(new Promise(resolve => resolve(['sinopia:RT:demo:1'])))
+        template = require('../../__fixtures__/lcc_no_schema_specified.json')
+        schemaUrl = wrapper.instance().schemaUrl(template)
+        return wrapper.instance().promiseTemplateValidated(template, schemaUrl).catch((err) => {
+          return expect(err.toString()).toMatch('Cannot import a resource template that references non-existent identifiers: sinopia:RT:demo:1')
+        })
       })
     })
   })
 
   describe('not schema valid', () => {
     const wrapper = shallow(<ImportFileZone />)
-    let schemaUrl; let
-      template
+    let schemaUrl
+    let template
 
     it('gets the schemaUrl from the resource-template', () => {
       template = require('../../__fixtures__/lcc_v0.2.0_invalid.json')
@@ -100,10 +232,11 @@ describe('<ImportFileZone />', () => {
       expect(schemaUrl).toEqual('https://ld4p.github.io/sinopia/schemas/0.2.0/resource-template.json')
     })
 
-    it('displays an error message when missing required property', async () => {
-      await wrapper.instance().promiseTemplateValidated(template, schemaUrl).catch((err) => {
-        expect(wrapper.state().validTemplate).toBeFalsy()
-        expect(err.toString()).toMatch('should have required property')
+    it('displays an error message when missing required property', () => {
+      template = require('../../__fixtures__/lcc_v0.2.0_invalid.json')
+      schemaUrl = wrapper.instance().schemaUrl(template)
+      return wrapper.instance().promiseTemplateValidated(template, schemaUrl).catch((err) => {
+        return expect(err.toString()).toMatch('should have required property')
       })
     })
 
@@ -113,18 +246,19 @@ describe('<ImportFileZone />', () => {
       expect(schemaUrl).toEqual('https://ld4p.github.io/sinopia/schemas/0.2.0/resource-template.json')
     })
 
-    it('displays an error message when the id is invalid', async () => {
-      await wrapper.instance().promiseTemplateValidated(template, schemaUrl).catch((err) => {
-        expect(wrapper.state().validTemplate).toBeFalsy()
-        expect(err.toString()).toMatch('should match pattern')
+    it('displays an error message when the id is invalid', () => {
+      template = require('../../__fixtures__/lcc_v0.2.0_bad_id.json')
+      schemaUrl = wrapper.instance().schemaUrl(template)
+      return wrapper.instance().promiseTemplateValidated(template, schemaUrl).catch((err) => {
+        return expect(err.toString()).toMatch('should match pattern')
       })
     })
   })
 
   describe('unfindable schema', () => {
     const wrapper = shallow(<ImportFileZone />)
-    let schemaUrl; let
-      template
+    let schemaUrl
+    let template
 
     it('gets the schemaUrl from the resource-template', () => {
       template = require('../../__fixtures__/edition_bad_schema.json')
@@ -132,10 +266,9 @@ describe('<ImportFileZone />', () => {
       expect(schemaUrl).toEqual('https://ld4p.github.io/sinopia/schemas/not-there.json')
     })
 
-    it('displays an error message', async () => {
-      await wrapper.instance().promiseTemplateValidated(template, schemaUrl).catch((err) => {
-        expect(wrapper.state().validTemplate).toBeFalsy()
-        expect(err.toString()).toMatch('Error: error getting json schemas')
+    it('displays an error message', () => {
+      return wrapper.instance().promiseTemplateValidated(template, schemaUrl).catch((err) => {
+        return expect(err.toString()).toMatch('Error: error getting json schemas')
       })
     })
   })

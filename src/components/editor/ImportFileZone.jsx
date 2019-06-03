@@ -4,7 +4,9 @@ import React, { Component } from 'react'
 import Dropzone from 'react-dropzone'
 import PropTypes from 'prop-types'
 import Ajv from 'ajv' // JSON schema validation
+import { JSONPath } from 'jsonpath-plus' // Identifier/reference validation
 import Config from '../../Config'
+import { resourceTemplateExists } from '../../sinopiaServer'
 
 const util = require('util')
 // for JSON schema validation errors
@@ -86,21 +88,47 @@ class ImportFileZone extends Component {
     return schemaUrl
   }
 
-  promiseTemplateValidated = (template, schemaUrl) => new Promise((resolve, reject) => {
-    this.promiseSchemasLoaded(schemaUrl)
-      .then(() => {
-        this.setState({ validTemplate: this.ajv.validate(schemaUrl, template) })
+  missingReferences = async (template) => {
+    const missing = []
+    const templateIdentifiers = JSONPath({
+      json: template,
+      path: '$..id',
+    })
+    const templateReferences = JSONPath({
+      json: template,
+      path: '$..valueTemplateRefs[*]',
+    })
 
-        if (!this.state.validTemplate) {
-          reject(new Error(`${util.inspect(this.ajv.errors)}`))
-        }
+    const referencesToLookup = templateReferences.filter(id => !templateIdentifiers.includes(id))
 
-        resolve() // w00t!
-      })
-      .catch((err) => {
-        reject(err)
-      })
-  })
+    for (const templateIdentifier of referencesToLookup) {
+      const exists = await resourceTemplateExists(templateIdentifier)
+
+      if (!exists) {
+        missing.push(templateIdentifier)
+      }
+    }
+
+    return missing
+  }
+
+  promiseTemplateValidated = (template, schemaUrl) => new Promise((resolve, reject) => this.promiseSchemasLoaded(schemaUrl)
+    .then(async () => {
+      const isValid = this.ajv.validate(schemaUrl, template)
+
+      if (!isValid) {
+        return reject(new Error(`${util.inspect(this.ajv.errors)}`))
+      }
+
+      const missingRefs = await this.missingReferences(template)
+
+      if (missingRefs.length > 0) {
+        return reject(new Error(`Cannot import a resource template that references non-existent identifiers: ${missingRefs.join(',')}`))
+      }
+
+      return resolve() // w00t!
+    })
+    .catch(err => reject(err)))
 
   promiseSchemasLoaded = schemaUrl => new Promise((resolve, reject) => {
     try {

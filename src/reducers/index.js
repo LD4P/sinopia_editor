@@ -21,13 +21,12 @@ const inputPropertySelector = (state, props) => {
 }
 
 /*
- * TODO: Renable use of reselect's createSelector, will need to adjust
+ * TODO: Re-enable use of reselect's createSelector, will need to adjust
  * individual components InputLiteral, InputLookupQA, InputListLOC, etc.,
  * see https://github.com/reduxjs/reselect#sharing-selectors-with-props-across-multiple-component-instances
  */
 export const getProperty = (state, props) => {
   const result = inputPropertySelector(state, props)
-
 
   return result.items || []
 }
@@ -56,7 +55,7 @@ export const populatePropertyDefaults = (propertyTemplate) => {
   if (propertyTemplate === undefined || propertyTemplate === null || Object.keys(propertyTemplate).length < 1) {
     return defaults
   }
-  if (propertyTemplate.valueConstraint.defaults && propertyTemplate.valueConstraint.defaults.length > 0) {
+  if (propertyTemplate?.valueConstraint?.defaults && propertyTemplate.valueConstraint.defaults.length > 0) {
     propertyTemplate.valueConstraint.defaults.map((row) => {
       defaults.push({
         id: makeShortID(),

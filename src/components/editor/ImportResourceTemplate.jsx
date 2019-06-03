@@ -50,7 +50,6 @@ class ImportResourceTemplate extends Component {
     try {
       const response = await createResourceTemplate(content, group, this.props.currentUser)
 
-
       return response.response
     } catch (error) {
       this.setState({
@@ -64,7 +63,6 @@ class ImportResourceTemplate extends Component {
   updateResource = async (content, group) => {
     try {
       const response = await updateResourceTemplate(content, group, this.props.currentUser)
-
 
       return response.response
     } catch (error) {

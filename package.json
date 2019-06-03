@@ -97,6 +97,7 @@
     "event-stream": "^4.0.1",
     "express": "^4.16.4",
     "identity-obj-proxy": "^3.0.0",
+    "jsonpath-plus": "^0.19.0",
     "lodash": "^4.17.11",
     "merge": "^1.2.1",
     "n3": "^1.1.1",

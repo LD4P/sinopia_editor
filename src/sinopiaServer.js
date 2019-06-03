@@ -24,6 +24,17 @@ const getResourceTemplateFromServer = (templateId, group) => {
   return instance.getResourceWithHttpInfo(group, templateId, { accept: 'application/json' })
 }
 
+export const resourceTemplateExists = async (templateId, group = Config.defaultSinopiaGroupId) => {
+  try {
+    const result = await instance.headResourceWithHttpInfo(group, templateId)
+
+    return result.response.ok
+  } catch (error) {
+    console.error(`error checking if ${templateId} exists: ${error}; returning true to be safe`)
+    return false
+  }
+}
+
 export const getResourceTemplate = (templateId, group) => {
   if (Config.spoofSinopiaServer) return spoofedGetResourceTemplate(templateId)
 
@@ -44,7 +55,6 @@ export const listResourcesInGroupContainer = (group) => {
 
 export const getEntityTagFromGroupContainer = async (group) => {
   const result = await instance.headGroupWithHttpInfo(group)
-
 
   return result.response.header.etag
 }
