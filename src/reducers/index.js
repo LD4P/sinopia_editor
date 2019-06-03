@@ -95,21 +95,24 @@ export const refreshResourceTemplate = (state, action) => {
 
 /**
  * Called when a resource template is loaded
+ * the body of the resource template is in `action.payload'
  */
 export const setResourceTemplate = (state, action) => {
-  const rtKey = action.payload.id
+  const resourceTemplateId = action.payload.id
   let output = state
 
   action.payload.propertyTemplates.forEach((property) => {
     const propertyAction = {
       payload: {
-        reduxPath: [rtKey, property.propertyURI],
+        reduxPath: [resourceTemplateId, property.propertyURI],
         property,
       },
     }
 
     output = refreshResourceTemplate(output, propertyAction)
   })
+
+  output[resourceTemplateId].rdfClass = action.payload.resourceURI
 
   return output
 }

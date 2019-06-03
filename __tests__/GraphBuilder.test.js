@@ -7,6 +7,7 @@ const rdf = require('rdf-ext')
 describe('GraphBuilder', () => {
   const state = {
     'resourceTemplate:bf2:Monograph:Work': {
+      rdfClass: 'http://id.loc.gov/ontologies/bibframe/Work',
       'http://id.loc.gov/ontologies/bibframe/title': {},
       'http://id.loc.gov/ontologies/bibframe/temporalCoverage': {},
       'http://id.loc.gov/ontologies/bibframe/note': {},
@@ -67,7 +68,7 @@ describe('GraphBuilder', () => {
 
     const typeTriple = rdf.quad(rdf.namedNode(''),
       rdf.namedNode('http://www.w3.org/1999/02/22-rdf-syntax-ns#type'),
-      rdf.literal('resourceTemplate:bf2:Monograph:Work'))
+      rdf.namedNode('http://id.loc.gov/ontologies/bibframe/Work'))
 
     expect(graph.has(typeTriple)).toBeTruthy()
 
