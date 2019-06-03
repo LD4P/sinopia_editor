@@ -72,6 +72,7 @@ module.exports = {
     "new-cap": "off",
     "camelcase": "off",
     "no-sync": "off",
+    "no-continue": "off",
     "global-require": "off",
     "require-jsdoc": "off",
     "valid-jsdoc": "off",
