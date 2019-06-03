@@ -7,7 +7,8 @@ import { removeAllItems } from '../../actions/index'
 import ResourceTemplate from './ResourceTemplate'
 import Header from './Header'
 import RDFModal from './RDFModal'
-import { getCurrentSession } from '../../authSelectors'
+import { getCurrentSession, getCurrentUser } from '../../authSelectors'
+import { publishRDFResource } from '../../sinopiaServer'
 
 const _ = require('lodash')
 
@@ -46,6 +47,11 @@ class Editor extends Component {
     this.setState({ showRdf: false })
   }
 
+  handleRdfSave = async (rdf) => {
+    await publishRDFResource(this.props.currentUser, this.state.group, rdf)
+    this.handleRdfClose()
+  }
+
   renderResourceTemplate = () => (
     <ResourceTemplate resourceTemplateId = {this.state.resourceTemplateId} />
   )
@@ -71,6 +77,7 @@ class Editor extends Component {
         </div>
         <div>
           <RDFModal show={this.state.showRdf}
+                    save={this.handleRdfSave}
                     close={this.handleRdfClose}/>
         </div>
         { _.isEmpty(this.state.resourceTemplateId) ? (<div>Loading resource template...</div>) : this.renderResourceTemplate() }
@@ -80,17 +87,18 @@ class Editor extends Component {
 }
 
 Editor.propTypes = {
-  children: PropTypes.array,
   triggerHandleOffsetMenu: PropTypes.func,
   resetStore: PropTypes.func,
   location: PropTypes.object,
   resourceTemplateId: PropTypes.string,
   history: PropTypes.object,
   currentSession: PropTypes.object,
+  currentUser: PropTypes.object,
 }
 
 const mapStateToProps = state => ({
   currentSession: getCurrentSession(state),
+  currentUser: getCurrentUser(state),
 })
 
 const mapDispatchToProps = dispatch => ({
