@@ -24,13 +24,25 @@ export default class GraphBuilder {
 
     // Is there ever more than one base node?
     Object.keys(this.state).forEach((key) => {
-      /*
-       * We're sending the template ID in place of the type (2nd argument) temporarily
-       * because we don't have the type URI in the Redux state yet
-       */
-      this.buildTriplesForNode(baseURI, rdf.literal(key), this.state[key])
+      this.buildTriplesForNode(baseURI, rdf.namedNode(this.state[key].rdfClass), this.getPredicateList(key))
     })
     return this.dataset
+  }
+
+  /**
+   * Filter out the non-predicate values (e.g. rdfClass)
+   * @param {string} key
+   * @return {Array.<Object>} the predicate InputListLOC
+   */
+  getPredicateList(key) {
+    const predicateList = {}
+
+    Object.keys(this.state[key]).forEach((predicateKey) => {
+      if (predicateKey != 'rdfClass') {
+        predicateList[predicateKey] = this.state[key][predicateKey]
+      }
+    })
+    return predicateList
   }
 
   /**

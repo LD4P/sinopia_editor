@@ -94,6 +94,7 @@ describe('Takes a resource template ID and populates the global state', () => {
       type: 'SET_RESOURCE_TEMPLATE',
       payload: {
         id: 'resourceTemplate:bf2:Monograph:Instance',
+        resourceURI: 'http://id.loc.gov/ontologies/bibframe/Instance',
         propertyTemplates: samplePropertyTemplate,
       },
     })
@@ -103,6 +104,7 @@ describe('Takes a resource template ID and populates the global state', () => {
     expect(result.selectorReducer).toMatchObject({
       'resourceTemplate:bf2:Monograph:Instance':
       {
+        rdfClass: 'http://id.loc.gov/ontologies/bibframe/Instance',
         'http://id.loc.gov/ontologies/bibframe/instanceOf': {},
         'http://id.loc.gov/ontologies/bibframe/issuance':
           {
