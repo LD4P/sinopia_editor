@@ -56,6 +56,7 @@ export class PropertyComponent extends Component {
           case 'literal':
             result = (<InputLiteral key={keyId} id={keyId}
                                     propertyTemplate={property}
+                                    resourceURI={this.props.resourceURI}
                                     reduxPath={reduxPath} />)
             break
           default:
@@ -90,6 +91,7 @@ PropertyComponent.propTypes = {
     }),
   }).isRequired,
   reduxPath: PropTypes.array.isRequired,
+  resourceURI: PropTypes.string,
   index: PropTypes.number,
 }
 

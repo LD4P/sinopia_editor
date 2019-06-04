@@ -82,6 +82,9 @@ export class PropertyTemplateOutline extends Component {
     })
   }
 
+  /*
+   * This is fired when the expand/collapse button is clicked
+   */
   addPropertyTypeRows = (property) => {
     let existingJsx; let
       propertyJsx
@@ -96,7 +99,10 @@ export class PropertyTemplateOutline extends Component {
                                       handleAddClick={this.handleAddClick}
                                       addButtonDisabled={isAddDisabled} />
     } else {
-      propertyJsx = <PropertyComponent index={0} propertyTemplate={property} reduxPath={this.props.reduxPath} />
+      propertyJsx = <PropertyComponent index={0}
+                                       propertyTemplate={property}
+                                       reduxPath={this.props.reduxPath}
+                                       resourceURI={this.props.resourceURI}/>
     }
 
     newOutput.forEach((propertyJsx) => {
@@ -144,6 +150,7 @@ PropertyTemplateOutline.propTypes = {
   isRequired: PropTypes.func,
   propertyTemplate: PropTypes.object,
   reduxPath: PropTypes.array,
+  resourceURI: PropTypes.string,
   rtId: PropTypes.string,
 }
 

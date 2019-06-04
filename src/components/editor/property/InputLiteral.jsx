@@ -83,6 +83,7 @@ export class InputLiteral extends Component {
       const user_input = {
         uri: this.props.propertyTemplate.propertyURI,
         reduxPath: this.props.reduxPath,
+        resourceURI: this.props.resourceURI,
         items: userInputArray,
       }
 
@@ -159,6 +160,7 @@ export class InputLiteral extends Component {
   dispLang = (content) => {
     const newState = store.getState()
     const index = newState.lang.formData.map(o => o.id).indexOf(content)
+
     let newLang
 
     try {
@@ -260,6 +262,7 @@ InputLiteral.propTypes = {
   blankNodeForLiteral: PropTypes.object,
   propPredicate: PropTypes.string,
   setDefaultsForLiteralWithPayLoad: PropTypes.func,
+  resourceURI: PropTypes.string,
   defaultsForLiteral: PropTypes.func,
 }
 

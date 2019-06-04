@@ -4,6 +4,9 @@ import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 import shortid from 'shortid'
 
+/**
+ * Represents a single input field. E.g. "Prefered title for work"
+ */
 export class PropertyTypeRow extends Component {
   constructor(props) {
     super(props)

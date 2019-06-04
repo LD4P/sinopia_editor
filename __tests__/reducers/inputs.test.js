@@ -1,4 +1,5 @@
 // Copyright 2018 Stanford University see LICENSE for license
+/* eslint max-lines: 0 */ // --> OFF
 
 import {
   removeAllContent, removeMyItem, setMyItems, setMySelections,
@@ -72,9 +73,15 @@ describe('literal reducer functions', () => {
 
   it('SET_ITEMS creates intermediate objects in the Redux state if present in reduxPath', () => {
     const createPersonResult = setMyItems({
-      'resourceTemplate:Monograph:Instance': {
-        abcdeCode: {
-          'http://schema.org/name': 'A fun name',
+      'resourceTemplate:bf2:Monograph:Work': {
+        'http://id.loc.gov/ontologies/bibframe/title': {
+          Cpy84cimY3: {
+            'resourceTemplate:bf2:WorkTitle': {
+              'aW-DOjjC-P': {
+                'http://schema.org/name': 'A fun name',
+              },
+            },
+          },
         },
       },
     },
@@ -83,21 +90,29 @@ describe('literal reducer functions', () => {
       payload: {
         rtId: 'resourceTemplate:Monograph:Instance',
         uri: 'http://schema.org/description',
-        reduxPath: ['resourceTemplate:Monograph:Instance',
-          'abcdeCode',
-          'http://schema.org/Person',
-          'http://schema.org/givenName'],
+        reduxPath: ['resourceTemplate:bf2:Monograph:Work',
+          'http://id.loc.gov/ontologies/bibframe/title',
+          'Cpy84cimY3',
+          'resourceTemplate:bf2:WorkTitle',
+          'aW-DOjjC-P',
+          'http://id.loc.gov/ontologies/bibframe/mainTitle'],
         items: [{ id: 2, content: 'Melissa' }],
+        resourceURI: 'http://id.loc.gov/ontologies/bibframe/Instance',
       },
     })
 
     expect(createPersonResult).toEqual({
-      'resourceTemplate:Monograph:Instance': {
-        abcdeCode: {
-          'http://schema.org/name': 'A fun name',
-          'http://schema.org/Person': {
-            'http://schema.org/givenName': {
-              items: [{ id: 2, content: 'Melissa' }],
+      'resourceTemplate:bf2:Monograph:Work': {
+        'http://id.loc.gov/ontologies/bibframe/title': {
+          Cpy84cimY3: {
+            'resourceTemplate:bf2:WorkTitle': {
+              'aW-DOjjC-P': {
+                'http://schema.org/name': 'A fun name',
+                'http://id.loc.gov/ontologies/bibframe/mainTitle': {
+                  items: [{ id: 2, content: 'Melissa' }],
+                },
+              },
+              rdfClass: 'http://id.loc.gov/ontologies/bibframe/Instance',
             },
           },
         },

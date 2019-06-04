@@ -24,7 +24,7 @@ export default class GraphBuilder {
 
     // Is there ever more than one base node?
     Object.keys(this.state).forEach((key) => {
-      this.buildTriplesForNode(baseURI, rdf.namedNode(this.state[key].rdfClass), this.getPredicateList(key))
+      this.buildTriplesForNode(baseURI, rdf.namedNode(this.state[key].rdfClass), this.getPredicateList(key, this.state))
     })
     return this.dataset
   }
@@ -32,14 +32,15 @@ export default class GraphBuilder {
   /**
    * Filter out the non-predicate values (e.g. rdfClass)
    * @param {string} key
-   * @return {Array.<Object>} the predicate InputListLOC
+   * @param {Object} tree
+   * @return {Object} the predicate InputListLOC
    */
-  getPredicateList(key) {
+  getPredicateList(key, tree) {
     const predicateList = {}
 
-    Object.keys(this.state[key]).forEach((predicateKey) => {
+    Object.keys(tree[key]).forEach((predicateKey) => {
       if (predicateKey != 'rdfClass') {
-        predicateList[predicateKey] = this.state[key][predicateKey]
+        predicateList[predicateKey] = tree[key][predicateKey]
       }
     })
     return predicateList
@@ -49,15 +50,17 @@ export default class GraphBuilder {
    * @param {rdf.Term} baseURI
    * @param {Object} value looks something like this:
    *   { 'resourceTemplate:bf2:Note':
-   *     { '67Bm64T0p2s': { 'http://www.w3.org/2000/01/rdf-schema#label': [Object] },
+   *     { 'rdfClass: 'http://id.loc.gov/ontologies/bibframe/Instance',
+   * '67Bm64T0p2s': { 'http://www.w3.org/2000/01/rdf-schema#label': [Object] },
    *       '555m64M0f3z': { 'http://www.w3.org/2000/01/rdf-schema#label': [Object] } } }
    */
   buildTriplesForNestedObject(baseURI, value) {
     // Is there ever more than one base node?
     for (const key in value) {
       Object.keys(value[key]).forEach((predicateListKey) => {
-        // we don't have a resourceURI to send as the second argument in the propertyTemplates yet.
-        this.buildTriplesForNode(baseURI, null, value[key][predicateListKey])
+        if (predicateListKey !== 'rdfClass') {
+          this.buildTriplesForNode(baseURI, rdf.namedNode(value[key].rdfClass), value[key][predicateListKey])
+        }
       })
     }
   }

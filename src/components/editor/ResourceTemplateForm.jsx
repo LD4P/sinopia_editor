@@ -57,7 +57,7 @@ export class ResourceTemplateForm extends Component {
     if (rtIds === null || rtIds === undefined) {
       return rtProperties
     }
-    rtIds.map((rtId, i) => {
+    rtIds.forEach((rtId, i) => {
       const rt = this.rtForPt(rtId)
 
       if (rt !== undefined) {

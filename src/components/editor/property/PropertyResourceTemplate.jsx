@@ -37,6 +37,7 @@ class PropertyResourceTemplate extends Component {
       newOutput.push(<PropertyTemplateOutline
                       propertyTemplate={property}
                       rtId={this.props.resourceTemplate.id}
+                      resourceURI={this.props.resourceTemplate.resourceURI}
                       reduxPath={newReduxPath}
                       key={keyId} />)
     })

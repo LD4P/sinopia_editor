@@ -3,6 +3,7 @@
 export const removeAllContent = (state, action) => {
   const newState = { ...state }
   const reduxPath = action.payload.reduxPath
+
   let level = 0
 
   reduxPath.reduce((obj, key) => {
@@ -20,10 +21,15 @@ export const removeAllContent = (state, action) => {
 export const setMyItems = (state, action) => {
   const newState = { ...state }
   const reduxPath = action.payload.reduxPath
+
   let level = 0
 
   reduxPath.reduce((obj, key) => {
     level++
+    if (!Object.keys(obj).includes(key)) {
+      obj[key] = {}
+    }
+
     if (level === reduxPath.length) {
       if ((key in obj) != true || !Object.keys(obj[key]).includes('items')) {
         obj[key] = { items: [] }
@@ -31,9 +37,8 @@ export const setMyItems = (state, action) => {
       action.payload.items.map((row) => {
         obj[key].items.push(row)
       })
-    }
-    if (!Object.keys(obj).includes(key)) {
-      obj[key] = {}
+    } else if (level === reduxPath.length - 2) {
+      obj[key].rdfClass = action.payload.resourceURI
     }
 
     return obj[key]
@@ -45,6 +50,7 @@ export const setMyItems = (state, action) => {
 export const setMySelections = (state, action) => {
   const newState = { ...state }
   const reduxPath = action.payload.reduxPath
+
   let level = 0
 
   reduxPath.reduce((obj, key) => {
@@ -65,6 +71,7 @@ export const setMySelections = (state, action) => {
 export const removeMyItem = (state, action) => {
   const newState = { ...state }
   const reduxPath = action.payload.reduxPath
+
   let level = 0
 
   reduxPath.reduce((obj, key) => {
