@@ -1,27 +1,12 @@
 // Copyright 2018 Stanford University see LICENSE for license
 
 import 'jsdom-global/register'
+import 'isomorphic-fetch'
 import React from 'react'
 import { mount, shallow } from 'enzyme'
 import DropZone from 'react-dropzone'
 import ImportFileZone from '../../../src/components/editor/ImportFileZone'
 import Config from '../../../src/Config'
-
-require('isomorphic-fetch')
-
-/*
- * NOTE: Your editor may bark at you about isomorphic-fetch being an extraneous require. Removing this line, however, causes test failures that look like the following:
- *
- * TypeError: err.indexOf is not a function
- *
- *                     })
- *                     .catch(err => {
- *                       if (err.indexOf('already exists') > 0)
- *                               ^
- *                         resolve()
- *                       else
- *                         reject(new Error(`error getting json schemas ${err}`))
- */
 
 describe('<ImportFileZone />', () => {
   it('has an upload button', () => {

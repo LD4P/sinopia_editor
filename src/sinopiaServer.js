@@ -78,3 +78,19 @@ export const updateResourceTemplate = async (templateObject, group, currentUser)
 
   return await instance.updateResourceWithHttpInfo(group, templateObject.id, templateObject, { contentType: 'application/json' })
 }
+
+export const publishRDFResource = (currentUser, group, rdf) => {
+  alert(`Your data would be saved in the ${group || 'group'} container, if we supported that yet!`)
+
+  // we will have to transform the rdf to jsonLD somewhere
+  const jsonLD = rdf
+
+  /*
+   * Right now just return the fake data; eventually this will be the server response below...
+   * eventually we will try to authenticate the user and save the resource to trellis with something like:
+   *
+   * await authenticate(currentUser)
+   * return await instance.createResourceWithHttpInfo(group, rdf, { slug: jsonLD['@graph'][0]['@id'], contentType: 'application/ld+json' })
+   */
+  return jsonLD
+}
