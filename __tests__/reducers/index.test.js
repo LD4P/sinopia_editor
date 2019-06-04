@@ -74,6 +74,17 @@ describe('Takes a resource template ID and populates the global state', () => {
     },
   ]
 
+  const propertyTemplateWithoutConstraint = [
+    {
+      propertyLabel: 'LITERAL WITH DEFAULT',
+      propertyURI: 'http://id.loc.gov/ontologies/bibframe/heldBy',
+      resourceTemplates: [],
+      type: 'literal',
+      mandatory: 'false',
+      repeatable: 'true',
+    },
+  ]
+
   it('handles the initial state', () => {
     expect(
       selectorReducer(undefined, {}),
@@ -127,6 +138,28 @@ describe('Takes a resource template ID and populates the global state', () => {
       },
     })
   })
+
+  it('allows SET_RESOURCE_TEMPLATE on templates without valueConstraint', () => {
+    shortid.generate = jest.fn().mockReturnValue(0)
+    const result = selectorReducer({
+      selectorReducer: {},
+    }, {
+      type: 'SET_RESOURCE_TEMPLATE',
+      payload: {
+        id: 'resourceTemplate:bf2:Monograph:Instance',
+        propertyTemplates: propertyTemplateWithoutConstraint,
+      },
+    })
+
+    expect(result.selectorReducer).toMatchObject({
+      'resourceTemplate:bf2:Monograph:Instance':
+      {
+        'http://id.loc.gov/ontologies/bibframe/heldBy':
+          {},
+      },
+    })
+  })
+
 
   it('passing a payload to an empty state', () => {
     const emptyStateResult = refreshResourceTemplate({}, {

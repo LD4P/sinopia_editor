@@ -137,6 +137,13 @@ module.exports = {
   },
   overrides: [
     {
+      // Allow tests to include block statements (idiomatic Jest style)
+      "files": ["__tests__/**"],
+      "rules": {
+        "arrow-body-style": "off"
+      }
+    },
+    {
       // Allow integration tests to use `page` global variable defined by puppeteer
       "files": ["__tests__/integration/**"],
       "rules": {
