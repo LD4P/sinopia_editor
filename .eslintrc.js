@@ -164,6 +164,13 @@ module.exports = {
         "react/display-name": "warn",
         "react/prop-types": "warn"
       }
-    }
+    },
+    {
+      // Remove limits on number of lines in test files
+      "files": ["__tests__/**"],
+      "rules": {
+        "max-lines": "off"
+      }
+    },
   ]
 }
