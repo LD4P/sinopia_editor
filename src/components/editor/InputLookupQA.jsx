@@ -103,7 +103,7 @@ class InputLookupQA extends Component {
     const lookupConfigs = this.props.lookupConfig
 
     const isMandatory = booleanPropertyFromTemplate(this.props.propertyTemplate, 'mandatory', false)
-    const isRepeatable = booleanPropertyFromTemplate(this.props.propertyTemplate.valueConstraint, 'repeatable', true)
+    const isRepeatable = booleanPropertyFromTemplate(this.props.propertyTemplate, 'repeatable', true)
 
     const typeaheadProps = {
       id: 'lookupComponent',
