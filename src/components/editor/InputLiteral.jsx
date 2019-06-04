@@ -20,6 +20,7 @@ export class InputLiteral extends Component {
       content_add: '',
       disabled: false,
     }
+    this.inputLiteralRef = React.createRef()
   }
 
   componentDidMount = () => {
@@ -93,7 +94,7 @@ export class InputLiteral extends Component {
     }
   }
 
-  handleItemClick = (event) => {
+  handleDeleteClick = (event) => {
     const labelToRemove = event.target.dataset.content
     const idToRemove = event.target.dataset.item
 
@@ -107,6 +108,22 @@ export class InputLiteral extends Component {
     )
     this.setState({ disabled: false })
   }
+
+  handleEditClick = (event) => {
+    const idToRemove = event.target.dataset.item
+
+    this.props.formData.items.forEach((item) => {
+      if (item.id == idToRemove) {
+        const itemContent = item.content
+
+        this.setState({ content_add: itemContent })
+      }
+    })
+
+    this.handleDeleteClick(event)
+    this.inputLiteralRef.current.focus()
+  }
+
 
   checkMandatoryRepeatable = () => {
     if (this.props.propertyTemplate.mandatory == 'true') {
@@ -170,13 +187,22 @@ export class InputLiteral extends Component {
       return <div id="userInput" key = {itemId} >
         {obj.content}
         <button
-          id="displayedItem"
+          id="deleteItem"
           type="button"
-          onClick={this.handleItemClick}
-          key={obj.id}
+          onClick={this.handleDeleteClick}
+          key={`delete${obj.id}`}
           data-item={itemId}
           data-label={formInfo.uri}
         >X
+        </button>
+        <button
+          id="editItem"
+          type="button"
+          onClick={this.handleEditClick}
+          key={`edit${obj.id}`}
+          data-item={itemId}
+          data-label={formInfo.uri}
+        >Edit
         </button>
         <Button
           bsSize="small"
@@ -201,8 +227,9 @@ export class InputLiteral extends Component {
               onKeyPress={this.handleKeypress}
               value={this.state.content_add}
               disabled={this.state.disabled}
-              id={`typeLiteral${this.props.id}`}
+              id={this.props.id}
               onClick={this.handleFocus}
+              ref={this.inputLiteralRef}
         />
         {this.makeAddedList()}
       </div>

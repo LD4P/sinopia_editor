@@ -68,7 +68,7 @@ describe('When the user enters input into field', () => {
   const removeMockDataFn = jest.fn()
 
   shortid.generate = jest.fn().mockReturnValue(0)
-  const mock_wrapper = shallow(<InputLiteral {...plProps} id={11}
+  const mock_wrapper = shallow(<InputLiteral {...plProps} id={'11'}
                                              rtId={'resourceTemplate:bf2:Monograph:Instance'}
                                              reduxPath={
                                                [
@@ -77,7 +77,7 @@ describe('When the user enters input into field', () => {
                                                ]
                                              }
                                              handleMyItemsChange={mockFormDataFn}
-                                             handleRemoveItem={removeMockDataFn}/>)
+                                             handleRemoveItem={removeMockDataFn} />)
 
   // Make sure spies/mocks don't leak between tests
   afterAll(() => {
@@ -85,7 +85,7 @@ describe('When the user enters input into field', () => {
   })
 
   it('has an id value as a unique property', () => {
-    expect(mock_wrapper.find('input').prop('id')).toEqual('typeLiteral11')
+    expect(mock_wrapper.find('input').prop('id')).toEqual('11')
   })
 
   it('calls handleMyItemsChange function', () => {
@@ -189,7 +189,7 @@ describe('When the user enters input into field', () => {
     mock_wrapper.instance().props.propertyTemplate.repeatable = 'false'
     mock_wrapper.instance().forceUpdate()
     mock_wrapper.setProps({ formData: { id: 1, uri: 'http://id.loc.gov/ontologies/bibframe/instanceOf', items: [{ content: 'foo', id: 4 }] } })
-    expect(mock_wrapper.find('div#userInput').text()).toEqual('fooX<Button /><Modal />') // contains X as a button to delete the input
+    expect(mock_wrapper.find('div#userInput').text()).toEqual('fooXEdit<Button /><Modal />') // contains X and Edit as buttons
     mock_wrapper.setProps({ formData: undefined }) // reset props for next test
     mockFormDataFn.mock.calls = [] // reset the redux store to empty
   })
@@ -197,10 +197,26 @@ describe('When the user enters input into field', () => {
   it('should call the removeMockDataFn when X is clicked', () => {
     mock_wrapper.setProps({ formData: { id: 1, uri: 'http://id.loc.gov/ontologies/bibframe/instanceOf', items: [{ content: 'test', id: 5 }] } })
     expect(removeMockDataFn.mock.calls.length).toEqual(0)
-    mock_wrapper.find('button#displayedItem').first().simulate('click', { target: { dataset: { item: 5 } } })
+    mock_wrapper.find('button#deleteItem').first().simulate('click', { target: { dataset: { item: 5 } } })
     expect(removeMockDataFn.mock.calls.length).toEqual(1)
     mockFormDataFn.mock.calls = []
   })
+
+  it('should call the removeMockDataFn and mockFormDataFn when Edit is clicked', () => {
+    removeMockDataFn.mock.calls = []
+    expect(mock_wrapper.instance().inputLiteralRef).toEqual({ current: null })
+    const mockFocusFn = jest.fn()
+
+    mock_wrapper.instance().inputLiteralRef.current = { focus: mockFocusFn }
+
+    mock_wrapper.setProps({ formData: { id: 1, uri: 'http://id.loc.gov/ontologies/bibframe/instanceOf', items: [{ content: 'test', id: 5 }] } })
+    expect(removeMockDataFn.mock.calls.length).toEqual(0)
+    mock_wrapper.find('button#editItem').first().simulate('click', { target: { dataset: { item: 5 } } })
+    expect(mock_wrapper.state('content_add')).toEqual('test')
+    expect(removeMockDataFn.mock.calls.length).toEqual(1)
+    expect(mockFocusFn.mock.calls.length).toEqual(1)
+  })
+
 
   it('shows the <InputLang> modal when the <Button/> is clicked', () => {
     mock_wrapper.setProps({ formData: { id: 1, uri: 'http://id.loc.gov/ontologies/bibframe/instanceOf', items: [{ content: 'test', id: 6 }] } })
@@ -272,7 +288,7 @@ describe('when there is a default literal value in the property template', () =>
     })
 
     it('input no longer disabled if item is removed when repeatable="false"', () => {
-      nonrepeat_wrapper.find('button#displayedItem').first().simulate('click', { target: { dataset: { item: 0 } } })
+      nonrepeat_wrapper.find('button#deleteItem').first().simulate('click', { target: { dataset: { item: 0 } } })
       expect(nonrepeat_wrapper.find('input').props().disabled).toBeFalsy()
     })
   })
