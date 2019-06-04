@@ -10,11 +10,10 @@ const plProps = {
   propertyTemplate:
     {
       mandatory: 'false',
-      repeatable: 'true',
+      repeatable: 'false',
       type: 'lookup',
       resourceTemplates: [],
       valueConstraint: {
-        repeatable: 'true',
         valueTemplateRefs: [],
         useValuesFrom: [
           'lookupQaLocNames',
@@ -113,7 +112,7 @@ describe('<InputLookupQA />', () => {
   })
 
   it('sets the typeahead component multiple attribute according to the repeatable property from the template', () => {
-    expect(wrapper.find('#lookupComponent').props().multiple).toBeTruthy()
+    expect(wrapper.find('#lookupComponent').props().multiple).toBeFalsy()
   })
 
   describe('default values', () => {
