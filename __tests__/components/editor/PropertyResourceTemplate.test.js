@@ -49,7 +49,7 @@ describe('<PropertyResourceTemplate />', () => {
     )
   })
 
-  describe('<PropertyResourceTemplate /> has the "Add Click" and "Mint URI" buttons', () => {
+  describe('<PropertyResourceTemplate /> has the "Add Click" button', () => {
     const wrapper = shallow(<PropertyResourceTemplate {...propertyRtProps} />)
     const actionButtons = wrapper.find(PropertyActionButtons)
 
@@ -62,13 +62,6 @@ describe('<PropertyResourceTemplate />', () => {
 
       actionButtons.props().handleAddClick(addEvent)
       expect(addEvent.preventDefault.mock.calls.length).toBe(1)
-    })
-
-    it('handles "Mint URI" button click', () => {
-      const mintEvent = { preventDefault: jest.fn() }
-
-      actionButtons.props().handleMintUri(mintEvent)
-      expect(mintEvent.preventDefault.mock.calls.length).toBe(1)
     })
   })
 

@@ -59,13 +59,6 @@ export class PropertyTemplateOutline extends Component {
     this.setState({ propertyTypeRow: propertyTypeRows.concat(output) })
   }
 
-  handleMintUri = (event) => {
-    event.preventDefault()
-    if (this.props.handleMintUri !== undefined) {
-      this.props.handleMintUri(event)
-    }
-  }
-
   fulfillRTPromises = async promiseAll => await promiseAll.then((rts) => {
     rts.map((rt) => {
       const joinedRts = [...this.state.nestedResourceTemplates]
@@ -101,8 +94,7 @@ export class PropertyTemplateOutline extends Component {
                                       reduxPath={this.props.reduxPath}
                                       nestedResourceTemplates={this.state.nestedResourceTemplates}
                                       handleAddClick={this.handleAddClick}
-                                      addButtonDisabled={isAddDisabled}
-                                      handleMintUri={this.props.handleMintUri} />
+                                      addButtonDisabled={isAddDisabled} />
     } else {
       propertyJsx = <PropertyComponent index={0} propertyTemplate={property} reduxPath={this.props.reduxPath} />
     }
@@ -117,7 +109,6 @@ export class PropertyTemplateOutline extends Component {
         <PropertyTypeRow
           key={shortid.generate()}
           handleAddClick={this.props.handleAddClick}
-          handleMintUri={this.props.handleMintUri}
           reduxPath={this.props.reduxPath}
           addButtonDisabled={this.props.addButtonDisabled}
           propertyTemplate={property}>
@@ -148,7 +139,6 @@ export class PropertyTemplateOutline extends Component {
 PropertyTemplateOutline.propTypes = {
   addButtonDisabled: PropTypes.bool,
   handleAddClick: PropTypes.func,
-  handleMintUri: PropTypes.func,
   handleCollapsed: PropTypes.func,
   initNewResourceTemplate: PropTypes.func,
   isRequired: PropTypes.func,
