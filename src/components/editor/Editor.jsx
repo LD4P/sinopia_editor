@@ -7,8 +7,10 @@ import { removeAllItems } from '../../actions/index'
 import ResourceTemplate from './ResourceTemplate'
 import Header from './Header'
 import RDFModal from './RDFModal'
+import GroupChoiceModal from './GroupChoiceModal'
 import { getCurrentSession, getCurrentUser } from '../../authSelectors'
 import { publishRDFResource } from '../../sinopiaServer'
+import { getAllRdf } from '../../reducers/index'
 
 const _ = require('lodash')
 
@@ -22,6 +24,7 @@ class Editor extends Component {
       tempRtState: true,
       resourceTemplateId: '',
       showRdf: false,
+      showGroupChooser: false,
     }
   }
 
@@ -42,19 +45,27 @@ class Editor extends Component {
     this.setState({ showRdf: true })
   }
 
-  // NOTE: it's possible these handle methods for RDFModal could live in RDFModal component
   handleRdfClose = () => {
     this.setState({ showRdf: false })
   }
 
-  handleRdfSave = async (rdf) => {
-    await publishRDFResource(this.props.currentUser, this.state.group, rdf)
-    this.handleRdfClose()
+  handleRdfSave = () => {
+    this.setState({ showGroupChooser: true })
   }
 
   renderResourceTemplate = () => (
     <ResourceTemplate resourceTemplateId = {this.state.resourceTemplateId} />
   )
+
+  chooseGroupThenSave = (rdf, group) => {
+    publishRDFResource(this.props.currentUser, rdf, group)
+    this.handleRdfClose()
+    this.closeGroupChooser()
+  }
+
+  closeGroupChooser = () => {
+    this.setState({ showGroupChooser: false })
+  }
 
   render() {
     let authenticationMessage = <div className="alert alert-warning alert-dismissible">
@@ -72,13 +83,20 @@ class Editor extends Component {
         { authenticationMessage }
         <div className="row">
           <section className="col-md-3" style={{ float: 'right' }}>
-            <button type="button" className="btn btn-primary btn-sm" onClick={this.handleRdfShow}>Preview RDF</button>
+            <button type="button" className="btn btn-primary btn-sm" onClick={ this.handleRdfShow }>Preview RDF</button>
           </section>
         </div>
         <div>
-          <RDFModal show={this.state.showRdf}
-                    save={this.handleRdfSave}
-                    close={this.handleRdfClose}/>
+          <RDFModal show={ this.state.showRdf }
+                    save={ () => this.handleRdfSave() }
+                    close={ this.handleRdfClose }
+                    rdf={ this.props.rdf } />
+        </div>
+        <div>
+          <GroupChoiceModal show={ this.state.showGroupChooser }
+                            rdf={this.props.rdf}
+                            close={ this.closeGroupChooser }
+                            save={ this.chooseGroupThenSave }/>
         </div>
         { _.isEmpty(this.state.resourceTemplateId) ? (<div>Loading resource template...</div>) : this.renderResourceTemplate() }
       </div>
@@ -94,11 +112,13 @@ Editor.propTypes = {
   history: PropTypes.object,
   currentSession: PropTypes.object,
   currentUser: PropTypes.object,
+  rdf: PropTypes.object,
 }
 
-const mapStateToProps = state => ({
+const mapStateToProps = (state, props) => ({
   currentSession: getCurrentSession(state),
   currentUser: getCurrentUser(state),
+  rdf: getAllRdf(state, props),
 })
 
 const mapDispatchToProps = dispatch => ({

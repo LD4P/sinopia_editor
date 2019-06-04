@@ -79,11 +79,16 @@ export const updateResourceTemplate = async (templateObject, group, currentUser)
   return await instance.updateResourceWithHttpInfo(group, templateObject.id, templateObject, { contentType: 'application/json' })
 }
 
-export const publishRDFResource = (currentUser, group, rdf) => {
-  alert(`Your data would be saved in the ${group || 'group'} container, if we supported that yet!`)
+export const publishRDFResource = (currentUser, rdf, group) => {
+  alert(`Your data would be saved in the "${group}" group container, if we supported that yet!`)
 
-  // we will have to transform the rdf to jsonLD somewhere
   const jsonLD = rdf
+
+  /*
+   * we will have to transform the rdf to jsonLD somewhere
+   * just to prove that the rdf gets here...
+   */
+  console.log('RDF is Here!', jsonLD)
 
   /*
    * Right now just return the fake data; eventually this will be the server response below...

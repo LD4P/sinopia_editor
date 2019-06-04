@@ -53,7 +53,7 @@ describe('sinopiaServer', () => {
 
     it('currently just puts up an alert and returns the rdf', () => {
       global.alert = jest.fn()
-      const create = sinopiaServer.publishRDFResource(mockCurrentUser, undefined, rdf)
+      const create = sinopiaServer.publishRDFResource(mockCurrentUser, rdf, undefined)
 
       expect(create).toEqual(rdf)
       expect(global.alert.mock.calls.length).toEqual(1)

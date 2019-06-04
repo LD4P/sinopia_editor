@@ -71,6 +71,22 @@ class Config {
   static get maxRecordsForQALookups() {
     return process.env.MAX_RECORDS_FOR_QA_LOOKUPS || 8
   }
+
+  static get groupsInSinopia() {
+    return [
+      ['ld4p', 'LD4P'],
+      ['pcc', 'PCC'],
+      ['cub', 'University of Colorado Boulder'],
+      ['cornell', 'Cornell University'],
+      ['harvard', 'Harvard University'],
+      ['nlm', 'National Library of Medicine'],
+      ['stanford', 'Stanford University'],
+      ['ucsd', 'University of California, San Diego'],
+      ['penn', 'University of Pennsylvania'],
+      ['hrc', 'Harry Ransom Center, University of Texas at Austin'],
+      ['wau', 'University of Washington'],
+    ]
+  }
 }
 
 export default Config
