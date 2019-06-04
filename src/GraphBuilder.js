@@ -56,11 +56,8 @@ export default class GraphBuilder {
     // Is there ever more than one base node?
     for (const key in value) {
       Object.keys(value[key]).forEach((predicateListKey) => {
-        /*
-         * We're sending the template ID in place of the type (2nd argument) temporarily
-         * because we don't have the type URI in the Redux state yet
-         */
-        this.buildTriplesForNode(baseURI, rdf.literal(key), value[key][predicateListKey])
+        // we don't have a resourceURI to send as the second argument in the propertyTemplates yet.
+        this.buildTriplesForNode(baseURI, null, value[key][predicateListKey])
       })
     }
   }
@@ -71,7 +68,9 @@ export default class GraphBuilder {
    * @param {Array.<Object>}
    */
   buildTriplesForNode(baseURI, type, predicateList) {
-    this.addTypeTriple(baseURI, type)
+    if (type) {
+      this.addTypeTriple(baseURI, type)
+    }
 
     // Now add all the other properties
     for (const predicate in predicateList) {
