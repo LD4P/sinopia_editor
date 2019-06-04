@@ -3,7 +3,7 @@
 import React from 'react'
 import { shallow } from 'enzyme'
 
-import { AddButton, MintButton, PropertyActionButtons } from '../../../src/components/editor/PropertyActionButtons'
+import { AddButton, PropertyActionButtons } from '../../../src/components/editor/PropertyActionButtons'
 
 describe('<AddButton />', () => {
   const addButtonWrapper = shallow(<AddButton />)
@@ -23,22 +23,9 @@ describe('<AddButton />', () => {
   })
 })
 
-describe('<MintButton />', () => {
-  const mintButtonWrapper = shallow(<MintButton />)
-
-  it('has label "Mint URI"', () => {
-    expect(mintButtonWrapper.text()).toEqual('Mint URI')
-  })
-
-  it('is disabled by default', () => {
-    expect(mintButtonWrapper.instance().state.disabled).toBeTruthy()
-  })
-})
-
 describe('<PropertyActionButtons />', () => {
   const mockAddClick = jest.fn()
-  const mockMintClick = jest.fn()
-  const propertyActionWrapper = shallow(<PropertyActionButtons handleMintUri={mockMintClick} handleAddClick={mockAddClick}/>)
+  const propertyActionWrapper = shallow(<PropertyActionButtons handleAddClick={mockAddClick}/>)
 
   describe('Add Button', () => {
     const addButton = propertyActionWrapper.find(AddButton)
@@ -50,19 +37,6 @@ describe('<PropertyActionButtons />', () => {
     it('Add button responds when clicked', () => {
       addButton.simulate('click')
       expect(mockAddClick).toHaveBeenCalledTimes(1)
-    })
-  })
-
-  describe('Mint Button', () => {
-    const mintButton = propertyActionWrapper.find(MintButton)
-
-    it('contains MintButton', () => {
-      expect(mintButton).toBeTruthy()
-    })
-
-    it('Mint button responds when clicked', () => {
-      mintButton.simulate('click')
-      expect(mockMintClick).toHaveBeenCalledTimes(1)
     })
   })
 })

@@ -26,10 +26,6 @@ class PropertyResourceTemplate extends Component {
     this.setState({ output: existingOutputs.concat(result) })
   }
 
-  handleMintUri = (event) => {
-    event.preventDefault()
-  }
-
   populatePropertyTemplates = () => {
     const newOutput = []
 
@@ -54,13 +50,12 @@ class PropertyResourceTemplate extends Component {
 
     return (<div>
       <div className="row" key={shortid.generate()}>
-        <section className="col-md-8">
+        <section className="col-md-10">
           <h4>{this.props.resourceTemplate.resourceLabel}</h4>
         </section>
-        <section className="col-md-4">
+        <section className="col-md-2">
           <PropertyActionButtons
             handleAddClick={this.handleAddClick}
-            handleMintUri={this.handleMintUri}
             addButtonDisabled={isAddDisabled}
             reduxPath={this.props.reduxPath}
             key={shortid.generate()} />

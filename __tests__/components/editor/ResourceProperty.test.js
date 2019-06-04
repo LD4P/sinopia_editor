@@ -39,8 +39,7 @@ describe('<ResourceProperty />', () => {
                               reduxPath={[]}
                               nestedResourceTemplates={nestedRTs}
                               initNewResourceTemplate={mockInitNewResourceTemplate}
-                              handleAddClick={jest.fn()}
-                              handleMintUri={jest.fn()} />)
+                              handleAddClick={jest.fn()} />)
 
   it('creates a header section with the resource label', () => {
     expect(wrapper.find('section h5').text()).toEqual('Note')

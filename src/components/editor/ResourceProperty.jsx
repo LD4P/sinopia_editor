@@ -31,7 +31,7 @@ export class ResourceProperty extends Component {
             <PropertyActionButtons handleAddClick={this.props.handleAddClick(resourceTemplate)}
                                    reduxPath={this.props.reduxPath}
                                    addButtonDisabled={this.props.addButtonDisabled}
-                                   handleMintUri={this.props.handleMintUri} key={shortid.generate()} />
+                                   key={shortid.generate()} />
           </section>
         </div>,
       )
@@ -73,7 +73,6 @@ export class ResourceProperty extends Component {
 ResourceProperty.propTypes = {
   addButtonDisabled: PropTypes.bool,
   handleAddClick: PropTypes.func,
-  handleMintUri: PropTypes.func,
   initNewResourceTemplate: PropTypes.func,
   nestedResourceTemplates: PropTypes.array,
   propertyTemplate: PropTypes.object,
