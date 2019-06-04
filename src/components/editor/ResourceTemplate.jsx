@@ -26,6 +26,9 @@ class ResourceTemplate extends Component {
 
   getResourceTemplatePromise = (promise) => {
     promise.then((response_and_body) => {
+      const rt = response_and_body.response.body
+      // Add load timestamp
+      rt.loadTimestamp = new Date().toISOString()
       this.setState({ rtData: response_and_body.response.body })
       this.props.handleResourceTemplate(this.state.rtData)
     }).catch((error) => {
@@ -39,13 +42,14 @@ class ResourceTemplate extends Component {
     <div className="ResourceTemplate">
       <div id="resourceTemplate" style={{ marginTop: '-30px' }}>
         <section className="col-md-9">
-          <h1><em>{this.state.rtData.resourceLabel}</em></h1>
+          <h1><em>{this.state.rtData.resourceLabel}</em> ({this.state.rtData.loadTimestamp})</h1>
         </section>
         <ResourceTemplateForm
             propertyTemplates = {this.state.rtData.propertyTemplates}
             resourceTemplate = {this.state.rtData}
             parentResourceTemplate = {this.props.resourceTemplateId}
             rtId = {this.state.rtData.id}
+            rtLoadTimetamp = {this.state.rtData.loadTimestamp}
         />
       </div>
     </div>

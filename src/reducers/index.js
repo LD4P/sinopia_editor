@@ -111,7 +111,9 @@ export const setResourceTemplate = (state, action) => {
     output = refreshResourceTemplate(output, propertyAction)
   })
 
+  console.log(action.payload.loadTimestamp)
   output[resourceTemplateId].rdfClass = action.payload.resourceURI
+  output[resourceTemplateId].loadTimestamp = action.payload.loadTimestamp
 
   return output
 }

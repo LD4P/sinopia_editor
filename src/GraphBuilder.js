@@ -24,8 +24,12 @@ export default class GraphBuilder {
       // If the resourceURI is not in the state, then this is an unsaved resource and we want a relative URI to use as the base
       const resourceURI = rdf.namedNode(this.state[key].resourceURI || '')
 
+      // Assuming that loadTimestamp will be close enough for included template
+      // and so only will record for main template.
+      this.buildTriplesForTemplate(resourceURI, key, this.state[key].loadTimestamp)
       this.buildTriplesForNode(resourceURI, this.state[key].rdfClass, this.getPredicateList(this.state[key]))
     })
+
     return this.dataset
   }
 
@@ -38,7 +42,7 @@ export default class GraphBuilder {
     const newPredicateList = {}
 
     Object.keys(predicateList).forEach((predicateKey) => {
-      if (!['rdfClass', 'resourceURI'].includes(predicateKey)) {
+      if (!['rdfClass', 'resourceURI' 'loadTimestamp'].includes(predicateKey)) {
         newPredicateList[predicateKey] = predicateList[predicateKey]
       }
     })
@@ -94,6 +98,28 @@ export default class GraphBuilder {
         this.buildTriplesForNestedObject(bnode, nestedValue)
       }
     }
+  }
+
+  /**
+   * @param {rdf.Term} baseURI
+   * @param {string} resource template id, e.g., resourceTemplate:bf2:WorkTitle
+   * @param (string) loadTimestamp in http://www.w3.org/2001/XMLSchema#dateTime format
+   */
+  buildTriplesForTemplate(baseURI, rtId, loadTimestamp) {
+    const rtNode = rdf.namedNode(rtId)
+    // This resource has template.
+    this.dataset.add(rdf.quad(baseURI, rdf.namedNode('http://sinopia.io/ns/hasTemplate'), rtNode))
+    // Template is an OriginalResource.
+    this.addTypeTriple(rtNode, rdf.namedNode('http://mementoweb.org/ns#OriginalResource'))
+    // Template has a blank node momento
+    const momentoNode = rdf.blankNode()
+    this.dataset.add(rdf.quad(rtNode, rdf.namedNode('http://mementoweb.org/ns#memento'), momentoNode))
+    // Momento is a Momento
+    this.addTypeTriple(momentoNode, rdf.namedNode('http://mementoweb.org/ns#Momento'))
+    // Momento has a mementoDateTime
+    this.dataset.add(rdf.quad(momentoNode,
+      rdf.namedNode('http://mementoweb.org/ns#mementoDatetime'),
+      rdf.literal(loadTimestamp, rdf.namedNode('http://www.w3.org/2001/XMLSchema#dateTime'))))
   }
 
 
