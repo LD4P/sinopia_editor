@@ -86,21 +86,17 @@ class ImportFileZone extends Component {
     return schemaUrl
   }
 
-  promiseTemplateValidated = (template, schemaUrl) => new Promise((resolve, reject) => {
-    this.promiseSchemasLoaded(schemaUrl)
-      .then(() => {
-        this.setState({ validTemplate: this.ajv.validate(schemaUrl, template) })
+  promiseTemplateValidated = (template, schemaUrl) => new Promise((resolve, reject) => this.promiseSchemasLoaded(schemaUrl)
+    .then(async () => {
+      const isValid = this.ajv.validate(schemaUrl, template)
 
-        if (!this.state.validTemplate) {
-          reject(new Error(`${util.inspect(this.ajv.errors)}`))
-        }
+      if (!isValid) {
+        return reject(new Error(`${util.inspect(this.ajv.errors)}`))
+      }
 
-        resolve() // w00t!
-      })
-      .catch((err) => {
-        reject(err)
-      })
-  })
+      return resolve() // w00t!
+    })
+    .catch(err => reject(err)))
 
   promiseSchemasLoaded = schemaUrl => new Promise((resolve, reject) => {
     try {

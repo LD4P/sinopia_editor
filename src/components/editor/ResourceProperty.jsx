@@ -22,6 +22,14 @@ export class ResourceProperty extends Component {
     this.props.propertyTemplate.valueConstraint.valueTemplateRefs.map((rtId) => {
       const resourceTemplate = _.find(this.props.nestedResourceTemplates, ['id', rtId])
 
+      if (resourceTemplate === undefined) {
+        return jsx.push(
+          <div className="alert alert-warning" key={rtId}>
+            <strong>Warning:</strong> this property refers to a missing Resource Template. You cannot edit it until a Resource Template with an ID of <em>{ rtId }</em> has been <a href="/templates">imported</a> into the Sinopia Linked Data Editor.
+          </div>,
+        )
+      }
+
       jsx.push(
         <div className="row" key={shortid.generate()}>
           <section className="col-sm-8">
