@@ -1,9 +1,9 @@
 [![CircleCI](https://circleci.com/gh/LD4P/sinopia_editor.svg?style=svg)](https://circleci.com/gh/LD4P/sinopia_editor)
-[![Coverage Status](https://coveralls.io/repos/github/LD4P/sinopia_editor/badge.svg?branch=master)](https://coveralls.io/github/LD4P/sinopia_editor?branch=master)
+[![Coverage Status](https://img.shields.io/coveralls/github/LD4P/sinopia_editor.svg)](https://coveralls.io/github/LD4P/sinopia_editor?branch=master)
 
-# Sinopia BIBFRAME Editor
+# Sinopia Linked Data Editor
 
-Technical documentation specific to the Sinopia BIBFRAME Editor may also be found in the [wiki](https://github.com/LD4P/sinopia_editor/wiki/Sinopia-Editor). The [Sinopia Editor][GIT_REPO] homepage is available in staging at [stage.sinopia.io][staging]. The Sinopia Editor is a [React][REACT] application with all new user interfaces and functionality using React and the React ecosystem. Portions of the codebase originally extracted from the Library of Congress `bfe` [project][BFE_GIT].
+Technical documentation specific to the Sinopia Linked Data Editor may also be found in the [wiki](https://github.com/LD4P/sinopia_editor/wiki/Sinopia-Editor). The [Sinopia Editor][GIT_REPO] homepage is available in staging at [stage.sinopia.io][staging]. The Sinopia Editor is a [React][REACT] application with all new user interfaces and functionality using React and the React ecosystem. Portions of the codebase originally extracted from the Library of Congress `bfe` [project][BFE_GIT].
 
 ## Installation (without docker image)
 
@@ -244,7 +244,7 @@ Developers
 
 From a design standpoint, the objective with `bfe` was to create the simplest
 'pluggable' form editor one can to maximize experimental implementer's abilities
-to create/edit BIBFRAME data.  The current focus is to transform bfe into a production ready tool.
+to create/edit linked data.  The current focus is to transform bfe into a production ready tool.
 
 All contributions are welcome.  If you do not code, surely you will discover an
 [issue] you can report.
