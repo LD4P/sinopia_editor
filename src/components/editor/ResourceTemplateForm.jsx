@@ -10,6 +10,7 @@ import PropertyComponent from './PropertyComponent'
 import { removeAllContent, setItems } from '../../actions/index'
 import { getResourceTemplate } from '../../sinopiaServer'
 import { isResourceWithValueTemplateRef, resourceToName } from '../../Utilities'
+
 const _ = require('lodash')
 
 // renders the input form for a ResourceTemplate
