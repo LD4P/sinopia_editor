@@ -25,30 +25,6 @@ describe('setItems actions', () => {
   })
 })
 
-describe('getLD action', () => {
-  it('getLD should create GENERATE_LD action', () => {
-    const inputs = {
-      literals: {
-        id: 'Instance of',
-        items: [{
-          id: 0,
-          content: 'A Work',
-        }],
-      },
-      lookups: {
-        id: 'http://example.com/1234',
-        uri: 'http://example.com/1234',
-        label: 'An example',
-      },
-    }
-
-    expect(actions.getLD(inputs)).toEqual({
-      type: 'GENERATE_LD',
-      payload: inputs,
-    })
-  })
-})
-
 describe('authentication actions', () => {
   it('authenticationFailure should create AUTHENTICATION_FAILURE action', () => {
     const authenticationResult = { a_payload: 'field' }
