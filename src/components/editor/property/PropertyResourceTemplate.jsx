@@ -5,7 +5,7 @@ import shortid from 'shortid'
 import PropTypes from 'prop-types'
 import PropertyActionButtons from './PropertyActionButtons'
 import PropertyTemplateOutline from './PropertyTemplateOutline'
-import { templateBoolean } from '../../Utilities'
+import { templateBoolean } from '../../../Utilities'
 
 class PropertyResourceTemplate extends Component {
   constructor(props) {

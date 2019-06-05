@@ -6,10 +6,10 @@ import { connect } from 'react-redux'
 import Modal from 'react-bootstrap/lib/Modal'
 import Button from 'react-bootstrap/lib/Button'
 import shortid from 'shortid'
-import { removeItem, setItems } from '../../actions/index'
-import { getProperty } from '../../reducers/index'
+import { removeItem, setItems } from '../../../actions/index'
+import { getProperty } from '../../../reducers/index'
 import InputLang from './InputLang'
-import store from '../../store'
+import store from '../../../store'
 
 // Redux recommends exporting the unconnected component for unit tests.
 export class InputLiteral extends Component {

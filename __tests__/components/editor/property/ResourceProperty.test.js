@@ -2,9 +2,9 @@
 
 import React from 'react'
 import { shallow } from 'enzyme'
-import ResourceProperty from '../../../src/components/editor/ResourceProperty'
-import PropertyActionButtons from '../../../src/components/editor/PropertyActionButtons'
-import PropertyTemplateOutline from '../../../src/components/editor/PropertyTemplateOutline'
+import ResourceProperty from 'components/editor/property/ResourceProperty'
+import PropertyActionButtons from 'components/editor/property/PropertyActionButtons'
+import PropertyTemplateOutline from 'components/editor/property/PropertyTemplateOutline'
 
 describe('<ResourceProperty />', () => {
   describe('happy path', () => {

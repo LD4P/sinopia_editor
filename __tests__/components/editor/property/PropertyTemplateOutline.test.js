@@ -3,7 +3,7 @@
 import React from 'react'
 import 'jsdom-global/register'
 import { mount, shallow } from 'enzyme'
-import { PropertyTemplateOutline, addResourceTemplate } from '../../../src/components/editor/PropertyTemplateOutline'
+import { PropertyTemplateOutline, addResourceTemplate } from 'components/editor/property/PropertyTemplateOutline'
 
 describe('<PropertyTemplateOutline />', () => {
   const propertyRtProps = {

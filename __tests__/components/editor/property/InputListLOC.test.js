@@ -3,7 +3,7 @@
 import React from 'react'
 import { shallow } from 'enzyme'
 import { Typeahead } from 'react-bootstrap-typeahead'
-import InputListLOC from '../../../src/components/editor/InputListLOC'
+import InputListLOC from 'components/editor/property/InputListLOC'
 
 const plProps = {
   propertyTemplate:

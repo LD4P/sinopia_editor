@@ -3,7 +3,7 @@
 import 'jsdom-global/register'
 import React from 'react'
 import { shallow } from 'enzyme'
-import InputLookupQA from '../../../src/components/editor/InputLookupQA'
+import InputLookupQA from 'components/editor/property/InputLookupQA'
 
 const plProps = {
   id: 'lookupComponent',

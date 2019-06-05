@@ -3,7 +3,7 @@
 import React from 'react'
 import { shallow } from 'enzyme'
 
-import { AddButton, PropertyActionButtons } from '../../../src/components/editor/PropertyActionButtons'
+import { AddButton, PropertyActionButtons } from 'components/editor/property/PropertyActionButtons'
 
 describe('<AddButton />', () => {
   const addButtonWrapper = shallow(<AddButton />)

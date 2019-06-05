@@ -4,8 +4,8 @@ import React from 'react'
 import { shallow } from 'enzyme'
 import { faMinusSquare, faPlusSquare } from '@fortawesome/free-solid-svg-icons'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import OutlineHeader from '../../../src/components/editor/OutlineHeader'
-import PropertyLabel from '../../../src/components/editor/PropertyLabel'
+import OutlineHeader from 'components/editor/property/OutlineHeader'
+import PropertyLabel from 'components/editor/property/PropertyLabel'
 
 describe('<OutlineHeader />', () => {
   const property = {

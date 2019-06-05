@@ -4,7 +4,7 @@ import React, { Component } from 'react'
 import { Typeahead } from 'react-bootstrap-typeahead'
 import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
-import { setLang } from '../../actions/index'
+import { setLang } from '../../../actions/index'
 
 class InputLang extends Component {
   constructor(props) {

@@ -6,8 +6,8 @@ import PropTypes from 'prop-types'
 import shortid from 'shortid'
 import PropertyActionButtons from './PropertyActionButtons'
 import PropertyTemplateOutline from './PropertyTemplateOutline'
-import { refreshResourceTemplate } from '../../actions/index'
-import { templateBoolean } from '../../Utilities'
+import { refreshResourceTemplate } from '../../../actions/index'
+import { templateBoolean } from '../../../Utilities'
 
 const _ = require('lodash')
 

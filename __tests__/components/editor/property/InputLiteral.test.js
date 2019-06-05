@@ -3,7 +3,7 @@ import 'jsdom-global/register'
 import React from 'react'
 import { shallow } from 'enzyme'
 import shortid from 'shortid'
-import { InputLiteral } from '../../../src/components/editor/InputLiteral'
+import { InputLiteral } from 'components/editor/property/InputLiteral'
 
 const plProps = {
   propertyTemplate:
