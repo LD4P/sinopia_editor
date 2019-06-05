@@ -15,7 +15,7 @@ const NewsItem = () => (
         <li>Opening Resource Templates to see how they behave in cataloging.
         </li>
       </ul>
-      <li>For release notes and the latest point releases, see <a href="https://github.com/LD4P/sinopia/wiki/Latest-Release,-What's-Next,-Release-Notes">Latest Release, What's Next, Release Notes</a> on the <a href="https://github.com/LD4P/sinopia/wiki/">Sinopia help site</a>.
+      <li>For release notes and the latest point releases, see the <a href="https://github.com/LD4P/sinopia/wiki/">Sinopia help site</a>.
       </li>
     </ul>
   </div>
