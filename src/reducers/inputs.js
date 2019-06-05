@@ -42,6 +42,32 @@ export const setMyItems = (state, action) => {
   return newState
 }
 
+export const setMyItemsLang = (state, action) => {
+  const newState = { ...state }
+  const reduxPath = action.payload.reduxPath
+  let level = 0
+
+  reduxPath.reduce((obj, key) => {
+    level++
+    if (level === reduxPath.length) {
+      if ((key in obj) != true) {
+        obj[key] = { items: [] }
+      }
+
+      const payloadItem = obj[key].items.find(item => item.id === action.payload.id)
+
+      if (payloadItem) {
+        payloadItem.lang = { items: action.payload.items }
+      }
+    }
+
+    return obj[key]
+  }, newState)
+
+  return newState
+}
+
+
 export const setMySelections = (state, action) => {
   const newState = { ...state }
   const reduxPath = action.payload.reduxPath

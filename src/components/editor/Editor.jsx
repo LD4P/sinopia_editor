@@ -146,7 +146,7 @@ const mapDispatchToProps = dispatch => ({
   },
   setBaseURL(url) {
     dispatch(assignBaseURL(url))
-  }
+  },
 })
 
 export default connect(mapStateToProps, mapDispatchToProps)(Editor)

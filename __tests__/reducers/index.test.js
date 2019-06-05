@@ -116,7 +116,6 @@ describe('selectorReducer', () => {
     ).toMatchObject(
       {
         authenticate: { authenticationState: { currentUser: null, currentSession: null, authenticationError: null } },
-        lang: { formData: [] },
         selectorReducer: {},
       },
     )
@@ -152,7 +151,6 @@ describe('selectorReducer', () => {
     })
 
     expect(result.authenticate).toMatchObject({ authenticationState: { currentUser: null, currentSession: null, authenticationError: null } })
-    expect(result.lang).toMatchObject({ formData: [] })
     expect(result.selectorReducer).toMatchObject({
       'resourceTemplate:bf2:Monograph:Instance':
       {
@@ -243,7 +241,19 @@ describe('refreshResourceTemplate', () => {
     expect(defaultStateResult).toEqual({
       'resourceTemplate:bf2:Item': {
         'http://schema.org/name': {
-          items: [{ content: 'Sinopia Name', id: 0, uri: undefined }],
+          items: [
+            {
+              content: 'Sinopia Name',
+              id: 0,
+              lang: {
+                items: [{
+                  id: 'http://id.loc.gov/vocabulary/languages/eng',
+                  label: 'English',
+                  uri: 'http://id.loc.gov/vocabulary/languages/eng',
+                }],
+              },
+              uri: undefined,
+            }],
         },
       },
     })
@@ -315,6 +325,13 @@ describe('populatePropertyDefaults()', () => {
     expect(propertyWithDefaults).toEqual([{
       content: 'DLC',
       id: 0,
+      lang: {
+        items: [{
+          id: 'http://id.loc.gov/vocabulary/languages/eng',
+          label: 'English',
+          uri: 'http://id.loc.gov/vocabulary/languages/eng',
+        }],
+      },
       uri: 'http://id.loc.gov/vocabulary/organizations/dlc',
     }])
   })
