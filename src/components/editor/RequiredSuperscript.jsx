@@ -1,4 +1,4 @@
-// Copyright 2018 Stanford University see LICENSE for license
+// Copyright 2019 Stanford University see LICENSE for license
 
 import React, { Component } from 'react'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
@@ -11,10 +11,13 @@ export class RequiredSuperscript extends Component {
 
   render() {
     return (
-      <sup>
-        <FontAwesomeIcon className="asterick text-danger"
-                         icon={faAsterisk} />
-      </sup>)
+      <abbr title="This field is required">
+        <sup>
+          <FontAwesomeIcon className="asterick text-danger"
+                           icon={faAsterisk} />
+        </sup>
+      </abbr>
+    )
   }
 }
 
