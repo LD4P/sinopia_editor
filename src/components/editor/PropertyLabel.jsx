@@ -31,7 +31,8 @@ export class PropertyLabel extends Component {
     }
 
     const urlLabel = (
-      <a href={url} className="prop-remark" alt={property.remark} key={key} >
+      <a href={url} className="prop-remark" alt={property.remark} key={key}
+         target="_blank" rel="noopener noreferrer">
         <span className="prop-remark">{property.propertyLabel}</span>
       </a>
     )
