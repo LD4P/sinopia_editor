@@ -14,7 +14,7 @@ class NewsPanel extends Component {
         <div className="panel panel-news">
           <div className="panel-body">
             <div className="row">
-              <div className="col-md-7">
+              <div className="col-md-17">
                 <NewsItem />
               </div>
             </div>
