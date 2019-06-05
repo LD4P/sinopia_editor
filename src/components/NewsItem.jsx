@@ -6,14 +6,16 @@ const NewsItem = () => (
   <div className="news-item">
     <h1> What&#8217;s New </h1>
     <ul>
-      <li>Release 0.2.0 is live, including these features</li>
+      <li>Release 0.3.0 is live, including these features</li>
       <ul>
-        <li>Create profiles in Profile Editor and load into Linked Data Editor.
+        <li>User login.
         </li>
-        <li>Specify lookups via Questioning Authority in Profile Editor, and do lookups in the Linked Data Editor.
+        <li>Adding and updating Resource Templates.
+        </li>
+        <li>Opening Resource Templates to see how they behave in cataloging.
         </li>
       </ul>
-      <li> <a href="https://github.com/LD4P/sinopia/wiki/">User support page is live</a>
+      <li>For release notes and the latest point releases, see <a href="https://github.com/LD4P/sinopia/wiki/Latest-Release,-What's-Next,-Release-Notes">Latest Release, What's Next, Release Notes</a> on the <a href="https://github.com/LD4P/sinopia/wiki/">Sinopia help site</a>.
       </li>
     </ul>
   </div>
