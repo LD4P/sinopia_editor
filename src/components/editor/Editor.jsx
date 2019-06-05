@@ -112,7 +112,7 @@ Editor.propTypes = {
   history: PropTypes.object,
   currentSession: PropTypes.object,
   currentUser: PropTypes.object,
-  rdf: PropTypes.object,
+  rdf: PropTypes.string,
 }
 
 const mapStateToProps = (state, props) => ({
