@@ -143,6 +143,9 @@ export class InputLiteral extends Component {
   }
 
 
+  /**
+   * @return {bool} true if the field should be marked as required (e.g. not all obligations met)
+   */
   checkMandatoryRepeatable = () => {
     if (this.props.propertyTemplate.mandatory === 'true') {
       if (this.props.formData === undefined || this.props.formData.items === undefined) return true
@@ -151,7 +154,6 @@ export class InputLiteral extends Component {
       if (inputLength > 0) {
         return false
       }
-
       return true
     }
     if (this.props.propertyTemplate.mandatory === 'false') {
@@ -235,10 +237,18 @@ export class InputLiteral extends Component {
   }
 
   render() {
+    const required = this.checkMandatoryRepeatable()
+    const error = this.props.displayValidations && required ? 'Required' : undefined
+    let groupClasses = 'form-group'
+
+    if (error) {
+      groupClasses += ' has-error'
+    }
+
     return (
-      <div>
+      <div className={groupClasses}>
         <input
-              required={this.checkMandatoryRepeatable()}
+              required={required}
               className="form-control"
               placeholder={this.props.propertyTemplate.propertyLabel}
               onChange={this.handleChange}
@@ -249,6 +259,7 @@ export class InputLiteral extends Component {
               onClick={this.handleFocus}
               ref={this.inputLiteralRef}
         />
+        {error && <span className="help-block">{error}</span>}
         {this.makeAddedList()}
       </div>
     )
@@ -280,6 +291,7 @@ InputLiteral.propTypes = {
   propPredicate: PropTypes.string,
   setDefaultsForLiteralWithPayLoad: PropTypes.func,
   defaultsForLiteral: PropTypes.func,
+  displayValidations: PropTypes.bool,
 }
 
 const mapStateToProps = (state, props) => {
