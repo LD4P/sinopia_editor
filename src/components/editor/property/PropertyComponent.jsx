@@ -6,7 +6,7 @@ import PropTypes from 'prop-types'
 import InputLiteral from './InputLiteral'
 import InputListLOC from './InputListLOC'
 import InputLookupQA from './InputLookupQA'
-import lookupConfig from '../../../static/spoofedFilesFromServer/fromSinopiaServer/lookupConfig.json'
+import lookupConfig from '../../../../static/spoofedFilesFromServer/fromSinopiaServer/lookupConfig.json'
 
 export class PropertyComponent extends Component {
   constructor(props) {

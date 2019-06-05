@@ -3,9 +3,9 @@
 import 'jsdom-global/register'
 import React from 'react'
 import { shallow } from 'enzyme'
-import PropertyLabel from '../../../src/components/editor/PropertyLabel'
+import PropertyLabel from 'components/editor/property/PropertyLabel'
 import { OverlayTrigger } from 'react-bootstrap'
-import RequiredSuperscript from '../../../src/components/editor/RequiredSuperscript'
+import RequiredSuperscript from 'components/editor/property/RequiredSuperscript'
 
 
 describe('<PropertyLabel />', () => {

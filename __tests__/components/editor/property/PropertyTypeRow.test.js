@@ -3,7 +3,7 @@
 import React from 'react'
 import { shallow } from 'enzyme'
 
-import PropertyTypeRow from '../../../src/components/editor/PropertyTypeRow'
+import PropertyTypeRow from 'components/editor/property/PropertyTypeRow'
 
 describe('<PropertyTypeRow />', () => {
   const rowProps = {

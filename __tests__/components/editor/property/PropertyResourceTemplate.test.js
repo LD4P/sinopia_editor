@@ -4,9 +4,9 @@ import React from 'react'
 import 'jsdom-global/register'
 import { mount, shallow } from 'enzyme'
 import shortid from 'shortid'
-import { PropertyActionButtons } from '../../../src/components/editor/PropertyActionButtons'
-import PropertyResourceTemplate from '../../../src/components/editor/PropertyResourceTemplate'
-import PropertyTemplateOutline from '../../../src/components/editor/PropertyTemplateOutline'
+import { PropertyActionButtons } from 'components/editor/property/PropertyActionButtons'
+import PropertyResourceTemplate from 'components/editor/property/PropertyResourceTemplate'
+import PropertyTemplateOutline from 'components/editor/property/PropertyTemplateOutline'
 
 describe('<PropertyResourceTemplate />', () => {
   const propertyRtProps = {

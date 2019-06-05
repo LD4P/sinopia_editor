@@ -2,7 +2,7 @@
 
 import React from 'react'
 import { shallow } from 'enzyme'
-import PropertyComponent from '../../../src/components/editor/PropertyComponent'
+import PropertyComponent from 'components/editor/property/PropertyComponent'
 
 describe('<PropertyComponent />', () => {
   describe('sets the configuration state based on values from the property template', () => {

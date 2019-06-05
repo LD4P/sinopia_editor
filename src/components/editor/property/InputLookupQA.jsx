@@ -5,12 +5,12 @@ import {
 } from 'react-bootstrap-typeahead'
 import PropTypes from 'prop-types'
 import Swagger from 'swagger-client'
-import swaggerSpec from '../../lib/apidoc.json'
+import swaggerSpec from '../../../lib/apidoc.json'
 import { connect } from 'react-redux'
-import { getProperty } from '../../reducers/index'
-import { changeSelections } from '../../actions/index'
-import { booleanPropertyFromTemplate, defaultValuesFromPropertyTemplate } from '../../Utilities'
-import Config from '../../Config'
+import { getProperty } from '../../../reducers/index'
+import { changeSelections } from '../../../actions/index'
+import { booleanPropertyFromTemplate, defaultValuesFromPropertyTemplate } from '../../../Utilities'
+import Config from '../../../Config'
 
 const AsyncTypeahead = asyncContainer(Typeahead)
 

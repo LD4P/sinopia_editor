@@ -2,7 +2,7 @@
 
 import React from 'react'
 import { shallow } from 'enzyme'
-import RequiredSuperscript from '../../../src/components/editor/RequiredSuperscript'
+import RequiredSuperscript from 'components/editor/property/RequiredSuperscript'
 
 describe('<RequiredSuperscript />', () => {
   const wrapper = shallow(<RequiredSuperscript />)

@@ -1,7 +1,7 @@
 // Copyright 2018 Stanford University see LICENSE for license
 import React from 'react'
 import { shallow } from 'enzyme'
-import InputLang from '../../../src/components/editor/InputLang'
+import InputLang from 'components/editor/property/InputLang'
 
 const plProps = {
   propertyTemplate:
