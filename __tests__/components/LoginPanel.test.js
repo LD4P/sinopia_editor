@@ -9,6 +9,7 @@ import LoginPanel from '../../src/components/LoginPanel'
 import Config from '../../src/Config'
 import CognitoUtils from '../../src/CognitoUtils'
 
+global.alert = jest.fn().mockImplementationOnce(() => {})
 
 describe('<LoginPanel /> when the user is not authenticated', () => {
   const wrapper = shallow(<LoginPanel.WrappedComponent />)
@@ -100,6 +101,7 @@ describe('<LoginPanel /> when the user is authenticated', () => {
       wrapper.find('button.signout-btn').simulate('click')
       expect(signout).not.toHaveBeenCalled()
       expect(signoutSpy).toHaveBeenCalled()
+      expect(global.alert).toHaveBeenCalled()
     })
   })
 })

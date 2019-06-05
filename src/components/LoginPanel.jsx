@@ -57,6 +57,7 @@ class LoginPanel extends Component {
       },
       onFailure: (err) => {
         // TODO: capture error in state so you can display an error somewhere in the UI
+        alert(err.message)
         console.error(err)
       },
     })
