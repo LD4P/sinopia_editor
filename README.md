@@ -184,10 +184,10 @@ $ aws ecs update-service --service sinopia-homepage --region us-west-2 --cluster
 ```
 
 ## Release Management
-The steps to create a major tagged release of the Sinopia's Linked Data Editor are as follows:
+The steps to create a tagged release of the Sinopia's Linked Data Editor are as follows:
 
 1. Update the version in `package.json`
-1. Remove and regenerate `package-lock.json`
+1. Run `npm i` to regenerate `package-lock.json`
 1. Publish the version to npm registry by issuing `npm publish` command in the root projects
    directory. (Requires publishing rights to the project in the npmjs.com registry)
 1. Create a Github annotated tag and push up to the project's
