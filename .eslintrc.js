@@ -52,6 +52,9 @@ module.exports = {
     "semi": ["error", "never"],
     "quotes": ["error", "single"],
     "security/detect-object-injection": "off",
+    'newline-after-var': 'off', // deprecated rule, enabled by airbnb-base/whitespace
+    'padding-line-between-statements': ['error', { blankLine: "always", prev: ["const", "let", "var"], next: "*"},
+                                                 { blankLine: "any",    prev: ["const", "let", "var"], next: ["const", "let", "var"]}],
     "prefer-const": "error",
     "no-var": "error",
     "indent": ["error", 2, {
