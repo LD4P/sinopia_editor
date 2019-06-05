@@ -7,18 +7,11 @@ import { shallow } from 'enzyme'
 import RDFModal from '../../../src/components/editor/RDFModal'
 
 describe('<RDFModal />', () => {
-  /*
-   * leaving this here in the unlikely event it's useful for #481 - have reducer produce correct RDF
-   * const data = '{"@context": {"bf": "http://id.loc.gov/ontologies/bibframe/"}, "@graph": [{"@id": "n3-0", "@type": "http://id.loc.gov/ontologies/bibframe/Instance"}]}'
-   */
   const closeFunc = jest.fn()
 
   const saveFunc = jest.fn()
 
-  const wrapper = shallow(<RDFModal.WrappedComponent show={true}
-                                                     rtId="a:b:c"
-                                                     close={closeFunc}
-                                                     save={saveFunc} />)
+  const wrapper = shallow(<RDFModal show={true} rdf="<>" close={closeFunc} save={saveFunc} />)
 
   it('renders the <RDFModal /> component as a Modal', () => {
     expect(wrapper.find(Modal).length).toBe(1)
@@ -28,7 +21,9 @@ describe('<RDFModal />', () => {
       expect(wrapper.find(Modal.Header).length).toBe(1)
     })
     it('has a Cancel link', () => {
-      expect(wrapper.find(Modal.Header).find('a').childAt(0)
+      expect(wrapper.find(Modal.Header).find(Button)
+        .first()
+        .childAt(0)
         .text()).toEqual('Cancel')
     })
     it('has some instructions', () => {
@@ -36,7 +31,9 @@ describe('<RDFModal />', () => {
         .text()).toEqual('If this looks good, then click Save and Publish')
     })
     it('has a save and publish button', () => {
-      expect(wrapper.find(Modal.Header).find(Button).childAt(0)
+      expect(wrapper.find(Modal.Header).find(Button)
+        .last()
+        .childAt(0)
         .text()).toEqual('Save & Publish')
     })
     it('has a Modal.Title inside the Modal.Header', () => {
@@ -46,7 +43,6 @@ describe('<RDFModal />', () => {
       const title = wrapper.find(Modal.Header).find(Modal.Title)
 
       expect(title.childAt(0).text()).toMatch(/RDF Preview/)
-      expect(title.childAt(1).text()).toMatch(/a:b:c/)
     })
   })
   describe('body', () => {
@@ -56,11 +52,11 @@ describe('<RDFModal />', () => {
   })
   describe('save and close buttons', () => {
     it('attenmplts to save the RDF content when save is clicked', () => {
-      wrapper.find(Button, { text: 'Save &amp; Publish' }).simulate('click')
+      wrapper.find('.btn-primary', { text: 'Save &amp; Publish' }).simulate('click')
       expect(saveFunc).toHaveBeenCalled()
     })
     it('closes the modal when the Cancel link is clicked', () => {
-      wrapper.find('a', { text: 'Cancel' }).simulate('click')
+      wrapper.find('.btn-link', { text: 'Cancel' }).simulate('click')
       expect(closeFunc).toHaveBeenCalled()
     })
   })
