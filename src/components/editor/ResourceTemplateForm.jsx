@@ -7,14 +7,10 @@ import shortid from 'shortid'
 import PropertyPanel from './PropertyPanel'
 import PropertyResourceTemplate from './PropertyResourceTemplate'
 import PropertyComponent from './PropertyComponent'
-import { getLD, removeAllContent, setItems } from '../../actions/index'
+import { removeAllContent, setItems } from '../../actions/index'
 import { getResourceTemplate } from '../../sinopiaServer'
 import { isResourceWithValueTemplateRef, resourceToName } from '../../Utilities'
 
-const N3 = require('n3')
-
-const { DataFactory } = N3
-const { blankNode } = DataFactory
 const _ = require('lodash')
 
 // renders the input form for a ResourceTemplate
@@ -23,8 +19,6 @@ export class ResourceTemplateForm extends Component {
     super(props)
     this.defaultValues()
     this.state = {
-      showRdf: false,
-      rdfOuterSubject: this.makeSubject(),
       inputs: {},
       nestedResourceTemplates: [],
       ptRtIds: [],
@@ -113,9 +107,6 @@ export class ResourceTemplateForm extends Component {
     })
   }
 
-  makeSubject = () => blankNode()
-
-
   rtForPt = rtId => _.find(this.state.nestedResourceTemplates, ['id', rtId])
 
   renderComponentForm = () => (
@@ -164,7 +155,6 @@ export class ResourceTemplateForm extends Component {
 ResourceTemplateForm.propTypes = {
   literals: PropTypes.oneOfType([PropTypes.array, PropTypes.object]),
   lookups: PropTypes.oneOfType([PropTypes.array, PropTypes.object]),
-  handleGenerateLD: PropTypes.func,
   propertyTemplates: PropTypes.arrayOf(PropTypes.object).isRequired,
   resourceTemplate: PropTypes.object.isRequired,
   rtId: PropTypes.string,
@@ -183,9 +173,6 @@ const mapDispatchToProps = dispatch => ({
   },
   handleRemoveAllContent(id) {
     dispatch(removeAllContent(id))
-  },
-  handleGenerateLD(inputs) {
-    dispatch(getLD(inputs))
   },
 })
 

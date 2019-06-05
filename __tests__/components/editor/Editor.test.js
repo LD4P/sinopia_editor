@@ -12,10 +12,8 @@ const props = {
 }
 
 describe('<Editor />', () => {
-  const handleGenerateLDFn = jest.fn()
-
   describe('any user', () => {
-    const wrapper = shallow(<Editor.WrappedComponent {...props} handleGenerateLD={handleGenerateLDFn} />)
+    const wrapper = shallow(<Editor.WrappedComponent {...props}/>)
 
     it('has div with id "editor"', () => {
       expect(wrapper.find('div#editor').length).toBe(1)
@@ -32,14 +30,14 @@ describe('<Editor />', () => {
   })
   describe('authenticated user', () => {
     props.currentSession = { dummy: 'should be CognitoUserSession instance, but just checked for presence at present' }
-    const wrapper = shallow(<Editor.WrappedComponent {...props} handleGenerateLD={handleGenerateLDFn} />)
+    const wrapper = shallow(<Editor.WrappedComponent {...props} />)
 
     it('does not displays a login warning message', () => {
       expect(wrapper.find('div.alert-warning').exists()).toBeFalsy()
     })
   })
   describe('RDFModal button', () => {
-    const wrapper = shallow(<Editor.WrappedComponent {...props} handleGenerateLD={handleGenerateLDFn} />)
+    const wrapper = shallow(<Editor.WrappedComponent {...props} />)
 
     it('has preview RDF button', () => {
       expect(wrapper.find('button')

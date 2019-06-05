@@ -35,11 +35,6 @@ export const changeSelections = item => ({
   payload: item,
 })
 
-export const getLD = inputs => ({
-  type: 'GENERATE_LD',
-  payload: inputs,
-})
-
 export const setLang = item => ({
   type: 'SET_LANG',
   payload: item,
