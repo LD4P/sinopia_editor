@@ -187,6 +187,7 @@ $ aws ecs update-service --service sinopia-homepage --region us-west-2 --cluster
 The steps to create a tagged release of the Sinopia's Linked Data Editor are as follows:
 
 1. Update the version in `package.json`
+1. Run `npm i` to regenerate `package-lock.json`
 1. Publish the version to npm registry by issuing `npm publish` command in the root projects
    directory. (Requires publishing rights to the project in the npmjs.com registry)
 1. Create a Github annotated tag and push up to the project's
@@ -194,6 +195,8 @@ The steps to create a tagged release of the Sinopia's Linked Data Editor are as 
 1. Build a tagged Docker image i.e. `docker build -t ld4p/sinopia_editor:{version} .`
 1. Push the tagged version to Dockerhub with `docker push ld4p/sinopia_editor:{version}`,
    See [documentation](#building-latest-docker-image) for more information
+
+
 
 # LD4P's fork of the BIBFRAME Editor
 The Sinopia Editor is forked from [https://github.com/lcnetdev/bfe][BFE_GIT].
