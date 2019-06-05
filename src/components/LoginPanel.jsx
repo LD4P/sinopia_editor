@@ -57,6 +57,7 @@ class LoginPanel extends Component {
       },
       onFailure: (err) => {
         // TODO: capture error in state so you can display an error somewhere in the UI
+        alert(err.message)
         console.error(err)
       },
     })
@@ -66,7 +67,7 @@ class LoginPanel extends Component {
     const currentUser = this.props.currentUser
     const currentSession = this.props.currentSession
     const authenticationError = this.props.authenticationError
-
+  
     const currentUserInfoPanel = (
       <div className="row logged-in-user-info">
         <div>current cognito user: { currentUser ? currentUser.username : null }</div>
