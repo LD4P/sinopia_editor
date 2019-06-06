@@ -140,8 +140,6 @@
           }
         ],
         "editable": "true",
-        "languageLabel": "LANGUAGE LABEL",
-        "languageURI": "http://id.loc.gov/vocabulary/languages/eng",
         "remark": "REMARK",
         "repeatable": "false",
         "useValuesFrom": [
