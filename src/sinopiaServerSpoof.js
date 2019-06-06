@@ -72,11 +72,7 @@ export const spoofedGetResourceTemplate = (templateId) => {
 
 export const spoofedResourcesInGroupContainer = (group) => {
   const container = `http://spoof.trellis.io/${group}`
-  const ids = []
-
-  resourceTemplateId2Json.map((rt) => {
-    ids.push(`${container}/${rt.id}`)
-  })
+  const ids = resourceTemplateId2Json.map(rt => `${container}/${rt.id}`)
 
   return {
     response: {
