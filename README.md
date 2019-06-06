@@ -88,6 +88,12 @@ Putting it all together, to run all of the tests:
 COGNITO_TEST_USER_NAME='sinopia-devs+client-tester@lists.stanford.edu' COGNITO_TEST_USER_PASS='theActualPassword' npm test
 ```
 
+You can also run the tests together with the linter all in one, similar to what happens at CircleCI.
+
+```sh
+COGNITO_TEST_USER_NAME='sinopia-devs+client-tester@lists.stanford.edu' COGNITO_TEST_USER_PASS='theActualPassword' npm run ci
+````
+
 Note that if you have an instance of the dev server already running in a separate terminal, you may need to stop the server or you may get a port conflict
 when running the integration tests.
 
