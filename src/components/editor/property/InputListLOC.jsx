@@ -16,13 +16,20 @@ class InputListLOC extends Component {
       options: [],
       defaults: defaultValuesFromPropertyTemplate(this.props.propertyTemplate),
     }
+  }
 
+  componentDidMount() {
+    this._isMounted = true
     if (this.state.defaults.length > 0) {
       this.setPayLoad(this.state.defaults)
     } else {
       // Property templates do not require defaults but we like to know when this happens
       console.info(`no defaults defined in property template: ${JSON.stringify(this.props.propertyTemplate)}`)
     }
+  }
+
+  componentWillUnmount() {
+    this._isMounted = false
   }
 
   setPayLoad(items) {
@@ -110,7 +117,9 @@ const mapStateToProps = state => ({ ...state })
 
 const mapDispatchToProps = dispatch => ({
   handleSelectedChange(selected) {
-    dispatch(changeSelections(selected))
+    if (this._isMounted) {
+      dispatch(changeSelections(selected))
+    }
   },
 })
 
