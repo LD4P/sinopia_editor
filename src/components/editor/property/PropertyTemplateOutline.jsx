@@ -140,7 +140,6 @@ PropertyTemplateOutline.propTypes = {
   addButtonDisabled: PropTypes.bool,
   handleAddClick: PropTypes.func,
   handleCollapsed: PropTypes.func,
-  initNewResourceTemplate: PropTypes.func,
   isRequired: PropTypes.func,
   propertyTemplate: PropTypes.object,
   reduxPath: PropTypes.array,
