@@ -8,10 +8,11 @@ import GroupChoiceModal from '../../../src/components/editor/GroupChoiceModal'
 
 describe('<GroupChoiceModal />', () => {
   const saveFunc = jest.fn()
-
   const closeFunc = jest.fn()
+  const groups = [['pcc', 'PCC'],
+    ['wau', 'University of Washington']]
 
-  const wrapper = shallow(<GroupChoiceModal show={true} rdf="<>" save={saveFunc} close={closeFunc} />)
+  const wrapper = shallow(<GroupChoiceModal show={true} rdf="<>" save={saveFunc} close={closeFunc} groups={groups} />)
 
   it('renders the <GroupChoiceModal /> component as a Modal', () => {
     expect(wrapper.find(Modal).length).toBe(1)
@@ -25,24 +26,28 @@ describe('<GroupChoiceModal />', () => {
         .childAt(0)
         .text()).toEqual('Which group do you want to save to?')
     })
+
     it('has text asking the user to choose a group from the select options', () => {
       expect(wrapper.find(Modal.Body).find('div')
         .first()
         .childAt(0)
         .text()).toEqual('Which group do you want to associate this record to?')
     })
+
     it('has a select option dropdown', () => {
       expect(wrapper.find(Modal.Body).find('form').find('select').length).toEqual(1)
     })
-    it('has the first select option as "LD4P"', () => {
+
+    it('has the first select option as "PCC"', () => {
       expect(wrapper.find(Modal.Body).find('form').find('select').find('option')
         .first()
         .childAt(0)
-        .text()).toEqual('LD4P')
+        .text()).toEqual('PCC')
       expect(wrapper.find(Modal.Body).find('form').find('select').find('option')
         .first()
-        .prop('value')).toEqual('ld4p')
+        .prop('value')).toEqual('pcc')
     })
+
     it('has the last select option as "University of Washington"', () => {
       expect(wrapper.find(Modal.Body).find('form').find('select').find('option')
         .last()
@@ -52,6 +57,7 @@ describe('<GroupChoiceModal />', () => {
         .last()
         .prop('value')).toEqual('wau')
     })
+
     it('has a Cancel link', () => {
       expect(wrapper.find(Modal.Body).find(Button)
         .first()

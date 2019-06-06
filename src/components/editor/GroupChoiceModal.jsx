@@ -4,7 +4,6 @@ import React, { Component } from 'react'
 import Button from 'react-bootstrap/lib/Button'
 import Modal from 'react-bootstrap/lib/Modal'
 import PropTypes from 'prop-types'
-import Config from '../../Config'
 
 class GroupChoiceModal extends Component {
   constructor(props) {
@@ -39,7 +38,7 @@ class GroupChoiceModal extends Component {
             <div>
               <form className="group-select-options" >
                 <select defaultValue={ this.state.selectedValue } onBlur={ event => this.updateSelectedValue(event)} >
-                  { Config.groupsInSinopia.map((group, index) => <option key={index} value={ group[0] }>{ group[1] }</option>) }
+                  { this.props.groups.map((group, index) => <option key={index} value={ group[0] }>{ group[1] }</option>) }
                 </select>
                 <div className="group-choose-buttons">
                   <Button className="btn-link" style={{ paddingRight: '20px' }} onClick={ this.props.close }>
@@ -63,6 +62,7 @@ GroupChoiceModal.propTypes = {
   save: PropTypes.func,
   choose: PropTypes.func,
   show: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
+  groups: PropTypes.array,
   rdf: PropTypes.string,
 }
 
