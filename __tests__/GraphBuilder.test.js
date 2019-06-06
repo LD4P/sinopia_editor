@@ -32,25 +32,17 @@ describe('GraphBuilder', () => {
       'http://id.loc.gov/ontologies/bibframe/colorContent': {
         '-KACHlqQ4A': {
           'resourceTemplate:bf2:Note': {
-            '67Bm64T0p2s': {
-              'http://www.w3.org/2000/01/rdf-schema#label': {
-                items: [
-                  {
-                    content: 'Very colorful',
-                    id: '3TzRpgv65',
-                  },
-                ],
-              },
-            },
-            '88Bm64T0p2s': {
-              'http://www.w3.org/2000/01/rdf-schema#label': {
-                items: [
-                  {
-                    content: 'Sparkly',
-                    id: '3TzRpgv65',
-                  },
-                ],
-              },
+            'http://www.w3.org/2000/01/rdf-schema#label': {
+              items: [
+                {
+                  content: 'Very colorful',
+                  id: '3TzRpgv65',
+                },
+                {
+                  content: 'Sparkly',
+                  id: '3TzRpgv65',
+                },
+              ],
             },
           },
         },

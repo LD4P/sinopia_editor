@@ -2,12 +2,14 @@
 
 import React from 'react'
 import { shallow } from 'enzyme'
+import shortid from 'shortid'
 import ResourceProperty from 'components/editor/property/ResourceProperty'
 import PropertyActionButtons from 'components/editor/property/PropertyActionButtons'
 import PropertyTemplateOutline from 'components/editor/property/PropertyTemplateOutline'
 
 describe('<ResourceProperty />', () => {
   describe('happy path', () => {
+    shortid.generate = jest.fn().mockReturnValue('abcd45')
     const mockInitNewResourceTemplate = jest.fn()
 
     const property = {
@@ -55,7 +57,7 @@ describe('<ResourceProperty />', () => {
 
       expect(propertyTemplateOutline.length).toEqual(1)
       expect(propertyTemplateOutline.props().propertyTemplate).toEqual(nestedRTs[0].propertyTemplates[0])
-      expect(propertyTemplateOutline.props().reduxPath).toEqual(['resourceTemplate:bf2:Note', 'http://www.w3.org/2000/01/rdf-schema#label'])
+      expect(propertyTemplateOutline.props().reduxPath).toEqual(['abcd45', 'resourceTemplate:bf2:Note', 'http://www.w3.org/2000/01/rdf-schema#label'])
       expect(propertyTemplateOutline.props().resourceTemplate).toEqual(nestedRTs[0])
     })
 
@@ -113,7 +115,7 @@ describe('<ResourceProperty />', () => {
 
       expect(propertyTemplateOutline.length).toEqual(1)
       expect(propertyTemplateOutline.props().propertyTemplate).toEqual(nestedRTsWithoutMissingRef[0].propertyTemplates[0])
-      expect(propertyTemplateOutline.props().reduxPath).toEqual(['resourceTemplate:bf2:Note', 'http://www.w3.org/2000/01/rdf-schema#label'])
+      expect(propertyTemplateOutline.props().reduxPath).toEqual(['abcd45', 'resourceTemplate:bf2:Note', 'http://www.w3.org/2000/01/rdf-schema#label'])
       expect(propertyTemplateOutline.props().resourceTemplate).toEqual(nestedRTsWithoutMissingRef[0])
     })
 

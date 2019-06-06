@@ -31,13 +31,11 @@ class PropertyResourceTemplate extends Component {
 
     this.props.resourceTemplate.propertyTemplates.map((property) => {
       const keyId = shortid.generate()
-      const newReduxPath = [...this.props.reduxPath]
 
-      newReduxPath.push(keyId)
       newOutput.push(<PropertyTemplateOutline
                       propertyTemplate={property}
                       rtId={this.props.resourceTemplate.id}
-                      reduxPath={newReduxPath}
+                      reduxPath={this.props.reduxPath}
                       key={keyId} />)
     })
 

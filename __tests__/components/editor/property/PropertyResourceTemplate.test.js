@@ -3,7 +3,6 @@
 import React from 'react'
 import 'jsdom-global/register'
 import { mount, shallow } from 'enzyme'
-import shortid from 'shortid'
 import { PropertyActionButtons } from 'components/editor/property/PropertyActionButtons'
 import PropertyResourceTemplate from 'components/editor/property/PropertyResourceTemplate'
 import PropertyTemplateOutline from 'components/editor/property/PropertyTemplateOutline'
@@ -22,7 +21,6 @@ describe('<PropertyResourceTemplate />', () => {
     reduxPath: ['resourceTemplate:test'],
   }
 
-  shortid.generate = jest.fn().mockReturnValue('abcd45')
   const wrapper = shallow(<PropertyResourceTemplate {...propertyRtProps} />)
   const propTemplateOutline = wrapper.find(PropertyTemplateOutline)
 
@@ -45,7 +43,7 @@ describe('<PropertyResourceTemplate />', () => {
 
   it('<PropertyTemplateOutline /> has the expected Redux path', () => {
     expect(propTemplateOutline.props().reduxPath).toEqual(
-      ['resourceTemplate:test', 'abcd45'],
+      ['resourceTemplate:test'],
     )
   })
 
