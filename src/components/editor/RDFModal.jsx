@@ -6,13 +6,6 @@ import Modal from 'react-bootstrap/lib/Modal'
 import PropTypes from 'prop-types'
 
 class RDFModal extends Component {
-  constructor(props) {
-    super(props)
-    this.state = {
-      showGroupChooser: false,
-    }
-  }
-
   render() {
     return (
       <div>
