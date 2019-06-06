@@ -48,9 +48,9 @@ export default class GraphBuilder {
   /**
    * @param {rdf.Term} baseURI
    * @param {Object} value looks something like this:
-   *   { 'resourceTemplate:bf2:Note':
-   *     { 'http://www.w3.org/2000/01/rdf-schema#label': [Object],
-   *       'http://www.w3.org/2000/01/rdf-schema#label': [Object] } }
+   *   { 'resourceTemplate:bf2:WorkTitle':
+   *     { 'http://id.loc.gov/ontologies/bibframe/mainTitle': {},
+   *       'http://id.loc.gov/ontologies/bibframe/partName': {} } }
    */
   buildTriplesForNestedObject(baseURI, value) {
     // Is there ever more than one base node?
