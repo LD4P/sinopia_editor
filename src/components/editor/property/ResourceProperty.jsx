@@ -60,7 +60,6 @@ export class ResourceProperty extends Component {
                                    propertyTemplate={rtProperty}
                                    reduxPath={newReduxPath}
                                    addButtonDisabled={isAddDisabled}
-                                   initNewResourceTemplate={this.props.initNewResourceTemplate}
                                    resourceTemplate={resourceTemplate} />,
         )
       })
