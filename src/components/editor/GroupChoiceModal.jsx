@@ -25,9 +25,8 @@ class GroupChoiceModal extends Component {
   render() {
     return (
       <div>
-        <Modal show={ this.props.show } bsSize="lg">
-          <Modal.Header className="prop-heading">
-            <button className="close" data-dismiss="alert" aria-label="close" onClick={this.props.close}>&times;</button>
+        <Modal show={ this.props.show } onHide={ this.props.close } bsSize="lg">
+          <Modal.Header className="prop-heading" closeButton>
             <Modal.Title>
               Which group do you want to save to?
             </Modal.Title>
