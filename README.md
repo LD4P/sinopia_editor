@@ -70,24 +70,39 @@ The express server is available on at [http://localhost:8000](http://localhost:8
 
 `npm run eslint`
 
-### Test
+### Running Tests
 
-Tests are written in jest, also utilizing puppeteer for end-to-end tests.
-To run them `npm test`.
+Tests are written in jest, also utilizing puppeteer for end-to-end tests. Run them with `npm test`.
 
-To run the tests, you'll have to provide a couple environment variables, so that the tests have valid user info with which to login.  The env vars are:
+To properly run all of the tests (including integration), you'll have to provide a couple of environment variables,
+so that the tests have valid user info with which to login.  The env vars are:
+
 ```sh
 COGNITO_TEST_USER_NAME='sinopia-devs+client-tester@lists.stanford.edu' # a test user we have on dev and stage
 COGNITO_TEST_USER_PASS='<get this from shared_configs or another developer>' # not committing the real value to a public repo
 ```
 
-e.g.
+Putting it all together, to run all of the tests:
+
+```sh
+COGNITO_TEST_USER_NAME='sinopia-devs+client-tester@lists.stanford.edu' COGNITO_TEST_USER_PASS='theActualPassword' npm test
+```
+
+Note that if you have an instance of the dev server already running in a separate terminal, you may need to stop the server or you may get a port conflict
+when running the integration tests.
+
+#### Test coverage
+
+To get coverage data, use `npm run jest-cov`.  Be sure to specify the ENV variables as described above:
+
 ```sh
 COGNITO_TEST_USER_NAME='sinopia-devs+client-tester@lists.stanford.edu' COGNITO_TEST_USER_PASS='theActualPassword' npm run jest-cov
 ```
 
-#### Test coverage
-To get coverage data, `npm run jest-cov`.  Use a web browser to open `coverage/lcov-report/index.html`.  There is a project view and also a view of each file.  You can also check [coveralls](https://coveralls.io/repos/github/LD4P/sinopia_editor).
+Once complete, you can start the dev server on your laptop as describe above and visit `http://localhost:8888/coverage/lcov-report/index.html`.
+(change localhost port number in the URL as needed to relfect actual one used in your local server)
+
+There is a project view and also a view of each file.  You can also check [coveralls](https://coveralls.io/repos/github/LD4P/sinopia_editor).
 
 ### Static Analysis
 
