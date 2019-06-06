@@ -30,6 +30,8 @@ export class ResourceProperty extends Component {
         )
       }
 
+      const resourceKeyId = shortid.generate()
+
       jsx.push(
         <div className="row" key={shortid.generate()}>
           <section className="col-sm-8">
@@ -39,7 +41,7 @@ export class ResourceProperty extends Component {
             <PropertyActionButtons handleAddClick={this.props.handleAddClick(resourceTemplate)}
                                    reduxPath={this.props.reduxPath}
                                    addButtonDisabled={this.props.addButtonDisabled}
-                                   key={shortid.generate()} />
+                                   key={resourceKeyId} />
           </section>
         </div>,
       )
@@ -48,6 +50,7 @@ export class ResourceProperty extends Component {
         const keyId = shortid.generate()
         const newReduxPath = Object.assign([], this.props.reduxPath)
 
+        newReduxPath.push(resourceKeyId)
         newReduxPath.push(rtId)
         newReduxPath.push(rtProperty.propertyURI)
         const payload = { reduxPath: newReduxPath, property: rtProperty }

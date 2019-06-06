@@ -89,9 +89,12 @@ export class PropertyTemplateOutline extends Component {
 
     if (isResourceWithValueTemplateRef(property)) {
       const isAddDisabled = !templateBoolean(property.repeatable)
+      const newReduxPath = Object.assign([], this.props.reduxPath)
+
+      newReduxPath.push(property.propertyURI)
 
       propertyJsx = <ResourceProperty propertyTemplate={property}
-                                      reduxPath={this.props.reduxPath}
+                                      reduxPath={newReduxPath}
                                       nestedResourceTemplates={this.state.nestedResourceTemplates}
                                       handleAddClick={this.handleAddClick}
                                       addButtonDisabled={isAddDisabled} />
