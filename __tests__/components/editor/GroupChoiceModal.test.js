@@ -8,11 +8,12 @@ import GroupChoiceModal from '../../../src/components/editor/GroupChoiceModal'
 
 describe('<GroupChoiceModal />', () => {
   const saveFunc = jest.fn()
+  const rdfFunc = jest.fn()
   const closeFunc = jest.fn()
   const groups = [['pcc', 'PCC'],
     ['wau', 'University of Washington']]
 
-  const wrapper = shallow(<GroupChoiceModal show={true} rdf="<>" save={saveFunc} close={closeFunc} groups={groups} />)
+  const wrapper = shallow(<GroupChoiceModal show={true} rdf={rdfFunc} save={saveFunc} close={closeFunc} groups={groups} />)
 
   it('renders the <GroupChoiceModal /> component as a Modal', () => {
     expect(wrapper.find(Modal).length).toBe(1)
