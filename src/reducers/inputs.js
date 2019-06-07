@@ -62,6 +62,17 @@ export const setMySelections = (state, action) => {
   return newState
 }
 
+export const setBaseURL = (state, action) => {
+  const newState = { ...state }
+
+  // Is there ever more than one base node?
+  Object.values(newState).forEach((value) => {
+    value.resourceURI = action.payload
+  })
+
+  return newState
+}
+
 export const removeMyItem = (state, action) => {
   const newState = { ...state }
   const reduxPath = action.payload.reduxPath

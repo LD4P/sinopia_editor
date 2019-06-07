@@ -3,7 +3,7 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import PropTypes from 'prop-types'
-import { removeAllItems } from '../../actions/index'
+import { removeAllItems, assignBaseURL } from '../../actions/index'
 import ResourceTemplate from './ResourceTemplate'
 import Header from './Header'
 import RDFModal from './RDFModal'
@@ -59,7 +59,15 @@ class Editor extends Component {
   )
 
   chooseGroupThenSave = (rdf, group) => {
-    publishRDFResource(this.props.currentUser, rdf, group)
+    const request = publishRDFResource(this.props.currentUser, rdf, group)
+
+    request.then((result) => {
+      this.props.setBaseURL(result.response.headers.location)
+    }).catch((err) => {
+      alert('Unable to save resource')
+      console.error('unable to save resource')
+      console.error(err)
+    })
     this.handleRdfClose()
     this.closeGroupChooser()
   }
@@ -117,6 +125,7 @@ class Editor extends Component {
 Editor.propTypes = {
   triggerHandleOffsetMenu: PropTypes.func,
   resetStore: PropTypes.func,
+  setBaseURL: PropTypes.func,
   location: PropTypes.object,
   resourceTemplateId: PropTypes.string,
   history: PropTypes.object,
@@ -135,6 +144,9 @@ const mapDispatchToProps = dispatch => ({
   resetStore() {
     dispatch(removeAllItems())
   },
+  setBaseURL(url) {
+    dispatch(assignBaseURL(url))
+  }
 })
 
 export default connect(mapStateToProps, mapDispatchToProps)(Editor)

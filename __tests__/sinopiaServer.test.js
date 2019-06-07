@@ -1,4 +1,4 @@
-// Copyright 2018 Stanford University see LICENSE for license
+// Copyright 2019 Stanford University see LICENSE for license
 
 import Config from '../src/Config'
 
@@ -41,23 +41,6 @@ describe('sinopiaServer', () => {
         error: 'ERROR: asked for resourceTemplate with null/undefined id',
         propertyTemplates: [{}],
       })
-    })
-  })
-  describe('publishRDFResource', () => {
-    const mockCurrentUser = {
-      username: Config.cognitoTestUserName,
-      group: 'pcc',
-    }
-
-    const rdf = '<> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> "resourceTemplate:bf2:Monograph:Work" .'
-
-    it('currently just puts up an alert and returns the rdf', () => {
-      global.alert = jest.fn()
-      const create = sinopiaServer.publishRDFResource(mockCurrentUser, rdf, undefined)
-
-      expect(create).toEqual(rdf)
-      expect(global.alert.mock.calls.length).toEqual(1)
-      global.alert = alert
     })
   })
 })
