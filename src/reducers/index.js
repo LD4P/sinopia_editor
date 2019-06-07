@@ -32,7 +32,7 @@ export const getProperty = (state, props) => {
 }
 
 /**
- * @returns {string} the serialized RDF
+ * @returns {function} a function that can be called to get the serialized RDF
  */
 export const getAllRdf = (state, action) => {
   const output = Object.create(state)
@@ -40,9 +40,9 @@ export const getAllRdf = (state, action) => {
   // TODO: temporary no-op to pass eslint ...
   action.payload
 
-  const graph = new GraphBuilder(output.selectorReducer).graph
+  const builder = new GraphBuilder(output.selectorReducer)
 
-  return graph.toString()
+  return () => builder.graph.toString()
 }
 
 

@@ -1,6 +1,24 @@
 // Copyright 2019 Stanford University see LICENSE for license
 import shortid from 'shortid'
-import selectorReducer, { populatePropertyDefaults, refreshResourceTemplate } from '../../src/reducers/index'
+import selectorReducer, { getAllRdf, populatePropertyDefaults, refreshResourceTemplate } from '../../src/reducers/index'
+
+describe('getAllRdf()', () => {
+  const state = {
+    selectorReducer: {
+      'resourceTemplate:bf2:Monograph:Work': {
+        rdfClass: 'http://id.loc.gov/ontologies/bibframe/Work',
+        'http://id.loc.gov/ontologies/bibframe/title': {},
+      },
+    },
+  }
+  const action = { }
+
+  it('returns a function, which when invoked returns a string', () => {
+    const fn = getAllRdf(state, action)
+
+    expect(fn()).toEqual('<> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://id.loc.gov/ontologies/bibframe/Work> .\n')
+  })
+})
 
 describe('Takes a resource template ID and populates the global state', () => {
   // Make sure spies/mocks don't leak between tests

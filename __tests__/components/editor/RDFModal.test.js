@@ -8,34 +8,24 @@ import RDFModal from '../../../src/components/editor/RDFModal'
 
 describe('<RDFModal />', () => {
   const closeFunc = jest.fn()
-
+  const rdfFunc = jest.fn()
   const saveFunc = jest.fn()
 
-  const wrapper = shallow(<RDFModal show={true} rdf="<>" close={closeFunc} save={saveFunc} />)
+  const wrapper = shallow(<RDFModal show={true} rdf={rdfFunc} close={closeFunc} save={saveFunc} />)
 
   it('renders the <RDFModal /> component as a Modal', () => {
     expect(wrapper.find(Modal).length).toBe(1)
   })
+
   describe('header', () => {
     it('has a Modal.Header', () => {
       expect(wrapper.find(Modal.Header).length).toBe(1)
     })
-    it('has a Cancel link', () => {
-      expect(wrapper.find(Modal.Header).find(Button)
-        .first()
-        .childAt(0)
-        .text()).toEqual('Cancel')
+
+    it('has a close button', () => {
+      expect(wrapper.find(Modal.Header).prop('closeButton')).toBe(true)
     })
-    it('has some instructions', () => {
-      expect(wrapper.find(Modal.Header).find('div').first().childAt(0)
-        .text()).toEqual('If this looks good, then click Save and Publish')
-    })
-    it('has a save and publish button', () => {
-      expect(wrapper.find(Modal.Header).find(Button)
-        .last()
-        .childAt(0)
-        .text()).toEqual('Save & Publish')
-    })
+
     it('has a Modal.Title inside the Modal.Header', () => {
       expect(wrapper.find(Modal.Header).find(Modal.Title).length).toBe(1)
     })
@@ -45,19 +35,24 @@ describe('<RDFModal />', () => {
       expect(title.childAt(0).text()).toMatch(/RDF Preview/)
     })
   })
+
   describe('body', () => {
+    it('has a save and publish button', () => {
+      expect(wrapper.find(Modal.Body).find(Button)
+        .last()
+        .childAt(0)
+        .text()).toEqual('Save & Publish')
+    })
+
     it('has a Modal.Body', () => {
       expect(wrapper.find(Modal.Body).length).toBe(1)
     })
   })
+
   describe('save and close buttons', () => {
-    it('attenmplts to save the RDF content when save is clicked', () => {
+    it('attempts to save the RDF content when save is clicked', () => {
       wrapper.find('.btn-primary', { text: 'Save &amp; Publish' }).simulate('click')
       expect(saveFunc).toHaveBeenCalled()
-    })
-    it('closes the modal when the Cancel link is clicked', () => {
-      wrapper.find('.btn-link', { text: 'Cancel' }).simulate('click')
-      expect(closeFunc).toHaveBeenCalled()
     })
   })
 })

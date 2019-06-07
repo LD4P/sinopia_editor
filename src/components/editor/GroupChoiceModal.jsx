@@ -18,7 +18,7 @@ class GroupChoiceModal extends Component {
   }
 
   saveAndClose = () => {
-    this.props.save(this.props.rdf, this.state.selectedValue)
+    this.props.save(this.props.rdf(), this.state.selectedValue)
   }
 
   render() {
@@ -62,7 +62,7 @@ GroupChoiceModal.propTypes = {
   choose: PropTypes.func,
   show: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
   groups: PropTypes.array,
-  rdf: PropTypes.string,
+  rdf: PropTypes.func,
 }
 
 export default GroupChoiceModal

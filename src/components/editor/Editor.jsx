@@ -81,6 +81,15 @@ class Editor extends Component {
       authenticationMessage = <span/>
     }
 
+
+    let rdfModal
+
+    if (this.state.showRdf) {
+      rdfModal = <RDFModal save={ () => this.handleRdfSave() }
+                           close={ this.handleRdfClose }
+                           rdf={ this.props.rdf } />
+    }
+
     return (
       <div id="editor">
         <Header triggerEditorMenu={this.props.triggerHandleOffsetMenu}/>
@@ -90,12 +99,8 @@ class Editor extends Component {
             <button type="button" className="btn btn-primary btn-sm" onClick={ this.handleRdfShow }>Preview RDF</button>
           </section>
         </div>
-        <div>
-          <RDFModal show={ this.state.showRdf }
-                    save={ () => this.handleRdfSave() }
-                    close={ this.handleRdfClose }
-                    rdf={ this.props.rdf } />
-        </div>
+        {rdfModal}
+
         <div>
           <GroupChoiceModal show={ this.state.showGroupChooser }
                             rdf={this.props.rdf}
@@ -117,7 +122,7 @@ Editor.propTypes = {
   history: PropTypes.object,
   currentSession: PropTypes.object,
   currentUser: PropTypes.object,
-  rdf: PropTypes.string,
+  rdf: PropTypes.func,
 }
 
 const mapStateToProps = (state, props) => ({
