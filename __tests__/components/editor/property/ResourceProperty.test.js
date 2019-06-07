@@ -8,9 +8,11 @@ import PropertyActionButtons from 'components/editor/property/PropertyActionButt
 import PropertyTemplateOutline from 'components/editor/property/PropertyTemplateOutline'
 
 describe('<ResourceProperty />', () => {
+  shortid.generate = jest.fn().mockReturnValue('abcd45')
+
   describe('happy path', () => {
-    shortid.generate = jest.fn().mockReturnValue('abcd45')
     const mockInitNewResourceTemplate = jest.fn()
+    const mockSetResourceURI = jest.fn()
 
     const property = {
       propertyLabel: 'Notes about the Instance',
@@ -42,6 +44,7 @@ describe('<ResourceProperty />', () => {
               reduxPath={[]}
               nestedResourceTemplates={nestedRTs}
               initNewResourceTemplate={mockInitNewResourceTemplate}
+              setResourceURI={mockSetResourceURI}
               handleAddClick={jest.fn()} />)
 
     it('creates a header section with the resource label', () => {
@@ -59,6 +62,10 @@ describe('<ResourceProperty />', () => {
       expect(propertyTemplateOutline.props().propertyTemplate).toEqual(nestedRTs[0].propertyTemplates[0])
       expect(propertyTemplateOutline.props().reduxPath).toEqual(['abcd45', 'resourceTemplate:bf2:Note', 'http://www.w3.org/2000/01/rdf-schema#label'])
       expect(propertyTemplateOutline.props().resourceTemplate).toEqual(nestedRTs[0])
+    })
+
+    it('calls redux to update the resourceURI', () => {
+      expect(mockSetResourceURI).toHaveBeenCalledTimes(1)
     })
 
     it('calls redux to initialize the state with the nested resource', () => {
@@ -100,6 +107,7 @@ describe('<ResourceProperty />', () => {
                               reduxPath={[]}
                               nestedResourceTemplates={nestedRTsWithoutMissingRef}
                               initNewResourceTemplate={mockInitNewResourceTemplate2}
+                              setResourceURI={jest.fn()}
                               handleAddClick={jest.fn()} />)
 
     it('creates a header section with the resource label', () => {

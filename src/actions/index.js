@@ -15,6 +15,11 @@ export const setResourceTemplate = resource_template => ({
   payload: resource_template,
 })
 
+export const setResourceURI = update => ({
+  type: 'SET_RESOURCE_URI',
+  payload: update,
+})
+
 export const removeItem = item => ({
   type: 'REMOVE_ITEM',
   payload: item,

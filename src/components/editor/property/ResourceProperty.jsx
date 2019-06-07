@@ -6,7 +6,7 @@ import PropTypes from 'prop-types'
 import shortid from 'shortid'
 import PropertyActionButtons from './PropertyActionButtons'
 import PropertyTemplateOutline from './PropertyTemplateOutline'
-import { refreshResourceTemplate } from '../../../actions/index'
+import { refreshResourceTemplate, setResourceURI } from '../../../actions/index'
 import { templateBoolean } from '../../../Utilities'
 
 const _ = require('lodash')
@@ -21,7 +21,11 @@ export class ResourceProperty extends Component {
 
     this.props.propertyTemplate.valueConstraint.valueTemplateRefs.map((rtId) => {
       const resourceTemplate = _.find(this.props.nestedResourceTemplates, ['id', rtId])
+      const resourceKeyId = shortid.generate()
+      const newReduxPath = Object.assign([], this.props.reduxPath)
 
+      newReduxPath.push(resourceKeyId)
+      newReduxPath.push(rtId)
       if (resourceTemplate === undefined) {
         return jsx.push(
           <div className="alert alert-warning" key={rtId}>
@@ -30,7 +34,12 @@ export class ResourceProperty extends Component {
         )
       }
 
-      const resourceKeyId = shortid.generate()
+      const update = {
+        resourceURI: resourceTemplate.resourceURI,
+        reduxPath: newReduxPath,
+      }
+
+      this.props.setResourceURI(update)
 
       jsx.push(
         <div className="row" key={shortid.generate()}>
@@ -45,15 +54,12 @@ export class ResourceProperty extends Component {
           </section>
         </div>,
       )
-
       resourceTemplate.propertyTemplates.map((rtProperty) => {
         const keyId = shortid.generate()
-        const newReduxPath = Object.assign([], this.props.reduxPath)
+        const propertyReduxPath = Object.assign([], newReduxPath)
 
-        newReduxPath.push(resourceKeyId)
-        newReduxPath.push(rtId)
-        newReduxPath.push(rtProperty.propertyURI)
-        const payload = { reduxPath: newReduxPath, property: rtProperty }
+        propertyReduxPath.push(rtProperty.propertyURI)
+        const payload = { reduxPath: propertyReduxPath, property: rtProperty }
 
         this.props.initNewResourceTemplate(payload)
         const isAddDisabled = !templateBoolean(rtProperty.repeatable)
@@ -61,8 +67,9 @@ export class ResourceProperty extends Component {
         jsx.push(
           <PropertyTemplateOutline key={keyId}
                                    propertyTemplate={rtProperty}
-                                   reduxPath={newReduxPath}
+                                   reduxPath={propertyReduxPath}
                                    addButtonDisabled={isAddDisabled}
+                                   initNewResourceTemplate={this.props.initNewResourceTemplate}
                                    resourceTemplate={resourceTemplate} />,
         )
       })
@@ -88,10 +95,14 @@ ResourceProperty.propTypes = {
   propertyTemplate: PropTypes.object,
   reduxPath: PropTypes.array,
   rtReduxPath: PropTypes.object,
+  setResourceURI: PropTypes.func,
 }
 const mapDispatchToProps = dispatch => ({
   initNewResourceTemplate(rt_context) {
     dispatch(refreshResourceTemplate(rt_context))
+  },
+  setResourceURI(update) {
+    dispatch(setResourceURI(update))
   },
 })
 
