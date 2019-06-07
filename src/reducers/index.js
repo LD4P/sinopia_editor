@@ -5,7 +5,7 @@ import shortid from 'shortid'
 import lang from './lang'
 import authenticate from './authenticate'
 import {
-  removeAllContent, removeMyItem, setMyItems, setMySelections,
+  removeAllContent, removeMyItem, setMyItems, setMySelections, setBaseURL,
 } from './inputs'
 import GraphBuilder from '../GraphBuilder'
 
@@ -44,7 +44,6 @@ export const getAllRdf = (state, action) => {
 
   return () => builder.graph.toString()
 }
-
 
 /**
  * This transforms the template fetched from the server into redux state
@@ -124,6 +123,8 @@ const selectorReducer = (state = {}, action) => {
       return setResourceTemplate(state, action)
     case 'SET_ITEMS':
       return setMyItems(state, action)
+    case 'SET_BASE_URL':
+      return setBaseURL(state, action)
     case 'CHANGE_SELECTIONS':
       return setMySelections(state, action)
     case 'REFRESH_RESOURCE_TEMPLATE':

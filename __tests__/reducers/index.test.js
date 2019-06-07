@@ -1,6 +1,8 @@
 // Copyright 2019 Stanford University see LICENSE for license
 import shortid from 'shortid'
 import selectorReducer, { getAllRdf, populatePropertyDefaults, refreshResourceTemplate } from '../../src/reducers/index'
+/* eslint import/namespace: 'off' */
+import * as inputs from '../../src/reducers/inputs'
 
 describe('getAllRdf()', () => {
   const state = {
@@ -20,12 +22,7 @@ describe('getAllRdf()', () => {
   })
 })
 
-describe('Takes a resource template ID and populates the global state', () => {
-  // Make sure spies/mocks don't leak between tests
-  afterAll(() => {
-    jest.restoreAllMocks()
-  })
-
+describe('selectorReducer', () => {
   const samplePropertyTemplate = [
     {
       propertyLabel: 'Instance of',
@@ -103,6 +100,11 @@ describe('Takes a resource template ID and populates the global state', () => {
     },
   ]
 
+  // Make sure spies/mocks don't leak between tests
+  afterAll(() => {
+    jest.restoreAllMocks()
+  })
+
   it('handles the initial state', () => {
     expect(
       selectorReducer(undefined, {}),
@@ -113,6 +115,22 @@ describe('Takes a resource template ID and populates the global state', () => {
         selectorReducer: {},
       },
     )
+  })
+
+  it('handles SET_BASE_URL', () => {
+    inputs.setBaseURL = jest.fn().mockReturnValue({})
+    const oldState = {
+      'resourceTemplate:bf2:Monograph:Instance': {
+        rdfClass: 'http://id.loc.gov/ontologies/bibframe/Instance',
+      },
+    }
+    const action = {
+      type: 'SET_BASE_URL',
+      payload: 'http://example.com/base/123',
+    }
+
+    selectorReducer({ selectorReducer: oldState }, action)
+    expect(inputs.setBaseURL).toBeCalledWith(oldState, action)
   })
 
   it('handles SET_RESOURCE_TEMPLATE', () => {
@@ -177,7 +195,13 @@ describe('Takes a resource template ID and populates the global state', () => {
       },
     })
   })
+})
 
+describe('refreshResourceTemplate', () => {
+  // Make sure spies/mocks don't leak between tests
+  afterAll(() => {
+    jest.restoreAllMocks()
+  })
 
   it('passing a payload to an empty state', () => {
     const emptyStateResult = refreshResourceTemplate({}, {
@@ -221,7 +245,7 @@ describe('Takes a resource template ID and populates the global state', () => {
   })
 })
 
-describe('Takes a property and returns an empty or a populated array from populatePropertyDefaults()', () => {
+describe('populatePropertyDefaults()', () => {
   it('empty and undefined properties return empty array', () => {
     const undefinedResult = populatePropertyDefaults()
 

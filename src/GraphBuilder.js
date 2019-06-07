@@ -19,12 +19,12 @@ export default class GraphBuilder {
    * @return {Graph} an RDF graph that represents the data in the state
    */
   get graph() {
-    // A relative URI to use as the base
-    const baseURI = rdf.namedNode('')
-
     // Is there ever more than one base node?
     Object.keys(this.state).forEach((key) => {
-      this.buildTriplesForNode(baseURI, rdf.namedNode(this.state[key].rdfClass), this.getPredicateList(key))
+      // If the resourceURI is not in the state, then this is an unsaved resource and we want a relative URI to use as the base
+      const resourceURI = rdf.namedNode(this.state[key].resourceURI || '')
+
+      this.buildTriplesForNode(resourceURI, rdf.namedNode(this.state[key].rdfClass), this.getPredicateList(key))
     })
     return this.dataset
   }
@@ -38,7 +38,7 @@ export default class GraphBuilder {
     const predicateList = {}
 
     Object.keys(this.state[key]).forEach((predicateKey) => {
-      if (predicateKey != 'rdfClass') {
+      if (!['rdfClass', 'resourceURI'].includes(predicateKey)) {
         predicateList[predicateKey] = this.state[key][predicateKey]
       }
     })

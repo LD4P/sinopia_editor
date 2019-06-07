@@ -79,23 +79,78 @@ export const updateResourceTemplate = async (templateObject, group, currentUser)
   return await instance.updateResourceWithHttpInfo(group, templateObject.id, templateObject, { contentType: 'application/json' })
 }
 
-export const publishRDFResource = (currentUser, rdf, group) => {
-  alert(`Your data would be saved in the "${group}" group container, if we supported that yet!`)
-
-  const jsonLD = rdf
-
-  /*
-   * we will have to transform the rdf to jsonLD somewhere
-   * just to prove that the rdf gets here...
-   */
-  console.log('RDF is Here!', jsonLD)
-
-  /*
-   * Right now just return the fake data; eventually this will be the server response below...
-   * eventually we will try to authenticate the user and save the resource to trellis with something like:
-   *
-   * await authenticate(currentUser)
-   * return await instance.createResourceWithHttpInfo(group, rdf, { slug: jsonLD['@graph'][0]['@id'], contentType: 'application/ld+json' })
-   */
-  return jsonLD
+/**
+ * @return {Promise} when the promise resolves it returns an object with `data` and response
+ *                   response looks like this:
+ *                   {
+ *                     "data": null,
+ *                     "response": {
+ *                       "req": {
+ *                         "_query": [],
+ *                         "method": "POST",
+ *                         "url": "http://localhost:8080/repository/ld4p",
+ *                         "header": {
+ *                           "Authorization": "Bearer [token]",
+ *                           "Content-Type": "application/n-triples",
+ *                           "Accept": "application/ld+json"
+ *                         },
+ *                         "_header": {
+ *                           "authorization": "Bearer [token]",
+ *                           "content-type": "application/n-triples",
+ *                           "accept": "application/ld+json"
+ *                         },
+ *                         "_callbacks": {
+ *                           "$end": [
+ *                             null
+ *                           ]
+ *                         },
+ *                         "_timeout": 60000,
+ *                         "_responseTimeout": 0,
+ *                         "_data": "<> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://id.loc.gov/ontologies/bibframe/Work> .\n<> <http://id.loc.gov/ontologies/bibframe/copyrightDate> \"mydefaultvalue\" .\n<> <http://id.loc.gov/ontologies/bibframe/creationDate> \"mydefaultvalue\" .\n<> <http://id.loc.gov/ontologies/bibframe/duration> \"mydefaultvalue\" .\n<> <http://id.loc.gov/ontologies/bibframe/equinox> \"mydefaultvalue\" .\n<> <http://id.loc.gov/ontologies/bibframe/subject> <http://id.loc.gov/authorities/subjects/sh85027699> .\n<> <http://id.loc.gov/ontologies/bibframe/polarity> <http://id.loc.gov/authorities/subjects/sh85027699> .\n<> <http://id.loc.gov/ontologies/bibframe/grantingInstitution> <http://id.loc.gov/authorities/names/no2015043111> .\n<> <http://id.loc.gov/ontologies/bibframe/illustrativeContent> <http://id.loc.gov/vocabulary/millus/fac> .\n",
+ *                         "_endCalled": true,
+ *                         "xhr": {}
+ *                       },
+ *                       "xhr": {},
+ *                       "text": "",
+ *                       "statusText": "Created",
+ *                       "statusCode": 201,
+ *                       "status": 201,
+ *                       "statusType": 2,
+ *                       "info": false,
+ *                       "ok": true,
+ *                       "redirect": false,
+ *                       "clientError": false,
+ *                       "serverError": false,
+ *                       "error": false,
+ *                       "created": true,
+ *                       "accepted": false,
+ *                       "noContent": false,
+ *                       "badRequest": false,
+ *                       "unauthorized": false,
+ *                       "notAcceptable": false,
+ *                       "forbidden": false,
+ *                       "notFound": false,
+ *                       "unprocessableEntity": false,
+ *                       "headers": {
+ *                         "link": "<http://www.w3.org/ns/ldp#RDFSource>; rel=\"type\", <http://www.w3.org/ns/ldp#Resource>; rel=\"type\", <http://platform:8080/repository/ld4p?ext=acl>; rel=\"acl\"",
+ *                         "location": "http://platform:8080/repository/ld4p/845325c8-db9f-4eed-a5d1-f3e8cdd003b7",
+ *                         "content-type": null
+ *                       },
+ *                       "header": {
+ *                         "link": "<http://www.w3.org/ns/ldp#RDFSource>; rel=\"type\", <http://www.w3.org/ns/ldp#Resource>; rel=\"type\", <http://platform:8080/repository/ld4p?ext=acl>; rel=\"acl\"",
+ *                         "location": "http://platform:8080/repository/ld4p/845325c8-db9f-4eed-a5d1-f3e8cdd003b7",
+ *                         "content-type": null
+ *                       },
+ *                       "type": "",
+ *                       "links": {
+ *                         "type": "http://www.w3.org/ns/ldp#Resource",
+ *                         "acl": "http://platform:8080/repository/ld4p?ext=acl"
+ *                       },
+ *                       "body": null
+ *                     }
+ *                   }
+ */
+export const publishRDFResource = async (currentUser, rdf, group) => {
+  await authenticate(currentUser)
+  return await instance.createResourceWithHttpInfo(group, rdf, { contentType: 'application/n-triples' })
 }

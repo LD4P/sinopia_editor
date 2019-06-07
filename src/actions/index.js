@@ -30,6 +30,11 @@ export const removeAllItems = item => ({
   payload: item,
 })
 
+export const assignBaseURL = item => ({
+  type: 'SET_BASE_URL',
+  payload: item,
+})
+
 export const changeSelections = item => ({
   type: 'CHANGE_SELECTIONS',
   payload: item,

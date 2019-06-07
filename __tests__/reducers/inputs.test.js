@@ -1,11 +1,11 @@
 // Copyright 2018 Stanford University see LICENSE for license
 
 import {
-  removeAllContent, removeMyItem, setMyItems, setMySelections,
+  removeAllContent, removeMyItem, setMyItems, setMySelections, setBaseURL,
 } from '../../src/reducers/inputs'
 
-describe('literal reducer functions', () => {
-  it('SET_ITEMS adds item to state', () => {
+describe('setMyItems', () => {
+  it('adds item to state', () => {
     const literalSetItems = setMyItems({
       'resourceTemplate:Monograph:Instance': {
         'http://schema.org/name': { items: [] },
@@ -29,7 +29,7 @@ describe('literal reducer functions', () => {
     })
   })
 
-  it('SET_ITEMS adds item to an empty state', () => {
+  it('adds item to an empty state', () => {
     const emptyState = setMyItems({},
       {
         type: 'SET_ITEMS',
@@ -50,7 +50,7 @@ describe('literal reducer functions', () => {
     })
   })
 
-  it('SET_ITEMS appends item to populated state', () => {
+  it('appends item to populated state', () => {
     expect(
       setMyItems({ 'resourceTemplate:Book': {} },
         {
@@ -70,7 +70,7 @@ describe('literal reducer functions', () => {
     })
   })
 
-  it('SET_ITEMS creates intermediate objects in the Redux state if present in reduxPath', () => {
+  it('creates intermediate objects in the Redux state if present in reduxPath', () => {
     const createPersonResult = setMyItems({
       'resourceTemplate:Monograph:Instance': {
         abcdeCode: {
@@ -105,7 +105,7 @@ describe('literal reducer functions', () => {
     })
   })
 
-  it('SET_ITEMS adds new item to state when state has existing selector for another literal', () => {
+  it('adds new item to state when state has existing selector for another literal', () => {
     expect(
       setMyItems({
         'resourceTemplate:Monograph:Instance': {
@@ -141,8 +141,10 @@ describe('literal reducer functions', () => {
       },
     })
   })
+})
 
-  it('CHANGE_SELECTIONS adds items to state', () => {
+describe('setMySelections', () => {
+  it('adds items to state', () => {
     const listSetSelections = setMySelections({
       'resourceTemplate:Monograph:Instance': {
         'http://schema.org/name': { items: [] },
@@ -166,7 +168,7 @@ describe('literal reducer functions', () => {
     })
   })
 
-  it('CHANGE_SELECTIONS overwrites items in  current state', () => {
+  it('overwrites items in  current state', () => {
     const listSetSelections = setMySelections({
       'resourceTemplate:Monograph:Instance': {
         'http://schema.org/name': { items: [{ id: 0, label: 'Run the tests', uri: 'http://schema.org/abc' }] },
@@ -196,7 +198,7 @@ describe('literal reducer functions', () => {
     })
   })
 
-  it('CHANGE_SELECTIONS removes all items in  current state by overwriting with an empty object', () => {
+  it('removes all items in  current state by overwriting with an empty object', () => {
     const listSetSelections = setMySelections({
       'resourceTemplate:Monograph:Instance': {
         'http://schema.org/name': {
@@ -222,8 +224,32 @@ describe('literal reducer functions', () => {
       },
     })
   })
+})
 
-  it('REMOVE_ITEM removes an item from state', () => {
+describe('setBaseURL', () => {
+  it('sets the base URL', () => {
+    expect(setBaseURL({
+      'resourceTemplate:Monograph:Instance': {
+        'http://schema.org/name': {
+          items: [{ id: 1, content: 'more content' }],
+        },
+      },
+    },
+    {
+      type: 'SET_BASE_URL',
+      payload: 'http://example.com/foo/123',
+    })).toEqual({
+      'resourceTemplate:Monograph:Instance': {
+        resourceURI: 'http://example.com/foo/123',
+        'http://schema.org/name': {
+          items: [{ id: 1, content: 'more content' }],
+        },
+      },
+    })
+  })
+})
+describe('removeMyItem', () => {
+  it('removes an item from state', () => {
     expect(removeMyItem({
       'resourceTemplate:Monograph:Instance': {
         'http://schema.org/name': {
@@ -252,7 +278,7 @@ describe('literal reducer functions', () => {
     })
   })
 
-  it('Calling REMOVE_ITEMS with non-existent id does not change state', () => {
+  it('with non-existent id does not change state', () => {
     expect(removeMyItem({
       'resourceTemplate:Monograph:Instance': {
         'http://schema.org/name': {
@@ -282,7 +308,9 @@ describe('literal reducer functions', () => {
       },
     })
   })
+})
 
+describe('removeAllContent', () => {
   it('should handle REMOVE_ALL_CONTENT', () => {
     expect(
       removeAllContent({
