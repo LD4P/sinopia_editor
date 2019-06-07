@@ -12,7 +12,7 @@ describe('When an unauthenticated user tries to access resource templates', () =
     try {
       await page.waitForSelector('button.signout-btn')
       await page.click('button.signout-btn')
-      } catch (error) {
+    } catch (error) {
       console.info(error)
     }
   })
