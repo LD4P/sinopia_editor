@@ -1,6 +1,11 @@
 // Copyright 2019 Stanford University see LICENSE for license
 import shortid from 'shortid'
-import selectorReducer, { getAllRdf, populatePropertyDefaults, refreshResourceTemplate } from '../../src/reducers/index'
+import selectorReducer, {
+  getAllRdf,
+  populatePropertyDefaults,
+  refreshResourceTemplate,
+  setResourceURI,
+} from '../../src/reducers/index'
 /* eslint import/namespace: 'off' */
 import * as inputs from '../../src/reducers/inputs'
 
@@ -312,5 +317,30 @@ describe('populatePropertyDefaults()', () => {
       id: 0,
       uri: 'http://id.loc.gov/vocabulary/organizations/dlc',
     }])
+  })
+
+  describe('handles SET_RESOURCE_URI', () => {
+    const state = {
+      'resourceTemplate:bf2:Monograph:Work': {
+        'http://id.loc.gov/ontologies/bibframe/title': {},
+      },
+    }
+
+    it('adds rdfClass to state', () => {
+      const newState = setResourceURI(state, {
+        type: 'SET_RESOURCE_URI',
+        payload: {
+          reduxPath: ['resourceTemplate:bf2:Monograph:Work'],
+          resourceURI: 'http://id.loc.gov/ontologies/bibframe/Work',
+        },
+      })
+
+      expect(newState).toEqual({
+        'resourceTemplate:bf2:Monograph:Work': {
+          'http://id.loc.gov/ontologies/bibframe/title': {},
+          rdfClass: 'http://id.loc.gov/ontologies/bibframe/Work',
+        },
+      })
+    })
   })
 })

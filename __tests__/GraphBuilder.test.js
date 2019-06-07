@@ -109,6 +109,7 @@ describe('GraphBuilder', () => {
         'http://id.loc.gov/ontologies/bibframe/colorContent': {
           '-KACHlqQ4A': {
             'resourceTemplate:bf2:Note': {
+              rdfClass: 'http://id.loc.gov/ontologies/bibframe/Note',
               'http://www.w3.org/2000/01/rdf-schema#label': {
                 items: [
                   {
@@ -152,6 +153,9 @@ describe('GraphBuilder', () => {
       expect(result.toArray().length).toEqual(1)
 
       result = graph.filter(quad => quad.object.equals(rdf.literal('Sparkly')))
+      expect(result.toArray().length).toEqual(1)
+
+      result = graph.filter(quad => quad.object.equals(rdf.namedNode('http://id.loc.gov/ontologies/bibframe/Note')) && quad.predicate.equals(rdf.namedNode('http://www.w3.org/1999/02/22-rdf-syntax-ns#type')))
       expect(result.toArray().length).toEqual(1)
     })
   })

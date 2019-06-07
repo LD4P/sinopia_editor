@@ -24,25 +24,25 @@ export default class GraphBuilder {
       // If the resourceURI is not in the state, then this is an unsaved resource and we want a relative URI to use as the base
       const resourceURI = rdf.namedNode(this.state[key].resourceURI || '')
 
-      this.buildTriplesForNode(resourceURI, rdf.namedNode(this.state[key].rdfClass), this.getPredicateList(key))
+      this.buildTriplesForNode(resourceURI, this.state[key].rdfClass, this.getPredicateList(this.state[key]))
     })
     return this.dataset
   }
 
   /**
    * Filter out the non-predicate values (e.g. rdfClass)
-   * @param {string} key
-   * @return {Array.<Object>} the predicate InputListLOC
+   * @param {<object>} Object containing predicates as keys
+   * @return {<Object>} the filtered predicate list
    */
-  getPredicateList(key) {
-    const predicateList = {}
+  getPredicateList(predicateList) {
+    const newPredicateList = {}
 
-    Object.keys(this.state[key]).forEach((predicateKey) => {
+    Object.keys(predicateList).forEach((predicateKey) => {
       if (!['rdfClass', 'resourceURI'].includes(predicateKey)) {
-        predicateList[predicateKey] = this.state[key][predicateKey]
+        newPredicateList[predicateKey] = predicateList[predicateKey]
       }
     })
-    return predicateList
+    return newPredicateList
   }
 
   /**
@@ -55,19 +55,18 @@ export default class GraphBuilder {
   buildTriplesForNestedObject(baseURI, value) {
     // Is there ever more than one base node?
     Object.values(value).forEach((rt) => {
-      // we don't have a resourceURI to send as the second argument in the propertyTemplates yet.
-      this.buildTriplesForNode(baseURI, null, rt)
+      this.buildTriplesForNode(baseURI, rt.rdfClass, this.getPredicateList(rt))
     })
   }
 
   /**
    * @param {rdf.Term} baseURI
-   * @param {rdf.Term} type
+   * @param {string} type
    * @param {Array.<Object>}
    */
   buildTriplesForNode(baseURI, type, predicateList) {
     if (type) {
-      this.addTypeTriple(baseURI, type)
+      this.addTypeTriple(baseURI, rdf.namedNode(type))
     }
 
     // Now add all the other properties

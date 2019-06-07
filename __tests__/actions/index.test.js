@@ -10,6 +10,13 @@ describe('setItems actions', () => {
     })
   })
 
+  it('setResourceURI should create SET_RESOURCE_URI action', () => {
+    expect(actions.setResourceURI({ resourceURI: 'http://resourceURI', reduxPath: ['path to nowhere'] })).toEqual({
+      type: 'SET_RESOURCE_URI',
+      payload: { resourceURI: 'http://resourceURI', reduxPath: ['path to nowhere'] },
+    })
+  })
+
   it('removeItem should create REMOVE_ITEM action', () => {
     expect(actions.removeItem({ id: 0, label: 'Instance of' })).toEqual({
       type: 'REMOVE_ITEM',

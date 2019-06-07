@@ -72,7 +72,6 @@ export class PropertyTemplateOutline extends Component {
 
   handleClick = property => (event) => {
     event.preventDefault()
-
     this.setState({ collapsed: !this.state.collapsed })
 
     const templateRefList = isResourceWithValueTemplateRef(property) ? property.valueConstraint.valueTemplateRefs : []

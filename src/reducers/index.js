@@ -80,6 +80,7 @@ export const refreshResourceTemplate = (state, action) => {
   const items = defaults.length > 0 ? { items: defaults } : {}
 
   const lastKey = reduxPath.pop()
+
   const lastObject = reduxPath.reduce((newState, key) => newState[key] = newState[key] || {}, newState)
 
   if (Object.keys(items).includes('items')) {
@@ -115,6 +116,16 @@ export const setResourceTemplate = (state, action) => {
   return output
 }
 
+export const setResourceURI = (state, action) => {
+  const newState = { ...state }
+  const reduxPath = action.payload.reduxPath
+
+  const lastObject = reduxPath.reduce((newState, key) => newState[key] = newState[key] || {}, newState)
+
+  lastObject.rdfClass = action.payload.resourceURI
+  return newState
+}
+
 export const makeShortID = () => shortid.generate()
 
 const selectorReducer = (state = {}, action) => {
@@ -133,6 +144,8 @@ const selectorReducer = (state = {}, action) => {
       return removeMyItem(state, action)
     case 'REMOVE_ALL_CONTENT':
       return removeAllContent(state, action)
+    case 'SET_RESOURCE_URI':
+      return setResourceURI(state, action)
     default:
       return state
   }
