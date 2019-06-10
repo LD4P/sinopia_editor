@@ -29,13 +29,13 @@ class InputLang extends Component {
     const uri = Object.getOwnPropertyDescriptor(item, '@id').value
     const labelArrayDescr = Object.getOwnPropertyDescriptor(item, 'http://www.loc.gov/mads/rdf/v1#authoritativeLabel')
 
-    // There are some odd entries, so ignoring if don't have labels.
+    // Some of the LOC items do not have labels so ignore them.
     if (!labelArrayDescr) return result
     const labelArray = labelArrayDescr.value
 
-    // Looking for English label
     let label = null
 
+    // Looking for English label
     labelArray.forEach((langItem) => {
       if (langItem['@language'] === 'en') {
         label = langItem['@value']
@@ -57,6 +57,7 @@ class InputLang extends Component {
       options: this.state.options,
       selected: this.state.selected,
       emptyLabel: 'retrieving list of languages...',
+      autoFocus: true,
     }
 
     return (
@@ -64,7 +65,6 @@ class InputLang extends Component {
         <label htmlFor="langComponent">Select language for {this.props.textValue}
           <Typeahead
             onFocus={() => {
-              // onFocus seems to get called multiple times.
               if (this.state.isLoading) {
                 return
               }
