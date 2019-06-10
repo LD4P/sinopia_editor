@@ -6,19 +6,27 @@ import { connect } from 'react-redux'
 import Modal from 'react-bootstrap/lib/Modal'
 import Button from 'react-bootstrap/lib/Button'
 import shortid from 'shortid'
-import { removeItem, setItems } from '../../../actions/index'
+import { removeItem, setItems, setLang } from '../../../actions/index'
 import { getProperty } from '../../../reducers/index'
 import InputLang from './InputLang'
-import store from '../../../store'
+import { defaultLangTemplate } from '../../../Utilities'
+
 
 // Redux recommends exporting the unconnected component for unit tests.
 export class InputLiteral extends Component {
   constructor(props) {
     super(props)
+
+    /*
+     * show is whether to show the language modal.
+     * Note that it is a hash because will have multiple modals if there
+     * are multiple literals.
+     */
     this.state = {
-      show: false,
+      show: {},
       content_add: '',
       disabled: false,
+      lang_payload: null,
     }
     this.inputLiteralRef = React.createRef()
   }
@@ -32,12 +40,15 @@ export class InputLiteral extends Component {
   }
 
 
-  handleShow = () => {
-    this.setState({ show: true })
+  handleShow = (id) => {
+    const show_state = {}
+
+    show_state[id] = true
+    this.setState({ show: show_state })
   }
 
   handleClose = () => {
-    this.setState({ show: false })
+    this.setState({ show: {}, lang_payload: null })
   }
 
   handleFocus = (event) => {
@@ -52,10 +63,13 @@ export class InputLiteral extends Component {
   }
 
   notRepeatableAfterUserInput = (userInputArray, currentcontent) => {
+    let newId = null
+
     if (this.props.formData == undefined || this.props.formData.items < 1) {
-      this.addUserInput(userInputArray, currentcontent)
+      newId = this.addUserInput(userInputArray, currentcontent)
       this.setState({ disabled: true })
     }
+    return newId
   }
 
   addUserInput = (userInputArray, currentcontent) => {
@@ -65,6 +79,7 @@ export class InputLiteral extends Component {
       content: currentcontent,
       id: newId,
     })
+    return newId
   }
 
   handleKeypress = (event) => {
@@ -75,10 +90,12 @@ export class InputLiteral extends Component {
       if (!currentcontent) {
         return
       }
+      let newId = null
+
       if (this.props.propertyTemplate.repeatable == 'true') {
-        this.addUserInput(userInputArray, currentcontent)
+        newId = this.addUserInput(userInputArray, currentcontent)
       } else if (this.props.propertyTemplate.repeatable == 'false') {
-        this.notRepeatableAfterUserInput(userInputArray, currentcontent)
+        newId = this.notRepeatableAfterUserInput(userInputArray, currentcontent)
       }
       const user_input = {
         uri: this.props.propertyTemplate.propertyURI,
@@ -87,6 +104,7 @@ export class InputLiteral extends Component {
       }
 
       this.props.handleMyItemsChange(user_input)
+      this.setDefaultLang(newId)
       this.setState({
         content_add: '',
       })
@@ -141,38 +159,20 @@ export class InputLiteral extends Component {
     }
   }
 
-  dispModal = content => (
-    <Modal show={this.state.show} onHide={this.handleClose}>
+  dispModal = (content, id) => (
+    <Modal show={this.state.show[id]} onHide={this.handleClose}>
       <Modal.Header closeButton>
         <Modal.Title>Languages</Modal.Title>
       </Modal.Header>
       <Modal.Body>
-        <InputLang textValue={content}/>
+        <InputLang textValue={content} reduxPath={this.props.reduxPath} textId={id} handleLangChange={this.handleLangChange}/>
       </Modal.Body>
       <Modal.Footer>
-        <Button onClick={this.handleClose}>Submit</Button>
+        <Button onClick={this.handleLangSubmit}>Submit</Button>
         <Button onClick={this.handleClose}>Close</Button>
       </Modal.Footer>
     </Modal>
   )
-
-  dispLang = (content) => {
-    const newState = store.getState()
-    const index = newState.lang.formData.map(o => o.id).indexOf(content)
-    let newLang
-
-    try {
-      newLang = newState.lang.formData[index].items[0].label
-    } catch (error) {
-      // ignore
-    }
-
-    if (newLang === undefined) {
-      return 'English'
-    }
-
-    return newLang
-  }
 
   makeAddedList = () => {
     const formInfo = this.props.formData
@@ -182,7 +182,6 @@ export class InputLiteral extends Component {
     }
     const elements = formInfo.items.map((obj) => {
       const itemId = obj.id || shortid.generate()
-
 
       return <div id="userInput" key = {itemId} >
         {obj.content}
@@ -205,15 +204,34 @@ export class InputLiteral extends Component {
         >Edit
         </button>
         <Button
+          id="language"
           bsSize="small"
-          onClick = {this.handleShow}>
-          Language: {this.dispLang(obj.content)}
+          onClick = {e => this.handleShow(obj.id, e)}>
+          Language: {obj.lang.items[0].label}
         </Button>
-        {this.dispModal(obj.content)}
+        {this.dispModal(obj.content, obj.id)}
       </div>
     })
 
     return elements
+  }
+
+  setDefaultLang = (textId) => {
+    const payload = defaultLangTemplate()
+
+    payload.id = textId
+    payload.reduxPath = this.props.reduxPath
+    this.props.handleMyItemsLangChange(payload)
+  }
+
+  // Passed to InputLang component so that can return a language change.
+  handleLangChange = (payload) => {
+    this.setState({ lang_payload: payload })
+  }
+
+  handleLangSubmit= () => {
+    this.props.handleMyItemsLangChange(this.state.lang_payload)
+    this.handleClose()
   }
 
   render() {
@@ -256,6 +274,7 @@ InputLiteral.propTypes = {
   }),
   handleMyItemsChange: PropTypes.func,
   handleRemoveItem: PropTypes.func,
+  handleMyItemsLangChange: PropTypes.func,
   reduxPath: PropTypes.oneOfType([PropTypes.string, PropTypes.array]),
   blankNodeForLiteral: PropTypes.object,
   propPredicate: PropTypes.string,
@@ -277,6 +296,10 @@ const mapDispatchToProps = dispatch => ({
   handleRemoveItem(id) {
     dispatch(removeItem(id))
   },
+  handleMyItemsLangChange(payload) {
+    dispatch(setLang(payload))
+  },
+
 })
 
 export default connect(mapStateToProps, mapDispatchToProps)(InputLiteral)

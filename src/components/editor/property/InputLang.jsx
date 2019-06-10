@@ -4,7 +4,6 @@ import React, { Component } from 'react'
 import { Typeahead } from 'react-bootstrap-typeahead'
 import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
-import { setLang } from '../../../actions/index'
 
 class InputLang extends Component {
   constructor(props) {
@@ -15,48 +14,39 @@ class InputLang extends Component {
     }
   }
 
-  /*
-   * TODO:
-   * English is the default value, but is not set in the redux.lang.store, so it currently would need to be set manually
-   * in the generation of RDF.
-   * See https://github.com/LD4P/sinopia_editor/issues/290
-   */
-
-  /*
-   * When clicking Cancel make it not save the language. Clicking X to remove the input for the literal
-   * leaves the input in the lang redux store but nothing will be associated with it in the "literal" store.
-   * See https://github.com/LD4P/sinopia_editor/issues/275
-   */
-
   setPayLoad(items) {
     const payload = {
-      id: this.props.textValue,
+      id: this.props.textId,
+      reduxPath: this.props.reduxPath,
       items,
     }
 
-    this.props.handleSelectedChange(payload)
+    this.props.handleLangChange(payload)
   }
 
-  createOptions = (json) => {
-    for (const i in json) {
-      try {
-        const item = Object.getOwnPropertyDescriptor(json, i)
-        const uri = item.value['@id']
-        const valArr = item.value['http://www.loc.gov/mads/rdf/v1#authoritativeLabel']
-        let label
+  createOptions = json => json.reduce((result, item) => {
+    // Object.getOwnPropertyDescriptor is necessary to handle the @
+    const uri = Object.getOwnPropertyDescriptor(item, '@id').value
+    const labelArrayDescr = Object.getOwnPropertyDescriptor(item, 'http://www.loc.gov/mads/rdf/v1#authoritativeLabel')
 
-        valArr.forEach((obj) => {
-          if (obj['@language'] == 'en') {
-            label = obj['@value']
-          }
-        })
+    // There are some odd entries, so ignoring if don't have labels.
+    if (!labelArrayDescr) return result
+    const labelArray = labelArrayDescr.value
 
-        return { id: uri, uri, label }
-      } catch (error) {
-        // ignore
+    // Looking for English label
+    let label = null
+
+    labelArray.forEach((langItem) => {
+      if (langItem['@language'] === 'en') {
+        label = langItem['@value']
       }
-    }
-  }
+    })
+    // But not every language has an English label.
+    if (!label) return result
+
+    result.push({ id: uri, uri, label })
+    return result
+  }, [])
 
   render() {
     const typeaheadProps = {
@@ -67,24 +57,25 @@ class InputLang extends Component {
       options: this.state.options,
       selected: this.state.selected,
     }
-    const opts = []
-
 
     return (
       <div>
         <label htmlFor="langComponent">Select language for {this.props.textValue}
           <Typeahead
             onFocus={() => {
+              // onFocus seems to get called multiple times.
+              if (this.state.isLoading) {
+                return
+              }
               this.setState({ isLoading: true })
               fetch('https://id.loc.gov/vocabulary/languages.json')
                 .then(resp => resp.json())
                 .then((json) => {
-                  opts.push(this.createOptions(json))
+                  this.setState({
+                    isLoading: false,
+                    options: this.createOptions(json),
+                  })
                 })
-                .then(() => this.setState({
-                  isLoading: false,
-                  options: opts,
-                }))
                 .catch(() => false)
             }}
             onBlur={() => {
@@ -101,23 +92,14 @@ class InputLang extends Component {
 
 InputLang.propTypes = {
   textValue: PropTypes.string.isRequired,
+  textId: PropTypes.string.isRequired,
+  reduxPath: PropTypes.oneOfType([PropTypes.string, PropTypes.array]),
+  handleLangChange: PropTypes.func,
 }
 
-const mapStatetoProps = (state) => {
-  const data = state.lang.formData
-  let result = {}
+const mapStatetoProps = () => ({})
 
-  if (data !== undefined) {
-    result = { formData: data }
-  }
-
-  return result
-}
-
-const mapDispatchtoProps = dispatch => ({
-  handleSelectedChange(selected) {
-    dispatch(setLang(selected))
-  },
+const mapDispatchtoProps = () => ({
 })
 
 export default connect(mapStatetoProps, mapDispatchtoProps)(InputLang)

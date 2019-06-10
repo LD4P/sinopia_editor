@@ -2,12 +2,12 @@
 
 import { combineReducers } from 'redux'
 import shortid from 'shortid'
-import lang from './lang'
 import authenticate from './authenticate'
 import {
-  removeAllContent, removeMyItem, setMyItems, setMySelections, setBaseURL,
+  removeAllContent, removeMyItem, setMyItems, setMySelections, setBaseURL, setMyItemsLang,
 } from './inputs'
 import GraphBuilder from '../GraphBuilder'
+import { defaultLangTemplate } from '../Utilities'
 
 const inputPropertySelector = (state, props) => {
   const reduxPath = props.reduxPath
@@ -60,6 +60,7 @@ export const populatePropertyDefaults = (propertyTemplate) => {
         id: makeShortID(),
         content: row.defaultLiteral,
         uri: row.defaultURI,
+        lang: defaultLangTemplate(),
       })
     })
   }
@@ -136,6 +137,8 @@ const selectorReducer = (state = {}, action) => {
       return setMyItems(state, action)
     case 'SET_BASE_URL':
       return setBaseURL(state, action)
+    case 'SET_LANG':
+      return setMyItemsLang(state, action)
     case 'CHANGE_SELECTIONS':
       return setMySelections(state, action)
     case 'REFRESH_RESOURCE_TEMPLATE':
@@ -152,7 +155,6 @@ const selectorReducer = (state = {}, action) => {
 }
 
 const appReducer = combineReducers({
-  lang,
   authenticate,
   selectorReducer,
 })
