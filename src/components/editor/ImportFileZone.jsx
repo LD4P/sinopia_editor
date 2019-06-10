@@ -187,7 +187,7 @@ class ImportFileZone extends Component {
     return (
       <section>
         <div className="ImportFileZone" style={importFileZone}>
-          <button id="ImportProfile" className="btn btn-primary btn-lg" onClick={this.handleClick}>Import New or Revised Resource Template</button>
+          <button id="ImportProfile" className="btn btn-primary btn-lg" onClick={this.handleClick}>Import a Profile containing New or Revised Resource Templates</button>
         </div>
         <div className="dropzoneContainer" style={dropzoneContainer}>
           { this.state.showDropZone ? (<DropZone showDropZoneCallback={this.updateShowDropZone}
@@ -235,17 +235,9 @@ class DropZone extends Component {
         {/* </strong> */}
         {/* <form style={{paddingTop: '10px'}}> */}
         {/* <select value={this.state.group} onChange={this.handleChange}> */}
-        {/* <option value="ld4p">LD4P</option> */}
-        {/* <option value="pcc">PCC</option> */}
-        {/* <option value="cub">University of Colorado Boulder</option> */}
-        {/* <option value="cornell">Cornell University</option> */}
-        {/* <option value="harvard">Harvard University</option> */}
-        {/* <option value="nlm">National Library of Medicine</option> */}
-        {/* <option value="stanford">Stanford University</option> */}
-        {/* <option value="ucsd">University of California, San Diego</option> */}
-        {/* <option value="penn">University of Pennsylvania</option> */}
-        {/* <option value="hrc">Harry Ransom Center, University of Texas at Austin</option> */}
-        {/* <option value="wau">University of Washington</option> */}
+        {/*
+          * If we need to have the user select a group, see e.g. select form in GroupChoiceModal
+          * */}
         {/* </select> */}
         {/* </form> */}
         <strong>
