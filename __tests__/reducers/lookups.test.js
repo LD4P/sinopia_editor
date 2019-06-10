@@ -3,9 +3,9 @@
 import lookups from '../../src/reducers/lookups'
 
 describe('changing the reducer state', () => {
-  const item_one = { id: 'http://uri1', uri: 'http://uri1', label: 'selection1' }
-  const item_two = { id: 'http://uri2', uri: 'http://uri2', label: 'selection2' }
-  const item_three = { id: 'http://uri3', uri: 'http://uri3', label: 'selection3' }
+  const itemOne = { id: 'http://uri1', uri: 'http://uri1', label: 'selection1' }
+  const itemTwo = { id: 'http://uri2', uri: 'http://uri2', label: 'selection2' }
+  const itemThree = { id: 'http://uri3', uri: 'http://uri3', label: 'selection3' }
 
   it('should handle initial state', () => {
     expect(
@@ -17,27 +17,27 @@ describe('changing the reducer state', () => {
     expect(
       lookups({ formData: [] }, {
         type: 'CHANGE_SELECTIONS',
-        payload: { id: 'Run the tests', items: [item_one] },
+        payload: { id: 'Run the tests', items: [itemOne] },
       }),
     ).toEqual({
       formData: [{
-        id: 'Run the tests', items: [item_one],
+        id: 'Run the tests', items: [itemOne],
       }],
     })
 
     expect(
       lookups({
         formData: [{
-          id: 'Run the tests', items: [item_one],
+          id: 'Run the tests', items: [itemOne],
         }],
       }, {
         type: 'CHANGE_SELECTIONS',
-        payload: { id: 'add this!', items: [item_two] },
+        payload: { id: 'add this!', items: [itemTwo] },
       }),
     ).toEqual({
       formData: [
-        { id: 'Run the tests', items: [item_one] },
-        { id: 'add this!', items: [item_two] },
+        { id: 'Run the tests', items: [itemOne] },
+        { id: 'add this!', items: [itemTwo] },
       ],
     })
   })
@@ -46,17 +46,17 @@ describe('changing the reducer state', () => {
     expect(
       lookups({
         formData: [
-          { id: 'Run the tests', items: [item_one] },
-          { id: 'add this!', items: [item_two] },
+          { id: 'Run the tests', items: [itemOne] },
+          { id: 'add this!', items: [itemTwo] },
         ],
       }, {
         type: 'CHANGE_SELECTIONS',
-        payload: { id: 'add this!', items: [item_two, item_three] },
+        payload: { id: 'add this!', items: [itemTwo, itemThree] },
       }),
     ).toEqual({
       formData: [
-        { id: 'Run the tests', items: [item_one] },
-        { id: 'add this!', items: [item_two, item_three] },
+        { id: 'Run the tests', items: [itemOne] },
+        { id: 'add this!', items: [itemTwo, itemThree] },
       ],
     })
   })
@@ -65,8 +65,8 @@ describe('changing the reducer state', () => {
     expect(
       lookups({
         formData: [
-          { id: 'Run the tests', items: [item_one] },
-          { id: 'remove items!', items: [item_two, item_three] },
+          { id: 'Run the tests', items: [itemOne] },
+          { id: 'remove items!', items: [itemTwo, itemThree] },
         ],
       }, {
         type: 'CHANGE_SELECTIONS',
@@ -74,7 +74,7 @@ describe('changing the reducer state', () => {
       }),
     ).toEqual({
       formData: [
-        { id: 'Run the tests', items: [item_one] },
+        { id: 'Run the tests', items: [itemOne] },
         { id: 'remove items!', items: [] },
       ],
     })

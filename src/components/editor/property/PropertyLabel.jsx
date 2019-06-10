@@ -27,7 +27,7 @@ export class PropertyLabel extends Component {
     try {
       url = new URL(property.remark)
     } catch {
-      // ignore
+      // Ignore
     }
 
     const urlLabel = (

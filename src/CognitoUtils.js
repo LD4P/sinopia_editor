@@ -35,7 +35,7 @@ class CognitoUtils {
   }
 
   /*
-   * a thin wrapper around CognitoUser.authenticateUser that instead returns a Promise, for easier composability than a plain callback.
+   * A thin wrapper around CognitoUser.authenticateUser that instead returns a Promise, for easier composability than a plain callback.
    * the returned Promise resolves to the CognitoUserSession object from the success callback, or rejects with the error object from the
    * failure callback.
    */
@@ -53,7 +53,7 @@ class CognitoUtils {
   }
 
   /*
-   * a thin wrapper around CognitoUser.getSession that instead returns a Promise, for easier composability than a plain callback.
+   * A thin wrapper around CognitoUser.getSession that instead returns a Promise, for easier composability than a plain callback.
    * the returned Promise resolves to the sessionData from the callback's success parameter, or rejects with the error object from
    * the callback's errInfo parameter.
    *
@@ -74,7 +74,7 @@ class CognitoUtils {
   }
 
   /*
-   * a thin wrapper around CognitoUtils.getSession.  returns a Promise which resolves to the value from
+   * A thin wrapper around CognitoUtils.getSession.  returns a Promise which resolves to the value from
    * sessionData that's most often useful to other parts of the editor (the JWT ID token string).
    */
   static getIdTokenString(cognitoUser) {

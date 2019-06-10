@@ -7,7 +7,7 @@ import Ajv from 'ajv' // JSON schema validation
 import Config from '../../Config'
 
 const util = require('util')
-// for JSON schema validation errors
+// For JSON schema validation errors
 const fileReader = new window.FileReader()
 
 class ImportFileZone extends Component {
@@ -38,7 +38,7 @@ class ImportFileZone extends Component {
     fileReader.onloadend = this.handleFileRead
 
     try {
-      // currently ResourceTemplate parses the profile and gets an array of objects; want just the objects
+      // Currently ResourceTemplate parses the profile and gets an array of objects; want just the objects
       fileReader.readAsText(files[0])
     } catch (err) {
       console.error(`error reading the loaded template as text: ${err}`)
@@ -94,7 +94,7 @@ class ImportFileZone extends Component {
         return reject(new Error(`${util.inspect(this.ajv.errors)}`))
       }
 
-      return resolve() // w00t!
+      return resolve() // W00t!
     })
     .catch(err => reject(err)))
 
@@ -208,7 +208,7 @@ class DropZone extends Component {
   }
 
   /*
-   *TODO: When we need to let the user select a group:
+   * TODO: When we need to let the user select a group:
    * handleChange = (event) => {
    *   this.props.setGroupCallback(event.target.value)
    *   this.setState({group: event.target.value})

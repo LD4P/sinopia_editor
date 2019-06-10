@@ -25,7 +25,7 @@ export const setMyItems = (state, action) => {
   reduxPath.reduce((obj, key) => {
     level++
     if (level === reduxPath.length) {
-      if ((key in obj) != true || !Object.keys(obj[key]).includes('items')) {
+      if ((key in obj) !== true || !Object.keys(obj[key]).includes('items')) {
         obj[key] = { items: [] }
       }
       action.payload.items.map((row) => {
@@ -50,7 +50,7 @@ export const setMyItemsLang = (state, action) => {
   reduxPath.reduce((obj, key) => {
     level++
     if (level === reduxPath.length) {
-      if ((key in obj) != true) {
+      if ((key in obj) !== true) {
         obj[key] = { items: [] }
       }
 
@@ -67,7 +67,6 @@ export const setMyItemsLang = (state, action) => {
   return newState
 }
 
-
 export const setMySelections = (state, action) => {
   const newState = { ...state }
   const reduxPath = action.payload.reduxPath
@@ -76,7 +75,7 @@ export const setMySelections = (state, action) => {
   reduxPath.reduce((obj, key) => {
     level++
     if (level === reduxPath.length) {
-      if ((key in obj) != true) {
+      if ((key in obj) !== true) {
         obj[key] = { items: [] }
       }
       obj[key].items = action.payload.items
@@ -108,7 +107,7 @@ export const removeMyItem = (state, action) => {
     level++
     if (level === reduxPath.length) {
       obj[key].items = obj[key].items.filter(
-        row => row.id != action.payload.id,
+        row => row.id !== action.payload.id,
       )
     }
 

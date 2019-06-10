@@ -126,14 +126,14 @@ class InputLookupQA extends Component {
                         onSearch={(query) => {
                           this.setState({ isLoading: true })
                           this.lookupClient.then((client) => {
-                            // create array of promises based on the lookup config array that is sent in
+                            // Create array of promises based on the lookup config array that is sent in
                             const lookupPromises = lookupConfigs.map((lookupConfig) => {
                               authority = lookupConfig.authority
                               subauthority = lookupConfig.subauthority
                               language = lookupConfig.language
 
                               /*
-                               *return the 'promise'
+                               *Return the 'promise'
                                *Since we don't want promise.all to fail if
                                *one of the lookups fails, we want a catch statement
                                *at this level which will then return the error. Subauthorities require a different API call than authorities so need to check if subauthority is available
@@ -153,7 +153,7 @@ class InputLookupQA extends Component {
                                 })
                                 .catch((err) => {
                                   console.error('Error in executing lookup against source', err)
-                                  // return information along with the error in its own object
+                                  // Return information along with the error in its own object
                                   return { isError: true, errorObject: err }
                                 })
                             })

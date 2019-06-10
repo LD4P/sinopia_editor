@@ -82,7 +82,7 @@ class InputListLOC extends Component {
 
                     opts.push({ id: newId, label, uri })
                   } catch (error) {
-                    // ignore
+                    // Ignore
                   }
                 }
               })

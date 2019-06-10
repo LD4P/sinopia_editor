@@ -10,9 +10,9 @@ export const refreshResourceTemplate = update => ({
   payload: update,
 })
 
-export const setResourceTemplate = resource_template => ({
+export const setResourceTemplate = resourceTemplate => ({
   type: 'SET_RESOURCE_TEMPLATE',
-  payload: resource_template,
+  payload: resourceTemplate,
 })
 
 export const setResourceURI = update => ({
