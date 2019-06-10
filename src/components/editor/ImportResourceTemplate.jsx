@@ -184,4 +184,4 @@ const mapStateToProps = state => ({
 
 
 export default connect(mapStateToProps)(ImportResourceTemplate)
-// export default connect(mapStateToProps, mapDispatchToProps)(ImportResourceTemplate)
+// Export default connect(mapStateToProps, mapDispatchToProps)(ImportResourceTemplate)

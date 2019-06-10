@@ -45,7 +45,7 @@ const mockLookupConfig = [
 ]
 
 describe('<InputListLOC /> configuration', () => {
-  // our mock formData function to replace the one provided by mapDispatchToProps
+  // Our mock formData function to replace the one provided by mapDispatchToProps
   const mockFormDataFn = jest.fn()
 
   beforeEach(() => {
@@ -73,7 +73,7 @@ describe('<InputListLOC /> configuration', () => {
 })
 
 describe('<Typeahead /> component', () => {
-  // our mock formData function to replace the one provided by mapDispatchToProps
+  // Our mock formData function to replace the one provided by mapDispatchToProps
   const mockFormDataFn = jest.fn()
   const wrapper = shallow(<InputListLOC.WrappedComponent {...plProps} handleSelectedChange={mockFormDataFn} lookupConfig={mockLookupConfig[0]} />)
 

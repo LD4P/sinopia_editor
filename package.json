@@ -80,6 +80,7 @@
     "dev-build-test": "npm run dev-build && npm run test",
     "dev-start": "webpack-dev-server --config ./webpack.config.js --mode development",
     "eslint": "eslint --max-warnings 11 --color -c .eslintrc.js --ext js,jsx .",
+    "eslint-fix": "eslint --max-warnings 11 --color -c .eslintrc.js --ext js,jsx --fix .",
     "jest-cov": "jest --coverage --colors --silent --runInBand",
     "jest-ci": "jest  --colors --silent --ci --runInBand --coverage --reporters=default --reporters=jest-junit && cat ./coverage/lcov.info | coveralls",
     "test": "jest --colors --silent --runInBand --detectOpenHandles",

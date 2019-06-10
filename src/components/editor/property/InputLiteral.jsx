@@ -18,7 +18,7 @@ export class InputLiteral extends Component {
     super(props)
 
     /*
-     * show is whether to show the language modal.
+     * Show is whether to show the language modal.
      * Note that it is a hash because will have multiple modals if there
      * are multiple literals.
      */
@@ -41,10 +41,10 @@ export class InputLiteral extends Component {
 
 
   handleShow = (id) => {
-    const show_state = {}
+    const showState = {}
 
-    show_state[id] = true
-    this.setState({ show: show_state })
+    showState[id] = true
+    this.setState({ show: showState })
   }
 
   handleClose = () => {
@@ -57,15 +57,15 @@ export class InputLiteral extends Component {
   }
 
   handleChange = (event) => {
-    const usr_input = event.target.value
+    const userInput = event.target.value
 
-    this.setState({ content_add: usr_input })
+    this.setState({ content_add: userInput })
   }
 
   notRepeatableAfterUserInput = (userInputArray, currentcontent) => {
     let newId = null
 
-    if (this.props.formData == undefined || this.props.formData.items < 1) {
+    if (this.props.formData === undefined || this.props.formData.items < 1) {
       newId = this.addUserInput(userInputArray, currentcontent)
       this.setState({ disabled: true })
     }
@@ -83,7 +83,7 @@ export class InputLiteral extends Component {
   }
 
   handleKeypress = (event) => {
-    if (event.key == 'Enter') {
+    if (event.key === 'Enter') {
       const userInputArray = []
       const currentcontent = this.state.content_add.trim()
 
@@ -92,18 +92,18 @@ export class InputLiteral extends Component {
       }
       let newId = null
 
-      if (this.props.propertyTemplate.repeatable == 'true') {
+      if (this.props.propertyTemplate.repeatable === 'true') {
         newId = this.addUserInput(userInputArray, currentcontent)
-      } else if (this.props.propertyTemplate.repeatable == 'false') {
+      } else if (this.props.propertyTemplate.repeatable === 'false') {
         newId = this.notRepeatableAfterUserInput(userInputArray, currentcontent)
       }
-      const user_input = {
+      const userInput = {
         uri: this.props.propertyTemplate.propertyURI,
         reduxPath: this.props.reduxPath,
         items: userInputArray,
       }
 
-      this.props.handleMyItemsChange(user_input)
+      this.props.handleMyItemsChange(userInput)
       this.setDefaultLang(newId)
       this.setState({
         content_add: '',
@@ -131,7 +131,7 @@ export class InputLiteral extends Component {
     const idToRemove = event.target.dataset.item
 
     this.props.formData.items.forEach((item) => {
-      if (item.id == idToRemove) {
+      if (item.id === idToRemove) {
         const itemContent = item.content
 
         this.setState({ content_add: itemContent })
@@ -144,8 +144,8 @@ export class InputLiteral extends Component {
 
 
   checkMandatoryRepeatable = () => {
-    if (this.props.propertyTemplate.mandatory == 'true') {
-      if (this.props.formData == undefined || this.props.formData.items == undefined) return true
+    if (this.props.propertyTemplate.mandatory === 'true') {
+      if (this.props.formData === undefined || this.props.formData.items === undefined) return true
       const inputLength = this.props.formData.items.length
 
       if (inputLength > 0) {
@@ -154,7 +154,7 @@ export class InputLiteral extends Component {
 
       return true
     }
-    if (this.props.propertyTemplate.mandatory == 'false') {
+    if (this.props.propertyTemplate.mandatory === 'false') {
       return false
     }
   }
@@ -177,7 +177,7 @@ export class InputLiteral extends Component {
   makeAddedList = () => {
     const formInfo = this.props.formData
 
-    if (formInfo == undefined || formInfo.items == undefined) {
+    if (formInfo === undefined || formInfo.items === undefined) {
       return
     }
     const elements = formInfo.items.map((obj) => {
@@ -290,8 +290,8 @@ const mapStateToProps = (state, props) => {
 }
 
 const mapDispatchToProps = dispatch => ({
-  handleMyItemsChange(user_input) {
-    dispatch(setItems(user_input))
+  handleMyItemsChange(userInput) {
+    dispatch(setItems(userInput))
   },
   handleRemoveItem(id) {
     dispatch(removeItem(id))

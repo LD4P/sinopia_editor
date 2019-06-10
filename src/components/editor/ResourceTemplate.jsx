@@ -25,8 +25,8 @@ class ResourceTemplate extends Component {
   }
 
   getResourceTemplatePromise = (promise) => {
-    promise.then((response_and_body) => {
-      this.setState({ rtData: response_and_body.response.body })
+    promise.then((responseAndBody) => {
+      this.setState({ rtData: responseAndBody.response.body })
       this.props.handleResourceTemplate(this.state.rtData)
     }).catch((error) => {
       this.setState({ error })
@@ -72,8 +72,8 @@ ResourceTemplate.propTypes = {
 }
 
 const mapDispatchToProps = dispatch => ({
-  handleResourceTemplate(resource_template) {
-    dispatch(setResourceTemplate(resource_template))
+  handleResourceTemplate(resourceTemplate) {
+    dispatch(setResourceTemplate(resourceTemplate))
   },
 })
 

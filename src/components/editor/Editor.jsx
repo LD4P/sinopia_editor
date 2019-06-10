@@ -76,7 +76,7 @@ class Editor extends Component {
     this.setState({ showGroupChooser: false })
   }
 
-  // the ld4p group is only for templates
+  // The ld4p group is only for templates
   groupsToSaveInto = () => Config.groupsInSinopia.filter(group => group[0] !== 'ld4p')
 
   render() {

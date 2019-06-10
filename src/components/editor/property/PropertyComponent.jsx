@@ -34,7 +34,7 @@ export class PropertyComponent extends Component {
     try {
       config = this.state.configuration[0].component
     } catch {
-      // ignore undefined configuration
+      // Ignore undefined configuration
     }
 
     const reduxPath = Object.assign([], this.props.reduxPath)

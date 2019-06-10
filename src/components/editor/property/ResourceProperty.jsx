@@ -98,8 +98,8 @@ ResourceProperty.propTypes = {
   setResourceURI: PropTypes.func,
 }
 const mapDispatchToProps = dispatch => ({
-  initNewResourceTemplate(rt_context) {
-    dispatch(refreshResourceTemplate(rt_context))
+  initNewResourceTemplate(rtContext) {
+    dispatch(refreshResourceTemplate(rtContext))
   },
   setResourceURI(update) {
     dispatch(setResourceURI(update))

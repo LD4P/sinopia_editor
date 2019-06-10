@@ -89,7 +89,7 @@ describe('<InputLookupQA />', () => {
   const wrapper = shallow(<InputLookupQA.WrappedComponent {...plProps} handleSelectedChange={mockFormDataFn} />)
 
   /*
-   * our mock formData function to replace the one provided by
+   * Our mock formData function to replace the one provided by
    * mapDispatchToProps
    */
 

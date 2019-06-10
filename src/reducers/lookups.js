@@ -9,7 +9,7 @@ const changeMyItems = (state, action) => {
   let needNewItemArray = true
 
   for (const field of newFormData) {
-    if (field.id == action.payload.id) {
+    if (field.id === action.payload.id) {
       field.items = action.payload.items
       needNewItemArray = false
       break

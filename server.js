@@ -30,13 +30,12 @@ app.all('/profile-edit/server/whichrt', (req, res) => {
   const reqUri = req.query.uri
 
   if (reqUri !== null) {
-    // console.debug(`DEBUG: got server/whichrt for ${reqUri}.`)
     if (versoSpoof.ontologyUrls.includes(reqUri)) {
       // FIXME:  there's probably a better way to find the value in array than forEach, but there are only 5 urls
       let json
 
       versoSpoof.owlOntUrl2JsonMappings.forEach((el) => {
-        if (reqUri == el.url) {
+        if (reqUri === el.url) {
           json = el.json
         }
       })

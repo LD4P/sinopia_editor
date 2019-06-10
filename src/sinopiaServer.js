@@ -50,7 +50,7 @@ export const getEntityTagFromGroupContainer = async (group) => {
 }
 
 const authenticate = async (currentUser) => {
-  // first, make sure the client instance has a valid JWT id token set
+  // First, make sure the client instance has a valid JWT id token set
   await CognitoUtils.getIdTokenString(currentUser)
     .then(idToken => instance.apiClient.authentications.CognitoUser.accessToken = idToken)
 

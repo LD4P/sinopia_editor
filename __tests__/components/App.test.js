@@ -34,7 +34,7 @@ describe('<App />', () => {
 })
 
 describe('#routes', () => {
-  // pattern cribbed/adapted from https://stackoverflow.com/a/54807560
+  // Pattern cribbed/adapted from https://stackoverflow.com/a/54807560
   const makeStoreFake = state => ({
     default: () => {
     },

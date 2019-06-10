@@ -62,7 +62,7 @@ export const spoofedGetResourceTemplate = (templateId) => {
   const spoofedResponse = { response: {} }
 
   spoofedResponse.response.body = resourceTemplateId2Json.find((template) => {
-    if (template.id == templateId) return template
+    if (template.id === templateId) return template
   }).json
 
   return new Promise((resolve) => {
