@@ -19,6 +19,10 @@ describe('When an unauthenticated user tries to access resource templates', () =
     }
   })
 
+  it('displays the login form', async () => {
+    await page.waitForSelector('form.login-form')
+  })
+
   it('does not display "Available Resource Templates in Sinopia"', async () => {
     await expect(page).not.toMatch('Available Resource Templates in Sinopia')
   })
