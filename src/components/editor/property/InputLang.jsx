@@ -56,6 +56,7 @@ class InputLang extends Component {
       isLoading: this.state.isLoading,
       options: this.state.options,
       selected: this.state.selected,
+      emptyLabel: 'retrieving list of languages...',
     }
 
     return (

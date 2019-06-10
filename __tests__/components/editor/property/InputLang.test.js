@@ -52,6 +52,7 @@ describe('<InputLang />', () => {
 
     wrapper.find('#langComponent').simulate('focus', event(wrapper))
     expect(wrapper.state().options[0]).toEqual(opts)
+    expect(wrapper.find('TypeaheadContainer(WrappedTypeahead)').props().emptyLabel).toEqual('retrieving list of languages...')
 
     wrapper.find('#langComponent').simulate('change', event(wrapper))
     expect(wrapper.state().selected[0]).toEqual(opts)
