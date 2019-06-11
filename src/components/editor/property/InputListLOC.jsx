@@ -106,7 +106,7 @@ class InputListLOC extends Component {
                     const label = item.value['http://www.loc.gov/mads/rdf/v1#authoritativeLabel'][0]['@value']
 
                     opts.push({ id: newId, label, uri })
-                  } catch (error) {
+                  } catch (err) {
                     // Ignore
                   }
                 }
