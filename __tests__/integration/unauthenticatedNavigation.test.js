@@ -4,7 +4,7 @@ import 'isomorphic-fetch'
 
 describe('When an unauthenticated user tries to access resource templates', () => {
   beforeAll(async () => {
-    jest.setTimeout(60000) // this seems to take around 10s in practice, but be generous, just in case
+    jest.setTimeout(60000) // This seems to take around 10s in practice, but be generous, just in case
     await page.goto('http://127.0.0.1:8888/templates')
 
     /*
