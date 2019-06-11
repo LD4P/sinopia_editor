@@ -187,7 +187,9 @@ class ImportFileZone extends Component {
     return (
       <section>
         <div className="ImportFileZone" style={importFileZone}>
-          <button id="ImportProfile" className="btn btn-primary btn-lg" onClick={this.handleClick}>Import a Profile containing New or Revised Resource Templates</button>
+          <button id="ImportProfile"
+                  className="btn btn-primary btn-lg"
+                  onClick={this.handleClick}>Import a Profile containing New or Revised Resource Templates</button>
         </div>
         <div className="dropzoneContainer" style={dropzoneContainer}>
           { this.state.showDropZone ? (<DropZone showDropZoneCallback={this.updateShowDropZone}
