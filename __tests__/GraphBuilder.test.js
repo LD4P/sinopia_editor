@@ -41,7 +41,19 @@ describe('GraphBuilder', () => {
                   },
                   {
                     content: 'Sparkly',
-                    id: '3TzRpgv65',
+                    id: '5TzRpgv72',
+                  },
+                ],
+              },
+            },
+          },
+          gdndfCHlqQ4z: {
+            'resourceTemplate:bf2:Note': {
+              'http://www.w3.org/2000/01/rdf-schema#label': {
+                items: [
+                  {
+                    content: 'Shiney',
+                    id: '4dzRpgv42',
                   },
                 ],
               },
@@ -71,12 +83,23 @@ describe('GraphBuilder', () => {
 
       expect(graph.has(propertyTriple)).toBeTruthy()
 
-      let result = graph.filter(quad => quad.object.equals(rdf.literal('Very colorful')))
+      // Multiple items
+      const result1 = graph.filter(quad => quad.object.equals(rdf.literal('Very colorful'))).toArray()
 
-      expect(result.toArray().length).toEqual(1)
+      expect(result1.length).toEqual(1)
 
-      result = graph.filter(quad => quad.object.equals(rdf.literal('Sparkly')))
-      expect(result.toArray().length).toEqual(1)
+      const result2 = graph.filter(quad => quad.object.equals(rdf.literal('Sparkly'))).toArray()
+
+      expect(result2.length).toEqual(1)
+
+      // Multiple resources (notes)
+      const result3 = graph.filter(quad => quad.object.equals(rdf.literal('Shiney'))).toArray()
+
+      expect(result3.length).toEqual(1)
+      // Literals from the same note share blank node.
+      expect(result1[0].subject).toEqual(result2[0].subject)
+      // Literals from different notes have different blank node.
+      expect(result1[0].subject).not.toEqual(result3[0].subject)
     })
   })
 
