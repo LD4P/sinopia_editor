@@ -46,26 +46,17 @@ export const getAllRdf = (state, action) => {
 }
 
 /**
- * This transforms the template fetched from the server into redux state
+ * This transforms the property template default values fetched from the server into redux state
  */
 export const populatePropertyDefaults = (propertyTemplate) => {
-  const defaults = []
+  const defaults = propertyTemplate?.valueConstraint?.defaults || []
 
-  if (propertyTemplate === undefined || propertyTemplate === null || Object.keys(propertyTemplate).length < 1) {
-    return defaults
-  }
-  if (propertyTemplate?.valueConstraint?.defaults && propertyTemplate.valueConstraint.defaults.length > 0) {
-    propertyTemplate.valueConstraint.defaults.map((row) => {
-      defaults.push({
-        id: makeShortID(),
-        content: row.defaultLiteral,
-        uri: row.defaultURI,
-        lang: defaultLangTemplate(),
-      })
-    })
-  }
-
-  return defaults
+  return defaults.map(row => ({
+    id: makeShortID(),
+    content: row.defaultLiteral,
+    uri: row.defaultURI,
+    lang: defaultLangTemplate(),
+  }))
 }
 
 export const refreshResourceTemplate = (state, action) => {
