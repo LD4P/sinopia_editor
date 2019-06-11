@@ -6,7 +6,7 @@ import PropTypes from 'prop-types'
 import shortid from 'shortid'
 import PropertyActionButtons from './PropertyActionButtons'
 import PropertyTemplateOutline from './PropertyTemplateOutline'
-import { refreshResourceTemplate, setResourceURI } from '../../../actions/index'
+import { refreshResourceTemplate } from '../../../actions/index'
 import { templateBoolean } from '../../../Utilities'
 
 const _ = require('lodash')
@@ -28,6 +28,7 @@ export class ResourceProperty extends Component {
 
       newReduxPath.push(resourceKeyId)
       newReduxPath.push(rtId)
+
       if (resourceTemplate === undefined) {
         return jsx.push(
           <div className="alert alert-warning" key={rtId}>
@@ -35,13 +36,6 @@ export class ResourceProperty extends Component {
           </div>,
         )
       }
-
-      const update = {
-        resourceURI: resourceTemplate.resourceURI,
-        reduxPath: newReduxPath,
-      }
-
-      this.props.setResourceURI(update)
 
       jsx.push(
         <div className="row" key={shortid.generate()}>
@@ -96,14 +90,10 @@ ResourceProperty.propTypes = {
   nestedResourceTemplates: PropTypes.array,
   propertyTemplate: PropTypes.object,
   reduxPath: PropTypes.array,
-  setResourceURI: PropTypes.func,
 }
 const mapDispatchToProps = dispatch => ({
   initNewResourceTemplate(rtContext) {
     dispatch(refreshResourceTemplate(rtContext))
-  },
-  setResourceURI(update) {
-    dispatch(setResourceURI(update))
   },
 })
 

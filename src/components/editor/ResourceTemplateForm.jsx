@@ -7,9 +7,10 @@ import shortid from 'shortid'
 import PropertyPanel from './property/PropertyPanel'
 import PropertyResourceTemplate from './property/PropertyResourceTemplate'
 import PropertyComponent from './property/PropertyComponent'
-import { removeAllContent, setItems } from '../../actions/index'
+import { removeAllContent, setItems, resourceTemplateLoaded } from '../../actions/index'
 import { getResourceTemplate } from '../../sinopiaServer'
 import { isResourceWithValueTemplateRef, resourceToName } from '../../Utilities'
+import store from '../../store'
 
 const _ = require('lodash')
 
@@ -33,10 +34,12 @@ export class ResourceTemplateForm extends Component {
 
   fulfillRTPromises = async (promiseAll) => {
     await promiseAll.then(async (rts) => {
-      rts.map((rt) => {
+      rts.map((fulfilledResourceTemplateRequest) => {
         const joinedRts = [...this.state.nestedResourceTemplates]
 
-        joinedRts.push(rt.response.body)
+        joinedRts.push(fulfilledResourceTemplateRequest.response.body)
+        // Add the resource template into the store
+        store.dispatch(resourceTemplateLoaded(fulfilledResourceTemplateRequest.response.body))
         this.setState({ nestedResourceTemplates: joinedRts })
       })
     }).catch((err) => {
@@ -55,7 +58,7 @@ export class ResourceTemplateForm extends Component {
 
       if (rt !== undefined) { // It may not be loaded yet
         const keyId = shortid.generate()
-        const reduxPath = [this.props.rtId, property.propertyURI, keyId, rtId]
+        const reduxPath = ['resource', this.props.rtId, property.propertyURI, keyId, rtId]
 
         rtProperties.push(<PropertyResourceTemplate
           key={keyId}
@@ -117,7 +120,7 @@ export class ResourceTemplateForm extends Component {
               return (
                 <PropertyPanel pt={pt} key={index} float={index} rtId={this.props.rtId}>
                   <PropertyComponent index={index}
-                                     reduxPath={[this.props.rtId]}
+                                     reduxPath={['resource', this.props.rtId]}
                                      rtId={this.props.rtId}
                                      propertyTemplate={pt}
                                      displayValidations={this.props.displayValidations}/>

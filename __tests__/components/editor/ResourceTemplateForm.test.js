@@ -52,7 +52,9 @@ describe('<ResourceTemplateForm /> functional testing', () => {
         },
       )
 
-      expect(result[0].props.reduxPath).toEqual(['resource:schema:Name',
+      expect(result[0].props.reduxPath).toEqual([
+        'resource',
+        'resource:schema:Name',
         'http://www.w3.org/2000/01/rdf-schema#label',
         'abcd45',
         'resourceTemplate:bf2:Note'])
