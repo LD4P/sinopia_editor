@@ -27,8 +27,7 @@ export class PropertyComponent extends Component {
   }
 
   inputComponentType = (property) => {
-    let config; let
-      result
+    let config
 
     // We do not support mixed list and lookups, so we will just go with the value of the first config item found
     try {
@@ -44,35 +43,32 @@ export class PropertyComponent extends Component {
 
     switch (config) {
       case 'lookup':
-        result = (<InputLookupQA key = {this.props.index} reduxPath={reduxPath}
-                                 propertyTemplate = {property} lookupConfig = {this.state.configuration} />)
-        break
+        return (<InputLookupQA key = {this.props.index}
+                               reduxPath={reduxPath}
+                               propertyTemplate = {property}
+                               lookupConfig = {this.state.configuration}
+                               displayValidations={this.props.displayValidations} />)
       case 'list':
-        result = (<InputListLOC key = {this.props.index} reduxPath={reduxPath}
-                                propertyTemplate = {property} lookupConfig = {this.state.configuration[0]} />)
-        break
+        return (<InputListLOC key = {this.props.index}
+                              reduxPath={reduxPath}
+                              propertyTemplate = {property}
+                              lookupConfig = {this.state.configuration[0]}
+                              displayValidations={this.props.displayValidations} />)
       default:
-        switch (property.type) {
-          case 'literal':
-            result = (<InputLiteral key={keyId} id={keyId}
-                                    propertyTemplate={property}
-                                    reduxPath={reduxPath} />)
-            break
-          default:
-            result = false
+        if (property.type === 'literal') {
+          return (<InputLiteral key={keyId} id={keyId}
+                                propertyTemplate={property}
+                                reduxPath={reduxPath}
+                                displayValidations={this.props.displayValidations} />)
         }
     }
 
-    return result
+    return false
   }
 
   render() {
     if (this.inputComponentType) {
-      return (
-        <React.Fragment>
-          { this.inputComponentType(this.props.propertyTemplate) }
-        </React.Fragment>
-      )
+      return this.inputComponentType(this.props.propertyTemplate)
     }
 
     return false
@@ -91,6 +87,7 @@ PropertyComponent.propTypes = {
   }).isRequired,
   reduxPath: PropTypes.array.isRequired,
   index: PropTypes.number,
+  displayValidations: PropTypes.bool,
 }
 
 export default PropertyComponent

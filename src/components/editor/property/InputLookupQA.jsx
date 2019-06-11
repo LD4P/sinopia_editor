@@ -96,19 +96,32 @@ class InputLookupQA extends Component {
     )
   }
 
+  get isMandatory() {
+    return booleanPropertyFromTemplate(this.props.propertyTemplate, 'mandatory', false)
+  }
+
+  get isRepeatable() {
+    return booleanPropertyFromTemplate(this.props.propertyTemplate, 'repeatable', true)
+  }
+
+  validate() {
+    if (!this.typeahead) {
+      return
+    }
+    const selected = this.typeahead.getInstance().state.selected
+
+    return this.props.displayValidations && this.isMandatory && selected.length < 1 ? 'Required' : undefined
+  }
+
   render() {
     let authority
     let language
     let subauthority
     const lookupConfigs = this.props.lookupConfig
-
-    const isMandatory = booleanPropertyFromTemplate(this.props.propertyTemplate, 'mandatory', false)
-    const isRepeatable = booleanPropertyFromTemplate(this.props.propertyTemplate, 'repeatable', true)
-
     const typeaheadProps = {
       id: 'lookupComponent',
-      required: isMandatory,
-      multiple: isRepeatable,
+      required: this.isMandatory,
+      multiple: this.isRepeatable,
       placeholder: this.props.propertyTemplate.propertyLabel,
       useCache: true,
       selectHintOnEnter: true,
@@ -119,10 +132,17 @@ class InputLookupQA extends Component {
       delay: 300,
     }
 
-    return (
-      <div>
-        <AsyncTypeahead renderMenu={(results, menuProps) => this.renderMenuFunc(results, menuProps)}
+    let groupClasses = 'form-group'
+    const error = this.validate()
 
+    if (error) {
+      groupClasses += ' has-error'
+    }
+
+    return (
+      <div className={groupClasses}>
+        <AsyncTypeahead renderMenu={(results, menuProps) => this.renderMenuFunc(results, menuProps)}
+                        ref={typeahead => this.typeahead = typeahead }
                         onSearch={(query) => {
                           this.setState({ isLoading: true })
                           this.lookupClient.then((client) => {
@@ -193,6 +213,7 @@ class InputLookupQA extends Component {
                         filterBy={() => true
                         }
         />
+        {error && <span className="help-block">{error}</span>}
       </div>
     )
   }
@@ -208,6 +229,7 @@ InputLookupQA.propTypes = {
     }),
   }).isRequired,
   reduxPath: PropTypes.oneOfType([PropTypes.string, PropTypes.array]),
+  displayValidations: PropTypes.bool,
 }
 
 const mapStateToProps = (state, props) => {

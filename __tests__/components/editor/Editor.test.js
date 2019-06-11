@@ -40,8 +40,7 @@ describe('<Editor />', () => {
     const wrapper = shallow(<Editor.WrappedComponent {...props} />)
 
     it('has preview RDF button', () => {
-      expect(wrapper.find('button')
-        .text()).toBe('Preview RDF')
+      expect(wrapper.findWhere(n => n.type() === 'button' && n.contains('Preview RDF')).exists()).toBeTruthy()
     })
   })
 })

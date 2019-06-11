@@ -60,6 +60,16 @@ describe('<InputLiteral />', () => {
   })
 })
 
+describe('checkMandatoryRepeatable', () => {
+  const wrapper = shallow(<InputLiteral {...plProps} id={10} rtId={'resourceTemplate:bf2:Monograph:Instance'}/>)
+
+  it('is true when the field is mandatory and nothing has been filled in', () => {
+    wrapper.instance().props.propertyTemplate.mandatory = 'true'
+    wrapper.instance().forceUpdate()
+    expect(wrapper.find('input').prop('required')).toBeTruthy()
+  })
+})
+
 describe('When the user enters input into field', () => {
   // Our mock formData function to replace the one provided by mapDispatchToProps
   const mockFormDataFn = jest.fn()

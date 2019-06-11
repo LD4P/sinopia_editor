@@ -46,6 +46,7 @@ class ResourceTemplate extends Component {
             resourceTemplate = {this.state.rtData}
             parentResourceTemplate = {this.props.resourceTemplateId}
             rtId = {this.state.rtData.id}
+            displayValidations = {this.props.displayValidations}
         />
       </div>
     </div>
@@ -69,6 +70,7 @@ ResourceTemplate.propTypes = {
   resourceTemplateId: PropTypes.string,
   resourceTemplateData: PropTypes.oneOfType([PropTypes.string, PropTypes.object]),
   generateLD: PropTypes.func,
+  displayValidations: PropTypes.bool,
 }
 
 const mapDispatchToProps = dispatch => ({
