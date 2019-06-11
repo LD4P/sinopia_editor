@@ -5,10 +5,10 @@ import Config from '../../src/Config'
 
 describe('Adding new embedded Resource Templates', () => {
   beforeAll(async () => {
-    jest.setTimeout(60000) // this seems to take around 10s in practice, but be generous, just in case
+    jest.setTimeout(60000) // This seems to take around 10s in practice, but be generous, just in case
     await page.goto('http://127.0.0.1:8888/templates')
 
-    // attempt to enter and submit login info
+    // Attempt to enter and submit login info
     try {
       await page.waitForSelector('form.login-form')
       await page.type('form.login-form input[name=username]', Config.cognitoTestUserName)
@@ -18,7 +18,7 @@ describe('Adding new embedded Resource Templates', () => {
       console.info(error)
     }
 
-    // sign out button should only show up after successful login
+    // Sign out button should only show up after successful login
     await page.waitForSelector('button.signout-btn')
   })
 

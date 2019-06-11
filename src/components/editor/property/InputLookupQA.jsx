@@ -96,19 +96,32 @@ class InputLookupQA extends Component {
     )
   }
 
+  get isMandatory() {
+    return booleanPropertyFromTemplate(this.props.propertyTemplate, 'mandatory', false)
+  }
+
+  get isRepeatable() {
+    return booleanPropertyFromTemplate(this.props.propertyTemplate, 'repeatable', true)
+  }
+
+  validate() {
+    if (!this.typeahead) {
+      return
+    }
+    const selected = this.typeahead.getInstance().state.selected
+
+    return this.props.displayValidations && this.isMandatory && selected.length < 1 ? 'Required' : undefined
+  }
+
   render() {
     let authority
     let language
     let subauthority
     const lookupConfigs = this.props.lookupConfig
-
-    const isMandatory = booleanPropertyFromTemplate(this.props.propertyTemplate, 'mandatory', false)
-    const isRepeatable = booleanPropertyFromTemplate(this.props.propertyTemplate, 'repeatable', true)
-
     const typeaheadProps = {
       id: 'lookupComponent',
-      required: isMandatory,
-      multiple: isRepeatable,
+      required: this.isMandatory,
+      multiple: this.isRepeatable,
       placeholder: this.props.propertyTemplate.propertyLabel,
       useCache: true,
       selectHintOnEnter: true,
@@ -119,21 +132,28 @@ class InputLookupQA extends Component {
       delay: 300,
     }
 
-    return (
-      <div>
-        <AsyncTypeahead renderMenu={(results, menuProps) => this.renderMenuFunc(results, menuProps)}
+    let groupClasses = 'form-group'
+    const error = this.validate()
 
+    if (error) {
+      groupClasses += ' has-error'
+    }
+
+    return (
+      <div className={groupClasses}>
+        <AsyncTypeahead renderMenu={(results, menuProps) => this.renderMenuFunc(results, menuProps)}
+                        ref={typeahead => this.typeahead = typeahead }
                         onSearch={(query) => {
                           this.setState({ isLoading: true })
                           this.lookupClient.then((client) => {
-                            // create array of promises based on the lookup config array that is sent in
+                            // Create array of promises based on the lookup config array that is sent in
                             const lookupPromises = lookupConfigs.map((lookupConfig) => {
                               authority = lookupConfig.authority
                               subauthority = lookupConfig.subauthority
                               language = lookupConfig.language
 
                               /*
-                               *return the 'promise'
+                               *Return the 'promise'
                                *Since we don't want promise.all to fail if
                                *one of the lookups fails, we want a catch statement
                                *at this level which will then return the error. Subauthorities require a different API call than authorities so need to check if subauthority is available
@@ -153,7 +173,7 @@ class InputLookupQA extends Component {
                                 })
                                 .catch((err) => {
                                   console.error('Error in executing lookup against source', err)
-                                  // return information along with the error in its own object
+                                  // Return information along with the error in its own object
                                   return { isError: true, errorObject: err }
                                 })
                             })
@@ -193,6 +213,7 @@ class InputLookupQA extends Component {
                         filterBy={() => true
                         }
         />
+        {error && <span className="help-block">{error}</span>}
       </div>
     )
   }
@@ -208,6 +229,7 @@ InputLookupQA.propTypes = {
     }),
   }).isRequired,
   reduxPath: PropTypes.oneOfType([PropTypes.string, PropTypes.array]),
+  displayValidations: PropTypes.bool,
 }
 
 const mapStateToProps = (state, props) => {

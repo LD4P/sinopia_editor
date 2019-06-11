@@ -13,15 +13,16 @@ class InputListLOC extends Component {
     super(props)
     this.state = {
       isLoading: false,
-      options: [],
+      options: [], // The suggestions returned from QA
       defaults: defaultValuesFromPropertyTemplate(this.props.propertyTemplate),
+      error: null,
     }
   }
 
   componentDidMount() {
     this._isMounted = true
     if (this.state.defaults.length > 0) {
-      this.setPayLoad(this.state.defaults)
+      this.selectionChanged(this.state.defaults)
     } else {
       // Property templates do not require defaults but we like to know when this happens
       console.info(`no defaults defined in property template: ${JSON.stringify(this.props.propertyTemplate)}`)
@@ -32,7 +33,7 @@ class InputListLOC extends Component {
     this._isMounted = false
   }
 
-  setPayLoad(items) {
+  selectionChanged(items) {
     const payload = {
       id: this.props.propertyTemplate.propertyURI,
       items,
@@ -42,18 +43,36 @@ class InputListLOC extends Component {
     this.props.handleSelectedChange(payload)
   }
 
+  get isMandatory() {
+    return booleanPropertyFromTemplate(this.props.propertyTemplate, 'mandatory', false)
+  }
+
+  get isRepeatable() {
+    return booleanPropertyFromTemplate(this.props.propertyTemplate.valueConstraint, 'repeatable', true)
+  }
+
+  validate() {
+    if (!this.typeahead) {
+      return
+    }
+    const selected = this.typeahead.state.selected
+
+    return this.props.displayValidations && this.isMandatory && selected.length < 1 ? 'Required' : undefined
+  }
+
   render() {
     if (this.props.lookupConfig?.uri === undefined) {
       alert(`There is no configured list lookup for ${this.props.propertyTemplate.propertyURI}`)
     }
 
-    const isMandatory = booleanPropertyFromTemplate(this.props.propertyTemplate, 'mandatory', false)
-    const isRepeatable = booleanPropertyFromTemplate(this.props.propertyTemplate.valueConstraint, 'repeatable', true)
+    if (this.state.defaults.length === undefined) {
+      return (<div />)
+    }
 
     const typeaheadProps = {
       id: 'targetComponent',
-      required: isMandatory,
-      multiple: isRepeatable,
+      required: this.isMandatory,
+      multiple: this.isRepeatable,
       placeholder: this.props.propertyTemplate.propertyLabel,
       useCache: true,
       selectHintOnEnter: true,
@@ -63,11 +82,17 @@ class InputListLOC extends Component {
       defaultSelected: this.state.defaults,
     }
     const opts = []
+    let groupClasses = 'form-group'
+    const error = this.validate()
 
+    if (error) {
+      groupClasses += ' has-error'
+    }
 
     return (
-      <div>
+      <div className={groupClasses}>
         <Typeahead
+          ref={typeahead => this.typeahead = typeahead}
           onFocus={() => {
             this.setState({ isLoading: true })
             fetch(`${this.props.lookupConfig.uri}.json`)
@@ -81,8 +106,8 @@ class InputListLOC extends Component {
                     const label = item.value['http://www.loc.gov/mads/rdf/v1#authoritativeLabel'][0]['@value']
 
                     opts.push({ id: newId, label, uri })
-                  } catch (error) {
-                    // ignore
+                  } catch (err) {
+                    // Ignore
                   }
                 }
               })
@@ -93,9 +118,10 @@ class InputListLOC extends Component {
               .catch(() => false)
           }}
           onBlur={() => { this.setState({ isLoading: false }) }}
-          onChange={selected => this.setPayLoad(selected)}
+          onChange={selected => this.selectionChanged(selected)}
           {...typeaheadProps}
         />
+        {error && <span className="help-block">{error}</span>}
       </div>
     )
   }
@@ -111,6 +137,7 @@ InputListLOC.propTypes = {
       useValuesFrom: PropTypes.oneOfType([PropTypes.string, PropTypes.array]),
     }),
   }).isRequired,
+  displayValidations: PropTypes.bool,
 }
 
 const mapStateToProps = state => ({ ...state })

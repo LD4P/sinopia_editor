@@ -13,7 +13,7 @@ import { isResourceWithValueTemplateRef, resourceToName } from '../../Utilities'
 
 const _ = require('lodash')
 
-// renders the input form for a ResourceTemplate
+// Renders the input form for a ResourceTemplate
 export class ResourceTemplateForm extends Component {
   constructor(props) {
     super(props)
@@ -24,18 +24,11 @@ export class ResourceTemplateForm extends Component {
       ptRtIds: [],
       templateError: false,
       templateErrors: [],
-      componentForm: <div/>,
     }
   }
 
   componentDidMount() {
-    this.fulfillRTPromises(this.resourceTemplatePromise(this.joinedRTs())).then(() => {
-      this.setState({
-        componentForm:
-          this.renderComponentForm(),
-
-      })
-    })
+    this.fulfillRTPromises(this.resourceTemplatePromise(this.joinedRTs()))
   }
 
   fulfillRTPromises = async (promiseAll) => {
@@ -60,7 +53,7 @@ export class ResourceTemplateForm extends Component {
     rtIds.map((rtId, i) => {
       const rt = this.rtForPt(rtId)
 
-      if (rt !== undefined) {
+      if (rt !== undefined) { // It may not be loaded yet
         const keyId = shortid.generate()
         const reduxPath = [this.props.rtId, property.propertyURI, keyId, rtId]
 
@@ -72,8 +65,6 @@ export class ResourceTemplateForm extends Component {
         if ((rtIds.length - i) > 1) {
           rtProperties.push(<hr key={i} />)
         }
-      } else {
-        this.setState({ templateError: true })
       }
     })
 
@@ -101,9 +92,9 @@ export class ResourceTemplateForm extends Component {
 
   defaultValues = () => {
     this.props.propertyTemplates.map((pt) => {
-      if (pt.mandatory == undefined) pt.mandatory = 'true'
-      if (pt.repeatable == undefined) pt.repeatable = 'false'
-      if (pt.editable == undefined) pt.editable = 'true'
+      if (pt.mandatory === undefined) pt.mandatory = 'true'
+      if (pt.repeatable === undefined) pt.repeatable = 'false'
+      if (pt.editable === undefined) pt.editable = 'true'
     })
   }
 
@@ -125,7 +116,11 @@ export class ResourceTemplateForm extends Component {
 
               return (
                 <PropertyPanel pt={pt} key={index} float={index} rtId={this.props.rtId}>
-                  <PropertyComponent index={index} reduxPath={[this.props.rtId]} rtId={this.props.rtId} propertyTemplate={pt} />
+                  <PropertyComponent index={index}
+                                     reduxPath={[this.props.rtId]}
+                                     rtId={this.props.rtId}
+                                     propertyTemplate={pt}
+                                     displayValidations={this.props.displayValidations}/>
                 </PropertyPanel>
               )
             })
@@ -148,7 +143,7 @@ export class ResourceTemplateForm extends Component {
       return errMessage
     }
 
-    return this.state.componentForm
+    return this.renderComponentForm()
   }
 }
 
@@ -160,6 +155,7 @@ ResourceTemplateForm.propTypes = {
   rtId: PropTypes.string,
   handleMyItemsChange: PropTypes.func,
   handleRemoveAllContent: PropTypes.func,
+  displayValidations: PropTypes.bool,
 }
 
 const mapStateToProps = state => ({
@@ -168,8 +164,8 @@ const mapStateToProps = state => ({
 })
 
 const mapDispatchToProps = dispatch => ({
-  handleMyItemsChange(user_input) {
-    dispatch(setItems(user_input))
+  handleMyItemsChange(userInput) {
+    dispatch(setItems(userInput))
   },
   handleRemoveAllContent(id) {
     dispatch(removeAllContent(id))

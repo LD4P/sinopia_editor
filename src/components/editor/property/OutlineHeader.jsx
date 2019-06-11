@@ -12,7 +12,7 @@ class OutlineHeader extends Component {
   }
 
   isCollapsed = () => {
-    if (this.props.collapsed == true) {
+    if (this.props.collapsed === true) {
       return faPlusSquare
     }
 
@@ -20,13 +20,13 @@ class OutlineHeader extends Component {
   }
 
   spacer = () => {
-    let unicode_spacer = ''
+    let unicodeSpacer = ''
 
     for (let i = 0; i <= this.props.spacer; i++) {
-      unicode_spacer += '\u00a0'
+      unicodeSpacer += '\u00a0'
     }
 
-    return unicode_spacer
+    return unicodeSpacer
   }
 
   render() {

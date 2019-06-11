@@ -31,13 +31,13 @@ class RootContainer extends Component {
   }
 
   render() {
-    const offcanvas_class = this.state.isMenuOpened ? 'closeMargin' : null
+    const offcanvasClass = this.state.isMenuOpened ? 'closeMargin' : null
 
 
     return (
       <div id="home-page">
         <OffCanvas width={300} transitionDuration={300} isMenuOpened={this.state.isMenuOpened} position={'right'}>
-          <OffCanvasBody className={offcanvas_class}>
+          <OffCanvasBody className={offcanvasClass}>
             <BrowserRouter>
               <Provider store={store}>
                 <App isMenuOpened={this.state.isMenuOpened} handleOffsetMenu={this.handleOffsetMenu}/>

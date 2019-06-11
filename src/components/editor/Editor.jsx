@@ -26,6 +26,7 @@ class Editor extends Component {
       resourceTemplateId: '',
       showRdf: false,
       showGroupChooser: false,
+      displayValidations: false,
     }
   }
 
@@ -46,8 +47,13 @@ class Editor extends Component {
     this.setState({ showRdf: true })
   }
 
+  // NOTE: it's possible these handle methods for RDFModal could live in RDFModal component
   handleRdfClose = () => {
     this.setState({ showRdf: false })
+  }
+
+  validate = () => {
+    this.setState({ displayValidations: true })
   }
 
   handleRdfSave = () => {
@@ -55,7 +61,7 @@ class Editor extends Component {
   }
 
   renderResourceTemplate = () => (
-    <ResourceTemplate resourceTemplateId = {this.state.resourceTemplateId} />
+    <ResourceTemplate resourceTemplateId = {this.state.resourceTemplateId} displayValidations={this.state.displayValidations}/>
   )
 
   chooseGroupThenSave = (rdf, group) => {
@@ -76,7 +82,7 @@ class Editor extends Component {
     this.setState({ showGroupChooser: false })
   }
 
-  // the ld4p group is only for templates
+  // The ld4p group is only for templates
   groupsToSaveInto = () => Config.groupsInSinopia.filter(group => group[0] !== 'ld4p')
 
   render() {
@@ -105,6 +111,7 @@ class Editor extends Component {
         <div className="row">
           <section className="col-md-3" style={{ float: 'right' }}>
             <button type="button" className="btn btn-primary btn-sm" onClick={ this.handleRdfShow }>Preview RDF</button>
+            <button type="button" className="btn btn-primary btn-sm" onClick={ this.validate }>Validate</button>
           </section>
         </div>
         {rdfModal}

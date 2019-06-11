@@ -7,7 +7,7 @@ import Ajv from 'ajv' // JSON schema validation
 import Config from '../../Config'
 
 const util = require('util')
-// for JSON schema validation errors
+// For JSON schema validation errors
 const fileReader = new window.FileReader()
 
 class ImportFileZone extends Component {
@@ -38,7 +38,7 @@ class ImportFileZone extends Component {
     fileReader.onloadend = this.handleFileRead
 
     try {
-      // currently ResourceTemplate parses the profile and gets an array of objects; want just the objects
+      // Currently ResourceTemplate parses the profile and gets an array of objects; want just the objects
       fileReader.readAsText(files[0])
     } catch (err) {
       console.error(`error reading the loaded template as text: ${err}`)
@@ -94,7 +94,7 @@ class ImportFileZone extends Component {
         return reject(new Error(`${util.inspect(this.ajv.errors)}`))
       }
 
-      return resolve() // w00t!
+      return resolve() // W00t!
     })
     .catch(err => reject(err)))
 
@@ -187,7 +187,9 @@ class ImportFileZone extends Component {
     return (
       <section>
         <div className="ImportFileZone" style={importFileZone}>
-          <button id="ImportProfile" className="btn btn-primary btn-lg" onClick={this.handleClick}>Import New or Revised Resource Template</button>
+          <button id="ImportProfile"
+                  className="btn btn-primary btn-lg"
+                  onClick={this.handleClick}>Import a Profile containing New or Revised Resource Templates</button>
         </div>
         <div className="dropzoneContainer" style={dropzoneContainer}>
           { this.state.showDropZone ? (<DropZone showDropZoneCallback={this.updateShowDropZone}
@@ -208,7 +210,7 @@ class DropZone extends Component {
   }
 
   /*
-   *TODO: When we need to let the user select a group:
+   * TODO: When we need to let the user select a group:
    * handleChange = (event) => {
    *   this.props.setGroupCallback(event.target.value)
    *   this.setState({group: event.target.value})
@@ -235,17 +237,9 @@ class DropZone extends Component {
         {/* </strong> */}
         {/* <form style={{paddingTop: '10px'}}> */}
         {/* <select value={this.state.group} onChange={this.handleChange}> */}
-        {/* <option value="ld4p">LD4P</option> */}
-        {/* <option value="pcc">PCC</option> */}
-        {/* <option value="cub">University of Colorado Boulder</option> */}
-        {/* <option value="cornell">Cornell University</option> */}
-        {/* <option value="harvard">Harvard University</option> */}
-        {/* <option value="nlm">National Library of Medicine</option> */}
-        {/* <option value="stanford">Stanford University</option> */}
-        {/* <option value="ucsd">University of California, San Diego</option> */}
-        {/* <option value="penn">University of Pennsylvania</option> */}
-        {/* <option value="hrc">Harry Ransom Center, University of Texas at Austin</option> */}
-        {/* <option value="wau">University of Washington</option> */}
+        {/*
+          * If we need to have the user select a group, see e.g. select form in GroupChoiceModal
+          * */}
         {/* </select> */}
         {/* </form> */}
         <strong>

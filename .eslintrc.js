@@ -70,17 +70,15 @@ module.exports = {
     // Added the following, which started failing when airbnb-base/whitespace was added
     // We may wish to gradually enable these. At the moment, there are >2K warnings.
     "sort-keys": "off",
-    "eqeqeq": "off",
+    "eqeqeq": ["error", "smart"],
     "id-length": "off",
     "no-magic-numbers": "off",
     "new-cap": "off",
-    "camelcase": "off",
     "no-sync": "off",
-    "no-continue": "off",
     "global-require": "off",
     "require-jsdoc": "off",
     "valid-jsdoc": "off",
-    "func-style": "off",
+    "func-style": ["error", "declaration", { "allowArrowFunctions": true }],
     "import/no-commonjs": "off",
     "import/group-exports": "off",
     "no-use-before-define": "off",
@@ -98,7 +96,7 @@ module.exports = {
     "import/exports-last": "off",
     "import/max-dependencies": "off",
     "no-return-await": "off",
-    "max-len": "off",
+    "max-len": ["error", { "code": 164, "ignoreComments": true }],
     "no-return-assign": "off",
     "no-param-reassign": "off",
     "sort-imports": "off",
@@ -137,14 +135,17 @@ module.exports = {
     "no-throw-literal": "off",
     "import/no-namespace": "off",
     "no-nested-ternary": "off",
-    'lines-around-comment': ['error', { 'allowBlockStart': true }]
+    'lines-around-comment': ['error', { 'allowBlockStart': true }],
+    'capitalized-comments': ['error', 'always', { 'ignoreInlineComments': true }]
   },
   overrides: [
     {
       // Allow tests to include block statements (idiomatic Jest style)
       "files": ["__tests__/**"],
       "rules": {
-        "arrow-body-style": "off"
+        "arrow-body-style": "off",
+        "max-lines": "off",
+        "max-len": "off"
       }
     },
     {
@@ -177,10 +178,16 @@ module.exports = {
       }
     },
     {
-      // Remove limits on number of lines in test files
-      "files": ["__tests__/**"],
+      // Allow a continue guard clause here as an if will increase the depth
+      "files": ["src/GraphBuilder.js"],
       "rules": {
-        "max-lines": "off"
+        "no-continue": "off"
+      }
+    },
+    {
+      "files": ["src/components/editor/property/ResourceProperty.jsx"],
+      "rules": {
+        "max-len": "off"
       }
     },
   ]

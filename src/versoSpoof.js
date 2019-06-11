@@ -1,6 +1,6 @@
 // Copyright 2018 Stanford University see LICENSE for license
 
-// spoof verso calls to get profiles and ontologies
+// Spoof verso calls to get profiles and ontologies
 const path = require('path')
 const fs = require('fs')
 
@@ -10,7 +10,7 @@ loadProfiles()
 module.exports.profiles = profiles
 
 function loadProfiles() {
-  if (profiles.length == 0) {
+  if (profiles.length === 0) {
     const profilesDirPath = path.join(__dirname, '..', 'static', 'spoofedFilesFromServer', 'from_verso', 'data', 'profiles')
 
     fs.readdirSync(profilesDirPath).forEach((file) => {
@@ -92,9 +92,9 @@ module.exports.owlOntUrl2JsonMappings = owlOntUrl2JsonMappings
 
 function loadOwlOntologies() {
   const x2js = require('x2js')
-  const x2json_parser = new x2js()
+  const x2jsonParser = new x2js()
 
-  if (owlOntUrl2JsonMappings.length == 0) {
+  if (owlOntUrl2JsonMappings.length === 0) {
     owlOntUrl2FileMappings.forEach((mappingEl) => {
       let fullFilePath = path.join(__dirname, '..', 'static', 'cachedHttp')
 
@@ -103,14 +103,14 @@ function loadOwlOntologies() {
       })
       const fileContents = fs.readFileSync(fullFilePath, { encoding: 'utf8' })
 
-      if (mappingEl.type == 'rdfxml') {
+      if (mappingEl.type === 'rdfxml') {
         owlOntUrl2JsonMappings.push(
           {
             url: mappingEl.url,
-            json: x2json_parser.xml2js(fileContents),
+            json: x2jsonParser.xml2js(fileContents),
           },
         )
-      } else if (mappingEl.type == 'json') {
+      } else if (mappingEl.type === 'json') {
         owlOntUrl2JsonMappings.push(
           {
             url: mappingEl.url,
