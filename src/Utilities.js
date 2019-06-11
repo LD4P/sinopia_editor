@@ -16,11 +16,18 @@ export const defaultValuesFromPropertyTemplate = (propertyTemplate) => {
   // Use safe navigation to deal with differently shaped property templates
   const defaultValue = propertyTemplate?.valueConstraint?.defaults?.[0]
 
+  // Use the default URI for the literal value if the lliteral is undefined
+  const defaultLiteral = defaultValue?.defaultLiteral
+
+  const defaultURI = defaultValue?.defaultURI
+
+  const defaultLabel = defaultLiteral || defaultURI
+
   if (!defaultValue) return []
 
   return [{
     id: defaultValue.defaultURI,
-    label: defaultValue.defaultLiteral,
+    label: defaultLabel,
     uri: defaultValue.defaultURI,
   }]
 }

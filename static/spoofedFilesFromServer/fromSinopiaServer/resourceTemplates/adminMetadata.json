@@ -1,0 +1,146 @@
+{
+  "resourceURI": "http://id.loc.gov/ontologies/bibframe/AdminMetadata",
+  "resourceLabel": "RT BF2 BFLC Admin Metadata",
+  "id": "rt:bf2:AdminMetadata",
+  "date": "2019-05-30",
+  "author": "Crystal Clements (cec23@uw.edu)",
+  "schema": "https://ld4p.github.io/sinopia/schemas/0.0.9/resource-template.json",
+  "propertyTemplates": [
+    {
+      "propertyLabel": "Your cataloger ID (UW netid)",
+      "propertyURI": "http://id.loc.gov/ontologies/bflc/catalogerID",
+      "mandatory": "true",
+      "repeatable": "true",
+      "type": "literal"
+    },
+    {
+      "propertyLabel": "Record status",
+      "propertyURI": "http://id.loc.gov/ontologies/bibframe/status",
+      "mandatory": "true",
+      "repeatable": "false",
+      "type": "resource",
+      "valueConstraint": {
+        "valueTemplateRefs": [
+          "rt:bf2:AdminMetadata:Status"
+        ]
+      }
+    },
+    {
+      "propertyLabel": "Encoding level",
+      "propertyURI": "http://id.loc.gov/ontologies/bflc/encodingLevel",
+      "mandatory": "true",
+      "repeatable": "false",
+      "type": "lookup",
+      "valueConstraint": {
+        "useValuesFrom": [
+          "https://id.loc.gov/vocabulary/menclvl"
+        ],
+        "valueDataType": {
+          "dataTypeURI": "http://id.loc.gov/ontologies/bflc/EncodingLevel"
+        },
+        "defaults": [
+          {
+            "defaultURI": "http://id.loc.gov/vocabulary/menclvl/f",
+            "defaultLiteral": "full"
+          }
+        ]
+      }
+    },
+    {
+      "propertyLabel": "Description conventions",
+      "propertyURI": "http://id.loc.gov/ontologies/bibframe/descriptionConventions",
+      "mandatory": "true",
+      "repeatable": "true",
+      "type": "lookup",
+      "valueConstraint": {
+        "useValuesFrom": [
+          "https://id.loc.gov/vocabulary/descriptionConventions"
+        ],
+        "valueDataType": {
+          "dataTypeURI": "http://id.loc.gov/ontologies/bibframe/DescriptionConventions"
+        },
+        "defaults": [
+          {
+            "defaultURI": "http://id.loc.gov/vocabulary/descriptionConventions/rda",
+            "defaultLiteral": "Resource Description and Access"
+          },
+          {
+            "defaultURI": "http://id.loc.gov/vocabulary/descriptionConventions/isbd",
+            "defaultLiteral": "ISBD: International Standard Bibliographic Description"
+          }
+        ]
+      }
+    },
+    {
+      "propertyLabel": "Source of cataloging",
+      "propertyURI": "http://id.loc.gov/ontologies/bibframe/source",
+      "mandatory": "true",
+      "repeatable": "true",
+      "type": "lookup",
+      "valueConstraint": {
+        "useValuesFrom": [
+          "urn:ld4p:qa:names:organization",
+          "urn:ld4p:qa:subjects:organization"
+        ],
+        "valueDataType": {
+          "dataTypeURI": "http://id.loc.gov/ontologies/bibframe/Agent"
+        },
+        "defaults": [
+          {
+            "defaultURI": "http://id.loc.gov/vocabulary/organizations/wau"
+          }
+        ]
+      }
+    },
+    {
+      "propertyLabel": "Description language",
+      "propertyURI": "http://id.loc.gov/ontologies/bibframe/descriptionLanguage",
+      "mandatory": "true",
+      "repeatable": "false",
+      "type": "lookup",
+      "valueConstraint": {
+        "useValuesFrom": [
+          "http:s//id.loc.gov/vocabulary/languages"
+        ],
+        "valueDataType": {
+          "dataTypeURI": "http://id.loc.gov/ontologies/bibframe/Language"
+        },
+        "defaults": [
+          {
+            "defaultURI": "http://id.loc.gov/vocabulary/languages/eng",
+            "defaultLiteral": "English"
+          }
+        ]
+      }
+    },
+    {
+      "propertyLabel": "Data creation date",
+      "propertyURI": "http://id.loc.gov/ontologies/bibframe/creationDate",
+      "mandatory": "true",
+      "repeatable": "false",
+      "type": "literal"
+    },
+    {
+      "propertyLabel": "Data change date",
+      "propertyURI": "http://id.loc.gov/ontologies/bibframe/changeDate",
+      "mandatory": "false",
+      "repeatable": "false",
+      "type": "literal"
+    },
+    {
+      "propertyLabel": "Description authentication",
+      "propertyURI": "http://id.loc.gov/ontologies/bibframe/descriptionAuthentication",
+      "mandatory": "false",
+      "repeatable": "true",
+      "type": "lookup",
+      "valueConstraint": {
+        "useValuesFrom": [
+          "https://id.loc.gov/vocabulary/marcauthen"
+        ],
+        "valueDataType": {
+          "dataTypeURI": "http://id.loc.gov/ontologies/bibframe/DescriptionAuthentication"
+        }
+      }
+    }
+  ]
+}
