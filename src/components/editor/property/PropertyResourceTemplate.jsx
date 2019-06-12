@@ -12,7 +12,7 @@ class PropertyResourceTemplate extends Component {
     super(props)
     this.state = {
       collapse: false,
-      output: this.populatePropertyTemplates(),
+      output: this.populatePropertyTemplates(this.props.reduxPath),
     }
   }
 
@@ -21,12 +21,20 @@ class PropertyResourceTemplate extends Component {
     const existingOutputs = [...this.state.output]
 
     existingOutputs.push(<h4 key={shortid.generate()}>{this.props.resourceTemplate.resourceLabel}</h4>)
-    const result = this.populatePropertyTemplates()
+
+    const newReduxPath = [...this.props.reduxPath]
+
+    /*
+     * Replace the generated id so that this is a new resource.
+     * The redux path will be something like ..., "kV5fjX2b1", "resourceTemplate:bf2:Monograph:Work"
+     */
+    newReduxPath[newReduxPath.length - 2] = shortid.generate()
+    const result = this.populatePropertyTemplates(newReduxPath)
 
     this.setState({ output: existingOutputs.concat(result) })
   }
 
-  populatePropertyTemplates = () => {
+  populatePropertyTemplates = (reduxPath) => {
     const newOutput = []
 
     this.props.resourceTemplate.propertyTemplates.map((property) => {
@@ -35,7 +43,7 @@ class PropertyResourceTemplate extends Component {
       newOutput.push(<PropertyTemplateOutline
                       propertyTemplate={property}
                       rtId={this.props.resourceTemplate.id}
-                      reduxPath={this.props.reduxPath}
+                      reduxPath={reduxPath}
                       key={keyId} />)
     })
 

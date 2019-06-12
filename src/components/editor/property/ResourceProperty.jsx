@@ -24,6 +24,8 @@ export class ResourceProperty extends Component {
       const resourceKeyId = shortid.generate()
       const newReduxPath = Object.assign([], this.props.reduxPath)
 
+      newReduxPath.push(this.props.propertyTemplate.propertyURI)
+
       newReduxPath.push(resourceKeyId)
       newReduxPath.push(rtId)
       if (resourceTemplate === undefined) {
@@ -47,7 +49,7 @@ export class ResourceProperty extends Component {
             <h5>{resourceTemplate.resourceLabel}</h5>
           </section>
           <section className="col-sm-4">
-            <PropertyActionButtons handleAddClick={this.props.handleAddClick(resourceTemplate)}
+            <PropertyActionButtons handleAddClick={this.props.handleAddClick}
                                    reduxPath={this.props.reduxPath}
                                    addButtonDisabled={this.props.addButtonDisabled}
                                    key={resourceKeyId} />
@@ -94,7 +96,6 @@ ResourceProperty.propTypes = {
   nestedResourceTemplates: PropTypes.array,
   propertyTemplate: PropTypes.object,
   reduxPath: PropTypes.array,
-  rtReduxPath: PropTypes.object,
   setResourceURI: PropTypes.func,
 }
 const mapDispatchToProps = dispatch => ({

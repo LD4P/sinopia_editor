@@ -86,12 +86,12 @@ export default class GraphBuilder {
           }
         }
       } else { // It's a deeply nested object
-        const bnode = rdf.blankNode()
+        Object.values(value).forEach((nestedValue) => {
+          const bnode = rdf.blankNode()
 
-        this.dataset.add(rdf.quad(baseURI, rdf.namedNode(predicate), bnode))
-        const nestedValue = value[Object.keys(value)[0]]
-
-        this.buildTriplesForNestedObject(bnode, nestedValue)
+          this.dataset.add(rdf.quad(baseURI, rdf.namedNode(predicate), bnode))
+          this.buildTriplesForNestedObject(bnode, nestedValue)
+        })
       }
     }
   }
