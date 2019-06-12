@@ -38,6 +38,22 @@ class InputLookupQAContext extends Component {
     this.lookupClient = Swagger({ spec: swaggerSpec })
   }
 
+  get isMandatory() {
+      return booleanPropertyFromTemplate(this.props.propertyTemplate, 'mandatory', false)
+    }
+
+    get isRepeatable() {
+      return booleanPropertyFromTemplate(this.props.propertyTemplate, 'repeatable', true)
+    }
+    
+    validate() {
+      if (!this.typeahead) {
+        return
+      }
+      const selected = this.typeahead.getInstance().state.selected
+    
+      return this.props.displayValidations && this.isMandatory && selected.length < 1 ? 'Required' : undefined
+    }
   handleChange = (event) => {
       const usr_input = event.target.value
       this.setState({ query: usr_input })
@@ -53,10 +69,82 @@ class InputLookupQAContext extends Component {
   displayResults = () => {
       let options = this.state.options;
       if(options.length > 0) {
-          return this.renderMenuFunc(options);
+          return this.renderResults(options);
       }
       return "No results"
   }
+  
+  renderResults = ( results ) => {
+      //Returning results per each promise
+      //If error is returned, it will be used to display for that source
+      const items = [];
+      let r, i, authLabel, resultsLength, authURI, headerKey, result;
+      resultsLength = results.length;
+      let headingStyle = {margin: '0 -15px',
+              padding: '8px 0 4px 8px',
+              backgroundColor: '#ccc'}
+      let labelStyle ={fontWeight:'bold',
+              fontSize:'18px',
+              paddingLeft: '5px'};
+      let idx = 0;
+      for ( i = 0; i < resultsLength; i++ ) {
+          result = results[i];
+          authLabel = result.authLabel;
+          authURI = result.authURI;
+          headerKey = authURI + "-header";
+          //Add header only if more than one authority request
+          if ( resultsLength > 1 )
+              items.push( 
+                  <h4 key={headerKey} style={headingStyle}>{authLabel}</h4>
+               );
+          //For this authority, display results
+          if ( "isError" in result ) {
+              //if error, then get error from within result and display that message
+              let errorMessage = "An error occurred in retrieving results";
+              let errorHeaderKey = headerKey + "-error";
+              items.push( 
+                  <h4 key={errorHeaderKey}><span className='dropdown-error'>{errorMessage}</span></h4>
+               );
+          } else {
+              //if not error, print out items for result
+              r = result.body;
+              let resultItems = r.map( (result, index) => {
+                  let contextContent = this.renderContext(result.context, idx, index);
+                  let resultContext = (<div> {contextContent} </div>);
+                  let bg = '#fff';    
+                  idx++;
+                  if(idx % 2 === 0) {
+                      bg = '#ede7d4';
+                  }
+                  let resultStyle = {backgroundColor: bg,
+                          padding: '4px 2px 2px 5px'};
+                  
+                  return(  <div className='row contextInfo' style={resultStyle} uri={result.uri}>  
+                          <input type="radio" value={result.uri} position={idx} key={idx}/>
+                          <span style={labelStyle}>{result.label}</span> 
+                          {resultContext}
+                          </div> );
+              });
+             resultItems.forEach( function (i) {items.push(i)});
+              //if the length of results is zero we need to show that as well
+              if ( r.length == 0 ) {
+                  let noResultsMessage = "No results for this lookup";
+                  let noResultsHeaderKey = headerKey + "-noResults";
+                  items.push( 
+                      <div key={noResultsHeaderKey}><span className='dropdown-empty'>{noResultsMessage}</span></div>
+                   );
+              }
+
+          }
+      }
+
+      return (
+         
+              <div>{items}</div>
+         
+      )
+  }
+  
   
   renderInputAndButton = (id, typeaheadProps) => {
       let buttonSpacer = {marginBottom: '10px'};
@@ -74,6 +162,8 @@ class InputLookupQAContext extends Component {
   }
   
   doSearch = (query) => {
+      const lookupConfigs = this.props.lookupConfig
+      let authority, subauthority, language
       this.setState({ isLoading: true })
       this.lookupClient.then((client) => {
         // create array of promises based on the lookup config array that is sent in
@@ -100,6 +190,7 @@ class InputLookupQAContext extends Component {
               subauthority,
               maxRecords: Config.maxRecordsForQALookups,
               lang: language,
+              context:true
             })
             .catch((err) => {
               console.error('Error in executing lookup against source', err)
@@ -225,6 +316,7 @@ InputLookupQAContext.propTypes = {
     }),
   }).isRequired,
   reduxPath: PropTypes.oneOfType([PropTypes.string, PropTypes.array]),
+  displayValidations: PropTypes.bool,
 }
 
 const mapStateToProps = (state, props) => {

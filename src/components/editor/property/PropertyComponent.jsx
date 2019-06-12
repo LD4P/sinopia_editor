@@ -6,6 +6,7 @@ import PropTypes from 'prop-types'
 import InputLiteral from './InputLiteral'
 import InputListLOC from './InputListLOC'
 import InputLookupQA from './InputLookupQA'
+import InputLookupQAContext from './InputLookupQAContext'
 import lookupConfig from '../../../../static/spoofedFilesFromServer/fromSinopiaServer/lookupConfig.json'
 
 export class PropertyComponent extends Component {
@@ -43,7 +44,7 @@ export class PropertyComponent extends Component {
 
     switch (config) {
       case 'lookup':
-        return (<InputLookupQA key = {this.props.index}
+        return (<InputLookupQAContext key = {this.props.index}
                                reduxPath={reduxPath}
                                propertyTemplate = {property}
                                lookupConfig = {this.state.configuration}

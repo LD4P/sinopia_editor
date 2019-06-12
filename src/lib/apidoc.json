@@ -164,7 +164,17 @@
               "default": "en",
               "type": "string"
             }
-          }
+          },
+           {
+            "description": "Return context provided by QA",
+            "in": "query",
+            "name": "context",
+            "required": false,
+            "schema": {
+              "default": "en",
+              "type": "string"
+			}	
+		  }
         ],
         "responses": {
           "200": {
@@ -1148,15 +1158,15 @@
   },
   "tags": [
     {
-      "name": "Authority Management",
+      "name": "AuthorityManagement",
       "description": "Services managing all authorities."
     },
     {
-      "name": "Search Query",
+      "name": "SearchQuery",
       "description": "Services sending a search query to an authority to retrieve multiple results."
     },
     {
-      "name": "Fetch Term",
+      "name": "FetchTerm",
       "description": "Services to fetch a single term from an authority."
     }
   ]
