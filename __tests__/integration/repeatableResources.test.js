@@ -36,7 +36,7 @@ describe('Adding new embedded Resource Templates', () => {
   it('clicks on a nested property with an embedded Note resource template and then clicks on the AddButton for a second resource template', async () => {
     await pupExpect(page).toClick('a[data-id=\'note\']')
     await pupExpect(page).toClick('.col-sm-4 > div:nth-child(1) > button:nth-child(1)')
-    await pupExpect(page).toMatchElement('div.panel:nth-child(1) > div:nth-child(2) > div:nth-child(1) > div:nth-child(2) > div:nth-child(3) > div:nth-child(2) > h5:nth-child(2)',
+    await pupExpect(page).toMatchElement('div.panel-body > div > div:nth-child(2) > div:nth-child(3) > div.rOutline-property > div:nth-child(2) > div.row > section.col-sm-8> h5',
       { text: 'Note' })
   })
 

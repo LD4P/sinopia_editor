@@ -162,7 +162,7 @@ describe('Utilities', () => {
     })
 
     it('returns an array with an object otherwise', () => {
-      const propertyTemplate = {
+      const propertyTemplateWithDefaultsAndLabel = {
         valueConstraint: {
           defaults: [
             {
@@ -173,9 +173,27 @@ describe('Utilities', () => {
         },
       }
 
-      expect(defaultValuesFromPropertyTemplate(propertyTemplate)).toEqual([{
+      expect(defaultValuesFromPropertyTemplate(propertyTemplateWithDefaultsAndLabel)).toEqual([{
         id: 'http://id.loc.gov/vocabulary/mcolor/mul',
         label: 'color',
+        uri: 'http://id.loc.gov/vocabulary/mcolor/mul',
+      }])
+    })
+
+    it('returns the uri in place of the label if the label is undefined', () => {
+      const propertyTemplateWithDefaultsNoLabel = {
+        valueConstraint: {
+          defaults: [
+            {
+              defaultURI: 'http://id.loc.gov/vocabulary/mcolor/mul',
+            },
+          ],
+        },
+      }
+
+      expect(defaultValuesFromPropertyTemplate(propertyTemplateWithDefaultsNoLabel)).toEqual([{
+        id: 'http://id.loc.gov/vocabulary/mcolor/mul',
+        label: 'http://id.loc.gov/vocabulary/mcolor/mul',
         uri: 'http://id.loc.gov/vocabulary/mcolor/mul',
       }])
     })

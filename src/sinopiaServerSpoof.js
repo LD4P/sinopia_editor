@@ -19,6 +19,10 @@ const retentionRt = require('../static/spoofedFilesFromServer/fromSinopiaServer/
 const itemAcqSourceRt = require('../static/spoofedFilesFromServer/fromSinopiaServer/resourceTemplates/ItemAcqSource.json')
 const enumerationRt = require('../static/spoofedFilesFromServer/fromSinopiaServer/resourceTemplates/ItemEnumeration.json')
 const chronologyRt = require('../static/spoofedFilesFromServer/fromSinopiaServer/resourceTemplates/ItemChronology.json')
+const adminMetaRt = require('../static/spoofedFilesFromServer/fromSinopiaServer/resourceTemplates/adminMetadata.json')
+const adminMetaStatusRt = require('../static/spoofedFilesFromServer/fromSinopiaServer/resourceTemplates/adminMetadataStatus.json')
+const rdaItemMonoRt = require('../static/spoofedFilesFromServer/fromSinopiaServer/resourceTemplates/rdaItemMonograph.json')
+const rdaManifestMonoRt = require('../static/spoofedFilesFromServer/fromSinopiaServer/resourceTemplates/RDAMainifestationMonograph.json')
 
 export const resourceTemplateId2Json = [
   { id: 'resourceTemplate:bf2:Monograph:Instance', json: monographInstanceRt },
@@ -40,6 +44,10 @@ export const resourceTemplateId2Json = [
   { id: 'resourceTemplate:bf2:Item:ItemAcqSource', json: itemAcqSourceRt },
   { id: 'resourceTemplate:bf2:Item:Enumeration', json: enumerationRt },
   { id: 'resourceTemplate:bf2:Item:Chronology', json: chronologyRt },
+  { id: 'rt:bf2:AdminMetadata', json: adminMetaRt },
+  { id: 'rt:bf2:AdminMetadata:Status', json: adminMetaStatusRt },
+  { id: 'rt:rda:item:monograph', json: rdaItemMonoRt },
+  { id: 'rt:rda:manifestation:monograph', json: rdaManifestMonoRt },
 ]
 
 const emptyTemplate = { propertyTemplates: [{}] }

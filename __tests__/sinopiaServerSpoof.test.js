@@ -10,19 +10,19 @@ jest.spyOn(Config, 'spoofSinopiaServer', 'get').mockReturnValue(true)
 
 describe('sinopiaServerSpoof', () => {
   describe('resourceTemplateIds', () => {
-    it('array of length 19', () => {
-      expect(resourceTemplateIds).toHaveLength(19)
+    it('array of length 23', () => {
+      expect(resourceTemplateIds).toHaveLength(23)
     })
     it('resourceTemplateId is in expected format', () => {
       resourceTemplateIds.forEach((id) => {
-        expect(id).toMatch(/^resourceTemplate:((bf2)|(bflc)):.*/)
+        expect(id).toMatch(/^.*:.*:.*/)
       })
     })
   })
 
   describe('resourceTemplateId2Json', () => {
-    it('array of length 19', () => {
-      expect(resourceTemplateId2Json).toHaveLength(19)
+    it('array of length 23', () => {
+      expect(resourceTemplateId2Json).toHaveLength(23)
     })
     it('mapping has id', () => {
       expect(resourceTemplateId2Json[0].id).toBe('resourceTemplate:bf2:Monograph:Instance')
@@ -97,6 +97,10 @@ describe('sinopiaServerSpoof', () => {
               'http://spoof.trellis.io/ld4p/resourceTemplate:bf2:Item:ItemAcqSource',
               'http://spoof.trellis.io/ld4p/resourceTemplate:bf2:Item:Enumeration',
               'http://spoof.trellis.io/ld4p/resourceTemplate:bf2:Item:Chronology',
+              'http://spoof.trellis.io/ld4p/rt:bf2:AdminMetadata',
+              'http://spoof.trellis.io/ld4p/rt:bf2:AdminMetadata:Status',
+              'http://spoof.trellis.io/ld4p/rt:rda:item:monograph',
+              'http://spoof.trellis.io/ld4p/rt:rda:manifestation:monograph',
             ],
           },
         },
