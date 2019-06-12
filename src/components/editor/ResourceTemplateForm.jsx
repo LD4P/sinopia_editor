@@ -32,6 +32,11 @@ export class ResourceTemplateForm extends Component {
     this.fulfillRTPromises(this.resourceTemplatePromise(this.joinedRTs()))
   }
 
+  /*
+   * For each fulfillled RT retrieval promise,
+   *   - dispatch loaded template to redux to be put into store
+   *   - add retrieved RT onto "nestedResourceTemplates" array in state
+   */
   fulfillRTPromises = async (promiseAll) => {
     await promiseAll.then(async (rts) => {
       rts.map((fulfilledResourceTemplateRequest) => {
@@ -74,6 +79,11 @@ export class ResourceTemplateForm extends Component {
     return rtProperties
   }
 
+  // templateRefs is an array of rt ids
+  //
+  // returns a single promise:
+  //   reject result if any of the desired rtIds gets a reject from getResourceTemplate
+  //   resolves if ALL resource templates are retrieved from Sinopia Server (or from spoofing), returning array of every promise's result
   resourceTemplatePromise = async templateRefs => Promise.all(templateRefs.map(rtId => getResourceTemplate(rtId).catch((err) => {
     const joinedErrorUrls = [...this.state.templateErrors]
 
@@ -81,6 +91,7 @@ export class ResourceTemplateForm extends Component {
     this.setState({ templateErrors: _.sortedUniq(joinedErrorUrls) })
   })))
 
+  // Returns an array of resource template ids from the valueTemplateRefs values in the propertyTemplates
   joinedRTs = () => {
     let joined = []
 
@@ -101,7 +112,12 @@ export class ResourceTemplateForm extends Component {
     })
   }
 
-  rtForPt = rtId => _.find(this.state.nestedResourceTemplates, ['id', rtId])
+  rtForPt = (rtId) => {
+    if (this.props.resourceTemplateMap) {
+      return this.props.resourceTemplateMap[rtId]
+    }
+    return {}
+  }
 
   renderComponentForm = () => (
     <div>
@@ -157,11 +173,13 @@ ResourceTemplateForm.propTypes = {
   rtId: PropTypes.string,
   handleMyItemsChange: PropTypes.func,
   handleRemoveAllContent: PropTypes.func,
+  resourceTemplateMap: PropTypes.object,
 }
 
 const mapStateToProps = state => ({
   literals: state.literal,
   lookups: state.lookups,
+  resourceTemplateMap: state.selectorReducer.entities.resourceTemplates,
 })
 
 const mapDispatchToProps = dispatch => ({
