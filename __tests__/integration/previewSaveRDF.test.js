@@ -27,9 +27,9 @@ describe('Expanding a resource property in a property panel', () => {
     await pupExpect(page).toMatch('If this looks good, then click Save and Publish')
   })
 
-  it('presents a choice of group to save to', async () => {
+  it('presents a choice of group to save to from the RDFModal', async () => {
     expect.assertions(3)
-    await pupExpect(page).toClick('button', { text: 'Save & Publish' })
+    await pupExpect(page).toClick('#modal-save', { text: 'Save & Publish' })
     await pupExpect(page).toMatch('Which group do you want to save to?')
     await pupExpect(page).toMatch('Which group do you want to associate this record to?')
   })
@@ -40,10 +40,10 @@ describe('Expanding a resource property in a property panel', () => {
     await pupExpect(page).toClick('button', { text: 'Save' })
   })
 
-  it.skip('for now has a dialog confirming the save function that can be dismissed', async () => {
-    // FIXME:  does not seem to test anything;  adding expect.assertions(1) causes it to fail
-    await pupExpect(page.on('dialog', (dialog) => {
-      dialog.dismiss()
-    }))
+  it('presents a choice of group to save to when the non-modal Save and Publish is clicked', async () => {
+    expect.assertions(3)
+    await pupExpect(page).toClick('button', { text: 'Save & Publish' })
+    await pupExpect(page).toMatch('Which group do you want to save to?')
+    await pupExpect(page).toMatch('Which group do you want to associate this record to?')
   })
 })

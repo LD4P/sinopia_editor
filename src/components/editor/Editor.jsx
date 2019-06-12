@@ -109,9 +109,10 @@ class Editor extends Component {
         <Header triggerEditorMenu={this.props.triggerHandleOffsetMenu}/>
         { authenticationMessage }
         <div className="row">
-          <section className="col-md-3" style={{ float: 'right' }}>
-            <button type="button" className="btn btn-primary btn-sm" onClick={ this.handleRdfShow }>Preview RDF</button>
-            <button type="button" className="btn btn-primary btn-sm" onClick={ this.validate }>Validate</button>
+          <section className="col-md-3" style={{ float: 'right', width: '320px' }}>
+            <button type="button" className="btn btn-link btn-sm btn-editor" onClick={ this.handleRdfShow }>Preview RDF</button>
+            <button type="button" className="btn btn-primary btn-sm btn-editor" onClick={ this.handleRdfSave }>Save & Publish</button>
+            <button type="button" className="btn btn-primary btn-sm btn-editor" onClick={ this.validate }>Validate</button>
           </section>
         </div>
         {rdfModal}
