@@ -72,7 +72,6 @@ export const refreshResourceTemplate = (state, action) => {
   const items = defaults.length > 0 ? { items: defaults } : {}
 
   const lastKey = reduxPath.pop()
-
   const lastObject = reduxPath.reduce((newState, key) => newState[key] = newState[key] || {}, newState)
 
   if (Object.keys(items).includes('items')) {
@@ -89,32 +88,28 @@ export const refreshResourceTemplate = (state, action) => {
  * the body of the resource template is in `action.payload'
  */
 export const setResourceTemplate = (state, action) => {
+  let newState = resourceTemplateLoaded(state, action)
   const resourceTemplateId = action.payload.id
-  let output = state
 
   action.payload.propertyTemplates.forEach((property) => {
     const propertyAction = {
       payload: {
-        reduxPath: [resourceTemplateId, property.propertyURI],
+        reduxPath: ['resource', resourceTemplateId, property.propertyURI],
         property,
       },
     }
 
-    output = refreshResourceTemplate(output, propertyAction)
+    newState = refreshResourceTemplate(newState, propertyAction)
   })
 
-  output[resourceTemplateId].rdfClass = action.payload.resourceURI
-
-  return output
+  return newState
 }
 
-export const setResourceURI = (state, action) => {
+export const resourceTemplateLoaded = (state, action) => {
+  const resourceTemplateId = action.payload.id
   const newState = { ...state }
-  const reduxPath = action.payload.reduxPath
 
-  const lastObject = reduxPath.reduce((newState, key) => newState[key] = newState[key] || {}, newState)
-
-  lastObject.rdfClass = action.payload.resourceURI
+  newState.entities.resourceTemplates[resourceTemplateId] = action.payload
   return newState
 }
 
@@ -130,6 +125,8 @@ const selectorReducer = (state = {}, action) => {
       return setBaseURL(state, action)
     case 'SET_LANG':
       return setMyItemsLang(state, action)
+    case 'RESOURCE_TEMPLATE_LOADED':
+      return resourceTemplateLoaded(state, action)
     case 'CHANGE_SELECTIONS':
       return setMySelections(state, action)
     case 'REFRESH_RESOURCE_TEMPLATE':
@@ -138,8 +135,6 @@ const selectorReducer = (state = {}, action) => {
       return removeMyItem(state, action)
     case 'REMOVE_ALL_CONTENT':
       return removeAllContent(state, action)
-    case 'SET_RESOURCE_URI':
-      return setResourceURI(state, action)
     default:
       return state
   }

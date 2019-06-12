@@ -2,29 +2,35 @@
 
 import * as actions from '../../src/actions/index'
 
-describe('setItems actions', () => {
-  it('setItems should create SET_ITEMS action', () => {
+describe('setItems()', () => {
+  it('creates SET_ITEMS action', () => {
     expect(actions.setItems({ id: 'Instance of', items: [{ content: 'food', id: 0 }] })).toEqual({
       type: 'SET_ITEMS',
       payload: { id: 'Instance of', items: [{ content: 'food', id: 0 }] },
     })
   })
+})
 
-  it('setResourceURI should create SET_RESOURCE_URI action', () => {
-    expect(actions.setResourceURI({ resourceURI: 'http://resourceURI', reduxPath: ['path to nowhere'] })).toEqual({
-      type: 'SET_RESOURCE_URI',
-      payload: { resourceURI: 'http://resourceURI', reduxPath: ['path to nowhere'] },
+describe('refreshResourceTemplate()', () => {
+  it('creates REFRESH_RESOURCE_TEMPLATE action', () => {
+    expect(actions.refreshResourceTemplate({ id: 'resourceTemplate:bf2:Note' })).toEqual({
+      type: 'REFRESH_RESOURCE_TEMPLATE',
+      payload: { id: 'resourceTemplate:bf2:Note' },
     })
   })
+})
 
-  it('removeItem should create REMOVE_ITEM action', () => {
+describe('removeItem()', () => {
+  it('creates REMOVE_ITEM action', () => {
     expect(actions.removeItem({ id: 0, label: 'Instance of' })).toEqual({
       type: 'REMOVE_ITEM',
       payload: { id: 0, label: 'Instance of' },
     })
   })
+})
 
-  it('setLang should create SET_LANG action', () => {
+describe('setLang()', () => {
+  it('creates SET_LANG action', () => {
     expect(actions.setLang({ id: 'Instance of', items: [{ label: 'food', id: 'http://uri1', uri: 'URI' }] })).toEqual({
       type: 'SET_LANG',
       payload: { id: 'Instance of', items: [{ label: 'food', id: 'http://uri1', uri: 'URI' }] },
