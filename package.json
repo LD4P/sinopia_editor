@@ -141,7 +141,8 @@
       "jest-junit"
     ],
     "testPathIgnorePatterns": [
-      "/node_modules/"
+      "/node_modules/",
+      "__tests__/integration/loginHelper"
     ],
     "setupFiles": [
       "jest-localstorage-mock",
