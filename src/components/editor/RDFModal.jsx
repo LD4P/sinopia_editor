@@ -20,7 +20,7 @@ const RDFModal = props => (
         <Row style={{ marginLeft: '0', marginRight: '0' }}>
           <Col sm={6}>If this looks good, then click Save and Publish</Col>
           <Col style={{ textAlign: 'right' }}>
-            <Button className="btn btn-primary btn-sm" onClick={ props.save }>
+            <Button id="modal-save" className="btn btn-primary btn-sm" onClick={ props.save }>
               Save & Publish
             </Button>
           </Col>
