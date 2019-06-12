@@ -52,6 +52,33 @@ export class ResourceTemplateForm extends Component {
     })
   }
 
+  /*
+   *  templateRefs is an array of rt ids
+   *
+   *  returns a single promise:
+   *    reject result if any of the desired rtIds gets a reject from getResourceTemplate
+   *    resolves if ALL resource templates are retrieved from Sinopia Server (or from spoofing), returning array of every promise's result
+   */
+  resourceTemplatePromise = async templateRefs => Promise.all(templateRefs.map(rtId => getResourceTemplate(rtId).catch((err) => {
+    const joinedErrorUrls = [...this.state.templateErrors]
+
+    joinedErrorUrls.push(decodeURIComponent(resourceToName(err.url)))
+    this.setState({ templateErrors: _.sortedUniq(joinedErrorUrls) })
+  })))
+
+  // Returns an array of resource template ids from the valueTemplateRefs values in the propertyTemplates
+  joinedRTs = () => {
+    let joined = []
+
+    this.props.propertyTemplates.map((pt) => {
+      if (_.has(pt.valueConstraint, 'valueTemplateRefs')) {
+        joined = joined.concat(pt.valueConstraint.valueTemplateRefs)
+      }
+    })
+
+    return joined
+  }
+
   resourceTemplateFields = (rtIds, property) => {
     const rtProperties = []
 
@@ -77,31 +104,6 @@ export class ResourceTemplateForm extends Component {
     })
 
     return rtProperties
-  }
-
-  // templateRefs is an array of rt ids
-  //
-  // returns a single promise:
-  //   reject result if any of the desired rtIds gets a reject from getResourceTemplate
-  //   resolves if ALL resource templates are retrieved from Sinopia Server (or from spoofing), returning array of every promise's result
-  resourceTemplatePromise = async templateRefs => Promise.all(templateRefs.map(rtId => getResourceTemplate(rtId).catch((err) => {
-    const joinedErrorUrls = [...this.state.templateErrors]
-
-    joinedErrorUrls.push(decodeURIComponent(resourceToName(err.url)))
-    this.setState({ templateErrors: _.sortedUniq(joinedErrorUrls) })
-  })))
-
-  // Returns an array of resource template ids from the valueTemplateRefs values in the propertyTemplates
-  joinedRTs = () => {
-    let joined = []
-
-    this.props.propertyTemplates.map((pt) => {
-      if (_.has(pt.valueConstraint, 'valueTemplateRefs')) {
-        joined = joined.concat(pt.valueConstraint.valueTemplateRefs)
-      }
-    })
-
-    return joined
   }
 
   defaultValues = () => {
