@@ -52,6 +52,7 @@ describe('<ImportResourceTemplate />', () => {
     }
 
     it('resets messages, creates one resource per template, and then updates state', async () => {
+      expect.assertions(3)
       const createResourceSpy = jest.spyOn(wrapper.instance(), 'createResource').mockImplementation(async () => {})
       const updateStateSpy = jest.spyOn(wrapper.instance(), 'updateStateFromServerResponses').mockReturnValue(null)
       const resetMessagesSpy = jest.spyOn(wrapper.instance(), 'resetMessages').mockReturnValue(null)
@@ -66,6 +67,7 @@ describe('<ImportResourceTemplate />', () => {
 
   describe('createResource()', () => {
     it('returns response from sinopia client call when successful', async () => {
+      expect.assertions(1)
       createResourceTemplate.mockImplementation(async () => ({
         response: 'i am a response for a created object',
       }))
@@ -76,6 +78,7 @@ describe('<ImportResourceTemplate />', () => {
     })
 
     it('returns error response and adds to state when client call fails', async () => {
+      expect.assertions(2)
       createResourceTemplate.mockImplementation(async () => {
         throw {
           response: 'i am an error for a created object',
@@ -96,6 +99,7 @@ describe('<ImportResourceTemplate />', () => {
 
   describe('updateResource()', () => {
     it('returns response from sinopia client call when successful', async () => {
+      expect.assertions(1)
       updateResourceTemplate.mockImplementation(async () => ({
         response: 'i am a response for an updated object',
       }))
@@ -106,6 +110,7 @@ describe('<ImportResourceTemplate />', () => {
     })
 
     it('returns error response when client call fails', async () => {
+      expect.assertions(1)
       updateResourceTemplate.mockImplementation(async () => {
         throw {
           response: 'i am an error for an updated object',
@@ -300,6 +305,7 @@ describe('<ImportResourceTemplate />', () => {
     ]
 
     it('updates every template, updates state, closes the modal and reloads', async () => {
+      expect.assertions(3)
       const updateResourceSpy = jest.spyOn(wrapper.instance(), 'updateResource').mockImplementation(async () => {})
       const updateStateSpy = jest.spyOn(wrapper.instance(), 'updateStateFromServerResponses').mockReturnValue(null)
       const modalCloseSpy = jest.spyOn(wrapper.instance(), 'modalClose').mockReturnValue(null)

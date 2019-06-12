@@ -9,6 +9,7 @@ jest.spyOn(Config, 'spoofSinopiaServer', 'get').mockReturnValue(true)
 describe('sinopiaServer', () => {
   describe('getResourceTemplate', () => {
     it('known id: returns JSON for resource template', async () => {
+      expect.assertions(2)
       const template = await sinopiaServer.getResourceTemplate('resourceTemplate:bf2:Title')
 
       expect(template.response.body.id).toEqual('resourceTemplate:bf2:Title')

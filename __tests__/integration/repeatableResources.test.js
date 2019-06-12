@@ -12,6 +12,7 @@ describe('Adding new embedded Resource Templates', () => {
 
   describe('one level of nested resourceTemplate (Notes about the Instance)', () => {
     it('clicking AddButton adds second resource template', async () => {
+      expect.assertions(5) // Includes 2 in beforeAll
       const panelBodySel = 'div[propLabel="Notes about the Instance"] > div.panel-body'
       let noteRtOutlines = await page.$$(`${panelBodySel} .rtOutline`)
 
@@ -24,6 +25,7 @@ describe('Adding new embedded Resource Templates', () => {
 
   describe('two levels of nested resourceTemplates (Instance of -> Notes about the Work)', () => {
     it('clicking AddButton adds second resource template', async () => {
+      expect.assertions(4)
       const ptOutlineSel = 'div[propLabel="Instance of"] div.rtOutline[propLabel="Notes about the Work"]'
 
       await pupExpect(page).toClick(`${ptOutlineSel} a[data-id='note']`)
@@ -37,6 +39,7 @@ describe('Adding new embedded Resource Templates', () => {
   })
 
   it('AddButton disabled for non-repeatable resourceTemplate (Item Information -> Barcode)', async () => {
+    expect.assertions(1)
     await pupExpect(page).toMatchElement('div[propLabel="Item Information"] > div.panel-body button', { disabled: true })
   })
 })

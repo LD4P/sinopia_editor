@@ -41,6 +41,7 @@ describe('<InputLang />', () => {
   })
 
   it('should call the onFocus event and set the selected option', () => {
+    expect.assertions(4)
     const opts = { id: 'URI', label: 'LABEL', uri: 'URI' }
 
     wrapper.instance().opts = opts
