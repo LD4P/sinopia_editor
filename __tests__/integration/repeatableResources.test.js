@@ -6,28 +6,37 @@ import { testUserLogin } from './loginHelper'
 describe('Adding new embedded Resource Templates', () => {
   beforeAll(async () => {
     await testUserLogin()
-  })
-
-  it('loads up a resource template from the list of loaded templates', async () => {
     await pupExpect(page).toClick('a', { text: 'BIBFRAME Instance' })
-    await pupExpect(page).toMatch('BIBFRAME Instance')
+    return await pupExpect(page).toMatch('BIBFRAME Instance')
   })
 
-  // TODO: Simplify CSS selectors in the tests below, see ticket #573
-  it('clicks on an AddButton in Notes about the Instance and looks for a second resource template', async () => {
-    await pupExpect(page).toClick('div.panel:nth-child(5) > div:nth-child(2) > div:nth-child(1) > div:nth-child(1) > section:nth-child(2) > div:nth-child(1) > button:nth-child(1)')
-    await pupExpect(page).toMatchElement('div.panel:nth-child(5) > div:nth-child(2) > div:nth-child(1) > div:nth-child(2) > h4:nth-child(2)', { text: 'Note' })
+  describe('one level of nested resourceTemplate (Notes about the Instance)', () => {
+    it('clicking AddButton adds second resource template', async () => {
+      const panelBodySel = 'div[propLabel="Notes about the Instance"] > div.panel-body'
+      let noteRtOutlines = await page.$$(`${panelBodySel} .rtOutline`)
+
+      expect(noteRtOutlines.length).toEqual(1)
+      await pupExpect(page).toClick(`${panelBodySel} button`) // Add button
+      noteRtOutlines = await page.$$(`${panelBodySel} .rtOutline`)
+      expect(noteRtOutlines.length).toEqual(2)
+    })
   })
 
-  it('clicks on a nested property with an embedded Note resource template and then clicks on the AddButton for a second resource template', async () => {
-    await pupExpect(page).toClick('a[data-id=\'note\']')
-    await pupExpect(page).toClick('.col-sm-4 > div:nth-child(1) > button:nth-child(1)')
-    await pupExpect(page).toMatchElement('div.panel-body > div > div:nth-child(2) > div:nth-child(3) > div.rOutline-property > div:nth-child(2) > div.row > section.col-sm-8> h5',
-      { text: 'Note' })
+  describe('two levels of nested resourceTemplates (Instance of -> Notes about the Work)', () => {
+    it('clicking AddButton adds second resource template', async () => {
+      const ptOutlineSel = 'div[propLabel="Instance of"] div.rtOutline[propLabel="Notes about the Work"]'
+
+      await pupExpect(page).toClick(`${ptOutlineSel} a[data-id='note']`)
+      let noteRtOutlines = await page.$$(`${ptOutlineSel} .rtOutline`)
+
+      expect(noteRtOutlines.length).toEqual(1)
+      await pupExpect(page).toClick(`${ptOutlineSel} button`) // Add button
+      noteRtOutlines = await page.$$(`${ptOutlineSel} .rtOutline`)
+      expect(noteRtOutlines.length).toEqual(2)
+    })
   })
 
-  it('checks that a non-repeatable resource template\'s AddButton is disabled', async () => {
-    await pupExpect(page).toMatchElement('div.panel:nth-child(7) > div:nth-child(2) > div:nth-child(1) > div:nth-child(1) > section:nth-child(2) > div:nth-child(1) > button:nth-child(1)',
-      { disabled: true })
+  it('AddButton disabled for non-repeatable resourceTemplate (Item Information -> Barcode)', async () => {
+    await pupExpect(page).toMatchElement('div[propLabel="Item Information"] > div.panel-body button', { disabled: true })
   })
 })
