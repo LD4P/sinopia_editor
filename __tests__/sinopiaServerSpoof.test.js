@@ -36,6 +36,7 @@ describe('sinopiaServerSpoof', () => {
 
   describe('spoofedGetResourceTemplate', () => {
     it('known id: returns JSON for resource template', async () => {
+      expect.assertions(2)
       const template = await spoofedGetResourceTemplate('resourceTemplate:bf2:Title')
 
       expect(template.response.body.id).toEqual('resourceTemplate:bf2:Title')

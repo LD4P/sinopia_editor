@@ -5,10 +5,11 @@ import { testUserLogin } from './loginHelper'
 
 describe('Importing a profile/template with bad JSON', () => {
   beforeAll(async () => {
-    await testUserLogin()
+    return await testUserLogin()
   })
 
   it('Displays an error message', async () => {
+    expect.assertions(2)
     await page.goto('http://127.0.0.1:8888/templates')
 
     await page.waitForSelector('button#ImportProfile')

@@ -88,7 +88,7 @@ export class PropertyTemplateOutline extends Component {
 
   render() {
     return (
-      <div className="rtOutline">
+      <div className="rtOutline" propLabel={this.props.propertyTemplate.propertyLabel}>
         <OutlineHeader pt={this.props.propertyTemplate}
                        id={resourceToName(this.props.propertyTemplate.propertyURI)}
                        collapsed={this.state.collapsed}
