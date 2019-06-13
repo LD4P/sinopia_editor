@@ -31,12 +31,32 @@ export const getProperty = (state, props) => {
   return result.items || []
 }
 
-/**
+/*
  * @returns {function} a function that returns true if validations should be displayed
  */
 export const getDisplayValidations = state => ['editor', 'displayValidations'].reduce(
   (obj, key) => (obj && obj[key] !== 'undefined' ? obj[key] : undefined), state.selectorReducer,
 ) || false
+
+/**
+ * @returns {function} a function that gets a resource template from state or undefined
+ */
+export const getResourceTemplate = (state, resourceTemplateId) => state.selectorReducer.entities.resourceTemplates[resourceTemplateId]
+
+/**
+ * @returns {function} a function that gets a property template from state or undefined
+ */
+export const getPropertyTemplate = (state, resourceTemplateId, propertyURI) => {
+  const resourceTemplate = getResourceTemplate(state, resourceTemplateId)
+  let propertyTemplate
+
+  if (resourceTemplate) {
+    // Find the property template
+    propertyTemplate = resourceTemplate.propertyTemplates.find(propertyTemplate => propertyTemplate.propertyURI === propertyURI)
+  }
+  return propertyTemplate
+}
+
 
 /**
  * @returns {function} a function that can be called to get the serialized RDF
