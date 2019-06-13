@@ -23,7 +23,7 @@ export default class PropertyPanel extends Component {
 
   render() {
     return (
-      <div className={this.getCssClasses()} propLabel={this.props.pt.propertyLabel}>
+      <div className={this.getCssClasses()} data-label={this.props.pt.propertyLabel}>
         <div className="panel-heading prop-heading">
           <PropertyLabel pt={this.props.pt} />
         </div>
