@@ -20,9 +20,17 @@ describe('Expanding a resource property in a property panel', () => {
     await pupExpect(page).toMatchElement('h5', { text: 'BIBFRAME Instance' })
   })
 
-  it('clicks on a nested prooperty to reveal an input component', async () => {
+  it('clicks on a nested property to reveal an input component', async () => {
     expect.assertions(2)
     await pupExpect(page).toClick('a[data-id=\'heldBy\']')
     await pupExpect(page).toMatchElement('input[placeholder=\'Holdings\']')
+  })
+
+  it('enters a value into a nested prooperty component', async () => {
+    expect.assertions(3)
+    await pupExpect(page).not.toMatchElement('div#userInput', { text: 'Some text' })
+    await expect(page).toFill('input[placeholder="Holdings"', 'Some text')
+    await page.keyboard.press('Enter')
+    await pupExpect(page).toMatchElement('div#userInput', { text: 'Some text' })
   })
 })
