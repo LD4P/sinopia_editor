@@ -7,9 +7,9 @@ import PropTypes from 'prop-types'
 import Swagger from 'swagger-client'
 import swaggerSpec from '../../../lib/apidoc.json'
 import { connect } from 'react-redux'
-import { getProperty, getDisplayValidations } from '../../../reducers/index'
+import { getProperty, getDisplayValidations, getPropertyTemplate } from '../../../reducers/index'
 import { changeSelections } from '../../../actions/index'
-import { booleanPropertyFromTemplate, defaultValuesFromPropertyTemplate } from '../../../Utilities'
+import { booleanPropertyFromTemplate, defaultValuesFromPropertyTemplate, getLookupConfigItems } from '../../../Utilities'
 import Config from '../../../Config'
 
 const AsyncTypeahead = asyncContainer(Typeahead)
@@ -114,6 +114,11 @@ class InputLookupQA extends Component {
   }
 
   render() {
+    // Don't render if don't have property templates yet.
+    if (!this.props.propertyTemplate) {
+      return null
+    }
+
     let authority
     let language
     let subauthority
@@ -227,16 +232,26 @@ InputLookupQA.propTypes = {
     valueConstraint: PropTypes.shape({
       useValuesFrom: PropTypes.oneOfType([PropTypes.string, PropTypes.array]),
     }),
-  }).isRequired,
+  }),
   reduxPath: PropTypes.oneOfType([PropTypes.string, PropTypes.array]),
   displayValidations: PropTypes.bool,
 }
 
 const mapStateToProps = (state, props) => {
-  const result = getProperty(state, props)
+  const reduxPath = props.reduxPath
+  const resourceTemplateId = reduxPath[reduxPath.length - 2]
+  const propertyURI = reduxPath[reduxPath.length - 1]
   const displayValidations = getDisplayValidations(state)
+  const propertyTemplate = getPropertyTemplate(state, resourceTemplateId, propertyURI)
+  const lookupConfig = getLookupConfigItems(propertyTemplate)
 
-  return { selected: result, displayValidations }
+  return {
+    selected: getProperty(state, props),
+    reduxPath,
+    propertyTemplate,
+    displayValidations,
+    lookupConfig,
+  }
 }
 
 const mapDispatchToProps = dispatch => ({

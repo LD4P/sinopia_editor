@@ -1,5 +1,7 @@
 // Copyright 2018, 2019 Stanford University see LICENSE for license
 
+import lookupConfig from '../static/spoofedFilesFromServer/fromSinopiaServer/lookupConfig.json'
+
 const _ = require('lodash')
 
 export const isResourceWithValueTemplateRef = property => property?.type === 'resource'
@@ -73,3 +75,13 @@ export const defaultLangTemplate = () => ({
     },
   ],
 })
+
+export const getLookupConfigItems = (propertyTemplate) => {
+  const vocabUriList = propertyTemplate?.valueConstraint?.useValuesFrom
+
+  if (vocabUriList === undefined || vocabUriList.length === 0) return []
+
+  const templateConfigItems = lookupConfig.filter(configItem => vocabUriList.includes(configItem.uri))
+
+  return templateConfigItems
+}
