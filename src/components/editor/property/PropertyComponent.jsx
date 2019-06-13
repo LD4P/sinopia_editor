@@ -55,7 +55,6 @@ export class PropertyComponent extends Component {
       default:
         if (property.type === 'literal') {
           return (<InputLiteral key={keyId} id={keyId}
-                                propertyTemplate={property}
                                 reduxPath={reduxPath} />)
         }
     }
