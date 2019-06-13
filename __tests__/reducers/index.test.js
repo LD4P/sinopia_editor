@@ -5,6 +5,9 @@ import selectorReducer, {
   populatePropertyDefaults,
   refreshResourceTemplate,
   resourceTemplateLoaded,
+  getDisplayValidations,
+  getResourceTemplate,
+  getPropertyTemplate,
 } from '../../src/reducers/index'
 /* eslint import/namespace: 'off' */
 import * as inputs from '../../src/reducers/inputs'
@@ -48,6 +51,75 @@ describe('getAllRdf()', () => {
     const fn = getAllRdf(state, action)
 
     expect(fn()).toEqual('<> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://id.loc.gov/ontologies/bibframe/Work> .\n')
+  })
+})
+
+describe('getDisplayValidations()', () => {
+  it('returns false when missing', () => {
+    expect(getDisplayValidations(initialState)).toBeFalsy()
+  })
+
+  it('returns value when present', () => {
+    const state = {
+      selectorReducer: {
+        editor: {
+          displayValidations: true,
+        },
+      },
+    }
+
+    expect(getDisplayValidations(state)).toBeTruthy()
+  })
+})
+
+describe('getResourceTemplate()', () => {
+  it('returns undefined when missing', () => {
+    expect(getResourceTemplate(initialState, 'resourceTemplate:bf2:Monograph:Work')).toBeFalsy()
+  })
+
+  it('returns resource template when present', () => {
+    const state = {
+      selectorReducer: {
+        entities: {
+          resourceTemplates: {
+            'resourceTemplate:bf2:Monograph:Work': {
+              resourceURI: 'http://id.loc.gov/ontologies/bibframe/Work',
+            },
+          },
+        },
+      },
+    }
+
+    expect(getResourceTemplate(state, 'resourceTemplate:bf2:Monograph:Work')).toEqual({
+      resourceURI: 'http://id.loc.gov/ontologies/bibframe/Work',
+    })
+  })
+})
+
+describe('getPropertyTemplate()', () => {
+  it('returns undefined when missing', () => {
+    expect(getPropertyTemplate(initialState, 'resourceTemplate:bf2:Monograph:Work', 'http://id.loc.gov/ontologies/bibframe/title')).toBeFalsy()
+  })
+
+  it('returns property template when present', () => {
+    const state = {
+      selectorReducer: {
+        entities: {
+          resourceTemplates: {
+            'resourceTemplate:bf2:Monograph:Work': {
+              resourceURI: 'http://id.loc.gov/ontologies/bibframe/Work',
+              propertyTemplates: [{
+                propertyURI: 'http://id.loc.gov/ontologies/bibframe/title',
+              }],
+            },
+          },
+        },
+      },
+    }
+
+    expect(getPropertyTemplate(state, 'resourceTemplate:bf2:Monograph:Work', 'http://id.loc.gov/ontologies/bibframe/title')).toEqual({
+      propertyURI: 'http://id.loc.gov/ontologies/bibframe/title',
+    })
   })
 })
 
