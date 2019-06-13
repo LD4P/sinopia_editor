@@ -7,7 +7,7 @@ import Modal from 'react-bootstrap/lib/Modal'
 import Button from 'react-bootstrap/lib/Button'
 import shortid from 'shortid'
 import { removeItem, setItems, setLang } from '../../../actions/index'
-import { getProperty } from '../../../reducers/index'
+import { getProperty, getDisplayValidations } from '../../../reducers/index'
 import InputLang from './InputLang'
 import { defaultLangTemplate } from '../../../Utilities'
 
@@ -296,9 +296,9 @@ InputLiteral.propTypes = {
 
 const mapStateToProps = (state, props) => {
   const result = getProperty(state, props)
+  const displayValidations = getDisplayValidations(state)
 
-
-  return { formData: { items: result } }
+  return { formData: { items: result, displayValidations } }
 }
 
 const mapDispatchToProps = dispatch => ({

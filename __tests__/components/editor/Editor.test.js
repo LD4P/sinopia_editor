@@ -57,4 +57,13 @@ describe('<Editor />', () => {
       expect(wrapper.state('showGroupChooser')).toBeTruthy()
     })
   })
+  describe('validate button', () => {
+    const mockSetDisplayValidationsFn = jest.fn()
+    const wrapper = shallow(<Editor.WrappedComponent {...props} setDisplayValidations={mockSetDisplayValidationsFn} />)
+
+    it('sets displayValidation state', () => {
+      wrapper.find('button').at(2).simulate('click')
+      expect(mockSetDisplayValidationsFn.mock.calls.length).toBe(1)
+    })
+  })
 })

@@ -6,6 +6,7 @@ import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
 import shortid from 'shortid'
 import { changeSelections } from '../../../actions/index'
+import { getDisplayValidations } from '../../../reducers/index'
 import { booleanPropertyFromTemplate, defaultValuesFromPropertyTemplate } from '../../../Utilities'
 
 class InputListLOC extends Component {
@@ -140,7 +141,11 @@ InputListLOC.propTypes = {
   displayValidations: PropTypes.bool,
 }
 
-const mapStateToProps = state => ({ ...state })
+const mapStateToProps = (state) => {
+  const displayValidations = getDisplayValidations(state)
+
+  return { displayValidations }
+}
 
 const mapDispatchToProps = dispatch => ({
   handleSelectedChange(selected) {

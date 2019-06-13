@@ -122,8 +122,7 @@ export class ResourceTemplateForm extends Component {
                   <PropertyComponent index={index}
                                      reduxPath={['resource', this.props.rtId]}
                                      rtId={this.props.rtId}
-                                     propertyTemplate={pt}
-                                     displayValidations={this.props.displayValidations}/>
+                                     propertyTemplate={pt} />
                 </PropertyPanel>
               )
             })
@@ -158,7 +157,6 @@ ResourceTemplateForm.propTypes = {
   rtId: PropTypes.string,
   handleMyItemsChange: PropTypes.func,
   handleRemoveAllContent: PropTypes.func,
-  displayValidations: PropTypes.bool,
 }
 
 const mapStateToProps = state => ({

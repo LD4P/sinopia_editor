@@ -4,7 +4,7 @@ import { combineReducers } from 'redux'
 import shortid from 'shortid'
 import authenticate from './authenticate'
 import {
-  removeAllContent, removeMyItem, setMyItems, setMySelections, setBaseURL, setMyItemsLang,
+  removeAllContent, removeMyItem, setMyItems, setMySelections, setBaseURL, setMyItemsLang, displayValidations,
 } from './inputs'
 import GraphBuilder from '../GraphBuilder'
 import { defaultLangTemplate } from '../Utilities'
@@ -30,6 +30,13 @@ export const getProperty = (state, props) => {
 
   return result.items || []
 }
+
+/**
+ * @returns {function} a function that returns true if validations should be displayed
+ */
+export const getDisplayValidations = state => ['editor', 'displayValidations'].reduce(
+  (obj, key) => (obj && obj[key] !== 'undefined' ? obj[key] : undefined), state.selectorReducer,
+) || false
 
 /**
  * @returns {function} a function that can be called to get the serialized RDF
@@ -135,6 +142,8 @@ const selectorReducer = (state = {}, action) => {
       return removeMyItem(state, action)
     case 'REMOVE_ALL_CONTENT':
       return removeAllContent(state, action)
+    case 'DISPLAY_VALIDATIONS':
+      return displayValidations(state, action)
     default:
       return state
   }

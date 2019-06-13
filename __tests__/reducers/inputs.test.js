@@ -1,7 +1,7 @@
 // Copyright 2018 Stanford University see LICENSE for license
 
 import {
-  removeAllContent, removeMyItem, setMyItems, setMySelections, setBaseURL,
+  removeAllContent, removeMyItem, setMyItems, setMySelections, setBaseURL, displayValidations,
 } from '../../src/reducers/inputs'
 
 describe('setMyItems', () => {
@@ -335,6 +335,22 @@ describe('removeAllContent', () => {
         'http://schema.org/name': {
           items: [],
         },
+      },
+    })
+  })
+})
+
+describe('displayValidations', () => {
+  it('should handle DISPLAY_VALIDATIONS', () => {
+    expect(
+      displayValidations({},
+        {
+          type: 'DISPLAY_VALIDATIONS',
+          payload: true,
+        }),
+    ).toEqual({
+      editor: {
+        displayValidations: true,
       },
     })
   })
