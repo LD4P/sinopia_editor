@@ -71,8 +71,8 @@ describe('checkMandatoryRepeatable', () => {
 })
 
 describe('When the user enters input into field', () => {
-  // Our mock formData function to replace the one provided by mapDispatchToProps
-  const mockFormDataFn = jest.fn()
+  // Our mockItemsChange function to replace the one provided by mapDispatchToProps
+  const mockItemsChange = jest.fn()
   const removeMockDataFn = jest.fn()
 
   shortid.generate = jest.fn().mockReturnValue(0)
@@ -82,7 +82,7 @@ describe('When the user enters input into field', () => {
                                               'resourceTemplate:bf2:Monograph:Instance',
                                               'http://id.loc.gov/ontologies/bibframe/instanceOf',
                                             ]}
-                                            handleMyItemsChange={mockFormDataFn}
+                                            handleMyItemsChange={mockItemsChange}
                                             handleRemoveItem={removeMockDataFn}
                                             handleMyItemsLangChange={jest.fn()} />)
 
@@ -99,7 +99,7 @@ describe('When the user enters input into field', () => {
     mockWrapper.find('input').simulate('change', { target: { value: 'foo' } })
     expect(mockWrapper.state('content_add')).toEqual('foo') /* Expect state to have value onChange */
     mockWrapper.find('input').simulate('keypress', { key: 'Enter', preventDefault: () => {} })
-    expect(mockFormDataFn.mock.calls.length).toBe(1)
+    expect(mockItemsChange.mock.calls.length).toBe(1)
   })
 
   it('should be called with the users input as arguments', () => {
@@ -108,14 +108,14 @@ describe('When the user enters input into field', () => {
     mockWrapper.find('input').simulate('change', { target: { value: 'foo' } })
     mockWrapper.find('input').simulate('keypress', { key: 'Enter', preventDefault: () => {} })
     // Test to see arguments used after its been submitted
-    expect(mockFormDataFn.mock.calls[1][0]).toEqual(
+    expect(mockItemsChange.mock.calls[1][0]).toEqual(
       {
         uri: 'http://id.loc.gov/ontologies/bibframe/instanceOf',
         items: [{ content: 'foo', id: 0 }],
         reduxPath: ['resourceTemplate:bf2:Monograph:Instance', 'http://id.loc.gov/ontologies/bibframe/instanceOf'],
       },
     )
-    mockFormDataFn.mock.calls = [] // Reset the redux store to empty
+    mockItemsChange.mock.calls = [] // Reset the redux store to empty
   })
 
   it('property template contains repeatable "true", allowed to add more than one item into myItems array', () => {
@@ -126,21 +126,21 @@ describe('When the user enters input into field', () => {
     mockWrapper.find('input').simulate('change', { target: { value: 'bar' } })
     mockWrapper.find('input').simulate('keypress', { key: 'Enter', preventDefault: () => {} })
 
-    expect(mockFormDataFn.mock.calls[0][0]).toEqual(
+    expect(mockItemsChange.mock.calls[0][0]).toEqual(
       {
         uri: 'http://id.loc.gov/ontologies/bibframe/instanceOf',
         items: [{ content: 'fooby', id: 0 }],
         reduxPath: ['resourceTemplate:bf2:Monograph:Instance', 'http://id.loc.gov/ontologies/bibframe/instanceOf'],
       },
     )
-    expect(mockFormDataFn.mock.calls[1][0]).toEqual(
+    expect(mockItemsChange.mock.calls[1][0]).toEqual(
       {
         uri: 'http://id.loc.gov/ontologies/bibframe/instanceOf',
         items: [{ content: 'bar', id: 0 }],
         reduxPath: ['resourceTemplate:bf2:Monograph:Instance', 'http://id.loc.gov/ontologies/bibframe/instanceOf'],
       },
     )
-    mockFormDataFn.mock.calls = [] // Reset the redux store to empty
+    mockItemsChange.mock.calls = [] // Reset the redux store to empty
   })
 
   it('property template contains repeatable "false", only allowed to add one item to redux', () => {
@@ -160,21 +160,21 @@ describe('When the user enters input into field', () => {
     mockWrapper.find('input').simulate('change', { target: { value: 'bar' } })
     mockWrapper.find('input').simulate('keypress', { key: 'Enter', preventDefault: () => {} })
 
-    expect(mockFormDataFn.mock.calls[0][0]).toEqual(
+    expect(mockItemsChange.mock.calls[0][0]).toEqual(
       {
         uri: 'http://id.loc.gov/ontologies/bibframe/instanceOf',
         items: [{ content: 'fooby', id: 0 }],
         reduxPath: ['resourceTemplate:bf2:Monograph:Instance', 'http://id.loc.gov/ontologies/bibframe/instanceOf'],
       },
     )
-    expect(mockFormDataFn.mock.calls[1][0]).toEqual(
+    expect(mockItemsChange.mock.calls[1][0]).toEqual(
       {
         uri: 'http://id.loc.gov/ontologies/bibframe/instanceOf',
         items: [],
         reduxPath: ['resourceTemplate:bf2:Monograph:Instance', 'http://id.loc.gov/ontologies/bibframe/instanceOf'],
       },
     )
-    mockFormDataFn.mock.calls = [] // Reset the redux store to empty
+    mockItemsChange.mock.calls = [] // Reset the redux store to empty
 
     mockWrapper.setProps({ formData: undefined }) // Reset props for next test
   })
@@ -199,7 +199,7 @@ describe('When the user enters input into field', () => {
     expect(mockWrapper.find('div#userInput').text()).toEqual('fooXEdit<Button /><Modal />') // Contains X and Edit as buttons
     expect(mockWrapper.find('Button#language').childAt(1).text()).toEqual('English')
     mockWrapper.setProps({ formData: undefined }) // Reset props for next test
-    mockFormDataFn.mock.calls = [] // Reset the redux store to empty
+    mockItemsChange.mock.calls = [] // Reset the redux store to empty
   })
 
   it('should call the removeMockDataFn when X is clicked', () => {
@@ -207,10 +207,10 @@ describe('When the user enters input into field', () => {
     expect(removeMockDataFn.mock.calls.length).toEqual(0)
     mockWrapper.find('button#deleteItem').first().simulate('click', { target: { dataset: { item: 5 } } })
     expect(removeMockDataFn.mock.calls.length).toEqual(1)
-    mockFormDataFn.mock.calls = []
+    mockItemsChange.mock.calls = []
   })
 
-  it('should call the removeMockDataFn and mockFormDataFn when Edit is clicked', () => {
+  it('should call the removeMockDataFn and mockItemsChange when Edit is clicked', () => {
     removeMockDataFn.mock.calls = []
     expect(mockWrapper.instance().inputLiteralRef).toEqual({ current: null })
     const mockFocusFn = jest.fn()
