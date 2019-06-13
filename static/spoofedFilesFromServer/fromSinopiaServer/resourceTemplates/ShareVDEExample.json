@@ -1,0 +1,51 @@
+{
+  "id": "resourceTemplate:bf2:ShareVDE:Example",
+  "resourceLabel": "ShareVDE Examples",
+  "resourceURI": "http://exampleontology.com/ShareVDE",
+  "remark": "This is altered greatly for testing purposes",
+  "propertyTemplates": [
+    {
+      "propertyLabel": "Related Work",
+      "propertyURI": "http://exampleontology.com/relatedWork",
+      "mandatory": "true",
+      "repeatable": "true",
+      "type": "lookup",
+      "resourceTemplates": [],
+      "valueConstraint": {
+        "valueTemplateRefs": [],
+        "useValuesFrom": [
+          "urn:ld4p:qa:sharevde_cornell_work_ld4l_cache",
+          "urn:ld4p:qa:sharevde_stanford_work_ld4l_cache",
+          "urn:ld4p:qa:sharevde_ucsd_work_ld4l_cache"
+        ],
+        "valueDataType": {
+          "dataTypeURI": "http://id.loc.gov/ontologies/bibframe/Work"
+        },
+        "defaults": []
+      },
+      "remark": "http://id.loc.gov/authorities/names.html"
+      
+    },
+     {
+      "propertyLabel": "Related Instance",
+      "propertyURI": "http://exampleontology.com/relatedInstance",
+     "mandatory": "true",
+      "repeatable": "true",
+      "type": "lookup",
+      "resourceTemplates": [],
+      "valueConstraint": {
+        "valueTemplateRefs": [],
+        "useValuesFrom": [
+          "urn:ld4p:qa:sharevde_ucsd_instance_ld4l_cache",
+          "urn:ld4p:qa:sharevde_stanford_instance_ld4l_cache",
+          "urn:ld4p:qa:sharevde_cornell_instance_ld4l_cache"
+        ],
+        "valueDataType": {
+          "dataTypeURI": "http://id.loc.gov/ontologies/bibframe/Instance"
+        },
+        "defaults": []
+      },
+      "remark": "http://id.loc.gov/authorities/names.html"
+    }
+  ]
+}

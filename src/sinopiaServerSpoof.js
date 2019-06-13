@@ -23,6 +23,8 @@ const adminMetaRt = require('../static/spoofedFilesFromServer/fromSinopiaServer/
 const adminMetaStatusRt = require('../static/spoofedFilesFromServer/fromSinopiaServer/resourceTemplates/adminMetadataStatus.json')
 const rdaItemMonoRt = require('../static/spoofedFilesFromServer/fromSinopiaServer/resourceTemplates/rdaItemMonograph.json')
 const rdaManifestMonoRt = require('../static/spoofedFilesFromServer/fromSinopiaServer/resourceTemplates/RDAMainifestationMonograph.json')
+//ShareVDE example
+const sharevdeRt = require('../static/spoofedFilesFromServer/fromSinopiaServer/resourceTemplates/ShareVDEExample.json')
 
 export const resourceTemplateId2Json = [
   { id: 'resourceTemplate:bf2:Monograph:Instance', json: monographInstanceRt },
@@ -48,6 +50,8 @@ export const resourceTemplateId2Json = [
   { id: 'rt:bf2:AdminMetadata:Status', json: adminMetaStatusRt },
   { id: 'rt:rda:item:monograph', json: rdaItemMonoRt },
   { id: 'rt:rda:manifestation:monograph', json: rdaManifestMonoRt },
+  { id: 'resourceTemplate:bf2:ShareVDE:Example', json: sharevdeRt },
+
 ]
 
 const emptyTemplate = { propertyTemplates: [{}] }
