@@ -20,11 +20,12 @@ class ResourceTemplate extends Component {
     }
   }
 
+  // Called immediately after the component is mounted
   componentDidMount() {
-    this.getResourceTemplatePromise(this.resourceTemplatePromise())
+    this.resolveResourceTemplatePromise(getResourceTemplate(this.props.resourceTemplateId))
   }
 
-  getResourceTemplatePromise = (promise) => {
+  resolveResourceTemplatePromise = (promise) => {
     promise.then((responseAndBody) => {
       this.setState({ rtData: responseAndBody.response.body })
       this.props.handleResourceTemplate(this.state.rtData)
@@ -32,8 +33,6 @@ class ResourceTemplate extends Component {
       this.setState({ error })
     })
   }
-
-  resourceTemplatePromise = () => getResourceTemplate(this.props.resourceTemplateId)
 
   renderRtData = () => (
     <div className="ResourceTemplate">
@@ -46,7 +45,6 @@ class ResourceTemplate extends Component {
             resourceTemplate = {this.state.rtData}
             parentResourceTemplate = {this.props.resourceTemplateId}
             rtId = {this.state.rtData.id}
-            displayValidations = {this.props.displayValidations}
         />
       </div>
     </div>
@@ -70,7 +68,6 @@ ResourceTemplate.propTypes = {
   resourceTemplateId: PropTypes.string,
   resourceTemplateData: PropTypes.oneOfType([PropTypes.string, PropTypes.object]),
   generateLD: PropTypes.func,
-  displayValidations: PropTypes.bool,
 }
 
 const mapDispatchToProps = dispatch => ({

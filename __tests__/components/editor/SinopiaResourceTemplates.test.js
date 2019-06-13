@@ -42,6 +42,7 @@ describe('<SinopiaResourceTemplates />', () => {
     const initialUpdateKey = 1
 
     it('calls fetchResourceTemplatesFromGroups() and resets errors if updateKey has been incremented', async () => {
+      expect.assertions(2)
       const wrapper2 = shallow(<SinopiaResourceTemplates messages={messages} updateKey={initialUpdateKey} />)
       const fetchSpy = jest.spyOn(wrapper2.instance(), 'fetchResourceTemplatesFromGroups').mockReturnValue(null)
       const setStateSpy = jest.spyOn(wrapper2.instance(), 'setState').mockReturnValue(null)
@@ -53,6 +54,7 @@ describe('<SinopiaResourceTemplates />', () => {
     })
 
     it('calls fetchResourceTemplatesFromGroups() and resets errors if server has new templates', async () => {
+      expect.assertions(3)
       const wrapper2 = shallow(<SinopiaResourceTemplates messages={messages} updateKey={initialUpdateKey} />)
       const fetchSpy = jest.spyOn(wrapper2.instance(), 'fetchResourceTemplatesFromGroups').mockReturnValue(null)
       const serverCheckSpy = jest.spyOn(wrapper2.instance(), 'serverHasNewTemplates').mockReturnValue(true)
@@ -66,6 +68,7 @@ describe('<SinopiaResourceTemplates />', () => {
     })
 
     it('returns early if updateKey has not changed and no new templates on server', async () => {
+      expect.assertions(3)
       const wrapper2 = shallow(<SinopiaResourceTemplates messages={messages} updateKey={initialUpdateKey} />)
       const fetchSpy = jest.spyOn(wrapper2.instance(), 'fetchResourceTemplatesFromGroups').mockReturnValue(null)
       const serverCheckSpy = jest.spyOn(wrapper2.instance(), 'serverHasNewTemplates').mockReturnValue(false)
@@ -81,6 +84,7 @@ describe('<SinopiaResourceTemplates />', () => {
 
   describe('serverHasNewTemplates()', () => {
     it('returns false when etag has not changed', async () => {
+      expect.assertions(1)
       getEntityTagFromGroupContainer.mockImplementation(async () => 'foobar')
       const wrapper2 = shallow(<SinopiaResourceTemplates messages={messages} updateKey={1} />)
 
@@ -90,6 +94,7 @@ describe('<SinopiaResourceTemplates />', () => {
     })
 
     it('returns true and resets etag value when etag changes', async () => {
+      expect.assertions(2)
       getEntityTagFromGroupContainer.mockImplementation(async () => 'bazquux')
       const wrapper2 = shallow(<SinopiaResourceTemplates messages={messages} updateKey={1} />)
 
@@ -98,6 +103,7 @@ describe('<SinopiaResourceTemplates />', () => {
     })
 
     it('returns false and logs a messages when there are errors', async () => {
+      expect.assertions(2)
       getEntityTagFromGroupContainer.mockImplementation(async () => {
         throw 'ack!'
       })
@@ -125,6 +131,7 @@ describe('<SinopiaResourceTemplates />', () => {
     }
 
     it('does not set state if groups have no resource templates', async () => {
+      expect.assertions(1)
       listResourcesInGroupContainer.mockReturnValue(new Promise((resolve) => {
         resolve(containsNothing)
       }))
@@ -138,6 +145,7 @@ describe('<SinopiaResourceTemplates />', () => {
     })
 
     it('sets state when there is a non-zero number of templates', async () => {
+      expect.assertions(1)
       listResourcesInGroupContainer.mockReturnValue(new Promise((resolve) => {
         resolve(containsTemplate)
       }))
@@ -151,6 +159,7 @@ describe('<SinopiaResourceTemplates />', () => {
     })
 
     it('adds errors to state if anything throws', async () => {
+      expect.assertions(2)
       listResourcesInGroupContainer.mockImplementation(async () => {
         throw 'uh oh!'
       })
@@ -178,6 +187,7 @@ describe('<SinopiaResourceTemplates />', () => {
 
   describe('setStateFromServerResponse()', () => {
     it('calls getResourceTemplate() once when passed a string', async () => {
+      expect.assertions(2)
       const getResourceTemplateSpy = jest.fn().mockReturnValue({
         response: {
           body: {
@@ -199,6 +209,7 @@ describe('<SinopiaResourceTemplates />', () => {
     })
 
     it('calls getResourceTemplate n times where n is the length of the array passed in', async () => {
+      expect.assertions(2)
       const getResourceTemplateSpy = jest.fn().mockReturnValue({
         response: {
           body: {
@@ -220,6 +231,7 @@ describe('<SinopiaResourceTemplates />', () => {
     })
 
     it('does not add templates to state if they already exist', async () => {
+      expect.assertions(2)
       const getResourceTemplateSpy = jest.fn().mockReturnValue({
         response: {
           body: {
@@ -268,6 +280,7 @@ describe('<SinopiaResourceTemplates />', () => {
     const wrapper4 = shallow(<SinopiaResourceTemplates messages={messages}/>)
 
     it('renders a link to the Editor with the id of the resource template to fetch', async () => {
+      expect.assertions(2)
       const link = await wrapper4.instance().linkFormatter(cell, row)
 
       await expect(link.props.to.pathname).toEqual('/editor')

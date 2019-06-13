@@ -4,17 +4,44 @@ import selectorReducer, {
   getAllRdf,
   populatePropertyDefaults,
   refreshResourceTemplate,
-  setResourceURI,
+  resourceTemplateLoaded,
+  getDisplayValidations,
+  getResourceTemplate,
+  getPropertyTemplate,
 } from '../../src/reducers/index'
 /* eslint import/namespace: 'off' */
 import * as inputs from '../../src/reducers/inputs'
 
+
+let initialState
+
+beforeEach(() => {
+  initialState = {
+    selectorReducer: {
+      entities: {
+        // The stuff we've retrieved from the server
+        resourceTemplates: { },
+      },
+      resource: { // The state we're displaying in the editor
+      },
+    },
+  }
+})
+
 describe('getAllRdf()', () => {
   const state = {
     selectorReducer: {
-      'resourceTemplate:bf2:Monograph:Work': {
-        rdfClass: 'http://id.loc.gov/ontologies/bibframe/Work',
-        'http://id.loc.gov/ontologies/bibframe/title': {},
+      entities: {
+        resourceTemplates: {
+          'resourceTemplate:bf2:Monograph:Work': {
+            resourceURI: 'http://id.loc.gov/ontologies/bibframe/Work',
+          },
+        },
+      },
+      resource: {
+        'resourceTemplate:bf2:Monograph:Work': {
+          'http://id.loc.gov/ontologies/bibframe/title': {},
+        },
       },
     },
   }
@@ -26,6 +53,76 @@ describe('getAllRdf()', () => {
     expect(fn()).toEqual('<> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://id.loc.gov/ontologies/bibframe/Work> .\n')
   })
 })
+
+describe('getDisplayValidations()', () => {
+  it('returns false when missing', () => {
+    expect(getDisplayValidations(initialState)).toBeFalsy()
+  })
+
+  it('returns value when present', () => {
+    const state = {
+      selectorReducer: {
+        editor: {
+          displayValidations: true,
+        },
+      },
+    }
+
+    expect(getDisplayValidations(state)).toBeTruthy()
+  })
+})
+
+describe('getResourceTemplate()', () => {
+  it('returns undefined when missing', () => {
+    expect(getResourceTemplate(initialState, 'resourceTemplate:bf2:Monograph:Work')).toBeFalsy()
+  })
+
+  it('returns resource template when present', () => {
+    const state = {
+      selectorReducer: {
+        entities: {
+          resourceTemplates: {
+            'resourceTemplate:bf2:Monograph:Work': {
+              resourceURI: 'http://id.loc.gov/ontologies/bibframe/Work',
+            },
+          },
+        },
+      },
+    }
+
+    expect(getResourceTemplate(state, 'resourceTemplate:bf2:Monograph:Work')).toEqual({
+      resourceURI: 'http://id.loc.gov/ontologies/bibframe/Work',
+    })
+  })
+})
+
+describe('getPropertyTemplate()', () => {
+  it('returns undefined when missing', () => {
+    expect(getPropertyTemplate(initialState, 'resourceTemplate:bf2:Monograph:Work', 'http://id.loc.gov/ontologies/bibframe/title')).toBeFalsy()
+  })
+
+  it('returns property template when present', () => {
+    const state = {
+      selectorReducer: {
+        entities: {
+          resourceTemplates: {
+            'resourceTemplate:bf2:Monograph:Work': {
+              resourceURI: 'http://id.loc.gov/ontologies/bibframe/Work',
+              propertyTemplates: [{
+                propertyURI: 'http://id.loc.gov/ontologies/bibframe/title',
+              }],
+            },
+          },
+        },
+      },
+    }
+
+    expect(getPropertyTemplate(state, 'resourceTemplate:bf2:Monograph:Work', 'http://id.loc.gov/ontologies/bibframe/title')).toEqual({
+      propertyURI: 'http://id.loc.gov/ontologies/bibframe/title',
+    })
+  })
+})
+
 
 describe('selectorReducer', () => {
   const samplePropertyTemplate = [
@@ -112,11 +209,16 @@ describe('selectorReducer', () => {
 
   it('handles the initial state', () => {
     expect(
-      selectorReducer(undefined, {}),
+      selectorReducer(initialState, {}),
     ).toMatchObject(
       {
         authenticate: { authenticationState: { currentUser: null, currentSession: null, authenticationError: null } },
-        selectorReducer: {},
+        selectorReducer: {
+          entities: {
+            resourceTemplates: {},
+          },
+          resource: {},
+        },
       },
     )
   })
@@ -124,10 +226,19 @@ describe('selectorReducer', () => {
   it('handles SET_BASE_URL', () => {
     inputs.setBaseURL = jest.fn().mockReturnValue({})
     const oldState = {
-      'resourceTemplate:bf2:Monograph:Instance': {
-        rdfClass: 'http://id.loc.gov/ontologies/bibframe/Instance',
+      entities: {
+        resourceTemplates: {
+          'resourceTemplate:bf2:Monograph:Instance': {
+            resourceURI: 'http://id.loc.gov/ontologies/bibframe/Instance',
+          },
+        },
+      },
+      resource: {
+        'resourceTemplate:bf2:Monograph:Instance': {
+        },
       },
     }
+
     const action = {
       type: 'SET_BASE_URL',
       payload: 'http://example.com/base/123',
@@ -139,62 +250,66 @@ describe('selectorReducer', () => {
 
   it('handles SET_RESOURCE_TEMPLATE', () => {
     shortid.generate = jest.fn().mockReturnValue(0)
-    const result = selectorReducer({
-      selectorReducer: {},
-    }, {
-      type: 'SET_RESOURCE_TEMPLATE',
-      payload: {
-        id: 'resourceTemplate:bf2:Monograph:Instance',
-        resourceURI: 'http://id.loc.gov/ontologies/bibframe/Instance',
-        propertyTemplates: samplePropertyTemplate,
-      },
-    })
+    const result = selectorReducer(initialState,
+      {
+        type: 'SET_RESOURCE_TEMPLATE',
+        payload: {
+          id: 'resourceTemplate:bf2:Monograph:Instance',
+          resourceURI: 'http://id.loc.gov/ontologies/bibframe/Instance',
+          propertyTemplates: samplePropertyTemplate,
+        },
+      })
 
     expect(result.authenticate).toMatchObject({ authenticationState: { currentUser: null, currentSession: null, authenticationError: null } })
     expect(result.selectorReducer).toMatchObject({
-      'resourceTemplate:bf2:Monograph:Instance':
-      {
-        rdfClass: 'http://id.loc.gov/ontologies/bibframe/Instance',
-        'http://id.loc.gov/ontologies/bibframe/instanceOf': {},
-        'http://id.loc.gov/ontologies/bibframe/issuance':
-          {
-            items:
-            [{
-              id: 0,
-              content: 'single unit',
-              uri: 'http://id.loc.gov/vocabulary/issuance/mono',
-            }],
+      entities: {
+        resourceTemplates: {
+          'resourceTemplate:bf2:Monograph:Instance': {
+            resourceURI: 'http://id.loc.gov/ontologies/bibframe/Instance',
           },
-        'http://id.loc.gov/ontologies/bibframe/heldBy':
-          {
+        },
+      },
+      resource: {
+        'resourceTemplate:bf2:Monograph:Instance': {
+          'http://id.loc.gov/ontologies/bibframe/instanceOf': {},
+          'http://id.loc.gov/ontologies/bibframe/issuance': {
             items:
-            [{
-              id: 0,
-              content: 'DLC',
-              uri: 'http://id.loc.gov/vocabulary/organizations/dlc',
-            }],
+              [{
+                id: 0,
+                content: 'single unit',
+                uri: 'http://id.loc.gov/vocabulary/issuance/mono',
+              }],
           },
+          'http://id.loc.gov/ontologies/bibframe/heldBy': {
+            items:
+              [{
+                id: 0,
+                content: 'DLC',
+                uri: 'http://id.loc.gov/vocabulary/organizations/dlc',
+              }],
+          },
+        },
       },
     })
   })
 
   it('allows SET_RESOURCE_TEMPLATE on templates without valueConstraint', () => {
     shortid.generate = jest.fn().mockReturnValue(0)
-    const result = selectorReducer({
-      selectorReducer: {},
-    }, {
-      type: 'SET_RESOURCE_TEMPLATE',
-      payload: {
-        id: 'resourceTemplate:bf2:Monograph:Instance',
-        propertyTemplates: propertyTemplateWithoutConstraint,
-      },
-    })
+    const result = selectorReducer(initialState,
+      {
+        type: 'SET_RESOURCE_TEMPLATE',
+        payload: {
+          id: 'resourceTemplate:bf2:Monograph:Instance',
+          propertyTemplates: propertyTemplateWithoutConstraint,
+        },
+      })
 
     expect(result.selectorReducer).toMatchObject({
-      'resourceTemplate:bf2:Monograph:Instance':
-      {
-        'http://id.loc.gov/ontologies/bibframe/heldBy':
-          {},
+      resource: {
+        'resourceTemplate:bf2:Monograph:Instance': {
+          'http://id.loc.gov/ontologies/bibframe/heldBy':
+            {},
+        },
       },
     })
   })
@@ -207,15 +322,22 @@ describe('refreshResourceTemplate', () => {
   })
 
   it('passing a payload to an empty state', () => {
-    const emptyStateResult = refreshResourceTemplate({}, {
+    const emptyStateResult = refreshResourceTemplate(initialState.selectorReducer, {
       type: 'REFRESH_RESOURCE_TEMPLATE',
       payload: {
-        reduxPath: ['http://sinopia.io/example'],
+        reduxPath: ['resource', 'resourceTemplate:bf2:Monograph:Work', 'http://sinopia.io/example'],
       },
     })
 
     expect(emptyStateResult).toEqual({
-      'http://sinopia.io/example': {},
+      entities: {
+        resourceTemplates: {},
+      },
+      resource: {
+        'resourceTemplate:bf2:Monograph:Work': {
+          'http://sinopia.io/example': {},
+        },
+      },
     })
   })
 
@@ -335,29 +457,28 @@ describe('populatePropertyDefaults()', () => {
       uri: 'http://id.loc.gov/vocabulary/organizations/dlc',
     }])
   })
+})
 
-  describe('handles SET_RESOURCE_URI', () => {
-    const state = {
-      'resourceTemplate:bf2:Monograph:Work': {
+describe('resourceTemplateLoaded()', () => {
+  it('adds resource to the resourceTemplates entities state', () => {
+    const newState = resourceTemplateLoaded(initialState.selectorReducer, {
+      type: 'RESOURCE_TEMPLATE_LOADED',
+      payload: {
+        id: 'resourceTemplate:bf2:Monograph:Work',
         'http://id.loc.gov/ontologies/bibframe/title': {},
       },
-    }
+    })
 
-    it('adds rdfClass to state', () => {
-      const newState = setResourceURI(state, {
-        type: 'SET_RESOURCE_URI',
-        payload: {
-          reduxPath: ['resourceTemplate:bf2:Monograph:Work'],
-          resourceURI: 'http://id.loc.gov/ontologies/bibframe/Work',
+    expect(newState).toEqual({
+      entities: {
+        resourceTemplates: {
+          'resourceTemplate:bf2:Monograph:Work': {
+            id: 'resourceTemplate:bf2:Monograph:Work',
+            'http://id.loc.gov/ontologies/bibframe/title': {},
+          },
         },
-      })
-
-      expect(newState).toEqual({
-        'resourceTemplate:bf2:Monograph:Work': {
-          'http://id.loc.gov/ontologies/bibframe/title': {},
-          rdfClass: 'http://id.loc.gov/ontologies/bibframe/Work',
-        },
-      })
+      },
+      resource: {},
     })
   })
 })

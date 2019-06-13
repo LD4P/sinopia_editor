@@ -48,7 +48,7 @@ describe('<ResourceTemplate />', () => {
   const wrapper = shallow(<ResourceTemplate.WrappedComponent resourceTemplateId="resourceTemplate:bf2:Note" />)
   const promise = Promise.resolve(mockResponse(200, null, responseBody))
 
-  wrapper.instance().getResourceTemplatePromise(promise)
+  wrapper.instance().resolveResourceTemplatePromise(promise)
 
   it('has div with class "ResourceTemplate"', () => {
     expect(wrapper.find('div.ResourceTemplate').length).toEqual(1)

@@ -7,7 +7,7 @@ import Modal from 'react-bootstrap/lib/Modal'
 import Button from 'react-bootstrap/lib/Button'
 import shortid from 'shortid'
 import { removeItem, setItems, setLang } from '../../../actions/index'
-import { getProperty } from '../../../reducers/index'
+import { getProperty, getDisplayValidations, getPropertyTemplate } from '../../../reducers/index'
 import InputLang from './InputLang'
 import { defaultLangTemplate } from '../../../Utilities'
 
@@ -32,7 +32,9 @@ export class InputLiteral extends Component {
   }
 
   componentDidMount = () => {
-    if (this.props.propertyTemplate.repeatable === 'false'
+    // Note that it is possible that the resource template hasn't been loaded yet, hence there will not be a property template.
+    if (this.props.propertyTemplate
+        && this.props.propertyTemplate.repeatable === 'false'
         && this.props.formData !== undefined
         && this.props.formData.items.length > 0) {
       this.setState({ disabled: true })
@@ -237,6 +239,11 @@ export class InputLiteral extends Component {
   }
 
   render() {
+    // Don't render if don't have property templates yet.
+    if (!this.props.propertyTemplate) {
+      return null
+    }
+
     const required = this.checkMandatoryRepeatable()
     const error = this.props.displayValidations && required ? 'Required' : undefined
     let groupClasses = 'form-group'
@@ -277,7 +284,7 @@ InputLiteral.propTypes = {
     valueConstraint: PropTypes.shape({
       defaults: PropTypes.array,
     }),
-  }).isRequired,
+  }),
   formData: PropTypes.shape({
     id: PropTypes.oneOfType([PropTypes.number, PropTypes.string]),
     uri: PropTypes.string,
@@ -287,18 +294,21 @@ InputLiteral.propTypes = {
   handleRemoveItem: PropTypes.func,
   handleMyItemsLangChange: PropTypes.func,
   reduxPath: PropTypes.oneOfType([PropTypes.string, PropTypes.array]),
-  blankNodeForLiteral: PropTypes.object,
-  propPredicate: PropTypes.string,
-  setDefaultsForLiteralWithPayLoad: PropTypes.func,
-  defaultsForLiteral: PropTypes.func,
   displayValidations: PropTypes.bool,
 }
 
 const mapStateToProps = (state, props) => {
-  const result = getProperty(state, props)
+  const reduxPath = props.reduxPath
+  const resourceTemplateId = reduxPath[reduxPath.length - 2]
+  const propertyURI = reduxPath[reduxPath.length - 1]
+  const displayValidations = getDisplayValidations(state)
 
-
-  return { formData: { items: result } }
+  return {
+    formData: { items: getProperty(state, props) },
+    reduxPath,
+    propertyTemplate: getPropertyTemplate(state, resourceTemplateId, propertyURI),
+    displayValidations,
+  }
 }
 
 const mapDispatchToProps = dispatch => ({

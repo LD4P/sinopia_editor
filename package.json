@@ -81,6 +81,7 @@
     "dev-start": "webpack-dev-server --config ./webpack.config.js --mode development",
     "eslint": "eslint --max-warnings 10 --color -c .eslintrc.js --ext js,jsx .",
     "eslint-fix": "eslint --max-warnings 10 --color -c .eslintrc.js --ext js,jsx --fix .",
+    "eslint-fix-single": "eslint --color -c .eslintrc.js --fix",
     "jest-cov": "jest --coverage --colors --silent --runInBand",
     "jest-ci": "jest  --colors --silent --ci --runInBand --coverage --reporters=default --reporters=jest-junit && cat ./coverage/lcov.info | coveralls",
     "test": "jest --colors --silent --runInBand --detectOpenHandles",
@@ -141,7 +142,8 @@
       "jest-junit"
     ],
     "testPathIgnorePatterns": [
-      "/node_modules/"
+      "/node_modules/",
+      "__tests__/integration/loginHelper"
     ],
     "setupFiles": [
       "jest-localstorage-mock",

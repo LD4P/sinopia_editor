@@ -4,7 +4,16 @@ import { createStore } from 'redux'
 import reducer from './reducers/index'
 
 let store
-const initialState = {}
+const initialState = {
+  selectorReducer: {
+    entities: { // The stuff we've retrieved from the server
+      resourceTemplates: {
+      },
+    },
+    resource: { // The state we're displaying in the editor
+    },
+  },
+}
 
 if (process.env.NODE_ENV === 'development') {
   store = createStore(reducer,

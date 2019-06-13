@@ -42,5 +42,28 @@ describe('<Editor />', () => {
     it('has preview RDF button', () => {
       expect(wrapper.findWhere(n => n.type() === 'button' && n.contains('Preview RDF')).exists()).toBeTruthy()
     })
+    it('has a Save & Publish button', () => {
+      expect(wrapper.findWhere(n => n.type() === 'button' && n.contains('Save & Publish')).exists()).toBeTruthy()
+    })
+    it('has a Validate button', () => {
+      expect(wrapper.findWhere(n => n.type() === 'button' && n.contains('Validate')).exists()).toBeTruthy()
+    })
+  })
+  describe('save button', () => {
+    const wrapper = shallow(<Editor.WrappedComponent {...props} />)
+
+    it('attempts to save the RDF content when save is clicked', () => {
+      wrapper.find('button').at(1).simulate('click')
+      expect(wrapper.state('showGroupChooser')).toBeTruthy()
+    })
+  })
+  describe('validate button', () => {
+    const mockSetDisplayValidationsFn = jest.fn()
+    const wrapper = shallow(<Editor.WrappedComponent {...props} setDisplayValidations={mockSetDisplayValidationsFn} />)
+
+    it('sets displayValidation state', () => {
+      wrapper.find('button').at(2).simulate('click')
+      expect(mockSetDisplayValidationsFn.mock.calls.length).toBe(1)
+    })
   })
 })

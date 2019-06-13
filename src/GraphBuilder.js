@@ -20,17 +20,25 @@ export default class GraphBuilder {
    */
   get graph() {
     // Is there ever more than one base node?
-    Object.keys(this.state).forEach((key) => {
-      // If the resourceURI is not in the state, then this is an unsaved resource and we want a relative URI to use as the base
-      const resourceURI = rdf.namedNode(this.state[key].resourceURI || '')
+    const resource = this.state.resource
 
-      this.buildTriplesForNode(resourceURI, this.state[key].rdfClass, this.getPredicateList(this.state[key]))
+    Object.keys(resource).forEach((resourceTemplateId) => {
+      // If the resourceURI is not in the state, then this is an unsaved resource and we want a relative URI to use as the base
+      const resourceURI = rdf.namedNode(resource[resourceTemplateId].resourceURI || '')
+
+      this.buildTriplesForNode(resourceURI,
+        this.getResourceTemplateClass(resourceTemplateId),
+        this.getPredicateList(resource[resourceTemplateId]))
     })
     return this.dataset
   }
 
+  getResourceTemplateClass(resourceTemplateId) {
+    return this.state.entities.resourceTemplates[resourceTemplateId].resourceURI
+  }
+
   /**
-   * Filter out the non-predicate values (e.g. rdfClass)
+   * Filter out the non-predicate values (e.g. resourceURI)
    * @param {<object>} Object containing predicates as keys
    * @return {<Object>} the filtered predicate list
    */
@@ -38,7 +46,7 @@ export default class GraphBuilder {
     const newPredicateList = {}
 
     Object.keys(predicateList).forEach((predicateKey) => {
-      if (!['rdfClass', 'resourceURI'].includes(predicateKey)) {
+      if (!['resourceURI'].includes(predicateKey)) {
         newPredicateList[predicateKey] = predicateList[predicateKey]
       }
     })
@@ -54,8 +62,10 @@ export default class GraphBuilder {
    */
   buildTriplesForNestedObject(baseURI, value) {
     // Is there ever more than one base node?
-    Object.values(value).forEach((rt) => {
-      this.buildTriplesForNode(baseURI, rt.rdfClass, this.getPredicateList(rt))
+    Object.keys(value).forEach((resourceTemplateId) => {
+      this.buildTriplesForNode(baseURI,
+        this.getResourceTemplateClass(resourceTemplateId),
+        this.getPredicateList(value[resourceTemplateId]))
     })
   }
 

@@ -15,11 +15,6 @@ export const setResourceTemplate = resourceTemplate => ({
   payload: resourceTemplate,
 })
 
-export const setResourceURI = update => ({
-  type: 'SET_RESOURCE_URI',
-  payload: update,
-})
-
 export const removeItem = item => ({
   type: 'REMOVE_ITEM',
   payload: item,
@@ -50,6 +45,11 @@ export const setLang = item => ({
   payload: item,
 })
 
+export const resourceTemplateLoaded = resourceTemplate => ({
+  type: 'RESOURCE_TEMPLATE_LOADED',
+  payload: resourceTemplate,
+})
+
 export const authenticationFailure = authenticationResult => ({
   type: 'AUTHENTICATION_FAILURE',
   payload: authenticationResult,
@@ -62,4 +62,9 @@ export const authenticationSuccess = authenticationResult => ({
 
 export const signOutSuccess = () => ({
   type: 'SIGN_OUT_SUCCESS',
+})
+
+export const displayValidations = shouldDisplay => ({
+  type: 'DISPLAY_VALIDATIONS',
+  payload: shouldDisplay,
 })

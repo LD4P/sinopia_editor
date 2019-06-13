@@ -51,7 +51,7 @@ describe('<RDFModal />', () => {
 
   describe('save and close buttons', () => {
     it('attempts to save the RDF content when save is clicked', () => {
-      wrapper.find('.btn-primary', { text: 'Save &amp; Publish' }).simulate('click')
+      wrapper.find('.btn-primary', { text: 'Save & Publish' }).simulate('click')
       expect(saveFunc).toHaveBeenCalled()
     })
   })

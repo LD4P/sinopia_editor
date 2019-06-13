@@ -47,20 +47,16 @@ export class PropertyComponent extends Component {
         return (<InputLookupQAContext key = {this.props.index}
                                reduxPath={reduxPath}
                                propertyTemplate = {property}
-                               lookupConfig = {this.state.configuration}
-                               displayValidations={this.props.displayValidations} />)
+                               lookupConfig = {this.state.configuration} />)
       case 'list':
         return (<InputListLOC key = {this.props.index}
                               reduxPath={reduxPath}
                               propertyTemplate = {property}
-                              lookupConfig = {this.state.configuration[0]}
-                              displayValidations={this.props.displayValidations} />)
+                              lookupConfig = {this.state.configuration[0]} />)
       default:
         if (property.type === 'literal') {
           return (<InputLiteral key={keyId} id={keyId}
-                                propertyTemplate={property}
-                                reduxPath={reduxPath}
-                                displayValidations={this.props.displayValidations} />)
+                                reduxPath={reduxPath} />)
         }
     }
 
@@ -88,7 +84,6 @@ PropertyComponent.propTypes = {
   }).isRequired,
   reduxPath: PropTypes.array.isRequired,
   index: PropTypes.number,
-  displayValidations: PropTypes.bool,
 }
 
 export default PropertyComponent

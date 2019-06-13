@@ -9,6 +9,8 @@ import { getResourceTemplate } from '../../../sinopiaServer'
 import { isResourceWithValueTemplateRef, resourceToName, templateBoolean } from '../../../Utilities'
 import PropertyComponent from './PropertyComponent'
 import ResourceProperty from './ResourceProperty'
+import store from '../../../store'
+import { resourceTemplateLoaded } from '../../../actions/index'
 
 export class PropertyTemplateOutline extends Component {
   constructor(props) {
@@ -34,16 +36,19 @@ export class PropertyTemplateOutline extends Component {
   }
 
   fulfillRTPromises = async promiseAll => await promiseAll.then((rts) => {
-    rts.map((rt) => {
+    rts.map((fulfilledResourceTemplateRequest) => {
       const joinedRts = [...this.state.nestedResourceTemplates]
 
-      joinedRts.push(rt.response.body)
+      joinedRts.push(fulfilledResourceTemplateRequest.response.body)
+      // Add the resource template into the store
+      store.dispatch(resourceTemplateLoaded(fulfilledResourceTemplateRequest.response.body))
       this.setState({ nestedResourceTemplates: joinedRts })
     })
   }).catch(() => {})
 
   resourceTemplatePromises = templateRefs => Promise.all(templateRefs.map(rtId => getResourceTemplate(rtId)))
 
+  // When the plus button is clicked, load reference templates (property.valueConstraint.valueTemplateRefs)
   handleClick = property => (event) => {
     event.preventDefault()
     this.setState({ collapsed: !this.state.collapsed })
@@ -88,7 +93,7 @@ export class PropertyTemplateOutline extends Component {
 
   render() {
     return (
-      <div className="rtOutline">
+      <div className="rtOutline" data-label={this.props.propertyTemplate.propertyLabel}>
         <OutlineHeader pt={this.props.propertyTemplate}
                        id={resourceToName(this.props.propertyTemplate.propertyURI)}
                        collapsed={this.state.collapsed}

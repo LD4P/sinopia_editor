@@ -4,20 +4,15 @@ import { combineReducers } from 'redux'
 import shortid from 'shortid'
 import authenticate from './authenticate'
 import {
-  removeAllContent, removeMyItem, setMyItems, setMySelections, setBaseURL, setMyItemsLang,
+  removeAllContent, removeMyItem, setMyItems, setMySelections, setBaseURL, setMyItemsLang, displayValidations,
 } from './inputs'
 import GraphBuilder from '../GraphBuilder'
 import { defaultLangTemplate } from '../Utilities'
 
-const inputPropertySelector = (state, props) => {
-  const reduxPath = props.reduxPath
-  let items = reduxPath.reduce((obj, key) => (obj && obj[key] !== 'undefined' ? obj[key] : undefined), state.selectorReducer)
+export const findNode = (selectorReducer, reduxPath) => {
+  const items = reduxPath.reduce((obj, key) => (obj && obj[key] !== 'undefined' ? obj[key] : undefined), selectorReducer)
 
-  if (items === undefined) {
-    items = []
-  }
-
-  return items
+  return items || {}
 }
 
 /*
@@ -26,10 +21,36 @@ const inputPropertySelector = (state, props) => {
  * see https://github.com/reduxjs/reselect#sharing-selectors-with-props-across-multiple-component-instances
  */
 export const getProperty = (state, props) => {
-  const result = inputPropertySelector(state, props)
+  const result = findNode(state.selectorReducer, props.reduxPath)
 
   return result.items || []
 }
+
+/*
+ * @returns {function} a function that returns true if validations should be displayed
+ */
+export const getDisplayValidations = state => findNode(state.selectorReducer, ['editor']).displayValidations
+
+/**
+ * @returns {function} a function that gets a resource template from state or undefined
+ */
+export const getResourceTemplate = (state, resourceTemplateId) => findNode(state.selectorReducer, ['entities', 'resourceTemplates'])[resourceTemplateId]
+
+
+/**
+ * @returns {function} a function that gets a property template from state or undefined
+ */
+export const getPropertyTemplate = (state, resourceTemplateId, propertyURI) => {
+  const resourceTemplate = getResourceTemplate(state, resourceTemplateId)
+  let propertyTemplate
+
+  if (resourceTemplate) {
+    // Find the property template
+    propertyTemplate = resourceTemplate.propertyTemplates.find(propertyTemplate => propertyTemplate.propertyURI === propertyURI)
+  }
+  return propertyTemplate
+}
+
 
 /**
  * @returns {function} a function that can be called to get the serialized RDF
@@ -72,7 +93,6 @@ export const refreshResourceTemplate = (state, action) => {
   const items = defaults.length > 0 ? { items: defaults } : {}
 
   const lastKey = reduxPath.pop()
-
   const lastObject = reduxPath.reduce((newState, key) => newState[key] = newState[key] || {}, newState)
 
   if (Object.keys(items).includes('items')) {
@@ -89,32 +109,28 @@ export const refreshResourceTemplate = (state, action) => {
  * the body of the resource template is in `action.payload'
  */
 export const setResourceTemplate = (state, action) => {
+  let newState = resourceTemplateLoaded(state, action)
   const resourceTemplateId = action.payload.id
-  let output = state
 
   action.payload.propertyTemplates.forEach((property) => {
     const propertyAction = {
       payload: {
-        reduxPath: [resourceTemplateId, property.propertyURI],
+        reduxPath: ['resource', resourceTemplateId, property.propertyURI],
         property,
       },
     }
 
-    output = refreshResourceTemplate(output, propertyAction)
+    newState = refreshResourceTemplate(newState, propertyAction)
   })
 
-  output[resourceTemplateId].rdfClass = action.payload.resourceURI
-
-  return output
+  return newState
 }
 
-export const setResourceURI = (state, action) => {
+export const resourceTemplateLoaded = (state, action) => {
+  const resourceTemplateId = action.payload.id
   const newState = { ...state }
-  const reduxPath = action.payload.reduxPath
 
-  const lastObject = reduxPath.reduce((newState, key) => newState[key] = newState[key] || {}, newState)
-
-  lastObject.rdfClass = action.payload.resourceURI
+  newState.entities.resourceTemplates[resourceTemplateId] = action.payload
   return newState
 }
 
@@ -130,6 +146,8 @@ const selectorReducer = (state = {}, action) => {
       return setBaseURL(state, action)
     case 'SET_LANG':
       return setMyItemsLang(state, action)
+    case 'RESOURCE_TEMPLATE_LOADED':
+      return resourceTemplateLoaded(state, action)
     case 'CHANGE_SELECTIONS':
       return setMySelections(state, action)
     case 'REFRESH_RESOURCE_TEMPLATE':
@@ -138,8 +156,8 @@ const selectorReducer = (state = {}, action) => {
       return removeMyItem(state, action)
     case 'REMOVE_ALL_CONTENT':
       return removeAllContent(state, action)
-    case 'SET_RESOURCE_URI':
-      return setResourceURI(state, action)
+    case 'DISPLAY_VALIDATIONS':
+      return displayValidations(state, action)
     default:
       return state
   }

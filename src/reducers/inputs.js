@@ -91,7 +91,7 @@ export const setBaseURL = (state, action) => {
   const newState = { ...state }
 
   // Is there ever more than one base node?
-  Object.values(newState).forEach((value) => {
+  Object.values(newState.resource).forEach((value) => {
     value.resourceURI = action.payload
   })
 
@@ -114,5 +114,15 @@ export const removeMyItem = (state, action) => {
     return obj[key]
   }, newState)
 
+  return newState
+}
+
+export const displayValidations = (state, action) => {
+  const newState = { ...state }
+
+  if (!newState.editor) {
+    newState.editor = {}
+  }
+  newState.editor.displayValidations = action.payload
   return newState
 }

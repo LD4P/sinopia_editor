@@ -3,7 +3,7 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import PropTypes from 'prop-types'
-import { removeAllItems, assignBaseURL } from '../../actions/index'
+import { removeAllItems, assignBaseURL, displayValidations } from '../../actions/index'
 import ResourceTemplate from './ResourceTemplate'
 import Header from './Header'
 import RDFModal from './RDFModal'
@@ -26,7 +26,6 @@ class Editor extends Component {
       resourceTemplateId: '',
       showRdf: false,
       showGroupChooser: false,
-      displayValidations: false,
     }
   }
 
@@ -53,7 +52,7 @@ class Editor extends Component {
   }
 
   validate = () => {
-    this.setState({ displayValidations: true })
+    this.props.setDisplayValidations(true)
   }
 
   handleRdfSave = () => {
@@ -61,7 +60,7 @@ class Editor extends Component {
   }
 
   renderResourceTemplate = () => (
-    <ResourceTemplate resourceTemplateId = {this.state.resourceTemplateId} displayValidations={this.state.displayValidations}/>
+    <ResourceTemplate resourceTemplateId = {this.state.resourceTemplateId} />
   )
 
   chooseGroupThenSave = (rdf, group) => {
@@ -109,9 +108,10 @@ class Editor extends Component {
         <Header triggerEditorMenu={this.props.triggerHandleOffsetMenu}/>
         { authenticationMessage }
         <div className="row">
-          <section className="col-md-3" style={{ float: 'right' }}>
-            <button type="button" className="btn btn-primary btn-sm" onClick={ this.handleRdfShow }>Preview RDF</button>
-            <button type="button" className="btn btn-primary btn-sm" onClick={ this.validate }>Validate</button>
+          <section className="col-md-3" style={{ float: 'right', width: '320px' }}>
+            <button type="button" className="btn btn-link btn-sm btn-editor" onClick={ this.handleRdfShow }>Preview RDF</button>
+            <button type="button" className="btn btn-primary btn-sm btn-editor" onClick={ this.handleRdfSave }>Save & Publish</button>
+            <button type="button" className="btn btn-primary btn-sm btn-editor" onClick={ this.validate }>Validate</button>
           </section>
         </div>
         {rdfModal}
@@ -139,6 +139,7 @@ Editor.propTypes = {
   currentSession: PropTypes.object,
   currentUser: PropTypes.object,
   rdf: PropTypes.func,
+  setDisplayValidations: PropTypes.func,
 }
 
 const mapStateToProps = (state, props) => ({
@@ -153,6 +154,9 @@ const mapDispatchToProps = dispatch => ({
   },
   setBaseURL(url) {
     dispatch(assignBaseURL(url))
+  },
+  setDisplayValidations(shouldDisplay) {
+    dispatch(displayValidations(shouldDisplay))
   },
 })
 

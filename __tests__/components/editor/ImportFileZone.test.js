@@ -29,6 +29,7 @@ describe('<ImportFileZone />', () => {
       })
 
       it('resolves the passing RT validation, returning undefined', async () => {
+        expect.assertions(1)
         template = require('../../__fixtures__/lcc_v0.2.0.json')
         schemaUrl = wrapper.instance().schemaUrl(template)
         const resolution = await wrapper.instance().promiseTemplateValidated(template, schemaUrl)
@@ -43,6 +44,7 @@ describe('<ImportFileZone />', () => {
       })
 
       it('resolves the passing profile validation, returning undefined', async () => {
+        expect.assertions(1)
         template = require('../../__fixtures__/place_profile_v0.2.0.json')
         schemaUrl = wrapper.instance().schemaUrl(template)
         const resolution = await wrapper.instance().promiseTemplateValidated(template, schemaUrl)
@@ -63,6 +65,7 @@ describe('<ImportFileZone />', () => {
       })
 
       it('resolves the passing RT validation, returning undefined', async () => {
+        expect.assertions(1)
         template = require('../../__fixtures__/lcc_no_schema_specified.json')
         schemaUrl = wrapper.instance().schemaUrl(template)
         const resolution = await wrapper.instance().promiseTemplateValidated(template, schemaUrl)
@@ -77,6 +80,7 @@ describe('<ImportFileZone />', () => {
       })
 
       it('resolves the passing profile validation, returning undefined', async () => {
+        expect.assertions(1)
         template = require('../../__fixtures__/place_profile_no_schema_specified.json')
         schemaUrl = wrapper.instance().schemaUrl(template)
         const resolution = await wrapper.instance().promiseTemplateValidated(template, schemaUrl)

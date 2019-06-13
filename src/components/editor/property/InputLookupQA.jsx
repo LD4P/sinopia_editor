@@ -7,7 +7,7 @@ import PropTypes from 'prop-types'
 import Swagger from 'swagger-client'
 import swaggerSpec from '../../../lib/apidoc.json'
 import { connect } from 'react-redux'
-import { getProperty } from '../../../reducers/index'
+import { getProperty, getDisplayValidations } from '../../../reducers/index'
 import { changeSelections } from '../../../actions/index'
 import { booleanPropertyFromTemplate, defaultValuesFromPropertyTemplate } from '../../../Utilities'
 import Config from '../../../Config'
@@ -234,9 +234,9 @@ InputLookupQA.propTypes = {
 
 const mapStateToProps = (state, props) => {
   const result = getProperty(state, props)
+  const displayValidations = getDisplayValidations(state)
 
-
-  return { selected: result }
+  return { selected: result, displayValidations }
 }
 
 const mapDispatchToProps = dispatch => ({
