@@ -73,13 +73,15 @@ describe('checkMandatoryRepeatable', () => {
 describe('When the user enters input into field', () => {
   // Our mockItemsChange function to replace the one provided by mapDispatchToProps
   let mockItemsChange
-  const removeMockDataFn = jest.fn()
+  let removeMockDataFn
+  let mockWrapper
 
   shortid.generate = jest.fn().mockReturnValue(0)
-  let mockWrapper
 
   beforeEach(() => {
     mockItemsChange = jest.fn()
+    removeMockDataFn = jest.fn()
+
     mockWrapper = shallow(<InputLiteral {...plProps} id={'11'}
                                         rtId={'resourceTemplate:bf2:Monograph:Instance'}
                                         reduxPath={[
@@ -89,11 +91,6 @@ describe('When the user enters input into field', () => {
                                         handleMyItemsChange={mockItemsChange}
                                         handleRemoveItem={removeMockDataFn}
                                         handleMyItemsLangChange={jest.fn()} />)
-  })
-
-  // Make sure spies/mocks don't leak between tests
-  afterAll(() => {
-    jest.restoreAllMocks()
   })
 
   it('has an id value as a unique property', () => {
@@ -208,7 +205,6 @@ describe('When the user enters input into field', () => {
   })
 
   it('should call the removeMockDataFn and mockItemsChange when Edit is clicked', () => {
-    removeMockDataFn.mock.calls = []
     expect(mockWrapper.instance().inputLiteralRef).toEqual({ current: null })
     const mockFocusFn = jest.fn()
 
