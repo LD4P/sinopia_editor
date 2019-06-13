@@ -6,7 +6,7 @@
     "editor",
     "rdf"
   ],
-  "version": "0.3.1",
+  "version": "0.3.2",
   "homepage": "http://github.com/LD4P/sinopia_editor/",
   "engines": {
     "node": "10.11.x"
