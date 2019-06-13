@@ -72,13 +72,14 @@ describe('checkMandatoryRepeatable', () => {
 
 describe('When the user enters input into field', () => {
   // Our mockItemsChange function to replace the one provided by mapDispatchToProps
-  const mockItemsChange = jest.fn()
+  let mockItemsChange
   const removeMockDataFn = jest.fn()
 
   shortid.generate = jest.fn().mockReturnValue(0)
   let mockWrapper
 
   beforeEach(() => {
+    mockItemsChange = jest.fn()
     mockWrapper = shallow(<InputLiteral {...plProps} id={'11'}
                                         rtId={'resourceTemplate:bf2:Monograph:Instance'}
                                         reduxPath={[
@@ -112,14 +113,13 @@ describe('When the user enters input into field', () => {
     mockWrapper.find('input').simulate('change', { target: { value: 'foo' } })
     mockWrapper.find('input').simulate('keypress', { key: 'Enter', preventDefault: () => {} })
     // Test to see arguments used after its been submitted
-    expect(mockItemsChange.mock.calls[1][0]).toEqual(
+    expect(mockItemsChange.mock.calls[0][0]).toEqual(
       {
         uri: 'http://id.loc.gov/ontologies/bibframe/instanceOf',
         items: [{ content: 'foo', id: 0 }],
         reduxPath: ['resourceTemplate:bf2:Monograph:Instance', 'http://id.loc.gov/ontologies/bibframe/instanceOf'],
       },
     )
-    mockItemsChange.mock.calls = [] // Reset the redux store to empty
   })
 
   it('property template contains repeatable "true", allowed to add more than one item into myItems array', () => {
@@ -178,7 +178,6 @@ describe('When the user enters input into field', () => {
         reduxPath: ['resourceTemplate:bf2:Monograph:Instance', 'http://id.loc.gov/ontologies/bibframe/instanceOf'],
       },
     )
-    mockItemsChange.mock.calls = [] // Reset the redux store to empty
   })
 
   it('required is only true for first item in myItems array', () => {
@@ -199,7 +198,6 @@ describe('When the user enters input into field', () => {
     mockWrapper.setProps({ formData: { id: 1, uri: 'http://id.loc.gov/ontologies/bibframe/instanceOf', items: [{ content: 'foo', id: 4, lang: { items: [{ label: 'English' }] } }] } })
     expect(mockWrapper.find('div#userInput').text()).toEqual('fooXEdit<Button /><Modal />') // Contains X and Edit as buttons
     expect(mockWrapper.find('Button#language').childAt(1).text()).toEqual('English')
-    mockItemsChange.mock.calls = [] // Reset the redux store to empty
   })
 
   it('should call the removeMockDataFn when X is clicked', () => {
@@ -207,7 +205,6 @@ describe('When the user enters input into field', () => {
     expect(removeMockDataFn.mock.calls.length).toEqual(0)
     mockWrapper.find('button#deleteItem').first().simulate('click', { target: { dataset: { item: 5 } } })
     expect(removeMockDataFn.mock.calls.length).toEqual(1)
-    mockItemsChange.mock.calls = []
   })
 
   it('should call the removeMockDataFn and mockItemsChange when Edit is clicked', () => {
