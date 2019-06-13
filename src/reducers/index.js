@@ -29,14 +29,13 @@ export const getProperty = (state, props) => {
 /*
  * @returns {function} a function that returns true if validations should be displayed
  */
-export const getDisplayValidations = state => ['editor', 'displayValidations'].reduce(
-  (obj, key) => (obj && obj[key] !== 'undefined' ? obj[key] : undefined), state.selectorReducer,
-) || false
+export const getDisplayValidations = state => findNode(state.selectorReducer, ['editor']).displayValidations
 
 /**
  * @returns {function} a function that gets a resource template from state or undefined
  */
-export const getResourceTemplate = (state, resourceTemplateId) => state.selectorReducer.entities.resourceTemplates[resourceTemplateId]
+export const getResourceTemplate = (state, resourceTemplateId) => findNode(state.selectorReducer, ['entities', 'resourceTemplates'])[resourceTemplateId]
+
 
 /**
  * @returns {function} a function that gets a property template from state or undefined
