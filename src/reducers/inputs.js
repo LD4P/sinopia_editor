@@ -91,7 +91,7 @@ export const setBaseURL = (state, action) => {
   const newState = { ...state }
 
   // Is there ever more than one base node?
-  Object.values(newState).forEach((value) => {
+  Object.values(newState.resource).forEach((value) => {
     value.resourceURI = action.payload
   })
 
