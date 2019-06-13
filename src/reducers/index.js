@@ -4,7 +4,7 @@ import { combineReducers } from 'redux'
 import shortid from 'shortid'
 import authenticate from './authenticate'
 import {
-  removeAllContent, removeMyItem, setMyItems, setMySelections, setBaseURL, setMyItemsLang, displayValidations,
+  removeAllContent, removeMyItem, setMyItems, setMySelections, setBaseURL, setMyItemsLang, validate,
 } from './inputs'
 import GraphBuilder from '../GraphBuilder'
 import { defaultLangTemplate } from '../Utilities'
@@ -42,13 +42,13 @@ export const getResourceTemplate = (state, resourceTemplateId) => findNode(state
  */
 export const getPropertyTemplate = (state, resourceTemplateId, propertyURI) => {
   const resourceTemplate = getResourceTemplate(state, resourceTemplateId)
-  let propertyTemplate
 
-  if (resourceTemplate) {
-    // Find the property template
-    propertyTemplate = resourceTemplate.propertyTemplates.find(propertyTemplate => propertyTemplate.propertyURI === propertyURI)
+  if (!resourceTemplate) {
+    return
   }
-  return propertyTemplate
+
+  // Find the property template
+  return resourceTemplate.propertyTemplates.find(propertyTemplate => propertyTemplate.propertyURI === propertyURI)
 }
 
 
@@ -142,6 +142,8 @@ const selectorReducer = (state = {}, action) => {
       return setResourceTemplate(state, action)
     case 'SET_ITEMS':
       return setMyItems(state, action)
+    case 'VALIDATE':
+      return validate(state, action)
     case 'SET_BASE_URL':
       return setBaseURL(state, action)
     case 'SET_LANG':
@@ -156,8 +158,6 @@ const selectorReducer = (state = {}, action) => {
       return removeMyItem(state, action)
     case 'REMOVE_ALL_CONTENT':
       return removeAllContent(state, action)
-    case 'DISPLAY_VALIDATIONS':
-      return displayValidations(state, action)
     default:
       return state
   }

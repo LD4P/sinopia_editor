@@ -73,11 +73,13 @@ describe('initializes the Redux State', () => {
   })
 })
 
-describe('displayValidations()', () => {
-  it('creates DISPLAY_VALIDATIONS action', () => {
-    expect(actions.displayValidations(true)).toEqual({
-      type: 'DISPLAY_VALIDATIONS',
-      payload: true,
+describe('runValidation()', () => {
+  it('creates VALIDATE action', () => {
+    expect(actions.runValidation()).toEqual({
+      type: 'VALIDATE',
+      payload: {
+        show: true,
+      },
     })
   })
 })

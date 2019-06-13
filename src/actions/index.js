@@ -5,6 +5,11 @@ export const setItems = item => ({
   payload: item,
 })
 
+export const runValidation = () => ({
+  type: 'VALIDATE',
+  payload: { show: true },
+})
+
 export const refreshResourceTemplate = update => ({
   type: 'REFRESH_RESOURCE_TEMPLATE',
   payload: update,
@@ -62,9 +67,4 @@ export const authenticationSuccess = authenticationResult => ({
 
 export const signOutSuccess = () => ({
   type: 'SIGN_OUT_SUCCESS',
-})
-
-export const displayValidations = shouldDisplay => ({
-  type: 'DISPLAY_VALIDATIONS',
-  payload: shouldDisplay,
 })

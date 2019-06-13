@@ -14,6 +14,10 @@ const plProps = {
     repeatable: '',
   },
   reduxPath: [],
+  formData: {
+    items: [],
+    errors: [],
+  },
 }
 
 const valConstraintProps = {
@@ -40,6 +44,7 @@ describe('<InputLiteral />', () => {
 
   it('contains required="true" attribute on input tag when mandatory is true', () => {
     wrapper.instance().props.propertyTemplate.mandatory = 'true'
+    wrapper.instance().props.formData.errors = [{ id: 'problem' }]
     wrapper.instance().forceUpdate() /** Update plProps with mandatory: "true" * */
     expect(wrapper.find('input').prop('required')).toBeTruthy()
     expect(wrapper.find('label > RequiredSuperscript')).toBeTruthy()
@@ -210,7 +215,14 @@ describe('When the user enters input into field', () => {
 
     mockWrapper.instance().inputLiteralRef.current = { focus: mockFocusFn }
 
-    mockWrapper.setProps({ formData: { id: 1, uri: 'http://id.loc.gov/ontologies/bibframe/instanceOf', items: [{ content: 'test', id: 5, lang: { items: [{ label: 'English' }] } }] } })
+    mockWrapper.setProps({
+      formData: {
+        id: 1,
+        uri: 'http://id.loc.gov/ontologies/bibframe/instanceOf',
+        items: [{ content: 'test', id: 5, lang: { items: [{ label: 'English' }] } }],
+        errors: [],
+      },
+    })
     expect(removeMockDataFn.mock.calls.length).toEqual(0)
     mockWrapper.find('button#editItem').first().simulate('click', { target: { dataset: { item: 5 } } })
     expect(mockWrapper.state('content_add')).toEqual('test')
@@ -225,35 +237,32 @@ describe('when there is a default literal value in the property template', () =>
 
   it('sets the default values according to the property template if they exist', () => {
     const plProps = {
-      propertyTemplate:
-        {
-          propertyLabel: 'Instance of',
-          propertyURI: 'http://id.loc.gov/ontologies/bibframe/instanceOf',
-          type: 'literal',
-          mandatory: '',
-          repeatable: '',
-          valueConstraint: valConstraintProps,
-        },
+      propertyTemplate: {
+        propertyLabel: 'Instance of',
+        propertyURI: 'http://id.loc.gov/ontologies/bibframe/instanceOf',
+        type: 'literal',
+        mandatory: '',
+        repeatable: '',
+        valueConstraint: valConstraintProps,
+      },
+      formData: {
+        items: [
+          {
+            uri: 'http://id.loc.gov/vocabulary/organizations/dlc',
+            content: 'DLC',
+            lang: { items: [{ label: 'English' }] },
+          },
+        ],
+        errors: [],
+      },
     }
-    const wrapper = shallow(<InputLiteral propertyTemplate={plProps.propertyTemplate} id={12}
+    const wrapper = shallow(<InputLiteral {...plProps} id={12}
                                           blankNodeForLiteral={{ termType: 'BlankNode', value: 'n3-0' }}
                                           handleMyItemsChange={mockMyItemsChange}
                                           rtId={'resourceTemplate:bf2:Monograph:Instance'}
                                           handleMyItemsLangChange={jest.fn()} />)
-    // Mocking a call to the Redux store
-    const items = [{
-      uri: 'http://id.loc.gov/vocabulary/organizations/dlc',
-      content: 'DLC',
-      lang: { items: [{ label: 'English' }] },
-    }]
 
-    wrapper.setProps({
-      formData: {
-        items,
-      },
-    })
-    wrapper.instance().forceUpdate()
-    expect(wrapper.find('#userInput').text()).toMatch(items[0].content)
+    expect(wrapper.find('#userInput').text()).toMatch('DLC')
   })
 
   describe('when repeatable="false"', () => {
@@ -376,7 +385,14 @@ describe('When the user enters input into language modal', () => {
                                             handleMyItemsLangChange={mockMyItemsLangChange} />)
 
   it('shows the <InputLang> modal when the <Button/> is clicked', () => {
-    mockWrapper.setProps({ formData: { id: 1, uri: 'http://id.loc.gov/ontologies/bibframe/instanceOf', items: [{ content: 'test', id: 6, lang: { items: [{ label: 'English' }] } }] } })
+    mockWrapper.setProps({
+      formData: {
+        id: 1,
+        uri: 'http://id.loc.gov/ontologies/bibframe/instanceOf',
+        items: [{ content: 'test', id: 6, lang: { items: [{ label: 'English' }] } }],
+        errors: [],
+      },
+    })
     mockWrapper.find('Button').first().simulate('click')
     expect(mockWrapper.find('Modal').prop('show')).toEqual(true)
     expect(mockWrapper.find('ModalTitle').render().text()).toEqual('Languages')
@@ -394,7 +410,14 @@ describe('When the user enters input into language modal', () => {
   })
 
   it('closes modal when close is clicked', () => {
-    mockWrapper.setProps({ formData: { id: 1, uri: 'http://id.loc.gov/ontologies/bibframe/instanceOf', items: [{ content: 'test', id: 6, lang: { items: [{ label: 'English' }] } }] } })
+    mockWrapper.setProps({
+      formData: {
+        id: 1,
+        uri: 'http://id.loc.gov/ontologies/bibframe/instanceOf',
+        items: [{ content: 'test', id: 6, lang: { items: [{ label: 'English' }] } }],
+        errors: [],
+      },
+    })
     mockWrapper.find('Button').first().simulate('click')
     expect(mockWrapper.find('Modal').prop('show')).toEqual(true)
     mockWrapper.find('ModalFooter').find('Button').last().simulate('click')

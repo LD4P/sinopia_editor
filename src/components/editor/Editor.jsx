@@ -3,7 +3,7 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import PropTypes from 'prop-types'
-import { removeAllItems, assignBaseURL, displayValidations } from '../../actions/index'
+import { removeAllItems, assignBaseURL, runValidation } from '../../actions/index'
 import ResourceTemplate from './ResourceTemplate'
 import Header from './Header'
 import RDFModal from './RDFModal'
@@ -11,7 +11,7 @@ import GroupChoiceModal from './GroupChoiceModal'
 import Config from '../../Config'
 import { getCurrentSession, getCurrentUser } from '../../authSelectors'
 import { publishRDFResource } from '../../sinopiaServer'
-import { getAllRdf } from '../../reducers/index'
+import { getAllRdf, findNode } from '../../reducers/index'
 
 const _ = require('lodash')
 
@@ -52,7 +52,7 @@ class Editor extends Component {
   }
 
   validate = () => {
-    this.props.setDisplayValidations(true)
+    this.props.validate()
   }
 
   handleRdfSave = () => {
@@ -94,8 +94,18 @@ class Editor extends Component {
       authenticationMessage = <span/>
     }
 
-
+    let errorMessage
     let rdfModal
+
+    if (this.props.displayValidations && this.props.errors.length > 0) {
+      const errorList = this.props.errors.map(elem => (<li key={elem.path.join('-')}>{elem.label} {elem.message}</li>))
+
+      errorMessage = <div className="alert alert-danger alert-dismissible">
+        <button className="close" data-dismiss="alert" aria-label="close">&times;</button>
+        There was a probem saving this resource. Validation errors: <ul>{errorList}</ul>
+      </div>
+    }
+
 
     if (this.state.showRdf) {
       rdfModal = <RDFModal save={ () => this.handleRdfSave() }
@@ -115,7 +125,7 @@ class Editor extends Component {
           </section>
         </div>
         {rdfModal}
-
+        {errorMessage}
         <div>
           <GroupChoiceModal show={ this.state.showGroupChooser }
                             rdf={this.props.rdf}
@@ -133,19 +143,23 @@ Editor.propTypes = {
   triggerHandleOffsetMenu: PropTypes.func,
   resetStore: PropTypes.func,
   setBaseURL: PropTypes.func,
+  validate: PropTypes.func,
   location: PropTypes.object,
   resourceTemplateId: PropTypes.string,
   history: PropTypes.object,
   currentSession: PropTypes.object,
   currentUser: PropTypes.object,
   rdf: PropTypes.func,
-  setDisplayValidations: PropTypes.func,
+  errors: PropTypes.array,
+  displayValidations: PropTypes.bool,
 }
 
 const mapStateToProps = (state, props) => ({
   currentSession: getCurrentSession(state),
   currentUser: getCurrentUser(state),
   rdf: getAllRdf(state, props),
+  errors: findNode(state.selectorReducer, ['editor']).errors,
+  displayValidations: state.selectorReducer.editor.displayValidations,
 })
 
 const mapDispatchToProps = dispatch => ({
@@ -155,8 +169,8 @@ const mapDispatchToProps = dispatch => ({
   setBaseURL(url) {
     dispatch(assignBaseURL(url))
   },
-  setDisplayValidations(shouldDisplay) {
-    dispatch(displayValidations(shouldDisplay))
+  validate() {
+    dispatch(runValidation())
   },
 })
 
