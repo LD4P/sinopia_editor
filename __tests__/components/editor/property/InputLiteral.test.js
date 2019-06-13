@@ -76,15 +76,19 @@ describe('When the user enters input into field', () => {
   const removeMockDataFn = jest.fn()
 
   shortid.generate = jest.fn().mockReturnValue(0)
-  const mockWrapper = shallow(<InputLiteral {...plProps} id={'11'}
-                                            rtId={'resourceTemplate:bf2:Monograph:Instance'}
-                                            reduxPath={[
-                                              'resourceTemplate:bf2:Monograph:Instance',
-                                              'http://id.loc.gov/ontologies/bibframe/instanceOf',
-                                            ]}
-                                            handleMyItemsChange={mockItemsChange}
-                                            handleRemoveItem={removeMockDataFn}
-                                            handleMyItemsLangChange={jest.fn()} />)
+  let mockWrapper
+
+  beforeEach(() => {
+    mockWrapper = shallow(<InputLiteral {...plProps} id={'11'}
+                                        rtId={'resourceTemplate:bf2:Monograph:Instance'}
+                                        reduxPath={[
+                                          'resourceTemplate:bf2:Monograph:Instance',
+                                          'http://id.loc.gov/ontologies/bibframe/instanceOf',
+                                        ]}
+                                        handleMyItemsChange={mockItemsChange}
+                                        handleRemoveItem={removeMockDataFn}
+                                        handleMyItemsLangChange={jest.fn()} />)
+  })
 
   // Make sure spies/mocks don't leak between tests
   afterAll(() => {
@@ -175,8 +179,6 @@ describe('When the user enters input into field', () => {
       },
     )
     mockItemsChange.mock.calls = [] // Reset the redux store to empty
-
-    mockWrapper.setProps({ formData: undefined }) // Reset props for next test
   })
 
   it('required is only true for first item in myItems array', () => {
@@ -189,7 +191,6 @@ describe('When the user enters input into field', () => {
     mockWrapper.find('input').simulate('keypress', { key: 'Enter', preventDefault: () => {} })
     mockWrapper.setProps({ formData: { id: 1, uri: 'http://id.loc.gov/ontologies/bibframe/instanceOf', items: [{ content: 'foo', id: 4, lang: { items: [{ label: 'English' }] } }] } })
     expect(mockWrapper.find('input').prop('required')).toBeFalsy()
-    mockWrapper.setProps({ formData: undefined }) // Reset props for next test
   })
 
   it('item appears when user inputs text into the field', () => {
@@ -198,7 +199,6 @@ describe('When the user enters input into field', () => {
     mockWrapper.setProps({ formData: { id: 1, uri: 'http://id.loc.gov/ontologies/bibframe/instanceOf', items: [{ content: 'foo', id: 4, lang: { items: [{ label: 'English' }] } }] } })
     expect(mockWrapper.find('div#userInput').text()).toEqual('fooXEdit<Button /><Modal />') // Contains X and Edit as buttons
     expect(mockWrapper.find('Button#language').childAt(1).text()).toEqual('English')
-    mockWrapper.setProps({ formData: undefined }) // Reset props for next test
     mockItemsChange.mock.calls = [] // Reset the redux store to empty
   })
 
