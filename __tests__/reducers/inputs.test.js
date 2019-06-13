@@ -83,35 +83,33 @@ describe('setMyItems', () => {
   it('creates intermediate objects in the Redux state if present in reduxPath', () => {
     initialState.resource = {
       'resourceTemplate:Monograph:Instance': {
-        abcdeCode: {
-          'http://schema.org/name': 'A fun name',
+        'http://id.loc.org/ontologies/bibframe/title': {
         },
       },
     }
+
     const reduxPath = [
       'resource',
       'resourceTemplate:Monograph:Instance',
-      'abcdeCode',
-      'http://schema.org/Person',
-      'http://schema.org/givenName',
+      'http://id.loc.gov/ontologies/bibframe/title',
+      'YsqS99TfpPsn',
+      'resourceTemplate:bf2:Title',
+      'http://id.loc.gov/ontologies/bibframe/mainTitle',
     ]
     const result = setMyItems(initialState,
       {
         type: 'SET_ITEMS',
         payload: {
           rtId: 'resourceTemplate:Monograph:Instance',
-          uri: 'http://schema.org/description',
+          uri: 'http://id.loc.gov/ontologies/bibframe/mainTitle',
           reduxPath,
-          items: [{ id: 2, content: 'Melissa' }],
+          items: [{ id: 'ghwixOwWI', content: 'Melissa' }],
         },
       })
 
     expect(findNode(result, reduxPath)).toEqual({
-      items: [{ id: 2, content: 'Melissa' }],
+      items: [{ id: 'ghwixOwWI', content: 'Melissa' }],
     })
-    expect(findNode(result, ['resource', 'resourceTemplate:Monograph:Instance', 'abcdeCode', 'http://schema.org/name'])).toEqual(
-      'A fun name',
-    )
   })
 
   it('adds new item to state when state has existing selector for another literal', () => {
