@@ -39,14 +39,14 @@ export class ResourceTemplateForm extends Component {
    */
   fulfillRTPromises = async (promiseAll) => {
     await promiseAll.then(async (rts) => {
-      rts.map((fulfilledResourceTemplateRequest) => {
-        const joinedRts = [...this.state.nestedResourceTemplates]
+      const joinedRts = [...this.state.nestedResourceTemplates]
 
+      rts.map((fulfilledResourceTemplateRequest) => {
         joinedRts.push(fulfilledResourceTemplateRequest.response.body)
         // Add the resource template into the store
         store.dispatch(resourceTemplateLoaded(fulfilledResourceTemplateRequest.response.body))
-        this.setState({ nestedResourceTemplates: joinedRts })
       })
+      this.setState({ nestedResourceTemplates: joinedRts })
     }).catch((err) => {
       this.setState({ templateError: err })
     })
