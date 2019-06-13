@@ -32,6 +32,7 @@ export class InputLiteral extends Component {
   }
 
   componentDidMount = () => {
+    // Note that it is possible that the resource template hasn't been loaded yet, hence there will not be a property template.
     if (this.props.propertyTemplate
         && this.props.propertyTemplate.repeatable === 'false'
         && this.props.formData !== undefined
