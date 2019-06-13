@@ -116,3 +116,13 @@ export const removeMyItem = (state, action) => {
 
   return newState
 }
+
+export const displayValidations = (state, action) => {
+  const newState = { ...state }
+
+  if (!newState.editor) {
+    newState.editor = {}
+  }
+  newState.editor.displayValidations = action.payload
+  return newState
+}

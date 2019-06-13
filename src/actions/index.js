@@ -63,3 +63,8 @@ export const authenticationSuccess = authenticationResult => ({
 export const signOutSuccess = () => ({
   type: 'SIGN_OUT_SUCCESS',
 })
+
+export const displayValidations = shouldDisplay => ({
+  type: 'DISPLAY_VALIDATIONS',
+  payload: shouldDisplay,
+})
