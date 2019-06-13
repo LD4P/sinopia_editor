@@ -102,56 +102,6 @@ describe('<PropertyComponent />', () => {
     })
   })
 
-  describe('getLookupConfigItems()', () => {
-    it('returns an empty array if passed any value that fails to define a `valueConstraint.useValuesFrom` array', () => {
-      const template = {}
-      const wrapper = shallow(<PropertyComponent propertyTemplate={template} reduxPath={['nothing']}/>)
-
-      expect(wrapper.instance().getLookupConfigItems(template)).toEqual([])
-    })
-
-    it('returns an empty array if passed a value with an empty `valueConstraint.useValuesFrom` array', () => {
-      const template = {
-        valueConstraint: {
-          useValuesFrom: [],
-        },
-      }
-      const wrapper = shallow(<PropertyComponent propertyTemplate={template} reduxPath={['nothing']}/>)
-
-      expect(wrapper.instance().getLookupConfigItems(template)).toEqual([])
-    })
-
-    it('returns an array with lookupConfig objects matching URIs in useValuesFrom array', () => {
-      const template = {
-        valueConstraint: {
-          useValuesFrom: [
-            'http://does.not.match/1',
-            'http://does.not.match/2',
-            'urn:ld4p:qa:agrovoc',
-            'https://id.loc.gov/vocabulary/mrectype',
-          ],
-        },
-      }
-      const wrapper = shallow(<PropertyComponent propertyTemplate={template} reduxPath={['']}/>)
-
-      expect(wrapper.instance().getLookupConfigItems(template)).toEqual([
-        {
-          label: 'AGROVOC (QA)',
-          uri: 'urn:ld4p:qa:agrovoc',
-          authority: 'agrovoc_ld4l_cache',
-          subauthority: '',
-          language: 'en',
-          component: 'lookup',
-        },
-        {
-          label: 'type of recording',
-          uri: 'https://id.loc.gov/vocabulary/mrectype',
-          component: 'list',
-        },
-      ])
-    })
-  })
-
   it('logs an error if <PropertyComponent /> is missing reduxPath props', () => {
     const template = {
       propertyURI: 'http://id.loc.gov/ontologies/bibframe/note',
