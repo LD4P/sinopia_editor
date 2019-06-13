@@ -9,15 +9,10 @@ import {
 import GraphBuilder from '../GraphBuilder'
 import { defaultLangTemplate } from '../Utilities'
 
-const inputPropertySelector = (state, props) => {
-  const reduxPath = props.reduxPath
-  let items = reduxPath.reduce((obj, key) => (obj && obj[key] !== 'undefined' ? obj[key] : undefined), state.selectorReducer)
+export const findNode = (selectorReducer, reduxPath) => {
+  const items = reduxPath.reduce((obj, key) => (obj && obj[key] !== 'undefined' ? obj[key] : undefined), selectorReducer)
 
-  if (items === undefined) {
-    items = []
-  }
-
-  return items
+  return items || {}
 }
 
 /*
@@ -26,7 +21,7 @@ const inputPropertySelector = (state, props) => {
  * see https://github.com/reduxjs/reselect#sharing-selectors-with-props-across-multiple-component-instances
  */
 export const getProperty = (state, props) => {
-  const result = inputPropertySelector(state, props)
+  const result = findNode(state.selectorReducer, props.reduxPath)
 
   return result.items || []
 }
