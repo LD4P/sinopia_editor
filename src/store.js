@@ -9,6 +9,9 @@ const initialState = {
     editor: { // The state of the editor
       displayValidations: false,
       errors: [],
+      rdfPreview: {
+        show: false,
+      },
       groupChoice: {
         show: false,
       },

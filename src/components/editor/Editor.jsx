@@ -4,7 +4,7 @@ import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import PropTypes from 'prop-types'
 import {
-  removeAllItems, assignBaseURL, runValidation, showGroupChooser,
+  removeAllItems, assignBaseURL, runValidation, showGroupChooser, showRdfPreview,
 } from '../../actions/index'
 import ResourceTemplate from './ResourceTemplate'
 import Header from './Header'
@@ -13,7 +13,7 @@ import GroupChoiceModal from './GroupChoiceModal'
 import Config from '../../Config'
 import { getCurrentSession, getCurrentUser } from '../../authSelectors'
 import { publishRDFResource } from '../../sinopiaServer'
-import { getAllRdf, findNode } from '../../reducers/index'
+import { findNode } from '../../reducers/index'
 
 const _ = require('lodash')
 
@@ -26,7 +26,6 @@ class Editor extends Component {
     this.state = {
       tempRtState: true,
       resourceTemplateId: '',
-      showRdf: false,
     }
   }
 
@@ -41,15 +40,6 @@ class Editor extends Component {
       }
       this.setState({ tempRtState: false })
     }
-  }
-
-  handleRdfShow = () => {
-    this.setState({ showRdf: true })
-  }
-
-  // NOTE: it's possible these handle methods for RDFModal could live in RDFModal component
-  handleRdfClose = () => {
-    this.setState({ showRdf: false })
   }
 
   handleRdfSave = () => {
@@ -70,7 +60,7 @@ class Editor extends Component {
       console.error('unable to save resource')
       console.error(err)
     })
-    this.handleRdfClose()
+    this.props.closeRdfPreview()
     this.props.closeGroupChooser()
   }
 
@@ -88,7 +78,6 @@ class Editor extends Component {
     }
 
     let errorMessage
-    let rdfModal
 
     if (this.props.displayValidations && this.props.errors.length > 0) {
       const errorList = this.props.errors.map(elem => (<li key={elem.path.join('-')}>{elem.label} {elem.message}</li>))
@@ -99,29 +88,21 @@ class Editor extends Component {
       </div>
     }
 
-
-    if (this.state.showRdf) {
-      rdfModal = <RDFModal save={ this.props.openGroupChooser }
-                           close={ this.handleRdfClose }
-                           rdf={ this.props.rdf } />
-    }
-
     return (
       <div id="editor">
         <Header triggerEditorMenu={this.props.triggerHandleOffsetMenu}/>
         { authenticationMessage }
         <div className="row">
           <section className="col-md-3" style={{ float: 'right', width: '320px' }}>
-            <button type="button" className="btn btn-link btn-sm btn-editor" onClick={ this.handleRdfShow }>Preview RDF</button>
+            <button type="button" className="btn btn-link btn-sm btn-editor" onClick={ this.props.openRdfPreview }>Preview RDF</button>
             <button type="button" className="btn btn-primary btn-sm btn-editor" onClick={ this.props.openGroupChooser }>Save & Publish</button>
             <button type="button" className="btn btn-primary btn-sm btn-editor" onClick={ this.props.validate }>Validate</button>
           </section>
         </div>
-        {rdfModal}
+        <RDFModal save={ this.handleRdfSave } close={ this.props.closeRdfPreview } />
         {errorMessage}
         <div>
-          <GroupChoiceModal rdf={this.props.rdf}
-                            close={ this.props.closeGroupChooser }
+          <GroupChoiceModal close={ this.closeGroupChooser }
                             save={ this.chooseGroupThenSave }
                             groups={ this.groupsToSaveInto() } />
         </div>
@@ -138,20 +119,20 @@ Editor.propTypes = {
   validate: PropTypes.func,
   openGroupChooser: PropTypes.func,
   closeGroupChooser: PropTypes.func,
+  openRdfPreview: PropTypes.func,
+  closeRdfPreview: PropTypes.func,
   location: PropTypes.object,
   resourceTemplateId: PropTypes.string,
   history: PropTypes.object,
   currentSession: PropTypes.object,
   currentUser: PropTypes.object,
-  rdf: PropTypes.func,
   errors: PropTypes.array,
   displayValidations: PropTypes.bool,
 }
 
-const mapStateToProps = (state, props) => ({
+const mapStateToProps = state => ({
   currentSession: getCurrentSession(state),
   currentUser: getCurrentUser(state),
-  rdf: getAllRdf(state, props),
   errors: findNode(state.selectorReducer, ['editor']).errors,
   displayValidations: state.selectorReducer.editor.displayValidations,
 })
@@ -171,6 +152,12 @@ const mapDispatchToProps = dispatch => ({
   },
   closeGroupChooser() {
     dispatch(showGroupChooser(false))
+  },
+  openRdfPreview() {
+    dispatch(showRdfPreview(true))
+  },
+  closeRdfPreview() {
+    dispatch(showRdfPreview(false))
   },
 })
 

@@ -56,6 +56,11 @@ export const setLang = item => ({
   payload: item,
 })
 
+export const showRdfPreview = show => ({
+  type: 'SHOW_RDF_PREVIEW',
+  payload: show,
+})
+
 export const resourceTemplateLoaded = resourceTemplate => ({
   type: 'RESOURCE_TEMPLATE_LOADED',
   payload: resourceTemplate,

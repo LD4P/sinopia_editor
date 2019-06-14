@@ -5,6 +5,7 @@ import { connect } from 'react-redux'
 import Button from 'react-bootstrap/lib/Button'
 import Modal from 'react-bootstrap/lib/Modal'
 import PropTypes from 'prop-types'
+import { getAllRdf } from '../../reducers/index'
 
 class GroupChoiceModal extends Component {
   constructor(props) {
@@ -66,8 +67,9 @@ GroupChoiceModal.propTypes = {
   rdf: PropTypes.func,
 }
 
-const mapStateToProps = state => ({
+const mapStateToProps = (state, props) => ({
   show: state.selectorReducer.editor.groupChoice.show,
+  rdf: getAllRdf(state, props),
 })
 
 export default connect(mapStateToProps, {})(GroupChoiceModal)

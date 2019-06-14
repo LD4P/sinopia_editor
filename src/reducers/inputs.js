@@ -14,6 +14,18 @@ export const showGroupChooser = (state, action) => {
   return newState
 }
 
+/**
+ * @param {Object} state the previous redux state
+ * @param {Object} action the payload of the action is a boolean that says to show or not to show the preview
+ * @return {Object} the next redux state
+ */
+export const showRdfPreview = (state, action) => {
+  const newState = { ...state }
+
+  newState.editor.rdfPreview.show = action.payload
+  return newState
+}
+
 export const removeAllContent = (state, action) => {
   const newState = { ...state }
   const reduxPath = action.payload.reduxPath
