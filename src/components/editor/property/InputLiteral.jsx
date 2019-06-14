@@ -7,7 +7,7 @@ import Modal from 'react-bootstrap/lib/Modal'
 import Button from 'react-bootstrap/lib/Button'
 import shortid from 'shortid'
 import { removeItem, setItems, setLang } from '../../../actions/index'
-import { getProperty, getDisplayValidations, getPropertyTemplate } from '../../../reducers/index'
+import { findNode, getDisplayValidations, getPropertyTemplate } from '../../../reducers/index'
 import InputLang from './InputLang'
 import { defaultLangTemplate } from '../../../Utilities'
 
@@ -145,23 +145,12 @@ export class InputLiteral extends Component {
   }
 
 
-  /**
-   * @return {bool} true if the field should be marked as required (e.g. not all obligations met)
-   */
-  checkMandatoryRepeatable = () => {
-    if (this.props.propertyTemplate.mandatory === 'true') {
-      if (this.props.formData === undefined || this.props.formData.items === undefined) return true
-      const inputLength = this.props.formData.items.length
-
-      if (inputLength > 0) {
-        return false
-      }
-      return true
-    }
-    if (this.props.propertyTemplate.mandatory === 'false') {
-      return false
-    }
-  }
+    /**
+     * @return {bool} true if the field should be marked as required (e.g. not all obligations met)
+     */
+    checkMandatoryRepeatable = () => this.props.propertyTemplate.mandatory === 'true'
+        && this.props.formData.errors
+        && this.props.formData.errors.length !== 0
 
   dispModal = (content, id) => (
     <Modal show={this.state.show[id]} onHide={this.handleClose}>
@@ -289,6 +278,7 @@ InputLiteral.propTypes = {
     id: PropTypes.oneOfType([PropTypes.number, PropTypes.string]),
     uri: PropTypes.string,
     items: PropTypes.array,
+    errors: PropTypes.array,
   }),
   handleMyItemsChange: PropTypes.func,
   handleRemoveItem: PropTypes.func,
@@ -302,11 +292,13 @@ const mapStateToProps = (state, props) => {
   const resourceTemplateId = reduxPath[reduxPath.length - 2]
   const propertyURI = reduxPath[reduxPath.length - 1]
   const displayValidations = getDisplayValidations(state)
+  const formData = findNode(state.selectorReducer, reduxPath)
+  const propertyTemplate = getPropertyTemplate(state, resourceTemplateId, propertyURI)
 
   return {
-    formData: { items: getProperty(state, props) },
+    formData,
     reduxPath,
-    propertyTemplate: getPropertyTemplate(state, resourceTemplateId, propertyURI),
+    propertyTemplate,
     displayValidations,
   }
 }

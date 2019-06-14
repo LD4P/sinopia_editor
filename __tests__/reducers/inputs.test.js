@@ -1,18 +1,33 @@
-// Copyright 2018 Stanford University see LICENSE for license
+// Copyright 2019 Stanford University see LICENSE for license
 
 import {
-  removeAllContent, removeMyItem, setMyItems, setMySelections, setBaseURL, displayValidations,
-} from '../../src/reducers/inputs'
+  removeAllContent, removeMyItem, setMyItems, setMySelections, setBaseURL, validate,
+} from 'reducers/inputs'
 
 import {
   findNode,
-} from '../../src/reducers/index'
+} from 'reducers/index'
 
 let initialState
 
 beforeEach(() => {
   initialState = {
+    editor: {
+      errors: [],
+      displayValidations: false,
+    },
     resource: { },
+    entities: {
+      resourceTemplates: {
+        'resourceTemplate:Monograph:Instance': {
+          propertyTemplates: [
+            { propertyURI: 'http://schema.org/name' },
+            { propertyURI: 'http://schema.org/description' },
+            { propertyURI: 'http://id.loc.gov/ontologies/bibframe/title' },
+          ],
+        },
+      },
+    },
   }
 })
 
@@ -83,7 +98,7 @@ describe('setMyItems', () => {
   it('creates intermediate objects in the Redux state if present in reduxPath', () => {
     initialState.resource = {
       'resourceTemplate:Monograph:Instance': {
-        'http://id.loc.org/ontologies/bibframe/title': {
+        'http://id.loc.gov/ontologies/bibframe/title': {
         },
       },
     }
@@ -339,12 +354,14 @@ describe('removeAllContent', () => {
   })
 })
 
-describe('displayValidations', () => {
-  it('handles DISPLAY_VALIDATIONS', () => {
-    const result = displayValidations(initialState,
+describe('validate', () => {
+  it('handles VALIDATE', () => {
+    const result = validate(initialState,
       {
-        type: 'DISPLAY_VALIDATIONS',
-        payload: true,
+        type: 'VALIDATE',
+        payload: {
+          show: true,
+        },
       })
 
     expect(findNode(result, ['resource', 'editor', 'displayValidations'])).toBeTruthy()

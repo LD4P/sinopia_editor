@@ -1,5 +1,9 @@
 // Copyright 2018, 2019 Stanford University see LICENSE for license
 
+import Validator from '../Validator'
+
+export const validate = (state, action = { payload: {} }) => new Validator(state).validate(action.payload.show)
+
 export const removeAllContent = (state, action) => {
   const newState = { ...state }
   const reduxPath = action.payload.reduxPath
@@ -14,7 +18,7 @@ export const removeAllContent = (state, action) => {
     return obj[key]
   }, newState)
 
-  return newState
+  return validate(newState)
 }
 
 export const setMyItems = (state, action) => {
@@ -39,7 +43,7 @@ export const setMyItems = (state, action) => {
     return obj[key]
   }, newState)
 
-  return newState
+  return validate(newState)
 }
 
 export const setMyItemsLang = (state, action) => {
@@ -84,7 +88,7 @@ export const setMySelections = (state, action) => {
     return obj[key]
   }, newState)
 
-  return newState
+  return validate(newState)
 }
 
 export const setBaseURL = (state, action) => {
@@ -114,15 +118,5 @@ export const removeMyItem = (state, action) => {
     return obj[key]
   }, newState)
 
-  return newState
-}
-
-export const displayValidations = (state, action) => {
-  const newState = { ...state }
-
-  if (!newState.editor) {
-    newState.editor = {}
-  }
-  newState.editor.displayValidations = action.payload
-  return newState
+  return validate(newState)
 }

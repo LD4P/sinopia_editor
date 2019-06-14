@@ -6,6 +6,10 @@ import reducer from './reducers/index'
 let store
 const initialState = {
   selectorReducer: {
+    editor: { // The state of the editor
+      displayValidations: false,
+      errors: [],
+    },
     entities: { // The stuff we've retrieved from the server
       resourceTemplates: {
       },
