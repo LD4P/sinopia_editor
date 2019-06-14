@@ -51,10 +51,6 @@ class Editor extends Component {
     this.setState({ showRdf: false })
   }
 
-  validate = () => {
-    this.props.validate()
-  }
-
   handleRdfSave = () => {
     this.setState({ showGroupChooser: true })
   }
@@ -121,7 +117,7 @@ class Editor extends Component {
           <section className="col-md-3" style={{ float: 'right', width: '320px' }}>
             <button type="button" className="btn btn-link btn-sm btn-editor" onClick={ this.handleRdfShow }>Preview RDF</button>
             <button type="button" className="btn btn-primary btn-sm btn-editor" onClick={ this.handleRdfSave }>Save & Publish</button>
-            <button type="button" className="btn btn-primary btn-sm btn-editor" onClick={ this.validate }>Validate</button>
+            <button type="button" className="btn btn-primary btn-sm btn-editor" onClick={ this.props.validate }>Validate</button>
           </section>
         </div>
         {rdfModal}
