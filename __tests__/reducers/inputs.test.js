@@ -2,7 +2,7 @@
 
 import {
   removeAllContent, removeMyItem, setMyItems, setMySelections, setBaseURL,
-  validate, showGroupChooser,
+  validate, showGroupChooser, showRdfPreview,
 } from 'reducers/inputs'
 
 import {
@@ -17,6 +17,9 @@ beforeEach(() => {
       errors: [],
       displayValidations: false,
       groupChoice: {
+        show: false,
+      },
+      rdfPreview: {
         show: false,
       },
     },
@@ -46,6 +49,20 @@ describe('showGroupChooser()', () => {
     const result = showGroupChooser(initialState, { payload: false })
 
     expect(result.editor.groupChoice.show).toBe(false)
+  })
+})
+
+describe('showRdfPreview()', () => {
+  it('sets the showRdfPreview to true', () => {
+    const result = showRdfPreview(initialState, { payload: true })
+
+    expect(result.editor.rdfPreview.show).toBe(true)
+  })
+
+  it('sets the showRdfPreview to false', () => {
+    const result = showRdfPreview(initialState, { payload: false })
+
+    expect(result.editor.rdfPreview.show).toBe(false)
   })
 })
 

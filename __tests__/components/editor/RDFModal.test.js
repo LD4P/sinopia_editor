@@ -11,7 +11,7 @@ describe('<RDFModal />', () => {
   const rdfFunc = jest.fn()
   const saveFunc = jest.fn()
 
-  const wrapper = shallow(<RDFModal show={true} rdf={rdfFunc} close={closeFunc} save={saveFunc} />)
+  const wrapper = shallow(<RDFModal.WrappedComponent show={true} rdf={rdfFunc} close={closeFunc} save={saveFunc} />)
 
   it('renders the <RDFModal /> component as a Modal', () => {
     expect(wrapper.find(Modal).length).toBe(1)

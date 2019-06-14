@@ -6,7 +6,7 @@ import shortid from 'shortid'
 import authenticate from './authenticate'
 import {
   removeAllContent, removeMyItem, setMyItems, setMySelections, setBaseURL, setMyItemsLang,
-  validate, showGroupChooser,
+  validate, showGroupChooser, showRdfPreview,
 } from './inputs'
 import GraphBuilder from '../GraphBuilder'
 import { defaultLangTemplate } from '../Utilities'
@@ -152,6 +152,8 @@ const selectorReducer = (state = {}, action) => {
       return showGroupChooser(state, action)
     case 'SET_LANG':
       return setMyItemsLang(state, action)
+    case 'SHOW_RDF_PREVIEW':
+      return showRdfPreview(state, action)
     case 'RESOURCE_TEMPLATE_LOADED':
       return resourceTemplateLoaded(state, action)
     case 'CHANGE_SELECTIONS':
