@@ -32,19 +32,51 @@ export class ResourceTemplateForm extends Component {
     this.fulfillRTPromises(this.resourceTemplatePromise(this.joinedRTs()))
   }
 
+  /*
+   * For each fulfillled RT retrieval promise,
+   *   - dispatch loaded template to redux to be put into store
+   *   - add retrieved RT onto "nestedResourceTemplates" array in state
+   */
   fulfillRTPromises = async (promiseAll) => {
     await promiseAll.then(async (rts) => {
-      rts.map((fulfilledResourceTemplateRequest) => {
-        const joinedRts = [...this.state.nestedResourceTemplates]
+      const joinedRts = [...this.state.nestedResourceTemplates]
 
+      rts.map((fulfilledResourceTemplateRequest) => {
         joinedRts.push(fulfilledResourceTemplateRequest.response.body)
         // Add the resource template into the store
         store.dispatch(resourceTemplateLoaded(fulfilledResourceTemplateRequest.response.body))
-        this.setState({ nestedResourceTemplates: joinedRts })
       })
+      this.setState({ nestedResourceTemplates: joinedRts })
     }).catch((err) => {
       this.setState({ templateError: err })
     })
+  }
+
+  /*
+   *  templateRefs is an array of rt ids
+   *
+   *  returns a single promise:
+   *    reject result if any of the desired rtIds gets a reject from getResourceTemplate
+   *    resolves if ALL resource templates are retrieved from Sinopia Server (or from spoofing), returning array of every promise's result
+   */
+  resourceTemplatePromise = async templateRefs => Promise.all(templateRefs.map(rtId => getResourceTemplate(rtId).catch((err) => {
+    const joinedErrorUrls = [...this.state.templateErrors]
+
+    joinedErrorUrls.push(decodeURIComponent(resourceToName(err.url)))
+    this.setState({ templateErrors: _.sortedUniq(joinedErrorUrls) })
+  })))
+
+  // Returns an array of resource template ids from the valueTemplateRefs values in the propertyTemplates
+  joinedRTs = () => {
+    let joined = []
+
+    this.props.propertyTemplates.map((pt) => {
+      if (_.has(pt.valueConstraint, 'valueTemplateRefs')) {
+        joined = joined.concat(pt.valueConstraint.valueTemplateRefs)
+      }
+    })
+
+    return joined
   }
 
   resourceTemplateFields = (rtIds, property) => {
@@ -74,25 +106,6 @@ export class ResourceTemplateForm extends Component {
     return rtProperties
   }
 
-  resourceTemplatePromise = async templateRefs => Promise.all(templateRefs.map(rtId => getResourceTemplate(rtId).catch((err) => {
-    const joinedErrorUrls = [...this.state.templateErrors]
-
-    joinedErrorUrls.push(decodeURIComponent(resourceToName(err.url)))
-    this.setState({ templateErrors: _.sortedUniq(joinedErrorUrls) })
-  })))
-
-  joinedRTs = () => {
-    let joined = []
-
-    this.props.propertyTemplates.map((pt) => {
-      if (_.has(pt.valueConstraint, 'valueTemplateRefs')) {
-        joined = joined.concat(pt.valueConstraint.valueTemplateRefs)
-      }
-    })
-
-    return joined
-  }
-
   defaultValues = () => {
     this.props.propertyTemplates.map((pt) => {
       if (pt.mandatory === undefined) pt.mandatory = 'true'
@@ -101,7 +114,12 @@ export class ResourceTemplateForm extends Component {
     })
   }
 
-  rtForPt = rtId => _.find(this.state.nestedResourceTemplates, ['id', rtId])
+  rtForPt = (rtId) => {
+    if (this.props.resourceTemplateMap) {
+      return this.props.resourceTemplateMap[rtId]
+    }
+    return {}
+  }
 
   renderComponentForm = () => (
     <div>
@@ -157,11 +175,13 @@ ResourceTemplateForm.propTypes = {
   rtId: PropTypes.string,
   handleMyItemsChange: PropTypes.func,
   handleRemoveAllContent: PropTypes.func,
+  resourceTemplateMap: PropTypes.object,
 }
 
 const mapStateToProps = state => ({
   literals: state.literal,
   lookups: state.lookups,
+  resourceTemplateMap: state.selectorReducer.entities.resourceTemplates,
 })
 
 const mapDispatchToProps = dispatch => ({
