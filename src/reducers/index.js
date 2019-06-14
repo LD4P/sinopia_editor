@@ -1,10 +1,12 @@
 // Copyright 2018, 2019 Stanford University see LICENSE for license
+/* eslint complexity: ["warn", 13] */
 
 import { combineReducers } from 'redux'
 import shortid from 'shortid'
 import authenticate from './authenticate'
 import {
-  removeAllContent, removeMyItem, setMyItems, setMySelections, setBaseURL, setMyItemsLang, validate,
+  removeAllContent, removeMyItem, setMyItems, setMySelections, setBaseURL, setMyItemsLang,
+  validate, showGroupChooser,
 } from './inputs'
 import GraphBuilder from '../GraphBuilder'
 import { defaultLangTemplate } from '../Utilities'
@@ -146,6 +148,8 @@ const selectorReducer = (state = {}, action) => {
       return validate(state, action)
     case 'SET_BASE_URL':
       return setBaseURL(state, action)
+    case 'SHOW_GROUP_CHOOSER':
+      return showGroupChooser(state, action)
     case 'SET_LANG':
       return setMyItemsLang(state, action)
     case 'RESOURCE_TEMPLATE_LOADED':

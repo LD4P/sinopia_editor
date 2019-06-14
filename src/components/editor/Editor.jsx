@@ -3,7 +3,9 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import PropTypes from 'prop-types'
-import { removeAllItems, assignBaseURL, runValidation } from '../../actions/index'
+import {
+  removeAllItems, assignBaseURL, runValidation, showGroupChooser,
+} from '../../actions/index'
 import ResourceTemplate from './ResourceTemplate'
 import Header from './Header'
 import RDFModal from './RDFModal'
@@ -25,7 +27,6 @@ class Editor extends Component {
       tempRtState: true,
       resourceTemplateId: '',
       showRdf: false,
-      showGroupChooser: false,
     }
   }
 
@@ -52,7 +53,7 @@ class Editor extends Component {
   }
 
   handleRdfSave = () => {
-    this.setState({ showGroupChooser: true })
+    this.props.openGroupChooser()
   }
 
   renderResourceTemplate = () => (
@@ -70,11 +71,7 @@ class Editor extends Component {
       console.error(err)
     })
     this.handleRdfClose()
-    this.closeGroupChooser()
-  }
-
-  closeGroupChooser = () => {
-    this.setState({ showGroupChooser: false })
+    this.props.closeGroupChooser()
   }
 
   // The ld4p group is only for templates
@@ -104,7 +101,7 @@ class Editor extends Component {
 
 
     if (this.state.showRdf) {
-      rdfModal = <RDFModal save={ () => this.handleRdfSave() }
+      rdfModal = <RDFModal save={ this.props.openGroupChooser }
                            close={ this.handleRdfClose }
                            rdf={ this.props.rdf } />
     }
@@ -116,16 +113,15 @@ class Editor extends Component {
         <div className="row">
           <section className="col-md-3" style={{ float: 'right', width: '320px' }}>
             <button type="button" className="btn btn-link btn-sm btn-editor" onClick={ this.handleRdfShow }>Preview RDF</button>
-            <button type="button" className="btn btn-primary btn-sm btn-editor" onClick={ this.handleRdfSave }>Save & Publish</button>
+            <button type="button" className="btn btn-primary btn-sm btn-editor" onClick={ this.props.openGroupChooser }>Save & Publish</button>
             <button type="button" className="btn btn-primary btn-sm btn-editor" onClick={ this.props.validate }>Validate</button>
           </section>
         </div>
         {rdfModal}
         {errorMessage}
         <div>
-          <GroupChoiceModal show={ this.state.showGroupChooser }
-                            rdf={this.props.rdf}
-                            close={ this.closeGroupChooser }
+          <GroupChoiceModal rdf={this.props.rdf}
+                            close={ this.props.closeGroupChooser }
                             save={ this.chooseGroupThenSave }
                             groups={ this.groupsToSaveInto() } />
         </div>
@@ -140,6 +136,8 @@ Editor.propTypes = {
   resetStore: PropTypes.func,
   setBaseURL: PropTypes.func,
   validate: PropTypes.func,
+  openGroupChooser: PropTypes.func,
+  closeGroupChooser: PropTypes.func,
   location: PropTypes.object,
   resourceTemplateId: PropTypes.string,
   history: PropTypes.object,
@@ -167,6 +165,12 @@ const mapDispatchToProps = dispatch => ({
   },
   validate() {
     dispatch(runValidation())
+  },
+  openGroupChooser() {
+    dispatch(showGroupChooser(true))
+  },
+  closeGroupChooser() {
+    dispatch(showGroupChooser(false))
   },
 })
 

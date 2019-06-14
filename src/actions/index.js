@@ -10,6 +10,12 @@ export const runValidation = () => ({
   payload: { show: true },
 })
 
+
+export const showGroupChooser = show => ({
+  type: 'SHOW_GROUP_CHOOSER',
+  payload: show,
+})
+
 export const refreshResourceTemplate = update => ({
   type: 'REFRESH_RESOURCE_TEMPLATE',
   payload: update,

@@ -1,7 +1,8 @@
 // Copyright 2019 Stanford University see LICENSE for license
 
 import {
-  removeAllContent, removeMyItem, setMyItems, setMySelections, setBaseURL, validate,
+  removeAllContent, removeMyItem, setMyItems, setMySelections, setBaseURL,
+  validate, showGroupChooser,
 } from 'reducers/inputs'
 
 import {
@@ -15,6 +16,9 @@ beforeEach(() => {
     editor: {
       errors: [],
       displayValidations: false,
+      groupChoice: {
+        show: false,
+      },
     },
     resource: { },
     entities: {
@@ -29,6 +33,20 @@ beforeEach(() => {
       },
     },
   }
+})
+
+describe('showGroupChooser()', () => {
+  it('sets the showGroupChooser to true', () => {
+    const result = showGroupChooser(initialState, { payload: true })
+
+    expect(result.editor.groupChoice.show).toBe(true)
+  })
+
+  it('sets the showGroupChooser to false', () => {
+    const result = showGroupChooser(initialState, { payload: false })
+
+    expect(result.editor.groupChoice.show).toBe(false)
+  })
 })
 
 describe('setMyItems', () => {

@@ -2,9 +2,9 @@
 
 import React from 'react'
 import { shallow } from 'enzyme'
-import Editor from '../../../src/components/editor/Editor'
-import ResourceTemplate from '../../../src/components/editor/ResourceTemplate'
-import Header from '../../../src/components/editor/Header'
+import Editor from 'components/editor/Editor'
+import ResourceTemplate from 'components/editor/ResourceTemplate'
+import Header from 'components/editor/Header'
 
 const props = {
   location: { state: { resourceTemplateId: 'resourceTemplate:bf:Note' } },
@@ -38,36 +38,32 @@ describe('<Editor />', () => {
       expect(wrapper.find('div.alert-warning').exists()).toBeFalsy()
     })
   })
+
   describe('RDFModal button', () => {
     const wrapper = shallow(<Editor.WrappedComponent {...props}/>)
 
     it('has preview RDF button', () => {
       expect(wrapper.findWhere(n => n.type() === 'button' && n.contains('Preview RDF')).exists()).toBeTruthy()
     })
-    it('has a Save & Publish button', () => {
-      expect(wrapper.findWhere(n => n.type() === 'button' && n.contains('Save & Publish')).exists()).toBeTruthy()
-    })
-    it('has a Validate button', () => {
-      expect(wrapper.findWhere(n => n.type() === 'button' && n.contains('Validate')).exists()).toBeTruthy()
-    })
   })
 
-  describe('save button', () => {
-    const wrapper = shallow(<Editor.WrappedComponent {...props} />)
+  describe('Save & Publish button', () => {
+    const mockOpenHandler = jest.fn()
+    const wrapper = shallow(<Editor.WrappedComponent {...props} openGroupChooser={mockOpenHandler}/>)
 
     it('attempts to save the RDF content when save is clicked', () => {
-      wrapper.find('button').at(1).simulate('click')
-      expect(wrapper.state('showGroupChooser')).toBeTruthy()
+      wrapper.findWhere(n => n.type() === 'button' && n.contains('Save & Publish')).simulate('click')
+      expect(mockOpenHandler).toHaveBeenCalled()
     })
   })
 
-  describe('validate button', () => {
+  describe('Validate button', () => {
     const mockValidateFn = jest.fn()
     const wrapper = shallow(<Editor.WrappedComponent {...props} validate={mockValidateFn} />)
 
     it('runs the validator', () => {
-      wrapper.find('button').at(2).simulate('click')
-      expect(mockValidateFn.mock.calls.length).toBe(1)
+      wrapper.findWhere(n => n.type() === 'button' && n.contains('Validate')).simulate('click')
+      expect(mockValidateFn).toHaveBeenCalled()
     })
   })
 })
