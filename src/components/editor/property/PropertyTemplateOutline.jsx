@@ -70,7 +70,7 @@ export class PropertyTemplateOutline extends Component {
     if (this.state.collapsed) {
       return
     }
-  
+
     if (isResourceWithValueTemplateRef(property)) {
       const isAddDisabled = !templateBoolean(property.repeatable) || newOutput.length > 0
 
