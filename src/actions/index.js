@@ -5,15 +5,13 @@ export const setItems = item => ({
   payload: item,
 })
 
-export const runValidation = () => ({
-  type: 'VALIDATE',
-  payload: { show: true },
-})
-
-
 export const showGroupChooser = show => ({
   type: 'SHOW_GROUP_CHOOSER',
   payload: show,
+})
+
+export const closeGroupChooser = () => ({
+  type: 'CLOSE_GROUP_CHOOSER',
 })
 
 export const refreshResourceTemplate = update => ({

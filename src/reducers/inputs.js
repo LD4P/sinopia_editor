@@ -2,15 +2,37 @@
 
 import Validator from '../Validator'
 
-export const validate = (state, action = { payload: {} }) => new Validator(state).validate(action.payload.show)
+export const validate = state => new Validator(state).validate()
 
 /**
- *  @param {Object} action the payload of the action is a boolean that says to show or not to show the chooser
+ * Open the group choice dialog if the object is valid
+ * @param {Object} state the previous redux state
+ * @return {Object} the next redux state
  */
-export const showGroupChooser = (state, action) => {
+export const showGroupChooser = (state) => {
   const newState = { ...state }
 
-  newState.editor.groupChoice.show = action.payload
+  if (validate(state).editor.errors.length === 0) {
+    // Show the window to select a group
+    newState.editor.groupChoice.show = true
+  } else {
+    // Show errors that prevent save
+    newState.editor.displayValidations = true
+  }
+
+  return newState
+}
+
+/**
+ * Close the group chooser
+ * @param {Object} state the previous redux state
+ * @return {Object} the next redux state
+ */
+export const closeGroupChooser = (state) => {
+  const newState = { ...state }
+
+  newState.editor.groupChoice.show = false
+
   return newState
 }
 

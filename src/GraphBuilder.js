@@ -96,7 +96,8 @@ export default class GraphBuilder {
           }
         }
       } else { // It's a deeply nested object
-        Object.values(value).forEach((nestedValue) => {
+        Object.keys(value).filter(elem => elem !== 'errors').forEach((key) => {
+          const nestedValue = value[key]
           const bnode = rdf.blankNode()
 
           this.dataset.add(rdf.quad(baseURI, rdf.namedNode(predicate), bnode))

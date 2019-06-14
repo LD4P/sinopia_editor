@@ -2,7 +2,7 @@
 
 import {
   removeAllContent, removeMyItem, setMyItems, setMySelections, setBaseURL,
-  validate, showGroupChooser, showRdfPreview,
+  validate, showGroupChooser, closeGroupChooser, showRdfPreview,
 } from 'reducers/inputs'
 
 import {
@@ -39,14 +39,37 @@ beforeEach(() => {
 })
 
 describe('showGroupChooser()', () => {
-  it('sets the showGroupChooser to true', () => {
-    const result = showGroupChooser(initialState, { payload: true })
+  describe('when the state is valid', () => {
+    it('the groupChoice.show to true', () => {
+      const result = showGroupChooser(initialState)
 
-    expect(result.editor.groupChoice.show).toBe(true)
+      expect(result.editor.groupChoice.show).toBe(true)
+      expect(result.editor.displayValidations).toBe(false)
+    })
   })
 
-  it('sets the showGroupChooser to false', () => {
-    const result = showGroupChooser(initialState, { payload: false })
+  describe('when the state is invalid', () => {
+    it('sets displayValidations to true', () => {
+      initialState.resource = {
+        'resourceTemplate:Monograph:Instance': {
+          'http://id.loc.gov/ontologies/bibframe/title': {
+          },
+        },
+      }
+      initialState.entities.resourceTemplates['resourceTemplate:Monograph:Instance'].propertyTemplates[2].mandatory = 'true'
+      const result = showGroupChooser(initialState)
+
+      expect(result.editor.displayValidations).toBe(true)
+      expect(result.editor.groupChoice.show).toBe(false)
+    })
+  })
+})
+
+
+describe('closeGroupChooser()', () => {
+  it('sets the groupChoice.show to false', () => {
+    initialState.editor.groupChoice.show = true
+    const result = closeGroupChooser(initialState)
 
     expect(result.editor.groupChoice.show).toBe(false)
   })
@@ -390,14 +413,8 @@ describe('removeAllContent', () => {
 })
 
 describe('validate', () => {
-  it('handles VALIDATE', () => {
-    const result = validate(initialState,
-      {
-        type: 'VALIDATE',
-        payload: {
-          show: true,
-        },
-      })
+  it('returns a new state', () => {
+    const result = validate(initialState)
 
     expect(findNode(result, ['resource', 'editor', 'displayValidations'])).toBeTruthy()
   })

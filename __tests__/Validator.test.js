@@ -48,7 +48,7 @@ describe('validate()', () => {
     expect(result.editor.displayValidations).toEqual(false)
   })
 
-  it('when a property is mandatory and not provided and show is not set', () => {
+  it('when a property is mandatory and not provided', () => {
     initialState.entities.resourceTemplates['resourceTemplate:Monograph:Instance'].propertyTemplates[0].mandatory = 'true'
     const result = new Validator(initialState).validate()
 
@@ -62,24 +62,6 @@ describe('validate()', () => {
         ],
       },
     ])
-    expect(result.editor.displayValidations).toEqual(false)
-  })
-
-  it('when a property is mandatory and not provided and show is set', () => {
-    initialState.entities.resourceTemplates['resourceTemplate:Monograph:Instance'].propertyTemplates[0].mandatory = 'true'
-    const result = new Validator(initialState).validate(true)
-
-    expect(result.editor.errors).toEqual([
-      {
-        label: 'Title',
-        message: 'Required',
-        path: [
-          'resourceTemplate:Monograph:Instance',
-          'http://id.loc.gov/ontologies/bibframe/title',
-        ],
-      },
-    ])
-    expect(result.editor.displayValidations).toEqual(true)
   })
 
   it('when a nested resource is mandatory and provided', () => {
