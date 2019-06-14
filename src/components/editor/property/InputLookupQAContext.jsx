@@ -27,12 +27,16 @@ class InputLookupQAContext extends Component {
       console.info(`no defaults defined in property template: ${JSON.stringify(this.props.propertyTemplate)}`)
     }
 
+    //selectedResultList is for the results selected from any query execution
+    //selected which is stored in redux state for the lookup is for all of the values
+    //stored
     this.state = {
       isLoading: false,
       defaults,
       show: false, 
       query: "",
       options: [],
+      selectedResultsList: []
     }
 
     this.lookupClient = Swagger({ spec: swaggerSpec })
@@ -54,6 +58,25 @@ class InputLookupQAContext extends Component {
     
       return this.props.displayValidations && this.isMandatory && selected.length < 1 ? 'Required' : undefined
     }
+  
+  //Add selections to selected uris for this field
+  handleSubmit = (event) => {
+      //Retrieve values of selected inputs
+      let selected = this.state.selectedResultsList
+      //we're switching out the selections entirely, not adding/removing
+      selected = this.props.selected.concat(selected)
+      //TODO: filter out duplicates
+      const payload = {
+          uri: this.props.propertyTemplate.propertyURI,
+          items: selected,
+          reduxPath: this.props.reduxPath,
+      }
+      //We want to add to, not replace selections but as first pass
+      //we will replace
+      this.props.handleSelectedChange(payload)
+      this.handleClose()
+  }
+    
   handleChange = (event) => {
       const usr_input = event.target.value
       this.setState({ query: usr_input })
@@ -64,6 +87,22 @@ class InputLookupQAContext extends Component {
       let query = this.state.query;
       this.doSearch(query);
       this.handleShow();
+  }
+  
+  //handle selection of results from the search results in the modal
+  handleResultChange = (event) => {
+     const eventTarget = event.target
+     const uri = eventTarget.value
+     if(eventTarget.checked) {
+         //Add uri and label to list of selected results if checked
+         const label = eventTarget.getAttribute("label")
+         this.setState(prevState => ({selectedResultsList: prevState.selectedResultsList.concat({uri:uri,label:label})}))
+     } else {
+         //remove item if unchecked
+         this.setState(prevState => ({
+            selectedResultsList: prevState.selectedResultsList.filter(r => r.uri != uri)
+         }))
+     }
   }
   
   displayResults = () => {
@@ -120,7 +159,7 @@ class InputLookupQAContext extends Component {
                           padding: '4px 2px 2px 5px'};
                   
                   return(  <div className='row contextInfo' style={resultStyle} uri={result.uri}>  
-                          <input type="radio" value={result.uri} position={idx} key={idx}/>
+                          <input type="checkbox" name="searchResultInput" value={result.uri} label={result.label} position={idx} key={idx} onChange={this.handleResultChange}/>
                           <span style={labelStyle}>{result.label}</span> 
                           {resultContext}
                           </div> );
@@ -259,14 +298,53 @@ class InputLookupQAContext extends Component {
         {this.displayResults()}
       </Modal.Body>
       <Modal.Footer>
-        <Button onClick={this.handleClose}>Submit</Button>
+        <Button onClick={this.handleSubmit}>Save</Button>
         <Button onClick={this.handleClose}>Close</Button>
       </Modal.Footer>
     </Modal>
       )
     }
   
+  makeAddedList = () => {
+      const selected = this.props.selected
+
+      if (selected === undefined) {
+        return
+      }
+      const elements = selected.map((obj) => {
+        const itemId = obj.uri 
+
+        return <div id="userInput" key = {itemId} >
+          {obj.label}
+          <button
+            id="deleteItem"
+            type="button"
+            onClick={this.handleDeleteClick}
+            key={`delete${obj.uri}`}
+            data-item={itemId}
+            data-label={obj.label}
+          >X
+          </button>
+        </div>
+      })
+
+      return elements
+    }
   
+  handleDeleteClick = (event) => {
+      const labelToRemove = event.target.dataset.content
+      const idToRemove = event.target.dataset.item
+
+      this.props.handleRemoveItem(
+        {
+          id: idToRemove,
+          label: labelToRemove,
+          reduxPath: this.props.reduxPath,
+          uri: this.props.propertyTemplate.propertyURI,
+        },
+      )
+      this.setState({ disabled: false })
+    }
   render() {
     let authority
     let language
@@ -301,6 +379,7 @@ class InputLookupQAContext extends Component {
                 <Button bsSize="small"
                 onClick={this.handleClick}>Search</Button>
                 {this.dispModal(this.props.key, typeaheadProps)}   
+                {this.makeAddedList()}
              </div>   
     )
   }
