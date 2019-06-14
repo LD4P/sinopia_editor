@@ -293,13 +293,33 @@ describe('setMySelections', () => {
       type: 'CHANGE_SELECTIONS',
       payload: {
         id: 'nomatter',
-        uri: 'http://not/importanr',
+        uri: 'http://not.important',
         reduxPath,
         items: [],
       },
     })
 
     expect(findNode(result, reduxPath)).toEqual({ items: [] })
+  })
+
+  it('adds an empty object for a key if the key does not contain an object by default', () => {
+    initialState.resource = {
+      'resourceTemplate:Monograph:Instance': {
+        'http://schema.org/name': {},
+      },
+    }
+
+    const reduxPath = ['resource', 'resourceTemplate:Monograph:Instance', 'http://schema.org/name', 'QBzX5hqphW', 'test:RT:SomethingElse', 'http://not.important']
+    const result = setMySelections(initialState, {
+      type: 'CHANGE_SELECTIONS',
+      payload: {
+        uri: 'http://not.important/now',
+        items: [{ id: 'http://lookup.source/1', label: 'Something looked up', uri: 'http://lookup.source/1' }],
+        reduxPath,
+      },
+    })
+
+    expect(findNode(result, reduxPath)).toEqual({ items: [{ id: 'http://lookup.source/1', label: 'Something looked up', uri: 'http://lookup.source/1' }] })
   })
 })
 

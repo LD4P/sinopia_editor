@@ -24,7 +24,7 @@ export const defaultValuesFromPropertyTemplate = (propertyTemplate) => {
 
   const defaultLabel = defaultLiteral || defaultURI
 
-  if (!defaultValue) return []
+  if (!defaultValue || !defaultLabel) return []
 
   return [{
     id: defaultValue.defaultURI,

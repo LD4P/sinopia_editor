@@ -129,6 +129,10 @@ export const setMySelections = (state, action) => {
       obj[key].items = action.payload.items
     }
 
+    if (!Object.keys(obj).includes(key)) {
+      obj[key] = {}
+    }
+
     return obj[key]
   }, newState)
 
