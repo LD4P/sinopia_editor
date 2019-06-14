@@ -126,6 +126,13 @@ describe('<PropertyTemplateOutline />', () => {
       wrapper.instance().addPropertyTypeRows(propertyRtPropsLiteral.propertyTemplate)
       expect(wrapper.find('div PropertyTypeRow').length).toEqual(1)
       expect(wrapper.find('div PropertyComponent').length).toEqual(1)
+
+      // This tests to ensure that we are not adding an addition property row when we click to collapse the row
+      wrapper.setState({ collapsed: true })
+      wrapper.instance().outlineRowClass()
+      wrapper.instance().addPropertyTypeRows(propertyRtPropsLiteral.propertyTemplate)
+      expect(wrapper.find('div PropertyTypeRow').length).toEqual(1)
+      expect(wrapper.find('div PropertyComponent').length).toEqual(1)
     })
   })
 })

@@ -67,6 +67,10 @@ export class PropertyTemplateOutline extends Component {
     const newOutput = [...this.state.propertyTypeRow]
     let propertyJsx
 
+    if (this.state.collapsed) {
+      return
+    }
+  
     if (isResourceWithValueTemplateRef(property)) {
       const isAddDisabled = !templateBoolean(property.repeatable) || newOutput.length > 0
 
