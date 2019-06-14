@@ -51,13 +51,17 @@ export class PropertyTemplateOutline extends Component {
   // When the plus button is clicked, load reference templates (property.valueConstraint.valueTemplateRefs)
   handleClick = property => (event) => {
     event.preventDefault()
+
+    if (this.state.collapsed && !this.state.added) {
+      const templateRefList = isResourceWithValueTemplateRef(property) ? property.valueConstraint.valueTemplateRefs : []
+
+      this.fulfillRTPromises(this.resourceTemplatePromises(templateRefList)).then(() => {
+        this.addPropertyTypeRows(this.props.propertyTemplate)
+      })
+      this.setState({ added: true })
+    }
+
     this.setState({ collapsed: !this.state.collapsed })
-
-    const templateRefList = isResourceWithValueTemplateRef(property) ? property.valueConstraint.valueTemplateRefs : []
-
-    this.fulfillRTPromises(this.resourceTemplatePromises(templateRefList)).then(() => {
-      this.addPropertyTypeRows(this.props.propertyTemplate)
-    })
   }
 
   addPropertyTypeRows = (property) => {
