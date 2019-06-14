@@ -9,7 +9,7 @@ import shortid from 'shortid'
 import { removeItem, setItems, setLang } from 'actions/index'
 import { findNode, getDisplayValidations, getPropertyTemplate } from 'reducers/index'
 import InputLang from './InputLang'
-import { defaultLangTemplate } from 'Utilities'
+import { booleanPropertyFromTemplate, defaultLangTemplate } from 'Utilities'
 
 
 // Redux recommends exporting the unconnected component for unit tests.
@@ -30,7 +30,8 @@ export class InputLiteral extends Component {
     this.inputLiteralRef = React.createRef()
   }
 
-  disabled = () => this.props.propertyTemplate.repeatable === 'false'
+
+  disabled = () => !booleanPropertyFromTemplate(this.props.propertyTemplate, 'repeatable', true)
       && this.props.items?.length > 0
 
   handleShow = (id) => {
@@ -122,7 +123,7 @@ export class InputLiteral extends Component {
     /**
      * @return {bool} true if the field should be marked as required (e.g. not all obligations met)
      */
-    checkMandatoryRepeatable = () => this.props.propertyTemplate.mandatory === 'true'
+    checkMandatoryRepeatable = () => booleanPropertyFromTemplate(this.props.propertyTemplate, 'mandatory', false)
         && this.props.formData.errors
         && this.props.formData.errors.length !== 0
 
