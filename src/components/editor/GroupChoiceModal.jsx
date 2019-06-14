@@ -1,6 +1,7 @@
 // Copyright 2018 Stanford University see LICENSE for license
 
 import React, { Component } from 'react'
+import { connect } from 'react-redux'
 import Button from 'react-bootstrap/lib/Button'
 import Modal from 'react-bootstrap/lib/Modal'
 import PropTypes from 'prop-types'
@@ -60,9 +61,13 @@ GroupChoiceModal.propTypes = {
   close: PropTypes.func,
   save: PropTypes.func,
   choose: PropTypes.func,
-  show: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
+  show: PropTypes.bool,
   groups: PropTypes.array,
   rdf: PropTypes.func,
 }
 
-export default GroupChoiceModal
+const mapStateToProps = state => ({
+  show: state.selectorReducer.editor.groupChoice.show,
+})
+
+export default connect(mapStateToProps, {})(GroupChoiceModal)

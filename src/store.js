@@ -9,6 +9,9 @@ const initialState = {
     editor: { // The state of the editor
       displayValidations: false,
       errors: [],
+      groupChoice: {
+        show: false,
+      },
     },
     entities: { // The stuff we've retrieved from the server
       resourceTemplates: {

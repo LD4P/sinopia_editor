@@ -4,6 +4,16 @@ import Validator from '../Validator'
 
 export const validate = (state, action = { payload: {} }) => new Validator(state).validate(action.payload.show)
 
+/**
+ *  @param {Object} action the payload of the action is a boolean that says to show or not to show the chooser
+ */
+export const showGroupChooser = (state, action) => {
+  const newState = { ...state }
+
+  newState.editor.groupChoice.show = action.payload
+  return newState
+}
+
 export const removeAllContent = (state, action) => {
   const newState = { ...state }
   const reduxPath = action.payload.reduxPath
