@@ -47,7 +47,7 @@ describe('<PropertyResourceTemplate />', () => {
     )
   })
 
-  describe('<PropertyResourceTemplate /> has the "Add Click" button', () => {
+  describe('<PropertyResourceTemplate /> has the "Add" button', () => {
     const wrapper = shallow(<PropertyResourceTemplate {...propertyRtProps} />)
     const actionButtons = wrapper.find(PropertyActionButtons)
 
@@ -63,13 +63,18 @@ describe('<PropertyResourceTemplate />', () => {
     })
   })
 
-  describe('<PropertyResourceTemplate /> isRepeatable is false', () => {
-    const wrapper = mount(<PropertyResourceTemplate isRepeatable={'false'} {...propertyRtProps} />)
-
-    it('<PropertyActionButtons /> addButtonDisabled prop is true', () => {
+  describe('<PropertyActionButtons /> addButtonDisabled prop value', () => {
+    it('isRepeatable false:  addButtonDisabled prop is true', () => {
+      const wrapper = mount(<PropertyResourceTemplate isRepeatable={'false'} {...propertyRtProps} />)
       const actionButtons = wrapper.find(PropertyActionButtons)
 
       expect(actionButtons.props().addButtonDisabled).toBeTruthy()
+    })
+    it('isRepeatable true:  addButtonDisabled prop is false', () => {
+      const wrapper = mount(<PropertyResourceTemplate isRepeatable={'true'} {...propertyRtProps} />)
+      const actionButtons = wrapper.find(PropertyActionButtons)
+
+      expect(actionButtons.props().addButtonDisabled).toBeFalsy()
     })
   })
 })

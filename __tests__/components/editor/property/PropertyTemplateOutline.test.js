@@ -4,6 +4,7 @@ import React from 'react'
 import 'jsdom-global/register'
 import { mount, shallow } from 'enzyme'
 import { PropertyTemplateOutline } from 'components/editor/property/PropertyTemplateOutline'
+import ResourceProperty from 'components/editor/property/ResourceProperty'
 
 describe('<PropertyTemplateOutline />', () => {
   const propertyRtProps = {
@@ -84,7 +85,7 @@ describe('<PropertyTemplateOutline />', () => {
   describe('Nested property components', () => {
     const wrapper = shallow(<PropertyTemplateOutline {...propertyRtProps} />)
 
-    it('sets the state with a collection of nested resource templates', async () => {
+    it('sets the state with a collection of nested resourceTemplates', async () => {
       expect.assertions(2)
 
       return await wrapper.instance().fulfillRTPromises(mockPromise).then(() => {
@@ -95,12 +96,45 @@ describe('<PropertyTemplateOutline />', () => {
       })
     })
 
-    it('adds a ResourceProperty div for a row with the nested template', () => {
+    it('adds a ResourceProperty div for a row with the nested resourceTemplate', () => {
       wrapper.setState({ collapsed: false })
       wrapper.instance().outlineRowClass()
       wrapper.instance().addPropertyTypeRows(propertyRtProps.propertyTemplate)
       expect(wrapper.find('div PropertyTypeRow').length).toEqual(1)
       expect(wrapper.find('div Connect(ResourceProperty)').length).toEqual(1)
+    })
+
+    it('creates a <ResourceProperty /> for the nested resourceTemplate with "Add" button disabled', () => {
+      const resourceProperty = wrapper.find(ResourceProperty)
+
+      expect(resourceProperty.length).toEqual(1)
+      expect(resourceProperty.props().propertyTemplate).toEqual(propertyRtProps.propertyTemplate)
+      expect(resourceProperty.props().addButtonDisabled).toEqual(false) // repeatable is true in outer propTemp
+    })
+
+    it('"Add" button enabled for outer propertyTemplate with repeatable false', () => {
+      const resourceTypePropTemp = { ...propertyRtProps }
+
+      resourceTypePropTemp.propertyTemplate.repeatable = 'false'
+      const myWrapper = shallow(<PropertyTemplateOutline {...resourceTypePropTemp} />)
+
+      myWrapper.setState({ collapsed: false })
+      myWrapper.instance().addPropertyTypeRows(resourceTypePropTemp.propertyTemplate)
+      const resourceProperty = myWrapper.find(ResourceProperty)
+
+      expect(resourceProperty.props().addButtonDisabled).toEqual(true)
+    })
+    it('"Add" button enabled for outer propertyTemplate without repeatable indicated', () => {
+      const resourceTypePropTemp = { ...propertyRtProps }
+
+      delete resourceTypePropTemp.propertyTemplate.repeatable
+      const myWrapper = shallow(<PropertyTemplateOutline {...resourceTypePropTemp} />)
+
+      myWrapper.setState({ collapsed: false })
+      myWrapper.instance().addPropertyTypeRows(resourceTypePropTemp.propertyTemplate)
+      const resourceProperty = myWrapper.find(ResourceProperty)
+
+      expect(resourceProperty.props().addButtonDisabled).toEqual(true)
     })
 
     it('adds a PropertyComponent div for a row with the nested template', () => {
