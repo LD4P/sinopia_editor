@@ -24,22 +24,18 @@ class Editor extends Component {
   constructor(props) {
     super(props)
     this.state = {
-      tempRtState: true,
       resourceTemplateId: '',
       showRdf: false,
     }
   }
 
   componentDidMount() {
-    if (this.state.tempRtState) {
-      if (this.props.location.state !== undefined) {
-        this.setState({
-          resourceTemplateId: this.props.location.state.resourceTemplateId,
-        })
-      } else {
-        this.props.history.push('/templates')
-      }
-      this.setState({ tempRtState: false })
+    if (this.props.location.state !== undefined) {
+      this.setState({
+        resourceTemplateId: this.props.location.state.resourceTemplateId,
+      })
+    } else {
+      this.props.history.push('/templates')
     }
   }
 
