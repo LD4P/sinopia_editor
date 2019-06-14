@@ -13,7 +13,6 @@ export const resourceToName = (uri) => {
   return uri.substr(uri.lastIndexOf('/') + 1)
 }
 
-
 export const defaultValuesFromPropertyTemplate = (propertyTemplate) => {
   // Use safe navigation to deal with differently shaped property templates
   const defaultValue = propertyTemplate?.valueConstraint?.defaults?.[0]
@@ -32,25 +31,6 @@ export const defaultValuesFromPropertyTemplate = (propertyTemplate) => {
     label: defaultLabel,
     uri: defaultValue.defaultURI,
   }]
-}
-
-export const templateBoolean = (value) => {
-  let result
-
-  switch (value) {
-    case 'true':
-    case true:
-      result = true
-      break
-    case 'false':
-    case false:
-      result = false
-      break
-    default:
-      result = true
-  }
-
-  return Boolean(result)
 }
 
 export const booleanPropertyFromTemplate = (template, key, defaultValue) => {
