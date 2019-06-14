@@ -52,13 +52,12 @@ export class PropertyTemplateOutline extends Component {
   handleClick = property => (event) => {
     event.preventDefault()
 
-    if (this.state.collapsed && !this.state.added) {
+    if (this.state.collapsed && !this.state.rowAdded) {
       const templateRefList = isResourceWithValueTemplateRef(property) ? property.valueConstraint.valueTemplateRefs : []
 
       this.fulfillRTPromises(this.resourceTemplatePromises(templateRefList)).then(() => {
         this.addPropertyTypeRows(this.props.propertyTemplate)
       })
-      this.setState({ added: true })
     }
 
     this.setState({ collapsed: !this.state.collapsed })
