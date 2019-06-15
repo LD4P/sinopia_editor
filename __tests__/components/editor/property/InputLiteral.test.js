@@ -149,39 +149,6 @@ describe('When the user enters input into field', () => {
     mockItemsChange.mock.calls = [] // Reset the redux store to empty
   })
 
-  it('property template contains repeatable "false", only allowed to add one item to redux', () => {
-    mockWrapper.instance().props.propertyTemplate.repeatable = 'false'
-    mockWrapper.instance().forceUpdate()
-
-    mockWrapper.find('input').simulate('change', { target: { value: 'fooby' } })
-    mockWrapper.find('input').simulate('keypress', { key: 'Enter', preventDefault: () => {} })
-
-    mockWrapper.setProps({
-      formData: {
-        uri: 'http://id.loc.gov/ontologies/bibframe/instanceOf',
-        items: [{ content: 'fooby', id: 0, lang: { items: [{ label: 'English' }] } }],
-      },
-    })
-
-    mockWrapper.find('input').simulate('change', { target: { value: 'bar' } })
-    mockWrapper.find('input').simulate('keypress', { key: 'Enter', preventDefault: () => {} })
-
-    expect(mockItemsChange.mock.calls[0][0]).toEqual(
-      {
-        uri: 'http://id.loc.gov/ontologies/bibframe/instanceOf',
-        items: [{ content: 'fooby', id: 0 }],
-        reduxPath: ['resourceTemplate:bf2:Monograph:Instance', 'http://id.loc.gov/ontologies/bibframe/instanceOf'],
-      },
-    )
-    expect(mockItemsChange.mock.calls[1][0]).toEqual(
-      {
-        uri: 'http://id.loc.gov/ontologies/bibframe/instanceOf',
-        items: [],
-        reduxPath: ['resourceTemplate:bf2:Monograph:Instance', 'http://id.loc.gov/ontologies/bibframe/instanceOf'],
-      },
-    )
-  })
-
   it('required is only true for first item in myItems array', () => {
     mockWrapper.instance().props.propertyTemplate.mandatory = 'true'
     mockWrapper.instance().props.propertyTemplate.repeatable = 'true'
@@ -190,20 +157,32 @@ describe('When the user enters input into field', () => {
     mockWrapper.find('input').simulate('change', { target: { value: 'foo' } })
     expect(mockWrapper.state('content_add')).toEqual('foo')
     mockWrapper.find('input').simulate('keypress', { key: 'Enter', preventDefault: () => {} })
-    mockWrapper.setProps({ formData: { id: 1, uri: 'http://id.loc.gov/ontologies/bibframe/instanceOf', items: [{ content: 'foo', id: 4, lang: { items: [{ label: 'English' }] } }] } })
+    mockWrapper.setProps({
+      formData: {
+        id: 1,
+        uri: 'http://id.loc.gov/ontologies/bibframe/instanceOf',
+      },
+      items: [{ content: 'foo', id: 4, lang: { items: [{ label: 'English' }] } }],
+    })
     expect(mockWrapper.find('input').prop('required')).toBeFalsy()
   })
 
   it('item appears when user inputs text into the field', () => {
     mockWrapper.instance().props.propertyTemplate.repeatable = 'false'
     mockWrapper.instance().forceUpdate()
-    mockWrapper.setProps({ formData: { id: 1, uri: 'http://id.loc.gov/ontologies/bibframe/instanceOf', items: [{ content: 'foo', id: 4, lang: { items: [{ label: 'English' }] } }] } })
+    mockWrapper.setProps({
+      formData: { id: 1, uri: 'http://id.loc.gov/ontologies/bibframe/instanceOf' },
+      items: [{ content: 'foo', id: 4, lang: { items: [{ label: 'English' }] } }],
+    })
     expect(mockWrapper.find('div#userInput').text()).toEqual('fooXEdit<Button /><Modal />') // Contains X and Edit as buttons
     expect(mockWrapper.find('Button#language').childAt(1).text()).toEqual('English')
   })
 
   it('should call the removeMockDataFn when X is clicked', () => {
-    mockWrapper.setProps({ formData: { id: 1, uri: 'http://id.loc.gov/ontologies/bibframe/instanceOf', items: [{ content: 'test', id: 5, lang: { items: [{ label: 'English' }] } }] } })
+    mockWrapper.setProps({
+      formData: { id: 1, uri: 'http://id.loc.gov/ontologies/bibframe/instanceOf' },
+      items: [{ content: 'test', id: 5, lang: { items: [{ label: 'English' }] } }],
+    })
     expect(removeMockDataFn.mock.calls.length).toEqual(0)
     mockWrapper.find('button#deleteItem').first().simulate('click', { target: { dataset: { item: 5 } } })
     expect(removeMockDataFn.mock.calls.length).toEqual(1)
@@ -219,9 +198,9 @@ describe('When the user enters input into field', () => {
       formData: {
         id: 1,
         uri: 'http://id.loc.gov/ontologies/bibframe/instanceOf',
-        items: [{ content: 'test', id: 5, lang: { items: [{ label: 'English' }] } }],
         errors: [],
       },
+      items: [{ content: 'test', id: 5, lang: { items: [{ label: 'English' }] } }],
     })
     expect(removeMockDataFn.mock.calls.length).toEqual(0)
     mockWrapper.find('button#editItem').first().simulate('click', { target: { dataset: { item: 5 } } })
@@ -246,15 +225,15 @@ describe('when there is a default literal value in the property template', () =>
         valueConstraint: valConstraintProps,
       },
       formData: {
-        items: [
-          {
-            uri: 'http://id.loc.gov/vocabulary/organizations/dlc',
-            content: 'DLC',
-            lang: { items: [{ label: 'English' }] },
-          },
-        ],
         errors: [],
       },
+      items: [
+        {
+          uri: 'http://id.loc.gov/vocabulary/organizations/dlc',
+          content: 'DLC',
+          lang: { items: [{ label: 'English' }] },
+        },
+      ],
     }
     const wrapper = shallow(<InputLiteral {...plProps} id={12}
                                           blankNodeForLiteral={{ termType: 'BlankNode', value: 'n3-0' }}
@@ -275,60 +254,35 @@ describe('when there is a default literal value in the property template', () =>
         mandatory: '',
         repeatable: 'false',
       },
+      formData: {},
     }
 
-    const nonrepeatWrapper = shallow(
-      <InputLiteral {...nrProps}
-                    id={'11tydg'}
-                    rtId={'resourceTemplate:bf2:Monograph:Instance'}
-                    handleMyItemsChange={mockMyItemsChange}
-                    handleRemoveItem={mockRemoveItem}
-                    handleMyItemsLangChange={jest.fn()} />,
-    )
+    it('input has disabled attribute when there are items', () => {
+      const nonrepeatWrapper = shallow(
+        <InputLiteral {...nrProps}
+                      id={'11tydg'}
+                      rtId={'resourceTemplate:bf2:Monograph:Instance'}
+                      handleMyItemsChange={mockMyItemsChange}
+                      handleRemoveItem={mockRemoveItem}
+                      handleMyItemsLangChange={jest.fn()}
+                      items={[{ content: 'fooby', id: 0, lang: { items: [{ label: 'English' }] } }]}/>,
+      )
 
-    it('input has disabled attribute set to "true" when repeatable is "false" and an item is added', () => {
-      nonrepeatWrapper.find('input').simulate('change', { target: { value: 'fooby' } })
-      nonrepeatWrapper.find('input').simulate('keypress', { key: 'Enter', preventDefault: () => {} })
-      nonrepeatWrapper.setProps({ formData: { id: 1, uri: 'http://id.loc.gov/ontologies/bibframe/instanceOf', items: [{ content: 'fooby', id: 0, lang: { items: [{ label: 'English' }] } }] } })
-      expect(nonrepeatWrapper.find('input').props('disabled')).toBeTruthy()
+      expect(nonrepeatWrapper.exists('input', { disabled: true })).toBe(true)
     })
 
-    it('input no longer disabled if item is removed when repeatable="false"', () => {
-      nonrepeatWrapper.find('button#deleteItem').simulate('click', { target: { dataset: { item: 0 } } })
-      expect(nonrepeatWrapper.find('input').props().disabled).toBeFalsy()
+    it('input does not have disabled attribute when there are no items', () => {
+      const nonrepeatWrapper = shallow(
+        <InputLiteral {...nrProps}
+                      id={'11tydg'}
+                      rtId={'resourceTemplate:bf2:Monograph:Instance'}
+                      handleMyItemsChange={mockMyItemsChange}
+                      handleRemoveItem={mockRemoveItem}
+                      handleMyItemsLangChange={jest.fn()}
+                      items={[]}/>,
+      )
+      expect(nonrepeatWrapper.exists('input', { disabled: false })).toBe(true)
     })
-  })
-})
-
-describe('when repeatable="false" and defaults exist', () => {
-  const defaultProps = {
-    propertyTemplate:
-    {
-      propertyLabel: 'Instance of',
-      propertyURI: 'http://id.loc.gov/ontologies/bibframe/instanceOf',
-      type: 'literal',
-      mandatory: '',
-      repeatable: 'false',
-      valueConstraint: {
-        defaults: [
-          {
-            defaultURI: 'http://id.loc.gov/vocabulary/organizations/dlc',
-            defaultLiteral: 'DLC',
-          },
-        ],
-      },
-    },
-  }
-
-  const defaultWrapper = shallow(
-    <InputLiteral {...defaultProps}
-                  id={'234abcd'}
-                  rtId={'resourceTemplate:bf2:Monograph:Item'}
-                  formData={{ items: [{ id: 'iop12', content: 'DLC', lang: { items: [{ label: 'English' }] } }] }} />,
-  )
-
-  it('in the initial display, the input field is disabled ', () => {
-    expect(defaultWrapper.find('input').props().disabled).toBeTruthy()
   })
 })
 
@@ -362,8 +316,8 @@ describe('When a user enters non-roman text in a work title', () => {
       formData: {
         id: 1,
         uri: 'http://id.loc.gov/ontologies/bibframe/title',
-        items: [{ content: artOfWar, id: 1, lang: { items: [{ label: 'Mandarin' }] } }],
       },
+      items: [{ content: artOfWar, id: 1, lang: { items: [{ label: 'Mandarin' }] } }],
     })
     expect(workTitleWrapper.find('div#userInput').text().includes(artOfWar)).toBeTruthy()
     expect(workTitleWrapper.find('Button#language').childAt(1).text()).toEqual('Mandarin')
@@ -389,9 +343,9 @@ describe('When the user enters input into language modal', () => {
       formData: {
         id: 1,
         uri: 'http://id.loc.gov/ontologies/bibframe/instanceOf',
-        items: [{ content: 'test', id: 6, lang: { items: [{ label: 'English' }] } }],
         errors: [],
       },
+      items: [{ content: 'test', id: 6, lang: { items: [{ label: 'English' }] } }],
     })
     mockWrapper.find('Button').first().simulate('click')
     expect(mockWrapper.find('Modal').prop('show')).toEqual(true)
@@ -414,9 +368,9 @@ describe('When the user enters input into language modal', () => {
       formData: {
         id: 1,
         uri: 'http://id.loc.gov/ontologies/bibframe/instanceOf',
-        items: [{ content: 'test', id: 6, lang: { items: [{ label: 'English' }] } }],
         errors: [],
       },
+      items: [{ content: 'test', id: 6, lang: { items: [{ label: 'English' }] } }],
     })
     mockWrapper.find('Button').first().simulate('click')
     expect(mockWrapper.find('Modal').prop('show')).toEqual(true)
