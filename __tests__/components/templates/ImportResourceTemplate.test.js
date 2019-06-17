@@ -4,10 +4,10 @@ import 'isomorphic-fetch'
 import 'jsdom-global/register'
 import React from 'react'
 import { shallow } from 'enzyme'
-import ImportFileZone from '../../../src/components/editor/ImportFileZone'
-import ImportResourceTemplate from '../../../src/components/editor/ImportResourceTemplate'
-import SinopiaResourceTemplates from '../../../src/components/editor/SinopiaResourceTemplates'
-import { createResourceTemplate, updateResourceTemplate } from '../../../src/sinopiaServer'
+import ImportFileZone from 'components/templates/ImportFileZone'
+import ImportResourceTemplate from 'components/templates/ImportResourceTemplate'
+import SinopiaResourceTemplates from 'components/templates/SinopiaResourceTemplates'
+import { createResourceTemplate, updateResourceTemplate } from 'sinopiaServer'
 
 jest.mock('../../../src/sinopiaServer')
 

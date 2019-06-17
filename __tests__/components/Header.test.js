@@ -1,45 +1,28 @@
-// Copyright 2018 Stanford University see LICENSE for license
+// Copyright 2019 Stanford University see LICENSE for license
 
 import React from 'react'
 import { shallow } from 'enzyme'
-import { Link } from 'react-router-dom'
-import Header from '../../src/components/Header'
-import SinopiaLogo from '../../src/styles/sinopia-logo.png'
-import Config from '../../src/Config'
+import Header from 'components/Header'
 
 describe('<Header />', () => {
   const wrapper = shallow(<Header />)
 
-  it('renders the Sinopia image', () => {
-    expect(wrapper.find('img').prop('src')).toEqual(SinopiaLogo)
+  it('displays the Sinopia text', () => {
+    expect(wrapper.find('h1.editor-logo').text()).toBe('LINKED DATA EDITOR')
   })
 
-  it('has alt text for the image', () => {
-    expect(wrapper.find('img').prop('alt')).toEqual('Sinopia logo')
-  })
-
-  it('renders a ".navbar"', () => {
-    expect(wrapper.find('.navbar').length).toBe(1)
-  })
-
-  it('mock renders an offcanvas menu', () => {
-    const mockCB = jest.fn()
-    const wrapper = shallow(<Header triggerHomePageMenu={mockCB} />)
-
-    wrapper.find('.help-resources').simulate('click')
-    expect(mockCB.mock.calls.length).toEqual(1)
-  })
-
-  it('renders dropdown menu links', () => {
-    expect(wrapper.find('a[href="https://ld4.slack.com/messages/#sinopia"]')).toBeDefined()
-  })
-
-  it('links to Sinopia Profile Editor', () => {
-    expect(wrapper.find(`a[href="https://profile-editor.${Config.sinopiaDomainName}/"]`).text()).toBe('Profile Editor')
-  })
-
-  it('links to Linked Data Editor', () => {
-    expect(wrapper.find(Link).props().to).toBe('/templates')
-    expect(wrapper.find(Link).children(0).text()).toBe('Linked Data Editor')
+  describe('nav tabs', () => {
+    it('displays 3 header tabs', () => {
+      expect(wrapper.find('ul.editor-navtabs NavLink').length).toBe(3)
+    })
+    it('has browse URL', () => {
+      expect(wrapper.find('ul.editor-navtabs NavLink[to=\'/browse\']').length).toBe(1)
+    })
+    it('has editor URL', () => {
+      expect(wrapper.find('ul.editor-navtabs NavLink[to=\'/editor\']').length).toBe(1)
+    })
+    it('has Import Resource Template URL', () => {
+      expect(wrapper.find('ul.editor-navtabs NavLink[to=\'/templates\']').length).toBe(1)
+    })
   })
 })

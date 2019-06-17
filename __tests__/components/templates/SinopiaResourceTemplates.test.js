@@ -3,8 +3,8 @@
 import 'jsdom-global/register'
 import React from 'react'
 import { mount, shallow } from 'enzyme'
-import SinopiaResourceTemplates from '../../../src/components/editor/SinopiaResourceTemplates'
-import { getEntityTagFromGroupContainer, getResourceTemplate, listResourcesInGroupContainer } from '../../../src/sinopiaServer'
+import SinopiaResourceTemplates from 'components/templates/SinopiaResourceTemplates'
+import { getEntityTagFromGroupContainer, getResourceTemplate, listResourcesInGroupContainer } from 'sinopiaServer'
 
 jest.mock('../../../src/sinopiaServer')
 

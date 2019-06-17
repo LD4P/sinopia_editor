@@ -1,21 +1,21 @@
-// Copyright 2018 Stanford University see LICENSE for license
+// Copyright 2019 Stanford University see LICENSE for license
 
 import 'jsdom-global/register'
 import React from 'react'
 import { mount, shallow } from 'enzyme'
 import { MemoryRouter } from 'react-router'
 import { Provider } from 'react-redux'
-import App from '../../src/components/App'
-import LoginPanel from '../../src/components/LoginPanel'
-import HomePage from '../../src/components/HomePage'
-import Editor from '../../src/components/editor/Editor'
-import Browse from '../../src/components/editor/Browse'
-import CanvasMenu from '../../src/components/CanvasMenu'
-import Footer from '../../src/components/Footer'
-import ImportResourceTemplate from '../../src/components/editor/ImportResourceTemplate'
+import App from 'components/App'
+import LoginPanel from 'components/LoginPanel'
+import HomePage from 'components/home/HomePage'
+import Editor from 'components/editor/Editor'
+import Browse from 'components/browse/Browse'
+import CanvasMenu from 'components/menu/CanvasMenu'
+import Footer from 'components/Footer'
+import ImportResourceTemplate from 'components/templates/ImportResourceTemplate'
 
-jest.mock('../../src/components/editor/Editor')
-jest.mock('../../src/components/editor/ImportResourceTemplate')
+jest.mock('components/editor/Editor')
+jest.mock('components/templates/ImportResourceTemplate')
 
 describe('<App />', () => {
   const wrapper = shallow(<App.WrappedComponent />)

@@ -4,7 +4,7 @@ import React from 'react'
 import { shallow } from 'enzyme'
 import Editor from 'components/editor/Editor'
 import ResourceTemplate from 'components/editor/ResourceTemplate'
-import Header from 'components/editor/Header'
+import Header from 'components/Header'
 
 const props = {
   location: { state: { resourceTemplateId: 'resourceTemplate:bf:Note' } },

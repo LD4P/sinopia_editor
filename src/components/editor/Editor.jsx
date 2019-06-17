@@ -7,7 +7,7 @@ import {
   removeAllItems, assignBaseURL, showGroupChooser, closeGroupChooser, showRdfPreview,
 } from 'actions/index'
 import ResourceTemplate from './ResourceTemplate'
-import Header from './Header'
+import Header from '../Header'
 import RDFModal from './RDFModal'
 import GroupChoiceModal from './GroupChoiceModal'
 import ErrorMessages from './ErrorMessages'
