@@ -5,8 +5,8 @@ import 'isomorphic-fetch'
 import React from 'react'
 import { mount, shallow } from 'enzyme'
 import DropZone from 'react-dropzone'
-import ImportFileZone from '../../../src/components/editor/ImportFileZone'
-import Config from '../../../src/Config'
+import ImportFileZone from 'components/templates/ImportFileZone'
+import Config from 'Config'
 
 describe('<ImportFileZone />', () => {
   it('has an upload button', () => {

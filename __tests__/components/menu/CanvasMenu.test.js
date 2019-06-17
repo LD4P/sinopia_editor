@@ -1,7 +1,8 @@
-// Copyright 2018 Stanford University see LICENSE for license
+// Copyright 2019 Stanford University see LICENSE for license
+
 import React from 'react'
 import { shallow } from 'enzyme'
-import CanvasMenu from '../../src/components/CanvasMenu'
+import CanvasMenu from 'components/menu/CanvasMenu'
 import 'isomorphic-fetch'
 
 describe('<CanvasMenu />', () => {
