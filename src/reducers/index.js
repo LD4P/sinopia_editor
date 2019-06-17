@@ -8,7 +8,7 @@ import {
   removeAllContent, removeMyItem, setMyItems, setMySelections, setBaseURL, setMyItemsLang,
   showGroupChooser, closeGroupChooser, showRdfPreview,
 } from './inputs'
-import { defaultLangTemplate } from '../Utilities'
+import { defaultLangTemplate } from 'Utilities'
 
 export const findNode = (selectorReducer, reduxPath) => {
   const items = reduxPath.reduce((obj, key) => (obj && obj[key] !== 'undefined' ? obj[key] : undefined), selectorReducer)

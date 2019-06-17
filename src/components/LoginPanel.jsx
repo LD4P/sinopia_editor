@@ -3,7 +3,7 @@
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
-import Config from '../Config'
+import Config from 'Config'
 import CognitoUtils from '../CognitoUtils'
 import { getAuthenticationError, getCurrentSession, getCurrentUser } from '../authSelectors'
 import { authenticationFailed, authenticationSucceeded, signedOut } from '../actionCreators'

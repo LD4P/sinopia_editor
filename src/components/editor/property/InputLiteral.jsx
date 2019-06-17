@@ -6,10 +6,10 @@ import { connect } from 'react-redux'
 import Modal from 'react-bootstrap/lib/Modal'
 import Button from 'react-bootstrap/lib/Button'
 import shortid from 'shortid'
-import { removeItem, setItems, setLang } from '../../../actions/index'
-import { findNode, getDisplayValidations, getPropertyTemplate } from '../../../reducers/index'
+import { removeItem, setItems, setLang } from 'actions/index'
+import { findNode, getDisplayValidations, getPropertyTemplate } from 'reducers/index'
 import InputLang from './InputLang'
-import { defaultLangTemplate } from '../../../Utilities'
+import { defaultLangTemplate } from 'Utilities'
 
 
 // Redux recommends exporting the unconnected component for unit tests.

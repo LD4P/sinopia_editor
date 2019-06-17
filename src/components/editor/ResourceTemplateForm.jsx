@@ -7,10 +7,10 @@ import shortid from 'shortid'
 import PropertyPanel from './property/PropertyPanel'
 import PropertyResourceTemplate from './property/PropertyResourceTemplate'
 import PropertyComponent from './property/PropertyComponent'
-import { removeAllContent, setItems, resourceTemplateLoaded } from '../../actions/index'
-import { getResourceTemplate } from '../../sinopiaServer'
-import { isResourceWithValueTemplateRef, resourceToName } from '../../Utilities'
-import store from '../../store'
+import { removeAllContent, setItems, resourceTemplateLoaded } from 'actions/index'
+import { getResourceTemplate } from 'sinopiaServer'
+import { isResourceWithValueTemplateRef, resourceToName } from 'Utilities'
+import store from 'store'
 
 const _ = require('lodash')
 

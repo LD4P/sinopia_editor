@@ -7,8 +7,8 @@ import Header from './Header'
 import ImportFileZone from './ImportFileZone'
 import SinopiaResourceTemplates from './SinopiaResourceTemplates'
 import UpdateResourceModal from './UpdateResourceModal'
-import { createResourceTemplate, updateResourceTemplate } from '../../sinopiaServer'
-import { getCurrentUser } from '../../authSelectors'
+import { createResourceTemplate, updateResourceTemplate } from 'sinopiaServer'
+import { getCurrentUser } from 'authSelectors'
 
 class ImportResourceTemplate extends Component {
   constructor(props) {

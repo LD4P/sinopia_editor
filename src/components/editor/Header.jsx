@@ -3,7 +3,7 @@
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 import { NavLink } from 'react-router-dom'
-import Config from '../../Config'
+import Config from 'Config'
 
 class Header extends Component {
   render() {

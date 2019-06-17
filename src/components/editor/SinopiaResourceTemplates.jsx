@@ -5,9 +5,9 @@ import PropTypes from 'prop-types'
 import { Link } from 'react-router-dom'
 import 'react-bootstrap-table-next/dist/react-bootstrap-table2.min.css'
 import BootstrapTable from 'react-bootstrap-table-next'
-import Config from '../../Config'
-import { getEntityTagFromGroupContainer, getResourceTemplate, listResourcesInGroupContainer } from '../../sinopiaServer'
-import { resourceToName } from '../../Utilities'
+import Config from 'Config'
+import { getEntityTagFromGroupContainer, getResourceTemplate, listResourcesInGroupContainer } from 'sinopiaServer'
+import { resourceToName } from 'Utilities'
 
 /**
  * This is the list view of all the templates
