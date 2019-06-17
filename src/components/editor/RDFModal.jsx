@@ -7,7 +7,7 @@ import Modal from 'react-bootstrap/lib/Modal'
 import Row from 'react-bootstrap/lib/Row'
 import Col from 'react-bootstrap/lib/Col'
 import PropTypes from 'prop-types'
-import { getAllRdf } from '../../reducers/index'
+import GraphBuilder from '../../GraphBuilder'
 
 const RDFModal = (props) => {
   if (!props.show) {
@@ -44,9 +44,9 @@ RDFModal.propTypes = {
   rdf: PropTypes.func,
 }
 
-const mapStateToProps = (state, props) => ({
+const mapStateToProps = state => ({
   show: state.selectorReducer.editor.rdfPreview.show,
-  rdf: getAllRdf(state, props),
+  rdf: () => new GraphBuilder(state.selectorReducer).graph.toString(),
 })
 
 export default connect(mapStateToProps, {})(RDFModal)
