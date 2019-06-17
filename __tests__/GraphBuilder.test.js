@@ -203,4 +203,37 @@ describe('GraphBuilder', () => {
       expect(result.toArray().length).toEqual(1)
     })
   })
+
+  describe('when the state has errors', () => {
+    const state = {
+      entities: {
+        resourceTemplates: {
+          'resourceTemplate:bf2:Monograph:Work': {
+            resourceURI: 'http://id.loc.gov/ontologies/bibframe/Work',
+          },
+        },
+      },
+      resource: {
+        'resourceTemplate:bf2:Monograph:Work': {
+          resourceURI: 'http://example.com/base/123',
+          'http://id.loc.gov/ontologies/bibframe/title': {
+            errors: [{ label: 'Required' }],
+          },
+        },
+      },
+    }
+
+    const builder = new GraphBuilder(state)
+
+
+    it('returns the graph and ignores the errors', () => {
+      const graph = builder.graph
+
+      const typeTriple = rdf.quad(rdf.namedNode('http://example.com/base/123'),
+        rdf.namedNode('http://www.w3.org/1999/02/22-rdf-syntax-ns#type'),
+        rdf.namedNode('http://id.loc.gov/ontologies/bibframe/Work'))
+
+      expect(graph.has(typeTriple)).toBeTruthy()
+    })
+  })
 })

@@ -4,7 +4,7 @@ import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import PropTypes from 'prop-types'
 import {
-  removeAllItems, assignBaseURL, runValidation, showGroupChooser, showRdfPreview,
+  removeAllItems, assignBaseURL, showGroupChooser, closeGroupChooser, showRdfPreview,
 } from '../../actions/index'
 import ResourceTemplate from './ResourceTemplate'
 import Header from './Header'
@@ -36,10 +36,6 @@ class Editor extends Component {
     } else {
       this.props.history.push('/templates')
     }
-  }
-
-  handleRdfSave = () => {
-    this.props.openGroupChooser()
   }
 
   renderResourceTemplate = () => (
@@ -78,9 +74,13 @@ class Editor extends Component {
     if (this.props.displayValidations && this.props.errors.length > 0) {
       const errorList = this.props.errors.map(elem => (<li key={elem.path.join('-')}>{elem.label} {elem.message}</li>))
 
-      errorMessage = <div className="alert alert-danger alert-dismissible">
-        <button className="close" data-dismiss="alert" aria-label="close">&times;</button>
-        There was a probem saving this resource. Validation errors: <ul>{errorList}</ul>
+      errorMessage = <div className="row">
+        <div className="col-md-12" style={{ marginTop: '10px' }}>
+          <div className=" alert alert-danger alert-dismissible">
+            <button className="close" data-dismiss="alert" aria-label="close">&times;</button>
+            There was a probem saving this resource. Validation errors: <ul>{errorList}</ul>
+          </div>
+        </div>
       </div>
     }
 
@@ -92,10 +92,9 @@ class Editor extends Component {
           <section className="col-md-3" style={{ float: 'right', width: '320px' }}>
             <button type="button" className="btn btn-link btn-sm btn-editor" onClick={ this.props.openRdfPreview }>Preview RDF</button>
             <button type="button" className="btn btn-primary btn-sm btn-editor" onClick={ this.props.openGroupChooser }>Save & Publish</button>
-            <button type="button" className="btn btn-primary btn-sm btn-editor" onClick={ this.props.validate }>Validate</button>
           </section>
         </div>
-        <RDFModal save={ this.handleRdfSave } close={ this.props.closeRdfPreview } />
+        <RDFModal save={ this.props.openGroupChooser } close={ this.props.closeRdfPreview } />
         {errorMessage}
         <div>
           <GroupChoiceModal close={ this.closeGroupChooser }
@@ -112,7 +111,6 @@ Editor.propTypes = {
   triggerHandleOffsetMenu: PropTypes.func,
   resetStore: PropTypes.func,
   setBaseURL: PropTypes.func,
-  validate: PropTypes.func,
   openGroupChooser: PropTypes.func,
   closeGroupChooser: PropTypes.func,
   openRdfPreview: PropTypes.func,
@@ -140,14 +138,11 @@ const mapDispatchToProps = dispatch => ({
   setBaseURL(url) {
     dispatch(assignBaseURL(url))
   },
-  validate() {
-    dispatch(runValidation())
-  },
   openGroupChooser() {
     dispatch(showGroupChooser(true))
   },
   closeGroupChooser() {
-    dispatch(showGroupChooser(false))
+    dispatch(closeGroupChooser(false))
   },
   openRdfPreview() {
     dispatch(showRdfPreview(true))

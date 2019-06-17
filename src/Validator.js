@@ -9,11 +9,10 @@ export default class Validator {
   }
 
   /**
-   * @param {Boolean} show if set to true this will force the validations to display
    * @return {Object} a new state with errors added to the 'editor.errors' and
    *    errors added to the resource properties
    */
-  validate(show) {
+  validate() {
     const errors = []
 
     Object.keys(this.resource).forEach((resourceTemplateId) => {
@@ -22,9 +21,6 @@ export default class Validator {
       })
     })
     this.newState.editor.errors = errors
-    if (show) {
-      this.newState.editor.displayValidations = show
-    }
 
     return this.newState
   }

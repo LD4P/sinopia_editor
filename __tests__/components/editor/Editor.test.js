@@ -56,14 +56,4 @@ describe('<Editor />', () => {
       expect(mockOpenHandler).toHaveBeenCalled()
     })
   })
-
-  describe('Validate button', () => {
-    const mockValidateFn = jest.fn()
-    const wrapper = shallow(<Editor.WrappedComponent {...props} validate={mockValidateFn} />)
-
-    it('runs the validator', () => {
-      wrapper.findWhere(n => n.type() === 'button' && n.contains('Validate')).simulate('click')
-      expect(mockValidateFn).toHaveBeenCalled()
-    })
-  })
 })
