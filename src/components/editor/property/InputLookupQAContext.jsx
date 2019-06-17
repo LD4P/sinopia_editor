@@ -8,7 +8,7 @@ import Swagger from 'swagger-client'
 import swaggerSpec from '../../../lib/apidoc.json'
 import { connect } from 'react-redux'
 import { getProperty } from '../../../reducers/index'
-import { changeSelections } from '../../../actions/index'
+import { changeSelections, removeItem } from '../../../actions/index'
 import { booleanPropertyFromTemplate, defaultValuesFromPropertyTemplate } from '../../../Utilities'
 import Config from '../../../Config'
 import Button from 'react-bootstrap/lib/Button'
@@ -96,7 +96,9 @@ class InputLookupQAContext extends Component {
      if(eventTarget.checked) {
          //Add uri and label to list of selected results if checked
          const label = eventTarget.getAttribute("label")
-         this.setState(prevState => ({selectedResultsList: prevState.selectedResultsList.concat({uri:uri,label:label})}))
+         //QA returns id as well which is NOT always the same as URI
+         //Id saved in state can be used for removal later, so in this case, reusing URI
+         this.setState(prevState => ({selectedResultsList: prevState.selectedResultsList.concat({id:uri, uri:uri,label:label})}))
      } else {
          //remove item if unchecked
          this.setState(prevState => ({
@@ -264,7 +266,9 @@ class InputLookupQAContext extends Component {
   }
 
   handleClose = () => {
-      this.setState({ show: false })
+      //everytime we close, we should also clear out the results and selected results from the modal
+      //as well as original results from the query
+      this.setState({ show: false, selectedResultsList: [], options: [] })
   }
  
   renderContext = ( context, idx, outerIndex ) => { 
@@ -332,7 +336,7 @@ class InputLookupQAContext extends Component {
     }
   
   handleDeleteClick = (event) => {
-      const labelToRemove = event.target.dataset.content
+      const labelToRemove = event.target.dataset.label
       const idToRemove = event.target.dataset.item
 
       this.props.handleRemoveItem(
@@ -406,6 +410,9 @@ const mapStateToProps = (state, props) => {
 const mapDispatchToProps = dispatch => ({
   handleSelectedChange(selected) {
     dispatch(changeSelections(selected))
+  },
+  handleRemoveItem(id) {
+    dispatch(removeItem(id))
   },
 })
 
