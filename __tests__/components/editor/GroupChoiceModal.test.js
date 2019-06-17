@@ -5,15 +5,28 @@ import Modal from 'react-bootstrap/lib/Modal'
 import Button from 'react-bootstrap/lib/Button'
 import { shallow } from 'enzyme'
 import GroupChoiceModal from 'components/editor/GroupChoiceModal'
+/* eslint import/namespace: 'off' */
+import * as server from 'sinopiaServer'
 
 describe('<GroupChoiceModal />', () => {
-  const saveFunc = jest.fn()
+  server.publishRDFResource = jest.fn().mockResolvedValue({
+    response: {
+      headers: {
+        location: 'http://example.com/resource/123',
+      },
+    },
+  })
   const rdfFunc = jest.fn()
   const closeFunc = jest.fn()
+  const closeRdfPreview = jest.fn()
   const groups = [['pcc', 'PCC'],
     ['wau', 'University of Washington']]
 
-  const wrapper = shallow(<GroupChoiceModal.WrappedComponent show={true} rdf={rdfFunc} save={saveFunc} close={closeFunc} groups={groups} />)
+  const wrapper = shallow(<GroupChoiceModal.WrappedComponent show={true}
+                                                             rdf={rdfFunc}
+                                                             close={closeFunc}
+                                                             groups={groups}
+                                                             closeRdfPreview={closeRdfPreview} />)
 
   it('renders the <GroupChoiceModal /> component as a Modal', () => {
     expect(wrapper.find(Modal).length).toBe(1)
@@ -73,9 +86,9 @@ describe('<GroupChoiceModal />', () => {
     })
   })
   describe('save and close buttons', () => {
-    it('attenmplts to save the RDF content with group choice when save is clicked and closes the modal', () => {
+    it('attempts to save the RDF content with group choice when save is clicked and closes the modal', () => {
       wrapper.find('.btn-primary', { text: 'Save' }).simulate('click')
-      expect(saveFunc).toHaveBeenCalled()
+      expect(server.publishRDFResource).toHaveBeenCalled()
     })
     it('closes the modal when the Cancel link is clicked', () => {
       wrapper.find('.btn-link', { text: 'Cancel' }).simulate('click')
