@@ -11,7 +11,6 @@ import Header from './Header'
 import RDFModal from './RDFModal'
 import GroupChoiceModal from './GroupChoiceModal'
 import ErrorMessages from './ErrorMessages'
-import Config from 'Config'
 import { getCurrentSession, getCurrentUser } from 'authSelectors'
 import { publishRDFResource } from 'sinopiaServer'
 
@@ -56,9 +55,6 @@ class Editor extends Component {
     this.props.closeGroupChooser()
   }
 
-  // The ld4p group is only for templates
-  groupsToSaveInto = () => Config.groupsInSinopia.filter(group => group[0] !== 'ld4p')
-
   render() {
     let authenticationMessage = <div className="alert alert-warning alert-dismissible">
       <button className="close" data-dismiss="alert" aria-label="close">&times;</button>
@@ -81,9 +77,8 @@ class Editor extends Component {
         </div>
         <RDFModal save={ this.props.openGroupChooser } close={ this.props.closeRdfPreview } />
         <ErrorMessages />
-        <GroupChoiceModal close={ this.closeGroupChooser }
-                          save={ this.chooseGroupThenSave }
-                          groups={ this.groupsToSaveInto() } />
+        <GroupChoiceModal close={ this.closeGroupChooser } save={ this.chooseGroupThenSave } />
+
         { _.isEmpty(this.state.resourceTemplateId) ? (<div>Loading resource template...</div>) : this.renderResourceTemplate() }
       </div>
     )

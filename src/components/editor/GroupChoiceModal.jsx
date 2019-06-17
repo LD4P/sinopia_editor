@@ -6,9 +6,13 @@ import Button from 'react-bootstrap/lib/Button'
 import Modal from 'react-bootstrap/lib/Modal'
 import PropTypes from 'prop-types'
 import GraphBuilder from 'GraphBuilder'
+import Config from 'Config'
 
 const GroupChoiceModal = (props) => {
   const [selectedValue, setSelectedValue] = useState('ld4p')
+
+  // The ld4p group is only for templates
+  const groups = Config.groupsInSinopia.filter(group => group[0] !== 'ld4p')
 
   const updateSelectedValue = (event) => {
     setSelectedValue(event.target.value)
@@ -33,7 +37,7 @@ const GroupChoiceModal = (props) => {
           <div>
             <form className="group-select-options" >
               <select defaultValue={ selectedValue } onBlur={ event => updateSelectedValue(event)} >
-                { props.groups.map((group, index) => <option key={index} value={ group[0] }>{ group[1] }</option>) }
+                { groups.map((group, index) => <option key={index} value={ group[0] }>{ group[1] }</option>) }
               </select>
               <div className="group-choose-buttons">
                 <Button className="btn-link" style={{ paddingRight: '20px' }} onClick={ props.close }>
@@ -56,7 +60,6 @@ GroupChoiceModal.propTypes = {
   save: PropTypes.func,
   choose: PropTypes.func,
   show: PropTypes.bool,
-  groups: PropTypes.array,
   rdf: PropTypes.func,
 }
 
