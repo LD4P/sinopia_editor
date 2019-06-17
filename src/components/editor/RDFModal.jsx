@@ -7,7 +7,7 @@ import Modal from 'react-bootstrap/lib/Modal'
 import Row from 'react-bootstrap/lib/Row'
 import Col from 'react-bootstrap/lib/Col'
 import PropTypes from 'prop-types'
-import GraphBuilder from '../../GraphBuilder'
+import GraphBuilder from 'GraphBuilder'
 
 const RDFModal = (props) => {
   if (!props.show) {

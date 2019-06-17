@@ -4,7 +4,7 @@ import React, { Component } from 'react'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faTimes } from '@fortawesome/free-solid-svg-icons'
 import PropTypes from 'prop-types'
-import Config from '../Config'
+import Config from 'Config'
 
 class CanvasMenu extends Component {
   constructor(props) {

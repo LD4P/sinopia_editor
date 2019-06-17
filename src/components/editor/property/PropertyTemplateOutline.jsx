@@ -5,12 +5,12 @@ import PropTypes from 'prop-types'
 import shortid from 'shortid'
 import OutlineHeader from './OutlineHeader'
 import PropertyTypeRow from './PropertyTypeRow'
-import { getResourceTemplate } from '../../../sinopiaServer'
-import { booleanPropertyFromTemplate, isResourceWithValueTemplateRef, resourceToName } from '../../../Utilities'
+import { getResourceTemplate } from 'sinopiaServer'
+import { booleanPropertyFromTemplate, isResourceWithValueTemplateRef, resourceToName } from 'Utilities'
 import PropertyComponent from './PropertyComponent'
 import ResourceProperty from './ResourceProperty'
-import store from '../../../store'
-import { resourceTemplateLoaded } from '../../../actions/index'
+import store from 'store'
+import { resourceTemplateLoaded } from 'actions/index'
 
 export class PropertyTemplateOutline extends Component {
   constructor(props) {

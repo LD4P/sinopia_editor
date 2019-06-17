@@ -4,7 +4,7 @@ import React, { Component } from 'react'
 import Dropzone from 'react-dropzone'
 import PropTypes from 'prop-types'
 import Ajv from 'ajv' // JSON schema validation
-import Config from '../../Config'
+import Config from 'Config'
 
 const util = require('util')
 // For JSON schema validation errors

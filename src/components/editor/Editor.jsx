@@ -5,15 +5,15 @@ import { connect } from 'react-redux'
 import PropTypes from 'prop-types'
 import {
   removeAllItems, assignBaseURL, showGroupChooser, closeGroupChooser, showRdfPreview,
-} from '../../actions/index'
+} from 'actions/index'
 import ResourceTemplate from './ResourceTemplate'
 import Header from './Header'
 import RDFModal from './RDFModal'
 import GroupChoiceModal from './GroupChoiceModal'
-import Config from '../../Config'
-import { getCurrentSession, getCurrentUser } from '../../authSelectors'
-import { publishRDFResource } from '../../sinopiaServer'
-import { findNode } from '../../reducers/index'
+import Config from 'Config'
+import { getCurrentSession, getCurrentUser } from 'authSelectors'
+import { publishRDFResource } from 'sinopiaServer'
+import { findNode } from 'reducers/index'
 
 const _ = require('lodash')
 

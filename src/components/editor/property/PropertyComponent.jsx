@@ -6,7 +6,7 @@ import PropTypes from 'prop-types'
 import InputLiteral from './InputLiteral'
 import InputListLOC from './InputListLOC'
 import InputLookupQA from './InputLookupQA'
-import { getLookupConfigItems } from '../../../Utilities'
+import { getLookupConfigItems } from 'Utilities'
 
 export class PropertyComponent extends Component {
   constructor(props) {

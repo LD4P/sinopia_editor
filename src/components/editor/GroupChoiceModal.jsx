@@ -5,7 +5,7 @@ import { connect } from 'react-redux'
 import Button from 'react-bootstrap/lib/Button'
 import Modal from 'react-bootstrap/lib/Modal'
 import PropTypes from 'prop-types'
-import GraphBuilder from '../../GraphBuilder'
+import GraphBuilder from 'GraphBuilder'
 
 const GroupChoiceModal = (props) => {
   const [selectedValue, setSelectedValue] = useState('ld4p')
