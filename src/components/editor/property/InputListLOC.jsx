@@ -49,7 +49,7 @@ class InputListLOC extends Component {
   }
 
   get isRepeatable() {
-    return booleanPropertyFromTemplate(this.props.propertyTemplate.valueConstraint, 'repeatable', true)
+    return booleanPropertyFromTemplate(this.props.propertyTemplate, 'repeatable', true)
   }
 
   validate() {
