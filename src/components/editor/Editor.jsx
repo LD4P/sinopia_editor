@@ -11,7 +11,8 @@ import Header from '../Header'
 import RDFModal from './RDFModal'
 import GroupChoiceModal from './GroupChoiceModal'
 import ErrorMessages from './ErrorMessages'
-import { getCurrentSession, getCurrentUser } from 'authSelectors'
+import AuthenticationMessage from './AuthenticationMessage'
+import { getCurrentUser } from 'authSelectors'
 import { publishRDFResource } from 'sinopiaServer'
 
 /**
@@ -39,19 +40,10 @@ class Editor extends Component {
   }
 
   render() {
-    let authenticationMessage = <div className="alert alert-warning alert-dismissible">
-      <button className="close" data-dismiss="alert" aria-label="close">&times;</button>
-      Alert! No data can be saved unless you are logged in with group permissions.
-    </div>
-
-    if (this.props.currentSession) {
-      authenticationMessage = <span/>
-    }
-
     return (
       <div id="editor">
         <Header triggerEditorMenu={this.props.triggerHandleOffsetMenu}/>
-        { authenticationMessage }
+        <AuthenticationMessage />
         <div className="row">
           <section className="col-md-3" style={{ float: 'right', width: '320px' }}>
             <button type="button" className="btn btn-link btn-sm btn-editor" onClick={ this.props.openRdfPreview }>Preview RDF</button>
@@ -79,12 +71,10 @@ Editor.propTypes = {
   location: PropTypes.object,
   resourceTemplateId: PropTypes.string,
   history: PropTypes.object,
-  currentSession: PropTypes.object,
   currentUser: PropTypes.object,
 }
 
 const mapStateToProps = state => ({
-  currentSession: getCurrentSession(state),
   currentUser: getCurrentUser(state),
 })
 
