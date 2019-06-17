@@ -4,7 +4,7 @@ import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import PropTypes from 'prop-types'
 import {
-  removeAllItems, assignBaseURL, showGroupChooser, closeGroupChooser, showRdfPreview,
+  assignBaseURL, showGroupChooser, closeGroupChooser, showRdfPreview,
 } from 'actions/index'
 import ResourceTemplate from './ResourceTemplate'
 import Header from '../Header'
@@ -62,14 +62,12 @@ class Editor extends Component {
 
 Editor.propTypes = {
   triggerHandleOffsetMenu: PropTypes.func,
-  resetStore: PropTypes.func,
   setBaseURL: PropTypes.func,
   openGroupChooser: PropTypes.func,
   closeGroupChooser: PropTypes.func,
   openRdfPreview: PropTypes.func,
   closeRdfPreview: PropTypes.func,
   location: PropTypes.object,
-  resourceTemplateId: PropTypes.string,
   history: PropTypes.object,
   currentUser: PropTypes.object,
 }
@@ -79,9 +77,6 @@ const mapStateToProps = state => ({
 })
 
 const mapDispatchToProps = dispatch => ({
-  resetStore() {
-    dispatch(removeAllItems())
-  },
   setBaseURL(url) {
     dispatch(assignBaseURL(url))
   },
