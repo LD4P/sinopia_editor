@@ -8,7 +8,6 @@ import {
   removeAllContent, removeMyItem, setMyItems, setMySelections, setBaseURL, setMyItemsLang,
   showGroupChooser, closeGroupChooser, showRdfPreview,
 } from './inputs'
-import GraphBuilder from '../GraphBuilder'
 import { defaultLangTemplate } from '../Utilities'
 
 export const findNode = (selectorReducer, reduxPath) => {
@@ -51,21 +50,6 @@ export const getPropertyTemplate = (state, resourceTemplateId, propertyURI) => {
 
   // Find the property template
   return resourceTemplate.propertyTemplates.find(propertyTemplate => propertyTemplate.propertyURI === propertyURI)
-}
-
-
-/**
- * @returns {function} a function that can be called to get the serialized RDF
- */
-export const getAllRdf = (state, action) => {
-  const output = Object.create(state)
-
-  // TODO: temporary no-op to pass eslint ...
-  action.payload
-
-  const builder = new GraphBuilder(output.selectorReducer)
-
-  return () => builder.graph.toString()
 }
 
 /**

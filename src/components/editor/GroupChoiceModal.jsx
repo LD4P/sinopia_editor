@@ -5,7 +5,7 @@ import { connect } from 'react-redux'
 import Button from 'react-bootstrap/lib/Button'
 import Modal from 'react-bootstrap/lib/Modal'
 import PropTypes from 'prop-types'
-import { getAllRdf } from '../../reducers/index'
+import GraphBuilder from '../../GraphBuilder'
 
 const GroupChoiceModal = (props) => {
   const [selectedValue, setSelectedValue] = useState('ld4p')
@@ -60,9 +60,9 @@ GroupChoiceModal.propTypes = {
   rdf: PropTypes.func,
 }
 
-const mapStateToProps = (state, props) => ({
+const mapStateToProps = state => ({
   show: state.selectorReducer.editor.groupChoice.show,
-  rdf: getAllRdf(state, props),
+  rdf: () => new GraphBuilder(state.selectorReducer).graph.toString(),
 })
 
 export default connect(mapStateToProps, {})(GroupChoiceModal)
