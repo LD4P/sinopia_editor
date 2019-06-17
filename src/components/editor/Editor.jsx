@@ -3,17 +3,13 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import PropTypes from 'prop-types'
-import {
-  assignBaseURL, showGroupChooser, closeGroupChooser, showRdfPreview,
-} from 'actions/index'
+import { showGroupChooser, showRdfPreview } from 'actions/index'
 import ResourceTemplate from './ResourceTemplate'
 import Header from '../Header'
 import RDFModal from './RDFModal'
 import GroupChoiceModal from './GroupChoiceModal'
 import ErrorMessages from './ErrorMessages'
 import AuthenticationMessage from './AuthenticationMessage'
-import { getCurrentUser } from 'authSelectors'
-import { publishRDFResource } from 'sinopiaServer'
 
 /**
  * This is the root component of the resource edit page
@@ -23,20 +19,6 @@ class Editor extends Component {
     if (!this.props.location.state) {
       this.props.history.push('/templates')
     }
-  }
-
-  chooseGroupThenSave = (rdf, group) => {
-    const request = publishRDFResource(this.props.currentUser, rdf, group)
-
-    request.then((result) => {
-      this.props.setBaseURL(result.response.headers.location)
-    }).catch((err) => {
-      alert('Unable to save resource')
-      console.error('unable to save resource')
-      console.error(err)
-    })
-    this.props.closeRdfPreview()
-    this.props.closeGroupChooser()
   }
 
   render() {
@@ -50,9 +32,9 @@ class Editor extends Component {
             <button type="button" className="btn btn-primary btn-sm btn-editor" onClick={ this.props.openGroupChooser }>Save & Publish</button>
           </section>
         </div>
-        <RDFModal save={ this.props.openGroupChooser } close={ this.props.closeRdfPreview } />
+        <RDFModal save={ this.props.openGroupChooser } />
         <ErrorMessages />
-        <GroupChoiceModal close={ this.closeGroupChooser } save={ this.chooseGroupThenSave } />
+        <GroupChoiceModal />
 
         <ResourceTemplate resourceTemplateId = {this.props.location.state.resourceTemplateId} />
       </div>
@@ -62,35 +44,21 @@ class Editor extends Component {
 
 Editor.propTypes = {
   triggerHandleOffsetMenu: PropTypes.func,
-  setBaseURL: PropTypes.func,
   openGroupChooser: PropTypes.func,
-  closeGroupChooser: PropTypes.func,
   openRdfPreview: PropTypes.func,
-  closeRdfPreview: PropTypes.func,
   location: PropTypes.object,
   history: PropTypes.object,
-  currentUser: PropTypes.object,
 }
 
-const mapStateToProps = state => ({
-  currentUser: getCurrentUser(state),
-})
+const mapStateToProps = () => ({ })
+
 
 const mapDispatchToProps = dispatch => ({
-  setBaseURL(url) {
-    dispatch(assignBaseURL(url))
-  },
   openGroupChooser() {
     dispatch(showGroupChooser(true))
   },
-  closeGroupChooser() {
-    dispatch(closeGroupChooser(false))
-  },
   openRdfPreview() {
     dispatch(showRdfPreview(true))
-  },
-  closeRdfPreview() {
-    dispatch(showRdfPreview(false))
   },
 })
 

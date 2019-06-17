@@ -7,6 +7,9 @@ import Modal from 'react-bootstrap/lib/Modal'
 import PropTypes from 'prop-types'
 import GraphBuilder from 'GraphBuilder'
 import Config from 'Config'
+import { closeGroupChooser, showRdfPreview, assignBaseURL } from 'actions/index'
+import { publishRDFResource } from 'sinopiaServer'
+import { getCurrentUser } from 'authSelectors'
 
 const GroupChoiceModal = (props) => {
   const [selectedValue, setSelectedValue] = useState('ld4p')
@@ -19,7 +22,17 @@ const GroupChoiceModal = (props) => {
   }
 
   const saveAndClose = () => {
-    props.save(props.rdf(), selectedValue)
+    const request = publishRDFResource(props.currentUser, props.rdf(), selectedValue)
+
+    request.then((result) => {
+      props.setBaseURL(result.response.headers.location)
+    }).catch((err) => {
+      alert('Unable to save resource')
+      console.error('unable to save resource')
+      console.error(err)
+    })
+    props.closeRdfPreview()
+    props.close()
   }
 
   return (
@@ -57,15 +70,30 @@ const GroupChoiceModal = (props) => {
 
 GroupChoiceModal.propTypes = {
   close: PropTypes.func,
-  save: PropTypes.func,
+  setBaseURL: PropTypes.func,
+  closeRdfPreview: PropTypes.func,
   choose: PropTypes.func,
   show: PropTypes.bool,
   rdf: PropTypes.func,
+  currentUser: PropTypes.object,
 }
 
 const mapStateToProps = state => ({
   show: state.selectorReducer.editor.groupChoice.show,
   rdf: () => new GraphBuilder(state.selectorReducer).graph.toString(),
+  currentUser: getCurrentUser(state),
 })
 
-export default connect(mapStateToProps, {})(GroupChoiceModal)
+const mapDispatchToProps = dispatch => ({
+  close() {
+    dispatch(closeGroupChooser(false))
+  },
+  closeRdfPreview() {
+    dispatch(showRdfPreview(false))
+  },
+  setBaseURL(url) {
+    dispatch(assignBaseURL(url))
+  },
+})
+
+export default connect(mapStateToProps, mapDispatchToProps)(GroupChoiceModal)

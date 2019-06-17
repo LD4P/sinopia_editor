@@ -8,6 +8,8 @@ import Row from 'react-bootstrap/lib/Row'
 import Col from 'react-bootstrap/lib/Col'
 import PropTypes from 'prop-types'
 import GraphBuilder from 'GraphBuilder'
+import { showRdfPreview } from 'actions/index'
+
 
 const RDFModal = (props) => {
   if (!props.show) {
@@ -49,4 +51,9 @@ const mapStateToProps = state => ({
   rdf: () => new GraphBuilder(state.selectorReducer).graph.toString(),
 })
 
-export default connect(mapStateToProps, {})(RDFModal)
+const mapDispatchToProps = dispatch => ({
+  close() {
+    dispatch(showRdfPreview(false))
+  },
+})
+export default connect(mapStateToProps, mapDispatchToProps)(RDFModal)
