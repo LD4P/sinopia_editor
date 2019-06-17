@@ -96,11 +96,9 @@ class Editor extends Component {
         </div>
         <RDFModal save={ this.props.openGroupChooser } close={ this.props.closeRdfPreview } />
         {errorMessage}
-        <div>
-          <GroupChoiceModal close={ this.closeGroupChooser }
-                            save={ this.chooseGroupThenSave }
-                            groups={ this.groupsToSaveInto() } />
-        </div>
+        <GroupChoiceModal close={ this.closeGroupChooser }
+                          save={ this.chooseGroupThenSave }
+                          groups={ this.groupsToSaveInto() } />
         { _.isEmpty(this.state.resourceTemplateId) ? (<div>Loading resource template...</div>) : this.renderResourceTemplate() }
       </div>
     )
