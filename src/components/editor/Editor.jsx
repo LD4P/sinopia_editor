@@ -14,32 +14,15 @@ import ErrorMessages from './ErrorMessages'
 import { getCurrentSession, getCurrentUser } from 'authSelectors'
 import { publishRDFResource } from 'sinopiaServer'
 
-const _ = require('lodash')
-
 /**
  * This is the root component of the resource edit page
  */
 class Editor extends Component {
-  constructor(props) {
-    super(props)
-    this.state = {
-      resourceTemplateId: '',
-    }
-  }
-
   componentDidMount() {
-    if (this.props.location.state !== undefined) {
-      this.setState({
-        resourceTemplateId: this.props.location.state.resourceTemplateId,
-      })
-    } else {
+    if (!this.props.location.state) {
       this.props.history.push('/templates')
     }
   }
-
-  renderResourceTemplate = () => (
-    <ResourceTemplate resourceTemplateId = {this.state.resourceTemplateId} />
-  )
 
   chooseGroupThenSave = (rdf, group) => {
     const request = publishRDFResource(this.props.currentUser, rdf, group)
@@ -79,7 +62,7 @@ class Editor extends Component {
         <ErrorMessages />
         <GroupChoiceModal close={ this.closeGroupChooser } save={ this.chooseGroupThenSave } />
 
-        { _.isEmpty(this.state.resourceTemplateId) ? (<div>Loading resource template...</div>) : this.renderResourceTemplate() }
+        <ResourceTemplate resourceTemplateId = {this.props.location.state.resourceTemplateId} />
       </div>
     )
   }
