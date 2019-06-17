@@ -137,6 +137,19 @@ describe('Utilities', () => {
       expect(defaultValuesFromPropertyTemplate(propertyTemplate)).toEqual([])
     })
 
+    it('returns an empty array if the defaults are blank', () => {
+      const propertyTemplate = {
+        valueConstraint: {
+          defaults: [{
+            defaultLiteral: '',
+            defaultURI: '',
+          }],
+        },
+      }
+
+      expect(defaultValuesFromPropertyTemplate(propertyTemplate)).toEqual([])
+    })
+
     it('returns an array with an object otherwise', () => {
       const propertyTemplateWithDefaultsAndLabel = {
         valueConstraint: {

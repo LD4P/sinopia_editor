@@ -5,7 +5,7 @@ import { combineReducers } from 'redux'
 import shortid from 'shortid'
 import authenticate from './authenticate'
 import {
-  removeAllContent, removeMyItem, setMyItems, setMySelections, setBaseURL, setMyItemsLang,
+  removeAllContent, removeMyItem, setItemsOrSelections, setBaseURL, setMyItemsLang,
   showGroupChooser, closeGroupChooser, showRdfPreview,
 } from './inputs'
 import { defaultLangTemplate } from '../Utilities'
@@ -127,7 +127,8 @@ const selectorReducer = (state = {}, action) => {
     case 'SET_RESOURCE_TEMPLATE':
       return setResourceTemplate(state, action)
     case 'SET_ITEMS':
-      return setMyItems(state, action)
+    case 'CHANGE_SELECTIONS':
+      return setItemsOrSelections(state, action)
     case 'SET_BASE_URL':
       return setBaseURL(state, action)
     case 'SHOW_GROUP_CHOOSER':
@@ -140,8 +141,6 @@ const selectorReducer = (state = {}, action) => {
       return showRdfPreview(state, action)
     case 'RESOURCE_TEMPLATE_LOADED':
       return resourceTemplateLoaded(state, action)
-    case 'CHANGE_SELECTIONS':
-      return setMySelections(state, action)
     case 'REFRESH_RESOURCE_TEMPLATE':
       return refreshResourceTemplate(state, action)
     case 'REMOVE_ITEM':

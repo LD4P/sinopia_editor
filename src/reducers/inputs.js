@@ -65,7 +65,7 @@ export const removeAllContent = (state, action) => {
   return validate(newState)
 }
 
-export const setMyItems = (state, action) => {
+export const setItemsOrSelections = (state, action) => {
   const newState = { ...state }
   const reduxPath = action.payload.reduxPath
   let level = 0
@@ -76,9 +76,14 @@ export const setMyItems = (state, action) => {
       if ((key in obj) !== true || !Object.keys(obj[key]).includes('items')) {
         obj[key] = { items: [] }
       }
-      action.payload.items.map((row) => {
-        obj[key].items.push(row)
-      })
+      if (action.type === 'SET_ITEMS') {
+        action.payload.items.map((row) => {
+          obj[key].items.push(row)
+        })
+      }
+      else if (action.type === 'CHANGE_SELECTIONS') {
+        obj[key].items = action.payload.items
+      }
     }
     if (!Object.keys(obj).includes(key)) {
       obj[key] = {}
@@ -113,26 +118,6 @@ export const setMyItemsLang = (state, action) => {
   }, newState)
 
   return newState
-}
-
-export const setMySelections = (state, action) => {
-  const newState = { ...state }
-  const reduxPath = action.payload.reduxPath
-  let level = 0
-
-  reduxPath.reduce((obj, key) => {
-    level++
-    if (level === reduxPath.length) {
-      if ((key in obj) !== true) {
-        obj[key] = { items: [] }
-      }
-      obj[key].items = action.payload.items
-    }
-
-    return obj[key]
-  }, newState)
-
-  return validate(newState)
 }
 
 export const setBaseURL = (state, action) => {
