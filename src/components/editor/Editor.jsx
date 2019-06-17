@@ -10,10 +10,10 @@ import ResourceTemplate from './ResourceTemplate'
 import Header from './Header'
 import RDFModal from './RDFModal'
 import GroupChoiceModal from './GroupChoiceModal'
+import ErrorMessages from './ErrorMessages'
 import Config from 'Config'
 import { getCurrentSession, getCurrentUser } from 'authSelectors'
 import { publishRDFResource } from 'sinopiaServer'
-import { findNode } from 'reducers/index'
 
 const _ = require('lodash')
 
@@ -69,21 +69,6 @@ class Editor extends Component {
       authenticationMessage = <span/>
     }
 
-    let errorMessage
-
-    if (this.props.displayValidations && this.props.errors.length > 0) {
-      const errorList = this.props.errors.map(elem => (<li key={elem.path.join('-')}>{elem.label} {elem.message}</li>))
-
-      errorMessage = <div className="row">
-        <div className="col-md-12" style={{ marginTop: '10px' }}>
-          <div className=" alert alert-danger alert-dismissible">
-            <button className="close" data-dismiss="alert" aria-label="close">&times;</button>
-            There was a probem saving this resource. Validation errors: <ul>{errorList}</ul>
-          </div>
-        </div>
-      </div>
-    }
-
     return (
       <div id="editor">
         <Header triggerEditorMenu={this.props.triggerHandleOffsetMenu}/>
@@ -95,7 +80,7 @@ class Editor extends Component {
           </section>
         </div>
         <RDFModal save={ this.props.openGroupChooser } close={ this.props.closeRdfPreview } />
-        {errorMessage}
+        <ErrorMessages />
         <GroupChoiceModal close={ this.closeGroupChooser }
                           save={ this.chooseGroupThenSave }
                           groups={ this.groupsToSaveInto() } />
@@ -118,15 +103,11 @@ Editor.propTypes = {
   history: PropTypes.object,
   currentSession: PropTypes.object,
   currentUser: PropTypes.object,
-  errors: PropTypes.array,
-  displayValidations: PropTypes.bool,
 }
 
 const mapStateToProps = state => ({
   currentSession: getCurrentSession(state),
   currentUser: getCurrentUser(state),
-  errors: findNode(state.selectorReducer, ['editor']).errors,
-  displayValidations: state.selectorReducer.editor.displayValidations,
 })
 
 const mapDispatchToProps = dispatch => ({
