@@ -119,13 +119,13 @@ export class InputLiteral extends Component {
     this.inputLiteralRef.current.focus()
   }
 
+  /**
+   * @return {bool} true if the field should be marked as required (e.g. not all obligations met)
+   */
+  checkMandatoryRepeatable = () => booleanPropertyFromTemplate(this.props.propertyTemplate, 'mandatory', false)
+      && this.props.formData.errors
+      && this.props.formData.errors.length !== 0
 
-    /**
-     * @return {bool} true if the field should be marked as required (e.g. not all obligations met)
-     */
-    checkMandatoryRepeatable = () => booleanPropertyFromTemplate(this.props.propertyTemplate, 'mandatory', false)
-        && this.props.formData.errors
-        && this.props.formData.errors.length !== 0
 
   dispModal = (content, id) => (
     <Modal show={this.state.show[id]} onHide={this.handleClose}>
