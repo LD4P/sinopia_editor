@@ -1,13 +1,14 @@
 // Copyright 2018, 2019 Stanford University see LICENSE for license
+/* eslint complexity: ["warn", 13] */
 
 import { combineReducers } from 'redux'
 import shortid from 'shortid'
 import authenticate from './authenticate'
 import {
-  removeAllContent, removeMyItem, setMyItems, setMySelections, setBaseURL, setMyItemsLang, displayValidations,
+  removeAllContent, removeMyItem, setItemsOrSelections, setBaseURL, setMyItemsLang,
+  showGroupChooser, closeGroupChooser, showRdfPreview,
 } from './inputs'
-import GraphBuilder from '../GraphBuilder'
-import { defaultLangTemplate } from '../Utilities'
+import { defaultLangTemplate } from 'Utilities'
 
 export const findNode = (selectorReducer, reduxPath) => {
   const items = reduxPath.reduce((obj, key) => (obj && obj[key] !== 'undefined' ? obj[key] : undefined), selectorReducer)
@@ -42,28 +43,13 @@ export const getResourceTemplate = (state, resourceTemplateId) => findNode(state
  */
 export const getPropertyTemplate = (state, resourceTemplateId, propertyURI) => {
   const resourceTemplate = getResourceTemplate(state, resourceTemplateId)
-  let propertyTemplate
 
-  if (resourceTemplate) {
-    // Find the property template
-    propertyTemplate = resourceTemplate.propertyTemplates.find(propertyTemplate => propertyTemplate.propertyURI === propertyURI)
+  if (!resourceTemplate) {
+    return
   }
-  return propertyTemplate
-}
 
-
-/**
- * @returns {function} a function that can be called to get the serialized RDF
- */
-export const getAllRdf = (state, action) => {
-  const output = Object.create(state)
-
-  // TODO: temporary no-op to pass eslint ...
-  action.payload
-
-  const builder = new GraphBuilder(output.selectorReducer)
-
-  return () => builder.graph.toString()
+  // Find the property template
+  return resourceTemplate.propertyTemplates.find(propertyTemplate => propertyTemplate.propertyURI === propertyURI)
 }
 
 /**
@@ -141,23 +127,26 @@ const selectorReducer = (state = {}, action) => {
     case 'SET_RESOURCE_TEMPLATE':
       return setResourceTemplate(state, action)
     case 'SET_ITEMS':
-      return setMyItems(state, action)
+    case 'CHANGE_SELECTIONS':
+      return setItemsOrSelections(state, action)
     case 'SET_BASE_URL':
       return setBaseURL(state, action)
+    case 'SHOW_GROUP_CHOOSER':
+      return showGroupChooser(state, action)
+    case 'CLOSE_GROUP_CHOOSER':
+      return closeGroupChooser(state, action)
     case 'SET_LANG':
       return setMyItemsLang(state, action)
+    case 'SHOW_RDF_PREVIEW':
+      return showRdfPreview(state, action)
     case 'RESOURCE_TEMPLATE_LOADED':
       return resourceTemplateLoaded(state, action)
-    case 'CHANGE_SELECTIONS':
-      return setMySelections(state, action)
     case 'REFRESH_RESOURCE_TEMPLATE':
       return refreshResourceTemplate(state, action)
     case 'REMOVE_ITEM':
       return removeMyItem(state, action)
     case 'REMOVE_ALL_CONTENT':
       return removeAllContent(state, action)
-    case 'DISPLAY_VALIDATIONS':
-      return displayValidations(state, action)
     default:
       return state
   }

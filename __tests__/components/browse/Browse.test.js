@@ -2,7 +2,7 @@
 
 import React from 'react'
 import { shallow } from 'enzyme'
-import Browse from '../../../src/components/editor/Browse'
+import Browse from 'components/browse/Browse'
 
 describe('<Browse />', () => {
   const wrapper = shallow(<Browse />)

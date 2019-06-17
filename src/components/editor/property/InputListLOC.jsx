@@ -5,9 +5,9 @@ import { Typeahead } from 'react-bootstrap-typeahead'
 import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
 import shortid from 'shortid'
-import { changeSelections } from '../../../actions/index'
-import { getDisplayValidations } from '../../../reducers/index'
-import { booleanPropertyFromTemplate, defaultValuesFromPropertyTemplate } from '../../../Utilities'
+import { changeSelections } from 'actions/index'
+import { getDisplayValidations } from 'reducers/index'
+import { booleanPropertyFromTemplate, defaultValuesFromPropertyTemplate } from 'Utilities'
 
 class InputListLOC extends Component {
   constructor(props) {
@@ -49,7 +49,7 @@ class InputListLOC extends Component {
   }
 
   get isRepeatable() {
-    return booleanPropertyFromTemplate(this.props.propertyTemplate.valueConstraint, 'repeatable', true)
+    return booleanPropertyFromTemplate(this.props.propertyTemplate, 'repeatable', true)
   }
 
   validate() {

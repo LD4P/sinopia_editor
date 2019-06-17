@@ -3,14 +3,14 @@
 import React, { Component } from 'react'
 import 'react-bootstrap-typeahead/css/Typeahead.css'
 import LoginPanel from './LoginPanel'
-import HomePage from './HomePage'
+import HomePage from './home/HomePage'
 import '../styles/main.css'
 import Editor from './editor/Editor'
 import Footer from './Footer'
 import { Route, Switch, withRouter } from 'react-router-dom'
-import ImportResourceTemplate from './editor/ImportResourceTemplate'
-import Browse from './editor/Browse'
-import CanvasMenu from './CanvasMenu'
+import ImportResourceTemplate from './templates/ImportResourceTemplate'
+import Browse from './browse/Browse'
+import CanvasMenu from './menu/CanvasMenu'
 import { connect } from 'react-redux'
 
 

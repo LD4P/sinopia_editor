@@ -6,10 +6,10 @@ import { connect } from 'react-redux'
 import Modal from 'react-bootstrap/lib/Modal'
 import Button from 'react-bootstrap/lib/Button'
 import shortid from 'shortid'
-import { removeItem, setItems, setLang } from '../../../actions/index'
-import { getProperty, getDisplayValidations, getPropertyTemplate } from '../../../reducers/index'
+import { removeItem, setItems, setLang } from 'actions/index'
+import { findNode, getDisplayValidations, getPropertyTemplate } from 'reducers/index'
 import InputLang from './InputLang'
-import { defaultLangTemplate } from '../../../Utilities'
+import { defaultLangTemplate } from 'Utilities'
 
 
 // Redux recommends exporting the unconnected component for unit tests.
@@ -25,22 +25,13 @@ export class InputLiteral extends Component {
     this.state = {
       show: {},
       content_add: '',
-      disabled: false,
       lang_payload: null,
     }
     this.inputLiteralRef = React.createRef()
   }
 
-  componentDidMount = () => {
-    // Note that it is possible that the resource template hasn't been loaded yet, hence there will not be a property template.
-    if (this.props.propertyTemplate
-        && this.props.propertyTemplate.repeatable === 'false'
-        && this.props.formData !== undefined
-        && this.props.formData.items.length > 0) {
-      this.setState({ disabled: true })
-    }
-  }
-
+  disabled = () => this.props.propertyTemplate.repeatable === 'false'
+      && this.props.items?.length > 0
 
   handleShow = (id) => {
     const showState = {}
@@ -64,16 +55,6 @@ export class InputLiteral extends Component {
     this.setState({ content_add: userInput })
   }
 
-  notRepeatableAfterUserInput = (userInputArray, currentcontent) => {
-    let newId = null
-
-    if (this.props.formData === undefined || this.props.formData.items < 1) {
-      newId = this.addUserInput(userInputArray, currentcontent)
-      this.setState({ disabled: true })
-    }
-    return newId
-  }
-
   addUserInput = (userInputArray, currentcontent) => {
     const newId = shortid.generate()
 
@@ -92,13 +73,7 @@ export class InputLiteral extends Component {
       if (!currentcontent) {
         return
       }
-      let newId = null
-
-      if (this.props.propertyTemplate.repeatable === 'true') {
-        newId = this.addUserInput(userInputArray, currentcontent)
-      } else if (this.props.propertyTemplate.repeatable === 'false') {
-        newId = this.notRepeatableAfterUserInput(userInputArray, currentcontent)
-      }
+      const newId = this.addUserInput(userInputArray, currentcontent)
       const userInput = {
         uri: this.props.propertyTemplate.propertyURI,
         reduxPath: this.props.reduxPath,
@@ -126,13 +101,12 @@ export class InputLiteral extends Component {
         uri: this.props.propertyTemplate.propertyURI,
       },
     )
-    this.setState({ disabled: false })
   }
 
   handleEditClick = (event) => {
     const idToRemove = event.target.dataset.item
 
-    this.props.formData.items.forEach((item) => {
+    this.props.items.forEach((item) => {
       if (item.id === idToRemove) {
         const itemContent = item.content
 
@@ -145,23 +119,12 @@ export class InputLiteral extends Component {
   }
 
 
-  /**
-   * @return {bool} true if the field should be marked as required (e.g. not all obligations met)
-   */
-  checkMandatoryRepeatable = () => {
-    if (this.props.propertyTemplate.mandatory === 'true') {
-      if (this.props.formData === undefined || this.props.formData.items === undefined) return true
-      const inputLength = this.props.formData.items.length
-
-      if (inputLength > 0) {
-        return false
-      }
-      return true
-    }
-    if (this.props.propertyTemplate.mandatory === 'false') {
-      return false
-    }
-  }
+    /**
+     * @return {bool} true if the field should be marked as required (e.g. not all obligations met)
+     */
+    checkMandatoryRepeatable = () => this.props.propertyTemplate.mandatory === 'true'
+        && this.props.formData.errors
+        && this.props.formData.errors.length !== 0
 
   dispModal = (content, id) => (
     <Modal show={this.state.show[id]} onHide={this.handleClose}>
@@ -179,12 +142,11 @@ export class InputLiteral extends Component {
   )
 
   makeAddedList = () => {
-    const formInfo = this.props.formData
-
-    if (formInfo === undefined || formInfo.items === undefined) {
+    if (this.props.items === undefined) {
       return
     }
-    const elements = formInfo.items.map((obj) => {
+
+    const elements = this.props.items.map((obj) => {
       const itemId = obj.id || shortid.generate()
 
       return <div id="userInput" key = {itemId} >
@@ -195,7 +157,7 @@ export class InputLiteral extends Component {
           onClick={this.handleDeleteClick}
           key={`delete${obj.id}`}
           data-item={itemId}
-          data-label={formInfo.uri}
+          data-label={this.props.formData.uri}
         >X
         </button>
         <button
@@ -204,7 +166,7 @@ export class InputLiteral extends Component {
           onClick={this.handleEditClick}
           key={`edit${obj.id}`}
           data-item={itemId}
-          data-label={formInfo.uri}
+          data-label={this.props.formData.uri}
         >Edit
         </button>
         <Button
@@ -252,6 +214,7 @@ export class InputLiteral extends Component {
       groupClasses += ' has-error'
     }
 
+
     return (
       <div className={groupClasses}>
         <input
@@ -261,7 +224,7 @@ export class InputLiteral extends Component {
               onChange={this.handleChange}
               onKeyPress={this.handleKeypress}
               value={this.state.content_add}
-              disabled={this.state.disabled}
+              disabled={this.disabled()}
               id={this.props.id}
               onClick={this.handleFocus}
               ref={this.inputLiteralRef}
@@ -288,8 +251,9 @@ InputLiteral.propTypes = {
   formData: PropTypes.shape({
     id: PropTypes.oneOfType([PropTypes.number, PropTypes.string]),
     uri: PropTypes.string,
-    items: PropTypes.array,
+    errors: PropTypes.array,
   }),
+  items: PropTypes.array,
   handleMyItemsChange: PropTypes.func,
   handleRemoveItem: PropTypes.func,
   handleMyItemsLangChange: PropTypes.func,
@@ -302,11 +266,16 @@ const mapStateToProps = (state, props) => {
   const resourceTemplateId = reduxPath[reduxPath.length - 2]
   const propertyURI = reduxPath[reduxPath.length - 1]
   const displayValidations = getDisplayValidations(state)
+  const formData = findNode(state.selectorReducer, reduxPath)
+  // items has to be its own prop or rerendering won't occur when one is removed
+  const items = formData.items
+  const propertyTemplate = getPropertyTemplate(state, resourceTemplateId, propertyURI)
 
   return {
-    formData: { items: getProperty(state, props) },
+    formData,
+    items,
     reduxPath,
-    propertyTemplate: getPropertyTemplate(state, resourceTemplateId, propertyURI),
+    propertyTemplate,
     displayValidations,
   }
 }

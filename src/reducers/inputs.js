@@ -1,5 +1,53 @@
 // Copyright 2018, 2019 Stanford University see LICENSE for license
 
+import Validator from '../Validator'
+
+export const validate = state => new Validator(state).validate()
+
+/**
+ * Open the group choice dialog if the object is valid
+ * @param {Object} state the previous redux state
+ * @return {Object} the next redux state
+ */
+export const showGroupChooser = (state) => {
+  const newState = { ...state }
+
+  if (validate(state).editor.errors.length === 0) {
+    // Show the window to select a group
+    newState.editor.groupChoice.show = true
+  } else {
+    // Show errors that prevent save
+    newState.editor.displayValidations = true
+  }
+
+  return newState
+}
+
+/**
+ * Close the group chooser
+ * @param {Object} state the previous redux state
+ * @return {Object} the next redux state
+ */
+export const closeGroupChooser = (state) => {
+  const newState = { ...state }
+
+  newState.editor.groupChoice.show = false
+
+  return newState
+}
+
+/**
+ * @param {Object} state the previous redux state
+ * @param {Object} action the payload of the action is a boolean that says to show or not to show the preview
+ * @return {Object} the next redux state
+ */
+export const showRdfPreview = (state, action) => {
+  const newState = { ...state }
+
+  newState.editor.rdfPreview.show = action.payload
+  return newState
+}
+
 export const removeAllContent = (state, action) => {
   const newState = { ...state }
   const reduxPath = action.payload.reduxPath
@@ -14,10 +62,10 @@ export const removeAllContent = (state, action) => {
     return obj[key]
   }, newState)
 
-  return newState
+  return validate(newState)
 }
 
-export const setMyItems = (state, action) => {
+export const setItemsOrSelections = (state, action) => {
   const newState = { ...state }
   const reduxPath = action.payload.reduxPath
   let level = 0
@@ -28,9 +76,14 @@ export const setMyItems = (state, action) => {
       if ((key in obj) !== true || !Object.keys(obj[key]).includes('items')) {
         obj[key] = { items: [] }
       }
-      action.payload.items.map((row) => {
-        obj[key].items.push(row)
-      })
+      if (action.type === 'SET_ITEMS') {
+        action.payload.items.map((row) => {
+          obj[key].items.push(row)
+        })
+      }
+      else if (action.type === 'CHANGE_SELECTIONS') {
+        obj[key].items = action.payload.items
+      }
     }
     if (!Object.keys(obj).includes(key)) {
       obj[key] = {}
@@ -39,7 +92,7 @@ export const setMyItems = (state, action) => {
     return obj[key]
   }, newState)
 
-  return newState
+  return validate(newState)
 }
 
 export const setMyItemsLang = (state, action) => {
@@ -59,26 +112,6 @@ export const setMyItemsLang = (state, action) => {
       if (payloadItem) {
         payloadItem.lang = { items: action.payload.items }
       }
-    }
-
-    return obj[key]
-  }, newState)
-
-  return newState
-}
-
-export const setMySelections = (state, action) => {
-  const newState = { ...state }
-  const reduxPath = action.payload.reduxPath
-  let level = 0
-
-  reduxPath.reduce((obj, key) => {
-    level++
-    if (level === reduxPath.length) {
-      if ((key in obj) !== true) {
-        obj[key] = { items: [] }
-      }
-      obj[key].items = action.payload.items
     }
 
     return obj[key]
@@ -114,15 +147,5 @@ export const removeMyItem = (state, action) => {
     return obj[key]
   }, newState)
 
-  return newState
-}
-
-export const displayValidations = (state, action) => {
-  const newState = { ...state }
-
-  if (!newState.editor) {
-    newState.editor = {}
-  }
-  newState.editor.displayValidations = action.payload
-  return newState
+  return validate(newState)
 }

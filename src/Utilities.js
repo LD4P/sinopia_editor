@@ -1,5 +1,7 @@
 // Copyright 2018, 2019 Stanford University see LICENSE for license
 
+import lookupConfig from '../static/spoofedFilesFromServer/fromSinopiaServer/lookupConfig.json'
+
 const _ = require('lodash')
 
 export const isResourceWithValueTemplateRef = property => property?.type === 'resource'
@@ -10,7 +12,6 @@ export const resourceToName = (uri) => {
 
   return uri.substr(uri.lastIndexOf('/') + 1)
 }
-
 
 export const defaultValuesFromPropertyTemplate = (propertyTemplate) => {
   // Use safe navigation to deal with differently shaped property templates
@@ -23,32 +24,13 @@ export const defaultValuesFromPropertyTemplate = (propertyTemplate) => {
 
   const defaultLabel = defaultLiteral || defaultURI
 
-  if (!defaultValue) return []
+  if (!defaultValue || !defaultLabel) return []
 
   return [{
     id: defaultValue.defaultURI,
     label: defaultLabel,
     uri: defaultValue.defaultURI,
   }]
-}
-
-export const templateBoolean = (value) => {
-  let result
-
-  switch (value) {
-    case 'true':
-    case true:
-      result = true
-      break
-    case 'false':
-    case false:
-      result = false
-      break
-    default:
-      result = true
-  }
-
-  return Boolean(result)
 }
 
 export const booleanPropertyFromTemplate = (template, key, defaultValue) => {
@@ -73,3 +55,13 @@ export const defaultLangTemplate = () => ({
     },
   ],
 })
+
+export const getLookupConfigItems = (propertyTemplate) => {
+  const vocabUriList = propertyTemplate?.valueConstraint?.useValuesFrom
+
+  if (vocabUriList === undefined || vocabUriList.length === 0) return []
+
+  const templateConfigItems = lookupConfig.filter(configItem => vocabUriList.includes(configItem.uri))
+
+  return templateConfigItems
+}

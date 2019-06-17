@@ -4,7 +4,7 @@ import React from 'react'
 import Modal from 'react-bootstrap/lib/Modal'
 import Button from 'react-bootstrap/lib/Button'
 import { shallow } from 'enzyme'
-import GroupChoiceModal from '../../../src/components/editor/GroupChoiceModal'
+import GroupChoiceModal from 'components/editor/GroupChoiceModal'
 
 describe('<GroupChoiceModal />', () => {
   const saveFunc = jest.fn()
@@ -13,7 +13,7 @@ describe('<GroupChoiceModal />', () => {
   const groups = [['pcc', 'PCC'],
     ['wau', 'University of Washington']]
 
-  const wrapper = shallow(<GroupChoiceModal show={true} rdf={rdfFunc} save={saveFunc} close={closeFunc} groups={groups} />)
+  const wrapper = shallow(<GroupChoiceModal.WrappedComponent show={true} rdf={rdfFunc} save={saveFunc} close={closeFunc} groups={groups} />)
 
   it('renders the <GroupChoiceModal /> component as a Modal', () => {
     expect(wrapper.find(Modal).length).toBe(1)

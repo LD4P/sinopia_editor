@@ -1,14 +1,15 @@
+
 // Copyright 2019 Stanford University see LICENSE for license
 
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
-import Header from './Header'
+import Header from '../Header'
 import ImportFileZone from './ImportFileZone'
 import SinopiaResourceTemplates from './SinopiaResourceTemplates'
 import UpdateResourceModal from './UpdateResourceModal'
-import { createResourceTemplate, updateResourceTemplate } from '../../sinopiaServer'
-import { getCurrentUser } from '../../authSelectors'
+import { createResourceTemplate, updateResourceTemplate } from 'sinopiaServer'
+import { getCurrentUser } from 'authSelectors'
 
 class ImportResourceTemplate extends Component {
   constructor(props) {

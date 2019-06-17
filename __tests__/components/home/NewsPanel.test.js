@@ -1,10 +1,10 @@
-// Copyright 2018 Stanford University see LICENSE for license
+// Copyright 2019 Stanford University see LICENSE for license
 
 import React from 'react'
 import { shallow } from 'enzyme'
-import NewsPanel from '../../src/components/NewsPanel'
-import NewsItem from '../../src/components/NewsItem'
-import LoginPanel from '../../src/components/LoginPanel'
+import NewsPanel from 'components/home/NewsPanel'
+import NewsItem from 'components/home/NewsItem'
+import LoginPanel from 'components/LoginPanel'
 
 describe('<NewsPanel />', () => {
   const wrapper = shallow(<NewsPanel />)

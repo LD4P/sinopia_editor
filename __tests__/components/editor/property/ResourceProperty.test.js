@@ -60,6 +60,7 @@ describe('<ResourceProperty />', () => {
       expect(propertyTemplateOutline.props().propertyTemplate).toEqual(nestedRTs[0].propertyTemplates[0])
       expect(propertyTemplateOutline.props().reduxPath).toEqual(['http://id.loc.gov/ontologies/bibframe/note', 'abcd45', 'resourceTemplate:bf2:Note', 'http://www.w3.org/2000/01/rdf-schema#label'])
       expect(propertyTemplateOutline.props().resourceTemplate).toEqual(nestedRTs[0])
+      expect(propertyTemplateOutline.props().addButtonDisabled).toEqual(true) // repeatable is false by default (nested prop template)
     })
 
     it('calls redux to initialize the state with the nested resource', () => {
@@ -92,6 +93,7 @@ describe('<ResourceProperty />', () => {
           propertyURI: 'http://www.w3.org/2000/01/rdf-schema#label',
           propertyLabel: 'Note',
           type: 'literal',
+          repeatable: 'true',
         },
       ],
     }]
@@ -118,6 +120,7 @@ describe('<ResourceProperty />', () => {
       expect(propertyTemplateOutline.props().propertyTemplate).toEqual(nestedRTsWithoutMissingRef[0].propertyTemplates[0])
       expect(propertyTemplateOutline.props().reduxPath).toEqual(['http://id.loc.gov/ontologies/bibframe/note', 'abcd45', 'resourceTemplate:bf2:Note', 'http://www.w3.org/2000/01/rdf-schema#label'])
       expect(propertyTemplateOutline.props().resourceTemplate).toEqual(nestedRTsWithoutMissingRef[0])
+      expect(propertyTemplateOutline.props().addButtonDisabled).toEqual(false) // nested prop template is repeatable
     })
 
     it('renders a warning for the missing resource', () => {

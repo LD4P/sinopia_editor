@@ -5,6 +5,15 @@ export const setItems = item => ({
   payload: item,
 })
 
+export const showGroupChooser = show => ({
+  type: 'SHOW_GROUP_CHOOSER',
+  payload: show,
+})
+
+export const closeGroupChooser = () => ({
+  type: 'CLOSE_GROUP_CHOOSER',
+})
+
 export const refreshResourceTemplate = update => ({
   type: 'REFRESH_RESOURCE_TEMPLATE',
   payload: update,
@@ -45,6 +54,11 @@ export const setLang = item => ({
   payload: item,
 })
 
+export const showRdfPreview = show => ({
+  type: 'SHOW_RDF_PREVIEW',
+  payload: show,
+})
+
 export const resourceTemplateLoaded = resourceTemplate => ({
   type: 'RESOURCE_TEMPLATE_LOADED',
   payload: resourceTemplate,
@@ -62,9 +76,4 @@ export const authenticationSuccess = authenticationResult => ({
 
 export const signOutSuccess = () => ({
   type: 'SIGN_OUT_SUCCESS',
-})
-
-export const displayValidations = shouldDisplay => ({
-  type: 'DISPLAY_VALIDATIONS',
-  payload: shouldDisplay,
 })

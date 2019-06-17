@@ -6,8 +6,8 @@ import PropTypes from 'prop-types'
 import shortid from 'shortid'
 import PropertyActionButtons from './PropertyActionButtons'
 import PropertyTemplateOutline from './PropertyTemplateOutline'
-import { refreshResourceTemplate } from '../../../actions/index'
-import { templateBoolean } from '../../../Utilities'
+import { refreshResourceTemplate } from 'actions/index'
+import { booleanPropertyFromTemplate } from 'Utilities'
 
 const _ = require('lodash')
 
@@ -58,7 +58,7 @@ export class ResourceProperty extends Component {
         const payload = { reduxPath: propertyReduxPath, property: rtProperty }
 
         this.props.initNewResourceTemplate(payload)
-        const isAddDisabled = !templateBoolean(rtProperty.repeatable)
+        const isAddDisabled = !booleanPropertyFromTemplate(rtProperty, 'repeatable', false)
 
         jsx.push(
           <PropertyTemplateOutline key={keyId}

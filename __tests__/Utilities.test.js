@@ -4,7 +4,7 @@ import {
   defaultValuesFromPropertyTemplate,
   isResourceWithValueTemplateRef,
   resourceToName,
-  templateBoolean,
+  getLookupConfigItems,
 } from '../src/Utilities'
 
 
@@ -120,30 +120,6 @@ describe('Utilities', () => {
     })
   })
 
-  describe('templateBoolean()', () => {
-    it('returns true when "true" is passed in as a string', () => {
-      expect(templateBoolean('true')).toBe(true)
-    })
-
-    it('returns true when a boolean true is passed into the function', () => {
-      expect(templateBoolean(true)).toBe(true)
-    })
-
-    it('returns true as the default if the parameter is null, undefined, or a random string', () => {
-      expect(templateBoolean(null)).toBe(true)
-      expect(templateBoolean(undefined)).toBe(true)
-      expect(templateBoolean('asdfdsafds')).toBe(true)
-    })
-
-    it('return false when "false" is passed in as a string', () => {
-      expect(templateBoolean('false')).toBe(false)
-    })
-
-    it('returns false when a boolean false is passed into the function', () => {
-      expect(templateBoolean(false)).toBe(false)
-    })
-  })
-
   describe('defaultValuesFromPropertyTemplate()', () => {
     it('returns an empty array if passed any value that fails to define a `valueConstraint.defaults` array', () => {
       const propertyTemplate = null
@@ -155,6 +131,19 @@ describe('Utilities', () => {
       const propertyTemplate = {
         valueConstraint: {
           defaults: [],
+        },
+      }
+
+      expect(defaultValuesFromPropertyTemplate(propertyTemplate)).toEqual([])
+    })
+
+    it('returns an empty array if the defaults are blank', () => {
+      const propertyTemplate = {
+        valueConstraint: {
+          defaults: [{
+            defaultLiteral: '',
+            defaultURI: '',
+          }],
         },
       }
 
@@ -196,6 +185,50 @@ describe('Utilities', () => {
         label: 'http://id.loc.gov/vocabulary/mcolor/mul',
         uri: 'http://id.loc.gov/vocabulary/mcolor/mul',
       }])
+    })
+  })
+  describe('getLookupConfigItems()', () => {
+    it('returns an empty array if passed any value that fails to define a `valueConstraint.useValuesFrom` array', () => {
+      expect(getLookupConfigItems({})).toEqual([])
+    })
+
+    it('returns an empty array if passed a value with an empty `valueConstraint.useValuesFrom` array', () => {
+      const template = {
+        valueConstraint: {
+          useValuesFrom: [],
+        },
+      }
+
+      expect(getLookupConfigItems(template)).toEqual([])
+    })
+
+    it('returns an array with lookupConfig objects matching URIs in useValuesFrom array', () => {
+      const template = {
+        valueConstraint: {
+          useValuesFrom: [
+            'http://does.not.match/1',
+            'http://does.not.match/2',
+            'urn:ld4p:qa:agrovoc',
+            'https://id.loc.gov/vocabulary/mrectype',
+          ],
+        },
+      }
+
+      expect(getLookupConfigItems(template)).toEqual([
+        {
+          label: 'AGROVOC (QA)',
+          uri: 'urn:ld4p:qa:agrovoc',
+          authority: 'agrovoc_ld4l_cache',
+          subauthority: '',
+          language: 'en',
+          component: 'lookup',
+        },
+        {
+          label: 'type of recording',
+          uri: 'https://id.loc.gov/vocabulary/mrectype',
+          component: 'list',
+        },
+      ])
     })
   })
 })

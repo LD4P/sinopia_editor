@@ -1,11 +1,11 @@
-// Copyright 2018 Stanford University see LICENSE for license
+// Copyright 2019 Stanford University see LICENSE for license
 
 import 'jsdom-global/register'
 import React from 'react'
 import { shallow } from 'enzyme'
 import Modal from 'react-bootstrap/lib/Modal'
 import Button from 'react-bootstrap/lib/Button'
-import UpdateResourceModal from '../../../src/components/editor/UpdateResourceModal'
+import UpdateResourceModal from 'components/templates/UpdateResourceModal'
 
 describe('<UpdateResourceModal> with conflict message', () => {
   const messages = [{

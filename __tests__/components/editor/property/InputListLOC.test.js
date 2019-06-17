@@ -12,10 +12,9 @@ const plProps = {
       propertyLabel: 'Frequency (RDA 2.14)',
       remark: 'http://access.rdatoolkit.org/2.14.html',
       mandatory: 'false',
-      repeatable: 'false',
+      repeatable: 'true',
       type: 'lookup',
       valueConstraint: {
-        repeatable: 'true',
         defaults: [{
           defaultURI: 'http://id.loc.gov/vocabulary/carriers/nc',
           defaultLiteral: 'volume',
@@ -101,7 +100,7 @@ describe('<Typeahead /> component', () => {
     expect(wrapper.find(Typeahead).props().placeholder).toMatch('Frequency (RDA 2.14)')
   })
 
-  it('sets the typeahead component multiple attribute according to the repeatable value from valueContraints in the property template', () => {
+  it('sets the typeahead component multiple attribute according to the repeatable value in the property template', () => {
     expect(wrapper.find('#targetComponent').props().multiple).toBe(true)
   })
 
@@ -134,10 +133,9 @@ describe('<Typeahead /> component', () => {
           propertyLabel: 'Frequency (RDA 2.14)',
           remark: 'http://access.rdatoolkit.org/2.14.html',
           mandatory: 'false',
-          repeatable: 'false',
+          repeatable: 'true',
           type: 'lookup',
           valueConstraint: {
-            repeatable: 'true',
             valueTemplateRefs: [],
             useValuesFrom: [
               'vocabulary:bf2:frequencies',

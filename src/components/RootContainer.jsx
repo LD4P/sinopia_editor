@@ -1,11 +1,11 @@
-// Copyright 2018 Stanford University see LICENSE for license
+// Copyright 2019 Stanford University see LICENSE for license
 
 import React, { Component } from 'react'
 import { hot } from 'react-hot-loader'
 import { OffCanvas, OffCanvasBody, OffCanvasMenu } from 'react-offcanvas'
 import { BrowserRouter } from 'react-router-dom'
 import { Provider } from 'react-redux'
-import CanvasMenu from './CanvasMenu'
+import CanvasMenu from './menu/CanvasMenu'
 import App from './App'
 import store from '../store'
 

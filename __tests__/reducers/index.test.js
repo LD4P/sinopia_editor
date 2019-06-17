@@ -1,16 +1,15 @@
 // Copyright 2019 Stanford University see LICENSE for license
 import shortid from 'shortid'
 import selectorReducer, {
-  getAllRdf,
   populatePropertyDefaults,
   refreshResourceTemplate,
   resourceTemplateLoaded,
   getDisplayValidations,
   getResourceTemplate,
   getPropertyTemplate,
-} from '../../src/reducers/index'
+} from 'reducers/index'
 /* eslint import/namespace: 'off' */
-import * as inputs from '../../src/reducers/inputs'
+import * as inputs from 'reducers/inputs'
 
 
 let initialState
@@ -26,32 +25,6 @@ beforeEach(() => {
       },
     },
   }
-})
-
-describe('getAllRdf()', () => {
-  const state = {
-    selectorReducer: {
-      entities: {
-        resourceTemplates: {
-          'resourceTemplate:bf2:Monograph:Work': {
-            resourceURI: 'http://id.loc.gov/ontologies/bibframe/Work',
-          },
-        },
-      },
-      resource: {
-        'resourceTemplate:bf2:Monograph:Work': {
-          'http://id.loc.gov/ontologies/bibframe/title': {},
-        },
-      },
-    },
-  }
-  const action = { }
-
-  it('returns a function, which when invoked returns a string', () => {
-    const fn = getAllRdf(state, action)
-
-    expect(fn()).toEqual('<> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://id.loc.gov/ontologies/bibframe/Work> .\n')
-  })
 })
 
 describe('getDisplayValidations()', () => {

@@ -3,65 +3,26 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import PropTypes from 'prop-types'
-import { removeAllItems, assignBaseURL, displayValidations } from '../../actions/index'
+import {
+  removeAllItems, assignBaseURL, showGroupChooser, closeGroupChooser, showRdfPreview,
+} from 'actions/index'
 import ResourceTemplate from './ResourceTemplate'
-import Header from './Header'
+import Header from '../Header'
 import RDFModal from './RDFModal'
 import GroupChoiceModal from './GroupChoiceModal'
-import Config from '../../Config'
-import { getCurrentSession, getCurrentUser } from '../../authSelectors'
-import { publishRDFResource } from '../../sinopiaServer'
-import { getAllRdf } from '../../reducers/index'
-
-const _ = require('lodash')
+import ErrorMessages from './ErrorMessages'
+import { getCurrentSession, getCurrentUser } from 'authSelectors'
+import { publishRDFResource } from 'sinopiaServer'
 
 /**
  * This is the root component of the resource edit page
  */
 class Editor extends Component {
-  constructor(props) {
-    super(props)
-    this.state = {
-      tempRtState: true,
-      resourceTemplateId: '',
-      showRdf: false,
-      showGroupChooser: false,
-    }
-  }
-
   componentDidMount() {
-    if (this.state.tempRtState) {
-      if (this.props.location.state !== undefined) {
-        this.setState({
-          resourceTemplateId: this.props.location.state.resourceTemplateId,
-        })
-      } else {
-        this.props.history.push('/templates')
-      }
-      this.setState({ tempRtState: false })
+    if (!this.props.location.state) {
+      this.props.history.push('/templates')
     }
   }
-
-  handleRdfShow = () => {
-    this.setState({ showRdf: true })
-  }
-
-  // NOTE: it's possible these handle methods for RDFModal could live in RDFModal component
-  handleRdfClose = () => {
-    this.setState({ showRdf: false })
-  }
-
-  validate = () => {
-    this.props.setDisplayValidations(true)
-  }
-
-  handleRdfSave = () => {
-    this.setState({ showGroupChooser: true })
-  }
-
-  renderResourceTemplate = () => (
-    <ResourceTemplate resourceTemplateId = {this.state.resourceTemplateId} />
-  )
 
   chooseGroupThenSave = (rdf, group) => {
     const request = publishRDFResource(this.props.currentUser, rdf, group)
@@ -73,16 +34,9 @@ class Editor extends Component {
       console.error('unable to save resource')
       console.error(err)
     })
-    this.handleRdfClose()
-    this.closeGroupChooser()
+    this.props.closeRdfPreview()
+    this.props.closeGroupChooser()
   }
-
-  closeGroupChooser = () => {
-    this.setState({ showGroupChooser: false })
-  }
-
-  // The ld4p group is only for templates
-  groupsToSaveInto = () => Config.groupsInSinopia.filter(group => group[0] !== 'ld4p')
 
   render() {
     let authenticationMessage = <div className="alert alert-warning alert-dismissible">
@@ -94,36 +48,21 @@ class Editor extends Component {
       authenticationMessage = <span/>
     }
 
-
-    let rdfModal
-
-    if (this.state.showRdf) {
-      rdfModal = <RDFModal save={ () => this.handleRdfSave() }
-                           close={ this.handleRdfClose }
-                           rdf={ this.props.rdf } />
-    }
-
     return (
       <div id="editor">
         <Header triggerEditorMenu={this.props.triggerHandleOffsetMenu}/>
         { authenticationMessage }
         <div className="row">
           <section className="col-md-3" style={{ float: 'right', width: '320px' }}>
-            <button type="button" className="btn btn-link btn-sm btn-editor" onClick={ this.handleRdfShow }>Preview RDF</button>
-            <button type="button" className="btn btn-primary btn-sm btn-editor" onClick={ this.handleRdfSave }>Save & Publish</button>
-            <button type="button" className="btn btn-primary btn-sm btn-editor" onClick={ this.validate }>Validate</button>
+            <button type="button" className="btn btn-link btn-sm btn-editor" onClick={ this.props.openRdfPreview }>Preview RDF</button>
+            <button type="button" className="btn btn-primary btn-sm btn-editor" onClick={ this.props.openGroupChooser }>Save & Publish</button>
           </section>
         </div>
-        {rdfModal}
+        <RDFModal save={ this.props.openGroupChooser } close={ this.props.closeRdfPreview } />
+        <ErrorMessages />
+        <GroupChoiceModal close={ this.closeGroupChooser } save={ this.chooseGroupThenSave } />
 
-        <div>
-          <GroupChoiceModal show={ this.state.showGroupChooser }
-                            rdf={this.props.rdf}
-                            close={ this.closeGroupChooser }
-                            save={ this.chooseGroupThenSave }
-                            groups={ this.groupsToSaveInto() } />
-        </div>
-        { _.isEmpty(this.state.resourceTemplateId) ? (<div>Loading resource template...</div>) : this.renderResourceTemplate() }
+        <ResourceTemplate resourceTemplateId = {this.props.location.state.resourceTemplateId} />
       </div>
     )
   }
@@ -133,19 +72,20 @@ Editor.propTypes = {
   triggerHandleOffsetMenu: PropTypes.func,
   resetStore: PropTypes.func,
   setBaseURL: PropTypes.func,
+  openGroupChooser: PropTypes.func,
+  closeGroupChooser: PropTypes.func,
+  openRdfPreview: PropTypes.func,
+  closeRdfPreview: PropTypes.func,
   location: PropTypes.object,
   resourceTemplateId: PropTypes.string,
   history: PropTypes.object,
   currentSession: PropTypes.object,
   currentUser: PropTypes.object,
-  rdf: PropTypes.func,
-  setDisplayValidations: PropTypes.func,
 }
 
-const mapStateToProps = (state, props) => ({
+const mapStateToProps = state => ({
   currentSession: getCurrentSession(state),
   currentUser: getCurrentUser(state),
-  rdf: getAllRdf(state, props),
 })
 
 const mapDispatchToProps = dispatch => ({
@@ -155,8 +95,17 @@ const mapDispatchToProps = dispatch => ({
   setBaseURL(url) {
     dispatch(assignBaseURL(url))
   },
-  setDisplayValidations(shouldDisplay) {
-    dispatch(displayValidations(shouldDisplay))
+  openGroupChooser() {
+    dispatch(showGroupChooser(true))
+  },
+  closeGroupChooser() {
+    dispatch(closeGroupChooser(false))
+  },
+  openRdfPreview() {
+    dispatch(showRdfPreview(true))
+  },
+  closeRdfPreview() {
+    dispatch(showRdfPreview(false))
   },
 })
 

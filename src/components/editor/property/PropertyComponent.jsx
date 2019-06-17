@@ -6,25 +6,14 @@ import PropTypes from 'prop-types'
 import InputLiteral from './InputLiteral'
 import InputListLOC from './InputListLOC'
 import InputLookupQA from './InputLookupQA'
-import InputLookupQAContext from './InputLookupQAContext'
-import lookupConfig from '../../../../static/spoofedFilesFromServer/fromSinopiaServer/lookupConfig.json'
+import { getLookupConfigItems } from 'Utilities'
 
 export class PropertyComponent extends Component {
   constructor(props) {
     super(props)
     this.state = {
-      configuration: this.getLookupConfigItems(this.props.propertyTemplate),
+      configuration: getLookupConfigItems(this.props.propertyTemplate),
     }
-  }
-
-  getLookupConfigItems = (propertyTemplate) => {
-    const vocabUriList = propertyTemplate?.valueConstraint?.useValuesFrom
-
-    if (vocabUriList === undefined || vocabUriList.length === 0) return []
-
-    const templateConfigItems = lookupConfig.filter(configItem => vocabUriList.includes(configItem.uri))
-
-    return templateConfigItems
   }
 
   inputComponentType = (property) => {
@@ -44,10 +33,8 @@ export class PropertyComponent extends Component {
 
     switch (config) {
       case 'lookup':
-        return (<InputLookupQAContext key = {this.props.index}
-                               reduxPath={reduxPath}
-                               propertyTemplate = {property}
-                               lookupConfig = {this.state.configuration} />)
+        return (<InputLookupQA key = {this.props.index}
+                               reduxPath={reduxPath} />)
       case 'list':
         return (<InputListLOC key = {this.props.index}
                               reduxPath={reduxPath}

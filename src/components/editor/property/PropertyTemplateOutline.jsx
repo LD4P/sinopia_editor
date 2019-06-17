@@ -5,12 +5,12 @@ import PropTypes from 'prop-types'
 import shortid from 'shortid'
 import OutlineHeader from './OutlineHeader'
 import PropertyTypeRow from './PropertyTypeRow'
-import { getResourceTemplate } from '../../../sinopiaServer'
-import { isResourceWithValueTemplateRef, resourceToName, templateBoolean } from '../../../Utilities'
+import { getResourceTemplate } from 'sinopiaServer'
+import { booleanPropertyFromTemplate, isResourceWithValueTemplateRef, resourceToName } from 'Utilities'
 import PropertyComponent from './PropertyComponent'
 import ResourceProperty from './ResourceProperty'
-import store from '../../../store'
-import { resourceTemplateLoaded } from '../../../actions/index'
+import store from 'store'
+import { resourceTemplateLoaded } from 'actions/index'
 
 export class PropertyTemplateOutline extends Component {
   constructor(props) {
@@ -65,7 +65,7 @@ export class PropertyTemplateOutline extends Component {
     let propertyJsx
 
     if (isResourceWithValueTemplateRef(property)) {
-      const isAddDisabled = !templateBoolean(property.repeatable) || newOutput.length > 0
+      const isAddDisabled = !booleanPropertyFromTemplate(property, 'repeatable', false) || newOutput.length > 0
 
       propertyJsx = <ResourceProperty key={shortid.generate()}
                                       propertyTemplate={property}

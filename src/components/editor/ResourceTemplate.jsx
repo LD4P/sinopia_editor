@@ -4,8 +4,8 @@ import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import PropTypes from 'prop-types'
 import ResourceTemplateForm from './ResourceTemplateForm'
-import { setResourceTemplate } from '../../actions/index'
-import { getResourceTemplate } from '../../sinopiaServer'
+import { setResourceTemplate } from 'actions/index'
+import { getResourceTemplate } from 'sinopiaServer'
 
 const _ = require('lodash')
 
