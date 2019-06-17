@@ -1,7 +1,7 @@
 // Copyright 2019 Stanford University see LICENSE for license
 
 import {
-  removeAllContent, removeMyItem, setMyItems, setMySelections, setBaseURL,
+  removeAllContent, removeMyItem, setItemsOrSelections, setBaseURL,
   validate, showGroupChooser, closeGroupChooser, showRdfPreview,
 } from 'reducers/inputs'
 
@@ -89,7 +89,7 @@ describe('showRdfPreview()', () => {
   })
 })
 
-describe('setMyItems', () => {
+describe('setItemsOrSelections with action type: SET_ITEMS', () => {
   it('adds item to state', () => {
     initialState.resource = {
       'resourceTemplate:Monograph:Instance': {
@@ -98,7 +98,7 @@ describe('setMyItems', () => {
     }
 
     const reduxPath = ['resource', 'resourceTemplate:Monograph:Instance', 'http://schema.org/name']
-    const result = setMyItems(initialState, {
+    const result = setItemsOrSelections(initialState, {
       type: 'SET_ITEMS',
       payload: {
         rtId: 'resourceTemplate:Monograph:Instance',
@@ -115,7 +115,7 @@ describe('setMyItems', () => {
 
   it('adds item to an empty state', () => {
     const reduxPath = ['resource', 'resourceTemplate:Monograph:Instance', 'http://schema.org/name']
-    const result = setMyItems(initialState,
+    const result = setItemsOrSelections(initialState,
       {
         type: 'SET_ITEMS',
         payload: {
@@ -137,7 +137,7 @@ describe('setMyItems', () => {
     }
 
     const reduxPath = ['resource', 'resourceTemplate:Monograph:Instance', 'http://schema.org/description']
-    const result = setMyItems(initialState,
+    const result = setItemsOrSelections(initialState,
       {
         type: 'SET_ITEMS',
         payload: {
@@ -169,7 +169,7 @@ describe('setMyItems', () => {
       'resourceTemplate:bf2:Title',
       'http://id.loc.gov/ontologies/bibframe/mainTitle',
     ]
-    const result = setMyItems(initialState,
+    const result = setItemsOrSelections(initialState,
       {
         type: 'SET_ITEMS',
         payload: {
@@ -200,7 +200,7 @@ describe('setMyItems', () => {
     }
 
     const reduxPath = ['resource', 'resourceTemplate:Monograph:Instance', 'http://schema.org/description']
-    const result = setMyItems(initialState,
+    const result = setItemsOrSelections(initialState,
       {
         type: 'SET_ITEMS',
         payload: {
@@ -223,7 +223,7 @@ describe('setMyItems', () => {
   })
 })
 
-describe('setMySelections', () => {
+describe('setItemsOrSelections with action type: CHANGE_SELECTIONS', () => {
   it('adds items to state', () => {
     initialState.resource = {
       'resourceTemplate:Monograph:Instance': {
@@ -232,7 +232,7 @@ describe('setMySelections', () => {
     }
 
     const reduxPath = ['resource', 'resourceTemplate:Monograph:Instance', 'http://schema.org/name']
-    const result = setMySelections(initialState, {
+    const result = setItemsOrSelections(initialState, {
       type: 'CHANGE_SELECTIONS',
       payload: {
         id: 'abc123',
@@ -255,7 +255,7 @@ describe('setMySelections', () => {
     }
 
     const reduxPath = ['resource', 'resourceTemplate:Monograph:Instance', 'http://schema.org/name']
-    const result = setMySelections(initialState, {
+    const result = setItemsOrSelections(initialState, {
       type: 'CHANGE_SELECTIONS',
       payload: {
         id: 'def456',
@@ -289,7 +289,7 @@ describe('setMySelections', () => {
     }
 
     const reduxPath = ['resource', 'resourceTemplate:Monograph:Instance', 'http://schema.org/name']
-    const result = setMySelections(initialState, {
+    const result = setItemsOrSelections(initialState, {
       type: 'CHANGE_SELECTIONS',
       payload: {
         id: 'nomatter',
@@ -310,7 +310,7 @@ describe('setMySelections', () => {
     }
 
     const reduxPath = ['resource', 'resourceTemplate:Monograph:Instance', 'http://schema.org/name', 'QBzX5hqphW', 'test:RT:SomethingElse', 'http://not.important']
-    const result = setMySelections(initialState, {
+    const result = setItemsOrSelections(initialState, {
       type: 'CHANGE_SELECTIONS',
       payload: {
         uri: 'http://not.important/now',
