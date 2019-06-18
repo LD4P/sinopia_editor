@@ -12,8 +12,17 @@ import { booleanPropertyFromTemplate } from 'Utilities'
 const _ = require('lodash')
 
 export class ResourceProperty extends Component {
+  dispatchPayloads = [] // to separate needed state changes from rendering
+
   constructor(props) {
     super(props)
+    this.dispatchPayloads = []
+  }
+
+  // NOTE:  if this component is ever re-rendered, we will need to ensure we get *changed* payloads to redux
+  //   as of 2019-06-18, the code base never re-renders this component, AFAICT.  We load the resource template up once.
+  componentDidMount() {
+    this.dispatchPayloads.forEach((payload) => { this.props.initNewResourceTemplate(payload) })
   }
 
   renderResourcePropertyJsx = () => {
@@ -56,8 +65,8 @@ export class ResourceProperty extends Component {
 
         propertyReduxPath.push(rtProperty.propertyURI)
         const payload = { reduxPath: propertyReduxPath, property: rtProperty }
+        this.dispatchPayloads.push(payload)
 
-        this.props.initNewResourceTemplate(payload)
         const isAddDisabled = !booleanPropertyFromTemplate(rtProperty, 'repeatable', false)
 
         jsx.push(
