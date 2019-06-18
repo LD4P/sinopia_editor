@@ -51,23 +51,15 @@ describe('<GroupChoiceModal />', () => {
     })
 
     it('has the first select option as "Cornell University"', () => {
-      expect(wrapper.find(Modal.Body).find('form').find('select').find('option')
-        .first()
-        .childAt(0)
-        .text()).toEqual('Cornell University')
-      expect(wrapper.find(Modal.Body).find('form').find('select').find('option')
-        .first()
-        .prop('value')).toEqual('cornell')
+      const firstOpt = wrapper.find(Modal.Body).find('form select option').first()
+      expect(firstOpt.text()).toEqual('Cornell University')
+      expect(firstOpt.prop('value')).toEqual('cornell')
     })
 
     it('has the last select option as "Yale University"', () => {
-      expect(wrapper.find(Modal.Body).find('form').find('select').find('option')
-        .last()
-        .childAt(0)
-        .text()).toEqual('Yale University')
-      expect(wrapper.find(Modal.Body).find('form').find('select').find('option')
-        .last()
-        .prop('value')).toEqual('yale')
+      const lastOpt = wrapper.find(Modal.Body).find('form select option').last()
+      expect(lastOpt.text()).toEqual('Yale University')
+      expect(lastOpt.prop('value')).toEqual('yale')
     })
 
     it('displays the groups from the config in alphabetical order, with ld4p omitted', () => {
