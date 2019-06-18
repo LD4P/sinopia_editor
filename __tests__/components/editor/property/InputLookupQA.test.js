@@ -93,11 +93,6 @@ describe('<InputLookupQA />', () => {
    * mapDispatchToProps
    */
 
-  it('has a lookupClient', () => {
-    // The Swagger constructor returns a promise
-    expect(wrapper.instance().lookupClient).toBeInstanceOf(Promise)
-  })
-
   it('uses the propertyLabel from the template as the form control label', () => {
     expect(wrapper.find('#lookupComponent').props().placeholder).toMatch('Name Lookup')
   })
