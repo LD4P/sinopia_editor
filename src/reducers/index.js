@@ -10,6 +10,7 @@ import {
 } from './inputs'
 import { defaultLangTemplate } from 'Utilities'
 
+
 export const findNode = (selectorReducer, reduxPath) => {
   const items = reduxPath.reduce((obj, key) => (obj && obj[key] !== 'undefined' ? obj[key] : undefined), selectorReducer)
 
@@ -67,7 +68,11 @@ export const populatePropertyDefaults = (propertyTemplate) => {
 }
 
 export const refreshResourceTemplate = (state, action) => {
-  const newState = { ...state }
+  const rtId = Object.keys(state.resource).pop()
+  const newResource = { resource: { [rtId]: state.resource[rtId] } }
+
+  const newState = { ...state, ...newResource }
+
   const reduxPath = action.payload.reduxPath
   const propertyTemplate = action.payload.property
 
@@ -75,9 +80,7 @@ export const refreshResourceTemplate = (state, action) => {
     return newState
   }
   const defaults = populatePropertyDefaults(propertyTemplate)
-
   const items = defaults.length > 0 ? { items: defaults } : {}
-
   const lastKey = reduxPath.pop()
   const lastObject = reduxPath.reduce((newState, key) => newState[key] = newState[key] || {}, newState)
 
@@ -96,6 +99,7 @@ export const refreshResourceTemplate = (state, action) => {
  */
 export const setResourceTemplate = (state, action) => {
   let newState = resourceTemplateLoaded(state, action)
+
   const resourceTemplateId = action.payload.id
 
   action.payload.propertyTemplates.forEach((property) => {
@@ -105,7 +109,6 @@ export const setResourceTemplate = (state, action) => {
         property,
       },
     }
-
     newState = refreshResourceTemplate(newState, propertyAction)
   })
 

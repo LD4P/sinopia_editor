@@ -1,4 +1,5 @@
 // Copyright 2019 Stanford University see LICENSE for license
+
 import shortid from 'shortid'
 import selectorReducer, {
   populatePropertyDefaults,
@@ -314,26 +315,62 @@ describe('refreshResourceTemplate', () => {
     })
   })
 
-  it('missing reduxPath in payload should return the state', () => {
-    const missingPayload = refreshResourceTemplate({}, {
-      type: 'REFRESH_RESOURCE_TEMPLATE',
-      payload: {},
+  it('overwrites the exiting resource with the new chosen resource', () => {
+    const samplePropertyTemplate = [
+      {
+        propertyLabel: 'Note',
+        propertyURI: 'http://id.loc.gov/ontologies/bibframe/note',
+      },
+    ]
+
+    selectorReducer(initialState, {
+      type: 'SET_RESOURCE_TEMPLATE',
+      payload: {
+        id: 'resourceTemplate:bf2:Note',
+        resourceURI: 'http://id.loc.gov/ontologies/bibframe/Note',
+        propertyTemplates: samplePropertyTemplate,
+      },
     })
 
-    expect(missingPayload).toEqual({})
+    const overwiteStateResult = refreshResourceTemplate(initialState.selectorReducer, {
+      type: 'REFRESH_RESOURCE_TEMPLATE',
+      payload: {
+        reduxPath: ['resource', 'resourceTemplate:bf2:Monograph:Work', 'http://sinopia.io/next_example'],
+      },
+    })
+
+    expect(overwiteStateResult).toEqual({
+      entities: {
+        resourceTemplates: {
+          'resourceTemplate:bf2:Note': {
+            id: 'resourceTemplate:bf2:Note',
+            propertyTemplates: [{
+              propertyLabel: 'Note',
+              propertyURI: 'http://id.loc.gov/ontologies/bibframe/note',
+            }],
+            resourceURI: 'http://id.loc.gov/ontologies/bibframe/Note',
+          },
+        },
+      },
+      resource: {
+        'resourceTemplate:bf2:Monograph:Work': {
+          'http://sinopia.io/next_example': {},
+        },
+      },
+    })
   })
 
   it('tests with a more realistic payload with defaults', () => {
     shortid.generate = jest.fn().mockReturnValue(0)
-    const defaultStateResult = refreshResourceTemplate({}, {
+    const defaultStateResult = refreshResourceTemplate(initialState.selectorReducer, {
       type: 'REFRESH_RESOURCE_TEMPLATE',
       payload: {
-        reduxPath: ['resourceTemplate:bf2:Item', 'http://schema.org/name'],
+        reduxPath: ['resource', 'resourceTemplate:bf2:Item', 'http://schema.org/name'],
         property: { valueConstraint: { defaults: [{ defaultLiteral: 'Sinopia Name' }] } },
       },
     })
 
-    expect(defaultStateResult).toEqual({
+    expect(defaultStateResult.resource).toEqual({
       'resourceTemplate:bf2:Item': {
         'http://schema.org/name': {
           items: [
