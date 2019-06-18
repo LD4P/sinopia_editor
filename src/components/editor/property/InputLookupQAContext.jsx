@@ -5,16 +5,15 @@ import {
 } from 'react-bootstrap-typeahead'
 import PropTypes from 'prop-types'
 import Swagger from 'swagger-client'
-import swaggerSpec from '../../../lib/apidoc.json'
+import swaggerSpec from 'lib/apidoc.json'
 import { connect } from 'react-redux'
-import { getProperty } from '../../../reducers/index'
-import { changeSelections, removeItem } from '../../../actions/index'
-import { booleanPropertyFromTemplate, defaultValuesFromPropertyTemplate } from '../../../Utilities'
-import Config from '../../../Config'
+import { getProperty, getDisplayValidations, getPropertyTemplate } from 'reducers/index'
+import { changeSelections, removeItem } from 'actions/index'
+import { booleanPropertyFromTemplate, defaultValuesFromPropertyTemplate, getLookupConfigItems } from 'Utilities'
+import Config from 'Config'
 import Button from 'react-bootstrap/lib/Button'
 import Modal from 'react-bootstrap/lib/Modal'
 
-const AsyncTypeahead = asyncContainer(Typeahead)
 
 class InputLookupQAContext extends Component {
   constructor(props) {
@@ -41,6 +40,65 @@ class InputLookupQAContext extends Component {
 
     this.lookupClient = Swagger({ spec: swaggerSpec })
   }
+  
+  doSearch = (query) => {
+      const lookupConfigs = this.props.lookupConfig
+      let authority, subauthority, language
+      this.setState({ isLoading: true })
+      this.lookupClient.then((client) => {
+        // create array of promises based on the lookup config array that is sent in
+        const lookupPromises = lookupConfigs.map((lookupConfig) => {
+          authority = lookupConfig.authority
+          subauthority = lookupConfig.subauthority
+          language = lookupConfig.language
+
+          /*
+           *return the 'promise'
+           *Since we don't want promise.all to fail if
+           *one of the lookups fails, we want a catch statement
+           *at this level which will then return the error. Subauthorities require a different API call than authorities so need to check if subauthority is available
+           *The only difference between this call and the next one is the call to Get_searchSubauthority instead of
+           *Get_searchauthority.  Passing API call in a variable name/dynamically, thanks @mjgiarlo
+           */
+          const actionFunction = lookupConfig.subauthority ? 'GET_searchSubauthority' : 'GET_searchAuthority'
+
+          return client
+            .apis
+            .SearchQuery?.[actionFunction]({
+              q: query,
+              vocab: authority,
+              subauthority,
+              maxRecords: Config.maxRecordsForQALookups,
+              lang: language,
+              context:true
+            })
+            .catch((err) => {
+              console.error('Error in executing lookup against source', err)
+              // return information along with the error in its own object
+              return { isError: true, errorObject: err }
+            })
+        })
+
+        /*
+         * If undefined, add info - note if error, error object returned in object
+         * which allows attaching label and uri for authority
+         */
+        Promise.all(lookupPromises).then((values) => {
+          for (let i = 0; i < values.length; i++) {
+            if (values[i]) {
+              values[i].authLabel = lookupConfigs[i].label
+              values[i].authURI = lookupConfigs[i].uri
+            }
+          }
+
+          this.setState({
+            isLoading: false,
+            options: values,
+          })
+        })
+      }).catch(() => false)
+    }
+
 
   get isMandatory() {
       return booleanPropertyFromTemplate(this.props.propertyTemplate, 'mandatory', false)
@@ -49,16 +107,15 @@ class InputLookupQAContext extends Component {
     get isRepeatable() {
       return booleanPropertyFromTemplate(this.props.propertyTemplate, 'repeatable', true)
     }
-    
+
     validate() {
       if (!this.typeahead) {
         return
       }
       const selected = this.typeahead.getInstance().state.selected
-    
+
       return this.props.displayValidations && this.isMandatory && selected.length < 1 ? 'Required' : undefined
     }
-  
   //Add selections to selected uris for this field
   handleSubmit = (event) => {
       //Retrieve values of selected inputs
@@ -202,65 +259,6 @@ class InputLookupQAContext extends Component {
          </div>);
   }
   
-  doSearch = (query) => {
-      const lookupConfigs = this.props.lookupConfig
-      let authority, subauthority, language
-      this.setState({ isLoading: true })
-      this.lookupClient.then((client) => {
-        // create array of promises based on the lookup config array that is sent in
-        const lookupPromises = lookupConfigs.map((lookupConfig) => {
-          authority = lookupConfig.authority
-          subauthority = lookupConfig.subauthority
-          language = lookupConfig.language
-
-          /*
-           *return the 'promise'
-           *Since we don't want promise.all to fail if
-           *one of the lookups fails, we want a catch statement
-           *at this level which will then return the error. Subauthorities require a different API call than authorities so need to check if subauthority is available
-           *The only difference between this call and the next one is the call to Get_searchSubauthority instead of
-           *Get_searchauthority.  Passing API call in a variable name/dynamically, thanks @mjgiarlo
-           */
-          const actionFunction = lookupConfig.subauthority ? 'GET_searchSubauthority' : 'GET_searchAuthority'
-
-          return client
-            .apis
-            .SearchQuery?.[actionFunction]({
-              q: query,
-              vocab: authority,
-              subauthority,
-              maxRecords: Config.maxRecordsForQALookups,
-              lang: language,
-              context:true
-            })
-            .catch((err) => {
-              console.error('Error in executing lookup against source', err)
-              // return information along with the error in its own object
-              return { isError: true, errorObject: err }
-            })
-        })
-
-        /*
-         * If undefined, add info - note if error, error object returned in object
-         * which allows attaching label and uri for authority
-         */
-        Promise.all(lookupPromises).then((values) => {
-          for (let i = 0; i < values.length; i++) {
-            if (values[i]) {
-              values[i].authLabel = lookupConfigs[i].label
-              values[i].authURI = lookupConfigs[i].uri
-            }
-          }
-
-          this.setState({
-            isLoading: false,
-            options: values,
-          })
-        })
-      }).catch(() => false)
-    }
-  
- 
   handleShow = () => {
       this.setState({ show: true })
   }
@@ -350,18 +348,14 @@ class InputLookupQAContext extends Component {
       this.setState({ disabled: false })
     }
   render() {
-    let authority
-    let language
-    let subauthority
-    const lookupConfigs = this.props.lookupConfig
-
-    const isMandatory = booleanPropertyFromTemplate(this.props.propertyTemplate, 'mandatory', false)
-    const isRepeatable = booleanPropertyFromTemplate(this.props.propertyTemplate, 'repeatable', true)
-
+   // Don't render if don't have property templates yet.
+    if (!this.props.propertyTemplate) {
+      return null
+    }
     const typeaheadProps = {
       id: 'lookupComponent',
-      required: isMandatory,
-      multiple: isRepeatable,
+      required: this.isMandatory,
+      multiple: this.isRepeatable,
       placeholder: this.props.propertyTemplate.propertyLabel,
       useCache: true,
       selectHintOnEnter: true,
@@ -371,6 +365,7 @@ class InputLookupQAContext extends Component {
       defaultSelected: this.state.defaults,
       delay: 300,
     }
+   
 
     return (
             <div>
@@ -390,21 +385,32 @@ class InputLookupQAContext extends Component {
 }
 
 InputLookupQAContext.propTypes = {
-  propertyTemplate: PropTypes.shape({
-    propertyLabel: PropTypes.string,
-    mandatory: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
-    repeatable: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
-    valueConstraint: PropTypes.shape({
-      useValuesFrom: PropTypes.oneOfType([PropTypes.string, PropTypes.array]),
-    }),
-  }).isRequired,
-  reduxPath: PropTypes.oneOfType([PropTypes.string, PropTypes.array]),
-  displayValidations: PropTypes.bool,
+        propertyTemplate: PropTypes.shape({
+            propertyLabel: PropTypes.string,
+            mandatory: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
+            repeatable: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
+            valueConstraint: PropTypes.shape({
+              useValuesFrom: PropTypes.oneOfType([PropTypes.string, PropTypes.array]),
+            }),
+          }),
+          reduxPath: PropTypes.oneOfType([PropTypes.string, PropTypes.array]),
+          displayValidations: PropTypes.bool,
 }
 
 const mapStateToProps = (state, props) => {
   const result = getProperty(state, props)
-  return { selected: result }
+  const reduxPath = props.reduxPath
+  const resourceTemplateId = reduxPath[reduxPath.length - 2]
+  const propertyURI = reduxPath[reduxPath.length - 1]
+  const displayValidations = getDisplayValidations(state)
+  const propertyTemplate = getPropertyTemplate(state, resourceTemplateId, propertyURI)
+  const lookupConfig = getLookupConfigItems(propertyTemplate)
+  return { 
+      selected: result,
+      reduxPath,
+      propertyTemplate,
+      displayValidations,
+      lookupConfig,}
 }
 
 const mapDispatchToProps = dispatch => ({
@@ -412,7 +418,7 @@ const mapDispatchToProps = dispatch => ({
     dispatch(changeSelections(selected))
   },
   handleRemoveItem(id) {
-    dispatch(removeItem(id))
+      dispatch(removeItem(id))
   },
 })
 

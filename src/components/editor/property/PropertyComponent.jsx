@@ -5,6 +5,7 @@ import shortid from 'shortid'
 import PropTypes from 'prop-types'
 import InputLiteral from './InputLiteral'
 import InputListLOC from './InputListLOC'
+import InputLookupQAContext from './InputLookupQAContext'
 import InputLookupQA from './InputLookupQA'
 import { getLookupConfigItems } from 'Utilities'
 
