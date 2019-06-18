@@ -29,6 +29,16 @@ const plProps = {
       propertyURI: 'http://id.loc.gov/ontologies/bflc/target',
       propertyLabel: 'Name Lookup',
     },
+  lookupConfig: [
+    {
+      label: 'LOC person [names] (QA)',
+      uri: 'urn:ld4p:qa:names:person',
+      authority: 'locnames_ld4l_cache',
+      subauthority: 'person',
+      language: 'en',
+      component: 'lookup',
+    },
+  ],
 }
 
 const p2Props = {
@@ -151,6 +161,16 @@ describe('<InputLookupQA />', () => {
             propertyURI: 'http://id.loc.gov/ontologies/bflc/target',
             propertyLabel: 'Name Lookup',
           },
+        lookupConfig: [
+          {
+            label: 'LOC person [names] (QA)',
+            uri: 'urn:ld4p:qa:names:person',
+            authority: 'locnames_ld4l_cache',
+            subauthority: 'person',
+            language: 'en',
+            component: 'lookup',
+          },
+        ],
       }
 
       const infoSpy = jest.spyOn(console, 'info').mockReturnValue(null)
