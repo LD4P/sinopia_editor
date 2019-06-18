@@ -235,6 +235,7 @@ InputLookupQA.propTypes = {
   }),
   reduxPath: PropTypes.oneOfType([PropTypes.string, PropTypes.array]),
   displayValidations: PropTypes.bool,
+  lookupConfig: PropTypes.arrayOf(PropTypes.object).isRequired,
 }
 
 const mapStateToProps = (state, props) => {
