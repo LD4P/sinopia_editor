@@ -20,9 +20,21 @@ class InputLookupQA extends Component {
   }
   
   render() {
-      return (<InputLookupQA
+      // Don't render if don't have property templates yet.
+      if (!this.props.propertyTemplate) {
+        return null
+      }
+      //typeahead by default otherwise use subtype
+      let componentType = this.props.propertyTemplate.subtype? this.props.propertyTemplate.subtype : "typeahead"
+      if(componentType == "context")
+          return (<InputLookupQAContext
               {...this.props} 
                />)
+      else 
+          return (<InputLookupQATypeahead
+                  {...this.props} 
+                   />)
+      
   }
 }
 

@@ -10,6 +10,7 @@
       "mandatory": "true",
       "repeatable": "true",
       "type": "lookup",
+      "subtype": "context",
       "resourceTemplates": [],
       "valueConstraint": {
         "valueTemplateRefs": [],

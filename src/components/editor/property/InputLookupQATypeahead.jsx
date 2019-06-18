@@ -65,8 +65,7 @@ class InputLookupQATypeahead extends Component {
               vocab: authority,
               subauthority,
               maxRecords: Config.maxRecordsForQALookups,
-              lang: language,
-              context:true
+              lang: language
             })
             .catch((err) => {
               console.error('Error in executing lookup against source', err)
@@ -212,7 +211,7 @@ class InputLookupQATypeahead extends Component {
       <div className={groupClasses}>
         <AsyncTypeahead renderMenu={(results, menuProps) => this.renderMenuFunc(results, menuProps)}
                         ref={typeahead => this.typeahead = typeahead }
-                        onSearch={(query) => this.props.doSearch(query)}
+                        onSearch={(query) => this.doSearch(query)}
 
                         onChange={(selected) => {
                           const payload = {
@@ -246,7 +245,6 @@ InputLookupQATypeahead.propTypes = {
   }),
   reduxPath: PropTypes.oneOfType([PropTypes.string, PropTypes.array]),
   displayValidations: PropTypes.bool,
-  doSearch: PropTypes.func,
 }
 
 const mapStateToProps = (state, props) => {
