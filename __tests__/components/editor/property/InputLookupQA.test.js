@@ -158,10 +158,10 @@ describe('<InputLookupQA />', () => {
         ],
       }
 
-      const infoSpy = jest.spyOn(console, 'info').mockReturnValue(null)
+      const loggingSpy = jest.spyOn(console, 'debug').mockReturnValue(null)
       shallow(<InputLookupQA.WrappedComponent {...plProps} handleSelectedChange={mockFormDataFn} />)
 
-      expect(infoSpy).toBeCalledWith(`no defaults defined in property template: ${JSON.stringify(plProps.propertyTemplate)}`)
+      expect(loggingSpy).toBeCalledWith(`no defaults defined in property template: ${JSON.stringify(plProps.propertyTemplate)}`)
     })
 
     it('sets the async typeahead component defaultSelected attribute', () => {
