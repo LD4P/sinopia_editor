@@ -351,7 +351,17 @@
               "default": "en",
               "type": "string"
             }
-          }
+          },
+           {
+            "description": "Return context provided by QA",
+            "in": "query",
+            "name": "context",
+            "required": false,
+            "schema": {
+              "default": "en",
+              "type": "string"
+			}
+		  }
         ],
         "responses": {
           "200": {
@@ -1019,6 +1029,591 @@
         "responses": {
           "204": {
             "description": "Perform CORS preflight for fetching a term from an authority",
+            "headers": {
+              "Access-Control-Allow-Origin": {
+                "description": "CORS header will be * if CORS headers are enabled",
+                "schema": {
+                  "type": "string"
+                }
+              },
+              "Access-Control-Allow-Headers": {
+                "description": "Indicates which headers a future CORS request to the same resource might use.",
+                "schema": {
+                  "type": "string"
+                }
+              },
+              "Access-Control-Allow-Methods": {
+                "description": "Indicates which method a future CORS request to the same resource might use.",
+                "schema": {
+                  "type": "string"
+                }
+              }
+            },
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "type": "string",
+                  "example": ""
+                }
+              }
+            }
+          },
+          "501": {
+            "description": "OPTIONS action is not implement when CORS headers are not enabled",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "type": "string",
+                  "example": ""
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+     "/search/{vocab}":{
+      "get":{
+         "summary":"Send a query string to an authority and return search results.  Parameters are typical examples.  Actual parameters are driven by the authority's config file.",
+         "operationId":"GET_nonldSearchAuthority",
+         "tags":[
+            "SearchQuery"
+         ],
+         "parameters":[
+            {
+               "description":"Name of the authority's configuration file.",
+               "in":"path",
+               "name":"vocab",
+               "required":true,
+               "schema":{
+                  "default":"discogs",
+                  "type":"string"
+               }
+            },
+            {
+               "description":"The query string",
+               "in":"query",
+               "name":"q",
+               "required":true,
+               "schema":{
+                  "default":"sinatra",
+                  "type":"string"
+               }
+            },
+            {
+               "description":"Limit number of returned results. NOTE: Most authorities use maxRecords, but a few use maximumRecords for this parameter.",
+               "in":"query",
+               "name":"maxRecords",
+               "required":false,
+               "schema":{
+                  "default":4,
+                  "type":"integer"
+               }
+            },
+            {
+               "description":"Limit string values to this language when multiple languages are provided.",
+               "in":"query",
+               "name":"lang",
+               "required":false,
+               "schema":{
+                  "default":"en",
+                  "type":"string"
+               }
+            },
+            {
+            "description": "Return context provided by QA",
+            "in": "query",
+            "name": "context",
+            "required": false,
+            "schema": {
+              "default": "en",
+              "type": "string"
+			}	
+		  }
+         ],
+         "responses":{
+            "200":{
+               "description":"Successfully accessed authority and received results.",
+               "headers":{
+                  "Access-Control-Allow-Origin":{
+                     "description":"CORS header will be * if cors_headers_enabled",
+                     "schema":{
+                        "type":"string"
+                     }
+                  }
+               },
+               "content":{
+                  "application/json":{
+                     "schema":{
+                        "$ref":"#/components/schemas/linked_data_query_results"
+                     }
+                  }
+               }
+            },
+            "400":{
+               "description":"Bad Request - occurs when required params are missing (e.g. q)",
+               "content":{
+                  "text/plain":{
+                     "schema":{
+                        "type":"string",
+                        "example":""
+                     }
+                  }
+               }
+            },
+            "500":{
+               "description":"Internal Server Error - can be raised while attempting to access the external authority OR during processing of results when results are not a valid RDF Format",
+               "content":{
+                  "text/plain":{
+                     "schema":{
+                        "type":"string",
+                        "example":""
+                     }
+                  }
+               }
+            },
+            "503":{
+               "description":"Service Unavailable - can be raised while attempting to access the external authority",
+               "content":{
+                  "text/plain":{
+                     "schema":{
+                        "type":"string",
+                        "example":""
+                     }
+                  }
+               }
+            }
+         }
+      },
+      "options":{
+         "summary":"CORS preflight request",
+         "operationId":"OPTIONS_nonldsearchAuthority",
+         "tags":[
+            "SearchQuery"
+         ],
+         "parameters":[
+            {
+               "description":"Name of the authority's configuration file.",
+               "in":"path",
+               "name":"vocab",
+               "required":true,
+               "schema":{
+                  "default":"discogs",
+                  "type":"string"
+               }
+            }
+         ],
+         "responses":{
+            "204":{
+               "description":"When CORS is enabled, perform CORS preflight for searching an authority",
+               "headers":{
+                  "Access-Control-Allow-Origin":{
+                     "description":"CORS header will be * if CORS headers are enabled",
+                     "schema":{
+                        "type":"string"
+                     }
+                  },
+                  "Access-Control-Allow-Headers":{
+                     "description":"Indicates which headers a future CORS request to the same resource might use.",
+                     "schema":{
+                        "type":"string"
+                     }
+                  },
+                  "Access-Control-Allow-Methods":{
+                     "description":"Indicates which method a future CORS request to the same resource might use.",
+                     "schema":{
+                        "type":"string"
+                     }
+                  }
+               },
+               "content":{
+                  "text/plain":{
+                     "schema":{
+                        "type":"string",
+                        "example":""
+                     }
+                  }
+               }
+            },
+            "501":{
+               "description":"OPTIONS action is not implement when CORS headers are not enabled",
+               "content":{
+                  "text/plain":{
+                     "schema":{
+                        "type":"string",
+                        "example":""
+                     }
+                  }
+               }
+            }
+         }
+      }
+   },
+   "/search/{vocab}/{subauthority}":{
+      "get":{
+         "summary":"Send a query string to an authority and return search results.  Parameters are typical examples.  Actual parameters are driven by the authority's config file.",
+         "operationId":"GET_nonldSearchWithSubauthority",
+         "tags":[
+            "SearchQuery"
+         ],
+         "parameters":[
+            {
+               "description":"Name of the authority's configuration file.",
+               "in":"path",
+               "name":"vocab",
+               "required":true,
+               "schema":{
+                  "default":"discogs",
+                  "type":"string"
+               }
+            },
+            {
+              "description": "Name of the subauthority.",
+              "in": "path",
+              "name": "subauthority",
+              "required": true,
+              "schema": {
+                "default": "all",
+                "type": "string"
+              }
+            },
+            {
+               "description":"The query string",
+               "in":"query",
+               "name":"q",
+               "required":true,
+               "schema":{
+                  "default":"sinatra",
+                  "type":"string"
+               }
+            },
+            {
+               "description":"Limit number of returned results. NOTE: Most authorities use maxRecords, but a few use maximumRecords for this parameter.",
+               "in":"query",
+               "name":"maxRecords",
+               "required":false,
+               "schema":{
+                  "default":4,
+                  "type":"integer"
+               }
+            },
+            {
+               "description":"Limit string values to this language when multiple languages are provided.",
+               "in":"query",
+               "name":"lang",
+               "required":false,
+               "schema":{
+                  "default":"en",
+                  "type":"string"
+               }
+            },
+            {
+            "description": "Return context provided by QA",
+            "in": "query",
+            "name": "context",
+            "required": false,
+            "schema": {
+              "default": "en",
+              "type": "string"
+			}	
+		   }
+         ],
+         "responses":{
+            "200":{
+               "description":"Successfully accessed authority and received results.",
+               "headers":{
+                  "Access-Control-Allow-Origin":{
+                     "description":"CORS header will be * if cors_headers_enabled",
+                     "schema":{
+                        "type":"string"
+                     }
+                  }
+               },
+               "content":{
+                  "application/json":{
+                     "schema":{
+                        "$ref":"#/components/schemas/linked_data_query_results"
+                     }
+                  }
+               }
+            },
+            "400":{
+               "description":"Bad Request - occurs when required params are missing (e.g. q)",
+               "content":{
+                  "text/plain":{
+                     "schema":{
+                        "type":"string",
+                        "example":""
+                     }
+                  }
+               }
+            },
+            "500":{
+               "description":"Internal Server Error - can be raised while attempting to access the external authority OR during processing of results when results are not a valid RDF Format",
+               "content":{
+                  "text/plain":{
+                     "schema":{
+                        "type":"string",
+                        "example":""
+                     }
+                  }
+               }
+            },
+            "503":{
+               "description":"Service Unavailable - can be raised while attempting to access the external authority",
+               "content":{
+                  "text/plain":{
+                     "schema":{
+                        "type":"string",
+                        "example":""
+                     }
+                  }
+               }
+            }
+         }
+      },
+      "options":{
+         "summary":"CORS preflight request",
+         "operationId":"OPTIONS_nonldsearchWithSubauthority",
+         "tags":[
+            "SearchQuery"
+         ],
+         "parameters":[
+            {
+               "description":"Name of the authority's configuration file.",
+               "in":"path",
+               "name":"vocab",
+               "required":true,
+               "schema":{
+                  "default":"discogs",
+                  "type":"string"
+               }
+            }
+         ],
+         "responses":{
+            "204":{
+               "description":"When CORS is enabled, perform CORS preflight for searching an authority",
+               "headers":{
+                  "Access-Control-Allow-Origin":{
+                     "description":"CORS header will be * if CORS headers are enabled",
+                     "schema":{
+                        "type":"string"
+                     }
+                  },
+                  "Access-Control-Allow-Headers":{
+                     "description":"Indicates which headers a future CORS request to the same resource might use.",
+                     "schema":{
+                        "type":"string"
+                     }
+                  },
+                  "Access-Control-Allow-Methods":{
+                     "description":"Indicates which method a future CORS request to the same resource might use.",
+                     "schema":{
+                        "type":"string"
+                     }
+                  }
+               },
+               "content":{
+                  "text/plain":{
+                     "schema":{
+                        "type":"string",
+                        "example":""
+                     }
+                  }
+               }
+            },
+            "501":{
+               "description":"OPTIONS action is not implement when CORS headers are not enabled",
+               "content":{
+                  "text/plain":{
+                     "schema":{
+                        "type":"string",
+                        "example":""
+                     }
+                  }
+               }
+            }
+         }
+      }
+    },
+    "/show/{vocab}/{subauthority}/{id}": {
+      "get": {
+        "operationId": "GET_nonldfetchByIDWithSubauthority",
+        "summary": "Get a single term from a subauthority in an authority.  Generally there are no additional parameters.  See the authority's configuration file to be sure.  Some authorities support `lang` which can be used to filter the language of returned strings.",
+        "tags": [
+          "FetchTerm"
+        ],
+        "parameters": [
+          {
+            "description": "Name of the authority's configuration file.",
+            "in": "path",
+            "name": "vocab",
+            "required": true,
+            "schema": {
+              "default": "discogs",
+              "type": "string"
+            }
+          },
+          {
+            "description": "Name of the subauthority.",
+            "in": "path",
+            "name": "subauthority",
+            "required": true,
+            "schema": {
+              "default": "all",
+              "type": "string"
+            }
+          },
+          {
+            "description": "The ID of the term being retrieved.",
+            "in": "path",
+            "name": "id",
+            "required": true,
+            "schema": {
+              "default": "12345",
+              "type": "string"
+            }
+          },
+          {
+            "description": "The format of the returned result.",
+            "in": "query",
+            "name": "format",
+            "required": false,
+            "schema": {
+              "default": "json",
+              "type": "string",
+              "enum": [
+                "json",
+                "jsonld"
+              ]
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successfully accessed subauthority in the authority and received term.",
+            "headers": {
+              "Access-Control-Allow-Origin": {
+                "description": "CORS header will be * if CORS headers are enabled",
+                "schema": {
+                  "type": "string"
+                }
+              }
+            },
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/linked_data_term_json_result"
+                }
+              },
+              "application/ld+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/linked_data_term_jsonld_result"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request - occurs when required params are missing (e.g. id)",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "type": "string",
+                  "example": ""
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Not Found",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "type": "string",
+                  "example": ""
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Internal Server Error - can be raised while attempting to access the external authority OR during processing of results when results are not a valid RDF Format",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "type": "string",
+                  "example": ""
+                }
+              }
+            }
+          },
+          "503": {
+            "description": "Service Unavailable - can be raised while attempting to access the external authority",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "type": "string",
+                  "example": ""
+                }
+              }
+            }
+          }
+        }
+      },
+      "options": {
+        "summary": "CORS preflight request",
+        "operationId": "OPTIONS_nonldfetchByIDWithSubauthority",
+        "tags": [
+          "FetchTerm"
+        ],
+        "parameters": [
+          {
+            "description": "Name of the authority's configuration file.",
+            "in": "path",
+            "name": "vocab",
+            "required": true,
+            "schema": {
+              "default": "discogs",
+              "type": "string"
+            }
+          },
+          {
+            "description": "Name of the subauthority.",
+            "in": "path",
+            "name": "subauthority",
+            "required": true,
+            "schema": {
+              "default": "all",
+              "type": "string"
+            }
+          },
+          {
+            "description": "The ID or URI for the term being retrieved.",
+            "in": "path",
+            "name": "id",
+            "required": true,
+            "schema": {
+              "default": "12345",
+              "type": "string"
+            }
+          },
+          {
+            "description": "The format of the returned result.",
+            "in": "query",
+            "name": "format",
+            "required": false,
+            "schema": {
+              "default": "json",
+              "type": "string",
+              "enum": [
+                "json",
+                "jsonld"
+              ]
+            }
+          }
+        ],
+        "responses": {
+          "204": {
+            "description": "Perform CORS preflight for fetching a term from a subauthority in an authority",
             "headers": {
               "Access-Control-Allow-Origin": {
                 "description": "CORS header will be * if CORS headers are enabled",

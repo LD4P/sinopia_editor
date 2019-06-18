@@ -13,6 +13,7 @@ import { booleanPropertyFromTemplate, defaultValuesFromPropertyTemplate, getLook
 import Config from 'Config'
 import InputLookupQATypeahead from './InputLookupQATypeahead'
 import InputLookupQAContext from './InputLookupQAContext'
+import InputLookupQADiscogs from './InputLookupQADiscogs'
 
 class InputLookupQA extends Component {
   constructor(props) {
@@ -30,7 +31,11 @@ class InputLookupQA extends Component {
           return (<InputLookupQAContext
               {...this.props} 
                />)
-      else 
+      else if(componentType == "discogs")
+          return (<InputLookupQADiscogs
+                  {...this.props} 
+                   />)
+      else
           return (<InputLookupQATypeahead
                   {...this.props} 
                    />)

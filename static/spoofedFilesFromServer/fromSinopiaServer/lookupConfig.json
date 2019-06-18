@@ -15,6 +15,15 @@
     "language": "en",
     "component": "lookup"
   },
+  { 
+    "label": "Discogs",
+    "uri": "urn:discogs",
+    "authority": "discogs",
+    "subauthority": "all",
+    "language": "en",
+    "component": "lookup",
+    "nonldLookup": true
+  },
   {
     "label": "GEONAMES_all (QA)",
     "uri": "urn:ld4p:qa:geonames",
