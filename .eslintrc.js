@@ -134,7 +134,8 @@ module.exports = {
     "import/no-namespace": "off",
     "no-nested-ternary": "off",
     'lines-around-comment': ['error', { 'allowBlockStart': true }],
-    'capitalized-comments': "off"
+    'capitalized-comments': "off",
+    'multiline-comment-style': "off"
   },
   overrides: [
     {
