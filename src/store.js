@@ -1,9 +1,9 @@
-// Copyright 2018 Stanford University see LICENSE for license
+// Copyright 2019 Stanford University see LICENSE for license
 
-import { createStore } from 'redux'
+import { createStore, applyMiddleware, compose } from 'redux'
+import thunk from 'redux-thunk'
 import reducer from './reducers/index'
 
-let store
 const initialState = {
   selectorReducer: {
     editor: { // The state of the editor
@@ -25,12 +25,16 @@ const initialState = {
   },
 }
 
+let composeEnhancers
+
 if (process.env.NODE_ENV === 'development') {
-  store = createStore(reducer,
-    initialState,
-    window.__REDUX_DEVTOOLS_EXTENSION__ && window.__REDUX_DEVTOOLS_EXTENSION__())
+  composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose
 } else {
-  store = createStore(reducer, initialState)
+  composeEnhancers = compose
 }
+
+const store = createStore(reducer,
+  initialState,
+  composeEnhancers(applyMiddleware(thunk)))
 
 export default store
