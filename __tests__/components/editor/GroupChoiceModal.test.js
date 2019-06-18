@@ -4,6 +4,7 @@ import React from 'react'
 import Modal from 'react-bootstrap/lib/Modal'
 import Button from 'react-bootstrap/lib/Button'
 import { shallow } from 'enzyme'
+import Config from 'Config'
 import GroupChoiceModal from 'components/editor/GroupChoiceModal'
 /* eslint import/namespace: 'off' */
 import * as server from 'sinopiaServer'
@@ -19,13 +20,10 @@ describe('<GroupChoiceModal />', () => {
   const rdfFunc = jest.fn()
   const closeFunc = jest.fn()
   const closeRdfPreview = jest.fn()
-  const groups = [['pcc', 'PCC'],
-    ['wau', 'University of Washington']]
 
   const wrapper = shallow(<GroupChoiceModal.WrappedComponent show={true}
                                                              rdf={rdfFunc}
                                                              close={closeFunc}
-                                                             groups={groups}
                                                              closeRdfPreview={closeRdfPreview} />)
 
   it('renders the <GroupChoiceModal /> component as a Modal', () => {
@@ -52,24 +50,28 @@ describe('<GroupChoiceModal />', () => {
       expect(wrapper.find(Modal.Body).find('form').find('select').length).toEqual(1)
     })
 
-    it('has the first select option as "PCC"', () => {
-      expect(wrapper.find(Modal.Body).find('form').find('select').find('option')
-        .first()
-        .childAt(0)
-        .text()).toEqual('PCC')
-      expect(wrapper.find(Modal.Body).find('form').find('select').find('option')
-        .first()
-        .prop('value')).toEqual('pcc')
+    it('has the first select option as "Cornell University"', () => {
+      const firstOpt = wrapper.find(Modal.Body).find('form select option').first()
+      expect(firstOpt.text()).toEqual('Cornell University')
+      expect(firstOpt.prop('value')).toEqual('cornell')
     })
 
-    it('has the last select option as "University of Washington"', () => {
-      expect(wrapper.find(Modal.Body).find('form').find('select').find('option')
-        .last()
-        .childAt(0)
-        .text()).toEqual('University of Washington')
-      expect(wrapper.find(Modal.Body).find('form').find('select').find('option')
-        .last()
-        .prop('value')).toEqual('wau')
+    it('has the last select option as "Yale University"', () => {
+      const lastOpt = wrapper.find(Modal.Body).find('form select option').last()
+      expect(lastOpt.text()).toEqual('Yale University')
+      expect(lastOpt.prop('value')).toEqual('yale')
+    })
+
+    it('displays the groups from the config in alphabetical order, with ld4p omitted', () => {
+      const expectedGroups = Object.entries(Config.groupsInSinopia)
+        .filter(([groupSlug]) => groupSlug !== 'ld4p')
+        .sort(([, groupLabelA], [, groupLabelB]) => groupLabelA.localeCompare(groupLabelB))
+
+      const actualGroups = wrapper.find(Modal.Body)
+        .find('form.group-select-options select option')
+        .map(node => [node.prop('value'), node.text()])
+
+      expect(actualGroups).toEqual(expectedGroups)
     })
 
     it('has a Cancel link', () => {

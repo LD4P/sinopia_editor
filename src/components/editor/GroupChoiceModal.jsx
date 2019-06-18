@@ -15,7 +15,9 @@ const GroupChoiceModal = (props) => {
   const [selectedValue, setSelectedValue] = useState('ld4p')
 
   // The ld4p group is only for templates
-  const groups = Config.groupsInSinopia.filter(group => group[0] !== 'ld4p')
+  const groups = Object.entries(Config.groupsInSinopia)
+    .filter(([groupSlug]) => groupSlug !== 'ld4p')
+    .sort(([, groupLabelA], [, groupLabelB]) => groupLabelA.localeCompare(groupLabelB))
 
   const updateSelectedValue = (event) => {
     setSelectedValue(event.target.value)
