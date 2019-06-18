@@ -1,6 +1,6 @@
 // Copyright 2018, 2019 Stanford University see LICENSE for license
 
-import lookupConfig from '../static/spoofedFilesFromServer/fromSinopiaServer/lookupConfig.json'
+import lookupConfig from '../static/lookupConfig.json'
 
 const _ = require('lodash')
 
