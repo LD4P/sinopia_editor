@@ -9,7 +9,7 @@ describe('Previewing the RDF', () => {
   })
 
   it('builds the rdf and has dialog for saving', async () => {
-    expect.assertions(16)
+    expect.assertions(18)
     await pupExpect(page).toClick('a', { text: 'BIBFRAME Instance' })
     await pupExpect(page).toMatch('BIBFRAME Instance')
 
@@ -51,5 +51,9 @@ describe('Previewing the RDF', () => {
     await pupExpect(page).toClick('button', { text: 'Save & Publish' })
     await pupExpect(page).toMatch('Which group do you want to save to?')
     await pupExpect(page).toMatch('Which group do you want to associate this record to?')
+
+    // Subsequent updates don't pop up the group modal
+    await pupExpect(page).toClick('button', { text: 'Save & Publish' })
+    await pupExpect(page).not.toMatch('Which group do you want to save to?')
   })
 })

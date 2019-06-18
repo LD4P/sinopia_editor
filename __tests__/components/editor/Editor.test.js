@@ -9,9 +9,7 @@ import AuthenticationMessage from 'components/editor/AuthenticationMessage'
 
 const props = {
   location: { state: { resourceTemplateId: 'resourceTemplate:bf:Note' } },
-  currentSession: null,
-  errors: [],
-  displayValidations: false,
+  userWantsToSave: jest.fn(),
 }
 
 // See https://github.com/nodesecurity/eslint-plugin-security/issues/26
@@ -53,7 +51,8 @@ describe('<Editor />', () => {
 
   describe('Save & Publish button', () => {
     const mockOpenHandler = jest.fn()
-    const wrapper = shallow(<Editor.WrappedComponent {...props} openGroupChooser={mockOpenHandler}/>)
+    const wrapperHandler = () => mockOpenHandler
+    const wrapper = shallow(<Editor.WrappedComponent {...props} userWantsToSave={wrapperHandler}/>)
 
     it('attempts to save the RDF content when save is clicked', () => {
       wrapper.findWhere(n => n.type() === 'button' && n.contains('Save & Publish')).simulate('click')

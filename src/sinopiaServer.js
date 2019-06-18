@@ -154,3 +154,11 @@ export const publishRDFResource = async (currentUser, rdf, group) => {
   await authenticate(currentUser)
   return await instance.createResourceWithHttpInfo(group, rdf, { contentType: 'application/n-triples' })
 }
+
+export const updateRDFResource = async (currentUser, uri, rdf) => {
+  await authenticate(currentUser)
+
+  /* eslint security/detect-unsafe-regex: ["off"] */
+  const id = uri.match(/.*\/\/.*\/repository\/(?<group>.*)\/(?<identifier>.*)/).groups
+  return await instance.updateResource(id.group, id.identifier, rdf, { contentType: 'application/n-triples' })
+}

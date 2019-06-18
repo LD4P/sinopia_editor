@@ -1,4 +1,4 @@
-// Copyright 2018 Stanford University see LICENSE for license
+// Copyright 2019 Stanford University see LICENSE for license
 
 export const setItems = item => ({
   type: 'SET_ITEMS',
@@ -42,6 +42,14 @@ export const removeAllItems = item => ({
 export const assignBaseURL = item => ({
   type: 'SET_BASE_URL',
   payload: item,
+})
+
+export const updateStarted = () => ({
+  type: 'UPDATE_STARTED',
+})
+
+export const updateFinished = () => ({
+  type: 'UPDATE_FINISHED',
 })
 
 export const changeSelections = item => ({
