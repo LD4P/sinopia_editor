@@ -18,16 +18,8 @@ class InputLookupQA extends Component {
   constructor(props) {
     super(props)
 
-    const defaults = defaultValuesFromPropertyTemplate(this.props.propertyTemplate)
-
-    if (defaults.length === 0) {
-      // Property templates do not require defaults but we like to know when this happens
-      console.info(`no defaults defined in property template: ${JSON.stringify(this.props.propertyTemplate)}`)
-    }
-
     this.state = {
       isLoading: false,
-      defaults,
     }
   }
 
@@ -178,6 +170,13 @@ class InputLookupQA extends Component {
       return null
     }
 
+    const defaults = defaultValuesFromPropertyTemplate(this.props.propertyTemplate)
+
+    if (defaults.length === 0) {
+      // Property templates do not require defaults but we like to know when this happens
+      console.info(`no defaults defined in property template: ${JSON.stringify(this.props.propertyTemplate)}`)
+    }
+
     const typeaheadProps = {
       id: 'lookupComponent',
       required: this.isMandatory,
@@ -188,7 +187,7 @@ class InputLookupQA extends Component {
       isLoading: this.state.isLoading,
       onSearch: this.search(),
       options: this.state.options,
-      defaultSelected: this.state.defaults,
+      defaultSelected: defaults,
       delay: 300,
     }
 
