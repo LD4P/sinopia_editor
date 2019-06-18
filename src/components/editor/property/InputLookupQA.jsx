@@ -29,8 +29,6 @@ class InputLookupQA extends Component {
       isLoading: false,
       defaults,
     }
-
-    this.lookupClient = Swagger({ spec: swaggerSpec })
   }
 
 
@@ -113,16 +111,73 @@ class InputLookupQA extends Component {
     return this.props.displayValidations && this.isMandatory && selected.length < 1 ? 'Required' : undefined
   }
 
+  search() {
+    const lookupConfigs = this.props.lookupConfig
+
+    return (query) => {
+      this.setState({ isLoading: true })
+      Swagger({ spec: swaggerSpec }).then((client) => {
+        // Create array of promises based on the lookup config array that is sent in
+        const lookupPromises = lookupConfigs.map((lookupConfig) => {
+          const authority = lookupConfig.authority
+          const subauthority = lookupConfig.subauthority
+          const language = lookupConfig.language
+
+          /*
+           *Return the 'promise'
+           *Since we don't want promise.all to fail if
+           *one of the lookups fails, we want a catch statement
+           *at this level which will then return the error. Subauthorities require a different API call than authorities so need to check if subauthority is available
+           *The only difference between this call and the next one is the call to Get_searchSubauthority instead of
+           *Get_searchauthority.  Passing API call in a variable name/dynamically, thanks @mjgiarlo
+           */
+          const actionFunction = subauthority ? 'GET_searchSubauthority' : 'GET_searchAuthority'
+
+          return client
+            .apis
+            .SearchQuery?.[actionFunction]({
+              q: query,
+              vocab: authority,
+              subauthority,
+              maxRecords: Config.maxRecordsForQALookups,
+              lang: language,
+            })
+            .catch((err) => {
+              console.error('Error in executing lookup against source', err)
+              // Return information along with the error in its own object
+              return { isError: true, errorObject: err }
+            })
+        })
+
+        /*
+         * If undefined, add info - note if error, error object returned in object
+         * which allows attaching label and uri for authority
+         */
+        Promise.all(lookupPromises).then((values) => {
+          for (let i = 0; i < values.length; i++) {
+            if (values[i]) {
+              values[i].authLabel = lookupConfigs[i].label
+              values[i].authURI = lookupConfigs[i].uri
+            }
+          }
+
+          this.setState({
+            isLoading: false,
+            options: values,
+          })
+        })
+      }).catch((e) => {
+        console.error(e)
+      })
+    }
+  }
+
   render() {
     // Don't render if don't have property templates yet.
     if (!this.props.propertyTemplate) {
       return null
     }
 
-    let authority
-    let language
-    let subauthority
-    const lookupConfigs = this.props.lookupConfig
     const typeaheadProps = {
       id: 'lookupComponent',
       required: this.isMandatory,
@@ -131,8 +186,8 @@ class InputLookupQA extends Component {
       useCache: true,
       selectHintOnEnter: true,
       isLoading: this.state.isLoading,
+      onSearch: this.search(),
       options: this.state.options,
-      selected: this.state.selected,
       defaultSelected: this.state.defaults,
       delay: 300,
     }
@@ -148,61 +203,6 @@ class InputLookupQA extends Component {
       <div className={groupClasses}>
         <AsyncTypeahead renderMenu={(results, menuProps) => this.renderMenuFunc(results, menuProps)}
                         ref={typeahead => this.typeahead = typeahead }
-                        onSearch={(query) => {
-                          this.setState({ isLoading: true })
-                          this.lookupClient.then((client) => {
-                            // Create array of promises based on the lookup config array that is sent in
-                            const lookupPromises = lookupConfigs.map((lookupConfig) => {
-                              authority = lookupConfig.authority
-                              subauthority = lookupConfig.subauthority
-                              language = lookupConfig.language
-
-                              /*
-                               *Return the 'promise'
-                               *Since we don't want promise.all to fail if
-                               *one of the lookups fails, we want a catch statement
-                               *at this level which will then return the error. Subauthorities require a different API call than authorities so need to check if subauthority is available
-                               *The only difference between this call and the next one is the call to Get_searchSubauthority instead of
-                               *Get_searchauthority.  Passing API call in a variable name/dynamically, thanks @mjgiarlo
-                               */
-                              const actionFunction = lookupConfig.subauthority ? 'GET_searchSubauthority' : 'GET_searchAuthority'
-
-                              return client
-                                .apis
-                                .SearchQuery?.[actionFunction]({
-                                  q: query,
-                                  vocab: authority,
-                                  subauthority,
-                                  maxRecords: Config.maxRecordsForQALookups,
-                                  lang: language,
-                                })
-                                .catch((err) => {
-                                  console.error('Error in executing lookup against source', err)
-                                  // Return information along with the error in its own object
-                                  return { isError: true, errorObject: err }
-                                })
-                            })
-
-                            /*
-                             * If undefined, add info - note if error, error object returned in object
-                             * which allows attaching label and uri for authority
-                             */
-                            Promise.all(lookupPromises).then((values) => {
-                              for (let i = 0; i < values.length; i++) {
-                                if (values[i]) {
-                                  values[i].authLabel = lookupConfigs[i].label
-                                  values[i].authURI = lookupConfigs[i].uri
-                                }
-                              }
-
-                              this.setState({
-                                isLoading: false,
-                                options: values,
-                              })
-                            })
-                          }).catch(() => false)
-                        }}
-
                         onChange={(selected) => {
                           const payload = {
                             uri: this.props.propertyTemplate.propertyURI,
