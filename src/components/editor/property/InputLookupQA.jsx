@@ -172,11 +172,6 @@ class InputLookupQA extends Component {
 
     const defaults = defaultValuesFromPropertyTemplate(this.props.propertyTemplate)
 
-    if (defaults.length === 0) {
-      // Property templates do not require defaults but we like to know when this happens
-      console.info(`no defaults defined in property template: ${JSON.stringify(this.props.propertyTemplate)}`)
-    }
-
     const typeaheadProps = {
       id: 'lookupComponent',
       required: this.isMandatory,
