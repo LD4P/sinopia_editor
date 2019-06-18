@@ -65,6 +65,20 @@ describe('<PropertyLabel />', () => {
     })
   })
 
+  describe('when the propertyTemplate has an empty string as a remark and just a label', () => {
+    const props = {
+      pt: {
+        propertyLabel: 'Example RDA',
+        remark: '',
+      },
+    }
+    const wrapper = shallow(<PropertyLabel {...props} />)
+
+    it('displays only a span with the property label as the panel title', () => {
+      expect(wrapper.find('span').text()).toEqual('Example RDA')
+    })
+  })
+
   describe('the propertyTemplate mandatory property', () => {
     const props = {
       pt: {
