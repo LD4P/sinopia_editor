@@ -1,4 +1,4 @@
-// Copyright 2018 Stanford University see LICENSE for license
+// Copyright 2019 Stanford University see LICENSE for license
 
 import 'jsdom-global/register'
 import React from 'react'
@@ -125,16 +125,6 @@ describe('<InputLookupQA />', () => {
       jest.restoreAllMocks()
     })
 
-    it('sets the default values according to the property template if they exist', () => {
-      const defaults = [{
-        id: 'http://id.loc.gov/vocabulary/carriers/nc',
-        uri: 'http://id.loc.gov/vocabulary/carriers/nc',
-        label: 'volume',
-      }]
-
-      expect(wrapper.state('defaults')).toEqual(defaults)
-    })
-
     it('logs an error when no defaults are set', () => {
       const plProps = {
         id: 'lookupComponent',
@@ -169,9 +159,8 @@ describe('<InputLookupQA />', () => {
       }
 
       const infoSpy = jest.spyOn(console, 'info').mockReturnValue(null)
-      const wrapper2 = shallow(<InputLookupQA.WrappedComponent {...plProps} handleSelectedChange={mockFormDataFn} />)
+      shallow(<InputLookupQA.WrappedComponent {...plProps} handleSelectedChange={mockFormDataFn} />)
 
-      expect(wrapper2.state('defaults')).toEqual([])
       expect(infoSpy).toBeCalledWith(`no defaults defined in property template: ${JSON.stringify(plProps.propertyTemplate)}`)
     })
 
