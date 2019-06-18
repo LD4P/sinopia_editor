@@ -20,9 +20,11 @@ class ResourceTemplate extends Component {
     }
   }
 
-  // Called immediately after the component is mounted
+  // Called immediately after the component is rendered for the first time
   componentDidMount() {
-    this.resolveResourceTemplatePromise(getResourceTemplate(this.props.resourceTemplateId))
+    if (this.props.resourceTemplateId) {
+      this.resolveResourceTemplatePromise(getResourceTemplate(this.props.resourceTemplateId))
+    }
   }
 
   resolveResourceTemplatePromise = (promise) => {
