@@ -1,10 +1,15 @@
-// Copyright 2018 Stanford University see LICENSE for license
+// Copyright 2019 Stanford University see LICENSE for license
 
 import React, { Component } from 'react'
 import { Typeahead } from 'react-bootstrap-typeahead'
 import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
 
+/**
+ * Provides the RFC 5646 language tag for a literal element.
+ * See https://tools.ietf.org/html/rfc5646
+ * See ISO 639 for the list of registered language codes
+ */
 class InputLang extends Component {
   constructor(props) {
     super(props)
@@ -26,7 +31,7 @@ class InputLang extends Component {
 
   createOptions = json => json.reduce((result, item) => {
     // Object.getOwnPropertyDescriptor is necessary to handle the @
-    const uri = Object.getOwnPropertyDescriptor(item, '@id').value
+    const id = Object.getOwnPropertyDescriptor(item, '@id').value.replace('http://id.loc.gov/vocabulary/iso639-1/', '')
     const labelArrayDescr = Object.getOwnPropertyDescriptor(item, 'http://www.loc.gov/mads/rdf/v1#authoritativeLabel')
 
     // Some of the LOC items do not have labels so ignore them.
@@ -44,7 +49,7 @@ class InputLang extends Component {
     // But not every language has an English label.
     if (!label) return result
 
-    result.push({ id: uri, uri, label })
+    result.push({ id, label })
     return result
   }, [])
 
@@ -69,7 +74,7 @@ class InputLang extends Component {
                 return
               }
               this.setState({ isLoading: true })
-              fetch('https://id.loc.gov/vocabulary/languages.json')
+              fetch('https://id.loc.gov/vocabulary/iso639-1.json')
                 .then(resp => resp.json())
                 .then((json) => {
                   this.setState({
