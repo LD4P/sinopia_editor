@@ -97,6 +97,7 @@
     "ajv": "^6.10.0",
     "amazon-cognito-identity-js": "^3.0.10",
     "babel-core": "^7.0.0-bridge.0",
+    "dotenv": "^8.0.0",
     "event-stream": "^4.0.1",
     "express": "^4.16.4",
     "identity-obj-proxy": "^3.0.0",
@@ -150,7 +151,8 @@
     ],
     "setupFiles": [
       "jest-localstorage-mock",
-      "jest-prop-type-error"
+      "jest-prop-type-error",
+      "dotenv/config"
     ]
   }
 }
