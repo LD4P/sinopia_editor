@@ -154,6 +154,7 @@ module.exports = {
     },
     {
       // There is a known issue with exporting async default functions
+      // Link: https://github.com/babel/babel/issues/6262
       "files": ["__tests__/integration/previewRDFHelper.js"],
       "rules": {
         "import/prefer-default-export": "off"

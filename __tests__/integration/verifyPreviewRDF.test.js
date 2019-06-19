@@ -2,7 +2,7 @@
 
 import pupExpect from 'expect-puppeteer'
 import { testUserLogin } from './loginHelper'
-import { previewRDFSetup } from './previewRDFHelper'
+import { fillInRequredFieldsForBibframeInstance } from './previewRDFHelper'
 
 describe('Previewing the RDF', () => {
   beforeAll(async () => {
