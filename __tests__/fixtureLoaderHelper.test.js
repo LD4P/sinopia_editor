@@ -32,16 +32,16 @@ describe('fixtureLoaderHelper', () => {
     })
   })
 
-  describe('spoofedGetResourceTemplate', () => {
+  describe('getFixtureResourceTemplate', () => {
     it('known id: returns JSON for resource template', async () => {
       expect.assertions(2)
-      const template = await spoofedGetResourceTemplate('resourceTemplate:bf2:Title')
+      const template = await getFixtureResourceTemplate('resourceTemplate:bf2:Title')
 
       expect(template.response.body.id).toEqual('resourceTemplate:bf2:Title')
       expect(template.response.body.resourceLabel).toEqual('Instance Title')
     })
     it('unknown id: returns empty resource template and logs error', () => {
-      expect(spoofedGetResourceTemplate('not:there')).toEqual(
+      expect(getFixtureResourceTemplate('not:there')).toEqual(
         {
           error: 'ERROR: un-spoofed resourceTemplate: not:there',
           propertyTemplates: [{}],
@@ -49,21 +49,21 @@ describe('fixtureLoaderHelper', () => {
       )
     })
     it('null id: returns empty resource template and logs error', () => {
-      expect(spoofedGetResourceTemplate()).toEqual(
+      expect(getFixtureResourceTemplate()).toEqual(
         {
           error: 'ERROR: asked for resourceTemplate with null/undefined id',
           propertyTemplates: [{}],
         },
       )
-      expect(spoofedGetResourceTemplate(null)).toEqual({
+      expect(getFixtureResourceTemplate(null)).toEqual({
         error: 'ERROR: asked for resourceTemplate with null/undefined id',
         propertyTemplates: [{}],
       })
-      expect(spoofedGetResourceTemplate(undefined)).toEqual({
+      expect(getFixtureResourceTemplate(undefined)).toEqual({
         error: 'ERROR: asked for resourceTemplate with null/undefined id',
         propertyTemplates: [{}],
       })
-      expect(spoofedGetResourceTemplate('')).toEqual({
+      expect(getFixtureResourceTemplate('')).toEqual({
         error: 'ERROR: asked for resourceTemplate with null/undefined id',
         propertyTemplates: [{}],
       })

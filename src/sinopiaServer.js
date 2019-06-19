@@ -25,7 +25,7 @@ const getResourceTemplateFromServer = (templateId, group) => {
 }
 
 export const getResourceTemplate = (templateId, group) => {
-  if (Config.useResourceTemplateFixtures) return spoofedGetResourceTemplate(templateId)
+  if (Config.useResourceTemplateFixtures) return getFixtureResourceTemplate(templateId)
 
   return getResourceTemplateFromServer(templateId, group)
 }

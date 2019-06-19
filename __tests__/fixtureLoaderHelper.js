@@ -56,7 +56,7 @@ const emptyTemplate = { propertyTemplates: [{}] }
 
 export const resourceTemplateIds = resourceTemplateId2Json.map(template => template.id)
 
-export const spoofedGetResourceTemplate = (templateId) => {
+export const getFixtureResourceTemplate = (templateId) => {
   if (!templateId) {
     emptyTemplate.error = 'ERROR: asked for resourceTemplate with null/undefined id'
 
