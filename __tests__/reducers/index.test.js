@@ -342,9 +342,8 @@ describe('refreshResourceTemplate', () => {
               id: 0,
               lang: {
                 items: [{
-                  id: 'http://id.loc.gov/vocabulary/languages/eng',
+                  id: 'en',
                   label: 'English',
-                  uri: 'http://id.loc.gov/vocabulary/languages/eng',
                 }],
               },
               uri: undefined,
@@ -422,9 +421,8 @@ describe('populatePropertyDefaults()', () => {
       id: 0,
       lang: {
         items: [{
-          id: 'http://id.loc.gov/vocabulary/languages/eng',
+          id: 'en',
           label: 'English',
-          uri: 'http://id.loc.gov/vocabulary/languages/eng',
         }],
       },
       uri: 'http://id.loc.gov/vocabulary/organizations/dlc',

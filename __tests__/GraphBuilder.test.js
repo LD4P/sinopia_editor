@@ -48,6 +48,12 @@ describe('GraphBuilder', () => {
                     {
                       content: 'Very colorful',
                       id: '3TzRpgv65',
+                      lang: {
+                        items: [{
+                          id: 'en',
+                          label: 'English',
+                        }],
+                      },
                     },
                     {
                       content: 'Sparkly',
@@ -94,21 +100,20 @@ describe('GraphBuilder', () => {
 
       expect(graph.has(propertyTriple)).toBeTruthy()
 
-      // Multiple items
-      const result1 = graph.filter(quad => quad.object.equals(rdf.literal('Very colorful'))).toArray()
-
-      expect(result1.length).toEqual(1)
-
+      // An triple with a lang tag
+      const result1 = graph.filter(quad => quad.object.equals(rdf.literal('Very colorful', 'en'))).toArray()
+      // An triple without a lang tag
       const result2 = graph.filter(quad => quad.object.equals(rdf.literal('Sparkly'))).toArray()
-
-      expect(result2.length).toEqual(1)
-
-      // Multiple resources (notes)
+      // A triple on a separate resource (bf:Note)
       const result3 = graph.filter(quad => quad.object.equals(rdf.literal('Shiney'))).toArray()
 
+      expect(result1.length).toEqual(1)
+      expect(result2.length).toEqual(1)
       expect(result3.length).toEqual(1)
+
       // Literals from the same note share blank node.
       expect(result1[0].subject).toEqual(result2[0].subject)
+
       // Literals from different notes have different blank node.
       expect(result1[0].subject).not.toEqual(result3[0].subject)
     })

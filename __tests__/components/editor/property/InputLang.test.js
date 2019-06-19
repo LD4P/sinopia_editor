@@ -1,4 +1,5 @@
-// Copyright 2018 Stanford University see LICENSE for license
+// Copyright 2019 Stanford University see LICENSE for license
+
 import React from 'react'
 import { shallow } from 'enzyme'
 import InputLang from 'components/editor/property/InputLang'
@@ -65,7 +66,7 @@ describe('<InputLang />', () => {
   it('creates a hash of options that it renders in the form field', () => {
     const lcLanguage = [
       {
-        '@id': 'http://id.loc.gov/vocabulary/languages/sna',
+        '@id': 'http://id.loc.gov/vocabulary/iso639-1/sn',
         'http://www.loc.gov/mads/rdf/v1#authoritativeLabel': [
           {
             '@language': 'en',
@@ -80,6 +81,6 @@ describe('<InputLang />', () => {
     const options = wrapper.instance().createOptions(lcLanguage)
 
     // Ignoring odd entries that don't have label
-    expect(options).toEqual([{ id: 'http://id.loc.gov/vocabulary/languages/sna', uri: 'http://id.loc.gov/vocabulary/languages/sna', label: 'Shona' }])
+    expect(options).toEqual([{ id: 'sn', label: 'Shona' }])
   })
 })

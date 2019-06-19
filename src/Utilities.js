@@ -49,9 +49,8 @@ export const booleanPropertyFromTemplate = (template, key, defaultValue) => {
 export const defaultLangTemplate = () => ({
   items: [
     {
-      id: 'http://id.loc.gov/vocabulary/languages/eng',
+      id: 'en',
       label: 'English',
-      uri: 'http://id.loc.gov/vocabulary/languages/eng',
     },
   ],
 })
