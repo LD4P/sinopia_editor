@@ -14,7 +14,7 @@ describe('Previewing the RDF', () => {
   })
 
   it('builds the rdf and verifies the expected content', async () => {
-    expect.assertions(6) // An additional assertion is done in previewRDFSetup
+    expect.assertions(6) // An additional assertion is done in fillInRequredFieldsForBibframeInstance
 
     // Click on the PreviewRDF button and a modal appears
     await pupExpect(page).toClick('button', { text: 'Preview RDF' })
