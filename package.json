@@ -145,7 +145,8 @@
     ],
     "testPathIgnorePatterns": [
       "/node_modules/",
-      "__tests__/integration/loginHelper"
+      "__tests__/integration/loginHelper",
+      "__tests__/integration/previewRDFHelper"
     ],
     "setupFiles": [
       "jest-localstorage-mock",
