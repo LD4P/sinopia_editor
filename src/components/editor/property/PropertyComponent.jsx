@@ -42,19 +42,16 @@ export class PropertyComponent extends Component {
                               lookupConfig = {this.state.configuration[0]} />)
 
       default:
-        if (property.type === 'literal') {
-          return (<InputLiteral key={keyId} id={keyId}
-                                reduxPath={reduxPath} />)
-        } else if (property.type === 'resource') {
-          return (
-            <div className="alert alert-warning">
-              This property is defined as a resource in the template but does not have references to other resources.
-            </div>
-          )
-        }
+      case property.type === 'literal':
+        return (<InputLiteral key={keyId} id={keyId}
+                              reduxPath={reduxPath} />)
+      case property.type === 'resource':
+        return (
+          <div className="alert alert-warning">
+            This property is defined as a resource in the template but does not have references to other resources.
+          </div>
+        )
     }
-
-    return false
   }
 
   render() {
