@@ -1,3 +1,4 @@
+// Copyright 2018, 2019 Stanford University see LICENSE for license
 export const rootResource = state => Object.values(state.selectorReducer.resource)[0]
 
 export const rootResourceId = state => rootResource(state)?.resourceURI
