@@ -69,7 +69,7 @@ describe('Config', () => {
     beforeAll(() => {
       process.env = {
         DEFAULT_PROFILE_SCHEMA_VERSION: '0.1.0',
-        SPOOF_SINOPIA_SERVER: 'true',
+        USE_FIXTURES: 'true',
         SINOPIA_URI: 'https://sinopia.foo',
         SINOPIA_GROUP: 'foobar',
         TRELLIS_BASE_URL: 'https://sinopia_server.foo',
@@ -92,7 +92,7 @@ describe('Config', () => {
       expect(Config.sinopiaUrl).toEqual('https://sinopia.foo')
     })
 
-    it('SPOOF_SINOPIA_SERVER overrides static value', () => {
+    it('USE_FIXTURES overrides static value', () => {
       expect(Config.sinopiaServerBase).toEqual('https://sinopia_server.foo')
     })
 

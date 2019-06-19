@@ -4,7 +4,7 @@ services:
     build:
       context: .
       args:
-        SPOOF_SINOPIA_SERVER: 'false'
+        USE_FIXTURES: 'false'
         TRELLIS_BASE_URL: http://platform:8080
     ports:
       - 8000:8000

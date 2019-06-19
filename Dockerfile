@@ -1,7 +1,7 @@
 FROM circleci/node:10.11
 
 # Allow build-time arguments (for, e.g., docker-compose)
-ARG SPOOF_SINOPIA_SERVER
+ARG USE_FIXTURES
 ARG TRELLIS_BASE_URL
 ARG DEFAULT_PROFILE_SCHEMA_VERSION
 ARG SINOPIA_GROUP

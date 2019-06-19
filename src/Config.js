@@ -25,8 +25,8 @@ class Config {
    *     b. When set to 'false' or any other string, return `false` (don't use fixtures)
    */
   static get useResourceTemplateFixtures() {
-    if (process.env.SPOOF_SINOPIA_SERVER) {
-      return process.env.SPOOF_SINOPIA_SERVER === 'true'
+    if (process.env.USE_FIXTURES) {
+      return process.env.USE_FIXTURES === 'true'
     }
 
     return false
