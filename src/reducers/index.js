@@ -68,8 +68,8 @@ export const populatePropertyDefaults = (propertyTemplate) => {
 }
 
 export const refreshResourceTemplate = (state, action) => {
-  const rtId = Object.keys(state.resource).pop()
-  const newResource = { resource: { [rtId]: state.resource[rtId] } }
+  const resourceTemplateId = Object.keys(state.resource).pop()
+  const newResource = { resource: { [resourceTemplateId]: state.resource[resourceTemplateId] } }
 
   const newState = { ...state, ...newResource }
 
