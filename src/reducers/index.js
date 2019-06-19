@@ -67,6 +67,18 @@ export const populatePropertyDefaults = (propertyTemplate) => {
   }))
 }
 
+/**
+ * The purpose of this function is to fill out the resource state tree with initial and additional properties,
+ * also calling the function to fill in the default values for those properties. This is called when a new top-level
+ * resource template is initialized and also when a property template with a nested resource is initialized
+ * (by expanding the property in a panel).
+ *
+ * Whenever a new resource template is initialized, the reduce method (bound to the lastObject variable) will by default
+ * append it to the `newState` accumulator, so before everything we must pop out the latest resource id and set that
+ * as the only resource in the state tree.
+ *
+ * @returns {{}} the new state of the redux store.
+ */
 export const refreshResourceTemplate = (state, action) => {
   const resourceTemplateId = Object.keys(state.resource).pop()
   const newResource = { resource: { [resourceTemplateId]: state.resource[resourceTemplateId] } }
