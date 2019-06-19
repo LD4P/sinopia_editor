@@ -37,7 +37,7 @@ export const getGroups = () => {
 }
 
 export const listResourcesInGroupContainer = (group) => {
-  if (Config.useResourceTemplateFixtures) return spoofedListResourcesInGroupContainer(group)
+  if (Config.useResourceTemplateFixtures) return listFixtureResourcesInGroupContainer(group)
 
   return instance.getGroupWithHttpInfo(group)
 }

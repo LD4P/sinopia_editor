@@ -104,6 +104,6 @@ export const rtFixturesGroups = () => new Promise((resolve) => {
   })
 })
 
-export const spoofedListResourcesInGroupContainer = group => new Promise((resolve) => {
+export const listFixtureResourcesInGroupContainer = group => new Promise((resolve) => {
   resolve(spoofedResourcesInGroupContainer(group))
 })
