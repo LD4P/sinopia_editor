@@ -332,14 +332,14 @@ describe('refreshResourceTemplate', () => {
       },
     })
 
-    const overwiteStateResult = refreshResourceTemplate(initialState.selectorReducer, {
+    const overwriteStateResult = refreshResourceTemplate(initialState.selectorReducer, {
       type: 'REFRESH_RESOURCE_TEMPLATE',
       payload: {
         reduxPath: ['resource', 'resourceTemplate:bf2:Monograph:Work', 'http://sinopia.io/next_example'],
       },
     })
 
-    expect(overwiteStateResult).toEqual({
+    expect(overwriteStateResult).toEqual({
       entities: {
         resourceTemplates: {
           'resourceTemplate:bf2:Note': {
