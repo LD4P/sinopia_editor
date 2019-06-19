@@ -100,6 +100,22 @@ describe('<PropertyComponent />', () => {
       expect(wrapper.find('Connect(InputLookupQA)').length).toEqual(0)
       expect(wrapper.find('Connect(InputLiteral)').length).toEqual(0)
     })
+
+    it('returns a warning message if the property type is not literal (i.e. resource)', () => {
+      const template = {
+        propertyURI: 'http://id.loc.gov/ontologies/bibframe/note',
+        type: 'resource',
+        valueConstraint: {
+          valueTemplateRefs: [],
+          useValuesFrom: [],
+        },
+      }
+
+      const wrapper = shallow(<PropertyComponent propertyTemplate={template}
+                                                 reduxPath={['http://id.loc.gov/ontologies/bibframe/note']}/>)
+
+      expect(wrapper.find('div.alert-warning').text()).toEqual('This property is defined as a resource in the template but does not have references to other resources.')
+    })
   })
 
   it('logs an error if <PropertyComponent /> is missing reduxPath props', () => {

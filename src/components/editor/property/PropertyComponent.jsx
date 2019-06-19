@@ -31,6 +31,7 @@ export class PropertyComponent extends Component {
     reduxPath.push(property.propertyURI)
     const keyId = shortid.generate()
 
+    let defaultInput
     switch (config) {
       case 'lookup':
         return (<InputLookupQA key = {this.props.index}
@@ -42,12 +43,15 @@ export class PropertyComponent extends Component {
                               lookupConfig = {this.state.configuration[0]} />)
       default:
         if (property.type === 'literal') {
-          return (<InputLiteral key={keyId} id={keyId}
-                                reduxPath={reduxPath} />)
+          defaultInput = <InputLiteral key={keyId} id={keyId} reduxPath={reduxPath} />
+        } else if (property.type === 'resource') {
+          defaultInput = <div className="alert alert-warning">
+            This property is defined as a resource in the template but does not have references to other resources.
+          </div>
         }
     }
 
-    return false
+    return defaultInput
   }
 
   render() {
