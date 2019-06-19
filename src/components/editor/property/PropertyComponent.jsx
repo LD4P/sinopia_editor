@@ -40,13 +40,6 @@ export class PropertyComponent extends Component {
                               reduxPath={reduxPath}
                               propertyTemplate = {property}
                               lookupConfig = {this.state.configuration[0]} />)
-      case 'resource':
-        return (
-          <div className="alert alert-warning">
-            This property is defined as a resource in the template but does not have any references to other
-            resources.
-          </div>
-        )
 
       default:
         if (property.type === 'literal') {
