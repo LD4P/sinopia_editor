@@ -117,8 +117,7 @@ describe('<PropertyComponent />', () => {
 
     console.error = jest.fn()
     shallow(<PropertyComponent index={1}
-                               propertyTemplate={template}
-                               rtId={'resourceTemplate:test'} />)
+                               propertyTemplate={template} />)
     expect(console.error).toHaveBeenCalledTimes(1)
     console.error = originalError
   })
