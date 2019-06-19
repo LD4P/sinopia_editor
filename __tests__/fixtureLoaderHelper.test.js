@@ -43,7 +43,7 @@ describe('fixtureLoaderHelper', () => {
     it('unknown id: returns empty resource template and logs error', () => {
       expect(getFixtureResourceTemplate('not:there')).toEqual(
         {
-          error: 'ERROR: un-spoofed resourceTemplate: not:there',
+          error: 'ERROR: non-fixture resourceTemplate: not:there',
           propertyTemplates: [{}],
         },
       )
@@ -77,7 +77,7 @@ describe('fixtureLoaderHelper', () => {
       expect(result.response.body.contains).toEqual(
         expect.arrayContaining([
           'http://spoof.trellis.io/ld4p/resourceTemplate:bf2:Monograph:Instance',
-          'http://spoof.trellis.io/ld4p/resourceTemplate:bf2:Monograph:Work',
+          'http://spoof.trellis.io/ld4p/rt:rda:manifestation:monograph',
         ]),
       )
     })

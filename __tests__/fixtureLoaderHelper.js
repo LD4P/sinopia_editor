@@ -64,23 +64,23 @@ export const getFixtureResourceTemplate = (templateId) => {
   }
 
   if (!resourceTemplateIds.includes(templateId)) {
-    emptyTemplate.error = `ERROR: un-spoofed resourceTemplate: ${templateId}`
+    emptyTemplate.error = `ERROR: non-fixture resourceTemplate: ${templateId}`
 
     return emptyTemplate
   }
 
-  const spoofedResponse = { response: {} }
+  const fixtureResponse = { response: {} }
 
-  spoofedResponse.response.body = resourceTemplateId2Json.find((template) => {
+  fixtureResponse.response.body = resourceTemplateId2Json.find((template) => {
     if (template.id === templateId) return template
   }).json
 
   return new Promise((resolve) => {
-    resolve(spoofedResponse)
+    resolve(fixtureResponse)
   })
 }
 
-export const spoofedResourcesInGroupContainer = (group) => {
+export const fixtureResourcesInGroupContainer = (group) => {
   const container = `http://spoof.trellis.io/${group}`
   const ids = resourceTemplateId2Json.map(rt => `${container}/${rt.id}`)
 
@@ -105,5 +105,5 @@ export const rtFixturesGroups = () => new Promise((resolve) => {
 })
 
 export const listFixtureResourcesInGroupContainer = group => new Promise((resolve) => {
-  resolve(spoofedResourcesInGroupContainer(group))
+  resolve(fixtureResourcesInGroupContainer(group))
 })

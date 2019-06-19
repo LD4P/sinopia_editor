@@ -22,7 +22,7 @@ describe('Config', () => {
       expect(Config.sinopiaUrl).toEqual('https://sinopia.io')
     })
 
-    it('spoof sinopia server has static value', () => {
+    it('useResourceTemplateFixtures is false by default', () => {
       expect(Config.useResourceTemplateFixtures).toEqual(false)
     })
 
@@ -92,11 +92,11 @@ describe('Config', () => {
       expect(Config.sinopiaUrl).toEqual('https://sinopia.foo')
     })
 
-    it('sinopia server url overrides static value', () => {
+    it('SPOOF_SINOPIA_SERVER overrides static value', () => {
       expect(Config.sinopiaServerBase).toEqual('https://sinopia_server.foo')
     })
 
-    it('spoof sinopia server overrides static value', () => {
+    it('useResourceTemplateFixtures value overrides static value', () => {
       expect(Config.useResourceTemplateFixtures).toEqual(true)
     })
 
