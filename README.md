@@ -77,6 +77,8 @@ Tests are written in jest, also utilizing puppeteer for end-to-end tests. Run th
 To properly run all of the tests (including integration), you'll have to provide a couple of environment variables,
 so that the tests have valid user info with which to login.  The env vars are:
 
+Add these to your local `.env` file:
+
 ```sh
 COGNITO_TEST_USER_NAME='sinopia-devs+client-tester@lists.stanford.edu' # a test user we have on dev and stage
 COGNITO_TEST_USER_PASS='<get this from shared_configs or another developer>' # not committing the real value to a public repo
@@ -85,13 +87,13 @@ COGNITO_TEST_USER_PASS='<get this from shared_configs or another developer>' # n
 Putting it all together, to run all of the tests:
 
 ```sh
-COGNITO_TEST_USER_NAME='sinopia-devs+client-tester@lists.stanford.edu' COGNITO_TEST_USER_PASS='theActualPassword' npm test
+npm test
 ```
 
 You can also run the tests together with the linter all in one, similar to what happens at CircleCI.
 
 ```sh
-COGNITO_TEST_USER_NAME='sinopia-devs+client-tester@lists.stanford.edu' COGNITO_TEST_USER_PASS='theActualPassword' npm run ci
+npm run ci
 ````
 
 Note that if you have an instance of the dev server already running in a separate terminal, you may need to stop the server or you may get a port conflict
@@ -102,7 +104,7 @@ when running the integration tests.
 To get coverage data, use `npm run jest-cov`.  Be sure to specify the ENV variables as described above:
 
 ```sh
-COGNITO_TEST_USER_NAME='sinopia-devs+client-tester@lists.stanford.edu' COGNITO_TEST_USER_PASS='theActualPassword' npm run jest-cov
+npm run jest-cov
 ```
 
 Once complete, you can start the dev server on your laptop as describe above and visit `http://localhost:8888/coverage/lcov-report/index.html`.
