@@ -89,11 +89,8 @@ export default class GraphBuilder {
 
       if (value.items) {
         for (const item of value.items) {
-          if (item.uri) {
-            this.dataset.add(rdf.quad(baseURI, rdf.namedNode(predicate), rdf.namedNode(item.uri)))
-          } else {
-            this.dataset.add(rdf.quad(baseURI, rdf.namedNode(predicate), rdf.literal(item.content)))
-          }
+          const object = item.uri ? rdf.namedNode(item.uri) : this.createLiteral(item)
+          this.dataset.add(rdf.quad(baseURI, rdf.namedNode(predicate), object))
         }
       } else { // It's a deeply nested object
         Object.keys(value).filter(elem => elem !== 'errors').forEach((key) => {
@@ -105,6 +102,15 @@ export default class GraphBuilder {
         })
       }
     }
+  }
+
+  /**
+   * Returns a literal with an optional language tag
+   * @param {Object} item from the redux store
+   * @return {rdf.LiteralExt} the literal with a language value
+   */
+  createLiteral(item) {
+    return rdf.literal(item.content, item.lang?.items[0].id)
   }
 
 
