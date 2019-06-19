@@ -2,7 +2,7 @@
 
 import pupExpect from 'expect-puppeteer'
 
-export async function previewRDFSetup() {
+export async function fillInRequredFieldsForBibframeInstance() {
   // This assertion adds 1 to each it blocks assertion count
   await pupExpect(page).toClick('a', { text: 'BIBFRAME Instance' })
 

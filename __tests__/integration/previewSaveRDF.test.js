@@ -10,7 +10,7 @@ describe('Previewing the RDF', () => {
   })
 
   beforeEach(async () => {
-    return await previewRDFSetup()
+    return await fillInRequredFieldsForBibframeInstance()
   })
 
   it('builds the rdf and has dialog for saving', async () => {
