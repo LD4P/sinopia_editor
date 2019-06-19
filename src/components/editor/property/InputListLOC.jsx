@@ -6,7 +6,7 @@ import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
 import shortid from 'shortid'
 import { changeSelections } from 'actions/index'
-import { getDisplayValidations } from 'reducers/index'
+import { getDisplayValidations } from 'selectors/resourceSelectors'
 import { booleanPropertyFromTemplate, defaultValuesFromPropertyTemplate } from 'Utilities'
 
 class InputListLOC extends Component {

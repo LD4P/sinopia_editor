@@ -10,49 +10,6 @@ import {
 } from './inputs'
 import { defaultLangTemplate } from 'Utilities'
 
-
-export const findNode = (selectorReducer, reduxPath) => {
-  const items = reduxPath.reduce((obj, key) => (obj && obj[key] !== 'undefined' ? obj[key] : undefined), selectorReducer)
-
-  return items || {}
-}
-
-/*
- * TODO: Re-enable use of reselect's createSelector, will need to adjust
- * individual components InputLiteral, InputLookupQA, InputListLOC, etc.,
- * see https://github.com/reduxjs/reselect#sharing-selectors-with-props-across-multiple-component-instances
- */
-export const getProperty = (state, props) => {
-  const result = findNode(state.selectorReducer, props.reduxPath)
-
-  return result.items || []
-}
-
-/*
- * @returns {function} a function that returns true if validations should be displayed
- */
-export const getDisplayValidations = state => findNode(state.selectorReducer, ['editor']).displayValidations
-
-/**
- * @returns {function} a function that gets a resource template from state or undefined
- */
-export const getResourceTemplate = (state, resourceTemplateId) => findNode(state.selectorReducer, ['entities', 'resourceTemplates'])[resourceTemplateId]
-
-
-/**
- * @returns {function} a function that gets a property template from state or undefined
- */
-export const getPropertyTemplate = (state, resourceTemplateId, propertyURI) => {
-  const resourceTemplate = getResourceTemplate(state, resourceTemplateId)
-
-  if (!resourceTemplate) {
-    return
-  }
-
-  // Find the property template
-  return resourceTemplate.propertyTemplates.find(propertyTemplate => propertyTemplate.propertyURI === propertyURI)
-}
-
 /**
  * This transforms the property template default values fetched from the server into redux state
  */

@@ -7,7 +7,7 @@ import Modal from 'react-bootstrap/lib/Modal'
 import Button from 'react-bootstrap/lib/Button'
 import shortid from 'shortid'
 import { removeItem, setItems, setLang } from 'actions/index'
-import { findNode, getDisplayValidations, getPropertyTemplate } from 'reducers/index'
+import { findNode, getDisplayValidations, getPropertyTemplate } from 'selectors/resourceSelectors'
 import InputLang from './InputLang'
 import { booleanPropertyFromTemplate, defaultLangTemplate } from 'Utilities'
 
