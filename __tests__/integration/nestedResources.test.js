@@ -26,7 +26,7 @@ describe('Expanding a resource property in a property panel', () => {
     await pupExpect(page).toMatchElement('input[placeholder=\'Holdings\']')
   })
 
-  it('enters a value into a nested prooperty component', async () => {
+  it('enters a value into a nested property component', async () => {
     expect.assertions(3)
     await pupExpect(page).not.toMatchElement('div#userInput', { text: 'Some text' })
     await expect(page).toFill('input[placeholder="Holdings"', 'Some text')
