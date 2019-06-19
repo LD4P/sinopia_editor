@@ -14,7 +14,7 @@ describe('Previewing the RDF', () => {
   })
 
   it('builds the rdf and has dialog for saving', async () => {
-    expect.assertions(13)
+    expect.assertions(13) // An additional assertion is done in previewRDFSetup
 
     // Click on the PreviewRDF button and a modal appears
     await pupExpect(page).toClick('button', { text: 'Preview RDF' })
