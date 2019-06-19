@@ -31,7 +31,7 @@ export const getResourceTemplate = (templateId, group) => {
 }
 
 export const getGroups = () => {
-  if (Config.useResourceTemplateFixtures) return spoofedGetGroups()
+  if (Config.useResourceTemplateFixtures) return rtFixturesGroups()
 
   return instance.getBaseWithHttpInfo()
 }

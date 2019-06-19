@@ -94,7 +94,7 @@ export const spoofedResourcesInGroupContainer = (group) => {
   }
 }
 
-export const spoofedGetGroups = () => new Promise((resolve) => {
+export const rtFixturesGroups = () => new Promise((resolve) => {
   resolve({
     response: {
       body: {
