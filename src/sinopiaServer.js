@@ -25,19 +25,19 @@ const getResourceTemplateFromServer = (templateId, group) => {
 }
 
 export const getResourceTemplate = (templateId, group) => {
-  if (Config.spoofSinopiaServer) return spoofedGetResourceTemplate(templateId)
+  if (Config.useResourceTemplateFixtures) return spoofedGetResourceTemplate(templateId)
 
   return getResourceTemplateFromServer(templateId, group)
 }
 
 export const getGroups = () => {
-  if (Config.spoofSinopiaServer) return spoofedGetGroups()
+  if (Config.useResourceTemplateFixtures) return spoofedGetGroups()
 
   return instance.getBaseWithHttpInfo()
 }
 
 export const listResourcesInGroupContainer = (group) => {
-  if (Config.spoofSinopiaServer) return spoofedListResourcesInGroupContainer(group)
+  if (Config.useResourceTemplateFixtures) return spoofedListResourcesInGroupContainer(group)
 
   return instance.getGroupWithHttpInfo(group)
 }

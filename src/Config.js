@@ -24,7 +24,7 @@ class Config {
    *     a. When set to 'true' return `true` (use spoof)
    *     b. When set to 'false' or any other string, return `false` (don't use spoof)
    */
-  static get spoofSinopiaServer() {
+  static get useResourceTemplateFixtures() {
     if (process.env.SPOOF_SINOPIA_SERVER) {
       return process.env.SPOOF_SINOPIA_SERVER === 'true'
     }

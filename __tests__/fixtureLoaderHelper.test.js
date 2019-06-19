@@ -5,8 +5,8 @@ import {
   resourceTemplateId2Json, resourceTemplateIds, getFixtureResourceTemplate, fixtureResourcesInGroupContainer,
 } from './fixtureLoaderHelper'
 
-// Stub `Config.spoofSinopiaServer` static getter to force RT to come from spoofs
-jest.spyOn(Config, 'spoofSinopiaServer', 'get').mockReturnValue(true)
+// Stub `Config.useResourceTemplateFixtures` static getter to force RT to come from spoofs
+jest.spyOn(Config, 'useResourceTemplateFixtures', 'get').mockReturnValue(true)
 
 describe('fixtureLoaderHelper', () => {
   describe('resourceTemplateIds', () => {

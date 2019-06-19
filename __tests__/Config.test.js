@@ -23,7 +23,7 @@ describe('Config', () => {
     })
 
     it('spoof sinopia server has static value', () => {
-      expect(Config.spoofSinopiaServer).toEqual(false)
+      expect(Config.useResourceTemplateFixtures).toEqual(false)
     })
 
     it('aws client ID has static value', () => {
@@ -97,7 +97,7 @@ describe('Config', () => {
     })
 
     it('spoof sinopia server overrides static value', () => {
-      expect(Config.spoofSinopiaServer).toEqual(true)
+      expect(Config.useResourceTemplateFixtures).toEqual(true)
     })
 
     it('aws client ID overrides static value', () => {
