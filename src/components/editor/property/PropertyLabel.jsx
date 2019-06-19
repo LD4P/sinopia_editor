@@ -5,6 +5,7 @@ import React, { Component } from 'react'
 import { OverlayTrigger, Popover } from 'react-bootstrap'
 import PropTypes from 'prop-types'
 import RequiredSuperscript from './RequiredSuperscript'
+
 const _ = require('lodash')
 
 export class PropertyLabel extends Component {
