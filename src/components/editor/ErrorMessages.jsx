@@ -3,7 +3,7 @@
 import React from 'react'
 import { connect } from 'react-redux'
 import PropTypes from 'prop-types'
-import { findNode } from 'reducers/index'
+import { findNode } from 'selectors/resourceSelectors'
 
 const ErrorMessages = (props) => {
   if (!props.displayValidations || props.errors.length === 0) {

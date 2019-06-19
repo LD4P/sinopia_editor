@@ -7,7 +7,7 @@ import PropTypes from 'prop-types'
 import Swagger from 'swagger-client'
 import swaggerSpec from 'lib/apidoc.json'
 import { connect } from 'react-redux'
-import { getProperty, getDisplayValidations, getPropertyTemplate } from 'reducers/index'
+import { itemsForProperty, getDisplayValidations, getPropertyTemplate } from 'selectors/resourceSelectors'
 import { changeSelections } from 'actions/index'
 import { booleanPropertyFromTemplate, defaultValuesFromPropertyTemplate, getLookupConfigItems } from 'Utilities'
 import Config from 'Config'
@@ -22,7 +22,6 @@ class InputLookupQA extends Component {
       isLoading: false,
     }
   }
-
 
   // Render menu function to be used by typeahead
   renderMenuFunc = (results, menuProps) => {
@@ -241,7 +240,7 @@ const mapStateToProps = (state, props) => {
   const lookupConfig = getLookupConfigItems(propertyTemplate)
 
   return {
-    selected: getProperty(state, props),
+    selected: itemsForProperty(state.selectorReducer, props.reduxPath),
     reduxPath,
     propertyTemplate,
     displayValidations,

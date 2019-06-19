@@ -1,6 +1,4 @@
-import {
-  getPropertyTemplate,
-} from './reducers/index'
+import { getPropertyTemplate } from 'selectors/resourceSelectors'
 
 export default class Validator {
   constructor(state) {

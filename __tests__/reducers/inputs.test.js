@@ -7,7 +7,7 @@ import {
 
 import {
   findNode,
-} from 'reducers/index'
+} from 'selectors/resourceSelectors'
 
 let initialState
 
