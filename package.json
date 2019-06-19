@@ -146,6 +146,7 @@
     ],
     "testPathIgnorePatterns": [
       "/node_modules/",
+      "__tests__/fixtureLoaderHelper.js",
       "__tests__/integration/loginHelper",
       "__tests__/integration/previewRDFHelper"
     ],

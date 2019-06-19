@@ -3,7 +3,7 @@
 import SinopiaServer from 'sinopia_server'
 import CognitoUtils from './CognitoUtils'
 import Config from './Config'
-import { spoofedGetGroups, spoofedGetResourceTemplate, spoofedListResourcesInGroupContainer } from './sinopiaServerSpoof'
+import { rtFixturesGroups, getFixtureResourceTemplate, listFixtureResourcesInGroupContainer } from '../__tests__/fixtureLoaderHelper'
 
 const instance = new SinopiaServer.LDPApi()
 

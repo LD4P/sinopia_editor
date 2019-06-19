@@ -1,14 +1,14 @@
-// Copyright 2018 Stanford University see LICENSE for license
+// Copyright 2018, 2019 Stanford University see LICENSE for license
 
 import Config from '../src/Config'
 import {
-  resourceTemplateId2Json, resourceTemplateIds, spoofedGetResourceTemplate, spoofedResourcesInGroupContainer,
-} from '../src/sinopiaServerSpoof'
+  resourceTemplateId2Json, resourceTemplateIds, getFixtureResourceTemplate, fixtureResourcesInGroupContainer,
+} from './fixtureLoaderHelper'
 
 // Stub `Config.spoofSinopiaServer` static getter to force RT to come from spoofs
 jest.spyOn(Config, 'spoofSinopiaServer', 'get').mockReturnValue(true)
 
-describe('sinopiaServerSpoof', () => {
+describe('fixtureLoaderHelper', () => {
   describe('resourceTemplateIds', () => {
     it('resourceTemplateId is in expected format', () => {
       resourceTemplateIds.forEach((id) => {
