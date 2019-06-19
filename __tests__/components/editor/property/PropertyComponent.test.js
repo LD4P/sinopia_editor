@@ -81,7 +81,7 @@ describe('<PropertyComponent />', () => {
       })
     })
 
-    it('returns an empty div if the property type is not literal (i.e. resource)', () => {
+    it('returns a warning message if the property type is not literal (i.e. resource)', () => {
       const template = {
         propertyURI: 'http://id.loc.gov/ontologies/bibframe/note',
         type: 'resource',
@@ -99,6 +99,7 @@ describe('<PropertyComponent />', () => {
       expect(wrapper.find('Connect(InputListLOC)').length).toEqual(0)
       expect(wrapper.find('Connect(InputLookupQA)').length).toEqual(0)
       expect(wrapper.find('Connect(InputLiteral)').length).toEqual(0)
+      expect(wrapper.find('div.alert-warning').text()).toEqual('This property is defined as a resource in the template but does not have references to other resources.')
     })
   })
 
