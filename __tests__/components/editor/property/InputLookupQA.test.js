@@ -125,45 +125,6 @@ describe('<InputLookupQA />', () => {
       jest.restoreAllMocks()
     })
 
-    it('logs an error when no defaults are set', () => {
-      const plProps = {
-        id: 'lookupComponent',
-        propertyTemplate:
-          {
-            mandatory: 'false',
-            repeatable: 'true',
-            type: 'lookup',
-            resourceTemplates: [],
-            valueConstraint: {
-              valueTemplateRefs: [],
-              useValuesFrom: [
-                'lookupQaLocNames',
-              ],
-              valueDataType: {
-                dataTypeURI: 'http://id.loc.gov/ontologies/bibframe/Agent',
-              },
-            },
-            propertyURI: 'http://id.loc.gov/ontologies/bflc/target',
-            propertyLabel: 'Name Lookup',
-          },
-        lookupConfig: [
-          {
-            label: 'LOC person [names] (QA)',
-            uri: 'urn:ld4p:qa:names:person',
-            authority: 'locnames_ld4l_cache',
-            subauthority: 'person',
-            language: 'en',
-            component: 'lookup',
-          },
-        ],
-      }
-
-      const infoSpy = jest.spyOn(console, 'info').mockReturnValue(null)
-      shallow(<InputLookupQA.WrappedComponent {...plProps} handleSelectedChange={mockFormDataFn} />)
-
-      expect(infoSpy).toBeCalledWith(`no defaults defined in property template: ${JSON.stringify(plProps.propertyTemplate)}`)
-    })
-
     it('sets the async typeahead component defaultSelected attribute', () => {
       const wrapper2 = shallow(<InputLookupQA.WrappedComponent {...plProps} handleSelectedChange={mockFormDataFn} />)
 
