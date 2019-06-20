@@ -10,9 +10,6 @@ jest.spyOn(Config, 'spoofSinopiaServer', 'get').mockReturnValue(true)
 
 describe('sinopiaServerSpoof', () => {
   describe('resourceTemplateIds', () => {
-    it('array of length 23', () => {
-      expect(resourceTemplateIds).toHaveLength(23)
-    })
     it('resourceTemplateId is in expected format', () => {
       resourceTemplateIds.forEach((id) => {
         expect(id).toMatch(/^.*:.*:.*/)
@@ -21,12 +18,13 @@ describe('sinopiaServerSpoof', () => {
   })
 
   describe('resourceTemplateId2Json', () => {
-    it('array of length 23', () => {
-      expect(resourceTemplateId2Json).toHaveLength(23)
-    })
     it('mapping has id', () => {
-      expect(resourceTemplateId2Json[0].id).toBe('resourceTemplate:bf2:Monograph:Instance')
-      expect(resourceTemplateId2Json[10].id).toBe('resourceTemplate:bf2:WorkVariantTitle')
+      expect(resourceTemplateId2Json.map(e => e.id)).toEqual(
+        expect.arrayContaining([
+          'resourceTemplate:bf2:Monograph:Instance',
+          'resourceTemplate:bf2:WorkVariantTitle',
+        ]),
+      )
     })
     it('mapping has json', () => {
       expect(resourceTemplateId2Json[0].json).toBeDefined()
@@ -74,38 +72,14 @@ describe('sinopiaServerSpoof', () => {
 
   describe('spoofedResourcesInGroupContainer', () => {
     it('returns a spoofed response object with contained resource template IDs', () => {
-      expect(spoofedResourcesInGroupContainer('ld4p')).toMatchObject({
-        response: {
-          body: {
-            '@id': 'http://spoof.trellis.io/ld4p',
-            contains: [
-              'http://spoof.trellis.io/ld4p/resourceTemplate:bf2:Monograph:Instance',
-              'http://spoof.trellis.io/ld4p/resourceTemplate:bf2:Monograph:Work',
-              'http://spoof.trellis.io/ld4p/resourceTemplate:bf2:Identifiers:Barcode',
-              'http://spoof.trellis.io/ld4p/resourceTemplate:bf2:Note',
-              'http://spoof.trellis.io/ld4p/resourceTemplate:bf2:ParallelTitle',
-              'http://spoof.trellis.io/ld4p/resourceTemplate:bf2:Title',
-              'http://spoof.trellis.io/ld4p/resourceTemplate:bf2:Title:Note',
-              'http://spoof.trellis.io/ld4p/resourceTemplate:bflc:TranscribedTitle',
-              'http://spoof.trellis.io/ld4p/resourceTemplate:bf2:Title:VarTitle',
-              'http://spoof.trellis.io/ld4p/resourceTemplate:bf2:WorkTitle',
-              'http://spoof.trellis.io/ld4p/resourceTemplate:bf2:WorkVariantTitle',
-              'http://spoof.trellis.io/ld4p/resourceTemplate:bf2:Identifiers:LCCN',
-              'http://spoof.trellis.io/ld4p/resourceTemplate:bf2:Identifiers:DDC',
-              'http://spoof.trellis.io/ld4p/resourceTemplate:bf2:Identifiers:Shelfmark',
-              'http://spoof.trellis.io/ld4p/resourceTemplate:bf2:Item',
-              'http://spoof.trellis.io/ld4p/resourceTemplate:bf2:Item:Retention',
-              'http://spoof.trellis.io/ld4p/resourceTemplate:bf2:Item:ItemAcqSource',
-              'http://spoof.trellis.io/ld4p/resourceTemplate:bf2:Item:Enumeration',
-              'http://spoof.trellis.io/ld4p/resourceTemplate:bf2:Item:Chronology',
-              'http://spoof.trellis.io/ld4p/rt:bf2:AdminMetadata',
-              'http://spoof.trellis.io/ld4p/rt:bf2:AdminMetadata:Status',
-              'http://spoof.trellis.io/ld4p/rt:rda:item:monograph',
-              'http://spoof.trellis.io/ld4p/rt:rda:manifestation:monograph',
-            ],
-          },
-        },
-      })
+      const result = spoofedResourcesInGroupContainer('ld4p')
+      expect(result.response.body['@id']).toEqual('http://spoof.trellis.io/ld4p')
+      expect(result.response.body.contains).toEqual(
+        expect.arrayContaining([
+          'http://spoof.trellis.io/ld4p/resourceTemplate:bf2:Monograph:Instance',
+          'http://spoof.trellis.io/ld4p/resourceTemplate:bf2:Monograph:Work',
+        ]),
+      )
     })
   })
 })
