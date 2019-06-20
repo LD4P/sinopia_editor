@@ -79,7 +79,6 @@ export const setResourceTemplate = (state, action) => {
     newState = refreshResourceTemplate(newState, propertyAction)
   })
 
-  newState.errors = []
   return newState
 }
 
