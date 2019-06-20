@@ -22,9 +22,10 @@ describe('refreshResourceTemplate()', () => {
 
 describe('removeItem()', () => {
   it('creates REMOVE_ITEM action', () => {
-    expect(actions.removeItem({ id: 0, label: 'Instance of' })).toEqual({
+    const reduxPath = ['resource', 'resourceTemplate:bf2:Note', 'http://example.com']
+    expect(actions.removeItem(reduxPath, 0)).toEqual({
       type: 'REMOVE_ITEM',
-      payload: { id: 0, label: 'Instance of' },
+      payload: { reduxPath, id: 0 },
     })
   })
 })

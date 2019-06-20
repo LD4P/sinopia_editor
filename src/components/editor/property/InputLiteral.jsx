@@ -91,17 +91,7 @@ export class InputLiteral extends Component {
   }
 
   handleDeleteClick = (event) => {
-    const labelToRemove = event.target.dataset.content
-    const idToRemove = event.target.dataset.item
-
-    this.props.handleRemoveItem(
-      {
-        id: idToRemove,
-        label: labelToRemove,
-        reduxPath: this.props.reduxPath,
-        uri: this.props.propertyTemplate.propertyURI,
-      },
-    )
+    this.props.handleRemoveItem(this.props.reduxPath, event.target.dataset.item)
   }
 
   handleEditClick = (event) => {
@@ -285,8 +275,8 @@ const mapDispatchToProps = dispatch => ({
   handleMyItemsChange(userInput) {
     dispatch(setItems(userInput))
   },
-  handleRemoveItem(id) {
-    dispatch(removeItem(id))
+  handleRemoveItem(reduxPath, itemId) {
+    dispatch(removeItem(reduxPath, itemId))
   },
   handleMyItemsLangChange(payload) {
     dispatch(setLang(payload))
