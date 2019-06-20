@@ -184,18 +184,19 @@ describe('GraphBuilder', () => {
 
     it('returns the graph', () => {
       const graph = builder.graph
-
       const typeTriple = rdf.quad(rdf.namedNode('http://example.com/base/123'),
         rdf.namedNode('http://www.w3.org/1999/02/22-rdf-syntax-ns#type'),
         rdf.namedNode('http://id.loc.gov/ontologies/bibframe/Work'))
-
-      expect(graph.has(typeTriple)).toBeTruthy()
-
       const propertyTriple = rdf.quad(rdf.namedNode('http://example.com/base/123'),
         rdf.namedNode('http://id.loc.gov/ontologies/bibframe/illustrativeContent'),
         rdf.namedNode('http://id.loc.gov/vocabulary/millus/gnt'))
+      const generatedByTriple = rdf.quad(rdf.namedNode('http://example.com/base/123'),
+        rdf.namedNode('http://www.w3.org/ns/prov#wasGeneratedBy'),
+        rdf.literal('resourceTemplate:bf2:Monograph:Work'))
 
+      expect(graph.has(typeTriple)).toBeTruthy()
       expect(graph.has(propertyTriple)).toBeTruthy()
+      expect(graph.has(generatedByTriple)).toBeTruthy()
 
       let result = graph.filter(quad => quad.object.equals(rdf.literal('Very colorful')))
 
@@ -204,7 +205,17 @@ describe('GraphBuilder', () => {
       result = graph.filter(quad => quad.object.equals(rdf.literal('Sparkly')))
       expect(result.toArray().length).toEqual(1)
 
-      result = graph.filter(quad => quad.object.equals(rdf.namedNode('http://id.loc.gov/ontologies/bibframe/Note')) && quad.predicate.equals(rdf.namedNode('http://www.w3.org/1999/02/22-rdf-syntax-ns#type')))
+      // _:b1 <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://id.loc.gov/ontologies/bibframe/Note> .
+      result = graph.filter(quad => quad.object.equals(rdf.namedNode('http://id.loc.gov/ontologies/bibframe/Note'))
+        && quad.predicate.equals(rdf.namedNode('http://www.w3.org/1999/02/22-rdf-syntax-ns#type')))
+      expect(result.toArray().length).toEqual(1)
+
+      const bnode = result.toArray()[0].subject
+
+      // _:b1 <http://www.w3.org/ns/prov#wasGeneratedBy> "resourceTemplate:bf2:Note" .
+      result = graph.filter(quad => quad.subject.equals(bnode)
+        && quad.object.equals(rdf.literal('resourceTemplate:bf2:Note'))
+        && quad.predicate.equals(rdf.namedNode('http://www.w3.org/ns/prov#wasGeneratedBy')))
       expect(result.toArray().length).toEqual(1)
     })
   })
