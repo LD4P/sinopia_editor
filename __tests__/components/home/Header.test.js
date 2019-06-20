@@ -4,7 +4,7 @@ import React from 'react'
 import { shallow } from 'enzyme'
 import { Link } from 'react-router-dom'
 import Header from 'components/home/Header'
-import SinopiaLogo from 'styles/sinopia-logo.png'
+import SinopiaLogo from 'img/sinopia-logo.png'
 import Config from 'Config'
 
 describe('<Header />', () => {
