@@ -61,6 +61,7 @@ describe('showGroupChooser()', () => {
 
       expect(result.editor.displayValidations).toBe(true)
       expect(result.editor.groupChoice.show).toBe(false)
+      expect(result.editor.rdfPreview.show).toBe(false)
     })
   })
 })

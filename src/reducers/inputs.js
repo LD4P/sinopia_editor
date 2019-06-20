@@ -18,6 +18,7 @@ export const showGroupChooser = (state) => {
   } else {
     // Show errors that prevent save
     newState.editor.displayValidations = true
+    newState.editor.rdfPreview.show = false
   }
 
   return newState
