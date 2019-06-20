@@ -20,7 +20,7 @@ export class RequiredSuperscript extends Component {
 
     const required = (
       <OverlayTrigger trigger={['hover', 'focus']} placement="right" overlay={popover} key={shortid.generate()} >
-        <sup tabIndex="0" >
+        <sup aria-label="required" >
           <FontAwesomeIcon className="asterick text-danger" icon={faAsterisk} />
         </sup>
       </OverlayTrigger>
