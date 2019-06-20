@@ -27,3 +27,8 @@ export async function fillInRequredFieldsForBibframeInstance() {
   await page.waitForSelector('#rbt-menu-item-0')
   await page.click('#rbt-menu-item-0')
 }
+
+export async function incompleteFieldsForBibframeInstance() {
+  // This assertion adds 1 to each it blocks assertion count
+  await pupExpect(page).toClick('a', { text: 'BIBFRAME Instance' })
+}

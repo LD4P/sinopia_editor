@@ -20,6 +20,8 @@ beforeEach(() => {
       },
       resource: { // The state we're displaying in the editor
       },
+      editor: {
+      },
     },
   }
 })
@@ -190,6 +192,10 @@ describe('selectorReducer', () => {
           },
         },
       },
+      editor: {
+        errors: [],
+        displayValidations: false,
+      },
     })
   })
 
@@ -238,6 +244,7 @@ describe('refreshResourceTemplate', () => {
           'http://sinopia.io/example': {},
         },
       },
+      editor: {},
     })
   })
 
@@ -282,6 +289,10 @@ describe('refreshResourceTemplate', () => {
         'resourceTemplate:bf2:Monograph:Work': {
           'http://sinopia.io/next_example': {},
         },
+      },
+      editor: {
+        errors: [],
+        displayValidations: false,
       },
     })
   })
@@ -413,6 +424,10 @@ describe('resourceTemplateLoaded()', () => {
         },
       },
       resource: {},
+      editor: {
+        errors: [],
+        displayValidations: false,
+      },
     })
   })
 })
