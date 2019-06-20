@@ -51,6 +51,23 @@ class InputLookupQAContext extends Component {
         authority = lookupConfig.authority
         subauthority = lookupConfig.subauthority
         language = lookupConfig.language
+        
+        /*
+         *  There are two types of lookup: linked data and non-linked data. The API calls
+         *  for each type are different, so check the nonldLookup field in the lookup config.
+         *  If the field is not set, assume false.
+         */
+        const nonldLookup = lookupConfig.nonldLookup ? lookupConfig.nonldLookup : false
+
+        // default the API calls to their linked data values
+        let subAuthCall = 'GET_searchSubauthority'
+        let authorityCall = 'GET_searchAuthority'
+
+        // Change the API calls if this is a non-linked data lookup
+        if (nonldLookup) {
+          subAuthCall = 'GET_nonldSearchWithSubauthority'
+          authorityCall = 'GET_nonldSearchAuthority'
+        }
 
         /*
          * return the 'promise'
@@ -60,7 +77,7 @@ class InputLookupQAContext extends Component {
          * The only difference between this call and the next one is the call to Get_searchSubauthority instead of
          * Get_searchauthority.  Passing API call in a variable name/dynamically, thanks @mjgiarlo
          */
-        const actionFunction = lookupConfig.subauthority ? 'GET_searchSubauthority' : 'GET_searchAuthority'
+        const actionFunction = lookupConfig.subauthority ? subAuthCall : authorityCall
 
         return client
           .apis
@@ -311,9 +328,10 @@ class InputLookupQAContext extends Component {
       // if property is one of the possible main label values don't show it
       if (mainLabelProperty.indexOf(property.toLowerCase()) < 0) {
         const values = contextResult.values
+        //const values = [contextResult.value] //hack for wikidata, to be removed later
         const innerDivKey = `c${index}`
         if (values.length) {
-          return (<div key={innerDivKey}> {contextResult.property}: {contextResult.values.join(', ')} </div>)
+          return (<div key={innerDivKey}> {property}: {values.join(', ')} </div>)
         }
       }
     })

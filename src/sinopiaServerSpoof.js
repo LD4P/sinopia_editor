@@ -26,6 +26,7 @@ const rdaManifestMonoRt = require('../static/spoofedFilesFromServer/fromSinopiaS
 //ShareVDE example
 const sharevdeRt = require('../static/spoofedFilesFromServer/fromSinopiaServer/resourceTemplates/ShareVDEExample.json')
 const discogsRt = require('../static/spoofedFilesFromServer/fromSinopiaServer/resourceTemplates/DiscogsExample.json')
+const wikidataRt = require('../static/spoofedFilesFromServer/fromSinopiaServer/resourceTemplates/WikidataExample.json')
 
 export const resourceTemplateId2Json = [
   { id: 'resourceTemplate:bf2:Monograph:Instance', json: monographInstanceRt },
@@ -53,6 +54,7 @@ export const resourceTemplateId2Json = [
   { id: 'rt:rda:manifestation:monograph', json: rdaManifestMonoRt },
   { id: 'resourceTemplate:bf2:ShareVDE:Example', json: sharevdeRt },
   { id: 'resourceTemplate:bf2:Discogs:Example', json: discogsRt },
+  { id: 'resourceTemplate:bf2:Wikidata:Example', json: wikidataRt },
 ]
 
 const emptyTemplate = { propertyTemplates: [{}] }
