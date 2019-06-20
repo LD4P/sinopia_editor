@@ -49,6 +49,19 @@
       "propertyLabel": "Enumeration and chronology"
     },
     {
+      "mandatory": "false",
+      "repeatable": "true",
+      "type": "resource",
+      "resourceTemplates": [],
+      "valueConstraint": {
+        "valueTemplateRefs": [],
+        "useValuesFrom": [],
+        "valueDataType": {}
+      },
+      "propertyURI": "http://id.loc.gov/ontologies/bibframe/hasEquivalent",
+      "propertyLabel": "Equivalent"
+    },
+    {
       "mandatory": "true",
       "repeatable": "true",
       "type": "resource",

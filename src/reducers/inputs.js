@@ -77,7 +77,6 @@ export const setItemsOrSelections = (state, action) => {
   const newState = { ...state }
   const reduxPath = action.payload.reduxPath
   let level = 0
-
   reduxPath.reduce((obj, key) => {
     level++
     // we've reached the end of the reduxPath, so set the items with the user input

@@ -1,5 +1,6 @@
 // Copyright 2018 Stanford University see LICENSE for license
 
+const onlyEquivalentRt = require('../static/spoofedFilesFromServer/fromSinopiaServer/resourceTemplates/OnlyEquivalent.json')
 const barcodeRt = require('../static/spoofedFilesFromServer/fromSinopiaServer/resourceTemplates/Barcode.json')
 const monographInstanceRt = require('../static/spoofedFilesFromServer/fromSinopiaServer/resourceTemplates/MonographInstance.json')
 const monographWorkRt = require('../static/spoofedFilesFromServer/fromSinopiaServer/resourceTemplates/MonographWork.json')
@@ -28,6 +29,7 @@ export const resourceTemplateId2Json = [
   { id: 'resourceTemplate:bf2:Monograph:Instance', json: monographInstanceRt },
   { id: 'resourceTemplate:bf2:Monograph:Work', json: monographWorkRt },
   { id: 'resourceTemplate:bf2:Identifiers:Barcode', json: barcodeRt },
+  { id: 'resourceTemplate:bf2:OnlyEquivalent', json: onlyEquivalentRt },
   { id: 'resourceTemplate:bf2:Note', json: noteRt },
   { id: 'resourceTemplate:bf2:ParallelTitle', json: parallelTitleRt },
   { id: 'resourceTemplate:bf2:Title', json: titleRt },

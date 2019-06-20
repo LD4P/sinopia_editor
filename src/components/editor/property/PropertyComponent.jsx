@@ -6,6 +6,8 @@ import PropTypes from 'prop-types'
 import InputLiteral from './InputLiteral'
 import InputListLOC from './InputListLOC'
 import InputLookupQA from './InputLookupQA'
+import InputURI from './InputURI'
+
 import { getLookupConfigItems } from 'Utilities'
 
 export class PropertyComponent extends Component {
@@ -41,9 +43,15 @@ export class PropertyComponent extends Component {
                               propertyTemplate = {property}
                               lookupConfig = {this.state.configuration[0]} />)
       default:
-        if (property.type === 'literal') {
-          return (<InputLiteral key={keyId} id={keyId}
-                                reduxPath={reduxPath} />)
+        switch (property.type) {
+          case 'literal':
+            return (<InputLiteral key={keyId} id={keyId}
+                                  reduxPath={reduxPath} />)
+          case 'resource':
+            return (<InputURI key={keyId} id={keyId}
+                              reduxPath={reduxPath} />)
+          default:
+            console.error(`Unknown property type (component=${config}, type=${property.type})`)
         }
     }
 
