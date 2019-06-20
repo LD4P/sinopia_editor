@@ -26,7 +26,7 @@ Technical documentation specific to the Sinopia Linked Data Editor may also be f
 
 `npm start`
 
-Follow installation instructions, then run `npm start` or `node server.js` to start the web server using Express.
+Follow installation instructions, then run `npm start` to start the web server using Express.
 This will start up the code at [http://localhost:8000](http://localhost:8000).
 
 The Sinopia Editor code is currently available via [sinopia.io](https://sinopia.io)
@@ -48,23 +48,36 @@ You will need to be online to authenticate even when developing in localhost.
 
 Specify the environment variable `SPOOF_SINOPIA_SERVER=true` when building the application if you would like it to load resource templates from the filesystem instead of looking for Trellis.
 
-### Run the server with webpack-dev-webserver
+### Run the development server
 
-`npm run dev-start`
+```shell
+$ npm run dev-start
+```
 
-Runs the webpack-dev-server, allowing immediate loading of live code changes without having to restart the server. The webpack-dev-server is available on at [http://localhost:8888](http://localhost:8888).
-Note that running the webpack server does NOT call server.js
+Builds the dev server with webpack and starts it up. The dev server is different from the prod server in two ways:
+
+1. The dev server does hot reloading, so whenever a source file changes the server reloads it, which allows for fast iteration during development.
+1. The dev server does not minify or uglify assets; the prod server does.
+
+The dev server is available at [http://localhost:8888](http://localhost:8888).
 
 ### Building with webpack
 
-`npm run dev-build`  (no minimization)  or `npm run build` (with minimization)
+`npm run dev-build`  (no minimization, for development builds)  or `npm run build` (with minimization, for production builds)
 
-We are using webpack as a build tool.  See `webpack.config.js` for build dependencies and configuration.
+We are using webpack as a build tool.  See `webpack.{dev,prod}.config.js` for build dependencies and configuration.
 
-##### Running the server with express directory
+##### Running the production server
 
-`npm start` will spin up express directly.
-The express server is available on at [http://localhost:8000](http://localhost:8000).
+First, build the server in production mode:
+
+```shell
+$ npm run build
+```
+
+And then start it up via `npm start`.
+
+The server is available on at [http://localhost:8000](http://localhost:8000).
 
 ### Linter for JavaScript
 
@@ -139,7 +152,7 @@ in the foreground, `docker run -p 8000:8000 --rm --name=sinopia_editor ld4p/sino
 A docker-compose configuration is also provided to allow integration of the editor with Sinopia's platform components, including Trellis, ElasticSearch, ActiveMQ, Postgres, and the Sinopia indexing pipeline. You can spin up these components, with Trellis listening on http://localhost:8080/, via:
 
 ```sh
-$ docker-compose up # add the '-d' flag to daemonize and run in background
+$ docker-compose up editor # add the '-d' flag to daemonize and run in background
 ```
 
 Note that this will provide you with "out-of-the-box" Trellis, with no data in it. To spin up Trellis and its dependencies with the Sinopia container structure (root, repository, and group containers) and ACLs (declared on root container) pre-created, you can do using the `platformdata` docker-compose service:

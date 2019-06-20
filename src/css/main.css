@@ -6,7 +6,7 @@ body {
 }
 .banner {
   background-size: cover;
-  background-image: url("home-background.png");
+  background-image: url("../img/home-background.png");
 }
 
 .btn-link {
@@ -136,7 +136,7 @@ body {
   font-size: 1.2em;
 }
 .editor-navbar{
-  background-image: url('./editorheaderbg.png');
+  background-image: url('../img/editorheaderbg.png');
   padding-bottom: 1em;
 }
 .editor-header-text{
@@ -216,11 +216,11 @@ input.rbt-input-main {
 
 /** For lookup menu headers **/
 .dropdown-header {
-	font-weight:800;
-	color:#333;
-	background-color:#d3d3d3; 
+  font-weight:800;
+  color:#333;
+  background-color:#d3d3d3;
 }
 .dropdown-empty, .dropdown-error {
-	font-weight:400;
-	 color: #999999;
+  font-weight:400;
+   color: #999999;
 }

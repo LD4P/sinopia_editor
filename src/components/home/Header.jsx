@@ -3,7 +3,7 @@
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 import { Link } from 'react-router-dom'
-import SinopiaLogo from '../../styles/sinopia-logo.png'
+import SinopiaLogo from '../../img/sinopia-logo.png'
 import Config from 'Config'
 
 class Header extends Component {
