@@ -3,6 +3,8 @@
 import React, { Component } from 'react'
 import shortid from 'shortid'
 import PropTypes from 'prop-types'
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { faExclamationTriangle } from '@fortawesome/free-solid-svg-icons'
 import InputLiteral from './InputLiteral'
 import InputListLOC from './InputListLOC'
 import InputLookupQA from './InputLookupQA'
@@ -46,7 +48,8 @@ export class PropertyComponent extends Component {
           defaultInput = <InputLiteral key={keyId} id={keyId} reduxPath={reduxPath} />
         } else if (property.type === 'resource') {
           defaultInput = <div className="alert alert-warning">
-            This property is defined as a resource in the template but does not have references to other resources.
+            <FontAwesomeIcon className="fa fa-exclamation-triangle" icon={faExclamationTriangle} />
+              This property is defined as a resource in the template but does not have references to other resources.
           </div>
         }
     }

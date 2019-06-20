@@ -114,7 +114,7 @@ describe('<PropertyComponent />', () => {
       const wrapper = shallow(<PropertyComponent propertyTemplate={template}
                                                  reduxPath={['http://id.loc.gov/ontologies/bibframe/note']}/>)
 
-      expect(wrapper.find('div.alert-warning').text()).toEqual('This property is defined as a resource in the template but does not have references to other resources.')
+      expect(wrapper.find('div.alert-warning').text()).toEqual('<FontAwesomeIcon />This property is defined as a resource in the template but does not have references to other resources.')
     })
   })
 
