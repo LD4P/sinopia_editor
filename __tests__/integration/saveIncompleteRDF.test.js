@@ -10,10 +10,11 @@ describe('Previewing the RDF', () => {
   })
 
   beforeEach(async () => {
+    await page.goto('http://127.0.0.1:8888/templates')
     return await incompleteFieldsForBibframeInstance()
   })
 
-  it('builds the rdf and has dialog for saving', async () => {
+  it('builds the rdf and displays validation errors after attempting to save', async () => {
     expect.assertions(6) // An additional assertion is done in incompleteFieldsForBibframeInstance
 
     // Click on the PreviewRDF button and a modal appears
@@ -24,5 +25,10 @@ describe('Previewing the RDF', () => {
     // Present a choice of group to save to from the RDFModal
     await pupExpect(page).toClick('#modal-save', { text: 'Save & Publish' })
     await pupExpect(page).toMatchElement('div.alert')
+  })
+
+  it('does not display the alert for a reloaded template', async () => {
+    expect.assertions(2) // An additional assertion is done in incompleteFieldsForBibframeInstance
+    await pupExpect(page).not.toMatchElement('div.alert')
   })
 })
