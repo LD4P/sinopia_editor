@@ -34,14 +34,12 @@ export const populatePropertyDefaults = (propertyTemplate) => {
  * append it to the `newState` accumulator, so before everything we must pop out the latest resource id and set that
  * as the only resource in the state tree.
  *
- * @returns {{}} the new state of the redux store.
+ * @returns {Object} the new state of the redux store.
  */
 export const refreshResourceTemplate = (state, action) => {
   const resourceTemplateId = Object.keys(state.resource).pop()
-  const newResource = { resource: { [resourceTemplateId]: state.resource[resourceTemplateId] } }
-
-  const newState = { ...state, ...newResource }
-
+  const newResource = resourceTemplateId ? { [resourceTemplateId]: state.resource[resourceTemplateId] } : {}
+  const newState = { ...state, resource: newResource }
   const reduxPath = action.payload.reduxPath
   const propertyTemplate = action.payload.property
 

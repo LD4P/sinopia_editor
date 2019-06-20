@@ -229,7 +229,7 @@ describe('refreshResourceTemplate', () => {
       },
     })
 
-    expect(emptyStateResult).toEqual({
+    expect(emptyStateResult).toStrictEqual({
       entities: {
         resourceTemplates: {},
       },
@@ -265,7 +265,7 @@ describe('refreshResourceTemplate', () => {
       },
     })
 
-    expect(overwriteStateResult).toEqual({
+    expect(overwriteStateResult).toStrictEqual({
       entities: {
         resourceTemplates: {
           'resourceTemplate:bf2:Note': {
@@ -296,7 +296,7 @@ describe('refreshResourceTemplate', () => {
       },
     })
 
-    expect(defaultStateResult.resource).toEqual({
+    expect(defaultStateResult.resource).toStrictEqual({
       'resourceTemplate:bf2:Item': {
         'http://schema.org/name': {
           items: [
@@ -321,13 +321,13 @@ describe('populatePropertyDefaults()', () => {
   it('empty and undefined properties return empty array', () => {
     const undefinedResult = populatePropertyDefaults()
 
-    expect(undefinedResult).toEqual([])
+    expect(undefinedResult).toStrictEqual([])
     const nullResult = populatePropertyDefaults(null)
 
-    expect(nullResult).toEqual([])
+    expect(nullResult).toStrictEqual([])
     const emptyObjectResult = populatePropertyDefaults({})
 
-    expect(emptyObjectResult).toEqual([])
+    expect(emptyObjectResult).toStrictEqual([])
   })
 
   it('propertyTemplate without defaults returns empty array', () => {
@@ -351,7 +351,7 @@ describe('populatePropertyDefaults()', () => {
       },
     )
 
-    expect(simpleProperty).toEqual([])
+    expect(simpleProperty).toStrictEqual([])
   })
 
   it('tests propertyTemplate with defaults returns array with object containing default values', () => {
@@ -379,7 +379,7 @@ describe('populatePropertyDefaults()', () => {
       },
     )
 
-    expect(propertyWithDefaults).toEqual([{
+    expect(propertyWithDefaults).toStrictEqual([{
       content: 'DLC',
       id: 0,
       lang: {
@@ -403,7 +403,7 @@ describe('resourceTemplateLoaded()', () => {
       },
     })
 
-    expect(newState).toEqual({
+    expect(newState).toStrictEqual({
       entities: {
         resourceTemplates: {
           'resourceTemplate:bf2:Monograph:Work': {
