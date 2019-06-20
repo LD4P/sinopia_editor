@@ -20,11 +20,9 @@ export class RequiredSuperscript extends Component {
 
     const required = (
       <OverlayTrigger trigger={['hover', 'focus']} placement="right" overlay={popover} key={shortid.generate()} >
-        <abbr title="This field is required">
-          <sup>
-            <FontAwesomeIcon className="asterick text-danger" icon={faAsterisk} />
-          </sup>
-        </abbr>
+        <sup>
+          <FontAwesomeIcon className="asterick text-danger" icon={faAsterisk} />
+        </sup>
       </OverlayTrigger>
     )
 
