@@ -24,9 +24,9 @@ export const setResourceTemplate = resourceTemplate => ({
   payload: resourceTemplate,
 })
 
-export const removeItem = item => ({
+export const removeItem = (reduxPath, id) => ({
   type: 'REMOVE_ITEM',
-  payload: item,
+  payload: { reduxPath, id },
 })
 
 export const removeAllContent = item => ({
