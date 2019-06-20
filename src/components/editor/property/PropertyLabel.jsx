@@ -6,6 +6,8 @@ import { OverlayTrigger, Popover } from 'react-bootstrap'
 import PropTypes from 'prop-types'
 import RequiredSuperscript from './RequiredSuperscript'
 
+const _ = require('lodash')
+
 export class PropertyLabel extends Component {
   constructor(props) {
     super(props)
@@ -47,7 +49,7 @@ export class PropertyLabel extends Component {
       <span key={key}>{property.propertyLabel}</span>
     )
 
-    url !== undefined ? title.push(urlLabel) : property.remark !== undefined ? title.push(toolTipLabel) : title.push(plainLabel)
+    url !== undefined ? title.push(urlLabel) : !_.isEmpty(property.remark) ? title.push(toolTipLabel) : title.push(plainLabel)
 
 
     if (property.mandatory === 'true') {
