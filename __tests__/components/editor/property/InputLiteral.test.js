@@ -235,7 +235,6 @@ describe('when there is a default literal value in the property template', () =>
       ],
     }
     const wrapper = shallow(<InputLiteral {...plProps} id={12}
-                                          blankNodeForLiteral={{ termType: 'BlankNode', value: 'n3-0' }}
                                           handleMyItemsChange={mockMyItemsChange}
                                           handleMyItemsLangChange={jest.fn()} />)
 
