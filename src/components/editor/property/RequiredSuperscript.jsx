@@ -13,14 +13,14 @@ export class RequiredSuperscript extends Component {
 
   render() {
     const popover = (
-      <Popover id="popover-basic" >
+      <Popover id="popover-basic" role="tooltip" >
         please fill out this field
       </Popover>
     )
 
     const required = (
       <OverlayTrigger trigger={['hover', 'focus']} placement="right" overlay={popover} key={shortid.generate()} >
-        <sup>
+        <sup tabIndex="0" >
           <FontAwesomeIcon className="asterick text-danger" icon={faAsterisk} />
         </sup>
       </OverlayTrigger>
