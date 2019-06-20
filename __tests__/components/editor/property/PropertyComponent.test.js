@@ -62,6 +62,19 @@ describe('<PropertyComponent />', () => {
     })
   })
 
+  describe('for templates configured as resource', () => {
+    const template = {
+      propertyURI: 'http://id.loc.gov/ontologies/bibframe/hasEquivalent',
+      type: 'resource',
+    }
+
+    const wrapper = shallow(<PropertyComponent propertyTemplate={template} reduxPath={['http://id.loc.gov/ontologies/bibframe/hasEquivalent']}/>)
+
+    it('renders the uri component', () => {
+      expect(wrapper.find('Connect(InputURI)').length).toEqual(1)
+    })
+  })
+
   describe('when there are no configuration values from the property template', () => {
     describe('for unconfigured templates of type:literal', () => {
       const template = {

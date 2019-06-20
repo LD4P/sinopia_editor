@@ -1,10 +1,10 @@
-// Copyright 2018 Stanford University see LICENSE for license
+// Copyright 2019 Stanford University see LICENSE for license
 
 import React from 'react'
 import Modal from 'react-bootstrap/lib/Modal'
 import Button from 'react-bootstrap/lib/Button'
 import { shallow } from 'enzyme'
-import RDFModal from '../../../src/components/editor/RDFModal'
+import RDFModal from 'components/editor/RDFModal'
 
 describe('<RDFModal />', () => {
   const closeFunc = jest.fn()

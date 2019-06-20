@@ -1,0 +1,20 @@
+{
+  "resourceURI": "http://id.loc.gov/ontologies/bibframe/Item",
+  "resourceLabel": "Only the Equivalent",
+  "id": "resourceTemplate:bf2:OnlyEquivalent",
+  "propertyTemplates": [
+    {
+      "mandatory": "false",
+      "repeatable": "true",
+      "type": "resource",
+      "resourceTemplates": [],
+      "valueConstraint": {
+        "valueTemplateRefs": [],
+        "useValuesFrom": [],
+        "valueDataType": {}
+      },
+      "propertyURI": "http://id.loc.gov/ontologies/bibframe/hasEquivalent",
+      "propertyLabel": "Equivalent"
+    }
+  ]
+}
