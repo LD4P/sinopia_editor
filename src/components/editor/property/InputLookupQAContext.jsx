@@ -32,7 +32,7 @@ class InputLookupQAContext extends Component {
     this.state = {
       isLoading: false,
       defaults,
-      show: false, 
+      show: false,
       query: "",
       options: [],
       selectedResultsList: []
@@ -40,7 +40,7 @@ class InputLookupQAContext extends Component {
 
     this.lookupClient = Swagger({ spec: swaggerSpec })
   }
-  
+
   doSearch = (query) => {
       const lookupConfigs = this.props.lookupConfig
       let authority, subauthority, language
@@ -133,19 +133,19 @@ class InputLookupQAContext extends Component {
       this.props.handleSelectedChange(payload)
       this.handleClose()
   }
-    
+
   handleChange = (event) => {
       const usr_input = event.target.value
       this.setState({ query: usr_input })
   }
-  
-  
+
+
   handleClick = () => {
       let query = this.state.query;
       this.doSearch(query);
       this.handleShow();
   }
-  
+
   //handle selection of results from the search results in the modal
   handleResultChange = (event) => {
      const eventTarget = event.target
@@ -163,7 +163,7 @@ class InputLookupQAContext extends Component {
          }))
      }
   }
-  
+
   displayResults = () => {
       let options = this.state.options;
       if(options.length > 0) {
@@ -171,7 +171,7 @@ class InputLookupQAContext extends Component {
       }
       return "No results"
   }
-  
+
   renderResults = ( results ) => {
       //Returning results per each promise
       //If error is returned, it will be used to display for that source
@@ -192,7 +192,7 @@ class InputLookupQAContext extends Component {
           headerKey = authURI + "-header";
           //Add header only if more than one authority request
           if ( resultsLength > 1 )
-              items.push( 
+              items.push(
                   <h4 key={headerKey} style={headingStyle}>{authLabel}</h4>
                );
           //For this authority, display results
@@ -200,26 +200,26 @@ class InputLookupQAContext extends Component {
               //if error, then get error from within result and display that message
               let errorMessage = "An error occurred in retrieving results";
               let errorHeaderKey = headerKey + "-error";
-              items.push( 
+              items.push(
                   <h4 key={errorHeaderKey}><span className='dropdown-error'>{errorMessage}</span></h4>
                );
           } else {
               //if not error, print out items for result
               r = result.body;
               let resultItems = r.map( (result, index) => {
-                  let contextContent = this.renderContext(result.context, idx, index);
+                  let contextContent = this.renderContext(result.context, idx, index, authURI);
                   let resultContext = (<div> {contextContent} </div>);
-                  let bg = '#fff';    
+                  let bg = '#fff';
                   idx++;
                   if(idx % 2 === 0) {
                       bg = '#ede7d4';
                   }
                   let resultStyle = {backgroundColor: bg,
                           padding: '4px 2px 2px 5px'};
-                  
-                  return(  <div className='row contextInfo' style={resultStyle} uri={result.uri}>  
+
+                  return(  <div className='row contextInfo' style={resultStyle} uri={result.uri}>
                           <input type="checkbox" name="searchResultInput" value={result.uri} label={result.label} position={idx} key={idx} onChange={this.handleResultChange}/>
-                          <span style={labelStyle}>{result.label}</span> 
+                          <span style={labelStyle}>{result.label}</span>
                           {resultContext}
                           </div> );
               });
@@ -228,7 +228,7 @@ class InputLookupQAContext extends Component {
               if ( r.length == 0 ) {
                   let noResultsMessage = "No results for this lookup";
                   let noResultsHeaderKey = headerKey + "-noResults";
-                  items.push( 
+                  items.push(
                       <div key={noResultsHeaderKey}><span className='dropdown-empty'>{noResultsMessage}</span></div>
                    );
               }
@@ -237,13 +237,13 @@ class InputLookupQAContext extends Component {
       }
 
       return (
-         
+
               <div>{items}</div>
-         
+
       )
   }
-  
-  
+
+
   renderInputAndButton = (id, typeaheadProps) => {
       let buttonSpacer = {marginBottom: '10px'};
       return ( <div>
@@ -258,7 +258,7 @@ class InputLookupQAContext extends Component {
           onClick={this.handleClick} style={buttonSpacer}>Search</Button>
          </div>);
   }
-  
+
   handleShow = () => {
       this.setState({ show: true })
   }
@@ -268,27 +268,62 @@ class InputLookupQAContext extends Component {
       //as well as original results from the query
       this.setState({ show: false, selectedResultsList: [], options: [] })
   }
- 
-  renderContext = ( context, idx, outerIndex ) => { 
+
+  renderContext = ( context, idx, outerIndex, authURI ) => {
       let contextContent = [];
-      let mainLabelProperty = "Authoritative Label";
+      let mainLabelProperty = ["authoritative label","preferred label"];
       let divKey = idx + "-" + outerIndex;
       if(context) {
-          contextContent = context.map( (contextResult, index) => {
-              let property = contextResult.property;
-              //if property is authoritative label don't show it
-              if(property != mainLabelProperty) {
-                  let values = contextResult.values;
-                  let innerDivKey = "c" + index;
-                  if(values.length) {
-                      return (<div key={innerDivKey}> {contextResult.property}: {contextResult.values.join(", ")} </div>) 
-                  }
-             }
-          });
+          if(authURI in authorityToContextOrderMap)
+              contextContent = this.generateOrderedContextView(authURI, context);
+          else
+              contextContent = this.generateDefaultContextView(context, mainLabelProperty);
       }
      return (<div key={divKey}> {contextContent} </div>);
   }
+
+
+
+   /*
+    * Default rendering where on order is given, in this case the context will just be output in
+    * its entirety.
+    * mainLabelProperty: the array that holds the labels, we exclude that so as not to repeat it
+    * this could be further generalized to a set of properties to be excluded from display if need be
+    */
+  generateDefaultContextView = ( context, mainLabelProperty ) => {
+      let contextContent = context.map( (contextResult, index) => {
+          let property = contextResult.property;
+          //if property is one of the possible main label values don't show it
+          if(mainLabelProperty.indexOf(property.toLowerCase()) < 0) {
+              let values = contextResult.values;
+              let innerDivKey = "c" + index;
+              if(values.length) {
+                  return (<div key={innerDivKey}> {contextResult.property}: {contextResult.values.join(", ")} </div>)
+              }
+         }
+      });
+      return contextContent;
+  }
   
+  generateOrderedContextView = (authURI, context) => {
+      //Map context to hash that allows for selection of specific properties
+      let contextHash = context.reduce( (map, obj) => (map[obj.property] = obj, map), {});
+      console.log("Context hash ${contextHash}")
+      let propertyOrder = authorityToContextOrderMap[authURI]
+      let contextContent = propertyOrder.map( (property, index) => {
+              if(property in contextHash) {
+                  let values = contextHash[property].values;
+                  let innerDivKey = "c" + index;
+                  if(values.length) {
+                      return (<div key={innerDivKey}> {property}: {values.join(", ")} </div>)
+                  }
+              }
+         
+      });
+      return contextContent;
+      
+  }
+
   dispModal = (id, typeaheadProps) => {
       return(
         <Modal show={this.state.show} onHide={this.handleClose} id={"modal" + id}>
@@ -306,7 +341,7 @@ class InputLookupQAContext extends Component {
     </Modal>
       )
     }
-  
+
   makeAddedList = () => {
       const selected = this.props.selected
 
@@ -314,7 +349,7 @@ class InputLookupQAContext extends Component {
         return
       }
       const elements = selected.map((obj) => {
-        const itemId = obj.uri 
+        const itemId = obj.uri
 
         return <div id="userInput" key = {itemId} >
           {obj.label}
@@ -332,7 +367,7 @@ class InputLookupQAContext extends Component {
 
       return elements
     }
-  
+
   handleDeleteClick = (event) => {
       const labelToRemove = event.target.dataset.label
       const idToRemove = event.target.dataset.item
@@ -365,7 +400,7 @@ class InputLookupQAContext extends Component {
       defaultSelected: this.state.defaults,
       delay: 300,
     }
-   
+
 
     return (
             <div>
@@ -377,11 +412,16 @@ class InputLookupQAContext extends Component {
                 />
                 <Button bsSize="small"
                 onClick={this.handleClick}>Search</Button>
-                {this.dispModal(this.props.key, typeaheadProps)}   
+                {this.dispModal(this.props.key, typeaheadProps)}
                 {this.makeAddedList()}
-             </div>   
+             </div>
     )
   }
+}
+
+const authorityToContextOrderMap = {
+  "urn:ld4p:qa:names:person":["Descriptor", "Birth date","Death date", "Affiliation", "Field of Activity", "Occupation","Birth place", "Death place", "VIAF match", "Variant label",  "Citation note", "Citation source", "Editorial note"],
+  "urn:ld4p:qa:names:organization":["Descriptor", "Location", "Field of Activity", "Affiliation",  "Occupation", "VIAF match", "Variant label",  "Citation note", "Citation source", "Editorial note"],
 }
 
 InputLookupQAContext.propTypes = {
@@ -405,7 +445,7 @@ const mapStateToProps = (state, props) => {
   const displayValidations = getDisplayValidations(state)
   const propertyTemplate = getPropertyTemplate(state, resourceTemplateId, propertyURI)
   const lookupConfig = getLookupConfigItems(propertyTemplate)
-  return { 
+  return {
       selected: result,
       reduxPath,
       propertyTemplate,
