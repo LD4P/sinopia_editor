@@ -29,172 +29,169 @@ class InputLookupQADiscogs extends Component {
       isLoading: false,
       defaults,
     }
-    console.log("Initiated Input lookup qa typeahead")
+    console.log('Initiated Input lookup qa typeahead')
     this.lookupClient = Swagger({ spec: swaggerSpec })
-
   }
 
-  //This function should be the same across different implementations of QA rendering
-  //TODO: How to pull this out into a separate independent function ala Utilities or 
-  //pass in fro InputQA - tried the latter but ran into roadblocks
+  /*
+   *This function should be the same across different implementations of QA rendering
+   *TODO: How to pull this out into a separate independent function ala Utilities or
+   *pass in fro InputQA - tried the latter but ran into roadblocks
+   */
   doSearch = (query) => {
-      const lookupConfigs = this.props.lookupConfig
-      let authority, subauthority, language
-      this.setState({ isLoading: true })
-      this.lookupClient.then((client) => {
-        // create array of promises based on the lookup config array that is sent in
-        const lookupPromises = lookupConfigs.map((lookupConfig) => {
-          authority = lookupConfig.authority
-          subauthority = lookupConfig.subauthority
-          language = lookupConfig.language
-          
-          /*
-           *  There are two types of lookup: linked data and non-linked data. The API calls
-           *  for each type are different, so check the nonldLookup field in the lookup config. 
-           *  If the field is not set, assume false. 
-           */
-          const nonldLookup = lookupConfig.nonldLookup ? lookupConfig.nonldLookup : false
+    const lookupConfigs = this.props.lookupConfig
+    let authority; let language; let
+      subauthority
+    this.setState({ isLoading: true })
+    this.lookupClient.then((client) => {
+      // create array of promises based on the lookup config array that is sent in
+      const lookupPromises = lookupConfigs.map((lookupConfig) => {
+        authority = lookupConfig.authority
+        subauthority = lookupConfig.subauthority
+        language = lookupConfig.language
 
-          // default the API calls to their linked data values
-          let subAuthCall = 'GET_searchSubauthority'
-          let authorityCall = 'GET_searchAuthority'                              
-          
-          // Change the API calls if this is a non-linked data lookup
-          if ( nonldLookup ) {
-              subAuthCall = 'GET_nonldSearchWithSubauthority'
-              authorityCall = 'GET_nonldSearchAuthority'
-          }
-          
-          /*
-           *return the 'promise'
-           *Since we don't want promise.all to fail if
-           *one of the lookups fails, we want a catch statement
-           *at this level which will then return the error. Subauthorities require a different API call than authorities so need to check if subauthority is available
-           *The only difference between this call and the next one is the call to Get_searchSubauthority instead of
-           *Get_searchauthority.  Passing API call in a variable name/dynamically, thanks @mjgiarlo
-           */
-          const actionFunction = lookupConfig.subauthority ? subAuthCall : authorityCall
+        /*
+         *  There are two types of lookup: linked data and non-linked data. The API calls
+         *  for each type are different, so check the nonldLookup field in the lookup config.
+         *  If the field is not set, assume false.
+         */
+        const nonldLookup = lookupConfig.nonldLookup ? lookupConfig.nonldLookup : false
 
-          return client
-            .apis
-            .SearchQuery?.[actionFunction]({
-              q: query,
-              vocab: authority,
-              subauthority,
-              maxRecords: Config.maxRecordsForQALookups,
-              lang: language,
-              context:true
-            })
+        // default the API calls to their linked data values
+        let subAuthCall = 'GET_searchSubauthority'
+        let authorityCall = 'GET_searchAuthority'
+
+        // Change the API calls if this is a non-linked data lookup
+        if (nonldLookup) {
+          subAuthCall = 'GET_nonldSearchWithSubauthority'
+          authorityCall = 'GET_nonldSearchAuthority'
+        }
+
+        /*
+         * return the 'promise'
+         * Since we don't want promise.all to fail if
+         * one of the lookups fails, we want a catch statement
+         * at this level which will then return the error. Subauthorities require a different API call than authorities so need to check if subauthority is available
+         * The only difference between this call and the next one is the call to Get_searchSubauthority instead of
+         * Get_searchauthority.  Passing API call in a variable name/dynamically, thanks @mjgiarlo
+         */
+        const actionFunction = lookupConfig.subauthority ? subAuthCall : authorityCall
+
+        return client
+          .apis
+          .SearchQuery?.[actionFunction]({
+            q: query,
+            vocab: authority,
+            subauthority,
+            maxRecords: Config.maxRecordsForQALookups,
+            lang: language,
+            context: true,
+          })
             .catch((err) => {
               console.error('Error in executing lookup against source', err)
               // return information along with the error in its own object
               return { isError: true, errorObject: err }
             })
-        })
+      })
 
-        /*
-         * If undefined, add info - note if error, error object returned in object
-         * which allows attaching label and uri for authority
-         */
-        Promise.all(lookupPromises).then((values) => {
-          for (let i = 0; i < values.length; i++) {
-            if (values[i]) {
-              values[i].authLabel = lookupConfigs[i].label
-              values[i].authURI = lookupConfigs[i].uri
-            }
+      /*
+       * If undefined, add info - note if error, error object returned in object
+       * which allows attaching label and uri for authority
+       */
+      Promise.all(lookupPromises).then((values) => {
+        for (let i = 0; i < values.length; i++) {
+          if (values[i]) {
+            values[i].authLabel = lookupConfigs[i].label
+            values[i].authURI = lookupConfigs[i].uri
           }
+        }
 
-          this.setState({
-            isLoading: false,
-            options: values,
-          })
+        this.setState({
+          isLoading: false,
+          options: values,
         })
-      }).catch(() => false)
+      })
+    }).catch(() => false)
+  }
+
+  renderContext = (innerResult, authLabel) => {
+    switch (authLabel) {
+      case 'Discogs':
+        return this.buildDiscogsContext(innerResult)
+      default:
+        return innerResult.label
     }
-  
-  renderContext = ( innerResult, authLabel ) => {
-      switch (authLabel) {
-        case 'Discogs':
-          return this.buildDiscogsContext(innerResult)
-        default:
-          return innerResult.label
-      }
   }
-  
+
   buildDiscogsContext = (innerResult) => {
-      const discogsContainer = {
-              padding: '0 0 4px 3px',
-          }
-    
-          const detailsContainer = {
-              padding: '0 0 0 8px',
-              whiteSpace: 'normal'
-          }
-    
-          const imageContainer = {
-              width: '50px',
-              overflow: 'hidden',
-              padding: '3px 0 0',
-              textAlign: 'center'
-          }
-    
-          const discogsImageStyle = {
-              width: '100%',
-              marginRight: '10px',
-              verticalAlign: 'top',
-          }
-    
-          const typeSpan = {
-              paddingLeft: '8px'
-          }
-      
-      
-      
-      
-      let url = innerResult.uri;
-      let context = innerResult.context;
-      let image_url = context["Image URL"][0];
-      let year = "";
-      if ( context["Year"][0].length > 0 ) {
-          year = "(" + context["Year"][0] + ")";
-      }
-      let rec_label = context["Record Labels"][0];
-      let formats = context["Formats"].toString();
-      let discogs_type = context["Type"][0];
-      let target = "_blank";
-      let type = context["Type"][0].charAt(0).toUpperCase() + context["Type"][0].slice(1);
-      let row = "row"
-      let colTwo = "col-md-2"
-      let colTen = "col-md-10"
-      return (
-          <div className={row} style={discogsContainer}>
-              <div className={colTwo} style={imageContainer}>
-                  <img style={discogsImageStyle} src={image_url}/><br />
-              </div>
-              <div className={colTen} style={detailsContainer}>
-                  {innerResult.label} {year}<br />
-                  <b>Format: </b>{formats}<br />
-                  <b>Label: </b>{rec_label}<span style={typeSpan}><b>Type: </b>{type}</span>
-              </div>
-          </div>
-      )
+    const discogsContainer = {
+      padding: '0 0 4px 3px',
+    }
+
+    const detailsContainer = {
+      padding: '0 0 0 8px',
+      whiteSpace: 'normal',
+    }
+
+    const imageContainer = {
+      width: '50px',
+      overflow: 'hidden',
+      padding: '3px 0 0',
+      textAlign: 'center',
+    }
+
+    const discogsImageStyle = {
+      width: '100%',
+      marginRight: '10px',
+      verticalAlign: 'top',
+    }
+
+    const typeSpan = {
+      paddingLeft: '8px',
+    }
+
+
+    const url = innerResult.uri
+    const context = innerResult.context
+    const image_url = context['Image URL'][0]
+    let year = ''
+    if (context.Year[0].length > 0) {
+      year = `(${context.Year[0]})`
+    }
+    const rec_label = context['Record Labels'][0]
+    const formats = context.Formats.toString()
+    const discogs_type = context.Type[0]
+    const target = '_blank'
+    const type = context.Type[0].charAt(0).toUpperCase() + context.Type[0].slice(1)
+    const row = 'row'
+    const colTwo = 'col-md-2'
+    const colTen = 'col-md-10'
+    return (
+      <div className={row} style={discogsContainer}>
+        <div className={colTwo} style={imageContainer}>
+          <img alt="Result" style={discogsImageStyle} src={image_url}/><br />
+        </div>
+        <div className={colTen} style={detailsContainer}>
+          {innerResult.label} {year}<br />
+          <b>Format: </b>{formats}<br />
+          <b>Label: </b>{rec_label}<span style={typeSpan}><b>Type: </b>{type}</span>
+        </div>
+      </div>
+    )
   }
-
-
-
 
 
   // Render menu function to be used by typeahead
   renderMenuFunc = (results, menuProps) => {
     const items = []
     let menuItemIndex = 0
-    console.log("Inside render menu function")
+    console.log('Inside render menu function')
 
     /*
      * Returning results per each promise
      * If error is returned, it will be used to display for that source
      */
-    results.forEach((result, _i, list) => { console.log("Iterating through results");
+    results.forEach((result, _i, list) => { console.log('Iterating through results')
       const authLabel = result.authLabel
       const headerKey = `${result.authURI}-header`
 
@@ -209,13 +206,13 @@ class InputLookupQADiscogs extends Component {
             <span className="dropdown-error">{errorMessage}</span>
           </Menu.Header>,
         )
-        
+
         // Effectively a `continue`/`next` statement within the `forEach()` context, skipping to the next iteration
         return
       }
 
       const body = result.body
-      console.log("Get result body")
+      console.log('Get result body')
       if (body.length === 0) {
         const noResultsMessage = 'No results for this lookup'
         const noResultsHeaderKey = `${headerKey}-noResults`
@@ -229,18 +226,18 @@ class InputLookupQADiscogs extends Component {
         // Effectively a `continue`/`next` statement within the `forEach()` context, skipping to the next iteration
         return
       }
-      //this differs from regular typeahead in that it retrieves and displays context
+      // this differs from regular typeahead in that it retrieves and displays context
       body.forEach((innerResult) => {
-        let itemContext = this.renderContext(innerResult, authLabel)  
+        const itemContext = this.renderContext(innerResult, authLabel)
         items.push(
           <MenuItem option={innerResult} position={menuItemIndex} key={menuItemIndex}>
-             {itemContext}
+            {itemContext}
           </MenuItem>,
         )
         menuItemIndex++
       })
     })
-    console.log("Before rendering the menu")
+    console.log('Before rendering the menu')
     return (
       <Menu {...menuProps} id={menuProps.id}>
         {items}
@@ -264,8 +261,7 @@ class InputLookupQADiscogs extends Component {
 
     return this.props.displayValidations && this.isMandatory && selected.length < 1 ? 'Required' : undefined
   }
-  
- 
+
 
   render() {
     // Don't render if don't have property templates yet.
@@ -297,12 +293,12 @@ class InputLookupQADiscogs extends Component {
     if (error) {
       groupClasses += ' has-error'
     }
-    console.log("Before rendering")
+    console.log('Before rendering')
     return (
       <div className={groupClasses}>
         <AsyncTypeahead renderMenu={(results, menuProps) => this.renderMenuFunc(results, menuProps)}
                         ref={typeahead => this.typeahead = typeahead }
-                        onSearch={(query) => this.doSearch(query)}
+                        onSearch={query => this.doSearch(query)}
 
                         onChange={(selected) => {
                           const payload = {
