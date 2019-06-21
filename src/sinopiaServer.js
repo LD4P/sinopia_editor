@@ -1,4 +1,4 @@
-// Copyright 2018 Stanford University see LICENSE for license
+// Copyright 2019 Stanford University see LICENSE for license
 
 import SinopiaServer from 'sinopia_server'
 import CognitoUtils from './CognitoUtils'
@@ -79,6 +79,9 @@ export const updateResourceTemplate = async (templateObject, group, currentUser)
   return await instance.updateResourceWithHttpInfo(group, templateObject.id, templateObject, { contentType: 'application/json' })
 }
 
+const sendingNtriples = { contentType: 'application/n-triples' }
+const returningNtriples = { accept: 'application/n-triples' }
+
 /**
  * @return {Promise} when the promise resolves it returns an object with `data` and response
  *                   response looks like this:
@@ -152,13 +155,27 @@ export const updateResourceTemplate = async (templateObject, group, currentUser)
  */
 export const publishRDFResource = async (currentUser, rdf, group) => {
   await authenticate(currentUser)
-  return await instance.createResourceWithHttpInfo(group, rdf, { contentType: 'application/n-triples' })
+  return await instance.createResourceWithHttpInfo(group, rdf, sendingNtriples)
 }
+
+/* eslint security/detect-unsafe-regex: ["off"] */
+/**
+ * The swagger API want's to deal with parameters (groupID and resourceID), but
+ * we only have a URI, so parse those out.
+ * @return {object} and object with two keys: 'group' and 'identifier'
+ */
+const identifiersForUri = uri => uri.match(/.*\/\/.*\/repository\/(?<group>.*)\/(?<identifier>.*)/).groups
 
 export const updateRDFResource = async (currentUser, uri, rdf) => {
   await authenticate(currentUser)
 
-  /* eslint security/detect-unsafe-regex: ["off"] */
-  const id = uri.match(/.*\/\/.*\/repository\/(?<group>.*)\/(?<identifier>.*)/).groups
-  return await instance.updateResource(id.group, id.identifier, rdf, { contentType: 'application/n-triples' })
+  const id = identifiersForUri(uri)
+  return await instance.updateResource(id.group, id.identifier, rdf, sendingNtriples)
+}
+
+export const loadRDFResource = async (currentUser, uri) => {
+  await authenticate(currentUser)
+
+  const id = identifiersForUri(uri)
+  return await instance.getResourceWithHttpInfo(id.group, id.identifier, returningNtriples)
 }

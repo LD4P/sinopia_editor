@@ -10,7 +10,7 @@ import FormControl from 'react-bootstrap/lib/FormControl'
 import HelpBlock from 'react-bootstrap/lib/HelpBlock'
 import Button from 'react-bootstrap/lib/Button'
 import { getCurrentUser } from 'authSelectors'
-import { load } from 'actionCreators'
+import { retrieveResource } from 'actionCreators'
 
 const Browse = (props) => {
   const [uri, setURI] = useState('')
@@ -55,7 +55,7 @@ const mapStateToProps = state => ({
 
 const mapDispatchToProps = dispatch => ({
   loadResource: (user, uri) => {
-    dispatch(load(user, uri))
+    dispatch(retrieveResource(user, uri))
   },
 })
 

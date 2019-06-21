@@ -1,7 +1,7 @@
 // Copyright 2019 Stanford University see LICENSE for license
 
 import {
-  authenticationFailed, authenticationSucceeded, signedOut, update,
+  authenticationFailed, authenticationSucceeded, signedOut, update, retrieveResource,
 } from 'actionCreators'
 /* eslint import/namespace: 'off' */
 import * as server from 'sinopiaServer'
@@ -69,5 +69,22 @@ describe('update', () => {
     await update(currentUser)(dispatch, getState)
     expect(dispatch).toBeCalledWith({ type: 'UPDATE_STARTED' })
     expect(dispatch).toBeCalledWith({ type: 'UPDATE_FINISHED' })
+  })
+})
+
+
+describe('retrieveResource', () => {
+  const currentUser = {
+    getSession: jest.fn(),
+  }
+  const uri = 'http://sinopia.io/repository/stanford/123'
+  const received = 'some triples'
+
+  it('dispatches actions when started and finished', async () => {
+    server.loadRDFResource = jest.fn().mockResolvedValue({ response: { text: received } })
+    const dispatch = jest.fn()
+    await retrieveResource(currentUser, uri)(dispatch)
+    expect(dispatch).toBeCalledWith({ type: 'RETRIEVE_STARTED' })
+    expect(dispatch).toBeCalledWith({ type: 'RETRIEVE_FINISHED', payload: { uri, data: received } })
   })
 })
