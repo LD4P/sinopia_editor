@@ -168,10 +168,13 @@ ResourceTemplateForm.propTypes = {
   propertyTemplates: PropTypes.array,
 }
 
-const mapStateToProps = (state, ourProps) => ({
-  resourceTemplateMap: state.selectorReducer.entities.resourceTemplates,
-  propertyTemplates: state.selectorReducer.entities.resourceTemplates[ourProps.rtId].propertyTemplates,
-})
+const mapStateToProps = (state, ourProps) => {
+  const ourTemplate = state.selectorReducer.entities.resourceTemplates[ourProps.rtId]
+  return {
+    resourceTemplateMap: state.selectorReducer.entities.resourceTemplates,
+    propertyTemplates: ourTemplate?.propertyTemplates || [],
+  }
+}
 
 const mapDispatchToProps = dispatch => ({
   handleMyItemsChange(userInput) {

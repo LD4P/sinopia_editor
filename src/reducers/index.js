@@ -1,5 +1,5 @@
 // Copyright 2018, 2019 Stanford University see LICENSE for license
-/* eslint complexity: ["warn", 13] */
+/* eslint complexity: ["warn", 14] */
 
 import { combineReducers } from 'redux'
 import shortid from 'shortid'
@@ -8,6 +8,7 @@ import {
   removeAllContent, removeMyItem, setItemsOrSelections, setBaseURL, setMyItemsLang,
   showGroupChooser, closeGroupChooser, showRdfPreview,
 } from './inputs'
+
 import { defaultLangTemplate } from 'Utilities'
 
 /**
@@ -97,6 +98,14 @@ export const resourceTemplateLoaded = (state, action) => {
 
 export const makeShortID = () => shortid.generate()
 
+const setRetrieveError = (state, action) => {
+  const resourceTemplateId = action.payload
+  const newState = { ...state }
+
+  newState.editor.serverError = `There was a problem retrieving ${resourceTemplateId}`
+  return newState
+}
+
 const selectorReducer = (state = {}, action) => {
   switch (action.type) {
     case 'ROOT_RESOURCE_TEMPLATE_LOADED':
@@ -104,6 +113,8 @@ const selectorReducer = (state = {}, action) => {
     case 'SET_ITEMS':
     case 'CHANGE_SELECTIONS':
       return setItemsOrSelections(state, action)
+    case 'RETRIEVE_ERROR':
+      return setRetrieveError(state, action)
     case 'SET_BASE_URL':
       return setBaseURL(state, action)
     case 'SHOW_GROUP_CHOOSER':
