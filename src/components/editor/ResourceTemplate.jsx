@@ -6,6 +6,7 @@ import PropTypes from 'prop-types'
 import ResourceTemplateForm from './ResourceTemplateForm'
 import { rootResourceTemplateLoaded } from 'actions/index'
 import { getResourceTemplate } from 'sinopiaServer'
+import { rootResource } from 'selectors/resourceSelectors'
 
 const _ = require('lodash')
 
@@ -15,52 +16,44 @@ const _ = require('lodash')
 class ResourceTemplate extends Component {
   constructor(props) {
     super(props)
-    this.state = {
-      rtData: {},
-    }
+    this.state = {}
   }
 
   // Called immediately after the component is rendered for the first time
   componentDidMount() {
-    if (this.props.resourceTemplateId) {
+    if (!this.props.resourceTemplate) {
       this.resolveResourceTemplatePromise(getResourceTemplate(this.props.resourceTemplateId))
     }
   }
 
   resolveResourceTemplatePromise = (promise) => {
     promise.then((responseAndBody) => {
-      this.setState({ rtData: responseAndBody.response.body })
-      this.props.handleResourceTemplate(this.state.rtData)
+      this.props.handleResourceTemplate(responseAndBody.response.body)
     }).catch((error) => {
+      console.error(error)
       this.setState({ error })
     })
   }
 
-  renderRtData = () => (
-    <div className="ResourceTemplate">
-      <div id="resourceTemplate" style={{ marginTop: '-30px' }}>
-        <section className="col-md-9">
-          <h1><em>{this.state.rtData.resourceLabel}</em></h1>
-        </section>
-        <ResourceTemplateForm
-            propertyTemplates = {this.state.rtData.propertyTemplates}
-            resourceTemplate = {this.state.rtData}
-            parentResourceTemplate = {this.props.resourceTemplateId}
-            rtId = {this.state.rtData.id}
-        />
-      </div>
-    </div>
-  )
-
   render() {
-    let errorMessage = <span/>
+    if (_.isEmpty(this.props.resourceTemplate)) {
+      let errorMessage = <span/>
 
-    if (this.state.error) {
-      errorMessage = <div className="alert alert-warning">Sinopia server is offline or has no resource templates to display</div>
+      if (this.state.error) {
+        errorMessage = <div className="alert alert-warning">Sinopia server is offline or has no resource templates to display</div>
+      }
+      return errorMessage
     }
 
     return (
-      _.isEmpty(this.state.rtData) ? errorMessage : this.renderRtData()
+      <div className="ResourceTemplate">
+        <div id="resourceTemplate" style={{ marginTop: '-30px' }}>
+          <section className="col-md-9">
+            <h1><em>{this.props.title}</em></h1>
+          </section>
+          <ResourceTemplateForm rtId = {this.props.resourceTemplateId} />
+        </div>
+      </div>
     )
   }
 }
@@ -68,8 +61,14 @@ class ResourceTemplate extends Component {
 ResourceTemplate.propTypes = {
   handleResourceTemplate: PropTypes.func,
   resourceTemplateId: PropTypes.string,
-  resourceTemplateData: PropTypes.oneOfType([PropTypes.string, PropTypes.object]),
+  resourceTemplate: PropTypes.object,
+  title: PropTypes.string,
 }
+
+const mapStateToProps = (state, ourProps) => ({
+  resourceTemplate: rootResource(state),
+  title: state.selectorReducer.entities.resourceTemplates[ourProps.resourceTemplateId]?.resourceLabel,
+})
 
 const mapDispatchToProps = dispatch => ({
   handleResourceTemplate(resourceTemplate) {
@@ -77,4 +76,4 @@ const mapDispatchToProps = dispatch => ({
   },
 })
 
-export default connect(null, mapDispatchToProps)(ResourceTemplate)
+export default connect(mapStateToProps, mapDispatchToProps)(ResourceTemplate)
