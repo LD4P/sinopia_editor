@@ -92,7 +92,7 @@ describe('Config', () => {
       expect(Config.sinopiaUrl).toEqual('https://sinopia.foo')
     })
 
-    it('USE_FIXTURES overrides static value', () => {
+    it('sinopia server url overrides static value', () => {
       expect(Config.sinopiaServerBase).toEqual('https://sinopia_server.foo')
     })
 
