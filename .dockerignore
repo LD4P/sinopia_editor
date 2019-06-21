@@ -3,6 +3,7 @@ __mocks__
 .git
 .gitignore
 /.eslint*.*
+__tests__/__fixtures__/ddc_bad_json.json
 build_support
 builds
 coverage

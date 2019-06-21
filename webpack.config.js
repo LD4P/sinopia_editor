@@ -6,6 +6,7 @@ const HtmlWebpackPlugin = require('html-webpack-plugin')
 module.exports = {
   entry: './src/index.js',
   module: {
+    noParse: /bad_json/,
     rules: [
       {
         test: /\.(js|jsx)$/,
