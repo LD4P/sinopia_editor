@@ -5,6 +5,7 @@ import selectorReducer, {
   populatePropertyDefaults,
   refreshResourceTemplate,
   resourceTemplateLoaded,
+  setResourceTemplate,
 } from 'reducers/index'
 /* eslint import/namespace: 'off' */
 import * as inputs from 'reducers/inputs'
@@ -415,6 +416,7 @@ describe('resourceTemplateLoaded()', () => {
     })
 
     expect(newState).toStrictEqual({
+      editor: {},
       entities: {
         resourceTemplates: {
           'resourceTemplate:bf2:Monograph:Work': {
@@ -424,9 +426,37 @@ describe('resourceTemplateLoaded()', () => {
         },
       },
       resource: {},
+    })
+  })
+})
+
+describe('setResourceTemplate()', () => {
+  it('adds resource to the resourceTemplates entities state', () => {
+    const template = {
+      id: 'resourceTemplate:bf2:Monograph:Work',
+      propertyTemplates: [
+        { propertyURI: 'http://id.loc.gov/ontologies/bibframe/title' },
+      ],
+    }
+    const newState = setResourceTemplate(initialState.selectorReducer, {
+      type: 'SET_RESOURCE_TEMPLATE',
+      payload: template,
+    })
+
+    expect(newState).toStrictEqual({
       editor: {
         errors: [],
         displayValidations: false,
+      },
+      entities: {
+        resourceTemplates: {
+          'resourceTemplate:bf2:Monograph:Work': template,
+        },
+      },
+      resource: {
+        'resourceTemplate:bf2:Monograph:Work': {
+          'http://id.loc.gov/ontologies/bibframe/title': {},
+        },
       },
     })
   })
