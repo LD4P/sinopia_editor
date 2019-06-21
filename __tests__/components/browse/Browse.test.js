@@ -5,7 +5,7 @@ import { shallow } from 'enzyme'
 import Browse from 'components/browse/Browse'
 
 describe('<Browse />', () => {
-  const wrapper = shallow(<Browse />)
+  const wrapper = shallow(<Browse.WrappedComponent />)
   // This test should be expanded when the Browse page is further defined
 
   it('contains the main div', () => {

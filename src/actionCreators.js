@@ -45,3 +45,7 @@ export const fetchRootResourceTemplate = resourceTemplateId => (dispatch) => {
     dispatch(retrieveError(resourceTemplateId))
   })
 }
+
+// A thunk that loads an existing resource from Trellis
+export const load = () => () => {
+}
