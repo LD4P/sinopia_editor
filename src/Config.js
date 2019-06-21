@@ -21,12 +21,12 @@ class Config {
    * There are two value types of `process.env` variables:
    *   1. When undefined, `if` condition is not satisfied and default `false` is returned
    *   2. When defined, will always be a string.
-   *     a. When set to 'true' return `true` (use spoof)
-   *     b. When set to 'false' or any other string, return `false` (don't use spoof)
+   *     a. When set to 'true' return `true` (use fixtures)
+   *     b. When set to 'false' or any other string, return `false` (don't use fixtures)
    */
-  static get spoofSinopiaServer() {
-    if (process.env.SPOOF_SINOPIA_SERVER) {
-      return process.env.SPOOF_SINOPIA_SERVER === 'true'
+  static get useResourceTemplateFixtures() {
+    if (process.env.USE_FIXTURES) {
+      return process.env.USE_FIXTURES === 'true'
     }
 
     return false

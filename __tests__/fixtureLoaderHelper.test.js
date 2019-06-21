@@ -1,14 +1,14 @@
-// Copyright 2018 Stanford University see LICENSE for license
+// Copyright 2018, 2019 Stanford University see LICENSE for license
 
 import Config from '../src/Config'
 import {
-  resourceTemplateId2Json, resourceTemplateIds, spoofedGetResourceTemplate, spoofedResourcesInGroupContainer,
-} from '../src/sinopiaServerSpoof'
+  resourceTemplateId2Json, resourceTemplateIds, getFixtureResourceTemplate, fixtureResourcesInGroupContainer,
+} from './fixtureLoaderHelper'
 
-// Stub `Config.spoofSinopiaServer` static getter to force RT to come from spoofs
-jest.spyOn(Config, 'spoofSinopiaServer', 'get').mockReturnValue(true)
+// Stub `Config.useResourceTemplateFixtures` static getter to force RT to come from spoofs
+jest.spyOn(Config, 'useResourceTemplateFixtures', 'get').mockReturnValue(true)
 
-describe('sinopiaServerSpoof', () => {
+describe('fixtureLoaderHelper', () => {
   describe('resourceTemplateIds', () => {
     it('resourceTemplateId is in expected format', () => {
       resourceTemplateIds.forEach((id) => {
@@ -32,52 +32,52 @@ describe('sinopiaServerSpoof', () => {
     })
   })
 
-  describe('spoofedGetResourceTemplate', () => {
+  describe('getFixtureResourceTemplate', () => {
     it('known id: returns JSON for resource template', async () => {
       expect.assertions(2)
-      const template = await spoofedGetResourceTemplate('resourceTemplate:bf2:Title')
+      const template = await getFixtureResourceTemplate('resourceTemplate:bf2:Title')
 
       expect(template.response.body.id).toEqual('resourceTemplate:bf2:Title')
       expect(template.response.body.resourceLabel).toEqual('Instance Title')
     })
     it('unknown id: returns empty resource template and logs error', () => {
-      expect(spoofedGetResourceTemplate('not:there')).toEqual(
+      expect(getFixtureResourceTemplate('not:there')).toEqual(
         {
-          error: 'ERROR: un-spoofed resourceTemplate: not:there',
+          error: 'ERROR: non-fixture resourceTemplate: not:there',
           propertyTemplates: [{}],
         },
       )
     })
     it('null id: returns empty resource template and logs error', () => {
-      expect(spoofedGetResourceTemplate()).toEqual(
+      expect(getFixtureResourceTemplate()).toEqual(
         {
           error: 'ERROR: asked for resourceTemplate with null/undefined id',
           propertyTemplates: [{}],
         },
       )
-      expect(spoofedGetResourceTemplate(null)).toEqual({
+      expect(getFixtureResourceTemplate(null)).toEqual({
         error: 'ERROR: asked for resourceTemplate with null/undefined id',
         propertyTemplates: [{}],
       })
-      expect(spoofedGetResourceTemplate(undefined)).toEqual({
+      expect(getFixtureResourceTemplate(undefined)).toEqual({
         error: 'ERROR: asked for resourceTemplate with null/undefined id',
         propertyTemplates: [{}],
       })
-      expect(spoofedGetResourceTemplate('')).toEqual({
+      expect(getFixtureResourceTemplate('')).toEqual({
         error: 'ERROR: asked for resourceTemplate with null/undefined id',
         propertyTemplates: [{}],
       })
     })
   })
 
-  describe('spoofedResourcesInGroupContainer', () => {
-    it('returns a spoofed response object with contained resource template IDs', () => {
-      const result = spoofedResourcesInGroupContainer('ld4p')
+  describe('fixtureResourcesInGroupContainer', () => {
+    it('returns a spoofed response object with fixture resource template IDs', () => {
+      const result = fixtureResourcesInGroupContainer('ld4p')
       expect(result.response.body['@id']).toEqual('http://spoof.trellis.io/ld4p')
       expect(result.response.body.contains).toEqual(
         expect.arrayContaining([
           'http://spoof.trellis.io/ld4p/resourceTemplate:bf2:Monograph:Instance',
-          'http://spoof.trellis.io/ld4p/resourceTemplate:bf2:Monograph:Work',
+          'http://spoof.trellis.io/ld4p/rt:rda:manifestation:monograph',
         ]),
       )
     })

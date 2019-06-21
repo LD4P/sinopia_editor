@@ -3,7 +3,7 @@
 import SinopiaServer from 'sinopia_server'
 import CognitoUtils from './CognitoUtils'
 import Config from './Config'
-import { spoofedGetGroups, spoofedGetResourceTemplate, spoofedListResourcesInGroupContainer } from './sinopiaServerSpoof'
+import { rtFixturesGroups, getFixtureResourceTemplate, listFixtureResourcesInGroupContainer } from '../__tests__/fixtureLoaderHelper'
 
 const instance = new SinopiaServer.LDPApi()
 
@@ -25,19 +25,19 @@ const getResourceTemplateFromServer = (templateId, group) => {
 }
 
 export const getResourceTemplate = (templateId, group) => {
-  if (Config.spoofSinopiaServer) return spoofedGetResourceTemplate(templateId)
+  if (Config.useResourceTemplateFixtures) return getFixtureResourceTemplate(templateId)
 
   return getResourceTemplateFromServer(templateId, group)
 }
 
 export const getGroups = () => {
-  if (Config.spoofSinopiaServer) return spoofedGetGroups()
+  if (Config.useResourceTemplateFixtures) return rtFixturesGroups()
 
   return instance.getBaseWithHttpInfo()
 }
 
 export const listResourcesInGroupContainer = (group) => {
-  if (Config.spoofSinopiaServer) return spoofedListResourcesInGroupContainer(group)
+  if (Config.useResourceTemplateFixtures) return listFixtureResourcesInGroupContainer(group)
 
   return instance.getGroupWithHttpInfo(group)
 }

@@ -57,7 +57,7 @@ export class ResourceTemplateForm extends Component {
    *
    *  returns a single promise:
    *    reject result if any of the desired rtIds gets a reject from getResourceTemplate
-   *    resolves if ALL resource templates are retrieved from Sinopia Server (or from spoofing), returning array of every promise's result
+   *    resolves if ALL resource templates are retrieved from Sinopia Server (or from fixtures), returning array of every promise's result
    */
   resourceTemplatePromise = async templateRefs => Promise.all(templateRefs.map(rtId => getResourceTemplate(rtId).catch((err) => {
     const joinedErrorUrls = [...this.state.templateErrors]

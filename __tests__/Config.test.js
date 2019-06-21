@@ -22,8 +22,8 @@ describe('Config', () => {
       expect(Config.sinopiaUrl).toEqual('https://sinopia.io')
     })
 
-    it('spoof sinopia server has static value', () => {
-      expect(Config.spoofSinopiaServer).toEqual(false)
+    it('useResourceTemplateFixtures is false by default', () => {
+      expect(Config.useResourceTemplateFixtures).toEqual(false)
     })
 
     it('aws client ID has static value', () => {
@@ -69,7 +69,7 @@ describe('Config', () => {
     beforeAll(() => {
       process.env = {
         DEFAULT_PROFILE_SCHEMA_VERSION: '0.1.0',
-        SPOOF_SINOPIA_SERVER: 'true',
+        USE_FIXTURES: 'true',
         SINOPIA_URI: 'https://sinopia.foo',
         SINOPIA_GROUP: 'foobar',
         TRELLIS_BASE_URL: 'https://sinopia_server.foo',
@@ -96,8 +96,8 @@ describe('Config', () => {
       expect(Config.sinopiaServerBase).toEqual('https://sinopia_server.foo')
     })
 
-    it('spoof sinopia server overrides static value', () => {
-      expect(Config.spoofSinopiaServer).toEqual(true)
+    it('useResourceTemplateFixtures value overrides static value', () => {
+      expect(Config.useResourceTemplateFixtures).toEqual(true)
     })
 
     it('aws client ID overrides static value', () => {

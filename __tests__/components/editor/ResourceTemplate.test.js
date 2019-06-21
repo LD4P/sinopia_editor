@@ -43,8 +43,8 @@ describe('<ResourceTemplate />', () => {
     },
   }
 
-  // Stub `Config.spoofSinopiaServer` static getter to force RT to come from server
-  jest.spyOn(Config, 'spoofSinopiaServer', 'get').mockReturnValue(false)
+  // Stub `Config.useResourceTemplateFixtures` static getter to force RT to come from server
+  jest.spyOn(Config, 'useResourceTemplateFixtures', 'get').mockReturnValue(false)
   const wrapper = shallow(<ResourceTemplate.WrappedComponent resourceTemplateId="resourceTemplate:bf2:Note" />)
   const promise = Promise.resolve(mockResponse(200, null, responseBody))
 
