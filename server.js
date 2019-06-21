@@ -1,5 +1,5 @@
 /*
- * Copyright 2018 Stanford University see LICENSE for license
+ * Copyright 2018, 2019 Stanford University see LICENSE for license
  * Minimal BIBFRAME Editor Node.js server. To run from the command-line:
  *  npm start  or node server.js
  */
@@ -13,6 +13,10 @@ app.use(express.static(`${__dirname}/`))
 app.listen(port)
 
 const versoSpoof = require('./src/versoSpoof.js')
+
+app.get('/api/search', (req, res) => {
+  res.json({ foo: 'bar' })
+})
 
 
 app.all('/verso/api/configs', (req, res, next) => {
