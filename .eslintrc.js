@@ -184,13 +184,6 @@ module.exports = {
       }
     },
     {
-      // Allow webpack configs to use unpublished requires
-      "files": ["webpack.*.config.js"],
-      "rules": {
-        "node/no-unpublished-require": "off"
-      }
-    },
-    {
       // Allow a continue guard clause here as an if will increase the depth
       "files": ["src/GraphBuilder.js"],
       "rules": {
