@@ -136,11 +136,16 @@ in the foreground, `docker run -p 8000:8000 --rm --name=sinopia_editor ld4p/sino
 
 ### Docker-Compose
 
-A docker-compose configuration is also provided to allow integration of the editor with Sinopia's platform components, including Trellis, ElasticSearch, ActiveMQ, Postgres, and the Sinopia indexing pipeline. You can spin up these components, with Trellis listening on http://localhost:8080/, via:
+A docker-compose configuration is also provided to allow integration of the editor with Sinopia's platform components, including Trellis, ElasticSearch, ActiveMQ, Postgres, and the Sinopia indexing pipeline. You can spin up these components via:
 
 ```sh
-$ docker-compose up pipeline # add the '-d' flag to daemonize and run in background
+$ docker-compose up editor # add the '-d' flag to daemonize and run in background
 ```
+
+Of particular interest:
+
+* The editor is at http://localhost:8000/
+* Trellis is at http://localhost:8080/
 
 Note that this will provide you with "out-of-the-box" Trellis, with no data in it. To spin up Trellis and its dependencies with the Sinopia container structure (root, repository, and group containers) and ACLs (declared on root container) pre-created, you can do using the `platformdata` docker-compose service:
 
@@ -149,6 +154,8 @@ $ docker-compose run platformdata
 ```
 
 **NOTE**: In order for the above to work, you will need to set `COGNITO_ADMIN_PASSWORD`, `AWS_ACCESS_KEY_ID`, and `AWS_SECRET_ACCESS_KEY` in a file named `.env` in the sinopia_editor root.
+
+At this point, you will likely want to begin importing resource templates into the editor, after which you can begin creating linked data resources. To import a small set of interesting resource templates, consult the [instructions in this README](https://github.com/LD4P/sinopia_sample_profiles/blob/master/configuration_demo/readme.md).
 
 If you'd like to see how the indexing pipeline is indexing Trellis data into ElasticSearch, you can spy on the ElasticSearch indexes using the DejaVu app included in the `docker-compose` configuration:
 

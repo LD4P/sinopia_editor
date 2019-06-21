@@ -5,7 +5,7 @@ services:
       context: .
       args:
         USE_FIXTURES: 'false'
-        TRELLIS_BASE_URL: http://platform:8080
+        TRELLIS_BASE_URL: http://localhost:8080
     ports:
       - 8000:8000
     depends_on:
