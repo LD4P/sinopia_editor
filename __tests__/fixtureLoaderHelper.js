@@ -58,6 +58,7 @@ const rtFileNames = [
   'literalRepeatDefaultLiteralOnly.json',
   'literalRepeatDefaultUriOnly.json',
   'literalRepeatNoDefault.json',
+  'propertyURIRepeated.json',
   'rdaItemMonograph.json',
 ]
 
