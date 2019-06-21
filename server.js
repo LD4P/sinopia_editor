@@ -1,23 +1,20 @@
 /*
- * Copyright 2018, 2019 Stanford University see LICENSE for license
+ * Copyright 2019 Stanford University see LICENSE for license
  * Minimal BIBFRAME Editor Node.js server. To run from the command-line:
  *  npm start  or node server.js
  */
 
-const port = 8000
 const express = require('express')
+const versoSpoof = require('./src/versoSpoof')
 
+const port = 8000
 const app = express()
 
 app.use(express.static(`${__dirname}/`))
-app.listen(port)
-
-const versoSpoof = require('./src/versoSpoof.js')
 
 app.get('/api/search', (req, res) => {
   res.json({ foo: 'bar' })
 })
-
 
 app.all('/verso/api/configs', (req, res, next) => {
   if (req.query.filter.where.configType === 'profile') {
@@ -58,5 +55,7 @@ app.get('*', (req, res) => {
   res.sendFile(`${__dirname}/index.html`)
 })
 
-console.info(`BIBFRAME Editor running on ${port}`)
-console.info('Press Ctrl + C to stop.')
+app.listen(port, () => {
+  console.info(`Sinopia Linked Data Editor running on ${port}`)
+  console.info('Press Ctrl + C to stop.')
+})
