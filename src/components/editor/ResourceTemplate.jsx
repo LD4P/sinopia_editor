@@ -4,7 +4,7 @@ import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import PropTypes from 'prop-types'
 import ResourceTemplateForm from './ResourceTemplateForm'
-import { setResourceTemplate } from 'actions/index'
+import { rootResourceTemplateLoaded } from 'actions/index'
 import { getResourceTemplate } from 'sinopiaServer'
 
 const _ = require('lodash')
@@ -73,7 +73,7 @@ ResourceTemplate.propTypes = {
 
 const mapDispatchToProps = dispatch => ({
   handleResourceTemplate(resourceTemplate) {
-    dispatch(setResourceTemplate(resourceTemplate))
+    dispatch(rootResourceTemplateLoaded(resourceTemplate))
   },
 })
 

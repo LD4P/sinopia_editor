@@ -64,7 +64,7 @@ export const refreshResourceTemplate = (state, action) => {
  * Called when a top level resource template is loaded
  * the body of the resource template is in `action.payload'
  */
-export const setResourceTemplate = (state, action) => {
+export const rootResourceTemplateLoaded = (state, action) => {
   let newState = resourceTemplateLoaded(state, action)
 
   const resourceTemplateId = action.payload.id
@@ -99,8 +99,8 @@ export const makeShortID = () => shortid.generate()
 
 const selectorReducer = (state = {}, action) => {
   switch (action.type) {
-    case 'SET_RESOURCE_TEMPLATE':
-      return setResourceTemplate(state, action)
+    case 'ROOT_RESOURCE_TEMPLATE_LOADED':
+      return rootResourceTemplateLoaded(state, action)
     case 'SET_ITEMS':
     case 'CHANGE_SELECTIONS':
       return setItemsOrSelections(state, action)

@@ -66,9 +66,9 @@ describe('authentication actions', () => {
 })
 
 describe('initializes the Redux State', () => {
-  it('should return Redux state based on SET_RESOURCE_TEMPLATE action', () => {
-    expect(actions.setResourceTemplate({}, { reduxPath: ['http://sinopia.io/example'] })).toEqual({
-      type: 'SET_RESOURCE_TEMPLATE',
+  it('should return Redux state based on ROOT_RESOURCE_TEMPLATE_LOADED action', () => {
+    expect(actions.rootResourceTemplateLoaded({}, { reduxPath: ['http://sinopia.io/example'] })).toEqual({
+      type: 'ROOT_RESOURCE_TEMPLATE_LOADED',
       payload: {},
     })
   })

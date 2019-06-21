@@ -5,7 +5,7 @@ import selectorReducer, {
   populatePropertyDefaults,
   refreshResourceTemplate,
   resourceTemplateLoaded,
-  setResourceTemplate,
+  rootResourceTemplateLoaded,
 } from 'reducers/index'
 /* eslint import/namespace: 'off' */
 import * as inputs from 'reducers/inputs'
@@ -151,11 +151,11 @@ describe('selectorReducer', () => {
     expect(inputs.setBaseURL).toBeCalledWith(oldState, action)
   })
 
-  it('handles SET_RESOURCE_TEMPLATE', () => {
+  it('handles ROOT_RESOURCE_TEMPLATE_LOADED', () => {
     shortid.generate = jest.fn().mockReturnValue(0)
     const result = selectorReducer(initialState,
       {
-        type: 'SET_RESOURCE_TEMPLATE',
+        type: 'ROOT_RESOURCE_TEMPLATE_LOADED',
         payload: {
           id: 'resourceTemplate:bf2:Monograph:Instance',
           resourceURI: 'http://id.loc.gov/ontologies/bibframe/Instance',
@@ -200,11 +200,11 @@ describe('selectorReducer', () => {
     })
   })
 
-  it('allows SET_RESOURCE_TEMPLATE on templates without valueConstraint', () => {
+  it('allows ROOT_RESOURCE_TEMPLATE_LOADED on templates without valueConstraint', () => {
     shortid.generate = jest.fn().mockReturnValue(0)
     const result = selectorReducer(initialState,
       {
-        type: 'SET_RESOURCE_TEMPLATE',
+        type: 'ROOT_RESOURCE_TEMPLATE_LOADED',
         payload: {
           id: 'resourceTemplate:bf2:Monograph:Instance',
           propertyTemplates: propertyTemplateWithoutConstraint,
@@ -258,7 +258,7 @@ describe('refreshResourceTemplate', () => {
     ]
 
     selectorReducer(initialState, {
-      type: 'SET_RESOURCE_TEMPLATE',
+      type: 'ROOT_RESOURCE_TEMPLATE_LOADED',
       payload: {
         id: 'resourceTemplate:bf2:Note',
         resourceURI: 'http://id.loc.gov/ontologies/bibframe/Note',
@@ -430,7 +430,7 @@ describe('resourceTemplateLoaded()', () => {
   })
 })
 
-describe('setResourceTemplate()', () => {
+describe('rootResourceTemplateLoaded()', () => {
   it('adds resource to the resourceTemplates entities state', () => {
     const template = {
       id: 'resourceTemplate:bf2:Monograph:Work',
@@ -438,8 +438,8 @@ describe('setResourceTemplate()', () => {
         { propertyURI: 'http://id.loc.gov/ontologies/bibframe/title' },
       ],
     }
-    const newState = setResourceTemplate(initialState.selectorReducer, {
-      type: 'SET_RESOURCE_TEMPLATE',
+    const newState = rootResourceTemplateLoaded(initialState.selectorReducer, {
+      type: 'ROOT_RESOURCE_TEMPLATE_LOADED',
       payload: template,
     })
 
