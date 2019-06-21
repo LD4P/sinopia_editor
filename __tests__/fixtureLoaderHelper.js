@@ -44,6 +44,7 @@ const rtFileNames = [
   'adminMetadata.json',
   'adminMetadataStatus.json',
   'literalNoRepeatNoDefault.json',
+  'literalRepeatNoDefault.json',
   'rdaItemMonograph.json',
 ]
 

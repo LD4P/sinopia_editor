@@ -31,7 +31,42 @@ describe('RDF from literal property templates', () => {
     const newLinesRegex = (/\n{3}/, 'm')
     expect(previewRdf).toMatch(newLinesRegex)
   })
-  it.todo('repeatable, no default value, default language')
+  describe('repeatable, no default value, default language', () => {
+    it('one value', async () => {
+      expect.assertions(7)
+      await pupExpect(page).toClick('a[href="/editor"]', { text: 'test literal, repeatable, required, no default' })
+      await pupExpect(page).toFill('input[placeholder=\'literal, repeatable, required, no default\']', 'first value')
+      await page.keyboard.press('Enter')
+      await expect(page).toClick('button', { text: 'Preview RDF' })
+      const previewRdf = await page.$eval('pre', e => e.textContent)
+      expect(previewRdf).toMatch('<> <http://examples.org/bogusOntologies/literal1> "first value"@en .')
+      expect(previewRdf).toMatch('<> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://examples.org/bogusOntologies/Resource> .')
+      expect(previewRdf).toMatch('<> <http://www.w3.org/ns/prov#wasGeneratedBy> "Sinopia:RT:Fixture:LiteralRepeatNoDefault" .')
+      // ensure we have exactly 3 triples
+      const newLinesRegex = (/\n{3}/, 'm')
+      expect(previewRdf).toMatch(newLinesRegex)
+    })
+    it('three values', async () => {
+      expect.assertions(11)
+      await pupExpect(page).toClick('a[href="/editor"]', { text: 'test literal, repeatable, required, no default' })
+      await pupExpect(page).toFill('input[placeholder=\'literal, repeatable, required, no default\']', 'first')
+      await page.keyboard.press('Enter')
+      await pupExpect(page).toFill('input[placeholder=\'literal, repeatable, required, no default\']', 'second')
+      await page.keyboard.press('Enter')
+      await pupExpect(page).toFill('input[placeholder=\'literal, repeatable, required, no default\']', 'third')
+      await page.keyboard.press('Enter')
+      await expect(page).toClick('button', { text: 'Preview RDF' })
+      const previewRdf = await page.$eval('pre', e => e.textContent)
+      expect(previewRdf).toMatch('<> <http://examples.org/bogusOntologies/literal1> "first"@en .')
+      expect(previewRdf).toMatch('<> <http://examples.org/bogusOntologies/literal1> "second"@en .')
+      expect(previewRdf).toMatch('<> <http://examples.org/bogusOntologies/literal1> "third"@en .')
+      expect(previewRdf).toMatch('<> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://examples.org/bogusOntologies/Resource> .')
+      expect(previewRdf).toMatch('<> <http://www.w3.org/ns/prov#wasGeneratedBy> "Sinopia:RT:Fixture:LiteralRepeatNoDefault" .')
+      // ensure we have exactly 5 triples
+      const newLinesRegex = (/\n{5}/, 'm')
+      expect(previewRdf).toMatch(newLinesRegex)
+    })
+  })
   it.todo('non-repeatable, default value, default language') // defaultLiteral only?  defaultURI???
   it.todo('repeatable, single default value, default language') // ditto
   it.todo('repeatable, multiple default values, default language') // ditto
