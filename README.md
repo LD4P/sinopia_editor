@@ -183,7 +183,7 @@ This section assumes you've already authenticated to DockerHub via `docker login
 First, build a new `sinopia_editor` image tagged with `dev`. In order to do this, you **MUST** provide the dev-specific build args:
 
 ```shell
-$ docker build -t ld4p/sinopia_editor:dev --build-arg USE_FIXTURES=false --build-arg TRELLIS_BASE_URL=https://trellis.development.sinopia.io --build-arg DEFAULT_PROFILE_SCHEMA_VERSION=0.0.2 --build-arg SINOPIA_GROUP=ld4p --build-arg SINOPIA_URI=https://development.sinopia.io --build-arg AWS_COGNITO_DOMAIN=https://sinopia-development.auth.us-west-2.amazoncognito.com --build-arg COGNITO_CLIENT_ID=2u6s7pqkc1grq1qs464fsi82at .
+$ docker build -t ld4p/sinopia_editor:dev --build-arg TRELLIS_BASE_URL=https://trellis.development.sinopia.io --build-arg SINOPIA_URI=https://development.sinopia.io --build-arg AWS_COGNITO_DOMAIN=https://sinopia-development.auth.us-west-2.amazoncognito.com --build-arg COGNITO_CLIENT_ID=2u6s7pqkc1grq1qs464fsi82at .
 ```
 
 Then push the `dev`-tagged image to DockerHub:
