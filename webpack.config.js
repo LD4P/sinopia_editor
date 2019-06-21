@@ -50,7 +50,7 @@ module.exports = {
     }),
     new webpack.EnvironmentPlugin(
       [
-        'SPOOF_SINOPIA_SERVER',
+        'USE_FIXTURES',
         'TRELLIS_BASE_URL',
         'DEFAULT_PROFILE_SCHEMA_VERSION',
         'SINOPIA_GROUP',

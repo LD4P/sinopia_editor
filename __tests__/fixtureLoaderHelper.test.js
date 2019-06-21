@@ -70,9 +70,9 @@ describe('fixtureLoaderHelper', () => {
     })
   })
 
-  describe('spoofedResourcesInGroupContainer', () => {
-    it('returns a spoofed response object with contained resource template IDs', () => {
-      const result = spoofedResourcesInGroupContainer('ld4p')
+  describe('fixtureResourcesInGroupContainer', () => {
+    it('returns a spoofed response object with fixture resource template IDs', () => {
+      const result = fixtureResourcesInGroupContainer('ld4p')
       expect(result.response.body['@id']).toEqual('http://spoof.trellis.io/ld4p')
       expect(result.response.body.contains).toEqual(
         expect.arrayContaining([
