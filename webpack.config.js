@@ -31,8 +31,8 @@ module.exports = {
     ]
   },
   node: {
-   fs: "empty"
- },
+    fs: "empty"
+  },
   resolve: {
     extensions: ['*', '.js', '.jsx']
   },
@@ -64,6 +64,9 @@ module.exports = {
   devServer: {
     historyApiFallback: true,
     hot: true,
-    port: 8888
+    port: 8888,
+    proxy: {
+      '/api/search': 'http://localhost:8000'
+    }
   }
 }
