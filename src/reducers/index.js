@@ -79,6 +79,10 @@ export const setResourceTemplate = (state, action) => {
     newState = refreshResourceTemplate(newState, propertyAction)
   })
 
+  // Clear any existing validation errors when we load a resource template
+  newState.editor.errors = []
+  newState.editor.displayValidations = false
+
   return newState
 }
 
@@ -87,10 +91,6 @@ export const resourceTemplateLoaded = (state, action) => {
   const newState = { ...state }
 
   newState.entities.resourceTemplates[resourceTemplateId] = action.payload
-
-  // Clear any existing validation errors when we load a resource template
-  newState.editor.errors = []
-  newState.editor.displayValidations = false
 
   return newState
 }
