@@ -934,5 +934,10 @@
     "label": "type of recording",
     "uri": "https://id.loc.gov/vocabulary/mrectype",
     "component": "list"
+  },
+  {
+    "label": "code list for cultural heritage organizations",
+    "uri": "https://id.loc.gov/vocabulary/organizations",
+    "component": "list"
   }
 ]
