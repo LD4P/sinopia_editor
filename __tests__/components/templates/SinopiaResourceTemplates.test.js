@@ -250,7 +250,8 @@ describe('<SinopiaResourceTemplates />', () => {
           name: 'baz',
           uri: 'template99',
           id: 'bar',
-          group: 'ld4p',
+          author: 'wright.lee.renønd',
+          remark: 'very salient information',
         },
       ]
 
@@ -274,7 +275,8 @@ describe('<SinopiaResourceTemplates />', () => {
       name: 'Note',
       uri: 'http://localhost:8080/repository/ld4p/Note',
       id: 'ld4p:resourceTemplate:bf2:Note',
-      group: 'ld4p',
+      author: 'wright.lee.renønd',
+      remark: 'very salient information',
     }
 
     const wrapper4 = shallow(<SinopiaResourceTemplates messages={messages}/>)
