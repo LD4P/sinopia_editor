@@ -1,6 +1,6 @@
 // Copyright 2018 Stanford University see LICENSE for license
 
-import * as actions from '../../src/actions/index'
+import * as actions from 'actions/index'
 
 describe('setItems()', () => {
   it('creates SET_ITEMS action', () => {

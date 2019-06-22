@@ -5,7 +5,7 @@ import React from 'react'
 import { shallow } from 'enzyme'
 import { OffCanvas } from 'react-offcanvas'
 import { Provider } from 'react-redux'
-import RootContainer from '../../src/components/RootContainer'
+import RootContainer from 'components/RootContainer'
 
 describe('<RootComponent />', () => {
   const wrapper = shallow(<RootContainer/>)

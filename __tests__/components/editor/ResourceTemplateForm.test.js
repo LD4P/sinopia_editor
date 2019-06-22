@@ -4,7 +4,7 @@ import React from 'react'
 import 'jsdom-global/register'
 import { shallow } from 'enzyme'
 import shortid from 'shortid'
-import { ResourceTemplateForm } from '../../../src/components/editor/ResourceTemplateForm'
+import { ResourceTemplateForm } from 'components/editor/ResourceTemplateForm'
 
 describe('<ResourceTemplateForm /> functional testing', () => {
   const basicRt = { resourceURI: 'http://schema.org/name' }
