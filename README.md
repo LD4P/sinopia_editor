@@ -18,6 +18,9 @@ Technical documentation specific to the Sinopia Linked Data Editor may also be f
 4.  Get latest npm: `npm install -g npm@latest`
 5.  Run `npm install`. This installs everything needed for the build to run successfully.
 
+Note: Currently you need to have node version 10 (version 12 may not work).
+You can use the "n" node package management to manage multiple version of node: https://www.npmjs.com/package/n
+
 ## Build the distribution
 
 `npm run build`
