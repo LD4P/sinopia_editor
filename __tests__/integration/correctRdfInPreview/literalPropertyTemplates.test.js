@@ -29,6 +29,7 @@ describe('RDF from literal property templates', () => {
     expect(previewRdf).toMatch('<> <http://www.w3.org/ns/prov#wasGeneratedBy> "Sinopia:RT:Fixture:LiteralNoRepeatNoDefault" .')
     expect(numLines(previewRdf)).toEqual(3)
   })
+
   describe('repeatable, no default value, default language', () => {
     it('one value', async () => {
       expect.assertions(7)
@@ -61,6 +62,7 @@ describe('RDF from literal property templates', () => {
       expect(numLines(previewRdf)).toEqual(5)
     })
   })
+
   describe('non-repeatable, default value', () => {
     it('defaultLiteral only', async () => {
       expect.assertions(6)
@@ -104,8 +106,123 @@ describe('RDF from literal property templates', () => {
       expect(numLines(previewRdf)).toEqual(3)
     })
   })
-  it.todo('repeatable, single default value, default language') // ditto
-  it.todo('repeatable, multiple default values, default language') // ditto
+
+  describe('repeatable, default value(s)', () => {
+    describe('one value', () => {
+      it('defaultLiteral only', async () => {
+        expect.assertions(6)
+        await pupExpect(page).toClick('a[href="/editor"]', { text: 'test literal, repeatable, required, default literal only (no URI)' })
+        await expect(page).toClick('button', { text: 'Preview RDF' })
+        const previewRdf = await page.$eval('pre', e => e.textContent)
+        expect(previewRdf).toMatch('<> <http://examples.org/bogusOntologies/literal> "mydefaultvalue"@en .')
+        expect(previewRdf).toMatch('<> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://examples.org/bogusOntologies/Resource> .')
+        expect(previewRdf).toMatch('<> <http://www.w3.org/ns/prov#wasGeneratedBy> "Sinopia:RT:Fixture:LiteralRepeatDefaultLiteralOnly" .')
+        expect(numLines(previewRdf)).toEqual(3)
+      })
+      it.skip('defaultLiteral only, not English', async () => {
+        // TODO: not yet supported; see https://github.com/LD4P/sinopia_editor/issues/825
+        expect.assertions(6)
+        await pupExpect(page).toClick('a[href="/editor"]', { text: 'test literal, repeatable, required, default literal non-english' })
+        await expect(page).toClick('button', { text: 'Preview RDF' })
+        const previewRdf = await page.$eval('pre', e => e.textContent)
+        expect(previewRdf).toMatch('<> <http://examples.org/bogusOntologies/literal> "borkBorkBork .') // need a way to designate this is a specific non-english language
+        expect(previewRdf).toMatch('<> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://examples.org/bogusOntologies/Resource> .')
+        expect(previewRdf).toMatch('<> <http://www.w3.org/ns/prov#wasGeneratedBy> "Sinopia:RT:Fixture:LiteralRepeatDefaultNonEnglish" .')
+        expect(numLines(previewRdf)).toEqual(3)
+      })
+      it('defaultURI only', async () => {
+        expect.assertions(6)
+        await pupExpect(page).toClick('a[href="/editor"]', { text: 'test literal, repeatable, required, default URI only (no literal)' })
+        await expect(page).toClick('button', { text: 'Preview RDF' })
+        const previewRdf = await page.$eval('pre', e => e.textContent)
+        expect(previewRdf).toMatch('<> <http://examples.org/bogusOntologies/literal> <http://id.loc.gov/authorities/subjects/sh85027699> .')
+        expect(previewRdf).toMatch('<> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://examples.org/bogusOntologies/Resource> .')
+        expect(previewRdf).toMatch('<> <http://www.w3.org/ns/prov#wasGeneratedBy> "Sinopia:RT:Fixture:LiteralRepeatDefaultUriOnly" .')
+        expect(numLines(previewRdf)).toEqual(3)
+      })
+      it('defaultURI and defaultLiteral', async () => {
+        expect.assertions(6)
+        await pupExpect(page).toClick('a[href="/editor"]', { text: 'test literal, repeatable, required, defaultLiteral and defaultURI' })
+        await expect(page).toClick('button', { text: 'Preview RDF' })
+        const previewRdf = await page.$eval('pre', e => e.textContent)
+        expect(previewRdf).toMatch('<> <http://examples.org/bogusOntologies/literal> <http://id.loc.gov/authorities/subjects/sh85027699> .')
+        expect(previewRdf).toMatch('<> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://examples.org/bogusOntologies/Resource> .')
+        expect(previewRdf).toMatch('<> <http://www.w3.org/ns/prov#wasGeneratedBy> "Sinopia:RT:Fixture:LiteralRepeatDefaultBoth" .')
+        expect(numLines(previewRdf)).toEqual(3)
+      })
+    })
+    describe('three values, 1 default', () => {
+      it('defaultLiteral only', async () => {
+        expect.assertions(10)
+        await pupExpect(page).toClick('a[href="/editor"]', { text: 'test literal, repeatable, required, default literal only (no URI)' })
+        await pupExpect(page).toFill('input[placeholder=\'literal, repeatable, required, default literal only, default language\']', 'another')
+        await page.keyboard.press('Enter')
+        await pupExpect(page).toFill('input[placeholder=\'literal, repeatable, required, default literal only, default language\']', 'yet another')
+        await page.keyboard.press('Enter')
+        await expect(page).toClick('button', { text: 'Preview RDF' })
+        const previewRdf = await page.$eval('pre', e => e.textContent)
+        expect(previewRdf).toMatch('<> <http://examples.org/bogusOntologies/literal> "mydefaultvalue"@en .')
+        expect(previewRdf).toMatch('<> <http://examples.org/bogusOntologies/literal> "another"@en .')
+        expect(previewRdf).toMatch('<> <http://examples.org/bogusOntologies/literal> "yet another"@en .')
+        expect(previewRdf).toMatch('<> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://examples.org/bogusOntologies/Resource> .')
+        expect(previewRdf).toMatch('<> <http://www.w3.org/ns/prov#wasGeneratedBy> "Sinopia:RT:Fixture:LiteralRepeatDefaultLiteralOnly" .')
+        expect(numLines(previewRdf)).toEqual(5)
+      })
+      it.skip('defaultLiteral only, not English', async () => {
+        // TODO: not yet supported; see https://github.com/LD4P/sinopia_editor/issues/825
+        expect.assertions(10)
+        await pupExpect(page).toClick('a[href="/editor"]', { text: 'test literal, repeatable, required, default literal non-english' })
+        await pupExpect(page).toFill('input[placeholder=\'literal, repeatable, required, default literal non-english\']', 'another')
+        await page.keyboard.press('Enter')
+        await pupExpect(page).toFill('input[placeholder=\'literal, repeatable, required, default literal non-english\']', 'yet another')
+        await page.keyboard.press('Enter')
+        await expect(page).toClick('button', { text: 'Preview RDF' })
+        const previewRdf = await page.$eval('pre', e => e.textContent)
+        expect(previewRdf).toMatch('<> <http://examples.org/bogusOntologies/literal> "borkBorkBork .') // need a way to designate this is a specific non-english language
+        expect(previewRdf).toMatch('<> <http://examples.org/bogusOntologies/literal> "another"@en .')
+        expect(previewRdf).toMatch('<> <http://examples.org/bogusOntologies/literal> "yet another"@en .')
+        expect(previewRdf).toMatch('<> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://examples.org/bogusOntologies/Resource> .')
+        expect(previewRdf).toMatch('<> <http://www.w3.org/ns/prov#wasGeneratedBy> "Sinopia:RT:Fixture:LiteralRepeatDefaultNonEnglish" .')
+        expect(numLines(previewRdf)).toEqual(5)
+      })
+      it('defaultURI only', async () => {
+        expect.assertions(10)
+        await pupExpect(page).toClick('a[href="/editor"]', { text: 'test literal, repeatable, required, default URI only (no literal)' })
+        await pupExpect(page).toFill('input[placeholder=\'literal, repeatable, required, default URI only\']', 'another')
+        await page.keyboard.press('Enter')
+        await pupExpect(page).toFill('input[placeholder=\'literal, repeatable, required, default URI only\']', 'yet another')
+        await page.keyboard.press('Enter')
+        await expect(page).toClick('button', { text: 'Preview RDF' })
+        const previewRdf = await page.$eval('pre', e => e.textContent)
+        expect(previewRdf).toMatch('<> <http://examples.org/bogusOntologies/literal> <http://id.loc.gov/authorities/subjects/sh85027699> .')
+        expect(previewRdf).toMatch('<> <http://examples.org/bogusOntologies/literal> "another"@en .')
+        expect(previewRdf).toMatch('<> <http://examples.org/bogusOntologies/literal> "yet another"@en .')
+        expect(previewRdf).toMatch('<> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://examples.org/bogusOntologies/Resource> .')
+        expect(previewRdf).toMatch('<> <http://www.w3.org/ns/prov#wasGeneratedBy> "Sinopia:RT:Fixture:LiteralRepeatDefaultUriOnly" .')
+        expect(numLines(previewRdf)).toEqual(5)
+      })
+      it('defaultURI and defaultLiteral', async () => {
+        expect.assertions(10)
+        await pupExpect(page).toClick('a[href="/editor"]', { text: 'test literal, repeatable, required, defaultLiteral and defaultURI' })
+        await pupExpect(page).toFill('input[placeholder=\'literal, repeatable, required, default both\']', 'another')
+        await page.keyboard.press('Enter')
+        await pupExpect(page).toFill('input[placeholder=\'literal, repeatable, required, default both\']', 'yet another')
+        await page.keyboard.press('Enter')
+        await expect(page).toClick('button', { text: 'Preview RDF' })
+        const previewRdf = await page.$eval('pre', e => e.textContent)
+        expect(previewRdf).toMatch('<> <http://examples.org/bogusOntologies/literal> <http://id.loc.gov/authorities/subjects/sh85027699> .')
+        expect(previewRdf).toMatch('<> <http://examples.org/bogusOntologies/literal> "another"@en .')
+        expect(previewRdf).toMatch('<> <http://examples.org/bogusOntologies/literal> "yet another"@en .')
+        expect(previewRdf).toMatch('<> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://examples.org/bogusOntologies/Resource> .')
+        expect(previewRdf).toMatch('<> <http://www.w3.org/ns/prov#wasGeneratedBy> "Sinopia:RT:Fixture:LiteralRepeatDefaultBoth" .')
+        expect(numLines(previewRdf)).toEqual(5)
+      })
+    })
+
+    describe('three values, 2 defaults', () => {
+
+    })
+  })
   it.todo('specified non-default language (would we ever need this beyond defaultLiteral)')
 })
 
