@@ -4,13 +4,13 @@ import React from 'react'
 import 'jsdom-global/register'
 import { shallow } from 'enzyme'
 import shortid from 'shortid'
-import { ResourceTemplateForm } from 'components/editor/ResourceTemplateForm'
+import ResourceTemplateForm from 'components/editor/ResourceTemplateForm'
 
 describe('<ResourceTemplateForm /> functional testing', () => {
   const basicRt = { resourceURI: 'http://schema.org/name' }
-  const basicWrapper = shallow(<ResourceTemplateForm propertyTemplates={[]}
-                                                     rtId={'resource:schema:Name'}
-                                                     resourceTemplate={ basicRt } />)
+  const basicWrapper = shallow(<ResourceTemplateForm.WrappedComponent propertyTemplates={[]}
+                                                                      rtId={'myOrg:rt:myTemplate'}
+                                                                      resourceTemplate={ basicRt } />)
 
   shortid.generate = jest.fn().mockReturnValue('abcd45')
 
@@ -54,7 +54,7 @@ describe('<ResourceTemplateForm /> functional testing', () => {
 
       expect(result[0].props.reduxPath).toEqual([
         'resource',
-        'resource:schema:Name',
+        'myOrg:rt:myTemplate',
         'http://www.w3.org/2000/01/rdf-schema#label',
         'abcd45',
         'resourceTemplate:bf2:Note'])
@@ -112,6 +112,7 @@ describe('<ResourceTemplateForm /> after fetching data from sinopia server', () 
   describe('configured component types', () => {
     it('renders a lookup component', async () => {
       const rtProps = {
+        rtId: 'myOrg:rt:myTemplate',
         propertyTemplates: [
           {
             propertyLabel: 'Look up, look down',
@@ -128,7 +129,7 @@ describe('<ResourceTemplateForm /> after fetching data from sinopia server', () 
         ],
       }
 
-      const wrapper = shallow(<ResourceTemplateForm {...rtProps} resourceTemplate = {rtTest}/>)
+      const wrapper = shallow(<ResourceTemplateForm.WrappedComponent {...rtProps} resourceTemplate = {rtTest}/>)
 
       expect.assertions(3)
       const instance = await wrapper.instance()
@@ -143,6 +144,7 @@ describe('<ResourceTemplateForm /> after fetching data from sinopia server', () 
 
     it('renders a list component', async () => {
       const rtProps = {
+        rtId: 'myOrg:rt:myTemplate',
         propertyTemplates: [
           {
             propertyLabel: 'What\'s the frequency Kenneth?',
@@ -156,7 +158,7 @@ describe('<ResourceTemplateForm /> after fetching data from sinopia server', () 
         ],
       }
 
-      const wrapper = shallow(<ResourceTemplateForm {...rtProps} resourceTemplate = {rtTest}/>)
+      const wrapper = shallow(<ResourceTemplateForm.WrappedComponent {...rtProps} resourceTemplate = {rtTest}/>)
 
       expect.assertions(3)
       const instance = await wrapper.instance()
@@ -172,6 +174,7 @@ describe('<ResourceTemplateForm /> after fetching data from sinopia server', () 
 
   it('renders InputLiteral nested component (b/c we have a property of type "literal")', async () => {
     const rtProps = {
+      rtId: 'myOrg:rt:myTemplate',
       propertyTemplates: [
         {
           propertyLabel: 'Literally',
@@ -180,7 +183,7 @@ describe('<ResourceTemplateForm /> after fetching data from sinopia server', () 
       ],
     }
 
-    const wrapper = shallow(<ResourceTemplateForm {...rtProps} resourceTemplate = {rtTest}/>)
+    const wrapper = shallow(<ResourceTemplateForm.WrappedComponent {...rtProps} resourceTemplate = {rtTest}/>)
 
     expect.assertions(3)
     const instance = await wrapper.instance()
@@ -194,6 +197,7 @@ describe('<ResourceTemplateForm /> after fetching data from sinopia server', () 
   })
 
   const rtProps = {
+    rtId: 'myOrg:rt:myTemplate',
     propertyTemplates: [
       {
         propertyLabel: 'Literally',
@@ -246,7 +250,7 @@ describe('<ResourceTemplateForm /> after fetching data from sinopia server', () 
     ],
   }
 
-  const wrapper = shallow(<ResourceTemplateForm {...rtProps} resourceTemplate = {rtTest}/>)
+  const wrapper = shallow(<ResourceTemplateForm.WrappedComponent {...rtProps} resourceTemplate = {rtTest}/>)
 
   it('<form> does not contain redundant form attribute', () => {
     expect(wrapper.find('form[role="form"]').length).toEqual(0)
@@ -287,6 +291,7 @@ describe('when there are no findable nested resource templates', () => {
   const promises = Promise.all([mockAsyncCall])
 
   const rtProps = {
+    rtId: 'myOrg:rt:myTemplate',
     propertyTemplates: [
       {
         propertyLabel: 'Look up, look down',
@@ -322,7 +327,7 @@ describe('when there are no findable nested resource templates', () => {
     ],
   }
 
-  const wrapper = shallow(<ResourceTemplateForm {...rtProps} resourceTemplate = {rtTest}/>)
+  const wrapper = shallow(<ResourceTemplateForm.WrappedComponent {...rtProps} resourceTemplate = {rtTest}/>)
 
   it('renders error alert box', async () => {
     expect.assertions(3)
@@ -335,6 +340,6 @@ describe('when there are no findable nested resource templates', () => {
     const errorEl = wrapper.find('div.alert')
 
     expect(errorEl).toHaveLength(1)
-    expect(errorEl.text()).toMatch('There are missing resource templates required by resource template: http://id.loc.gov/ontologies/bibframe/Work.Please make sure all referenced templates in property template are uploaded first.')
+    expect(errorEl.text()).toMatch('There are missing resource templates required by resource template: myOrg:rt:myTemplate.Please make sure all referenced templates in property template are uploaded first.')
   })
 })

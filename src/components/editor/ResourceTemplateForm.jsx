@@ -14,7 +14,7 @@ import store from 'store'
 
 const _ = require('lodash')
 
-// Renders the input form for a ResourceTemplate
+// Renders the input form for the root ResourceTemplate
 export class ResourceTemplateForm extends Component {
   constructor(props) {
     super(props)
@@ -152,7 +152,7 @@ export class ResourceTemplateForm extends Component {
 
   render() {
     const errMessage = <div className="alert alert-warning">
-      There are missing resource templates required by resource template: <strong>{this.props.resourceTemplate.resourceURI}</strong>.
+      There are missing resource templates required by resource template: <strong>{this.props.rtId}</strong>.
       <br />
       Please make sure all referenced templates in property template are uploaded first. Missing templates:
       <br />
@@ -170,18 +170,18 @@ export class ResourceTemplateForm extends Component {
 ResourceTemplateForm.propTypes = {
   literals: PropTypes.oneOfType([PropTypes.array, PropTypes.object]),
   lookups: PropTypes.oneOfType([PropTypes.array, PropTypes.object]),
-  propertyTemplates: PropTypes.arrayOf(PropTypes.object).isRequired,
-  resourceTemplate: PropTypes.object.isRequired,
-  rtId: PropTypes.string,
+  rtId: PropTypes.string.isRequired,
   handleMyItemsChange: PropTypes.func,
   handleRemoveAllContent: PropTypes.func,
   resourceTemplateMap: PropTypes.object,
+  propertyTemplates: PropTypes.array,
 }
 
-const mapStateToProps = state => ({
+const mapStateToProps = (state, ourProps) => ({
   literals: state.literal,
   lookups: state.lookups,
   resourceTemplateMap: state.selectorReducer.entities.resourceTemplates,
+  propertyTemplates: state.selectorReducer.entities.resourceTemplates[ourProps.rtId].propertyTemplates,
 })
 
 const mapDispatchToProps = dispatch => ({
