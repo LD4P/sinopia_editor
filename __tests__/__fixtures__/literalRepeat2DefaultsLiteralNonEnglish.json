@@ -1,0 +1,30 @@
+{
+  "id": "Sinopia:RT:Fixture:LiteralRepeat2DefaultsNonEnglish",
+  "resourceURI": "http://examples.org/bogusOntologies/Resource",
+  "remark": "This is a sample Resource Template, content is meaningless",
+  "resourceLabel": "test literal, repeatable, required, two defaults literal non-english",
+  "author": "Naomi Dushay",
+  "schema": "https://ld4p.github.io/sinopia/schemas/0.0.9/resource-template.json",
+  "propertyTemplates": [
+    {
+      "mandatory": "true",
+      "repeatable": "true",
+      "type": "literal",
+      "valueConstraint": {
+        "defaults": [
+          {
+            "defaultURI": "",
+            "defaultLiteral": "borkBorkBork"
+          },
+          {
+            "defaultURI": "",
+            "defaultLiteral": "und dann der Maestro sagte ..."
+          }
+        ],
+        "valueDataType": {}
+      },
+      "propertyLabel": "literal, repeatable, required, two defaults literal non-english",
+      "propertyURI": "http://examples.org/bogusOntologies/literal"
+    }
+  ]
+}

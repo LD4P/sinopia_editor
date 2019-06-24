@@ -1,0 +1,31 @@
+{
+  "id": "Sinopia:RT:Fixture:LiteralRepeat2DefaultsBoth",
+  "resourceURI": "http://examples.org/bogusOntologies/Resource",
+  "remark": "This is a sample Resource Template, content is meaningless",
+  "resourceLabel": "test literal, repeatable, required, two defaultLiteral and defaultURI",
+  "author": "Naomi Dushay",
+  "schema": "https://ld4p.github.io/sinopia/schemas/0.0.9/resource-template.json",
+  "propertyTemplates": [
+
+    {
+      "mandatory": "true",
+      "repeatable": "true",
+      "type": "literal",
+      "valueConstraint": {
+        "defaults": [
+          {
+            "defaultURI": "http://id.loc.gov/authorities/subjects/sh85027699",
+            "defaultLiteral": "Coffee"
+          },
+          {
+            "defaultURI": "http://id.loc.gov/vocabulary/millus/fac",
+            "defaultLiteral": "Facsimiles"
+          }
+        ],
+        "valueDataType": {}
+      },
+      "propertyLabel": "literal, repeatable, required, two defaults both",
+      "propertyURI": "http://examples.org/bogusOntologies/literal"
+    }
+  ]
+}
