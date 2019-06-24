@@ -39,7 +39,6 @@ export class ResourceTemplateForm extends Component {
         // Add the resource template into the store
         store.dispatch(resourceTemplateLoaded(fulfilledResourceTemplateRequest.response.body))
       })
-      this.setState({ templateError: false }) // Force a re-render
     }).catch((err) => {
       this.setState({ templateError: err })
     })

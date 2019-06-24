@@ -89,8 +89,10 @@ export const rootResourceTemplateLoaded = (state, action) => {
 export const resourceTemplateLoaded = (state, action) => {
   const resourceTemplateId = action.payload.id
   const newState = { ...state }
+  const newResourceTemplates = { ...newState.entities.resourceTemplates }
 
-  newState.entities.resourceTemplates[resourceTemplateId] = action.payload
+  newResourceTemplates[resourceTemplateId] = action.payload
+  newState.entities.resourceTemplates = newResourceTemplates
 
   return newState
 }
