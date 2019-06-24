@@ -5,9 +5,9 @@ import { shallow } from 'enzyme'
 import {
   CognitoAccessToken, CognitoIdToken, CognitoRefreshToken, CognitoUserSession,
 } from 'amazon-cognito-identity-js'
-import LoginPanel from '../../src/components/LoginPanel'
-import Config from '../../src/Config'
-import CognitoUtils from '../../src/CognitoUtils'
+import LoginPanel from 'components/LoginPanel'
+import Config from 'Config'
+import CognitoUtils from 'CognitoUtils'
 
 global.alert = jest.fn().mockImplementationOnce(() => {})
 

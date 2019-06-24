@@ -2,9 +2,9 @@
 
 import React from 'react'
 import { shallow } from 'enzyme'
-import Config from '../../../src/Config'
-import ResourceTemplate from '../../../src/components/editor/ResourceTemplate'
-import ResourceTemplateForm from '../../../src/components/editor/ResourceTemplateForm'
+import Config from 'Config'
+import ResourceTemplate from 'components/editor/ResourceTemplate'
+import ResourceTemplateForm from 'components/editor/ResourceTemplateForm'
 
 describe('<ResourceTemplate />', () => {
   const mockResponse = (status, statusText, response) => new Response(response, {

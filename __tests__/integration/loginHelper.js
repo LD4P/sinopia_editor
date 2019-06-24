@@ -1,6 +1,6 @@
 // Copyright 2019 Stanford University see LICENSE for license
 
-import Config from '../../src/Config'
+import Config from 'Config'
 
 export async function testUserLogin() {
   jest.setTimeout(60000) // Takes around 10s in practice, but be generous, just in case
