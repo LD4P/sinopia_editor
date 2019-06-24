@@ -27,9 +27,7 @@ describe('RDF from literal property templates', () => {
     expect(previewRdf).toMatch('<> <http://examples.org/bogusOntologies/literal1> "splendid"@en .')
     expect(previewRdf).toMatch('<> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://examples.org/bogusOntologies/Resource> .')
     expect(previewRdf).toMatch('<> <http://www.w3.org/ns/prov#wasGeneratedBy> "Sinopia:RT:Fixture:LiteralNoRepeatNoDefault" .')
-    // ensure we have exactly 3 triples
-    const newLinesRegex = (/\n{3}/, 'm')
-    expect(previewRdf).toMatch(newLinesRegex)
+    expect(numLines(previewRdf)).toEqual(3)
   })
   describe('repeatable, no default value, default language', () => {
     it('one value', async () => {
@@ -42,9 +40,7 @@ describe('RDF from literal property templates', () => {
       expect(previewRdf).toMatch('<> <http://examples.org/bogusOntologies/literal1> "first value"@en .')
       expect(previewRdf).toMatch('<> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://examples.org/bogusOntologies/Resource> .')
       expect(previewRdf).toMatch('<> <http://www.w3.org/ns/prov#wasGeneratedBy> "Sinopia:RT:Fixture:LiteralRepeatNoDefault" .')
-      // ensure we have exactly 3 triples
-      const newLinesRegex = (/\n{3}/, 'm')
-      expect(previewRdf).toMatch(newLinesRegex)
+      expect(numLines(previewRdf)).toEqual(3)
     })
     it('three values', async () => {
       expect.assertions(11)
@@ -62,9 +58,7 @@ describe('RDF from literal property templates', () => {
       expect(previewRdf).toMatch('<> <http://examples.org/bogusOntologies/literal1> "third"@en .')
       expect(previewRdf).toMatch('<> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://examples.org/bogusOntologies/Resource> .')
       expect(previewRdf).toMatch('<> <http://www.w3.org/ns/prov#wasGeneratedBy> "Sinopia:RT:Fixture:LiteralRepeatNoDefault" .')
-      // ensure we have exactly 5 triples
-      const newLinesRegex = (/\n{5}/, 'm')
-      expect(previewRdf).toMatch(newLinesRegex)
+      expect(numLines(previewRdf)).toEqual(5)
     })
   })
   describe('non-repeatable, default value', () => {
@@ -76,9 +70,7 @@ describe('RDF from literal property templates', () => {
       expect(previewRdf).toMatch('<> <http://examples.org/bogusOntologies/literal> "mydefaultvalue"@en .')
       expect(previewRdf).toMatch('<> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://examples.org/bogusOntologies/Resource> .')
       expect(previewRdf).toMatch('<> <http://www.w3.org/ns/prov#wasGeneratedBy> "Sinopia:RT:Fixture:LiteralNoRepeatDefaultLiteralOnly" .')
-      // ensure we have exactly 3 triples
-      const newLinesRegex = (/\n{3}/, 'm')
-      expect(previewRdf).toMatch(newLinesRegex)
+      expect(numLines(previewRdf)).toEqual(3)
     })
     it.skip('defaultLiteral only, not English', async () => {
       // TODO: not yet supported; see https://github.com/LD4P/sinopia_editor/issues/825
@@ -89,9 +81,7 @@ describe('RDF from literal property templates', () => {
       expect(previewRdf).toMatch('<> <http://examples.org/bogusOntologies/literal> "borkBorkBork .') // need a way to designate this is a specific non-english language
       expect(previewRdf).toMatch('<> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://examples.org/bogusOntologies/Resource> .')
       expect(previewRdf).toMatch('<> <http://www.w3.org/ns/prov#wasGeneratedBy> "Sinopia:RT:Fixture:LiteralNoRepeatDefaultNonEnglish" .')
-      // ensure we have exactly 3 triples
-      const newLinesRegex = (/\n{3}/, 'm')
-      expect(previewRdf).toMatch(newLinesRegex)
+      expect(numLines(previewRdf)).toEqual(3)
     })
     it('defaultURI only', async () => {
       expect.assertions(6)
@@ -101,9 +91,7 @@ describe('RDF from literal property templates', () => {
       expect(previewRdf).toMatch('<> <http://examples.org/bogusOntologies/literal> <http://id.loc.gov/authorities/subjects/sh85027699> .')
       expect(previewRdf).toMatch('<> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://examples.org/bogusOntologies/Resource> .')
       expect(previewRdf).toMatch('<> <http://www.w3.org/ns/prov#wasGeneratedBy> "Sinopia:RT:Fixture:LiteralNoRepeatDefaultUriOnly" .')
-      // ensure we have exactly 3 triples
-      const newLinesRegex = (/\n{3}/, 'm')
-      expect(previewRdf).toMatch(newLinesRegex)
+      expect(numLines(previewRdf)).toEqual(3)
     })
     it('defaultURI and defaultLiteral', async () => {
       expect.assertions(6)
@@ -113,12 +101,16 @@ describe('RDF from literal property templates', () => {
       expect(previewRdf).toMatch('<> <http://examples.org/bogusOntologies/literal> <http://id.loc.gov/authorities/subjects/sh85027699> .')
       expect(previewRdf).toMatch('<> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://examples.org/bogusOntologies/Resource> .')
       expect(previewRdf).toMatch('<> <http://www.w3.org/ns/prov#wasGeneratedBy> "Sinopia:RT:Fixture:LiteralNoRepeatDefaultBoth" .')
-      // ensure we have exactly 3 triples
-      const newLinesRegex = (/\n{4}/, 'm')
-      expect(previewRdf).toMatch(newLinesRegex)
+      expect(numLines(previewRdf)).toEqual(3)
     })
   })
   it.todo('repeatable, single default value, default language') // ditto
   it.todo('repeatable, multiple default values, default language') // ditto
   it.todo('specified non-default language (would we ever need this beyond defaultLiteral)')
 })
+
+function numLines(str) {
+  const lines = str.split('\n')
+  const nonEmptyLines = lines.filter(Boolean)
+  return nonEmptyLines.length
+}
