@@ -1,0 +1,26 @@
+{
+  "id": "Sinopia:RT:Fixture:LiteralNoRepeatDefaultLiteralOnly",
+  "resourceURI": "http://examples.org/bogusOntologies/Resource",
+  "remark": "This is a sample Resource Template, content is meaningless",
+  "resourceLabel": "test literal, not repeatable, required, default literal only (no URI)",
+  "author": "Naomi Dushay",
+  "schema": "https://ld4p.github.io/sinopia/schemas/0.0.9/resource-template.json",
+  "propertyTemplates": [
+    {
+      "mandatory": "true",
+      "repeatable": "false",
+      "type": "literal",
+      "valueConstraint": {
+        "defaults": [
+          {
+            "defaultURI": "",
+            "defaultLiteral": "mydefaultvalue"
+          }
+        ],
+        "valueDataType": {}
+      },
+      "propertyLabel": "literal, not repeatable, required, default literal only, default language",
+      "propertyURI": "http://examples.org/bogusOntologies/literal"
+    }
+  ]
+}
