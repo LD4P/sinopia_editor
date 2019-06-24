@@ -1,4 +1,4 @@
-// Copyright 2018 Stanford University see LICENSE for license
+// Copyright 2019 Stanford University see LICENSE for license
 
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
@@ -20,9 +20,6 @@ export class ResourceTemplateForm extends Component {
     super(props)
     this.defaultValues()
     this.state = {
-      inputs: {},
-      nestedResourceTemplates: [],
-      ptRtIds: [],
       templateError: false,
       templateErrors: [],
     }
@@ -35,18 +32,14 @@ export class ResourceTemplateForm extends Component {
   /*
    * For each fulfillled RT retrieval promise,
    *   - dispatch loaded template to redux to be put into store
-   *   - add retrieved RT onto "nestedResourceTemplates" array in state
    */
   fulfillRTPromises = async (promiseAll) => {
     await promiseAll.then(async (rts) => {
-      const joinedRts = [...this.state.nestedResourceTemplates]
-
       rts.map((fulfilledResourceTemplateRequest) => {
-        joinedRts.push(fulfilledResourceTemplateRequest.response.body)
         // Add the resource template into the store
         store.dispatch(resourceTemplateLoaded(fulfilledResourceTemplateRequest.response.body))
       })
-      this.setState({ nestedResourceTemplates: joinedRts })
+      this.setState({ templateError: false }) // Force a re-render
     }).catch((err) => {
       this.setState({ templateError: err })
     })
@@ -168,8 +161,6 @@ export class ResourceTemplateForm extends Component {
 }
 
 ResourceTemplateForm.propTypes = {
-  literals: PropTypes.oneOfType([PropTypes.array, PropTypes.object]),
-  lookups: PropTypes.oneOfType([PropTypes.array, PropTypes.object]),
   rtId: PropTypes.string.isRequired,
   handleMyItemsChange: PropTypes.func,
   handleRemoveAllContent: PropTypes.func,
@@ -178,8 +169,6 @@ ResourceTemplateForm.propTypes = {
 }
 
 const mapStateToProps = (state, ourProps) => ({
-  literals: state.literal,
-  lookups: state.lookups,
   resourceTemplateMap: state.selectorReducer.entities.resourceTemplates,
   propertyTemplates: state.selectorReducer.entities.resourceTemplates[ourProps.rtId].propertyTemplates,
 })
