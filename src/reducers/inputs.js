@@ -152,7 +152,7 @@ export const setBaseURL = (state, action) => {
 
 /**
  * @param {Object} state the previous redux state
- * @param {Object} action the payload of the action is a boolean that says to show or not to show the preview
+ * @param {Object} action the payload of the action is the URL returned from saving the resource
  * @return {Object} the next redux state
  */
 export const showBaseURL = (state, action) => {
