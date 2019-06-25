@@ -3,7 +3,6 @@
 import React from 'react'
 import 'jsdom-global/register'
 import { shallow } from 'enzyme'
-import shortid from 'shortid'
 import ResourceTemplateForm from 'components/editor/ResourceTemplateForm'
 
 describe('<ResourceTemplateForm /> functional testing', () => {
@@ -11,8 +10,6 @@ describe('<ResourceTemplateForm /> functional testing', () => {
   const basicWrapper = shallow(<ResourceTemplateForm.WrappedComponent propertyTemplates={[]}
                                                                       rtId={'myOrg:rt:myTemplate'}
                                                                       resourceTemplate={ basicRt } />)
-
-  shortid.generate = jest.fn().mockReturnValue('abcd45')
 
   describe('resourceTemplateFields expectations and outputs', () => {
     it('empty array, null, or undefined resource templates', () => {
@@ -55,9 +52,7 @@ describe('<ResourceTemplateForm /> functional testing', () => {
       expect(result[0].props.reduxPath).toEqual([
         'resource',
         'myOrg:rt:myTemplate',
-        'http://www.w3.org/2000/01/rdf-schema#label',
-        'abcd45',
-        'resourceTemplate:bf2:Note'])
+        'http://www.w3.org/2000/01/rdf-schema#label'])
     })
   })
 })

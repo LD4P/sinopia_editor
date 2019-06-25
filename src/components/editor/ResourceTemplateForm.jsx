@@ -82,11 +82,10 @@ export class ResourceTemplateForm extends Component {
       const rt = this.rtForPt(rtId)
 
       if (rt !== undefined) { // It may not be loaded yet
-        const keyId = shortid.generate()
-        const reduxPath = ['resource', this.props.rtId, property.propertyURI, keyId, rtId]
+        const reduxPath = ['resource', this.props.rtId, property.propertyURI]
 
         rtProperties.push(<PropertyResourceTemplate
-          key={keyId}
+          key={shortid.generate()}
           isRepeatable={property.repeatable}
           resourceTemplate={rt}
           reduxPath={reduxPath} />)

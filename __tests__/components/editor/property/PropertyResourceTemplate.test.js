@@ -6,10 +6,14 @@ import { mount, shallow } from 'enzyme'
 import { PropertyActionButtons } from 'components/editor/property/PropertyActionButtons'
 import PropertyResourceTemplate from 'components/editor/property/PropertyResourceTemplate'
 import PropertyTemplateOutline from 'components/editor/property/PropertyTemplateOutline'
+import shortid from 'shortid'
 
 describe('<PropertyResourceTemplate />', () => {
+  shortid.generate = jest.fn().mockReturnValue('AE6Be-DJGj')
+
   const propertyRtProps = {
     resourceTemplate: {
+      id: 'resourceTemplate:bf2:WorkTitle',
       resourceLabel: 'Test Schema Thing Template',
       propertyTemplates: [
         {
@@ -18,7 +22,7 @@ describe('<PropertyResourceTemplate />', () => {
         },
       ],
     },
-    reduxPath: ['resourceTemplate:test'],
+    reduxPath: ['http://id.loc.gov/ontologies/bibframe/title'],
   }
 
   const wrapper = shallow(<PropertyResourceTemplate {...propertyRtProps} />)
@@ -42,9 +46,11 @@ describe('<PropertyResourceTemplate />', () => {
   })
 
   it('<PropertyTemplateOutline /> has the expected Redux path', () => {
-    expect(propTemplateOutline.props().reduxPath).toEqual(
-      ['resourceTemplate:test'],
-    )
+    expect(propTemplateOutline.props().reduxPath).toEqual([
+      'http://id.loc.gov/ontologies/bibframe/title',
+      'AE6Be-DJGj',
+      'resourceTemplate:bf2:WorkTitle',
+    ])
   })
 
   describe('<PropertyResourceTemplate /> has the "Add" button', () => {
