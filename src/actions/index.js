@@ -44,9 +44,9 @@ export const assignBaseURL = item => ({
   payload: item,
 })
 
-export const showBaseURL = item => ({
+export const showBaseURL = show => ({
   type: 'SHOW_BASE_URL',
-  payload: item,
+  payload: show,
 })
 
 export const updateStarted = () => ({
@@ -69,11 +69,6 @@ export const setLang = item => ({
 
 export const showRdfPreview = show => ({
   type: 'SHOW_RDF_PREVIEW',
-  payload: show,
-})
-
-export const showResourceURI = show => ({
-  type: 'SHOW_RESOURCE_URI',
   payload: show,
 })
 

@@ -4,28 +4,28 @@ import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import PropTypes from 'prop-types'
 
-// Renders the resource URI after Save & Publish
-const ResourceURI = (props) => {
+// Renders the base URL after Save & Publish
+const BaseURL = (props) => {
   if (!props.show) {
     return null
   }
 
   return (
     <div>
-      <h4>URI for this resource: { props.uri }</h4>
+      <h4>URI for this resource: &lt;{ props.url }&gt;</h4>
     </div>
   )
 }
 
-ResourceURI.propTypes = {
+BaseURL.propTypes = {
   show: PropTypes.bool,
   uri: PropTypes.string
 }
 
 const mapStateToProps = state => ({
-  show: state.selectorReducer.editor.resourceURI.show,
-  uri: state.selectorReducer.editor.resourceURI.uri,
+  show: state.selectorReducer.editor.baseURL.show,
+  url: state.selectorReducer.editor.baseURL.url,
 })
 
-export default connect(mapStateToProps, null)(ResourceURI)
+export default connect(mapStateToProps, null)(BaseURL)
 

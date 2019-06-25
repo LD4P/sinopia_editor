@@ -5,11 +5,10 @@ import { combineReducers } from 'redux'
 import shortid from 'shortid'
 import authenticate from './authenticate'
 import {
-  removeAllContent, removeMyItem, setItemsOrSelections, setBaseURL, setMyItemsLang,
-  showGroupChooser, closeGroupChooser, showRdfPreview, showResourceURI
+  removeAllContent, removeMyItem, setItemsOrSelections, setBaseURL, showBaseURL, setMyItemsLang,
+  showGroupChooser, closeGroupChooser, showRdfPreview
 } from './inputs'
 import { defaultLangTemplate } from 'Utilities'
-import { showBaseURL } from '../actions';
 
 /**
  * This transforms the property template default values fetched from the server into redux state
@@ -117,8 +116,6 @@ const selectorReducer = (state = {}, action) => {
       return setMyItemsLang(state, action)
     case 'SHOW_RDF_PREVIEW':
       return showRdfPreview(state, action)
-    case 'SHOW_RESOURCE_URI':
-      return showResourceURI(state, action)
     case 'RESOURCE_TEMPLATE_LOADED':
       return resourceTemplateLoaded(state, action)
     case 'REFRESH_RESOURCE_TEMPLATE':
