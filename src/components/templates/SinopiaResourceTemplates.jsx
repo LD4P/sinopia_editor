@@ -170,7 +170,7 @@ class SinopiaResourceTemplates extends Component {
       <div>
         { createResourceMessage }
         <h4>Available Resource Templates in Sinopia</h4>
-        <BootstrapTable keyField="key" data={ this.state.resourceTemplates } columns={ columns } />
+        <BootstrapTable id="resource-template-list" keyField="key" data={ this.state.resourceTemplates } columns={ columns } />
       </div>
     )
   }

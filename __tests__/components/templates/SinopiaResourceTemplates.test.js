@@ -185,6 +185,22 @@ describe('<SinopiaResourceTemplates />', () => {
     })
   })
 
+  describe('display', () => {
+    const renderRoutes = () => mount(<SinopiaResourceTemplates messages={[]}/>)
+
+    it('renders the table of resource templates with name, id, author, and guiding statement columns', () => {
+      expect.assertions(1)
+
+      const component = renderRoutes()
+      const tableHeaderCellText = component.find('table#resource-template-list th').map(thWrapper => thWrapper.text())
+      expect(tableHeaderCellText).toEqual(['Template name', 'ID', 'Author', 'Guiding statement'])
+    })
+
+    afterAll(() => {
+      renderRoutes.unmount()
+    })
+  })
+
   describe('setStateFromServerResponse()', () => {
     it('calls getResourceTemplate() once when passed a string', async () => {
       expect.assertions(2)
