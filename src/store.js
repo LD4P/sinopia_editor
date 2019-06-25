@@ -12,7 +12,7 @@ const initialState = {
       rdfPreview: {
         show: false,
       },
-      baseURL: {
+      resourceURIMessage: {
         show: false,
       },
       groupChoice: {

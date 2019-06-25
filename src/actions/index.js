@@ -44,8 +44,8 @@ export const assignBaseURL = item => ({
   payload: item,
 })
 
-export const showBaseURL = show => ({
-  type: 'SHOW_BASE_URL',
+export const showResourceURIMessage = show => ({
+  type: 'SHOW_RESOURCE_URI_MESSAGE',
   payload: show,
 })
 

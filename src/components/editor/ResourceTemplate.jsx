@@ -7,7 +7,7 @@ import ResourceTemplateForm from './ResourceTemplateForm'
 import { rootResourceTemplateLoaded } from 'actions/index'
 import { getResourceTemplate } from 'sinopiaServer'
 import { rootResource } from 'selectors/resourceSelectors'
-import BaseURL from './baseURL'
+import ResourceURIMessage from './resourceURIMessage'
 
 const _ = require('lodash')
 
@@ -51,7 +51,7 @@ class ResourceTemplate extends Component {
         <div id="resourceTemplate" style={{ marginTop: '-30px' }}>
           <section className="col-md-9">
             <h1><em>{this.props.title}</em></h1>
-            <BaseURL />
+            <ResourceURIMessage />
           </section>
           <ResourceTemplateForm rtId = {this.props.resourceTemplateId} />
         </div>

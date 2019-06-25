@@ -8,7 +8,7 @@ import PropTypes from 'prop-types'
 import GraphBuilder from 'GraphBuilder'
 import Config from 'Config'
 import {
-  closeGroupChooser, showRdfPreview, assignBaseURL, showBaseURL,
+  closeGroupChooser, showRdfPreview, assignBaseURL, showResourceURIMessage,
 } from 'actions/index'
 import { publishRDFResource } from 'sinopiaServer'
 import { getCurrentUser } from 'authSelectors'
@@ -97,7 +97,7 @@ const mapDispatchToProps = dispatch => ({
   },
   setBaseURL(url) {
     dispatch(assignBaseURL(url))
-    dispatch(showBaseURL(url))
+    dispatch(showResourceURIMessage(url))
   },
 })
 
