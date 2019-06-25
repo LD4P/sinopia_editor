@@ -1,5 +1,5 @@
 // Copyright 2018, 2019 Stanford University see LICENSE for license
-/* eslint complexity: ["warn", 13] */
+/* eslint complexity: ["warn", 14] */
 
 import { combineReducers } from 'redux'
 import shortid from 'shortid'
