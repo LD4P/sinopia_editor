@@ -12,7 +12,7 @@ describe('<ResourceTemplate />', () => {
 
   const wrapper = shallow(<ResourceTemplate.WrappedComponent resourceTemplateId="resourceTemplate:bf2:Note"
                                                              resourceTemplate={reduxState}
-                                                             handleResourceTemplate={jest.fn()}
+                                                             retrieveResourceTemplate={jest.fn()}
                                                              title="BF2 Work"/>)
 
   it('has div with class "ResourceTemplate"', () => {

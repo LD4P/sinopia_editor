@@ -1,5 +1,10 @@
 // Copyright 2019 Stanford University see LICENSE for license
 
+export const retrieveError = resourceTemplateId => ({
+  type: 'RETRIEVE_ERROR',
+  payload: resourceTemplateId,
+})
+
 export const setItems = item => ({
   type: 'SET_ITEMS',
   payload: item,
@@ -50,6 +55,11 @@ export const updateStarted = () => ({
 
 export const updateFinished = () => ({
   type: 'UPDATE_FINISHED',
+})
+
+export const retrieveResourceTemplateStarted = resourceTemplateId => ({
+  type: 'RETRIEVE_RESOURCE_TEMPLATE_STARTED',
+  payload: resourceTemplateId,
 })
 
 export const changeSelections = item => ({

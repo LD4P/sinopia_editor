@@ -1,50 +1,31 @@
-// Copyright 2018 Stanford University see LICENSE for license
+// Copyright 2019 Stanford University see LICENSE for license
 
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import PropTypes from 'prop-types'
 import ResourceTemplateForm from './ResourceTemplateForm'
-import { rootResourceTemplateLoaded } from 'actions/index'
-import { getResourceTemplate } from 'sinopiaServer'
+import { fetchRootResourceTemplate } from 'actionCreators'
 import { rootResource } from 'selectors/resourceSelectors'
-
-const _ = require('lodash')
 
 /**
  * This is the root component of the editor on the resource edit page
  */
 class ResourceTemplate extends Component {
-  constructor(props) {
-    super(props)
-    this.state = {}
-  }
-
   // Called immediately after the component is rendered for the first time
   componentDidMount() {
-    if (!this.props.resourceTemplate) {
-      this.resolveResourceTemplatePromise(getResourceTemplate(this.props.resourceTemplateId))
-    }
-  }
-
-  resolveResourceTemplatePromise = (promise) => {
-    promise.then((responseAndBody) => {
-      this.props.handleResourceTemplate(responseAndBody.response.body)
-    }).catch((error) => {
-      console.error(error)
-      this.setState({ error })
-    })
+    this.props.retrieveResourceTemplate(this.props.resourceTemplateId)
   }
 
   render() {
-    if (_.isEmpty(this.props.resourceTemplate)) {
-      let errorMessage = <span/>
+    let errorMessage = <span/>
 
-      if (this.state.error) {
-        errorMessage = <div className="alert alert-warning">Sinopia server is offline or has no resource templates to display</div>
-      }
-      return errorMessage
+    if (this.props.error) {
+      errorMessage = <div className="alert alert-warning">Sinopia server is offline or has no resource templates to display.</div>
     }
 
+    if (!this.props.resourceTemplate) {
+      return errorMessage
+    }
     return (
       <div className="ResourceTemplate">
         <div id="resourceTemplate" style={{ marginTop: '-30px' }}>
@@ -59,20 +40,21 @@ class ResourceTemplate extends Component {
 }
 
 ResourceTemplate.propTypes = {
-  handleResourceTemplate: PropTypes.func,
+  retrieveResourceTemplate: PropTypes.func,
   resourceTemplateId: PropTypes.string,
   resourceTemplate: PropTypes.object,
   title: PropTypes.string,
+  error: PropTypes.string,
 }
 
-const mapStateToProps = (state, ourProps) => ({
+const mapStateToProps = state => ({
   resourceTemplate: rootResource(state),
-  title: state.selectorReducer.entities.resourceTemplates[ourProps.resourceTemplateId]?.resourceLabel,
+  error: state.selectorReducer.editor.serverError,
 })
 
 const mapDispatchToProps = dispatch => ({
-  handleResourceTemplate(resourceTemplate) {
-    dispatch(rootResourceTemplateLoaded(resourceTemplate))
+  retrieveResourceTemplate: (resourceTemplate) => {
+    dispatch(fetchRootResourceTemplate(resourceTemplate))
   },
 })
 
