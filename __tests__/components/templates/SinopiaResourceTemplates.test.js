@@ -6,7 +6,7 @@ import { mount, shallow } from 'enzyme'
 import SinopiaResourceTemplates from 'components/templates/SinopiaResourceTemplates'
 import { getEntityTagFromGroupContainer, getResourceTemplate, listResourcesInGroupContainer } from 'sinopiaServer'
 
-jest.mock('../../../src/sinopiaServer')
+jest.mock('sinopiaServer')
 
 describe('<SinopiaResourceTemplates />', () => {
   const messages = [
