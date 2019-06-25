@@ -6,9 +6,10 @@ import shortid from 'shortid'
 import authenticate from './authenticate'
 import {
   removeAllContent, removeMyItem, setItemsOrSelections, setBaseURL, setMyItemsLang,
-  showGroupChooser, closeGroupChooser, showRdfPreview,
+  showGroupChooser, closeGroupChooser, showRdfPreview, showResourceURI
 } from './inputs'
 import { defaultLangTemplate } from 'Utilities'
+import { showBaseURL } from '../actions';
 
 /**
  * This transforms the property template default values fetched from the server into redux state
@@ -106,6 +107,8 @@ const selectorReducer = (state = {}, action) => {
       return setItemsOrSelections(state, action)
     case 'SET_BASE_URL':
       return setBaseURL(state, action)
+    case 'SHOW_BASE_URL':
+      return showBaseURL(state, action)
     case 'SHOW_GROUP_CHOOSER':
       return showGroupChooser(state, action)
     case 'CLOSE_GROUP_CHOOSER':
@@ -114,6 +117,8 @@ const selectorReducer = (state = {}, action) => {
       return setMyItemsLang(state, action)
     case 'SHOW_RDF_PREVIEW':
       return showRdfPreview(state, action)
+    case 'SHOW_RESOURCE_URI':
+      return showResourceURI(state, action)
     case 'RESOURCE_TEMPLATE_LOADED':
       return resourceTemplateLoaded(state, action)
     case 'REFRESH_RESOURCE_TEMPLATE':

@@ -5,6 +5,19 @@ import Validator from '../Validator'
 export const validate = state => new Validator(state).validate()
 
 /**
+ * Show the base URL
+ * @param {Object} state the previous redux state
+ * @return {Object} the next redux state
+ */
+export const showBaseURL = (state) => {
+  const newState = { ...state }
+
+  newState.editor.showBaseURL.show = true
+
+  return newState
+}
+
+/**
  * Open the group choice dialog if the object is valid
  * @param {Object} state the previous redux state
  * @return {Object} the next redux state
@@ -46,6 +59,19 @@ export const showRdfPreview = (state, action) => {
   const newState = { ...state }
 
   newState.editor.rdfPreview.show = action.payload
+  return newState
+}
+
+/**
+ * @param {Object} state the previous redux state
+ * @param {Object} action the payload of the action is a boolean that says to show or not to show the preview
+ * @return {Object} the next redux state
+ */
+export const showResourceURI = (state, action) => {
+  const newState = { ...state }
+
+  newState.editor.resourceURI.show = true
+  newState.editor.resourceURI.uri = action.payload
   return newState
 }
 
@@ -147,7 +173,7 @@ export const setBaseURL = (state, action) => {
   Object.values(newState.resource).forEach((value) => {
     value.resourceURI = action.payload
   })
-
+  newState.resourceURI = action.payload
   return newState
 }
 
