@@ -1,3 +1,5 @@
+// Copyright 2019 Stanford University see LICENSE for license
+
 import {
   authenticationFailure, authenticationSuccess, signOutSuccess,
   updateStarted, updateFinished,
