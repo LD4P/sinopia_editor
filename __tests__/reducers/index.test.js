@@ -228,11 +228,12 @@ describe('refreshResourceTemplate', () => {
     jest.restoreAllMocks()
   })
 
-  it('passing a payload to an empty state', () => {
+  it('passing a payload to an empty resource state', () => {
     const emptyStateResult = refreshResourceTemplate(initialState.selectorReducer, {
       type: 'REFRESH_RESOURCE_TEMPLATE',
       payload: {
         reduxPath: ['resource', 'resourceTemplate:bf2:Monograph:Work', 'http://sinopia.io/example'],
+        property: {},
       },
     })
 
@@ -270,6 +271,7 @@ describe('refreshResourceTemplate', () => {
       type: 'REFRESH_RESOURCE_TEMPLATE',
       payload: {
         reduxPath: ['resource', 'resourceTemplate:bf2:Monograph:Work', 'http://sinopia.io/next_example'],
+        property: {},
       },
     })
 
@@ -330,19 +332,18 @@ describe('refreshResourceTemplate', () => {
 })
 
 describe('populatePropertyDefaults()', () => {
-  it('empty and undefined properties return empty array', () => {
-    const undefinedResult = populatePropertyDefaults()
-
-    expect(undefinedResult).toStrictEqual([])
-    const nullResult = populatePropertyDefaults(null)
-
-    expect(nullResult).toStrictEqual([])
+  it('empty properties return empty defaults', () => {
     const emptyObjectResult = populatePropertyDefaults({})
 
-    expect(emptyObjectResult).toStrictEqual([])
+    expect(emptyObjectResult).toStrictEqual({})
   })
 
-  it('propertyTemplate without defaults returns empty array', () => {
+  it('propertyTemplate with refs returns a structure', () => {
+    shortid.generate = jest.fn()
+      .mockReturnValueOnce('BQ7BO4Lho')
+      .mockReturnValueOnce('Jarec4Nf4i')
+      .mockReturnValueOnce('ozm5S0nlu0')
+
     const simpleProperty = populatePropertyDefaults(
       {
         mandatory: 'false',
@@ -363,10 +364,21 @@ describe('populatePropertyDefaults()', () => {
       },
     )
 
-    expect(simpleProperty).toStrictEqual([])
+    expect(simpleProperty).toStrictEqual({
+      BQ7BO4Lho: {
+        'resourceTemplate:bf2:Identifiers:LC': {},
+      },
+      Jarec4Nf4i: {
+        'resourceTemplate:bf2:Identifiers:DDC': {},
+      },
+      ozm5S0nlu0: {
+        'resourceTemplate:bf2:Identifiers:Shelfmark': {},
+      },
+    })
   })
 
-  it('tests propertyTemplate with defaults returns array with object containing default values', () => {
+  it('tests propertyTemplate with defaults returns object containing default values', () => {
+    shortid.generate = jest.fn().mockReturnValue(0)
     const propertyWithDefaults = populatePropertyDefaults(
       {
         propertyLabel: 'LITERAL WITH DEFAULT',
@@ -391,17 +403,19 @@ describe('populatePropertyDefaults()', () => {
       },
     )
 
-    expect(propertyWithDefaults).toStrictEqual([{
-      content: 'DLC',
-      id: 0,
-      lang: {
-        items: [{
-          id: 'en',
-          label: 'English',
-        }],
-      },
-      uri: 'http://id.loc.gov/vocabulary/organizations/dlc',
-    }])
+    expect(propertyWithDefaults).toStrictEqual({
+      items: [{
+        content: 'DLC',
+        id: 0,
+        lang: {
+          items: [{
+            id: 'en',
+            label: 'English',
+          }],
+        },
+        uri: 'http://id.loc.gov/vocabulary/organizations/dlc',
+      }],
+    })
   })
 })
 

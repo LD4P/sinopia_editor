@@ -21,7 +21,7 @@ describe('Previewing the RDF', () => {
     await pupExpect(page).toMatch('RDF Preview')
     const rdfOut = await page.$eval('pre', e => e.textContent) // Copy the text from the modal into a variable
 
-    // Verify that the values entered in previewRDFSetup show up in the generated graph
+    // Verify that the values entered in fillInRequredFieldsForBibframeInstance show up in the generated graph
     await expect(rdfOut).toMatch('Hello')
     await expect(rdfOut).toMatch('World')
     await expect(rdfOut).toMatch('http://id.loc.gov/authorities/subjects/sh85127327') // This is the Stanford family URI

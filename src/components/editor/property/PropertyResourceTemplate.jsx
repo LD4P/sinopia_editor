@@ -1,7 +1,8 @@
 // Copyright 2019 Stanford University see LICENSE for license
 
-import React, { Component } from 'react'
-import shortid from 'shortid'
+import React, { Component, Fragment } from 'react'
+import { connect } from 'react-redux'
+import { findNode } from 'selectors/resourceSelectors'
 import PropTypes from 'prop-types'
 import PropertyActionButtons from './PropertyActionButtons'
 import PropertyTemplateOutline from './PropertyTemplateOutline'
@@ -38,62 +39,55 @@ import PropertyTemplateOutline from './PropertyTemplateOutline'
  *  resourceTemplate.id
  */
 class PropertyResourceTemplate extends Component {
-  constructor(props) {
-    super(props)
-    this.state = {
-      output: this.populatePropertyTemplates(),
-    }
+  populatePropertyTemplates(keyId) {
+    return this.props.resourceTemplate.propertyTemplates.map((property) => {
+      /*
+       * Add the generated id so that this is a new resource.
+       * The redux path will be something like ..., "kV5fjX2b1", "resourceTemplate:bf2:Monograph:Work"
+       */
+      const reduxPath = [...this.props.reduxPath, keyId, this.props.resourceTemplate.id]
+
+      return (<PropertyTemplateOutline
+                      propertyTemplate={property}
+                      rtId={this.props.resourceTemplate.id}
+                      reduxPath={reduxPath}
+                      key={keyId + property.propertyURI} />)
+    })
   }
 
-  handleAddClick = (event) => {
-    event.preventDefault()
-    const existingOutputs = [...this.state.output]
-
-    existingOutputs.push(<h4 key={shortid.generate()}>{this.props.resourceTemplate.resourceLabel}</h4>)
-
-    const result = this.populatePropertyTemplates()
-
-    this.setState({ output: existingOutputs.concat(result) })
-  }
-
-  populatePropertyTemplates = () => this.props.resourceTemplate.propertyTemplates.map((property) => {
-    const keyId = shortid.generate()
-
-    /*
-     * Add the generated id so that this is a new resource.
-     * The redux path will be something like ..., "kV5fjX2b1", "resourceTemplate:bf2:Monograph:Work"
-     */
-    const reduxPath = [...this.props.reduxPath, keyId, this.props.resourceTemplate.id]
-
-    return (<PropertyTemplateOutline
-                    propertyTemplate={property}
-                    rtId={this.props.resourceTemplate.id}
-                    reduxPath={reduxPath}
-                    key={keyId} />)
-  })
-
-  render() {
-    // repeatable defaults to false, so isAddDisabled defaults to true
+  firstHeader() {
     const isAddDisabled = this.props.isRepeatable ? !JSON.parse(this.props.isRepeatable) : true
-
-    return (<div>
-      <div className="row" key={shortid.generate()}>
+    return (
+      <div className="row">
         <section className="col-md-10">
           <h4>{this.props.resourceTemplate.resourceLabel}</h4>
         </section>
         <section className="col-md-2">
           <PropertyActionButtons
-            handleAddClick={this.handleAddClick}
             addButtonDisabled={isAddDisabled}
             reduxPath={this.props.reduxPath}
-            key={shortid.generate()} />
+            resourceTemplateId={this.props.resourceTemplate.id} />
         </section>
       </div>
-      <div>
-        { this.state.output }
-      </div>
-    </div>
     )
+  }
+
+  secondHeader() {
+    return (
+      <div className="row">
+        <section className="col-md-12">
+          <h4>{this.props.resourceTemplate.resourceLabel}</h4>
+        </section>
+      </div>
+    )
+  }
+
+  render() {
+    // repeatable defaults to false, so isAddDisabled defaults to true
+    return this.props.models.map((identifier, index) => {
+      const header = index === 0 ? this.firstHeader() : this.secondHeader()
+      return (<Fragment key={identifier}>{header}{this.populatePropertyTemplates(identifier)}</Fragment>)
+    })
   }
 }
 
@@ -101,6 +95,16 @@ PropertyResourceTemplate.propTypes = {
   isRepeatable: PropTypes.string,
   reduxPath: PropTypes.array,
   resourceTemplate: PropTypes.object,
+  models: PropTypes.array,
 }
 
-export default PropertyResourceTemplate
+const mapStateToProps = (state, ourProps) => {
+  const node = findNode(state.selectorReducer, ourProps.reduxPath)
+  const candidates = Object.keys(node)
+  const models = candidates.filter(id => Object.keys(node[id])[0] === ourProps.resourceTemplate.id)
+  return {
+    models,
+  }
+}
+
+export default connect(mapStateToProps)(PropertyResourceTemplate)

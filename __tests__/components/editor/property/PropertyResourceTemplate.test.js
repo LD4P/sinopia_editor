@@ -2,7 +2,7 @@
 
 import React from 'react'
 import 'jsdom-global/register'
-import { mount, shallow } from 'enzyme'
+import { shallow } from 'enzyme'
 import PropertyActionButtons from 'components/editor/property/PropertyActionButtons'
 import PropertyResourceTemplate from 'components/editor/property/PropertyResourceTemplate'
 import PropertyTemplateOutline from 'components/editor/property/PropertyTemplateOutline'
@@ -23,9 +23,10 @@ describe('<PropertyResourceTemplate />', () => {
       ],
     },
     reduxPath: ['http://id.loc.gov/ontologies/bibframe/title'],
+    models: ['AE6Be-DJGj'],
   }
 
-  const wrapper = shallow(<PropertyResourceTemplate {...propertyRtProps} />)
+  const wrapper = shallow(<PropertyResourceTemplate.WrappedComponent {...propertyRtProps} />)
   const propTemplateOutline = wrapper.find(PropertyTemplateOutline)
 
   // Make sure spies/mocks don't leak between tests
@@ -54,30 +55,23 @@ describe('<PropertyResourceTemplate />', () => {
   })
 
   describe('<PropertyResourceTemplate /> has the "Add" button', () => {
-    const wrapper = shallow(<PropertyResourceTemplate {...propertyRtProps} />)
+    const wrapper = shallow(<PropertyResourceTemplate.WrappedComponent {...propertyRtProps} />)
     const actionButtons = wrapper.find(PropertyActionButtons)
 
     it('Contains a PropertyActionButtons component', () => {
       expect(actionButtons).toBeTruthy()
     })
-
-    it('handles "Add" button click', () => {
-      const addEvent = { preventDefault: jest.fn() }
-
-      actionButtons.props().handleAddClick(addEvent)
-      expect(addEvent.preventDefault.mock.calls.length).toBe(1)
-    })
   })
 
   describe('<PropertyActionButtons /> addButtonDisabled prop value', () => {
     it('isRepeatable false:  addButtonDisabled prop is true', () => {
-      const wrapper = mount(<PropertyResourceTemplate isRepeatable={'false'} {...propertyRtProps} />)
+      const wrapper = shallow(<PropertyResourceTemplate.WrappedComponent isRepeatable={'false'} {...propertyRtProps} />)
       const actionButtons = wrapper.find(PropertyActionButtons)
 
       expect(actionButtons.props().addButtonDisabled).toBeTruthy()
     })
     it('isRepeatable true:  addButtonDisabled prop is false', () => {
-      const wrapper = mount(<PropertyResourceTemplate isRepeatable={'true'} {...propertyRtProps} />)
+      const wrapper = shallow(<PropertyResourceTemplate.WrappedComponent isRepeatable={'true'} {...propertyRtProps} />)
       const actionButtons = wrapper.find(PropertyActionButtons)
 
       expect(actionButtons.props().addButtonDisabled).toBeFalsy()

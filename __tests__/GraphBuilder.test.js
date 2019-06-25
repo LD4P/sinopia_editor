@@ -252,4 +252,43 @@ describe('GraphBuilder', () => {
       expect(graph.has(typeTriple)).toBeTruthy()
     })
   })
+
+  describe('when there is a nested resource that refers to a template that is not loaded', () => {
+    const state = {
+      entities: {
+        resourceTemplates: {
+          'resourceTemplate:bf2:Monograph:Work': {
+            resourceURI: 'http://id.loc.gov/ontologies/bibframe/Work',
+          },
+        },
+      },
+      resource: {
+        'resourceTemplate:bf2:Monograph:Work': {
+          'http://id.loc.gov/ontologies/bibframe/note': {
+            '4WtFlJb_8g_': {
+              'resourceTemplate:bf2:Title:Note': {}
+            },
+          },
+        },
+      },
+    }
+
+    const builder = new GraphBuilder(state)
+
+
+    it('returns the graph', () => {
+      const graph = builder.graph
+
+      const typeTriple = rdf.quad(rdf.namedNode(''),
+        rdf.namedNode('http://www.w3.org/1999/02/22-rdf-syntax-ns#type'),
+        rdf.namedNode('http://id.loc.gov/ontologies/bibframe/Work'))
+      const generatedByTriple = rdf.quad(rdf.namedNode(''),
+        rdf.namedNode('http://www.w3.org/ns/prov#wasGeneratedBy'),
+        rdf.literal('resourceTemplate:bf2:Monograph:Work'))
+
+      expect(graph.has(typeTriple)).toBeTruthy()
+      expect(graph.has(generatedByTriple)).toBeTruthy()
+      expect(graph.length).toEqual(2) // only those two triples should show up.
+    })
+  })
 })

@@ -13,6 +13,7 @@ export async function fillInRequredFieldsForBibframeInstance() {
 
   // Fill in required element
   await page.click('a[data-id=\'mainTitle\']')
+  await page.waitForSelector('[placeholder=\'Preferred Title for Work (RDA 6.2.2, RDA 6.14.2) (BIBFRAME: Main title)\']')
   await page.type('[placeholder=\'Preferred Title for Work (RDA 6.2.2, RDA 6.14.2) (BIBFRAME: Main title)\']', 'Hello')
   await page.keyboard.press('Enter')
 

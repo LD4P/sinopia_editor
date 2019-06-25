@@ -25,8 +25,10 @@ export default class GraphBuilder {
     Object.keys(resource).forEach((resourceTemplateId) => {
       // If the resourceURI is not in the state, then this is an unsaved resource and we want a relative URI to use as the base
       const resourceURI = rdf.namedNode(resource[resourceTemplateId].resourceURI || '')
+      const resourceClass = this.getResourceTemplateClass(resourceTemplateId)
 
       this.buildTriplesForNode(resourceURI,
+        resourceClass,
         resourceTemplateId,
         this.getPredicateList(resource[resourceTemplateId]))
     })
@@ -34,10 +36,13 @@ export default class GraphBuilder {
   }
 
   /**
-   * @return {string} a string containing a uri for the class
+   * @return {string} a string containing a uri for the class, or undefined when
+   *   the class hasn't been loaded.  This can occur when there is a property
+   *   that has a template ref, and that ref was never loaded because the
+   *   property in the tree wasn't expanded
    */
   getResourceTemplateClass(resourceTemplateId) {
-    return this.state.entities.resourceTemplates[resourceTemplateId].resourceURI
+    return this.state.entities.resourceTemplates[resourceTemplateId]?.resourceURI
   }
 
   /**
@@ -57,19 +62,32 @@ export default class GraphBuilder {
   }
 
   /**
-   * @param {rdf.Term} baseURI
    * @param {Object} value looks something like this:
    *   { 'resourceTemplate:bf2:WorkTitle':
    *     { 'http://id.loc.gov/ontologies/bibframe/mainTitle': {},
    *       'http://id.loc.gov/ontologies/bibframe/partName': {} } }
+   *
+   * @return {rdf.Term} if nested object was found
    */
-  buildTriplesForNestedObject(baseURI, value) {
+  buildTriplesForNestedObject(value) {
     // Is there ever more than one base node?
-    Object.keys(value).forEach((resourceTemplateId) => {
+    const results = Object.keys(value).map((resourceTemplateId) => {
+      const resourceClass = this.getResourceTemplateClass(resourceTemplateId)
+
+      if (!resourceClass) {
+        return
+      }
+
+      const baseURI = rdf.blankNode()
+
       this.buildTriplesForNode(baseURI,
+        resourceClass,
         resourceTemplateId,
         this.getPredicateList(value[resourceTemplateId]))
+      return baseURI
     })
+
+    return results[0]
   }
 
   /**
@@ -77,13 +95,8 @@ export default class GraphBuilder {
    * @param {string} resourceTemplateId the identifier of the resource template
    * @param {Array.<Object>}
    */
-  buildTriplesForNode(baseURI, resourceTemplateId, predicateList) {
-    const type = this.getResourceTemplateClass(resourceTemplateId)
-
-    if (type) {
-      this.addTypeTriple(baseURI, rdf.namedNode(type))
-    }
-
+  buildTriplesForNode(baseURI, resourceClass, resourceTemplateId, predicateList) {
+    this.addTypeTriple(baseURI, rdf.namedNode(resourceClass))
     this.addGeneratedByTriple(baseURI, resourceTemplateId)
 
     // Now add all the other properties
@@ -102,10 +115,10 @@ export default class GraphBuilder {
       } else { // It's a deeply nested object
         Object.keys(value).filter(elem => elem !== 'errors').forEach((key) => {
           const nestedValue = value[key]
-          const bnode = rdf.blankNode()
-
-          this.dataset.add(rdf.quad(baseURI, rdf.namedNode(predicate), bnode))
-          this.buildTriplesForNestedObject(bnode, nestedValue)
+          const bnode = this.buildTriplesForNestedObject(nestedValue)
+          if (bnode) {
+            this.dataset.add(rdf.quad(baseURI, rdf.namedNode(predicate), bnode))
+          }
         })
       }
     }

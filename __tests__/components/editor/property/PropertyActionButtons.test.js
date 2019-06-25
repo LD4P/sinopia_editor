@@ -8,7 +8,7 @@ describe('<PropertyActionButtons />', () => {
   const mockAddClick = jest.fn()
   let propertyActionWrapper
   beforeEach(() => {
-    propertyActionWrapper = shallow(<PropertyActionButtons handleAddClick={mockAddClick}/>)
+    propertyActionWrapper = shallow(<PropertyActionButtons.WrappedComponent handleAddClick={mockAddClick}/>)
   })
 
   describe('Add Button', () => {
@@ -27,7 +27,7 @@ describe('<PropertyActionButtons />', () => {
 
     describe('when addButtonDisabled is true', () => {
       beforeEach(() => {
-        propertyActionWrapper = shallow(<PropertyActionButtons addButtonDisabled={true}/>)
+        propertyActionWrapper = shallow(<PropertyActionButtons.WrappedComponent addButtonDisabled={true}/>)
         button = propertyActionWrapper.find('button')
       })
 

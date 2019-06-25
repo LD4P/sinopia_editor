@@ -10,6 +10,14 @@ export const setItems = item => ({
   payload: item,
 })
 
+export const addResource = (reduxPath, resourceTemplateId) => ({
+  type: 'ADD_RESOURCE',
+  payload: {
+    reduxPath,
+    resourceTemplateId,
+  },
+})
+
 export const showGroupChooser = show => ({
   type: 'SHOW_GROUP_CHOOSER',
   payload: show,

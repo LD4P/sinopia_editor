@@ -83,7 +83,8 @@ describe('<PropertyTemplateOutline />', () => {
   })
 
   describe('Nested property components', () => {
-    const wrapper = shallow(<PropertyTemplateOutline {...propertyRtProps} />)
+    const wrapper = shallow(<PropertyTemplateOutline {...propertyRtProps}
+                                                     reduxPath={['http://id.loc.gov/ontologies/bibframe/heldBy']}/>)
 
     it('sets the state with a collection of nested resourceTemplates', async () => {
       expect.assertions(2)
@@ -116,19 +117,21 @@ describe('<PropertyTemplateOutline />', () => {
       const resourceTypePropTemp = { ...propertyRtProps }
 
       resourceTypePropTemp.propertyTemplate.repeatable = 'false'
-      const myWrapper = shallow(<PropertyTemplateOutline {...resourceTypePropTemp} />)
-
+      const myWrapper = shallow(<PropertyTemplateOutline {...resourceTypePropTemp}
+                                                         reduxPath={['http://id.loc.gov/ontologies/bibframe/heldBy']}/>)
       myWrapper.setState({ collapsed: false })
       myWrapper.instance().addPropertyTypeRows(resourceTypePropTemp.propertyTemplate)
       const resourceProperty = myWrapper.find(ResourceProperty)
 
       expect(resourceProperty.props().addButtonDisabled).toEqual(true)
     })
+
     it('"Add" button enabled for outer propertyTemplate without repeatable indicated', () => {
       const resourceTypePropTemp = { ...propertyRtProps }
 
       delete resourceTypePropTemp.propertyTemplate.repeatable
-      const myWrapper = shallow(<PropertyTemplateOutline {...resourceTypePropTemp} />)
+      const myWrapper = shallow(<PropertyTemplateOutline {...resourceTypePropTemp}
+                                                         reduxPath={['http://id.loc.gov/ontologies/bibframe/heldBy']}/>)
 
       myWrapper.setState({ collapsed: false })
       myWrapper.instance().addPropertyTypeRows(resourceTypePropTemp.propertyTemplate)

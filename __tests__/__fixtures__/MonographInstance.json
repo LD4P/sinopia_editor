@@ -133,12 +133,7 @@
       "resourceTemplates": [],
       "type": "resource",
       "valueConstraint": {
-        "defaults": [
-          {
-            "defaultLiteral": "DEFAULT",
-            "defaultURI": "http://default"
-          }
-        ],
+        "defaults": [ ],
         "editable": "true",
         "remark": "REMARK",
         "repeatable": "false",

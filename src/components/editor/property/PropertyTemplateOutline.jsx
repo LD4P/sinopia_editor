@@ -30,6 +30,7 @@ export class PropertyTemplateOutline extends Component {
     return classNames
   }
 
+/* TODO: This has to move to ADD_RESOURCE */
   handleAddClick = (event) => {
     event.preventDefault()
     this.addPropertyTypeRows(this.props.propertyTemplate)
@@ -73,12 +74,10 @@ export class PropertyTemplateOutline extends Component {
 
     if (isResourceWithValueTemplateRef(property)) {
       const isAddDisabled = !booleanPropertyFromTemplate(property, 'repeatable', false) || newOutput.length > 0
-
       propertyJsx = <ResourceProperty key={shortid.generate()}
                                       propertyTemplate={property}
-                                      reduxPath={this.props.reduxPath}
+                                      reduxPath={[...this.props.reduxPath, property.propertyURI]}
                                       nestedResourceTemplates={this.state.nestedResourceTemplates}
-                                      handleAddClick={this.handleAddClick}
                                       addButtonDisabled={isAddDisabled} />
     } else {
       propertyJsx = <PropertyComponent key={shortid.generate()} propertyTemplate={property} reduxPath={this.props.reduxPath} />

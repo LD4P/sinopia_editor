@@ -2,6 +2,7 @@
 
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
+import { findNode } from 'selectors/resourceSelectors'
 import PropTypes from 'prop-types'
 import shortid from 'shortid'
 import PropertyActionButtons from './PropertyActionButtons'
@@ -32,12 +33,8 @@ export class ResourceProperty extends Component {
       const resourceTemplate = _.find(this.props.nestedResourceTemplates, ['id', rtId])
       const resourceKeyId = shortid.generate()
       const newReduxPath = Object.assign([], this.props.reduxPath)
-
-      newReduxPath.push(this.props.propertyTemplate.propertyURI)
-
       newReduxPath.push(resourceKeyId)
       newReduxPath.push(rtId)
-
       if (resourceTemplate === undefined) {
         return jsx.push(
           <div className="alert alert-warning" key={rtId}>
@@ -45,24 +42,21 @@ export class ResourceProperty extends Component {
           </div>,
         )
       }
-
       jsx.push(
         <div className="row" key={shortid.generate()}>
           <section className="col-sm-8">
             <h5>{resourceTemplate.resourceLabel}</h5>
           </section>
           <section className="col-sm-4">
-            <PropertyActionButtons handleAddClick={this.props.handleAddClick}
-                                   reduxPath={this.props.reduxPath}
+            <PropertyActionButtons reduxPath={[...this.props.reduxPath]}
                                    addButtonDisabled={this.props.addButtonDisabled}
-                                   key={resourceKeyId} />
+                                   resourceTemplateId={rtId} />
           </section>
         </div>,
       )
       resourceTemplate.propertyTemplates.map((rtProperty) => {
         const keyId = shortid.generate()
         const propertyReduxPath = Object.assign([], newReduxPath)
-
         propertyReduxPath.push(rtProperty.propertyURI)
         const payload = { reduxPath: propertyReduxPath, property: rtProperty }
         this.dispatchPayloads.push(payload)
@@ -98,11 +92,28 @@ ResourceProperty.propTypes = {
   nestedResourceTemplates: PropTypes.array,
   propertyTemplate: PropTypes.object,
   reduxPath: PropTypes.array,
+  models: PropTypes.array,
 }
+const mapStateToProps = (state, ourProps) => {
+  console.log('our props')
+  console.log(ourProps.reduxPath)
+  const node = findNode(state.selectorReducer, ourProps.reduxPath)
+  const candidates = Object.keys(node)
+  console.log('candida')
+  console.log(candidates)
+  const models = candidates.filter(id => ourProps.propertyTemplate.valueConstraint.valueTemplateRefs.includes(Object.keys(node[id])[0]))
+  console.log("models: ")
+  console.log(models)
+  // const models = candidates.filter(id => Object.keys(node[id])[0] === ourProps.resourceTemplate.id)
+  // return {
+  //   models,
+  // }
+}
+
 const mapDispatchToProps = dispatch => ({
   initNewResourceTemplate(rtContext) {
     dispatch(refreshResourceTemplate(rtContext))
   },
 })
 
-export default connect(null, mapDispatchToProps)(ResourceProperty)
+export default connect(mapStateToProps, mapDispatchToProps)(ResourceProperty)

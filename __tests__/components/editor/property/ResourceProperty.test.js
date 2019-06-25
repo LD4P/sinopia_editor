@@ -40,7 +40,7 @@ describe('<ResourceProperty />', () => {
 
     const wrapper = shallow(<ResourceProperty.WrappedComponent
               propertyTemplate={property}
-              reduxPath={[]}
+              reduxPath={['http://id.loc.gov/ontologies/bibframe/note']}
               nestedResourceTemplates={nestedRTs}
               initNewResourceTemplate={mockInitNewResourceTemplate}
               handleAddClick={jest.fn()} />)
@@ -100,7 +100,7 @@ describe('<ResourceProperty />', () => {
 
     const wrapper = shallow(<ResourceProperty.WrappedComponent
                               propertyTemplate={propertyWithMissingRef}
-                              reduxPath={[]}
+                              reduxPath={['http://id.loc.gov/ontologies/bibframe/note']}
                               nestedResourceTemplates={nestedRTsWithoutMissingRef}
                               initNewResourceTemplate={mockInitNewResourceTemplate2}
                               handleAddClick={jest.fn()} />)

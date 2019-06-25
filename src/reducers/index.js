@@ -1,5 +1,5 @@
 // Copyright 2018, 2019 Stanford University see LICENSE for license
-/* eslint complexity: ["warn", 14] */
+/* eslint complexity: ["warn", 15] */
 
 import { combineReducers } from 'redux'
 import shortid from 'shortid'
@@ -8,21 +8,39 @@ import {
   removeAllContent, removeMyItem, setItemsOrSelections, setBaseURL, setMyItemsLang,
   showGroupChooser, closeGroupChooser, showRdfPreview,
 } from './inputs'
-
+import { findNode } from 'selectors/resourceSelectors'
 import { defaultLangTemplate } from 'Utilities'
 
 /**
- * This transforms the property template default values fetched from the server into redux state
+ * This transforms the property template default values and and template references
+ * fetched from the server into redux state
  */
 export const populatePropertyDefaults = (propertyTemplate) => {
-  const defaults = propertyTemplate?.valueConstraint?.defaults || []
+  const valueConstraints = propertyTemplate.valueConstraint
 
-  return defaults.map(row => ({
-    id: makeShortID(),
+  if (!valueConstraints) {
+    return {}
+  }
+
+  const templateDefaults = valueConstraints.defaults || []
+  const defaultItems = templateDefaults.map(row => ({
+    id: shortid.generate(),
     content: row.defaultLiteral,
     uri: row.defaultURI,
     lang: defaultLangTemplate(),
   }))
+  if (defaultItems.length > 0) {
+    return { items: defaultItems }
+  }
+
+  const templateRefs = valueConstraints.valueTemplateRefs || []
+  const propertyDefaults = {}
+
+  templateRefs.forEach((ref) => {
+    propertyDefaults[shortid.generate()] = { [ref]: {} }
+  })
+
+  return propertyDefaults
 }
 
 /**
@@ -40,6 +58,7 @@ export const populatePropertyDefaults = (propertyTemplate) => {
 export const refreshResourceTemplate = (state, action) => {
   const resourceTemplateId = Object.keys(state.resource).pop()
   const newResource = resourceTemplateId ? { [resourceTemplateId]: state.resource[resourceTemplateId] } : {}
+
   const newState = { ...state, resource: newResource }
   const reduxPath = action.payload.reduxPath
   const propertyTemplate = action.payload.property
@@ -48,15 +67,9 @@ export const refreshResourceTemplate = (state, action) => {
     return newState
   }
   const defaults = populatePropertyDefaults(propertyTemplate)
-  const items = defaults.length > 0 ? { items: defaults } : {}
-  const lastKey = reduxPath.pop()
+  const propertyKey = reduxPath.pop()
   const lastObject = reduxPath.reduce((newState, key) => newState[key] = newState[key] || {}, newState)
-
-  if (Object.keys(items).includes('items')) {
-    lastObject[lastKey] = items
-  } else {
-    lastObject[lastKey] = {}
-  }
+  lastObject[propertyKey] = defaults
 
   return newState
 }
@@ -96,7 +109,18 @@ export const resourceTemplateLoaded = (state, action) => {
   return newState
 }
 
-export const makeShortID = () => shortid.generate()
+/**
+ * Create a generated id so that this is a new resource.
+ * The redux path will be something like ..., "kV5fjX2b1", "resourceTemplate:bf2:Monograph:Work"
+ */
+export const addResource = (state, action) => {
+  const payload = action.payload
+  const newState = { ...state }
+  const rootNode = findNode(newState, payload.reduxPath)
+  // TODO: Its possible that this should be addPropertyTypeRows
+  rootNode[shortid.generate()] = { [payload.resourceTemplateId]: {} }
+  return newState
+}
 
 const setRetrieveError = (state, action) => {
   const resourceTemplateId = action.payload
@@ -110,6 +134,8 @@ const selectorReducer = (state = {}, action) => {
   switch (action.type) {
     case 'ROOT_RESOURCE_TEMPLATE_LOADED':
       return rootResourceTemplateLoaded(state, action)
+    case 'ADD_RESOURCE':
+      return addResource(state, action)
     case 'SET_ITEMS':
     case 'CHANGE_SELECTIONS':
       return setItemsOrSelections(state, action)
