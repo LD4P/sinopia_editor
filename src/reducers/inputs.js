@@ -147,7 +147,6 @@ export const setBaseURL = (state, action) => {
   Object.values(newState.resource).forEach((value) => {
     value.resourceURI = action.payload
   })
-  newState.resourceURI = action.payload
   return newState
 }
 
