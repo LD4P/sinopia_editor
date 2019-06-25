@@ -3,7 +3,7 @@
 import React from 'react'
 import 'jsdom-global/register'
 import { mount, shallow } from 'enzyme'
-import { PropertyActionButtons } from 'components/editor/property/PropertyActionButtons'
+import PropertyActionButtons from 'components/editor/property/PropertyActionButtons'
 import PropertyResourceTemplate from 'components/editor/property/PropertyResourceTemplate'
 import PropertyTemplateOutline from 'components/editor/property/PropertyTemplateOutline'
 

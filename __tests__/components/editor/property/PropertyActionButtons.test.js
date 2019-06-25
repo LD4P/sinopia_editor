@@ -2,40 +2,42 @@
 
 import React from 'react'
 import { shallow } from 'enzyme'
-
-import { AddButton, PropertyActionButtons } from 'components/editor/property/PropertyActionButtons'
-
-describe('<AddButton />', () => {
-  const addButtonWrapper = shallow(<AddButton />)
-
-  it('has label "Add"', () => {
-    expect(addButtonWrapper.text()).toEqual('Add')
-  })
-
-  it('is not disabled by default', () => {
-    expect(addButtonWrapper.instance().props.isDisabled).toBeFalsy()
-  })
-
-  it('is disabled if isDisabled prop is true', () => {
-    const disabledAddButtonWrapper = shallow(<AddButton isDisabled={true} />)
-
-    expect(disabledAddButtonWrapper.instance().props.isDisabled).toBeTruthy()
-  })
-})
+import PropertyActionButtons from 'components/editor/property/PropertyActionButtons'
 
 describe('<PropertyActionButtons />', () => {
   const mockAddClick = jest.fn()
-  const propertyActionWrapper = shallow(<PropertyActionButtons handleAddClick={mockAddClick}/>)
+  let propertyActionWrapper
+  beforeEach(() => {
+    propertyActionWrapper = shallow(<PropertyActionButtons handleAddClick={mockAddClick}/>)
+  })
 
   describe('Add Button', () => {
-    const addButton = propertyActionWrapper.find(AddButton)
+    let button
+    beforeEach(() => {
+      button = propertyActionWrapper.find('button')
+    })
 
-    it('contains AddButton', () => {
-      expect(addButton).toBeTruthy()
+    it('has label "Add"', () => {
+      expect(button.text()).toEqual('Add')
+    })
+
+    it('is not disabled by default', () => {
+      expect(button.prop('disabled')).toBeUndefined()
+    })
+
+    describe('when addButtonDisabled is true', () => {
+      beforeEach(() => {
+        propertyActionWrapper = shallow(<PropertyActionButtons addButtonDisabled={true}/>)
+        button = propertyActionWrapper.find('button')
+      })
+
+      it('is set to disabled', () => {
+        expect(button.prop('disabled')).toBe(true)
+      })
     })
 
     it('Add button responds when clicked', () => {
-      addButton.simulate('click')
+      button.simulate('click')
       expect(mockAddClick).toHaveBeenCalledTimes(1)
     })
   })
