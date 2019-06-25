@@ -41,7 +41,6 @@ class PropertyResourceTemplate extends Component {
   constructor(props) {
     super(props)
     this.state = {
-      collapse: false,
       output: this.populatePropertyTemplates(),
     }
   }
