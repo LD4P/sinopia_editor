@@ -1,6 +1,6 @@
 // Copyright 2018 Stanford University see LICENSE for license
 
-import React, { Component } from 'react'
+import React from 'react'
 import { connect } from 'react-redux'
 import PropTypes from 'prop-types'
 
@@ -19,7 +19,7 @@ const BaseURL = (props) => {
 
 BaseURL.propTypes = {
   show: PropTypes.bool,
-  uri: PropTypes.string
+  url: PropTypes.string,
 }
 
 const mapStateToProps = state => ({
@@ -28,4 +28,3 @@ const mapStateToProps = state => ({
 })
 
 export default connect(mapStateToProps, null)(BaseURL)
-

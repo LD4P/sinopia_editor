@@ -6,7 +6,7 @@ import shortid from 'shortid'
 import authenticate from './authenticate'
 import {
   removeAllContent, removeMyItem, setItemsOrSelections, setBaseURL, showBaseURL, setMyItemsLang,
-  showGroupChooser, closeGroupChooser, showRdfPreview
+  showGroupChooser, closeGroupChooser, showRdfPreview,
 } from './inputs'
 import { defaultLangTemplate } from 'Utilities'
 
