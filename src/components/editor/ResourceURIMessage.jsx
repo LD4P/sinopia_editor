@@ -1,4 +1,4 @@
-// Copyright 2018 Stanford University see LICENSE for license
+// Copyright 2019 Stanford University see LICENSE for license
 
 import React from 'react'
 import { connect } from 'react-redux'
@@ -6,19 +6,15 @@ import PropTypes from 'prop-types'
 
 // Renders the resource URI message after Save & Publish
 const ResourceURIMessage = (props) => {
-  if (!props.show) {
+  if (!props.show || !props.uri) {
     return null
   }
 
-  if (props.uri) {
-    return (
-      <div>
-        <h4>URI for this resource: &lt;{ props.uri }&gt;</h4>
-      </div>
-    )
-  }
-
-  return null
+  return (
+    <div>
+      <h4>URI for this resource: &lt;{ props.uri }&gt;</h4>
+    </div>
+  )
 }
 
 ResourceURIMessage.propTypes = {
