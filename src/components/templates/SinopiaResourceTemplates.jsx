@@ -89,6 +89,8 @@ class SinopiaResourceTemplates extends Component {
         uri: templateId,
         id: resourceTemplateBody.id,
         group: groupName,
+        author: resourceTemplateBody.author,
+        remark: resourceTemplateBody.remark,
       }
 
       const templates = [...this.state.resourceTemplates]
@@ -143,26 +145,32 @@ class SinopiaResourceTemplates extends Component {
       text: 'Template name',
       sort: true,
       formatter: this.linkFormatter,
-      headerStyle: { backgroundColor: '#F8F6EF', width: '25%' },
+      headerStyle: { backgroundColor: '#F8F6EF', width: '30%' },
     },
     {
       dataField: 'id',
       text: 'ID',
       sort: true,
-      headerStyle: { backgroundColor: '#F8F6EF', width: '50%' },
+      headerStyle: { backgroundColor: '#F8F6EF', width: '30%' },
     },
     {
-      dataField: 'group',
-      text: 'Group',
+      dataField: 'author',
+      text: 'Author',
       sort: true,
-      headerStyle: { backgroundColor: '#F8F6EF', width: '25%' },
+      headerStyle: { backgroundColor: '#F8F6EF', width: '10%' },
+    },
+    {
+      dataField: 'remark',
+      text: 'Guiding statement',
+      sort: false,
+      headerStyle: { backgroundColor: '#F8F6EF', width: '30%' },
     }]
 
     return (
       <div>
         { createResourceMessage }
         <h4>Available Resource Templates in Sinopia</h4>
-        <BootstrapTable keyField="key" data={ this.state.resourceTemplates } columns={ columns } />
+        <BootstrapTable id="resource-template-list" keyField="key" data={ this.state.resourceTemplates } columns={ columns } />
       </div>
     )
   }

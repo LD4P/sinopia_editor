@@ -6,7 +6,7 @@ import { mount, shallow } from 'enzyme'
 import SinopiaResourceTemplates from 'components/templates/SinopiaResourceTemplates'
 import { getEntityTagFromGroupContainer, getResourceTemplate, listResourcesInGroupContainer } from 'sinopiaServer'
 
-jest.mock('../../../src/sinopiaServer')
+jest.mock('sinopiaServer')
 
 describe('<SinopiaResourceTemplates />', () => {
   const messages = [
@@ -185,6 +185,22 @@ describe('<SinopiaResourceTemplates />', () => {
     })
   })
 
+  describe('display', () => {
+    const renderRoutes = () => mount(<SinopiaResourceTemplates messages={[]}/>)
+
+    it('renders the table of resource templates with name, id, author, and guiding statement columns', () => {
+      expect.assertions(1)
+
+      const component = renderRoutes()
+      const tableHeaderCellText = component.find('table#resource-template-list th').map(thWrapper => thWrapper.text())
+      expect(tableHeaderCellText).toEqual(['Template name', 'ID', 'Author', 'Guiding statement'])
+    })
+
+    afterAll(() => {
+      renderRoutes.unmount()
+    })
+  })
+
   describe('setStateFromServerResponse()', () => {
     it('calls getResourceTemplate() once when passed a string', async () => {
       expect.assertions(2)
@@ -250,7 +266,8 @@ describe('<SinopiaResourceTemplates />', () => {
           name: 'baz',
           uri: 'template99',
           id: 'bar',
-          group: 'ld4p',
+          author: 'wright.lee.renønd',
+          remark: 'very salient information',
         },
       ]
 
@@ -274,7 +291,8 @@ describe('<SinopiaResourceTemplates />', () => {
       name: 'Note',
       uri: 'http://localhost:8080/repository/ld4p/Note',
       id: 'ld4p:resourceTemplate:bf2:Note',
-      group: 'ld4p',
+      author: 'wright.lee.renønd',
+      remark: 'very salient information',
     }
 
     const wrapper4 = shallow(<SinopiaResourceTemplates messages={messages}/>)
