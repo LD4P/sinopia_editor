@@ -18,7 +18,7 @@ export class PropertyComponent extends Component {
     }
   }
 
-  inputComponentType = (property) => {
+  inputComponentType = (propertyTemplate) => {
     let config
 
     // We do not support mixed list and lookups, so we will just go with the value of the first config item found
@@ -30,7 +30,7 @@ export class PropertyComponent extends Component {
 
     const reduxPath = Object.assign([], this.props.reduxPath)
 
-    reduxPath.push(property.propertyURI)
+    reduxPath.push(propertyTemplate.propertyURI)
     const keyId = shortid.generate()
 
     switch (config) {
@@ -40,18 +40,19 @@ export class PropertyComponent extends Component {
       case 'list':
         return (<InputListLOC key = {this.props.index}
                               reduxPath={reduxPath}
-                              propertyTemplate = {property}
+                              propertyTemplate = {propertyTemplate}
                               lookupConfig = {this.state.configuration[0]} />)
       default:
-        switch (property.type) {
+        switch (propertyTemplate.type) {
           case 'literal':
             return (<InputLiteral key={keyId} id={keyId}
+                                  propertyTemplate = {propertyTemplate}
                                   reduxPath={reduxPath} />)
           case 'resource':
             return (<InputURI key={keyId} id={keyId}
                               reduxPath={reduxPath} />)
           default:
-            console.error(`Unknown property type (component=${config}, type=${property.type})`)
+            console.error(`Unknown propertyTemplate type (component=${config}, type=${propertyTemplate.type})`)
         }
     }
 
