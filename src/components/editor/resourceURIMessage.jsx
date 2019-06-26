@@ -10,11 +10,15 @@ const ResourceURIMessage = (props) => {
     return null
   }
 
-  return (
-    <div>
-      <h4>URI for this resource: &lt;{ props.uri }&gt;</h4>
-    </div>
-  )
+  if (props.uri) {
+    return (
+      <div>
+        <h4>URI for this resource: &lt;{ props.uri }&gt;</h4>
+      </div>
+    )
+  }
+
+  return null
 }
 
 ResourceURIMessage.propTypes = {
