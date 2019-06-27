@@ -2,7 +2,6 @@
 
 import pupExpect from 'expect-puppeteer'
 import { testUserLogin } from './loginHelper'
-import { fillInRequredFieldsForBibframeInstance } from './previewRDFHelper'
 
 describe('Verify the resource template title is displayed in the editor', () => {
   beforeAll(async () => {
@@ -14,6 +13,5 @@ describe('Verify the resource template title is displayed in the editor', () => 
 
     await pupExpect(page).toClick('a', { text: 'Note' })
     await pupExpect(page).toMatchElement('h1', { text: 'Note' })
-
   })
 })
