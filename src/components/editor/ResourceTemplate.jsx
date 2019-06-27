@@ -27,6 +27,7 @@ class ResourceTemplate extends Component {
     if (!this.props.resourceTemplate) {
       return errorMessage
     }
+
     return (
       <div className="ResourceTemplate">
         <div id="resourceTemplate" style={{ marginTop: '-30px' }}>
@@ -51,6 +52,7 @@ ResourceTemplate.propTypes = {
 
 const mapStateToProps = state => ({
   resourceTemplate: rootResource(state),
+  title: state.selectorReducer.resource.title,
   error: state.selectorReducer.editor.serverError,
 })
 
