@@ -7,7 +7,9 @@ import Modal from 'react-bootstrap/lib/Modal'
 import PropTypes from 'prop-types'
 import GraphBuilder from 'GraphBuilder'
 import Config from 'Config'
-import { closeGroupChooser, showRdfPreview, assignBaseURL } from 'actions/index'
+import {
+  closeGroupChooser, showRdfPreview, assignBaseURL, showResourceURIMessage,
+} from 'actions/index'
 import { publishRDFResource } from 'sinopiaServer'
 import { getCurrentUser } from 'authSelectors'
 
@@ -95,6 +97,7 @@ const mapDispatchToProps = dispatch => ({
   },
   setBaseURL(url) {
     dispatch(assignBaseURL(url))
+    dispatch(showResourceURIMessage(url))
   },
 })
 

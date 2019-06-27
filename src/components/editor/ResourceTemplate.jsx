@@ -6,6 +6,7 @@ import PropTypes from 'prop-types'
 import ResourceTemplateForm from './ResourceTemplateForm'
 import { fetchRootResourceTemplate } from 'actionCreators'
 import { rootResource } from 'selectors/resourceSelectors'
+import ResourceURIMessage from './ResourceURIMessage'
 
 /**
  * This is the root component of the editor on the resource edit page
@@ -31,6 +32,7 @@ class ResourceTemplate extends Component {
         <div id="resourceTemplate" style={{ marginTop: '-30px' }}>
           <section className="col-md-9">
             <h1><em>{this.props.title}</em></h1>
+            <ResourceURIMessage />
           </section>
           <ResourceTemplateForm rtId = {this.props.resourceTemplateId} />
         </div>

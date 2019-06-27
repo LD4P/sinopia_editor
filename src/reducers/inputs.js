@@ -147,7 +147,19 @@ export const setBaseURL = (state, action) => {
   Object.values(newState.resource).forEach((value) => {
     value.resourceURI = action.payload
   })
+  return newState
+}
 
+/**
+ * @param {Object} state the previous redux state
+ * @param {Object} action the payload of the action is the URI returned from saving the resource
+ * @return {Object} the next redux state
+ */
+export const showResourceURIMessage = (state, action) => {
+  const newState = { ...state }
+
+  newState.editor.resourceURIMessage.show = true
+  newState.editor.resourceURIMessage.uri = action.payload
   return newState
 }
 
