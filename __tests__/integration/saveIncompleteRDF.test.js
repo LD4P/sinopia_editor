@@ -6,12 +6,12 @@ import { incompleteFieldsForBibframeInstance } from './previewRDFHelper'
 
 describe('Previewing the RDF', () => {
   beforeAll(async () => {
-    return await testUserLogin()
+    await testUserLogin()
   })
 
   beforeEach(async () => {
     await page.goto('http://127.0.0.1:8888/templates')
-    return await incompleteFieldsForBibframeInstance()
+    await incompleteFieldsForBibframeInstance()
   })
 
   it('builds the rdf and displays validation errors after attempting to save', async () => {

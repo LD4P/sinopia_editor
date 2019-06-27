@@ -13,7 +13,7 @@ describe('When an unauthenticated user tries to access resource templates', () =
     } catch (error) {
       // Avoid failing after logout
     }
-    return await page.waitForSelector('form.login-form') // Waiting for login form
+    await page.waitForSelector('form.login-form') // Waiting for login form
   })
 
   it('does not display "Available Resource Templates in Sinopia"', async () => {
