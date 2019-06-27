@@ -59,6 +59,8 @@ class App extends Component {
 
 App.propTypes = {
   storeAppVersion: PropTypes.func,
+  currentSession: PropTypes.object,
+  handleOffsetMenu: PropTypes.func,
 }
 
 const mapStateToProps = state => ({

@@ -221,8 +221,12 @@ class InputLookupQA extends Component {
 }
 
 InputLookupQA.propTypes = {
+  displayValidations: PropTypes.bool,
+  handleSelectedChange: PropTypes.func,
+  lookupConfig: PropTypes.arrayOf(PropTypes.object).isRequired,
   propertyTemplate: PropTypes.shape({
     propertyLabel: PropTypes.string,
+    propertyURI: PropTypes.string,
     mandatory: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
     repeatable: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
     valueConstraint: PropTypes.shape({
@@ -230,8 +234,6 @@ InputLookupQA.propTypes = {
     }),
   }),
   reduxPath: PropTypes.oneOfType([PropTypes.string, PropTypes.array]),
-  displayValidations: PropTypes.bool,
-  lookupConfig: PropTypes.arrayOf(PropTypes.object).isRequired,
 }
 
 const mapStateToProps = (state, ownProps) => {
