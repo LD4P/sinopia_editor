@@ -81,7 +81,7 @@ export const rootResourceTemplateLoaded = (state, action) => {
   })
 
   if (action.payload.resourceLabel) {
-    newState.resource.title = action.payload.resourceLabel
+    newState.editor.resourceTitle = action.payload.resourceLabel
   }
 
   // Clear any existing validation errors when we load a resource template
