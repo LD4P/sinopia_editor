@@ -44,9 +44,9 @@ export const assignBaseURL = item => ({
   payload: item,
 })
 
-export const showResourceURIMessage = show => ({
+export const showResourceURIMessage = resourceUri => ({
   type: 'SHOW_RESOURCE_URI_MESSAGE',
-  payload: show,
+  payload: resourceUri,
 })
 
 export const updateStarted = () => ({

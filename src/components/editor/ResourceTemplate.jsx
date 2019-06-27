@@ -7,7 +7,7 @@ import ResourceTemplateForm from './ResourceTemplateForm'
 import { rootResourceTemplateLoaded } from 'actions/index'
 import { getResourceTemplate } from 'sinopiaServer'
 import { rootResource } from 'selectors/resourceSelectors'
-import ResourceURIMessage from './resourceURIMessage'
+import ResourceURIMessage from './ResourceURIMessage'
 
 const _ = require('lodash')
 
