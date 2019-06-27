@@ -52,7 +52,7 @@ ResourceTemplate.propTypes = {
 
 const mapStateToProps = state => ({
   resourceTemplate: rootResource(state),
-  title: state.selectorReducer.editor.resourceTitle,
+  title: state.selectorReducer.editor.rootResourceTitle,
   error: state.selectorReducer.editor.serverError,
 })
 
