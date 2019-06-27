@@ -5,7 +5,7 @@ import { testUserLogin } from './loginHelper'
 
 describe('Expanding a resource property in a property panel', () => {
   beforeAll(async () => {
-    return await testUserLogin()
+    await testUserLogin()
   })
 
   it('loads up a resource template from the list of loaded templates', async () => {

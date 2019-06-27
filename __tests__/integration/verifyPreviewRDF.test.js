@@ -6,11 +6,11 @@ import { fillInRequredFieldsForBibframeInstance } from './previewRDFHelper'
 
 describe('Previewing the RDF', () => {
   beforeAll(async () => {
-    return await testUserLogin()
+    await testUserLogin()
   })
 
   beforeEach(async () => {
-    return await fillInRequredFieldsForBibframeInstance()
+    await fillInRequredFieldsForBibframeInstance()
   })
 
   it('builds the rdf and verifies the expected content', async () => {

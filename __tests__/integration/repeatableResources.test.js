@@ -7,7 +7,7 @@ describe('Adding new embedded Resource Templates', () => {
   beforeAll(async () => {
     await testUserLogin()
     await pupExpect(page).toClick('a', { text: 'BIBFRAME Instance' })
-    return await pupExpect(page).toMatch('BIBFRAME Instance')
+    await pupExpect(page).toMatch('BIBFRAME Instance')
   })
 
   describe('one level of nested resourceTemplate (Notes about the Instance)', () => {

@@ -9,12 +9,12 @@ import { testUserLogin } from '../loginHelper'
  */
 describe('RDF from literal property templates', () => {
   beforeAll(async () => {
-    return await testUserLogin()
+    await testUserLogin()
   })
 
   beforeEach(async () => {
     await page.goto('http://127.0.0.1:8888/templates')
-    return await page.waitForSelector('.react-bootstrap-table')
+    await page.waitForSelector('.react-bootstrap-table')
   })
 
   it('non-repeatable, no default value, default language', async () => {

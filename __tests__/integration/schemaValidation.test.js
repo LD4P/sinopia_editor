@@ -5,7 +5,7 @@ import { testUserLogin } from './loginHelper'
 
 describe('Importing a profile/template with bad JSON', () => {
   beforeAll(async () => {
-    return await testUserLogin()
+    await testUserLogin()
   })
 
   it('Displays an error message', async () => {
