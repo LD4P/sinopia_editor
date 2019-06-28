@@ -65,6 +65,10 @@ class InputListLOC extends Component {
       return null
     }
 
+    if (this.props.lookupConfig?.length > 1) {
+      alert(`There are multiple configured list lookups for ${this.props.propertyTemplate.propertyURI}`)
+    }
+
     if (this.props.lookupConfig[0]?.uri === undefined) {
       alert(`There is no configured list lookup for ${this.props.propertyTemplate.propertyURI}`)
     }
