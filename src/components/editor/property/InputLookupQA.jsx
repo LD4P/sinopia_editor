@@ -14,6 +14,9 @@ import Config from 'Config'
 
 const AsyncTypeahead = asyncContainer(Typeahead)
 
+// propertyTemplate of type 'lookup' does live QA lookup via API
+//  based on values in propertyTemplate.valueConstraint.useValuesFrom
+//  and the lookupConfig for the URIs has component value of 'lookup'
 class InputLookupQA extends Component {
   constructor(props) {
     super(props)
@@ -164,7 +167,7 @@ class InputLookupQA extends Component {
   }
 
   render() {
-    // Don't render if don't have property templates yet.
+    // Don't render if no property template yet
     if (!this.props.propertyTemplate) {
       return null
     }
@@ -231,8 +234,8 @@ InputLookupQA.propTypes = {
   lookupConfig: PropTypes.arrayOf(PropTypes.object).isRequired,
 }
 
-const mapStateToProps = (state, props) => {
-  const reduxPath = props.reduxPath
+const mapStateToProps = (state, ownProps) => {
+  const reduxPath = ownProps.reduxPath
   const resourceTemplateId = reduxPath[reduxPath.length - 2]
   const propertyURI = reduxPath[reduxPath.length - 1]
   const displayValidations = getDisplayValidations(state)
@@ -240,7 +243,7 @@ const mapStateToProps = (state, props) => {
   const lookupConfig = getLookupConfigItems(propertyTemplate)
 
   return {
-    selected: itemsForProperty(state.selectorReducer, props.reduxPath),
+    selected: itemsForProperty(state.selectorReducer, ownProps.reduxPath),
     reduxPath,
     propertyTemplate,
     displayValidations,
