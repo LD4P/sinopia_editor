@@ -370,7 +370,7 @@
   {
     "label": "GETTY_ULAN (QA)",
     "uri": "urn:ld4p:qa:gettyulan",
-    "authority": "getty_aat_ld4l_cache",
+    "authority": "getty_ulan_ld4l_cache",
     "subauthority": "",
     "language": "en",
     "component": "lookup"
