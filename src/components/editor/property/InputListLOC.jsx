@@ -6,27 +6,25 @@ import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
 import shortid from 'shortid'
 import { changeSelections } from 'actions/index'
-import { getDisplayValidations } from 'selectors/resourceSelectors'
-import { booleanPropertyFromTemplate, defaultValuesFromPropertyTemplate } from 'Utilities'
+import { itemsForProperty, getDisplayValidations, getPropertyTemplate } from 'selectors/resourceSelectors'
+import { booleanPropertyFromTemplate, defaultValuesFromPropertyTemplate, getLookupConfigItems } from 'Utilities'
 
+// propertyTemplate of type 'lookup' does live QA lookup via API
+//  based on URI in propertyTemplate.valueConstraint.useValuesFrom,
+//  and the lookupConfig for the URI has component value of 'list'
 class InputListLOC extends Component {
   constructor(props) {
     super(props)
     this.state = {
       isLoading: false,
       options: [], // The suggestions returned from QA
-      defaults: defaultValuesFromPropertyTemplate(this.props.propertyTemplate),
-      error: null,
     }
   }
 
   componentDidMount() {
     this._isMounted = true
-    if (this.state.defaults.length > 0) {
-      this.selectionChanged(this.state.defaults)
-    } else {
-      // Property templates do not require defaults but we like to know when this happens
-      console.info(`no defaults defined in property template: ${JSON.stringify(this.props.propertyTemplate)}`)
+    if (this.props.defaults?.length > 0) {
+      this.selectionChanged(this.props.defaults)
     }
   }
 
@@ -62,11 +60,16 @@ class InputListLOC extends Component {
   }
 
   render() {
-    if (this.props.lookupConfig?.uri === undefined) {
+    // Don't render if no property template yet
+    if (!this.props.propertyTemplate) {
+      return null
+    }
+
+    if (this.props.lookupConfig[0]?.uri === undefined) {
       alert(`There is no configured list lookup for ${this.props.propertyTemplate.propertyURI}`)
     }
 
-    if (this.state.defaults.length === undefined) {
+    if (this.props.defaults?.length === undefined) {
       return (<div />)
     }
 
@@ -81,7 +84,7 @@ class InputListLOC extends Component {
       isLoading: this.state.isLoading,
       options: this.state.options,
       selected: this.state.selected,
-      defaultSelected: this.state.defaults,
+      defaultSelected: this.props.defaults,
     }
     const opts = []
     let groupClasses = 'form-group'
@@ -97,7 +100,7 @@ class InputListLOC extends Component {
           ref={typeahead => this.typeahead = typeahead}
           onFocus={() => {
             this.setState({ isLoading: true })
-            fetch(`${this.props.lookupConfig.uri}.json`)
+            fetch(`${this.props.lookupConfig[0].uri}.json`)
               .then(resp => resp.json())
               .then((json) => {
                 for (const i in json) {
@@ -138,14 +141,26 @@ InputListLOC.propTypes = {
     valueConstraint: PropTypes.shape({
       useValuesFrom: PropTypes.oneOfType([PropTypes.string, PropTypes.array]),
     }),
-  }).isRequired,
+  }),
   displayValidations: PropTypes.bool,
 }
 
-const mapStateToProps = (state) => {
+const mapStateToProps = (state, ownProps) => {
+  const reduxPath = ownProps.reduxPath
+  const resourceTemplateId = reduxPath[reduxPath.length - 2]
+  const propertyURI = reduxPath[reduxPath.length - 1]
   const displayValidations = getDisplayValidations(state)
+  const propertyTemplate = getPropertyTemplate(state, resourceTemplateId, propertyURI)
+  const defaults = defaultValuesFromPropertyTemplate(propertyTemplate)
+  const lookupConfig = getLookupConfigItems(propertyTemplate)
 
-  return { displayValidations }
+  return {
+    selected: itemsForProperty(state.selectorReducer, ownProps.reduxPath),
+    propertyTemplate,
+    displayValidations,
+    defaults,
+    lookupConfig,
+  }
 }
 
 const mapDispatchToProps = dispatch => ({
