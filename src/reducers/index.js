@@ -1,5 +1,5 @@
 // Copyright 2018, 2019 Stanford University see LICENSE for license
-/* eslint complexity: ["warn", 15] */
+/* eslint complexity: ["warn", 16] */
 
 import { combineReducers } from 'redux'
 import shortid from 'shortid'
@@ -106,6 +106,13 @@ const setRetrieveError = (state, action) => {
   return newState
 }
 
+export const saveAppVersion = (state, action) => {
+  const newState = { ...state }
+
+  newState.appVersion.version = action.payload
+  return newState
+}
+
 const selectorReducer = (state = {}, action) => {
   switch (action.type) {
     case 'ROOT_RESOURCE_TEMPLATE_LOADED':
@@ -135,6 +142,8 @@ const selectorReducer = (state = {}, action) => {
       return removeMyItem(state, action)
     case 'REMOVE_ALL_CONTENT':
       return removeAllContent(state, action)
+    case 'SAVE_APP_VERSION':
+      return saveAppVersion(state, action)
     default:
       return state
   }

@@ -18,7 +18,7 @@ jest.mock('components/editor/Editor')
 jest.mock('components/templates/ImportResourceTemplate')
 
 describe('<App />', () => {
-  const wrapper = shallow(<App.WrappedComponent />)
+  const wrapper = shallow(<App.WrappedComponent storeAppVersion = { jest.fn } />)
 
   it('is selectable by id "#app"', () => {
     expect(wrapper.find('div#app').length).toEqual(1)
@@ -47,6 +47,12 @@ describe('#routes', () => {
 
   describe('public routes', () => {
     const unauthenticatedStoreFake = makeStoreFake({
+      selectorReducer: {
+        appVersion: {
+          version: undefined,
+          lastChecked: Date.now(),
+        },
+      },
       authenticate: {
         authenticationState: {
           currentSession: null,

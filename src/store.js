@@ -6,6 +6,10 @@ import reducer from './reducers/index'
 
 const initialState = {
   selectorReducer: {
+    appVersion: {
+      version: undefined,
+      lastChecked: Date.now(),
+    },
     editor: { // The state of the editor
       displayValidations: false,
       errors: [],
