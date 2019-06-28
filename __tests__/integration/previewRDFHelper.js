@@ -3,7 +3,7 @@
 import pupExpect from 'expect-puppeteer'
 
 export async function fillInRequredFieldsForBibframeInstance() {
-  // This assertion adds 1 to each it blocks assertion count
+  // This will add 1 assertion to each it block's assertion count
   await pupExpect(page).toClick('a', { text: 'BIBFRAME Instance' })
 
   // Click on one of the property type rows to expand a nested resource
@@ -29,6 +29,6 @@ export async function fillInRequredFieldsForBibframeInstance() {
 }
 
 export async function incompleteFieldsForBibframeInstance() {
-  // This assertion adds 1 to each it blocks assertion count
+  // This will add 1 assertion to each it block's assertion count
   await pupExpect(page).toClick('a', { text: 'BIBFRAME Instance' })
 }
