@@ -13,14 +13,14 @@ describe('<ResourceTemplate />', () => {
   const wrapper = shallow(<ResourceTemplate.WrappedComponent resourceTemplateId="resourceTemplate:bf2:Note"
                                                              resourceTemplate={reduxState}
                                                              retrieveResourceTemplate={jest.fn()}
-                                                             title="BF2 Work"/>)
+                                                             rtLabel="BF2 Work"/>)
 
   it('has div with class "ResourceTemplate"', () => {
     expect(wrapper.find('div.ResourceTemplate').length).toEqual(1)
   })
 
   it('displays the resource label of the resource template', () => {
-    expect(wrapper.find('h1').text()).toEqual('BF2 Work')
+    expect(wrapper.find('#resourceTemplate h1').text()).toEqual('BF2 Work')
   })
 
   // TODO: if we have more than one resourceTemplate form, they need to have unique ids (see #130)

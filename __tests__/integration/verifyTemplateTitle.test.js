@@ -3,7 +3,7 @@
 import pupExpect from 'expect-puppeteer'
 import { testUserLogin } from './loginHelper'
 
-describe('Verify the resource template title is displayed in the editor', () => {
+describe('Verify the resource template label is displayed in the editor', () => {
   beforeAll(async () => {
     await testUserLogin()
   })
@@ -12,6 +12,6 @@ describe('Verify the resource template title is displayed in the editor', () => 
     expect.assertions(2)
 
     await pupExpect(page).toClick('a', { text: 'Note' })
-    await pupExpect(page).toMatchElement('h1', { text: 'Note' })
+    await pupExpect(page).toMatchElement('#resourceTemplate h1', { text: 'Note' })
   })
 })

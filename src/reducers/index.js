@@ -80,10 +80,6 @@ export const rootResourceTemplateLoaded = (state, action) => {
     newState = refreshResourceTemplate(newState, propertyAction)
   })
 
-  if (action.payload.resourceLabel) {
-    newState.editor.rootResourceTitle = action.payload.resourceLabel
-  }
-
   // Clear any existing validation errors when we load a resource template
   newState.editor.errors = []
   newState.editor.displayValidations = false
