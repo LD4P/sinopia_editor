@@ -75,6 +75,7 @@ class InputListLOC extends Component {
       required: this.isMandatory,
       multiple: this.isRepeatable,
       placeholder: this.props.propertyTemplate.propertyLabel,
+      emptyLabel: 'retrieving list of terms...',
       useCache: true,
       selectHintOnEnter: true,
       isLoading: this.state.isLoading,
