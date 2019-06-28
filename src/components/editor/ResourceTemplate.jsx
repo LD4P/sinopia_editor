@@ -27,11 +27,12 @@ class ResourceTemplate extends Component {
     if (!this.props.resourceTemplate) {
       return errorMessage
     }
+
     return (
       <div className="ResourceTemplate">
         <div id="resourceTemplate" style={{ marginTop: '-30px' }}>
           <section className="col-md-9">
-            <h1><em>{this.props.title}</em></h1>
+            <h1><em>{this.props.resourceTemplateLabel}</em></h1>
             <ResourceURIMessage />
           </section>
           <ResourceTemplateForm rtId = {this.props.resourceTemplateId} />
@@ -45,14 +46,20 @@ ResourceTemplate.propTypes = {
   retrieveResourceTemplate: PropTypes.func,
   resourceTemplateId: PropTypes.string,
   resourceTemplate: PropTypes.object,
-  title: PropTypes.string,
+  resourceTemplateLabel: PropTypes.string,
   error: PropTypes.string,
 }
 
-const mapStateToProps = state => ({
-  resourceTemplate: rootResource(state),
-  error: state.selectorReducer.editor.serverError,
-})
+const mapStateToProps = (state, ownProps) => {
+  const resourceTemplate = rootResource(state)
+  const resourceTemplateLabel = state.selectorReducer.entities.resourceTemplates[ownProps.resourceTemplateId]?.resourceLabel
+  const error = state.selectorReducer.editor.serverError
+  return {
+    resourceTemplate,
+    resourceTemplateLabel,
+    error,
+  }
+}
 
 const mapDispatchToProps = dispatch => ({
   retrieveResourceTemplate: (resourceTemplate) => {
