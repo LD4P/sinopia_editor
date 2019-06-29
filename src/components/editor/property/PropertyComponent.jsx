@@ -39,9 +39,7 @@ export class PropertyComponent extends Component {
                                reduxPath={reduxPath} />)
       case 'list':
         return (<InputListLOC key = {this.props.index}
-                              reduxPath={reduxPath}
-                              propertyTemplate = {propertyTemplate}
-                              lookupConfig = {this.state.configuration[0]} />)
+                              reduxPath={reduxPath} />)
       default:
         switch (propertyTemplate.type) {
           case 'literal':

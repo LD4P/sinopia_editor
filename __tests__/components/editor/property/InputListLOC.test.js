@@ -5,7 +5,7 @@ import { shallow } from 'enzyme'
 import { Typeahead } from 'react-bootstrap-typeahead'
 import InputListLOC from 'components/editor/property/InputListLOC'
 
-const plProps = {
+const propsOk = {
   propertyTemplate:
     {
       propertyURI: 'http://id.loc.gov/ontologies/bflc/target',
@@ -19,7 +19,6 @@ const plProps = {
           defaultURI: 'http://id.loc.gov/vocabulary/carriers/nc',
           defaultLiteral: 'volume',
         }],
-        valueTemplateRefs: [],
         useValuesFrom: [
           'vocabulary:bf2:frequencies',
         ],
@@ -28,20 +27,87 @@ const plProps = {
         },
       },
     },
+  lookupConfig: [
+    {
+      label: 'carriers',
+      uri: 'https://id.loc.gov/vocabulary/carriers',
+      component: 'list',
+    },
+  ],
+  defaults: [
+    {
+      defaultURI: 'http://id.loc.gov/vocabulary/carriers/nc',
+      defaultLiteral: 'volume',
+    },
+  ],
 }
 
-const mockLookupConfig = [
-  {
-    label: 'carriers',
-    uri: 'https://id.loc.gov/vocabulary/carriers',
-    component: 'list',
-  },
-  {
-    label: 'frequency',
-    uri: undefined,
-    component: 'list',
-  },
-]
+const propsUndefLookupURI = {
+  propertyTemplate:
+    {
+      propertyURI: 'http://id.loc.gov/ontologies/bflc/target',
+      propertyLabel: 'Frequency (RDA 2.14)',
+      remark: 'http://access.rdatoolkit.org/2.14.html',
+      mandatory: 'false',
+      repeatable: 'true',
+      type: 'lookup',
+      valueConstraint: {
+        defaults: [{
+          defaultURI: 'http://id.loc.gov/vocabulary/carriers/nc',
+          defaultLiteral: 'volume',
+        }],
+        useValuesFrom: [
+          'vocabulary:bf2:frequencies',
+        ],
+        valueDataType: {
+          dataTypeURI: 'http://id.loc.gov/ontologies/bibframe/Frequency',
+        },
+      },
+    },
+  lookupConfig: [
+    {
+      label: 'frequency',
+      uri: undefined,
+      component: 'list',
+    },
+  ],
+}
+
+const propsMultLookup = {
+  propertyTemplate:
+    {
+      propertyURI: 'http://id.loc.gov/ontologies/bflc/target',
+      propertyLabel: 'Frequency (RDA 2.14)',
+      remark: 'http://access.rdatoolkit.org/2.14.html',
+      mandatory: 'false',
+      repeatable: 'true',
+      type: 'lookup',
+      valueConstraint: {
+        defaults: [{
+          defaultURI: 'http://id.loc.gov/vocabulary/carriers/nc',
+          defaultLiteral: 'volume',
+        }],
+        useValuesFrom: [
+          'vocabulary:bf2:frequencies',
+        ],
+        valueDataType: {
+          dataTypeURI: 'http://id.loc.gov/ontologies/bibframe/Frequency',
+        },
+      },
+    },
+  lookupConfig: [
+    {
+      label: 'carriers',
+      uri: 'https://id.loc.gov/vocabulary/carriers',
+      component: 'list',
+    },
+    {
+      label: 'frequency',
+      uri: undefined,
+      component: 'list',
+    },
+  ],
+}
 
 describe('<InputListLOC /> configuration', () => {
   // Our mock formData function to replace the one provided by mapDispatchToProps
@@ -56,17 +122,17 @@ describe('<InputListLOC /> configuration', () => {
   })
 
   it('expects a single lookupConfig object', () => {
-    shallow(<InputListLOC.WrappedComponent {...plProps} handleSelectedChange={mockFormDataFn} lookupConfig={mockLookupConfig[0]} />)
+    shallow(<InputListLOC.WrappedComponent {...propsOk} handleSelectedChange={mockFormDataFn} />)
     expect(global.alert.mock.calls.length).toEqual(0)
   })
 
   it('displays a browser alert if the lookupConfig is undefined', () => {
-    shallow(<InputListLOC.WrappedComponent {...plProps} handleSelectedChange={mockFormDataFn} lookupConfig={mockLookupConfig[1]} />)
+    shallow(<InputListLOC.WrappedComponent {...propsUndefLookupURI} handleSelectedChange={mockFormDataFn} />)
     expect(global.alert.mock.calls.length).toEqual(1)
   })
 
   it('displays a browser alert if the lookupConfig is an array of objects and not a single object', () => {
-    shallow(<InputListLOC.WrappedComponent {...plProps} handleSelectedChange={mockFormDataFn} lookupConfig={mockLookupConfig} />)
+    shallow(<InputListLOC.WrappedComponent {...propsMultLookup} handleSelectedChange={mockFormDataFn} />)
     expect(global.alert.mock.calls.length).toEqual(1)
   })
 })
@@ -74,7 +140,7 @@ describe('<InputListLOC /> configuration', () => {
 describe('<Typeahead /> component', () => {
   // Our mock formData function to replace the one provided by mapDispatchToProps
   const mockFormDataFn = jest.fn()
-  const wrapper = shallow(<InputListLOC.WrappedComponent {...plProps} handleSelectedChange={mockFormDataFn} lookupConfig={mockLookupConfig[0]} />)
+  const wrapper = shallow(<InputListLOC.WrappedComponent {...propsOk} handleSelectedChange={mockFormDataFn} />)
 
   it('contains a placeholder with the value of propertyLabel', () => {
     expect(wrapper.find(Typeahead).props().placeholder).toMatch('Frequency (RDA 2.14)')
@@ -106,52 +172,6 @@ describe('<Typeahead /> component', () => {
 
   it('sets the typeahead component placeholder attribute', () => {
     expect(wrapper.find('#targetComponent').props().placeholder).toMatch('Frequency (RDA 2.14)')
-  })
-
-  describe('default values', () => {
-    afterAll(() => {
-      jest.restoreAllMocks()
-    })
-
-    const defaults = [{
-      defaultLiteral: 'volume',
-      defaultURI: 'http://id.loc.gov/vocabulary/carriers/nc',
-    }]
-
-    it('sets the default values according to the property template if they exist', () => {
-      expect(wrapper.instance().props.propertyTemplate.valueConstraint.defaults).toEqual(defaults)
-    })
-
-    it('sets the defaults state as the defaults array', () => {
-      expect(wrapper.state('defaults').length).toEqual(1)
-    })
-
-    it('logs an error when no defaults are set', () => {
-      const plProps = {
-        propertyTemplate: {
-          propertyURI: 'http://id.loc.gov/ontologies/bflc/target',
-          propertyLabel: 'Frequency (RDA 2.14)',
-          remark: 'http://access.rdatoolkit.org/2.14.html',
-          mandatory: 'false',
-          repeatable: 'true',
-          type: 'lookup',
-          valueConstraint: {
-            valueTemplateRefs: [],
-            useValuesFrom: [
-              'vocabulary:bf2:frequencies',
-            ],
-            valueDataType: {
-              dataTypeURI: 'http://id.loc.gov/ontologies/bibframe/Frequency',
-            },
-          },
-        },
-      }
-      const infoSpy = jest.spyOn(console, 'info').mockReturnValue(null)
-      const wrapper2 = shallow(<InputListLOC.WrappedComponent {...plProps} handleSelectedChange={mockFormDataFn} />)
-
-      expect(wrapper2.state('defaults')).toEqual([])
-      expect(infoSpy).toBeCalledWith(`no defaults defined in property template: ${JSON.stringify(plProps.propertyTemplate)}`)
-    })
   })
 
   it('should call the onFocus event and set the selected option', () => {
