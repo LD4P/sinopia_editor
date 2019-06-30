@@ -18,7 +18,6 @@ export const signedOut = () => signOutSuccess()
 
 // A thunk that updates an existing resource in Trellis
 export const update = currentUser => (dispatch, getState) => {
-  // First dispatch: inform the app that updating has started
   dispatch(updateStarted())
 
   const uri = rootResourceId(getState())
@@ -26,9 +25,11 @@ export const update = currentUser => (dispatch, getState) => {
   return updateRDFResource(currentUser, uri, rdf)
     .then(response => dispatch(updateFinished(response)))
 }
-// A thunk that retrieve the root resource template
+
+// A thunk that retrieves the root resource template
 export const fetchRootResourceTemplate = resourceTemplateId => (dispatch) => {
   dispatch(retrieveResourceTemplateStarted(resourceTemplateId))
+
   getResourceTemplate(resourceTemplateId, 'ld4p').then((response) => {
     dispatch(rootResourceTemplateLoaded(response.response.body))
   }).catch((err) => {
