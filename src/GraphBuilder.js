@@ -104,11 +104,25 @@ export default class GraphBuilder {
           const nestedValue = value[key]
           const bnode = rdf.blankNode()
 
-          this.dataset.add(rdf.quad(baseURI, rdf.namedNode(predicate), bnode))
-          this.buildTriplesForNestedObject(bnode, nestedValue)
+          // Before adding blank node, make sure that there is a descendant non-empty items array.
+          if (this.hasItemDescendants(nestedValue)) {
+            this.dataset.add(rdf.quad(baseURI, rdf.namedNode(predicate), bnode))
+            this.buildTriplesForNestedObject(bnode, nestedValue)
+          }
         })
       }
     }
+  }
+
+  /**
+   * Returns true if value or descendant has a non-empty item
+   * @param {Object} value from the redux store
+   */
+  hasItemDescendants(value) {
+    if (value.items && value.items.length > 0) {
+      return true
+    }
+    return Object.keys(value).some(key => this.hasItemDescendants(value[key]))
   }
 
   /**

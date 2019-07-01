@@ -252,4 +252,49 @@ describe('GraphBuilder', () => {
       expect(graph.has(typeTriple)).toBeTruthy()
     })
   })
+
+  describe('when the state has empty items', () => {
+    const state = {
+      entities: {
+        resourceTemplates: {
+          'resourceTemplate:bf2:Monograph:Work': {
+            resourceURI: 'http://id.loc.gov/ontologies/bibframe/Work',
+          },
+          'resourceTemplate:bf2:Note': {
+            resourceURI: 'http://id.loc.gov/ontologies/bibframe/Note',
+          },
+        },
+      },
+      resource: {
+        'resourceTemplate:bf2:Monograph:Work': {
+          'http://id.loc.gov/ontologies/bibframe/title': {},
+          'http://id.loc.gov/ontologies/bibframe/temporalCoverage': {},
+          'http://id.loc.gov/ontologies/bibframe/note': {},
+          'http://id.loc.gov/ontologies/bibframe/content': {},
+          'http://id.loc.gov/ontologies/bibframe/illustrativeContent': {},
+          'http://id.loc.gov/ontologies/bibframe/colorContent': {
+            '-KACHlqQ4A': {
+              'resourceTemplate:bf2:Note': {
+                'http://www.w3.org/2000/01/rdf-schema#label': {
+                  items: [],
+                },
+              },
+            },
+          },
+          'http://id.loc.gov/ontologies/bibframe/hasInstance': {},
+          'http://www.w3.org/2000/01/rdf-schema#label': {},
+        },
+      },
+    }
+
+    const builder = new GraphBuilder(state)
+
+
+    it('returns the graph without blank node', () => {
+      const graph = builder.graph
+
+      const result = graph.filter(quad => quad.object.equals(rdf.namedNode('http://id.loc.gov/ontologies/bibframe/Note'))).toArray()
+      expect(result.length).toEqual(0)
+    })
+  })
 })
