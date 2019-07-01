@@ -8,6 +8,7 @@ import BootstrapTable from 'react-bootstrap-table-next'
 import Config from 'Config'
 import { getEntityTagFromGroupContainer, getResourceTemplate, listResourcesInGroupContainer } from 'sinopiaServer'
 import { resourceToName } from 'Utilities'
+import Download from 'components/templates/Download'
 
 /**
  * This is the list view of all the templates
@@ -91,6 +92,7 @@ class SinopiaResourceTemplates extends Component {
         group: groupName,
         author: resourceTemplateBody.author,
         remark: resourceTemplateBody.remark,
+        download: new Blob([JSON.stringify(resourceTemplateBody, null, 2)], { type: 'application/json' }),
       }
 
       const templates = [...this.state.resourceTemplates]
@@ -121,6 +123,9 @@ class SinopiaResourceTemplates extends Component {
   linkFormatter = (cell, row) => (
     <Link to={{ pathname: '/editor', state: { resourceTemplateId: row.id } }}>{cell}</Link>
   )
+
+  downloadLinkFormatter = (cell, row) => (<Download blob={ row.download } filename={ `${row.id}.json`} />)
+
 
   render() {
     if (this.state.errors.length > 0) {
@@ -163,7 +168,14 @@ class SinopiaResourceTemplates extends Component {
       dataField: 'remark',
       text: 'Guiding statement',
       sort: false,
-      headerStyle: { backgroundColor: '#F8F6EF', width: '30%' },
+      headerStyle: { backgroundColor: '#F8F6EF', width: '22%' },
+    },
+    {
+      dataField: 'download',
+      text: 'Download',
+      sort: false,
+      formatter: this.downloadLinkFormatter,
+      headerStyle: { backgroundColor: '#F8F6EF', width: '8%' },
     }]
 
     return (
