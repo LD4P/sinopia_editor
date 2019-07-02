@@ -188,12 +188,12 @@ describe('<SinopiaResourceTemplates />', () => {
   describe('display', () => {
     const renderRoutes = () => mount(<SinopiaResourceTemplates messages={[]}/>)
 
-    it('renders the table of resource templates with name, id, author, and guiding statement columns', () => {
+    it('renders the table of resource templates with name, id, author, guiding statement, download columns', () => {
       expect.assertions(1)
 
       const component = renderRoutes()
       const tableHeaderCellText = component.find('table#resource-template-list th').map(thWrapper => thWrapper.text())
-      expect(tableHeaderCellText).toEqual(['Template name', 'ID', 'Author', 'Guiding statement'])
+      expect(tableHeaderCellText).toEqual(['Template name', 'ID', 'Author', 'Guiding statement', 'Download'])
     })
 
     afterAll(() => {
@@ -268,6 +268,7 @@ describe('<SinopiaResourceTemplates />', () => {
           id: 'bar',
           author: 'wright.lee.renønd',
           remark: 'very salient information',
+          download: {}, // This should be a Blob
         },
       ]
 
@@ -293,6 +294,7 @@ describe('<SinopiaResourceTemplates />', () => {
       id: 'ld4p:resourceTemplate:bf2:Note',
       author: 'wright.lee.renønd',
       remark: 'very salient information',
+      download: {}, // This should be a Blob
     }
 
     const wrapper4 = shallow(<SinopiaResourceTemplates messages={messages}/>)
@@ -303,6 +305,28 @@ describe('<SinopiaResourceTemplates />', () => {
 
       await expect(link.props.to.pathname).toEqual('/editor')
       await expect(link.props.to.state.resourceTemplateId).toEqual(row.id)
+    })
+  })
+  describe('linking to download the template', () => {
+    const cell = 'Note'
+    const mockBlob = { data: 'abc123' }
+    const row = {
+      name: 'Note',
+      uri: 'http://localhost:8080/repository/ld4p/Note',
+      id: 'ld4p:resourceTemplate:bf2:Note',
+      author: 'wright.lee.renønd',
+      remark: 'very salient information',
+      download: mockBlob, // This should be a Blob
+    }
+
+    const wrapper5 = shallow(<SinopiaResourceTemplates messages={messages}/>)
+
+    it('renders a link to download the template', async () => {
+      expect.assertions(2)
+      const link = await wrapper5.instance().downloadLinkFormatter(cell, row)
+
+      await expect(link.props.filename).toEqual('ld4p:resourceTemplate:bf2:Note.json')
+      await expect(link.props.blob).toEqual(mockBlob)
     })
   })
 })
