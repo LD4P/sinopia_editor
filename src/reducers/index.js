@@ -98,11 +98,19 @@ export const resourceTemplateLoaded = (state, action) => {
 
 export const makeShortID = () => shortid.generate()
 
-const setRetrieveError = (state, action) => {
-  const resourceTemplateId = action.payload
+export const setRetrieveError = (state, action) => {
+  const resourceTemplateId = action.payload.resourceTemplateId
+  const reason = action.payload.reason
   const newState = { ...state }
 
-  newState.editor.serverError = `There was a problem retrieving ${resourceTemplateId}`
+  let serverError = `There was a problem retrieving ${resourceTemplateId}`
+  if (reason) {
+    serverError += `: ${reason}`
+  } else {
+    serverError += '.'
+  }
+
+  newState.editor.serverError = serverError
   return newState
 }
 

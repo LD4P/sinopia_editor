@@ -1,8 +1,8 @@
 // Copyright 2019 Stanford University see LICENSE for license
 
-export const retrieveError = resourceTemplateId => ({
+export const retrieveError = (resourceTemplateId, reason) => ({
   type: 'RETRIEVE_ERROR',
-  payload: resourceTemplateId,
+  payload: { resourceTemplateId, reason },
 })
 
 export const setItems = item => ({

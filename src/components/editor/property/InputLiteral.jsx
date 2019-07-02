@@ -7,7 +7,7 @@ import Modal from 'react-bootstrap/lib/Modal'
 import Button from 'react-bootstrap/lib/Button'
 import shortid from 'shortid'
 import { removeItem, setItems, setLang } from 'actions/index'
-import { findNode, getDisplayValidations } from 'selectors/resourceSelectors'
+import { findNode, getDisplayValidations, getPropertyTemplate } from 'selectors/resourceSelectors'
 import InputLang from './InputLang'
 import { booleanPropertyFromTemplate, defaultLangTemplate } from 'Utilities'
 
@@ -254,15 +254,19 @@ InputLiteral.propTypes = {
 
 const mapStateToProps = (state, props) => {
   const reduxPath = props.reduxPath
+  const resourceTemplateId = reduxPath[reduxPath.length - 2]
+  const propertyURI = reduxPath[reduxPath.length - 1]
   const displayValidations = getDisplayValidations(state)
   const formData = findNode(state.selectorReducer, reduxPath)
   // items has to be its own prop or rerendering won't occur when one is removed
   const items = formData.items
+  const propertyTemplate = getPropertyTemplate(state, resourceTemplateId, propertyURI)
 
   return {
     formData,
     items,
     reduxPath,
+    propertyTemplate,
     displayValidations,
   }
 }

@@ -21,7 +21,7 @@ class ResourceTemplate extends Component {
     let errorMessage = <span/>
 
     if (this.props.error) {
-      errorMessage = <div className="alert alert-warning">Sinopia server is offline or has no resource templates to display.</div>
+      errorMessage = <div className="alert alert-warning">{ this.props.error }</div>
     }
 
     if (!this.props.resourceTemplate) {

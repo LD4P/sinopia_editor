@@ -44,7 +44,6 @@ export class PropertyComponent extends Component {
         switch (propertyTemplate.type) {
           case 'literal':
             return (<InputLiteral key={keyId} id={keyId}
-                                  propertyTemplate = {propertyTemplate}
                                   reduxPath={reduxPath} />)
           case 'resource':
             return (<InputURI key={keyId} id={keyId}

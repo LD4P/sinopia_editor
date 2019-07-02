@@ -6,6 +6,7 @@ import selectorReducer, {
   refreshResourceTemplate,
   resourceTemplateLoaded,
   rootResourceTemplateLoaded,
+  setRetrieveError,
 } from 'reducers/index'
 /* eslint import/namespace: 'off' */
 import * as inputs from 'reducers/inputs'
@@ -459,5 +460,24 @@ describe('rootResourceTemplateLoaded()', () => {
         },
       },
     })
+  })
+})
+
+describe('setRetrieveError', () => {
+  it('adds error to editor state', () => {
+    const newState = setRetrieveError(initialState.selectorReducer, {
+      type: 'RETRIEVE_ERROR',
+      payload: { resourceTemplateId: 'abc123' },
+    })
+
+    expect(newState.editor.serverError).toEqual('There was a problem retrieving abc123.')
+  })
+  it('adds error with reason to editor state', () => {
+    const newState = setRetrieveError(initialState.selectorReducer, {
+      type: 'RETRIEVE_ERROR',
+      payload: { resourceTemplateId: 'abc123', reason: 'Because it is broken.' },
+    })
+
+    expect(newState.editor.serverError).toEqual('There was a problem retrieving abc123: Because it is broken.')
   })
 })
