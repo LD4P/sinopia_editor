@@ -65,37 +65,39 @@ export class PropertyTemplateOutline extends Component {
 
   addPropertyTypeRows = (property) => {
     const newOutput = [...this.state.propertyTypeRow]
-    let propertyJsx
+    newOutput.push(property)
+    this.setState({ propertyTypeRow: newOutput, rowAdded: true })
+  }
 
+  renderPropertyRows = () => {
     if (this.state.collapsed) {
       return
     }
-
-    if (isResourceWithValueTemplateRef(property)) {
-      const isAddDisabled = !booleanPropertyFromTemplate(property, 'repeatable', false) || newOutput.length > 0
-
-      propertyJsx = <ResourceProperty key={shortid.generate()}
-                                      propertyTemplate={property}
-                                      reduxPath={this.props.reduxPath}
-                                      nestedResourceTemplates={this.state.nestedResourceTemplates}
-                                      handleAddClick={this.handleAddClick}
-                                      addButtonDisabled={isAddDisabled} />
-    } else {
-      propertyJsx = <PropertyComponent key={shortid.generate()} propertyTemplate={property} reduxPath={this.props.reduxPath} />
-    }
-
-    newOutput.push(
+    return this.state.propertyTypeRow.map((property, index) => (
       <PropertyTypeRow
         key={shortid.generate()}
         handleAddClick={this.props.handleAddClick}
         reduxPath={this.props.reduxPath}
         addButtonDisabled={this.props.addButtonDisabled}
         propertyTemplate={property}>
-        {propertyJsx}
-      </PropertyTypeRow>,
-    )
+        { this.renderOneProperty(property, index) }
+      </PropertyTypeRow>
+    ))
+  }
 
-    this.setState({ propertyTypeRow: newOutput, rowAdded: true })
+  renderOneProperty = (property, index) => {
+    if (isResourceWithValueTemplateRef(property)) {
+      const isAddDisabled = !booleanPropertyFromTemplate(property, 'repeatable', false) || index > 0
+
+      return (<ResourceProperty key={shortid.generate()}
+                                propertyTemplate={property}
+                                reduxPath={this.props.reduxPath}
+                                nestedResourceTemplates={this.state.nestedResourceTemplates}
+                                handleAddClick={this.handleAddClick}
+                                addButtonDisabled={isAddDisabled} />)
+    }
+
+    return (<PropertyComponent key={shortid.generate()} propertyTemplate={property} reduxPath={this.props.reduxPath} />)
   }
 
   render() {
@@ -107,7 +109,7 @@ export class PropertyTemplateOutline extends Component {
                        key={shortid.generate()}
                        handleCollapsed={this.handleClick(this.props.propertyTemplate)} />
         <div className={this.outlineRowClass()}>
-          {this.state.propertyTypeRow}
+          {this.renderPropertyRows()}
         </div>
       </div>
     )
