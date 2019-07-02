@@ -84,10 +84,9 @@ export const getFixtureResourceTemplate = (templateId) => {
 
     return emptyTemplate
   }
-
   if (!resourceTemplateIds.includes(templateId)) {
     emptyTemplate.error = `ERROR: non-fixture resourceTemplate: ${templateId}`
-
+    console.error(emptyTemplate.error)
     return emptyTemplate
   }
 

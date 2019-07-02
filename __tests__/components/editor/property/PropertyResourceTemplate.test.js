@@ -26,7 +26,9 @@ describe('<PropertyResourceTemplate />', () => {
   }
 
   const wrapper = shallow(<PropertyResourceTemplate {...propertyRtProps} />)
+  console.log(wrapper.debug())
   const propTemplateOutline = wrapper.find(PropertyTemplateOutline)
+  console.log(wrapper.find(PropertyTemplateOutline))
 
   // Make sure spies/mocks don't leak between tests
   afterAll(() => {
@@ -38,7 +40,7 @@ describe('<PropertyResourceTemplate />', () => {
   })
 
   it('Contains a <PropertyTemplateOutline />', () => {
-    expect(wrapper.find(PropertyTemplateOutline)).toBeTruthy()
+    expect(propTemplateOutline).toBeTruthy()
   })
 
   it('<PropertyTemplateOutline /> contains a propertyTemplate', () => {

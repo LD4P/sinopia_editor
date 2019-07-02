@@ -6,21 +6,32 @@ import PropTypes from 'prop-types'
 import shortid from 'shortid'
 import OutlineHeader from './OutlineHeader'
 import PropertyTypeRow from './PropertyTypeRow'
-import { getResourceTemplate } from 'sinopiaServer'
 import { booleanPropertyFromTemplate, isResourceWithValueTemplateRef, resourceToName } from 'Utilities'
+import { fetchResourceTemplate } from 'actionCreators'
 import PropertyComponent from './PropertyComponent'
 import ResourceProperty from './ResourceProperty'
-import store from 'store'
-import { resourceTemplateLoaded } from 'actions/index'
+
+const templateRefList = (propertyTemplate) => (isResourceWithValueTemplateRef(propertyTemplate) ?
+    propertyTemplate.valueConstraint.valueTemplateRefs : [])
 
 class PropertyTemplateOutline extends Component {
   constructor(props) {
     super(props)
+
     this.state = {
       collapsed: true,
-      propertyTypeRow: [],
-      nestedResourceTemplates: [],
     }
+    console.log(`initialize ${props.propertyTemplate.propertyLabel}`)
+  }
+
+  componentDidMount() {
+    console.log(`mounted ${this.props.propertyTemplate.propertyLabel}`)
+
+  }
+
+  componentDidUpdate() {
+    console.log(`updated ${this.props.propertyTemplate.propertyLabel}`)
+
   }
 
   outlineRowClass = () => {
@@ -36,22 +47,23 @@ class PropertyTemplateOutline extends Component {
     this.addPropertyTypeRows()
   }
 
-  fulfillRTPromises = async promiseAll => await promiseAll.then((rts) => {
-    rts.map((fulfilledResourceTemplateRequest) => {
-      const joinedRts = [...this.state.nestedResourceTemplates]
+  // fulfillRTPromises = async promiseAll => await promiseAll.then((rts) => {
+  //   rts.map((fulfilledResourceTemplateRequest) => {
+  //     const joinedRts = [...this.state.nestedResourceTemplates]
+  //
+  //     joinedRts.push(fulfilledResourceTemplateRequest.response.body)
+  //     // Add the resource template into the store
+  //     store.dispatch(resourceTemplateLoaded(fulfilledResourceTemplateRequest.response.body))
+  //     this.setState({ nestedResourceTemplates: joinedRts })
+  //   })
+  // }).catch(() => {})
 
-      joinedRts.push(fulfilledResourceTemplateRequest.response.body)
-      // Add the resource template into the store
-      store.dispatch(resourceTemplateLoaded(fulfilledResourceTemplateRequest.response.body))
-      this.setState({ nestedResourceTemplates: joinedRts })
-    })
-  }).catch(() => {})
-
-  resourceTemplatePromises = templateRefs => Promise.all(templateRefs.map(rtId => getResourceTemplate(rtId)))
+  // resourceTemplatePromises = templateRefs => Promise.all(templateRefs.map(rtId => getResourceTemplate(rtId)))
 
   // When the plus button is clicked, load reference templates (property.valueConstraint.valueTemplateRefs)
   handleTogglePlusButton = (event) => {
     event.preventDefault()
+    //this.toggleCollapsed()
 
     if (this.isCollapsed() && !this.hasAddedARow()) {
       this.addChildRow()
@@ -81,22 +93,28 @@ class PropertyTemplateOutline extends Component {
     return this.state.rowAdded
   }
 
+  rowAdded() {
+    this.setState({ rowAdded: true })
+  }
+
   toggleCollapsed() {
     this.setState({ collapsed: !this.state.collapsed })
   }
 
-  addPropertyTypeRows() {
-    const property = this.props.propertyTemplate
-    const newOutput = [...this.state.propertyTypeRow]
-    newOutput.push(property)
-    this.setState({ propertyTypeRow: newOutput, rowAdded: true })
-  }
+  // addPropertyTypeRows() {
+  //   const property = this.props.propertyTemplate
+  //   const newOutput = [...this.state.propertyTypeRow]
+  //   newOutput.push(property)
+  //   this.setState({ propertyTypeRow: newOutput, rowAdded: true })
+  // }
 
   renderPropertyRows = () => {
     if (this.state.collapsed) {
       return
     }
-    return this.state.propertyTypeRow.map((property, index) => (
+    console.log("rendering")
+    console.log(this.props.models)
+    return this.props.models.map((property, index) => (
       <PropertyTypeRow
         key={shortid.generate()}
         handleAddClick={this.props.handleAddClick}
@@ -109,21 +127,26 @@ class PropertyTemplateOutline extends Component {
   }
 
   renderOneProperty = (property, index) => {
+
     if (isResourceWithValueTemplateRef(property)) {
       const isAddDisabled = !booleanPropertyFromTemplate(property, 'repeatable', false) || index > 0
-
+      console.log("PropertyTemplateOutline: rendering resource property for")
+      console.log(property)
       return (<ResourceProperty key={shortid.generate()}
                                 propertyTemplate={property}
                                 reduxPath={this.props.reduxPath}
-                                nestedResourceTemplates={this.state.nestedResourceTemplates}
+                                nestedResourceTemplates={this.props.nestedResourceTemplates}
                                 handleAddClick={this.handleAddClick}
                                 addButtonDisabled={isAddDisabled} />)
     }
+    console.log("A property component")
+    console.log(property)
 
     return (<PropertyComponent key={shortid.generate()} propertyTemplate={property} reduxPath={this.props.reduxPath} />)
   }
 
   render() {
+    console.log("rerendering")
     return (
       <div className="rtOutline" data-label={this.props.propertyTemplate.propertyLabel}>
         <OutlineHeader pt={this.props.propertyTemplate}
@@ -147,6 +170,33 @@ PropertyTemplateOutline.propTypes = {
   propertyTemplate: PropTypes.object,
   reduxPath: PropTypes.array,
   rtId: PropTypes.string,
+  models: PropTypes.array,
+  nestedResourceTemplates: PropTypes.array,
+  toggleButtonPushed: PropTypes.func,
 }
 
-export default connect(null, null)(PropertyTemplateOutline)
+const mapStateToProps = (state, ourProps) => {
+  const models = [ourProps.propertyTemplate] // add more to this list to add more rows
+  const nestedResourceTemplates = templateRefList(ourProps.propertyTemplate)
+    .map((resourceTemplateId) => (state.selectorReducer.entities.resourceTemplates[resourceTemplateId]))
+
+
+  return {
+    models,
+    nestedResourceTemplates,
+  }
+}
+
+const mapDispatchToProps = (dispatch, ourProps) => ({
+  toggleButtonPushed: (isCollapsed, isRowAdded, that) => {
+    if (!isRowAdded) {
+      that.rowAdded()
+      console.log("Load these")
+      console.log(templateRefList(ourProps.propertyTemplate))
+      templateRefList(ourProps.propertyTemplate).forEach((templateReference) => dispatch(fetchResourceTemplate(templateReference)))
+      console.log("load complete")
+    }
+  }
+})
+
+export default connect(mapStateToProps, mapDispatchToProps)(PropertyTemplateOutline)

@@ -68,7 +68,8 @@ export class ResourceProperty extends Component {
         this.dispatchPayloads.push(payload)
 
         const isAddDisabled = !booleanPropertyFromTemplate(rtProperty, 'repeatable', false)
-
+        console.log("doing a propTemplateOutline")
+        console.log(rtProperty)
         jsx.push(
           <PropertyTemplateOutline key={keyId}
                                    propertyTemplate={rtProperty}
