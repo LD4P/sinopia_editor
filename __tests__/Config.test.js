@@ -22,6 +22,10 @@ describe('Config', () => {
       expect(Config.sinopiaUrl).toEqual('https://sinopia.io')
     })
 
+    it('index url has static value', () => {
+      expect(Config.indexUrl).toEqual('http://localhost:9200')
+    })
+
     it('useResourceTemplateFixtures is false by default', () => {
       expect(Config.useResourceTemplateFixtures).toEqual(false)
     })
@@ -77,6 +81,7 @@ describe('Config', () => {
         COGNITO_USER_POOL_ID: 'us-west-7_CGd9Wq142',
         AWS_COGNITO_DOMAIN: 'https://sinopia-foo.amazoncognito.com',
         MAX_RECORDS_FOR_QA_LOOKUPS: 15,
+        INDEX_URL: 'http://elasticsearch.aws.example.com',
       }
     })
 
@@ -90,6 +95,10 @@ describe('Config', () => {
 
     it('sinopia url overrides static value', () => {
       expect(Config.sinopiaUrl).toEqual('https://sinopia.foo')
+    })
+
+    it('index url overrides static value', () => {
+      expect(Config.indexUrl).toEqual('http://elasticsearch.aws.example.com')
     })
 
     it('sinopia server url overrides static value', () => {

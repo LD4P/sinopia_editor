@@ -40,6 +40,10 @@ class Config {
     return process.env.SINOPIA_URI || 'https://sinopia.io'
   }
 
+  static get indexUrl() {
+    return process.env.INDEX_URL || 'http://localhost:9200'
+  }
+
   static get sinopiaDomainName() {
     return `${this.sinopiaUrl}`.replace('https://', '')
   }

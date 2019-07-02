@@ -61,6 +61,7 @@ module.exports = {
         'AWS_COGNITO_DOMAIN',
         'COGNITO_CLIENT_ID',
         'COGNITO_USER_POOL_ID',
+        'INDEX_URL',
       ],
     ),
   ],

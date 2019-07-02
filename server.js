@@ -5,16 +5,50 @@
  */
 
 const express = require('express')
+const request = require('request')
+const Config = require('./src/Config')
 const versoSpoof = require('./src/versoSpoof')
 
 const port = 8000
 const app = express()
 
-app.use(express.static(`${__dirname}/`))
+// Required for ElasticSearch proxy middleware to parse response body as JSON
+app.use(express.json())
 
-app.get('/api/search', (req, res) => {
-  res.json({ foo: 'bar' })
+app.use('/api/search', (req, res) => {
+  if (!['GET', 'POST'].includes(req.method)) {
+    res.status(400).json({ error: `unsupported method: ${req.method}` })
+    return
+  }
+
+  // Hard-coded for now since we only have the one use case for proxying ES,
+  // i.e., full-text search of resources
+  if (req.path !== '/sinopia_resources/sinopia/_search') {
+    res.status(400).json({ error: `unsupported path: ${req.path}` })
+    return
+  }
+
+  // Only use the method, path, and body from the original request: method and
+  // path have already been validated above and the body must be a
+  // JSON-serializeable entity
+  request({
+    method: req.method,
+    uri: `${Config.indexUrl}${req.path}`,
+    body: req.body,
+    json: true,
+  })
+    .on('error', (err) => {
+      console.error(`error making request to ElasticSearch: ${err}`)
+      res.status(500).json({ error: 'server error: could not make request to ElasticSearch' })
+    })
+    .pipe(res)
+    .on('error', (err) => {
+      console.error(`error returning ElasticSearch response: ${err}`)
+      res.status(500).json({ error: 'server error: could not send ElasticSearch response' })
+    })
 })
+
+app.use(express.static(`${__dirname}/`))
 
 app.all('/verso/api/configs', (req, res, next) => {
   if (req.query.filter.where.configType === 'profile') {
@@ -32,15 +66,9 @@ app.all('/profile-edit/server/whichrt', (req, res) => {
 
   if (reqUri !== null) {
     if (versoSpoof.ontologyUrls.includes(reqUri)) {
-      // FIXME:  there's probably a better way to find the value in array than forEach, but there are only 5 urls
-      let json
+      const json = versoSpoof.owlOntUrl2JsonMappings.find(el => reqUri === el.url).json
 
-      versoSpoof.owlOntUrl2JsonMappings.forEach((el) => {
-        if (reqUri === el.url) {
-          json = el.json
-        }
-      })
-      res.status(200).type('application/json').send(json)
+      res.json(json)
     } else {
       console.error(`/profile-edit/server/whichrt called for uri other than ontology ${reqUri}`)
       res.status(400).send(`/profile-edit/server/whichrt called for uri other than ontology ${reqUri}`)
