@@ -116,6 +116,7 @@
     "react-router-dom": "^4.3.1",
     "redux": "^4.0.1",
     "redux-thunk": "^2.3.0",
+    "request": "^2.88.0",
     "reselect": "^4.0.0",
     "shortid": "^2.2.14",
     "sinopia_server": "^3.0.0-beta4",
