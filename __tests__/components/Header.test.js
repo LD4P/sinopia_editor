@@ -15,8 +15,12 @@ describe('<Header />', () => {
     expect(wrapper.find('h1.editor-logo').text()).toBe('LINKED DATA EDITOR')
   })
 
+  it('displays the Sinopia submititle', () => {
+    expect(wrapper.find('h2.editor-subtitle').text()).toBe('SINOPIA')
+  })
+
   it('displays the Sinopia version number', () => {
-    expect(wrapper.find('h2.editor-subtitle').text()).toBe('SINOPIA v1.0')
+    expect(wrapper.find('h2.editor-version').text()).toBe('v1.0')
   })
 
   describe('nav tabs', () => {

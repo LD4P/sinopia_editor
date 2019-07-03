@@ -24,7 +24,7 @@ class Header extends Component {
             </li>
           </ul>
           <div>
-            <h2 className="editor-subtitle"><a className="editor-subtitle" href="/">SINOPIA</a> v{this.props.version}</h2>
+            <h2 className="editor-subtitle"><a className="editor-subtitle" href="/">SINOPIA</a></h2> <h2 className="editor-version">v{this.props.version}</h2>
             <h1 className="editor-logo">LINKED DATA EDITOR</h1>
           </div>
           <div>

@@ -164,6 +164,12 @@ h1.editor-logo {
 h2.editor-subtitle {
   font-size: 1.2em;
   margin-bottom: 5px;
+  display: inline;
+}
+h2.editor-version {
+  font-size: 0.9em;
+  margin-bottom: 5px;
+  display: inline;
 }
 
 a.prop-remark {
