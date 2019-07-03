@@ -32,7 +32,7 @@ export class PropertyTemplateOutline extends Component {
 
   handleAddClick = (event) => {
     event.preventDefault()
-    this.addPropertyTypeRows(this.props.propertyTemplate)
+    this.addPropertyTypeRows()
   }
 
   fulfillRTPromises = async promiseAll => await promiseAll.then((rts) => {
@@ -49,21 +49,43 @@ export class PropertyTemplateOutline extends Component {
   resourceTemplatePromises = templateRefs => Promise.all(templateRefs.map(rtId => getResourceTemplate(rtId)))
 
   // When the plus button is clicked, load reference templates (property.valueConstraint.valueTemplateRefs)
-  handleClick = property => (event) => {
+  handleTogglePlusButton = (event) => {
     event.preventDefault()
 
-    if (this.state.collapsed && !this.state.rowAdded) {
-      const templateRefList = isResourceWithValueTemplateRef(property) ? property.valueConstraint.valueTemplateRefs : []
-
-      this.fulfillRTPromises(this.resourceTemplatePromises(templateRefList)).then(() => {
-        this.addPropertyTypeRows(this.props.propertyTemplate)
-      })
+    if (this.isCollapsed() && !this.hasAddedARow()) {
+      this.addChildRow()
     }
+    this.toggleCollapsed()
+  }
 
+  addChildRow() {
+    if (isResourceWithValueTemplateRef(this.props.propertyTemplate)) {
+      this.loadResourceTemplates()
+    } else {
+      this.addPropertyTypeRows()
+    }
+  }
+
+  loadResourceTemplates() {
+    this.fulfillRTPromises(
+      this.resourceTemplatePromises(this.props.propertyTemplate.valueConstraint.valueTemplateRefs),
+    ).then(() => this.addPropertyTypeRows())
+  }
+
+  isCollapsed() {
+    return this.state.collapsed
+  }
+
+  hasAddedARow() {
+    return this.state.rowAdded
+  }
+
+  toggleCollapsed() {
     this.setState({ collapsed: !this.state.collapsed })
   }
 
-  addPropertyTypeRows = (property) => {
+  addPropertyTypeRows() {
+    const property = this.props.propertyTemplate
     const newOutput = [...this.state.propertyTypeRow]
     newOutput.push(property)
     this.setState({ propertyTypeRow: newOutput, rowAdded: true })
@@ -107,7 +129,7 @@ export class PropertyTemplateOutline extends Component {
                        id={resourceToName(this.props.propertyTemplate.propertyURI)}
                        collapsed={this.state.collapsed}
                        key={shortid.generate()}
-                       handleCollapsed={this.handleClick(this.props.propertyTemplate)} />
+                       handleCollapsed={this.handleTogglePlusButton} />
         <div className={this.outlineRowClass()}>
           {this.renderPropertyRows()}
         </div>
