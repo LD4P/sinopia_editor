@@ -56,21 +56,23 @@ class PropertyResourceTemplate extends Component {
     this.setState({ output: existingOutputs.concat(result) })
   }
 
-  populatePropertyTemplates = () => this.props.resourceTemplate.propertyTemplates.map((property) => {
+  populatePropertyTemplates = () => {
     const keyId = shortid.generate()
 
-    /*
-     * Add the generated id so that this is a new resource.
-     * The redux path will be something like ..., "kV5fjX2b1", "resourceTemplate:bf2:Monograph:Work"
-     */
-    const reduxPath = [...this.props.reduxPath, keyId, this.props.resourceTemplate.id]
+    return this.props.resourceTemplate.propertyTemplates.map((property) => {
+      /*
+       * Add the generated id so that this is a new resource.
+       * The redux path will be something like ..., "kV5fjX2b1", "resourceTemplate:bf2:Monograph:Work"
+       */
+      const reduxPath = [...this.props.reduxPath, keyId, this.props.resourceTemplate.id]
 
-    return (<PropertyTemplateOutline
-                    propertyTemplate={property}
-                    rtId={this.props.resourceTemplate.id}
-                    reduxPath={reduxPath}
-                    key={keyId} />)
-  })
+      return (<PropertyTemplateOutline
+                      propertyTemplate={property}
+                      rtId={this.props.resourceTemplate.id}
+                      reduxPath={reduxPath}
+                      key={shortid.generate()} />)
+    })
+  }
 
   render() {
     // repeatable defaults to false, so isAddDisabled defaults to true
