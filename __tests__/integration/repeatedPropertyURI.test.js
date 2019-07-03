@@ -8,10 +8,9 @@ describe('A repeated propertyURI', () => {
     await testUserLogin()
   })
 
-  it('renders the form with the right propertyLabels as the placeholders', async () => {
-    expect.assertions(3)
+  it('renders an error message', async () => {
+    expect.assertions(2)
     await pupExpect(page).toClick('a', { text: 'repeated propertyURI with differing propertyLabel' })
-    await pupExpect(page).toMatchElement('div[data-label="Geographic Coverage 1"] input[placeholder="Geographic Coverage 1"]')
-    await pupExpect(page).toMatchElement('div[data-label="Geographic Coverage 2"] input[placeholder="Geographic Coverage 2"]')
+    await pupExpect(page).toMatch('There was a problem retrieving rt:repeated:propertyURI:propertyLabel: Repeated property templates with same property URI (http://id.loc.gov/ontologies/bibframe/geographicCoverage) are not allowed.')
   })
 })
