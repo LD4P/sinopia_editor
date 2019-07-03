@@ -4,10 +4,10 @@
  *  npm start  or node server.js
  */
 
-const express = require('express')
-const request = require('request')
-const Config = require('./src/Config')
-const versoSpoof = require('./src/versoSpoof')
+import express from 'express'
+import request from 'request'
+import Config from './src/Config'
+import versoSpoof from './src/versoSpoof'
 
 const port = 8000
 const app = express()
@@ -15,6 +15,7 @@ const app = express()
 // Required for ElasticSearch proxy middleware to parse response body as JSON
 app.use(express.json())
 
+// ElasticSearch proxy middleware
 app.use('/api/search', (req, res) => {
   if (!['GET', 'POST'].includes(req.method)) {
     res.status(400).json({ error: `unsupported method: ${req.method}` })
@@ -48,6 +49,7 @@ app.use('/api/search', (req, res) => {
     })
 })
 
+// Serve static assets to the browser, e.g., from src/styles/ and static/
 app.use(express.static(`${__dirname}/`))
 
 app.all('/verso/api/configs', (req, res, next) => {
