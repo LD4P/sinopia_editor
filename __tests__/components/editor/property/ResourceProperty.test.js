@@ -62,10 +62,6 @@ describe('<ResourceProperty />', () => {
       expect(propertyTemplateOutline.props().resourceTemplate).toEqual(nestedRTs[0])
       expect(propertyTemplateOutline.props().addButtonDisabled).toEqual(true) // repeatable is false by default (nested prop template)
     })
-
-    it('calls redux to initialize the state with the nested resource', () => {
-      expect(mockInitNewResourceTemplate).toHaveBeenCalledTimes(1)
-    })
   })
 
   describe('with a missing nested ref', () => {
@@ -126,10 +122,6 @@ describe('<ResourceProperty />', () => {
     it('renders a warning for the missing resource', () => {
       expect(wrapper.find('div.alert-warning').text())
         .toEqual('Warning: this property refers to a missing Resource Template. You cannot edit it until a Resource Template with an ID of resourceTemplate:bf2:Cruft has been imported into the Sinopia Linked Data Editor.')
-    })
-
-    it('calls redux to initialize the state with the nested resource', () => {
-      expect(mockInitNewResourceTemplate2).toHaveBeenCalledTimes(1)
     })
   })
 })

@@ -30,6 +30,11 @@ export class InputLiteral extends Component {
     this.inputLiteralRef = React.createRef()
   }
 
+  componentWillMount() {
+    console.log("Literal")
+    console.log(this.props.reduxPath)
+  }
+
 
   disabled = () => !booleanPropertyFromTemplate(this.props.propertyTemplate, 'repeatable', true)
       && this.props.items?.length > 0

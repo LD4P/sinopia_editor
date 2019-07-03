@@ -25,6 +25,9 @@ describe('<PropertyTemplateOutline />', () => {
         defaults: [],
       },
     },
+    models: {
+      sample: {},
+    },
   }
 
   const responseBody = {
@@ -66,8 +69,9 @@ describe('<PropertyTemplateOutline />', () => {
   const mockAsyncCall = () => mockResponse(200, null, responseBody)
 
   const mockPromise = Promise.all([mockAsyncCall(0)])
-
-  const wrapper = mount(<PropertyTemplateOutline.WrappedComponent {...propertyRtProps} />)
+  const mockInitNewResourceTemplate = jest.fn()
+  const wrapper = mount(<PropertyTemplateOutline.WrappedComponent {...propertyRtProps}
+                                                                  initNewResourceTemplate={mockInitNewResourceTemplate}/>)
 
   it('has an outline header labeled with the property template propertyLabel', () => {
     expect(wrapper.find('OutlineHeader div').text().trim()).toEqual('Notes about the Instance')
@@ -124,6 +128,7 @@ describe('<PropertyTemplateOutline />', () => {
 
       expect(resourceProperty.props().addButtonDisabled).toEqual(true)
     })
+
     it('"Add" button enabled for outer propertyTemplate without repeatable indicated', () => {
       const resourceTypePropTemp = { ...propertyRtProps }
 
@@ -149,6 +154,9 @@ describe('<PropertyTemplateOutline />', () => {
               defaultLiteral: 'DLC',
             }],
           },
+        },
+        models: {
+          sample: {},
         },
       }
 

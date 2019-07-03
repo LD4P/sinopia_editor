@@ -65,7 +65,7 @@ class PropertyResourceTemplate extends Component {
        * The redux path will be something like ..., "kV5fjX2b1", "resourceTemplate:bf2:Monograph:Work"
        */
       const reduxPath = [...this.props.reduxPath, keyId, this.props.resourceTemplate.id]
-
+console.log("Populating with key")
       return (<PropertyTemplateOutline
                       propertyTemplate={property}
                       rtId={this.props.resourceTemplate.id}
