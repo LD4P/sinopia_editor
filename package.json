@@ -85,6 +85,7 @@
     "eslint-fix-single": "eslint --color -c .eslintrc.js --fix",
     "jest-cov": "jest --coverage --colors --silent --runInBand",
     "jest-ci": "jest  --colors --silent --ci --runInBand --coverage --reporters=default --reporters=jest-junit && cat ./coverage/lcov.info | coveralls",
+    "start": "npx babel-node server.js",
     "test": "jest --colors --silent --runInBand --detectOpenHandles",
     "test-verbose": "jest --colors --runInBand"
   },
@@ -117,6 +118,7 @@
     "react-router-dom": "^4.3.1",
     "redux": "^4.0.1",
     "redux-thunk": "^2.3.0",
+    "request": "^2.88.0",
     "reselect": "^4.0.0",
     "shortid": "^2.2.14",
     "sinopia_server": "^3.0.0-beta4",
