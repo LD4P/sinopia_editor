@@ -1,6 +1,7 @@
 // Copyright 2019 Stanford University see LICENSE for license
 
 import React, { Component } from 'react'
+import { connect } from 'react-redux'
 import PropTypes from 'prop-types'
 import shortid from 'shortid'
 import OutlineHeader from './OutlineHeader'
@@ -12,7 +13,7 @@ import ResourceProperty from './ResourceProperty'
 import store from 'store'
 import { resourceTemplateLoaded } from 'actions/index'
 
-export class PropertyTemplateOutline extends Component {
+class PropertyTemplateOutline extends Component {
   constructor(props) {
     super(props)
     this.state = {
@@ -148,4 +149,4 @@ PropertyTemplateOutline.propTypes = {
   rtId: PropTypes.string,
 }
 
-export default PropertyTemplateOutline
+export default connect(null, null)(PropertyTemplateOutline)

@@ -3,7 +3,7 @@
 import React from 'react'
 import 'jsdom-global/register'
 import { mount, shallow } from 'enzyme'
-import { PropertyTemplateOutline } from 'components/editor/property/PropertyTemplateOutline'
+import PropertyTemplateOutline from 'components/editor/property/PropertyTemplateOutline'
 import ResourceProperty from 'components/editor/property/ResourceProperty'
 
 describe('<PropertyTemplateOutline />', () => {
@@ -67,7 +67,7 @@ describe('<PropertyTemplateOutline />', () => {
 
   const mockPromise = Promise.all([mockAsyncCall(0)])
 
-  const wrapper = mount(<PropertyTemplateOutline {...propertyRtProps} />)
+  const wrapper = mount(<PropertyTemplateOutline.WrappedComponent {...propertyRtProps} />)
 
   it('has an outline header labeled with the property template propertyLabel', () => {
     expect(wrapper.find('OutlineHeader div').text().trim()).toEqual('Notes about the Instance')
@@ -83,7 +83,7 @@ describe('<PropertyTemplateOutline />', () => {
   })
 
   describe('Nested property components', () => {
-    const wrapper = shallow(<PropertyTemplateOutline {...propertyRtProps} />)
+    const wrapper = shallow(<PropertyTemplateOutline.WrappedComponent {...propertyRtProps} />)
 
     it('sets the state with a collection of nested resourceTemplates', async () => {
       expect.assertions(2)
@@ -116,7 +116,7 @@ describe('<PropertyTemplateOutline />', () => {
       const resourceTypePropTemp = { ...propertyRtProps }
 
       resourceTypePropTemp.propertyTemplate.repeatable = 'false'
-      const myWrapper = shallow(<PropertyTemplateOutline {...resourceTypePropTemp} />)
+      const myWrapper = shallow(<PropertyTemplateOutline.WrappedComponent {...resourceTypePropTemp} />)
 
       myWrapper.setState({ collapsed: false })
       myWrapper.instance().addPropertyTypeRows(resourceTypePropTemp.propertyTemplate)
@@ -128,7 +128,7 @@ describe('<PropertyTemplateOutline />', () => {
       const resourceTypePropTemp = { ...propertyRtProps }
 
       delete resourceTypePropTemp.propertyTemplate.repeatable
-      const myWrapper = shallow(<PropertyTemplateOutline {...resourceTypePropTemp} />)
+      const myWrapper = shallow(<PropertyTemplateOutline.WrappedComponent {...resourceTypePropTemp} />)
 
       myWrapper.setState({ collapsed: false })
       myWrapper.instance().addPropertyTypeRows(resourceTypePropTemp.propertyTemplate)
@@ -152,8 +152,8 @@ describe('<PropertyTemplateOutline />', () => {
         },
       }
 
-      const wrapper = shallow(<PropertyTemplateOutline {...propertyRtPropsLiteral}
-                                                       reduxPath={['http://id.loc.gov/ontologies/bibframe/heldBy']} />)
+      const wrapper = shallow(<PropertyTemplateOutline.WrappedComponent {...propertyRtPropsLiteral}
+                                                                        reduxPath={['http://id.loc.gov/ontologies/bibframe/heldBy']} />)
 
       wrapper.setState({ collapsed: false })
       wrapper.instance().outlineRowClass()

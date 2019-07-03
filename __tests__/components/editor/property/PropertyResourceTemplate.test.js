@@ -2,7 +2,7 @@
 
 import React from 'react'
 import 'jsdom-global/register'
-import { mount, shallow } from 'enzyme'
+import { shallow } from 'enzyme'
 import PropertyActionButtons from 'components/editor/property/PropertyActionButtons'
 import PropertyResourceTemplate from 'components/editor/property/PropertyResourceTemplate'
 import PropertyTemplateOutline from 'components/editor/property/PropertyTemplateOutline'
@@ -71,13 +71,14 @@ describe('<PropertyResourceTemplate />', () => {
 
   describe('<PropertyActionButtons /> addButtonDisabled prop value', () => {
     it('isRepeatable false:  addButtonDisabled prop is true', () => {
-      const wrapper = mount(<PropertyResourceTemplate isRepeatable={'false'} {...propertyRtProps} />)
+      const wrapper = shallow(<PropertyResourceTemplate isRepeatable={'false'} {...propertyRtProps} />)
       const actionButtons = wrapper.find(PropertyActionButtons)
 
       expect(actionButtons.props().addButtonDisabled).toBeTruthy()
     })
+
     it('isRepeatable true:  addButtonDisabled prop is false', () => {
-      const wrapper = mount(<PropertyResourceTemplate isRepeatable={'true'} {...propertyRtProps} />)
+      const wrapper = shallow(<PropertyResourceTemplate isRepeatable={'true'} {...propertyRtProps} />)
       const actionButtons = wrapper.find(PropertyActionButtons)
 
       expect(actionButtons.props().addButtonDisabled).toBeFalsy()
