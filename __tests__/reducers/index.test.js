@@ -3,7 +3,7 @@
 import shortid from 'shortid'
 import selectorReducer, {
   populatePropertyDefaults,
-  refreshResourceTemplate,
+  refreshPropertyTemplate,
   resourceTemplateLoaded,
   rootResourceTemplateLoaded,
   setRetrieveError,
@@ -223,15 +223,15 @@ describe('selectorReducer', () => {
   })
 })
 
-describe('refreshResourceTemplate', () => {
+describe('refreshPropertyTemplate', () => {
   // Make sure spies/mocks don't leak between tests
   afterAll(() => {
     jest.restoreAllMocks()
   })
 
   it('passing a payload to an empty state', () => {
-    const emptyStateResult = refreshResourceTemplate(initialState.selectorReducer, {
-      type: 'REFRESH_RESOURCE_TEMPLATE',
+    const emptyStateResult = refreshPropertyTemplate(initialState.selectorReducer, {
+      type: 'REFRESH_PROPERTY_TEMPLATE',
       payload: {
         reduxPath: ['resource', 'resourceTemplate:bf2:Monograph:Work', 'http://sinopia.io/example'],
       },
@@ -267,8 +267,8 @@ describe('refreshResourceTemplate', () => {
       },
     })
 
-    const overwriteStateResult = refreshResourceTemplate(initialState.selectorReducer, {
-      type: 'REFRESH_RESOURCE_TEMPLATE',
+    const overwriteStateResult = refreshPropertyTemplate(initialState.selectorReducer, {
+      type: 'REFRESH_PROPERTY_TEMPLATE',
       payload: {
         reduxPath: ['resource', 'resourceTemplate:bf2:Monograph:Work', 'http://sinopia.io/next_example'],
       },
@@ -301,8 +301,8 @@ describe('refreshResourceTemplate', () => {
 
   it('tests with a more realistic payload with defaults', () => {
     shortid.generate = jest.fn().mockReturnValue(0)
-    const defaultStateResult = refreshResourceTemplate(initialState.selectorReducer, {
-      type: 'REFRESH_RESOURCE_TEMPLATE',
+    const defaultStateResult = refreshPropertyTemplate(initialState.selectorReducer, {
+      type: 'REFRESH_PROPERTY_TEMPLATE',
       payload: {
         reduxPath: ['resource', 'resourceTemplate:bf2:Item', 'http://schema.org/name'],
         property: { valueConstraint: { defaults: [{ defaultLiteral: 'Sinopia Name' }] } },

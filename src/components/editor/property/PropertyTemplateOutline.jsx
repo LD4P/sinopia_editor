@@ -111,7 +111,6 @@ class PropertyTemplateOutline extends Component {
   renderOneProperty = (property, index) => {
     if (isResourceWithValueTemplateRef(property)) {
       const isAddDisabled = !booleanPropertyFromTemplate(property, 'repeatable', false) || index > 0
-
       return (<ResourceProperty key={shortid.generate()}
                                 propertyTemplate={property}
                                 reduxPath={this.props.reduxPath}

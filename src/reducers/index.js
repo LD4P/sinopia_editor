@@ -37,7 +37,7 @@ export const populatePropertyDefaults = (propertyTemplate) => {
  *
  * @returns {Object} the new state of the redux store.
  */
-export const refreshResourceTemplate = (state, action) => {
+export const refreshPropertyTemplate = (state, action) => {
   const resourceTemplateId = Object.keys(state.resource).pop()
   const newResource = resourceTemplateId ? { [resourceTemplateId]: state.resource[resourceTemplateId] } : {}
   const newState = { ...state, resource: newResource }
@@ -77,7 +77,7 @@ export const rootResourceTemplateLoaded = (state, action) => {
         property,
       },
     }
-    newState = refreshResourceTemplate(newState, propertyAction)
+    newState = refreshPropertyTemplate(newState, propertyAction)
   })
 
   // Clear any existing validation errors when we load a resource template
@@ -137,8 +137,8 @@ const selectorReducer = (state = {}, action) => {
       return showRdfPreview(state, action)
     case 'RESOURCE_TEMPLATE_LOADED':
       return resourceTemplateLoaded(state, action)
-    case 'REFRESH_RESOURCE_TEMPLATE':
-      return refreshResourceTemplate(state, action)
+    case 'REFRESH_PROPERTY_TEMPLATE':
+      return refreshPropertyTemplate(state, action)
     case 'REMOVE_ITEM':
       return removeMyItem(state, action)
     case 'REMOVE_ALL_CONTENT':
