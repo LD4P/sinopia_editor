@@ -22,14 +22,9 @@ class InputListLOC extends Component {
   }
 
   componentDidMount() {
-    this._isMounted = true
     if (this.props.defaults?.length > 0) {
       this.selectionChanged(this.props.defaults)
     }
-  }
-
-  componentWillUnmount() {
-    this._isMounted = false
   }
 
   selectionChanged(items) {
@@ -169,9 +164,7 @@ const mapStateToProps = (state, ownProps) => {
 
 const mapDispatchToProps = dispatch => ({
   handleSelectedChange(selected) {
-    if (this._isMounted) {
-      dispatch(changeSelections(selected))
-    }
+    dispatch(changeSelections(selected))
   },
 })
 
