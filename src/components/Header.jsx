@@ -4,8 +4,13 @@ import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 import { NavLink } from 'react-router-dom'
 import Config from 'Config'
+import { connect } from 'react-redux'
 
 class Header extends Component {
+  constructor(props) {
+    super(props)
+  }
+
   render() {
     return (
       <div className="navbar editor-navbar">
@@ -19,7 +24,7 @@ class Header extends Component {
             </li>
           </ul>
           <div>
-            <h2 className="editor-subtitle"><a className="editor-subtitle" href="/">SINOPIA</a></h2>
+            <h2 className="editor-subtitle"><a className="editor-subtitle" href="/">SINOPIA</a></h2> <h2 className="editor-version">v{this.props.version}</h2>
             <h1 className="editor-logo">LINKED DATA EDITOR</h1>
           </div>
           <div>
@@ -38,6 +43,11 @@ class Header extends Component {
 
 Header.propTypes = {
   triggerEditorMenu: PropTypes.func,
+  version: PropTypes.string,
 }
 
-export default Header
+const mapStateToProps = state => ({
+  version: state.selectorReducer.appVersion.version,
+})
+
+export default connect(mapStateToProps)(Header)

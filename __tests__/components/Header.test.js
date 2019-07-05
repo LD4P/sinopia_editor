@@ -4,11 +4,23 @@ import React from 'react'
 import { shallow } from 'enzyme'
 import Header from 'components/Header'
 
+const props = {
+  version: '1.0', // hardcode a version number for the test, in the actual app it will be set from the package.json file
+}
+
 describe('<Header />', () => {
-  const wrapper = shallow(<Header />)
+  const wrapper = shallow(<Header.WrappedComponent {...props}/>)
 
   it('displays the Sinopia text', () => {
     expect(wrapper.find('h1.editor-logo').text()).toBe('LINKED DATA EDITOR')
+  })
+
+  it('displays the Sinopia submititle', () => {
+    expect(wrapper.find('h2.editor-subtitle').text()).toBe('SINOPIA')
+  })
+
+  it('displays the Sinopia version number', () => {
+    expect(wrapper.find('h2.editor-version').text()).toBe('v1.0')
   })
 
   describe('nav tabs', () => {

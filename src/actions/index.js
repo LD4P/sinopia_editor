@@ -100,3 +100,8 @@ export const authenticationSuccess = authenticationResult => ({
 export const signOutSuccess = () => ({
   type: 'SIGN_OUT_SUCCESS',
 })
+
+export const saveAppVersion = version => ({
+  type: 'SAVE_APP_VERSION',
+  payload: version,
+})

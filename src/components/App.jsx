@@ -3,6 +3,7 @@
 import React, { Component } from 'react'
 import 'react-bootstrap-typeahead/css/Typeahead.css'
 import LoginPanel from './LoginPanel'
+import PropTypes from 'prop-types'
 import HomePage from './home/HomePage'
 import '../styles/main.css'
 import Editor from './editor/Editor'
@@ -11,8 +12,9 @@ import { Route, Switch, withRouter } from 'react-router-dom'
 import ImportResourceTemplate from './templates/ImportResourceTemplate'
 import Browse from './browse/Browse'
 import CanvasMenu from './menu/CanvasMenu'
+import { saveAppVersion } from 'actions/index'
 import { connect } from 'react-redux'
-
+import { version } from '../../package.json'
 
 const FourOhFour = () => <h1>404</h1>
 
@@ -23,6 +25,10 @@ class App extends Component {
       redirectToReferrer: false,
       isMenuOpened: false,
     }
+  }
+
+  componentDidMount() {
+    this.props.storeAppVersion(version)
   }
 
   render() {
@@ -51,12 +57,22 @@ class App extends Component {
   }
 }
 
+App.propTypes = {
+  storeAppVersion: PropTypes.func,
+}
+
 const mapStateToProps = state => ({
   currentSession: state.authenticate.authenticationState ? state.authenticate.authenticationState.currentSession : null,
+})
+
+const mapDispatchToProps = dispatch => ({
+  storeAppVersion: (version) => {
+    dispatch(saveAppVersion(version))
+  },
 })
 
 /*
  * 2019-05-07: note that withRouter must wrap connect
  * see https://github.com/ReactTraining/react-router/blob/master/packages/react-router/docs/api/withRouter.md#important-note
  */
-export default withRouter(connect(mapStateToProps)(App))
+export default withRouter(connect(mapStateToProps, mapDispatchToProps)(App))
