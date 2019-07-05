@@ -15,7 +15,7 @@ describe('<Header />', () => {
     expect(wrapper.find('h1.editor-logo').text()).toBe('LINKED DATA EDITOR')
   })
 
-  it('displays the Sinopia submititle', () => {
+  it('displays the Sinopia subtitle', () => {
     expect(wrapper.find('h2.editor-subtitle').text()).toBe('SINOPIA')
   })
 
