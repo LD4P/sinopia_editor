@@ -1,5 +1,24 @@
 // Copyright 2019 Stanford University see LICENSE for license
 
+// export const newResource = resourceTemplateId => ({
+//   type: 'NEW_RESOURCE',
+//   payload: resourceTemplateId,
+// })
+
+export const setResource = resource => ({
+  type: 'SET_RESOURCE',
+  payload: resource
+})
+
+export const setResourceTemplate = resourceTemplate => ({
+  type: 'SET_RESOURCE_TEMPLATE',
+  payload: resourceTemplate
+})
+
+export const stubResource = () => ({
+  type: 'STUB_RESOURCE'
+})
+
 export const retrieveError = (resourceTemplateId, reason) => ({
   type: 'RETRIEVE_ERROR',
   payload: { resourceTemplateId, reason },

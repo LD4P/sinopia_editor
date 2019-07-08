@@ -10,6 +10,24 @@ import {
 } from './inputs'
 import { defaultLangTemplate } from 'Utilities'
 
+
+
+export const setResource = (state, action) => {
+  // This should be a lodash cloneDeep.
+  const newState = { ...state, resource: action.payload }
+  return newState
+}
+
+export const setResourceTemplate = (state, action) => {
+  const resourceTemplateId = action.payload.id
+  const newState = { ...state }
+
+  newState.entities.resourceTemplates[resourceTemplateId] = action.payload
+
+  return newState
+}
+
+
 /**
  * This transforms the property template default values fetched from the server into redux state
  */
@@ -151,6 +169,10 @@ const selectorReducer = (state = {}, action) => {
       return removeAllContent(state, action)
     case 'SAVE_APP_VERSION':
       return saveAppVersion(state, action)
+    case 'SET_RESOURCE':
+      return setResource(state, action)
+    case 'SET_RESOURCE_TEMPLATE':
+      return setResourceTemplate(state, action)
     default:
       return state
   }
