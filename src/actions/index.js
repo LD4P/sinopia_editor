@@ -19,8 +19,8 @@ export const closeGroupChooser = () => ({
   type: 'CLOSE_GROUP_CHOOSER',
 })
 
-export const refreshResourceTemplate = update => ({
-  type: 'REFRESH_RESOURCE_TEMPLATE',
+export const refreshPropertyTemplate = update => ({
+  type: 'REFRESH_PROPERTY_TEMPLATE',
   payload: update,
 })
 

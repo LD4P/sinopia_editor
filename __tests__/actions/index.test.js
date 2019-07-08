@@ -11,10 +11,10 @@ describe('setItems()', () => {
   })
 })
 
-describe('refreshResourceTemplate()', () => {
-  it('creates REFRESH_RESOURCE_TEMPLATE action', () => {
-    expect(actions.refreshResourceTemplate({ id: 'resourceTemplate:bf2:Note' })).toEqual({
-      type: 'REFRESH_RESOURCE_TEMPLATE',
+describe('refreshPropertyTemplate()', () => {
+  it('creates REFRESH_PROPERTY_TEMPLATE action', () => {
+    expect(actions.refreshPropertyTemplate({ id: 'resourceTemplate:bf2:Note' })).toEqual({
+      type: 'REFRESH_PROPERTY_TEMPLATE',
       payload: { id: 'resourceTemplate:bf2:Note' },
     })
   })
