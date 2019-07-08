@@ -27,17 +27,19 @@ describe('Expanding a resource property in a property panel', () => {
   })
 
   it('enters a value into a nested property component', async () => {
-    expect.assertions(3)
+    expect.assertions(4)
     await pupExpect(page).not.toMatchElement('div#userInput', { text: 'Some text' })
     await expect(page).toFill('input[placeholder="Holdings"', 'Some text')
     await page.keyboard.press('Enter')
+    await pupExpect(page).toClick('a[data-id=\'heldBy\']')
     await pupExpect(page).toMatchElement('div#userInput', { text: 'Some text' })
   })
 
   it('enters a non-roman value into a nested property component', async () => {
-    expect.assertions(2)
+    expect.assertions(3)
     await pupExpect(page).toFill('input[placeholder="Holdings"', '甲骨文')
     await page.keyboard.press('Enter')
+    await pupExpect(page).toClick('a[data-id=\'heldBy\']')
     await pupExpect(page).toMatchElement('div#userInput', { text: '甲骨文' })
   })
 })
