@@ -41,7 +41,7 @@ export const refreshResourceTemplate = (state, action) => {
   const resourceTemplateId = Object.keys(state.resource).pop()
   const newResource = resourceTemplateId ? { [resourceTemplateId]: state.resource[resourceTemplateId] } : {}
   const newState = { ...state, resource: newResource }
-  const reduxPath = action.payload.reduxPath
+  const reduxPath = [...action.payload.reduxPath]
   const propertyTemplate = action.payload.property
 
   if (reduxPath === undefined || reduxPath.length < 1) {

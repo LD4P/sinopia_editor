@@ -29,8 +29,6 @@ export class PropertyComponent extends Component {
     }
 
     const reduxPath = Object.assign([], this.props.reduxPath)
-
-    reduxPath.push(propertyTemplate.propertyURI)
     const keyId = shortid.generate()
 
     switch (config) {
