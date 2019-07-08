@@ -1,7 +1,9 @@
 // Copyright 2018, 2019 Stanford University see LICENSE for license
 
 import lookupConfig from '../static/lookupConfig.json'
+import N3Parser from 'n3/lib/N3Parser'
 
+const rdf = require('rdf-ext')
 const _ = require('lodash')
 
 export const isResourceWithValueTemplateRef = property => property?.type === 'resource'
@@ -64,3 +66,23 @@ export const getLookupConfigItems = (propertyTemplate) => {
 
   return templateConfigItems
 }
+
+/**
+ * Loads N3 into a dataset.
+ * @param {string} data that is the N3
+ * @return {Promise<rdf.Dataset>} a promise that resolves to the loaded dataset
+ */
+export const rdfDatasetFromN3 = data => new Promise((resolve) => {
+  const parser = new N3Parser()
+  const dataset = rdf.dataset()
+  parser.parse(data,
+    (error, quad) => {
+      // the final time through this loop will be EOF and quad will be undefined
+      if (quad) {
+        dataset.add(quad)
+      } else {
+        // done parsing
+        resolve(dataset)
+      }
+    })
+})
