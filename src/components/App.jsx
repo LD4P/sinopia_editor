@@ -10,6 +10,7 @@ import Editor from './editor/Editor'
 import Footer from './Footer'
 import { Route, Switch, withRouter } from 'react-router-dom'
 import ImportResourceTemplate from './templates/ImportResourceTemplate'
+import ResourceInput from './ResourceInput'
 import Browse from './browse/Browse'
 import CanvasMenu from './menu/CanvasMenu'
 import { saveAppVersion } from 'actions/index'
@@ -48,6 +49,7 @@ class App extends Component {
           <Route exact path="/editor" render={props => <Editor {...props} triggerHandleOffsetMenu={this.props.handleOffsetMenu} />} />
           <PrivateRoute exact path="/templates" component={props => <ImportResourceTemplate {...props} triggerHandleOffsetMenu={this.props.handleOffsetMenu} />}/>
           <Route exact path="/browse" render={props => <Browse {...props} triggerHandleOffsetMenu={this.props.handleOffsetMenu} />} />
+          <Route exact path="/resource" render={props => <ResourceInput {...props} triggerHandleOffsetMenu={this.props.handleOffsetMenu} />} />
           <Route path="/menu" render={props => <CanvasMenu {...props} />} />
           <Route id="404" component={FourOhFour} />
         </Switch>

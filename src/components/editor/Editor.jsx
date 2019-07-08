@@ -18,13 +18,13 @@ import { getCurrentUser } from 'authSelectors'
  * This is the root component of the resource edit page
  */
 const Editor = (props) => {
-  useEffect(() => {
-    if (!props.location.state) {
-      props.history.push('/templates')
-    }
-  })
+  // useEffect(() => {
+  //   if (!props.location.state) {
+  //     props.history.push('/templates')
+  //   }
+  // })
 
-  const resourceTemplateId = props.location.state?.resourceTemplateId
+  // const resourceTemplateId = props.location.state?.resourceTemplateId
   return (
     <div id="editor">
       <Header triggerEditorMenu={ props.triggerHandleOffsetMenu }/>
@@ -40,7 +40,7 @@ const Editor = (props) => {
       <ErrorMessages />
       <GroupChoiceModal />
 
-      <ResourceTemplate resourceTemplateId={ resourceTemplateId } />
+      <ResourceTemplate />
     </div>
   )
 }

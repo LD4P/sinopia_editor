@@ -3,8 +3,11 @@
 import React, { Component } from 'react'
 import shortid from 'shortid'
 import PropTypes from 'prop-types'
+import { connect } from 'react-redux'
 import PropertyActionButtons from './PropertyActionButtons'
 import PropertyTemplateOutline from './PropertyTemplateOutline'
+import { getResourceTemplate } from 'selectors/resourceSelectors'
+
 
 /**
  * Renders a sub-resource template (e.g. WorkTitle, WorkVariantTitle, TranscribedTitle)
@@ -75,6 +78,9 @@ class PropertyResourceTemplate extends Component {
   }
 
   render() {
+    if (! this.props.resourceTemplate) {
+      return null
+    }
     // repeatable defaults to false, so isAddDisabled defaults to true
     const isAddDisabled = this.props.isRepeatable ? !JSON.parse(this.props.isRepeatable) : true
 
@@ -105,4 +111,19 @@ PropertyResourceTemplate.propTypes = {
   resourceTemplate: PropTypes.object,
 }
 
-export default PropertyResourceTemplate
+const mapStateToProps = (state, ourProps) => {
+  console.log('reduxPath', ourProps.reduxPath)
+  const reduxPath = [...ourProps.reduxPath]
+  const resourceTemplateId = reduxPath.pop()
+  const key = reduxPath.pop()
+  const propertyURI = reduxPath.pop()
+  console.log('PropertyResourceTemplate')
+  console.log(propertyURI)
+  // console.log(resourceTemplateId)
+  const resourceTemplate = getResourceTemplate(state, resourceTemplateId)
+  return {
+    resourceTemplate,
+  }
+}
+
+export default connect(mapStateToProps, null)(PropertyResourceTemplate)

@@ -9,6 +9,10 @@ import Config from 'Config'
 import { getEntityTagFromGroupContainer, getResourceTemplate, listResourcesInGroupContainer } from 'sinopiaServer'
 import { resourceToName } from 'Utilities'
 import Download from 'components/templates/Download'
+import { connect } from 'react-redux'
+import { newResource as newResourceCreator } from 'actionCreators'
+
+
 
 /**
  * This is the list view of all the templates
@@ -120,8 +124,13 @@ class SinopiaResourceTemplates extends Component {
     })
   }
 
+  handleClick = (resourceTemplateId, event) => {
+    console.log('click', resourceTemplateId)
+    this.props.newResource(resourceTemplateId)
+  }
+
   linkFormatter = (cell, row) => (
-    <Link to={{ pathname: '/editor', state: { resourceTemplateId: row.id } }}>{cell}</Link>
+    <Link to={{ pathname: '/editor', state: { } }} onClick={(e) => this.handleClick(row.id, e)}>{cell}</Link>
   )
 
   downloadLinkFormatter = (cell, row) => (<Download blob={ row.download } filename={ `${row.id}.json`} />)
@@ -191,6 +200,15 @@ class SinopiaResourceTemplates extends Component {
 SinopiaResourceTemplates.propTypes = {
   messages: PropTypes.array,
   updateKey: PropTypes.number,
+  newResource: PropTypes.func,
 }
 
-export default SinopiaResourceTemplates
+// export default SinopiaResourceTemplates
+
+const mapDispatchToProps = dispatch => ({
+  newResource: (resourceTemplateId) => {
+    dispatch(newResourceCreator(resourceTemplateId))
+  },
+})
+
+export default connect(null, mapDispatchToProps)(SinopiaResourceTemplates)

@@ -33,6 +33,7 @@ class Header extends Component {
               <li className="nav-item"><NavLink className="nav-link" to="/browse">Browse</NavLink></li>
               <li className="nav-item"><NavLink className="nav-link" to="/editor">Editor</NavLink></li>
               <li className="nav-item"><NavLink className="nav-link" to="/templates">Resource Templates</NavLink></li>
+              <li className="nav-item"><NavLink className="nav-link" to="/resource">Resource</NavLink></li>
             </ul>
           </div>
         </div>
