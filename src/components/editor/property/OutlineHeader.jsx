@@ -26,10 +26,21 @@ class OutlineHeader extends Component {
   }
 
   render() {
+    if (this.props.isAdd) {
+      return (
+        <div className="rOutline-header">
+          {this.spacer()}
+          <button type="button" className="btn btn-sm btn-outline-primary" onClick={this.props.handleCollapsed} data-id={this.props.id}>
+            <FontAwesomeIcon icon={this.isCollapsed()} />&nbsp;Add
+          </button>
+          <PropertyLabel pt={this.props.pt} />
+        </div>
+      )
+    }
     return (
       <div className="rOutline-header">
         {this.spacer()}
-        <a href="#" onClick={this.props.handleCollapsed} data-id={this.props.id}>
+        <a href="#" type="button" onClick={this.props.handleCollapsed} data-id={this.props.id}>
           <FontAwesomeIcon icon={this.isCollapsed()} />&nbsp;
         </a>
         <PropertyLabel pt={this.props.pt} />
@@ -43,6 +54,7 @@ OutlineHeader.propTypes = {
   handleCollapsed: PropTypes.func,
   id: PropTypes.string,
   isRequired: PropTypes.any,
+  isAdd: PropTypes.bool,
   pt: PropTypes.object,
   spacer: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
 }

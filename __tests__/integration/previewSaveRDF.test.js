@@ -23,7 +23,6 @@ describe('Previewing the RDF', () => {
 
     // Present a choice of group to save to from the RDFModal
     await pupExpect(page).toClick('#modal-save', { text: 'Save & Publish' })
-
     await pupExpect(page).toMatch('Which group do you want to save to?')
     await pupExpect(page).toMatch('Which group do you want to associate this record to?')
 

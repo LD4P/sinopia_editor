@@ -2,11 +2,21 @@
 
 /**
  * Validates a resource template.
- * Validation checks that does not contain repeated property templates.
  * @param {Object>} resourceTemplate to validate
- * @return {string|null} reasons that validation failed if invalid otherwise null if valid
+ * @return {Array<string>} reasons that validation failed
  */
 const validateResourceTemplate = (resourceTemplate) => {
+  const reasons = [].concat(validateRepeatedPropertyTemplates(resourceTemplate),
+    validateNoDefaultURIForLiterals(resourceTemplate))
+  return reasons
+}
+
+/**
+ * Validates that a resource template does not contain repeated property templates.
+ * @param {Object>} resourceTemplate to validate
+ * @return {Array<string} reasons that validation failed if invalid
+ */
+const validateRepeatedPropertyTemplates = (resourceTemplate) => {
   const dupes = []
   const propertyTemplateIds = []
   resourceTemplate.propertyTemplates.forEach((propertyTemplate) => {
@@ -18,9 +28,33 @@ const validateResourceTemplate = (resourceTemplate) => {
     }
   })
   if (dupes.length > 0) {
-    return `Repeated property templates with same property URI (${dupes}) are not allowed.`
+    return [`Repeated property templates with same property URI (${dupes}) are not allowed.`]
   }
-  return null
+  return []
 }
+
+/**
+ * Validates that literal property templates do not have a default URI.
+ * @param {Object>} resourceTemplate to validate
+ * @return {Array<string} reasons that validation failed if invalid
+ */
+const validateNoDefaultURIForLiterals = (resourceTemplate) => {
+  const propertyTemplateIds = new Set()
+  resourceTemplate.propertyTemplates.forEach((propertyTemplate) => {
+    if (propertyTemplate.type === 'literal') {
+      const defaults = propertyTemplate?.valueConstraint?.defaults || []
+      defaults.forEach((defaultItem) => {
+        if (defaultItem.defaultURI !== undefined) {
+          propertyTemplateIds.add(propertyTemplate.propertyURI)
+        }
+      })
+    }
+  })
+  if (propertyTemplateIds.size > 0) {
+    return [`Literal property templates (${Array.from(propertyTemplateIds)}) cannot have default URIs.`]
+  }
+  return []
+}
+
 
 export default validateResourceTemplate

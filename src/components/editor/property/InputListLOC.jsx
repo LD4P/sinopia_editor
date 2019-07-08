@@ -7,7 +7,7 @@ import { connect } from 'react-redux'
 import shortid from 'shortid'
 import { changeSelections } from 'actions/index'
 import { itemsForProperty, getDisplayValidations, getPropertyTemplate } from 'selectors/resourceSelectors'
-import { booleanPropertyFromTemplate, defaultValuesFromPropertyTemplate, getLookupConfigItems } from 'Utilities'
+import { booleanPropertyFromTemplate, getLookupConfigItems } from 'Utilities'
 
 // propertyTemplate of type 'lookup' does live QA lookup via API
 //  based on URI in propertyTemplate.valueConstraint.useValuesFrom,
@@ -18,12 +18,6 @@ class InputListLOC extends Component {
     this.state = {
       isLoading: false,
       options: [], // The suggestions returned from QA
-    }
-  }
-
-  componentDidMount() {
-    if (this.props.defaults?.length > 0) {
-      this.selectionChanged(this.props.defaults)
     }
   }
 
@@ -68,10 +62,6 @@ class InputListLOC extends Component {
       alert(`There is no configured list lookup for ${this.props.propertyTemplate.propertyURI}`)
     }
 
-    if (this.props.defaults?.length === undefined) {
-      return (<div />)
-    }
-
     const typeaheadProps = {
       id: 'targetComponent',
       required: this.isMandatory,
@@ -82,8 +72,7 @@ class InputListLOC extends Component {
       selectHintOnEnter: true,
       isLoading: this.state.isLoading,
       options: this.state.options,
-      selected: this.state.selected,
-      defaultSelected: this.props.defaults,
+      selected: this.props.selected,
     }
     const opts = []
     let groupClasses = 'form-group'
@@ -146,6 +135,7 @@ InputListLOC.propTypes = {
     }),
   }),
   reduxPath: PropTypes.array,
+  selected: PropTypes.object,
 }
 
 const mapStateToProps = (state, ownProps) => {
@@ -154,14 +144,22 @@ const mapStateToProps = (state, ownProps) => {
   const propertyURI = reduxPath[reduxPath.length - 1]
   const displayValidations = getDisplayValidations(state)
   const propertyTemplate = getPropertyTemplate(state, resourceTemplateId, propertyURI)
-  const defaults = defaultValuesFromPropertyTemplate(propertyTemplate)
   const lookupConfig = getLookupConfigItems(propertyTemplate)
 
+  // Make sure that every item has a label
+  // This is a temporary strategy until label lookup is implemented.
+  const selected = itemsForProperty(state.selectorReducer, ownProps.reduxPath).map((item) => {
+    const newItem = { ...item }
+    if (newItem.label === undefined) {
+      newItem.label = newItem.uri
+    }
+    return newItem
+  })
+
   return {
-    selected: itemsForProperty(state.selectorReducer, ownProps.reduxPath),
+    selected,
     propertyTemplate,
     displayValidations,
-    defaults,
     lookupConfig,
   }
 }

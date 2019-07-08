@@ -7,12 +7,12 @@ export async function fillInRequredFieldsForBibframeInstance() {
   await pupExpect(page).toClick('a', { text: 'BIBFRAME Instance' })
 
   // Click on one of the property type rows to expand a nested resource
-  await page.waitForSelector('a[data-id=\'title\']')
-  await page.click('a[data-id=\'title\']')
-  await page.waitForSelector('a[data-id=\'mainTitle\']')
+  await page.waitForSelector('button[data-id=\'title\']')
+  await page.click('button[data-id=\'title\']')
+  await page.waitForSelector('button[data-id=\'mainTitle\']')
 
   // Fill in required element
-  await page.click('a[data-id=\'mainTitle\']')
+  await page.click('button[data-id=\'mainTitle\']')
   await page.type('[placeholder=\'Preferred Title for Work (RDA 6.2.2, RDA 6.14.2) (BIBFRAME: Main title)\']', 'Hello')
   await page.keyboard.press('Enter')
 

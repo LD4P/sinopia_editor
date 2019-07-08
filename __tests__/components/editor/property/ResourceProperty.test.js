@@ -11,8 +11,6 @@ describe('<ResourceProperty />', () => {
   shortid.generate = jest.fn().mockReturnValue('abcd45')
 
   describe('happy path', () => {
-    const mockInitNewResourceTemplate = jest.fn()
-
     const property = {
       propertyLabel: 'Notes about the Instance',
       remark: 'This is a great note',
@@ -39,26 +37,27 @@ describe('<ResourceProperty />', () => {
     }]
 
     const models = {
-      'resourceTemplate:bf2:Note': {
-        resourceTemplate: nestedRTs[0],
-        properties: [
-          {
-            isAddDisabled: true,
-            property: nestedRTs[0].propertyTemplates[0],
-            reduxPath: ['http://id.loc.gov/ontologies/bibframe/note',
-              'abcd45',
-              'resourceTemplate:bf2:Note',
-              'http://www.w3.org/2000/01/rdf-schema#label'],
-          },
-        ],
-      },
+      'resourceTemplate:bf2:Note': [
+        {
+          resourceTemplate: nestedRTs[0],
+          properties: [
+            {
+              isAddDisabled: true,
+              property: nestedRTs[0].propertyTemplates[0],
+              reduxPath: ['http://id.loc.gov/ontologies/bibframe/note',
+                'abcd45',
+                'resourceTemplate:bf2:Note',
+                'http://www.w3.org/2000/01/rdf-schema#label'],
+            },
+          ],
+        },
+      ],
     }
 
     const wrapper = shallow(<ResourceProperty.WrappedComponent
               propertyTemplate={property}
               reduxPath={[]}
               nestedResourceTemplates={nestedRTs}
-              initNewResourceTemplate={mockInitNewResourceTemplate}
               handleAddClick={jest.fn()}
               models={models} />)
 
@@ -74,20 +73,11 @@ describe('<ResourceProperty />', () => {
       const propertyTemplateOutline = wrapper.find(PropertyTemplateOutline)
 
       expect(propertyTemplateOutline.length).toEqual(1)
-      expect(propertyTemplateOutline.props().propertyTemplate).toEqual(nestedRTs[0].propertyTemplates[0])
       expect(propertyTemplateOutline.props().reduxPath).toEqual(['http://id.loc.gov/ontologies/bibframe/note', 'abcd45', 'resourceTemplate:bf2:Note', 'http://www.w3.org/2000/01/rdf-schema#label'])
-      expect(propertyTemplateOutline.props().resourceTemplate).toEqual(nestedRTs[0])
-      expect(propertyTemplateOutline.props().addButtonDisabled).toEqual(true) // repeatable is false by default (nested prop template)
-    })
-
-    it('calls redux to initialize the state with the nested resource', () => {
-      expect(mockInitNewResourceTemplate).toHaveBeenCalledTimes(1)
     })
   })
 
   describe('with a missing nested ref', () => {
-    const mockInitNewResourceTemplate2 = jest.fn()
-
     const propertyWithMissingRef = {
       propertyLabel: 'Notes about the Instance',
       remark: 'This is a great note',
@@ -116,30 +106,33 @@ describe('<ResourceProperty />', () => {
     }]
 
     const models = {
-      'resourceTemplate:bf2:Note': {
-        resourceTemplate: nestedRTsWithoutMissingRef[0],
-        properties: [
-          {
-            isAddDisabled: false,
-            property: nestedRTsWithoutMissingRef[0].propertyTemplates[0],
-            reduxPath: ['http://id.loc.gov/ontologies/bibframe/note',
-              'abcd45',
-              'resourceTemplate:bf2:Note',
-              'http://www.w3.org/2000/01/rdf-schema#label'],
-          },
-        ],
-      },
-      'resourceTemplate:bf2:Cruft': {
-        resourceTemplate: undefined,
-        properties: [],
-      },
+      'resourceTemplate:bf2:Note': [
+        {
+          resourceTemplate: nestedRTsWithoutMissingRef[0],
+          properties: [
+            {
+              isAddDisabled: false,
+              property: nestedRTsWithoutMissingRef[0].propertyTemplates[0],
+              reduxPath: ['http://id.loc.gov/ontologies/bibframe/note',
+                'abcd45',
+                'resourceTemplate:bf2:Note',
+                'http://www.w3.org/2000/01/rdf-schema#label'],
+            },
+          ],
+        },
+      ],
+      'resourceTemplate:bf2:Cruft': [
+        {
+          resourceTemplate: undefined,
+          properties: [],
+        },
+      ],
     }
 
     const wrapper = shallow(<ResourceProperty.WrappedComponent
                               propertyTemplate={propertyWithMissingRef}
                               reduxPath={[]}
                               nestedResourceTemplates={nestedRTsWithoutMissingRef}
-                              initNewResourceTemplate={mockInitNewResourceTemplate2}
                               handleAddClick={jest.fn()}
                               models={models} />)
 
@@ -155,19 +148,12 @@ describe('<ResourceProperty />', () => {
       const propertyTemplateOutline = wrapper.find(PropertyTemplateOutline)
 
       expect(propertyTemplateOutline.length).toEqual(1)
-      expect(propertyTemplateOutline.props().propertyTemplate).toEqual(nestedRTsWithoutMissingRef[0].propertyTemplates[0])
       expect(propertyTemplateOutline.props().reduxPath).toEqual(['http://id.loc.gov/ontologies/bibframe/note', 'abcd45', 'resourceTemplate:bf2:Note', 'http://www.w3.org/2000/01/rdf-schema#label'])
-      expect(propertyTemplateOutline.props().resourceTemplate).toEqual(nestedRTsWithoutMissingRef[0])
-      expect(propertyTemplateOutline.props().addButtonDisabled).toEqual(false) // nested prop template is repeatable
     })
 
     it('renders a warning for the missing resource', () => {
       expect(wrapper.find('div.alert-warning').text())
         .toEqual('Warning: this property refers to a missing Resource Template. You cannot edit it until a Resource Template with an ID of resourceTemplate:bf2:Cruft has been imported into the Sinopia Linked Data Editor.')
-    })
-
-    it('calls redux to initialize the state with the nested resource', () => {
-      expect(mockInitNewResourceTemplate2).toHaveBeenCalledTimes(1)
     })
   })
 })
