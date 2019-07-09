@@ -132,6 +132,10 @@ class InputListLOC extends Component {
 }
 
 InputListLOC.propTypes = {
+  defaults: PropTypes.arrayOf(PropTypes.object),
+  displayValidations: PropTypes.bool,
+  handleSelectedChange: PropTypes.func,
+  lookupConfig: PropTypes.arrayOf(PropTypes.object),
   propertyTemplate: PropTypes.shape({
     propertyLabel: PropTypes.string,
     propertyURI: PropTypes.string,
@@ -141,7 +145,7 @@ InputListLOC.propTypes = {
       useValuesFrom: PropTypes.oneOfType([PropTypes.string, PropTypes.array]),
     }),
   }),
-  displayValidations: PropTypes.bool,
+  reduxPath: PropTypes.array,
 }
 
 const mapStateToProps = (state, ownProps) => {
