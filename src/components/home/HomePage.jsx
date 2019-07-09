@@ -7,10 +7,6 @@ import NewsPanel from './NewsPanel'
 import DescPanel from './DescPanel'
 
 class HomePage extends Component {
-  constructor(props) {
-    super(props)
-  }
-
   render() {
     return (
       <div id="home-page">

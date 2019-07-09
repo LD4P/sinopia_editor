@@ -5,10 +5,6 @@ import PropTypes from 'prop-types'
 import shortid from 'shortid'
 
 export class PropertyTypeRow extends Component {
-  constructor(props) {
-    super(props)
-  }
-
   render() {
     return (
       <React.Fragment key={shortid.generate()}>

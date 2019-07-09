@@ -7,10 +7,6 @@ import { faMinusSquare, faPlusSquare } from '@fortawesome/free-solid-svg-icons'
 import PropertyLabel from './PropertyLabel'
 
 class OutlineHeader extends Component {
-  constructor(props) {
-    super(props)
-  }
-
   isCollapsed = () => {
     if (this.props.collapsed === true) {
       return faPlusSquare
