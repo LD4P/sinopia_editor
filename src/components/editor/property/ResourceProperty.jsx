@@ -8,6 +8,7 @@ import PropertyActionButtons from './PropertyActionButtons'
 import PropertyTemplateOutline from './PropertyTemplateOutline'
 import { refreshPropertyTemplate } from 'actions/index'
 import { booleanPropertyFromTemplate } from 'Utilities'
+import { findNode } from 'selectors/resourceSelectors'
 
 const _ = require('lodash')
 
@@ -28,15 +29,9 @@ export class ResourceProperty extends Component {
   renderResourcePropertyJsx = () => {
     const jsx = []
 
-    this.props.propertyTemplate.valueConstraint.valueTemplateRefs.map((rtId) => {
-      const resourceTemplate = _.find(this.props.nestedResourceTemplates, ['id', rtId])
-      const resourceKeyId = shortid.generate()
-      const newReduxPath = Object.assign([], this.props.reduxPath)
-
-      newReduxPath.push(this.props.propertyTemplate.propertyURI)
-
-      newReduxPath.push(resourceKeyId)
-      newReduxPath.push(rtId)
+    Object.keys(this.props.models).forEach((rtId) => {
+      const resourceRow = this.props.models[rtId]
+      const resourceTemplate = resourceRow.resourceTemplate
 
       if (resourceTemplate === undefined) {
         return jsx.push(
@@ -54,26 +49,21 @@ export class ResourceProperty extends Component {
           <section className="col-sm-4">
             <PropertyActionButtons handleAddClick={this.props.handleAddClick}
                                    reduxPath={this.props.reduxPath}
-                                   addButtonDisabled={this.props.addButtonDisabled}
-                                   key={resourceKeyId} />
+                                   addButtonDisabled={this.props.addButtonDisabled} />
           </section>
         </div>,
       )
-      resourceTemplate.propertyTemplates.map((rtProperty) => {
+
+      resourceRow.properties.forEach((model) => {
         const keyId = shortid.generate()
-        const propertyReduxPath = Object.assign([], newReduxPath)
-
-        propertyReduxPath.push(rtProperty.propertyURI)
-        const payload = { reduxPath: propertyReduxPath, property: rtProperty }
+        const payload = { reduxPath: model.reduxPath, property: model.property }
         this.dispatchPayloads.push(payload)
-
-        const isAddDisabled = !booleanPropertyFromTemplate(rtProperty, 'repeatable', false)
 
         jsx.push(
           <PropertyTemplateOutline key={keyId}
-                                   propertyTemplate={rtProperty}
-                                   reduxPath={propertyReduxPath}
-                                   addButtonDisabled={isAddDisabled}
+                                   propertyTemplate={model.property}
+                                   reduxPath={model.reduxPath}
+                                   addButtonDisabled={model.isAddDisabled}
                                    resourceTemplate={resourceTemplate} />,
         )
       })
@@ -98,11 +88,46 @@ ResourceProperty.propTypes = {
   nestedResourceTemplates: PropTypes.array,
   propertyTemplate: PropTypes.object,
   reduxPath: PropTypes.array,
+  models: PropTypes.object,
 }
+
+const mapStateToProps = (state, ourProps) => {
+  const models = {}
+
+  ourProps.propertyTemplate.valueConstraint.valueTemplateRefs.forEach((rtId) => {
+    const resourceTemplate = _.find(ourProps.nestedResourceTemplates, ['id', rtId])
+    models[rtId] = { resourceTemplate, properties: [] }
+    const newReduxPath = Object.assign([], ourProps.reduxPath)
+
+    newReduxPath.push(ourProps.propertyTemplate.propertyURI)
+
+    const formData = findNode(state.selectorReducer, newReduxPath)
+    // TODO: foreach ?
+    const resourceKeyId = Object.keys(formData)[0] || shortid.generate()
+    newReduxPath.push(resourceKeyId)
+    newReduxPath.push(rtId)
+
+    resourceTemplate.propertyTemplates.map((rtProperty) => {
+      const propertyReduxPath = Object.assign([], newReduxPath)
+      propertyReduxPath.push(rtProperty.propertyURI)
+
+      const isAddDisabled = !booleanPropertyFromTemplate(rtProperty, 'repeatable', false)
+
+      models[rtId].properties.push({
+        isAddDisabled,
+        reduxPath: propertyReduxPath,
+        property: rtProperty,
+      })
+    })
+  })
+
+  return { models }
+}
+
 const mapDispatchToProps = dispatch => ({
   initNewResourceTemplate(rtContext) {
     dispatch(refreshPropertyTemplate(rtContext))
   },
 })
 
-export default connect(null, mapDispatchToProps)(ResourceProperty)
+export default connect(mapStateToProps, mapDispatchToProps)(ResourceProperty)

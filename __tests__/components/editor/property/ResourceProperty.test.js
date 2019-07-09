@@ -38,12 +38,29 @@ describe('<ResourceProperty />', () => {
       ],
     }]
 
+    const models = {
+      'resourceTemplate:bf2:Note': {
+        resourceTemplate: nestedRTs[0],
+        properties: [
+          {
+            isAddDisabled: true,
+            property: nestedRTs[0].propertyTemplates[0],
+            reduxPath: ['http://id.loc.gov/ontologies/bibframe/note',
+              'abcd45',
+              'resourceTemplate:bf2:Note',
+              'http://www.w3.org/2000/01/rdf-schema#label'],
+          },
+        ],
+      },
+    }
+
     const wrapper = shallow(<ResourceProperty.WrappedComponent
               propertyTemplate={property}
               reduxPath={[]}
               nestedResourceTemplates={nestedRTs}
               initNewResourceTemplate={mockInitNewResourceTemplate}
-              handleAddClick={jest.fn()} />)
+              handleAddClick={jest.fn()}
+              models={models} />)
 
     it('creates a header section with the resource label', () => {
       expect(wrapper.find('section h5').text()).toEqual('Note')
@@ -98,12 +115,33 @@ describe('<ResourceProperty />', () => {
       ],
     }]
 
+    const models = {
+      'resourceTemplate:bf2:Note': {
+        resourceTemplate: nestedRTsWithoutMissingRef[0],
+        properties: [
+          {
+            isAddDisabled: false,
+            property: nestedRTsWithoutMissingRef[0].propertyTemplates[0],
+            reduxPath: ['http://id.loc.gov/ontologies/bibframe/note',
+              'abcd45',
+              'resourceTemplate:bf2:Note',
+              'http://www.w3.org/2000/01/rdf-schema#label'],
+          },
+        ],
+      },
+      'resourceTemplate:bf2:Cruft': {
+        resourceTemplate: undefined,
+        properties: [],
+      },
+    }
+
     const wrapper = shallow(<ResourceProperty.WrappedComponent
                               propertyTemplate={propertyWithMissingRef}
                               reduxPath={[]}
                               nestedResourceTemplates={nestedRTsWithoutMissingRef}
                               initNewResourceTemplate={mockInitNewResourceTemplate2}
-                              handleAddClick={jest.fn()} />)
+                              handleAddClick={jest.fn()}
+                              models={models} />)
 
     it('creates a header section with the resource label', () => {
       expect(wrapper.find('section h5').text()).toEqual('Note')
