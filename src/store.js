@@ -22,6 +22,8 @@ const initialState = {
       groupChoice: {
         show: false,
       },
+      expanded: { // Should this node display as expanded in the editor
+      },
     },
     entities: { // The stuff we've retrieved from the server
       resourceTemplates: {

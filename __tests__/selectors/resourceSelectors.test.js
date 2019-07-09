@@ -1,7 +1,8 @@
 // Copyright 2019 Stanford University see LICENSE for license
 
 import {
-  rootResourceId, getDisplayValidations, getResourceTemplate, getPropertyTemplate,
+  rootResourceId, isExpanded,
+  getDisplayValidations, getResourceTemplate, getPropertyTemplate,
 } from 'selectors/resourceSelectors'
 
 let initialState
@@ -46,6 +47,40 @@ describe('getDisplayValidations()', () => {
     }
 
     expect(getDisplayValidations(state)).toBeTruthy()
+  })
+})
+
+describe('isExpanded()', () => {
+  const reduxPath = ["resource", "resourceTemplate:bf2:Monograph:Instance", "http://id.loc.gov/ontologies/bibframe/instanceOf", "aJOz_pLh3m7", "resourceTemplate:bf2:Monograph:Work", "http://id.loc.gov/ontologies/bibframe/title"]
+
+  it('returns false when missing', () => {
+    expect(isExpanded(initialState.selectorReducer, reduxPath)).toBeFalsy()
+  })
+
+  it('returns value when present', () => {
+    const state = {
+      selectorReducer: {
+        editor: {
+          expanded: {
+            resource: {
+              'resourceTemplate:bf2:Monograph:Instance': {
+                'http://id.loc.gov/ontologies/bibframe/instanceOf': {
+                  aJOz_pLh3m7: {
+                    'resourceTemplate:bf2:Monograph:Work': {
+                      'http://id.loc.gov/ontologies/bibframe/title': {
+                        expanded: true
+                      }
+                    },
+                  },
+                },
+              },
+            },
+          },
+        },
+      },
+    }
+
+    expect(isExpanded(state.selectorReducer, reduxPath)).toBeTruthy()
   })
 })
 
