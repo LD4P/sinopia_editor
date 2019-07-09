@@ -6,7 +6,7 @@ import Button from 'react-bootstrap/lib/Button'
 import Modal from 'react-bootstrap/lib/Modal'
 import { resourceToName } from 'Utilities'
 
-const _ = require('lodash')
+import _ from 'lodash'
 
 class UpdateResourceModal extends Component {
   constructor(props) {

@@ -3,8 +3,8 @@
 import lookupConfig from '../static/lookupConfig.json'
 import N3Parser from 'n3/lib/N3Parser'
 
-const rdf = require('rdf-ext')
-const _ = require('lodash')
+import rdf from 'rdf-ext'
+import _ from 'lodash'
 
 export const isResourceWithValueTemplateRef = property => property?.type === 'resource'
     && property?.valueConstraint?.valueTemplateRefs?.length > 0

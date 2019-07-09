@@ -6,7 +6,7 @@ import { OverlayTrigger, Popover } from 'react-bootstrap'
 import PropTypes from 'prop-types'
 import RequiredSuperscript from './RequiredSuperscript'
 
-const _ = require('lodash')
+import _ from 'lodash'
 
 const PropertyLabel = (props) => {
   const key = shortid.generate()

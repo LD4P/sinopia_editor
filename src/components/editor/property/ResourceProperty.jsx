@@ -10,7 +10,7 @@ import { refreshPropertyTemplate } from 'actions/index'
 import { booleanPropertyFromTemplate } from 'Utilities'
 import { findNode } from 'selectors/resourceSelectors'
 
-const _ = require('lodash')
+import _ from 'lodash'
 
 export class ResourceProperty extends Component {
   dispatchPayloads = [] // to separate needed state changes from rendering

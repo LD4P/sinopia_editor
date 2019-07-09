@@ -1,7 +1,7 @@
 // Copyright 2019 Stanford University see LICENSE for license
 
-const rdf = require('rdf-ext')
-const _ = require('lodash')
+import rdf from 'rdf-ext'
+import _ from 'lodash'
 
 /**
  * Builds RDF graphs from the Redux state
