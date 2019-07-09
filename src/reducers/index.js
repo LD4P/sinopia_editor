@@ -8,7 +8,6 @@ import {
   removeAllContent, removeMyItem, setItemsOrSelections, setBaseURL, showResourceURIMessage, setMyItemsLang,
   showGroupChooser, closeGroupChooser, showRdfPreview,
 } from './inputs'
-
 import { defaultLangTemplate } from 'Utilities'
 
 /**

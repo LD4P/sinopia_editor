@@ -62,9 +62,30 @@ export const updateFinished = () => ({
   type: 'UPDATE_FINISHED',
 })
 
+export const retrieveResourceStarted = uri => ({
+  type: 'RETRIEVE_STARTED',
+  payload: uri,
+})
+
+export const retrieveResourceFinished = (uri, data) => ({
+  type: 'RETRIEVE_FINISHED',
+  payload: {
+    uri,
+    data,
+  },
+})
+
 export const retrieveResourceTemplateStarted = resourceTemplateId => ({
   type: 'RETRIEVE_RESOURCE_TEMPLATE_STARTED',
   payload: resourceTemplateId,
+})
+
+export const retrieveResourceTemplateFinished = (resourceTemplateId, body) => ({
+  type: 'RETRIEVE_RESOURCE_TEMPLATE_FINISHED',
+  payload: {
+    resourceTemplateId,
+    body,
+  },
 })
 
 export const changeSelections = item => ({
