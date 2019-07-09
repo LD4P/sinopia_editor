@@ -12,7 +12,7 @@ import { getResourceTemplate } from 'sinopiaServer'
 import { isResourceWithValueTemplateRef, resourceToName } from 'Utilities'
 import store from 'store'
 
-const _ = require('lodash')
+import _ from 'lodash'
 
 // Renders the input form for the root ResourceTemplate
 export class ResourceTemplateForm extends Component {

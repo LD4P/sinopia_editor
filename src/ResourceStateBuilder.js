@@ -2,8 +2,8 @@
 
 import shortid from 'shortid'
 
-const rdf = require('rdf-ext')
-const _ = require('lodash')
+import rdf from 'rdf-ext'
+import _ from 'lodash'
 
 /**
  * Builds Redux state from an RDF graph.
