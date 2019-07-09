@@ -117,7 +117,7 @@ module.exports = {
     "no-underscore-dangle": "off",
     "no-unused-expressions": "off",
     "no-use-before-define": "off",
-    "no-useless-constructor": "off",
+    "no-useless-constructor": "warn",
     "no-var": "error",
     "no-warning-comments": "off",
     "node/no-unsupported-features/es-syntax": "off",

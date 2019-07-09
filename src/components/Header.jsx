@@ -7,10 +7,6 @@ import Config from 'Config'
 import { connect } from 'react-redux'
 
 class Header extends Component {
-  constructor(props) {
-    super(props)
-  }
-
   render() {
     return (
       <div className="navbar editor-navbar">
