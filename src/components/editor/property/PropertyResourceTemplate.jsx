@@ -43,20 +43,20 @@ import { getResourceTemplate } from 'selectors/resourceSelectors'
 class PropertyResourceTemplate extends Component {
   constructor(props) {
     super(props)
-    this.state = {
-      output: this.populatePropertyTemplates(),
-    }
+    // this.state = {
+    //   output: this.populatePropertyTemplates(),
+    // }
   }
 
   handleAddClick = (event) => {
     event.preventDefault()
-    const existingOutputs = [...this.state.output]
-
-    existingOutputs.push(<h4 key={shortid.generate()}>{this.props.resourceTemplate.resourceLabel}</h4>)
-
-    const result = this.populatePropertyTemplates()
-
-    this.setState({ output: existingOutputs.concat(result) })
+    // const existingOutputs = [...this.state.output]
+    //
+    // existingOutputs.push(<h4 key={shortid.generate()}>{this.props.resourceTemplate.resourceLabel}</h4>)
+    //
+    // const result = this.populatePropertyTemplates()
+    //
+    // this.setState({ output: existingOutputs.concat(result) })
   }
 
   populatePropertyTemplates = () => {
@@ -98,7 +98,7 @@ class PropertyResourceTemplate extends Component {
         </section>
       </div>
       <div>
-        { this.state.output }
+        { this.populatePropertyTemplates() }
       </div>
     </div>
     )
