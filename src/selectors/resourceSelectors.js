@@ -10,7 +10,7 @@ export const findNode = (selectorReducer, reduxPath) => {
 }
 
 export const isExpanded = (selectorReducer, reduxPath) => ['editor', 'expanded', ...reduxPath, 'expanded']
-  .reduce((obj, key) => typeof(obj[key]) !== 'undefined' ? obj[key] : false, selectorReducer)
+  .reduce((obj, key) => (typeof obj[key] !== 'undefined' ? obj[key] : false), selectorReducer)
 
 export const itemsForProperty = (selectorReducer, reduxPath) => {
   const result = findNode(selectorReducer, reduxPath)

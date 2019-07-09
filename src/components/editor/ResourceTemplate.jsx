@@ -4,22 +4,15 @@ import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import PropTypes from 'prop-types'
 import ResourceTemplateForm from './ResourceTemplateForm'
-import { fetchRootResourceTemplate, newResource as newResourceCreator } from 'actionCreators'
-import { rootResource, getResourceTemplate } from 'selectors/resourceSelectors'
+import { newResource as newResourceCreator } from 'actionCreators'
+import { getResourceTemplate } from 'selectors/resourceSelectors'
 import ResourceURIMessage from './ResourceURIMessage'
-const _ = require('lodash')
+import _ from 'lodash'
 
 /**
  * This is the root component of the editor on the resource edit page
  */
 class ResourceTemplate extends Component {
-  // Called immediately after the component is rendered for the first time
-  componentDidMount() {
-    // this.props.retrieveResourceTemplate(this.props.resourceTemplateId)
-    // This should be invoked by user clicking resource template name.
-    // this.props.newResource(this.props.resourceTemplateId)
-  }
-
   render() {
     if (this.props.error) {
       return (<div className="alert alert-warning">{ this.props.error }</div>)
@@ -43,13 +36,12 @@ class ResourceTemplate extends Component {
 }
 
 ResourceTemplate.propTypes = {
-  retrieveResourceTemplate: PropTypes.func,
   resourceTemplate: PropTypes.object,
   error: PropTypes.string,
   newResource: PropTypes.func,
 }
 
-const mapStateToProps = (state, ownProps) => {
+const mapStateToProps = (state) => {
   const resourceTemplateId = _.first(Object.keys(state.selectorReducer.resource))
 
   const resourceTemplate = getResourceTemplate(state, resourceTemplateId)
@@ -61,9 +53,6 @@ const mapStateToProps = (state, ownProps) => {
 }
 
 const mapDispatchToProps = dispatch => ({
-  retrieveResourceTemplate: (resourceTemplate) => {
-    dispatch(fetchRootResourceTemplate(resourceTemplate))
-  },
   newResource: (resourceTemplateId) => {
     dispatch(newResourceCreator(resourceTemplateId))
   },

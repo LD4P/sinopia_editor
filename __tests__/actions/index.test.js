@@ -1,4 +1,4 @@
-// Copyright 2018 Stanford University see LICENSE for license
+// Copyright 2019 Stanford University see LICENSE for license
 
 import * as actions from 'actions/index'
 
@@ -7,15 +7,6 @@ describe('setItems()', () => {
     expect(actions.setItems({ id: 'Instance of', items: [{ content: 'food', id: 0 }] })).toEqual({
       type: 'SET_ITEMS',
       payload: { id: 'Instance of', items: [{ content: 'food', id: 0 }] },
-    })
-  })
-})
-
-describe('refreshPropertyTemplate()', () => {
-  it('creates REFRESH_PROPERTY_TEMPLATE action', () => {
-    expect(actions.refreshPropertyTemplate({ id: 'resourceTemplate:bf2:Note' })).toEqual({
-      type: 'REFRESH_PROPERTY_TEMPLATE',
-      payload: { id: 'resourceTemplate:bf2:Note' },
     })
   })
 })
@@ -61,15 +52,6 @@ describe('authentication actions', () => {
   it('signOutSuccess should create SIGN_OUT_SUCCESS action', () => {
     expect(actions.signOutSuccess()).toEqual({
       type: 'SIGN_OUT_SUCCESS',
-    })
-  })
-})
-
-describe('initializes the Redux State', () => {
-  it('should return Redux state based on ROOT_RESOURCE_TEMPLATE_LOADED action', () => {
-    expect(actions.rootResourceTemplateLoaded({}, { reduxPath: ['http://sinopia.io/example'] })).toEqual({
-      type: 'ROOT_RESOURCE_TEMPLATE_LOADED',
-      payload: {},
     })
   })
 })
