@@ -17,6 +17,7 @@ const Browse = (props) => {
 
   const handleSubmit = (event) => {
     props.loadResource(props.currentUser, uri)
+    props.history.push('/editor')
     event.preventDefault()
   }
 
