@@ -150,3 +150,8 @@ export const updateResource = (reduxPath, resourceFragment) => ({
   type: 'UPDATE_RESOURCE',
   payload: { reduxPath, resourceFragment },
 })
+
+export const toggleCollapse = (reduxPath) => ({
+  type: 'TOGGLE_COLLAPSE',
+  payload: { reduxPath },
+})
