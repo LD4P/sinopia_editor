@@ -120,6 +120,7 @@ export const rootResourceTemplateLoaded = (state, action) => {
   // Clear any existing validation errors when we load a resource template
   newState.editor.errors = []
   newState.editor.displayValidations = false
+  newState.editor.expanded = {}
 
   return newState
 }
@@ -155,6 +156,30 @@ export const saveAppVersion = (state, action) => {
   const newState = { ...state }
 
   newState.appVersion.version = action.payload
+  return newState
+}
+
+/**
+ * Set a section to expanded or collapsed.
+ * This sets values in the redux store under editor.expanded and then the reduxPath
+ */
+export const toggleCollapse = (state, action) => {
+  const newState = { ...state }
+  const expanded = newState.editor.expanded
+  console.log('toggle Collapse', expanded, action.payload.reduxPath)
+  const reduxPath = action.payload.reduxPath
+  const items = reduxPath.reduce((obj, key) => {
+    console.log('reducing', key, obj)
+
+    return obj[key] || (obj[key] = {})
+  }, expanded)
+
+  if (typeof(items.expanded) === 'undefined') {
+    items.expanded = true
+  } else {
+    items.expanded = !items.expanded
+  }
+
   return newState
 }
 
@@ -195,6 +220,8 @@ const selectorReducer = (state = {}, action) => {
       return setResourceTemplate(state, action)
     case 'UPDATE_RESOURCE':
       return updateResource(state, action)
+    case 'TOGGLE_COLLAPSE':
+      return toggleCollapse(state, action)
     default:
       return state
   }

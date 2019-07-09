@@ -5,19 +5,15 @@ import { connect } from 'react-redux'
 import PropTypes from 'prop-types'
 import shortid from 'shortid'
 import OutlineHeader from './OutlineHeader'
-import PropertyTypeRow from './PropertyTypeRow'
-import { getResourceTemplate } from 'sinopiaServer'
-import { booleanPropertyFromTemplate, isResourceWithValueTemplateRef, resourceToName } from 'Utilities'
+import { isResourceWithValueTemplateRef, resourceToName } from 'Utilities'
 import PropertyComponent from './PropertyComponent'
 import ResourceProperty from './ResourceProperty'
-import store from 'store'
-import { resourceTemplateLoaded } from 'actions/index'
-import { findNode, getPropertyTemplate } from 'selectors/resourceSelectors'
-import { expandResource as expandResourceAction} from 'actionCreators'
-const _ = require('lodash')
+import { findNode, isExpanded, getPropertyTemplate } from 'selectors/resourceSelectors'
+import { expandResource } from 'actionCreators'
+import { toggleCollapse } from 'actions/index'
+import _ from 'lodash'
 
 class PropertyTemplateOutline extends Component {
-
   outlineRowClass = () => {
     let classNames = 'rOutline-property'
 
@@ -28,42 +24,7 @@ class PropertyTemplateOutline extends Component {
 
   handleAddClick = (event) => {
     event.preventDefault()
-    this.addPropertyTypeRows()
-  }
-
-  // When the plus button is clicked, load reference templates (property.valueConstraint.valueTemplateRefs)
-  handleTogglePlusButton = (event) => {
-    console.log('handleTogglePlusButton', this.props.reduxPath, this.isCollapsed(), this.hasBeenExpanded())
-    event.preventDefault()
-
-    if (!this.hasBeenExpanded()) {
-      console.log('expanding')
-      this.props.expandResource(this.props.reduxPath)
-    }
-    // Will need to handle some other way
-    // this.setState({ collapsed: !this.state.collapsed })
-  }
-
-  hasBeenExpanded() {
-    return ! _.isEmpty(this.props.resourceModel)
-  }
-
-  addChildRow() {
-    if (isResourceWithValueTemplateRef(this.props.propertyTemplate)) {
-      this.loadResourceTemplates()
-    } else {
-      this.addPropertyTypeRows()
-    }
-  }
-
-  loadResourceTemplates() {
-    this.fulfillRTPromises(
-      this.resourceTemplatePromises(this.props.propertyTemplate.valueConstraint.valueTemplateRefs),
-    ).then(() => this.addPropertyTypeRows())
-  }
-
-  isCollapsed() {
-    return this.props.collapsed
+    alert('To be implemented')
   }
 
   hasAddedARow() {
@@ -95,7 +56,7 @@ class PropertyTemplateOutline extends Component {
                        id={resourceToName(this.props.propertyTemplate.propertyURI)}
                        collapsed={this.props.collapsed}
                        key={shortid.generate()}
-                       handleCollapsed={this.handleTogglePlusButton} />
+                       handleCollapsed={this.props.handleTogglePlusButton} />
         <div className={this.outlineRowClass()}>
           {this.renderPropertyRows()}
         </div>
@@ -105,13 +66,12 @@ class PropertyTemplateOutline extends Component {
 }
 
 PropertyTemplateOutline.propTypes = {
-  addButtonDisabled: PropTypes.bool,
-  handleAddClick: PropTypes.func,
-  handleCollapsed: PropTypes.func,
-  isRequired: PropTypes.func,
   propertyTemplate: PropTypes.object,
   reduxPath: PropTypes.array,
+  property: PropTypes.object,
+  resourceModel: PropTypes.object,
   collapsed: PropTypes.bool,
+  handleTogglePlusButton: PropTypes.func,
 }
 
 const mapStateToProps = (state, ourProps) => {
@@ -124,13 +84,18 @@ const mapStateToProps = (state, ourProps) => {
   return {
     resourceModel,
     property,
-    collapsed: false,
+    collapsed: !isExpanded(state.selectorReducer, ourProps.reduxPath),
   }
 }
 
-const mapDispatchToProps = dispatch => ({
-  expandResource: (reduxPath) => {
-    dispatch(expandResourceAction(reduxPath))
+const mapDispatchToProps = (dispatch, ownProps) => ({
+  handleTogglePlusButton: (event) => {
+    event.preventDefault()
+    if (_.isEmpty(ownProps.resourceModel)) {
+      // Load reference templates (property.valueConstraint.valueTemplateRefs)
+      dispatch(expandResource(ownProps.reduxPath))
+    }
+    dispatch(toggleCollapse(ownProps.reduxPath))
   },
 })
 
