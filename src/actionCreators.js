@@ -98,7 +98,6 @@ const stubProperty = async (resourceTemplateId, existingResourceTemplate, resour
   const propertyTemplate = resourceTemplate.propertyTemplates.find((propertyTemplate) => {
     return propertyTemplate.propertyURI === propertyURI
   })
-  // console.log('stubProperty', resourceTemplateId, propertyTemplate, resourceTemplate, propertyURI, existingResourceTemplate)
   if (isResourceWithValueTemplateRef(propertyTemplate)) {
     propertyTemplate.valueConstraint.valueTemplateRefs.forEach((resourceTemplateId) => {
       // Once components correctly use state, this doesn't need to await
