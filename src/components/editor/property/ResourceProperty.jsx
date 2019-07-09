@@ -13,18 +13,18 @@ import { findNode } from 'selectors/resourceSelectors'
 const _ = require('lodash')
 
 export class ResourceProperty extends Component {
-  dispatchPayloads = [] // to separate needed state changes from rendering
+  // dispatchPayloads = [] // to separate needed state changes from rendering
 
-  constructor(props) {
-    super(props)
-    this.dispatchPayloads = []
-  }
+  // constructor(props) {
+  //   super(props)
+  //   // this.dispatchPayloads = []
+  // }
 
   // NOTE:  if this component is ever re-rendered, we will need to ensure we get *changed* payloads to redux
   //   as of 2019-06-18, the code base never re-renders this component, AFAICT.  We load the resource template up once.
-  componentDidMount() {
-    this.dispatchPayloads.forEach((payload) => { this.props.initNewResourceTemplate(payload) })
-  }
+  // componentDidMount() {
+  //   this.dispatchPayloads.forEach((payload) => { this.props.initNewResourceTemplate(payload) })
+  // }
 
   renderResourcePropertyJsx = () => {
     const jsx = []
@@ -56,9 +56,8 @@ export class ResourceProperty extends Component {
 
       resourceRow.properties.forEach((model) => {
         const keyId = shortid.generate()
-        const payload = { reduxPath: model.reduxPath, property: model.property }
-        this.dispatchPayloads.push(payload)
-
+        // const payload = { reduxPath: model.reduxPath, property: model.property }
+        // this.dispatchPayloads.push(payload)
         jsx.push(
           <PropertyTemplateOutline key={keyId}
                                    propertyTemplate={model.property}
@@ -84,8 +83,8 @@ export class ResourceProperty extends Component {
 ResourceProperty.propTypes = {
   addButtonDisabled: PropTypes.bool,
   handleAddClick: PropTypes.func,
-  initNewResourceTemplate: PropTypes.func,
-  nestedResourceTemplates: PropTypes.array,
+  // initNewResourceTemplate: PropTypes.func,
+  // nestedResourceTemplates: PropTypes.array,
   propertyTemplate: PropTypes.object,
   reduxPath: PropTypes.array,
   models: PropTypes.object,
@@ -94,40 +93,60 @@ ResourceProperty.propTypes = {
 const mapStateToProps = (state, ourProps) => {
   const models = {}
 
-  ourProps.propertyTemplate.valueConstraint.valueTemplateRefs.forEach((rtId) => {
-    const resourceTemplate = _.find(ourProps.nestedResourceTemplates, ['id', rtId])
-    models[rtId] = { resourceTemplate, properties: [] }
-    const newReduxPath = Object.assign([], ourProps.reduxPath)
+  const propertyNode = findNode(state.selectorReducer, ourProps.reduxPath)
 
-    newReduxPath.push(ourProps.propertyTemplate.propertyURI)
-
-    const formData = findNode(state.selectorReducer, newReduxPath)
-    // TODO: foreach ?
-    const resourceKeyId = Object.keys(formData)[0] || shortid.generate()
-    newReduxPath.push(resourceKeyId)
-    newReduxPath.push(rtId)
+  Object.keys(propertyNode).forEach((key) => {
+    const resourceTemplateId = Object.keys(propertyNode[key])[0]
+    const resourceTemplate = state.selectorReducer.entities.resourceTemplates[resourceTemplateId]
+    models[resourceTemplateId] = { resourceTemplate, properties: [] }
 
     resourceTemplate.propertyTemplates.map((rtProperty) => {
-      const propertyReduxPath = Object.assign([], newReduxPath)
-      propertyReduxPath.push(rtProperty.propertyURI)
+      const propertyReduxPath = [...ourProps.reduxPath, key, resourceTemplateId, rtProperty.propertyURI]
 
       const isAddDisabled = !booleanPropertyFromTemplate(rtProperty, 'repeatable', false)
-
-      models[rtId].properties.push({
+      models[resourceTemplateId].properties.push({
         isAddDisabled,
         reduxPath: propertyReduxPath,
         property: rtProperty,
       })
     })
+
   })
+
+  // ourProps.propertyTemplate.valueConstraint.valueTemplateRefs.forEach((rtId) => {
+  //   // const resourceTemplate = _.find(ourProps.nestedResourceTemplates, ['id', rtId])
+  //   models[rtId] = { resourceTemplate, properties: [] }
+  //   const newReduxPath = Object.assign([], ourProps.reduxPath)
+  //
+  //   newReduxPath.push(ourProps.propertyTemplate.propertyURI)
+  //
+  //   const formData = findNode(state.selectorReducer, newReduxPath)
+  //   // TODO: foreach ?
+  //   const resourceKeyId = Object.keys(formData)[0] || shortid.generate()
+  //   newReduxPath.push(resourceKeyId)
+  //   newReduxPath.push(rtId)
+  //
+  //   resourceTemplate.propertyTemplates.map((rtProperty) => {
+  //     const propertyReduxPath = Object.assign([], newReduxPath)
+  //     propertyReduxPath.push(rtProperty.propertyURI)
+  //
+  //     const isAddDisabled = !booleanPropertyFromTemplate(rtProperty, 'repeatable', false)
+  //
+  //     models[rtId].properties.push({
+  //       isAddDisabled,
+  //       reduxPath: propertyReduxPath,
+  //       property: rtProperty,
+  //     })
+  //   })
+  // })
 
   return { models }
 }
 
 const mapDispatchToProps = dispatch => ({
-  initNewResourceTemplate(rtContext) {
-    dispatch(refreshPropertyTemplate(rtContext))
-  },
+  // initNewResourceTemplate(rtContext) {
+  //   dispatch(refreshPropertyTemplate(rtContext))
+  // },
 })
 
 export default connect(mapStateToProps, mapDispatchToProps)(ResourceProperty)

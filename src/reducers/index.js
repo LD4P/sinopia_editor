@@ -8,6 +8,8 @@ import {
   removeAllContent, removeMyItem, setItemsOrSelections, setBaseURL, showResourceURIMessage, setMyItemsLang,
   showGroupChooser, closeGroupChooser, showRdfPreview,
 } from './inputs'
+import { findNode } from 'selectors/resourceSelectors'
+const _ = require('lodash')
 
 import { defaultLangTemplate } from 'Utilities'
 
@@ -28,6 +30,23 @@ export const setResourceTemplate = (state, action) => {
   return newState
 }
 
+export const updateResource = (state, action) => {
+  const reduxPath = action.payload.reduxPath
+  const resourceFragment = action.payload.resourceFragment
+  const newState = { ...state }
+  let resourceNode = findNode(state, reduxPath)
+  if (_.isEmpty(resourceNode)) {
+    const propertyURI = reduxPath.slice(-1)[0]
+    const tempReduxPath = reduxPath.slice(0, reduxPath.length-1)
+    const tempNode = findNode(newState, tempReduxPath)
+    tempNode[propertyURI] = resourceFragment[propertyURI]
+  } else {
+    console.error('Not yet done', resourceNode)
+    // resourceNode[propertyURI] = resourceFragment[propertyURI]
+  }
+
+  return newState
+}
 
 /**
  * This transforms the property template default values fetched from the server into redux state
@@ -174,6 +193,8 @@ const selectorReducer = (state = {}, action) => {
       return setResource(state, action)
     case 'SET_RESOURCE_TEMPLATE':
       return setResourceTemplate(state, action)
+    case 'UPDATE_RESOURCE':
+      return updateResource(state, action)
     default:
       return state
   }

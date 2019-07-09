@@ -124,3 +124,8 @@ export const saveAppVersion = version => ({
   type: 'SAVE_APP_VERSION',
   payload: version,
 })
+
+export const updateResource = (reduxPath, resourceFragment) => ({
+  type: 'UPDATE_RESOURCE',
+  payload: { reduxPath, resourceFragment },
+})

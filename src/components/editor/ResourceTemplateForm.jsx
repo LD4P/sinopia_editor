@@ -126,9 +126,6 @@ export class ResourceTemplateForm extends Component {
         <div className="ResourceTemplateForm row">
           {
             this.props.propertyTemplates.map((pt, index) => {
-              console.log(index)
-              console.log(pt)
-              console.log(isResourceWithValueTemplateRef(pt))
               if (isResourceWithValueTemplateRef(pt)) {
                 if (! _.isEmpty(this.props.resourceProperties)) {
                   return (
@@ -193,7 +190,6 @@ const mapStateToProps = (state, ourProps) => {
   const resourceTemplateId = reduxPath.pop()
   const resourceTemplate = getResourceTemplate(state, resourceTemplateId)
   const resourceProperties = findNode(state.selectorReducer, ourProps.reduxPath)
-  console.log('resourceProperties1', resourceProperties, ourProps.reduxPath, state.selectorReducer)
   return {
     resourceTemplateId,
     propertyTemplates: resourceTemplate?.propertyTemplates || [],
