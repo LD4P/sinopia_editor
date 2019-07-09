@@ -60,19 +60,19 @@ class PropertyResourceTemplate extends Component {
   }
 
   populatePropertyTemplates = () => {
-    const keyId = shortid.generate()
+    // const keyId = shortid.generate()
 
     return this.props.resourceTemplate.propertyTemplates.map((property) => {
       /*
        * Add the generated id so that this is a new resource.
        * The redux path will be something like ..., "kV5fjX2b1", "resourceTemplate:bf2:Monograph:Work"
        */
-      const reduxPath = [...this.props.reduxPath, keyId, this.props.resourceTemplate.id]
+      const newReduxPath = [...this.props.reduxPath, property.propertyURI]
 
       return (<PropertyTemplateOutline
                       propertyTemplate={property}
                       rtId={this.props.resourceTemplate.id}
-                      reduxPath={reduxPath}
+                      reduxPath={newReduxPath}
                       key={shortid.generate()} />)
     })
   }
@@ -112,14 +112,10 @@ PropertyResourceTemplate.propTypes = {
 }
 
 const mapStateToProps = (state, ourProps) => {
-  console.log('reduxPath', ourProps.reduxPath)
   const reduxPath = [...ourProps.reduxPath]
   const resourceTemplateId = reduxPath.pop()
   const key = reduxPath.pop()
   const propertyURI = reduxPath.pop()
-  console.log('PropertyResourceTemplate')
-  console.log(propertyURI)
-  // console.log(resourceTemplateId)
   const resourceTemplate = getResourceTemplate(state, resourceTemplateId)
   return {
     resourceTemplate,

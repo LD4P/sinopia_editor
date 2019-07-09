@@ -5,7 +5,7 @@ import {
   updateStarted, updateFinished,
   retrieveResourceStarted, retrieveResourceFinished,
   retrieveResourceTemplateStarted, retrieveResourceTemplateFinished,
-  rootResourceTemplateLoaded, retrieveError, setResource, setResourceTemplate,
+  rootResourceTemplateLoaded, retrieveError, setResource, setResourceTemplate, updateResource,
 } from 'actions/index'
 import { updateRDFResource, getResourceTemplate, loadRDFResource } from 'sinopiaServer'
 import { rootResourceId } from 'selectors/resourceSelectors'
@@ -15,6 +15,7 @@ import N3Parser from 'n3/lib/N3Parser'
 import rdf from 'rdf-ext'
 import { isResourceWithValueTemplateRef } from 'Utilities'
 import shortid from 'shortid'
+import { findNode } from 'selectors/resourceSelectors'
 const _ = require('lodash')
 
 export const authenticationFailed = authenticationResult => authenticationFailure(authenticationResult)
@@ -128,38 +129,67 @@ export const existingResource = resource => (dispatch, getState) => {
   stubResource(dispatch, getState())
 }
 
+// A thunk that expands a nested resource
+export const expandResource = reduxPath => (dispatch, getState) => {
+  const state = getState()
+  const newResource = {...state.selectorReducer.resource}
+  const nestedResource = findNode(state, reduxPath)
+  console.log('expandResource', reduxPath, nestedResource)
+  const resourceTemplateId = reduxPath.slice(-2)[0]
+  const propertyURI = reduxPath.slice(-1)[0]
+  const resourceTemplate = state.selectorReducer.entities.resourceTemplates[resourceTemplateId]
+  stubProperty(resourceTemplateId, resourceTemplate, nestedResource, propertyURI, dispatch).then((resourceProperties) => {
+    console.log('new nested resource', resourceProperties)
+    dispatch(updateResource(reduxPath, resourceProperties))
+    // newResource[rootResourceTemplateId] = resourceProperties
+    // dispatch(setResource(newResource))
+  })
+  // dispatch(setResource(resource))
+  // stubResource(dispatch, getState())
+}
+
 
 // A think that walks the resource, loads resource templates, and stubs out properties
 const stubResource = (dispatch, state) => {
-    const newResource = {...state['selectorReducer']['resource']}
+    const newResource = {...state.selectorReducer.resource}
     const rootResourceTemplateId = Object.keys(newResource)[0]
     const rootResource = newResource[rootResourceTemplateId]
-    const resourceTemplate = state['selectorReducer']['entities']['resourceTemplates'][rootResourceTemplateId]
-    // const rootResourceTemplateId = newResource[]
-    // console.log(rootResourceTemplateId)
-    //stubResourceTemplate(newResource.keys()[0])
-    // console.log('old resource')
-    // console.log(newResource)
-    stubResourceProperties(rootResourceTemplateId, rootResource, resourceTemplate, dispatch).then((resourceProperties) => {
+    const resourceTemplate = state.selectorReducer.entities.resourceTemplates[rootResourceTemplateId]
+    stubResourceProperties(rootResourceTemplateId, resourceTemplate, rootResource, dispatch).then((resourceProperties) => {
       newResource[rootResourceTemplateId] = resourceProperties
-      // console.log('new resource')
-      // console.log(newResource)
       dispatch(setResource(newResource))
     })
 
 }
 
-const stubResourceProperties = async (resourceTemplateId, resource, existingResourceTemplate, dispatch) => {
-  // console.log(resourceTemplateId)
-  // console.log(resource)
+const stubProperty = async (resourceTemplateId, existingResourceTemplate, resource, propertyURI, dispatch) => {
   const newResource = {...resource}
-  // let resourceTemplatePromise
-  // if (existingResourceTemplate) {
-    // resourceTemplatePromise = existingResourceTemplatePromise(existingResourceTemplate)
-  // } else {
   const resourceTemplate = existingResourceTemplate || await fetchResourceTemplate(resourceTemplateId, dispatch)
-  // }
-  // const resourceTemplate = existingResourceTemplate || fetchResourceTemplate(resourceTemplateId, dispatch)
+  const propertyTemplate = resourceTemplate.propertyTemplates.find((propertyTemplate) => {
+    return propertyTemplate.propertyURI === propertyURI
+  })
+  if (isResourceWithValueTemplateRef(propertyTemplate)) {
+    propertyTemplate.valueConstraint.valueTemplateRefs.forEach((resourceTemplateId) => {
+      // Once components correctly use state, this doesn't need to await
+      fetchResourceTemplate(resourceTemplateId, dispatch)
+      if (newResource[propertyTemplate.propertyURI] === undefined) {
+        // TODO: Handle defaults
+        newResource[propertyTemplate.propertyURI] = {}
+      }
+      newResource[propertyTemplate.propertyURI][shortid.generate()] = {[resourceTemplateId]: {}}
+    })
+  } else {
+    if (newResource[propertyTemplate.propertyURI] === undefined) {
+      newResource[propertyTemplate.propertyURI] = {}
+      // TODO: Handle defaults
+    }
+  }
+  return newResource
+}
+
+const stubResourceProperties = async (resourceTemplateId, existingResourceTemplate, resource, dispatch) => {
+  const newResource = {...resource}
+  const resourceTemplate = existingResourceTemplate || await fetchResourceTemplate(resourceTemplateId, dispatch)
   resourceTemplate.propertyTemplates.forEach((propertyTemplate) => {
     if (isResourceWithValueTemplateRef(propertyTemplate)) {
         propertyTemplate.valueConstraint.valueTemplateRefs.forEach((resourceTemplateId) => {
