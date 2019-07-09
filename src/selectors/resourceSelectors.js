@@ -4,7 +4,7 @@ export const rootResource = state => Object.values(state.selectorReducer.resourc
 export const rootResourceId = state => rootResource(state)?.resourceURI
 
 export const findNode = (selectorReducer, reduxPath) => {
-  const items = reduxPath.reduce((obj, key) => (obj && obj[key] !== 'undefined' ? obj[key] : undefined), selectorReducer)
+  const items = reduxPath.reduce((obj, key) => obj?.[key], selectorReducer)
 
   return items || {}
 }
