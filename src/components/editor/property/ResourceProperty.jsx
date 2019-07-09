@@ -98,6 +98,9 @@ const mapStateToProps = (state, ourProps) => {
   Object.keys(propertyNode).forEach((key) => {
     const resourceTemplateId = Object.keys(propertyNode[key])[0]
     const resourceTemplate = state.selectorReducer.entities.resourceTemplates[resourceTemplateId]
+    if (!resourceTemplate) {
+      return
+    }
     models[resourceTemplateId] = { resourceTemplate, properties: [] }
 
     resourceTemplate.propertyTemplates.map((rtProperty) => {

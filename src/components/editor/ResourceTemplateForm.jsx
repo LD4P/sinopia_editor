@@ -85,9 +85,15 @@ export class ResourceTemplateForm extends Component {
       // if (rt !== undefined) { // It may not be loaded yet
 
       const resourceProperty = this.props.resourceProperties[property.propertyURI]
+      if (!resourceProperty) {
+        return
+      }
       const key = Object.keys(resourceProperty).find((key) => {
         return _.first(Object.keys(resourceProperty[key])) === rtId
       })
+      if (!key) {
+        return
+      }
 
       // Can be multiple, but assuming 1 for now
       const resourceTemplateId = _.first(Object.keys(resourceProperty[key]))
@@ -172,6 +178,9 @@ export class ResourceTemplateForm extends Component {
       return errMessage
     }
 
+    if(!this.props.resourceProperties) {
+      return null
+    }
     return this.renderComponentForm()
   }
 }
