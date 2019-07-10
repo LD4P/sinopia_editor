@@ -13,7 +13,7 @@ import { updateRDFResource, getResourceTemplate, loadRDFResource } from 'sinopia
 import { rootResourceId, findNode } from 'selectors/resourceSelectors'
 import validateResourceTemplate from 'ResourceTemplateValidator'
 import GraphBuilder from 'GraphBuilder'
-import { isResourceWithValueTemplateRef, rdfDatasetFromN3 } from 'Utilities'
+import { isResourceWithValueTemplateRef, rdfDatasetFromN3, defaultValuesFromPropertyTemplate } from 'Utilities'
 import shortid from 'shortid'
 import ResourceStateBuilder from 'ResourceStateBuilder'
 import _ from 'lodash'
@@ -176,11 +176,16 @@ const stubResourceProperties = async (resourceTemplateId, existingResourceTempla
     // If it is a property ref
     } else if (newResource[propertyTemplate.propertyURI] === undefined) {
       newResource[propertyTemplate.propertyURI] = {}
-      // TODO: Handle defaults
-    } else if (newResource[propertyTemplate.propertyURI] === undefined) {
-      newResource[propertyTemplate.propertyURI] = {}
+      const defaults = defaultValuesFromPropertyTemplate(propertyTemplate)
+      if (!_.isEmpty(defaults)) {
+        newResource[propertyTemplate.propertyURI].items = defaults
+      }
       // TODO: Handle defaults
     }
+    // } else if (newResource[propertyTemplate.propertyURI] === undefined) {
+    //   newResource[propertyTemplate.propertyURI] = {}
+    //   // TODO: Handle defaults
+    // }
   })
   return newResource
 }

@@ -9,7 +9,7 @@ import swaggerSpec from 'lib/apidoc.json'
 import { connect } from 'react-redux'
 import { itemsForProperty, getDisplayValidations, getPropertyTemplate } from 'selectors/resourceSelectors'
 import { changeSelections } from 'actions/index'
-import { booleanPropertyFromTemplate, defaultValuesFromPropertyTemplate, getLookupConfigItems } from 'Utilities'
+import { booleanPropertyFromTemplate, getLookupConfigItems } from 'Utilities'
 import Config from 'Config'
 
 const AsyncTypeahead = asyncContainer(Typeahead)
@@ -172,7 +172,7 @@ class InputLookupQA extends Component {
       return null
     }
 
-    const defaults = defaultValuesFromPropertyTemplate(this.props.propertyTemplate)
+    // const defaults = defaultValuesFromPropertyTemplate(this.props.propertyTemplate)
 
     const typeaheadProps = {
       id: 'lookupComponent',
@@ -184,7 +184,8 @@ class InputLookupQA extends Component {
       isLoading: this.state.isLoading,
       onSearch: this.search(),
       options: this.state.options,
-      defaultSelected: defaults,
+      // defaultSelected: defaults,
+      selected: this.props.selected,
       delay: 300,
     }
 
@@ -244,8 +245,18 @@ const mapStateToProps = (state, ownProps) => {
   const propertyTemplate = getPropertyTemplate(state, resourceTemplateId, propertyURI)
   const lookupConfig = getLookupConfigItems(propertyTemplate)
 
+  // Make sure that every item has a label
+  // This is a temporary strategy until label lookup is implemented.
+  const selected = itemsForProperty(state.selectorReducer, ownProps.reduxPath).map((item) => {
+    const newItem = {...item}
+    if (newItem.label === undefined) {
+      newItem.label = newItem.uri
+    }
+    return newItem
+  })
+
   return {
-    selected: itemsForProperty(state.selectorReducer, ownProps.reduxPath),
+    selected,
     reduxPath,
     propertyTemplate,
     displayValidations,

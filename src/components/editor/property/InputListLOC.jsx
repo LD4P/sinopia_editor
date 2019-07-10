@@ -21,12 +21,6 @@ class InputListLOC extends Component {
     }
   }
 
-  componentDidMount() {
-    if (this.props.defaults?.length > 0) {
-      this.selectionChanged(this.props.defaults)
-    }
-  }
-
   selectionChanged(items) {
     const payload = {
       id: this.props.propertyTemplate.propertyURI,
@@ -68,10 +62,6 @@ class InputListLOC extends Component {
       alert(`There is no configured list lookup for ${this.props.propertyTemplate.propertyURI}`)
     }
 
-    if (this.props.defaults?.length === undefined) {
-      return (<div />)
-    }
-
     const typeaheadProps = {
       id: 'targetComponent',
       required: this.isMandatory,
@@ -82,8 +72,7 @@ class InputListLOC extends Component {
       selectHintOnEnter: true,
       isLoading: this.state.isLoading,
       options: this.state.options,
-      selected: this.state.selected,
-      defaultSelected: this.props.defaults,
+      selected: this.props.selected,
     }
     const opts = []
     let groupClasses = 'form-group'
@@ -154,14 +143,22 @@ const mapStateToProps = (state, ownProps) => {
   const propertyURI = reduxPath[reduxPath.length - 1]
   const displayValidations = getDisplayValidations(state)
   const propertyTemplate = getPropertyTemplate(state, resourceTemplateId, propertyURI)
-  const defaults = defaultValuesFromPropertyTemplate(propertyTemplate)
   const lookupConfig = getLookupConfigItems(propertyTemplate)
 
+  // Make sure that every item has a label
+  // This is a temporary strategy until label lookup is implemented.
+  const selected = itemsForProperty(state.selectorReducer, ownProps.reduxPath).map((item) => {
+    const newItem = {...item}
+    if (newItem.label === undefined) {
+      newItem.label = newItem.uri
+    }
+    return newItem
+  })
+
   return {
-    selected: itemsForProperty(state.selectorReducer, ownProps.reduxPath),
+    selected,
     propertyTemplate,
     displayValidations,
-    defaults,
     lookupConfig,
   }
 }
