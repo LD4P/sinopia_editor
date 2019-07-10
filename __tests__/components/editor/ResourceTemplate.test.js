@@ -6,14 +6,13 @@ import ResourceTemplate from 'components/editor/ResourceTemplate'
 import ResourceTemplateForm from 'components/editor/ResourceTemplateForm'
 
 describe('<ResourceTemplate />', () => {
-  const reduxState = {
-    'http://www.w3.org/2000/01/rdf-schema#label': {},
+  const resourceTemplate = {
+    resourceLabel: 'BF2 Work',
   }
 
   const wrapper = shallow(<ResourceTemplate.WrappedComponent resourceTemplateId="resourceTemplate:bf2:Note"
-                                                             resourceTemplate={reduxState}
-                                                             retrieveResourceTemplate={jest.fn()}
-                                                             resourceTemplateLabel="BF2 Work"/>)
+                                                             resourceTemplate={resourceTemplate}
+                                                             retrieveResourceTemplate={jest.fn()} />)
 
   it('has div with class "ResourceTemplate"', () => {
     expect(wrapper.find('div.ResourceTemplate').length).toEqual(1)
