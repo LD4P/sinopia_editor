@@ -9,7 +9,6 @@ import PropertyTemplateOutline from './PropertyTemplateOutline'
 import { getResourceTemplate } from 'selectors/resourceSelectors'
 import { addResource as addResourceCreator } from 'actionCreators'
 
-
 /**
  * Renders a sub-resource template (e.g. WorkTitle, WorkVariantTitle, TranscribedTitle)
  * In Redux these are modeled like this:
@@ -49,8 +48,8 @@ class PropertyResourceTemplate extends Component {
 
   populatePropertyTemplates = () => this.props.resourceTemplate.propertyTemplates.map((property) => {
     /*
-     * Add the generated id so that this is a new resource.
-     * The redux path will be something like ..., "kV5fjX2b1", "resourceTemplate:bf2:Monograph:Work"
+     * Add the property uri to the redux path
+     * The redux path will be something like ..., "kV5fjX2b1", "resourceTemplate:bf2:Title", "http://schema.org/description"
      */
     const newReduxPath = [...this.props.reduxPath, property.propertyURI]
 
