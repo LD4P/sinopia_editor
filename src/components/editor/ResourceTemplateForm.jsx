@@ -30,26 +30,25 @@ export class ResourceTemplateForm extends Component {
       return rtProperties
     }
     rtIds.map((rtId, i) => {
-      // const rt = getResourceTemplate(rtId)
-      // if (rt !== undefined) { // It may not be loaded yet
-
       const resourceProperty = this.props.resourceProperties[property.propertyURI]
       if (!resourceProperty) {
         return
       }
-      const key = Object.keys(resourceProperty).find(key => _.first(Object.keys(resourceProperty[key])) === rtId)
-      if (!key) {
+
+      const keys = Object.keys(resourceProperty).filter(key => _.first(Object.keys(resourceProperty[key])) === rtId)
+      if (_.isEmpty(keys)) {
         return
       }
 
-      // Can be multiple, but assuming 1 for now
-      const resourceTemplateId = _.first(Object.keys(resourceProperty[key]))
-      const newReduxPath = [...this.props.reduxPath, property.propertyURI, key, resourceTemplateId]
+      keys.forEach((key) => {
+        const resourceTemplateId = _.first(Object.keys(resourceProperty[key]))
+        const newReduxPath = [...this.props.reduxPath, property.propertyURI, key, resourceTemplateId]
 
-      rtProperties.push(<PropertyResourceTemplate
-        key={shortid.generate()}
-        isRepeatable={property.repeatable}
-        reduxPath={newReduxPath} />)
+        rtProperties.push(<PropertyResourceTemplate
+          key={shortid.generate()}
+          isRepeatable={property.repeatable}
+          reduxPath={newReduxPath} />)
+      })
       if ((rtIds.length - i) > 1) {
         rtProperties.push(<hr key={i} />)
       }

@@ -123,9 +123,14 @@ export const saveAppVersion = version => ({
   payload: version,
 })
 
-export const updateResource = (reduxPath, resourceFragment) => ({
-  type: 'UPDATE_RESOURCE',
+export const updateProperty = (reduxPath, resourceFragment) => ({
+  type: 'UPDATE_PROPERTY',
   payload: { reduxPath, resourceFragment },
+})
+
+export const appendResource = (reduxPath, resource) => ({
+  type: 'APPEND_RESOURCE',
+  payload: { reduxPath, resource },
 })
 
 export const toggleCollapse = reduxPath => ({

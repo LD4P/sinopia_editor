@@ -5,8 +5,8 @@ import {
   authenticationFailure, authenticationSuccess, signOutSuccess,
   updateStarted, updateFinished,
   retrieveResourceStarted, retrieveResourceTemplateStarted,
-  retrieveError, setResource, setResourceTemplate, updateResource,
-  toggleCollapse, retrieveResourceFinished,
+  retrieveError, setResource, setResourceTemplate, updateProperty,
+  toggleCollapse, retrieveResourceFinished, appendResource
 } from 'actions/index'
 
 import { updateRDFResource, getResourceTemplate, loadRDFResource } from 'sinopiaServer'
@@ -75,7 +75,7 @@ export const existingResource = resource => (dispatch, getState) => {
   stubResource(dispatch, getState())
 }
 
-// A thunk that expands a nested resource
+// A thunk that expands a nested resource for a property
 export const expandResource = reduxPath => (dispatch, getState) => {
   const state = getState()
   const nestedResource = findNode(state.selectorReducer, reduxPath)
@@ -83,12 +83,29 @@ export const expandResource = reduxPath => (dispatch, getState) => {
   const propertyURI = reduxPath.slice(-1)[0]
   const resourceTemplate = state.selectorReducer.entities.resourceTemplates[resourceTemplateId]
   stubProperty(resourceTemplateId, resourceTemplate, nestedResource, propertyURI, dispatch).then((resourceProperties) => {
-    dispatch(updateResource(reduxPath, resourceProperties))
+    dispatch(updateProperty(reduxPath, resourceProperties))
+  })
+}
+
+// A thunk that adds a resource as sibling of provided reduxPath
+export const addResource = reduxPath => (dispatch, getState) => {
+  const state = getState()
+  const resourceTemplateId = reduxPath.slice(-1)[0]
+  const resourceTemplate = state.selectorReducer.entities.resourceTemplates[resourceTemplateId]
+  const parentPropertyURI = reduxPath.slice(-3)[0]
+  const key = shortid.generate()
+  const addedResource = {[key]: {[resourceTemplateId]: {}}}
+  const parentReduxPath = reduxPath.slice(0, reduxPath.length - 2)
+  const parentPropertyNode = findNode(state.selectorReducer, parentReduxPath)
+  const newReduxPath = [...parentReduxPath, key, resourceTemplateId]
+
+  stubResourceProperties(resourceTemplateId, resourceTemplate, addedResource, newReduxPath, dispatch).then((resourceProperties) => {
+    dispatch(appendResource(newReduxPath, resourceProperties))
   })
 }
 
 
-// A think that walks the resource, loads resource templates, and stubs out properties
+// Stubs out a root resource
 const stubResource = (dispatch, state) => {
   const newResource = { ...state.selectorReducer.resource }
   const rootResourceTemplateId = Object.keys(newResource)[0]

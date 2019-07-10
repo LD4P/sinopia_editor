@@ -25,7 +25,7 @@ export const setResourceTemplate = (state, action) => {
   return newState
 }
 
-export const updateResource = (state, action) => {
+export const updateProperty = (state, action) => {
   const reduxPath = action.payload.reduxPath
   const resourceFragment = _.cloneDeep(action.payload.resourceFragment)
   // This is not the optimal deep copy
@@ -36,6 +36,20 @@ export const updateResource = (state, action) => {
   const tempNode = findNode(newState, tempReduxPath)
   tempNode[propertyURI] = resourceFragment
 
+  return newState
+}
+
+export const appendResource = (state, action) => {
+  const reduxPath = action.payload.reduxPath
+  const resource = _.cloneDeep(action.payload.resource)
+  // This is not the optimal deep copy
+  const newState = _.cloneDeep(state)
+
+  const parentPropertyURI = reduxPath.slice(-3)[0]
+  const key = reduxPath.slice(-2)[0]
+  const parentReduxPath = reduxPath.slice(0, reduxPath.length - 2)
+  const parentPropertyNode = findNode(newState, parentReduxPath)
+  parentPropertyNode[key] = resource[key]
   return newState
 }
 
@@ -110,8 +124,10 @@ const selectorReducer = (state = {}, action) => {
       return setResource(state, action)
     case 'SET_RESOURCE_TEMPLATE':
       return setResourceTemplate(state, action)
-    case 'UPDATE_RESOURCE':
-      return updateResource(state, action)
+    case 'UPDATE_PROPERTY':
+      return updateProperty(state, action)
+    case 'APPEND_RESOURCE':
+      return appendResource(state, action)
     case 'TOGGLE_COLLAPSE':
       return toggleCollapse(state, action)
     default:

@@ -7,6 +7,7 @@ import { connect } from 'react-redux'
 import PropertyActionButtons from './PropertyActionButtons'
 import PropertyTemplateOutline from './PropertyTemplateOutline'
 import { getResourceTemplate } from 'selectors/resourceSelectors'
+import { addResource as addResourceCreator } from 'actionCreators'
 
 
 /**
@@ -41,9 +42,9 @@ import { getResourceTemplate } from 'selectors/resourceSelectors'
  *  resourceTemplate.id
  */
 class PropertyResourceTemplate extends Component {
-  handleAddClick = (event) => {
+  handleAddClick = (reduxPath, event) => {
     event.preventDefault()
-    alert('not implemented')
+    this.props.addResource(reduxPath)
   }
 
   populatePropertyTemplates = () => this.props.resourceTemplate.propertyTemplates.map((property) => {
@@ -74,7 +75,7 @@ class PropertyResourceTemplate extends Component {
         </section>
         <section className="col-md-2">
           <PropertyActionButtons
-            handleAddClick={this.handleAddClick}
+            handleAddClick={this.handleAddClick.bind(this, this.props.reduxPath)}
             addButtonDisabled={isAddDisabled}
             reduxPath={this.props.reduxPath}
             key={shortid.generate()} />
@@ -92,6 +93,7 @@ PropertyResourceTemplate.propTypes = {
   isRepeatable: PropTypes.string,
   reduxPath: PropTypes.array,
   resourceTemplate: PropTypes.object,
+  addResource: PropTypes.func,
 }
 
 const mapStateToProps = (state, ourProps) => {
@@ -102,4 +104,10 @@ const mapStateToProps = (state, ourProps) => {
   }
 }
 
-export default connect(mapStateToProps, null)(PropertyResourceTemplate)
+const mapDispatchToProps = (dispatch, ownProps) => ({
+  addResource(reduxPath) {
+    dispatch(addResourceCreator(reduxPath))
+  },
+})
+
+export default connect(mapStateToProps, mapDispatchToProps)(PropertyResourceTemplate)
