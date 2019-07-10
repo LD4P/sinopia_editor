@@ -17,15 +17,10 @@ export class ResourceTemplateForm extends Component {
   constructor(props) {
     super(props)
     this.defaultValues()
-    this.state = {
-      templateError: false,
-      templateErrors: [],
-    }
   }
 
   resourceTemplateFields = (rtIds, property) => {
     const rtProperties = []
-
     if (rtIds === null || rtIds === undefined) {
       return rtProperties
     }
@@ -34,7 +29,6 @@ export class ResourceTemplateForm extends Component {
       if (!resourceProperty) {
         return
       }
-
       const keys = Object.keys(resourceProperty).filter(key => _.first(Object.keys(resourceProperty[key])) === rtId)
       if (_.isEmpty(keys)) {
         return
@@ -98,18 +92,6 @@ export class ResourceTemplateForm extends Component {
   )
 
   render() {
-    const errMessage = <div className="alert alert-warning">
-      There are missing resource templates required by resource template: <strong>{this.props.resourceTemplateId}</strong>.
-      <br />
-      Please make sure all referenced templates in property template are uploaded first. Missing templates:
-      <br />
-      {this.state.templateErrors.join(', ')}
-    </div>
-
-    if (this.state.templateError) {
-      return errMessage
-    }
-
     if (!this.props.resourceProperties) {
       return null
     }
