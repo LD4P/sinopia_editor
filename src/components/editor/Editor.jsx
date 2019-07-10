@@ -1,6 +1,6 @@
 // Copyright 2019 Stanford University see LICENSE for license
 
-import React, { useEffect } from 'react'
+import React from 'react'
 import { connect } from 'react-redux'
 import PropTypes from 'prop-types'
 import { showGroupChooser, showRdfPreview } from 'actions/index'
@@ -16,34 +16,32 @@ import { getCurrentUser } from 'authSelectors'
 
 /**
  * This is the root component of the resource edit page
+ *   useEffect(() => {
+ *   if (!props.location.state) {
+ *     props.history.push('/templates')
+ *   }
+ * })
+ *
+ * const resourceTemplateId = props.location.state?.resourceTemplateId
  */
-const Editor = (props) => {
-  // useEffect(() => {
-  //   if (!props.location.state) {
-  //     props.history.push('/templates')
-  //   }
-  // })
-
-  // const resourceTemplateId = props.location.state?.resourceTemplateId
-  return (
-    <div id="editor">
-      <Header triggerEditorMenu={ props.triggerHandleOffsetMenu }/>
-      <AuthenticationMessage />
-      <div className="row">
-        <section className="col-md-3" style={{ float: 'right', width: '320px' }}>
-          <button type="button" className="btn btn-link btn-sm btn-editor" onClick={ props.openRdfPreview }>Preview RDF</button>
-          <button type="button" className="btn btn-primary btn-sm btn-editor"
-                  onClick={ props.userWantsToSave(props.isSaved, props.currentUser) }>Save & Publish</button>
-        </section>
-      </div>
-      <RDFModal save={ props.userWantsToSave(props.isSaved, props.currentUser) } />
-      <ErrorMessages />
-      <GroupChoiceModal />
-
-      <ResourceTemplate />
+const Editor = props => (
+  <div id="editor">
+    <Header triggerEditorMenu={ props.triggerHandleOffsetMenu }/>
+    <AuthenticationMessage />
+    <div className="row">
+      <section className="col-md-3" style={{ float: 'right', width: '320px' }}>
+        <button type="button" className="btn btn-link btn-sm btn-editor" onClick={ props.openRdfPreview }>Preview RDF</button>
+        <button type="button" className="btn btn-primary btn-sm btn-editor"
+                onClick={ props.userWantsToSave(props.isSaved, props.currentUser) }>Save & Publish</button>
+      </section>
     </div>
-  )
-}
+    <RDFModal save={ props.userWantsToSave(props.isSaved, props.currentUser) } />
+    <ErrorMessages />
+    <GroupChoiceModal />
+
+    <ResourceTemplate />
+  </div>
+)
 
 Editor.propTypes = {
   triggerHandleOffsetMenu: PropTypes.func,

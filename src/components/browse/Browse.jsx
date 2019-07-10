@@ -48,6 +48,7 @@ Browse.propTypes = {
   triggerHandleOffsetMenu: PropTypes.func,
   loadResource: PropTypes.func,
   currentUser: PropTypes.object,
+  history: PropTypes.object,
 }
 
 const mapStateToProps = state => ({

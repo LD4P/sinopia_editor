@@ -7,16 +7,16 @@
 
 export const setResource = resource => ({
   type: 'SET_RESOURCE',
-  payload: resource
+  payload: resource,
 })
 
 export const setResourceTemplate = resourceTemplate => ({
   type: 'SET_RESOURCE_TEMPLATE',
-  payload: resourceTemplate
+  payload: resourceTemplate,
 })
 
 export const stubResource = () => ({
-  type: 'STUB_RESOURCE'
+  type: 'STUB_RESOURCE',
 })
 
 export const retrieveError = (resourceTemplateId, reason) => ({
@@ -36,16 +36,6 @@ export const showGroupChooser = show => ({
 
 export const closeGroupChooser = () => ({
   type: 'CLOSE_GROUP_CHOOSER',
-})
-
-export const refreshPropertyTemplate = update => ({
-  type: 'REFRESH_PROPERTY_TEMPLATE',
-  payload: update,
-})
-
-export const rootResourceTemplateLoaded = resourceTemplate => ({
-  type: 'ROOT_RESOURCE_TEMPLATE_LOADED',
-  payload: resourceTemplate,
 })
 
 export const removeItem = (reduxPath, id) => ({
@@ -99,14 +89,6 @@ export const retrieveResourceTemplateStarted = resourceTemplateId => ({
   payload: resourceTemplateId,
 })
 
-export const retrieveResourceTemplateFinished = (resourceTemplateId, body) => ({
-  type: 'RETRIEVE_RESOURCE_TEMPLATE_FINISHED',
-  payload: {
-    resourceTemplateId,
-    body,
-  },
-})
-
 export const changeSelections = item => ({
   type: 'CHANGE_SELECTIONS',
   payload: item,
@@ -120,11 +102,6 @@ export const setLang = item => ({
 export const showRdfPreview = show => ({
   type: 'SHOW_RDF_PREVIEW',
   payload: show,
-})
-
-export const resourceTemplateLoaded = resourceTemplate => ({
-  type: 'RESOURCE_TEMPLATE_LOADED',
-  payload: resourceTemplate,
 })
 
 export const authenticationFailure = authenticationResult => ({
@@ -151,7 +128,7 @@ export const updateResource = (reduxPath, resourceFragment) => ({
   payload: { reduxPath, resourceFragment },
 })
 
-export const toggleCollapse = (reduxPath) => ({
+export const toggleCollapse = reduxPath => ({
   type: 'TOGGLE_COLLAPSE',
   payload: { reduxPath },
 })

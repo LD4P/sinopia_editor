@@ -7,30 +7,28 @@ import { existingResource as existingResourceCreator } from 'actionCreators'
 import Header from './Header'
 import ResourceStateBuilder from 'ResourceStateBuilder'
 import { rdfDatasetFromN3 } from 'Utilities'
-const _ = require('lodash')
 
 class ResourceInput extends Component {
   constructor(props) {
     super(props)
-    this.state = {resourceN3: '', baseURI: ''}
+    this.state = { resourceN3: '', baseURI: '' }
     this.handleResourceN3Change = this.handleResourceN3Change.bind(this)
     this.handleBaseURIChange = this.handleBaseURIChange.bind(this)
     this.handleSubmit = this.handleSubmit.bind(this)
   }
 
   handleResourceN3Change(event) {
-    this.setState({resourceN3: event.target.value})
+    this.setState({ resourceN3: event.target.value })
   }
 
   handleBaseURIChange(event) {
-    this.setState({baseURI: event.target.value})
+    this.setState({ baseURI: event.target.value })
   }
 
   handleSubmit(event) {
-    rdfDatasetFromN3(this.state.resourceN3).then((dataset) =>{
+    rdfDatasetFromN3(this.state.resourceN3).then((dataset) => {
       const builder = new ResourceStateBuilder(dataset, this.state.baseURI)
       const state = builder.state
-      console.log('handleSubmit',state)
       this.props.existingResource(state)
     })
     this.props.history.push('/editor')
@@ -43,12 +41,12 @@ class ResourceInput extends Component {
         <Header triggerEditorMenu={this.props.triggerHandleOffsetMenu}/>
         <form onSubmit={this.handleSubmit}>
         Resource RDF N3:<br />
-        <textarea rows="10" cols="100" value={this.state.resourceN3} onChange={this.handleResourceN3Change} /><br />
+          <textarea rows="10" cols="100" value={this.state.resourceN3} onChange={this.handleResourceN3Change} /><br />
         Base URI:<br />
-        <input type="text" size="50" value={this.state.baseURI} onChange={this.handleBaseURIChange}/>
-        <br />
-        <input type="submit" value="Submit" />
-      </form>
+          <input type="text" size="50" value={this.state.baseURI} onChange={this.handleBaseURIChange}/>
+          <br />
+          <input type="submit" value="Submit" />
+        </form>
       </div>
     )
   }
@@ -57,6 +55,7 @@ class ResourceInput extends Component {
 ResourceInput.propTypes = {
   existingResource: PropTypes.func,
   triggerHandleOffsetMenu: PropTypes.func,
+  history: PropTypes.object,
 }
 
 const mapDispatchToProps = dispatch => ({

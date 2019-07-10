@@ -12,8 +12,6 @@ import Download from 'components/templates/Download'
 import { connect } from 'react-redux'
 import { newResource as newResourceCreator } from 'actionCreators'
 
-
-
 /**
  * This is the list view of all the templates
  */
@@ -124,13 +122,10 @@ class SinopiaResourceTemplates extends Component {
     })
   }
 
-  handleClick = (resourceTemplateId, event) => {
-    console.log('click', resourceTemplateId)
-    this.props.newResource(resourceTemplateId)
-  }
+  handleClick = resourceTemplateId => this.props.newResource(resourceTemplateId)
 
   linkFormatter = (cell, row) => (
-    <Link to={{ pathname: '/editor', state: { } }} onClick={(e) => this.handleClick(row.id, e)}>{cell}</Link>
+    <Link to={{ pathname: '/editor', state: { } }} onClick={e => this.handleClick(row.id, e)}>{cell}</Link>
   )
 
   downloadLinkFormatter = (cell, row) => (<Download blob={ row.download } filename={ `${row.id}.json`} />)

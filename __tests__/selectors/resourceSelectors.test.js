@@ -51,7 +51,7 @@ describe('getDisplayValidations()', () => {
 })
 
 describe('isExpanded()', () => {
-  const reduxPath = ["resource", "resourceTemplate:bf2:Monograph:Instance", "http://id.loc.gov/ontologies/bibframe/instanceOf", "aJOz_pLh3m7", "resourceTemplate:bf2:Monograph:Work", "http://id.loc.gov/ontologies/bibframe/title"]
+  const reduxPath = ['resource', 'resourceTemplate:bf2:Monograph:Instance', 'http://id.loc.gov/ontologies/bibframe/instanceOf', 'aJOz_pLh3m7', 'resourceTemplate:bf2:Monograph:Work', 'http://id.loc.gov/ontologies/bibframe/title']
 
   it('returns false when missing', () => {
     expect(isExpanded(initialState.selectorReducer, reduxPath)).toBeFalsy()
@@ -68,8 +68,8 @@ describe('isExpanded()', () => {
                   aJOz_pLh3m7: {
                     'resourceTemplate:bf2:Monograph:Work': {
                       'http://id.loc.gov/ontologies/bibframe/title': {
-                        expanded: true
-                      }
+                        expanded: true,
+                      },
                     },
                   },
                 },
