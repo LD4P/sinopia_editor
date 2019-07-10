@@ -27,7 +27,6 @@ export const defaultValuesFromPropertyTemplate = (propertyTemplate) => {
   const defaultLabel = defaultLiteral || defaultURI
 
   if (!defaultValue || !defaultLabel) return []
-  console.log('defaultURI', defaultURI)
 
   if (propertyTemplate.type !== 'literal') {
     return [{
@@ -39,7 +38,7 @@ export const defaultValuesFromPropertyTemplate = (propertyTemplate) => {
   return [{
     id: defaultValue.defaultURI,
     content: defaultLabel,
-    lang: {items:[{id: 'en', label: 'English'}]}
+    lang: { items: [{ id: 'en', label: 'English' }] },
   }]
 }
 

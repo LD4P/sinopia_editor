@@ -1,5 +1,5 @@
 // Copyright 2019 Stanford University see LICENSE for license
-/* eslint max-params: ["warn", 5] */
+/* eslint max-params: ["warn", 6] */
 
 import {
   authenticationFailure, authenticationSuccess, signOutSuccess,

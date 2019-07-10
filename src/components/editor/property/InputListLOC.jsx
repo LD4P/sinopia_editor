@@ -7,7 +7,7 @@ import { connect } from 'react-redux'
 import shortid from 'shortid'
 import { changeSelections } from 'actions/index'
 import { itemsForProperty, getDisplayValidations, getPropertyTemplate } from 'selectors/resourceSelectors'
-import { booleanPropertyFromTemplate, defaultValuesFromPropertyTemplate, getLookupConfigItems } from 'Utilities'
+import { booleanPropertyFromTemplate, getLookupConfigItems } from 'Utilities'
 
 // propertyTemplate of type 'lookup' does live QA lookup via API
 //  based on URI in propertyTemplate.valueConstraint.useValuesFrom,
@@ -148,7 +148,7 @@ const mapStateToProps = (state, ownProps) => {
   // Make sure that every item has a label
   // This is a temporary strategy until label lookup is implemented.
   const selected = itemsForProperty(state.selectorReducer, ownProps.reduxPath).map((item) => {
-    const newItem = {...item}
+    const newItem = { ...item }
     if (newItem.label === undefined) {
       newItem.label = newItem.uri
     }
