@@ -1,5 +1,5 @@
 // Copyright 2018, 2019 Stanford University see LICENSE for license
-/* eslint complexity: ["warn", 17] */
+/* eslint complexity: ["warn", 18] */
 
 import { combineReducers } from 'redux'
 import authenticate from './authenticate'
@@ -45,7 +45,6 @@ export const appendResource = (state, action) => {
   // This is not the optimal deep copy
   const newState = _.cloneDeep(state)
 
-  const parentPropertyURI = reduxPath.slice(-3)[0]
   const key = reduxPath.slice(-2)[0]
   const parentReduxPath = reduxPath.slice(0, reduxPath.length - 2)
   const parentPropertyNode = findNode(newState, parentReduxPath)
