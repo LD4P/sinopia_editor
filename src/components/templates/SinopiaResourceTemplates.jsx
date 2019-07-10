@@ -198,8 +198,6 @@ SinopiaResourceTemplates.propTypes = {
   newResource: PropTypes.func,
 }
 
-// export default SinopiaResourceTemplates
-
 const mapDispatchToProps = dispatch => ({
   newResource: (resourceTemplateId) => {
     dispatch(newResourceCreator(resourceTemplateId))
