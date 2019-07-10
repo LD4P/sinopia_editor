@@ -6,26 +6,10 @@ import PropTypes from 'prop-types'
 import shortid from 'shortid'
 import PropertyActionButtons from './PropertyActionButtons'
 import PropertyTemplateOutline from './PropertyTemplateOutline'
-import { refreshPropertyTemplate } from 'actions/index'
 import { booleanPropertyFromTemplate } from 'Utilities'
 import { findNode } from 'selectors/resourceSelectors'
 
-import _ from 'lodash'
-
 export class ResourceProperty extends Component {
-  // dispatchPayloads = [] // to separate needed state changes from rendering
-
-  // constructor(props) {
-  //   super(props)
-  //   // this.dispatchPayloads = []
-  // }
-
-  // NOTE:  if this component is ever re-rendered, we will need to ensure we get *changed* payloads to redux
-  //   as of 2019-06-18, the code base never re-renders this component, AFAICT.  We load the resource template up once.
-  // componentDidMount() {
-  //   this.dispatchPayloads.forEach((payload) => { this.props.initNewResourceTemplate(payload) })
-  // }
-
   renderResourcePropertyJsx = () => {
     const jsx = []
 
@@ -55,11 +39,8 @@ export class ResourceProperty extends Component {
       )
 
       resourceRow.properties.forEach((model) => {
-        const keyId = shortid.generate()
-        // const payload = { reduxPath: model.reduxPath, property: model.property }
-        // this.dispatchPayloads.push(payload)
         jsx.push(
-          <PropertyTemplateOutline key={keyId}
+          <PropertyTemplateOutline key={shortid.generate()}
                                    propertyTemplate={model.property}
                                    reduxPath={model.reduxPath}
                                    addButtonDisabled={model.isAddDisabled}
@@ -83,8 +64,6 @@ export class ResourceProperty extends Component {
 ResourceProperty.propTypes = {
   addButtonDisabled: PropTypes.bool,
   handleAddClick: PropTypes.func,
-  // initNewResourceTemplate: PropTypes.func,
-  // nestedResourceTemplates: PropTypes.array,
   propertyTemplate: PropTypes.object,
   reduxPath: PropTypes.array,
   models: PropTypes.object,
@@ -113,43 +92,11 @@ const mapStateToProps = (state, ourProps) => {
         property: rtProperty,
       })
     })
-
   })
-
-  // ourProps.propertyTemplate.valueConstraint.valueTemplateRefs.forEach((rtId) => {
-  //   // const resourceTemplate = _.find(ourProps.nestedResourceTemplates, ['id', rtId])
-  //   models[rtId] = { resourceTemplate, properties: [] }
-  //   const newReduxPath = Object.assign([], ourProps.reduxPath)
-  //
-  //   newReduxPath.push(ourProps.propertyTemplate.propertyURI)
-  //
-  //   const formData = findNode(state.selectorReducer, newReduxPath)
-  //   // TODO: foreach ?
-  //   const resourceKeyId = Object.keys(formData)[0] || shortid.generate()
-  //   newReduxPath.push(resourceKeyId)
-  //   newReduxPath.push(rtId)
-  //
-  //   resourceTemplate.propertyTemplates.map((rtProperty) => {
-  //     const propertyReduxPath = Object.assign([], newReduxPath)
-  //     propertyReduxPath.push(rtProperty.propertyURI)
-  //
-  //     const isAddDisabled = !booleanPropertyFromTemplate(rtProperty, 'repeatable', false)
-  //
-  //     models[rtId].properties.push({
-  //       isAddDisabled,
-  //       reduxPath: propertyReduxPath,
-  //       property: rtProperty,
-  //     })
-  //   })
-  // })
 
   return { models }
 }
 
-const mapDispatchToProps = dispatch => ({
-  // initNewResourceTemplate(rtContext) {
-  //   dispatch(refreshPropertyTemplate(rtContext))
-  // },
-})
+const mapDispatchToProps = () => ({})
 
 export default connect(mapStateToProps, mapDispatchToProps)(ResourceProperty)
