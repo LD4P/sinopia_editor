@@ -8,15 +8,15 @@ import PropertyActionButtons from './PropertyActionButtons'
 import PropertyTemplateOutline from './PropertyTemplateOutline'
 import { booleanPropertyFromTemplate } from 'Utilities'
 import { findNode } from 'selectors/resourceSelectors'
-const _ = require('lodash')
+import _ from 'lodash'
 
 export class ResourceProperty extends Component {
   renderResourcePropertyJsx = () => {
     const jsx = []
 
     Object.keys(this.props.models).forEach((rtId) => {
-      const resourceRow = this.props.models[rtId]
-      this.props.models[rtId].forEach((resourceRow) => {
+      const resourceRows = this.props.models[rtId]
+      resourceRows.forEach((resourceRow) => {
         const resourceTemplate = resourceRow.resourceTemplate
 
         if (resourceTemplate === undefined) {
@@ -28,14 +28,14 @@ export class ResourceProperty extends Component {
         }
 
         const propertyReduxPath = _.first(resourceRow.properties).reduxPath
-        const resourceReduxPath = propertyReduxPath.slice(0, propertyReduxPath.length-1)
+        const resourceReduxPath = propertyReduxPath.slice(0, propertyReduxPath.length - 1)
         jsx.push(
           <div className="row" key={shortid.generate()}>
             <section className="col-sm-8">
               <h5>{resourceTemplate.resourceLabel}</h5>
             </section>
             <section className="col-sm-4">
-              <PropertyActionButtons handleAddClick={(e) => this.props.handleAddClick(resourceReduxPath, e)}
+              <PropertyActionButtons handleAddClick={e => this.props.handleAddClick(resourceReduxPath, e)}
                                      reduxPath={this.props.reduxPath}
                                      addButtonDisabled={this.props.addButtonDisabled} />
             </section>

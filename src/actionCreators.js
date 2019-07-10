@@ -6,7 +6,7 @@ import {
   updateStarted, updateFinished,
   retrieveResourceStarted, retrieveResourceTemplateStarted,
   retrieveError, setResource, setResourceTemplate, updateProperty,
-  toggleCollapse, retrieveResourceFinished, appendResource
+  toggleCollapse, retrieveResourceFinished, appendResource,
 } from 'actions/index'
 
 import { updateRDFResource, getResourceTemplate, loadRDFResource } from 'sinopiaServer'
@@ -15,10 +15,8 @@ import validateResourceTemplate from 'ResourceTemplateValidator'
 import GraphBuilder from 'GraphBuilder'
 import { isResourceWithValueTemplateRef, rdfDatasetFromN3 } from 'Utilities'
 import shortid from 'shortid'
-
 import ResourceStateBuilder from 'ResourceStateBuilder'
-
-const _ = require('lodash')
+import _ from 'lodash'
 
 export const authenticationFailed = authenticationResult => authenticationFailure(authenticationResult)
 
@@ -92,11 +90,9 @@ export const addResource = reduxPath => (dispatch, getState) => {
   const state = getState()
   const resourceTemplateId = reduxPath.slice(-1)[0]
   const resourceTemplate = state.selectorReducer.entities.resourceTemplates[resourceTemplateId]
-  const parentPropertyURI = reduxPath.slice(-3)[0]
   const key = shortid.generate()
-  const addedResource = {[key]: {[resourceTemplateId]: {}}}
+  const addedResource = { [key]: { [resourceTemplateId]: {} } }
   const parentReduxPath = reduxPath.slice(0, reduxPath.length - 2)
-  const parentPropertyNode = findNode(state.selectorReducer, parentReduxPath)
   const newReduxPath = [...parentReduxPath, key, resourceTemplateId]
 
   stubResourceProperties(resourceTemplateId, resourceTemplate, addedResource, newReduxPath, dispatch).then((resourceProperties) => {

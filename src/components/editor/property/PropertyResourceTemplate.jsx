@@ -104,7 +104,7 @@ const mapStateToProps = (state, ourProps) => {
   }
 }
 
-const mapDispatchToProps = (dispatch, ownProps) => ({
+const mapDispatchToProps = dispatch => ({
   addResource(reduxPath) {
     dispatch(addResourceCreator(reduxPath))
   },
