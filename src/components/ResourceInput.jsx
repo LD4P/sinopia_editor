@@ -29,7 +29,9 @@ class ResourceInput extends Component {
   handleSubmit(event) {
     rdfDatasetFromN3(this.state.resourceN3).then((dataset) =>{
       const builder = new ResourceStateBuilder(dataset, this.state.baseURI)
-      this.props.existingResource(builder.state)
+      const state = builder.state
+      console.log('handleSubmit',state)
+      this.props.existingResource(state)
     })
     this.props.history.push('/editor')
     event.preventDefault()

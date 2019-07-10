@@ -6,7 +6,9 @@ import {
   retrieveResourceStarted, retrieveResourceFinished,
   retrieveResourceTemplateStarted, retrieveResourceTemplateFinished,
   rootResourceTemplateLoaded, retrieveError, setResource, setResourceTemplate, updateResource,
+  toggleCollapse,
 } from 'actions/index'
+
 import { updateRDFResource, getResourceTemplate, loadRDFResource } from 'sinopiaServer'
 import { rootResourceId } from 'selectors/resourceSelectors'
 import validateResourceTemplate from 'ResourceTemplateValidator'
@@ -95,7 +97,7 @@ export const existingResource = resource => (dispatch, getState) => {
 export const expandResource = reduxPath => (dispatch, getState) => {
   const state = getState()
   const newResource = {...state.selectorReducer.resource}
-  const nestedResource = findNode(state, reduxPath)
+  const nestedResource = findNode(state.selectorReducer, reduxPath)
   const resourceTemplateId = reduxPath.slice(-2)[0]
   const propertyURI = reduxPath.slice(-1)[0]
   const resourceTemplate = state.selectorReducer.entities.resourceTemplates[resourceTemplateId]
@@ -111,7 +113,7 @@ const stubResource = (dispatch, state) => {
     const rootResourceTemplateId = Object.keys(newResource)[0]
     const rootResource = newResource[rootResourceTemplateId]
     const resourceTemplate = state.selectorReducer.entities.resourceTemplates[rootResourceTemplateId]
-    stubResourceProperties(rootResourceTemplateId, resourceTemplate, rootResource, dispatch).then((resourceProperties) => {
+    stubResourceProperties(rootResourceTemplateId, resourceTemplate, rootResource, ['resource'], dispatch).then((resourceProperties) => {
       newResource[rootResourceTemplateId] = resourceProperties
       dispatch(setResource(newResource))
     })
@@ -129,28 +131,35 @@ const stubProperty = async (resourceTemplateId, existingResourceTemplate, resour
     propertyTemplate.valueConstraint.valueTemplateRefs.forEach((resourceTemplateId) => {
       // Once components correctly use state, this doesn't need to await
       fetchResourceTemplate(resourceTemplateId, dispatch)
-      if (newResource[propertyTemplate.propertyURI] === undefined) {
+      // See if there is alread a <key> > <resource template id> for this resource template id
+      const nestedResource = Object.keys(newResource).find((key) => {
+        return _.first(Object.keys(newResource[key])) === resourceTemplateId
+      })
+      if (nestedResource === undefined) {
         // TODO: Handle defaults
-        newResource[propertyTemplate.propertyURI] = {}
+        newResource[shortid.generate()] = {[resourceTemplateId]: {}}
       }
-      newResource[propertyTemplate.propertyURI][shortid.generate()] = {[resourceTemplateId]: {}}
+
     })
-  } else {
-    if (newResource[propertyTemplate.propertyURI] === undefined) {
-      newResource[propertyTemplate.propertyURI] = {}
-      // TODO: Handle defaults
-    }
   }
+
   return newResource
 }
 
 // For a resource, stub out of its properties.
-const stubResourceProperties = async (resourceTemplateId, existingResourceTemplate, resource, dispatch) => {
-  const newResource = {...resource}
+const stubResourceProperties = async (resourceTemplateId, existingResourceTemplate, resource, reduxPath, dispatch) => {
+  const newResource = _.cloneDeep(resource)
+  const newResourceReduxPath = [...reduxPath, resourceTemplateId]
   const resourceTemplate = existingResourceTemplate || await fetchResourceTemplate(resourceTemplateId, dispatch)
   // Given the resource template for this resource
   // For each property template
   resourceTemplate.propertyTemplates.forEach((propertyTemplate) => {
+    const propertyURI = propertyTemplate.propertyURI
+    const newResourcePropertyReduxPath = [...newResourceReduxPath, propertyURI]
+    if (newResource[propertyURI] !== undefined) {
+      dispatch(toggleCollapse(newResourcePropertyReduxPath))
+    }
+
     // If it is a value ref
     if (isResourceWithValueTemplateRef(propertyTemplate)) {
       if (newResource[propertyTemplate.propertyURI] === undefined) {
@@ -161,14 +170,18 @@ const stubResourceProperties = async (resourceTemplateId, existingResourceTempla
       propertyTemplate.valueConstraint.valueTemplateRefs.forEach(async (resourceTemplateId) => {
         const nestedResourceTemplatePromise = fetchResourceTemplate(resourceTemplateId, dispatch)
         // See if there is alread a <key> > <resource template id> for this resource template id
-        const nestedResource = Object.keys(newResource[propertyTemplate.propertyURI]).find((key) => {
-          return _.first(Object.keys(newResource[propertyTemplate.propertyURI][key]))=== resourceTemplateId
+        const nestedResourceKey = Object.keys(newResource[propertyTemplate.propertyURI]).find((key) => {
+          return _.first(Object.keys(newResource[propertyTemplate.propertyURI][key])) === resourceTemplateId
         })
-        if (nestedResource === undefined) {
+
+        if (nestedResourceKey === undefined) {
           newResource[propertyTemplate.propertyURI][shortid.generate()] = {[resourceTemplateId]: {}}
         } else {
+          const newResourcePropertyValueReduxPath = [...newResourcePropertyReduxPath, nestedResourceKey]
+          const nestedResource = newResource[propertyTemplate.propertyURI][nestedResourceKey][resourceTemplateId]
           const nestedResourceTemplate = await nestedResourceTemplatePromise
-          const newNestedResource = await stubResourceProperties(resourceTemplateId, nestedResourceTemplate, nestedResource, dispatch)
+          const newNestedResource = await stubResourceProperties(resourceTemplateId, nestedResourceTemplate, nestedResource, newResourcePropertyValueReduxPath, dispatch)
+          newResource[propertyTemplate.propertyURI][nestedResourceKey][resourceTemplateId] = newNestedResource
         }
       })
     // If it is a property ref
@@ -176,8 +189,6 @@ const stubResourceProperties = async (resourceTemplateId, existingResourceTempla
       if (newResource[propertyTemplate.propertyURI] === undefined) {
         newResource[propertyTemplate.propertyURI] = {}
         // TODO: Handle defaults
-      } else {
-        console.warn('already exists prop', newResource[propertyTemplate.propertyURI])
       }
     }
   })

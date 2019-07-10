@@ -32,18 +32,14 @@ export const setResourceTemplate = (state, action) => {
 
 export const updateResource = (state, action) => {
   const reduxPath = action.payload.reduxPath
-  const resourceFragment = action.payload.resourceFragment
-  const newState = { ...state }
-  let resourceNode = findNode(state, reduxPath)
-  if (_.isEmpty(resourceNode)) {
-    const propertyURI = reduxPath.slice(-1)[0]
-    const tempReduxPath = reduxPath.slice(0, reduxPath.length-1)
-    const tempNode = findNode(newState, tempReduxPath)
-    tempNode[propertyURI] = resourceFragment[propertyURI]
-  } else {
-    console.error('Not yet done', resourceNode)
-    // resourceNode[propertyURI] = resourceFragment[propertyURI]
-  }
+  const resourceFragment = _.cloneDeep(action.payload.resourceFragment)
+  // This is not the optimal deep copy
+  const newState = _.cloneDeep(state)
+
+  const propertyURI = reduxPath.slice(-1)[0]
+  const tempReduxPath = reduxPath.slice(0, reduxPath.length-1)
+  const tempNode = findNode(newState, tempReduxPath)
+  tempNode[propertyURI] = resourceFragment
 
   return newState
 }
@@ -166,10 +162,8 @@ export const saveAppVersion = (state, action) => {
 export const toggleCollapse = (state, action) => {
   const newState = { ...state }
   const expanded = newState.editor.expanded
-  console.log('toggle Collapse', expanded, action.payload.reduxPath)
   const reduxPath = action.payload.reduxPath
   const items = reduxPath.reduce((obj, key) => {
-    console.log('reducing', key, obj)
 
     return obj[key] || (obj[key] = {})
   }, expanded)
