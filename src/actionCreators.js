@@ -64,13 +64,13 @@ export const newResource = resourceTemplateId => (dispatch, getState) => {
   const resource = {}
   resource[resourceTemplateId] = {}
   dispatch(setResource(resource))
-  stubResource(dispatch, getState())
+  stubResource(true, dispatch, getState())
 }
 
 // A thunk that stubs out an existing new resource
 export const existingResource = resource => (dispatch, getState) => {
   dispatch(setResource(resource))
-  stubResource(dispatch, getState())
+  stubResource(false, dispatch, getState())
 }
 
 // A thunk that expands a nested resource for a property
@@ -95,19 +95,18 @@ export const addResource = reduxPath => (dispatch, getState) => {
   const parentReduxPath = reduxPath.slice(0, reduxPath.length - 2)
   const newReduxPath = [...parentReduxPath, key, resourceTemplateId]
 
-  stubResourceProperties(resourceTemplateId, resourceTemplate, addedResource, newReduxPath, dispatch).then((resourceProperties) => {
+  stubResourceProperties(resourceTemplateId, resourceTemplate, addedResource, newReduxPath, false, dispatch).then((resourceProperties) => {
     dispatch(appendResource(newReduxPath, resourceProperties))
   })
 }
 
-
 // Stubs out a root resource
-const stubResource = (dispatch, state) => {
+const stubResource = (useDefaults, dispatch, state) => {
   const newResource = { ...state.selectorReducer.resource }
   const rootResourceTemplateId = Object.keys(newResource)[0]
   const rootResource = newResource[rootResourceTemplateId]
   const resourceTemplate = state.selectorReducer.entities.resourceTemplates[rootResourceTemplateId]
-  stubResourceProperties(rootResourceTemplateId, resourceTemplate, rootResource, ['resource'], dispatch).then((resourceProperties) => {
+  stubResourceProperties(rootResourceTemplateId, resourceTemplate, rootResource, ['resource'], useDefaults, dispatch).then((resourceProperties) => {
     newResource[rootResourceTemplateId] = resourceProperties
     dispatch(setResource(newResource))
   })
@@ -125,7 +124,6 @@ const stubProperty = async (resourceTemplateId, existingResourceTemplate, resour
       // See if there is alread a <key> > <resource template id> for this resource template id
       const nestedResource = Object.keys(newResource).find(key => _.first(Object.keys(newResource[key])) === resourceTemplateId)
       if (nestedResource === undefined) {
-        // TODO: Handle defaults
         newResource[shortid.generate()] = { [resourceTemplateId]: {} }
       }
     })
@@ -135,7 +133,7 @@ const stubProperty = async (resourceTemplateId, existingResourceTemplate, resour
 }
 
 // For a resource, stub out of its properties.
-const stubResourceProperties = async (resourceTemplateId, existingResourceTemplate, resource, reduxPath, dispatch) => {
+const stubResourceProperties = async (resourceTemplateId, existingResourceTemplate, resource, reduxPath, useDefaults, dispatch) => {
   const newResource = _.cloneDeep(resource)
   const newResourceReduxPath = [...reduxPath, resourceTemplateId]
   const resourceTemplate = existingResourceTemplate || await fetchResourceTemplate(resourceTemplateId, dispatch)
@@ -151,7 +149,6 @@ const stubResourceProperties = async (resourceTemplateId, existingResourceTempla
     // If it is a value ref
     if (isResourceWithValueTemplateRef(propertyTemplate)) {
       if (newResource[propertyTemplate.propertyURI] === undefined) {
-        // TODO: Handle defaults
         newResource[propertyTemplate.propertyURI] = {}
       }
       // For each value template
@@ -169,23 +166,19 @@ const stubResourceProperties = async (resourceTemplateId, existingResourceTempla
           const nestedResource = newResource[propertyTemplate.propertyURI][nestedResourceKey][resourceTemplateId]
           const nestedResourceTemplate = await nestedResourceTemplatePromise
           const newNestedResource = await stubResourceProperties(resourceTemplateId, nestedResourceTemplate,
-            nestedResource, newResourcePropertyValueReduxPath, dispatch)
+            nestedResource, newResourcePropertyValueReduxPath, useDefaults, dispatch)
           newResource[propertyTemplate.propertyURI][nestedResourceKey][resourceTemplateId] = newNestedResource
         }
       })
     // If it is a property ref
     } else if (newResource[propertyTemplate.propertyURI] === undefined) {
       newResource[propertyTemplate.propertyURI] = {}
+      // Defaults
       const defaults = defaultValuesFromPropertyTemplate(propertyTemplate)
-      if (!_.isEmpty(defaults)) {
+      if (useDefaults && !_.isEmpty(defaults)) {
         newResource[propertyTemplate.propertyURI].items = defaults
       }
-      // TODO: Handle defaults
     }
-    // } else if (newResource[propertyTemplate.propertyURI] === undefined) {
-    //   newResource[propertyTemplate.propertyURI] = {}
-    //   // TODO: Handle defaults
-    // }
   })
   return newResource
 }
