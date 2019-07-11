@@ -135,6 +135,7 @@ InputListLOC.propTypes = {
     }),
   }),
   reduxPath: PropTypes.array,
+  selected: PropTypes.object,
 }
 
 const mapStateToProps = (state, ownProps) => {
