@@ -177,10 +177,10 @@ describe('<Typeahead /> component', () => {
   it('sets the selected option', () => {
     const opts = { id: 'URI', label: 'LABEL', uri: 'URI' }
 
-    const event = (wrap) => {
+    const event = () => {
       global.fetch = jest.fn().mockImplementation(async () => await { ok: true, resp: opts })
     }
-    wrapper.find('#targetComponent').simulate('change', event(wrapper))
+    wrapper.find('#targetComponent').simulate('change', event())
 
     expect(mockFormDataFn).toHaveBeenCalled()
   })
