@@ -1,0 +1,28 @@
+{
+  "propertyTemplates": [
+    {
+      "mandatory": "false",
+      "repeatable": "true",
+      "type": "literal",
+      "resourceTemplates": [],
+      "valueConstraint": {
+        "valueTemplateRefs": [],
+        "useValuesFrom": [],
+        "defaults": [{
+          "defaultLiteral": "New Jersey"
+        }, {
+          "defaultURI": "http://example.org/geo#SomePlaceOfInterest"
+        }],
+        "valueDataType": {}
+      },
+      "propertyURI": "http://id.loc.gov/ontologies/bibframe/geographicCoverage",
+      "propertyLabel": "Geographic Coverage 1",
+      "remark": "tooltip 1"
+    }
+  ],
+  "id": "rt:literal:defaultURI",
+  "resourceURI": "http://id.loc.gov/ontologies/bibframe/Work",
+  "author": "michelle",
+  "resourceLabel": "literal with default URI",
+  "schema": "https://ld4p.github.io/sinopia/schemas/0.0.9/resource-template.json"
+}
