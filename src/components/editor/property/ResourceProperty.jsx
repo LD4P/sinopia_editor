@@ -6,7 +6,6 @@ import PropTypes from 'prop-types'
 import shortid from 'shortid'
 import PropertyActionButtons from './PropertyActionButtons'
 import PropertyTemplateOutline from './PropertyTemplateOutline'
-import { booleanPropertyFromTemplate } from 'Utilities'
 import { findNode } from 'selectors/resourceSelectors'
 import _ from 'lodash'
 
@@ -44,11 +43,7 @@ export class ResourceProperty extends Component {
 
         resourceRow.properties.forEach((model) => {
           jsx.push(
-            <PropertyTemplateOutline key={shortid.generate()}
-                                     propertyTemplate={model.property}
-                                     reduxPath={model.reduxPath}
-                                     addButtonDisabled={model.isAddDisabled}
-                                     resourceTemplate={resourceTemplate} />,
+            <PropertyTemplateOutline key={shortid.generate()} reduxPath={model.reduxPath} />,
           )
         })
       })
@@ -92,12 +87,8 @@ const mapStateToProps = (state, ourProps) => {
     models[resourceTemplateId].push(model)
     resourceTemplate.propertyTemplates.map((rtProperty) => {
       const propertyReduxPath = [...ourProps.reduxPath, key, resourceTemplateId, rtProperty.propertyURI]
-
-      const isAddDisabled = !booleanPropertyFromTemplate(rtProperty, 'repeatable', false)
       model.properties.push({
-        isAddDisabled,
         reduxPath: propertyReduxPath,
-        property: rtProperty,
       })
     })
   })

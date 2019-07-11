@@ -5,7 +5,7 @@ import { connect } from 'react-redux'
 import PropTypes from 'prop-types'
 import shortid from 'shortid'
 import OutlineHeader from './OutlineHeader'
-import { isResourceWithValueTemplateRef, resourceToName } from 'Utilities'
+import { booleanPropertyFromTemplate, isResourceWithValueTemplateRef, resourceToName } from 'Utilities'
 import PropertyComponent from './PropertyComponent'
 import ResourceProperty from './ResourceProperty'
 import { findNode, isExpanded, getPropertyTemplate } from 'selectors/resourceSelectors'
@@ -37,8 +37,7 @@ class PropertyTemplateOutline extends Component {
     }
 
     if (isResourceWithValueTemplateRef(this.props.property)) {
-      // const isAddDisabled = !booleanPropertyFromTemplate(this.props.property, 'repeatable', false) || index > 0
-      const isAddDisabled = false
+      const isAddDisabled = !booleanPropertyFromTemplate(this.props.property, 'repeatable', false)
       return (<ResourceProperty key={shortid.generate()}
                                 propertyTemplate={this.props.property}
                                 reduxPath={this.props.reduxPath}
@@ -51,9 +50,9 @@ class PropertyTemplateOutline extends Component {
 
   render() {
     return (
-      <div className="rtOutline" data-label={this.props.propertyTemplate.propertyLabel}>
-        <OutlineHeader pt={this.props.propertyTemplate}
-                       id={resourceToName(this.props.propertyTemplate.propertyURI)}
+      <div className="rtOutline" data-label={this.props.property.propertyLabel}>
+        <OutlineHeader pt={this.props.property}
+                       id={resourceToName(this.props.property.propertyURI)}
                        collapsed={this.props.collapsed}
                        key={shortid.generate()}
                        handleCollapsed={this.props.handleTogglePlusButton}
@@ -67,9 +66,8 @@ class PropertyTemplateOutline extends Component {
 }
 
 PropertyTemplateOutline.propTypes = {
-  propertyTemplate: PropTypes.object,
   reduxPath: PropTypes.array,
-  property: PropTypes.object,
+  property: PropTypes.object.isRequired,
   resourceModel: PropTypes.object,
   collapsed: PropTypes.bool,
   handleTogglePlusButton: PropTypes.func,
