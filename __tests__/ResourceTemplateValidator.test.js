@@ -4,13 +4,18 @@ import { getFixtureResourceTemplate } from './fixtureLoaderHelper'
 import validateResourceTemplate from 'ResourceTemplateValidator'
 
 describe('validateResourceTemplate', () => {
-  it('returns null for valid', async () => {
+  it('returns [] for valid', async () => {
     const template = await getFixtureResourceTemplate('resourceTemplate:bf2:Title')
-    expect(validateResourceTemplate(template.response.body)).toEqual(null)
+    expect(validateResourceTemplate(template.response.body)).toEqual([])
   })
 
   it('returns reason for repeated property URIs', async () => {
     const template = await getFixtureResourceTemplate('rt:repeated:propertyURI:propertyLabel')
-    expect(validateResourceTemplate(template.response.body)).toEqual('Repeated property templates with same property URI (http://id.loc.gov/ontologies/bibframe/geographicCoverage) are not allowed.')
+    expect(validateResourceTemplate(template.response.body)).toEqual(['Repeated property templates with same property URI (http://id.loc.gov/ontologies/bibframe/geographicCoverage) are not allowed.'])
+  })
+
+  it('returns reason for literal with default URI', async () => {
+    const template = await getFixtureResourceTemplate('rt:literal:defaultURI')
+    expect(validateResourceTemplate(template.response.body)).toEqual(['Literal property templates (http://id.loc.gov/ontologies/bibframe/geographicCoverage) cannot have default URIs.'])
   })
 })

@@ -48,7 +48,9 @@ export default class ResourceStateBuilder {
     propertyDataset.forEach((quad) => {
       const propertyURI = quad.predicate.value
       if (quad.object.termType === 'BlankNode') {
-        thisResourceState[rtId][propertyURI] = {}
+        if (thisResourceState[rtId][propertyURI] === undefined) {
+          thisResourceState[rtId][propertyURI] = {}
+        }
         thisResourceState[rtId][propertyURI][shortid.generate()] = this.buildResource(quad.object)
       } else {
         if (!_.has(thisResourceState[rtId], propertyURI)) {

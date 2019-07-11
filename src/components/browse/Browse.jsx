@@ -17,6 +17,7 @@ const Browse = (props) => {
 
   const handleSubmit = (event) => {
     props.loadResource(props.currentUser, uri)
+    props.history.push('/editor')
     event.preventDefault()
   }
 
@@ -47,6 +48,7 @@ Browse.propTypes = {
   triggerHandleOffsetMenu: PropTypes.func,
   loadResource: PropTypes.func,
   currentUser: PropTypes.object,
+  history: PropTypes.object,
 }
 
 const mapStateToProps = state => ({

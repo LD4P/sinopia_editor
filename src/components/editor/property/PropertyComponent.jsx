@@ -28,24 +28,23 @@ export class PropertyComponent extends Component {
       // Ignore undefined configuration
     }
 
-    const reduxPath = Object.assign([], this.props.reduxPath)
     const keyId = shortid.generate()
 
     switch (config) {
       case 'lookup':
         return (<InputLookupQA key = {this.props.index}
-                               reduxPath={reduxPath} />)
+                               reduxPath={this.props.reduxPath} />)
       case 'list':
         return (<InputListLOC key = {this.props.index}
-                              reduxPath={reduxPath} />)
+                              reduxPath={this.props.reduxPath} />)
       default:
         switch (propertyTemplate.type) {
           case 'literal':
             return (<InputLiteral key={keyId} id={keyId}
-                                  reduxPath={reduxPath} />)
+                                  reduxPath={this.props.reduxPath} />)
           case 'resource':
             return (<InputURI key={keyId} id={keyId}
-                              reduxPath={reduxPath} />)
+                              reduxPath={this.props.reduxPath} />)
           default:
             console.error(`Unknown propertyTemplate type (component=${config}, type=${propertyTemplate.type})`)
         }

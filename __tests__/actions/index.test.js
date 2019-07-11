@@ -11,14 +11,6 @@ describe('setItems()', () => {
   })
 })
 
-describe('refreshPropertyTemplate()', () => {
-  it('creates REFRESH_PROPERTY_TEMPLATE action', () => {
-    expect(actions.refreshPropertyTemplate({ id: 'resourceTemplate:bf2:Note' })).toEqual({
-      type: 'REFRESH_PROPERTY_TEMPLATE',
-      payload: { id: 'resourceTemplate:bf2:Note' },
-    })
-  })
-})
 
 describe('removeItem()', () => {
   it('creates REMOVE_ITEM action', () => {
@@ -61,15 +53,6 @@ describe('authentication actions', () => {
   it('signOutSuccess should create SIGN_OUT_SUCCESS action', () => {
     expect(actions.signOutSuccess()).toEqual({
       type: 'SIGN_OUT_SUCCESS',
-    })
-  })
-})
-
-describe('initializes the Redux State', () => {
-  it('should return Redux state based on ROOT_RESOURCE_TEMPLATE_LOADED action', () => {
-    expect(actions.rootResourceTemplateLoaded({}, { reduxPath: ['http://sinopia.io/example'] })).toEqual({
-      type: 'ROOT_RESOURCE_TEMPLATE_LOADED',
-      payload: {},
     })
   })
 })

@@ -13,11 +13,9 @@
       "valueConstraint": {
         "defaults": [
           {
-            "defaultURI": "",
             "defaultLiteral": "mydefaultvalue"
           },
           {
-            "defaultURI": "",
             "defaultLiteral": "myotherdefaultvalue"
           }
         ],

@@ -3,8 +3,11 @@
 import React, { Component } from 'react'
 import shortid from 'shortid'
 import PropTypes from 'prop-types'
+import { connect } from 'react-redux'
 import PropertyActionButtons from './PropertyActionButtons'
 import PropertyTemplateOutline from './PropertyTemplateOutline'
+import { getResourceTemplate } from 'selectors/resourceSelectors'
+import { addResource as addResourceCreator } from 'actionCreators'
 
 /**
  * Renders a sub-resource template (e.g. WorkTitle, WorkVariantTitle, TranscribedTitle)
@@ -38,43 +41,29 @@ import PropertyTemplateOutline from './PropertyTemplateOutline'
  *  resourceTemplate.id
  */
 class PropertyResourceTemplate extends Component {
-  constructor(props) {
-    super(props)
-    this.state = {
-      output: this.populatePropertyTemplates(),
-    }
-  }
-
-  handleAddClick = (event) => {
+  handleAddClick = (reduxPath, event) => {
     event.preventDefault()
-    const existingOutputs = [...this.state.output]
-
-    existingOutputs.push(<h4 key={shortid.generate()}>{this.props.resourceTemplate.resourceLabel}</h4>)
-
-    const result = this.populatePropertyTemplates()
-
-    this.setState({ output: existingOutputs.concat(result) })
+    this.props.addResource(reduxPath)
   }
 
-  populatePropertyTemplates = () => {
-    const keyId = shortid.generate()
+  populatePropertyTemplates = () => this.props.resourceTemplate.propertyTemplates.map((property) => {
+    /*
+     * Add the property uri to the redux path
+     * The redux path will be something like ..., "kV5fjX2b1", "resourceTemplate:bf2:Title", "http://schema.org/description"
+     */
+    const newReduxPath = [...this.props.reduxPath, property.propertyURI]
 
-    return this.props.resourceTemplate.propertyTemplates.map((property) => {
-      /*
-       * Add the generated id so that this is a new resource.
-       * The redux path will be something like ..., "kV5fjX2b1", "resourceTemplate:bf2:Monograph:Work"
-       */
-      const reduxPath = [...this.props.reduxPath, keyId, this.props.resourceTemplate.id]
-
-      return (<PropertyTemplateOutline
-                      propertyTemplate={property}
-                      rtId={this.props.resourceTemplate.id}
-                      reduxPath={reduxPath}
-                      key={shortid.generate()} />)
-    })
-  }
+    return (<PropertyTemplateOutline
+                    propertyTemplate={property}
+                    rtId={this.props.resourceTemplate.id}
+                    reduxPath={newReduxPath}
+                    key={shortid.generate()} />)
+  })
 
   render() {
+    if (!this.props.resourceTemplate) {
+      return null
+    }
     // repeatable defaults to false, so isAddDisabled defaults to true
     const isAddDisabled = this.props.isRepeatable ? !JSON.parse(this.props.isRepeatable) : true
 
@@ -85,14 +74,14 @@ class PropertyResourceTemplate extends Component {
         </section>
         <section className="col-md-2">
           <PropertyActionButtons
-            handleAddClick={this.handleAddClick}
+            handleAddClick={this.handleAddClick.bind(this, this.props.reduxPath)}
             addButtonDisabled={isAddDisabled}
             reduxPath={this.props.reduxPath}
             key={shortid.generate()} />
         </section>
       </div>
       <div>
-        { this.state.output }
+        { this.populatePropertyTemplates() }
       </div>
     </div>
     )
@@ -103,6 +92,21 @@ PropertyResourceTemplate.propTypes = {
   isRepeatable: PropTypes.string,
   reduxPath: PropTypes.array,
   resourceTemplate: PropTypes.object,
+  addResource: PropTypes.func,
 }
 
-export default PropertyResourceTemplate
+const mapStateToProps = (state, ourProps) => {
+  const resourceTemplateId = ourProps.reduxPath.slice(-1)[0]
+  const resourceTemplate = getResourceTemplate(state, resourceTemplateId)
+  return {
+    resourceTemplate,
+  }
+}
+
+const mapDispatchToProps = dispatch => ({
+  addResource(reduxPath) {
+    dispatch(addResourceCreator(reduxPath))
+  },
+})
+
+export default connect(mapStateToProps, mapDispatchToProps)(PropertyResourceTemplate)

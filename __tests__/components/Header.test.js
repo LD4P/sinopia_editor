@@ -24,8 +24,8 @@ describe('<Header />', () => {
   })
 
   describe('nav tabs', () => {
-    it('displays 3 header tabs', () => {
-      expect(wrapper.find('ul.editor-navtabs NavLink').length).toBe(3)
+    it('displays 4 header tabs', () => {
+      expect(wrapper.find('ul.editor-navtabs NavLink').length).toBe(4)
     })
     it('has browse URL', () => {
       expect(wrapper.find('ul.editor-navtabs NavLink[to=\'/browse\']').length).toBe(1)

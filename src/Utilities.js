@@ -16,23 +16,33 @@ export const resourceToName = (uri) => {
 }
 
 export const defaultValuesFromPropertyTemplate = (propertyTemplate) => {
-  // Use safe navigation to deal with differently shaped property templates
-  const defaultValue = propertyTemplate?.valueConstraint?.defaults?.[0]
+  const defaults = propertyTemplate?.valueConstraint?.defaults || []
+  const defaultValues = []
+  defaults.forEach((defaultValue) => {
+    // Use the default URI for the literal value if the literal is undefined
+    const defaultLiteral = defaultValue?.defaultLiteral
 
-  // Use the default URI for the literal value if the lliteral is undefined
-  const defaultLiteral = defaultValue?.defaultLiteral
+    const defaultURI = defaultValue?.defaultURI
 
-  const defaultURI = defaultValue?.defaultURI
+    const defaultLabel = defaultLiteral || defaultURI
 
-  const defaultLabel = defaultLiteral || defaultURI
+    if (!defaultValue || !defaultLabel) return
 
-  if (!defaultValue || !defaultLabel) return []
-
-  return [{
-    id: defaultValue.defaultURI,
-    label: defaultLabel,
-    uri: defaultValue.defaultURI,
-  }]
+    if (propertyTemplate.type !== 'literal') {
+      defaultValues.push({
+        id: defaultValue.defaultURI,
+        label: defaultLabel,
+        uri: defaultValue.defaultURI,
+      })
+    } else {
+      defaultValues.push({
+        id: defaultValue.defaultURI,
+        content: defaultLabel,
+        lang: { items: [{ id: 'en', label: 'English' }] },
+      })
+    }
+  })
+  return defaultValues
 }
 
 export const booleanPropertyFromTemplate = (template, key, defaultValue) => {
