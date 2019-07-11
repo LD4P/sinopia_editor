@@ -127,6 +127,8 @@ const stubProperty = async (resourceTemplateId, existingResourceTemplate, resour
         newResource[shortid.generate()] = { [resourceTemplateId]: {} }
       }
     })
+  } else {
+    newResource.items = []
   }
 
   return newResource

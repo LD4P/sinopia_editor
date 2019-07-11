@@ -56,7 +56,8 @@ class PropertyTemplateOutline extends Component {
                        id={resourceToName(this.props.propertyTemplate.propertyURI)}
                        collapsed={this.props.collapsed}
                        key={shortid.generate()}
-                       handleCollapsed={this.props.handleTogglePlusButton} />
+                       handleCollapsed={this.props.handleTogglePlusButton}
+                       isAdd={_.isEmpty(this.props.resourceModel)} />
         <div className={this.outlineRowClass()}>
           {this.renderPropertyRows()}
         </div>
