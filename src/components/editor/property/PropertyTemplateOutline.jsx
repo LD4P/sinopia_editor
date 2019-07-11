@@ -27,10 +27,6 @@ class PropertyTemplateOutline extends Component {
     this.props.addResource(reduxPath)
   }
 
-  hasAddedARow() {
-    return this.state.rowAdded
-  }
-
   renderPropertyRows = () => {
     if (this.props.collapsed) {
       return
