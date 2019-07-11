@@ -174,25 +174,14 @@ describe('<Typeahead /> component', () => {
     expect(wrapper.find('#targetComponent').props().placeholder).toMatch('Frequency (RDA 2.14)')
   })
 
-  it('should call the onFocus event and set the selected option', () => {
-    expect.assertions(2)
+  it('sets the selected option', () => {
     const opts = { id: 'URI', label: 'LABEL', uri: 'URI' }
 
-    wrapper.instance().opts = opts
     const event = (wrap) => {
-      global.fetch = jest.fn().mockImplementation(async () => await { ok: true, resp: wrapper.instance().opts })
-      wrap.setState({ options: [wrapper.instance().opts] })
-      wrap.setState({ selected: [wrapper.instance().opts] })
+      global.fetch = jest.fn().mockImplementation(async () => await { ok: true, resp: opts })
     }
-
-    wrapper.find('#targetComponent').simulate('focus', event(wrapper))
-    expect(wrapper.state().options[0]).toEqual(opts)
-
     wrapper.find('#targetComponent').simulate('change', event(wrapper))
-    expect(wrapper.state().selected[0]).toEqual(opts)
-  })
 
-  it('sets the formData store with the total number or objects sent to "selected" when a change event happens', () => {
-    expect(mockFormDataFn.mock.calls.length).toBe(2)
+    expect(mockFormDataFn).toHaveBeenCalled()
   })
 })
