@@ -11,6 +11,7 @@ import {
 
 import { updateRDFResource, getResourceTemplate, loadRDFResource } from 'sinopiaServer'
 import { rootResourceId, findNode } from 'selectors/resourceSelectors'
+import findResourceTemplate from 'selectors/entitySelectors'
 import validateResourceTemplate from 'ResourceTemplateValidator'
 import GraphBuilder from 'GraphBuilder'
 import { isResourceWithValueTemplateRef, rdfDatasetFromN3, defaultValuesFromPropertyTemplate } from 'Utilities'
@@ -79,7 +80,7 @@ export const expandResource = reduxPath => (dispatch, getState) => {
   const nestedResource = findNode(state.selectorReducer, reduxPath)
   const resourceTemplateId = reduxPath.slice(-2)[0]
   const propertyURI = reduxPath.slice(-1)[0]
-  const resourceTemplate = state.selectorReducer.entities.resourceTemplates[resourceTemplateId]
+  const resourceTemplate = findResourceTemplate(state.selectorReducer, resourceTemplateId)
   stubProperty(resourceTemplateId, resourceTemplate, nestedResource, propertyURI, dispatch).then((resourceProperties) => {
     dispatch(updateProperty(reduxPath, resourceProperties))
   })
@@ -89,7 +90,7 @@ export const expandResource = reduxPath => (dispatch, getState) => {
 export const addResource = reduxPath => (dispatch, getState) => {
   const state = getState()
   const resourceTemplateId = reduxPath.slice(-1)[0]
-  const resourceTemplate = state.selectorReducer.entities.resourceTemplates[resourceTemplateId]
+  const resourceTemplate = findResourceTemplate(state.selectorReducer, resourceTemplateId)
   const key = shortid.generate()
   const addedResource = { [key]: { [resourceTemplateId]: {} } }
   const parentReduxPath = reduxPath.slice(0, reduxPath.length - 2)
@@ -105,7 +106,7 @@ const stubResource = (useDefaults, dispatch, state) => {
   const newResource = { ...state.selectorReducer.resource }
   const rootResourceTemplateId = Object.keys(newResource)[0]
   const rootResource = newResource[rootResourceTemplateId]
-  const resourceTemplate = state.selectorReducer.entities.resourceTemplates[rootResourceTemplateId]
+  const resourceTemplate = findResourceTemplate(state.selectorReducer, rootResourceTemplateId)
   stubResourceProperties(rootResourceTemplateId, resourceTemplate, rootResource, ['resource'], useDefaults, dispatch).then((resourceProperties) => {
     newResource[rootResourceTemplateId] = resourceProperties
     dispatch(setResource(newResource))

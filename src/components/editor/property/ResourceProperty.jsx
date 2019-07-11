@@ -7,6 +7,7 @@ import shortid from 'shortid'
 import PropertyActionButtons from './PropertyActionButtons'
 import PropertyTemplateOutline from './PropertyTemplateOutline'
 import { findNode } from 'selectors/resourceSelectors'
+import findResourceTemplate from 'selectors/entitySelectors'
 import _ from 'lodash'
 
 export class ResourceProperty extends Component {
@@ -75,7 +76,7 @@ const mapStateToProps = (state, ourProps) => {
   const propertyNode = findNode(state.selectorReducer, ourProps.reduxPath)
   Object.keys(propertyNode).forEach((key) => {
     const resourceTemplateId = Object.keys(propertyNode[key])[0]
-    const resourceTemplate = state.selectorReducer.entities.resourceTemplates[resourceTemplateId]
+    const resourceTemplate = findResourceTemplate(state.selectorReducer, resourceTemplateId)
     if (!resourceTemplate) {
       return
     }
