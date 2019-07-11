@@ -13,11 +13,9 @@
       "valueConstraint": {
         "defaults": [
           {
-            "defaultURI": "",
             "defaultLiteral": "borkBorkBork"
           },
           {
-            "defaultURI": "",
             "defaultLiteral": "und dann der Maestro sagte ..."
           }
         ],
