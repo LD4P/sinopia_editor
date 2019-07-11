@@ -43,6 +43,7 @@ const rtFileNames = [
   'WorkVariantTitle.json',
   'adminMetadata.json',
   'adminMetadataStatus.json',
+  'literalDefaultURI.json',
   'literalNoRepeatDefaultBoth.json',
   'literalNoRepeatDefaultLiteralNonEnglish.json',
   'literalNoRepeatDefaultLiteralOnly.json',
