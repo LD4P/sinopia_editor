@@ -5,6 +5,7 @@ import PropTypes from 'prop-types'
 import { NavLink } from 'react-router-dom'
 import Config from 'Config'
 import { connect } from 'react-redux'
+import _ from 'lodash'
 
 class Header extends Component {
   render() {
@@ -27,9 +28,11 @@ class Header extends Component {
             <ul className="nav nav-tabs pull-left editor-navtabs">
               { /* Navlinks enable highlighting the appropriate tab based on route, active style is defined in css */}
               <li className="nav-item"><NavLink className="nav-link" to="/browse">Browse</NavLink></li>
-              <li className="nav-item"><NavLink className="nav-link" to="/editor">Editor</NavLink></li>
               <li className="nav-item"><NavLink className="nav-link" to="/templates">Resource Templates</NavLink></li>
-              <li className="nav-item"><NavLink className="nav-link" to="/resource">Resource</NavLink></li>
+              <li className="nav-item"><NavLink className="nav-link" to="/load">Load</NavLink></li>
+              { this.props.hasResource &&
+                <li className="nav-item"><NavLink className="nav-link" to="/editor">Editor</NavLink></li>
+              }
             </ul>
           </div>
         </div>
@@ -43,8 +46,12 @@ Header.propTypes = {
   version: PropTypes.string,
 }
 
-const mapStateToProps = state => ({
-  version: state.selectorReducer.appVersion.version,
-})
+const mapStateToProps = (state) => {
+  const hasResource = !_.isEmpty(state.selectorReducer.resource)
+  return {
+    version: state.selectorReducer.appVersion.version,
+    hasResource,
+  }
+}
 
 export default connect(mapStateToProps)(Header)

@@ -52,6 +52,7 @@ describe('#routes', () => {
           version: undefined,
           lastChecked: Date.now(),
         },
+        resource: {}
       },
       authenticate: {
         authenticationState: {
