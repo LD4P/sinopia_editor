@@ -9,6 +9,8 @@ import ControlLabel from 'react-bootstrap/lib/ControlLabel'
 import FormControl from 'react-bootstrap/lib/FormControl'
 import HelpBlock from 'react-bootstrap/lib/HelpBlock'
 import Button from 'react-bootstrap/lib/Button'
+import Col from 'react-bootstrap/lib/Col'
+import Glyphicon from 'react-bootstrap/lib/Glyphicon'
 import { getCurrentUser } from 'authSelectors'
 import { retrieveResource } from 'actionCreators/resources'
 
@@ -20,24 +22,32 @@ const Browse = (props) => {
     props.loadResource(props.currentUser, uri)
   }
 
+
+//   <!-- Search form -->
+// <form class="form-inline md-form form-sm active-cyan-2 mt-2">
+//   <input class="form-control form-control-sm mr-3 w-75" type="text" placeholder="Search"
+//     aria-label="Search">
+//   <i class="fas fa-search" aria-hidden="true"></i>
+// </form>
+
   return (
     <div id="browse">
-      <Header triggerEditorMenu={props.triggerHandleOffsetMenu}/>
+      <Header triggerEditorMenu={props.triggerHandleOffsetMenu} />
       <div className="row">
-        <form className="col-md-12">
-          <FormGroup controlId="formBasicEmail">
-            <ControlLabel>URI of Sinopia Resource</ControlLabel>
-            <FormControl type="text"
-                         placeholder="Enter URI"
-                         onChange={event => setURI(event.target.value) }/>
-            <HelpBlock>
-              This is a temporary facility until we have search implemented.
-            </HelpBlock>
-          </FormGroup>
-          <Button bsStyle="primary"
-                  type="submit"
-                  onClick={handleSubmit}>Load</Button>
-        </form>
+        <div class="col-md-2"></div>
+        <div class="col-md-8">
+          <form horizontal>
+            <FormGroup controlId="formHorizontalSearch">
+              <Col componentClass={ControlLabel} sm={2}>Search</Col>
+              <Col sm={10}>
+                <FormControl column sm={8}
+                             onChange={event => setURI(event.target.value) } />
+                <Glyphicon glyph="search" />
+              </Col>
+            </FormGroup>
+          </form>
+        </div>
+        <div class="col-md-2"></div>
       </div>
     </div>
   )
