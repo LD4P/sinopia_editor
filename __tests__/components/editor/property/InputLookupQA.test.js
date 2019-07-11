@@ -21,10 +21,6 @@ const plProps = {
         valueDataType: {
           dataTypeURI: 'http://id.loc.gov/ontologies/bibframe/Agent',
         },
-        defaults: [{
-          defaultURI: 'http://id.loc.gov/vocabulary/carriers/nc',
-          defaultLiteral: 'volume',
-        }],
       },
       propertyURI: 'http://id.loc.gov/ontologies/bflc/target',
       propertyLabel: 'Name Lookup',
@@ -118,22 +114,6 @@ describe('<InputLookupQA />', () => {
 
   it('sets the typeahead component multiple attribute according to the repeatable property from the template', () => {
     expect(wrapper.find('#lookupComponent').props().multiple).toBeFalsy()
-  })
-
-  describe('default values', () => {
-    afterAll(() => {
-      jest.restoreAllMocks()
-    })
-
-    it('sets the async typeahead component defaultSelected attribute', () => {
-      const wrapper2 = shallow(<InputLookupQA.WrappedComponent {...plProps} handleSelectedChange={mockFormDataFn} />)
-
-      expect(wrapper2.find('#lookupComponent').props().defaultSelected).toEqual([{
-        id: 'http://id.loc.gov/vocabulary/carriers/nc',
-        uri: 'http://id.loc.gov/vocabulary/carriers/nc',
-        label: 'volume',
-      }])
-    })
   })
 
   it('should call the onChange event and set the state with the selected option', () => {

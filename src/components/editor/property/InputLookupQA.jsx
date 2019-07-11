@@ -1,4 +1,4 @@
-// Copyright 2018 Stanford University see LICENSE for license
+// Copyright 2019 Stanford University see LICENSE for license
 import React, { Component } from 'react'
 import {
   Menu, MenuItem, Typeahead, asyncContainer,
@@ -172,8 +172,6 @@ class InputLookupQA extends Component {
       return null
     }
 
-    // const defaults = defaultValuesFromPropertyTemplate(this.props.propertyTemplate)
-
     const typeaheadProps = {
       id: 'lookupComponent',
       required: this.isMandatory,
@@ -184,7 +182,6 @@ class InputLookupQA extends Component {
       isLoading: this.state.isLoading,
       onSearch: this.search(),
       options: this.state.options,
-      // defaultSelected: defaults,
       selected: this.props.selected,
       delay: 300,
     }
