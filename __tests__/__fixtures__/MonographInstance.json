@@ -205,7 +205,6 @@
         },
         "defaults": [
           {
-            "defaultURI": "http://id.loc.gov/vocabulary/organizations/dlc",
             "defaultLiteral": "DLC"
           }
         ]

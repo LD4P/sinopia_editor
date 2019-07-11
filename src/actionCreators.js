@@ -116,6 +116,11 @@ const stubResource = (useDefaults, dispatch, state) => {
 const stubProperty = async (resourceTemplateId, existingResourceTemplate, resource, propertyURI, dispatch) => {
   const newResource = { ...resource }
   const resourceTemplate = existingResourceTemplate || await fetchResourceTemplate(resourceTemplateId, dispatch)
+  // This handles if there was an error fetching resource template
+  if (!resourceTemplate) {
+    return newResource
+  }
+
   const propertyTemplate = resourceTemplate.propertyTemplates.find(propertyTemplate => propertyTemplate.propertyURI === propertyURI)
   if (isResourceWithValueTemplateRef(propertyTemplate)) {
     propertyTemplate.valueConstraint.valueTemplateRefs.forEach((resourceTemplateId) => {
@@ -139,6 +144,10 @@ const stubResourceProperties = async (resourceTemplateId, existingResourceTempla
   const newResource = _.cloneDeep(resource)
   const newResourceReduxPath = [...reduxPath, resourceTemplateId]
   const resourceTemplate = existingResourceTemplate || await fetchResourceTemplate(resourceTemplateId, dispatch)
+  // This handles if there was an error fetching resource template
+  if (!resourceTemplate) {
+    return newResource
+  }
   // Given the resource template for this resource
   // For each property template
   resourceTemplate.propertyTemplates.forEach((propertyTemplate) => {
@@ -185,19 +194,18 @@ const stubResourceProperties = async (resourceTemplateId, existingResourceTempla
   return newResource
 }
 
-const fetchResourceTemplate = (resourceTemplateId, dispatch) => {
+export const fetchResourceTemplate = (resourceTemplateId, dispatch) => {
   dispatch(retrieveResourceTemplateStarted(resourceTemplateId))
 
   return getResourceTemplate(resourceTemplateId, 'ld4p').then((response) => {
     // If resource template loads, then validate.
     const resourceTemplate = response.response.body
     const reason = validateResourceTemplate(resourceTemplate)
-    if (reason) {
-      dispatch(retrieveError(resourceTemplateId, reason))
-    } else {
+    if (_.isEmpty(reason)) {
       dispatch(setResourceTemplate(resourceTemplate))
       return resourceTemplate
     }
+    dispatch(retrieveError(resourceTemplateId, reason))
   }).catch((err) => {
     console.error(err)
     dispatch(retrieveError(resourceTemplateId))
