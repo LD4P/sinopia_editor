@@ -35,6 +35,7 @@ const rtFileNames = [
   'ParallelTitle.json',
   'RDAMainifestationMonograph.json',
   'Shelfmark.json',
+  'SinopiaLookup.json',
   'Title.json',
   'TitleNote.json',
   'TranscribedTitle.json',

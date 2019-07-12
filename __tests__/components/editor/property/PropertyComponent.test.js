@@ -23,7 +23,7 @@ describe('<PropertyComponent />', () => {
     })
   })
 
-  describe('for templates configured as lookup', () => {
+  describe('for templates configured as QA lookup', () => {
     const template = {
       propertyURI: 'http://id.loc.gov/ontologies/bibframe/contribution',
       propertyLabel: 'Contribution',
@@ -40,6 +40,25 @@ describe('<PropertyComponent />', () => {
 
     it('renders the lookup component', () => {
       expect(wrapper.find('Connect(InputLookupQA)').length).toEqual(1)
+    })
+  })
+
+  describe('for templates configured as a local (Sinopia) lookup', () => {
+    const template = {
+      propertyURI: 'http://id.loc.gov/ontologies/bibframe/contribution',
+      propertyLabel: 'Contribution',
+      type: 'lookup',
+      valueConstraint: {
+        useValuesFrom: [
+          'urn:ld4p:sinopia',
+        ],
+      },
+    }
+
+    const wrapper = shallow(<PropertyComponent propertyTemplate={template} reduxPath={['http://id.loc.gov/ontologies/bibframe/contribution']}/>)
+
+    it('renders the lookup component', () => {
+      expect(wrapper.find('Connect(InputLookupSinopia)').length).toEqual(1)
     })
   })
 

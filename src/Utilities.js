@@ -72,9 +72,7 @@ export const getLookupConfigItems = (propertyTemplate) => {
 
   if (vocabUriList === undefined || vocabUriList.length === 0) return []
 
-  const templateConfigItems = lookupConfig.filter(configItem => vocabUriList.includes(configItem.uri))
-
-  return templateConfigItems
+  return lookupConfig.filter(configItem => vocabUriList.includes(configItem.uri))
 }
 
 /**

@@ -1,5 +1,10 @@
 [
   {
+    "label": "Sinopia (local)",
+    "uri": "urn:ld4p:sinopia",
+    "component": "local-lookup"
+  },
+  {
     "label": "AGROVOC (QA)",
     "uri": "urn:ld4p:qa:agrovoc",
     "authority": "agrovoc_ld4l_cache",
