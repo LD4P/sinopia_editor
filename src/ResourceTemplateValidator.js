@@ -5,11 +5,12 @@
  * @param {Object>} resourceTemplate to validate
  * @return {Array<string>} reasons that validation failed
  */
-const validateResourceTemplate = (resourceTemplate) => {
-  const reasons = [].concat(validateRepeatedPropertyTemplates(resourceTemplate),
-    validateNoDefaultURIForLiterals(resourceTemplate))
-  return reasons
-}
+const validateResourceTemplate = resourceTemplate => [].concat(
+  validateRepeatedPropertyTemplates(resourceTemplate),
+  validateNoDefaultURIForLiterals(resourceTemplate),
+  validateNoDefaultsForTemplateRefs(resourceTemplate),
+)
+
 
 /**
  * Validates that a resource template does not contain repeated property templates.
@@ -53,6 +54,29 @@ const validateNoDefaultURIForLiterals = (resourceTemplate) => {
   if (propertyTemplateIds.size > 0) {
     return [`Literal property templates (${Array.from(propertyTemplateIds)}) cannot have default URIs.`]
   }
+  return []
+}
+
+/**
+ * Validates that property templates that have valueTemplateRefs do not have a defaults.
+ * @param {Object>} resourceTemplate to validate
+ * @return {Array<string} reasons that validation failed if invalid
+ */
+const validateNoDefaultsForTemplateRefs = (resourceTemplate) => {
+  const propertyTemplateIds = new Set()
+  resourceTemplate.propertyTemplates.forEach((propertyTemplate) => {
+    const valueConstraint = propertyTemplate.valueConstraint
+    const defaults = valueConstraint?.defaults || []
+    const refs = valueConstraint?.valueTemplateRefs || []
+
+    if (defaults.length > 0 && refs.length > 0) {
+      propertyTemplateIds.add(propertyTemplate.propertyURI)
+    }
+  })
+  if (propertyTemplateIds.size > 0) {
+    return [`Property templates (${Array.from(propertyTemplateIds)}) cannot have both defaults and valueTemplateRefs.`]
+  }
+
   return []
 }
 
