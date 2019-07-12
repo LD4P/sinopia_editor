@@ -4,11 +4,11 @@ import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import PropTypes from 'prop-types'
 import { existingResource as existingResourceCreator } from 'actionCreators'
-import Header from './Header'
+import Header from '../Header'
 import ResourceStateBuilder from 'ResourceStateBuilder'
 import { rdfDatasetFromN3 } from 'Utilities'
 
-class ResourceInput extends Component {
+class ImportResource extends Component {
   constructor(props) {
     super(props)
     this.state = { resourceN3: '', baseURI: '' }
@@ -30,8 +30,8 @@ class ResourceInput extends Component {
       const builder = new ResourceStateBuilder(dataset, this.state.baseURI)
       const state = builder.state
       this.props.existingResource(state)
+      this.props.history.push('/editor')
     })
-    this.props.history.push('/editor')
     event.preventDefault()
   }
 
@@ -39,20 +39,23 @@ class ResourceInput extends Component {
     return (
       <div id="loadResource">
         <Header triggerEditorMenu={this.props.triggerHandleOffsetMenu}/>
-        <form onSubmit={this.handleSubmit}>
-        Resource RDF N3:<br />
-          <textarea rows="10" cols="100" value={this.state.resourceN3} onChange={this.handleResourceN3Change} /><br />
-        Base URI:<br />
-          <input type="text" size="50" value={this.state.baseURI} onChange={this.handleBaseURIChange}/>
-          <br />
-          <input type="submit" value="Submit" />
+        <form id="loadForm" onSubmit={this.handleSubmit}>
+          <div className="form-group">
+            <label htmlFor="resourceTextArea">Resource RDF N3</label>
+            <textarea className="form-control" id="resourceTextArea" rows="15" value={this.state.resourceN3} onChange={this.handleResourceN3Change}></textarea>
+          </div>
+          <div className="form-group">
+            <label htmlFor="uriInput">Base URI</label>
+            <input type="text" className="form-control" id="uriInput" value={this.state.baseURI} onChange={this.handleBaseURIChange} />
+          </div>
+          <button type="submit" className="btn btn-primary">Submit</button>
         </form>
       </div>
     )
   }
 }
 
-ResourceInput.propTypes = {
+ImportResource.propTypes = {
   existingResource: PropTypes.func,
   triggerHandleOffsetMenu: PropTypes.func,
   history: PropTypes.object,
@@ -64,4 +67,4 @@ const mapDispatchToProps = dispatch => ({
   },
 })
 
-export default connect(null, mapDispatchToProps)(ResourceInput)
+export default connect(null, mapDispatchToProps)(ImportResource)

@@ -80,7 +80,7 @@ module.exports = {
     }],
     "init-declarations": "off",
     "jsx-a11y/anchor-is-valid": "warn", // see #172
-    "jsx-a11y/label-has-for": "warn", // see #173
+    "jsx-a11y/label-has-for": "off", // see #173
     "jsx-a11y/no-onchange": "warn", // The DropZone select form needs an onChange prop to set the state with the new group
     'jsx-a11y/no-noninteractive-tabindex': ['off', { roles: ['tooltip'] }],
     'lines-around-comment': ['error', { 'allowBlockStart': true }],
