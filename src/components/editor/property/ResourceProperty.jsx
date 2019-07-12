@@ -16,7 +16,7 @@ export class ResourceProperty extends Component {
 
     Object.keys(this.props.models).forEach((rtId) => {
       const resourceRows = this.props.models[rtId]
-      resourceRows.forEach((resourceRow) => {
+      resourceRows.forEach((resourceRow, index) => {
         const resourceTemplate = resourceRow.resourceTemplate
 
         if (resourceTemplate === undefined) {
@@ -27,24 +27,27 @@ export class ResourceProperty extends Component {
           )
         }
 
-        const propertyReduxPath = _.first(resourceRow.properties).reduxPath
+        const propertyReduxPath = _.first(resourceRow.properties)
         const resourceReduxPath = propertyReduxPath.slice(0, propertyReduxPath.length - 1)
+        const isAddHidden = index > 0
+        const isRemoveHidden = resourceRows.length === 1
         jsx.push(
           <div className="row" key={shortid.generate()}>
             <section className="col-sm-8">
               <h5>{resourceTemplate.resourceLabel}</h5>
             </section>
             <section className="col-sm-4">
-              <PropertyActionButtons handleAddClick={e => this.props.handleAddClick(resourceReduxPath, e)}
-                                     reduxPath={this.props.reduxPath}
+              <PropertyActionButtons reduxPath={resourceReduxPath}
+                                     addButtonHidden={isAddHidden}
+                                     removeButtonHidden={isRemoveHidden}
                                      addButtonDisabled={this.props.addButtonDisabled} />
             </section>
           </div>,
         )
 
-        resourceRow.properties.forEach((model) => {
+        resourceRow.properties.forEach((reduxPath) => {
           jsx.push(
-            <PropertyTemplateOutline key={shortid.generate()} reduxPath={model.reduxPath} />,
+            <PropertyTemplateOutline key={shortid.generate()} reduxPath={reduxPath} />,
           )
         })
       })
@@ -64,7 +67,6 @@ export class ResourceProperty extends Component {
 
 ResourceProperty.propTypes = {
   addButtonDisabled: PropTypes.bool,
-  handleAddClick: PropTypes.func,
   propertyTemplate: PropTypes.object,
   reduxPath: PropTypes.array,
   models: PropTypes.object,
@@ -88,9 +90,7 @@ const mapStateToProps = (state, ourProps) => {
     models[resourceTemplateId].push(model)
     resourceTemplate.propertyTemplates.map((rtProperty) => {
       const propertyReduxPath = [...ourProps.reduxPath, key, resourceTemplateId, rtProperty.propertyURI]
-      model.properties.push({
-        reduxPath: propertyReduxPath,
-      })
+      model.properties.push(propertyReduxPath)
     })
   })
   return { models }

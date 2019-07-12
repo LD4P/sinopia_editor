@@ -3,6 +3,7 @@
 import {
   createReducer,
   setRetrieveError,
+  removeResource,
 } from 'reducers/index'
 
 let initialState
@@ -86,5 +87,79 @@ describe('setRetrieveError', () => {
     })
 
     expect(newState.editor.serverError).toEqual('There was a problem retrieving abc123: Because it is broken.')
+  })
+})
+
+describe('removeResource', () => {
+  it('removes resource', () => {
+    const handlers = { REMOVE_RESOURCE: removeResource }
+    const oldState = {
+      resource: {
+        'resourceTemplate:bf2:Monograph:Instance': {
+          'http://id.loc.gov/ontologies/bibframe/instanceOf': {
+            omHNLGWY71J: {
+              'resourceTemplate:bf2:Monograph:Work': {},
+            },
+            '4EzqN4DUw': {
+              'resourceTemplate:bf2:Monograph:Work': {
+                'http://id.loc.gov/ontologies/bibframe/title': {
+                  '81VUyIsMs': {
+                    'resourceTemplate:bf2:WorkTitle': {
+                      'http://id.loc.gov/ontologies/bibframe/mainTitle': {
+                        items: [
+                          {
+                            content: 'foo',
+                            id: 'YfsGCV2DF',
+                            lang: {
+                              items: [
+                                {
+                                  id: 'en',
+                                  label: 'English',
+                                },
+                              ],
+                            },
+                          },
+                        ],
+                      },
+                    },
+                  },
+                  h7rh5LW30M: {
+                    'resourceTemplate:bf2:WorkVariantTitle': {},
+                  },
+                  '4vCZiwJzSG': {
+                    'resourceTemplate:bflc:TranscribedTitle': {},
+                  },
+                },
+              },
+            },
+          },
+        },
+      },
+    }
+
+    const action = {
+      type: 'REMOVE_RESOURCE',
+      payload: [
+        'resource',
+        'resourceTemplate:bf2:Monograph:Instance',
+        'http://id.loc.gov/ontologies/bibframe/instanceOf',
+        '4EzqN4DUw',
+        'resourceTemplate:bf2:Monograph:Work',
+      ],
+    }
+
+    const reducer = createReducer(handlers)
+    const newState = reducer(oldState, action)
+    expect(newState).toEqual({
+      resource: {
+        'resourceTemplate:bf2:Monograph:Instance': {
+          'http://id.loc.gov/ontologies/bibframe/instanceOf': {
+            omHNLGWY71J: {
+              'resourceTemplate:bf2:Monograph:Work': {},
+            },
+          },
+        },
+      },
+    })
   })
 })

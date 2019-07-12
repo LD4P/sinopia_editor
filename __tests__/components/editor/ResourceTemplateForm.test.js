@@ -44,6 +44,8 @@ describe('<ResourceTemplateForm /> functional testing', () => {
         'http://id.loc.gov/ontologies/bibframe/title',
         'abc123',
         'myOrg:rt:myTemplate'])
+
+      expect(result[0].props.index).toEqual(0)
     })
   })
 })

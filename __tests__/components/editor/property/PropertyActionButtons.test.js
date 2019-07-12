@@ -5,16 +5,15 @@ import { shallow } from 'enzyme'
 import PropertyActionButtons from 'components/editor/property/PropertyActionButtons'
 
 describe('<PropertyActionButtons />', () => {
-  const mockAddClick = jest.fn()
   let propertyActionWrapper
   beforeEach(() => {
-    propertyActionWrapper = shallow(<PropertyActionButtons handleAddClick={mockAddClick}/>)
+    propertyActionWrapper = shallow(<PropertyActionButtons.WrappedComponent />)
   })
 
   describe('Add Button', () => {
     let button
     beforeEach(() => {
-      button = propertyActionWrapper.find('button')
+      button = propertyActionWrapper.find('button.btn-add')
     })
 
     it('has label "Add"', () => {
@@ -27,8 +26,8 @@ describe('<PropertyActionButtons />', () => {
 
     describe('when addButtonDisabled is true', () => {
       beforeEach(() => {
-        propertyActionWrapper = shallow(<PropertyActionButtons addButtonDisabled={true}/>)
-        button = propertyActionWrapper.find('button')
+        propertyActionWrapper = shallow(<PropertyActionButtons.WrappedComponent addButtonDisabled={true}/>)
+        button = propertyActionWrapper.find('button.btn-add')
       })
 
       it('is set to disabled', () => {
@@ -36,9 +35,71 @@ describe('<PropertyActionButtons />', () => {
       })
     })
 
-    it('Add button responds when clicked', () => {
-      button.simulate('click')
-      expect(mockAddClick).toHaveBeenCalledTimes(1)
+    describe('when addButtonHidden is true', () => {
+      beforeEach(() => {
+        propertyActionWrapper = shallow(<PropertyActionButtons.WrappedComponent addButtonHidden={true}/>)
+        button = propertyActionWrapper.find('button.btn-add')
+      })
+
+      it('is is not shown', () => {
+        expect(button).toEqual({})
+      })
+    })
+
+    describe('when add button is clicked', () => {
+      const reduxPath = ['resource', 'myOrg:myRT']
+      const mockAddResource = jest.fn()
+      const mockEvent = { preventDefault: () => {} }
+      beforeEach(() => {
+        propertyActionWrapper = shallow(<PropertyActionButtons.WrappedComponent reduxPath={reduxPath} addResource={mockAddResource} />)
+        button = propertyActionWrapper.find('button.btn-add')
+      })
+
+      it('calls addResource', () => {
+        button.simulate('click', mockEvent)
+        expect(mockAddResource).toHaveBeenCalledTimes(1)
+      })
+    })
+  })
+
+  describe('Remove Button', () => {
+    let button
+    beforeEach(() => {
+      button = propertyActionWrapper.find('button.btn-remove')
+    })
+
+    it('has label "Remove"', () => {
+      expect(button.text()).toEqual('Remove')
+    })
+
+    it('is not disabled by default', () => {
+      expect(button.prop('disabled')).toBeUndefined()
+    })
+
+    describe('when removeButtonHidden is true', () => {
+      beforeEach(() => {
+        propertyActionWrapper = shallow(<PropertyActionButtons.WrappedComponent removeButtonHidden={true}/>)
+        button = propertyActionWrapper.find('button.btn-remove')
+      })
+
+      it('is is not shown', () => {
+        expect(button).toEqual({})
+      })
+    })
+
+    describe('when remove button is clicked', () => {
+      const reduxPath = ['resource', 'myOrg:myRT']
+      const mockRemoveResource = jest.fn()
+      const mockEvent = { preventDefault: () => {} }
+      beforeEach(() => {
+        propertyActionWrapper = shallow(<PropertyActionButtons.WrappedComponent reduxPath={reduxPath} removeResource={mockRemoveResource} />)
+        button = propertyActionWrapper.find('button.btn-remove')
+      })
+
+      it('calls removeResource', () => {
+        button.simulate('click', mockEvent)
+        expect(mockRemoveResource).toHaveBeenCalledTimes(1)
+      })
     })
   })
 })

@@ -64,14 +64,6 @@ describe('<PropertyResourceTemplate />', () => {
     it('Contains a PropertyActionButtons component', () => {
       expect(actionButtons).toBeTruthy()
     })
-
-    it('handles "Add" button click', () => {
-      const addEvent = { preventDefault: jest.fn() }
-
-      actionButtons.props().handleAddClick(addEvent)
-      expect(addEvent.preventDefault.mock.calls.length).toBe(1)
-      expect(addResource).toHaveBeenCalled()
-    })
   })
 
   describe('<PropertyActionButtons /> addButtonDisabled prop value', () => {
@@ -87,6 +79,38 @@ describe('<PropertyResourceTemplate />', () => {
       const actionButtons = wrapper.find(PropertyActionButtons)
 
       expect(actionButtons.props().addButtonDisabled).toBeFalsy()
+    })
+  })
+
+  describe('<PropertyActionButtons /> addButtonHidden prop value', () => {
+    it('addButtonHidden prop is true', () => {
+      const wrapper = shallow(<PropertyResourceTemplate.WrappedComponent index={1} {...propertyRtProps} />)
+      const actionButtons = wrapper.find(PropertyActionButtons)
+
+      expect(actionButtons.props().addButtonHidden).toBeTruthy()
+    })
+
+    it('addButtonHidden prop is false', () => {
+      const wrapper = shallow(<PropertyResourceTemplate.WrappedComponent index={0} {...propertyRtProps} />)
+      const actionButtons = wrapper.find(PropertyActionButtons)
+
+      expect(actionButtons.props().addButtonHidden).toBeFalsy()
+    })
+  })
+
+  describe('<PropertyActionButtons /> removeButtonHidden prop value', () => {
+    it('removeButtonHidden prop is true', () => {
+      const wrapper = shallow(<PropertyResourceTemplate.WrappedComponent siblingResourceCount={1} {...propertyRtProps} />)
+      const actionButtons = wrapper.find(PropertyActionButtons)
+
+      expect(actionButtons.props().removeButtonHidden).toBeTruthy()
+    })
+
+    it('removeButtonHidden prop is false', () => {
+      const wrapper = shallow(<PropertyResourceTemplate.WrappedComponent siblingResourceCount={2} {...propertyRtProps} />)
+      const actionButtons = wrapper.find(PropertyActionButtons)
+
+      expect(actionButtons.props().removeButtonHidden).toBeFalsy()
     })
   })
 })
