@@ -1,10 +1,9 @@
 // Copyright 2019 Stanford University see LICENSE for license
 
-import selectorReducer, {
+import {
+  createReducer,
   setRetrieveError,
 } from 'reducers/index'
-/* eslint import/namespace: 'off' */
-import * as inputs from 'reducers/inputs'
 
 let initialState
 
@@ -23,95 +22,17 @@ beforeEach(() => {
   }
 })
 
-describe('selectorReducer', () => {
-  // const samplePropertyTemplate = [
-  //   {
-  //     propertyLabel: 'Instance of',
-  //     propertyURI: 'http://id.loc.gov/ontologies/bibframe/instanceOf',
-  //     resourceTemplates: [],
-  //     type: 'resource',
-  //     valueConstraint: {
-  //       valueTemplateRefs: [
-  //         'resourceTemplate:bf2:Monograph:Work',
-  //       ],
-  //       useValuesFrom: [],
-  //       valueDataType: {},
-  //       defaults: [],
-  //     },
-  //     mandatory: 'true',
-  //     repeatable: 'true',
-  //   },
-  //   {
-  //     propertyURI: 'http://id.loc.gov/ontologies/bibframe/issuance',
-  //     propertyLabel: 'Mode of Issuance (RDA 2.13)',
-  //     remark: 'http://access.rdatoolkit.org/2.13.html',
-  //     mandatory: 'true',
-  //     repeatable: 'true',
-  //     type: 'resource',
-  //     resourceTemplates: [],
-  //     valueConstraint: {
-  //       valueTemplateRefs: [],
-  //       useValuesFrom: [
-  //         'https://id.loc.gov/vocabulary/issuance',
-  //       ],
-  //       valueDataType: {
-  //         dataTypeURI: 'http://id.loc.gov/ontologies/bibframe/Issuance',
-  //       },
-  //       editable: 'false',
-  //       repeatable: 'true',
-  //       defaults: [
-  //         {
-  //           defaultURI: 'http://id.loc.gov/vocabulary/issuance/mono',
-  //           defaultLiteral: 'single unit',
-  //         },
-  //       ],
-  //     },
-  //   },
-  //   {
-  //     propertyLabel: 'LITERAL WITH DEFAULT',
-  //     propertyURI: 'http://id.loc.gov/ontologies/bibframe/heldBy',
-  //     resourceTemplates: [],
-  //     type: 'literal',
-  //     valueConstraint: {
-  //       valueTemplateRefs: [],
-  //       useValuesFrom: [],
-  //       valueDataType: {
-  //         dataTypeURI: 'http://id.loc.gov/ontologies/bibframe/Agent',
-  //       },
-  //       defaults: [
-  //         {
-  //           defaultURI: 'http://id.loc.gov/vocabulary/organizations/dlc',
-  //           defaultLiteral: 'DLC',
-  //         },
-  //       ],
-  //     },
-  //     mandatory: 'false',
-  //     repeatable: 'true',
-  //   },
-  // ]
-  //
-  // const propertyTemplateWithoutConstraint = [
-  //   {
-  //     propertyLabel: 'LITERAL WITH DEFAULT',
-  //     propertyURI: 'http://id.loc.gov/ontologies/bibframe/heldBy',
-  //     resourceTemplates: [],
-  //     type: 'literal',
-  //     mandatory: 'false',
-  //     repeatable: 'true',
-  //   },
-  // ]
-
+describe('createReducer', () => {
   // Make sure spies/mocks don't leak between tests
   afterAll(() => {
     jest.restoreAllMocks()
   })
 
   it('handles the initial state', () => {
-    expect(
-      selectorReducer(initialState, {}),
-    ).toMatchObject(
+    const reducer = createReducer({})
+    const action = {}
+    expect(reducer(initialState, action)).toMatchObject(
       {
-        authenticate: { authenticationState: { currentUser: null, currentSession: null, authenticationError: null } },
         selectorReducer: {
           entities: {
             resourceTemplates: {},
@@ -123,7 +44,8 @@ describe('selectorReducer', () => {
   })
 
   it('handles SET_BASE_URL', () => {
-    inputs.setBaseURL = jest.fn().mockReturnValue({})
+    const setBaseURL = jest.fn().mockReturnValue({})
+    const handlers = { SET_BASE_URL: setBaseURL }
     const oldState = {
       entities: {
         resourceTemplates: {
@@ -142,9 +64,9 @@ describe('selectorReducer', () => {
       type: 'SET_BASE_URL',
       payload: 'http://example.com/base/123',
     }
-
-    selectorReducer({ selectorReducer: oldState }, action)
-    expect(inputs.setBaseURL).toBeCalledWith(oldState, action)
+    const reducer = createReducer(handlers)
+    reducer(oldState, action)
+    expect(setBaseURL).toBeCalledWith(oldState, action)
   })
 })
 

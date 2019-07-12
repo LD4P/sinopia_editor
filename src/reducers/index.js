@@ -1,5 +1,4 @@
 // Copyright 2018, 2019 Stanford University see LICENSE for license
-/* eslint complexity: ["warn", 18] */
 
 import { combineReducers } from 'redux'
 import authenticate from './authenticate'
@@ -94,49 +93,34 @@ export const toggleCollapse = (state, action) => {
   return newState
 }
 
-const selectorReducer = (state = {}, action) => {
-  switch (action.type) {
-    case 'SET_ITEMS':
-    case 'CHANGE_SELECTIONS':
-      return setItemsOrSelections(state, action)
-    case 'RETRIEVE_ERROR':
-      return setRetrieveError(state, action)
-    case 'SET_BASE_URL':
-      return setBaseURL(state, action)
-    case 'SHOW_RESOURCE_URI_MESSAGE':
-      return showResourceURIMessage(state, action)
-    case 'SHOW_GROUP_CHOOSER':
-      return showGroupChooser(state, action)
-    case 'CLOSE_GROUP_CHOOSER':
-      return closeGroupChooser(state, action)
-    case 'SET_LANG':
-      return setMyItemsLang(state, action)
-    case 'SHOW_RDF_PREVIEW':
-      return showRdfPreview(state, action)
-    case 'REMOVE_ITEM':
-      return removeMyItem(state, action)
-    case 'REMOVE_ALL_CONTENT':
-      return removeAllContent(state, action)
-    case 'SAVE_APP_VERSION':
-      return saveAppVersion(state, action)
-    case 'SET_RESOURCE':
-      return setResource(state, action)
-    case 'SET_RESOURCE_TEMPLATE':
-      return setResourceTemplate(state, action)
-    case 'UPDATE_PROPERTY':
-      return updateProperty(state, action)
-    case 'APPEND_RESOURCE':
-      return appendResource(state, action)
-    case 'TOGGLE_COLLAPSE':
-      return toggleCollapse(state, action)
-    default:
-      return state
-  }
+const handlers = {
+  SET_ITEMS: setItemsOrSelections,
+  CHANGE_SELECTIONS: setItemsOrSelections,
+  RETRIEVE_ERROR: setRetrieveError,
+  SET_BASE_URL: setBaseURL,
+  SHOW_RESOURCE_URI_MESSAGE: showResourceURIMessage,
+  SHOW_GROUP_CHOOSER: showGroupChooser,
+  CLOSE_GROUP_CHOOSER: closeGroupChooser,
+  SET_LANG: setMyItemsLang,
+  SHOW_RDF_PREVIEW: showRdfPreview,
+  REMOVE_ITEM: removeMyItem,
+  REMOVE_ALL_CONTENT: removeAllContent,
+  SAVE_APP_VERSION: saveAppVersion,
+  SET_RESOURCE: setResource,
+  SET_RESOURCE_TEMPLATE: setResourceTemplate,
+  UPDATE_PROPERTY: updateProperty,
+  APPEND_RESOURCE: appendResource,
+  TOGGLE_COLLAPSE: toggleCollapse,
+}
+
+export const createReducer = handlers => (state = {}, action) => {
+  const fn = handlers[action.type]
+  return fn ? fn(state, action) : state
 }
 
 const appReducer = combineReducers({
   authenticate,
-  selectorReducer,
+  selectorReducer: createReducer(handlers),
 })
 
 export default appReducer
