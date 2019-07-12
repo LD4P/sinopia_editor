@@ -232,7 +232,7 @@ InputLookupQA.propTypes = {
     }),
   }),
   reduxPath: PropTypes.oneOfType([PropTypes.string, PropTypes.array]),
-  selected: PropTypes.object,
+  selected: PropTypes.arrayOf(PropTypes.object),
 }
 
 const mapStateToProps = (state, ownProps) => {
