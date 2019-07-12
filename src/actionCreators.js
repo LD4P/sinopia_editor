@@ -113,7 +113,7 @@ const stubResource = (useDefaults, dispatch, state) => {
 }
 
 // For a single property of a resource, stub it out.
-const stubProperty = async (resourceTemplateId, existingResourceTemplate, resource, propertyURI, dispatch) => {
+export const stubProperty = async (resourceTemplateId, existingResourceTemplate, resource, propertyURI, dispatch) => {
   const newResource = { ...resource }
   const resourceTemplate = existingResourceTemplate || await fetchResourceTemplate(resourceTemplateId, dispatch)
   // This handles if there was an error fetching resource template
@@ -124,7 +124,6 @@ const stubProperty = async (resourceTemplateId, existingResourceTemplate, resour
   const propertyTemplate = resourceTemplate.propertyTemplates.find(propertyTemplate => propertyTemplate.propertyURI === propertyURI)
   if (isResourceWithValueTemplateRef(propertyTemplate)) {
     propertyTemplate.valueConstraint.valueTemplateRefs.forEach((resourceTemplateId) => {
-      // Once components correctly use state, this doesn't need to await
       fetchResourceTemplate(resourceTemplateId, dispatch)
       // See if there is alread a <key> > <resource template id> for this resource template id
       const nestedResource = Object.keys(newResource).find(key => _.first(Object.keys(newResource[key])) === resourceTemplateId)
@@ -132,10 +131,11 @@ const stubProperty = async (resourceTemplateId, existingResourceTemplate, resour
         newResource[shortid.generate()] = { [resourceTemplateId]: {} }
       }
     })
-  } else {
-    newResource.items = []
+  } else if (newResource.items === undefined) {
+    // Defaults
+    const defaults = defaultValuesFromPropertyTemplate(propertyTemplate)
+    newResource.items = _.isEmpty(defaults) ? [] : defaults
   }
-
   return newResource
 }
 

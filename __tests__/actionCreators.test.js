@@ -2,12 +2,12 @@
 
 import {
   authenticationFailed, authenticationSucceeded, signedOut, update, retrieveResource,
-  fetchResourceTemplate,
+  fetchResourceTemplate, stubProperty,
 } from 'actionCreators'
 /* eslint import/namespace: 'off' */
 import * as server from 'sinopiaServer'
 import { getFixtureResourceTemplate } from './fixtureLoaderHelper'
-
+import _ from 'lodash'
 
 describe('authenticationFailed', () => {
   const currentUser = { hello: 'world' }
@@ -121,6 +121,76 @@ describe('fetchResourceTemplate', () => {
           ],
         },
       })
+    })
+  })
+})
+
+describe('stubProperty', () => {
+  describe('property is a resource property', () => {
+    it('stubs out the property', async () => {
+      const resourceTemplateId = 'resourceTemplate:bf2:Monograph:Work'
+      const resourceTemplateResponse = await getFixtureResourceTemplate(resourceTemplateId)
+      const resourceTemplate = resourceTemplateResponse.response.body
+      const dispatch = jest.fn()
+      const noteResourceTemplateId = 'resourceTemplate:bf2:Note'
+      const noteResourceTemplateResponse = await getFixtureResourceTemplate(noteResourceTemplateId)
+      server.getResourceTemplate = jest.fn().mockResolvedValue(noteResourceTemplateResponse)
+      const newResource = await stubProperty(resourceTemplateId, resourceTemplate, {}, 'http://id.loc.gov/ontologies/bibframe/colorContent', dispatch)
+      // Expecting {<key>: {'resourceTemplate:bf2:Note': {}}}
+      const key = _.first(Object.keys(newResource))
+      expect(newResource[key]).toEqual({ [noteResourceTemplateId]: {} })
+      expect(server.getResourceTemplate).toBeCalledWith(noteResourceTemplateId, 'ld4p')
+      expect(dispatch).toHaveBeenCalledTimes(2)
+    })
+  })
+  describe('property is a resource property and has existing value', () => {
+    it('returns unchanged', async () => {
+      const resourceTemplateId = 'resourceTemplate:bf2:Monograph:Work'
+      const resourceTemplateResponse = await getFixtureResourceTemplate(resourceTemplateId)
+      const resourceTemplate = resourceTemplateResponse.response.body
+      const dispatch = jest.fn()
+      const noteResourceTemplateId = 'resourceTemplate:bf2:Note'
+      const noteResourceTemplateResponse = await getFixtureResourceTemplate(noteResourceTemplateId)
+      const existingResource = { abc123: { [noteResourceTemplateId]: {} } }
+      server.getResourceTemplate = jest.fn().mockResolvedValue(noteResourceTemplateResponse)
+      const newResource = await stubProperty(resourceTemplateId, resourceTemplate, existingResource, 'http://id.loc.gov/ontologies/bibframe/colorContent', dispatch)
+      expect(newResource).toEqual(existingResource)
+      expect(server.getResourceTemplate).toBeCalledWith(noteResourceTemplateId, 'ld4p')
+      expect(dispatch).toHaveBeenCalledTimes(2)
+    })
+  })
+  describe('property is not a resource property and has defaults', () => {
+    it('stubs out the property with defaults', async () => {
+      const resourceTemplateId = 'resourceTemplate:bf2:Monograph:Instance'
+      const resourceTemplateResponse = await getFixtureResourceTemplate(resourceTemplateId)
+      const resourceTemplate = resourceTemplateResponse.response.body
+      const dispatch = jest.fn()
+      const newResource = await stubProperty(resourceTemplateId, resourceTemplate, {}, 'http://id.loc.gov/ontologies/bibframe/heldBy', dispatch)
+      expect(newResource).toEqual({ items: [{ content: 'DLC', lang: { items: [{ id: 'en', label: 'English' }] } }] })
+      expect(dispatch).toHaveBeenCalledTimes(0)
+    })
+  })
+  describe('property is not a resource property and has no defaults', () => {
+    it('stubs out the property', async () => {
+      const resourceTemplateId = 'resourceTemplate:bf2:Monograph:Work'
+      const resourceTemplateResponse = await getFixtureResourceTemplate(resourceTemplateId)
+      const resourceTemplate = resourceTemplateResponse.response.body
+      const dispatch = jest.fn()
+      const newResource = await stubProperty(resourceTemplateId, resourceTemplate, {}, 'http://www.w3.org/2000/01/rdf-schema#label', dispatch)
+      expect(newResource).toEqual({ items: [] })
+      expect(dispatch).toHaveBeenCalledTimes(0)
+    })
+  })
+  describe('property is not a resource property and has existing value', () => {
+    it('returns unchanged', async () => {
+      const resourceTemplateId = 'resourceTemplate:bf2:Monograph:Work'
+      const resourceTemplateResponse = await getFixtureResourceTemplate(resourceTemplateId)
+      const resourceTemplate = resourceTemplateResponse.response.body
+      const dispatch = jest.fn()
+      const existingResource = { items: [{ content: 'foo', lang: { items: [{ id: 'en', label: 'English' }] } }] }
+      const newResource = await stubProperty(resourceTemplateId, resourceTemplate, existingResource, 'http://www.w3.org/2000/01/rdf-schema#label', dispatch)
+      expect(newResource).toEqual(existingResource)
+      expect(dispatch).toHaveBeenCalledTimes(0)
     })
   })
 })
