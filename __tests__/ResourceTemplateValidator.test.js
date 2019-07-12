@@ -18,4 +18,9 @@ describe('validateResourceTemplate', () => {
     const template = await getFixtureResourceTemplate('rt:literal:defaultURI')
     expect(validateResourceTemplate(template.response.body)).toEqual(['Literal property templates (http://id.loc.gov/ontologies/bibframe/geographicCoverage) cannot have default URIs.'])
   })
+
+  it('returns reason for property with refs and defaults', async () => {
+    const template = await getFixtureResourceTemplate('rt:resource:DefaultsAndRefs')
+    expect(validateResourceTemplate(template.response.body)).toEqual(['Property templates (http://examples.org/bogusOntologies/invalid) cannot have both defaults and valueTemplateRefs.'])
+  })
 })
