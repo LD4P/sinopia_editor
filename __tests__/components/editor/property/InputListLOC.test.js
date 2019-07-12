@@ -185,3 +185,49 @@ describe('<Typeahead /> component', () => {
     expect(mockFormDataFn).toHaveBeenCalled()
   })
 })
+
+describe('InputListLoc.responseToOptions', () => {
+  const wrapper = shallow(<InputListLOC.WrappedComponent {...propsOk}/>)
+  const json = [
+    {
+      '@id': 'http://id.loc.gov/vocabulary/languages/sna',
+      '@type': ['http://www.loc.gov/mads/rdf/v1#Authority', 'http://www.loc.gov/mads/rdf/v1#Authority', 'http://www.w3.org/2004/02/skos/core#Concept', 'http://www.w3.org/2004/02/skos/core#Concept'],
+      'http://www.loc.gov/mads/rdf/v1#authoritativeLabel': [{
+        '@language': 'en',
+        '@value': 'Shona',
+      }, {
+        '@language': 'de',
+        '@value': 'Schona-Sprache',
+      }],
+      'http://www.w3.org/2004/02/skos/core#prefLabel': [{
+        '@language': 'en',
+        '@value': 'Shona',
+      }, {
+        '@language': 'de',
+        '@value': 'Schona-Sprache',
+      }],
+    }, {
+      '@id': 'http://id.loc.gov/vocabulary/languages/hsb',
+      '@type': ['http://www.loc.gov/mads/rdf/v1#Authority', 'http://www.loc.gov/mads/rdf/v1#Authority', 'http://www.w3.org/2004/02/skos/core#Concept', 'http://www.w3.org/2004/02/skos/core#Concept'],
+      'http://www.loc.gov/mads/rdf/v1#authoritativeLabel': [{
+        '@language': 'en',
+        '@value': 'Upper Sorbian',
+      }, {
+        '@language': 'de',
+        '@value': 'Obersorbisch',
+      }],
+      'http://www.w3.org/2004/02/skos/core#prefLabel': [{
+        '@language': 'en',
+        '@value': 'Upper Sorbian',
+      }, {
+        '@language': 'de',
+        '@value': 'Obersorbisch',
+      }],
+    },
+  ]
+
+  it('maps the response from LOC to options', () => {
+    const results = wrapper.instance().responseToOptions(json)
+    expect(results.map(entry => entry.label)).toEqual(['Shona', 'Schona-Sprache', 'Upper Sorbian', 'Obersorbisch'])
+  })
+})

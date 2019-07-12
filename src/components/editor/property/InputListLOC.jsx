@@ -1,4 +1,4 @@
-// Copyright 2018 Stanford University see LICENSE for license
+// Copyright 2019 Stanford University see LICENSE for license
 
 import React, { Component } from 'react'
 import { Typeahead } from 'react-bootstrap-typeahead'
@@ -48,6 +48,37 @@ class InputListLOC extends Component {
     return this.props.displayValidations && this.isMandatory && selected.length < 1 ? 'Required' : undefined
   }
 
+  responseToOptions(json) {
+    const opts = []
+    for (const i in json) {
+      try {
+        const newId = shortid.generate()
+        const item = Object.getOwnPropertyDescriptor(json, i)
+        const uri = item.value['@id']
+        const labels = item.value['http://www.loc.gov/mads/rdf/v1#authoritativeLabel']
+        labels.forEach(label => opts.push({ id: newId, label: label['@value'], uri }))
+      } catch (err) {
+        // Ignore
+      }
+    }
+    return opts
+  }
+
+  onFocus() {
+    return () => {
+      this.setState({ isLoading: true })
+      const uri = `${this.props.lookupConfig[0].uri}.json`
+      fetch(uri)
+        .then(resp => resp.json())
+        .then(json => this.responseToOptions(json))
+        .then(opts => this.setState({
+          isLoading: false,
+          options: opts,
+        }))
+        .catch(() => false)
+    }
+  }
+
   render() {
     // Don't render if no property template yet
     if (!this.props.propertyTemplate) {
@@ -74,7 +105,6 @@ class InputListLOC extends Component {
       options: this.state.options,
       selected: this.props.selected,
     }
-    const opts = []
     let groupClasses = 'form-group'
     const error = this.validate()
 
@@ -86,30 +116,7 @@ class InputListLOC extends Component {
       <div className={groupClasses}>
         <Typeahead
           ref={typeahead => this.typeahead = typeahead}
-          onFocus={() => {
-            this.setState({ isLoading: true })
-            fetch(`${this.props.lookupConfig[0].uri}.json`)
-              .then(resp => resp.json())
-              .then((json) => {
-                for (const i in json) {
-                  try {
-                    const newId = shortid.generate()
-                    const item = Object.getOwnPropertyDescriptor(json, i)
-                    const uri = item.value['@id']
-                    const label = item.value['http://www.loc.gov/mads/rdf/v1#authoritativeLabel'][0]['@value']
-
-                    opts.push({ id: newId, label, uri })
-                  } catch (err) {
-                    // Ignore
-                  }
-                }
-              })
-              .then(() => this.setState({
-                isLoading: false,
-                options: opts,
-              }))
-              .catch(() => false)
-          }}
+          onFocus={this.onFocus()}
           onBlur={() => { this.setState({ isLoading: false }) }}
           onChange={selected => this.selectionChanged(selected)}
           {...typeaheadProps}
