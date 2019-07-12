@@ -52,6 +52,7 @@ describe('#routes', () => {
           version: undefined,
           lastChecked: Date.now(),
         },
+        resource: { 'myOrg:myRt': {} },
       },
       authenticate: {
         authenticationState: {
@@ -74,7 +75,7 @@ describe('#routes', () => {
       expect(component.find(HomePage).length).toEqual(1)
     })
 
-    it('renders the Editor component when "/editor" is visited', () => {
+    it('renders the Editor component when "/editor" is visited with resource', () => {
       const component = renderRoutes('/editor')
 
       expect(component.find(Editor).length).toEqual(1)
@@ -116,6 +117,9 @@ describe('#routes', () => {
           currentSession: { wouldBe: 'a CognitoSession obj IRL, but only presence is checked ATM' },
         },
       },
+      selectorReducer: {
+        resource: {},
+      },
     })
 
     const renderRoutes = path => mount(
@@ -137,6 +141,14 @@ describe('#routes', () => {
 
       expect(component.contains(<h1>404</h1>)).toEqual(true)
     })
+
+    it('redirects to /templates when "/editor" is visited without resource', () => {
+      const component = renderRoutes('/editor')
+      // expect(component.find(Editor).length).toEqual(1)
+      // expect(component.find(Redirect).length).toEqual(1)
+      expect(component.find(ImportResourceTemplate).length).toEqual(1)
+    })
+
 
     afterAll(() => {
       renderRoutes.unmount()
