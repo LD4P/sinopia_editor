@@ -7,7 +7,7 @@ describe('Adding new embedded Resource Templates', () => {
   beforeAll(async () => {
     await testUserLogin()
     await pupExpect(page).toClick('a', { text: 'BIBFRAME Instance' })
-    return await pupExpect(page).toMatch('BIBFRAME Instance')
+    await pupExpect(page).toMatch('BIBFRAME Instance')
   })
 
   describe('one level of nested resourceTemplate (Notes about the Instance)', () => {
@@ -28,7 +28,7 @@ describe('Adding new embedded Resource Templates', () => {
       expect.assertions(4)
       const ptOutlineSel = 'div[data-label="Instance of"] div.rtOutline[data-label="Notes about the Work"]'
 
-      await pupExpect(page).toClick(`${ptOutlineSel} a[data-id='note']`)
+      await pupExpect(page).toClick(`${ptOutlineSel} button[data-id='note']`)
       let noteRtOutlines = await page.$$(`${ptOutlineSel} .rtOutline`)
 
       expect(noteRtOutlines.length).toEqual(1)

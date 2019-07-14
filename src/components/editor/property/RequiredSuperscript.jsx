@@ -1,24 +1,25 @@
 // Copyright 2019 Stanford University see LICENSE for license
 
-import React, { Component } from 'react'
+import shortid from 'shortid'
+import React from 'react'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faAsterisk } from '@fortawesome/free-solid-svg-icons'
+import { OverlayTrigger, Popover } from 'react-bootstrap'
 
-export class RequiredSuperscript extends Component {
-  constructor(props) {
-    super(props)
-  }
+const RequiredSuperscript = () => {
+  const popover = (
+    <Popover id="popover-basic" role="tooltip" >
+      please fill out this field
+    </Popover>
+  )
 
-  render() {
-    return (
-      <abbr title="This field is required">
-        <sup>
-          <FontAwesomeIcon className="asterick text-danger"
-                           icon={faAsterisk} />
-        </sup>
-      </abbr>
-    )
-  }
+  return (
+    <OverlayTrigger trigger={['hover', 'focus']} placement="right" overlay={popover} key={shortid.generate()} >
+      <sup aria-label="required" >
+        <FontAwesomeIcon className="asterick text-danger" icon={faAsterisk} />
+      </sup>
+    </OverlayTrigger>
+  )
 }
 
 export default RequiredSuperscript

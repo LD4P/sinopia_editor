@@ -4,7 +4,7 @@ import 'isomorphic-fetch'
 
 describe('Basic end to end Sinopia Linked Data Editor', () => {
   beforeAll(async () => {
-    return await page.goto('http://127.0.0.1:8888/')
+    await page.goto('http://127.0.0.1:8888/')
   })
 
   it('displays "Linked Data Editor" and "Profile Editor" in menu', async () => {

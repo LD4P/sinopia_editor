@@ -5,13 +5,15 @@ import { shallow } from 'enzyme'
 import Editor from 'components/editor/Editor'
 import ResourceTemplate from 'components/editor/ResourceTemplate'
 import Header from 'components/Header'
+import AuthenticationMessage from 'components/editor/AuthenticationMessage'
 
 const props = {
   location: { state: { resourceTemplateId: 'resourceTemplate:bf:Note' } },
-  currentSession: null,
-  errors: [],
-  displayValidations: false,
+  userWantsToSave: jest.fn(),
 }
+
+// See https://github.com/nodesecurity/eslint-plugin-security/issues/26
+/* eslint security/detect-non-literal-fs-filename: 'off' */
 
 describe('<Editor />', () => {
   describe('any user', () => {
@@ -26,8 +28,8 @@ describe('<Editor />', () => {
     it('renders <Header />', () => {
       expect(wrapper.find(Header).length).toBe(1)
     })
-    it('displays an login warning message', () => {
-      expect(wrapper.find('div.alert-warning').text()).toMatch('Alert! No data can be saved unless you are logged in with group permissions.')
+    it('renders <AuthenticationMessage />', () => {
+      expect(wrapper.exists(AuthenticationMessage)).toBe(true)
     })
   })
   describe('authenticated user', () => {
@@ -49,7 +51,8 @@ describe('<Editor />', () => {
 
   describe('Save & Publish button', () => {
     const mockOpenHandler = jest.fn()
-    const wrapper = shallow(<Editor.WrappedComponent {...props} openGroupChooser={mockOpenHandler}/>)
+    const wrapperHandler = () => mockOpenHandler
+    const wrapper = shallow(<Editor.WrappedComponent {...props} userWantsToSave={wrapperHandler}/>)
 
     it('attempts to save the RDF content when save is clicked', () => {
       wrapper.findWhere(n => n.type() === 'button' && n.contains('Save & Publish')).simulate('click')

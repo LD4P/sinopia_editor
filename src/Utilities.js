@@ -1,8 +1,10 @@
 // Copyright 2018, 2019 Stanford University see LICENSE for license
 
-import lookupConfig from '../static/spoofedFilesFromServer/fromSinopiaServer/lookupConfig.json'
+import lookupConfig from '../static/lookupConfig.json'
+import N3Parser from 'n3/lib/N3Parser'
 
-const _ = require('lodash')
+import rdf from 'rdf-ext'
+import _ from 'lodash'
 
 export const isResourceWithValueTemplateRef = property => property?.type === 'resource'
     && property?.valueConstraint?.valueTemplateRefs?.length > 0
@@ -14,23 +16,33 @@ export const resourceToName = (uri) => {
 }
 
 export const defaultValuesFromPropertyTemplate = (propertyTemplate) => {
-  // Use safe navigation to deal with differently shaped property templates
-  const defaultValue = propertyTemplate?.valueConstraint?.defaults?.[0]
+  const defaults = propertyTemplate?.valueConstraint?.defaults || []
+  const defaultValues = []
+  defaults.forEach((defaultValue) => {
+    // Use the default URI for the literal value if the literal is undefined
+    const defaultLiteral = defaultValue?.defaultLiteral
 
-  // Use the default URI for the literal value if the lliteral is undefined
-  const defaultLiteral = defaultValue?.defaultLiteral
+    const defaultURI = defaultValue?.defaultURI
 
-  const defaultURI = defaultValue?.defaultURI
+    const defaultLabel = defaultLiteral || defaultURI
 
-  const defaultLabel = defaultLiteral || defaultURI
+    if (!defaultValue || !defaultLabel) return
 
-  if (!defaultValue || !defaultLabel) return []
-
-  return [{
-    id: defaultValue.defaultURI,
-    label: defaultLabel,
-    uri: defaultValue.defaultURI,
-  }]
+    if (propertyTemplate.type !== 'literal') {
+      defaultValues.push({
+        id: defaultValue.defaultURI,
+        label: defaultLabel,
+        uri: defaultValue.defaultURI,
+      })
+    } else {
+      defaultValues.push({
+        id: defaultValue.defaultURI,
+        content: defaultLabel,
+        lang: { items: [{ id: 'en', label: 'English' }] },
+      })
+    }
+  })
+  return defaultValues
 }
 
 export const booleanPropertyFromTemplate = (template, key, defaultValue) => {
@@ -49,9 +61,8 @@ export const booleanPropertyFromTemplate = (template, key, defaultValue) => {
 export const defaultLangTemplate = () => ({
   items: [
     {
-      id: 'http://id.loc.gov/vocabulary/languages/eng',
+      id: 'en',
       label: 'English',
-      uri: 'http://id.loc.gov/vocabulary/languages/eng',
     },
   ],
 })
@@ -65,3 +76,23 @@ export const getLookupConfigItems = (propertyTemplate) => {
 
   return templateConfigItems
 }
+
+/**
+ * Loads N3 into a dataset.
+ * @param {string} data that is the N3
+ * @return {Promise<rdf.Dataset>} a promise that resolves to the loaded dataset
+ */
+export const rdfDatasetFromN3 = data => new Promise((resolve) => {
+  const parser = new N3Parser()
+  const dataset = rdf.dataset()
+  parser.parse(data,
+    (error, quad) => {
+      // the final time through this loop will be EOF and quad will be undefined
+      if (quad) {
+        dataset.add(quad)
+      } else {
+        // done parsing
+        resolve(dataset)
+      }
+    })
+})

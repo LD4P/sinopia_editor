@@ -1,0 +1,27 @@
+{
+  "id": "rt:resource:DefaultsAndRefs",
+  "resourceURI": "http://examples.org/bogusOntologies/Resource",
+  "remark": "This is a sample of an invalid Resource Template, because it has defaults and refs",
+  "resourceLabel": "test invalid resource with refs and defaults",
+  "author": "Justin Coyne",
+  "schema": "https://ld4p.github.io/sinopia/schemas/0.0.9/resource-template.json",
+  "propertyTemplates": [
+    {
+      "mandatory": "true",
+      "repeatable": "true",
+      "type": "resource",
+      "valueConstraint": {
+        "defaults": [
+          {
+            "defaultLiteral": "mydefaultvalue"
+          }
+        ],
+        "valueTemplateRefs": [
+          "rt:bf2:AdminMetadata:Status"
+        ]
+      },
+      "propertyLabel": "resource, with ref and defaults",
+      "propertyURI": "http://examples.org/bogusOntologies/invalid"
+    }
+  ]
+}

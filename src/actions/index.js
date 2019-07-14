@@ -1,4 +1,28 @@
-// Copyright 2018 Stanford University see LICENSE for license
+// Copyright 2019 Stanford University see LICENSE for license
+
+// export const newResource = resourceTemplateId => ({
+//   type: 'NEW_RESOURCE',
+//   payload: resourceTemplateId,
+// })
+
+export const setResource = resource => ({
+  type: 'SET_RESOURCE',
+  payload: resource,
+})
+
+export const setResourceTemplate = resourceTemplate => ({
+  type: 'SET_RESOURCE_TEMPLATE',
+  payload: resourceTemplate,
+})
+
+export const stubResource = () => ({
+  type: 'STUB_RESOURCE',
+})
+
+export const retrieveError = (resourceTemplateId, reason) => ({
+  type: 'RETRIEVE_ERROR',
+  payload: { resourceTemplateId, reason },
+})
 
 export const setItems = item => ({
   type: 'SET_ITEMS',
@@ -14,19 +38,9 @@ export const closeGroupChooser = () => ({
   type: 'CLOSE_GROUP_CHOOSER',
 })
 
-export const refreshResourceTemplate = update => ({
-  type: 'REFRESH_RESOURCE_TEMPLATE',
-  payload: update,
-})
-
-export const setResourceTemplate = resourceTemplate => ({
-  type: 'SET_RESOURCE_TEMPLATE',
-  payload: resourceTemplate,
-})
-
-export const removeItem = item => ({
+export const removeItem = (reduxPath, id) => ({
   type: 'REMOVE_ITEM',
-  payload: item,
+  payload: { reduxPath, id },
 })
 
 export const removeAllContent = item => ({
@@ -44,6 +58,37 @@ export const assignBaseURL = item => ({
   payload: item,
 })
 
+export const showResourceURIMessage = resourceUri => ({
+  type: 'SHOW_RESOURCE_URI_MESSAGE',
+  payload: resourceUri,
+})
+
+export const updateStarted = () => ({
+  type: 'UPDATE_STARTED',
+})
+
+export const updateFinished = () => ({
+  type: 'UPDATE_FINISHED',
+})
+
+export const retrieveResourceStarted = uri => ({
+  type: 'RETRIEVE_STARTED',
+  payload: uri,
+})
+
+export const retrieveResourceFinished = (uri, data) => ({
+  type: 'RETRIEVE_FINISHED',
+  payload: {
+    uri,
+    data,
+  },
+})
+
+export const retrieveResourceTemplateStarted = resourceTemplateId => ({
+  type: 'RETRIEVE_RESOURCE_TEMPLATE_STARTED',
+  payload: resourceTemplateId,
+})
+
 export const changeSelections = item => ({
   type: 'CHANGE_SELECTIONS',
   payload: item,
@@ -59,11 +104,6 @@ export const showRdfPreview = show => ({
   payload: show,
 })
 
-export const resourceTemplateLoaded = resourceTemplate => ({
-  type: 'RESOURCE_TEMPLATE_LOADED',
-  payload: resourceTemplate,
-})
-
 export const authenticationFailure = authenticationResult => ({
   type: 'AUTHENTICATION_FAILURE',
   payload: authenticationResult,
@@ -76,4 +116,24 @@ export const authenticationSuccess = authenticationResult => ({
 
 export const signOutSuccess = () => ({
   type: 'SIGN_OUT_SUCCESS',
+})
+
+export const saveAppVersion = version => ({
+  type: 'SAVE_APP_VERSION',
+  payload: version,
+})
+
+export const updateProperty = (reduxPath, resourceFragment) => ({
+  type: 'UPDATE_PROPERTY',
+  payload: { reduxPath, resourceFragment },
+})
+
+export const appendResource = (reduxPath, resource) => ({
+  type: 'APPEND_RESOURCE',
+  payload: { reduxPath, resource },
+})
+
+export const toggleCollapse = reduxPath => ({
+  type: 'TOGGLE_COLLAPSE',
+  payload: { reduxPath },
 })

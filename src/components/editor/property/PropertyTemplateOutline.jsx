@@ -1,106 +1,60 @@
 // Copyright 2019 Stanford University see LICENSE for license
 
 import React, { Component } from 'react'
+import { connect } from 'react-redux'
 import PropTypes from 'prop-types'
 import shortid from 'shortid'
 import OutlineHeader from './OutlineHeader'
-import PropertyTypeRow from './PropertyTypeRow'
-import { getResourceTemplate } from 'sinopiaServer'
 import { booleanPropertyFromTemplate, isResourceWithValueTemplateRef, resourceToName } from 'Utilities'
 import PropertyComponent from './PropertyComponent'
 import ResourceProperty from './ResourceProperty'
-import store from 'store'
-import { resourceTemplateLoaded } from 'actions/index'
+import { findNode, isExpanded, getPropertyTemplate } from 'selectors/resourceSelectors'
+import { toggleCollapse } from 'actions/index'
+import { expandResource, addResource as addResourceCreator } from 'actionCreators'
+import _ from 'lodash'
 
-export class PropertyTemplateOutline extends Component {
-  constructor(props) {
-    super(props)
-    this.state = {
-      collapsed: true,
-      propertyTypeRow: [],
-      nestedResourceTemplates: [],
-    }
-  }
-
+class PropertyTemplateOutline extends Component {
   outlineRowClass = () => {
     let classNames = 'rOutline-property'
 
-    if (this.state.collapsed) { classNames += ' collapse' }
+    if (this.props.collapsed) { classNames += ' collapse' }
 
     return classNames
   }
 
-  handleAddClick = (event) => {
+  handleAddClick = (reduxPath, event) => {
     event.preventDefault()
-    this.addPropertyTypeRows(this.props.propertyTemplate)
+    this.props.addResource(reduxPath)
   }
 
-  fulfillRTPromises = async promiseAll => await promiseAll.then((rts) => {
-    rts.map((fulfilledResourceTemplateRequest) => {
-      const joinedRts = [...this.state.nestedResourceTemplates]
-
-      joinedRts.push(fulfilledResourceTemplateRequest.response.body)
-      // Add the resource template into the store
-      store.dispatch(resourceTemplateLoaded(fulfilledResourceTemplateRequest.response.body))
-      this.setState({ nestedResourceTemplates: joinedRts })
-    })
-  }).catch(() => {})
-
-  resourceTemplatePromises = templateRefs => Promise.all(templateRefs.map(rtId => getResourceTemplate(rtId)))
-
-  // When the plus button is clicked, load reference templates (property.valueConstraint.valueTemplateRefs)
-  handleClick = property => (event) => {
-    event.preventDefault()
-    this.setState({ collapsed: !this.state.collapsed })
-
-    const templateRefList = isResourceWithValueTemplateRef(property) ? property.valueConstraint.valueTemplateRefs : []
-
-    this.fulfillRTPromises(this.resourceTemplatePromises(templateRefList)).then(() => {
-      this.addPropertyTypeRows(this.props.propertyTemplate)
-    })
-  }
-
-  addPropertyTypeRows = (property) => {
-    const newOutput = [...this.state.propertyTypeRow]
-    let propertyJsx
-
-    if (isResourceWithValueTemplateRef(property)) {
-      const isAddDisabled = !booleanPropertyFromTemplate(property, 'repeatable', false) || newOutput.length > 0
-
-      propertyJsx = <ResourceProperty key={shortid.generate()}
-                                      propertyTemplate={property}
-                                      reduxPath={this.props.reduxPath}
-                                      nestedResourceTemplates={this.state.nestedResourceTemplates}
-                                      handleAddClick={this.handleAddClick}
-                                      addButtonDisabled={isAddDisabled} />
-    } else {
-      propertyJsx = <PropertyComponent key={shortid.generate()} propertyTemplate={property} reduxPath={this.props.reduxPath} />
+  renderPropertyRows = () => {
+    if (this.props.collapsed) {
+      return
     }
 
-    newOutput.push(
-      <PropertyTypeRow
-        key={shortid.generate()}
-        handleAddClick={this.props.handleAddClick}
-        reduxPath={this.props.reduxPath}
-        addButtonDisabled={this.props.addButtonDisabled}
-        propertyTemplate={property}>
-        {propertyJsx}
-      </PropertyTypeRow>,
-    )
+    if (isResourceWithValueTemplateRef(this.props.property)) {
+      const isAddDisabled = !booleanPropertyFromTemplate(this.props.property, 'repeatable', false)
+      return (<ResourceProperty key={shortid.generate()}
+                                propertyTemplate={this.props.property}
+                                reduxPath={this.props.reduxPath}
+                                handleAddClick={this.handleAddClick.bind(this)}
+                                addButtonDisabled={isAddDisabled} />)
+    }
 
-    this.setState({ propertyTypeRow: newOutput, rowAdded: true })
+    return (<PropertyComponent key={shortid.generate()} propertyTemplate={this.props.property} reduxPath={this.props.reduxPath} />)
   }
 
   render() {
     return (
-      <div className="rtOutline" data-label={this.props.propertyTemplate.propertyLabel}>
-        <OutlineHeader pt={this.props.propertyTemplate}
-                       id={resourceToName(this.props.propertyTemplate.propertyURI)}
-                       collapsed={this.state.collapsed}
+      <div className="rtOutline" data-label={this.props.property.propertyLabel}>
+        <OutlineHeader pt={this.props.property}
+                       id={resourceToName(this.props.property.propertyURI)}
+                       collapsed={this.props.collapsed}
                        key={shortid.generate()}
-                       handleCollapsed={this.handleClick(this.props.propertyTemplate)} />
+                       handleCollapsed={this.props.handleTogglePlusButton}
+                       isAdd={_.isEmpty(this.props.resourceModel)} />
         <div className={this.outlineRowClass()}>
-          {this.state.propertyTypeRow}
+          {this.renderPropertyRows()}
         </div>
       </div>
     )
@@ -108,13 +62,40 @@ export class PropertyTemplateOutline extends Component {
 }
 
 PropertyTemplateOutline.propTypes = {
-  addButtonDisabled: PropTypes.bool,
-  handleAddClick: PropTypes.func,
-  handleCollapsed: PropTypes.func,
-  isRequired: PropTypes.func,
-  propertyTemplate: PropTypes.object,
   reduxPath: PropTypes.array,
-  rtId: PropTypes.string,
+  property: PropTypes.object.isRequired,
+  resourceModel: PropTypes.object,
+  collapsed: PropTypes.bool,
+  handleTogglePlusButton: PropTypes.func,
+  addResource: PropTypes.func,
 }
 
-export default PropertyTemplateOutline
+const mapStateToProps = (state, ourProps) => {
+  const reduxPath = [...ourProps.reduxPath]
+  const propertyURI = reduxPath.pop()
+  const resourceTemplateId = reduxPath.pop()
+  const property = getPropertyTemplate(state, resourceTemplateId, propertyURI)
+  const resourceModel = findNode(state.selectorReducer, ourProps.reduxPath)
+
+  return {
+    resourceModel,
+    property,
+    collapsed: !isExpanded(state.selectorReducer, ourProps.reduxPath),
+  }
+}
+
+const mapDispatchToProps = (dispatch, ownProps) => ({
+  handleTogglePlusButton: (event) => {
+    event.preventDefault()
+    if (_.isEmpty(ownProps.resourceModel)) {
+      // Load reference templates (property.valueConstraint.valueTemplateRefs)
+      dispatch(expandResource(ownProps.reduxPath))
+    }
+    dispatch(toggleCollapse(ownProps.reduxPath))
+  },
+  addResource(reduxPath) {
+    dispatch(addResourceCreator(reduxPath))
+  },
+})
+
+export default connect(mapStateToProps, mapDispatchToProps)(PropertyTemplateOutline)

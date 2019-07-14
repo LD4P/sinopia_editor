@@ -1,6 +1,6 @@
 // Copyright 2018 Stanford University see LICENSE for license
 
-import lookups from '../../src/reducers/lookups'
+import lookups from 'reducers/lookups'
 
 describe('changing the reducer state', () => {
   const itemOne = { id: 'http://uri1', uri: 'http://uri1', label: 'selection1' }

@@ -32,7 +32,7 @@ const valConstraintProps = {
 }
 
 describe('<InputLiteral />', () => {
-  const wrapper = shallow(<InputLiteral {...plProps} id={10} rtId={'resourceTemplate:bf2:Monograph:Instance'}/>)
+  const wrapper = shallow(<InputLiteral {...plProps} id={10} />)
 
   it('contains a placeholder of "Instance of"', () => {
     expect(wrapper.find('input').props().placeholder).toBe('Instance of')
@@ -66,7 +66,7 @@ describe('<InputLiteral />', () => {
 })
 
 describe('checkMandatoryRepeatable', () => {
-  const wrapper = shallow(<InputLiteral {...plProps} id={10} rtId={'resourceTemplate:bf2:Monograph:Instance'}/>)
+  const wrapper = shallow(<InputLiteral {...plProps} id={10} />)
 
   it('is true when the field is mandatory and nothing has been filled in', () => {
     wrapper.instance().props.propertyTemplate.mandatory = 'true'
@@ -88,7 +88,6 @@ describe('When the user enters input into field', () => {
     removeMockDataFn = jest.fn()
 
     mockWrapper = shallow(<InputLiteral {...plProps} id={'11'}
-                                        rtId={'resourceTemplate:bf2:Monograph:Instance'}
                                         reduxPath={[
                                           'resourceTemplate:bf2:Monograph:Instance',
                                           'http://id.loc.gov/ontologies/bibframe/instanceOf',
@@ -236,9 +235,7 @@ describe('when there is a default literal value in the property template', () =>
       ],
     }
     const wrapper = shallow(<InputLiteral {...plProps} id={12}
-                                          blankNodeForLiteral={{ termType: 'BlankNode', value: 'n3-0' }}
                                           handleMyItemsChange={mockMyItemsChange}
-                                          rtId={'resourceTemplate:bf2:Monograph:Instance'}
                                           handleMyItemsLangChange={jest.fn()} />)
 
     expect(wrapper.find('#userInput').text()).toMatch('DLC')
@@ -261,7 +258,6 @@ describe('when there is a default literal value in the property template', () =>
       const nonrepeatWrapper = shallow(
         <InputLiteral {...nrProps}
                       id={'11tydg'}
-                      rtId={'resourceTemplate:bf2:Monograph:Instance'}
                       handleMyItemsChange={mockMyItemsChange}
                       handleRemoveItem={mockRemoveItem}
                       handleMyItemsLangChange={jest.fn()}
@@ -275,7 +271,6 @@ describe('when there is a default literal value in the property template', () =>
       const nonrepeatWrapper = shallow(
         <InputLiteral {...nrProps}
                       id={'11tydg'}
-                      rtId={'resourceTemplate:bf2:Monograph:Instance'}
                       handleMyItemsChange={mockMyItemsChange}
                       handleRemoveItem={mockRemoveItem}
                       handleMyItemsLangChange={jest.fn()}
@@ -305,8 +300,7 @@ describe('When a user enters non-roman text in a work title', () => {
     <InputLiteral {...workTitleProps}
                   id={14}
                   handleMyItemsChange={mockDataFn}
-                  handleMyItemsLangChange={jest.fn()}
-                  rtId={'resourceTemplate:bflc:WorkTitle'} />,
+                  handleMyItemsLangChange={jest.fn()} />,
   )
 
   it('allows user to enter Chinese characters', () => {
@@ -329,7 +323,6 @@ describe('When the user enters input into language modal', () => {
 
   shortid.generate = jest.fn().mockReturnValue(0)
   const mockWrapper = shallow(<InputLiteral {...plProps} id={'11'}
-                                            rtId={'resourceTemplate:bf2:Monograph:Instance'}
                                             reduxPath={[
                                               'resourceTemplate:bf2:Monograph:Instance',
                                               'http://id.loc.gov/ontologies/bibframe/instanceOf',

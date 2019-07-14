@@ -6,68 +6,47 @@ import PropTypes from 'prop-types'
 import shortid from 'shortid'
 import PropertyActionButtons from './PropertyActionButtons'
 import PropertyTemplateOutline from './PropertyTemplateOutline'
-import { refreshResourceTemplate } from 'actions/index'
-import { booleanPropertyFromTemplate } from 'Utilities'
-
-const _ = require('lodash')
+import { findNode } from 'selectors/resourceSelectors'
+import findResourceTemplate from 'selectors/entitySelectors'
+import _ from 'lodash'
 
 export class ResourceProperty extends Component {
-  constructor(props) {
-    super(props)
-  }
-
   renderResourcePropertyJsx = () => {
     const jsx = []
 
-    this.props.propertyTemplate.valueConstraint.valueTemplateRefs.map((rtId) => {
-      const resourceTemplate = _.find(this.props.nestedResourceTemplates, ['id', rtId])
-      const resourceKeyId = shortid.generate()
-      const newReduxPath = Object.assign([], this.props.reduxPath)
+    Object.keys(this.props.models).forEach((rtId) => {
+      const resourceRows = this.props.models[rtId]
+      resourceRows.forEach((resourceRow) => {
+        const resourceTemplate = resourceRow.resourceTemplate
 
-      newReduxPath.push(this.props.propertyTemplate.propertyURI)
+        if (resourceTemplate === undefined) {
+          return jsx.push(
+            <div className="alert alert-warning" key={rtId}>
+              <strong>Warning:</strong> this property refers to a missing Resource Template. You cannot edit it until a Resource Template with an ID of <em>{ rtId }</em> has been <a href="/templates">imported</a> into the Sinopia Linked Data Editor.
+            </div>,
+          )
+        }
 
-      newReduxPath.push(resourceKeyId)
-      newReduxPath.push(rtId)
-
-      if (resourceTemplate === undefined) {
-        return jsx.push(
-          <div className="alert alert-warning" key={rtId}>
-            <strong>Warning:</strong> this property refers to a missing Resource Template. You cannot edit it until a Resource Template with an ID of <em>{ rtId }</em> has been <a href="/templates">imported</a> into the Sinopia Linked Data Editor.
+        const propertyReduxPath = _.first(resourceRow.properties).reduxPath
+        const resourceReduxPath = propertyReduxPath.slice(0, propertyReduxPath.length - 1)
+        jsx.push(
+          <div className="row" key={shortid.generate()}>
+            <section className="col-sm-8">
+              <h5>{resourceTemplate.resourceLabel}</h5>
+            </section>
+            <section className="col-sm-4">
+              <PropertyActionButtons handleAddClick={e => this.props.handleAddClick(resourceReduxPath, e)}
+                                     reduxPath={this.props.reduxPath}
+                                     addButtonDisabled={this.props.addButtonDisabled} />
+            </section>
           </div>,
         )
-      }
 
-      jsx.push(
-        <div className="row" key={shortid.generate()}>
-          <section className="col-sm-8">
-            <h5>{resourceTemplate.resourceLabel}</h5>
-          </section>
-          <section className="col-sm-4">
-            <PropertyActionButtons handleAddClick={this.props.handleAddClick}
-                                   reduxPath={this.props.reduxPath}
-                                   addButtonDisabled={this.props.addButtonDisabled}
-                                   key={resourceKeyId} />
-          </section>
-        </div>,
-      )
-      resourceTemplate.propertyTemplates.map((rtProperty) => {
-        const keyId = shortid.generate()
-        const propertyReduxPath = Object.assign([], newReduxPath)
-
-        propertyReduxPath.push(rtProperty.propertyURI)
-        const payload = { reduxPath: propertyReduxPath, property: rtProperty }
-
-        this.props.initNewResourceTemplate(payload)
-        const isAddDisabled = !booleanPropertyFromTemplate(rtProperty, 'repeatable', false)
-
-        jsx.push(
-          <PropertyTemplateOutline key={keyId}
-                                   propertyTemplate={rtProperty}
-                                   reduxPath={propertyReduxPath}
-                                   addButtonDisabled={isAddDisabled}
-                                   initNewResourceTemplate={this.props.initNewResourceTemplate}
-                                   resourceTemplate={resourceTemplate} />,
-        )
+        resourceRow.properties.forEach((model) => {
+          jsx.push(
+            <PropertyTemplateOutline key={shortid.generate()} reduxPath={model.reduxPath} />,
+          )
+        })
       })
     })
 
@@ -86,15 +65,35 @@ export class ResourceProperty extends Component {
 ResourceProperty.propTypes = {
   addButtonDisabled: PropTypes.bool,
   handleAddClick: PropTypes.func,
-  initNewResourceTemplate: PropTypes.func,
-  nestedResourceTemplates: PropTypes.array,
   propertyTemplate: PropTypes.object,
   reduxPath: PropTypes.array,
+  models: PropTypes.object,
 }
-const mapDispatchToProps = dispatch => ({
-  initNewResourceTemplate(rtContext) {
-    dispatch(refreshResourceTemplate(rtContext))
-  },
-})
 
-export default connect(null, mapDispatchToProps)(ResourceProperty)
+const mapStateToProps = (state, ourProps) => {
+  const models = {}
+
+  const propertyNode = findNode(state.selectorReducer, ourProps.reduxPath)
+  Object.keys(propertyNode).forEach((key) => {
+    const resourceTemplateId = Object.keys(propertyNode[key])[0]
+    const resourceTemplate = findResourceTemplate(state.selectorReducer, resourceTemplateId)
+    if (!resourceTemplate) {
+      return
+    }
+    // Add empty array if necessary
+    if (models[resourceTemplateId] === undefined) {
+      models[resourceTemplateId] = []
+    }
+    const model = { resourceTemplate, properties: [] }
+    models[resourceTemplateId].push(model)
+    resourceTemplate.propertyTemplates.map((rtProperty) => {
+      const propertyReduxPath = [...ourProps.reduxPath, key, resourceTemplateId, rtProperty.propertyURI]
+      model.properties.push({
+        reduxPath: propertyReduxPath,
+      })
+    })
+  })
+  return { models }
+}
+
+export default connect(mapStateToProps, null)(ResourceProperty)

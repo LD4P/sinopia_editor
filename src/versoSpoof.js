@@ -13,7 +13,9 @@ function loadProfiles() {
   if (profiles.length === 0) {
     const profilesDirPath = path.join(__dirname, '..', 'static', 'spoofedFilesFromServer', 'from_verso', 'data', 'profiles')
 
+    /* eslint security/detect-non-literal-fs-filename: 'off' */
     fs.readdirSync(profilesDirPath).forEach((file) => {
+      /* eslint security/detect-non-literal-require: 'off' */
       const fileJson = require(path.join(profilesDirPath, file))
 
       profiles.push(

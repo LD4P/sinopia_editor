@@ -3,11 +3,12 @@
 import {
   removeAllContent, removeMyItem, setItemsOrSelections, setBaseURL,
   validate, showGroupChooser, closeGroupChooser, showRdfPreview,
+  showResourceURIMessage,
 } from 'reducers/inputs'
 
 import {
   findNode,
-} from 'reducers/index'
+} from 'selectors/resourceSelectors'
 
 let initialState
 
@@ -17,6 +18,9 @@ beforeEach(() => {
       errors: [],
       displayValidations: false,
       groupChoice: {
+        show: false,
+      },
+      resourceURIMessage: {
         show: false,
       },
       rdfPreview: {
@@ -61,6 +65,7 @@ describe('showGroupChooser()', () => {
 
       expect(result.editor.displayValidations).toBe(true)
       expect(result.editor.groupChoice.show).toBe(false)
+      expect(result.editor.rdfPreview.show).toBe(false)
     })
   })
 })
@@ -340,6 +345,23 @@ describe('setBaseURL', () => {
     const reduxPath = ['resource', 'resourceTemplate:Monograph:Instance', 'resourceURI']
 
     expect(findNode(result, reduxPath)).toEqual('http://example.com/foo/123')
+  })
+})
+
+describe('showResourceURIMessage', () => {
+  it('displays the Resource URI', () => {
+    initialState.editor.resourceURIMessage = {
+      show: false,
+      uri: '',
+    }
+
+    const result = showResourceURIMessage(initialState, {
+      type: 'SHOW_RESOURCE_URI_MESSAGE',
+      payload: 'http://example.com/foo/123',
+    })
+
+    expect(result.editor.resourceURIMessage.show).toBe(true)
+    expect(result.editor.resourceURIMessage.uri).toEqual('http://example.com/foo/123')
   })
 })
 

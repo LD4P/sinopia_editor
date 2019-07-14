@@ -13,6 +13,10 @@ body {
   border-color: transparent !important;
 }
 
+.btn-linky {
+  padding: 0px;
+}
+
 .btn-editor {
   margin-right: 5px;
 }
@@ -160,6 +164,12 @@ h1.editor-logo {
 h2.editor-subtitle {
   font-size: 1.2em;
   margin-bottom: 5px;
+  display: inline;
+}
+h2.editor-version {
+  font-size: 0.9em;
+  margin-bottom: 5px;
+  display: inline;
 }
 
 a.prop-remark {
@@ -218,7 +228,7 @@ input.rbt-input-main {
 .dropdown-header {
 	font-weight:800;
 	color:#333;
-	background-color:#d3d3d3; 
+	background-color:#d3d3d3;
 }
 .dropdown-empty, .dropdown-error {
 	font-weight:400;

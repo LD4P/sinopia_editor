@@ -3,53 +3,67 @@
 import React, { Component } from 'react'
 import shortid from 'shortid'
 import PropTypes from 'prop-types'
+import { connect } from 'react-redux'
 import PropertyActionButtons from './PropertyActionButtons'
 import PropertyTemplateOutline from './PropertyTemplateOutline'
+import { getResourceTemplate } from 'selectors/resourceSelectors'
+import { addResource as addResourceCreator } from 'actionCreators'
 
+/**
+ * Renders a sub-resource template (e.g. WorkTitle, WorkVariantTitle, TranscribedTitle)
+ * In Redux these are modeled like this:
+ *   http://id.loc.gov/ontologies/bibframe/title: {
+ *     'AE6Be-DJGj': {
+ *       'resourceTemplate:bf2:WorkTitle': {
+ *         'http://id.loc.gov/ontologies/bibframe/mainTitle: {
+ *
+ *         }
+ *       }
+ *     }
+ *     'Mxt-oGAg0s2': {
+ *       'resourceTemplate:bf2:WorkVariantTitle': {
+ *         'http://id.loc.gov/ontologies/bibframe/mainTitle: {
+ *
+ *         }
+ *       }
+ *     }
+ *     'dGMYKnhJhlG': {
+ *       'resourceTemplate:bf2:TranscribedTitle': {
+ *         'http://id.loc.gov/ontologies/bibframe/mainTitle: {
+ *
+ *         }
+ *       }
+ *     }
+ *   }
+ *
+ *  In the props we are passed the resourceTemplate, so we can get the rows from
+ *  the redux store by filtering path for items that have a key that matches
+ *  resourceTemplate.id
+ */
 class PropertyResourceTemplate extends Component {
-  constructor(props) {
-    super(props)
-    this.state = {
-      collapse: false,
-      output: this.populatePropertyTemplates(this.props.reduxPath),
-    }
-  }
-
-  handleAddClick = (event) => {
+  handleAddClick = (reduxPath, event) => {
     event.preventDefault()
-    const existingOutputs = [...this.state.output]
+    this.props.addResource(reduxPath)
+  }
 
-    existingOutputs.push(<h4 key={shortid.generate()}>{this.props.resourceTemplate.resourceLabel}</h4>)
-
-    const newReduxPath = [...this.props.reduxPath]
-
+  populatePropertyTemplates = () => this.props.resourceTemplate.propertyTemplates.map((property) => {
     /*
-     * Replace the generated id so that this is a new resource.
-     * The redux path will be something like ..., "kV5fjX2b1", "resourceTemplate:bf2:Monograph:Work"
+     * Add the property uri to the redux path
+     * The redux path will be something like ..., "kV5fjX2b1", "resourceTemplate:bf2:Title", "http://schema.org/description"
      */
-    newReduxPath[newReduxPath.length - 2] = shortid.generate()
-    const result = this.populatePropertyTemplates(newReduxPath)
+    const newReduxPath = [...this.props.reduxPath, property.propertyURI]
 
-    this.setState({ output: existingOutputs.concat(result) })
-  }
-
-  populatePropertyTemplates = (reduxPath) => {
-    const newOutput = []
-
-    this.props.resourceTemplate.propertyTemplates.map((property) => {
-      const keyId = shortid.generate()
-
-      newOutput.push(<PropertyTemplateOutline
-                      propertyTemplate={property}
-                      rtId={this.props.resourceTemplate.id}
-                      reduxPath={reduxPath}
-                      key={keyId} />)
-    })
-
-    return newOutput
-  }
+    return (<PropertyTemplateOutline
+                    propertyTemplate={property}
+                    rtId={this.props.resourceTemplate.id}
+                    reduxPath={newReduxPath}
+                    key={shortid.generate()} />)
+  })
 
   render() {
+    if (!this.props.resourceTemplate) {
+      return null
+    }
     // repeatable defaults to false, so isAddDisabled defaults to true
     const isAddDisabled = this.props.isRepeatable ? !JSON.parse(this.props.isRepeatable) : true
 
@@ -60,14 +74,14 @@ class PropertyResourceTemplate extends Component {
         </section>
         <section className="col-md-2">
           <PropertyActionButtons
-            handleAddClick={this.handleAddClick}
+            handleAddClick={this.handleAddClick.bind(this, this.props.reduxPath)}
             addButtonDisabled={isAddDisabled}
             reduxPath={this.props.reduxPath}
             key={shortid.generate()} />
         </section>
       </div>
       <div>
-        { this.state.output }
+        { this.populatePropertyTemplates() }
       </div>
     </div>
     )
@@ -78,6 +92,21 @@ PropertyResourceTemplate.propTypes = {
   isRepeatable: PropTypes.string,
   reduxPath: PropTypes.array,
   resourceTemplate: PropTypes.object,
+  addResource: PropTypes.func,
 }
 
-export default PropertyResourceTemplate
+const mapStateToProps = (state, ourProps) => {
+  const resourceTemplateId = ourProps.reduxPath.slice(-1)[0]
+  const resourceTemplate = getResourceTemplate(state, resourceTemplateId)
+  return {
+    resourceTemplate,
+  }
+}
+
+const mapDispatchToProps = dispatch => ({
+  addResource(reduxPath) {
+    dispatch(addResourceCreator(reduxPath))
+  },
+})
+
+export default connect(mapStateToProps, mapDispatchToProps)(PropertyResourceTemplate)

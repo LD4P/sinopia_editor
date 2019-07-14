@@ -1,7 +1,8 @@
 // Copyright 2019 Stanford University see LICENSE for license
 
-const rdf = require('rdf-ext')
-const _ = require('lodash')
+import rdf from 'rdf-ext'
+import _ from 'lodash'
+import findResourceTemplate from 'selectors/entitySelectors'
 
 /**
  * Builds RDF graphs from the Redux state
@@ -27,14 +28,17 @@ export default class GraphBuilder {
       const resourceURI = rdf.namedNode(resource[resourceTemplateId].resourceURI || '')
 
       this.buildTriplesForNode(resourceURI,
-        this.getResourceTemplateClass(resourceTemplateId),
+        resourceTemplateId,
         this.getPredicateList(resource[resourceTemplateId]))
     })
     return this.dataset
   }
 
+  /**
+   * @return {string} a string containing a uri for the class
+   */
   getResourceTemplateClass(resourceTemplateId) {
-    return this.state.entities.resourceTemplates[resourceTemplateId].resourceURI
+    return findResourceTemplate(this.state, resourceTemplateId).resourceURI
   }
 
   /**
@@ -64,20 +68,24 @@ export default class GraphBuilder {
     // Is there ever more than one base node?
     Object.keys(value).forEach((resourceTemplateId) => {
       this.buildTriplesForNode(baseURI,
-        this.getResourceTemplateClass(resourceTemplateId),
+        resourceTemplateId,
         this.getPredicateList(value[resourceTemplateId]))
     })
   }
 
   /**
    * @param {rdf.Term} baseURI
-   * @param {string} type
+   * @param {string} resourceTemplateId the identifier of the resource template
    * @param {Array.<Object>}
    */
-  buildTriplesForNode(baseURI, type, predicateList) {
+  buildTriplesForNode(baseURI, resourceTemplateId, predicateList) {
+    const type = this.getResourceTemplateClass(resourceTemplateId)
+
     if (type) {
       this.addTypeTriple(baseURI, rdf.namedNode(type))
     }
+
+    this.addGeneratedByTriple(baseURI, resourceTemplateId)
 
     // Now add all the other properties
     for (const predicate in predicateList) {
@@ -89,24 +97,43 @@ export default class GraphBuilder {
 
       if (value.items) {
         for (const item of value.items) {
-          if (item.uri) {
-            this.dataset.add(rdf.quad(baseURI, rdf.namedNode(predicate), rdf.namedNode(item.uri)))
-          } else {
-            this.dataset.add(rdf.quad(baseURI, rdf.namedNode(predicate), rdf.literal(item.content)))
-          }
+          const object = item.uri ? rdf.namedNode(item.uri) : this.createLiteral(item)
+          this.dataset.add(rdf.quad(baseURI, rdf.namedNode(predicate), object))
         }
       } else { // It's a deeply nested object
         Object.keys(value).filter(elem => elem !== 'errors').forEach((key) => {
           const nestedValue = value[key]
           const bnode = rdf.blankNode()
 
-          this.dataset.add(rdf.quad(baseURI, rdf.namedNode(predicate), bnode))
-          this.buildTriplesForNestedObject(bnode, nestedValue)
+          // Before adding blank node, make sure that there is a descendant non-empty items array.
+          if (this.hasItemDescendants(nestedValue)) {
+            this.dataset.add(rdf.quad(baseURI, rdf.namedNode(predicate), bnode))
+            this.buildTriplesForNestedObject(bnode, nestedValue)
+          }
         })
       }
     }
   }
 
+  /**
+   * Returns true if value or descendant has a non-empty item
+   * @param {Object} value from the redux store
+   */
+  hasItemDescendants(value) {
+    if (value.items && value.items.length > 0) {
+      return true
+    }
+    return Object.keys(value).some(key => this.hasItemDescendants(value[key]))
+  }
+
+  /**
+   * Returns a literal with an optional language tag
+   * @param {Object} item from the redux store
+   * @return {rdf.LiteralExt} the literal with a language value
+   */
+  createLiteral(item) {
+    return rdf.literal(item.content, item.lang?.items[0].id)
+  }
 
   /**
    * @param {rdf.Term} baseURI
@@ -116,5 +143,16 @@ export default class GraphBuilder {
     this.dataset.add(rdf.quad(baseURI,
       rdf.namedNode('http://www.w3.org/1999/02/22-rdf-syntax-ns#type'),
       type))
+  }
+
+  /**
+   * Adds the assertion that points at the resourceTemplate we used to generate this node
+   * @param {rdf.Term} baseURI
+   * @param {string} resourceTemplateId the identifier of the resource template
+   */
+  addGeneratedByTriple(baseURI, resourceTemplateId) {
+    this.dataset.add(rdf.quad(baseURI,
+      rdf.namedNode('http://www.w3.org/ns/prov#wasGeneratedBy'),
+      rdf.literal(resourceTemplateId)))
   }
 }

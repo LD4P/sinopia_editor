@@ -3,16 +3,25 @@
 import React from 'react'
 import 'jsdom-global/register'
 import { shallow } from 'enzyme'
-import shortid from 'shortid'
-import { ResourceTemplateForm } from '../../../src/components/editor/ResourceTemplateForm'
+import ResourceTemplateForm from 'components/editor/ResourceTemplateForm'
 
 describe('<ResourceTemplateForm /> functional testing', () => {
-  const basicRt = { resourceURI: 'http://schema.org/name' }
-  const basicWrapper = shallow(<ResourceTemplateForm propertyTemplates={[]}
-                                                     rtId={'resource:schema:Name'}
-                                                     resourceTemplate={ basicRt } />)
+  const resourceProperties = {
+    'http://id.loc.gov/ontologies/bibframe/title': {
+      abc123: {
+        'myOrg:rt:myTemplate': {
+          'http://example.com/foo/1': {
 
-  shortid.generate = jest.fn().mockReturnValue('abcd45')
+          },
+        },
+      },
+    },
+  }
+
+  const basicWrapper = shallow(<ResourceTemplateForm.WrappedComponent propertyTemplates={[]}
+                                                                      resourceTemplateId={'myOrg:rt:myTemplate'}
+                                                                      resourceProperties={ resourceProperties }
+                                                                      reduxPath={ ['resource'] }/>)
 
   describe('resourceTemplateFields expectations and outputs', () => {
     it('empty array, null, or undefined resource templates', () => {
@@ -22,96 +31,28 @@ describe('<ResourceTemplateForm /> functional testing', () => {
     })
 
     it('resourceTemplateFields returns an array with one <PropertyResourceTemplate /> and has expected Redux state', () => {
-      basicWrapper.instance().setState({
-        nestedResourceTemplates: [
-          {
-            id: 'resourceTemplate:bf2:Note',
-            resourceURI: 'http://id.loc.gov/ontologies/bibframe/Note',
-            resourceLabel: 'Note',
-            propertyTemplates: [
-              {
-                propertyURI: 'http://www.w3.org/2000/01/rdf-schema#label',
-                propertyLabel: 'Note',
-                mandatory: 'false',
-                repeatable: 'false',
-                type: 'literal',
-                resourceTemplates: [],
-                valueConstraint: {
-                  valueTemplateRefs: [],
-                },
-              },
-            ],
-          },
-        ],
-      })
       const result = basicWrapper.instance().resourceTemplateFields(
-        ['resourceTemplate:bf2:Note'],
+        ['myOrg:rt:myTemplate'],
         {
-          propertyURI: 'http://www.w3.org/2000/01/rdf-schema#label',
+          propertyURI: 'http://id.loc.gov/ontologies/bibframe/title',
           repeatable: 'true',
         },
       )
 
       expect(result[0].props.reduxPath).toEqual([
         'resource',
-        'resource:schema:Name',
-        'http://www.w3.org/2000/01/rdf-schema#label',
-        'abcd45',
-        'resourceTemplate:bf2:Note'])
+        'http://id.loc.gov/ontologies/bibframe/title',
+        'abc123',
+        'myOrg:rt:myTemplate'])
     })
   })
 })
 
-const mockResponse = (status, statusText, response) => new Response(response, {
-  status,
-  statusText,
-  headers: {
-    'Content-type': 'application/json',
-  },
-}).body
-
-const responseBody = [{
-  response: {
-    body: {
-      id: 'resourceTemplate:bf2:Note',
-      resourceURI: 'http://id.loc.gov/ontologies/bibframe/Note',
-      resourceLabel: 'Note',
-      propertyTemplates: [
-        {
-          propertyURI: 'http://www.w3.org/2000/01/rdf-schema#label',
-          propertyLabel: 'Note',
-          mandatory: 'false',
-          repeatable: 'false',
-          type: 'literal',
-          resourceTemplates: [],
-          valueConstraint: {
-            valueTemplateRefs: [],
-            useValuesFrom: [],
-            valueDataType: {},
-            editable: 'true',
-            repeatable: 'false',
-            defaults: [],
-          },
-        },
-      ],
-    },
-  },
-}]
-
-const rtTest = { resourceURI: 'http://id.loc.gov/ontologies/bibframe/Work' }
-
 describe('<ResourceTemplateForm /> after fetching data from sinopia server', () => {
-  const mockAsyncCall = (index) => {
-    const response = mockResponse(200, null, responseBody[index])
-
-
-    return response
-  }
-  const promises = Promise.all([mockAsyncCall(0)])
-
   describe('configured component types', () => {
     it('renders a lookup component', async () => {
       const rtProps = {
+        resourceTemplateId: 'myOrg:rt:myTemplate',
         propertyTemplates: [
           {
             propertyLabel: 'Look up, look down',
@@ -126,14 +67,11 @@ describe('<ResourceTemplateForm /> after fetching data from sinopia server', () 
             },
           },
         ],
+        reduxPath: [],
+        resourceProperties: {},
       }
 
-      const wrapper = shallow(<ResourceTemplateForm {...rtProps} resourceTemplate = {rtTest}/>)
-
-      expect.assertions(3)
-      const instance = await wrapper.instance()
-
-      await instance.fulfillRTPromises(promises).then(() => wrapper.update())
+      const wrapper = shallow(<ResourceTemplateForm.WrappedComponent {...rtProps} />)
       expect(wrapper.find('div.ResourceTemplateForm PropertyComponent').length).toEqual(1)
       const inputType = wrapper.find('PropertyComponent').dive()
 
@@ -143,6 +81,7 @@ describe('<ResourceTemplateForm /> after fetching data from sinopia server', () 
 
     it('renders a list component', async () => {
       const rtProps = {
+        resourceTemplateId: 'myOrg:rt:myTemplate',
         propertyTemplates: [
           {
             propertyLabel: 'What\'s the frequency Kenneth?',
@@ -154,14 +93,11 @@ describe('<ResourceTemplateForm /> after fetching data from sinopia server', () 
             },
           },
         ],
+        reduxPath: [],
+        resourceProperties: {},
       }
 
-      const wrapper = shallow(<ResourceTemplateForm {...rtProps} resourceTemplate = {rtTest}/>)
-
-      expect.assertions(3)
-      const instance = await wrapper.instance()
-
-      await instance.fulfillRTPromises(promises).then(() => wrapper.update())
+      const wrapper = shallow(<ResourceTemplateForm.WrappedComponent {...rtProps}/>)
       expect(wrapper.find('div.ResourceTemplateForm PropertyComponent').length).toEqual(1)
       const inputType = wrapper.find('PropertyComponent').dive()
 
@@ -172,20 +108,18 @@ describe('<ResourceTemplateForm /> after fetching data from sinopia server', () 
 
   it('renders InputLiteral nested component (b/c we have a property of type "literal")', async () => {
     const rtProps = {
+      resourceTemplateId: 'myOrg:rt:myTemplate',
       propertyTemplates: [
         {
           propertyLabel: 'Literally',
           type: 'literal',
         },
       ],
+      resourceProperties: {},
+      reduxPath: [],
     }
 
-    const wrapper = shallow(<ResourceTemplateForm {...rtProps} resourceTemplate = {rtTest}/>)
-
-    expect.assertions(3)
-    const instance = await wrapper.instance()
-
-    await instance.fulfillRTPromises(promises).then(() => wrapper.update())
+    const wrapper = shallow(<ResourceTemplateForm.WrappedComponent {...rtProps}/>)
     expect(wrapper.find('div.ResourceTemplateForm PropertyComponent').length).toEqual(1)
     const inputType = wrapper.find('PropertyComponent').dive()
 
@@ -194,6 +128,7 @@ describe('<ResourceTemplateForm /> after fetching data from sinopia server', () 
   })
 
   const rtProps = {
+    resourceTemplateId: 'myOrg:rt:myTemplate',
     propertyTemplates: [
       {
         propertyLabel: 'Literally',
@@ -246,7 +181,7 @@ describe('<ResourceTemplateForm /> after fetching data from sinopia server', () 
     ],
   }
 
-  const wrapper = shallow(<ResourceTemplateForm {...rtProps} resourceTemplate = {rtTest}/>)
+  const wrapper = shallow(<ResourceTemplateForm.WrappedComponent {...rtProps}/>)
 
   it('<form> does not contain redundant form attribute', () => {
     expect(wrapper.find('form[role="form"]').length).toEqual(0)
@@ -274,67 +209,5 @@ describe('<ResourceTemplateForm /> after fetching data from sinopia server', () 
     const propertyRemark = wrapper.find('label > PropertyRemark')
 
     expect(propertyRemark).toBeTruthy()
-  })
-})
-
-describe('when there are no findable nested resource templates', () => {
-  const mockAsyncCall = () => {
-    const response = mockResponse(200, null, undefined)
-
-
-    return response
-  }
-  const promises = Promise.all([mockAsyncCall])
-
-  const rtProps = {
-    propertyTemplates: [
-      {
-        propertyLabel: 'Look up, look down',
-        type: 'lookup',
-        editable: 'do not override me!',
-        repeatable: 'do not override me!',
-        mandatory: 'do not override me!',
-        valueConstraint: {
-          useValuesFrom: [
-            'urn:ld4p:qa:names:person',
-          ],
-        },
-      },
-      {
-        propertyLabel: 'Chain chain chains',
-        type: 'resource',
-        valueConstraint: {
-          valueTemplateRefs: [
-            'resourceTemplate:bf2:Note',
-          ],
-        },
-        mandatory: 'true',
-      },
-      {
-        propertyLabel: 'YAM (yet another modal)',
-        type: 'resource',
-        valueConstraint: {
-          valueTemplateRefs: [
-            'resourceTemplate:bf2:Note',
-          ],
-        },
-      },
-    ],
-  }
-
-  const wrapper = shallow(<ResourceTemplateForm {...rtProps} resourceTemplate = {rtTest}/>)
-
-  it('renders error alert box', async () => {
-    expect.assertions(3)
-    const instance = await wrapper.instance()
-
-    await instance.fulfillRTPromises(promises).then(() => wrapper.update())
-
-    expect(await wrapper.state('templateError')).toBeTruthy()
-
-    const errorEl = wrapper.find('div.alert')
-
-    expect(errorEl).toHaveLength(1)
-    expect(errorEl.text()).toMatch('There are missing resource templates required by resource template: http://id.loc.gov/ontologies/bibframe/Work.Please make sure all referenced templates in property template are uploaded first.')
   })
 })

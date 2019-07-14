@@ -1,12 +1,13 @@
 // Copyright 2019 Stanford University see LICENSE for license
 
 import React from 'react'
+import { version } from '../../../package.json'
 
 const NewsItem = () => (
   <div className="news-item">
     <h1> What&#8217;s New </h1>
     <ul>
-      <li>Release 0.3.0 is live, including these features</li>
+      <li>Release {version} is live, including these features</li>
       <ul>
         <li>User login.
         </li>

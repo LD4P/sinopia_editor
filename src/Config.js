@@ -21,12 +21,12 @@ class Config {
    * There are two value types of `process.env` variables:
    *   1. When undefined, `if` condition is not satisfied and default `false` is returned
    *   2. When defined, will always be a string.
-   *     a. When set to 'true' return `true` (use spoof)
-   *     b. When set to 'false' or any other string, return `false` (don't use spoof)
+   *     a. When set to 'true' return `true` (use fixtures)
+   *     b. When set to 'false' or any other string, return `false` (don't use fixtures)
    */
-  static get spoofSinopiaServer() {
-    if (process.env.SPOOF_SINOPIA_SERVER) {
-      return process.env.SPOOF_SINOPIA_SERVER === 'true'
+  static get useResourceTemplateFixtures() {
+    if (process.env.USE_FIXTURES) {
+      return process.env.USE_FIXTURES === 'true'
     }
 
     return false
@@ -38,6 +38,10 @@ class Config {
 
   static get sinopiaUrl() {
     return process.env.SINOPIA_URI || 'https://sinopia.io'
+  }
+
+  static get indexUrl() {
+    return process.env.INDEX_URL || 'http://localhost:9200'
   }
 
   static get sinopiaDomainName() {
@@ -72,20 +76,33 @@ class Config {
     return process.env.MAX_RECORDS_FOR_QA_LOOKUPS || 8
   }
 
+  // WARNING: the groups section in config/default.js in the sinopia_acl codebase *must* be kept in sync with this section
   static get groupsInSinopia() {
-    return [
-      ['ld4p', 'LD4P'],
-      ['pcc', 'PCC'],
-      ['cub', 'University of Colorado Boulder'],
-      ['cornell', 'Cornell University'],
-      ['harvard', 'Harvard University'],
-      ['nlm', 'National Library of Medicine'],
-      ['stanford', 'Stanford University'],
-      ['ucsd', 'University of California, San Diego'],
-      ['penn', 'University of Pennsylvania'],
-      ['hrc', 'Harry Ransom Center, University of Texas at Austin'],
-      ['wau', 'University of Washington'],
-    ]
+    return {
+      alberta: 'University of Alberta',
+      boulder: 'University of Colorado, Boulder',
+      chicago: 'University of Chicago',
+      cornell: 'Cornell University',
+      dlc: 'Library of Congress',
+      duke: 'Duke University',
+      frick: 'Frick Art Reference Library',
+      harvard: 'Harvard University',
+      hrc: 'University of Texas, Austin, Harry Ransom Center',
+      ld4p: 'LD4P',
+      michigan: 'University of Michigan',
+      minnesota: 'University of Minnesota',
+      nlm: 'National Library of Medicine',
+      northwestern: 'Northwestern University',
+      pcc: 'PCC',
+      penn: 'University of Pennsylvania',
+      princeton: 'Princeton University',
+      stanford: 'Stanford University',
+      tamu: 'Texas A&M University',
+      ucdavis: 'University of California, Davis',
+      ucsd: 'University of California, San Diego',
+      washington: 'University of Washington',
+      yale: 'Yale University',
+    }
   }
 }
 

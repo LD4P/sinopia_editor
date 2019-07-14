@@ -7,9 +7,9 @@ import Modal from 'react-bootstrap/lib/Modal'
 import Button from 'react-bootstrap/lib/Button'
 import shortid from 'shortid'
 import { removeItem, setItems, setLang } from 'actions/index'
-import { findNode, getDisplayValidations, getPropertyTemplate } from 'reducers/index'
+import { findNode, getDisplayValidations, getPropertyTemplate } from 'selectors/resourceSelectors'
 import InputLang from './InputLang'
-import { defaultLangTemplate } from 'Utilities'
+import { booleanPropertyFromTemplate, defaultLangTemplate } from 'Utilities'
 
 
 // Redux recommends exporting the unconnected component for unit tests.
@@ -30,7 +30,8 @@ export class InputLiteral extends Component {
     this.inputLiteralRef = React.createRef()
   }
 
-  disabled = () => this.props.propertyTemplate.repeatable === 'false'
+
+  disabled = () => !booleanPropertyFromTemplate(this.props.propertyTemplate, 'repeatable', true)
       && this.props.items?.length > 0
 
   handleShow = (id) => {
@@ -90,17 +91,7 @@ export class InputLiteral extends Component {
   }
 
   handleDeleteClick = (event) => {
-    const labelToRemove = event.target.dataset.content
-    const idToRemove = event.target.dataset.item
-
-    this.props.handleRemoveItem(
-      {
-        id: idToRemove,
-        label: labelToRemove,
-        reduxPath: this.props.reduxPath,
-        uri: this.props.propertyTemplate.propertyURI,
-      },
-    )
+    this.props.handleRemoveItem(this.props.reduxPath, event.target.dataset.item)
   }
 
   handleEditClick = (event) => {
@@ -118,13 +109,13 @@ export class InputLiteral extends Component {
     this.inputLiteralRef.current.focus()
   }
 
+  /**
+   * @return {bool} true if the field should be marked as required (e.g. not all obligations met)
+   */
+  checkMandatoryRepeatable = () => booleanPropertyFromTemplate(this.props.propertyTemplate, 'mandatory', false)
+      && this.props.formData.errors
+      && this.props.formData.errors.length !== 0
 
-    /**
-     * @return {bool} true if the field should be marked as required (e.g. not all obligations met)
-     */
-    checkMandatoryRepeatable = () => this.props.propertyTemplate.mandatory === 'true'
-        && this.props.formData.errors
-        && this.props.formData.errors.length !== 0
 
   dispModal = (content, id) => (
     <Modal show={this.state.show[id]} onHide={this.handleClose}>
@@ -284,8 +275,8 @@ const mapDispatchToProps = dispatch => ({
   handleMyItemsChange(userInput) {
     dispatch(setItems(userInput))
   },
-  handleRemoveItem(id) {
-    dispatch(removeItem(id))
+  handleRemoveItem(reduxPath, itemId) {
+    dispatch(removeItem(reduxPath, itemId))
   },
   handleMyItemsLangChange(payload) {
     dispatch(setLang(payload))

@@ -1,111 +1,73 @@
 // Copyright 2019 Stanford University see LICENSE for license
 
-import React, { Component } from 'react'
+import React from 'react'
 import { connect } from 'react-redux'
 import PropTypes from 'prop-types'
-import {
-  removeAllItems, assignBaseURL, showGroupChooser, closeGroupChooser, showRdfPreview,
-} from 'actions/index'
+import { showGroupChooser, showRdfPreview } from 'actions/index'
+import { update } from 'actionCreators'
 import ResourceTemplate from './ResourceTemplate'
 import Header from '../Header'
 import RDFModal from './RDFModal'
 import GroupChoiceModal from './GroupChoiceModal'
 import ErrorMessages from './ErrorMessages'
-import { getCurrentSession, getCurrentUser } from 'authSelectors'
-import { publishRDFResource } from 'sinopiaServer'
+import AuthenticationMessage from './AuthenticationMessage'
+import { rootResourceId } from 'selectors/resourceSelectors'
+import { getCurrentUser } from 'authSelectors'
 
 /**
  * This is the root component of the resource edit page
+ *   useEffect(() => {
+ *   if (!props.location.state) {
+ *     props.history.push('/templates')
+ *   }
+ * })
+ *
+ * const resourceTemplateId = props.location.state?.resourceTemplateId
  */
-class Editor extends Component {
-  componentDidMount() {
-    if (!this.props.location.state) {
-      this.props.history.push('/templates')
-    }
-  }
-
-  chooseGroupThenSave = (rdf, group) => {
-    const request = publishRDFResource(this.props.currentUser, rdf, group)
-
-    request.then((result) => {
-      this.props.setBaseURL(result.response.headers.location)
-    }).catch((err) => {
-      alert('Unable to save resource')
-      console.error('unable to save resource')
-      console.error(err)
-    })
-    this.props.closeRdfPreview()
-    this.props.closeGroupChooser()
-  }
-
-  render() {
-    let authenticationMessage = <div className="alert alert-warning alert-dismissible">
-      <button className="close" data-dismiss="alert" aria-label="close">&times;</button>
-      Alert! No data can be saved unless you are logged in with group permissions.
+const Editor = props => (
+  <div id="editor">
+    <Header triggerEditorMenu={ props.triggerHandleOffsetMenu }/>
+    <AuthenticationMessage />
+    <div className="row">
+      <section className="col-md-3" style={{ float: 'right', width: '320px' }}>
+        <button type="button" className="btn btn-link btn-sm btn-editor" onClick={ props.openRdfPreview }>Preview RDF</button>
+        <button type="button" className="btn btn-primary btn-sm btn-editor"
+                onClick={ props.userWantsToSave(props.isSaved, props.currentUser) }>Save & Publish</button>
+      </section>
     </div>
+    <RDFModal save={ props.userWantsToSave(props.isSaved, props.currentUser) } />
+    <ErrorMessages />
+    <GroupChoiceModal />
 
-    if (this.props.currentSession) {
-      authenticationMessage = <span/>
-    }
-
-    return (
-      <div id="editor">
-        <Header triggerEditorMenu={this.props.triggerHandleOffsetMenu}/>
-        { authenticationMessage }
-        <div className="row">
-          <section className="col-md-3" style={{ float: 'right', width: '320px' }}>
-            <button type="button" className="btn btn-link btn-sm btn-editor" onClick={ this.props.openRdfPreview }>Preview RDF</button>
-            <button type="button" className="btn btn-primary btn-sm btn-editor" onClick={ this.props.openGroupChooser }>Save & Publish</button>
-          </section>
-        </div>
-        <RDFModal save={ this.props.openGroupChooser } close={ this.props.closeRdfPreview } />
-        <ErrorMessages />
-        <GroupChoiceModal close={ this.closeGroupChooser } save={ this.chooseGroupThenSave } />
-
-        <ResourceTemplate resourceTemplateId = {this.props.location.state.resourceTemplateId} />
-      </div>
-    )
-  }
-}
+    <ResourceTemplate />
+  </div>
+)
 
 Editor.propTypes = {
   triggerHandleOffsetMenu: PropTypes.func,
-  resetStore: PropTypes.func,
-  setBaseURL: PropTypes.func,
-  openGroupChooser: PropTypes.func,
-  closeGroupChooser: PropTypes.func,
+  userWantsToSave: PropTypes.func,
   openRdfPreview: PropTypes.func,
-  closeRdfPreview: PropTypes.func,
+  isSaved: PropTypes.bool,
   location: PropTypes.object,
-  resourceTemplateId: PropTypes.string,
   history: PropTypes.object,
-  currentSession: PropTypes.object,
   currentUser: PropTypes.object,
 }
 
 const mapStateToProps = state => ({
-  currentSession: getCurrentSession(state),
+  isSaved: !!rootResourceId(state),
   currentUser: getCurrentUser(state),
 })
 
 const mapDispatchToProps = dispatch => ({
-  resetStore() {
-    dispatch(removeAllItems())
+  userWantsToSave: (isSaved, user) => () => {
+    if (isSaved) {
+      dispatch(update(user))
+    } else {
+      dispatch(showGroupChooser(true))
+    }
   },
-  setBaseURL(url) {
-    dispatch(assignBaseURL(url))
-  },
-  openGroupChooser() {
-    dispatch(showGroupChooser(true))
-  },
-  closeGroupChooser() {
-    dispatch(closeGroupChooser(false))
-  },
-  openRdfPreview() {
+  openRdfPreview: () => {
     dispatch(showRdfPreview(true))
-  },
-  closeRdfPreview() {
-    dispatch(showRdfPreview(false))
   },
 })
 

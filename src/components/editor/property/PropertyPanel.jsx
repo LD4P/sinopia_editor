@@ -1,38 +1,23 @@
 // Copyright 2019 Stanford University see LICENSE for license
 
-import React, { Component } from 'react'
+import React from 'react'
 import PropTypes from 'prop-types'
 import PropertyLabel from './PropertyLabel'
 
-export default class PropertyPanel extends Component {
-  constructor(props) {
-    super(props)
-  }
+const PropertyPanel = (props) => {
+  const floatClass = props.float > 0 && props.float % 0 > 0 ? 'pull-right' : 'pull-left'
+  const cssClasses = `panel panel-property ${floatClass}`
 
-  getCssClasses = () => {
-    let floatClass = 'pull-left'
-
-    if (this.props.float > 0) {
-      if (this.props.float % 0 > 0) {
-        floatClass = 'pull-right'
-      }
-    }
-
-    return `panel panel-property ${floatClass}`
-  }
-
-  render() {
-    return (
-      <div className={this.getCssClasses()} data-label={this.props.pt.propertyLabel}>
-        <div className="panel-heading prop-heading">
-          <PropertyLabel pt={this.props.pt} />
-        </div>
-        <div className="panel-body">
-          {this.props.children}
-        </div>
+  return (
+    <div className={ cssClasses } data-label={ props.pt.propertyLabel }>
+      <div className="panel-heading prop-heading">
+        <PropertyLabel pt={ props.pt } />
       </div>
-    )
-  }
+      <div className="panel-body">
+        { props.children }
+      </div>
+    </div>
+  )
 }
 
 PropertyPanel.propTypes = {
@@ -40,3 +25,5 @@ PropertyPanel.propTypes = {
   float: PropTypes.number,
   pt: PropTypes.object,
 }
+
+export default PropertyPanel

@@ -4,8 +4,8 @@ import Config from '../src/Config'
 
 const sinopiaServer = require('../src/sinopiaServer')
 
-// Stub `Config.spoofSinopiaServer` static getter to force RT to come from spoofs
-jest.spyOn(Config, 'spoofSinopiaServer', 'get').mockReturnValue(true)
+// Stub `Config.useResourceTemplateFixtures` static getter to force RT to come from fixtures
+jest.spyOn(Config, 'useResourceTemplateFixtures', 'get').mockReturnValue(true)
 describe('sinopiaServer', () => {
   describe('getResourceTemplate', () => {
     it('known id: returns JSON for resource template', async () => {
@@ -18,7 +18,7 @@ describe('sinopiaServer', () => {
     it('unknown id: returns empty resource template and logs error', () => {
       expect(sinopiaServer.getResourceTemplate('not:there')).toEqual(
         {
-          error: 'ERROR: un-spoofed resourceTemplate: not:there',
+          error: 'ERROR: non-fixture resourceTemplate: not:there',
           propertyTemplates: [{}],
         },
       )

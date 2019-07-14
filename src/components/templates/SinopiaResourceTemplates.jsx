@@ -8,6 +8,9 @@ import BootstrapTable from 'react-bootstrap-table-next'
 import Config from 'Config'
 import { getEntityTagFromGroupContainer, getResourceTemplate, listResourcesInGroupContainer } from 'sinopiaServer'
 import { resourceToName } from 'Utilities'
+import Download from 'components/templates/Download'
+import { connect } from 'react-redux'
+import { newResource as newResourceCreator } from 'actionCreators'
 
 /**
  * This is the list view of all the templates
@@ -89,6 +92,9 @@ class SinopiaResourceTemplates extends Component {
         uri: templateId,
         id: resourceTemplateBody.id,
         group: groupName,
+        author: resourceTemplateBody.author,
+        remark: resourceTemplateBody.remark,
+        download: new Blob([JSON.stringify(resourceTemplateBody, null, 2)], { type: 'application/json' }),
       }
 
       const templates = [...this.state.resourceTemplates]
@@ -116,9 +122,14 @@ class SinopiaResourceTemplates extends Component {
     })
   }
 
+  handleClick = resourceTemplateId => this.props.newResource(resourceTemplateId)
+
   linkFormatter = (cell, row) => (
-    <Link to={{ pathname: '/editor', state: { resourceTemplateId: row.id } }}>{cell}</Link>
+    <Link to={{ pathname: '/editor', state: { } }} onClick={e => this.handleClick(row.id, e)}>{cell}</Link>
   )
+
+  downloadLinkFormatter = (cell, row) => (<Download blob={ row.download } filename={ `${row.id}.json`} />)
+
 
   render() {
     if (this.state.errors.length > 0) {
@@ -143,26 +154,39 @@ class SinopiaResourceTemplates extends Component {
       text: 'Template name',
       sort: true,
       formatter: this.linkFormatter,
-      headerStyle: { backgroundColor: '#F8F6EF', width: '25%' },
+      headerStyle: { backgroundColor: '#F8F6EF', width: '30%' },
     },
     {
       dataField: 'id',
       text: 'ID',
       sort: true,
-      headerStyle: { backgroundColor: '#F8F6EF', width: '50%' },
+      headerStyle: { backgroundColor: '#F8F6EF', width: '30%' },
     },
     {
-      dataField: 'group',
-      text: 'Group',
+      dataField: 'author',
+      text: 'Author',
       sort: true,
-      headerStyle: { backgroundColor: '#F8F6EF', width: '25%' },
+      headerStyle: { backgroundColor: '#F8F6EF', width: '10%' },
+    },
+    {
+      dataField: 'remark',
+      text: 'Guiding statement',
+      sort: false,
+      headerStyle: { backgroundColor: '#F8F6EF', width: '22%' },
+    },
+    {
+      dataField: 'download',
+      text: 'Download',
+      sort: false,
+      formatter: this.downloadLinkFormatter,
+      headerStyle: { backgroundColor: '#F8F6EF', width: '8%' },
     }]
 
     return (
       <div>
         { createResourceMessage }
         <h4>Available Resource Templates in Sinopia</h4>
-        <BootstrapTable keyField="key" data={ this.state.resourceTemplates } columns={ columns } />
+        <BootstrapTable id="resource-template-list" keyField="key" data={ this.state.resourceTemplates } columns={ columns } />
       </div>
     )
   }
@@ -171,6 +195,13 @@ class SinopiaResourceTemplates extends Component {
 SinopiaResourceTemplates.propTypes = {
   messages: PropTypes.array,
   updateKey: PropTypes.number,
+  newResource: PropTypes.func,
 }
 
-export default SinopiaResourceTemplates
+const mapDispatchToProps = dispatch => ({
+  newResource: (resourceTemplateId) => {
+    dispatch(newResourceCreator(resourceTemplateId))
+  },
+})
+
+export default connect(null, mapDispatchToProps)(SinopiaResourceTemplates)

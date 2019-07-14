@@ -4,6 +4,8 @@ import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 import { NavLink } from 'react-router-dom'
 import Config from 'Config'
+import { connect } from 'react-redux'
+import _ from 'lodash'
 
 class Header extends Component {
   render() {
@@ -19,15 +21,18 @@ class Header extends Component {
             </li>
           </ul>
           <div>
-            <h2 className="editor-subtitle"><a className="editor-subtitle" href="/">SINOPIA</a></h2>
+            <h2 className="editor-subtitle"><a className="editor-subtitle" href="/">SINOPIA</a></h2> <h2 className="editor-version">v{this.props.version}</h2>
             <h1 className="editor-logo">LINKED DATA EDITOR</h1>
           </div>
           <div>
             <ul className="nav nav-tabs pull-left editor-navtabs">
               { /* Navlinks enable highlighting the appropriate tab based on route, active style is defined in css */}
               <li className="nav-item"><NavLink className="nav-link" to="/browse">Browse</NavLink></li>
-              <li className="nav-item"><NavLink className="nav-link" to="/editor">Editor</NavLink></li>
               <li className="nav-item"><NavLink className="nav-link" to="/templates">Resource Templates</NavLink></li>
+              <li className="nav-item"><NavLink className="nav-link" to="/load">Load</NavLink></li>
+              { this.props.hasResource
+                && <li className="nav-item"><NavLink className="nav-link" to="/editor">Editor</NavLink></li>
+              }
             </ul>
           </div>
         </div>
@@ -38,6 +43,16 @@ class Header extends Component {
 
 Header.propTypes = {
   triggerEditorMenu: PropTypes.func,
+  version: PropTypes.string,
+  hasResource: PropTypes.bool,
 }
 
-export default Header
+const mapStateToProps = (state) => {
+  const hasResource = !_.isEmpty(state.selectorReducer.resource)
+  return {
+    version: state.selectorReducer.appVersion.version,
+    hasResource,
+  }
+}
+
+export default connect(mapStateToProps)(Header)

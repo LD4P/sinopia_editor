@@ -1,4 +1,4 @@
-// Copyright 2018 Stanford University see LICENSE for license
+// Copyright 2019 Stanford University see LICENSE for license
 
 import 'jsdom-global/register'
 import React from 'react'
@@ -21,14 +21,20 @@ const plProps = {
         valueDataType: {
           dataTypeURI: 'http://id.loc.gov/ontologies/bibframe/Agent',
         },
-        defaults: [{
-          defaultURI: 'http://id.loc.gov/vocabulary/carriers/nc',
-          defaultLiteral: 'volume',
-        }],
       },
       propertyURI: 'http://id.loc.gov/ontologies/bflc/target',
       propertyLabel: 'Name Lookup',
     },
+  lookupConfig: [
+    {
+      label: 'LOC person [names] (QA)',
+      uri: 'urn:ld4p:qa:names:person',
+      authority: 'locnames_ld4l_cache',
+      subauthority: 'person',
+      language: 'en',
+      component: 'lookup',
+    },
+  ],
 }
 
 const p2Props = {
@@ -93,11 +99,6 @@ describe('<InputLookupQA />', () => {
    * mapDispatchToProps
    */
 
-  it('has a lookupClient', () => {
-    // The Swagger constructor returns a promise
-    expect(wrapper.instance().lookupClient).toBeInstanceOf(Promise)
-  })
-
   it('uses the propertyLabel from the template as the form control label', () => {
     expect(wrapper.find('#lookupComponent').props().placeholder).toMatch('Name Lookup')
   })
@@ -113,62 +114,6 @@ describe('<InputLookupQA />', () => {
 
   it('sets the typeahead component multiple attribute according to the repeatable property from the template', () => {
     expect(wrapper.find('#lookupComponent').props().multiple).toBeFalsy()
-  })
-
-  describe('default values', () => {
-    afterAll(() => {
-      jest.restoreAllMocks()
-    })
-
-    it('sets the default values according to the property template if they exist', () => {
-      const defaults = [{
-        id: 'http://id.loc.gov/vocabulary/carriers/nc',
-        uri: 'http://id.loc.gov/vocabulary/carriers/nc',
-        label: 'volume',
-      }]
-
-      expect(wrapper.state('defaults')).toEqual(defaults)
-    })
-
-    it('logs an error when no defaults are set', () => {
-      const plProps = {
-        id: 'lookupComponent',
-        propertyTemplate:
-          {
-            mandatory: 'false',
-            repeatable: 'true',
-            type: 'lookup',
-            resourceTemplates: [],
-            valueConstraint: {
-              valueTemplateRefs: [],
-              useValuesFrom: [
-                'lookupQaLocNames',
-              ],
-              valueDataType: {
-                dataTypeURI: 'http://id.loc.gov/ontologies/bibframe/Agent',
-              },
-            },
-            propertyURI: 'http://id.loc.gov/ontologies/bflc/target',
-            propertyLabel: 'Name Lookup',
-          },
-      }
-
-      const infoSpy = jest.spyOn(console, 'info').mockReturnValue(null)
-      const wrapper2 = shallow(<InputLookupQA.WrappedComponent {...plProps} handleSelectedChange={mockFormDataFn} />)
-
-      expect(wrapper2.state('defaults')).toEqual([])
-      expect(infoSpy).toBeCalledWith(`no defaults defined in property template: ${JSON.stringify(plProps.propertyTemplate)}`)
-    })
-
-    it('sets the async typeahead component defaultSelected attribute', () => {
-      const wrapper2 = shallow(<InputLookupQA.WrappedComponent {...plProps} handleSelectedChange={mockFormDataFn} />)
-
-      expect(wrapper2.find('#lookupComponent').props().defaultSelected).toEqual([{
-        id: 'http://id.loc.gov/vocabulary/carriers/nc',
-        uri: 'http://id.loc.gov/vocabulary/carriers/nc',
-        label: 'volume',
-      }])
-    })
   })
 
   it('should call the onChange event and set the state with the selected option', () => {

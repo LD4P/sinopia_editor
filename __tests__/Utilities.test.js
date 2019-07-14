@@ -158,6 +158,10 @@ describe('Utilities', () => {
               defaultURI: 'http://id.loc.gov/vocabulary/mcolor/mul',
               defaultLiteral: 'color',
             },
+            {
+              defaultURI: 'http://id.loc.gov/vocabulary/xmcolor/xmul',
+              defaultLiteral: 'xcolor',
+            },
           ],
         },
       }
@@ -166,6 +170,11 @@ describe('Utilities', () => {
         id: 'http://id.loc.gov/vocabulary/mcolor/mul',
         label: 'color',
         uri: 'http://id.loc.gov/vocabulary/mcolor/mul',
+      },
+      {
+        id: 'http://id.loc.gov/vocabulary/xmcolor/xmul',
+        label: 'xcolor',
+        uri: 'http://id.loc.gov/vocabulary/xmcolor/xmul',
       }])
     })
 

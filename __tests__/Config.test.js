@@ -22,8 +22,12 @@ describe('Config', () => {
       expect(Config.sinopiaUrl).toEqual('https://sinopia.io')
     })
 
-    it('spoof sinopia server has static value', () => {
-      expect(Config.spoofSinopiaServer).toEqual(false)
+    it('index url has static value', () => {
+      expect(Config.indexUrl).toEqual('http://localhost:9200')
+    })
+
+    it('useResourceTemplateFixtures is false by default', () => {
+      expect(Config.useResourceTemplateFixtures).toEqual(false)
     })
 
     it('aws client ID has static value', () => {
@@ -69,7 +73,7 @@ describe('Config', () => {
     beforeAll(() => {
       process.env = {
         DEFAULT_PROFILE_SCHEMA_VERSION: '0.1.0',
-        SPOOF_SINOPIA_SERVER: 'true',
+        USE_FIXTURES: 'true',
         SINOPIA_URI: 'https://sinopia.foo',
         SINOPIA_GROUP: 'foobar',
         TRELLIS_BASE_URL: 'https://sinopia_server.foo',
@@ -77,6 +81,7 @@ describe('Config', () => {
         COGNITO_USER_POOL_ID: 'us-west-7_CGd9Wq142',
         AWS_COGNITO_DOMAIN: 'https://sinopia-foo.amazoncognito.com',
         MAX_RECORDS_FOR_QA_LOOKUPS: 15,
+        INDEX_URL: 'http://elasticsearch.aws.example.com',
       }
     })
 
@@ -92,12 +97,16 @@ describe('Config', () => {
       expect(Config.sinopiaUrl).toEqual('https://sinopia.foo')
     })
 
+    it('index url overrides static value', () => {
+      expect(Config.indexUrl).toEqual('http://elasticsearch.aws.example.com')
+    })
+
     it('sinopia server url overrides static value', () => {
       expect(Config.sinopiaServerBase).toEqual('https://sinopia_server.foo')
     })
 
-    it('spoof sinopia server overrides static value', () => {
-      expect(Config.spoofSinopiaServer).toEqual(true)
+    it('useResourceTemplateFixtures value overrides static value', () => {
+      expect(Config.useResourceTemplateFixtures).toEqual(true)
     })
 
     it('aws client ID overrides static value', () => {

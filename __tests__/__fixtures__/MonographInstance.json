@@ -133,12 +133,7 @@
       "resourceTemplates": [],
       "type": "resource",
       "valueConstraint": {
-        "defaults": [
-          {
-            "defaultLiteral": "DEFAULT",
-            "defaultURI": "http://default"
-          }
-        ],
+        "defaults": [],
         "editable": "true",
         "remark": "REMARK",
         "repeatable": "false",
@@ -199,23 +194,6 @@
       }
     },
     {
-      "propertyURI": "http://id.loc.gov/ontologies/bibframe/note",
-      "propertyLabel": "Note on Frequency (RDA 2.17.12)",
-      "remark": "http://access.rdatoolkit.org/2.17.12.html",
-      "mandatory": "false",
-      "repeatable": "true",
-      "type": "resource",
-      "resourceTemplates": [],
-      "valueConstraint": {
-        "valueTemplateRefs": [
-          "resourceTemplate:bf2:Note"
-        ],
-        "useValuesFrom": [],
-        "valueDataType": {},
-        "defaults": []
-      }
-    },
-    {
       "propertyLabel": "Holdings",
       "propertyURI": "http://id.loc.gov/ontologies/bibframe/heldBy",
       "resourceTemplates": [],
@@ -228,7 +206,6 @@
         },
         "defaults": [
           {
-            "defaultURI": "http://id.loc.gov/vocabulary/organizations/dlc",
             "defaultLiteral": "DLC"
           }
         ]

@@ -379,7 +379,7 @@
   {
     "label": "GETTY_ULAN (QA)",
     "uri": "urn:ld4p:qa:gettyulan",
-    "authority": "getty_aat_ld4l_cache",
+    "authority": "getty_ulan_ld4l_cache",
     "subauthority": "",
     "language": "en",
     "component": "lookup"
@@ -951,6 +951,11 @@
   {
     "label": "type of recording",
     "uri": "https://id.loc.gov/vocabulary/mrectype",
+    "component": "list"
+  },
+  {
+    "label": "code list for cultural heritage organizations",
+    "uri": "https://id.loc.gov/vocabulary/organizations",
     "component": "list"
   }
 ]

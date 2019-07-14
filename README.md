@@ -18,6 +18,9 @@ Technical documentation specific to the Sinopia Linked Data Editor may also be f
 4.  Get latest npm: `npm install -g npm@latest`
 5.  Run `npm install`. This installs everything needed for the build to run successfully.
 
+Note: Currently you need to have node version 10 (version 12 may not work).
+You can use the "n" node package management to manage multiple version of node: https://www.npmjs.com/package/n
+
 ## Build the distribution
 
 `npm run build`
@@ -46,13 +49,13 @@ You will need to be online to authenticate even when developing in localhost.
 
 ### Use static resource templates instead of hitting Trellis
 
-Specify the environment variable `SPOOF_SINOPIA_SERVER=true` when building the application if you would like it to load resource templates from the filesystem instead of looking for Trellis.
+Specify the environment variable `USE_FIXTURES=true` when building the application if you would like it to load resource templates from the filesystem instead of looking for Trellis.
 
 ### Run the server with webpack-dev-webserver
 
 `npm run dev-start`
 
-Runs the webpack-dev-server, allowing immediate loading of live code changes without having to restart the server. The webpack-dev-server is available on at [http://localhost:8888](http://localhost:8888).
+Runs the webpack-dev-server, allowing immediate loading of live code changes without having to restart the server. The webpack-dev-server is available at [http://localhost:8888](http://localhost:8888).
 Note that running the webpack server does NOT call server.js
 
 ### Building with webpack
@@ -61,10 +64,9 @@ Note that running the webpack server does NOT call server.js
 
 We are using webpack as a build tool.  See `webpack.config.js` for build dependencies and configuration.
 
-##### Running the server with express directory
+### Running the production server
 
-`npm start` will spin up express directly.
-The express server is available on at [http://localhost:8000](http://localhost:8000).
+`npm start` will spin up the production server (this depends on `npm run build` already having been run). The web server is available at [http://localhost:8000](http://localhost:8000).
 
 ### Linter for JavaScript
 
@@ -77,6 +79,8 @@ Tests are written in jest, also utilizing puppeteer for end-to-end tests. Run th
 To properly run all of the tests (including integration), you'll have to provide a couple of environment variables,
 so that the tests have valid user info with which to login.  The env vars are:
 
+Add these to your local `.env` file:
+
 ```sh
 COGNITO_TEST_USER_NAME='sinopia-devs+client-tester@lists.stanford.edu' # a test user we have on dev and stage
 COGNITO_TEST_USER_PASS='<get this from shared_configs or another developer>' # not committing the real value to a public repo
@@ -85,14 +89,14 @@ COGNITO_TEST_USER_PASS='<get this from shared_configs or another developer>' # n
 Putting it all together, to run all of the tests:
 
 ```sh
-COGNITO_TEST_USER_NAME='sinopia-devs+client-tester@lists.stanford.edu' COGNITO_TEST_USER_PASS='theActualPassword' npm test
+npm test
 ```
 
 You can also run the tests together with the linter all in one, similar to what happens at CircleCI.
 
 ```sh
-COGNITO_TEST_USER_NAME='sinopia-devs+client-tester@lists.stanford.edu' COGNITO_TEST_USER_PASS='theActualPassword' npm run ci
-````
+npm run ci
+```
 
 Note that if you have an instance of the dev server already running in a separate terminal, you may need to stop the server or you may get a port conflict
 when running the integration tests.
@@ -102,7 +106,7 @@ when running the integration tests.
 To get coverage data, use `npm run jest-cov`.  Be sure to specify the ENV variables as described above:
 
 ```sh
-COGNITO_TEST_USER_NAME='sinopia-devs+client-tester@lists.stanford.edu' COGNITO_TEST_USER_PASS='theActualPassword' npm run jest-cov
+npm run jest-cov
 ```
 
 Once complete, you can start the dev server on your laptop as describe above and visit `http://localhost:8888/coverage/lcov-report/index.html`.
@@ -127,6 +131,7 @@ with images hosted on [Dockerhub](https://hub.docker.com/r/ld4p/sinopia_editor/)
 and with an available Dockerfile to build locally.
 
 ### Running latest Dockerhub Image
+
 To run the Docker image, first download the latest image by
 `docker pull ld4p/sinopia_editor:latest` and then to run the editor locally
 in the foreground, `docker run -p 8000:8000 --rm --name=sinopia_editor ld4p/sinopia_editor`. The running Sinopia Editor should now be available locally at
@@ -134,19 +139,34 @@ in the foreground, `docker run -p 8000:8000 --rm --name=sinopia_editor ld4p/sino
 
 ### Docker-Compose
 
-A docker-compose configuration is also provided to allow integration of the editor with Sinopia's platform components, including Trellis, ElasticSearch, ActiveMQ, Postgres, and the Sinopia indexing pipeline. You can spin up these components, with Trellis listening on http://localhost:8080/, via:
+A docker-compose configuration is also provided to allow integration of the editor with Sinopia's platform components, including Trellis, ElasticSearch, ActiveMQ, Postgres, and the Sinopia indexing pipeline. You can spin up these components via:
 
 ```sh
-$ docker-compose up # add the '-d' flag to daemonize and run in background
+$ docker-compose up editor # add the '-d' flag to daemonize and run in background
 ```
+
+Of particular interest:
+
+* The editor is at http://localhost:8000/
+* Trellis is at http://localhost:8080/
 
 Note that this will provide you with "out-of-the-box" Trellis, with no data in it. To spin up Trellis and its dependencies with the Sinopia container structure (root, repository, and group containers) and ACLs (declared on root container) pre-created, you can do using the `platformdata` docker-compose service:
 
 ```shell
-$ docker-compose up platformdata # add the '-d' flag to daemonize and run in background
+$ docker-compose run platformdata
 ```
 
 **NOTE**: In order for the above to work, you will need to set `COGNITO_ADMIN_PASSWORD`, `AWS_ACCESS_KEY_ID`, and `AWS_SECRET_ACCESS_KEY` in a file named `.env` in the sinopia_editor root.
+
+At this point, you will likely want to begin importing resource templates into the editor, after which you can begin creating linked data resources. To import a small set of interesting resource templates, consult the [instructions in this README](https://github.com/LD4P/sinopia_sample_profiles/blob/master/configuration_demo/readme.md).
+
+If you'd like to see how the indexing pipeline is indexing Trellis data into ElasticSearch, you can spy on the ElasticSearch indexes using the DejaVu app included in the `docker-compose` configuration:
+
+```shell
+$ docker-compose up searchui # add the '-d' flag to daemonize and run in background
+```
+
+To use DejaVu, browse to http://localhost:1358, and when prompted, enter `http://localhost:9200` as the ElasticSearch URL and `*` as the index name.
 
 ### Building latest Docker Image
 
@@ -181,7 +201,7 @@ This section assumes you've already authenticated to DockerHub via `docker login
 First, build a new `sinopia_editor` image tagged with `dev`. In order to do this, you **MUST** provide the dev-specific build args:
 
 ```shell
-$ docker build -t ld4p/sinopia_editor:dev --build-arg SPOOF_SINOPIA_SERVER=false --build-arg TRELLIS_BASE_URL=https://trellis.development.sinopia.io --build-arg DEFAULT_PROFILE_SCHEMA_VERSION=0.0.2 --build-arg SINOPIA_GROUP=ld4p --build-arg SINOPIA_URI=https://development.sinopia.io --build-arg AWS_COGNITO_DOMAIN=https://sinopia-development.auth.us-west-2.amazoncognito.com --build-arg COGNITO_CLIENT_ID=2u6s7pqkc1grq1qs464fsi82at .
+$ docker build -t ld4p/sinopia_editor:dev --build-arg TRELLIS_BASE_URL=https://trellis.development.sinopia.io --build-arg SINOPIA_URI=https://development.sinopia.io --build-arg AWS_COGNITO_DOMAIN=https://sinopia-development.auth.us-west-2.amazoncognito.com --build-arg COGNITO_CLIENT_ID=2u6s7pqkc1grq1qs464fsi82at .
 ```
 
 Then push the `dev`-tagged image to DockerHub:
@@ -205,6 +225,7 @@ $ aws ecs update-service --service sinopia-homepage --region us-west-2 --cluster
 ```
 
 ## Release Management
+
 The steps to create a tagged release of the Sinopia's Linked Data Editor are as follows:
 
 1. Update the version in `package.json`
@@ -216,7 +237,6 @@ The steps to create a tagged release of the Sinopia's Linked Data Editor are as 
 1. Build a tagged Docker image i.e. `docker build -t ld4p/sinopia_editor:{version} .`
 1. Push the tagged version to Dockerhub with `docker push ld4p/sinopia_editor:{version}`,
    See [documentation](#building-latest-docker-image) for more information
-
 
 
 # LD4P's fork of the BIBFRAME Editor

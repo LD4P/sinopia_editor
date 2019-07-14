@@ -1,6 +1,6 @@
 // Copyright 2018 Stanford University see LICENSE for license
 
-import * as actions from '../../src/actions/index'
+import * as actions from 'actions/index'
 
 describe('setItems()', () => {
   it('creates SET_ITEMS action', () => {
@@ -11,20 +11,13 @@ describe('setItems()', () => {
   })
 })
 
-describe('refreshResourceTemplate()', () => {
-  it('creates REFRESH_RESOURCE_TEMPLATE action', () => {
-    expect(actions.refreshResourceTemplate({ id: 'resourceTemplate:bf2:Note' })).toEqual({
-      type: 'REFRESH_RESOURCE_TEMPLATE',
-      payload: { id: 'resourceTemplate:bf2:Note' },
-    })
-  })
-})
 
 describe('removeItem()', () => {
   it('creates REMOVE_ITEM action', () => {
-    expect(actions.removeItem({ id: 0, label: 'Instance of' })).toEqual({
+    const reduxPath = ['resource', 'resourceTemplate:bf2:Note', 'http://example.com']
+    expect(actions.removeItem(reduxPath, 0)).toEqual({
       type: 'REMOVE_ITEM',
-      payload: { id: 0, label: 'Instance of' },
+      payload: { reduxPath, id: 0 },
     })
   })
 })
@@ -60,15 +53,6 @@ describe('authentication actions', () => {
   it('signOutSuccess should create SIGN_OUT_SUCCESS action', () => {
     expect(actions.signOutSuccess()).toEqual({
       type: 'SIGN_OUT_SUCCESS',
-    })
-  })
-})
-
-describe('initializes the Redux State', () => {
-  it('should return Redux state based on SET_RESOURCE_TEMPLATE action', () => {
-    expect(actions.setResourceTemplate({}, { reduxPath: ['http://sinopia.io/example'] })).toEqual({
-      type: 'SET_RESOURCE_TEMPLATE',
-      payload: {},
     })
   })
 })

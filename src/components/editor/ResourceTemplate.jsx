@@ -1,79 +1,61 @@
-// Copyright 2018 Stanford University see LICENSE for license
+// Copyright 2019 Stanford University see LICENSE for license
 
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import PropTypes from 'prop-types'
 import ResourceTemplateForm from './ResourceTemplateForm'
-import { setResourceTemplate } from 'actions/index'
-import { getResourceTemplate } from 'sinopiaServer'
-
-const _ = require('lodash')
+import { newResource as newResourceCreator } from 'actionCreators'
+import { getResourceTemplate } from 'selectors/resourceSelectors'
+import ResourceURIMessage from './ResourceURIMessage'
+import _ from 'lodash'
 
 /**
  * This is the root component of the editor on the resource edit page
  */
 class ResourceTemplate extends Component {
-  constructor(props) {
-    super(props)
-    this.state = {
-      rtData: {},
-    }
-  }
-
-  // Called immediately after the component is mounted
-  componentDidMount() {
-    this.resolveResourceTemplatePromise(getResourceTemplate(this.props.resourceTemplateId))
-  }
-
-  resolveResourceTemplatePromise = (promise) => {
-    promise.then((responseAndBody) => {
-      this.setState({ rtData: responseAndBody.response.body })
-      this.props.handleResourceTemplate(this.state.rtData)
-    }).catch((error) => {
-      this.setState({ error })
-    })
-  }
-
-  renderRtData = () => (
-    <div className="ResourceTemplate">
-      <div id="resourceTemplate" style={{ marginTop: '-30px' }}>
-        <section className="col-md-9">
-          <h1><em>{this.state.rtData.resourceLabel}</em></h1>
-        </section>
-        <ResourceTemplateForm
-            propertyTemplates = {this.state.rtData.propertyTemplates}
-            resourceTemplate = {this.state.rtData}
-            parentResourceTemplate = {this.props.resourceTemplateId}
-            rtId = {this.state.rtData.id}
-        />
-      </div>
-    </div>
-  )
-
   render() {
-    let errorMessage = <span/>
-
-    if (this.state.error) {
-      errorMessage = <div className="alert alert-warning">Sinopia server is offline or has no resource templates to display</div>
+    if (this.props.error) {
+      return (<div className="alert alert-warning">{ this.props.error }</div>)
     }
 
+    if (_.isEmpty(this.props.resourceTemplate)) {
+      return null
+    }
     return (
-      _.isEmpty(this.state.rtData) ? errorMessage : this.renderRtData()
+      <div className="ResourceTemplate">
+        <div id="resourceTemplate" style={{ marginTop: '-30px' }}>
+          <section className="col-md-9">
+            <h1><em>{this.props.resourceTemplate.resourceLabel}</em></h1>
+            <ResourceURIMessage />
+          </section>
+          <ResourceTemplateForm reduxPath = {['resource', this.props.resourceTemplate.id]} />
+        </div>
+      </div>
     )
   }
 }
 
 ResourceTemplate.propTypes = {
-  handleResourceTemplate: PropTypes.func,
-  resourceTemplateId: PropTypes.string,
-  resourceTemplateData: PropTypes.oneOfType([PropTypes.string, PropTypes.object]),
-  generateLD: PropTypes.func,
+  resourceTemplate: PropTypes.object,
+  error: PropTypes.string,
+  newResource: PropTypes.func,
+}
+
+const mapStateToProps = (state) => {
+  const resourceTemplateId = _.first(Object.keys(state.selectorReducer.resource))
+
+  const resourceTemplate = getResourceTemplate(state, resourceTemplateId)
+  const error = state.selectorReducer.editor.serverError
+  return {
+    resourceTemplate,
+    error,
+  }
 }
 
 const mapDispatchToProps = dispatch => ({
-  handleResourceTemplate(resourceTemplate) {
-    dispatch(setResourceTemplate(resourceTemplate))
+  newResource: (resourceTemplateId) => {
+    dispatch(newResourceCreator(resourceTemplateId))
   },
 })
 
-export default connect(null, mapDispatchToProps)(ResourceTemplate)
+export default connect(mapStateToProps, mapDispatchToProps)(ResourceTemplate)
