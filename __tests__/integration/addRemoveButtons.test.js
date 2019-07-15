@@ -19,7 +19,7 @@ describe('Adding and removing resources', () => {
     expect.assertions(3)
     expect(await nodesWithTextCount('h4', 'BIBFRAME Work', page)).toEqual(1)
 
-    await pupExpect(page).toClick('button', { text: 'Add' })
+    await pupExpect(page).toClick('button.btn-add', { text: 'Add' })
     expect(await nodesWithTextCount('h4', 'BIBFRAME Work', page)).toEqual(2)
   })
 
@@ -27,13 +27,13 @@ describe('Adding and removing resources', () => {
     expect.assertions(3)
     expect(await nodesWithTextCount('h4', 'BIBFRAME Work', page)).toEqual(2)
 
-    await pupExpect(page).toClick('button', { text: 'Remove' })
+    await pupExpect(page).toClick('button.btn-remove', { text: 'Remove' })
     expect(await nodesWithTextCount('h4', 'BIBFRAME Work', page)).toEqual(1)
   })
 
   it('clicks on add button for a nested resource property', async () => {
     expect.assertions(4)
-    await pupExpect(page).toClick('button[data-id=\'hasInstance\']')
+    await pupExpect(page).toClick('button.btn-add[data-id=\'hasInstance\']')
     expect(await nodesWithTextCount('h5', 'BIBFRAME Instance', page)).toEqual(1)
 
     await pupExpect(page).toClick('div.rOutline-property button.btn-add')

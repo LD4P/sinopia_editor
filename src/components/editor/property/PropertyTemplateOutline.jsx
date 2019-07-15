@@ -9,9 +9,6 @@ import { booleanPropertyFromTemplate, isResourceWithValueTemplateRef, resourceTo
 import PropertyComponent from './PropertyComponent'
 import ResourceProperty from './ResourceProperty'
 import { findNode, isExpanded, getPropertyTemplate } from 'selectors/resourceSelectors'
-import { toggleCollapse } from 'actions/index'
-import { expandResource } from 'actionCreators/resources'
-import _ from 'lodash'
 
 class PropertyTemplateOutline extends Component {
   outlineRowClass = () => {
@@ -41,12 +38,9 @@ class PropertyTemplateOutline extends Component {
   render() {
     return (
       <div className="rtOutline" data-label={this.props.property.propertyLabel}>
-        <OutlineHeader pt={this.props.property}
+        <OutlineHeader reduxPath={this.props.reduxPath}
                        id={resourceToName(this.props.property.propertyURI)}
-                       collapsed={this.props.collapsed}
-                       key={shortid.generate()}
-                       handleCollapsed={this.props.handleTogglePlusButton}
-                       isAdd={_.isEmpty(this.props.resourceModel)} />
+                       key={shortid.generate()} />
         <div className={this.outlineRowClass()}>
           {this.renderPropertyRows()}
         </div>
@@ -60,7 +54,6 @@ PropertyTemplateOutline.propTypes = {
   property: PropTypes.object.isRequired,
   resourceModel: PropTypes.object,
   collapsed: PropTypes.bool,
-  handleTogglePlusButton: PropTypes.func,
 }
 
 const mapStateToProps = (state, ourProps) => {
@@ -77,15 +70,4 @@ const mapStateToProps = (state, ourProps) => {
   }
 }
 
-const mapDispatchToProps = (dispatch, ownProps) => ({
-  handleTogglePlusButton: (event) => {
-    event.preventDefault()
-    if (_.isEmpty(ownProps.resourceModel)) {
-      // Load reference templates (property.valueConstraint.valueTemplateRefs)
-      dispatch(expandResource(ownProps.reduxPath))
-    }
-    dispatch(toggleCollapse(ownProps.reduxPath))
-  },
-})
-
-export default connect(mapStateToProps, mapDispatchToProps)(PropertyTemplateOutline)
+export default connect(mapStateToProps, null)(PropertyTemplateOutline)

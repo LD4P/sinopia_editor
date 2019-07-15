@@ -26,14 +26,14 @@ describe('Adding new embedded Resource Templates', () => {
   describe('two levels of nested resourceTemplates (Instance of -> Notes about the Work)', () => {
     it('clicking AddButton adds second resource template', async () => {
       expect.assertions(4)
+      await pupExpect(page).toClick('div[data-label=\'Instance of\'] button.btn-add[data-id=\'note\']')
+
       const ptOutlineSel = 'div[data-label="Instance of"] div.rtOutline[data-label="Notes about the Work"]'
-
-      await pupExpect(page).toClick(`${ptOutlineSel} button[data-id='note']`)
-      let noteRtOutlines = await page.$$(`${ptOutlineSel} .rtOutline`)
-
+      let noteRtOutlines = await page.$$(`${ptOutlineSel} div.rtOutline`)
       expect(noteRtOutlines.length).toEqual(1)
-      await pupExpect(page).toClick(`${ptOutlineSel} button`) // Add button
-      noteRtOutlines = await page.$$(`${ptOutlineSel} .rtOutline`)
+
+      await pupExpect(page).toClick(`${ptOutlineSel} button.btn-add`) // Add button
+      noteRtOutlines = await page.$$(`${ptOutlineSel} div.rtOutline`)
       expect(noteRtOutlines.length).toEqual(2)
     })
   })

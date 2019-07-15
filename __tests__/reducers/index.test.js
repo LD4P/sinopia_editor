@@ -143,7 +143,6 @@ describe('removeResource', () => {
         'resourceTemplate:bf2:Monograph:Instance',
         'http://id.loc.gov/ontologies/bibframe/instanceOf',
         '4EzqN4DUw',
-        'resourceTemplate:bf2:Monograph:Work',
       ],
     }
 

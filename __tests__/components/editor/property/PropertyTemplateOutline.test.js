@@ -5,8 +5,10 @@ import 'jsdom-global/register'
 import { shallow } from 'enzyme'
 import PropertyTemplateOutline from 'components/editor/property/PropertyTemplateOutline'
 import ResourceProperty from 'components/editor/property/ResourceProperty'
+import OutlineHeader from 'components/editor/property/OutlineHeader'
 
 describe('<PropertyTemplateOutline />', () => {
+  const reduxPath = ['resource', 'resourceTemplate:bf2:Monograph:Instance', 'http://id.loc.gov/ontologies/bibframe/note', 'abc123']
   const propertyRtProps = {
     property: {
       propertyLabel: 'Notes about the Instance',
@@ -25,16 +27,14 @@ describe('<PropertyTemplateOutline />', () => {
         defaults: [],
       },
     },
-    reduxPath: [],
+    reduxPath,
   }
   const wrapper = shallow(<PropertyTemplateOutline.WrappedComponent {...propertyRtProps} />)
 
   it('has an outline header', () => {
-    expect(wrapper.find('OutlineHeader').length).toEqual(1)
-  })
-
-  it('outline header anchor has an ID based on the property template propertyURI', () => {
-    expect(wrapper.find('OutlineHeader').prop('id')).toEqual('note')
+    expect(wrapper.find(OutlineHeader).length).toEqual(1)
+    expect(wrapper.find(OutlineHeader).prop('id')).toEqual('note')
+    expect(wrapper.find(OutlineHeader).prop('reduxPath')).toEqual(reduxPath)
   })
 
   describe('Nested property components', () => {
