@@ -10,23 +10,24 @@ import FormControl from 'react-bootstrap/lib/FormControl'
 import Col from 'react-bootstrap/lib/Col'
 import Glyphicon from 'react-bootstrap/lib/Glyphicon'
 import { getCurrentUser } from 'authSelectors'
-import { retrieveResource } from 'actionCreators/resources'
+import { retrieveResource } from 'actionCreators'
+import SearchResults from './SearchResults'
 
 const Browse = (props) => {
-  const [uri, setURI] = useState('')
+  const [queryString, setQueryString] = useState('')
 
+<<<<<<< HEAD
   const handleSubmit = (event) => {
     event.preventDefault()
     props.loadResource(props.currentUser, uri)
+=======
+  const handleKeyPress = (event) => {
+    if (event.key === 'Enter') {
+      props.getSearchResults(queryString)
+      event.preventDefault()
+    }
+>>>>>>> Add initial search results page and handle input on form
   }
-
-
-//   <!-- Search form -->
-// <form class="form-inline md-form form-sm active-cyan-2 mt-2">
-//   <input class="form-control form-control-sm mr-3 w-75" type="text" placeholder="Search"
-//     aria-label="Search">
-//   <i class="fas fa-search" aria-hidden="true"></i>
-// </form>
 
   return (
     <div id="browse">
@@ -34,12 +35,13 @@ const Browse = (props) => {
       <div className="row">
         <div class="col-md-2"></div>
         <div class="col-md-8">
-          <form horizontal>
+          <form>
             <FormGroup controlId="formHorizontalSearch">
               <Col componentClass={ControlLabel} sm={2}>Search</Col>
               <Col sm={10}>
                 <FormControl column sm={8}
-                             onChange={event => setURI(event.target.value) } />
+                             onChange={ event => setQueryString(event.target.value) }
+                             onKeyPress={ event => handleKeyPress(event) } />
                 <Glyphicon glyph="search" />
               </Col>
             </FormGroup>
@@ -47,26 +49,35 @@ const Browse = (props) => {
         </div>
         <div class="col-md-2"></div>
       </div>
+      <div className="row">
+        <h2>{ queryString }</h2>
+      </div>
+      <SearchResults {...props} />
     </div>
   )
 }
 
 Browse.propTypes = {
   triggerHandleOffsetMenu: PropTypes.func,
-  loadResource: PropTypes.func,
+  getSearchResults: PropTypes.func,
   currentUser: PropTypes.object,
-  history: PropTypes.object,
 }
 
 const mapStateToProps = state => ({
   currentUser: getCurrentUser(state),
 })
 
+<<<<<<< HEAD
 const mapDispatchToProps = (dispatch, ourProps) => ({
   loadResource: (user, uri) => {
     dispatch(retrieveResource(user, uri)).then(() => {
       ourProps.history.push('/editor')
     })
+=======
+const mapDispatchToProps = dispatch => ({
+  getSearchResults: (queryString) => {
+    // dispatch(retrieveResource(user, uri))
+>>>>>>> Add initial search results page and handle input on form
   },
 })
 
