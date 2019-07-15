@@ -20,6 +20,6 @@ describe('Importing a profile/template with bad JSON', () => {
 
     await fileInput.uploadFile('__tests__/__fixtures__/ddc_bad_json.json')
 
-    await pupExpect(page).toMatchElement('div.alert-warning', { text: 'ERROR - CANNOT USE PROFILE/RESOURCE TEMPLATE: problem parsing JSON template' })
+    await pupExpect(page).toMatchElement('div.alert-warning', { text: 'The profile you provided was not valid JSON' })
   })
 })
