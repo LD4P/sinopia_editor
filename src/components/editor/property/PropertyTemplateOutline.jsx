@@ -10,7 +10,7 @@ import PropertyComponent from './PropertyComponent'
 import ResourceProperty from './ResourceProperty'
 import { findNode, isExpanded, getPropertyTemplate } from 'selectors/resourceSelectors'
 import { toggleCollapse } from 'actions/index'
-import { expandResource, addResource as addResourceCreator } from 'actionCreators'
+import { expandResource } from 'actionCreators'
 import _ from 'lodash'
 
 class PropertyTemplateOutline extends Component {
@@ -20,11 +20,6 @@ class PropertyTemplateOutline extends Component {
     if (this.props.collapsed) { classNames += ' collapse' }
 
     return classNames
-  }
-
-  handleAddClick = (reduxPath, event) => {
-    event.preventDefault()
-    this.props.addResource(reduxPath)
   }
 
   renderPropertyRows = () => {
@@ -37,7 +32,6 @@ class PropertyTemplateOutline extends Component {
       return (<ResourceProperty key={shortid.generate()}
                                 propertyTemplate={this.props.property}
                                 reduxPath={this.props.reduxPath}
-                                handleAddClick={this.handleAddClick.bind(this)}
                                 addButtonDisabled={isAddDisabled} />)
     }
 
@@ -67,7 +61,6 @@ PropertyTemplateOutline.propTypes = {
   resourceModel: PropTypes.object,
   collapsed: PropTypes.bool,
   handleTogglePlusButton: PropTypes.func,
-  addResource: PropTypes.func,
 }
 
 const mapStateToProps = (state, ourProps) => {
@@ -92,9 +85,6 @@ const mapDispatchToProps = (dispatch, ownProps) => ({
       dispatch(expandResource(ownProps.reduxPath))
     }
     dispatch(toggleCollapse(ownProps.reduxPath))
-  },
-  addResource(reduxPath) {
-    dispatch(addResourceCreator(reduxPath))
   },
 })
 

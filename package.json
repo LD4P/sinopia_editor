@@ -152,7 +152,8 @@
       "/node_modules/",
       "__tests__/fixtureLoaderHelper.js",
       "__tests__/integration/loginHelper",
-      "__tests__/integration/previewRDFHelper"
+      "__tests__/integration/previewRDFHelper",
+      "__tests__/integration/integrationHelper"
     ],
     "setupFiles": [
       "jest-localstorage-mock",

@@ -51,6 +51,16 @@ export const appendResource = (state, action) => {
   return newState
 }
 
+export const removeResource = (state, action) => {
+  const newState = _.cloneDeep(state)
+  const reduxPath = action.payload
+  const key = reduxPath.slice(-2)[0]
+  const parentReduxPath = reduxPath.slice(0, reduxPath.length - 2)
+  const parentPropertyNode = findNode(newState, parentReduxPath)
+  delete parentPropertyNode[key]
+  return newState
+}
+
 export const setRetrieveError = (state, action) => {
   const resourceTemplateId = action.payload.resourceTemplateId
   const reason = action.payload.reason
@@ -105,6 +115,7 @@ const handlers = {
   SHOW_RDF_PREVIEW: showRdfPreview,
   REMOVE_ITEM: removeMyItem,
   REMOVE_ALL_CONTENT: removeAllContent,
+  REMOVE_RESOURCE: removeResource,
   SAVE_APP_VERSION: saveAppVersion,
   SET_RESOURCE: setResource,
   SET_RESOURCE_TEMPLATE: setResourceTemplate,

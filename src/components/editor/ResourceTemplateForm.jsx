@@ -34,14 +34,15 @@ export class ResourceTemplateForm extends Component {
         return
       }
 
-      keys.forEach((key) => {
+      keys.forEach((key, index) => {
         const resourceTemplateId = _.first(Object.keys(resourceProperty[key]))
         const newReduxPath = [...this.props.reduxPath, property.propertyURI, key, resourceTemplateId]
 
         rtProperties.push(<PropertyResourceTemplate
           key={shortid.generate()}
           isRepeatable={property.repeatable}
-          reduxPath={newReduxPath} />)
+          reduxPath={newReduxPath}
+          index={index} />)
       })
       if ((rtIds.length - i) > 1) {
         rtProperties.push(<hr key={i} />)
