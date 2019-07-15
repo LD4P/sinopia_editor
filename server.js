@@ -11,9 +11,14 @@ import versoSpoof from './src/versoSpoof'
 
 const port = 8000
 const app = express()
-
 // Required for ElasticSearch proxy middleware to parse response body as JSON
 app.use(express.json())
+
+app.use((req, res, next) => {
+  res.header('Access-Control-Allow-Origin', '*')
+  res.header('Access-Control-Allow-Headers', 'Origin, X-Requested-With, Content-Type, Accept')
+  next()
+})
 
 // ElasticSearch proxy middleware
 app.use('/api/search', (req, res) => {
