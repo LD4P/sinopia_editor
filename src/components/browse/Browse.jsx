@@ -10,7 +10,7 @@ import FormControl from 'react-bootstrap/lib/FormControl'
 import Col from 'react-bootstrap/lib/Col'
 import Glyphicon from 'react-bootstrap/lib/Glyphicon'
 import { getCurrentUser } from 'authSelectors'
-import { retrieveResource } from 'actionCreators'
+import { retrieveSearchResults } from 'actionCreators'
 import SearchResults from './SearchResults'
 
 const Browse = (props) => {
@@ -23,7 +23,7 @@ const Browse = (props) => {
 =======
   const handleKeyPress = (event) => {
     if (event.key === 'Enter') {
-      props.getSearchResults(queryString)
+      props.getSearchResults(props.currentUser, queryString)
       event.preventDefault()
     }
 >>>>>>> Add initial search results page and handle input on form
@@ -75,9 +75,14 @@ const mapDispatchToProps = (dispatch, ourProps) => ({
     })
 =======
 const mapDispatchToProps = dispatch => ({
+<<<<<<< HEAD
   getSearchResults: (queryString) => {
     // dispatch(retrieveResource(user, uri))
 >>>>>>> Add initial search results page and handle input on form
+=======
+  getSearchResults: (user, queryString) => {
+    dispatch(retrieveSearchResults(user, queryString))
+>>>>>>> Dispatch SEARCH_STARTED
   },
 })
 

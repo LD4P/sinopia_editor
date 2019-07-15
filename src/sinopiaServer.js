@@ -4,6 +4,7 @@ import SinopiaServer from 'sinopia_server'
 import CognitoUtils from './CognitoUtils'
 import Config from './Config'
 import { rtFixturesGroups, getFixtureResourceTemplate, listFixtureResourcesInGroupContainer } from '../__tests__/fixtureLoaderHelper'
+import request from 'request'
 
 const instance = new SinopiaServer.LDPApi()
 
@@ -178,4 +179,57 @@ export const loadRDFResource = async (currentUser, uri) => {
 
   const id = identifiersForUri(uri)
   return await instance.getResourceWithHttpInfo(id.group, id.identifier, returningNtriples)
+}
+
+export const getSearchResults = async (queryString) => {
+  // ElasticSearch proxy middleware
+
+  // Hard-coded for now since we only have the one use case for proxying ES,
+  // i.e., full-text search of resources
+  // if (req.path !== '/sinopia_resources/sinopia/_search') {
+  //   res.status(400).json({ error: `unsupported path: ${req.path}` })
+  //   return
+  // }
+
+  // Only use the method, path, and body from the original request: method and
+  // path have already been validated above and the body must be a
+  // JSON-serializeable entity
+
+  const options = {
+    method: 'POST',
+    url: `http://localhost:9200/sinopia_resources/sinopia/_search`,
+    form: '{ "query": { "match": { "title": "striped" } } }',
+    headers: {
+      'Accept': 'application/json'
+      // ,
+      // 'Access-Control-Allow-Origin': '*',
+      // 'Access-Control-Allow-Headers': 'Origin, X-Requested-With, Content-Type, Accept'
+    }
+  }
+  //request.post({url:'http://service.com/upload', form: {key:'value'}}, function(err,httpResponse,body){ /* ... */ })
+  
+  // request(options, function(err, res, body) {  
+  //   let json = JSON.parse(body);
+  //   console.log("BODY: ", json);
+  //   return body
+  // });
+
+  request.post({ url: 'http://localhost:8888/api/search/sinopia_resources/sinopia/_search',
+                 form: { query: { match: { title: "striped" } } }},
+                 function(err, httpResponse, body) {
+                   console.log("ERROR: ", err)
+                   console.log("httpResponse: ", httpResponse)
+                   console.log("body: ", body)
+                 })
+  // console.log(queryString)
+  // return request.get('http://localhost:8888/api/search/sinopia_resources/sinopia/_search?q=striped')
+  // .on('response', function(response) {
+  //   console.log(response.statusCode) // 200
+  //   console.log(response.headers['content-type']) // 'image/png'
+  //   console.log(response)
+  // })
+  // .on('error', (err) => {
+  //   console.error(`error making request to ElasticSearch: ${err}`)
+  // })
+
 }
