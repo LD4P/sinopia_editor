@@ -4,8 +4,7 @@
 import {
   updateStarted, updateFinished,
   retrieveResourceStarted, setResource, updateProperty,
-  toggleCollapse, retrieveResourceFinished, appendResource,
-  clearResourceTemplates,
+  toggleCollapse, appendResource, clearResourceTemplates,
 } from 'actions/index'
 import fetchResourceTemplate from 'actionCreators/resourceTemplates'
 import { updateRDFResource, loadRDFResource } from 'sinopiaServer'
@@ -34,7 +33,6 @@ export const retrieveResource = (currentUser, uri) => (dispatch) => {
 
   return loadRDFResource(currentUser, uri)
     .then((response) => {
-      dispatch(retrieveResourceFinished(uri, response.response.text))
       dispatch(clearResourceTemplates())
       // a thunk dispatching a thunk
       dispatch(loadRetrievedResource(uri, response.response.text))

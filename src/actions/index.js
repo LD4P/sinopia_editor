@@ -82,14 +82,6 @@ export const retrieveResourceStarted = uri => ({
   payload: uri,
 })
 
-export const retrieveResourceFinished = (uri, data) => ({
-  type: 'RETRIEVE_FINISHED',
-  payload: {
-    uri,
-    data,
-  },
-})
-
 export const retrieveResourceTemplateStarted = resourceTemplateId => ({
   type: 'RETRIEVE_RESOURCE_TEMPLATE_STARTED',
   payload: resourceTemplateId,
