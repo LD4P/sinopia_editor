@@ -24,6 +24,15 @@ export const setResourceTemplate = (state, action) => {
   return newState
 }
 
+export const clearResourceTemplates = (state) => {
+  const newState = { ...state }
+
+  newState.entities.resourceTemplates = {}
+
+  return newState
+}
+
+
 export const updateProperty = (state, action) => {
   const reduxPath = action.payload.reduxPath
   const resourceFragment = _.cloneDeep(action.payload.resourceFragment)
@@ -122,6 +131,7 @@ const handlers = {
   UPDATE_PROPERTY: updateProperty,
   APPEND_RESOURCE: appendResource,
   TOGGLE_COLLAPSE: toggleCollapse,
+  CLEAR_RESOURCE_TEMPLATES: clearResourceTemplates,
 }
 
 export const createReducer = handlers => (state = {}, action) => {
