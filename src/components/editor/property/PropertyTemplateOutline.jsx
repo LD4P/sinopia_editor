@@ -10,7 +10,7 @@ import PropertyComponent from './PropertyComponent'
 import ResourceProperty from './ResourceProperty'
 import { findNode, isExpanded, getPropertyTemplate } from 'selectors/resourceSelectors'
 import { toggleCollapse } from 'actions/index'
-import { expandResource } from 'actionCreators'
+import { expandResource } from 'actionCreators/resources'
 import _ from 'lodash'
 
 class PropertyTemplateOutline extends Component {

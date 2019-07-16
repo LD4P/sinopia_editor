@@ -6,7 +6,7 @@ import { connect } from 'react-redux'
 import Config from 'Config'
 import CognitoUtils from '../CognitoUtils'
 import { getAuthenticationError, getCurrentSession, getCurrentUser } from '../authSelectors'
-import { authenticationFailed, authenticationSucceeded, signedOut } from '../actionCreators'
+import { authenticationFailed, authenticationSucceeded, signedOut } from '../actionCreators/authenticate'
 
 class LoginPanel extends Component {
   constructor(props) {

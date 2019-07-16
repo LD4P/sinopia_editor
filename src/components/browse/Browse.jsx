@@ -10,7 +10,7 @@ import FormControl from 'react-bootstrap/lib/FormControl'
 import HelpBlock from 'react-bootstrap/lib/HelpBlock'
 import Button from 'react-bootstrap/lib/Button'
 import { getCurrentUser } from 'authSelectors'
-import { retrieveResource } from 'actionCreators'
+import { retrieveResource } from 'actionCreators/resources'
 
 const Browse = (props) => {
   const [uri, setURI] = useState('')

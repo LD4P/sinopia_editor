@@ -3,7 +3,7 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import PropTypes from 'prop-types'
-import { existingResource as existingResourceCreator } from 'actionCreators'
+import { existingResource as existingResourceCreator } from 'actionCreators/resources'
 import Header from '../Header'
 import ResourceStateBuilder from 'ResourceStateBuilder'
 import { rdfDatasetFromN3 } from 'Utilities'

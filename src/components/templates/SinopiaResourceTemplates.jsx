@@ -10,7 +10,7 @@ import { getEntityTagFromGroupContainer, getResourceTemplate, listResourcesInGro
 import { resourceToName } from 'Utilities'
 import Download from 'components/templates/Download'
 import { connect } from 'react-redux'
-import { newResource as newResourceCreator } from 'actionCreators'
+import { newResource as newResourceCreator } from 'actionCreators/resources'
 
 /**
  * This is the list view of all the templates
