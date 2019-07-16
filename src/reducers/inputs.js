@@ -71,6 +71,10 @@ export const removeAllContent = (state, action) => {
  * function on each of the keys, searching for the last key in the path and then appending an object with an `items` array.
  * Also checks for needed blank nodes along the reduxPath in the state tree and appends intermediate objects.
  *
+ * Each item in the items array MUST have the following keys:
+ *  label - the string value to show
+ *  uri - the URI that represents the concept
+ *
  * * @returns {function} a function that validates the content of the `newState` object.
  */
 export const setItemsOrSelections = (state, action) => {

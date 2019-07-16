@@ -9,6 +9,7 @@ import SinopiaPropTypes from 'SinopiaPropTypes'
 import InputLiteral from './InputLiteral'
 import InputListLOC from './InputListLOC'
 import InputLookupQA from './InputLookupQA'
+import InputLookupSinopia from './InputLookupSinopia'
 import InputURI from './InputURI'
 import { getLookupConfigItems } from 'Utilities'
 
@@ -40,6 +41,9 @@ const PropertyComponent = (props) => {
   }
 
   switch (config) {
+    case 'local-lookup':
+      return (<InputLookupSinopia key = {props.index}
+                                  reduxPath={props.reduxPath} />)
     case 'lookup':
       return (<InputLookupQA key = {props.index}
                              reduxPath={props.reduxPath} />)
