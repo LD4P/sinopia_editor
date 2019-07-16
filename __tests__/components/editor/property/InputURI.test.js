@@ -44,14 +44,6 @@ describe('<InputURI />', () => {
     wrapper.setProps({ ...plProps, ...propertyTemplate })
     expect(wrapper.find('input').prop('required')).toBeFalsy()
   })
-
-  it('label contains a PropertyRemark when a remark is added', () => {
-    const propertyTemplate = { propertyTemplate: { ...plProps.propertyTemplate, remark: 'http://rda.test.org/1.1' } }
-    wrapper.setProps({ ...plProps, ...propertyTemplate })
-    const propertyRemark = wrapper.find('label > PropertyRemark')
-
-    expect(propertyRemark).toBeTruthy()
-  })
 })
 
 describe('When the user enters input into field', () => {
