@@ -2,28 +2,19 @@
 /* eslint max-params: ["warn", 6] */
 
 import {
-  authenticationFailure, authenticationSuccess, signOutSuccess,
   updateStarted, updateFinished,
-  retrieveResourceStarted, retrieveResourceTemplateStarted,
-  retrieveError, setResource, setResourceTemplate, updateProperty,
+  retrieveResourceStarted, setResource, updateProperty,
   toggleCollapse, retrieveResourceFinished, appendResource,
 } from 'actions/index'
-
-import { updateRDFResource, getResourceTemplate, loadRDFResource } from 'sinopiaServer'
+import fetchResourceTemplate from 'actionCreators/resourceTemplates'
+import { updateRDFResource, loadRDFResource } from 'sinopiaServer'
 import { rootResourceId, findNode } from 'selectors/resourceSelectors'
 import findResourceTemplate from 'selectors/entitySelectors'
-import validateResourceTemplate from 'ResourceTemplateValidator'
 import GraphBuilder from 'GraphBuilder'
 import { isResourceWithValueTemplateRef, rdfDatasetFromN3, defaultValuesFromPropertyTemplate } from 'Utilities'
 import shortid from 'shortid'
 import ResourceStateBuilder from 'ResourceStateBuilder'
 import _ from 'lodash'
-
-export const authenticationFailed = authenticationResult => authenticationFailure(authenticationResult)
-
-export const authenticationSucceeded = authenticationResult => authenticationSuccess(authenticationResult)
-
-export const signedOut = () => signOutSuccess()
 
 // A thunk that updates an existing resource in Trellis
 export const update = currentUser => (dispatch, getState) => {
@@ -193,22 +184,4 @@ const stubResourceProperties = async (resourceTemplateId, existingResourceTempla
     }
   })
   return newResource
-}
-
-export const fetchResourceTemplate = (resourceTemplateId, dispatch) => {
-  dispatch(retrieveResourceTemplateStarted(resourceTemplateId))
-
-  return getResourceTemplate(resourceTemplateId, 'ld4p').then((response) => {
-    // If resource template loads, then validate.
-    const resourceTemplate = response.response.body
-    const reason = validateResourceTemplate(resourceTemplate)
-    if (_.isEmpty(reason)) {
-      dispatch(setResourceTemplate(resourceTemplate))
-      return resourceTemplate
-    }
-    dispatch(retrieveError(resourceTemplateId, reason))
-  }).catch((err) => {
-    console.error(err)
-    dispatch(retrieveError(resourceTemplateId))
-  })
 }

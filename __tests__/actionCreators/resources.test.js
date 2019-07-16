@@ -1,47 +1,12 @@
 // Copyright 2019 Stanford University see LICENSE for license
 
 import {
-  authenticationFailed, authenticationSucceeded, signedOut, update, retrieveResource,
-  fetchResourceTemplate, stubProperty,
-} from 'actionCreators'
+  update, retrieveResource, stubProperty,
+} from 'actionCreators/resources'
 /* eslint import/namespace: 'off' */
 import * as server from 'sinopiaServer'
-import { getFixtureResourceTemplate } from './fixtureLoaderHelper'
+import { getFixtureResourceTemplate } from '../fixtureLoaderHelper'
 import _ from 'lodash'
-
-describe('authenticationFailed', () => {
-  const currentUser = { hello: 'world' }
-  const errInfoauthenticate = { foo: 'bar' }
-
-  const authResult = {
-    currentUser,
-    authenticationError: errInfoauthenticate,
-  }
-
-  it('returns the failure action', () => {
-    expect(authenticationFailed(authResult).type).toEqual('AUTHENTICATION_FAILURE')
-  })
-})
-
-describe('authenticationSucceeded', () => {
-  const currentUser = { hello: 'world' }
-  const sessionData = { foo: 'bar' }
-
-  const authResult = {
-    currentUser,
-    currentSession: sessionData,
-  }
-
-  it('returns the success action', () => {
-    expect(authenticationSucceeded(authResult).type).toEqual('AUTHENTICATION_SUCCESS')
-  })
-})
-
-describe('signedOut', () => {
-  it('returns the signed out action', () => {
-    expect(signedOut().type).toEqual('SIGN_OUT_SUCCESS')
-  })
-})
 
 describe('update', () => {
   const state = {
@@ -75,7 +40,6 @@ describe('update', () => {
   })
 })
 
-
 describe('retrieveResource', () => {
   const currentUser = {
     getSession: jest.fn(),
@@ -89,39 +53,6 @@ describe('retrieveResource', () => {
     await retrieveResource(currentUser, uri)(dispatch)
     expect(dispatch).toBeCalledWith({ type: 'RETRIEVE_STARTED' })
     expect(dispatch).toBeCalledWith({ type: 'RETRIEVE_FINISHED', payload: { uri, data: received } })
-  })
-})
-
-describe('fetchResourceTemplate', () => {
-  describe('a valid template', () => {
-    const resourceTemplateId = 'resourceTemplate:bf2:Title'
-    it('dispatches actions when started and finished', async () => {
-      const templateResponse = await getFixtureResourceTemplate(resourceTemplateId)
-      server.getResourceTemplate = jest.fn().mockResolvedValue(templateResponse)
-      const dispatch = jest.fn()
-      await fetchResourceTemplate(resourceTemplateId, dispatch)
-      expect(dispatch).toBeCalledWith({ type: 'RETRIEVE_RESOURCE_TEMPLATE_STARTED', payload: resourceTemplateId })
-      expect(dispatch).toBeCalledWith({ type: 'SET_RESOURCE_TEMPLATE', payload: templateResponse.response.body })
-    })
-  })
-  describe('an invalid template', () => {
-    const resourceTemplateId = 'rt:repeated:propertyURI:propertyLabel'
-    it('dispatches actions when started and on error', async () => {
-      const templateResponse = await getFixtureResourceTemplate(resourceTemplateId)
-      server.getResourceTemplate = jest.fn().mockResolvedValue(templateResponse)
-      const dispatch = jest.fn()
-      await fetchResourceTemplate(resourceTemplateId, dispatch)
-      expect(dispatch).toBeCalledWith({ type: 'RETRIEVE_RESOURCE_TEMPLATE_STARTED', payload: resourceTemplateId })
-      expect(dispatch).toBeCalledWith({
-        type: 'RETRIEVE_ERROR',
-        payload: {
-          resourceTemplateId,
-          reason: [
-            'Repeated property templates with same property URI (http://id.loc.gov/ontologies/bibframe/geographicCoverage) are not allowed.',
-          ],
-        },
-      })
-    })
   })
 })
 
