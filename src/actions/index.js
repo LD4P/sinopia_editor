@@ -143,3 +143,7 @@ export const toggleCollapse = reduxPath => ({
   type: 'TOGGLE_COLLAPSE',
   payload: { reduxPath },
 })
+
+export const clearResourceTemplates = () => ({
+  type: 'CLEAR_RESOURCE_TEMPLATES',
+})

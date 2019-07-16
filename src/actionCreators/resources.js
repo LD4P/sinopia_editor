@@ -5,6 +5,7 @@ import {
   updateStarted, updateFinished,
   retrieveResourceStarted, setResource, updateProperty,
   toggleCollapse, retrieveResourceFinished, appendResource,
+  clearResourceTemplates,
 } from 'actions/index'
 import fetchResourceTemplate from 'actionCreators/resourceTemplates'
 import { updateRDFResource, loadRDFResource } from 'sinopiaServer'
@@ -34,6 +35,7 @@ export const retrieveResource = (currentUser, uri) => (dispatch) => {
   return loadRDFResource(currentUser, uri)
     .then((response) => {
       dispatch(retrieveResourceFinished(uri, response.response.text))
+      dispatch(clearResourceTemplates())
       // a thunk dispatching a thunk
       dispatch(loadRetrievedResource(uri, response.response.text))
     })
@@ -52,11 +54,12 @@ export const loadRetrievedResource = (uri, data) => (dispatch) => {
 }
 
 // A thunk that stubs out a new resource
-export const newResource = resourceTemplateId => (dispatch, getState) => {
+export const newResource = resourceTemplateId => async (dispatch, getState) => {
   const resource = {}
   resource[resourceTemplateId] = {}
+  dispatch(clearResourceTemplates())
   dispatch(setResource(resource))
-  stubResource(true, dispatch, getState())
+  await stubResource(true, dispatch, getState())
 }
 
 // A thunk that stubs out an existing new resource
@@ -93,12 +96,12 @@ export const addResource = reduxPath => (dispatch, getState) => {
 }
 
 // Stubs out a root resource
-const stubResource = (useDefaults, dispatch, state) => {
+const stubResource = async (useDefaults, dispatch, state) => {
   const newResource = { ...state.selectorReducer.resource }
   const rootResourceTemplateId = Object.keys(newResource)[0]
   const rootResource = newResource[rootResourceTemplateId]
   const resourceTemplate = findResourceTemplate(state.selectorReducer, rootResourceTemplateId)
-  stubResourceProperties(rootResourceTemplateId, resourceTemplate, rootResource, ['resource'], useDefaults, dispatch).then((resourceProperties) => {
+  await stubResourceProperties(rootResourceTemplateId, resourceTemplate, rootResource, ['resource'], useDefaults, dispatch).then((resourceProperties) => {
     newResource[rootResourceTemplateId] = resourceProperties
     dispatch(setResource(newResource))
   })

@@ -1,7 +1,7 @@
 // Copyright 2019 Stanford University see LICENSE for license
 
 import {
-  update, retrieveResource, stubProperty,
+  update, retrieveResource, stubProperty, newResource,
 } from 'actionCreators/resources'
 /* eslint import/namespace: 'off' */
 import * as server from 'sinopiaServer'
@@ -47,14 +47,43 @@ describe('retrieveResource', () => {
   const uri = 'http://sinopia.io/repository/stanford/123'
   const received = 'some triples'
 
-  it('dispatches actions when started and finished', async () => {
+  it('dispatches actions', async () => {
     server.loadRDFResource = jest.fn().mockResolvedValue({ response: { text: received } })
     const dispatch = jest.fn()
     await retrieveResource(currentUser, uri)(dispatch)
+    expect(dispatch).toHaveBeenCalledTimes(4)
     expect(dispatch).toBeCalledWith({ type: 'RETRIEVE_STARTED' })
     expect(dispatch).toBeCalledWith({ type: 'RETRIEVE_FINISHED', payload: { uri, data: received } })
+    expect(dispatch).toBeCalledWith({ type: 'CLEAR_RESOURCE_TEMPLATES' })
   })
 })
+
+describe('newResource', () => {
+  const resourceTemplateId = 'resourceTemplate:bf2:Note'
+
+  it('dispatches actions', async () => {
+    const resourceTemplateResponse = await getFixtureResourceTemplate(resourceTemplateId)
+    const dispatch = jest.fn()
+    server.getResourceTemplate = jest.fn().mockResolvedValue(resourceTemplateResponse)
+    const getState = jest.fn()
+    getState.mockReturnValue({
+      selectorReducer: {
+        entities: {
+          resourceTemplates: {},
+        },
+        resource: {
+          'resourceTemplate:bf2:Note': {},
+        },
+      },
+    })
+    await newResource(resourceTemplateId)(dispatch, getState)
+    expect(dispatch).toHaveBeenCalledTimes(5)
+    expect(dispatch).toBeCalledWith({ type: 'CLEAR_RESOURCE_TEMPLATES' })
+    expect(dispatch).toBeCalledWith({ type: 'SET_RESOURCE', payload: { [resourceTemplateId]: {} } })
+    expect(dispatch).toBeCalledWith({ type: 'SET_RESOURCE', payload: { [resourceTemplateId]: { 'http://www.w3.org/2000/01/rdf-schema#label': {} } } })
+  })
+})
+
 
 describe('stubProperty', () => {
   describe('property is a resource property', () => {
