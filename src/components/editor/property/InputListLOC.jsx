@@ -3,6 +3,7 @@
 import React, { Component } from 'react'
 import { Typeahead } from 'react-bootstrap-typeahead'
 import PropTypes from 'prop-types'
+import SinopiaPropTypes from 'SinopiaPropTypes'
 import { connect } from 'react-redux'
 import shortid from 'shortid'
 import { changeSelections } from 'actions/index'
@@ -132,15 +133,7 @@ InputListLOC.propTypes = {
   displayValidations: PropTypes.bool,
   handleSelectedChange: PropTypes.func,
   lookupConfig: PropTypes.arrayOf(PropTypes.object),
-  propertyTemplate: PropTypes.shape({
-    propertyLabel: PropTypes.string,
-    propertyURI: PropTypes.string,
-    mandatory: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
-    repeatable: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
-    valueConstraint: PropTypes.shape({
-      useValuesFrom: PropTypes.oneOfType([PropTypes.string, PropTypes.array]),
-    }),
-  }),
+  propertyTemplate: SinopiaPropTypes.propertyTemplate,
   reduxPath: PropTypes.array,
   selected: PropTypes.arrayOf(PropTypes.object),
 }

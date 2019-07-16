@@ -5,6 +5,7 @@
 import React from 'react'
 import shortid from 'shortid'
 import PropTypes from 'prop-types'
+import SinopiaPropTypes from 'SinopiaPropTypes'
 import InputLiteral from './InputLiteral'
 import InputListLOC from './InputListLOC'
 import InputLookupQA from './InputLookupQA'
@@ -51,16 +52,7 @@ const PropertyComponent = (props) => {
 }
 
 PropertyComponent.propTypes = {
-  propertyTemplate: PropTypes.shape({
-    type: PropTypes.string,
-    propertyLabel: PropTypes.string,
-    propertyURI: PropTypes.string,
-    mandatory: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
-    repeatable: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
-    valueConstraint: PropTypes.shape({
-      useValuesFrom: PropTypes.oneOfType([PropTypes.string, PropTypes.array]),
-    }),
-  }).isRequired,
+  propertyTemplate: SinopiaPropTypes.propertyTemplate,
   reduxPath: PropTypes.array.isRequired,
   index: PropTypes.number,
 }

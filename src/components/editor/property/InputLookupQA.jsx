@@ -4,6 +4,7 @@ import {
   Menu, MenuItem, Typeahead, asyncContainer,
 } from 'react-bootstrap-typeahead'
 import PropTypes from 'prop-types'
+import SinopiaPropTypes from 'SinopiaPropTypes'
 import Swagger from 'swagger-client'
 import swaggerSpec from 'lib/apidoc.json'
 import { connect } from 'react-redux'
@@ -222,15 +223,7 @@ InputLookupQA.propTypes = {
   displayValidations: PropTypes.bool,
   handleSelectedChange: PropTypes.func,
   lookupConfig: PropTypes.arrayOf(PropTypes.object).isRequired,
-  propertyTemplate: PropTypes.shape({
-    propertyLabel: PropTypes.string,
-    propertyURI: PropTypes.string,
-    mandatory: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
-    repeatable: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
-    valueConstraint: PropTypes.shape({
-      useValuesFrom: PropTypes.oneOfType([PropTypes.string, PropTypes.array]),
-    }),
-  }),
+  propertyTemplate: SinopiaPropTypes.propertyTemplate,
   reduxPath: PropTypes.oneOfType([PropTypes.string, PropTypes.array]),
   selected: PropTypes.arrayOf(PropTypes.object),
 }
