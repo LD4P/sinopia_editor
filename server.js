@@ -1,5 +1,6 @@
 /*
  * Copyright 2019 Stanford University see LICENSE for license
+ *
  * Minimal BIBFRAME Editor Node.js server. To run from the command-line:
  *  npm start  or node server.js
  */
@@ -9,6 +10,8 @@ import request from 'request'
 import bodyParser from 'body-parser'
 import Config from './src/Config'
 import versoSpoof from './src/versoSpoof'
+import url from 'url'
+import _ from 'lodash'
 
 const port = 8000
 const app = express()
@@ -40,9 +43,15 @@ app.use('/api/search', (req, res) => {
   // Only use the method, path, and body from the original request: method and
   // path have already been validated above and the body must be a
   // JSON-serializeable entity
+
+  let searchUri = `${Config.indexUrl}${req.path}`
+  if (!_.isEmpty(req.query)) {
+    searchUri += url.URL(req.originalUrl).search
+  }
+
   request({
     method: req.method,
-    uri: `${Config.indexUrl}${req.path}`,
+    uri: searchUri,
     body: req.body,
     json: true,
   })
