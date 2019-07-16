@@ -204,12 +204,4 @@ describe('<ResourceTemplateForm /> after fetching data from sinopia server', () 
     expect(rtProps.propertyTemplates[1].repeatable).toBe('do not override me!')
     expect(rtProps.propertyTemplates[1].editable).toBe('do not override me!')
   })
-
-  it('displays a PropertyRemark when a remark is present', () => {
-    wrapper.instance().props.propertyTemplates[2].remark = 'https://www.youtube.com/watch?v=jWkMhCLkVOg'
-    wrapper.instance().forceUpdate()
-    const propertyRemark = wrapper.find('label > PropertyRemark')
-
-    expect(propertyRemark).toBeTruthy()
-  })
 })

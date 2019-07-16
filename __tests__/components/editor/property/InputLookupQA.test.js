@@ -141,14 +141,6 @@ describe('<InputLookupQA />', () => {
     expect(mockFormDataFn.mock.calls.length).toBe(2)
   })
 
-  it('has a PropertyRemark when a remark is present', () => {
-    wrapper.instance().props.propertyTemplate.remark = 'http://rda.test.org/1.1'
-    wrapper.instance().forceUpdate()
-    const propertyRemark = wrapper.find('label > PropertyRemark')
-
-    expect(propertyRemark).toBeTruthy()
-  })
-
   // Institute wrapper with multiple lookup options
   const multipleWrapper = shallow(<InputLookupQA.WrappedComponent {...p2Props} handleSelectedChange={mockFormDataFn} />)
 
