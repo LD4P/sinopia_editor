@@ -107,9 +107,13 @@ describe('<InputLookupQA />', () => {
     expect(wrapper.find('#lookupComponent').props().required).toBeFalsy()
   })
 
-  it('displays RequiredSuperscript if mandatory from template is true', () => {
-    wrapper.instance().props.propertyTemplate.mandatory = 'true'
-    expect(wrapper.find('label > RequiredSuperscript')).toBeTruthy()
+  describe('when mandatory is true', () => {
+    const template = { ...plProps.propertyTemplate, mandatory: 'true' }
+    const wrapper2 = shallow(<InputLookupQA.WrappedComponent {...plProps} propertyTemplate={template} />)
+
+    it('passes the "required" property to Typeahead', () => {
+      expect(wrapper2.find('#lookupComponent').props().required).toBeTruthy()
+    })
   })
 
   it('sets the typeahead component multiple attribute according to the repeatable property from the template', () => {

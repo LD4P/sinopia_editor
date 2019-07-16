@@ -36,7 +36,6 @@ describe('<InputURI />', () => {
     const formData = { formData: { errors: [{ id: 'Required' }] } }
     wrapper.setProps({ ...plProps, ...propertyTemplate, ...formData })
     expect(wrapper.find('input').prop('required')).toBeTruthy()
-    expect(wrapper.find('label > RequiredSuperscript')).toBeTruthy()
   })
 
   it('contains required="false" attribute on input tag when mandatory is false', () => {
