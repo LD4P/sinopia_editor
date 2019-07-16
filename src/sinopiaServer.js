@@ -182,62 +182,22 @@ export const loadRDFResource = async (currentUser, uri) => {
 }
 
 export const getSearchResults = async (queryString) => {
-  // ElasticSearch proxy middleware
-
-  // Hard-coded for now since we only have the one use case for proxying ES,
-  // i.e., full-text search of resources
-  // if (req.path !== '/sinopia_resources/sinopia/_search') {
-  //   res.status(400).json({ error: `unsupported path: ${req.path}` })
-  //   return
-  // }
-
-  // Only use the method, path, and body from the original request: method and
-  // path have already been validated above and the body must be a
-  // JSON-serializeable entity
-
   const uri = `${Config.searchHost}${Config.searchPath}`
-
-  // const options = {
-  //   method: 'POST',
-  //   url: uri,
-  //   form: '{ "query": { "match": { "title": "striped" } } }',
-  //   headers: {
-  //     'Accept': 'application/json'
-  //     // ,
-  //     // 'Access-Control-Allow-Origin': '*',
-  //     // 'Access-Control-Allow-Headers': 'Origin, X-Requested-With, Content-Type, Accept'
-  //   }
-  // }
-  //request.post({url:'http://service.com/upload', form: {key:'value'}}, function(err,httpResponse,body){ /* ... */ })
-  
-  // request(options, function(err, res, body) {  
-  //   let json = JSON.parse(body);
-  //   console.log("BODY: ", json);
-  //   return body
-  // });
 
   console.log("QUERY STRING: ", queryString)
 
-  request.post({ url: uri,
-                 form: { query: { match: { title: queryString } } }},
-                 function(err, httpResponse, body) {
-                   console.log("ERROR: ", err)
-                   console.log("httpResponse: ", httpResponse)
-                   console.log("body: ", body)
-                 })
-
-
-
-
-                 // console.log(queryString)
-  // return request.get('http://localhost:8888/api/search/sinopia_resources/sinopia/_search?q=striped')
-  // .on('response', function(response) {
-  //   console.log(response.statusCode) // 200
-  //   console.log(response.headers['content-type']) // 'image/png'
-  //   console.log(response)
-  // })
-  // .on('error', (err) => {
-  //   console.error(`error making request to ElasticSearch: ${err}`)
-  // })
-
+  return new Promise(function(resolve, reject) {
+    request.post({ url: uri,
+                   form: { query: { match: { title: queryString } } }},
+                   function(err, httpResponse, body) {
+                     console.log("ERROR: ", err)
+                     console.log("httpResponse: ", httpResponse)
+                     console.log("body: ", body)
+                     if (err === null) {
+                       resolve(body)
+                     } else {
+                       reject(error)
+                     }
+    })
+  })
 }

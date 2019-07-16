@@ -5,7 +5,7 @@ import {
   updateStarted, updateFinished,
   retrieveResourceStarted, retrieveResourceFinished,
   retrieveResourceTemplateStarted, retrieveResourceTemplateFinished,
-  rootResourceTemplateLoaded, retrieveError, searchStarted, searchFinished
+  rootResourceTemplateLoaded, retrieveError, searchStarted, searchFinished, showSearchResults,
 } from 'actions/index'
 import { updateRDFResource, getResourceTemplate, loadRDFResource, getSearchResults } from 'sinopiaServer'
 import { rootResourceId } from 'selectors/resourceSelectors'
@@ -115,7 +115,7 @@ export const retrieveSearchResults = queryString => (dispatch) => {
   dispatch(searchStarted())
   return getSearchResults(queryString)
     .then((response) => {
-      console.log("RESPONSE: ", response)
       dispatch(searchFinished(queryString, response))
+      dispatch(showSearchResults(JSON.parse(response)))
     })
 }

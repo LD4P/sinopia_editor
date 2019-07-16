@@ -33,6 +33,9 @@ const initialState = {
     },
     resource: { // The state we're displaying in the editor
     },
+    search: {
+      results: undefined,
+    },
   },
 }
 

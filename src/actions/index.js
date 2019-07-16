@@ -123,6 +123,11 @@ export const searchFinished = (queryString, data) => ({
   },
 })
 
+export const showSearchResults = searchResults => ({
+  type: 'SHOW_SEARCH_RESULTS',
+  payload: searchResults,
+})
+
 export const changeSelections = item => ({
   type: 'CHANGE_SELECTIONS',
   payload: item,
