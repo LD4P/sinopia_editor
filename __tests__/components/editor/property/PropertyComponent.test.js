@@ -8,6 +8,7 @@ describe('<PropertyComponent />', () => {
   describe('for property templates configured as list', () => {
     const template = {
       propertyURI: 'http://id.loc.gov/ontologies/bibframe/issuance',
+      propertyLabel: 'Issuance',
       type: 'resource',
       valueConstraint: {
         useValuesFrom: [
@@ -25,6 +26,7 @@ describe('<PropertyComponent />', () => {
   describe('for templates configured as lookup', () => {
     const template = {
       propertyURI: 'http://id.loc.gov/ontologies/bibframe/contribution',
+      propertyLabel: 'Contribution',
       type: 'lookup',
       valueConstraint: {
         useValuesFrom: [
@@ -44,6 +46,7 @@ describe('<PropertyComponent />', () => {
   describe('for templates configured as resource', () => {
     const template = {
       propertyURI: 'http://id.loc.gov/ontologies/bibframe/hasEquivalent',
+      propertyLabel: 'Equivalent to',
       type: 'resource',
     }
 
@@ -58,6 +61,7 @@ describe('<PropertyComponent />', () => {
     describe('for type:literal', () => {
       const template = {
         propertyURI: 'http://id.loc.gov/ontologies/bibframe/heldBy',
+        propertyLabel: 'Held by',
         type: 'literal',
       }
 
@@ -73,6 +77,7 @@ describe('<PropertyComponent />', () => {
   it('logs an error if <PropertyComponent /> is missing reduxPath props', () => {
     const template = {
       propertyURI: 'http://id.loc.gov/ontologies/bibframe/note',
+      propertyLabel: 'Note',
       type: 'resource',
       valueConstraint: {
         valueTemplateRefs: [

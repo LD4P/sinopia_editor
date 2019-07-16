@@ -57,6 +57,7 @@ describe('<ResourceTemplateForm /> after fetching data from sinopia server', () 
         resourceTemplateId: 'myOrg:rt:myTemplate',
         propertyTemplates: [
           {
+            propertyURI: 'http://example.com/fakeProperty',
             propertyLabel: 'Look up, look down',
             type: 'lookup',
             editable: 'do not override me!',
@@ -87,6 +88,7 @@ describe('<ResourceTemplateForm /> after fetching data from sinopia server', () 
         propertyTemplates: [
           {
             propertyLabel: 'What\'s the frequency Kenneth?',
+            propertyURI: 'http://example.com/fakeProperty',
             type: 'resource',
             valueConstraint: {
               useValuesFrom: [
@@ -114,6 +116,7 @@ describe('<ResourceTemplateForm /> after fetching data from sinopia server', () 
       propertyTemplates: [
         {
           propertyLabel: 'Literally',
+          propertyURI: 'http://example.com/fakeProperty',
           type: 'literal',
         },
       ],

@@ -2,6 +2,7 @@
 
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
+import SinopiaPropTypes from 'SinopiaPropTypes'
 import { connect } from 'react-redux'
 import Modal from 'react-bootstrap/lib/Modal'
 import Button from 'react-bootstrap/lib/Button'
@@ -229,16 +230,7 @@ export class InputLiteral extends Component {
 
 InputLiteral.propTypes = {
   id: PropTypes.oneOfType([PropTypes.number, PropTypes.string]),
-  propertyTemplate: PropTypes.shape({
-    propertyLabel: PropTypes.string.isRequired,
-    propertyURI: PropTypes.string.isRequired,
-    mandatory: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
-    repeatable: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
-    remark: PropTypes.string,
-    valueConstraint: PropTypes.shape({
-      defaults: PropTypes.array,
-    }),
-  }),
+  propertyTemplate: SinopiaPropTypes.propertyTemplate,
   formData: PropTypes.shape({
     id: PropTypes.oneOfType([PropTypes.number, PropTypes.string]),
     uri: PropTypes.string,
