@@ -2,6 +2,7 @@
 
 import { getFixtureResourceTemplate } from './fixtureLoaderHelper'
 import validateResourceTemplate from 'ResourceTemplateValidator'
+import _ from 'lodash'
 
 describe('validateResourceTemplate', () => {
   it('returns [] for valid', async () => {
@@ -15,9 +16,19 @@ describe('validateResourceTemplate', () => {
   })
 
   it('returns reason for literal with default URI', async () => {
-    const template = await getFixtureResourceTemplate('rt:literal:defaultURI')
-    expect(validateResourceTemplate(template.response.body)).toEqual(['Literal property templates (http://id.loc.gov/ontologies/bibframe/geographicCoverage) cannot have default URIs.'])
+    const templateResponse = await getFixtureResourceTemplate('resourceTemplate:bf2:Title')
+    const template = _.cloneDeep(templateResponse.response.body)
+    template.propertyTemplates[0].valueConstraint.defaults.push({ defaultURI: 'http://example.org/title#AClockworkOrange' })
+    expect(validateResourceTemplate(template)).toEqual(['Literal property templates (http://id.loc.gov/ontologies/bibframe/mainTitle) cannot have default URIs.'])
   })
+
+  it('allows blank default URIs', async () => {
+    const templateResponse = await getFixtureResourceTemplate('resourceTemplate:bf2:Title')
+    const template = _.cloneDeep(templateResponse.response.body)
+    template.propertyTemplates[0].valueConstraint.defaults.push({ defaultURI: '' })
+    expect(validateResourceTemplate(template)).toEqual([])
+  })
+
 
   it('returns reason for property with refs and defaults', async () => {
     const template = await getFixtureResourceTemplate('rt:resource:DefaultsAndRefs')
