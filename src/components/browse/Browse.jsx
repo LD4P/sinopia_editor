@@ -23,7 +23,7 @@ const Browse = (props) => {
 =======
   const handleKeyPress = (event) => {
     if (event.key === 'Enter') {
-      props.getSearchResults(props.currentUser, queryString)
+      props.getSearchResults(queryString)
       event.preventDefault()
     }
 >>>>>>> Add initial search results page and handle input on form
@@ -76,6 +76,7 @@ const mapDispatchToProps = (dispatch, ourProps) => ({
 =======
 const mapDispatchToProps = dispatch => ({
 <<<<<<< HEAD
+<<<<<<< HEAD
   getSearchResults: (queryString) => {
     // dispatch(retrieveResource(user, uri))
 >>>>>>> Add initial search results page and handle input on form
@@ -83,6 +84,10 @@ const mapDispatchToProps = dispatch => ({
   getSearchResults: (user, queryString) => {
     dispatch(retrieveSearchResults(user, queryString))
 >>>>>>> Dispatch SEARCH_STARTED
+=======
+  getSearchResults: (queryString) => {
+    dispatch(retrieveSearchResults(queryString))
+>>>>>>> Send query to elasticsearch
   },
 })
 

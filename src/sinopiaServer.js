@@ -195,17 +195,19 @@ export const getSearchResults = async (queryString) => {
   // path have already been validated above and the body must be a
   // JSON-serializeable entity
 
-  const options = {
-    method: 'POST',
-    url: `http://localhost:9200/sinopia_resources/sinopia/_search`,
-    form: '{ "query": { "match": { "title": "striped" } } }',
-    headers: {
-      'Accept': 'application/json'
-      // ,
-      // 'Access-Control-Allow-Origin': '*',
-      // 'Access-Control-Allow-Headers': 'Origin, X-Requested-With, Content-Type, Accept'
-    }
-  }
+  const uri = `${Config.searchHost}${Config.searchPath}`
+
+  // const options = {
+  //   method: 'POST',
+  //   url: uri,
+  //   form: '{ "query": { "match": { "title": "striped" } } }',
+  //   headers: {
+  //     'Accept': 'application/json'
+  //     // ,
+  //     // 'Access-Control-Allow-Origin': '*',
+  //     // 'Access-Control-Allow-Headers': 'Origin, X-Requested-With, Content-Type, Accept'
+  //   }
+  // }
   //request.post({url:'http://service.com/upload', form: {key:'value'}}, function(err,httpResponse,body){ /* ... */ })
   
   // request(options, function(err, res, body) {  
@@ -214,14 +216,20 @@ export const getSearchResults = async (queryString) => {
   //   return body
   // });
 
-  request.post({ url: 'http://localhost:8888/api/search/sinopia_resources/sinopia/_search',
-                 form: { query: { match: { title: "striped" } } }},
+  console.log("QUERY STRING: ", queryString)
+
+  request.post({ url: uri,
+                 form: { query: { match: { title: queryString } } }},
                  function(err, httpResponse, body) {
                    console.log("ERROR: ", err)
                    console.log("httpResponse: ", httpResponse)
                    console.log("body: ", body)
                  })
-  // console.log(queryString)
+
+
+
+
+                 // console.log(queryString)
   // return request.get('http://localhost:8888/api/search/sinopia_resources/sinopia/_search?q=striped')
   // .on('response', function(response) {
   //   console.log(response.statusCode) // 200
