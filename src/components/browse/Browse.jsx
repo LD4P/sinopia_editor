@@ -10,7 +10,7 @@ import FormControl from 'react-bootstrap/lib/FormControl'
 import Col from 'react-bootstrap/lib/Col'
 import Glyphicon from 'react-bootstrap/lib/Glyphicon'
 import { getCurrentUser } from 'authSelectors'
-import { retrieveSearchResults } from 'actionCreators'
+import { retrieveSearchResults } from 'actionCreators/searchResults'
 import SearchResults from './SearchResults'
 
 const Browse = (props) => {
