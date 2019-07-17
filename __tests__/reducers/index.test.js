@@ -2,7 +2,7 @@
 
 import {
   createReducer, setRetrieveError, removeResource,
-  clearResourceTemplates,
+  clearResourceTemplates, clearRetrieveError,
 } from 'reducers/index'
 
 let initialState
@@ -20,6 +20,14 @@ beforeEach(() => {
       },
     },
   }
+})
+
+describe('clearRetrieveError', () => {
+  it('clears an existing error', () => {
+    initialState.selectorReducer.editor.serverError = 'Something is wrong'
+    const newState = clearRetrieveError(initialState.selectorReducer)
+    expect(newState.editor.serverError).toBeUndefined()
+  })
 })
 
 describe('createReducer', () => {
