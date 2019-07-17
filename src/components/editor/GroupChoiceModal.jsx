@@ -14,12 +14,12 @@ import { publishRDFResource } from 'sinopiaServer'
 import { getCurrentUser } from 'authSelectors'
 
 const GroupChoiceModal = (props) => {
-  const [selectedValue, setSelectedValue] = useState('ld4p')
-
   // The ld4p group is only for templates
   const groups = Object.entries(Config.groupsInSinopia)
     .filter(([groupSlug]) => groupSlug !== 'ld4p')
     .sort(([, groupLabelA], [, groupLabelB]) => groupLabelA.localeCompare(groupLabelB))
+
+  const [selectedValue, setSelectedValue] = useState(groups[0][0])
 
   const updateSelectedValue = (event) => {
     setSelectedValue(event.target.value)
