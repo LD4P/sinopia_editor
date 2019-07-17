@@ -44,18 +44,18 @@ export const retrieveResource = (currentUser, uri) => (dispatch) => {
 }
 
 // A thunk that stubs out a new resource
-export const newResource = resourceTemplateId => async (dispatch, getState) => {
+export const newResource = resourceTemplateId => (dispatch) => {
   const resource = {}
   resource[resourceTemplateId] = {}
   dispatch(clearResourceTemplates())
   dispatch(setResource(resource))
-  await stubResource(true, dispatch, getState())
+  dispatch(stubResource(true))
 }
 
 // A thunk that stubs out an existing new resource
-export const existingResource = resource => (dispatch, getState) => {
+export const existingResource = resource => (dispatch) => {
   dispatch(setResource(resource))
-  stubResource(false, dispatch, getState())
+  dispatch(stubResource(false))
 }
 
 // A thunk that expands a nested resource for a property
@@ -86,12 +86,13 @@ export const addResource = reduxPath => (dispatch, getState) => {
 }
 
 // Stubs out a root resource
-const stubResource = async (useDefaults, dispatch, state) => {
+const stubResource = useDefaults => (dispatch, getState) => {
+  const state = getState()
   const newResource = { ...state.selectorReducer.resource }
   const rootResourceTemplateId = Object.keys(newResource)[0]
   const rootResource = newResource[rootResourceTemplateId]
   const resourceTemplate = findResourceTemplate(state.selectorReducer, rootResourceTemplateId)
-  await stubResourceProperties(rootResourceTemplateId, resourceTemplate, rootResource, ['resource'], useDefaults, dispatch).then((resourceProperties) => {
+  stubResourceProperties(rootResourceTemplateId, resourceTemplate, rootResource, ['resource'], useDefaults, dispatch).then((resourceProperties) => {
     newResource[rootResourceTemplateId] = resourceProperties
     dispatch(setResource(newResource))
   })
