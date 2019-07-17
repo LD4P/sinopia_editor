@@ -6,7 +6,11 @@ import {
 /* eslint import/namespace: 'off' */
 import * as server from 'sinopiaServer'
 import { getFixtureResourceTemplate } from '../fixtureLoaderHelper'
+import configureMockStore from 'redux-mock-store'
+import thunk from 'redux-thunk'
 import _ from 'lodash'
+
+const mockStore = configureMockStore([thunk])
 
 describe('update', () => {
   const state = {
@@ -65,10 +69,9 @@ describe('newResource', () => {
 
   it('dispatches actions', async () => {
     const resourceTemplateResponse = await getFixtureResourceTemplate(resourceTemplateId)
-    const dispatch = jest.fn()
     server.getResourceTemplate = jest.fn().mockResolvedValue(resourceTemplateResponse)
-    const getState = jest.fn()
-    getState.mockReturnValue({
+
+    const store = mockStore({
       selectorReducer: {
         entities: {
           resourceTemplates: {},
@@ -78,11 +81,13 @@ describe('newResource', () => {
         },
       },
     })
-    await newResource(resourceTemplateId)(dispatch, getState)
-    expect(dispatch).toHaveBeenCalledTimes(5)
-    expect(dispatch).toBeCalledWith({ type: 'CLEAR_RESOURCE_TEMPLATES' })
-    expect(dispatch).toBeCalledWith({ type: 'SET_RESOURCE', payload: { [resourceTemplateId]: {} } })
-    expect(dispatch).toBeCalledWith({ type: 'SET_RESOURCE', payload: { [resourceTemplateId]: { 'http://www.w3.org/2000/01/rdf-schema#label': {} } } })
+
+    await store.dispatch(newResource(resourceTemplateId))
+    const actions = store.getActions()
+    expect(actions[0]).toEqual({ type: 'CLEAR_RESOURCE_TEMPLATES' })
+    expect(actions[1]).toEqual({ type: 'SET_RESOURCE', payload: { [resourceTemplateId]: {} } })
+    expect(actions[2]).toEqual({ type: 'RETRIEVE_RESOURCE_TEMPLATE_STARTED', payload: resourceTemplateId })
+    expect(actions[3]).toEqual({ type: 'SET_RESOURCE_TEMPLATE', payload: resourceTemplateResponse.response.body })
   })
 })
 
