@@ -18,7 +18,10 @@ jest.mock('components/editor/Editor')
 jest.mock('components/templates/ImportResourceTemplate')
 
 describe('<App />', () => {
-  const wrapper = shallow(<App.WrappedComponent storeAppVersion = { jest.fn } />)
+  const mockStoreAppVersion = jest.fn()
+  const mockFetchResourceTemplateSummaries = jest.fn()
+  const wrapper = shallow(<App.WrappedComponent storeAppVersion={mockStoreAppVersion}
+                                                fetchResourceTemplateSummaries={mockFetchResourceTemplateSummaries} />)
 
   it('is selectable by id "#app"', () => {
     expect(wrapper.find('div#app').length).toEqual(1)
@@ -30,6 +33,14 @@ describe('<App />', () => {
 
   it('renders the Footer component', () => {
     expect(wrapper.find(Footer).length).toBe(1)
+  })
+
+  it('calls storeAppVersion on componentDidMount', () => {
+    expect(mockStoreAppVersion).toBeCalled()
+  })
+
+  it('calls fetchResourceTemplateSummaries on componentDidMount', () => {
+    expect(mockFetchResourceTemplateSummaries).toBeCalled()
   })
 })
 

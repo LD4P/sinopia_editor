@@ -1,15 +1,15 @@
 // Copyright 2019 Stanford University see LICENSE for license
-/* eslint max-params: ["warn", 6] */
-
 import {
   retrieveResourceTemplateStarted,
-  retrieveError, setResourceTemplate,
+  retrieveError, setResourceTemplate, setResourceTemplateSummary,
 } from 'actions/index'
-import { getResourceTemplate } from 'sinopiaServer'
 import validateResourceTemplate from 'ResourceTemplateValidator'
+import Config from 'Config'
+import { getResourceTemplate, listResourcesInGroupContainer } from 'sinopiaServer'
+import { resourceToName } from 'Utilities'
 import _ from 'lodash'
 
-const fetchResourceTemplate = (resourceTemplateId, dispatch) => {
+export const fetchResourceTemplate = (resourceTemplateId, dispatch) => {
   dispatch(retrieveResourceTemplateStarted(resourceTemplateId))
 
   return getResourceTemplate(resourceTemplateId, 'ld4p').then((response) => {
@@ -27,4 +27,33 @@ const fetchResourceTemplate = (resourceTemplateId, dispatch) => {
   })
 }
 
-export { fetchResourceTemplate as default }
+export const fetchResourceTemplateSummaries = () => (dispatch) => {
+  const groupName = Config.defaultSinopiaGroupId
+  return listResourcesInGroupContainer(groupName).then((resourceTemplatesResponse) => {
+    // Short-circuit listing resources in a group if it contains nothing
+    if (resourceTemplatesResponse.response.body.contains) {
+      const templateIds = [].concat(resourceTemplatesResponse.response.body.contains)
+      return Promise.all(templateIds.map(templateId => fetchResourceTemplateSummary(templateId, groupName, dispatch)))
+    }
+  }, (error) => {
+    console.error('Error retrieving list of resource templates', error)
+  })
+}
+
+export const fetchResourceTemplateSummary = (templateId, groupName, dispatch) => {
+  const templateName = resourceToName(templateId)
+  return getResourceTemplate(templateName, groupName).then((templateResponse) => {
+    const template = templateResponse.response.body
+    const templateSummary = {
+      key: template.id,
+      name: template.resourceLabel,
+      id: template.id,
+      group: groupName,
+      author: template.author,
+      remark: template.remark,
+    }
+    dispatch(setResourceTemplateSummary(templateSummary))
+  }, (error) => {
+    console.error(`Error retrieving resource template ${templateId}`, error)
+  })
+}

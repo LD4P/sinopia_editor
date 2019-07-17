@@ -10,6 +10,7 @@ import SinopiaResourceTemplates from './SinopiaResourceTemplates'
 import UpdateResourceModal from './UpdateResourceModal'
 import { createResourceTemplate, updateResourceTemplate } from 'sinopiaServer'
 import { getCurrentUser } from 'authSelectors'
+import { fetchResourceTemplateSummaries as fetchResourceTemplateSummariesCreator } from 'actionCreators/resourceTemplates'
 
 class ImportResourceTemplate extends Component {
   constructor(props) {
@@ -17,16 +18,8 @@ class ImportResourceTemplate extends Component {
     this.state = {
       flashMessages: [],
       modalMessages: [],
-      updateKey: 0,
       modalShow: false,
     }
-  }
-
-  componentDidMount() {
-    const incrementedKey = this.state.updateKey + 1
-    // This causes the `SinopiaResourceTemplates` component to do the initial load of RTs
-
-    this.setState({ updateKey: incrementedKey })
   }
 
   modalClose = () => {
@@ -82,9 +75,7 @@ class ImportResourceTemplate extends Component {
 
   updateStateFromServerResponses = (responses) => {
     const newFlashMessages = []
-    const newState = {
-      updateKey: this.state.updateKey + 1,
-    }
+    const newState = {}
     let showModal = false
 
     responses.forEach((response) => {
@@ -96,6 +87,7 @@ class ImportResourceTemplate extends Component {
     if (newFlashMessages.length > 0) newState.flashMessages = [...this.state.flashMessages, ...newFlashMessages]
 
     if (showModal) newState.modalShow = true
+
 
     this.setState(newState)
   }
@@ -143,6 +135,8 @@ class ImportResourceTemplate extends Component {
       responses.push(response)
     }
     this.updateStateFromServerResponses(responses)
+    this.props.fetchResourceTemplateSummaries()
+
     this.modalClose()
   }
 
@@ -159,8 +153,7 @@ class ImportResourceTemplate extends Component {
         </div>
         <Header triggerEditorMenu={this.props.triggerHandleOffsetMenu}/>
         <ImportFileZone setResourceTemplateCallback={this.setResourceTemplates} />
-        <SinopiaResourceTemplates updateKey={this.state.updateKey}
-                                  messages={this.state.flashMessages} />
+        <SinopiaResourceTemplates messages={this.state.flashMessages} />
       </div>
     )
   }
@@ -170,19 +163,16 @@ ImportResourceTemplate.propTypes = {
   children: PropTypes.array,
   triggerHandleOffsetMenu: PropTypes.func,
   currentUser: PropTypes.object,
+  fetchResourceTemplateSummaries: PropTypes.func,
 }
 
 const mapStateToProps = state => ({
   currentUser: getCurrentUser(state),
 })
 
-/*
- *TODO: likely to end up wiring up auth error reporting via redux dispatch
- * const mapDispatchToProps = dispatch => {
- *   return { }
- * }
- */
-
-
-export default connect(mapStateToProps)(ImportResourceTemplate)
-// Export default connect(mapStateToProps, mapDispatchToProps)(ImportResourceTemplate)
+const mapDispatchToProps = dispatch => ({
+  fetchResourceTemplateSummaries: () => {
+    dispatch(fetchResourceTemplateSummariesCreator())
+  },
+})
+export default connect(mapStateToProps, mapDispatchToProps)(ImportResourceTemplate)
