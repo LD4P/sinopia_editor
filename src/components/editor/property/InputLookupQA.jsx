@@ -28,18 +28,29 @@ class InputLookupQA extends Component {
 
   // Render menu function to be used by typeahead
   renderMenuFunc = (results, menuProps) => {
+
     const items = []
+    const custom_options = []
     let menuItemIndex = 0
 
+    console.log('RESULTS',results)
     /*
      * Returning results per each promise
      * If error is returned, it will be used to display for that source
      */
     results.forEach((result, _i, list) => {
-      const authLabel = result.authLabel
-      const headerKey = `${result.authURI}-header`
 
-      if (list.length > 1) items.push(<Menu.Header key={headerKey}>{authLabel}</Menu.Header>)
+      // with allowNew option set on the typeAhead compontent, the result
+      //   will have the customOption set, so we set the customOption menu item and then exit the loop
+      if (result.customOption) {
+        items.push(
+          <Menu.Header option={result.label} position={_i} key={result.id}>
+           {result.label}
+          </Menu.Header>,
+        )
+        custom_options.push({ authLabel: result.label, authURI: '' })
+        return
+      }
 
       if (result.isError) {
         const errorMessage = 'An error occurred in retrieving results'
@@ -54,6 +65,11 @@ class InputLookupQA extends Component {
         // Effectively a `continue`/`next` statement within the `forEach()` context, skipping to the next iteration
         return
       }
+
+      const authLabel = result.authLabel
+      const headerKey = `${result.authURI}-header`
+
+      if (list.length > 1) items.push(<Menu.Header key={headerKey}>{authLabel}</Menu.Header>)
 
       const body = result.body
 
@@ -81,11 +97,16 @@ class InputLookupQA extends Component {
       })
     })
 
+    console.log('ITEMS',items)
+    // add custom option to the state so it can be merged with options from API calls?
+    // this.setState( {custom_options: custom_options} )
+
     return (
       <Menu {...menuProps} id={menuProps.id}>
         {items}
       </Menu>
     )
+
   }
 
   get isMandatory() {
@@ -148,6 +169,7 @@ class InputLookupQA extends Component {
          * which allows attaching label and uri for authority
          */
         Promise.all(lookupPromises).then((values) => {
+          console.log('VALUES',values)
           for (let i = 0; i < values.length; i++) {
             if (values[i]) {
               values[i].authLabel = lookupConfigs[i].label
@@ -159,6 +181,11 @@ class InputLookupQA extends Component {
             isLoading: false,
             options: values,
           })
+          // state should include the custom option too?
+          // this.setState({
+          //   isLoading: false,
+          //   options: values.concat(this.state.custom_options),
+          // })
         })
       }).catch((e) => {
         console.error(e)
@@ -178,6 +205,7 @@ class InputLookupQA extends Component {
       multiple: this.isRepeatable,
       placeholder: this.props.propertyTemplate.propertyLabel,
       useCache: true,
+      allowNew: true,
       selectHintOnEnter: true,
       isLoading: this.state.isLoading,
       onSearch: this.search(),
