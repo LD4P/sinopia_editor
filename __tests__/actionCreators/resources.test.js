@@ -45,11 +45,14 @@ describe('retrieveResource', () => {
     getSession: jest.fn(),
   }
   const uri = 'http://sinopia.io/repository/stanford/123'
-  const received = 'some triples'
+  const received = `<> <http://www.w3.org/2000/01/rdf-schema#label> "splendid"@en .
+<> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://id.loc.gov/ontologies/bibframe/Note> .
+<> <http://www.w3.org/ns/prov#wasGeneratedBy> "profile:bf2:Note" .`
 
   it('dispatches actions', async () => {
     server.loadRDFResource = jest.fn().mockResolvedValue({ response: { text: received } })
     const dispatch = jest.fn()
+
     await retrieveResource(currentUser, uri)(dispatch)
     expect(dispatch).toHaveBeenCalledTimes(3)
     expect(dispatch).toBeCalledWith({ type: 'RETRIEVE_STARTED' })

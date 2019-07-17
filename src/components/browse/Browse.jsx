@@ -16,9 +16,8 @@ const Browse = (props) => {
   const [uri, setURI] = useState('')
 
   const handleSubmit = (event) => {
-    props.loadResource(props.currentUser, uri)
-    props.history.push('/editor')
     event.preventDefault()
+    props.loadResource(props.currentUser, uri)
   }
 
   return (
@@ -55,9 +54,11 @@ const mapStateToProps = state => ({
   currentUser: getCurrentUser(state),
 })
 
-const mapDispatchToProps = dispatch => ({
+const mapDispatchToProps = (dispatch, ourProps) => ({
   loadResource: (user, uri) => {
-    dispatch(retrieveResource(user, uri))
+    dispatch(retrieveResource(user, uri)).then(() => {
+      ourProps.history.push('/editor')
+    })
   },
 })
 
