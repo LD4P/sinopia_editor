@@ -1,7 +1,7 @@
 // Copyright 2019 Stanford University see LICENSE for license
 
 import {
-  update, retrieveResource, stubProperty, newResource,
+  update, existingResource, retrieveResource, stubProperty, newResource,
 } from 'actionCreators/resources'
 /* eslint import/namespace: 'off' */
 import * as server from 'sinopiaServer'
@@ -91,6 +91,35 @@ describe('newResource', () => {
   })
 })
 
+describe('existingResource', () => {
+  const resourceTemplateId = 'resourceTemplate:bf2:Note'
+
+  // NOTE: This test causes an unhandled promise rejection.  See: https://github.com/LD4P/sinopia_editor/issues/983
+  it('dispatches actions', async () => {
+    const resourceTemplateResponse = await getFixtureResourceTemplate(resourceTemplateId)
+    server.getResourceTemplate = jest.fn().mockResolvedValue(resourceTemplateResponse)
+
+    const store = mockStore({
+      selectorReducer: {
+        entities: {
+          resourceTemplates: { [resourceTemplateId]: {} },
+        },
+        resource: {},
+      },
+    })
+
+    const resource = {
+      'resourceTemplate:bf2:Note': {},
+    }
+
+    await store.dispatch(existingResource(resource, 'http://localhost:8080/repository/stanford/888ea64d-f471-41bf-9d33-c9426ab83b5c'))
+    const actions = store.getActions()
+    expect(actions[0]).toEqual({ type: 'SET_RESOURCE', payload: { [resourceTemplateId]: {} } })
+    expect(actions[1]).toEqual({ type: 'SET_BASE_URL', payload: 'http://localhost:8080/repository/stanford/888ea64d-f471-41bf-9d33-c9426ab83b5c' })
+    expect(actions[2]).toEqual({ type: 'RETRIEVE_RESOURCE_TEMPLATE_STARTED', payload: undefined })
+    expect(actions[3]).toEqual({ type: 'SET_RESOURCE_TEMPLATE', payload: resourceTemplateResponse.response.body })
+  })
+})
 
 describe('stubProperty', () => {
   describe('property is a resource property', () => {
