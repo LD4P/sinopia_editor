@@ -17,6 +17,7 @@ assignees: ''
 - [ ] Docker build and publish tagged Image, see See [documentation](https://github.com/LD4P/sinopia_editor/#building-latest-docker-image) for more information
   - [ ] Build a tagged Docker image i.e. `docker build -t ld4p/sinopia_editor:{version} .`
   - [ ] Push the tagged version to Dockerhub with `docker push ld4p/sinopia_editor:{version}`
+- [ ] Create Release notes for the tagged version on Github
 - [ ] Once tagged release is live on https://development.sinopia.io, the project owner will approve the tagged release for deployment on
   - [ ] Staging at https://stage.sinopia.io/
   - [ ] Production at https://sinopia.io
