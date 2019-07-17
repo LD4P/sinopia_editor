@@ -34,21 +34,13 @@ export const retrieveResource = (currentUser, uri) => (dispatch) => {
   return loadRDFResource(currentUser, uri)
     .then((response) => {
       dispatch(clearResourceTemplates())
-      // a thunk dispatching a thunk
-      dispatch(loadRetrievedResource(uri, response.response.text))
-    })
-}
 
-/**
- * Called after RDF has been retrieved from the server.
- * Dispatches loadResourceTemplate for each needed template
- * This converts the RDF to Redux state.
- */
-export const loadRetrievedResource = (uri, data) => (dispatch) => {
-  rdfDatasetFromN3(data).then((dataset) => {
-    const builder = new ResourceStateBuilder(dataset, null)
-    dispatch(existingResource(builder.state))
-  })
+      const data = response.response.text
+      return rdfDatasetFromN3(data).then((dataset) => {
+        const builder = new ResourceStateBuilder(dataset, null)
+        dispatch(existingResource(builder.state))
+      })
+    })
 }
 
 // A thunk that stubs out a new resource
