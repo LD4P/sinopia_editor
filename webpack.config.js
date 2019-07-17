@@ -35,6 +35,8 @@ module.exports = {
   },
   node: {
     fs: 'empty',
+    net: 'empty',
+    tls: 'empty',
   },
   resolve: {
     extensions: ['*', '.js', '.jsx'],
