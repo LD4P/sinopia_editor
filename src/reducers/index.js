@@ -63,8 +63,8 @@ export const appendResource = (state, action) => {
 export const removeResource = (state, action) => {
   const newState = _.cloneDeep(state)
   const reduxPath = action.payload
-  const key = reduxPath.slice(-2)[0]
-  const parentReduxPath = reduxPath.slice(0, reduxPath.length - 2)
+  const key = reduxPath.slice(-1)[0]
+  const parentReduxPath = reduxPath.slice(0, reduxPath.length - 1)
   const parentPropertyNode = findNode(newState, parentReduxPath)
   delete parentPropertyNode[key]
   return newState

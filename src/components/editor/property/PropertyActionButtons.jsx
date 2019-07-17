@@ -45,7 +45,7 @@ const mapDispatchToProps = dispatch => ({
     dispatch(addResourceCreator(reduxPath))
   },
   removeResource(reduxPath) {
-    dispatch(removeResourceAction(reduxPath))
+    dispatch(removeResourceAction(reduxPath.slice(0, reduxPath.length - 1)))
   },
 })
 

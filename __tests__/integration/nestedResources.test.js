@@ -16,13 +16,13 @@ describe('Expanding a resource property in a property panel', () => {
 
   it('clicks on one of the property type rows to expand a nested resource', async () => {
     expect.assertions(2)
-    await pupExpect(page).toClick('button[data-id=\'hasInstance\']')
+    await pupExpect(page).toClick('button.btn-add[data-id=\'hasInstance\']')
     await pupExpect(page).toMatchElement('h5', { text: 'BIBFRAME Instance' })
   })
 
   it('clicks on a nested property to reveal an input component', async () => {
     expect.assertions(2)
-    await pupExpect(page).toClick('button[data-id=\'heldBy\']')
+    await pupExpect(page).toClick('button.btn-add[data-id=\'heldBy\']')
     await pupExpect(page).toMatchElement('input[placeholder=\'Holdings\']')
   })
 
