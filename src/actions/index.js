@@ -1,9 +1,5 @@
 // Copyright 2019 Stanford University see LICENSE for license
 
-<<<<<<< HEAD
-<<<<<<< HEAD
-=======
->>>>>>> Rebase actions/index
 // export const newResource = resourceTemplateId => ({
 //   type: 'NEW_RESOURCE',
 //   payload: resourceTemplateId,
@@ -19,23 +15,15 @@ export const setResourceTemplate = resourceTemplate => ({
   payload: resourceTemplate,
 })
 
-<<<<<<< HEAD
 export const setResourceTemplateSummary = resourceTemplateSummary => ({
   type: 'SET_RESOURCE_TEMPLATE_SUMMARY',
   payload: resourceTemplateSummary,
 })
 
-=======
->>>>>>> Rebase actions/index
 export const stubResource = () => ({
   type: 'STUB_RESOURCE',
 })
 
-<<<<<<< HEAD
-=======
->>>>>>> Add actions for search started and finished
-=======
->>>>>>> Rebase actions/index
 export const retrieveError = (resourceTemplateId, reason) => ({
   type: 'RETRIEVE_ERROR',
   payload: { resourceTemplateId, reason },

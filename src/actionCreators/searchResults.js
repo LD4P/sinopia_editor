@@ -1,4 +1,5 @@
 // Copyright 2019 Stanford University see LICENSE for license
+/* eslint import/prefer-default-export: 0 */ // -> OFF
 
 import {
   searchStarted, searchFinished, showSearchResults,

@@ -184,20 +184,17 @@ export const loadRDFResource = async (currentUser, uri) => {
 export const getSearchResults = async (queryString) => {
   const uri = `${Config.searchHost}${Config.searchPath}`
 
-  console.log("QUERY STRING: ", queryString)
-
-  return new Promise(function(resolve, reject) {
-    request.post({ url: uri,
-                   form: { query: { match: { title: queryString } } }},
-                   function(err, httpResponse, body) {
-                     console.log("ERROR: ", err)
-                     console.log("httpResponse: ", httpResponse)
-                     console.log("body: ", body)
-                     if (err === null) {
-                       resolve(body)
-                     } else {
-                       reject(error)
-                     }
+  return new Promise((resolve, reject) => {
+    request.post({
+      url: uri,
+      form: { query: { match: { title: queryString } } },
+    },
+    (err, _httpResponse, body) => {
+      if (err === null) {
+        resolve(body)
+      } else {
+        reject(err)
+      }
     })
   })
 }

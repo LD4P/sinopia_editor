@@ -3,18 +3,18 @@
 import React from 'react'
 import { connect } from 'react-redux'
 import PropTypes from 'prop-types'
-
+import SearchResultsTable from './SearchResultsTable'
 
 const SearchResults = (props) => {
+  if (props.searchResults === undefined) {
+    return null
+  }
+
   return (
     <div id="search-results">
-      <div className="row">
-        { props.searchResults !== undefined &&
-          <h2>
-            Search Results: { props.searchResults.hits.total }.
-          </h2>
-        }
-      </div>
+      <SearchResultsTable
+        resultsCount={ props.searchResults.hits.total }
+        searchResults={ props.searchResults.hits.hits} />
     </div>
   )
 }
@@ -28,5 +28,3 @@ const mapStateToProps = state => ({
 })
 
 export default connect(mapStateToProps, null)(SearchResults)
-
-// searchResults.hits.hits
