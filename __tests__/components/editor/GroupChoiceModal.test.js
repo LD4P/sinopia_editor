@@ -17,14 +17,15 @@ describe('<GroupChoiceModal />', () => {
       },
     },
   })
-  const rdfFunc = jest.fn()
+  const rdfFunc = jest.fn().mockReturnValue('some triples')
   const closeFunc = jest.fn()
   const closeRdfPreview = jest.fn()
-
+  const currentUser = { name: 'Alfred E. Neuman' }
   const wrapper = shallow(<GroupChoiceModal.WrappedComponent show={true}
                                                              rdf={rdfFunc}
                                                              close={closeFunc}
-                                                             closeRdfPreview={closeRdfPreview} />)
+                                                             closeRdfPreview={closeRdfPreview}
+                                                             currentUser={currentUser}/>)
 
   it('renders the <GroupChoiceModal /> component as a Modal', () => {
     expect(wrapper.find(Modal).length).toBe(1)
@@ -90,7 +91,7 @@ describe('<GroupChoiceModal />', () => {
   describe('save and close buttons', () => {
     it('attempts to save the RDF content with group choice when save is clicked and closes the modal', () => {
       wrapper.find('.btn-primary', { text: 'Save' }).simulate('click')
-      expect(server.publishRDFResource).toHaveBeenCalled()
+      expect(server.publishRDFResource).toHaveBeenCalledWith(currentUser, 'some triples', 'cornell')
     })
     it('closes the modal when the Cancel link is clicked', () => {
       wrapper.find('.btn-link', { text: 'Cancel' }).simulate('click')
