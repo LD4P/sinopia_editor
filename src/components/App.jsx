@@ -18,6 +18,8 @@ import CanvasMenu from './menu/CanvasMenu'
 import { saveAppVersion } from 'actions/index'
 import { connect } from 'react-redux'
 import { version } from '../../package.json'
+import { fetchResourceTemplateSummaries as fetchResourceTemplateSummariesCreator } from 'actionCreators/resourceTemplates'
+
 import _ from 'lodash'
 
 const FourOhFour = () => <h1>404</h1>
@@ -33,6 +35,7 @@ class App extends Component {
 
   componentDidMount() {
     this.props.storeAppVersion(version)
+    this.props.fetchResourceTemplateSummaries()
   }
 
   render() {
@@ -70,6 +73,7 @@ App.propTypes = {
   currentSession: PropTypes.object,
   handleOffsetMenu: PropTypes.func,
   hasResource: PropTypes.bool,
+  fetchResourceTemplateSummaries: PropTypes.func,
 }
 
 const mapStateToProps = (state) => {
@@ -83,6 +87,9 @@ const mapStateToProps = (state) => {
 const mapDispatchToProps = dispatch => ({
   storeAppVersion: (version) => {
     dispatch(saveAppVersion(version))
+  },
+  fetchResourceTemplateSummaries: () => {
+    dispatch(fetchResourceTemplateSummariesCreator())
   },
 })
 

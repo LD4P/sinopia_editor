@@ -32,6 +32,15 @@ export const clearResourceTemplates = (state) => {
   return newState
 }
 
+export const setResourceTemplateSummary = (state, action) => {
+  const resourceTemplateId = action.payload.id
+  const newState = { ...state }
+
+  newState.entities.resourceTemplateSummaries[resourceTemplateId] = action.payload
+
+  return newState
+}
+
 
 export const updateProperty = (state, action) => {
   const reduxPath = action.payload.reduxPath
@@ -132,6 +141,7 @@ const handlers = {
   APPEND_RESOURCE: appendResource,
   TOGGLE_COLLAPSE: toggleCollapse,
   CLEAR_RESOURCE_TEMPLATES: clearResourceTemplates,
+  SET_RESOURCE_TEMPLATE_SUMMARY: setResourceTemplateSummary,
 }
 
 export const createReducer = handlers => (state = {}, action) => {

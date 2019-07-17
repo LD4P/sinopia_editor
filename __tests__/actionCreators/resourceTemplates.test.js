@@ -1,6 +1,6 @@
 // Copyright 2019 Stanford University see LICENSE for license
 
-import fetchResourceTemplate from 'actionCreators/resourceTemplates'
+import { fetchResourceTemplate, fetchResourceTemplateSummaries } from 'actionCreators/resourceTemplates'
 /* eslint import/namespace: 'off' */
 import * as server from 'sinopiaServer'
 import { getFixtureResourceTemplate } from '../fixtureLoaderHelper'
@@ -35,5 +35,63 @@ describe('fetchResourceTemplate', () => {
         },
       })
     })
+  })
+})
+
+describe('fetchResourceTemplateSummaries', () => {
+  it('populates resource template summaries', async () => {
+    const noteId = 'resourceTemplate:bf2:Note'
+    const barcodeId = 'resourceTemplate:bf2:Identifiers:Barcode'
+    const resourceTemplatesResponse = {
+      response: {
+        body: {
+          contains: [`http://platform:8080/repository/ld4p/${noteId}`, `http://platform:8080/repository/ld4p/${barcodeId}`],
+        },
+      },
+    }
+    const noteTemplateResponse = await getFixtureResourceTemplate(noteId)
+    const barcodeTemplateResponse = await getFixtureResourceTemplate(barcodeId)
+
+    server.listResourcesInGroupContainer = jest.fn().mockResolvedValue(resourceTemplatesResponse)
+    server.getResourceTemplate = jest.fn().mockResolvedValue(barcodeTemplateResponse).mockResolvedValueOnce(noteTemplateResponse)
+    const dispatch = jest.fn()
+
+    await fetchResourceTemplateSummaries()(dispatch)
+    expect(server.listResourcesInGroupContainer).toHaveBeenCalledTimes(1)
+    expect(server.listResourcesInGroupContainer).toHaveBeenCalledWith('ld4p')
+
+    expect(server.getResourceTemplate).toHaveBeenCalledTimes(2)
+    expect(server.getResourceTemplate).toHaveBeenCalledWith(noteId, 'ld4p')
+    expect(server.getResourceTemplate).toHaveBeenCalledWith(barcodeId, 'ld4p')
+
+    expect(dispatch).toHaveBeenCalledTimes(2)
+    expect(dispatch).toBeCalledWith({
+      type: 'SET_RESOURCE_TEMPLATE_SUMMARY',
+      payload: {
+        key: noteId,
+        name: 'Note',
+        id: noteId,
+        group: 'ld4p',
+        author: undefined,
+        remark: undefined,
+      },
+    })
+  })
+  it('handles no templates', async () => {
+    const resourceTemplatesResponse = {
+      response: {
+        body: {
+          contains: [],
+        },
+      },
+    }
+
+    server.listResourcesInGroupContainer = jest.fn().mockResolvedValue(resourceTemplatesResponse)
+    const dispatch = jest.fn()
+
+    await fetchResourceTemplateSummaries()(dispatch)
+    expect(server.listResourcesInGroupContainer).toHaveBeenCalledTimes(1)
+    expect(server.listResourcesInGroupContainer).toHaveBeenCalledWith('ld4p')
+    expect(dispatch).toHaveBeenCalledTimes(0)
   })
 })

@@ -15,6 +15,11 @@ export const setResourceTemplate = resourceTemplate => ({
   payload: resourceTemplate,
 })
 
+export const setResourceTemplateSummary = resourceTemplateSummary => ({
+  type: 'SET_RESOURCE_TEMPLATE_SUMMARY',
+  payload: resourceTemplateSummary,
+})
+
 export const stubResource = () => ({
   type: 'STUB_RESOURCE',
 })

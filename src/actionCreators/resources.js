@@ -6,7 +6,7 @@ import {
   retrieveResourceStarted, setResource, updateProperty,
   toggleCollapse, appendResource, clearResourceTemplates,
 } from 'actions/index'
-import fetchResourceTemplate from 'actionCreators/resourceTemplates'
+import { fetchResourceTemplate } from 'actionCreators/resourceTemplates'
 import { updateRDFResource, loadRDFResource } from 'sinopiaServer'
 import { rootResourceId, findNode } from 'selectors/resourceSelectors'
 import findResourceTemplate from 'selectors/entitySelectors'
