@@ -1,6 +1,9 @@
 // Copyright 2019 Stanford University see LICENSE for license
 
 <<<<<<< HEAD
+<<<<<<< HEAD
+=======
+>>>>>>> Rebase actions/index
 // export const newResource = resourceTemplateId => ({
 //   type: 'NEW_RESOURCE',
 //   payload: resourceTemplateId,
@@ -16,17 +19,23 @@ export const setResourceTemplate = resourceTemplate => ({
   payload: resourceTemplate,
 })
 
+<<<<<<< HEAD
 export const setResourceTemplateSummary = resourceTemplateSummary => ({
   type: 'SET_RESOURCE_TEMPLATE_SUMMARY',
   payload: resourceTemplateSummary,
 })
 
+=======
+>>>>>>> Rebase actions/index
 export const stubResource = () => ({
   type: 'STUB_RESOURCE',
 })
 
+<<<<<<< HEAD
 =======
 >>>>>>> Add actions for search started and finished
+=======
+>>>>>>> Rebase actions/index
 export const retrieveError = (resourceTemplateId, reason) => ({
   type: 'RETRIEVE_ERROR',
   payload: { resourceTemplateId, reason },
@@ -46,6 +55,7 @@ export const closeGroupChooser = () => ({
   type: 'CLOSE_GROUP_CHOOSER',
 })
 
+<<<<<<< HEAD
 export const refreshPropertyTemplate = update => ({
   type: 'REFRESH_PROPERTY_TEMPLATE',
   payload: update,
@@ -58,10 +68,18 @@ export const rootResourceTemplateLoaded = resourceTemplate => ({
 
 <<<<<<< HEAD
 =======
+=======
+>>>>>>> Rebase actions/index
 export const removeItem = (reduxPath, id) => ({
   type: 'REMOVE_ITEM',
   payload: { reduxPath, id },
 })
+
+export const removeResource = reduxPath => ({
+  type: 'REMOVE_RESOURCE',
+  payload: reduxPath,
+})
+
 
 export const removeAllContent = item => ({
   type: 'REMOVE_ALL_CONTENT',
@@ -102,32 +120,6 @@ export const retrieveResourceTemplateStarted = resourceTemplateId => ({
   payload: resourceTemplateId,
 })
 
-export const retrieveResourceTemplateFinished = (resourceTemplateId, body) => ({
-  type: 'RETRIEVE_RESOURCE_TEMPLATE_FINISHED',
-  payload: {
-    resourceTemplateId,
-    body,
-  },
-})
-
-export const searchStarted = queryString => ({
-  type: 'SEARCH_STARTED',
-  payload: queryString,
-})
-
-export const searchFinished = (queryString, data) => ({
-  type: 'SEARCH_FINISHED',
-  payload: {
-    queryString,
-    data,
-  },
-})
-
-export const showSearchResults = searchResults => ({
-  type: 'SHOW_SEARCH_RESULTS',
-  payload: searchResults,
-})
-
 export const changeSelections = item => ({
   type: 'CHANGE_SELECTIONS',
   payload: item,
@@ -141,11 +133,6 @@ export const languageSelected = item => ({
 export const showRdfPreview = show => ({
   type: 'SHOW_RDF_PREVIEW',
   payload: show,
-})
-
-export const resourceTemplateLoaded = resourceTemplate => ({
-  type: 'RESOURCE_TEMPLATE_LOADED',
-  payload: resourceTemplate,
 })
 
 export const authenticationFailure = authenticationResult => ({
@@ -165,4 +152,41 @@ export const signOutSuccess = () => ({
 export const saveAppVersion = version => ({
   type: 'SAVE_APP_VERSION',
   payload: version,
+})
+
+export const updateProperty = (reduxPath, resourceFragment) => ({
+  type: 'UPDATE_PROPERTY',
+  payload: { reduxPath, resourceFragment },
+})
+
+export const appendResource = (reduxPath, resource) => ({
+  type: 'APPEND_RESOURCE',
+  payload: { reduxPath, resource },
+})
+
+export const toggleCollapse = reduxPath => ({
+  type: 'TOGGLE_COLLAPSE',
+  payload: { reduxPath },
+})
+
+export const clearResourceTemplates = () => ({
+  type: 'CLEAR_RESOURCE_TEMPLATES',
+})
+
+export const searchStarted = queryString => ({
+  type: 'SEARCH_STARTED',
+  payload: queryString,
+})
+
+export const searchFinished = (queryString, data) => ({
+  type: 'SEARCH_FINISHED',
+  payload: {
+    queryString,
+    data,
+  },
+})
+
+export const showSearchResults = searchResults => ({
+  type: 'SHOW_SEARCH_RESULTS',
+  payload: searchResults,
 })
