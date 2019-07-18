@@ -145,6 +145,27 @@ describe('<InputLookupQA />', () => {
     expect(mockFormDataFn.mock.calls.length).toBe(2)
   })
 
+  it('links the tokens when there is a URI', () => {
+    const option = {
+      uri: 'http://id.loc.gov/authorities/names/no2017003958',
+      id: 'no2017003958',
+      label: 'Ju, Peijian',
+    }
+
+    const tokenWrapper = shallow(wrapper.instance().renderTokenFunc(option, { labelKey: 'label' }, 0))
+    expect(tokenWrapper.exists('a[href="http://id.loc.gov/authorities/names/no2017003958"]')).toEqual(true)
+  })
+
+  it('does not link the tokens when there is no URI', () => {
+    const option = {
+      id: 'no2017003958',
+      label: 'Ju, Peijian',
+    }
+
+    const tokenWrapper = shallow(wrapper.instance().renderTokenFunc(option, { labelKey: 'label' }, 0))
+    expect(tokenWrapper.exists('a')).toEqual(false)
+  })
+
   // Institute wrapper with multiple lookup options
   const multipleWrapper = shallow(<InputLookupQA.WrappedComponent {...p2Props} handleSelectedChange={mockFormDataFn} />)
 

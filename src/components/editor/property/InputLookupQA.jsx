@@ -1,8 +1,10 @@
 // Copyright 2019 Stanford University see LICENSE for license
 import React, { Component } from 'react'
 import {
-  Menu, MenuItem, Typeahead, asyncContainer,
+  Menu, MenuItem, Typeahead, asyncContainer, Token,
 } from 'react-bootstrap-typeahead'
+import { getOptionLabel } from 'react-bootstrap-typeahead/lib/utils'
+
 import PropTypes from 'prop-types'
 import SinopiaPropTypes from 'SinopiaPropTypes'
 import Swagger from 'swagger-client'
@@ -25,6 +27,21 @@ class InputLookupQA extends Component {
     this.state = {
       isLoading: false,
     }
+  }
+
+  // Render token function to be used by typeahead
+  renderTokenFunc = (option, props, idx) => {
+    const optionLabel = getOptionLabel(option, props.labelKey)
+    const children = option.uri ? (<a href={option.uri} rel="noopener noreferrer" target="_blank">{optionLabel}</a>) : optionLabel
+    return (
+      <Token
+          disabled={props.disabled}
+          key={idx}
+          onRemove={props.onRemove}
+          tabIndex={props.tabIndex}>
+        { children }
+      </Token>
+    )
   }
 
   // Render menu function to be used by typeahead
@@ -193,7 +210,6 @@ class InputLookupQA extends Component {
     if (error) {
       groupClasses += ' has-error'
     }
-
     return (
       <div className={groupClasses}>
         <AsyncTypeahead renderMenu={(results, menuProps) => this.renderMenuFunc(results, menuProps)}
@@ -207,7 +223,7 @@ class InputLookupQA extends Component {
 
                           this.props.handleSelectedChange(payload)
                         }}
-
+                        renderToken={(option, props, idx) => this.renderTokenFunc(option, props, idx)}
                         {...typeaheadProps}
 
                         filterBy={() => true
