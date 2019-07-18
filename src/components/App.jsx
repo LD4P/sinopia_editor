@@ -13,7 +13,6 @@ import {
 } from 'react-router-dom'
 import ImportResourceTemplate from './templates/ImportResourceTemplate'
 import ImportResource from './load/ImportResource'
-import Browse from './browse/Browse'
 import Search from './search/Search'
 import CanvasMenu from './menu/CanvasMenu'
 import { saveAppVersion } from 'actions/index'
@@ -59,7 +58,6 @@ class App extends Component {
           )}
           <PrivateRoute exact path="/templates" component={props => <ImportResourceTemplate {...props} triggerHandleOffsetMenu={this.props.handleOffsetMenu} />}/>
           <Route exact path="/search" render={props => <Search {...props} triggerHandleOffsetMenu={this.props.handleOffsetMenu} />} />
-          <Route exact path="/browse" render={props => <Browse {...props} triggerHandleOffsetMenu={this.props.handleOffsetMenu} />} />
           <Route exact path="/load" render={props => <ImportResource {...props} triggerHandleOffsetMenu={this.props.handleOffsetMenu} />} />
           <Route path="/menu" render={props => <CanvasMenu {...props} />} />
           <Route id="404" component={FourOhFour} />

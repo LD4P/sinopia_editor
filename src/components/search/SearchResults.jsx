@@ -19,8 +19,6 @@ const SearchResults = (props) => {
   // This returns the current row number + 1 in order to include it in the displayed table
   const indexFormatter = (_cell, _row, rowIndex, _formatExtraData) => rowIndex + 1
 
-  // const titleFormatter = (_cell, row, _rowIndex, _formatExtraData) => <a href="http://localhost:8888">{ row.title }</a>
-
   const linkFormatter = (_cell, row) => (
     <ButtonToolbar>
       <Button bsStyle="link" onClick={e => handleClick(`${Config.sinopiaServerBase}/${row.uri}`, e)}>{row.title}</Button>

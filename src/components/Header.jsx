@@ -28,7 +28,6 @@ class Header extends Component {
             <ul className="nav nav-tabs pull-left editor-navtabs">
               { /* Navlinks enable highlighting the appropriate tab based on route, active style is defined in css */}
               <li className="nav-item"><NavLink className="nav-link" to="/search">Search</NavLink></li>
-              <li className="nav-item"><NavLink className="nav-link" to="/browse">Browse</NavLink></li>
               <li className="nav-item"><NavLink className="nav-link" to="/templates">Resource Templates</NavLink></li>
               <li className="nav-item"><NavLink className="nav-link" to="/load">Load</NavLink></li>
               { this.props.hasResource

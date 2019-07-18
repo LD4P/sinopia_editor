@@ -25,14 +25,11 @@ describe('<Header />', () => {
 
   describe('nav tabs', () => {
     describe('when no resource in state', () => {
-      it('displays 4 header tabs', () => {
-        expect(wrapper.find('ul.editor-navtabs NavLink').length).toBe(4)
+      it('displays 3 header tabs', () => {
+        expect(wrapper.find('ul.editor-navtabs NavLink').length).toBe(3)
       })
       it('has search URL', () => {
         expect(wrapper.find('ul.editor-navtabs NavLink[to=\'/search\']').length).toBe(1)
-      })
-      it('has browse URL', () => {
-        expect(wrapper.find('ul.editor-navtabs NavLink[to=\'/browse\']').length).toBe(1)
       })
       it('has load URL', () => {
         expect(wrapper.find('ul.editor-navtabs NavLink[to=\'/load\']').length).toBe(1)
@@ -44,8 +41,8 @@ describe('<Header />', () => {
     describe('when a resource in state', () => {
       const wrapper = shallow(<Header.WrappedComponent hasResource={true} {...props}/>)
 
-      it('displays 5 header tabs', () => {
-        expect(wrapper.find('ul.editor-navtabs NavLink').length).toBe(5)
+      it('displays 4 header tabs', () => {
+        expect(wrapper.find('ul.editor-navtabs NavLink').length).toBe(4)
       })
       it('has editor URL', () => {
         expect(wrapper.find('ul.editor-navtabs NavLink[to=\'/editor\']').length).toBe(1)
