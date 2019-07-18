@@ -4,12 +4,10 @@ import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 import SinopiaPropTypes from 'SinopiaPropTypes'
 import { connect } from 'react-redux'
-import Modal from 'react-bootstrap/lib/Modal'
-import Button from 'react-bootstrap/lib/Button'
 import shortid from 'shortid'
 import { removeItem, itemsSelected, languageSelected } from 'actions/index'
 import { findNode, getDisplayValidations, getPropertyTemplate } from 'selectors/resourceSelectors'
-import InputLang from './InputLang'
+import LanguageButton from './LanguageButton'
 import { booleanPropertyFromTemplate, defaultLangTemplate } from 'Utilities'
 
 
@@ -18,33 +16,14 @@ export class InputLiteral extends Component {
   constructor(props) {
     super(props)
 
-    /*
-     * Show is whether to show the language modal.
-     * Note that it is a hash because will have multiple modals if there
-     * are multiple literals.
-     */
     this.state = {
-      show: {},
       content_add: '',
-      lang_payload: null,
     }
     this.inputLiteralRef = React.createRef()
   }
 
-
   disabled = () => !booleanPropertyFromTemplate(this.props.propertyTemplate, 'repeatable', true)
       && this.props.items?.length > 0
-
-  handleShow = (id) => {
-    const showState = {}
-
-    showState[id] = true
-    this.setState({ show: showState })
-  }
-
-  handleClose = () => {
-    this.setState({ show: {}, lang_payload: null })
-  }
 
   handleFocus = (event) => {
     document.getElementById(event.target.id).focus()
@@ -113,22 +92,6 @@ export class InputLiteral extends Component {
       && this.props.formData.errors
       && this.props.formData.errors.length !== 0
 
-
-  dispModal = (content, id) => (
-    <Modal show={this.state.show[id]} onHide={this.handleClose}>
-      <Modal.Header closeButton>
-        <Modal.Title>Languages</Modal.Title>
-      </Modal.Header>
-      <Modal.Body>
-        <InputLang textValue={content} reduxPath={this.props.reduxPath} textId={id} handleLangChange={this.handleLangChange}/>
-      </Modal.Body>
-      <Modal.Footer>
-        <Button onClick={this.handleLangSubmit}>Submit</Button>
-        <Button onClick={this.handleClose}>Close</Button>
-      </Modal.Footer>
-    </Modal>
-  )
-
   makeAddedList = () => {
     if (this.props.items === undefined) {
       return
@@ -157,27 +120,11 @@ export class InputLiteral extends Component {
           data-label={this.props.formData.uri}
         >Edit
         </button>
-        <Button
-          id="language"
-          bsSize="small"
-          onClick = {e => this.handleShow(obj.id, e)}>
-          Language: {obj.lang.label}
-        </Button>
-        {this.dispModal(obj.content, obj.id)}
+        <LanguageButton language={obj} reduxPath={this.props.reduxPath}/>
       </div>
     })
 
     return elements
-  }
-
-  // Passed to InputLang component so that can return a language change.
-  handleLangChange = (payload) => {
-    this.setState({ lang_payload: payload })
-  }
-
-  handleLangSubmit= () => {
-    this.props.handleMyItemsLangChange(this.state.lang_payload)
-    this.handleClose()
   }
 
   render() {
@@ -193,7 +140,6 @@ export class InputLiteral extends Component {
     if (error) {
       groupClasses += ' has-error'
     }
-
 
     return (
       <div className={groupClasses}>
@@ -260,7 +206,6 @@ const mapDispatchToProps = dispatch => ({
   handleMyItemsLangChange(payload) {
     dispatch(languageSelected(payload))
   },
-
 })
 
 export default connect(mapStateToProps, mapDispatchToProps)(InputLiteral)
