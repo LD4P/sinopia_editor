@@ -27,7 +27,7 @@ const Search = (props) => {
     .hits.hits.map(row => ({ uri: row._id, title: row._source.title }))
 
   const search = (query) => {
-    const uri = `${Config.searchHost}${Config.searchPath}?q=title:${query}`
+    const uri = `${Config.searchHost}${Config.searchPath}?q=title:${query}%20OR%20subtitle:${query}`
 
     fetch(uri)
       .then(resp => resp.json())
