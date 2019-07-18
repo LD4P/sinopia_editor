@@ -9,9 +9,9 @@ const PropertyPanel = (props) => {
   const cssClasses = `panel panel-property ${floatClass}`
 
   return (
-    <div className={ cssClasses } data-label={ props.pt.propertyLabel }>
+    <div className={ cssClasses } data-label={ props.propertyTemplate.propertyLabel }>
       <div className="panel-heading prop-heading">
-        <PropertyLabel pt={ props.pt } />
+        <PropertyLabel propertyTemplate={ props.propertyTemplate } />
       </div>
       <div className="panel-body">
         { props.children }
@@ -23,7 +23,7 @@ const PropertyPanel = (props) => {
 PropertyPanel.propTypes = {
   children: PropTypes.oneOfType([PropTypes.array, PropTypes.object]),
   float: PropTypes.number,
-  pt: PropTypes.object,
+  propertyTemplate: PropTypes.object.isRequired,
 }
 
 export default PropertyPanel

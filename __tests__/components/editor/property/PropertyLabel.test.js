@@ -11,7 +11,7 @@ import RequiredSuperscript from 'components/editor/property/RequiredSuperscript'
 describe('<PropertyLabel />', () => {
   describe('when the propertyTemplate has a remark with a URL', () => {
     const props = {
-      pt: {
+      propertyTemplate: {
         remark: 'http://access.rdatoolkit.org/example',
         propertyLabel: 'Example RDA',
       },
@@ -37,7 +37,7 @@ describe('<PropertyLabel />', () => {
 
   describe('when the propertyTemplate has a remark and label, and the remark is not a URL', () => {
     const props = {
-      pt: {
+      propertyTemplate: {
         remark: 'A test remark',
         propertyLabel: 'Example RDA',
       },
@@ -54,7 +54,7 @@ describe('<PropertyLabel />', () => {
 
   describe('when the propertyTemplate has no remark and just a label', () => {
     const props = {
-      pt: {
+      propertyTemplate: {
         propertyLabel: 'Example RDA',
       },
     }
@@ -67,7 +67,7 @@ describe('<PropertyLabel />', () => {
 
   describe('when the propertyTemplate has an empty string as a remark and just a label', () => {
     const props = {
-      pt: {
+      propertyTemplate: {
         propertyLabel: 'Example RDA',
         remark: '',
       },
@@ -81,7 +81,7 @@ describe('<PropertyLabel />', () => {
 
   describe('the propertyTemplate mandatory property', () => {
     const props = {
-      pt: {
+      propertyTemplate: {
         remark: 'http://access.rdatoolkit.org/example',
         propertyLabel: 'Example RDA',
       },
@@ -94,14 +94,14 @@ describe('<PropertyLabel />', () => {
     })
 
     it('does not have the RequiredSuperscript component if property: mandatory is false', () => {
-      props.pt.mandatory = 'false'
+      props.propertyTemplate.mandatory = 'false'
       const wrapperNoRequired = shallow(<PropertyLabel {...props} />)
 
       expect(wrapperNoRequired.find(RequiredSuperscript).length).toEqual(0)
     })
 
     it('has the RequiredSuperscript component if property: mandatory is true', () => {
-      props.pt.mandatory = 'true'
+      props.propertyTemplate.mandatory = 'true'
       const wrapperRequired = shallow(<PropertyLabel {...props} />)
 
       expect(wrapperRequired.find(RequiredSuperscript).length).toEqual(1)

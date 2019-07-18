@@ -68,7 +68,7 @@ export class ResourceTemplateForm extends Component {
               if (isResourceWithValueTemplateRef(pt)) {
                 if (!_.isEmpty(this.props.resourceProperties)) {
                   return (
-                    <PropertyPanel pt={pt} key={index} float={index} rtId={this.props.resourceTemplateId}>
+                    <PropertyPanel propertyTemplate={pt} key={index} float={index}>
                       {this.resourceTemplateFields(pt.valueConstraint.valueTemplateRefs, pt)}
                     </PropertyPanel>
                   )
@@ -77,7 +77,7 @@ export class ResourceTemplateForm extends Component {
 
               const newReduxPath = [...this.props.reduxPath, pt.propertyURI]
               return (
-                <PropertyPanel pt={pt} key={index} float={index} rtId={this.props.resourceTemplateId}>
+                <PropertyPanel propertyTemplate={pt} key={index} float={index}>
                   <PropertyComponent index={index}
                                      reduxPath={newReduxPath}
                                      propertyTemplate={pt} />
@@ -100,7 +100,6 @@ export class ResourceTemplateForm extends Component {
 }
 
 ResourceTemplateForm.propTypes = {
-  resourceTemplateId: PropTypes.string.isRequired,
   propertyTemplates: PropTypes.array,
   resourceProperties: PropTypes.object,
   reduxPath: PropTypes.array,
@@ -112,7 +111,6 @@ const mapStateToProps = (state, ourProps) => {
   const resourceTemplate = getResourceTemplate(state, resourceTemplateId)
   const resourceProperties = findNode(state.selectorReducer, ourProps.reduxPath)
   return {
-    resourceTemplateId,
     propertyTemplates: resourceTemplate?.propertyTemplates || [],
     resourceProperties,
   }
