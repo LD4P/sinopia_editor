@@ -82,12 +82,12 @@ const p2Props = {
 const multipleResults = [{
   authLabel: 'Person',
   authURI: 'PersonURI',
-  body: [{ uri: 'puri', label: 'plabel' }],
+  body: [{ uri: 'http://id.loc.gov/authorities/names/n860600181234', label: 'Names, Someone' }],
 },
 {
   authLabel: 'Subject',
   authURI: 'SubjectURI',
-  body: [{ uri: 'suri', label: 'slabel' }],
+  body: [{ uri: 'http://id.loc.gov/authorities/subjects/sh00001861123', label: 'A Specific Place' }],
 }]
 
 describe('<InputLookupQA />', () => {
@@ -114,6 +114,10 @@ describe('<InputLookupQA />', () => {
     it('passes the "required" property to Typeahead', () => {
       expect(wrapper2.find('#lookupComponent').props().required).toBeTruthy()
     })
+
+    it('displays RequiredSuperscript if mandatory from template is true', () => {
+      expect(wrapper2.find('label > RequiredSuperscript')).toBeTruthy()
+    })
   })
 
   it('sets the typeahead component multiple attribute according to the repeatable property from the template', () => {
@@ -122,15 +126,15 @@ describe('<InputLookupQA />', () => {
 
   it('should call the onChange event and set the state with the selected option', () => {
     const event = (wrap) => {
-      wrap.setState({ options: ['{uri: \'URI\', label: \'LABEL\'}'] })
+      wrap.setState({ options: ['{id: \'n 860600181234\', uri: \'http://id.loc.gov/authorities/names/n860600181234\', label: \'Names, Someone\'}'] })
     }
 
     wrapper.find('#lookupComponent').simulate('change', event(wrapper))
-    expect(wrapper.state().options[0]).toBe('{uri: \'URI\', label: \'LABEL\'}')
+    expect(wrapper.state().options[0]).toBe('{id: \'n 860600181234\', uri: \'http://id.loc.gov/authorities/names/n860600181234\', label: \'Names, Someone\'}')
   })
 
   it('calls the Search and Change events and set the state with the returned json', () => {
-    const json = '{uri: \'URI\', label: \'LABEL\'}'
+    const json = '{id: \'n 860600181234\', uri: \'http://id.loc.gov/authorities/names/n860600181234\', label: \'Names, Someone\'}'
     const event = (wrap) => {
       wrap.setState({ options: [json] })
       wrap.setState({ selected: [json] })
@@ -190,8 +194,8 @@ describe('<InputLookupQA />', () => {
     // Four children, with two headings and two items
     expect(menuChildrenNumber).toEqual(4)
     expect(menuWrapper.childAt(0).html()).toEqual('<li class="dropdown-header">Person</li>')
-    expect(menuWrapper.childAt(1).childAt(0).text()).toEqual('plabel')
+    expect(menuWrapper.childAt(1).childAt(0).text()).toEqual('Names, Someone')
     expect(menuWrapper.childAt(2).html()).toEqual('<li class="dropdown-header">Subject</li>')
-    expect(menuWrapper.childAt(3).childAt(0).text()).toEqual('slabel')
+    expect(menuWrapper.childAt(3).childAt(0).text()).toEqual('A Specific Place')
   })
 })
