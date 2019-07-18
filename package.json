@@ -40,7 +40,6 @@
     "css-loader": "^2.1.1",
     "enzyme": "^3.9.0",
     "enzyme-adapter-react-16": "^1.12.1",
-    "es6-plato": "^1.1.6",
     "eslint": "^5.3.0",
     "eslint-config-airbnb-base": "^13.1.0",
     "eslint-import-resolver-webpack": "^0.11.1",
@@ -75,7 +74,6 @@
     "doc": "docs"
   },
   "scripts": {
-    "analysis": "es6-plato -d static-analysis -n -e .eslintrc.js src src/lib",
     "build": "webpack -p --progress --mode production",
     "ci": "npm i && npm run eslint && npm run dev-build && npm run jest-cov",
     "dev-build": "webpack --progress --mode development",
