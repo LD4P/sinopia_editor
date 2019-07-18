@@ -3,6 +3,5 @@ builds/*
 coverage/*
 docs/*
 static/*
-static-analysis/*
 dist/*
 node_modules/*

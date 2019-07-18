@@ -114,15 +114,12 @@ Once complete, you can start the dev server on your laptop as describe above and
 
 There is a project view and also a view of each file.  You can also check [coveralls](https://coveralls.io/repos/github/LD4P/sinopia_editor).
 
-### Static Analysis
-
-We use plato (actually es6-plato) to get static analysis info such as code complexity, etc.  `npm run analysis` will create a folder `static-analysis`; use a web browser to open `static-analysis/index.html`.  There is a project view and also a view of each file.
 
 ### Continuous Integration
 
 We use [circleci](https://circleci.com/gh/Ld4p/sinopia_profile_editor).  The steps are in `.circleci/config.yml`.
 
-In the "artifacts" tab of a particular build, you can look at code coverage (`coverage/lcov-report/index.html`) and at static analysis output (`static-analysis/index.html`).
+In the "artifacts" tab of a particular build, you can look at code coverage (`coverage/lcov-report/index.html`).
 
 ## Running with Docker
 
