@@ -22,7 +22,9 @@ const initialState = {
       groupChoice: {
         show: false,
       },
-      expanded: { // Should this node display as expanded in the editor
+      expanded: { // Should this node display as expanded in the editor (redux path organized)
+      },
+      resourceValidationErrors: { // Errors from validating resource (redux path organized)
       },
     },
     entities: { // The stuff we've retrieved from the server

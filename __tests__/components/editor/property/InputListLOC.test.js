@@ -234,3 +234,16 @@ describe('InputListLoc.responseToOptions', () => {
     expect(results.map(entry => entry.label)).toEqual(['Shona', 'Schona-Sprache', 'Upper Sorbian', 'Obersorbisch'])
   })
 })
+
+describe('Errors', () => {
+  const errors = ['Required']
+  const wrapper = shallow(<InputListLOC.WrappedComponent displayValidations={true} errors={errors} {...propsOk}/>)
+
+  it('displays the errors', () => {
+    expect(wrapper.find('span.help-block').text()).toEqual('Required')
+  })
+
+  it('sets the has-error class', () => {
+    expect(wrapper.exists('div.has-error')).toEqual(true)
+  })
+})

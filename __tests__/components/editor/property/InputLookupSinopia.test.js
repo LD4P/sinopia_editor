@@ -105,4 +105,16 @@ describe('<InputLookupSinopia />', () => {
       // don't know how to do this with enzyme and hooks.
     })
   })
+  describe('Errors', () => {
+    const errors = ['Required']
+    const wrapper = shallow(<InputLookupSinopia.WrappedComponent displayValidations={true} errors={errors} {...plProps}/>)
+
+    it('displays the errors', () => {
+      expect(wrapper.find('span.help-block').text()).toEqual('Required')
+    })
+
+    it('sets the has-error class', () => {
+      expect(wrapper.exists('div.has-error')).toEqual(true)
+    })
+  })
 })
