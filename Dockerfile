@@ -1,6 +1,6 @@
 FROM circleci/node:12.6
 
-# Allow build-time arguments (for, e.g., docker-compose)
+# Allow build-time arguments (for, environment variables that need to be encoded into the webpack distribution)
 ARG USE_FIXTURES
 ARG TRELLIS_BASE_URL
 ARG DEFAULT_PROFILE_SCHEMA_VERSION
