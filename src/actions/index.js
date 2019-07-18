@@ -29,8 +29,8 @@ export const retrieveError = (resourceTemplateId, reason) => ({
   payload: { resourceTemplateId, reason },
 })
 
-export const setItems = item => ({
-  type: 'SET_ITEMS',
+export const itemsSelected = item => ({
+  type: 'ITEMS_SELECTED',
   payload: item,
 })
 
@@ -91,8 +91,8 @@ export const changeSelections = item => ({
   payload: item,
 })
 
-export const setLang = item => ({
-  type: 'SET_LANG',
+export const languageSelected = item => ({
+  type: 'LANGUAGE_SELECTED',
   payload: item,
 })
 

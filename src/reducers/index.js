@@ -122,14 +122,14 @@ export const toggleCollapse = (state, action) => {
 }
 
 const handlers = {
-  SET_ITEMS: setItemsOrSelections,
+  ITEMS_SELECTED: setItemsOrSelections,
   CHANGE_SELECTIONS: setItemsOrSelections,
   RETRIEVE_ERROR: setRetrieveError,
   SET_BASE_URL: setBaseURL,
   SHOW_RESOURCE_URI_MESSAGE: showResourceURIMessage,
   SHOW_GROUP_CHOOSER: showGroupChooser,
   CLOSE_GROUP_CHOOSER: closeGroupChooser,
-  SET_LANG: setMyItemsLang,
+  LANGUAGE_SELECTED: setMyItemsLang,
   SHOW_RDF_PREVIEW: showRdfPreview,
   REMOVE_ITEM: removeMyItem,
   REMOVE_RESOURCE: removeResource,

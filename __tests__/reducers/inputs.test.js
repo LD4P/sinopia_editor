@@ -94,7 +94,7 @@ describe('showRdfPreview()', () => {
   })
 })
 
-describe('setItemsOrSelections with action type: SET_ITEMS', () => {
+describe('setItemsOrSelections with action type: ITEMS_SELECTED', () => {
   it('adds item to state', () => {
     initialState.resource = {
       'resourceTemplate:Monograph:Instance': {
@@ -104,7 +104,7 @@ describe('setItemsOrSelections with action type: SET_ITEMS', () => {
 
     const reduxPath = ['resource', 'resourceTemplate:Monograph:Instance', 'http://schema.org/name']
     const result = setItemsOrSelections(initialState, {
-      type: 'SET_ITEMS',
+      type: 'ITEMS_SELECTED',
       payload: {
         rtId: 'resourceTemplate:Monograph:Instance',
         uri: 'http://schema.org/name',
@@ -122,7 +122,7 @@ describe('setItemsOrSelections with action type: SET_ITEMS', () => {
     const reduxPath = ['resource', 'resourceTemplate:Monograph:Instance', 'http://schema.org/name']
     const result = setItemsOrSelections(initialState,
       {
-        type: 'SET_ITEMS',
+        type: 'ITEMS_SELECTED',
         payload: {
           rtId: 'resourceTemplate:Monograph:Instance',
           uri: 'http://schema.org/name',
@@ -144,7 +144,7 @@ describe('setItemsOrSelections with action type: SET_ITEMS', () => {
     const reduxPath = ['resource', 'resourceTemplate:Monograph:Instance', 'http://schema.org/description']
     const result = setItemsOrSelections(initialState,
       {
-        type: 'SET_ITEMS',
+        type: 'ITEMS_SELECTED',
         payload: {
           rtId: 'resourceTemplate:Monograph:Instance',
           uri: 'http://schema.org/description',
@@ -176,7 +176,7 @@ describe('setItemsOrSelections with action type: SET_ITEMS', () => {
     ]
     const result = setItemsOrSelections(initialState,
       {
-        type: 'SET_ITEMS',
+        type: 'ITEMS_SELECTED',
         payload: {
           rtId: 'resourceTemplate:Monograph:Instance',
           uri: 'http://id.loc.gov/ontologies/bibframe/mainTitle',
@@ -207,7 +207,7 @@ describe('setItemsOrSelections with action type: SET_ITEMS', () => {
     const reduxPath = ['resource', 'resourceTemplate:Monograph:Instance', 'http://schema.org/description']
     const result = setItemsOrSelections(initialState,
       {
-        type: 'SET_ITEMS',
+        type: 'ITEMS_SELECTED',
         payload: {
           rtId: 'resourceTemplate:Monograph:Instance',
           uri: 'http://schema.org/description',

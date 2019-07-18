@@ -5,7 +5,7 @@ import PropTypes from 'prop-types'
 import SinopiaPropTypes from 'SinopiaPropTypes'
 import { connect } from 'react-redux'
 import shortid from 'shortid'
-import { removeItem, setItems } from 'actions/index'
+import { removeItem, itemsSelected } from 'actions/index'
 import { findNode, getDisplayValidations, getPropertyTemplate } from 'selectors/resourceSelectors'
 import { booleanPropertyFromTemplate } from 'Utilities'
 
@@ -177,7 +177,7 @@ const mapStateToProps = (state, props) => {
 
 const mapDispatchToProps = dispatch => ({
   handleMyItemsChange(userInput) {
-    dispatch(setItems(userInput))
+    dispatch(itemsSelected(userInput))
   },
   handleRemoveItem(reduxPath, itemId) {
     dispatch(removeItem(reduxPath, itemId))

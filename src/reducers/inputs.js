@@ -75,7 +75,7 @@ export const setItemsOrSelections = (state, action) => {
         obj[key] = { items: [] }
       }
 
-      if (action.type === 'SET_ITEMS') {
+      if (action.type === 'ITEMS_SELECTED') {
         // here we are setting the items for repeatable user input, so push back each input item
         action.payload.items.map((row) => {
           obj[key].items.push(row)
