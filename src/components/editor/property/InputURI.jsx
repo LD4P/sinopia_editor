@@ -169,7 +169,6 @@ const mapStateToProps = (state, props) => {
   return {
     formData,
     items,
-    reduxPath,
     propertyTemplate,
     displayValidations,
   }
