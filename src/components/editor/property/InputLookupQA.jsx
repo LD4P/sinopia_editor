@@ -54,6 +54,21 @@ class InputLookupQA extends Component {
      * If error is returned, it will be used to display for that source
      */
     results.forEach((result, _i, list) => {
+      if (result.customOption) {
+        items.push(<Menu.Header key="customOption-header">New URI</Menu.Header>)
+        const option = {
+          id: result.label,
+          label: result.label,
+          uri: result.label,
+        }
+        items.push(
+          <MenuItem option={option} position={menuItemIndex} key={menuItemIndex}>
+            {result.label}
+          </MenuItem>,
+        )
+        menuItemIndex++
+        return
+      }
       const authLabel = result.authLabel
       const headerKey = `${result.authURI}-header`
 
@@ -98,7 +113,6 @@ class InputLookupQA extends Component {
         menuItemIndex++
       })
     })
-
     return (
       <Menu {...menuProps} id={menuProps.id}>
         {items}
@@ -170,6 +184,8 @@ class InputLookupQA extends Component {
             if (values[i]) {
               values[i].authLabel = lookupConfigs[i].label
               values[i].authURI = lookupConfigs[i].uri
+              values[i].label = lookupConfigs[i].label
+              values[i].id = lookupConfigs[i].uri
             }
           }
 
@@ -201,6 +217,7 @@ class InputLookupQA extends Component {
       onSearch: this.search(),
       options: this.state.options,
       selected: this.props.selected,
+      allowNew: true,
       delay: 300,
     }
 
