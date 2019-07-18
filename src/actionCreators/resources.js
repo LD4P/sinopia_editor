@@ -2,7 +2,7 @@
 /* eslint max-params: ["warn", 6] */
 
 import {
-  updateStarted, updateFinished,
+  assignBaseURL, updateStarted, updateFinished,
   retrieveResourceStarted, setResource, updateProperty,
   toggleCollapse, appendResource, clearResourceTemplates,
 } from 'actions/index'
@@ -34,11 +34,10 @@ export const retrieveResource = (currentUser, uri) => (dispatch) => {
   return loadRDFResource(currentUser, uri)
     .then((response) => {
       dispatch(clearResourceTemplates())
-
       const data = response.response.text
       return rdfDatasetFromN3(data).then((dataset) => {
         const builder = new ResourceStateBuilder(dataset, null)
-        dispatch(existingResource(builder.state))
+        dispatch(existingResource(builder.state, uri))
       })
     })
 }
@@ -53,8 +52,9 @@ export const newResource = resourceTemplateId => (dispatch) => {
 }
 
 // A thunk that stubs out an existing new resource
-export const existingResource = resource => (dispatch) => {
+export const existingResource = (resource, uri) => (dispatch) => {
   dispatch(setResource(resource))
+  dispatch(assignBaseURL(uri))
   dispatch(stubResource(false))
 }
 
