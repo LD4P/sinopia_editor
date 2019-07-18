@@ -7,7 +7,7 @@ import { connect } from 'react-redux'
 import Modal from 'react-bootstrap/lib/Modal'
 import Button from 'react-bootstrap/lib/Button'
 import shortid from 'shortid'
-import { removeItem, setItems, setLang } from 'actions/index'
+import { removeItem, itemsSelected, languageSelected } from 'actions/index'
 import { findNode, getDisplayValidations, getPropertyTemplate } from 'selectors/resourceSelectors'
 import InputLang from './InputLang'
 import { booleanPropertyFromTemplate, defaultLangTemplate } from 'Utilities'
@@ -264,13 +264,13 @@ const mapStateToProps = (state, props) => {
 
 const mapDispatchToProps = dispatch => ({
   handleMyItemsChange(userInput) {
-    dispatch(setItems(userInput))
+    dispatch(itemsSelected(userInput))
   },
   handleRemoveItem(reduxPath, itemId) {
     dispatch(removeItem(reduxPath, itemId))
   },
   handleMyItemsLangChange(payload) {
-    dispatch(setLang(payload))
+    dispatch(languageSelected(payload))
   },
 
 })
