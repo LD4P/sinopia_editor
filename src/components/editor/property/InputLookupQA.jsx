@@ -21,28 +21,121 @@ import InputLookupQADiscogs from './InputLookupQADiscogs'
 class InputLookupQA extends Component {
   constructor(props) {
     super(props)
+    this.state = {
+      isLoading: false,
+      options:[],
+      isTypeaheadComponent: false
+    }
+  }
+
+ doSearch = (query) => {
+    const lookupConfigs = this.props.lookupConfig
+      this.setState({ isLoading: true })
+      Swagger({ spec: swaggerSpec }).then((client) => {
+        // Create array of promises based on the lookup config array that is sent in
+        const lookupPromises = lookupConfigs.map((lookupConfig) => {
+          const authority = lookupConfig.authority
+          const subauthority = lookupConfig.subauthority
+          const language = lookupConfig.language
+         /*
+	            *  There are two types of lookup: linked data and non-linked data. The API calls
+	            *  for each type are different, so check the nonldLookup field in the lookup config.
+	            *  If the field is not set, assume false.
+	            */
+	           const nonldLookup = lookupConfig.nonldLookup ? lookupConfig.nonldLookup : false
+	   
+	           // default the API calls to their linked data values
+	           let subAuthCall = 'GET_searchSubauthority'
+	           let authorityCall = 'GET_searchAuthority'
+	   
+	           // Change the API calls if this is a non-linked data lookup
+	           if (nonldLookup) {
+	             subAuthCall = 'GET_nonldSearchWithSubauthority'
+	             authorityCall = 'GET_nonldSearchAuthority'
+        }
+
+          /*
+           *Return the 'promise'
+           *Since we don't want promise.all to fail if
+           *one of the lookups fails, we want a catch statement
+           *at this level which will then return the error. Subauthorities require a different API call than authorities so need to check if subauthority is available
+           *The only difference between this call and the next one is the call to Get_searchSubauthority instead of
+           *Get_searchauthority.  Passing API call in a variable name/dynamically, thanks @mjgiarlo
+           */
+          const actionFunction = lookupConfig.subauthority ? subAuthCall : authorityCall
+
+          return client
+            .apis
+            .SearchQuery?.[actionFunction]({
+              q: query,
+              vocab: authority,
+              subauthority,
+              maxRecords: Config.maxRecordsForQALookups,
+              lang: language,
+            })
+            .catch((err) => {
+              console.error('Error in executing lookup against source', err)
+              // Return information along with the error in its own object
+              return { isError: true, errorObject: err }
+            })
+        })
+
+        /*
+         * If undefined, add info - note if error, error object returned in object
+         * which allows attaching label and uri for authority
+         */
+        Promise.all(lookupPromises).then((values) => {
+          for (let i = 0; i < values.length; i++) {
+            if (values[i]) {
+              values[i].authLabel = lookupConfigs[i].label
+              values[i].authURI = lookupConfigs[i].uri
+            }
+          }
+          console.log("Updating options in parent state")
+          this.setState({
+            isLoading: false,
+            options: values,
+          })
+        })
+      }).catch((e) => {
+        console.error(e)
+      })
+    
   }
   
+  clearOptions = () => {
+  	this.setState({ options:[] })
+  }
+
   render() {
-      // Don't render if don't have property templates yet.
-      if (!this.props.propertyTemplate) {
-        return null
-      }
-      //typeahead by default otherwise use subtype
-      let componentType = this.props.propertyTemplate.subtype? this.props.propertyTemplate.subtype : "typeahead"
-      componentType = "typeahead"
-      if(componentType == "context")
-          return (<InputLookupQAContext
-              {...this.props} 
-               />)
-      else if(componentType == "discogs")
-          return (<InputLookupQADiscogs
-                  {...this.props} 
-                   />)
-      else
-          return (<InputLookupQATypeahead
-                  {...this.props} 
-                   />)
+    // Don't render if don't have property templates yet.
+    if (!this.props.propertyTemplate) {
+      return null
+    }
+    // typeahead by default otherwise use subtype
+    let componentType = this.props.propertyTemplate.subtype ? this.props.propertyTemplate.subtype : 'typeahead'
+    //componentType = 'typeahead'
+    if (componentType === 'context')
+    { return (<InputLookupQAContext
+      isLoading={this.state.isLoading}
+      options={this.state.options}
+      doSearch={this.doSearch}
+      clearOptions={this.clearOptions}
+      {...this.props}
+    />) }
+    if (componentType === 'discogs')
+    { return (<InputLookupQADiscogs
+      isLoading={this.state.isLoading}
+      options={this.state.options}
+      doSearch={this.doSearch}
+      {...this.props}
+    />) }
+    return (<InputLookupQATypeahead
+      isLoading={this.state.isLoading}
+      options={this.state.options}
+      doSearch={this.doSearch}
+      {...this.props}
+    />)
   }
 }
 
@@ -51,6 +144,7 @@ InputLookupQA.propTypes = {
   handleSelectedChange: PropTypes.func,
   lookupConfig: PropTypes.arrayOf(PropTypes.object).isRequired,
   propertyTemplate: PropTypes.shape({
+    subtype: PropTypes.string,
     propertyLabel: PropTypes.string,
     propertyURI: PropTypes.string,
     mandatory: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),

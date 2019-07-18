@@ -1,11 +1,11 @@
-// Copyright 2018 Stanford University see LICENSE for license
+// Copyright 2019 Stanford University see LICENSE for license
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 import Swagger from 'swagger-client'
 import swaggerSpec from 'lib/apidoc.json'
 import { connect } from 'react-redux'
-import { getProperty, getDisplayValidations, getPropertyTemplate } from 'reducers/index'
-import { changeSelections, removeItem } from 'actions/index'
+import { itemsForProperty, getDisplayValidations, getPropertyTemplate } from 'selectors/resourceSelectors'
+import { changeSelections, removeItem  } from 'actions/index'
 import { booleanPropertyFromTemplate, defaultValuesFromPropertyTemplate, getLookupConfigItems } from 'Utilities'
 import Config from 'Config'
 import Button from 'react-bootstrap/lib/Button'
@@ -33,87 +33,10 @@ class InputLookupQAContext extends Component {
       defaults,
       show: false,
       query: '',
-      options: [],
       selectedResultsList: [],
     }
 
     this.lookupClient = Swagger({ spec: swaggerSpec })
-  }
-
-  doSearch = (query) => {
-    const lookupConfigs = this.props.lookupConfig
-    let authority; let language; let
-      subauthority
-    this.setState({ isLoading: true })
-    this.lookupClient.then((client) => {
-      // create array of promises based on the lookup config array that is sent in
-      const lookupPromises = lookupConfigs.map((lookupConfig) => {
-        authority = lookupConfig.authority
-        subauthority = lookupConfig.subauthority
-        language = lookupConfig.language
-        
-        /*
-         *  There are two types of lookup: linked data and non-linked data. The API calls
-         *  for each type are different, so check the nonldLookup field in the lookup config.
-         *  If the field is not set, assume false.
-         */
-        const nonldLookup = lookupConfig.nonldLookup ? lookupConfig.nonldLookup : false
-
-        // default the API calls to their linked data values
-        let subAuthCall = 'GET_searchSubauthority'
-        let authorityCall = 'GET_searchAuthority'
-
-        // Change the API calls if this is a non-linked data lookup
-        if (nonldLookup) {
-          subAuthCall = 'GET_nonldSearchWithSubauthority'
-          authorityCall = 'GET_nonldSearchAuthority'
-        }
-
-        /*
-         * return the 'promise'
-         * Since we don't want promise.all to fail if
-         * one of the lookups fails, we want a catch statement
-         * at this level which will then return the error. Subauthorities require a different API call than authorities so need to check if subauthority is available
-         * The only difference between this call and the next one is the call to Get_searchSubauthority instead of
-         * Get_searchauthority.  Passing API call in a variable name/dynamically, thanks @mjgiarlo
-         */
-        const actionFunction = lookupConfig.subauthority ? subAuthCall : authorityCall
-
-        return client
-          .apis
-          .SearchQuery?.[actionFunction]({
-            q: query,
-            vocab: authority,
-            subauthority,
-            maxRecords: Config.maxRecordsForQALookups,
-            lang: language,
-            context: true,
-          })
-            .catch((err) => {
-              console.error('Error in executing lookup against source', err)
-              // return information along with the error in its own object
-              return { isError: true, errorObject: err }
-            })
-      })
-
-      /*
-       * If undefined, add info - note if error, error object returned in object
-       * which allows attaching label and uri for authority
-       */
-      Promise.all(lookupPromises).then((values) => {
-        for (let i = 0; i < values.length; i++) {
-          if (values[i]) {
-            values[i].authLabel = lookupConfigs[i].label
-            values[i].authURI = lookupConfigs[i].uri
-          }
-        }
-
-        this.setState({
-          isLoading: false,
-          options: values,
-        })
-      })
-    }).catch(() => false)
   }
 
 
@@ -163,7 +86,7 @@ class InputLookupQAContext extends Component {
 
   handleClick = () => {
     const query = this.state.query
-    this.doSearch(query)
+    this.props.doSearch(query)
     this.handleShow()
   }
 
@@ -189,7 +112,8 @@ class InputLookupQAContext extends Component {
   }
 
   displayResults = () => {
-    const options = this.state.options
+    //const options = this.state.options
+    const options = this.props.options
     if (options.length > 0) {
       return this.renderResults(options)
     }
@@ -299,7 +223,9 @@ class InputLookupQAContext extends Component {
      * everytime we close, we should also clear out the results and selected results from the modal
      * as well as original results from the query
      */
-    this.setState({ show: false, selectedResultsList: [], options: [] })
+    this.setState({ show: false, selectedResultsList: [] })
+    //clear out options in the parent component
+    this.props.clearOptions()
   }
 
   renderContext = (context, idx, outerIndex, authURI) => {
@@ -328,7 +254,7 @@ class InputLookupQAContext extends Component {
       // if property is one of the possible main label values don't show it
       if (mainLabelProperty.indexOf(property.toLowerCase()) < 0) {
         const values = contextResult.values
-        //const values = [contextResult.value] //hack for wikidata, to be removed later
+        // const values = [contextResult.value] //hack for wikidata, to be removed later
         const innerDivKey = `c${index}`
         if (values.length) {
           return (<div key={innerDivKey}> {property}: {values.join(', ')} </div>)
@@ -423,8 +349,10 @@ class InputLookupQAContext extends Component {
       placeholder: this.props.propertyTemplate.propertyLabel,
       useCache: true,
       selectHintOnEnter: true,
-      isLoading: this.state.isLoading,
-      options: this.state.options,
+      isLoading:this.props.isLoading,
+      options: this.props.options, 
+      //isLoading: this.state.isLoading,
+      //options: this.state.options,
       selected: this.state.selected,
       defaultSelected: this.state.defaults,
       delay: 300,
@@ -457,6 +385,7 @@ const authorityToContextOrderMap = {
 }
 
 InputLookupQAContext.propTypes = {
+  doSearch:PropTypes.func,
   propertyTemplate: PropTypes.shape({
     propertyLabel: PropTypes.string,
     mandatory: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
@@ -470,15 +399,24 @@ InputLookupQAContext.propTypes = {
 }
 
 const mapStateToProps = (state, props) => {
-  const result = getProperty(state, props)
   const reduxPath = props.reduxPath
   const resourceTemplateId = reduxPath[reduxPath.length - 2]
   const propertyURI = reduxPath[reduxPath.length - 1]
   const displayValidations = getDisplayValidations(state)
   const propertyTemplate = getPropertyTemplate(state, resourceTemplateId, propertyURI)
   const lookupConfig = getLookupConfigItems(propertyTemplate)
+  // Make sure that every item has a label
+    // This is a temporary strategy until label lookup is implemented.
+    const selected = itemsForProperty(state.selectorReducer, props.reduxPath).map((item) => {
+      const newItem = { ...item }
+      if (newItem.label === undefined) {
+        newItem.label = newItem.uri
+      }
+      return newItem
+    })
+
   return {
-    selected: result,
+    selected: selected,
     reduxPath,
     propertyTemplate,
     displayValidations,

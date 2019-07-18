@@ -22,7 +22,7 @@ class InputLookupQATypeahead extends Component {
     super(props)
 
     this.state = {
-      isLoading: false,
+      isLoading: false
     }
   }
 
@@ -105,67 +105,6 @@ class InputLookupQATypeahead extends Component {
     return this.props.displayValidations && this.isMandatory && selected.length < 1 ? 'Required' : undefined
   }
 
-  search() {
-    const lookupConfigs = this.props.lookupConfig
-
-    return (query) => {
-      this.setState({ isLoading: true })
-      Swagger({ spec: swaggerSpec }).then((client) => {
-        // Create array of promises based on the lookup config array that is sent in
-        const lookupPromises = lookupConfigs.map((lookupConfig) => {
-          const authority = lookupConfig.authority
-          const subauthority = lookupConfig.subauthority
-          const language = lookupConfig.language
-
-          /*
-           *Return the 'promise'
-           *Since we don't want promise.all to fail if
-           *one of the lookups fails, we want a catch statement
-           *at this level which will then return the error. Subauthorities require a different API call than authorities so need to check if subauthority is available
-           *The only difference between this call and the next one is the call to Get_searchSubauthority instead of
-           *Get_searchauthority.  Passing API call in a variable name/dynamically, thanks @mjgiarlo
-           */
-          const actionFunction = subauthority ? 'GET_searchSubauthority' : 'GET_searchAuthority'
-
-          return client
-            .apis
-            .SearchQuery?.[actionFunction]({
-              q: query,
-              vocab: authority,
-              subauthority,
-              maxRecords: Config.maxRecordsForQALookups,
-              lang: language,
-            })
-            .catch((err) => {
-              console.error('Error in executing lookup against source', err)
-              // Return information along with the error in its own object
-              return { isError: true, errorObject: err }
-            })
-        })
-
-        /*
-         * If undefined, add info - note if error, error object returned in object
-         * which allows attaching label and uri for authority
-         */
-        Promise.all(lookupPromises).then((values) => {
-          for (let i = 0; i < values.length; i++) {
-            if (values[i]) {
-              values[i].authLabel = lookupConfigs[i].label
-              values[i].authURI = lookupConfigs[i].uri
-            }
-          }
-
-          this.setState({
-            isLoading: false,
-            options: values,
-          })
-        })
-      }).catch((e) => {
-        console.error(e)
-      })
-    }
-  }
-
   render() {
     // Don't render if no property template yet
     if (!this.props.propertyTemplate) {
@@ -179,9 +118,9 @@ class InputLookupQATypeahead extends Component {
       placeholder: this.props.propertyTemplate.propertyLabel,
       useCache: true,
       selectHintOnEnter: true,
-      isLoading: this.state.isLoading,
-      onSearch: this.search(),
-      options: this.state.options,
+      isLoading:this.props.isLoading,
+      onSearch: this.props.doSearch,
+      options: this.props.options, 
       selected: this.props.selected,
       delay: 300,
     }
@@ -219,6 +158,7 @@ class InputLookupQATypeahead extends Component {
 }
 
 InputLookupQATypeahead.propTypes = {
+  doSearch:PropTypes.func,
   displayValidations: PropTypes.bool,
   handleSelectedChange: PropTypes.func,
   lookupConfig: PropTypes.arrayOf(PropTypes.object).isRequired,
