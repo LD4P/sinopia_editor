@@ -10,7 +10,6 @@ import request from 'request'
 import bodyParser from 'body-parser'
 import Config from './src/Config'
 import versoSpoof from './src/versoSpoof'
-import url from 'url'
 import _ from 'lodash'
 
 const port = 8000
@@ -46,7 +45,7 @@ app.use('/api/search', (req, res) => {
 
   let searchUri = `${Config.indexUrl}${req.path}`
   if (!_.isEmpty(req.query)) {
-    searchUri += url.URL(req.originalUrl).search
+    searchUri += new URL(req.originalUrl).search
   }
 
   request({
