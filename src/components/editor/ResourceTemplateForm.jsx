@@ -7,7 +7,6 @@ import shortid from 'shortid'
 import PropertyPanel from './property/PropertyPanel'
 import PropertyResourceTemplate from './property/PropertyResourceTemplate'
 import PropertyComponent from './property/PropertyComponent'
-import { removeAllContent, setItems } from 'actions/index'
 import { isResourceWithValueTemplateRef } from 'Utilities'
 import { getResourceTemplate, findNode } from 'selectors/resourceSelectors'
 import _ from 'lodash'
@@ -102,8 +101,6 @@ export class ResourceTemplateForm extends Component {
 
 ResourceTemplateForm.propTypes = {
   resourceTemplateId: PropTypes.string.isRequired,
-  handleMyItemsChange: PropTypes.func,
-  handleRemoveAllContent: PropTypes.func,
   propertyTemplates: PropTypes.array,
   resourceProperties: PropTypes.object,
   reduxPath: PropTypes.array,
@@ -121,13 +118,4 @@ const mapStateToProps = (state, ourProps) => {
   }
 }
 
-const mapDispatchToProps = dispatch => ({
-  handleMyItemsChange(userInput) {
-    dispatch(setItems(userInput))
-  },
-  handleRemoveAllContent(id) {
-    dispatch(removeAllContent(id))
-  },
-})
-
-export default connect(mapStateToProps, mapDispatchToProps)(ResourceTemplateForm)
+export default connect(mapStateToProps, null)(ResourceTemplateForm)

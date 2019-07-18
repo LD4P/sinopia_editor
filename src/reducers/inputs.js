@@ -49,23 +49,6 @@ export const showRdfPreview = (state, action) => {
   return newState
 }
 
-export const removeAllContent = (state, action) => {
-  const newState = { ...state }
-  const reduxPath = action.payload.reduxPath
-  let level = 0
-
-  reduxPath.reduce((obj, key) => {
-    level++
-    if (level === reduxPath.length) {
-      obj[key].items = []
-    }
-
-    return obj[key]
-  }, newState)
-
-  return validate(newState)
-}
-
 /**
  * Takes the reduxPath (an array of keys that correspond to the redux state tree for a 'resource') and performs a reduce
  * function on each of the keys, searching for the last key in the path and then appending an object with an `items` array.
