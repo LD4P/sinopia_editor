@@ -7,12 +7,11 @@ import Modal from 'react-bootstrap/lib/Modal'
 import Button from 'react-bootstrap/lib/Button'
 import InputLang from './InputLang'
 import { languageSelected } from 'actions/index'
-import { defaultLangTemplate } from 'Utilities'
+import { findNode } from 'selectors/resourceSelectors'
 
 const LanguageButton = (props) => {
   const [langPayload, setLang] = useState(null)
   const [show, setShow] = useState(false)
-  const lang = props.language.lang || defaultLangTemplate()
 
   const handleClose = () => {
     setShow(false)
@@ -28,13 +27,13 @@ const LanguageButton = (props) => {
     handleClose()
   }
 
-  const dispModal = (content, id) => (
+  const dispModal = () => (
     <Modal show={true} onHide={(handleClose)}>
       <Modal.Header closeButton>
         <Modal.Title>Languages</Modal.Title>
       </Modal.Header>
       <Modal.Body>
-        <InputLang textValue={content} reduxPath={props.reduxPath} textId={id} handleLangChange={handleLangChange}/>
+        <InputLang textValue={props.textContent} reduxPath={props.reduxPath} textId={props.id} handleLangChange={handleLangChange}/>
       </Modal.Body>
       <Modal.Footer>
         <Button onClick={handleLangSubmit}>Submit</Button>
@@ -49,9 +48,9 @@ const LanguageButton = (props) => {
         id="language"
         bsSize="small"
         onClick = { () => setShow(true) }>
-        Language: {lang.label}
+        Language: {props.language}
       </Button>
-      { show ? dispModal(props.language.content, props.language.id) : '' }
+      { show ? dispModal() : '' }
     </React.Fragment>
   )
 }
@@ -59,8 +58,20 @@ const LanguageButton = (props) => {
 LanguageButton.propTypes = {
   handleMyItemsLangChange: PropTypes.func,
   reduxPath: PropTypes.oneOfType([PropTypes.string, PropTypes.array]).isRequired,
-  language: PropTypes.object,
+  id: PropTypes.string.isRequired,
+  language: PropTypes.string.isRequired,
+  textContent: PropTypes.string.isRequired,
 }
+
+const mapStatetoProps = (state, ourProps) => {
+  const node = findNode(state.selectorReducer, ourProps.reduxPath)
+  const item = node.items.find(item => item.id === ourProps.id)
+  return {
+    language: item.lang.label,
+    textContent: item.content,
+  }
+}
+
 
 const mapDispatchToProps = dispatch => ({
   handleMyItemsLangChange(payload) {
@@ -68,4 +79,4 @@ const mapDispatchToProps = dispatch => ({
   },
 })
 
-export default connect(null, mapDispatchToProps)(LanguageButton)
+export default connect(mapStatetoProps, mapDispatchToProps)(LanguageButton)

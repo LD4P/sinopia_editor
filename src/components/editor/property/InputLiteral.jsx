@@ -5,7 +5,7 @@ import PropTypes from 'prop-types'
 import SinopiaPropTypes from 'SinopiaPropTypes'
 import { connect } from 'react-redux'
 import shortid from 'shortid'
-import { removeItem, itemsSelected, languageSelected } from 'actions/index'
+import { removeItem, itemsSelected } from 'actions/index'
 import { findNode, getDisplayValidations, getPropertyTemplate } from 'selectors/resourceSelectors'
 import LanguageButton from './LanguageButton'
 import { booleanPropertyFromTemplate, defaultLangTemplate } from 'Utilities'
@@ -120,7 +120,7 @@ export class InputLiteral extends Component {
           data-label={this.props.formData.uri}
         >Edit
         </button>
-        <LanguageButton language={obj} reduxPath={this.props.reduxPath}/>
+        <LanguageButton id={obj.id} reduxPath={this.props.reduxPath}/>
       </div>
     })
 
@@ -173,7 +173,6 @@ InputLiteral.propTypes = {
   items: PropTypes.array,
   handleMyItemsChange: PropTypes.func,
   handleRemoveItem: PropTypes.func,
-  handleMyItemsLangChange: PropTypes.func,
   reduxPath: PropTypes.oneOfType([PropTypes.string, PropTypes.array]),
   displayValidations: PropTypes.bool,
 }
@@ -202,9 +201,6 @@ const mapDispatchToProps = dispatch => ({
   },
   handleRemoveItem(reduxPath, itemId) {
     dispatch(removeItem(reduxPath, itemId))
-  },
-  handleMyItemsLangChange(payload) {
-    dispatch(languageSelected(payload))
   },
 })
 

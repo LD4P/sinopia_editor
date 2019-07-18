@@ -16,7 +16,9 @@ describe('<LanguageButton />', () => {
                                           'resourceTemplate:bf2:Monograph:Instance',
                                           'http://id.loc.gov/ontologies/bibframe/instanceOf',
                                         ]}
-                                        language={{ content: 'foo', id: 4, lang: { items: [{ label: 'English' }] } }}
+                                        id={'TM1qwVFkh'}
+                                        language={'English'}
+                                        textContent={'foo'}
                                         handleMyItemsLangChange={jest.fn()} />)
   })
 
@@ -34,7 +36,9 @@ describe('When the user enters input into language modal', () => {
                                               'resourceTemplate:bf2:Monograph:Instance',
                                               'http://id.loc.gov/ontologies/bibframe/instanceOf',
                                             ]}
-                                            language={{ content: 'foo', id: 4, lang: { items: [{ label: 'English' }] } }}
+                                            id={'TM1qwVFkh'}
+                                            language={'English'}
+                                            textContent={'foo'}
                                             handleMyItemsLangChange={mockMyItemsLangChange} />)
 
   it('shows the <InputLang> modal when the <Button/> is clicked', () => {
