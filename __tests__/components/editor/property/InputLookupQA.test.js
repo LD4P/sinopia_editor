@@ -90,6 +90,11 @@ const multipleResults = [{
   body: [{ uri: 'http://id.loc.gov/authorities/subjects/sh00001861123', label: 'A Specific Place' }],
 }]
 
+const newURIResults = [{
+  customOption: true,
+  label: 'http://some.new.uri',
+}]
+
 describe('<InputLookupQA />', () => {
   const mockFormDataFn = jest.fn()
   const wrapper = shallow(<InputLookupQA.WrappedComponent {...plProps} handleSelectedChange={mockFormDataFn} />)
@@ -197,5 +202,35 @@ describe('<InputLookupQA />', () => {
     expect(menuWrapper.childAt(1).childAt(0).text()).toEqual('Names, Someone')
     expect(menuWrapper.childAt(2).html()).toEqual('<li class="dropdown-header">Subject</li>')
     expect(menuWrapper.childAt(3).childAt(0).text()).toEqual('A Specific Place')
+  })
+
+  it('shows a single new URI value with the correct header when no other matches are found', () => {
+    const instance = multipleWrapper.instance()
+    const menuWrapper = shallow(instance.renderMenuFunc(newURIResults, p2Props))
+    const menuChildrenNumber = menuWrapper.children().length
+    // One top level menu component
+
+    expect(menuWrapper.find('ul').length).toEqual(1)
+    // Two children, with one headings and one custom item
+    expect(menuChildrenNumber).toEqual(2)
+    expect(menuWrapper.childAt(0).html()).toEqual('<li class="dropdown-header">New URI</li>')
+    expect(menuWrapper.childAt(1).childAt(0).text()).toEqual('http://some.new.uri')
+  })
+
+  it('shows menu headers for both lookups and new URI value with the correct headers when matches are found', () => {
+    const instance = multipleWrapper.instance()
+    const menuWrapper = shallow(instance.renderMenuFunc(multipleResults.concat(newURIResults), p2Props))
+    const menuChildrenNumber = menuWrapper.children().length
+    // One top level menu component
+
+    expect(menuWrapper.find('ul').length).toEqual(1)
+    // Five children, with three headings and three items
+    expect(menuChildrenNumber).toEqual(6)
+    expect(menuWrapper.childAt(0).html()).toEqual('<li class="dropdown-header">Person</li>')
+    expect(menuWrapper.childAt(1).childAt(0).text()).toEqual('Names, Someone')
+    expect(menuWrapper.childAt(2).html()).toEqual('<li class="dropdown-header">Subject</li>')
+    expect(menuWrapper.childAt(3).childAt(0).text()).toEqual('A Specific Place')
+    expect(menuWrapper.childAt(4).html()).toEqual('<li class="dropdown-header">New URI</li>')
+    expect(menuWrapper.childAt(5).childAt(0).text()).toEqual('http://some.new.uri')
   })
 })
