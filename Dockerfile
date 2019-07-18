@@ -1,4 +1,4 @@
-FROM circleci/node:10.11
+FROM circleci/node:12.6
 
 # Allow build-time arguments (for, e.g., docker-compose)
 ARG USE_FIXTURES
