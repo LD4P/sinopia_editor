@@ -138,3 +138,8 @@ export const toggleCollapse = reduxPath => ({
 export const clearResourceTemplates = () => ({
   type: 'CLEAR_RESOURCE_TEMPLATES',
 })
+
+export const showSearchResults = searchResults => ({
+  type: 'SHOW_SEARCH_RESULTS',
+  payload: searchResults,
+})

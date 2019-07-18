@@ -150,6 +150,18 @@ export const showResourceURIMessage = (state, action) => {
   return newState
 }
 
+/**
+ * @param {Object} state the previous redux state
+ * @param {Object} action the payload of the action is the URI returned from saving the resource
+ * @return {Object} the next redux state
+ */
+export const showSearchResults = (state, action) => {
+  const newState = { ...state }
+
+  newState.search.results = action.payload
+  return newState
+}
+
 export const removeMyItem = (state, action) => {
   const newState = { ...state }
   const reduxPath = action.payload.reduxPath

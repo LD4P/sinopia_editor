@@ -4,7 +4,7 @@ import { combineReducers } from 'redux'
 import authenticate from './authenticate'
 import {
   removeMyItem, setItemsOrSelections, setBaseURL, showResourceURIMessage, setMyItemsLang,
-  showGroupChooser, closeGroupChooser, showRdfPreview,
+  showGroupChooser, closeGroupChooser, showRdfPreview, showSearchResults,
 } from './inputs'
 import { findNode } from 'selectors/resourceSelectors'
 import _ from 'lodash'
@@ -133,6 +133,7 @@ const handlers = {
   RETRIEVE_RESOURCE_TEMPLATE_STARTED: clearRetrieveError,
   SET_BASE_URL: setBaseURL,
   SHOW_RESOURCE_URI_MESSAGE: showResourceURIMessage,
+  SHOW_SEARCH_RESULTS: showSearchResults,
   SHOW_GROUP_CHOOSER: showGroupChooser,
   CLOSE_GROUP_CHOOSER: closeGroupChooser,
   LANGUAGE_SELECTED: setMyItemsLang,
