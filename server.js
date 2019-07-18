@@ -45,7 +45,7 @@ app.use('/api/search', (req, res) => {
 
   let searchUri = `${Config.indexUrl}${req.path}`
   if (!_.isEmpty(req.query)) {
-    searchUri += new URL(req.originalUrl).search
+    searchUri += new URL(`${searchUri}${req.originalUrl}`).search
   }
 
   request({
