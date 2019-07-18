@@ -53,12 +53,6 @@ export const removeResource = reduxPath => ({
   payload: reduxPath,
 })
 
-
-export const removeAllContent = item => ({
-  type: 'REMOVE_ALL_CONTENT',
-  payload: item,
-})
-
 export const removeAllItems = item => ({
   type: 'REMOVE_ALL',
   payload: item,

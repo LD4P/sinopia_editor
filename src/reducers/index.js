@@ -3,7 +3,7 @@
 import { combineReducers } from 'redux'
 import authenticate from './authenticate'
 import {
-  removeAllContent, removeMyItem, setItemsOrSelections, setBaseURL, showResourceURIMessage, setMyItemsLang,
+  removeMyItem, setItemsOrSelections, setBaseURL, showResourceURIMessage, setMyItemsLang,
   showGroupChooser, closeGroupChooser, showRdfPreview,
 } from './inputs'
 import { findNode } from 'selectors/resourceSelectors'
@@ -132,7 +132,6 @@ const handlers = {
   SET_LANG: setMyItemsLang,
   SHOW_RDF_PREVIEW: showRdfPreview,
   REMOVE_ITEM: removeMyItem,
-  REMOVE_ALL_CONTENT: removeAllContent,
   REMOVE_RESOURCE: removeResource,
   SAVE_APP_VERSION: saveAppVersion,
   SET_RESOURCE: setResource,

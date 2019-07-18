@@ -1,7 +1,7 @@
 // Copyright 2019 Stanford University see LICENSE for license
 
 import {
-  removeAllContent, removeMyItem, setItemsOrSelections, setBaseURL,
+  removeMyItem, setItemsOrSelections, setBaseURL,
   validate, showGroupChooser, closeGroupChooser, showRdfPreview,
   showResourceURIMessage,
 } from 'reducers/inputs'
@@ -423,33 +423,6 @@ describe('removeMyItem', () => {
         { content: 'Test', id: 1 },
         { content: 'Statement', id: 2 },
       ],
-    })
-  })
-})
-
-describe('removeAllContent', () => {
-  it('handles REMOVE_ALL_CONTENT', () => {
-    initialState.resource = {
-      'resourceTemplate:Monograph:Instance': {
-        'http://schema.org/name': {
-          items: [
-            { content: 'Test', id: 1 },
-            { content: 'Statement', id: 2 },
-          ],
-        },
-      },
-    }
-    const reduxPath = ['resource', 'resourceTemplate:Monograph:Instance', 'http://schema.org/name']
-    const result = removeAllContent(initialState, {
-      type: 'REMOVE_ALL_CONTENT',
-      payload: {
-        uri: 'http://schema.org/name',
-        reduxPath,
-      },
-    })
-
-    expect(findNode(result, reduxPath)).toEqual({
-      items: [],
     })
   })
 })
