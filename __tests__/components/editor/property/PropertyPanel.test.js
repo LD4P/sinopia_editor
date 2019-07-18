@@ -7,7 +7,7 @@ import PropertyLabel from 'components/editor/property/PropertyLabel'
 
 describe('<PropertyPanel />', () => {
   const panelProps = {
-    pt: {
+    propertyTemplate: {
       propertyLabel: 'Instance of',
       propertyURI: 'http://id.loc.gov/ontologies/bibframe/instanceOf',
       resourceTemplates: [],

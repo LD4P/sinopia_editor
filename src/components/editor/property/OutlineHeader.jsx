@@ -22,7 +22,7 @@ const OutlineHeader = (props) => {
       <button type="button" className="btn btn-sm btn-outline-primary btn-toggle" onClick={props.handleAddAndOpen} data-id={props.id} disabled={isAdd}>
         <FontAwesomeIcon icon={icon} />
       </button>
-      <PropertyLabel pt={props.property} />
+      <PropertyLabel propertyTemplate={props.property} />
       { isAdd && (
         <button type="button" className="btn btn-sm btn-outline-primary btn-add" onClick={props.handleAddAndOpen} data-id={props.id}>
           Add
