@@ -4,7 +4,6 @@ import SinopiaServer from 'sinopia_server'
 import CognitoUtils from './CognitoUtils'
 import Config from './Config'
 import { rtFixturesGroups, getFixtureResourceTemplate, listFixtureResourcesInGroupContainer } from '../__tests__/fixtureLoaderHelper'
-import request from 'request'
 
 const instance = new SinopiaServer.LDPApi()
 
@@ -179,22 +178,4 @@ export const loadRDFResource = async (currentUser, uri) => {
 
   const id = identifiersForUri(uri)
   return await instance.getResourceWithHttpInfo(id.group, id.identifier, returningNtriples)
-}
-
-export const getSearchResults = async (queryString) => {
-  const uri = `${Config.searchHost}${Config.searchPath}`
-
-  return new Promise((resolve, reject) => {
-    request.post({
-      url: uri,
-      form: { query: { match: { title: queryString } } },
-    },
-    (err, _httpResponse, body) => {
-      if (err === null) {
-        resolve(body)
-      } else {
-        reject(err)
-      }
-    })
-  })
 }

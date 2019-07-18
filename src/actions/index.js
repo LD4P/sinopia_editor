@@ -43,21 +43,6 @@ export const closeGroupChooser = () => ({
   type: 'CLOSE_GROUP_CHOOSER',
 })
 
-<<<<<<< HEAD
-export const refreshPropertyTemplate = update => ({
-  type: 'REFRESH_PROPERTY_TEMPLATE',
-  payload: update,
-})
-
-export const rootResourceTemplateLoaded = resourceTemplate => ({
-  type: 'ROOT_RESOURCE_TEMPLATE_LOADED',
-  payload: resourceTemplate,
-})
-
-<<<<<<< HEAD
-=======
-=======
->>>>>>> Rebase actions/index
 export const removeItem = (reduxPath, id) => ({
   type: 'REMOVE_ITEM',
   payload: { reduxPath, id },
@@ -68,13 +53,6 @@ export const removeResource = reduxPath => ({
   payload: reduxPath,
 })
 
-
-export const removeAllContent = item => ({
-  type: 'REMOVE_ALL_CONTENT',
-  payload: item,
-})
-
->>>>>>> Add actions for search started and finished
 export const removeAllItems = item => ({
   type: 'REMOVE_ALL',
   payload: item,

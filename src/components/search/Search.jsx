@@ -5,57 +5,76 @@ import { connect } from 'react-redux'
 import PropTypes from 'prop-types'
 import Header from '../Header'
 import FormGroup from 'react-bootstrap/lib/FormGroup'
-import ControlLabel from 'react-bootstrap/lib/ControlLabel'
 import FormControl from 'react-bootstrap/lib/FormControl'
-import Col from 'react-bootstrap/lib/Col'
+import Grid from 'react-bootstrap/lib/Grid'
+import Row from 'react-bootstrap/lib/Row'
+import Form from 'react-bootstrap/lib/Form'
 import Glyphicon from 'react-bootstrap/lib/Glyphicon'
-import { retrieveSearchResults } from 'actionCreators/searchResults'
+import InputGroup from 'react-bootstrap/lib/InputGroup'
+import {
+  searchStarted, searchFinished, showSearchResults,
+} from 'actions/index'
 import SearchResults from './SearchResults'
+import Config from 'Config'
 
 const Search = (props) => {
   const [queryString, setQueryString] = useState('')
+  const [searchResults, setSearchResults] = useState([])
 
   const handleKeyPress = (event) => {
+    console.log("Handle Key Press")
     if (event.key === 'Enter') {
-      props.getSearchResults(queryString)
+      search(queryString)
       event.preventDefault()
     }
+  }
+
+  const responseToSearchResults = json => json
+    .hits.hits.map(row => ({ uri: row._id, title: row._source.title }))
+
+  const search = (query) => {
+
+    const uri = `${Config.searchHost}${Config.searchPath}?q=title:${query}`
+    fetch(uri)
+      .then(resp => resp.json())
+      .then(json => responseToSearchResults(json))
+      .then((results) => {
+        console.log("RESULTS: ", results)
+        setSearchResults(results)
+        props.displaySearchResults(results)
+      })
   }
 
   return (
     <div id="search">
       <Header triggerEditorMenu={props.triggerHandleOffsetMenu} />
-      <div className="row">
-        <div className="col-md-2"></div>
-        <div className="col-md-8">
-          <form>
-            <FormGroup controlId="formHorizontalSearch">
-              <Col componentClass={ControlLabel} sm={2}><h3>Search</h3></Col>
-              <Col sm={10}>
-                <FormControl column sm={8}
+      <Grid>
+      <Row className="text-center">
+          <Form>
+            <FormGroup controlId="formGroupSearch" >
+                <FormControl type="text" 
+                             placeholder="Search"
+                             aria-label="Search"
                              onChange={ event => setQueryString(event.target.value) }
                              onKeyPress={ event => handleKeyPress(event) } />
-                <Glyphicon glyph="search" />
-              </Col>
             </FormGroup>
-          </form>
-        </div>
-        <div className="col-md-8"></div>
-      </div>
+          </Form>
+      </Row>
       <SearchResults {...props} />
+      </Grid>
     </div>
   )
 }
 
 Search.propTypes = {
   triggerHandleOffsetMenu: PropTypes.func,
-  getSearchResults: PropTypes.func,
+  displaySearchResults: PropTypes.func,
   currentUser: PropTypes.object,
 }
 
 const mapDispatchToProps = dispatch => ({
-  getSearchResults: (queryString) => {
-    dispatch(retrieveSearchResults(queryString))
+  displaySearchResults: (searchResults) => {
+    dispatch(showSearchResults(searchResults))
   },
 })
 
