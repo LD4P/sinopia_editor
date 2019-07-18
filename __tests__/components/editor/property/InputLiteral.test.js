@@ -109,7 +109,6 @@ describe('When the user enters input into field', () => {
     // Test to see arguments used after its been submitted
     expect(mockItemsChange.mock.calls[0][0]).toEqual(
       {
-        uri: 'http://id.loc.gov/ontologies/bibframe/instanceOf',
         items: [{ content: 'foo', id: 0 }],
         reduxPath: ['resourceTemplate:bf2:Monograph:Instance', 'http://id.loc.gov/ontologies/bibframe/instanceOf'],
       },
@@ -126,14 +125,12 @@ describe('When the user enters input into field', () => {
 
     expect(mockItemsChange.mock.calls[0][0]).toEqual(
       {
-        uri: 'http://id.loc.gov/ontologies/bibframe/instanceOf',
         items: [{ content: 'fooby', id: 0 }],
         reduxPath: ['resourceTemplate:bf2:Monograph:Instance', 'http://id.loc.gov/ontologies/bibframe/instanceOf'],
       },
     )
     expect(mockItemsChange.mock.calls[1][0]).toEqual(
       {
-        uri: 'http://id.loc.gov/ontologies/bibframe/instanceOf',
         items: [{ content: 'bar', id: 0 }],
         reduxPath: ['resourceTemplate:bf2:Monograph:Instance', 'http://id.loc.gov/ontologies/bibframe/instanceOf'],
       },
