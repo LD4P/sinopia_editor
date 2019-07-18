@@ -14,11 +14,11 @@ import _ from 'lodash'
 export default class ResourceStateBuilder {
   /**
    * @param {Dataset} dataset the RDF graph
-   * @param {string} resourceURI URI of the resource
+   * @param {string|null} resourceURI URI of the resource
    */
   constructor(dataset, resourceURI) {
     this.dataset = dataset
-    this.resourceURI = resourceURI
+    this.resourceURI = resourceURI === '' ? null : resourceURI
     this.resourceState = {}
   }
 
@@ -70,7 +70,7 @@ export default class ResourceStateBuilder {
    */
   findResourceTemplateId(resourceTerm) {
     // Should be only 1.
-    return this.dataset.match(resourceTerm, rdf.namedNode('http://www.w3.org/ns/prov#wasGeneratedBy')).toArray()[0].object.value
+    return this.match(this.dataset, resourceTerm, rdf.namedNode('http://www.w3.org/ns/prov#wasGeneratedBy')).toArray()[0].object.value
   }
 
   /**
@@ -79,7 +79,7 @@ export default class ResourceStateBuilder {
    */
   findProperties(resourceTerm) {
     // Find the properties
-    const propertyDataset = this.dataset.match(resourceTerm)
+    const propertyDataset = this.match(this.dataset, resourceTerm)
     // Remove triples that are not properties.
     propertyDataset.removeMatches(null, rdf.namedNode('http://www.w3.org/ns/prov#wasGeneratedBy'))
     propertyDataset.removeMatches(null, rdf.namedNode('http://www.w3.org/1999/02/22-rdf-syntax-ns#type'))
@@ -105,5 +105,23 @@ export default class ResourceStateBuilder {
       }
     }
     return item
+  }
+
+  /**
+   * Matches against a dataset.
+   * Necessary becase rdf.Dataset.match() does not correct handle null named nodes.
+   * @param {rdf.Dataset} dataset to match against
+   * @param {rdf.Term|null} subject to match
+   * @param {rdf.Term|null} predicate to match
+   * @return {rdf.Dataset} matching quads
+   */
+  match(dataset, subject, predicate) {
+    const newDataset = rdf.dataset()
+    this.dataset.match(subject, predicate).toArray().forEach((quad) => {
+      if (!subject || quad.subject.equals(subject)) {
+        newDataset.add(quad)
+      }
+    })
+    return newDataset
   }
 }
