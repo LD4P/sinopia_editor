@@ -8,6 +8,10 @@
   ],
   "version": "0.3.4",
   "homepage": "http://github.com/LD4P/sinopia_editor/",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/LD4P/sinopia_editor.git"
+  },
   "engines": {
     "node": "10.11.x"
   },
