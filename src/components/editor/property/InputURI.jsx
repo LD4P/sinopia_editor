@@ -44,7 +44,6 @@ const InputURI = (props) => {
     }
 
     const userInput = {
-      uri: props.propertyTemplate.propertyURI,
       reduxPath: props.reduxPath,
       items: [{ uri: currentcontent, id: shortid.generate() }],
     }

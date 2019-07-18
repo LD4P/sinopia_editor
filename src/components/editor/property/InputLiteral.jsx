@@ -77,7 +77,6 @@ export class InputLiteral extends Component {
       }
       const newId = this.addUserInput(userInputArray, currentcontent)
       const userInput = {
-        uri: this.props.propertyTemplate.propertyURI,
         reduxPath: this.props.reduxPath,
         items: userInputArray,
       }
