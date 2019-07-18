@@ -58,13 +58,11 @@ export class InputLiteral extends Component {
   }
 
   addUserInput = (userInputArray, currentcontent) => {
-    const newId = shortid.generate()
-
     userInputArray.push({
       content: currentcontent,
-      id: newId,
+      id: shortid.generate(),
+      lang: defaultLangTemplate(),
     })
-    return newId
   }
 
   handleKeypress = (event) => {
@@ -75,14 +73,13 @@ export class InputLiteral extends Component {
       if (!currentcontent) {
         return
       }
-      const newId = this.addUserInput(userInputArray, currentcontent)
+      this.addUserInput(userInputArray, currentcontent)
       const userInput = {
         reduxPath: this.props.reduxPath,
         items: userInputArray,
       }
 
       this.props.handleMyItemsChange(userInput)
-      this.setDefaultLang(newId)
       this.setState({
         content_add: '',
       })
@@ -164,21 +161,13 @@ export class InputLiteral extends Component {
           id="language"
           bsSize="small"
           onClick = {e => this.handleShow(obj.id, e)}>
-          Language: {obj.lang.items[0].label}
+          Language: {obj.lang.label}
         </Button>
         {this.dispModal(obj.content, obj.id)}
       </div>
     })
 
     return elements
-  }
-
-  setDefaultLang = (textId) => {
-    const payload = defaultLangTemplate()
-
-    payload.id = textId
-    payload.reduxPath = this.props.reduxPath
-    this.props.handleMyItemsLangChange(payload)
   }
 
   // Passed to InputLang component so that can return a language change.

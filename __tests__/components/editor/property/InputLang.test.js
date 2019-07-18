@@ -37,12 +37,11 @@ describe('<InputLang />', () => {
   })
 
   it('should call the handleLangChange on change', () => {
-    wrapper.find('#langComponent').simulate('change')
+    wrapper.find('#langComponent').simulate('change', [{ id: 'en', label: 'English' }])
     expect(mockLangChangeFn.call.length).toBe(1)
   })
 
   it('should call the onFocus event and set the selected option', () => {
-    expect.assertions(4)
     const opts = { id: 'URI', label: 'LABEL', uri: 'URI' }
 
     wrapper.instance().opts = opts
@@ -56,7 +55,7 @@ describe('<InputLang />', () => {
     expect(wrapper.state().options[0]).toEqual(opts)
     expect(wrapper.find('TypeaheadContainer(WrappedTypeahead)').props().emptyLabel).toEqual('retrieving list of languages...')
 
-    wrapper.find('#langComponent').simulate('change', event(wrapper))
+    wrapper.find('#langComponent').simulate('change', [{ id: 'en', label: 'English' }])
     expect(wrapper.state().selected[0]).toEqual(opts)
 
     wrapper.find('#langComponent').simulate('blur', event(wrapper))

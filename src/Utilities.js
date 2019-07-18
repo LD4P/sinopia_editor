@@ -37,7 +37,7 @@ export const defaultValuesFromPropertyTemplate = (propertyTemplate) => {
       defaultValues.push({
         id: defaultValue.defaultURI,
         content: defaultLabel,
-        lang: { items: [{ id: 'en', label: 'English' }] },
+        lang: defaultLangTemplate(),
       })
     }
   })
@@ -57,14 +57,12 @@ export const booleanPropertyFromTemplate = (template, key, defaultValue) => {
   return parsedValue
 }
 
-export const defaultLangTemplate = () => ({
-  items: [
-    {
-      id: 'en',
-      label: 'English',
-    },
-  ],
-})
+export const defaultLangTemplate = () => (
+  {
+    id: 'en',
+    label: 'English',
+  }
+)
 
 export const getLookupConfigItems = (propertyTemplate) => {
   const vocabUriList = propertyTemplate?.valueConstraint?.useValuesFrom
