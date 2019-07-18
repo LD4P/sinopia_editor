@@ -95,6 +95,11 @@ export const setRetrieveError = (state, action) => {
   return newState
 }
 
+export const clearRetrieveError = (state) => {
+  const newEditor = { ...state.editor, serverError: undefined }
+  return { ...state, editor: newEditor }
+}
+
 export const saveAppVersion = (state, action) => {
   const newState = { ...state }
 
@@ -125,6 +130,7 @@ const handlers = {
   SET_ITEMS: setItemsOrSelections,
   CHANGE_SELECTIONS: setItemsOrSelections,
   RETRIEVE_ERROR: setRetrieveError,
+  RETRIEVE_RESOURCE_TEMPLATE_STARTED: clearRetrieveError,
   SET_BASE_URL: setBaseURL,
   SHOW_RESOURCE_URI_MESSAGE: showResourceURIMessage,
   SHOW_GROUP_CHOOSER: showGroupChooser,
