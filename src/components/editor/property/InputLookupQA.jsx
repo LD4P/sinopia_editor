@@ -23,14 +23,14 @@ class InputLookupQA extends Component {
     super(props)
     this.state = {
       isLoading: false,
-      options:[],
-      isTypeaheadComponent: false
+      options:[]    
     }
   }
 
  doSearch = (query) => {
     const lookupConfigs = this.props.lookupConfig
-      this.setState({ isLoading: true })
+      //With every new query, clear out the results from the past query
+      this.setState({ isLoading: true, options:[] })
       Swagger({ spec: swaggerSpec }).then((client) => {
         // Create array of promises based on the lookup config array that is sent in
         const lookupPromises = lookupConfigs.map((lookupConfig) => {

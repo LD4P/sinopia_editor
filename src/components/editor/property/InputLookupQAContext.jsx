@@ -5,12 +5,13 @@ import Swagger from 'swagger-client'
 import swaggerSpec from 'lib/apidoc.json'
 import { connect } from 'react-redux'
 import { itemsForProperty, getDisplayValidations, getPropertyTemplate } from 'selectors/resourceSelectors'
-import { changeSelections, removeItem  } from 'actions/index'
+import { changeSelections, removeItem } from 'actions/index'
 import { booleanPropertyFromTemplate, defaultValuesFromPropertyTemplate, getLookupConfigItems } from 'Utilities'
 import Config from 'Config'
 import Button from 'react-bootstrap/lib/Button'
 import Modal from 'react-bootstrap/lib/Modal'
-
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { faSpinner } from '@fortawesome/free-solid-svg-icons'
 
 class InputLookupQAContext extends Component {
   constructor(props) {
@@ -86,6 +87,7 @@ class InputLookupQAContext extends Component {
 
   handleClick = () => {
     const query = this.state.query
+    // Display loading icon
     this.props.doSearch(query)
     this.handleShow()
   }
@@ -112,12 +114,16 @@ class InputLookupQAContext extends Component {
   }
 
   displayResults = () => {
-    //const options = this.state.options
-    const options = this.props.options
-    if (options.length > 0) {
-      return this.renderResults(options)
+    // const options = this.state.options
+    if(this.props.isLoading) {
+    	return this.generateLoadingSpinner()
+    } else {
+      const options = this.props.options
+      if (options.length > 0) {
+        return this.renderResults(options)
+      }
+      return 'No results'
     }
-    return 'No results'
   }
 
   renderResults = (results) => {
@@ -224,7 +230,7 @@ class InputLookupQAContext extends Component {
      * as well as original results from the query
      */
     this.setState({ show: false, selectedResultsList: [] })
-    //clear out options in the parent component
+    // clear out options in the parent component
     this.props.clearOptions()
   }
 
@@ -279,6 +285,14 @@ class InputLookupQAContext extends Component {
     })
     return contextContent
   }
+
+  // loading spinner
+  generateLoadingSpinner = () => {
+   //return (<div><i className="fa fa-spinner fa-spin"></i></div>)
+   return (<div key="loadingicon"><FontAwesomeIcon icon={faSpinner} className="fa-spin fa-3x"  /></div>)
+  }
+  
+  
 
   dispModal = (id, typeaheadProps) => (
     <Modal show={this.state.show} onHide={this.handleClose} id={`modal${id}`}>
@@ -349,10 +363,10 @@ class InputLookupQAContext extends Component {
       placeholder: this.props.propertyTemplate.propertyLabel,
       useCache: true,
       selectHintOnEnter: true,
-      isLoading:this.props.isLoading,
-      options: this.props.options, 
-      //isLoading: this.state.isLoading,
-      //options: this.state.options,
+      isLoading: this.props.isLoading,
+      options: this.props.options,
+      // isLoading: this.state.isLoading,
+      // options: this.state.options,
       selected: this.state.selected,
       defaultSelected: this.state.defaults,
       delay: 300,
@@ -385,7 +399,7 @@ const authorityToContextOrderMap = {
 }
 
 InputLookupQAContext.propTypes = {
-  doSearch:PropTypes.func,
+  doSearch: PropTypes.func,
   propertyTemplate: PropTypes.shape({
     propertyLabel: PropTypes.string,
     mandatory: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
@@ -406,17 +420,17 @@ const mapStateToProps = (state, props) => {
   const propertyTemplate = getPropertyTemplate(state, resourceTemplateId, propertyURI)
   const lookupConfig = getLookupConfigItems(propertyTemplate)
   // Make sure that every item has a label
-    // This is a temporary strategy until label lookup is implemented.
-    const selected = itemsForProperty(state.selectorReducer, props.reduxPath).map((item) => {
-      const newItem = { ...item }
-      if (newItem.label === undefined) {
-        newItem.label = newItem.uri
-      }
-      return newItem
-    })
+  // This is a temporary strategy until label lookup is implemented.
+  const selected = itemsForProperty(state.selectorReducer, props.reduxPath).map((item) => {
+    const newItem = { ...item }
+    if (newItem.label === undefined) {
+      newItem.label = newItem.uri
+    }
+    return newItem
+  })
 
   return {
-    selected: selected,
+    selected,
     reduxPath,
     propertyTemplate,
     displayValidations,
