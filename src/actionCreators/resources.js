@@ -2,28 +2,19 @@
 /* eslint max-params: ["warn", 6] */
 
 import {
-  authenticationFailure, authenticationSuccess, signOutSuccess,
-  updateStarted, updateFinished,
-  retrieveResourceStarted, retrieveResourceTemplateStarted,
-  retrieveError, setResource, setResourceTemplate, updateProperty,
-  toggleCollapse, retrieveResourceFinished, appendResource,
+  assignBaseURL, updateStarted, updateFinished,
+  retrieveResourceStarted, setResource, updateProperty,
+  toggleCollapse, appendResource, clearResourceTemplates,
 } from 'actions/index'
-
-import { updateRDFResource, getResourceTemplate, loadRDFResource } from 'sinopiaServer'
+import { fetchResourceTemplate } from 'actionCreators/resourceTemplates'
+import { updateRDFResource, loadRDFResource } from 'sinopiaServer'
 import { rootResourceId, findNode } from 'selectors/resourceSelectors'
 import findResourceTemplate from 'selectors/entitySelectors'
-import validateResourceTemplate from 'ResourceTemplateValidator'
 import GraphBuilder from 'GraphBuilder'
 import { isResourceWithValueTemplateRef, rdfDatasetFromN3, defaultValuesFromPropertyTemplate } from 'Utilities'
 import shortid from 'shortid'
 import ResourceStateBuilder from 'ResourceStateBuilder'
 import _ from 'lodash'
-
-export const authenticationFailed = authenticationResult => authenticationFailure(authenticationResult)
-
-export const authenticationSucceeded = authenticationResult => authenticationSuccess(authenticationResult)
-
-export const signedOut = () => signOutSuccess()
 
 // A thunk that updates an existing resource in Trellis
 export const update = currentUser => (dispatch, getState) => {
@@ -42,36 +33,29 @@ export const retrieveResource = (currentUser, uri) => (dispatch) => {
 
   return loadRDFResource(currentUser, uri)
     .then((response) => {
-      dispatch(retrieveResourceFinished(uri, response.response.text))
-      // a thunk dispatching a thunk
-      dispatch(loadRetrievedResource(uri, response.response.text))
+      dispatch(clearResourceTemplates())
+      const data = response.response.text
+      return rdfDatasetFromN3(data).then((dataset) => {
+        const builder = new ResourceStateBuilder(dataset, null)
+        dispatch(existingResource(builder.state, uri))
+      })
     })
 }
 
-/**
- * Called after RDF has been retrieved from the server.
- * Dispatches loadResourceTemplate for each needed template
- * This converts the RDF to Redux state.
- */
-export const loadRetrievedResource = (uri, data) => (dispatch) => {
-  rdfDatasetFromN3(data).then((dataset) => {
-    const builder = new ResourceStateBuilder(dataset, null)
-    dispatch(existingResource(builder.state))
-  })
-}
-
 // A thunk that stubs out a new resource
-export const newResource = resourceTemplateId => (dispatch, getState) => {
+export const newResource = resourceTemplateId => (dispatch) => {
   const resource = {}
   resource[resourceTemplateId] = {}
+  dispatch(clearResourceTemplates())
   dispatch(setResource(resource))
-  stubResource(true, dispatch, getState())
+  dispatch(stubResource(true))
 }
 
 // A thunk that stubs out an existing new resource
-export const existingResource = resource => (dispatch, getState) => {
+export const existingResource = (resource, uri) => (dispatch) => {
   dispatch(setResource(resource))
-  stubResource(false, dispatch, getState())
+  dispatch(assignBaseURL(uri))
+  dispatch(stubResource(false))
 }
 
 // A thunk that expands a nested resource for a property
@@ -102,7 +86,8 @@ export const addResource = reduxPath => (dispatch, getState) => {
 }
 
 // Stubs out a root resource
-const stubResource = (useDefaults, dispatch, state) => {
+const stubResource = useDefaults => (dispatch, getState) => {
+  const state = getState()
   const newResource = { ...state.selectorReducer.resource }
   const rootResourceTemplateId = Object.keys(newResource)[0]
   const rootResource = newResource[rootResourceTemplateId]
@@ -193,22 +178,4 @@ const stubResourceProperties = async (resourceTemplateId, existingResourceTempla
     }
   })
   return newResource
-}
-
-export const fetchResourceTemplate = (resourceTemplateId, dispatch) => {
-  dispatch(retrieveResourceTemplateStarted(resourceTemplateId))
-
-  return getResourceTemplate(resourceTemplateId, 'ld4p').then((response) => {
-    // If resource template loads, then validate.
-    const resourceTemplate = response.response.body
-    const reason = validateResourceTemplate(resourceTemplate)
-    if (_.isEmpty(reason)) {
-      dispatch(setResourceTemplate(resourceTemplate))
-      return resourceTemplate
-    }
-    dispatch(retrieveError(resourceTemplateId, reason))
-  }).catch((err) => {
-    console.error(err)
-    dispatch(retrieveError(resourceTemplateId))
-  })
 }

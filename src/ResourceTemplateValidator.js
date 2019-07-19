@@ -36,6 +36,8 @@ const validateRepeatedPropertyTemplates = (resourceTemplate) => {
 
 /**
  * Validates that literal property templates do not have a default URI.
+ *
+ * Blanks are allowed, as Profile Editor adds them by default.
  * @param {Object>} resourceTemplate to validate
  * @return {Array<string} reasons that validation failed if invalid
  */
@@ -45,7 +47,7 @@ const validateNoDefaultURIForLiterals = (resourceTemplate) => {
     if (propertyTemplate.type === 'literal') {
       const defaults = propertyTemplate?.valueConstraint?.defaults || []
       defaults.forEach((defaultItem) => {
-        if (defaultItem.defaultURI !== undefined) {
+        if (defaultItem.defaultURI !== undefined && defaultItem.defaultURI !== '') {
           propertyTemplateIds.add(propertyTemplate.propertyURI)
         }
       })

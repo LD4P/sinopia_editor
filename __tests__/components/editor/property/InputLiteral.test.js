@@ -1,4 +1,5 @@
 // Copyright 2018, 2019 Stanford University see LICENSE for license
+
 import 'jsdom-global/register'
 import React from 'react'
 import { shallow } from 'enzyme'
@@ -55,14 +56,6 @@ describe('<InputLiteral />', () => {
     wrapper.instance().forceUpdate()
     expect(wrapper.find('input').prop('required')).toBeFalsy()
   })
-
-  it('label contains a PropertyRemark when a remark is added', () => {
-    wrapper.instance().props.propertyTemplate.remark = 'http://rda.test.org/1.1'
-    wrapper.instance().forceUpdate()
-    const propertyRemark = wrapper.find('label > PropertyRemark')
-
-    expect(propertyRemark).toBeTruthy()
-  })
 })
 
 describe('checkMandatoryRepeatable', () => {
@@ -116,8 +109,7 @@ describe('When the user enters input into field', () => {
     // Test to see arguments used after its been submitted
     expect(mockItemsChange.mock.calls[0][0]).toEqual(
       {
-        uri: 'http://id.loc.gov/ontologies/bibframe/instanceOf',
-        items: [{ content: 'foo', id: 0 }],
+        items: [{ content: 'foo', id: 0, lang: { id: 'en', label: 'English' } }],
         reduxPath: ['resourceTemplate:bf2:Monograph:Instance', 'http://id.loc.gov/ontologies/bibframe/instanceOf'],
       },
     )
@@ -133,15 +125,13 @@ describe('When the user enters input into field', () => {
 
     expect(mockItemsChange.mock.calls[0][0]).toEqual(
       {
-        uri: 'http://id.loc.gov/ontologies/bibframe/instanceOf',
-        items: [{ content: 'fooby', id: 0 }],
+        items: [{ content: 'fooby', id: 0, lang: { id: 'en', label: 'English' } }],
         reduxPath: ['resourceTemplate:bf2:Monograph:Instance', 'http://id.loc.gov/ontologies/bibframe/instanceOf'],
       },
     )
     expect(mockItemsChange.mock.calls[1][0]).toEqual(
       {
-        uri: 'http://id.loc.gov/ontologies/bibframe/instanceOf',
-        items: [{ content: 'bar', id: 0 }],
+        items: [{ content: 'bar', id: 0, lang: { id: 'en', label: 'English' } }],
         reduxPath: ['resourceTemplate:bf2:Monograph:Instance', 'http://id.loc.gov/ontologies/bibframe/instanceOf'],
       },
     )
@@ -171,10 +161,9 @@ describe('When the user enters input into field', () => {
     mockWrapper.instance().forceUpdate()
     mockWrapper.setProps({
       formData: { id: 1, uri: 'http://id.loc.gov/ontologies/bibframe/instanceOf' },
-      items: [{ content: 'foo', id: 4, lang: { items: [{ label: 'English' }] } }],
+      items: [{ content: 'foo', id: 4, lang: { label: 'English' } }],
     })
-    expect(mockWrapper.find('div#userInput').text()).toEqual('fooXEdit<Button /><Modal />') // Contains X and Edit as buttons
-    expect(mockWrapper.find('Button#language').childAt(1).text()).toEqual('English')
+    expect(mockWrapper.find('div#userInput').text()).toEqual('fooXEdit<Connect(LanguageButton) />') // Contains X and Edit as buttons
   })
 
   it('should call the removeMockDataFn when X is clicked', () => {
@@ -311,66 +300,8 @@ describe('When a user enters non-roman text in a work title', () => {
         id: 1,
         uri: 'http://id.loc.gov/ontologies/bibframe/title',
       },
-      items: [{ content: artOfWar, id: 1, lang: { items: [{ label: 'Mandarin' }] } }],
+      items: [{ content: artOfWar, id: 1, lang: { label: 'Mandarin' } }],
     })
     expect(workTitleWrapper.find('div#userInput').text().includes(artOfWar)).toBeTruthy()
-    expect(workTitleWrapper.find('Button#language').childAt(1).text()).toEqual('Mandarin')
-  })
-})
-
-describe('When the user enters input into language modal', () => {
-  const mockMyItemsLangChange = jest.fn()
-
-  shortid.generate = jest.fn().mockReturnValue(0)
-  const mockWrapper = shallow(<InputLiteral {...plProps} id={'11'}
-                                            reduxPath={[
-                                              'resourceTemplate:bf2:Monograph:Instance',
-                                              'http://id.loc.gov/ontologies/bibframe/instanceOf',
-                                            ]}
-                                            handleMyItemsChange={jest.fn()}
-                                            handleRemoveItem={jest.fn()}
-                                            handleMyItemsLangChange={mockMyItemsLangChange} />)
-
-  it('shows the <InputLang> modal when the <Button/> is clicked', () => {
-    mockWrapper.setProps({
-      formData: {
-        id: 1,
-        uri: 'http://id.loc.gov/ontologies/bibframe/instanceOf',
-        errors: [],
-      },
-      items: [{ content: 'test', id: 6, lang: { items: [{ label: 'English' }] } }],
-    })
-    mockWrapper.find('Button').first().simulate('click')
-    expect(mockWrapper.find('Modal').prop('show')).toEqual(true)
-    expect(mockWrapper.find('ModalTitle').render().text()).toEqual('Languages')
-  })
-
-  it('calls handleLangSubmit when submit is clicked', () => {
-    mockWrapper.setProps({ formData: { id: 1, uri: 'http://id.loc.gov/ontologies/bibframe/instanceOf', items: [{ content: 'test', id: 6, lang: { items: [{ label: 'English' }] } }] } })
-    mockWrapper.find('Button').first().simulate('click')
-    expect(mockWrapper.find('Modal').prop('show')).toEqual(true)
-    mockWrapper.find('ModalFooter').find('Button').first().simulate('click')
-    expect(mockMyItemsLangChange.mock.calls.length).toEqual(1)
-    expect(mockWrapper.find('Modal').prop('show')).toEqual(false)
-
-    mockMyItemsLangChange.mock.calls = []
-  })
-
-  it('closes modal when close is clicked', () => {
-    mockWrapper.setProps({
-      formData: {
-        id: 1,
-        uri: 'http://id.loc.gov/ontologies/bibframe/instanceOf',
-        errors: [],
-      },
-      items: [{ content: 'test', id: 6, lang: { items: [{ label: 'English' }] } }],
-    })
-    mockWrapper.find('Button').first().simulate('click')
-    expect(mockWrapper.find('Modal').prop('show')).toEqual(true)
-    mockWrapper.find('ModalFooter').find('Button').last().simulate('click')
-    expect(mockMyItemsLangChange.mock.calls.length).toEqual(0)
-    expect(mockWrapper.find('Modal').prop('show')).toEqual(false)
-
-    mockMyItemsLangChange.mock.calls = []
   })
 })

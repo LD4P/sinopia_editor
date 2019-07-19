@@ -12,6 +12,5 @@ development.html
 jest-puppeteer.config.js
 junit.xml
 npm-debug.log
-static-analysis
 setupEnzyme.js
 .env

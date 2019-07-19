@@ -2,7 +2,6 @@
 
 import lookupConfig from '../static/lookupConfig.json'
 import N3Parser from 'n3/lib/N3Parser'
-
 import rdf from 'rdf-ext'
 import _ from 'lodash'
 
@@ -38,7 +37,7 @@ export const defaultValuesFromPropertyTemplate = (propertyTemplate) => {
       defaultValues.push({
         id: defaultValue.defaultURI,
         content: defaultLabel,
-        lang: { items: [{ id: 'en', label: 'English' }] },
+        lang: defaultLangTemplate(),
       })
     }
   })
@@ -58,23 +57,19 @@ export const booleanPropertyFromTemplate = (template, key, defaultValue) => {
   return parsedValue
 }
 
-export const defaultLangTemplate = () => ({
-  items: [
-    {
-      id: 'en',
-      label: 'English',
-    },
-  ],
-})
+export const defaultLangTemplate = () => (
+  {
+    id: 'en',
+    label: 'English',
+  }
+)
 
 export const getLookupConfigItems = (propertyTemplate) => {
   const vocabUriList = propertyTemplate?.valueConstraint?.useValuesFrom
 
   if (vocabUriList === undefined || vocabUriList.length === 0) return []
 
-  const templateConfigItems = lookupConfig.filter(configItem => vocabUriList.includes(configItem.uri))
-
-  return templateConfigItems
+  return lookupConfig.filter(configItem => vocabUriList.includes(configItem.uri))
 }
 
 /**
@@ -83,7 +78,7 @@ export const getLookupConfigItems = (propertyTemplate) => {
  * @return {Promise<rdf.Dataset>} a promise that resolves to the loaded dataset
  */
 export const rdfDatasetFromN3 = data => new Promise((resolve) => {
-  const parser = new N3Parser()
+  const parser = new N3Parser({ factory: rdf })
   const dataset = rdf.dataset()
   parser.parse(data,
     (error, quad) => {

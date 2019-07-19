@@ -154,10 +154,13 @@ describe('<Typeahead /> component', () => {
     expect(wrapper.find('#targetComponent').props().required).toBe(false)
   })
 
-  it('displays RequiredSuperscript if mandatory from template is true', () => {
-    wrapper.instance().props.propertyTemplate.mandatory = 'true'
-    wrapper.instance().forceUpdate()
-    expect(wrapper.find('label > RequiredSuperscript')).toBeTruthy()
+  describe('when mandatory is true', () => {
+    const template = { ...propsOk.propertyTemplate, mandatory: 'true' }
+    const wrapper2 = shallow(<InputListLOC.WrappedComponent {...propsOk} propertyTemplate={template} />)
+
+    it('passes the "required" property to Typeahead', () => {
+      expect(wrapper2.find('#targetComponent').props().required).toBeTruthy()
+    })
   })
 
   it('displays a text label if remark from template is absent', () => {

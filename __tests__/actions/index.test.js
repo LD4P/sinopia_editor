@@ -2,10 +2,10 @@
 
 import * as actions from 'actions/index'
 
-describe('setItems()', () => {
-  it('creates SET_ITEMS action', () => {
-    expect(actions.setItems({ id: 'Instance of', items: [{ content: 'food', id: 0 }] })).toEqual({
-      type: 'SET_ITEMS',
+describe('itemsSelected()', () => {
+  it('creates ITEMS_SELECTED action', () => {
+    expect(actions.itemsSelected({ id: 'Instance of', items: [{ content: 'food', id: 0 }] })).toEqual({
+      type: 'ITEMS_SELECTED',
       payload: { id: 'Instance of', items: [{ content: 'food', id: 0 }] },
     })
   })
@@ -22,10 +22,10 @@ describe('removeItem()', () => {
   })
 })
 
-describe('setLang()', () => {
-  it('creates SET_LANG action', () => {
-    expect(actions.setLang({ id: 'Instance of', items: [{ label: 'food', id: 'http://uri1', uri: 'URI' }] })).toEqual({
-      type: 'SET_LANG',
+describe('languageSelected()', () => {
+  it('creates LANGUAGE_SELECTED action', () => {
+    expect(actions.languageSelected({ id: 'Instance of', items: [{ label: 'food', id: 'http://uri1', uri: 'URI' }] })).toEqual({
+      type: 'LANGUAGE_SELECTED',
       payload: { id: 'Instance of', items: [{ label: 'food', id: 'http://uri1', uri: 'URI' }] },
     })
   })

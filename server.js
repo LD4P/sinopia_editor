@@ -1,19 +1,29 @@
 /*
  * Copyright 2019 Stanford University see LICENSE for license
+ *
  * Minimal BIBFRAME Editor Node.js server. To run from the command-line:
  *  npm start  or node server.js
  */
 
 import express from 'express'
 import request from 'request'
+import bodyParser from 'body-parser'
 import Config from './src/Config'
 import versoSpoof from './src/versoSpoof'
+import _ from 'lodash'
 
 const port = 8000
 const app = express()
 
 // Required for ElasticSearch proxy middleware to parse response body as JSON
-app.use(express.json())
+app.use(bodyParser.json()) // handle json data
+app.use(bodyParser.urlencoded({ extended: true })) // handle URL-encoded data
+
+app.use((req, res, next) => {
+  res.header('Access-Control-Allow-Origin', '*')
+  res.header('Access-Control-Allow-Headers', 'Origin, X-Requested-With, Content-Type, Accept')
+  next()
+})
 
 // ElasticSearch proxy middleware
 app.use('/api/search', (req, res) => {
@@ -32,9 +42,16 @@ app.use('/api/search', (req, res) => {
   // Only use the method, path, and body from the original request: method and
   // path have already been validated above and the body must be a
   // JSON-serializeable entity
+
+  let searchUri = `${Config.indexUrl}${req.path}`
+  if (!_.isEmpty(req.query)) {
+    const originalUrl = `${req.protocol}://${req.hostname}${req.originalUrl}`
+    searchUri += new URL(originalUrl).search
+  }
+
   request({
     method: req.method,
-    uri: `${Config.indexUrl}${req.path}`,
+    uri: searchUri,
     body: req.body,
     json: true,
   })

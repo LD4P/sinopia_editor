@@ -13,11 +13,13 @@ import {
 } from 'react-router-dom'
 import ImportResourceTemplate from './templates/ImportResourceTemplate'
 import ImportResource from './load/ImportResource'
-import Browse from './browse/Browse'
+import Search from './search/Search'
 import CanvasMenu from './menu/CanvasMenu'
 import { saveAppVersion } from 'actions/index'
 import { connect } from 'react-redux'
 import { version } from '../../package.json'
+import { fetchResourceTemplateSummaries as fetchResourceTemplateSummariesCreator } from 'actionCreators/resourceTemplates'
+
 import _ from 'lodash'
 
 const FourOhFour = () => <h1>404</h1>
@@ -33,6 +35,7 @@ class App extends Component {
 
   componentDidMount() {
     this.props.storeAppVersion(version)
+    this.props.fetchResourceTemplateSummaries()
   }
 
   render() {
@@ -54,7 +57,7 @@ class App extends Component {
             <Redirect from="/editor" to="/templates" />
           )}
           <PrivateRoute exact path="/templates" component={props => <ImportResourceTemplate {...props} triggerHandleOffsetMenu={this.props.handleOffsetMenu} />}/>
-          <Route exact path="/browse" render={props => <Browse {...props} triggerHandleOffsetMenu={this.props.handleOffsetMenu} />} />
+          <Route exact path="/search" render={props => <Search {...props} triggerHandleOffsetMenu={this.props.handleOffsetMenu} />} />
           <Route exact path="/load" render={props => <ImportResource {...props} triggerHandleOffsetMenu={this.props.handleOffsetMenu} />} />
           <Route path="/menu" render={props => <CanvasMenu {...props} />} />
           <Route id="404" component={FourOhFour} />
@@ -70,6 +73,7 @@ App.propTypes = {
   currentSession: PropTypes.object,
   handleOffsetMenu: PropTypes.func,
   hasResource: PropTypes.bool,
+  fetchResourceTemplateSummaries: PropTypes.func,
 }
 
 const mapStateToProps = (state) => {
@@ -83,6 +87,9 @@ const mapStateToProps = (state) => {
 const mapDispatchToProps = dispatch => ({
   storeAppVersion: (version) => {
     dispatch(saveAppVersion(version))
+  },
+  fetchResourceTemplateSummaries: () => {
+    dispatch(fetchResourceTemplateSummariesCreator())
   },
 })
 

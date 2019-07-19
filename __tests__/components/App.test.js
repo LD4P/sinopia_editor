@@ -9,7 +9,7 @@ import App from 'components/App'
 import LoginPanel from 'components/LoginPanel'
 import HomePage from 'components/home/HomePage'
 import Editor from 'components/editor/Editor'
-import Browse from 'components/browse/Browse'
+import Search from 'components/search/Search'
 import CanvasMenu from 'components/menu/CanvasMenu'
 import Footer from 'components/Footer'
 import ImportResourceTemplate from 'components/templates/ImportResourceTemplate'
@@ -18,7 +18,10 @@ jest.mock('components/editor/Editor')
 jest.mock('components/templates/ImportResourceTemplate')
 
 describe('<App />', () => {
-  const wrapper = shallow(<App.WrappedComponent storeAppVersion = { jest.fn } />)
+  const mockStoreAppVersion = jest.fn()
+  const mockFetchResourceTemplateSummaries = jest.fn()
+  const wrapper = shallow(<App.WrappedComponent storeAppVersion={mockStoreAppVersion}
+                                                fetchResourceTemplateSummaries={mockFetchResourceTemplateSummaries} />)
 
   it('is selectable by id "#app"', () => {
     expect(wrapper.find('div#app').length).toEqual(1)
@@ -30,6 +33,14 @@ describe('<App />', () => {
 
   it('renders the Footer component', () => {
     expect(wrapper.find(Footer).length).toBe(1)
+  })
+
+  it('calls storeAppVersion on componentDidMount', () => {
+    expect(mockStoreAppVersion).toBeCalled()
+  })
+
+  it('calls fetchResourceTemplateSummaries on componentDidMount', () => {
+    expect(mockFetchResourceTemplateSummaries).toBeCalled()
   })
 })
 
@@ -53,6 +64,7 @@ describe('#routes', () => {
           lastChecked: Date.now(),
         },
         resource: { 'myOrg:myRt': {} },
+        search: { results: [] },
       },
       authenticate: {
         authenticationState: {
@@ -81,10 +93,10 @@ describe('#routes', () => {
       expect(component.find(Editor).length).toEqual(1)
     })
 
-    it('renders the Browse component when "/browse" is visited', () => {
-      const component = renderRoutes('/browse')
+    it('renders the Search component when "/search" is visited', () => {
+      const component = renderRoutes('/search')
 
-      expect(component.find(Browse).length).toEqual(1)
+      expect(component.find(Search).length).toEqual(1)
     })
 
     it('renders the Menu component when "/menu" is visited', () => {

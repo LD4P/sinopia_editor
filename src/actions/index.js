@@ -15,6 +15,11 @@ export const setResourceTemplate = resourceTemplate => ({
   payload: resourceTemplate,
 })
 
+export const setResourceTemplateSummary = resourceTemplateSummary => ({
+  type: 'SET_RESOURCE_TEMPLATE_SUMMARY',
+  payload: resourceTemplateSummary,
+})
+
 export const stubResource = () => ({
   type: 'STUB_RESOURCE',
 })
@@ -24,8 +29,8 @@ export const retrieveError = (resourceTemplateId, reason) => ({
   payload: { resourceTemplateId, reason },
 })
 
-export const setItems = item => ({
-  type: 'SET_ITEMS',
+export const itemsSelected = item => ({
+  type: 'ITEMS_SELECTED',
   payload: item,
 })
 
@@ -38,14 +43,18 @@ export const closeGroupChooser = () => ({
   type: 'CLOSE_GROUP_CHOOSER',
 })
 
+export const languageSelectOpened = () => ({
+  type: 'LANGUAGE_SELECT_OPENED',
+})
+
 export const removeItem = (reduxPath, id) => ({
   type: 'REMOVE_ITEM',
   payload: { reduxPath, id },
 })
 
-export const removeAllContent = item => ({
-  type: 'REMOVE_ALL_CONTENT',
-  payload: item,
+export const removeResource = reduxPath => ({
+  type: 'REMOVE_RESOURCE',
+  payload: reduxPath,
 })
 
 export const removeAllItems = item => ({
@@ -76,14 +85,6 @@ export const retrieveResourceStarted = uri => ({
   payload: uri,
 })
 
-export const retrieveResourceFinished = (uri, data) => ({
-  type: 'RETRIEVE_FINISHED',
-  payload: {
-    uri,
-    data,
-  },
-})
-
 export const retrieveResourceTemplateStarted = resourceTemplateId => ({
   type: 'RETRIEVE_RESOURCE_TEMPLATE_STARTED',
   payload: resourceTemplateId,
@@ -94,8 +95,8 @@ export const changeSelections = item => ({
   payload: item,
 })
 
-export const setLang = item => ({
-  type: 'SET_LANG',
+export const languageSelected = item => ({
+  type: 'LANGUAGE_SELECTED',
   payload: item,
 })
 
@@ -136,4 +137,13 @@ export const appendResource = (reduxPath, resource) => ({
 export const toggleCollapse = reduxPath => ({
   type: 'TOGGLE_COLLAPSE',
   payload: { reduxPath },
+})
+
+export const clearResourceTemplates = () => ({
+  type: 'CLEAR_RESOURCE_TEMPLATES',
+})
+
+export const showSearchResults = searchResults => ({
+  type: 'SHOW_SEARCH_RESULTS',
+  payload: searchResults,
 })

@@ -1,4 +1,4 @@
-// Copyright 2018 Stanford University see LICENSE for license
+// Copyright 2019 Stanford University see LICENSE for license
 
 class Config {
   static get defaultSinopiaGroupId() {
@@ -42,6 +42,24 @@ class Config {
 
   static get indexUrl() {
     return process.env.INDEX_URL || 'http://localhost:9200'
+  }
+
+  /*
+   * The host for the public endpoint for the Sinopia search.  This is different than
+   * the indexURL because it's the path to the public proxy endpoint, not directly to elasticsearch.
+   * In development we may want to set this to `//localhost:8000`, but when deployed typically
+   * the default (empty string) will work as the search is proxied through the same server
+   * that hosts the client javascript.
+   */
+  static get searchHost() {
+    return process.env.SEARCH_HOST || ''
+  }
+
+  /*
+   * This is the public endpont for the sinopia search.
+   */
+  static get searchPath() {
+    return process.env.SEARCH_PATH || '/api/search/sinopia_resources/sinopia/_search'
   }
 
   static get sinopiaDomainName() {

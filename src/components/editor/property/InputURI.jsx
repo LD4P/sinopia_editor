@@ -2,9 +2,10 @@
 
 import React, { useRef, useState } from 'react'
 import PropTypes from 'prop-types'
+import SinopiaPropTypes from 'SinopiaPropTypes'
 import { connect } from 'react-redux'
 import shortid from 'shortid'
-import { removeItem, setItems } from 'actions/index'
+import { removeItem, itemsSelected } from 'actions/index'
 import { findNode, getDisplayValidations, getPropertyTemplate } from 'selectors/resourceSelectors'
 import { booleanPropertyFromTemplate } from 'Utilities'
 
@@ -43,7 +44,6 @@ const InputURI = (props) => {
     }
 
     const userInput = {
-      uri: props.propertyTemplate.propertyURI,
       reduxPath: props.reduxPath,
       items: [{ uri: currentcontent, id: shortid.generate() }],
     }
@@ -142,16 +142,7 @@ const InputURI = (props) => {
 
 InputURI.propTypes = {
   id: PropTypes.oneOfType([PropTypes.number, PropTypes.string]),
-  propertyTemplate: PropTypes.shape({
-    propertyLabel: PropTypes.string.isRequired,
-    propertyURI: PropTypes.string.isRequired,
-    mandatory: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
-    repeatable: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
-    remark: PropTypes.string,
-    valueConstraint: PropTypes.shape({
-      defaults: PropTypes.array,
-    }),
-  }),
+  propertyTemplate: SinopiaPropTypes.propertyTemplate,
   formData: PropTypes.shape({
     id: PropTypes.oneOfType([PropTypes.number, PropTypes.string]),
     uri: PropTypes.string,
@@ -177,7 +168,6 @@ const mapStateToProps = (state, props) => {
   return {
     formData,
     items,
-    reduxPath,
     propertyTemplate,
     displayValidations,
   }
@@ -185,7 +175,7 @@ const mapStateToProps = (state, props) => {
 
 const mapDispatchToProps = dispatch => ({
   handleMyItemsChange(userInput) {
-    dispatch(setItems(userInput))
+    dispatch(itemsSelected(userInput))
   },
   handleRemoveItem(reduxPath, itemId) {
     dispatch(removeItem(reduxPath, itemId))

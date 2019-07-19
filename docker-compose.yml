@@ -5,8 +5,9 @@ services:
       context: .
       args:
         USE_FIXTURES: 'false'
-        TRELLIS_BASE_URL: http://platform:8080
-        INDEX_URL: http://search:9200
+        TRELLIS_BASE_URL: http://localhost:8080
+    environment:
+      INDEX_URL: http://search:9200
     ports:
       - 8000:8000
     depends_on:

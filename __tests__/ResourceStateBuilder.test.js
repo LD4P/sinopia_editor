@@ -117,3 +117,63 @@ describe('ResourceStateBuilder', () => {
     })
   })
 })
+
+it('handles null root nodes', async () => {
+  const resource = `_:B01cf1817X2Dd2e4X2D485bX2Dbd9aX2Df72c02976ec02895d12a7118e91a94f5a4808a49140a <http://www.w3.org/2000/01/rdf-schema#label> "foo note"@en .
+_:B01cf1817X2Dd2e4X2D485bX2Dbd9aX2Df72c02976ec02895d12a7118e91a94f5a4808a49140a <http://www.w3.org/ns/prov#wasGeneratedBy> "sinopia:resourceTemplate:bf2:Identifiers:Note" .
+_:B01cf1817X2Dd2e4X2D485bX2Dbd9aX2Df72c02976ec02895d12a7118e91a94f5a4808a49140a <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://id.loc.gov/ontologies/bibframe/Note> .
+<> <http://id.loc.gov/ontologies/bibframe/note> _:B01cf1817X2Dd2e4X2D485bX2Dbd9aX2Df72c02976ec02895d12a7118e91a94f5a4808a49140a .
+<> <http://www.w3.org/1999/02/22-rdf-syntax-ns#value> "foo"@en .
+<> <http://www.w3.org/ns/prov#wasGeneratedBy> "sinopia:resourceTemplate:bf2:Identifiers:ISMN" .
+<> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://id.loc.gov/ontologies/bibframe/Ismn> .`
+
+  const dataset = await rdfDatasetFromN3(resource)
+
+  shortid.generate = jest.fn().mockReturnValue('abc123')
+
+  const builder = new ResourceStateBuilder(dataset, null)
+  const resourceState = builder.state
+
+  expect(Object.keys(resourceState)[0]).toEqual('sinopia:resourceTemplate:bf2:Identifiers:ISMN')
+
+  expect(resourceState).toEqual({
+    'sinopia:resourceTemplate:bf2:Identifiers:ISMN': {
+      'http://id.loc.gov/ontologies/bibframe/note': {
+        abc123: {
+          'sinopia:resourceTemplate:bf2:Identifiers:Note': {
+            'http://www.w3.org/2000/01/rdf-schema#label': {
+              items: [
+                {
+                  id: 'abc123',
+                  content: 'foo note',
+                  lang: {
+                    items: [
+                      {
+                        id: 'en',
+                      },
+                    ],
+                  },
+                },
+              ],
+            },
+          },
+        },
+      },
+      'http://www.w3.org/1999/02/22-rdf-syntax-ns#value': {
+        items: [
+          {
+            id: 'abc123',
+            content: 'foo',
+            lang: {
+              items: [
+                {
+                  id: 'en',
+                },
+              ],
+            },
+          },
+        ],
+      },
+    },
+  })
+})

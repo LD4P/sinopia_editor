@@ -44,6 +44,8 @@ describe('<ResourceTemplateForm /> functional testing', () => {
         'http://id.loc.gov/ontologies/bibframe/title',
         'abc123',
         'myOrg:rt:myTemplate'])
+
+      expect(result[0].props.index).toEqual(0)
     })
   })
 })
@@ -55,6 +57,7 @@ describe('<ResourceTemplateForm /> after fetching data from sinopia server', () 
         resourceTemplateId: 'myOrg:rt:myTemplate',
         propertyTemplates: [
           {
+            propertyURI: 'http://example.com/fakeProperty',
             propertyLabel: 'Look up, look down',
             type: 'lookup',
             editable: 'do not override me!',
@@ -85,6 +88,7 @@ describe('<ResourceTemplateForm /> after fetching data from sinopia server', () 
         propertyTemplates: [
           {
             propertyLabel: 'What\'s the frequency Kenneth?',
+            propertyURI: 'http://example.com/fakeProperty',
             type: 'resource',
             valueConstraint: {
               useValuesFrom: [
@@ -112,6 +116,7 @@ describe('<ResourceTemplateForm /> after fetching data from sinopia server', () 
       propertyTemplates: [
         {
           propertyLabel: 'Literally',
+          propertyURI: 'http://example.com/fakeProperty',
           type: 'literal',
         },
       ],
@@ -201,13 +206,5 @@ describe('<ResourceTemplateForm /> after fetching data from sinopia server', () 
     expect(rtProps.propertyTemplates[1].mandatory).toBe('do not override me!')
     expect(rtProps.propertyTemplates[1].repeatable).toBe('do not override me!')
     expect(rtProps.propertyTemplates[1].editable).toBe('do not override me!')
-  })
-
-  it('displays a PropertyRemark when a remark is present', () => {
-    wrapper.instance().props.propertyTemplates[2].remark = 'https://www.youtube.com/watch?v=jWkMhCLkVOg'
-    wrapper.instance().forceUpdate()
-    const propertyRemark = wrapper.find('label > PropertyRemark')
-
-    expect(propertyRemark).toBeTruthy()
   })
 })

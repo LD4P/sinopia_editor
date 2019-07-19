@@ -1,12 +1,16 @@
 // Copyright 2019 Stanford University see LICENSE for license
 import React, { Component } from 'react'
+import {
+  Menu, MenuItem, Typeahead, asyncContainer, Token,
+} from 'react-bootstrap-typeahead'
+import { getOptionLabel } from 'react-bootstrap-typeahead/lib/utils'
+
 import PropTypes from 'prop-types'
-import Swagger from 'swagger-client'
-import swaggerSpec from 'lib/apidoc.json'
+import SinopiaPropTypes from 'SinopiaPropTypes'
 import { connect } from 'react-redux'
 import { itemsForProperty, getDisplayValidations, getPropertyTemplate } from 'selectors/resourceSelectors'
 import { changeSelections, removeItem } from 'actions/index'
-import { booleanPropertyFromTemplate, defaultValuesFromPropertyTemplate, getLookupConfigItems } from 'Utilities'
+import { booleanPropertyFromTemplate, getLookupConfigItems } from 'Utilities'
 import Config from 'Config'
 import Button from 'react-bootstrap/lib/Button'
 import Modal from 'react-bootstrap/lib/Modal'
@@ -17,27 +21,16 @@ class InputLookupQAContext extends Component {
   constructor(props) {
     super(props)
 
-    const defaults = defaultValuesFromPropertyTemplate(this.props.propertyTemplate)
-
-    if (defaults.length === 0) {
-      // Property templates do not require defaults but we like to know when this happens
-      console.info(`no defaults defined in property template: ${JSON.stringify(this.props.propertyTemplate)}`)
-    }
-
     /*
      *selectedResultList is for the results selected from any query execution
      *selected which is stored in redux state for the lookup is for all of the values
      *stored
      */
     this.state = {
-      isloading: false,
-      defaults,
       show: false,
       query: '',
       selectedResultsList: [],
     }
-
-    this.lookupClient = Swagger({ spec: swaggerSpec })
   }
 
 
@@ -49,6 +42,7 @@ class InputLookupQAContext extends Component {
     return booleanPropertyFromTemplate(this.props.propertyTemplate, 'repeatable', true)
   }
 
+  // This needs to be different for context
   validate() {
     if (!this.typeahead) {
       return
@@ -115,15 +109,14 @@ class InputLookupQAContext extends Component {
 
   displayResults = () => {
     // const options = this.state.options
-    if(this.props.isloading) {
-    	return this.generateLoadingSpinner()
-    } else {
-      const options = this.props.options
-      if (options.length > 0) {
-        return this.renderResults(options)
-      }
-      return 'No results'
+    if (this.props.isloading) {
+      return this.generateLoadingSpinner()
     }
+    const options = this.props.options
+    if (options.length > 0) {
+      return this.renderResults(options)
+    }
+    return 'No results'
   }
 
   renderResults = (results) => {
@@ -178,8 +171,8 @@ class InputLookupQAContext extends Component {
             backgroundColor: bg,
             padding: '4px 2px 2px 5px',
           }
-
-          return (<div key="row-{index}" className="row contextInfo" style={resultStyle} uri={result.uri}>
+          const divId = `row-${idx}`
+          return (<div key={divId} className="row contextInfo" style={resultStyle} uri={result.uri}>
             <input type="checkbox" name="searchResultInput" value={result.uri} label={result.label} position={idx} key={idx} onChange={this.handleResultChange}/>
             <span style={labelStyle}>{result.label}</span>
             {resultContext}
@@ -287,12 +280,8 @@ class InputLookupQAContext extends Component {
   }
 
   // loading spinner
-  generateLoadingSpinner = () => {
-   //return (<div><i className="fa fa-spinner fa-spin"></i></div>)
-   return (<div key="loadingicon"><FontAwesomeIcon icon={faSpinner} className="fa-spin fa-3x"  /></div>)
-  }
-  
-  
+  generateLoadingSpinner = () => (<div key="loadingicon"><FontAwesomeIcon icon={faSpinner} className="fa-spin fa-3x" /></div>)
+
 
   dispModal = (id, typeaheadProps) => (
     <Modal show={this.state.show} onHide={this.handleClose} id={`modal${id}`}>
@@ -337,9 +326,11 @@ class InputLookupQAContext extends Component {
   }
 
   handleDeleteClick = (event) => {
-    const labelToRemove = event.target.dataset.label
-    const idToRemove = event.target.dataset.item
+    // const labelToRemove = event.target.dataset.label
+    // const idToRemove = event.target.dataset.item
+    this.props.handleRemoveItem(this.props.reduxPath, event.target.dataset.item)
 
+    /*
     this.props.handleRemoveItem(
       {
         id: idToRemove,
@@ -347,7 +338,7 @@ class InputLookupQAContext extends Component {
         reduxPath: this.props.reduxPath,
         uri: this.props.propertyTemplate.propertyURI,
       },
-    )
+    ) */
     this.setState({ disabled: false })
   }
 
@@ -356,19 +347,14 @@ class InputLookupQAContext extends Component {
     if (!this.props.propertyTemplate) {
       return null
     }
+
     const typeaheadProps = {
       id: 'lookupComponent',
       required: this.isMandatory,
       multiple: this.isRepeatable,
       placeholder: this.props.propertyTemplate.propertyLabel,
-      useCache: true,
-      selectHintOnEnter: true,
-      isloading: this.props.isloading,
       options: this.props.options,
-      // isloading: this.state.isloading,
-      // options: this.state.options,
-      selected: this.state.selected,
-      defaultSelected: this.state.defaults,
+      selected: this.props.selected,
       delay: 300,
     }
 
@@ -395,33 +381,36 @@ const authorityToContextOrderMap = {
     'Birth date', 'Death date',
     'Affiliation', 'Field of Activity',
     'Occupation', 'Birth place', 'Death place', 'VIAF match', 'Variant label', 'Citation note', 'Citation source', 'Editorial note'],
-  'urn:ld4p:qa:names:organization': ['Descriptor', 'Location', 'Field of Activity', 'Affiliation', 'Occupation', 'VIAF match', 'Variant label', 'Citation note', 'Citation source', 'Editorial note'],
+  'urn:ld4p:qa:names:organization': ['Descriptor', 'Location', 'Field of Activity', 'Affiliation', 'Occupation', 'VIAF match', 'Variant label',
+    'Citation note', 'Citation source', 'Editorial note'],
 }
+
 
 InputLookupQAContext.propTypes = {
   doSearch: PropTypes.func,
-  propertyTemplate: PropTypes.shape({
-    propertyLabel: PropTypes.string,
-    mandatory: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
-    repeatable: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
-    valueConstraint: PropTypes.shape({
-      useValuesFrom: PropTypes.oneOfType([PropTypes.string, PropTypes.array]),
-    }),
-  }),
-  reduxPath: PropTypes.oneOfType([PropTypes.string, PropTypes.array]),
   displayValidations: PropTypes.bool,
+  isloading: PropTypes.bool,
+  handleSelectedChange: PropTypes.func,
+  handleRemoveItem: PropTypes.func,
+  lookupConfig: PropTypes.arrayOf(PropTypes.object).isRequired,
+  options: PropTypes.arrayOf(PropTypes.object),
+  clearOptions: PropTypes.func,
+  propertyTemplate: SinopiaPropTypes.propertyTemplate,
+  reduxPath: PropTypes.oneOfType([PropTypes.string, PropTypes.array]),
+  selected: PropTypes.arrayOf(PropTypes.object),
 }
 
-const mapStateToProps = (state, props) => {
-  const reduxPath = props.reduxPath
+const mapStateToProps = (state, ownProps) => {
+  const reduxPath = ownProps.reduxPath
   const resourceTemplateId = reduxPath[reduxPath.length - 2]
   const propertyURI = reduxPath[reduxPath.length - 1]
   const displayValidations = getDisplayValidations(state)
   const propertyTemplate = getPropertyTemplate(state, resourceTemplateId, propertyURI)
   const lookupConfig = getLookupConfigItems(propertyTemplate)
+
   // Make sure that every item has a label
   // This is a temporary strategy until label lookup is implemented.
-  const selected = itemsForProperty(state.selectorReducer, props.reduxPath).map((item) => {
+  const selected = itemsForProperty(state.selectorReducer, ownProps.reduxPath).map((item) => {
     const newItem = { ...item }
     if (newItem.label === undefined) {
       newItem.label = newItem.uri
@@ -442,8 +431,8 @@ const mapDispatchToProps = dispatch => ({
   handleSelectedChange(selected) {
     dispatch(changeSelections(selected))
   },
-  handleRemoveItem(id) {
-    dispatch(removeItem(id))
+  handleRemoveItem(reduxPath, itemId) {
+    dispatch(removeItem(reduxPath, itemId))
   },
 })
 

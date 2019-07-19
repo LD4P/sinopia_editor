@@ -5,12 +5,13 @@ import { shallow } from 'enzyme'
 import InputLang from 'components/editor/property/InputLang'
 
 const plProps = {
-  propertyTemplate:
-    {
-      propertyLabel: 'Instance of',
-      propertyURI: 'http://id.loc.gov/ontologies/bibframe/instanceOf',
-      type: 'literal',
-    },
+  propertyTemplate: {
+    propertyLabel: 'Instance of',
+    propertyURI: 'http://id.loc.gov/ontologies/bibframe/instanceOf',
+    type: 'literal',
+  },
+  loadLanguages: jest.fn(),
+  options: [],
   textValue: 'test1',
   textId: '0',
 }
@@ -28,21 +29,16 @@ describe('<InputLang />', () => {
     )
   })
 
-  it('typeahead component should useCache attribute', () => {
-    expect(wrapper.find('#langComponent').props().useCache).toBeTruthy()
-  })
-
   it('typeahead component should use selectHintOnEnter', () => {
     expect(wrapper.find('#langComponent').props().selectHintOnEnter).toBeTruthy()
   })
 
   it('should call the handleLangChange on change', () => {
-    wrapper.find('#langComponent').simulate('change')
+    wrapper.find('#langComponent').simulate('change', [{ id: 'en', label: 'English' }])
     expect(mockLangChangeFn.call.length).toBe(1)
   })
 
   it('should call the onFocus event and set the selected option', () => {
-    expect.assertions(4)
     const opts = { id: 'URI', label: 'LABEL', uri: 'URI' }
 
     wrapper.instance().opts = opts
@@ -56,31 +52,10 @@ describe('<InputLang />', () => {
     expect(wrapper.state().options[0]).toEqual(opts)
     expect(wrapper.find('TypeaheadContainer(WrappedTypeahead)').props().emptyLabel).toEqual('retrieving list of languages...')
 
-    wrapper.find('#langComponent').simulate('change', event(wrapper))
+    wrapper.find('#langComponent').simulate('change', [{ id: 'en', label: 'English' }])
     expect(wrapper.state().selected[0]).toEqual(opts)
 
     wrapper.find('#langComponent').simulate('blur', event(wrapper))
     expect(wrapper.state('isLoading')).toBeFalsy()
-  })
-
-  it('creates a hash of options that it renders in the form field', () => {
-    const lcLanguage = [
-      {
-        '@id': 'http://id.loc.gov/vocabulary/iso639-1/sn',
-        'http://www.loc.gov/mads/rdf/v1#authoritativeLabel': [
-          {
-            '@language': 'en',
-            '@value': 'Shona',
-          },
-        ],
-      },
-      {
-        '@id': 'http://id.loc.gov/vocabulary/languages/oops',
-      },
-    ]
-    const options = wrapper.instance().createOptions(lcLanguage)
-
-    // Ignoring odd entries that don't have label
-    expect(options).toEqual([{ id: 'sn', label: 'Shona' }])
   })
 })

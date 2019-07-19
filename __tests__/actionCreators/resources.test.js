@@ -1,47 +1,16 @@
 // Copyright 2019 Stanford University see LICENSE for license
 
 import {
-  authenticationFailed, authenticationSucceeded, signedOut, update, retrieveResource,
-  fetchResourceTemplate, stubProperty,
-} from 'actionCreators'
+  update, existingResource, retrieveResource, stubProperty, newResource,
+} from 'actionCreators/resources'
 /* eslint import/namespace: 'off' */
 import * as server from 'sinopiaServer'
-import { getFixtureResourceTemplate } from './fixtureLoaderHelper'
+import { getFixtureResourceTemplate } from '../fixtureLoaderHelper'
+import configureMockStore from 'redux-mock-store'
+import thunk from 'redux-thunk'
 import _ from 'lodash'
 
-describe('authenticationFailed', () => {
-  const currentUser = { hello: 'world' }
-  const errInfoauthenticate = { foo: 'bar' }
-
-  const authResult = {
-    currentUser,
-    authenticationError: errInfoauthenticate,
-  }
-
-  it('returns the failure action', () => {
-    expect(authenticationFailed(authResult).type).toEqual('AUTHENTICATION_FAILURE')
-  })
-})
-
-describe('authenticationSucceeded', () => {
-  const currentUser = { hello: 'world' }
-  const sessionData = { foo: 'bar' }
-
-  const authResult = {
-    currentUser,
-    currentSession: sessionData,
-  }
-
-  it('returns the success action', () => {
-    expect(authenticationSucceeded(authResult).type).toEqual('AUTHENTICATION_SUCCESS')
-  })
-})
-
-describe('signedOut', () => {
-  it('returns the signed out action', () => {
-    expect(signedOut().type).toEqual('SIGN_OUT_SUCCESS')
-  })
-})
+const mockStore = configureMockStore([thunk])
 
 describe('update', () => {
   const state = {
@@ -75,53 +44,80 @@ describe('update', () => {
   })
 })
 
-
 describe('retrieveResource', () => {
   const currentUser = {
     getSession: jest.fn(),
   }
   const uri = 'http://sinopia.io/repository/stanford/123'
-  const received = 'some triples'
+  const received = `<> <http://www.w3.org/2000/01/rdf-schema#label> "splendid"@en .
+<> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://id.loc.gov/ontologies/bibframe/Note> .
+<> <http://www.w3.org/ns/prov#wasGeneratedBy> "profile:bf2:Note" .`
 
-  it('dispatches actions when started and finished', async () => {
+  it('dispatches actions', async () => {
     server.loadRDFResource = jest.fn().mockResolvedValue({ response: { text: received } })
     const dispatch = jest.fn()
+
     await retrieveResource(currentUser, uri)(dispatch)
+    expect(dispatch).toHaveBeenCalledTimes(3)
     expect(dispatch).toBeCalledWith({ type: 'RETRIEVE_STARTED' })
-    expect(dispatch).toBeCalledWith({ type: 'RETRIEVE_FINISHED', payload: { uri, data: received } })
+    expect(dispatch).toBeCalledWith({ type: 'CLEAR_RESOURCE_TEMPLATES' })
   })
 })
 
-describe('fetchResourceTemplate', () => {
-  describe('a valid template', () => {
-    const resourceTemplateId = 'resourceTemplate:bf2:Title'
-    it('dispatches actions when started and finished', async () => {
-      const templateResponse = await getFixtureResourceTemplate(resourceTemplateId)
-      server.getResourceTemplate = jest.fn().mockResolvedValue(templateResponse)
-      const dispatch = jest.fn()
-      await fetchResourceTemplate(resourceTemplateId, dispatch)
-      expect(dispatch).toBeCalledWith({ type: 'RETRIEVE_RESOURCE_TEMPLATE_STARTED', payload: resourceTemplateId })
-      expect(dispatch).toBeCalledWith({ type: 'SET_RESOURCE_TEMPLATE', payload: templateResponse.response.body })
-    })
-  })
-  describe('an invalid template', () => {
-    const resourceTemplateId = 'rt:repeated:propertyURI:propertyLabel'
-    it('dispatches actions when started and on error', async () => {
-      const templateResponse = await getFixtureResourceTemplate(resourceTemplateId)
-      server.getResourceTemplate = jest.fn().mockResolvedValue(templateResponse)
-      const dispatch = jest.fn()
-      await fetchResourceTemplate(resourceTemplateId, dispatch)
-      expect(dispatch).toBeCalledWith({ type: 'RETRIEVE_RESOURCE_TEMPLATE_STARTED', payload: resourceTemplateId })
-      expect(dispatch).toBeCalledWith({
-        type: 'RETRIEVE_ERROR',
-        payload: {
-          resourceTemplateId,
-          reason: [
-            'Repeated property templates with same property URI (http://id.loc.gov/ontologies/bibframe/geographicCoverage) are not allowed.',
-          ],
+describe('newResource', () => {
+  const resourceTemplateId = 'resourceTemplate:bf2:Note'
+
+  it('dispatches actions', async () => {
+    const resourceTemplateResponse = await getFixtureResourceTemplate(resourceTemplateId)
+    server.getResourceTemplate = jest.fn().mockResolvedValue(resourceTemplateResponse)
+
+    const store = mockStore({
+      selectorReducer: {
+        entities: {
+          resourceTemplates: {},
         },
-      })
+        resource: {
+          'resourceTemplate:bf2:Note': {},
+        },
+      },
     })
+
+    await store.dispatch(newResource(resourceTemplateId))
+    const actions = store.getActions()
+    expect(actions[0]).toEqual({ type: 'CLEAR_RESOURCE_TEMPLATES' })
+    expect(actions[1]).toEqual({ type: 'SET_RESOURCE', payload: { [resourceTemplateId]: {} } })
+    expect(actions[2]).toEqual({ type: 'RETRIEVE_RESOURCE_TEMPLATE_STARTED', payload: resourceTemplateId })
+    expect(actions[3]).toEqual({ type: 'SET_RESOURCE_TEMPLATE', payload: resourceTemplateResponse.response.body })
+  })
+})
+
+describe('existingResource', () => {
+  const resourceTemplateId = 'resourceTemplate:bf2:Note'
+
+  // NOTE: This test causes an unhandled promise rejection.  See: https://github.com/LD4P/sinopia_editor/issues/983
+  it('dispatches actions', async () => {
+    const resourceTemplateResponse = await getFixtureResourceTemplate(resourceTemplateId)
+    server.getResourceTemplate = jest.fn().mockResolvedValue(resourceTemplateResponse)
+
+    const store = mockStore({
+      selectorReducer: {
+        entities: {
+          resourceTemplates: { [resourceTemplateId]: {} },
+        },
+        resource: {},
+      },
+    })
+
+    const resource = {
+      'resourceTemplate:bf2:Note': {},
+    }
+
+    await store.dispatch(existingResource(resource, 'http://localhost:8080/repository/stanford/888ea64d-f471-41bf-9d33-c9426ab83b5c'))
+    const actions = store.getActions()
+    expect(actions[0]).toEqual({ type: 'SET_RESOURCE', payload: { [resourceTemplateId]: {} } })
+    expect(actions[1]).toEqual({ type: 'SET_BASE_URL', payload: 'http://localhost:8080/repository/stanford/888ea64d-f471-41bf-9d33-c9426ab83b5c' })
+    expect(actions[2]).toEqual({ type: 'RETRIEVE_RESOURCE_TEMPLATE_STARTED', payload: undefined })
+    expect(actions[3]).toEqual({ type: 'SET_RESOURCE_TEMPLATE', payload: resourceTemplateResponse.response.body })
   })
 })
 
@@ -159,6 +155,7 @@ describe('stubProperty', () => {
       expect(dispatch).toHaveBeenCalledTimes(2)
     })
   })
+
   describe('property is not a resource property and has defaults', () => {
     it('stubs out the property with defaults', async () => {
       const resourceTemplateId = 'resourceTemplate:bf2:Monograph:Instance'
@@ -166,10 +163,11 @@ describe('stubProperty', () => {
       const resourceTemplate = resourceTemplateResponse.response.body
       const dispatch = jest.fn()
       const newResource = await stubProperty(resourceTemplateId, resourceTemplate, {}, 'http://id.loc.gov/ontologies/bibframe/heldBy', dispatch)
-      expect(newResource).toEqual({ items: [{ content: 'DLC', lang: { items: [{ id: 'en', label: 'English' }] } }] })
+      expect(newResource).toEqual({ items: [{ content: 'DLC', lang: { id: 'en', label: 'English' } }] })
       expect(dispatch).toHaveBeenCalledTimes(0)
     })
   })
+
   describe('property is not a resource property and has no defaults', () => {
     it('stubs out the property', async () => {
       const resourceTemplateId = 'resourceTemplate:bf2:Monograph:Work'

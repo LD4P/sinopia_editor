@@ -107,9 +107,13 @@ describe('<InputLookupQA />', () => {
     expect(wrapper.find('#lookupComponent').props().required).toBeFalsy()
   })
 
-  it('displays RequiredSuperscript if mandatory from template is true', () => {
-    wrapper.instance().props.propertyTemplate.mandatory = 'true'
-    expect(wrapper.find('label > RequiredSuperscript')).toBeTruthy()
+  describe('when mandatory is true', () => {
+    const template = { ...plProps.propertyTemplate, mandatory: 'true' }
+    const wrapper2 = shallow(<InputLookupQA.WrappedComponent {...plProps} propertyTemplate={template} />)
+
+    it('passes the "required" property to Typeahead', () => {
+      expect(wrapper2.find('#lookupComponent').props().required).toBeTruthy()
+    })
   })
 
   it('sets the typeahead component multiple attribute according to the repeatable property from the template', () => {
@@ -141,12 +145,25 @@ describe('<InputLookupQA />', () => {
     expect(mockFormDataFn.mock.calls.length).toBe(2)
   })
 
-  it('has a PropertyRemark when a remark is present', () => {
-    wrapper.instance().props.propertyTemplate.remark = 'http://rda.test.org/1.1'
-    wrapper.instance().forceUpdate()
-    const propertyRemark = wrapper.find('label > PropertyRemark')
+  it('links the tokens when there is a URI', () => {
+    const option = {
+      uri: 'http://id.loc.gov/authorities/names/no2017003958',
+      id: 'no2017003958',
+      label: 'Ju, Peijian',
+    }
 
-    expect(propertyRemark).toBeTruthy()
+    const tokenWrapper = shallow(wrapper.instance().renderTokenFunc(option, { labelKey: 'label' }, 0))
+    expect(tokenWrapper.exists('a[href="http://id.loc.gov/authorities/names/no2017003958"]')).toEqual(true)
+  })
+
+  it('does not link the tokens when there is no URI', () => {
+    const option = {
+      id: 'no2017003958',
+      label: 'Ju, Peijian',
+    }
+
+    const tokenWrapper = shallow(wrapper.instance().renderTokenFunc(option, { labelKey: 'label' }, 0))
+    expect(tokenWrapper.exists('a')).toEqual(false)
   })
 
   // Institute wrapper with multiple lookup options

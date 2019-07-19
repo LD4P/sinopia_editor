@@ -114,15 +114,12 @@ Once complete, you can start the dev server on your laptop as describe above and
 
 There is a project view and also a view of each file.  You can also check [coveralls](https://coveralls.io/repos/github/LD4P/sinopia_editor).
 
-### Static Analysis
-
-We use plato (actually es6-plato) to get static analysis info such as code complexity, etc.  `npm run analysis` will create a folder `static-analysis`; use a web browser to open `static-analysis/index.html`.  There is a project view and also a view of each file.
 
 ### Continuous Integration
 
 We use [circleci](https://circleci.com/gh/Ld4p/sinopia_profile_editor).  The steps are in `.circleci/config.yml`.
 
-In the "artifacts" tab of a particular build, you can look at code coverage (`coverage/lcov-report/index.html`) and at static analysis output (`static-analysis/index.html`).
+In the "artifacts" tab of a particular build, you can look at code coverage (`coverage/lcov-report/index.html`).
 
 ## Running with Docker
 
@@ -228,6 +225,7 @@ $ aws ecs update-service --service sinopia-homepage --region us-west-2 --cluster
 
 The steps to create a tagged release of the Sinopia's Linked Data Editor are as follows:
 
+1. Create an issue using the Tagged Release template.
 1. Update the version in `package.json`
 1. Run `npm i` to regenerate `package-lock.json`
 1. Publish the version to npm registry by issuing `npm publish` command in the root projects
@@ -237,7 +235,9 @@ The steps to create a tagged release of the Sinopia's Linked Data Editor are as 
 1. Build a tagged Docker image i.e. `docker build -t ld4p/sinopia_editor:{version} .`
 1. Push the tagged version to Dockerhub with `docker push ld4p/sinopia_editor:{version}`,
    See [documentation](#building-latest-docker-image) for more information
-
+1. Once tagged release is live on https://development.sinopia.io, the project owner will approve the tagged release for deployment on:
+  1.  Staging at https://stage.sinopia.io/
+  1.  Production at https://sinopia.io
 
 # LD4P's fork of the BIBFRAME Editor
 The Sinopia Editor is forked from [https://github.com/lcnetdev/bfe][BFE_GIT].

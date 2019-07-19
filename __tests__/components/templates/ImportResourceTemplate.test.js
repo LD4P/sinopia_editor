@@ -17,7 +17,9 @@ describe('<ImportResourceTemplate />', () => {
       wouldActuallyBe: 'a CognitoUser object, IRL',
     },
   }
-  let wrapper = shallow(<ImportResourceTemplate.WrappedComponent authenticationState={authenticationState}/>)
+  const mockFetchResourceTemplateSummaries = jest.fn()
+
+  const wrapper = shallow(<ImportResourceTemplate.WrappedComponent authenticationState={authenticationState} fetchResourceTemplateSummaries={mockFetchResourceTemplateSummaries} />)
 
   // Make sure spies/mocks don't leak between tests
   afterEach(() => {
@@ -126,7 +128,7 @@ describe('<ImportResourceTemplate />', () => {
   describe('updateStateFromServerResponses()', () => {
     it('adds error message to state when update operation does *not* result in HTTP 409 Conflict', () => {
       // Set new wrapper in each of these tests because we are changing state
-      wrapper = shallow(<ImportResourceTemplate.WrappedComponent authenticationState={authenticationState}/>)
+      const wrapper = shallow(<ImportResourceTemplate.WrappedComponent authenticationState={authenticationState}/>)
 
       expect(wrapper.state().flashMessages).toEqual([])
 
@@ -137,7 +139,7 @@ describe('<ImportResourceTemplate />', () => {
 
     it('sets modalShow to true when receiving HTTP 409 and errors >= profileCount', () => {
       // Set new wrapper in each of these tests because we are changing state
-      wrapper = shallow(<ImportResourceTemplate.WrappedComponent authenticationState={authenticationState}/>)
+      const wrapper = shallow(<ImportResourceTemplate.WrappedComponent authenticationState={authenticationState}/>)
 
       expect(wrapper.state().modalShow).toBe(false)
 
@@ -148,7 +150,7 @@ describe('<ImportResourceTemplate />', () => {
 
     it('sets message in state with any create operation not resulting in HTTP 409', () => {
       // Set new wrapper in each of these tests because we are changing state
-      wrapper = shallow(<ImportResourceTemplate.WrappedComponent authenticationState={authenticationState}/>)
+      const wrapper = shallow(<ImportResourceTemplate.WrappedComponent authenticationState={authenticationState}/>)
 
       expect(wrapper.state().flashMessages).toEqual([])
 
@@ -159,11 +161,10 @@ describe('<ImportResourceTemplate />', () => {
 
     it('handles multi-response calls with different results', () => {
       // Set new wrapper in each of these tests because we are changing state
-      wrapper = shallow(<ImportResourceTemplate.WrappedComponent authenticationState={authenticationState}/>)
+      const wrapper = shallow(<ImportResourceTemplate.WrappedComponent authenticationState={authenticationState}/>)
 
       expect(wrapper.state().flashMessages).toEqual([])
       expect(wrapper.state().modalShow).toEqual(false)
-      expect(wrapper.state().updateKey).toEqual(1)
 
       wrapper.instance().updateStateFromServerResponses([
         { status: 201, headers: { location: 'http://sinopia.io/repository/ld4p/myResourceTemplate1' } },
@@ -175,7 +176,6 @@ describe('<ImportResourceTemplate />', () => {
         'Prompting user about updating http://sinopia.io/repository/ld4p/myResourceTemplate2',
       ])
       expect(wrapper.state().modalShow).toEqual(true)
-      expect(wrapper.state().updateKey).toEqual(2)
     })
   })
 
@@ -267,7 +267,7 @@ describe('<ImportResourceTemplate />', () => {
   describe('resetMessages()', () => {
     it('resets modalMessages and flashMessages in component state', () => {
       // Set new wrapper because we are changing state
-      wrapper = shallow(<ImportResourceTemplate.WrappedComponent authenticationState={authenticationState}/>)
+      const wrapper = shallow(<ImportResourceTemplate.WrappedComponent authenticationState={authenticationState}/>)
 
       wrapper.setState({ modalMessages: ['Could not update resource!'], flashMessages: ['Updated http:sinopia.io/repository/ld4p/myResourceTemplate'] })
       expect(wrapper.state().modalMessages).toEqual(['Could not update resource!'])
@@ -283,7 +283,7 @@ describe('<ImportResourceTemplate />', () => {
   describe('modalClose()', () => {
     it('sets modalShow to false in component state', () => {
       // Set new wrapper because we are changing state
-      wrapper = shallow(<ImportResourceTemplate.WrappedComponent authenticationState={authenticationState}/>)
+      const wrapper = shallow(<ImportResourceTemplate.WrappedComponent authenticationState={authenticationState}/>)
 
       wrapper.setState({ modalShow: true })
       expect(wrapper.state().modalShow).toBe(true)
@@ -305,7 +305,7 @@ describe('<ImportResourceTemplate />', () => {
     ]
 
     it('updates every template, updates state, closes the modal and reloads', async () => {
-      expect.assertions(3)
+      expect.assertions(4)
       const updateResourceSpy = jest.spyOn(wrapper.instance(), 'updateResource').mockImplementation(async () => {})
       const updateStateSpy = jest.spyOn(wrapper.instance(), 'updateStateFromServerResponses').mockReturnValue(null)
       const modalCloseSpy = jest.spyOn(wrapper.instance(), 'modalClose').mockReturnValue(null)
@@ -315,6 +315,7 @@ describe('<ImportResourceTemplate />', () => {
       expect(updateResourceSpy).toHaveBeenCalledTimes(2)
       expect(updateStateSpy).toHaveBeenCalledTimes(1)
       expect(modalCloseSpy).toHaveBeenCalledTimes(1)
+      expect(mockFetchResourceTemplateSummaries).toHaveBeenCalledTimes(1)
     })
   })
 })

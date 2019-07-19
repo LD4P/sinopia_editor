@@ -1,9 +1,12 @@
 // Copyright 2019 Stanford University see LICENSE for license
 import React, { Component } from 'react'
 import {
-  Menu, MenuItem, Typeahead, asyncContainer,
+  Menu, MenuItem, Typeahead, asyncContainer, Token,
 } from 'react-bootstrap-typeahead'
+import { getOptionLabel } from 'react-bootstrap-typeahead/lib/utils'
+
 import PropTypes from 'prop-types'
+import SinopiaPropTypes from 'SinopiaPropTypes'
 import Swagger from 'swagger-client'
 import swaggerSpec from 'lib/apidoc.json'
 import { connect } from 'react-redux'
@@ -22,8 +25,23 @@ class InputLookupQATypeahead extends Component {
     super(props)
 
     this.state = {
-      isLoading: false
+      isLoading: false,
     }
+  }
+
+  // Render token function to be used by typeahead
+  renderTokenFunc = (option, props, idx) => {
+    const optionLabel = getOptionLabel(option, props.labelKey)
+    const children = option.uri ? (<a href={option.uri} rel="noopener noreferrer" target="_blank">{optionLabel}</a>) : optionLabel
+    return (
+      <Token
+          disabled={props.disabled}
+          key={idx}
+          onRemove={props.onRemove}
+          tabIndex={props.tabIndex}>
+        { children }
+      </Token>
+    )
   }
 
   // Render menu function to be used by typeahead
@@ -118,9 +136,9 @@ class InputLookupQATypeahead extends Component {
       placeholder: this.props.propertyTemplate.propertyLabel,
       useCache: true,
       selectHintOnEnter: true,
-      isLoading:this.props.isLoading,
+      isLoading: this.props.isLoading,
       onSearch: this.props.doSearch,
-      options: this.props.options, 
+      options: this.props.options,
       selected: this.props.selected,
       delay: 300,
     }
@@ -131,7 +149,6 @@ class InputLookupQATypeahead extends Component {
     if (error) {
       groupClasses += ' has-error'
     }
-
     return (
       <div className={groupClasses}>
         <AsyncTypeahead renderMenu={(results, menuProps) => this.renderMenuFunc(results, menuProps)}
@@ -145,7 +162,7 @@ class InputLookupQATypeahead extends Component {
 
                           this.props.handleSelectedChange(payload)
                         }}
-
+                        renderToken={(option, props, idx) => this.renderTokenFunc(option, props, idx)}
                         {...typeaheadProps}
 
                         filterBy={() => true
@@ -158,19 +175,13 @@ class InputLookupQATypeahead extends Component {
 }
 
 InputLookupQATypeahead.propTypes = {
-  doSearch:PropTypes.func,
+  doSearch: PropTypes.func,
+  isLoading: PropTypes.bool,
+  options: PropTypes.arrayOf(PropTypes.object),
   displayValidations: PropTypes.bool,
   handleSelectedChange: PropTypes.func,
   lookupConfig: PropTypes.arrayOf(PropTypes.object).isRequired,
-  propertyTemplate: PropTypes.shape({
-    propertyLabel: PropTypes.string,
-    propertyURI: PropTypes.string,
-    mandatory: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
-    repeatable: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
-    valueConstraint: PropTypes.shape({
-      useValuesFrom: PropTypes.oneOfType([PropTypes.string, PropTypes.array]),
-    }),
-  }),
+  propertyTemplate: SinopiaPropTypes.propertyTemplate,
   reduxPath: PropTypes.oneOfType([PropTypes.string, PropTypes.array]),
   selected: PropTypes.arrayOf(PropTypes.object),
 }

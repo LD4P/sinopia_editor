@@ -35,6 +35,7 @@ const rtFileNames = [
   'ParallelTitle.json',
   'RDAMainifestationMonograph.json',
   'Shelfmark.json',
+  'SinopiaLookup.json',
   'Title.json',
   'TitleNote.json',
   'TranscribedTitle.json',
@@ -44,7 +45,6 @@ const rtFileNames = [
   'adminMetadata.json',
   'adminMetadataStatus.json',
   'defaultsAndRefs.json',
-  'literalDefaultURI.json',
   'literalNoRepeatDefaultLiteralNonEnglish.json',
   'literalNoRepeatDefaultLiteralOnly.json',
   'literalNoRepeatNoDefault.json',
@@ -55,6 +55,8 @@ const rtFileNames = [
   'literalRepeatNoDefault.json',
   'propertyURIRepeated.json',
   'rdaItemMonograph.json',
+  'ShareVDEExample.json',
+  'DiscogsExample.json',
 ]
 
 export const resourceTemplateId2Json = loadFixtureResourceTemplates()

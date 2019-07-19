@@ -28,8 +28,13 @@ const initialState = {
     entities: { // The stuff we've retrieved from the server
       resourceTemplates: {
       },
+      resourceTemplateSummaries: {
+      },
     },
     resource: { // The state we're displaying in the editor
+    },
+    search: {
+      results: [],
     },
   },
 }

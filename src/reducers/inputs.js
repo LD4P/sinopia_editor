@@ -49,27 +49,14 @@ export const showRdfPreview = (state, action) => {
   return newState
 }
 
-export const removeAllContent = (state, action) => {
-  const newState = { ...state }
-  const reduxPath = action.payload.reduxPath
-  let level = 0
-
-  reduxPath.reduce((obj, key) => {
-    level++
-    if (level === reduxPath.length) {
-      obj[key].items = []
-    }
-
-    return obj[key]
-  }, newState)
-
-  return validate(newState)
-}
-
 /**
  * Takes the reduxPath (an array of keys that correspond to the redux state tree for a 'resource') and performs a reduce
  * function on each of the keys, searching for the last key in the path and then appending an object with an `items` array.
  * Also checks for needed blank nodes along the reduxPath in the state tree and appends intermediate objects.
+ *
+ * Each item in the items array MUST have the following keys:
+ *  label - the string value to show
+ *  uri - the URI that represents the concept
  *
  * * @returns {function} a function that validates the content of the `newState` object.
  */
@@ -88,7 +75,7 @@ export const setItemsOrSelections = (state, action) => {
         obj[key] = { items: [] }
       }
 
-      if (action.type === 'SET_ITEMS') {
+      if (action.type === 'ITEMS_SELECTED') {
         // here we are setting the items for repeatable user input, so push back each input item
         action.payload.items.map((row) => {
           obj[key].items.push(row)
@@ -126,11 +113,9 @@ export const setMyItemsLang = (state, action) => {
       if ((key in obj) !== true) {
         obj[key] = { items: [] }
       }
-
       const payloadItem = obj[key].items.find(item => item.id === action.payload.id)
-
       if (payloadItem) {
-        payloadItem.lang = { items: action.payload.items }
+        payloadItem.lang = action.payload.lang
       }
     }
 

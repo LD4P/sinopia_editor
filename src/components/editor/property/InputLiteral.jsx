@@ -2,13 +2,12 @@
 
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
+import SinopiaPropTypes from 'SinopiaPropTypes'
 import { connect } from 'react-redux'
-import Modal from 'react-bootstrap/lib/Modal'
-import Button from 'react-bootstrap/lib/Button'
 import shortid from 'shortid'
-import { removeItem, setItems, setLang } from 'actions/index'
+import { removeItem, itemsSelected } from 'actions/index'
 import { findNode, getDisplayValidations, getPropertyTemplate } from 'selectors/resourceSelectors'
-import InputLang from './InputLang'
+import LanguageButton from './LanguageButton'
 import { booleanPropertyFromTemplate, defaultLangTemplate } from 'Utilities'
 
 
@@ -17,33 +16,14 @@ export class InputLiteral extends Component {
   constructor(props) {
     super(props)
 
-    /*
-     * Show is whether to show the language modal.
-     * Note that it is a hash because will have multiple modals if there
-     * are multiple literals.
-     */
     this.state = {
-      show: {},
       content_add: '',
-      lang_payload: null,
     }
     this.inputLiteralRef = React.createRef()
   }
 
-
   disabled = () => !booleanPropertyFromTemplate(this.props.propertyTemplate, 'repeatable', true)
       && this.props.items?.length > 0
-
-  handleShow = (id) => {
-    const showState = {}
-
-    showState[id] = true
-    this.setState({ show: showState })
-  }
-
-  handleClose = () => {
-    this.setState({ show: {}, lang_payload: null })
-  }
 
   handleFocus = (event) => {
     document.getElementById(event.target.id).focus()
@@ -57,13 +37,11 @@ export class InputLiteral extends Component {
   }
 
   addUserInput = (userInputArray, currentcontent) => {
-    const newId = shortid.generate()
-
     userInputArray.push({
       content: currentcontent,
-      id: newId,
+      id: shortid.generate(),
+      lang: defaultLangTemplate(),
     })
-    return newId
   }
 
   handleKeypress = (event) => {
@@ -74,15 +52,13 @@ export class InputLiteral extends Component {
       if (!currentcontent) {
         return
       }
-      const newId = this.addUserInput(userInputArray, currentcontent)
+      this.addUserInput(userInputArray, currentcontent)
       const userInput = {
-        uri: this.props.propertyTemplate.propertyURI,
         reduxPath: this.props.reduxPath,
         items: userInputArray,
       }
 
       this.props.handleMyItemsChange(userInput)
-      this.setDefaultLang(newId)
       this.setState({
         content_add: '',
       })
@@ -116,22 +92,6 @@ export class InputLiteral extends Component {
       && this.props.formData.errors
       && this.props.formData.errors.length !== 0
 
-
-  dispModal = (content, id) => (
-    <Modal show={this.state.show[id]} onHide={this.handleClose}>
-      <Modal.Header closeButton>
-        <Modal.Title>Languages</Modal.Title>
-      </Modal.Header>
-      <Modal.Body>
-        <InputLang textValue={content} reduxPath={this.props.reduxPath} textId={id} handleLangChange={this.handleLangChange}/>
-      </Modal.Body>
-      <Modal.Footer>
-        <Button onClick={this.handleLangSubmit}>Submit</Button>
-        <Button onClick={this.handleClose}>Close</Button>
-      </Modal.Footer>
-    </Modal>
-  )
-
   makeAddedList = () => {
     if (this.props.items === undefined) {
       return
@@ -160,35 +120,11 @@ export class InputLiteral extends Component {
           data-label={this.props.formData.uri}
         >Edit
         </button>
-        <Button
-          id="language"
-          bsSize="small"
-          onClick = {e => this.handleShow(obj.id, e)}>
-          Language: {obj.lang.items[0].label}
-        </Button>
-        {this.dispModal(obj.content, obj.id)}
+        <LanguageButton id={obj.id} reduxPath={this.props.reduxPath}/>
       </div>
     })
 
     return elements
-  }
-
-  setDefaultLang = (textId) => {
-    const payload = defaultLangTemplate()
-
-    payload.id = textId
-    payload.reduxPath = this.props.reduxPath
-    this.props.handleMyItemsLangChange(payload)
-  }
-
-  // Passed to InputLang component so that can return a language change.
-  handleLangChange = (payload) => {
-    this.setState({ lang_payload: payload })
-  }
-
-  handleLangSubmit= () => {
-    this.props.handleMyItemsLangChange(this.state.lang_payload)
-    this.handleClose()
   }
 
   render() {
@@ -204,7 +140,6 @@ export class InputLiteral extends Component {
     if (error) {
       groupClasses += ' has-error'
     }
-
 
     return (
       <div className={groupClasses}>
@@ -229,16 +164,7 @@ export class InputLiteral extends Component {
 
 InputLiteral.propTypes = {
   id: PropTypes.oneOfType([PropTypes.number, PropTypes.string]),
-  propertyTemplate: PropTypes.shape({
-    propertyLabel: PropTypes.string.isRequired,
-    propertyURI: PropTypes.string.isRequired,
-    mandatory: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
-    repeatable: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
-    remark: PropTypes.string,
-    valueConstraint: PropTypes.shape({
-      defaults: PropTypes.array,
-    }),
-  }),
+  propertyTemplate: SinopiaPropTypes.propertyTemplate,
   formData: PropTypes.shape({
     id: PropTypes.oneOfType([PropTypes.number, PropTypes.string]),
     uri: PropTypes.string,
@@ -247,7 +173,6 @@ InputLiteral.propTypes = {
   items: PropTypes.array,
   handleMyItemsChange: PropTypes.func,
   handleRemoveItem: PropTypes.func,
-  handleMyItemsLangChange: PropTypes.func,
   reduxPath: PropTypes.oneOfType([PropTypes.string, PropTypes.array]),
   displayValidations: PropTypes.bool,
 }
@@ -265,7 +190,6 @@ const mapStateToProps = (state, props) => {
   return {
     formData,
     items,
-    reduxPath,
     propertyTemplate,
     displayValidations,
   }
@@ -273,15 +197,11 @@ const mapStateToProps = (state, props) => {
 
 const mapDispatchToProps = dispatch => ({
   handleMyItemsChange(userInput) {
-    dispatch(setItems(userInput))
+    dispatch(itemsSelected(userInput))
   },
   handleRemoveItem(reduxPath, itemId) {
     dispatch(removeItem(reduxPath, itemId))
   },
-  handleMyItemsLangChange(payload) {
-    dispatch(setLang(payload))
-  },
-
 })
 
 export default connect(mapStateToProps, mapDispatchToProps)(InputLiteral)

@@ -6,8 +6,8 @@ import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
 import PropertyActionButtons from './PropertyActionButtons'
 import PropertyTemplateOutline from './PropertyTemplateOutline'
-import { getResourceTemplate } from 'selectors/resourceSelectors'
-import { addResource as addResourceCreator } from 'actionCreators'
+import { getResourceTemplate, findNode } from 'selectors/resourceSelectors'
+import _ from 'lodash'
 
 /**
  * Renders a sub-resource template (e.g. WorkTitle, WorkVariantTitle, TranscribedTitle)
@@ -41,11 +41,6 @@ import { addResource as addResourceCreator } from 'actionCreators'
  *  resourceTemplate.id
  */
 class PropertyResourceTemplate extends Component {
-  handleAddClick = (reduxPath, event) => {
-    event.preventDefault()
-    this.props.addResource(reduxPath)
-  }
-
   populatePropertyTemplates = () => this.props.resourceTemplate.propertyTemplates.map((property) => {
     /*
      * Add the property uri to the redux path
@@ -66,7 +61,8 @@ class PropertyResourceTemplate extends Component {
     }
     // repeatable defaults to false, so isAddDisabled defaults to true
     const isAddDisabled = this.props.isRepeatable ? !JSON.parse(this.props.isRepeatable) : true
-
+    const isAddHidden = this.props.index > 0
+    const isRemoveHidden = this.props.siblingResourceCount === 1
     return (<div>
       <div className="row" key={shortid.generate()}>
         <section className="col-md-10">
@@ -74,8 +70,9 @@ class PropertyResourceTemplate extends Component {
         </section>
         <section className="col-md-2">
           <PropertyActionButtons
-            handleAddClick={this.handleAddClick.bind(this, this.props.reduxPath)}
+            addButtonHidden={isAddHidden}
             addButtonDisabled={isAddDisabled}
+            removeButtonHidden={isRemoveHidden}
             reduxPath={this.props.reduxPath}
             key={shortid.generate()} />
         </section>
@@ -89,24 +86,29 @@ class PropertyResourceTemplate extends Component {
 }
 
 PropertyResourceTemplate.propTypes = {
+  index: PropTypes.number,
   isRepeatable: PropTypes.string,
   reduxPath: PropTypes.array,
   resourceTemplate: PropTypes.object,
   addResource: PropTypes.func,
+  siblingResourceCount: PropTypes.number,
 }
 
 const mapStateToProps = (state, ourProps) => {
   const resourceTemplateId = ourProps.reduxPath.slice(-1)[0]
   const resourceTemplate = getResourceTemplate(state, resourceTemplateId)
+  const parentPropertyReduxPath = ourProps.reduxPath.slice(0, ourProps.reduxPath.length - 2)
+  const parentPropertyNode = findNode(state.selectorReducer, parentPropertyReduxPath)
+  const siblingResourceCount = Object.keys(parentPropertyNode).reduce((count, key) => {
+    if (_.first(Object.keys(parentPropertyNode[key])) === resourceTemplateId) {
+      return count + 1
+    }
+    return count
+  }, 0)
   return {
     resourceTemplate,
+    siblingResourceCount,
   }
 }
 
-const mapDispatchToProps = dispatch => ({
-  addResource(reduxPath) {
-    dispatch(addResourceCreator(reduxPath))
-  },
-})
-
-export default connect(mapStateToProps, mapDispatchToProps)(PropertyResourceTemplate)
+export default connect(mapStateToProps, null)(PropertyResourceTemplate)

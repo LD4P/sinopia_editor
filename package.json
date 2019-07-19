@@ -6,10 +6,14 @@
     "editor",
     "rdf"
   ],
-  "version": "0.3.3",
+  "version": "0.3.4",
   "homepage": "http://github.com/LD4P/sinopia_editor/",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/LD4P/sinopia_editor.git"
+  },
   "engines": {
-    "node": "10.11.x"
+    "node": ">= 11.0.0"
   },
   "contributors": [
     "Kirk Hess <khes@loc.gov>",
@@ -40,7 +44,6 @@
     "css-loader": "^2.1.1",
     "enzyme": "^3.9.0",
     "enzyme-adapter-react-16": "^1.12.1",
-    "es6-plato": "^1.1.6",
     "eslint": "^5.3.0",
     "eslint-config-airbnb-base": "^13.1.0",
     "eslint-import-resolver-webpack": "^0.11.1",
@@ -62,6 +65,7 @@
     "jsdom-global": "3.0.2",
     "puppeteer": "^1.14.0",
     "react-hot-loader": "^4.8.4",
+    "redux-mock-store": "^1.5.3",
     "style-loader": "^0.23.1",
     "webpack": "^4.35.3",
     "webpack-cli": "^3.3.5",
@@ -74,14 +78,13 @@
     "doc": "docs"
   },
   "scripts": {
-    "analysis": "es6-plato -d static-analysis -n -e .eslintrc.js src src/lib",
     "build": "webpack -p --progress --mode production",
     "ci": "npm i && npm run eslint && npm run dev-build && npm run jest-cov",
     "dev-build": "webpack --progress --mode development",
     "dev-build-test": "npm run dev-build && npm run test",
     "dev-start": "webpack-dev-server --config ./webpack.config.js --mode development",
-    "eslint": "eslint --max-warnings 6 --color -c .eslintrc.js --ext js,jsx .",
-    "eslint-fix": "eslint --max-warnings 6 --color -c .eslintrc.js --ext js,jsx --fix .",
+    "eslint": "eslint --max-warnings 5 --color -c .eslintrc.js --ext js,jsx .",
+    "eslint-fix": "eslint --max-warnings 5 --color -c .eslintrc.js --ext js,jsx --fix .",
     "eslint-fix-single": "eslint --color -c .eslintrc.js --fix",
     "jest-cov": "jest --coverage --colors --silent --runInBand",
     "jest-ci": "jest  --colors --silent --ci --runInBand --coverage --reporters=default --reporters=jest-junit && cat ./coverage/lcov.info | coveralls",
@@ -103,7 +106,7 @@
     "express": "^4.16.4",
     "file-saver": "^2.0.2",
     "identity-obj-proxy": "^3.0.0",
-    "lodash": "^4.17.11",
+    "lodash": "^4.17.14",
     "merge": "^1.2.1",
     "n3": "^1.1.1",
     "query-string": "^6.4.2",
@@ -152,7 +155,8 @@
       "/node_modules/",
       "__tests__/fixtureLoaderHelper.js",
       "__tests__/integration/loginHelper",
-      "__tests__/integration/previewRDFHelper"
+      "__tests__/integration/previewRDFHelper",
+      "__tests__/integration/integrationHelper"
     ],
     "setupFiles": [
       "jest-localstorage-mock",

@@ -7,7 +7,6 @@ import shortid from 'shortid'
 import PropertyPanel from './property/PropertyPanel'
 import PropertyResourceTemplate from './property/PropertyResourceTemplate'
 import PropertyComponent from './property/PropertyComponent'
-import { removeAllContent, setItems } from 'actions/index'
 import { isResourceWithValueTemplateRef } from 'Utilities'
 import { getResourceTemplate, findNode } from 'selectors/resourceSelectors'
 import _ from 'lodash'
@@ -34,14 +33,15 @@ export class ResourceTemplateForm extends Component {
         return
       }
 
-      keys.forEach((key) => {
+      keys.forEach((key, index) => {
         const resourceTemplateId = _.first(Object.keys(resourceProperty[key]))
         const newReduxPath = [...this.props.reduxPath, property.propertyURI, key, resourceTemplateId]
 
         rtProperties.push(<PropertyResourceTemplate
           key={shortid.generate()}
           isRepeatable={property.repeatable}
-          reduxPath={newReduxPath} />)
+          reduxPath={newReduxPath}
+          index={index} />)
       })
       if ((rtIds.length - i) > 1) {
         rtProperties.push(<hr key={i} />)
@@ -68,7 +68,7 @@ export class ResourceTemplateForm extends Component {
               if (isResourceWithValueTemplateRef(pt)) {
                 if (!_.isEmpty(this.props.resourceProperties)) {
                   return (
-                    <PropertyPanel pt={pt} key={index} float={index} rtId={this.props.resourceTemplateId}>
+                    <PropertyPanel propertyTemplate={pt} key={index} float={index}>
                       {this.resourceTemplateFields(pt.valueConstraint.valueTemplateRefs, pt)}
                     </PropertyPanel>
                   )
@@ -77,7 +77,7 @@ export class ResourceTemplateForm extends Component {
 
               const newReduxPath = [...this.props.reduxPath, pt.propertyURI]
               return (
-                <PropertyPanel pt={pt} key={index} float={index} rtId={this.props.resourceTemplateId}>
+                <PropertyPanel propertyTemplate={pt} key={index} float={index}>
                   <PropertyComponent index={index}
                                      reduxPath={newReduxPath}
                                      propertyTemplate={pt} />
@@ -100,9 +100,6 @@ export class ResourceTemplateForm extends Component {
 }
 
 ResourceTemplateForm.propTypes = {
-  resourceTemplateId: PropTypes.string.isRequired,
-  handleMyItemsChange: PropTypes.func,
-  handleRemoveAllContent: PropTypes.func,
   propertyTemplates: PropTypes.array,
   resourceProperties: PropTypes.object,
   reduxPath: PropTypes.array,
@@ -114,19 +111,9 @@ const mapStateToProps = (state, ourProps) => {
   const resourceTemplate = getResourceTemplate(state, resourceTemplateId)
   const resourceProperties = findNode(state.selectorReducer, ourProps.reduxPath)
   return {
-    resourceTemplateId,
     propertyTemplates: resourceTemplate?.propertyTemplates || [],
     resourceProperties,
   }
 }
 
-const mapDispatchToProps = dispatch => ({
-  handleMyItemsChange(userInput) {
-    dispatch(setItems(userInput))
-  },
-  handleRemoveAllContent(id) {
-    dispatch(removeAllContent(id))
-  },
-})
-
-export default connect(mapStateToProps, mapDispatchToProps)(ResourceTemplateForm)
+export default connect(mapStateToProps, null)(ResourceTemplateForm)

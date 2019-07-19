@@ -40,15 +40,10 @@ describe('<ResourceProperty />', () => {
       'resourceTemplate:bf2:Note': [
         {
           resourceTemplate: nestedRTs[0],
-          properties: [
-            {
-              isAddDisabled: true,
-              property: nestedRTs[0].propertyTemplates[0],
-              reduxPath: ['http://id.loc.gov/ontologies/bibframe/note',
-                'abcd45',
-                'resourceTemplate:bf2:Note',
-                'http://www.w3.org/2000/01/rdf-schema#label'],
-            },
+          properties: [['http://id.loc.gov/ontologies/bibframe/note',
+            'abcd45',
+            'resourceTemplate:bf2:Note',
+            'http://www.w3.org/2000/01/rdf-schema#label'],
           ],
         },
       ],
@@ -57,16 +52,12 @@ describe('<ResourceProperty />', () => {
     const wrapper = shallow(<ResourceProperty.WrappedComponent
               propertyTemplate={property}
               reduxPath={[]}
+              addButtonDisabled={true}
               nestedResourceTemplates={nestedRTs}
-              handleAddClick={jest.fn()}
               models={models} />)
 
     it('creates a header section with the resource label', () => {
       expect(wrapper.find('section h5').text()).toEqual('Note')
-    })
-
-    it('creates a section with the <PropertyActionButtons /> for the resource', () => {
-      expect(wrapper.find(PropertyActionButtons).length).toEqual(1)
     })
 
     it('creates a <PropertyTemplateOutline /> for the resource', () => {
@@ -74,6 +65,55 @@ describe('<ResourceProperty />', () => {
 
       expect(propertyTemplateOutline.length).toEqual(1)
       expect(propertyTemplateOutline.props().reduxPath).toEqual(['http://id.loc.gov/ontologies/bibframe/note', 'abcd45', 'resourceTemplate:bf2:Note', 'http://www.w3.org/2000/01/rdf-schema#label'])
+    })
+
+    describe('<PropertyActionButtons />', () => {
+      it('creates a section with the <PropertyActionButtons /> for the resource', () => {
+        expect(wrapper.find(PropertyActionButtons).length).toEqual(1)
+      })
+
+      it('sets reduxPath', () => {
+        expect(wrapper.find(PropertyActionButtons).props().reduxPath).toEqual(['http://id.loc.gov/ontologies/bibframe/note', 'abcd45', 'resourceTemplate:bf2:Note'])
+      })
+
+      it('sets addButtonDisabled', () => {
+        expect(wrapper.find(PropertyActionButtons).props().addButtonDisabled).toEqual(true)
+      })
+
+      it('sets addButtonHidden', () => {
+        expect(wrapper.find(PropertyActionButtons).props().addButtonHidden).toEqual(false)
+      })
+
+      describe('when there is more than one row', () => {
+        const multipleModels = { ...models }
+        multipleModels['resourceTemplate:bf2:Note'].push({
+          resourceTemplate: nestedRTs[0],
+          properties: [
+            ['http://id.loc.gov/ontologies/bibframe/note',
+              'def567',
+              'resourceTemplate:bf2:Note',
+              'http://www.w3.org/2000/01/rdf-schema#label'],
+          ],
+        })
+        const multiModelWrapper = shallow(<ResourceProperty.WrappedComponent
+                  propertyTemplate={property}
+                  reduxPath={[]}
+                  nestedResourceTemplates={nestedRTs}
+                  models={multipleModels} />)
+        it('creates a section with the <PropertyActionButtons /> for the resource', () => {
+          expect(multiModelWrapper.find(PropertyActionButtons).length).toEqual(2)
+        })
+
+        it('sets addButtonHidden', () => {
+          expect(multiModelWrapper.find(PropertyActionButtons).first().props().addButtonHidden).toEqual(false)
+          expect(multiModelWrapper.find(PropertyActionButtons).at(1).props().addButtonHidden).toEqual(true)
+        })
+
+        it('sets removeButtonHidden', () => {
+          expect(multiModelWrapper.find(PropertyActionButtons).first().props().removeButtonHidden).toEqual(false)
+          expect(multiModelWrapper.find(PropertyActionButtons).at(1).props().removeButtonHidden).toEqual(false)
+        })
+      })
     })
   })
 
@@ -109,15 +149,10 @@ describe('<ResourceProperty />', () => {
       'resourceTemplate:bf2:Note': [
         {
           resourceTemplate: nestedRTsWithoutMissingRef[0],
-          properties: [
-            {
-              isAddDisabled: false,
-              property: nestedRTsWithoutMissingRef[0].propertyTemplates[0],
-              reduxPath: ['http://id.loc.gov/ontologies/bibframe/note',
-                'abcd45',
-                'resourceTemplate:bf2:Note',
-                'http://www.w3.org/2000/01/rdf-schema#label'],
-            },
+          properties: [['http://id.loc.gov/ontologies/bibframe/note',
+            'abcd45',
+            'resourceTemplate:bf2:Note',
+            'http://www.w3.org/2000/01/rdf-schema#label'],
           ],
         },
       ],

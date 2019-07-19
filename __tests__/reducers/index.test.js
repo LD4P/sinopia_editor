@@ -1,8 +1,7 @@
 // Copyright 2019 Stanford University see LICENSE for license
 
 import {
-  createReducer,
-  setRetrieveError,
+  createReducer, setRetrieveError, removeResource, clearRetrieveError,
 } from 'reducers/index'
 
 let initialState
@@ -20,6 +19,14 @@ beforeEach(() => {
       },
     },
   }
+})
+
+describe('clearRetrieveError', () => {
+  it('clears an existing error', () => {
+    initialState.selectorReducer.editor.serverError = 'Something is wrong'
+    const newState = clearRetrieveError(initialState.selectorReducer)
+    expect(newState.editor.serverError).toBeUndefined()
+  })
 })
 
 describe('createReducer', () => {
@@ -86,5 +93,78 @@ describe('setRetrieveError', () => {
     })
 
     expect(newState.editor.serverError).toEqual('There was a problem retrieving abc123: Because it is broken.')
+  })
+})
+
+describe('removeResource', () => {
+  it('removes resource', () => {
+    const handlers = { REMOVE_RESOURCE: removeResource }
+    const oldState = {
+      resource: {
+        'resourceTemplate:bf2:Monograph:Instance': {
+          'http://id.loc.gov/ontologies/bibframe/instanceOf': {
+            omHNLGWY71J: {
+              'resourceTemplate:bf2:Monograph:Work': {},
+            },
+            '4EzqN4DUw': {
+              'resourceTemplate:bf2:Monograph:Work': {
+                'http://id.loc.gov/ontologies/bibframe/title': {
+                  '81VUyIsMs': {
+                    'resourceTemplate:bf2:WorkTitle': {
+                      'http://id.loc.gov/ontologies/bibframe/mainTitle': {
+                        items: [
+                          {
+                            content: 'foo',
+                            id: 'YfsGCV2DF',
+                            lang: {
+                              items: [
+                                {
+                                  id: 'en',
+                                  label: 'English',
+                                },
+                              ],
+                            },
+                          },
+                        ],
+                      },
+                    },
+                  },
+                  h7rh5LW30M: {
+                    'resourceTemplate:bf2:WorkVariantTitle': {},
+                  },
+                  '4vCZiwJzSG': {
+                    'resourceTemplate:bflc:TranscribedTitle': {},
+                  },
+                },
+              },
+            },
+          },
+        },
+      },
+    }
+
+    const action = {
+      type: 'REMOVE_RESOURCE',
+      payload: [
+        'resource',
+        'resourceTemplate:bf2:Monograph:Instance',
+        'http://id.loc.gov/ontologies/bibframe/instanceOf',
+        '4EzqN4DUw',
+      ],
+    }
+
+    const reducer = createReducer(handlers)
+    const newState = reducer(oldState, action)
+    expect(newState).toEqual({
+      resource: {
+        'resourceTemplate:bf2:Monograph:Instance': {
+          'http://id.loc.gov/ontologies/bibframe/instanceOf': {
+            omHNLGWY71J: {
+              'resourceTemplate:bf2:Monograph:Work': {},
+            },
+          },
+        },
+      },
+    })
   })
 })

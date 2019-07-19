@@ -10,7 +10,7 @@ import _ from 'lodash'
 
 const PropertyLabel = (props) => {
   const key = shortid.generate()
-  const property = props.pt
+  const property = props.propertyTemplate
 
   const popover = (
     <Popover id="popover-basic" title={property.label} >
@@ -53,6 +53,6 @@ const PropertyLabel = (props) => {
 }
 
 PropertyLabel.propTypes = {
-  pt: PropTypes.object.isRequired,
+  propertyTemplate: PropTypes.object.isRequired,
 }
 export default PropertyLabel

@@ -36,21 +36,12 @@ describe('<InputURI />', () => {
     const formData = { formData: { errors: [{ id: 'Required' }] } }
     wrapper.setProps({ ...plProps, ...propertyTemplate, ...formData })
     expect(wrapper.find('input').prop('required')).toBeTruthy()
-    expect(wrapper.find('label > RequiredSuperscript')).toBeTruthy()
   })
 
   it('contains required="false" attribute on input tag when mandatory is false', () => {
     const propertyTemplate = { propertyTemplate: { ...plProps.propertyTemplate, mandatory: 'false' } }
     wrapper.setProps({ ...plProps, ...propertyTemplate })
     expect(wrapper.find('input').prop('required')).toBeFalsy()
-  })
-
-  it('label contains a PropertyRemark when a remark is added', () => {
-    const propertyTemplate = { propertyTemplate: { ...plProps.propertyTemplate, remark: 'http://rda.test.org/1.1' } }
-    wrapper.setProps({ ...plProps, ...propertyTemplate })
-    const propertyRemark = wrapper.find('label > PropertyRemark')
-
-    expect(propertyRemark).toBeTruthy()
   })
 })
 
@@ -96,7 +87,6 @@ describe('When the user enters input into field', () => {
 
     expect(mockItemsChange.mock.calls[0][0]).toEqual(
       {
-        uri: 'http://id.loc.gov/ontologies/bibframe/hasEquivalent',
         items: [{ uri: 'http://example.com/thing/1', id: 0 }],
         reduxPath: ['resourceTemplate:bf2:Monograph:Instance', 'http://id.loc.gov/ontologies/bibframe/hasEquivalent'],
       },
@@ -113,14 +103,12 @@ describe('When the user enters input into field', () => {
 
     expect(mockItemsChange.mock.calls[0][0]).toEqual(
       {
-        uri: 'http://id.loc.gov/ontologies/bibframe/hasEquivalent',
         items: [{ uri: 'http://example.com/thing/1', id: 0 }],
         reduxPath: ['resourceTemplate:bf2:Monograph:Instance', 'http://id.loc.gov/ontologies/bibframe/hasEquivalent'],
       },
     )
     expect(mockItemsChange.mock.calls[1][0]).toEqual(
       {
-        uri: 'http://id.loc.gov/ontologies/bibframe/hasEquivalent',
         items: [{ uri: 'http://example.com/thing/2', id: 0 }],
         reduxPath: ['resourceTemplate:bf2:Monograph:Instance', 'http://id.loc.gov/ontologies/bibframe/hasEquivalent'],
       },

@@ -64,10 +64,10 @@ class ImportFileZone extends Component {
           await this.props.setResourceTemplateCallback(template, this.state.group)
         })
         .catch((err) => {
-          this.setState({ message: `ERROR - CANNOT USE PROFILE/RESOURCE TEMPLATE: problem validating template: ${err}` })
+          this.setState({ message: `The profile you provided was not in an accepable format: ${err}` })
         })
     } catch (err) {
-      this.setState({ message: `ERROR - CANNOT USE PROFILE/RESOURCE TEMPLATE: problem parsing JSON template: ${err}` })
+      this.setState({ message: `The profile you provided was not valid JSON: ${err}` })
     }
   }
 

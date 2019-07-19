@@ -5,7 +5,6 @@ examples
 junit.xml
 node_modules
 static/profiles/bibframe/*
-static-analysis
 tmp
 dist
 # Contains secrets!
