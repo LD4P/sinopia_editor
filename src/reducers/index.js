@@ -8,6 +8,7 @@ import {
 } from './inputs'
 import {
   setResourceTemplate, clearResourceTemplates, setResourceTemplateSummary,
+  loadingLanguages, languagesReceived,
 } from './entities'
 import showSearchResults from './search'
 import { findNode } from 'selectors/resourceSelectors'
@@ -125,6 +126,8 @@ const handlers = {
   TOGGLE_COLLAPSE: toggleCollapse,
   CLEAR_RESOURCE_TEMPLATES: clearResourceTemplates,
   SET_RESOURCE_TEMPLATE_SUMMARY: setResourceTemplateSummary,
+  LANGUAGES_RECEIVED: languagesReceived,
+  LOADING_LANGUAGES: loadingLanguages,
 }
 
 export const createReducer = handlers => (state = {}, action) => {

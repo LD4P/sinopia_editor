@@ -63,7 +63,7 @@ LanguageButton.propTypes = {
   textContent: PropTypes.string.isRequired,
 }
 
-const mapStatetoProps = (state, ourProps) => {
+const mapStateToProps = (state, ourProps) => {
   const node = findNode(state.selectorReducer, ourProps.reduxPath)
   const item = node.items.find(item => item.id === ourProps.id)
   return {
@@ -79,4 +79,4 @@ const mapDispatchToProps = dispatch => ({
   },
 })
 
-export default connect(mapStatetoProps, mapDispatchToProps)(LanguageButton)
+export default connect(mapStateToProps, mapDispatchToProps)(LanguageButton)
