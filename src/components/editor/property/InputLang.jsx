@@ -1,9 +1,12 @@
 // Copyright 2019 Stanford University see LICENSE for license
 
+/* eslint jsx-a11y/no-autofocus: 'off' */
 import React, { Component } from 'react'
 import { Typeahead } from 'react-bootstrap-typeahead'
 import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
+import { bindActionCreators } from 'redux'
+import loadLanguages from 'actionCreators/languages'
 
 /**
  * Provides the RFC 5646 language tag for a literal element.
@@ -11,14 +14,6 @@ import { connect } from 'react-redux'
  * See ISO 639 for the list of registered language codes
  */
 class InputLang extends Component {
-  constructor(props) {
-    super(props)
-    this.state = {
-      isLoading: false,
-      options: [],
-    }
-  }
-
   setPayLoad(items) {
     const payload = {
       id: this.props.textId,
@@ -29,66 +24,19 @@ class InputLang extends Component {
     this.props.handleLangChange(payload)
   }
 
-  createOptions = json => json.reduce((result, item) => {
-    // Object.getOwnPropertyDescriptor is necessary to handle the @
-    const id = Object.getOwnPropertyDescriptor(item, '@id').value.replace('http://id.loc.gov/vocabulary/iso639-1/', '')
-    const labelArrayDescr = Object.getOwnPropertyDescriptor(item, 'http://www.loc.gov/mads/rdf/v1#authoritativeLabel')
-
-    // Some of the LOC items do not have labels so ignore them.
-    if (!labelArrayDescr) return result
-    const labelArray = labelArrayDescr.value
-
-    let label = null
-
-    // Looking for English label
-    labelArray.forEach((langItem) => {
-      if (langItem['@language'] === 'en') {
-        label = langItem['@value']
-      }
-    })
-    // But not every language has an English label.
-    if (!label) return result
-
-    result.push({ id, label })
-    return result
-  }, [])
-
   render() {
-    const typeaheadProps = {
-      id: 'langComponent',
-      useCache: true,
-      selectHintOnEnter: true,
-      isLoading: this.state.isLoading,
-      options: this.state.options,
-      selected: this.state.selected,
-      emptyLabel: 'retrieving list of languages...',
-      autoFocus: true,
-    }
-
     return (
       <div>
         <label htmlFor="langComponent">Select language for {this.props.textValue}
           <Typeahead
-            onFocus={() => {
-              if (this.state.isLoading) {
-                return
-              }
-              this.setState({ isLoading: true })
-              fetch('https://id.loc.gov/vocabulary/iso639-1.json')
-                .then(resp => resp.json())
-                .then((json) => {
-                  this.setState({
-                    isLoading: false,
-                    options: this.createOptions(json),
-                  })
-                })
-                .catch(() => false)
-            }}
-            onBlur={() => {
-              this.setState({ isLoading: false })
-            }}
+            onFocus={() => this.props.loadLanguages()}
             onChange={selected => this.setPayLoad(selected)}
-            {...typeaheadProps}
+            isLoading={this.props.loading}
+            options={this.props.options}
+            emptyLabel={'retrieving list of languages...'}
+            autoFocus={true}
+            selectHintOnEnter={true}
+            id={'langComponent'}
           />
         </label>
       </div>
@@ -101,11 +49,19 @@ InputLang.propTypes = {
   textId: PropTypes.string.isRequired,
   reduxPath: PropTypes.oneOfType([PropTypes.string, PropTypes.array]),
   handleLangChange: PropTypes.func,
+  loadLanguages: PropTypes.func,
+  options: PropTypes.array,
+  loading: PropTypes.bool,
 }
 
-const mapStatetoProps = () => ({})
+const mapStateToProps = (state) => {
+  const languages = state.selectorReducer.entities.languages
+  return {
+    options: languages?.options || [],
+    loading: languages?.loading || false,
+  }
+}
 
-const mapDispatchtoProps = () => ({
-})
+const mapDispatchToProps = dispatch => bindActionCreators({ loadLanguages }, dispatch)
 
-export default connect(mapStatetoProps, mapDispatchtoProps)(InputLang)
+export default connect(mapStateToProps, mapDispatchToProps)(InputLang)

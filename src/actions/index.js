@@ -43,6 +43,10 @@ export const closeGroupChooser = () => ({
   type: 'CLOSE_GROUP_CHOOSER',
 })
 
+export const languageSelectOpened = () => ({
+  type: 'LANGUAGE_SELECT_OPENED',
+})
+
 export const removeItem = (reduxPath, id) => ({
   type: 'REMOVE_ITEM',
   payload: { reduxPath, id },
