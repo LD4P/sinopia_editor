@@ -36,26 +36,25 @@ export class InputLiteral extends Component {
     this.setState({ content_add: userInput })
   }
 
-  addUserInput = (userInputArray, currentcontent) => {
-    userInputArray.push({
+  addUserInput = (input, currentcontent) => {
+    input[shortid.generate()] = {
       content: currentcontent,
-      id: shortid.generate(),
       lang: defaultLangTemplate(),
     })
   }
 
   handleKeypress = (event) => {
     if (event.key === 'Enter') {
-      const userInputArray = []
+      const userInput = {}
       const currentcontent = this.state.content_add.trim()
 
       if (!currentcontent) {
         return
       }
-      this.addUserInput(userInputArray, currentcontent)
-      const userInput = {
+      this.addUserInput(userInput, currentcontent)
+      const payload = {
         reduxPath: this.props.reduxPath,
-        items: userInputArray,
+        items: userInput,
       }
 
       this.props.handleMyItemsChange(userInput)

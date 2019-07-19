@@ -98,7 +98,7 @@ describe('setItemsOrSelections with action type: ITEMS_SELECTED', () => {
   it('adds item to state', () => {
     initialState.resource = {
       'resourceTemplate:Monograph:Instance': {
-        'http://schema.org/name': { items: [] },
+        'http://schema.org/name': {},
       },
     }
 
@@ -109,12 +109,12 @@ describe('setItemsOrSelections with action type: ITEMS_SELECTED', () => {
         rtId: 'resourceTemplate:Monograph:Instance',
         uri: 'http://schema.org/name',
         reduxPath,
-        items: [{ id: 0, content: 'Run the tests' }],
+        abc1233: { content: 'Run the tests' },
       },
     })
 
     expect(findNode(result, reduxPath)).toEqual({
-      items: [{ id: 0, content: 'Run the tests' }],
+      abc1233: { content: 'Run the tests' },
     })
   })
 
@@ -127,12 +127,12 @@ describe('setItemsOrSelections with action type: ITEMS_SELECTED', () => {
           rtId: 'resourceTemplate:Monograph:Instance',
           uri: 'http://schema.org/name',
           reduxPath,
-          items: [{ id: 0, content: 'Run the tests' }],
+          abc1233: { content: 'Run the tests' },
         },
       })
 
     expect(findNode(result, reduxPath)).toEqual({
-      items: [{ id: 0, content: 'Run the tests' }],
+      abc1233: { content: 'Run the tests' },
     })
   })
 
@@ -149,12 +149,16 @@ describe('setItemsOrSelections with action type: ITEMS_SELECTED', () => {
           rtId: 'resourceTemplate:Monograph:Instance',
           uri: 'http://schema.org/description',
           reduxPath,
-          items: [{ id: 2, content: 'add this!' }],
+          items: {
+            abc123: { content: 'add this!' },
+          },
         },
       })
 
     expect(findNode(result, reduxPath)).toEqual({
-      items: [{ id: 2, content: 'add this!' }],
+      abc123: {
+        content: 'add this!',
+      },
     })
   })
 
@@ -181,12 +185,14 @@ describe('setItemsOrSelections with action type: ITEMS_SELECTED', () => {
           rtId: 'resourceTemplate:Monograph:Instance',
           uri: 'http://id.loc.gov/ontologies/bibframe/mainTitle',
           reduxPath,
-          items: [{ id: 'ghwixOwWI', content: 'Melissa' }],
+          items: {
+            ghwixOwWI: { content: 'Melissa' },
+          },
         },
       })
 
     expect(findNode(result, reduxPath)).toEqual({
-      items: [{ id: 'ghwixOwWI', content: 'Melissa' }],
+      ghwixOwWI: { content: 'Melissa' },
     })
   })
 
@@ -194,12 +200,11 @@ describe('setItemsOrSelections with action type: ITEMS_SELECTED', () => {
     initialState.resource = {
       'resourceTemplate:Monograph:Instance': {
         'http://schema.org/name': {
-          items: [{ id: 1, content: 'Run the tests' }],
-          reduxPath: ['resourceTemplate:Monograph:Instance', 'http://schema.org/name'],
+          abc123: { content: 'Run the tests' },
+          def234: { content: 'Keep this' },
         },
         'http://schema.org/description': {
-          items: [],
-          reduxPath: ['resourceTemplate:Monograph:Instance', 'http://schema.org/description'],
+          ghi567: { content: 'Keep this' },
         },
       },
     }
@@ -212,18 +217,22 @@ describe('setItemsOrSelections with action type: ITEMS_SELECTED', () => {
           rtId: 'resourceTemplate:Monograph:Instance',
           uri: 'http://schema.org/description',
           reduxPath,
-          items: [{ id: 2, content: 'add this!' }],
+          items: {
+            cde987: {
+              content: 'add this!',
+            },
+          },
         },
       })
 
     expect(findNode(result, reduxPath)).toEqual({
-      items: [{ id: 2, content: 'add this!' }],
-      reduxPath: ['resourceTemplate:Monograph:Instance', 'http://schema.org/description'],
+      cde987: { content: 'add this!' },
+      ghi567: { content: 'Keep this' },
     })
 
     expect(findNode(result, ['resource', 'resourceTemplate:Monograph:Instance', 'http://schema.org/name'])).toEqual({
-      items: [{ id: 1, content: 'Run the tests' }],
-      reduxPath: ['resourceTemplate:Monograph:Instance', 'http://schema.org/name'],
+      abc123: { content: 'Run the tests' },
+      def234: { content: 'Keep this' },
     })
   })
 })
@@ -243,19 +252,23 @@ describe('setItemsOrSelections with action type: CHANGE_SELECTIONS', () => {
         id: 'abc123',
         uri: 'http://schema.org/name',
         reduxPath,
-        items: [{ id: 0, label: 'Run the tests', uri: 'http://schema.org/abc' }],
+        items: {
+          'def123': { label: 'Run the tests', uri: 'http://schema.org/abc' }
+        },
       },
     })
 
     expect(findNode(result, reduxPath)).toEqual({
-      items: [{ id: 0, label: 'Run the tests', uri: 'http://schema.org/abc' }],
+      def123: {label: 'Run the tests', uri: 'http://schema.org/abc' },
     })
   })
 
   it('overwrites items in  current state', () => {
     initialState.resource = {
       'resourceTemplate:Monograph:Instance': {
-        'http://schema.org/name': { items: [{ id: 0, label: 'Run the tests', uri: 'http://schema.org/abc' }] },
+        'http://schema.org/name': {
+          cde678: { label: 'Run the tests', uri: 'http://schema.org/abc' }
+        },
       },
     }
 
@@ -266,18 +279,16 @@ describe('setItemsOrSelections with action type: CHANGE_SELECTIONS', () => {
         id: 'def456',
         uri: 'http://schema.org/name',
         reduxPath,
-        items: [
-          { id: 0, label: 'Run the tests', uri: 'http://schema.org/abc' },
-          { id: 1, label: 'See if they pass', uri: 'http://schema.org/def' },
-        ],
+        items: {
+          cde678: { label: 'Run the tests', uri: 'http://schema.org/abc' },
+          fgh999: { label: 'See if they pass', uri: 'http://schema.org/def' },
+        },
       },
     })
 
     expect(findNode(result, reduxPath)).toEqual({
-      items: [
-        { id: 0, label: 'Run the tests', uri: 'http://schema.org/abc' },
-        { id: 1, label: 'See if they pass', uri: 'http://schema.org/def' },
-      ],
+      cde678: { label: 'Run the tests', uri: 'http://schema.org/abc' },
+      fgh999: { label: 'See if they pass', uri: 'http://schema.org/def' },
     })
   })
 
@@ -285,10 +296,8 @@ describe('setItemsOrSelections with action type: CHANGE_SELECTIONS', () => {
     initialState.resource = {
       'resourceTemplate:Monograph:Instance': {
         'http://schema.org/name': {
-          items: [
-            { id: 0, label: 'Run the tests', uri: 'http://schema.org/abc' },
-            { id: 1, label: 'See if they pass', uri: 'http://schema.org/def' },
-          ],
+          abc123: { label: 'Run the tests', uri: 'http://schema.org/abc' },
+          def456: { label: 'See if they pass', uri: 'http://schema.org/def' },
         },
       },
     }
@@ -300,11 +309,11 @@ describe('setItemsOrSelections with action type: CHANGE_SELECTIONS', () => {
         id: 'nomatter',
         uri: 'http://not.important',
         reduxPath,
-        items: [],
+        items: {},
       },
     })
 
-    expect(findNode(result, reduxPath)).toEqual({ items: [] })
+    expect(findNode(result, reduxPath)).toEqual({})
   })
 
   it('adds an empty object for a key if the key does not contain an object by default', () => {
@@ -319,12 +328,17 @@ describe('setItemsOrSelections with action type: CHANGE_SELECTIONS', () => {
       type: 'CHANGE_SELECTIONS',
       payload: {
         uri: 'http://not.important/now',
-        items: [{ id: 'http://lookup.source/1', label: 'Something looked up', uri: 'http://lookup.source/1' }],
+        items: {
+          abc123: {
+            label: 'Something looked up',
+            uri: 'http://lookup.source/1',
+          },
+        },
         reduxPath,
       },
     })
 
-    expect(findNode(result, reduxPath)).toEqual({ items: [{ id: 'http://lookup.source/1', label: 'Something looked up', uri: 'http://lookup.source/1' }] })
+    expect(findNode(result, reduxPath)).toEqual({ abc123: { label: 'Something looked up', uri: 'http://lookup.source/1' } })
   })
 })
 
@@ -333,7 +347,11 @@ describe('setBaseURL', () => {
     initialState.resource = {
       'resourceTemplate:Monograph:Instance': {
         'http://schema.org/name': {
-          items: [{ id: 1, content: 'more content' }],
+          items: {
+            abc123: {
+              content: 'more content',
+            },
+          },
         },
       },
     }
@@ -370,10 +388,8 @@ describe('removeMyItem', () => {
     initialState.resource = {
       'resourceTemplate:Monograph:Instance': {
         'http://schema.org/name': {
-          items: [
-            { content: 'test content', id: 0 },
-            { content: 'more content', id: 1 },
-          ],
+          abc123: { content: 'test content' },
+          def456: { content: 'more content' },
         },
       },
     }
@@ -382,7 +398,7 @@ describe('removeMyItem', () => {
       {
         type: 'REMOVE_ITEM',
         payload: {
-          id: 0,
+          id: 'abc123',
           rtId: 'resourceTemplate:Monograph:Instance',
           reduxPath,
           uri: 'http://schema.org/name',
@@ -391,7 +407,7 @@ describe('removeMyItem', () => {
       })
 
     expect(findNode(result, reduxPath)).toEqual({
-      items: [{ id: 1, content: 'more content' }],
+      def456: { content: 'more content' },
     })
   })
 
@@ -399,10 +415,8 @@ describe('removeMyItem', () => {
     initialState.resource = {
       'resourceTemplate:Monograph:Instance': {
         'http://schema.org/name': {
-          items: [
-            { content: 'Test', id: 1 },
-            { content: 'Statement', id: 2 },
-          ],
+          abc123: { content: 'Test' },
+          def456: { content: 'Statement' },
         },
       },
     }
@@ -419,10 +433,8 @@ describe('removeMyItem', () => {
       })
 
     expect(findNode(result, reduxPath)).toEqual({
-      items: [
-        { content: 'Test', id: 1 },
-        { content: 'Statement', id: 2 },
-      ],
+      abc123: { content: 'Test' },
+      def456: { content: 'Statement' },
     })
   })
 })

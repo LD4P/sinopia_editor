@@ -23,53 +23,40 @@ describe('GraphBuilder', () => {
           'http://id.loc.gov/ontologies/bibframe/temporalCoverage': {},
           'http://id.loc.gov/ontologies/bibframe/note': {},
           'http://id.loc.gov/ontologies/bibframe/content': {
-            items: [
-              {
-                id: 'http://id.loc.gov/vocabulary/contentTypes/txt',
-                label: 'text',
-                uri: 'http://id.loc.gov/vocabulary/contentTypes/txt',
-              },
-            ],
+            abc123: {
+              label: 'text',
+              uri: 'http://id.loc.gov/vocabulary/contentTypes/txt',
+            },
           },
           'http://id.loc.gov/ontologies/bibframe/illustrativeContent': {
-            items: [
-              {
-                id: '2_RmnVrDkk9',
-                label: 'Genealogical tables',
-                uri: 'http://id.loc.gov/vocabulary/millus/gnt',
-              },
-            ],
+            '2_RmnVrDkk9': {
+              label: 'Genealogical tables',
+              uri: 'http://id.loc.gov/vocabulary/millus/gnt',
+            },
           },
           'http://id.loc.gov/ontologies/bibframe/colorContent': {
             '-KACHlqQ4A': {
               'resourceTemplate:bf2:Note': {
                 'http://www.w3.org/2000/01/rdf-schema#label': {
-                  items: [
-                    {
-                      content: 'Very colorful',
-                      id: '3TzRpgv65',
-                      lang: {
-                        id: 'en',
-                        label: 'English',
-                      },
+                  '3TzRpgv65': {
+                    content: 'Very colorful',
+                    lang: {
+                      id: 'en',
+                      label: 'English',
                     },
-                    {
-                      content: 'Sparkly',
-                      id: '5TzRpgv72',
-                    },
-                  ],
+                  },
+                  '5TzRpgv72': {
+                    content: 'Sparkly',
+                  },
                 },
               },
             },
             gdndfCHlqQ4z: {
               'resourceTemplate:bf2:Note': {
                 'http://www.w3.org/2000/01/rdf-schema#label': {
-                  items: [
-                    {
-                      content: 'Shiney',
-                      id: '4dzRpgv42',
-                    },
-                  ],
+                  '4dzRpgv42': {
+                    content: 'Shiney',
+                  },
                 },
               },
             },
@@ -136,37 +123,27 @@ describe('GraphBuilder', () => {
           'http://id.loc.gov/ontologies/bibframe/temporalCoverage': {},
           'http://id.loc.gov/ontologies/bibframe/note': {},
           'http://id.loc.gov/ontologies/bibframe/content': {
-            items: [
-              {
-                id: 'http://id.loc.gov/vocabulary/contentTypes/txt',
-                label: 'text',
-                uri: 'http://id.loc.gov/vocabulary/contentTypes/txt',
-              },
-            ],
+            abc123: {
+              label: 'text',
+              uri: 'http://id.loc.gov/vocabulary/contentTypes/txt',
+            },
           },
           'http://id.loc.gov/ontologies/bibframe/illustrativeContent': {
-            items: [
-              {
-                id: '2_RmnVrDkk9',
-                label: 'Genealogical tables',
-                uri: 'http://id.loc.gov/vocabulary/millus/gnt',
-              },
-            ],
+            '2_RmnVrDkk9': {
+              label: 'Genealogical tables',
+              uri: 'http://id.loc.gov/vocabulary/millus/gnt',
+            },
           },
           'http://id.loc.gov/ontologies/bibframe/colorContent': {
             '-KACHlqQ4A': {
               'resourceTemplate:bf2:Note': {
                 'http://www.w3.org/2000/01/rdf-schema#label': {
-                  items: [
-                    {
-                      content: 'Very colorful',
-                      id: '3TzRpgv65',
-                    },
-                    {
-                      content: 'Sparkly',
-                      id: '3TzRpgv65',
-                    },
-                  ],
+                  '3TzRpgv65': {
+                    content: 'Very colorful',
+                  },
+                  zvwwe8321: {
+                    content: 'Sparkly',
+                  },
                 },
               },
             },
@@ -273,9 +250,7 @@ describe('GraphBuilder', () => {
           'http://id.loc.gov/ontologies/bibframe/colorContent': {
             '-KACHlqQ4A': {
               'resourceTemplate:bf2:Note': {
-                'http://www.w3.org/2000/01/rdf-schema#label': {
-                  items: [],
-                },
+                'http://www.w3.org/2000/01/rdf-schema#label': {},
               },
             },
           },
@@ -286,7 +261,6 @@ describe('GraphBuilder', () => {
     }
 
     const builder = new GraphBuilder(state)
-
 
     it('returns the graph without blank node', () => {
       const graph = builder.graph

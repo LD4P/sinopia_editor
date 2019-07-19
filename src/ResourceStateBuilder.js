@@ -54,11 +54,10 @@ export default class ResourceStateBuilder {
         thisResourceState[rtId][propertyURI][shortid.generate()] = this.buildResource(quad.object)
       } else {
         if (!_.has(thisResourceState[rtId], propertyURI)) {
-          thisResourceState[rtId][propertyURI] = { items: [] }
+          thisResourceState[rtId][propertyURI] = {}
         }
         const item = this.buildItem(quad)
-
-        thisResourceState[rtId][propertyURI].items.push(item)
+        thisResourceState[rtId][propertyURI][shortid.generate()] = item
       }
     })
     return thisResourceState
@@ -92,7 +91,7 @@ export default class ResourceStateBuilder {
    * @return {Object} item state structure
    */
   buildItem(quad) {
-    const item = { id: shortid.generate() }
+    const item = { }
     if (quad.object.termType === 'NamedNode') {
       item.uri = quad.object.value
     } else {

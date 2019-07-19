@@ -13,37 +13,33 @@ describe('ResourceStateBuilder', () => {
 
     const dataset = await rdfDatasetFromN3(resource)
 
-    shortid.generate = jest.fn().mockReturnValue('abc123')
+    shortid.generate = jest.fn().mockReturnValueOnce('abc123').mockReturnValueOnce('def456').mockReturnValueOnce('ghi789')
 
     const builder = new ResourceStateBuilder(dataset, 'http://example/123')
     const resourceState = builder.state
     expect(resourceState).toEqual({
       'resourceTemplate:bf2:Note': {
         'http://www.w3.org/2000/01/rdf-schema#label': {
-          items: [
-            {
-              id: 'abc123',
-              content: 'foo',
-              lang: {
-                items: [
-                  {
-                    id: 'en',
-                  },
-                ],
-              },
+          abc123: {
+            content: 'foo',
+            lang: {
+              items: [
+                {
+                  id: 'en',
+                },
+              ],
             },
-            {
-              id: 'abc123',
-              content: 'bar',
-              lang: {
-                items: [
-                  {
-                    id: 'en',
-                  },
-                ],
-              },
+          },
+          def456: {
+            content: 'bar',
+            lang: {
+              items: [
+                {
+                  id: 'en',
+                },
+              ],
             },
-          ],
+          },
         },
       },
     })
@@ -56,7 +52,7 @@ describe('ResourceStateBuilder', () => {
 
     const dataset = await rdfDatasetFromN3(resource)
 
-    shortid.generate = jest.fn().mockReturnValue('abc123')
+    shortid.generate = jest.fn().mockReturnValueOnce('abc123').mockReturnValueOnce('def456').mockReturnValueOnce('ghi789')
 
     const builder = new ResourceStateBuilder(dataset, 'http://example/123')
     const resourceState = builder.state
@@ -64,12 +60,9 @@ describe('ResourceStateBuilder', () => {
     expect(resourceState).toEqual({
       'resourceTemplate:bf2:Note': {
         'http://rdaregistry.info/Elements/i/P40021': {
-          items: [
-            {
-              id: 'abc123',
-              uri: 'http://id.loc.gov/vocabulary/organizations/wauar',
-            },
-          ],
+          abc123: {
+            uri: 'http://id.loc.gov/vocabulary/organizations/wauar',
+          },
         },
       },
     })
@@ -85,7 +78,7 @@ describe('ResourceStateBuilder', () => {
 
     const dataset = await rdfDatasetFromN3(resource)
 
-    shortid.generate = jest.fn().mockReturnValue('abc123')
+    shortid.generate = jest.fn().mockReturnValueOnce('abc123').mockReturnValueOnce('def456')
 
     const builder = new ResourceStateBuilder(dataset, 'http://example/123')
     const resourceState = builder.state
@@ -96,19 +89,16 @@ describe('ResourceStateBuilder', () => {
           abc123: {
             'resourceTemplate:bf2:Note': {
               'http://www.w3.org/2000/01/rdf-schema#label': {
-                items: [
-                  {
-                    id: 'abc123',
-                    content: 'foobar',
-                    lang: {
-                      items: [
-                        {
-                          id: 'en',
-                        },
-                      ],
-                    },
+                def456: {
+                  content: 'foobar',
+                  lang: {
+                    items: [
+                      {
+                        id: 'en',
+                      },
+                    ],
                   },
-                ],
+                },
               },
             },
           },
@@ -129,7 +119,7 @@ _:B01cf1817X2Dd2e4X2D485bX2Dbd9aX2Df72c02976ec02895d12a7118e91a94f5a4808a49140a 
 
   const dataset = await rdfDatasetFromN3(resource)
 
-  shortid.generate = jest.fn().mockReturnValue('abc123')
+  shortid.generate = jest.fn().mockReturnValueOnce('abc123').mockReturnValueOnce('def456').mockReturnValueOnce('ghi789')
 
   const builder = new ResourceStateBuilder(dataset, null)
   const resourceState = builder.state
@@ -142,37 +132,31 @@ _:B01cf1817X2Dd2e4X2D485bX2Dbd9aX2Df72c02976ec02895d12a7118e91a94f5a4808a49140a 
         abc123: {
           'sinopia:resourceTemplate:bf2:Identifiers:Note': {
             'http://www.w3.org/2000/01/rdf-schema#label': {
-              items: [
-                {
-                  id: 'abc123',
-                  content: 'foo note',
-                  lang: {
-                    items: [
-                      {
-                        id: 'en',
-                      },
-                    ],
-                  },
+              def456: {
+                content: 'foo note',
+                lang: {
+                  items: [
+                    {
+                      id: 'en',
+                    },
+                  ],
                 },
-              ],
+              },
             },
           },
         },
       },
       'http://www.w3.org/1999/02/22-rdf-syntax-ns#value': {
-        items: [
-          {
-            id: 'abc123',
-            content: 'foo',
-            lang: {
-              items: [
-                {
-                  id: 'en',
-                },
-              ],
-            },
+        ghi789: {
+          content: 'foo',
+          lang: {
+            items: [
+              {
+                id: 'en',
+              },
+            ],
           },
-        ],
+        },
       },
     },
   })

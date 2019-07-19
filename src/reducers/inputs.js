@@ -71,21 +71,22 @@ export const setItemsOrSelections = (state, action) => {
       /* there is an empty object at the end of the reduxPath,
        * so make an object with items to be filled in by the actions below
        */
-      if ((key in obj) !== true || !Object.keys(obj[key]).includes('items')) {
-        obj[key] = { items: [] }
+      if ((key in obj) !== true) {
+        obj[key] = {}
       }
 
       if (action.type === 'ITEMS_SELECTED') {
+        console.log('foo',  action.payload)
         // here we are setting the items for repeatable user input, so push back each input item
-        action.payload.items.map((row) => {
-          obj[key].items.push(row)
+        Object.keys(action.payload.items).forEach((rowId) => {
+          obj[key][rowId] = action.payload.items[rowId]
         })
       }
       else if (action.type === 'CHANGE_SELECTIONS') {
       /* here we are setting the selections from one of the typeahead components
        * and the component keeps the state of all its selections
        */
-        obj[key].items = action.payload.items
+        obj[key] = action.payload.items
       }
     }
 
@@ -156,9 +157,7 @@ export const removeMyItem = (state, action) => {
   reduxPath.reduce((obj, key) => {
     level++
     if (level === reduxPath.length) {
-      obj[key].items = obj[key].items.filter(
-        row => row.id !== action.payload.id,
-      )
+      delete obj[key][action.payload.id]
     }
 
     return obj[key]

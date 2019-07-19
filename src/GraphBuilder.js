@@ -74,6 +74,13 @@ export default class GraphBuilder {
   }
 
   /**
+   * Differentiate a resourceTemplateId from a shortId
+   */
+  isResouceTemplateId(key) {
+    return key.includes(':')
+  }
+
+  /**
    * @param {rdf.Term} baseURI
    * @param {string} resourceTemplateId the identifier of the resource template
    * @param {Array.<Object>}
@@ -90,28 +97,25 @@ export default class GraphBuilder {
     // Now add all the other properties
     for (const predicate in predicateList) {
       const value = predicateList[predicate]
-
       if (_.isEmpty(value)) {
         continue
       }
 
-      if (value.items) {
-        for (const item of value.items) {
+      Object.keys(value).filter(elem => elem !== 'errors').forEach((key) => {
+        const item = value[key]
+        const firstKey = Object.keys(item)[0]
+        if (this.isResouceTemplateId(firstKey)) {
+          // Before adding blank node, make sure that there is a descendant non-empty items array.
+          if (this.hasItemDescendants(item)) {
+            const bnode = rdf.blankNode()
+            this.dataset.add(rdf.quad(baseURI, rdf.namedNode(predicate), bnode))
+            this.buildTriplesForNestedObject(bnode, item)
+          }
+        } else {
           const object = item.uri ? rdf.namedNode(item.uri) : this.createLiteral(item)
           this.dataset.add(rdf.quad(baseURI, rdf.namedNode(predicate), object))
         }
-      } else { // It's a deeply nested object
-        Object.keys(value).filter(elem => elem !== 'errors').forEach((key) => {
-          const nestedValue = value[key]
-          const bnode = rdf.blankNode()
-
-          // Before adding blank node, make sure that there is a descendant non-empty items array.
-          if (this.hasItemDescendants(nestedValue)) {
-            this.dataset.add(rdf.quad(baseURI, rdf.namedNode(predicate), bnode))
-            this.buildTriplesForNestedObject(bnode, nestedValue)
-          }
-        })
-      }
+      })
     }
   }
 
@@ -120,7 +124,7 @@ export default class GraphBuilder {
    * @param {Object} value from the redux store
    */
   hasItemDescendants(value) {
-    if (value.items && value.items.length > 0) {
+    if (Object.keys(value) && Object.keys(value).filter(key => !this.isResouceTemplateId(key)).length > 0) {
       return true
     }
     return Object.keys(value).some(key => this.hasItemDescendants(value[key]))
