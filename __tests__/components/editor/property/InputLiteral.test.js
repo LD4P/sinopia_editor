@@ -1,5 +1,5 @@
-
 // Copyright 2018, 2019 Stanford University see LICENSE for license
+
 import 'jsdom-global/register'
 import React from 'react'
 import { shallow } from 'enzyme'
@@ -163,8 +163,7 @@ describe('When the user enters input into field', () => {
       formData: { id: 1, uri: 'http://id.loc.gov/ontologies/bibframe/instanceOf' },
       items: [{ content: 'foo', id: 4, lang: { label: 'English' } }],
     })
-    expect(mockWrapper.find('div#userInput').text()).toEqual('fooXEdit<Button /><Modal />') // Contains X and Edit as buttons
-    expect(mockWrapper.find('Button#language').childAt(1).text()).toEqual('English')
+    expect(mockWrapper.find('div#userInput').text()).toEqual('fooXEdit<Connect(LanguageButton) />') // Contains X and Edit as buttons
   })
 
   it('should call the removeMockDataFn when X is clicked', () => {
@@ -304,63 +303,5 @@ describe('When a user enters non-roman text in a work title', () => {
       items: [{ content: artOfWar, id: 1, lang: { label: 'Mandarin' } }],
     })
     expect(workTitleWrapper.find('div#userInput').text().includes(artOfWar)).toBeTruthy()
-    expect(workTitleWrapper.find('Button#language').childAt(1).text()).toEqual('Mandarin')
-  })
-})
-
-describe('When the user enters input into language modal', () => {
-  const mockMyItemsLangChange = jest.fn()
-
-  shortid.generate = jest.fn().mockReturnValue(0)
-  const mockWrapper = shallow(<InputLiteral {...plProps} id={'11'}
-                                            reduxPath={[
-                                              'resourceTemplate:bf2:Monograph:Instance',
-                                              'http://id.loc.gov/ontologies/bibframe/instanceOf',
-                                            ]}
-                                            handleMyItemsChange={jest.fn()}
-                                            handleRemoveItem={jest.fn()}
-                                            handleMyItemsLangChange={mockMyItemsLangChange} />)
-
-  it('shows the <InputLang> modal when the <Button/> is clicked', () => {
-    mockWrapper.setProps({
-      formData: {
-        id: 1,
-        uri: 'http://id.loc.gov/ontologies/bibframe/instanceOf',
-        errors: [],
-      },
-      items: [{ content: 'test', id: 6, lang: { items: [{ label: 'English' }] } }],
-    })
-    mockWrapper.find('Button').first().simulate('click')
-    expect(mockWrapper.find('Modal').prop('show')).toEqual(true)
-    expect(mockWrapper.find('ModalTitle').render().text()).toEqual('Languages')
-  })
-
-  it('calls handleLangSubmit when submit is clicked', () => {
-    mockWrapper.setProps({ formData: { id: 1, uri: 'http://id.loc.gov/ontologies/bibframe/instanceOf', items: [{ content: 'test', id: 6, lang: { items: [{ label: 'English' }] } }] } })
-    mockWrapper.find('Button').first().simulate('click')
-    expect(mockWrapper.find('Modal').prop('show')).toEqual(true)
-    mockWrapper.find('ModalFooter').find('Button').first().simulate('click')
-    expect(mockMyItemsLangChange.mock.calls.length).toEqual(1)
-    expect(mockWrapper.find('Modal').prop('show')).toEqual(false)
-
-    mockMyItemsLangChange.mock.calls = []
-  })
-
-  it('closes modal when close is clicked', () => {
-    mockWrapper.setProps({
-      formData: {
-        id: 1,
-        uri: 'http://id.loc.gov/ontologies/bibframe/instanceOf',
-        errors: [],
-      },
-      items: [{ content: 'test', id: 6, lang: { items: [{ label: 'English' }] } }],
-    })
-    mockWrapper.find('Button').first().simulate('click')
-    expect(mockWrapper.find('Modal').prop('show')).toEqual(true)
-    mockWrapper.find('ModalFooter').find('Button').last().simulate('click')
-    expect(mockMyItemsLangChange.mock.calls.length).toEqual(0)
-    expect(mockWrapper.find('Modal').prop('show')).toEqual(false)
-
-    mockMyItemsLangChange.mock.calls = []
   })
 })
