@@ -25,22 +25,14 @@ describe('ResourceStateBuilder', () => {
               id: 'abc123',
               content: 'foo',
               lang: {
-                items: [
-                  {
-                    id: 'en',
-                  },
-                ],
+                id: 'en',
               },
             },
             {
               id: 'abc123',
               content: 'bar',
               lang: {
-                items: [
-                  {
-                    id: 'en',
-                  },
-                ],
+                id: 'en',
               },
             },
           ],
@@ -101,11 +93,7 @@ describe('ResourceStateBuilder', () => {
                     id: 'abc123',
                     content: 'foobar',
                     lang: {
-                      items: [
-                        {
-                          id: 'en',
-                        },
-                      ],
+                      id: 'en',
                     },
                   },
                 ],
@@ -147,11 +135,7 @@ _:B01cf1817X2Dd2e4X2D485bX2Dbd9aX2Df72c02976ec02895d12a7118e91a94f5a4808a49140a 
                   id: 'abc123',
                   content: 'foo note',
                   lang: {
-                    items: [
-                      {
-                        id: 'en',
-                      },
-                    ],
+                    id: 'en',
                   },
                 },
               ],
@@ -165,11 +149,7 @@ _:B01cf1817X2Dd2e4X2D485bX2Dbd9aX2Df72c02976ec02895d12a7118e91a94f5a4808a49140a 
             id: 'abc123',
             content: 'foo',
             lang: {
-              items: [
-                {
-                  id: 'en',
-                },
-              ],
+              id: 'en',
             },
           },
         ],
