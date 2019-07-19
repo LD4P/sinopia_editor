@@ -30,7 +30,7 @@ class InputLookupQAContext extends Component {
      *stored
      */
     this.state = {
-      isLoading: false,
+      isloading: false,
       defaults,
       show: false,
       query: '',
@@ -115,7 +115,7 @@ class InputLookupQAContext extends Component {
 
   displayResults = () => {
     // const options = this.state.options
-    if(this.props.isLoading) {
+    if(this.props.isloading) {
     	return this.generateLoadingSpinner()
     } else {
       const options = this.props.options
@@ -363,9 +363,9 @@ class InputLookupQAContext extends Component {
       placeholder: this.props.propertyTemplate.propertyLabel,
       useCache: true,
       selectHintOnEnter: true,
-      isLoading: this.props.isLoading,
+      isloading: this.props.isloading,
       options: this.props.options,
-      // isLoading: this.state.isLoading,
+      // isloading: this.state.isloading,
       // options: this.state.options,
       selected: this.state.selected,
       defaultSelected: this.state.defaults,

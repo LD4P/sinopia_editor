@@ -31,6 +31,8 @@ class InputLookupQA extends Component {
     const lookupConfigs = this.props.lookupConfig
       //With every new query, clear out the results from the past query
       this.setState({ isLoading: true, options:[] })
+      let componentType = this.props.propertyTemplate.subtype ? this.props.propertyTemplate.subtype : 'typeahead'
+      let isContext = (componentType === "context")
       Swagger({ spec: swaggerSpec }).then((client) => {
         // Create array of promises based on the lookup config array that is sent in
         const lookupPromises = lookupConfigs.map((lookupConfig) => {
@@ -72,6 +74,7 @@ class InputLookupQA extends Component {
               subauthority,
               maxRecords: Config.maxRecordsForQALookups,
               lang: language,
+              context: isContext
             })
             .catch((err) => {
               console.error('Error in executing lookup against source', err)
@@ -106,6 +109,10 @@ class InputLookupQA extends Component {
   clearOptions = () => {
   	this.setState({ options:[] })
   }
+  
+  getComponentType = () => {
+  	return  this.props.propertyTemplate.subtype ? this.props.propertyTemplate.subtype : 'typeahead'
+  }
 
   render() {
     // Don't render if don't have property templates yet.
@@ -113,11 +120,11 @@ class InputLookupQA extends Component {
       return null
     }
     // typeahead by default otherwise use subtype
-    let componentType = this.props.propertyTemplate.subtype ? this.props.propertyTemplate.subtype : 'typeahead'
+    let componentType = this.getComponentType()
     //componentType = 'typeahead'
     if (componentType === 'context')
     { return (<InputLookupQAContext
-      isLoading={this.state.isLoading}
+      isloading={this.state.isLoading}
       options={this.state.options}
       doSearch={this.doSearch}
       clearOptions={this.clearOptions}
@@ -125,7 +132,7 @@ class InputLookupQA extends Component {
     />) }
     if (componentType === 'discogs')
     { return (<InputLookupQADiscogs
-      isLoading={this.state.isLoading}
+      isloading={this.state.isLoading}
       options={this.state.options}
       doSearch={this.doSearch}
       {...this.props}
