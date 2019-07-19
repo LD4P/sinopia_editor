@@ -90,9 +90,14 @@ const multipleResults = [{
   body: [{ uri: 'http://id.loc.gov/authorities/subjects/sh00001861123', label: 'A Specific Place' }],
 }]
 
-const newURIResults = [{
+const validNewURIResults = [{
   customOption: true,
-  label: 'http://some.new.uri',
+  label: 'http://id.loc.gov/authorities/subjects/123456789',
+}]
+
+const invalidNewURIResults = [{
+  customOption: true,
+  label: 'Some non URI string',
 }]
 
 describe('<InputLookupQA />', () => {
@@ -204,9 +209,9 @@ describe('<InputLookupQA />', () => {
     expect(menuWrapper.childAt(3).childAt(0).text()).toEqual('A Specific Place')
   })
 
-  it('shows a single new URI value with the correct header when no other matches are found', () => {
+  it('shows a single new valid URI value with the correct header when no other matches are found', () => {
     const instance = multipleWrapper.instance()
-    const menuWrapper = shallow(instance.renderMenuFunc(newURIResults, p2Props))
+    const menuWrapper = shallow(instance.renderMenuFunc(validNewURIResults, p2Props))
     const menuChildrenNumber = menuWrapper.children().length
     // One top level menu component
 
@@ -214,12 +219,24 @@ describe('<InputLookupQA />', () => {
     // Two children, with one headings and one custom item
     expect(menuChildrenNumber).toEqual(2)
     expect(menuWrapper.childAt(0).html()).toEqual('<li class="dropdown-header">New URI</li>')
-    expect(menuWrapper.childAt(1).childAt(0).text()).toEqual('http://some.new.uri')
+    expect(menuWrapper.childAt(1).childAt(0).text()).toEqual('http://id.loc.gov/authorities/subjects/123456789')
   })
 
-  it('shows menu headers for both lookups and new URI value with the correct headers when matches are found', () => {
+  it('does not show a single new invalid URI value when no other matches are found', () => {
     const instance = multipleWrapper.instance()
-    const menuWrapper = shallow(instance.renderMenuFunc(multipleResults.concat(newURIResults), p2Props))
+    const menuWrapper = shallow(instance.renderMenuFunc(invalidNewURIResults, p2Props))
+    const menuChildrenNumber = menuWrapper.children().length
+    // One top level menu component
+
+    expect(menuWrapper.find('ul').length).toEqual(1)
+    // Nothing shown because the entered URI is not valid
+    expect(menuChildrenNumber).toEqual(1)
+    expect(menuWrapper.childAt(0).html()).toEqual('<li class="disabled"><a class="dropdown-item disabled" href="#"></a></li>')
+  })
+
+  it('shows menu headers for both lookups and new valid URI value with the correct headers when matches are found', () => {
+    const instance = multipleWrapper.instance()
+    const menuWrapper = shallow(instance.renderMenuFunc(multipleResults.concat(validNewURIResults), p2Props))
     const menuChildrenNumber = menuWrapper.children().length
     // One top level menu component
 
@@ -231,6 +248,6 @@ describe('<InputLookupQA />', () => {
     expect(menuWrapper.childAt(2).html()).toEqual('<li class="dropdown-header">Subject</li>')
     expect(menuWrapper.childAt(3).childAt(0).text()).toEqual('A Specific Place')
     expect(menuWrapper.childAt(4).html()).toEqual('<li class="dropdown-header">New URI</li>')
-    expect(menuWrapper.childAt(5).childAt(0).text()).toEqual('http://some.new.uri')
+    expect(menuWrapper.childAt(5).childAt(0).text()).toEqual('http://id.loc.gov/authorities/subjects/123456789')
   })
 })

@@ -14,6 +14,16 @@ export const resourceToName = (uri) => {
   return uri.substr(uri.lastIndexOf('/') + 1)
 }
 
+export const isValidURI = (value) => {
+  try {
+    /* eslint no-new: 'off' */
+    new URL(value)
+    return true
+  } catch (e) {
+    return false
+  }
+}
+
 export const defaultValuesFromPropertyTemplate = (propertyTemplate) => {
   const defaults = propertyTemplate?.valueConstraint?.defaults || []
   const defaultValues = []

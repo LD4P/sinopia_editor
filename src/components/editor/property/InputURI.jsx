@@ -7,7 +7,7 @@ import { connect } from 'react-redux'
 import shortid from 'shortid'
 import { removeItem, itemsSelected } from 'actions/index'
 import { findNode, getDisplayValidations, getPropertyTemplate } from 'selectors/resourceSelectors'
-import { booleanPropertyFromTemplate } from 'Utilities'
+import { booleanPropertyFromTemplate, isValidURI } from 'Utilities'
 
 const InputURI = (props) => {
   // Don't render if don't have property templates yet.
@@ -24,16 +24,6 @@ const InputURI = (props) => {
   const handleFocus = (event) => {
     document.getElementById(event.target.id).focus()
     event.preventDefault()
-  }
-
-  const isValidURI = (value) => {
-    try {
-      /* eslint no-new: 'off' */
-      new URL(value)
-      return true
-    } catch (e) {
-      return false
-    }
   }
 
   const addItem = () => {
