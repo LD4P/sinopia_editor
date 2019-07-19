@@ -6,6 +6,9 @@ import {
   removeMyItem, setItemsOrSelections, setBaseURL, showResourceURIMessage, setMyItemsLang,
   showGroupChooser, closeGroupChooser, showRdfPreview, showSearchResults,
 } from './inputs'
+import {
+  setResourceTemplate, clearResourceTemplates, setResourceTemplateSummary,
+} from './entities'
 import { findNode } from 'selectors/resourceSelectors'
 import _ from 'lodash'
 
@@ -14,33 +17,6 @@ export const setResource = (state, action) => {
   const newState = { ...state, resource: action.payload }
   return newState
 }
-
-export const setResourceTemplate = (state, action) => {
-  const resourceTemplateId = action.payload.id
-  const newState = { ...state }
-
-  newState.entities.resourceTemplates[resourceTemplateId] = action.payload
-
-  return newState
-}
-
-export const clearResourceTemplates = (state) => {
-  const newState = { ...state }
-
-  newState.entities.resourceTemplates = {}
-
-  return newState
-}
-
-export const setResourceTemplateSummary = (state, action) => {
-  const resourceTemplateId = action.payload.id
-  const newState = { ...state }
-
-  newState.entities.resourceTemplateSummaries[resourceTemplateId] = action.payload
-
-  return newState
-}
-
 
 export const updateProperty = (state, action) => {
   const reduxPath = action.payload.reduxPath
