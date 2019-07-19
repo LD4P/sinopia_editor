@@ -9,7 +9,7 @@ import {
 import { fetchResourceTemplate } from 'actionCreators/resourceTemplates'
 import { updateRDFResource, loadRDFResource } from 'sinopiaServer'
 import { rootResourceId, findNode } from 'selectors/resourceSelectors'
-import findResourceTemplate from 'selectors/entitySelectors'
+import { findResourceTemplate } from 'selectors/entitySelectors'
 import GraphBuilder from 'GraphBuilder'
 import { isResourceWithValueTemplateRef, rdfDatasetFromN3, defaultValuesFromPropertyTemplate } from 'Utilities'
 import shortid from 'shortid'

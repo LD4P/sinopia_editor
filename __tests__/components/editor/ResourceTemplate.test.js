@@ -9,10 +9,15 @@ describe('<ResourceTemplate />', () => {
   const resourceTemplate = {
     resourceLabel: 'BF2 Work',
   }
+  const loadLanguages = jest.fn()
 
   const wrapper = shallow(<ResourceTemplate.WrappedComponent resourceTemplateId="resourceTemplate:bf2:Note"
                                                              resourceTemplate={resourceTemplate}
+                                                             loadLanguages={loadLanguages}
                                                              retrieveResourceTemplate={jest.fn()} />)
+  it('loads the languages', () => {
+    expect(loadLanguages).toHaveBeenCalled()
+  })
 
   it('has div with class "ResourceTemplate"', () => {
     expect(wrapper.find('div.ResourceTemplate').length).toEqual(1)

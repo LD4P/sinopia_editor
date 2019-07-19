@@ -1,12 +1,9 @@
 // Copyright 2019 Stanford University see LICENSE for license
 
-/* eslint jsx-a11y/no-autofocus: 'off' */
 import React, { Component } from 'react'
 import { Typeahead } from 'react-bootstrap-typeahead'
 import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
-import { bindActionCreators } from 'redux'
-import loadLanguages from 'actionCreators/languages'
 
 /**
  * Provides the RFC 5646 language tag for a literal element.
@@ -29,12 +26,10 @@ class InputLang extends Component {
       <div>
         <label htmlFor="langComponent">Select language for {this.props.textValue}
           <Typeahead
-            onFocus={() => this.props.loadLanguages()}
             onChange={selected => this.setPayLoad(selected)}
             isLoading={this.props.loading}
             options={this.props.options}
             emptyLabel={'retrieving list of languages...'}
-            autoFocus={true}
             selectHintOnEnter={true}
             id={'langComponent'}
           />
@@ -49,7 +44,6 @@ InputLang.propTypes = {
   textId: PropTypes.string.isRequired,
   reduxPath: PropTypes.oneOfType([PropTypes.string, PropTypes.array]),
   handleLangChange: PropTypes.func,
-  loadLanguages: PropTypes.func,
   options: PropTypes.array,
   loading: PropTypes.bool,
 }
@@ -62,6 +56,4 @@ const mapStateToProps = (state) => {
   }
 }
 
-const mapDispatchToProps = dispatch => bindActionCreators({ loadLanguages }, dispatch)
-
-export default connect(mapStateToProps, mapDispatchToProps)(InputLang)
+export default connect(mapStateToProps, null)(InputLang)

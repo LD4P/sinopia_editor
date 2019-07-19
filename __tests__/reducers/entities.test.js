@@ -41,6 +41,7 @@ describe('loadingLanguages', () => {
     const oldState = {
       entities: {
         resourceTemplates: {},
+        languages: { loading: false, options: [] },
       },
     }
 
@@ -54,6 +55,7 @@ describe('loadingLanguages', () => {
         resourceTemplates: {},
         languages: {
           loading: true,
+          options: [],
         },
       },
     })
