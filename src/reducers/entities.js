@@ -1,3 +1,5 @@
+// Copyright 2019 Stanford University see LICENSE for license
+
 /**
  * These are the reducers that effect the 'entities' redux store.
  */
