@@ -4,11 +4,12 @@ import { combineReducers } from 'redux'
 import authenticate from './authenticate'
 import {
   removeMyItem, setItemsOrSelections, setBaseURL, showResourceURIMessage, setMyItemsLang,
-  showGroupChooser, closeGroupChooser, showRdfPreview, showSearchResults,
+  showGroupChooser, closeGroupChooser, showRdfPreview,
 } from './inputs'
 import {
   setResourceTemplate, clearResourceTemplates, setResourceTemplateSummary,
 } from './entities'
+import showSearchResults from './search'
 import { findNode } from 'selectors/resourceSelectors'
 import _ from 'lodash'
 
