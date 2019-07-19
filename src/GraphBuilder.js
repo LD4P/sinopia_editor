@@ -2,7 +2,7 @@
 
 import rdf from 'rdf-ext'
 import _ from 'lodash'
-import findResourceTemplate from 'selectors/entitySelectors'
+import { findResourceTemplate } from 'selectors/entitySelectors'
 
 /**
  * Builds RDF graphs from the Redux state

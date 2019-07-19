@@ -8,6 +8,7 @@ import Button from 'react-bootstrap/lib/Button'
 import InputLang from './InputLang'
 import { languageSelected } from 'actions/index'
 import { findNode } from 'selectors/resourceSelectors'
+import { languageLabel } from 'selectors/entitySelectors'
 
 const LanguageButton = (props) => {
   const [langPayload, setLang] = useState(null)
@@ -67,7 +68,7 @@ const mapStateToProps = (state, ourProps) => {
   const node = findNode(state.selectorReducer, ourProps.reduxPath)
   const item = node.items.find(item => item.id === ourProps.id)
   return {
-    language: item.lang.label,
+    language: languageLabel(state, item.lang.id),
     textContent: item.content,
   }
 }

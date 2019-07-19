@@ -26,13 +26,11 @@ const initialState = {
       },
     },
     entities: { // The stuff we've retrieved from the server
-      resourceTemplates: {
-      },
-      resourceTemplateSummaries: {
-      },
+      resourceTemplates: {},
+      resourceTemplateSummaries: {},
+      languages: { loading: false, options: [] },
     },
-    resource: { // The state we're displaying in the editor
-    },
+    resource: {}, // The state we're displaying in the editor
     search: {
       results: [],
     },

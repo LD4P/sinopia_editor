@@ -32,7 +32,7 @@ export const setResourceTemplateSummary = (state, action) => {
 
 export const loadingLanguages = (state) => {
   const newState = { ...state }
-  newState.entities.languages = { loading: true }
+  newState.entities.languages.loading = true
   return newState
 }
 
