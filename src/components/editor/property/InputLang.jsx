@@ -23,7 +23,7 @@ class InputLang extends Component {
     const payload = {
       id: this.props.textId,
       reduxPath: this.props.reduxPath,
-      items,
+      lang: items[0],
     }
 
     this.props.handleLangChange(payload)

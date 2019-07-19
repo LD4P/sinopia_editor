@@ -113,11 +113,9 @@ export const setMyItemsLang = (state, action) => {
       if ((key in obj) !== true) {
         obj[key] = { items: [] }
       }
-
       const payloadItem = obj[key].items.find(item => item.id === action.payload.id)
-
       if (payloadItem) {
-        payloadItem.lang = { items: action.payload.items }
+        payloadItem.lang = action.payload.lang
       }
     }
 

@@ -109,7 +109,7 @@ describe('When the user enters input into field', () => {
     // Test to see arguments used after its been submitted
     expect(mockItemsChange.mock.calls[0][0]).toEqual(
       {
-        items: [{ content: 'foo', id: 0 }],
+        items: [{ content: 'foo', id: 0, lang: { id: 'en', label: 'English' } }],
         reduxPath: ['resourceTemplate:bf2:Monograph:Instance', 'http://id.loc.gov/ontologies/bibframe/instanceOf'],
       },
     )
@@ -125,13 +125,13 @@ describe('When the user enters input into field', () => {
 
     expect(mockItemsChange.mock.calls[0][0]).toEqual(
       {
-        items: [{ content: 'fooby', id: 0 }],
+        items: [{ content: 'fooby', id: 0, lang: { id: 'en', label: 'English' } }],
         reduxPath: ['resourceTemplate:bf2:Monograph:Instance', 'http://id.loc.gov/ontologies/bibframe/instanceOf'],
       },
     )
     expect(mockItemsChange.mock.calls[1][0]).toEqual(
       {
-        items: [{ content: 'bar', id: 0 }],
+        items: [{ content: 'bar', id: 0, lang: { id: 'en', label: 'English' } }],
         reduxPath: ['resourceTemplate:bf2:Monograph:Instance', 'http://id.loc.gov/ontologies/bibframe/instanceOf'],
       },
     )
@@ -161,7 +161,7 @@ describe('When the user enters input into field', () => {
     mockWrapper.instance().forceUpdate()
     mockWrapper.setProps({
       formData: { id: 1, uri: 'http://id.loc.gov/ontologies/bibframe/instanceOf' },
-      items: [{ content: 'foo', id: 4, lang: { items: [{ label: 'English' }] } }],
+      items: [{ content: 'foo', id: 4, lang: { label: 'English' } }],
     })
     expect(mockWrapper.find('div#userInput').text()).toEqual('fooXEdit<Button /><Modal />') // Contains X and Edit as buttons
     expect(mockWrapper.find('Button#language').childAt(1).text()).toEqual('English')
@@ -301,7 +301,7 @@ describe('When a user enters non-roman text in a work title', () => {
         id: 1,
         uri: 'http://id.loc.gov/ontologies/bibframe/title',
       },
-      items: [{ content: artOfWar, id: 1, lang: { items: [{ label: 'Mandarin' }] } }],
+      items: [{ content: artOfWar, id: 1, lang: { label: 'Mandarin' } }],
     })
     expect(workTitleWrapper.find('div#userInput').text().includes(artOfWar)).toBeTruthy()
     expect(workTitleWrapper.find('Button#language').childAt(1).text()).toEqual('Mandarin')

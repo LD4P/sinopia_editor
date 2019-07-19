@@ -155,6 +155,7 @@ describe('stubProperty', () => {
       expect(dispatch).toHaveBeenCalledTimes(2)
     })
   })
+
   describe('property is not a resource property and has defaults', () => {
     it('stubs out the property with defaults', async () => {
       const resourceTemplateId = 'resourceTemplate:bf2:Monograph:Instance'
@@ -162,10 +163,11 @@ describe('stubProperty', () => {
       const resourceTemplate = resourceTemplateResponse.response.body
       const dispatch = jest.fn()
       const newResource = await stubProperty(resourceTemplateId, resourceTemplate, {}, 'http://id.loc.gov/ontologies/bibframe/heldBy', dispatch)
-      expect(newResource).toEqual({ items: [{ content: 'DLC', lang: { items: [{ id: 'en', label: 'English' }] } }] })
+      expect(newResource).toEqual({ items: [{ content: 'DLC', lang: { id: 'en', label: 'English' } }] })
       expect(dispatch).toHaveBeenCalledTimes(0)
     })
   })
+
   describe('property is not a resource property and has no defaults', () => {
     it('stubs out the property', async () => {
       const resourceTemplateId = 'resourceTemplate:bf2:Monograph:Work'
