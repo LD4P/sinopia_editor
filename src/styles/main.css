@@ -234,3 +234,7 @@ input.rbt-input-main {
 	font-weight:400;
 	 color: #999999;
 }
+
+#resource-template-list td {
+ word-wrap: break-word;
+}
