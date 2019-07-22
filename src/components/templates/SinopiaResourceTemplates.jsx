@@ -51,24 +51,28 @@ class SinopiaResourceTemplates extends Component {
         sort: true,
         formatter: this.linkFormatter,
         headerStyle: { backgroundColor: '#F8F6EF', width: '30%' },
+        style: { 'word-break': 'break-all' },
       },
       {
         dataField: 'id',
         text: 'ID',
         sort: true,
         headerStyle: { backgroundColor: '#F8F6EF', width: '30%' },
+        style: { 'word-break': 'break-all' },
       },
       {
         dataField: 'author',
         text: 'Author',
         sort: true,
         headerStyle: { backgroundColor: '#F8F6EF', width: '10%' },
+        style: { 'word-break': 'break-all' },
       },
       {
         dataField: 'remark',
         text: 'Guiding statement',
         sort: false,
         headerStyle: { backgroundColor: '#F8F6EF', width: '22%' },
+        style: { 'word-break': 'break-all' },
       },
       {
         dataField: 'download',
@@ -76,6 +80,7 @@ class SinopiaResourceTemplates extends Component {
         sort: false,
         formatter: this.downloadLinkFormatter,
         headerStyle: { backgroundColor: '#F8F6EF', width: '8%' },
+        style: { 'word-break': 'break-all' },
       },
     ]
 
