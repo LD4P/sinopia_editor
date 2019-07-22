@@ -34,6 +34,7 @@ export const retrieveResource = (currentUser, uri) => (dispatch) => {
   return loadRDFResource(currentUser, uri)
     .then((response) => {
       dispatch(clearResourceTemplates())
+      // dispatch(clearResourceURIMessage())
       const data = response.response.text
       return rdfDatasetFromN3(data).then((dataset) => {
         const builder = new ResourceStateBuilder(dataset, null)
@@ -47,6 +48,7 @@ export const newResource = resourceTemplateId => (dispatch) => {
   const resource = {}
   resource[resourceTemplateId] = {}
   dispatch(clearResourceTemplates())
+  // dispatch(clearResourceURIMessage())
   dispatch(setResource(resource))
   dispatch(stubResource(true))
 }

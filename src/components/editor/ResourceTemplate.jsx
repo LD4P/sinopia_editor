@@ -10,6 +10,7 @@ import { bindActionCreators } from 'redux'
 import loadLanguages from 'actionCreators/languages'
 import ResourceURIMessage from './ResourceURIMessage'
 import _ from 'lodash'
+import clearResourceURIMessage from 'actionCreators/messages'
 
 /**
  * This is the root component of the editor on the resource edit page
@@ -18,6 +19,7 @@ class ResourceTemplate extends Component {
   componentDidMount() {
     // We load the languages once here so that each literal doesn't try to hit the LOC endpoint
     this.props.loadLanguages()
+    this.props.clearResourceURIMessage()
   }
 
   render() {
@@ -47,6 +49,7 @@ ResourceTemplate.propTypes = {
   error: PropTypes.string,
   newResource: PropTypes.func,
   loadLanguages: PropTypes.func,
+  clearResourceURIMessage: PropTypes.func,
 }
 
 const mapStateToProps = (state) => {
@@ -60,6 +63,6 @@ const mapStateToProps = (state) => {
   }
 }
 
-const mapDispatchToProps = dispatch => bindActionCreators({ loadLanguages, newResource }, dispatch)
+const mapDispatchToProps = dispatch => bindActionCreators({ loadLanguages, newResource, clearResourceURIMessage }, dispatch)
 
 export default connect(mapStateToProps, mapDispatchToProps)(ResourceTemplate)

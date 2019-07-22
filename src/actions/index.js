@@ -72,6 +72,10 @@ export const showResourceURIMessage = resourceUri => ({
   payload: resourceUri,
 })
 
+export const clearingResourceURIMessage = () => ({
+  type: 'CLEARING_RESOURCE_URI_MESSAGE',
+})
+
 export const updateStarted = () => ({
   type: 'UPDATE_STARTED',
 })
