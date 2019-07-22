@@ -39,6 +39,11 @@ class SinopiaResourceTemplates extends Component {
         </div>
       )
 
+    const defaultSorted = [{
+      dataField: 'name', // default sort column name
+      order: 'asc', // default sort order
+    }]
+
     const columns = [
       {
         dataField: 'name',
@@ -78,7 +83,12 @@ class SinopiaResourceTemplates extends Component {
       <div>
         { createResourceMessage }
         <h4>Available Resource Templates in Sinopia</h4>
-        <BootstrapTable id="resource-template-list" keyField="key" data={ this.props.resourceTemplateSummaries } columns={ columns } />
+        <BootstrapTable
+          id="resource-template-list"
+          keyField="key"
+          data={ this.props.resourceTemplateSummaries }
+          columns={ columns }
+          defaultSorted={ defaultSorted }/>
       </div>
     )
   }
