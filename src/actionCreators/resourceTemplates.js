@@ -51,6 +51,7 @@ export const fetchResourceTemplateSummary = (templateId, groupName, dispatch) =>
       group: groupName,
       author: template.author,
       remark: template.remark,
+      date: template.date,
     }
     dispatch(setResourceTemplateSummary(templateSummary))
   }, (error) => {

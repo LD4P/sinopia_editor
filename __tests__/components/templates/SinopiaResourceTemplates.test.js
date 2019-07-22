@@ -39,7 +39,7 @@ describe('<SinopiaResourceTemplates />', () => {
 
     it('renders the table of resource templates with name, id, author, guiding statement, download columns', () => {
       const tableHeaderCellText = wrapper.find('BootstrapTableContainer').props().columns.map(col => col.text)
-      expect(tableHeaderCellText).toEqual(['Template name', 'ID', 'Author', 'Guiding statement', 'Download'])
+      expect(tableHeaderCellText).toEqual(['Template name', 'ID', 'Author', 'Date', 'Guiding statement', 'Download'])
     })
   })
 

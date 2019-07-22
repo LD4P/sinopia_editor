@@ -2,6 +2,7 @@
   "id": "resourceTemplate:bf2:Identifiers:DDC",
   "resourceLabel": "Dewey Decimal Classification",
   "resourceURI": "http://id.loc.gov/ontologies/bibframe/ClassificationDdc",
+  "date": "1999-12-31",
   "propertyTemplates": [
     {
       "mandatory": "false",
