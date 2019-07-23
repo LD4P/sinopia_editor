@@ -23,6 +23,7 @@ describe('<PropertyPanel />', () => {
       mandatory: 'true',
       repeatable: 'true',
     },
+    reduxPath: ['resource', 'resourceTemplate:bf2:Monograph:Instance', 'http://id.loc.gov/ontologies/bibframe/instanceOf'],
   }
 
   const wrapper = shallow(<PropertyPanel {...panelProps} />)
@@ -34,5 +35,34 @@ describe('<PropertyPanel />', () => {
 
   it('generates a <PropertyLabel />', () => {
     expect(wrapper.find(PropertyLabel)).toBeTruthy()
+  })
+
+  describe('when resource model is empty', () => {
+    const wrapper = shallow(<PropertyPanel.WrappedComponent resourceModel={{}} {...panelProps} />)
+    it('renders Add button', () => {
+      expect(wrapper.exists('button.btn-add')).toBeTruthy()
+    })
+    it('does not render Remove button', () => {
+      expect(wrapper.exists('button.btn-remove')).toBeFalsy()
+    })
+  })
+  describe('when resource model is not empty', () => {
+    const notMandatoryPanelProps = { ...panelProps }
+    panelProps.propertyTemplate.mandatory = 'false'
+    const wrapper = shallow(<PropertyPanel.WrappedComponent resourceModel={{ items: [] }} {...notMandatoryPanelProps} />)
+    it('renders Remove button', () => {
+      expect(wrapper.exists('button.btn-remove')).toBeTruthy()
+    })
+    it('does not render Add button', () => {
+      expect(wrapper.exists('button.btn-add')).toBeFalsy()
+    })
+  })
+  describe('when resource model is not empty and property is mandatory', () => {
+    it('does not render Remove button', () => {
+      expect(wrapper.exists('button.btn-remove')).toBeFalsy()
+    })
+    it('does not render Add button', () => {
+      expect(wrapper.exists('button.btn-add')).toBeFalsy()
+    })
   })
 })

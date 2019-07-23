@@ -13,12 +13,12 @@ describe('<OutlineHeader />', () => {
   }
 
   describe('collapsed and not added', () => {
-    const mockHandleAddAndOpen = jest.fn()
+    const mockHandleAddButton = jest.fn()
 
     const headerProps = {
       collapsed: true,
       resourceModel: {},
-      handleAddAndOpen: mockHandleAddAndOpen,
+      handleAddButton: mockHandleAddButton,
       property,
     }
     const wrapper = shallow(<OutlineHeader.WrappedComponent {...headerProps} />)
@@ -37,9 +37,9 @@ describe('<OutlineHeader />', () => {
         expect(wrapper.exists('button.btn-add')).toEqual(true)
       })
 
-      it('calls handleAddAndOpen when clicked', () => {
+      it('calls handleAddButton when clicked', () => {
         wrapper.find('button.btn-add').simulate('click')
-        expect(mockHandleAddAndOpen).toHaveBeenCalledTimes(1)
+        expect(mockHandleAddButton).toHaveBeenCalledTimes(1)
       })
     })
 
@@ -62,14 +62,14 @@ describe('<OutlineHeader />', () => {
   })
 
   describe('collapsed and added', () => {
+    const mockHandleToggle = jest.fn()
     const mockHandleRemoveButton = jest.fn()
-    const mockHandleAddAndOpen = jest.fn()
 
     const headerProps = {
       collapsed: true,
       resourceModel: { abc123: { 'resourceTemplate:bf2:Title:Note': {} } },
+      handleToggle: mockHandleToggle,
       handleRemoveButton: mockHandleRemoveButton,
-      handleAddAndOpen: mockHandleAddAndOpen,
       property,
     }
     const wrapper = shallow(<OutlineHeader.WrappedComponent {...headerProps} />)
@@ -85,7 +85,7 @@ describe('<OutlineHeader />', () => {
 
       it('calls handleAddAndOpen when clicked', () => {
         wrapper.find('button.btn-toggle').simulate('click')
-        expect(mockHandleAddAndOpen).toHaveBeenCalledTimes(1)
+        expect(mockHandleToggle).toHaveBeenCalledTimes(1)
       })
     })
 

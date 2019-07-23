@@ -20,10 +20,15 @@ describe('Expanding a resource property in a property panel', () => {
     await pupExpect(page).toMatchElement('h5', { text: 'BIBFRAME Instance' })
   })
 
-  it('clicks on a nested property to reveal an input component', async () => {
-    expect.assertions(2)
-    await pupExpect(page).toClick('button.btn-add[data-id=\'heldBy\']')
+  it('nested property with default is already expanded', async () => {
+    expect.assertions(1)
     await pupExpect(page).toMatchElement('input[placeholder=\'Holdings\']')
+  })
+
+  it('nested property clicks on a nested property to reveal an input component', async () => {
+    expect.assertions(2)
+    await pupExpect(page).toClick('button.btn-add[data-id=\'frequency\']')
+    await pupExpect(page).toMatchElement('input[placeholder=\'Frequency (RDA 2.14)\']')
   })
 
   it('enters a value into a nested property component', async () => {

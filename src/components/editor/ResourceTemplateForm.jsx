@@ -7,7 +7,7 @@ import shortid from 'shortid'
 import PropertyPanel from './property/PropertyPanel'
 import PropertyResourceTemplate from './property/PropertyResourceTemplate'
 import PropertyComponent from './property/PropertyComponent'
-import { isResourceWithValueTemplateRef } from 'Utilities'
+import { isResourceWithValueTemplateRef, resourceToName } from 'Utilities'
 import { getResourceTemplate, findNode } from 'selectors/resourceSelectors'
 import _ from 'lodash'
 
@@ -52,10 +52,10 @@ export class ResourceTemplateForm extends Component {
   }
 
   defaultValues = () => {
-    this.props.propertyTemplates.map((pt) => {
-      if (pt.mandatory === undefined) pt.mandatory = 'true'
-      if (pt.repeatable === undefined) pt.repeatable = 'false'
-      if (pt.editable === undefined) pt.editable = 'true'
+    this.props.propertyTemplates.map((propertyTemplate) => {
+      if (propertyTemplate.mandatory === undefined) propertyTemplate.mandatory = 'true'
+      if (propertyTemplate.repeatable === undefined) propertyTemplate.repeatable = 'false'
+      if (propertyTemplate.editable === undefined) propertyTemplate.editable = 'true'
     })
   }
 
@@ -64,23 +64,32 @@ export class ResourceTemplateForm extends Component {
       <form>
         <div className="ResourceTemplateForm row">
           {
-            this.props.propertyTemplates.map((pt, index) => {
-              if (isResourceWithValueTemplateRef(pt)) {
+            this.props.propertyTemplates.map((propertyTemplate, index) => {
+              const newReduxPath = [...this.props.reduxPath, propertyTemplate.propertyURI]
+              const id = resourceToName(propertyTemplate.propertyURI)
+              if (_.isEmpty(this.props.resourceProperties[propertyTemplate.propertyURI])) {
+                return (
+                  <PropertyPanel reduxPath={newReduxPath} key={index} float={index} id={id}>
+                  </PropertyPanel>
+
+                )
+              }
+
+              if (isResourceWithValueTemplateRef(propertyTemplate)) {
                 if (!_.isEmpty(this.props.resourceProperties)) {
                   return (
-                    <PropertyPanel propertyTemplate={pt} key={index} float={index}>
-                      {this.resourceTemplateFields(pt.valueConstraint.valueTemplateRefs, pt)}
+                    <PropertyPanel reduxPath={newReduxPath} key={index} float={index} id={id}>
+                      {this.resourceTemplateFields(propertyTemplate.valueConstraint.valueTemplateRefs, propertyTemplate)}
                     </PropertyPanel>
                   )
                 }
               }
 
-              const newReduxPath = [...this.props.reduxPath, pt.propertyURI]
               return (
-                <PropertyPanel propertyTemplate={pt} key={index} float={index}>
+                <PropertyPanel reduxPath={newReduxPath} key={index} float={index} id={id}>
                   <PropertyComponent index={index}
                                      reduxPath={newReduxPath}
-                                     propertyTemplate={pt} />
+                                     propertyTemplate={propertyTemplate} />
 
                 </PropertyPanel>
               )
