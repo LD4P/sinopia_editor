@@ -2,6 +2,7 @@
 
 import {
   update, existingResource, retrieveResource, stubProperty, newResource,
+  stubResourceProperties,
 } from 'actionCreators/resources'
 /* eslint import/namespace: 'off' */
 import * as server from 'sinopiaServer'
@@ -192,3 +193,267 @@ describe('stubProperty', () => {
     })
   })
 })
+
+describe('stubResourceProperties', () => {
+  describe('property is a resource property', () => {
+    it('stubs properties without defaults', async () => {
+      const monographInstanceResourceTemplate = {
+        id: 'resourceTemplate:bf2:Monograph:Instance',
+        resourceLabel: 'BIBFRAME Instance',
+        resourceURI: 'http://id.loc.gov/ontologies/bibframe/Instance',
+        propertyTemplates: [{
+          propertyLabel: 'Notes about the Instance',
+          remark: 'This is a great note',
+          propertyURI: 'http://id.loc.gov/ontologies/bibframe/note',
+          mandatory: 'false',
+          repeatable: 'true',
+          type: 'resource',
+          resourceTemplates: [],
+          valueConstraint: {
+            valueTemplateRefs: [
+              'resourceTemplate:bf2:Note',
+            ],
+            useValuesFrom: [],
+            valueDataType: {},
+            defaults: [],
+          },
+        }],
+      }
+      const noteResourceTemplate = {
+        id: 'resourceTemplate:bf2:Note',
+        resourceURI: 'http://id.loc.gov/ontologies/bibframe/Note',
+        resourceLabel: 'Note',
+        propertyTemplates: [
+          {
+            propertyURI: 'http://www.w3.org/2000/01/rdf-schema#label',
+            propertyLabel: 'Note',
+            mandatory: 'false',
+            repeatable: 'false',
+            type: 'literal',
+            resourceTemplates: [],
+            valueConstraint: {
+              valueTemplateRefs: [],
+              useValuesFrom: [],
+              valueDataType: {},
+              editable: 'true',
+              repeatable: 'false',
+              defaults: [],
+            },
+          },
+        ],
+      }
+      server.getResourceTemplate = async (resourceTemplateId) => {
+        const resources = {
+          'resourceTemplate:bf2:Monograph:Instance': monographInstanceResourceTemplate,
+          'resourceTemplate:bf2:Note': noteResourceTemplate,
+        }
+        return { response: { body: resources[resourceTemplateId] } }
+      }
+      const resource = await stubResourceProperties('resourceTemplate:bf2:Monograph:Instance', null,
+        {}, ['resource'], true, false, jest.fn())
+      expect(findNestedResources(resource['http://id.loc.gov/ontologies/bibframe/note'], 'resourceTemplate:bf2:Note')[0]).toEqual({})
+    })
+    it('stubs properties with defaults', async () => {
+      const monographInstanceResourceTemplate = {
+        id: 'resourceTemplate:bf2:Monograph:Instance',
+        resourceLabel: 'BIBFRAME Instance',
+        resourceURI: 'http://id.loc.gov/ontologies/bibframe/Instance',
+        propertyTemplates: [
+          {
+            propertyLabel: 'Item Information',
+            propertyURI: 'http://id.loc.gov/ontologies/bibframe/itemPortion',
+            repeatable: 'false',
+            resourceTemplates: [],
+            type: 'resource',
+            valueConstraint: {
+              defaults: [],
+              editable: 'true',
+              remark: 'REMARK',
+              repeatable: 'false',
+              useValuesFrom: [
+                'https://VALUES',
+              ],
+              valueDataType: {
+                dataTypeLabel: 'Classification item number',
+                dataTypeLabelHint: 'HINT',
+                dataTypeURI: 'http://id.loc.gov/ontologies/bibframe/itemPortion',
+                remark: 'REMARK',
+              },
+              valueTemplateRefs: [
+                'resourceTemplate:bf2:Identifiers:Barcode',
+              ],
+            },
+            mandatory: 'false',
+            remark: 'http://access.rdatoolkit.org/3.3.html',
+          }],
+      }
+      const barcodeResourceTemplate = {
+        id: 'resourceTemplate:bf2:Identifiers:Barcode',
+        resourceURI: 'http://id.loc.gov/ontologies/bibframe/Barcode',
+        resourceLabel: 'Barcode',
+        propertyTemplates: [
+          {
+            mandatory: 'true',
+            repeatable: 'false',
+            type: 'literal',
+            resourceTemplates: [],
+            valueConstraint: {
+              valueTemplateRefs: [],
+              useValuesFrom: [],
+              valueDataType: {},
+              defaults: [
+                {
+                  defaultLiteral: '12345',
+                },
+              ],
+            },
+            propertyURI: 'http://www.w3.org/1999/02/22-rdf-syntax-ns#value',
+            propertyLabel: 'Barcode',
+          },
+        ],
+      }
+      server.getResourceTemplate = async (resourceTemplateId) => {
+        const resources = {
+          'resourceTemplate:bf2:Monograph:Instance': monographInstanceResourceTemplate,
+          'resourceTemplate:bf2:Identifiers:Barcode': barcodeResourceTemplate,
+        }
+        return { response: { body: resources[resourceTemplateId] } }
+      }
+      const resource = await stubResourceProperties('resourceTemplate:bf2:Monograph:Instance', null,
+        {}, ['resource'], true, false, jest.fn())
+      expect(findNestedResources(resource['http://id.loc.gov/ontologies/bibframe/itemPortion'], 'resourceTemplate:bf2:Identifiers:Barcode')[0]).toEqual({})
+    })
+  })
+  describe('property is a mandatory resource property', () => {
+    const monographInstanceResourceTemplate = {
+      id: 'resourceTemplate:bf2:Monograph:Instance',
+      resourceLabel: 'BIBFRAME Instance',
+      resourceURI: 'http://id.loc.gov/ontologies/bibframe/Instance',
+      propertyTemplates: [
+        {
+          propertyLabel: 'Instance of',
+          propertyURI: 'http://id.loc.gov/ontologies/bibframe/instanceOf',
+          resourceTemplates: [],
+          type: 'resource',
+          valueConstraint: {
+            valueTemplateRefs: [
+              'resourceTemplate:bf2:Monograph:Work',
+            ],
+            useValuesFrom: [],
+            valueDataType: {},
+            defaults: [],
+          },
+          mandatory: 'true',
+          repeatable: 'true',
+        }],
+    }
+    it('stubs properties without defaults', async () => {
+      const monographWorkResourceTemplate = {
+        id: 'resourceTemplate:bf2:Monograph:Work',
+        resourceURI: 'http://id.loc.gov/ontologies/bibframe/Work',
+        resourceLabel: 'BIBFRAME Work',
+        propertyTemplates: [
+          {
+            propertyURI: 'http://id.loc.gov/ontologies/bibframe/title',
+            propertyLabel: 'Title Information',
+            mandatory: 'false',
+            repeatable: 'true',
+            type: 'resource',
+            resourceTemplates: [],
+            valueConstraint: {
+              valueTemplateRefs: [
+                'resourceTemplate:bf2:WorkTitle',
+                'resourceTemplate:bf2:WorkVariantTitle',
+                'resourceTemplate:bflc:TranscribedTitle',
+              ],
+              useValuesFrom: [],
+              valueDataType: {},
+              defaults: [],
+            },
+          },
+        ],
+      }
+      server.getResourceTemplate = async (resourceTemplateId) => {
+        const resources = {
+          'resourceTemplate:bf2:Monograph:Instance': monographInstanceResourceTemplate,
+          'resourceTemplate:bf2:Monograph:Work': monographWorkResourceTemplate,
+        }
+        return { response: { body: resources[resourceTemplateId] } }
+      }
+      const resource = await stubResourceProperties('resourceTemplate:bf2:Monograph:Instance', null,
+        {}, ['resource'], true, false, jest.fn())
+      expect(findNestedResources(resource['http://id.loc.gov/ontologies/bibframe/instanceOf'], 'resourceTemplate:bf2:Monograph:Work')[0]).toEqual({})
+    })
+    it('stubs properties with defaults', async () => {
+      const monographWorkResourceTemplate = {
+        id: 'resourceTemplate:bf2:Monograph:Work',
+        resourceURI: 'http://id.loc.gov/ontologies/bibframe/Work',
+        resourceLabel: 'BIBFRAME Work',
+        propertyTemplates: [
+          {
+            propertyURI: 'http://id.loc.gov/ontologies/bibframe/content',
+            propertyLabel: 'Content Type (RDA 6.9)',
+            remark: 'http://access.rdatoolkit.org/6.9.html',
+            mandatory: 'false',
+            repeatable: 'true',
+            type: 'resource',
+            resourceTemplates: [],
+            valueConstraint: {
+              valueTemplateRefs: [],
+              useValuesFrom: [
+                'https://id.loc.gov/vocabulary/contentTypes',
+              ],
+              valueDataType: {
+                dataTypeURI: 'http://id.loc.gov/ontologies/bibframe/Content',
+              },
+              editable: 'false',
+              repeatable: 'true',
+              defaults: [
+                {
+                  defaultURI: 'http://id.loc.gov/vocabulary/contentTypes/txt',
+                  defaultLiteral: 'text',
+                },
+              ],
+            },
+          },
+        ],
+      }
+      server.getResourceTemplate = async (resourceTemplateId) => {
+        const resources = {
+          'resourceTemplate:bf2:Monograph:Instance': monographInstanceResourceTemplate,
+          'resourceTemplate:bf2:Monograph:Work': monographWorkResourceTemplate,
+        }
+        return { response: { body: resources[resourceTemplateId] } }
+      }
+      const dispatch = jest.fn()
+      const resource = await stubResourceProperties('resourceTemplate:bf2:Monograph:Instance', null,
+        {}, ['resource'], true, false, dispatch)
+      expect(findNestedResources(resource['http://id.loc.gov/ontologies/bibframe/instanceOf'], 'resourceTemplate:bf2:Monograph:Work')[0]).toEqual(
+        {
+          'http://id.loc.gov/ontologies/bibframe/content': {
+            items: [
+              {
+                id: 'http://id.loc.gov/vocabulary/contentTypes/txt',
+                label: 'text',
+                uri: 'http://id.loc.gov/vocabulary/contentTypes/txt',
+              },
+            ],
+          },
+        },
+      )
+      const action = dispatch.mock.calls[4][0]
+      expect(action.type).toEqual('TOGGLE_COLLAPSE')
+    })
+  })
+})
+
+const findNestedResources = (property, resourceTemplateId) => {
+  const matchingKeys = Object.keys(property).filter((key) => {
+    const keyItem = property[key]
+    return Object.keys(keyItem)[0] === resourceTemplateId
+  })
+  return matchingKeys.map((key) => {
+    const keyItem = property[key]
+    return keyItem[resourceTemplateId]
+  })
+}
