@@ -3,7 +3,7 @@
 import {
   removeMyItem, setItemsOrSelections, setBaseURL,
   validate, showGroupChooser, closeGroupChooser, showRdfPreview,
-  showResourceURIMessage,
+  showResourceURIMessage, clearResourceURIMessage,
 } from 'reducers/inputs'
 import {
   findNode,
@@ -374,6 +374,22 @@ describe('showResourceURIMessage', () => {
 
     expect(result.editor.resourceURIMessage.show).toBe(true)
     expect(result.editor.resourceURIMessage.uri).toEqual('http://example.com/foo/123')
+  })
+})
+
+describe('clearResourceURIMessage', () => {
+  it('turns off the Resource URI message display', () => {
+    initialState.editor.resourceURIMessage = {
+      show: true,
+      uri: 'this message will disapear',
+    }
+
+    const result = clearResourceURIMessage(initialState, {
+      type: 'CLEAR_RESOURCE_URI_MESSAGE',
+    })
+
+    expect(result.editor.resourceURIMessage.show).toBe(false)
+    expect(result.editor.resourceURIMessage.uri).toEqual('')
   })
 })
 
