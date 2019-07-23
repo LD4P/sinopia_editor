@@ -583,7 +583,7 @@
   {
     "label": "MESH (QA)",
     "uri": "urn:ld4p:qa:mesh",
-    "authority": "mesh_ld4l_cache",
+    "authority": "mesh_nlm_ld4l_cache",
     "subauthority": "",
     "language": "en",
     "component": "lookup"
