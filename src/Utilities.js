@@ -4,6 +4,7 @@ import lookupConfig from '../static/lookupConfig.json'
 import N3Parser from 'n3/lib/N3Parser'
 import rdf from 'rdf-ext'
 import _ from 'lodash'
+import shortid from 'shortid'
 
 export const isResourceWithValueTemplateRef = property => property?.type === 'resource'
     && property?.valueConstraint?.valueTemplateRefs?.length > 0
@@ -39,13 +40,13 @@ export const defaultValuesFromPropertyTemplate = (propertyTemplate) => {
 
     if (propertyTemplate.type !== 'literal') {
       defaultValues.push({
-        id: defaultValue.defaultURI,
+        id: shortid.generate(),
         label: defaultLabel,
         uri: defaultValue.defaultURI,
       })
     } else {
       defaultValues.push({
-        id: defaultValue.defaultURI,
+        id: shortid.generate(),
         content: defaultLabel,
         lang: defaultLangTemplate(),
       })

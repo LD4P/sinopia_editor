@@ -6,7 +6,7 @@ import {
   resourceToName,
   getLookupConfigItems,
 } from '../src/Utilities'
-
+import shortid from 'shortid'
 
 describe('Utilities', () => {
   describe('isResourceWithValueTemplateRef()', () => {
@@ -121,6 +121,8 @@ describe('Utilities', () => {
   })
 
   describe('defaultValuesFromPropertyTemplate()', () => {
+    shortid.generate = jest.fn().mockReturnValue('abc123')
+
     it('returns an empty array if passed any value that fails to define a `valueConstraint.defaults` array', () => {
       const propertyTemplate = null
 
@@ -167,12 +169,12 @@ describe('Utilities', () => {
       }
 
       expect(defaultValuesFromPropertyTemplate(propertyTemplateWithDefaultsAndLabel)).toEqual([{
-        id: 'http://id.loc.gov/vocabulary/mcolor/mul',
+        id: 'abc123',
         label: 'color',
         uri: 'http://id.loc.gov/vocabulary/mcolor/mul',
       },
       {
-        id: 'http://id.loc.gov/vocabulary/xmcolor/xmul',
+        id: 'abc123',
         label: 'xcolor',
         uri: 'http://id.loc.gov/vocabulary/xmcolor/xmul',
       }])
@@ -190,7 +192,7 @@ describe('Utilities', () => {
       }
 
       expect(defaultValuesFromPropertyTemplate(propertyTemplateWithDefaultsNoLabel)).toEqual([{
-        id: 'http://id.loc.gov/vocabulary/mcolor/mul',
+        id: 'abc123',
         label: 'http://id.loc.gov/vocabulary/mcolor/mul',
         uri: 'http://id.loc.gov/vocabulary/mcolor/mul',
       }])

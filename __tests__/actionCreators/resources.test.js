@@ -10,6 +10,7 @@ import { getFixtureResourceTemplate } from '../fixtureLoaderHelper'
 import configureMockStore from 'redux-mock-store'
 import thunk from 'redux-thunk'
 import _ from 'lodash'
+import shortid from 'shortid'
 
 const mockStore = configureMockStore([thunk])
 
@@ -158,13 +159,14 @@ describe('stubProperty', () => {
   })
 
   describe('property is not a resource property and has defaults', () => {
+    shortid.generate = jest.fn().mockReturnValue('abc123')
     it('stubs out the property with defaults', async () => {
       const resourceTemplateId = 'resourceTemplate:bf2:Monograph:Instance'
       const resourceTemplateResponse = await getFixtureResourceTemplate(resourceTemplateId)
       const resourceTemplate = resourceTemplateResponse.response.body
       const dispatch = jest.fn()
       const newResource = await stubProperty(resourceTemplateId, resourceTemplate, {}, 'http://id.loc.gov/ontologies/bibframe/heldBy', dispatch)
-      expect(newResource).toEqual({ items: [{ content: 'DLC', lang: { id: 'en', label: 'English' } }] })
+      expect(newResource).toEqual({ items: [{ content: 'DLC', id: 'abc123', lang: { id: 'en', label: 'English' } }] })
       expect(dispatch).toHaveBeenCalledTimes(0)
     })
   })
