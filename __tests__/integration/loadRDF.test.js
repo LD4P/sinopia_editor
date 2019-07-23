@@ -12,7 +12,7 @@ describe('Loading RDF', () => {
     expect.assertions(8)
 
     // Click on the Load tab
-    await pupExpect(page).toClick('a', { text: 'Load' })
+    await pupExpect(page).toClick('a', { text: 'Load RDF' })
     await pupExpect(page).toMatch('Resource RDF N3')
 
     // Fill out the form and click submit
