@@ -435,7 +435,7 @@ describe('stubResourceProperties', () => {
           'http://id.loc.gov/ontologies/bibframe/content': {
             items: [
               {
-                id: 'http://id.loc.gov/vocabulary/contentTypes/txt',
+                id: 'abc123',
                 label: 'text',
                 uri: 'http://id.loc.gov/vocabulary/contentTypes/txt',
               },
