@@ -3,7 +3,7 @@
 import {
   removeMyItem, setItemsOrSelections, setBaseURL,
   validate, showGroupChooser, closeGroupChooser, showRdfPreview,
-  showResourceURIMessage, clearingResourceURIMessage,
+  showResourceURIMessage, clearResourceURIMessage,
 } from 'reducers/inputs'
 
 import {
@@ -365,15 +365,15 @@ describe('showResourceURIMessage', () => {
   })
 })
 
-describe('clearingResourceURIMessage', () => {
+describe('clearResourceURIMessage', () => {
   it('turns off the Resource URI message display', () => {
     initialState.editor.resourceURIMessage = {
       show: true,
       uri: 'this message will disapear',
     }
 
-    const result = clearingResourceURIMessage(initialState, {
-      type: 'CLEARING_RESOURCE_URI_MESSAGE',
+    const result = clearResourceURIMessage(initialState, {
+      type: 'CLEAR_RESOURCE_URI_MESSAGE',
     })
 
     expect(result.editor.resourceURIMessage.show).toBe(false)
