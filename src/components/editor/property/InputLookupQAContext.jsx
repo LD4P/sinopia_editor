@@ -1,8 +1,5 @@
 // Copyright 2019 Stanford University see LICENSE for license
 import React, { Component } from 'react'
-import {
-  Menu, MenuItem, Typeahead, asyncContainer, Token,
-} from 'react-bootstrap-typeahead'
 import { getOptionLabel } from 'react-bootstrap-typeahead/lib/utils'
 
 import PropTypes from 'prop-types'
@@ -33,23 +30,11 @@ class InputLookupQAContext extends Component {
     }
   }
 
-
-  get isMandatory() {
-    return booleanPropertyFromTemplate(this.props.propertyTemplate, 'mandatory', false)
-  }
-
-  get isRepeatable() {
-    return booleanPropertyFromTemplate(this.props.propertyTemplate, 'repeatable', true)
-  }
-
-  // This needs to be different for context
+  // This needs to be different for context than for typeahead
   validate() {
-    if (!this.typeahead) {
-      return
-    }
-    const selected = this.typeahead.getInstance().state.selected
-
-    return this.props.displayValidations && this.isMandatory && selected.length < 1 ? 'Required' : undefined
+    // this checks selected options in the state
+    const selected = this.state.selectedResultsList
+    return this.props.displayValidations && this.props.isMandatory && selected.length < 1 ? 'Required' : undefined
   }
 
   // Add selections to selected uris for this field
@@ -326,19 +311,7 @@ class InputLookupQAContext extends Component {
   }
 
   handleDeleteClick = (event) => {
-    // const labelToRemove = event.target.dataset.label
-    // const idToRemove = event.target.dataset.item
     this.props.handleRemoveItem(this.props.reduxPath, event.target.dataset.item)
-
-    /*
-    this.props.handleRemoveItem(
-      {
-        id: idToRemove,
-        label: labelToRemove,
-        reduxPath: this.props.reduxPath,
-        uri: this.props.propertyTemplate.propertyURI,
-      },
-    ) */
     this.setState({ disabled: false })
   }
 
@@ -350,8 +323,8 @@ class InputLookupQAContext extends Component {
 
     const typeaheadProps = {
       id: 'lookupComponent',
-      required: this.isMandatory,
-      multiple: this.isRepeatable,
+      required: this.props.isMandatory,
+      multiple: this.props.isRepeatable,
       placeholder: this.props.propertyTemplate.propertyLabel,
       options: this.props.options,
       selected: this.props.selected,
@@ -398,6 +371,9 @@ InputLookupQAContext.propTypes = {
   propertyTemplate: SinopiaPropTypes.propertyTemplate,
   reduxPath: PropTypes.oneOfType([PropTypes.string, PropTypes.array]),
   selected: PropTypes.arrayOf(PropTypes.object),
+  isMandatory: PropTypes.bool,
+  isRepeatable: PropTypes.bool,
+  key: PropTypes.string,
 }
 
 const mapStateToProps = (state, ownProps) => {

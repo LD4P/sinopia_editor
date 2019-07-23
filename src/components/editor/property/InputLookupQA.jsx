@@ -16,7 +16,7 @@ import { booleanPropertyFromTemplate, getLookupConfigItems } from 'Utilities'
 import Config from 'Config'
 import InputLookupQATypeahead from './InputLookupQATypeahead'
 import InputLookupQAContext from './InputLookupQAContext'
-import InputLookupQADiscogs from './InputLookupQADiscogs'
+// import InputLookupQADiscogs from './InputLookupQADiscogs'
 
 const AsyncTypeahead = asyncContainer(Typeahead)
 
@@ -101,7 +101,6 @@ class InputLookupQA extends Component {
             values[i].authURI = lookupConfigs[i].uri
           }
         }
-        console.log('Updating options in parent state')
         this.setState({
           isLoading: false,
           options: values,
@@ -125,26 +124,25 @@ class InputLookupQA extends Component {
       }
       // typeahead by default otherwise use subtype
       const componentType = this.getComponentType()
-      // let componentType = 'typeahead'
+      // some options will be shared across component
+      // const componentType = 'typeahead'
       if (componentType === 'context')
       { return (<InputLookupQAContext
           isloading={this.state.isLoading}
-          options={this.state.options}
-          doSearch={this.doSearch}
           clearOptions={this.clearOptions}
-          {...this.props}
-      />) }
-      if (componentType === 'discogs')
-      { return (<InputLookupQADiscogs
-          isLoading={this.state.isLoading}
           options={this.state.options}
           doSearch={this.doSearch}
+          isMandatory={this.isMandatory}
+          isRepeatable={this.isRepeatable}
           {...this.props}
       />) }
+      // Both Discogs and Typeahead are in one component
       return (<InputLookupQATypeahead
           isLoading={this.state.isLoading}
           options={this.state.options}
           doSearch={this.doSearch}
+          isMandatory={this.isMandatory}
+          isRepeatable={this.isRepeatable}
           {...this.props}
       />)
     }
@@ -156,15 +154,6 @@ class InputLookupQA extends Component {
 
     get isRepeatable() {
       return booleanPropertyFromTemplate(this.props.propertyTemplate, 'repeatable', true)
-    }
-
-    validate() {
-      if (!this.typeahead) {
-        return
-      }
-      const selected = this.typeahead.getInstance().state.selected
-
-      return this.props.displayValidations && this.isMandatory && selected.length < 1 ? 'Required' : undefined
     }
 }
 InputLookupQA.propTypes = {

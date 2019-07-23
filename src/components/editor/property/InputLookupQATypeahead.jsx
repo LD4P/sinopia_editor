@@ -29,22 +29,16 @@ class InputLookupQATypeahead extends Component {
     }
   }
 
-  // Render token function to be used by typeahead
-  renderTokenFunc = (option, props, idx) => {
-    const optionLabel = getOptionLabel(option, props.labelKey)
-    const children = option.uri ? (<a href={option.uri} rel="noopener noreferrer" target="_blank">{optionLabel}</a>) : optionLabel
-    return (
-      <Token
-          disabled={props.disabled}
-          key={idx}
-          onRemove={props.onRemove}
-          tabIndex={props.tabIndex}>
-        { children }
-      </Token>
-    )
+  validate() {
+    if (!this.typeahead) {
+      return
+    }
+    const selected = this.typeahead.getInstance().state.selected
+
+    return this.props.displayValidations && this.props.isMandatory && selected.length < 1 ? 'Required' : undefined
   }
 
-  // Render menu function to be used by typeahead
+  // Render menu function to be used by typeahead functions
   renderMenuFunc = (results, menuProps) => {
     const items = []
     let menuItemIndex = 0
@@ -90,9 +84,10 @@ class InputLookupQATypeahead extends Component {
       }
 
       body.forEach((innerResult) => {
+        const menuItemContent = this.renderContext(innerResult, authLabel)
         items.push(
           <MenuItem option={innerResult} position={menuItemIndex} key={menuItemIndex}>
-            {innerResult.label}
+            {menuItemContent}
           </MenuItem>,
         )
         menuItemIndex++
@@ -106,72 +101,139 @@ class InputLookupQATypeahead extends Component {
     )
   }
 
-  get isMandatory() {
-    return booleanPropertyFromTemplate(this.props.propertyTemplate, 'mandatory', false)
-  }
 
-  get isRepeatable() {
-    return booleanPropertyFromTemplate(this.props.propertyTemplate, 'repeatable', true)
-  }
-
-  validate() {
-    if (!this.typeahead) {
-      return
-    }
-    const selected = this.typeahead.getInstance().state.selected
-
-    return this.props.displayValidations && this.isMandatory && selected.length < 1 ? 'Required' : undefined
-  }
-
-  render() {
-    // Don't render if no property template yet
-    if (!this.props.propertyTemplate) {
-      return null
-    }
-
-    const typeaheadProps = {
-      id: 'lookupComponent',
-      required: this.isMandatory,
-      multiple: this.isRepeatable,
-      placeholder: this.props.propertyTemplate.propertyLabel,
-      useCache: true,
-      selectHintOnEnter: true,
-      isLoading: this.props.isLoading,
-      onSearch: this.props.doSearch,
-      options: this.props.options,
-      selected: this.props.selected,
-      delay: 300,
-    }
-
-    let groupClasses = 'form-group'
-    const error = this.validate()
-
-    if (error) {
-      groupClasses += ' has-error'
-    }
+  // Render token function to be used by typeahead
+  renderTokenFunc = (option, props, idx) => {
+    const optionLabel = getOptionLabel(option, props.labelKey)
+    const children = option.uri ? (<a href={option.uri} rel="noopener noreferrer" target="_blank">{optionLabel}</a>) : optionLabel
     return (
-      <div className={groupClasses}>
-        <AsyncTypeahead renderMenu={(results, menuProps) => this.renderMenuFunc(results, menuProps)}
-                        ref={typeahead => this.typeahead = typeahead }
-                        onChange={(selected) => {
-                          const payload = {
-                            uri: this.props.propertyTemplate.propertyURI,
-                            items: selected,
-                            reduxPath: this.props.reduxPath,
-                          }
-
-                          this.props.handleSelectedChange(payload)
-                        }}
-                        renderToken={(option, props, idx) => this.renderTokenFunc(option, props, idx)}
-                        {...typeaheadProps}
-
-                        filterBy={() => true
-                        }
-        />
-        {error && <span className="help-block">{error}</span>}
-      </div>
+      <Token
+          disabled={props.disabled}
+          key={idx}
+          onRemove={props.onRemove}
+          tabIndex={props.tabIndex}>
+        { children }
+      </Token>
     )
   }
+
+  // Discogs specific functions
+  // This relies on auth label but would be better dependent on authority URI
+  renderContext = (innerResult, authLabel) => {
+    switch (authLabel) {
+      case 'Discogs':
+        return this.buildDiscogsContext(innerResult)
+      default:
+        return innerResult.label
+    }
+  }
+
+    buildDiscogsContext = (innerResult) => {
+      const discogsContainer = {
+        padding: '0 0 4px 3px',
+      }
+
+      const detailsContainer = {
+        padding: '0 0 0 8px',
+        whiteSpace: 'normal',
+      }
+
+      const imageContainer = {
+        width: '50px',
+        overflow: 'hidden',
+        padding: '3px 0 0',
+        textAlign: 'center',
+      }
+
+      const discogsImageStyle = {
+        width: '100%',
+        marginRight: '10px',
+        verticalAlign: 'top',
+      }
+
+      const typeSpan = {
+        paddingLeft: '8px',
+      }
+
+
+      const url = innerResult.uri
+      const context = innerResult.context
+      const image_url = context['Image URL'][0]
+      let year = ''
+      if (context.Year[0].length > 0) {
+        year = `(${context.Year[0]})`
+      }
+      const rec_label = context['Record Labels'][0]
+      const formats = context.Formats.toString()
+      const discogs_type = context.Type[0]
+      const target = '_blank'
+      const type = context.Type[0].charAt(0).toUpperCase() + context.Type[0].slice(1)
+      const row = 'row'
+      const colTwo = 'col-md-2'
+      const colTen = 'col-md-10'
+      return (
+        <div className={row} style={discogsContainer}>
+          <div className={colTwo} style={imageContainer}>
+            <img alt="Result" style={discogsImageStyle} src={image_url}/><br />
+          </div>
+          <div className={colTen} style={detailsContainer}>
+            {innerResult.label} {year}<br />
+            <b>Format: </b>{formats}<br />
+            <b>Label: </b>{rec_label}<span style={typeSpan}><b>Type: </b>{type}</span>
+          </div>
+        </div>
+      )
+    }
+
+    render() {
+    // Don't render if no property template yet
+      if (!this.props.propertyTemplate) {
+        return null
+      }
+
+      const typeaheadProps = {
+        id: 'lookupComponent',
+        required: this.props.isMandatory,
+        multiple: this.props.isRepeatable,
+        placeholder: this.props.propertyTemplate.propertyLabel,
+        useCache: true,
+        selectHintOnEnter: true,
+        isLoading: this.props.isLoading,
+        onSearch: this.props.doSearch,
+        options: this.props.options,
+        selected: this.props.selected,
+        delay: 300,
+      }
+
+      let groupClasses = 'form-group'
+      const error = this.validate()
+
+      if (error) {
+        groupClasses += ' has-error'
+      }
+      return (
+        <div className={groupClasses}>
+          <AsyncTypeahead renderMenu={(results, menuProps) => this.renderMenuFunc(results, menuProps)}
+                          ref={typeahead => this.typeahead = typeahead }
+                          onChange={(selected) => {
+                            const payload = {
+                              uri: this.props.propertyTemplate.propertyURI,
+                              items: selected,
+                              reduxPath: this.props.reduxPath,
+                            }
+
+                            this.props.handleSelectedChange(payload)
+                          }}
+                          renderToken={(option, props, idx) => this.renderTokenFunc(option, props, idx)}
+                          {...typeaheadProps}
+
+                          filterBy={() => true
+                          }
+          />
+          {error && <span className="help-block">{error}</span>}
+        </div>
+      )
+    }
 }
 
 InputLookupQATypeahead.propTypes = {
@@ -184,6 +246,8 @@ InputLookupQATypeahead.propTypes = {
   propertyTemplate: SinopiaPropTypes.propertyTemplate,
   reduxPath: PropTypes.oneOfType([PropTypes.string, PropTypes.array]),
   selected: PropTypes.arrayOf(PropTypes.object),
+  isMandatory: PropTypes.bool,
+  isRepeatable: PropTypes.bool,
 }
 
 const mapStateToProps = (state, ownProps) => {
