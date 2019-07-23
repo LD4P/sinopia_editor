@@ -6,9 +6,12 @@ import PropTypes from 'prop-types'
 import SinopiaPropTypes from 'SinopiaPropTypes'
 import Config from 'Config'
 import { connect } from 'react-redux'
-import { itemsForProperty, getDisplayValidations, getPropertyTemplate } from 'selectors/resourceSelectors'
+import {
+  itemsForProperty, getDisplayValidations, getPropertyTemplate, findErrors,
+} from 'selectors/resourceSelectors'
 import { changeSelections } from 'actions/index'
 import { booleanPropertyFromTemplate } from 'Utilities'
+import _ from 'lodash'
 
 const AsyncTypeahead = asyncContainer(Typeahead)
 
@@ -49,10 +52,12 @@ const InputLookupSinopia = (props) => {
     props.handleSelectedChange(payload)
   }
 
-  const error = props.displayValidations && isMandatory && props.selected.length < 1 ? 'Required' : undefined
+  let error
   let groupClasses = 'form-group'
-  if (error) {
+
+  if (props.displayValidations && !_.isEmpty(props.errors)) {
     groupClasses += ' has-error'
+    error = props.errors.join(',')
   }
 
   return (
@@ -78,6 +83,7 @@ InputLookupSinopia.propTypes = {
   propertyTemplate: SinopiaPropTypes.propertyTemplate,
   reduxPath: PropTypes.oneOfType([PropTypes.string, PropTypes.array]),
   selected: PropTypes.arrayOf(PropTypes.object),
+  errors: PropTypes.array,
 }
 
 const mapStateToProps = (state, ownProps) => {
@@ -86,6 +92,7 @@ const mapStateToProps = (state, ownProps) => {
   const propertyURI = reduxPath[reduxPath.length - 1]
   const displayValidations = getDisplayValidations(state)
   const propertyTemplate = getPropertyTemplate(state, resourceTemplateId, propertyURI)
+  const errors = findErrors(state.selectorReducer, ownProps.reduxPath)
 
   // Make sure that every item has a label
   // This is a temporary strategy until label lookup is implemented.
@@ -102,6 +109,7 @@ const mapStateToProps = (state, ownProps) => {
     reduxPath,
     propertyTemplate,
     displayValidations,
+    errors,
   }
 }
 

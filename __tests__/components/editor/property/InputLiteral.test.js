@@ -138,22 +138,10 @@ describe('When the user enters input into field', () => {
     mockItemsChange.mock.calls = [] // Reset the redux store to empty
   })
 
-  it('required is only true for first item in myItems array', () => {
+  it('required is true if mandatory', () => {
     mockWrapper.instance().props.propertyTemplate.mandatory = 'true'
-    mockWrapper.instance().props.propertyTemplate.repeatable = 'true'
     mockWrapper.instance().forceUpdate()
     expect(mockWrapper.find('input').prop('required')).toBeTruthy()
-    mockWrapper.find('input').simulate('change', { target: { value: 'foo' } })
-    expect(mockWrapper.state('content_add')).toEqual('foo')
-    mockWrapper.find('input').simulate('keypress', { key: 'Enter', preventDefault: () => {} })
-    mockWrapper.setProps({
-      formData: {
-        id: 1,
-        uri: 'http://id.loc.gov/ontologies/bibframe/instanceOf',
-      },
-      items: [{ content: 'foo', id: 4, lang: { items: [{ label: 'English' }] } }],
-    })
-    expect(mockWrapper.find('input').prop('required')).toBeFalsy()
   })
 
   it('item appears when user inputs text into the field', () => {
@@ -303,5 +291,18 @@ describe('When a user enters non-roman text in a work title', () => {
       items: [{ content: artOfWar, id: 1, lang: { label: 'Mandarin' } }],
     })
     expect(workTitleWrapper.find('div#userInput').text().includes(artOfWar)).toBeTruthy()
+  })
+})
+
+describe('Errors', () => {
+  const errors = ['Required']
+  const wrapper = shallow(<InputLiteral displayValidations={true} errors={errors} {...plProps}/>)
+
+  it('displays the errors', () => {
+    expect(wrapper.find('span.help-block').text()).toEqual('Required')
+  })
+
+  it('sets the has-error class', () => {
+    expect(wrapper.exists('div.has-error')).toEqual(true)
   })
 })

@@ -7,8 +7,11 @@ import SinopiaPropTypes from 'SinopiaPropTypes'
 import { connect } from 'react-redux'
 import shortid from 'shortid'
 import { changeSelections } from 'actions/index'
-import { itemsForProperty, getDisplayValidations, getPropertyTemplate } from 'selectors/resourceSelectors'
+import {
+  itemsForProperty, getDisplayValidations, getPropertyTemplate, findErrors,
+} from 'selectors/resourceSelectors'
 import { booleanPropertyFromTemplate, getLookupConfigItems } from 'Utilities'
+import _ from 'lodash'
 
 // propertyTemplate of type 'lookup' does live QA lookup via API
 //  based on URI in propertyTemplate.valueConstraint.useValuesFrom,
@@ -38,15 +41,6 @@ class InputListLOC extends Component {
 
   get isRepeatable() {
     return booleanPropertyFromTemplate(this.props.propertyTemplate, 'repeatable', true)
-  }
-
-  validate() {
-    if (!this.typeahead) {
-      return
-    }
-    const selected = this.typeahead.state.selected
-
-    return this.props.displayValidations && this.isMandatory && selected.length < 1 ? 'Required' : undefined
   }
 
   responseToOptions(json) {
@@ -106,11 +100,13 @@ class InputListLOC extends Component {
       options: this.state.options,
       selected: this.props.selected,
     }
-    let groupClasses = 'form-group'
-    const error = this.validate()
 
-    if (error) {
+    let error
+    let groupClasses = 'form-group'
+
+    if (this.props.displayValidations && !_.isEmpty(this.props.errors)) {
       groupClasses += ' has-error'
+      error = this.props.errors.join(',')
     }
 
     return (
@@ -136,6 +132,7 @@ InputListLOC.propTypes = {
   propertyTemplate: SinopiaPropTypes.propertyTemplate,
   reduxPath: PropTypes.array,
   selected: PropTypes.arrayOf(PropTypes.object),
+  errors: PropTypes.array,
 }
 
 const mapStateToProps = (state, ownProps) => {
@@ -145,6 +142,7 @@ const mapStateToProps = (state, ownProps) => {
   const displayValidations = getDisplayValidations(state)
   const propertyTemplate = getPropertyTemplate(state, resourceTemplateId, propertyURI)
   const lookupConfig = getLookupConfigItems(propertyTemplate)
+  const errors = findErrors(state.selectorReducer, ownProps.reduxPath)
 
   // Make sure that every item has a label
   // This is a temporary strategy until label lookup is implemented.
@@ -161,6 +159,7 @@ const mapStateToProps = (state, ownProps) => {
     propertyTemplate,
     displayValidations,
     lookupConfig,
+    errors,
   }
 }
 

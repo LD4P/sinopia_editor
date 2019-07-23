@@ -5,12 +5,24 @@ import {
   validate, showGroupChooser, closeGroupChooser, showRdfPreview,
   showResourceURIMessage,
 } from 'reducers/inputs'
-
 import {
   findNode,
 } from 'selectors/resourceSelectors'
+import Validator from 'ResourceValidator'
 
 let initialState
+
+jest.mock('ResourceValidator')
+
+beforeAll(() => {
+  Validator.mockImplementation(() => {
+    return {
+      validate: () => {
+        return [{}, []]
+      },
+    }
+  })
+})
 
 beforeEach(() => {
   initialState = {
@@ -54,13 +66,13 @@ describe('showGroupChooser()', () => {
 
   describe('when the state is invalid', () => {
     it('sets displayValidations to true', () => {
-      initialState.resource = {
-        'resourceTemplate:Monograph:Instance': {
-          'http://id.loc.gov/ontologies/bibframe/title': {
+      Validator.mockImplementationOnce(() => {
+        return {
+          validate: () => {
+            return [{}, ['error']]
           },
-        },
-      }
-      initialState.entities.resourceTemplates['resourceTemplate:Monograph:Instance'].propertyTemplates[2].mandatory = 'true'
+        }
+      })
       const result = showGroupChooser(initialState)
 
       expect(result.editor.displayValidations).toBe(true)
@@ -430,7 +442,6 @@ describe('removeMyItem', () => {
 describe('validate', () => {
   it('returns a new state', () => {
     const result = validate(initialState)
-
     expect(findNode(result, ['resource', 'editor', 'displayValidations'])).toBeTruthy()
   })
 })

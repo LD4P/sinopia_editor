@@ -46,6 +46,19 @@ describe('<OutlineHeader />', () => {
     it('does not have a remove button', () => {
       expect(wrapper.exists('button.btn-remove')).toEqual(false)
     })
+
+    describe('Errors', () => {
+      const errors = ['Required']
+      const wrapper = shallow(<OutlineHeader.WrappedComponent displayValidations={true} errors={errors} {...headerProps}/>)
+
+      it('displays the errors', () => {
+        expect(wrapper.find('span.help-block').text()).toEqual('Required')
+      })
+
+      it('sets the has-error class', () => {
+        expect(wrapper.exists('div.has-error')).toEqual(true)
+      })
+    })
   })
 
   describe('collapsed and added', () => {

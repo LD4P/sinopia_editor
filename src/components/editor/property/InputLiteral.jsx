@@ -6,10 +6,12 @@ import SinopiaPropTypes from 'SinopiaPropTypes'
 import { connect } from 'react-redux'
 import shortid from 'shortid'
 import { removeItem, itemsSelected } from 'actions/index'
-import { findNode, getDisplayValidations, getPropertyTemplate } from 'selectors/resourceSelectors'
+import {
+  findNode, getDisplayValidations, getPropertyTemplate, findErrors,
+} from 'selectors/resourceSelectors'
 import LanguageButton from './LanguageButton'
 import { booleanPropertyFromTemplate, defaultLangTemplate } from 'Utilities'
-
+import _ from 'lodash'
 
 // Redux recommends exporting the unconnected component for unit tests.
 export class InputLiteral extends Component {
@@ -85,13 +87,6 @@ export class InputLiteral extends Component {
     this.inputLiteralRef.current.focus()
   }
 
-  /**
-   * @return {bool} true if the field should be marked as required (e.g. not all obligations met)
-   */
-  checkMandatoryRepeatable = () => booleanPropertyFromTemplate(this.props.propertyTemplate, 'mandatory', false)
-      && this.props.formData.errors
-      && this.props.formData.errors.length !== 0
-
   makeAddedList = () => {
     if (this.props.items === undefined) {
       return
@@ -133,12 +128,13 @@ export class InputLiteral extends Component {
       return null
     }
 
-    const required = this.checkMandatoryRepeatable()
-    const error = this.props.displayValidations && required ? 'Required' : undefined
+    const required = booleanPropertyFromTemplate(this.props.propertyTemplate, 'mandatory', false)
+    let error
     let groupClasses = 'form-group'
 
-    if (error) {
+    if (this.props.displayValidations && !_.isEmpty(this.props.errors)) {
       groupClasses += ' has-error'
+      error = this.props.errors.join(',')
     }
 
     return (
@@ -168,8 +164,8 @@ InputLiteral.propTypes = {
   formData: PropTypes.shape({
     id: PropTypes.oneOfType([PropTypes.number, PropTypes.string]),
     uri: PropTypes.string,
-    errors: PropTypes.array,
   }),
+  errors: PropTypes.array,
   items: PropTypes.array,
   handleMyItemsChange: PropTypes.func,
   handleRemoveItem: PropTypes.func,
@@ -177,12 +173,13 @@ InputLiteral.propTypes = {
   displayValidations: PropTypes.bool,
 }
 
-const mapStateToProps = (state, props) => {
-  const reduxPath = props.reduxPath
+const mapStateToProps = (state, ownProps) => {
+  const reduxPath = ownProps.reduxPath
   const resourceTemplateId = reduxPath[reduxPath.length - 2]
   const propertyURI = reduxPath[reduxPath.length - 1]
   const displayValidations = getDisplayValidations(state)
   const formData = findNode(state.selectorReducer, reduxPath)
+  const errors = findErrors(state.selectorReducer, reduxPath)
   // items has to be its own prop or rerendering won't occur when one is removed
   const items = formData.items
   const propertyTemplate = getPropertyTemplate(state, resourceTemplateId, propertyURI)
@@ -192,6 +189,7 @@ const mapStateToProps = (state, props) => {
     items,
     propertyTemplate,
     displayValidations,
+    errors,
   }
 }
 

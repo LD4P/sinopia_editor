@@ -250,4 +250,17 @@ describe('<InputLookupQA />', () => {
     expect(menuWrapper.childAt(4).html()).toEqual('<li class="dropdown-header">New URI</li>')
     expect(menuWrapper.childAt(5).childAt(0).text()).toEqual('http://id.loc.gov/authorities/subjects/123456789')
   })
+
+  describe('Errors', () => {
+    const errors = ['Required']
+    const wrapper = shallow(<InputLookupQA.WrappedComponent displayValidations={true} errors={errors} {...plProps}/>)
+
+    it('displays the errors', () => {
+      expect(wrapper.find('span.help-block').text()).toEqual('Required')
+    })
+
+    it('sets the has-error class', () => {
+      expect(wrapper.exists('div.has-error')).toEqual(true)
+    })
+  })
 })

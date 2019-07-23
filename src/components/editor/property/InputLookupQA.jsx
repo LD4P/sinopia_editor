@@ -10,10 +10,13 @@ import SinopiaPropTypes from 'SinopiaPropTypes'
 import Swagger from 'swagger-client'
 import swaggerSpec from 'lib/apidoc.json'
 import { connect } from 'react-redux'
-import { itemsForProperty, getDisplayValidations, getPropertyTemplate } from 'selectors/resourceSelectors'
+import {
+  itemsForProperty, getDisplayValidations, getPropertyTemplate, findErrors,
+} from 'selectors/resourceSelectors'
 import { changeSelections } from 'actions/index'
 import { booleanPropertyFromTemplate, getLookupConfigItems, isValidURI } from 'Utilities'
 import Config from 'Config'
+import _ from 'lodash'
 
 const AsyncTypeahead = asyncContainer(Typeahead)
 
@@ -130,15 +133,6 @@ class InputLookupQA extends Component {
     return booleanPropertyFromTemplate(this.props.propertyTemplate, 'repeatable', true)
   }
 
-  validate() {
-    if (!this.typeahead) {
-      return
-    }
-    const selected = this.typeahead.getInstance().state.selected
-
-    return this.props.displayValidations && this.isMandatory && selected.length < 1 ? 'Required' : undefined
-  }
-
   search() {
     const lookupConfigs = this.props.lookupConfig
 
@@ -223,11 +217,12 @@ class InputLookupQA extends Component {
       delay: 300,
     }
 
+    let error
     let groupClasses = 'form-group'
-    const error = this.validate()
 
-    if (error) {
+    if (this.props.displayValidations && !_.isEmpty(this.props.errors)) {
       groupClasses += ' has-error'
+      error = this.props.errors.join(',')
     }
     return (
       <div className={groupClasses}>
@@ -261,6 +256,7 @@ InputLookupQA.propTypes = {
   propertyTemplate: SinopiaPropTypes.propertyTemplate,
   reduxPath: PropTypes.oneOfType([PropTypes.string, PropTypes.array]),
   selected: PropTypes.arrayOf(PropTypes.object),
+  errors: PropTypes.array,
 }
 
 const mapStateToProps = (state, ownProps) => {
@@ -270,6 +266,7 @@ const mapStateToProps = (state, ownProps) => {
   const displayValidations = getDisplayValidations(state)
   const propertyTemplate = getPropertyTemplate(state, resourceTemplateId, propertyURI)
   const lookupConfig = getLookupConfigItems(propertyTemplate)
+  const errors = findErrors(state.selectorReducer, ownProps.reduxPath)
 
   // Make sure that every item has a label
   // This is a temporary strategy until label lookup is implemented.
@@ -287,6 +284,7 @@ const mapStateToProps = (state, ownProps) => {
     propertyTemplate,
     displayValidations,
     lookupConfig,
+    errors,
   }
 }
 
