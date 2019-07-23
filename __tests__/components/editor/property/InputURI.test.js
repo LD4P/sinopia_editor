@@ -213,3 +213,16 @@ describe('when there is a default literal value in the property template', () =>
     })
   })
 })
+
+describe('Errors', () => {
+  const errors = ['Required']
+  const wrapper = shallow(<InputURI.WrappedComponent displayValidations={true} errors={errors} {...plProps}/>)
+
+  it('displays the errors', () => {
+    expect(wrapper.find('span.help-block').text()).toEqual('Required')
+  })
+
+  it('sets the has-error class', () => {
+    expect(wrapper.exists('div.has-error')).toEqual(true)
+  })
+})
