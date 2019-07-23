@@ -5,6 +5,7 @@ import {
   assignBaseURL, updateStarted, updateFinished,
   retrieveResourceStarted, setResource, updateProperty,
   toggleCollapse, appendResource, clearResourceTemplates,
+  clearResourceURIMessage,
 } from 'actions/index'
 import { fetchResourceTemplate } from 'actionCreators/resourceTemplates'
 import { updateRDFResource, loadRDFResource } from 'sinopiaServer'
@@ -47,12 +48,14 @@ export const newResource = resourceTemplateId => (dispatch) => {
   const resource = {}
   resource[resourceTemplateId] = {}
   dispatch(clearResourceTemplates())
+  dispatch(clearResourceURIMessage())
   dispatch(setResource(resource))
   dispatch(stubResource(true))
 }
 
 // A thunk that stubs out an existing new resource
 export const existingResource = (resource, uri) => (dispatch) => {
+  dispatch(clearResourceURIMessage())
   dispatch(setResource(resource))
   dispatch(assignBaseURL(uri))
   dispatch(stubResource(false))

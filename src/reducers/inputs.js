@@ -153,7 +153,7 @@ export const showResourceURIMessage = (state, action) => {
  * @param {Object} action the payload of the action is the URI returned from saving the resource
  * @return {Object} the next redux state
  */
-export const clearingResourceURIMessage = (state) => {
+export const clearResourceURIMessage = (state) => {
   const newState = { ...state }
 
   newState.editor.resourceURIMessage.show = false

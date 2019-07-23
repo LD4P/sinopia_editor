@@ -10,13 +10,11 @@ describe('<ResourceTemplate />', () => {
     resourceLabel: 'BF2 Work',
   }
   const loadLanguages = jest.fn()
-  const clearResourceURIMessage = jest.fn()
 
   const wrapper = shallow(<ResourceTemplate.WrappedComponent resourceTemplateId="resourceTemplate:bf2:Note"
                                                              resourceTemplate={resourceTemplate}
                                                              loadLanguages={loadLanguages}
-                                                             retrieveResourceTemplate={jest.fn()}
-                                                             clearResourceURIMessage={clearResourceURIMessage} />)
+                                                             retrieveResourceTemplate={jest.fn()} />)
   it('loads the languages', () => {
     expect(loadLanguages).toHaveBeenCalled()
   })
