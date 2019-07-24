@@ -76,6 +76,8 @@ describe('When the user enters input into field', () => {
     mockWrapper.find('input').simulate('change', { target: { value: 'Not a URI' } })
     mockWrapper.find('input').simulate('keypress', { key: 'Enter', preventDefault: () => {} })
     expect(mockItemsChange).not.toHaveBeenCalled()
+    expect(mockWrapper.find('span.help-block').text()).toEqual('Not a valid URI.')
+    expect(mockWrapper.exists('div.has-error')).toEqual(true)
   })
 
   it('is called with the users input as arguments', () => {
