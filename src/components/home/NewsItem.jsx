@@ -7,15 +7,16 @@ const NewsItem = () => (
   <div className="news-item">
     <h1> What&#8217;s New </h1>
     <ul>
-      <li>Release {version} is live, including these features</li>
+      <li>Release {version} is live, including these features:</li>
       <ul>
-        <li>You can now enter URIs and literals in input boxes that previously only allowed selections from LC lookups.
-        </li>
-        <li>Improved validation and display of validation errors
-        </li>
+        <li>List of Available Resource Templates has additional columns and sorts automatically</li>
+        <li>You can now enter URIs and literals in lookup fields</li>
+        <li>Editor validates whether mandatory fields are filled in within nested Resource Templates</li>
+        <li>Improved validation and display of validation errors</li>
+        <li>Editor provides confirmation message including newly minted URI when you click Save</li>
+        <li>New Load RDF feature</li>
       </ul>
-      <li>For complete release notes see the <a href="https%3A%2F%2Fgithub.com%2FLD4P%2Fsinopia%2Fwiki%2FLatest-Release%2C-What's-Next
-">Sinopia help site</a>.
+      <li>For complete release notes see the <a href="https://github.com/LD4P/sinopia/wiki/Latest-Release,-What's-Next">Sinopia help site</a>.
       </li>
     </ul>
   </div>
