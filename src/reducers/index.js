@@ -104,6 +104,13 @@ export const toggleCollapse = (state, action) => {
   return newState
 }
 
+export const updateFinished = (state) => {
+  const newState = { ...state }
+  newState.editor.lastSave = Date.now()
+
+  return newState
+}
+
 const handlers = {
   ITEMS_SELECTED: setItemsOrSelections,
   CHANGE_SELECTIONS: setItemsOrSelections,
@@ -129,6 +136,7 @@ const handlers = {
   SET_RESOURCE_TEMPLATE_SUMMARY: setResourceTemplateSummary,
   LANGUAGES_RECEIVED: languagesReceived,
   LOADING_LANGUAGES: loadingLanguages,
+  UPDATE_FINISHED: updateFinished,
 }
 
 export const createReducer = handlers => (state = {}, action) => {
