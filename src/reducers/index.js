@@ -4,7 +4,7 @@ import { combineReducers } from 'redux'
 import authenticate from './authenticate'
 import {
   removeMyItem, setItemsOrSelections, setBaseURL, showResourceURIMessage, clearResourceURIMessage,
-  setMyItemsLang, showGroupChooser, closeGroupChooser, showRdfPreview,
+  setMyItemsLang, showGroupChooser, closeGroupChooser, showRdfPreview, validate,
 } from './inputs'
 import {
   setResourceTemplate, clearResourceTemplates, setResourceTemplateSummary,
@@ -31,7 +31,7 @@ export const updateProperty = (state, action) => {
   const tempNode = findNode(newState, tempReduxPath)
   tempNode[propertyURI] = resourceFragment
 
-  return newState
+  return validate(newState)
 }
 
 export const appendResource = (state, action) => {
@@ -44,7 +44,7 @@ export const appendResource = (state, action) => {
   const parentReduxPath = reduxPath.slice(0, reduxPath.length - 2)
   const parentPropertyNode = findNode(newState, parentReduxPath)
   parentPropertyNode[key] = resource[key]
-  return newState
+  return validate(newState)
 }
 
 export const removeResource = (state, action) => {
@@ -54,7 +54,7 @@ export const removeResource = (state, action) => {
   const parentReduxPath = reduxPath.slice(0, reduxPath.length - 1)
   const parentPropertyNode = findNode(newState, parentReduxPath)
   delete parentPropertyNode[key]
-  return newState
+  return validate(newState)
 }
 
 export const setRetrieveError = (state, action) => {
