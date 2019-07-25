@@ -55,22 +55,33 @@ class InputLookupQATypeahead extends Component {
      */
     results.forEach((result, _i, list) => {
       if (result.customOption) {
+        let headerLabel
+        let option
         if (isValidURI(result.label)) {
-          items.push(<Menu.Header key="customOption-header">New URI</Menu.Header>)
-          const option = {
+          headerLabel = 'New URI'
+          option = {
             id: result.label,
             label: result.label,
             uri: result.label,
           }
-          items.push(
-            <MenuItem option={option} position={menuItemIndex} key={menuItemIndex}>
-              {result.label}
-            </MenuItem>,
-          )
-          menuItemIndex++
+        } else {
+          headerLabel = 'New Literal'
+          option = {
+            id: result.label,
+            label: result.label,
+            content: result.label,
+          }
         }
+        items.push(<Menu.Header key="customOption-header">{headerLabel}</Menu.Header>)
+        items.push(
+          <MenuItem option={option} position={menuItemIndex} key={menuItemIndex}>
+            {result.label}
+          </MenuItem>,
+        )
+        menuItemIndex++
         return
       }
+
       const authLabel = result.authLabel
       const headerKey = `${result.authURI}-header`
 
@@ -276,7 +287,11 @@ const mapStateToProps = (state, ownProps) => {
   const selected = itemsForProperty(state.selectorReducer, ownProps.reduxPath).map((item) => {
     const newItem = { ...item }
     if (newItem.label === undefined) {
-      newItem.label = newItem.uri
+      if (newItem.uri) {
+        newItem.label = newItem.uri
+      } else if (newItem.content) {
+        newItem.label = newItem.content
+      }
     }
     return newItem
   })

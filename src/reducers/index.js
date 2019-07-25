@@ -4,7 +4,7 @@ import { combineReducers } from 'redux'
 import authenticate from './authenticate'
 import {
   removeMyItem, setItemsOrSelections, setBaseURL, showResourceURIMessage, clearResourceURIMessage,
-  setMyItemsLang, showGroupChooser, closeGroupChooser, showRdfPreview,
+  setMyItemsLang, showGroupChooser, closeGroupChooser, showRdfPreview, validate,
 } from './inputs'
 import {
   setResourceTemplate, clearResourceTemplates, setResourceTemplateSummary,
@@ -31,7 +31,7 @@ export const updateProperty = (state, action) => {
   const tempNode = findNode(newState, tempReduxPath)
   tempNode[propertyURI] = resourceFragment
 
-  return newState
+  return validate(newState)
 }
 
 export const appendResource = (state, action) => {
@@ -44,7 +44,7 @@ export const appendResource = (state, action) => {
   const parentReduxPath = reduxPath.slice(0, reduxPath.length - 2)
   const parentPropertyNode = findNode(newState, parentReduxPath)
   parentPropertyNode[key] = resource[key]
-  return newState
+  return validate(newState)
 }
 
 export const removeResource = (state, action) => {
@@ -54,7 +54,7 @@ export const removeResource = (state, action) => {
   const parentReduxPath = reduxPath.slice(0, reduxPath.length - 1)
   const parentPropertyNode = findNode(newState, parentReduxPath)
   delete parentPropertyNode[key]
-  return newState
+  return validate(newState)
 }
 
 export const setRetrieveError = (state, action) => {
@@ -104,6 +104,13 @@ export const toggleCollapse = (state, action) => {
   return newState
 }
 
+export const updateFinished = (state) => {
+  const newState = { ...state }
+  newState.editor.lastSave = Date.now()
+
+  return newState
+}
+
 const handlers = {
   ITEMS_SELECTED: setItemsOrSelections,
   CHANGE_SELECTIONS: setItemsOrSelections,
@@ -129,6 +136,7 @@ const handlers = {
   SET_RESOURCE_TEMPLATE_SUMMARY: setResourceTemplateSummary,
   LANGUAGES_RECEIVED: languagesReceived,
   LOADING_LANGUAGES: loadingLanguages,
+  UPDATE_FINISHED: updateFinished,
 }
 
 export const createReducer = handlers => (state = {}, action) => {

@@ -29,7 +29,7 @@ export async function fillInRequredFieldsForBibframeInstance() {
   await page.type('[placeholder=\'Agent Contribution\']', 'Stanford family')
 
   // Wait until autosuggest has returned something to click on
-  await page.waitForSelector('#rbt-menu-item-0')
+  await page.waitForSelector('#rbt-menu-item-1')
   await page.click('#rbt-menu-item-0')
 }
 

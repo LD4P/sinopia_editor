@@ -9,6 +9,7 @@ import GraphBuilder from 'GraphBuilder'
 import Config from 'Config'
 import {
   closeGroupChooser, showRdfPreview, assignBaseURL, showResourceURIMessage,
+  updateStarted, updateFinished,
 } from 'actions/index'
 import { publishRDFResource } from 'sinopiaServer'
 import { getCurrentUser } from 'authSelectors'
@@ -26,10 +27,12 @@ const GroupChoiceModal = (props) => {
   }
 
   const saveAndClose = () => {
+    props.saveStarted()
     const request = publishRDFResource(props.currentUser, props.rdf(), selectedValue)
 
     request.then((result) => {
       props.setBaseURL(result.response.headers.location)
+      props.saveFinished()
     }).catch((err) => {
       alert('Unable to save resource')
       console.error('unable to save resource')
@@ -80,6 +83,8 @@ GroupChoiceModal.propTypes = {
   show: PropTypes.bool,
   rdf: PropTypes.func,
   currentUser: PropTypes.object,
+  saveStarted: PropTypes.func,
+  saveFinished: PropTypes.func,
 }
 
 const mapStateToProps = state => ({
@@ -98,6 +103,12 @@ const mapDispatchToProps = dispatch => ({
   setBaseURL(url) {
     dispatch(assignBaseURL(url))
     dispatch(showResourceURIMessage(url))
+  },
+  saveStarted() {
+    dispatch(updateStarted())
+  },
+  saveFinished() {
+    dispatch(updateFinished())
   },
 })
 
