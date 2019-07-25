@@ -6,6 +6,8 @@ import Editor from 'components/editor/Editor'
 import ResourceTemplate from 'components/editor/ResourceTemplate'
 import Header from 'components/Header'
 import AuthenticationMessage from 'components/editor/AuthenticationMessage'
+import SaveAndPublishButton from 'components/editor/SaveAndPublishButton'
+import { Prompt } from 'react-router'
 
 const props = {
   location: { state: { resourceTemplateId: 'resourceTemplate:bf:Note' } },
@@ -31,6 +33,12 @@ describe('<Editor />', () => {
     it('renders <AuthenticationMessage />', () => {
       expect(wrapper.exists(AuthenticationMessage)).toBe(true)
     })
+    it('renders <SaveAndPublishButton />', () => {
+      expect(wrapper.exists(SaveAndPublishButton)).toBe(true)
+    })
+    it('includes <Prompt />', () => {
+      expect(wrapper.exists(Prompt)).toBe(true)
+    })
   })
   describe('authenticated user', () => {
     props.currentSession = { dummy: 'should be CognitoUserSession instance, but just checked for presence at present' }
@@ -46,17 +54,6 @@ describe('<Editor />', () => {
 
     it('has preview RDF button', () => {
       expect(wrapper.findWhere(n => n.type() === 'button' && n.contains('Preview RDF')).exists()).toBeTruthy()
-    })
-  })
-
-  describe('Save & Publish button', () => {
-    const mockOpenHandler = jest.fn()
-    const wrapperHandler = () => mockOpenHandler
-    const wrapper = shallow(<Editor.WrappedComponent {...props} userWantsToSave={wrapperHandler}/>)
-
-    it('attempts to save the RDF content when save is clicked', () => {
-      wrapper.findWhere(n => n.type() === 'button' && n.contains('Save & Publish')).simulate('click')
-      expect(mockOpenHandler).toHaveBeenCalled()
     })
   })
 })

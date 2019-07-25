@@ -6,26 +6,28 @@ import {
   assignBaseURL, updateStarted, updateFinished,
   retrieveResourceStarted, setResource, updateProperty,
   toggleCollapse, appendResource, clearResourceTemplates,
-  clearResourceURIMessage,
+  clearResourceURIMessage, setLastSaveChecksum,
 } from 'actions/index'
 import { fetchResourceTemplate } from 'actionCreators/resourceTemplates'
 import { updateRDFResource, loadRDFResource } from 'sinopiaServer'
 import { rootResourceId } from 'selectors/resourceSelectors'
 import { findResourceTemplate } from 'selectors/entitySelectors'
 import GraphBuilder from 'GraphBuilder'
-import { isResourceWithValueTemplateRef, rdfDatasetFromN3, defaultValuesFromPropertyTemplate } from 'Utilities'
+import {
+  isResourceWithValueTemplateRef, rdfDatasetFromN3, defaultValuesFromPropertyTemplate, generateMD5,
+} from 'Utilities'
 import shortid from 'shortid'
 import ResourceStateBuilder from 'ResourceStateBuilder'
 import _ from 'lodash'
 
-// A thunk that updates an existing resource in Trellis
+// A thunk that updates (saves) an existing resource in Trellis
 export const update = currentUser => (dispatch, getState) => {
   dispatch(updateStarted())
 
   const uri = rootResourceId(getState())
-  const rdf = new GraphBuilder(getState().selectorReducer).graph.toString()
+  const rdf = new GraphBuilder(getState().selectorReducer).graph.toCanonical()
   return updateRDFResource(currentUser, uri, rdf)
-    .then(response => dispatch(updateFinished(response)))
+    .then(() => dispatch(updateFinished(generateMD5(rdf))))
 }
 
 // A thunk that loads an existing resource from Trellis
@@ -40,6 +42,7 @@ export const retrieveResource = (currentUser, uri) => (dispatch) => {
       return rdfDatasetFromN3(data).then((dataset) => {
         const builder = new ResourceStateBuilder(dataset, null)
         dispatch(existingResource(builder.state, uri))
+        dispatch(setLastSaveChecksum(generateMD5(dataset.toCanonical())))
       })
     })
 }
@@ -52,6 +55,7 @@ export const newResource = resourceTemplateId => (dispatch) => {
   dispatch(clearResourceURIMessage())
   dispatch(setResource(resource))
   dispatch(stubResource(true))
+  dispatch(setLastSaveChecksum(undefined))
 }
 
 // A thunk that stubs out an existing new resource
@@ -60,6 +64,7 @@ export const existingResource = (resource, uri) => (dispatch) => {
   dispatch(setResource(resource))
   dispatch(assignBaseURL(uri))
   dispatch(stubResource(false))
+  dispatch(setLastSaveChecksum(undefined))
 }
 
 // A thunk that expands a nested resource for a property

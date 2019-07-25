@@ -2,14 +2,13 @@
 
 import React from 'react'
 import { connect } from 'react-redux'
-import Button from 'react-bootstrap/lib/Button'
 import Modal from 'react-bootstrap/lib/Modal'
 import Row from 'react-bootstrap/lib/Row'
 import Col from 'react-bootstrap/lib/Col'
 import PropTypes from 'prop-types'
 import GraphBuilder from 'GraphBuilder'
 import { showRdfPreview } from 'actions/index'
-
+import SaveAndPublishButton from './SaveAndPublishButton'
 
 const RDFModal = (props) => {
   if (!props.show) {
@@ -27,9 +26,7 @@ const RDFModal = (props) => {
         <Row style={{ marginLeft: '0', marginRight: '0' }}>
           <Col sm={6}>If this looks good, then click Save and Publish</Col>
           <Col style={{ textAlign: 'right' }}>
-            <Button id="modal-save" className="btn btn-primary btn-sm" onClick={ props.save }>
-              Save & Publish
-            </Button>
+            <SaveAndPublishButton id="modal-save" />
           </Col>
         </Row>
         <pre style={{ marginTop: '10px' }}>{ props.rdf() }</pre>
@@ -48,7 +45,7 @@ RDFModal.propTypes = {
 
 const mapStateToProps = state => ({
   show: state.selectorReducer.editor.rdfPreview.show,
-  rdf: () => new GraphBuilder(state.selectorReducer).graph.toString(),
+  rdf: () => new GraphBuilder(state.selectorReducer).graph.toCanonical(),
 })
 
 const mapDispatchToProps = dispatch => ({
