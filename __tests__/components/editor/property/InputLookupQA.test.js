@@ -95,7 +95,7 @@ const validNewURIResults = [{
   label: 'http://id.loc.gov/authorities/subjects/123456789',
 }]
 
-const invalidNewURIResults = [{
+const validNewLiteralResults = [{
   customOption: true,
   label: 'Some non URI string',
 }]
@@ -222,16 +222,17 @@ describe('<InputLookupQA />', () => {
     expect(menuWrapper.childAt(1).childAt(0).text()).toEqual('http://id.loc.gov/authorities/subjects/123456789')
   })
 
-  it('does not show a single new invalid URI value when no other matches are found', () => {
+  it('does show a single new literal value when no other matches are found', () => {
     const instance = multipleWrapper.instance()
-    const menuWrapper = shallow(instance.renderMenuFunc(invalidNewURIResults, p2Props))
+    const menuWrapper = shallow(instance.renderMenuFunc(validNewLiteralResults, p2Props))
     const menuChildrenNumber = menuWrapper.children().length
     // One top level menu component
 
     expect(menuWrapper.find('ul').length).toEqual(1)
     // Nothing shown because the entered URI is not valid
-    expect(menuChildrenNumber).toEqual(1)
-    expect(menuWrapper.childAt(0).html()).toEqual('<li class="disabled"><a class="dropdown-item disabled" href="#"></a></li>')
+    expect(menuChildrenNumber).toEqual(2)
+    expect(menuWrapper.childAt(0).html()).toEqual('<li class="dropdown-header">New Literal</li>')
+    expect(menuWrapper.childAt(1).childAt(0).text()).toEqual('Some non URI string')
   })
 
   it('shows menu headers for both lookups and new valid URI value with the correct headers when matches are found', () => {
