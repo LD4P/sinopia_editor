@@ -33,10 +33,7 @@ class InputLookupQATypeahead extends Component {
   renderTokenFunc = (option, props, idx) => {
     const optionLabel = getOptionLabel(option, props.labelKey)
     const children = option.uri ? (<a href={option.uri} rel="noopener noreferrer" target="_blank">{optionLabel}</a>) : optionLabel
-    console.log("typeahead Render token function")
-    console.log("typeahead options ")
-    console.log(option)
-            return (
+    return (
       <Token
           disabled={props.disabled}
           key={idx}
@@ -110,10 +107,10 @@ class InputLookupQATypeahead extends Component {
       }
 
       body.forEach((innerResult) => {
-        const menuItemContent = this.renderContext(innerResult, authLabel)  
+        const menuItemContent = this.renderContext(innerResult, authLabel)
         items.push(
           <MenuItem option={innerResult} position={menuItemIndex} key={menuItemIndex}>
-              {menuItemContent}
+            {menuItemContent}
           </MenuItem>,
         )
         menuItemIndex++
@@ -126,7 +123,7 @@ class InputLookupQATypeahead extends Component {
     )
   }
 
-//Discogs specific functions
+  // Discogs specific functions
   // This relies on auth label but would be better dependent on authority URI
   renderContext = (innerResult, authLabel) => {
     switch (authLabel) {
@@ -193,28 +190,29 @@ class InputLookupQATypeahead extends Component {
         </div>
       )
     }
-  
-  render() {
-    // Don't render if no property template yet
-    if (!this.props.propertyTemplate) {
-      return null
-    }
 
-    const typeaheadProps = {
-      id: 'lookupComponent',
-      required: this.props.isMandatory,
-      multiple: this.props.isRepeatable,
-      placeholder: this.props.propertyTemplate.propertyLabel,
-      useCache: true,
-      selectHintOnEnter: true,
-      isLoading: this.props.isLoading,
-      onSearch: this.props.search,
-      options: this.props.options,
-      selected: this.props.selected,
-      allowNew: true,
-      delay: 300,
-    }
-/*
+    render() {
+    // Don't render if no property template yet
+      if (!this.props.propertyTemplate) {
+        return null
+      }
+
+      const typeaheadProps = {
+        id: 'lookupComponent',
+        required: this.props.isMandatory,
+        multiple: this.props.isRepeatable,
+        placeholder: this.props.propertyTemplate.propertyLabel,
+        useCache: true,
+        selectHintOnEnter: true,
+        isLoading: this.props.isLoading,
+        onSearch: this.props.search,
+        options: this.props.options,
+        selected: this.props.selected,
+        allowNew: true,
+        delay: 300,
+      }
+
+      /*
     let error
     let groupClasses = 'form-group'
 
@@ -226,7 +224,7 @@ class InputLookupQATypeahead extends Component {
      {error && <span className="help-block">{error}</span>}
       </div>
     */
-    return (
+      return (
         <AsyncTypeahead renderMenu={(results, menuProps) => this.renderMenuFunc(results, menuProps)}
                         ref={typeahead => this.typeahead = typeahead }
                         onChange={(selected) => {
@@ -244,9 +242,9 @@ class InputLookupQATypeahead extends Component {
                         filterBy={() => true
                         }
         />
-       
-    )
-  }
+
+      )
+    }
 }
 
 InputLookupQATypeahead.propTypes = {
@@ -279,8 +277,7 @@ const mapStateToProps = (state, ownProps) => {
     const newItem = { ...item }
     if (newItem.label === undefined) {
       newItem.label = newItem.uri
-    } 
-    console.log("typeahead map state to props with selection")
+    }
     return newItem
   })
 
@@ -295,7 +292,7 @@ const mapStateToProps = (state, ownProps) => {
 }
 
 const mapDispatchToProps = dispatch => ({
-  handleSelectedChange(selected) { console.log("typeahead component handle selected change")
+  handleSelectedChange(selected) {
     dispatch(changeSelections(selected))
   },
 })
