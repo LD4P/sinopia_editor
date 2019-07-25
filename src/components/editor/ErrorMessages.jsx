@@ -10,7 +10,8 @@ const ErrorMessages = (props) => {
     return null
   }
 
-  const errorList = props.errors.map(elem => (<li key={elem.path.join('-')}>{elem.label} {elem.message}</li>))
+
+  const errorList = props.errors.map(elem => (<li key={elem.reduxPath.join('-')}>{elem.path.join(' > ')}: {elem.message}</li>))
 
   return (
     <div className="row">

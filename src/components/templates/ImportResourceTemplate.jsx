@@ -38,6 +38,7 @@ class ImportResourceTemplate extends Component {
       responses.push(response)
     }
     this.updateStateFromServerResponses(responses)
+    this.props.fetchResourceTemplateSummaries()
   }
 
   createResource = async (content, group) => {
@@ -87,7 +88,6 @@ class ImportResourceTemplate extends Component {
     if (newFlashMessages.length > 0) newState.flashMessages = [...this.state.flashMessages, ...newFlashMessages]
 
     if (showModal) newState.modalShow = true
-
 
     this.setState(newState)
   }

@@ -3,14 +3,26 @@
 import {
   removeMyItem, setItemsOrSelections, setBaseURL,
   validate, showGroupChooser, closeGroupChooser, showRdfPreview,
-  showResourceURIMessage,
+  showResourceURIMessage, clearResourceURIMessage,
 } from 'reducers/inputs'
-
 import {
   findNode,
 } from 'selectors/resourceSelectors'
+import Validator from 'ResourceValidator'
 
 let initialState
+
+jest.mock('ResourceValidator')
+
+beforeAll(() => {
+  Validator.mockImplementation(() => {
+    return {
+      validate: () => {
+        return [{}, []]
+      },
+    }
+  })
+})
 
 beforeEach(() => {
   initialState = {
@@ -54,13 +66,13 @@ describe('showGroupChooser()', () => {
 
   describe('when the state is invalid', () => {
     it('sets displayValidations to true', () => {
-      initialState.resource = {
-        'resourceTemplate:Monograph:Instance': {
-          'http://id.loc.gov/ontologies/bibframe/title': {
+      Validator.mockImplementationOnce(() => {
+        return {
+          validate: () => {
+            return [{}, ['error']]
           },
-        },
-      }
-      initialState.entities.resourceTemplates['resourceTemplate:Monograph:Instance'].propertyTemplates[2].mandatory = 'true'
+        }
+      })
       const result = showGroupChooser(initialState)
 
       expect(result.editor.displayValidations).toBe(true)
@@ -365,6 +377,22 @@ describe('showResourceURIMessage', () => {
   })
 })
 
+describe('clearResourceURIMessage', () => {
+  it('turns off the Resource URI message display', () => {
+    initialState.editor.resourceURIMessage = {
+      show: true,
+      uri: 'this message will disapear',
+    }
+
+    const result = clearResourceURIMessage(initialState, {
+      type: 'CLEAR_RESOURCE_URI_MESSAGE',
+    })
+
+    expect(result.editor.resourceURIMessage.show).toBe(false)
+    expect(result.editor.resourceURIMessage.uri).toEqual('')
+  })
+})
+
 describe('removeMyItem', () => {
   it('removes an item from state', () => {
     initialState.resource = {
@@ -430,7 +458,6 @@ describe('removeMyItem', () => {
 describe('validate', () => {
   it('returns a new state', () => {
     const result = validate(initialState)
-
     expect(findNode(result, ['resource', 'editor', 'displayValidations'])).toBeTruthy()
   })
 })

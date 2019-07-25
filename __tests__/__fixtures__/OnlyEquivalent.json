@@ -4,7 +4,7 @@
   "id": "resourceTemplate:bf2:OnlyEquivalent",
   "propertyTemplates": [
     {
-      "mandatory": "false",
+      "mandatory": "true",
       "repeatable": "true",
       "type": "resource",
       "resourceTemplates": [],

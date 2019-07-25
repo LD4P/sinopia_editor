@@ -9,12 +9,13 @@ const NewsItem = () => (
     <ul>
       <li>Release {version} is live, including these features</li>
       <ul>
-        <li>User login.
+        <li>New component for linking to Sinopia created entities.
         </li>
-        <li>Adding and updating Resource Templates.
+        <li>Input Lookup components allow users to enter a URI if not found in the lookup
         </li>
-        <li>Opening Resource Templates to see how they behave in cataloging.
+        <li>Validation of embedded Resource Templates
         </li>
+        <li>Numerous bug fixes and test improvements</li>
       </ul>
       <li>For release notes and the latest point releases, see the <a href="https://github.com/LD4P/sinopia/wiki/">Sinopia help site</a>.
       </li>

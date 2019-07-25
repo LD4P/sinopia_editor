@@ -12,6 +12,12 @@ export const findNode = (selectorReducer, reduxPath) => {
 export const isExpanded = (selectorReducer, reduxPath) => ['editor', 'expanded', ...reduxPath, 'expanded']
   .reduce((obj, key) => (typeof obj[key] !== 'undefined' ? obj[key] : false), selectorReducer)
 
+export const findErrors = (selectorReducer, reduxPath) => {
+  const errors = ['editor', 'resourceValidationErrors', ...reduxPath, 'errors'].reduce((obj, key) => obj?.[key], selectorReducer)
+
+  return errors || []
+}
+
 export const itemsForProperty = (selectorReducer, reduxPath) => {
   const result = findNode(selectorReducer, reduxPath)
 

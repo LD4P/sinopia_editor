@@ -22,17 +22,17 @@ const initialState = {
       groupChoice: {
         show: false,
       },
-      expanded: { // Should this node display as expanded in the editor
+      expanded: { // Should this node display as expanded in the editor (redux path organized)
+      },
+      resourceValidationErrors: { // Errors from validating resource (redux path organized)
       },
     },
     entities: { // The stuff we've retrieved from the server
-      resourceTemplates: {
-      },
-      resourceTemplateSummaries: {
-      },
+      resourceTemplates: {},
+      resourceTemplateSummaries: {},
+      languages: { loading: false, options: [] },
     },
-    resource: { // The state we're displaying in the editor
-    },
+    resource: {}, // The state we're displaying in the editor
     search: {
       results: [],
     },

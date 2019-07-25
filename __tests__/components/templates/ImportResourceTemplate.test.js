@@ -315,7 +315,7 @@ describe('<ImportResourceTemplate />', () => {
       expect(updateResourceSpy).toHaveBeenCalledTimes(2)
       expect(updateStateSpy).toHaveBeenCalledTimes(1)
       expect(modalCloseSpy).toHaveBeenCalledTimes(1)
-      expect(mockFetchResourceTemplateSummaries).toHaveBeenCalledTimes(1)
+      expect(mockFetchResourceTemplateSummaries).toHaveBeenCalledTimes(2)
     })
   })
 })

@@ -5,15 +5,21 @@ import { getOptionLabel } from 'react-bootstrap-typeahead/lib/utils'
 import PropTypes from 'prop-types'
 import SinopiaPropTypes from 'SinopiaPropTypes'
 import { connect } from 'react-redux'
-import { itemsForProperty, getDisplayValidations, getPropertyTemplate } from 'selectors/resourceSelectors'
+import {
+  itemsForProperty, getDisplayValidations, getPropertyTemplate, findErrors,
+} from 'selectors/resourceSelectors'
 import { changeSelections, removeItem } from 'actions/index'
-import { booleanPropertyFromTemplate, getLookupConfigItems } from 'Utilities'
+import { booleanPropertyFromTemplate, getLookupConfigItems, isValidURI } from 'Utilities'
 import Config from 'Config'
+import _ from 'lodash'
 import Button from 'react-bootstrap/lib/Button'
 import Modal from 'react-bootstrap/lib/Modal'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faSpinner } from '@fortawesome/free-solid-svg-icons'
 
+// propertyTemplate of type 'lookup' does live QA lookup via API
+//  based on values in propertyTemplate.valueConstraint.useValuesFrom
+//  and the lookupConfig for the URIs has component value of 'lookup'
 class InputLookupQAContext extends Component {
   constructor(props) {
     super(props)
@@ -28,13 +34,6 @@ class InputLookupQAContext extends Component {
       query: '',
       selectedResultsList: [],
     }
-  }
-
-  // This needs to be different for context than for typeahead
-  validate() {
-    // this checks selected options in the state
-    const selected = this.state.selectedResultsList
-    return this.props.displayValidations && this.props.isMandatory && selected.length < 1 ? 'Required' : undefined
   }
 
   // Add selections to selected uris for this field
@@ -67,7 +66,7 @@ class InputLookupQAContext extends Component {
   handleClick = () => {
     const query = this.state.query
     // Display loading icon
-    this.props.doSearch(query)
+    this.props.search(query)
     this.handleShow()
   }
 
@@ -331,7 +330,6 @@ class InputLookupQAContext extends Component {
       delay: 300,
     }
 
-
     return (
       <div>
         <input
@@ -360,19 +358,20 @@ const authorityToContextOrderMap = {
 
 
 InputLookupQAContext.propTypes = {
-  doSearch: PropTypes.func,
   displayValidations: PropTypes.bool,
-  isloading: PropTypes.bool,
   handleSelectedChange: PropTypes.func,
   handleRemoveItem: PropTypes.func,
   lookupConfig: PropTypes.arrayOf(PropTypes.object).isRequired,
-  options: PropTypes.arrayOf(PropTypes.object),
-  clearOptions: PropTypes.func,
   propertyTemplate: SinopiaPropTypes.propertyTemplate,
   reduxPath: PropTypes.oneOfType([PropTypes.string, PropTypes.array]),
   selected: PropTypes.arrayOf(PropTypes.object),
+  errors: PropTypes.array,
+  search: PropTypes.func,
+  isloading: PropTypes.bool,
+  options: PropTypes.arrayOf(PropTypes.object),
   isMandatory: PropTypes.bool,
   isRepeatable: PropTypes.bool,
+  clearOptions: PropTypes.func,
   key: PropTypes.string,
 }
 
@@ -383,6 +382,7 @@ const mapStateToProps = (state, ownProps) => {
   const displayValidations = getDisplayValidations(state)
   const propertyTemplate = getPropertyTemplate(state, resourceTemplateId, propertyURI)
   const lookupConfig = getLookupConfigItems(propertyTemplate)
+  const errors = findErrors(state.selectorReducer, ownProps.reduxPath)
 
   // Make sure that every item has a label
   // This is a temporary strategy until label lookup is implemented.
@@ -400,6 +400,7 @@ const mapStateToProps = (state, ownProps) => {
     propertyTemplate,
     displayValidations,
     lookupConfig,
+    errors,
   }
 }
 

@@ -6,8 +6,11 @@ import SinopiaPropTypes from 'SinopiaPropTypes'
 import { connect } from 'react-redux'
 import shortid from 'shortid'
 import { removeItem, itemsSelected } from 'actions/index'
-import { findNode, getDisplayValidations, getPropertyTemplate } from 'selectors/resourceSelectors'
-import { booleanPropertyFromTemplate } from 'Utilities'
+import {
+  findNode, getDisplayValidations, getPropertyTemplate, findErrors,
+} from 'selectors/resourceSelectors'
+import { booleanPropertyFromTemplate, isValidURI } from 'Utilities'
+import _ from 'lodash'
 
 const InputURI = (props) => {
   // Don't render if don't have property templates yet.
@@ -17,6 +20,7 @@ const InputURI = (props) => {
 
   const inputLiteralRef = useRef(Math.floor(100 * Math.random()))
   const [content, setContent] = useState('')
+  const [uriError, setURIError] = useState(false)
 
   const disabled = !booleanPropertyFromTemplate(props.propertyTemplate, 'repeatable', true)
       && props.items?.length > 0
@@ -26,22 +30,14 @@ const InputURI = (props) => {
     event.preventDefault()
   }
 
-  const isValidURI = (value) => {
-    try {
-      /* eslint no-new: 'off' */
-      new URL(value)
-      return true
-    } catch (e) {
-      return false
-    }
-  }
-
   const addItem = () => {
     const currentcontent = content.trim()
 
     if (!currentcontent || !isValidURI(currentcontent)) {
+      setURIError(true)
       return
     }
+    setURIError(false)
 
     const userInput = {
       reduxPath: props.reduxPath,
@@ -82,10 +78,19 @@ const InputURI = (props) => {
    * @return {bool} true if the field should be marked as required (e.g. not all obligations met)
    */
   const required = booleanPropertyFromTemplate(props.propertyTemplate, 'mandatory', false)
-      && props.formData.errors
-      && props.formData.errors.length !== 0
 
   const items = props.items || []
+
+  const mergeErrors = () => {
+    let errors = []
+    if (uriError) {
+      errors.push('Not a valid URI.')
+    }
+    if (props.displayValidations && !_.isEmpty(props.errors)) {
+      errors = errors.concat(props.errors)
+    }
+    return errors
+  }
 
   const addedList = items.map((obj) => {
     const itemId = obj.id || shortid.generate()
@@ -113,15 +118,16 @@ const InputURI = (props) => {
     </div>
   })
 
-  const error = props.displayValidations && required ? 'Required' : undefined
+  let error
   let groupClasses = 'form-group'
-
-  if (error) {
+  const errors = mergeErrors()
+  if (!_.isEmpty(errors)) {
     groupClasses += ' has-error'
+    error = errors.join(', ')
   }
-
   return (
     <div className={groupClasses}>
+      <label htmlFor={props.id}>Enter a URI</label>
       <input
             required={required}
             className="form-control"
@@ -153,6 +159,7 @@ InputURI.propTypes = {
   handleRemoveItem: PropTypes.func,
   reduxPath: PropTypes.oneOfType([PropTypes.string, PropTypes.array]),
   displayValidations: PropTypes.bool,
+  errors: PropTypes.array,
 }
 
 const mapStateToProps = (state, props) => {
@@ -164,12 +171,14 @@ const mapStateToProps = (state, props) => {
   // items has to be its own prop or rerendering won't occur when one is removed
   const items = formData.items
   const propertyTemplate = getPropertyTemplate(state, resourceTemplateId, propertyURI)
+  const errors = findErrors(state.selectorReducer, reduxPath)
 
   return {
     formData,
     items,
     propertyTemplate,
     displayValidations,
+    errors,
   }
 }
 

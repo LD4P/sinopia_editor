@@ -1,8 +1,14 @@
 // Copyright 2018, 2019 Stanford University see LICENSE for license
 
-import Validator from '../Validator'
+import Validator from '../ResourceValidator'
 
-export const validate = state => new Validator(state).validate()
+export const validate = (state) => {
+  const newState = { ...state }
+  const result = new Validator(newState).validate()
+  newState.editor.resourceValidationErrors = result[0]
+  newState.editor.errors = result[1]
+  return newState
+}
 
 /**
  * Open the group choice dialog if the object is valid
@@ -145,6 +151,19 @@ export const showResourceURIMessage = (state, action) => {
 
   newState.editor.resourceURIMessage.show = true
   newState.editor.resourceURIMessage.uri = action.payload
+  return newState
+}
+
+/**
+ * @param {Object} state the previous redux state
+ * @param {Object} action the payload of the action is the URI returned from saving the resource
+ * @return {Object} the next redux state
+ */
+export const clearResourceURIMessage = (state) => {
+  const newState = { ...state }
+
+  newState.editor.resourceURIMessage.show = false
+  newState.editor.resourceURIMessage.uri = ''
   return newState
 }
 

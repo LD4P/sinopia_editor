@@ -7,7 +7,7 @@ import shortid from 'shortid'
 import PropertyActionButtons from './PropertyActionButtons'
 import PropertyTemplateOutline from './PropertyTemplateOutline'
 import { findNode } from 'selectors/resourceSelectors'
-import findResourceTemplate from 'selectors/entitySelectors'
+import { findResourceTemplate } from 'selectors/entitySelectors'
 import _ from 'lodash'
 
 export class ResourceProperty extends Component {

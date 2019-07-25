@@ -76,6 +76,8 @@ describe('When the user enters input into field', () => {
     mockWrapper.find('input').simulate('change', { target: { value: 'Not a URI' } })
     mockWrapper.find('input').simulate('keypress', { key: 'Enter', preventDefault: () => {} })
     expect(mockItemsChange).not.toHaveBeenCalled()
+    expect(mockWrapper.find('span.help-block').text()).toEqual('Not a valid URI.')
+    expect(mockWrapper.exists('div.has-error')).toEqual(true)
   })
 
   it('is called with the users input as arguments', () => {
@@ -211,5 +213,18 @@ describe('when there is a default literal value in the property template', () =>
       )
       expect(nonrepeatWrapper.exists('input', { disabled: false })).toBe(true)
     })
+  })
+})
+
+describe('Errors', () => {
+  const errors = ['Required']
+  const wrapper = shallow(<InputURI.WrappedComponent displayValidations={true} errors={errors} {...plProps}/>)
+
+  it('displays the errors', () => {
+    expect(wrapper.find('span.help-block').text()).toEqual('Required')
+  })
+
+  it('sets the has-error class', () => {
+    expect(wrapper.exists('div.has-error')).toEqual(true)
   })
 })
