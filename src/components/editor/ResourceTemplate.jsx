@@ -9,6 +9,7 @@ import { getResourceTemplate } from 'selectors/resourceSelectors'
 import { bindActionCreators } from 'redux'
 import loadLanguages from 'actionCreators/languages'
 import ResourceURIMessage from './ResourceURIMessage'
+import SaveAlert from './SaveAlert'
 import _ from 'lodash'
 
 /**
@@ -34,6 +35,7 @@ class ResourceTemplate extends Component {
           <section className="col-md-9">
             <h1><em>{this.props.resourceTemplate.resourceLabel}</em></h1>
             <ResourceURIMessage />
+            <SaveAlert />
           </section>
           <ResourceTemplateForm reduxPath = {['resource', this.props.resourceTemplate.id]} />
         </div>

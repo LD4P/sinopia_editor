@@ -1,8 +1,9 @@
 // Copyright 2019 Stanford University see LICENSE for license
 
 import {
-  createReducer, setRetrieveError, removeResource, clearRetrieveError,
+  createReducer, setRetrieveError, removeResource, clearRetrieveError, updateFinished,
 } from 'reducers/index'
+import _ from 'lodash'
 
 let initialState
 
@@ -166,5 +167,21 @@ describe('removeResource', () => {
         },
       },
     })
+  })
+})
+
+describe('updateFinished', () => {
+  it('sets last save differently each time called', () => {
+    expect(initialState.selectorReducer.editor.lastSave).toBeFalsy()
+    const newState = updateFinished(initialState.selectorReducer)
+    expect(newState.editor.lastSave).toBeTruthy()
+
+    const now = Date.now()
+    while (now === Date.now()) {
+      // Wait
+    }
+
+    const newState2 = updateFinished(_.cloneDeep(newState))
+    expect(newState.editor.lastSave).not.toEqual(newState2.editor.lastSave)
   })
 })
