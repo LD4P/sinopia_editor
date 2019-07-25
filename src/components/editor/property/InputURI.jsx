@@ -20,6 +20,7 @@ const InputURI = (props) => {
 
   const inputLiteralRef = useRef(Math.floor(100 * Math.random()))
   const [content, setContent] = useState('')
+  const [uriError, setURIError] = useState(false)
 
   const disabled = !booleanPropertyFromTemplate(props.propertyTemplate, 'repeatable', true)
       && props.items?.length > 0
@@ -33,8 +34,10 @@ const InputURI = (props) => {
     const currentcontent = content.trim()
 
     if (!currentcontent || !isValidURI(currentcontent)) {
+      setURIError(true)
       return
     }
+    setURIError(false)
 
     const userInput = {
       reduxPath: props.reduxPath,
@@ -78,6 +81,17 @@ const InputURI = (props) => {
 
   const items = props.items || []
 
+  const mergeErrors = () => {
+    let errors = []
+    if (uriError) {
+      errors.push('Not a valid URI.')
+    }
+    if (props.displayValidations && !_.isEmpty(props.errors)) {
+      errors = errors.concat(props.errors)
+    }
+    return errors
+  }
+
   const addedList = items.map((obj) => {
     const itemId = obj.id || shortid.generate()
 
@@ -106,13 +120,14 @@ const InputURI = (props) => {
 
   let error
   let groupClasses = 'form-group'
-
-  if (props.displayValidations && !_.isEmpty(props.errors)) {
+  const errors = mergeErrors()
+  if (!_.isEmpty(errors)) {
     groupClasses += ' has-error'
-    error = props.errors.join(',')
+    error = errors.join(', ')
   }
   return (
     <div className={groupClasses}>
+      <label htmlFor={props.id}>Enter a URI</label>
       <input
             required={required}
             className="form-control"
