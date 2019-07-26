@@ -20,6 +20,9 @@ WORKDIR /home/circleci
 # Everything that isn't in .dockerignore ships
 COPY . .
 
+RUN mkdir dist
+RUN mkdir node_modules
+
 # Allow circleci user to run npm build
 USER root
 RUN /bin/bash -c 'chown -R circleci dist node_modules'
