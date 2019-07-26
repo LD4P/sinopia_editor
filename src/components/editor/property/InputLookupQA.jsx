@@ -1,17 +1,14 @@
 // Copyright 2019 Stanford University see LICENSE for license
 import React, { Component } from 'react'
-import { getOptionLabel } from 'react-bootstrap-typeahead/lib/utils'
-
 import PropTypes from 'prop-types'
 import SinopiaPropTypes from 'SinopiaPropTypes'
 import Swagger from 'swagger-client'
 import swaggerSpec from 'lib/apidoc.json'
 import { connect } from 'react-redux'
 import {
-  itemsForProperty, getDisplayValidations, getPropertyTemplate, findErrors,
+  getDisplayValidations, getPropertyTemplate, findErrors,
 } from 'selectors/resourceSelectors'
-import { changeSelections } from 'actions/index'
-import { booleanPropertyFromTemplate, getLookupConfigItems, isValidURI } from 'Utilities'
+import { booleanPropertyFromTemplate, getLookupConfigItems } from 'Utilities'
 import Config from 'Config'
 import _ from 'lodash'
 import InputLookupQATypeahead from './InputLookupQATypeahead'
@@ -200,8 +197,4 @@ const mapStateToProps = (state, ownProps) => {
   }
 }
 
-const mapDispatchToProps = dispatch => ({
-
-})
-
-export default connect(mapStateToProps, mapDispatchToProps)(InputLookupQA)
+export default connect(mapStateToProps, null)(InputLookupQA)

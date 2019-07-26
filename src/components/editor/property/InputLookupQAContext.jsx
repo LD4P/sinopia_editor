@@ -9,9 +9,7 @@ import {
   itemsForProperty, getDisplayValidations, getPropertyTemplate, findErrors,
 } from 'selectors/resourceSelectors'
 import { changeSelections, removeItem } from 'actions/index'
-import { booleanPropertyFromTemplate, getLookupConfigItems, isValidURI } from 'Utilities'
-import Config from 'Config'
-import _ from 'lodash'
+import { getLookupConfigItems, isValidURI } from 'Utilities'
 import Button from 'react-bootstrap/lib/Button'
 import Modal from 'react-bootstrap/lib/Modal'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
@@ -58,8 +56,8 @@ class InputLookupQAContext extends Component {
   }
 
   handleChange = (event) => {
-    const usr_input = event.target.value
-    this.setState({ query: usr_input })
+    const usrInput = event.target.value
+    this.setState({ query: usrInput })
   }
 
 
@@ -116,11 +114,7 @@ class InputLookupQAContext extends Component {
       padding: '8px 0 4px 8px',
       backgroundColor: '#ccc',
     }
-    const labelStyle = {
-      fontWeight: 'bold',
-      fontSize: '18px',
-      paddingLeft: '5px',
-    }
+
     let idx = 0
     for (i = 0; i < resultsLength; i++) {
       result = results[i]
@@ -143,25 +137,8 @@ class InputLookupQAContext extends Component {
       } else {
         // if not error, print out items for result
         r = result.body
-        const resultItems = r.map((result, index) => {
-          const contextContent = this.renderContext(result.context, idx, index, authURI)
-          const resultContext = (<div> {contextContent} </div>)
-          let bg = '#fff'
-          idx++
-          if (idx % 2 === 0) {
-            bg = '#ede7d4'
-          }
-          const resultStyle = {
-            backgroundColor: bg,
-            padding: '4px 2px 2px 5px',
-          }
-          const divId = `row-${idx}`
-          return (<div key={divId} className="row contextInfo" style={resultStyle} uri={result.uri}>
-            <input type="checkbox" name="searchResultInput" value={result.uri} label={result.label} position={idx} key={idx} onChange={this.handleResultChange}/>
-            <span style={labelStyle}>{result.label}</span>
-            {resultContext}
-          </div>)
-        })
+        const resultItems = this.renderResultItems(r, idx, authURI)
+        idx += resultItems.length
         resultItems.forEach((i) => { items.push(i) })
         // if the length of results is zero we need to show that as well
         if (r.length === 0) {
@@ -179,6 +156,35 @@ class InputLookupQAContext extends Component {
       <div>{items}</div>
 
     )
+  }
+
+  renderResultItems = (r, idx, authURI) => {
+    const labelStyle = {
+      fontWeight: 'bold',
+      fontSize: '18px',
+      paddingLeft: '5px',
+    }
+    const resultItems = r.map((result, index) => {
+      const divKey = `${idx}-${index}`
+      const contextContent = this.renderContext(result.context, divKey, authURI)
+      const resultContext = (<div> {contextContent} </div>)
+      let bg = '#fff'
+      idx++
+      if (idx % 2 === 0) {
+        bg = '#ede7d4'
+      }
+      const resultStyle = {
+        backgroundColor: bg,
+        padding: '4px 2px 2px 5px',
+      }
+      const divId = `row-${idx}`
+      return (<div key={divId} className="row contextInfo" style={resultStyle} uri={result.uri}>
+        <input type="checkbox" name="searchResultInput" value={result.uri} label={result.label} position={idx} key={idx} onChange={this.handleResultChange}/>
+        <span style={labelStyle}>{result.label}</span>
+        {resultContext}
+      </div>)
+    })
+    return resultItems
   }
 
 
@@ -211,10 +217,9 @@ class InputLookupQAContext extends Component {
     this.props.clearOptions()
   }
 
-  renderContext = (context, idx, outerIndex, authURI) => {
+  renderContext = (context, divKey, authURI) => {
     let contextContent = []
     const mainLabelProperty = ['authoritative label', 'preferred label']
-    const divKey = `${idx}-${outerIndex}`
     if (context) {
       if (authURI in authorityToContextOrderMap)
       { contextContent = this.generateOrderedContextView(authURI, context) }

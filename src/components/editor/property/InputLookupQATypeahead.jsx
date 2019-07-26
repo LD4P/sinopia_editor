@@ -11,9 +11,8 @@ import {
   itemsForProperty, getDisplayValidations, getPropertyTemplate, findErrors,
 } from 'selectors/resourceSelectors'
 import { changeSelections } from 'actions/index'
-import { booleanPropertyFromTemplate, getLookupConfigItems, isValidURI } from 'Utilities'
-import Config from 'Config'
-import _ from 'lodash'
+import { getLookupConfigItems, isValidURI } from 'Utilities'
+
 
 const AsyncTypeahead = asyncContainer(Typeahead)
 
@@ -173,17 +172,17 @@ class InputLookupQATypeahead extends Component {
       }
 
 
-      const url = innerResult.uri
+      // const url = innerResult.uri
       const context = innerResult.context
-      const image_url = context['Image URL'][0]
+      const imageUrl = context['Image URL'][0]
       let year = ''
       if (context.Year[0].length > 0) {
         year = `(${context.Year[0]})`
       }
-      const rec_label = context['Record Labels'][0]
+      const recLabel = context['Record Labels'][0]
       const formats = context.Formats.toString()
-      const discogs_type = context.Type[0]
-      const target = '_blank'
+      const discogsType = context.Type[0]
+      // const target = '_blank'
       const type = context.Type[0].charAt(0).toUpperCase() + context.Type[0].slice(1)
       const row = 'row'
       const colTwo = 'col-md-2'
@@ -191,12 +190,12 @@ class InputLookupQATypeahead extends Component {
       return (
         <div className={row} style={discogsContainer}>
           <div className={colTwo} style={imageContainer}>
-            <img alt="Result" style={discogsImageStyle} src={image_url}/><br />
+            <img alt="Result" style={discogsImageStyle} src={imageUrl}/><br />
           </div>
           <div className={colTen} style={detailsContainer}>
             {innerResult.label} {year}<br />
             <b>Format: </b>{formats}<br />
-            <b>Label: </b>{rec_label}<span style={typeSpan}><b>Type: </b>{type}</span>
+            <b>Label: </b>{recLabel}<span style={typeSpan}><b>Type: </b>{type}</span>
           </div>
         </div>
       )
@@ -223,18 +222,6 @@ class InputLookupQATypeahead extends Component {
         delay: 300,
       }
 
-      /*
-    let error
-    let groupClasses = 'form-group'
-
-    if (this.props.displayValidations && !_.isEmpty(this.props.errors)) {
-      groupClasses += ' has-error'
-      error = this.props.errors.join(',')
-    }
-    <div className={groupClasses}>
-     {error && <span className="help-block">{error}</span>}
-      </div>
-    */
       return (
         <AsyncTypeahead renderMenu={(results, menuProps) => this.renderMenuFunc(results, menuProps)}
                         ref={typeahead => this.typeahead = typeahead }
