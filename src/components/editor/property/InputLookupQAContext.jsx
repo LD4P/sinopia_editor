@@ -109,12 +109,6 @@ class InputLookupQAContext extends Component {
     const items = []
     let authLabel; let authURI; let headerKey; let i; let r; let result
     const resultsLength = results.length
-    const headingStyle = {
-      margin: '0 -15px',
-      padding: '8px 0 4px 8px',
-      backgroundColor: '#ccc',
-    }
-
     let idx = 0
     for (i = 0; i < resultsLength; i++) {
       result = results[i]
@@ -124,7 +118,7 @@ class InputLookupQAContext extends Component {
       // Add header only if more than one authority request
       if (resultsLength > 1)
       { items.push(
-        <h4 key={headerKey} style={headingStyle}>{authLabel}</h4>,
+        <h4 key={headerKey} className="context-heading">{authLabel}</h4>,
       ) }
       // For this authority, display results
       if ('isError' in result) {
@@ -152,35 +146,25 @@ class InputLookupQAContext extends Component {
     }
 
     return (
-
       <div>{items}</div>
-
     )
   }
 
   renderResultItems = (r, idx, authURI) => {
-    const labelStyle = {
-      fontWeight: 'bold',
-      fontSize: '18px',
-      paddingLeft: '5px',
-    }
     const resultItems = r.map((result, index) => {
       const divKey = `${idx}-${index}`
       const contextContent = this.renderContext(result.context, divKey, authURI)
       const resultContext = (<div> {contextContent} </div>)
-      let bg = '#fff'
+      let bgClass = 'context-result-bg'
       idx++
       if (idx % 2 === 0) {
-        bg = '#ede7d4'
-      }
-      const resultStyle = {
-        backgroundColor: bg,
-        padding: '4px 2px 2px 5px',
+        bgClass = 'context-result-alt-bg'
       }
       const divId = `row-${idx}`
-      return (<div key={divId} className="row contextInfo" style={resultStyle} uri={result.uri}>
+      const divClass = `row contextInfo context-result ${bgClass}`
+      return (<div key={divId} className={divClass} uri={result.uri}>
         <input type="checkbox" name="searchResultInput" value={result.uri} label={result.label} position={idx} key={idx} onChange={this.handleResultChange}/>
-        <span style={labelStyle}>{result.label}</span>
+        <span className="context-label">{result.label}</span>
         {resultContext}
       </div>)
     })
@@ -270,7 +254,6 @@ class InputLookupQAContext extends Component {
 
   // loading spinner
   generateLoadingSpinner = () => (<div key="loadingicon"><FontAwesomeIcon icon={faSpinner} className="fa-spin fa-3x" /></div>)
-
 
   dispModal = (id, typeaheadProps) => (
     <Modal show={this.state.show} onHide={this.handleClose} id={`modal${id}`}>

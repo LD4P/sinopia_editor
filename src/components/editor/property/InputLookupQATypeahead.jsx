@@ -145,33 +145,6 @@ class InputLookupQATypeahead extends Component {
   }
 
     buildDiscogsContext = (innerResult) => {
-      const discogsContainer = {
-        padding: '0 0 4px 3px',
-      }
-
-      const detailsContainer = {
-        padding: '0 0 0 8px',
-        whiteSpace: 'normal',
-      }
-
-      const imageContainer = {
-        width: '50px',
-        overflow: 'hidden',
-        padding: '3px 0 0',
-        textAlign: 'center',
-      }
-
-      const discogsImageStyle = {
-        width: '100%',
-        marginRight: '10px',
-        verticalAlign: 'top',
-      }
-
-      const typeSpan = {
-        paddingLeft: '8px',
-      }
-
-
       // const url = innerResult.uri
       const context = innerResult.context
       const imageUrl = context['Image URL'][0]
@@ -181,21 +154,18 @@ class InputLookupQATypeahead extends Component {
       }
       const recLabel = context['Record Labels'][0]
       const formats = context.Formats.toString()
-      const discogsType = context.Type[0]
+      // const discogsType = context.Type[0]
       // const target = '_blank'
       const type = context.Type[0].charAt(0).toUpperCase() + context.Type[0].slice(1)
-      const row = 'row'
-      const colTwo = 'col-md-2'
-      const colTen = 'col-md-10'
       return (
-        <div className={row} style={discogsContainer}>
-          <div className={colTwo} style={imageContainer}>
-            <img alt="Result" style={discogsImageStyle} src={imageUrl}/><br />
+        <div className="row discogs-container">
+          <div className="image-container col-md-2">
+            <img alt="Result" className="discogs-image-style" src={imageUrl}/><br />
           </div>
-          <div className={colTen} style={detailsContainer}>
+          <div className="col-md-10 details-container">
             {innerResult.label} {year}<br />
             <b>Format: </b>{formats}<br />
-            <b>Label: </b>{recLabel}<span style={typeSpan}><b>Type: </b>{type}</span>
+            <b>Label: </b>{recLabel}<span className="type-span"><b>Type: </b>{type}</span>
           </div>
         </div>
       )
