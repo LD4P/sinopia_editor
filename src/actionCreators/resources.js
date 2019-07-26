@@ -1,5 +1,6 @@
 // Copyright 2019 Stanford University see LICENSE for license
-/* eslint max-params: ["warn", 7] */
+/* eslint max-params: ["warn", 8] */
+/* eslint complexity: ["warn", 13] */
 
 import {
   assignBaseURL, updateStarted, updateFinished,
@@ -9,7 +10,7 @@ import {
 } from 'actions/index'
 import { fetchResourceTemplate } from 'actionCreators/resourceTemplates'
 import { updateRDFResource, loadRDFResource } from 'sinopiaServer'
-import { rootResourceId, findNode } from 'selectors/resourceSelectors'
+import { rootResourceId } from 'selectors/resourceSelectors'
 import { findResourceTemplate } from 'selectors/entitySelectors'
 import GraphBuilder from 'GraphBuilder'
 import { isResourceWithValueTemplateRef, rdfDatasetFromN3, defaultValuesFromPropertyTemplate } from 'Utilities'
@@ -64,12 +65,12 @@ export const existingResource = (resource, uri) => (dispatch) => {
 // A thunk that expands a nested resource for a property
 export const expandResource = reduxPath => (dispatch, getState) => {
   const state = getState()
-  const nestedResource = findNode(state.selectorReducer, reduxPath)
   const resourceTemplateId = reduxPath.slice(-2)[0]
   const propertyURI = reduxPath.slice(-1)[0]
   const resourceTemplate = findResourceTemplate(state.selectorReducer, resourceTemplateId)
-  stubProperty(resourceTemplateId, resourceTemplate, nestedResource, propertyURI, dispatch).then((resourceProperties) => {
-    dispatch(updateProperty(reduxPath, resourceProperties))
+  const parentKeyReduxPath = reduxPath.slice(0, reduxPath.length - 2)
+  stubResourceProperties(resourceTemplateId, resourceTemplate, {}, parentKeyReduxPath, true, false, propertyURI, dispatch).then((resourceProperties) => {
+    dispatch(updateProperty(reduxPath, resourceProperties[propertyURI]))
   })
 }
 
@@ -81,10 +82,11 @@ export const addResource = reduxPath => (dispatch, getState) => {
   const key = shortid.generate()
   const addedResource = { [key]: { [resourceTemplateId]: {} } }
   const parentReduxPath = reduxPath.slice(0, reduxPath.length - 2)
-  const newReduxPath = [...parentReduxPath, key, resourceTemplateId]
+  const newKeyReduxPath = [...parentReduxPath, key]
+  const newResourceReduxPath = [...newKeyReduxPath, resourceTemplateId]
 
-  stubResourceProperties(resourceTemplateId, resourceTemplate, addedResource, newReduxPath, false, false, dispatch).then((resourceProperties) => {
-    dispatch(appendResource(newReduxPath, resourceProperties))
+  stubResourceProperties(resourceTemplateId, resourceTemplate, addedResource, newKeyReduxPath, false, false, false, dispatch).then((resourceProperties) => {
+    dispatch(appendResource(newResourceReduxPath, resourceProperties))
   })
 }
 
@@ -95,42 +97,32 @@ const stubResource = useDefaults => (dispatch, getState) => {
   const rootResourceTemplateId = Object.keys(newResource)[0]
   const rootResource = newResource[rootResourceTemplateId]
   const resourceTemplate = findResourceTemplate(state.selectorReducer, rootResourceTemplateId)
-  stubResourceProperties(rootResourceTemplateId, resourceTemplate, rootResource, ['resource'], useDefaults, false, dispatch).then((resourceProperties) => {
+  stubResourceProperties(rootResourceTemplateId, resourceTemplate, rootResource, ['resource'], useDefaults, false, false, dispatch).then((resourceProperties) => {
     newResource[rootResourceTemplateId] = resourceProperties
     dispatch(setResource(newResource))
   })
 }
 
-// For a single property of a resource, stub it out.
-export const stubProperty = async (resourceTemplateId, existingResourceTemplate, resource, propertyURI, dispatch) => {
-  const newResource = { ...resource }
-  const resourceTemplate = existingResourceTemplate || await fetchResourceTemplate(resourceTemplateId, dispatch)
-  // This handles if there was an error fetching resource template
-  if (!resourceTemplate) {
-    return newResource
-  }
-
-  const propertyTemplate = resourceTemplate.propertyTemplates.find(propertyTemplate => propertyTemplate.propertyURI === propertyURI)
-  if (isResourceWithValueTemplateRef(propertyTemplate)) {
-    propertyTemplate.valueConstraint.valueTemplateRefs.forEach((resourceTemplateId) => {
-      fetchResourceTemplate(resourceTemplateId, dispatch)
-      // See if there is already a <key> > <resource template id> for this resource template id
-      const nestedResource = Object.keys(newResource).find(key => _.first(Object.keys(newResource[key])) === resourceTemplateId)
-      if (nestedResource === undefined) {
-        newResource[shortid.generate()] = { [resourceTemplateId]: {} }
-      }
-    })
-  } else if (newResource.items === undefined) {
-    // Defaults
-    const defaults = defaultValuesFromPropertyTemplate(propertyTemplate)
-    newResource.items = _.isEmpty(defaults) ? [] : defaults
-  }
-  return newResource
-}
-
-// For a resource, stub out of its properties.
-// Private, but exporting for testing.
-export const stubResourceProperties = async (resourceTemplateId, existingResourceTemplate, resource, reduxPath, useDefaults, stubMandatoryOnly, dispatch) => {
+/**
+ * For a resource, stub out of its properties.
+ *
+ * Private, but exporting for testing.
+ *
+ * If the resource template is available in state, it should be provided in the existingResourceTemplate parameter.
+ * Otherwise, it will be fetched.
+ *
+ * @param {string} resourceTemplateId
+ * @param {Object} existingResourceTemplate the resource template retrieved from state or undefined
+ * @param {Object} resource existing values for the resource or {}
+ * @param {Array<String>} reduxPath of the resource (ending in the resource key or "resource")
+ * @param {boolean} useDefaults if true, use default values for property refs
+ * @param {boolean} stubMandatoryOnly if true, only stub properties that are mandatory
+ * @param {string} stubPropertyURIOnly limit stubbing to this single property or undefined
+ * @param {func} dispatch
+ * @return {Promise<Object>} the stubbed resource
+ */
+export const stubResourceProperties = async (resourceTemplateId, existingResourceTemplate,
+  resource, reduxPath, useDefaults, stubMandatoryOnly, stubPropertyURIOnly, dispatch) => {
   const newResource = _.cloneDeep(resource)
   const newResourceReduxPath = [...reduxPath, resourceTemplateId]
   const resourceTemplate = existingResourceTemplate || await fetchResourceTemplate(resourceTemplateId, dispatch)
@@ -143,6 +135,9 @@ export const stubResourceProperties = async (resourceTemplateId, existingResourc
   await Promise.all(
     resourceTemplate.propertyTemplates.map(async (propertyTemplate) => {
       const propertyURI = propertyTemplate.propertyURI
+      if (stubPropertyURIOnly && stubPropertyURIOnly !== propertyURI) {
+        return
+      }
       const newResourcePropertyReduxPath = [...newResourceReduxPath, propertyURI]
       const isMandatory = propertyTemplate.mandatory === 'true'
 
@@ -150,7 +145,6 @@ export const stubResourceProperties = async (resourceTemplateId, existingResourc
       if (newResource[propertyURI] !== undefined) {
         dispatch(toggleCollapse(newResourcePropertyReduxPath))
       }
-
       // If it is a value ref
       if (isResourceWithValueTemplateRef(propertyTemplate)) {
         if (stubMandatoryOnly && !isMandatory) {
@@ -172,17 +166,18 @@ export const stubResourceProperties = async (resourceTemplateId, existingResourc
 
             const newResourceKey = shortid.generate()
             if (existingNestedResourceKey === undefined) {
-              newResource[propertyTemplate.propertyURI][newResourceKey] = { [resourceTemplateId]: {} }
-              if (!isMandatory) {
+              if (!isMandatory && !stubPropertyURIOnly) {
                 return
               }
+              newResource[propertyTemplate.propertyURI][newResourceKey] = { [resourceTemplateId]: {} }
+              dispatch(toggleCollapse(newResourcePropertyReduxPath))
             }
             const nestedResourceKey = existingNestedResourceKey || newResourceKey
             const newResourcePropertyValueReduxPath = [...newResourcePropertyReduxPath, nestedResourceKey]
             const nestedResource = newResource[propertyTemplate.propertyURI][nestedResourceKey][resourceTemplateId]
             const nestedResourceTemplate = await nestedResourceTemplatePromise
             const newNestedResource = await stubResourceProperties(resourceTemplateId, nestedResourceTemplate,
-              nestedResource, newResourcePropertyValueReduxPath, useDefaults, isMandatory, dispatch)
+              nestedResource, newResourcePropertyValueReduxPath, useDefaults, isMandatory, false, dispatch)
             newResource[propertyTemplate.propertyURI][nestedResourceKey][resourceTemplateId] = newNestedResource
           }),
         )
@@ -191,7 +186,7 @@ export const stubResourceProperties = async (resourceTemplateId, existingResourc
         newResource[propertyTemplate.propertyURI] = {}
         // Defaults
         const defaults = defaultValuesFromPropertyTemplate(propertyTemplate)
-        if (useDefaults && !_.isEmpty(defaults)) {
+        if ((useDefaults && !_.isEmpty(defaults)) || isMandatory || stubPropertyURIOnly) {
           newResource[propertyTemplate.propertyURI].items = defaults
           dispatch(toggleCollapse(newResourcePropertyReduxPath))
         }
