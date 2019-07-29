@@ -34,7 +34,7 @@ describe('Adding new embedded Resource Templates', () => {
       let noteRtOutlines = await page.$$(`${ptOutlineSel} div.rtOutline`)
       expect(noteRtOutlines.length).toEqual(1)
 
-      await pupExpect(page).toClick(`${ptOutlineSel} button.btn-add`) // Add button
+      await pupExpect(page).toClick(`${ptOutlineSel} button.btn-add-another`) // Add button
       noteRtOutlines = await page.$$(`${ptOutlineSel} div.rtOutline`)
       expect(noteRtOutlines.length).toEqual(2)
     })
