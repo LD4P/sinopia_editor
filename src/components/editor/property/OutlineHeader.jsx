@@ -4,7 +4,7 @@ import React from 'react'
 import { connect } from 'react-redux'
 import PropTypes from 'prop-types'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faAngleUp, faAngleDown } from '@fortawesome/free-solid-svg-icons'
+import { faAngleRight, faAngleDown } from '@fortawesome/free-solid-svg-icons'
 import PropertyLabel from './PropertyLabel'
 import {
   findNode, isExpanded, getPropertyTemplate, findErrors, getDisplayValidations,
@@ -15,7 +15,7 @@ import _ from 'lodash'
 
 
 const OutlineHeader = (props) => {
-  const icon = props.collapsed === true ? faAngleUp : faAngleDown
+  const icon = props.collapsed === true ? faAngleRight : faAngleDown
 
   const isAdd = _.isEmpty(props.resourceModel)
 
