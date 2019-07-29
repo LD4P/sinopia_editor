@@ -4,7 +4,7 @@ import React from 'react'
 import { connect } from 'react-redux'
 import PropTypes from 'prop-types'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faMinusSquare, faPlusSquare } from '@fortawesome/free-solid-svg-icons'
+import { faAngleUp, faAngleDown } from '@fortawesome/free-solid-svg-icons'
 import PropertyLabel from './PropertyLabel'
 import {
   findNode, isExpanded, getPropertyTemplate, findErrors, getDisplayValidations,
@@ -15,7 +15,7 @@ import _ from 'lodash'
 
 
 const OutlineHeader = (props) => {
-  const icon = props.collapsed === true ? faPlusSquare : faMinusSquare
+  const icon = props.collapsed === true ? faAngleUp : faAngleDown
 
   const isAdd = _.isEmpty(props.resourceModel)
 
@@ -27,24 +27,26 @@ const OutlineHeader = (props) => {
     error = props.errors.join(',')
   }
 
+  if (isAdd) {
+    return (
+      <div className={groupClasses}>
+        <button type="button" className="btn btn-default btn-add" onClick={props.handleAddButton} data-id={props.id}>
+          + Add <PropertyLabel propertyTemplate={props.property} />
+        </button>
+        { error && <span className="help-block">{error}</span>}
+      </div>
+    )
+  }
+
   return (
     <div className={groupClasses}>
-      <button type="button" className="btn btn-sm btn-outline-primary btn-toggle" onClick={props.handleToggle} data-id={props.id} disabled={isAdd}>
+      <button type="button" className="btn btn-sm btn-toggle" onClick={props.handleToggle} data-id={props.id} disabled={isAdd}>
         <FontAwesomeIcon icon={icon} />
       </button>
       <PropertyLabel propertyTemplate={props.property} />
-      { isAdd && (
-        <button type="button" className="btn btn-sm btn-outline-primary btn-add" onClick={props.handleAddButton} data-id={props.id}>
-          Add
-        </button>
-      )}
-      { isAdd && error && <span className="help-block">{error}</span>}
-
-      { !isAdd && (
-        <button type="button" className="btn btn-sm btn-outline-primary btn-remove" onClick={props.handleRemoveButton} data-id={props.id}>
-          Remove
-        </button>
-      )}
+      <button type="button" className="btn btn-sm btn-outline-primary btn-remove" onClick={props.handleRemoveButton} data-id={props.id}>
+        Remove
+      </button>
 
     </div>
   )
