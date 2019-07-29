@@ -16,7 +16,8 @@ describe('Expanding a resource property in a property panel', () => {
   })
 
   it('clicks on one of the property type rows to expand a nested resource', async () => {
-    expect.assertions(2)
+    expect.assertions(3)
+    await pupExpect(page).toMatchElement('button.btn-add[data-id=\'hasInstance\']')
     await pupExpect(page).toClick('button.btn-add[data-id=\'hasInstance\']')
     await pupExpect(page).toMatchElement('h5', { text: 'BIBFRAME Instance' })
   })
@@ -41,7 +42,8 @@ describe('Expanding a resource property in a property panel', () => {
   })
 
   it('enters a non-roman value into a nested property component', async () => {
-    expect.assertions(2)
+    expect.assertions(3)
+    await pupExpect(page).toMatchElement('input[placeholder="Holdings"')
     await pupExpect(page).toFill('input[placeholder="Holdings"', '甲骨文')
     await page.keyboard.press('Enter')
     await pupExpect(page).toMatchElement('div', { text: '甲骨文' })

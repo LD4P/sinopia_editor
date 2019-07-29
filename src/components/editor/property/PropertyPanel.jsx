@@ -23,7 +23,7 @@ const PropertyPanel = (props) => {
         <PropertyLabel propertyTemplate={ props.propertyTemplate } />{nbsp}
         { isAdd && (
           <button type="button" className="btn btn-sm btn-primary btn-add" onClick={props.handleAddButton} data-id={props.id}>
-            Add
+            + Add
           </button>
         )}
         { !isAdd && !isMandatory && (
