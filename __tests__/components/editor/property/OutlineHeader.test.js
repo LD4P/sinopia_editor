@@ -2,7 +2,7 @@
 
 import React from 'react'
 import { shallow } from 'enzyme'
-import { faAngleUp, faAngleDown } from '@fortawesome/free-solid-svg-icons'
+import { faAngleRight, faAngleDown } from '@fortawesome/free-solid-svg-icons'
 import OutlineHeader from 'components/editor/property/OutlineHeader'
 
 describe('<OutlineHeader />', () => {
@@ -71,7 +71,7 @@ describe('<OutlineHeader />', () => {
 
     describe('expand button', () => {
       it('is plus', () => {
-        expect(wrapper.find('FontAwesomeIcon').props().icon).toEqual(faAngleUp)
+        expect(wrapper.find('FontAwesomeIcon').props().icon).toEqual(faAngleRight)
       })
 
       it('is not disabled', () => {
@@ -109,7 +109,7 @@ describe('<OutlineHeader />', () => {
     }
     const wrapper = shallow(<OutlineHeader.WrappedComponent {...headerProps} />)
 
-    it('expand button is minus and not disabled', () => {
+    it('expand button is angle down and not disabled', () => {
       expect(wrapper.exists('button.btn-toggle[disabled=false]')).toEqual(true)
       expect(wrapper.find('FontAwesomeIcon').props().icon).toEqual(faAngleDown)
     })
