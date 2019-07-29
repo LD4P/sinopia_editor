@@ -65,10 +65,10 @@ class PropertyResourceTemplate extends Component {
     const isRemoveHidden = this.props.siblingResourceCount === 1
     return (<div>
       <div className="row" key={shortid.generate()}>
-        <section className="col-md-10">
+        <section className="col-md-6">
           <h4>{this.props.resourceTemplate.resourceLabel}</h4>
         </section>
-        <section className="col-md-2">
+        <section className="col-md-6">
           <PropertyActionButtons
             addButtonHidden={isAddHidden}
             addButtonDisabled={isAddDisabled}

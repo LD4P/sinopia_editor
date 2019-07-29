@@ -10,8 +10,9 @@ describe('Adding and removing resources', () => {
   })
 
   it('loads up a resource template from the list of loaded templates', async () => {
-    expect.assertions(2)
+    expect.assertions(3)
     await pupExpect(page).toClick('a', { text: 'BIBFRAME Instance' })
+    await pupExpect(page).toMatch('Editor')
     await pupExpect(page).toMatch('BIBFRAME Instance')
   })
 
@@ -19,7 +20,7 @@ describe('Adding and removing resources', () => {
     expect.assertions(3)
     expect(await nodesWithTextCount('h4', 'BIBFRAME Work', page)).toEqual(1)
 
-    await pupExpect(page).toClick('button.btn-add', { text: 'Add' })
+    await pupExpect(page).toClick('button.btn-add-another', { text: 'Add' })
     expect(await nodesWithTextCount('h4', 'BIBFRAME Work', page)).toEqual(2)
   })
 
@@ -27,7 +28,7 @@ describe('Adding and removing resources', () => {
     expect.assertions(3)
     expect(await nodesWithTextCount('h4', 'BIBFRAME Work', page)).toEqual(2)
 
-    await pupExpect(page).toClick('button.btn-remove', { text: 'Remove' })
+    await pupExpect(page).toClick('button.btn-remove-another', { text: 'Remove' })
     expect(await nodesWithTextCount('h4', 'BIBFRAME Work', page)).toEqual(1)
   })
 
@@ -36,7 +37,7 @@ describe('Adding and removing resources', () => {
     await pupExpect(page).toClick('button.btn-add[data-id=\'hasInstance\']')
     expect(await nodesWithTextCount('h5', 'BIBFRAME Instance', page)).toEqual(1)
 
-    await pupExpect(page).toClick('div.rOutline-property button.btn-add')
+    await pupExpect(page).toClick('div.rOutline-property button.btn-add-another')
     expect(await nodesWithTextCount('h5', 'BIBFRAME Instance', page)).toEqual(2)
   })
 
@@ -44,7 +45,7 @@ describe('Adding and removing resources', () => {
     expect.assertions(3)
     expect(await nodesWithTextCount('h5', 'BIBFRAME Instance', page)).toEqual(2)
 
-    await pupExpect(page).toClick('div.rOutline-property button.btn-remove')
+    await pupExpect(page).toClick('div.rOutline-property button.btn-remove-another')
     expect(await nodesWithTextCount('h5', 'BIBFRAME Instance', page)).toEqual(1)
   })
 })
