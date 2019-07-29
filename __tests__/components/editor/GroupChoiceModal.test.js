@@ -90,18 +90,16 @@ describe('<GroupChoiceModal />', () => {
         .text()).toEqual('Save')
     })
   })
+
   describe('save and close buttons', () => {
     it('attempts to save the RDF content with group choice when save is clicked and closes the modal', () => {
-      wrapper.find('.btn-primary', { text: 'Save' }).simulate('click')
+      wrapper.find('[bsStyle="primary"]').simulate('click')
       expect(server.publishRDFResource).toHaveBeenCalledWith(currentUser, 'some triples', 'cornell')
       expect(mockSaveStarted).toHaveBeenCalled()
     })
+
     it('closes the modal when the Cancel link is clicked', () => {
-      wrapper.find('.btn-link', { text: 'Cancel' }).simulate('click')
-      expect(closeFunc).toHaveBeenCalled()
-    })
-    it('closes the modal when the heade "X" entity is clicked', () => {
-      wrapper.find('.btn-primary', { text: '&times;' }).simulate('click')
+      wrapper.find('[bsStyle="link"]').simulate('click')
       expect(closeFunc).toHaveBeenCalled()
     })
   })
