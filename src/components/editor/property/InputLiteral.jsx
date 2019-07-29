@@ -96,16 +96,22 @@ export class InputLiteral extends Component {
       const itemId = obj.id || shortid.generate()
 
       return <div id="userInput" key = {itemId} >
-        {obj.content}
-        <button
-          id="deleteItem"
-          type="button"
-          onClick={this.handleDeleteClick}
-          key={`delete${obj.id}`}
-          data-item={itemId}
-          data-label={this.props.formData.uri}
-        >X
-        </button>
+        <div
+          className="rbt-token rbt-token-removeable">
+          {obj.content}
+          <button
+            id={`delete${obj.id}`}
+            type="button"
+            onClick={this.handleDeleteClick}
+            key={`delete${obj.id}`}
+            data-item={obj.id}
+            data-label={this.props.formData.uri}
+            className="close rbt-close rbt-token-remove-button">
+            <span
+                aria-hidden="true"
+                data-item={obj.id}>×</span>
+          </button>
+        </div>
         <button
           id="editItem"
           type="button"
@@ -113,7 +119,8 @@ export class InputLiteral extends Component {
           key={`edit${obj.id}`}
           data-item={itemId}
           data-label={this.props.formData.uri}
-        >Edit
+          className="btn btn-sm btn-literal btn-default">
+          Edit
         </button>
         <LanguageButton id={obj.id} reduxPath={this.props.reduxPath}/>
       </div>
