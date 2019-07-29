@@ -2,6 +2,7 @@
 
 import {
   createReducer, setRetrieveError, removeResource, clearRetrieveError, updateFinished,
+  setLastSaveChecksum,
 } from 'reducers/index'
 import _ from 'lodash'
 import { getFixtureResourceTemplate } from '../fixtureLoaderHelper'
@@ -175,9 +176,10 @@ describe('removeResource', () => {
 })
 
 describe('updateFinished', () => {
+  const action = { payload: 'abc123' }
   it('sets last save differently each time called', () => {
     expect(initialState.selectorReducer.editor.lastSave).toBeFalsy()
-    const newState = updateFinished(initialState.selectorReducer)
+    const newState = updateFinished(initialState.selectorReducer, action)
     expect(newState.editor.lastSave).toBeTruthy()
 
     const now = Date.now()
@@ -185,7 +187,20 @@ describe('updateFinished', () => {
       // Wait
     }
 
-    const newState2 = updateFinished(_.cloneDeep(newState))
+    const newState2 = updateFinished(_.cloneDeep(newState), action)
     expect(newState.editor.lastSave).not.toEqual(newState2.editor.lastSave)
+  })
+  it('sets lastSaveChecksum', () => {
+    const newState = updateFinished(initialState.selectorReducer, action)
+    expect(newState.editor.lastSaveChecksum).toEqual('abc123')
+  })
+})
+
+describe('setLastSaveChecksum', () => {
+  const action = { payload: 'abc123' }
+
+  it('sets lastSaveChecksum', () => {
+    const newState = setLastSaveChecksum(initialState.selectorReducer, action)
+    expect(newState.editor.lastSaveChecksum).toEqual('abc123')
   })
 })

@@ -5,6 +5,8 @@ import N3Parser from 'n3/lib/N3Parser'
 import rdf from 'rdf-ext'
 import _ from 'lodash'
 import shortid from 'shortid'
+import CryptoJS from 'crypto-js'
+
 
 export const isResourceWithValueTemplateRef = property => property?.type === 'resource'
     && property?.valueConstraint?.valueTemplateRefs?.length > 0
@@ -102,3 +104,5 @@ export const rdfDatasetFromN3 = data => new Promise((resolve) => {
       }
     })
 })
+
+export const generateMD5 = message => CryptoJS.MD5(message).toString()

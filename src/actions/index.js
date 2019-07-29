@@ -80,8 +80,9 @@ export const updateStarted = () => ({
   type: 'UPDATE_STARTED',
 })
 
-export const updateFinished = () => ({
+export const updateFinished = checksum => ({
   type: 'UPDATE_FINISHED',
+  payload: checksum,
 })
 
 export const retrieveResourceStarted = uri => ({
@@ -150,4 +151,9 @@ export const clearResourceTemplates = () => ({
 export const showSearchResults = searchResults => ({
   type: 'SHOW_SEARCH_RESULTS',
   payload: searchResults,
+})
+
+export const setLastSaveChecksum = checksum => ({
+  type: 'SET_LAST_SAVE_CHECKSUM',
+  payload: checksum,
 })

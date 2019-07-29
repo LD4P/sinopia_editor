@@ -104,9 +104,17 @@ export const toggleCollapse = (state, action) => {
   return newState
 }
 
-export const updateFinished = (state) => {
+export const updateFinished = (state, action) => {
   const newState = { ...state }
   newState.editor.lastSave = Date.now()
+  newState.editor.lastSaveChecksum = action.payload
+
+  return newState
+}
+
+export const setLastSaveChecksum = (state, action) => {
+  const newState = { ...state }
+  newState.editor.lastSaveChecksum = action.payload
 
   return newState
 }
@@ -137,6 +145,7 @@ const handlers = {
   LANGUAGES_RECEIVED: languagesReceived,
   LOADING_LANGUAGES: loadingLanguages,
   UPDATE_FINISHED: updateFinished,
+  SET_LAST_SAVE_CHECKSUM: setLastSaveChecksum,
 }
 
 export const createReducer = handlers => (state = {}, action) => {

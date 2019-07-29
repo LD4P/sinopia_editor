@@ -2,9 +2,9 @@
 
 import React from 'react'
 import Modal from 'react-bootstrap/lib/Modal'
-import Button from 'react-bootstrap/lib/Button'
 import { shallow } from 'enzyme'
 import RDFModal from 'components/editor/RDFModal'
+import SaveAndPublishButton from 'components/editor/SaveAndPublishButton'
 
 describe('<RDFModal />', () => {
   const closeFunc = jest.fn()
@@ -38,21 +38,11 @@ describe('<RDFModal />', () => {
 
   describe('body', () => {
     it('has a save and publish button', () => {
-      expect(wrapper.find(Modal.Body).find(Button)
-        .last()
-        .childAt(0)
-        .text()).toEqual('Save & Publish')
+      expect(wrapper.find(SaveAndPublishButton).length).toBe(1)
     })
 
     it('has a Modal.Body', () => {
       expect(wrapper.find(Modal.Body).length).toBe(1)
-    })
-  })
-
-  describe('save and close buttons', () => {
-    it('attempts to save the RDF content when save is clicked', () => {
-      wrapper.find('.btn-primary', { text: 'Save & Publish' }).simulate('click')
-      expect(saveFunc).toHaveBeenCalled()
     })
   })
 })

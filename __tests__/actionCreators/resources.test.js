@@ -41,7 +41,7 @@ describe('update', () => {
     const getState = jest.fn().mockReturnValue(state)
     await update(currentUser)(dispatch, getState)
     expect(dispatch).toBeCalledWith({ type: 'UPDATE_STARTED' })
-    expect(dispatch).toBeCalledWith({ type: 'UPDATE_FINISHED' })
+    expect(dispatch).toBeCalledWith({ type: 'UPDATE_FINISHED', payload: '53ce99f9e4b1132733bae37801cd8000' })
   })
 })
 
@@ -59,9 +59,10 @@ describe('retrieveResource', () => {
     const dispatch = jest.fn()
 
     await retrieveResource(currentUser, uri)(dispatch)
-    expect(dispatch).toHaveBeenCalledTimes(3)
+    expect(dispatch).toHaveBeenCalledTimes(4)
     expect(dispatch).toBeCalledWith({ type: 'RETRIEVE_STARTED' })
     expect(dispatch).toBeCalledWith({ type: 'CLEAR_RESOURCE_TEMPLATES' })
+    expect(dispatch).toBeCalledWith({ type: 'SET_LAST_SAVE_CHECKSUM', payload: '1bb7817b33ce3f39ebdacc70339f6904' })
   })
 })
 
@@ -89,7 +90,8 @@ describe('newResource', () => {
     expect(actions[1]).toEqual({ type: 'CLEAR_RESOURCE_URI_MESSAGE' })
     expect(actions[2]).toEqual({ type: 'SET_RESOURCE', payload: { [resourceTemplateId]: {} } })
     expect(actions[3]).toEqual({ type: 'RETRIEVE_RESOURCE_TEMPLATE_STARTED', payload: resourceTemplateId })
-    expect(actions[4]).toEqual({ type: 'SET_RESOURCE_TEMPLATE', payload: resourceTemplateResponse.response.body })
+    expect(actions[4]).toEqual({ type: 'SET_LAST_SAVE_CHECKSUM', payload: undefined })
+    expect(actions[5]).toEqual({ type: 'SET_RESOURCE_TEMPLATE', payload: resourceTemplateResponse.response.body })
   })
 })
 
@@ -120,7 +122,8 @@ describe('existingResource', () => {
     expect(actions[1]).toEqual({ type: 'SET_RESOURCE', payload: { [resourceTemplateId]: {} } })
     expect(actions[2]).toEqual({ type: 'SET_BASE_URL', payload: 'http://localhost:8080/repository/stanford/888ea64d-f471-41bf-9d33-c9426ab83b5c' })
     expect(actions[3]).toEqual({ type: 'RETRIEVE_RESOURCE_TEMPLATE_STARTED', payload: undefined })
-    expect(actions[4]).toEqual({ type: 'SET_RESOURCE_TEMPLATE', payload: resourceTemplateResponse.response.body })
+    expect(actions[4]).toEqual({ type: 'SET_LAST_SAVE_CHECKSUM', payload: undefined })
+    expect(actions[5]).toEqual({ type: 'SET_RESOURCE_TEMPLATE', payload: resourceTemplateResponse.response.body })
   })
 })
 

@@ -13,6 +13,7 @@ import {
 } from 'actions/index'
 import { publishRDFResource } from 'sinopiaServer'
 import { getCurrentUser } from 'authSelectors'
+import { generateMD5 } from 'Utilities'
 
 const GroupChoiceModal = (props) => {
   // The ld4p group is only for templates
@@ -32,7 +33,8 @@ const GroupChoiceModal = (props) => {
 
     request.then((result) => {
       props.setBaseURL(result.response.headers.location)
-      props.saveFinished()
+      // Need to regenerate RDF now that have baseURL
+      props.saveFinished(props.rdf())
     }).catch((err) => {
       alert('Unable to save resource')
       console.error('unable to save resource')
@@ -89,7 +91,7 @@ GroupChoiceModal.propTypes = {
 
 const mapStateToProps = state => ({
   show: state.selectorReducer.editor.groupChoice.show,
-  rdf: () => new GraphBuilder(state.selectorReducer).graph.toString(),
+  rdf: () => new GraphBuilder(state.selectorReducer).graph.toCanonical(),
   currentUser: getCurrentUser(state),
 })
 
@@ -107,8 +109,8 @@ const mapDispatchToProps = dispatch => ({
   saveStarted() {
     dispatch(updateStarted())
   },
-  saveFinished() {
-    dispatch(updateFinished())
+  saveFinished(rdf) {
+    dispatch(updateFinished(generateMD5(rdf)))
   },
 })
 
