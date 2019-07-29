@@ -62,10 +62,10 @@ const GroupChoiceModal = (props) => {
                 { groups.map((group, index) => <option key={index} value={ group[0] }>{ group[1] }</option>) }
               </select>
               <div className="group-choose-buttons">
-                <Button className="btn-link" style={{ paddingRight: '20px' }} onClick={ props.close }>
+                <Button bsStyle="link" style={{ paddingRight: '20px' }} onClick={ props.close }>
                   Cancel
                 </Button>
-                <Button className="btn btn-primary btn-sm" onClick={ saveAndClose }>
+                <Button bsStyle="primary" bsSize="small" onClick={ saveAndClose }>
                   Save
                 </Button>
               </div>

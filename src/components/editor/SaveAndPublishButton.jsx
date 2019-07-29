@@ -10,7 +10,7 @@ import { getCurrentUser } from 'authSelectors'
 import { showGroupChooser } from 'actions/index'
 
 const SaveAndPublishButton = props => (
-  <Button id={ props.id } className="btn btn-primary btn-sm" onClick={ props.save(props.isSaved, props.currentUser) } disabled={ props.isDisabled }>
+  <Button id={ props.id } bsStyle="primary" bsSize="small" onClick={ props.save(props.isSaved, props.currentUser) } disabled={ props.isDisabled }>
         Save & Publish
   </Button>
 )
