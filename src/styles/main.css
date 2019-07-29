@@ -21,6 +21,16 @@ body {
   margin-right: 5px;
 }
 
+.btn-add {
+  background-image: none;
+  border-style: dashed;
+  margin-bottom: 4px;
+}
+
+.btn-toggle {
+  background-color: transparent;
+}
+
 .homepage-navbar {
   padding-bottom: 2% ;
   padding-top:2%;

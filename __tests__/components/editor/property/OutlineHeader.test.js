@@ -2,7 +2,7 @@
 
 import React from 'react'
 import { shallow } from 'enzyme'
-import { faMinusSquare, faPlusSquare } from '@fortawesome/free-solid-svg-icons'
+import { faAngleUp, faAngleDown } from '@fortawesome/free-solid-svg-icons'
 import OutlineHeader from 'components/editor/property/OutlineHeader'
 
 describe('<OutlineHeader />', () => {
@@ -25,11 +25,6 @@ describe('<OutlineHeader />', () => {
 
     it('contains a <PropertyLabel />', () => {
       expect(wrapper.exists('PropertyLabel')).toEqual(true)
-    })
-
-    it('expand button is plus and disabled', () => {
-      expect(wrapper.exists('button.btn-toggle[disabled=true]')).toEqual(true)
-      expect(wrapper.find('FontAwesomeIcon').props().icon).toEqual(faPlusSquare)
     })
 
     describe('add button', () => {
@@ -76,7 +71,7 @@ describe('<OutlineHeader />', () => {
 
     describe('expand button', () => {
       it('is plus', () => {
-        expect(wrapper.find('FontAwesomeIcon').props().icon).toEqual(faPlusSquare)
+        expect(wrapper.find('FontAwesomeIcon').props().icon).toEqual(faAngleUp)
       })
 
       it('is not disabled', () => {
@@ -116,7 +111,7 @@ describe('<OutlineHeader />', () => {
 
     it('expand button is minus and not disabled', () => {
       expect(wrapper.exists('button.btn-toggle[disabled=false]')).toEqual(true)
-      expect(wrapper.find('FontAwesomeIcon').props().icon).toEqual(faMinusSquare)
+      expect(wrapper.find('FontAwesomeIcon').props().icon).toEqual(faAngleDown)
     })
 
     it('does not have an add button', () => {
