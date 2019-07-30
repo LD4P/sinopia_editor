@@ -26,35 +26,20 @@ const SearchResultsPaging = (props) => {
     return null
   }
 
-  // for (let number = 1; number <= 5; number++) {
-  //   items.push(
-  //     <Pagination.Item key={number} active={number === active}>
-  //       {number}
-  //     </Pagination.Item>,
-  //   );
-  // }
+  let items = []
+  for (let number = 1; number <= props.totalResults / Config.searchResultsPerPage; number++) {
+    items.push(
+      <Pagination.Item key={number}>
+        {number}
+      </Pagination.Item>,
+    );
+  }
   
   return (
     <div id="search-results-pages" className="row">
       <div className="col-sm-2"></div>
       <div className="col-sm-8 text-center">
-        <Pagination size="lg" onClick={handleClick}>
-          <Pagination.First />
-          <Pagination.Prev />
-          <Pagination.Item>{1}</Pagination.Item>
-          <Pagination.Ellipsis />
-
-          <Pagination.Item>{10}</Pagination.Item>
-          <Pagination.Item>{11}</Pagination.Item>
-          <Pagination.Item>{12}</Pagination.Item>
-          <Pagination.Item>{13}</Pagination.Item>
-          <Pagination.Item>{14}</Pagination.Item>
-
-          <Pagination.Ellipsis />
-          <Pagination.Item>{20}</Pagination.Item>
-          <Pagination.Next />
-          <Pagination.Last />
-        </Pagination>
+        <Pagination size="lg" onClick={handleClick}>{items}</Pagination>
       </div>
       <div className="col-sm-2"></div>
     </div>
