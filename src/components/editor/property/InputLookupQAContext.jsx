@@ -1,7 +1,5 @@
 // Copyright 2019 Stanford University see LICENSE for license
 import React, { Component } from 'react'
-import { getOptionLabel } from 'react-bootstrap-typeahead/lib/utils'
-
 import PropTypes from 'prop-types'
 import SinopiaPropTypes from 'SinopiaPropTypes'
 import { connect } from 'react-redux'
@@ -9,7 +7,7 @@ import {
   itemsForProperty, getDisplayValidations, getPropertyTemplate, findErrors,
 } from 'selectors/resourceSelectors'
 import { changeSelections, removeItem } from 'actions/index'
-import { getLookupConfigItems, isValidURI } from 'Utilities'
+import { getLookupConfigItems } from 'Utilities'
 import Button from 'react-bootstrap/lib/Button'
 import Modal from 'react-bootstrap/lib/Modal'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
@@ -48,8 +46,7 @@ class InputLookupQAContext extends Component {
     }
 
     /*
-     * We want to add to, not replace selections but as first pass
-     * we will replace
+     * We want to add to, not replace selections but as first pass we will replace
      */
     this.props.handleSelectedChange(payload)
     this.handleClose()
@@ -59,7 +56,6 @@ class InputLookupQAContext extends Component {
     const usrInput = event.target.value
     this.setState({ query: usrInput })
   }
-
 
   handleClick = () => {
     const query = this.state.query
@@ -144,7 +140,6 @@ class InputLookupQAContext extends Component {
         }
       }
     }
-
     return (
       <div>{items}</div>
     )
@@ -279,9 +274,9 @@ class InputLookupQAContext extends Component {
     }
     const elements = selected.map((obj) => {
       const itemId = obj.uri
-
+      const itemDisplay = obj.uri ? (<a href={obj.uri} rel="noopener noreferrer" target="_blank">{obj.label}</a>) : obj.label
       return <div id="userInput" key = {itemId} >
-        {obj.label}
+        {itemDisplay}
         <button
             id="deleteItem"
             type="button"
@@ -343,7 +338,6 @@ const authorityToContextOrderMap = {
   'urn:ld4p:qa:names:organization': ['Descriptor', 'Location', 'Field of Activity', 'Affiliation', 'Occupation', 'VIAF match', 'Variant label',
     'Citation note', 'Citation source', 'Editorial note'],
 }
-
 
 InputLookupQAContext.propTypes = {
   displayValidations: PropTypes.bool,
