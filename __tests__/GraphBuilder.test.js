@@ -48,10 +48,7 @@ describe('GraphBuilder', () => {
                     {
                       content: 'Very colorful',
                       id: '3TzRpgv65',
-                      lang: {
-                        id: 'en',
-                        label: 'English',
-                      },
+                      lang: 'en',
                     },
                     {
                       content: 'Sparkly',

@@ -65,7 +65,7 @@ const mapStateToProps = (state, ourProps) => {
   const node = findNode(state.selectorReducer, ourProps.reduxPath)
   const item = node.items.find(item => item.id === ourProps.id)
   return {
-    language: languageLabel(state, item.lang.id),
+    language: languageLabel(state, item.lang),
     textContent: item.content,
   }
 }
