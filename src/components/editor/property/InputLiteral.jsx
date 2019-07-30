@@ -10,7 +10,7 @@ import {
   findNode, getDisplayValidations, getPropertyTemplate, findErrors,
 } from 'selectors/resourceSelectors'
 import LanguageButton from './LanguageButton'
-import { booleanPropertyFromTemplate, defaultLangTemplate } from 'Utilities'
+import { booleanPropertyFromTemplate, defaultLanguageId } from 'Utilities'
 import _ from 'lodash'
 
 // Redux recommends exporting the unconnected component for unit tests.
@@ -42,7 +42,7 @@ export class InputLiteral extends Component {
     userInputArray.push({
       content: currentcontent,
       id: shortid.generate(),
-      lang: defaultLangTemplate(),
+      lang: defaultLanguageId,
     })
   }
 

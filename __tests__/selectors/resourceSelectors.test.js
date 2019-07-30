@@ -151,10 +151,7 @@ describe('resourceHasChangesSinceLastSave', () => {
           {
             content: 'foo',
             id: 'VBtih30me',
-            lang: {
-              id: 'en',
-              label: 'English',
-            },
+            lang: 'en',
           },
         ],
       },

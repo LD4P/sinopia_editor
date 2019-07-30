@@ -104,7 +104,7 @@ describe('When the user enters input into field', () => {
     // Test to see arguments used after its been submitted
     expect(mockItemsChange.mock.calls[0][0]).toEqual(
       {
-        items: [{ content: 'foo', id: 0, lang: { id: 'en', label: 'English' } }],
+        items: [{ content: 'foo', id: 0, lang: 'en' }],
         reduxPath: ['resourceTemplate:bf2:Monograph:Instance', 'http://id.loc.gov/ontologies/bibframe/instanceOf'],
       },
     )
@@ -120,13 +120,13 @@ describe('When the user enters input into field', () => {
 
     expect(mockItemsChange.mock.calls[0][0]).toEqual(
       {
-        items: [{ content: 'fooby', id: 0, lang: { id: 'en', label: 'English' } }],
+        items: [{ content: 'fooby', id: 0, lang: 'en' }],
         reduxPath: ['resourceTemplate:bf2:Monograph:Instance', 'http://id.loc.gov/ontologies/bibframe/instanceOf'],
       },
     )
     expect(mockItemsChange.mock.calls[1][0]).toEqual(
       {
-        items: [{ content: 'bar', id: 0, lang: { id: 'en', label: 'English' } }],
+        items: [{ content: 'bar', id: 0, lang: 'en' }],
         reduxPath: ['resourceTemplate:bf2:Monograph:Instance', 'http://id.loc.gov/ontologies/bibframe/instanceOf'],
       },
     )
@@ -143,14 +143,14 @@ describe('When the user enters input into field', () => {
     mockWrapper.instance().props.propertyTemplate.repeatable = 'false'
     mockWrapper.instance().forceUpdate()
     mockWrapper.setProps({
-      items: [{ content: 'foo', id: 4, lang: { label: 'English' } }],
+      items: [{ content: 'foo', id: 4, lang: 'en' }],
     })
     expect(mockWrapper.find('div#userInput').text()).toEqual('foo×Edit<Connect(LanguageButton) />') // Contains X and Edit as buttons
   })
 
   it('should call the removeMockDataFn when X is clicked', () => {
     mockWrapper.setProps({
-      items: [{ content: 'test', id: 5, lang: { items: [{ label: 'English' }] } }],
+      items: [{ content: 'test', id: 5, lang: 'en' }],
     })
     expect(removeMockDataFn.mock.calls.length).toEqual(0)
     mockWrapper.find('button.close').first().simulate('click', { target: { dataset: { item: 5 } } })
@@ -164,7 +164,7 @@ describe('When the user enters input into field', () => {
     mockWrapper.instance().inputLiteralRef.current = { focus: mockFocusFn }
 
     mockWrapper.setProps({
-      items: [{ content: 'test', id: 5, lang: { items: [{ label: 'English' }] } }],
+      items: [{ content: 'test', id: 5, lang: 'en' }],
     })
     expect(removeMockDataFn.mock.calls.length).toEqual(0)
     mockWrapper.find('button#editItem').first().simulate('click', { target: { dataset: { item: 5 } } })
@@ -192,7 +192,7 @@ describe('when there is a default literal value in the property template', () =>
         {
           uri: 'http://id.loc.gov/vocabulary/organizations/dlc',
           content: 'DLC',
-          lang: { items: [{ label: 'English' }] },
+          lang: 'en',
         },
       ],
     }
@@ -222,7 +222,7 @@ describe('when there is a default literal value in the property template', () =>
                       handleMyItemsChange={mockMyItemsChange}
                       handleRemoveItem={mockRemoveItem}
                       handleMyItemsLangChange={jest.fn()}
-                      items={[{ content: 'fooby', id: 0, lang: { items: [{ label: 'English' }] } }]}/>,
+                      items={[{ content: 'fooby', id: 0, lang: 'en' }]}/>,
       )
 
       expect(nonrepeatWrapper.exists('input', { disabled: true })).toBe(true)
@@ -268,7 +268,7 @@ describe('When a user enters non-roman text in a work title', () => {
     workTitleWrapper.find('input').simulate('change', { target: { value: artOfWar } })
     workTitleWrapper.find('input').simulate('keypress', { key: 'Enter', preventDefault: () => {} })
     workTitleWrapper.setProps({
-      items: [{ content: artOfWar, id: 1, lang: { label: 'Mandarin' } }],
+      items: [{ content: artOfWar, id: 1, lang: 'zh' }],
     })
     expect(workTitleWrapper.find('div#userInput').text().includes(artOfWar)).toBeTruthy()
   })

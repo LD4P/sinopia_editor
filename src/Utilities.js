@@ -7,6 +7,7 @@ import _ from 'lodash'
 import shortid from 'shortid'
 import CryptoJS from 'crypto-js'
 
+export const defaultLanguageId = 'en'
 
 export const isResourceWithValueTemplateRef = property => property?.type === 'resource'
     && property?.valueConstraint?.valueTemplateRefs?.length > 0
@@ -50,7 +51,7 @@ export const defaultValuesFromPropertyTemplate = (propertyTemplate) => {
       defaultValues.push({
         id: shortid.generate(),
         content: defaultLabel,
-        lang: defaultLangTemplate(),
+        lang: defaultLanguageId,
       })
     }
   })
@@ -70,12 +71,6 @@ export const booleanPropertyFromTemplate = (template, key, defaultValue) => {
   return parsedValue
 }
 
-export const defaultLangTemplate = () => (
-  {
-    id: 'en',
-    label: 'English',
-  }
-)
 
 export const getLookupConfigItems = (propertyTemplate) => {
   const vocabUriList = propertyTemplate?.valueConstraint?.useValuesFrom

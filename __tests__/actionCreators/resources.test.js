@@ -201,10 +201,7 @@ describe('stubResourceProperties', () => {
                 {
                   id: 'wORfB8Vnvdw',
                   content: '67890',
-                  lang: {
-                    id: 'en',
-                    label: 'English',
-                  },
+                  lang: 'en',
                 },
               ],
             },
@@ -260,10 +257,7 @@ describe('stubResourceProperties', () => {
                 {
                   id: 'abc123',
                   content: '12345',
-                  lang: {
-                    id: 'en',
-                    label: 'English',
-                  },
+                  lang: 'en',
                 },
               ],
             },

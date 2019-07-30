@@ -132,7 +132,7 @@ export default class GraphBuilder {
    * @return {rdf.LiteralExt} the literal with a language value
    */
   createLiteral(item) {
-    return rdf.literal(item.content, item.lang?.id)
+    return rdf.literal(item.content, item.lang)
   }
 
   /**
