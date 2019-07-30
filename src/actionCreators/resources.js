@@ -42,7 +42,7 @@ export const retrieveResource = (currentUser, uri) => (dispatch) => {
       return rdfDatasetFromN3(data).then((dataset) => {
         const builder = new ResourceStateBuilder(dataset, null)
         dispatch(existingResource(builder.state, uri))
-        dispatch(setLastSaveChecksum(generateMD5(dataset.toCanonical())))
+        // dispatch(setLastSaveChecksum(generateMD5(dataset.toCanonical())))
       })
     })
 }
@@ -105,6 +105,7 @@ const stubResource = useDefaults => (dispatch, getState) => {
   stubResourceProperties(rootResourceTemplateId, resourceTemplate, rootResource, ['resource'], useDefaults, false, false, dispatch).then((resourceProperties) => {
     newResource[rootResourceTemplateId] = resourceProperties
     dispatch(setResource(newResource))
+    setLastSaveChecksum(generateMD5(dataset.toCanonical()))
   })
 }
 

@@ -8,7 +8,9 @@
 const showSearchResults = (state, action) => {
   const newState = { ...state }
 
-  newState.search.results = action.payload
+  newState.search.results = action.payload.searchResults
+  newState.search.totalResults = action.payload.totalResults
+
   return newState
 }
 

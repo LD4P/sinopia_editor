@@ -11,6 +11,7 @@ import Row from 'react-bootstrap/lib/Row'
 import Form from 'react-bootstrap/lib/Form'
 import { showSearchResults } from 'actions/index'
 import SearchResults from './SearchResults'
+import SearchResultsPaging from './SearchResultsPaging'
 import Config from 'Config'
 
 const Search = (props) => {
@@ -23,17 +24,18 @@ const Search = (props) => {
     }
   }
 
-  const responseToSearchResults = json => json
-    .hits.hits.map(row => ({ uri: row._id, title: row._source.title }))
+  const responseToSearchResults = json => {
+    return { totalHits: json.hits.total, results: json.hits.hits.map(row => ({ uri: row._id, title: row._source.title })) }
+  }
 
   const search = (query) => {
-    const uri = `${Config.searchHost}${Config.searchPath}?q=title:${query}%20OR%20subtitle:${query}`
+    const uri = `${Config.searchHost}${Config.searchPath}?q=title:${query}%20OR%20subtitle:${query}&from=0&size=1`
 
     fetch(uri)
       .then(resp => resp.json())
       .then(json => responseToSearchResults(json))
       .then((results) => {
-        props.displaySearchResults(results)
+        props.displaySearchResults(results.results, results.totalHits)
       })
   }
 
@@ -53,6 +55,7 @@ const Search = (props) => {
           </Form>
         </Row>
         <SearchResults {...props} />
+        <SearchResultsPaging {...props} pageSize="1"/>
       </Grid>
     </div>
   )
@@ -65,8 +68,8 @@ Search.propTypes = {
 }
 
 const mapDispatchToProps = dispatch => ({
-  displaySearchResults: (searchResults) => {
-    dispatch(showSearchResults(searchResults))
+  displaySearchResults: (searchResults, totalResults) => {
+    dispatch(showSearchResults(searchResults, totalResults))
   },
 })
 
