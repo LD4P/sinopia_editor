@@ -3,6 +3,7 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import PropertyLabel from './PropertyLabel'
+import PropertyLabelInfo from './PropertyLabelInfo'
 import { connect } from 'react-redux'
 import { findNode, getPropertyTemplate } from 'selectors/resourceSelectors'
 import { removeResource } from 'actions/index'
@@ -17,7 +18,8 @@ const PropertyPanel = (props) => {
   return (
     <div className="panel panel-property" data-label={ props.propertyTemplate.propertyLabel }>
       <div className="panel-heading prop-heading">
-        <PropertyLabel propertyTemplate={ props.propertyTemplate } />{nbsp}
+        <PropertyLabel propertyTemplate={ props.propertyTemplate } />
+        <PropertyLabelInfo propertyTemplate={ props.propertyTemplate } />{nbsp}
         { isAdd && (
           <button type="button" className="btn btn-sm btn-primary btn-add" onClick={props.handleAddButton} data-id={props.id}>
             + Add

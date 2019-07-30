@@ -27,6 +27,10 @@ describe('<OutlineHeader />', () => {
       expect(wrapper.exists('PropertyLabel')).toEqual(true)
     })
 
+    it('contains a <PropertyLabelInfo />', () => {
+      expect(wrapper.exists('PropertyLabelInfo')).toEqual(true)
+    })
+
     describe('add button', () => {
       it('has an add button', () => {
         expect(wrapper.exists('button.btn-add')).toEqual(true)

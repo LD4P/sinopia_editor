@@ -18,6 +18,6 @@ describe('<RequiredSuperscript />', () => {
 
   it('has an OverlayTrigger for the asterick (that displays a popover tooltip)', () => {
     expect(wrapper.find(OverlayTrigger).length).toEqual(1)
-    expect(wrapper.find('OverlayTrigger FontAwesomeIcon').prop('className')).toEqual('asterick')
+    expect(wrapper.find('OverlayTrigger FontAwesomeIcon').prop('className')).toEqual('asterick-icon')
   })
 })
