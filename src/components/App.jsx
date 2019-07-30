@@ -39,13 +39,6 @@ class App extends Component {
   }
 
   render() {
-    const PrivateRoute = ({ component: ImportResourceTemplate, ...rest }) => (
-      <Route
-        {...rest}
-        render={props => (this.props.currentSession ? (<ImportResourceTemplate {...props} />) : null)
-        }
-      />
-    )
     return (
       <div id="app">
         <LoginPanel />
@@ -56,7 +49,13 @@ class App extends Component {
           ) : (
             <Redirect from="/editor" to="/templates" />
           )}
-          <PrivateRoute exact path="/templates" component={props => <ImportResourceTemplate {...props} triggerHandleOffsetMenu={this.props.handleOffsetMenu} />}/>
+          {
+            this.props.currentSession && (
+              <Route exact path="/templates" render={props => <ImportResourceTemplate {...props}
+                                                                                      triggerHandleOffsetMenu={this.props.handleOffsetMenu}
+                                                                                      key="import-resource-template" />} />
+            )
+          }
           <Route exact path="/search" render={props => <Search {...props} triggerHandleOffsetMenu={this.props.handleOffsetMenu} />} />
           <Route exact path="/load" render={props => <LoadResource {...props} triggerHandleOffsetMenu={this.props.handleOffsetMenu} />} />
           <Route path="/menu" render={props => <CanvasMenu {...props} />} />

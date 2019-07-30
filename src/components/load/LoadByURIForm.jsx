@@ -1,19 +1,29 @@
 // Copyright 2019 Stanford University see LICENSE for license
 
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import { connect } from 'react-redux'
 import PropTypes from 'prop-types'
 import { retrieveResource } from 'actionCreators/resources'
 import { getCurrentUser } from 'authSelectors'
+import { rootResource } from 'selectors/resourceSelectors'
 
 const LoadByURIForm = (props) => {
   const [uri, setUri] = useState('')
+  const [navigateEditor, setNavigateEditor] = useState(false)
 
   const handleURIChange = event => setUri(event.target.value)
+
+  useEffect(() => {
+    // Forces a wait until the root resource has been set in state
+    if (navigateEditor && props.rootResource) {
+      props.history.push('/editor')
+    }
+  })
 
   const handleSubmit = (event) => {
     if (uri !== '') {
       props.loadResource(props.currentUser, uri)
+      setNavigateEditor(true)
     }
     event.preventDefault()
   }
@@ -37,18 +47,18 @@ LoadByURIForm.propTypes = {
   loadResource: PropTypes.func,
   history: PropTypes.object,
   currentUser: PropTypes.object,
+  rootResource: PropTypes.object,
 }
 
-const mapDispatchToProps = (dispatch, ourProps) => ({
+const mapDispatchToProps = dispatch => ({
   loadResource: (user, uri) => {
-    dispatch(retrieveResource(user, uri)).then(() => {
-      ourProps.history.push('/editor')
-    })
+    dispatch(retrieveResource(user, uri))
   },
 })
 
 const mapStateToProps = state => ({
   currentUser: getCurrentUser(state),
+  rootResource: rootResource(state),
 })
 
 

@@ -10,6 +10,10 @@ describe('Expanding a resource property in a property panel', () => {
 
   it('loads up a resource template from the list of loaded templates', async () => {
     expect.assertions(3)
+    await page.setViewport({
+      width: 1822,
+      height: 961,
+    })
     await pupExpect(page).toClick('a', { text: 'BIBFRAME Instance' })
     await pupExpect(page).toMatch('Editor')
     await pupExpect(page).toMatch('BIBFRAME Instance')

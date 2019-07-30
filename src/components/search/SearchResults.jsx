@@ -2,7 +2,7 @@
 /* eslint no-unused-vars: 0 */ // --> OFF
 /* eslint max-params: ["error", 4] */
 
-import React from 'react'
+import React, { useState, useEffect } from 'react'
 import { connect } from 'react-redux'
 import PropTypes from 'prop-types'
 import Config from 'Config'
@@ -12,9 +12,22 @@ import { getCurrentUser } from 'authSelectors'
 import { retrieveResource } from 'actionCreators/resources'
 import Button from 'react-bootstrap/lib/Button'
 import ButtonToolbar from 'react-bootstrap/lib/ButtonToolbar'
+import { rootResource } from 'selectors/resourceSelectors'
 
 const SearchResults = (props) => {
-  const handleClick = resourceURI => props.loadResource(props.currentUser, resourceURI)
+  const [navigateEditor, setNavigateEditor] = useState(false)
+
+  const handleClick = (resourceURI) => {
+    props.loadResource(props.currentUser, resourceURI)
+    setNavigateEditor(true)
+  }
+
+  useEffect(() => {
+    // Forces a wait until the root resource has been set in state
+    if (navigateEditor && props.rootResource) {
+      props.history.push('/editor')
+    }
+  })
 
   // This returns the current row number + 1 in order to include it in the displayed table
   const indexFormatter = (_cell, _row, rowIndex, _formatExtraData) => rowIndex + 1
@@ -61,18 +74,18 @@ SearchResults.propTypes = {
   loadResource: PropTypes.func,
   currentUser: PropTypes.object,
   history: PropTypes.object,
+  rootResource: PropTypes.object,
 }
 
 const mapStateToProps = state => ({
   currentUser: getCurrentUser(state),
   searchResults: state.selectorReducer.search.results,
+  rootResource: rootResource(state),
 })
 
 const mapDispatchToProps = (dispatch, ourProps) => ({
   loadResource: (user, uri) => {
-    dispatch(retrieveResource(user, uri)).then(() => {
-      ourProps.history.push('/editor')
-    })
+    dispatch(retrieveResource(user, uri))
   },
 })
 

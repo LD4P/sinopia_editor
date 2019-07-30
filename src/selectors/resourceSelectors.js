@@ -57,12 +57,7 @@ export const resourceHasChangesSinceLastSave = (state) => {
   if (lastSaveChecksum === undefined) {
     return true
   }
-  // This is temporary until the setting of lastSaveChecksum is fixed.
-  try {
-    const rdf = new GraphBuilder(state.selectorReducer).graph.toCanonical()
-    const resourceChecksum = generateMD5(rdf)
-    return lastSaveChecksum !== resourceChecksum
-  } catch (error) {
-    return true
-  }
+  const rdf = new GraphBuilder(state.selectorReducer).graph.toCanonical()
+  const resourceChecksum = generateMD5(rdf)
+  return lastSaveChecksum !== resourceChecksum
 }

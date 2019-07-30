@@ -153,7 +153,7 @@ class ImportResourceTemplate extends Component {
         </div>
         <Header triggerEditorMenu={this.props.triggerHandleOffsetMenu}/>
         <ImportFileZone setResourceTemplateCallback={this.setResourceTemplates} />
-        <SinopiaResourceTemplates messages={this.state.flashMessages} />
+        <SinopiaResourceTemplates messages={this.state.flashMessages} history={this.props.history} key="sinopia-resource-templates" />
       </div>
     )
   }
@@ -164,6 +164,7 @@ ImportResourceTemplate.propTypes = {
   triggerHandleOffsetMenu: PropTypes.func,
   currentUser: PropTypes.object,
   fetchResourceTemplateSummaries: PropTypes.func,
+  history: PropTypes.object,
 }
 
 const mapStateToProps = state => ({

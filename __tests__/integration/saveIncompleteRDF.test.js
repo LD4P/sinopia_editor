@@ -15,7 +15,12 @@ describe('Previewing the RDF', () => {
   })
 
   it('builds the rdf and displays validation errors after attempting to save', async () => {
-    expect.assertions(6) // An additional assertion is done in incompleteFieldsForBibframeInstance
+    expect.assertions(8) // An additional assertion is done in incompleteFieldsForBibframeInstance
+
+    // Need to change something
+    await pupExpect(page).toMatchElement('[placeholder=\'Statement of Responsibility Relating to Title Proper (RDA 2.4.2)\'', 'World')
+    await pupExpect(page).toFill('[placeholder=\'Statement of Responsibility Relating to Title Proper (RDA 2.4.2)\'', 'World')
+    await page.keyboard.press('Enter')
 
     // Click on the PreviewRDF button and a modal appears
     await pupExpect(page).toClick('button', { text: 'Preview RDF' })
