@@ -21,10 +21,11 @@ body {
   margin-right: 5px;
 }
 
-.btn-add {
+.btn-add, .btn-remove {
   background-image: none;
   border-style: dashed;
-  margin-bottom: 4px;
+  float: right;
+  margin-top: -5px;
 }
 
 .btn-toggle {
@@ -93,6 +94,11 @@ body {
 .prop-heading {
   background-color: #8C8A83 !important;
   color: white !important;
+}
+
+.prop-heading > span {
+  padding: 5px;
+  margin: 4px;
 }
 
 .panel-property {
