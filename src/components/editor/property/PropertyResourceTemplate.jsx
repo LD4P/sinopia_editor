@@ -59,9 +59,9 @@ class PropertyResourceTemplate extends Component {
     if (!this.props.resourceTemplate) {
       return null
     }
-    // repeatable defaults to false, so isAddDisabled defaults to true
-    const isAddDisabled = this.props.isRepeatable ? !JSON.parse(this.props.isRepeatable) : true
-    const isAddHidden = this.props.index > 0
+    // repeatable defaults to false, so isNotRepeatable defaults to true
+    const isNotRepeatable = this.props.isRepeatable ? !JSON.parse(this.props.isRepeatable) : true
+    const isAddHidden = isNotRepeatable || this.props.index > 0
     const isRemoveHidden = this.props.siblingResourceCount === 1
     return (<div>
       <div className="row" key={shortid.generate()}>
@@ -71,7 +71,6 @@ class PropertyResourceTemplate extends Component {
         <section className="col-md-6">
           <PropertyActionButtons
             addButtonHidden={isAddHidden}
-            addButtonDisabled={isAddDisabled}
             removeButtonHidden={isRemoveHidden}
             reduxPath={this.props.reduxPath}
             key={shortid.generate()} />

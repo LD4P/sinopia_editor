@@ -29,7 +29,7 @@ export class ResourceProperty extends Component {
 
         const propertyReduxPath = _.first(resourceRow.properties)
         const resourceReduxPath = propertyReduxPath.slice(0, propertyReduxPath.length - 1)
-        const isAddHidden = index > 0
+        const isAddHidden = this.props.addButtonHidden || index > 0
         const isRemoveHidden = resourceRows.length === 1
         jsx.push(
           <div className="row" key={shortid.generate()}>
@@ -39,8 +39,7 @@ export class ResourceProperty extends Component {
             <section className="col-sm-6">
               <PropertyActionButtons reduxPath={resourceReduxPath}
                                      addButtonHidden={isAddHidden}
-                                     removeButtonHidden={isRemoveHidden}
-                                     addButtonDisabled={this.props.addButtonDisabled} />
+                                     removeButtonHidden={isRemoveHidden} />
             </section>
           </div>,
         )
@@ -66,7 +65,7 @@ export class ResourceProperty extends Component {
 }
 
 ResourceProperty.propTypes = {
-  addButtonDisabled: PropTypes.bool,
+  addButtonHidden: PropTypes.bool,
   propertyTemplate: PropTypes.object,
   reduxPath: PropTypes.array,
   models: PropTypes.object,

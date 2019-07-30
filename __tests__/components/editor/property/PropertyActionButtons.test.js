@@ -20,19 +20,8 @@ describe('<PropertyActionButtons />', () => {
       expect(button.text()).toEqual('Add another Note')
     })
 
-    it('is not disabled by default', () => {
-      expect(button.prop('disabled')).toBeUndefined()
-    })
-
-    describe('when addButtonDisabled is true', () => {
-      beforeEach(() => {
-        propertyActionWrapper = shallow(<PropertyActionButtons.WrappedComponent addButtonDisabled={true}/>)
-        button = propertyActionWrapper.find('button.btn-add-another')
-      })
-
-      it('is set to disabled', () => {
-        expect(button.prop('disabled')).toBe(true)
-      })
+    it('is not hidden by default', () => {
+      expect(button.prop('hidden')).toBeUndefined()
     })
 
     describe('when addButtonHidden is true', () => {

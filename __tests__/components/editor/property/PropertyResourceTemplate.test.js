@@ -66,32 +66,31 @@ describe('<PropertyResourceTemplate />', () => {
     })
   })
 
-  describe('<PropertyActionButtons /> addButtonDisabled prop value', () => {
-    it('isRepeatable false:  addButtonDisabled prop is true', () => {
-      const wrapper = shallow(<PropertyResourceTemplate.WrappedComponent isRepeatable={'false'} {...propertyRtProps} />)
-      const actionButtons = wrapper.find(PropertyActionButtons)
-
-      expect(actionButtons.props().addButtonDisabled).toBeTruthy()
-    })
-
-    it('isRepeatable true:  addButtonDisabled prop is false', () => {
-      const wrapper = shallow(<PropertyResourceTemplate.WrappedComponent isRepeatable={'true'} {...propertyRtProps} />)
-      const actionButtons = wrapper.find(PropertyActionButtons)
-
-      expect(actionButtons.props().addButtonDisabled).toBeFalsy()
-    })
-  })
-
   describe('<PropertyActionButtons /> addButtonHidden prop value', () => {
-    it('addButtonHidden prop is true', () => {
-      const wrapper = shallow(<PropertyResourceTemplate.WrappedComponent index={1} {...propertyRtProps} />)
+    // true when either addButtonHidden is true or repeatable is false
+    it('true when addButtonHidden prop is true and isRepeatable is false', () => {
+      const wrapper = shallow(<PropertyResourceTemplate.WrappedComponent index={1} isRepeatable={'false'} {...propertyRtProps} />)
       const actionButtons = wrapper.find(PropertyActionButtons)
 
       expect(actionButtons.props().addButtonHidden).toBeTruthy()
     })
 
-    it('addButtonHidden prop is false', () => {
-      const wrapper = shallow(<PropertyResourceTemplate.WrappedComponent index={0} {...propertyRtProps} />)
+    it('true when addButtonHidden prop is true and isRepeatable is true', () => {
+      const wrapper = shallow(<PropertyResourceTemplate.WrappedComponent index={1} isRepeatable={'true'} {...propertyRtProps} />)
+      const actionButtons = wrapper.find(PropertyActionButtons)
+
+      expect(actionButtons.props().addButtonHidden).toBeTruthy()
+    })
+
+    it('true when addButtonHidden prop is false and isRepeatable is false', () => {
+      const wrapper = shallow(<PropertyResourceTemplate.WrappedComponent index={0} isRepeatable={'false'} {...propertyRtProps} />)
+      const actionButtons = wrapper.find(PropertyActionButtons)
+
+      expect(actionButtons.props().addButtonHidden).toBeTruthy()
+    })
+
+    it('false when addButtonHidden prop is false and isRepeatable is true', () => {
+      const wrapper = shallow(<PropertyResourceTemplate.WrappedComponent index={0} isRepeatable={'true'} {...propertyRtProps} />)
       const actionButtons = wrapper.find(PropertyActionButtons)
 
       expect(actionButtons.props().addButtonHidden).toBeFalsy()

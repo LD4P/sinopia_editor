@@ -25,11 +25,11 @@ class PropertyTemplateOutline extends Component {
     }
 
     if (isResourceWithValueTemplateRef(this.props.property)) {
-      const isAddDisabled = !booleanPropertyFromTemplate(this.props.property, 'repeatable', false)
+      const isAddHidden = !booleanPropertyFromTemplate(this.props.property, 'repeatable', false)
       return (<ResourceProperty key={shortid.generate()}
                                 propertyTemplate={this.props.property}
                                 reduxPath={this.props.reduxPath}
-                                addButtonDisabled={isAddDisabled} />)
+                                addButtonHidden={isAddHidden} />)
     }
 
     return (<PropertyComponent key={shortid.generate()} propertyTemplate={this.props.property} reduxPath={this.props.reduxPath} />)

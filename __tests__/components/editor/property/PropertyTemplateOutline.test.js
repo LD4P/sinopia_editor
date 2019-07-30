@@ -44,31 +44,31 @@ describe('<PropertyTemplateOutline />', () => {
       expect(wrapper.find('div Connect(ResourceProperty)').length).toEqual(1)
     })
 
-    it('creates a <ResourceProperty /> for the nested resourceTemplate with "Add" button disabled', () => {
+    it('creates a <ResourceProperty /> for the nested resourceTemplate with "Add" button not hidden', () => {
       const resourceProperty = wrapper.find(ResourceProperty)
 
       expect(resourceProperty.length).toEqual(1)
       expect(resourceProperty.props().propertyTemplate).toEqual(propertyRtProps.property)
-      expect(resourceProperty.props().addButtonDisabled).toEqual(false) // repeatable is true in outer propTemp
+      expect(resourceProperty.props().addButtonHidden).toEqual(false) // repeatable is true in outer propTemp
     })
 
-    it('"Add" button enabled for outer propertyTemplate with repeatable false', () => {
+    it('"Add" button hidden for outer propertyTemplate with repeatable false', () => {
       const resourceTypePropTemp = { ...propertyRtProps }
 
       resourceTypePropTemp.property.repeatable = 'false'
       const myWrapper = shallow(<PropertyTemplateOutline.WrappedComponent {...resourceTypePropTemp} />)
       const resourceProperty = myWrapper.find(ResourceProperty)
 
-      expect(resourceProperty.props().addButtonDisabled).toEqual(true)
+      expect(resourceProperty.props().addButtonHidden).toEqual(true)
     })
-    it('"Add" button enabled for outer propertyTemplate without repeatable indicated', () => {
+    it('"Add" button hidden for outer propertyTemplate without repeatable indicated (defaults to false)', () => {
       const resourceTypePropTemp = { ...propertyRtProps }
 
       delete resourceTypePropTemp.property.repeatable
       const myWrapper = shallow(<PropertyTemplateOutline.WrappedComponent {...resourceTypePropTemp} />)
       const resourceProperty = myWrapper.find(ResourceProperty)
 
-      expect(resourceProperty.props().addButtonDisabled).toEqual(true)
+      expect(resourceProperty.props().addButtonHidden).toEqual(true)
     })
 
     it('adds a PropertyComponent div for a row with the nested template', () => {
