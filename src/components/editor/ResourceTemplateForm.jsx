@@ -62,7 +62,7 @@ export class ResourceTemplateForm extends Component {
   renderComponentForm = () => (
     <div>
       <form>
-        <div className="ResourceTemplateForm row">
+        <div className="ResourceTemplateForm">
           {
             this.props.propertyTemplates.map((propertyTemplate, index) => {
               const newReduxPath = [...this.props.reduxPath, propertyTemplate.propertyURI]
