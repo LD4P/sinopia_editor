@@ -15,10 +15,6 @@ const plProps = {
     repeatable: '',
   },
   reduxPath: [],
-  formData: {
-    items: [],
-    errors: [],
-  },
 }
 
 const valConstraintProps = {
@@ -45,7 +41,6 @@ describe('<InputLiteral />', () => {
 
   it('contains required="true" attribute on input tag when mandatory is true', () => {
     wrapper.instance().props.propertyTemplate.mandatory = 'true'
-    wrapper.instance().props.formData.errors = [{ id: 'problem' }]
     wrapper.instance().forceUpdate() /** Update plProps with mandatory: "true" * */
     expect(wrapper.find('input').prop('required')).toBeTruthy()
     expect(wrapper.find('label > RequiredSuperscript')).toBeTruthy()
@@ -148,7 +143,6 @@ describe('When the user enters input into field', () => {
     mockWrapper.instance().props.propertyTemplate.repeatable = 'false'
     mockWrapper.instance().forceUpdate()
     mockWrapper.setProps({
-      formData: { id: 1, uri: 'http://id.loc.gov/ontologies/bibframe/instanceOf' },
       items: [{ content: 'foo', id: 4, lang: { label: 'English' } }],
     })
     expect(mockWrapper.find('div#userInput').text()).toEqual('foo×Edit<Connect(LanguageButton) />') // Contains X and Edit as buttons
@@ -156,7 +150,6 @@ describe('When the user enters input into field', () => {
 
   it('should call the removeMockDataFn when X is clicked', () => {
     mockWrapper.setProps({
-      formData: { id: 1, uri: 'http://id.loc.gov/ontologies/bibframe/instanceOf' },
       items: [{ content: 'test', id: 5, lang: { items: [{ label: 'English' }] } }],
     })
     expect(removeMockDataFn.mock.calls.length).toEqual(0)
@@ -171,11 +164,6 @@ describe('When the user enters input into field', () => {
     mockWrapper.instance().inputLiteralRef.current = { focus: mockFocusFn }
 
     mockWrapper.setProps({
-      formData: {
-        id: 1,
-        uri: 'http://id.loc.gov/ontologies/bibframe/instanceOf',
-        errors: [],
-      },
       items: [{ content: 'test', id: 5, lang: { items: [{ label: 'English' }] } }],
     })
     expect(removeMockDataFn.mock.calls.length).toEqual(0)
@@ -199,9 +187,6 @@ describe('when there is a default literal value in the property template', () =>
         mandatory: '',
         repeatable: '',
         valueConstraint: valConstraintProps,
-      },
-      formData: {
-        errors: [],
       },
       items: [
         {
@@ -228,7 +213,6 @@ describe('when there is a default literal value in the property template', () =>
         mandatory: '',
         repeatable: 'false',
       },
-      formData: {},
     }
 
     it('input has disabled attribute when there are items', () => {
@@ -284,10 +268,6 @@ describe('When a user enters non-roman text in a work title', () => {
     workTitleWrapper.find('input').simulate('change', { target: { value: artOfWar } })
     workTitleWrapper.find('input').simulate('keypress', { key: 'Enter', preventDefault: () => {} })
     workTitleWrapper.setProps({
-      formData: {
-        id: 1,
-        uri: 'http://id.loc.gov/ontologies/bibframe/title',
-      },
       items: [{ content: artOfWar, id: 1, lang: { label: 'Mandarin' } }],
     })
     expect(workTitleWrapper.find('div#userInput').text().includes(artOfWar)).toBeTruthy()
