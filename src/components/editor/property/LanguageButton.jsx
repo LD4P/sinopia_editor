@@ -63,7 +63,8 @@ LanguageButton.propTypes = {
 
 const mapStateToProps = (state, ourProps) => {
   const node = findNode(state.selectorReducer, ourProps.reduxPath)
-  const item = node.items.find(item => item.id === ourProps.id)
+  // TODO: can we make the redux path of this just have 'items' and ourProps.id?
+  const item = node.items[ourProps.id]
   return {
     language: languageLabel(state, item.lang),
     textContent: item.content,

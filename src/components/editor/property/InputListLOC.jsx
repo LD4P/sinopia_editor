@@ -145,13 +145,16 @@ const mapStateToProps = (state, ownProps) => {
   const errors = findErrors(state.selectorReducer, ownProps.reduxPath)
 
   // Make sure that every item has a label
+  // TODO: Move this to the ResourceStateBuilder
   // This is a temporary strategy until label lookup is implemented.
-  const selected = itemsForProperty(state.selectorReducer, ownProps.reduxPath).map((item) => {
-    const newItem = { ...item }
+  const selected = []
+  const items = itemsForProperty(state.selectorReducer, ownProps.reduxPath)
+  Object.keys(items).forEach((key) => {
+    const newItem = { ...items[key] }
     if (newItem.label === undefined) {
       newItem.label = newItem.uri
     }
-    return newItem
+    selected.push(newItem)
   })
 
   return {

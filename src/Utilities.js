@@ -30,7 +30,7 @@ export const isValidURI = (value) => {
 
 export const defaultValuesFromPropertyTemplate = (propertyTemplate) => {
   const defaults = propertyTemplate?.valueConstraint?.defaults || []
-  const defaultValues = []
+  const defaultValues = {}
   defaults.forEach((defaultValue) => {
     // Use the default URI for the literal value if the literal is undefined
     const defaultLiteral = defaultValue?.defaultLiteral
@@ -42,17 +42,15 @@ export const defaultValuesFromPropertyTemplate = (propertyTemplate) => {
     if (!defaultValue || !defaultLabel) return
 
     if (propertyTemplate.type !== 'literal') {
-      defaultValues.push({
-        id: shortid.generate(),
+      defaultValues[shortid.generate()] = {
         label: defaultLabel,
         uri: defaultValue.defaultURI,
-      })
+      }
     } else {
-      defaultValues.push({
-        id: shortid.generate(),
+      defaultValues[shortid.generate()] = {
         content: defaultLabel,
         lang: defaultLanguageId,
-      })
+      }
     }
   })
   return defaultValues

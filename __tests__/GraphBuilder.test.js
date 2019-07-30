@@ -23,50 +23,45 @@ describe('GraphBuilder', () => {
           'http://id.loc.gov/ontologies/bibframe/temporalCoverage': {},
           'http://id.loc.gov/ontologies/bibframe/note': {},
           'http://id.loc.gov/ontologies/bibframe/content': {
-            items: [
-              {
-                id: 'http://id.loc.gov/vocabulary/contentTypes/txt',
+            items: {
+              abc123: {
                 label: 'text',
                 uri: 'http://id.loc.gov/vocabulary/contentTypes/txt',
               },
-            ],
+            },
           },
           'http://id.loc.gov/ontologies/bibframe/illustrativeContent': {
-            items: [
-              {
-                id: '2_RmnVrDkk9',
+            items: {
+              '2_RmnVrDkk9': {
                 label: 'Genealogical tables',
                 uri: 'http://id.loc.gov/vocabulary/millus/gnt',
               },
-            ],
+            },
           },
           'http://id.loc.gov/ontologies/bibframe/colorContent': {
             '-KACHlqQ4A': {
               'resourceTemplate:bf2:Note': {
                 'http://www.w3.org/2000/01/rdf-schema#label': {
-                  items: [
-                    {
+                  items: {
+                    '3TzRpgv65': {
                       content: 'Very colorful',
-                      id: '3TzRpgv65',
                       lang: 'en',
                     },
-                    {
+                    '5TzRpgv72': {
                       content: 'Sparkly',
-                      id: '5TzRpgv72',
                     },
-                  ],
+                  },
                 },
               },
             },
             gdndfCHlqQ4z: {
               'resourceTemplate:bf2:Note': {
                 'http://www.w3.org/2000/01/rdf-schema#label': {
-                  items: [
-                    {
+                  items: {
+                    '4dzRpgv42': {
                       content: 'Shiney',
-                      id: '4dzRpgv42',
                     },
-                  ],
+                  },
                 },
               },
             },
@@ -133,37 +128,33 @@ describe('GraphBuilder', () => {
           'http://id.loc.gov/ontologies/bibframe/temporalCoverage': {},
           'http://id.loc.gov/ontologies/bibframe/note': {},
           'http://id.loc.gov/ontologies/bibframe/content': {
-            items: [
-              {
-                id: 'http://id.loc.gov/vocabulary/contentTypes/txt',
+            items: {
+              abc123: {
                 label: 'text',
                 uri: 'http://id.loc.gov/vocabulary/contentTypes/txt',
               },
-            ],
+            },
           },
           'http://id.loc.gov/ontologies/bibframe/illustrativeContent': {
-            items: [
-              {
-                id: '2_RmnVrDkk9',
+            items: {
+              '2_RmnVrDkk9': {
                 label: 'Genealogical tables',
                 uri: 'http://id.loc.gov/vocabulary/millus/gnt',
               },
-            ],
+            },
           },
           'http://id.loc.gov/ontologies/bibframe/colorContent': {
             '-KACHlqQ4A': {
               'resourceTemplate:bf2:Note': {
                 'http://www.w3.org/2000/01/rdf-schema#label': {
-                  items: [
-                    {
+                  items: {
+                    '3TzRpgv65': {
                       content: 'Very colorful',
-                      id: '3TzRpgv65',
                     },
-                    {
+                    zvwwe8321: {
                       content: 'Sparkly',
-                      id: '3TzRpgv65',
                     },
-                  ],
+                  },
                 },
               },
             },
@@ -271,7 +262,7 @@ describe('GraphBuilder', () => {
             '-KACHlqQ4A': {
               'resourceTemplate:bf2:Note': {
                 'http://www.w3.org/2000/01/rdf-schema#label': {
-                  items: [],
+                  items: {},
                 },
               },
             },
