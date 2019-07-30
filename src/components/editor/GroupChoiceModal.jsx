@@ -13,6 +13,7 @@ import {
 } from 'actions/index'
 import { publishRDFResource } from 'sinopiaServer'
 import { getCurrentUser } from 'authSelectors'
+import { generateMD5 } from 'Utilities'
 
 const GroupChoiceModal = (props) => {
   // The ld4p group is only for templates
@@ -32,7 +33,8 @@ const GroupChoiceModal = (props) => {
 
     request.then((result) => {
       props.setBaseURL(result.response.headers.location)
-      props.saveFinished()
+      // Need to regenerate RDF now that have baseURL
+      props.saveFinished(props.rdf())
     }).catch((err) => {
       alert('Unable to save resource')
       console.error('unable to save resource')
@@ -60,10 +62,10 @@ const GroupChoiceModal = (props) => {
                 { groups.map((group, index) => <option key={index} value={ group[0] }>{ group[1] }</option>) }
               </select>
               <div className="group-choose-buttons">
-                <Button className="btn-link" style={{ paddingRight: '20px' }} onClick={ props.close }>
+                <Button bsStyle="link" style={{ paddingRight: '20px' }} onClick={ props.close }>
                   Cancel
                 </Button>
-                <Button className="btn btn-primary btn-sm" onClick={ saveAndClose }>
+                <Button bsStyle="primary" bsSize="small" onClick={ saveAndClose }>
                   Save
                 </Button>
               </div>
@@ -89,7 +91,7 @@ GroupChoiceModal.propTypes = {
 
 const mapStateToProps = state => ({
   show: state.selectorReducer.editor.groupChoice.show,
-  rdf: () => new GraphBuilder(state.selectorReducer).graph.toString(),
+  rdf: () => new GraphBuilder(state.selectorReducer).graph.toCanonical(),
   currentUser: getCurrentUser(state),
 })
 
@@ -107,8 +109,8 @@ const mapDispatchToProps = dispatch => ({
   saveStarted() {
     dispatch(updateStarted())
   },
-  saveFinished() {
-    dispatch(updateFinished())
+  saveFinished(rdf) {
+    dispatch(updateFinished(generateMD5(rdf)))
   },
 })
 

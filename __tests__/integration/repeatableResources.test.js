@@ -12,7 +12,9 @@ describe('Adding new embedded Resource Templates', () => {
 
   describe('one level of nested resourceTemplate (Notes about the Instance)', () => {
     it('clicking AddButton adds second resource template', async () => {
-      expect.assertions(5) // Includes 2 in beforeAll
+      expect.assertions(6) // Includes 2 in beforeAll
+      // Add Notes about the instance
+      await pupExpect(page).toClick('div[data-label="Notes about the Instance"] button')
       const panelBodySel = 'div[data-label="Notes about the Instance"] > div.panel-body'
       let noteRtOutlines = await page.$$(`${panelBodySel} .rtOutline`)
 
@@ -32,14 +34,16 @@ describe('Adding new embedded Resource Templates', () => {
       let noteRtOutlines = await page.$$(`${ptOutlineSel} div.rtOutline`)
       expect(noteRtOutlines.length).toEqual(1)
 
-      await pupExpect(page).toClick(`${ptOutlineSel} button.btn-add`) // Add button
+      await pupExpect(page).toClick(`${ptOutlineSel} button.btn-add-another`) // Add button
       noteRtOutlines = await page.$$(`${ptOutlineSel} div.rtOutline`)
       expect(noteRtOutlines.length).toEqual(2)
     })
   })
 
   it('AddButton disabled for non-repeatable resourceTemplate (Item Information -> Barcode)', async () => {
-    expect.assertions(1)
+    expect.assertions(2)
+    // Add Item Information
+    await pupExpect(page).toClick('div[data-label="Item Information"] button')
     await pupExpect(page).toMatchElement('div[data-label="Item Information"] > div.panel-body button', { disabled: true })
   })
 })

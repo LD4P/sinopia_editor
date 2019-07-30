@@ -71,7 +71,7 @@ describe('<ResourceTemplateForm /> after fetching data from sinopia server', () 
           },
         ],
         reduxPath: [],
-        resourceProperties: {},
+        resourceProperties: { 'http://example.com/fakeProperty': { items: [] } },
       }
 
       const wrapper = shallow(<ResourceTemplateForm.WrappedComponent {...rtProps} />)
@@ -98,7 +98,7 @@ describe('<ResourceTemplateForm /> after fetching data from sinopia server', () 
           },
         ],
         reduxPath: [],
-        resourceProperties: {},
+        resourceProperties: { 'http://example.com/fakeProperty': { items: ['is your Benzedrine, uh-huh'] } },
       }
 
       const wrapper = shallow(<ResourceTemplateForm.WrappedComponent {...rtProps}/>)
@@ -120,7 +120,7 @@ describe('<ResourceTemplateForm /> after fetching data from sinopia server', () 
           type: 'literal',
         },
       ],
-      resourceProperties: {},
+      resourceProperties: { 'http://example.com/fakeProperty': { items: [] } },
       reduxPath: [],
     }
 

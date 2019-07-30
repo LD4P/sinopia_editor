@@ -10,7 +10,7 @@ import {
   findNode, getDisplayValidations, getPropertyTemplate, findErrors,
 } from 'selectors/resourceSelectors'
 import LanguageButton from './LanguageButton'
-import { booleanPropertyFromTemplate, defaultLangTemplate } from 'Utilities'
+import { booleanPropertyFromTemplate, defaultLanguageId } from 'Utilities'
 import _ from 'lodash'
 
 // Redux recommends exporting the unconnected component for unit tests.
@@ -42,7 +42,7 @@ export class InputLiteral extends Component {
     userInputArray.push({
       content: currentcontent,
       id: shortid.generate(),
-      lang: defaultLangTemplate(),
+      lang: defaultLanguageId,
     })
   }
 
@@ -96,24 +96,29 @@ export class InputLiteral extends Component {
       const itemId = obj.id || shortid.generate()
 
       return <div id="userInput" key = {itemId} >
-        {obj.content}
-        <button
-          id="deleteItem"
-          type="button"
-          onClick={this.handleDeleteClick}
-          key={`delete${obj.id}`}
-          data-item={itemId}
-          data-label={this.props.formData.uri}
-        >X
-        </button>
+        <div
+          className="rbt-token rbt-token-removeable">
+          {obj.content}
+          <button
+            id={`delete${obj.id}`}
+            type="button"
+            onClick={this.handleDeleteClick}
+            key={`delete${obj.id}`}
+            data-item={obj.id}
+            className="close rbt-close rbt-token-remove-button">
+            <span
+                aria-hidden="true"
+                data-item={obj.id}>×</span>
+          </button>
+        </div>
         <button
           id="editItem"
           type="button"
           onClick={this.handleEditClick}
           key={`edit${obj.id}`}
           data-item={itemId}
-          data-label={this.props.formData.uri}
-        >Edit
+          className="btn btn-sm btn-literal btn-default">
+          Edit
         </button>
         <LanguageButton id={obj.id} reduxPath={this.props.reduxPath}/>
       </div>
@@ -161,10 +166,6 @@ export class InputLiteral extends Component {
 InputLiteral.propTypes = {
   id: PropTypes.oneOfType([PropTypes.number, PropTypes.string]),
   propertyTemplate: SinopiaPropTypes.propertyTemplate,
-  formData: PropTypes.shape({
-    id: PropTypes.oneOfType([PropTypes.number, PropTypes.string]),
-    uri: PropTypes.string,
-  }),
   errors: PropTypes.array,
   items: PropTypes.array,
   handleMyItemsChange: PropTypes.func,
@@ -185,7 +186,6 @@ const mapStateToProps = (state, ownProps) => {
   const propertyTemplate = getPropertyTemplate(state, resourceTemplateId, propertyURI)
 
   return {
-    formData,
     items,
     propertyTemplate,
     displayValidations,

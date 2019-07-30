@@ -18,11 +18,6 @@ const LanguageButton = (props) => {
     setShow(false)
   }
 
-  // Passed to InputLang component so that can return a language change.
-  const handleLangChange = (payload) => {
-    setLang(payload)
-  }
-
   const handleLangSubmit = () => {
     props.handleMyItemsLangChange(langPayload)
     handleClose()
@@ -34,7 +29,7 @@ const LanguageButton = (props) => {
         <Modal.Title>Languages</Modal.Title>
       </Modal.Header>
       <Modal.Body>
-        <InputLang textValue={props.textContent} reduxPath={props.reduxPath} textId={props.id} handleLangChange={handleLangChange}/>
+        <InputLang textValue={props.textContent} reduxPath={props.reduxPath} textId={props.id} handleLangChange={setLang}/>
       </Modal.Body>
       <Modal.Footer>
         <Button onClick={handleLangSubmit}>Submit</Button>
@@ -48,7 +43,9 @@ const LanguageButton = (props) => {
       <Button
         id="language"
         bsSize="small"
-        onClick = { () => setShow(true) }>
+        bsStyle="default"
+        onClick = { () => setShow(true) }
+        className="btn-literal">
         Language: {props.language}
       </Button>
       { show ? dispModal() : '' }
@@ -68,7 +65,7 @@ const mapStateToProps = (state, ourProps) => {
   const node = findNode(state.selectorReducer, ourProps.reduxPath)
   const item = node.items.find(item => item.id === ourProps.id)
   return {
-    language: languageLabel(state, item.lang.id),
+    language: languageLabel(state, item.lang),
     textContent: item.content,
   }
 }

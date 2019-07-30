@@ -32,7 +32,7 @@ class ResourceTemplate extends Component {
     return (
       <div className="ResourceTemplate">
         <div id="resourceTemplate" style={{ marginTop: '-30px' }}>
-          <section className="col-md-9">
+          <section>
             <h1><em>{this.props.resourceTemplate.resourceLabel}</em></h1>
             <ResourceURIMessage />
             <SaveAlert />

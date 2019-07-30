@@ -3,7 +3,9 @@
 import {
   rootResourceId, isExpanded,
   getDisplayValidations, getResourceTemplate, getPropertyTemplate,
+  resourceHasChangesSinceLastSave,
 } from 'selectors/resourceSelectors'
+import { getFixtureResourceTemplate } from '../fixtureLoaderHelper'
 
 let initialState
 
@@ -16,6 +18,7 @@ beforeEach(() => {
       },
       resource: { // The state we're displaying in the editor
       },
+      editor: { },
     },
   }
 })
@@ -131,6 +134,48 @@ describe('getPropertyTemplate()', () => {
 
     expect(getPropertyTemplate(state, 'resourceTemplate:bf2:Monograph:Work', 'http://id.loc.gov/ontologies/bibframe/title')).toEqual({
       propertyURI: 'http://id.loc.gov/ontologies/bibframe/title',
+    })
+  })
+})
+
+describe('resourceHasChangesSinceLastSave', () => {
+  let template
+  beforeEach(async () => {
+    const templateResponse = await getFixtureResourceTemplate('resourceTemplate:bf2:Note')
+    template = templateResponse.response.body
+  })
+  const resource = {
+    'resourceTemplate:bf2:Note': {
+      'http://www.w3.org/2000/01/rdf-schema#label': {
+        items: [
+          {
+            content: 'foo',
+            id: 'VBtih30me',
+            lang: 'en',
+          },
+        ],
+      },
+    },
+  }
+  describe('when not previously saved', () => {
+    it('returns changed', () => {
+      expect(resourceHasChangesSinceLastSave(initialState)).toBe(true)
+    })
+  })
+  describe('when resource has changed', () => {
+    it('returns changed', () => {
+      initialState.selectorReducer.resource = resource
+      initialState.selectorReducer.entities.resourceTemplates['resourceTemplate:bf2:Note'] = template
+      initialState.selectorReducer.editor.lastSaveChecksum = 'abc123'
+      expect(resourceHasChangesSinceLastSave(initialState)).toBe(true)
+    })
+  })
+  describe('when resource has not changed', () => {
+    it('returns not changed', () => {
+      initialState.selectorReducer.resource = resource
+      initialState.selectorReducer.entities.resourceTemplates['resourceTemplate:bf2:Note'] = template
+      initialState.selectorReducer.editor.lastSaveChecksum = '08ae75f20a719460c76743bfdeded6a6'
+      expect(resourceHasChangesSinceLastSave(initialState)).toBe(false)
     })
   })
 })

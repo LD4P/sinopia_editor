@@ -13,4 +13,6 @@ jest-puppeteer.config.js
 junit.xml
 npm-debug.log
 setupEnzyme.js
+dist
+node_modules
 .env

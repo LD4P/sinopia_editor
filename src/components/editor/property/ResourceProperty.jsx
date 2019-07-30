@@ -33,10 +33,10 @@ export class ResourceProperty extends Component {
         const isRemoveHidden = resourceRows.length === 1
         jsx.push(
           <div className="row" key={shortid.generate()}>
-            <section className="col-sm-8">
+            <section className="col-sm-6">
               <h5>{resourceTemplate.resourceLabel}</h5>
             </section>
-            <section className="col-sm-4">
+            <section className="col-sm-6">
               <PropertyActionButtons reduxPath={resourceReduxPath}
                                      addButtonHidden={isAddHidden}
                                      removeButtonHidden={isRemoveHidden}

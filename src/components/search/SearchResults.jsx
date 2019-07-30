@@ -49,7 +49,7 @@ const SearchResults = (props) => {
       <div className="col-sm-2"></div>
       <div className="col-sm-8">
         <h3>Your List of Bibliographic Metadata Stored in Sinopia</h3>
-        <BootstrapTable id="search-results-list" keyField="hits" data={ props.searchResults } columns={ columns } />
+        <BootstrapTable id="search-results-list" keyField="uri" data={ props.searchResults } columns={ columns } />
       </div>
       <div className="col-sm-2"></div>
     </div>

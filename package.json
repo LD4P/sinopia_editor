@@ -6,7 +6,7 @@
     "editor",
     "rdf"
   ],
-  "version": "0.3.5",
+  "version": "0.3.8",
   "homepage": "http://github.com/LD4P/sinopia_editor/",
   "repository": {
     "type": "git",
@@ -26,7 +26,8 @@
     "Justin Coyne",
     "Peter Mangiafico",
     "Justin Littman",
-    "Aaron Collier"
+    "Aaron Collier",
+    "Huda Khan"
   ],
   "devDependencies": {
     "@babel/core": "^7.5.4",
@@ -101,6 +102,7 @@
     "ajv": "^6.10.0",
     "amazon-cognito-identity-js": "^3.0.10",
     "babel-core": "^7.0.0-bridge.0",
+    "crypto-js": "^3.1.9-1",
     "dotenv": "^8.0.0",
     "event-stream": "^4.0.1",
     "express": "^4.16.4",

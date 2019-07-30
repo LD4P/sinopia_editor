@@ -17,11 +17,6 @@ export async function fillInRequredFieldsForBibframeInstance() {
   await page.keyboard.press('Enter')
 
   // Fill in required element
-  await page.click('button.btn-add[data-id=\'22-rdf-syntax-ns#value\']')
-  await page.type('[placeholder=\'Barcode\']', 'abc123')
-  await page.keyboard.press('Enter')
-
-  // Fill in required element
   await page.type('[placeholder=\'Statement of Responsibility Relating to Title Proper (RDA 2.4.2)\'', 'World')
   await page.keyboard.press('Enter')
 

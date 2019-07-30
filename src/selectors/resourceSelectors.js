@@ -1,4 +1,7 @@
 // Copyright 2018, 2019 Stanford University see LICENSE for license
+import GraphBuilder from 'GraphBuilder'
+import { generateMD5 } from 'Utilities'
+
 export const rootResource = state => Object.values(state.selectorReducer.resource)[0]
 
 export const rootResourceId = state => rootResource(state)?.resourceURI
@@ -47,4 +50,14 @@ export const getPropertyTemplate = (state, resourceTemplateId, propertyURI) => {
 
   // Find the property template
   return resourceTemplate.propertyTemplates.find(propertyTemplate => propertyTemplate.propertyURI === propertyURI)
+}
+
+export const resourceHasChangesSinceLastSave = (state) => {
+  const lastSaveChecksum = state.selectorReducer?.editor?.lastSaveChecksum
+  if (lastSaveChecksum === undefined) {
+    return true
+  }
+  const rdf = new GraphBuilder(state.selectorReducer).graph.toCanonical()
+  const resourceChecksum = generateMD5(rdf)
+  return lastSaveChecksum !== resourceChecksum
 }

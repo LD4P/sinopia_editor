@@ -7,17 +7,17 @@ import PropertyActionButtons from 'components/editor/property/PropertyActionButt
 describe('<PropertyActionButtons />', () => {
   let propertyActionWrapper
   beforeEach(() => {
-    propertyActionWrapper = shallow(<PropertyActionButtons.WrappedComponent />)
+    propertyActionWrapper = shallow(<PropertyActionButtons.WrappedComponent resourceLabel="Note"/>)
   })
 
   describe('Add Button', () => {
     let button
     beforeEach(() => {
-      button = propertyActionWrapper.find('button.btn-add')
+      button = propertyActionWrapper.find('button.btn-add-another')
     })
 
     it('has label "Add"', () => {
-      expect(button.text()).toEqual('Add')
+      expect(button.text()).toEqual('Add another Note')
     })
 
     it('is not disabled by default', () => {
@@ -27,7 +27,7 @@ describe('<PropertyActionButtons />', () => {
     describe('when addButtonDisabled is true', () => {
       beforeEach(() => {
         propertyActionWrapper = shallow(<PropertyActionButtons.WrappedComponent addButtonDisabled={true}/>)
-        button = propertyActionWrapper.find('button.btn-add')
+        button = propertyActionWrapper.find('button.btn-add-another')
       })
 
       it('is set to disabled', () => {
@@ -38,7 +38,7 @@ describe('<PropertyActionButtons />', () => {
     describe('when addButtonHidden is true', () => {
       beforeEach(() => {
         propertyActionWrapper = shallow(<PropertyActionButtons.WrappedComponent addButtonHidden={true}/>)
-        button = propertyActionWrapper.find('button.btn-add')
+        button = propertyActionWrapper.find('button.btn-add-another')
       })
 
       it('is is not shown', () => {
@@ -52,7 +52,7 @@ describe('<PropertyActionButtons />', () => {
       const mockEvent = { preventDefault: () => {} }
       beforeEach(() => {
         propertyActionWrapper = shallow(<PropertyActionButtons.WrappedComponent reduxPath={reduxPath} addResource={mockAddResource} />)
-        button = propertyActionWrapper.find('button.btn-add')
+        button = propertyActionWrapper.find('button.btn-add-another')
       })
 
       it('calls addResource', () => {
@@ -65,11 +65,11 @@ describe('<PropertyActionButtons />', () => {
   describe('Remove Button', () => {
     let button
     beforeEach(() => {
-      button = propertyActionWrapper.find('button.btn-remove')
+      button = propertyActionWrapper.find('button.btn-remove-another')
     })
 
     it('has label "Remove"', () => {
-      expect(button.text()).toEqual('Remove')
+      expect(button.text()).toEqual('Remove Note')
     })
 
     it('is not disabled by default', () => {
@@ -79,7 +79,7 @@ describe('<PropertyActionButtons />', () => {
     describe('when removeButtonHidden is true', () => {
       beforeEach(() => {
         propertyActionWrapper = shallow(<PropertyActionButtons.WrappedComponent removeButtonHidden={true}/>)
-        button = propertyActionWrapper.find('button.btn-remove')
+        button = propertyActionWrapper.find('button.btn-remove-another')
       })
 
       it('is is not shown', () => {
@@ -93,7 +93,7 @@ describe('<PropertyActionButtons />', () => {
       const mockEvent = { preventDefault: () => {} }
       beforeEach(() => {
         propertyActionWrapper = shallow(<PropertyActionButtons.WrappedComponent reduxPath={reduxPath} removeResource={mockRemoveResource} />)
-        button = propertyActionWrapper.find('button.btn-remove')
+        button = propertyActionWrapper.find('button.btn-remove-another')
       })
 
       it('calls removeResource', () => {

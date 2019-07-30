@@ -5,7 +5,7 @@ import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
 import { addResource as addResourceCreator } from 'actionCreators/resources'
 import { removeResource as removeResourceAction } from 'actions/index'
-
+import { getResourceTemplate } from 'selectors/resourceSelectors'
 
 const PropertyActionButtons = (props) => {
   const handleAddClick = (event) => {
@@ -20,13 +20,13 @@ const PropertyActionButtons = (props) => {
 
   return (<div className="btn-group" role="group" aria-label="...">
     { props.addButtonHidden
-      || <button className="btn btn-default btn-sm btn-add"
+      || <button className="btn btn-default btn-sm btn-add-another"
                  onClick={ handleAddClick }
-                 disabled={ props.addButtonDisabled }>Add</button>
+                 disabled={ props.addButtonDisabled }>Add another {props.resourceLabel}</button>
     }
     { props.removeButtonHidden
-      || <button className="btn btn-default btn-sm btn-remove"
-                 onClick={ handleRemoveClick }>Remove</button>
+      || <button className="btn btn-default btn-sm btn-remove-another"
+                 onClick={ handleRemoveClick }>Remove {props.resourceLabel}</button>
     }
 
   </div>)
@@ -38,6 +38,16 @@ PropertyActionButtons.propTypes = {
   addButtonHidden: PropTypes.bool,
   addResource: PropTypes.func,
   removeResource: PropTypes.func,
+  resourceLabel: PropTypes.string,
+}
+
+const mapStateToProps = (state, ownProps) => {
+  const resourceTemplateId = ownProps.reduxPath.slice(-1)[0]
+  const resourceTemplate = getResourceTemplate(state, resourceTemplateId)
+  const resourceLabel = resourceTemplate.resourceLabel
+  return {
+    resourceLabel,
+  }
 }
 
 const mapDispatchToProps = dispatch => ({
@@ -49,4 +59,4 @@ const mapDispatchToProps = dispatch => ({
   },
 })
 
-export default connect(null, mapDispatchToProps)(PropertyActionButtons)
+export default connect(mapStateToProps, mapDispatchToProps)(PropertyActionButtons)

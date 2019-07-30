@@ -864,18 +864,13 @@
     "component": "list"
   },
   {
-    "label": "applied material",
+    "label": "material",
     "uri": "https://id.loc.gov/vocabulary/mmaterial",
     "component": "list"
   },
   {
     "label": "aspect ratio",
     "uri": "https://id.loc.gov/vocabulary/maspect",
-    "component": "list"
-  },
-  {
-    "label": "base material",
-    "uri": "https://id.loc.gov/vocabulary/mmaterial",
     "component": "list"
   },
   {
@@ -946,11 +941,6 @@
   {
     "label": "sound content",
     "uri": "https://id.loc.gov/vocabulary/msoundcontent",
-    "component": "list"
-  },
-  {
-    "label": "special playback characteristics",
-    "uri": "https://id.loc.gov/vocabulary/mplayback",
     "component": "list"
   },
   {

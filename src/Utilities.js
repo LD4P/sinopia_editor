@@ -5,6 +5,9 @@ import N3Parser from 'n3/lib/N3Parser'
 import rdf from 'rdf-ext'
 import _ from 'lodash'
 import shortid from 'shortid'
+import CryptoJS from 'crypto-js'
+
+export const defaultLanguageId = 'en'
 
 export const isResourceWithValueTemplateRef = property => property?.type === 'resource'
     && property?.valueConstraint?.valueTemplateRefs?.length > 0
@@ -48,7 +51,7 @@ export const defaultValuesFromPropertyTemplate = (propertyTemplate) => {
       defaultValues.push({
         id: shortid.generate(),
         content: defaultLabel,
-        lang: defaultLangTemplate(),
+        lang: defaultLanguageId,
       })
     }
   })
@@ -68,12 +71,6 @@ export const booleanPropertyFromTemplate = (template, key, defaultValue) => {
   return parsedValue
 }
 
-export const defaultLangTemplate = () => (
-  {
-    id: 'en',
-    label: 'English',
-  }
-)
 
 export const getLookupConfigItems = (propertyTemplate) => {
   const vocabUriList = propertyTemplate?.valueConstraint?.useValuesFrom
@@ -102,3 +99,5 @@ export const rdfDatasetFromN3 = data => new Promise((resolve) => {
       }
     })
 })
+
+export const generateMD5 = message => CryptoJS.MD5(message).toString()
