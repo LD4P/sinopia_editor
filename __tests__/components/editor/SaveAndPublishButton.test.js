@@ -20,10 +20,11 @@ describe('<SaveAndPublishButton />', () => {
     })
   })
   describe('clicking the button', () => {
-    const wrapper = shallow(<SaveAndPublishButton.WrappedComponent isDisabled={false} save={mockSave} isSaved={false} currentUser="Wilford Brimley" />)
+    const user = { name: 'Wilford Brimley' }
+    const wrapper = shallow(<SaveAndPublishButton.WrappedComponent isDisabled={false} save={mockSave} isSaved={false} currentUser={user} />)
     it('calls save', () => {
       wrapper.find(Button).simulate('click')
-      expect(mockSave).toHaveBeenCalledWith(false, 'Wilford Brimley')
+      expect(mockSave).toHaveBeenCalledWith(false, user)
     })
   })
 })
