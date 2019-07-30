@@ -24,6 +24,9 @@ body {
 .btn-add, .btn-remove {
   background-image: none;
   border-style: dashed;
+}
+
+.panel-heading > .btn-add, .panel-heading > .btn-remove {
   float: right;
   margin-top: -5px;
 }
@@ -65,7 +68,6 @@ body {
     column-count: 1;
   }
 }
-
 
 .desc-panel{
   padding: 0 10%;
