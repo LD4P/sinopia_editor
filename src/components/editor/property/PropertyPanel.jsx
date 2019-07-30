@@ -32,9 +32,11 @@ const PropertyPanel = (props) => {
           </button>
         )}
       </div>
-      <div className="panel-body">
-        { props.children }
-      </div>
+      { !isAdd
+        && <div className="panel-body">
+          { props.children }
+        </div>
+      }
     </div>
   )
 }

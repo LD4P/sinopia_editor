@@ -45,6 +45,9 @@ describe('<PropertyPanel />', () => {
     it('does not render Remove button', () => {
       expect(wrapper.exists('button.btn-remove')).toBeFalsy()
     })
+    it('does not render panel body', () => {
+      expect(wrapper.exists('div.panel-body')).toBeFalsy()
+    })
   })
   describe('when resource model is not empty', () => {
     const notMandatoryPanelProps = { ...panelProps }
@@ -55,6 +58,9 @@ describe('<PropertyPanel />', () => {
     })
     it('does not render Add button', () => {
       expect(wrapper.exists('button.btn-add')).toBeFalsy()
+    })
+    it('renders panel body', () => {
+      expect(wrapper.exists('div.panel-body')).toBeTruthy()
     })
   })
   describe('when resource model is not empty and property is mandatory', () => {
