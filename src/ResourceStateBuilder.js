@@ -101,7 +101,7 @@ export default class ResourceStateBuilder {
       // Add language
       const lang = quad.object.language
       if (!_.isEmpty(lang)) {
-        item.lang = { id: lang }
+        item.lang = lang
       }
     }
     return item
