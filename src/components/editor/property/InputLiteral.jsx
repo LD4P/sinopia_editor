@@ -105,7 +105,6 @@ export class InputLiteral extends Component {
             onClick={this.handleDeleteClick}
             key={`delete${obj.id}`}
             data-item={obj.id}
-            data-label={this.props.formData.uri}
             className="close rbt-close rbt-token-remove-button">
             <span
                 aria-hidden="true"
@@ -118,7 +117,6 @@ export class InputLiteral extends Component {
           onClick={this.handleEditClick}
           key={`edit${obj.id}`}
           data-item={itemId}
-          data-label={this.props.formData.uri}
           className="btn btn-sm btn-literal btn-default">
           Edit
         </button>
@@ -168,10 +166,6 @@ export class InputLiteral extends Component {
 InputLiteral.propTypes = {
   id: PropTypes.oneOfType([PropTypes.number, PropTypes.string]),
   propertyTemplate: SinopiaPropTypes.propertyTemplate,
-  formData: PropTypes.shape({
-    id: PropTypes.oneOfType([PropTypes.number, PropTypes.string]),
-    uri: PropTypes.string,
-  }),
   errors: PropTypes.array,
   items: PropTypes.array,
   handleMyItemsChange: PropTypes.func,
@@ -192,7 +186,6 @@ const mapStateToProps = (state, ownProps) => {
   const propertyTemplate = getPropertyTemplate(state, resourceTemplateId, propertyURI)
 
   return {
-    formData,
     items,
     propertyTemplate,
     displayValidations,
