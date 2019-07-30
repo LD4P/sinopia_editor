@@ -151,7 +151,7 @@ describe('When the user enters input into field', () => {
       formData: { id: 1, uri: 'http://id.loc.gov/ontologies/bibframe/instanceOf' },
       items: [{ content: 'foo', id: 4, lang: { label: 'English' } }],
     })
-    expect(mockWrapper.find('div#userInput').text()).toEqual('fooXEdit<Connect(LanguageButton) />') // Contains X and Edit as buttons
+    expect(mockWrapper.find('div#userInput').text()).toEqual('foo×Edit<Connect(LanguageButton) />') // Contains X and Edit as buttons
   })
 
   it('should call the removeMockDataFn when X is clicked', () => {
@@ -160,7 +160,7 @@ describe('When the user enters input into field', () => {
       items: [{ content: 'test', id: 5, lang: { items: [{ label: 'English' }] } }],
     })
     expect(removeMockDataFn.mock.calls.length).toEqual(0)
-    mockWrapper.find('button#deleteItem').first().simulate('click', { target: { dataset: { item: 5 } } })
+    mockWrapper.find('button.close').first().simulate('click', { target: { dataset: { item: 5 } } })
     expect(removeMockDataFn.mock.calls.length).toEqual(1)
   })
 

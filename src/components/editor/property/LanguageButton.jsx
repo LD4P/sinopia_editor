@@ -48,7 +48,9 @@ const LanguageButton = (props) => {
       <Button
         id="language"
         bsSize="small"
-        onClick = { () => setShow(true) }>
+        bsStyle="default"
+        onClick = { () => setShow(true) }
+        className="btn-literal">
         Language: {props.language}
       </Button>
       { show ? dispModal() : '' }
