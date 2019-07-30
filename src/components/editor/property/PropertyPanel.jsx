@@ -10,15 +10,12 @@ import { expandResource } from 'actionCreators/resources'
 import _ from 'lodash'
 
 const PropertyPanel = (props) => {
-  const floatClass = props.float > 0 && props.float % 0 > 0 ? 'pull-right' : 'pull-left'
-  const cssClasses = `panel panel-property ${floatClass}`
-
   const isAdd = _.isEmpty(props.resourceModel)
   const isMandatory = props.propertyTemplate.mandatory === 'true'
   const nbsp = '\u00A0'
 
   return (
-    <div className={ cssClasses } data-label={ props.propertyTemplate.propertyLabel }>
+    <div className="panel panel-property" data-label={ props.propertyTemplate.propertyLabel }>
       <div className="panel-heading prop-heading">
         <PropertyLabel propertyTemplate={ props.propertyTemplate } />{nbsp}
         { isAdd && (

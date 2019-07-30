@@ -49,6 +49,15 @@ body {
   font-size: 30px;
 }
 
+.ResourceTemplateForm {
+  column-count: 2;
+}
+
+@media only screen and (max-width: 768px) {
+  .ResourceTemplateForm {
+    column-count: 1;
+  }
+}
 
 
 .desc-panel{
@@ -87,12 +96,12 @@ body {
 }
 
 .panel-property {
-  margin: 1em;
-  width: 40%;
+  width: 100%;
   border-color: #8C8A83;
   border-style: solid;
   border-width: 1px;
   background-color: #F8F6EF;
+  break-inside: avoid;
 }
 
 .group-panel {
