@@ -20,7 +20,7 @@ SaveAndPublishButton.propTypes = {
   isDisabled: PropTypes.bool,
   save: PropTypes.func,
   isSaved: PropTypes.bool,
-  currentUser: PropTypes.string,
+  currentUser: PropTypes.object,
 }
 
 const mapStateToProps = state => ({
