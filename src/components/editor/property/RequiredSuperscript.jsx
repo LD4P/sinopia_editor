@@ -16,7 +16,7 @@ const RequiredSuperscript = () => {
   return (
     <OverlayTrigger trigger={['hover', 'focus']} placement="right" overlay={popover} key={shortid.generate()} >
       <sup aria-label="required" >
-        <FontAwesomeIcon className="asterick" icon={faAsterisk} />
+        <FontAwesomeIcon className="asterick-icon" icon={faAsterisk} />
       </sup>
     </OverlayTrigger>
   )

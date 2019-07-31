@@ -4,6 +4,7 @@ import React from 'react'
 import { shallow } from 'enzyme'
 import PropertyPanel from 'components/editor/property/PropertyPanel'
 import PropertyLabel from 'components/editor/property/PropertyLabel'
+import PropertyLabelInfo from 'components/editor/property/PropertyLabelInfo'
 
 describe('<PropertyPanel />', () => {
   const panelProps = {
@@ -35,6 +36,10 @@ describe('<PropertyPanel />', () => {
 
   it('generates a <PropertyLabel />', () => {
     expect(wrapper.find(PropertyLabel)).toBeTruthy()
+  })
+
+  it('generates a <PropertyLabelInfo />', () => {
+    expect(wrapper.find(PropertyLabelInfo)).toBeTruthy()
   })
 
   describe('when resource model is empty', () => {
