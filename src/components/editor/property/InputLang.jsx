@@ -4,6 +4,7 @@ import React, { Component } from 'react'
 import { Typeahead } from 'react-bootstrap-typeahead'
 import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
+import { findNode } from 'selectors/resourceSelectors'
 
 /**
  * Provides the RFC 5646 language tag for a literal element.
@@ -13,7 +14,6 @@ import { connect } from 'react-redux'
 class InputLang extends Component {
   setPayLoad(items) {
     const payload = {
-      id: this.props.textId,
       reduxPath: this.props.reduxPath,
       lang: items[0].id,
     }
@@ -40,16 +40,17 @@ class InputLang extends Component {
 
 InputLang.propTypes = {
   textValue: PropTypes.string.isRequired,
-  textId: PropTypes.string.isRequired,
-  reduxPath: PropTypes.oneOfType([PropTypes.string, PropTypes.array]),
+  reduxPath: PropTypes.array.isRequired,
   handleLangChange: PropTypes.func,
   options: PropTypes.array,
   loading: PropTypes.bool,
 }
 
-const mapStateToProps = (state) => {
+const mapStateToProps = (state, ourProps) => {
   const languages = state.selectorReducer.entities.languages
+  const textValue = findNode(state.selectorReducer, ourProps.reduxPath).content
   return {
+    textValue,
     options: languages?.options || [],
     loading: languages?.loading || false,
   }

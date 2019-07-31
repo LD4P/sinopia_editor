@@ -1,4 +1,5 @@
 // Copyright 2019 Stanford University see LICENSE for license
+
 import React, { Component } from 'react'
 import {
   Menu, MenuItem, Typeahead, asyncContainer, Token,
@@ -280,8 +281,10 @@ const mapStateToProps = (state, ownProps) => {
 
   // Make sure that every item has a label
   // This is a temporary strategy until label lookup is implemented.
-  const selected = itemsForProperty(state.selectorReducer, ownProps.reduxPath).map((item) => {
-    const newItem = { ...item }
+  const items = itemsForProperty(state.selectorReducer, ownProps.reduxPath)
+  const selected = []
+  Object.keys(items).forEach((itemId) => {
+    const newItem = { ...items[itemId] }
     if (newItem.label === undefined) {
       if (newItem.uri) {
         newItem.label = newItem.uri
@@ -289,7 +292,7 @@ const mapStateToProps = (state, ownProps) => {
         newItem.label = newItem.content
       }
     }
-    return newItem
+    selected.push(newItem)
   })
 
   return {

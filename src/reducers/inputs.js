@@ -1,6 +1,7 @@
 // Copyright 2018, 2019 Stanford University see LICENSE for license
 
 import Validator from '../ResourceValidator'
+import { findNode } from 'selectors/resourceSelectors'
 
 export const validate = (state) => {
   const newState = { ...state }
@@ -78,13 +79,13 @@ export const setItemsOrSelections = (state, action) => {
        * so make an object with items to be filled in by the actions below
        */
       if ((key in obj) !== true || !Object.keys(obj[key]).includes('items')) {
-        obj[key] = { items: [] }
+        obj[key] = { items: {} }
       }
 
       if (action.type === 'ITEMS_SELECTED') {
         // here we are setting the items for repeatable user input, so push back each input item
-        action.payload.items.map((row) => {
-          obj[key].items.push(row)
+        Object.keys(action.payload.items).forEach((rowId) => {
+          obj[key].items[rowId] = action.payload.items[rowId]
         })
       }
       else if (action.type === 'CHANGE_SELECTIONS') {
@@ -110,23 +111,9 @@ export const setItemsOrSelections = (state, action) => {
 
 export const setMyItemsLang = (state, action) => {
   const newState = { ...state }
-  const reduxPath = action.payload.reduxPath
-  let level = 0
+  const node = findNode(newState, action.payload.reduxPath)
 
-  reduxPath.reduce((obj, key) => {
-    level++
-    if (level === reduxPath.length) {
-      if ((key in obj) !== true) {
-        obj[key] = { items: [] }
-      }
-      const payloadItem = obj[key].items.find(item => item.id === action.payload.id)
-      if (payloadItem) {
-        payloadItem.lang = action.payload.lang
-      }
-    }
-
-    return obj[key]
-  }, newState)
+  node.lang = action.payload.lang
 
   return newState
 }
@@ -175,9 +162,7 @@ export const removeMyItem = (state, action) => {
   reduxPath.reduce((obj, key) => {
     level++
     if (level === reduxPath.length) {
-      obj[key].items = obj[key].items.filter(
-        row => row.id !== action.payload.id,
-      )
+      delete obj[key].items[action.payload.id]
     }
 
     return obj[key]

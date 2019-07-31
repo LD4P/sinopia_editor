@@ -168,7 +168,7 @@ describe('stubResourceProperties', () => {
     })
     it('stubs mandatory properties that are property refs', () => {
       // Agent contribution
-      expect(resource['http://id.loc.gov/ontologies/bibframe/contribution'].items).toEqual([])
+      expect(resource['http://id.loc.gov/ontologies/bibframe/contribution'].items).toEqual({})
       expect(findToggleCollapse(dispatch.mock.calls, [
         'resource',
         'resourceTemplate:bf2:Monograph:Instance',
@@ -177,7 +177,7 @@ describe('stubResourceProperties', () => {
     })
     it('stubs properties with defaults', () => {
       // Carrier type
-      const item = resource['http://id.loc.gov/ontologies/bibframe/carrier'].items[0]
+      const item = resource['http://id.loc.gov/ontologies/bibframe/carrier'].items.abc123
       expect(item.label).toEqual('volume')
       expect(item.uri).toEqual('http://id.loc.gov/vocabulary/carriers/nc')
       expect(findToggleCollapse(dispatch.mock.calls, [
@@ -253,13 +253,12 @@ describe('stubResourceProperties', () => {
         abc123: {
           'resourceTemplate:bf2:Identifiers:Barcode': {
             'http://www.w3.org/1999/02/22-rdf-syntax-ns#value': {
-              items: [
-                {
-                  id: 'abc123',
+              items: {
+                abc123: {
                   content: '12345',
                   lang: 'en',
                 },
-              ],
+              },
             },
             'http://id.loc.gov/ontologies/bibframe/enumerationAndChronology': {},
           },

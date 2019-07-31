@@ -38,29 +38,28 @@ export class InputLiteral extends Component {
     this.setState({ content_add: userInput })
   }
 
-  addUserInput = (userInputArray, currentcontent) => {
-    userInputArray.push({
+  addUserInput = (input, currentcontent) => {
+    input[shortid.generate()] = {
       content: currentcontent,
-      id: shortid.generate(),
       lang: defaultLanguageId,
-    })
+    }
   }
 
   handleKeypress = (event) => {
     if (event.key === 'Enter') {
-      const userInputArray = []
+      const userInput = {}
       const currentcontent = this.state.content_add.trim()
 
       if (!currentcontent) {
         return
       }
-      this.addUserInput(userInputArray, currentcontent)
-      const userInput = {
+      this.addUserInput(userInput, currentcontent)
+      const payload = {
         reduxPath: this.props.reduxPath,
-        items: userInputArray,
+        items: userInput,
       }
 
-      this.props.handleMyItemsChange(userInput)
+      this.props.handleMyItemsChange(payload)
       this.setState({
         content_add: '',
       })
@@ -75,14 +74,7 @@ export class InputLiteral extends Component {
   handleEditClick = (event) => {
     const idToRemove = event.target.dataset.item
 
-    this.props.items.forEach((item) => {
-      if (item.id === idToRemove) {
-        const itemContent = item.content
-
-        this.setState({ content_add: itemContent })
-      }
-    })
-
+    this.setState({ content_add: this.props.items[idToRemove].content })
     this.handleDeleteClick(event)
     this.inputLiteralRef.current.focus()
   }
@@ -92,39 +84,35 @@ export class InputLiteral extends Component {
       return
     }
 
-    const elements = this.props.items.map((obj) => {
-      const itemId = obj.id || shortid.generate()
-
-      return <div id="userInput" key = {itemId} >
+    return Object.keys(this.props.items).map(itemId => (
+      <div id="userInput" key={itemId} >
         <div
           className="rbt-token rbt-token-removeable">
-          {obj.content}
+          {this.props.items[itemId].content}
           <button
-            id={`delete${obj.id}`}
+            id={`delete${itemId}`}
             type="button"
             onClick={this.handleDeleteClick}
-            key={`delete${obj.id}`}
-            data-item={obj.id}
+            key={`delete${itemId}`}
+            data-item={itemId}
             className="close rbt-close rbt-token-remove-button">
             <span
                 aria-hidden="true"
-                data-item={obj.id}>×</span>
+                data-item={itemId}>×</span>
           </button>
         </div>
         <button
           id="editItem"
           type="button"
           onClick={this.handleEditClick}
-          key={`edit${obj.id}`}
+          key={`edit${itemId}`}
           data-item={itemId}
           className="btn btn-sm btn-literal btn-default">
           Edit
         </button>
-        <LanguageButton id={obj.id} reduxPath={this.props.reduxPath}/>
+        <LanguageButton reduxPath={[...this.props.reduxPath, 'items', itemId]}/>
       </div>
-    })
-
-    return elements
+    ))
   }
 
   render() {
@@ -167,10 +155,10 @@ InputLiteral.propTypes = {
   id: PropTypes.oneOfType([PropTypes.number, PropTypes.string]),
   propertyTemplate: SinopiaPropTypes.propertyTemplate,
   errors: PropTypes.array,
-  items: PropTypes.array,
+  items: PropTypes.object,
   handleMyItemsChange: PropTypes.func,
   handleRemoveItem: PropTypes.func,
-  reduxPath: PropTypes.oneOfType([PropTypes.string, PropTypes.array]),
+  reduxPath: PropTypes.array.isRequired,
   displayValidations: PropTypes.bool,
 }
 

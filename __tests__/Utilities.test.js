@@ -121,38 +121,42 @@ describe('Utilities', () => {
   })
 
   describe('defaultValuesFromPropertyTemplate()', () => {
-    shortid.generate = jest.fn().mockReturnValue('abc123')
-
-    it('returns an empty array if passed any value that fails to define a `valueConstraint.defaults` array', () => {
-      const propertyTemplate = null
-
-      expect(defaultValuesFromPropertyTemplate(propertyTemplate)).toEqual([])
+    beforeEach(() => {
+      shortid.generate = jest.fn().mockReturnValueOnce('abc123').mockReturnValueOnce('def456')
     })
 
-    it('returns an empty array if passed a value with an empty `valueConstraint.defaults` array', () => {
+    it('returns an empty object if passed any value that fails to define a `valueConstraint.defaults` array', () => {
+      const propertyTemplate = null
+
+      expect(defaultValuesFromPropertyTemplate(propertyTemplate)).toEqual({})
+    })
+
+    it('returns an empty object if passed a value with an empty `valueConstraint.defaults` array', () => {
       const propertyTemplate = {
         valueConstraint: {
           defaults: [],
         },
       }
 
-      expect(defaultValuesFromPropertyTemplate(propertyTemplate)).toEqual([])
+      expect(defaultValuesFromPropertyTemplate(propertyTemplate)).toEqual({})
     })
 
-    it('returns an empty array if the defaults are blank', () => {
+    it('returns an empty object if the defaults are blank', () => {
       const propertyTemplate = {
         valueConstraint: {
-          defaults: [{
-            defaultLiteral: '',
-            defaultURI: '',
-          }],
+          defaults: [
+            {
+              defaultLiteral: '',
+              defaultURI: '',
+            },
+          ],
         },
       }
 
-      expect(defaultValuesFromPropertyTemplate(propertyTemplate)).toEqual([])
+      expect(defaultValuesFromPropertyTemplate(propertyTemplate)).toEqual({})
     })
 
-    it('returns an array with an object otherwise', () => {
+    it('returns an object with an object otherwise', () => {
       const propertyTemplateWithDefaultsAndLabel = {
         valueConstraint: {
           defaults: [
@@ -168,16 +172,16 @@ describe('Utilities', () => {
         },
       }
 
-      expect(defaultValuesFromPropertyTemplate(propertyTemplateWithDefaultsAndLabel)).toEqual([{
-        id: 'abc123',
-        label: 'color',
-        uri: 'http://id.loc.gov/vocabulary/mcolor/mul',
-      },
-      {
-        id: 'abc123',
-        label: 'xcolor',
-        uri: 'http://id.loc.gov/vocabulary/xmcolor/xmul',
-      }])
+      expect(defaultValuesFromPropertyTemplate(propertyTemplateWithDefaultsAndLabel)).toEqual({
+        abc123: {
+          label: 'color',
+          uri: 'http://id.loc.gov/vocabulary/mcolor/mul',
+        },
+        def456: {
+          label: 'xcolor',
+          uri: 'http://id.loc.gov/vocabulary/xmcolor/xmul',
+        },
+      })
     })
 
     it('returns the uri in place of the label if the label is undefined', () => {
@@ -191,11 +195,12 @@ describe('Utilities', () => {
         },
       }
 
-      expect(defaultValuesFromPropertyTemplate(propertyTemplateWithDefaultsNoLabel)).toEqual([{
-        id: 'abc123',
-        label: 'http://id.loc.gov/vocabulary/mcolor/mul',
-        uri: 'http://id.loc.gov/vocabulary/mcolor/mul',
-      }])
+      expect(defaultValuesFromPropertyTemplate(propertyTemplateWithDefaultsNoLabel)).toEqual({
+        abc123: {
+          label: 'http://id.loc.gov/vocabulary/mcolor/mul',
+          uri: 'http://id.loc.gov/vocabulary/mcolor/mul',
+        },
+      })
     })
   })
   describe('getLookupConfigItems()', () => {
