@@ -21,8 +21,7 @@ const PropertyActionButtons = (props) => {
   return (<div className="btn-group" role="group" aria-label="...">
     { props.addButtonHidden
       || <button className="btn btn-default btn-sm btn-add-another"
-                 onClick={ handleAddClick }
-                 disabled={ props.addButtonDisabled }>Add another {props.resourceLabel}</button>
+                 onClick={ handleAddClick }>Add another {props.resourceLabel}</button>
     }
     { props.removeButtonHidden
       || <button className="btn btn-default btn-sm btn-remove-another"
@@ -33,7 +32,6 @@ const PropertyActionButtons = (props) => {
 }
 PropertyActionButtons.propTypes = {
   reduxPath: PropTypes.array,
-  addButtonDisabled: PropTypes.bool,
   removeButtonHidden: PropTypes.bool,
   addButtonHidden: PropTypes.bool,
   addResource: PropTypes.func,

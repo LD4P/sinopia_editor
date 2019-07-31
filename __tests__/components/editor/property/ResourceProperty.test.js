@@ -52,7 +52,6 @@ describe('<ResourceProperty />', () => {
     const wrapper = shallow(<ResourceProperty.WrappedComponent
               propertyTemplate={property}
               reduxPath={[]}
-              addButtonDisabled={true}
               nestedResourceTemplates={nestedRTs}
               models={models} />)
 
@@ -76,11 +75,7 @@ describe('<ResourceProperty />', () => {
         expect(wrapper.find(PropertyActionButtons).props().reduxPath).toEqual(['http://id.loc.gov/ontologies/bibframe/note', 'abcd45', 'resourceTemplate:bf2:Note'])
       })
 
-      it('sets addButtonDisabled', () => {
-        expect(wrapper.find(PropertyActionButtons).props().addButtonDisabled).toEqual(true)
-      })
-
-      it('sets addButtonHidden', () => {
+      it('sets addButtonHidden to false by default', () => {
         expect(wrapper.find(PropertyActionButtons).props().addButtonHidden).toEqual(false)
       })
 
