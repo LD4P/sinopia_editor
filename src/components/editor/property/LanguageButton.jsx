@@ -29,7 +29,7 @@ const LanguageButton = (props) => {
         <Modal.Title>Languages</Modal.Title>
       </Modal.Header>
       <Modal.Body>
-        <InputLang textValue={props.textContent} reduxPath={props.reduxPath} handleLangChange={setLang}/>
+        <InputLang reduxPath={props.reduxPath} handleLangChange={setLang}/>
       </Modal.Body>
       <Modal.Footer>
         <Button onClick={handleLangSubmit}>Submit</Button>
@@ -57,14 +57,12 @@ LanguageButton.propTypes = {
   handleMyItemsLangChange: PropTypes.func,
   reduxPath: PropTypes.array.isRequired,
   language: PropTypes.string.isRequired,
-  textContent: PropTypes.string.isRequired,
 }
 
 const mapStateToProps = (state, ourProps) => {
-  const item = findNode(state.selectorReducer, ourProps.reduxPath)
+  const language = languageLabel(state, findNode(state.selectorReducer, ourProps.reduxPath).lang)
   return {
-    language: languageLabel(state, item.lang),
-    textContent: item.content,
+    language,
   }
 }
 

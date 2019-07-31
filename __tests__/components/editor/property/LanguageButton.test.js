@@ -15,10 +15,10 @@ describe('<LanguageButton />', () => {
                                         reduxPath={[
                                           'resourceTemplate:bf2:Monograph:Instance',
                                           'http://id.loc.gov/ontologies/bibframe/instanceOf',
+                                          'items',
+                                          'TM1qwVFkh',
                                         ]}
-                                        id={'TM1qwVFkh'}
                                         language={'English'}
-                                        textContent={'foo'}
                                         handleMyItemsLangChange={jest.fn()} />)
   })
 
@@ -35,28 +35,19 @@ describe('When the user enters input into language modal', () => {
                                             reduxPath={[
                                               'resourceTemplate:bf2:Monograph:Instance',
                                               'http://id.loc.gov/ontologies/bibframe/instanceOf',
+                                              'items',
+                                              'TM1qwVFkh',
                                             ]}
-                                            id={'TM1qwVFkh'}
                                             language={'English'}
-                                            textContent={'foo'}
                                             handleMyItemsLangChange={mockMyItemsLangChange} />)
 
   it('shows the <InputLang> modal when the <Button/> is clicked', () => {
-    mockWrapper.setProps({
-      formData: {
-        id: 1,
-        uri: 'http://id.loc.gov/ontologies/bibframe/instanceOf',
-        errors: [],
-      },
-      items: [{ content: 'test', id: 6, lang: { items: [{ label: 'English' }] } }],
-    })
     mockWrapper.find('Button').first().simulate('click')
     expect(mockWrapper.find('Modal').prop('show')).toEqual(true)
     expect(mockWrapper.find('ModalTitle').render().text()).toEqual('Languages')
   })
 
   it('calls handleLangSubmit when submit is clicked', () => {
-    mockWrapper.setProps({ formData: { id: 1, uri: 'http://id.loc.gov/ontologies/bibframe/instanceOf', items: [{ content: 'test', id: 6, lang: { items: [{ label: 'English' }] } }] } })
     mockWrapper.find('Button').first().simulate('click')
     expect(mockWrapper.find('Modal').prop('show')).toEqual(true)
     expect(mockWrapper.find('Modal').length).toEqual(1)
@@ -69,14 +60,6 @@ describe('When the user enters input into language modal', () => {
   })
 
   it('closes modal when close is clicked', () => {
-    mockWrapper.setProps({
-      formData: {
-        id: 1,
-        uri: 'http://id.loc.gov/ontologies/bibframe/instanceOf',
-        errors: [],
-      },
-      items: [{ content: 'test', id: 6, lang: { items: [{ label: 'English' }] } }],
-    })
     mockWrapper.find('Button').first().simulate('click')
     expect(mockWrapper.find('Modal').prop('show')).toEqual(true)
     mockWrapper.find('ModalFooter').find('Button').last().simulate('click')

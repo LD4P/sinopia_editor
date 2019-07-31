@@ -4,6 +4,7 @@ import React, { Component } from 'react'
 import { Typeahead } from 'react-bootstrap-typeahead'
 import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
+import { findNode } from 'selectors/resourceSelectors'
 
 /**
  * Provides the RFC 5646 language tag for a literal element.
@@ -45,9 +46,11 @@ InputLang.propTypes = {
   loading: PropTypes.bool,
 }
 
-const mapStateToProps = (state) => {
+const mapStateToProps = (state, ourProps) => {
   const languages = state.selectorReducer.entities.languages
+  const textValue = findNode(state.selectorReducer, ourProps.reduxPath).content
   return {
+    textValue,
     options: languages?.options || [],
     loading: languages?.loading || false,
   }

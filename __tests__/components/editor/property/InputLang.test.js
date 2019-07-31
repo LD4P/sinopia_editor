@@ -12,8 +12,8 @@ const plProps = {
   },
   loadLanguages: jest.fn(),
   options: [],
-  textValue: 'test1',
   reduxPath: [],
+  textValue: 'test1',
 }
 
 describe('<InputLang />', () => {
