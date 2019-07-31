@@ -68,7 +68,10 @@ describe('When the user enters input into field', () => {
   let mockItemsChange
   let removeMockDataFn
   let mockWrapper
-
+  const reduxPath = [
+    'resourceTemplate:bf2:Monograph:Instance',
+    'http://id.loc.gov/ontologies/bibframe/instanceOf',
+  ]
   shortid.generate = jest.fn().mockReturnValue(0)
 
   beforeEach(() => {
@@ -76,10 +79,7 @@ describe('When the user enters input into field', () => {
     removeMockDataFn = jest.fn()
 
     mockWrapper = shallow(<InputLiteral {...plProps} id={'11'}
-                                        reduxPath={[
-                                          'resourceTemplate:bf2:Monograph:Instance',
-                                          'http://id.loc.gov/ontologies/bibframe/instanceOf',
-                                        ]}
+                                        reduxPath={reduxPath}
                                         handleMyItemsChange={mockItemsChange}
                                         handleRemoveItem={removeMockDataFn}
                                         handleMyItemsLangChange={jest.fn()} />)
@@ -89,16 +89,35 @@ describe('When the user enters input into field', () => {
     expect(mockWrapper.find('input').prop('id')).toEqual('11')
   })
 
-  it('calls handleMyItemsChange function', () => {
+  it('calls the change function when enter is pressed', () => {
     mockWrapper.find('input').simulate('change', { target: { value: 'foo' } })
-    expect(mockWrapper.state('content_add')).toEqual('foo') /* Expect state to have value onChange */
     mockWrapper.find('input').simulate('keypress', { key: 'Enter', preventDefault: () => {} })
-    expect(mockItemsChange.mock.calls.length).toBe(1)
+    expect(mockItemsChange).toHaveBeenCalledWith({
+      items: {
+        0: {
+          content: 'foo',
+          lang: 'en',
+        },
+      },
+      reduxPath,
+    })
   })
 
-  it('should be called with the users input as arguments', () => {
-    mockWrapper.instance().props.propertyTemplate.repeatable = 'false'
-    mockWrapper.instance().forceUpdate()
+  it('calls the change function when focus moves elsewhere', () => {
+    mockWrapper.find('input').simulate('change', { target: { value: 'foo' } })
+    mockWrapper.find('input').simulate('blur')
+    expect(mockItemsChange).toHaveBeenCalledWith({
+      items: {
+        0: {
+          content: 'foo',
+          lang: 'en',
+        },
+      },
+      reduxPath,
+    })
+  })
+
+  it('calls the change function with the users input as arguments', () => {
     mockWrapper.find('input').simulate('change', { target: { value: 'foo' } })
     mockWrapper.find('input').simulate('keypress', { key: 'Enter', preventDefault: () => {} })
     // Test to see arguments used after its been submitted

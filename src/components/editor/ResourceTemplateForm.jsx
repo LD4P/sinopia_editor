@@ -61,7 +61,7 @@ export class ResourceTemplateForm extends Component {
 
   renderComponentForm = () => (
     <div>
-      <form>
+      <form onSubmit={e => e.preventDefault()}>
         <div className="ResourceTemplateForm">
           {
             this.props.propertyTemplates.map((propertyTemplate, index) => {

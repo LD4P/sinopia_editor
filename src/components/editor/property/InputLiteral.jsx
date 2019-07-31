@@ -46,25 +46,27 @@ export class InputLiteral extends Component {
   }
 
   handleKeypress = (event) => {
-    if (event.key === 'Enter') {
-      const userInput = {}
-      const currentcontent = this.state.content_add.trim()
-
-      if (!currentcontent) {
-        return
-      }
-      this.addUserInput(userInput, currentcontent)
-      const payload = {
-        reduxPath: this.props.reduxPath,
-        items: userInput,
-      }
-
-      this.props.handleMyItemsChange(payload)
-      this.setState({
-        content_add: '',
-      })
-      event.preventDefault()
+    if (event.key !== 'Enter') {
+      return
     }
+    this.addItem()
+  }
+
+  addItem = () => {
+    const currentcontent = this.state.content_add.trim()
+    if (!currentcontent) {
+      return
+    }
+    const userInput = {}
+    this.addUserInput(userInput, currentcontent)
+    const payload = {
+      reduxPath: this.props.reduxPath,
+      items: userInput,
+    }
+    this.props.handleMyItemsChange(payload)
+    this.setState({
+      content_add: '',
+    })
   }
 
   handleDeleteClick = (event) => {
@@ -138,6 +140,7 @@ export class InputLiteral extends Component {
               placeholder={this.props.propertyTemplate.propertyLabel}
               onChange={this.handleChange}
               onKeyPress={this.handleKeypress}
+              onBlur={this.addItem}
               value={this.state.content_add}
               disabled={this.disabled()}
               id={this.props.id}
