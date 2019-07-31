@@ -96,6 +96,7 @@ export const addResource = reduxPath => (dispatch, getState) => {
   })
 }
 
+<<<<<<< HEAD
 const existingResourceFunc = (resource, uri, dispatch) => stubResource(resource, false, uri, dispatch).then((result) => {
   if (result !== undefined) {
     dispatch(clearResourceURIMessage())
@@ -107,6 +108,12 @@ const existingResourceFunc = (resource, uri, dispatch) => stubResource(resource,
 // Stubs out a root resource
 const stubResource = (resource, useDefaults, uri, dispatch) => {
   const newResource = { ...resource }
+=======
+// A thunk that stubs out a root resource
+const stubResource = useDefaults => (dispatch, getState) => {
+  const state = getState()
+  const newResource = { ...state.selectorReducer.resource }
+>>>>>>> ea5dad3... reducers/index: update comment for consistency
   const rootResourceTemplateId = Object.keys(newResource)[0]
   const rootResource = newResource[rootResourceTemplateId]
   if (uri) {
