@@ -44,18 +44,14 @@ describe('<InputURI />', () => {
 describe('When the user enters input into field', () => {
   // Our mockItemsChange function to replace the one provided by mapDispatchToProps
   let mockItemsChange
-  let removeMockDataFn
   let mockWrapper
 
   shortid.generate = jest.fn().mockReturnValue(0)
 
   beforeEach(() => {
     mockItemsChange = jest.fn()
-    removeMockDataFn = jest.fn()
-
     mockWrapper = shallow(<InputURI.WrappedComponent {...plProps}
-                                                     handleMyItemsChange={mockItemsChange}
-                                                     handleRemoveItem={removeMockDataFn}/>)
+                                                     handleMyItemsChange={mockItemsChange} />)
   })
 
   it('calls handleMyItemsChange function', () => {
@@ -116,64 +112,26 @@ describe('When the user enters input into field', () => {
     mockItemsChange.mock.calls = [] // Reset the redux store to empty
   })
 
-  it('item appears when user inputs text into the field', () => {
+  it('item appears when there are items', () => {
     const propertyTemplate = { propertyTemplate: { ...plProps.propertyTemplate, repeatable: 'false' } }
     mockWrapper.setProps({
       ...plProps,
       ...propertyTemplate,
       items: {
-        4: { uri: 'http://example.com/thing/1', id: 4 },
+        abc123: { uri: 'http://example.com/thing/1' },
       },
     })
-    expect(mockWrapper.find('div#userInput').text()).toEqual('http://example.com/thing/1XEdit') // Contains X and Edit as buttons
-  })
-
-  it('calls the removeMockDataFn when X is clicked', () => {
-    mockWrapper.setProps({
-      items: {
-        abc123: { uri: 'test' },
-      },
-    })
-    expect(removeMockDataFn.mock.calls.length).toEqual(0)
-    mockWrapper.find('button#deleteItem').first().simulate('click', { target: { dataset: { item: 5 } } })
-    expect(removeMockDataFn.mock.calls.length).toEqual(1)
+    expect(mockWrapper.find('Connect(InputValue)').prop('reduxPath')).toEqual([
+      'resourceTemplate:bf2:Monograph:Instance',
+      'http://id.loc.gov/ontologies/bibframe/hasEquivalent',
+      'items',
+      'abc123',
+    ])
   })
 })
 
 describe('when there is a default literal value in the property template', () => {
   const mockMyItemsChange = jest.fn()
-  const mockRemoveItem = jest.fn()
-
-  it('sets the default values according to the property template if they exist', () => {
-    const plProps = {
-      propertyTemplate: {
-        propertyLabel: 'Instance of',
-        propertyURI: 'http://id.loc.gov/ontologies/bibframe/hasEquivalent',
-        type: 'literal',
-        mandatory: '',
-        repeatable: '',
-        valueConstraint: {
-          valueTemplateRefs: [],
-          useValuesFrom: [],
-          valueDataType: {},
-          defaults: [{
-            defaultURI: 'http://id.loc.gov/vocabulary/organizations/dlc',
-            defaultLiteral: 'DLC',
-          },
-          ],
-        },
-      },
-      items: {
-        abc123: {
-          uri: 'http://id.loc.gov/vocabulary/organizations/dlc',
-        },
-      },
-    }
-    const wrapper = shallow(<InputURI.WrappedComponent {...plProps}
-                                                       handleMyItemsChange={mockMyItemsChange} />)
-
-    expect(wrapper.find('#userInput').text()).toMatch('http://id.loc.gov/vocabulary/organizations/dlc')
-  })
 
   describe('when repeatable="false"', () => {
     const nrProps = {
@@ -185,14 +143,13 @@ describe('when there is a default literal value in the property template', () =>
         mandatory: '',
         repeatable: 'false',
       },
-      formData: {},
+      reduxPath: [],
     }
 
     it('input has disabled attribute when there are items', () => {
       const nonrepeatWrapper = shallow(
         <InputURI.WrappedComponent {...nrProps}
                                    handleMyItemsChange={mockMyItemsChange}
-                                   handleRemoveItem={mockRemoveItem}
                                    items={{ 0: { uri: 'http://foo.by', id: 0 } }}/>,
       )
 
@@ -203,7 +160,6 @@ describe('when there is a default literal value in the property template', () =>
       const nonrepeatWrapper = shallow(
         <InputURI.WrappedComponent {...nrProps}
                                    handleMyItemsChange={mockMyItemsChange}
-                                   handleRemoveItem={mockRemoveItem}
                                    items={{}}/>,
       )
       expect(nonrepeatWrapper.exists('input', { disabled: false })).toBe(true)

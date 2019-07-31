@@ -66,7 +66,6 @@ describe('checkMandatoryRepeatable', () => {
 describe('When the user enters input into field', () => {
   // Our mockItemsChange function to replace the one provided by mapDispatchToProps
   let mockItemsChange
-  let removeMockDataFn
   let mockWrapper
   const reduxPath = [
     'resourceTemplate:bf2:Monograph:Instance',
@@ -76,13 +75,10 @@ describe('When the user enters input into field', () => {
 
   beforeEach(() => {
     mockItemsChange = jest.fn()
-    removeMockDataFn = jest.fn()
 
     mockWrapper = shallow(<InputLiteral {...plProps}
                                         reduxPath={reduxPath}
-                                        handleMyItemsChange={mockItemsChange}
-                                        handleRemoveItem={removeMockDataFn}
-                                        handleMyItemsLangChange={jest.fn()} />)
+                                        handleMyItemsChange={mockItemsChange} />)
   })
 
   it('calls the change function when enter is pressed', () => {
@@ -154,46 +150,7 @@ describe('When the user enters input into field', () => {
     expect(mockWrapper.find('input').prop('required')).toBeTruthy()
   })
 
-  it('item appears when user inputs text into the field', () => {
-    mockWrapper.instance().props.propertyTemplate.repeatable = 'false'
-    mockWrapper.instance().forceUpdate()
-    mockWrapper.setProps({
-      items: { 4: { content: 'foo', lang: 'en' } },
-    })
-    expect(mockWrapper.find('div#userInput').text()).toEqual('foo×Edit<Connect(LanguageButton) />') // Contains X and Edit as buttons
-  })
-
-  it('should call the removeMockDataFn when X is clicked', () => {
-    mockWrapper.setProps({
-      items: { 5: { content: 'test', lang: 'en' } },
-    })
-    expect(removeMockDataFn.mock.calls.length).toEqual(0)
-    mockWrapper.find('button.close').first().simulate('click', { target: { dataset: { item: 5 } } })
-    expect(removeMockDataFn.mock.calls.length).toEqual(1)
-  })
-
-  it('should call the removeMockDataFn and mockItemsChange when Edit is clicked', () => {
-    expect(mockWrapper.instance().inputLiteralRef).toEqual({ current: null })
-    const mockFocusFn = jest.fn()
-
-    mockWrapper.instance().inputLiteralRef.current = { focus: mockFocusFn }
-
-    mockWrapper.setProps({
-      items: { 5: { content: 'test', lang: 'en' } },
-    })
-    expect(removeMockDataFn.mock.calls.length).toEqual(0)
-    mockWrapper.find('button#editItem').first().simulate('click', { target: { dataset: { item: 5 } } })
-    expect(mockWrapper.state('content_add')).toEqual('test')
-    expect(removeMockDataFn.mock.calls.length).toEqual(1)
-    expect(mockFocusFn.mock.calls.length).toEqual(1)
-  })
-})
-
-describe('when there is a default literal value in the property template', () => {
-  const mockMyItemsChange = jest.fn()
-  const mockRemoveItem = jest.fn()
-
-  it('sets the default values according to the property template if they exist', () => {
+  it('item appears when there are items', () => {
     const plProps = {
       propertyTemplate: {
         propertyLabel: 'Instance of',
@@ -204,20 +161,23 @@ describe('when there is a default literal value in the property template', () =>
         valueConstraint: valConstraintProps,
       },
       items: {
-        7: {
+        abc123: {
           uri: 'http://id.loc.gov/vocabulary/organizations/dlc',
           content: 'DLC',
           lang: 'en',
         },
       },
-      reduxPath: [],
+      reduxPath: ['basePath'],
     }
     const wrapper = shallow(<InputLiteral {...plProps}
-                                          handleMyItemsChange={mockMyItemsChange}
-                                          handleMyItemsLangChange={jest.fn()} />)
+                                          handleMyItemsChange={mockItemsChange} />)
 
-    expect(wrapper.find('#userInput').text()).toMatch('DLC')
+    expect(wrapper.find('Connect(InputValue)').prop('reduxPath')).toEqual(['basePath', 'items', 'abc123'])
   })
+})
+
+describe('when there is a default literal value in the property template', () => {
+  const mockMyItemsChange = jest.fn()
 
   describe('when repeatable="false"', () => {
     const nrProps = {
@@ -236,8 +196,6 @@ describe('when there is a default literal value in the property template', () =>
       const nonrepeatWrapper = shallow(
         <InputLiteral {...nrProps}
                       handleMyItemsChange={mockMyItemsChange}
-                      handleRemoveItem={mockRemoveItem}
-                      handleMyItemsLangChange={jest.fn()}
                       items={{ 0: { content: 'fooby', lang: 'en' } }}/>,
       )
 
@@ -248,8 +206,6 @@ describe('when there is a default literal value in the property template', () =>
       const nonrepeatWrapper = shallow(
         <InputLiteral {...nrProps}
                       handleMyItemsChange={mockMyItemsChange}
-                      handleRemoveItem={mockRemoveItem}
-                      handleMyItemsLangChange={jest.fn()}
                       items={{}}/>,
       )
       expect(nonrepeatWrapper.exists('input', { disabled: false })).toBe(true)
@@ -269,22 +225,26 @@ describe('When a user enters non-roman text in a work title', () => {
       mandatory: 'false',
       repeatable: 'true',
     },
-    reduxPath: [],
+    reduxPath: ['basePath'],
   }
 
   const workTitleWrapper = shallow(
     <InputLiteral {...workTitleProps}
-                  handleMyItemsChange={mockDataFn}
-                  handleMyItemsLangChange={jest.fn()} />,
+                  handleMyItemsChange={mockDataFn} />,
   )
 
   it('allows user to enter Chinese characters', () => {
     workTitleWrapper.find('input').simulate('change', { target: { value: artOfWar } })
     workTitleWrapper.find('input').simulate('keypress', { key: 'Enter', preventDefault: () => {} })
-    workTitleWrapper.setProps({
-      items: { 1: { content: artOfWar, lang: 'zh' } },
+    expect(mockDataFn).toHaveBeenCalledWith({
+      items: {
+        0: {
+          content: artOfWar,
+          lang: 'en',
+        },
+      },
+      reduxPath: ['basePath'],
     })
-    expect(workTitleWrapper.find('div#userInput').text().includes(artOfWar)).toBeTruthy()
   })
 })
 
