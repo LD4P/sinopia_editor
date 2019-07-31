@@ -55,6 +55,8 @@ const rtFileNames = [
   'literalRepeatNoDefault.json',
   'propertyURIRepeated.json',
   'rdaItemMonograph.json',
+  'ShareVDEExample.json',
+  'DiscogsExample.json',
 ]
 
 export const resourceTemplateId2Json = loadFixtureResourceTemplates()
