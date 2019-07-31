@@ -5,11 +5,8 @@ import { connect } from 'react-redux'
 import PropTypes from 'prop-types'
 import Config from 'Config'
 import 'react-bootstrap-table-next/dist/react-bootstrap-table2.min.css'
-import { getCurrentUser } from 'authSelectors'
-import Button from 'react-bootstrap/lib/Button'
 import Pagination from 'react-bootstrap/lib/Pagination'
 import { showSearchResults } from 'actions/index'
-
 
 const SearchResultsPaging = (props) => {
   const [currentPage, setCurrentPage] = useState(1) // initialize currentPage to 1
@@ -36,30 +33,35 @@ const SearchResultsPaging = (props) => {
     let newCurrentPage = 1
     switch (event.target.text) {
       case '«':
-          break
+        break
       case '‹':
-          newCurrentPage = currentPage - 1
-          break
+        newCurrentPage = currentPage - 1
+        break
       case '›':
-          newCurrentPage = currentPage + 1
-          break
+        newCurrentPage = currentPage + 1
+        break
       case '»':
         newCurrentPage = props.totalResults / Config.searchResultsPerPage
         break
       case undefined: // this is required to capture clicks on disabled buttons
-        return;
+        return
       default:
         newCurrentPage = Number(event.target.text)
         break
     }
-    queryFrom = (newCurrentPage-1)*Config.searchResultsPerPage
+    queryFrom = (newCurrentPage - 1) * Config.searchResultsPerPage
     setCurrentPage(newCurrentPage)
     search(props.queryString, queryFrom)
   }
 
-  const responseToSearchResults = json => {
-    return { totalHits: json.hits.total, results: json.hits.hits.map(row => ({ uri: row._id, title: row._source.title })) }
-  }
+  const responseToSearchResults = json => ({
+    totalHits: json.hits.total,
+    results: json.hits.hits.map(row => ({
+      uri: row._id,
+      title: row._source.title,
+    })),
+  })
+
 
   const search = (query, queryFrom) => {
     const uri = `${Config.searchHost}${Config.searchPath}?q=title:${query}%20OR%20subtitle:${query}&from=${queryFrom}&size=${Config.searchResultsPerPage}`
@@ -74,8 +76,8 @@ const SearchResultsPaging = (props) => {
   const lastPage = () => props.totalResults / Config.searchResultsPerPage
   const firstItemOnPage = () => Config.searchResultsPerPage * currentPage
   const lastItemOnPage = () => firstItemOnPage() + Config.searchResultsPerPage - 1
-  const pageButton = (key, active) => <Pagination.Item key={key} active={active}>{key}</Pagination.Item>
-  const pageButtons = () => Array.from({length: lastPage()}, (_, index) => pageButton(index+1,index+1 === currentPage))
+  const pageButton = (key, active) => <Pagination.Item key={ key } active={ active }>{key}</Pagination.Item>
+  const pageButtons = () => Array.from({ length: lastPage() }, (_, index) => pageButton(index + 1, index + 1 === currentPage))
 
   return (
     <div id="search-results-pages" className="row">

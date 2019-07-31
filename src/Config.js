@@ -58,6 +58,7 @@ class Config {
   static get searchResultsPerPage() {
     return process.env.SEARCH_RESULTS_PER_PAGE || 1 // an intentionally small number during development
   }
+
   /*
    * This is the public endpont for the sinopia search.
    */

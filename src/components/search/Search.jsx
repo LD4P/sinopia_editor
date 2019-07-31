@@ -24,9 +24,13 @@ const Search = (props) => {
     }
   }
 
-  const responseToSearchResults = json => {
-    return { totalHits: json.hits.total, results: json.hits.hits.map(row => ({ uri: row._id, title: row._source.title })) }
-  }
+  const responseToSearchResults = json => ({
+    totalHits: json.hits.total,
+    results: json.hits.hits.map(row => ({
+      uri: row._id,
+      title: row._source.title,
+    })),
+  })
 
   const search = (query) => {
     const uri = `${Config.searchHost}${Config.searchPath}?q=title:${query}%20OR%20subtitle:${query}&from=0&size=${Config.searchResultsPerPage}`
