@@ -80,7 +80,7 @@ export const setRetrieveError = (state, action) => {
   return newState
 }
 
-export const clearRetrieveError = (state) => {
+export const clearServerError = (state) => {
   const newEditor = { ...state.editor, serverError: undefined }
   return { ...state, editor: newEditor }
 }
@@ -130,7 +130,7 @@ const handlers = {
   ITEMS_SELECTED: setItemsOrSelections,
   CHANGE_SELECTIONS: setItemsOrSelections,
   RETRIEVE_ERROR: setRetrieveError,
-  RETRIEVE_RESOURCE_TEMPLATE_STARTED: clearRetrieveError,
+  RETRIEVE_RESOURCE_TEMPLATE_STARTED: clearServerError,
   SET_BASE_URL: setBaseURL,
   SHOW_RESOURCE_URI_MESSAGE: showResourceURIMessage,
   CLEAR_RESOURCE_URI_MESSAGE: clearResourceURIMessage,

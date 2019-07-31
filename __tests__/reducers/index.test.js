@@ -1,7 +1,7 @@
 // Copyright 2019 Stanford University see LICENSE for license
 
 import {
-  createReducer, setRetrieveError, removeResource, clearRetrieveError, updateFinished,
+  createReducer, setRetrieveError, removeResource, clearServerError, updateFinished,
   setLastSaveChecksum,
 } from 'reducers/index'
 import _ from 'lodash'
@@ -24,10 +24,10 @@ beforeEach(() => {
   }
 })
 
-describe('clearRetrieveError', () => {
+describe('clearServerError', () => {
   it('clears an existing error', () => {
     initialState.selectorReducer.editor.serverError = 'Something is wrong'
-    const newState = clearRetrieveError(initialState.selectorReducer)
+    const newState = clearServerError(initialState.selectorReducer)
     expect(newState.editor.serverError).toBeUndefined()
   })
 })
