@@ -21,6 +21,15 @@
     "component": "lookup"
   },
   {
+    "label": "Discogs",
+    "uri": "urn:discogs",
+    "authority": "discogs",
+    "subauthority": "all",
+    "language": "en",
+    "component": "lookup",
+    "nonldLookup": true
+  },
+  {
     "label": "GEONAMES_all (QA)",
     "uri": "urn:ld4p:qa:geonames",
     "authority": "geonames_ld4l_cache",
@@ -479,7 +488,7 @@
   {
     "label": "LOC person [names] (QA)",
     "uri": "urn:ld4p:qa:names:person",
-    "authority": "locnames_ld4l_cache",
+    "authority": "locnames_rwo_ld4l_cache",
     "subauthority": "person",
     "language": "en",
     "component": "lookup"
@@ -487,7 +496,7 @@
   {
     "label": "LOC organization [names] (QA)",
     "uri": "urn:ld4p:qa:names:organization",
-    "authority": "locnames_ld4l_cache",
+    "authority": "locnames_rwo_ld4l_cache",
     "subauthority": "organization",
     "language": "en",
     "component": "lookup"
@@ -779,6 +788,15 @@
     "subauthority": "",
     "language": "en",
     "component": "lookup"
+  },
+  {
+    "label": "Wikidata",
+    "uri": "urn:wikidata",
+    "authority": "wikidata",
+    "subauthority": "item",
+    "language": "en",
+    "component": "lookup",
+    "nonldLookup": true
   },
   {
     "label": "MARC relator terms",

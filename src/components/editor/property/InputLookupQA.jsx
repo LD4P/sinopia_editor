@@ -146,7 +146,8 @@ class InputLookupQA extends Component {
 
   search() {
     const lookupConfigs = this.props.lookupConfig
-
+    const componentType = this.props.propertyTemplate.subtype ? this.props.propertyTemplate.subtype : 'typeahead'
+    const isContext = componentType === 'context'
     return (query) => {
       this.setState({ isLoading: true })
       Swagger({ spec: swaggerSpec }).then((client) => {
@@ -157,6 +158,23 @@ class InputLookupQA extends Component {
           const language = lookupConfig.language
 
           /*
+           *  There are two types of lookup: linked data and non-linked data. The API calls
+           *  for each type are different, so check the nonldLookup field in the lookup config.
+           *  If the field is not set, assume false.
+           */
+          const nonldLookup = lookupConfig.nonldLookup ? lookupConfig.nonldLookup : false
+
+          // default the API calls to their linked data values
+          let subAuthCall = 'GET_searchSubauthority'
+          let authorityCall = 'GET_searchAuthority'
+
+          // Change the API calls if this is a non-linked data lookup
+          if (nonldLookup) {
+            subAuthCall = 'GET_nonldSearchWithSubauthority'
+            authorityCall = 'GET_nonldSearchAuthority'
+          }
+
+          /*
            *Return the 'promise'
            *Since we don't want promise.all to fail if
            *one of the lookups fails, we want a catch statement
@@ -164,7 +182,7 @@ class InputLookupQA extends Component {
            *The only difference between this call and the next one is the call to Get_searchSubauthority instead of
            *Get_searchauthority.  Passing API call in a variable name/dynamically, thanks @mjgiarlo
            */
-          const actionFunction = subauthority ? 'GET_searchSubauthority' : 'GET_searchAuthority'
+          const actionFunction = subauthority ? subAuthCall : authorityCall
 
           return client
             .apis
@@ -174,6 +192,7 @@ class InputLookupQA extends Component {
               subauthority,
               maxRecords: Config.maxRecordsForQALookups,
               lang: language,
+              context: isContext,
             })
             .catch((err) => {
               console.error('Error in executing lookup against source', err)
