@@ -29,13 +29,13 @@ const Search = (props) => {
   }
 
   const search = (query) => {
-    const uri = `${Config.searchHost}${Config.searchPath}?q=title:${query}%20OR%20subtitle:${query}&from=0&size=1`
+    const uri = `${Config.searchHost}${Config.searchPath}?q=title:${query}%20OR%20subtitle:${query}&from=0&size=${Config.searchResultsPerPage}`
 
     fetch(uri)
       .then(resp => resp.json())
       .then(json => responseToSearchResults(json))
       .then((results) => {
-        props.displaySearchResults(results.results, results.totalHits)
+        props.displaySearchResults(results.results, results.totalHits, query)
       })
   }
 
@@ -68,8 +68,8 @@ Search.propTypes = {
 }
 
 const mapDispatchToProps = dispatch => ({
-  displaySearchResults: (searchResults, totalResults) => {
-    dispatch(showSearchResults(searchResults, totalResults))
+  displaySearchResults: (searchResults, totalResults, queryString) => {
+    dispatch(showSearchResults(searchResults, totalResults, queryString))
   },
 })
 

@@ -148,9 +148,9 @@ export const clearResourceTemplates = () => ({
   type: 'CLEAR_RESOURCE_TEMPLATES',
 })
 
-export const showSearchResults = (searchResults, totalResults) => ({
+export const showSearchResults = (searchResults, totalResults, query) => ({
   type: 'SHOW_SEARCH_RESULTS',
-  payload: { searchResults, totalResults }
+  payload: { searchResults, totalResults, query }
 })
 
 export const setLastSaveChecksum = checksum => ({
