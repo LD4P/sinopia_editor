@@ -13,7 +13,6 @@ import { connect } from 'react-redux'
 class InputLang extends Component {
   setPayLoad(items) {
     const payload = {
-      id: this.props.textId,
       reduxPath: this.props.reduxPath,
       lang: items[0].id,
     }
@@ -40,8 +39,7 @@ class InputLang extends Component {
 
 InputLang.propTypes = {
   textValue: PropTypes.string.isRequired,
-  textId: PropTypes.string.isRequired,
-  reduxPath: PropTypes.oneOfType([PropTypes.string, PropTypes.array]),
+  reduxPath: PropTypes.array.isRequired,
   handleLangChange: PropTypes.func,
   options: PropTypes.array,
   loading: PropTypes.bool,

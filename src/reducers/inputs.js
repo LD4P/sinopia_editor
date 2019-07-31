@@ -1,6 +1,7 @@
 // Copyright 2018, 2019 Stanford University see LICENSE for license
 
 import Validator from '../ResourceValidator'
+import { findNode } from 'selectors/resourceSelectors'
 
 export const validate = (state) => {
   const newState = { ...state }
@@ -110,23 +111,9 @@ export const setItemsOrSelections = (state, action) => {
 
 export const setMyItemsLang = (state, action) => {
   const newState = { ...state }
-  const reduxPath = action.payload.reduxPath
-  let level = 0
+  const node = findNode(newState, action.payload.reduxPath)
 
-  reduxPath.reduce((obj, key) => {
-    level++
-    if (level === reduxPath.length) {
-      if ((key in obj) !== true) {
-        obj[key] = { items: [] }
-      }
-      const payloadItem = obj[key].items.find(item => item.id === action.payload.id)
-      if (payloadItem) {
-        payloadItem.lang = action.payload.lang
-      }
-    }
-
-    return obj[key]
-  }, newState)
+  node.lang = action.payload.lang
 
   return newState
 }

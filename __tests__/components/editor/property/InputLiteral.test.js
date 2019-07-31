@@ -195,6 +195,7 @@ describe('when there is a default literal value in the property template', () =>
           lang: 'en',
         },
       },
+      reduxPath: [],
     }
     const wrapper = shallow(<InputLiteral {...plProps} id={12}
                                           handleMyItemsChange={mockMyItemsChange}
@@ -213,6 +214,7 @@ describe('when there is a default literal value in the property template', () =>
         mandatory: '',
         repeatable: 'false',
       },
+      reduxPath: [],
     }
 
     it('input has disabled attribute when there are items', () => {
@@ -247,14 +249,14 @@ describe('When a user enters non-roman text in a work title', () => {
   const mockDataFn = jest.fn()
 
   const workTitleProps = {
-    propertyTemplate:
-    {
+    propertyTemplate: {
       propertyLabel: 'Work Title',
       propertyURI: 'http://id.loc.gov/ontologies/bibframe/title',
       type: 'literal',
       mandatory: 'false',
       repeatable: 'true',
     },
+    reduxPath: [],
   }
 
   const workTitleWrapper = shallow(

@@ -29,7 +29,7 @@ const LanguageButton = (props) => {
         <Modal.Title>Languages</Modal.Title>
       </Modal.Header>
       <Modal.Body>
-        <InputLang textValue={props.textContent} reduxPath={props.reduxPath} textId={props.id} handleLangChange={setLang}/>
+        <InputLang textValue={props.textContent} reduxPath={props.reduxPath} handleLangChange={setLang}/>
       </Modal.Body>
       <Modal.Footer>
         <Button onClick={handleLangSubmit}>Submit</Button>
@@ -55,22 +55,18 @@ const LanguageButton = (props) => {
 
 LanguageButton.propTypes = {
   handleMyItemsLangChange: PropTypes.func,
-  reduxPath: PropTypes.oneOfType([PropTypes.string, PropTypes.array]).isRequired,
-  id: PropTypes.string.isRequired,
+  reduxPath: PropTypes.array.isRequired,
   language: PropTypes.string.isRequired,
   textContent: PropTypes.string.isRequired,
 }
 
 const mapStateToProps = (state, ourProps) => {
-  const node = findNode(state.selectorReducer, ourProps.reduxPath)
-  // TODO: can we make the redux path of this just have 'items' and ourProps.id?
-  const item = node.items[ourProps.id]
+  const item = findNode(state.selectorReducer, ourProps.reduxPath)
   return {
     language: languageLabel(state, item.lang),
     textContent: item.content,
   }
 }
-
 
 const mapDispatchToProps = dispatch => ({
   handleMyItemsLangChange(payload) {

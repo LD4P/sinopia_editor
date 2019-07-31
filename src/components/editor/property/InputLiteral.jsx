@@ -110,7 +110,7 @@ export class InputLiteral extends Component {
           className="btn btn-sm btn-literal btn-default">
           Edit
         </button>
-        <LanguageButton id={itemId} reduxPath={this.props.reduxPath}/>
+        <LanguageButton reduxPath={[...this.props.reduxPath, 'items', itemId]}/>
       </div>
     ))
   }
@@ -158,7 +158,7 @@ InputLiteral.propTypes = {
   items: PropTypes.object,
   handleMyItemsChange: PropTypes.func,
   handleRemoveItem: PropTypes.func,
-  reduxPath: PropTypes.oneOfType([PropTypes.string, PropTypes.array]),
+  reduxPath: PropTypes.array.isRequired,
   displayValidations: PropTypes.bool,
 }
 
