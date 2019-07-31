@@ -56,7 +56,7 @@ class Config {
   }
 
   static get searchResultsPerPage() {
-    return process.env.SEARCH_RESULTS_PER_PAGE || 1 // an intentionally small number during development
+    return process.env.SEARCH_RESULTS_PER_PAGE || 10
   }
 
   /*
