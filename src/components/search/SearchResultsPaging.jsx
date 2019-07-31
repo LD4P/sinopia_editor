@@ -12,7 +12,8 @@ import { showSearchResults } from 'actions/index'
 
 
 const SearchResultsPaging = (props) => {
-  const [currentPage, setCurrentPage] = useState('')
+  const [currentPage, setCurrentPage] = useState(1) // initialize currentPage at 1
+
   /* Event.target.text is the page number clicked on
    * or:
    *   « - first
@@ -21,30 +22,33 @@ const SearchResultsPaging = (props) => {
    *   » - last
    */
   const handleClick = (event) => {
+    let queryFrom = 0
     switch (event.target.text) {
       case '«':
-          search(props.queryString, 0) // Start from the beginning of the search results
-          return
+          queryFrom = 0
+          setCurrentPage(1)
+          break
       case '‹':
           const prevPage = currentPage - 1 // decrease the current page by 1
           setCurrentPage(prevPage)
-          search(props.queryString, (prevPage-1)*Config.searchResultsPerPage)
-          return
+          queryFrom = (prevPage-1)*Config.searchResultsPerPage
+          break
       case '›':
           const nextPage = Number(currentPage) + 1 // increase the current page by 1
           setCurrentPage(nextPage)
-          search(props.queryString, (currentPage)*Config.searchResultsPerPage)
-          return
+          queryFrom = (currentPage)*Config.searchResultsPerPage
+          break
       case '»':
         const lastPage = props.totalResults / Config.searchResultsPerPage
         setCurrentPage(lastPage)
-        search(props.queryString, (Number(lastPage)-1)*Config.searchResultsPerPage)
-        return
+        queryFrom = (Number(lastPage)-1)*Config.searchResultsPerPage
+        break
       default:
         setCurrentPage(Number(event.target.text))
-        search(props.queryString, (Number(event.target.text)-1)*Config.searchResultsPerPage)
-        return
+        queryFrom = (Number(event.target.text)-1)*Config.searchResultsPerPage
+        break
     }
+    search(props.queryString, queryFrom)
   }
 
   if (props.totalResults === 0) {
@@ -69,30 +73,23 @@ const SearchResultsPaging = (props) => {
       })
   }
 
-  let items = []
-  items.push(
-    <Pagination.First />,
-    <Pagination.Prev />
-  )
+  const lastPage = () => props.totalResults / Config.searchResultsPerPage
 
-  for (let number = 1; number <= props.totalResults / Config.searchResultsPerPage; number++) {
-    items.push(
-      <Pagination.Item key={number}>
-        {number}
-      </Pagination.Item>,
-    );
-  }
+  const pageButton = (key, active) => <Pagination.Item key={key} active={active}>{key}</Pagination.Item>
+  const pageButtons = () => Array.from({length: lastPage()}, (_, index) => pageButton(index+1,index+1 === currentPage))
 
-  items.push(
-    <Pagination.Next />,
-    <Pagination.Last />
-  )
-  
   return (
     <div id="search-results-pages" className="row">
       <div className="col-sm-2"></div>
       <div className="col-sm-8 text-center">
-        <Pagination size="lg" onClick={handleClick}>{items}</Pagination>
+        <Pagination size="lg" onClick={handleClick}>
+          <Pagination.First disabled={(currentPage === 1)} />
+          <Pagination.Prev disabled={currentPage === 1} />
+          {pageButtons()}
+          <Pagination.Next disabled={currentPage === lastPage()} />
+          <Pagination.Last disabled={currentPage === lastPage()} />
+        </Pagination>
+        <div>Displaying 1 - 1 of 1 Results</div>
       </div>
       <div className="col-sm-2"></div>
     </div>
@@ -103,7 +100,6 @@ SearchResultsPaging.propTypes = {
   totalResults: PropTypes.number,
   queryString: PropTypes.string,
   displaySearchResults: PropTypes.func,
-
 }
 
 const mapStateToProps = state => ({
