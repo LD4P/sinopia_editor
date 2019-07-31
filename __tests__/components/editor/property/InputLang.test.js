@@ -29,33 +29,12 @@ describe('<InputLang />', () => {
     )
   })
 
-  it('typeahead component should use selectHintOnEnter', () => {
-    expect(wrapper.find('#langComponent').props().selectHintOnEnter).toBeTruthy()
+  it('typeahead component uses selectHintOnEnter', () => {
+    expect(wrapper.find('#langComponent').props().selectHintOnEnter).toEqual(true)
   })
 
-  it('should call the handleLangChange on change', () => {
+  it('calls the handleLangChange on change', () => {
     wrapper.find('#langComponent').simulate('change', [{ id: 'en', label: 'English' }])
-    expect(mockLangChangeFn.call.length).toBe(1)
-  })
-
-  it('should call the onFocus event and set the selected option', () => {
-    const opts = { id: 'URI', label: 'LABEL', uri: 'URI' }
-
-    wrapper.instance().opts = opts
-    const event = (wrap) => {
-      global.fetch = jest.fn().mockImplementation(async () => await { ok: true, resp: wrapper.instance().opts })
-      wrap.setState({ options: [wrapper.instance().opts] })
-      wrap.setState({ selected: [wrapper.instance().opts] })
-    }
-
-    wrapper.find('#langComponent').simulate('focus', event(wrapper))
-    expect(wrapper.state().options[0]).toEqual(opts)
-    expect(wrapper.find('TypeaheadContainer(WrappedTypeahead)').props().emptyLabel).toEqual('retrieving list of languages...')
-
-    wrapper.find('#langComponent').simulate('change', [{ id: 'en', label: 'English' }])
-    expect(wrapper.state().selected[0]).toEqual(opts)
-
-    wrapper.find('#langComponent').simulate('blur', event(wrapper))
-    expect(wrapper.state('isLoading')).toBeFalsy()
+    expect(mockLangChangeFn).toHaveBeenCalled()
   })
 })
