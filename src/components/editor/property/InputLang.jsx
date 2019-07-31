@@ -1,6 +1,6 @@
 // Copyright 2019 Stanford University see LICENSE for license
 
-import React, { Component } from 'react'
+import React from 'react'
 import { Typeahead } from 'react-bootstrap-typeahead'
 import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
@@ -11,31 +11,26 @@ import { findNode } from 'selectors/resourceSelectors'
  * See https://tools.ietf.org/html/rfc5646
  * See ISO 639 for the list of registered language codes
  */
-class InputLang extends Component {
-  setPayLoad(items) {
-    const payload = {
-      reduxPath: this.props.reduxPath,
-      lang: items[0].id,
-    }
-    this.props.handleLangChange(payload)
-  }
+const InputLang = (props) => {
+  const setPayLoad = selected => props.handleLangChange({
+    reduxPath: props.reduxPath,
+    lang: selected[0].id,
+  })
 
-  render() {
-    return (
-      <div>
-        <label htmlFor="langComponent">Select language for {this.props.textValue}
-          <Typeahead
-            onChange={selected => this.setPayLoad(selected)}
-            isLoading={this.props.loading}
-            options={this.props.options}
-            emptyLabel={'retrieving list of languages...'}
-            selectHintOnEnter={true}
-            id={'langComponent'}
-          />
-        </label>
-      </div>
-    )
-  }
+  return (
+    <div>
+      <label htmlFor="langComponent">Select language for {props.textValue}
+        <Typeahead
+          onChange={setPayLoad}
+          isLoading={props.loading}
+          options={props.options}
+          emptyLabel={'retrieving list of languages...'}
+          selectHintOnEnter={true}
+          id={'langComponent'}
+        />
+      </label>
+    </div>
+  )
 }
 
 InputLang.propTypes = {
