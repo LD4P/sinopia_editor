@@ -64,6 +64,24 @@ export const removeResource = (state, action) => {
   return validate(newState)
 }
 
+// TODO: could combine setPublishError() and setRetrieveError() with arg for single word diff in error message
+//   for now, shameless green.  (Sandi Metz says hold your nose for 3 occurrences before refactoring)
+export const setPublishError = (state, action) => {
+  const resourceTemplateId = action.payload.resourceTemplateId
+  const reason = action.payload.reason
+  const newState = { ...state }
+
+  let serverError = `There was a problem publishing ${resourceTemplateId}`
+  if (reason) {
+    serverError += `: ${reason}`
+  } else {
+    serverError += '.'
+  }
+
+  newState.editor.serverError = serverError
+  return newState
+}
+
 export const setRetrieveError = (state, action) => {
   const resourceTemplateId = action.payload.resourceTemplateId
   const reason = action.payload.reason
@@ -129,6 +147,8 @@ export const setLastSaveChecksum = (state, action) => {
 const handlers = {
   ITEMS_SELECTED: setItemsOrSelections,
   CHANGE_SELECTIONS: setItemsOrSelections,
+  PUBLISH_ERROR: setPublishError,
+  PUBLISH_STARTED: clearServerError,
   RETRIEVE_ERROR: setRetrieveError,
   RETRIEVE_RESOURCE_TEMPLATE_STARTED: clearServerError,
   SET_BASE_URL: setBaseURL,

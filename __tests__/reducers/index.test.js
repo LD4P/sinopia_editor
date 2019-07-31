@@ -2,7 +2,7 @@
 
 import {
   createReducer, setRetrieveError, removeResource, clearServerError, updateFinished,
-  setLastSaveChecksum,
+  setLastSaveChecksum, setPublishError,
 } from 'reducers/index'
 import _ from 'lodash'
 import { getFixtureResourceTemplate } from '../fixtureLoaderHelper'
@@ -77,6 +77,25 @@ describe('createReducer', () => {
     const reducer = createReducer(handlers)
     reducer(oldState, action)
     expect(setBaseURL).toBeCalledWith(oldState, action)
+  })
+})
+
+describe('setPublishError', () => {
+  it('adds error to editor state', () => {
+    const newState = setPublishError(initialState.selectorReducer, {
+      type: 'RETRIEVE_ERROR',
+      payload: { resourceTemplateId: 'abc123' },
+    })
+
+    expect(newState.editor.serverError).toEqual('There was a problem publishing abc123.')
+  })
+  it('adds error with reason to editor state', () => {
+    const newState = setPublishError(initialState.selectorReducer, {
+      type: 'RETRIEVE_ERROR',
+      payload: { resourceTemplateId: 'abc123', reason: 'Because it is broken.' },
+    })
+
+    expect(newState.editor.serverError).toEqual('There was a problem publishing abc123: Because it is broken.')
   })
 })
 
