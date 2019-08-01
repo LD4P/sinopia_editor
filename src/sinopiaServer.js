@@ -192,5 +192,5 @@ export const getSearchResults = async (query, queryFrom = 0) => {
         title: row._source.title,
       })),
     }))
-    .catch(error => console.log(error))
+    .catch(error => console.error(error))
 }
