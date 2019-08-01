@@ -131,7 +131,10 @@ class InputLookupQA extends Component {
         }
         items.push(
           <MenuItem option={innerResult} position={menuItemIndex} key={menuItemIndex}>
-            <RenderLookupContext innerResult={innerResult} authLabel={authLabel} authURI={authURI} colorClassName={bgClass}></RenderLookupContext>
+            {innerResult.context ? (
+              <RenderLookupContext innerResult={innerResult} authLabel={authLabel} authURI={authURI} colorClassName={bgClass}></RenderLookupContext>
+            ) : innerResult.label
+            }
           </MenuItem>,
         )
         menuItemIndex++

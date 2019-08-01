@@ -1,4 +1,5 @@
 // Copyright 2019 Stanford University see LICENSE for license
+
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
