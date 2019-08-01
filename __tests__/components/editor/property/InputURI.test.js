@@ -17,10 +17,7 @@ const plProps = {
     'resourceTemplate:bf2:Monograph:Instance',
     'http://id.loc.gov/ontologies/bibframe/hasEquivalent',
   ],
-  formData: {
-    items: [],
-    errors: [],
-  },
+  items: {},
 }
 
 
@@ -33,8 +30,7 @@ describe('<InputURI />', () => {
 
   it('contains required="true" attribute on input tag when mandatory is true', () => {
     const propertyTemplate = { propertyTemplate: { ...plProps.propertyTemplate, mandatory: 'true' } }
-    const formData = { formData: { errors: [{ id: 'Required' }] } }
-    wrapper.setProps({ ...plProps, ...propertyTemplate, ...formData })
+    wrapper.setProps({ ...plProps, ...propertyTemplate })
     expect(wrapper.find('input').prop('required')).toBeTruthy()
   })
 
@@ -89,7 +85,9 @@ describe('When the user enters input into field', () => {
 
     expect(mockItemsChange.mock.calls[0][0]).toEqual(
       {
-        items: [{ uri: 'http://example.com/thing/1', id: 0 }],
+        items: {
+          0: { uri: 'http://example.com/thing/1' },
+        },
         reduxPath: ['resourceTemplate:bf2:Monograph:Instance', 'http://id.loc.gov/ontologies/bibframe/hasEquivalent'],
       },
     )
@@ -105,13 +103,17 @@ describe('When the user enters input into field', () => {
 
     expect(mockItemsChange.mock.calls[0][0]).toEqual(
       {
-        items: [{ uri: 'http://example.com/thing/1', id: 0 }],
+        items: {
+          0: { uri: 'http://example.com/thing/1' },
+        },
         reduxPath: ['resourceTemplate:bf2:Monograph:Instance', 'http://id.loc.gov/ontologies/bibframe/hasEquivalent'],
       },
     )
     expect(mockItemsChange.mock.calls[1][0]).toEqual(
       {
-        items: [{ uri: 'http://example.com/thing/2', id: 0 }],
+        items: {
+          0: { uri: 'http://example.com/thing/2' },
+        },
         reduxPath: ['resourceTemplate:bf2:Monograph:Instance', 'http://id.loc.gov/ontologies/bibframe/hasEquivalent'],
       },
     )
@@ -123,16 +125,18 @@ describe('When the user enters input into field', () => {
     mockWrapper.setProps({
       ...plProps,
       ...propertyTemplate,
-      formData: { id: 1, uri: 'http://id.loc.gov/ontologies/bibframe/hasEquivalent' },
-      items: [{ uri: 'http://example.com/thing/1', id: 4 }],
+      items: {
+        4: { uri: 'http://example.com/thing/1', id: 4 },
+      },
     })
     expect(mockWrapper.find('div#userInput').text()).toEqual('http://example.com/thing/1XEdit') // Contains X and Edit as buttons
   })
 
   it('calls the removeMockDataFn when X is clicked', () => {
     mockWrapper.setProps({
-      formData: { id: 1, uri: 'http://id.loc.gov/ontologies/bibframe/hasEquivalent' },
-      items: [{ uri: 'test' }],
+      items: {
+        abc123: { uri: 'test' },
+      },
     })
     expect(removeMockDataFn.mock.calls.length).toEqual(0)
     mockWrapper.find('button#deleteItem').first().simulate('click', { target: { dataset: { item: 5 } } })
@@ -163,14 +167,11 @@ describe('when there is a default literal value in the property template', () =>
           ],
         },
       },
-      formData: {
-        errors: [],
-      },
-      items: [
-        {
+      items: {
+        abc123: {
           uri: 'http://id.loc.gov/vocabulary/organizations/dlc',
         },
-      ],
+      },
     }
     const wrapper = shallow(<InputURI.WrappedComponent {...plProps} id={12}
                                                        handleMyItemsChange={mockMyItemsChange} />)
@@ -197,7 +198,7 @@ describe('when there is a default literal value in the property template', () =>
                                    id={'11tydg'}
                                    handleMyItemsChange={mockMyItemsChange}
                                    handleRemoveItem={mockRemoveItem}
-                                   items={[{ uri: 'http://foo.by', id: 0 }]}/>,
+                                   items={{ 0: { uri: 'http://foo.by', id: 0 } }}/>,
       )
 
       expect(nonrepeatWrapper.exists('input', { disabled: true })).toBe(true)
@@ -209,7 +210,7 @@ describe('when there is a default literal value in the property template', () =>
                                    id={'11tydg'}
                                    handleMyItemsChange={mockMyItemsChange}
                                    handleRemoveItem={mockRemoveItem}
-                                   items={[]}/>,
+                                   items={{}}/>,
       )
       expect(nonrepeatWrapper.exists('input', { disabled: false })).toBe(true)
     })
