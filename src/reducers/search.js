@@ -12,7 +12,6 @@ const setSearchResults = (state, action) => {
   newState.search.totalResults = action.payload.totalResults
   newState.search.query = action.payload.query
 
-  console.log("NEW STATE: ", newState)
   return newState
 }
 

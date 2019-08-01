@@ -9,7 +9,7 @@ import FormControl from 'react-bootstrap/lib/FormControl'
 import Grid from 'react-bootstrap/lib/Grid'
 import Row from 'react-bootstrap/lib/Row'
 import Form from 'react-bootstrap/lib/Form'
-import { fetchSearchResults } from 'actionCreators/search'
+import fetchSearchResults from 'actionCreators/search'
 import SearchResults from './SearchResults'
 import SearchResultsPaging from './SearchResultsPaging'
 
@@ -18,7 +18,7 @@ const Search = (props) => {
 
   const handleKeyPress = (event) => {
     if (event.key === 'Enter') {
-      props.retrieveSearchResults(queryString,0)
+      props.retrieveSearchResults(queryString, 0)
       event.preventDefault()
     }
   }

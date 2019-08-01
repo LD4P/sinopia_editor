@@ -6,7 +6,7 @@ import PropTypes from 'prop-types'
 import Config from 'Config'
 import 'react-bootstrap-table-next/dist/react-bootstrap-table2.min.css'
 import Pagination from 'react-bootstrap/lib/Pagination'
-import { fetchSearchResults } from 'actionCreators/search'
+import fetchSearchResults from 'actionCreators/search'
 
 const SearchResultsPaging = (props) => {
   const [currentPage, setCurrentPage] = useState(1) // initialize currentPage to 1
