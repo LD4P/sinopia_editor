@@ -87,6 +87,7 @@ class InputLookupQA extends Component {
         return
       }
       const authLabel = result.authLabel
+      const authURI = result.authURI
       const headerKey = `${result.authURI}-header`
 
       if (list.length > 1) items.push(<Menu.Header key={headerKey}>{authLabel}</Menu.Header>)
@@ -121,11 +122,16 @@ class InputLookupQA extends Component {
         return
       }
 
-      // {innerResult.label}
+      let idx = 0
       body.forEach((innerResult) => {
+        let bgClass = 'context-result-bg'
+        idx++
+        if (idx % 2 === 0) {
+          bgClass = 'context-result-alt-bg'
+        }
         items.push(
           <MenuItem option={innerResult} position={menuItemIndex} key={menuItemIndex}>
-            <RenderLookupContext innerResult={innerResult} authLabel={authLabel}></RenderLookupContext>
+            <RenderLookupContext innerResult={innerResult} authLabel={authLabel} authURI={authURI} colorClassName={bgClass}></RenderLookupContext>
           </MenuItem>,
         )
         menuItemIndex++

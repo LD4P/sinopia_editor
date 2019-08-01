@@ -20,13 +20,12 @@ class RenderLookupContext extends Component {
 
 
   // Discogs specific functions
-  // This relies on auth label but would be better dependent on authority URI
-  renderContext = (innerResult, authLabel) => {
-    switch (authLabel) {
-      case 'Discogs':
+  renderContext = (innerResult, authURI) => { console.log(authURI)
+    switch (authURI) {
+      case "urn:discogs":
         return this.buildDiscogsContext(innerResult)
       default:
-        return innerResult.label
+        return this.renderContextContent(innerResult, authURI)
     }
   }
 
@@ -57,14 +56,79 @@ class RenderLookupContext extends Component {
       )
     }
 
+  renderContextContent = (innerResult, authURI) => {
+   let context = innerResult.context
+   let contextContent = []
+   const mainLabelProperty = ['authoritative label', 'preferred label']
+   if (context) {
+     if (authURI in authorityToContextOrderMap)
+     { contextContent = this.generateOrderedContextView(authURI, context) }
+     else
+     { contextContent = this.generateDefaultContextView(context, mainLabelProperty) }
+     let divClassName = 'row discogs-container ' + this.props.colorClassName;
+     return (<div className={divClassName}> <div className='context-label-dropdown details-container'> {innerResult.label} </div> {contextContent} </div>)
+
+   }
+   return innerResult.label
+ }
+
+    /*
+  *  Default rendering where on order is given, in this case the context will just be output in
+  * its entirety.
+  * mainLabelProperty: the array that holds the labels, we exclude that so as not to repeat it
+  * this could be further generalized to a set of properties to be excluded from display if need be
+  */
+ generateDefaultContextView = (context, mainLabelProperty) => {
+   const contextContent = context.map((contextResult, index) => {
+     const property = contextResult.property
+     // if property is one of the possible main label values don't show it
+     if (mainLabelProperty.indexOf(property.toLowerCase()) < 0) {
+       const values = contextResult.values
+       // const values = [contextResult.value] //hack for wikidata, to be removed later
+       const innerDivKey = `c${index}`
+       if (values.length) {
+         return (<div className='details-container' key={innerDivKey}> <span className='context-field'>{property}</span>: {values.join(', ')} </div>)
+       }
+     }
+   })
+   return contextContent
+ }
+
+ generateOrderedContextView = (authURI, context) => {
+   // Map context to hash that allows for selection of specific properties
+   const contextHash = context.reduce((map, obj) => (map[obj.property] = obj, map), {})
+   const propertyOrder = authorityToContextOrderMap[authURI]
+   const contextContent = propertyOrder.map((property, index) => {
+     if (property in contextHash) {
+       const values = contextHash[property].values
+       const innerDivKey = `c${index}`
+       if (values.length) {
+         return (<div className='details-container' key={innerDivKey}> <span className='context-field'>{property}</span>: {values.join(', ')} </div>)
+       }
+     }
+   })
+   return contextContent
+ }
+
     render() {
-      return this.renderContext(this.props.innerResult, this.props.authLabel)
+      return this.renderContext(this.props.innerResult, this.props.authURI)
     }
+}
+
+const authorityToContextOrderMap = {
+  'urn:ld4p:qa:names:person': ['Descriptor',
+    'Birth date', 'Death date',
+    'Affiliation', 'Field of Activity',
+    'Occupation', 'Birth place', 'Death place', 'VIAF match', 'Variant label', 'Citation note', 'Citation source', 'Editorial note'],
+  'urn:ld4p:qa:names:organization': ['Descriptor', 'Location', 'Field of Activity', 'Affiliation', 'Occupation', 'VIAF match', 'Variant label',
+    'Citation note', 'Citation source', 'Editorial note'],
 }
 
 RenderLookupContext.propTypes = {
   innerResult: PropTypes.object,
   authLabel: PropTypes.string,
+  authURI: PropTypes.string,
+  colorClassName: PropTypes.string
 }
 
 
