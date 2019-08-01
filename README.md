@@ -225,19 +225,34 @@ $ aws ecs update-service --service sinopia-homepage --region us-west-2 --cluster
 
 The steps to create a tagged release of the Sinopia's Linked Data Editor are as follows:
 
-1. Create an issue using the Tagged Release template.
-1. Update the version in `package.json`
-1. Run `npm i` to regenerate `package-lock.json`
-1. Publish the version to npm registry by issuing `npm publish` command in the root projects
-   directory. (Requires publishing rights to the project in the npmjs.com registry)
-1. Create a Github annotated tag and push up to the project's
-   [releases](https://github.com/LD4P/sinopia_editor/releases) page along with release notes
-1. Build a tagged Docker image i.e. `docker build -t ld4p/sinopia_editor:{version} .`
-1. Push the tagged version to Dockerhub with `docker push ld4p/sinopia_editor:{version}`,
-   See [documentation](#building-latest-docker-image) for more information
-1. Once tagged release is live on https://development.sinopia.io, the project owner will approve the tagged release for deployment on:
-  1.  Staging at https://stage.sinopia.io/
-  1.  Production at https://sinopia.io
+1. Update the version in *package.json*
+1. `npm i` to regenerate *package-lock.json*
+1. Create a feature branch in git for the version (suggest `patch-{verson}`)
+1. `npm publish` to publish the version to [npm registry](https://npmjs.com).
+1. Product owner assigned Release notes
+  - Updates `NewsItem.js` component, creates commit on feature branch.
+  - Sinopia [Wiki](https://github.com/LD4P/sinopia/wiki/Latest-Release,-What's-Next)
+1. Feature branch merged and circle-ci has successfully pushed new builds for
+      the `latest`, `stage`, and `prod` to docker hub.
+1. Git annotated tag and push to Github
+  - `git tag -a v{version} -m "{your message}"` to create an annotated tag
+  - `git push origin v{version}` to push up to the project's
+   [releases](https://github.com/LD4P/sinopia_editor/releases)
+1. Dockerhub Images Management
+  1. Pull latest **stage** and **prod** images
+    - `docker pull ld4p/sinopia_editor:stage`
+    - `docker pull ld4p/sinopia_editor:prod`
+  1. Tag **stage** and **prod** images with version
+    - `docker tag ld4p/sinopia_editor:stage ld4p/sinopia_editor:{version}-stage`
+    - `docker tag ld4p/sinopia_editor:prod ld4p/sinopia_editor:{version}-prod`
+  1. Push the tagged versions to Dockerhub
+    - `docker push ld4p/sinopia_editor:{version}-stage`
+    - `docker push ld4p/sinopia_editor:{version}-prod`
+1. Once tagged release is live on https://development.sinopia.io, this ticket will be assigned to the product owner who will approve the tagged release for deployment on
+  1. Staging at https://stage.sinopia.io/
+    - Create a new terraform PR for staging
+  1. Production at https://sinopia.io
+    - Create a new terraform PR for production
 
 # LD4P's fork of the BIBFRAME Editor
 The Sinopia Editor is forked from [https://github.com/lcnetdev/bfe][BFE_GIT].
