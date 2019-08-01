@@ -84,6 +84,7 @@ describe('setPublishError', () => {
   it('adds error to editor state when no reason given', () => {
     const newState = setPublishError(initialState.selectorReducer, {
       type: 'PUBLISH_ERROR',
+      payload: {},
     })
 
     expect(newState.editor.serverError).toEqual('There was a problem saving the resource.')
@@ -99,7 +100,7 @@ describe('setPublishError', () => {
 })
 
 describe('setRetrieveError', () => {
-  it('adds error to editor state wen no reason given', () => {
+  it('adds error to editor state when no reason given', () => {
     const newState = setRetrieveError(initialState.selectorReducer, {
       type: 'RETRIEVE_ERROR',
       payload: { resourceTemplateId: 'abc123' },

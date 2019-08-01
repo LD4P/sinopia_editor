@@ -64,10 +64,9 @@ export const removeResource = (state, action) => {
   return validate(newState)
 }
 
-// shameless green -- nearly duplicates setRetrieveError()
+// shameless green implementation -- nearly a duplicate of setRetrieveError()
 export const setPublishError = (state, action) => {
-  // Use safe navigation for dynamic properties: https://github.com/tc39/proposal-optional-chaining#syntax
-  const reason = action.payload?.reason
+  const reason = action.payload.reason
   const newState = { ...state }
 
   let serverError = 'There was a problem saving the resource'
@@ -82,9 +81,8 @@ export const setPublishError = (state, action) => {
 }
 
 export const setRetrieveError = (state, action) => {
-  // Use safe navigation for dynamic properties: https://github.com/tc39/proposal-optional-chaining#syntax
-  const resourceTemplateId = action.payload?.resourceTemplateId
-  const reason = action.payload?.reason
+  const resourceTemplateId = action.payload.resourceTemplateId
+  const reason = action.payload.reason
   const newState = { ...state }
 
   let serverError = `There was a problem retrieving ${resourceTemplateId}`

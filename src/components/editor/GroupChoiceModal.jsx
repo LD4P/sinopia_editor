@@ -29,11 +29,6 @@ const GroupChoiceModal = (props) => {
     props.close()
   }
 
-  if (props.error) {
-    // the error will be displayed via Editor -> ErrorMessages components
-    return (<div />)
-  }
-
   return (
     <div>
       <Modal show={ props.show } onHide={ props.close } bsSize="lg">
@@ -75,14 +70,12 @@ GroupChoiceModal.propTypes = {
   rdf: PropTypes.func,
   currentUser: PropTypes.object,
   publishMyResource: PropTypes.func,
-  error: PropTypes.string,
 }
 
 const mapStateToProps = state => ({
   show: state.selectorReducer.editor.groupChoice.show,
   rdf: () => new GraphBuilder(state.selectorReducer).graph.toCanonical(),
   currentUser: getCurrentUser(state),
-  error: state.selectorReducer.editor.serverError,
 })
 
 const mapDispatchToProps = dispatch => ({
