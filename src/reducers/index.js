@@ -10,7 +10,7 @@ import {
   setResourceTemplate, clearResourceTemplates, setResourceTemplateSummary,
   loadingLanguages, languagesReceived,
 } from './entities'
-import showSearchResults from './search'
+import setSearchResults from './search'
 import { findNode } from 'selectors/resourceSelectors'
 import _ from 'lodash'
 
@@ -127,7 +127,7 @@ const handlers = {
   SET_BASE_URL: setBaseURL,
   SHOW_RESOURCE_URI_MESSAGE: showResourceURIMessage,
   CLEAR_RESOURCE_URI_MESSAGE: clearResourceURIMessage,
-  SHOW_SEARCH_RESULTS: showSearchResults,
+  SET_SEARCH_RESULTS: setSearchResults,
   SHOW_GROUP_CHOOSER: showGroupChooser,
   CLOSE_GROUP_CHOOSER: closeGroupChooser,
   LANGUAGE_SELECTED: setMyItemsLang,
