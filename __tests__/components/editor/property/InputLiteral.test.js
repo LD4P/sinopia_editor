@@ -29,7 +29,7 @@ const valConstraintProps = {
 }
 
 describe('<InputLiteral />', () => {
-  const wrapper = shallow(<InputLiteral {...plProps} id={10} />)
+  const wrapper = shallow(<InputLiteral {...plProps} />)
 
   it('contains a placeholder of "Instance of"', () => {
     expect(wrapper.find('input').props().placeholder).toBe('Instance of')
@@ -54,7 +54,7 @@ describe('<InputLiteral />', () => {
 })
 
 describe('checkMandatoryRepeatable', () => {
-  const wrapper = shallow(<InputLiteral {...plProps} id={10} />)
+  const wrapper = shallow(<InputLiteral {...plProps} />)
 
   it('is true when the field is mandatory and nothing has been filled in', () => {
     wrapper.instance().props.propertyTemplate.mandatory = 'true'
@@ -78,15 +78,11 @@ describe('When the user enters input into field', () => {
     mockItemsChange = jest.fn()
     removeMockDataFn = jest.fn()
 
-    mockWrapper = shallow(<InputLiteral {...plProps} id={'11'}
+    mockWrapper = shallow(<InputLiteral {...plProps}
                                         reduxPath={reduxPath}
                                         handleMyItemsChange={mockItemsChange}
                                         handleRemoveItem={removeMockDataFn}
                                         handleMyItemsLangChange={jest.fn()} />)
-  })
-
-  it('has an id value as a unique property', () => {
-    expect(mockWrapper.find('input').prop('id')).toEqual('11')
   })
 
   it('calls the change function when enter is pressed', () => {
@@ -216,7 +212,7 @@ describe('when there is a default literal value in the property template', () =>
       },
       reduxPath: [],
     }
-    const wrapper = shallow(<InputLiteral {...plProps} id={12}
+    const wrapper = shallow(<InputLiteral {...plProps}
                                           handleMyItemsChange={mockMyItemsChange}
                                           handleMyItemsLangChange={jest.fn()} />)
 
@@ -239,7 +235,6 @@ describe('when there is a default literal value in the property template', () =>
     it('input has disabled attribute when there are items', () => {
       const nonrepeatWrapper = shallow(
         <InputLiteral {...nrProps}
-                      id={'11tydg'}
                       handleMyItemsChange={mockMyItemsChange}
                       handleRemoveItem={mockRemoveItem}
                       handleMyItemsLangChange={jest.fn()}
@@ -252,7 +247,6 @@ describe('when there is a default literal value in the property template', () =>
     it('input does not have disabled attribute when there are no items', () => {
       const nonrepeatWrapper = shallow(
         <InputLiteral {...nrProps}
-                      id={'11tydg'}
                       handleMyItemsChange={mockMyItemsChange}
                       handleRemoveItem={mockRemoveItem}
                       handleMyItemsLangChange={jest.fn()}
@@ -280,7 +274,6 @@ describe('When a user enters non-roman text in a work title', () => {
 
   const workTitleWrapper = shallow(
     <InputLiteral {...workTitleProps}
-                  id={14}
                   handleMyItemsChange={mockDataFn}
                   handleMyItemsLangChange={jest.fn()} />,
   )

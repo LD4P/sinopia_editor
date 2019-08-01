@@ -87,10 +87,7 @@ export class ResourceTemplateForm extends Component {
 
               return (
                 <PropertyPanel reduxPath={newReduxPath} key={index} float={index} id={id}>
-                  <PropertyComponent index={index}
-                                     reduxPath={newReduxPath}
-                                     propertyTemplate={propertyTemplate} />
-
+                  <PropertyComponent reduxPath={newReduxPath} propertyTemplate={propertyTemplate} />
                 </PropertyPanel>
               )
             })

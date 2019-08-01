@@ -25,11 +25,6 @@ const InputURI = (props) => {
   const disabled = !booleanPropertyFromTemplate(props.propertyTemplate, 'repeatable', true)
       && props.items?.length > 0
 
-  const handleFocus = (event) => {
-    document.getElementById(event.target.id).focus()
-    event.preventDefault()
-  }
-
   const addItem = () => {
     const currentcontent = content.trim()
 
@@ -121,21 +116,21 @@ const InputURI = (props) => {
     groupClasses += ' has-error'
     error = errors.join(', ')
   }
+
   return (
     <div className={groupClasses}>
-      <label htmlFor={props.id}>Enter a URI</label>
-      <input
-            required={required}
-            className="form-control"
-            placeholder={props.propertyTemplate.propertyLabel}
-            onChange={event => setContent(event.target.value)}
-            onKeyPress={handleKeypress}
-            value={content}
-            disabled={disabled}
-            id={props.id}
-            onClick={handleFocus}
-            ref={inputLiteralRef}
-      />
+      <label>Enter a URI
+        <input
+              required={required}
+              className="form-control"
+              placeholder={props.propertyTemplate.propertyLabel}
+              onChange={event => setContent(event.target.value)}
+              onKeyPress={handleKeypress}
+              value={content}
+              disabled={disabled}
+              ref={inputLiteralRef}
+        />
+      </label>
       {error && <span className="help-block">{error}</span>}
       {addedList}
     </div>
@@ -143,7 +138,6 @@ const InputURI = (props) => {
 }
 
 InputURI.propTypes = {
-  id: PropTypes.oneOfType([PropTypes.number, PropTypes.string]),
   propertyTemplate: SinopiaPropTypes.propertyTemplate,
   items: PropTypes.object,
   handleMyItemsChange: PropTypes.func,
