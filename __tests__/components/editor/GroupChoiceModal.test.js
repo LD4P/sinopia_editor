@@ -85,19 +85,31 @@ describe('<GroupChoiceModal />', () => {
   })
 
   describe('save button', () => {
-    server.publishRDFResource = jest.fn().mockResolvedValue({
-      response: {
-        headers: {
-          location: 'http://example.com/resource/123',
+    describe('success', () => {
+      server.publishRDFResource = jest.fn().mockResolvedValue({
+        response: {
+          headers: {
+            location: 'http://example.com/resource/123',
+          },
         },
-      },
+      })
+      it('saves the RDF content with group choice when save is clicked and then closes the modals', () => {
+        const selectedGroup = 'cornell' // default is first choice, which is cornell
+        wrapper.find('[bsStyle="primary"]').simulate('click')
+        expect(mockPublishMyResource).toHaveBeenCalledWith(currentUser, selectedGroup)
+        expect(mockCloseRdfPreview).toHaveBeenCalled()
+        expect(mockCloseGroupChooser).toHaveBeenCalled()
+      })
     })
-    it('attempts to save the RDF content with group choice when save is clicked and then closes the modals', () => {
-      const selectedGroup = 'cornell' // default is first choice, which is cornell
-      wrapper.find('[bsStyle="primary"]').simulate('click')
-      expect(mockPublishMyResource).toHaveBeenCalledWith(currentUser, selectedGroup)
-      expect(mockCloseRdfPreview).toHaveBeenCalled()
-      expect(mockCloseGroupChooser).toHaveBeenCalled()
+    describe('error', () => {
+      server.publishRDFResource = jest.fn().mockRejectedValue(new Error('publish error'))
+      it('attempts to save the RDF content with group choice when save is clicked and then closes the modals', () => {
+        const selectedGroup = 'cornell' // default is first choice, which is cornell
+        wrapper.find('[bsStyle="primary"]').simulate('click')
+        expect(mockPublishMyResource).toHaveBeenCalledWith(currentUser, selectedGroup)
+        expect(mockCloseRdfPreview).toHaveBeenCalled()
+        expect(mockCloseGroupChooser).toHaveBeenCalled()
+      })
     })
   })
 

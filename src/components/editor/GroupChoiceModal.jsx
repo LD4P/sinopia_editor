@@ -25,14 +25,13 @@ const GroupChoiceModal = (props) => {
 
   const saveAndClose = () => {
     props.publishMyResource(props.currentUser, selectedValue)
-
-    if (props.error) {
-      alert(props.error)
-      console.error(props.error)
-    }
-
     props.closeRdfPreview()
     props.close()
+  }
+
+  if (props.error) {
+    // the error will be displayed via Editor -> ErrorMessages components
+    return (<div />)
   }
 
   return (
