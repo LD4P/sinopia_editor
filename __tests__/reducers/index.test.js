@@ -81,26 +81,25 @@ describe('createReducer', () => {
 })
 
 describe('setPublishError', () => {
-  it('adds error to editor state', () => {
+  it('adds error to editor state when no reason given', () => {
     const newState = setPublishError(initialState.selectorReducer, {
-      type: 'RETRIEVE_ERROR',
-      payload: { resourceTemplateId: 'abc123' },
+      type: 'PUBLISH_ERROR',
     })
 
-    expect(newState.editor.serverError).toEqual('There was a problem publishing abc123.')
+    expect(newState.editor.serverError).toEqual('There was a problem saving the resource.')
   })
   it('adds error with reason to editor state', () => {
     const newState = setPublishError(initialState.selectorReducer, {
-      type: 'RETRIEVE_ERROR',
-      payload: { resourceTemplateId: 'abc123', reason: 'Because it is broken.' },
+      type: 'PUBLISH_ERROR',
+      payload: { reason: 'publishing error msg' },
     })
 
-    expect(newState.editor.serverError).toEqual('There was a problem publishing abc123: Because it is broken.')
+    expect(newState.editor.serverError).toEqual('There was a problem saving the resource: publishing error msg')
   })
 })
 
 describe('setRetrieveError', () => {
-  it('adds error to editor state', () => {
+  it('adds error to editor state wen no reason given', () => {
     const newState = setRetrieveError(initialState.selectorReducer, {
       type: 'RETRIEVE_ERROR',
       payload: { resourceTemplateId: 'abc123' },

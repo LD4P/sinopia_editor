@@ -64,14 +64,13 @@ export const removeResource = (state, action) => {
   return validate(newState)
 }
 
-// TODO: could combine setPublishError() and setRetrieveError() with arg for single word diff in error message
-//   for now, shameless green.  (Sandi Metz says hold your nose for 3 occurrences before refactoring)
+// shameless green -- nearly duplicates setRetrieveError()
 export const setPublishError = (state, action) => {
-  const resourceTemplateId = action.payload.resourceTemplateId
-  const reason = action.payload.reason
+  // Use safe navigation for dynamic properties: https://github.com/tc39/proposal-optional-chaining#syntax
+  const reason = action.payload?.reason
   const newState = { ...state }
 
-  let serverError = `There was a problem publishing ${resourceTemplateId}`
+  let serverError = 'There was a problem saving the resource'
   if (reason) {
     serverError += `: ${reason}`
   } else {
@@ -83,8 +82,9 @@ export const setPublishError = (state, action) => {
 }
 
 export const setRetrieveError = (state, action) => {
-  const resourceTemplateId = action.payload.resourceTemplateId
-  const reason = action.payload.reason
+  // Use safe navigation for dynamic properties: https://github.com/tc39/proposal-optional-chaining#syntax
+  const resourceTemplateId = action.payload?.resourceTemplateId
+  const reason = action.payload?.reason
   const newState = { ...state }
 
   let serverError = `There was a problem retrieving ${resourceTemplateId}`
