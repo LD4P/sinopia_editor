@@ -17,7 +17,7 @@ describe('Previewing the RDF', () => {
   it('builds the rdf and displays validation errors after attempting to save', async () => {
     expect.assertions(8) // An additional assertion is done in incompleteFieldsForBibframeInstance
 
-    // Need to change something
+    // Change the resource
     await pupExpect(page).toMatchElement('[placeholder=\'Statement of Responsibility Relating to Title Proper (RDA 2.4.2)\'', 'World')
     await pupExpect(page).toFill('[placeholder=\'Statement of Responsibility Relating to Title Proper (RDA 2.4.2)\'', 'World')
     await page.keyboard.press('Enter')

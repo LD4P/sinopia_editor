@@ -15,15 +15,15 @@ describe('Expanding a resource property in a property panel', () => {
       height: 961,
     })
     await pupExpect(page).toClick('a', { text: 'BIBFRAME Instance' })
-    await pupExpect(page).toMatch('Editor')
+    await pupExpect(page).toMatchElement('a', { text: 'Editor' })
     await pupExpect(page).toMatch('BIBFRAME Instance')
   })
 
   it('clicks on one of the property type rows to expand a nested resource', async () => {
     expect.assertions(3)
-    await pupExpect(page).toMatchElement('button.btn-add[data-id=\'hasInstance\']')
-    await pupExpect(page).toClick('button.btn-add[data-id=\'hasInstance\']')
-    await pupExpect(page).toMatchElement('h5', { text: 'BIBFRAME Instance' })
+    await pupExpect(page).toMatchElement('div.rOutline-header button.btn-add[data-id=\'hasInstance\']')
+    await pupExpect(page).toClick('div.rOutline-header button.btn-add[data-id=\'hasInstance\']')
+    await pupExpect(page).toMatchElement('h5', { text: 'BIBFRAME Instance' }, { timeout: 10000 })
   })
 
   it('nested property with default is already expanded', async () => {

@@ -188,7 +188,6 @@ export const stubResourceProperties = async (resourceTemplateId, resourceTemplat
         // Since these are promises, using Promise.all for https://stackoverflow.com/questions/37576685/using-async-await-with-a-foreach-loop
         await Promise.all(
           propertyTemplate.valueConstraint.valueTemplateRefs.map(async (resourceTemplateId) => {
-            // const nestedResourceTemplatePromise = fetchResourceTemplate(resourceTemplateId, dispatch)
             // See if there is alread a <key> > <resource template id> for this resource template id
             const existingNestedResourceKey = Object.keys(newResource[propertyTemplate.propertyURI]).find(
               key => _.first(Object.keys(newResource[propertyTemplate.propertyURI][key])) === resourceTemplateId,
