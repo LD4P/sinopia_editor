@@ -5,7 +5,7 @@ import { shallow } from 'enzyme'
 import PropertyComponent from 'components/editor/property/PropertyComponent'
 
 describe('<PropertyComponent />', () => {
-  describe('for property templates configured as list', () => {
+  describe('with a valid property template', () => {
     const template = {
       propertyURI: 'http://id.loc.gov/ontologies/bibframe/issuance',
       propertyLabel: 'Issuance',
@@ -18,82 +18,13 @@ describe('<PropertyComponent />', () => {
     }
 
     const wrapper = shallow(<PropertyComponent propertyTemplate={template} reduxPath={['http://id.loc.gov/ontologies/bibframe/issuance']} />)
-    it('it renders the list component', () => {
-      expect(wrapper.find('Connect(InputListLOC)').length).toEqual(1)
+
+    it('it renders the component lazily', () => {
+      expect(wrapper.find('lazy').length).toEqual(1)
     })
   })
 
-  describe('for templates configured as QA lookup', () => {
-    const template = {
-      propertyURI: 'http://id.loc.gov/ontologies/bibframe/contribution',
-      propertyLabel: 'Contribution',
-      type: 'lookup',
-      valueConstraint: {
-        useValuesFrom: [
-          'urn:ld4p:qa:names:person',
-          'urn:ld4p:qa:subjects:person',
-        ],
-      },
-    }
-
-    const wrapper = shallow(<PropertyComponent propertyTemplate={template} reduxPath={['http://id.loc.gov/ontologies/bibframe/contribution']}/>)
-
-    it('renders the lookup component', () => {
-      expect(wrapper.find('Connect(InputLookupQA)').length).toEqual(1)
-    })
-  })
-
-  describe('for templates configured as a local (Sinopia) lookup', () => {
-    const template = {
-      propertyURI: 'http://id.loc.gov/ontologies/bibframe/contribution',
-      propertyLabel: 'Contribution',
-      type: 'lookup',
-      valueConstraint: {
-        useValuesFrom: [
-          'urn:ld4p:sinopia',
-        ],
-      },
-    }
-
-    const wrapper = shallow(<PropertyComponent propertyTemplate={template} reduxPath={['http://id.loc.gov/ontologies/bibframe/contribution']}/>)
-
-    it('renders the lookup component', () => {
-      expect(wrapper.find('Connect(InputLookupSinopia)').length).toEqual(1)
-    })
-  })
-
-  describe('for templates configured as resource', () => {
-    const template = {
-      propertyURI: 'http://id.loc.gov/ontologies/bibframe/hasEquivalent',
-      propertyLabel: 'Equivalent to',
-      type: 'resource',
-    }
-
-    const wrapper = shallow(<PropertyComponent propertyTemplate={template} reduxPath={['http://id.loc.gov/ontologies/bibframe/hasEquivalent']}/>)
-
-    it('renders the uri component', () => {
-      expect(wrapper.find('Connect(InputURI)').length).toEqual(1)
-    })
-  })
-
-  describe('when there are no configuration values from the property template', () => {
-    describe('for type:literal', () => {
-      const template = {
-        propertyURI: 'http://id.loc.gov/ontologies/bibframe/heldBy',
-        propertyLabel: 'Held by',
-        type: 'literal',
-      }
-
-      const wrapper = shallow(<PropertyComponent propertyTemplate={template}
-                                                 reduxPath={['http://id.loc.gov/ontologies/bibframe/heldBy']} />)
-
-      it('renders an InputLiteral component', () => {
-        expect(wrapper.find('Connect(InputLiteral)').length).toEqual(1)
-      })
-    })
-  })
-
-  it('logs an error if <PropertyComponent /> is missing reduxPath props', () => {
+  describe('with missing reduxPath props', () => {
     const template = {
       propertyURI: 'http://id.loc.gov/ontologies/bibframe/note',
       propertyLabel: 'Note',
@@ -105,11 +36,13 @@ describe('<PropertyComponent />', () => {
         useValuesFrom: [],
       },
     }
-    const originalError = console.error
+    it('logs an error', () => {
+      const originalError = console.error
 
-    console.error = jest.fn()
-    shallow(<PropertyComponent propertyTemplate={template} />)
-    expect(console.error).toHaveBeenCalledTimes(1)
-    console.error = originalError
+      console.error = jest.fn()
+      shallow(<PropertyComponent propertyTemplate={template} />)
+      expect(console.error).toHaveBeenCalledTimes(1)
+      console.error = originalError
+    })
   })
 })

@@ -10,7 +10,7 @@ import {
   itemsForProperty, getDisplayValidations, getPropertyTemplate, findErrors,
 } from 'selectors/resourceSelectors'
 import { changeSelections } from 'actions/index'
-import { booleanPropertyFromTemplate } from 'Utilities'
+import { booleanPropertyFromTemplate } from 'utilities/propertyTemplates'
 import _ from 'lodash'
 
 const AsyncTypeahead = asyncContainer(Typeahead)

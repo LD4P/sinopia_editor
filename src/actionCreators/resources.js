@@ -14,8 +14,9 @@ import { rootResourceId } from 'selectors/resourceSelectors'
 import { findResourceTemplate } from 'selectors/entitySelectors'
 import GraphBuilder from 'GraphBuilder'
 import {
-  isResourceWithValueTemplateRef, rdfDatasetFromN3, defaultValuesFromPropertyTemplate, generateMD5,
+  isResourceWithValueTemplateRef, rdfDatasetFromN3, generateMD5,
 } from 'Utilities'
+import { defaultValuesFromPropertyTemplate } from 'utilities/propertyTemplates'
 import shortid from 'shortid'
 import ResourceStateBuilder from 'ResourceStateBuilder'
 import _ from 'lodash'

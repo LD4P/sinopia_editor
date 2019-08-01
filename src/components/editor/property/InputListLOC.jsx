@@ -10,7 +10,7 @@ import { changeSelections } from 'actions/index'
 import {
   itemsForProperty, getDisplayValidations, getPropertyTemplate, findErrors,
 } from 'selectors/resourceSelectors'
-import { booleanPropertyFromTemplate, getLookupConfigItems } from 'Utilities'
+import { booleanPropertyFromTemplate, getLookupConfigItems } from 'utilities/propertyTemplates'
 import _ from 'lodash'
 
 // propertyTemplate of type 'lookup' does live QA lookup via API

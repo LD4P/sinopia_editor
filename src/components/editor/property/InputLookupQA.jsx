@@ -15,7 +15,8 @@ import {
   itemsForProperty, getDisplayValidations, getPropertyTemplate, findErrors,
 } from 'selectors/resourceSelectors'
 import { changeSelections } from 'actions/index'
-import { booleanPropertyFromTemplate, getLookupConfigItems, isValidURI } from 'Utilities'
+import { isValidURI } from 'Utilities'
+import { booleanPropertyFromTemplate, getLookupConfigItems } from 'utilities/propertyTemplates'
 import Config from 'Config'
 import _ from 'lodash'
 
