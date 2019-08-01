@@ -24,7 +24,7 @@ const InputURI = (props) => {
   const [uriError, setURIError] = useState(false)
 
   const disabled = !booleanPropertyFromTemplate(props.propertyTemplate, 'repeatable', true)
-      && props.items?.length > 0
+      && Object.keys(props.items).length > 0
 
   const addItem = () => {
     const currentcontent = content.trim()

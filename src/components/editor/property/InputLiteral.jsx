@@ -25,7 +25,7 @@ export class InputLiteral extends Component {
   }
 
   disabled = () => !booleanPropertyFromTemplate(this.props.propertyTemplate, 'repeatable', true)
-      && this.props.items?.length > 0
+      && Object.keys(this.props.items).length > 0
 
   handleChange = (event) => {
     const userInput = event.target.value
