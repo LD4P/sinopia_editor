@@ -148,8 +148,13 @@ export const clearResourceTemplates = () => ({
   type: 'CLEAR_RESOURCE_TEMPLATES',
 })
 
-export const showSearchResults = (searchResults, totalResults, query) => ({
-  type: 'SHOW_SEARCH_RESULTS',
+export const getSearchResultsStarted = (query, queryFrom) => ({
+  type: 'GET_SEARCH_RESULTS_STARTED',
+  payload: { query, queryFrom },
+})
+
+export const setSearchResults = (searchResults, totalResults, query) => ({
+  type: 'SET_SEARCH_RESULTS',
   payload: { searchResults, totalResults, query },
 })
 

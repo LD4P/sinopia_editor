@@ -6,7 +6,7 @@ import PropTypes from 'prop-types'
 import Config from 'Config'
 import 'react-bootstrap-table-next/dist/react-bootstrap-table2.min.css'
 import Pagination from 'react-bootstrap/lib/Pagination'
-import { showSearchResults } from 'actions/index'
+import { fetchSearchResults } from 'actionCreators/search'
 
 const SearchResultsPaging = (props) => {
   const [currentPage, setCurrentPage] = useState(1) // initialize currentPage to 1
@@ -51,26 +51,7 @@ const SearchResultsPaging = (props) => {
     }
     queryFrom = (newCurrentPage - 1) * Config.searchResultsPerPage
     setCurrentPage(newCurrentPage)
-    search(props.queryString, queryFrom)
-  }
-
-  const responseToSearchResults = json => ({
-    totalHits: json.hits.total,
-    results: json.hits.hits.map(row => ({
-      uri: row._id,
-      title: row._source.title,
-    })),
-  })
-
-
-  const search = (query, queryFrom) => {
-    const uri = `${Config.searchHost}${Config.searchPath}?q=title:${query}%20OR%20subtitle:${query}&from=${queryFrom}&size=${Config.searchResultsPerPage}`
-    fetch(uri)
-      .then(resp => resp.json())
-      .then(json => responseToSearchResults(json))
-      .then((results) => {
-        props.displaySearchResults(results.results, results.totalHits, query)
-      })
+    props.retrieveSearchResults(props.queryString, queryFrom)
   }
 
   const lastPage = () => props.totalResults / Config.searchResultsPerPage
@@ -100,7 +81,7 @@ const SearchResultsPaging = (props) => {
 SearchResultsPaging.propTypes = {
   totalResults: PropTypes.number,
   queryString: PropTypes.string,
-  displaySearchResults: PropTypes.func,
+  retrieveSearchResults: PropTypes.func,
 }
 
 const mapStateToProps = state => ({
@@ -109,8 +90,8 @@ const mapStateToProps = state => ({
 })
 
 const mapDispatchToProps = dispatch => ({
-  displaySearchResults: (searchResults, totalResults, queryString) => {
-    dispatch(showSearchResults(searchResults, totalResults, queryString))
+  retrieveSearchResults: (queryString, queryFrom) => {
+    dispatch(fetchSearchResults(queryString, queryFrom))
   },
 })
 

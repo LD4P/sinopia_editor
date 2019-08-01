@@ -9,38 +9,18 @@ import FormControl from 'react-bootstrap/lib/FormControl'
 import Grid from 'react-bootstrap/lib/Grid'
 import Row from 'react-bootstrap/lib/Row'
 import Form from 'react-bootstrap/lib/Form'
-import { showSearchResults } from 'actions/index'
+import { fetchSearchResults } from 'actionCreators/search'
 import SearchResults from './SearchResults'
 import SearchResultsPaging from './SearchResultsPaging'
-import Config from 'Config'
 
 const Search = (props) => {
   const [queryString, setQueryString] = useState('')
 
   const handleKeyPress = (event) => {
     if (event.key === 'Enter') {
-      search(queryString)
+      props.retrieveSearchResults(queryString,0)
       event.preventDefault()
     }
-  }
-
-  const responseToSearchResults = json => ({
-    totalHits: json.hits.total,
-    results: json.hits.hits.map(row => ({
-      uri: row._id,
-      title: row._source.title,
-    })),
-  })
-
-  const search = (query) => {
-    const uri = `${Config.searchHost}${Config.searchPath}?q=title:${query}%20OR%20subtitle:${query}&from=0&size=${Config.searchResultsPerPage}`
-
-    fetch(uri)
-      .then(resp => resp.json())
-      .then(json => responseToSearchResults(json))
-      .then((results) => {
-        props.displaySearchResults(results.results, results.totalHits, query)
-      })
   }
 
   return (
@@ -67,13 +47,13 @@ const Search = (props) => {
 
 Search.propTypes = {
   triggerHandleOffsetMenu: PropTypes.func,
-  displaySearchResults: PropTypes.func,
+  retrieveSearchResults: PropTypes.func,
   currentUser: PropTypes.object,
 }
 
 const mapDispatchToProps = dispatch => ({
-  displaySearchResults: (searchResults, totalResults, queryString) => {
-    dispatch(showSearchResults(searchResults, totalResults, queryString))
+  retrieveSearchResults: (queryString, queryFrom) => {
+    dispatch(fetchSearchResults(queryString, queryFrom))
   },
 })
 
