@@ -41,7 +41,9 @@ const InputURI = (props) => {
 
     const userInput = {
       reduxPath: props.reduxPath,
-      items: [{ uri: currentcontent, id: shortid.generate() }],
+      items: {
+        [shortid.generate()]: { uri: currentcontent },
+      },
     }
 
     props.handleMyItemsChange(userInput)
@@ -79,8 +81,6 @@ const InputURI = (props) => {
    */
   const required = booleanPropertyFromTemplate(props.propertyTemplate, 'mandatory', false)
 
-  const items = props.items || []
-
   const mergeErrors = () => {
     let errors = []
     if (uriError) {
@@ -92,31 +92,27 @@ const InputURI = (props) => {
     return errors
   }
 
-  const addedList = items.map((obj) => {
-    const itemId = obj.id || shortid.generate()
-
-    return <div id="userInput" key = {itemId} >
-      {obj.uri}
+  const addedList = Object.keys(props.items).map(itemId => (
+    <div id="userInput" key={itemId}>
+      {props.items[itemId].uri}
       <button
         id="deleteItem"
         type="button"
         onClick={handleDeleteClick}
-        key={`delete${obj.id}`}
+        key={`delete${itemId}`}
         data-item={itemId}
-        data-label={props.formData.uri}
       >X
       </button>
       <button
         id="editItem"
         type="button"
         onClick={handleEditClick}
-        key={`edit${obj.id}`}
+        key={`edit${itemId}`}
         data-item={itemId}
-        data-label={props.formData.uri}
       >Edit
       </button>
     </div>
-  })
+  ))
 
   let error
   let groupClasses = 'form-group'
@@ -149,12 +145,7 @@ const InputURI = (props) => {
 InputURI.propTypes = {
   id: PropTypes.oneOfType([PropTypes.number, PropTypes.string]),
   propertyTemplate: SinopiaPropTypes.propertyTemplate,
-  formData: PropTypes.shape({
-    id: PropTypes.oneOfType([PropTypes.number, PropTypes.string]),
-    uri: PropTypes.string,
-    errors: PropTypes.array,
-  }),
-  items: PropTypes.array,
+  items: PropTypes.object,
   handleMyItemsChange: PropTypes.func,
   handleRemoveItem: PropTypes.func,
   reduxPath: PropTypes.oneOfType([PropTypes.string, PropTypes.array]),
@@ -167,14 +158,12 @@ const mapStateToProps = (state, props) => {
   const resourceTemplateId = reduxPath[reduxPath.length - 2]
   const propertyURI = reduxPath[reduxPath.length - 1]
   const displayValidations = getDisplayValidations(state)
-  const formData = findNode(state.selectorReducer, reduxPath)
   // items has to be its own prop or rerendering won't occur when one is removed
-  const items = formData.items
+  const items = findNode(state.selectorReducer, reduxPath).items
   const propertyTemplate = getPropertyTemplate(state, resourceTemplateId, propertyURI)
   const errors = findErrors(state.selectorReducer, reduxPath)
 
   return {
-    formData,
     items,
     propertyTemplate,
     displayValidations,
