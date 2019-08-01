@@ -153,7 +153,7 @@ describe('when there is a default literal value in the property template', () =>
                                    items={{ 0: { uri: 'http://foo.by', id: 0 } }}/>,
       )
 
-      expect(nonrepeatWrapper.exists('input', { disabled: true })).toBe(true)
+      expect(nonrepeatWrapper.find('input').prop('disabled')).toBe(true)
     })
 
     it('input does not have disabled attribute when there are no items', () => {
@@ -162,7 +162,7 @@ describe('when there is a default literal value in the property template', () =>
                                    handleMyItemsChange={mockMyItemsChange}
                                    items={{}}/>,
       )
-      expect(nonrepeatWrapper.exists('input', { disabled: false })).toBe(true)
+      expect(nonrepeatWrapper.find('input').prop('disabled')).toBe(false)
     })
   })
 })
