@@ -88,21 +88,21 @@ const InputURI = (props) => {
     groupClasses += ' has-error'
     error = errors.join(', ')
   }
+  const id = shortid.generate()
 
   return (
     <div className={groupClasses}>
-      <label>Enter a URI
-        <input
-              required={required}
-              className="form-control"
-              placeholder={props.propertyTemplate.propertyLabel}
-              onChange={event => setContent(event.target.value)}
-              onKeyPress={handleKeypress}
-              value={content}
-              disabled={disabled}
-              ref={inputLiteralRef}
-        />
-      </label>
+      <label htmlFor={id}>Enter a URI</label>
+      <input id={id}
+             required={required}
+             className="form-control"
+             placeholder={props.propertyTemplate.propertyLabel}
+             onChange={event => setContent(event.target.value)}
+             onKeyPress={handleKeypress}
+             value={content}
+             disabled={disabled}
+             ref={inputLiteralRef}
+      />
       {error && <span className="help-block">{error}</span>}
       {addedList}
     </div>
