@@ -183,7 +183,7 @@ export const loadRDFResource = async (currentUser, uri) => {
 export const getSearchResults = async (query, queryFrom = 0) => {
   const uri = `${Config.searchHost}${Config.searchPath}?q=title:${query}%20OR%20subtitle:${query}&from=${queryFrom}&size=${Config.searchResultsPerPage}`
 
-  return await fetch(uri)
+  return fetch(uri)
     .then(resp => resp.json())
     .then(json => ({
       totalHits: json.hits.total,
@@ -192,4 +192,5 @@ export const getSearchResults = async (query, queryFrom = 0) => {
         title: row._source.title,
       })),
     }))
+    .catch(error => console.log(error))
 }
