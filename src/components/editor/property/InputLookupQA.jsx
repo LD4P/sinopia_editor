@@ -18,6 +18,7 @@ import { changeSelections } from 'actions/index'
 import { booleanPropertyFromTemplate, getLookupConfigItems, isValidURI } from 'Utilities'
 import Config from 'Config'
 import _ from 'lodash'
+import RenderLookupContext from './RenderLookupContext'
 
 const AsyncTypeahead = asyncContainer(Typeahead)
 
@@ -120,10 +121,11 @@ class InputLookupQA extends Component {
         return
       }
 
+      // {innerResult.label}
       body.forEach((innerResult) => {
         items.push(
           <MenuItem option={innerResult} position={menuItemIndex} key={menuItemIndex}>
-            {innerResult.label}
+            <RenderLookupContext innerResult={innerResult} authLabel={authLabel}></RenderLookupContext>
           </MenuItem>,
         )
         menuItemIndex++

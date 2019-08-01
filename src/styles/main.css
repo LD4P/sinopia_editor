@@ -280,3 +280,49 @@ input.rbt-input-main {
 	font-weight:400;
 	 color: #999999;
 }
+/** For typeahead discogs context**/
+.context-result {
+        padding: 4px 2px 2px 5px;
+}
+.context-result-bg {
+        background-color: #fff;
+}
+.context-result-alt-bg {
+        background-color: #ede7d4;
+}
+.context-label {
+      font-weight: bold;
+      font-size: 18px;
+      padding-left: 5px;
+}
+.context-heading {
+      margin: 0 -15px;
+      padding: 8px 0 4px 8px;
+      background-color: #ccc;
+}
+
+.discogs-container {
+  padding: 0 0 4px 3px;
+}
+
+.details-container {
+  padding: 0 0 0 8px;
+  white-space: normal;
+}
+
+.image-container {
+  width: 50px;
+  overflow: hidden;
+  padding: 3px 0 0;
+  text-align: center;
+}
+
+.discogs-image-style {
+  width: 100%;
+  margin-right: 10px;
+  vertical-align: top;
+}
+
+.type-span {
+  padding-left: 8px;
+}
