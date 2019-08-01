@@ -5,10 +5,11 @@ import PropTypes from 'prop-types'
 import SinopiaPropTypes from 'SinopiaPropTypes'
 import { connect } from 'react-redux'
 import shortid from 'shortid'
-import { removeItem, itemsSelected } from 'actions/index'
+import { itemsSelected } from 'actions/index'
 import {
   findNode, getDisplayValidations, getPropertyTemplate, findErrors,
 } from 'selectors/resourceSelectors'
+import InputValue from './InputValue'
 import { booleanPropertyFromTemplate, isValidURI } from 'Utilities'
 import _ from 'lodash'
 
@@ -52,28 +53,15 @@ const InputURI = (props) => {
     }
   }
 
-  const handleDeleteClick = (event) => {
-    props.handleRemoveItem(props.reduxPath, event.target.dataset.item)
-  }
-
-  const handleEditClick = (event) => {
-    const idToRemove = event.target.dataset.item
-
-    props.items.forEach((item) => {
-      if (item.id === idToRemove) {
-        const itemContent = item.uri
-
-        setContent(itemContent)
-      }
-    })
-
-    handleDeleteClick(event)
+  const handleEdit = (content) => {
+    setContent(content)
     inputLiteralRef.current.focus()
   }
 
   /**
    * @return {bool} true if the field should be marked as required (e.g. not all obligations met)
    */
+
   const required = booleanPropertyFromTemplate(props.propertyTemplate, 'mandatory', false)
 
   const mergeErrors = () => {
@@ -87,27 +75,11 @@ const InputURI = (props) => {
     return errors
   }
 
-  const addedList = Object.keys(props.items).map(itemId => (
-    <div id="userInput" key={itemId}>
-      {props.items[itemId].uri}
-      <button
-        id="deleteItem"
-        type="button"
-        onClick={handleDeleteClick}
-        key={`delete${itemId}`}
-        data-item={itemId}
-      >X
-      </button>
-      <button
-        id="editItem"
-        type="button"
-        onClick={handleEditClick}
-        key={`edit${itemId}`}
-        data-item={itemId}
-      >Edit
-      </button>
-    </div>
-  ))
+
+  const itemKeys = Object.keys(props.items)
+  const addedList = itemKeys.map(itemId => (<InputValue key={itemId}
+                                                        handleEdit={handleEdit}
+                                                        reduxPath={[...props.reduxPath, 'items', itemId]} />))
 
   let error
   let groupClasses = 'form-group'
@@ -142,7 +114,7 @@ InputURI.propTypes = {
   items: PropTypes.object,
   handleMyItemsChange: PropTypes.func,
   handleRemoveItem: PropTypes.func,
-  reduxPath: PropTypes.oneOfType([PropTypes.string, PropTypes.array]),
+  reduxPath: PropTypes.array.isRequired,
   displayValidations: PropTypes.bool,
   errors: PropTypes.array,
 }
@@ -168,9 +140,6 @@ const mapStateToProps = (state, props) => {
 const mapDispatchToProps = dispatch => ({
   handleMyItemsChange(userInput) {
     dispatch(itemsSelected(userInput))
-  },
-  handleRemoveItem(reduxPath, itemId) {
-    dispatch(removeItem(reduxPath, itemId))
   },
 })
 

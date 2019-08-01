@@ -1,3 +1,4 @@
+
 // Copyright 2019 Stanford University see LICENSE for license
 
 // export const newResource = resourceTemplateId => ({
@@ -47,9 +48,9 @@ export const languageSelectOpened = () => ({
   type: 'LANGUAGE_SELECT_OPENED',
 })
 
-export const removeItem = (reduxPath, id) => ({
+export const removeItem = reduxPath => ({
   type: 'REMOVE_ITEM',
-  payload: { reduxPath, id },
+  payload: reduxPath,
 })
 
 export const removeResource = reduxPath => ({

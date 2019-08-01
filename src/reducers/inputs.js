@@ -156,17 +156,10 @@ export const clearResourceURIMessage = (state) => {
 
 export const removeMyItem = (state, action) => {
   const newState = { ...state }
-  const reduxPath = action.payload.reduxPath
-  let level = 0
+  const reduxPath = action.payload
 
-  reduxPath.reduce((obj, key) => {
-    level++
-    if (level === reduxPath.length) {
-      delete obj[key].items[action.payload.id]
-    }
-
-    return obj[key]
-  }, newState)
+  const node = findNode(newState, reduxPath.slice(0, -1))
+  delete node[reduxPath.slice(-1)[0]]
 
   return validate(newState)
 }

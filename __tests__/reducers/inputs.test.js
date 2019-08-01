@@ -455,20 +455,14 @@ describe('removeMyItem', () => {
         },
       },
     }
-    const reduxPath = ['resource', 'resourceTemplate:Monograph:Instance', 'http://schema.org/name']
+    const reduxPath = ['resource', 'resourceTemplate:Monograph:Instance', 'http://schema.org/name', 'items', 'abc123']
     const result = removeMyItem(initialState,
       {
         type: 'REMOVE_ITEM',
-        payload: {
-          id: 'abc123',
-          rtId: 'resourceTemplate:Monograph:Instance',
-          reduxPath,
-          uri: 'http://schema.org/name',
-          content: 'test content',
-        },
+        payload: reduxPath,
       })
 
-    expect(findNode(result, reduxPath)).toEqual({
+    expect(findNode(result, reduxPath.slice(0, -2))).toEqual({
       items: {
         def456: { content: 'more content' },
       },
@@ -486,19 +480,14 @@ describe('removeMyItem', () => {
         },
       },
     }
-    const reduxPath = ['resource', 'resourceTemplate:Monograph:Instance', 'http://schema.org/name']
+    const reduxPath = ['resource', 'resourceTemplate:Monograph:Instance', 'http://schema.org/name', 'items', '0']
     const result = removeMyItem(initialState,
       {
         type: 'REMOVE_ITEM',
-        payload: {
-          id: 0,
-          uri: 'http://schema.org/name',
-          content: 'test content',
-          reduxPath,
-        },
+        payload: reduxPath,
       })
 
-    expect(findNode(result, reduxPath)).toEqual({
+    expect(findNode(result, reduxPath.slice(0, -2))).toEqual({
       items: {
         abc123: { content: 'Test' },
         def456: { content: 'Statement' },
