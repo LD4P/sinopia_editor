@@ -5,11 +5,12 @@
 import {
   updateStarted, updateFinished,
   retrieveResourceStarted, setResource, updateProperty,
-  toggleCollapse, appendResource,
-  clearResourceURIMessage, setLastSaveChecksum,
+  toggleCollapse, appendResource, clearResourceTemplates,
+  clearResourceURIMessage, setLastSaveChecksum, showResourceURIMessage,
+  publishStarted, publishError,
 } from 'actions/index'
 import { fetchResourceTemplate } from 'actionCreators/resourceTemplates'
-import { updateRDFResource, loadRDFResource } from 'sinopiaServer'
+import { updateRDFResource, loadRDFResource, publishRDFResource } from 'sinopiaServer'
 import { rootResourceId } from 'selectors/resourceSelectors'
 import GraphBuilder from 'GraphBuilder'
 import {
@@ -46,6 +47,24 @@ export const retrieveResource = (currentUser, uri) => (dispatch) => {
         })
       })
     })
+}
+
+// A thunk that publishes (saves) a new resource in Trellis
+export const publishResource = (currentUser, group) => (dispatch, getState) => {
+  dispatch(publishStarted()) // clears possible residual server error
+
+  const rdf = new GraphBuilder(getState().selectorReducer).graph.toCanonical()
+
+  return publishRDFResource(currentUser, rdf, group).then((result) => {
+    const resourceUrl = result.response.headers.location
+    dispatch(assignBaseURL(resourceUrl))
+    dispatch(showResourceURIMessage(resourceUrl))
+    // Need to regenerate RDF now that we have baseURL
+    const updatedRdf = new GraphBuilder(getState().selectorReducer).graph.toCanonical()
+    dispatch(updateFinished(generateMD5(updatedRdf)))
+  }).catch((err) => {
+    dispatch(publishError(`Unable to save resource: ${err}`))
+  })
 }
 
 // A thunk that stubs out a new resource
@@ -96,7 +115,6 @@ export const addResource = reduxPath => (dispatch, getState) => {
   })
 }
 
-<<<<<<< HEAD
 const existingResourceFunc = (resource, uri, dispatch) => stubResource(resource, false, uri, dispatch).then((result) => {
   if (result !== undefined) {
     dispatch(clearResourceURIMessage())
@@ -108,12 +126,6 @@ const existingResourceFunc = (resource, uri, dispatch) => stubResource(resource,
 // Stubs out a root resource
 const stubResource = (resource, useDefaults, uri, dispatch) => {
   const newResource = { ...resource }
-=======
-// A thunk that stubs out a root resource
-const stubResource = useDefaults => (dispatch, getState) => {
-  const state = getState()
-  const newResource = { ...state.selectorReducer.resource }
->>>>>>> ea5dad3... reducers/index: update comment for consistency
   const rootResourceTemplateId = Object.keys(newResource)[0]
   const rootResource = newResource[rootResourceTemplateId]
   if (uri) {
