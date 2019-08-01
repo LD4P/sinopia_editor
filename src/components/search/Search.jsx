@@ -18,7 +18,7 @@ const Search = (props) => {
 
   const handleKeyPress = (event) => {
     if (event.key === 'Enter') {
-      props.retrieveSearchResults(queryString, 0)
+      props.retrieveSearchResults(queryString)
       event.preventDefault()
     }
   }
@@ -52,8 +52,8 @@ Search.propTypes = {
 }
 
 const mapDispatchToProps = dispatch => ({
-  retrieveSearchResults: (queryString, queryFrom) => {
-    dispatch(fetchSearchResults(queryString, queryFrom))
+  retrieveSearchResults: (queryString) => {
+    dispatch(fetchSearchResults(queryString))
   },
 })
 

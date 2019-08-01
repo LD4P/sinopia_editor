@@ -180,7 +180,7 @@ export const loadRDFResource = async (currentUser, uri) => {
   return await instance.getResourceWithHttpInfo(id.group, id.identifier, returningNtriples)
 }
 
-export const getSearchResults = async (query, queryFrom) => {
+export const getSearchResults = async (query, queryFrom = 0) => {
   const uri = `${Config.searchHost}${Config.searchPath}?q=title:${query}%20OR%20subtitle:${query}&from=${queryFrom}&size=${Config.searchResultsPerPage}`
 
   return await fetch(uri)
