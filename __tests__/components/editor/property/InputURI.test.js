@@ -22,7 +22,7 @@ const plProps = {
 
 
 describe('<InputURI />', () => {
-  const wrapper = shallow(<InputURI.WrappedComponent {...plProps} id={10} />)
+  const wrapper = shallow(<InputURI.WrappedComponent {...plProps} />)
 
   it('contains a placeholder', () => {
     expect(wrapper.find('input').props().placeholder).toBe('Has Equivalent')
@@ -53,13 +53,9 @@ describe('When the user enters input into field', () => {
     mockItemsChange = jest.fn()
     removeMockDataFn = jest.fn()
 
-    mockWrapper = shallow(<InputURI.WrappedComponent {...plProps} id={'11'}
+    mockWrapper = shallow(<InputURI.WrappedComponent {...plProps}
                                                      handleMyItemsChange={mockItemsChange}
                                                      handleRemoveItem={removeMockDataFn}/>)
-  })
-
-  it('has an id value as a unique property', () => {
-    expect(mockWrapper.find('input').prop('id')).toEqual('11')
   })
 
   it('calls handleMyItemsChange function', () => {
@@ -173,7 +169,7 @@ describe('when there is a default literal value in the property template', () =>
         },
       },
     }
-    const wrapper = shallow(<InputURI.WrappedComponent {...plProps} id={12}
+    const wrapper = shallow(<InputURI.WrappedComponent {...plProps}
                                                        handleMyItemsChange={mockMyItemsChange} />)
 
     expect(wrapper.find('#userInput').text()).toMatch('http://id.loc.gov/vocabulary/organizations/dlc')
@@ -195,7 +191,6 @@ describe('when there is a default literal value in the property template', () =>
     it('input has disabled attribute when there are items', () => {
       const nonrepeatWrapper = shallow(
         <InputURI.WrappedComponent {...nrProps}
-                                   id={'11tydg'}
                                    handleMyItemsChange={mockMyItemsChange}
                                    handleRemoveItem={mockRemoveItem}
                                    items={{ 0: { uri: 'http://foo.by', id: 0 } }}/>,
@@ -207,7 +202,6 @@ describe('when there is a default literal value in the property template', () =>
     it('input does not have disabled attribute when there are no items', () => {
       const nonrepeatWrapper = shallow(
         <InputURI.WrappedComponent {...nrProps}
-                                   id={'11tydg'}
                                    handleMyItemsChange={mockMyItemsChange}
                                    handleRemoveItem={mockRemoveItem}
                                    items={{}}/>,

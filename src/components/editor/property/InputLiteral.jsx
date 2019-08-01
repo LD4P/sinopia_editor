@@ -27,11 +27,6 @@ export class InputLiteral extends Component {
   disabled = () => !booleanPropertyFromTemplate(this.props.propertyTemplate, 'repeatable', true)
       && this.props.items?.length > 0
 
-  handleFocus = (event) => {
-    document.getElementById(event.target.id).focus()
-    event.preventDefault()
-  }
-
   handleChange = (event) => {
     const userInput = event.target.value
 
@@ -143,8 +138,6 @@ export class InputLiteral extends Component {
               onBlur={this.addItem}
               value={this.state.content_add}
               disabled={this.disabled()}
-              id={this.props.id}
-              onClick={this.handleFocus}
               ref={this.inputLiteralRef}
         />
         {error && <span className="help-block">{error}</span>}
@@ -155,7 +148,6 @@ export class InputLiteral extends Component {
 }
 
 InputLiteral.propTypes = {
-  id: PropTypes.oneOfType([PropTypes.number, PropTypes.string]),
   propertyTemplate: SinopiaPropTypes.propertyTemplate,
   errors: PropTypes.array,
   items: PropTypes.object,
