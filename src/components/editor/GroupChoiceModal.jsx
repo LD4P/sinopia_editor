@@ -7,13 +7,9 @@ import Modal from 'react-bootstrap/lib/Modal'
 import PropTypes from 'prop-types'
 import GraphBuilder from 'GraphBuilder'
 import Config from 'Config'
-import {
-  closeGroupChooser, showRdfPreview, assignBaseURL, showResourceURIMessage,
-  updateStarted, updateFinished,
-} from 'actions/index'
-import { publishRDFResource } from 'sinopiaServer'
+import { closeGroupChooser, showRdfPreview } from 'actions/index'
 import { getCurrentUser } from 'authSelectors'
-import { generateMD5 } from 'Utilities'
+import { publishResource } from 'actionCreators/resources'
 
 const GroupChoiceModal = (props) => {
   // The ld4p group is only for templates
@@ -28,18 +24,13 @@ const GroupChoiceModal = (props) => {
   }
 
   const saveAndClose = () => {
-    props.saveStarted()
-    const request = publishRDFResource(props.currentUser, props.rdf(), selectedValue)
+    props.publishMyResource(props.currentUser, selectedValue)
 
-    request.then((result) => {
-      props.setBaseURL(result.response.headers.location)
-      // Need to regenerate RDF now that have baseURL
-      props.saveFinished(props.rdf())
-    }).catch((err) => {
-      alert('Unable to save resource')
-      console.error('unable to save resource')
-      console.error(err)
-    })
+    if (props.error) {
+      alert(props.error)
+      console.error(props.error)
+    }
+
     props.closeRdfPreview()
     props.close()
   }
@@ -79,20 +70,20 @@ const GroupChoiceModal = (props) => {
 
 GroupChoiceModal.propTypes = {
   close: PropTypes.func,
-  setBaseURL: PropTypes.func,
   closeRdfPreview: PropTypes.func,
   choose: PropTypes.func,
   show: PropTypes.bool,
   rdf: PropTypes.func,
   currentUser: PropTypes.object,
-  saveStarted: PropTypes.func,
-  saveFinished: PropTypes.func,
+  publishMyResource: PropTypes.func,
+  error: PropTypes.string,
 }
 
 const mapStateToProps = state => ({
   show: state.selectorReducer.editor.groupChoice.show,
   rdf: () => new GraphBuilder(state.selectorReducer).graph.toCanonical(),
   currentUser: getCurrentUser(state),
+  error: state.selectorReducer.editor.serverError,
 })
 
 const mapDispatchToProps = dispatch => ({
@@ -102,15 +93,8 @@ const mapDispatchToProps = dispatch => ({
   closeRdfPreview() {
     dispatch(showRdfPreview(false))
   },
-  setBaseURL(url) {
-    dispatch(assignBaseURL(url))
-    dispatch(showResourceURIMessage(url))
-  },
-  saveStarted() {
-    dispatch(updateStarted())
-  },
-  saveFinished(rdf) {
-    dispatch(updateFinished(generateMD5(rdf)))
+  publishMyResource: (user, group) => {
+    dispatch(publishResource(user, group))
   },
 })
 
