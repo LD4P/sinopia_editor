@@ -95,9 +95,12 @@ export default class ResourceStateBuilder {
     const item = {}
     if (quad.object.termType === 'NamedNode') {
       item.uri = quad.object.value
+      // Until we have a way of looking up label values, use the URI as the label
+      item.label = item.uri
     } else {
       // A literal
       item.content = quad.object.value
+      item.label = item.content // required for InputLookupQA
       // Add language
       const lang = quad.object.language
       if (!_.isEmpty(lang)) {
