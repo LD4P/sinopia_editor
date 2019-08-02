@@ -93,7 +93,7 @@ const mapStateToProps = (state, ownProps) => {
   const displayValidations = getDisplayValidations(state)
   const propertyTemplate = getPropertyTemplate(state, resourceTemplateId, propertyURI)
   const errors = findErrors(state.selectorReducer, ownProps.reduxPath)
-  const selected = itemsForProperty(state.selectorReducer, ownProps.reduxPath)
+  const selected = itemsForProperty(state, ownProps.reduxPath)
 
   return {
     selected,
