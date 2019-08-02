@@ -9,6 +9,7 @@ import {
 import {
   setResourceTemplate, clearResourceTemplates, setResourceTemplateSummary,
   loadingLanguages, languagesReceived,
+  loadingQaResults, qaResultsReceived,
 } from './entities'
 import setSearchResults from './search'
 import { findObjectAtPath } from 'selectors/resourceSelectors'
@@ -137,6 +138,8 @@ const handlers = {
   CHANGE_SELECTIONS: setItemsOrSelections,
   PUBLISH_ERROR: setPublishError,
   PUBLISH_STARTED: clearServerError,
+  LOADING_QA_RESULTS: loadingQaResults,
+  QA_RESULTS_RECEIVED: qaResultsReceived,
   RETRIEVE_ERROR: setRetrieveError,
   RETRIEVE_RESOURCE_TEMPLATE_STARTED: clearServerError,
   SET_BASE_URL: setBaseURL,
