@@ -146,8 +146,7 @@ class InputLookupQA extends Component {
 
   search() {
     const lookupConfigs = this.props.lookupConfig
-    const componentType = this.props.propertyTemplate.subtype ? this.props.propertyTemplate.subtype : 'typeahead'
-    const isContext = componentType === 'context'
+    const isContext = this.hasContextRequest()
     return (query) => {
       this.setState({ isLoading: true })
       Swagger({ spec: swaggerSpec }).then((client) => {
@@ -224,6 +223,11 @@ class InputLookupQA extends Component {
         console.error(e)
       })
     }
+  }
+
+  hasContextRequest = () => {
+    const componentType = this.props.propertyTemplate.subtype ? this.props.propertyTemplate.subtype : 'typeahead'
+    return componentType === 'context'
   }
 
   render() {
