@@ -5,9 +5,9 @@
 import {
   updateStarted, updateFinished,
   retrieveResourceStarted, setResource, updateProperty,
-  toggleCollapse, appendResource, clearResourceTemplates,
+  toggleCollapse, appendResource,
   clearResourceURIMessage, setLastSaveChecksum, showResourceURIMessage,
-  publishStarted, publishError,
+  publishStarted, publishError, assignBaseURL,
 } from 'actions/index'
 import { fetchResourceTemplate } from 'actionCreators/resourceTemplates'
 import { updateRDFResource, loadRDFResource, publishRDFResource } from 'sinopiaServer'
@@ -53,14 +53,20 @@ export const retrieveResource = (currentUser, uri) => (dispatch) => {
 export const publishResource = (currentUser, group) => (dispatch, getState) => {
   dispatch(publishStarted()) // clears possible residual server error
 
-  const rdf = new GraphBuilder(getState().selectorReducer).graph.toCanonical()
+  // Make a copy of state to prevent changes that will affect the publish.
+  const state = _.cloneDeep(getState())
+  const rdf = new GraphBuilder(state.selectorReducer).graph.toCanonical()
 
   return publishRDFResource(currentUser, rdf, group).then((result) => {
     const resourceUrl = result.response.headers.location
     dispatch(assignBaseURL(resourceUrl))
     dispatch(showResourceURIMessage(resourceUrl))
+
+    // Set the baseURL in this state.
+    _.first(Object.values(state.selectorReducer.resource)).resourceURI = resourceUrl
+
     // Need to regenerate RDF now that we have baseURL
-    const updatedRdf = new GraphBuilder(getState().selectorReducer).graph.toCanonical()
+    const updatedRdf = new GraphBuilder(state.selectorReducer).graph.toCanonical()
     dispatch(updateFinished(generateMD5(updatedRdf)))
   }).catch((err) => {
     dispatch(publishError(`Unable to save resource: ${err}`))

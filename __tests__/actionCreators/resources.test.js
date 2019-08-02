@@ -24,12 +24,18 @@ const state = {
         },
       },
     },
-  }
+    resource: {
+      'sinopia:profile:bf2:Place': {
+        resourceURI: 'http://example.com/repository/stanford/12345',
+      },
+    },
+  },
+}
 
-  const currentUser = {
-    getSession: jest.fn(),
-  }
-  const store = mockStore(state)
+const currentUser = {
+  getSession: jest.fn(),
+}
+const store = mockStore(state)
 
 describe('update', () => {
   it('dispatches actions when started and finished', async () => {
@@ -113,6 +119,7 @@ describe('publishResource', () => {
 <> <http://www.w3.org/ns/prov#wasGeneratedBy> "profile:bf2:Note" .`
 
   it('dispatches actions for happy path', async () => {
+    const store = mockStore(state)
     server.publishRDFResource = jest.fn().mockResolvedValue({
       response: {
         headers: { location: 'http://sinopia.io/repository/myGroup/myResource' },
@@ -120,22 +127,23 @@ describe('publishResource', () => {
       },
     })
 
-    const dispatch = jest.fn()
-    await publishResource(currentUser, group)(dispatch, getState)
-    expect(dispatch).toHaveBeenCalledTimes(4)
-    expect(dispatch).toBeCalledWith({ type: 'PUBLISH_STARTED' })
-    expect(dispatch).toBeCalledWith({ type: 'SET_BASE_URL', payload: 'http://sinopia.io/repository/myGroup/myResource' })
-    expect(dispatch).toBeCalledWith({ type: 'SHOW_RESOURCE_URI_MESSAGE', payload: 'http://sinopia.io/repository/myGroup/myResource' })
-    expect(dispatch).toBeCalledWith({ type: 'UPDATE_FINISHED', payload: '53ce99f9e4b1132733bae37801cd8000' })
+    await store.dispatch(publishResource(currentUser, group))
+    const actions = store.getActions()
+    expect(actions.length).toEqual(4)
+    expect(actions[0]).toEqual({ type: 'PUBLISH_STARTED' })
+    expect(actions[1]).toEqual({ type: 'SET_BASE_URL', payload: 'http://sinopia.io/repository/myGroup/myResource' })
+    expect(actions[2]).toEqual({ type: 'SHOW_RESOURCE_URI_MESSAGE', payload: 'http://sinopia.io/repository/myGroup/myResource' })
+    expect(actions[3]).toEqual({ type: 'UPDATE_FINISHED', payload: 'cd2a00d75801b859a7d6228beefb6ace' })
   })
   it('dispatches actions for error path', async () => {
-    const dispatch = jest.fn()
+    const store = mockStore(state)
     server.publishRDFResource = jest.fn().mockRejectedValue(new Error('publish error'))
 
-    await publishResource(currentUser, group)(dispatch, getState)
-    expect(dispatch).toHaveBeenCalledTimes(2)
-    expect(dispatch).toBeCalledWith({ type: 'PUBLISH_STARTED' })
-    expect(dispatch).toBeCalledWith({ type: 'PUBLISH_ERROR', payload: 'Unable to save resource: Error: publish error' })
+    await store.dispatch(publishResource(currentUser, group))
+    const actions = store.getActions()
+    expect(actions.length).toEqual(2)
+    expect(actions[0]).toEqual({ type: 'PUBLISH_STARTED' })
+    expect(actions[1]).toEqual({ type: 'PUBLISH_ERROR', payload: 'Unable to save resource: Error: publish error' })
   })
 })
 
