@@ -10,8 +10,8 @@ export const findNode = (state, reduxPath) => findObjectAtPath(state.selectorRed
 
 export const findObjectAtPath = (parent, path) => path.reduce((obj, key) => obj?.[key], parent) || {}
 
-export const isExpanded = (selectorReducer, reduxPath) => ['editor', 'expanded', ...reduxPath, 'expanded']
-  .reduce((obj, key) => (typeof obj[key] !== 'undefined' ? obj[key] : false), selectorReducer)
+export const isExpanded = (state, reduxPath) => [...reduxPath, 'expanded']
+  .reduce((obj, key) => (typeof obj[key] !== 'undefined' ? obj[key] : false), state.selectorReducer.editor.expanded)
 
 export const findErrors = (state, reduxPath) => findObjectAtPath(state.selectorReducer.resourceValidationErrors, reduxPath).errors || []
 

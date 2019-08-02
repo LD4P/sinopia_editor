@@ -66,7 +66,7 @@ const mapStateToProps = (state, ourProps) => {
   return {
     resourceModel,
     property,
-    collapsed: !isExpanded(state.selectorReducer, ourProps.reduxPath),
+    collapsed: !isExpanded(state, ourProps.reduxPath),
   }
 }
 
