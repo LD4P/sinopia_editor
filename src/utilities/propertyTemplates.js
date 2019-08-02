@@ -32,7 +32,7 @@ const textFieldType = (config, propertyTemplate) => {
     case 'resource':
       return 'InputURI'
     default:
-      console.error(`Unknown propertyTemplate type (component=${config}, type=${propertyTemplate.type})`)
+      // error case handled by caller
       return null
   }
 }

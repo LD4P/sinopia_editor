@@ -35,16 +35,22 @@ export default class Validator {
   validateResource(reduxPath, labelPath) {
     const resourceTemplateId = reduxPath.slice(-1)[0]
     const resourceTemplate = getResourceTemplate({ selectorReducer: this.selectorReducer }, resourceTemplateId)
-    resourceTemplate.propertyTemplates.forEach((propertyTemplate) => {
-      const newReduxPath = [...reduxPath, propertyTemplate.propertyURI]
-      const newLabelPath = [...labelPath, resourceTemplate.resourceLabel, propertyTemplate.propertyLabel]
-      if (propertyTemplate.mandatory === 'true') {
-        this.validateMandatoryProperty(newReduxPath, newLabelPath)
-      }
-      if (!_.isEmpty(propertyTemplate.valueConstraint?.valueTemplateRefs)) {
-        this.validateNestedResourceProperty(newReduxPath, newLabelPath, propertyTemplate)
-      }
-    })
+    if (resourceTemplate) {
+      resourceTemplate.propertyTemplates.forEach((propertyTemplate) => {
+        const newReduxPath = [...reduxPath, propertyTemplate.propertyURI]
+        const newLabelPath = [...labelPath, resourceTemplate.resourceLabel, propertyTemplate.propertyLabel]
+        if (propertyTemplate.mandatory === 'true') {
+          this.validateMandatoryProperty(newReduxPath, newLabelPath)
+        }
+        if (!_.isEmpty(propertyTemplate.valueConstraint?.valueTemplateRefs)) {
+          this.validateNestedResourceProperty(newReduxPath, newLabelPath, propertyTemplate)
+        }
+      })
+    } else {
+      // not sure this error is ever surfaced anywhere, but we do need to trap for undefined resourceTemplate
+      //  possibly will be surfaced when issue #1148 is addressed
+      this.addError(reduxPath, labelPath, `unable to retrieve ${resourceTemplateId} from local store`)
+    }
   }
 
   validateMandatoryProperty(reduxPath, labelPath) {

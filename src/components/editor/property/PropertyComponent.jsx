@@ -10,6 +10,19 @@ import { getTagNameForPropertyTemplate } from 'utilities/propertyTemplates'
 
 const PropertyComponent = (props) => {
   const tag = getTagNameForPropertyTemplate(props.propertyTemplate)
+  if (!tag) {
+    return (
+      <div className="row">
+        <div className="col-md-12" style={{ marginTop: '10px' }}>
+          <div className="alert alert-danger alert-dismissible">
+            <button className="close" data-dismiss="alert" aria-label="close">&times;</button>
+            This propertyTemplate should not be of type {props.propertyTemplate.type}.
+          </div>
+        </div>
+      </div>
+    )
+  }
+
   const TagName = React.lazy(() => import(`./${tag}`))
   return (
     <React.Suspense fallback={<div>Loading...</div>}>
