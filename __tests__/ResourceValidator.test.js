@@ -123,4 +123,30 @@ describe('validate()', () => {
 
     expect(results[1]).toEqual([{ message: 'Required', path: ['Instance', 'Barcode', 'Barcode', 'Barcode'], reduxPath: ['resource', 'resourceTemplate:Monograph:Instance', 'http://id.loc.gov/ontologies/bibframe/itemPortion', 'abcdCode', 'resourceTemplate:bf2:Identifiers:Barcode', 'http://www.w3.org/1999/02/22-rdf-syntax-ns#value'] }])
   })
+
+  it('when a resourceTemplate is not found', () => {
+    const resource = {
+      'rt:fooched': {},
+    }
+    const rt = {
+      'rt:fooched': {
+        resourceLabel: 'borked',
+        propertyTemplates: [
+          {
+            propertyURI: 'http://examples.org/bogusOntologies/lookup1',
+            propertyLabel: 'lookup type with valueTemplateRefs',
+            type: 'lookup',
+            valueConstraint: {
+              valueTemplateRefs: [
+                'resourceTemplate:bf2:Note',
+              ],
+            },
+          },
+        ],
+      },
+    }
+    const results = new Validator({ resource, entities: { rt } }).validate()
+
+    expect(results[0].resource['rt:fooched'].errors[0]).toMatch('unable to retrieve rt:fooched from local store')
+  })
 })
