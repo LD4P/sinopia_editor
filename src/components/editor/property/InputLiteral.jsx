@@ -10,7 +10,9 @@ import {
   findNode, getDisplayValidations, getPropertyTemplate, findErrors,
 } from 'selectors/resourceSelectors'
 import InputValue from './InputValue'
-import { booleanPropertyFromTemplate, defaultLanguageId } from 'Utilities'
+import { defaultLanguageId } from 'Utilities'
+import { booleanPropertyFromTemplate } from 'utilities/propertyTemplates'
+
 import _ from 'lodash'
 
 const InputLiteral = (props) => {

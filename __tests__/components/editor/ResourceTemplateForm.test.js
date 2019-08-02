@@ -76,10 +76,6 @@ describe('<ResourceTemplateForm /> after fetching data from sinopia server', () 
 
       const wrapper = shallow(<ResourceTemplateForm.WrappedComponent {...rtProps} />)
       expect(wrapper.find('div.ResourceTemplateForm PropertyComponent').length).toEqual(1)
-      const inputType = wrapper.find('PropertyComponent').dive()
-
-      expect(inputType.find('Connect(InputLookupQA)').length).toEqual(1)
-      expect(inputType.find('Connect(InputListLOC)').length).toEqual(0)
     })
 
     it('renders a list component', async () => {
@@ -103,10 +99,6 @@ describe('<ResourceTemplateForm /> after fetching data from sinopia server', () 
 
       const wrapper = shallow(<ResourceTemplateForm.WrappedComponent {...rtProps}/>)
       expect(wrapper.find('div.ResourceTemplateForm PropertyComponent').length).toEqual(1)
-      const inputType = wrapper.find('PropertyComponent').dive()
-
-      expect(inputType.find('Connect(InputListLOC)').length).toEqual(1)
-      expect(inputType.find('Connect(InputLookupQA)').length).toEqual(0)
     })
   })
 
@@ -126,10 +118,6 @@ describe('<ResourceTemplateForm /> after fetching data from sinopia server', () 
 
     const wrapper = shallow(<ResourceTemplateForm.WrappedComponent {...rtProps}/>)
     expect(wrapper.find('div.ResourceTemplateForm PropertyComponent').length).toEqual(1)
-    const inputType = wrapper.find('PropertyComponent').dive()
-
-    expect(inputType.find('Connect(InputLiteral)').length).toEqual(1)
-    expect(inputType.find('Connect(InputListLOC)').length).toEqual(0)
   })
 
   const rtProps = {

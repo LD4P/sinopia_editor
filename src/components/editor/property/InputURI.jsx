@@ -9,8 +9,11 @@ import { itemsSelected } from 'actions/index'
 import {
   findNode, getDisplayValidations, getPropertyTemplate, findErrors,
 } from 'selectors/resourceSelectors'
+
 import InputValue from './InputValue'
-import { booleanPropertyFromTemplate, isValidURI } from 'Utilities'
+import { isValidURI } from 'Utilities'
+import { booleanPropertyFromTemplate } from 'utilities/propertyTemplates'
+
 import _ from 'lodash'
 
 const InputURI = (props) => {
