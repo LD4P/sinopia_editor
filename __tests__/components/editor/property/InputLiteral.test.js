@@ -70,7 +70,7 @@ describe('When the user enters input into field', () => {
     mockItemsChange = jest.fn()
 
     mockWrapper = shallow(<InputLiteral.WrappedComponent {...plProps}
-                                                         handleMyItemsChange={mockItemsChange} />)
+                                                         itemsSelected={mockItemsChange} />)
   })
 
   it('calls the change function when enter is pressed', () => {
@@ -156,7 +156,7 @@ describe('When the user enters input into field', () => {
       reduxPath: ['basePath'],
     }
     const wrapper = shallow(<InputLiteral.WrappedComponent {...plProps}
-                                                           handleMyItemsChange={mockItemsChange} />)
+                                                           itemsSelected={mockItemsChange} />)
 
     expect(wrapper.find('Connect(InputValue)').prop('reduxPath')).toEqual(['basePath', 'items', 'abc123'])
   })
@@ -181,7 +181,7 @@ describe('when there is a default literal value in the property template', () =>
     it('input has disabled attribute when there are items', () => {
       const nonrepeatWrapper = shallow(
         <InputLiteral.WrappedComponent {...nrProps}
-                                       handleMyItemsChange={mockMyItemsChange}
+                                       itemsSelected={mockMyItemsChange}
                                        items={{ 0: { content: 'fooby', lang: 'en' } }}/>,
       )
 
@@ -191,7 +191,7 @@ describe('when there is a default literal value in the property template', () =>
     it('input does not have disabled attribute when there are no items', () => {
       const nonrepeatWrapper = shallow(
         <InputLiteral.WrappedComponent {...nrProps}
-                                       handleMyItemsChange={mockMyItemsChange}
+                                       itemsSelected={mockMyItemsChange}
                                        items={{}}/>,
       )
       expect(nonrepeatWrapper.find('input').prop('disabled')).toBe(false)
@@ -217,7 +217,7 @@ describe('When a user enters non-roman text in a work title', () => {
 
   const workTitleWrapper = shallow(
     <InputLiteral.WrappedComponent {...workTitleProps}
-                                   handleMyItemsChange={mockDataFn} />,
+                                   itemsSelected={mockDataFn} />,
   )
 
   it('allows user to enter Chinese characters', () => {

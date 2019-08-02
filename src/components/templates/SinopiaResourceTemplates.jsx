@@ -6,8 +6,9 @@ import { Link } from 'react-router-dom'
 import 'react-bootstrap-table-next/dist/react-bootstrap-table2.min.css'
 import BootstrapTable from 'react-bootstrap-table-next'
 import Download from 'components/templates/Download'
+import { bindActionCreators } from 'redux'
 import { connect } from 'react-redux'
-import { newResource as newResourceCreator } from 'actionCreators/resources'
+import { newResource } from 'actionCreators/resources'
 import { rootResource } from 'selectors/resourceSelectors'
 
 /**
@@ -141,10 +142,6 @@ const mapStateToProps = (state) => {
   }
 }
 
-const mapDispatchToProps = dispatch => ({
-  newResource: (resourceTemplateId) => {
-    dispatch(newResourceCreator(resourceTemplateId))
-  },
-})
+const mapDispatchToProps = dispatch => bindActionCreators({ newResource }, dispatch)
 
 export default connect(mapStateToProps, mapDispatchToProps)(SinopiaResourceTemplates)

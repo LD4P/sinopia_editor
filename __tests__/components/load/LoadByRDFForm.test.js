@@ -1,12 +1,22 @@
-// Copyright 2018 Stanford University see LICENSE for license
+// Copyright 2019 Stanford University see LICENSE for license
 
 import React from 'react'
 import { shallow } from 'enzyme'
 import LoadByRDFForm from 'components/load/LoadByRDFForm'
+/* eslint import/namespace: 'off' */
+import * as utils from 'Utilities'
+
+const mockState = { foo: 'bar' }
+jest.mock('ResourceStateBuilder', () => {
+  return jest.fn().mockImplementation(() => {
+    return { state: mockState }
+  })
+})
 
 describe('<LoadByRDFForm />', () => {
   const mockExistingResource = jest.fn()
   const n3 = 'not rdf'
+
   const wrapper = shallow(<LoadByRDFForm.WrappedComponent existingResource={mockExistingResource} />)
 
   it('renders an input (baseUri)', () => {
@@ -29,10 +39,11 @@ describe('<LoadByRDFForm />', () => {
   })
 
   describe('when n3 is provided', () => {
-    it('calls existingResource when submit is clicked', () => {
+    it('calls existingResource when submit is clicked', async () => {
+      utils.rdfDatasetFromN3 = jest.fn().mockResolvedValue([])
       wrapper.find('textarea').simulate('change', { target: { value: n3 }, preventDefault: jest.fn() })
-      wrapper.find('form').simulate('submit', { preventDefault: jest.fn() })
-      expect(mockExistingResource).toBeCalledWith(n3, '')
+      await wrapper.find('form').simulate('submit', { preventDefault: jest.fn() })
+      expect(mockExistingResource).toBeCalledWith(mockState)
     })
   })
 })

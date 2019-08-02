@@ -20,7 +20,7 @@ jest.mock('components/templates/ImportResourceTemplate')
 describe('<App />', () => {
   const mockStoreAppVersion = jest.fn()
   const mockFetchResourceTemplateSummaries = jest.fn()
-  const wrapper = shallow(<App.WrappedComponent storeAppVersion={mockStoreAppVersion}
+  const wrapper = shallow(<App.WrappedComponent saveAppVersion={mockStoreAppVersion}
                                                 fetchResourceTemplateSummaries={mockFetchResourceTemplateSummaries} />)
 
   it('is selectable by id "#app"', () => {
@@ -35,7 +35,7 @@ describe('<App />', () => {
     expect(wrapper.find(Footer).length).toBe(1)
   })
 
-  it('calls storeAppVersion on componentDidMount', () => {
+  it('calls saveAppVersion on componentDidMount', () => {
     expect(mockStoreAppVersion).toBeCalled()
   })
 

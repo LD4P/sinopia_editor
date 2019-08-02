@@ -5,6 +5,7 @@ import { Typeahead, asyncContainer } from 'react-bootstrap-typeahead'
 import PropTypes from 'prop-types'
 import SinopiaPropTypes from 'SinopiaPropTypes'
 import Config from 'Config'
+import { bindActionCreators } from 'redux'
 import { connect } from 'react-redux'
 import {
   itemsForProperty, getDisplayValidations, getPropertyTemplate, findErrors,
@@ -49,7 +50,7 @@ const InputLookupSinopia = (props) => {
       reduxPath: props.reduxPath,
     }
 
-    props.handleSelectedChange(payload)
+    props.changeSelections(payload)
   }
 
   // From https://github.com/ericgio/react-bootstrap-typeahead/issues/389
@@ -91,7 +92,7 @@ const InputLookupSinopia = (props) => {
 
 InputLookupSinopia.propTypes = {
   displayValidations: PropTypes.bool,
-  handleSelectedChange: PropTypes.func,
+  changeSelections: PropTypes.func,
   propertyTemplate: SinopiaPropTypes.propertyTemplate,
   reduxPath: PropTypes.oneOfType([PropTypes.string, PropTypes.array]),
   selected: PropTypes.arrayOf(PropTypes.object),
@@ -116,10 +117,6 @@ const mapStateToProps = (state, ownProps) => {
   }
 }
 
-const mapDispatchToProps = dispatch => ({
-  handleSelectedChange(selected) {
-    dispatch(changeSelections(selected))
-  },
-})
+const mapDispatchToProps = dispatch => bindActionCreators({ changeSelections }, dispatch)
 
 export default connect(mapStateToProps, mapDispatchToProps)(InputLookupSinopia)

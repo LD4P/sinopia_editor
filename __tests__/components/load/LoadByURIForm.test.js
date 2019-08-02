@@ -1,4 +1,4 @@
-// Copyright 2018 Stanford University see LICENSE for license
+// Copyright 2019 Stanford University see LICENSE for license
 
 import React from 'react'
 import { shallow } from 'enzyme'
@@ -8,7 +8,7 @@ describe('<LoadByURIForm />', () => {
   const mockLoadResource = jest.fn()
   const user = { name: 'Ludwig Wittgenstein' }
   const uri = 'http://localhost:8080/repository/stanford/fe99a7d9'
-  const wrapper = shallow(<LoadByURIForm.WrappedComponent loadResource={mockLoadResource} currentUser={user} />)
+  const wrapper = shallow(<LoadByURIForm.WrappedComponent retrieveResource={mockLoadResource} currentUser={user} />)
 
   it('renders an input box', () => {
     expect(wrapper.find('input').length).toEqual(1)

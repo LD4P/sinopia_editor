@@ -4,6 +4,7 @@ import React, { Component } from 'react'
 import { Typeahead } from 'react-bootstrap-typeahead'
 import PropTypes from 'prop-types'
 import SinopiaPropTypes from 'SinopiaPropTypes'
+import { bindActionCreators } from 'redux'
 import { connect } from 'react-redux'
 import shortid from 'shortid'
 import { changeSelections } from 'actions/index'
@@ -43,7 +44,7 @@ class InputListLOC extends Component {
       reduxPath: this.props.reduxPath,
     }
 
-    this.props.handleSelectedChange(payload)
+    this.props.changeSelections(payload)
   }
 
   get isMandatory() {
@@ -139,7 +140,7 @@ class InputListLOC extends Component {
 InputListLOC.propTypes = {
   defaults: PropTypes.arrayOf(PropTypes.object),
   displayValidations: PropTypes.bool,
-  handleSelectedChange: PropTypes.func,
+  changeSelections: PropTypes.func,
   lookupConfig: PropTypes.arrayOf(PropTypes.object),
   propertyTemplate: SinopiaPropTypes.propertyTemplate,
   reduxPath: PropTypes.array,
@@ -166,10 +167,6 @@ const mapStateToProps = (state, ownProps) => {
   }
 }
 
-const mapDispatchToProps = dispatch => ({
-  handleSelectedChange(selected) {
-    dispatch(changeSelections(selected))
-  },
-})
+const mapDispatchToProps = dispatch => bindActionCreators({ changeSelections }, dispatch)
 
 export default connect(mapStateToProps, mapDispatchToProps)(InputListLOC)

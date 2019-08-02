@@ -1,6 +1,7 @@
 // Copyright 2019 Stanford University see LICENSE for license
 
 import React, { useState, useEffect } from 'react'
+import { bindActionCreators } from 'redux'
 import { connect } from 'react-redux'
 import PropTypes from 'prop-types'
 import { retrieveResource } from 'actionCreators/resources'
@@ -22,7 +23,7 @@ const LoadByURIForm = (props) => {
 
   const handleSubmit = (event) => {
     if (uri !== '') {
-      props.loadResource(props.currentUser, uri)
+      props.retrieveResource(props.currentUser, uri)
       setNavigateEditor(true)
     }
     event.preventDefault()
@@ -44,22 +45,17 @@ const LoadByURIForm = (props) => {
 
 
 LoadByURIForm.propTypes = {
-  loadResource: PropTypes.func,
+  retrieveResource: PropTypes.func,
   history: PropTypes.object,
   currentUser: PropTypes.object,
   rootResource: PropTypes.object,
 }
-
-const mapDispatchToProps = dispatch => ({
-  loadResource: (user, uri) => {
-    dispatch(retrieveResource(user, uri))
-  },
-})
 
 const mapStateToProps = state => ({
   currentUser: getCurrentUser(state),
   rootResource: rootResource(state),
 })
 
+const mapDispatchToProps = dispatch => bindActionCreators({ retrieveResource }, dispatch)
 
 export default connect(mapStateToProps, mapDispatchToProps)(LoadByURIForm)

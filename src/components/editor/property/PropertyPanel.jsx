@@ -4,6 +4,7 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import PropertyLabel from './PropertyLabel'
 import PropertyLabelInfo from './PropertyLabelInfo'
+import { bindActionCreators } from 'redux'
 import { connect } from 'react-redux'
 import { findNode, getPropertyTemplate } from 'selectors/resourceSelectors'
 import { removeResource } from 'actions/index'
@@ -21,12 +22,12 @@ const PropertyPanel = (props) => {
         <PropertyLabel propertyTemplate={ props.propertyTemplate } />
         <PropertyLabelInfo propertyTemplate={ props.propertyTemplate } />{nbsp}
         { isAdd && (
-          <button type="button" className="btn btn-sm btn-primary btn-add" onClick={props.handleAddButton} data-id={props.id}>
+          <button type="button" className="btn btn-sm btn-primary btn-add" onClick={() => props.expandResource(props.reduxPath)} data-id={props.id}>
             + Add
           </button>
         )}
         { !isAdd && !isMandatory && (
-          <button type="button" className="btn btn-sm btn-primary btn-remove" onClick={props.handleRemoveButton} data-id={props.id}>
+          <button type="button" className="btn btn-sm btn-primary btn-remove" onClick={() => props.removeResource(props.reduxPath)} data-id={props.id}>
             Remove
           </button>
         )}
@@ -47,8 +48,8 @@ PropertyPanel.propTypes = {
   resourceModel: PropTypes.object,
   propertyTemplate: PropTypes.object,
   id: PropTypes.string,
-  handleAddButton: PropTypes.func,
-  handleRemoveButton: PropTypes.func,
+  expandResource: PropTypes.func,
+  removeResource: PropTypes.func,
 }
 
 const mapStateToProps = (state, ourProps) => {
@@ -63,16 +64,6 @@ const mapStateToProps = (state, ourProps) => {
   }
 }
 
-const mapDispatchToProps = (dispatch, ownProps) => ({
-  handleAddButton: (event) => {
-    event.preventDefault()
-    dispatch(expandResource(ownProps.reduxPath))
-  },
-  handleRemoveButton: (event) => {
-    event.preventDefault()
-    dispatch(removeResource(ownProps.reduxPath))
-  },
-
-})
+const mapDispatchToProps = dispatch => bindActionCreators({ expandResource, removeResource }, dispatch)
 
 export default connect(mapStateToProps, mapDispatchToProps)(PropertyPanel)

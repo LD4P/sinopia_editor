@@ -1,6 +1,7 @@
 // Copyright 2019 Stanford University see LICENSE for license
 
 import React, { useState } from 'react'
+import { bindActionCreators } from 'redux'
 import { connect } from 'react-redux'
 import PropTypes from 'prop-types'
 import Config from 'Config'
@@ -51,7 +52,7 @@ const SearchResultsPaging = (props) => {
     }
     queryFrom = (newCurrentPage - 1) * Config.searchResultsPerPage
     setCurrentPage(newCurrentPage)
-    props.retrieveSearchResults(props.queryString, queryFrom)
+    props.fetchSearchResults(props.queryString, queryFrom)
   }
 
   const lastPage = () => props.totalResults / Config.searchResultsPerPage
@@ -81,7 +82,7 @@ const SearchResultsPaging = (props) => {
 SearchResultsPaging.propTypes = {
   totalResults: PropTypes.number,
   queryString: PropTypes.string,
-  retrieveSearchResults: PropTypes.func,
+  fetchSearchResults: PropTypes.func,
 }
 
 const mapStateToProps = state => ({
@@ -89,10 +90,6 @@ const mapStateToProps = state => ({
   queryString: state.selectorReducer.search.query,
 })
 
-const mapDispatchToProps = dispatch => ({
-  retrieveSearchResults: (queryString, queryFrom) => {
-    dispatch(fetchSearchResults(queryString, queryFrom))
-  },
-})
+const mapDispatchToProps = dispatch => bindActionCreators({ fetchSearchResults }, dispatch)
 
 export default connect(mapStateToProps, mapDispatchToProps)(SearchResultsPaging)

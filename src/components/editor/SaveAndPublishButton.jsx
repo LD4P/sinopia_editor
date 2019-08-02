@@ -1,6 +1,7 @@
 // Copyright 2019 Stanford University see LICENSE for license
 
 import React from 'react'
+import { bindActionCreators } from 'redux'
 import { connect } from 'react-redux'
 import PropTypes from 'prop-types'
 import Button from 'react-bootstrap/lib/Button'
@@ -9,16 +10,27 @@ import { rootResourceId, resourceHasChangesSinceLastSave } from 'selectors/resou
 import { getCurrentUser } from 'authSelectors'
 import { showGroupChooser } from 'actions/index'
 
-const SaveAndPublishButton = props => (
-  <Button id={ props.id } bsStyle="primary" bsSize="small" onClick={ props.save(props.isSaved, props.currentUser) } disabled={ props.isDisabled }>
-        Save & Publish
-  </Button>
-)
+const SaveAndPublishButton = (props) => {
+  const save = () => {
+    if (props.isSaved) {
+      props.update(props.currentUser)
+    } else {
+      props.showGroupChooser(true)
+    }
+  }
+
+  return (
+    <Button id={ props.id } bsStyle="primary" bsSize="small" onClick={ save } disabled={ props.isDisabled }>
+      Save & Publish
+    </Button>
+  )
+}
 
 SaveAndPublishButton.propTypes = {
   id: PropTypes.string,
   isDisabled: PropTypes.bool,
-  save: PropTypes.func,
+  update: PropTypes.func,
+  showGroupChooser: PropTypes.func,
   isSaved: PropTypes.bool,
   currentUser: PropTypes.object,
 }
@@ -29,15 +41,6 @@ const mapStateToProps = state => ({
   isDisabled: !resourceHasChangesSinceLastSave(state),
 })
 
-const mapDispatchToProps = dispatch => ({
-  save: (isSaved, user) => () => {
-    if (isSaved) {
-      dispatch(update(user))
-    } else {
-      dispatch(showGroupChooser(true))
-    }
-  },
-})
-
+const mapDispatchToProps = dispatch => bindActionCreators({ update, showGroupChooser }, dispatch)
 
 export default connect(mapStateToProps, mapDispatchToProps)(SaveAndPublishButton)

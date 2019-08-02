@@ -122,17 +122,17 @@ describe('<InputListLOC /> configuration', () => {
   })
 
   it('expects a single lookupConfig object', () => {
-    shallow(<InputListLOC.WrappedComponent {...propsOk} handleSelectedChange={mockFormDataFn} />)
+    shallow(<InputListLOC.WrappedComponent {...propsOk} changeSelections={mockFormDataFn} />)
     expect(global.alert.mock.calls.length).toEqual(0)
   })
 
   it('displays a browser alert if the lookupConfig is undefined', () => {
-    shallow(<InputListLOC.WrappedComponent {...propsUndefLookupURI} handleSelectedChange={mockFormDataFn} />)
+    shallow(<InputListLOC.WrappedComponent {...propsUndefLookupURI} changeSelections={mockFormDataFn} />)
     expect(global.alert.mock.calls.length).toEqual(1)
   })
 
   it('displays a browser alert if the lookupConfig is an array of objects and not a single object', () => {
-    shallow(<InputListLOC.WrappedComponent {...propsMultLookup} handleSelectedChange={mockFormDataFn} />)
+    shallow(<InputListLOC.WrappedComponent {...propsMultLookup} changeSelections={mockFormDataFn} />)
     expect(global.alert.mock.calls.length).toEqual(1)
   })
 })
@@ -140,7 +140,7 @@ describe('<InputListLOC /> configuration', () => {
 describe('<Typeahead /> component', () => {
   // Our mock formData function to replace the one provided by mapDispatchToProps
   const mockFormDataFn = jest.fn()
-  const wrapper = shallow(<InputListLOC.WrappedComponent {...propsOk} handleSelectedChange={mockFormDataFn} />)
+  const wrapper = shallow(<InputListLOC.WrappedComponent {...propsOk} changeSelections={mockFormDataFn} />)
 
   it('contains a placeholder with the value of propertyLabel', () => {
     expect(wrapper.find(Typeahead).props().placeholder).toMatch('Frequency (RDA 2.14)')
