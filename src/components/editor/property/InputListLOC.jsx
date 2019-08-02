@@ -25,6 +25,17 @@ class InputListLOC extends Component {
     }
   }
 
+  // From https://github.com/ericgio/react-bootstrap-typeahead/issues/389
+  onKeyDown = (e) => {
+    // 8 = backspace
+    if (e.keyCode === 8
+        && e.target.value === '') {
+      // Don't trigger a "back" in the browser on backspace
+      e.returnValue = false
+      e.preventDefault()
+    }
+  }
+
   selectionChanged(items) {
     const payload = {
       id: this.props.propertyTemplate.propertyURI,
@@ -99,6 +110,7 @@ class InputListLOC extends Component {
       isLoading: this.state.isLoading,
       options: this.state.options,
       selected: this.props.selected,
+      onKeyDown: this.onKeyDown,
     }
 
     let error
