@@ -13,7 +13,7 @@ const InputValue = (props) => {
   const label = isLiteral ? props.item.content : props.item.uri
 
   const handleEditClick = () => {
-    props.handleEdit(label)
+    props.handleEdit(label, props.item.lang)
     props.removeItem(props.reduxPath)
   }
 

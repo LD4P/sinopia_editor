@@ -21,6 +21,7 @@ const InputLiteral = (props) => {
 
   const inputLiteralRef = useRef(Math.floor(100 * Math.random()))
   const [content, setContent] = useState('')
+  const [lang, setLang] = useState(defaultLanguageId)
 
   const disabled = !booleanPropertyFromTemplate(props.propertyTemplate, 'repeatable', true)
       && Object.keys(props.items).length > 0
@@ -34,11 +35,12 @@ const InputLiteral = (props) => {
     const userInput = {
       reduxPath: props.reduxPath,
       items: {
-        [shortid.generate()]: { content: currentcontent, lang: defaultLanguageId },
+        [shortid.generate()]: { content: currentcontent, lang },
       },
     }
     props.handleMyItemsChange(userInput)
     setContent('')
+    setLang(defaultLanguageId)
   }
 
   const handleKeypress = (event) => {
@@ -48,8 +50,9 @@ const InputLiteral = (props) => {
     }
   }
 
-  const handleEdit = (content) => {
+  const handleEdit = (content, lang) => {
     setContent(content)
+    setLang(lang)
     inputLiteralRef.current.focus()
   }
 

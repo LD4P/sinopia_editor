@@ -53,6 +53,6 @@ describe('<InputValue>', () => {
   it('calls the removeMockDataFn and mockItemsChange when Edit is clicked', () => {
     mockWrapper.find('button#editItem').first().simulate('click', { target: { dataset: { item: 5 } } })
     expect(removeDataFn).toHaveBeenCalled()
-    expect(itemsChangeFn).toHaveBeenCalled()
+    expect(itemsChangeFn).toHaveBeenCalledWith('foo', 'en')
   })
 })
