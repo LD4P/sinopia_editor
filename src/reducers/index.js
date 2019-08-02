@@ -64,19 +64,9 @@ export const removeResource = (state, action) => {
   return validate(newState)
 }
 
-// shameless green implementation -- nearly a duplicate of setRetrieveError()
 export const setPublishError = (state, action) => {
-  const reason = action.payload.reason
   const newState = { ...state }
-
-  let serverError = 'There was a problem saving the resource'
-  if (reason) {
-    serverError += `: ${reason}`
-  } else {
-    serverError += '.'
-  }
-
-  newState.editor.serverError = serverError
+  newState.editor.serverError = `There was a problem saving the resource: ${action.payload}`
   return newState
 }
 
