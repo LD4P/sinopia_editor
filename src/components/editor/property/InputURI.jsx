@@ -127,7 +127,7 @@ const mapStateToProps = (state, props) => {
   // items has to be its own prop or rerendering won't occur when one is removed
   const items = findNode(state, reduxPath).items
   const propertyTemplate = getPropertyTemplate(state, resourceTemplateId, propertyURI)
-  const errors = findErrors(state.selectorReducer, reduxPath)
+  const errors = findErrors(state, reduxPath)
 
   return {
     items,
