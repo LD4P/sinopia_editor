@@ -41,7 +41,7 @@ const SearchResultsPaging = (props) => {
         newCurrentPage = currentPage + 1
         break
       case '»':
-        newCurrentPage = Math.round(props.totalResults / Config.searchResultsPerPage)
+        newCurrentPage = Math.ceil(props.totalResults / Config.searchResultsPerPage)
         break
       case undefined: // this is required to capture clicks on disabled buttons
         return
@@ -54,7 +54,7 @@ const SearchResultsPaging = (props) => {
     props.retrieveSearchResults(props.queryString, queryFrom)
   }
 
-  const lastPage = () => Math.round(props.totalResults / Config.searchResultsPerPage)
+  const lastPage = () => Math.ceil(props.totalResults / Config.searchResultsPerPage)
   const pageButton = (key, active) => <Pagination.Item key={ key } active={ active }>{key}</Pagination.Item>
   const pageButtons = () => Array.from({ length: lastPage() }, (_, index) => pageButton(index + 1, index + 1 === currentPage))
 
