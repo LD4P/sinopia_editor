@@ -45,7 +45,7 @@ InputValue.propTypes = {
 }
 
 const mapStateToProps = (state, ownProps) => ({
-  item: findNode(state.selectorReducer, ownProps.reduxPath),
+  item: findNode(state, ownProps.reduxPath),
 })
 
 const mapDispatchToProps = dispatch => bindActionCreators({ removeItem }, dispatch)

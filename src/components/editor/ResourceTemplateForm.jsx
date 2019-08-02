@@ -115,7 +115,7 @@ const mapStateToProps = (state, ourProps) => {
   const reduxPath = [...ourProps.reduxPath]
   const resourceTemplateId = reduxPath.pop()
   const resourceTemplate = getResourceTemplate(state, resourceTemplateId)
-  const resourceProperties = findNode(state.selectorReducer, ourProps.reduxPath)
+  const resourceProperties = findNode(state, ourProps.reduxPath)
   return {
     propertyTemplates: resourceTemplate?.propertyTemplates || [],
     resourceProperties,

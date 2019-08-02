@@ -6,20 +6,14 @@ export const rootResource = state => Object.values(state.selectorReducer.resourc
 
 export const rootResourceId = state => rootResource(state)?.resourceURI
 
-export const findNode = (selectorReducer, reduxPath) => {
-  const items = reduxPath.reduce((obj, key) => obj?.[key], selectorReducer)
+export const findNode = (state, reduxPath) => findObjectAtPath(state.selectorReducer, reduxPath)
 
-  return items || {}
-}
+export const findObjectAtPath = (parent, path) => path.reduce((obj, key) => obj?.[key], parent) || {}
 
-export const isExpanded = (selectorReducer, reduxPath) => ['editor', 'expanded', ...reduxPath, 'expanded']
-  .reduce((obj, key) => (typeof obj[key] !== 'undefined' ? obj[key] : false), selectorReducer)
+export const isExpanded = (state, reduxPath) => [...reduxPath, 'expanded']
+  .reduce((obj, key) => (typeof obj[key] !== 'undefined' ? obj[key] : false), state.selectorReducer.editor.expanded)
 
-export const findErrors = (selectorReducer, reduxPath) => {
-  const errors = ['editor', 'resourceValidationErrors', ...reduxPath, 'errors'].reduce((obj, key) => obj?.[key], selectorReducer)
-
-  return errors || []
-}
+export const findErrors = (state, reduxPath) => findObjectAtPath(state.selectorReducer.resourceValidationErrors, reduxPath).errors || []
 
 /**
  * Get a list of selections that have been made for the given reduxPath
@@ -28,19 +22,19 @@ export const findErrors = (selectorReducer, reduxPath) => {
  * @return {Object[]} the selected options
  */
 export const itemsForProperty = (state, reduxPath) => {
-  const result = findNode(state.selectorReducer, reduxPath)
+  const result = findNode(state, reduxPath)
   return Object.values(result.items || {})
 }
 
 /**
  * @returns {function} a function that returns true if validations should be displayed
  */
-export const getDisplayValidations = state => findNode(state.selectorReducer, ['editor']).displayValidations
+export const getDisplayValidations = state => findNode(state, ['editor']).displayValidations
 
 /**
  * @returns {function} a function that gets a resource template from state or undefined
  */
-export const getResourceTemplate = (state, resourceTemplateId) => findNode(state.selectorReducer, ['entities', 'resourceTemplates'])[resourceTemplateId]
+export const getResourceTemplate = (state, resourceTemplateId) => findNode(state, ['entities', 'resourceTemplates'])[resourceTemplateId]
 
 
 /**

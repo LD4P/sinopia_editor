@@ -18,7 +18,9 @@ beforeEach(() => {
       },
       resource: { // The state we're displaying in the editor
       },
-      editor: { },
+      editor: {
+        expanded: {},
+      },
     },
   }
 })
@@ -84,7 +86,7 @@ describe('isExpanded()', () => {
   const reduxPath = ['resource', 'resourceTemplate:bf2:Monograph:Instance', 'http://id.loc.gov/ontologies/bibframe/instanceOf', 'aJOz_pLh3m7', 'resourceTemplate:bf2:Monograph:Work', 'http://id.loc.gov/ontologies/bibframe/title']
 
   it('returns false when missing', () => {
-    expect(isExpanded(initialState.selectorReducer, reduxPath)).toBeFalsy()
+    expect(isExpanded(initialState, reduxPath)).toBeFalsy()
   })
 
   it('returns value when present', () => {
@@ -110,7 +112,7 @@ describe('isExpanded()', () => {
       },
     }
 
-    expect(isExpanded(state.selectorReducer, reduxPath)).toBeTruthy()
+    expect(isExpanded(state, reduxPath)).toBeTruthy()
   })
 })
 

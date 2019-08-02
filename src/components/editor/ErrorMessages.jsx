@@ -31,7 +31,7 @@ ErrorMessages.propTypes = {
 }
 
 const mapStateToProps = state => ({
-  errors: findNode(state.selectorReducer, ['editor']).errors,
+  errors: findNode(state, ['editor']).errors,
   displayValidations: state.selectorReducer.editor.displayValidations,
 })
 

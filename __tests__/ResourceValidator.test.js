@@ -1,6 +1,7 @@
 // Copyright 2019 Stanford University see LICENSE for license
 
 import Validator from 'ResourceValidator'
+import { findObjectAtPath } from 'selectors/resourceSelectors'
 
 let resource
 let resourceTemplates
@@ -49,7 +50,7 @@ beforeEach(() => {
 
 describe('validate()', () => {
   it('when no properties are mandatory', () => {
-    const results = new Validator({ resource, entities: { resourceTemplates } }).validate()
+    const results = new Validator({ resource, entities: { resourceTemplates } }, findObjectAtPath).validate()
 
     expect(results[0]).toEqual({})
     expect(results[1]).toEqual([])
@@ -58,7 +59,7 @@ describe('validate()', () => {
   it('when a property is mandatory and provided', () => {
     resourceTemplates['resourceTemplate:Monograph:Instance'].propertyTemplates[0].mandatory = 'true'
     resource['resourceTemplate:Monograph:Instance']['http://id.loc.gov/ontologies/bibframe/title'].items = [{ content: 'bar' }]
-    const results = new Validator({ resource, entities: { resourceTemplates } }).validate()
+    const results = new Validator({ resource, entities: { resourceTemplates } }, findObjectAtPath).validate()
 
     expect(results[0]).toEqual({})
     expect(results[1]).toEqual([])
@@ -66,7 +67,7 @@ describe('validate()', () => {
 
   it('when a property is mandatory and not provided', () => {
     resourceTemplates['resourceTemplate:Monograph:Instance'].propertyTemplates[0].mandatory = 'true'
-    const results = new Validator({ resource, entities: { resourceTemplates } }).validate()
+    const results = new Validator({ resource, entities: { resourceTemplates } }, findObjectAtPath).validate()
 
     expect(results[0]).toEqual({
       resource: {
@@ -90,7 +91,7 @@ describe('validate()', () => {
   it('when a nested resource is mandatory and provided', () => {
     resourceTemplates['resourceTemplate:Monograph:Instance'].propertyTemplates[0].mandatory = 'true'
     resource['resourceTemplate:Monograph:Instance']['http://id.loc.gov/ontologies/bibframe/title'].abcdCode = { 'resourceTemplate:bf2:Title': {} }
-    const results = new Validator({ resource, entities: { resourceTemplates } }).validate()
+    const results = new Validator({ resource, entities: { resourceTemplates } }, findObjectAtPath).validate()
 
     expect(results[0]).toEqual({})
     expect(results[1]).toEqual([])
@@ -100,7 +101,7 @@ describe('validate()', () => {
     // Make barcode mandatory
     resourceTemplates['resourceTemplate:Monograph:Instance'].propertyTemplates[1].mandatory = 'true'
     resource['resourceTemplate:Monograph:Instance']['http://id.loc.gov/ontologies/bibframe/itemPortion'].abcdCode = { 'resourceTemplate:bf2:Identifiers:Barcode': {} }
-    const results = new Validator({ resource, entities: { resourceTemplates } }).validate()
+    const results = new Validator({ resource, entities: { resourceTemplates } }, findObjectAtPath).validate()
 
     expect(results[0]).toEqual({
       resource: {

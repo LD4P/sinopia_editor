@@ -129,7 +129,7 @@ describe('setItemsOrSelections with action type: ITEMS_SELECTED', () => {
       },
     })
 
-    expect(findNode(result, reduxPath)).toEqual({
+    expect(findNode({ selectorReducer: result }, reduxPath)).toEqual({
       items: {
         abc1233: {
           content: 'Run the tests',
@@ -155,7 +155,7 @@ describe('setItemsOrSelections with action type: ITEMS_SELECTED', () => {
         },
       })
 
-    expect(findNode(result, reduxPath)).toEqual({
+    expect(findNode({ selectorReducer: result }, reduxPath)).toEqual({
       items: {
         abc1233: {
           content: 'Run the tests',
@@ -183,7 +183,7 @@ describe('setItemsOrSelections with action type: ITEMS_SELECTED', () => {
         },
       })
 
-    expect(findNode(result, reduxPath)).toEqual({
+    expect(findNode({ selectorReducer: result }, reduxPath)).toEqual({
       items: {
         abc123: { content: 'add this!' },
       },
@@ -219,7 +219,7 @@ describe('setItemsOrSelections with action type: ITEMS_SELECTED', () => {
         },
       })
 
-    expect(findNode(result, reduxPath)).toEqual({
+    expect(findNode({ selectorReducer: result }, reduxPath)).toEqual({
       items: {
         ghwixOwWI: { content: 'Melissa' },
       },
@@ -257,14 +257,14 @@ describe('setItemsOrSelections with action type: ITEMS_SELECTED', () => {
         },
       })
 
-    expect(findNode(result, reduxPath)).toEqual({
+    expect(findNode({ selectorReducer: result }, reduxPath)).toEqual({
       items: {
         cde987: { content: 'add this!' },
         ghi567: { content: 'Keep this' },
       },
     })
 
-    expect(findNode(result, ['resource', 'resourceTemplate:Monograph:Instance', 'http://schema.org/name'])).toEqual({
+    expect(findNode({ selectorReducer: result }, ['resource', 'resourceTemplate:Monograph:Instance', 'http://schema.org/name'])).toEqual({
       items: {
         abc123: { content: 'Run the tests' },
         def234: { content: 'Keep this' },
@@ -294,7 +294,7 @@ describe('setItemsOrSelections with action type: CHANGE_SELECTIONS', () => {
       },
     })
 
-    expect(findNode(result, reduxPath)).toEqual({
+    expect(findNode({ selectorReducer: result }, reduxPath)).toEqual({
       items: {
         def123: { label: 'Run the tests', uri: 'http://schema.org/abc' },
       },
@@ -326,7 +326,7 @@ describe('setItemsOrSelections with action type: CHANGE_SELECTIONS', () => {
       },
     })
 
-    expect(findNode(result, reduxPath)).toEqual({
+    expect(findNode({ selectorReducer: result }, reduxPath)).toEqual({
       items: {
         cde678: { label: 'Run the tests', uri: 'http://schema.org/abc' },
         fgh999: { label: 'See if they pass', uri: 'http://schema.org/def' },
@@ -357,7 +357,7 @@ describe('setItemsOrSelections with action type: CHANGE_SELECTIONS', () => {
       },
     })
 
-    expect(findNode(result, reduxPath)).toEqual({ items: {} })
+    expect(findNode({ selectorReducer: result }, reduxPath)).toEqual({ items: {} })
   })
 
   it('adds an empty object for a key if the key does not contain an object by default', () => {
@@ -382,7 +382,7 @@ describe('setItemsOrSelections with action type: CHANGE_SELECTIONS', () => {
       },
     })
 
-    expect(findNode(result, reduxPath)).toEqual({ items: { abc123: { label: 'Something looked up', uri: 'http://lookup.source/1' } } })
+    expect(findNode({ selectorReducer: result }, reduxPath)).toEqual({ items: { abc123: { label: 'Something looked up', uri: 'http://lookup.source/1' } } })
   })
 })
 
@@ -406,7 +406,7 @@ describe('setBaseURL', () => {
     })
     const reduxPath = ['resource', 'resourceTemplate:Monograph:Instance', 'resourceURI']
 
-    expect(findNode(result, reduxPath)).toEqual('http://example.com/foo/123')
+    expect(findNode({ selectorReducer: result }, reduxPath)).toEqual('http://example.com/foo/123')
   })
 })
 
@@ -462,7 +462,7 @@ describe('removeMyItem', () => {
         payload: reduxPath,
       })
 
-    expect(findNode(result, reduxPath.slice(0, -2))).toEqual({
+    expect(findNode({ selectorReducer: result }, reduxPath.slice(0, -2))).toEqual({
       items: {
         def456: { content: 'more content' },
       },
@@ -487,7 +487,7 @@ describe('removeMyItem', () => {
         payload: reduxPath,
       })
 
-    expect(findNode(result, reduxPath.slice(0, -2))).toEqual({
+    expect(findNode({ selectorReducer: result }, reduxPath.slice(0, -2))).toEqual({
       items: {
         abc123: { content: 'Test' },
         def456: { content: 'Statement' },
@@ -499,6 +499,6 @@ describe('removeMyItem', () => {
 describe('validate', () => {
   it('returns a new state', () => {
     const result = validate(initialState)
-    expect(findNode(result, ['resource', 'editor', 'displayValidations'])).toBeTruthy()
+    expect(findNode({ selectorReducer: result }, ['resource', 'editor', 'displayValidations'])).toBeTruthy()
   })
 })
