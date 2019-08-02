@@ -13,7 +13,9 @@ export async function fillInRequredFieldsForBibframeInstance() {
 
   // Click on one of the property type rows to expand a nested resource
   await page.waitForSelector('div.rOutline-header button.btn-add[data-id=\'title\']')
-  await page.click('div.rOutline-header button.btn-add[data-id=\'title\']')
+  await page.evaluate(() => {
+    document.querySelector('div.rOutline-header button.btn-add[data-id=\'title\']').click()
+  })
 
   // Fill in required element
   await page.waitForSelector('button.btn-add[data-id=\'partName\']')
