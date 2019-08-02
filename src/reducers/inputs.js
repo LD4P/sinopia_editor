@@ -5,7 +5,7 @@ import { findNode } from 'selectors/resourceSelectors'
 
 export const validate = (state) => {
   const newState = { ...state }
-  const result = new Validator(newState).validate()
+  const result = new Validator(newState, findNode).validate()
   newState.editor.resourceValidationErrors = result[0]
   newState.editor.errors = result[1]
   return newState
