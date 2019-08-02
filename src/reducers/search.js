@@ -11,6 +11,7 @@ const setSearchResults = (state, action) => {
   newState.search.results = action.payload.searchResults
   newState.search.totalResults = action.payload.totalResults
   newState.search.query = action.payload.query
+  newState.search.startOfRange = action.payload.startOfRange
 
   return newState
 }

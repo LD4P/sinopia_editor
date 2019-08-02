@@ -12,6 +12,7 @@ import Form from 'react-bootstrap/lib/Form'
 import fetchSearchResults from 'actionCreators/search'
 import SearchResults from './SearchResults'
 import SearchResultsPaging from './SearchResultsPaging'
+import SearchResultsMessage from './SearchResultsMessage'
 
 const Search = (props) => {
   const [queryString, setQueryString] = useState('')
@@ -40,6 +41,7 @@ const Search = (props) => {
         </Row>
         <SearchResults {...props} key="search-results" />
         <SearchResultsPaging {...props} pageSize="1"/>
+        <SearchResultsMessage />
       </Grid>
     </div>
   )

@@ -36,6 +36,7 @@ const initialState = {
     search: {
       results: [],
       totalResults: 0,
+      query: undefined,
     },
   },
 }
