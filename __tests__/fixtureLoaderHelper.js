@@ -53,6 +53,7 @@ const rtFileNames = [
   'literalRepeatDefaultLiteralNonEnglish.json',
   'literalRepeatDefaultLiteralOnly.json',
   'literalRepeatNoDefault.json',
+  'lookupWithValueTemplateRefs.json',
   'propertyURIRepeated.json',
   'rdaItemMonograph.json',
 ]
