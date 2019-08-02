@@ -163,9 +163,14 @@ export const getSearchResultsStarted = (query, queryFrom) => ({
   payload: { query, queryFrom },
 })
 
-export const setSearchResults = (searchResults, totalResults, query) => ({
+export const setSearchResults = (searchResults, totalResults, query, startOfRange) => ({
   type: 'SET_SEARCH_RESULTS',
-  payload: { searchResults, totalResults, query },
+  payload: { searchResults, totalResults, query, startOfRange },
+})
+
+export const setSearchResultsMessage = startOfRange => ({
+  type: 'SET_SEARCH_RESULTS_MESSAGE',
+  payload: startOfRange,
 })
 
 export const setLastSaveChecksum = checksum => ({

@@ -10,7 +10,7 @@ import {
   setResourceTemplate, clearResourceTemplates, setResourceTemplateSummary,
   loadingLanguages, languagesReceived,
 } from './entities'
-import setSearchResults from './search'
+import { setSearchResults, setSearchResultsMessage } from './search'
 import { findNode } from 'selectors/resourceSelectors'
 import _ from 'lodash'
 
