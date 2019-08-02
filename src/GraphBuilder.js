@@ -153,7 +153,7 @@ export default class GraphBuilder {
    */
   addGeneratedByTriple(baseURI, resourceTemplateId) {
     this.dataset.add(rdf.quad(baseURI,
-      rdf.namedNode('http://www.w3.org/ns/prov#wasGeneratedBy'),
+      rdf.namedNode('http://sinopia.io/vocabulary/hasResourceTemplate'),
       rdf.literal(resourceTemplateId)))
   }
 }
