@@ -3,14 +3,18 @@
 import React, { useRef, useState } from 'react'
 import PropTypes from 'prop-types'
 import SinopiaPropTypes from 'SinopiaPropTypes'
+import { bindActionCreators } from 'redux'
 import { connect } from 'react-redux'
 import shortid from 'shortid'
 import { itemsSelected } from 'actions/index'
 import {
   findNode, getDisplayValidations, getPropertyTemplate, findErrors,
 } from 'selectors/resourceSelectors'
+
 import InputValue from './InputValue'
-import { booleanPropertyFromTemplate, isValidURI } from 'Utilities'
+import { isValidURI } from 'Utilities'
+import { booleanPropertyFromTemplate } from 'utilities/propertyTemplates'
+
 import _ from 'lodash'
 
 const InputURI = (props) => {
@@ -42,7 +46,7 @@ const InputURI = (props) => {
       },
     }
 
-    props.handleMyItemsChange(userInput)
+    props.itemsSelected(userInput)
     setContent('')
   }
 
@@ -112,8 +116,7 @@ const InputURI = (props) => {
 InputURI.propTypes = {
   propertyTemplate: SinopiaPropTypes.propertyTemplate,
   items: PropTypes.object,
-  handleMyItemsChange: PropTypes.func,
-  handleRemoveItem: PropTypes.func,
+  itemsSelected: PropTypes.func,
   reduxPath: PropTypes.array.isRequired,
   displayValidations: PropTypes.bool,
   errors: PropTypes.array,
@@ -125,9 +128,9 @@ const mapStateToProps = (state, props) => {
   const propertyURI = reduxPath[reduxPath.length - 1]
   const displayValidations = getDisplayValidations(state)
   // items has to be its own prop or rerendering won't occur when one is removed
-  const items = findNode(state.selectorReducer, reduxPath).items
+  const items = findNode(state, reduxPath).items
   const propertyTemplate = getPropertyTemplate(state, resourceTemplateId, propertyURI)
-  const errors = findErrors(state.selectorReducer, reduxPath)
+  const errors = findErrors(state, reduxPath)
 
   return {
     items,
@@ -137,10 +140,6 @@ const mapStateToProps = (state, props) => {
   }
 }
 
-const mapDispatchToProps = dispatch => ({
-  handleMyItemsChange(userInput) {
-    dispatch(itemsSelected(userInput))
-  },
-})
+const mapDispatchToProps = dispatch => bindActionCreators({ itemsSelected }, dispatch)
 
 export default connect(mapStateToProps, mapDispatchToProps)(InputURI)

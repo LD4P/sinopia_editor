@@ -1,10 +1,6 @@
 
 // Copyright 2019 Stanford University see LICENSE for license
-
-// export const newResource = resourceTemplateId => ({
-//   type: 'NEW_RESOURCE',
-//   payload: resourceTemplateId,
-// })
+/* eslint max-params: ["warn", 4] */
 
 export const setResource = (resource, resourceTemplates) => ({
   type: 'SET_RESOURCE',
@@ -66,15 +62,6 @@ export const removeAllItems = item => ({
 export const assignBaseURL = item => ({
   type: 'SET_BASE_URL',
   payload: item,
-})
-
-export const showResourceURIMessage = resourceUri => ({
-  type: 'SHOW_RESOURCE_URI_MESSAGE',
-  payload: resourceUri,
-})
-
-export const clearResourceURIMessage = () => ({
-  type: 'CLEAR_RESOURCE_URI_MESSAGE',
 })
 
 export const updateStarted = () => ({
@@ -163,9 +150,14 @@ export const getSearchResultsStarted = (query, queryFrom) => ({
   payload: { query, queryFrom },
 })
 
-export const setSearchResults = (searchResults, totalResults, query) => ({
+export const setSearchResults = (searchResults, totalResults, query, startOfRange) => ({
   type: 'SET_SEARCH_RESULTS',
-  payload: { searchResults, totalResults, query },
+  payload: {
+    searchResults,
+    totalResults,
+    query,
+    startOfRange,
+  },
 })
 
 export const setLastSaveChecksum = checksum => ({

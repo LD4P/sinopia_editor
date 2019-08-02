@@ -1,11 +1,11 @@
 // Copyright 2018, 2019 Stanford University see LICENSE for license
 
 import Validator from '../ResourceValidator'
-import { findNode } from 'selectors/resourceSelectors'
+import { findObjectAtPath } from 'selectors/resourceSelectors'
 
 export const validate = (state) => {
   const newState = { ...state }
-  const result = new Validator(newState).validate()
+  const result = new Validator(newState, findObjectAtPath).validate()
   newState.editor.resourceValidationErrors = result[0]
   newState.editor.errors = result[1]
   return newState
@@ -111,7 +111,7 @@ export const setItemsOrSelections = (state, action) => {
 
 export const setMyItemsLang = (state, action) => {
   const newState = { ...state }
-  const node = findNode(newState, action.payload.reduxPath)
+  const node = findObjectAtPath(newState, action.payload.reduxPath)
 
   node.lang = action.payload.lang
 
@@ -128,37 +128,11 @@ export const setBaseURL = (state, action) => {
   return newState
 }
 
-/**
- * @param {Object} state the previous redux state
- * @param {Object} action the payload of the action is the URI returned from saving the resource
- * @return {Object} the next redux state
- */
-export const showResourceURIMessage = (state, action) => {
-  const newState = { ...state }
-
-  newState.editor.resourceURIMessage.show = true
-  newState.editor.resourceURIMessage.uri = action.payload
-  return newState
-}
-
-/**
- * @param {Object} state the previous redux state
- * @param {Object} action the payload of the action is the URI returned from saving the resource
- * @return {Object} the next redux state
- */
-export const clearResourceURIMessage = (state) => {
-  const newState = { ...state }
-
-  newState.editor.resourceURIMessage.show = false
-  newState.editor.resourceURIMessage.uri = ''
-  return newState
-}
-
 export const removeMyItem = (state, action) => {
   const newState = { ...state }
   const reduxPath = action.payload
 
-  const node = findNode(newState, reduxPath.slice(0, -1))
+  const node = findObjectAtPath(newState, reduxPath.slice(0, -1))
   delete node[reduxPath.slice(-1)[0]]
 
   return validate(newState)

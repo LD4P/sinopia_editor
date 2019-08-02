@@ -1,9 +1,10 @@
-import { getResourceTemplate, findNode } from 'selectors/resourceSelectors'
+import { getResourceTemplate } from 'selectors/resourceSelectors'
 import _ from 'lodash'
 
 export default class Validator {
-  constructor(selectorReducer) {
+  constructor(selectorReducer, findNode) {
     this.selectorReducer = selectorReducer
+    this.findNode = findNode
     this.errorState = {}
     this.errors = []
   }
@@ -34,20 +35,26 @@ export default class Validator {
   validateResource(reduxPath, labelPath) {
     const resourceTemplateId = reduxPath.slice(-1)[0]
     const resourceTemplate = getResourceTemplate({ selectorReducer: this.selectorReducer }, resourceTemplateId)
-    resourceTemplate.propertyTemplates.forEach((propertyTemplate) => {
-      const newReduxPath = [...reduxPath, propertyTemplate.propertyURI]
-      const newLabelPath = [...labelPath, resourceTemplate.resourceLabel, propertyTemplate.propertyLabel]
-      if (propertyTemplate.mandatory === 'true') {
-        this.validateMandatoryProperty(newReduxPath, newLabelPath)
-      }
-      if (!_.isEmpty(propertyTemplate.valueConstraint?.valueTemplateRefs)) {
-        this.validateNestedResourceProperty(newReduxPath, newLabelPath, propertyTemplate)
-      }
-    })
+    if (resourceTemplate) {
+      resourceTemplate.propertyTemplates.forEach((propertyTemplate) => {
+        const newReduxPath = [...reduxPath, propertyTemplate.propertyURI]
+        const newLabelPath = [...labelPath, resourceTemplate.resourceLabel, propertyTemplate.propertyLabel]
+        if (propertyTemplate.mandatory === 'true') {
+          this.validateMandatoryProperty(newReduxPath, newLabelPath)
+        }
+        if (!_.isEmpty(propertyTemplate.valueConstraint?.valueTemplateRefs)) {
+          this.validateNestedResourceProperty(newReduxPath, newLabelPath, propertyTemplate)
+        }
+      })
+    } else {
+      // not sure this error is ever surfaced anywhere, but we do need to trap for undefined resourceTemplate
+      //  possibly will be surfaced when issue #1148 is addressed
+      this.addError(reduxPath, labelPath, `unable to retrieve ${resourceTemplateId} from local store`)
+    }
   }
 
   validateMandatoryProperty(reduxPath, labelPath) {
-    const propertyNode = findNode(this.selectorReducer, reduxPath)
+    const propertyNode = this.findNode(this.selectorReducer, reduxPath)
     if (propertyNode.items) {
       if (_.isEmpty(propertyNode.items)) this.addError(reduxPath, labelPath, 'Required')
     } else if (_.isEmpty(propertyNode)) {
@@ -56,7 +63,7 @@ export default class Validator {
   }
 
   validateNestedResourceProperty(reduxPath, labelPath, propertyTemplate) {
-    const propertyNode = findNode(this.selectorReducer, reduxPath)
+    const propertyNode = this.findNode(this.selectorReducer, reduxPath)
     propertyTemplate.valueConstraint.valueTemplateRefs.forEach((resourceTemplateId) => {
       Object.keys(propertyNode).forEach((key) => {
         const newReduxPath = [...reduxPath, key, resourceTemplateId]

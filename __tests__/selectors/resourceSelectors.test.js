@@ -1,7 +1,7 @@
 // Copyright 2019 Stanford University see LICENSE for license
 
 import {
-  rootResourceId, isExpanded,
+  rootResourceId, isExpanded, itemsForProperty,
   getDisplayValidations, getResourceTemplate, getPropertyTemplate,
   resourceHasChangesSinceLastSave,
 } from 'selectors/resourceSelectors'
@@ -18,7 +18,9 @@ beforeEach(() => {
       },
       resource: { // The state we're displaying in the editor
       },
-      editor: { },
+      editor: {
+        expanded: {},
+      },
     },
   }
 })
@@ -53,11 +55,38 @@ describe('getDisplayValidations()', () => {
   })
 })
 
+describe('itemsForProperty()', () => {
+  beforeEach(() => {
+    initialState.selectorReducer.resource = {
+      'resourceTemplate:bf2:Monograph:Instance': {
+        'http://id.loc.gov/ontologies/bibframe/issuance': {
+          items: {
+            abFEHPzpKR: {
+              label: 'single unit',
+              uri: 'http://id.loc.gov/vocabulary/issuance/mono',
+            },
+          },
+        },
+      },
+    }
+  })
+  const reduxPath = [
+    'resource', 'resourceTemplate:bf2:Monograph:Instance', 'http://id.loc.gov/ontologies/bibframe/issuance',
+  ]
+
+  it('returns value when present', () => {
+    expect(itemsForProperty(initialState, reduxPath)).toEqual([{
+      label: 'single unit',
+      uri: 'http://id.loc.gov/vocabulary/issuance/mono',
+    }])
+  })
+})
+
 describe('isExpanded()', () => {
   const reduxPath = ['resource', 'resourceTemplate:bf2:Monograph:Instance', 'http://id.loc.gov/ontologies/bibframe/instanceOf', 'aJOz_pLh3m7', 'resourceTemplate:bf2:Monograph:Work', 'http://id.loc.gov/ontologies/bibframe/title']
 
   it('returns false when missing', () => {
-    expect(isExpanded(initialState.selectorReducer, reduxPath)).toBeFalsy()
+    expect(isExpanded(initialState, reduxPath)).toBeFalsy()
   })
 
   it('returns value when present', () => {
@@ -83,7 +112,7 @@ describe('isExpanded()', () => {
       },
     }
 
-    expect(isExpanded(state.selectorReducer, reduxPath)).toBeTruthy()
+    expect(isExpanded(state, reduxPath)).toBeTruthy()
   })
 })
 

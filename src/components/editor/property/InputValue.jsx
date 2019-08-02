@@ -13,7 +13,7 @@ const InputValue = (props) => {
   const label = isLiteral ? props.item.content : props.item.uri
 
   const handleEditClick = () => {
-    props.handleEdit(label)
+    props.handleEdit(label, props.item.lang)
     props.removeItem(props.reduxPath)
   }
 
@@ -45,7 +45,7 @@ InputValue.propTypes = {
 }
 
 const mapStateToProps = (state, ownProps) => ({
-  item: findNode(state.selectorReducer, ownProps.reduxPath),
+  item: findNode(state, ownProps.reduxPath),
 })
 
 const mapDispatchToProps = dispatch => bindActionCreators({ removeItem }, dispatch)

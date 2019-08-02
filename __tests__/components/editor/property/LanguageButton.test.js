@@ -19,7 +19,7 @@ describe('<LanguageButton />', () => {
                                           'TM1qwVFkh',
                                         ]}
                                         language={'English'}
-                                        handleMyItemsLangChange={jest.fn()} />)
+                                        languageSelected={jest.fn()} />)
   })
 
   it('item appears when user inputs text into the field', () => {
@@ -39,7 +39,7 @@ describe('When the user enters input into language modal', () => {
                                               'TM1qwVFkh',
                                             ]}
                                             language={'English'}
-                                            handleMyItemsLangChange={mockMyItemsLangChange} />)
+                                            languageSelected={mockMyItemsLangChange} />)
 
   it('shows the <InputLang> modal when the <Button/> is clicked', () => {
     mockWrapper.find('Button').first().simulate('click')

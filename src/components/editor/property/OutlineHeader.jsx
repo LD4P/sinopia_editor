@@ -73,13 +73,13 @@ const mapStateToProps = (state, ownProps) => {
   const propertyURI = ownProps.reduxPath.slice(-1)[0]
   const resourceTemplateId = ownProps.reduxPath.slice(-2)[0]
   const property = getPropertyTemplate(state, resourceTemplateId, propertyURI)
-  const resourceModel = findNode(state.selectorReducer, ownProps.reduxPath)
-  const errors = findErrors(state.selectorReducer, ownProps.reduxPath)
+  const resourceModel = findNode(state, ownProps.reduxPath)
+  const errors = findErrors(state, ownProps.reduxPath)
   const displayValidations = getDisplayValidations(state)
   return {
     resourceModel,
     property,
-    collapsed: !isExpanded(state.selectorReducer, ownProps.reduxPath),
+    collapsed: !isExpanded(state, ownProps.reduxPath),
     errors,
     displayValidations,
   }

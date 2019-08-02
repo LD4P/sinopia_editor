@@ -10,12 +10,14 @@ import PropTypes from 'prop-types'
 import SinopiaPropTypes from 'SinopiaPropTypes'
 import Swagger from 'swagger-client'
 import swaggerSpec from 'lib/apidoc.json'
+import { bindActionCreators } from 'redux'
 import { connect } from 'react-redux'
 import {
   itemsForProperty, getDisplayValidations, getPropertyTemplate, findErrors,
 } from 'selectors/resourceSelectors'
 import { changeSelections } from 'actions/index'
-import { booleanPropertyFromTemplate, getLookupConfigItems, isValidURI } from 'Utilities'
+import { isValidURI } from 'Utilities'
+import { booleanPropertyFromTemplate, getLookupConfigItems } from 'utilities/propertyTemplates'
 import Config from 'Config'
 import _ from 'lodash'
 
@@ -30,6 +32,17 @@ class InputLookupQA extends Component {
 
     this.state = {
       isLoading: false,
+    }
+  }
+
+  // From https://github.com/ericgio/react-bootstrap-typeahead/issues/389
+  onKeyDown = (e) => {
+    // 8 = backspace
+    if (e.keyCode === 8
+        && e.target.value === '') {
+      // Don't trigger a "back" in the browser on backspace
+      e.returnValue = false
+      e.preventDefault()
     }
   }
 
@@ -249,6 +262,7 @@ class InputLookupQA extends Component {
       selected: this.props.selected,
       allowNew: true,
       delay: 300,
+      onKeyDown: this.onKeyDown,
     }
 
     let error
@@ -269,7 +283,7 @@ class InputLookupQA extends Component {
                             reduxPath: this.props.reduxPath,
                           }
 
-                          this.props.handleSelectedChange(payload)
+                          this.props.changeSelections(payload)
                         }}
                         renderToken={(option, props, idx) => this.renderTokenFunc(option, props, idx)}
                         {...typeaheadProps}
@@ -285,7 +299,7 @@ class InputLookupQA extends Component {
 
 InputLookupQA.propTypes = {
   displayValidations: PropTypes.bool,
-  handleSelectedChange: PropTypes.func,
+  changeSelections: PropTypes.func,
   lookupConfig: PropTypes.arrayOf(PropTypes.object).isRequired,
   propertyTemplate: SinopiaPropTypes.propertyTemplate,
   reduxPath: PropTypes.oneOfType([PropTypes.string, PropTypes.array]),
@@ -300,8 +314,8 @@ const mapStateToProps = (state, ownProps) => {
   const displayValidations = getDisplayValidations(state)
   const propertyTemplate = getPropertyTemplate(state, resourceTemplateId, propertyURI)
   const lookupConfig = getLookupConfigItems(propertyTemplate)
-  const errors = findErrors(state.selectorReducer, ownProps.reduxPath)
-  const selected = itemsForProperty(state.selectorReducer, ownProps.reduxPath)
+  const errors = findErrors(state, ownProps.reduxPath)
+  const selected = itemsForProperty(state, ownProps.reduxPath)
 
   return {
     selected,
@@ -313,10 +327,6 @@ const mapStateToProps = (state, ownProps) => {
   }
 }
 
-const mapDispatchToProps = dispatch => ({
-  handleSelectedChange(selected) {
-    dispatch(changeSelections(selected))
-  },
-})
+const mapDispatchToProps = dispatch => bindActionCreators({ changeSelections }, dispatch)
 
 export default connect(mapStateToProps, mapDispatchToProps)(InputLookupQA)

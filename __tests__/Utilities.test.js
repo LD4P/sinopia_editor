@@ -1,12 +1,9 @@
 // Copyright 2019 Stanford University see LICENSE for license
 
 import {
-  defaultValuesFromPropertyTemplate,
   isResourceWithValueTemplateRef,
   resourceToName,
-  getLookupConfigItems,
 } from '../src/Utilities'
-import shortid from 'shortid'
 
 describe('Utilities', () => {
   describe('isResourceWithValueTemplateRef()', () => {
@@ -117,134 +114,6 @@ describe('Utilities', () => {
 
     it('returns undefined when there is no URI', () => {
       expect(resourceToName()).toEqual(undefined)
-    })
-  })
-
-  describe('defaultValuesFromPropertyTemplate()', () => {
-    beforeEach(() => {
-      shortid.generate = jest.fn().mockReturnValueOnce('abc123').mockReturnValueOnce('def456')
-    })
-
-    it('returns an empty object if passed any value that fails to define a `valueConstraint.defaults` array', () => {
-      const propertyTemplate = null
-
-      expect(defaultValuesFromPropertyTemplate(propertyTemplate)).toEqual({})
-    })
-
-    it('returns an empty object if passed a value with an empty `valueConstraint.defaults` array', () => {
-      const propertyTemplate = {
-        valueConstraint: {
-          defaults: [],
-        },
-      }
-
-      expect(defaultValuesFromPropertyTemplate(propertyTemplate)).toEqual({})
-    })
-
-    it('returns an empty object if the defaults are blank', () => {
-      const propertyTemplate = {
-        valueConstraint: {
-          defaults: [
-            {
-              defaultLiteral: '',
-              defaultURI: '',
-            },
-          ],
-        },
-      }
-
-      expect(defaultValuesFromPropertyTemplate(propertyTemplate)).toEqual({})
-    })
-
-    it('returns an object with an object otherwise', () => {
-      const propertyTemplateWithDefaultsAndLabel = {
-        valueConstraint: {
-          defaults: [
-            {
-              defaultURI: 'http://id.loc.gov/vocabulary/mcolor/mul',
-              defaultLiteral: 'color',
-            },
-            {
-              defaultURI: 'http://id.loc.gov/vocabulary/xmcolor/xmul',
-              defaultLiteral: 'xcolor',
-            },
-          ],
-        },
-      }
-
-      expect(defaultValuesFromPropertyTemplate(propertyTemplateWithDefaultsAndLabel)).toEqual({
-        abc123: {
-          label: 'color',
-          uri: 'http://id.loc.gov/vocabulary/mcolor/mul',
-        },
-        def456: {
-          label: 'xcolor',
-          uri: 'http://id.loc.gov/vocabulary/xmcolor/xmul',
-        },
-      })
-    })
-
-    it('returns the uri in place of the label if the label is undefined', () => {
-      const propertyTemplateWithDefaultsNoLabel = {
-        valueConstraint: {
-          defaults: [
-            {
-              defaultURI: 'http://id.loc.gov/vocabulary/mcolor/mul',
-            },
-          ],
-        },
-      }
-
-      expect(defaultValuesFromPropertyTemplate(propertyTemplateWithDefaultsNoLabel)).toEqual({
-        abc123: {
-          label: 'http://id.loc.gov/vocabulary/mcolor/mul',
-          uri: 'http://id.loc.gov/vocabulary/mcolor/mul',
-        },
-      })
-    })
-  })
-  describe('getLookupConfigItems()', () => {
-    it('returns an empty array if passed any value that fails to define a `valueConstraint.useValuesFrom` array', () => {
-      expect(getLookupConfigItems({})).toEqual([])
-    })
-
-    it('returns an empty array if passed a value with an empty `valueConstraint.useValuesFrom` array', () => {
-      const template = {
-        valueConstraint: {
-          useValuesFrom: [],
-        },
-      }
-
-      expect(getLookupConfigItems(template)).toEqual([])
-    })
-
-    it('returns an array with lookupConfig objects matching URIs in useValuesFrom array', () => {
-      const template = {
-        valueConstraint: {
-          useValuesFrom: [
-            'http://does.not.match/1',
-            'http://does.not.match/2',
-            'urn:ld4p:qa:agrovoc',
-            'https://id.loc.gov/vocabulary/mrectype',
-          ],
-        },
-      }
-
-      expect(getLookupConfigItems(template)).toEqual([
-        {
-          label: 'AGROVOC (QA)',
-          uri: 'urn:ld4p:qa:agrovoc',
-          authority: 'agrovoc_ld4l_cache',
-          subauthority: '',
-          language: 'en',
-          component: 'lookup',
-        },
-        {
-          label: 'type of recording',
-          uri: 'https://id.loc.gov/vocabulary/mrectype',
-          component: 'list',
-        },
-      ])
     })
   })
 })

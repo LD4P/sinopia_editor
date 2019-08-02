@@ -2,11 +2,11 @@
 import { getSearchResultsStarted, setSearchResults } from 'actions/index'
 import { getSearchResults } from 'sinopiaServer'
 
-const fetchSearchResults = (query, queryFrom) => (dispatch) => {
+const fetchSearchResults = (query, queryFrom = 0) => (dispatch) => {
   dispatch(getSearchResultsStarted(query, queryFrom))
 
   return getSearchResults(query, queryFrom).then((response) => {
-    dispatch(setSearchResults(response.results, response.totalHits, query))
+    dispatch(setSearchResults(response.results, response.totalHits, query, queryFrom))
   })
 }
 

@@ -1,6 +1,7 @@
 // Copyright 2019 Stanford University see LICENSE for license
 
 import React, { useState } from 'react'
+import { bindActionCreators } from 'redux'
 import { connect } from 'react-redux'
 import PropTypes from 'prop-types'
 import Header from '../Header'
@@ -12,13 +13,14 @@ import Form from 'react-bootstrap/lib/Form'
 import fetchSearchResults from 'actionCreators/search'
 import SearchResults from './SearchResults'
 import SearchResultsPaging from './SearchResultsPaging'
+import SearchResultsMessage from './SearchResultsMessage'
 
 const Search = (props) => {
   const [queryString, setQueryString] = useState('')
 
   const handleKeyPress = (event) => {
     if (event.key === 'Enter') {
-      props.retrieveSearchResults(queryString)
+      props.fetchSearchResults(queryString)
       event.preventDefault()
     }
   }
@@ -40,6 +42,7 @@ const Search = (props) => {
         </Row>
         <SearchResults {...props} key="search-results" />
         <SearchResultsPaging {...props} pageSize="1"/>
+        <SearchResultsMessage />
       </Grid>
     </div>
   )
@@ -47,14 +50,10 @@ const Search = (props) => {
 
 Search.propTypes = {
   triggerHandleOffsetMenu: PropTypes.func,
-  retrieveSearchResults: PropTypes.func,
+  fetchSearchResults: PropTypes.func,
   currentUser: PropTypes.object,
 }
 
-const mapDispatchToProps = dispatch => ({
-  retrieveSearchResults: (queryString) => {
-    dispatch(fetchSearchResults(queryString))
-  },
-})
+const mapDispatchToProps = dispatch => bindActionCreators({ fetchSearchResults }, dispatch)
 
 export default connect(null, mapDispatchToProps)(Search)

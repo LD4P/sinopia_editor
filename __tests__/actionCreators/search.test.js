@@ -19,7 +19,15 @@ describe('fetchSearchResults', () => {
     const dispatch = jest.fn()
     await fetchSearchResults(query)(dispatch)
     expect(dispatch).toHaveBeenCalledTimes(2)
-    expect(dispatch).toBeCalledWith({ type: 'GET_SEARCH_RESULTS_STARTED', payload: { query: '*', queryFrom: undefined } })
-    expect(dispatch).toBeCalledWith({ type: 'SET_SEARCH_RESULTS', payload: { query: '*', searchResults: mockSearchResults.results, totalResults: mockSearchResults.totalHits } })
+    expect(dispatch).toBeCalledWith({ type: 'GET_SEARCH_RESULTS_STARTED', payload: { query: '*', queryFrom: 0 } })
+    expect(dispatch).toBeCalledWith({
+      type: 'SET_SEARCH_RESULTS',
+      payload: {
+        query: '*',
+        searchResults: mockSearchResults.results,
+        totalResults: mockSearchResults.totalHits,
+        startOfRange: 0,
+      },
+    })
   })
 })

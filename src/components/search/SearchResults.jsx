@@ -3,6 +3,7 @@
 /* eslint max-params: ["error", 4] */
 
 import React, { useState, useEffect } from 'react'
+import { bindActionCreators } from 'redux'
 import { connect } from 'react-redux'
 import PropTypes from 'prop-types'
 import Config from 'Config'
@@ -18,7 +19,7 @@ const SearchResults = (props) => {
   const [navigateEditor, setNavigateEditor] = useState(false)
 
   const handleClick = (resourceURI) => {
-    props.loadResource(props.currentUser, resourceURI)
+    props.retrieveResource(props.currentUser, resourceURI)
     setNavigateEditor(true)
   }
 
@@ -71,7 +72,7 @@ const SearchResults = (props) => {
 
 SearchResults.propTypes = {
   searchResults: PropTypes.array,
-  loadResource: PropTypes.func,
+  retrieveResource: PropTypes.func,
   currentUser: PropTypes.object,
   history: PropTypes.object,
   rootResource: PropTypes.object,
@@ -83,10 +84,6 @@ const mapStateToProps = state => ({
   rootResource: rootResource(state),
 })
 
-const mapDispatchToProps = (dispatch, ourProps) => ({
-  loadResource: (user, uri) => {
-    dispatch(retrieveResource(user, uri))
-  },
-})
+const mapDispatchToProps = dispatch => bindActionCreators({ retrieveResource }, dispatch)
 
 export default connect(mapStateToProps, mapDispatchToProps)(SearchResults)

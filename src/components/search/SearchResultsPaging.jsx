@@ -1,6 +1,7 @@
 // Copyright 2019 Stanford University see LICENSE for license
 
 import React, { useState } from 'react'
+import { bindActionCreators } from 'redux'
 import { connect } from 'react-redux'
 import PropTypes from 'prop-types'
 import Config from 'Config'
@@ -41,7 +42,7 @@ const SearchResultsPaging = (props) => {
         newCurrentPage = currentPage + 1
         break
       case '»':
-        newCurrentPage = props.totalResults / Config.searchResultsPerPage
+        newCurrentPage = Math.ceil(props.totalResults / Config.searchResultsPerPage)
         break
       case undefined: // this is required to capture clicks on disabled buttons
         return
@@ -51,12 +52,10 @@ const SearchResultsPaging = (props) => {
     }
     queryFrom = (newCurrentPage - 1) * Config.searchResultsPerPage
     setCurrentPage(newCurrentPage)
-    props.retrieveSearchResults(props.queryString, queryFrom)
+    props.fetchSearchResults(props.queryString, queryFrom)
   }
 
-  const lastPage = () => props.totalResults / Config.searchResultsPerPage
-  const firstItemOnPage = () => Config.searchResultsPerPage * currentPage
-  const lastItemOnPage = () => firstItemOnPage() + Config.searchResultsPerPage - 1
+  const lastPage = () => Math.ceil(props.totalResults / Config.searchResultsPerPage)
   const pageButton = (key, active) => <Pagination.Item key={ key } active={ active }>{key}</Pagination.Item>
   const pageButtons = () => Array.from({ length: lastPage() }, (_, index) => pageButton(index + 1, index + 1 === currentPage))
 
@@ -71,7 +70,6 @@ const SearchResultsPaging = (props) => {
           <Pagination.Next disabled={currentPage === lastPage()} />
           <Pagination.Last disabled={currentPage === lastPage()} />
         </Pagination>
-        <div>Displaying {firstItemOnPage()} - {lastItemOnPage()} of {props.totalResults} Results</div>
       </div>
       <div className="col-sm-2"></div>
     </div>
@@ -81,7 +79,7 @@ const SearchResultsPaging = (props) => {
 SearchResultsPaging.propTypes = {
   totalResults: PropTypes.number,
   queryString: PropTypes.string,
-  retrieveSearchResults: PropTypes.func,
+  fetchSearchResults: PropTypes.func,
 }
 
 const mapStateToProps = state => ({
@@ -89,10 +87,6 @@ const mapStateToProps = state => ({
   queryString: state.selectorReducer.search.query,
 })
 
-const mapDispatchToProps = dispatch => ({
-  retrieveSearchResults: (queryString, queryFrom) => {
-    dispatch(fetchSearchResults(queryString, queryFrom))
-  },
-})
+const mapDispatchToProps = dispatch => bindActionCreators({ fetchSearchResults }, dispatch)
 
 export default connect(mapStateToProps, mapDispatchToProps)(SearchResultsPaging)

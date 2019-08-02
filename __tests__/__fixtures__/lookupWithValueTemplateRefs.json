@@ -1,0 +1,40 @@
+{
+  "id": "Sinopia:RT:Fixture:LookupWithValueTemplateRefs",
+  "resourceURI": "http://examples.org/bogusOntologies/Resource",
+  "remark": "This is a sample Resource Template, content is meaningless",
+  "resourceLabel": "test lookup type misconfigured with valueTemplateRefs",
+  "author": "surrogate for Nancy Lorimer",
+  "schema": "https://ld4p.github.io/sinopia/schemas/0.0.9/resource-template.json",
+  "propertyTemplates": [
+    {
+      "mandatory": "false",
+      "repeatable": "true",
+      "type": "lookup",
+      "valueConstraint": {
+        "defaults": [],
+        "useValuesFrom": [],
+        "valueDataType": {},
+        "valueTemplateRefs": [
+          "resourceTemplate:bf2:Note"
+        ]
+      },
+      "propertyLabel": "lookup type with valueTemplateRefs",
+      "propertyURI": "http://examples.org/bogusOntologies/lookup1"
+    },
+    {
+      "mandatory": "false",
+      "repeatable": "true",
+      "type": "resource",
+      "valueConstraint": {
+        "defaults": [],
+        "useValuesFrom": [],
+        "valueDataType": {},
+        "valueTemplateRefs": [
+          "resourceTemplate:bf2:Title:Note"
+        ]
+      },
+      "propertyLabel": "resource type with valueTemplateRefs",
+      "propertyURI": "http://examples.org/bogusOntologies/lookup2"
+    }
+  ]
+}

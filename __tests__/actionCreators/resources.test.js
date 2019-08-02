@@ -88,7 +88,7 @@ describe('retrieveResource', () => {
       await store.dispatch(retrieveResource(currentUser, uri))
 
       const actions = store.getActions()
-      expect(actions.length).toEqual(6)
+      expect(actions.length).toEqual(5)
       expect(actions[0]).toEqual({ type: 'RETRIEVE_STARTED' })
       expect(actions[1].type).toEqual('TOGGLE_COLLAPSE')
       const expectedResource = {
@@ -106,9 +106,8 @@ describe('retrieveResource', () => {
         },
       }
       expect(actions[2]).toEqual({ type: 'SET_RESOURCE', payload: { resource: expectedResource, resourceTemplates: { [resourceTemplateId]: resourceTemplate } } })
-      expect(actions[3]).toEqual({ type: 'CLEAR_RESOURCE_URI_MESSAGE' })
-      expect(actions[4]).toEqual({ type: 'SET_LAST_SAVE_CHECKSUM' })
-      expect(actions[5]).toEqual({ type: 'SET_LAST_SAVE_CHECKSUM', payload: 'd7ee91e78c7065b55a0e7df016bd1622' })
+      expect(actions[3]).toEqual({ type: 'SET_LAST_SAVE_CHECKSUM' })
+      expect(actions[4]).toEqual({ type: 'SET_LAST_SAVE_CHECKSUM', payload: 'd7ee91e78c7065b55a0e7df016bd1622' })
     })
   })
 })
@@ -130,11 +129,10 @@ describe('publishResource', () => {
 
     await store.dispatch(publishResource(currentUser, group))
     const actions = store.getActions()
-    expect(actions.length).toEqual(4)
+    expect(actions.length).toEqual(3)
     expect(actions[0]).toEqual({ type: 'PUBLISH_STARTED' })
     expect(actions[1]).toEqual({ type: 'SET_BASE_URL', payload: 'http://sinopia.io/repository/myGroup/myResource' })
-    expect(actions[2]).toEqual({ type: 'SHOW_RESOURCE_URI_MESSAGE', payload: 'http://sinopia.io/repository/myGroup/myResource' })
-    expect(actions[3]).toEqual({ type: 'UPDATE_FINISHED', payload: 'cd2a00d75801b859a7d6228beefb6ace' })
+    expect(actions[2]).toEqual({ type: 'UPDATE_FINISHED', payload: 'cd2a00d75801b859a7d6228beefb6ace' })
   })
   it('dispatches actions for error path', async () => {
     const store = mockStore(state)
@@ -178,11 +176,10 @@ describe('newResource', () => {
 
       await store.dispatch(newResource(resourceTemplateId))
       const actions = store.getActions()
-      expect(actions.length).toEqual(3)
+      expect(actions.length).toEqual(2)
       const expectedResource = { [resourceTemplateId]: { 'http://www.w3.org/2000/01/rdf-schema#label': {} } }
       expect(actions[0]).toEqual({ type: 'SET_RESOURCE', payload: { resource: expectedResource, resourceTemplates: { [resourceTemplateId]: resourceTemplate } } })
-      expect(actions[1]).toEqual({ type: 'CLEAR_RESOURCE_URI_MESSAGE' })
-      expect(actions[2]).toEqual({ type: 'SET_LAST_SAVE_CHECKSUM', payload: '106763b7f8529bcc234bae22985cef8b' })
+      expect(actions[1]).toEqual({ type: 'SET_LAST_SAVE_CHECKSUM', payload: '106763b7f8529bcc234bae22985cef8b' })
     })
   })
 })
@@ -222,7 +219,7 @@ describe('existingResource', () => {
 
       await store.dispatch(existingResource(resource, uri))
       const actions = store.getActions()
-      expect(actions.length).toEqual(3)
+      expect(actions.length).toEqual(2)
       const expectedResource = {
         'resourceTemplate:bf2:Note': {
           resourceURI: 'http://localhost:8080/repository/stanford/888ea64d-f471-41bf-9d33-c9426ab83b5c',
@@ -230,8 +227,7 @@ describe('existingResource', () => {
         },
       }
       expect(actions[0]).toEqual({ type: 'SET_RESOURCE', payload: { resource: expectedResource, resourceTemplates: { [resourceTemplateId]: resourceTemplate } } })
-      expect(actions[1]).toEqual({ type: 'CLEAR_RESOURCE_URI_MESSAGE' })
-      expect(actions[2]).toEqual({ type: 'SET_LAST_SAVE_CHECKSUM' })
+      expect(actions[1]).toEqual({ type: 'SET_LAST_SAVE_CHECKSUM' })
     })
   })
 })

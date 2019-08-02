@@ -1,10 +1,8 @@
 // Copyright 2018, 2019 Stanford University see LICENSE for license
 
-import lookupConfig from '../static/lookupConfig.json'
 import N3Parser from 'n3/lib/N3Parser'
 import rdf from 'rdf-ext'
 import _ from 'lodash'
-import shortid from 'shortid'
 import CryptoJS from 'crypto-js'
 
 export const defaultLanguageId = 'en'
@@ -26,56 +24,6 @@ export const isValidURI = (value) => {
   } catch (e) {
     return false
   }
-}
-
-export const defaultValuesFromPropertyTemplate = (propertyTemplate) => {
-  const defaults = propertyTemplate?.valueConstraint?.defaults || []
-  const defaultValues = {}
-  defaults.forEach((defaultValue) => {
-    // Use the default URI for the literal value if the literal is undefined
-    const defaultLiteral = defaultValue?.defaultLiteral
-
-    const defaultURI = defaultValue?.defaultURI
-
-    const defaultLabel = defaultLiteral || defaultURI
-
-    if (!defaultValue || !defaultLabel) return
-
-    if (propertyTemplate.type !== 'literal') {
-      defaultValues[shortid.generate()] = {
-        label: defaultLabel,
-        uri: defaultValue.defaultURI,
-      }
-    } else {
-      defaultValues[shortid.generate()] = {
-        content: defaultLabel,
-        lang: defaultLanguageId,
-      }
-    }
-  })
-  return defaultValues
-}
-
-export const booleanPropertyFromTemplate = (template, key, defaultValue) => {
-  // Use safe navigation for dynamic properties: https://github.com/tc39/proposal-optional-chaining#syntax
-  const propertyValue = template?.[key]
-
-  if (!propertyValue) return defaultValue
-
-  const parsedValue = JSON.parse(propertyValue)
-
-  if (parsedValue !== true && parsedValue !== false) return defaultValue
-
-  return parsedValue
-}
-
-
-export const getLookupConfigItems = (propertyTemplate) => {
-  const vocabUriList = propertyTemplate?.valueConstraint?.useValuesFrom
-
-  if (vocabUriList === undefined || vocabUriList.length === 0) return []
-
-  return lookupConfig.filter(configItem => vocabUriList.includes(configItem.uri))
 }
 
 /**

@@ -2,9 +2,10 @@
 
 import React from 'react'
 import PropTypes from 'prop-types'
+import { bindActionCreators } from 'redux'
 import { connect } from 'react-redux'
-import { addResource as addResourceCreator } from 'actionCreators/resources'
-import { removeResource as removeResourceAction } from 'actions/index'
+import { addResource } from 'actionCreators/resources'
+import { removeResource } from 'actions/index'
 import { getResourceTemplate } from 'selectors/resourceSelectors'
 
 const PropertyActionButtons = (props) => {
@@ -15,7 +16,7 @@ const PropertyActionButtons = (props) => {
 
   const handleRemoveClick = (event) => {
     event.preventDefault()
-    props.removeResource(props.reduxPath)
+    props.removeResource(props.reduxPath.slice(0, props.reduxPath.length - 1))
   }
 
   return (<div className="btn-group" role="group" aria-label="...">
@@ -48,13 +49,6 @@ const mapStateToProps = (state, ownProps) => {
   }
 }
 
-const mapDispatchToProps = dispatch => ({
-  addResource(reduxPath) {
-    dispatch(addResourceCreator(reduxPath))
-  },
-  removeResource(reduxPath) {
-    dispatch(removeResourceAction(reduxPath.slice(0, reduxPath.length - 1)))
-  },
-})
+const mapDispatchToProps = dispatch => bindActionCreators({ addResource, removeResource }, dispatch)
 
 export default connect(mapStateToProps, mapDispatchToProps)(PropertyActionButtons)

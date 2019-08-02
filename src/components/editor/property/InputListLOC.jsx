@@ -4,13 +4,14 @@ import React, { Component } from 'react'
 import { Typeahead } from 'react-bootstrap-typeahead'
 import PropTypes from 'prop-types'
 import SinopiaPropTypes from 'SinopiaPropTypes'
+import { bindActionCreators } from 'redux'
 import { connect } from 'react-redux'
 import shortid from 'shortid'
 import { changeSelections } from 'actions/index'
 import {
   itemsForProperty, getDisplayValidations, getPropertyTemplate, findErrors,
 } from 'selectors/resourceSelectors'
-import { booleanPropertyFromTemplate, getLookupConfigItems } from 'Utilities'
+import { booleanPropertyFromTemplate, getLookupConfigItems } from 'utilities/propertyTemplates'
 import _ from 'lodash'
 
 // propertyTemplate of type 'lookup' does live QA lookup via API
@@ -25,6 +26,17 @@ class InputListLOC extends Component {
     }
   }
 
+  // From https://github.com/ericgio/react-bootstrap-typeahead/issues/389
+  onKeyDown = (e) => {
+    // 8 = backspace
+    if (e.keyCode === 8
+        && e.target.value === '') {
+      // Don't trigger a "back" in the browser on backspace
+      e.returnValue = false
+      e.preventDefault()
+    }
+  }
+
   selectionChanged(items) {
     const payload = {
       id: this.props.propertyTemplate.propertyURI,
@@ -32,7 +44,7 @@ class InputListLOC extends Component {
       reduxPath: this.props.reduxPath,
     }
 
-    this.props.handleSelectedChange(payload)
+    this.props.changeSelections(payload)
   }
 
   get isMandatory() {
@@ -99,6 +111,7 @@ class InputListLOC extends Component {
       isLoading: this.state.isLoading,
       options: this.state.options,
       selected: this.props.selected,
+      onKeyDown: this.onKeyDown,
     }
 
     let error
@@ -127,7 +140,7 @@ class InputListLOC extends Component {
 InputListLOC.propTypes = {
   defaults: PropTypes.arrayOf(PropTypes.object),
   displayValidations: PropTypes.bool,
-  handleSelectedChange: PropTypes.func,
+  changeSelections: PropTypes.func,
   lookupConfig: PropTypes.arrayOf(PropTypes.object),
   propertyTemplate: SinopiaPropTypes.propertyTemplate,
   reduxPath: PropTypes.array,
@@ -142,8 +155,8 @@ const mapStateToProps = (state, ownProps) => {
   const displayValidations = getDisplayValidations(state)
   const propertyTemplate = getPropertyTemplate(state, resourceTemplateId, propertyURI)
   const lookupConfig = getLookupConfigItems(propertyTemplate)
-  const errors = findErrors(state.selectorReducer, ownProps.reduxPath)
-  const selected = itemsForProperty(state.selectorReducer, ownProps.reduxPath)
+  const errors = findErrors(state, ownProps.reduxPath)
+  const selected = itemsForProperty(state, ownProps.reduxPath)
 
   return {
     selected,
@@ -154,10 +167,6 @@ const mapStateToProps = (state, ownProps) => {
   }
 }
 
-const mapDispatchToProps = dispatch => ({
-  handleSelectedChange(selected) {
-    dispatch(changeSelections(selected))
-  },
-})
+const mapDispatchToProps = dispatch => bindActionCreators({ changeSelections }, dispatch)
 
 export default connect(mapStateToProps, mapDispatchToProps)(InputListLOC)

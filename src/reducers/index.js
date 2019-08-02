@@ -3,7 +3,7 @@
 import { combineReducers } from 'redux'
 import authenticate from './authenticate'
 import {
-  removeMyItem, setItemsOrSelections, setBaseURL, showResourceURIMessage, clearResourceURIMessage,
+  removeMyItem, setItemsOrSelections, setBaseURL,
   setMyItemsLang, showGroupChooser, closeGroupChooser, showRdfPreview, validate,
 } from './inputs'
 import {
@@ -11,7 +11,7 @@ import {
   loadingLanguages, languagesReceived,
 } from './entities'
 import setSearchResults from './search'
-import { findNode } from 'selectors/resourceSelectors'
+import { findObjectAtPath } from 'selectors/resourceSelectors'
 import _ from 'lodash'
 
 export const setResource = (state, action) => {
@@ -30,7 +30,7 @@ export const updateProperty = (state, action) => {
 
   const propertyURI = reduxPath.slice(-1)[0]
   const tempReduxPath = reduxPath.slice(0, reduxPath.length - 1)
-  const tempNode = findNode(newState, tempReduxPath)
+  const tempNode = findObjectAtPath(newState, tempReduxPath)
   tempNode[propertyURI] = resourceFragment
 
   newState.entities.resourceTemplates = _.cloneDeep(action.payload.resourceTemplates)
@@ -46,7 +46,7 @@ export const appendResource = (state, action) => {
 
   const key = reduxPath.slice(-2)[0]
   const parentReduxPath = reduxPath.slice(0, reduxPath.length - 2)
-  const parentPropertyNode = findNode(newState, parentReduxPath)
+  const parentPropertyNode = findObjectAtPath(newState, parentReduxPath)
   parentPropertyNode[key] = resource[key]
 
   newState.entities.resourceTemplates = _.cloneDeep(action.payload.resourceTemplates)
@@ -59,7 +59,7 @@ export const removeResource = (state, action) => {
   const reduxPath = action.payload
   const key = reduxPath.slice(-1)[0]
   const parentReduxPath = reduxPath.slice(0, reduxPath.length - 1)
-  const parentPropertyNode = findNode(newState, parentReduxPath)
+  const parentPropertyNode = findObjectAtPath(newState, parentReduxPath)
   delete parentPropertyNode[key]
   return validate(newState)
 }
@@ -140,8 +140,6 @@ const handlers = {
   RETRIEVE_ERROR: setRetrieveError,
   RETRIEVE_RESOURCE_TEMPLATE_STARTED: clearServerError,
   SET_BASE_URL: setBaseURL,
-  SHOW_RESOURCE_URI_MESSAGE: showResourceURIMessage,
-  CLEAR_RESOURCE_URI_MESSAGE: clearResourceURIMessage,
   SET_SEARCH_RESULTS: setSearchResults,
   SHOW_GROUP_CHOOSER: showGroupChooser,
   CLOSE_GROUP_CHOOSER: closeGroupChooser,
