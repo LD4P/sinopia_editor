@@ -96,12 +96,14 @@ const mapStateToProps = (state, ownProps) => {
 
   // Make sure that every item has a label
   // This is a temporary strategy until label lookup is implemented.
-  const selected = itemsForProperty(state.selectorReducer, ownProps.reduxPath).map((item) => {
-    const newItem = { ...item }
+  const items = itemsForProperty(state.selectorReducer, ownProps.reduxPath)
+  const selected = []
+  Object.keys(items).forEach((itemId) => {
+    const newItem = { ...items[itemId] }
     if (newItem.label === undefined) {
       newItem.label = newItem.uri
     }
-    return newItem
+    selected.push(newItem)
   })
 
   return {
