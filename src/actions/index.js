@@ -1,5 +1,6 @@
 
 // Copyright 2019 Stanford University see LICENSE for license
+/* eslint max-params: ["warn", 4] */
 
 // export const newResource = resourceTemplateId => ({
 //   type: 'NEW_RESOURCE',
@@ -165,12 +166,12 @@ export const getSearchResultsStarted = (query, queryFrom) => ({
 
 export const setSearchResults = (searchResults, totalResults, query, startOfRange) => ({
   type: 'SET_SEARCH_RESULTS',
-  payload: { searchResults, totalResults, query, startOfRange },
-})
-
-export const setSearchResultsMessage = startOfRange => ({
-  type: 'SET_SEARCH_RESULTS_MESSAGE',
-  payload: startOfRange,
+  payload: {
+    searchResults,
+    totalResults,
+    query,
+    startOfRange,
+  },
 })
 
 export const setLastSaveChecksum = checksum => ({

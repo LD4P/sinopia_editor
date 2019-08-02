@@ -41,7 +41,7 @@ const SearchResultsPaging = (props) => {
         newCurrentPage = currentPage + 1
         break
       case '»':
-        newCurrentPage = props.totalResults / Config.searchResultsPerPage
+        newCurrentPage = Math.round(props.totalResults / Config.searchResultsPerPage)
         break
       case undefined: // this is required to capture clicks on disabled buttons
         return
@@ -55,8 +55,6 @@ const SearchResultsPaging = (props) => {
   }
 
   const lastPage = () => Math.round(props.totalResults / Config.searchResultsPerPage)
-  const firstItemOnPage = () => (Config.searchResultsPerPage * (currentPage - 1)) + 1
-  const lastItemOnPage = () => currentPage === lastPage() ? props.totalResults : firstItemOnPage() + Config.searchResultsPerPage - 1
   const pageButton = (key, active) => <Pagination.Item key={ key } active={ active }>{key}</Pagination.Item>
   const pageButtons = () => Array.from({ length: lastPage() }, (_, index) => pageButton(index + 1, index + 1 === currentPage))
 
@@ -71,7 +69,6 @@ const SearchResultsPaging = (props) => {
           <Pagination.Next disabled={currentPage === lastPage()} />
           <Pagination.Last disabled={currentPage === lastPage()} />
         </Pagination>
-        <div>Displaying {firstItemOnPage()} - {lastItemOnPage()} of {props.totalResults} Results</div>
       </div>
       <div className="col-sm-2"></div>
     </div>

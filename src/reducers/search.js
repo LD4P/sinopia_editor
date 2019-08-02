@@ -5,7 +5,7 @@
  * @param {Object} action the payload of the action is the this of search results
  * @return {Object} the next redux state
  */
-export const setSearchResults = (state, action) => {
+const setSearchResults = (state, action) => {
   const newState = { ...state }
 
   newState.search.results = action.payload.searchResults
@@ -15,3 +15,5 @@ export const setSearchResults = (state, action) => {
 
   return newState
 }
+
+export default setSearchResults
