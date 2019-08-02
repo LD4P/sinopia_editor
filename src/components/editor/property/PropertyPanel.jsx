@@ -55,7 +55,7 @@ const mapStateToProps = (state, ourProps) => {
   const propertyURI = ourProps.reduxPath.slice(-1)[0]
   const resourceTemplateId = ourProps.reduxPath.slice(-2)[0]
   const propertyTemplate = getPropertyTemplate(state, resourceTemplateId, propertyURI)
-  const resourceModel = findNode(state.selectorReducer, ourProps.reduxPath)
+  const resourceModel = findNode(state, ourProps.reduxPath)
 
   return {
     resourceModel,

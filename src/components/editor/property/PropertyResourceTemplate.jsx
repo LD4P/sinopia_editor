@@ -97,7 +97,7 @@ const mapStateToProps = (state, ourProps) => {
   const resourceTemplateId = ourProps.reduxPath.slice(-1)[0]
   const resourceTemplate = getResourceTemplate(state, resourceTemplateId)
   const parentPropertyReduxPath = ourProps.reduxPath.slice(0, ourProps.reduxPath.length - 2)
-  const parentPropertyNode = findNode(state.selectorReducer, parentPropertyReduxPath)
+  const parentPropertyNode = findNode(state, parentPropertyReduxPath)
   const siblingResourceCount = Object.keys(parentPropertyNode).reduce((count, key) => {
     if (_.first(Object.keys(parentPropertyNode[key])) === resourceTemplateId) {
       return count + 1

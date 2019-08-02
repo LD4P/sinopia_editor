@@ -43,7 +43,7 @@ InputLang.propTypes = {
 
 const mapStateToProps = (state, ourProps) => {
   const languages = state.selectorReducer.entities.languages
-  const textValue = findNode(state.selectorReducer, ourProps.reduxPath).content
+  const textValue = findNode(state, ourProps.reduxPath).content
   return {
     textValue,
     options: languages?.options || [],

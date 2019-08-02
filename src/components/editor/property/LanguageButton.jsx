@@ -60,7 +60,7 @@ LanguageButton.propTypes = {
 }
 
 const mapStateToProps = (state, ourProps) => {
-  const language = languageLabel(state, findNode(state.selectorReducer, ourProps.reduxPath).lang)
+  const language = languageLabel(state, findNode(state, ourProps.reduxPath).lang)
   return {
     language,
   }
