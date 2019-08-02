@@ -1,4 +1,3 @@
-
 // Copyright 2019 Stanford University see LICENSE for license
 
 import { loadingLanguages, languagesReceived } from 'actions/entities'
@@ -9,7 +8,7 @@ const loadLanguages = () => (dispatch, getState) => {
   }
 
   dispatch(loadingLanguages())
-  fetch('https://id.loc.gov/vocabulary/iso639-1.json')
+  return fetch('https://id.loc.gov/vocabulary/iso639-1.json')
     .then(resp => resp.json())
     .then((json) => {
       dispatch(languagesReceived(json))
