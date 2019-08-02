@@ -128,32 +128,6 @@ export const setBaseURL = (state, action) => {
   return newState
 }
 
-/**
- * @param {Object} state the previous redux state
- * @param {Object} action the payload of the action is the URI returned from saving the resource
- * @return {Object} the next redux state
- */
-export const showResourceURIMessage = (state, action) => {
-  const newState = { ...state }
-
-  newState.editor.resourceURIMessage.show = true
-  newState.editor.resourceURIMessage.uri = action.payload
-  return newState
-}
-
-/**
- * @param {Object} state the previous redux state
- * @param {Object} action the payload of the action is the URI returned from saving the resource
- * @return {Object} the next redux state
- */
-export const clearResourceURIMessage = (state) => {
-  const newState = { ...state }
-
-  newState.editor.resourceURIMessage.show = false
-  newState.editor.resourceURIMessage.uri = ''
-  return newState
-}
-
 export const removeMyItem = (state, action) => {
   const newState = { ...state }
   const reduxPath = action.payload

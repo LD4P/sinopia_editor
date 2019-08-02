@@ -3,7 +3,6 @@
 import {
   removeMyItem, setItemsOrSelections, setBaseURL,
   validate, showGroupChooser, closeGroupChooser, showRdfPreview,
-  showResourceURIMessage, clearResourceURIMessage,
 } from 'reducers/inputs'
 import {
   findNode,
@@ -407,39 +406,6 @@ describe('setBaseURL', () => {
     const reduxPath = ['resource', 'resourceTemplate:Monograph:Instance', 'resourceURI']
 
     expect(findNode({ selectorReducer: result }, reduxPath)).toEqual('http://example.com/foo/123')
-  })
-})
-
-describe('showResourceURIMessage', () => {
-  it('displays the Resource URI', () => {
-    initialState.editor.resourceURIMessage = {
-      show: false,
-      uri: '',
-    }
-
-    const result = showResourceURIMessage(initialState, {
-      type: 'SHOW_RESOURCE_URI_MESSAGE',
-      payload: 'http://example.com/foo/123',
-    })
-
-    expect(result.editor.resourceURIMessage.show).toBe(true)
-    expect(result.editor.resourceURIMessage.uri).toEqual('http://example.com/foo/123')
-  })
-})
-
-describe('clearResourceURIMessage', () => {
-  it('turns off the Resource URI message display', () => {
-    initialState.editor.resourceURIMessage = {
-      show: true,
-      uri: 'this message will disapear',
-    }
-
-    const result = clearResourceURIMessage(initialState, {
-      type: 'CLEAR_RESOURCE_URI_MESSAGE',
-    })
-
-    expect(result.editor.resourceURIMessage.show).toBe(false)
-    expect(result.editor.resourceURIMessage.uri).toEqual('')
   })
 })
 

@@ -3,7 +3,7 @@
 import { combineReducers } from 'redux'
 import authenticate from './authenticate'
 import {
-  removeMyItem, setItemsOrSelections, setBaseURL, showResourceURIMessage, clearResourceURIMessage,
+  removeMyItem, setItemsOrSelections, setBaseURL,
   setMyItemsLang, showGroupChooser, closeGroupChooser, showRdfPreview, validate,
 } from './inputs'
 import {
@@ -140,8 +140,6 @@ const handlers = {
   RETRIEVE_ERROR: setRetrieveError,
   RETRIEVE_RESOURCE_TEMPLATE_STARTED: clearServerError,
   SET_BASE_URL: setBaseURL,
-  SHOW_RESOURCE_URI_MESSAGE: showResourceURIMessage,
-  CLEAR_RESOURCE_URI_MESSAGE: clearResourceURIMessage,
   SET_SEARCH_RESULTS: setSearchResults,
   SHOW_GROUP_CHOOSER: showGroupChooser,
   CLOSE_GROUP_CHOOSER: closeGroupChooser,

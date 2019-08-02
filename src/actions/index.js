@@ -2,11 +2,6 @@
 // Copyright 2019 Stanford University see LICENSE for license
 /* eslint max-params: ["warn", 4] */
 
-// export const newResource = resourceTemplateId => ({
-//   type: 'NEW_RESOURCE',
-//   payload: resourceTemplateId,
-// })
-
 export const setResource = (resource, resourceTemplates) => ({
   type: 'SET_RESOURCE',
   payload: { resource, resourceTemplates },
@@ -67,15 +62,6 @@ export const removeAllItems = item => ({
 export const assignBaseURL = item => ({
   type: 'SET_BASE_URL',
   payload: item,
-})
-
-export const showResourceURIMessage = resourceUri => ({
-  type: 'SHOW_RESOURCE_URI_MESSAGE',
-  payload: resourceUri,
-})
-
-export const clearResourceURIMessage = () => ({
-  type: 'CLEAR_RESOURCE_URI_MESSAGE',
 })
 
 export const updateStarted = () => ({

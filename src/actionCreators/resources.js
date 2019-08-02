@@ -5,8 +5,7 @@
 import {
   updateStarted, updateFinished,
   retrieveResourceStarted, setResource, updateProperty,
-  toggleCollapse, appendResource,
-  clearResourceURIMessage, setLastSaveChecksum, showResourceURIMessage,
+  toggleCollapse, appendResource, setLastSaveChecksum,
   publishStarted, publishError, assignBaseURL,
 } from 'actions/index'
 import { fetchResourceTemplate } from 'actionCreators/resourceTemplates'
@@ -61,7 +60,6 @@ export const publishResource = (currentUser, group) => (dispatch, getState) => {
   return publishRDFResource(currentUser, rdf, group).then((result) => {
     const resourceUrl = result.response.headers.location
     dispatch(assignBaseURL(resourceUrl))
-    dispatch(showResourceURIMessage(resourceUrl))
 
     // Set the baseURL in this state.
     _.first(Object.values(state.selectorReducer.resource)).resourceURI = resourceUrl
@@ -81,7 +79,6 @@ export const newResource = resourceTemplateId => (dispatch) => {
   return stubResource(resource, true, undefined, dispatch).then((result) => {
     if (result !== undefined) {
       const rdf = new GraphBuilder({ resource: result[0], entities: { resourceTemplates: result[1] } }).graph.toCanonical()
-      dispatch(clearResourceURIMessage())
       dispatch(setLastSaveChecksum(generateMD5(rdf)))
     }
   })
@@ -124,7 +121,6 @@ export const addResource = reduxPath => (dispatch, getState) => {
 
 const existingResourceFunc = (resource, uri, dispatch) => stubResource(resource, false, uri, dispatch).then((result) => {
   if (result !== undefined) {
-    dispatch(clearResourceURIMessage())
     dispatch(setLastSaveChecksum(undefined))
   }
   return result
