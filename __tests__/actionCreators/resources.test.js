@@ -97,6 +97,7 @@ describe('retrieveResource', () => {
             items: {
               abc123: {
                 content: 'splendid',
+                label: 'splendid',
                 lang: 'en',
               },
             },
