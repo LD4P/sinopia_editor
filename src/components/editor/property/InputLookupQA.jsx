@@ -33,6 +33,17 @@ class InputLookupQA extends Component {
     }
   }
 
+  // From https://github.com/ericgio/react-bootstrap-typeahead/issues/389
+  onKeyDown = (e) => {
+    // 8 = backspace
+    if (e.keyCode === 8
+        && e.target.value === '') {
+      // Don't trigger a "back" in the browser on backspace
+      e.returnValue = false
+      e.preventDefault()
+    }
+  }
+
   // Render token function to be used by typeahead
   renderTokenFunc = (option, props, idx) => {
     const optionLabel = getOptionLabel(option, props.labelKey)
@@ -226,6 +237,7 @@ class InputLookupQA extends Component {
       selected: this.props.selected,
       allowNew: true,
       delay: 300,
+      onKeyDown: this.onKeyDown,
     }
 
     let error

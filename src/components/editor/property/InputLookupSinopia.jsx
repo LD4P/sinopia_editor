@@ -52,6 +52,17 @@ const InputLookupSinopia = (props) => {
     props.handleSelectedChange(payload)
   }
 
+  // From https://github.com/ericgio/react-bootstrap-typeahead/issues/389
+  const onKeyDown = (e) => {
+    // 8 = backspace
+    if (e.keyCode === 8
+        && e.target.value === '') {
+      // Don't trigger a "back" in the browser on backspace
+      e.returnValue = false
+      e.preventDefault()
+    }
+  }
+
   let error
   let groupClasses = 'form-group'
 
@@ -64,6 +75,7 @@ const InputLookupSinopia = (props) => {
     <div className={groupClasses}>
       <AsyncTypeahead onSearch={search}
                       onChange={change}
+                      onKeyDown={onKeyDown}
                       options={options}
                       required={isMandatory}
                       multiple={isRepeatable}
