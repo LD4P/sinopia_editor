@@ -54,9 +54,9 @@ const SearchResultsPaging = (props) => {
     props.retrieveSearchResults(props.queryString, queryFrom)
   }
 
-  const lastPage = () => props.totalResults / Config.searchResultsPerPage
-  const firstItemOnPage = () => Config.searchResultsPerPage * currentPage
-  const lastItemOnPage = () => firstItemOnPage() + Config.searchResultsPerPage - 1
+  const lastPage = () => Math.round(props.totalResults / Config.searchResultsPerPage)
+  const firstItemOnPage = () => (Config.searchResultsPerPage * (currentPage - 1)) + 1
+  const lastItemOnPage = () => currentPage === lastPage() ? props.totalResults : firstItemOnPage() + Config.searchResultsPerPage - 1
   const pageButton = (key, active) => <Pagination.Item key={ key } active={ active }>{key}</Pagination.Item>
   const pageButtons = () => Array.from({ length: lastPage() }, (_, index) => pageButton(index + 1, index + 1 === currentPage))
 
