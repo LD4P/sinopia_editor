@@ -23,10 +23,12 @@ describe('ResourceStateBuilder', () => {
           items: {
             abc123: {
               content: 'foo',
+              label: 'foo',
               lang: 'en',
             },
             def456: {
               content: 'bar',
+              label: 'bar',
               lang: 'en',
             },
           },
@@ -53,6 +55,7 @@ describe('ResourceStateBuilder', () => {
           items: {
             abc123: {
               uri: 'http://id.loc.gov/vocabulary/organizations/wauar',
+              label: 'http://id.loc.gov/vocabulary/organizations/wauar',
             },
           },
         },
@@ -84,6 +87,7 @@ describe('ResourceStateBuilder', () => {
                 items: {
                   def456: {
                     content: 'foobar',
+                    label: 'foobar',
                     lang: 'en',
                   },
                 },
@@ -123,6 +127,7 @@ _:B01cf1817X2Dd2e4X2D485bX2Dbd9aX2Df72c02976ec02895d12a7118e91a94f5a4808a49140a 
               items: {
                 def456: {
                   content: 'foo note',
+                  label: 'foo note',
                   lang: 'en',
                 },
               },
@@ -134,6 +139,7 @@ _:B01cf1817X2Dd2e4X2D485bX2Dbd9aX2Df72c02976ec02895d12a7118e91a94f5a4808a49140a 
         items: {
           ghi789: {
             content: 'foo',
+            label: 'foo',
             lang: 'en',
           },
         },

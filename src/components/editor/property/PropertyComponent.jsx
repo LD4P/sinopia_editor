@@ -3,7 +3,6 @@
 /* eslint react/prop-types: 'off' */
 
 import React from 'react'
-import shortid from 'shortid'
 import PropTypes from 'prop-types'
 import SinopiaPropTypes from 'SinopiaPropTypes'
 import InputLiteral from './InputLiteral'
@@ -25,15 +24,12 @@ const PropertyComponent = (props) => {
 
   const textFieldType = (config) => {
     const propertyTemplate = props.propertyTemplate
-    const keyId = shortid.generate()
 
     switch (propertyTemplate.type) {
       case 'literal':
-        return (<InputLiteral key={keyId} id={keyId}
-                              reduxPath={props.reduxPath} />)
+        return (<InputLiteral reduxPath={props.reduxPath} />)
       case 'resource':
-        return (<InputURI key={keyId} id={keyId}
-                          reduxPath={props.reduxPath} />)
+        return (<InputURI reduxPath={props.reduxPath} />)
       default:
         console.error(`Unknown propertyTemplate type (component=${config}, type=${propertyTemplate.type})`)
         return null
@@ -42,14 +38,11 @@ const PropertyComponent = (props) => {
 
   switch (config) {
     case 'local-lookup':
-      return (<InputLookupSinopia key = {props.index}
-                                  reduxPath={props.reduxPath} />)
+      return (<InputLookupSinopia reduxPath={props.reduxPath} />)
     case 'lookup':
-      return (<InputLookupQA key = {props.index}
-                             reduxPath={props.reduxPath} />)
+      return (<InputLookupQA reduxPath={props.reduxPath} />)
     case 'list':
-      return (<InputListLOC key = {props.index}
-                            reduxPath={props.reduxPath} />)
+      return (<InputListLOC reduxPath={props.reduxPath} />)
     default:
       return textFieldType(config)
   }
@@ -58,7 +51,6 @@ const PropertyComponent = (props) => {
 PropertyComponent.propTypes = {
   propertyTemplate: SinopiaPropTypes.propertyTemplate,
   reduxPath: PropTypes.array.isRequired,
-  index: PropTypes.number,
 }
 
 export default PropertyComponent

@@ -11,13 +11,12 @@ describe('itemsSelected()', () => {
   })
 })
 
-
 describe('removeItem()', () => {
   it('creates REMOVE_ITEM action', () => {
-    const reduxPath = ['resource', 'resourceTemplate:bf2:Note', 'http://example.com']
-    expect(actions.removeItem(reduxPath, 0)).toEqual({
+    const reduxPath = ['resource', 'resourceTemplate:bf2:Note', 'http://example.com', 'items', 'abc123']
+    expect(actions.removeItem(reduxPath)).toEqual({
       type: 'REMOVE_ITEM',
-      payload: { reduxPath, id: 0 },
+      payload: reduxPath,
     })
   })
 })

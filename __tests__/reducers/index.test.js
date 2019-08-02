@@ -1,8 +1,8 @@
 // Copyright 2019 Stanford University see LICENSE for license
 
 import {
-  createReducer, setRetrieveError, removeResource, clearRetrieveError, updateFinished,
-  setLastSaveChecksum,
+  createReducer, setRetrieveError, removeResource, clearServerError, updateFinished,
+  setLastSaveChecksum, setPublishError,
 } from 'reducers/index'
 import _ from 'lodash'
 import { getFixtureResourceTemplate } from '../fixtureLoaderHelper'
@@ -24,10 +24,10 @@ beforeEach(() => {
   }
 })
 
-describe('clearRetrieveError', () => {
+describe('clearServerError', () => {
   it('clears an existing error', () => {
     initialState.selectorReducer.editor.serverError = 'Something is wrong'
-    const newState = clearRetrieveError(initialState.selectorReducer)
+    const newState = clearServerError(initialState.selectorReducer)
     expect(newState.editor.serverError).toBeUndefined()
   })
 })
@@ -80,8 +80,19 @@ describe('createReducer', () => {
   })
 })
 
+describe('setPublishError', () => {
+  it('adds error with reason to editor state', () => {
+    const newState = setPublishError(initialState.selectorReducer, {
+      type: 'PUBLISH_ERROR',
+      payload: 'publishing error msg',
+    })
+
+    expect(newState.editor.serverError).toEqual('There was a problem saving the resource: publishing error msg')
+  })
+})
+
 describe('setRetrieveError', () => {
-  it('adds error to editor state', () => {
+  it('adds error to editor state when no reason given', () => {
     const newState = setRetrieveError(initialState.selectorReducer, {
       type: 'RETRIEVE_ERROR',
       payload: { resourceTemplateId: 'abc123' },

@@ -10,13 +10,15 @@ import {
   setResourceTemplate, clearResourceTemplates, setResourceTemplateSummary,
   loadingLanguages, languagesReceived,
 } from './entities'
-import showSearchResults from './search'
+import setSearchResults from './search'
 import { findNode } from 'selectors/resourceSelectors'
 import _ from 'lodash'
 
 export const setResource = (state, action) => {
   // This should be a lodash cloneDeep.
-  const newState = { ...state, resource: action.payload }
+  const newState = { ...state }
+  newState.resource = action.payload.resource
+  newState.entities.resourceTemplates = _.cloneDeep(action.payload.resourceTemplates)
   return newState
 }
 
@@ -31,6 +33,8 @@ export const updateProperty = (state, action) => {
   const tempNode = findNode(newState, tempReduxPath)
   tempNode[propertyURI] = resourceFragment
 
+  newState.entities.resourceTemplates = _.cloneDeep(action.payload.resourceTemplates)
+
   return validate(newState)
 }
 
@@ -44,6 +48,9 @@ export const appendResource = (state, action) => {
   const parentReduxPath = reduxPath.slice(0, reduxPath.length - 2)
   const parentPropertyNode = findNode(newState, parentReduxPath)
   parentPropertyNode[key] = resource[key]
+
+  newState.entities.resourceTemplates = _.cloneDeep(action.payload.resourceTemplates)
+
   return validate(newState)
 }
 
@@ -55,6 +62,12 @@ export const removeResource = (state, action) => {
   const parentPropertyNode = findNode(newState, parentReduxPath)
   delete parentPropertyNode[key]
   return validate(newState)
+}
+
+export const setPublishError = (state, action) => {
+  const newState = { ...state }
+  newState.editor.serverError = `There was a problem saving the resource: ${action.payload}`
+  return newState
 }
 
 export const setRetrieveError = (state, action) => {
@@ -73,7 +86,7 @@ export const setRetrieveError = (state, action) => {
   return newState
 }
 
-export const clearRetrieveError = (state) => {
+export const clearServerError = (state) => {
   const newEditor = { ...state.editor, serverError: undefined }
   return { ...state, editor: newEditor }
 }
@@ -122,12 +135,14 @@ export const setLastSaveChecksum = (state, action) => {
 const handlers = {
   ITEMS_SELECTED: setItemsOrSelections,
   CHANGE_SELECTIONS: setItemsOrSelections,
+  PUBLISH_ERROR: setPublishError,
+  PUBLISH_STARTED: clearServerError,
   RETRIEVE_ERROR: setRetrieveError,
-  RETRIEVE_RESOURCE_TEMPLATE_STARTED: clearRetrieveError,
+  RETRIEVE_RESOURCE_TEMPLATE_STARTED: clearServerError,
   SET_BASE_URL: setBaseURL,
   SHOW_RESOURCE_URI_MESSAGE: showResourceURIMessage,
   CLEAR_RESOURCE_URI_MESSAGE: clearResourceURIMessage,
-  SHOW_SEARCH_RESULTS: showSearchResults,
+  SET_SEARCH_RESULTS: setSearchResults,
   SHOW_GROUP_CHOOSER: showGroupChooser,
   CLOSE_GROUP_CHOOSER: closeGroupChooser,
   LANGUAGE_SELECTED: setMyItemsLang,

@@ -297,22 +297,7 @@ const mapStateToProps = (state, ownProps) => {
   const propertyTemplate = getPropertyTemplate(state, resourceTemplateId, propertyURI)
   const lookupConfig = getLookupConfigItems(propertyTemplate)
   const errors = findErrors(state.selectorReducer, ownProps.reduxPath)
-
-  // Make sure that every item has a label
-  // This is a temporary strategy until label lookup is implemented.
-  const items = itemsForProperty(state.selectorReducer, ownProps.reduxPath)
-  const selected = []
-  Object.keys(items).forEach((itemId) => {
-    const newItem = { ...items[itemId] }
-    if (newItem.label === undefined) {
-      if (newItem.uri) {
-        newItem.label = newItem.uri
-      } else if (newItem.content) {
-        newItem.label = newItem.content
-      }
-    }
-    selected.push(newItem)
-  })
+  const selected = itemsForProperty(state.selectorReducer, ownProps.reduxPath)
 
   return {
     selected,

@@ -5,11 +5,11 @@ import PropTypes from 'prop-types'
 import SinopiaPropTypes from 'SinopiaPropTypes'
 import { connect } from 'react-redux'
 import shortid from 'shortid'
-import { removeItem, itemsSelected } from 'actions/index'
+import { itemsSelected } from 'actions/index'
 import {
   findNode, getDisplayValidations, getPropertyTemplate, findErrors,
 } from 'selectors/resourceSelectors'
-import LanguageButton from './LanguageButton'
+import InputValue from './InputValue'
 import { booleanPropertyFromTemplate, defaultLanguageId } from 'Utilities'
 import _ from 'lodash'
 
@@ -25,12 +25,7 @@ export class InputLiteral extends Component {
   }
 
   disabled = () => !booleanPropertyFromTemplate(this.props.propertyTemplate, 'repeatable', true)
-      && this.props.items?.length > 0
-
-  handleFocus = (event) => {
-    document.getElementById(event.target.id).focus()
-    event.preventDefault()
-  }
+      && Object.keys(this.props.items).length > 0
 
   handleChange = (event) => {
     const userInput = event.target.value
@@ -46,36 +41,32 @@ export class InputLiteral extends Component {
   }
 
   handleKeypress = (event) => {
-    if (event.key === 'Enter') {
-      const userInput = {}
-      const currentcontent = this.state.content_add.trim()
-
-      if (!currentcontent) {
-        return
-      }
-      this.addUserInput(userInput, currentcontent)
-      const payload = {
-        reduxPath: this.props.reduxPath,
-        items: userInput,
-      }
-
-      this.props.handleMyItemsChange(payload)
-      this.setState({
-        content_add: '',
-      })
-      event.preventDefault()
+    if (event.key !== 'Enter') {
+      return
     }
+    this.addItem()
+    event.preventDefault()
   }
 
-  handleDeleteClick = (event) => {
-    this.props.handleRemoveItem(this.props.reduxPath, event.target.dataset.item)
+  addItem = () => {
+    const currentcontent = this.state.content_add.trim()
+    if (!currentcontent) {
+      return
+    }
+    const userInput = {}
+    this.addUserInput(userInput, currentcontent)
+    const payload = {
+      reduxPath: this.props.reduxPath,
+      items: userInput,
+    }
+    this.props.handleMyItemsChange(payload)
+    this.setState({
+      content_add: '',
+    })
   }
 
-  handleEditClick = (event) => {
-    const idToRemove = event.target.dataset.item
-
-    this.setState({ content_add: this.props.items[idToRemove].content })
-    this.handleDeleteClick(event)
+  handleEdit = (content) => {
+    this.setState({ content_add: content })
     this.inputLiteralRef.current.focus()
   }
 
@@ -84,35 +75,10 @@ export class InputLiteral extends Component {
       return
     }
 
-    return Object.keys(this.props.items).map(itemId => (
-      <div id="userInput" key={itemId} >
-        <div
-          className="rbt-token rbt-token-removeable">
-          {this.props.items[itemId].content}
-          <button
-            id={`delete${itemId}`}
-            type="button"
-            onClick={this.handleDeleteClick}
-            key={`delete${itemId}`}
-            data-item={itemId}
-            className="close rbt-close rbt-token-remove-button">
-            <span
-                aria-hidden="true"
-                data-item={itemId}>×</span>
-          </button>
-        </div>
-        <button
-          id="editItem"
-          type="button"
-          onClick={this.handleEditClick}
-          key={`edit${itemId}`}
-          data-item={itemId}
-          className="btn btn-sm btn-literal btn-default">
-          Edit
-        </button>
-        <LanguageButton reduxPath={[...this.props.reduxPath, 'items', itemId]}/>
-      </div>
-    ))
+    const itemKeys = Object.keys(this.props.items)
+    return itemKeys.map(itemId => (<InputValue key={itemId}
+                                               handleEdit={this.handleEdit}
+                                               reduxPath={[...this.props.reduxPath, 'items', itemId]} />))
   }
 
   render() {
@@ -138,10 +104,9 @@ export class InputLiteral extends Component {
               placeholder={this.props.propertyTemplate.propertyLabel}
               onChange={this.handleChange}
               onKeyPress={this.handleKeypress}
+              onBlur={this.addItem}
               value={this.state.content_add}
               disabled={this.disabled()}
-              id={this.props.id}
-              onClick={this.handleFocus}
               ref={this.inputLiteralRef}
         />
         {error && <span className="help-block">{error}</span>}
@@ -152,12 +117,10 @@ export class InputLiteral extends Component {
 }
 
 InputLiteral.propTypes = {
-  id: PropTypes.oneOfType([PropTypes.number, PropTypes.string]),
   propertyTemplate: SinopiaPropTypes.propertyTemplate,
   errors: PropTypes.array,
   items: PropTypes.object,
   handleMyItemsChange: PropTypes.func,
-  handleRemoveItem: PropTypes.func,
   reduxPath: PropTypes.array.isRequired,
   displayValidations: PropTypes.bool,
 }
@@ -184,9 +147,6 @@ const mapStateToProps = (state, ownProps) => {
 const mapDispatchToProps = dispatch => ({
   handleMyItemsChange(userInput) {
     dispatch(itemsSelected(userInput))
-  },
-  handleRemoveItem(reduxPath, itemId) {
-    dispatch(removeItem(reduxPath, itemId))
   },
 })
 

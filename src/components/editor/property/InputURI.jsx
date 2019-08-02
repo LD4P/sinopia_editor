@@ -5,10 +5,11 @@ import PropTypes from 'prop-types'
 import SinopiaPropTypes from 'SinopiaPropTypes'
 import { connect } from 'react-redux'
 import shortid from 'shortid'
-import { removeItem, itemsSelected } from 'actions/index'
+import { itemsSelected } from 'actions/index'
 import {
   findNode, getDisplayValidations, getPropertyTemplate, findErrors,
 } from 'selectors/resourceSelectors'
+import InputValue from './InputValue'
 import { booleanPropertyFromTemplate, isValidURI } from 'Utilities'
 import _ from 'lodash'
 
@@ -23,12 +24,7 @@ const InputURI = (props) => {
   const [uriError, setURIError] = useState(false)
 
   const disabled = !booleanPropertyFromTemplate(props.propertyTemplate, 'repeatable', true)
-      && props.items?.length > 0
-
-  const handleFocus = (event) => {
-    document.getElementById(event.target.id).focus()
-    event.preventDefault()
-  }
+      && Object.keys(props.items).length > 0
 
   const addItem = () => {
     const currentcontent = content.trim()
@@ -41,7 +37,9 @@ const InputURI = (props) => {
 
     const userInput = {
       reduxPath: props.reduxPath,
-      items: [{ uri: currentcontent, id: shortid.generate() }],
+      items: {
+        [shortid.generate()]: { uri: currentcontent },
+      },
     }
 
     props.handleMyItemsChange(userInput)
@@ -55,31 +53,16 @@ const InputURI = (props) => {
     }
   }
 
-  const handleDeleteClick = (event) => {
-    props.handleRemoveItem(props.reduxPath, event.target.dataset.item)
-  }
-
-  const handleEditClick = (event) => {
-    const idToRemove = event.target.dataset.item
-
-    props.items.forEach((item) => {
-      if (item.id === idToRemove) {
-        const itemContent = item.uri
-
-        setContent(itemContent)
-      }
-    })
-
-    handleDeleteClick(event)
+  const handleEdit = (content) => {
+    setContent(content)
     inputLiteralRef.current.focus()
   }
 
   /**
    * @return {bool} true if the field should be marked as required (e.g. not all obligations met)
    */
-  const required = booleanPropertyFromTemplate(props.propertyTemplate, 'mandatory', false)
 
-  const items = props.items || []
+  const required = booleanPropertyFromTemplate(props.propertyTemplate, 'mandatory', false)
 
   const mergeErrors = () => {
     let errors = []
@@ -92,31 +75,11 @@ const InputURI = (props) => {
     return errors
   }
 
-  const addedList = items.map((obj) => {
-    const itemId = obj.id || shortid.generate()
 
-    return <div id="userInput" key = {itemId} >
-      {obj.uri}
-      <button
-        id="deleteItem"
-        type="button"
-        onClick={handleDeleteClick}
-        key={`delete${obj.id}`}
-        data-item={itemId}
-        data-label={props.formData.uri}
-      >X
-      </button>
-      <button
-        id="editItem"
-        type="button"
-        onClick={handleEditClick}
-        key={`edit${obj.id}`}
-        data-item={itemId}
-        data-label={props.formData.uri}
-      >Edit
-      </button>
-    </div>
-  })
+  const itemKeys = Object.keys(props.items)
+  const addedList = itemKeys.map(itemId => (<InputValue key={itemId}
+                                                        handleEdit={handleEdit}
+                                                        reduxPath={[...props.reduxPath, 'items', itemId]} />))
 
   let error
   let groupClasses = 'form-group'
@@ -125,20 +88,20 @@ const InputURI = (props) => {
     groupClasses += ' has-error'
     error = errors.join(', ')
   }
+  const id = shortid.generate()
+
   return (
     <div className={groupClasses}>
-      <label htmlFor={props.id}>Enter a URI</label>
-      <input
-            required={required}
-            className="form-control"
-            placeholder={props.propertyTemplate.propertyLabel}
-            onChange={event => setContent(event.target.value)}
-            onKeyPress={handleKeypress}
-            value={content}
-            disabled={disabled}
-            id={props.id}
-            onClick={handleFocus}
-            ref={inputLiteralRef}
+      <label htmlFor={id}>Enter a URI</label>
+      <input id={id}
+             required={required}
+             className="form-control"
+             placeholder={props.propertyTemplate.propertyLabel}
+             onChange={event => setContent(event.target.value)}
+             onKeyPress={handleKeypress}
+             value={content}
+             disabled={disabled}
+             ref={inputLiteralRef}
       />
       {error && <span className="help-block">{error}</span>}
       {addedList}
@@ -147,17 +110,11 @@ const InputURI = (props) => {
 }
 
 InputURI.propTypes = {
-  id: PropTypes.oneOfType([PropTypes.number, PropTypes.string]),
   propertyTemplate: SinopiaPropTypes.propertyTemplate,
-  formData: PropTypes.shape({
-    id: PropTypes.oneOfType([PropTypes.number, PropTypes.string]),
-    uri: PropTypes.string,
-    errors: PropTypes.array,
-  }),
-  items: PropTypes.array,
+  items: PropTypes.object,
   handleMyItemsChange: PropTypes.func,
   handleRemoveItem: PropTypes.func,
-  reduxPath: PropTypes.oneOfType([PropTypes.string, PropTypes.array]),
+  reduxPath: PropTypes.array.isRequired,
   displayValidations: PropTypes.bool,
   errors: PropTypes.array,
 }
@@ -167,14 +124,12 @@ const mapStateToProps = (state, props) => {
   const resourceTemplateId = reduxPath[reduxPath.length - 2]
   const propertyURI = reduxPath[reduxPath.length - 1]
   const displayValidations = getDisplayValidations(state)
-  const formData = findNode(state.selectorReducer, reduxPath)
   // items has to be its own prop or rerendering won't occur when one is removed
-  const items = formData.items
+  const items = findNode(state.selectorReducer, reduxPath).items
   const propertyTemplate = getPropertyTemplate(state, resourceTemplateId, propertyURI)
   const errors = findErrors(state.selectorReducer, reduxPath)
 
   return {
-    formData,
     items,
     propertyTemplate,
     displayValidations,
@@ -185,9 +140,6 @@ const mapStateToProps = (state, props) => {
 const mapDispatchToProps = dispatch => ({
   handleMyItemsChange(userInput) {
     dispatch(itemsSelected(userInput))
-  },
-  handleRemoveItem(reduxPath, itemId) {
-    dispatch(removeItem(reduxPath, itemId))
   },
 })
 

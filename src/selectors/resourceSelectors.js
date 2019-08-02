@@ -21,13 +21,19 @@ export const findErrors = (selectorReducer, reduxPath) => {
   return errors || []
 }
 
+/**
+ * Get a list of selections that have been made for the given reduxPath
+ * @param {Object} selectorReducer the redux state
+ * @param {string[]} reduxPath the path to the input field
+ * @return {Object[]} the selected options
+ */
 export const itemsForProperty = (selectorReducer, reduxPath) => {
   const result = findNode(selectorReducer, reduxPath)
 
-  return result.items || []
+  return Object.keys(result.items || {})
 }
 
-/*
+/**
  * @returns {function} a function that returns true if validations should be displayed
  */
 export const getDisplayValidations = state => findNode(state.selectorReducer, ['editor']).displayValidations
@@ -57,12 +63,7 @@ export const resourceHasChangesSinceLastSave = (state) => {
   if (lastSaveChecksum === undefined) {
     return true
   }
-  // This is temporary until the setting of lastSaveChecksum is fixed.
-  try {
-    const rdf = new GraphBuilder(state.selectorReducer).graph.toCanonical()
-    const resourceChecksum = generateMD5(rdf)
-    return lastSaveChecksum !== resourceChecksum
-  } catch (error) {
-    return true
-  }
+  const rdf = new GraphBuilder(state.selectorReducer).graph.toCanonical()
+  const resourceChecksum = generateMD5(rdf)
+  return lastSaveChecksum !== resourceChecksum
 }

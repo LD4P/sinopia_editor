@@ -93,16 +93,7 @@ const mapStateToProps = (state, ownProps) => {
   const displayValidations = getDisplayValidations(state)
   const propertyTemplate = getPropertyTemplate(state, resourceTemplateId, propertyURI)
   const errors = findErrors(state.selectorReducer, ownProps.reduxPath)
-
-  // Make sure that every item has a label
-  // This is a temporary strategy until label lookup is implemented.
-  const selected = itemsForProperty(state.selectorReducer, ownProps.reduxPath).map((item) => {
-    const newItem = { ...item }
-    if (newItem.label === undefined) {
-      newItem.label = newItem.uri
-    }
-    return newItem
-  })
+  const selected = itemsForProperty(state.selectorReducer, ownProps.reduxPath)
 
   return {
     selected,

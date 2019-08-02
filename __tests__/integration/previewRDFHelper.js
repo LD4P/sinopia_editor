@@ -36,6 +36,11 @@ export async function fillInRequredFieldsForBibframeInstance() {
 }
 
 export async function incompleteFieldsForBibframeInstance() {
+  await page.setViewport({
+    width: 1822,
+    height: 961,
+  })
+
   // This will add 1 assertion to each it block's assertion count
   await pupExpect(page).toClick('a', { text: 'BIBFRAME Instance' })
 }
