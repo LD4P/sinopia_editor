@@ -38,7 +38,7 @@ const Search = (props) => {
             </FormGroup>
           </Form>
         </Row>
-        <SearchResults {...props} />
+        <SearchResults {...props} key="search-results" />
         <SearchResultsPaging {...props} pageSize="1"/>
       </Grid>
     </div>

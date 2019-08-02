@@ -16,7 +16,9 @@ import _ from 'lodash'
 
 export const setResource = (state, action) => {
   // This should be a lodash cloneDeep.
-  const newState = { ...state, resource: action.payload }
+  const newState = { ...state }
+  newState.resource = action.payload.resource
+  newState.entities.resourceTemplates = _.cloneDeep(action.payload.resourceTemplates)
   return newState
 }
 
@@ -31,6 +33,8 @@ export const updateProperty = (state, action) => {
   const tempNode = findNode(newState, tempReduxPath)
   tempNode[propertyURI] = resourceFragment
 
+  newState.entities.resourceTemplates = _.cloneDeep(action.payload.resourceTemplates)
+
   return validate(newState)
 }
 
@@ -44,6 +48,9 @@ export const appendResource = (state, action) => {
   const parentReduxPath = reduxPath.slice(0, reduxPath.length - 2)
   const parentPropertyNode = findNode(newState, parentReduxPath)
   parentPropertyNode[key] = resource[key]
+
+  newState.entities.resourceTemplates = _.cloneDeep(action.payload.resourceTemplates)
+
   return validate(newState)
 }
 

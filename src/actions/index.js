@@ -6,9 +6,9 @@
 //   payload: resourceTemplateId,
 // })
 
-export const setResource = resource => ({
+export const setResource = (resource, resourceTemplates) => ({
   type: 'SET_RESOURCE',
-  payload: resource,
+  payload: { resource, resourceTemplates },
 })
 
 export const setResourceTemplate = resourceTemplate => ({
@@ -130,14 +130,14 @@ export const saveAppVersion = version => ({
   payload: version,
 })
 
-export const updateProperty = (reduxPath, resourceFragment) => ({
+export const updateProperty = (reduxPath, resourceFragment, resourceTemplates) => ({
   type: 'UPDATE_PROPERTY',
-  payload: { reduxPath, resourceFragment },
+  payload: { reduxPath, resourceFragment, resourceTemplates },
 })
 
-export const appendResource = (reduxPath, resource) => ({
+export const appendResource = (reduxPath, resource, resourceTemplates) => ({
   type: 'APPEND_RESOURCE',
-  payload: { reduxPath, resource },
+  payload: { reduxPath, resource, resourceTemplates },
 })
 
 export const toggleCollapse = reduxPath => ({
