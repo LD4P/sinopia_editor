@@ -22,7 +22,7 @@ export const findErrors = (state, reduxPath) => findObjectAtPath(state.selectorR
  * @return {Object[]} the selected options
  */
 export const itemsForProperty = (state, reduxPath) => {
-  const result = findNode(state.selectorReducer, reduxPath)
+  const result = findNode(state, reduxPath)
   return Object.values(result.items || {})
 }
 
