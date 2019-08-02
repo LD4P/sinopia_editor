@@ -64,6 +64,22 @@ export const removeResource = (state, action) => {
   return validate(newState)
 }
 
+// shameless green implementation -- nearly a duplicate of setRetrieveError()
+export const setPublishError = (state, action) => {
+  const reason = action.payload.reason
+  const newState = { ...state }
+
+  let serverError = 'There was a problem saving the resource'
+  if (reason) {
+    serverError += `: ${reason}`
+  } else {
+    serverError += '.'
+  }
+
+  newState.editor.serverError = serverError
+  return newState
+}
+
 export const setRetrieveError = (state, action) => {
   const resourceTemplateId = action.payload.resourceTemplateId
   const reason = action.payload.reason
@@ -80,7 +96,7 @@ export const setRetrieveError = (state, action) => {
   return newState
 }
 
-export const clearRetrieveError = (state) => {
+export const clearServerError = (state) => {
   const newEditor = { ...state.editor, serverError: undefined }
   return { ...state, editor: newEditor }
 }
@@ -129,8 +145,10 @@ export const setLastSaveChecksum = (state, action) => {
 const handlers = {
   ITEMS_SELECTED: setItemsOrSelections,
   CHANGE_SELECTIONS: setItemsOrSelections,
+  PUBLISH_ERROR: setPublishError,
+  PUBLISH_STARTED: clearServerError,
   RETRIEVE_ERROR: setRetrieveError,
-  RETRIEVE_RESOURCE_TEMPLATE_STARTED: clearRetrieveError,
+  RETRIEVE_RESOURCE_TEMPLATE_STARTED: clearServerError,
   SET_BASE_URL: setBaseURL,
   SHOW_RESOURCE_URI_MESSAGE: showResourceURIMessage,
   CLEAR_RESOURCE_URI_MESSAGE: clearResourceURIMessage,

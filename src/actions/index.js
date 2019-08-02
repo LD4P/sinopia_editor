@@ -86,6 +86,15 @@ export const updateFinished = checksum => ({
   payload: checksum,
 })
 
+export const publishStarted = () => ({
+  type: 'PUBLISH_STARTED',
+})
+
+export const publishError = reason => ({
+  type: 'PUBLISH_ERROR',
+  payload: reason,
+})
+
 export const retrieveResourceStarted = uri => ({
   type: 'RETRIEVE_STARTED',
   payload: uri,

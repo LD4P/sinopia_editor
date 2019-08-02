@@ -2,7 +2,7 @@
 
 import {
   update, existingResource, retrieveResource, newResource,
-  stubResourceProperties,
+  stubResourceProperties, publishResource,
 } from 'actionCreators/resources'
 /* eslint import/namespace: 'off' */
 import * as server from 'sinopiaServer'
@@ -15,29 +15,29 @@ import * as resourceTemplateThunks from 'actionCreators/resourceTemplates'
 const mockStore = configureMockStore([thunk])
 shortid.generate = jest.fn().mockReturnValue('abc123')
 
-describe('update', () => {
-  const state = {
-    selectorReducer: {
-      entities: {
-        resourceTemplates: {
-          'sinopia:profile:bf2:Place': {
-            resourceURI: 'http://id.loc.gov/ontologies/bibframe/place',
-          },
-        },
-      },
-      resource: {
+const state = {
+  selectorReducer: {
+    entities: {
+      resourceTemplates: {
         'sinopia:profile:bf2:Place': {
-          resourceURI: 'http://example.com/repository/stanford/12345',
+          resourceURI: 'http://id.loc.gov/ontologies/bibframe/place',
         },
       },
     },
-  }
+    resource: {
+      'sinopia:profile:bf2:Place': {
+        resourceURI: 'http://example.com/repository/stanford/12345',
+      },
+    },
+  },
+}
 
-  const currentUser = {
-    getSession: jest.fn(),
-  }
-  const store = mockStore(state)
+const currentUser = {
+  getSession: jest.fn(),
+}
+const store = mockStore(state)
 
+describe('update', () => {
   it('dispatches actions when started and finished', async () => {
     server.updateRDFResource = jest.fn().mockResolvedValue(true)
 
@@ -51,9 +51,6 @@ describe('update', () => {
 })
 
 describe('retrieveResource', () => {
-  const currentUser = {
-    getSession: jest.fn(),
-  }
   const uri = 'http://sinopia.io/repository/stanford/123'
   const received = `<> <http://www.w3.org/2000/01/rdf-schema#label> "splendid"@en .
 <> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://id.loc.gov/ontologies/bibframe/Note> .
@@ -112,6 +109,41 @@ describe('retrieveResource', () => {
       expect(actions[4]).toEqual({ type: 'SET_LAST_SAVE_CHECKSUM' })
       expect(actions[5]).toEqual({ type: 'SET_LAST_SAVE_CHECKSUM', payload: 'd7ee91e78c7065b55a0e7df016bd1622' })
     })
+  })
+})
+
+describe('publishResource', () => {
+  const group = 'myGroup'
+  const received = `<http://sinopia.io/repository/myGroup/myResource> <http://www.w3.org/2000/01/rdf-schema#label> "splendid"@en .
+<> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://id.loc.gov/ontologies/bibframe/Note> .
+<> <http://www.w3.org/ns/prov#wasGeneratedBy> "profile:bf2:Note" .`
+
+  it('dispatches actions for happy path', async () => {
+    const store = mockStore(state)
+    server.publishRDFResource = jest.fn().mockResolvedValue({
+      response: {
+        headers: { location: 'http://sinopia.io/repository/myGroup/myResource' },
+        text: received,
+      },
+    })
+
+    await store.dispatch(publishResource(currentUser, group))
+    const actions = store.getActions()
+    expect(actions.length).toEqual(4)
+    expect(actions[0]).toEqual({ type: 'PUBLISH_STARTED' })
+    expect(actions[1]).toEqual({ type: 'SET_BASE_URL', payload: 'http://sinopia.io/repository/myGroup/myResource' })
+    expect(actions[2]).toEqual({ type: 'SHOW_RESOURCE_URI_MESSAGE', payload: 'http://sinopia.io/repository/myGroup/myResource' })
+    expect(actions[3]).toEqual({ type: 'UPDATE_FINISHED', payload: 'cd2a00d75801b859a7d6228beefb6ace' })
+  })
+  it('dispatches actions for error path', async () => {
+    const store = mockStore(state)
+    server.publishRDFResource = jest.fn().mockRejectedValue(new Error('publish error'))
+
+    await store.dispatch(publishResource(currentUser, group))
+    const actions = store.getActions()
+    expect(actions.length).toEqual(2)
+    expect(actions[0]).toEqual({ type: 'PUBLISH_STARTED' })
+    expect(actions[1]).toEqual({ type: 'PUBLISH_ERROR', payload: 'Unable to save resource: Error: publish error' })
   })
 })
 

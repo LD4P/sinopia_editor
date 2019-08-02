@@ -6,10 +6,11 @@ import {
   updateStarted, updateFinished,
   retrieveResourceStarted, setResource, updateProperty,
   toggleCollapse, appendResource,
-  clearResourceURIMessage, setLastSaveChecksum,
+  clearResourceURIMessage, setLastSaveChecksum, showResourceURIMessage,
+  publishStarted, publishError, assignBaseURL,
 } from 'actions/index'
 import { fetchResourceTemplate } from 'actionCreators/resourceTemplates'
-import { updateRDFResource, loadRDFResource } from 'sinopiaServer'
+import { updateRDFResource, loadRDFResource, publishRDFResource } from 'sinopiaServer'
 import { rootResourceId } from 'selectors/resourceSelectors'
 import GraphBuilder from 'GraphBuilder'
 import {
@@ -46,6 +47,30 @@ export const retrieveResource = (currentUser, uri) => (dispatch) => {
         })
       })
     })
+}
+
+// A thunk that publishes (saves) a new resource in Trellis
+export const publishResource = (currentUser, group) => (dispatch, getState) => {
+  dispatch(publishStarted()) // clears possible residual server error
+
+  // Make a copy of state to prevent changes that will affect the publish.
+  const state = _.cloneDeep(getState())
+  const rdf = new GraphBuilder(state.selectorReducer).graph.toCanonical()
+
+  return publishRDFResource(currentUser, rdf, group).then((result) => {
+    const resourceUrl = result.response.headers.location
+    dispatch(assignBaseURL(resourceUrl))
+    dispatch(showResourceURIMessage(resourceUrl))
+
+    // Set the baseURL in this state.
+    _.first(Object.values(state.selectorReducer.resource)).resourceURI = resourceUrl
+
+    // Need to regenerate RDF now that we have baseURL
+    const updatedRdf = new GraphBuilder(state.selectorReducer).graph.toCanonical()
+    dispatch(updateFinished(generateMD5(updatedRdf)))
+  }).catch((err) => {
+    dispatch(publishError(`Unable to save resource: ${err}`))
+  })
 }
 
 // A thunk that stubs out a new resource
