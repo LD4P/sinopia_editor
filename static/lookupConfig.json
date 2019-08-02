@@ -421,50 +421,18 @@
     "component": "lookup"
   },
   {
-    "label": "LOC person [genres] (QA)",
-    "uri": "urn:ld4p:qa:genres:person",
+    "label": "LOC active [genres] (QA)",
+    "uri": "urn:ld4p:qa:genres:active",
     "authority": "locgenres_ld4l_cache",
-    "subauthority": "person",
+    "subauthority": "active",
     "language": "en",
     "component": "lookup"
   },
   {
-    "label": "LOC organization [genres] (QA)",
-    "uri": "urn:ld4p:qa:genres:organization",
+    "label": "LOC deprecated [genres] (QA)",
+    "uri": "urn:ld4p:qa:genres:deprecated",
     "authority": "locgenres_ld4l_cache",
-    "subauthority": "organization",
-    "language": "en",
-    "component": "lookup"
-  },
-  {
-    "label": "LOC place [genres] (QA)",
-    "uri": "urn:ld4p:qa:genres:place",
-    "authority": "locgenres_ld4l_cache",
-    "subauthority": "place",
-    "language": "en",
-    "component": "lookup"
-  },
-  {
-    "label": "LOC intangible [genres] (QA)",
-    "uri": "urn:ld4p:qa:genres:intangible",
-    "authority": "locgenres_ld4l_cache",
-    "subauthority": "intangible",
-    "language": "en",
-    "component": "lookup"
-  },
-  {
-    "label": "LOC geocoordinates [genres] (QA)",
-    "uri": "urn:ld4p:qa:genres:geocoordinates",
-    "authority": "locgenres_ld4l_cache",
-    "subauthority": "geocoordinates",
-    "language": "en",
-    "component": "lookup"
-  },
-  {
-    "label": "LOC work [genres] (QA)",
-    "uri": "urn:ld4p:qa:genres:work",
-    "authority": "locgenres_ld4l_cache",
-    "subauthority": "work",
+    "subauthority": "deprecated",
     "language": "en",
     "component": "lookup"
   },
