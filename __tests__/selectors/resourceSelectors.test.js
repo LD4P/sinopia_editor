@@ -1,7 +1,7 @@
 // Copyright 2019 Stanford University see LICENSE for license
 
 import {
-  rootResourceId, isExpanded,
+  rootResourceId, isExpanded, itemsForProperty,
   getDisplayValidations, getResourceTemplate, getPropertyTemplate,
   resourceHasChangesSinceLastSave,
 } from 'selectors/resourceSelectors'
@@ -50,6 +50,33 @@ describe('getDisplayValidations()', () => {
     }
 
     expect(getDisplayValidations(state)).toBeTruthy()
+  })
+})
+
+describe('itemsForProperty()', () => {
+  beforeEach(() => {
+    initialState.selectorReducer.resource = {
+      'resourceTemplate:bf2:Monograph:Instance': {
+        'http://id.loc.gov/ontologies/bibframe/issuance': {
+          items: {
+            abFEHPzpKR: {
+              label: 'single unit',
+              uri: 'http://id.loc.gov/vocabulary/issuance/mono',
+            },
+          },
+        },
+      },
+    }
+  })
+  const reduxPath = [
+    'resource', 'resourceTemplate:bf2:Monograph:Instance', 'http://id.loc.gov/ontologies/bibframe/issuance',
+  ]
+
+  it('returns value when present', () => {
+    expect(itemsForProperty(initialState, reduxPath)).toEqual([{
+      label: 'single unit',
+      uri: 'http://id.loc.gov/vocabulary/issuance/mono',
+    }])
   })
 })
 

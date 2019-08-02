@@ -23,14 +23,13 @@ export const findErrors = (selectorReducer, reduxPath) => {
 
 /**
  * Get a list of selections that have been made for the given reduxPath
- * @param {Object} selectorReducer the redux state
+ * @param {Object} state the redux state
  * @param {string[]} reduxPath the path to the input field
  * @return {Object[]} the selected options
  */
-export const itemsForProperty = (selectorReducer, reduxPath) => {
-  const result = findNode(selectorReducer, reduxPath)
-
-  return Object.keys(result.items || {})
+export const itemsForProperty = (state, reduxPath) => {
+  const result = findNode(state.selectorReducer, reduxPath)
+  return Object.values(result.items || {})
 }
 
 /**
