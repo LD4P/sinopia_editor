@@ -17,10 +17,10 @@ describe('<GroupChoiceModal />', () => {
   const mockPublishMyResource = jest.fn()
   const wrapper = shallow(<GroupChoiceModal.WrappedComponent show={true}
                                                              rdf={rdfFunc}
-                                                             close={mockCloseGroupChooser}
-                                                             closeRdfPreview={mockCloseRdfPreview}
+                                                             closeGroupChooser={mockCloseGroupChooser}
+                                                             showRdfPreview={mockCloseRdfPreview}
                                                              currentUser={currentUser}
-                                                             publishMyResource={mockPublishMyResource} />)
+                                                             publishResource={mockPublishMyResource} />)
 
   it('renders the <GroupChoiceModal /> component as a Modal', () => {
     expect(wrapper.find(Modal).length).toBe(1)

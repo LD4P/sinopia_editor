@@ -51,10 +51,10 @@ describe('When the user enters input into field', () => {
   beforeEach(() => {
     mockItemsChange = jest.fn()
     mockWrapper = shallow(<InputURI.WrappedComponent {...plProps}
-                                                     handleMyItemsChange={mockItemsChange} />)
+                                                     itemsSelected={mockItemsChange} />)
   })
 
-  it('calls handleMyItemsChange function', () => {
+  it('calls itemsSelected function', () => {
     mockWrapper.find('input').simulate('change', { target: { value: 'http://example.com/thing/1' } })
     mockWrapper.find('input').simulate('keypress', { key: 'Enter', preventDefault: () => {} })
     expect(mockItemsChange).toHaveBeenCalled()
@@ -149,7 +149,7 @@ describe('when there is a default literal value in the property template', () =>
     it('input has disabled attribute when there are items', () => {
       const nonrepeatWrapper = shallow(
         <InputURI.WrappedComponent {...nrProps}
-                                   handleMyItemsChange={mockMyItemsChange}
+                                   itemsSelected={mockMyItemsChange}
                                    items={{ 0: { uri: 'http://foo.by', id: 0 } }}/>,
       )
 
@@ -159,7 +159,7 @@ describe('when there is a default literal value in the property template', () =>
     it('input does not have disabled attribute when there are no items', () => {
       const nonrepeatWrapper = shallow(
         <InputURI.WrappedComponent {...nrProps}
-                                   handleMyItemsChange={mockMyItemsChange}
+                                   itemsSelected={mockMyItemsChange}
                                    items={{}}/>,
       )
       expect(nonrepeatWrapper.find('input').prop('disabled')).toBe(false)

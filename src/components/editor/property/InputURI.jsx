@@ -3,6 +3,7 @@
 import React, { useRef, useState } from 'react'
 import PropTypes from 'prop-types'
 import SinopiaPropTypes from 'SinopiaPropTypes'
+import { bindActionCreators } from 'redux'
 import { connect } from 'react-redux'
 import shortid from 'shortid'
 import { itemsSelected } from 'actions/index'
@@ -45,7 +46,7 @@ const InputURI = (props) => {
       },
     }
 
-    props.handleMyItemsChange(userInput)
+    props.itemsSelected(userInput)
     setContent('')
   }
 
@@ -115,8 +116,7 @@ const InputURI = (props) => {
 InputURI.propTypes = {
   propertyTemplate: SinopiaPropTypes.propertyTemplate,
   items: PropTypes.object,
-  handleMyItemsChange: PropTypes.func,
-  handleRemoveItem: PropTypes.func,
+  itemsSelected: PropTypes.func,
   reduxPath: PropTypes.array.isRequired,
   displayValidations: PropTypes.bool,
   errors: PropTypes.array,
@@ -140,10 +140,6 @@ const mapStateToProps = (state, props) => {
   }
 }
 
-const mapDispatchToProps = dispatch => ({
-  handleMyItemsChange(userInput) {
-    dispatch(itemsSelected(userInput))
-  },
-})
+const mapDispatchToProps = dispatch => bindActionCreators({ itemsSelected }, dispatch)
 
 export default connect(mapStateToProps, mapDispatchToProps)(InputURI)

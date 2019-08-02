@@ -3,6 +3,7 @@
 import React, { useRef, useState } from 'react'
 import PropTypes from 'prop-types'
 import SinopiaPropTypes from 'SinopiaPropTypes'
+import { bindActionCreators } from 'redux'
 import { connect } from 'react-redux'
 import shortid from 'shortid'
 import { itemsSelected } from 'actions/index'
@@ -40,7 +41,7 @@ const InputLiteral = (props) => {
         [shortid.generate()]: { content: currentcontent, lang },
       },
     }
-    props.handleMyItemsChange(userInput)
+    props.itemsSelected(userInput)
     setContent('')
     setLang(defaultLanguageId)
   }
@@ -97,7 +98,7 @@ InputLiteral.propTypes = {
   propertyTemplate: SinopiaPropTypes.propertyTemplate,
   errors: PropTypes.array,
   items: PropTypes.object,
-  handleMyItemsChange: PropTypes.func,
+  itemsSelected: PropTypes.func,
   reduxPath: PropTypes.array.isRequired,
   displayValidations: PropTypes.bool,
 }
@@ -121,10 +122,6 @@ const mapStateToProps = (state, ownProps) => {
   }
 }
 
-const mapDispatchToProps = dispatch => ({
-  handleMyItemsChange(userInput) {
-    dispatch(itemsSelected(userInput))
-  },
-})
+const mapDispatchToProps = dispatch => bindActionCreators({ itemsSelected }, dispatch)
 
 export default connect(mapStateToProps, mapDispatchToProps)(InputLiteral)

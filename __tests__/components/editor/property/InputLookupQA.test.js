@@ -102,7 +102,7 @@ const validNewLiteralResults = [{
 
 describe('<InputLookupQA />', () => {
   const mockFormDataFn = jest.fn()
-  const wrapper = shallow(<InputLookupQA.WrappedComponent {...plProps} handleSelectedChange={mockFormDataFn} />)
+  const wrapper = shallow(<InputLookupQA.WrappedComponent {...plProps} changeSelections={mockFormDataFn} />)
 
   /*
    * Our mock formData function to replace the one provided by
@@ -181,7 +181,7 @@ describe('<InputLookupQA />', () => {
   })
 
   // Institute wrapper with multiple lookup options
-  const multipleWrapper = shallow(<InputLookupQA.WrappedComponent {...p2Props} handleSelectedChange={mockFormDataFn} />)
+  const multipleWrapper = shallow(<InputLookupQA.WrappedComponent {...p2Props} changeSelections={mockFormDataFn} />)
 
   it('passes multiple lookup results in state with search event', () => {
     const event = (wrap) => {

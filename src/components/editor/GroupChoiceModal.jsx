@@ -1,6 +1,7 @@
 // Copyright 2019 Stanford University see LICENSE for license
 
 import React, { useState } from 'react'
+import { bindActionCreators } from 'redux'
 import { connect } from 'react-redux'
 import Button from 'react-bootstrap/lib/Button'
 import Modal from 'react-bootstrap/lib/Modal'
@@ -24,14 +25,14 @@ const GroupChoiceModal = (props) => {
   }
 
   const saveAndClose = () => {
-    props.publishMyResource(props.currentUser, selectedValue)
-    props.closeRdfPreview()
-    props.close()
+    props.publishResource(props.currentUser, selectedValue)
+    props.showRdfPreview(false)
+    props.closeGroupChooser(false)
   }
 
   return (
     <div>
-      <Modal show={ props.show } onHide={ props.close } bsSize="lg">
+      <Modal show={ props.show } onHide={ () => props.closeGroupChooser(false) } bsSize="lg">
         <Modal.Header className="prop-heading" closeButton>
           <Modal.Title>
             Which group do you want to save to?
@@ -47,7 +48,7 @@ const GroupChoiceModal = (props) => {
                 { groups.map((group, index) => <option key={index} value={ group[0] }>{ group[1] }</option>) }
               </select>
               <div className="group-choose-buttons">
-                <Button bsStyle="link" style={{ paddingRight: '20px' }} onClick={ props.close }>
+                <Button bsStyle="link" style={{ paddingRight: '20px' }} onClick={ () => props.closeGroupChooser(false) }>
                   Cancel
                 </Button>
                 <Button bsStyle="primary" bsSize="small" onClick={ saveAndClose }>
@@ -63,13 +64,13 @@ const GroupChoiceModal = (props) => {
 }
 
 GroupChoiceModal.propTypes = {
-  close: PropTypes.func,
-  closeRdfPreview: PropTypes.func,
+  closeGroupChooser: PropTypes.func,
+  showRdfPreview: PropTypes.func,
   choose: PropTypes.func,
   show: PropTypes.bool,
   rdf: PropTypes.func,
   currentUser: PropTypes.object,
-  publishMyResource: PropTypes.func,
+  publishResource: PropTypes.func,
 }
 
 const mapStateToProps = state => ({
@@ -78,16 +79,6 @@ const mapStateToProps = state => ({
   currentUser: getCurrentUser(state),
 })
 
-const mapDispatchToProps = dispatch => ({
-  close() {
-    dispatch(closeGroupChooser(false))
-  },
-  closeRdfPreview() {
-    dispatch(showRdfPreview(false))
-  },
-  publishMyResource: (user, group) => {
-    dispatch(publishResource(user, group))
-  },
-})
+const mapDispatchToProps = dispatch => bindActionCreators({ closeGroupChooser, showRdfPreview, publishResource }, dispatch)
 
 export default connect(mapStateToProps, mapDispatchToProps)(GroupChoiceModal)

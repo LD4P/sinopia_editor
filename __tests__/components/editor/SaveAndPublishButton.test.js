@@ -8,23 +8,23 @@ import Button from 'react-bootstrap/lib/Button'
 describe('<SaveAndPublishButton />', () => {
   const mockSave = jest.fn()
   describe('when disabled', () => {
-    const wrapper = shallow(<SaveAndPublishButton.WrappedComponent isDisabled={true} save={mockSave}/>)
+    const wrapper = shallow(<SaveAndPublishButton.WrappedComponent isDisabled={true} />)
     it('the button is disabled', () => {
       expect(wrapper.find(Button).prop('disabled')).toEqual(true)
     })
   })
   describe('when not disabled', () => {
-    const wrapper = shallow(<SaveAndPublishButton.WrappedComponent isDisabled={false} save={mockSave}/>)
+    const wrapper = shallow(<SaveAndPublishButton.WrappedComponent isDisabled={false} />)
     it('the button is not disabled', () => {
       expect(wrapper.find(Button).prop('disabled')).toEqual(false)
     })
   })
   describe('clicking the button', () => {
     const user = { name: 'Wilford Brimley' }
-    const wrapper = shallow(<SaveAndPublishButton.WrappedComponent isDisabled={false} save={mockSave} isSaved={false} currentUser={user} />)
-    it('calls save', () => {
+    const wrapper = shallow(<SaveAndPublishButton.WrappedComponent isDisabled={false} showGroupChooser={mockSave} isSaved={false} currentUser={user} />)
+    it('calls showGroupChooser', () => {
       wrapper.find(Button).simulate('click')
-      expect(mockSave).toHaveBeenCalledWith(false, user)
+      expect(mockSave).toHaveBeenCalledWith(true)
     })
   })
 })

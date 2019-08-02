@@ -16,9 +16,10 @@ import LoadResource from './load/LoadResource'
 import Search from './search/Search'
 import CanvasMenu from './menu/CanvasMenu'
 import { saveAppVersion } from 'actions/index'
+import { bindActionCreators } from 'redux'
 import { connect } from 'react-redux'
 import { version } from '../../package.json'
-import { fetchResourceTemplateSummaries as fetchResourceTemplateSummariesCreator } from 'actionCreators/resourceTemplates'
+import { fetchResourceTemplateSummaries } from 'actionCreators/resourceTemplates'
 
 import _ from 'lodash'
 
@@ -34,7 +35,7 @@ class App extends Component {
   }
 
   componentDidMount() {
-    this.props.storeAppVersion(version)
+    this.props.saveAppVersion(version)
     this.props.fetchResourceTemplateSummaries()
   }
 
@@ -68,7 +69,7 @@ class App extends Component {
 }
 
 App.propTypes = {
-  storeAppVersion: PropTypes.func,
+  saveAppVersion: PropTypes.func,
   currentSession: PropTypes.object,
   handleOffsetMenu: PropTypes.func,
   hasResource: PropTypes.bool,
@@ -83,14 +84,7 @@ const mapStateToProps = (state) => {
   }
 }
 
-const mapDispatchToProps = dispatch => ({
-  storeAppVersion: (version) => {
-    dispatch(saveAppVersion(version))
-  },
-  fetchResourceTemplateSummaries: () => {
-    dispatch(fetchResourceTemplateSummariesCreator())
-  },
-})
+const mapDispatchToProps = dispatch => bindActionCreators({ saveAppVersion, fetchResourceTemplateSummaries }, dispatch)
 
 /*
  * 2019-05-07: note that withRouter must wrap connect

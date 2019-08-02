@@ -1,6 +1,7 @@
 // Copyright 2019 Stanford University see LICENSE for license
 
 import React from 'react'
+import { bindActionCreators } from 'redux'
 import { connect } from 'react-redux'
 import PropTypes from 'prop-types'
 import { showRdfPreview } from 'actions/index'
@@ -21,7 +22,7 @@ const Editor = props => (
     <AuthenticationMessage />
     <div className="row">
       <section className="col-md-3" style={{ float: 'right', width: '320px' }}>
-        <button type="button" className="btn btn-link btn-sm btn-editor" onClick={ props.openRdfPreview }>Preview RDF</button>
+        <button type="button" className="btn btn-link btn-sm btn-editor" onClick={ () => props.showRdfPreview(true) }>Preview RDF</button>
         <SaveAndPublishButton id="editor-save" />
       </section>
     </div>
@@ -36,7 +37,7 @@ const Editor = props => (
 Editor.propTypes = {
   triggerHandleOffsetMenu: PropTypes.func,
   userWantsToSave: PropTypes.func,
-  openRdfPreview: PropTypes.func,
+  showRdfPreview: PropTypes.func,
   isSaved: PropTypes.bool,
   location: PropTypes.object,
   history: PropTypes.object,
@@ -48,11 +49,6 @@ const mapStateToProps = state => ({
   resourceHasChanges: resourceHasChangesSinceLastSave(state),
 })
 
-
-const mapDispatchToProps = dispatch => ({
-  openRdfPreview: () => {
-    dispatch(showRdfPreview(true))
-  },
-})
+const mapDispatchToProps = dispatch => bindActionCreators({ showRdfPreview }, dispatch)
 
 export default connect(mapStateToProps, mapDispatchToProps)(Editor)
