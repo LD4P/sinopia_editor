@@ -70,7 +70,7 @@ export default class ResourceStateBuilder {
    */
   findResourceTemplateId(resourceTerm) {
     // Should be only 1.
-    return this.match(this.dataset, resourceTerm, rdf.namedNode('http://www.w3.org/ns/prov#wasGeneratedBy')).toArray()[0].object.value
+    return this.match(this.dataset, resourceTerm, rdf.namedNode('http://sinopia.io/vocabulary/hasResourceTemplate')).toArray()[0].object.value
   }
 
   /**
@@ -81,7 +81,7 @@ export default class ResourceStateBuilder {
     // Find the properties
     const propertyDataset = this.match(this.dataset, resourceTerm)
     // Remove triples that are not properties.
-    propertyDataset.removeMatches(null, rdf.namedNode('http://www.w3.org/ns/prov#wasGeneratedBy'))
+    propertyDataset.removeMatches(null, rdf.namedNode('http://sinopia.io/vocabulary/hasResourceTemplate'))
     propertyDataset.removeMatches(null, rdf.namedNode('http://www.w3.org/1999/02/22-rdf-syntax-ns#type'))
 
     return propertyDataset

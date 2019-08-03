@@ -46,7 +46,7 @@ describe('update', () => {
     const actions = store.getActions()
     expect(actions.length).toEqual(2)
     expect(actions[0]).toEqual({ type: 'UPDATE_STARTED' })
-    expect(actions[1]).toEqual({ type: 'UPDATE_FINISHED', payload: '53ce99f9e4b1132733bae37801cd8000' })
+    expect(actions[1]).toEqual({ type: 'UPDATE_FINISHED', payload: 'c38801f828f8705dee953ef5af7c165e' })
   })
 })
 
@@ -54,7 +54,7 @@ describe('retrieveResource', () => {
   const uri = 'http://sinopia.io/repository/stanford/123'
   const received = `<> <http://www.w3.org/2000/01/rdf-schema#label> "splendid"@en .
 <> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://id.loc.gov/ontologies/bibframe/Note> .
-<> <http://www.w3.org/ns/prov#wasGeneratedBy> "resourceTemplate:bf2:Note" .`
+<> <http://sinopia.io/vocabulary/hasResourceTemplate> "resourceTemplate:bf2:Note" .`
 
   const state = {
     selectorReducer: {
@@ -107,7 +107,7 @@ describe('retrieveResource', () => {
       }
       expect(actions[2]).toEqual({ type: 'SET_RESOURCE', payload: { resource: expectedResource, resourceTemplates: { [resourceTemplateId]: resourceTemplate } } })
       expect(actions[3]).toEqual({ type: 'SET_LAST_SAVE_CHECKSUM' })
-      expect(actions[4]).toEqual({ type: 'SET_LAST_SAVE_CHECKSUM', payload: 'd7ee91e78c7065b55a0e7df016bd1622' })
+      expect(actions[4]).toEqual({ type: 'SET_LAST_SAVE_CHECKSUM', payload: '2762509c7c1cf574ee062acc9a862a86' })
     })
   })
 })
@@ -116,7 +116,7 @@ describe('publishResource', () => {
   const group = 'myGroup'
   const received = `<http://sinopia.io/repository/myGroup/myResource> <http://www.w3.org/2000/01/rdf-schema#label> "splendid"@en .
 <> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://id.loc.gov/ontologies/bibframe/Note> .
-<> <http://www.w3.org/ns/prov#wasGeneratedBy> "profile:bf2:Note" .`
+<> <http://sinopia.io/vocabulary/hasResourceTemplate> "profile:bf2:Note" .`
 
   it('dispatches actions for happy path', async () => {
     const store = mockStore(state)
@@ -132,7 +132,7 @@ describe('publishResource', () => {
     expect(actions.length).toEqual(3)
     expect(actions[0]).toEqual({ type: 'PUBLISH_STARTED' })
     expect(actions[1]).toEqual({ type: 'SET_BASE_URL', payload: 'http://sinopia.io/repository/myGroup/myResource' })
-    expect(actions[2]).toEqual({ type: 'UPDATE_FINISHED', payload: 'cd2a00d75801b859a7d6228beefb6ace' })
+    expect(actions[2]).toEqual({ type: 'UPDATE_FINISHED', payload: '24693e27c746453cfe099e19173a7968' })
   })
   it('dispatches actions for error path', async () => {
     const store = mockStore(state)
@@ -179,7 +179,7 @@ describe('newResource', () => {
       expect(actions.length).toEqual(2)
       const expectedResource = { [resourceTemplateId]: { 'http://www.w3.org/2000/01/rdf-schema#label': {} } }
       expect(actions[0]).toEqual({ type: 'SET_RESOURCE', payload: { resource: expectedResource, resourceTemplates: { [resourceTemplateId]: resourceTemplate } } })
-      expect(actions[1]).toEqual({ type: 'SET_LAST_SAVE_CHECKSUM', payload: '106763b7f8529bcc234bae22985cef8b' })
+      expect(actions[1]).toEqual({ type: 'SET_LAST_SAVE_CHECKSUM', payload: 'baf92a33bf689d599a41bb4563db42fc' })
     })
   })
 })

@@ -177,7 +177,7 @@ describe('GraphBuilder', () => {
         rdf.namedNode('http://id.loc.gov/ontologies/bibframe/illustrativeContent'),
         rdf.namedNode('http://id.loc.gov/vocabulary/millus/gnt'))
       const generatedByTriple = rdf.quad(rdf.namedNode('http://example.com/base/123'),
-        rdf.namedNode('http://www.w3.org/ns/prov#wasGeneratedBy'),
+        rdf.namedNode('http://sinopia.io/vocabulary/hasResourceTemplate'),
         rdf.literal('resourceTemplate:bf2:Monograph:Work'))
 
       expect(graph.has(typeTriple)).toBeTruthy()
@@ -198,10 +198,10 @@ describe('GraphBuilder', () => {
 
       const bnode = result.toArray()[0].subject
 
-      // _:b1 <http://www.w3.org/ns/prov#wasGeneratedBy> "resourceTemplate:bf2:Note" .
+      // _:b1 <http://sinopia.io/vocabulary/hasResourceTemplate> "resourceTemplate:bf2:Note" .
       result = graph.filter(quad => quad.subject.equals(bnode)
         && quad.object.equals(rdf.literal('resourceTemplate:bf2:Note'))
-        && quad.predicate.equals(rdf.namedNode('http://www.w3.org/ns/prov#wasGeneratedBy')))
+        && quad.predicate.equals(rdf.namedNode('http://sinopia.io/vocabulary/hasResourceTemplate')))
       expect(result.toArray().length).toEqual(1)
     })
   })
