@@ -120,8 +120,9 @@ describe('RDF from literal property templates', () => {
     })
     describe('three values, 1 default', () => {
       it('defaultLiteral only', async () => {
-        expect.assertions(10)
+        expect.assertions(11)
         await pupExpect(page).toClick('a[href="/editor"]', { text: 'test literal, repeatable, required, default literal only (no URI)' })
+        await pupExpect(page).toMatch('mydefaultvalue')
         await pupExpect(page).toFill('input[placeholder=\'literal, repeatable, required, default literal only, default language\']', 'another')
         await page.keyboard.press('Enter')
         await pupExpect(page).toFill('input[placeholder=\'literal, repeatable, required, default literal only, default language\']', 'yet another')
