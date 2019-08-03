@@ -17,13 +17,14 @@ import _ from 'lodash'
 const AsyncTypeahead = asyncContainer(Typeahead)
 
 const InputLookupSinopia = (props) => {
+  const [isLoading, setLoading] = useState(false)
+  const [options, setOptions] = useState([])
+
   // Don't render if no property template yet
   if (!props.propertyTemplate) {
     return null
   }
 
-  const [isLoading, setLoading] = useState(false)
-  const [options, setOptions] = useState([])
   const isMandatory = booleanPropertyFromTemplate(props.propertyTemplate, 'mandatory', false)
   const isRepeatable = booleanPropertyFromTemplate(props.propertyTemplate, 'repeatable', true)
 

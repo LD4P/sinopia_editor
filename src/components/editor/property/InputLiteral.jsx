@@ -17,14 +17,14 @@ import { booleanPropertyFromTemplate } from 'utilities/propertyTemplates'
 import _ from 'lodash'
 
 const InputLiteral = (props) => {
+  const inputLiteralRef = useRef(Math.floor(100 * Math.random()))
+  const [content, setContent] = useState('')
+  const [lang, setLang] = useState(defaultLanguageId)
+
   // Don't render if don't have property templates yet.
   if (!props.propertyTemplate) {
     return null
   }
-
-  const inputLiteralRef = useRef(Math.floor(100 * Math.random()))
-  const [content, setContent] = useState('')
-  const [lang, setLang] = useState(defaultLanguageId)
 
   const disabled = !booleanPropertyFromTemplate(props.propertyTemplate, 'repeatable', true)
       && Object.keys(props.items).length > 0
