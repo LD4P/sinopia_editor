@@ -78,6 +78,39 @@ const p2Props = {
     },
   ],
 }
+const p3Props = {
+  id: 'lookupComponent',
+  propertyTemplate:
+    {
+      mandatory: 'false',
+      repeatable: 'true',
+      type: 'lookup',
+      subtype: 'context',
+      resourceTemplates: [],
+      valueConstraint: {
+        valueTemplateRefs: [],
+        useValuesFrom: [
+          'urn:ld4p:qa:names:person',
+        ],
+        valueDataType: {
+          dataTypeURI: 'http://id.loc.gov/ontologies/bibframe/Agent',
+        },
+        defaults: [],
+      },
+      propertyURI: 'http://id.loc.gov/ontologies/bflc/target',
+      propertyLabel: 'Name Lookup',
+    },
+  lookupConfig: [
+    {
+      label: 'LOC person [names] (QA)',
+      uri: 'urn:ld4p:qa:names:person',
+      authority: 'locnames_ld4l_cache',
+      subauthority: 'person',
+      language: 'en',
+      component: 'lookup',
+    },
+  ],
+}
 
 const multipleResults = [{
   authLabel: 'Person',
@@ -180,6 +213,15 @@ describe('<InputLookupQA />', () => {
     expect(tokenWrapper.exists('a')).toEqual(false)
   })
 
+  // check context property is picked up and when property is not present, method returns false
+  it('detects context subproperty in resource template', () => {
+    const contextWrapper = shallow(<InputLookupQA.WrappedComponent {...p3Props} handleSelectedChange={mockFormDataFn} />)
+    expect(contextWrapper.instance().hasContextRequest()).toEqual(true)
+  })
+
+  it('detects absence of context subproperty in resource template', () => {
+    expect(wrapper.instance().hasContextRequest()).toEqual(false)
+  })
   // Institute wrapper with multiple lookup options
   const multipleWrapper = shallow(<InputLookupQA.WrappedComponent {...p2Props} changeSelections={mockFormDataFn} />)
 
