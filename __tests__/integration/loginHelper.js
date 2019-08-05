@@ -12,7 +12,7 @@ export async function testUserLogin() {
   // To avoid depending on network services during integration testing.
   await page.setRequestInterception(true)
   page.on('request', (interceptedRequest) => {
-    if (interceptedRequest.url().includes('lookup.ld4l.org/authorities/search/linked_data/locsubjects_ld4l_cache/person')) {
+    if (interceptedRequest.url().includes('lookup.ld4l.org/authorities/search/linked_data/locsubjects_ld4l_cache')) {
       interceptedRequest.respond({
         status: 200,
         contentType: 'application/json; charset=utf-8',

@@ -4,7 +4,6 @@ import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import PropTypes from 'prop-types'
 import ResourceTemplateForm from './ResourceTemplateForm'
-import { newResource } from 'actionCreators/resources'
 import { getResourceTemplate } from 'selectors/resourceSelectors'
 import { bindActionCreators } from 'redux'
 import loadLanguages from 'actionCreators/languages'
@@ -47,7 +46,6 @@ class ResourceTemplate extends Component {
 ResourceTemplate.propTypes = {
   resourceTemplate: PropTypes.object,
   error: PropTypes.string,
-  newResource: PropTypes.func,
   loadLanguages: PropTypes.func,
 }
 
@@ -62,6 +60,6 @@ const mapStateToProps = (state) => {
   }
 }
 
-const mapDispatchToProps = dispatch => bindActionCreators({ loadLanguages, newResource }, dispatch)
+const mapDispatchToProps = dispatch => bindActionCreators({ loadLanguages }, dispatch)
 
 export default connect(mapStateToProps, mapDispatchToProps)(ResourceTemplate)

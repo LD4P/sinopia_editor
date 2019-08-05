@@ -1,6 +1,7 @@
 // Copyright 2019 Stanford University see LICENSE for license
 
 import React from 'react'
+import { bindActionCreators } from 'redux'
 import { connect } from 'react-redux'
 import Modal from 'react-bootstrap/lib/Modal'
 import Row from 'react-bootstrap/lib/Row'
@@ -16,7 +17,7 @@ const RDFModal = (props) => {
   }
 
   return (<div>
-    <Modal show={true} bsSize="lg" onHide={props.close}>
+    <Modal show={true} bsSize="lg" onHide={() => props.showRdfPreview(false)}>
       <Modal.Header closeButton>
         <Modal.Title>
           RDF Preview
@@ -37,9 +38,7 @@ const RDFModal = (props) => {
 
 RDFModal.propTypes = {
   show: PropTypes.bool,
-  close: PropTypes.func,
-  save: PropTypes.func,
-  rtId: PropTypes.string,
+  showRdfPreview: PropTypes.func,
   rdf: PropTypes.func,
 }
 
@@ -48,9 +47,6 @@ const mapStateToProps = state => ({
   rdf: () => new GraphBuilder(state.selectorReducer).graph.toCanonical(),
 })
 
-const mapDispatchToProps = dispatch => ({
-  close() {
-    dispatch(showRdfPreview(false))
-  },
-})
+const mapDispatchToProps = dispatch => bindActionCreators({ showRdfPreview }, dispatch)
+
 export default connect(mapStateToProps, mapDispatchToProps)(RDFModal)

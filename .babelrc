@@ -5,8 +5,9 @@
   ],
   "plugins": [
     "@babel/plugin-proposal-class-properties",
-    "@babel/plugin-transform-runtime",
     "@babel/plugin-proposal-optional-chaining",
+    "@babel/plugin-syntax-dynamic-import",
+    "@babel/plugin-transform-runtime",
     ["module-resolver", {
       "root": ["./src"],
     }]

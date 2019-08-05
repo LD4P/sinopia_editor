@@ -1,6 +1,7 @@
 // Copyright 2019 Stanford University see LICENSE for license
 
 import React, { useState } from 'react'
+import { bindActionCreators } from 'redux'
 import { connect } from 'react-redux'
 import PropTypes from 'prop-types'
 import Header from '../Header'
@@ -9,32 +10,19 @@ import FormControl from 'react-bootstrap/lib/FormControl'
 import Grid from 'react-bootstrap/lib/Grid'
 import Row from 'react-bootstrap/lib/Row'
 import Form from 'react-bootstrap/lib/Form'
-import { showSearchResults } from 'actions/index'
+import fetchSearchResults from 'actionCreators/search'
 import SearchResults from './SearchResults'
-import Config from 'Config'
+import SearchResultsPaging from './SearchResultsPaging'
+import SearchResultsMessage from './SearchResultsMessage'
 
 const Search = (props) => {
   const [queryString, setQueryString] = useState('')
 
   const handleKeyPress = (event) => {
     if (event.key === 'Enter') {
-      search(queryString)
+      props.fetchSearchResults(queryString)
       event.preventDefault()
     }
-  }
-
-  const responseToSearchResults = json => json
-    .hits.hits.map(row => ({ uri: row._id, title: row._source.title }))
-
-  const search = (query) => {
-    const uri = `${Config.searchHost}${Config.searchPath}?q=title:${query}%20OR%20subtitle:${query}`
-
-    fetch(uri)
-      .then(resp => resp.json())
-      .then(json => responseToSearchResults(json))
-      .then((results) => {
-        props.displaySearchResults(results)
-      })
   }
 
   return (
@@ -52,7 +40,9 @@ const Search = (props) => {
             </FormGroup>
           </Form>
         </Row>
-        <SearchResults {...props} />
+        <SearchResults {...props} key="search-results" />
+        <SearchResultsPaging {...props} pageSize="1"/>
+        <SearchResultsMessage />
       </Grid>
     </div>
   )
@@ -60,14 +50,10 @@ const Search = (props) => {
 
 Search.propTypes = {
   triggerHandleOffsetMenu: PropTypes.func,
-  displaySearchResults: PropTypes.func,
+  fetchSearchResults: PropTypes.func,
   currentUser: PropTypes.object,
 }
 
-const mapDispatchToProps = dispatch => ({
-  displaySearchResults: (searchResults) => {
-    dispatch(showSearchResults(searchResults))
-  },
-})
+const mapDispatchToProps = dispatch => bindActionCreators({ fetchSearchResults }, dispatch)
 
 export default connect(null, mapDispatchToProps)(Search)

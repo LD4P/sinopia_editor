@@ -33,6 +33,7 @@ body {
 .panel-heading > .btn-add, .panel-heading > .btn-remove {
   float: right;
   margin-top: -5px;
+  border-style: solid;
 }
 
 .btn-toggle {

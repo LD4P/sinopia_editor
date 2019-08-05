@@ -6,6 +6,7 @@ module.exports = {
     "jest",
     "jsx-a11y",
     "react",
+    "react-hooks",
     "security"
   ],
   extends: [
@@ -125,6 +126,8 @@ module.exports = {
     "prefer-destructuring": "off",
     "prefer-reflect": "off",
     "quotes": ["error", "single"],
+    "react-hooks/rules-of-hooks": "error",
+    "react-hooks/exhaustive-deps": "warn",
     "react/jsx-indent": ["error", 2],
     "react/jsx-indent-props": ["error", "first"],
     "require-await": "off",

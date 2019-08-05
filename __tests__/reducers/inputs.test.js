@@ -3,7 +3,6 @@
 import {
   removeMyItem, setItemsOrSelections, setBaseURL,
   validate, showGroupChooser, closeGroupChooser, showRdfPreview,
-  showResourceURIMessage, clearResourceURIMessage,
 } from 'reducers/inputs'
 import {
   findNode,
@@ -129,7 +128,7 @@ describe('setItemsOrSelections with action type: ITEMS_SELECTED', () => {
       },
     })
 
-    expect(findNode(result, reduxPath)).toEqual({
+    expect(findNode({ selectorReducer: result }, reduxPath)).toEqual({
       items: {
         abc1233: {
           content: 'Run the tests',
@@ -155,7 +154,7 @@ describe('setItemsOrSelections with action type: ITEMS_SELECTED', () => {
         },
       })
 
-    expect(findNode(result, reduxPath)).toEqual({
+    expect(findNode({ selectorReducer: result }, reduxPath)).toEqual({
       items: {
         abc1233: {
           content: 'Run the tests',
@@ -183,7 +182,7 @@ describe('setItemsOrSelections with action type: ITEMS_SELECTED', () => {
         },
       })
 
-    expect(findNode(result, reduxPath)).toEqual({
+    expect(findNode({ selectorReducer: result }, reduxPath)).toEqual({
       items: {
         abc123: { content: 'add this!' },
       },
@@ -219,7 +218,7 @@ describe('setItemsOrSelections with action type: ITEMS_SELECTED', () => {
         },
       })
 
-    expect(findNode(result, reduxPath)).toEqual({
+    expect(findNode({ selectorReducer: result }, reduxPath)).toEqual({
       items: {
         ghwixOwWI: { content: 'Melissa' },
       },
@@ -257,14 +256,14 @@ describe('setItemsOrSelections with action type: ITEMS_SELECTED', () => {
         },
       })
 
-    expect(findNode(result, reduxPath)).toEqual({
+    expect(findNode({ selectorReducer: result }, reduxPath)).toEqual({
       items: {
         cde987: { content: 'add this!' },
         ghi567: { content: 'Keep this' },
       },
     })
 
-    expect(findNode(result, ['resource', 'resourceTemplate:Monograph:Instance', 'http://schema.org/name'])).toEqual({
+    expect(findNode({ selectorReducer: result }, ['resource', 'resourceTemplate:Monograph:Instance', 'http://schema.org/name'])).toEqual({
       items: {
         abc123: { content: 'Run the tests' },
         def234: { content: 'Keep this' },
@@ -294,7 +293,7 @@ describe('setItemsOrSelections with action type: CHANGE_SELECTIONS', () => {
       },
     })
 
-    expect(findNode(result, reduxPath)).toEqual({
+    expect(findNode({ selectorReducer: result }, reduxPath)).toEqual({
       items: {
         def123: { label: 'Run the tests', uri: 'http://schema.org/abc' },
       },
@@ -326,7 +325,7 @@ describe('setItemsOrSelections with action type: CHANGE_SELECTIONS', () => {
       },
     })
 
-    expect(findNode(result, reduxPath)).toEqual({
+    expect(findNode({ selectorReducer: result }, reduxPath)).toEqual({
       items: {
         cde678: { label: 'Run the tests', uri: 'http://schema.org/abc' },
         fgh999: { label: 'See if they pass', uri: 'http://schema.org/def' },
@@ -357,7 +356,7 @@ describe('setItemsOrSelections with action type: CHANGE_SELECTIONS', () => {
       },
     })
 
-    expect(findNode(result, reduxPath)).toEqual({ items: {} })
+    expect(findNode({ selectorReducer: result }, reduxPath)).toEqual({ items: {} })
   })
 
   it('adds an empty object for a key if the key does not contain an object by default', () => {
@@ -382,7 +381,7 @@ describe('setItemsOrSelections with action type: CHANGE_SELECTIONS', () => {
       },
     })
 
-    expect(findNode(result, reduxPath)).toEqual({ items: { abc123: { label: 'Something looked up', uri: 'http://lookup.source/1' } } })
+    expect(findNode({ selectorReducer: result }, reduxPath)).toEqual({ items: { abc123: { label: 'Something looked up', uri: 'http://lookup.source/1' } } })
   })
 })
 
@@ -406,40 +405,7 @@ describe('setBaseURL', () => {
     })
     const reduxPath = ['resource', 'resourceTemplate:Monograph:Instance', 'resourceURI']
 
-    expect(findNode(result, reduxPath)).toEqual('http://example.com/foo/123')
-  })
-})
-
-describe('showResourceURIMessage', () => {
-  it('displays the Resource URI', () => {
-    initialState.editor.resourceURIMessage = {
-      show: false,
-      uri: '',
-    }
-
-    const result = showResourceURIMessage(initialState, {
-      type: 'SHOW_RESOURCE_URI_MESSAGE',
-      payload: 'http://example.com/foo/123',
-    })
-
-    expect(result.editor.resourceURIMessage.show).toBe(true)
-    expect(result.editor.resourceURIMessage.uri).toEqual('http://example.com/foo/123')
-  })
-})
-
-describe('clearResourceURIMessage', () => {
-  it('turns off the Resource URI message display', () => {
-    initialState.editor.resourceURIMessage = {
-      show: true,
-      uri: 'this message will disapear',
-    }
-
-    const result = clearResourceURIMessage(initialState, {
-      type: 'CLEAR_RESOURCE_URI_MESSAGE',
-    })
-
-    expect(result.editor.resourceURIMessage.show).toBe(false)
-    expect(result.editor.resourceURIMessage.uri).toEqual('')
+    expect(findNode({ selectorReducer: result }, reduxPath)).toEqual('http://example.com/foo/123')
   })
 })
 
@@ -455,20 +421,14 @@ describe('removeMyItem', () => {
         },
       },
     }
-    const reduxPath = ['resource', 'resourceTemplate:Monograph:Instance', 'http://schema.org/name']
+    const reduxPath = ['resource', 'resourceTemplate:Monograph:Instance', 'http://schema.org/name', 'items', 'abc123']
     const result = removeMyItem(initialState,
       {
         type: 'REMOVE_ITEM',
-        payload: {
-          id: 'abc123',
-          rtId: 'resourceTemplate:Monograph:Instance',
-          reduxPath,
-          uri: 'http://schema.org/name',
-          content: 'test content',
-        },
+        payload: reduxPath,
       })
 
-    expect(findNode(result, reduxPath)).toEqual({
+    expect(findNode({ selectorReducer: result }, reduxPath.slice(0, -2))).toEqual({
       items: {
         def456: { content: 'more content' },
       },
@@ -486,19 +446,14 @@ describe('removeMyItem', () => {
         },
       },
     }
-    const reduxPath = ['resource', 'resourceTemplate:Monograph:Instance', 'http://schema.org/name']
+    const reduxPath = ['resource', 'resourceTemplate:Monograph:Instance', 'http://schema.org/name', 'items', '0']
     const result = removeMyItem(initialState,
       {
         type: 'REMOVE_ITEM',
-        payload: {
-          id: 0,
-          uri: 'http://schema.org/name',
-          content: 'test content',
-          reduxPath,
-        },
+        payload: reduxPath,
       })
 
-    expect(findNode(result, reduxPath)).toEqual({
+    expect(findNode({ selectorReducer: result }, reduxPath.slice(0, -2))).toEqual({
       items: {
         abc123: { content: 'Test' },
         def456: { content: 'Statement' },
@@ -510,6 +465,6 @@ describe('removeMyItem', () => {
 describe('validate', () => {
   it('returns a new state', () => {
     const result = validate(initialState)
-    expect(findNode(result, ['resource', 'editor', 'displayValidations'])).toBeTruthy()
+    expect(findNode({ selectorReducer: result }, ['resource', 'editor', 'displayValidations'])).toBeTruthy()
   })
 })

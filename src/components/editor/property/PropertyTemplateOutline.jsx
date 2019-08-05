@@ -5,7 +5,8 @@ import { connect } from 'react-redux'
 import PropTypes from 'prop-types'
 import shortid from 'shortid'
 import OutlineHeader from './OutlineHeader'
-import { booleanPropertyFromTemplate, isResourceWithValueTemplateRef, resourceToName } from 'Utilities'
+import { isResourceWithValueTemplateRef, resourceToName } from 'Utilities'
+import { booleanPropertyFromTemplate } from 'utilities/propertyTemplates'
 import PropertyComponent from './PropertyComponent'
 import ResourceProperty from './ResourceProperty'
 import { findNode, isExpanded, getPropertyTemplate } from 'selectors/resourceSelectors'
@@ -61,12 +62,12 @@ const mapStateToProps = (state, ourProps) => {
   const propertyURI = reduxPath.pop()
   const resourceTemplateId = reduxPath.pop()
   const property = getPropertyTemplate(state, resourceTemplateId, propertyURI)
-  const resourceModel = findNode(state.selectorReducer, ourProps.reduxPath)
+  const resourceModel = findNode(state, ourProps.reduxPath)
 
   return {
     resourceModel,
     property,
-    collapsed: !isExpanded(state.selectorReducer, ourProps.reduxPath),
+    collapsed: !isExpanded(state, ourProps.reduxPath),
   }
 }
 

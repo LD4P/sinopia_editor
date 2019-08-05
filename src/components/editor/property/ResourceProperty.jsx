@@ -74,7 +74,7 @@ ResourceProperty.propTypes = {
 const mapStateToProps = (state, ourProps) => {
   const models = {}
 
-  const propertyNode = findNode(state.selectorReducer, ourProps.reduxPath)
+  const propertyNode = findNode(state, ourProps.reduxPath)
   Object.keys(propertyNode).forEach((key) => {
     const resourceTemplateId = Object.keys(propertyNode[key])[0]
     const resourceTemplate = findResourceTemplate(state.selectorReducer, resourceTemplateId)

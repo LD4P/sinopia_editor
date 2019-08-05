@@ -3,10 +3,11 @@
 import React from 'react'
 import { connect } from 'react-redux'
 import PropTypes from 'prop-types'
+import { rootResourceId } from 'selectors/resourceSelectors'
 
 // Renders the resource URI message after Save & Publish
 const ResourceURIMessage = (props) => {
-  if (!props.show || !props.uri) {
+  if (!props.uri) {
     return null
   }
 
@@ -18,13 +19,11 @@ const ResourceURIMessage = (props) => {
 }
 
 ResourceURIMessage.propTypes = {
-  show: PropTypes.bool,
   uri: PropTypes.string,
 }
 
 const mapStateToProps = state => ({
-  show: state.selectorReducer.editor.resourceURIMessage.show,
-  uri: state.selectorReducer.editor.resourceURIMessage.uri,
+  uri: rootResourceId(state),
 })
 
 export default connect(mapStateToProps, null)(ResourceURIMessage)

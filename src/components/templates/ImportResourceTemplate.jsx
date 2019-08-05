@@ -1,8 +1,8 @@
-
 // Copyright 2019 Stanford University see LICENSE for license
 
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
+import { bindActionCreators } from 'redux'
 import { connect } from 'react-redux'
 import Header from '../Header'
 import ImportFileZone from './ImportFileZone'
@@ -10,7 +10,7 @@ import SinopiaResourceTemplates from './SinopiaResourceTemplates'
 import UpdateResourceModal from './UpdateResourceModal'
 import { createResourceTemplate, updateResourceTemplate } from 'sinopiaServer'
 import { getCurrentUser } from 'authSelectors'
-import { fetchResourceTemplateSummaries as fetchResourceTemplateSummariesCreator } from 'actionCreators/resourceTemplates'
+import { fetchResourceTemplateSummaries } from 'actionCreators/resourceTemplates'
 
 class ImportResourceTemplate extends Component {
   constructor(props) {
@@ -153,7 +153,7 @@ class ImportResourceTemplate extends Component {
         </div>
         <Header triggerEditorMenu={this.props.triggerHandleOffsetMenu}/>
         <ImportFileZone setResourceTemplateCallback={this.setResourceTemplates} />
-        <SinopiaResourceTemplates messages={this.state.flashMessages} />
+        <SinopiaResourceTemplates messages={this.state.flashMessages} history={this.props.history} key="sinopia-resource-templates" />
       </div>
     )
   }
@@ -164,15 +164,13 @@ ImportResourceTemplate.propTypes = {
   triggerHandleOffsetMenu: PropTypes.func,
   currentUser: PropTypes.object,
   fetchResourceTemplateSummaries: PropTypes.func,
+  history: PropTypes.object,
 }
 
 const mapStateToProps = state => ({
   currentUser: getCurrentUser(state),
 })
 
-const mapDispatchToProps = dispatch => ({
-  fetchResourceTemplateSummaries: () => {
-    dispatch(fetchResourceTemplateSummariesCreator())
-  },
-})
+const mapDispatchToProps = dispatch => bindActionCreators({ fetchResourceTemplateSummaries }, dispatch)
+
 export default connect(mapStateToProps, mapDispatchToProps)(ImportResourceTemplate)

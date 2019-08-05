@@ -55,6 +55,10 @@ class Config {
     return process.env.SEARCH_HOST || ''
   }
 
+  static get searchResultsPerPage() {
+    return process.env.SEARCH_RESULTS_PER_PAGE || 10
+  }
+
   /*
    * This is the public endpont for the sinopia search.
    */

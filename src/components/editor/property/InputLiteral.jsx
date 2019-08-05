@@ -1,163 +1,104 @@
 // Copyright 2018, 2019 Stanford University see LICENSE for license
 
-import React, { Component } from 'react'
+import React, { useRef, useState } from 'react'
 import PropTypes from 'prop-types'
 import SinopiaPropTypes from 'SinopiaPropTypes'
+import { bindActionCreators } from 'redux'
 import { connect } from 'react-redux'
 import shortid from 'shortid'
-import { removeItem, itemsSelected } from 'actions/index'
+import { itemsSelected } from 'actions/index'
 import {
   findNode, getDisplayValidations, getPropertyTemplate, findErrors,
 } from 'selectors/resourceSelectors'
-import LanguageButton from './LanguageButton'
-import { booleanPropertyFromTemplate, defaultLanguageId } from 'Utilities'
+import InputValue from './InputValue'
+import { defaultLanguageId } from 'Utilities'
+import { booleanPropertyFromTemplate } from 'utilities/propertyTemplates'
+
 import _ from 'lodash'
 
-// Redux recommends exporting the unconnected component for unit tests.
-export class InputLiteral extends Component {
-  constructor(props) {
-    super(props)
+const InputLiteral = (props) => {
+  const inputLiteralRef = useRef(Math.floor(100 * Math.random()))
+  const [content, setContent] = useState('')
+  const [lang, setLang] = useState(defaultLanguageId)
 
-    this.state = {
-      content_add: '',
+  // Don't render if don't have property templates yet.
+  if (!props.propertyTemplate) {
+    return null
+  }
+
+  const disabled = !booleanPropertyFromTemplate(props.propertyTemplate, 'repeatable', true)
+      && Object.keys(props.items).length > 0
+
+  const addItem = () => {
+    const currentcontent = content.trim()
+    if (!currentcontent) {
+      return
     }
-    this.inputLiteralRef = React.createRef()
-  }
 
-  disabled = () => !booleanPropertyFromTemplate(this.props.propertyTemplate, 'repeatable', true)
-      && this.props.items?.length > 0
-
-  handleFocus = (event) => {
-    document.getElementById(event.target.id).focus()
-    event.preventDefault()
-  }
-
-  handleChange = (event) => {
-    const userInput = event.target.value
-
-    this.setState({ content_add: userInput })
-  }
-
-  addUserInput = (input, currentcontent) => {
-    input[shortid.generate()] = {
-      content: currentcontent,
-      lang: defaultLanguageId,
+    const userInput = {
+      reduxPath: props.reduxPath,
+      items: {
+        [shortid.generate()]: { content: currentcontent, lang },
+      },
     }
+    props.itemsSelected(userInput)
+    setContent('')
+    setLang(defaultLanguageId)
   }
 
-  handleKeypress = (event) => {
+  const handleKeypress = (event) => {
     if (event.key === 'Enter') {
-      const userInput = {}
-      const currentcontent = this.state.content_add.trim()
-
-      if (!currentcontent) {
-        return
-      }
-      this.addUserInput(userInput, currentcontent)
-      const payload = {
-        reduxPath: this.props.reduxPath,
-        items: userInput,
-      }
-
-      this.props.handleMyItemsChange(payload)
-      this.setState({
-        content_add: '',
-      })
+      addItem()
       event.preventDefault()
     }
   }
 
-  handleDeleteClick = (event) => {
-    this.props.handleRemoveItem(this.props.reduxPath, event.target.dataset.item)
+  const handleEdit = (content, lang) => {
+    setContent(content)
+    setLang(lang)
+    inputLiteralRef.current.focus()
   }
 
-  handleEditClick = (event) => {
-    const idToRemove = event.target.dataset.item
+  const itemKeys = Object.keys(props.items)
+  const addedList = itemKeys.map(itemId => (<InputValue key={itemId}
+                                                        handleEdit={handleEdit}
+                                                        reduxPath={[...props.reduxPath, 'items', itemId]} />))
 
-    this.setState({ content_add: this.props.items[idToRemove].content })
-    this.handleDeleteClick(event)
-    this.inputLiteralRef.current.focus()
+
+  const required = booleanPropertyFromTemplate(props.propertyTemplate, 'mandatory', false)
+
+  let error
+  let groupClasses = 'form-group'
+
+  if (props.displayValidations && !_.isEmpty(props.errors)) {
+    groupClasses += ' has-error'
+    error = props.errors.join(',')
   }
 
-  makeAddedList = () => {
-    if (this.props.items === undefined) {
-      return
-    }
-
-    return Object.keys(this.props.items).map(itemId => (
-      <div id="userInput" key={itemId} >
-        <div
-          className="rbt-token rbt-token-removeable">
-          {this.props.items[itemId].content}
-          <button
-            id={`delete${itemId}`}
-            type="button"
-            onClick={this.handleDeleteClick}
-            key={`delete${itemId}`}
-            data-item={itemId}
-            className="close rbt-close rbt-token-remove-button">
-            <span
-                aria-hidden="true"
-                data-item={itemId}>×</span>
-          </button>
-        </div>
-        <button
-          id="editItem"
-          type="button"
-          onClick={this.handleEditClick}
-          key={`edit${itemId}`}
-          data-item={itemId}
-          className="btn btn-sm btn-literal btn-default">
-          Edit
-        </button>
-        <LanguageButton reduxPath={[...this.props.reduxPath, 'items', itemId]}/>
-      </div>
-    ))
-  }
-
-  render() {
-    // Don't render if don't have property templates yet.
-    if (!this.props.propertyTemplate) {
-      return null
-    }
-
-    const required = booleanPropertyFromTemplate(this.props.propertyTemplate, 'mandatory', false)
-    let error
-    let groupClasses = 'form-group'
-
-    if (this.props.displayValidations && !_.isEmpty(this.props.errors)) {
-      groupClasses += ' has-error'
-      error = this.props.errors.join(',')
-    }
-
-    return (
-      <div className={groupClasses}>
-        <input
-              required={required}
-              className="form-control"
-              placeholder={this.props.propertyTemplate.propertyLabel}
-              onChange={this.handleChange}
-              onKeyPress={this.handleKeypress}
-              value={this.state.content_add}
-              disabled={this.disabled()}
-              id={this.props.id}
-              onClick={this.handleFocus}
-              ref={this.inputLiteralRef}
-        />
-        {error && <span className="help-block">{error}</span>}
-        {this.makeAddedList()}
-      </div>
-    )
-  }
+  return (
+    <div className={groupClasses}>
+      <input
+            required={required}
+            className="form-control"
+            placeholder={props.propertyTemplate.propertyLabel}
+            onChange={event => setContent(event.target.value)}
+            onKeyPress={handleKeypress}
+            onBlur={addItem}
+            value={content}
+            disabled={disabled}
+            ref={inputLiteralRef}
+      />
+      {error && <span className="help-block">{error}</span>}
+      {addedList}
+    </div>
+  )
 }
 
 InputLiteral.propTypes = {
-  id: PropTypes.oneOfType([PropTypes.number, PropTypes.string]),
   propertyTemplate: SinopiaPropTypes.propertyTemplate,
   errors: PropTypes.array,
   items: PropTypes.object,
-  handleMyItemsChange: PropTypes.func,
-  handleRemoveItem: PropTypes.func,
+  itemsSelected: PropTypes.func,
   reduxPath: PropTypes.array.isRequired,
   displayValidations: PropTypes.bool,
 }
@@ -167,10 +108,10 @@ const mapStateToProps = (state, ownProps) => {
   const resourceTemplateId = reduxPath[reduxPath.length - 2]
   const propertyURI = reduxPath[reduxPath.length - 1]
   const displayValidations = getDisplayValidations(state)
-  const formData = findNode(state.selectorReducer, reduxPath)
-  const errors = findErrors(state.selectorReducer, reduxPath)
+  const formData = findNode(state, reduxPath)
+  const errors = findErrors(state, reduxPath)
   // items has to be its own prop or rerendering won't occur when one is removed
-  const items = formData.items
+  const items = formData.items || {}
   const propertyTemplate = getPropertyTemplate(state, resourceTemplateId, propertyURI)
 
   return {
@@ -181,13 +122,6 @@ const mapStateToProps = (state, ownProps) => {
   }
 }
 
-const mapDispatchToProps = dispatch => ({
-  handleMyItemsChange(userInput) {
-    dispatch(itemsSelected(userInput))
-  },
-  handleRemoveItem(reduxPath, itemId) {
-    dispatch(removeItem(reduxPath, itemId))
-  },
-})
+const mapDispatchToProps = dispatch => bindActionCreators({ itemsSelected }, dispatch)
 
 export default connect(mapStateToProps, mapDispatchToProps)(InputLiteral)

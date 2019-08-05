@@ -2,6 +2,7 @@
 
 import React, { useState } from 'react'
 import PropTypes from 'prop-types'
+import { bindActionCreators } from 'redux'
 import { connect } from 'react-redux'
 import Modal from 'react-bootstrap/lib/Modal'
 import Button from 'react-bootstrap/lib/Button'
@@ -19,7 +20,7 @@ const LanguageButton = (props) => {
   }
 
   const handleLangSubmit = () => {
-    props.handleMyItemsLangChange(langPayload)
+    props.languageSelected(langPayload)
     handleClose()
   }
 
@@ -54,22 +55,18 @@ const LanguageButton = (props) => {
 }
 
 LanguageButton.propTypes = {
-  handleMyItemsLangChange: PropTypes.func,
+  languageSelected: PropTypes.func,
   reduxPath: PropTypes.array.isRequired,
   language: PropTypes.string.isRequired,
 }
 
 const mapStateToProps = (state, ourProps) => {
-  const language = languageLabel(state, findNode(state.selectorReducer, ourProps.reduxPath).lang)
+  const language = languageLabel(state, findNode(state, ourProps.reduxPath).lang)
   return {
     language,
   }
 }
 
-const mapDispatchToProps = dispatch => ({
-  handleMyItemsLangChange(payload) {
-    dispatch(languageSelected(payload))
-  },
-})
+const mapDispatchToProps = dispatch => bindActionCreators({ languageSelected }, dispatch)
 
 export default connect(mapStateToProps, mapDispatchToProps)(LanguageButton)

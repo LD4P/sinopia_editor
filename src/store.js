@@ -1,3 +1,4 @@
+
 // Copyright 2019 Stanford University see LICENSE for license
 
 import { createStore, applyMiddleware, compose } from 'redux'
@@ -31,10 +32,13 @@ const initialState = {
       resourceTemplates: {},
       resourceTemplateSummaries: {},
       languages: { loading: false, options: [] },
+      qa: { loading: false, options: [] },
     },
     resource: {}, // The state we're displaying in the editor
     search: {
       results: [],
+      totalResults: 0,
+      query: undefined,
     },
   },
 }

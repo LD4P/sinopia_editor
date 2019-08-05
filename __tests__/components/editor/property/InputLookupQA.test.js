@@ -3,28 +3,27 @@
 import 'jsdom-global/register'
 import React from 'react'
 import { shallow } from 'enzyme'
-import InputLookupQA from 'components/editor/property/InputLookupQA'
+import InputLookupQA, { renderMenuFunc, renderTokenFunc } from 'components/editor/property/InputLookupQA'
 
 const plProps = {
   id: 'lookupComponent',
-  propertyTemplate:
-    {
-      mandatory: 'false',
-      repeatable: 'false',
-      type: 'lookup',
-      resourceTemplates: [],
-      valueConstraint: {
-        valueTemplateRefs: [],
-        useValuesFrom: [
-          'lookupQaLocNames',
-        ],
-        valueDataType: {
-          dataTypeURI: 'http://id.loc.gov/ontologies/bibframe/Agent',
-        },
+  propertyTemplate: {
+    mandatory: 'false',
+    repeatable: 'false',
+    type: 'lookup',
+    resourceTemplates: [],
+    valueConstraint: {
+      valueTemplateRefs: [],
+      useValuesFrom: [
+        'lookupQaLocNames',
+      ],
+      valueDataType: {
+        dataTypeURI: 'http://id.loc.gov/ontologies/bibframe/Agent',
       },
-      propertyURI: 'http://id.loc.gov/ontologies/bflc/target',
-      propertyLabel: 'Name Lookup',
     },
+    propertyURI: 'http://id.loc.gov/ontologies/bflc/target',
+    propertyLabel: 'Name Lookup',
+  },
   lookupConfig: [
     {
       label: 'LOC person [names] (QA)',
@@ -35,30 +34,31 @@ const plProps = {
       component: 'lookup',
     },
   ],
+  isLoading: false,
+  search: jest.fn(),
 }
 
 const p2Props = {
   id: 'lookupComponent',
-  propertyTemplate:
-    {
-      mandatory: 'false',
-      repeatable: 'true',
-      type: 'lookup',
-      resourceTemplates: [],
-      valueConstraint: {
-        valueTemplateRefs: [],
-        useValuesFrom: [
-          'lookupQaLocNames',
-          'lookupQaLocSubjects',
-        ],
-        valueDataType: {
-          dataTypeURI: 'http://id.loc.gov/ontologies/bibframe/Agent',
-        },
-        defaults: [],
+  propertyTemplate: {
+    mandatory: 'false',
+    repeatable: 'true',
+    type: 'lookup',
+    resourceTemplates: [],
+    valueConstraint: {
+      valueTemplateRefs: [],
+      useValuesFrom: [
+        'lookupQaLocNames',
+        'lookupQaLocSubjects',
+      ],
+      valueDataType: {
+        dataTypeURI: 'http://id.loc.gov/ontologies/bibframe/Agent',
       },
-      propertyURI: 'http://id.loc.gov/ontologies/bflc/target',
-      propertyLabel: 'Name Lookup',
+      defaults: [],
     },
+    propertyURI: 'http://id.loc.gov/ontologies/bflc/target',
+    propertyLabel: 'Name Lookup',
+  },
   lookupConfig: [
     {
       label: 'LOC person [names] (QA)',
@@ -77,6 +77,8 @@ const p2Props = {
       component: 'lookup',
     },
   ],
+  isLoading: false,
+  search: jest.fn(),
 }
 
 const multipleResults = [{
@@ -102,7 +104,7 @@ const validNewLiteralResults = [{
 
 describe('<InputLookupQA />', () => {
   const mockFormDataFn = jest.fn()
-  const wrapper = shallow(<InputLookupQA.WrappedComponent {...plProps} handleSelectedChange={mockFormDataFn} />)
+  const wrapper = shallow(<InputLookupQA.WrappedComponent {...plProps} changeSelections={mockFormDataFn} />)
 
   /*
    * Our mock formData function to replace the one provided by
@@ -134,29 +136,10 @@ describe('<InputLookupQA />', () => {
     expect(wrapper.find('#lookupComponent').props().multiple).toBeFalsy()
   })
 
-  it('should call the onChange event and set the state with the selected option', () => {
-    const event = (wrap) => {
-      wrap.setState({ options: ['{id: \'n 860600181234\', uri: \'http://id.loc.gov/authorities/names/n860600181234\', label: \'Names, Someone\'}'] })
-    }
+  it('the change event fires the changeSelections callback', () => {
+    wrapper.find('#lookupComponent').simulate('change')
 
-    wrapper.find('#lookupComponent').simulate('change', event(wrapper))
-    expect(wrapper.state().options[0]).toBe('{id: \'n 860600181234\', uri: \'http://id.loc.gov/authorities/names/n860600181234\', label: \'Names, Someone\'}')
-  })
-
-  it('calls the Search and Change events and set the state with the returned json', () => {
-    const json = '{id: \'n 860600181234\', uri: \'http://id.loc.gov/authorities/names/n860600181234\', label: \'Names, Someone\'}'
-    const event = (wrap) => {
-      wrap.setState({ options: [json] })
-      wrap.setState({ selected: [json] })
-    }
-
-    wrapper.find('#lookupComponent').simulate('search', event(wrapper))
-    expect(wrapper.state().options[0]).toEqual(json)
-
-    wrapper.find('#lookupComponent').simulate('change', event(wrapper))
-    expect(wrapper.state().selected[0]).toEqual(json)
-
-    expect(mockFormDataFn.mock.calls.length).toBe(2)
+    expect(mockFormDataFn).toHaveBeenCalled()
   })
 
   it('links the tokens when there is a URI', () => {
@@ -166,7 +149,7 @@ describe('<InputLookupQA />', () => {
       label: 'Ju, Peijian',
     }
 
-    const tokenWrapper = shallow(wrapper.instance().renderTokenFunc(option, { labelKey: 'label' }, 0))
+    const tokenWrapper = shallow(renderTokenFunc(option, { labelKey: 'label' }, 0))
     expect(tokenWrapper.exists('a[href="http://id.loc.gov/authorities/names/no2017003958"]')).toEqual(true)
   })
 
@@ -176,27 +159,12 @@ describe('<InputLookupQA />', () => {
       label: 'Ju, Peijian',
     }
 
-    const tokenWrapper = shallow(wrapper.instance().renderTokenFunc(option, { labelKey: 'label' }, 0))
+    const tokenWrapper = shallow(renderTokenFunc(option, { labelKey: 'label' }, 0))
     expect(tokenWrapper.exists('a')).toEqual(false)
   })
 
-  // Institute wrapper with multiple lookup options
-  const multipleWrapper = shallow(<InputLookupQA.WrappedComponent {...p2Props} handleSelectedChange={mockFormDataFn} />)
-
-  it('passes multiple lookup results in state with search event', () => {
-    const event = (wrap) => {
-      wrap.setState({ options: multipleResults })
-    }
-
-    multipleWrapper.find('#lookupComponent').simulate('search', event(multipleWrapper))
-    expect(multipleWrapper.state().options[0]).toEqual(multipleResults[0])
-    expect(multipleWrapper.state().options[1]).toEqual(multipleResults[1])
-  })
-  // Headers expected
-
   it('shows menu headers with lookup source labels and values in the dropdown when provided results', () => {
-    const instance = multipleWrapper.instance()
-    const menuWrapper = shallow(instance.renderMenuFunc(multipleResults, p2Props))
+    const menuWrapper = shallow(renderMenuFunc(multipleResults, p2Props))
     const menuChildrenNumber = menuWrapper.children().length
     // One top level menu component
 
@@ -210,8 +178,7 @@ describe('<InputLookupQA />', () => {
   })
 
   it('shows a single new valid URI value with the correct header when no other matches are found', () => {
-    const instance = multipleWrapper.instance()
-    const menuWrapper = shallow(instance.renderMenuFunc(validNewURIResults, p2Props))
+    const menuWrapper = shallow(renderMenuFunc(validNewURIResults, p2Props))
     const menuChildrenNumber = menuWrapper.children().length
     // One top level menu component
 
@@ -223,8 +190,7 @@ describe('<InputLookupQA />', () => {
   })
 
   it('does show a single new literal value when no other matches are found', () => {
-    const instance = multipleWrapper.instance()
-    const menuWrapper = shallow(instance.renderMenuFunc(validNewLiteralResults, p2Props))
+    const menuWrapper = shallow(renderMenuFunc(validNewLiteralResults, p2Props))
     const menuChildrenNumber = menuWrapper.children().length
     // One top level menu component
 
@@ -236,8 +202,7 @@ describe('<InputLookupQA />', () => {
   })
 
   it('shows menu headers for both lookups and new valid URI value with the correct headers when matches are found', () => {
-    const instance = multipleWrapper.instance()
-    const menuWrapper = shallow(instance.renderMenuFunc(multipleResults.concat(validNewURIResults), p2Props))
+    const menuWrapper = shallow(renderMenuFunc(multipleResults.concat(validNewURIResults), p2Props))
     const menuChildrenNumber = menuWrapper.children().length
     // One top level menu component
 

@@ -30,6 +30,9 @@ export const setResourceTemplateSummary = (state, action) => {
   return newState
 }
 
+/**
+ * This state change helps drive the isLoading value in the Typeahead (see the InputLang component)
+ */
 export const loadingLanguages = (state) => {
   const newState = { ...state }
   newState.entities.languages.loading = true
@@ -39,6 +42,21 @@ export const loadingLanguages = (state) => {
 export const languagesReceived = (state, action) => {
   const newState = { ...state }
   newState.entities.languages = { loading: false, options: createOptions(action.payload) }
+  return newState
+}
+
+/**
+ * This state change helps drive the isLoading value in the InputLookupQA component
+ */
+export const loadingQaResults = (state) => {
+  const newState = { ...state }
+  newState.entities.qa.loading = true
+  return newState
+}
+
+export const qaResultsReceived = (state, action) => {
+  const newState = { ...state }
+  newState.entities.qa = { loading: false, options: action.payload }
   return newState
 }
 

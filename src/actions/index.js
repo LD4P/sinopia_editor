@@ -1,13 +1,18 @@
 // Copyright 2019 Stanford University see LICENSE for license
+/* eslint max-params: ["warn", 4] */
 
-// export const newResource = resourceTemplateId => ({
-//   type: 'NEW_RESOURCE',
-//   payload: resourceTemplateId,
-// })
+export const loadingQaResults = () => ({
+  type: 'LOADING_QA_RESULTS',
+})
 
-export const setResource = resource => ({
+export const qaResultsReceived = results => ({
+  type: 'QA_RESULTS_RECEIVED',
+  payload: results,
+})
+
+export const setResource = (resource, resourceTemplates) => ({
   type: 'SET_RESOURCE',
-  payload: resource,
+  payload: { resource, resourceTemplates },
 })
 
 export const setResourceTemplate = resourceTemplate => ({
@@ -47,9 +52,9 @@ export const languageSelectOpened = () => ({
   type: 'LANGUAGE_SELECT_OPENED',
 })
 
-export const removeItem = (reduxPath, id) => ({
+export const removeItem = reduxPath => ({
   type: 'REMOVE_ITEM',
-  payload: { reduxPath, id },
+  payload: reduxPath,
 })
 
 export const removeResource = reduxPath => ({
@@ -67,15 +72,6 @@ export const assignBaseURL = item => ({
   payload: item,
 })
 
-export const showResourceURIMessage = resourceUri => ({
-  type: 'SHOW_RESOURCE_URI_MESSAGE',
-  payload: resourceUri,
-})
-
-export const clearResourceURIMessage = () => ({
-  type: 'CLEAR_RESOURCE_URI_MESSAGE',
-})
-
 export const updateStarted = () => ({
   type: 'UPDATE_STARTED',
 })
@@ -83,6 +79,15 @@ export const updateStarted = () => ({
 export const updateFinished = checksum => ({
   type: 'UPDATE_FINISHED',
   payload: checksum,
+})
+
+export const publishStarted = () => ({
+  type: 'PUBLISH_STARTED',
+})
+
+export const publishError = reason => ({
+  type: 'PUBLISH_ERROR',
+  payload: reason,
 })
 
 export const retrieveResourceStarted = uri => ({
@@ -129,14 +134,14 @@ export const saveAppVersion = version => ({
   payload: version,
 })
 
-export const updateProperty = (reduxPath, resourceFragment) => ({
+export const updateProperty = (reduxPath, resourceFragment, resourceTemplates) => ({
   type: 'UPDATE_PROPERTY',
-  payload: { reduxPath, resourceFragment },
+  payload: { reduxPath, resourceFragment, resourceTemplates },
 })
 
-export const appendResource = (reduxPath, resource) => ({
+export const appendResource = (reduxPath, resource, resourceTemplates) => ({
   type: 'APPEND_RESOURCE',
-  payload: { reduxPath, resource },
+  payload: { reduxPath, resource, resourceTemplates },
 })
 
 export const toggleCollapse = reduxPath => ({
@@ -148,9 +153,19 @@ export const clearResourceTemplates = () => ({
   type: 'CLEAR_RESOURCE_TEMPLATES',
 })
 
-export const showSearchResults = searchResults => ({
-  type: 'SHOW_SEARCH_RESULTS',
-  payload: searchResults,
+export const getSearchResultsStarted = (query, queryFrom) => ({
+  type: 'GET_SEARCH_RESULTS_STARTED',
+  payload: { query, queryFrom },
+})
+
+export const setSearchResults = (searchResults, totalResults, query, startOfRange) => ({
+  type: 'SET_SEARCH_RESULTS',
+  payload: {
+    searchResults,
+    totalResults,
+    query,
+    startOfRange,
+  },
 })
 
 export const setLastSaveChecksum = checksum => ({

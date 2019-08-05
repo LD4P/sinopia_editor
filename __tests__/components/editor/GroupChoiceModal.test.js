@@ -10,24 +10,17 @@ import GroupChoiceModal from 'components/editor/GroupChoiceModal'
 import * as server from 'sinopiaServer'
 
 describe('<GroupChoiceModal />', () => {
-  server.publishRDFResource = jest.fn().mockResolvedValue({
-    response: {
-      headers: {
-        location: 'http://example.com/resource/123',
-      },
-    },
-  })
   const rdfFunc = jest.fn().mockReturnValue('some triples')
-  const closeFunc = jest.fn()
-  const closeRdfPreview = jest.fn()
+  const mockCloseGroupChooser = jest.fn()
+  const mockCloseRdfPreview = jest.fn()
   const currentUser = { name: 'Alfred E. Neuman' }
-  const mockSaveStarted = jest.fn()
+  const mockPublishMyResource = jest.fn()
   const wrapper = shallow(<GroupChoiceModal.WrappedComponent show={true}
                                                              rdf={rdfFunc}
-                                                             close={closeFunc}
-                                                             closeRdfPreview={closeRdfPreview}
+                                                             closeGroupChooser={mockCloseGroupChooser}
+                                                             showRdfPreview={mockCloseRdfPreview}
                                                              currentUser={currentUser}
-                                                             saveStarted={mockSaveStarted} />)
+                                                             publishResource={mockPublishMyResource} />)
 
   it('renders the <GroupChoiceModal /> component as a Modal', () => {
     expect(wrapper.find(Modal).length).toBe(1)
@@ -91,16 +84,39 @@ describe('<GroupChoiceModal />', () => {
     })
   })
 
-  describe('save and close buttons', () => {
-    it('attempts to save the RDF content with group choice when save is clicked and closes the modal', () => {
-      wrapper.find('[bsStyle="primary"]').simulate('click')
-      expect(server.publishRDFResource).toHaveBeenCalledWith(currentUser, 'some triples', 'cornell')
-      expect(mockSaveStarted).toHaveBeenCalled()
+  describe('save button', () => {
+    describe('success', () => {
+      server.publishRDFResource = jest.fn().mockResolvedValue({
+        response: {
+          headers: {
+            location: 'http://example.com/resource/123',
+          },
+        },
+      })
+      it('saves the RDF content with group choice when save is clicked and then closes the modals', () => {
+        const selectedGroup = 'cornell' // default is first choice, which is cornell
+        wrapper.find('[bsStyle="primary"]').simulate('click')
+        expect(mockPublishMyResource).toHaveBeenCalledWith(currentUser, selectedGroup)
+        expect(mockCloseRdfPreview).toHaveBeenCalled()
+        expect(mockCloseGroupChooser).toHaveBeenCalled()
+      })
     })
+    describe('error', () => {
+      server.publishRDFResource = jest.fn().mockRejectedValue(new Error('publish error'))
+      it('attempts to save the RDF content with group choice when save is clicked and then closes the modals', () => {
+        const selectedGroup = 'cornell' // default is first choice, which is cornell
+        wrapper.find('[bsStyle="primary"]').simulate('click')
+        expect(mockPublishMyResource).toHaveBeenCalledWith(currentUser, selectedGroup)
+        expect(mockCloseRdfPreview).toHaveBeenCalled()
+        expect(mockCloseGroupChooser).toHaveBeenCalled()
+      })
+    })
+  })
 
+  describe('close button', () => {
     it('closes the modal when the Cancel link is clicked', () => {
       wrapper.find('[bsStyle="link"]').simulate('click')
-      expect(closeFunc).toHaveBeenCalled()
+      expect(mockCloseGroupChooser).toHaveBeenCalled()
     })
   })
 })

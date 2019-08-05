@@ -65,7 +65,7 @@ describe('<InputLookupSinopia />', () => {
 
   describe('when changing what is selected', () => {
     const mockFormDataFn = jest.fn()
-    const wrapper2 = shallow(<InputLookupSinopia.WrappedComponent {...plProps} handleSelectedChange={mockFormDataFn} />)
+    const wrapper2 = shallow(<InputLookupSinopia.WrappedComponent {...plProps} changeSelections={mockFormDataFn} />)
     const items = [{ label: 'this', uri: 'http://example.com/one' }, { label: 'that', uri: 'http://example.com/two' }]
 
     it('call the onChange event with the selected option', () => {
@@ -85,7 +85,7 @@ describe('<InputLookupSinopia />', () => {
           hits: [
             {
               _source: {
-                '@id': 'http://example.com/fakeThing',
+                uri: 'http://example.com/fakeThing',
                 label: 'This is a thing',
               },
             },

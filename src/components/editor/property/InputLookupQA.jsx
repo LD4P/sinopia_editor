@@ -1,6 +1,6 @@
 // Copyright 2019 Stanford University see LICENSE for license
 
-import React, { Component } from 'react'
+import React from 'react'
 import {
   Menu, MenuItem, Typeahead, asyncContainer, Token,
 } from 'react-bootstrap-typeahead'
@@ -8,296 +8,217 @@ import { getOptionLabel } from 'react-bootstrap-typeahead/lib/utils'
 
 import PropTypes from 'prop-types'
 import SinopiaPropTypes from 'SinopiaPropTypes'
-import Swagger from 'swagger-client'
-import swaggerSpec from 'lib/apidoc.json'
+import { bindActionCreators } from 'redux'
 import { connect } from 'react-redux'
 import {
   itemsForProperty, getDisplayValidations, getPropertyTemplate, findErrors,
 } from 'selectors/resourceSelectors'
 import { changeSelections } from 'actions/index'
-import { booleanPropertyFromTemplate, getLookupConfigItems, isValidURI } from 'Utilities'
-import Config from 'Config'
+import search from 'actionCreators/qa'
+import { isValidURI } from 'Utilities'
+import { booleanPropertyFromTemplate } from 'utilities/propertyTemplates'
 import _ from 'lodash'
 import RenderLookupContext from './RenderLookupContext'
 
 const AsyncTypeahead = asyncContainer(Typeahead)
 
+// Render menu function to be used by typeahead
+export const renderMenuFunc = (results, menuProps) => {
+  const items = []
+  let menuItemIndex = 0
+
+  /*
+   * Returning results per each promise
+   * If error is returned, it will be used to display for that source
+   */
+  results.forEach((result, _i, list) => {
+    if (result.customOption) {
+      let headerLabel
+      let option
+      if (isValidURI(result.label)) {
+        headerLabel = 'New URI'
+        option = {
+          id: result.label,
+          label: result.label,
+          uri: result.label,
+        }
+      } else {
+        headerLabel = 'New Literal'
+        option = {
+          id: result.label,
+          label: result.label,
+          content: result.label,
+        }
+      }
+
+      items.push(<Menu.Header key="customOption-header">{headerLabel}</Menu.Header>)
+      items.push(
+        <MenuItem option={option} position={menuItemIndex} key={menuItemIndex}>
+          {result.label}
+        </MenuItem>,
+      )
+      menuItemIndex++
+      return
+    }
+    const authLabel = result.authLabel
+    const authURI = result.authURI
+    const headerKey = `${result.authURI}-header`
+
+    if (list.length > 1) items.push(<Menu.Header key={headerKey}>{authLabel}</Menu.Header>)
+
+    if (result.isError) {
+      const errorMessage = 'An error occurred in retrieving results'
+      const errorHeaderKey = `${headerKey}-error`
+
+      items.push(
+        <Menu.Header key={errorHeaderKey}>
+          <span className="dropdown-error">{errorMessage}</span>
+        </Menu.Header>,
+      )
+
+      // Effectively a `continue`/`next` statement within the `forEach()` context, skipping to the next iteration
+      return
+    }
+
+    const body = result.body
+
+    if (body.length === 0) {
+      const noResultsMessage = 'No results for this lookup'
+      const noResultsHeaderKey = `${headerKey}-noResults`
+
+      items.push(
+        <Menu.Header key={noResultsHeaderKey}>
+          <span className="dropdown-empty">{noResultsMessage}</span>
+        </Menu.Header>,
+      )
+
+      // Effectively a `continue`/`next` statement within the `forEach()` context, skipping to the next iteration
+      return
+    }
+
+    let idx = 0
+    body.forEach((innerResult) => {
+      let bgClass = 'context-result-bg'
+      idx++
+      if (idx % 2 === 0) {
+        bgClass = 'context-result-alt-bg'
+      }
+      items.push(
+        <MenuItem option={innerResult} position={menuItemIndex} key={menuItemIndex}>
+          {innerResult.context ? (
+            <RenderLookupContext innerResult={innerResult} authLabel={authLabel} authURI={authURI} colorClassName={bgClass}></RenderLookupContext>
+          ) : innerResult.label
+          }
+        </MenuItem>,
+      )
+      menuItemIndex++
+    })
+  })
+
+  return (
+    <Menu {...menuProps} id={menuProps.id}>
+      {items}
+    </Menu>
+  )
+}
+
+// Render token function to be used by typeahead
+export const renderTokenFunc = (option, tokenProps, idx) => {
+  const optionLabel = getOptionLabel(option, tokenProps.labelKey)
+  const children = option.uri ? (<a href={option.uri} rel="noopener noreferrer" target="_blank">{optionLabel}</a>) : optionLabel
+  return (
+    <Token
+        disabled={tokenProps.disabled}
+        key={idx}
+        onRemove={tokenProps.onRemove}
+        tabIndex={tokenProps.tabIndex}>
+      { children }
+    </Token>
+  )
+}
+
+
 // propertyTemplate of type 'lookup' does live QA lookup via API
 //  based on values in propertyTemplate.valueConstraint.useValuesFrom
 //  and the lookupConfig for the URIs has component value of 'lookup'
-class InputLookupQA extends Component {
-  constructor(props) {
-    super(props)
+const InputLookupQA = (props) => {
+  // Don't render if no property template yet
+  if (!props.propertyTemplate) {
+    return null
+  }
 
-    this.state = {
-      isLoading: false,
+  // From https://github.com/ericgio/react-bootstrap-typeahead/issues/389
+  const onKeyDown = (e) => {
+    // 8 = backspace
+    if (e.keyCode === 8
+        && e.target.value === '') {
+      // Don't trigger a "back" in the browser on backspace
+      e.returnValue = false
+      e.preventDefault()
     }
   }
 
-  // Render token function to be used by typeahead
-  renderTokenFunc = (option, props, idx) => {
-    const optionLabel = getOptionLabel(option, props.labelKey)
-    const children = option.uri ? (<a href={option.uri} rel="noopener noreferrer" target="_blank">{optionLabel}</a>) : optionLabel
-    return (
-      <Token
-          disabled={props.disabled}
-          key={idx}
-          onRemove={props.onRemove}
-          tabIndex={props.tabIndex}>
-        { children }
-      </Token>
-    )
+  const isMandatory = booleanPropertyFromTemplate(props.propertyTemplate, 'mandatory', false)
+
+  const isRepeatable = booleanPropertyFromTemplate(props.propertyTemplate, 'repeatable', true)
+
+  const typeaheadProps = {
+    id: 'lookupComponent',
+    required: isMandatory,
+    multiple: isRepeatable,
+    placeholder: props.propertyTemplate.propertyLabel,
+    useCache: true,
+    selectHintOnEnter: true,
+    isLoading: props.isLoading,
+    onSearch: query => props.search(query, props.propertyTemplate),
+    options: props.options,
+    selected: props.selected,
+    allowNew: true,
+    delay: 300,
+    onKeyDown,
   }
 
-  // Render menu function to be used by typeahead
-  renderMenuFunc = (results, menuProps) => {
-    const items = []
-    let menuItemIndex = 0
+  let error
+  let groupClasses = 'form-group'
 
-    /*
-     * Returning results per each promise
-     * If error is returned, it will be used to display for that source
-     */
-    results.forEach((result, _i, list) => {
-      if (result.customOption) {
-        let headerLabel
-        let option
-        if (isValidURI(result.label)) {
-          headerLabel = 'New URI'
-          option = {
-            id: result.label,
-            label: result.label,
-            uri: result.label,
-          }
-        } else {
-          headerLabel = 'New Literal'
-          option = {
-            id: result.label,
-            label: result.label,
-            content: result.label,
-          }
-        }
-        items.push(<Menu.Header key="customOption-header">{headerLabel}</Menu.Header>)
-        items.push(
-          <MenuItem option={option} position={menuItemIndex} key={menuItemIndex}>
-            {result.label}
-          </MenuItem>,
-        )
-        menuItemIndex++
-        return
-      }
-      const authLabel = result.authLabel
-      const authURI = result.authURI
-      const headerKey = `${result.authURI}-header`
-
-      if (list.length > 1) items.push(<Menu.Header key={headerKey}>{authLabel}</Menu.Header>)
-
-      if (result.isError) {
-        const errorMessage = 'An error occurred in retrieving results'
-        const errorHeaderKey = `${headerKey}-error`
-
-        items.push(
-          <Menu.Header key={errorHeaderKey}>
-            <span className="dropdown-error">{errorMessage}</span>
-          </Menu.Header>,
-        )
-
-        // Effectively a `continue`/`next` statement within the `forEach()` context, skipping to the next iteration
-        return
-      }
-
-      const body = result.body
-
-      if (body.length === 0) {
-        const noResultsMessage = 'No results for this lookup'
-        const noResultsHeaderKey = `${headerKey}-noResults`
-
-        items.push(
-          <Menu.Header key={noResultsHeaderKey}>
-            <span className="dropdown-empty">{noResultsMessage}</span>
-          </Menu.Header>,
-        )
-
-        // Effectively a `continue`/`next` statement within the `forEach()` context, skipping to the next iteration
-        return
-      }
-
-      let idx = 0
-      body.forEach((innerResult) => {
-        let bgClass = 'context-result-bg'
-        idx++
-        if (idx % 2 === 0) {
-          bgClass = 'context-result-alt-bg'
-        }
-        items.push(
-          <MenuItem option={innerResult} position={menuItemIndex} key={menuItemIndex}>
-            {innerResult.context ? (
-              <RenderLookupContext innerResult={innerResult} authLabel={authLabel} authURI={authURI} colorClassName={bgClass}></RenderLookupContext>
-            ) : innerResult.label
-            }
-          </MenuItem>,
-        )
-        menuItemIndex++
-      })
-    })
-    return (
-      <Menu {...menuProps} id={menuProps.id}>
-        {items}
-      </Menu>
-    )
+  if (props.displayValidations && !_.isEmpty(props.errors)) {
+    groupClasses += ' has-error'
+    error = props.errors.join(',')
   }
 
-  get isMandatory() {
-    return booleanPropertyFromTemplate(this.props.propertyTemplate, 'mandatory', false)
-  }
-
-  get isRepeatable() {
-    return booleanPropertyFromTemplate(this.props.propertyTemplate, 'repeatable', true)
-  }
-
-  search() {
-    const lookupConfigs = this.props.lookupConfig
-    const componentType = this.props.propertyTemplate.subtype ? this.props.propertyTemplate.subtype : 'typeahead'
-    const isContext = componentType === 'context'
-    return (query) => {
-      this.setState({ isLoading: true })
-      Swagger({ spec: swaggerSpec }).then((client) => {
-        // Create array of promises based on the lookup config array that is sent in
-        const lookupPromises = lookupConfigs.map((lookupConfig) => {
-          const authority = lookupConfig.authority
-          const subauthority = lookupConfig.subauthority
-          const language = lookupConfig.language
-
-          /*
-           *  There are two types of lookup: linked data and non-linked data. The API calls
-           *  for each type are different, so check the nonldLookup field in the lookup config.
-           *  If the field is not set, assume false.
-           */
-          const nonldLookup = lookupConfig.nonldLookup ? lookupConfig.nonldLookup : false
-
-          // default the API calls to their linked data values
-          let subAuthCall = 'GET_searchSubauthority'
-          let authorityCall = 'GET_searchAuthority'
-
-          // Change the API calls if this is a non-linked data lookup
-          if (nonldLookup) {
-            subAuthCall = 'GET_nonldSearchWithSubauthority'
-            authorityCall = 'GET_nonldSearchAuthority'
-          }
-
-          /*
-           *Return the 'promise'
-           *Since we don't want promise.all to fail if
-           *one of the lookups fails, we want a catch statement
-           *at this level which will then return the error. Subauthorities require a different API call than authorities so need to check if subauthority is available
-           *The only difference between this call and the next one is the call to Get_searchSubauthority instead of
-           *Get_searchauthority.  Passing API call in a variable name/dynamically, thanks @mjgiarlo
-           */
-          const actionFunction = subauthority ? subAuthCall : authorityCall
-
-          return client
-            .apis
-            .SearchQuery?.[actionFunction]({
-              q: query,
-              vocab: authority,
-              subauthority,
-              maxRecords: Config.maxRecordsForQALookups,
-              lang: language,
-              context: isContext,
-            })
-            .catch((err) => {
-              console.error('Error in executing lookup against source', err)
-              // Return information along with the error in its own object
-              return { isError: true, errorObject: err }
-            })
-        })
-
-        /*
-         * If undefined, add info - note if error, error object returned in object
-         * which allows attaching label and uri for authority
-         */
-        Promise.all(lookupPromises).then((values) => {
-          for (let i = 0; i < values.length; i++) {
-            if (values[i]) {
-              values[i].authLabel = lookupConfigs[i].label
-              values[i].authURI = lookupConfigs[i].uri
-              values[i].label = lookupConfigs[i].label
-              values[i].id = lookupConfigs[i].uri
-            }
-          }
-
-          this.setState({
-            isLoading: false,
-            options: values,
-          })
-        })
-      }).catch((e) => {
-        console.error(e)
-      })
-    }
-  }
-
-  render() {
-    // Don't render if no property template yet
-    if (!this.props.propertyTemplate) {
-      return null
-    }
-
-    const typeaheadProps = {
-      id: 'lookupComponent',
-      required: this.isMandatory,
-      multiple: this.isRepeatable,
-      placeholder: this.props.propertyTemplate.propertyLabel,
-      useCache: true,
-      selectHintOnEnter: true,
-      isLoading: this.state.isLoading,
-      onSearch: this.search(),
-      options: this.state.options,
-      selected: this.props.selected,
-      allowNew: true,
-      delay: 300,
-    }
-
-    let error
-    let groupClasses = 'form-group'
-
-    if (this.props.displayValidations && !_.isEmpty(this.props.errors)) {
-      groupClasses += ' has-error'
-      error = this.props.errors.join(',')
-    }
-    return (
-      <div className={groupClasses}>
-        <AsyncTypeahead renderMenu={(results, menuProps) => this.renderMenuFunc(results, menuProps)}
-                        ref={typeahead => this.typeahead = typeahead }
-                        onChange={(selected) => {
-                          const payload = {
-                            uri: this.props.propertyTemplate.propertyURI,
-                            items: selected,
-                            reduxPath: this.props.reduxPath,
-                          }
-
-                          this.props.handleSelectedChange(payload)
-                        }}
-                        renderToken={(option, props, idx) => this.renderTokenFunc(option, props, idx)}
-                        {...typeaheadProps}
-
-                        filterBy={() => true
+  return (
+    <div className={groupClasses}>
+      <AsyncTypeahead renderMenu={(results, menuProps) => renderMenuFunc(results, menuProps)}
+                      onChange={(selected) => {
+                        const payload = {
+                          uri: props.propertyTemplate.propertyURI,
+                          items: selected,
+                          reduxPath: props.reduxPath,
                         }
-        />
-        {error && <span className="help-block">{error}</span>}
-      </div>
-    )
-  }
+
+                        props.changeSelections(payload)
+                      }}
+                      renderToken={(option, props, idx) => renderTokenFunc(option, props, idx)}
+                      {...typeaheadProps}
+
+                      filterBy={() => true
+                      }
+      />
+      {error && <span className="help-block">{error}</span>}
+    </div>
+  )
 }
 
 InputLookupQA.propTypes = {
   displayValidations: PropTypes.bool,
-  handleSelectedChange: PropTypes.func,
-  lookupConfig: PropTypes.arrayOf(PropTypes.object).isRequired,
+  changeSelections: PropTypes.func,
   propertyTemplate: SinopiaPropTypes.propertyTemplate,
   reduxPath: PropTypes.oneOfType([PropTypes.string, PropTypes.array]),
   selected: PropTypes.arrayOf(PropTypes.object),
+  search: PropTypes.func,
   errors: PropTypes.array,
+  isLoading: PropTypes.bool.isRequired,
+  options: PropTypes.object,
 }
 
 const mapStateToProps = (state, ownProps) => {
@@ -306,39 +227,21 @@ const mapStateToProps = (state, ownProps) => {
   const propertyURI = reduxPath[reduxPath.length - 1]
   const displayValidations = getDisplayValidations(state)
   const propertyTemplate = getPropertyTemplate(state, resourceTemplateId, propertyURI)
-  const lookupConfig = getLookupConfigItems(propertyTemplate)
-  const errors = findErrors(state.selectorReducer, ownProps.reduxPath)
-
-  // Make sure that every item has a label
-  // This is a temporary strategy until label lookup is implemented.
-  const items = itemsForProperty(state.selectorReducer, ownProps.reduxPath)
-  const selected = []
-  Object.keys(items).forEach((itemId) => {
-    const newItem = { ...items[itemId] }
-    if (newItem.label === undefined) {
-      if (newItem.uri) {
-        newItem.label = newItem.uri
-      } else if (newItem.content) {
-        newItem.label = newItem.content
-      }
-    }
-    selected.push(newItem)
-  })
+  const errors = findErrors(state, ownProps.reduxPath)
+  const selected = itemsForProperty(state, ownProps.reduxPath)
+  const isLoading = state.selectorReducer.entities.qa.loading
+  const options = state.selectorReducer.entities.qa.options
 
   return {
     selected,
-    reduxPath,
     propertyTemplate,
     displayValidations,
-    lookupConfig,
     errors,
+    isLoading,
+    options,
   }
 }
 
-const mapDispatchToProps = dispatch => ({
-  handleSelectedChange(selected) {
-    dispatch(changeSelections(selected))
-  },
-})
+const mapDispatchToProps = dispatch => bindActionCreators({ changeSelections, search }, dispatch)
 
 export default connect(mapStateToProps, mapDispatchToProps)(InputLookupQA)

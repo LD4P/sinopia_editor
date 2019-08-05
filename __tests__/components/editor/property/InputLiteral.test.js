@@ -4,7 +4,12 @@ import 'jsdom-global/register'
 import React from 'react'
 import { shallow } from 'enzyme'
 import shortid from 'shortid'
-import { InputLiteral } from 'components/editor/property/InputLiteral'
+import InputLiteral from 'components/editor/property/InputLiteral'
+
+const reduxPath = [
+  'resourceTemplate:bf2:Monograph:Instance',
+  'http://id.loc.gov/ontologies/bibframe/instanceOf',
+]
 
 const plProps = {
   propertyTemplate: {
@@ -14,7 +19,8 @@ const plProps = {
     mandatory: '',
     repeatable: '',
   },
-  reduxPath: [],
+  reduxPath,
+  items: {},
 }
 
 const valConstraintProps = {
@@ -29,7 +35,7 @@ const valConstraintProps = {
 }
 
 describe('<InputLiteral />', () => {
-  const wrapper = shallow(<InputLiteral {...plProps} id={10} />)
+  const wrapper = shallow(<InputLiteral.WrappedComponent {...plProps} />)
 
   it('contains a placeholder of "Instance of"', () => {
     expect(wrapper.find('input').props().placeholder).toBe('Instance of')
@@ -40,65 +46,62 @@ describe('<InputLiteral />', () => {
   })
 
   it('contains required="true" attribute on input tag when mandatory is true', () => {
-    wrapper.instance().props.propertyTemplate.mandatory = 'true'
-    wrapper.instance().forceUpdate() /** Update plProps with mandatory: "true" * */
+    const propertyTemplate = { propertyTemplate: { ...plProps.propertyTemplate, mandatory: 'true' } }
+    wrapper.setProps({ ...plProps, ...propertyTemplate })
     expect(wrapper.find('input').prop('required')).toBeTruthy()
     expect(wrapper.find('label > RequiredSuperscript')).toBeTruthy()
   })
 
   it('contains required="false" attribute on input tag when mandatory is false', () => {
-    wrapper.instance().props.propertyTemplate.mandatory = 'false'
-    wrapper.instance().forceUpdate()
+    const propertyTemplate = { propertyTemplate: { ...plProps.propertyTemplate, mandatory: 'false' } }
+    wrapper.setProps({ ...plProps, ...propertyTemplate })
     expect(wrapper.find('input').prop('required')).toBeFalsy()
-  })
-})
-
-describe('checkMandatoryRepeatable', () => {
-  const wrapper = shallow(<InputLiteral {...plProps} id={10} />)
-
-  it('is true when the field is mandatory and nothing has been filled in', () => {
-    wrapper.instance().props.propertyTemplate.mandatory = 'true'
-    wrapper.instance().forceUpdate()
-    expect(wrapper.find('input').prop('required')).toBeTruthy()
   })
 })
 
 describe('When the user enters input into field', () => {
   // Our mockItemsChange function to replace the one provided by mapDispatchToProps
   let mockItemsChange
-  let removeMockDataFn
   let mockWrapper
 
   shortid.generate = jest.fn().mockReturnValue(0)
 
   beforeEach(() => {
     mockItemsChange = jest.fn()
-    removeMockDataFn = jest.fn()
 
-    mockWrapper = shallow(<InputLiteral {...plProps} id={'11'}
-                                        reduxPath={[
-                                          'resourceTemplate:bf2:Monograph:Instance',
-                                          'http://id.loc.gov/ontologies/bibframe/instanceOf',
-                                        ]}
-                                        handleMyItemsChange={mockItemsChange}
-                                        handleRemoveItem={removeMockDataFn}
-                                        handleMyItemsLangChange={jest.fn()} />)
+    mockWrapper = shallow(<InputLiteral.WrappedComponent {...plProps}
+                                                         itemsSelected={mockItemsChange} />)
   })
 
-  it('has an id value as a unique property', () => {
-    expect(mockWrapper.find('input').prop('id')).toEqual('11')
-  })
-
-  it('calls handleMyItemsChange function', () => {
+  it('calls the change function when enter is pressed', () => {
     mockWrapper.find('input').simulate('change', { target: { value: 'foo' } })
-    expect(mockWrapper.state('content_add')).toEqual('foo') /* Expect state to have value onChange */
     mockWrapper.find('input').simulate('keypress', { key: 'Enter', preventDefault: () => {} })
-    expect(mockItemsChange.mock.calls.length).toBe(1)
+    expect(mockItemsChange).toHaveBeenCalledWith({
+      items: {
+        0: {
+          content: 'foo',
+          lang: 'en',
+        },
+      },
+      reduxPath,
+    })
   })
 
-  it('should be called with the users input as arguments', () => {
-    mockWrapper.instance().props.propertyTemplate.repeatable = 'false'
-    mockWrapper.instance().forceUpdate()
+  it('calls the change function when focus moves elsewhere', () => {
+    mockWrapper.find('input').simulate('change', { target: { value: 'foo' } })
+    mockWrapper.find('input').simulate('blur')
+    expect(mockItemsChange).toHaveBeenCalledWith({
+      items: {
+        0: {
+          content: 'foo',
+          lang: 'en',
+        },
+      },
+      reduxPath,
+    })
+  })
+
+  it('calls the change function with the users input as arguments', () => {
     mockWrapper.find('input').simulate('change', { target: { value: 'foo' } })
     mockWrapper.find('input').simulate('keypress', { key: 'Enter', preventDefault: () => {} })
     // Test to see arguments used after its been submitted
@@ -111,8 +114,8 @@ describe('When the user enters input into field', () => {
   })
 
   it('property template contains repeatable "true", allowed to add more than one item into myItems array', () => {
-    mockWrapper.instance().props.propertyTemplate.repeatable = 'true'
-    mockWrapper.instance().forceUpdate()
+    const propertyTemplate = { propertyTemplate: { ...plProps.propertyTemplate, repeatable: 'true' } }
+    mockWrapper.setProps({ ...plProps, ...propertyTemplate })
     mockWrapper.find('input').simulate('change', { target: { value: 'fooby' } })
     mockWrapper.find('input').simulate('keypress', { key: 'Enter', preventDefault: () => {} })
     mockWrapper.find('input').simulate('change', { target: { value: 'bar' } })
@@ -133,52 +136,7 @@ describe('When the user enters input into field', () => {
     mockItemsChange.mock.calls = [] // Reset the redux store to empty
   })
 
-  it('required is true if mandatory', () => {
-    mockWrapper.instance().props.propertyTemplate.mandatory = 'true'
-    mockWrapper.instance().forceUpdate()
-    expect(mockWrapper.find('input').prop('required')).toBeTruthy()
-  })
-
-  it('item appears when user inputs text into the field', () => {
-    mockWrapper.instance().props.propertyTemplate.repeatable = 'false'
-    mockWrapper.instance().forceUpdate()
-    mockWrapper.setProps({
-      items: { 4: { content: 'foo', lang: 'en' } },
-    })
-    expect(mockWrapper.find('div#userInput').text()).toEqual('foo×Edit<Connect(LanguageButton) />') // Contains X and Edit as buttons
-  })
-
-  it('should call the removeMockDataFn when X is clicked', () => {
-    mockWrapper.setProps({
-      items: { 5: { content: 'test', lang: 'en' } },
-    })
-    expect(removeMockDataFn.mock.calls.length).toEqual(0)
-    mockWrapper.find('button.close').first().simulate('click', { target: { dataset: { item: 5 } } })
-    expect(removeMockDataFn.mock.calls.length).toEqual(1)
-  })
-
-  it('should call the removeMockDataFn and mockItemsChange when Edit is clicked', () => {
-    expect(mockWrapper.instance().inputLiteralRef).toEqual({ current: null })
-    const mockFocusFn = jest.fn()
-
-    mockWrapper.instance().inputLiteralRef.current = { focus: mockFocusFn }
-
-    mockWrapper.setProps({
-      items: { 5: { content: 'test', lang: 'en' } },
-    })
-    expect(removeMockDataFn.mock.calls.length).toEqual(0)
-    mockWrapper.find('button#editItem').first().simulate('click', { target: { dataset: { item: 5 } } })
-    expect(mockWrapper.state('content_add')).toEqual('test')
-    expect(removeMockDataFn.mock.calls.length).toEqual(1)
-    expect(mockFocusFn.mock.calls.length).toEqual(1)
-  })
-})
-
-describe('when there is a default literal value in the property template', () => {
-  const mockMyItemsChange = jest.fn()
-  const mockRemoveItem = jest.fn()
-
-  it('sets the default values according to the property template if they exist', () => {
+  it('item appears when there are items', () => {
     const plProps = {
       propertyTemplate: {
         propertyLabel: 'Instance of',
@@ -189,20 +147,23 @@ describe('when there is a default literal value in the property template', () =>
         valueConstraint: valConstraintProps,
       },
       items: {
-        7: {
+        abc123: {
           uri: 'http://id.loc.gov/vocabulary/organizations/dlc',
           content: 'DLC',
           lang: 'en',
         },
       },
-      reduxPath: [],
+      reduxPath: ['basePath'],
     }
-    const wrapper = shallow(<InputLiteral {...plProps} id={12}
-                                          handleMyItemsChange={mockMyItemsChange}
-                                          handleMyItemsLangChange={jest.fn()} />)
+    const wrapper = shallow(<InputLiteral.WrappedComponent {...plProps}
+                                                           itemsSelected={mockItemsChange} />)
 
-    expect(wrapper.find('#userInput').text()).toMatch('DLC')
+    expect(wrapper.find('Connect(InputValue)').prop('reduxPath')).toEqual(['basePath', 'items', 'abc123'])
   })
+})
+
+describe('when there is a default literal value in the property template', () => {
+  const mockMyItemsChange = jest.fn()
 
   describe('when repeatable="false"', () => {
     const nrProps = {
@@ -219,27 +180,21 @@ describe('when there is a default literal value in the property template', () =>
 
     it('input has disabled attribute when there are items', () => {
       const nonrepeatWrapper = shallow(
-        <InputLiteral {...nrProps}
-                      id={'11tydg'}
-                      handleMyItemsChange={mockMyItemsChange}
-                      handleRemoveItem={mockRemoveItem}
-                      handleMyItemsLangChange={jest.fn()}
-                      items={{ 0: { content: 'fooby', lang: 'en' } }}/>,
+        <InputLiteral.WrappedComponent {...nrProps}
+                                       itemsSelected={mockMyItemsChange}
+                                       items={{ 0: { content: 'fooby', lang: 'en' } }}/>,
       )
 
-      expect(nonrepeatWrapper.exists('input', { disabled: true })).toBe(true)
+      expect(nonrepeatWrapper.find('input').prop('disabled')).toBe(true)
     })
 
     it('input does not have disabled attribute when there are no items', () => {
       const nonrepeatWrapper = shallow(
-        <InputLiteral {...nrProps}
-                      id={'11tydg'}
-                      handleMyItemsChange={mockMyItemsChange}
-                      handleRemoveItem={mockRemoveItem}
-                      handleMyItemsLangChange={jest.fn()}
-                      items={{}}/>,
+        <InputLiteral.WrappedComponent {...nrProps}
+                                       itemsSelected={mockMyItemsChange}
+                                       items={{}}/>,
       )
-      expect(nonrepeatWrapper.exists('input', { disabled: false })).toBe(true)
+      expect(nonrepeatWrapper.find('input').prop('disabled')).toBe(false)
     })
   })
 })
@@ -256,29 +211,33 @@ describe('When a user enters non-roman text in a work title', () => {
       mandatory: 'false',
       repeatable: 'true',
     },
-    reduxPath: [],
+    reduxPath: ['basePath'],
+    items: {},
   }
 
   const workTitleWrapper = shallow(
-    <InputLiteral {...workTitleProps}
-                  id={14}
-                  handleMyItemsChange={mockDataFn}
-                  handleMyItemsLangChange={jest.fn()} />,
+    <InputLiteral.WrappedComponent {...workTitleProps}
+                                   itemsSelected={mockDataFn} />,
   )
 
   it('allows user to enter Chinese characters', () => {
     workTitleWrapper.find('input').simulate('change', { target: { value: artOfWar } })
     workTitleWrapper.find('input').simulate('keypress', { key: 'Enter', preventDefault: () => {} })
-    workTitleWrapper.setProps({
-      items: { 1: { content: artOfWar, lang: 'zh' } },
+    expect(mockDataFn).toHaveBeenCalledWith({
+      items: {
+        0: {
+          content: artOfWar,
+          lang: 'en',
+        },
+      },
+      reduxPath: ['basePath'],
     })
-    expect(workTitleWrapper.find('div#userInput').text().includes(artOfWar)).toBeTruthy()
   })
 })
 
 describe('Errors', () => {
   const errors = ['Required']
-  const wrapper = shallow(<InputLiteral displayValidations={true} errors={errors} {...plProps}/>)
+  const wrapper = shallow(<InputLiteral.WrappedComponent displayValidations={true} errors={errors} {...plProps}/>)
 
   it('displays the errors', () => {
     expect(wrapper.find('span.help-block').text()).toEqual('Required')

@@ -13,7 +13,9 @@ export async function fillInRequredFieldsForBibframeInstance() {
 
   // Click on one of the property type rows to expand a nested resource
   await page.waitForSelector('div.rOutline-header button.btn-add[data-id=\'title\']')
-  await page.click('div.rOutline-header button.btn-add[data-id=\'title\']')
+  await page.evaluate(() => {
+    document.querySelector('div.rOutline-header button.btn-add[data-id=\'title\']').click()
+  })
 
   // Fill in required element
   await page.waitForSelector('button.btn-add[data-id=\'partName\']')
@@ -36,6 +38,11 @@ export async function fillInRequredFieldsForBibframeInstance() {
 }
 
 export async function incompleteFieldsForBibframeInstance() {
+  await page.setViewport({
+    width: 1822,
+    height: 961,
+  })
+
   // This will add 1 assertion to each it block's assertion count
   await pupExpect(page).toClick('a', { text: 'BIBFRAME Instance' })
 }

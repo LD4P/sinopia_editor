@@ -3,20 +3,23 @@
 import { combineReducers } from 'redux'
 import authenticate from './authenticate'
 import {
-  removeMyItem, setItemsOrSelections, setBaseURL, showResourceURIMessage, clearResourceURIMessage,
+  removeMyItem, setItemsOrSelections, setBaseURL,
   setMyItemsLang, showGroupChooser, closeGroupChooser, showRdfPreview, validate,
 } from './inputs'
 import {
   setResourceTemplate, clearResourceTemplates, setResourceTemplateSummary,
   loadingLanguages, languagesReceived,
+  loadingQaResults, qaResultsReceived,
 } from './entities'
-import showSearchResults from './search'
-import { findNode } from 'selectors/resourceSelectors'
+import setSearchResults from './search'
+import { findObjectAtPath } from 'selectors/resourceSelectors'
 import _ from 'lodash'
 
 export const setResource = (state, action) => {
   // This should be a lodash cloneDeep.
-  const newState = { ...state, resource: action.payload }
+  const newState = { ...state }
+  newState.resource = action.payload.resource
+  newState.entities.resourceTemplates = _.cloneDeep(action.payload.resourceTemplates)
   return newState
 }
 
@@ -28,8 +31,10 @@ export const updateProperty = (state, action) => {
 
   const propertyURI = reduxPath.slice(-1)[0]
   const tempReduxPath = reduxPath.slice(0, reduxPath.length - 1)
-  const tempNode = findNode(newState, tempReduxPath)
+  const tempNode = findObjectAtPath(newState, tempReduxPath)
   tempNode[propertyURI] = resourceFragment
+
+  newState.entities.resourceTemplates = _.cloneDeep(action.payload.resourceTemplates)
 
   return validate(newState)
 }
@@ -42,8 +47,11 @@ export const appendResource = (state, action) => {
 
   const key = reduxPath.slice(-2)[0]
   const parentReduxPath = reduxPath.slice(0, reduxPath.length - 2)
-  const parentPropertyNode = findNode(newState, parentReduxPath)
+  const parentPropertyNode = findObjectAtPath(newState, parentReduxPath)
   parentPropertyNode[key] = resource[key]
+
+  newState.entities.resourceTemplates = _.cloneDeep(action.payload.resourceTemplates)
+
   return validate(newState)
 }
 
@@ -52,9 +60,15 @@ export const removeResource = (state, action) => {
   const reduxPath = action.payload
   const key = reduxPath.slice(-1)[0]
   const parentReduxPath = reduxPath.slice(0, reduxPath.length - 1)
-  const parentPropertyNode = findNode(newState, parentReduxPath)
+  const parentPropertyNode = findObjectAtPath(newState, parentReduxPath)
   delete parentPropertyNode[key]
   return validate(newState)
+}
+
+export const setPublishError = (state, action) => {
+  const newState = { ...state }
+  newState.editor.serverError = `There was a problem saving the resource: ${action.payload}`
+  return newState
 }
 
 export const setRetrieveError = (state, action) => {
@@ -73,7 +87,7 @@ export const setRetrieveError = (state, action) => {
   return newState
 }
 
-export const clearRetrieveError = (state) => {
+export const clearServerError = (state) => {
   const newEditor = { ...state.editor, serverError: undefined }
   return { ...state, editor: newEditor }
 }
@@ -122,12 +136,14 @@ export const setLastSaveChecksum = (state, action) => {
 const handlers = {
   ITEMS_SELECTED: setItemsOrSelections,
   CHANGE_SELECTIONS: setItemsOrSelections,
+  PUBLISH_ERROR: setPublishError,
+  PUBLISH_STARTED: clearServerError,
+  LOADING_QA_RESULTS: loadingQaResults,
+  QA_RESULTS_RECEIVED: qaResultsReceived,
   RETRIEVE_ERROR: setRetrieveError,
-  RETRIEVE_RESOURCE_TEMPLATE_STARTED: clearRetrieveError,
+  RETRIEVE_RESOURCE_TEMPLATE_STARTED: clearServerError,
   SET_BASE_URL: setBaseURL,
-  SHOW_RESOURCE_URI_MESSAGE: showResourceURIMessage,
-  CLEAR_RESOURCE_URI_MESSAGE: clearResourceURIMessage,
-  SHOW_SEARCH_RESULTS: showSearchResults,
+  SET_SEARCH_RESULTS: setSearchResults,
   SHOW_GROUP_CHOOSER: showGroupChooser,
   CLOSE_GROUP_CHOOSER: closeGroupChooser,
   LANGUAGE_SELECTED: setMyItemsLang,

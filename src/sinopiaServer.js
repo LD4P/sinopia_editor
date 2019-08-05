@@ -179,3 +179,19 @@ export const loadRDFResource = async (currentUser, uri) => {
   const id = identifiersForUri(uri)
   return await instance.getResourceWithHttpInfo(id.group, id.identifier, returningNtriples)
 }
+
+export const getSearchResults = async (query, queryFrom = 0) => {
+  const uri = `${Config.searchHost}${Config.searchPath}?q=title:${query}%20OR%20subtitle:${query}&from=${queryFrom}&size=${Config.searchResultsPerPage}`
+
+  // Could be using row._source.uri for uri, but this approach handles platform/localhost for local env.
+  return fetch(uri)
+    .then(resp => resp.json())
+    .then(json => ({
+      totalHits: json.hits.total,
+      results: json.hits.hits.map(row => ({
+        uri: row._id,
+        title: row._source.label,
+      })),
+    }))
+    .catch(error => console.error(error))
+}

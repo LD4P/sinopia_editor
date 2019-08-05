@@ -61,7 +61,7 @@ export class ResourceTemplateForm extends Component {
 
   renderComponentForm = () => (
     <div>
-      <form>
+      <form onSubmit={e => e.preventDefault()}>
         <div className="ResourceTemplateForm">
           {
             this.props.propertyTemplates.map((propertyTemplate, index) => {
@@ -87,10 +87,7 @@ export class ResourceTemplateForm extends Component {
 
               return (
                 <PropertyPanel reduxPath={newReduxPath} key={index} float={index} id={id}>
-                  <PropertyComponent index={index}
-                                     reduxPath={newReduxPath}
-                                     propertyTemplate={propertyTemplate} />
-
+                  <PropertyComponent reduxPath={newReduxPath} propertyTemplate={propertyTemplate} />
                 </PropertyPanel>
               )
             })
@@ -118,7 +115,7 @@ const mapStateToProps = (state, ourProps) => {
   const reduxPath = [...ourProps.reduxPath]
   const resourceTemplateId = reduxPath.pop()
   const resourceTemplate = getResourceTemplate(state, resourceTemplateId)
-  const resourceProperties = findNode(state.selectorReducer, ourProps.reduxPath)
+  const resourceProperties = findNode(state, ourProps.reduxPath)
   return {
     propertyTemplates: resourceTemplate?.propertyTemplates || [],
     resourceProperties,

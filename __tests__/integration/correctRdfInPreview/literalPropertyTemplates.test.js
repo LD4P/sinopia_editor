@@ -27,7 +27,7 @@ describe('RDF from literal property templates', () => {
     const previewRdf = await page.$eval('pre', e => e.textContent)
     expect(previewRdf).toMatch('<> <http://examples.org/bogusOntologies/literal1> "splendid"@en .')
     expect(previewRdf).toMatch('<> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://examples.org/bogusOntologies/Resource> .')
-    expect(previewRdf).toMatch('<> <http://www.w3.org/ns/prov#wasGeneratedBy> "Sinopia:RT:Fixture:LiteralNoRepeatNoDefault" .')
+    expect(previewRdf).toMatch('<> <http://sinopia.io/vocabulary/hasResourceTemplate> "Sinopia:RT:Fixture:LiteralNoRepeatNoDefault" .')
     expect(numLines(previewRdf)).toEqual(3)
   })
 
@@ -42,7 +42,7 @@ describe('RDF from literal property templates', () => {
       const previewRdf = await page.$eval('pre', e => e.textContent)
       expect(previewRdf).toMatch('<> <http://examples.org/bogusOntologies/literal1> "first value"@en .')
       expect(previewRdf).toMatch('<> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://examples.org/bogusOntologies/Resource> .')
-      expect(previewRdf).toMatch('<> <http://www.w3.org/ns/prov#wasGeneratedBy> "Sinopia:RT:Fixture:LiteralRepeatNoDefault" .')
+      expect(previewRdf).toMatch('<> <http://sinopia.io/vocabulary/hasResourceTemplate> "Sinopia:RT:Fixture:LiteralRepeatNoDefault" .')
       expect(numLines(previewRdf)).toEqual(3)
     })
     it('three values', async () => {
@@ -61,7 +61,7 @@ describe('RDF from literal property templates', () => {
       expect(previewRdf).toMatch('<> <http://examples.org/bogusOntologies/literal1> "second"@en .')
       expect(previewRdf).toMatch('<> <http://examples.org/bogusOntologies/literal1> "third"@en .')
       expect(previewRdf).toMatch('<> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://examples.org/bogusOntologies/Resource> .')
-      expect(previewRdf).toMatch('<> <http://www.w3.org/ns/prov#wasGeneratedBy> "Sinopia:RT:Fixture:LiteralRepeatNoDefault" .')
+      expect(previewRdf).toMatch('<> <http://sinopia.io/vocabulary/hasResourceTemplate> "Sinopia:RT:Fixture:LiteralRepeatNoDefault" .')
       expect(numLines(previewRdf)).toEqual(5)
     })
   })
@@ -75,7 +75,7 @@ describe('RDF from literal property templates', () => {
       const previewRdf = await page.$eval('pre', e => e.textContent)
       expect(previewRdf).toMatch('<> <http://examples.org/bogusOntologies/literal> "mydefaultvalue"@en .')
       expect(previewRdf).toMatch('<> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://examples.org/bogusOntologies/Resource> .')
-      expect(previewRdf).toMatch('<> <http://www.w3.org/ns/prov#wasGeneratedBy> "Sinopia:RT:Fixture:LiteralNoRepeatDefaultLiteralOnly" .')
+      expect(previewRdf).toMatch('<> <http://sinopia.io/vocabulary/hasResourceTemplate> "Sinopia:RT:Fixture:LiteralNoRepeatDefaultLiteralOnly" .')
       expect(numLines(previewRdf)).toEqual(3)
     })
     it.skip('defaultLiteral only, not English', async () => {
@@ -87,7 +87,7 @@ describe('RDF from literal property templates', () => {
       const previewRdf = await page.$eval('pre', e => e.textContent)
       expect(previewRdf).toMatch('<> <http://examples.org/bogusOntologies/literal> "borkBorkBork .') // need a way to designate this is a specific non-english language
       expect(previewRdf).toMatch('<> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://examples.org/bogusOntologies/Resource> .')
-      expect(previewRdf).toMatch('<> <http://www.w3.org/ns/prov#wasGeneratedBy> "Sinopia:RT:Fixture:LiteralNoRepeatDefaultNonEnglish" .')
+      expect(previewRdf).toMatch('<> <http://sinopia.io/vocabulary/hasResourceTemplate> "Sinopia:RT:Fixture:LiteralNoRepeatDefaultNonEnglish" .')
       expect(numLines(previewRdf)).toEqual(3)
     })
   })
@@ -102,7 +102,7 @@ describe('RDF from literal property templates', () => {
         const previewRdf = await page.$eval('pre', e => e.textContent)
         expect(previewRdf).toMatch('<> <http://examples.org/bogusOntologies/literal> "mydefaultvalue"@en .')
         expect(previewRdf).toMatch('<> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://examples.org/bogusOntologies/Resource> .')
-        expect(previewRdf).toMatch('<> <http://www.w3.org/ns/prov#wasGeneratedBy> "Sinopia:RT:Fixture:LiteralRepeatDefaultLiteralOnly" .')
+        expect(previewRdf).toMatch('<> <http://sinopia.io/vocabulary/hasResourceTemplate> "Sinopia:RT:Fixture:LiteralRepeatDefaultLiteralOnly" .')
         expect(numLines(previewRdf)).toEqual(3)
       })
       it.skip('defaultLiteral only, not English', async () => {
@@ -114,14 +114,15 @@ describe('RDF from literal property templates', () => {
         const previewRdf = await page.$eval('pre', e => e.textContent)
         expect(previewRdf).toMatch('<> <http://examples.org/bogusOntologies/literal> "borkBorkBork .') // need a way to designate this is a specific non-english language
         expect(previewRdf).toMatch('<> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://examples.org/bogusOntologies/Resource> .')
-        expect(previewRdf).toMatch('<> <http://www.w3.org/ns/prov#wasGeneratedBy> "Sinopia:RT:Fixture:LiteralRepeatDefaultNonEnglish" .')
+        expect(previewRdf).toMatch('<> <http://sinopia.io/vocabulary/hasResourceTemplate> "Sinopia:RT:Fixture:LiteralRepeatDefaultNonEnglish" .')
         expect(numLines(previewRdf)).toEqual(3)
       })
     })
     describe('three values, 1 default', () => {
       it('defaultLiteral only', async () => {
-        expect.assertions(10)
+        expect.assertions(11)
         await pupExpect(page).toClick('a[href="/editor"]', { text: 'test literal, repeatable, required, default literal only (no URI)' })
+        await pupExpect(page).toMatch('mydefaultvalue')
         await pupExpect(page).toFill('input[placeholder=\'literal, repeatable, required, default literal only, default language\']', 'another')
         await page.keyboard.press('Enter')
         await pupExpect(page).toFill('input[placeholder=\'literal, repeatable, required, default literal only, default language\']', 'yet another')
@@ -133,7 +134,7 @@ describe('RDF from literal property templates', () => {
         expect(previewRdf).toMatch('<> <http://examples.org/bogusOntologies/literal> "another"@en .')
         expect(previewRdf).toMatch('<> <http://examples.org/bogusOntologies/literal> "yet another"@en .')
         expect(previewRdf).toMatch('<> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://examples.org/bogusOntologies/Resource> .')
-        expect(previewRdf).toMatch('<> <http://www.w3.org/ns/prov#wasGeneratedBy> "Sinopia:RT:Fixture:LiteralRepeatDefaultLiteralOnly" .')
+        expect(previewRdf).toMatch('<> <http://sinopia.io/vocabulary/hasResourceTemplate> "Sinopia:RT:Fixture:LiteralRepeatDefaultLiteralOnly" .')
         expect(numLines(previewRdf)).toEqual(5)
       })
       it.skip('defaultLiteral only, not English', async () => {
@@ -151,7 +152,7 @@ describe('RDF from literal property templates', () => {
         expect(previewRdf).toMatch('<> <http://examples.org/bogusOntologies/literal> "another"@en .')
         expect(previewRdf).toMatch('<> <http://examples.org/bogusOntologies/literal> "yet another"@en .')
         expect(previewRdf).toMatch('<> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://examples.org/bogusOntologies/Resource> .')
-        expect(previewRdf).toMatch('<> <http://www.w3.org/ns/prov#wasGeneratedBy> "Sinopia:RT:Fixture:LiteralRepeatDefaultNonEnglish" .')
+        expect(previewRdf).toMatch('<> <http://sinopia.io/vocabulary/hasResourceTemplate> "Sinopia:RT:Fixture:LiteralRepeatDefaultNonEnglish" .')
         expect(numLines(previewRdf)).toEqual(5)
       })
     })
@@ -169,7 +170,7 @@ describe('RDF from literal property templates', () => {
         expect(previewRdf).toMatch('<> <http://examples.org/bogusOntologies/literal> "myotherdefaultvalue"@en .')
         expect(previewRdf).toMatch('<> <http://examples.org/bogusOntologies/literal> "another"@en .')
         expect(previewRdf).toMatch('<> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://examples.org/bogusOntologies/Resource> .')
-        expect(previewRdf).toMatch('<> <http://www.w3.org/ns/prov#wasGeneratedBy> "Sinopia:RT:Fixture:LiteralRepeat2DefaultsLiteralOnly" .')
+        expect(previewRdf).toMatch('<> <http://sinopia.io/vocabulary/hasResourceTemplate> "Sinopia:RT:Fixture:LiteralRepeat2DefaultsLiteralOnly" .')
         expect(numLines(previewRdf)).toEqual(5)
       })
       it.skip('defaultLiteral only, not English', async () => {
@@ -185,7 +186,7 @@ describe('RDF from literal property templates', () => {
         expect(previewRdf).toMatch('<> <http://examples.org/bogusOntologies/literal> "und dann der Maestro sagte ..." .')
         expect(previewRdf).toMatch('<> <http://examples.org/bogusOntologies/literal> "another"@en .')
         expect(previewRdf).toMatch('<> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://examples.org/bogusOntologies/Resource> .')
-        expect(previewRdf).toMatch('<> <http://www.w3.org/ns/prov#wasGeneratedBy> "Sinopia:RT:Fixture:LiteralRepeat2DefaultsNonEnglish" .')
+        expect(previewRdf).toMatch('<> <http://sinopia.io/vocabulary/hasResourceTemplate> "Sinopia:RT:Fixture:LiteralRepeat2DefaultsNonEnglish" .')
         expect(numLines(previewRdf)).toEqual(5)
       })
     })

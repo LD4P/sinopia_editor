@@ -5,29 +5,31 @@ import { Typeahead, asyncContainer } from 'react-bootstrap-typeahead'
 import PropTypes from 'prop-types'
 import SinopiaPropTypes from 'SinopiaPropTypes'
 import Config from 'Config'
+import { bindActionCreators } from 'redux'
 import { connect } from 'react-redux'
 import {
   itemsForProperty, getDisplayValidations, getPropertyTemplate, findErrors,
 } from 'selectors/resourceSelectors'
 import { changeSelections } from 'actions/index'
-import { booleanPropertyFromTemplate } from 'Utilities'
+import { booleanPropertyFromTemplate } from 'utilities/propertyTemplates'
 import _ from 'lodash'
 
 const AsyncTypeahead = asyncContainer(Typeahead)
 
 const InputLookupSinopia = (props) => {
+  const [isLoading, setLoading] = useState(false)
+  const [options, setOptions] = useState([])
+
   // Don't render if no property template yet
   if (!props.propertyTemplate) {
     return null
   }
 
-  const [isLoading, setLoading] = useState(false)
-  const [options, setOptions] = useState([])
   const isMandatory = booleanPropertyFromTemplate(props.propertyTemplate, 'mandatory', false)
   const isRepeatable = booleanPropertyFromTemplate(props.propertyTemplate, 'repeatable', true)
 
   const responseToOptions = json => json
-    .hits.hits.map(row => ({ uri: row._source['@id'], label: row._source.label }))
+    .hits.hits.map(row => ({ uri: row._source.uri, label: row._source.label }))
 
   const search = (query) => {
     setLoading(true)
@@ -49,7 +51,18 @@ const InputLookupSinopia = (props) => {
       reduxPath: props.reduxPath,
     }
 
-    props.handleSelectedChange(payload)
+    props.changeSelections(payload)
+  }
+
+  // From https://github.com/ericgio/react-bootstrap-typeahead/issues/389
+  const onKeyDown = (e) => {
+    // 8 = backspace
+    if (e.keyCode === 8
+        && e.target.value === '') {
+      // Don't trigger a "back" in the browser on backspace
+      e.returnValue = false
+      e.preventDefault()
+    }
   }
 
   let error
@@ -64,6 +77,7 @@ const InputLookupSinopia = (props) => {
     <div className={groupClasses}>
       <AsyncTypeahead onSearch={search}
                       onChange={change}
+                      onKeyDown={onKeyDown}
                       options={options}
                       required={isMandatory}
                       multiple={isRepeatable}
@@ -79,7 +93,7 @@ const InputLookupSinopia = (props) => {
 
 InputLookupSinopia.propTypes = {
   displayValidations: PropTypes.bool,
-  handleSelectedChange: PropTypes.func,
+  changeSelections: PropTypes.func,
   propertyTemplate: SinopiaPropTypes.propertyTemplate,
   reduxPath: PropTypes.oneOfType([PropTypes.string, PropTypes.array]),
   selected: PropTypes.arrayOf(PropTypes.object),
@@ -92,17 +106,8 @@ const mapStateToProps = (state, ownProps) => {
   const propertyURI = reduxPath[reduxPath.length - 1]
   const displayValidations = getDisplayValidations(state)
   const propertyTemplate = getPropertyTemplate(state, resourceTemplateId, propertyURI)
-  const errors = findErrors(state.selectorReducer, ownProps.reduxPath)
-
-  // Make sure that every item has a label
-  // This is a temporary strategy until label lookup is implemented.
-  const selected = itemsForProperty(state.selectorReducer, ownProps.reduxPath).map((item) => {
-    const newItem = { ...item }
-    if (newItem.label === undefined) {
-      newItem.label = newItem.uri
-    }
-    return newItem
-  })
+  const errors = findErrors(state, ownProps.reduxPath)
+  const selected = itemsForProperty(state, ownProps.reduxPath)
 
   return {
     selected,
@@ -113,10 +118,6 @@ const mapStateToProps = (state, ownProps) => {
   }
 }
 
-const mapDispatchToProps = dispatch => ({
-  handleSelectedChange(selected) {
-    dispatch(changeSelections(selected))
-  },
-})
+const mapDispatchToProps = dispatch => bindActionCreators({ changeSelections }, dispatch)
 
 export default connect(mapStateToProps, mapDispatchToProps)(InputLookupSinopia)
