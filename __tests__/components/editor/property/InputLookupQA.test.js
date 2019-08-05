@@ -3,7 +3,7 @@
 import 'jsdom-global/register'
 import React from 'react'
 import { shallow } from 'enzyme'
-import InputLookupQA from 'components/editor/property/InputLookupQA'
+import InputLookupQA, { renderMenuFunc, renderTokenFunc } from 'components/editor/property/InputLookupQA'
 
 const plProps = {
   id: 'lookupComponent',
@@ -149,7 +149,7 @@ describe('<InputLookupQA />', () => {
       label: 'Ju, Peijian',
     }
 
-    const tokenWrapper = shallow(wrapper.instance().renderTokenFunc(option, { labelKey: 'label' }, 0))
+    const tokenWrapper = shallow(renderTokenFunc(option, { labelKey: 'label' }, 0))
     expect(tokenWrapper.exists('a[href="http://id.loc.gov/authorities/names/no2017003958"]')).toEqual(true)
   })
 
@@ -159,13 +159,12 @@ describe('<InputLookupQA />', () => {
       label: 'Ju, Peijian',
     }
 
-    const tokenWrapper = shallow(wrapper.instance().renderTokenFunc(option, { labelKey: 'label' }, 0))
+    const tokenWrapper = shallow(renderTokenFunc(option, { labelKey: 'label' }, 0))
     expect(tokenWrapper.exists('a')).toEqual(false)
   })
 
   it('shows menu headers with lookup source labels and values in the dropdown when provided results', () => {
-    const instance = multipleWrapper.instance()
-    const menuWrapper = shallow(instance.renderMenuFunc(multipleResults, p2Props))
+    const menuWrapper = shallow(renderMenuFunc(multipleResults, p2Props))
     const menuChildrenNumber = menuWrapper.children().length
     // One top level menu component
 
@@ -178,12 +177,8 @@ describe('<InputLookupQA />', () => {
     expect(menuWrapper.childAt(3).childAt(0).text()).toEqual('A Specific Place')
   })
 
-  // Institute wrapper with multiple lookup options
-  const multipleWrapper = shallow(<InputLookupQA.WrappedComponent {...p2Props} changeSelections={mockFormDataFn} />)
-
   it('shows a single new valid URI value with the correct header when no other matches are found', () => {
-    const instance = multipleWrapper.instance()
-    const menuWrapper = shallow(instance.renderMenuFunc(validNewURIResults, p2Props))
+    const menuWrapper = shallow(renderMenuFunc(validNewURIResults, p2Props))
     const menuChildrenNumber = menuWrapper.children().length
     // One top level menu component
 
@@ -195,8 +190,7 @@ describe('<InputLookupQA />', () => {
   })
 
   it('does show a single new literal value when no other matches are found', () => {
-    const instance = multipleWrapper.instance()
-    const menuWrapper = shallow(instance.renderMenuFunc(validNewLiteralResults, p2Props))
+    const menuWrapper = shallow(renderMenuFunc(validNewLiteralResults, p2Props))
     const menuChildrenNumber = menuWrapper.children().length
     // One top level menu component
 
@@ -208,8 +202,7 @@ describe('<InputLookupQA />', () => {
   })
 
   it('shows menu headers for both lookups and new valid URI value with the correct headers when matches are found', () => {
-    const instance = multipleWrapper.instance()
-    const menuWrapper = shallow(instance.renderMenuFunc(multipleResults.concat(validNewURIResults), p2Props))
+    const menuWrapper = shallow(renderMenuFunc(multipleResults.concat(validNewURIResults), p2Props))
     const menuChildrenNumber = menuWrapper.children().length
     // One top level menu component
 
