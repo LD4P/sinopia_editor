@@ -8,17 +8,15 @@ import { getOptionLabel } from 'react-bootstrap-typeahead/lib/utils'
 
 import PropTypes from 'prop-types'
 import SinopiaPropTypes from 'SinopiaPropTypes'
-import Swagger from 'swagger-client'
-import swaggerSpec from 'lib/apidoc.json'
 import { bindActionCreators } from 'redux'
 import { connect } from 'react-redux'
 import {
   itemsForProperty, getDisplayValidations, getPropertyTemplate, findErrors,
 } from 'selectors/resourceSelectors'
 import { changeSelections } from 'actions/index'
+import search from 'actionCreators/qa'
 import { isValidURI } from 'Utilities'
-import { booleanPropertyFromTemplate, getLookupConfigItems } from 'utilities/propertyTemplates'
-import Config from 'Config'
+import { booleanPropertyFromTemplate } from 'utilities/propertyTemplates'
 import _ from 'lodash'
 
 const AsyncTypeahead = asyncContainer(Typeahead)
@@ -27,14 +25,6 @@ const AsyncTypeahead = asyncContainer(Typeahead)
 //  based on values in propertyTemplate.valueConstraint.useValuesFrom
 //  and the lookupConfig for the URIs has component value of 'lookup'
 class InputLookupQA extends Component {
-  constructor(props) {
-    super(props)
-
-    this.state = {
-      isLoading: false,
-    }
-  }
-
   // From https://github.com/ericgio/react-bootstrap-typeahead/issues/389
   onKeyDown = (e) => {
     // 8 = backspace
@@ -157,92 +147,6 @@ class InputLookupQA extends Component {
     return booleanPropertyFromTemplate(this.props.propertyTemplate, 'repeatable', true)
   }
 
-  search() {
-    const lookupConfigs = this.props.lookupConfig
-    const isContext = this.hasContextRequest()
-    return (query) => {
-      this.setState({ isLoading: true })
-      Swagger({ spec: swaggerSpec }).then((client) => {
-        // Create array of promises based on the lookup config array that is sent in
-        const lookupPromises = lookupConfigs.map((lookupConfig) => {
-          const authority = lookupConfig.authority
-          const subauthority = lookupConfig.subauthority
-          const language = lookupConfig.language
-
-          /*
-           *  There are two types of lookup: linked data and non-linked data. The API calls
-           *  for each type are different, so check the nonldLookup field in the lookup config.
-           *  If the field is not set, assume false.
-           */
-          const nonldLookup = lookupConfig.nonldLookup ? lookupConfig.nonldLookup : false
-
-          // default the API calls to their linked data values
-          let subAuthCall = 'GET_searchSubauthority'
-          let authorityCall = 'GET_searchAuthority'
-
-          // Change the API calls if this is a non-linked data lookup
-          if (nonldLookup) {
-            subAuthCall = 'GET_nonldSearchWithSubauthority'
-            authorityCall = 'GET_nonldSearchAuthority'
-          }
-
-          /*
-           *Return the 'promise'
-           *Since we don't want promise.all to fail if
-           *one of the lookups fails, we want a catch statement
-           *at this level which will then return the error. Subauthorities require a different API call than authorities so need to check if subauthority is available
-           *The only difference between this call and the next one is the call to Get_searchSubauthority instead of
-           *Get_searchauthority.  Passing API call in a variable name/dynamically, thanks @mjgiarlo
-           */
-          const actionFunction = subauthority ? subAuthCall : authorityCall
-
-          return client
-            .apis
-            .SearchQuery?.[actionFunction]({
-              q: query,
-              vocab: authority,
-              subauthority,
-              maxRecords: Config.maxRecordsForQALookups,
-              lang: language,
-              context: isContext,
-            })
-            .catch((err) => {
-              console.error('Error in executing lookup against source', err)
-              // Return information along with the error in its own object
-              return { isError: true, errorObject: err }
-            })
-        })
-
-        /*
-         * If undefined, add info - note if error, error object returned in object
-         * which allows attaching label and uri for authority
-         */
-        Promise.all(lookupPromises).then((values) => {
-          for (let i = 0; i < values.length; i++) {
-            if (values[i]) {
-              values[i].authLabel = lookupConfigs[i].label
-              values[i].authURI = lookupConfigs[i].uri
-              values[i].label = lookupConfigs[i].label
-              values[i].id = lookupConfigs[i].uri
-            }
-          }
-
-          this.setState({
-            isLoading: false,
-            options: values,
-          })
-        })
-      }).catch((e) => {
-        console.error(e)
-      })
-    }
-  }
-
-  hasContextRequest = () => {
-    const componentType = this.props.propertyTemplate.subtype ? this.props.propertyTemplate.subtype : 'typeahead'
-    return componentType === 'context'
-  }
-
   render() {
     // Don't render if no property template yet
     if (!this.props.propertyTemplate) {
@@ -256,9 +160,9 @@ class InputLookupQA extends Component {
       placeholder: this.props.propertyTemplate.propertyLabel,
       useCache: true,
       selectHintOnEnter: true,
-      isLoading: this.state.isLoading,
-      onSearch: this.search(),
-      options: this.state.options,
+      isLoading: this.props.isLoading,
+      onSearch: query => this.props.search(query, this.props.propertyTemplate),
+      options: this.props.options,
       selected: this.props.selected,
       allowNew: true,
       delay: 300,
@@ -300,11 +204,13 @@ class InputLookupQA extends Component {
 InputLookupQA.propTypes = {
   displayValidations: PropTypes.bool,
   changeSelections: PropTypes.func,
-  lookupConfig: PropTypes.arrayOf(PropTypes.object).isRequired,
   propertyTemplate: SinopiaPropTypes.propertyTemplate,
   reduxPath: PropTypes.oneOfType([PropTypes.string, PropTypes.array]),
   selected: PropTypes.arrayOf(PropTypes.object),
+  search: PropTypes.func,
   errors: PropTypes.array,
+  isLoading: PropTypes.bool.isRequired,
+  options: PropTypes.object,
 }
 
 const mapStateToProps = (state, ownProps) => {
@@ -313,20 +219,22 @@ const mapStateToProps = (state, ownProps) => {
   const propertyURI = reduxPath[reduxPath.length - 1]
   const displayValidations = getDisplayValidations(state)
   const propertyTemplate = getPropertyTemplate(state, resourceTemplateId, propertyURI)
-  const lookupConfig = getLookupConfigItems(propertyTemplate)
   const errors = findErrors(state, ownProps.reduxPath)
   const selected = itemsForProperty(state, ownProps.reduxPath)
+  const isLoading = state.selectorReducer.entities.qa.loading
+  const options = state.selectorReducer.entities.qa.options
 
   return {
     selected,
     reduxPath,
     propertyTemplate,
     displayValidations,
-    lookupConfig,
     errors,
+    isLoading,
+    options,
   }
 }
 
-const mapDispatchToProps = dispatch => bindActionCreators({ changeSelections }, dispatch)
+const mapDispatchToProps = dispatch => bindActionCreators({ changeSelections, search }, dispatch)
 
 export default connect(mapStateToProps, mapDispatchToProps)(InputLookupQA)

@@ -1,6 +1,14 @@
-
 // Copyright 2019 Stanford University see LICENSE for license
 /* eslint max-params: ["warn", 4] */
+
+export const loadingQaResults = () => ({
+  type: 'LOADING_QA_RESULTS',
+})
+
+export const qaResultsReceived = results => ({
+  type: 'QA_RESULTS_RECEIVED',
+  payload: results,
+})
 
 export const setResource = (resource, resourceTemplates) => ({
   type: 'SET_RESOURCE',

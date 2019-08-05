@@ -45,6 +45,21 @@ export const languagesReceived = (state, action) => {
   return newState
 }
 
+/**
+ * This state change helps drive the isLoading value in the InputLookupQA component
+ */
+export const loadingQaResults = (state) => {
+  const newState = { ...state }
+  newState.entities.qa.loading = true
+  return newState
+}
+
+export const qaResultsReceived = (state, action) => {
+  const newState = { ...state }
+  newState.entities.qa = { loading: false, options: action.payload }
+  return newState
+}
+
 const createOptions = json => json.reduce((result, item) => {
   // Object.getOwnPropertyDescriptor is necessary to handle the @
   const id = Object.getOwnPropertyDescriptor(item, '@id').value.replace('http://id.loc.gov/vocabulary/iso639-1/', '')
