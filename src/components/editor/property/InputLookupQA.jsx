@@ -18,6 +18,7 @@ import search from 'actionCreators/qa'
 import { isValidURI } from 'Utilities'
 import { booleanPropertyFromTemplate } from 'utilities/propertyTemplates'
 import _ from 'lodash'
+import RenderLookupContext from './RenderLookupContext'
 
 const AsyncTypeahead = asyncContainer(Typeahead)
 
@@ -49,6 +50,7 @@ export const renderMenuFunc = (results, menuProps) => {
           content: result.label,
         }
       }
+
       items.push(<Menu.Header key="customOption-header">{headerLabel}</Menu.Header>)
       items.push(
         <MenuItem option={option} position={menuItemIndex} key={menuItemIndex}>
@@ -59,6 +61,7 @@ export const renderMenuFunc = (results, menuProps) => {
       return
     }
     const authLabel = result.authLabel
+    const authURI = result.authURI
     const headerKey = `${result.authURI}-header`
 
     if (list.length > 1) items.push(<Menu.Header key={headerKey}>{authLabel}</Menu.Header>)
@@ -93,15 +96,25 @@ export const renderMenuFunc = (results, menuProps) => {
       return
     }
 
+    let idx = 0
     body.forEach((innerResult) => {
+      let bgClass = 'context-result-bg'
+      idx++
+      if (idx % 2 === 0) {
+        bgClass = 'context-result-alt-bg'
+      }
       items.push(
         <MenuItem option={innerResult} position={menuItemIndex} key={menuItemIndex}>
-          {innerResult.label}
+          {innerResult.context ? (
+            <RenderLookupContext innerResult={innerResult} authLabel={authLabel} authURI={authURI} colorClassName={bgClass}></RenderLookupContext>
+          ) : innerResult.label
+          }
         </MenuItem>,
       )
       menuItemIndex++
     })
   })
+
   return (
     <Menu {...menuProps} id={menuProps.id}>
       {items}
