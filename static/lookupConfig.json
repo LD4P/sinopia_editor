@@ -21,13 +21,13 @@
     "component": "lookup"
   },
   {
-      "label": "Discogs",
-      "uri": "urn:discogs",
-      "authority": "discogs",
-      "subauthority": "all",
-      "language": "en",
-      "component": "lookup",
-      "nonldLookup": true
+    "label": "Discogs",
+    "uri": "urn:discogs",
+    "authority": "discogs",
+    "subauthority": "all",
+    "language": "en",
+    "component": "lookup",
+    "nonldLookup": true
   },
   {
     "label": "GEONAMES_all (QA)",
@@ -506,54 +506,6 @@
     "uri": "urn:ld4p:qa:subjects",
     "authority": "locsubjects_ld4l_cache",
     "subauthority": "",
-    "language": "en",
-    "component": "lookup"
-  },
-  {
-    "label": "LOC person [subjects] (QA)",
-    "uri": "urn:ld4p:qa:subjects:person",
-    "authority": "locsubjects_ld4l_cache",
-    "subauthority": "person",
-    "language": "en",
-    "component": "lookup"
-  },
-  {
-    "label": "LOC organization [subjects] (QA)",
-    "uri": "urn:ld4p:qa:subjects:organization",
-    "authority": "locsubjects_ld4l_cache",
-    "subauthority": "organization",
-    "language": "en",
-    "component": "lookup"
-  },
-  {
-    "label": "LOC place [subjects] (QA)",
-    "uri": "urn:ld4p:qa:subjects:place",
-    "authority": "locsubjects_ld4l_cache",
-    "subauthority": "place",
-    "language": "en",
-    "component": "lookup"
-  },
-  {
-    "label": "LOC intangible [subjects] (QA)",
-    "uri": "urn:ld4p:qa:subjects:intangible",
-    "authority": "locsubjects_ld4l_cache",
-    "subauthority": "intangible",
-    "language": "en",
-    "component": "lookup"
-  },
-  {
-    "label": "LOC geocoordinates [subjects] (QA)",
-    "uri": "urn:ld4p:qa:subjects:geocoordinates",
-    "authority": "locsubjects_ld4l_cache",
-    "subauthority": "geocoordinates",
-    "language": "en",
-    "component": "lookup"
-  },
-  {
-    "label": "LOC work [subjects] (QA)",
-    "uri": "urn:ld4p:qa:subjects:work",
-    "authority": "locsubjects_ld4l_cache",
-    "subauthority": "work",
     "language": "en",
     "component": "lookup"
   },
