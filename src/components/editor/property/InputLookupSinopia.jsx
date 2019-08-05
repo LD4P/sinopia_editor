@@ -29,7 +29,7 @@ const InputLookupSinopia = (props) => {
   const isRepeatable = booleanPropertyFromTemplate(props.propertyTemplate, 'repeatable', true)
 
   const responseToOptions = json => json
-    .hits.hits.map(row => ({ uri: row._source['@id'], label: row._source.label }))
+    .hits.hits.map(row => ({ uri: row._source.uri, label: row._source.label }))
 
   const search = (query) => {
     setLoading(true)

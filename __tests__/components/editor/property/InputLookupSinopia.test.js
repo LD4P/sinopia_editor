@@ -85,7 +85,7 @@ describe('<InputLookupSinopia />', () => {
           hits: [
             {
               _source: {
-                '@id': 'http://example.com/fakeThing',
+                uri: 'http://example.com/fakeThing',
                 label: 'This is a thing',
               },
             },
