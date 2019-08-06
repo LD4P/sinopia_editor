@@ -190,7 +190,7 @@ export const getSearchResults = async (query, queryFrom = 0) => {
       totalHits: json.hits.total,
       results: json.hits.hits.map(row => ({
         uri: row._id,
-        title: row._source.title,
+        title: row._source.label,
       })),
     }))
     .catch(error => console.error(error))
