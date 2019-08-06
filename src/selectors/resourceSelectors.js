@@ -13,7 +13,7 @@ export const findObjectAtPath = (parent, path) => path.reduce((obj, key) => obj?
 export const isExpanded = (state, reduxPath) => [...reduxPath, 'expanded']
   .reduce((obj, key) => (typeof obj[key] !== 'undefined' ? obj[key] : false), state.selectorReducer.editor.expanded)
 
-export const findErrors = (state, reduxPath) => findObjectAtPath(state.selectorReducer.resourceValidationErrors, reduxPath).errors || []
+export const findErrors = (state, reduxPath) => findObjectAtPath(state.selectorReducer.editor.resourceValidationErrors, reduxPath).errors || []
 
 /**
  * Get a list of selections that have been made for the given reduxPath
