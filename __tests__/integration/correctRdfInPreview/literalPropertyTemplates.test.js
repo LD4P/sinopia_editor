@@ -15,6 +15,10 @@ describe('RDF from literal property templates', () => {
   beforeEach(async () => {
     await page.goto('http://127.0.0.1:8888/templates')
     await page.waitForSelector('.react-bootstrap-table')
+    await page.setViewport({
+      width: 1822,
+      height: 961,
+    })
   })
 
   it('non-repeatable, no default value, default language', async () => {
@@ -68,8 +72,9 @@ describe('RDF from literal property templates', () => {
 
   describe('non-repeatable, default value', () => {
     it('defaultLiteral only', async () => {
-      expect.assertions(6)
+      expect.assertions(7)
       await pupExpect(page).toClick('a[href="/editor"]', { text: 'test literal, not repeatable, required, default literal only (no URI)' })
+      await pupExpect(page).toMatch('mydefaultvalue')
       await expect(page).toClick('button', { text: 'Preview RDF' })
       await page.waitForSelector('pre')
       const previewRdf = await page.$eval('pre', e => e.textContent)
@@ -95,8 +100,9 @@ describe('RDF from literal property templates', () => {
   describe('repeatable, default value(s)', () => {
     describe('one value', () => {
       it('defaultLiteral only', async () => {
-        expect.assertions(6)
+        expect.assertions(7)
         await pupExpect(page).toClick('a[href="/editor"]', { text: 'test literal, repeatable, required, default literal only (no URI)' })
+        await pupExpect(page).toMatch('mydefaultvalue')
         await expect(page).toClick('button', { text: 'Preview RDF' })
         await page.waitForSelector('pre')
         const previewRdf = await page.$eval('pre', e => e.textContent)
@@ -107,8 +113,9 @@ describe('RDF from literal property templates', () => {
       })
       it.skip('defaultLiteral only, not English', async () => {
         // TODO: not yet supported; see https://github.com/LD4P/sinopia_editor/issues/825
-        expect.assertions(6)
+        expect.assertions(7)
         await pupExpect(page).toClick('a[href="/editor"]', { text: 'test literal, repeatable, required, default literal non-english' })
+        await pupExpect(page).toMatch('borkBorkBork')
         await expect(page).toClick('button', { text: 'Preview RDF' })
         await page.waitForSelector('pre')
         const previewRdf = await page.$eval('pre', e => e.textContent)
@@ -139,8 +146,9 @@ describe('RDF from literal property templates', () => {
       })
       it.skip('defaultLiteral only, not English', async () => {
         // TODO: not yet supported; see https://github.com/LD4P/sinopia_editor/issues/825
-        expect.assertions(10)
+        expect.assertions(11)
         await pupExpect(page).toClick('a[href="/editor"]', { text: 'test literal, repeatable, required, default literal non-english' })
+        await pupExpect(page).toMatch('borkBorkBork')
         await pupExpect(page).toFill('input[placeholder=\'literal, repeatable, required, default literal non-english\']', 'another')
         await page.keyboard.press('Enter')
         await pupExpect(page).toFill('input[placeholder=\'literal, repeatable, required, default literal non-english\']', 'yet another')
@@ -159,8 +167,10 @@ describe('RDF from literal property templates', () => {
 
     describe('three values, 2 defaults', () => {
       it('defaultLiteral only', async () => {
-        expect.assertions(9)
+        expect.assertions(11)
         await pupExpect(page).toClick('a[href="/editor"]', { text: 'test literal, repeatable, required, two defaults literal only (no URI)' })
+        await pupExpect(page).toMatch('mydefaultvalue')
+        await pupExpect(page).toMatch('myotherdefaultvalue')
         await pupExpect(page).toFill('input[placeholder=\'literal, repeatable, required, two defaults literal only, default language\']', 'another')
         await page.keyboard.press('Enter')
         await expect(page).toClick('button', { text: 'Preview RDF' })
@@ -175,8 +185,9 @@ describe('RDF from literal property templates', () => {
       })
       it.skip('defaultLiteral only, not English', async () => {
         // TODO: not yet supported; see https://github.com/LD4P/sinopia_editor/issues/825
-        expect.assertions(9)
+        expect.assertions(10)
         await pupExpect(page).toClick('a[href="/editor"]', { text: 'test literal, repeatable, required, two defaults literal non-english' })
+        await pupExpect(page).toMatch('borkBorkBork')
         await pupExpect(page).toFill('input[placeholder=\'literal, repeatable, required, two defaults literal non-english\']', 'another')
         await page.keyboard.press('Enter')
         await expect(page).toClick('button', { text: 'Preview RDF' })
