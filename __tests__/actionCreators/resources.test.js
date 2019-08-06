@@ -77,7 +77,45 @@ describe('retrieveResource', () => {
       expect(actions[0]).toEqual({ type: 'RETRIEVE_STARTED' })
     })
   })
-  describe('when dispatch to existing resource returns a result', () => {
+  describe('when dispatch to existing resource with relative URI (<>) returns a result', () => {
+    const store = mockStore(state)
+    it('it dispatches actions', async () => {
+      const resourceTemplateId = 'resourceTemplate:bf2:Note'
+      const templateResponse = await getFixtureResourceTemplate(resourceTemplateId)
+      const resourceTemplate = templateResponse.response.body
+      resourceTemplateThunks.fetchResourceTemplate = jest.fn().mockResolvedValue(resourceTemplate)
+
+      await store.dispatch(retrieveResource(currentUser, uri))
+
+      const actions = store.getActions()
+      expect(actions.length).toEqual(5)
+      expect(actions[0]).toEqual({ type: 'RETRIEVE_STARTED' })
+      expect(actions[1].type).toEqual('TOGGLE_COLLAPSE')
+      const expectedResource = {
+        'resourceTemplate:bf2:Note': {
+          'http://www.w3.org/2000/01/rdf-schema#label': {
+            items: {
+              abc123: {
+                content: 'splendid',
+                label: 'splendid',
+                lang: 'en',
+              },
+            },
+          },
+          resourceURI: 'http://sinopia.io/repository/stanford/123',
+        },
+      }
+      expect(actions[2]).toEqual({ type: 'SET_RESOURCE', payload: { resource: expectedResource, resourceTemplates: { [resourceTemplateId]: resourceTemplate } } })
+      expect(actions[3]).toEqual({ type: 'SET_LAST_SAVE_CHECKSUM' })
+      expect(actions[4]).toEqual({ type: 'SET_LAST_SAVE_CHECKSUM', payload: '2762509c7c1cf574ee062acc9a862a86' })
+    })
+  })
+  describe('when dispatch to existing resource with a uri returns a result', () => {
+    const receivedWithURI = `<http://sinopia.io/repository/stanford/123> <http://www.w3.org/2000/01/rdf-schema#label> "splendid"@en .
+  <http://sinopia.io/repository/stanford/123> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://id.loc.gov/ontologies/bibframe/Note> .
+  <http://sinopia.io/repository/stanford/123> <http://sinopia.io/vocabulary/hasResourceTemplate> "resourceTemplate:bf2:Note" .`
+    server.loadRDFResource = jest.fn().mockResolvedValue({ response: { text: receivedWithURI } })
+
     const store = mockStore(state)
     it('it dispatches actions', async () => {
       const resourceTemplateId = 'resourceTemplate:bf2:Note'

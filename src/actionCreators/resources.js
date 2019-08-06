@@ -18,6 +18,7 @@ import {
 import { defaultValuesFromPropertyTemplate } from 'utilities/propertyTemplates'
 import shortid from 'shortid'
 import ResourceStateBuilder from 'ResourceStateBuilder'
+import rdf from 'rdf-ext'
 import _ from 'lodash'
 
 // A thunk that updates (saves) an existing resource in Trellis
@@ -38,7 +39,9 @@ export const retrieveResource = (currentUser, uri) => (dispatch) => {
     .then((response) => {
       const data = response.response.text
       return rdfDatasetFromN3(data).then((dataset) => {
-        const builder = new ResourceStateBuilder(dataset, null)
+        // On first save, root uri is <>. On subsequent saves it is <uri>.
+        const rootURI = dataset.match(rdf.namedNode(uri)).size > 0 ? uri : null
+        const builder = new ResourceStateBuilder(dataset, rootURI)
         return existingResourceFunc(builder.state, uri, dispatch).then((result) => {
           if (result !== undefined) {
             const rdf = new GraphBuilder({ resource: result[0], entities: { resourceTemplates: result[1] } }).graph.toCanonical()
