@@ -24,8 +24,8 @@ export default class GraphBuilder {
     const resource = this.state.resource
 
     Object.keys(resource).forEach((resourceTemplateId) => {
-      // If the resourceURI is not in the state, then this is an unsaved resource and we want a relative URI to use as the base
-      const resourceURI = rdf.namedNode(resource[resourceTemplateId].resourceURI || '')
+      // Always save with relative URI
+      const resourceURI = rdf.namedNode('')
 
       this.buildTriplesForNode(resourceURI,
         resourceTemplateId,

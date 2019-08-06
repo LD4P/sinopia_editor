@@ -60,13 +60,7 @@ export const publishResource = (currentUser, group) => (dispatch, getState) => {
   return publishRDFResource(currentUser, rdf, group).then((result) => {
     const resourceUrl = result.response.headers.location
     dispatch(assignBaseURL(resourceUrl))
-
-    // Set the baseURL in this state.
-    _.first(Object.values(state.selectorReducer.resource)).resourceURI = resourceUrl
-
-    // Need to regenerate RDF now that we have baseURL
-    const updatedRdf = new GraphBuilder(state.selectorReducer).graph.toCanonical()
-    dispatch(updateFinished(generateMD5(updatedRdf)))
+    dispatch(updateFinished(generateMD5(rdf)))
   }).catch((err) => {
     dispatch(publishError(`Unable to save resource: ${err}`))
   })
