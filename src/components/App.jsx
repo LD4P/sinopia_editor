@@ -40,9 +40,9 @@ class App extends Component {
   }
 
   render() {
-    return (
-      <div id="app">
-        <LoginPanel />
+    let routes
+    if (this.props.currentSession) {
+      routes = (
         <Switch>
           <Route exact path="/" render={props => <HomePage {...props} triggerHandleOffsetMenu={this.props.handleOffsetMenu} />} />
           {this.props.hasResource ? (
@@ -50,18 +50,24 @@ class App extends Component {
           ) : (
             <Redirect from="/editor" to="/templates" />
           )}
-          {
-            this.props.currentSession && (
-              <Route exact path="/templates" render={props => <ImportResourceTemplate {...props}
-                                                                                      triggerHandleOffsetMenu={this.props.handleOffsetMenu}
-                                                                                      key="import-resource-template" />} />
-            )
-          }
+          <Route exact path="/templates" render={props => <ImportResourceTemplate {...props}
+                                                                                  triggerHandleOffsetMenu={this.props.handleOffsetMenu}
+                                                                                  key="import-resource-template" />} />
           <Route exact path="/search" render={props => <Search {...props} triggerHandleOffsetMenu={this.props.handleOffsetMenu} />} />
           <Route exact path="/load" render={props => <LoadResource {...props} triggerHandleOffsetMenu={this.props.handleOffsetMenu} />} />
           <Route path="/menu" render={props => <CanvasMenu {...props} />} />
           <Route id="404" component={FourOhFour} />
         </Switch>
+      )
+    } else {
+      routes = (
+        <Route render={props => <HomePage {...props} triggerHandleOffsetMenu={this.props.handleOffsetMenu} />} />
+      )
+    }
+    return (
+      <div id="app">
+        <LoginPanel />
+        {routes}
         <Footer />
       </div>
     )

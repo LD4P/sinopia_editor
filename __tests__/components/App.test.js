@@ -57,7 +57,7 @@ describe('#routes', () => {
     getState: () => ({ ...state }),
   })
 
-  describe('public routes', () => {
+  describe('when the user is not authenticated', () => {
     const unauthenticatedStoreFake = makeStoreFake({
       selectorReducer: {
         appVersion: {
@@ -88,34 +88,16 @@ describe('#routes', () => {
       expect(component.find(HomePage).length).toEqual(1)
     })
 
-    it('renders the Editor component when "/editor" is visited with resource', () => {
-      const component = renderRoutes('/editor')
-
-      expect(component.find(Editor).length).toEqual(1)
-    })
-
-    it('renders the Search component when "/search" is visited', () => {
+    it('renders the HomePage component when "/search" is visited', () => {
       const component = renderRoutes('/search')
 
-      expect(component.find(Search).length).toEqual(1)
+      expect(component.find(HomePage).length).toEqual(1)
     })
 
-    it('renders the Menu component when "/menu" is visited', () => {
-      const component = renderRoutes('/menu')
-
-      expect(component.find(CanvasMenu).length).toEqual(1)
-    })
-
-    it('does not render ImportResourceTemplate component (even if user visits "/templates"), since user is not logged in', () => {
-      const component = renderRoutes('/templates')
-
-      expect(component.find(ImportResourceTemplate).length).toEqual(0)
-    })
-
-    it('renders a 404 for an unknown path', () => {
+    it('renders the HomePage for unknown path', () => {
       const component = renderRoutes('/blah')
 
-      expect(component.contains(<h1>404</h1>)).toEqual(true)
+      expect(component.find(HomePage).length).toEqual(1)
     })
 
     afterAll(() => {
@@ -123,7 +105,7 @@ describe('#routes', () => {
     })
   })
 
-  describe('private routes', () => {
+  describe('when the user is authenticated', () => {
     const authenticatedStoreFake = makeStoreFake({
       authenticate: {
         authenticationState: {
@@ -131,7 +113,12 @@ describe('#routes', () => {
         },
       },
       selectorReducer: {
-        resource: {},
+        appVersion: {
+          version: undefined,
+          lastChecked: Date.now(),
+        },
+        resource: { 'myOrg:myRt': {} },
+        search: { results: [] },
       },
     })
 
@@ -155,13 +142,58 @@ describe('#routes', () => {
       expect(component.contains(<h1>404</h1>)).toEqual(true)
     })
 
-    it('redirects to /templates when "/editor" is visited without resource', () => {
+    it('renders the Editor component when "/editor" is visited with resource', () => {
       const component = renderRoutes('/editor')
-      // expect(component.find(Editor).length).toEqual(1)
-      // expect(component.find(Redirect).length).toEqual(1)
-      expect(component.find(ImportResourceTemplate).length).toEqual(1)
+
+      expect(component.find(Editor).length).toEqual(1)
     })
 
+    it('renders the Search component when "/search" is visited', () => {
+      const component = renderRoutes('/search')
+
+      expect(component.find(Search).length).toEqual(1)
+    })
+
+    it('renders the Menu component when "/menu" is visited', () => {
+      const component = renderRoutes('/menu')
+
+      expect(component.find(CanvasMenu).length).toEqual(1)
+    })
+
+    afterAll(() => {
+      renderRoutes.unmount()
+    })
+  })
+
+  describe('when the user is authenticated and there is no resource', () => {
+    const authenticatedStoreFake = makeStoreFake({
+      authenticate: {
+        authenticationState: {
+          currentSession: { wouldBe: 'a CognitoSession obj IRL, but only presence is checked ATM' },
+        },
+      },
+      selectorReducer: {
+        appVersion: {
+          version: undefined,
+          lastChecked: Date.now(),
+        },
+        resource: {},
+      },
+    })
+
+    const renderRoutes = path => mount(
+      <Provider store={authenticatedStoreFake}>
+        <MemoryRouter initialEntries={[path]}>
+          <App />
+        </MemoryRouter>
+      </Provider>,
+    )
+
+    it('redirects to /templates when "/editor" is visited without resource', () => {
+      const component = renderRoutes('/editor')
+
+      expect(component.find(ImportResourceTemplate).length).toEqual(1)
+    })
 
     afterAll(() => {
       renderRoutes.unmount()
