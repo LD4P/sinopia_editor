@@ -218,7 +218,7 @@ InputLookupQA.propTypes = {
   search: PropTypes.func,
   errors: PropTypes.array,
   isLoading: PropTypes.bool.isRequired,
-  options: PropTypes.object,
+  options: PropTypes.arrayOf(PropTypes.object),
 }
 
 const mapStateToProps = (state, ownProps) => {
