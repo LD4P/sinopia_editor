@@ -1,6 +1,6 @@
 // Copyright 2019 Stanford University see LICENSE for license
 
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import { bindActionCreators } from 'redux'
 import { connect } from 'react-redux'
 import PropTypes from 'prop-types'
@@ -15,24 +15,37 @@ import AuthenticationMessage from './AuthenticationMessage'
 import { resourceHasChangesSinceLastSave } from 'selectors/resourceSelectors'
 import { Prompt } from 'react-router'
 
-const Editor = props => (
-  <div id="editor">
-    <Prompt when={props.resourceHasChanges} message="Resource has unsaved changes. Are you sure you want to leave?" />
-    <Header triggerEditorMenu={ props.triggerHandleOffsetMenu }/>
-    <AuthenticationMessage />
-    <div className="row">
-      <section className="col-md-3" style={{ float: 'right', width: '320px' }}>
-        <button type="button" className="btn btn-link btn-sm btn-editor" onClick={ () => props.showRdfPreview(true) }>Preview RDF</button>
-        <SaveAndPublishButton id="editor-save" />
-      </section>
-    </div>
-    <RDFModal />
-    <ErrorMessages />
-    <GroupChoiceModal />
+const Editor = (props) => {
+  const [isPrompt, setPrompt] = useState(false)
 
-    <ResourceTemplate />
-  </div>
-)
+  useEffect(() => {
+    setPrompt(props.resourceHasChanges && !props.isMenuOpened)
+  }, [props.resourceHasChanges, props.isMenuOpened])
+
+  // To handle prompt correctly with Chrome.
+  const triggerHandleOffsetMenu = () => {
+    setPrompt(false)
+    props.triggerHandleOffsetMenu()
+  }
+
+  return (
+    <div id="editor">
+      <Prompt when={isPrompt} message="Resource has unsaved changes. Are you sure you want to leave?" />
+      <Header triggerEditorMenu={ triggerHandleOffsetMenu }/>
+      <AuthenticationMessage />
+      <div className="row">
+        <section className="col-md-3" style={{ float: 'right', width: '320px' }}>
+          <button type="button" className="btn btn-link btn-sm btn-editor" onClick={ () => props.showRdfPreview(true) }>Preview RDF</button>
+          <SaveAndPublishButton id="editor-save" />
+        </section>
+      </div>
+      <RDFModal />
+      <ErrorMessages />
+      <GroupChoiceModal />
+
+      <ResourceTemplate />
+    </div>
+  ) }
 
 Editor.propTypes = {
   triggerHandleOffsetMenu: PropTypes.func,
@@ -43,6 +56,7 @@ Editor.propTypes = {
   history: PropTypes.object,
   currentUser: PropTypes.object,
   resourceHasChanges: PropTypes.bool,
+  isMenuOpened: PropTypes.bool,
 }
 
 const mapStateToProps = state => ({

@@ -26,14 +26,6 @@ import _ from 'lodash'
 const FourOhFour = () => <h1>404</h1>
 
 class App extends Component {
-  constructor(props) {
-    super(props)
-    this.state = {
-      redirectToReferrer: false,
-      isMenuOpened: false,
-    }
-  }
-
   componentDidMount() {
     this.props.saveAppVersion(version)
     this.props.fetchResourceTemplateSummaries()
