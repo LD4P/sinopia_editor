@@ -46,7 +46,7 @@ describe('update', () => {
     const actions = store.getActions()
     expect(actions.length).toEqual(2)
     expect(actions[0]).toEqual({ type: 'UPDATE_STARTED' })
-    expect(actions[1]).toEqual({ type: 'UPDATE_FINISHED', payload: 'c38801f828f8705dee953ef5af7c165e' })
+    expect(actions[1]).toEqual({ type: 'UPDATE_FINISHED', payload: '5e30bd59d0186c5307065436240ba108' })
   })
 })
 
@@ -107,7 +107,7 @@ describe('retrieveResource', () => {
       }
       expect(actions[2]).toEqual({ type: 'SET_RESOURCE', payload: { resource: expectedResource, resourceTemplates: { [resourceTemplateId]: resourceTemplate } } })
       expect(actions[3]).toEqual({ type: 'SET_LAST_SAVE_CHECKSUM' })
-      expect(actions[4]).toEqual({ type: 'SET_LAST_SAVE_CHECKSUM', payload: '2762509c7c1cf574ee062acc9a862a86' })
+      expect(actions[4]).toEqual({ type: 'SET_LAST_SAVE_CHECKSUM', payload: 'f767b63c3e1d1af6f8c136b15a31a1e0' })
     })
   })
 })
@@ -132,7 +132,7 @@ describe('publishResource', () => {
     expect(actions.length).toEqual(3)
     expect(actions[0]).toEqual({ type: 'PUBLISH_STARTED' })
     expect(actions[1]).toEqual({ type: 'SET_BASE_URL', payload: 'http://sinopia.io/repository/myGroup/myResource' })
-    expect(actions[2]).toEqual({ type: 'UPDATE_FINISHED', payload: '24693e27c746453cfe099e19173a7968' })
+    expect(actions[2]).toEqual({ type: 'UPDATE_FINISHED', payload: '5e30bd59d0186c5307065436240ba108' })
   })
   it('dispatches actions for error path', async () => {
     const store = mockStore(state)

@@ -170,13 +170,13 @@ describe('GraphBuilder', () => {
 
     it('returns the graph', () => {
       const graph = builder.graph
-      const typeTriple = rdf.quad(rdf.namedNode('http://example.com/base/123'),
+      const typeTriple = rdf.quad(rdf.namedNode(''),
         rdf.namedNode('http://www.w3.org/1999/02/22-rdf-syntax-ns#type'),
         rdf.namedNode('http://id.loc.gov/ontologies/bibframe/Work'))
-      const propertyTriple = rdf.quad(rdf.namedNode('http://example.com/base/123'),
+      const propertyTriple = rdf.quad(rdf.namedNode(''),
         rdf.namedNode('http://id.loc.gov/ontologies/bibframe/illustrativeContent'),
         rdf.namedNode('http://id.loc.gov/vocabulary/millus/gnt'))
-      const generatedByTriple = rdf.quad(rdf.namedNode('http://example.com/base/123'),
+      const generatedByTriple = rdf.quad(rdf.namedNode(''),
         rdf.namedNode('http://sinopia.io/vocabulary/hasResourceTemplate'),
         rdf.literal('resourceTemplate:bf2:Monograph:Work'))
 
@@ -231,7 +231,7 @@ describe('GraphBuilder', () => {
     it('returns the graph and ignores the errors', () => {
       const graph = builder.graph
 
-      const typeTriple = rdf.quad(rdf.namedNode('http://example.com/base/123'),
+      const typeTriple = rdf.quad(rdf.namedNode(''),
         rdf.namedNode('http://www.w3.org/1999/02/22-rdf-syntax-ns#type'),
         rdf.namedNode('http://id.loc.gov/ontologies/bibframe/Work'))
 
