@@ -37,6 +37,7 @@ const Search = (props) => {
                            aria-label="Search"
                            onChange={ event => setQueryString(event.target.value) }
                            onKeyPress={ event => handleKeyPress(event) } />
+              <span className="help-block">Use a * to wildcard your search.</span>
             </FormGroup>
           </Form>
         </Row>

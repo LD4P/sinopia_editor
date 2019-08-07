@@ -131,7 +131,7 @@ class InputListLOC extends Component {
           onChange={selected => this.selectionChanged(selected)}
           {...typeaheadProps}
         />
-        {error && <span className="help-block">{error}</span>}
+        {error && <span className="help-block help-block-error">{error}</span>}
       </div>
     )
   }
