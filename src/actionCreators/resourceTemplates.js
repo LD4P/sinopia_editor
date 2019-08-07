@@ -23,7 +23,7 @@ export const fetchResourceTemplate = (resourceTemplateId, dispatch) => {
     dispatch(retrieveError(resourceTemplateId, reason))
   }).catch((err) => {
     console.error(err)
-    dispatch(retrieveError(resourceTemplateId))
+    dispatch(retrieveError(resourceTemplateId, err))
   })
 }
 
