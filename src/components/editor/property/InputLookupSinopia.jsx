@@ -88,7 +88,7 @@ const InputLookupSinopia = (props) => {
                       id="sinopia-lookup" />
 
       <span className="help-block">Use a * to wildcard your search.</span>
-      {error && <span className="help-block">{error}</span>}
+      {error && <span className="help-block help-block-error">{error}</span>}
     </div>
   )
 }

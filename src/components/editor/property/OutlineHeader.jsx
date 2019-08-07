@@ -35,7 +35,7 @@ const OutlineHeader = (props) => {
           + Add <strong><PropertyLabel propertyTemplate={props.property} /></strong>
         </button>
         <PropertyLabelInfo propertyTemplate={ props.property } />
-        { error && <span className="help-block">{error}</span>}
+        { error && <span className="help-block help-block-error">{error}</span>}
       </div>
     )
   }
