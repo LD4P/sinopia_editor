@@ -3,15 +3,14 @@ import lookupConfig from '../../static/lookupConfig.json'
 import shortid from 'shortid'
 import { defaultLanguageId } from 'Utilities'
 
+/**
+ * @return {string} the component to render
+ * @throws the reason we couldn't get a component from the configuration
+ */
 export const getTagNameForPropertyTemplate = (propertyTemplate) => {
-  let config
-
   // We do not support mixed list and lookups, so we will just go with the value of the first config item found
-  try {
-    config = getLookupConfigItems(propertyTemplate)[0].component
-  } catch {
-    // Ignore undefined configuration
-  }
+  const configItem = getLookupConfigItems(propertyTemplate)[0]
+  const config = configItem?.component
 
   switch (config) {
     case 'local-lookup':
@@ -33,7 +32,7 @@ const textFieldType = (config, propertyTemplate) => {
       return 'InputURI'
     default:
       // error case handled by caller
-      return null
+      throw 'This propertyTemplate is misconfigured.'
   }
 }
 
@@ -84,5 +83,9 @@ export const getLookupConfigItems = (propertyTemplate) => {
 
   if (vocabUriList === undefined || vocabUriList.length === 0) return []
 
-  return lookupConfig.filter(configItem => vocabUriList.includes(configItem.uri))
+  const result = lookupConfig.filter(configItem => vocabUriList.includes(configItem.uri))
+  if (result.length === 0) {
+    throw `Unable to find ${vocabUriList} in the lookup configuration`
+  }
+  return result
 }

@@ -9,14 +9,23 @@ import SinopiaPropTypes from 'SinopiaPropTypes'
 import { getTagNameForPropertyTemplate } from 'utilities/propertyTemplates'
 
 const PropertyComponent = (props) => {
-  const tag = getTagNameForPropertyTemplate(props.propertyTemplate)
+  let tag
+  let message
+
+  try {
+    tag = getTagNameForPropertyTemplate(props.propertyTemplate)
+  } catch (errorMessage) {
+    // If we have a better error message, use it.
+    message = errorMessage
+  }
+
   if (!tag) {
     return (
       <div className="row">
         <div className="col-md-12" style={{ marginTop: '10px' }}>
           <div className="alert alert-danger alert-dismissible">
             <button className="close" data-dismiss="alert" aria-label="close">&times;</button>
-            This propertyTemplate should not be of type {props.propertyTemplate.type}.
+            {message}
           </div>
         </div>
       </div>

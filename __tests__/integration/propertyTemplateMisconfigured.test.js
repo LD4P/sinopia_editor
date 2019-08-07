@@ -17,6 +17,6 @@ describe('Errors with Misconfigured Property Templates', () => {
     // expect.assertions(3)
     await pupExpect(page).toClick('a[href="/editor"]', { text: 'test lookup type misconfigured with valueTemplateRefs' })
     await pupExpect(page).toClick('button.btn-add[data-id="lookup1"]')
-    await pupExpect(page).toMatch('This propertyTemplate should not be of type lookup.')
+    await pupExpect(page).toMatch('This propertyTemplate is misconfigured.')
   })
 })
