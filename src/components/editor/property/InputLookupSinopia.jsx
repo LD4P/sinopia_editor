@@ -33,7 +33,6 @@ const InputLookupSinopia = (props) => {
 
   const search = (query) => {
     setLoading(true)
-
     const uri = `${Config.searchHost}${Config.searchPath}?q=${query}`
     fetch(uri)
       .then(resp => resp.json())
@@ -82,9 +81,11 @@ const InputLookupSinopia = (props) => {
                       required={isMandatory}
                       multiple={isRepeatable}
                       isLoading={isLoading}
+                      selected={props.selected}
                       placeholder={props.propertyTemplate.propertyLabel}
-                      id="sinopia-lookup"
-                      filterBy={() => true } />
+                      minLength={1}
+                      filterBy={() => true }
+                      id="sinopia-lookup" />
 
       {error && <span className="help-block">{error}</span>}
     </div>
