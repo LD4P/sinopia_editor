@@ -678,6 +678,14 @@
     "component": "lookup"
   },
   {
+    "label": "SHAREVDE FRICK WORK",
+    "uri": "urn:ld4p:qa:sharevde_frick_work_ld4l_cache",
+    "authority": "sharevde_frick_work_ld4l_cache",
+    "subauthority": "",
+    "language": "en",
+    "component": "lookup"
+  },
+  {
     "label": "SHAREVDE STANFORD INSTANCE",
     "uri": "urn:ld4p:qa:sharevde_stanford_instance_ld4l_cache",
     "authority": "sharevde_stanford_instance_ld4l_cache",
