@@ -215,5 +215,24 @@ describe('Utilities', () => {
         })
       })
     })
+
+    describe('when the configuration is an invalid lookup', () => {
+      const template = {
+        propertyURI: 'http://id.loc.gov/ontologies/bibframe/contribution',
+        propertyLabel: 'Contribution',
+        type: 'lookup',
+        valueConstraint: {
+          useValuesFrom: [
+            'urn:ld4p:qa:names:octopus',
+          ],
+        },
+      }
+
+      it('it throws an error', () => {
+        expect(() => {
+          getTagNameForPropertyTemplate(template)
+        }).toThrowError(/Unable to find urn:ld4p:qa:names:octopus in the lookup configuration/)
+      })
+    })
   })
 })
