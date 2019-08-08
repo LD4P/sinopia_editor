@@ -5,18 +5,16 @@ import { version } from '../../../package.json'
 
 const NewsItem = () => (
   <div className="news-item">
-    <h1> What&#8217;s New </h1>
+    <h1> Announcing Sinopia Version 1.0</h1>
     <ul>
-      <li>Release {version} is live, including these features:</li>
+      <li>New in this release</li>
       <ul>
-        <li>List of Available Resource Templates has additional columns and sorts automatically</li>
-        <li>You can now enter URIs and literals in lookup fields</li>
-        <li>Editor validates whether mandatory fields are filled in within nested Resource Templates</li>
-        <li>Improved validation and display of validation errors</li>
-        <li>Editor provides confirmation message including newly minted URI when you click Save</li>
-        <li>New Load RDF feature</li>
+        <li>Search for descriptions created in Sinopia</li>
+        <li>Edit previously created descriptions</li>
+        <li>Look up and refer to Sinopia-created entities and to entities from Share-VDE datasets (as they become available)</li>
+        <li>Better messaging when a resource template is not configured as expected</li>
       </ul>
-      <li>For complete release notes see the <a href="https://github.com/LD4P/sinopia/wiki/Latest-Release,-What's-Next">Sinopia help site</a>.
+      <li>For complete {version} release notes see the <a href="https://github.com/LD4P/sinopia/wiki/Latest-Release,-What's-Next">Sinopia help site</a>.
       </li>
     </ul>
   </div>
