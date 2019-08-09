@@ -80,6 +80,24 @@ const discogsResult = {
 
 }
 
+const genreResult = {
+  uri: 'http://id.loc.gov/authorities/genreForms/gf2011026181',
+  id: 'gf2011026181',
+  label: 'Cutout animation films',
+  context: [
+    {
+      property: 'Broader',
+      values: [
+        {
+          uri: 'http://id.loc.gov/authorities/genreForms/gf2011026049',
+          id: 'gf2011026049',
+          label: 'Animated films',
+        },
+      ],
+    },
+  ],
+}
+
 const plProps = {
   authURI: 'urn:ld4p:qa:names:person',
   authLabel: 'LOC person [names] (QA)',
@@ -98,6 +116,13 @@ const p3Props = {
   authURI: 'urn:discogs',
   authLabel: 'Discogs',
   innerResult: discogsResult,
+  colorClassName: 'context-result-bg',
+}
+
+const p4Props = {
+  authURI: 'urn:ld4p:qa:genres',
+  authLabel: 'LOC Genre Forms',
+  innerResult: genreResult,
   colorClassName: 'context-result-bg',
 }
 
@@ -137,5 +162,13 @@ describe('<RenderLookupContext />', () => {
     expect(discogsDetailsContainer.contains('Reprise Records')).toEqual(true)
     expect(discogsDetailsContainer.contains('Vinyl')).toEqual(true)
     expect(discogsDetailsContainer.find('.type-span').contains('Master')).toEqual(true)
+  })
+
+  const genreWrapper = shallow(<RenderLookupContext.WrappedComponent {...p4Props} />)
+  it('displays nested object label', () => {
+    const genreContainer = genreWrapper.find('.details-container')
+    const genreDetails = genreContainer.at(1)
+    expect(genreDetails.find('.context-field').contains('Broader')).toEqual(true)
+    expect(genreDetails.contains('Animated films')).toEqual(true)
   })
 })

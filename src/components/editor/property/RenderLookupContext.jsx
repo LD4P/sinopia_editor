@@ -68,12 +68,8 @@ class RenderLookupContext extends Component {
      const property = contextResult.property
      // if property is one of the possible main label values don't show it
      if (mainLabelProperty.indexOf(property.toLowerCase()) < 0) {
-       const values = contextResult.values
-       // const values = [contextResult.value] //hack for wikidata, to be removed later
        const innerDivKey = `c${index}`
-       if (values.length) {
-         return (<div className="details-container" key={innerDivKey}> <span className="context-field">{property}</span>: {values.join(', ')} </div>)
-       }
+       return this.displayValues(contextResult.values, innerDivKey, property)
      }
    })
    return contextContent
@@ -85,14 +81,31 @@ class RenderLookupContext extends Component {
    const propertyOrder = authorityToContextOrderMap[authURI]
    const contextContent = propertyOrder.map((property, index) => {
      if (property in contextHash) {
-       const values = contextHash[property].values
        const innerDivKey = `c${index}`
-       if (values.length) {
-         return (<div className="details-container" key={innerDivKey}> <span className="context-field">{property}</span>: {values.join(', ')} </div>)
-       }
+       return this.displayValues(contextHash[property].values, innerDivKey, property)
      }
    })
    return contextContent
+ }
+
+ displayValues = (values, innerDivKey, property) => {
+   const valuesDisplay = this.generateValuesView(values)
+   if (valuesDisplay.length) {
+     return (<div className="details-container" key={innerDivKey}> <span className="context-field">{property}</span>: {valuesDisplay} </div>)
+   }
+ }
+
+ // Handle both string and object value
+ generateValuesView = (values) => {
+   const valuesDisplay = values.map((value) => {
+     if (typeof value === 'object') {
+       if ('label' in value) return value.label
+       if ('uri' in value) return value.uri
+       return JSON.stringify(value)
+     }
+     return value
+   })
+   return valuesDisplay.join(', ')
  }
 
  render() {
