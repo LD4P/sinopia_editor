@@ -662,26 +662,122 @@
     "component": "lookup"
   },
   {
-    "label": "SHAREVDE CORNELL INSTANCE",
-    "uri": "urn:ld4p:qa:sharevde_cornell_instance_ld4l_cache",
-    "authority": "sharevde_cornell_instance_ld4l_cache",
-    "subauthority": "",
+    "label": "SHAREVDE ALBERTA work (QA)",
+    "uri": "urn:ld4p:qa:sharevde_alberta_ld4l_cache:work",
+    "authority": "sharevde_alberta_ld4l_cache",
+    "subauthority": "work",
     "language": "en",
     "component": "lookup"
   },
   {
-    "label": "SHAREVDE CORNELL WORK",
-    "uri": "urn:ld4p:qa:sharevde_cornell_work_ld4l_cache",
-    "authority": "sharevde_cornell_work_ld4l_cache",
-    "subauthority": "",
+    "label": "SHAREVDE ALBERTA superwork (QA)",
+    "uri": "urn:ld4p:qa:sharevde_alberta_ld4l_cache:superwork",
+    "authority": "sharevde_alberta_ld4l_cache",
+    "subauthority": "superwork",
     "language": "en",
     "component": "lookup"
   },
   {
-    "label": "SHAREVDE FRICK WORK",
-    "uri": "urn:ld4p:qa:sharevde_frick_work_ld4l_cache",
-    "authority": "sharevde_frick_work_ld4l_cache",
-    "subauthority": "",
+    "label": "SHAREVDE ALBERTA instance (QA)",
+    "uri": "urn:ld4p:qa:sharevde_alberta_ld4l_cache:instance",
+    "authority": "sharevde_alberta_ld4l_cache",
+    "subauthority": "instance",
+    "language": "en",
+    "component": "lookup"
+  },
+  {
+    "label": "SHAREVDE CORNELL work (QA)",
+    "uri": "urn:ld4p:qa:sharevde_cornell_ld4l_cache:work",
+    "authority": "sharevde_cornell_ld4l_cache",
+    "subauthority": "work",
+    "language": "en",
+    "component": "lookup"
+  },
+  {
+    "label": "SHAREVDE CORNELL superwork (QA)",
+    "uri": "urn:ld4p:qa:sharevde_cornell_ld4l_cache:superwork",
+    "authority": "sharevde_cornell_ld4l_cache",
+    "subauthority": "superwork",
+    "language": "en",
+    "component": "lookup"
+  },
+  {
+    "label": "SHAREVDE CORNELL instance (QA)",
+    "uri": "urn:ld4p:qa:sharevde_cornell_ld4l_cache:instance",
+    "authority": "sharevde_cornell_ld4l_cache",
+    "subauthority": "instance",
+    "language": "en",
+    "component": "lookup"
+  },
+  {
+    "label": "SHAREVDE CU BOULDER work (QA)",
+    "uri": "urn:ld4p:qa:sharevde_cuboulder_ld4l_cache:work",
+    "authority": "sharevde_cuboulder_ld4l_cache",
+    "subauthority": "work",
+    "language": "en",
+    "component": "lookup"
+  },
+  {
+    "label": "SHAREVDE CU BOULDER superwork (QA)",
+    "uri": "urn:ld4p:qa:sharevde_cuboulder_ld4l_cache:superwork",
+    "authority": "sharevde_cuboulder_ld4l_cache",
+    "subauthority": "superwork",
+    "language": "en",
+    "component": "lookup"
+  },
+  {
+    "label": "SHAREVDE CU BOULDER instance (QA)",
+    "uri": "urn:ld4p:qa:sharevde_cuboulder_ld4l_cache:instance",
+    "authority": "sharevde_cuboulder_ld4l_cache",
+    "subauthority": "instance",
+    "language": "en",
+    "component": "lookup"
+  },
+  {
+    "label": "SHAREVDE DUKE work (QA)",
+    "uri": "urn:ld4p:qa:sharevde_duke_ld4l_cache:work",
+    "authority": "sharevde_duke_ld4l_cache",
+    "subauthority": "work",
+    "language": "en",
+    "component": "lookup"
+  },
+  {
+    "label": "SHAREVDE DUKE superwork (QA)",
+    "uri": "urn:ld4p:qa:sharevde_duke_ld4l_cache:superwork",
+    "authority": "sharevde_duke_ld4l_cache",
+    "subauthority": "superwork",
+    "language": "en",
+    "component": "lookup"
+  },
+  {
+    "label": "SHAREVDE DUKE instance (QA)",
+    "uri": "urn:ld4p:qa:sharevde_duke_ld4l_cache:instance",
+    "authority": "sharevde_duke_ld4l_cache",
+    "subauthority": "instance",
+    "language": "en",
+    "component": "lookup"
+  },
+  {
+    "label": "SHAREVDE FRICK work (QA)",
+    "uri": "urn:ld4p:qa:sharevde_frick_ld4l_cache:work",
+    "authority": "sharevde_frick_ld4l_cache",
+    "subauthority": "work",
+    "language": "en",
+    "component": "lookup"
+  },
+  {
+    "label": "SHAREVDE FRICK superwork (QA)",
+    "uri": "urn:ld4p:qa:sharevde_frick_ld4l_cache:superwork",
+    "authority": "sharevde_frick_ld4l_cache",
+    "subauthority": "superwork",
+    "language": "en",
+    "component": "lookup"
+  },
+  {
+    "label": "SHAREVDE FRICK instance (QA)",
+    "uri": "urn:ld4p:qa:sharevde_frick_ld4l_cache:instance",
+    "authority": "sharevde_frick_ld4l_cache",
+    "subauthority": "instance",
     "language": "en",
     "component": "lookup"
   },
