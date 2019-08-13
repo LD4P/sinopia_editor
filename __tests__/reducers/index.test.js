@@ -2,7 +2,7 @@
 
 import {
   createReducer, setRetrieveError, removeResource, clearServerError, updateFinished,
-  setLastSaveChecksum, setPublishError,
+  setLastSaveChecksum, setPublishError, setResource,
 } from 'reducers/index'
 import _ from 'lodash'
 import { getFixtureResourceTemplate } from '../fixtureLoaderHelper'
@@ -213,5 +213,67 @@ describe('setLastSaveChecksum', () => {
   it('sets lastSaveChecksum', () => {
     const newState = setLastSaveChecksum(initialState.selectorReducer, action)
     expect(newState.editor.lastSaveChecksum).toEqual('abc123')
+  })
+})
+
+describe('setResource', () => {
+  const initialState = {
+    selectorReducer: {
+      entities: {
+        resourceTemplates: {
+          'resourceTemplate:bf2:Monograph:Work': {},
+        },
+      },
+      editor: {
+        displayValidations: true,
+        errors: [
+          {
+            message: 'Required',
+            path: [
+              'BIBFRAME Instance',
+              'Statement of Responsibility Relating to Title Proper (RDA 2.4.2)',
+            ],
+            reduxPath: [
+              'resource',
+              'resourceTemplate:bf2:Monograph:Instance',
+              'http://id.loc.gov/ontologies/bibframe/responsibilityStatement',
+            ],
+          },
+          {
+            message: 'Required',
+            path: [
+              'BIBFRAME Instance',
+              'Agent Contribution',
+            ],
+            reduxPath: [
+              'resource',
+              'resourceTemplate:bf2:Monograph:Instance',
+              'http://id.loc.gov/ontologies/bibframe/contribution',
+            ],
+          },
+        ],
+      },
+    },
+  }
+  const action = {
+    payload: {
+      resource: {
+        'resourceTemplate:bf2:Monograph:Work': {
+          'http://id.loc.gov/ontologies/bibframe/content': {
+            items: {
+              't-GNOTgZQfi': {
+                label: 'text',
+                uri: 'http://id.loc.gov/vocabulary/contentTypes/txt',
+              },
+            },
+          },
+        },
+      },
+    },
+  }
+  it('clears validation errors', () => {
+    const newState = setResource(initialState.selectorReducer, action)
+    expect(newState.editor.displayValidations).toBeFalsy()
+    expect(newState.editor.errors).toEqual([])
   })
 })
