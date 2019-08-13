@@ -18,6 +18,8 @@ import _ from 'lodash'
 export const setResource = (state, action) => {
   // This should be a lodash cloneDeep.
   const newState = { ...state }
+  newState.editor.displayValidations = false
+  newState.editor.errors = []
   newState.resource = action.payload.resource
   newState.entities.resourceTemplates = _.cloneDeep(action.payload.resourceTemplates)
   return newState
