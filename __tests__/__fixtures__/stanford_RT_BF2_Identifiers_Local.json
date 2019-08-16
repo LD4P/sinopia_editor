@@ -1,0 +1,53 @@
+{
+  "propertyTemplates": [
+    {
+      "mandatory": "false",
+      "repeatable": "true",
+      "type": "literal",
+      "propertyURI": "http://www.w3.org/1999/02/22-rdf-syntax-ns#value",
+      "propertyLabel": "Local system number",
+      "resourceTemplates": [],
+      "valueConstraint": {
+        "valueTemplateRefs": [],
+        "useValuesFrom": [],
+        "defaults": []
+      }
+    },
+    {
+      "mandatory": "false",
+      "repeatable": "true",
+      "type": "resource",
+      "resourceTemplates": [],
+      "valueConstraint": {
+        "valueTemplateRefs": [
+          "stanford:RT:BF2:Identifiers:Source"
+        ],
+        "useValuesFrom": [],
+        "defaults": []
+      },
+      "propertyURI": "http://id.loc.gov/ontologies/bibframe/source",
+      "propertyLabel": "Source of number (e.g. OCLC)"
+    },
+    {
+      "mandatory": "false",
+      "repeatable": "true",
+      "type": "resource",
+      "resourceTemplates": [],
+      "valueConstraint": {
+        "valueTemplateRefs": [
+          "stanford:RT:BF2:Note"
+        ],
+        "useValuesFrom": [],
+        "defaults": []
+      },
+      "propertyURI": "http://id.loc.gov/ontologies/bibframe/note",
+      "propertyLabel": "Note on local system number"
+    }
+  ],
+  "id": "stanford:RT:BF2:Identifiers:Local",
+  "resourceURI": "http://id.loc.gov/ontologies/bibframe/Local",
+  "resourceLabel": "STF local system number",
+  "date": "2017-08-16",
+  "author": "Robert Rohrbacher (rrohrbac@stanford.edu)",
+  "schema": "https://ld4p.github.io/sinopia/schemas/0.0.9/resource-template.json"
+}

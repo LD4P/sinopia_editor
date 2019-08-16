@@ -1,0 +1,23 @@
+{
+  "id": "harvard:rt:test:userfeedback:contribution3",
+  "author": "Christine Fernsbner Eslao",
+  "date": "2019-08-07",
+  "resourceLabel": "Contribution",
+  "resourceURI": "http://id.loc.gov/ontologies/bibframe/Contribution",
+  "schema": "https://ld4p.github.io/sinopia/schemas/0.2.1/resource-template.json",
+  "propertyTemplates": [
+    {
+      "propertyURI": "http://id.loc.gov/ontologies/bibframe/agent",
+      "propertyLabel": "Agent",
+      "mandatory": "false",
+      "repeatable": "true",
+      "type": "lookup",
+      "subtype": "context",
+      "valueConstraint": {
+        "useValuesFrom": [
+          "urn:ld4p:qa:names:person"
+        ]
+      }
+    }
+  ]
+}

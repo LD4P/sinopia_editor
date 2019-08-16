@@ -1,0 +1,23 @@
+{
+  "propertyTemplates": [
+    {
+      "mandatory": "false",
+      "repeatable": "true",
+      "type": "literal",
+      "propertyURI": "http://www.w3.org/1999/02/22-rdf-syntax-ns#value",
+      "propertyLabel": "Barcode",
+      "resourceTemplates": [],
+      "valueConstraint": {
+        "valueTemplateRefs": [],
+        "useValuesFrom": [],
+        "defaults": []
+      }
+    }
+  ],
+  "id": "stanford:RT:BF2:Identifiers:Barcode",
+  "resourceURI": "http://id.loc.gov/ontologies/bibframe/Barcode",
+  "resourceLabel": "STF barcode",
+  "date": "2017-08-16",
+  "author": "Robert Rohrbacher (rrohrbac@stanford.edu)",
+  "schema": "https://ld4p.github.io/sinopia/schemas/0.0.9/resource-template.json"
+}

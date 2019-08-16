@@ -1,0 +1,17 @@
+{
+  "propertyTemplates": [
+    {
+      "mandatory": "false",
+      "repeatable": "true",
+      "type": "literal",
+      "propertyURI": "http://www.w3.org/2000/01/rdf-schema#label",
+      "propertyLabel": "Chronology"
+    }
+  ],
+  "id": "sinopia:resourceTemplate:bf2:Item:Chronology",
+  "resourceURI": "http://id.loc.gov/ontologies/bibframe/Chronology",
+  "resourceLabel": "Chronology",
+  "date": "2017-08-08",
+  "author": "NDMSO",
+  "schema": "https://ld4p.github.io/sinopia/schemas/0.1.0/resource-template.json"
+}
