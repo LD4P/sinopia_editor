@@ -1,0 +1,40 @@
+{
+  "propertyTemplates": [
+    {
+      "mandatory": "false",
+      "repeatable": "true",
+      "type": "lookup",
+      "propertyURI": "http://id.loc.gov/ontologies/bflc/target",
+      "propertyLabel": "Search Place",
+      "remark": "http://access.rdatoolkit.org/2.10.2.html",
+      "resourceTemplates": [],
+      "valueConstraint": {
+        "valueTemplateRefs": [],
+        "useValuesFrom": [
+          "urn:ld4p:qa:names:place"
+        ],
+        "defaults": []
+      }
+    },
+    {
+      "mandatory": "false",
+      "repeatable": "true",
+      "type": "literal",
+      "resourceTemplates": [],
+      "valueConstraint": {
+        "valueTemplateRefs": [],
+        "useValuesFrom": [],
+        "defaults": [],
+        "valueDataType": {}
+      },
+      "propertyURI": "http://www.w3.org/2000/01/rdf-schema#label",
+      "propertyLabel": "Record Place (if it does not appear above)"
+    }
+  ],
+  "id": "stanford:RT:BF2:ProvisionPlace",
+  "resourceURI": "http://id.loc.gov/ontologies/bibframe/Place",
+  "resourceLabel": "Place",
+  "date": "2017-06-02",
+  "author": "Robert Rohrbacher (rrohrbac@stanford.edu)",
+  "schema": "https://ld4p.github.io/sinopia/schemas/0.0.9/resource-template.json"
+}

@@ -1,0 +1,47 @@
+{
+  "id": "Harvard:rt:test:userfeedback:item",
+  "propertyTemplates": [
+    {
+      "propertyLabel": "Held by",
+      "propertyURI": "http://id.loc.gov/ontologies/bibframe/heldBy",
+      "type": "lookup",
+      "valueConstraint": {
+        "useValuesFrom": [
+          "https://id.loc.gov/vocabulary/organizations"
+        ],
+        "valueDataType": {
+          "dataTypeURI": "http://id.loc.gov/ontologies/bibframe/Agent"
+        },
+        "defaults": [],
+        "valueTemplateRefs": [
+          "",
+          ""
+        ]
+      },
+      "mandatory": "false",
+      "repeatable": "false",
+      "resourceTemplates": []
+    },
+    {
+      "propertyLabel": "Call numbers, barcodes",
+      "propertyURI": "http://id.loc.gov/ontologies/bibframe/identifiedBy",
+      "resourceTemplates": [],
+      "valueConstraint": {
+        "valueTemplateRefs": [
+          "sinopia:resourceTemplate:bf2:Identifiers:LC",
+          "sinopia:resourceTemplate:bf2:Identifiers:Barcode"
+        ],
+        "useValuesFrom": [],
+        "defaults": []
+      },
+      "mandatory": "false",
+      "repeatable": "true",
+      "type": "resource"
+    }
+  ],
+  "resourceLabel": "Item",
+  "resourceURI": "http://id.loc.gov/ontologies/bibframe/Item",
+  "author": "Christine Fernsebner Eslao (eslao@harvard.edu)",
+  "date": "2017-08-06",
+  "schema": "https://ld4p.github.io/sinopia/schemas/0.0.9/resource-template.json"
+}

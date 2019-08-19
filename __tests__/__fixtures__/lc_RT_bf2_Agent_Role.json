@@ -1,0 +1,29 @@
+{
+  "propertyTemplates": [
+    {
+      "mandatory": "false",
+      "repeatable": "false",
+      "type": "lookup",
+      "valueConstraint": {
+        "useValuesFrom": [
+          "https://id.loc.gov/vocabulary/relators"
+        ]
+      },
+      "propertyLabel": "Search MARC relator term",
+      "propertyURI": "http://id.loc.gov/ontologies/bibframe/Role"
+    },
+    {
+      "mandatory": "false",
+      "repeatable": "false",
+      "type": "literal",
+      "propertyURI": "http://www.w3.org/2000/01/rdf-schema#label",
+      "propertyLabel": "Input RDA relationship designator term (if it does not appear above)"
+    }
+  ],
+  "id": "lc:RT:bf2:Agent:Role",
+  "resourceURI": "http://id.loc.gov/ontologies/bibframe/Role",
+  "resourceLabel": "Role",
+  "author": "NDMSO",
+  "date": "2019-08-07",
+  "schema": "https://ld4p.github.io/sinopia/schemas/0.2.0/resource-template.json"
+}

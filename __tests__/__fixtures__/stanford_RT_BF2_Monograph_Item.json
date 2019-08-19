@@ -1,0 +1,125 @@
+{
+  "id": "stanford:RT:BF2:Monograph:Item",
+  "propertyTemplates": [
+    {
+      "propertyLabel": "Held by",
+      "propertyURI": "http://id.loc.gov/ontologies/bibframe/heldBy",
+      "type": "lookup",
+      "valueConstraint": {
+        "useValuesFrom": [
+          "https://id.loc.gov/vocabulary/organizations"
+        ],
+        "valueDataType": {
+          "dataTypeURI": "http://id.loc.gov/ontologies/bibframe/Agent"
+        },
+        "defaults": [
+          {
+            "defaultURI": "http://id.loc.gov/vocabulary/organizations/cst",
+            "defaultLiteral": "CSt"
+          }
+        ],
+        "valueTemplateRefs": []
+      },
+      "mandatory": "false",
+      "repeatable": "true",
+      "resourceTemplates": []
+    },
+    {
+      "propertyLabel": "Call numbers, barcodes",
+      "propertyURI": "http://id.loc.gov/ontologies/bibframe/identifiedBy",
+      "resourceTemplates": [],
+      "valueConstraint": {
+        "valueTemplateRefs": [
+          "stanford:RT:BF2:Identifiers:LC",
+          "stanford:RT:BF2:Identifiers:Barcode",
+          "stanford:RT:BF2:Identifiers:DDC",
+          "stanford:RT:BF2:Identifiers:AccessionCopyNo"
+        ],
+        "useValuesFrom": [],
+        "defaults": []
+      },
+      "mandatory": "false",
+      "repeatable": "true",
+      "type": "resource"
+    },
+    {
+      "propertyLabel": "Electronic location",
+      "propertyURI": "http://id.loc.gov/ontologies/bibframe/electronicLocator",
+      "mandatory": "false",
+      "repeatable": "true",
+      "type": "resource",
+      "resourceTemplates": [],
+      "valueConstraint": {
+        "valueTemplateRefs": [],
+        "useValuesFrom": [],
+        "defaults": []
+      }
+    },
+    {
+      "propertyLabel": "Held in sublocation",
+      "propertyURI": "http://id.loc.gov/ontologies/bibframe/sublocation",
+      "mandatory": "false",
+      "repeatable": "true",
+      "type": "literal",
+      "resourceTemplates": [],
+      "valueConstraint": {
+        "valueTemplateRefs": [],
+        "useValuesFrom": [],
+        "defaults": []
+      }
+    },
+    {
+      "propertyLabel": "Notes about the Item",
+      "propertyURI": "http://id.loc.gov/ontologies/bibframe/note",
+      "resourceTemplates": [],
+      "valueConstraint": {
+        "valueTemplateRefs": [
+          "stanford:RT:BF2:Note"
+        ],
+        "useValuesFrom": [],
+        "defaults": []
+      },
+      "mandatory": "false",
+      "repeatable": "true",
+      "type": "resource"
+    },
+    {
+      "propertyLabel": "Lending, Reproduction, and Retention Policies",
+      "propertyURI": "http://id.loc.gov/ontologies/bibframe/usageAndAccessPolicy",
+      "resourceTemplates": [],
+      "valueConstraint": {
+        "valueTemplateRefs": [
+          "sinopia:resourceTemplate:bf2:Item:Access",
+          "sinopia:resourceTemplate:bf2:Item:Use",
+          "sinopia:resourceTemplate:bf2:Item:Retention"
+        ],
+        "useValuesFrom": [],
+        "defaults": []
+      },
+      "mandatory": "false",
+      "repeatable": "true",
+      "type": "resource"
+    },
+    {
+      "mandatory": "false",
+      "repeatable": "true",
+      "type": "resource",
+      "resourceTemplates": [],
+      "valueConstraint": {
+        "valueTemplateRefs": [
+          "sinopia:resourceTemplate:bf2:Item:Enumeration",
+          "sinopia:resourceTemplate:bf2:Item:Chronology"
+        ],
+        "useValuesFrom": [],
+        "defaults": []
+      },
+      "propertyLabel": "Enumeration And Chronology of Item",
+      "propertyURI": "http://id.loc.gov/ontologies/bibframe/enumerationAndChronology"
+    }
+  ],
+  "resourceLabel": "STF BIBFRAME Monograph Item",
+  "resourceURI": "http://id.loc.gov/ontologies/bibframe/Item",
+  "author": "Robert Rohrbacher (rrohrbac@stanford.edu)",
+  "date": "2017-05-26",
+  "schema": "https://ld4p.github.io/sinopia/schemas/0.0.9/resource-template.json"
+}

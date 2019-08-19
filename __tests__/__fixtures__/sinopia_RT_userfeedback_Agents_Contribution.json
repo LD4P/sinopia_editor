@@ -1,0 +1,41 @@
+{
+  "resourceURI": "http://id.loc.gov/ontologies/bibframe/Contribution",
+  "id": "sinopia:RT:userfeedback:Agents:Contribution",
+  "resourceLabel": "Contribution",
+  "propertyTemplates": [
+    {
+      "propertyLabel": "Agent",
+      "valueConstraint": {
+        "valueTemplateRefs": [],
+        "useValuesFrom": [
+          "urn:ld4p:qa:names"
+        ],
+        "defaults": []
+      },
+      "propertyURI": "http://id.loc.gov/ontologies/bibframe/agent",
+      "type": "lookup",
+      "mandatory": "false",
+      "repeatable": "true",
+      "resourceTemplates": []
+    },
+    {
+      "propertyURI": "http://id.loc.gov/ontologies/bibframe/role",
+      "propertyLabel": "Relationship Designator (RDA Appendix I)",
+      "type": "resource",
+      "mandatory": "false",
+      "repeatable": "true",
+      "valueConstraint": {
+        "valueTemplateRefs": [
+          "lc:RT:bf2:Agent:Role"
+        ],
+        "useValuesFrom": [],
+        "defaults": []
+      },
+      "remark": "http://access.rdatoolkit.org/rdaappi_rdai-34.html",
+      "resourceTemplates": []
+    }
+  ],
+  "author": "Michelle Futornick (futo@stanford.edu)",
+  "date": "2019-08-07",
+  "schema": "https://ld4p.github.io/sinopia/schemas/0.0.9/resource-template.json"
+}

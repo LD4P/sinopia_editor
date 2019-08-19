@@ -1,0 +1,116 @@
+{
+  "propertyTemplates": [
+    {
+      "mandatory": "false",
+      "repeatable": "true",
+      "type": "literal",
+      "resourceTemplates": [],
+      "valueConstraint": {
+        "valueTemplateRefs": [],
+        "useValuesFrom": [],
+        "defaults": [
+          {
+            "defaultURI": "",
+            "defaultLiteral": "If it's working correctly, you should see a different button get highlighted every time you press the tab key."
+          }
+        ],
+        "valueDataType": {}
+      },
+      "propertyLabel": "1. Before we start entering data: are you able to use the tab key to advance through fields when cataloging? Is the tabbing order intuitive? Does it help you to avoid mousing?",
+      "propertyURI": "http://fakepropertyforusertesting1"
+    },
+    {
+      "mandatory": "true",
+      "repeatable": "false",
+      "type": "resource",
+      "resourceTemplates": [],
+      "valueConstraint": {
+        "valueTemplateRefs": [
+          "Harvard:rt:test:userfeedback:worktitle"
+        ],
+        "useValuesFrom": [],
+        "defaults": [],
+        "valueDataType": {}
+      },
+      "propertyURI": "http://id.loc.gov/ontologies/bibframe/title",
+      "propertyLabel": "2. Let's start by entering a string. Are you able to indicate what language these are in? Did you have any trouble entering diacritics or non-Roman characters?",
+      "remark": ""
+    },
+    {
+      "mandatory": "false",
+      "repeatable": "false",
+      "type": "lookup",
+      "resourceTemplates": [],
+      "valueConstraint": {
+        "valueTemplateRefs": [],
+        "useValuesFrom": [
+          "urn:ld4p:qa:subjects",
+          "urn:ld4p:qa:mesh",
+          "urn:ld4p:qa:agrovoc"
+        ],
+        "defaults": [],
+        "valueDataType": {}
+      },
+      "propertyLabel": "3. Next, choose a subject from LCSH, MeSH, or AGROVOC. But first, try opening this link to instructions from RDA:",
+      "propertyURI": "http://id.loc.gov/ontologies/bibframe/subject",
+      "remark": "http://access.rdatoolkit.org/rdachp23_rda23-12.html"
+    },
+    {
+      "mandatory": "false",
+      "repeatable": "true",
+      "type": "resource",
+      "resourceTemplates": [],
+      "valueConstraint": {
+        "valueTemplateRefs": [
+          "sinopia:RT:userfeedback:Agents:Contribution"
+        ],
+        "useValuesFrom": [],
+        "defaults": [],
+        "valueDataType": {}
+      },
+      "propertyURI": "http://id.loc.gov/ontologies/bibframe/contribution",
+      "propertyLabel": "4. Add a contribution and select an agent from LCNAF. Do you see contextual data that helps you make a selection? If you are unable to find the entity you're searching for, are you able to enter a text string instead? Use Preview RDF to check whether the correct URI is included."
+    },
+    {
+      "mandatory": "false",
+      "repeatable": "true",
+      "type": "resource",
+      "resourceTemplates": [],
+      "valueConstraint": {
+        "valueTemplateRefs": [
+          "Harvard:rt:test:userfeedback:instance"
+        ],
+        "useValuesFrom": [],
+        "defaults": [],
+        "valueDataType": {}
+      },
+      "propertyLabel": "5. Add an instance and an item. Use Preview RDF to confirm that your work, instance, and item are linked to each other as expected.",
+      "propertyURI": "http://id.loc.gov/ontologies/bibframe/hasInstance"
+    },
+    {
+      "mandatory": "false",
+      "repeatable": "true",
+      "type": "literal",
+      "resourceTemplates": [],
+      "valueConstraint": {
+        "valueTemplateRefs": [],
+        "useValuesFrom": [],
+        "defaults": [
+          {
+            "defaultURI": "",
+            "defaultLiteral": "Thanks for testing!"
+          }
+        ],
+        "valueDataType": {}
+      },
+      "propertyURI": "http://fakepropertyforusertesting2",
+      "propertyLabel": "6. Is the RDF produced correct and complete? Are URIs minted where needed? Use Preview RDF to check."
+    }
+  ],
+  "id": "Harvard:rt:test:userfeedback",
+  "resourceURI": "http://id.loc.gov/ontologies/bibframe/Work",
+  "author": "Christine Fernsebner Eslao (eslao@fas.harvard.edu)",
+  "remark": "",
+  "resourceLabel": "Sinopia user feedback",
+  "schema": "https://ld4p.github.io/sinopia/schemas/0.0.9/resource-template.json"
+}

@@ -1,0 +1,41 @@
+{
+  "propertyTemplates": [
+    {
+      "mandatory": "false",
+      "repeatable": "true",
+      "type": "lookup",
+      "propertyURI": "http://id.loc.gov/ontologies/bflc/target",
+      "propertyLabel": "Search Name",
+      "remark": "http://access.rdatoolkit.org/2.8.4.html",
+      "resourceTemplates": [],
+      "valueConstraint": {
+        "valueTemplateRefs": [],
+        "useValuesFrom": [
+          "urn:ld4p:qa:names:organization"
+        ],
+        "defaults": []
+      }
+    },
+    {
+      "mandatory": "false",
+      "repeatable": "true",
+      "type": "literal",
+      "resourceTemplates": [],
+      "valueConstraint": {
+        "valueTemplateRefs": [],
+        "useValuesFrom": [],
+        "defaults": [],
+        "valueDataType": {}
+      },
+      "propertyURI": "http://www.w3.org/2000/01/rdf-schema#label",
+      "propertyLabel": "Record Name (if it does not appear above)",
+      "remark": ""
+    }
+  ],
+  "id": "stanford:RT:BF2:ProvisionName",
+  "resourceURI": "http://id.loc.gov/ontologies/bibframe/Agent",
+  "resourceLabel": "Name",
+  "date": "2017-06-02",
+  "author": "Robert Rohrbacher (rrohrbac@stanford.edu)",
+  "schema": "https://ld4p.github.io/sinopia/schemas/0.0.9/resource-template.json"
+}
