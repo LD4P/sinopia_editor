@@ -321,11 +321,12 @@ From a design standpoint, the objective with `bfe` was to create the simplest
 to create/edit linked data.  The current focus is to transform bfe into a production ready tool.
 
 All contributions are welcome.  If you do not code, surely you will discover an
-[issue] you can report.
+[issue](https://github.com/LD4P/sinopia_editor/issues) you can report.
 
 #### User Authentication with AWS Cognito
 
-We currently use AWS Cognito to manage the authentication of users. Cognito uses a client id to manage the connection to
+We currently use [AWS Cognito](https://aws.amazon.com/cognito/) to manage the
+authentication of users. Cognito uses a client id to manage the connection to
 this application (see `awsClientID()` in `src/Config.js`). Whenever changes are made to the AWS configuration this client_id
 changes and so you must also submit a PR to change the client id in this application as well. In the production environment
 this will be handled via an environment variable, but for local functionality and testing, the hard-coded value must be updated,
@@ -334,8 +335,9 @@ or you must set the environment variable `AWS_CLIENT_ID` to be the current clien
 Acknowledgements
 ----------
 
-In addition to all the good people who have worked on [JQuery], [Lo-Dash],
-Twitter's [Bootstrap], Twitter's [typeahead.js], [require.js], [dryice], and
+In addition to all the good people who have worked on [JQuery][JQuery], [Lo-Dash][Lo-Dash],
+Twitter's [Bootstrap][Bootstrap], Twitter's [typeahead.js][typeahead.js],
+[require.js][require.js], [dryice], and
 more, all of whom made this simpler, special recognition needs to
 go to the developers who have worked on [Ajax.org's Ace editor][ace] and
 the fine individuals at [Zepheira].
