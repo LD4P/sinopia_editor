@@ -824,6 +824,11 @@
     "component": "list"
   },
   {
+    "label": "carrier",
+    "uri": "https://id.loc.gov/vocabulary/carriers",
+    "component": "list"
+  },
+  {
     "label": "class schedule used",
     "uri": "https://id.loc.gov/vocabulary/classSchemes",
     "component": "list"
@@ -914,6 +919,11 @@
     "component": "list"
   },
   {
+    "label": "generation",
+    "uri": "https://id.loc.gov/vocabulary/mgeneration",
+    "component": "list"
+  },
+  {
     "label": "genre/form scheme",
     "uri": "https://id.loc.gov/vocabulary/genreFormSchemes",
     "component": "list"
@@ -939,6 +949,16 @@
     "component": "list"
   },
   {
+    "label": "presentation format",
+    "uri": "https://id.loc.gov/vocabulary/mpresformat",
+    "component": "list"
+  },
+  {
+    "label": "projection",
+    "uri": "https://id.loc.gov/vocabulary/mprojection",
+    "component": "list"
+  },
+  {
     "label": "production method",
     "uri": "https://id.loc.gov/vocabulary/mproduction",
     "component": "list"
@@ -954,8 +974,33 @@
     "component": "list"
   },
   {
+    "label": "relief",
+    "uri": "https://id.loc.gov/vocabulary/mrelief",
+    "component": "list"
+  },
+  {
+    "label": "scale",
+    "uri": "https://id.loc.gov/vocabulary/mscale",
+    "component": "list"
+  },
+  {
+    "label": "sound capture and storage",
+    "uri": "https://id.loc.gov/vocabulary/mcapturestorage",
+    "component": "list"
+  },
+  {
     "label": "sound content",
     "uri": "https://id.loc.gov/vocabulary/msoundcontent",
+    "component": "list"
+  },
+  {
+    "label": "subject schemes",
+    "uri": "https://id.loc.gov/vocabulary/subjectSchemes",
+    "component": "list"
+  },
+  {
+    "label": "status",
+    "uri": "https://id.loc.gov/vocabulary/mstatus",
     "component": "list"
   },
   {
