@@ -129,6 +129,7 @@
     "redux-thunk": "^2.3.0",
     "request": "^2.88.0",
     "reselect": "^4.0.0",
+    "set-value": ">=2.0.1",
     "shortid": "^2.2.14",
     "sinopia_server": "^3.0.0-beta4",
     "swagger-client": "^3.8.25",
