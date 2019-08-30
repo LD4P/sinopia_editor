@@ -824,11 +824,6 @@
     "component": "list"
   },
   {
-    "label": "carrier",
-    "uri": "https://id.loc.gov/vocabulary/carriers",
-    "component": "list"
-  },
-  {
     "label": "class schedule used",
     "uri": "https://id.loc.gov/vocabulary/classSchemes",
     "component": "list"
