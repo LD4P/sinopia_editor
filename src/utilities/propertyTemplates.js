@@ -16,9 +16,9 @@ export const getTagNameForPropertyTemplate = (propertyTemplate) => {
     case 'local-lookup':
       return 'InputLookupSinopia'
     case 'lookup':
-      return 'InputLookupQA'
+      return 'InputLookupDataList'
     case 'list':
-      return 'InputListLOC'
+      return 'InputLookupDataList'
     default:
       return textFieldType(config, propertyTemplate)
   }
