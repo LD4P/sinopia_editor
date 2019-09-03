@@ -15,10 +15,9 @@ const search = (query, propertyTemplate) => (dispatch) => {
   })
 }
 
-const getSearchResults = (query, propertyTemplate) => Swagger({ spec: swaggerSpec })
+export const getSearchResults = (query, propertyTemplate) => Swagger({ spec: swaggerSpec })
   .then((client) => {
     const lookupConfigs = getLookupConfigItems(propertyTemplate)
-
     // Create array of promises based on the lookup config array that is sent in
     const lookupPromises = createLookupPromises(client, query, lookupConfigs, isContext(propertyTemplate))
 
