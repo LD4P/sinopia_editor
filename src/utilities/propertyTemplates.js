@@ -18,7 +18,7 @@ export const getTagNameForPropertyTemplate = (propertyTemplate) => {
     case 'lookup':
       return 'InputLookupDataList'
     case 'list':
-      return 'InputLookupDataList'
+      return 'InputListLOC'
     default:
       return textFieldType(config, propertyTemplate)
   }

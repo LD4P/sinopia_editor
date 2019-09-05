@@ -51,6 +51,9 @@ const InputURI = (props) => {
   }
 
   const handleKeypress = (event) => {
+    if (props.handleKeypress) {
+      props.handleKeypress(event)
+    }
     if (event.key === 'Enter') {
       addItem()
       event.preventDefault()
@@ -98,6 +101,7 @@ const InputURI = (props) => {
     <div className={groupClasses}>
       <label htmlFor={id}>Enter a URI</label>
       <input id={id}
+             list={props.list || null}
              required={required}
              className="form-control"
              placeholder={props.propertyTemplate.propertyLabel}
@@ -117,6 +121,8 @@ InputURI.propTypes = {
   propertyTemplate: SinopiaPropTypes.propertyTemplate,
   items: PropTypes.object,
   itemsSelected: PropTypes.func,
+  list: PropTypes.string,
+  handleKeypress: PropTypes.func,
   reduxPath: PropTypes.array.isRequired,
   displayValidations: PropTypes.bool,
   errors: PropTypes.array,

@@ -3,104 +3,97 @@
 import React from 'react'
 import { bindActionCreators } from 'redux'
 import { connect } from 'react-redux'
-import DataListInput from 'react-datalist-input'
-import search from 'actionCreators/qa'
-import { changeSelections } from 'actions/index'
-import { isValidURI } from 'Utilities'
+import { getSearchResults, search } from 'actionCreators/qa'
+import shortid from 'shortid'
 import {
-  itemsForProperty, getDisplayValidations, getPropertyTemplate, findErrors,
+  getPropertyTemplate, findErrors,
 } from 'selectors/resourceSelectors'
-import { booleanPropertyFromTemplate } from 'utilities/propertyTemplates'
-import InputValue from './InputValue'
+import InputURI from './InputURI'
 import PropTypes from 'prop-types'
+import _ from 'lodash'
 import SinopiaPropTypes from 'SinopiaPropTypes'
 
+export const DataListOption = (props) => {
+  return (<option value={props.uri}
+            id={props.id}
+            key={shortid.generate()}>
+      {props.label}
+    </option>
+  )
+}
+
 const InputLookupDataList = (props) => {
+  const query = []
+  const options = []
 
-  // if (!props.propertyTemplate) {
-  //   return null
-  // }
-  // const handleEdit = (content, lang) => {
-    // setContent(content)
-    // setLang(lang)
-    // inputLiteralRef.current.focus()
-  // }
-  // const itemKeys = Object.keys(props.items)
-  // const addedList = itemKeys.map(itemId => (<InputValue key={itemId}
-  //                                                       handleEdit={handleEdit}
-  //                                                       reduxPath={[...props.reduxPath, 'items', itemId]} />))
-  const matchCurrentInput = (userInput, item) => {
-    console.log(`in matchCurrentInput ${userInput}`, item, props)
-    const results = props.search(userInput)
-    console.log(results)
-    props.items.append( { id: 'etef', label: 'Etef'} )
-    // const newItems = props.items
-
-    // return item.label.substr(0, currentInput.length).toUpperCase() === currentInput.toUpperCase();
-    return true
+  const handleKeypress = (event) => {
+    query.push(event.key)
+    if (query.length > 3) {
+      const queryString = query.join('')
+      const result = getSearchResults(queryString, props.propertyTemplate)
+      console.log(`This is the query search`)
+      //! Need to update options from result of QA Search
+    }
   }
-
-  const addedList = []
-
-  const onSelect = (item) => {
-    console.log(`in onSelect`, item)
-    // addedList.append(item)
-    return { item }
-  }
-
-
 
   let error
-  const groupClasses = 'form-group'
+  let groupClasses = 'form-group'
 
-  const disabled = !booleanPropertyFromTemplate(props.propertyTemplate, 'repeatable', true)
-      && Object.keys(props.items).length > 0
+  props.options?.forEach((row) => {
+    options.push(<DataListOption {...row} />)
+  })
 
-  const selections = () => { return [] }
-
-  // const isMandatory = booleanPropertyFromTemplate(props.propertyTemplate, 'mandatory', false)
-
-  // const isRepeatable = booleanPropertyFromTemplate(props.propertyTemplate, 'repeatable', true)
   if (props.displayValidations && !_.isEmpty(props.errors)) {
     groupClasses += ' has-error'
     error = props.errors.join(',')
   }
+  const dataListId = shortid.generate()
   return (
-    <div className={groupClasses}>
-      <DataListInput items={props.items}
-                     disabled={disabled}
-                     onSelect={onSelect}
-                     match={matchCurrentInput} />
+    <div className={groupClasses} query={query}>
+      <InputURI list={dataListId}
+                reduxPath={props.reduxPath}
+                errors={props.errors}
+                handleKeypress={handleKeypress}></InputURI>
+      <datalist id={dataListId}>
+        {options}
+      </datalist>
       {error && <span className="help-block help-block-error">{error}</span>}
-      {addedList}
     </div>
   )
 }
 
+DataListOption.propTypes = {
+  key: PropTypes.string,
+  id: PropTypes.string,
+  label: PropTypes.string,
+  uri: PropTypes.string,
+}
+
 InputLookupDataList.propTypes = {
-  items: PropTypes.arrayOf(PropTypes.object),
-  // matchCurrentInput: PropTypes.func,
-  // onSelect: PropTypes.func,
+  displayValidations: PropTypes.func,
+  errors: PropTypes.array,
+  query: PropTypes.array,
+  options: PropTypes.arrayOf(PropTypes.object),
   propertyTemplate: SinopiaPropTypes.propertyTemplate,
   reduxPath: PropTypes.oneOfType([PropTypes.string, PropTypes.array]),
 }
 
 const mapStateToProps = (state, ownProps) => {
-  console.log(`in mapStateToProps`, ownProps)
   const reduxPath = ownProps.reduxPath
   const resourceTemplateId = reduxPath[reduxPath.length - 2]
   const propertyURI = reduxPath[reduxPath.length - 1]
-  const displayValidations = getDisplayValidations(state)
+  const errors = findErrors(state, reduxPath)
   const propertyTemplate = getPropertyTemplate(state, resourceTemplateId, propertyURI)
-  const errors = findErrors(state, ownProps.reduxPath)
-  const items = []
+  const options = ownProps.options || []
   return {
-    items,
-    displayValidations,
+    errors,
     reduxPath,
+    options,
+    propertyTemplate,
   }
 }
 
-const mapDispatchToProps = dispatch => bindActionCreators({ changeSelections, search }, dispatch)
+
+const mapDispatchToProps = dispatch => bindActionCreators({ search }, dispatch)
 
 export default connect(mapStateToProps, mapDispatchToProps)(InputLookupDataList)

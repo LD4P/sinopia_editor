@@ -15,7 +15,7 @@ const search = (query, propertyTemplate) => (dispatch) => {
   })
 }
 
-const getSearchResults = (query, propertyTemplate) => Swagger({ spec: swaggerSpec })
+export const getSearchResults = (query, propertyTemplate) => Swagger({ spec: swaggerSpec })
   .then((client) => {
     const lookupConfigs = getLookupConfigItems(propertyTemplate)
 
