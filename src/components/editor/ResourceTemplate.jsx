@@ -36,6 +36,12 @@ class ResourceTemplate extends Component {
             <ResourceURIMessage />
             <SaveAlert />
           </section>
+          {this.props.unusedRDF &&
+            <div className="alert alert-warning" role="alert">
+              <strong>Unable to load the entire resource.</strong> The unused triples are:
+                <pre>{this.props.unusedRDF}</pre>
+              </div>
+          }
           <ResourceTemplateForm reduxPath = {['resource', this.props.resourceTemplate.id]} />
         </div>
       </div>
@@ -47,6 +53,7 @@ ResourceTemplate.propTypes = {
   resourceTemplate: PropTypes.object,
   error: PropTypes.string,
   loadLanguages: PropTypes.func,
+  unusedRDF: PropTypes.string
 }
 
 const mapStateToProps = (state) => {
@@ -54,9 +61,11 @@ const mapStateToProps = (state) => {
 
   const resourceTemplate = getResourceTemplate(state, resourceTemplateId)
   const error = state.selectorReducer.editor.serverError
+  const unusedRDF = state.selectorReducer.editor.unusedRDF
   return {
     resourceTemplate,
     error,
+    unusedRDF,
   }
 }
 

@@ -3,6 +3,7 @@
 import shortid from 'shortid'
 
 import rdf from 'rdf-ext'
+import { getResourceTemplate } from 'sinopiaServer'
 import _ from 'lodash'
 
 /**
@@ -16,51 +17,98 @@ export default class ResourceStateBuilder {
    * @param {Dataset} dataset the RDF graph
    * @param {string|null} resourceURI URI of the resource
    */
-  constructor(dataset, resourceURI) {
+  constructor(dataset, resourceURI, resourceTemplateId) {
     this.dataset = dataset
     this.resourceURI = resourceURI === '' ? null : resourceURI
+    this.resourceTemplateId = resourceTemplateId === '' ? null : resourceTemplateId
     this.resourceState = {}
+    this.usedDataset = rdf.dataset(this.findTypeQuads(rdf.namedNode(this.resourceURI)))
   }
 
   /**
    * @return {Object} the resource represented as Redux state
    */
-  get state() {
-    this.resourceState = this.buildResource(rdf.namedNode(this.resourceURI))
+  async generateState() {
+    // If a resource template id isn't provided, find one in the RDF.
+    let rtId = this.resourceTemplateId
+    if (!rtId) {
+      // Find the resource template id of base resource. Should be only 1.
+      const rtQuads = this.findResourceTemplateQuads(rdf.namedNode(this.resourceURI))
+      if (rtQuads.length !== 1) {
+        // TODO: Surface this to user.
+        throw 'A single resource template must be provided or included as a triple (http://sinopia.io/vocabulary/hasResourceTemplate)'
+      }
+      const rtQuad = rtQuads[0]
+      this.usedDataset.add(rtQuad)
+      rtId = rtQuad.object.value
+    }
 
-    return this.resourceState
+    this.resourceState = await this.buildResource(rdf.namedNode(this.resourceURI), rtId)
+
+    return [this.resourceState, this.dataset.difference(this.usedDataset)]
   }
 
   /**
    * @param {rdf.Term} resourceTerm NamedNode or BlankNode of resource to be built
    * @return {Object} the resource represented as Redux state
    */
-  buildResource(resourceTerm) {
-    const thisResourceState = {}
-    // Find the resource template id. Should be only 1.
-    const rtId = this.findResourceTemplateId(resourceTerm)
-    thisResourceState[rtId] = {}
+  async buildResource(resourceTerm, rtId) {
+    const resourceTemplate = await this.findResourceTemplate(rtId)
 
-    // Find the properties
-    const propertyDataset = this.findProperties(resourceTerm)
+    const thisResourceState = {[rtId]: {}}
 
-    // Add each property
-    propertyDataset.forEach((quad) => {
-      const propertyURI = quad.predicate.value
-      if (quad.object.termType === 'BlankNode') {
-        if (thisResourceState[rtId][propertyURI] === undefined) {
-          thisResourceState[rtId][propertyURI] = {}
+    // So that only use known properties, looping over property templates.
+    await Promise.all(resourceTemplate.propertyTemplates.map(async (propertyTemplate) => {
+      const propertyURI = propertyTemplate.propertyURI
+      // All quads for this property
+      const propertyQuads = this.match(this.dataset, resourceTerm, rdf.namedNode(propertyURI)).toArray()
+      await Promise.all(propertyQuads.map(async (quad) => {
+        // Assume that if there are children quads or there are valueTemplateRefs then this is an embedded resource.
+        // Otherwise, it is a terminal literal or URI.
+        let childrenQuads = []
+        // Because literals won't have children quads.
+        if (quad.object.termType !== 'Literal') {
+          childrenQuads = this.match(this.dataset, quad.object).toArray()
         }
-        thisResourceState[rtId][propertyURI][shortid.generate()] = this.buildResource(quad.object)
-      } else {
-        if (!_.has(thisResourceState[rtId], propertyURI)) {
-          thisResourceState[rtId][propertyURI] = { items: {} }
-        }
-        const item = this.buildItem(quad)
+        // Better way to make sure valueConstraint is defined?
+        if (_.isEmpty(childrenQuads) && (!propertyTemplate.valueConstraint || _.isEmpty(propertyTemplate.valueConstraint.valueTemplateRefs))) {
+          if (!_.has(thisResourceState[rtId], propertyURI)) {
+            thisResourceState[rtId][propertyURI] = { items: {} }
+          }
+          const item = this.buildItem(quad)
 
-        thisResourceState[rtId][propertyURI].items[shortid.generate()] = item
-      }
-    })
+          thisResourceState[rtId][propertyURI].items[shortid.generate()] = item
+          this.usedDataset.add(quad)
+        } else {
+          // Only build this embedded resource if can find the resource template.
+          // Multiple types may be provided.
+          const typeQuads = this.findTypeQuads(quad.object)
+
+          // Among the valueTemplateRefs, find all of the resource templates that match a type.
+          // Ideally, only want 1 but need to handle other cases.
+          const childRtIds = await Promise.all(typeQuads.map(async (typeQuad) => {
+              return this.selectResourceTemplateId(resourceTemplate, propertyURI, typeQuad.object.value)
+          }))
+          const compactChildRtIds = _.compact(childRtIds)
+
+          // Don't know which to pick, so error.
+          if (compactChildRtIds.length > 1) {
+            throw 'More than one resource template matches: ' + compactChildRtIds
+          }
+
+          // Only handle if there is 1.
+          if (! _.isEmpty(compactChildRtIds)) {
+            const childRtId = compactChildRtIds[0]
+            if (!_.has(thisResourceState[rtId], propertyURI)) {
+              thisResourceState[rtId][propertyURI] = {}
+            }
+            thisResourceState[rtId][propertyURI][shortid.generate()] = await this.buildResource(quad.object, childRtId)
+            this.usedDataset.addAll(typeQuads)
+            this.usedDataset.add(quad)
+          }
+        }
+      }))
+    }))
     return thisResourceState
   }
 
@@ -68,23 +116,8 @@ export default class ResourceStateBuilder {
    * @param {rdf.Term} resourceTerm NamedNode or BlankNode of resource to find
    * @return {string} the resource template id
    */
-  findResourceTemplateId(resourceTerm) {
-    // Should be only 1.
-    return this.match(this.dataset, resourceTerm, rdf.namedNode('http://sinopia.io/vocabulary/hasResourceTemplate')).toArray()[0].object.value
-  }
-
-  /**
-   * @param {rdf.Term} resourceTerm NamedNode or BlankNode of resource to find
-   * @return {rdf.Dataset} dataset containing all of the properties for the provided resource term
-   */
-  findProperties(resourceTerm) {
-    // Find the properties
-    const propertyDataset = this.match(this.dataset, resourceTerm)
-    // Remove triples that are not properties.
-    propertyDataset.removeMatches(null, rdf.namedNode('http://sinopia.io/vocabulary/hasResourceTemplate'))
-    propertyDataset.removeMatches(null, rdf.namedNode('http://www.w3.org/1999/02/22-rdf-syntax-ns#type'))
-
-    return propertyDataset
+  findResourceTemplateQuads(resourceTerm) {
+    return this.match(this.dataset, resourceTerm, rdf.namedNode('http://sinopia.io/vocabulary/hasResourceTemplate')).toArray()
   }
 
   /**
@@ -126,5 +159,34 @@ export default class ResourceStateBuilder {
       }
     })
     return newDataset
+  }
+
+  async findResourceTemplate(rtId) {
+    // TODO: Cache these
+    return getResourceTemplate(rtId, 'ld4p').then((response) => {
+      return response.response.body
+    }).catch((err) => {
+      console.error(err)
+      // TODO: Error handling
+    })
+  }
+
+  async selectResourceTemplateId(resourceTemplate, propertyURI, resourceURI) {
+    const propertyTemplate = resourceTemplate.propertyTemplates.find((propertyTemplate) => {
+      return propertyTemplate.propertyURI === propertyURI
+    })
+    // TODO: Handle no match
+    // TODO: Can there be more than one with matching class?
+    const rtIds = await Promise.all(
+      propertyTemplate.valueConstraint.valueTemplateRefs.map(async (rtId) => {
+        const rt = await this.findResourceTemplate(rtId)
+        return rt.resourceURI === resourceURI ? rtId : undefined
+      })
+    )
+    return rtIds.find((rtId) => rtId !== undefined)
+  }
+
+  findTypeQuads(resourceTerm) {
+    return this.match(this.dataset, resourceTerm, rdf.namedNode('http://www.w3.org/1999/02/22-rdf-syntax-ns#type')).toArray()
   }
 }

@@ -135,6 +135,14 @@ export const setLastSaveChecksum = (state, action) => {
   return newState
 }
 
+export const setUnusedRDF = (state, action) => {
+  const newState = { ...state }
+  newState.editor.unusedRDF = action.payload
+
+  return newState
+}
+
+
 const handlers = {
   ITEMS_SELECTED: setItemsOrSelections,
   CHANGE_SELECTIONS: setItemsOrSelections,
@@ -164,6 +172,7 @@ const handlers = {
   LOADING_LANGUAGES: loadingLanguages,
   UPDATE_FINISHED: updateFinished,
   SET_LAST_SAVE_CHECKSUM: setLastSaveChecksum,
+  SET_UNUSED_RDF: setUnusedRDF,
 }
 
 export const createReducer = handlers => (state = {}, action) => {

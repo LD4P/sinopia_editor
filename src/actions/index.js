@@ -172,3 +172,8 @@ export const setLastSaveChecksum = checksum => ({
   type: 'SET_LAST_SAVE_CHECKSUM',
   payload: checksum,
 })
+
+export const setUnusedRDF = rdf => ({
+  type: 'SET_UNUSED_RDF',
+  payload: rdf,
+})

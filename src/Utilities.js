@@ -1,9 +1,11 @@
 // Copyright 2018, 2019 Stanford University see LICENSE for license
 
 import N3Parser from 'n3/lib/N3Parser'
+
 import rdf from 'rdf-ext'
 import _ from 'lodash'
 import CryptoJS from 'crypto-js'
+import * as jsonld from 'jsonld'
 
 export const defaultLanguageId = 'en'
 
@@ -45,5 +47,21 @@ export const rdfDatasetFromN3 = data => new Promise((resolve) => {
       }
     })
 })
+
+// export const rdfDatasetFromJsonLD = data => new Promise((resolve) => {
+//   const jsonData = JSON.parse(data)
+//   jsonld.toRDF(jsonData, {format: 'application/n-quads'}, (err, nquads) => {
+//     // nquads is a string of N-Quads
+//     console.log(nquads)
+//   })
+// })
+
+export const rdfDatasetFromJsonLD = async (data) => {
+  const jsonData = JSON.parse(data)
+  const nquads = await jsonld.toRDF(jsonData, {format: 'application/n-quads'})
+  console.log(nquads)
+  return rdfDatasetFromN3(nquads)
+}
+
 
 export const generateMD5 = message => CryptoJS.MD5(message).toString()

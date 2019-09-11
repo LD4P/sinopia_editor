@@ -42,7 +42,6 @@ const Editor = (props) => {
       <RDFModal />
       <ErrorMessages />
       <GroupChoiceModal />
-
       <ResourceTemplate />
     </div>
   ) }
