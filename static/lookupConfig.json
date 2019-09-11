@@ -806,6 +806,30 @@
     "component": "lookup"
   },
   {
+    "label": "SHAREVDE HARRYRANSOM work (QA)",
+    "uri": "urn:ld4p:qa:sharevde_harryransom_ld4l_cache:work",
+    "authority": "sharevde_harryransom_ld4l_cache",
+    "subauthority": "work",
+    "language": "en",
+    "component": "lookup"
+  },
+  {
+    "label": "SHAREVDE HARRYRANSOM superwork (QA)",
+    "uri": "urn:ld4p:qa:sharevde_harryransom_ld4l_cache:superwork",
+    "authority": "sharevde_harryransom_ld4l_cache",
+    "subauthority": "superwork",
+    "language": "en",
+    "component": "lookup"
+  },
+  {
+    "label": "SHAREVDE HARRYRANSOM instance (QA)",
+    "uri": "urn:ld4p:qa:sharevde_harryransom_ld4l_cache:instance",
+    "authority": "sharevde_harryransom_ld4l_cache",
+    "subauthority": "instance",
+    "language": "en",
+    "component": "lookup"
+  },
+  {
     "label": "SHAREVDE HARVARD work (QA)",
     "uri": "urn:ld4p:qa:sharevde_harvard_ld4l_cache:work",
     "authority": "sharevde_harvard_ld4l_cache",
