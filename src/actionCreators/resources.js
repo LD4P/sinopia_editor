@@ -1,6 +1,6 @@
 // Copyright 2019 Stanford University see LICENSE for license
 /* eslint max-params: ["warn", 8] */
-/* eslint complexity: ["warn", 13] */
+/* eslint complexity: ["warn", 14] */
 
 import {
   updateStarted, updateFinished,
@@ -193,7 +193,7 @@ export const stubResourceProperties = async (resourceTemplateId, resourceTemplat
       }
       // If it is a value ref
       if (isResourceWithValueTemplateRef(propertyTemplate)) {
-        if (stubMandatoryOnly && !isMandatory) {
+        if (stubMandatoryOnly && !isMandatory && newResource[propertyURI === undefined]) {
           return
         }
 

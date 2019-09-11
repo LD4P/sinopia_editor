@@ -322,7 +322,7 @@ describe('stubResourceProperties', () => {
     let dispatch
     beforeEach(async () => {
       dispatch = jest.fn()
-      const result = await stubResourceProperties('resourceTemplate:bf2:Monograph:Instance', {}, existingResource, ['resource'], true, false, false, dispatch)
+      const result = await stubResourceProperties('resourceTemplate:bf2:Monograph:Instance', {}, existingResource, ['resource'], true, true, false, dispatch)
       resource = result[0]
     })
     it('stubs properties with existing values', () => {
