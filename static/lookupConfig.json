@@ -686,6 +686,30 @@
     "component": "lookup"
   },
   {
+    "label": "SHAREVDE CHICAGO work (QA)",
+    "uri": "urn:ld4p:qa:sharevde_chicago_ld4l_cache:work",
+    "authority": "sharevde_chicago_ld4l_cache",
+    "subauthority": "work",
+    "language": "en",
+    "component": "lookup"
+  },
+  {
+    "label": "SHAREVDE CHICAGO superwork (QA)",
+    "uri": "urn:ld4p:qa:sharevde_chicago_ld4l_cache:superwork",
+    "authority": "sharevde_chicago_ld4l_cache",
+    "subauthority": "superwork",
+    "language": "en",
+    "component": "lookup"
+  },
+  {
+    "label": "SHAREVDE CHICAGO instance (QA)",
+    "uri": "urn:ld4p:qa:sharevde_chicago_ld4l_cache:instance",
+    "authority": "sharevde_chicago_ld4l_cache",
+    "subauthority": "instance",
+    "language": "en",
+    "component": "lookup"
+  },
+  {
     "label": "SHAREVDE CORNELL work (QA)",
     "uri": "urn:ld4p:qa:sharevde_cornell_ld4l_cache:work",
     "authority": "sharevde_cornell_ld4l_cache",
@@ -782,34 +806,314 @@
     "component": "lookup"
   },
   {
-    "label": "SHAREVDE STANFORD INSTANCE",
-    "uri": "urn:ld4p:qa:sharevde_stanford_instance_ld4l_cache",
-    "authority": "sharevde_stanford_instance_ld4l_cache",
-    "subauthority": "",
+    "label": "SHAREVDE HARVARD work (QA)",
+    "uri": "urn:ld4p:qa:sharevde_harvard_ld4l_cache:work",
+    "authority": "sharevde_harvard_ld4l_cache",
+    "subauthority": "work",
     "language": "en",
     "component": "lookup"
   },
   {
-    "label": "SHAREVDE STANFORD WORK",
-    "uri": "urn:ld4p:qa:sharevde_stanford_work_ld4l_cache",
-    "authority": "sharevde_stanford_work_ld4l_cache",
-    "subauthority": "",
+    "label": "SHAREVDE HARVARD superwork (QA)",
+    "uri": "urn:ld4p:qa:sharevde_harvard_ld4l_cache:superwork",
+    "authority": "sharevde_harvard_ld4l_cache",
+    "subauthority": "superwork",
     "language": "en",
     "component": "lookup"
   },
   {
-    "label": "SHAREVDE UCSD INSTANCE",
-    "uri": "urn:ld4p:qa:sharevde_ucsd_instance_ld4l_cache",
-    "authority": "sharevde_ucsd_instance_ld4l_cache",
-    "subauthority": "",
+    "label": "SHAREVDE HARVARD instance (QA)",
+    "uri": "urn:ld4p:qa:sharevde_harvard_ld4l_cache:instance",
+    "authority": "sharevde_harvard_ld4l_cache",
+    "subauthority": "instance",
     "language": "en",
     "component": "lookup"
   },
   {
-    "label": "SHAREVDE UCSD WORK",
-    "uri": "urn:ld4p:qa:sharevde_ucsd_work_ld4l_cache",
-    "authority": "sharevde_ucsd_work_ld4l_cache",
-    "subauthority": "",
+    "label": "SHAREVDE MICHIGAN work (QA)",
+    "uri": "urn:ld4p:qa:sharevde_michigan_ld4l_cache:work",
+    "authority": "sharevde_michigan_ld4l_cache",
+    "subauthority": "work",
+    "language": "en",
+    "component": "lookup"
+  },
+  {
+    "label": "SHAREVDE MICHIGAN superwork (QA)",
+    "uri": "urn:ld4p:qa:sharevde_michigan_ld4l_cache:superwork",
+    "authority": "sharevde_michigan_ld4l_cache",
+    "subauthority": "superwork",
+    "language": "en",
+    "component": "lookup"
+  },
+  {
+    "label": "SHAREVDE MICHIGAN instance (QA)",
+    "uri": "urn:ld4p:qa:sharevde_michigan_ld4l_cache:instance",
+    "authority": "sharevde_michigan_ld4l_cache",
+    "subauthority": "instance",
+    "language": "en",
+    "component": "lookup"
+  },
+  {
+    "label": "SHAREVDE MINNESOTA work (QA)",
+    "uri": "urn:ld4p:qa:sharevde_minnesota_ld4l_cache:work",
+    "authority": "sharevde_minnesota_ld4l_cache",
+    "subauthority": "work",
+    "language": "en",
+    "component": "lookup"
+  },
+  {
+    "label": "SHAREVDE MINNESOTA superwork (QA)",
+    "uri": "urn:ld4p:qa:sharevde_minnesota_ld4l_cache:superwork",
+    "authority": "sharevde_minnesota_ld4l_cache",
+    "subauthority": "superwork",
+    "language": "en",
+    "component": "lookup"
+  },
+  {
+    "label": "SHAREVDE MINNESOTA instance (QA)",
+    "uri": "urn:ld4p:qa:sharevde_minnesota_ld4l_cache:instance",
+    "authority": "sharevde_minnesota_ld4l_cache",
+    "subauthority": "instance",
+    "language": "en",
+    "component": "lookup"
+  },
+  {
+    "label": "SHAREVDE NLM work (QA)",
+    "uri": "urn:ld4p:qa:sharevde_nlm_ld4l_cache:work",
+    "authority": "sharevde_nlm_ld4l_cache",
+    "subauthority": "work",
+    "language": "en",
+    "component": "lookup"
+  },
+  {
+    "label": "SHAREVDE NLM superwork (QA)",
+    "uri": "urn:ld4p:qa:sharevde_nlm_ld4l_cache:superwork",
+    "authority": "sharevde_nlm_ld4l_cache",
+    "subauthority": "superwork",
+    "language": "en",
+    "component": "lookup"
+  },
+  {
+    "label": "SHAREVDE NLM instance (QA)",
+    "uri": "urn:ld4p:qa:sharevde_nlm_ld4l_cache:instance",
+    "authority": "sharevde_nlm_ld4l_cache",
+    "subauthority": "instance",
+    "language": "en",
+    "component": "lookup"
+  },
+  {
+    "label": "SHAREVDE NORTHWESTERN work (QA)",
+    "uri": "urn:ld4p:qa:sharevde_northwestern_ld4l_cache:work",
+    "authority": "sharevde_northwestern_ld4l_cache",
+    "subauthority": "work",
+    "language": "en",
+    "component": "lookup"
+  },
+  {
+    "label": "SHAREVDE NORTHWESTERN superwork (QA)",
+    "uri": "urn:ld4p:qa:sharevde_northwestern_ld4l_cache:superwork",
+    "authority": "sharevde_northwestern_ld4l_cache",
+    "subauthority": "superwork",
+    "language": "en",
+    "component": "lookup"
+  },
+  {
+    "label": "SHAREVDE NORTHWESTERN instance (QA)",
+    "uri": "urn:ld4p:qa:sharevde_northwestern_ld4l_cache:instance",
+    "authority": "sharevde_northwestern_ld4l_cache",
+    "subauthority": "instance",
+    "language": "en",
+    "component": "lookup"
+  },
+  {
+    "label": "SHAREVDE PRINCETON work (QA)",
+    "uri": "urn:ld4p:qa:sharevde_princeton_ld4l_cache:work",
+    "authority": "sharevde_princeton_ld4l_cache",
+    "subauthority": "work",
+    "language": "en",
+    "component": "lookup"
+  },
+  {
+    "label": "SHAREVDE PRINCETON superwork (QA)",
+    "uri": "urn:ld4p:qa:sharevde_princeton_ld4l_cache:superwork",
+    "authority": "sharevde_princeton_ld4l_cache",
+    "subauthority": "superwork",
+    "language": "en",
+    "component": "lookup"
+  },
+  {
+    "label": "SHAREVDE PRINCETON instance (QA)",
+    "uri": "urn:ld4p:qa:sharevde_princeton_ld4l_cache:instance",
+    "authority": "sharevde_princeton_ld4l_cache",
+    "subauthority": "instance",
+    "language": "en",
+    "component": "lookup"
+  },
+  {
+    "label": "SHAREVDE STANFORD work (QA)",
+    "uri": "urn:ld4p:qa:sharevde_stanford_ld4l_cache:work",
+    "authority": "sharevde_stanford_ld4l_cache",
+    "subauthority": "work",
+    "language": "en",
+    "component": "lookup"
+  },
+  {
+    "label": "SHAREVDE STANFORD superwork (QA)",
+    "uri": "urn:ld4p:qa:sharevde_stanford_ld4l_cache:superwork",
+    "authority": "sharevde_stanford_ld4l_cache",
+    "subauthority": "superwork",
+    "language": "en",
+    "component": "lookup"
+  },
+  {
+    "label": "SHAREVDE STANFORD instance (QA)",
+    "uri": "urn:ld4p:qa:sharevde_stanford_ld4l_cache:instance",
+    "authority": "sharevde_stanford_ld4l_cache",
+    "subauthority": "instance",
+    "language": "en",
+    "component": "lookup"
+  },
+  {
+    "label": "SHAREVDE TEXASAM work (QA)",
+    "uri": "urn:ld4p:qa:sharevde_texasam_ld4l_cache:work",
+    "authority": "sharevde_texasam_ld4l_cache",
+    "subauthority": "work",
+    "language": "en",
+    "component": "lookup"
+  },
+  {
+    "label": "SHAREVDE TEXASAM superwork (QA)",
+    "uri": "urn:ld4p:qa:sharevde_texasam_ld4l_cache:superwork",
+    "authority": "sharevde_texasam_ld4l_cache",
+    "subauthority": "superwork",
+    "language": "en",
+    "component": "lookup"
+  },
+  {
+    "label": "SHAREVDE TEXASAM instance (QA)",
+    "uri": "urn:ld4p:qa:sharevde_texasam_ld4l_cache:instance",
+    "authority": "sharevde_texasam_ld4l_cache",
+    "subauthority": "instance",
+    "language": "en",
+    "component": "lookup"
+  },
+  {
+    "label": "SHAREVDE UCDAVIS work (QA)",
+    "uri": "urn:ld4p:qa:sharevde_ucdavis_ld4l_cache:work",
+    "authority": "sharevde_ucdavis_ld4l_cache",
+    "subauthority": "work",
+    "language": "en",
+    "component": "lookup"
+  },
+  {
+    "label": "SHAREVDE UCDAVIS superwork (QA)",
+    "uri": "urn:ld4p:qa:sharevde_ucdavis_ld4l_cache:superwork",
+    "authority": "sharevde_ucdavis_ld4l_cache",
+    "subauthority": "superwork",
+    "language": "en",
+    "component": "lookup"
+  },
+  {
+    "label": "SHAREVDE UCDAVIS instance (QA)",
+    "uri": "urn:ld4p:qa:sharevde_ucdavis_ld4l_cache:instance",
+    "authority": "sharevde_ucdavis_ld4l_cache",
+    "subauthority": "instance",
+    "language": "en",
+    "component": "lookup"
+  },
+  {
+    "label": "SHAREVDE UCSD work (QA)",
+    "uri": "urn:ld4p:qa:sharevde_ucsd_ld4l_cache:work",
+    "authority": "sharevde_ucsd_ld4l_cache",
+    "subauthority": "work",
+    "language": "en",
+    "component": "lookup"
+  },
+  {
+    "label": "SHAREVDE UCSD superwork (QA)",
+    "uri": "urn:ld4p:qa:sharevde_ucsd_ld4l_cache:superwork",
+    "authority": "sharevde_ucsd_ld4l_cache",
+    "subauthority": "superwork",
+    "language": "en",
+    "component": "lookup"
+  },
+  {
+    "label": "SHAREVDE UCSD instance (QA)",
+    "uri": "urn:ld4p:qa:sharevde_ucsd_ld4l_cache:instance",
+    "authority": "sharevde_ucsd_ld4l_cache",
+    "subauthority": "instance",
+    "language": "en",
+    "component": "lookup"
+  },
+  {
+    "label": "SHAREVDE UPENN work (QA)",
+    "uri": "urn:ld4p:qa:sharevde_upenn_ld4l_cache:work",
+    "authority": "sharevde_upenn_ld4l_cache",
+    "subauthority": "work",
+    "language": "en",
+    "component": "lookup"
+  },
+  {
+    "label": "SHAREVDE UPENN superwork (QA)",
+    "uri": "urn:ld4p:qa:sharevde_upenn_ld4l_cache:superwork",
+    "authority": "sharevde_upenn_ld4l_cache",
+    "subauthority": "superwork",
+    "language": "en",
+    "component": "lookup"
+  },
+  {
+    "label": "SHAREVDE UPENN instance (QA)",
+    "uri": "urn:ld4p:qa:sharevde_upenn_ld4l_cache:instance",
+    "authority": "sharevde_upenn_ld4l_cache",
+    "subauthority": "instance",
+    "language": "en",
+    "component": "lookup"
+  },
+  {
+    "label": "SHAREVDE UWASHINGTON work (QA)",
+    "uri": "urn:ld4p:qa:sharevde_uwashington_ld4l_cache:work",
+    "authority": "sharevde_uwashington_ld4l_cache",
+    "subauthority": "work",
+    "language": "en",
+    "component": "lookup"
+  },
+  {
+    "label": "SHAREVDE UWASHINGTON superwork (QA)",
+    "uri": "urn:ld4p:qa:sharevde_uwashington_ld4l_cache:superwork",
+    "authority": "sharevde_uwashington_ld4l_cache",
+    "subauthority": "superwork",
+    "language": "en",
+    "component": "lookup"
+  },
+  {
+    "label": "SHAREVDE UWASHINGTON instance (QA)",
+    "uri": "urn:ld4p:qa:sharevde_uwashington_ld4l_cache:instance",
+    "authority": "sharevde_uwashington_ld4l_cache",
+    "subauthority": "instance",
+    "language": "en",
+    "component": "lookup"
+  },
+  {
+    "label": "SHAREVDE YALE work (QA)",
+    "uri": "urn:ld4p:qa:sharevde_yale_ld4l_cache:work",
+    "authority": "sharevde_yale_ld4l_cache",
+    "subauthority": "work",
+    "language": "en",
+    "component": "lookup"
+  },
+  {
+    "label": "SHAREVDE YALE superwork (QA)",
+    "uri": "urn:ld4p:qa:sharevde_yale_ld4l_cache:superwork",
+    "authority": "sharevde_yale_ld4l_cache",
+    "subauthority": "superwork",
+    "language": "en",
+    "component": "lookup"
+  },
+  {
+    "label": "SHAREVDE YALE instance (QA)",
+    "uri": "urn:ld4p:qa:sharevde_yale_ld4l_cache:instance",
+    "authority": "sharevde_yale_ld4l_cache",
+    "subauthority": "instance",
     "language": "en",
     "component": "lookup"
   },
