@@ -15,9 +15,8 @@
       "valueConstraint": {
         "valueTemplateRefs": [],
         "useValuesFrom": [
-          "urn:ld4p:qa:sharevde_cornell_work_ld4l_cache",
-          "urn:ld4p:qa:sharevde_stanford_work_ld4l_cache",
-          "urn:ld4p:qa:sharevde_ucsd_work_ld4l_cache"
+          "urn:ld4p:qa:sharevde_cornell_ld4l_cache:work",
+          "urn:ld4p:qa:sharevde_nlm_ld4l_cache:work"
         ],
         "valueDataType": {
           "dataTypeURI": "http://id.loc.gov/ontologies/bibframe/Work"
@@ -25,7 +24,7 @@
         "defaults": []
       },
       "remark": "http://id.loc.gov/authorities/names.html"
-      
+
     },
      {
       "propertyLabel": "Related Instance",
@@ -37,9 +36,9 @@
       "valueConstraint": {
         "valueTemplateRefs": [],
         "useValuesFrom": [
-          "urn:ld4p:qa:sharevde_ucsd_instance_ld4l_cache",
-          "urn:ld4p:qa:sharevde_stanford_instance_ld4l_cache",
-          "urn:ld4p:qa:sharevde_cornell_instance_ld4l_cache"
+          "urn:ld4p:qa:sharevde_princeton_ld4l_cache:instance",
+          "urn:ld4p:qa:sharevde_stanford_ld4l_cache:instance",
+          "urn:ld4p:qa:sharevde_ucdavis_ld4l_cache:instance"
         ],
         "valueDataType": {
           "dataTypeURI": "http://id.loc.gov/ontologies/bibframe/Instance"
