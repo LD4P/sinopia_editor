@@ -454,50 +454,42 @@
     "component": "lookup"
   },
   {
-    "label": "LOC person [names] (QA)",
+    "label": "LOC person [names (rwo)] (QA)",
     "uri": "urn:ld4p:qa:names:person",
-    "authority": "locnames_ld4l_cache",
+    "authority": "locnames_rwo_ld4l_cache",
     "subauthority": "person",
     "language": "en",
     "component": "lookup"
   },
   {
-    "label": "LOC organization [names] (QA)",
+    "label": "LOC organization [names (rwo)] (QA)",
     "uri": "urn:ld4p:qa:names:organization",
-    "authority": "locnames_ld4l_cache",
+    "authority": "locnames_ld4l_rwo_cache",
     "subauthority": "organization",
     "language": "en",
     "component": "lookup"
   },
   {
-    "label": "LOC place [names] (QA)",
-    "uri": "urn:ld4p:qa:names:place",
-    "authority": "locnames_ld4l_cache",
-    "subauthority": "place",
+    "label": "LOC family [names (rwo)] (QA)",
+    "uri": "urn:ld4p:qa:names:family",
+    "authority": "locnames_ld4l_rwo_cache",
+    "subauthority": "family",
     "language": "en",
     "component": "lookup"
   },
   {
-    "label": "LOC intangible [names] (QA)",
-    "uri": "urn:ld4p:qa:names:intangible",
+    "label": "LOC geographic [names] (QA)",
+    "uri": "urn:ld4p:qa:names:geographic",
     "authority": "locnames_ld4l_cache",
-    "subauthority": "intangible",
+    "subauthority": "geographic",
     "language": "en",
     "component": "lookup"
   },
   {
-    "label": "LOC geocoordinates [names] (QA)",
-    "uri": "urn:ld4p:qa:names:geocoordinates",
+    "label": "LOC conference [names] (QA)",
+    "uri": "urn:ld4p:qa:names:conference",
     "authority": "locnames_ld4l_cache",
-    "subauthority": "geocoordinates",
-    "language": "en",
-    "component": "lookup"
-  },
-  {
-    "label": "LOC work [names] (QA)",
-    "uri": "urn:ld4p:qa:names:work",
-    "authority": "locnames_ld4l_cache",
-    "subauthority": "work",
+    "subauthority": "conference",
     "language": "en",
     "component": "lookup"
   },
