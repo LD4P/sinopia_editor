@@ -1,9 +1,10 @@
 // Copyright 2019 Stanford University see LICENSE for license
 
-import React from 'react'
+import React, { useState } from 'react'
 import { bindActionCreators } from 'redux'
 import { connect } from 'react-redux'
-import { getSearchResults, search } from 'actionCreators/qa'
+import { getSearchResults } from 'actionCreators/qa'
+import { changeSelections } from 'actions/index'
 import shortid from 'shortid'
 import {
   getPropertyTemplate, findErrors,
@@ -22,16 +23,43 @@ export const DataListOption = (props) => {
   )
 }
 
+const search = (query, propertyTemplate) => (dispatch) => {
+  console.log(`in search ${query}`)
+  return getSearchResults(query, propertyTemplate).then((values) => {
+    dispatch(qaResultsReceived(values))
+  })
+}
+
 const InputLookupDataList = (props) => {
   const query = []
-  const options = []
+  const options = useState([])
 
   const handleKeypress = (event) => {
     query.push(event.key)
     if (query.length > 3) {
       const queryString = query.join('')
-      const result = getSearchResults(queryString, props.propertyTemplate)
-      console.log(`This is the query search`)
+      console.log(`before search ${queryString}`)
+      // search(queryString, props.propertyTemplate)
+      // props.changeSelections(query)
+      const resultPromise = getSearchResults(queryString, props.propertyTemplate)
+      resultPromise.then((result) => {
+        result.forEach((row) => {
+          row.body.forEach((prop) => {
+            console.log(prop)
+            // const payload = {
+            //   reduxPath: props.reduxPath,
+            //   ...props
+            // }
+            // props.changeSelections(payload)
+            options.push(<DataListOption {...prop} />)
+            console.warn(options)
+          })
+        })
+      })
+      // result.forEach((prop) => {
+      //   options.push(<DataListOption {...prop} />)
+      // })
+
       //! Need to update options from result of QA Search
     }
   }
@@ -84,7 +112,7 @@ const mapStateToProps = (state, ownProps) => {
   const propertyURI = reduxPath[reduxPath.length - 1]
   const errors = findErrors(state, reduxPath)
   const propertyTemplate = getPropertyTemplate(state, resourceTemplateId, propertyURI)
-  const options = ownProps.options || []
+  const options = state.selectorReducer.entities.qa.options
   return {
     errors,
     reduxPath,
@@ -94,6 +122,6 @@ const mapStateToProps = (state, ownProps) => {
 }
 
 
-const mapDispatchToProps = dispatch => bindActionCreators({ search }, dispatch)
+const mapDispatchToProps = dispatch => bindActionCreators({ changeSelections, search }, dispatch)
 
 export default connect(mapStateToProps, mapDispatchToProps)(InputLookupDataList)
