@@ -82,9 +82,10 @@ const InputLiteral = (props) => {
             className="form-control"
             placeholder={props.propertyTemplate.propertyLabel}
             onChange={event => setContent(event.target.value)}
-            onKeyPress={handleKeypress}
+            onKeyPress={props.handleKeypress || handleKeypress}
             onBlur={addItem}
             value={content}
+            list={props.list || null}
             disabled={disabled}
             ref={inputLiteralRef}
       />
@@ -99,6 +100,7 @@ InputLiteral.propTypes = {
   errors: PropTypes.array,
   items: PropTypes.object,
   itemsSelected: PropTypes.func,
+  list: PropTypes.string,
   reduxPath: PropTypes.array.isRequired,
   displayValidations: PropTypes.bool,
 }

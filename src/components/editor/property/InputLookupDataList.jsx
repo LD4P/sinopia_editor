@@ -10,6 +10,7 @@ import {
   getPropertyTemplate, findErrors,
 } from 'selectors/resourceSelectors'
 import InputURI from './InputURI'
+import InputLiteral from './InputLiteral'
 import PropTypes from 'prop-types'
 import _ from 'lodash'
 import SinopiaPropTypes from 'SinopiaPropTypes'
@@ -18,13 +19,15 @@ export const DataListOption = (props) => {
   return (<option value={props.uri}
             id={props.id}
             key={shortid.generate()}>
+            <h3>A title</h3>
       {props.label}
     </option>
   )
 }
 
+
+
 const search = (query, propertyTemplate) => (dispatch) => {
-  console.log(`in search ${query}`)
   return getSearchResults(query, propertyTemplate).then((values) => {
     dispatch(qaResultsReceived(values))
   })
@@ -32,27 +35,26 @@ const search = (query, propertyTemplate) => (dispatch) => {
 
 const InputLookupDataList = (props) => {
   const query = []
-  const options = useState([])
+  const options = []
 
   const handleKeypress = (event) => {
     query.push(event.key)
     if (query.length > 3) {
       const queryString = query.join('')
-      console.log(`before search ${queryString}`)
       // search(queryString, props.propertyTemplate)
       // props.changeSelections(query)
       const resultPromise = getSearchResults(queryString, props.propertyTemplate)
       resultPromise.then((result) => {
         result.forEach((row) => {
           row.body.forEach((prop) => {
-            console.log(prop)
+            // console.log(prop)
             // const payload = {
             //   reduxPath: props.reduxPath,
             //   ...props
             // }
             // props.changeSelections(payload)
             options.push(<DataListOption {...prop} />)
-            console.warn(options)
+            // console.warn(options)
           })
         })
       })
@@ -68,20 +70,22 @@ const InputLookupDataList = (props) => {
   let groupClasses = 'form-group'
 
   props.options?.forEach((row) => {
-    options.push(<DataListOption {...row} />)
+    options.push(row)
   })
 
   if (props.displayValidations && !_.isEmpty(props.errors)) {
     groupClasses += ' has-error'
     error = props.errors.join(',')
   }
+  console.log(`Before return`)
+  console.warn(props)
   const dataListId = shortid.generate()
   return (
     <div className={groupClasses} query={query}>
       <InputURI list={dataListId}
-                reduxPath={props.reduxPath}
-                errors={props.errors}
-                handleKeypress={handleKeypress}></InputURI>
+                    reduxPath={props.reduxPath}
+                    errors={props.errors}
+                    handleKeypress={handleKeypress}></InputURI>
       <datalist id={dataListId}>
         {options}
       </datalist>
@@ -112,7 +116,8 @@ const mapStateToProps = (state, ownProps) => {
   const propertyURI = reduxPath[reduxPath.length - 1]
   const errors = findErrors(state, reduxPath)
   const propertyTemplate = getPropertyTemplate(state, resourceTemplateId, propertyURI)
-  const options = state.selectorReducer.entities.qa.options
+  const options = [<DataListOption id="1234" label="A nothing hat" uri="http://example.com/1" />]
+  // const options = [] |search(ownProps.query.join(''), ownProps.propertyTemplate)
   return {
     errors,
     reduxPath,
