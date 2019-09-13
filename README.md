@@ -51,6 +51,27 @@ You will need to be online to authenticate even when developing in localhost.
 
 Specify the environment variable `USE_FIXTURES=true` when building the application if you would like it to load resource templates from the filesystem instead of looking for Trellis.
 
+The resource templates can be found in `__tests__/__fixtures__` and are listed in `__tests__/fixtureLoaderHelper`.
+
+To convert a directory of profiles (for example, [ld4ptemplates](https://github.com/LD4P/ld4ptemplates) to resource templates:
+```
+rm -fr templates
+mkdir -p templates
+rm -f rtFileNames.txt
+cat *.json | jq -c '.Profile.resourceTemplates[]' | sed 's/\\"/\\\\"/g' | while read line; do echo $line > templates/$(date +%s%N).json; done
+
+for file in templates/*.json
+do
+  id=$(jq -r '.id' $file)
+  newid=${id//:/_}
+  newfile="templates/$newid.json"
+  mv $file $newfile
+  echo "  '$newid.json'," >> rtFileNames.txt
+done
+```
+
+then move `templates/*` to `__tests__/__fixtures__` and add the contents of `rtFileNames.txt` to `__tests__/fixtureLoaderHelper`.
+
 ### Run the server with webpack-dev-webserver
 
 `npm run dev-start`
