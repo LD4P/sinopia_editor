@@ -16,6 +16,8 @@ const NewsItem = () => (
       </ul>
       <li>For complete {version} release notes see the <a href="https://github.com/LD4P/sinopia/wiki/Latest-Release,-What's-Next">Sinopia help site</a>.
       </li>
+      <li>Version 1.0.1: adds support for lookups to Share-VDE data and fixes bug where validation messages were not properly cleared
+      </li>
     </ul>
   </div>
 )
