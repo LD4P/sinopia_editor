@@ -1,7 +1,6 @@
 // Copyright 2018, 2019 Stanford University see LICENSE for license
 
 import React from 'react'
-import 'jsdom-global/register'
 import { shallow } from 'enzyme'
 import ResourceTemplateForm from 'components/editor/ResourceTemplateForm'
 

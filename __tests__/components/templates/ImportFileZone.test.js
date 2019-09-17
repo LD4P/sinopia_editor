@@ -1,6 +1,5 @@
 // Copyright 2018 Stanford University see LICENSE for license
 
-import 'jsdom-global/register'
 import 'isomorphic-fetch'
 import React from 'react'
 import { mount, shallow } from 'enzyme'

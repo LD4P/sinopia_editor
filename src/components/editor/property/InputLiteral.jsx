@@ -113,7 +113,6 @@ const mapStateToProps = (state, ownProps) => {
   // items has to be its own prop or rerendering won't occur when one is removed
   const items = formData.items || {}
   const propertyTemplate = getPropertyTemplate(state, resourceTemplateId, propertyURI)
-
   return {
     items,
     propertyTemplate,

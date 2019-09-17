@@ -1,6 +1,5 @@
 // Copyright 2019 Stanford University see LICENSE for license
 
-import 'jsdom-global/register'
 import React from 'react'
 import { shallow } from 'enzyme'
 import RenderLookupContext from 'components/editor/property/RenderLookupContext'

@@ -1,6 +1,5 @@
 // Copyright 2019 Stanford University see Apache2.txt for license
 
-import 'jsdom-global/register'
 import React from 'react'
 import { shallow } from 'enzyme'
 import PropertyLabelInfo from 'components/editor/property/PropertyLabelInfo'
