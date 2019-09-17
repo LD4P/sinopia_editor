@@ -1259,6 +1259,11 @@
     "component": "list"
   },
   {
+    "label": "playing speed",
+    "uri": "https://id.loc.gov/vocabulary/mplayspeed",
+    "component": "list"
+  },
+  {
     "label": "polarity",
     "uri": "https://id.loc.gov/vocabulary/mpolarity",
     "component": "list"
