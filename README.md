@@ -403,3 +403,6 @@ stops at `bfe` original code and does not convey to these projects.
 [BFE_GIT]: https://github.com/lcnetdev/bfe
 [GIT_REPO]: https://github.com/LD4P/sinopia_editor
 [REACT]: https://reactjs.org/
+
+
+*** AN IGNORABLE CHANGES ***
