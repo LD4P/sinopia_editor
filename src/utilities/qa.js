@@ -1,23 +1,15 @@
 // Copyright 2019 Stanford University see LICENSE for license
 /* eslint max-params: ["warn", 4] */
 
-import { loadingQaResults, qaResultsReceived } from 'actions/index'
 import Swagger from 'swagger-client'
 import swaggerSpec from 'lib/apidoc.json'
 import { getLookupConfigItems } from 'utilities/propertyTemplates'
 import Config from 'Config'
 
-const search = (query, propertyTemplate) => (dispatch) => {
-  dispatch(loadingQaResults())
-
-  return getSearchResults(query, propertyTemplate).then((values) => {
-    dispatch(qaResultsReceived(values))
-  })
-}
-
-export const getSearchResults = (query, propertyTemplate) => Swagger({ spec: swaggerSpec })
+const getSearchResults = (query, propertyTemplate) => Swagger({ spec: swaggerSpec })
   .then((client) => {
     const lookupConfigs = getLookupConfigItems(propertyTemplate)
+
     // Create array of promises based on the lookup config array that is sent in
     const lookupPromises = createLookupPromises(client, query, lookupConfigs, isContext(propertyTemplate))
 
@@ -43,7 +35,7 @@ export const getSearchResults = (query, propertyTemplate) => Swagger({ spec: swa
 
 export const isContext = propertyTemplate => propertyTemplate?.subtype === 'context'
 
-const createLookupPromises = (client, query, lookupConfigs, context) => lookupConfigs.map((lookupConfig) => {
+export const createLookupPromises = (client, query, lookupConfigs, context) => lookupConfigs.map((lookupConfig) => {
   const authority = lookupConfig.authority
   const subauthority = lookupConfig.subauthority
   const language = lookupConfig.language
@@ -91,4 +83,4 @@ const createLookupPromises = (client, query, lookupConfigs, context) => lookupCo
     })
 })
 
-export default search
+export default getSearchResults

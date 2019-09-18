@@ -14,7 +14,7 @@ import {
   itemsForProperty, getDisplayValidations, getPropertyTemplate, findErrors,
 } from 'selectors/resourceSelectors'
 import { changeSelections } from 'actions/index'
-import { getSearchResults } from 'actionCreators/qa'
+import getSearchResults from 'utilities/qa'
 import { isValidURI } from 'Utilities'
 import { booleanPropertyFromTemplate } from 'utilities/propertyTemplates'
 import _ from 'lodash'
@@ -61,7 +61,7 @@ export const renderMenuFunc = (results, menuProps) => {
     }
 
     if (result.isError) {
-      const errorMessage = 'An error occurred in retrieving results'
+      const errorMessage = result.label || 'An error occurred in retrieving results'
 
       items.push(
         <Menu.Header key={shortid.generate()}>
@@ -143,6 +143,14 @@ const InputLookupQA = (props) => {
         authLabel,
         label: authLabel,
       })
+      if (authority.isError) {
+        options.push({
+          isError: true,
+          label: authority.errorObject.message,
+          id: shortid.generate(),
+        })
+        return
+      }
       authority.body.forEach((option) => {
         options.push(option)
       })
@@ -178,8 +186,8 @@ const InputLookupQA = (props) => {
     placeholder: props.propertyTemplate.propertyLabel,
     useCache: true,
     selectHintOnEnter: true,
-    isLoading: props.isLoading,
     selected: props.selected,
+    isLoading: props.isLoading,
     allowNew: true,
     delay: 300,
     onKeyDown,
@@ -201,7 +209,6 @@ const InputLookupQA = (props) => {
                           items: selected,
                           reduxPath: props.reduxPath,
                         }
-
                         props.changeSelections(payload)
                       }}
                       options={getOptions(authorities)}
