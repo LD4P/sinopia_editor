@@ -4,7 +4,7 @@ import {
   defaultValuesFromPropertyTemplate,
   getLookupConfigItems,
   getTagNameForPropertyTemplate,
-} from '../../src/utilities/propertyTemplates'
+} from 'utilities/propertyTemplates'
 
 import shortid from 'shortid'
 

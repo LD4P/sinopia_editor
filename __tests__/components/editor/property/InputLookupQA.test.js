@@ -81,16 +81,12 @@ const p2Props = {
   search: jest.fn(),
 }
 
-const multipleResults = [{
-  authLabel: 'Person',
-  authURI: 'PersonURI',
-  body: [{ uri: 'http://id.loc.gov/authorities/names/n860600181234', label: 'Names, Someone' }],
-},
-{
-  authLabel: 'Subject',
-  authURI: 'SubjectURI',
-  body: [{ uri: 'http://id.loc.gov/authorities/subjects/sh00001861123', label: 'A Specific Place' }],
-}]
+const multipleResults = [
+  { authLabel: 'Person', authURI: 'PersonURI' },
+  { uri: 'http://id.loc.gov/authorities/names/n860600181234', label: 'Names, Someone' },
+  { authLabel: 'Subject', authURI: 'SubjectURI' },
+  { uri: 'http://id.loc.gov/authorities/subjects/sh00001861123', label: 'A Specific Place' },
+]
 
 const validNewURIResults = [{
   customOption: true,

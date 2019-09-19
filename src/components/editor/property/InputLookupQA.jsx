@@ -1,20 +1,20 @@
 // Copyright 2019 Stanford University see LICENSE for license
 
-import React from 'react'
+import React, { useState } from 'react'
 import {
   Menu, MenuItem, Typeahead, asyncContainer, Token,
 } from 'react-bootstrap-typeahead'
 import { getOptionLabel } from 'react-bootstrap-typeahead/lib/utils'
-
 import PropTypes from 'prop-types'
 import SinopiaPropTypes from 'SinopiaPropTypes'
+import shortid from 'shortid'
 import { bindActionCreators } from 'redux'
 import { connect } from 'react-redux'
 import {
   itemsForProperty, getDisplayValidations, getPropertyTemplate, findErrors,
 } from 'selectors/resourceSelectors'
 import { changeSelections } from 'actions/index'
-import search from 'actionCreators/qa'
+import getSearchResults from 'utilities/qa'
 import { isValidURI } from 'Utilities'
 import { booleanPropertyFromTemplate } from 'utilities/propertyTemplates'
 import _ from 'lodash'
@@ -22,16 +22,17 @@ import RenderLookupContext from './RenderLookupContext'
 
 const AsyncTypeahead = asyncContainer(Typeahead)
 
-// Render menu function to be used by typeahead
+
 export const renderMenuFunc = (results, menuProps) => {
   const items = []
-  let menuItemIndex = 0
+  let authURI
+  let authLabel
 
   /*
-   * Returning results per each promise
+   * Returning results
    * If error is returned, it will be used to display for that source
    */
-  results.forEach((result, _i, list) => {
+  results.forEach((result, i) => {
     if (result.customOption) {
       let headerLabel
       let option
@@ -50,28 +51,20 @@ export const renderMenuFunc = (results, menuProps) => {
           content: result.label,
         }
       }
-
       items.push(<Menu.Header key="customOption-header">{headerLabel}</Menu.Header>)
       items.push(
-        <MenuItem option={option} position={menuItemIndex} key={menuItemIndex}>
+        <MenuItem option={option} position={i} key={i}>
           {result.label}
         </MenuItem>,
       )
-      menuItemIndex++
       return
     }
-    const authLabel = result.authLabel
-    const authURI = result.authURI
-    const headerKey = `${result.authURI}-header`
-
-    if (list.length > 1) items.push(<Menu.Header key={headerKey}>{authLabel}</Menu.Header>)
 
     if (result.isError) {
-      const errorMessage = 'An error occurred in retrieving results'
-      const errorHeaderKey = `${headerKey}-error`
+      const errorMessage = result.label || 'An error occurred in retrieving results'
 
       items.push(
-        <Menu.Header key={errorHeaderKey}>
+        <Menu.Header key={shortid.generate()}>
           <span className="dropdown-error">{errorMessage}</span>
         </Menu.Header>,
       )
@@ -79,40 +72,25 @@ export const renderMenuFunc = (results, menuProps) => {
       // Effectively a `continue`/`next` statement within the `forEach()` context, skipping to the next iteration
       return
     }
-
-    const body = result.body
-
-    if (body.length === 0) {
-      const noResultsMessage = 'No results for this lookup'
-      const noResultsHeaderKey = `${headerKey}-noResults`
-
-      items.push(
-        <Menu.Header key={noResultsHeaderKey}>
-          <span className="dropdown-empty">{noResultsMessage}</span>
-        </Menu.Header>,
-      )
-
-      // Effectively a `continue`/`next` statement within the `forEach()` context, skipping to the next iteration
+    if ('authURI' in result) {
+      authLabel = result.authLabel
+      authURI = result.authURI
+      const labelKey = `${authLabel}-header`
+      items.push(<Menu.Header key={labelKey}>{authLabel}</Menu.Header>)
       return
     }
-
-    let idx = 0
-    body.forEach((innerResult) => {
-      let bgClass = 'context-result-bg'
-      idx++
-      if (idx % 2 === 0) {
-        bgClass = 'context-result-alt-bg'
-      }
-      items.push(
-        <MenuItem option={innerResult} position={menuItemIndex} key={menuItemIndex}>
-          {innerResult.context ? (
-            <RenderLookupContext innerResult={innerResult} authLabel={authLabel} authURI={authURI} colorClassName={bgClass}></RenderLookupContext>
-          ) : innerResult.label
-          }
-        </MenuItem>,
-      )
-      menuItemIndex++
-    })
+    let bgClass = 'context-result-bg'
+    if (i % 2 === 0) {
+      bgClass = 'context-result-alt-bg'
+    }
+    items.push(
+      <MenuItem option={result} position={i} key={i}>
+        {result.context ? (
+          <RenderLookupContext innerResult={result} authLabel={authLabel} authURI={authURI} colorClassName={bgClass}></RenderLookupContext>
+        ) : result.label
+        }
+      </MenuItem>,
+    )
   })
 
   return (
@@ -142,10 +120,49 @@ export const renderTokenFunc = (option, tokenProps, idx) => {
 //  based on values in propertyTemplate.valueConstraint.useValuesFrom
 //  and the lookupConfig for the URIs has component value of 'lookup'
 const InputLookupQA = (props) => {
+  const [authorities, setAuthorities] = useState([])
+
+  const search = (query) => {
+    const currentAuthorities = []
+    const resultPromise = getSearchResults(query, props.propertyTemplate)
+    resultPromise.then((result) => {
+      result.forEach((authority) => {
+        currentAuthorities.push(authority)
+      })
+      setAuthorities(currentAuthorities)
+    })
+  }
+
+  const getOptions = (authorities) => {
+    const options = []
+    authorities.forEach((authority) => {
+      const authLabel = authority.authLabel
+      const authURI = authority.authURI
+      options.push({
+        authURI,
+        authLabel,
+        label: authLabel,
+      })
+      if (authority.isError) {
+        options.push({
+          isError: true,
+          label: authority.errorObject.message,
+          id: shortid.generate(),
+        })
+        return
+      }
+      authority.body.forEach((option) => {
+        options.push(option)
+      })
+    })
+    return options
+  }
+
   // Don't render if no property template yet
   if (!props.propertyTemplate) {
     return null
   }
+
 
   // From https://github.com/ericgio/react-bootstrap-typeahead/issues/389
   const onKeyDown = (e) => {
@@ -169,10 +186,8 @@ const InputLookupQA = (props) => {
     placeholder: props.propertyTemplate.propertyLabel,
     useCache: true,
     selectHintOnEnter: true,
-    isLoading: props.isLoading,
-    onSearch: query => props.search(query, props.propertyTemplate),
-    options: props.options,
     selected: props.selected,
+    isLoading: props.isLoading,
     allowNew: true,
     delay: 300,
     onKeyDown,
@@ -185,7 +200,6 @@ const InputLookupQA = (props) => {
     groupClasses += ' has-error'
     error = props.errors.join(',')
   }
-
   return (
     <div className={groupClasses}>
       <AsyncTypeahead renderMenu={(results, menuProps) => renderMenuFunc(results, menuProps)}
@@ -195,9 +209,10 @@ const InputLookupQA = (props) => {
                           items: selected,
                           reduxPath: props.reduxPath,
                         }
-
                         props.changeSelections(payload)
                       }}
+                      options={getOptions(authorities)}
+                      onSearch={search}
                       renderToken={(option, props, idx) => renderTokenFunc(option, props, idx)}
                       {...typeaheadProps}
 
@@ -230,7 +245,6 @@ const mapStateToProps = (state, ownProps) => {
   const errors = findErrors(state, ownProps.reduxPath)
   const selected = itemsForProperty(state, ownProps.reduxPath)
   const isLoading = state.selectorReducer.entities.qa.loading
-  const options = state.selectorReducer.entities.qa.options
 
   return {
     selected,
@@ -238,10 +252,9 @@ const mapStateToProps = (state, ownProps) => {
     displayValidations,
     errors,
     isLoading,
-    options,
   }
 }
 
-const mapDispatchToProps = dispatch => bindActionCreators({ changeSelections, search }, dispatch)
+const mapDispatchToProps = dispatch => bindActionCreators({ changeSelections }, dispatch)
 
 export default connect(mapStateToProps, mapDispatchToProps)(InputLookupQA)

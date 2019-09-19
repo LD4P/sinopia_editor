@@ -11,7 +11,7 @@
       "valueConstraint": {
         "valueTemplateRefs": [],
         "useValuesFrom": [
-          "urn:ld4p:qa:names:place"
+          "urn:ld4p:qa:fast:place"
         ],
         "defaults": []
       }
