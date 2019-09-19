@@ -48,7 +48,9 @@
     "jest-ci": "jest  --colors --silent --ci --runInBand --coverage --reporters=default --reporters=jest-junit && cat ./coverage/lcov.info | coveralls",
     "start": "npx babel-node server.js",
     "test": "jest --colors --silent --runInBand --detectOpenHandles",
-    "test-verbose": "jest --colors --runInBand"
+    "test-verbose": "jest --colors --runInBand",
+    "cypress-open": "cypress open",
+    "cypress-run": "cypress run"
   },
   "license": "Apache-2.0",
   "dependencies": {
@@ -112,6 +114,8 @@
     "babel-eslint": "^10.0.1",
     "babel-jest": "^24.7.1",
     "coveralls": "^3.0.3",
+    "cypress": "^3.4.1",
+    "cypress-file-upload": "^3.3.3",
     "enzyme": "^3.10.0",
     "enzyme-adapter-react-16": "^1.14.0",
     "eslint": "^5.3.0",

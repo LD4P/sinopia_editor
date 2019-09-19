@@ -42,7 +42,7 @@ class SinopiaResourceTemplates extends Component {
   render() {
     if (this.props.resourceTemplateSummaries.length === 0) {
       return (
-        <div className="alert alert-warning alert-dismissible">
+        <div className="alert alert-warning alert-dismissible" id="resource-template-list">
           <button className="close" data-dismiss="alert" aria-label="close">&times;</button>
           No connection to the Sinopia Server is available, or there are no resources for any group.
         </div>

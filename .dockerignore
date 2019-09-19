@@ -16,3 +16,4 @@ setupEnzyme.js
 dist
 node_modules
 .env
+cypress.env.json
