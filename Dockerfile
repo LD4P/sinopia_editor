@@ -31,7 +31,7 @@ RUN /bin/bash -c 'chown -R circleci dist node_modules'
 USER circleci
 
 # Install dependencies
-RUN npm install
+RUN npm install --production
 
 # Build the app *within* the container because environment variables are fixed at build-time
 RUN npm run build
