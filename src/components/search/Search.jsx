@@ -81,33 +81,34 @@ const Search = (props) => {
     <div id="search">
       <Header triggerEditorMenu={props.triggerHandleOffsetMenu} />
       <Alert text={error && `An error occurred while searching: ${error.toString()}`} />
-
-      <div className="row">
-        <form className="form-inline" onSubmit={handleSubmit}>
-          <div className="form-group">
-            <label htmlFor="searchType">Search</label>&nbsp;
-            <select className="form-control" id="searchType"
-                    value={uri}
-                    onChange={ event => setUri(event.target.value) }
-                    onBlur={ event => setUri(event.target.value) }>
-              <option value="sinopia">Sinopia</option>
-              {options}
-            </select>
-          </div>
-          <div className="form-group" style={{ width: '750px', paddingLeft: '5px' }}>
-            <label className="sr-only" htmlFor="searchInput">Query</label>
-            <div className="input-group" style={{ width: '100%' }}>
-              <input id="searchInput" type="text" className="form-control"
-                     onChange={ event => setQueryString(event.target.value) }
-                     onKeyPress={handleKeyPress} />
-              <span className="input-group-btn">
-                <button className="btn btn-default" type="submit" aria-label="submit search"><FontAwesomeIcon className="fa-search" icon={faSearch} /></button>
-              </span>
+      <div className="container">
+        <div className="row">
+          <form className="form-inline" onSubmit={handleSubmit}>
+            <div className="form-group">
+              <label htmlFor="searchType">Search</label>&nbsp;
+              <select className="form-control" id="searchType"
+                      value={uri}
+                      onChange={ event => setUri(event.target.value) }
+                      onBlur={ event => setUri(event.target.value) }>
+                <option value="sinopia">Sinopia</option>
+                {options}
+              </select>
             </div>
-          </div>
-        </form>
+            <div className="form-group" style={{ width: '750px', paddingLeft: '5px' }}>
+              <label className="sr-only" htmlFor="searchInput">Query</label>
+              <div className="input-group" style={{ width: '100%' }}>
+                <input id="searchInput" type="text" className="form-control"
+                       onChange={ event => setQueryString(event.target.value) }
+                       onKeyPress={handleKeyPress} />
+                <span className="input-group-btn">
+                  <button className="btn btn-default" type="submit" aria-label="submit search"><FontAwesomeIcon className="fa-search" icon={faSearch} /></button>
+                </span>
+              </div>
+            </div>
+          </form>
+        </div>
+        <span className="help-block">For searching Sinopia, use a * to wildcard your search.</span>
       </div>
-      <span className="help-block">For searching Sinopia, use a * to wildcard your search.</span>
       {results}
     </div>
   )

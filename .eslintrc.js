@@ -7,7 +7,8 @@ module.exports = {
     "jsx-a11y",
     "react",
     "react-hooks",
-    "security"
+    "security",
+    "cypress"
   ],
   extends: [
     "eslint:recommended",
@@ -17,7 +18,8 @@ module.exports = {
     "plugin:import/warnings",
     "plugin:jsx-a11y/recommended",
     "plugin:security/recommended",
-    "airbnb-base/whitespace"
+    "airbnb-base/whitespace",
+    "plugin:cypress/recommended"
   ],
   "parser": "babel-eslint",
   "parserOptions": {
@@ -223,6 +225,12 @@ module.exports = {
       "rules": {
         "node/no-unpublished-import": "off"
       }
-    }
+    },
+    {
+      "files": ["cypress/plugins/index.js"],
+      "rules": {
+        "no-unused-vars": "off"
+      }
+    },
   ]
 }

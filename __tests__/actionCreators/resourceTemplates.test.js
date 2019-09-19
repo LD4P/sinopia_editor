@@ -94,7 +94,7 @@ describe('fetchResourceTemplateSummaries', () => {
     expect(server.getResourceTemplate).toHaveBeenCalledWith(noteId, 'ld4p')
     expect(server.getResourceTemplate).toHaveBeenCalledWith(barcodeId, 'ld4p')
 
-    expect(dispatch).toHaveBeenCalledTimes(4)
+    expect(dispatch).toHaveBeenCalledTimes(5)
     expect(dispatch).toBeCalledWith({
       type: 'RESOURCE_TEMPLATE_SUMMARY_LOADED',
       payload: {
@@ -105,6 +105,10 @@ describe('fetchResourceTemplateSummaries', () => {
         author: undefined,
         remark: undefined,
       },
+    })
+
+    expect(dispatch).toBeCalledWith({
+      type: 'LOADED_RESOURCE_TEMPLATE_SUMMARIES',
     })
   })
   it('handles no templates', async () => {
@@ -122,7 +126,10 @@ describe('fetchResourceTemplateSummaries', () => {
     await fetchResourceTemplateSummaries()(dispatch)
     expect(server.listResourcesInGroupContainer).toHaveBeenCalledTimes(1)
     expect(server.listResourcesInGroupContainer).toHaveBeenCalledWith('ld4p')
-    expect(dispatch).toHaveBeenCalledTimes(0)
+    expect(dispatch).toHaveBeenCalledTimes(1)
+    expect(dispatch).toBeCalledWith({
+      type: 'LOADED_RESOURCE_TEMPLATE_SUMMARIES',
+    })
   })
   it('handles a connection error', async () => {
     const resourceTemplateId = 'list of resource templates'

@@ -38,9 +38,23 @@ export const copyResourceToEditor = (state, action) => {
   return newState
 }
 
+export const loadedResourceTemplateSummaries = (state) => {
+  const newState = { ...state }
+
+  if (newState.entities.resourceTemplateSummaries === undefined) {
+    newState.entities.resourceTemplateSummaries = {}
+  }
+
+  return newState
+}
+
 export const setResourceTemplateSummary = (state, action) => {
   const resourceTemplateId = action.payload.id
   const newState = { ...state }
+
+  if (newState.entities.resourceTemplateSummaries === undefined) {
+    newState.entities.resourceTemplateSummaries = {}
+  }
 
   newState.entities.resourceTemplateSummaries[resourceTemplateId] = action.payload
 

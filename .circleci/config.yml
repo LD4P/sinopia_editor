@@ -45,6 +45,17 @@ jobs:
           command: npm run jest-ci
           environment:
             JEST_JUNIT_OUTPUT: "test-results/jest/jest-results.xml"
+      - setup_remote_docker
+      - run:
+          name: Start docker env
+          command: |
+            set -x
+            COGNITO_ADMIN_PASSWORD=$COGNITO_ADMIN_PASSWORD AWS_ACCESS_KEY_ID=$AWS_ACCESS_KEY_ID AWS_SECRET_ACCESS_KEY=$AWS_SECRET_ACCESS_KEY TRELLIS_BASE_URL='http://platform:8080' docker-compose up -d
+            docker run --network sinopia_editor_default appropriate/curl --retry 25 --retry-delay 1 --retry-connrefused http://editor:8000/
+            docker run --network sinopia_editor_default appropriate/curl --retry 60 --retry-delay 1 --retry-connrefused http://platform:8080
+      # The test needs to be run within Docker, as (remote) Sinopia network is not available from this testing container.
+      - run: docker build -f Dockerfile.cypress -t ld4l/sinopia_editor_cypress .
+      - run: docker run -it --security-opt seccomp=unconfined --network sinopia_editor_default -e CYPRESS_EDITOR_URL='http://editor:8000/' -e CYPRESS_COGNITO_TEST_USER_NAME=$COGNITO_TEST_USER_NAME -e CYPRESS_COGNITO_TEST_USER_PASS=$COGNITO_TEST_USER_PASS ld4l/sinopia_editor_cypress
 
   register_latest_image:
     <<: *defaults

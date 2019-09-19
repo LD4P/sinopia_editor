@@ -4,8 +4,8 @@ services:
     build:
       context: .
       args:
-        USE_FIXTURES: 'false'
-        TRELLIS_BASE_URL: http://localhost:8080
+        - USE_FIXTURES='false'
+        - TRELLIS_BASE_URL
     environment:
       INDEX_URL: http://search:9200
     ports:

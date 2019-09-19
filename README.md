@@ -133,6 +133,28 @@ Once complete, you can start the dev server on your laptop as describe above and
 
 There is a project view and also a view of each file.  You can also check [coveralls](https://coveralls.io/repos/github/LD4P/sinopia_editor).
 
+#### End-to-end tests
+
+End-to-end tests are written with [Cypress](https://www.cypress.io/).
+
+Add these to your local `cypress.env.json` file:
+```
+{
+  "COGNITO_TEST_USER_NAME": "sinopia-devs_client-tester",
+  "COGNITO_TEST_USER_PASS": "<get this from shared_configs or another developer>"
+}
+```
+
+The end-to-end tests run against a complete environment running in docker:
+```
+docker-compose pull
+docker-compose build
+docker-compose up -d
+```
+
+To open Cypress interactively (for test development), execute `npm run cypress-open` and click on the test to run.
+
+To run test non-interactively, execute `npm run cypress-run`.
 
 ### Continuous Integration
 
