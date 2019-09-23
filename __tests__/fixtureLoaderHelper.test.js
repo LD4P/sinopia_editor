@@ -77,7 +77,7 @@ describe('fixtureLoaderHelper', () => {
       expect(result.response.body.contains).toEqual(
         expect.arrayContaining([
           'http://spoof.trellis.io/ld4p/resourceTemplate:bf2:Monograph:Instance',
-          'http://spoof.trellis.io/ld4p/rt:rda:manifestation:monograph',
+          'http://spoof.trellis.io/ld4p/resourceTemplate:bf2:Monograph:Work',
         ]),
       )
     })
