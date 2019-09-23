@@ -1,7 +1,6 @@
 // Copyright 2019 Stanford University see LICENSE for license
 
 import React from 'react'
-import 'jsdom-global/register'
 import { shallow } from 'enzyme'
 import PropertyActionButtons from 'components/editor/property/PropertyActionButtons'
 import PropertyResourceTemplate from 'components/editor/property/PropertyResourceTemplate'

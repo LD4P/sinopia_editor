@@ -1,6 +1,5 @@
 // Copyright 2019 Stanford University see LICENSE for license
 
-import 'jsdom-global/register'
 import React from 'react'
 import { shallow } from 'enzyme'
 import InputValue from 'components/editor/property/InputValue'

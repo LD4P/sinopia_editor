@@ -74,7 +74,11 @@ We are using webpack as a build tool.  See `webpack.config.js` for build depende
 
 ### Running Tests
 
-Tests are written in jest, also utilizing puppeteer for end-to-end tests. Run them with `npm test`.
+Tests are written with jest:
+* Unit tests ("in jsdom") are written with enzyme and react-testing-library
+* Integration tests ("in-browser") are written with puppeteer
+
+We are currently in the process of switching tests to react-testing-library.
 
 To properly run all of the tests (including integration), you'll have to provide a couple of environment variables,
 so that the tests have valid user info with which to login.  The env vars are:
@@ -90,16 +94,10 @@ Putting it all together, to run all of the tests:
 
 ```sh
 npm test
+npm integration
 ```
 
-You can also run the tests together with the linter all in one, similar to what happens at CircleCI.
-
-```sh
-npm run ci
-```
-
-Note that if you have an instance of the dev server already running in a separate terminal, you may need to stop the server or you may get a port conflict
-when running the integration tests.
+Note that if you have an instance of the dev server already running in a separate terminal, you may need to stop the server or you may get a port conflict when running the integration tests.
 
 #### Test coverage
 

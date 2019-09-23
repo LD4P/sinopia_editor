@@ -1,7 +1,6 @@
 // Copyright 2019 Stanford University see LICENSE for license
 
 import React from 'react'
-import 'jsdom-global/register'
 import { shallow } from 'enzyme'
 import PropertyTemplateOutline from 'components/editor/property/PropertyTemplateOutline'
 import ResourceProperty from 'components/editor/property/ResourceProperty'

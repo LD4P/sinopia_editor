@@ -37,7 +37,6 @@
   },
   "scripts": {
     "build": "webpack -p --progress --mode production",
-    "ci": "npm i && npm run eslint && npm run dev-build && npm run jest-cov",
     "dev-build": "webpack --progress --mode development",
     "dev-build-test": "npm run dev-build && npm run test",
     "dev-start": "webpack-dev-server --config ./webpack.config.js --mode development",
@@ -45,10 +44,12 @@
     "eslint-fix": "eslint --color -c .eslintrc.js --ext js,jsx --fix .",
     "eslint-fix-single": "eslint --color -c .eslintrc.js --fix",
     "jest-cov": "jest --coverage --colors --silent --runInBand",
-    "jest-ci": "jest  --colors --silent --ci --runInBand --coverage --reporters=default --reporters=jest-junit && cat ./coverage/lcov.info | coveralls",
+    "jest-ci": "jest  --colors --silent --ci --runInBand --coverage --reporters=default --reporters=jest-junit && jest  --colors --silent --ci --runInBand --reporters=default --reporters=jest-junit --config integration-test.config.json && cat ./coverage/lcov.info | coveralls",
     "start": "npx babel-node server.js",
-    "test": "jest --colors --silent --runInBand --detectOpenHandles",
-    "test-verbose": "jest --colors --runInBand"
+    "test": "jest --colors --silent --detectOpenHandles",
+    "integration": "jest --colors --silent--runInBand --detectOpenHandles --config integration-test.config.json",
+    "test-verbose": "jest --colors --runInBand",
+    "integration-verbose": "jest --colors --runInBand --config integration-test.config.json"
   },
   "license": "Apache-2.0",
   "dependencies": {
@@ -85,11 +86,11 @@
     "n3": "^1.1.1",
     "query-string": "^6.4.2",
     "rdf-ext": "^1.3.0",
-    "react": "^16.8.6",
+    "react": "^16.9.0",
     "react-bootstrap": "^0.32.4",
     "react-bootstrap-table-next": "^3.1.3",
     "react-bootstrap-typeahead": "^3.4.2",
-    "react-dom": "^16.8.6",
+    "react-dom": "^16.9.0",
     "react-dropzone": "^7.0.1",
     "react-hot-loader": "^4.8.4",
     "react-offcanvas": "^0.4.0",
@@ -109,6 +110,8 @@
     "webpack-cli": "^3.3.5"
   },
   "devDependencies": {
+    "@testing-library/jest-dom": "^4.1.0",
+    "@testing-library/react": "^9.1.4",
     "babel-eslint": "^10.0.1",
     "babel-jest": "^24.7.1",
     "coveralls": "^3.0.3",
@@ -128,8 +131,8 @@
     "jest": "^24.8.0",
     "jest-junit": "^6.3.0",
     "jest-localstorage-mock": "^2.4.0",
-    "jest-prop-type-error": "^1.1.0",
     "jest-puppeteer": "^4.1.1",
+    "jest-prop-type-error": "^1.1.0",
     "jsdom": "15.0.0",
     "jsdom-global": "3.0.2",
     "puppeteer": "^1.14.0",
@@ -137,13 +140,14 @@
     "webpack-dev-server": "^3.7.2"
   },
   "jest": {
-    "preset": "jest-puppeteer",
     "setupFilesAfterEnv": [
-      "<rootDir>/setupEnzyme.js"
+      "<rootDir>/setupEnzyme.js",
+      "<rootDir>/react-testing-library.setup.js"
     ],
     "moduleDirectories": [
       "node_modules",
-      "src"
+      "src",
+      "__tests__/test_utilities"
     ],
     "moduleNameMapper": {
       "\\.(jpg|jpeg|png|gif|eot|otf|webp|svg|ttf|woff|woff2|mp4|webm|wav|mp3|m4a|aac|oga)$": "<rootDir>/__mocks__/fileMock.js",
@@ -161,9 +165,8 @@
     "testPathIgnorePatterns": [
       "/node_modules/",
       "__tests__/fixtureLoaderHelper.js",
-      "__tests__/integration/loginHelper",
-      "__tests__/integration/previewRDFHelper",
-      "__tests__/integration/integrationHelper"
+      "__tests__/integration/",
+      "__tests__/test_utilities/"
     ],
     "setupFiles": [
       "jest-localstorage-mock",
