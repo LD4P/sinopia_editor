@@ -5,18 +5,11 @@ import { version } from '../../../package.json'
 
 const NewsItem = () => (
   <div className="news-item">
-    <h1> Announcing Sinopia Version 1.0</h1>
+    <h1>Announcing Sinopia Version 1.0.2</h1>
     <ul>
-      <li>New in this release</li>
-      <ul>
-        <li>Search for descriptions created in Sinopia</li>
-        <li>Edit previously created descriptions</li>
-        <li>Look up and refer to Sinopia-created entities and to entities from Share-VDE datasets (as they become available)</li>
-        <li>Better messaging when a resource template is not configured as expected</li>
-      </ul>
-      <li>For complete {version} release notes see the <a href="https://github.com/LD4P/sinopia/wiki/Latest-Release,-What's-Next">Sinopia help site</a>.
+      <li>Version 1.0.2 fixes the bugs with lookups and defaults in nested templates.
       </li>
-      <li>Version 1.0.1: adds support for lookups to Share-VDE data and fixes bug where validation messages were not properly cleared
+      <li>For complete {version} release notes see the <a href="https://github.com/LD4P/sinopia/wiki/Latest-Release,-What's-Next">Sinopia help site</a>.
       </li>
     </ul>
   </div>
