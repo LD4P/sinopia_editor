@@ -199,5 +199,16 @@ module.exports = {
         "max-len": "off"
       }
     },
+    {
+      // Bootstrap styles require that navbar's use <a> instead of <btn>, so ignoring.
+      // Might be able to fix this with BS4.
+      "files": [
+        "src/components/Header.jsx",
+        "src/components/home/Header.jsx"
+      ],
+      "rules": {
+        "jsx-a11y/anchor-is-valid": "off"
+      }
+    }
   ]
 }

@@ -21,9 +21,9 @@ class CanvasMenu extends Component {
   render() {
     return (
       <div>
-        <a href="#" onClick={this.props.closeHandleMenu}>
+        <button type="button" className="btn btn-link pull-right" href="#" onClick={this.props.closeHandleMenu}>
           <FontAwesomeIcon className="close-icon" icon={faTimes} />
-        </a>
+        </button>
 
         <div dangerouslySetInnerHTML={{ __html: this.state.content }} />
 
