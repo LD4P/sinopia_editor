@@ -46,7 +46,7 @@ jobs:
           environment:
             JEST_JUNIT_OUTPUT: "test-results/jest/jest-results.xml"
 
-  register_image:
+  register_latest_image:
     <<: *defaults
     steps:
       - checkout
@@ -60,11 +60,24 @@ jobs:
           command: |
             docker build -t ld4p/sinopia_editor:latest .
             docker build -t ld4p/sinopia_editor:dev --build-arg TRELLIS_BASE_URL=$TRELLIS_BASE_URL_DEV --build-arg SINOPIA_URI=$SINOPIA_URI_DEV --build-arg AWS_COGNITO_DOMAIN=$AWS_COGNITO_DOMAIN_DEV --build-arg COGNITO_CLIENT_ID=$COGNITO_CLIENT_ID_DEV --build-arg COGNITO_USER_POOL_ID=$COGNITO_USER_POOL_ID_DEV --build-arg INDEX_URL=$INDEX_URL_DEV --build-arg SEARCH_HOST=$INDEX_URL_DEV .
-            docker build -t ld4p/sinopia_editor:stage --build-arg TRELLIS_BASE_URL=$TRELLIS_BASE_URL_STAGE --build-arg SINOPIA_URI=$SINOPIA_URI_STAGE --build-arg AWS_COGNITO_DOMAIN=$AWS_COGNITO_DOMAIN_STAGE --build-arg COGNITO_CLIENT_ID=$COGNITO_CLIENT_ID_STAGE --build-arg COGNITO_USER_POOL_ID=$COGNITO_USER_POOL_ID_STAGE --build-arg INDEX_URL=$INDEX_URL_STAGE --build-arg SEARCH_HOST=$INDEX_URL_STAGE .
-            docker build -t ld4p/sinopia_editor:prod --build-arg TRELLIS_BASE_URL=$TRELLIS_BASE_URL_PROD --build-arg SINOPIA_URI=$SINOPIA_URI_PROD --build-arg AWS_COGNITO_DOMAIN=$AWS_COGNITO_DOMAIN_PROD --build-arg COGNITO_CLIENT_ID=$COGNITO_CLIENT_ID_PROD --build-arg COGNITO_USER_POOL_ID=$COGNITO_USER_POOL_ID_PROD --build-arg INDEX_URL=$INDEX_URL_PROD --build-arg SEARCH_HOST=$INDEX_URL_PROD .
             echo $DOCKER_PASS | docker login -u $DOCKER_USER --password-stdin
             docker push ld4p/sinopia_editor:latest
             docker push ld4p/sinopia_editor:dev
+  register_tag_image:
+    <<: *defaults
+    steps:
+      - checkout
+      - setup_remote_docker
+      - restore_cache: # gives us back matching node_modules
+          key: dependencies-prod-{{ checksum "package.json" }}
+      - attach_workspace:
+          at: .
+      - run:
+          name: Build & Register Images
+          command: |
+            docker build -t ld4p/sinopia_editor:stage --build-arg TRELLIS_BASE_URL=$TRELLIS_BASE_URL_STAGE --build-arg SINOPIA_URI=$SINOPIA_URI_STAGE --build-arg AWS_COGNITO_DOMAIN=$AWS_COGNITO_DOMAIN_STAGE --build-arg COGNITO_CLIENT_ID=$COGNITO_CLIENT_ID_STAGE --build-arg COGNITO_USER_POOL_ID=$COGNITO_USER_POOL_ID_STAGE --build-arg INDEX_URL=$INDEX_URL_STAGE --build-arg SEARCH_HOST=$INDEX_URL_STAGE .
+            docker build -t ld4p/sinopia_editor:prod --build-arg TRELLIS_BASE_URL=$TRELLIS_BASE_URL_PROD --build-arg SINOPIA_URI=$SINOPIA_URI_PROD --build-arg AWS_COGNITO_DOMAIN=$AWS_COGNITO_DOMAIN_PROD --build-arg COGNITO_CLIENT_ID=$COGNITO_CLIENT_ID_PROD --build-arg COGNITO_USER_POOL_ID=$COGNITO_USER_POOL_ID_PROD --build-arg INDEX_URL=$INDEX_URL_PROD --build-arg SEARCH_HOST=$INDEX_URL_PROD .
+            echo $DOCKER_PASS | docker login -u $DOCKER_USER --password-stdin
             docker push ld4p/sinopia_editor:stage
             docker push ld4p/sinopia_editor:prod
 
@@ -97,16 +110,30 @@ workflows:
   build:
     jobs:
       - dependencies
+          filters:
+            branches:
+              only:
+                - /.*/
+            tags:
+              only:
+                - /v.*/
       - build:
           requires:
             - dependencies
-      - register_image:
+      - register_latest_image:
           requires:
             - build
           filters:
             branches:
               only:
                 - master
+      - register_tag_image:
+          requires:
+            - build
+          filters:
+            tags:
+              only:
+                - /v.*/
       - update_ecs:
           requires:
-            - register_image
+            - register_latest_image
