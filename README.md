@@ -221,51 +221,7 @@ $ aws ecs update-service --service sinopia-homepage --region us-west-2 --cluster
 
 ## Release Management
 
-The steps to create a tagged release of the Sinopia's Linked Data Editor are as follows:
-
-1. Update the version in *package.json*
-1. `npm i` to regenerate *package-lock.json*
-1. Create a feature branch in git for the version (suggest `patch-{verson}`)
-1. `npm publish` to publish the version to [npm registry](https://npmjs.com).
-1. Product owner assigned Release notes
-    - Updates `NewsItem.js` component, creates commit on feature branch.
-    - Sinopia [Wiki](https://github.com/LD4P/sinopia/wiki/Latest-Release,-What's-Next)
-1. Feature branch merged and circle-ci has successfully pushed new builds for
-      the `latest`, `stage`, and `prod` to docker hub.
-1. Git annotated tag and push to Github
-    - `git tag -a v{version} -m "{your message}"` to create an annotated tag
-    - `git push origin v{version}` to push up to the project's
-   [releases](https://github.com/LD4P/sinopia_editor/releases)
-1. Dockerhub Images Management
-   1. Pull latest **stage** and **prod** images
-      - `docker pull ld4p/sinopia_editor:stage`
-      - `docker pull ld4p/sinopia_editor:prod`
-   1. Tag **stage** and **prod** images with version
-      - `docker tag ld4p/sinopia_editor:stage ld4p/sinopia_editor:{version}-stage`
-      - `docker tag ld4p/sinopia_editor:prod ld4p/sinopia_editor:{version}-prod`
-   1. Push the tagged versions to Dockerhub
-      - `docker push ld4p/sinopia_editor:{version}-stage`
-      - `docker push ld4p/sinopia_editor:{version}-prod`
-1. AWS Images for supporting projects - the Sinopia stack requires
-      a number of other projects to run successfully both locally and on AWS. If any of
-      these projects changed between tagged releases, you will need to update and tag the
-      latest image on Dockerhub along with corresponding update to Terraform with the tagged
-      release.
-      - Sinopia ACL https://github.com/LD4P/sinopia_acl
-        - Download the latest image `docker pull ld4p/sinopia_acl:latest`
-        - Create a tagged version `docker tag ld4p/sinopia_acl:latest ld4p/sinopia_acl:{version}`
-        - Push new tagged version `docker push ld4p/sinopia_acl:{version}`
-        - Update Terraform with the new tagged version and create PR
-      - Sinopia Indexing Pipeline https://github.com/LD4P/sinopia_indexing_pipeline
-        - Download the latest image `docker pull ld4p/sinopia_indexing_pipeline:latest`
-        - Create a tagged version `docker tag ld4p/sinopia_indexing_pipeline:latest ld4p/sinopia_indexing_pipeline:{version}`
-        - Push new tagged version `docker push ld4p/sinopia_indexing_pipeline:{version}`
-        - Update Terraform with the new tagged version and create PR
-1. Once tagged release is live on https://development.sinopia.io, this ticket will be assigned to the product owner who will approve the tagged release for deployment on
-    1. Staging at https://stage.sinopia.io/
-        - Create a new terraform PR for staging
-    1. Production at https://sinopia.io
-        - Create a new terraform PR for production
+The steps to create a tagged release are documented in the tagged-release ticket template. Please create a tagged-release ticket when performing a release.
 
 # LD4P's fork of the BIBFRAME Editor
 The Sinopia Editor is forked from [https://github.com/lcnetdev/bfe][BFE_GIT].
