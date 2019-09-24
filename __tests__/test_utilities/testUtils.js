@@ -15,6 +15,6 @@ export const assertRDF = (store, triples) => {
     <RDFModal />, store,
   )
   triples.forEach((triple) => {
-    expect(getByText(triple, { exact: false })).toBeInTheDocument
+    expect(getByText(triple, { exact: false })).toBeInTheDocument()
   })
 }

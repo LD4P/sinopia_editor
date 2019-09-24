@@ -94,12 +94,12 @@ test('renders when no value', () => {
     <InputLiteral reduxPath={reduxPath} />, store,
   )
   // The input box is present.
-  expect(getByPlaceholderText('Preferred Title for Work')).toBeInTheDocument
+  expect(getByPlaceholderText('Preferred Title for Work')).toBeInTheDocument()
   // Not required.
-  expect(queryByText('Required')).not.toBeInTheDocument
+  expect(queryByText('Required')).not.toBeInTheDocument()
   expect(getByPlaceholderText('Preferred Title for Work')).not.toHaveAttribute('required')
   // No existing values are present. This sort of a query isn't recommended but since testing for absence, seems OK.
-  expect(container.querySelector('.rbt-token')).not.toBeInTheDocument
+  expect(container.querySelector('.rbt-token')).not.toBeInTheDocument()
 })
 
 test('renders existing value', () => {
@@ -108,11 +108,11 @@ test('renders existing value', () => {
     <InputLiteral reduxPath={reduxPath} />, store,
   )
   // The input box is present.
-  expect(getByPlaceholderText('Preferred Title for Work')).toBeInTheDocument
+  expect(getByPlaceholderText('Preferred Title for Work')).toBeInTheDocument()
   // The title is displayed
-  expect(getByText('foo')).toBeInTheDocument
+  expect(getByText('foo')).toBeInTheDocument()
   // The language is displayed
-  expect(getByText('Language: English')).toBeInTheDocument
+  expect(getByText('Language: English')).toBeInTheDocument()
 })
 
 test('entering non-repeatable value', async () => {
@@ -127,9 +127,9 @@ test('entering non-repeatable value', async () => {
 
   // Verify the value
   await waitForElement(() => getByText('Edit'))
-  expect(getByText('foo')).toBeInTheDocument
-  expect(getByText('×')).toBeInTheDocument
-  expect(getByText('Language: English')).toBeInTheDocument
+  expect(getByText('foo')).toBeInTheDocument()
+  expect(getByText('×')).toBeInTheDocument()
+  expect(getByText('Language: English')).toBeInTheDocument()
 
   // Input is disabled
   expect(getByPlaceholderText('Preferred Title for Work')).toBeDisabled
@@ -147,9 +147,9 @@ test('entering value and changing focus', async () => {
 
   // Verify the value
   await waitForElement(() => getByText('Edit'))
-  expect(getByText('foo')).toBeInTheDocument
-  expect(getByText('×')).toBeInTheDocument
-  expect(getByText('Language: English')).toBeInTheDocument
+  expect(getByText('foo')).toBeInTheDocument()
+  expect(getByText('×')).toBeInTheDocument()
+  expect(getByText('Language: English')).toBeInTheDocument()
 })
 
 test('entering non-Roman value', async () => {
@@ -165,9 +165,9 @@ test('entering non-Roman value', async () => {
 
   // Verify the value
   await waitForElement(() => getByText('Edit'))
-  expect(getByText(artOfWar)).toBeInTheDocument
-  expect(getByText('×')).toBeInTheDocument
-  expect(getByText('Language: English')).toBeInTheDocument
+  expect(getByText(artOfWar)).toBeInTheDocument()
+  expect(getByText('×')).toBeInTheDocument()
+  expect(getByText('Language: English')).toBeInTheDocument()
 })
 
 
@@ -187,7 +187,7 @@ test('entering repeatable values', async () => {
 
   // Verify the value
   await waitForElement(() => getByText('bar'))
-  expect(getByText('foo')).toBeInTheDocument
+  expect(getByText('foo')).toBeInTheDocument()
   expect(getAllByText('×')).toHaveLength(2)
   expect(getAllByText('Language: English')).toHaveLength(2)
 
@@ -200,7 +200,7 @@ test('deleting a value', async () => {
   const { getByText, queryByText } = renderWithRedux(
     <InputLiteral reduxPath={reduxPath} />, store,
   )
-  expect(getByText('foo')).toBeInTheDocument
+  expect(getByText('foo')).toBeInTheDocument()
 
   // Delete the value
   fireEvent.click(getByText('×'))
@@ -216,7 +216,7 @@ test('editing a value', async () => {
   const { getByText, queryByText, getByDisplayValue } = renderWithRedux(
     <InputLiteral reduxPath={reduxPath} />, store,
   )
-  expect(getByText('foo')).toBeInTheDocument
+  expect(getByText('foo')).toBeInTheDocument()
 
   // Edit the value
   fireEvent.click(getByText('Edit'))
@@ -224,17 +224,17 @@ test('editing a value', async () => {
   await wait(() => expect(queryByText('Edit')).not.toBeInTheDocument())
 
   const input = getByDisplayValue('foo')
-  expect(input).toBeInTheDocument
+  expect(input).toBeInTheDocument()
 
   fireEvent.change(input, { target: { value: 'bar' } })
   fireEvent.keyPress(input, { key: 'Enter', code: 13, charCode: 13 })
 
   // Verify the value
   await waitForElement(() => getByText('Edit'))
-  expect(getByText('bar')).toBeInTheDocument
-  expect(queryByText('foo')).not.toBeInTheDocument
-  expect(getByText('×')).toBeInTheDocument
-  expect(getByText('Language: English')).toBeInTheDocument
+  expect(getByText('bar')).toBeInTheDocument()
+  expect(queryByText('foo')).not.toBeInTheDocument()
+  expect(getByText('×')).toBeInTheDocument()
+  expect(getByText('Language: English')).toBeInTheDocument()
 })
 
 test('validation when mandatory', async () => {
@@ -244,7 +244,7 @@ test('validation when mandatory', async () => {
   )
 
   expect(getByPlaceholderText('Preferred Title for Work')).toHaveAttribute('required')
-  expect(queryByText('Required')).not.toBeInTheDocument
+  expect(queryByText('Required')).not.toBeInTheDocument()
 
   // Trigger validation
   store.dispatch(showGroupChooser(true))
