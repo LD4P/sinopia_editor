@@ -32,6 +32,7 @@ assignees: ''
     - [ ] Push new tagged version `docker push ld4p/sinopia_indexing_pipeline:{version}`
     - [ ] Update Terraform with the new tagged version and create PR
 - [ ] Deploy to staging
-  - [ ] Create a new terraform PR for staging
+  - [ ] Follow [instructions](https://github.com/sul-dlss/terraform-aws/tree/master/organizations/staging/sinopia#deploying-a-release-to-staging) for pushing a release to staging.
+  - [ ] Submit a new terraform PR.
 - [ ] Produce owner decides whether to deploy to production (which may not occur for every tagged release)
   - [ ] Create a new terraform PR for production
