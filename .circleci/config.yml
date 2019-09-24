@@ -120,6 +120,13 @@ workflows:
       - build:
           requires:
             - dependencies
+          filters:
+            branches:
+              only:
+                - /.*/
+            tags:
+              only:
+                - /v.*/
       - register_latest_image:
           requires:
             - build
