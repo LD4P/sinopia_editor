@@ -1,6 +1,7 @@
 // Copyright 2018 Stanford University see LICENSE for license
 
 import React, { Component } from 'react'
+import Alert from 'react-bootstrap/lib/Alert'
 import Dropzone from 'react-dropzone'
 import PropTypes from 'prop-types'
 import Ajv from 'ajv' // JSON schema validation
@@ -20,14 +21,25 @@ class ImportFileZone extends Component {
     this.state = {
       files: [],
       showDropZone: false,
+      messages: [],
     }
   }
-
 
   handleClick = () => {
     const val = this.state.showDropZone
 
     this.setState({ showDropZone: !val })
+  }
+
+  addMessage(message) {
+    const joined = this.state.messages.concat(message)
+    this.setState({ messages: joined })
+  }
+
+  removeMessage(message) {
+    const index = this.state.messages.indexOf(message)
+    const joined = this.state.messages.splice(index, 1)
+    this.setState({ messages: joined })
   }
 
   setGroup = (group) => {
@@ -41,7 +53,7 @@ class ImportFileZone extends Component {
       // Currently ResourceTemplate parses the profile and gets an array of objects; want just the objects
       fileReader.readAsText(files[0])
     } catch (err) {
-      console.error(`error reading the loaded template as text: ${err}`)
+      this.addMessage(`Error reading the loaded template: ${err}`)
     }
 
     this.setState({
@@ -64,10 +76,10 @@ class ImportFileZone extends Component {
           await this.props.setResourceTemplateCallback(template, this.state.group)
         })
         .catch((err) => {
-          this.setState({ message: `The profile you provided was not in an accepable format: ${err}` })
+          this.addMessage(`The profile you provided was not in an accepable format: ${err}`)
         })
     } catch (err) {
-      this.setState({ message: `The profile you provided was not valid JSON: ${err}` })
+      this.addMessage(`The profile you provided was not valid JSON: ${err}`)
     }
   }
 
@@ -80,7 +92,7 @@ class ImportFileZone extends Component {
       } else {
         schemaUrl = `https://ld4p.github.io/sinopia/schemas/${Config.defaultProfileSchemaVersion}/resource-template.json`
       }
-      this.setState({ message: `No schema url found in template. Using ${schemaUrl}` })
+      this.addMessage(`No schema url found in template. Using ${schemaUrl}`)
     }
 
     return schemaUrl
@@ -164,6 +176,14 @@ class ImportFileZone extends Component {
       })
   })
 
+  renderDropZone = () => (
+    <DropZone showDropZoneCallback={this.updateShowDropZone}
+              dropFileCallback={this.onDropFile}
+              filesCallback={this.state.files}
+              groupCallback={this.state.group}
+              setGroupCallback={this.setGroup} />
+  )
+
   render() {
     const importFileZone = {
       display: 'flex',
@@ -175,14 +195,12 @@ class ImportFileZone extends Component {
       justifyContent: 'center',
     }
 
-    if (this.state.message) {
-      return (
-        <div className="alert alert-warning alert-dismissible">
-          <button className="close" data-dismiss="alert" aria-label="close">&times;</button>
-          {this.state.message}
-        </div>
-      )
-    }
+    const alerts = this.state.messages.map((message, idx) => (
+      <Alert key={ idx } bsStyle="warning" onClose={() => this.removeMessage(message)} dismissible >
+        <button className="close" data-dismiss="alert" aria-label="close">&times;</button>
+        { message }
+      </Alert>
+    ))
 
     return (
       <section>
@@ -192,12 +210,9 @@ class ImportFileZone extends Component {
                   onClick={this.handleClick}>Import a Profile containing New or Revised Resource Templates</button>
         </div>
         <div className="dropzoneContainer" style={dropzoneContainer}>
-          { this.state.showDropZone ? (<DropZone showDropZoneCallback={this.updateShowDropZone}
-                                                 dropFileCallback={this.onDropFile}
-                                                 filesCallback={this.state.files}
-                                                 groupCallback={this.state.group}
-                                                 setGroupCallback={this.setGroup} />) : null }
+          { this.state.showDropZone ? this.renderDropZone() : null }
         </div>
+        { alerts }
       </section>
     )
   }
