@@ -11,7 +11,7 @@ const getSearchResults = (query, propertyTemplate) => Swagger({ spec: swaggerSpe
     const lookupConfigs = getLookupConfigItems(propertyTemplate)
 
     // Create array of promises based on the lookup config array that is sent in
-    const lookupPromises = createLookupPromises(client, query, lookupConfigs, isContext(propertyTemplate))
+    const lookupPromises = createLookupPromises(client, query, lookupConfigs)
 
     /*
      * If undefined, add info - note if error, error object returned in object
@@ -35,7 +35,7 @@ const getSearchResults = (query, propertyTemplate) => Swagger({ spec: swaggerSpe
 
 export const isContext = propertyTemplate => propertyTemplate?.subtype === 'context'
 
-export const createLookupPromises = (client, query, lookupConfigs, context) => lookupConfigs.map((lookupConfig) => {
+export const createLookupPromises = (client, query, lookupConfigs) => lookupConfigs.map((lookupConfig) => {
   const authority = lookupConfig.authority
   const subauthority = lookupConfig.subauthority
   const language = lookupConfig.language
@@ -74,7 +74,7 @@ export const createLookupPromises = (client, query, lookupConfigs, context) => l
       subauthority,
       maxRecords: Config.maxRecordsForQALookups,
       lang: language,
-      context,
+      context: true, // Always search to see if context is available
     })
     .catch((err) => {
       console.error('Error in executing lookup against source', err)
