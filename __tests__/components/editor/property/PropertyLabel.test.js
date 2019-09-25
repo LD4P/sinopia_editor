@@ -1,51 +1,61 @@
 // Copyright 2019 Stanford University see Apache2.txt for license
 
 import React from 'react'
-import { shallow } from 'enzyme'
 import PropertyLabel from 'components/editor/property/PropertyLabel'
-import RequiredSuperscript from 'components/editor/property/RequiredSuperscript'
+import { render } from '@testing-library/react'
 
 
-describe('<PropertyLabel />', () => {
-  describe('when the propertyTemplate has no remark and just a label', () => {
-    const props = {
-      propertyTemplate: {
-        propertyLabel: 'Example RDA',
-      },
-    }
-    const wrapper = shallow(<PropertyLabel {...props} />)
+test('when the propertyTemplate has no remark and just a label', () => {
+  const props = {
+    propertyTemplate: {
+      propertyLabel: 'Example RDA',
+    },
+  }
 
-    it('displays only a span with the property label as the panel title', () => {
-      expect(wrapper.find('span').text()).toEqual('Example RDA')
-    })
-  })
+  const { queryByText } = render(
+    <PropertyLabel {...props} />,
+  )
+  expect(queryByText('Example RDA')).toBeInTheDocument()
+})
 
-  describe('the propertyTemplate mandatory property', () => {
-    const props = {
-      propertyTemplate: {
-        remark: 'http://access.rdatoolkit.org/example',
-        propertyLabel: 'Example RDA',
-      },
-    }
+test('does not have the RequiredSuperscript component if property: mandatory is undefined', () => {
+  const props = {
+    propertyTemplate: {
+      remark: 'http://access.rdatoolkit.org/example',
+      propertyLabel: 'Example RDA',
+    },
+  }
 
-    it('does not have the RequiredSuperscript component if property: mandatory is undefined', () => {
-      const wrapperNoRequired = shallow(<PropertyLabel {...props} />)
+  const { container } = render(
+    <PropertyLabel {...props} />,
+  )
+  expect(container.querySelector('sup')).not.toBeInTheDocument()
+})
 
-      expect(wrapperNoRequired.find(RequiredSuperscript).length).toEqual(0)
-    })
+test('does not have the RequiredSuperscript component if property: mandatory is false', () => {
+  const props = {
+    propertyTemplate: {
+      propertyLabel: 'Example RDA',
+      mandatory: 'false',
+    },
+  }
 
-    it('does not have the RequiredSuperscript component if property: mandatory is false', () => {
-      props.propertyTemplate.mandatory = 'false'
-      const wrapperNoRequired = shallow(<PropertyLabel {...props} />)
+  const { container } = render(
+    <PropertyLabel {...props} />,
+  )
+  expect(container.querySelector('sup')).not.toBeInTheDocument()
+})
 
-      expect(wrapperNoRequired.find(RequiredSuperscript).length).toEqual(0)
-    })
+test('has the RequiredSuperscript component if property: mandatory is true', () => {
+  const props = {
+    propertyTemplate: {
+      propertyLabel: 'Example RDA',
+      mandatory: 'true',
+    },
+  }
 
-    it('has the RequiredSuperscript component if property: mandatory is true', () => {
-      props.propertyTemplate.mandatory = 'true'
-      const wrapperRequired = shallow(<PropertyLabel {...props} />)
-
-      expect(wrapperRequired.find(RequiredSuperscript).length).toEqual(1)
-    })
-  })
+  const { container } = render(
+    <PropertyLabel {...props} />,
+  )
+  expect(container.querySelector('sup')).toBeInTheDocument()
 })
