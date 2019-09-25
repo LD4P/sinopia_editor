@@ -1,10 +1,9 @@
 import React from 'react'
-import { createStore } from 'redux'
 import { fireEvent, waitForElement, wait } from '@testing-library/react'
 import InputLiteral from 'components/editor/property/InputLiteral'
-import appReducer from 'reducers/index'
 import { showGroupChooser } from 'actions/index'
-import { renderWithRedux, assertRDF } from 'testUtils'
+/* eslint import/no-unresolved: 'off' */
+import { renderWithRedux, assertRDF, createReduxStore } from 'testUtils'
 
 // Testing principles:
 // * Test what the user sees / interacts with. User = [cataloger, developer plugging in componet]
@@ -90,7 +89,7 @@ const reduxPath = [
 
 describe('InputLiteral', () => {
   it('renders when no value', () => {
-    const store = createStore(appReducer, createInitialState())
+    const store = createReduxStore(createInitialState())
     const { container, getByPlaceholderText, queryByText } = renderWithRedux(
       <InputLiteral reduxPath={reduxPath} />, store,
     )
@@ -104,7 +103,7 @@ describe('InputLiteral', () => {
   })
 
   it('renders existing value', () => {
-    const store = createStore(appReducer, createInitialState({ hasInitialValue: true }))
+    const store = createReduxStore(createInitialState({ hasInitialValue: true }))
     const { getByText, getByPlaceholderText } = renderWithRedux(
       <InputLiteral reduxPath={reduxPath} />, store,
     )
@@ -117,7 +116,7 @@ describe('InputLiteral', () => {
   })
 
   it('handles entering non-repeatable value', async () => {
-    const store = createStore(appReducer, createInitialState())
+    const store = createReduxStore(createInitialState())
     const { getByPlaceholderText, getByText } = renderWithRedux(
       <InputLiteral reduxPath={reduxPath} />, store,
     )
@@ -137,7 +136,7 @@ describe('InputLiteral', () => {
   })
 
   it('handles entering value and changing focus', async () => {
-    const store = createStore(appReducer, createInitialState())
+    const store = createReduxStore(createInitialState())
     const { getByPlaceholderText, getByText } = renderWithRedux(
       <InputLiteral reduxPath={reduxPath} />, store,
     )
@@ -154,7 +153,7 @@ describe('InputLiteral', () => {
   })
 
   it('handles entering non-Roman value', async () => {
-    const store = createStore(appReducer, createInitialState())
+    const store = createReduxStore(createInitialState())
     const { getByPlaceholderText, getByText } = renderWithRedux(
       <InputLiteral reduxPath={reduxPath} />, store,
     )
@@ -173,7 +172,7 @@ describe('InputLiteral', () => {
 
 
   it('handles entering repeatable values', async () => {
-    const store = createStore(appReducer, createInitialState({ repeatable: true }))
+    const store = createReduxStore(createInitialState({ repeatable: true }))
     const { getByPlaceholderText, getByText, getAllByText } = renderWithRedux(
       <InputLiteral reduxPath={reduxPath} />, store,
     )
@@ -197,7 +196,7 @@ describe('InputLiteral', () => {
   })
 
   it('allows deleting a value', async () => {
-    const store = createStore(appReducer, createInitialState({ hasInitialValue: true }))
+    const store = createReduxStore(createInitialState({ hasInitialValue: true }))
     const { getByText, queryByText } = renderWithRedux(
       <InputLiteral reduxPath={reduxPath} />, store,
     )
@@ -213,7 +212,7 @@ describe('InputLiteral', () => {
   })
 
   it('allows editing a value', async () => {
-    const store = createStore(appReducer, createInitialState({ hasInitialValue: true }))
+    const store = createReduxStore(createInitialState({ hasInitialValue: true }))
     const { getByText, queryByText, getByDisplayValue } = renderWithRedux(
       <InputLiteral reduxPath={reduxPath} />, store,
     )
@@ -239,7 +238,7 @@ describe('InputLiteral', () => {
   })
 
   it('validates when mandatory', async () => {
-    const store = createStore(appReducer, createInitialState({ mandatory: true }))
+    const store = createReduxStore(createInitialState({ mandatory: true }))
     const { getByText, queryByText, getByPlaceholderText } = renderWithRedux(
       <InputLiteral reduxPath={reduxPath} />, store,
     )
@@ -255,7 +254,7 @@ describe('InputLiteral', () => {
 
   // Testing the RDF is in the spirit of testing what the user expects from interacting with this component.
   it('produces expected triples for a single value', async () => {
-    const store = createStore(appReducer, createInitialState())
+    const store = createReduxStore(createInitialState())
     const { getByPlaceholderText, getByText } = renderWithRedux(
       <InputLiteral reduxPath={reduxPath} />, store,
     )
@@ -276,7 +275,7 @@ describe('InputLiteral', () => {
   })
 
   it('produces expected triples for repeated values', async () => {
-    const store = createStore(appReducer, createInitialState({ repeatable: true }))
+    const store = createReduxStore(createInitialState({ repeatable: true }))
     const { getByPlaceholderText, getByText } = renderWithRedux(
       <InputLiteral reduxPath={reduxPath} />, store,
     )

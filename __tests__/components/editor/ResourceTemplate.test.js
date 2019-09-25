@@ -14,7 +14,8 @@ describe('<ResourceTemplate />', () => {
   const wrapper = shallow(<ResourceTemplate.WrappedComponent resourceTemplateId="resourceTemplate:bf2:Note"
                                                              resourceTemplate={resourceTemplate}
                                                              loadLanguages={loadLanguages}
-                                                             retrieveResourceTemplate={jest.fn()} />)
+                                                             retrieveResourceTemplate={jest.fn()}
+                                                             unusedRDF="foo" />)
   it('loads the languages', () => {
     expect(loadLanguages).toHaveBeenCalled()
   })
@@ -34,5 +35,9 @@ describe('<ResourceTemplate />', () => {
 
   it('renders ResourceTemplateForm', () => {
     expect(wrapper.find(ResourceTemplateForm).length).toEqual(1)
+  })
+
+  it('displays the unused RDF', () => {
+    expect(wrapper.find('div.alert-warning').text()).toMatch(/Unable to load the entire resource./)
   })
 })

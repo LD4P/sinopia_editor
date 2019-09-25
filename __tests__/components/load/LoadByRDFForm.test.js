@@ -1,49 +1,137 @@
 // Copyright 2019 Stanford University see LICENSE for license
 
 import React from 'react'
-import { shallow } from 'enzyme'
 import LoadByRDFForm from 'components/load/LoadByRDFForm'
-/* eslint import/namespace: 'off' */
-import * as utils from 'Utilities'
+import { fireEvent, wait } from '@testing-library/react'
+/* eslint import/no-unresolved: 'off' */
+import { renderWithRedux, createReduxStore } from 'testUtils'
+import { getFixtureResourceTemplate } from '../../fixtureLoaderHelper'
+import * as sinopiaServer from 'sinopiaServer'
+import { createMemoryHistory } from 'history'
+import shortid from 'shortid'
 
-const mockState = { foo: 'bar' }
-jest.mock('ResourceStateBuilder', () => {
-  return jest.fn().mockImplementation(() => {
-    return { state: mockState }
+jest.mock('sinopiaServer')
+
+const createInitialState = () => {
+  return {
+    selectorReducer: {
+      resource: {},
+      entities: {
+        resourceTemplates: {},
+      },
+      editor: {
+        expanded: {},
+      },
+    },
+    authenticate: {
+      authenticationState: {
+        currentUser: {
+          username: 'jlittman',
+        },
+      },
+    },
+  }
+}
+
+const n3 = `<> <http://id.loc.gov/ontologies/bibframe/mainTitle> "foo"@en .
+<> <http://sinopia.io/vocabulary/hasResourceTemplate> "resourceTemplate:bf2:WorkTitle" .
+<> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://id.loc.gov/ontologies/bibframe/Title> .
+<http://foo> <http://id.loc.gov/ontologies/bibframe/mainTitle> "foo"@en .
+`
+
+const resource = {
+  'resourceTemplate:bf2:WorkTitle': {
+    'http://id.loc.gov/ontologies/bibframe/mainTitle': {
+      items: {
+        abc123: {
+          content: 'foo',
+          label: 'foo',
+          lang: 'en',
+        },
+      },
+    },
+    'http://id.loc.gov/ontologies/bibframe/note': {},
+    'http://id.loc.gov/ontologies/bibframe/partName': {},
+    'http://id.loc.gov/ontologies/bibframe/partNumber': {},
+  },
+}
+
+describe('LoadByRDFForm', () => {
+  shortid.generate = jest.fn().mockReturnValue('abc123')
+  sinopiaServer.getResourceTemplate.mockImplementation(getFixtureResourceTemplate)
+
+  it('loads resource from provided N3', async () => {
+    const history = createMemoryHistory()
+    const store = createReduxStore(createInitialState())
+    const { getByText, container, getByLabelText } = renderWithRedux(
+      <LoadByRDFForm history={history} />, store,
+    )
+    expect(getByText('Load RDF into Editor')).toBeInTheDocument()
+    // No error message
+    expect(container.querySelector('.alert-danger')).not.toBeInTheDocument()
+    // Submit disabled
+    expect(getByText('Submit')).toBeDisabled()
+
+    // Populate the form
+    fireEvent.change(getByLabelText('N3 RDF'), { target: { value: n3 } })
+    expect(getByText('Submit')).not.toBeDisabled()
+    fireEvent.click(getByText('Submit'))
+
+    // Wait for the page change
+    await wait(() => expect(history.location.pathname).toBe('/editor'))
+
+    expect(store.getState().selectorReducer.resource).toEqual(resource)
+    expect(store.getState().selectorReducer.editor.unusedRDF).toEqual(`<http://foo> <http://id.loc.gov/ontologies/bibframe/mainTitle> "foo"@en .
+`)
   })
-})
 
-describe('<LoadByRDFForm />', () => {
-  const mockExistingResource = jest.fn()
-  const n3 = 'not rdf'
+  it('loads resource from provided N3 with base URI', async () => {
+    const history = createMemoryHistory()
+    const store = createReduxStore(createInitialState())
+    const { getByText, container, getByLabelText } = renderWithRedux(
+      <LoadByRDFForm history={history} />, store,
+    )
+    expect(getByText('Load RDF into Editor')).toBeInTheDocument()
+    // No error message
+    expect(container.querySelector('.alert-danger')).not.toBeInTheDocument()
 
-  const wrapper = shallow(<LoadByRDFForm.WrappedComponent existingResource={mockExistingResource} />)
+    // Populate the form
+    fireEvent.change(getByLabelText('N3 RDF'), { target: { value: n3.replace(/<>/g, '<http://bar>') } })
+    fireEvent.input(getByLabelText('Base URI'), { target: { value: 'http://bar' } })
+    fireEvent.click(getByText('Submit'))
 
-  it('renders an input (baseUri)', () => {
-    expect(wrapper.find('input').length).toEqual(1)
+    // Wait for the page change
+    await wait(() => expect(history.location.pathname).toBe('/editor'))
+
+    expect(store.getState().selectorReducer.resource).toEqual(resource)
+    expect(store.getState().selectorReducer.editor.unusedRDF).toEqual(`<http://foo> <http://id.loc.gov/ontologies/bibframe/mainTitle> "foo"@en .
+`)
   })
 
-  it('renders an textarea (N3)', () => {
-    expect(wrapper.find('textarea').length).toEqual(1)
-  })
 
-  it('renders a submit button', () => {
-    expect(wrapper.find('button[type="submit"]').length).toEqual(1)
-  })
+  it('displays error when problem loading', async () => {
+    const history = createMemoryHistory()
+    const store = createReduxStore(createInitialState())
+    const {
+      getByText, container, getByLabelText, findByText,
+    } = renderWithRedux(
+      <LoadByRDFForm history={history} />, store,
+    )
+    expect(getByText('Load RDF into Editor')).toBeInTheDocument()
+    // No error message
+    expect(container.querySelector('.alert-danger')).not.toBeInTheDocument()
 
-  describe('when n3 is not provided', () => {
-    it('does nothing when submit is clicked', () => {
-      wrapper.find('form').simulate('submit', { preventDefault: jest.fn() })
-      expect(mockExistingResource).not.toBeCalled()
-    })
-  })
+    // Populate the form
+    fireEvent.change(getByLabelText('N3 RDF'), { target: { value: 'not n3' } })
+    fireEvent.click(getByText('Submit'))
 
-  describe('when n3 is provided', () => {
-    it('calls existingResource when submit is clicked', async () => {
-      utils.rdfDatasetFromN3 = jest.fn().mockResolvedValue([])
-      wrapper.find('textarea').simulate('change', { target: { value: n3 }, preventDefault: jest.fn() })
-      await wrapper.find('form').simulate('submit', { preventDefault: jest.fn() })
-      expect(mockExistingResource).toBeCalledWith(mockState)
-    })
+    expect(await findByText(/Error parsing/)).toBeInTheDocument()
+    expect(container.querySelector('.alert-danger')).toBeInTheDocument()
+
+    // Page doesn't change
+    expect(history.location.pathname).toBe('/')
+
+    // State doesn't change
+    expect(store.getState()).toEqual(createInitialState())
   })
 })

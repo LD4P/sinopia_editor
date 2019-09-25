@@ -6,7 +6,7 @@ import {
   updateStarted, updateFinished,
   retrieveResourceStarted, setResource, updateProperty,
   toggleCollapse, appendResource, setLastSaveChecksum,
-  publishStarted, publishError, assignBaseURL,
+  publishStarted, publishError, assignBaseURL, setUnusedRDF,
 } from 'actions/index'
 import { fetchResourceTemplate } from 'actionCreators/resourceTemplates'
 import { updateRDFResource, loadRDFResource, publishRDFResource } from 'sinopiaServer'
@@ -34,17 +34,22 @@ export const update = currentUser => (dispatch, getState) => {
 export const retrieveResource = (currentUser, uri) => (dispatch) => {
   // First dispatch: inform the app that loading has started
   dispatch(retrieveResourceStarted())
+  // TODO: Handle error from retrieving resource, parsing, and building state
+  // See https://github.com/LD4P/sinopia_editor/issues/1395
   return loadRDFResource(currentUser, uri)
     .then((response) => {
       const data = response.response.text
       return rdfDatasetFromN3(data).then((dataset) => {
         const builder = new ResourceStateBuilder(dataset, null)
-        return existingResourceFunc(builder.state, uri, dispatch).then((result) => {
+        // This also returns the resource templates. Could they be used?
+        // See https://github.com/LD4P/sinopia_editor/issues/1396
+        return builder.buildState().then(([state, unusedDataset]) => existingResourceFunc(state, uri, dispatch).then((result) => {
           if (result !== undefined) {
             const rdf = new GraphBuilder({ resource: result[0], entities: { resourceTemplates: result[1] } }).graph.toCanonical()
             dispatch(setLastSaveChecksum(generateMD5(rdf)))
+            dispatch(setUnusedRDF(unusedDataset.toCanonical()))
           }
-        })
+        }))
       })
     })
 }
@@ -74,12 +79,17 @@ export const newResource = resourceTemplateId => (dispatch) => {
     if (result !== undefined) {
       const rdf = new GraphBuilder({ resource: result[0], entities: { resourceTemplates: result[1] } }).graph.toCanonical()
       dispatch(setLastSaveChecksum(generateMD5(rdf)))
+      dispatch(setUnusedRDF(null))
     }
   })
 }
 
 // A thunk that stubs out an existing new resource
-export const existingResource = (resource, uri) => dispatch => existingResourceFunc(resource, uri, dispatch)
+export const existingResource = (resource, unusedRDF, uri) => dispatch => existingResourceFunc(resource, uri, dispatch).then((result) => {
+  if (result !== undefined) {
+    dispatch(setUnusedRDF(unusedRDF))
+  }
+})
 
 // A thunk that expands a nested resource for a property
 export const expandResource = reduxPath => (dispatch, getState) => {

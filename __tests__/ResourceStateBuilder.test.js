@@ -2,9 +2,17 @@
 
 import ResourceStateBuilder from 'ResourceStateBuilder'
 import shortid from 'shortid'
+import * as sinopiaServer from 'sinopiaServer'
 import { rdfDatasetFromN3 } from 'Utilities'
+import { getFixtureResourceTemplate } from './fixtureLoaderHelper'
+
+jest.mock('sinopiaServer')
 
 describe('ResourceStateBuilder', () => {
+  beforeEach(() => {
+    sinopiaServer.getResourceTemplate.mockImplementation(getFixtureResourceTemplate)
+  })
+
   it('builds the state for literal properties', async () => {
     const resource = `<http://example/123> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://id.loc.gov/ontologies/bibframe/Note> .
   <http://example/123> <http://sinopia.io/vocabulary/hasResourceTemplate> "resourceTemplate:bf2:Note" .
@@ -16,8 +24,8 @@ describe('ResourceStateBuilder', () => {
     shortid.generate = jest.fn().mockReturnValueOnce('abc123').mockReturnValueOnce('def456').mockReturnValueOnce('ghi789')
 
     const builder = new ResourceStateBuilder(dataset, 'http://example/123')
-    const resourceState = builder.state
-    expect(resourceState).toEqual({
+    const [state, unusedDataset, resourceTemplates] = await builder.buildState()
+    expect(state).toEqual({
       'resourceTemplate:bf2:Note': {
         'http://www.w3.org/2000/01/rdf-schema#label': {
           items: {
@@ -35,23 +43,92 @@ describe('ResourceStateBuilder', () => {
         },
       },
     })
+    expect(unusedDataset.toArray()).toEqual([])
+    const noteResourceTemplateResponse = await getFixtureResourceTemplate('resourceTemplate:bf2:Note')
+    const noteResourceTemplate = noteResourceTemplateResponse.response.body
+    expect(resourceTemplates).toEqual({
+      'resourceTemplate:bf2:Note': noteResourceTemplate,
+    })
   })
 
+  it('builds the state when null root node', async () => {
+    const resource = `<> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://id.loc.gov/ontologies/bibframe/Note> .
+  <> <http://sinopia.io/vocabulary/hasResourceTemplate> "resourceTemplate:bf2:Note" .
+  <> <http://www.w3.org/2000/01/rdf-schema#label> "foo"@en .`
+
+    const dataset = await rdfDatasetFromN3(resource)
+
+    shortid.generate = jest.fn().mockReturnValueOnce('abc123')
+
+    const builder = new ResourceStateBuilder(dataset, '')
+    const [state] = await builder.buildState()
+    expect(state).toEqual({
+      'resourceTemplate:bf2:Note': {
+        'http://www.w3.org/2000/01/rdf-schema#label': {
+          items: {
+            abc123: {
+              content: 'foo',
+              label: 'foo',
+              lang: 'en',
+            },
+          },
+        },
+      },
+    })
+  })
+
+  it('raises when 0 resource templates', async () => {
+    const resource = `<http://example/123> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://id.loc.gov/ontologies/bibframe/Note> .
+  <http://example/123> <http://www.w3.org/2000/01/rdf-schema#label> "bar"@en .`
+
+    const dataset = await rdfDatasetFromN3(resource)
+
+    const builder = new ResourceStateBuilder(dataset, 'http://example/123')
+    await expect(builder.buildState()).rejects.toMatch(/A single resource template must be included/)
+  })
+
+  it('raises when more than 1 resource templates', async () => {
+    const resource = `<http://example/123> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://id.loc.gov/ontologies/bibframe/Note> .
+    <http://example/123> <http://sinopia.io/vocabulary/hasResourceTemplate> "resourceTemplate:bf2:Note" .
+    <http://example/123> <http://sinopia.io/vocabulary/hasResourceTemplate> "resourceTemplate:bf2:Note2" .
+    <http://example/123> <http://www.w3.org/2000/01/rdf-schema#label> "bar"@en .`
+
+    const dataset = await rdfDatasetFromN3(resource)
+
+    const builder = new ResourceStateBuilder(dataset, 'http://example/123')
+    await expect(builder.buildState()).rejects.toMatch(/A single resource template must be included/)
+  })
+
+  it('raises when error loading resource templates', async () => {
+    const resource = `<http://example/123> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://id.loc.gov/ontologies/bibframe/Note> .
+    <http://example/123> <http://sinopia.io/vocabulary/hasResourceTemplate> "resourceTemplate:bf2:Note" .
+    <http://example/123> <http://www.w3.org/2000/01/rdf-schema#label> "bar"@en .`
+
+    sinopiaServer.getResourceTemplate.mockRejectedValue(new Error('404'))
+
+    const dataset = await rdfDatasetFromN3(resource)
+
+    const builder = new ResourceStateBuilder(dataset, 'http://example/123')
+    await expect(builder.buildState()).rejects.toMatch(/Error getting resourceTemplate:bf2:Note/)
+  })
+
+
   it('builds the state for URI resource properties', async () => {
+    // Yes, a rdf-schema#label should not be a URI. However, OK for testing purposes.
     const resource = `<http://example/123> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://id.loc.gov/ontologies/bibframe/Note> .
   <http://example/123> <http://sinopia.io/vocabulary/hasResourceTemplate> "resourceTemplate:bf2:Note" .
-  <http://example/123> <http://rdaregistry.info/Elements/i/P40021> <http://id.loc.gov/vocabulary/organizations/wauar> .`
+  <http://example/123> <http://www.w3.org/2000/01/rdf-schema#label> <http://id.loc.gov/vocabulary/organizations/wauar> .`
 
     const dataset = await rdfDatasetFromN3(resource)
 
     shortid.generate = jest.fn().mockReturnValueOnce('abc123').mockReturnValueOnce('def456').mockReturnValueOnce('ghi789')
 
     const builder = new ResourceStateBuilder(dataset, 'http://example/123')
-    const resourceState = builder.state
+    const [state] = await builder.buildState()
 
-    expect(resourceState).toEqual({
+    expect(state).toEqual({
       'resourceTemplate:bf2:Note': {
-        'http://rdaregistry.info/Elements/i/P40021': {
+        'http://www.w3.org/2000/01/rdf-schema#label': {
           items: {
             abc123: {
               uri: 'http://id.loc.gov/vocabulary/organizations/wauar',
@@ -64,31 +141,81 @@ describe('ResourceStateBuilder', () => {
   })
 
   it('builds the state for embedded resource property', async () => {
-    const resource = `<http://example/123> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://id.loc.gov/ontologies/bibframe/Note> .
-  <http://example/123> <http://sinopia.io/vocabulary/hasResourceTemplate> "resourceTemplate:bf2:Note" .
-  <http://example/123> <http://id.loc.gov/ontologies/bibframe/note> _:b1 .
-  _:b1 <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://id.loc.gov/ontologies/bibframe/Note> .
-  _:b1 <http://sinopia.io/vocabulary/hasResourceTemplate> "resourceTemplate:bf2:Note" .
-  _:b1 <http://www.w3.org/2000/01/rdf-schema#label> "foobar"@en .`
+    const resource = `<http://example/123> <http://id.loc.gov/ontologies/bibframe/carrier> <http://id.loc.gov/vocabulary/carriers/nc> .
+<http://example/123> <http://id.loc.gov/ontologies/bibframe/heldBy> "DLC"@en .
+<http://example/123> <http://id.loc.gov/ontologies/bibframe/instanceOf> _:c14n0 .
+<http://example/123> <http://id.loc.gov/ontologies/bibframe/issuance> <http://id.loc.gov/vocabulary/issuance/mono> .
+<http://example/123> <http://sinopia.io/vocabulary/hasResourceTemplate> "resourceTemplate:bf2:Monograph:Instance" .
+<http://example/123> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://id.loc.gov/ontologies/bibframe/Instance> .
+_:c14n0 <http://id.loc.gov/ontologies/bibframe/content> <http://id.loc.gov/vocabulary/contentTypes/txt> .
+_:c14n0 <http://id.loc.gov/ontologies/bibframe/title> _:c14n1 .
+_:c14n0 <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://id.loc.gov/ontologies/bibframe/Work> .
+_:c14n1 <http://id.loc.gov/ontologies/bibframe/mainTitle> "foo"@en .
+_:c14n1 <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://id.loc.gov/ontologies/bibframe/Title> .`
 
     const dataset = await rdfDatasetFromN3(resource)
 
-    shortid.generate = jest.fn().mockReturnValueOnce('abc123').mockReturnValueOnce('def456')
+    shortid.generate = jest.fn().mockReturnValueOnce('abc123')
+      .mockReturnValueOnce('abc124')
+      .mockReturnValueOnce('abc125')
+      .mockReturnValueOnce('abc126')
+      .mockReturnValueOnce('abc127')
+      .mockReturnValueOnce('abc128')
+      .mockReturnValueOnce('abc129')
 
     const builder = new ResourceStateBuilder(dataset, 'http://example/123')
-    const resourceState = builder.state
+    const [state, , resourceTemplates] = await builder.buildState()
 
-    expect(resourceState).toEqual({
-      'resourceTemplate:bf2:Note': {
-        'http://id.loc.gov/ontologies/bibframe/note': {
-          abc123: {
-            'resourceTemplate:bf2:Note': {
-              'http://www.w3.org/2000/01/rdf-schema#label': {
+    expect(state).toEqual({
+      'resourceTemplate:bf2:Monograph:Instance': {
+        'http://id.loc.gov/ontologies/bibframe/issuance': {
+          items: {
+            abc123: {
+              uri: 'http://id.loc.gov/vocabulary/issuance/mono',
+              label: 'http://id.loc.gov/vocabulary/issuance/mono',
+            },
+          },
+        },
+        'http://id.loc.gov/ontologies/bibframe/carrier': {
+          items: {
+            abc124: {
+              uri: 'http://id.loc.gov/vocabulary/carriers/nc',
+              label: 'http://id.loc.gov/vocabulary/carriers/nc',
+            },
+          },
+        },
+        'http://id.loc.gov/ontologies/bibframe/heldBy': {
+          items: {
+            abc125: {
+              content: 'DLC',
+              label: 'DLC',
+              lang: 'en',
+            },
+          },
+        },
+        'http://id.loc.gov/ontologies/bibframe/instanceOf': {
+          abc129: {
+            'resourceTemplate:bf2:Monograph:Work': {
+              'http://id.loc.gov/ontologies/bibframe/content': {
                 items: {
-                  def456: {
-                    content: 'foobar',
-                    label: 'foobar',
-                    lang: 'en',
+                  abc126: {
+                    uri: 'http://id.loc.gov/vocabulary/contentTypes/txt',
+                    label: 'http://id.loc.gov/vocabulary/contentTypes/txt',
+                  },
+                },
+              },
+              'http://id.loc.gov/ontologies/bibframe/title': {
+                abc128: {
+                  'resourceTemplate:bf2:WorkTitle': {
+                    'http://id.loc.gov/ontologies/bibframe/mainTitle': {
+                      items: {
+                        abc127: {
+                          content: 'foo',
+                          label: 'foo',
+                          lang: 'en',
+                        },
+                      },
+                    },
                   },
                 },
               },
@@ -97,53 +224,141 @@ describe('ResourceStateBuilder', () => {
         },
       },
     })
+    expect(Object.keys(resourceTemplates).length).toEqual(5)
   })
-})
 
-it('handles null root nodes', async () => {
-  const resource = `_:B01cf1817X2Dd2e4X2D485bX2Dbd9aX2Df72c02976ec02895d12a7118e91a94f5a4808a49140a <http://www.w3.org/2000/01/rdf-schema#label> "foo note"@en .
-_:B01cf1817X2Dd2e4X2D485bX2Dbd9aX2Df72c02976ec02895d12a7118e91a94f5a4808a49140a <http://sinopia.io/vocabulary/hasResourceTemplate> "sinopia:resourceTemplate:bf2:Identifiers:Note" .
-_:B01cf1817X2Dd2e4X2D485bX2Dbd9aX2Df72c02976ec02895d12a7118e91a94f5a4808a49140a <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://id.loc.gov/ontologies/bibframe/Note> .
-<> <http://id.loc.gov/ontologies/bibframe/note> _:B01cf1817X2Dd2e4X2D485bX2Dbd9aX2Df72c02976ec02895d12a7118e91a94f5a4808a49140a .
-<> <http://www.w3.org/1999/02/22-rdf-syntax-ns#value> "foo"@en .
-<> <http://sinopia.io/vocabulary/hasResourceTemplate> "sinopia:resourceTemplate:bf2:Identifiers:ISMN" .
-<> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://id.loc.gov/ontologies/bibframe/Ismn> .`
+  it('builds the state for embedded resource property with multiple types', async () => {
+    // Note that _:c14n1 has multiple types.
+    const resource = `<http://example/123> <http://id.loc.gov/ontologies/bibframe/instanceOf> _:c14n0 .
+<http://example/123> <http://sinopia.io/vocabulary/hasResourceTemplate> "resourceTemplate:bf2:Monograph:Instance" .
+<http://example/123> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://id.loc.gov/ontologies/bibframe/Instance> .
+_:c14n0 <http://id.loc.gov/ontologies/bibframe/title> _:c14n1 .
+_:c14n0 <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://id.loc.gov/ontologies/bibframe/Work> .
+_:c14n1 <http://id.loc.gov/ontologies/bibframe/mainTitle> "foo"@en .
+_:c14n1 <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://id.loc.gov/ontologies/bibframe/Title> .
+_:c14n1 <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://id.loc.gov/ontologies/bibframe/Foo> .`
 
-  const dataset = await rdfDatasetFromN3(resource)
+    const dataset = await rdfDatasetFromN3(resource)
 
-  shortid.generate = jest.fn().mockReturnValueOnce('abc123').mockReturnValueOnce('def456').mockReturnValueOnce('ghi789')
+    shortid.generate = jest.fn().mockReturnValueOnce('abc123')
+      .mockReturnValueOnce('abc124')
+      .mockReturnValueOnce('abc125')
 
-  const builder = new ResourceStateBuilder(dataset, null)
-  const resourceState = builder.state
+    const builder = new ResourceStateBuilder(dataset, 'http://example/123')
+    const [state, unusedDataset] = await builder.buildState()
 
-  expect(Object.keys(resourceState)[0]).toEqual('sinopia:resourceTemplate:bf2:Identifiers:ISMN')
-
-  expect(resourceState).toEqual({
-    'sinopia:resourceTemplate:bf2:Identifiers:ISMN': {
-      'http://id.loc.gov/ontologies/bibframe/note': {
-        abc123: {
-          'sinopia:resourceTemplate:bf2:Identifiers:Note': {
-            'http://www.w3.org/2000/01/rdf-schema#label': {
-              items: {
-                def456: {
-                  content: 'foo note',
-                  label: 'foo note',
-                  lang: 'en',
+    expect(state).toEqual({
+      'resourceTemplate:bf2:Monograph:Instance': {
+        'http://id.loc.gov/ontologies/bibframe/instanceOf': {
+          abc125: {
+            'resourceTemplate:bf2:Monograph:Work': {
+              'http://id.loc.gov/ontologies/bibframe/title': {
+                abc124: {
+                  'resourceTemplate:bf2:WorkTitle': {
+                    'http://id.loc.gov/ontologies/bibframe/mainTitle': {
+                      items: {
+                        abc123: {
+                          content: 'foo',
+                          label: 'foo',
+                          lang: 'en',
+                        },
+                      },
+                    },
+                  },
                 },
               },
             },
           },
         },
       },
-      'http://www.w3.org/1999/02/22-rdf-syntax-ns#value': {
-        items: {
-          ghi789: {
-            content: 'foo',
-            label: 'foo',
-            lang: 'en',
+    })
+    // Don't report extra type as unused.
+    expect(unusedDataset.toArray()).toEqual([])
+  })
+
+  it('raises when more than 1 possible resource templates for an embedded resource', async () => {
+    const resource = `<http://example/123> <http://id.loc.gov/ontologies/bibframe/instanceOf> _:c14n0 .
+<http://example/123> <http://sinopia.io/vocabulary/hasResourceTemplate> "resourceTemplate:bf2:Monograph:Instance" .
+<http://example/123> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://id.loc.gov/ontologies/bibframe/Instance> .
+_:c14n0 <http://id.loc.gov/ontologies/bibframe/title> _:c14n1 .
+_:c14n0 <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://id.loc.gov/ontologies/bibframe/Work> .
+_:c14n1 <http://id.loc.gov/ontologies/bibframe/mainTitle> "foo"@en .
+_:c14n1 <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://id.loc.gov/ontologies/bibframe/Title> .`
+
+    sinopiaServer.getResourceTemplate.mockImplementation(async (rtId) => {
+      if (rtId === 'resourceTemplate:bf2:WorkVariantTitle') {
+        return getFixtureResourceTemplate('resourceTemplate:bf2:WorkTitle')
+      }
+      return getFixtureResourceTemplate(rtId)
+    })
+
+    const dataset = await rdfDatasetFromN3(resource)
+
+    shortid.generate = jest.fn().mockReturnValue('abc123')
+
+    const builder = new ResourceStateBuilder(dataset, 'http://example/123')
+    await expect(builder.buildState()).rejects.toMatch(/More than one resource template matches/)
+  })
+
+  it('ignores when 0 possible resource templates for an embedded resource', async () => {
+    // Note that type for _:c14n1 was changed to not match.
+    const resource = `<http://example/123> <http://id.loc.gov/ontologies/bibframe/instanceOf> _:c14n0 .
+<http://example/123> <http://sinopia.io/vocabulary/hasResourceTemplate> "resourceTemplate:bf2:Monograph:Instance" .
+<http://example/123> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://id.loc.gov/ontologies/bibframe/Instance> .
+_:c14n0 <http://id.loc.gov/ontologies/bibframe/title> _:c14n1 .
+_:c14n0 <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://id.loc.gov/ontologies/bibframe/Work> .
+_:c14n1 <http://id.loc.gov/ontologies/bibframe/mainTitle> "foo"@en .
+_:c14n1 <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://id.loc.gov/ontologies/bibframe/Titlex> .`
+
+    const dataset = await rdfDatasetFromN3(resource)
+
+    shortid.generate = jest.fn().mockReturnValueOnce('abc123')
+
+    const builder = new ResourceStateBuilder(dataset, 'http://example/123')
+    const [state, unusedDataset] = await builder.buildState()
+
+    expect(state).toEqual({
+      'resourceTemplate:bf2:Monograph:Instance': {
+        'http://id.loc.gov/ontologies/bibframe/instanceOf': {
+          abc123: {
+            'resourceTemplate:bf2:Monograph:Work': {},
           },
         },
       },
-    },
+    })
+    const unmatched = `_:c14n0 <http://id.loc.gov/ontologies/bibframe/mainTitle> "foo"@en .
+_:c14n0 <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://id.loc.gov/ontologies/bibframe/Titlex> .
+_:c14n1 <http://id.loc.gov/ontologies/bibframe/title> _:c14n0 .
+`
+    expect(unusedDataset.toCanonical()).toEqual(unmatched)
+  })
+
+  it('returns unused triples', async () => {
+    const resource = `<http://example/123> <http://id.loc.gov/ontologies/bibframe/instanceOf> _:c14n0 .
+  <http://example/123> <http://sinopia.io/vocabulary/hasResourceTemplate> "resourceTemplate:bf2:Monograph:Instance" .
+  <http://example/123> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://id.loc.gov/ontologies/bibframe/Instance> .
+  _:c14n0 <http://id.loc.gov/ontologies/bibframe/title> _:c14n1 .
+  _:c14n0 <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://id.loc.gov/ontologies/bibframe/Work> .
+  _:c14n1 <http://id.loc.gov/ontologies/bibframe/mainTitle> "foo"@en .
+  _:c14n1 <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://id.loc.gov/ontologies/bibframe/Title> .
+  <http://example/124> <http://id.loc.gov/ontologies/bibframe/instanceOf> _:c14n0 .
+  <http://example/123> <http://id.loc.gov/ontologies/bibframe/instanceOfx> _:c14n0 .
+  _:c14n2 <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://id.loc.gov/ontologies/bibframe/Title> .
+  `
+
+    const dataset = await rdfDatasetFromN3(resource)
+
+    shortid.generate = jest.fn().mockReturnValueOnce('abc123')
+      .mockReturnValueOnce('abc124')
+      .mockReturnValueOnce('abc125')
+
+    const builder = new ResourceStateBuilder(dataset, 'http://example/123')
+    const [, unusedDataset] = await builder.buildState()
+
+    const unmatched = `<http://example/123> <http://id.loc.gov/ontologies/bibframe/instanceOfx> _:c14n0 .
+<http://example/124> <http://id.loc.gov/ontologies/bibframe/instanceOf> _:c14n0 .
+_:c14n1 <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://id.loc.gov/ontologies/bibframe/Title> .
+`
+    expect(unusedDataset.toCanonical()).toEqual(unmatched)
   })
 })

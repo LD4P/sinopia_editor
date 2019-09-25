@@ -5,12 +5,15 @@ import {
   stubResourceProperties, publishResource,
 } from 'actionCreators/resources'
 /* eslint import/namespace: 'off' */
-import * as server from 'sinopiaServer'
+import * as sinopiaServer from 'sinopiaServer'
 import { getFixtureResourceTemplate } from '../fixtureLoaderHelper'
 import configureMockStore from 'redux-mock-store'
 import thunk from 'redux-thunk'
 import shortid from 'shortid'
 import * as resourceTemplateThunks from 'actionCreators/resourceTemplates'
+
+
+jest.mock('sinopiaServer')
 
 const mockStore = configureMockStore([thunk])
 shortid.generate = jest.fn().mockReturnValue('abc123')
@@ -39,7 +42,7 @@ const store = mockStore(state)
 
 describe('update', () => {
   it('dispatches actions when started and finished', async () => {
-    server.updateRDFResource = jest.fn().mockResolvedValue(true)
+    sinopiaServer.updateRDFResource = jest.fn().mockResolvedValue(true)
 
     await store.dispatch(update(currentUser))
 
@@ -64,7 +67,8 @@ describe('retrieveResource', () => {
       resource: {},
     },
   }
-  server.loadRDFResource = jest.fn().mockResolvedValue({ response: { text: received } })
+  sinopiaServer.loadRDFResource = jest.fn().mockResolvedValue({ response: { text: received } })
+  sinopiaServer.getResourceTemplate.mockImplementation(getFixtureResourceTemplate)
   describe('when dispatch to existing resource returns undefined', () => {
     const store = mockStore(state)
     it('it does not dispatch setLastSaveChecksum', async () => {
@@ -88,9 +92,6 @@ describe('retrieveResource', () => {
       await store.dispatch(retrieveResource(currentUser, uri))
 
       const actions = store.getActions()
-      expect(actions.length).toEqual(5)
-      expect(actions[0]).toEqual({ type: 'RETRIEVE_STARTED' })
-      expect(actions[1].type).toEqual('TOGGLE_COLLAPSE')
       const expectedResource = {
         'resourceTemplate:bf2:Note': {
           'http://www.w3.org/2000/01/rdf-schema#label': {
@@ -105,9 +106,16 @@ describe('retrieveResource', () => {
           resourceURI: 'http://sinopia.io/repository/stanford/123',
         },
       }
-      expect(actions[2]).toEqual({ type: 'SET_RESOURCE', payload: { resource: expectedResource, resourceTemplates: { [resourceTemplateId]: resourceTemplate } } })
-      expect(actions[3]).toEqual({ type: 'SET_LAST_SAVE_CHECKSUM' })
-      expect(actions[4]).toEqual({ type: 'SET_LAST_SAVE_CHECKSUM', payload: 'f767b63c3e1d1af6f8c136b15a31a1e0' })
+      const reduxPath = ['resource', 'resourceTemplate:bf2:Note', 'http://www.w3.org/2000/01/rdf-schema#label']
+
+      expect(actions).toEqual([
+        { type: 'RETRIEVE_STARTED', payload: undefined },
+        { type: 'TOGGLE_COLLAPSE', payload: { reduxPath } },
+        { type: 'SET_RESOURCE', payload: { resource: expectedResource, resourceTemplates: { [resourceTemplateId]: resourceTemplate } } },
+        { type: 'SET_LAST_SAVE_CHECKSUM', payload: undefined },
+        { type: 'SET_LAST_SAVE_CHECKSUM', payload: 'f767b63c3e1d1af6f8c136b15a31a1e0' },
+        { type: 'SET_UNUSED_RDF', payload: '' },
+      ])
     })
   })
 })
@@ -120,7 +128,7 @@ describe('publishResource', () => {
 
   it('dispatches actions for happy path', async () => {
     const store = mockStore(state)
-    server.publishRDFResource = jest.fn().mockResolvedValue({
+    sinopiaServer.publishRDFResource = jest.fn().mockResolvedValue({
       response: {
         headers: { location: 'http://sinopia.io/repository/myGroup/myResource' },
         text: received,
@@ -136,7 +144,7 @@ describe('publishResource', () => {
   })
   it('dispatches actions for error path', async () => {
     const store = mockStore(state)
-    server.publishRDFResource = jest.fn().mockRejectedValue(new Error('publish error'))
+    sinopiaServer.publishRDFResource = jest.fn().mockRejectedValue(new Error('publish error'))
 
     await store.dispatch(publishResource(currentUser, group))
     const actions = store.getActions()
@@ -176,10 +184,11 @@ describe('newResource', () => {
 
       await store.dispatch(newResource(resourceTemplateId))
       const actions = store.getActions()
-      expect(actions.length).toEqual(2)
       const expectedResource = { [resourceTemplateId]: { 'http://www.w3.org/2000/01/rdf-schema#label': {} } }
-      expect(actions[0]).toEqual({ type: 'SET_RESOURCE', payload: { resource: expectedResource, resourceTemplates: { [resourceTemplateId]: resourceTemplate } } })
-      expect(actions[1]).toEqual({ type: 'SET_LAST_SAVE_CHECKSUM', payload: 'baf92a33bf689d599a41bb4563db42fc' })
+      expect(actions).toEqual([
+        { type: 'SET_RESOURCE', payload: { resource: expectedResource, resourceTemplates: { [resourceTemplateId]: resourceTemplate } } },
+        { type: 'SET_LAST_SAVE_CHECKSUM', payload: 'baf92a33bf689d599a41bb4563db42fc' },
+        { type: 'SET_UNUSED_RDF', payload: null }])
     })
   })
 })
@@ -206,28 +215,32 @@ describe('existingResource', () => {
     it('dispatches no actions', async () => {
       resourceTemplateThunks.fetchResourceTemplate = jest.fn().mockResolvedValue(undefined)
 
-      await store.dispatch(existingResource(resource, uri))
+      await store.dispatch(existingResource(resource, null, uri))
       const actions = store.getActions()
       expect(actions.length).toEqual(0)
     })
   })
+
   describe('when stubResource returns a result', () => {
     it('dispatches actions', async () => {
       const resourceTemplateResponse = await getFixtureResourceTemplate(resourceTemplateId)
       const resourceTemplate = resourceTemplateResponse.response.body
       resourceTemplateThunks.fetchResourceTemplate = jest.fn().mockResolvedValue(resourceTemplate)
 
-      await store.dispatch(existingResource(resource, uri))
+      const unusedRDF = '<> <http://id.loc.gov/ontologies/bibframe/mainTitle> "foo"@en .'
+
+      await store.dispatch(existingResource(resource, unusedRDF, uri))
       const actions = store.getActions()
-      expect(actions.length).toEqual(2)
       const expectedResource = {
         'resourceTemplate:bf2:Note': {
           resourceURI: 'http://localhost:8080/repository/stanford/888ea64d-f471-41bf-9d33-c9426ab83b5c',
           'http://www.w3.org/2000/01/rdf-schema#label': {},
         },
       }
-      expect(actions[0]).toEqual({ type: 'SET_RESOURCE', payload: { resource: expectedResource, resourceTemplates: { [resourceTemplateId]: resourceTemplate } } })
-      expect(actions[1]).toEqual({ type: 'SET_LAST_SAVE_CHECKSUM' })
+      expect(actions).toEqual([
+        { type: 'SET_RESOURCE', payload: { resource: expectedResource, resourceTemplates: { [resourceTemplateId]: resourceTemplate } } },
+        { type: 'SET_LAST_SAVE_CHECKSUM' },
+        { type: 'SET_UNUSED_RDF', payload: unusedRDF }])
     })
   })
 })
