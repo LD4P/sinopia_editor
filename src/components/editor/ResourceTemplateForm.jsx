@@ -3,7 +3,6 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import PropTypes from 'prop-types'
-import shortid from 'shortid'
 import PropertyPanel from './property/PropertyPanel'
 import PropertyResourceTemplate from './property/PropertyResourceTemplate'
 import PropertyComponent from './property/PropertyComponent'
@@ -38,7 +37,7 @@ export class ResourceTemplateForm extends Component {
         const newReduxPath = [...this.props.reduxPath, property.propertyURI, key, resourceTemplateId]
 
         rtProperties.push(<PropertyResourceTemplate
-          key={shortid.generate()}
+          key={newReduxPath.join()}
           isRepeatable={property.repeatable}
           reduxPath={newReduxPath}
           index={index} />)

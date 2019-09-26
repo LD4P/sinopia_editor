@@ -3,7 +3,6 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import PropTypes from 'prop-types'
-import shortid from 'shortid'
 import OutlineHeader from './OutlineHeader'
 import { isResourceWithValueTemplateRef, resourceToName } from 'Utilities'
 import { booleanPropertyFromTemplate } from 'utilities/propertyTemplates'
@@ -27,13 +26,13 @@ class PropertyTemplateOutline extends Component {
 
     if (isResourceWithValueTemplateRef(this.props.property)) {
       const isAddHidden = !booleanPropertyFromTemplate(this.props.property, 'repeatable', false)
-      return (<ResourceProperty key={shortid.generate()}
+      return (<ResourceProperty key={this.props.reduxPath.join()}
                                 propertyTemplate={this.props.property}
                                 reduxPath={this.props.reduxPath}
                                 addButtonHidden={isAddHidden} />)
     }
 
-    return (<PropertyComponent key={shortid.generate()} propertyTemplate={this.props.property} reduxPath={this.props.reduxPath} />)
+    return (<PropertyComponent key={this.props.reduxPath.join()} propertyTemplate={this.props.property} reduxPath={this.props.reduxPath} />)
   }
 
   render() {
@@ -41,7 +40,7 @@ class PropertyTemplateOutline extends Component {
       <div className="rtOutline" data-label={this.props.property.propertyLabel}>
         <OutlineHeader reduxPath={this.props.reduxPath}
                        id={resourceToName(this.props.property.propertyURI)}
-                       key={shortid.generate()} />
+                       key={this.props.reduxPath.join()} />
         <div className={this.outlineRowClass()}>
           {this.renderPropertyRows()}
         </div>

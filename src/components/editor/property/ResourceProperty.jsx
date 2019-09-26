@@ -3,7 +3,6 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import PropTypes from 'prop-types'
-import shortid from 'shortid'
 import PropertyActionButtons from './PropertyActionButtons'
 import PropertyTemplateOutline from './PropertyTemplateOutline'
 import { findNode } from 'selectors/resourceSelectors'
@@ -32,7 +31,7 @@ export class ResourceProperty extends Component {
         const isAddHidden = this.props.addButtonHidden || index > 0
         const isRemoveHidden = resourceRows.length === 1
         jsx.push(
-          <div className="row" key={shortid.generate()}>
+          <div className="row" key={resourceReduxPath.join()}>
             <section className="col-sm-6">
               <h5>{resourceTemplate.resourceLabel}</h5>
             </section>
@@ -46,7 +45,7 @@ export class ResourceProperty extends Component {
 
         resourceRow.properties.forEach((reduxPath) => {
           jsx.push(
-            <PropertyTemplateOutline key={shortid.generate()} reduxPath={reduxPath} />,
+            <PropertyTemplateOutline key={reduxPath.join()} reduxPath={reduxPath} />,
           )
         })
       })
