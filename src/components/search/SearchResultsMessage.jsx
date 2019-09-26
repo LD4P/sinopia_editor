@@ -22,7 +22,6 @@ const SearchResultsMessage = (props) => {
         <div className="col-sm-8 text-center">
           <div><strong>Displaying 0 Search Results</strong></div>
         </div>
-        <div className="col-sm-2"></div>
       </div>
     )
   }

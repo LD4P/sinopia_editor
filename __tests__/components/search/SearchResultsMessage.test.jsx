@@ -17,7 +17,7 @@ describe('<SearchResultsMessage />', () => {
     })
   })
 
-  describe('when there are no search results', () => {
+  describe('when there are no search results from a successful fetch', () => {
     const props = {
       query: '*',
       totalResults: 0,

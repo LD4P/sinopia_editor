@@ -158,13 +158,14 @@ export const getSearchResultsStarted = (query, queryFrom) => ({
   payload: { query, queryFrom },
 })
 
-export const setSearchResults = (searchResults, totalResults, query, startOfRange) => ({
+export const setSearchResults = (searchResults, totalResults, query, startOfRange, error) => ({
   type: 'SET_SEARCH_RESULTS',
   payload: {
     searchResults,
     totalResults,
     query,
     startOfRange,
+    error,
   },
 })
 

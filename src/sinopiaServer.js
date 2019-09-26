@@ -193,5 +193,9 @@ export const getSearchResults = async (query, queryFrom = 0) => {
         title: row._source.label,
       })),
     }))
-    .catch(error => console.error(error))
+    .catch(err => ({
+      totalHits: 0,
+      results: [],
+      error: err,
+    }))
 }

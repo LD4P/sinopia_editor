@@ -6,7 +6,7 @@ const fetchSearchResults = (query, queryFrom = 0) => (dispatch) => {
   dispatch(getSearchResultsStarted(query, queryFrom))
 
   return getSearchResults(query, queryFrom).then((response) => {
-    dispatch(setSearchResults(response.results, response.totalHits, query, queryFrom))
+    dispatch(setSearchResults(response.results, response.totalHits, query, queryFrom, response.error))
   })
 }
 
