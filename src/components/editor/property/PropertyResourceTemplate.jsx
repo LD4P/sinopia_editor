@@ -1,7 +1,6 @@
 // Copyright 2019 Stanford University see LICENSE for license
 
 import React, { Component } from 'react'
-import shortid from 'shortid'
 import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
 import PropertyActionButtons from './PropertyActionButtons'
@@ -52,7 +51,7 @@ class PropertyResourceTemplate extends Component {
                     propertyTemplate={property}
                     rtId={this.props.resourceTemplate.id}
                     reduxPath={newReduxPath}
-                    key={shortid.generate()} />)
+                    key={newReduxPath.join()} />)
   })
 
   render() {
@@ -64,7 +63,7 @@ class PropertyResourceTemplate extends Component {
     const isAddHidden = isNotRepeatable || this.props.index > 0
     const isRemoveHidden = this.props.siblingResourceCount === 1
     return (<div>
-      <div className="row" key={shortid.generate()}>
+      <div className="row" key={this.props.reduxPath.join()}>
         <section className="col-md-6">
           <h4>{this.props.resourceTemplate.resourceLabel}</h4>
         </section>
@@ -73,7 +72,7 @@ class PropertyResourceTemplate extends Component {
             addButtonHidden={isAddHidden}
             removeButtonHidden={isRemoveHidden}
             reduxPath={this.props.reduxPath}
-            key={shortid.generate()} />
+            key={this.props.reduxPath.join()} />
         </section>
       </div>
       <div>

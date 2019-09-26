@@ -1,12 +1,14 @@
 // Copyright 2019 Stanford University see LICENSE for license
-/* This seems to be throwing false positives */
-/* eslint react/prop-types: 'off' */
-/* eslint import/dynamic-import-chunkname: 'off' */
 
 import React from 'react'
 import PropTypes from 'prop-types'
 import SinopiaPropTypes from 'SinopiaPropTypes'
 import { getTagNameForPropertyTemplate } from 'utilities/propertyTemplates'
+import InputLiteral from './InputLiteral'
+import InputURI from './InputURI'
+import InputListLOC from './InputListLOC'
+import InputLookupQA from './InputLookupQA'
+import InputLookupSinopia from './InputLookupSinopia'
 
 const PropertyComponent = (props) => {
   let tag
@@ -19,25 +21,40 @@ const PropertyComponent = (props) => {
     message = errorMessage
   }
 
-  if (!tag) {
-    return (
-      <div className="row">
-        <div className="col-md-12" style={{ marginTop: '10px' }}>
-          <div className="alert alert-danger alert-dismissible">
-            <button className="close" data-dismiss="alert" aria-label="close">&times;</button>
-            {message}
+  // Might be tempted to use lazy / suspense here, but it forces a remounting of components.
+  switch (tag) {
+    case 'InputLiteral':
+      return (
+        <InputLiteral reduxPath={props.reduxPath} />
+      )
+    case 'InputURI':
+      return (
+        <InputURI reduxPath={props.reduxPath} />
+      )
+    case 'InputLookupQA':
+      return (
+        <InputLookupQA reduxPath={props.reduxPath} />
+      )
+    case 'InputLookupSinopia':
+      return (
+        <InputLookupSinopia reduxPath={props.reduxPath} />
+      )
+    case 'InputListLOC':
+      return (
+        <InputListLOC reduxPath={props.reduxPath} />
+      )
+    default:
+      return (
+        <div className="row">
+          <div className="col-md-12" style={{ marginTop: '10px' }}>
+            <div className="alert alert-danger alert-dismissible">
+              <button className="close" data-dismiss="alert" aria-label="close">&times;</button>
+              {message}
+            </div>
           </div>
         </div>
-      </div>
-    )
+      )
   }
-
-  const TagName = React.lazy(() => import(`./${tag}`))
-  return (
-    <React.Suspense fallback={<div>Loading...</div>}>
-      <TagName reduxPath={props.reduxPath} />
-    </React.Suspense>
-  )
 }
 
 PropertyComponent.propTypes = {

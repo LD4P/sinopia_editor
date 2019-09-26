@@ -3,6 +3,7 @@
 import React from 'react'
 import { shallow } from 'enzyme'
 import PropertyComponent from 'components/editor/property/PropertyComponent'
+import InputListLOC from 'components/editor/property/InputListLOC'
 
 describe('<PropertyComponent />', () => {
   describe('with a valid property template', () => {
@@ -18,9 +19,8 @@ describe('<PropertyComponent />', () => {
     }
 
     const wrapper = shallow(<PropertyComponent propertyTemplate={template} reduxPath={['http://id.loc.gov/ontologies/bibframe/issuance']} />)
-
-    it('it renders the component lazily', () => {
-      expect(wrapper.find('lazy').length).toEqual(1)
+    it('it renders the component', () => {
+      expect(wrapper.find(InputListLOC).length).toEqual(1)
     })
   })
 
