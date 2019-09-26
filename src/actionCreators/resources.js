@@ -120,6 +120,21 @@ const existingResourceFunc = (resource, uri, dispatch) => stubResource(resource,
   return result
 })
 
+// Takes current user and optional uri and removes resourceURI
+export const copyResourceToEditor = (currentUser, uri) => (dispatch, getState) => {
+  const state = getState()
+  if (uri !== undefined) {
+    // TODO: For incoming search
+  }
+  // Removes URI if it exists, feels like this could be cleaner
+  Object.keys(state.selectorReducer.resource).forEach((resource) => {
+    if ('resourceURI' in state.selectorReducer.resource[resource]) {
+      delete state.selectorReducer.resource[resource].resourceURI
+    }
+  })
+  dispatch(setLastSaveChecksum(generateMD5(null)))
+}
+
 // Stubs out a root resource
 const stubResource = (resource, useDefaults, uri, dispatch) => {
   const newResource = { ...resource }

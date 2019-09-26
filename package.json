@@ -54,7 +54,6 @@
   "license": "Apache-2.0",
   "dependencies": {
     "@babel/core": "^7.5.4",
-    "@babel/runtime": "^7.4.3",
     "@babel/node": "^7.5.0",
     "@babel/plugin-proposal-class-properties": "^7.4.0",
     "@babel/plugin-proposal-optional-chaining": "^7.2.0",
@@ -62,6 +61,7 @@
     "@babel/plugin-transform-runtime": "^7.4.3",
     "@babel/preset-env": "^7.4.3",
     "@babel/preset-react": "^7.0.0",
+    "@babel/runtime": "^7.4.3",
     "@fortawesome/fontawesome-svg-core": "^1.2.17",
     "@fortawesome/free-solid-svg-icons": "^5.8.1",
     "@fortawesome/react-fontawesome": "^0.1.4",
@@ -94,7 +94,7 @@
     "react-dropzone": "^7.0.1",
     "react-hot-loader": "^4.8.4",
     "react-offcanvas": "^0.4.0",
-    "react-redux": "^6.0.0",
+    "react-redux": "^7.1.1",
     "react-router-dom": "^4.3.1",
     "redux": "^4.0.1",
     "redux-thunk": "^2.3.0",
@@ -105,9 +105,9 @@
     "sinopia_server": "^3.0.0-beta4",
     "style-loader": "^0.23.1",
     "swagger-client": "^3.8.25",
-    "x2js": "^3.2.6",
     "webpack": "^4.35.3",
-    "webpack-cli": "^3.3.5"
+    "webpack-cli": "^3.3.5",
+    "x2js": "^3.2.6"
   },
   "devDependencies": {
     "@testing-library/jest-dom": "^4.1.0",

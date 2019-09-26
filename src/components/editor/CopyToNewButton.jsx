@@ -1,28 +1,36 @@
 // Copyright 2019 Stanford University see LICENSE for license
 
-import React, { useEffect, useState } from 'react'
+import React from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import PropTypes from 'prop-types'
-import { rootResourceId, resourceHasChangesSinceLastSave } from 'selectors/resourceSelectors'
+import { copyResourceToEditor } from 'actionCreators/resources'
+import { getCurrentUser } from 'authSelectors'
+import { rootResourceId } from 'selectors/resourceSelectors'
 
 const CopyToNewButton = (props) => {
   const dispatch = useDispatch()
+  const resourceId = useSelector(state => rootResourceId(state))
+  const currentUser = useSelector(state => getCurrentUser(state))
 
-  const copyResource = () => {
-    alert('Copying to a new resource')
-    // dispatch(copyResourceToEditor)  
+  const handleClick = () => {
+    /* eslint no-restricted-globals: 'off' */
+    const continueCopy = confirm('Do you want to copy to a new resource?')
+    if (continueCopy) {
+      dispatch(copyResourceToEditor(currentUser, resourceId))
+    }
   }
 
   return (
     <button type="button"
             className="btn btn-link btn-sm"
-            onClick={() => copyResource()}
-            disabled={ props.isDisabled }>Copy</button>
+            id={props.id}
+            onClick={() => handleClick()}>Copy</button>
   )
 }
 
 CopyToNewButton.propTypes = {
-  isDisabled: PropTypes.bool,
+  copyResourceToEditor: PropTypes.func,
+  id: PropTypes.string,
 }
 
 export default CopyToNewButton
