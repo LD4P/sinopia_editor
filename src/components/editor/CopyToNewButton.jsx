@@ -3,9 +3,9 @@
 import React from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import PropTypes from 'prop-types'
-import { copyResourceToEditor } from 'actionCreators/resources'
 import { getCurrentUser } from 'authSelectors'
 import { rootResourceId } from 'selectors/resourceSelectors'
+import { copyNewResource, showCopyNewMessage } from 'actions/index'
 
 const CopyToNewButton = (props) => {
   const dispatch = useDispatch()
@@ -13,11 +13,18 @@ const CopyToNewButton = (props) => {
   const currentUser = useSelector(state => getCurrentUser(state))
 
   const handleClick = () => {
-    /* eslint no-restricted-globals: 'off' */
-    const continueCopy = confirm('Do you want to copy to a new resource?')
-    if (continueCopy) {
-      dispatch(copyResourceToEditor(currentUser, resourceId))
-    }
+    dispatch(copyNewResource(
+      {
+        currentUser,
+        uri: resourceId,
+      },
+    ))
+    dispatch(showCopyNewMessage(
+      {
+        show: true,
+        oldUri: resourceId,
+      },
+    ))
   }
 
   return (

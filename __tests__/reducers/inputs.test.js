@@ -3,6 +3,7 @@
 import {
   removeMyItem, setItemsOrSelections, setBaseURL,
   validate, showGroupChooser, closeGroupChooser, showRdfPreview,
+  showCopyNewMessage,
 } from 'reducers/inputs'
 import {
   findNode,
@@ -29,6 +30,9 @@ beforeEach(() => {
       errors: [],
       displayValidations: false,
       groupChoice: {
+        show: false,
+      },
+      copyToNewMessage: {
         show: false,
       },
       resourceURIMessage: {
@@ -81,6 +85,23 @@ describe('showGroupChooser()', () => {
   })
 })
 
+describe('showCopyNewMessage()', () => {
+  it('sets the showCopyNewMessage to true', () => {
+    const result = showCopyNewMessage(initialState, { payload: { show: true } })
+
+    expect(result.editor.copyToNewMessage.show).toBe(true)
+  })
+  it('sets the showCopyNewMessage oldUri to a value', () => {
+    const result = showCopyNewMessage(initialState,
+      {
+        payload: {
+          show: true,
+          oldUri: 'https://sinopia.io/1234',
+        },
+      })
+    expect(result.editor.copyToNewMessage.oldUri).toMatch('https://sinopia.io/1234')
+  })
+})
 
 describe('closeGroupChooser()', () => {
   it('sets the groupChoice.show to false', () => {

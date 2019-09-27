@@ -7,6 +7,7 @@ import ResourceTemplateForm from './ResourceTemplateForm'
 import { getResourceTemplate } from 'selectors/resourceSelectors'
 import { bindActionCreators } from 'redux'
 import loadLanguages from 'actionCreators/languages'
+import CopyToNewMessage from './CopyToNewMessage'
 import ResourceURIMessage from './ResourceURIMessage'
 import SaveAlert from './SaveAlert'
 import _ from 'lodash'
@@ -33,6 +34,7 @@ class ResourceTemplate extends Component {
         <div id="resourceTemplate" style={{ marginTop: '-30px' }}>
           <section>
             <h1><em>{this.props.resourceTemplate.resourceLabel}</em></h1>
+            <CopyToNewMessage />
             <ResourceURIMessage />
             <SaveAlert />
           </section>

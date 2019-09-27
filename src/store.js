@@ -23,6 +23,9 @@ const initialState = {
       groupChoice: {
         show: false,
       },
+      copyToNewMessage: {
+        show: false,
+      },
       expanded: { // Should this node display as expanded in the editor (redux path organized)
       },
       resourceValidationErrors: { // Errors from validating resource (redux path organized)

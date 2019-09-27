@@ -48,9 +48,20 @@ export const closeGroupChooser = () => ({
   type: 'CLOSE_GROUP_CHOOSER',
 })
 
+export const copyNewResource = copyInfo => ({
+  type: 'COPY_NEW_RESOURCE',
+  payload: copyInfo,
+})
+
+export const showCopyNewMessage = showInfo => ({
+  type: 'SHOW_COPY_NEW_MESSAGE',
+  payload: showInfo,
+})
+
 export const languageSelectOpened = () => ({
   type: 'LANGUAGE_SELECT_OPENED',
 })
+
 
 export const removeItem = reduxPath => ({
   type: 'REMOVE_ITEM',
