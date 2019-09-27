@@ -140,6 +140,17 @@ describe('<ImportFileZone />', () => {
       })
     })
   })
+
+  describe('unable to read json file as text', () => {
+    const wrapper = shallow(<ImportFileZone />)
+    const notBlob = {}
+
+    it('displays an error message if the loaded file cannot be read as text', () => {
+      wrapper.instance().onDropFile(notBlob)
+      const message = wrapper.state('messages')[0]
+      expect(message).toMatch('Error reading the loaded template: TypeError: Failed to execute \'readAsText\'')
+    })
+  })
 })
 
 describe('<DropZone />', () => {
