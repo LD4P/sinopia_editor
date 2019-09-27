@@ -6,36 +6,24 @@ import swaggerSpec from 'lib/apidoc.json'
 import { getLookupConfigItems } from 'utilities/propertyTemplates'
 import Config from 'Config'
 
-const getSearchResults = (query, propertyTemplate) => Swagger({ spec: swaggerSpec })
-  .then((client) => {
-    const lookupConfigs = getLookupConfigItems(propertyTemplate)
+const getSearchResults = (query, propertyTemplate) => {
+  const lookupConfigs = getLookupConfigItems(propertyTemplate)
 
-    // Create array of promises based on the lookup config array that is sent in
-    const lookupPromises = createLookupPromises(client, query, lookupConfigs)
-
-    /*
-     * If undefined, add info - note if error, error object returned in object
-     * which allows attaching label and uri for authority
-     */
-    return Promise.all(lookupPromises).then((values) => {
-      for (let i = 0; i < values.length; i++) {
-        if (values[i]) {
-          values[i].authLabel = lookupConfigs[i].label
-          values[i].authURI = lookupConfigs[i].uri
-          values[i].label = lookupConfigs[i].label
-          values[i].id = lookupConfigs[i].uri
-        }
-      }
-
-      return values
-    })
-  }).catch((e) => {
-    console.error(e)
-  })
+  // Create array of Promises<results> based on the lookup config array that is sent in
+  return createLookupPromises(query, lookupConfigs).map((lookupPromise, i) => lookupPromise.then((value) => {
+    if (value) {
+      value.authLabel = lookupConfigs[i].label
+      value.authURI = lookupConfigs[i].uri
+      value.label = lookupConfigs[i].label
+      value.id = lookupConfigs[i].uri
+    }
+    return value
+  }))
+}
 
 export const isContext = propertyTemplate => propertyTemplate?.subtype === 'context'
 
-export const createLookupPromises = (client, query, lookupConfigs) => lookupConfigs.map((lookupConfig) => {
+export const createLookupPromises = (query, lookupConfigs) => lookupConfigs.map((lookupConfig) => {
   const authority = lookupConfig.authority
   const subauthority = lookupConfig.subauthority
   const language = lookupConfig.language
@@ -66,7 +54,7 @@ export const createLookupPromises = (client, query, lookupConfigs) => lookupConf
    */
   const actionFunction = subauthority ? subAuthCall : authorityCall
 
-  return client
+  return Swagger({ spec: swaggerSpec }).then(client => client
     .apis
     .SearchQuery?.[actionFunction]({
       q: query,
@@ -76,11 +64,11 @@ export const createLookupPromises = (client, query, lookupConfigs) => lookupConf
       lang: language,
       context: true, // Always search to see if context is available
     })
-    .catch((err) => {
-      console.error('Error in executing lookup against source', err)
-      // Return information along with the error in its own object
-      return { isError: true, errorObject: err }
-    })
+      .catch((err) => {
+        console.error('Error in executing lookup against source', err)
+        // Return information along with the error in its own object
+        return { isError: true, errorObject: err }
+      }))
 })
 
 export default getSearchResults

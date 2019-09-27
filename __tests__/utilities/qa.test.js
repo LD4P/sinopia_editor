@@ -3,23 +3,27 @@
 import getSearchResults from 'utilities/qa'
 
 describe('getSearchResults()', () => {
-  const template = {
-    valueConstraint: {
-      useValuesFrom: [
-        'urn:ld4p:qa:agrovoc',
-      ],
-    },
-  }
+  it('returns an array of promises from a search', async () => {
+    expect.assertions(2)
 
-  it('returns an array of values from a search', () => {
-    expect.assertions(1)
+    const template = {
+      valueConstraint: {
+        useValuesFrom: [
+          'urn:ld4p:qa:agrovoc',
+        ],
+      },
+    }
 
-    return getSearchResults('Corn', template).then((result) => {
-      expect(result[0].body.length).toEqual(8)
-    })
+    const results = getSearchResults('Corn', template)
+    expect(results.length).toEqual(1)
+
+    const result = await results[0]
+    expect(result.body.length).toEqual(8)
   })
 
-  it('returns a single value using a bad authority source', () => {
+  it('returns a single value using a bad authority source', async () => {
+    expect.assertions(1)
+
     const badAuthorityURItemplate = {
       valueConstraint: {
         useValuesFrom: [
@@ -27,8 +31,9 @@ describe('getSearchResults()', () => {
         ],
       },
     }
-    return getSearchResults('Austin, Jane', badAuthorityURItemplate).catch((result) => {
-      expect(result[0].statusCode).toEqual(400)
-    })
+
+    const results = getSearchResults('Austin, Jane', badAuthorityURItemplate)
+    const result = await results[0]
+    expect(result.isError).toEqual(true)
   })
 })
