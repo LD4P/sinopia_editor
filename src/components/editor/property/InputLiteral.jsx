@@ -13,7 +13,6 @@ import {
 import InputValue from './InputValue'
 import { defaultLanguageId } from 'Utilities'
 import { booleanPropertyFromTemplate } from 'utilities/propertyTemplates'
-
 import _ from 'lodash'
 
 const InputLiteral = (props) => {
