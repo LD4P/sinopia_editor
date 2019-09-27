@@ -88,213 +88,215 @@ const reduxPath = [
   'http://id.loc.gov/ontologies/bibframe/mainTitle',
 ]
 
-test('renders when no value', () => {
-  const store = createStore(appReducer, createInitialState())
-  const { container, getByPlaceholderText, queryByText } = renderWithRedux(
-    <InputLiteral reduxPath={reduxPath} />, store,
-  )
-  // The input box is present.
-  expect(getByPlaceholderText('Preferred Title for Work')).toBeInTheDocument()
-  // Not required.
-  expect(queryByText('Required')).not.toBeInTheDocument()
-  expect(getByPlaceholderText('Preferred Title for Work')).not.toHaveAttribute('required')
-  // No existing values are present. This sort of a query isn't recommended but since testing for absence, seems OK.
-  expect(container.querySelector('.rbt-token')).not.toBeInTheDocument()
-})
+describe('InputLiteral', () => {
+  it('renders when no value', () => {
+    const store = createStore(appReducer, createInitialState())
+    const { container, getByPlaceholderText, queryByText } = renderWithRedux(
+      <InputLiteral reduxPath={reduxPath} />, store,
+    )
+    // The input box is present.
+    expect(getByPlaceholderText('Preferred Title for Work')).toBeInTheDocument()
+    // Not required.
+    expect(queryByText('Required')).not.toBeInTheDocument()
+    expect(getByPlaceholderText('Preferred Title for Work')).not.toHaveAttribute('required')
+    // No existing values are present. This sort of a query isn't recommended but since testing for absence, seems OK.
+    expect(container.querySelector('.rbt-token')).not.toBeInTheDocument()
+  })
 
-test('renders existing value', () => {
-  const store = createStore(appReducer, createInitialState({ hasInitialValue: true }))
-  const { getByText, getByPlaceholderText } = renderWithRedux(
-    <InputLiteral reduxPath={reduxPath} />, store,
-  )
-  // The input box is present.
-  expect(getByPlaceholderText('Preferred Title for Work')).toBeInTheDocument()
-  // The title is displayed
-  expect(getByText('foo')).toBeInTheDocument()
-  // The language is displayed
-  expect(getByText('Language: English')).toBeInTheDocument()
-})
+  it('renders existing value', () => {
+    const store = createStore(appReducer, createInitialState({ hasInitialValue: true }))
+    const { getByText, getByPlaceholderText } = renderWithRedux(
+      <InputLiteral reduxPath={reduxPath} />, store,
+    )
+    // The input box is present.
+    expect(getByPlaceholderText('Preferred Title for Work')).toBeInTheDocument()
+    // The title is displayed
+    expect(getByText('foo')).toBeInTheDocument()
+    // The language is displayed
+    expect(getByText('Language: English')).toBeInTheDocument()
+  })
 
-test('entering non-repeatable value', async () => {
-  const store = createStore(appReducer, createInitialState())
-  const { getByPlaceholderText, getByText } = renderWithRedux(
-    <InputLiteral reduxPath={reduxPath} />, store,
-  )
+  it('handles entering non-repeatable value', async () => {
+    const store = createStore(appReducer, createInitialState())
+    const { getByPlaceholderText, getByText } = renderWithRedux(
+      <InputLiteral reduxPath={reduxPath} />, store,
+    )
 
-  // Add a value
-  fireEvent.change(getByPlaceholderText('Preferred Title for Work'), { target: { value: 'foo' } })
-  fireEvent.keyPress(getByPlaceholderText('Preferred Title for Work'), { key: 'Enter', code: 13, charCode: 13 })
+    // Add a value
+    fireEvent.change(getByPlaceholderText('Preferred Title for Work'), { target: { value: 'foo' } })
+    fireEvent.keyPress(getByPlaceholderText('Preferred Title for Work'), { key: 'Enter', code: 13, charCode: 13 })
 
-  // Verify the value
-  await waitForElement(() => getByText('Edit'))
-  expect(getByText('foo')).toBeInTheDocument()
-  expect(getByText('×')).toBeInTheDocument()
-  expect(getByText('Language: English')).toBeInTheDocument()
+    // Verify the value
+    await waitForElement(() => getByText('Edit'))
+    expect(getByText('foo')).toBeInTheDocument()
+    expect(getByText('×')).toBeInTheDocument()
+    expect(getByText('Language: English')).toBeInTheDocument()
 
-  // Input is disabled
-  expect(getByPlaceholderText('Preferred Title for Work')).toBeDisabled
-})
+    // Input is disabled
+    expect(getByPlaceholderText('Preferred Title for Work')).toBeDisabled
+  })
 
-test('entering value and changing focus', async () => {
-  const store = createStore(appReducer, createInitialState())
-  const { getByPlaceholderText, getByText } = renderWithRedux(
-    <InputLiteral reduxPath={reduxPath} />, store,
-  )
+  it('handles entering value and changing focus', async () => {
+    const store = createStore(appReducer, createInitialState())
+    const { getByPlaceholderText, getByText } = renderWithRedux(
+      <InputLiteral reduxPath={reduxPath} />, store,
+    )
 
-  // Add a value
-  fireEvent.change(getByPlaceholderText('Preferred Title for Work'), { target: { value: 'foo' } })
-  fireEvent.blur(getByPlaceholderText('Preferred Title for Work'))
+    // Add a value
+    fireEvent.change(getByPlaceholderText('Preferred Title for Work'), { target: { value: 'foo' } })
+    fireEvent.blur(getByPlaceholderText('Preferred Title for Work'))
 
-  // Verify the value
-  await waitForElement(() => getByText('Edit'))
-  expect(getByText('foo')).toBeInTheDocument()
-  expect(getByText('×')).toBeInTheDocument()
-  expect(getByText('Language: English')).toBeInTheDocument()
-})
+    // Verify the value
+    await waitForElement(() => getByText('Edit'))
+    expect(getByText('foo')).toBeInTheDocument()
+    expect(getByText('×')).toBeInTheDocument()
+    expect(getByText('Language: English')).toBeInTheDocument()
+  })
 
-test('entering non-Roman value', async () => {
-  const store = createStore(appReducer, createInitialState())
-  const { getByPlaceholderText, getByText } = renderWithRedux(
-    <InputLiteral reduxPath={reduxPath} />, store,
-  )
-  const artOfWar = '战争的艺术' // Chinese characters for Sun Tzu's Art of War
+  it('handles entering non-Roman value', async () => {
+    const store = createStore(appReducer, createInitialState())
+    const { getByPlaceholderText, getByText } = renderWithRedux(
+      <InputLiteral reduxPath={reduxPath} />, store,
+    )
+    const artOfWar = '战争的艺术' // Chinese characters for Sun Tzu's Art of War
 
-  // Add a value
-  fireEvent.change(getByPlaceholderText('Preferred Title for Work'), { target: { value: artOfWar } })
-  fireEvent.keyPress(getByPlaceholderText('Preferred Title for Work'), { key: 'Enter', code: 13, charCode: 13 })
+    // Add a value
+    fireEvent.change(getByPlaceholderText('Preferred Title for Work'), { target: { value: artOfWar } })
+    fireEvent.keyPress(getByPlaceholderText('Preferred Title for Work'), { key: 'Enter', code: 13, charCode: 13 })
 
-  // Verify the value
-  await waitForElement(() => getByText('Edit'))
-  expect(getByText(artOfWar)).toBeInTheDocument()
-  expect(getByText('×')).toBeInTheDocument()
-  expect(getByText('Language: English')).toBeInTheDocument()
-})
-
-
-test('entering repeatable values', async () => {
-  const store = createStore(appReducer, createInitialState({ repeatable: true }))
-  const { getByPlaceholderText, getByText, getAllByText } = renderWithRedux(
-    <InputLiteral reduxPath={reduxPath} />, store,
-  )
-
-  // Add values
-  fireEvent.change(getByPlaceholderText('Preferred Title for Work'), { target: { value: 'foo' } })
-  fireEvent.keyPress(getByPlaceholderText('Preferred Title for Work'), { key: 'Enter', code: 13, charCode: 13 })
-
-  fireEvent.change(getByPlaceholderText('Preferred Title for Work'), { target: { value: 'bar' } })
-  fireEvent.keyPress(getByPlaceholderText('Preferred Title for Work'), { key: 'Enter', code: 13, charCode: 13 })
+    // Verify the value
+    await waitForElement(() => getByText('Edit'))
+    expect(getByText(artOfWar)).toBeInTheDocument()
+    expect(getByText('×')).toBeInTheDocument()
+    expect(getByText('Language: English')).toBeInTheDocument()
+  })
 
 
-  // Verify the value
-  await waitForElement(() => getByText('bar'))
-  expect(getByText('foo')).toBeInTheDocument()
-  expect(getAllByText('×')).toHaveLength(2)
-  expect(getAllByText('Language: English')).toHaveLength(2)
+  it('handles entering repeatable values', async () => {
+    const store = createStore(appReducer, createInitialState({ repeatable: true }))
+    const { getByPlaceholderText, getByText, getAllByText } = renderWithRedux(
+      <InputLiteral reduxPath={reduxPath} />, store,
+    )
 
-  // Input is not disabled
-  expect(getByPlaceholderText('Preferred Title for Work')).not.toBeDisabled
-})
+    // Add values
+    fireEvent.change(getByPlaceholderText('Preferred Title for Work'), { target: { value: 'foo' } })
+    fireEvent.keyPress(getByPlaceholderText('Preferred Title for Work'), { key: 'Enter', code: 13, charCode: 13 })
 
-test('deleting a value', async () => {
-  const store = createStore(appReducer, createInitialState({ hasInitialValue: true }))
-  const { getByText, queryByText } = renderWithRedux(
-    <InputLiteral reduxPath={reduxPath} />, store,
-  )
-  expect(getByText('foo')).toBeInTheDocument()
+    fireEvent.change(getByPlaceholderText('Preferred Title for Work'), { target: { value: 'bar' } })
+    fireEvent.keyPress(getByPlaceholderText('Preferred Title for Work'), { key: 'Enter', code: 13, charCode: 13 })
 
-  // Delete the value
-  fireEvent.click(getByText('×'))
 
-  // Verify the value is removed
-  // Could not get waitForElementToBeRemoved to work here.
-  // await waitForElementToBeRemoved(() => queryByText('foo'))
-  await wait(() => expect(queryByText('foo')).not.toBeInTheDocument())
-})
+    // Verify the value
+    await waitForElement(() => getByText('bar'))
+    expect(getByText('foo')).toBeInTheDocument()
+    expect(getAllByText('×')).toHaveLength(2)
+    expect(getAllByText('Language: English')).toHaveLength(2)
 
-test('editing a value', async () => {
-  const store = createStore(appReducer, createInitialState({ hasInitialValue: true }))
-  const { getByText, queryByText, getByDisplayValue } = renderWithRedux(
-    <InputLiteral reduxPath={reduxPath} />, store,
-  )
-  expect(getByText('foo')).toBeInTheDocument()
+    // Input is not disabled
+    expect(getByPlaceholderText('Preferred Title for Work')).not.toBeDisabled
+  })
 
-  // Edit the value
-  fireEvent.click(getByText('Edit'))
+  it('allows deleting a value', async () => {
+    const store = createStore(appReducer, createInitialState({ hasInitialValue: true }))
+    const { getByText, queryByText } = renderWithRedux(
+      <InputLiteral reduxPath={reduxPath} />, store,
+    )
+    expect(getByText('foo')).toBeInTheDocument()
 
-  await wait(() => expect(queryByText('Edit')).not.toBeInTheDocument())
+    // Delete the value
+    fireEvent.click(getByText('×'))
 
-  const input = getByDisplayValue('foo')
-  expect(input).toBeInTheDocument()
+    // Verify the value is removed
+    // Could not get waitForElementToBeRemoved to work here.
+    // await waitForElementToBeRemoved(() => queryByText('foo'))
+    await wait(() => expect(queryByText('foo')).not.toBeInTheDocument())
+  })
 
-  fireEvent.change(input, { target: { value: 'bar' } })
-  fireEvent.keyPress(input, { key: 'Enter', code: 13, charCode: 13 })
+  it('allows editing a value', async () => {
+    const store = createStore(appReducer, createInitialState({ hasInitialValue: true }))
+    const { getByText, queryByText, getByDisplayValue } = renderWithRedux(
+      <InputLiteral reduxPath={reduxPath} />, store,
+    )
+    expect(getByText('foo')).toBeInTheDocument()
 
-  // Verify the value
-  await waitForElement(() => getByText('Edit'))
-  expect(getByText('bar')).toBeInTheDocument()
-  expect(queryByText('foo')).not.toBeInTheDocument()
-  expect(getByText('×')).toBeInTheDocument()
-  expect(getByText('Language: English')).toBeInTheDocument()
-})
+    // Edit the value
+    fireEvent.click(getByText('Edit'))
 
-test('validation when mandatory', async () => {
-  const store = createStore(appReducer, createInitialState({ mandatory: true }))
-  const { getByText, queryByText, getByPlaceholderText } = renderWithRedux(
-    <InputLiteral reduxPath={reduxPath} />, store,
-  )
+    await wait(() => expect(queryByText('Edit')).not.toBeInTheDocument())
 
-  expect(getByPlaceholderText('Preferred Title for Work')).toHaveAttribute('required')
-  expect(queryByText('Required')).not.toBeInTheDocument()
+    const input = getByDisplayValue('foo')
+    expect(input).toBeInTheDocument()
 
-  // Trigger validation
-  store.dispatch(showGroupChooser(true))
+    fireEvent.change(input, { target: { value: 'bar' } })
+    fireEvent.keyPress(input, { key: 'Enter', code: 13, charCode: 13 })
 
-  await waitForElement(() => getByText('Required'))
-})
+    // Verify the value
+    await waitForElement(() => getByText('Edit'))
+    expect(getByText('bar')).toBeInTheDocument()
+    expect(queryByText('foo')).not.toBeInTheDocument()
+    expect(getByText('×')).toBeInTheDocument()
+    expect(getByText('Language: English')).toBeInTheDocument()
+  })
 
-// Testing the RDF is in the spirit of testing what the user expects from interacting with this component.
-test('produces expected triples for a single value', async () => {
-  const store = createStore(appReducer, createInitialState())
-  const { getByPlaceholderText, getByText } = renderWithRedux(
-    <InputLiteral reduxPath={reduxPath} />, store,
-  )
+  it('validates when mandatory', async () => {
+    const store = createStore(appReducer, createInitialState({ mandatory: true }))
+    const { getByText, queryByText, getByPlaceholderText } = renderWithRedux(
+      <InputLiteral reduxPath={reduxPath} />, store,
+    )
 
-  // Add a value
-  fireEvent.change(getByPlaceholderText('Preferred Title for Work'), { target: { value: 'foo' } })
-  fireEvent.keyPress(getByPlaceholderText('Preferred Title for Work'), { key: 'Enter', code: 13, charCode: 13 })
+    expect(getByPlaceholderText('Preferred Title for Work')).toHaveAttribute('required')
+    expect(queryByText('Required')).not.toBeInTheDocument()
 
-  // Verify the value
-  await waitForElement(() => getByText('Edit'))
+    // Trigger validation
+    store.dispatch(showGroupChooser(true))
 
-  // Render an RDFModal
-  assertRDF(store, [
-    '<> <http://id.loc.gov/ontologies/bibframe/mainTitle> "foo"@en .',
-    '<> <http://sinopia.io/vocabulary/hasResourceTemplate> "resourceTemplate:bf2:WorkTitle" .',
-    '<> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://id.loc.gov/ontologies/bibframe/Title> .',
-  ])
-})
+    await waitForElement(() => getByText('Required'))
+  })
 
-test('produces expected triples for repeated values', async () => {
-  const store = createStore(appReducer, createInitialState({ repeatable: true }))
-  const { getByPlaceholderText, getByText } = renderWithRedux(
-    <InputLiteral reduxPath={reduxPath} />, store,
-  )
+  // Testing the RDF is in the spirit of testing what the user expects from interacting with this component.
+  it('produces expected triples for a single value', async () => {
+    const store = createStore(appReducer, createInitialState())
+    const { getByPlaceholderText, getByText } = renderWithRedux(
+      <InputLiteral reduxPath={reduxPath} />, store,
+    )
 
-  // Add a value
-  fireEvent.change(getByPlaceholderText('Preferred Title for Work'), { target: { value: 'foo' } })
-  fireEvent.keyPress(getByPlaceholderText('Preferred Title for Work'), { key: 'Enter', code: 13, charCode: 13 })
+    // Add a value
+    fireEvent.change(getByPlaceholderText('Preferred Title for Work'), { target: { value: 'foo' } })
+    fireEvent.keyPress(getByPlaceholderText('Preferred Title for Work'), { key: 'Enter', code: 13, charCode: 13 })
 
-  fireEvent.change(getByPlaceholderText('Preferred Title for Work'), { target: { value: 'bar' } })
-  fireEvent.keyPress(getByPlaceholderText('Preferred Title for Work'), { key: 'Enter', code: 13, charCode: 13 })
+    // Verify the value
+    await waitForElement(() => getByText('Edit'))
 
-  // Verify the value
-  await waitForElement(() => getByText('bar'))
+    // Render an RDFModal
+    assertRDF(store, [
+      '<> <http://id.loc.gov/ontologies/bibframe/mainTitle> "foo"@en .',
+      '<> <http://sinopia.io/vocabulary/hasResourceTemplate> "resourceTemplate:bf2:WorkTitle" .',
+      '<> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://id.loc.gov/ontologies/bibframe/Title> .',
+    ])
+  })
 
-  // Render an RDFModal
-  assertRDF(store, [
-    '<> <http://id.loc.gov/ontologies/bibframe/mainTitle> "foo"@en .',
-    '<> <http://id.loc.gov/ontologies/bibframe/mainTitle> "bar"@en .',
-    '<> <http://sinopia.io/vocabulary/hasResourceTemplate> "resourceTemplate:bf2:WorkTitle" .',
-    '<> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://id.loc.gov/ontologies/bibframe/Title> .',
-  ])
+  it('produces expected triples for repeated values', async () => {
+    const store = createStore(appReducer, createInitialState({ repeatable: true }))
+    const { getByPlaceholderText, getByText } = renderWithRedux(
+      <InputLiteral reduxPath={reduxPath} />, store,
+    )
+
+    // Add a value
+    fireEvent.change(getByPlaceholderText('Preferred Title for Work'), { target: { value: 'foo' } })
+    fireEvent.keyPress(getByPlaceholderText('Preferred Title for Work'), { key: 'Enter', code: 13, charCode: 13 })
+
+    fireEvent.change(getByPlaceholderText('Preferred Title for Work'), { target: { value: 'bar' } })
+    fireEvent.keyPress(getByPlaceholderText('Preferred Title for Work'), { key: 'Enter', code: 13, charCode: 13 })
+
+    // Verify the value
+    await waitForElement(() => getByText('bar'))
+
+    // Render an RDFModal
+    assertRDF(store, [
+      '<> <http://id.loc.gov/ontologies/bibframe/mainTitle> "foo"@en .',
+      '<> <http://id.loc.gov/ontologies/bibframe/mainTitle> "bar"@en .',
+      '<> <http://sinopia.io/vocabulary/hasResourceTemplate> "resourceTemplate:bf2:WorkTitle" .',
+      '<> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://id.loc.gov/ontologies/bibframe/Title> .',
+    ])
+  })
 })
