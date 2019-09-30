@@ -1,6 +1,7 @@
 import React from 'react'
 import { fireEvent, wait } from '@testing-library/react'
-import { renderWithRedux, createReduxStore } from 'testUtils'
+// eslint-disable-next-line import/no-unresolved
+import { renderWithRedux, createReduxStore, setupModal } from 'testUtils'
 import App from 'components/App'
 import { MemoryRouter } from 'react-router-dom'
 import { getFixtureResourceTemplate } from '../fixtureLoaderHelper'
@@ -76,6 +77,7 @@ const createInitialState = () => {
 }
 
 describe('Search, copy QA result, and open in editor', () => {
+  setupModal()
   // Mock out search
   const mockSearchResults = [
     {
@@ -131,9 +133,11 @@ rdfs:label "These twain.";
 <http://id.loc.gov/ontologies/bflc/title40MatchKey> "These twain.";
 <http://id.loc.gov/ontologies/bflc/titleSortKey> "These twain." .`
   global.fetch = jest.fn().mockImplementation(() => Promise.resolve({ text: () => n3 }))
+  sinopiaServer.getSearchResults.mockResolvedValue({ response: { results: [], totalHits: 0 } })
   sinopiaServer.getResourceTemplate.mockImplementation(getFixtureResourceTemplate)
   sinopiaServer.foundResourceTemplate.mockResolvedValue(true)
   sinopiaServer.listResourcesInGroupContainer.mockResolvedValue({ response: { body: { contains: false } } })
+
 
   const store = createReduxStore(createInitialState())
   const {

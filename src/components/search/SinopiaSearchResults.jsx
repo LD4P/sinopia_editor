@@ -6,14 +6,11 @@ import { connect } from 'react-redux'
 import { bindActionCreators } from 'redux'
 import PropTypes from 'prop-types'
 import Config from 'Config'
-import 'react-bootstrap-table-next/dist/react-bootstrap-table2.min.css'
-import BootstrapTable from 'react-bootstrap-table-next'
 import { getCurrentUser } from 'authSelectors'
 import { retrieveResource } from 'actionCreators/resources'
-import Button from 'react-bootstrap/lib/Button'
-import ButtonToolbar from 'react-bootstrap/lib/ButtonToolbar'
 import { rootResource } from 'selectors/resourceSelectors'
 import Alert from '../Alert'
+
 
 const SinopiaSearchResults = (props) => {
   const [navigateEditor, setNavigateEditor] = useState(false)
@@ -31,45 +28,57 @@ const SinopiaSearchResults = (props) => {
     }
   })
 
-  // This returns the current row number + 1 in order to include it in the displayed table
-  const indexFormatter = (_cell, _row, rowIndex) => rowIndex + 1
+  // Generates an HTML row
 
-  const linkFormatter = (_cell, row) => (
-    <ButtonToolbar>
-      <Button bsStyle="link" onClick={e => handleClick(`${Config.sinopiaServerBase}/${row.uri}`, e)}>{row.label}</Button>
-    </ButtonToolbar>
-  )
+  const generateRows = () => {
+    const rows = []
+    props.searchResults.forEach((row, _index) => {
+      const rowIndex = _index + 1
+      const link = `${Config.sinopiaServerBase}/${row.uri}`
+      rows.push(<tr key={_index}>
+        <td>{ rowIndex }</td>
+        <td><button className="btn btn-link" onClick={e => handleClick(link, e) }>{ row.title }</button></td>
+      </tr>)
+    })
+    return rows
+  }
 
   if (props.searchResults.length === 0) {
     return null
   }
 
-  const columns = [{
-    dataField: 'index',
-    text: 'ID',
-    sort: false,
-    formatter: indexFormatter,
-    headerStyle: { backgroundColor: '#F8F6EF', width: '5%' },
-  },
-  {
-    dataField: 'label',
-    text: 'Label',
-    sort: false,
-    formatter: linkFormatter,
-    headerStyle: { backgroundColor: '#F8F6EF', width: '95%' },
-  }]
-
   return (
     <React.Fragment>
-      <Alert text={props.error} />
-
+      { props.error
+        && <div className="row">
+          <div className="col-md-12" style={{ marginTop: '10px' }}>
+            <div className="alert alert-danger alert-dismissible">
+              <button className="close" data-dismiss="alert" aria-label="close">&times;</button>
+              { props.error }
+            </div>
+          </div>
+        </div>
+      }
       <div id="search-results" className="row">
         <div className="col-sm-2"></div>
         <div className="col-sm-8">
           <h3>Your List of Bibliographic Metadata Stored in Sinopia</h3>
-          <BootstrapTable id="search-results-list" keyField="uri" data={ props.searchResults } columns={ columns } />
+          <table className="table table-bordered" id="search-results-list">
+            <thead>
+              <tr>
+                <th className="sinopia" style={{ width: '5%' }}>
+                  ID
+                </th>
+                <th className="sinopia" style={{ width: '95%' }}>
+                  Title
+                </th>
+              </tr>
+            </thead>
+            <tbody>
+              { generateRows() }
+            </tbody>
+          </table>
         </div>
-        <div className="col-sm-2"></div>
       </div>
     </React.Fragment>
   )

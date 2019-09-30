@@ -1,8 +1,11 @@
 import React from 'react'
 import QASearchResults from 'components/search/QASearchResults'
-import { renderWithRedux, createReduxStore } from 'testUtils'
+// eslint-disable-next-line import/no-unresolved
+import { renderWithRedux, createReduxStore, setupModal } from 'testUtils'
 
 describe('<QASearchResults />', () => {
+  setupModal()
+
   const state = {
     selectorReducer: {
       resource: {},

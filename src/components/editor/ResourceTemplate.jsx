@@ -41,7 +41,7 @@ class ResourceTemplate extends Component {
           {this.props.unusedRDF
             && <div className="alert alert-warning" role="alert">
               <strong>Unable to load the entire resource.</strong> The unused triples are:
-              <pre>{this.props.unusedRDF}</pre>
+              <pre>{ this.props.unusedRDF }</pre>
             </div>
           }
           <ResourceTemplateForm reduxPath = {['resource', this.props.resourceTemplate.id]} />

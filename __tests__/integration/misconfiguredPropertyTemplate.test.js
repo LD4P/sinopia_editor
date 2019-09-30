@@ -1,6 +1,7 @@
 import React from 'react'
 import { fireEvent } from '@testing-library/react'
-import { renderWithRedux, createReduxStore } from 'testUtils'
+// eslint-disable-next-line import/no-unresolved
+import { renderWithRedux, createReduxStore, setupModal } from 'testUtils'
 import App from 'components/App'
 import { MemoryRouter } from 'react-router-dom'
 import Config from 'Config'
@@ -51,6 +52,7 @@ const createInitialState = () => {
 }
 
 describe('Loading a misconfigured property template', () => {
+  setupModal()
   const store = createReduxStore(createInitialState())
   const app = (<MemoryRouter><App /></MemoryRouter>)
   const { getByText, findByText } = renderWithRedux(

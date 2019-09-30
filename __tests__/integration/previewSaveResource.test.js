@@ -1,6 +1,7 @@
 import React from 'react'
 import { fireEvent, wait } from '@testing-library/react'
-import { renderWithRedux, createReduxStore } from 'testUtils'
+// eslint-disable-next-line import/no-unresolved
+import { renderWithRedux, createReduxStore, setupModal } from 'testUtils'
 import App from 'components/App'
 import { MemoryRouter } from 'react-router-dom'
 
@@ -90,6 +91,7 @@ const createInitialState = () => {
 
 describe('Preview and save resource', () => {
   const store = createReduxStore(createInitialState())
+  setupModal()
   const {
     getByText, queryByText, queryAllByText, getByTestId, getByTitle,
   } = renderWithRedux(
@@ -121,7 +123,5 @@ describe('Preview and save resource', () => {
       return btn.id !== 'modal-save' && btn.id !== 'editor-save'
     })
     fireEvent.click(finalSave)
-
-    await wait(() => expect(queryByText('Which group do you want to save to?')).not.toBeInTheDocument())
   })
 })

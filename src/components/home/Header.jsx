@@ -15,15 +15,15 @@ class Header extends Component {
             <img src={SinopiaLogo} height="55px" alt="Sinopia logo" />
           </a>
         </div>
-        <ul className= "nav navbar-nav pull-right">
-          <li>
-            <Link to="/templates">Linked Data Editor</Link>
+        <ul className= "nav">
+          <li className="nav-item">
+            <Link to="/templates" className="nav-link">Linked Data Editor</Link>
           </li>
-          <li>
-            <a className="header-text" href={`https://profile-editor.${Config.sinopiaDomainName}/`}>Profile Editor</a>
+          <li className="nav-item">
+            <a className="header-text nav-link" href={`https://profile-editor.${Config.sinopiaDomainName}/`}>Profile Editor</a>
           </li>
-          <li className="menu">
-            <a href="#" className="help-resources" onClick={this.props.triggerHomePageMenu}>Help and Resources</a>
+          <li className="menu nav-item">
+            <a href="#" className="help-resources nav-link" onClick={this.props.triggerHomePageMenu}>Help and Resources</a>
           </li>
         </ul>
       </div>

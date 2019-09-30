@@ -24,9 +24,14 @@ export const validate = (state) => {
 export const showGroupChooser = (state) => {
   const newState = { ...state }
 
-  // Show the window to select a group
-  newState.editor.groupChoice.show = true
-  newState.editor.rdfPreview.show = false
+  if (validate(state).editor.errors.length === 0) {
+    // Show the window to select a group
+    newState.editor.modal = 'GroupChoiceModal'
+  } else {
+    newState.editor.modal = undefined
+    // Show errors that prevent save
+    newState.editor.displayValidations = true
+  }
 
   return newState
 }
@@ -206,4 +211,18 @@ export const removeMyItem = (state, action) => {
   delete node[reduxPath.slice(-1)[0]]
 
   return validate(newState)
+}
+
+export const showModal = (state, action) => {
+  const newState = { ...state }
+
+  newState.editor.modal = action.payload
+  return newState
+}
+
+export const hideModal = (state) => {
+  const newState = { ...state }
+
+  newState.editor.modal = undefined
+  return newState
 }

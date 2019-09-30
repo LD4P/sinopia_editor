@@ -1,6 +1,7 @@
 import React from 'react'
-import { fireEvent } from '@testing-library/react'
-import { renderWithRedux, createReduxStore } from 'testUtils'
+import { fireEvent, wait } from '@testing-library/react'
+// eslint-disable-next-line import/no-unresolved
+import { renderWithRedux, createReduxStore, setupModal } from 'testUtils'
 import App from 'components/App'
 import { MemoryRouter } from 'react-router-dom'
 
@@ -89,8 +90,13 @@ const createInitialState = () => {
 
 describe('Preview and try to save resource', () => {
   const store = createReduxStore(createInitialState())
+  setupModal()
   const {
+<<<<<<< HEAD
     getByText, getByTitle, queryByText, queryAllByText, getByPlaceholderText,
+=======
+    getByText, getByTitle, getByTestId, queryAllByText, queryByText,
+>>>>>>> Continue refactoring of modals to use Redux
   } = renderWithRedux(
     (<MemoryRouter><App /></MemoryRouter>), store,
   )
@@ -106,8 +112,13 @@ describe('Preview and try to save resource', () => {
     fireEvent.click(getByText('×'))
 
     // Preview the RDF
-    fireEvent.click(getByTitle('Preview RDF'))
-    expect(getByText('RDF Preview')).toBeInTheDocument()
+    const previewBtn = getByTitle('Preview RDF')
+
+    fireEvent.click(previewBtn)
+    await wait(() => {
+      expect(rdfModal.classList.contains('show')).toBe(true)
+    })
+
     expect(getByText(/<> <http:\/\/sinopia.io\/vocabulary\/hasResourceTemplate> "resourceTemplate:bf2:WorkTitle" ./)).toBeInTheDocument()
 
     // Save
@@ -118,9 +129,12 @@ describe('Preview and try to save resource', () => {
     })
     expect(saveAndPublish).not.toBeDisabled()
     fireEvent.click(saveAndPublish)
-
-    expect(queryByText('Which group do you want to save to?')).not.toBeInTheDocument()
-    expect(queryByText(/There was a probem saving this resource/)).toBeInTheDocument()
+    await wait(() => {
+      // All modals closed
+      expect(rdfModal.classList.contains('show')).not.toBe(true)
+    })
+    expect(groupChoiceModal.classList.contains('show')).not.toBe(true)
+    expect(queryByText(/There was a problem saving this resource/)).toBeInTheDocument()
     expect(queryByText('Required')).toBeInTheDocument()
     expect(getByText('Save')).toBeDisabled()
 

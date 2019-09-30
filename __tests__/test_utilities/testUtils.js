@@ -39,3 +39,9 @@ export const assertRDF = (store, triples) => {
     expect(getByText(triple, { exact: false })).toBeInTheDocument()
   })
 }
+
+export const setupModal = () => {
+  const portalRoot = document.createElement('div')
+  portalRoot.setAttribute('id', 'modal')
+  document.body.appendChild(portalRoot)
+}

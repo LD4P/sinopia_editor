@@ -7,7 +7,7 @@ describe('RDF from literal property templates', () => {
   beforeAll(async () => {
     await testUserLogin()
     await page.goto('http://127.0.0.1:8888/templates')
-    await page.waitForSelector('.react-bootstrap-table')
+    await page.waitForSelector('.table')
     await page.setViewport({
       width: 1822,
       height: 961,

@@ -3,7 +3,8 @@
 import React from 'react'
 import LoadByRDFForm from 'components/load/LoadByRDFForm'
 import { fireEvent, wait } from '@testing-library/react'
-import { renderWithRedux, createReduxStore } from 'testUtils'
+/* eslint import/no-unresolved: 'off' */
+import { renderWithRedux, createReduxStore, setupModal } from 'testUtils'
 import { getFixtureResourceTemplate } from '../../fixtureLoaderHelper'
 import * as sinopiaServer from 'sinopiaServer'
 import { createMemoryHistory } from 'history'
@@ -67,6 +68,8 @@ const resource = {
 }
 
 describe('LoadByRDFForm', () => {
+  setupModal()
+
   shortid.generate = jest.fn().mockReturnValue('abc123')
   sinopiaServer.getResourceTemplate.mockImplementation(getFixtureResourceTemplate)
   sinopiaServer.foundResourceTemplate.mockResolvedValue(true)
@@ -153,7 +156,7 @@ describe('LoadByRDFForm', () => {
     const history = createMemoryHistory()
     const store = createReduxStore(createInitialState())
     const {
-      getByText, getByLabelText, findByText, queryByText,
+      getByText, getByLabelText, findByText,
     } = renderWithRedux(
       <LoadByRDFForm history={history} />, store,
     )
@@ -169,7 +172,8 @@ describe('LoadByRDFForm', () => {
     expect(getByText('Work Title')).toBeInTheDocument()
 
     fireEvent.click(getByText('Save', 'Button'))
-    await wait(() => expect(queryByText('Choose resource template')).not.toBeInTheDocument())
+
+    await wait(() => store.getState().selectorReducer.editor.modal !== 'GroupChoiceModal')
 
     // Wait for the page change
     await wait(() => expect(history.location.pathname).toBe('/editor'))

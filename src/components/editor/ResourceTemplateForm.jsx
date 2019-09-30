@@ -58,10 +58,14 @@ export class ResourceTemplateForm extends Component {
     })
   }
 
+  cardRow = () => {
+
+  }
+
   renderComponentForm = () => (
     <div>
       <form onSubmit={e => e.preventDefault()}>
-        <div className="ResourceTemplateForm">
+        <div className="ResourceTemplateForm row">
           {
             this.props.propertyTemplates.map((propertyTemplate, index) => {
               const newReduxPath = [...this.props.reduxPath, propertyTemplate.propertyURI]

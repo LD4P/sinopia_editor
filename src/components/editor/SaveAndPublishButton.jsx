@@ -33,22 +33,15 @@ const SaveAndPublishButton = (props) => {
   }, [resourceHasChanged, validationErrorsAreShowing, hasValidationErrors])
 
   const save = () => {
-    // Close RDF modal if open
-    if (hasValidationErrors) {
-      showValidationErrors()
-    }
-    else {
-      hideValidationErrors()
-      if (isSaved) {
-        update()
-      } else {
-        showGroupChooser()
-      }
+    if (props.isSaved) {
+      props.update(props.currentUser)
+    } else {
+      props.showGroupChooser(true)
     }
   }
 
   return (
-    <button id={ props.id } className="btn btn-primary" onClick={ save } disabled={ isDisabled }>
+    <button id={ props.id } className="btn btn-primary" onClick={ save } aria-label="Save" disabled={ isDisabled }>
       Save
     </button>
   )
@@ -56,6 +49,11 @@ const SaveAndPublishButton = (props) => {
 
 SaveAndPublishButton.propTypes = {
   id: PropTypes.string,
+  isDisabled: PropTypes.bool,
+  update: PropTypes.func,
+  isSaved: PropTypes.bool,
+  currentUser: PropTypes.object,
+  showGroupChooser: PropTypes.func,
 }
 
 export default SaveAndPublishButton

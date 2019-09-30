@@ -82,7 +82,6 @@ describe('closeGroupChooser()', () => {
   it('sets the groupChoice.show to false', () => {
     initialState.editor.groupChoice.show = true
     const result = closeGroupChooser(initialState)
-
     expect(result.editor.groupChoice.show).toBe(false)
   })
 })

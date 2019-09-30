@@ -5,8 +5,6 @@ import { bindActionCreators } from 'redux'
 import { connect } from 'react-redux'
 import PropTypes from 'prop-types'
 import Config from 'Config'
-import 'react-bootstrap-table-next/dist/react-bootstrap-table2.min.css'
-import Pagination from 'react-bootstrap/lib/Pagination'
 import { fetchSinopiaSearchResults } from 'actionCreators/search'
 
 const SearchResultsPaging = (props) => {
@@ -29,6 +27,7 @@ const SearchResultsPaging = (props) => {
    *    › - next
    *   » - last
    */
+  /* eslint no-unused-vars: 'off' */
   const handleClick = (event) => {
     let queryFrom = 0
     let newCurrentPage = 1
@@ -56,22 +55,32 @@ const SearchResultsPaging = (props) => {
   }
 
   const lastPage = () => Math.ceil(props.totalResults / Config.searchResultsPerPage)
-  const pageButton = (key, active) => <Pagination.Item key={ key } active={ active }>{key}</Pagination.Item>
+  const pageButton = (key, active) => <li key={ key } className="page-item" active={ active }>{key}</li>
   const pageButtons = () => Array.from({ length: lastPage() }, (_, index) => pageButton(index + 1, index + 1 === currentPage))
 
   return (
     <div id="search-results-pages" className="row">
-      <div className="col-sm-2"></div>
-      <div className="col-sm-8 text-center">
-        <Pagination size="lg" onClick={handleClick}>
-          <Pagination.First disabled={(currentPage === 1)} />
-          <Pagination.Prev disabled={currentPage === 1} />
-          {pageButtons()}
-          <Pagination.Next disabled={currentPage === lastPage()} />
-          <Pagination.Last disabled={currentPage === lastPage()} />
-        </Pagination>
+      <div className="col-2"></div>
+      <div className="col-8">
+        <nav aria-label="Sinopia results navigation">
+          <ul className="pagination">
+            <li className="page-item" disabled={(currentPage === 1)}>
+              «
+            </li>
+            <li className="page-item" disabled={currentPage === 1}>
+              ‹
+            </li>
+            {pageButtons()}
+            <li className="page-item" disabled={currentPage === lastPage()}>
+              ›
+            </li>
+            <li className="page-item" disabled={currentPage === lastPage()}>
+              »
+            </li>
+          </ul>
+        </nav>
       </div>
-      <div className="col-sm-2"></div>
+      <div className="col-2"></div>
     </div>
   )
 }

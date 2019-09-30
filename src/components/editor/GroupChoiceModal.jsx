@@ -3,13 +3,12 @@
 import React, { useState } from 'react'
 import { bindActionCreators } from 'redux'
 import { connect } from 'react-redux'
-import Button from 'react-bootstrap/lib/Button'
-import Modal from 'react-bootstrap/lib/Modal'
 import PropTypes from 'prop-types'
 import Config from 'Config'
-import { closeGroupChooser, showRdfPreview } from 'actions/index'
+import { hideModal } from 'actions/index'
 import { getCurrentUser } from 'authSelectors'
 import { publishResource } from 'actionCreators/resources'
+import ModalWrapper from './ModalWrapper'
 
 const GroupChoiceModal = (props) => {
   // The ld4p group is only for templates
@@ -23,57 +22,88 @@ const GroupChoiceModal = (props) => {
     setSelectedValue(event.target.value)
   }
 
-  const saveAndClose = () => {
+  const saveAndClose = (event) => {
     props.publishResource(props.currentUser, selectedValue)
-    props.showRdfPreview(false)
-    props.closeGroupChooser(false)
+    props.hideModal()
+    event.preventDefault()
   }
 
-  return (
+  const close = (event) => {
+    props.hideModal()
+    event.preventDefault()
+  }
+
+  const classes = ['modal', 'fade']
+  let display = 'none'
+  if (props.show) {
+    classes.push('show')
+    display = 'block'
+  }
+
+  const modal = (
     <div>
-      <Modal show={ props.show } onHide={ () => props.closeGroupChooser(false) } bsSize="lg">
-        <Modal.Header className="prop-heading" closeButton>
-          <Modal.Title>
-            Which group do you want to save to?
-          </Modal.Title>
-        </Modal.Header>
-        <Modal.Body className="group-panel">
-          <form className="group-select-options" >
-            <div className="form-group">
-              <label className="group-select-label" htmlFor="groupSelect">Which group do you want to associate this record to?</label>
-              <select data-testid="groupSelect" id="groupSelect" defaultValue={ selectedValue } onBlur={ event => updateSelectedValue(event)} >
-                { groups.map((group, index) => <option key={index} value={ group[0] }>{ group[1] }</option>) }
-              </select>
+      <div className={classes.join(' ')}
+           role="dialog"
+           tabIndex="-1"
+           id="group-choice-modal"
+           data-testid="group-choice-modal"
+           style={{ display }}>
+        <div className="modal-dialog modal-lg" role="document">
+          <div className="modal-content">
+            <div className="modal-header prop-heading">
+              <h4 className="modal-title">
+                Which group do you want to save to?
+              </h4>
+              <button type="button" className="close" onClick={ close } aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+              </button>
             </div>
-            <div className="group-choose-buttons">
-              <Button bsStyle="link" style={{ paddingRight: '20px' }} onClick={ () => props.closeGroupChooser(false) }>
-                Cancel
-              </Button>
-              <Button bsStyle="primary" bsSize="small" onClick={ saveAndClose }>
-                Save
-              </Button>
+            <div className="modal-body group-panel">
+              <div className="group-select-label">
+                Which group do you want to associate this record to?
+              </div>
+              <div>
+                <form className="group-select-options" >
+                  <select className="form-control"
+                          data-testid="groupSelect"
+                          defaultValue={ selectedValue }
+                          onBlur={ event => updateSelectedValue(event)} >
+                    { groups.map((group, index) => <option key={index} value={ group[0] }>{ group[1] }</option>) }
+                  </select>
+                  <div className="group-choose-buttons">
+                    <button className="btn btn-link btn-sm" style={{ paddingRight: '20px' }} onClick={ close }>
+                      Cancel
+                    </button>
+                    <button className="btn btn-primary btn-sm" data-dismiss="modal" onClick={ saveAndClose }>
+                      Save
+                    </button>
+                  </div>
+                </form>
+              </div>
             </div>
-          </form>
-        </Modal.Body>
-      </Modal>
+          </div>
+        </div>
+      </div>
     </div>
   )
+
+  return (<ModalWrapper modal={modal} />)
 }
 
 GroupChoiceModal.propTypes = {
   closeGroupChooser: PropTypes.func,
-  showRdfPreview: PropTypes.func,
   choose: PropTypes.func,
   show: PropTypes.bool,
   currentUser: PropTypes.object,
   publishResource: PropTypes.func,
+  hideModal: PropTypes.func,
 }
 
 const mapStateToProps = state => ({
-  show: state.selectorReducer.editor.groupChoice.show,
+  show: state.selectorReducer.editor.modal === 'GroupChoiceModal',
   currentUser: getCurrentUser(state),
 })
 
-const mapDispatchToProps = dispatch => bindActionCreators({ closeGroupChooser, showRdfPreview, publishResource }, dispatch)
+const mapDispatchToProps = dispatch => bindActionCreators({ publishResource, hideModal }, dispatch)
 
 export default connect(mapStateToProps, mapDispatchToProps)(GroupChoiceModal)

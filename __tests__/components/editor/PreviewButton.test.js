@@ -26,7 +26,7 @@ describe('When the button is clicked', () => {
   it('shows the preview', async () => {
     fireEvent.click(getByTitle('Preview RDF'))
     await wait(() => {
-      expect(store.getState().selectorReducer.editor.rdfPreview.show).toBe(true)
+      expect(store.getState().selectorReducer.editor.modal).toMatch('RDFModal')
     })
   })
 })

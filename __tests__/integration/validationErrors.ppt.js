@@ -19,7 +19,7 @@ describe('Validation errors', () => {
     // Request validation
     await pupExpect(page).toClick('button:enabled#editor-save', { text: 'Save' })
 
-    await pupExpect(page).toMatch('There was a probem saving this resource.')
+    await pupExpect(page).toMatch('There was a problem saving this resource.')
     await pupExpect(page).toMatch('BIBFRAME Instance > Agent Contribution: Required')
     await pupExpect(page).toMatchElement('span.help-block', { text: 'Required' })
     await pupExpect(page).toMatchElement('div.has-error')

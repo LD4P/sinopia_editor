@@ -75,33 +75,31 @@ class LoginPanel extends Component {
     )
 
     const inlineLoginForm = (
-      <div className="row">
-        <div className = "form-group">
-          <label htmlFor="username" className="text-uppercase">
-            Username
-            <input id="username" name="username" type="text" className="form-control" placeholder="" onChange={this.handleChange}></input>
-          </label>
-        </div>
-        <div className="form-group">
-          <label htmlFor="password" className="text-uppercase">
-            Password
-            <input id="password" name="password" type="password" className="form-control" placeholder="" onChange={this.handleChange}></input>
-          </label>
-        </div>
-        <div className="col-xs-6">
-          <button className="btn btn-block btn-primary" type="submit">Login</button>
-        </div>
+      <React.Fragment>
         <div className="row">
-          <div className="col-xs-8">
-            <a href={Config.awsCognitoForgotPasswordUrl}><small>Forgot Password?</small></a>
+          <div className="col-sm-3">
+            <div className = "form-group">
+              <label htmlFor="username" className="text-uppercase">
+                Username
+                <input id="username" name="username" type="text" className="form-control" placeholder="" onChange={this.handleChange}></input>
+              </label>&nbsp;
+              <label htmlFor="password" className="text-uppercase">
+                  Password
+                <input id="password" name="password" type="password" className="form-control" placeholder="" onChange={this.handleChange}></input>
+              </label>
+              <button className="btn btn-block btn-primary" type="submit">Login</button>
+            </div>
           </div>
         </div>
         <div className="row">
-          <div className="col-xs-8">
-            <a href={Config.awsCognitoResetPasswordUrl}><small>Request Account</small></a>
+          <div className="col-sm-2">
+            <a href={Config.awsCognitoForgotPasswordUrl}>Forgot Password?</a>
+          </div>
+          <div className="col-sm-2">
+            <a href={Config.awsCognitoResetPasswordUrl}>Request Account</a>
           </div>
         </div>
-      </div>
+      </React.Fragment>
     )
 
     const logoutButton = (

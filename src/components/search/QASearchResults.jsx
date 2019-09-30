@@ -3,8 +3,6 @@
 import React, { useMemo, useState, useEffect } from 'react'
 import { useSelector, useDispatch } from 'react-redux'
 import PropTypes from 'prop-types'
-import 'react-bootstrap-table-next/dist/react-bootstrap-table2.min.css'
-import BootstrapTable from 'react-bootstrap-table-next'
 import { showResourceTemplateChooser as showResourceTemplateChooserAction } from 'actions/index'
 import ResourceTemplateChoiceModal from '../ResourceTemplateChoiceModal'
 import { getTerm } from 'utilities/qa'
@@ -28,6 +26,7 @@ const QASearchResults = (props) => {
   const [resourceTemplateId, setResourceTemplateId] = useState(null)
   const [resourceN3, setResourceN3] = useState(null)
   const [resourceState, unusedDataset, useResourceError] = useResource(resourceN3, resourceURI, resourceTemplateId, rootResource, props.history)
+
   useEffect(() => {
     if (useResourceError && !error) {
       setError(useResourceError)
@@ -96,34 +95,39 @@ const QASearchResults = (props) => {
     )
   }
 
-  const columns = [
-    {
-      dataField: 'label',
-      text: 'Label',
-      sort: false,
-      headerStyle: { backgroundColor: '#F8F6EF', width: '45%' },
-    },
-    {
-      dataField: 'classes',
-      text: 'Classes',
-      sort: false,
-      headerStyle: { backgroundColor: '#F8F6EF', width: '40%' },
-      formatter: classFormatter,
-    },
-    {
-      dataField: 'uri',
-      text: '',
-      sort: false,
-      headerStyle: { backgroundColor: '#F8F6EF', width: '15%' },
-      formatter: actionFormatter,
-    }]
+  const generateRows = () => {
+    const rows = []
+    tableData.forEach((row) => {
+      rows.push(<tr key={row.uri}>
+        <td>{ row.label }</td>
+        <td>{classFormatter(row.classes)}</td>
+        <td>{actionFormatter(row.uri)}</td>
+      </tr>)
+    })
+    return rows
+  }
 
   return (
     <div id="search-results" className="row">
       <Alert text={error?.toString()} />
       <div className="col-sm-2"></div>
       <div className="col-sm-8">
-        <BootstrapTable id="search-results-list" keyField="uri" data={ tableData } columns={ columns } />
+        <table className="table table-bordered">
+          <thead>
+            <tr>
+              <th className="sinopia" style={{ width: '45%' }}>
+                Label
+              </th>
+              <th className="sinopia" style={{ width: '40%' }}>
+                Classes
+              </th>
+              <th className="sinopia" style={{ width: '15%' }}/>
+            </tr>
+          </thead>
+          <tbody>
+            { generateRows() }
+          </tbody>
+        </table>
       </div>
       <div className="col-sm-2"></div>
       <ResourceTemplateChoiceModal choose={chooseResourceTemplate} />
