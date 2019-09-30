@@ -47,7 +47,7 @@
     "jest-ci": "jest  --colors --silent --ci --runInBand --coverage --reporters=default --reporters=jest-junit && jest  --colors --silent --ci --runInBand --reporters=default --reporters=jest-junit --config integration-test.config.json && cat ./coverage/lcov.info | coveralls",
     "start": "npx babel-node server.js",
     "test": "jest --colors --silent --detectOpenHandles",
-    "integration": "jest --colors --silent--runInBand --detectOpenHandles --config integration-test.config.json",
+    "integration": "jest --colors --silent --runInBand --detectOpenHandles --config integration-test.config.json",
     "test-verbose": "jest --colors --runInBand",
     "integration-verbose": "jest --colors --runInBand --config integration-test.config.json"
   },
@@ -162,16 +162,13 @@
       "default",
       "jest-junit"
     ],
-    "testPathIgnorePatterns": [
-      "/node_modules/",
-      "__tests__/fixtureLoaderHelper.js",
-      "__tests__/integration/",
-      "__tests__/test_utilities/"
-    ],
     "setupFiles": [
       "jest-localstorage-mock",
       "jest-prop-type-error",
       "dotenv/config"
+    ],
+    "testMatch": [
+      "**/__tests__/**/*.test.[jt]s?(x)"
     ]
   }
 }
