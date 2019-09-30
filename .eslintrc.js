@@ -215,6 +215,12 @@ module.exports = {
       "rules": {
         "import/no-unresolved": "off"
       }
+    },
+    {
+      "files": ["src/actions/index.js"],
+      "rules": {
+        "max-params": "off"
+      }
     }
   ]
 }
