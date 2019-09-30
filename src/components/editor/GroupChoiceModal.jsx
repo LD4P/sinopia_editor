@@ -39,24 +39,22 @@ const GroupChoiceModal = (props) => {
           </Modal.Title>
         </Modal.Header>
         <Modal.Body className="group-panel">
-          <div className="group-select-label">
-            Which group do you want to associate this record to?
-          </div>
-          <div>
-            <form className="group-select-options" >
-              <select defaultValue={ selectedValue } onBlur={ event => updateSelectedValue(event)} >
+          <form className="group-select-options" >
+            <div className="form-group">
+              <label className="group-select-label" htmlFor="groupSelect">Which group do you want to associate this record to?</label>
+              <select data-testid="groupSelect" id="groupSelect" defaultValue={ selectedValue } onBlur={ event => updateSelectedValue(event)} >
                 { groups.map((group, index) => <option key={index} value={ group[0] }>{ group[1] }</option>) }
               </select>
-              <div className="group-choose-buttons">
-                <Button bsStyle="link" style={{ paddingRight: '20px' }} onClick={ () => props.closeGroupChooser(false) }>
-                  Cancel
-                </Button>
-                <Button bsStyle="primary" bsSize="small" onClick={ saveAndClose }>
-                  Save
-                </Button>
-              </div>
-            </form>
-          </div>
+            </div>
+            <div className="group-choose-buttons">
+              <Button bsStyle="link" style={{ paddingRight: '20px' }} onClick={ () => props.closeGroupChooser(false) }>
+                Cancel
+              </Button>
+              <Button bsStyle="primary" bsSize="small" onClick={ saveAndClose }>
+                Save
+              </Button>
+            </div>
+          </form>
         </Modal.Body>
       </Modal>
     </div>
