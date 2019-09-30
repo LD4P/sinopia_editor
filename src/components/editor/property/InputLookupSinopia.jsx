@@ -1,3 +1,4 @@
+
 // Copyright 2019 Stanford University see LICENSE for license
 
 import React, { useState } from 'react'
@@ -12,6 +13,7 @@ import {
 } from 'selectors/resourceSelectors'
 import { changeSelections } from 'actions/index'
 import { booleanPropertyFromTemplate } from 'utilities/propertyTemplates'
+import { renderMenuFunc, renderTokenFunc } from './renderTypeaheadFunctions'
 import _ from 'lodash'
 
 const AsyncTypeahead = asyncContainer(Typeahead)
@@ -74,7 +76,9 @@ const InputLookupSinopia = (props) => {
 
   return (
     <div className={groupClasses}>
-      <AsyncTypeahead onSearch={search}
+      <AsyncTypeahead renderMenu={(results, menuProps) => renderMenuFunc(results, menuProps)}
+                      renderToken={(option, props, idx) => renderTokenFunc(option, props, idx)}
+                      onSearch={search}
                       onChange={change}
                       onKeyDown={onKeyDown}
                       options={options}
@@ -85,6 +89,7 @@ const InputLookupSinopia = (props) => {
                       placeholder={props.propertyTemplate.propertyLabel}
                       minLength={1}
                       filterBy={() => true }
+                      allowNew={() => true }
                       id="sinopia-lookup" />
 
       <span className="help-block">Use a * to wildcard your search.</span>
