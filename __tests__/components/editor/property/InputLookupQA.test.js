@@ -2,7 +2,8 @@
 
 import React from 'react'
 import { shallow } from 'enzyme'
-import InputLookupQA, { renderMenuFunc, renderTokenFunc } from 'components/editor/property/InputLookupQA'
+import InputLookupQA from 'components/editor/property/InputLookupQA'
+import { renderMenuFunc, renderTokenFunc } from 'components/editor/property/renderTypeaheadFunctions'
 
 const plProps = {
   id: 'lookupComponent',
