@@ -7,7 +7,6 @@
 //  the names of the files in a list already.
 
 // note that the following fixtures are used for schemaValidation tests and don't need to be autoloaded
-// 'ddc_bad_json.json',
 // 'edition_bad_schema',
 // 'lcc_no_schema_specified',
 // 'lcc_v0.0.9.json',
