@@ -6,6 +6,7 @@ import { Typeahead } from 'react-bootstrap-typeahead'
 import InputListLOC from 'components/editor/property/InputListLOC'
 
 const propsOk = {
+  reduxPath: [],
   propertyTemplate:
     {
       propertyURI: 'http://id.loc.gov/ontologies/bflc/target',
@@ -42,73 +43,6 @@ const propsOk = {
   ],
 }
 
-const propsUndefLookupURI = {
-  propertyTemplate:
-    {
-      propertyURI: 'http://id.loc.gov/ontologies/bflc/target',
-      propertyLabel: 'Frequency (RDA 2.14)',
-      remark: 'http://access.rdatoolkit.org/2.14.html',
-      mandatory: 'false',
-      repeatable: 'true',
-      type: 'lookup',
-      valueConstraint: {
-        defaults: [{
-          defaultURI: 'http://id.loc.gov/vocabulary/carriers/nc',
-          defaultLiteral: 'volume',
-        }],
-        useValuesFrom: [
-          'vocabulary:bf2:frequencies',
-        ],
-        valueDataType: {
-          dataTypeURI: 'http://id.loc.gov/ontologies/bibframe/Frequency',
-        },
-      },
-    },
-  lookupConfig: [
-    {
-      label: 'frequency',
-      uri: undefined,
-      component: 'list',
-    },
-  ],
-}
-
-const propsMultLookup = {
-  propertyTemplate:
-    {
-      propertyURI: 'http://id.loc.gov/ontologies/bflc/target',
-      propertyLabel: 'Frequency (RDA 2.14)',
-      remark: 'http://access.rdatoolkit.org/2.14.html',
-      mandatory: 'false',
-      repeatable: 'true',
-      type: 'lookup',
-      valueConstraint: {
-        defaults: [{
-          defaultURI: 'http://id.loc.gov/vocabulary/carriers/nc',
-          defaultLiteral: 'volume',
-        }],
-        useValuesFrom: [
-          'vocabulary:bf2:frequencies',
-        ],
-        valueDataType: {
-          dataTypeURI: 'http://id.loc.gov/ontologies/bibframe/Frequency',
-        },
-      },
-    },
-  lookupConfig: [
-    {
-      label: 'carriers',
-      uri: 'https://id.loc.gov/vocabulary/carriers',
-      component: 'list',
-    },
-    {
-      label: 'frequency',
-      uri: undefined,
-      component: 'list',
-    },
-  ],
-}
-
 describe('<InputListLOC /> configuration', () => {
   // Our mock formData function to replace the one provided by mapDispatchToProps
   const mockFormDataFn = jest.fn()
@@ -126,14 +60,87 @@ describe('<InputListLOC /> configuration', () => {
     expect(global.alert.mock.calls.length).toEqual(0)
   })
 
-  it('displays a browser alert if the lookupConfig is undefined', () => {
-    shallow(<InputListLOC.WrappedComponent {...propsUndefLookupURI} changeSelections={mockFormDataFn} />)
-    expect(global.alert.mock.calls.length).toEqual(1)
+  describe('if the lookupConfig is undefined', () => {
+    const propsUndefLookupURI = {
+      reduxPath: [],
+      propertyTemplate:
+        {
+          propertyURI: 'http://id.loc.gov/ontologies/bflc/target',
+          propertyLabel: 'Frequency (RDA 2.14)',
+          remark: 'http://access.rdatoolkit.org/2.14.html',
+          mandatory: 'false',
+          repeatable: 'true',
+          type: 'lookup',
+          valueConstraint: {
+            defaults: [{
+              defaultURI: 'http://id.loc.gov/vocabulary/carriers/nc',
+              defaultLiteral: 'volume',
+            }],
+            useValuesFrom: [
+              'vocabulary:bf2:frequencies',
+            ],
+            valueDataType: {
+              dataTypeURI: 'http://id.loc.gov/ontologies/bibframe/Frequency',
+            },
+          },
+        },
+      lookupConfig: [
+        {
+          label: 'frequency',
+          uri: undefined,
+          component: 'list',
+        },
+      ],
+    }
+
+    it('displays a browser alert', () => {
+      shallow(<InputListLOC.WrappedComponent {...propsUndefLookupURI} changeSelections={mockFormDataFn} />)
+      expect(global.alert.mock.calls.length).toEqual(1)
+    })
   })
 
-  it('displays a browser alert if the lookupConfig is an array of objects and not a single object', () => {
-    shallow(<InputListLOC.WrappedComponent {...propsMultLookup} changeSelections={mockFormDataFn} />)
-    expect(global.alert.mock.calls.length).toEqual(1)
+
+  describe('if the lookupConfig is an array of objects and not a single object', () => {
+    const propsMultLookup = {
+      reduxPath: [],
+      propertyTemplate:
+        {
+          propertyURI: 'http://id.loc.gov/ontologies/bflc/target',
+          propertyLabel: 'Frequency (RDA 2.14)',
+          remark: 'http://access.rdatoolkit.org/2.14.html',
+          mandatory: 'false',
+          repeatable: 'true',
+          type: 'lookup',
+          valueConstraint: {
+            defaults: [{
+              defaultURI: 'http://id.loc.gov/vocabulary/carriers/nc',
+              defaultLiteral: 'volume',
+            }],
+            useValuesFrom: [
+              'vocabulary:bf2:frequencies',
+            ],
+            valueDataType: {
+              dataTypeURI: 'http://id.loc.gov/ontologies/bibframe/Frequency',
+            },
+          },
+        },
+      lookupConfig: [
+        {
+          label: 'carriers',
+          uri: 'https://id.loc.gov/vocabulary/carriers',
+          component: 'list',
+        },
+        {
+          label: 'frequency',
+          uri: undefined,
+          component: 'list',
+        },
+      ],
+    }
+    it('displays a browser alert', () => {
+      shallow(<InputListLOC.WrappedComponent {...propsMultLookup} changeSelections={mockFormDataFn} />)
+      expect(global.alert.mock.calls.length).toEqual(1)
+    })
   })
 })
 
