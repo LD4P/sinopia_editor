@@ -376,7 +376,7 @@
   {
     "label": "GETTY_TGN (QA)",
     "uri": "urn:ld4p:qa:gettytgn",
-    "authority": "getty_aat_ld4l_cache",
+    "authority": "getty_tgn_ld4l_cache",
     "subauthority": "",
     "language": "en",
     "component": "lookup"
@@ -392,7 +392,7 @@
   {
     "label": "GETTY_ULAN person (QA)",
     "uri": "urn:ld4p:qa:gettyulan:person",
-    "authority": "getty_aat_ld4l_cache",
+    "authority": "getty_ulan_ld4l_cache",
     "subauthority": "person",
     "language": "en",
     "component": "lookup"
@@ -400,7 +400,7 @@
   {
     "label": "GETTY_ULAN organization (QA)",
     "uri": "urn:ld4p:qa:gettyulan:organization",
-    "authority": "getty_aat_ld4l_cache",
+    "authority": "getty_ulan_ld4l_cache",
     "subauthority": "organization",
     "language": "en",
     "component": "lookup"
