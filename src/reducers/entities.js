@@ -21,6 +21,23 @@ export const clearResourceTemplates = (state) => {
   return newState
 }
 
+// Takes current user and optional uri and removes resourceURI
+export const copyResourceToEditor = (state, action) => {
+  const newState = { ...state }
+  const uri = action.uri
+
+  if (uri !== undefined) {
+    // TODO: For incoming search
+  }
+  // Removes URI if it exists, feels like this could be cleaner
+  Object.keys(newState.resource).forEach((resource) => {
+    if ('resourceURI' in newState.resource[resource]) {
+      delete newState.resource[resource].resourceURI
+    }
+  })
+  return newState
+}
+
 export const setResourceTemplateSummary = (state, action) => {
   const resourceTemplateId = action.payload.id
   const newState = { ...state }

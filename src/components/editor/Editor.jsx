@@ -9,6 +9,7 @@ import ResourceTemplate from './ResourceTemplate'
 import Header from '../Header'
 import RDFModal from './RDFModal'
 import GroupChoiceModal from './GroupChoiceModal'
+import CopyToNewButton from './CopyToNewButton'
 import SaveAndPublishButton from './SaveAndPublishButton'
 import ErrorMessages from './ErrorMessages'
 import AuthenticationMessage from './AuthenticationMessage'
@@ -35,6 +36,7 @@ const Editor = (props) => {
       <AuthenticationMessage />
       <div className="row">
         <section className="col-md-3" style={{ float: 'right', width: '320px' }}>
+          <CopyToNewButton />
           <button type="button" className="btn btn-link btn-sm btn-editor" onClick={ () => props.showRdfPreview(true) }>Preview RDF</button>
           <SaveAndPublishButton id="editor-save" />
         </section>
@@ -42,7 +44,6 @@ const Editor = (props) => {
       <RDFModal />
       <ErrorMessages />
       <GroupChoiceModal />
-
       <ResourceTemplate />
     </div>
   ) }
@@ -50,6 +51,7 @@ const Editor = (props) => {
 Editor.propTypes = {
   triggerHandleOffsetMenu: PropTypes.func,
   userWantsToSave: PropTypes.func,
+  copyToNewResource: PropTypes.func,
   showRdfPreview: PropTypes.func,
   isSaved: PropTypes.bool,
   location: PropTypes.object,

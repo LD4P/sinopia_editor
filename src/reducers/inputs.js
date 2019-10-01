@@ -57,6 +57,21 @@ export const showRdfPreview = (state, action) => {
 }
 
 /**
+ * @param {Object} state the previous redux state
+ * @param {Object} action the payload of the action is a boolean that says to show or not to show the CopyNewMessage
+ * @return {Object} the next redux state
+ */
+export const showCopyNewMessage = (state, action) => {
+  const newState = { ...state }
+
+  newState.editor.copyToNewMessage.show = action.payload.show
+  if (action.payload.oldUri !== undefined) {
+    newState.editor.copyToNewMessage.oldUri = action.payload.oldUri
+  }
+  return newState
+}
+
+/**
  * Takes the reduxPath (an array of keys that correspond to the redux state tree for a 'resource') and performs a reduce
  * function on each of the keys, searching for the last key in the path and then appending an object with an `items` array.
  * Also checks for needed blank nodes along the reduxPath in the state tree and appends intermediate objects.

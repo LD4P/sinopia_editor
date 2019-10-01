@@ -4,12 +4,13 @@ import { combineReducers } from 'redux'
 import authenticate from './authenticate'
 import {
   removeMyItem, setItemsOrSelections, setBaseURL,
-  setMyItemsLang, showGroupChooser, closeGroupChooser, showRdfPreview, validate,
+  setMyItemsLang, showGroupChooser, closeGroupChooser, showRdfPreview,
+  showCopyNewMessage, validate,
 } from './inputs'
 import {
   setResourceTemplate, clearResourceTemplates, setResourceTemplateSummary,
   loadingLanguages, languagesReceived,
-  loadingQaResults, qaResultsReceived,
+  loadingQaResults, qaResultsReceived, copyResourceToEditor,
 } from './entities'
 import setSearchResults from './search'
 import { findObjectAtPath } from 'selectors/resourceSelectors'
@@ -20,6 +21,7 @@ export const setResource = (state, action) => {
   const newState = { ...state }
   newState.editor.displayValidations = false
   newState.editor.errors = []
+  newState.editor.copyToNewMessage = { show: false }
   newState.resource = action.payload.resource
   newState.entities.resourceTemplates = _.cloneDeep(action.payload.resourceTemplates)
   return newState
@@ -164,6 +166,8 @@ const handlers = {
   LOADING_LANGUAGES: loadingLanguages,
   UPDATE_FINISHED: updateFinished,
   SET_LAST_SAVE_CHECKSUM: setLastSaveChecksum,
+  SHOW_COPY_NEW_MESSAGE: showCopyNewMessage,
+  COPY_NEW_RESOURCE: copyResourceToEditor,
 }
 
 export const createReducer = handlers => (state = {}, action) => {

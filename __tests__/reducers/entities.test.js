@@ -2,6 +2,7 @@
 
 import {
   clearResourceTemplates, languagesReceived, loadingLanguages,
+  copyResourceToEditor,
 } from 'reducers/entities'
 import { createReducer } from 'reducers/index'
 
@@ -101,6 +102,48 @@ describe('languagesReceived', () => {
           loading: false,
           options: [{ id: 'sn', label: 'Shona' }],
         },
+      },
+    })
+  })
+})
+
+describe('copyResourceToEditor', () => {
+  const handlers = { COPY_NEW_RESOURCE: copyResourceToEditor }
+  const reducer = createReducer(handlers)
+
+  it('returns the same state if no resourceURI is present in state', () => {
+    const oldState = {
+      resource: {
+        'ld4p:RT:barcode': {},
+      },
+    }
+    const action = {
+      currentUser: {},
+    }
+    const newState = reducer(oldState, action)
+    expect(newState).toEqual({
+      resource: {
+        'ld4p:RT:barcode': {},
+      },
+    })
+  })
+
+  it('returns the state with resourceURI removed', () => {
+    const oldState = {
+      resource: {
+        'ld4p:RT:barcode': {
+          resourceURI: 'https://sinopia.io/5678/',
+        },
+      },
+    }
+    const action = {
+      currentUser: {},
+      uri: 'https://sinopia.io/5678/',
+    }
+    const newState = copyResourceToEditor(oldState, action)
+    expect(newState).toEqual({
+      resource: {
+        'ld4p:RT:barcode': {},
       },
     })
   })
