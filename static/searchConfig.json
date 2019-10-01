@@ -1,0 +1,82 @@
+[
+  {
+    "label": "SHAREVDE ALBERTA",
+    "authority": "sharevde_alberta_ld4l_cache"
+  },
+  {
+    "label": "SHAREVDE CHICAGO",
+    "authority": "sharevde_chicago_ld4l_cache"
+  },
+  {
+    "label": "SHAREVDE CORNELL",
+    "authority": "sharevde_cornell_ld4l_cache"
+  },
+  {
+    "label": "SHAREVDE CU BOULDER",
+    "authority": "sharevde_cuboulder_ld4l_cache"
+  },
+  {
+    "label": "SHAREVDE DUKE",
+    "authority": "sharevde_duke_ld4l_cache"
+  },
+  {
+    "label": "SHAREVDE FRICK",
+    "authority": "sharevde_frick_ld4l_cache"
+  },
+  {
+    "label": "SHAREVDE HARRYRANSOM",
+    "authority": "sharevde_harryransom_ld4l_cache"
+  },
+  {
+    "label": "SHAREVDE HARVARD",
+    "authority": "sharevde_harvard_ld4l_cache"
+  },
+  {
+    "label": "SHAREVDE MICHIGAN",
+    "authority": "sharevde_michigan_ld4l_cache"
+  },
+  {
+    "label": "SHAREVDE MINNESOTA",
+    "authority": "sharevde_minnesota_ld4l_cache"
+  },
+  {
+    "label": "SHAREVDE NLM",
+    "authority": "sharevde_nlm_ld4l_cache"
+  },
+  {
+    "label": "SHAREVDE NORTHWESTERN",
+    "authority": "sharevde_northwestern_ld4l_cache"
+  },
+  {
+    "label": "SHAREVDE PRINCETON",
+    "authority": "sharevde_princeton_ld4l_cache"
+  },
+  {
+    "label": "SHAREVDE STANFORD",
+    "authority": "sharevde_stanford_ld4l_cache"
+  },
+  {
+    "label": "SHAREVDE TEXASAM",
+    "authority": "sharevde_texasam_ld4l_cache"
+  },
+  {
+    "label": "SHAREVDE UCDAVIS",
+    "authority": "sharevde_ucdavis_ld4l_cache"
+  },
+  {
+    "label": "SHAREVDE UCSD",
+    "authority": "sharevde_ucsd_ld4l_cache"
+  },
+  {
+    "label": "SHAREVDE UPENN",
+    "authority": "sharevde_upenn_ld4l_cache"
+  },
+  {
+    "label": "SHAREVDE UWASHINGTON",
+    "authority": "sharevde_uwashington_ld4l_cache"
+  },
+  {
+    "label": "SHAREVDE YALE",
+    "authority": "sharevde_yale_ld4l_cache"
+  }
+]
