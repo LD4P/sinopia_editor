@@ -143,7 +143,7 @@ InputListLOC.propTypes = {
   changeSelections: PropTypes.func,
   lookupConfig: PropTypes.arrayOf(PropTypes.object),
   propertyTemplate: SinopiaPropTypes.propertyTemplate,
-  reduxPath: PropTypes.array,
+  reduxPath: PropTypes.array.isRequired,
   selected: PropTypes.arrayOf(PropTypes.object),
   errors: PropTypes.array,
 }
