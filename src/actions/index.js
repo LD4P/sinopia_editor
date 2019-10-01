@@ -1,5 +1,5 @@
 // Copyright 2019 Stanford University see LICENSE for license
-/* eslint max-params: ["warn", 4] */
+/* eslint max-params: ["warn", 5] */
 
 export const loadingQaResults = () => ({
   type: 'LOADING_QA_RESULTS',

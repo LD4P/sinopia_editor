@@ -1,6 +1,6 @@
 // Copyright 2019 Stanford University see LICENSE for license
 
-import React, { useState } from 'react'
+import React, { useState, useRef } from 'react'
 import { Typeahead, asyncContainer } from 'react-bootstrap-typeahead'
 import PropTypes from 'prop-types'
 import SinopiaPropTypes from 'SinopiaPropTypes'
@@ -23,38 +23,60 @@ const AsyncTypeahead = asyncContainer(Typeahead)
 //  based on values in propertyTemplate.valueConstraint.useValuesFrom
 //  and the lookupConfig for the URIs has component value of 'lookup'
 const InputLookupQA = (props) => {
-  const [authorities, setAuthorities] = useState([])
+  const [, setTriggerRender] = useState('')
+  // Using a ref so that can append to current list of results.
+  const allResults = useRef([])
+  // Tokens allow us to cancel an existing search. Does not actually stop the
+  // search, but causes result to be ignored.
+  const tokens = useRef([])
 
   const search = (query) => {
-    const currentAuthorities = []
-    const resultPromise = getSearchResults(query, props.propertyTemplate)
-    resultPromise.then((result) => {
-      result.forEach((authority) => {
-        currentAuthorities.push(authority)
+    // Clear the results.
+    // No re-render, so change not visible to user.
+    allResults.current = []
+
+    // Cancel all current searches
+    while (tokens.current.length > 0) {
+      tokens.current.pop().cancel = true
+    }
+
+    // Create a token for this set of searches
+    const token = { cancel: false }
+    tokens.current.push(token)
+
+    // resultPromises is an array of Promise<result>
+    const resultPromises = getSearchResults(query, props.propertyTemplate)
+    resultPromises.forEach((resultPromise) => {
+      resultPromise.then((resultSet) => {
+        // Only use these results if not cancelled.
+        if (!token.cancel) {
+          allResults.current.push(resultSet)
+          // Changing state triggers re-render.
+          setTriggerRender(resultSet)
+        }
       })
-      setAuthorities(currentAuthorities)
     })
   }
 
-  const getOptions = (authorities) => {
+  const getOptions = (results) => {
     const options = []
-    authorities.forEach((authority) => {
-      const authLabel = authority.authLabel
-      const authURI = authority.authURI
+    results.forEach((result) => {
+      const authLabel = result.authLabel
+      const authURI = result.authURI
       options.push({
         authURI,
         authLabel,
         label: authLabel,
       })
-      if (authority.isError) {
+      if (result.isError) {
         options.push({
           isError: true,
-          label: authority.errorObject.message,
+          label: result.errorObject.message,
           id: shortid.generate(),
         })
         return
       }
-      authority.body.forEach((option) => {
+      result.body.forEach((option) => {
         options.push(option)
       })
     })
@@ -114,7 +136,7 @@ const InputLookupQA = (props) => {
                         }
                         props.changeSelections(payload)
                       }}
-                      options={getOptions(authorities)}
+                      options={getOptions(allResults.current)}
                       onSearch={search}
                       renderToken={(option, props, idx) => renderTokenFunc(option, props, idx)}
                       {...typeaheadProps}
