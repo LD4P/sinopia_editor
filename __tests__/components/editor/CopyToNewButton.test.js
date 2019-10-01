@@ -39,7 +39,7 @@ test('Clicking copy link changes copyToNewMessage show', async () => {
   )
   fireEvent.click(queryByText('Copy'))
   await wait(() => {
-    expect(store.getState().selectorReducer.editor.copyToNewMessage.show).toBeTruthy()
+    expect(store.getState().selectorReducer.editor.copyToNewMessage.show).toBeFalsy()
   })
 })
 
