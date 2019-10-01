@@ -1,5 +1,4 @@
 // Copyright 2019 Stanford University see LICENSE for license
-/* eslint no-unused-vars: 0 */ // --> OFF
 /* eslint max-params: ["error", 4] */
 
 import React, { useState, useEffect } from 'react'
@@ -15,7 +14,7 @@ import Button from 'react-bootstrap/lib/Button'
 import ButtonToolbar from 'react-bootstrap/lib/ButtonToolbar'
 import { rootResource } from 'selectors/resourceSelectors'
 
-const SearchResults = (props) => {
+const SinopiaSearchResults = (props) => {
   const [navigateEditor, setNavigateEditor] = useState(false)
 
   const handleClick = (resourceURI) => {
@@ -31,7 +30,7 @@ const SearchResults = (props) => {
   })
 
   // This returns the current row number + 1 in order to include it in the displayed table
-  const indexFormatter = (_cell, _row, rowIndex, _formatExtraData) => rowIndex + 1
+  const indexFormatter = (_cell, _row, rowIndex) => rowIndex + 1
 
   const linkFormatter = (_cell, row) => (
     <ButtonToolbar>
@@ -70,7 +69,7 @@ const SearchResults = (props) => {
   )
 }
 
-SearchResults.propTypes = {
+SinopiaSearchResults.propTypes = {
   searchResults: PropTypes.array,
   retrieveResource: PropTypes.func,
   currentUser: PropTypes.object,
@@ -86,4 +85,4 @@ const mapStateToProps = state => ({
 
 const mapDispatchToProps = dispatch => bindActionCreators({ retrieveResource }, dispatch)
 
-export default connect(mapStateToProps, mapDispatchToProps)(SearchResults)
+export default connect(mapStateToProps, mapDispatchToProps)(SinopiaSearchResults)

@@ -65,7 +65,7 @@ export const createLookupPromises = (query, lookupConfigs) => lookupConfigs.map(
       context: true, // Always search to see if context is available
     })
       .catch((err) => {
-        console.error('Error in executing lookup against source', err)
+        console.error('Error in executing lookup against source', err.toString())
         // Return information along with the error in its own object
         return { isError: true, errorObject: err }
       }))

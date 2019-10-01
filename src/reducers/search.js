@@ -8,6 +8,7 @@
 const setSearchResults = (state, action) => {
   const newState = { ...state }
 
+  newState.search.authority = action.payload.authority
   newState.search.results = action.payload.searchResults
   newState.search.totalResults = action.payload.totalResults
   newState.search.query = action.payload.query

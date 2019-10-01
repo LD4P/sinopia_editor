@@ -6,8 +6,9 @@ import { connect } from 'react-redux'
 import PropTypes from 'prop-types'
 import Header from '../Header'
 import Alert from 'react-bootstrap/lib/Alert'
-import fetchSearchResults from 'actionCreators/search'
-import SearchResults from './SearchResults'
+import { fetchSinopiaSearchResults, fetchQASearchResults } from 'actionCreators/search'
+import SinopiaSearchResults from './SinopiaSearchResults'
+import QASearchResults from './QASearchResults'
 import SearchResultsPaging from './SearchResultsPaging'
 import SearchResultsMessage from './SearchResultsMessage'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
@@ -36,10 +37,9 @@ const Search = (props) => {
       return
     }
     if (authority === 'sinopia') {
-      props.fetchSearchResults(queryString)
+      props.fetchSinopiaSearchResults(queryString)
     } else {
-      // TODO: Implement QA search.
-      console.error(`${authority} not yet supported`)
+      props.fetchQASearchResults(queryString, authority)
     }
   }
 
@@ -59,6 +59,21 @@ const Search = (props) => {
   }, [props.error])
 
   const options = searchConfig.map(config => (<option key={config.authority} value={config.authority}>{config.label}</option>))
+
+  let results
+  if (props.resultAuthority === 'sinopia') {
+    results = (
+      <div>
+        <SinopiaSearchResults {...props} key="search-results" />
+        <SearchResultsPaging {...props} key="search-paging" pageSize="1"/>
+        <SearchResultsMessage />
+      </div>
+    )
+  } else if (props.resultAuthority) {
+    results = (
+      <QASearchResults key="search-results" />
+    )
+  }
 
   return (
     <div id="search">
@@ -90,26 +105,27 @@ const Search = (props) => {
         </form>
       </div>
       <span className="help-block">Use a * to wildcard your search.</span>
-      <SearchResults {...props} key="search-results" />
-      <SearchResultsPaging {...props} pageSize="1"/>
-      <SearchResultsMessage />
+      {results}
     </div>
   )
 }
 
 Search.propTypes = {
   triggerHandleOffsetMenu: PropTypes.func,
-  fetchSearchResults: PropTypes.func,
+  fetchSinopiaSearchResults: PropTypes.func,
+  fetchQASearchResults: PropTypes.func,
   currentUser: PropTypes.object,
   query: PropTypes.string,
   error: PropTypes.object,
+  resultAuthority: PropTypes.string,
 }
 
-const mapDispatchToProps = dispatch => bindActionCreators({ fetchSearchResults }, dispatch)
+const mapDispatchToProps = dispatch => bindActionCreators({ fetchSinopiaSearchResults, fetchQASearchResults }, dispatch)
 
 const mapStateToProps = state => ({
   query: state.selectorReducer.search.query,
   error: state.selectorReducer.search.error,
+  resultAuthority: state.selectorReducer.search.authority,
 })
 
 export default connect(mapStateToProps, mapDispatchToProps)(Search)

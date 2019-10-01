@@ -1,5 +1,5 @@
 // Copyright 2019 Stanford University see LICENSE for license
-/* eslint max-params: ["warn", 5] */
+/* eslint max-params: ["warn", 6] */
 
 export const loadingQaResults = () => ({
   type: 'LOADING_QA_RESULTS',
@@ -169,9 +169,10 @@ export const getSearchResultsStarted = (query, queryFrom) => ({
   payload: { query, queryFrom },
 })
 
-export const setSearchResults = (searchResults, totalResults, query, startOfRange, error) => ({
+export const setSearchResults = (authority, searchResults, totalResults, query, startOfRange, error) => ({
   type: 'SET_SEARCH_RESULTS',
   payload: {
+    authority,
     searchResults,
     totalResults,
     query,
