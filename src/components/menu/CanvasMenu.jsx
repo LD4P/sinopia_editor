@@ -10,9 +10,11 @@ const CanvasMenu = (props) => {
   const [content, setContent] = useState(null)
 
   useEffect(() => {
+    // Logging error here is OK because component displays appropriately when failed.
     fetch(Config.sinopiaHelpAndResourcesMenuContent)
       .then(response => response.text())
       .then(data => setContent(data))
+      .catch(error => console.error(`Error loading ${Config.sinopiaHelpAndResourcesMenuContent}: ${error.toString()}`))
   }, [])
 
   return (
