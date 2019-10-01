@@ -1,35 +1,35 @@
 // Copyright 2019 Stanford University see LICENSE for license
 
-import React, { Component } from 'react'
+import React, { useState, useEffect } from 'react'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faTimes } from '@fortawesome/free-solid-svg-icons'
 import PropTypes from 'prop-types'
 import Config from 'Config'
 
-class CanvasMenu extends Component {
-  constructor(props) {
-    super(props)
-    this.state = {}
-  }
+const CanvasMenu = (props) => {
+  const [content, setContent] = useState(null)
 
-  componentDidMount() {
+  useEffect(() => {
     fetch(Config.sinopiaHelpAndResourcesMenuContent)
       .then(response => response.text())
-      .then(data => this.setState({ content: data }))
-  }
+      .then(data => setContent(data))
+  }, [])
 
-  render() {
-    return (
-      <div>
-        <button type="button" className="btn btn-link pull-right" href="#" onClick={this.props.closeHandleMenu}>
-          <FontAwesomeIcon className="close-icon" icon={faTimes} />
-        </button>
+  return (
+    <div>
+      <button type="button" className="btn btn-link pull-right" href="#" onClick={props.closeHandleMenu}>
+        <FontAwesomeIcon className="close-icon" icon={faTimes} />
+      </button>
 
-        <div dangerouslySetInnerHTML={{ __html: this.state.content }} />
-
-      </div>
-    )
-  }
+      {content ? (
+        <div dangerouslySetInnerHTML={{ __html: content }} />
+      ) : (
+        <div className="alert alert-warning" role="alert">
+          Help and Resources not loaded.
+        </div>
+      )}
+    </div>
+  )
 }
 
 CanvasMenu.propTypes = {
