@@ -12,6 +12,7 @@ import {
   itemsForProperty, getDisplayValidations, getPropertyTemplate, findErrors,
 } from 'selectors/resourceSelectors'
 import { booleanPropertyFromTemplate, getLookupConfigItems } from 'utilities/propertyTemplates'
+import { renderMenuFunc, renderTokenFunc } from './renderTypeaheadFunctions'
 import _ from 'lodash'
 
 // propertyTemplate of type 'lookup' does live QA lookup via API
@@ -101,7 +102,7 @@ class InputListLOC extends Component {
     }
 
     const typeaheadProps = {
-      id: 'targetComponent',
+      id: 'loc-vocab-list',
       required: this.isMandatory,
       multiple: this.isRepeatable,
       placeholder: this.props.propertyTemplate.propertyLabel,
@@ -125,7 +126,10 @@ class InputListLOC extends Component {
     return (
       <div className={groupClasses}>
         <Typeahead
+          renderMenu={(results, menuProps) => renderMenuFunc(results, menuProps)}
+          renderToken={(option, props, idx) => renderTokenFunc(option, props, idx)}
           ref={typeahead => this.typeahead = typeahead}
+          allowNew={() => true }
           onFocus={this.onFocus()}
           onBlur={() => { this.setState({ isLoading: false }) }}
           onChange={selected => this.selectionChanged(selected)}

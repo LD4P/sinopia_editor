@@ -147,11 +147,11 @@ describe('<Typeahead /> component', () => {
   })
 
   it('typeahead component should have a placeholder attribute with value propertyLabel', () => {
-    expect(wrapper.find('#targetComponent').props().placeholder).toBe('Frequency (RDA 2.14)')
+    expect(wrapper.find('#loc-vocab-list').props().placeholder).toBe('Frequency (RDA 2.14)')
   })
 
   it('sets the typeahead component required attribute according to the mandatory value from the template', () => {
-    expect(wrapper.find('#targetComponent').props().required).toBe(false)
+    expect(wrapper.find('#loc-vocab-list').props().required).toBe(false)
   })
 
   describe('when mandatory is true', () => {
@@ -159,7 +159,7 @@ describe('<Typeahead /> component', () => {
     const wrapper2 = shallow(<InputListLOC.WrappedComponent {...propsOk} propertyTemplate={template} />)
 
     it('passes the "required" property to Typeahead', () => {
-      expect(wrapper2.find('#targetComponent').props().required).toBeTruthy()
+      expect(wrapper2.find('#loc-vocab-list').props().required).toBeTruthy()
     })
   })
 
@@ -170,11 +170,11 @@ describe('<Typeahead /> component', () => {
   })
 
   it('sets the typeahead component multiple attribute according to the repeatable value in the property template', () => {
-    expect(wrapper.find('#targetComponent').props().multiple).toBe(true)
+    expect(wrapper.find('#loc-vocab-list').props().multiple).toBe(true)
   })
 
   it('sets the typeahead component placeholder attribute', () => {
-    expect(wrapper.find('#targetComponent').props().placeholder).toMatch('Frequency (RDA 2.14)')
+    expect(wrapper.find('#loc-vocab-list').props().placeholder).toMatch('Frequency (RDA 2.14)')
   })
 
   it('sets the selected option', () => {
@@ -183,7 +183,7 @@ describe('<Typeahead /> component', () => {
     const event = () => {
       global.fetch = jest.fn().mockImplementation(async () => await { ok: true, resp: opts })
     }
-    wrapper.find('#targetComponent').simulate('change', event())
+    wrapper.find('#loc-vocab-list').simulate('change', event())
 
     expect(mockFormDataFn).toHaveBeenCalled()
   })
