@@ -36,7 +36,7 @@ const Editor = (props) => {
       <AuthenticationMessage />
       <div className="row">
         <section className="col-md-3" style={{ float: 'right', width: '320px' }}>
-          <CopyToNewButton id="copy-new" />
+          <CopyToNewButton />
           <button type="button" className="btn btn-link btn-sm btn-editor" onClick={ () => props.showRdfPreview(true) }>Preview RDF</button>
           <SaveAndPublishButton id="editor-save" />
         </section>

@@ -27,7 +27,7 @@ describe('<PropertyPanel />', () => {
     reduxPath: ['resource', 'resourceTemplate:bf2:Monograph:Instance', 'http://id.loc.gov/ontologies/bibframe/instanceOf'],
   }
 
-  const wrapper = shallow(<PropertyPanel {...panelProps} />)
+  const wrapper = shallow(<PropertyPanel.WrappedComponent {...panelProps} />)
 
   it('Contains a panel-header and panel-body divs', () => {
     expect(wrapper.find('.panel-header')).toBeTruthy()
@@ -69,6 +69,8 @@ describe('<PropertyPanel />', () => {
     })
   })
   describe('when resource model is not empty and property is mandatory', () => {
+    panelProps.propertyTemplate.mandatory = 'true'
+    const wrapper = shallow(<PropertyPanel.WrappedComponent resourceModel={{ items: [] }} {...panelProps} />)
     it('does not render Remove button', () => {
       expect(wrapper.exists('button.btn-remove')).toBeFalsy()
     })

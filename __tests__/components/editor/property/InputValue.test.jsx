@@ -24,7 +24,7 @@ describe('<InputValue>', () => {
 
   describe('when passed a literal value', () => {
     it('it draws the LanguageButton', () => {
-      expect(mockWrapper.find('div#userInput').text()).toEqual('foo×Edit<Connect(LanguageButton) />') // Contains × and Edit as buttons
+      expect(mockWrapper.find('div#userInput').text()).toEqual('foo×Edit') // Contains × and Edit as buttons
     })
   })
 

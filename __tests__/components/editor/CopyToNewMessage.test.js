@@ -26,24 +26,6 @@ test('Message is not displayed when show is false', () => {
   expect(queryByText('Copied to new resource')).not.toBeInTheDocument()
 })
 
-test('Default message is displayed when show in state is true', () => {
-  const store = createStore(appReducer, {
-    selectorReducer: {
-      entities: {},
-      resource: {},
-      editor: {
-        copyToNewMessage: {
-          show: true,
-        },
-      },
-    },
-  })
-  const { container } = renderWithRedux(
-    <CopyToNewMessage />, store,
-  )
-  expect(container.querySelector('.alert-info')).toBeInTheDocument()
-})
-
 test('Displays message with URI when URI is present in state', () => {
   const store = createStore(appReducer, {
     selectorReducer: {
