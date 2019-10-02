@@ -1,10 +1,13 @@
 // Copyright 2019 Stanford University see LICENSE for license
 
-import fetchSearchResults from 'actionCreators/search'
+import { fetchSinopiaSearchResults, fetchQASearchResults } from 'actionCreators/search'
 /* eslint import/namespace: 'off' */
 import * as server from 'sinopiaServer'
+import Swagger from 'swagger-client'
 
-describe('fetchSearchResults', () => {
+jest.mock('swagger-client')
+
+describe('fetchSinopiaSearchResults', () => {
   const query = '*'
   const mockSearchResults = {
     totalHits: 1,
@@ -17,16 +20,131 @@ describe('fetchSearchResults', () => {
   it('dispatches actions', async () => {
     server.getSearchResults = jest.fn().mockResolvedValue(mockSearchResults)
     const dispatch = jest.fn()
-    await fetchSearchResults(query)(dispatch)
+    await fetchSinopiaSearchResults(query)(dispatch)
     expect(dispatch).toHaveBeenCalledTimes(2)
     expect(dispatch).toBeCalledWith({ type: 'GET_SEARCH_RESULTS_STARTED', payload: { query: '*', queryFrom: 0 } })
     expect(dispatch).toBeCalledWith({
       type: 'SET_SEARCH_RESULTS',
       payload: {
+        authority: 'sinopia',
         query: '*',
         searchResults: mockSearchResults.results,
         totalResults: mockSearchResults.totalHits,
         startOfRange: 0,
+      },
+    })
+  })
+})
+
+describe('fetchQASearchResults', () => {
+  const query = '*'
+  const authority = 'sharevde_stanford_ld4l_cache'
+  it('dispatches action', async () => {
+    const dispatch = jest.fn()
+    const mockSearchResults = [
+      {
+        uri: 'http://share-vde.org/sharevde/rdfBibframe/Work/3107365',
+        id: 'http://share-vde.org/sharevde/rdfBibframe/Work/3107365',
+        label: 'These twain',
+        context: [
+          {
+            property: 'Title',
+            values: [
+              ' These twain',
+            ],
+            selectable: true,
+            drillable: false,
+          },
+          {
+            property: 'Type',
+            values: [
+              'http://id.loc.gov/ontologies/bflc/Hub',
+              'http://id.loc.gov/ontologies/bibframe/Work',
+            ],
+            selectable: false,
+            drillable: false,
+          },
+          {
+            property: 'Contributor',
+            values: [
+              'Bennett, Arnold,1867-1931.',
+            ],
+            selectable: false,
+            drillable: false,
+          },
+        ],
+      },
+      {
+        uri: 'http://share-vde.org/sharevde/rdfBibframe/Work/3107365-1',
+        id: 'http://share-vde.org/sharevde/rdfBibframe/Work/3107365-1',
+        label: 'These twain',
+        context: [
+          {
+            property: 'Title',
+            values: [
+              ' These twain',
+            ],
+            selectable: true,
+            drillable: false,
+          },
+          {
+            property: 'Type',
+            values: [
+              'http://id.loc.gov/ontologies/bibframe/Text',
+              'http://id.loc.gov/ontologies/bibframe/Work',
+            ],
+            selectable: false,
+            drillable: false,
+          },
+          {
+            property: 'Contributor',
+            values: [
+              'Bennett, Arnold,1867-1931.',
+            ],
+            selectable: false,
+            drillable: false,
+          },
+        ],
+      }]
+    const mockActionFunction = jest.fn().mockResolvedValue({ body: mockSearchResults })
+    const client = { apis: { SearchQuery: { GET_searchAuthority: mockActionFunction } } }
+    Swagger.mockResolvedValue(client)
+
+    await fetchQASearchResults(query, authority)(dispatch)
+
+    expect(dispatch).toHaveBeenCalledTimes(2)
+    expect(dispatch).toBeCalledWith({ type: 'GET_SEARCH_RESULTS_STARTED', payload: { query: '*', queryFrom: 0 } })
+    expect(dispatch).toBeCalledWith({
+      type: 'SET_SEARCH_RESULTS',
+      payload: {
+        authority,
+        query,
+        searchResults: mockSearchResults,
+        totalResults: 2,
+        startOfRange: 0,
+      },
+    })
+  })
+
+  it('dispatches action when error', async () => {
+    const dispatch = jest.fn()
+    const mockActionFunction = jest.fn().mockRejectedValue(new Error('Ooops...'))
+    const client = { apis: { SearchQuery: { GET_searchAuthority: mockActionFunction } } }
+    Swagger.mockResolvedValue(client)
+
+    await fetchQASearchResults(query, authority)(dispatch)
+
+    expect(dispatch).toHaveBeenCalledTimes(2)
+    expect(dispatch).toBeCalledWith({ type: 'GET_SEARCH_RESULTS_STARTED', payload: { query: '*', queryFrom: 0 } })
+    expect(dispatch).toBeCalledWith({
+      type: 'SET_SEARCH_RESULTS',
+      payload: {
+        authority,
+        query,
+        searchResults: [],
+        totalResults: 0,
+        startOfRange: 0,
+        error: { message: 'Ooops...' },
       },
     })
   })

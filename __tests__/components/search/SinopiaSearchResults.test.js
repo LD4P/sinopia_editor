@@ -2,15 +2,15 @@
 
 import React from 'react'
 import { shallow } from 'enzyme'
-import SearchResults from 'components/search/SearchResults'
+import SinopiaSearchResults from 'components/search/SinopiaSearchResults'
 
-describe('<SearchResults />', () => {
+describe('<SinopiaSearchResults />', () => {
   describe('when there are no search results', () => {
     const props = {
       searchResults: [],
     }
 
-    const wrapper = shallow(<SearchResults.WrappedComponent {...props} />)
+    const wrapper = shallow(<SinopiaSearchResults.WrappedComponent {...props} />)
 
     it('does not contain the main div', () => {
       expect(wrapper.find('div#search-results').length).toBe(0)
@@ -26,7 +26,7 @@ describe('<SearchResults />', () => {
       }],
     }
 
-    const wrapper = shallow(<SearchResults.WrappedComponent {...props} />)
+    const wrapper = shallow(<SinopiaSearchResults.WrappedComponent {...props} />)
 
     it('it contains the main div', () => {
       expect(wrapper.find('div#search-results').length).toBe(1)

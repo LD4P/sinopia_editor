@@ -31,7 +31,7 @@ const CopyToNewButton = (props) => {
     <button type="button"
             className="btn btn-link btn-sm"
             id={props.id}
-            disabled={resourceId === undefined}
+            disabled={!resourceId}
             onClick={() => handleClick()}>Copy</button>
   )
 }

@@ -7,7 +7,7 @@ import PropTypes from 'prop-types'
 import Config from 'Config'
 import 'react-bootstrap-table-next/dist/react-bootstrap-table2.min.css'
 import Pagination from 'react-bootstrap/lib/Pagination'
-import fetchSearchResults from 'actionCreators/search'
+import { fetchSinopiaSearchResults } from 'actionCreators/search'
 
 const SearchResultsPaging = (props) => {
   const [currentPage, setCurrentPage] = useState(1) // initialize currentPage to 1
@@ -52,7 +52,7 @@ const SearchResultsPaging = (props) => {
     }
     queryFrom = (newCurrentPage - 1) * Config.searchResultsPerPage
     setCurrentPage(newCurrentPage)
-    props.fetchSearchResults(props.queryString, queryFrom)
+    props.fetchSinopiaSearchResults(props.queryString, queryFrom)
   }
 
   const lastPage = () => Math.ceil(props.totalResults / Config.searchResultsPerPage)
@@ -79,7 +79,7 @@ const SearchResultsPaging = (props) => {
 SearchResultsPaging.propTypes = {
   totalResults: PropTypes.number,
   queryString: PropTypes.string,
-  fetchSearchResults: PropTypes.func,
+  fetchSinopiaSearchResults: PropTypes.func,
 }
 
 const mapStateToProps = state => ({
@@ -87,6 +87,6 @@ const mapStateToProps = state => ({
   queryString: state.selectorReducer.search.query,
 })
 
-const mapDispatchToProps = dispatch => bindActionCreators({ fetchSearchResults }, dispatch)
+const mapDispatchToProps = dispatch => bindActionCreators({ fetchSinopiaSearchResults }, dispatch)
 
 export default connect(mapStateToProps, mapDispatchToProps)(SearchResultsPaging)

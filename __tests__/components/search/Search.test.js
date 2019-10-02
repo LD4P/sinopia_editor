@@ -6,6 +6,10 @@ import Search from 'components/search/Search'
 import { renderWithRedux, createReduxStore } from 'testUtils'
 import { MemoryRouter } from 'react-router-dom'
 import * as sinopiaServer from 'sinopiaServer'
+import Swagger from 'swagger-client'
+
+jest.mock('swagger-client')
+
 
 describe('<Search />', () => {
   const createInitialState = (options = {}) => {
@@ -38,12 +42,49 @@ describe('<Search />', () => {
     return state
   }
 
-  it('requests a QA search', () => {
-    const store = createReduxStore(createInitialState())
-    const mockGetSearchResults = jest.fn()
-    sinopiaServer.getSearchResults = mockGetSearchResults
+  it('requests a QA search', async () => {
+    const mockSearchResults = [
+      {
+        uri: 'http://share-vde.org/sharevde/rdfBibframe/Work/3107365',
+        id: 'http://share-vde.org/sharevde/rdfBibframe/Work/3107365',
+        label: 'These twain',
+        context: [
+          {
+            property: 'Title',
+            values: [
+              ' These twain',
+            ],
+            selectable: true,
+            drillable: false,
+          },
+          {
+            property: 'Type',
+            values: [
+              'http://id.loc.gov/ontologies/bflc/Hub',
+              'http://id.loc.gov/ontologies/bibframe/Work',
+            ],
+            selectable: false,
+            drillable: false,
+          },
+          {
+            property: 'Contributor',
+            values: [
+              'Bennett, Arnold,1867-1931.',
+            ],
+            selectable: false,
+            drillable: false,
+          },
+        ],
+      }]
+    const mockActionFunction = jest.fn().mockResolvedValue({ body: mockSearchResults })
+    const client = { apis: { SearchQuery: { GET_searchAuthority: mockActionFunction } } }
+    Swagger.mockResolvedValue(client)
 
-    const { container, getByLabelText, getByDisplayValue } = renderWithRedux(
+    const store = createReduxStore(createInitialState())
+
+    const {
+      container, getByLabelText, getByDisplayValue, findByText, getByText,
+    } = renderWithRedux(
       <MemoryRouter><Search /></MemoryRouter>, store,
     )
 
@@ -56,25 +97,33 @@ describe('<Search />', () => {
     expect(getByDisplayValue('SHAREVDE STANFORD')).toBeInTheDocument()
 
     // Enter a query
-    fireEvent.change(getByLabelText('Query'), { target: { value: 'foo' } })
+    fireEvent.change(getByLabelText('Query'), { target: { value: 'twain' } })
 
     // Click search
     fireEvent.click(container.querySelector('button[type="submit"]'))
 
-    // Nothing called (since not yet implemented)
-    expect(mockGetSearchResults.mock.calls.length).toBe(0)
+    // Display results
+    expect(await findByText('Label')).toBeInTheDocument()
+    expect(getByText('These twain')).toBeInTheDocument()
   })
 
-  it('requests a Sinopia search', () => {
+  it('requests a Sinopia search', async () => {
     const store = createReduxStore(createInitialState())
 
     const mockGetSearchResults = jest.fn()
     sinopiaServer.getSearchResults = mockGetSearchResults.mockResolvedValue({
-      totalHits: 0,
-      results: [],
+      totalHits: 1,
+      results: [
+        {
+          uri: 'repository/cornell/ca0d53d0-2b99-4f75-afb0-739a6f0af4f4',
+          title: 'foo',
+        },
+      ],
     })
 
-    const { container, getByLabelText } = renderWithRedux(
+    const {
+      container, getByLabelText, findByText, getByText,
+    } = renderWithRedux(
       <MemoryRouter><Search /></MemoryRouter>, store,
     )
 
@@ -86,6 +135,11 @@ describe('<Search />', () => {
 
     // Called once
     expect(mockGetSearchResults).toBeCalledWith('foo', 0)
+
+    // Result
+    expect(await findByText('Your List of Bibliographic Metadata Stored in Sinopia')).toBeInTheDocument()
+
+    expect(getByText('foo', { selector: 'button' })).toBeInTheDocument()
   })
 
   it('requests on enter', () => {
