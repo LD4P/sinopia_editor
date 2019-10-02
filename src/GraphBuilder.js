@@ -30,6 +30,8 @@ export default class GraphBuilder {
       this.buildTriplesForNode(resourceURI,
         resourceTemplateId,
         this.getPredicateList(resource[resourceTemplateId]))
+
+      this.addGeneratedByTriple(resourceURI, resourceTemplateId)
     })
     return this.dataset
   }
@@ -84,8 +86,6 @@ export default class GraphBuilder {
     if (type) {
       this.addTypeTriple(baseURI, rdf.namedNode(type))
     }
-
-    this.addGeneratedByTriple(baseURI, resourceTemplateId)
 
     // Now add all the other properties
     for (const predicate in predicateList) {
