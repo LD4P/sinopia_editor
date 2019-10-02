@@ -6,7 +6,6 @@ import { connect } from 'react-redux'
 import Button from 'react-bootstrap/lib/Button'
 import Modal from 'react-bootstrap/lib/Modal'
 import PropTypes from 'prop-types'
-import GraphBuilder from 'GraphBuilder'
 import Config from 'Config'
 import { closeGroupChooser, showRdfPreview } from 'actions/index'
 import { getCurrentUser } from 'authSelectors'
@@ -66,14 +65,12 @@ GroupChoiceModal.propTypes = {
   showRdfPreview: PropTypes.func,
   choose: PropTypes.func,
   show: PropTypes.bool,
-  rdf: PropTypes.func,
   currentUser: PropTypes.object,
   publishResource: PropTypes.func,
 }
 
 const mapStateToProps = state => ({
   show: state.selectorReducer.editor.groupChoice.show,
-  rdf: () => new GraphBuilder(state.selectorReducer).graph.toCanonical(),
   currentUser: getCurrentUser(state),
 })
 
