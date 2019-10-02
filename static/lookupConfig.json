@@ -654,6 +654,326 @@
     "component": "lookup"
   },
   {
+    "label": "RDA Registry aspect ratio designation (QA)",
+    "uri": "urn:ld4p:qa:rda_registry_ld4l_cache:aspect_ratio",
+    "authority": "rda_registry_ld4l_cache",
+    "subauthority": "aspect_ratio",
+    "language": "en",
+    "component": "lookup"
+  },
+  {
+    "label": "RDA Registry bibliographic format (QA)",
+    "uri": "urn:ld4p:qa:rda_registry_ld4l_cache:bibliographic_format",
+    "authority": "rda_registry_ld4l_cache",
+    "subauthority": "bibliographic_format",
+    "language": "en",
+    "component": "lookup"
+  },
+  {
+    "label": "RDA Registry broadcast standard (QA)",
+    "uri": "urn:ld4p:qa:rda_registry_ld4l_cache:broadcast_standard",
+    "authority": "rda_registry_ld4l_cache",
+    "subauthority": "broadcast_standard",
+    "language": "en",
+    "component": "lookup"
+  },
+  {
+    "label": "RDA Registry carrier type (QA)",
+    "uri": "urn:ld4p:qa:rda_registry_ld4l_cache:carrier_type",
+    "authority": "rda_registry_ld4l_cache",
+    "subauthority": "carrier_type",
+    "language": "en",
+    "component": "lookup"
+  },
+  {
+    "label": "RDA Registry cartographic data type (QA)",
+    "uri": "urn:ld4p:qa:rda_registry_ld4l_cache:cartographic_data_type",
+    "authority": "rda_registry_ld4l_cache",
+    "subauthority": "cartographic_data_type",
+    "language": "en",
+    "component": "lookup"
+  },
+  {
+    "label": "RDA Registry colour content (QA)",
+    "uri": "urn:ld4p:qa:rda_registry_ld4l_cache:colour_content",
+    "authority": "rda_registry_ld4l_cache",
+    "subauthority": "colour_content",
+    "language": "en",
+    "component": "lookup"
+  },
+  {
+    "label": "RDA Registry configuration of playback channels (QA)",
+    "uri": "urn:ld4p:qa:rda_registry_ld4l_cache:config_playback_channels",
+    "authority": "rda_registry_ld4l_cache",
+    "subauthority": "config_playback_channels",
+    "language": "en",
+    "component": "lookup"
+  },
+  {
+    "label": "RDA Registry content type (QA)",
+    "uri": "urn:ld4p:qa:rda_registry_ld4l_cache:content_type",
+    "authority": "rda_registry_ld4l_cache",
+    "subauthority": "content_type",
+    "language": "en",
+    "component": "lookup"
+  },
+  {
+    "label": "RDA Registry file type (QA)",
+    "uri": "urn:ld4p:qa:rda_registry_ld4l_cache:file_type",
+    "authority": "rda_registry_ld4l_cache",
+    "subauthority": "file_type",
+    "language": "en",
+    "component": "lookup"
+  },
+  {
+    "label": "RDA Registry font size (QA)",
+    "uri": "urn:ld4p:qa:rda_registry_ld4l_cache:font_size",
+    "authority": "rda_registry_ld4l_cache",
+    "subauthority": "font_size",
+    "language": "en",
+    "component": "lookup"
+  },
+  {
+    "label": "RDA Registry form of musical notation (QA)",
+    "uri": "urn:ld4p:qa:rda_registry_ld4l_cache:form_of_musical_notation",
+    "authority": "rda_registry_ld4l_cache",
+    "subauthority": "form_of_musical_notation",
+    "language": "en",
+    "component": "lookup"
+  },
+  {
+    "label": "RDA Registry form of notated movement (QA)",
+    "uri": "urn:ld4p:qa:rda_registry_ld4l_cache:form_of_notated_movement",
+    "authority": "rda_registry_ld4l_cache",
+    "subauthority": "form_of_notated_movement",
+    "language": "en",
+    "component": "lookup"
+  },
+  {
+    "label": "RDA Registry form of tactile notation (QA)",
+    "uri": "urn:ld4p:qa:rda_registry_ld4l_cache:form_of_tactile_notation",
+    "authority": "rda_registry_ld4l_cache",
+    "subauthority": "form_of_tactile_notation",
+    "language": "en",
+    "component": "lookup"
+  },
+  {
+    "label": "RDA Registry format of notated music (QA)",
+    "uri": "urn:ld4p:qa:rda_registry_ld4l_cache:format_of_notated_music",
+    "authority": "rda_registry_ld4l_cache",
+    "subauthority": "format_of_notated_music",
+    "language": "en",
+    "component": "lookup"
+  },
+  {
+    "label": "RDA Registry frequency (QA)",
+    "uri": "urn:ld4p:qa:rda_registry_ld4l_cache:frequency",
+    "authority": "rda_registry_ld4l_cache",
+    "subauthority": "frequency",
+    "language": "en",
+    "component": "lookup"
+  },
+  {
+    "label": "RDA Registry gender (QA)",
+    "uri": "urn:ld4p:qa:rda_registry_ld4l_cache:gender",
+    "authority": "rda_registry_ld4l_cache",
+    "subauthority": "gender",
+    "language": "en",
+    "component": "lookup"
+  },
+  {
+    "label": "RDA Registry generation (QA)",
+    "uri": "urn:ld4p:qa:rda_registry_ld4l_cache:generation",
+    "authority": "rda_registry_ld4l_cache",
+    "subauthority": "generation",
+    "language": "en",
+    "component": "lookup"
+  },
+  {
+    "label": "RDA Registry groove pitch of an analog cylinder (QA)",
+    "uri": "urn:ld4p:qa:rda_registry_ld4l_cache:groove_pitch",
+    "authority": "rda_registry_ld4l_cache",
+    "subauthority": "groove_pitch",
+    "language": "en",
+    "component": "lookup"
+  },
+  {
+    "label": "RDA Registry groove width of an analog disc (QA)",
+    "uri": "urn:ld4p:qa:rda_registry_ld4l_cache:groove_width",
+    "authority": "rda_registry_ld4l_cache",
+    "subauthority": "groove_width",
+    "language": "en",
+    "component": "lookup"
+  },
+  {
+    "label": "RDA Registry illustrative content (QA)",
+    "uri": "urn:ld4p:qa:rda_registry_ld4l_cache:illustrative_content",
+    "authority": "rda_registry_ld4l_cache",
+    "subauthority": "illustrative_content",
+    "language": "en",
+    "component": "lookup"
+  },
+  {
+    "label": "RDA Registry layout (QA)",
+    "uri": "urn:ld4p:qa:rda_registry_ld4l_cache:layout",
+    "authority": "rda_registry_ld4l_cache",
+    "subauthority": "layout",
+    "language": "en",
+    "component": "lookup"
+  },
+  {
+    "label": "RDA Registry material (QA)",
+    "uri": "urn:ld4p:qa:rda_registry_ld4l_cache:material",
+    "authority": "rda_registry_ld4l_cache",
+    "subauthority": "material",
+    "language": "en",
+    "component": "lookup"
+  },
+  {
+    "label": "RDA Registry media type (QA)",
+    "uri": "urn:ld4p:qa:rda_registry_ld4l_cache:media_type",
+    "authority": "rda_registry_ld4l_cache",
+    "subauthority": "media_type",
+    "language": "en",
+    "component": "lookup"
+  },
+  {
+    "label": "RDA Registry mode of issuance (QA)",
+    "uri": "urn:ld4p:qa:rda_registry_ld4l_cache:mode_of_issuance",
+    "authority": "rda_registry_ld4l_cache",
+    "subauthority": "mode_of_issuance",
+    "language": "en",
+    "component": "lookup"
+  },
+  {
+    "label": "RDA Registry polarity (QA)",
+    "uri": "urn:ld4p:qa:rda_registry_ld4l_cache:polarity",
+    "authority": "rda_registry_ld4l_cache",
+    "subauthority": "polarity",
+    "language": "en",
+    "component": "lookup"
+  },
+  {
+    "label": "RDA Registry presentation format (QA)",
+    "uri": "urn:ld4p:qa:rda_registry_ld4l_cache:presentation_format",
+    "authority": "rda_registry_ld4l_cache",
+    "subauthority": "presentation_format",
+    "language": "en",
+    "component": "lookup"
+  },
+  {
+    "label": "RDA Registry production method (QA)",
+    "uri": "urn:ld4p:qa:rda_registry_ld4l_cache:production_method",
+    "authority": "rda_registry_ld4l_cache",
+    "subauthority": "production_method",
+    "language": "en",
+    "component": "lookup"
+  },
+  {
+    "label": "RDA Registry recording medium (QA)",
+    "uri": "urn:ld4p:qa:rda_registry_ld4l_cache:recording_medium",
+    "authority": "rda_registry_ld4l_cache",
+    "subauthority": "recording_medium",
+    "language": "en",
+    "component": "lookup"
+  },
+  {
+    "label": "RDA Registry recording sources (QA)",
+    "uri": "urn:ld4p:qa:rda_registry_ld4l_cache:recording_sources",
+    "authority": "rda_registry_ld4l_cache",
+    "subauthority": "recording_sources",
+    "language": "en",
+    "component": "lookup"
+  },
+  {
+    "label": "RDA Registry reduction ratio designation (QA)",
+    "uri": "urn:ld4p:qa:rda_registry_ld4l_cache:reduction_ratio",
+    "authority": "rda_registry_ld4l_cache",
+    "subauthority": "reduction_ratio",
+    "language": "en",
+    "component": "lookup"
+  },
+  {
+    "label": "RDA Registry regional encoding (QA)",
+    "uri": "urn:ld4p:qa:rda_registry_ld4l_cache:regional_encoding",
+    "authority": "rda_registry_ld4l_cache",
+    "subauthority": "regional_encoding",
+    "language": "en",
+    "component": "lookup"
+  },
+  {
+    "label": "RDA Registry scale designation (QA)",
+    "uri": "urn:ld4p:qa:rda_registry_ld4l_cache:scale_designation",
+    "authority": "rda_registry_ld4l_cache",
+    "subauthority": "scale_designation",
+    "language": "en",
+    "component": "lookup"
+  },
+  {
+    "label": "RDA Registry sound content (QA)",
+    "uri": "urn:ld4p:qa:rda_registry_ld4l_cache:sound_content",
+    "authority": "rda_registry_ld4l_cache",
+    "subauthority": "sound_content",
+    "language": "en",
+    "component": "lookup"
+  },
+  {
+    "label": "RDA Registry special playback characteristics (QA)",
+    "uri": "urn:ld4p:qa:rda_registry_ld4l_cache:special_playback",
+    "authority": "rda_registry_ld4l_cache",
+    "subauthority": "special_playback",
+    "language": "en",
+    "component": "lookup"
+  },
+  {
+    "label": "RDA Registry status of identification (QA)",
+    "uri": "urn:ld4p:qa:rda_registry_ld4l_cache:status_of_identification",
+    "authority": "rda_registry_ld4l_cache",
+    "subauthority": "status_of_identification",
+    "language": "en",
+    "component": "lookup"
+  },
+  {
+    "label": "RDA Registry terms (QA)",
+    "uri": "urn:ld4p:qa:rda_registry_ld4l_cache:terms",
+    "authority": "rda_registry_ld4l_cache",
+    "subauthority": "terms",
+    "language": "en",
+    "component": "lookup"
+  },
+  {
+    "label": "RDA Registry track configuration (QA)",
+    "uri": "urn:ld4p:qa:rda_registry_ld4l_cache:track_config",
+    "authority": "rda_registry_ld4l_cache",
+    "subauthority": "track_config",
+    "language": "en",
+    "component": "lookup"
+  },
+  {
+    "label": "RDA Registry type of binding (QA)",
+    "uri": "urn:ld4p:qa:rda_registry_ld4l_cache:type_of_binding",
+    "authority": "rda_registry_ld4l_cache",
+    "subauthority": "type_of_binding",
+    "language": "en",
+    "component": "lookup"
+  },
+  {
+    "label": "RDA Registry type of recording (QA)",
+    "uri": "urn:ld4p:qa:rda_registry_ld4l_cache:type_of_recording",
+    "authority": "rda_registry_ld4l_cache",
+    "subauthority": "type_of_recording",
+    "language": "en",
+    "component": "lookup"
+  },
+  {
+    "label": "RDA Registry video format (QA)",
+    "uri": "urn:ld4p:qa:rda_registry_ld4l_cache:video_format",
+    "authority": "rda_registry_ld4l_cache",
+    "subauthority": "video_format",
+    "language": "en",
+    "component": "lookup"
+  },
+  {
     "label": "SHAREVDE ALBERTA work (QA)",
     "uri": "urn:ld4p:qa:sharevde_alberta_ld4l_cache:work",
     "authority": "sharevde_alberta_ld4l_cache",
