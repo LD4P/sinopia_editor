@@ -72,7 +72,7 @@ done
 
 then move `templates/*` to `__tests__/__fixtures__` and add the contents of `rtFileNames.txt` to `__tests__/fixtureLoaderHelper`.
 
-### Run the server with webpack-dev-webserver
+### Run the server with webpack-dev-server
 
 `npm run dev-start`
 
