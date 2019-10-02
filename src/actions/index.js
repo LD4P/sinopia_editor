@@ -48,6 +48,14 @@ export const closeGroupChooser = () => ({
   type: 'CLOSE_GROUP_CHOOSER',
 })
 
+export const showResourceTemplateChooser = () => ({
+  type: 'SHOW_RESOURCE_TEMPLATE_CHOOSER',
+})
+
+export const closeResourceTemplateChooser = () => ({
+  type: 'CLOSE_RESOURCE_TEMPLATE_CHOOSER',
+})
+
 export const copyNewResource = copyInfo => ({
   type: 'COPY_NEW_RESOURCE',
   payload: copyInfo,
@@ -164,9 +172,8 @@ export const clearResourceTemplates = () => ({
   type: 'CLEAR_RESOURCE_TEMPLATES',
 })
 
-export const getSearchResultsStarted = (query, queryFrom) => ({
-  type: 'GET_SEARCH_RESULTS_STARTED',
-  payload: { query, queryFrom },
+export const clearSearchResults = () => ({
+  type: 'CLEAR_SEARCH_RESULTS',
 })
 
 export const setSearchResults = (authority, searchResults, totalResults, query, startOfRange, error) => ({

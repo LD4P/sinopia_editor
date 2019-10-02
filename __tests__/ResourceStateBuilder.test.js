@@ -77,6 +77,31 @@ describe('ResourceStateBuilder', () => {
     })
   })
 
+  it('uses provided resource template id', async () => {
+    const resource = `<> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://id.loc.gov/ontologies/bibframe/Note> .
+  <> <http://www.w3.org/2000/01/rdf-schema#label> "foo"@en .`
+
+    const dataset = await rdfDatasetFromN3(resource)
+
+    shortid.generate = jest.fn().mockReturnValueOnce('abc123')
+
+    const builder = new ResourceStateBuilder(dataset, '', 'resourceTemplate:bf2:Note')
+    const [state] = await builder.buildState()
+    expect(state).toEqual({
+      'resourceTemplate:bf2:Note': {
+        'http://www.w3.org/2000/01/rdf-schema#label': {
+          items: {
+            abc123: {
+              content: 'foo',
+              label: 'foo',
+              lang: 'en',
+            },
+          },
+        },
+      },
+    })
+  })
+
   it('raises when 0 resource templates', async () => {
     const resource = `<http://example/123> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://id.loc.gov/ontologies/bibframe/Note> .
   <http://example/123> <http://www.w3.org/2000/01/rdf-schema#label> "bar"@en .`

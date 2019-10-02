@@ -12,6 +12,7 @@ import { rootResource } from 'selectors/resourceSelectors'
 import _ from 'lodash'
 
 const LoadByRDFForm = (props) => {
+  // TODO: Use useResource hook. See https://github.com/LD4P/sinopia_editor/issues/1415
   const [baseUri, setBaseUri] = useState('')
   const [resourceN3, setResourceN3] = useState('')
   const [navigateEditor, setNavigateEditor] = useState(false)

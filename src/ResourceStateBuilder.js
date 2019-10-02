@@ -16,13 +16,15 @@ export default class ResourceStateBuilder {
   /**
    * @param {rdf.Dataset} dataset the RDF graph
    * @param {string|null} resourceURI URI of the resource
+   * @param {string|null} resourceTemplateId base resource template id
    */
-  constructor(dataset, resourceURI) {
+  constructor(dataset, resourceURI, resourceTemplateId) {
     this.dataset = dataset
     this.resourceURI = resourceURI === '' ? null : resourceURI
     this.resourceState = {}
     this.usedDataset = rdf.dataset(this.findTypeQuads(rdf.namedNode(this.resourceURI)))
     this.resourceTemplates = {}
+    this.baseResourceTemplateId = resourceTemplateId
   }
 
   /**
@@ -32,7 +34,7 @@ export default class ResourceStateBuilder {
    */
   async buildState() {
     // Find the resource template id of base resource. Should be only 1.
-    const rtId = this.findRootResourceTemplateId()
+    const rtId = this.baseResourceTemplateId || this.findRootResourceTemplateId()
 
     this.resourceState = await this.buildResource(rdf.namedNode(this.resourceURI), rtId)
     return [this.resourceState, this.dataset.difference(this.usedDataset), this.resourceTemplates]

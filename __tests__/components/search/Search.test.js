@@ -12,8 +12,8 @@ jest.mock('swagger-client')
 
 
 describe('<Search />', () => {
-  const createInitialState = (options = {}) => {
-    const state = {
+  const createInitialState = () => {
+    return {
       selectorReducer: {
         resource: {},
         search: {
@@ -25,21 +25,16 @@ describe('<Search />', () => {
           version: '1.0.2',
           lastChecked: 1569901390063,
         },
+        editor: {
+          resourceTemplateChoice: {
+            show: false,
+          },
+        },
+        entities: {
+          resourceTemplateSummaries: {},
+        },
       },
     }
-
-    if (options.error) {
-      state.selectorReducer.search = {
-        query: '*',
-        totalResults: 0,
-        results: [],
-        error: {
-          message: 'Grrr...',
-        },
-      }
-    }
-
-    return state
   }
 
   it('requests a QA search', async () => {
@@ -85,7 +80,7 @@ describe('<Search />', () => {
     const {
       container, getByLabelText, getByDisplayValue, findByText, getByText,
     } = renderWithRedux(
-      <MemoryRouter><Search /></MemoryRouter>, store,
+      <MemoryRouter><Search history={{}} /></MemoryRouter>, store,
     )
 
     expect(getByLabelText('Search')).toBeInTheDocument()
@@ -124,7 +119,7 @@ describe('<Search />', () => {
     const {
       container, getByLabelText, findByText, getByText,
     } = renderWithRedux(
-      <MemoryRouter><Search /></MemoryRouter>, store,
+      <MemoryRouter><Search history={{}} /></MemoryRouter>, store,
     )
 
     // Enter a query
@@ -179,13 +174,25 @@ describe('<Search />', () => {
     expect(mockGetSearchResults.mock.calls.length).toBe(0)
   })
 
-  it('displays an error message', () => {
-    const store = createReduxStore(createInitialState({ error: true }))
+  it('displays an error message', async () => {
+    sinopiaServer.getSearchResults = jest.fn().mockResolvedValue({
+      totalHits: 0,
+      results: [],
+      error: new Error('Grrr...'),
+    })
 
-    const { getByText } = renderWithRedux(
+    const store = createReduxStore(createInitialState())
+
+    const { findByText, getByLabelText, container } = renderWithRedux(
       <MemoryRouter><Search /></MemoryRouter>, store,
     )
 
-    expect(getByText('Grrr...')).toBeInTheDocument()
+    // Enter a query
+    fireEvent.change(getByLabelText('Query'), { target: { value: 'foo' } })
+
+    // Click search
+    fireEvent.click(container.querySelector('button[type="submit"]'))
+
+    expect(await findByText('Error: Grrr...')).toBeInTheDocument()
   })
 })

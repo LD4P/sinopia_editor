@@ -1,12 +1,13 @@
 // Copyright 2019 Stanford University see LICENSE for license
 
-import React, { useState, useEffect } from 'react'
-import { bindActionCreators } from 'redux'
-import { connect } from 'react-redux'
+import React, { useState, useEffect, useCallback } from 'react'
+import { useDispatch, useSelector } from 'react-redux'
 import PropTypes from 'prop-types'
 import Header from '../Header'
-import Alert from 'react-bootstrap/lib/Alert'
-import { fetchSinopiaSearchResults, fetchQASearchResults } from 'actionCreators/search'
+import {
+  fetchSinopiaSearchResults as fetchSinopiaSearchResultsCreator,
+  fetchQASearchResults as fetchQASearchResultsCreator,
+} from 'actionCreators/search'
 import SinopiaSearchResults from './SinopiaSearchResults'
 import QASearchResults from './QASearchResults'
 import SearchResultsPaging from './SearchResultsPaging'
@@ -14,11 +15,23 @@ import SearchResultsMessage from './SearchResultsMessage'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faSearch } from '@fortawesome/free-solid-svg-icons'
 import searchConfig from '../../../static/searchConfig.json'
+import { clearSearchResults as clearSearchResultsAction } from 'actions/index'
 
 const Search = (props) => {
+  const dispatch = useDispatch()
+  const fetchQASearchResults = (queryString, authority) => dispatch(fetchQASearchResultsCreator(queryString, authority))
+  const fetchSinopiaSearchResults = queryString => dispatch(fetchSinopiaSearchResultsCreator(queryString))
+  const clearSearchResults = useCallback(() => dispatch(clearSearchResultsAction()), [dispatch])
+
+  const error = useSelector(state => state.selectorReducer.search.error)
+  const resultAuthority = useSelector(state => state.selectorReducer.search.authority)
+
   const [queryString, setQueryString] = useState('')
-  const [showAlert, setShowAlert] = useState(props.error)
   const [authority, setAuthority] = useState('sinopia')
+
+  useEffect(() => {
+    clearSearchResults()
+  }, [clearSearchResults])
 
   const handleKeyPress = (event) => {
     if (event.key === 'Enter') {
@@ -37,31 +50,16 @@ const Search = (props) => {
       return
     }
     if (authority === 'sinopia') {
-      props.fetchSinopiaSearchResults(queryString)
+      fetchSinopiaSearchResults(queryString)
     } else {
-      props.fetchQASearchResults(queryString, authority)
+      fetchQASearchResults(queryString, authority)
     }
   }
-
-  let alert
-
-  if (showAlert) {
-    alert = (
-      <Alert key="0" bsStyle="warning">
-        <button className="close" aria-label="close" onClick={() => setShowAlert(false)}>&times;</button>
-        {props.error.message}
-      </Alert>
-    )
-  }
-
-  useEffect(() => {
-    setShowAlert(props.error)
-  }, [props.error])
 
   const options = searchConfig.map(config => (<option key={config.authority} value={config.authority}>{config.label}</option>))
 
   let results
-  if (props.resultAuthority === 'sinopia') {
+  if (resultAuthority === 'sinopia') {
     results = (
       <div>
         <SinopiaSearchResults {...props} key="search-results" />
@@ -69,16 +67,25 @@ const Search = (props) => {
         <SearchResultsMessage />
       </div>
     )
-  } else if (props.resultAuthority) {
+  } else if (resultAuthority) {
     results = (
-      <QASearchResults key="search-results" />
+      <QASearchResults history={props.history} key="search-results" />
     )
   }
 
   return (
     <div id="search">
       <Header triggerEditorMenu={props.triggerHandleOffsetMenu} />
-      {alert}
+      { error
+        && <div className="row">
+          <div className="col-md-12" style={{ marginTop: '10px' }}>
+            <div className="alert alert-danger alert-dismissible">
+              <button className="close" data-dismiss="alert" aria-label="close">&times;</button>
+              { error.toString() }
+            </div>
+          </div>
+        </div>
+      }
       <div className="row">
         <form className="form-inline" onSubmit={handleSubmit}>
           <div className="form-group">
@@ -112,20 +119,8 @@ const Search = (props) => {
 
 Search.propTypes = {
   triggerHandleOffsetMenu: PropTypes.func,
-  fetchSinopiaSearchResults: PropTypes.func,
-  fetchQASearchResults: PropTypes.func,
   currentUser: PropTypes.object,
-  query: PropTypes.string,
-  error: PropTypes.object,
-  resultAuthority: PropTypes.string,
+  history: PropTypes.object,
 }
 
-const mapDispatchToProps = dispatch => bindActionCreators({ fetchSinopiaSearchResults, fetchQASearchResults }, dispatch)
-
-const mapStateToProps = state => ({
-  query: state.selectorReducer.search.query,
-  error: state.selectorReducer.search.error,
-  resultAuthority: state.selectorReducer.search.authority,
-})
-
-export default connect(mapStateToProps, mapDispatchToProps)(Search)
+export default Search

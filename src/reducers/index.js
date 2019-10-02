@@ -5,14 +5,14 @@ import authenticate from './authenticate'
 import {
   removeMyItem, setItemsOrSelections, setBaseURL,
   setMyItemsLang, showGroupChooser, closeGroupChooser, showRdfPreview,
-  showCopyNewMessage, validate,
+  showCopyNewMessage, validate, showResourceTemplateChooser, closeResourceTemplateChooser,
 } from './inputs'
 import {
   setResourceTemplate, clearResourceTemplates, setResourceTemplateSummary,
   loadingLanguages, languagesReceived,
   loadingQaResults, qaResultsReceived, copyResourceToEditor,
 } from './entities'
-import setSearchResults from './search'
+import { clearSearchResults, setSearchResults } from './search'
 import { findObjectAtPath } from 'selectors/resourceSelectors'
 import _ from 'lodash'
 
@@ -154,9 +154,12 @@ const handlers = {
   RETRIEVE_ERROR: setRetrieveError,
   RETRIEVE_RESOURCE_TEMPLATE_STARTED: clearServerError,
   SET_BASE_URL: setBaseURL,
+  CLEAR_SEARCH_RESULTS: clearSearchResults,
   SET_SEARCH_RESULTS: setSearchResults,
   SHOW_GROUP_CHOOSER: showGroupChooser,
   CLOSE_GROUP_CHOOSER: closeGroupChooser,
+  SHOW_RESOURCE_TEMPLATE_CHOOSER: showResourceTemplateChooser,
+  CLOSE_RESOURCE_TEMPLATE_CHOOSER: closeResourceTemplateChooser,
   LANGUAGE_SELECTED: setMyItemsLang,
   SHOW_RDF_PREVIEW: showRdfPreview,
   REMOVE_ITEM: removeMyItem,

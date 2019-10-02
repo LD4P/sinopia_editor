@@ -23,6 +23,9 @@ const initialState = {
       groupChoice: {
         show: false,
       },
+      resourceTemplateChoice: {
+        show: false,
+      },
       copyToNewMessage: {
         show: false,
       },
@@ -42,6 +45,8 @@ const initialState = {
       results: [],
       totalResults: 0,
       query: undefined,
+      authority: undefined,
+      error: undefined,
     },
   },
 }

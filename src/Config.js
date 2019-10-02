@@ -98,6 +98,11 @@ class Config {
     return process.env.MAX_RECORDS_FOR_QA_LOOKUPS || 8
   }
 
+  static get qaUrl() {
+    return process.env.QA_URL || 'https://lookup.ld4l.org'
+  }
+
+
   // WARNING: the groups section in config/default.js in the sinopia_acl codebase *must* be kept in sync with this section
   static get groupsInSinopia() {
     return {

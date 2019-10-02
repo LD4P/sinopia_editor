@@ -6,7 +6,7 @@ import swaggerSpec from 'lib/apidoc.json'
 import { getLookupConfigItems } from 'utilities/propertyTemplates'
 import Config from 'Config'
 
-const getSearchResults = (query, propertyTemplate) => {
+export const getSearchResults = (query, propertyTemplate) => {
   const lookupConfigs = getLookupConfigItems(propertyTemplate)
 
   // Create array of Promises<results> based on the lookup config array that is sent in
@@ -71,4 +71,15 @@ export const createLookupPromises = (query, lookupConfigs) => lookupConfigs.map(
       }))
 })
 
-export default getSearchResults
+/**
+ * Fetches a term (aka resource) from QA.
+ * @param {string} uri of the resource
+ * @param {string} authority from which to fetch
+ * @param {string} format supported by QA
+  * @return {Promise<string>} the term as text
+ */
+export const getTerm = (uri, authority, format = 'n3') => {
+  const url = `${Config.qaUrl}/authorities/fetch/linked_data/${authority.toLowerCase()}?format=${format}&uri=${uri}`
+  return fetch(url)
+    .then(resp => resp.text())
+}
