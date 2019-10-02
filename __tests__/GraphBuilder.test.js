@@ -196,12 +196,9 @@ describe('GraphBuilder', () => {
         && quad.predicate.equals(rdf.namedNode('http://www.w3.org/1999/02/22-rdf-syntax-ns#type')))
       expect(result.toArray().length).toEqual(1)
 
-      const bnode = result.toArray()[0].subject
-
-      // _:b1 <http://sinopia.io/vocabulary/hasResourceTemplate> "resourceTemplate:bf2:Note" .
-      result = graph.filter(quad => quad.subject.equals(bnode)
-        && quad.object.equals(rdf.literal('resourceTemplate:bf2:Note'))
-        && quad.predicate.equals(rdf.namedNode('http://sinopia.io/vocabulary/hasResourceTemplate')))
+      // There should only be one hasResourceTemplate assertion in the whole graph
+      const hasResourceTemplate = rdf.namedNode('http://sinopia.io/vocabulary/hasResourceTemplate')
+      result = graph.filter(quad => quad.predicate.equals(hasResourceTemplate))
       expect(result.toArray().length).toEqual(1)
     })
   })
