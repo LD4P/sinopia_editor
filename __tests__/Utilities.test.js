@@ -3,6 +3,7 @@
 import {
   isResourceWithValueTemplateRef,
   resourceToName,
+  rdfDatasetFromN3,
 } from '../src/Utilities'
 
 describe('Utilities', () => {
@@ -115,5 +116,20 @@ describe('Utilities', () => {
     it('returns undefined when there is no URI', () => {
       expect(resourceToName()).toEqual(undefined)
     })
+  })
+
+  describe('rdfDatasetFromN3()', () => {
+    it('parses N3', async () => {
+      const n3 = `<> <http://id.loc.gov/ontologies/bibframe/mainTitle> "foo"@en .
+<> <http://sinopia.io/vocabulary/hasResourceTemplate> "ld4p:RT:bf2:WorkTitle" .
+<> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://id.loc.gov/ontologies/bibframe/Title> .
+`
+      const dataset = await rdfDatasetFromN3(n3)
+      expect(dataset.toArray().length).toEqual(3)
+    })
+  })
+
+  it('raises an error for invalid N3', async () => {
+    await expect(rdfDatasetFromN3('foo')).rejects.toThrowError()
   })
 })

@@ -31,11 +31,14 @@ export const isValidURI = (value) => {
  * @param {string} data that is the N3
  * @return {Promise<rdf.Dataset>} a promise that resolves to the loaded dataset
  */
-export const rdfDatasetFromN3 = data => new Promise((resolve) => {
+export const rdfDatasetFromN3 = data => new Promise((resolve, reject) => {
   const parser = new N3Parser({ factory: rdf })
   const dataset = rdf.dataset()
   parser.parse(data,
-    (error, quad) => {
+    (err, quad) => {
+      if (err) {
+        reject(err)
+      }
       // the final time through this loop will be EOF and quad will be undefined
       if (quad) {
         dataset.add(quad)

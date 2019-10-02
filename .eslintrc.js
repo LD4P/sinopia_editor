@@ -210,17 +210,5 @@ module.exports = {
         "jsx-a11y/anchor-is-valid": "off"
       }
     },
-    {
-      "files": ["__tests__/components/editor/property/InputLiteral.test.js"],
-      "rules": {
-        "import/no-unresolved": "off"
-      }
-    },
-    {
-      "files": ["src/actions/index.js"],
-      "rules": {
-        "max-params": "off"
-      }
-    }
   ]
 }
