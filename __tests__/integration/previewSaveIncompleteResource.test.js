@@ -90,7 +90,7 @@ const createInitialState = () => {
 describe('Preview and try to save resource', () => {
   const store = createReduxStore(createInitialState())
   const {
-    getByText, queryByText, queryAllByText,
+    getByText, getByTitle, queryByText, queryAllByText,
   } = renderWithRedux(
     (<MemoryRouter><App /></MemoryRouter>), store,
   )
@@ -101,14 +101,14 @@ describe('Preview and try to save resource', () => {
     fireEvent.click(getByText('Editor'))
 
     // Preview the RDF
-    fireEvent.click(getByText('Preview RDF'))
+    fireEvent.click(getByTitle('Preview RDF'))
     expect(getByText('RDF Preview')).toBeInTheDocument()
     expect(getByText(/<> <http:\/\/sinopia.io\/vocabulary\/hasResourceTemplate> "resourceTemplate:bf2:WorkTitle" ./)).toBeInTheDocument()
 
     // Save
     // There are multiple of these on screen, so selecting by id.
     // There is probably a more idiomatic way of doing this.
-    const saveAndPublish = queryAllByText('Save & Publish').find((btn) => {
+    const saveAndPublish = queryAllByText('Save').find((btn) => {
       return btn.id === 'modal-save'
     })
     fireEvent.click(saveAndPublish)

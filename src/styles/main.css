@@ -21,8 +21,8 @@ body {
   padding: 0px;
 }
 
-.btn-editor {
-  margin-right: 5px;
+#editor-save {
+  margin-left: 11px;
 }
 
 .btn-add, .btn-remove {

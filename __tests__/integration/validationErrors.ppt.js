@@ -17,7 +17,7 @@ describe('Validation errors', () => {
     await pupExpect(page).toClick('button.btn-remove[data-id=\'content\']', { text: 'Remove' })
 
     // Request validation
-    await pupExpect(page).toClick('button:enabled#editor-save', { text: 'Save & Publish' })
+    await pupExpect(page).toClick('button:enabled#editor-save', { text: 'Save' })
 
     await pupExpect(page).toMatch('There was a probem saving this resource.')
     await pupExpect(page).toMatch('BIBFRAME Instance > Agent Contribution: Required')

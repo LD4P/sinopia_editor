@@ -48,12 +48,4 @@ describe('<Editor />', () => {
       expect(wrapper.find('div.alert-warning').exists()).toBeFalsy()
     })
   })
-
-  describe('RDFModal button', () => {
-    const wrapper = shallow(<Editor.WrappedComponent {...props}/>)
-
-    it('has preview RDF button', () => {
-      expect(wrapper.findWhere(n => n.type() === 'button' && n.contains('Preview RDF')).exists()).toBeTruthy()
-    })
-  })
 })

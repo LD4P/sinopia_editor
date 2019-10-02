@@ -8,20 +8,6 @@ import appReducer from 'reducers/index'
 import { renderWithRedux } from 'testUtils'
 import { fireEvent, wait } from '@testing-library/react'
 
-test('Link button value of Copy', () => {
-  const store = createStore(appReducer, {
-    selectorReducer: {
-      entities: {},
-      resource: {},
-      editor: {},
-    },
-  })
-  const { queryByText } = renderWithRedux(
-    <CopyToNewButton />, store,
-  )
-  expect(queryByText('Copy')).toBeInTheDocument()
-})
-
 test('Clicking copy link changes copyToNewMessage show', async () => {
   const store = createStore(appReducer, {
     selectorReducer: {
@@ -34,10 +20,10 @@ test('Clicking copy link changes copyToNewMessage show', async () => {
       },
     },
   })
-  const { queryByText } = renderWithRedux(
+  const { getByTitle } = renderWithRedux(
     <CopyToNewButton />, store,
   )
-  fireEvent.click(queryByText('Copy'))
+  fireEvent.click(getByTitle('Copy'))
   await wait(() => {
     expect(store.getState().selectorReducer.editor.copyToNewMessage.show).toBeFalsy()
   })
@@ -59,10 +45,10 @@ test('Clicking copy link removes existing resourceId and saves oldUri to message
       },
     },
   })
-  const { queryByText } = renderWithRedux(
+  const { getByTitle } = renderWithRedux(
     <CopyToNewButton />, store,
   )
-  fireEvent.click(queryByText('Copy'))
+  fireEvent.click(getByTitle('Copy'))
   await wait(() => {
     const state = store.getState()
     expect(state.selectorReducer.resource['ld4p:RT:bf2:WorkTitle'].resourceURI).toBeFalsy()
