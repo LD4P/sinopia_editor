@@ -104,7 +104,7 @@ const Search = (props) => {
           </div>
         </form>
       </div>
-      <span className="help-block">Use a * to wildcard your search.</span>
+      <span className="help-block">For searching Sinopia, use a * to wildcard your search.</span>
       {results}
     </div>
   )
