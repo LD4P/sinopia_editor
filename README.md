@@ -129,7 +129,7 @@ npm run jest-cov
 ```
 
 Once complete, you can start the dev server on your laptop as describe above and visit `http://localhost:8888/coverage/lcov-report/index.html`.
-(change localhost port number in the URL as needed to relfect actual one used in your local server)
+(change the localhost port number in the URL as needed to reflect the one used by your local server)
 
 There is a project view and also a view of each file.  You can also check [coveralls](https://coveralls.io/repos/github/LD4P/sinopia_editor).
 
