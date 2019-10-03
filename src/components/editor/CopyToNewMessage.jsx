@@ -2,27 +2,16 @@
 
 import React from 'react'
 import { useSelector } from 'react-redux'
+import ExpiringMessage from './ExpiringMessage'
 
 const CopyToNewMessage = () => {
-  const showMessage = useSelector(state => state.selectorReducer.editor.copyToNewMessage.show)
   const oldUri = useSelector(state => state.selectorReducer.editor.copyToNewMessage.oldUri)
-
-  if (!showMessage) {
-    return null
-  }
-
-  const stateOrUri = () => {
-    if (oldUri !== undefined) {
-      return oldUri
-    }
-  }
+  const timestamp = useSelector(state => state.selectorReducer.editor.copyToNewMessage.timestamp)
 
   return (
-    <div className="alert alert-info alert-dismissible">
-      <button className="close" data-dismiss="alert" aria-label="close">&times;</button>
-      Copied {stateOrUri()} to new resource.
-    </div>
-  )
+    <ExpiringMessage timestamp={timestamp}>
+      Copied {oldUri} to new resource.
+    </ExpiringMessage>)
 }
 
 export default CopyToNewMessage

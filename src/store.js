@@ -26,9 +26,7 @@ const initialState = {
       resourceTemplateChoice: {
         show: false,
       },
-      copyToNewMessage: {
-        show: false,
-      },
+      copyToNewMessage: {},
       expanded: { // Should this node display as expanded in the editor (redux path organized)
       },
       resourceValidationErrors: { // Errors from validating resource (redux path organized)

@@ -32,9 +32,7 @@ beforeEach(() => {
       groupChoice: {
         show: false,
       },
-      copyToNewMessage: {
-        show: false,
-      },
+      copyToNewMessage: {},
       resourceURIMessage: {
         show: false,
       },
@@ -86,20 +84,15 @@ describe('showGroupChooser()', () => {
 })
 
 describe('showCopyNewMessage()', () => {
-  it('sets the showCopyNewMessage to true', () => {
-    const result = showCopyNewMessage(initialState, { payload: { show: true } })
-
-    expect(result.editor.copyToNewMessage.show).toBe(true)
-  })
   it('sets the showCopyNewMessage oldUri to a value', () => {
     const result = showCopyNewMessage(initialState,
       {
         payload: {
-          show: true,
           oldUri: 'https://sinopia.io/1234',
         },
       })
     expect(result.editor.copyToNewMessage.oldUri).toMatch('https://sinopia.io/1234')
+    expect(result.editor.copyToNewMessage.timestamp).toBeTruthy()
   })
 })
 

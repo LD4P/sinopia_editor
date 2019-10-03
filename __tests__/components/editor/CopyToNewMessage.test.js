@@ -6,34 +6,32 @@ import CopyToNewMessage from 'components/editor/CopyToNewMessage'
 import appReducer from 'reducers/index'
 /* eslint import/no-unresolved: 'off' */
 import { renderWithRedux } from 'testUtils'
-import { getNodeText } from '@testing-library/react'
 
-test('Message is not displayed when show is false', () => {
+test('Message is not displayed when timestamp is false', () => {
   const store = createStore(appReducer, {
     selectorReducer: {
       entities: {},
       resource: {},
       editor: {
-        copyToNewMessage: {
-          show: false,
-        },
+        copyToNewMessage: {},
       },
     },
   })
-  const { queryByText } = renderWithRedux(
+  const { container } = renderWithRedux(
     <CopyToNewMessage />, store,
   )
-  expect(queryByText('Copied to new resource')).not.toBeInTheDocument()
+
+  expect(container.querySelector('.alert-success')).not.toBeInTheDocument()
 })
 
-test('Displays message with URI when URI is present in state', () => {
+test('Message is not displayed if it expired', () => {
   const store = createStore(appReducer, {
     selectorReducer: {
       entities: {},
       resource: {},
       editor: {
         copyToNewMessage: {
-          show: true,
+          timestamp: Date.now(),
           oldUri: 'https://sinopia.io/pcc/1345',
         },
       },
@@ -42,5 +40,5 @@ test('Displays message with URI when URI is present in state', () => {
   const { container } = renderWithRedux(
     <CopyToNewMessage />, store,
   )
-  expect(getNodeText(container.querySelector('.alert-info'))).toMatch('Copied https://sinopia.io/pcc/1345')
+  expect(container.querySelector('.alert-success')).not.toBeInTheDocument()
 })

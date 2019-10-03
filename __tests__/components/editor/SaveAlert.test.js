@@ -17,15 +17,15 @@ describe('<SaveAlert />', () => {
       },
     })
     const { queryByText } = renderWithRedux(
-      <SaveAlert skipTimer={true} />, store,
+      <SaveAlert />, store,
     )
 
     it('does not render', () => {
-      expect(queryByText('Saved & Published ...')).not.toBeInTheDocument()
+      expect(queryByText('Saved ...')).not.toBeInTheDocument()
     })
   })
 
-  describe('when lastSave is defined', () => {
+  describe('when it expired', () => {
     const store = createStore(appReducer, {
       selectorReducer: {
         editor: {
@@ -35,11 +35,11 @@ describe('<SaveAlert />', () => {
     })
 
     const { queryByText } = renderWithRedux(
-      <SaveAlert skipTimer={true} />, store,
+      <SaveAlert />, store,
     )
 
-    it('renders', () => {
-      expect(queryByText('Saved & Published ...')).not.toBeInTheDocument()
+    it('is not displayed', () => {
+      expect(queryByText('Saved ...')).not.toBeInTheDocument()
     })
   })
 })
