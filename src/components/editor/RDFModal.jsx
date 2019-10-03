@@ -25,7 +25,7 @@ const RDFModal = (props) => {
       </Modal.Header>
       <Modal.Body bsClass={'rdf-modal-content'}>
         <Row style={{ marginLeft: '0', marginRight: '0' }}>
-          <Col sm={6}>If this looks good, then click Save and Publish</Col>
+          <Col sm={6}>If this looks good, then click Save</Col>
           <Col style={{ textAlign: 'right' }}>
             <SaveAndPublishButton id="modal-save" />
           </Col>

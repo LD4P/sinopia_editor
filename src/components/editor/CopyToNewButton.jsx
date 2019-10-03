@@ -6,6 +6,8 @@ import PropTypes from 'prop-types'
 import { getCurrentUser } from 'authSelectors'
 import { rootResourceId } from 'selectors/resourceSelectors'
 import { copyNewResource, showCopyNewMessage } from 'actions/index'
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { faCopy } from '@fortawesome/free-solid-svg-icons'
 
 const CopyToNewButton = (props) => {
   const dispatch = useDispatch()
@@ -29,10 +31,14 @@ const CopyToNewButton = (props) => {
 
   return (
     <button type="button"
-            className="btn btn-link btn-sm"
+            className="btn btn-link"
             id={props.id}
             disabled={!resourceId}
-            onClick={() => handleClick()}>Copy</button>
+            onClick={handleClick}
+            title="Copy"
+            aria-label="Copy this resource to a new resource">
+      <FontAwesomeIcon icon={faCopy} size="2x" />
+    </button>
   )
 }
 

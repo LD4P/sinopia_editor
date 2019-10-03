@@ -4,7 +4,6 @@ import React from 'react'
 import { bindActionCreators } from 'redux'
 import { connect } from 'react-redux'
 import PropTypes from 'prop-types'
-import Button from 'react-bootstrap/lib/Button'
 import { update } from 'actionCreators/resources'
 import { rootResourceId, resourceHasChangesSinceLastSave } from 'selectors/resourceSelectors'
 import { getCurrentUser } from 'authSelectors'
@@ -20,9 +19,9 @@ const SaveAndPublishButton = (props) => {
   }
 
   return (
-    <Button id={ props.id } bsStyle="primary" bsSize="small" onClick={ save } disabled={ props.isDisabled }>
-      Save & Publish
-    </Button>
+    <button id={ props.id } className="btn btn-primary" onClick={ save } disabled={ props.isDisabled }>
+      Save
+    </button>
   )
 }
 
