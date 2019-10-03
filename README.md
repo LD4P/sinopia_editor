@@ -115,7 +115,7 @@ Putting it all together, to run all of the tests:
 
 ```sh
 npm test
-npm integration
+npm run integration
 ```
 
 Note that if you have an instance of the dev server already running in a separate terminal, you may need to stop the server or you may get a port conflict when running the integration tests.
