@@ -25,4 +25,8 @@ describe('<CanvasMenu />', () => {
       expect(node.prop('rel')).toEqual('noopener noreferrer')
     })
   })
+
+  it('has an aria-label for accessability', () => {
+    expect(wrapper.find('button[aria-label="Close Help Menu"]')).toBeDefined()
+  })
 })

@@ -19,7 +19,7 @@ const CanvasMenu = (props) => {
 
   return (
     <div>
-      <button type="button" className="btn btn-link pull-right" href="#" onClick={props.closeHandleMenu}>
+      <button type="button" aria-label="Close Help Menu" className="btn btn-link pull-right" href="#" onClick={props.closeHandleMenu}>
         <FontAwesomeIcon className="close-icon" icon={faTimes} />
       </button>
 
