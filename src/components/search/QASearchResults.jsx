@@ -17,7 +17,6 @@ import { faCopy } from '@fortawesome/free-solid-svg-icons'
 const QASearchResults = (props) => {
   const dispatch = useDispatch()
   const showResourceTemplateChooser = () => dispatch(showResourceTemplateChooserAction())
-  const existingResource = (state, unusedRDF) => dispatch(existingResourceAction(state, unusedRDF))
 
   const searchResults = useSelector(state => state.selectorReducer.search.results)
   const authority = useSelector(state => state.selectorReducer.search.authority)
@@ -27,13 +26,18 @@ const QASearchResults = (props) => {
   const [resourceURI, setResourceURI] = useState(null)
   const [resourceTemplateId, setResourceTemplateId] = useState(null)
   const [resourceN3, setResourceN3] = useState(null)
-  const [state, unusedDataset, useResourceError] = useResource(resourceN3, resourceURI, resourceTemplateId, rootResource, props.history)
-  if (useResourceError && !error) {
-    setError(useResourceError)
-  }
-  if (state && unusedDataset) {
-    existingResource(state, unusedDataset.toCanonical())
-  }
+  const [resourceState, unusedDataset, useResourceError] = useResource(resourceN3, resourceURI, resourceTemplateId, rootResource, props.history)
+  useEffect(() => {
+    if (useResourceError && !error) {
+      setError(useResourceError)
+    }
+  }, [useResourceError, error])
+
+  useEffect(() => {
+    if (resourceState && unusedDataset) {
+      dispatch(existingResourceAction(resourceState, unusedDataset.toCanonical()))
+    }
+  }, [dispatch, resourceState, unusedDataset])
 
   // Retrieve N3 from QA
   useEffect(() => {

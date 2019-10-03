@@ -7,7 +7,7 @@ import LoadByURIForm from 'components/load/LoadByURIForm'
 import LoadByRDFForm from 'components/load/LoadByRDFForm'
 
 describe('<LoadResource />', () => {
-  const wrapper = shallow(<LoadResource.WrappedComponent />)
+  const wrapper = shallow(<LoadResource.WrappedComponent history={{}} />)
 
   it('renders a LoadByURIForm', () => {
     expect(wrapper.find(LoadByURIForm)).toBeTruthy()

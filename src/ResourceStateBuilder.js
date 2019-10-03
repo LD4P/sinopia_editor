@@ -35,6 +35,7 @@ export default class ResourceStateBuilder {
   async buildState() {
     // Find the resource template id of base resource. Should be only 1.
     const rtId = this.baseResourceTemplateId || this.findRootResourceTemplateId()
+    this.usedDataset.addAll(this.findResourceTemplateQuads(rdf.namedNode(this.resourceURI)))
 
     this.resourceState = await this.buildResource(rdf.namedNode(this.resourceURI), rtId)
     return [this.resourceState, this.dataset.difference(this.usedDataset), this.resourceTemplates]
@@ -214,7 +215,6 @@ export default class ResourceStateBuilder {
       throw 'A single resource template must be included as a triple (http://sinopia.io/vocabulary/hasResourceTemplate)'
     }
     const rtQuad = rtQuads[0]
-    this.usedDataset.add(rtQuad)
     return rtQuad.object.value
   }
 }
