@@ -1,5 +1,9 @@
 [
   {
+    "label": "DISCOGS",
+    "authority": "discogs"
+  },
+  {
     "label": "SHAREVDE ALBERTA",
     "authority": "sharevde_alberta_ld4l_cache"
   },
