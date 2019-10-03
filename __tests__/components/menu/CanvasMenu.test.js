@@ -27,6 +27,6 @@ describe('<CanvasMenu />', () => {
   })
 
   it('has an aria-label for accessability', () => {
-    expect(wrapper.find('button[aria-label="Close Help Menu"]')).toBeTruthy()
+    expect(wrapper.find('button[aria-label="Close Help Menu"]')).toBeDefined()
   })
 })
