@@ -1,19 +1,13 @@
 // Copyright 2019 Stanford University see LICENSE for license
-import { getSearchResultsStarted, setSearchResults } from 'actions/index'
+import { setSearchResults } from 'actions/index'
 import { getSearchResults } from 'sinopiaServer'
 import { createLookupPromises } from 'utilities/qa'
 
-export const fetchSinopiaSearchResults = (query, queryFrom = 0) => (dispatch) => {
-  dispatch(getSearchResultsStarted(query, queryFrom))
-
-  return getSearchResults(query, queryFrom).then((response) => {
-    dispatch(setSearchResults('sinopia', response.results, response.totalHits, query, queryFrom, response.error))
-  })
-}
+export const fetchSinopiaSearchResults = (query, queryFrom = 0) => dispatch => getSearchResults(query, queryFrom).then((response) => {
+  dispatch(setSearchResults('sinopia', response.results, response.totalHits, query, queryFrom, response.error))
+})
 
 export const fetchQASearchResults = (query, authority, queryFrom = 0) => (dispatch) => {
-  dispatch(getSearchResultsStarted(query, queryFrom))
-
   const searchPromise = createLookupPromises(query, [{ authority }])[0]
 
   return searchPromise.then((response) => {

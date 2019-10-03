@@ -1,6 +1,6 @@
 // Copyright 2019 Stanford University see LICENSE for license
 
-import getSearchResults from 'utilities/qa'
+import { getSearchResults, getTerm } from 'utilities/qa'
 
 describe('getSearchResults()', () => {
   it('returns an array of promises from a search', async () => {
@@ -35,5 +35,18 @@ describe('getSearchResults()', () => {
     const results = getSearchResults('Austin, Jane', badAuthorityURItemplate)
     const result = await results[0]
     expect(result.isError).toEqual(true)
+  })
+})
+
+describe('getTerm', () => {
+  it('fetches N3 from QA', async () => {
+    global.fetch = jest.fn().mockImplementation(() => Promise.resolve({ text: () => 'n3' }))
+
+    const term = await getTerm('http://share-vde.org/sharevde/rdfBibframe/Work/4840195', 'sharevde_chicago_ld4l_cache')
+    expect(term).toBe('n3')
+
+    expect(global.fetch).toHaveBeenCalledTimes(1)
+    const url = 'https://lookup.ld4l.org/authorities/fetch/linked_data/sharevde_chicago_ld4l_cache?format=n3&uri=http://share-vde.org/sharevde/rdfBibframe/Work/4840195'
+    expect(global.fetch).toHaveBeenCalledWith(url)
   })
 })

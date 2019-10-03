@@ -6,6 +6,15 @@ import { renderWithRedux, createReduxStore } from 'testUtils'
 describe('<QASearchResults />', () => {
   const state = {
     selectorReducer: {
+      resource: {},
+      editor: {
+        resourceTemplateChoice: {
+          show: false,
+        },
+      },
+      entities: {
+        resourceTemplateSummaries: {},
+      },
       search: {
         results: [
           {
@@ -80,8 +89,8 @@ describe('<QASearchResults />', () => {
 
   it('renders results', () => {
     const store = createReduxStore(state)
-    const { getByText, getAllByText } = renderWithRedux(
-      <QASearchResults />, store,
+    const { getByText, getAllByText, getAllByTitle } = renderWithRedux(
+      <QASearchResults history={{}}/>, store,
     )
     // Headers
     expect(getByText('Label')).toBeInTheDocument()
@@ -92,5 +101,6 @@ describe('<QASearchResults />', () => {
     expect(getByText('Those twain')).toBeInTheDocument()
     expect(getByText('http://id.loc.gov/ontologies/bflc/Hub')).toBeInTheDocument()
     expect(getAllByText('http://id.loc.gov/ontologies/bibframe/Work').length).toBe(2)
+    expect(getAllByTitle('Copy').length).toBe(2)
   })
 })

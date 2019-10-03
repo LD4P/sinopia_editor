@@ -45,6 +45,32 @@ export const closeGroupChooser = (state) => {
 }
 
 /**
+ * Opens the resource template chooser
+ * @param {Object} state the previous redux state
+ * @return {Object} the next redux state
+ */
+export const showResourceTemplateChooser = (state) => {
+  const newState = { ...state }
+
+  newState.editor.resourceTemplateChoice.show = true
+
+  return newState
+}
+
+/**
+ * Closes the resource template chooser
+ * @param {Object} state the previous redux state
+ * @return {Object} the next redux state
+ */
+export const closeResourceTemplateChooser = (state) => {
+  const newState = { ...state }
+
+  newState.editor.resourceTemplateChoice.show = false
+
+  return newState
+}
+
+/**
  * @param {Object} state the previous redux state
  * @param {Object} action the payload of the action is a boolean that says to show or not to show the preview
  * @return {Object} the next redux state

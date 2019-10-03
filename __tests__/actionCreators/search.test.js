@@ -21,8 +21,7 @@ describe('fetchSinopiaSearchResults', () => {
     server.getSearchResults = jest.fn().mockResolvedValue(mockSearchResults)
     const dispatch = jest.fn()
     await fetchSinopiaSearchResults(query)(dispatch)
-    expect(dispatch).toHaveBeenCalledTimes(2)
-    expect(dispatch).toBeCalledWith({ type: 'GET_SEARCH_RESULTS_STARTED', payload: { query: '*', queryFrom: 0 } })
+    expect(dispatch).toHaveBeenCalledTimes(1)
     expect(dispatch).toBeCalledWith({
       type: 'SET_SEARCH_RESULTS',
       payload: {
@@ -112,8 +111,7 @@ describe('fetchQASearchResults', () => {
 
     await fetchQASearchResults(query, authority)(dispatch)
 
-    expect(dispatch).toHaveBeenCalledTimes(2)
-    expect(dispatch).toBeCalledWith({ type: 'GET_SEARCH_RESULTS_STARTED', payload: { query: '*', queryFrom: 0 } })
+    expect(dispatch).toHaveBeenCalledTimes(1)
     expect(dispatch).toBeCalledWith({
       type: 'SET_SEARCH_RESULTS',
       payload: {
@@ -134,8 +132,7 @@ describe('fetchQASearchResults', () => {
 
     await fetchQASearchResults(query, authority)(dispatch)
 
-    expect(dispatch).toHaveBeenCalledTimes(2)
-    expect(dispatch).toBeCalledWith({ type: 'GET_SEARCH_RESULTS_STARTED', payload: { query: '*', queryFrom: 0 } })
+    expect(dispatch).toHaveBeenCalledTimes(1)
     expect(dispatch).toBeCalledWith({
       type: 'SET_SEARCH_RESULTS',
       payload: {
