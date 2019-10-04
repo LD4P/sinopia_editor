@@ -11,7 +11,7 @@ import {
   itemsForProperty, getDisplayValidations, getPropertyTemplate, findErrors,
 } from 'selectors/resourceSelectors'
 import { changeSelections } from 'actions/index'
-import getSearchResults from 'utilities/qa'
+import { getSearchResults } from 'utilities/qa'
 import { booleanPropertyFromTemplate } from 'utilities/propertyTemplates'
 import _ from 'lodash'
 import { renderMenuFunc, renderTokenFunc } from './renderTypeaheadFunctions'

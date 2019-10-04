@@ -73,7 +73,7 @@ describe('LoadByRDFForm', () => {
     expect(getByText('Submit')).toBeDisabled()
 
     // Populate the form
-    fireEvent.change(getByLabelText('N3 RDF'), { target: { value: n3 } })
+    fireEvent.change(getByLabelText('RDF'), { target: { value: n3 } })
     expect(getByText('Submit')).not.toBeDisabled()
     fireEvent.click(getByText('Submit'))
 
@@ -96,7 +96,7 @@ describe('LoadByRDFForm', () => {
     expect(container.querySelector('.alert-danger')).not.toBeInTheDocument()
 
     // Populate the form
-    fireEvent.change(getByLabelText('N3 RDF'), { target: { value: n3.replace(/<>/g, '<http://bar>') } })
+    fireEvent.change(getByLabelText('RDF'), { target: { value: n3.replace(/<>/g, '<http://bar>') } })
     fireEvent.input(getByLabelText('Base URI'), { target: { value: 'http://bar' } })
     fireEvent.click(getByText('Submit'))
 
@@ -122,7 +122,7 @@ describe('LoadByRDFForm', () => {
     expect(container.querySelector('.alert-danger')).not.toBeInTheDocument()
 
     // Populate the form
-    fireEvent.change(getByLabelText('N3 RDF'), { target: { value: 'not n3' } })
+    fireEvent.change(getByLabelText('RDF'), { target: { value: 'not n3' } })
     fireEvent.click(getByText('Submit'))
 
     expect(await findByText(/Error parsing/)).toBeInTheDocument()

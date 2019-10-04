@@ -72,9 +72,10 @@ const LoadByRDFForm = (props) => {
       }
       <form id="loadForm" onSubmit={handleSubmit}>
         <div className="form-group">
-          <label htmlFor="resourceTextArea">N3 RDF</label>
+          <label htmlFor="resourceTextArea">RDF</label>
           <textarea className="form-control" id="resourceTextArea" rows="15" value={resourceN3}
                     onChange={handleResourceN3Change} placeholder={n3PlaceHolder}></textarea>
+          <p className="help-block">Accepts Turtle, TriG, N-Triples, N-Quads, and Notation3 (N3).</p>
         </div>
         <div className="form-group">
           <label htmlFor="uriInput">Base URI</label>
