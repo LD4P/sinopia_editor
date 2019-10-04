@@ -18,9 +18,20 @@ const createInitialState = () => {
       resource: {},
       entities: {
         resourceTemplates: {},
+        resourceTemplateSummaries: {
+          'resourceTemplate:bf2:WorkTitle': {
+            key: 'resourceTemplate:bf2:WorkTitle',
+            name: 'Work Title',
+            id: 'resourceTemplate:bf2:WorkTitle',
+            group: 'ld4p',
+          },
+        },
       },
       editor: {
         expanded: {},
+        resourceTemplateChoice: {
+          show: false,
+        },
       },
     },
     authenticate: {
@@ -108,7 +119,6 @@ describe('LoadByRDFForm', () => {
 `)
   })
 
-
   it('displays error when problem loading', async () => {
     const history = createMemoryHistory()
     const store = createReduxStore(createInitialState())
@@ -133,5 +143,35 @@ describe('LoadByRDFForm', () => {
 
     // State doesn't change
     expect(store.getState()).toEqual(createInitialState())
+  })
+
+  it('asks user for resource template when not provided', async () => {
+    const n3WithRt = `<> <http://id.loc.gov/ontologies/bibframe/mainTitle> "foo"@en .
+    <> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://id.loc.gov/ontologies/bibframe/Title> .
+    `
+
+    const history = createMemoryHistory()
+    const store = createReduxStore(createInitialState())
+    const {
+      getByText, getByLabelText, findByText, queryByText,
+    } = renderWithRedux(
+      <LoadByRDFForm history={history} />, store,
+    )
+    expect(getByText('Load RDF into Editor')).toBeInTheDocument()
+
+    // Populate the form
+    fireEvent.change(getByLabelText('RDF'), { target: { value: n3WithRt } })
+    expect(getByText('Submit')).not.toBeDisabled()
+    fireEvent.click(getByText('Submit'))
+
+    // Wait for resource template chooser modal
+    expect(await findByText('Choose resource template')).toBeInTheDocument()
+    expect(getByText('Work Title')).toBeInTheDocument()
+
+    fireEvent.click(getByText('Save', 'Button'))
+    await wait(() => expect(queryByText('Choose resource template')).not.toBeInTheDocument())
+
+    // Wait for the page change
+    await wait(() => expect(history.location.pathname).toBe('/editor'))
   })
 })

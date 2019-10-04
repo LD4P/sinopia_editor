@@ -1,51 +1,62 @@
 // Copyright 2019 Stanford University see LICENSE for license
 
 import React, { useState, useEffect } from 'react'
-import { bindActionCreators } from 'redux'
-import { connect } from 'react-redux'
+import { useDispatch, useSelector } from 'react-redux'
 import PropTypes from 'prop-types'
-import { existingResource } from 'actionCreators/resources'
+import { existingResource as existingResourceCreator } from 'actionCreators/resources'
 import ResourceStateBuilder from 'ResourceStateBuilder'
 import { rdfDatasetFromN3 } from 'Utilities'
-import { getCurrentUser } from 'authSelectors'
-import { rootResource } from 'selectors/resourceSelectors'
+import { rootResource as rootResourceSelector } from 'selectors/resourceSelectors'
+import useResource from 'hooks/useResource'
+import { showResourceTemplateChooser as showResourceTemplateChooserAction } from 'actions/index'
+import ResourceTemplateChoiceModal from '../ResourceTemplateChoiceModal'
 import _ from 'lodash'
 
 const LoadByRDFForm = (props) => {
-  // TODO: Use useResource hook. See https://github.com/LD4P/sinopia_editor/issues/1415
-  const [baseUri, setBaseUri] = useState('')
-  const [resourceN3, setResourceN3] = useState('')
-  const [navigateEditor, setNavigateEditor] = useState(false)
-  const [error, setError] = useState('')
+  const rootResource = useSelector(state => rootResourceSelector(state))
 
-  const handleBaseUriChange = event => setBaseUri(event.target.value)
-  const handleResourceN3Change = event => setResourceN3(event.target.value)
+  const dispatch = useDispatch()
+  const showResourceTemplateChooser = () => dispatch(showResourceTemplateChooserAction())
+
+  const [baseURI, setBaseURI] = useState('')
+  const [resourceN3, setResourceN3] = useState('')
+  const [resourceTemplateId, setResourceTemplateId] = useState('')
+  const [error, setError] = useState('')
+  const [resourceState, unusedDataset, useResourceError] = useResource(resourceN3, baseURI, resourceTemplateId, rootResource, props.history)
+  useEffect(() => {
+    if (useResourceError && !error) {
+      setError(useResourceError)
+    }
+  }, [useResourceError, error])
 
   useEffect(() => {
-    // Forces a wait until the root resource has been set in state
-    if (navigateEditor && props.rootResource && !error) {
-      props.history.push('/editor')
+    if (resourceState && unusedDataset) {
+      dispatch(existingResourceCreator(resourceState, unusedDataset.toCanonical()))
     }
-  })
+  }, [dispatch, resourceState, unusedDataset])
 
-  const existingResource = () => rdfDatasetFromN3(resourceN3).then((dataset) => {
-    const builder = new ResourceStateBuilder(dataset, baseUri)
-    return builder.buildState().then((result) => {
-      // TODO: This also returns the resource templates, which could be added to state.
-      // See https://github.com/LD4P/sinopia_editor/issues/1396
-      props.existingResource(result[0], result[1].toCanonical())
-      return true
-    }).catch(err => setError(err))
-  }).catch(err => setError(`Error parsing: ${err}`))
+  // Passed into resource template chooser to allow it to pass back selected resource template id.
+  const chooseResourceTemplate = (resourceTemplateId) => {
+    setResourceTemplateId(resourceTemplateId)
+  }
+
+  useEffect(() => {
+    // Clear resource template id so that useResource doesn't trigger with previous resource template id.
+    setResourceTemplateId(null)
+  }, [resourceN3])
 
   const handleSubmit = (event) => {
-    setNavigateEditor(false)
-    if (resourceN3 !== '') {
-      setError('')
-      existingResource().then((result) => {
-        setNavigateEditor(result)
-      })
-    }
+    // Try parsing to extract the resource template id
+    rdfDatasetFromN3(resourceN3).then((dataset) => {
+      const builder = new ResourceStateBuilder(dataset, baseURI)
+      // findRootResourceTemplateId() throws an error when resource template id not specified.
+      // If it is not specified, then show the resource template chooser.
+      try {
+        setResourceTemplateId(builder.findRootResourceTemplateId())
+      } catch (err) {
+        showResourceTemplateChooser()
+      }
+    }).catch(err => setError(`Error parsing: ${err}`))
     event.preventDefault()
   }
 
@@ -74,34 +85,26 @@ const LoadByRDFForm = (props) => {
         <div className="form-group">
           <label htmlFor="resourceTextArea">RDF</label>
           <textarea className="form-control" id="resourceTextArea" rows="15" value={resourceN3}
-                    onChange={handleResourceN3Change} placeholder={n3PlaceHolder}></textarea>
+                    onChange={event => setResourceN3(event.target.value)} placeholder={n3PlaceHolder}></textarea>
           <p className="help-block">Accepts Turtle, TriG, N-Triples, N-Quads, and Notation3 (N3).</p>
         </div>
         <div className="form-group">
           <label htmlFor="uriInput">Base URI</label>
-          <input type="url" className="form-control" id="uriInput" value={baseUri} onChange={handleBaseUriChange}
+          <input type="url" className="form-control" id="uriInput" value={baseURI}
+                 onChange={event => setBaseURI(event.target.value)}
                  placeholder={baseURIPlaceholder} />
           <p className="help-block">Omit brackets. If base URI is &lt;&gt;, leave blank.</p>
         </div>
         <button type="submit" disabled={ _.isEmpty(resourceN3) } className="btn btn-primary">Submit</button>
         <p className="help-block">This will create a new resource that can be saved in Sinopia.</p>
       </form>
+      <ResourceTemplateChoiceModal choose={chooseResourceTemplate} />
     </div>
   )
 }
 
 LoadByRDFForm.propTypes = {
-  existingResource: PropTypes.func,
-  setUnusedRDF: PropTypes.func,
-  history: PropTypes.object,
-  rootResource: PropTypes.object,
+  history: PropTypes.object.isRequired,
 }
 
-const mapStateToProps = state => ({
-  currentUser: getCurrentUser(state),
-  rootResource: rootResource(state),
-})
-
-const mapDispatchToProps = dispatch => bindActionCreators({ existingResource }, dispatch)
-
-export default connect(mapStateToProps, mapDispatchToProps)(LoadByRDFForm)
+export default LoadByRDFForm

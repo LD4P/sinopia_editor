@@ -20,7 +20,8 @@ const useResource = (resourceN3, baseURI, resourceTemplateId, rootResource, hist
   const [unusedDataset, setUnusedDataset] = useState(null)
 
   useEffect(() => {
-    if (!resourceN3 || !baseURI || !resourceTemplateId) {
+    // Using undefined for baseURI because some resources have <> base URIs, which would be '' or null.
+    if (!resourceN3 || baseURI === undefined || !resourceTemplateId) {
       return
     }
     rdfDatasetFromN3(resourceN3).then((dataset) => {
