@@ -71,7 +71,7 @@ const createInitialState = () => {
         results: [],
         totalResults: 0,
         query: undefined,
-        authority: undefined,
+        uri: undefined,
       },
     },
   }
@@ -152,7 +152,7 @@ rdfs:label "These twain.";
     expect(getByLabelText('Search')).toBeInTheDocument()
 
     // Select an authority
-    fireEvent.change(getByDisplayValue('Sinopia'), { target: { value: 'sharevde_stanford_ld4l_cache' } })
+    fireEvent.change(getByDisplayValue('Sinopia'), { target: { value: 'urn:ld4p:qa:sharevde_stanford_ld4l_cache:all' } })
 
     // Enter a query
     fireEvent.change(getByLabelText('Query'), { target: { value: 'twain' } })

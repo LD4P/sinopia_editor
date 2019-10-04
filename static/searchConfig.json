@@ -1,86 +1,86 @@
 [
   {
     "label": "DISCOGS",
-    "authority": "discogs"
+    "uri": "urn:discogs"
   },
   {
     "label": "SHAREVDE ALBERTA",
-    "authority": "sharevde_alberta_ld4l_cache"
+    "uri": "urn:ld4p:qa:sharevde_alberta_ld4l_cache:all"
   },
   {
     "label": "SHAREVDE CHICAGO",
-    "authority": "sharevde_chicago_ld4l_cache"
+    "uri": "urn:ld4p:qa:sharevde_chicago_ld4l_cache:all"
   },
   {
     "label": "SHAREVDE CORNELL",
-    "authority": "sharevde_cornell_ld4l_cache"
+    "uri": "urn:ld4p:qa:sharevde_cornell_ld4l_cache:all"
   },
   {
     "label": "SHAREVDE CU BOULDER",
-    "authority": "sharevde_cuboulder_ld4l_cache"
+    "uri": "urn:ld4p:qa:sharevde_cuboulder_ld4l_cache:all"
   },
   {
     "label": "SHAREVDE DUKE",
-    "authority": "sharevde_duke_ld4l_cache"
+    "uri": "urn:ld4p:qa:sharevde_duke_ld4l_cache:all"
   },
   {
     "label": "SHAREVDE FRICK",
-    "authority": "sharevde_frick_ld4l_cache"
+    "uri": "urn:ld4p:qa:sharevde_frick_ld4l_cache:all"
   },
   {
     "label": "SHAREVDE HARRYRANSOM",
-    "authority": "sharevde_harryransom_ld4l_cache"
+    "uri": "urn:ld4p:qa:sharevde_harryransom_ld4l_cache:all"
   },
   {
     "label": "SHAREVDE HARVARD",
-    "authority": "sharevde_harvard_ld4l_cache"
+    "uri": "urn:ld4p:qa:sharevde_harvard_ld4l_cache:all"
   },
   {
     "label": "SHAREVDE MICHIGAN",
-    "authority": "sharevde_michigan_ld4l_cache"
+    "uri": "urn:ld4p:qa:sharevde_michigan_ld4l_cache:all"
   },
   {
     "label": "SHAREVDE MINNESOTA",
-    "authority": "sharevde_minnesota_ld4l_cache"
+    "uri": "urn:ld4p:qa:sharevde_minnesota_ld4l_cache:all"
   },
   {
     "label": "SHAREVDE NLM",
-    "authority": "sharevde_nlm_ld4l_cache"
+    "uri": "urn:ld4p:qa:sharevde_nlm_ld4l_cache:all"
   },
   {
     "label": "SHAREVDE NORTHWESTERN",
-    "authority": "sharevde_northwestern_ld4l_cache"
+    "uri": "urn:ld4p:qa:sharevde_northwestern_ld4l_cache:all"
   },
   {
     "label": "SHAREVDE PRINCETON",
-    "authority": "sharevde_princeton_ld4l_cache"
+    "uri": "urn:ld4p:qa:sharevde_princeton_ld4l_cache:all"
   },
   {
     "label": "SHAREVDE STANFORD",
-    "authority": "sharevde_stanford_ld4l_cache"
+    "uri": "urn:ld4p:qa:sharevde_stanford_ld4l_cache:all"
   },
   {
     "label": "SHAREVDE TEXASAM",
-    "authority": "sharevde_texasam_ld4l_cache"
+    "uri": "urn:ld4p:qa:sharevde_texasam_ld4l_cache:all"
   },
   {
     "label": "SHAREVDE UCDAVIS",
-    "authority": "sharevde_ucdavis_ld4l_cache"
+    "uri": "urn:ld4p:qa:sharevde_ucdavis_ld4l_cache:all"
   },
   {
     "label": "SHAREVDE UCSD",
-    "authority": "sharevde_ucsd_ld4l_cache"
+    "uri": "urn:ld4p:qa:sharevde_ucsd_ld4l_cache:all"
   },
   {
     "label": "SHAREVDE UPENN",
-    "authority": "sharevde_upenn_ld4l_cache"
+    "uri": "urn:ld4p:qa:sharevde_upenn_ld4l_cache:all"
   },
   {
     "label": "SHAREVDE UWASHINGTON",
-    "authority": "sharevde_uwashington_ld4l_cache"
+    "uri": "urn:ld4p:qa:sharevde_uwashington_ld4l_cache:all"
   },
   {
     "label": "SHAREVDE YALE",
-    "authority": "sharevde_yale_ld4l_cache"
+    "uri": "urn:ld4p:qa:sharevde_yale_ld4l_cache:all"
   }
 ]

@@ -88,7 +88,7 @@ describe('<Search />', () => {
     expect(getByDisplayValue('Sinopia')).toBeInTheDocument()
 
     // Select an authority
-    fireEvent.change(getByDisplayValue('Sinopia'), { target: { value: 'sharevde_stanford_ld4l_cache' } })
+    fireEvent.change(getByDisplayValue('Sinopia'), { target: { value: 'urn:ld4p:qa:sharevde_stanford_ld4l_cache:all' } })
     expect(getByDisplayValue('SHAREVDE STANFORD')).toBeInTheDocument()
 
     // Enter a query

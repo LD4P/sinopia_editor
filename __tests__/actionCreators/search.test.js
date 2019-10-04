@@ -25,7 +25,7 @@ describe('fetchSinopiaSearchResults', () => {
     expect(dispatch).toBeCalledWith({
       type: 'SET_SEARCH_RESULTS',
       payload: {
-        authority: 'sinopia',
+        uri: 'sinopia',
         query: '*',
         searchResults: mockSearchResults.results,
         totalResults: mockSearchResults.totalHits,
@@ -37,7 +37,7 @@ describe('fetchSinopiaSearchResults', () => {
 
 describe('fetchQASearchResults', () => {
   const query = '*'
-  const authority = 'sharevde_stanford_ld4l_cache'
+  const uri = 'urn:ld4p:qa:sharevde_stanford_ld4l_cache:all'
   it('dispatches action', async () => {
     const dispatch = jest.fn()
     const mockSearchResults = [
@@ -109,13 +109,13 @@ describe('fetchQASearchResults', () => {
     const client = { apis: { SearchQuery: { GET_searchAuthority: mockActionFunction } } }
     Swagger.mockResolvedValue(client)
 
-    await fetchQASearchResults(query, authority)(dispatch)
+    await fetchQASearchResults(query, uri)(dispatch)
 
     expect(dispatch).toHaveBeenCalledTimes(1)
     expect(dispatch).toBeCalledWith({
       type: 'SET_SEARCH_RESULTS',
       payload: {
-        authority,
+        uri,
         query,
         searchResults: mockSearchResults,
         totalResults: 2,
@@ -130,13 +130,13 @@ describe('fetchQASearchResults', () => {
     const client = { apis: { SearchQuery: { GET_searchAuthority: mockActionFunction } } }
     Swagger.mockResolvedValue(client)
 
-    await fetchQASearchResults(query, authority)(dispatch)
+    await fetchQASearchResults(query, uri)(dispatch)
 
     expect(dispatch).toHaveBeenCalledTimes(1)
     expect(dispatch).toBeCalledWith({
       type: 'SET_SEARCH_RESULTS',
       payload: {
-        authority,
+        uri,
         query,
         searchResults: [],
         totalResults: 0,

@@ -5,6 +5,7 @@ import Swagger from 'swagger-client'
 import swaggerSpec from 'lib/apidoc.json'
 import { getLookupConfigItems } from 'utilities/propertyTemplates'
 import Config from 'Config'
+import { findAuthorityConfig } from 'utilities/authorityConfig'
 
 export const getSearchResults = (query, propertyTemplate) => {
   const lookupConfigs = getLookupConfigItems(propertyTemplate)
@@ -74,11 +75,12 @@ export const createLookupPromises = (query, lookupConfigs) => lookupConfigs.map(
 /**
  * Fetches a term (aka resource) from QA.
  * @param {string} uri of the resource
- * @param {string} authority from which to fetch
+ * @param {string} searchUri uri of the endpoint from which to fetch
  * @param {string} format supported by QA
   * @return {Promise<string>} the term as text
  */
-export const getTerm = (uri, authority, format = 'n3') => {
+export const getTerm = (uri, searchUri, format = 'n3') => {
+  const authority = findAuthorityConfig(searchUri).authority
   const url = `${Config.qaUrl}/authorities/fetch/linked_data/${authority.toLowerCase()}?format=${format}&uri=${uri}`
   return fetch(url)
     .then(resp => resp.text())

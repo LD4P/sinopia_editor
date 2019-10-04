@@ -176,10 +176,10 @@ export const clearSearchResults = () => ({
   type: 'CLEAR_SEARCH_RESULTS',
 })
 
-export const setSearchResults = (authority, searchResults, totalResults, query, startOfRange, error) => ({
+export const setSearchResults = (uri, searchResults, totalResults, query, startOfRange, error) => ({
   type: 'SET_SEARCH_RESULTS',
   payload: {
-    authority,
+    uri,
     searchResults,
     totalResults,
     query,
