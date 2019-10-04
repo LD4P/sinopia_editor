@@ -23,7 +23,6 @@ const CopyToNewButton = (props) => {
     ))
     dispatch(showCopyNewMessage(
       {
-        show: true,
         oldUri: resourceId,
       },
     ))

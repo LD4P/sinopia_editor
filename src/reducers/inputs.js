@@ -90,7 +90,7 @@ export const showRdfPreview = (state, action) => {
 export const showCopyNewMessage = (state, action) => {
   const newState = { ...state }
 
-  newState.editor.copyToNewMessage.show = action.payload.show
+  newState.editor.copyToNewMessage.timestamp = Date.now()
   if (action.payload.oldUri !== undefined) {
     newState.editor.copyToNewMessage.oldUri = action.payload.oldUri
   }

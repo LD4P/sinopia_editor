@@ -14,9 +14,7 @@ test('Clicking copy link changes copyToNewMessage show', async () => {
       entities: {},
       resource: {},
       editor: {
-        copyToNewMessage: {
-          show: false,
-        },
+        copyToNewMessage: {},
       },
     },
   })
@@ -25,7 +23,7 @@ test('Clicking copy link changes copyToNewMessage show', async () => {
   )
   fireEvent.click(getByTitle('Copy'))
   await wait(() => {
-    expect(store.getState().selectorReducer.editor.copyToNewMessage.show).toBeFalsy()
+    expect(store.getState().selectorReducer.editor.copyToNewMessage.timestamp).toBeUndefined()
   })
 })
 
@@ -39,9 +37,7 @@ test('Clicking copy link removes existing resourceId and saves oldUri to message
         },
       },
       editor: {
-        copyToNewMessage: {
-          show: false,
-        },
+        copyToNewMessage: {},
       },
     },
   })

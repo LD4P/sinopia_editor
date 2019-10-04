@@ -21,7 +21,7 @@ export const setResource = (state, action) => {
   const newState = { ...state }
   newState.editor.displayValidations = false
   newState.editor.errors = []
-  newState.editor.copyToNewMessage = { show: false }
+  newState.editor.copyToNewMessage = {}
   newState.resource = action.payload.resource
   newState.entities.resourceTemplates = _.cloneDeep(action.payload.resourceTemplates)
   return newState
