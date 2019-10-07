@@ -19,15 +19,15 @@ import { clearSearchResults as clearSearchResultsAction } from 'actions/index'
 
 const Search = (props) => {
   const dispatch = useDispatch()
-  const fetchQASearchResults = (queryString, authority) => dispatch(fetchQASearchResultsCreator(queryString, authority))
+  const fetchQASearchResults = (queryString, uri) => dispatch(fetchQASearchResultsCreator(queryString, uri))
   const fetchSinopiaSearchResults = queryString => dispatch(fetchSinopiaSearchResultsCreator(queryString))
   const clearSearchResults = useCallback(() => dispatch(clearSearchResultsAction()), [dispatch])
 
   const error = useSelector(state => state.selectorReducer.search.error)
-  const resultAuthority = useSelector(state => state.selectorReducer.search.authority)
+  const searchUri = useSelector(state => state.selectorReducer.search.uri)
 
   const [queryString, setQueryString] = useState('')
-  const [authority, setAuthority] = useState('sinopia')
+  const [uri, setUri] = useState('sinopia')
 
   useEffect(() => {
     clearSearchResults()
@@ -49,17 +49,17 @@ const Search = (props) => {
     if (queryString === '') {
       return
     }
-    if (authority === 'sinopia') {
+    if (uri === 'sinopia') {
       fetchSinopiaSearchResults(queryString)
     } else {
-      fetchQASearchResults(queryString, authority)
+      fetchQASearchResults(queryString, uri)
     }
   }
 
-  const options = searchConfig.map(config => (<option key={config.authority} value={config.authority}>{config.label}</option>))
+  const options = searchConfig.map(config => (<option key={config.uri} value={config.uri}>{config.label}</option>))
 
   let results
-  if (resultAuthority === 'sinopia') {
+  if (searchUri === 'sinopia') {
     results = (
       <div>
         <SinopiaSearchResults {...props} key="search-results" />
@@ -67,7 +67,7 @@ const Search = (props) => {
         <SearchResultsMessage />
       </div>
     )
-  } else if (resultAuthority) {
+  } else if (searchUri) {
     results = (
       <QASearchResults history={props.history} key="search-results" />
     )
@@ -91,9 +91,9 @@ const Search = (props) => {
           <div className="form-group">
             <label htmlFor="searchType">Search</label>&nbsp;
             <select className="form-control" id="searchType"
-                    value={authority}
-                    onChange={ event => setAuthority(event.target.value) }
-                    onBlur={ event => setAuthority(event.target.value) }>
+                    value={uri}
+                    onChange={ event => setUri(event.target.value) }
+                    onBlur={ event => setUri(event.target.value) }>
               <option value="sinopia">Sinopia</option>
               {options}
             </select>

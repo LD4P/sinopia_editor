@@ -19,7 +19,7 @@ const QASearchResults = (props) => {
   const showResourceTemplateChooser = () => dispatch(showResourceTemplateChooserAction())
 
   const searchResults = useSelector(state => state.selectorReducer.search.results)
-  const authority = useSelector(state => state.selectorReducer.search.authority)
+  const searchUri = useSelector(state => state.selectorReducer.search.uri)
   const rootResource = useSelector(state => rootResourceSelector(state))
 
   const [error, setError] = useState(null)
@@ -41,13 +41,13 @@ const QASearchResults = (props) => {
 
   // Retrieve N3 from QA
   useEffect(() => {
-    if (!resourceURI || !authority) {
+    if (!resourceURI || !searchUri) {
       return
     }
-    getTerm(resourceURI, authority)
+    getTerm(resourceURI, searchUri)
       .then(resourceN3 => setResourceN3(resourceN3))
       .catch(err => setError(`Error retrieving resource: ${err.toString()}`))
-  }, [resourceURI, authority])
+  }, [resourceURI, searchUri])
 
   // Transform the results into the format to be displayed in the table.
   const tableData = useMemo(() => searchResults.map((result) => {

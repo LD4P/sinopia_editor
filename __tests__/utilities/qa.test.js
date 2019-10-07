@@ -42,7 +42,7 @@ describe('getTerm', () => {
   it('fetches N3 from QA', async () => {
     global.fetch = jest.fn().mockImplementation(() => Promise.resolve({ text: () => 'n3' }))
 
-    const term = await getTerm('http://share-vde.org/sharevde/rdfBibframe/Work/4840195', 'sharevde_chicago_ld4l_cache')
+    const term = await getTerm('http://share-vde.org/sharevde/rdfBibframe/Work/4840195', 'urn:ld4p:qa:sharevde_chicago_ld4l_cache:all')
     expect(term).toBe('n3')
 
     expect(global.fetch).toHaveBeenCalledTimes(1)

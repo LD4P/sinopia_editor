@@ -9,7 +9,7 @@
 export const setSearchResults = (state, action) => {
   const newState = { ...state }
 
-  newState.search.authority = action.payload.authority
+  newState.search.uri = action.payload.uri
   newState.search.results = action.payload.searchResults
   newState.search.totalResults = action.payload.totalResults
   newState.search.query = action.payload.query
@@ -27,7 +27,7 @@ export const setSearchResults = (state, action) => {
 export const clearSearchResults = (state) => {
   const newState = { ...state }
 
-  newState.search.authority = undefined
+  newState.search.uri = undefined
   newState.search.results = []
   newState.search.totalResults = 0
   newState.search.query = undefined

@@ -1,5 +1,6 @@
+// Copyright 2019 Stanford University see LICENSE for license
 
-import lookupConfig from '../../static/lookupConfig.json'
+import { findAuthorityConfigs } from 'utilities/authorityConfig'
 import shortid from 'shortid'
 import { defaultLanguageId } from 'Utilities'
 
@@ -83,7 +84,7 @@ export const getLookupConfigItems = (propertyTemplate) => {
 
   if (vocabUriList === undefined || vocabUriList.length === 0) return []
 
-  const result = lookupConfig.filter(configItem => vocabUriList.includes(configItem.uri))
+  const result = findAuthorityConfigs(vocabUriList)
   if (result.length === 0) {
     throw `Unable to find ${vocabUriList} in the lookup configuration`
   }
