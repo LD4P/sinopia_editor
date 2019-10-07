@@ -13,3 +13,11 @@ export const languageLabel = (state, languageId) => {
   const lang = state.selectorReducer.entities.languages.options.find(lang => lang.id === languageId)
   return lang ? lang.label : ''
 }
+
+/**
+ * Return lookup based on URI.
+ * @param [Object] state
+ * @param [string] URI of the lookup
+ * @return [Object] the lookup if found
+ */
+export const findLookup = (state, uri) => state.selectorReducer.entities.lookups[uri]

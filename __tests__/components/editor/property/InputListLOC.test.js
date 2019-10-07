@@ -1,256 +1,381 @@
-// Copyright 2018, 2019 Stanford University see LICENSE for license
-
 import React from 'react'
-import { shallow } from 'enzyme'
-import { Typeahead } from 'react-bootstrap-typeahead'
+import { fireEvent, waitForElement, wait } from '@testing-library/react'
 import InputListLOC from 'components/editor/property/InputListLOC'
+import { showGroupChooser } from 'actions/index'
+/* eslint import/no-unresolved: 'off' */
+import { renderWithRedux, assertRDF, createReduxStore } from 'testUtils'
 
-const propsOk = {
-  reduxPath: [],
-  propertyTemplate:
-    {
-      propertyURI: 'http://id.loc.gov/ontologies/bflc/target',
-      propertyLabel: 'Frequency (RDA 2.14)',
-      remark: 'http://access.rdatoolkit.org/2.14.html',
-      mandatory: 'false',
-      repeatable: 'true',
-      type: 'lookup',
-      valueConstraint: {
-        defaults: [{
-          defaultURI: 'http://id.loc.gov/vocabulary/carriers/nc',
-          defaultLiteral: 'volume',
-        }],
-        useValuesFrom: [
-          'vocabulary:bf2:frequencies',
-        ],
-        valueDataType: {
-          dataTypeURI: 'http://id.loc.gov/ontologies/bibframe/Frequency',
+const createInitialState = (options = {}) => {
+  const state = {
+    selectorReducer: {
+      resource: {
+        'test:bf2:soundCharacteristics': {
+          'http://id.loc.gov/ontologies/bibframe/soundCharacteristics': {
+            items: {},
+          },
+        },
+      },
+      entities: {
+        resourceTemplates: {
+          'test:bf2:soundCharacteristics': {
+            id: 'test:bf2:soundCharacteristics',
+            propertyTemplates: [{
+              propertyLabel: 'Sound characteristics',
+              propertyURI: 'http://id.loc.gov/ontologies/bibframe/soundCharacteristics',
+              repeatable: 'false',
+              type: 'lookup',
+              valueConstraint: {
+                useValuesFrom: ['https://id.loc.gov/vocabulary/mrectype',
+                  'https://id.loc.gov/vocabulary/mrecmedium',
+                ],
+                valueDataType: {},
+              },
+              mandatory: 'false',
+            }],
+            resourceLabel: 'Multiple LOC lookups',
+            resourceURI: 'http://id.loc.gov/ontologies/bibframe/soundCharacteristics',
+          },
+        },
+        lookups: {},
+      },
+      editor: {
+        resourceValidationErrors: {},
+        rdfPreview: {
+          show: true,
         },
       },
     },
-  lookupConfig: [
-    {
-      label: 'carriers',
-      uri: 'https://id.loc.gov/vocabulary/carriers',
-      component: 'list',
-    },
-  ],
-  defaults: [
-    {
-      defaultURI: 'http://id.loc.gov/vocabulary/carriers/nc',
-      defaultLiteral: 'volume',
-    },
-  ],
+  }
+
+  if (options.hasInitialURIValue) {
+    const items = {
+      '60-nvkRUN': {
+        uri: 'http://id.loc.gov/vocabulary/mgroove/coarse',
+        label: 'http://id.loc.gov/vocabulary/mgroove/coarse',
+      },
+    }
+    state.selectorReducer.resource['test:bf2:soundCharacteristics']['http://id.loc.gov/ontologies/bibframe/soundCharacteristics'].items = items
+  }
+
+  if (options.hasInitialURIValues) {
+    const items = {
+      '60-nvkRUN': {
+        uri: 'http://id.loc.gov/vocabulary/mgroove/coarse',
+        label: 'http://id.loc.gov/vocabulary/mgroove/coarse',
+      },
+      IXkooAk68oE: {
+        uri: 'http://id.loc.gov/vocabulary/mgroove/lateral',
+        label: 'http://id.loc.gov/vocabulary/mgroove/lateral',
+      },
+    }
+    state.selectorReducer.resource['test:bf2:soundCharacteristics']['http://id.loc.gov/ontologies/bibframe/soundCharacteristics'].items = items
+  }
+
+  if (options.hasInitialLiteralValue) {
+    const items = {
+      '60-nvkRUN': {
+        content: 'foo',
+        label: 'foo',
+      },
+    }
+    state.selectorReducer.resource['test:bf2:soundCharacteristics']['http://id.loc.gov/ontologies/bibframe/soundCharacteristics'].items = items
+  }
+
+  if (options.mandatory) {
+    state.selectorReducer.entities.resourceTemplates['test:bf2:soundCharacteristics'].propertyTemplates[0].mandatory = 'true'
+  }
+  if (options.repeatable) {
+    state.selectorReducer.entities.resourceTemplates['test:bf2:soundCharacteristics'].propertyTemplates[0].repeatable = 'true'
+  }
+  return state
 }
 
-describe('<InputListLOC /> configuration', () => {
-  // Our mock formData function to replace the one provided by mapDispatchToProps
-  const mockFormDataFn = jest.fn()
+const mrectype = [{
+  '@id': 'http://id.loc.gov/vocabulary/mrectype/analog',
+  '@type': ['http://www.loc.gov/mads/rdf/v1#Authority'],
+  'http://www.loc.gov/mads/rdf/v1#authoritativeLabel': [{
+    '@value': 'analog',
+  }],
+}, {
+  '@id': 'http://id.loc.gov/vocabulary/mrectype/digital',
+  '@type': ['http://www.loc.gov/mads/rdf/v1#Authority'],
+  'http://www.loc.gov/mads/rdf/v1#authoritativeLabel': [{
+    '@value': 'digital',
+  }],
+}]
 
-  beforeEach(() => {
-    global.alert = jest.fn()
+const mrecmedium = [{
+  '@id': 'http://id.loc.gov/vocabulary/mrecmedium/opt',
+  '@type': ['http://www.loc.gov/mads/rdf/v1#Authority'],
+  'http://www.loc.gov/mads/rdf/v1#authoritativeLabel': [{
+    '@value': 'optical',
+  }],
+}, {
+  '@id': 'http://id.loc.gov/vocabulary/mrecmedium/magopt',
+  '@type': ['http://www.loc.gov/mads/rdf/v1#Authority'],
+  'http://www.loc.gov/mads/rdf/v1#authoritativeLabel': [{
+    '@value': 'magneto-optical',
+  }],
+}]
+
+const lookups = {
+  'https://id.loc.gov/vocabulary/mrectype.json': mrectype,
+  'https://id.loc.gov/vocabulary/mrecmedium.json': mrecmedium,
+}
+
+const reduxPath = [
+  'resource',
+  'test:bf2:soundCharacteristics',
+  'http://id.loc.gov/ontologies/bibframe/soundCharacteristics',
+]
+
+describe('InputListLOC', () => {
+  global.fetch = jest.fn().mockImplementation(url => Promise.resolve({ json: () => lookups[url] }))
+
+  it('renders when no value', () => {
+    const store = createReduxStore(createInitialState())
+    const { container, getByPlaceholderText, queryByText } = renderWithRedux(
+      <InputListLOC reduxPath={reduxPath} />, store,
+    )
+    // The input box is present.
+    expect(getByPlaceholderText('Sound characteristics')).toBeInTheDocument()
+    // Not required.
+    expect(queryByText('Required')).not.toBeInTheDocument()
+    expect(getByPlaceholderText('Sound characteristics')).not.toHaveAttribute('required')
+    // No existing values are present. This sort of a query isn't recommended but since testing for absence, seems OK.
+    expect(container.querySelector('.rbt-token')).not.toBeInTheDocument()
   })
 
-  afterEach(() => {
-    global.alert = alert
+  it('renders existing URI value', () => {
+    const store = createReduxStore(createInitialState({ hasInitialURIValue: true }))
+    const { getByDisplayValue } = renderWithRedux(
+      <InputListLOC reduxPath={reduxPath} />, store,
+    )
+    // The URI is displayed in the input box
+    expect(getByDisplayValue('http://id.loc.gov/vocabulary/mgroove/coarse')).toBeInTheDocument()
   })
 
-  it('expects a single lookupConfig object', () => {
-    shallow(<InputListLOC.WrappedComponent {...propsOk} changeSelections={mockFormDataFn} />)
-    expect(global.alert.mock.calls.length).toEqual(0)
-  })
-
-  describe('if the lookupConfig is undefined', () => {
-    const propsUndefLookupURI = {
-      reduxPath: [],
-      propertyTemplate:
-        {
-          propertyURI: 'http://id.loc.gov/ontologies/bflc/target',
-          propertyLabel: 'Frequency (RDA 2.14)',
-          remark: 'http://access.rdatoolkit.org/2.14.html',
-          mandatory: 'false',
-          repeatable: 'true',
-          type: 'lookup',
-          valueConstraint: {
-            defaults: [{
-              defaultURI: 'http://id.loc.gov/vocabulary/carriers/nc',
-              defaultLiteral: 'volume',
-            }],
-            useValuesFrom: [
-              'vocabulary:bf2:frequencies',
-            ],
-            valueDataType: {
-              dataTypeURI: 'http://id.loc.gov/ontologies/bibframe/Frequency',
-            },
-          },
-        },
-      lookupConfig: [
-        {
-          label: 'frequency',
-          uri: undefined,
-          component: 'list',
-        },
-      ],
-    }
-
-    it('displays a browser alert', () => {
-      shallow(<InputListLOC.WrappedComponent {...propsUndefLookupURI} changeSelections={mockFormDataFn} />)
-      expect(global.alert.mock.calls.length).toEqual(1)
-    })
+  it('renders existing URI values', () => {
+    const store = createReduxStore(createInitialState({ hasInitialURIValues: true, repeatable: true }))
+    const { getByText } = renderWithRedux(
+      <InputListLOC reduxPath={reduxPath} />, store,
+    )
+    // The URIs are displayed in the input box
+    expect(getByText('http://id.loc.gov/vocabulary/mgroove/lateral', 'div.rbt-token > a')).toBeInTheDocument()
+    expect(getByText('http://id.loc.gov/vocabulary/mgroove/coarse', 'div.rbt-token > a')).toBeInTheDocument()
   })
 
 
-  describe('if the lookupConfig is an array of objects and not a single object', () => {
-    const propsMultLookup = {
-      reduxPath: [],
-      propertyTemplate:
-        {
-          propertyURI: 'http://id.loc.gov/ontologies/bflc/target',
-          propertyLabel: 'Frequency (RDA 2.14)',
-          remark: 'http://access.rdatoolkit.org/2.14.html',
-          mandatory: 'false',
-          repeatable: 'true',
-          type: 'lookup',
-          valueConstraint: {
-            defaults: [{
-              defaultURI: 'http://id.loc.gov/vocabulary/carriers/nc',
-              defaultLiteral: 'volume',
-            }],
-            useValuesFrom: [
-              'vocabulary:bf2:frequencies',
-            ],
-            valueDataType: {
-              dataTypeURI: 'http://id.loc.gov/ontologies/bibframe/Frequency',
-            },
-          },
-        },
-      lookupConfig: [
-        {
-          label: 'carriers',
-          uri: 'https://id.loc.gov/vocabulary/carriers',
-          component: 'list',
-        },
-        {
-          label: 'frequency',
-          uri: undefined,
-          component: 'list',
-        },
-      ],
-    }
-    it('displays a browser alert', () => {
-      shallow(<InputListLOC.WrappedComponent {...propsMultLookup} changeSelections={mockFormDataFn} />)
-      expect(global.alert.mock.calls.length).toEqual(1)
-    })
-  })
-})
-
-describe('<Typeahead /> component', () => {
-  // Our mock formData function to replace the one provided by mapDispatchToProps
-  const mockFormDataFn = jest.fn()
-  const wrapper = shallow(<InputListLOC.WrappedComponent {...propsOk} changeSelections={mockFormDataFn} />)
-
-  it('contains a placeholder with the value of propertyLabel', () => {
-    expect(wrapper.find(Typeahead).props().placeholder).toMatch('Frequency (RDA 2.14)')
+  it('renders existing literal value', () => {
+    const store = createReduxStore(createInitialState({ hasInitialLiteralValue: true }))
+    const { getByDisplayValue } = renderWithRedux(
+      <InputListLOC reduxPath={reduxPath} />, store,
+    )
+    // The literal is displayed in the input box
+    expect(getByDisplayValue('foo')).toBeInTheDocument()
   })
 
-  it('typeahead component should have a placeholder attribute with value propertyLabel', () => {
-    expect(wrapper.find('#loc-vocab-list').props().placeholder).toBe('Frequency (RDA 2.14)')
+  it('handles entering non-repeatable value', async () => {
+    const store = createReduxStore(createInitialState())
+    const {
+      getByPlaceholderText, queryByText, getByText, findByText, getByDisplayValue,
+    } = renderWithRedux(
+      <InputListLOC reduxPath={reduxPath} />, store,
+    )
+    // The input box is present.
+    expect(getByPlaceholderText('Sound characteristics')).toBeInTheDocument()
+
+    // Click in the input box
+    const input = getByPlaceholderText('Sound characteristics')
+    fireEvent.click(input)
+
+    // Dropdown headers
+    expect(getByText('recording medium', '.dropdown-header')).toBeInTheDocument()
+    expect(getByText('type of recording', '.dropdown-header')).toBeInTheDocument()
+
+    // Dropdown values
+    expect(await findByText('analog', '.dropdown-item')).toBeInTheDocument()
+    expect(await findByText('digital', '.dropdown-item')).toBeInTheDocument()
+    expect(await findByText('magneto-optical', '.dropdown-item')).toBeInTheDocument()
+    expect(await findByText('optical', '.dropdown-item')).toBeInTheDocument()
+
+    // Start typing optical
+    fireEvent.change(input, { target: { value: 'opt' } })
+
+    await wait(() => expect(queryByText('analog', '.dropdown-item')).not.toBeInTheDocument())
+    await wait(() => expect(queryByText('digital', '.dropdown-item')).not.toBeInTheDocument())
+    expect(getByText('magneto-optical', '.dropdown-item')).toBeInTheDocument()
+    expect(getByText('optical', '.dropdown-item')).toBeInTheDocument()
+
+    fireEvent.click(getByText('optical', '.dropdown-item'))
+
+    expect(getByDisplayValue('optical')).toBeInTheDocument()
+    // Ideally would like to test can't add repeated value. However, the user
+    // can continue typing so this is a sub-optimal behavior and not really testable.
   })
 
-  it('sets the typeahead component required attribute according to the mandatory value from the template', () => {
-    expect(wrapper.find('#loc-vocab-list').props().required).toBe(false)
+  it('handles entering repeatable value', async () => {
+    const store = createReduxStore(createInitialState({ repeatable: true }))
+    const {
+      getByPlaceholderText, getByText, findByText,
+    } = renderWithRedux(
+      <InputListLOC reduxPath={reduxPath} />, store,
+    )
+    // The input box is present.
+    const input = getByPlaceholderText('Sound characteristics')
+    expect(input).toBeInTheDocument()
+
+    // Start typing optical and select it
+    fireEvent.change(input, { target: { value: 'opt' } })
+
+    expect(await findByText('magneto-optical', '.dropdown-item')).toBeInTheDocument()
+    expect(await findByText('optical', '.dropdown-item')).toBeInTheDocument()
+
+    fireEvent.click(getByText('optical', '.dropdown-item'))
+
+    expect(getByText('optical', 'div.rbt-token > a')).toBeInTheDocument()
+
+    // Start typing analog and select it
+    fireEvent.change(input, { target: { value: 'ana' } })
+
+    expect(await findByText('analog', '.dropdown-item')).toBeInTheDocument()
+
+    fireEvent.click(getByText('analog', '.dropdown-item'))
+
+    // Analog and optical are entered
+    expect(getByText('optical', 'div.rbt-token > a')).toBeInTheDocument()
+    expect(getByText('analog', 'div.rbt-token > a')).toBeInTheDocument()
   })
 
-  describe('when mandatory is true', () => {
-    const template = { ...propsOk.propertyTemplate, mandatory: 'true' }
-    const wrapper2 = shallow(<InputListLOC.WrappedComponent {...propsOk} propertyTemplate={template} />)
+  it('handles entering a new literal', async () => {
+    const store = createReduxStore(createInitialState())
+    const {
+      getByPlaceholderText, getByText, findByText, getByDisplayValue,
+    } = renderWithRedux(
+      <InputListLOC reduxPath={reduxPath} />, store,
+    )
+    // The input box is present.
+    const input = getByPlaceholderText('Sound characteristics')
+    expect(input).toBeInTheDocument()
 
-    it('passes the "required" property to Typeahead', () => {
-      expect(wrapper2.find('#loc-vocab-list').props().required).toBeTruthy()
-    })
+    // Start typing a new literal
+    fireEvent.change(input, { target: { value: 'foo' } })
+
+    expect(await findByText('foo', '.dropdown-item')).toBeInTheDocument()
+    expect(getByText('New Literal', '.dropdown-header')).toBeInTheDocument()
+
+    fireEvent.click(getByText('foo', '.dropdown-item'))
+
+    expect(getByDisplayValue('foo')).toBeInTheDocument()
   })
 
-  it('displays a text label if remark from template is absent', () => {
-    wrapper.instance().props.propertyTemplate.remark = undefined
-    wrapper.instance().forceUpdate()
-    expect(wrapper.find(Typeahead).props().placeholder).toMatch('Frequency (RDA 2.14)')
+  it('handles entering a new URI', async () => {
+    const store = createReduxStore(createInitialState())
+    const {
+      getByPlaceholderText, getByText, findByText, getByDisplayValue,
+    } = renderWithRedux(
+      <InputListLOC reduxPath={reduxPath} />, store,
+    )
+    // The input box is present.
+    const input = getByPlaceholderText('Sound characteristics')
+    expect(input).toBeInTheDocument()
+
+    // Start typing a new literal
+    fireEvent.change(input, { target: { value: 'http://foo' } })
+
+    expect(await findByText('http://foo', '.dropdown-item')).toBeInTheDocument()
+    expect(getByText('New URI', '.dropdown-header')).toBeInTheDocument()
+
+    fireEvent.click(getByText('http://foo', '.dropdown-item'))
+
+    expect(getByDisplayValue('http://foo')).toBeInTheDocument()
   })
 
-  it('sets the typeahead component multiple attribute according to the repeatable value in the property template', () => {
-    expect(wrapper.find('#loc-vocab-list').props().multiple).toBe(true)
+
+  it('handles deleting value', () => {
+    const store = createReduxStore(createInitialState({ hasInitialURIValue: true, repeatable: true }))
+    const { getByText } = renderWithRedux(
+      <InputListLOC reduxPath={reduxPath} />, store,
+    )
+
+    const token = getByText('http://id.loc.gov/vocabulary/mgroove/coarse', 'div.rbt-token > a')
+    expect(token).toBeInTheDocument()
+
+    // expect(getByText('×', 'button.rbt-token-remove-button')).toBeInTheDocument()
+    fireEvent.click(getByText('×', 'button.rbt-token-remove-button'))
+
+    expect(token).not.toBeInTheDocument()
+    // expect(await token).toBeInTheDocument()
+    // await wait(() => expect(token).not.toBeInTheDocument())
   })
 
-  it('sets the typeahead component placeholder attribute', () => {
-    expect(wrapper.find('#loc-vocab-list').props().placeholder).toMatch('Frequency (RDA 2.14)')
+  it('produces expected triples for value', async () => {
+    const store = createReduxStore(createInitialState())
+    const {
+      getByPlaceholderText, getByText, findByText, getByDisplayValue,
+    } = renderWithRedux(
+      <InputListLOC reduxPath={reduxPath} />, store,
+    )
+
+    // Click in the input box
+    const input = getByPlaceholderText('Sound characteristics')
+
+    // Start typing optical
+    fireEvent.change(input, { target: { value: 'opt' } })
+
+    expect(await findByText('optical', '.dropdown-item')).toBeInTheDocument()
+
+    fireEvent.click(getByText('optical', '.dropdown-item'))
+
+    expect(getByDisplayValue('optical')).toBeInTheDocument()
+
+    // Render an RDFModal
+    assertRDF(store, [
+      '<> <http://id.loc.gov/ontologies/bibframe/soundCharacteristics> <http://id.loc.gov/vocabulary/mrecmedium/opt> .',
+      '<> <http://sinopia.io/vocabulary/hasResourceTemplate> "test:bf2:soundCharacteristics" .',
+      '<> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://id.loc.gov/ontologies/bibframe/soundCharacteristics> .',
+    ])
   })
 
-  it('sets the selected option', () => {
-    const opts = { id: 'URI', label: 'LABEL', uri: 'URI' }
+  it('produces expected triples for a literal', async () => {
+    const store = createReduxStore(createInitialState())
+    const {
+      getByPlaceholderText, getByText, findByText, getByDisplayValue,
+    } = renderWithRedux(
+      <InputListLOC reduxPath={reduxPath} />, store,
+    )
 
-    const event = () => {
-      global.fetch = jest.fn().mockImplementation(async () => await { ok: true, resp: opts })
-    }
-    wrapper.find('#loc-vocab-list').simulate('change', event())
+    // The input box is present.
+    const input = getByPlaceholderText('Sound characteristics')
 
-    expect(mockFormDataFn).toHaveBeenCalled()
-  })
-})
+    // Start typing a new literal
+    fireEvent.change(input, { target: { value: 'foo' } })
 
-describe('InputListLoc.responseToOptions', () => {
-  const wrapper = shallow(<InputListLOC.WrappedComponent {...propsOk}/>)
-  const json = [
-    {
-      '@id': 'http://id.loc.gov/vocabulary/languages/sna',
-      '@type': ['http://www.loc.gov/mads/rdf/v1#Authority', 'http://www.loc.gov/mads/rdf/v1#Authority', 'http://www.w3.org/2004/02/skos/core#Concept', 'http://www.w3.org/2004/02/skos/core#Concept'],
-      'http://www.loc.gov/mads/rdf/v1#authoritativeLabel': [{
-        '@language': 'en',
-        '@value': 'Shona',
-      }, {
-        '@language': 'de',
-        '@value': 'Schona-Sprache',
-      }],
-      'http://www.w3.org/2004/02/skos/core#prefLabel': [{
-        '@language': 'en',
-        '@value': 'Shona',
-      }, {
-        '@language': 'de',
-        '@value': 'Schona-Sprache',
-      }],
-    }, {
-      '@id': 'http://id.loc.gov/vocabulary/languages/hsb',
-      '@type': ['http://www.loc.gov/mads/rdf/v1#Authority', 'http://www.loc.gov/mads/rdf/v1#Authority', 'http://www.w3.org/2004/02/skos/core#Concept', 'http://www.w3.org/2004/02/skos/core#Concept'],
-      'http://www.loc.gov/mads/rdf/v1#authoritativeLabel': [{
-        '@language': 'en',
-        '@value': 'Upper Sorbian',
-      }, {
-        '@language': 'de',
-        '@value': 'Obersorbisch',
-      }],
-      'http://www.w3.org/2004/02/skos/core#prefLabel': [{
-        '@language': 'en',
-        '@value': 'Upper Sorbian',
-      }, {
-        '@language': 'de',
-        '@value': 'Obersorbisch',
-      }],
-    },
-  ]
+    expect(await findByText('foo', '.dropdown-item')).toBeInTheDocument()
 
-  it('maps the response from LOC to options', () => {
-    const results = wrapper.instance().responseToOptions(json)
-    expect(results.map(entry => entry.label)).toEqual(['Shona', 'Schona-Sprache', 'Upper Sorbian', 'Obersorbisch'])
-  })
-})
+    fireEvent.click(getByText('foo', '.dropdown-item'))
 
-describe('Errors', () => {
-  const errors = ['Required']
-  const wrapper = shallow(<InputListLOC.WrappedComponent displayValidations={true} errors={errors} {...propsOk}/>)
+    expect(getByDisplayValue('foo')).toBeInTheDocument()
 
-  it('displays the errors', () => {
-    expect(wrapper.find('span.help-block').text()).toEqual('Required')
+    // Render an RDFModal
+    assertRDF(store, [
+      '<> <http://id.loc.gov/ontologies/bibframe/soundCharacteristics> "foo" .',
+      '<> <http://sinopia.io/vocabulary/hasResourceTemplate> "test:bf2:soundCharacteristics" .',
+      '<> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://id.loc.gov/ontologies/bibframe/soundCharacteristics> .',
+    ])
   })
 
-  it('sets the has-error class', () => {
-    expect(wrapper.exists('div.has-error')).toEqual(true)
+  it('validates when mandatory', async () => {
+    const store = createReduxStore(createInitialState({ mandatory: true }))
+    const { getByText, queryByText } = renderWithRedux(
+      <InputListLOC reduxPath={reduxPath} />, store,
+    )
+
+    expect(queryByText('Required')).not.toBeInTheDocument()
+
+    // Trigger validation
+    store.dispatch(showGroupChooser(true))
+
+    await waitForElement(() => getByText('Required'))
   })
 })

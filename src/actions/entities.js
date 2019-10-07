@@ -8,3 +8,11 @@ export const languagesReceived = json => ({
   type: 'LANGUAGES_RECEIVED',
   payload: json,
 })
+
+export const lookupOptionsRetrieved = (uri, lookup) => ({
+  type: 'LOOKUP_OPTIONS_RETRIEVED',
+  payload: {
+    uri,
+    lookup,
+  },
+})

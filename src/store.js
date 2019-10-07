@@ -37,6 +37,7 @@ const initialState = {
       resourceTemplateSummaries: {},
       languages: { loading: false, options: [] },
       qa: { loading: false, options: [] },
+      lookups: {},
     },
     resource: {}, // The state we're displaying in the editor
     search: {

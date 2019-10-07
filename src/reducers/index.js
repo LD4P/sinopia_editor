@@ -14,6 +14,7 @@ import {
 } from './entities'
 import { clearSearchResults, setSearchResults } from './search'
 import { findObjectAtPath } from 'selectors/resourceSelectors'
+import lookupOptionsRetrieved from './lookups'
 import _ from 'lodash'
 
 export const setResource = (state, action) => {
@@ -179,6 +180,7 @@ const handlers = {
   SHOW_COPY_NEW_MESSAGE: showCopyNewMessage,
   COPY_NEW_RESOURCE: copyResourceToEditor,
   SET_UNUSED_RDF: setUnusedRDF,
+  LOOKUP_OPTIONS_RETRIEVED: lookupOptionsRetrieved,
 }
 
 export const createReducer = handlers => (state = {}, action) => {
