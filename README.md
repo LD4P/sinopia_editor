@@ -307,6 +307,13 @@ changes and so you must also submit a PR to change the client id in this applica
 this will be handled via an environment variable, but for local functionality and testing, the hard-coded value must be updated,
 or you must set the environment variable `AWS_CLIENT_ID` to be the current client id.
 
+#### Cross Platform Testing
+
+We use open source BrowserStack accounts for cross-platform/browser testing. See the [Sinopia Editor wiki](https://github.com/LD4P/sinopia_editor/wiki/Cross-Platform-Browser-Testing) for more details about how to get an account.
+
+[![Browserstack](https://github.com/LD4P/sinopia_editor/wiki/images/Browserstack-logo.png)](https://www.browserstack.com)
+
+
 Acknowledgements
 ----------
 
