@@ -62,7 +62,7 @@ const mapStateToProps = (state) => {
   const resourceTemplateId = _.first(Object.keys(state.selectorReducer.resource))
 
   const resourceTemplate = getResourceTemplate(state, resourceTemplateId)
-  const error = state.selectorReducer.editor.serverError
+  const error = state.selectorReducer.editor.retrieveResourceTemplateError
   const unusedRDF = state.selectorReducer.editor.unusedRDF
   return {
     resourceTemplate,

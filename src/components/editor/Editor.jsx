@@ -42,6 +42,16 @@ const Editor = (props) => {
       </div>
       <RDFModal />
       <ErrorMessages />
+      { props.saveError
+        && <div className="row">
+          <div className="col-md-12" style={{ marginTop: '10px' }}>
+            <div className="alert alert-danger alert-dismissible">
+              <button className="close" data-dismiss="alert" aria-label="close">&times;</button>
+              { props.saveError }
+            </div>
+          </div>
+        </div>
+      }
       <GroupChoiceModal />
       <ResourceTemplate />
     </div>
@@ -57,10 +67,12 @@ Editor.propTypes = {
   currentUser: PropTypes.object,
   resourceHasChanges: PropTypes.bool,
   isMenuOpened: PropTypes.bool,
+  saveError: PropTypes.string,
 }
 
 const mapStateToProps = state => ({
   resourceHasChanges: resourceHasChangesSinceLastSave(state),
+  saveError: state.selectorReducer.editor.saveResourceError,
 })
 
 export default connect(mapStateToProps)(Editor)

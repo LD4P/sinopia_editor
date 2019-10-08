@@ -1,7 +1,7 @@
 // Copyright 2019 Stanford University see LICENSE for license
 import {
   retrieveResourceTemplateStarted,
-  retrieveError, setResourceTemplate, setResourceTemplateSummary,
+  setRetrieveResourceTemplateError, setResourceTemplate, setResourceTemplateSummary,
 } from 'actions/index'
 import validateResourceTemplate from 'ResourceTemplateValidator'
 import Config from 'Config'
@@ -20,10 +20,10 @@ export const fetchResourceTemplate = (resourceTemplateId, dispatch) => {
       dispatch(setResourceTemplate(resourceTemplate))
       return resourceTemplate
     }
-    dispatch(retrieveError(resourceTemplateId, reason))
+    dispatch(setRetrieveResourceTemplateError(resourceTemplateId, reason))
   }).catch((err) => {
     console.error(err)
-    dispatch(retrieveError(resourceTemplateId, err))
+    dispatch(setRetrieveResourceTemplateError(resourceTemplateId, err))
   })
 }
 
@@ -41,6 +41,7 @@ export const fetchResourceTemplateSummaries = () => (dispatch) => {
 }
 
 export const fetchResourceTemplateSummary = (templateId, groupName, dispatch) => {
+  dispatch(retrieveResourceTemplateStarted(templateId))
   const templateName = resourceToName(templateId)
   return getResourceTemplate(templateName, groupName).then((templateResponse) => {
     const template = templateResponse.response.body
@@ -55,5 +56,6 @@ export const fetchResourceTemplateSummary = (templateId, groupName, dispatch) =>
     dispatch(setResourceTemplateSummary(templateSummary))
   }, (error) => {
     console.error(`Error retrieving resource template ${templateId}`, error)
+    dispatch(setRetrieveResourceTemplateError(templateId, error))
   })
 }

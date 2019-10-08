@@ -31,6 +31,10 @@ const initialState = {
       },
       resourceValidationErrors: { // Errors from validating resource (redux path organized)
       },
+      retrieveResourceError: undefined,
+      retrieveResourceTemplateError: undefined,
+      saveResourceTemplateError: undefined,
+      saveResourceError: undefined,
     },
     entities: { // The stuff we've retrieved from the server
       resourceTemplates: {},

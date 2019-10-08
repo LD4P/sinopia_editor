@@ -2,8 +2,8 @@
 /* eslint max-params: ["error", 4] */
 
 import React, { useState, useEffect } from 'react'
-import { bindActionCreators } from 'redux'
 import { connect } from 'react-redux'
+import { bindActionCreators } from 'redux'
 import PropTypes from 'prop-types'
 import Config from 'Config'
 import 'react-bootstrap-table-next/dist/react-bootstrap-table2.min.css'
@@ -18,13 +18,14 @@ const SinopiaSearchResults = (props) => {
   const [navigateEditor, setNavigateEditor] = useState(false)
 
   const handleClick = (resourceURI) => {
-    props.retrieveResource(props.currentUser, resourceURI)
-    setNavigateEditor(true)
+    props.retrieveResource(props.currentUser, resourceURI).then((success) => {
+      setNavigateEditor(success)
+    })
   }
 
   useEffect(() => {
     // Forces a wait until the root resource has been set in state
-    if (navigateEditor && props.rootResource) {
+    if (navigateEditor && props.rootResource && !props.error) {
       props.history.push('/editor')
     }
   })
@@ -58,14 +59,26 @@ const SinopiaSearchResults = (props) => {
   }]
 
   return (
-    <div id="search-results" className="row">
-      <div className="col-sm-2"></div>
-      <div className="col-sm-8">
-        <h3>Your List of Bibliographic Metadata Stored in Sinopia</h3>
-        <BootstrapTable id="search-results-list" keyField="uri" data={ props.searchResults } columns={ columns } />
+    <React.Fragment>
+      { props.error
+        && <div className="row">
+          <div className="col-md-12" style={{ marginTop: '10px' }}>
+            <div className="alert alert-danger alert-dismissible">
+              <button className="close" data-dismiss="alert" aria-label="close">&times;</button>
+              { props.error }
+            </div>
+          </div>
+        </div>
+      }
+      <div id="search-results" className="row">
+        <div className="col-sm-2"></div>
+        <div className="col-sm-8">
+          <h3>Your List of Bibliographic Metadata Stored in Sinopia</h3>
+          <BootstrapTable id="search-results-list" keyField="uri" data={ props.searchResults } columns={ columns } />
+        </div>
+        <div className="col-sm-2"></div>
       </div>
-      <div className="col-sm-2"></div>
-    </div>
+    </React.Fragment>
   )
 }
 
@@ -75,12 +88,14 @@ SinopiaSearchResults.propTypes = {
   currentUser: PropTypes.object,
   history: PropTypes.object,
   rootResource: PropTypes.object,
+  error: PropTypes.string,
 }
 
 const mapStateToProps = state => ({
   currentUser: getCurrentUser(state),
   searchResults: state.selectorReducer.search.results,
   rootResource: rootResource(state),
+  error: state.selectorReducer.editor.retrieveResourceError,
 })
 
 const mapDispatchToProps = dispatch => bindActionCreators({ retrieveResource }, dispatch)

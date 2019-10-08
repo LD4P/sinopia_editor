@@ -34,5 +34,8 @@ export const clearSearchResults = (state) => {
   newState.search.startOfRange = 0
   newState.search.error = undefined
 
+  // Also clear retrieve resource error
+  newState.editor.retrieveResourceError = undefined
+
   return newState
 }

@@ -134,7 +134,7 @@ SinopiaResourceTemplates.propTypes = {
 const mapStateToProps = (state) => {
   const resourceTemplateSummaries = Object.values(state.selectorReducer.entities.resourceTemplateSummaries)
   const resource = rootResource(state)
-  const error = state.selectorReducer.editor.serverError
+  const error = state.selectorReducer.editor.retrieveResourceTemplateError
   return {
     resourceTemplateSummaries,
     error,

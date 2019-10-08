@@ -14,7 +14,7 @@ describe('fetchResourceTemplate', () => {
       const dispatch = jest.fn()
       await fetchResourceTemplate(resourceTemplateId, dispatch)
       expect(dispatch).toBeCalledWith({ type: 'RETRIEVE_RESOURCE_TEMPLATE_STARTED', payload: resourceTemplateId })
-      expect(dispatch).toBeCalledWith({ type: 'SET_RESOURCE_TEMPLATE', payload: templateResponse.response.body })
+      expect(dispatch).toBeCalledWith({ type: 'RESOURCE_TEMPLATE_LOADED', payload: templateResponse.response.body })
     })
   })
   describe('an invalid template', () => {
@@ -26,7 +26,7 @@ describe('fetchResourceTemplate', () => {
       await fetchResourceTemplate(resourceTemplateId, dispatch)
       expect(dispatch).toBeCalledWith({ type: 'RETRIEVE_RESOURCE_TEMPLATE_STARTED', payload: resourceTemplateId })
       expect(dispatch).toBeCalledWith({
-        type: 'RETRIEVE_ERROR',
+        type: 'RETRIEVE_RESOURCE_TEMPLATE_ERROR',
         payload: {
           resourceTemplateId,
           reason: [
@@ -64,9 +64,9 @@ describe('fetchResourceTemplateSummaries', () => {
     expect(server.getResourceTemplate).toHaveBeenCalledWith(noteId, 'ld4p')
     expect(server.getResourceTemplate).toHaveBeenCalledWith(barcodeId, 'ld4p')
 
-    expect(dispatch).toHaveBeenCalledTimes(2)
+    expect(dispatch).toHaveBeenCalledTimes(4)
     expect(dispatch).toBeCalledWith({
-      type: 'SET_RESOURCE_TEMPLATE_SUMMARY',
+      type: 'RESOURCE_TEMPLATE_SUMMARY_LOADED',
       payload: {
         key: noteId,
         name: 'Note',
