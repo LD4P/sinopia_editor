@@ -46,6 +46,7 @@ const createInitialState = () => {
             },
           ],
         },
+        lookups: {},
       },
       editor: {
         resourceValidationErrors: {},

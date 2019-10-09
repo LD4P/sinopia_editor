@@ -18,6 +18,8 @@ export const createReduxStore = (initialState) => {
 }
 
 export const assertRDF = (store, triples) => {
+  // For this to work, show for rdfPreview must be set to true
+  expect(store.getState().selectorReducer.editor.rdfPreview.show).toBe(true)
   const { getByText } = renderWithRedux(
     <RDFModal />, store,
   )

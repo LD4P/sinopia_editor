@@ -1,34 +1,69 @@
 // Copyright 2019 Stanford University see LICENSE for license
 
-import React, { Component } from 'react'
+import React, { useState, useEffect, useMemo } from 'react'
 import { Typeahead } from 'react-bootstrap-typeahead'
+import defaultFilterBy from 'react-bootstrap-typeahead/lib/utils/defaultFilterBy'
 import PropTypes from 'prop-types'
-import SinopiaPropTypes from 'SinopiaPropTypes'
-import { bindActionCreators } from 'redux'
-import { connect } from 'react-redux'
-import shortid from 'shortid'
-import { changeSelections } from 'actions/index'
+import { useDispatch, useSelector } from 'react-redux'
+import { changeSelections as changeSelectionsAction } from 'actions/index'
 import {
   itemsForProperty, getDisplayValidations, getPropertyTemplate, findErrors,
 } from 'selectors/resourceSelectors'
 import { booleanPropertyFromTemplate, getLookupConfigItems } from 'utilities/propertyTemplates'
 import { renderMenuFunc, renderTokenFunc } from './renderTypeaheadFunctions'
+import fetchLookup from 'actionCreators/lookup'
+import { findLookup } from 'selectors/entitySelectors'
 import _ from 'lodash'
 
 // propertyTemplate of type 'lookup' does live QA lookup via API
 //  based on URI in propertyTemplate.valueConstraint.useValuesFrom,
 //  and the lookupConfig for the URI has component value of 'list'
-class InputListLOC extends Component {
-  constructor(props) {
-    super(props)
-    this.state = {
-      isLoading: false,
-      options: [], // The suggestions returned from QA
-    }
-  }
+const InputListLOC = (props) => {
+  const dispatch = useDispatch()
+  const changeSelections = payload => dispatch(changeSelectionsAction(payload))
+
+  const propertyTemplate = useSelector((state) => {
+    const resourceTemplateId = props.reduxPath[props.reduxPath.length - 2]
+    const propertyURI = props.reduxPath[props.reduxPath.length - 1]
+    return getPropertyTemplate(state, resourceTemplateId, propertyURI)
+  })
+
+  const [isRepeatable, setIsRepeatable] = useState(true)
+  const [isMandatory, setIsMandatory] = useState(false)
+  const [lookupConfigs, setlookupConfigs] = useState([])
+  useEffect(() => {
+    setIsRepeatable(booleanPropertyFromTemplate(propertyTemplate, 'repeatable', true))
+    setIsMandatory(booleanPropertyFromTemplate(propertyTemplate, 'mandatory', false))
+    setlookupConfigs(getLookupConfigItems(propertyTemplate))
+  }, [propertyTemplate])
+
+  useEffect(() => {
+    lookupConfigs.forEach((lookupConfig) => {
+      dispatch(fetchLookup(lookupConfig.uri))
+    })
+  }, [dispatch, lookupConfigs])
+
+  const lookups = useSelector((state) => {
+    const newLookups = {}
+    lookupConfigs.forEach(lookupConfig => newLookups[lookupConfig.uri] = findLookup(state, lookupConfig.uri) || [])
+    return newLookups
+  })
+
+  // Only update options when lookups or lookupConfigs change.
+  const options = useMemo(() => {
+    const newOptions = []
+    lookupConfigs.forEach((lookupConfig) => {
+      newOptions.push({ authLabel: lookupConfig.label, authURI: lookupConfig.uri })
+      newOptions.push(...lookups[lookupConfig.uri] || [])
+    })
+    return newOptions
+  }, [lookups, lookupConfigs])
+
+
+  const selected = useSelector(state => itemsForProperty(state, props.reduxPath))
 
   // From https://github.com/ericgio/react-bootstrap-typeahead/issues/389
-  onKeyDown = (e) => {
+  const onKeyDown = (e) => {
     // 8 = backspace
     if (e.keyCode === 8
         && e.target.value === '') {
@@ -38,139 +73,64 @@ class InputListLOC extends Component {
     }
   }
 
-  selectionChanged(items) {
+  const selectionChanged = (items) => {
     const payload = {
-      id: this.props.propertyTemplate.propertyURI,
+      id: propertyTemplate.propertyURI,
       items,
-      reduxPath: this.props.reduxPath,
+      reduxPath: props.reduxPath,
     }
-
-    this.props.changeSelections(payload)
+    changeSelections(payload)
   }
 
-  get isMandatory() {
-    return booleanPropertyFromTemplate(this.props.propertyTemplate, 'mandatory', false)
+  // Custom filterBy to retain authority labels when filtering to provide context.
+  const filterBy = (option, props) => {
+    if (option.authURI || option.isError) {
+      return true
+    }
+    props.filterBy = ['label']
+    return defaultFilterBy(option, props)
   }
 
-  get isRepeatable() {
-    return booleanPropertyFromTemplate(this.props.propertyTemplate, 'repeatable', true)
+  const displayValidations = useSelector(state => getDisplayValidations(state))
+  const validationErrors = useSelector(state => findErrors(state, props.reduxPath))
+
+  let error
+  let groupClasses = 'form-group'
+  if (displayValidations && !_.isEmpty(validationErrors)) {
+    groupClasses += ' has-error'
+    error = validationErrors.join(',')
   }
 
-  responseToOptions(json) {
-    const opts = []
-    for (const i in json) {
-      try {
-        const newId = shortid.generate()
-        const item = Object.getOwnPropertyDescriptor(json, i)
-        const uri = item.value['@id']
-        const labels = item.value['http://www.loc.gov/mads/rdf/v1#authoritativeLabel']
-        labels.forEach(label => opts.push({ id: newId, label: label['@value'], uri }))
-      } catch (err) {
-        // Ignore
-      }
-    }
-    return opts
+  if (!propertyTemplate) {
+    return null
   }
 
-  onFocus() {
-    return () => {
-      this.setState({ isLoading: true })
-      const uri = `${this.props.lookupConfig[0].uri}.json`
-      fetch(uri)
-        .then(resp => resp.json())
-        .then(json => this.responseToOptions(json))
-        .then(opts => this.setState({
-          isLoading: false,
-          options: opts,
-        }))
-        .catch(() => false)
-    }
-  }
-
-  render() {
-    // Don't render if no property template yet
-    if (!this.props.propertyTemplate) {
-      return null
-    }
-
-    if (this.props.lookupConfig?.length > 1) {
-      alert(`There are multiple configured list lookups for ${this.props.propertyTemplate.propertyURI}`)
-    }
-
-    if (this.props.lookupConfig[0]?.uri === undefined) {
-      alert(`There is no configured list lookup for ${this.props.propertyTemplate.propertyURI}`)
-    }
-
-    const typeaheadProps = {
-      id: 'loc-vocab-list',
-      required: this.isMandatory,
-      multiple: this.isRepeatable,
-      placeholder: this.props.propertyTemplate.propertyLabel,
-      emptyLabel: 'retrieving list of terms...',
-      useCache: true,
-      selectHintOnEnter: true,
-      isLoading: this.state.isLoading,
-      options: this.state.options,
-      selected: this.props.selected,
-      onKeyDown: this.onKeyDown,
-    }
-
-    let error
-    let groupClasses = 'form-group'
-
-    if (this.props.displayValidations && !_.isEmpty(this.props.errors)) {
-      groupClasses += ' has-error'
-      error = this.props.errors.join(',')
-    }
-
-    return (
-      <div className={groupClasses}>
-        <Typeahead
-          renderMenu={(results, menuProps) => renderMenuFunc(results, menuProps)}
-          renderToken={(option, props, idx) => renderTokenFunc(option, props, idx)}
-          ref={typeahead => this.typeahead = typeahead}
-          allowNew={() => true }
-          onFocus={this.onFocus()}
-          onBlur={() => { this.setState({ isLoading: false }) }}
-          onChange={selected => this.selectionChanged(selected)}
-          {...typeaheadProps}
-        />
-        {error && <span className="help-block help-block-error">{error}</span>}
-      </div>
-    )
-  }
+  return (
+    <div className={groupClasses}>
+      <Typeahead
+        renderMenu={(results, menuProps) => renderMenuFunc(results, menuProps)}
+        renderToken={(option, props, idx) => renderTokenFunc(option, props, idx)}
+        allowNew={() => true }
+        onChange={selected => selectionChanged(selected)}
+        id="loc-vocab-list"
+        required={isMandatory}
+        multiple={isRepeatable}
+        placeholder={propertyTemplate.propertyLabel}
+        emptyLabel="retrieving list of terms..."
+        useCache={true}
+        selectHintOnEnter={true}
+        options={options}
+        selected={selected}
+        filterBy={filterBy}
+        onKeyDown={onKeyDown}
+      />
+      {error && <span className="help-block help-block-error">{error}</span>}
+    </div>
+  )
 }
 
 InputListLOC.propTypes = {
-  defaults: PropTypes.arrayOf(PropTypes.object),
-  displayValidations: PropTypes.bool,
-  changeSelections: PropTypes.func,
-  lookupConfig: PropTypes.arrayOf(PropTypes.object),
-  propertyTemplate: SinopiaPropTypes.propertyTemplate,
   reduxPath: PropTypes.array.isRequired,
-  selected: PropTypes.arrayOf(PropTypes.object),
-  errors: PropTypes.array,
 }
 
-const mapStateToProps = (state, ownProps) => {
-  const reduxPath = ownProps.reduxPath
-  const resourceTemplateId = reduxPath[reduxPath.length - 2]
-  const propertyURI = reduxPath[reduxPath.length - 1]
-  const displayValidations = getDisplayValidations(state)
-  const propertyTemplate = getPropertyTemplate(state, resourceTemplateId, propertyURI)
-  const lookupConfig = getLookupConfigItems(propertyTemplate)
-  const errors = findErrors(state, ownProps.reduxPath)
-  const selected = itemsForProperty(state, ownProps.reduxPath)
-
-  return {
-    selected,
-    propertyTemplate,
-    displayValidations,
-    lookupConfig,
-    errors,
-  }
-}
-
-const mapDispatchToProps = dispatch => bindActionCreators({ changeSelections }, dispatch)
-
-export default connect(mapStateToProps, mapDispatchToProps)(InputListLOC)
+export default InputListLOC

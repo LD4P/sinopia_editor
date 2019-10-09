@@ -27,6 +27,7 @@ const rtFileNames = [
   'ItemEnumeration.json',
   'ItemRetention.json',
   'LCCN.json',
+  'multiple_loc.json',
   'MonographInstance.json',
   'MonographWork.json',
   'Note.json',
