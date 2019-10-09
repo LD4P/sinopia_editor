@@ -11,8 +11,8 @@ const props = {
 describe('<Header />', () => {
   const wrapper = shallow(<Header.WrappedComponent {...props}/>)
 
-  it('displays the Sinopia text', () => {
-    expect(wrapper.find('h1.editor-logo').text()).toBe('LINKED DATA EDITOR')
+  it('displays the Sinopia text with the environment name', () => {
+    expect(wrapper.find('h1.editor-logo').text()).toBe('LINKED DATA EDITOR - TEST')
   })
 
   it('displays the Sinopia subtitle', () => {
