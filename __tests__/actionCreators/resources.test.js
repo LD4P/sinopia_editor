@@ -48,8 +48,8 @@ describe('update', () => {
 
     const actions = store.getActions()
     expect(actions.length).toEqual(2)
-    expect(actions[0]).toEqual({ type: 'UPDATE_STARTED' })
-    expect(actions[1]).toEqual({ type: 'UPDATE_FINISHED', payload: '5e30bd59d0186c5307065436240ba108' })
+    expect(actions[0]).toEqual({ type: 'SAVE_RESOURCE_STARTED' })
+    expect(actions[1]).toEqual({ type: 'SAVE_RESOURCE_FINISHED', payload: '5e30bd59d0186c5307065436240ba108' })
   })
 })
 
@@ -78,7 +78,7 @@ describe('retrieveResource', () => {
 
       const actions = store.getActions()
       expect(actions.length).toEqual(1)
-      expect(actions[0]).toEqual({ type: 'RETRIEVE_STARTED' })
+      expect(actions[0]).toEqual({ type: 'RETRIEVE_RESOURCE_STARTED' })
     })
   })
   describe('when dispatch to existing resource returns a result', () => {
@@ -109,9 +109,9 @@ describe('retrieveResource', () => {
       const reduxPath = ['resource', 'resourceTemplate:bf2:Note', 'http://www.w3.org/2000/01/rdf-schema#label']
 
       expect(actions).toEqual([
-        { type: 'RETRIEVE_STARTED', payload: undefined },
+        { type: 'RETRIEVE_RESOURCE_STARTED', payload: undefined },
         { type: 'TOGGLE_COLLAPSE', payload: { reduxPath } },
-        { type: 'SET_RESOURCE', payload: { resource: expectedResource, resourceTemplates: { [resourceTemplateId]: resourceTemplate } } },
+        { type: 'RESOURCE_LOADED', payload: { resource: expectedResource, resourceTemplates: { [resourceTemplateId]: resourceTemplate } } },
         { type: 'SET_LAST_SAVE_CHECKSUM', payload: undefined },
         { type: 'SET_LAST_SAVE_CHECKSUM', payload: 'f767b63c3e1d1af6f8c136b15a31a1e0' },
         { type: 'SET_UNUSED_RDF', payload: '' },
@@ -138,9 +138,9 @@ describe('publishResource', () => {
     await store.dispatch(publishResource(currentUser, group))
     const actions = store.getActions()
     expect(actions.length).toEqual(3)
-    expect(actions[0]).toEqual({ type: 'PUBLISH_STARTED' })
+    expect(actions[0]).toEqual({ type: 'SAVE_RESOURCE_STARTED' })
     expect(actions[1]).toEqual({ type: 'SET_BASE_URL', payload: 'http://sinopia.io/repository/myGroup/myResource' })
-    expect(actions[2]).toEqual({ type: 'UPDATE_FINISHED', payload: '5e30bd59d0186c5307065436240ba108' })
+    expect(actions[2]).toEqual({ type: 'SAVE_RESOURCE_FINISHED', payload: '5e30bd59d0186c5307065436240ba108' })
   })
   it('dispatches actions for error path', async () => {
     const store = mockStore(state)
@@ -149,8 +149,8 @@ describe('publishResource', () => {
     await store.dispatch(publishResource(currentUser, group))
     const actions = store.getActions()
     expect(actions.length).toEqual(2)
-    expect(actions[0]).toEqual({ type: 'PUBLISH_STARTED' })
-    expect(actions[1]).toEqual({ type: 'PUBLISH_ERROR', payload: 'Unable to save resource: Error: publish error' })
+    expect(actions[0]).toEqual({ type: 'SAVE_RESOURCE_STARTED' })
+    expect(actions[1]).toEqual({ type: 'SAVE_RESOURCE_ERROR', payload: { uri: null, reason: 'Error: publish error' } })
   })
 })
 
@@ -186,7 +186,7 @@ describe('newResource', () => {
       const actions = store.getActions()
       const expectedResource = { [resourceTemplateId]: { 'http://www.w3.org/2000/01/rdf-schema#label': {} } }
       expect(actions).toEqual([
-        { type: 'SET_RESOURCE', payload: { resource: expectedResource, resourceTemplates: { [resourceTemplateId]: resourceTemplate } } },
+        { type: 'RESOURCE_LOADED', payload: { resource: expectedResource, resourceTemplates: { [resourceTemplateId]: resourceTemplate } } },
         { type: 'SET_LAST_SAVE_CHECKSUM', payload: 'baf92a33bf689d599a41bb4563db42fc' },
         { type: 'SET_UNUSED_RDF', payload: null }])
     })
@@ -238,7 +238,7 @@ describe('existingResource', () => {
         },
       }
       expect(actions).toEqual([
-        { type: 'SET_RESOURCE', payload: { resource: expectedResource, resourceTemplates: { [resourceTemplateId]: resourceTemplate } } },
+        { type: 'RESOURCE_LOADED', payload: { resource: expectedResource, resourceTemplates: { [resourceTemplateId]: resourceTemplate } } },
         { type: 'SET_LAST_SAVE_CHECKSUM' },
         { type: 'SET_UNUSED_RDF', payload: unusedRDF }])
     })

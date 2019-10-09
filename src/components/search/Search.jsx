@@ -8,6 +8,7 @@ import {
   fetchSinopiaSearchResults as fetchSinopiaSearchResultsCreator,
   fetchQASearchResults as fetchQASearchResultsCreator,
 } from 'actionCreators/search'
+import { clearRetrieveResourceError as clearRetrieveResourceErrorAction, clearSearchResults as clearSearchResultsAction } from 'actions/index'
 import SinopiaSearchResults from './SinopiaSearchResults'
 import QASearchResults from './QASearchResults'
 import SearchResultsPaging from './SearchResultsPaging'
@@ -15,12 +16,13 @@ import SearchResultsMessage from './SearchResultsMessage'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faSearch } from '@fortawesome/free-solid-svg-icons'
 import searchConfig from '../../../static/searchConfig.json'
-import { clearSearchResults as clearSearchResultsAction } from 'actions/index'
+
 
 const Search = (props) => {
   const dispatch = useDispatch()
   const fetchQASearchResults = (queryString, uri) => dispatch(fetchQASearchResultsCreator(queryString, uri))
   const fetchSinopiaSearchResults = queryString => dispatch(fetchSinopiaSearchResultsCreator(queryString))
+  const clearRetrieveResourceError = () => dispatch(clearRetrieveResourceErrorAction())
   const clearSearchResults = useCallback(() => dispatch(clearSearchResultsAction()), [dispatch])
 
   const error = useSelector(state => state.selectorReducer.search.error)
@@ -49,6 +51,7 @@ const Search = (props) => {
     if (queryString === '') {
       return
     }
+    clearRetrieveResourceError()
     if (uri === 'sinopia') {
       fetchSinopiaSearchResults(queryString)
     } else {

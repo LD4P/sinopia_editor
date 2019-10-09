@@ -70,30 +70,91 @@ export const removeResource = (state, action) => {
   return validate(newState)
 }
 
-export const setPublishError = (state, action) => {
+export const setSaveResourceError = (state, action) => {
+  const uri = action.payload.uri
+  const reason = action.payload.reason
   const newState = { ...state }
-  newState.editor.serverError = `There was a problem saving the resource: ${action.payload}`
+
+  let error = 'There was a problem saving'
+  if (uri) {
+    error += ` ${uri}`
+  }
+  if (reason) {
+    error += `: ${reason}`
+  } else {
+    error += '.'
+  }
+
+  newState.editor.saveResourceError = error
   return newState
 }
 
-export const setRetrieveError = (state, action) => {
+export const setSaveResourceTemplateError = (state, action) => {
   const resourceTemplateId = action.payload.resourceTemplateId
   const reason = action.payload.reason
   const newState = { ...state }
 
-  let serverError = `There was a problem retrieving ${resourceTemplateId}`
+  let error = `There was a problem saving ${resourceTemplateId}`
   if (reason) {
-    serverError += `: ${reason}`
+    error += `: ${reason}`
   } else {
-    serverError += '.'
+    error += '.'
   }
 
-  newState.editor.serverError = serverError
+  newState.editor.saveResourceTemplateError = error
   return newState
 }
 
-export const clearServerError = (state) => {
-  const newEditor = { ...state.editor, serverError: undefined }
+export const setRetrieveResourceTemplateError = (state, action) => {
+  const resourceTemplateId = action.payload.resourceTemplateId
+  const reason = action.payload.reason
+  const newState = { ...state }
+
+  let error = `There was a problem retrieving ${resourceTemplateId}`
+  if (reason) {
+    error += `: ${reason}`
+  } else {
+    error += '.'
+  }
+
+  newState.editor.retrieveResourceTemplateError = error
+  return newState
+}
+
+export const setRetrieveResourceError = (state, action) => {
+  const uri = action.payload.uri
+  const reason = action.payload.reason
+  const newState = { ...state }
+
+  let error = `There was a problem retrieving ${uri}`
+  if (reason) {
+    error += `: ${reason}`
+  } else {
+    error += '.'
+  }
+
+  newState.editor.retrieveResourceError = error
+  return newState
+}
+
+
+export const clearRetrieveResourceTemplateError = (state) => {
+  const newEditor = { ...state.editor, retrieveResourceTemplateError: undefined }
+  return { ...state, editor: newEditor }
+}
+
+export const clearRetrieveResourceError = (state) => {
+  const newEditor = { ...state.editor, retrieveResourceError: undefined }
+  return { ...state, editor: newEditor }
+}
+
+export const clearSaveResourceTemplateError = (state) => {
+  const newEditor = { ...state.editor, saveResourceTemplateError: undefined }
+  return { ...state, editor: newEditor }
+}
+
+export const clearSaveResourceError = (state) => {
+  const newEditor = { ...state.editor, saveResourceError: undefined }
   return { ...state, editor: newEditor }
 }
 
@@ -123,7 +184,7 @@ export const toggleCollapse = (state, action) => {
   return newState
 }
 
-export const updateFinished = (state, action) => {
+export const saveResourceFinished = (state, action) => {
   const newState = { ...state }
   newState.editor.lastSave = Date.now()
   newState.editor.lastSaveChecksum = action.payload
@@ -146,41 +207,50 @@ export const setUnusedRDF = (state, action) => {
 }
 
 const handlers = {
-  ITEMS_SELECTED: setItemsOrSelections,
-  CHANGE_SELECTIONS: setItemsOrSelections,
-  PUBLISH_ERROR: setPublishError,
-  PUBLISH_STARTED: clearServerError,
-  LOADING_QA_RESULTS: loadingQaResults,
-  QA_RESULTS_RECEIVED: qaResultsReceived,
-  RETRIEVE_ERROR: setRetrieveError,
-  RETRIEVE_RESOURCE_TEMPLATE_STARTED: clearServerError,
-  SET_BASE_URL: setBaseURL,
-  CLEAR_SEARCH_RESULTS: clearSearchResults,
-  SET_SEARCH_RESULTS: setSearchResults,
-  SHOW_GROUP_CHOOSER: showGroupChooser,
-  CLOSE_GROUP_CHOOSER: closeGroupChooser,
-  SHOW_RESOURCE_TEMPLATE_CHOOSER: showResourceTemplateChooser,
-  CLOSE_RESOURCE_TEMPLATE_CHOOSER: closeResourceTemplateChooser,
-  LANGUAGE_SELECTED: setMyItemsLang,
-  SHOW_RDF_PREVIEW: showRdfPreview,
-  REMOVE_ITEM: removeMyItem,
-  REMOVE_RESOURCE: removeResource,
-  SAVE_APP_VERSION: saveAppVersion,
-  SET_RESOURCE: setResource,
-  SET_RESOURCE_TEMPLATE: setResourceTemplate,
-  UPDATE_PROPERTY: updateProperty,
   APPEND_RESOURCE: appendResource,
-  TOGGLE_COLLAPSE: toggleCollapse,
+  CHANGE_SELECTIONS: setItemsOrSelections,
+  CLEAR_RETRIEVE_RESOURCE_ERROR: clearRetrieveResourceError,
+  CLEAR_RETRIEVE_RESOURCE_TEMPLATE_ERROR: clearRetrieveResourceTemplateError,
   CLEAR_RESOURCE_TEMPLATES: clearResourceTemplates,
-  SET_RESOURCE_TEMPLATE_SUMMARY: setResourceTemplateSummary,
+  CLEAR_SAVE_RESOURCE_ERROR: clearSaveResourceError,
+  CLEAR_SAVE_RESOURCE_TEMPLATE_ERROR: clearSaveResourceTemplateError,
+  CLEAR_SEARCH_RESULTS: clearSearchResults,
+  CLOSE_GROUP_CHOOSER: closeGroupChooser,
+  CLOSE_RESOURCE_TEMPLATE_CHOOSER: closeResourceTemplateChooser,
+  COPY_NEW_RESOURCE: copyResourceToEditor,
+  ITEMS_SELECTED: setItemsOrSelections,
+  LANGUAGE_SELECTED: setMyItemsLang,
   LANGUAGES_RECEIVED: languagesReceived,
   LOADING_LANGUAGES: loadingLanguages,
-  UPDATE_FINISHED: updateFinished,
-  SET_LAST_SAVE_CHECKSUM: setLastSaveChecksum,
-  SHOW_COPY_NEW_MESSAGE: showCopyNewMessage,
-  COPY_NEW_RESOURCE: copyResourceToEditor,
-  SET_UNUSED_RDF: setUnusedRDF,
+  LOADING_QA_RESULTS: loadingQaResults,
   LOOKUP_OPTIONS_RETRIEVED: lookupOptionsRetrieved,
+  PUBLISH_STARTED: clearSaveResourceError,
+  QA_RESULTS_RECEIVED: qaResultsReceived,
+  REMOVE_ITEM: removeMyItem,
+  REMOVE_RESOURCE: removeResource,
+  RESOURCE_LOADED: setResource,
+  RESOURCE_TEMPLATE_LOADED: setResourceTemplate,
+  RESOURCE_TEMPLATE_SUMMARY_LOADED: setResourceTemplateSummary,
+  RETRIEVE_RESOURCE_ERROR: setRetrieveResourceError,
+  RETRIEVE_RESOURCE_STARTED: clearRetrieveResourceError,
+  RETRIEVE_RESOURCE_TEMPLATE_ERROR: setRetrieveResourceTemplateError,
+  RETRIEVE_RESOURCE_TEMPLATE_STARTED: clearRetrieveResourceTemplateError,
+  SAVE_APP_VERSION: saveAppVersion,
+  SAVE_RESOURCE_ERROR: setSaveResourceError,
+  SAVE_RESOURCE_FINISHED: saveResourceFinished,
+  SAVE_RESOURCE_STARTED: clearSaveResourceError,
+  SAVE_RESOURCE_TEMPLATE_ERROR: setSaveResourceTemplateError,
+  SAVE_RESOURCE_TEMPLATE_STARTED: clearSaveResourceTemplateError,
+  SET_BASE_URL: setBaseURL,
+  SET_LAST_SAVE_CHECKSUM: setLastSaveChecksum,
+  SET_SEARCH_RESULTS: setSearchResults,
+  SET_UNUSED_RDF: setUnusedRDF,
+  SHOW_COPY_NEW_MESSAGE: showCopyNewMessage,
+  SHOW_GROUP_CHOOSER: showGroupChooser,
+  SHOW_RESOURCE_TEMPLATE_CHOOSER: showResourceTemplateChooser,
+  SHOW_RDF_PREVIEW: showRdfPreview,
+  TOGGLE_COLLAPSE: toggleCollapse,
+  UPDATE_PROPERTY: updateProperty,
 }
 
 export const createReducer = handlers => (state = {}, action) => {

@@ -3,10 +3,11 @@
 /* eslint complexity: ["warn", 14] */
 
 import {
-  updateStarted, updateFinished,
   retrieveResourceStarted, setResource, updateProperty,
   toggleCollapse, appendResource, setLastSaveChecksum,
-  publishStarted, publishError, assignBaseURL, setUnusedRDF,
+  assignBaseURL, setUnusedRDF,
+  setRetrieveResourceError, saveResourceStarted, setSaveResourceError,
+  saveResourceFinished,
 } from 'actions/index'
 import { fetchResourceTemplate } from 'actionCreators/resourceTemplates'
 import { updateRDFResource, loadRDFResource, publishRDFResource } from 'sinopiaServer'
@@ -22,12 +23,13 @@ import _ from 'lodash'
 
 // A thunk that updates (saves) an existing resource in Trellis
 export const update = currentUser => (dispatch, getState) => {
-  dispatch(updateStarted())
+  dispatch(saveResourceStarted())
 
   const uri = rootResourceId(getState())
   const rdf = new GraphBuilder(getState().selectorReducer).graph.toCanonical()
   return updateRDFResource(currentUser, uri, rdf)
-    .then(() => dispatch(updateFinished(generateMD5(rdf))))
+    .then(() => dispatch(saveResourceFinished(generateMD5(rdf))))
+    .catch(err => dispatch(setSaveResourceError(uri, err.toString())))
 }
 
 // A thunk that loads an existing resource from Trellis
@@ -48,15 +50,22 @@ export const retrieveResource = (currentUser, uri) => (dispatch) => {
             const rdf = new GraphBuilder({ resource: result[0], entities: { resourceTemplates: result[1] } }).graph.toCanonical()
             dispatch(setLastSaveChecksum(generateMD5(rdf)))
             dispatch(setUnusedRDF(unusedDataset.toCanonical()))
+            return true
           }
-        }))
+        })).catch((err) => {
+          dispatch(setRetrieveResourceError(uri, err.toString()))
+          return false
+        })
       })
+    }).catch((err) => {
+      dispatch(setRetrieveResourceError(uri, err.toString()))
+      return false
     })
 }
 
 // A thunk that publishes (saves) a new resource in Trellis
 export const publishResource = (currentUser, group) => (dispatch, getState) => {
-  dispatch(publishStarted()) // clears possible residual server error
+  dispatch(saveResourceStarted()) // clears possible residual server error
 
   // Make a copy of state to prevent changes that will affect the publish.
   const state = _.cloneDeep(getState())
@@ -65,9 +74,9 @@ export const publishResource = (currentUser, group) => (dispatch, getState) => {
   return publishRDFResource(currentUser, rdf, group).then((result) => {
     const resourceUrl = result.response.headers.location
     dispatch(assignBaseURL(resourceUrl))
-    dispatch(updateFinished(generateMD5(rdf)))
+    dispatch(saveResourceFinished(generateMD5(rdf)))
   }).catch((err) => {
-    dispatch(publishError(`Unable to save resource: ${err}`))
+    dispatch(setSaveResourceError(null, err.toString()))
   })
 }
 

@@ -12,6 +12,7 @@ import { Prompt } from 'react-router'
 const props = {
   location: { state: { resourceTemplateId: 'resourceTemplate:bf:Note' } },
   userWantsToSave: jest.fn(),
+  saveError: 'oops',
 }
 
 // See https://github.com/nodesecurity/eslint-plugin-security/issues/26
@@ -38,6 +39,9 @@ describe('<Editor />', () => {
     })
     it('includes <Prompt />', () => {
       expect(wrapper.exists(Prompt)).toBe(true)
+    })
+    it('renders error', () => {
+      expect(wrapper.find('div.alert-danger').length).toBe(1)
     })
   })
   describe('authenticated user', () => {
