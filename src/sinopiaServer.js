@@ -3,6 +3,7 @@
 import SinopiaServer from 'sinopia_server'
 import CognitoUtils from './CognitoUtils'
 import Config from './Config'
+// eslint-disable-next-line node/no-unpublished-import
 import {
   rtFixturesGroups, getFixtureResourceTemplate,
   listFixtureResourcesInGroupContainer, resourceTemplateIds,
