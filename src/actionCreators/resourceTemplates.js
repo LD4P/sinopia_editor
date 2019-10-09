@@ -41,6 +41,7 @@ export const fetchResourceTemplateSummaries = () => (dispatch) => {
     }
   }, (error) => {
     console.error('Error retrieving list of resource templates', error)
+    dispatch(setRetrieveResourceTemplateError('list of resource templates', error))
   })
 }
 
