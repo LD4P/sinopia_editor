@@ -103,7 +103,7 @@
     "set-value": ">=2.0.1",
     "shortid": "^2.2.14",
     "sinopia_server": "^3.0.0-beta4",
-    "style-loader": "^0.23.1",
+    "style-loader": "^1.0.0",
     "swagger-client": "^3.8.25",
     "webpack": "^4.35.3",
     "webpack-cli": "^3.3.5",
