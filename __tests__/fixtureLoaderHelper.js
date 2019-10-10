@@ -51,6 +51,7 @@ const rtFileNames = [
   'literalRepeatDefaultLiteralOnly.json',
   'literalRepeatNoDefault.json',
   'lookupWithValueTemplateRefs.json',
+  'multiple_valuetemplaterefs.json',
   'propertyURIRepeated.json',
   'lc_RT_bf2_Agent_Role.json',
   'sinopia_resourceTemplate_bf2_Item_Chronology.json',
@@ -199,12 +200,14 @@ export const resourceTemplateIds = resourceTemplateId2Json.map(template => templ
 export const getFixtureResourceTemplate = (templateId) => {
   if (!templateId) {
     emptyTemplate.error = 'ERROR: asked for resourceTemplate with null/undefined id'
+    console.error(emptyTemplate.error)
 
     return emptyTemplate
   }
 
   if (!resourceTemplateIds.includes(templateId)) {
     emptyTemplate.error = `ERROR: non-fixture resourceTemplate: ${templateId}`
+    console.error(emptyTemplate.error)
 
     return emptyTemplate
   }

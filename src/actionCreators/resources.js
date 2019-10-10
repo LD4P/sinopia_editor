@@ -210,6 +210,15 @@ export const stubResourceProperties = async (resourceTemplateId, resourceTemplat
         if (newResource[propertyTemplate.propertyURI] === undefined) {
           newResource[propertyTemplate.propertyURI] = {}
         }
+
+        // Determine if any of the valueTemplateRefs have existing values.
+        // If any of the nested resources have values, then will want to add all.
+        const anyExistingNestedResourceKeys = propertyTemplate.valueConstraint.valueTemplateRefs.some(
+          resourceTemplateId => Object.keys(newResource[propertyTemplate.propertyURI]).find(
+            key => _.first(Object.keys(newResource[propertyTemplate.propertyURI][key])) === resourceTemplateId,
+          ) !== undefined,
+        )
+
         // For each value template
         // Since these are promises, using Promise.all for https://stackoverflow.com/questions/37576685/using-async-await-with-a-foreach-loop
         await Promise.all(
@@ -221,7 +230,7 @@ export const stubResourceProperties = async (resourceTemplateId, resourceTemplat
 
             const newResourceKey = shortid.generate()
             if (existingNestedResourceKey === undefined) {
-              if (!isMandatory && !stubPropertyURIOnly) {
+              if (!isMandatory && !stubPropertyURIOnly && !anyExistingNestedResourceKeys) {
                 return
               }
               newResource[propertyTemplate.propertyURI][newResourceKey] = { [resourceTemplateId]: {} }

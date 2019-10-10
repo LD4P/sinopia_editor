@@ -1,0 +1,18 @@
+{
+	"propertyTemplates": [{
+		"mandatory": "false",
+		"repeatable": "true",
+		"type": "resource",
+		"valueConstraint": {
+			"valueTemplateRefs": ["ld4p:RT:bf2:Identifiers:Copyright", "ld4p:RT:bf2:Identifiers:ISBN", "ld4p:RT:bf2:Identifiers:EAN"]
+		},
+		"propertyURI": "http://id.loc.gov/ontologies/bibframe/Identifier",
+		"propertyLabel": "Identifier"
+	}],
+	"id": "test:RT:bf2:Identifiers",
+	"resourceURI": "http://id.loc.gov/ontologies/bibframe/Identifier",
+	"resourceLabel": "Multiple value template refs",
+	"author": "Justin Littman",
+	"date": "2019-08-19",
+	"schema": "https://ld4p.github.io/sinopia/schemas/0.2.0/resource-template.json"
+}
