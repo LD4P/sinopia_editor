@@ -1,0 +1,153 @@
+{
+	"propertyTemplates": [{
+		"mandatory": "false",
+		"repeatable": "true",
+		"type": "resource",
+		"valueConstraint": {
+			"valueTemplateRefs": ["lc:RT:bf2:Identifiers:Barcode"]
+		},
+		"propertyURI": "http://id.loc.gov/ontologies/bibframe/Barcode",
+		"propertyLabel": "Barcode"
+	}, {
+		"mandatory": "false",
+		"repeatable": "true",
+		"type": "resource",
+		"valueConstraint": {
+			"valueTemplateRefs": ["lc:RT:bf2:Identifiers:Copyright"]
+		},
+		"propertyURI": "http://id.loc.gov/ontologies/bibframe/CopyrightRegistration",
+		"propertyLabel": "Copyright Registration Number"
+	}, {
+		"mandatory": "false",
+		"repeatable": "true",
+		"type": "resource",
+		"valueConstraint": {
+			"valueTemplateRefs": ["lc:RT:bf2:Identifiers:EAN"]
+		},
+		"propertyLabel": "EAN",
+		"propertyURI": "http://id.loc.gov/ontologies/bibframe/Ean"
+	}, {
+		"mandatory": "false",
+		"repeatable": "true",
+		"type": "resource",
+		"valueConstraint": {
+			"valueTemplateRefs": ["lc:RT:bf2:Identifiers:Eidr"]
+		},
+		"propertyURI": "http://id.loc.gov/ontologies/bflc/Eidr",
+		"propertyLabel": "EIDR"
+	}, {
+		"mandatory": "false",
+		"repeatable": "true",
+		"type": "resource",
+		"valueConstraint": {
+			"valueTemplateRefs": ["lc:RT:bf2:Identifiers:ISBN"]
+		},
+		"propertyURI": "http://id.loc.gov/ontologies/bibframe/Isbn",
+		"propertyLabel": "ISBN"
+	}, {
+		"mandatory": "false",
+		"repeatable": "true",
+		"type": "resource",
+		"valueConstraint": {
+			"valueTemplateRefs": ["lc:RT:bf2:Identifiers:ISMN"]
+		},
+		"propertyURI": "http://id.loc.gov/ontologies/bibframe/Ismn",
+		"propertyLabel": "ISMN"
+	}, {
+		"mandatory": "false",
+		"repeatable": "true",
+		"type": "resource",
+		"valueConstraint": {
+			"valueTemplateRefs": ["lc:RT:bf2:TestProfile:ISRC"]
+		},
+		"propertyURI": "http://id.loc.gov/ontologies/bibframe/Isrc",
+		"propertyLabel": "ISRC"
+	}, {
+		"mandatory": "false",
+		"repeatable": "true",
+		"type": "resource",
+		"valueConstraint": {
+			"valueTemplateRefs": ["lc:RT:bf2:Identifiers:ISSN"]
+		},
+		"propertyURI": "http://id.loc.gov/ontologies/bibframe/Issn",
+		"propertyLabel": "ISSN"
+	}, {
+		"mandatory": "false",
+		"repeatable": "true",
+		"type": "resource",
+		"valueConstraint": {
+			"valueTemplateRefs": ["lc:RT:bf2:Identifiers:ISSNL"]
+		},
+		"propertyURI": "http://id.loc.gov/ontologies/bibframe/IssnL",
+		"propertyLabel": "ISSN-L"
+	}, {
+		"mandatory": "false",
+		"repeatable": "true",
+		"type": "resource",
+		"valueConstraint": {
+			"valueTemplateRefs": ["lc:RT:bf2:Identifiers:LCCN"]
+		},
+		"propertyLabel": "LCCN",
+		"propertyURI": "http://id.loc.gov/ontologies/bibframe/Lccn"
+	}, {
+		"mandatory": "false",
+		"repeatable": "true",
+		"type": "resource",
+		"valueConstraint": {
+			"valueTemplateRefs": ["lc:RT:bf2:Identifiers:Distributor"]
+		},
+		"propertyURI": "http://id.loc.gov/ontologies/bibframe/StockNumber",
+		"propertyLabel": "Music Distributor Number"
+	}, {
+		"mandatory": "false",
+		"repeatable": "true",
+		"type": "resource",
+		"valueConstraint": {
+			"valueTemplateRefs": ["lc:RT:bf2:Identifiers:MusicPlate"]
+		},
+		"propertyURI": "http://id.loc.gov/ontologies/bibframe/MusicPlate",
+		"propertyLabel": "Music Plate Number"
+	}, {
+		"mandatory": "false",
+		"repeatable": "true",
+		"type": "resource",
+		"valueConstraint": {
+			"valueTemplateRefs": ["lc:RT:bf2:Identifiers:MusicPub"]
+		},
+		"propertyURI": "http://id.loc.gov/ontologies/bibframe/MusicPublisherNumber",
+		"propertyLabel": "Music Publisher Number"
+	}, {
+		"mandatory": "false",
+		"repeatable": "true",
+		"type": "resource",
+		"valueConstraint": {
+			"valueTemplateRefs": ["lc:RT:bf2:Identifiers:PubNumber"]
+		},
+		"propertyURI": "http://id.loc.gov/ontologies/bibframe/PublisherNumber",
+		"propertyLabel": "Publisher Number"
+	}, {
+		"mandatory": "false",
+		"repeatable": "true",
+		"type": "resource",
+		"valueConstraint": {
+			"valueTemplateRefs": ["x:lc:RT:bf2:Identifiers:STRN"]
+		},
+		"propertyURI": "http://id.loc.gov/ontologies/bibframe/Strn",
+		"propertyLabel": "Standard Technical Report Number"
+	}, {
+		"mandatory": "false",
+		"repeatable": "true",
+		"type": "resource",
+		"valueConstraint": {
+			"valueTemplateRefs": ["x:lc:RT:bf2:Identifiers:UPC"]
+		},
+		"propertyURI": "http://id.loc.gov/ontologies/bibframe/Upc",
+		"propertyLabel": "Universal Product Code (UPC)"
+	}],
+	"id": "test:RT:bf2:notFoundValueTemplateRefs",
+	"resourceURI": "http://id.loc.gov/ontologies/bibframe/Identifier",
+	"resourceLabel": "Not found value template refs",
+	"author": "Justin Littman",
+	"date": "2019-08-19",
+	"schema": "https://ld4p.github.io/sinopia/schemas/0.2.0/resource-template.json"
+}

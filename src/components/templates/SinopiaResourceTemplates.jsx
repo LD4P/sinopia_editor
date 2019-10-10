@@ -20,17 +20,18 @@ class SinopiaResourceTemplates extends Component {
     this.state = { navigateEditor: false }
   }
 
-  componentWillUpdate() {
+  componentDidUpdate() {
     // Forces a wait until the root resource has been set in state
-    if (this.state.navigateEditor && this.props.rootResource) {
+    if (this.state.navigateEditor && this.props.rootResource && !this.props.error) {
       this.props.history.push('/editor')
     }
   }
 
   handleClick = (resourceTemplateId, event) => {
     event.preventDefault()
-    this.props.newResource(resourceTemplateId)
-    this.setState({ navigateEditor: true })
+    this.props.newResource(resourceTemplateId).then((result) => {
+      this.setState({ navigateEditor: result })
+    })
   }
 
   linkFormatter = (cell, row) => (

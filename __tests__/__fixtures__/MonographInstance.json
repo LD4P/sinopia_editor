@@ -137,9 +137,7 @@
         "editable": "true",
         "remark": "REMARK",
         "repeatable": "false",
-        "useValuesFrom": [
-          "https://VALUES"
-        ],
+        "useValuesFrom": [],
         "valueDataType": {
           "dataTypeLabel": "Classification item number",
           "dataTypeLabelHint": "HINT",

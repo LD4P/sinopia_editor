@@ -13,13 +13,11 @@ jest.mock('swagger-client')
 jest.mock('sinopiaServer')
 
 const resourceTemplateSummaries = {
-  'ld4p:RT:bf2:Monograph:Work': {
-    key: 'ld4p:RT:bf2:Monograph:Work',
-    name: '_Monograph Work (BIBFRAME)',
-    id: 'ld4p:RT:bf2:Monograph:Work',
+  'resourceTemplate:bf2:Monograph:Work': {
+    key: 'resourceTemplate:bf2:Monograph:Work',
+    name: 'BIBFRAME Work',
+    id: 'resourceTemplate:bf2:Monograph:Work',
     group: 'ld4p',
-    author: 'LD4P',
-    remark: 'based on LC template ld4p:RT:bf2:Monograph:Work',
   },
 }
 
@@ -135,6 +133,7 @@ rdfs:label "These twain.";
 <http://id.loc.gov/ontologies/bflc/titleSortKey> "These twain." .`
   global.fetch = jest.fn().mockImplementation(() => Promise.resolve({ text: () => n3 }))
   sinopiaServer.getResourceTemplate.mockImplementation(getFixtureResourceTemplate)
+  sinopiaServer.foundResourceTemplate.mockResolvedValue(true)
   sinopiaServer.listResourcesInGroupContainer.mockResolvedValue({ response: { body: { contains: false } } })
 
   const store = createReduxStore(createInitialState())
@@ -169,12 +168,12 @@ rdfs:label "These twain.";
 
     // Resource template choice modal open
     expect(getByText('Choose resource template')).toBeInTheDocument()
-    expect(getByText('_Monograph Work (BIBFRAME)')).toBeInTheDocument()
+    expect(getByText('BIBFRAME Work')).toBeInTheDocument()
     fireEvent.click(getByText('Save'))
     await wait(() => expect(queryByText('Choose resource template')).not.toBeInTheDocument())
 
     // Opens editor
     expect(await findByText(/Unable to load the entire resource/)).toBeInTheDocument()
-    expect(getByText('text', 'a')).toBeInTheDocument()
+    expect(getByText('These twain.', 'div.rbt-token')).toBeInTheDocument()
   })
 })

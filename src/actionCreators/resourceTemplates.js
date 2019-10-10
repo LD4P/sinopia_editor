@@ -15,12 +15,16 @@ export const fetchResourceTemplate = (resourceTemplateId, dispatch) => {
   return getResourceTemplate(resourceTemplateId, 'ld4p').then((response) => {
     // If resource template loads, then validate.
     const resourceTemplate = response.response.body
-    const reason = validateResourceTemplate(resourceTemplate)
-    if (_.isEmpty(reason)) {
-      dispatch(setResourceTemplate(resourceTemplate))
-      return resourceTemplate
-    }
-    dispatch(setRetrieveResourceTemplateError(resourceTemplateId, reason))
+    return validateResourceTemplate(resourceTemplate).then((reason) => {
+      if (_.isEmpty(reason)) {
+        dispatch(setResourceTemplate(resourceTemplate))
+        return resourceTemplate
+      }
+      dispatch(setRetrieveResourceTemplateError(resourceTemplateId, reason))
+    }).catch((err) => {
+      console.error(err)
+      dispatch(setRetrieveResourceTemplateError(resourceTemplateId, err))
+    })
   }).catch((err) => {
     console.error(err)
     dispatch(setRetrieveResourceTemplateError(resourceTemplateId, err))

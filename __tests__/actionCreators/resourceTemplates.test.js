@@ -4,6 +4,10 @@ import { fetchResourceTemplate, fetchResourceTemplateSummaries } from 'actionCre
 /* eslint import/namespace: 'off' */
 import * as server from 'sinopiaServer'
 import { getFixtureResourceTemplate } from '../fixtureLoaderHelper'
+import Config from 'Config'
+
+// This forces Sinopia server to use fixtures
+jest.spyOn(Config, 'useResourceTemplateFixtures', 'get').mockReturnValue(true)
 
 describe('fetchResourceTemplate', () => {
   describe('a valid template', () => {

@@ -78,7 +78,7 @@ describe('retrieveResource', () => {
     it('it does not dispatch setLastSaveChecksum', async () => {
       resourceTemplateThunks.fetchResourceTemplate = jest.fn().mockResolvedValue(undefined)
 
-      await store.dispatch(retrieveResource(currentUser, uri))
+      expect(await store.dispatch(retrieveResource(currentUser, uri))).toBe(false)
 
       const actions = store.getActions()
       expect(actions.length).toEqual(1)
@@ -93,7 +93,7 @@ describe('retrieveResource', () => {
       const resourceTemplate = templateResponse.response.body
       resourceTemplateThunks.fetchResourceTemplate = jest.fn().mockResolvedValue(resourceTemplate)
 
-      await store.dispatch(retrieveResource(currentUser, uri))
+      expect(await store.dispatch(retrieveResource(currentUser, uri))).toBe(true)
 
       const actions = store.getActions()
       const expectedResource = {
@@ -119,6 +119,27 @@ describe('retrieveResource', () => {
         { type: 'SET_LAST_SAVE_CHECKSUM', payload: undefined },
         { type: 'SET_LAST_SAVE_CHECKSUM', payload: 'f767b63c3e1d1af6f8c136b15a31a1e0' },
         { type: 'SET_UNUSED_RDF', payload: '' },
+      ])
+    })
+  })
+  describe('when an error is raised', () => {
+    const store = mockStore(state)
+    it('it dispatches retrieve resource error', async () => {
+      resourceTemplateThunks.fetchResourceTemplate = jest.fn().mockRejectedValue(new Error('Ooops'))
+
+      expect(await store.dispatch(retrieveResource(currentUser, uri))).toBe(false)
+
+      const actions = store.getActions()
+      expect(actions.length).toEqual(2)
+      expect(actions).toEqual([
+        { type: 'RETRIEVE_RESOURCE_STARTED' },
+        {
+          type: 'RETRIEVE_RESOURCE_ERROR',
+          payload: {
+            reason: 'Error: Ooops',
+            uri: 'http://sinopia.io/repository/stanford/123',
+          },
+        },
       ])
     })
   })

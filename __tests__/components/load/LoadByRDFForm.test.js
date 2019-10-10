@@ -70,6 +70,7 @@ const resource = {
 describe('LoadByRDFForm', () => {
   shortid.generate = jest.fn().mockReturnValue('abc123')
   sinopiaServer.getResourceTemplate.mockImplementation(getFixtureResourceTemplate)
+  sinopiaServer.foundResourceTemplate.mockResolvedValue(true)
 
   it('loads resource from provided N3', async () => {
     const history = createMemoryHistory()

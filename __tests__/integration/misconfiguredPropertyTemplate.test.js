@@ -1,13 +1,13 @@
 import React from 'react'
-import { fireEvent, wait } from '@testing-library/react'
+import { fireEvent } from '@testing-library/react'
 // eslint-disable-next-line import/no-unresolved
 import { renderWithRedux, createReduxStore } from 'testUtils'
 import App from 'components/App'
 import { MemoryRouter } from 'react-router-dom'
-import * as sinopiaServer from 'sinopiaServer'
-import { getFixtureResourceTemplate } from '../fixtureLoaderHelper'
+import Config from 'Config'
 
-jest.mock('sinopiaServer')
+// This forces Sinopia server to use fixtures
+jest.spyOn(Config, 'useResourceTemplateFixtures', 'get').mockReturnValue(true)
 
 const createInitialState = () => {
   return {
@@ -52,13 +52,9 @@ const createInitialState = () => {
 }
 
 describe('Loading a misconfigured property template', () => {
-  sinopiaServer.getResourceTemplate.mockImplementation(getFixtureResourceTemplate)
-  sinopiaServer.listResourcesInGroupContainer.mockResolvedValue({ response: { body: { contains: ['Sinopia:RT:Fixture:LookupWithValueTemplateRefs'] } } })
   const store = createReduxStore(createInitialState())
   const app = (<MemoryRouter><App /></MemoryRouter>)
-  const {
-    getByText, queryByText, container,
-  } = renderWithRedux(
+  const { getByText, findByText } = renderWithRedux(
     app, store,
   )
 
@@ -67,10 +63,6 @@ describe('Loading a misconfigured property template', () => {
     fireEvent.click(getByText('Linked Data Editor'))
     fireEvent.click(getByText('test lookup type misconfigured with valueTemplateRefs'))
 
-    // Clicks add to view the error
-    await wait(() => container.querySelector('button.btn-add[data-id="lookup1"]'))
-    fireEvent.click(container.querySelector('button.btn-add[data-id="lookup1"]'))
-
-    await wait(() => expect(queryByText('This propertyTemplate is misconfigured.')).toBeInTheDocument())
+    expect(await findByText(/The following property templates have unknown types or lookups/)).toBeInTheDocument()
   })
 })
