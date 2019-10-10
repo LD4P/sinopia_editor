@@ -6,6 +6,7 @@ import swaggerSpec from 'lib/apidoc.json'
 import { getLookupConfigItems } from 'utilities/propertyTemplates'
 import Config from 'Config'
 import { findAuthorityConfig } from 'utilities/authorityConfig'
+import _ from 'lodash'
 
 export const getSearchResults = (query, propertyTemplate) => {
   const lookupConfigs = getLookupConfigItems(propertyTemplate)
@@ -79,9 +80,21 @@ export const createLookupPromises = (query, lookupConfigs) => lookupConfigs.map(
  * @param {string} format supported by QA
   * @return {Promise<string>} the term as text
  */
-export const getTerm = (uri, searchUri, format = 'n3') => {
-  const authority = findAuthorityConfig(searchUri).authority
-  const url = `${Config.qaUrl}/authorities/fetch/linked_data/${authority.toLowerCase()}?format=${format}&uri=${uri}`
+export const getTerm = (uri, id, searchUri, format = 'n3') => {
+  const authorityConfig = findAuthorityConfig(searchUri)
+  const authority = authorityConfig.authority
+
+  let url
+  if (authorityConfig.nonldLookup) {
+    let path = authority.toLowerCase()
+    if (!_.isEmpty(authorityConfig.subauthority)) {
+      path += `/${authorityConfig.subauthority}`
+    }
+    url = `${Config.qaUrl}/authorities/show/${path}/${id}?format=${format}`
+  } else {
+    url = `${Config.qaUrl}/authorities/fetch/linked_data/${authority.toLowerCase()}?format=${format}&uri=${uri}`
+  }
+
   return fetch(url)
     .then(resp => resp.text())
 }

@@ -118,6 +118,9 @@ describe('#routes', () => {
         },
         resource: { 'myOrg:myRt': {} },
         search: { results: [] },
+        editor: {
+          retrieveResourceTemplateError: undefined,
+        },
       },
     })
 

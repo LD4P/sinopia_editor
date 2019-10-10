@@ -30,6 +30,24 @@
     "nonldLookup": true
   },
   {
+    "label": "Discogs Releases",
+    "uri": "urn:discogs:release",
+    "authority": "discogs",
+    "subauthority": "release",
+    "language": "en",
+    "component": "lookup",
+    "nonldLookup": true
+  },
+  {
+    "label": "Discogs Masters",
+    "uri": "urn:discogs:master",
+    "authority": "discogs",
+    "subauthority": "master",
+    "language": "en",
+    "component": "lookup",
+    "nonldLookup": true
+  },
+  {
     "label": "GEONAMES_all (QA)",
     "uri": "urn:ld4p:qa:geonames",
     "authority": "geonames_ld4l_cache",

@@ -29,6 +29,7 @@ const useResource = (resourceN3, baseURI, resourceTemplateId, rootResource, hist
       return builder.buildState().then((result) => {
         // TODO: This also returns the resource templates, which could be added to state.
         // See https://github.com/LD4P/sinopia_editor/issues/1396
+        setError('')
         setResourceState(result[0])
         setUnusedDataset(result[1])
         setNavigateEditor(true)
