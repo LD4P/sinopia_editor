@@ -1668,7 +1668,7 @@
   },
   {
     "label": "Cultural Heritage Organizations (LOC)",
-    "uri": "http://id.loc.gov/vocabulary/organizations",
+    "uri": "https://id.loc.gov/vocabulary/organizations",
     "component": "list"
   },
   {
