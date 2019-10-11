@@ -32,8 +32,8 @@ const foundResourceTemplateFromServer = (templateId, group) => {
   if (!group) group = Config.defaultSinopiaGroupId
 
   return instance.headResourceWithHttpInfo(group, templateId, { accept: 'application/json' })
-    .then(true)
-    .catch(false)
+    .then(() => true)
+    .catch(() => false)
 }
 
 export const foundResourceTemplate = (templateId, group) => {
