@@ -4,7 +4,6 @@ import React from 'react'
 import { createStore } from 'redux'
 import ExpiringMessage from 'components/editor/ExpiringMessage'
 import appReducer from 'reducers/index'
-/* eslint import/no-unresolved: 'off' */
 import { renderWithRedux } from 'testUtils'
 
 // A positve test is challenging to write, because the nominal behavior depends

@@ -4,7 +4,6 @@ import React from 'react'
 import { createStore } from 'redux'
 import CopyToNewMessage from 'components/editor/CopyToNewMessage'
 import appReducer from 'reducers/index'
-/* eslint import/no-unresolved: 'off' */
 import { renderWithRedux } from 'testUtils'
 
 test('Message is not displayed when timestamp is false', () => {

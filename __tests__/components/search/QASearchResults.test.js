@@ -1,6 +1,5 @@
 import React from 'react'
 import QASearchResults from 'components/search/QASearchResults'
-// eslint-disable-next-line import/no-unresolved
 import { renderWithRedux, createReduxStore } from 'testUtils'
 
 describe('<QASearchResults />', () => {

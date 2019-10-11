@@ -3,7 +3,6 @@
 import React from 'react'
 import LoadByRDFForm from 'components/load/LoadByRDFForm'
 import { fireEvent, wait } from '@testing-library/react'
-/* eslint import/no-unresolved: 'off' */
 import { renderWithRedux, createReduxStore } from 'testUtils'
 import { getFixtureResourceTemplate } from '../../fixtureLoaderHelper'
 import * as sinopiaServer from 'sinopiaServer'

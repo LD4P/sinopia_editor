@@ -2,7 +2,6 @@
 import React from 'react'
 import { fireEvent } from '@testing-library/react'
 import Search from 'components/search/Search'
-// eslint-disable-next-line import/no-unresolved
 import { renderWithRedux, createReduxStore } from 'testUtils'
 import { MemoryRouter } from 'react-router-dom'
 import * as sinopiaServer from 'sinopiaServer'
