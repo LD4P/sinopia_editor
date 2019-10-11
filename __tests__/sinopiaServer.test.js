@@ -44,4 +44,14 @@ describe('sinopiaServer', () => {
       })
     })
   })
+  describe('foundResourceTemplate', () => {
+    it('return true for known id', async () => {
+      expect.assertions(1)
+      expect(await sinopiaServer.foundResourceTemplate('resourceTemplate:bf2:Title')).toBe(true)
+    })
+    it('returns false for unknown id', async () => {
+      expect.assertions(1)
+      expect(await sinopiaServer.foundResourceTemplate('not:there')).toEqual(false)
+    })
+  })
 })

@@ -52,6 +52,7 @@ export const retrieveResource = (currentUser, uri) => (dispatch) => {
             dispatch(setUnusedRDF(unusedDataset.toCanonical()))
             return true
           }
+          return false
         })).catch((err) => {
           dispatch(setRetrieveResourceError(uri, err.toString()))
           return false
@@ -89,7 +90,9 @@ export const newResource = resourceTemplateId => (dispatch) => {
       const rdf = new GraphBuilder({ resource: result[0], entities: { resourceTemplates: result[1] } }).graph.toCanonical()
       dispatch(setLastSaveChecksum(generateMD5(rdf)))
       dispatch(setUnusedRDF(null))
+      return true
     }
+    return false
   })
 }
 
@@ -250,6 +253,7 @@ export const stubResourceProperties = async (resourceTemplateId, resourceTemplat
             const nestedResource = newResource[propertyTemplate.propertyURI][nestedResourceKey][resourceTemplateId]
             const stubResult = await stubResourceProperties(resourceTemplateId, newResourceTemplates,
               nestedResource, newResourcePropertyValueReduxPath, useDefaults, isMandatory, false, dispatch)
+            if (!stubResult) return
             const newNestedResource = stubResult[0]
             newResourceTemplates = { ...newResourceTemplates, ...stubResult[1] }
             newResource[propertyTemplate.propertyURI][nestedResourceKey][resourceTemplateId] = newNestedResource

@@ -3,7 +3,10 @@
 import SinopiaServer from 'sinopia_server'
 import CognitoUtils from './CognitoUtils'
 import Config from './Config'
-import { rtFixturesGroups, getFixtureResourceTemplate, listFixtureResourcesInGroupContainer } from '../__tests__/fixtureLoaderHelper'
+import {
+  rtFixturesGroups, getFixtureResourceTemplate,
+  listFixtureResourcesInGroupContainer, resourceTemplateIds,
+} from '../__tests__/fixtureLoaderHelper'
 
 const instance = new SinopiaServer.LDPApi()
 
@@ -22,6 +25,21 @@ const getResourceTemplateFromServer = (templateId, group) => {
   }
 
   return instance.getResourceWithHttpInfo(group, templateId, { accept: 'application/json' })
+}
+
+const foundResourceTemplateFromServer = (templateId, group) => {
+  // Allow function to be called without second arg
+  if (!group) group = Config.defaultSinopiaGroupId
+
+  return instance.headResourceWithHttpInfo(group, templateId, { accept: 'application/json' })
+    .then(true)
+    .catch(false)
+}
+
+export const foundResourceTemplate = (templateId, group) => {
+  if (Config.useResourceTemplateFixtures) return resourceTemplateIds.includes(templateId)
+
+  return foundResourceTemplateFromServer(templateId, group)
 }
 
 export const getResourceTemplate = (templateId, group) => {

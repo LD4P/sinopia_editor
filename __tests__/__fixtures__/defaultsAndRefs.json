@@ -17,7 +17,7 @@
           }
         ],
         "valueTemplateRefs": [
-          "rt:bf2:AdminMetadata:Status"
+          "resourceTemplate:bf2:Note"
         ]
       },
       "propertyLabel": "resource, with ref and defaults",
