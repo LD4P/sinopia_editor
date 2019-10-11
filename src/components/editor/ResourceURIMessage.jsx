@@ -1,29 +1,24 @@
 // Copyright 2019 Stanford University see LICENSE for license
 
 import React from 'react'
-import { connect } from 'react-redux'
-import PropTypes from 'prop-types'
+import { useSelector } from 'react-redux'
 import { rootResourceId } from 'selectors/resourceSelectors'
 
-// Renders the resource URI message after Save & Publish
-const ResourceURIMessage = (props) => {
-  if (!props.uri) {
+// Renders the resource URI message for saved resource
+const ResourceURIMessage = () => {
+  const uri = useSelector(state => rootResourceId(state))
+
+  if (!uri) {
     return null
   }
 
   return (
     <div>
-      <h4>URI for this resource: &lt;{ props.uri }&gt;</h4>
+      <h4>URI for this resource: &lt;{ uri }&gt;&nbsp;
+        <button type="button" className="btn btn-default btn-xs" onClick={() => { navigator.clipboard.writeText(uri) }}>Copy URI</button>
+      </h4>
     </div>
   )
 }
 
-ResourceURIMessage.propTypes = {
-  uri: PropTypes.string,
-}
-
-const mapStateToProps = state => ({
-  uri: rootResourceId(state),
-})
-
-export default connect(mapStateToProps, null)(ResourceURIMessage)
+export default ResourceURIMessage
