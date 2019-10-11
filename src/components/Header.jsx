@@ -22,7 +22,7 @@ class Header extends Component {
           </ul>
           <div>
             <h2 className="editor-subtitle"><a className="editor-subtitle" href="/">SINOPIA</a></h2> <h2 className="editor-version">v{this.props.version}</h2>
-            <h1 className="editor-logo">LINKED DATA EDITOR</h1>
+            <h1 className="editor-logo">LINKED DATA EDITOR{`${Config.sinopiaEnv}`}</h1>
           </div>
           <div>
             <ul className="nav nav-tabs pull-left editor-navtabs">

@@ -1,4 +1,4 @@
-# Copyright 2018 Stanford University see Apache2.txt for license
+# Copyright 2019 Stanford University see Apache2.txt for license
 # Node.js Javascript CircleCI 2.0 configuration file
 #
 # Check https://hub.docker.com/r/circleci/node/ for more details
@@ -59,7 +59,7 @@ jobs:
           name: Build & Register Images
           command: |
             docker build -t ld4p/sinopia_editor:latest .
-            docker build -t ld4p/sinopia_editor:dev --build-arg TRELLIS_BASE_URL=$TRELLIS_BASE_URL_DEV --build-arg SINOPIA_URI=$SINOPIA_URI_DEV --build-arg AWS_COGNITO_DOMAIN=$AWS_COGNITO_DOMAIN_DEV --build-arg COGNITO_CLIENT_ID=$COGNITO_CLIENT_ID_DEV --build-arg COGNITO_USER_POOL_ID=$COGNITO_USER_POOL_ID_DEV --build-arg INDEX_URL=$INDEX_URL_DEV --build-arg SEARCH_HOST=$INDEX_URL_DEV .
+            docker build -t ld4p/sinopia_editor:dev --build-arg TRELLIS_BASE_URL=$TRELLIS_BASE_URL_DEV --build-arg SINOPIA_ENV=DEV --build-arg SINOPIA_URI=$SINOPIA_URI_DEV --build-arg AWS_COGNITO_DOMAIN=$AWS_COGNITO_DOMAIN_DEV --build-arg COGNITO_CLIENT_ID=$COGNITO_CLIENT_ID_DEV --build-arg COGNITO_USER_POOL_ID=$COGNITO_USER_POOL_ID_DEV --build-arg INDEX_URL=$INDEX_URL_DEV --build-arg SEARCH_HOST=$INDEX_URL_DEV .
             echo $DOCKER_PASS | docker login -u $DOCKER_USER --password-stdin
             docker push ld4p/sinopia_editor:latest
             docker push ld4p/sinopia_editor:dev
@@ -75,7 +75,7 @@ jobs:
       - run:
           name: Build & Register Images
           command: |
-            docker build -t ld4p/sinopia_editor:$CIRCLE_TAG-stage --build-arg TRELLIS_BASE_URL=$TRELLIS_BASE_URL_STAGE --build-arg SINOPIA_URI=$SINOPIA_URI_STAGE --build-arg AWS_COGNITO_DOMAIN=$AWS_COGNITO_DOMAIN_STAGE --build-arg COGNITO_CLIENT_ID=$COGNITO_CLIENT_ID_STAGE --build-arg COGNITO_USER_POOL_ID=$COGNITO_USER_POOL_ID_STAGE --build-arg INDEX_URL=$INDEX_URL_STAGE --build-arg SEARCH_HOST=$INDEX_URL_STAGE .
+            docker build -t ld4p/sinopia_editor:$CIRCLE_TAG-stage --build-arg TRELLIS_BASE_URL=$TRELLIS_BASE_URL_STAGE --build-arg SINOPIA_ENV=STAGE --build-arg SINOPIA_URI=$SINOPIA_URI_STAGE --build-arg AWS_COGNITO_DOMAIN=$AWS_COGNITO_DOMAIN_STAGE --build-arg COGNITO_CLIENT_ID=$COGNITO_CLIENT_ID_STAGE --build-arg COGNITO_USER_POOL_ID=$COGNITO_USER_POOL_ID_STAGE --build-arg INDEX_URL=$INDEX_URL_STAGE --build-arg SEARCH_HOST=$INDEX_URL_STAGE .
             docker build -t ld4p/sinopia_editor:$CIRCLE_TAG-prod --build-arg TRELLIS_BASE_URL=$TRELLIS_BASE_URL_PROD --build-arg SINOPIA_URI=$SINOPIA_URI_PROD --build-arg AWS_COGNITO_DOMAIN=$AWS_COGNITO_DOMAIN_PROD --build-arg COGNITO_CLIENT_ID=$COGNITO_CLIENT_ID_PROD --build-arg COGNITO_USER_POOL_ID=$COGNITO_USER_POOL_ID_PROD --build-arg INDEX_URL=$INDEX_URL_PROD --build-arg SEARCH_HOST=$INDEX_URL_PROD .
             echo $DOCKER_PASS | docker login -u $DOCKER_USER --password-stdin
             docker push ld4p/sinopia_editor:$CIRCLE_TAG-stage

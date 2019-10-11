@@ -40,6 +40,15 @@ class Config {
     return process.env.SINOPIA_URI || 'https://sinopia.io'
   }
 
+  static get sinopiaEnv() {
+    if (process.env.SINOPIA_ENV) {
+      return ` - ${process.env.SINOPIA_ENV}`
+    }
+
+    // We do not set this value in production, and don't want to see the env label in production
+    return ''
+  }
+
   static get indexUrl() {
     return process.env.INDEX_URL || 'http://localhost:9200'
   }

@@ -22,6 +22,10 @@ describe('Config', () => {
       expect(Config.sinopiaUrl).toEqual('https://sinopia.io')
     })
 
+    it('sinopia env has static value', () => {
+      expect(Config.sinopiaEnv).toEqual('')
+    })
+
     it('index url has static value', () => {
       expect(Config.indexUrl).toEqual('http://localhost:9200')
     })
@@ -75,6 +79,7 @@ describe('Config', () => {
         DEFAULT_PROFILE_SCHEMA_VERSION: '0.1.0',
         USE_FIXTURES: 'true',
         SINOPIA_URI: 'https://sinopia.foo',
+        SINOPIA_ENV: 'TEST',
         SINOPIA_GROUP: 'foobar',
         TRELLIS_BASE_URL: 'https://sinopia_server.foo',
         COGNITO_CLIENT_ID: '1a2b3c',
@@ -95,6 +100,10 @@ describe('Config', () => {
 
     it('sinopia url overrides static value', () => {
       expect(Config.sinopiaUrl).toEqual('https://sinopia.foo')
+    })
+
+    it('sinopia env overrides static value for display', () => {
+      expect(Config.sinopiaEnv).toEqual(' - TEST')
     })
 
     it('index url overrides static value', () => {

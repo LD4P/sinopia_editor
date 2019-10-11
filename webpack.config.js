@@ -57,6 +57,7 @@ module.exports = {
         'TRELLIS_BASE_URL',
         'DEFAULT_PROFILE_SCHEMA_VERSION',
         'SINOPIA_GROUP',
+        'SINOPIA_ENV',
         'SINOPIA_URI',
         'AWS_COGNITO_DOMAIN',
         'COGNITO_CLIENT_ID',
