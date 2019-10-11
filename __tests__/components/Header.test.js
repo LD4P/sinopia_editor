@@ -3,7 +3,6 @@
 import React from 'react'
 import { shallow } from 'enzyme'
 import Header from 'components/Header'
-import Config from 'Config'
 
 const props = {
   version: '1.0', // hardcode a version number for the test, in the actual app it will be set from the package.json file
@@ -16,8 +15,8 @@ describe('<Header />', () => {
     process.env = {
       SINOPIA_ENV: 'TEST',
     }
-    const env_wrapper = shallow(<Header.WrappedComponent {...props}/>) // needed to ensure our env change gets picked up
-    expect(env_wrapper.find('h1.editor-logo').text()).toBe('LINKED DATA EDITOR - TEST')
+    const wrapper = shallow(<Header.WrappedComponent {...props}/>) // needed to ensure our env change gets picked up
+    expect(wrapper.find('h1.editor-logo').text()).toBe('LINKED DATA EDITOR - TEST')
   })
 
   it('displays the Sinopia subtitle', () => {
