@@ -49,14 +49,6 @@ describe('<InputLang />', () => {
     expect(queryByText(expected)).toBeInTheDocument()
   })
 
-  it('typeahead component exists', () => {
-    const { getByRole } = renderWithRedux(
-      <InputLang {...plProps} />,
-      store,
-    )
-    expect(getByRole('combobox')).toBeInTheDocument()
-  })
-
   it('change to match text changes input text', async () => {
     global.document.createRange = () => ({
       setStart: () => {},

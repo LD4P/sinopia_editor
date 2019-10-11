@@ -2,7 +2,7 @@ import React from 'react'
 import ResourceTemplateChoiceModal from 'components/ResourceTemplateChoiceModal'
 // eslint-disable-next-line import/no-unresolved
 import { renderWithRedux, createReduxStore, setupModal } from 'testUtils'
-import { fireEvent } from '@testing-library/react'
+import { fireEvent, wait } from '@testing-library/react'
 
 /* eslint no-undef: 'off' */
 $.fn.modal = jest.fn()
@@ -53,6 +53,8 @@ describe('<ResourceTemplateChoiceModal />', () => {
 
     fireEvent.click(getByText('Save', 'Button'))
 
+    await wait(() => expect(store.getState().selectorReducer.editor.modal === undefined))
+
     expect(mockChoose).toBeCalledWith('resourceTemplate:bf2:Identifiers:DDC')
   })
 
@@ -67,5 +69,6 @@ describe('<ResourceTemplateChoiceModal />', () => {
 
     expect(getByText('Choose resource template')).toBeInTheDocument()
     fireEvent.click(getByText('Cancel', 'Button'))
+    await wait(() => expect(store.getState().selectorReducer.editor.modal === undefined))
   })
 })

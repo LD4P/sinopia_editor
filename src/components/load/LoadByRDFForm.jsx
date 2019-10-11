@@ -17,7 +17,6 @@ const LoadByRDFForm = (props) => {
   const rootResource = useSelector(state => rootResourceSelector(state))
 
   const dispatch = useDispatch()
-  // const showResourceTemplateChooser = () => dispatch(showResourceTemplateChooserAction())
 
   const [baseURI, setBaseURI] = useState('')
   const [resourceN3, setResourceN3] = useState('')
@@ -56,7 +55,7 @@ const LoadByRDFForm = (props) => {
       try {
         setResourceTemplateId(builder.findRootResourceTemplateId())
       } catch (err) {
-        dispatch(showModal('GroupChoiceModal'))
+        dispatch(showModal('ResourceTemplateChoiceModal'))
       }
     }).catch(err => setError(`Error parsing: ${err}`))
     event.preventDefault()

@@ -2,7 +2,9 @@ import React from 'react'
 import { fireEvent, waitForElement, wait } from '@testing-library/react'
 import InputLiteral from 'components/editor/property/InputLiteral'
 import { showValidationErrors, validateResource } from 'actions/index'
-import { renderWithRedux, assertRDF, createReduxStore, setupModal } from 'testUtils'
+import {
+  renderWithRedux, assertRDF, createReduxStore, setupModal,
+} from 'testUtils'
 
 // Testing principles:
 // * Test what the user sees / interacts with. User = [cataloger, developer plugging in componet]

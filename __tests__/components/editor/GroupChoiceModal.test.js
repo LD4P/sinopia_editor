@@ -97,6 +97,7 @@ describe('<GroupChoiceModal />', () => {
         const selectedGroup = 'cornell' // default is first choice, which is cornell
         wrapper.find('button.btn-primary').simulate('click')
         expect(mockPublishMyResource).toHaveBeenCalledWith(currentUser, selectedGroup)
+        expect(mockHideModal).toHaveBeenCalled()
       })
     })
     describe('error', () => {
@@ -105,6 +106,7 @@ describe('<GroupChoiceModal />', () => {
         const selectedGroup = 'cornell' // default is first choice, which is cornell
         wrapper.find('button.btn-primary').simulate('click')
         expect(mockPublishMyResource).toHaveBeenCalledWith(currentUser, selectedGroup)
+        expect(mockHideModal).toHaveBeenCalled()
       })
     })
   })

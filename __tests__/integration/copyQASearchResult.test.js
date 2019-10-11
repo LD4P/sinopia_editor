@@ -133,7 +133,6 @@ rdfs:label "These twain.";
 <http://id.loc.gov/ontologies/bflc/title40MatchKey> "These twain.";
 <http://id.loc.gov/ontologies/bflc/titleSortKey> "These twain." .`
   global.fetch = jest.fn().mockImplementation(() => Promise.resolve({ text: () => n3 }))
-  sinopiaServer.getSearchResults.mockResolvedValue({ response: { results: [], totalHits: 0 } })
   sinopiaServer.getResourceTemplate.mockImplementation(getFixtureResourceTemplate)
   sinopiaServer.foundResourceTemplate.mockResolvedValue(true)
   sinopiaServer.listResourcesInGroupContainer.mockResolvedValue({ response: { body: { contains: false } } })

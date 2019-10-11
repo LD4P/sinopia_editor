@@ -66,10 +66,10 @@ const SinopiaSearchResults = (props) => {
           <table className="table table-bordered" id="search-results-list">
             <thead>
               <tr>
-                <th className="sinopia" style={{ width: '5%' }}>
+                <th className="search-header" style={{ width: '5%' }}>
                   ID
                 </th>
-                <th className="sinopia" style={{ width: '95%' }}>
+                <th className="search-header" style={{ width: '95%' }}>
                   Title
                 </th>
               </tr>

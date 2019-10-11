@@ -44,8 +44,7 @@ export const showGroupChooser = (state) => {
 export const showValidationErrors = (state) => {
   const newState = { ...state }
 
-  newState.editor.groupChoice.show = false
-  newState.editor.rdfPreview.show = false
+  newState.editor.modal = undefined
   newState.editor.displayValidations = true
 
   return newState
@@ -73,7 +72,7 @@ export const hideValidationErrors = (state) => {
 export const closeGroupChooser = (state) => {
   const newState = { ...state }
 
-  newState.editor.groupChoice.show = false
+  newState.editor.modal = undefined
 
   return newState
 }
@@ -101,18 +100,6 @@ export const closeResourceTemplateChooser = (state) => {
 
   newState.editor.resourceTemplateChoice.show = false
 
-  return newState
-}
-
-/**
- * @param {Object} state the previous redux state
- * @param {Object} action the payload of the action is a boolean that says to show or not to show the preview
- * @return {Object} the next redux state
- */
-export const showRdfPreview = (state, action) => {
-  const newState = { ...state }
-
-  newState.editor.rdfPreview.show = action.payload
   return newState
 }
 

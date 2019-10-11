@@ -8,7 +8,7 @@ import Config from 'Config'
 import { fetchSinopiaSearchResults } from 'actionCreators/search'
 
 const SearchResultsPaging = (props) => {
-  const [currentPage, setCurrentPage] = useState(1) // initialize currentPage to 1
+  const [currentPage] = useState(1) // initialize currentPage to 1
 
   // If there are no results, we don't need paging
   if (props.totalResults === 0) {
@@ -18,40 +18,6 @@ const SearchResultsPaging = (props) => {
   // If there are fewer results than one full page, we don't need paging
   if (props.totalResults <= Config.searchResultsPerPage) {
     return null
-  }
-
-  /* Event.target.text is the page number clicked on
-   * or:
-   *   « - first
-   *    ‹ - previous
-   *    › - next
-   *   » - last
-   */
-  /* eslint no-unused-vars: 'off' */
-  const handleClick = (event) => {
-    let queryFrom = 0
-    let newCurrentPage = 1
-    switch (event.target.text) {
-      case '«':
-        break
-      case '‹':
-        newCurrentPage = currentPage - 1
-        break
-      case '›':
-        newCurrentPage = currentPage + 1
-        break
-      case '»':
-        newCurrentPage = Math.ceil(props.totalResults / Config.searchResultsPerPage)
-        break
-      case undefined: // this is required to capture clicks on disabled buttons
-        return
-      default:
-        newCurrentPage = Number(event.target.text)
-        break
-    }
-    queryFrom = (newCurrentPage - 1) * Config.searchResultsPerPage
-    setCurrentPage(newCurrentPage)
-    props.fetchSinopiaSearchResults(props.queryString, queryFrom)
   }
 
   const lastPage = () => Math.ceil(props.totalResults / Config.searchResultsPerPage)

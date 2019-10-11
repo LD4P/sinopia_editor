@@ -3,7 +3,7 @@
 import React, { useMemo, useState, useEffect } from 'react'
 import { useSelector, useDispatch } from 'react-redux'
 import PropTypes from 'prop-types'
-import { showResourceTemplateChooser as showResourceTemplateChooserAction } from 'actions/index'
+import { showModal } from 'actions/index'
 import ResourceTemplateChoiceModal from '../ResourceTemplateChoiceModal'
 import { getTerm } from 'utilities/qa'
 import { existingResource as existingResourceAction } from 'actionCreators/resources'
@@ -15,7 +15,6 @@ import Alert from '../Alert'
 
 const QASearchResults = (props) => {
   const dispatch = useDispatch()
-  const showResourceTemplateChooser = () => dispatch(showResourceTemplateChooserAction())
 
   const searchResults = useSelector(state => state.selectorReducer.search.results)
   const searchUri = useSelector(state => state.selectorReducer.search.uri)
@@ -65,7 +64,7 @@ const QASearchResults = (props) => {
   const handleCopy = (uri) => {
     setResourceURI(uri)
     setResourceTemplateId(null)
-    showResourceTemplateChooser()
+    dispatch(showModal('ResourceTemplateChoiceModal'))
   }
 
   // Passed into resource template chooser to allow it to pass back selected resource template id.
@@ -115,13 +114,13 @@ const QASearchResults = (props) => {
         <table className="table table-bordered">
           <thead>
             <tr>
-              <th className="sinopia" style={{ width: '45%' }}>
+              <th className="search-header" style={{ width: '45%' }}>
                 Label
               </th>
-              <th className="sinopia" style={{ width: '40%' }}>
+              <th className="search-header" style={{ width: '40%' }}>
                 Classes
               </th>
-              <th className="sinopia" style={{ width: '15%' }}/>
+              <th className="search-header" style={{ width: '15%' }}/>
             </tr>
           </thead>
           <tbody>

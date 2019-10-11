@@ -69,16 +69,13 @@ const createInitialState = () => {
       },
       editor: {
         resourceValidationErrors: {},
-        errors: [],
         copyToNewMessage: {},
         rdfPreview: {
-          show: false,
+          show: true,
         },
         groupChoice: {
           show: false,
         },
-        lastSaveChecksum: '54527c024d0021784f666c2794856938',
-        displayValidations: false,
       },
       appVersion: {
         version: undefined,
@@ -92,11 +89,7 @@ describe('Preview and try to save resource', () => {
   const store = createReduxStore(createInitialState())
   setupModal()
   const {
-<<<<<<< HEAD
-    getByText, getByTitle, queryByText, queryAllByText, getByPlaceholderText,
-=======
     getByText, getByTitle, getByTestId, queryAllByText, queryByText,
->>>>>>> Continue refactoring of modals to use Redux
   } = renderWithRedux(
     (<MemoryRouter><App /></MemoryRouter>), store,
   )
@@ -106,10 +99,10 @@ describe('Preview and try to save resource', () => {
     fireEvent.click(getByText('Linked Data Editor'))
     fireEvent.click(getByText('Editor'))
 
-    // Add and remove something to trigger validation
-    fireEvent.change(getByPlaceholderText('Preferred Title for Work'), { target: { value: 'foo' } })
-    fireEvent.keyPress(getByPlaceholderText('Preferred Title for Work'), { key: 'Enter', code: 13, charCode: 13 })
-    fireEvent.click(getByText('×'))
+    const rdfModal = getByTestId('rdf-modal')
+    expect(rdfModal.classList.contains('show')).toBe(false)
+    const groupChoiceModal = getByTestId('group-choice-modal')
+    expect(groupChoiceModal.classList.contains('show')).not.toBe(true)
 
     // Preview the RDF
     const previewBtn = getByTitle('Preview RDF')
@@ -127,7 +120,6 @@ describe('Preview and try to save resource', () => {
     const saveAndPublish = queryAllByText('Save').find((btn) => {
       return btn.id === 'modal-save'
     })
-    expect(saveAndPublish).not.toBeDisabled()
     fireEvent.click(saveAndPublish)
     await wait(() => {
       // All modals closed
@@ -136,13 +128,5 @@ describe('Preview and try to save resource', () => {
     expect(groupChoiceModal.classList.contains('show')).not.toBe(true)
     expect(queryByText(/There was a problem saving this resource/)).toBeInTheDocument()
     expect(queryByText('Required')).toBeInTheDocument()
-    expect(getByText('Save')).toBeDisabled()
-
-    // Fix the problem
-    fireEvent.change(getByPlaceholderText('Preferred Title for Work'), { target: { value: 'foo' } })
-    fireEvent.keyPress(getByPlaceholderText('Preferred Title for Work'), { key: 'Enter', code: 13, charCode: 13 })
-
-    expect(queryByText('Required')).not.toBeInTheDocument()
-    expect(getByText('Save')).not.toBeDisabled()
   })
 })

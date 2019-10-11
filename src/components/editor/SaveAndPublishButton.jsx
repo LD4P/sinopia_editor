@@ -18,25 +18,33 @@ const SaveAndPublishButton = (props) => {
   const currentUser = useSelector(state => getCurrentUser(state))
   const update = () => dispatch(updateCreator(currentUser))
 
-  const showGroupChooser = () => dispatch(showGroupChooserAction(true))
+  const showGroupChooser = () => dispatch(showGroupChooserAction())
   const showValidationErrors = () => dispatch(showValidationErrorsAction())
   const hideValidationErrors = () => dispatch(hideValidationErrorsAction())
 
   const resourceHasChanged = useSelector(state => resourceHasChangesSinceLastSave(state))
   const isSaved = useSelector(state => !!rootResourceId(state))
-  const hasValidationErrors = useSelector(state => state.selectorReducer.editor.errors.length > 0)
+  const hasValidationErrors = useSelector(state => state.selectorReducer.editor.errors?.length > 0)
   const validationErrorsAreShowing = useSelector(state => state.selectorReducer.editor.displayValidations)
   const [isDisabled, setIsDisabled] = useState(true)
+
   useEffect(() => {
     // Disabled if resource has not changed or resource has changed but isSaved and there are validation errors.
     setIsDisabled(!resourceHasChanged || (validationErrorsAreShowing && hasValidationErrors))
   }, [resourceHasChanged, validationErrorsAreShowing, hasValidationErrors])
 
   const save = () => {
-    if (props.isSaved) {
-      props.update(props.currentUser)
-    } else {
-      props.showGroupChooser(true)
+    // Close RDF modal if open
+    if (hasValidationErrors) {
+      showValidationErrors()
+    }
+    else {
+      hideValidationErrors()
+      if (isSaved) {
+        update()
+      } else {
+        showGroupChooser()
+      }
     }
   }
 
@@ -53,7 +61,6 @@ SaveAndPublishButton.propTypes = {
   update: PropTypes.func,
   isSaved: PropTypes.bool,
   currentUser: PropTypes.object,
-  showGroupChooser: PropTypes.func,
 }
 
 export default SaveAndPublishButton

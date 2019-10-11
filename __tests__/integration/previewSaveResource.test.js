@@ -1,5 +1,5 @@
 import React from 'react'
-import { fireEvent, wait } from '@testing-library/react'
+import { fireEvent } from '@testing-library/react'
 // eslint-disable-next-line import/no-unresolved
 import { renderWithRedux, createReduxStore, setupModal } from 'testUtils'
 import App from 'components/App'

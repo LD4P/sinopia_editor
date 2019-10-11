@@ -11,7 +11,7 @@ const testModal = () => {
         <div className="modal-content">
           <div className="modal-header">
             <h5 className="modal-title">Modal title</h5>
-            <button type="button" className="close" data-dismiss="modal" aria-label="Close">
+            <button type="button" className="close" aria-label="Close">
               <span aria-hidden="true">&times;</span>
             </button>
           </div>
@@ -19,7 +19,7 @@ const testModal = () => {
             <p>Modal body text goes here.</p>
           </div>
           <div className="modal-footer">
-            <button type="button" className="btn btn-secondary" data-dismiss="modal">Close</button>
+            <button type="button" className="btn btn-secondary">Close</button>
             <button type="button" className="btn btn-primary">Save changes</button>
           </div>
         </div>
@@ -28,7 +28,7 @@ const testModal = () => {
 }
 
 
-describe('A Modal Wrapper for moving modals to a different location in the DOM', () => {
+describe('<ModalWrapper />, A wrapper for moving modals to a different location in the DOM', () => {
   const portalRoot = document.createElement('div')
   portalRoot.setAttribute('id', 'modal')
   document.body.appendChild(portalRoot)

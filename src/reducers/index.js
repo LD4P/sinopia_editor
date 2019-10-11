@@ -4,8 +4,8 @@ import { combineReducers } from 'redux'
 import authenticate from './authenticate'
 import {
   removeMyItem, setItemsOrSelections, setBaseURL,
-  setMyItemsLang, showGroupChooser, closeGroupChooser, showRdfPreview,
-  showCopyNewMessage, validate, showResourceTemplateChooser, closeResourceTemplateChooser,
+  setMyItemsLang, showGroupChooser, closeGroupChooser, showCopyNewMessage,
+  validate, showResourceTemplateChooser, closeResourceTemplateChooser,
   showValidationErrors, hideValidationErrors, showModal, hideModal,
 } from './inputs'
 import {
@@ -251,7 +251,6 @@ const handlers = {
   SHOW_GROUP_CHOOSER: showGroupChooser,
   SHOW_MODAL: showModal,
   SHOW_RESOURCE_TEMPLATE_CHOOSER: showResourceTemplateChooser,
-  SHOW_RDF_PREVIEW: showRdfPreview,
   SHOW_VALIDATION_ERRORS: showValidationErrors,
   TOGGLE_COLLAPSE: toggleCollapse,
   UPDATE_PROPERTY: updateProperty,

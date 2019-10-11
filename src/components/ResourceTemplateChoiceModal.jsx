@@ -10,8 +10,8 @@ const ResourceTemplateChoiceModal = (props) => {
   const dispatch = useDispatch()
   /* eslint no-unused-vars: "off" */
   const closeResourceTemplateChooser = () => dispatch(closeResourceTemplateChooserAction())
+  const show = useSelector(state => state.selectorReducer.editor.modal === 'ResourceTemplateChoiceModal')
 
-  const show = useSelector(state => state.selectorReducer.editor.resourceTemplateChoice.show)
   const classes = ['modal', 'fade']
   let display = 'none'
 
@@ -33,13 +33,15 @@ const ResourceTemplateChoiceModal = (props) => {
     setSelectedValue(event.target.value)
   }
 
-  const close = () => {
-    hideModal()
+  const close = (event) => {
+    event.preventDefault()
+    dispatch(hideModal())
   }
 
-  const saveAndClose = () => {
+  const saveAndClose = (event) => {
+    event.preventDefault()
     props.choose(selectedValue)
-    close()
+    close(event)
   }
 
   const modal = (
@@ -51,7 +53,7 @@ const ResourceTemplateChoiceModal = (props) => {
         <div className="modal-content">
           <div className="modal-header prop-heading">
             <h4 className="modal-title">Choose resource template</h4>
-            <button type="button" className="close" data-dismiss="modal" aria-label="Close">
+            <button type="button" className="close" onClick={ close } aria-label="Close">
               <span aria-hidden="true">&times;</span>
             </button>
           </div>
@@ -70,7 +72,7 @@ const ResourceTemplateChoiceModal = (props) => {
                 <button className="btn btn-link" style={{ paddingRight: '20px' }} onClick={ close }>
                   Cancel
                 </button>
-                <button className="btn btn-primary btn-sm" onClick={ saveAndClose }>
+                <button className="btn btn-primary btn-sm" onClick={event => saveAndClose(event) }>
                  Save
                 </button>
               </div>

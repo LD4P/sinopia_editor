@@ -114,7 +114,7 @@ describe('<Search />', () => {
       results: [
         {
           uri: 'repository/cornell/ca0d53d0-2b99-4f75-afb0-739a6f0af4f4',
-          label: 'foo',
+          title: 'foo',
         },
       ],
     })
