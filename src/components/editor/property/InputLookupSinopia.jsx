@@ -5,7 +5,6 @@ import React, { useState } from 'react'
 import { Typeahead, asyncContainer } from 'react-bootstrap-typeahead'
 import PropTypes from 'prop-types'
 import SinopiaPropTypes from 'SinopiaPropTypes'
-import Config from 'Config'
 import { bindActionCreators } from 'redux'
 import { connect } from 'react-redux'
 import {
@@ -14,6 +13,7 @@ import {
 import { changeSelections } from 'actions/index'
 import { booleanPropertyFromTemplate } from 'utilities/propertyTemplates'
 import { renderMenuFunc, renderTokenFunc } from './renderTypeaheadFunctions'
+import { getSearchResults } from 'sinopiaSearch'
 import _ from 'lodash'
 
 const AsyncTypeahead = asyncContainer(Typeahead)
@@ -30,17 +30,11 @@ const InputLookupSinopia = (props) => {
   const isMandatory = booleanPropertyFromTemplate(props.propertyTemplate, 'mandatory', false)
   const isRepeatable = booleanPropertyFromTemplate(props.propertyTemplate, 'repeatable', true)
 
-  const responseToOptions = json => json
-    .hits.hits.map(row => ({ uri: row._source.uri, label: row._source.label }))
-
   const search = (query) => {
     setLoading(true)
-    const uri = `${Config.searchHost}${Config.searchPath}?q=${query}`
-    fetch(uri)
-      .then(resp => resp.json())
-      .then(json => responseToOptions(json))
-      .then((opts) => {
-        setOptions(opts)
+    getSearchResults(query)
+      .then((searchResults) => {
+        setOptions(searchResults.results)
         setLoading(false)
       })
   }

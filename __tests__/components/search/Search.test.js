@@ -5,7 +5,7 @@ import Search from 'components/search/Search'
 // eslint-disable-next-line import/no-unresolved
 import { renderWithRedux, createReduxStore } from 'testUtils'
 import { MemoryRouter } from 'react-router-dom'
-import * as sinopiaServer from 'sinopiaServer'
+import * as server from 'sinopiaSearch'
 import Swagger from 'swagger-client'
 
 jest.mock('swagger-client')
@@ -106,12 +106,12 @@ describe('<Search />', () => {
     const store = createReduxStore(createInitialState())
 
     const mockGetSearchResults = jest.fn()
-    sinopiaServer.getSearchResults = mockGetSearchResults.mockResolvedValue({
+    server.getSearchResults = mockGetSearchResults.mockResolvedValue({
       totalHits: 1,
       results: [
         {
           uri: 'repository/cornell/ca0d53d0-2b99-4f75-afb0-739a6f0af4f4',
-          title: 'foo',
+          label: 'foo',
         },
       ],
     })
@@ -141,7 +141,7 @@ describe('<Search />', () => {
     const store = createReduxStore(createInitialState())
 
     const mockGetSearchResults = jest.fn()
-    sinopiaServer.getSearchResults = mockGetSearchResults.mockResolvedValue({
+    server.getSearchResults = mockGetSearchResults.mockResolvedValue({
       totalHits: 0,
       results: [],
     })
@@ -175,7 +175,7 @@ describe('<Search />', () => {
   })
 
   it('displays an error message', async () => {
-    sinopiaServer.getSearchResults = jest.fn().mockResolvedValue({
+    server.getSearchResults = jest.fn().mockResolvedValue({
       totalHits: 0,
       results: [],
       error: new Error('Grrr...'),
@@ -193,6 +193,6 @@ describe('<Search />', () => {
     // Click search
     fireEvent.click(container.querySelector('button[type="submit"]'))
 
-    expect(await findByText('Error: Grrr...')).toBeInTheDocument()
+    expect(await findByText('An error occurred while searching: Error: Grrr...')).toBeInTheDocument()
   })
 })

@@ -1,6 +1,6 @@
 // Copyright 2019 Stanford University see LICENSE for license
 import { setSearchResults } from 'actions/index'
-import { getSearchResults } from 'sinopiaServer'
+import { getSearchResults } from 'sinopiaSearch'
 import { createLookupPromises } from 'utilities/qa'
 import { findAuthorityConfig } from 'utilities/authorityConfig'
 

@@ -35,7 +35,7 @@ const SinopiaSearchResults = (props) => {
 
   const linkFormatter = (_cell, row) => (
     <ButtonToolbar>
-      <Button bsStyle="link" onClick={e => handleClick(`${Config.sinopiaServerBase}/${row.uri}`, e)}>{row.title}</Button>
+      <Button bsStyle="link" onClick={e => handleClick(`${Config.sinopiaServerBase}/${row.uri}`, e)}>{row.label}</Button>
     </ButtonToolbar>
   )
 
@@ -51,8 +51,8 @@ const SinopiaSearchResults = (props) => {
     headerStyle: { backgroundColor: '#F8F6EF', width: '5%' },
   },
   {
-    dataField: '_source.title',
-    text: 'Title',
+    dataField: 'label',
+    text: 'Label',
     sort: false,
     formatter: linkFormatter,
     headerStyle: { backgroundColor: '#F8F6EF', width: '95%' },
