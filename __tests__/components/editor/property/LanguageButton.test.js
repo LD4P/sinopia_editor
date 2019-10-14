@@ -11,6 +11,9 @@ describe('When the user enters input into language modal', () => {
 
   const state = {
     selectorReducer: {
+      editor: {
+        modal: undefined,
+      },
       entities: {
         languages: {
           options: [{
@@ -42,5 +45,6 @@ describe('When the user enters input into language modal', () => {
 
   it('shows the <InputLang> modal when the <Button/> is clicked', async () => {
     fireEvent.click(getByText('Language:'))
+    expect(store.getState().selectorReducer.editor.modal).toBe('LanguageModal')
   })
 })

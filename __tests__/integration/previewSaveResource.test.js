@@ -123,5 +123,8 @@ describe('Preview and save resource', () => {
       return btn.id !== 'modal-save' && btn.id !== 'editor-save'
     })
     fireEvent.click(finalSave)
+
+    // Confirm that the modal is closed
+    expect(store.getState().selectorReducer.editor.modal).toBe(undefined)
   })
 })

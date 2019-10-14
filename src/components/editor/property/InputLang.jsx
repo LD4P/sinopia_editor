@@ -5,7 +5,7 @@ import { Typeahead } from 'react-bootstrap-typeahead'
 import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
 import { findNode } from 'selectors/resourceSelectors'
-import { languageSelected } from 'actions/index'
+import { hideModal, languageSelected } from 'actions/index'
 import { bindActionCreators } from 'redux'
 import ModalWrapper from 'components/editor/ModalWrapper'
 import _ from 'lodash'
@@ -17,6 +17,15 @@ import _ from 'lodash'
  */
 const InputLang = (props) => {
   const [lang, setLang] = useState('')
+
+  const classes = ['modal', 'fade']
+  let display = 'none'
+
+  if (props.show) {
+    classes.push('show')
+    display = 'block'
+  }
+
   const setPayLoad = (selected) => {
     if (selected.length === 1) {
       setLang(selected[0].id)
@@ -25,19 +34,25 @@ const InputLang = (props) => {
     }
   }
 
+  const close = (event) => {
+    props.hideModal()
+    event.preventDefault()
+  }
+
   const handleLangSubmit = (event) => {
     if (!_.isEmpty(lang)) {
       props.languageSelected({
         reduxPath: props.reduxPath,
         lang,
       })
+      close(event)
     }
     event.preventDefault()
   }
 
   const modal = (
     <React.Fragment>
-      <div className="modal" id={props.id}>
+      <div className={ classes.join(' ') } style={{ display }}>
         <div className="modal-dialog" role="document">
           <div className="modal-content">
             <div className="modal-header">
@@ -56,8 +71,8 @@ const InputLang = (props) => {
               </label>
             </div>
             <div className="modal-footer">
-              <button className="btn btn-default" data-dismiss="modal" onClick={handleLangSubmit}>Submit</button>
-              <button className="btn btn-default" data-dismiss="modal">Close</button>
+              <button className="btn btn-default" onClick={ handleLangSubmit }>Submit</button>
+              <button className="btn btn-default" onClick={ close }>Close</button>
             </div>
           </div>
         </div>
@@ -74,19 +89,22 @@ InputLang.propTypes = {
   languageSelected: PropTypes.func,
   options: PropTypes.array,
   loading: PropTypes.bool,
-  id: PropTypes.string.isRequired,
+  hideModal: PropTypes.func,
+  show: PropTypes.bool,
 }
 
 const mapStateToProps = (state, ourProps) => {
   const languages = state.selectorReducer.entities.languages
   const textValue = findNode(state, ourProps.reduxPath).content
+  const show = state.selectorReducer.editor.modal === 'LanguageModal'
   return {
     textValue,
     options: languages?.options || [],
     loading: languages?.loading || false,
+    show,
   }
 }
 
-const mapDispatchToProps = dispatch => bindActionCreators({ languageSelected }, dispatch)
+const mapDispatchToProps = dispatch => bindActionCreators({ hideModal, languageSelected }, dispatch)
 
 export default connect(mapStateToProps, mapDispatchToProps)(InputLang)

@@ -2,27 +2,29 @@
 
 import React from 'react'
 import PropTypes from 'prop-types'
-import { connect } from 'react-redux'
-import shortid from 'shortid'
+import { useDispatch, connect } from 'react-redux'
 import InputLang from './InputLang'
+import { showModal } from 'actions/index'
 import { findNode } from 'selectors/resourceSelectors'
 import { languageLabel } from 'selectors/entitySelectors'
 
 const LanguageButton = (props) => {
-  const modalIdentifier = shortid.generate()
-  const modalIdentiferTarget = `#${modalIdentifier}`
+  const dispatch = useDispatch()
+
+  const handleClick = (event) => {
+    event.preventDefault()
+    dispatch(showModal('LanguageModal'))
+  }
 
   return (
     <React.Fragment>
       <button
         id="language"
-        data-toggle="modal"
-        onClick={event => event?.preventDefault()}
-        data-target={modalIdentiferTarget}
+        onClick={ handleClick }
         className="btn btn-sm btn-secondary btn-literal">
         Language: {props.language}
       </button>
-      <InputLang reduxPath={props.reduxPath} id={modalIdentifier}/>
+      <InputLang reduxPath={props.reduxPath} />
     </React.Fragment>
   )
 }

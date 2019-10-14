@@ -11,9 +11,7 @@ describe('<RDFModal />', () => {
   const state = {
     selectorReducer: {
       editor: {
-        rdfPreview: {
-          show: true,
-        },
+        modal: undefined,
       },
       resource: {},
     },
