@@ -104,6 +104,7 @@ const InputURI = (props) => {
              onKeyPress={handleKeypress}
              value={content}
              disabled={disabled}
+             onBlur={addItem}
              ref={inputLiteralRef}
       />
       {error && <span className="help-block help-block-error">{error}</span>}

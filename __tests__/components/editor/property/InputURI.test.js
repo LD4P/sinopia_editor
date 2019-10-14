@@ -1,181 +1,282 @@
-// Copyright 2019 Stanford University see LICENSE for license
-
 import React from 'react'
-import { shallow } from 'enzyme'
-import shortid from 'shortid'
+import { fireEvent, waitForElement, wait } from '@testing-library/react'
 import InputURI from 'components/editor/property/InputURI'
+import { renderWithRedux, assertRDF, createReduxStore } from 'testUtils'
+import { showValidationErrors, validateResource } from 'actions/index'
 
-const plProps = {
-  propertyTemplate: {
-    propertyLabel: 'Has Equivalent',
-    propertyURI: 'http://id.loc.gov/ontologies/bibframe/hasEquivalent',
-    type: 'resource',
-    mandatory: '',
-    repeatable: '',
-  },
-  reduxPath: [
-    'resourceTemplate:bf2:Monograph:Instance',
-    'http://id.loc.gov/ontologies/bibframe/hasEquivalent',
-  ],
-  items: {},
+const createInitialState = (options = {}) => {
+  const state = {
+    selectorReducer: {
+      resource: {
+        'resourceTemplate:bf2:WorkURI': {
+          'http://id.loc.gov/ontologies/bibframe/mainTitleURI': {
+          },
+        },
+      },
+      entities: {
+        languages: {
+          options: [{
+            id: 'en',
+            label: 'English',
+          }],
+        },
+        resourceTemplates: {
+          'resourceTemplate:bf2:WorkURI': {
+            id: 'resourceTemplate:bf2:WorkURI',
+            resourceLabel: 'Work URI',
+            resourceURI: 'http://id.loc.gov/ontologies/bibframe/TitleURI',
+            propertyTemplates: [
+              {
+                propertyURI: 'http://id.loc.gov/ontologies/bibframe/mainTitleURI',
+                propertyLabel: 'Preferred URI for Work',
+                remark: 'http://access.rdatoolkit.org/rdachp6_rda6-2036.html',
+                mandatory: 'false',
+                repeatable: 'true',
+                type: 'resource',
+                resourceTemplates: [],
+                valueConstraint: {
+                  valueTemplateRefs: [],
+                  useValuesFrom: [],
+                  valueDataType: {},
+                  defaults: [],
+                },
+              },
+            ],
+          },
+        },
+      },
+      editor: {
+        resourceValidationErrors: {},
+        rdfPreview: {
+          show: true,
+        },
+        groupChoice: {
+          show: false,
+        },
+      },
+    },
+  }
+
+  if (options.hasInitialValue) {
+    const items = {
+      Uv8UAARr8: {
+        uri: 'http://foo',
+      },
+    }
+    state.selectorReducer.resource['resourceTemplate:bf2:WorkURI']['http://id.loc.gov/ontologies/bibframe/mainTitleURI'].items = items
+  }
+  if (options.mandatory) {
+    state.selectorReducer.entities.resourceTemplates['resourceTemplate:bf2:WorkURI'].propertyTemplates[0].mandatory = 'true'
+  }
+  if (options.repeatable) {
+    state.selectorReducer.entities.resourceTemplates['resourceTemplate:bf2:WorkURI'].propertyTemplates[0].repeatable = 'true'
+  }
+  return state
 }
 
+const reduxPath = [
+  'resource',
+  'resourceTemplate:bf2:WorkURI',
+  'http://id.loc.gov/ontologies/bibframe/mainTitleURI',
+]
 
-describe('<InputURI />', () => {
-  const wrapper = shallow(<InputURI.WrappedComponent {...plProps} />)
-
-  it('contains a placeholder', () => {
-    expect(wrapper.find('input').props().placeholder).toBe('Has Equivalent')
-  })
-
-  it('contains required="true" attribute on input tag when mandatory is true', () => {
-    const propertyTemplate = { propertyTemplate: { ...plProps.propertyTemplate, mandatory: 'true' } }
-    wrapper.setProps({ ...plProps, ...propertyTemplate })
-    expect(wrapper.find('input').prop('required')).toBeTruthy()
-  })
-
-  it('contains required="false" attribute on input tag when mandatory is false', () => {
-    const propertyTemplate = { propertyTemplate: { ...plProps.propertyTemplate, mandatory: 'false' } }
-    wrapper.setProps({ ...plProps, ...propertyTemplate })
-    expect(wrapper.find('input').prop('required')).toBeFalsy()
-  })
-})
-
-describe('When the user enters input into field', () => {
-  // Our mockItemsChange function to replace the one provided by mapDispatchToProps
-  let mockItemsChange
-  let mockWrapper
-
-  shortid.generate = jest.fn().mockReturnValue(0)
-
-  beforeEach(() => {
-    mockItemsChange = jest.fn()
-    mockWrapper = shallow(<InputURI.WrappedComponent {...plProps}
-                                                     itemsSelected={mockItemsChange} />)
-  })
-
-  it('calls itemsSelected function', () => {
-    mockWrapper.find('input').simulate('change', { target: { value: 'http://example.com/thing/1' } })
-    mockWrapper.find('input').simulate('keypress', { key: 'Enter', preventDefault: () => {} })
-    expect(mockItemsChange).toHaveBeenCalled()
-  })
-
-  it('doesn\'t accept invalid URIs', () => {
-    mockWrapper.find('input').simulate('change', { target: { value: 'Not a URI' } })
-    mockWrapper.find('input').simulate('keypress', { key: 'Enter', preventDefault: () => {} })
-    expect(mockItemsChange).not.toHaveBeenCalled()
-    expect(mockWrapper.find('span.help-block').text()).toEqual('Not a valid URI.')
-    expect(mockWrapper.exists('div.has-error')).toEqual(true)
-  })
-
-  it('is called with the users input as arguments', () => {
-    const propertyTemplate = { propertyTemplate: { ...plProps.propertyTemplate, repeatable: 'false' } }
-    mockWrapper.setProps({ ...plProps, ...propertyTemplate })
-    mockWrapper.find('input').simulate('change', { target: { value: 'http://example.com/thing/1' } })
-    mockWrapper.find('input').simulate('keypress', { key: 'Enter', preventDefault: () => {} })
-    // Test to see arguments used after it's been submitted
-
-    expect(mockItemsChange.mock.calls[0][0]).toEqual(
-      {
-        items: {
-          0: { uri: 'http://example.com/thing/1' },
-        },
-        reduxPath: ['resourceTemplate:bf2:Monograph:Instance', 'http://id.loc.gov/ontologies/bibframe/hasEquivalent'],
-      },
+describe('InputURI', () => {
+  it('renders when no value', () => {
+    const store = createReduxStore(createInitialState())
+    const { container, getByPlaceholderText, queryByText } = renderWithRedux(
+      <InputURI reduxPath={reduxPath} />, store,
     )
+    // The input box is present.
+    expect(getByPlaceholderText('Preferred URI for Work')).toBeInTheDocument()
+    // Not required.
+    expect(queryByText('Required')).not.toBeInTheDocument()
+    expect(getByPlaceholderText('Preferred URI for Work')).not.toHaveAttribute('required')
+    // No existing values are present. This sort of a query isn't recommended but since testing for absence, seems OK.
+    expect(container.querySelector('.rbt-token')).not.toBeInTheDocument()
   })
 
-  it('property template contains repeatable "true", allowed to add more than one item into myItems array', () => {
-    const propertyTemplate = { propertyTemplate: { ...plProps.propertyTemplate, repeatable: 'true' } }
-    mockWrapper.setProps({ ...plProps, ...propertyTemplate })
-    mockWrapper.find('input').simulate('change', { target: { value: 'http://example.com/thing/1' } })
-    mockWrapper.find('input').simulate('keypress', { key: 'Enter', preventDefault: () => {} })
-    mockWrapper.find('input').simulate('change', { target: { value: 'http://example.com/thing/2' } })
-    mockWrapper.find('input').simulate('keypress', { key: 'Enter', preventDefault: () => {} })
-
-    expect(mockItemsChange.mock.calls[0][0]).toEqual(
-      {
-        items: {
-          0: { uri: 'http://example.com/thing/1' },
-        },
-        reduxPath: ['resourceTemplate:bf2:Monograph:Instance', 'http://id.loc.gov/ontologies/bibframe/hasEquivalent'],
-      },
+  it('renders existing value', () => {
+    const store = createReduxStore(createInitialState({ hasInitialValue: true }))
+    const { getByText, getByPlaceholderText } = renderWithRedux(
+      <InputURI reduxPath={reduxPath} />, store,
     )
-    expect(mockItemsChange.mock.calls[1][0]).toEqual(
-      {
-        items: {
-          0: { uri: 'http://example.com/thing/2' },
-        },
-        reduxPath: ['resourceTemplate:bf2:Monograph:Instance', 'http://id.loc.gov/ontologies/bibframe/hasEquivalent'],
-      },
-    )
-    mockItemsChange.mock.calls = [] // Reset the redux store to empty
+    // The input box is present.
+    expect(getByPlaceholderText('Preferred URI for Work')).toBeInTheDocument()
+    // The URI is displayed
+    expect(getByText('http://foo')).toBeInTheDocument()
   })
 
-  it('item appears when there are items', () => {
-    const propertyTemplate = { propertyTemplate: { ...plProps.propertyTemplate, repeatable: 'false' } }
-    mockWrapper.setProps({
-      ...plProps,
-      ...propertyTemplate,
-      items: {
-        abc123: { uri: 'http://example.com/thing/1' },
-      },
-    })
-    expect(mockWrapper.find('Connect(InputValue)').prop('reduxPath')).toEqual([
-      'resourceTemplate:bf2:Monograph:Instance',
-      'http://id.loc.gov/ontologies/bibframe/hasEquivalent',
-      'items',
-      'abc123',
+  it('handles entering non-repeatable value', async () => {
+    const store = createReduxStore(createInitialState())
+    const { getByPlaceholderText, getByText } = renderWithRedux(
+      <InputURI reduxPath={reduxPath} />, store,
+    )
+
+    // Add a value
+    fireEvent.change(getByPlaceholderText('Preferred URI for Work'), { target: { value: 'http://foo' } })
+    fireEvent.keyPress(getByPlaceholderText('Preferred URI for Work'), { key: 'Enter', code: 13, charCode: 13 })
+
+    // Verify the value
+    await waitForElement(() => getByText('Edit'))
+    expect(getByText('http://foo')).toBeInTheDocument()
+    expect(getByText('×')).toBeInTheDocument()
+
+    // Input is disabled
+    expect(getByPlaceholderText('Preferred URI for Work')).toBeDisabled
+  })
+
+  it('handles entering value and changing focus', async () => {
+    const store = createReduxStore(createInitialState())
+    const { getByPlaceholderText, getByText } = renderWithRedux(
+      <InputURI reduxPath={reduxPath} />, store,
+    )
+
+    // Add a value
+    fireEvent.change(getByPlaceholderText('Preferred URI for Work'), { target: { value: 'http://foo' } })
+    fireEvent.blur(getByPlaceholderText('Preferred URI for Work'))
+
+    // Verify the value
+    await waitForElement(() => getByText('Edit'))
+    expect(getByText('http://foo')).toBeInTheDocument()
+    expect(getByText('×')).toBeInTheDocument()
+  })
+
+  it('handles entering repeatable values', async () => {
+    const store = createReduxStore(createInitialState({ repeatable: true }))
+    const { getByPlaceholderText, getByText, getAllByText } = renderWithRedux(
+      <InputURI reduxPath={reduxPath} />, store,
+    )
+
+    // Add values
+    fireEvent.change(getByPlaceholderText('Preferred URI for Work'), { target: { value: 'http://foo' } })
+    fireEvent.keyPress(getByPlaceholderText('Preferred URI for Work'), { key: 'Enter', code: 13, charCode: 13 })
+
+    fireEvent.change(getByPlaceholderText('Preferred URI for Work'), { target: { value: 'http://bar' } })
+    fireEvent.keyPress(getByPlaceholderText('Preferred URI for Work'), { key: 'Enter', code: 13, charCode: 13 })
+
+
+    // Verify the value
+    await waitForElement(() => getByText('http://bar'))
+    expect(getByText('http://foo')).toBeInTheDocument()
+    expect(getAllByText('×')).toHaveLength(2)
+
+    // Input is not disabled
+    expect(getByPlaceholderText('Preferred URI for Work')).not.toBeDisabled
+  })
+
+  it('warns when not entering a URI', async () => {
+    const store = createReduxStore(createInitialState())
+    const { getByPlaceholderText, getByText } = renderWithRedux(
+      <InputURI reduxPath={reduxPath} />, store,
+    )
+
+    // Add a value
+    fireEvent.change(getByPlaceholderText('Preferred URI for Work'), { target: { value: 'foo' } })
+    fireEvent.keyPress(getByPlaceholderText('Preferred URI for Work'), { key: 'Enter', code: 13, charCode: 13 })
+
+    // Warning
+    await waitForElement(() => getByText('Not a valid URI.'))
+  })
+
+
+  it('allows deleting a value', async () => {
+    const store = createReduxStore(createInitialState({ hasInitialValue: true }))
+    const { getByText, queryByText } = renderWithRedux(
+      <InputURI reduxPath={reduxPath} />, store,
+    )
+    expect(getByText('http://foo')).toBeInTheDocument()
+
+    // Delete the value
+    fireEvent.click(getByText('×'))
+
+    // Verify the value is removed
+    await wait(() => expect(queryByText('http://foo')).not.toBeInTheDocument())
+  })
+
+  it('allows editing a value', async () => {
+    const store = createReduxStore(createInitialState({ hasInitialValue: true }))
+    const { getByText, queryByText, getByDisplayValue } = renderWithRedux(
+      <InputURI reduxPath={reduxPath} />, store,
+    )
+    expect(getByText('http://foo')).toBeInTheDocument()
+
+    // Edit the value
+    fireEvent.click(getByText('Edit'))
+
+    await wait(() => expect(queryByText('Edit')).not.toBeInTheDocument())
+
+    const input = getByDisplayValue('http://foo')
+    expect(input).toBeInTheDocument()
+
+    fireEvent.change(input, { target: { value: 'http://bar' } })
+    fireEvent.keyPress(input, { key: 'Enter', code: 13, charCode: 13 })
+
+    // Verify the value
+    await waitForElement(() => getByText('Edit'))
+    expect(getByText('http://bar')).toBeInTheDocument()
+    expect(queryByText('http://foo')).not.toBeInTheDocument()
+    expect(getByText('×')).toBeInTheDocument()
+  })
+
+  it('validates when mandatory', async () => {
+    const store = createReduxStore(createInitialState({ mandatory: true }))
+    const { getByText, queryByText, getByPlaceholderText } = renderWithRedux(
+      <InputURI reduxPath={reduxPath} />, store,
+    )
+
+    expect(getByPlaceholderText('Preferred URI for Work')).toHaveAttribute('required')
+    expect(queryByText('Required')).not.toBeInTheDocument()
+
+    // Trigger validation
+    store.dispatch(validateResource())
+    store.dispatch(showValidationErrors())
+
+    await waitForElement(() => getByText('Required'))
+  })
+
+  it('produces expected triples for a single value', async () => {
+    const store = createReduxStore(createInitialState())
+    const { getByPlaceholderText, getByText } = renderWithRedux(
+      <InputURI reduxPath={reduxPath} />, store,
+    )
+
+    // Add a value
+    fireEvent.change(getByPlaceholderText('Preferred URI for Work'), { target: { value: 'http://foo' } })
+    fireEvent.keyPress(getByPlaceholderText('Preferred URI for Work'), { key: 'Enter', code: 13, charCode: 13 })
+
+    // Verify the value
+    await waitForElement(() => getByText('Edit'))
+
+    // Render an RDFModal
+    assertRDF(store, [
+      '<> <http://id.loc.gov/ontologies/bibframe/mainTitleURI> <http://foo> .',
+      '<> <http://sinopia.io/vocabulary/hasResourceTemplate> "resourceTemplate:bf2:WorkURI" .',
+      '<> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://id.loc.gov/ontologies/bibframe/TitleURI> .',
     ])
   })
-})
 
-describe('when there is a default literal value in the property template', () => {
-  const mockMyItemsChange = jest.fn()
+  it('produces expected triples for repeated values', async () => {
+    const store = createReduxStore(createInitialState({ repeatable: true }))
+    const { getByPlaceholderText, getByText } = renderWithRedux(
+      <InputURI reduxPath={reduxPath} />, store,
+    )
 
-  describe('when repeatable="false"', () => {
-    const nrProps = {
-      propertyTemplate:
-      {
-        propertyLabel: 'Instance of',
-        propertyURI: 'http://id.loc.gov/ontologies/bibframe/hasEquivalent',
-        type: 'literal',
-        mandatory: '',
-        repeatable: 'false',
-      },
-      reduxPath: [],
-    }
+    // Add a value
+    fireEvent.change(getByPlaceholderText('Preferred URI for Work'), { target: { value: 'http://foo' } })
+    fireEvent.keyPress(getByPlaceholderText('Preferred URI for Work'), { key: 'Enter', code: 13, charCode: 13 })
 
-    it('input has disabled attribute when there are items', () => {
-      const nonrepeatWrapper = shallow(
-        <InputURI.WrappedComponent {...nrProps}
-                                   itemsSelected={mockMyItemsChange}
-                                   items={{ 0: { uri: 'http://foo.by', id: 0 } }}/>,
-      )
+    fireEvent.change(getByPlaceholderText('Preferred URI for Work'), { target: { value: 'http://bar' } })
+    fireEvent.keyPress(getByPlaceholderText('Preferred URI for Work'), { key: 'Enter', code: 13, charCode: 13 })
 
-      expect(nonrepeatWrapper.find('input').prop('disabled')).toBe(true)
-    })
+    // Verify the value
+    await waitForElement(() => getByText('http://bar'))
 
-    it('input does not have disabled attribute when there are no items', () => {
-      const nonrepeatWrapper = shallow(
-        <InputURI.WrappedComponent {...nrProps}
-                                   itemsSelected={mockMyItemsChange}
-                                   items={{}}/>,
-      )
-      expect(nonrepeatWrapper.find('input').prop('disabled')).toBe(false)
-    })
-  })
-})
-
-describe('Errors', () => {
-  const errors = ['Required']
-  const wrapper = shallow(<InputURI.WrappedComponent displayValidations={true} errors={errors} {...plProps}/>)
-
-  it('displays the errors', () => {
-    expect(wrapper.find('span.help-block').text()).toEqual('Required')
-  })
-
-  it('sets the has-error class', () => {
-    expect(wrapper.exists('div.has-error')).toEqual(true)
+    // Render an RDFModal
+    assertRDF(store, [
+      '<> <http://id.loc.gov/ontologies/bibframe/mainTitleURI> <http://foo> .',
+      '<> <http://id.loc.gov/ontologies/bibframe/mainTitleURI> <http://bar> .',
+      '<> <http://sinopia.io/vocabulary/hasResourceTemplate> "resourceTemplate:bf2:WorkURI" .',
+      '<> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://id.loc.gov/ontologies/bibframe/TitleURI> .',
+    ])
   })
 })
