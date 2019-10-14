@@ -3,6 +3,11 @@
 import Validator from '../ResourceValidator'
 import { findObjectAtPath } from 'selectors/resourceSelectors'
 
+/**
+ * Validates the resource and adds errors to state
+ * @param {Object} state the previous redux state
+ * @return {Object} the next redux state
+ */
 export const validate = (state) => {
   const newState = { ...state }
   const result = new Validator(newState).validate()
@@ -12,24 +17,48 @@ export const validate = (state) => {
 }
 
 /**
- * Open the group choice dialog if the object is valid
+ * Open the group choice dialog and closes RDF modal
  * @param {Object} state the previous redux state
  * @return {Object} the next redux state
  */
 export const showGroupChooser = (state) => {
   const newState = { ...state }
 
-  if (validate(state).editor.errors.length === 0) {
-    // Show the window to select a group
-    newState.editor.groupChoice.show = true
-  } else {
-    // Show errors that prevent save
-    newState.editor.displayValidations = true
-    newState.editor.rdfPreview.show = false
-  }
+  // Show the window to select a group
+  newState.editor.groupChoice.show = true
+  newState.editor.rdfPreview.show = false
 
   return newState
 }
+
+/**
+ * Close modals and show validation errors
+ * @param {Object} state the previous redux state
+ * @return {Object} the next redux state
+ */
+export const showValidationErrors = (state) => {
+  const newState = { ...state }
+
+  newState.editor.groupChoice.show = false
+  newState.editor.rdfPreview.show = false
+  newState.editor.displayValidations = true
+
+  return newState
+}
+
+/**
+ * Hide validation errors
+ * @param {Object} state the previous redux state
+ * @return {Object} the next redux state
+ */
+export const hideValidationErrors = (state) => {
+  const newState = { ...state }
+
+  newState.editor.displayValidations = false
+
+  return newState
+}
+
 
 /**
  * Close the group chooser

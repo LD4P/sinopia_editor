@@ -1,29 +1,125 @@
 // Copyright 2019 Stanford University see LICENSE for license
-
 import React from 'react'
-import { shallow } from 'enzyme'
+import { renderWithRedux, createReduxStore } from 'testUtils'
 import SaveAndPublishButton from 'components/editor/SaveAndPublishButton'
 
+const createInitialState = () => ({
+  selectorReducer: {
+    editor: {
+      displayValidations: false,
+      lastSaveChecksum: '54527c024d0021784f666c2794856938',
+      errors: [],
+      resourceValidationErrors: {},
+    },
+    resource: {
+      'resourceTemplate:bf2:Identifiers:Barcode': {
+        'http://www.w3.org/1999/02/22-rdf-syntax-ns#value': {
+          items: {
+            hPSHr9jA: {
+              content: '123456',
+              lang: 'en',
+            },
+          },
+        },
+        'http://id.loc.gov/ontologies/bibframe/enumerationAndChronology': {},
+      },
+    },
+    entities: {
+      resourceTemplates: {
+        'resourceTemplate:bf2:Identifiers:Barcode': {
+          id: 'resourceTemplate:bf2:Identifiers:Barcode',
+          resourceURI: 'http://id.loc.gov/ontologies/bibframe/Barcode',
+          resourceLabel: 'Barcode',
+          propertyTemplates: [
+            {
+              mandatory: 'true',
+              repeatable: 'false',
+              type: 'literal',
+              resourceTemplates: [],
+              valueConstraint: {
+                valueTemplateRefs: [],
+                useValuesFrom: [],
+                valueDataType: {},
+                defaults: [
+                  {
+                    defaultLiteral: '12345',
+                  },
+                ],
+              },
+              propertyURI: 'http://www.w3.org/1999/02/22-rdf-syntax-ns#value',
+              propertyLabel: 'Barcode',
+              editable: 'true',
+            },
+            {
+              mandatory: 'false',
+              repeatable: 'true',
+              type: 'literal',
+              resourceTemplates: [],
+              valueConstraint: {
+                valueTemplateRefs: [],
+                useValuesFrom: [],
+                valueDataType: {},
+              },
+              propertyURI: 'http://id.loc.gov/ontologies/bibframe/enumerationAndChronology',
+              propertyLabel: 'Enumeration and chronology',
+              editable: 'true',
+            },
+          ],
+        },
+      },
+    },
+  },
+})
+
+// Clicking the button is covered by previewSaveIncompleteResource and previewSaveResource
 describe('<SaveAndPublishButton />', () => {
-  const mockSave = jest.fn()
-  describe('when disabled', () => {
-    const wrapper = shallow(<SaveAndPublishButton.WrappedComponent isDisabled={true} />)
-    it('the button is disabled', () => {
-      expect(wrapper.find('button').prop('disabled')).toEqual(true)
-    })
+  it('is enabled if resource has changed and validation errors are not shown', () => {
+    const store = createReduxStore(createInitialState())
+    const { getByText } = renderWithRedux(
+      <SaveAndPublishButton id="test" />, store,
+    )
+    expect(getByText('Save')).not.toBeDisabled()
   })
-  describe('when not disabled', () => {
-    const wrapper = shallow(<SaveAndPublishButton.WrappedComponent isDisabled={false} />)
-    it('the button is not disabled', () => {
-      expect(wrapper.find('button').prop('disabled')).toEqual(false)
-    })
+  it('is enabled if resource has changed and no validation errors', () => {
+    const initialState = createInitialState()
+    initialState.selectorReducer.editor.displayValidations = true
+    const store = createReduxStore(initialState)
+    const { getByText } = renderWithRedux(
+      <SaveAndPublishButton id="test" />, store,
+    )
+    expect(getByText('Save')).not.toBeDisabled()
   })
-  describe('clicking the button', () => {
-    const user = { name: 'Wilford Brimley' }
-    const wrapper = shallow(<SaveAndPublishButton.WrappedComponent isDisabled={false} showGroupChooser={mockSave} isSaved={false} currentUser={user} />)
-    it('calls showGroupChooser', () => {
-      wrapper.find('button').simulate('click')
-      expect(mockSave).toHaveBeenCalledWith(true)
-    })
+  it('is disabled if resource has not changed', () => {
+    const initialState = createInitialState()
+    initialState.selectorReducer.editor.lastSaveChecksum = 'c5c8da42a2b460a740c33c72acb4d115'
+    const store = createReduxStore(initialState)
+    const { getByText } = renderWithRedux(
+      <SaveAndPublishButton id="test" />, store,
+    )
+    expect(getByText('Save')).toBeDisabled()
+  })
+  it('is disabled if resource has changed and has validation errors', () => {
+    const initialState = createInitialState()
+    // initialState.selectorReducer.editor.lastSaveChecksum = 'c5c8da42a2b460a740c33c72acb4d115'
+    initialState.selectorReducer.editor.displayValidations = true
+    initialState.selectorReducer.editor.errors = [
+      {
+        message: 'Required',
+        path: [
+          'Barcode',
+          'Barcode',
+        ],
+        reduxPath: [
+          'resource',
+          'resourceTemplate:bf2:Identifiers:Barcode',
+          'http://www.w3.org/1999/02/22-rdf-syntax-ns#value',
+        ],
+      },
+    ]
+    const store = createReduxStore(initialState)
+    const { getByText } = renderWithRedux(
+      <SaveAndPublishButton id="test" />, store,
+    )
+    expect(getByText('Save')).toBeDisabled()
   })
 })

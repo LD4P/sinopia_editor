@@ -68,13 +68,16 @@ const createInitialState = () => {
       },
       editor: {
         resourceValidationErrors: {},
+        errors: [],
         copyToNewMessage: {},
         rdfPreview: {
-          show: true,
+          show: false,
         },
         groupChoice: {
           show: false,
         },
+        lastSaveChecksum: '54527c024d0021784f666c2794856938',
+        displayValidations: false,
       },
       appVersion: {
         version: undefined,
@@ -87,7 +90,7 @@ const createInitialState = () => {
 describe('Preview and try to save resource', () => {
   const store = createReduxStore(createInitialState())
   const {
-    getByText, getByTitle, queryByText, queryAllByText,
+    getByText, getByTitle, queryByText, queryAllByText, getByPlaceholderText,
   } = renderWithRedux(
     (<MemoryRouter><App /></MemoryRouter>), store,
   )
@@ -96,6 +99,11 @@ describe('Preview and try to save resource', () => {
     // Open the resource
     fireEvent.click(getByText('Linked Data Editor'))
     fireEvent.click(getByText('Editor'))
+
+    // Add and remove something to trigger validation
+    fireEvent.change(getByPlaceholderText('Preferred Title for Work'), { target: { value: 'foo' } })
+    fireEvent.keyPress(getByPlaceholderText('Preferred Title for Work'), { key: 'Enter', code: 13, charCode: 13 })
+    fireEvent.click(getByText('×'))
 
     // Preview the RDF
     fireEvent.click(getByTitle('Preview RDF'))
@@ -108,10 +116,19 @@ describe('Preview and try to save resource', () => {
     const saveAndPublish = queryAllByText('Save').find((btn) => {
       return btn.id === 'modal-save'
     })
+    expect(saveAndPublish).not.toBeDisabled()
     fireEvent.click(saveAndPublish)
 
     expect(queryByText('Which group do you want to save to?')).not.toBeInTheDocument()
     expect(queryByText(/There was a probem saving this resource/)).toBeInTheDocument()
     expect(queryByText('Required')).toBeInTheDocument()
+    expect(getByText('Save')).toBeDisabled()
+
+    // Fix the problem
+    fireEvent.change(getByPlaceholderText('Preferred Title for Work'), { target: { value: 'foo' } })
+    fireEvent.keyPress(getByPlaceholderText('Preferred Title for Work'), { key: 'Enter', code: 13, charCode: 13 })
+
+    expect(queryByText('Required')).not.toBeInTheDocument()
+    expect(getByText('Save')).not.toBeDisabled()
   })
 })

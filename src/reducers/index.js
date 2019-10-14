@@ -6,6 +6,7 @@ import {
   removeMyItem, setItemsOrSelections, setBaseURL,
   setMyItemsLang, showGroupChooser, closeGroupChooser, showRdfPreview,
   showCopyNewMessage, validate, showResourceTemplateChooser, closeResourceTemplateChooser,
+  showValidationErrors, hideValidationErrors,
 } from './inputs'
 import {
   setResourceTemplate, clearResourceTemplates, setResourceTemplateSummary,
@@ -21,11 +22,10 @@ export const setResource = (state, action) => {
   // This should be a lodash cloneDeep.
   const newState = { ...state }
   newState.editor.displayValidations = false
-  newState.editor.errors = []
   newState.editor.copyToNewMessage = {}
   newState.resource = action.payload.resource
   newState.entities.resourceTemplates = _.cloneDeep(action.payload.resourceTemplates)
-  return newState
+  return validate(newState)
 }
 
 export const updateProperty = (state, action) => {
@@ -218,6 +218,7 @@ const handlers = {
   CLOSE_GROUP_CHOOSER: closeGroupChooser,
   CLOSE_RESOURCE_TEMPLATE_CHOOSER: closeResourceTemplateChooser,
   COPY_NEW_RESOURCE: copyResourceToEditor,
+  HIDE_VALIDATION_ERRORS: hideValidationErrors,
   ITEMS_SELECTED: setItemsOrSelections,
   LANGUAGE_SELECTED: setMyItemsLang,
   LANGUAGES_RECEIVED: languagesReceived,
@@ -249,8 +250,10 @@ const handlers = {
   SHOW_GROUP_CHOOSER: showGroupChooser,
   SHOW_RESOURCE_TEMPLATE_CHOOSER: showResourceTemplateChooser,
   SHOW_RDF_PREVIEW: showRdfPreview,
+  SHOW_VALIDATION_ERRORS: showValidationErrors,
   TOGGLE_COLLAPSE: toggleCollapse,
   UPDATE_PROPERTY: updateProperty,
+  VALIDATE_RESOURCE: validate,
 }
 
 export const createReducer = handlers => (state = {}, action) => {

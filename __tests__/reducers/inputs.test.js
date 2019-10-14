@@ -56,30 +56,12 @@ beforeEach(() => {
 })
 
 describe('showGroupChooser()', () => {
-  describe('when the state is valid', () => {
-    it('the groupChoice.show to true', () => {
-      const result = showGroupChooser(initialState)
+  it('the groupChoice.show to true', () => {
+    initialState.editor.rdfPreview.show = true
+    const result = showGroupChooser(initialState)
 
-      expect(result.editor.groupChoice.show).toBe(true)
-      expect(result.editor.displayValidations).toBe(false)
-    })
-  })
-
-  describe('when the state is invalid', () => {
-    it('sets displayValidations to true', () => {
-      Validator.mockImplementationOnce(() => {
-        return {
-          validate: () => {
-            return [{}, ['error']]
-          },
-        }
-      })
-      const result = showGroupChooser(initialState)
-
-      expect(result.editor.displayValidations).toBe(true)
-      expect(result.editor.groupChoice.show).toBe(false)
-      expect(result.editor.rdfPreview.show).toBe(false)
-    })
+    expect(result.editor.groupChoice.show).toBe(true)
+    expect(result.editor.rdfPreview.show).toBe(false)
   })
 })
 

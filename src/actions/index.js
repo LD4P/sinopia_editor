@@ -63,6 +63,10 @@ export const copyNewResource = copyInfo => ({
   payload: copyInfo,
 })
 
+export const hideValidationErrors = () => ({
+  type: 'HIDE_VALIDATION_ERRORS',
+})
+
 export const itemsSelected = item => ({
   type: 'ITEMS_SELECTED',
   payload: item,
@@ -205,6 +209,10 @@ export const showResourceTemplateChooser = () => ({
   type: 'SHOW_RESOURCE_TEMPLATE_CHOOSER',
 })
 
+export const showValidationErrors = () => ({
+  type: 'SHOW_VALIDATION_ERRORS',
+})
+
 export const signOutSuccess = () => ({
   type: 'SIGN_OUT_SUCCESS',
 })
@@ -221,4 +229,8 @@ export const toggleCollapse = reduxPath => ({
 export const updateProperty = (reduxPath, resourceFragment, resourceTemplates) => ({
   type: 'UPDATE_PROPERTY',
   payload: { reduxPath, resourceFragment, resourceTemplates },
+})
+
+export const validateResource = () => ({
+  type: 'VALIDATE_RESOURCE',
 })
