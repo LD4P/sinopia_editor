@@ -13,6 +13,7 @@ import { rootResource as rootResourceSelector } from 'selectors/resourceSelector
 import useResource from 'hooks/useResource'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faCopy } from '@fortawesome/free-solid-svg-icons'
+import Alert from '../Alert'
 
 const QASearchResults = (props) => {
   const dispatch = useDispatch()
@@ -119,16 +120,7 @@ const QASearchResults = (props) => {
 
   return (
     <div id="search-results" className="row">
-      { error
-        && <div className="row">
-          <div className="col-md-12" style={{ marginTop: '10px' }}>
-            <div className="alert alert-danger alert-dismissible">
-              <button className="close" data-dismiss="alert" aria-label="close">&times;</button>
-              { error.toString() }
-            </div>
-          </div>
-        </div>
-      }
+      <Alert text={error?.toString()} />
       <div className="col-sm-2"></div>
       <div className="col-sm-8">
         <BootstrapTable id="search-results-list" keyField="uri" data={ tableData } columns={ columns } />

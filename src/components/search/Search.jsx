@@ -13,6 +13,7 @@ import SinopiaSearchResults from './SinopiaSearchResults'
 import QASearchResults from './QASearchResults'
 import SearchResultsPaging from './SearchResultsPaging'
 import SearchResultsMessage from './SearchResultsMessage'
+import Alert from '../Alert'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faSearch } from '@fortawesome/free-solid-svg-icons'
 import searchConfig from '../../../static/searchConfig.json'
@@ -79,16 +80,8 @@ const Search = (props) => {
   return (
     <div id="search">
       <Header triggerEditorMenu={props.triggerHandleOffsetMenu} />
-      { error
-        && <div className="row">
-          <div className="col-md-12" style={{ marginTop: '10px' }}>
-            <div className="alert alert-danger alert-dismissible">
-              <button className="close" data-dismiss="alert" aria-label="close">&times;</button>
-              An error occurred while searching: { error.toString() }
-            </div>
-          </div>
-        </div>
-      }
+      <Alert text={error && `An error occurred while searching: ${error.toString()}`} />
+
       <div className="row">
         <form className="form-inline" onSubmit={handleSubmit}>
           <div className="form-group">

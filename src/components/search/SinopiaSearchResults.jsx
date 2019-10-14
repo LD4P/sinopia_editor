@@ -13,6 +13,7 @@ import { retrieveResource } from 'actionCreators/resources'
 import Button from 'react-bootstrap/lib/Button'
 import ButtonToolbar from 'react-bootstrap/lib/ButtonToolbar'
 import { rootResource } from 'selectors/resourceSelectors'
+import Alert from '../Alert'
 
 const SinopiaSearchResults = (props) => {
   const [navigateEditor, setNavigateEditor] = useState(false)
@@ -60,16 +61,8 @@ const SinopiaSearchResults = (props) => {
 
   return (
     <React.Fragment>
-      { props.error
-        && <div className="row">
-          <div className="col-md-12" style={{ marginTop: '10px' }}>
-            <div className="alert alert-danger alert-dismissible">
-              <button className="close" data-dismiss="alert" aria-label="close">&times;</button>
-              { props.error }
-            </div>
-          </div>
-        </div>
-      }
+      <Alert text={props.error} />
+
       <div id="search-results" className="row">
         <div className="col-sm-2"></div>
         <div className="col-sm-8">
