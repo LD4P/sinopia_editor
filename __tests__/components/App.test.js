@@ -14,7 +14,7 @@ import CanvasMenu from 'components/menu/CanvasMenu'
 import Footer from 'components/Footer'
 import ImportResourceTemplate from 'components/templates/ImportResourceTemplate'
 
-jest.mock('components/editor/Editor')
+jest.mock('components/editor/Editor', () => () => 'MockEditor')
 jest.mock('components/templates/ImportResourceTemplate')
 
 describe('<App />', () => {
