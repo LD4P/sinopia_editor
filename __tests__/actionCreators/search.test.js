@@ -2,7 +2,7 @@
 
 import { fetchSinopiaSearchResults, fetchQASearchResults } from 'actionCreators/search'
 /* eslint import/namespace: 'off' */
-import * as server from 'sinopiaServer'
+import * as server from 'sinopiaSearch'
 import Swagger from 'swagger-client'
 
 jest.mock('swagger-client')
@@ -13,7 +13,7 @@ describe('fetchSinopiaSearchResults', () => {
     totalHits: 1,
     results: {
       uri: 'http://sinopia.io/repository/stanford/123',
-      title: 'A lonely title',
+      label: 'A lonely title',
     },
   }
 
