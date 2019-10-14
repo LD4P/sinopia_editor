@@ -49,7 +49,6 @@ const LoadByRDFForm = (props) => {
   const handleSubmit = (event) => {
     // Try parsing to extract the resource template id
     rdfDatasetFromN3(resourceN3).then((dataset) => {
-      console.log('ResourceStateBuilder')
       const builder = new ResourceStateBuilder(dataset, (rtId) => dispatch(fetchResourceTemplate(rtId)), baseURI)
       // findRootResourceTemplateId() throws an error when resource template id not specified.
       // If it is not specified, then show the resource template chooser.

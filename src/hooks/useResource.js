@@ -2,7 +2,8 @@
 import { useState, useEffect } from 'react'
 import ResourceStateBuilder from 'ResourceStateBuilder'
 import { rdfDatasetFromN3 } from 'Utilities'
-
+import { useDispatch } from 'react-redux'
+import { fetchResourceTemplate } from 'actionCreators/resourceTemplates'
 /**
  * Hook for transforming a resource to state and changing the page to the editor (i.e., /editor path).
  * @param {string} resource as N3
@@ -18,6 +19,7 @@ const useResource = (resourceN3, baseURI, resourceTemplateId, rootResource, hist
   const [error, setError] = useState('')
   const [resourceState, setResourceState] = useState(null)
   const [unusedDataset, setUnusedDataset] = useState(null)
+  const dispatch = useDispatch()
 
   useEffect(() => {
     // Using undefined for baseURI because some resources have <> base URIs, which would be '' or null.
@@ -25,7 +27,7 @@ const useResource = (resourceN3, baseURI, resourceTemplateId, rootResource, hist
       return
     }
     rdfDatasetFromN3(resourceN3).then((dataset) => {
-      const builder = new ResourceStateBuilder(dataset, baseURI, resourceTemplateId)
+      const builder = new ResourceStateBuilder(dataset, (rtId) => dispatch(fetchResourceTemplate(rtId)), baseURI, resourceTemplateId)
       return builder.buildState().then((result) => {
         // TODO: This also returns the resource templates, which could be added to state.
         // See https://github.com/LD4P/sinopia_editor/issues/1396

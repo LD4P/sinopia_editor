@@ -34,8 +34,10 @@ export default class ResourceStateBuilder {
    * @raise reasons that generating state failed, including problems with the resource and loaded resource templates
    */
   async buildState() {
+    console.log('buildState')
     // Find the resource template id of base resource. Should be only 1.
     const rtId = this.baseResourceTemplateId || this.findRootResourceTemplateId()
+    console.log('rtId', rtId)
     this.usedDataset.addAll(this.findResourceTemplateQuads(rdf.namedNode(this.resourceURI)))
 
     this.resourceState = await this.buildResource(rdf.namedNode(this.resourceURI), rtId)
@@ -48,6 +50,7 @@ export default class ResourceStateBuilder {
    * @return {Object} the resource represented as Redux state
    */
   async buildResource(resourceTerm, rtId) {
+    console.log('buildResource')
     const resourceTemplate = await this.findResourceTemplate(rtId)
     const thisResourceState = { [rtId]: {} }
 
@@ -179,10 +182,10 @@ export default class ResourceStateBuilder {
   }
 
   async findResourceTemplate(rtId) {
+    console.log('findResourceTemplate', rtId)
     if (this.resourceTemplates[rtId]) {
       return this.resourceTemplates[rtId]
     }
-    console.log('findResourceTemplate', rtId)
     return this.fetchResourceTemplateFunc(rtId).then((resourceTemplate) => {
       this.resourceTemplates[rtId] = resourceTemplate
       // TODO: Validate template. See https://github.com/LD4P/sinopia_editor/issues/1394
@@ -211,6 +214,7 @@ export default class ResourceStateBuilder {
    */
   findRootResourceTemplateId() {
     const rtQuads = this.findResourceTemplateQuads(rdf.namedNode(this.resourceURI))
+    console.log('rtQuads', rtQuads)
     if (rtQuads.length !== 1) {
       throw 'A single resource template must be included as a triple (http://sinopia.io/vocabulary/hasResourceTemplate)'
     }
