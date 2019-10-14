@@ -1,7 +1,7 @@
 import React from 'react'
 import { fireEvent, waitForElement, wait } from '@testing-library/react'
 import InputListLOC from 'components/editor/property/InputListLOC'
-import { showGroupChooser } from 'actions/index'
+import { showValidationErrors, validateResource } from 'actions/index'
 /* eslint import/no-unresolved: 'off' */
 import { renderWithRedux, assertRDF, createReduxStore } from 'testUtils'
 
@@ -43,6 +43,11 @@ const createInitialState = (options = {}) => {
         rdfPreview: {
           show: true,
         },
+        groupChoice: {
+          show: false,
+        },
+        errors: [],
+        displayValidations: false,
       },
     },
   }
@@ -374,7 +379,8 @@ describe('InputListLOC', () => {
     expect(queryByText('Required')).not.toBeInTheDocument()
 
     // Trigger validation
-    store.dispatch(showGroupChooser(true))
+    store.dispatch(validateResource())
+    store.dispatch(showValidationErrors())
 
     await waitForElement(() => getByText('Required'))
   })
