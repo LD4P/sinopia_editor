@@ -1,6 +1,6 @@
 // Copyright 2019 Stanford University see LICENSE for license
 
-export const findResourceTemplate = (selectorReducer, resourceTemplateId) => selectorReducer
+export const findResourceTemplate = (state, resourceTemplateId) => state.selectorReducer
   .entities.resourceTemplates[resourceTemplateId]
 
 /**
