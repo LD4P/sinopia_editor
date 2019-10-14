@@ -56,7 +56,7 @@ export const resourceHasChangesSinceLastSave = (state) => {
   if (lastSaveChecksum === undefined) {
     return true
   }
-  const rdf = new GraphBuilder(state.selectorReducer).graph.toCanonical()
+  const rdf = new GraphBuilder(state).graph.toCanonical()
   const resourceChecksum = generateMD5(rdf)
   return lastSaveChecksum !== resourceChecksum
 }

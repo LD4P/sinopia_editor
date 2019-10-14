@@ -3,7 +3,6 @@
 import shortid from 'shortid'
 
 import rdf from 'rdf-ext'
-import { getResourceTemplate } from 'sinopiaServer'
 import _ from 'lodash'
 
 /**
@@ -15,11 +14,13 @@ import _ from 'lodash'
 export default class ResourceStateBuilder {
   /**
    * @param {rdf.Dataset} dataset the RDF graph
+   * @param {func} fetchResourceTemplateFunc function for fetching resource template
    * @param {string|null} resourceURI URI of the resource
    * @param {string|null} resourceTemplateId base resource template id
    */
-  constructor(dataset, resourceURI, resourceTemplateId) {
+  constructor(dataset, fetchResourceTemplateFunc, resourceURI, resourceTemplateId) {
     this.dataset = dataset
+    this.fetchResourceTemplateFunc = fetchResourceTemplateFunc
     this.resourceURI = resourceURI === '' ? null : resourceURI
     this.resourceState = {}
     this.usedDataset = rdf.dataset(this.findTypeQuads(rdf.namedNode(this.resourceURI)))
@@ -181,9 +182,8 @@ export default class ResourceStateBuilder {
     if (this.resourceTemplates[rtId]) {
       return this.resourceTemplates[rtId]
     }
-
-    return getResourceTemplate(rtId, 'ld4p').then((response) => {
-      const resourceTemplate = response.response.body
+    console.log('findResourceTemplate', rtId)
+    return this.fetchResourceTemplateFunc(rtId).then((resourceTemplate) => {
       this.resourceTemplates[rtId] = resourceTemplate
       // TODO: Validate template. See https://github.com/LD4P/sinopia_editor/issues/1394
       return resourceTemplate

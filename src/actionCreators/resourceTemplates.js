@@ -8,8 +8,13 @@ import Config from 'Config'
 import { getResourceTemplate, listResourcesInGroupContainer } from 'sinopiaServer'
 import { resourceToName } from 'Utilities'
 import _ from 'lodash'
+import { findResourceTemplate } from 'selectors/entitySelectors'
 
-export const fetchResourceTemplate = (resourceTemplateId, dispatch) => {
+// A thunk that gets a resource template from state or the server.
+export const fetchResourceTemplate = (resourceTemplateId) => (dispatch, getState) => {
+  const resourceTemplate = findResourceTemplate(getState())
+  if (resourceTemplate) return resourceTemplate
+
   dispatch(retrieveResourceTemplateStarted(resourceTemplateId))
 
   return getResourceTemplate(resourceTemplateId, 'ld4p').then((response) => {

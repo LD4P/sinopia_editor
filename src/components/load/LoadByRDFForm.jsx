@@ -10,6 +10,7 @@ import { rootResource as rootResourceSelector } from 'selectors/resourceSelector
 import useResource from 'hooks/useResource'
 import { showResourceTemplateChooser as showResourceTemplateChooserAction } from 'actions/index'
 import ResourceTemplateChoiceModal from '../ResourceTemplateChoiceModal'
+import { fetchResourceTemplate } from 'actionCreators/resourceTemplates'
 import _ from 'lodash'
 
 const LoadByRDFForm = (props) => {
@@ -48,7 +49,8 @@ const LoadByRDFForm = (props) => {
   const handleSubmit = (event) => {
     // Try parsing to extract the resource template id
     rdfDatasetFromN3(resourceN3).then((dataset) => {
-      const builder = new ResourceStateBuilder(dataset, baseURI)
+      console.log('ResourceStateBuilder')
+      const builder = new ResourceStateBuilder(dataset, (rtId) => dispatch(fetchResourceTemplate(rtId)), baseURI)
       // findRootResourceTemplateId() throws an error when resource template id not specified.
       // If it is not specified, then show the resource template chooser.
       try {

@@ -44,7 +44,7 @@ RDFModal.propTypes = {
 
 const mapStateToProps = state => ({
   show: state.selectorReducer.editor.rdfPreview.show,
-  rdf: () => new GraphBuilder(state.selectorReducer).graph.toCanonical(),
+  rdf: () => new GraphBuilder(state).graph.toCanonical(),
 })
 
 const mapDispatchToProps = dispatch => bindActionCreators({ showRdfPreview }, dispatch)

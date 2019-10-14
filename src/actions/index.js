@@ -26,10 +26,6 @@ export const changeSelections = item => ({
   payload: item,
 })
 
-export const clearResourceTemplates = () => ({
-  type: 'CLEAR_RESOURCE_TEMPLATES',
-})
-
 export const clearRetrieveResourceError = () => ({
   type: 'CLEAR_RETRIEVE_RESOURCE_ERROR',
 })

@@ -21,7 +21,7 @@ export default class GraphBuilder {
    */
   get graph() {
     // Is there ever more than one base node?
-    const resource = this.state.resource
+    const resource = this.state.selectorReducer.resource
 
     Object.keys(resource).forEach((resourceTemplateId) => {
       // Always save with relative URI

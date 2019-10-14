@@ -8,7 +8,7 @@ import {
   showCopyNewMessage, validate, showResourceTemplateChooser, closeResourceTemplateChooser,
 } from './inputs'
 import {
-  setResourceTemplate, clearResourceTemplates, setResourceTemplateSummary,
+  setResourceTemplate, setResourceTemplateSummary,
   loadingLanguages, languagesReceived,
   loadingQaResults, qaResultsReceived, copyResourceToEditor,
 } from './entities'
@@ -24,7 +24,7 @@ export const setResource = (state, action) => {
   newState.editor.errors = []
   newState.editor.copyToNewMessage = {}
   newState.resource = action.payload.resource
-  newState.entities.resourceTemplates = _.cloneDeep(action.payload.resourceTemplates)
+  newState.entities.resourceTemplates = { ...newState.entities.resourceTemplates, ...action.payload.resourceTemplates}
   return newState
 }
 
@@ -39,7 +39,7 @@ export const updateProperty = (state, action) => {
   const tempNode = findObjectAtPath(newState, tempReduxPath)
   tempNode[propertyURI] = resourceFragment
 
-  newState.entities.resourceTemplates = _.cloneDeep(action.payload.resourceTemplates)
+  newState.entities.resourceTemplates = { ...newState.entities.resourceTemplates, ...action.payload.resourceTemplates}
 
   return validate(newState)
 }
@@ -55,7 +55,7 @@ export const appendResource = (state, action) => {
   const parentPropertyNode = findObjectAtPath(newState, parentReduxPath)
   parentPropertyNode[key] = resource[key]
 
-  newState.entities.resourceTemplates = _.cloneDeep(action.payload.resourceTemplates)
+  newState.entities.resourceTemplates = { ...newState.entities.resourceTemplates, ...action.payload.resourceTemplates}
 
   return validate(newState)
 }
@@ -211,7 +211,6 @@ const handlers = {
   CHANGE_SELECTIONS: setItemsOrSelections,
   CLEAR_RETRIEVE_RESOURCE_ERROR: clearRetrieveResourceError,
   CLEAR_RETRIEVE_RESOURCE_TEMPLATE_ERROR: clearRetrieveResourceTemplateError,
-  CLEAR_RESOURCE_TEMPLATES: clearResourceTemplates,
   CLEAR_SAVE_RESOURCE_ERROR: clearSaveResourceError,
   CLEAR_SAVE_RESOURCE_TEMPLATE_ERROR: clearSaveResourceTemplateError,
   CLEAR_SEARCH_RESULTS: clearSearchResults,

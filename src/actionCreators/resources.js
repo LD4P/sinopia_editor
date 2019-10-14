@@ -26,7 +26,7 @@ export const update = currentUser => (dispatch, getState) => {
   dispatch(saveResourceStarted())
 
   const uri = rootResourceId(getState())
-  const rdf = new GraphBuilder(getState().selectorReducer).graph.toCanonical()
+  const rdf = new GraphBuilder(getState()).graph.toCanonical()
   return updateRDFResource(currentUser, uri, rdf)
     .then(() => dispatch(saveResourceFinished(generateMD5(rdf))))
     .catch(err => dispatch(setSaveResourceError(uri, err.toString())))
@@ -47,7 +47,7 @@ export const retrieveResource = (currentUser, uri) => (dispatch) => {
         // See https://github.com/LD4P/sinopia_editor/issues/1396
         return builder.buildState().then(([state, unusedDataset]) => existingResourceFunc(state, uri, dispatch).then((result) => {
           if (result !== undefined) {
-            const rdf = new GraphBuilder({ resource: result[0], entities: { resourceTemplates: result[1] } }).graph.toCanonical()
+            const rdf = new GraphBuilder({selectorReducer: { resource: result[0], entities: { resourceTemplates: result[1] } }}).graph.toCanonical()
             dispatch(setLastSaveChecksum(generateMD5(rdf)))
             dispatch(setUnusedRDF(unusedDataset.toCanonical()))
             return true
@@ -70,7 +70,7 @@ export const publishResource = (currentUser, group) => (dispatch, getState) => {
 
   // Make a copy of state to prevent changes that will affect the publish.
   const state = _.cloneDeep(getState())
-  const rdf = new GraphBuilder(state.selectorReducer).graph.toCanonical()
+  const rdf = new GraphBuilder(state).graph.toCanonical()
 
   return publishRDFResource(currentUser, rdf, group).then((result) => {
     const resourceUrl = result.response.headers.location
@@ -87,7 +87,7 @@ export const newResource = resourceTemplateId => (dispatch) => {
   resource[resourceTemplateId] = {}
   return stubResource(resource, true, undefined, dispatch).then((result) => {
     if (result !== undefined) {
-      const rdf = new GraphBuilder({ resource: result[0], entities: { resourceTemplates: result[1] } }).graph.toCanonical()
+      const rdf = new GraphBuilder({selectorReducer: { resource: result[0], entities: { resourceTemplates: result[1] } }}).graph.toCanonical()
       dispatch(setLastSaveChecksum(generateMD5(rdf)))
       dispatch(setUnusedRDF(null))
       return true
@@ -184,14 +184,10 @@ export const stubResourceProperties = async (resourceTemplateId, resourceTemplat
   resource, reduxPath, useDefaults, stubMandatoryOnly, stubPropertyURIOnly, dispatch) => {
   const newResource = _.cloneDeep(resource)
   const newResourceReduxPath = [...reduxPath, resourceTemplateId]
-  let newResourceTemplates = _.cloneDeep(resourceTemplates)
-  let resourceTemplate
-  if (newResourceTemplates[resourceTemplateId]) {
-    resourceTemplate = newResourceTemplates[resourceTemplateId]
-  } else {
-    resourceTemplate = await fetchResourceTemplate(resourceTemplateId, dispatch)
-    newResourceTemplates[resourceTemplateId] = resourceTemplate
-  }
+
+  const resourceTemplate = await dispatch(fetchResourceTemplate(resourceTemplateId))
+  console.log('resourceTemplate', resourceTemplate)
+  resourceTemplates[resourceTemplateId] = resourceTemplate
 
   // This handles if there was an error fetching resource template
   if (!resourceTemplate) {
@@ -251,11 +247,10 @@ export const stubResourceProperties = async (resourceTemplateId, resourceTemplat
             const nestedResourceKey = existingNestedResourceKey || newResourceKey
             const newResourcePropertyValueReduxPath = [...newResourcePropertyReduxPath, nestedResourceKey]
             const nestedResource = newResource[propertyTemplate.propertyURI][nestedResourceKey][resourceTemplateId]
-            const stubResult = await stubResourceProperties(resourceTemplateId, newResourceTemplates,
+            const stubResult = await stubResourceProperties(resourceTemplateId, resourceTemplates,
               nestedResource, newResourcePropertyValueReduxPath, useDefaults, isMandatory, false, dispatch)
             if (!stubResult) return
             const newNestedResource = stubResult[0]
-            newResourceTemplates = { ...newResourceTemplates, ...stubResult[1] }
             newResource[propertyTemplate.propertyURI][nestedResourceKey][resourceTemplateId] = newNestedResource
           }),
         )
@@ -271,5 +266,5 @@ export const stubResourceProperties = async (resourceTemplateId, resourceTemplat
       }
     }),
   )
-  return [newResource, newResourceTemplates]
+  return [newResource, resourceTemplates]
 }

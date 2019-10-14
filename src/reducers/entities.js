@@ -13,14 +13,6 @@ export const setResourceTemplate = (state, action) => {
   return newState
 }
 
-export const clearResourceTemplates = (state) => {
-  const newState = { ...state }
-
-  newState.entities.resourceTemplates = {}
-
-  return newState
-}
-
 // Takes current user and optional uri and removes resourceURI
 export const copyResourceToEditor = (state, action) => {
   const newState = { ...state }
