@@ -3,10 +3,12 @@
 import SinopiaServer from 'sinopia_server'
 import CognitoUtils from './CognitoUtils'
 import Config from './Config'
+/* eslint-disable node/no-unpublished-import */
 import {
   rtFixturesGroups, getFixtureResourceTemplate,
   listFixtureResourcesInGroupContainer, resourceTemplateIds,
 } from '../__tests__/fixtureLoaderHelper'
+/* eslint-enable node/no-unpublished-import */
 
 const instance = new SinopiaServer.LDPApi()
 

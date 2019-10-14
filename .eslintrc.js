@@ -28,15 +28,19 @@ module.exports = {
     }
   },
   settings: {
+    "node": {
+      "resolvePaths": ['src', '__tests__/test_utilities'],
+      "tryExtensions": ['.js','.jsx','.json','.node']
+    },
     "import/resolver": {
       "node": {
-        "paths": ['src'],
+        "paths": ['src', '__tests__/test_utilities'],
         "extensions": ['.js','.jsx']
       }
     },
     "react": {
       "version": "16.6"
-    }
+    },
   },
   env: {
     "browser": true,
@@ -94,6 +98,7 @@ module.exports = {
     "new-cap": "off",
     'newline-after-var': 'off', // deprecated rule, enabled by airbnb-base/whitespace
     "newline-before-return": "off",
+    "node/no-extraneous-import": "off", // turning off because objects to our imports
     "no-alert": "off",
     "no-await-in-loop": "off",
     "no-console": ["warn", { allow: ["error", "info"] }], // we want to see errors in the console
@@ -210,5 +215,14 @@ module.exports = {
         "jsx-a11y/anchor-is-valid": "off"
       }
     },
+    {
+      "files": [
+        "react-testing-library.setup.js",
+        "setupEnzyme.js"
+      ],
+      "rules": {
+        "node/no-unpublished-import": "off"
+      }
+    }
   ]
 }

@@ -2,7 +2,6 @@
 
 import React from 'react'
 import { createStore } from 'redux'
-/* eslint import/no-unresolved: 'off' */
 import { renderWithRedux } from 'testUtils'
 import SaveAlert from 'components/editor/SaveAlert'
 import appReducer from 'reducers/index'

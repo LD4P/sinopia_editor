@@ -1,6 +1,5 @@
 import React from 'react'
 import ResourceTemplateChoiceModal from 'components/ResourceTemplateChoiceModal'
-// eslint-disable-next-line import/no-unresolved
 import { renderWithRedux, createReduxStore } from 'testUtils'
 import { fireEvent, wait } from '@testing-library/react'
 

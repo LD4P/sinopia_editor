@@ -4,7 +4,6 @@ import React from 'react'
 import { createStore } from 'redux'
 import CopyToNewButton from 'components/editor/CopyToNewButton'
 import appReducer from 'reducers/index'
-/* eslint import/no-unresolved: 'off' */
 import { renderWithRedux } from 'testUtils'
 import { fireEvent, wait } from '@testing-library/react'
 

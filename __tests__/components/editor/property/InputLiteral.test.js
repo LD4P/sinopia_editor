@@ -2,7 +2,6 @@ import React from 'react'
 import { fireEvent, waitForElement, wait } from '@testing-library/react'
 import InputLiteral from 'components/editor/property/InputLiteral'
 import { showGroupChooser } from 'actions/index'
-/* eslint import/no-unresolved: 'off' */
 import { renderWithRedux, assertRDF, createReduxStore } from 'testUtils'
 
 // Testing principles:

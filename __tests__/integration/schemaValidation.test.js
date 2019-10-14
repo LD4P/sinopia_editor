@@ -1,6 +1,5 @@
 import React from 'react'
 import { fireEvent, render, wait } from '@testing-library/react'
-// eslint-disable-next-line import/no-unresolved
 import { renderWithRedux, createReduxStore } from 'testUtils'
 import App from 'components/App'
 import { MemoryRouter } from 'react-router-dom'
