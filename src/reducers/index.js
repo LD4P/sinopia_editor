@@ -24,7 +24,7 @@ export const setResource = (state, action) => {
   newState.editor.displayValidations = false
   newState.editor.copyToNewMessage = {}
   newState.resource = action.payload.resource
-  newState.entities.resourceTemplates = _.cloneDeep(action.payload.resourceTemplates)
+  newState.entities.resourceTemplates = { ...newState.entities.resourceTemplates, ...action.payload.resourceTemplates }
   return validate(newState)
 }
 
@@ -39,7 +39,7 @@ export const updateProperty = (state, action) => {
   const tempNode = findObjectAtPath(newState, tempReduxPath)
   tempNode[propertyURI] = resourceFragment
 
-  newState.entities.resourceTemplates = _.cloneDeep(action.payload.resourceTemplates)
+  newState.entities.resourceTemplates = { ...newState.entities.resourceTemplates, ...action.payload.resourceTemplates }
 
   return validate(newState)
 }
@@ -55,7 +55,7 @@ export const appendResource = (state, action) => {
   const parentPropertyNode = findObjectAtPath(newState, parentReduxPath)
   parentPropertyNode[key] = resource[key]
 
-  newState.entities.resourceTemplates = _.cloneDeep(action.payload.resourceTemplates)
+  newState.entities.resourceTemplates = { ...newState.entities.resourceTemplates, ...action.payload.resourceTemplates }
 
   return validate(newState)
 }

@@ -6,6 +6,19 @@ import appReducer, {
 } from 'reducers/index'
 import _ from 'lodash'
 import { getFixtureResourceTemplate } from '../fixtureLoaderHelper'
+import Validator from 'ResourceValidator'
+
+jest.mock('ResourceValidator')
+
+beforeAll(() => {
+  Validator.mockImplementation(() => {
+    return {
+      validate: () => {
+        return [{}, []]
+      },
+    }
+  })
+})
 
 let initialState
 
@@ -19,6 +32,7 @@ beforeEach(() => {
       resource: { // The state we're displaying in the editor
       },
       editor: {
+        displayValidations: false,
       },
     },
   }
@@ -320,5 +334,136 @@ describe('setLastSaveChecksum', () => {
   it('sets lastSaveChecksum', () => {
     const newState = setLastSaveChecksum(initialState.selectorReducer, action)
     expect(newState.editor.lastSaveChecksum).toEqual('abc123')
+  })
+})
+
+describe('setResource', () => {
+  it('updates state', () => {
+    initialState.selectorReducer.entities.resourceTemplates['resourceTemplate:bf2:Work:Instance'] = 'anotherrt'
+    initialState.selectorReducer.editor.displayValidations = true
+    initialState.selectorReducer.editor.copyToNewMessage = { foo: 'bar' }
+    const newState = appReducer(initialState, {
+      type: 'RESOURCE_LOADED',
+      payload: {
+        resource: 'theresource',
+        resourceTemplates: {
+          'resourceTemplate:bf2:Monograph:Instance': 'thert',
+        },
+      },
+    })
+
+    expect(newState.selectorReducer.resource).toEqual('theresource')
+    expect(newState.selectorReducer.entities.resourceTemplates).toEqual({
+      'resourceTemplate:bf2:Monograph:Instance': 'thert',
+      'resourceTemplate:bf2:Work:Instance': 'anotherrt',
+    })
+    expect(newState.selectorReducer.editor.displayValidations).toBe(false)
+    expect(newState.selectorReducer.editor.copyToNewMessage).toEqual({})
+  })
+})
+
+describe('updateProperty', () => {
+  it('updates state', () => {
+    initialState.selectorReducer.resource = {
+      'ld4p:RT:bf2:Monograph:Item': {
+        'http://id.loc.gov/ontologies/bibframe/heldBy': {},
+        'http://id.loc.gov/ontologies/bibframe/shelfMark': {},
+      },
+    }
+    initialState.selectorReducer.entities.resourceTemplates['resourceTemplate:bf2:Work:Instance'] = 'anotherrt'
+    const newState = appReducer(initialState, {
+      type: 'UPDATE_PROPERTY',
+      payload: {
+        reduxPath: [
+          'resource',
+          'ld4p:RT:bf2:Monograph:Item',
+          'http://id.loc.gov/ontologies/bibframe/heldBy',
+        ],
+        resourceFragment: {
+          items: {},
+        },
+        resourceTemplates: {
+          'ld4p:RT:bf2:Monograph:Item': 'thert',
+        },
+      },
+    })
+
+    expect(newState.selectorReducer.resource).toEqual({
+      'ld4p:RT:bf2:Monograph:Item': {
+        'http://id.loc.gov/ontologies/bibframe/heldBy': { items: {} },
+        'http://id.loc.gov/ontologies/bibframe/shelfMark': {},
+      },
+    })
+    expect(newState.selectorReducer.entities.resourceTemplates).toEqual({
+      'ld4p:RT:bf2:Monograph:Item': 'thert',
+      'resourceTemplate:bf2:Work:Instance': 'anotherrt',
+    })
+  })
+})
+
+describe('appendResource', () => {
+  it('updates state', () => {
+    initialState.selectorReducer.resource = {
+      'ld4p:RT:bf2:Monograph:Item': {
+        'http://id.loc.gov/ontologies/bibframe/heldBy': {
+          items: [],
+        },
+        'http://id.loc.gov/ontologies/bibframe/shelfMark': {
+          Iq6z9BBm: {
+            'ld4p:RT:bf2:Identifiers:LC': {
+              'http://www.w3.org/2000/01/rdf-schema#label': {},
+            },
+          },
+        },
+      },
+    }
+    initialState.selectorReducer.entities.resourceTemplates['resourceTemplate:bf2:Work:Instance'] = 'anotherrt'
+    const newState = appReducer(initialState, {
+      type: 'APPEND_RESOURCE',
+      payload: {
+        reduxPath: [
+          'resource',
+          'ld4p:RT:bf2:Monograph:Item',
+          'http://id.loc.gov/ontologies/bibframe/shelfMark',
+          'P2MMJNNW',
+          'ld4p:RT:bf2:Identifiers:LC',
+        ],
+        resource: {
+          P2MMJNNW: {
+            'ld4p:RT:bf2:Identifiers:LC': { 'http://www.w3.org/2000/01/rdf-schema#label': {} },
+          },
+        },
+        resourceTemplates: {
+          'ld4p:RT:bf2:Monograph:Item': 'thert',
+          'ld4p:RT:bf2:Identifiers:LC': 'the2ndrt',
+        },
+      },
+    })
+
+    expect(newState.selectorReducer.resource).toEqual({
+      'ld4p:RT:bf2:Monograph:Item': {
+        'http://id.loc.gov/ontologies/bibframe/heldBy': {
+          items: [],
+        },
+        'http://id.loc.gov/ontologies/bibframe/shelfMark': {
+          Iq6z9BBm: {
+            'ld4p:RT:bf2:Identifiers:LC': {
+              'http://www.w3.org/2000/01/rdf-schema#label': {},
+            },
+          },
+          P2MMJNNW: {
+            'ld4p:RT:bf2:Identifiers:LC': {
+              'http://www.w3.org/2000/01/rdf-schema#label': {},
+            },
+          },
+
+        },
+      },
+    })
+    expect(newState.selectorReducer.entities.resourceTemplates).toEqual({
+      'ld4p:RT:bf2:Monograph:Item': 'thert',
+      'ld4p:RT:bf2:Identifiers:LC': 'the2ndrt',
+      'resourceTemplate:bf2:Work:Instance': 'anotherrt',
+    })
   })
 })
