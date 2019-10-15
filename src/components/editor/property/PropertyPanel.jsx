@@ -17,26 +17,32 @@ const PropertyPanel = (props) => {
   const nbsp = '\u00A0'
 
   return (
-    <div className="panel panel-property" data-label={ props.propertyTemplate.propertyLabel }>
-      <div className="panel-heading prop-heading">
-        <PropertyLabel propertyTemplate={ props.propertyTemplate } />
-        <PropertyLabelInfo propertyTemplate={ props.propertyTemplate } />{nbsp}
-        { isAdd && (
-          <button type="button" className="btn btn-sm btn-primary btn-add" onClick={() => props.expandResource(props.reduxPath)} data-id={props.id}>
-            + Add
-          </button>
-        )}
-        { !isAdd && !isMandatory && (
-          <button type="button" className="btn btn-sm btn-primary btn-remove" onClick={() => props.removeResource(props.reduxPath)} data-id={props.id}>
-            Remove
-          </button>
-        )}
-      </div>
-      { !isAdd
-        && <div className="panel-body">
+    <div className="col-6">
+      <div className="card" data-label={ props.propertyTemplate.propertyLabel } style={{ marginBottom: '1em' }}>
+        <div className="card-header prop-heading">
+          <h5 className="card-title">
+            <PropertyLabel propertyTemplate={ props.propertyTemplate } />
+            <PropertyLabelInfo propertyTemplate={ props.propertyTemplate } />{nbsp}
+            { isAdd && (
+              <button type="button" className="btn btn-sm btn-primary btn-add pull-right" onClick={() => props.expandResource(props.reduxPath)} data-id={props.id}>
+                + Add
+              </button>
+            )}
+            { !isAdd && !isMandatory && (
+              <button type="button"
+                      className="btn btn-sm btn-primary btn-remove pull-right"
+                      onClick={() => props.removeResource(props.reduxPath)} data-id={props.id}>
+                Remove
+              </button>
+            )}
+          </h5>
+        </div>
+        { !isAdd
+        && <div className="card-body panel-property">
           { props.children }
         </div>
-      }
+        }
+      </div>
     </div>
   )
 }

@@ -2,8 +2,6 @@
 
 import React from 'react'
 import { shallow } from 'enzyme'
-import Modal from 'react-bootstrap/lib/Modal'
-import Button from 'react-bootstrap/lib/Button'
 import UpdateResourceModal from 'components/templates/UpdateResourceModal'
 
 describe('<UpdateResourceModal> with conflict message', () => {
@@ -35,37 +33,32 @@ describe('<UpdateResourceModal> with conflict message', () => {
   }]
 
   const mockUpdate = jest.fn()
-  const mockClose = jest.fn()
-  const wrapper = shallow(<UpdateResourceModal show={true} close={mockClose} messages={messages} update={mockUpdate} />)
+  const wrapper = shallow(<UpdateResourceModal show={true} messages={messages} update={mockUpdate} />)
 
   wrapper.update()
 
   it('renders the component as a Modal', () => {
-    expect(wrapper.find(Modal).length).toBe(1)
+    expect(wrapper.find('.modal').length).toBe(1)
   })
 
   it('has a modal title with the status text and template id', () => {
-    expect(wrapper.find(Modal.Title).dive().text()).toEqual('sinopia:resourceTemplate:bf2:LCC already exists')
+    expect(wrapper.find('.modal-title').text()).toEqual('sinopia:resourceTemplate:bf2:LCC already exists')
   })
 
   it('has a modal body with a question', () => {
-    expect(wrapper.find(Modal.Body).dive().text()).toEqual('Do you want to overwrite these resource templates?')
+    expect(wrapper.find('.modal-body').text()).toEqual('Do you want to overwrite these resource templates?')
   })
 
   it('has a Yes button, when clicked will call the update function', () => {
-    const button = wrapper.find(Button).first()
-
-    expect(button.dive().text()).toEqual('Yes, overwrite')
+    const button = wrapper.find('.btn').first()
+    expect(button.text()).toEqual('Yes, overwrite')
     button.simulate('click')
     expect(mockUpdate).toHaveBeenCalled()
   })
 
-  it('has a No button, when clicked will call the modal close function', () => {
-    const button = wrapper.find(Button).last()
-
-    expect(button.dive().text()).toEqual('No, get me out of here!')
-    button.simulate('click')
-    expect(mockClose).toHaveBeenCalled()
+  it('has a No button', () => {
+    const button = wrapper.find('.btn').last()
+    expect(button.text()).toEqual('No, get me out of here!')
   })
 })
 

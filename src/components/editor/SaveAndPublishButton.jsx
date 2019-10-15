@@ -18,15 +18,16 @@ const SaveAndPublishButton = (props) => {
   const currentUser = useSelector(state => getCurrentUser(state))
   const update = () => dispatch(updateCreator(currentUser))
 
-  const showGroupChooser = () => dispatch(showGroupChooserAction(true))
+  const showGroupChooser = () => dispatch(showGroupChooserAction())
   const showValidationErrors = () => dispatch(showValidationErrorsAction())
   const hideValidationErrors = () => dispatch(hideValidationErrorsAction())
 
   const resourceHasChanged = useSelector(state => resourceHasChangesSinceLastSave(state))
   const isSaved = useSelector(state => !!rootResourceId(state))
-  const hasValidationErrors = useSelector(state => state.selectorReducer.editor.errors.length > 0)
+  const hasValidationErrors = useSelector(state => state.selectorReducer.editor.errors?.length > 0)
   const validationErrorsAreShowing = useSelector(state => state.selectorReducer.editor.displayValidations)
   const [isDisabled, setIsDisabled] = useState(true)
+
   useEffect(() => {
     // Disabled if resource has not changed or resource has changed but isSaved and there are validation errors.
     setIsDisabled(!resourceHasChanged || (validationErrorsAreShowing && hasValidationErrors))
@@ -48,7 +49,7 @@ const SaveAndPublishButton = (props) => {
   }
 
   return (
-    <button id={ props.id } className="btn btn-primary" onClick={ save } disabled={ isDisabled }>
+    <button id={ props.id } className="btn btn-primary" onClick={ save } aria-label="Save" disabled={ isDisabled }>
       Save
     </button>
   )
@@ -56,6 +57,10 @@ const SaveAndPublishButton = (props) => {
 
 SaveAndPublishButton.propTypes = {
   id: PropTypes.string,
+  isDisabled: PropTypes.bool,
+  update: PropTypes.func,
+  isSaved: PropTypes.bool,
+  currentUser: PropTypes.object,
 }
 
 export default SaveAndPublishButton

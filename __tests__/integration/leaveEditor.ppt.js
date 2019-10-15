@@ -25,7 +25,7 @@ describe('Leaving the editor', () => {
     await pupExpect(page).toMatch('Load by URI')
 
     // Navigate back
-    await pupExpect(page).toClick('a.nav-link', { text: 'Editor' })
+    await pupExpect(page).toClick('a.nav-link', { text: /^Editor$/ })
     await pupExpect(page).toMatchElement('button#editor-save')
 
     // Change something

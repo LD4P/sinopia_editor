@@ -21,11 +21,11 @@ const PropertyActionButtons = (props) => {
 
   return (<div className="btn-group" role="group" aria-label="...">
     { props.addButtonHidden
-      || <button className="btn btn-default btn-sm btn-add-another"
+      || <button className="btn btn-outline-secondary btn-sm btn-add-another"
                  onClick={ handleAddClick }>Add another {props.resourceLabel}</button>
     }
     { props.removeButtonHidden
-      || <button className="btn btn-default btn-sm btn-remove-another"
+      || <button className="btn btn-outline-secondary btn-sm btn-remove-another"
                  onClick={ handleRemoveClick }>Remove {props.resourceLabel}</button>
     }
 

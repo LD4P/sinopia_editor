@@ -1,7 +1,6 @@
 // Copyright 2019 Stanford University see LICENSE for license
 
 import React, { Component } from 'react'
-import Alert from 'react-bootstrap/lib/Alert'
 import DropZone from './DropZone'
 import PropTypes from 'prop-types'
 import Ajv from 'ajv' // JSON schema validation
@@ -197,10 +196,12 @@ class ImportFileZone extends Component {
     }
 
     const alerts = this.state.messages.map((message, idx) => (
-      <Alert key={ idx } bsStyle="warning" onClose={() => this.removeMessage(message)} dismissible="true" >
+      <div key={ idx }
+           className="alert alert-warning alert-dismissible"
+           onClose={() => this.removeMessage(message)}>
         <button className="close" data-dismiss="alert" aria-label="close">&times;</button>
         { message }
-      </Alert>
+      </div>
     ))
 
     return (

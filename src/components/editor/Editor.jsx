@@ -23,6 +23,7 @@ const Editor = (props) => {
     setPrompt(props.resourceHasChanges && !props.isMenuOpened)
   }, [props.resourceHasChanges, props.isMenuOpened])
 
+
   // To handle prompt correctly with Chrome.
   const triggerHandleOffsetMenu = () => {
     setPrompt(false)
@@ -35,7 +36,7 @@ const Editor = (props) => {
       <Header triggerEditorMenu={ triggerHandleOffsetMenu }/>
       <AuthenticationMessage />
       <div className="row">
-        <section className="col-md-3 col-md-offset-9 text-right">
+        <section className="col-md-3 offset-md-9 text-right">
           <CopyToNewButton />
           <PreviewButton />
           <SaveAndPublishButton id="editor-save" />

@@ -2,8 +2,8 @@
 
 import {
   removeMyItem, setItemsOrSelections, setBaseURL,
-  validate, showGroupChooser, closeGroupChooser, showRdfPreview,
-  showCopyNewMessage,
+  validate, showGroupChooser, closeGroupChooser, showCopyNewMessage,
+  showModal, hideModal,
 } from 'reducers/inputs'
 import {
   findNode,
@@ -29,14 +29,9 @@ beforeEach(() => {
     editor: {
       errors: [],
       displayValidations: false,
-      groupChoice: {
-        show: false,
-      },
+      modal: undefined,
       copyToNewMessage: {},
       resourceURIMessage: {
-        show: false,
-      },
-      rdfPreview: {
         show: false,
       },
     },
@@ -57,11 +52,10 @@ beforeEach(() => {
 
 describe('showGroupChooser()', () => {
   it('the groupChoice.show to true', () => {
-    initialState.editor.rdfPreview.show = true
+    initialState.editor.modal = 'RDFModal'
     const result = showGroupChooser(initialState)
 
-    expect(result.editor.groupChoice.show).toBe(true)
-    expect(result.editor.rdfPreview.show).toBe(false)
+    expect(result.editor.modal).toBe('GroupChoiceModal')
   })
 })
 
@@ -80,24 +74,23 @@ describe('showCopyNewMessage()', () => {
 
 describe('closeGroupChooser()', () => {
   it('sets the groupChoice.show to false', () => {
-    initialState.editor.groupChoice.show = true
+    initialState.editor.modal = 'GroupChoiceModal'
     const result = closeGroupChooser(initialState)
-
-    expect(result.editor.groupChoice.show).toBe(false)
+    expect(result.editor.modal).toBe(undefined)
   })
 })
 
-describe('showRdfPreview()', () => {
+describe('showModal and hideModal for RDFModal', () => {
   it('sets the showRdfPreview to true', () => {
-    const result = showRdfPreview(initialState, { payload: true })
+    const result = showModal(initialState, { payload: 'RDFModal' })
 
-    expect(result.editor.rdfPreview.show).toBe(true)
+    expect(result.editor.modal).toBe('RDFModal')
   })
 
   it('sets the showRdfPreview to false', () => {
-    const result = showRdfPreview(initialState, { payload: false })
+    const result = hideModal(initialState)
 
-    expect(result.editor.rdfPreview.show).toBe(false)
+    expect(result.editor.modal).toBe(undefined)
   })
 })
 

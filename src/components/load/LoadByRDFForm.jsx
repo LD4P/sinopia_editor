@@ -8,7 +8,7 @@ import ResourceStateBuilder from 'ResourceStateBuilder'
 import { rdfDatasetFromN3 } from 'Utilities'
 import { rootResource as rootResourceSelector } from 'selectors/resourceSelectors'
 import useResource from 'hooks/useResource'
-import { showResourceTemplateChooser as showResourceTemplateChooserAction } from 'actions/index'
+import { showModal } from 'actions/index'
 import ResourceTemplateChoiceModal from '../ResourceTemplateChoiceModal'
 import Alert from '../Alert'
 import _ from 'lodash'
@@ -17,13 +17,13 @@ const LoadByRDFForm = (props) => {
   const rootResource = useSelector(state => rootResourceSelector(state))
 
   const dispatch = useDispatch()
-  const showResourceTemplateChooser = () => dispatch(showResourceTemplateChooserAction())
 
   const [baseURI, setBaseURI] = useState('')
   const [resourceN3, setResourceN3] = useState('')
   const [resourceTemplateId, setResourceTemplateId] = useState('')
   const [error, setError] = useState('')
   const [resourceState, unusedDataset, useResourceError] = useResource(resourceN3, baseURI, resourceTemplateId, rootResource, props.history)
+
   useEffect(() => {
     if (useResourceError && !error) {
       setError(useResourceError)
@@ -55,7 +55,7 @@ const LoadByRDFForm = (props) => {
       try {
         setResourceTemplateId(builder.findRootResourceTemplateId())
       } catch (err) {
-        showResourceTemplateChooser()
+        dispatch(showModal('ResourceTemplateChoiceModal'))
       }
     }).catch(err => setError(`Error parsing: ${err}`))
     event.preventDefault()

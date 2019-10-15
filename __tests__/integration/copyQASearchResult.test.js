@@ -1,6 +1,7 @@
 import React from 'react'
 import { fireEvent, wait } from '@testing-library/react'
-import { renderWithRedux, createReduxStore } from 'testUtils'
+// eslint-disable-next-line import/no-unresolved
+import { renderWithRedux, createReduxStore, setupModal } from 'testUtils'
 import App from 'components/App'
 import { MemoryRouter } from 'react-router-dom'
 import { getFixtureResourceTemplate } from '../fixtureLoaderHelper'
@@ -76,6 +77,7 @@ const createInitialState = () => {
 }
 
 describe('Search, copy QA result, and open in editor', () => {
+  setupModal()
   // Mock out search
   const mockSearchResults = [
     {
@@ -134,6 +136,7 @@ rdfs:label "These twain.";
   sinopiaServer.getResourceTemplate.mockImplementation(getFixtureResourceTemplate)
   sinopiaServer.foundResourceTemplate.mockResolvedValue(true)
   sinopiaServer.listResourcesInGroupContainer.mockResolvedValue({ response: { body: { contains: false } } })
+
 
   const store = createReduxStore(createInitialState())
   const {

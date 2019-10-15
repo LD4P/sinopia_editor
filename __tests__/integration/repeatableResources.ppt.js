@@ -15,7 +15,7 @@ describe('Adding new embedded Resource Templates', () => {
       expect.assertions(6) // Includes 2 in beforeAll
       // Add Notes about the instance
       await pupExpect(page).toClick('div[data-label="Notes about the Instance"] button')
-      const panelBodySel = 'div[data-label="Notes about the Instance"] > div.panel-body'
+      const panelBodySel = 'div[data-label="Notes about the Instance"] > div.card-body'
       let noteRtOutlines = await page.$$(`${panelBodySel} .rtOutline`)
 
       expect(noteRtOutlines.length).toEqual(1)
@@ -44,6 +44,6 @@ describe('Adding new embedded Resource Templates', () => {
     expect.assertions(2)
     // Add Item Information
     await pupExpect(page).toClick('div[data-label="Item Information"] button')
-    await pupExpect(page).toMatchElement('div[data-label="Item Information"] > div.panel-body button', { disabled: true })
+    await pupExpect(page).toMatchElement('div[data-label="Item Information"] > div.card-body button', { disabled: true })
   })
 })

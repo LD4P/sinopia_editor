@@ -2,8 +2,6 @@
 
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
-import Button from 'react-bootstrap/lib/Button'
-import Modal from 'react-bootstrap/lib/Modal'
 import { resourceToName } from 'Utilities'
 
 import _ from 'lodash'
@@ -45,18 +43,22 @@ class UpdateResourceModal extends Component {
   render() {
     return (
       <div>
-        <Modal show={this.props.show}>
-          <Modal.Header>
-            <Modal.Title>{this.state.titleMessage}</Modal.Title>
-          </Modal.Header>
-          <Modal.Body>
-            Do you want to overwrite these resource templates?
-          </Modal.Body>
-          <Modal.Footer>
-            <Button onClick={async () => { await this.props.update(this.state.rts, this.state.group) }}>Yes, overwrite</Button>
-            <Button onClick={this.props.close}>No, get me out of here!</Button>
-          </Modal.Footer>
-        </Modal>
+        <div className="modal fade" data-show={this.props.show} role="dialog">
+          <div className="modal-dialog" role="document">
+            <div className="modal-content">
+              <div className="modal-header">
+                <h3 className="modal-title">{this.state.titleMessage}</h3>
+              </div>
+              <div className="modal-body">
+                Do you want to overwrite these resource templates?
+              </div>
+              <div className="modal-footer">
+                <button className="btn btn-link" onClick={async () => { await this.props.update(this.state.rts, this.state.group) }}>Yes, overwrite</button>
+                <button className="btn btn-link" data-dismiss="modal">No, get me out of here!</button>
+              </div>
+            </div>
+          </div>
+        </div>
       </div>
     )
   }

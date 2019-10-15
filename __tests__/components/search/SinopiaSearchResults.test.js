@@ -30,7 +30,7 @@ describe('<SinopiaSearchResults />', () => {
 
     it('it contains the main div', () => {
       expect(wrapper.find('div#search-results').length).toBe(1)
-      expect(wrapper.find('BootstrapTableContainer').length).toBe(1)
+      expect(wrapper.find('table#search-results-list').length).toBe(1)
     })
   })
 })

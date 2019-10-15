@@ -4,9 +4,9 @@ import { combineReducers } from 'redux'
 import authenticate from './authenticate'
 import {
   removeMyItem, setItemsOrSelections, setBaseURL,
-  setMyItemsLang, showGroupChooser, closeGroupChooser, showRdfPreview,
-  showCopyNewMessage, validate, showResourceTemplateChooser, closeResourceTemplateChooser,
-  showValidationErrors, hideValidationErrors,
+  setMyItemsLang, showGroupChooser, closeGroupChooser, showCopyNewMessage,
+  validate, showResourceTemplateChooser, closeResourceTemplateChooser,
+  showValidationErrors, hideValidationErrors, showModal, hideModal,
 } from './inputs'
 import {
   setResourceTemplate, clearResourceTemplates, setResourceTemplateSummary,
@@ -217,6 +217,7 @@ const handlers = {
   CLEAR_SEARCH_RESULTS: clearSearchResults,
   CLOSE_GROUP_CHOOSER: closeGroupChooser,
   CLOSE_RESOURCE_TEMPLATE_CHOOSER: closeResourceTemplateChooser,
+  HIDE_MODAL: hideModal,
   COPY_NEW_RESOURCE: copyResourceToEditor,
   HIDE_VALIDATION_ERRORS: hideValidationErrors,
   ITEMS_SELECTED: setItemsOrSelections,
@@ -248,8 +249,8 @@ const handlers = {
   SET_UNUSED_RDF: setUnusedRDF,
   SHOW_COPY_NEW_MESSAGE: showCopyNewMessage,
   SHOW_GROUP_CHOOSER: showGroupChooser,
+  SHOW_MODAL: showModal,
   SHOW_RESOURCE_TEMPLATE_CHOOSER: showResourceTemplateChooser,
-  SHOW_RDF_PREVIEW: showRdfPreview,
   SHOW_VALIDATION_ERRORS: showValidationErrors,
   TOGGLE_COLLAPSE: toggleCollapse,
   UPDATE_PROPERTY: updateProperty,

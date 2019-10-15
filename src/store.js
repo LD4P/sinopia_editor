@@ -14,15 +14,11 @@ const initialState = {
     editor: { // The state of the editor
       displayValidations: false,
       errors: [],
-      rdfPreview: {
-        show: false,
-      },
+      modal: undefined, // Name of modal to show. Should only be one at a time.
       resourceURIMessage: {
         show: false,
       },
-      groupChoice: {
-        show: false,
-      },
+      // TODO: Merge this with modal above.
       resourceTemplateChoice: {
         show: false,
       },

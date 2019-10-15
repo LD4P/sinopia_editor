@@ -11,7 +11,6 @@ import { getFixtureResourceTemplate } from '../../fixtureLoaderHelper'
 import { saveAs } from 'file-saver'
 
 jest.mock('sinopiaServer')
-// jest.mock('Download')
 jest.mock('file-saver')
 
 const createInitialState = () => {
@@ -71,7 +70,6 @@ describe('SinopiaResourceTemplates', () => {
     const { container, getByText, getByTestId } = renderWithReduxAndRouter(
       <SinopiaResourceTemplates messages={[]} history={history} />, store,
     )
-
     // There is a table with heading and header columns
     expect(getByText('Available Resource Templates in Sinopia')).toBeInTheDocument()
     expect(container.querySelector('table#resource-template-list')).toBeInTheDocument()
@@ -92,4 +90,30 @@ describe('SinopiaResourceTemplates', () => {
     fireEvent.click(getByTestId('download-link'))
     expect(saveAs()).toMatch('file saved')
   })
+  //   it('renders the table of resource templates with name, id, author, guiding statement, download columns', () => {
+  //     const tableHeaderCellText = wrapper.find('div > table > thead > tr > th')
+  //     expect(tableHeaderCellText.at(0).text()).toEqual('Template name')
+  //     expect(tableHeaderCellText.at(1).text()).toEqual('ID')
+  //     expect(tableHeaderCellText.at(2).text()).toEqual('Author')
+  //     expect(tableHeaderCellText.at(3).text()).toEqual('Guiding statement')
+  //     expect(tableHeaderCellText.at(4).text()).toEqual('Download')
+  //   })
+  // })
+  //
+  // describe('linking back to the Editor component', () => {
+  //   it('renders a link to the Editor', () => {
+  //     expect.assertions(1)
+  //     const link = wrapper.find('Link')
+  //     expect(link.props().to.pathname).toEqual('/editor')
+  //   })
+  // })
+  // describe('linking to download the template', () => {
+  //   it('renders a link to download the template', () => {
+  //     expect.assertions(2)
+  //     const link = wrapper.find('Download')
+  //
+  //     expect(link.props().resourceTemplateId).toEqual('ld4p:resourceTemplate:bf2:Note')
+  //     expect(link.props().groupName).toEqual('stanford')
+  //   })
+  // })
 })

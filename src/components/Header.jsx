@@ -10,31 +10,33 @@ import _ from 'lodash'
 class Header extends Component {
   render() {
     return (
-      <div className="navbar editor-navbar">
-        <div>
-          <ul className="nav navbar-nav pull-right">
-            <li>
-              <a className="editor-header-text" href={`https://profile-editor.${Config.sinopiaDomainName}/`}>Profile Editor</a>
-            </li>
-            <li className="menu">
-              <a href="#" className="editor-help-resources" onClick={this.props.triggerEditorMenu}>Help and Resources</a>
-            </li>
-          </ul>
-          <div>
+      <div className="editor-navbar">
+        <div className="row">
+          <div className="col-8">
             <h2 className="editor-subtitle"><a className="editor-subtitle" href="/">SINOPIA</a></h2> <h2 className="editor-version">v{this.props.version}</h2>
             <h1 className="editor-logo">LINKED DATA EDITOR{`${Config.sinopiaEnv}`}</h1>
           </div>
-          <div>
-            <ul className="nav nav-tabs pull-left editor-navtabs">
-              { /* Navlinks enable highlighting the appropriate tab based on route, active style is defined in css */}
-              <li className="nav-item"><NavLink className="nav-link" to="/search">Search</NavLink></li>
-              <li className="nav-item"><NavLink className="nav-link" to="/templates">Resource Templates</NavLink></li>
-              <li className="nav-item"><NavLink className="nav-link" to="/load">Load RDF</NavLink></li>
-              { this.props.hasResource
-                && <li className="nav-item"><NavLink className="nav-link" to="/editor">Editor</NavLink></li>
-              }
+          <div className="col-4">
+            <ul className="nav pull-right">
+              <li className="nav-item">
+                <a className="nav-link editor-header-text" href={`https://profile-editor.${Config.sinopiaDomainName}/`}>Profile Editor</a>
+              </li>
+              <li className="nav-item">
+                <a href="#" className="nav-link editor-help-resources" onClick={this.props.triggerEditorMenu}>Help and Resources</a>
+              </li>
             </ul>
           </div>
+        </div>
+        <div>
+          <ul className="nav nav-tabs pull-left editor-navtabs">
+            { /* Navlinks enable highlighting the appropriate tab based on route, active style is defined in css */}
+            <li className="nav-item"><NavLink className="nav-link" to="/search">Search</NavLink></li>
+            <li className="nav-item"><NavLink className="nav-link" to="/templates">Resource Templates</NavLink></li>
+            <li className="nav-item"><NavLink className="nav-link" to="/load">Load RDF</NavLink></li>
+            { this.props.hasResource
+             && <li className="nav-item"><NavLink className="nav-link" to="/editor">Editor</NavLink></li>
+            }
+          </ul>
         </div>
       </div>
     )

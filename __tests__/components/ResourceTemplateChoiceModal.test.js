@@ -1,8 +1,11 @@
 import React from 'react'
 import ResourceTemplateChoiceModal from 'components/ResourceTemplateChoiceModal'
-import { renderWithRedux, createReduxStore } from 'testUtils'
+// eslint-disable-next-line import/no-unresolved
+import { renderWithRedux, createReduxStore, setupModal } from 'testUtils'
 import { fireEvent, wait } from '@testing-library/react'
 
+/* eslint no-undef: 'off' */
+$.fn.modal = jest.fn()
 
 describe('<ResourceTemplateChoiceModal />', () => {
   const createState = (options = {}) => {
@@ -34,9 +37,11 @@ describe('<ResourceTemplateChoiceModal />', () => {
   }
 
   it('saves choice', async () => {
+    setupModal()
+
     const mockChoose = jest.fn()
     const store = createReduxStore(createState())
-    const { getByText, getByTestId, queryByText } = renderWithRedux(
+    const { getByText, getByTestId } = renderWithRedux(
       <div><ResourceTemplateChoiceModal choose={mockChoose} /></div>, store,
     )
 
@@ -47,28 +52,23 @@ describe('<ResourceTemplateChoiceModal />', () => {
     fireEvent.blur(getByTestId('resourceTemplateSelect'), { target: { value: 'resourceTemplate:bf2:Identifiers:DDC' } })
 
     fireEvent.click(getByText('Save', 'Button'))
-    await wait(() => expect(queryByText('Choose resource template')).not.toBeInTheDocument())
+
+    await wait(() => expect(store.getState().selectorReducer.editor.modal === undefined))
 
     expect(mockChoose).toBeCalledWith('resourceTemplate:bf2:Identifiers:DDC')
   })
 
   it('closes when click Cancel', async () => {
+    setupModal()
+
     const store = createReduxStore(createState())
-    const { queryByText, getByText } = renderWithRedux(
+
+    const { getByText } = renderWithRedux(
       <div><ResourceTemplateChoiceModal choose={jest.fn()} /></div>, store,
     )
 
     expect(getByText('Choose resource template')).toBeInTheDocument()
     fireEvent.click(getByText('Cancel', 'Button'))
-    await wait(() => expect(queryByText('Choose resource template')).not.toBeInTheDocument())
-  })
-
-  it('does not show', () => {
-    const store = createReduxStore(createState({ noShow: true }))
-    const { queryByText } = renderWithRedux(
-      <div><ResourceTemplateChoiceModal choose={jest.fn()} /></div>, store,
-    )
-
-    expect(queryByText('Choose resource template')).not.toBeInTheDocument()
+    await wait(() => expect(store.getState().selectorReducer.editor.modal === undefined))
   })
 })
