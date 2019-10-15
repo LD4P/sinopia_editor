@@ -2,14 +2,13 @@
 
 import rdf from 'rdf-ext'
 import _ from 'lodash'
-import { findResourceTemplate } from 'selectors/entitySelectors'
 
 /**
  * Builds RDF graphs from the Redux state
  */
 export default class GraphBuilder {
   /**
-   * @param {Object} state the Redux state
+   * @param {Object} state the Redux state (which is global state.selectorReducer)
    */
   constructor(state) {
     this.state = state
@@ -40,7 +39,7 @@ export default class GraphBuilder {
    * @return {string} a string containing a uri for the class
    */
   getResourceTemplateClass(resourceTemplateId) {
-    return findResourceTemplate(this.state, resourceTemplateId).resourceURI
+    return this.state.entities.resourceTemplates[resourceTemplateId].resourceURI
   }
 
   /**
