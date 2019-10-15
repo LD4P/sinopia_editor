@@ -3,7 +3,6 @@
 import 'isomorphic-fetch'
 import React from 'react'
 import { mount, shallow } from 'enzyme'
-import DropZone from 'react-dropzone'
 import ImportFileZone from 'components/templates/ImportFileZone'
 import Config from 'Config'
 
@@ -159,10 +158,8 @@ describe('<DropZone />', () => {
   it('shows the dropzone div when button is clicked', () => {
     wrapper.setState({ showDropZone: false })
     wrapper.find('button.btn').simulate('click')
-    expect(wrapper.find('DropZone > section > strong').last().text())
-      .toMatch('Drag and drop a resource template file in the box')
-    expect(wrapper.find('DropZone > section > strong').last().text())
-      .toMatch('or click it to select a file to upload:')
+    expect(wrapper.find('DropZone > section > p').last().text())
+      .toMatch('Drag and drop a resource template file in the box or click it to select a file to upload:')
   })
 
   it('hides the dropzone div when button is clicked again', () => {
@@ -189,7 +186,9 @@ describe('<DropZone />', () => {
 
   it('disallows multi-file uploads', () => {
     wrapper.setState({ showDropZone: true })
-    expect(wrapper.find(DropZone).instance().props.multiple).toEqual(false)
+    expect(wrapper.find('DropZone input[type="file"]').exists()).toEqual(true)
+
+    expect(wrapper.find('DropZone input[type="file"]').props().multiple).toEqual(false)
   })
 
   /*
