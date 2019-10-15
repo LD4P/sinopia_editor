@@ -79,7 +79,6 @@ const InputURI = (props) => {
     return errors
   }
 
-
   const itemKeys = Object.keys(props.items)
   const addedList = itemKeys.map(itemId => (<InputValue key={itemId}
                                                         handleEdit={handleEdit}
@@ -105,6 +104,7 @@ const InputURI = (props) => {
              onKeyPress={handleKeypress}
              value={content}
              disabled={disabled}
+             onBlur={addItem}
              ref={inputLiteralRef}
       />
       {error && <span className="help-block help-block-error">{error}</span>}
@@ -128,7 +128,7 @@ const mapStateToProps = (state, props) => {
   const propertyURI = reduxPath[reduxPath.length - 1]
   const displayValidations = getDisplayValidations(state)
   // items has to be its own prop or rerendering won't occur when one is removed
-  const items = findNode(state, reduxPath).items
+  const items = findNode(state, reduxPath).items || {}
   const propertyTemplate = getPropertyTemplate(state, resourceTemplateId, propertyURI)
   const errors = findErrors(state, reduxPath)
 
