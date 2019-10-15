@@ -76,7 +76,7 @@ const mapStateToProps = (state, ourProps) => {
   const propertyNode = findNode(state, ourProps.reduxPath)
   Object.keys(propertyNode).forEach((key) => {
     const resourceTemplateId = Object.keys(propertyNode[key])[0]
-    const resourceTemplate = findResourceTemplate(state.selectorReducer, resourceTemplateId)
+    const resourceTemplate = findResourceTemplate(state, resourceTemplateId)
     if (!resourceTemplate) {
       return
     }
