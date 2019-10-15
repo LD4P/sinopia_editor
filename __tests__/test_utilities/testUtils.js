@@ -6,10 +6,21 @@ import { render } from '@testing-library/react'
 import { createStore, applyMiddleware } from 'redux'
 import thunk from 'redux-thunk'
 import appReducer from 'reducers/index'
+import { MemoryRouter } from 'react-router-dom'
 
 export const renderWithRedux = (ui, store) => {
   return {
     ...render(<Provider store={store}>{ui}</Provider>),
+  }
+}
+
+export const renderWithReduxAndRouter = (ui, store) => {
+  return {
+    ...render(
+      <MemoryRouter>
+        <Provider store={store}>{ui}</Provider>
+      </MemoryRouter>,
+    ),
   }
 }
 

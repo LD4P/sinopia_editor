@@ -98,4 +98,20 @@ describe('fetchResourceTemplateSummaries', () => {
     expect(server.listResourcesInGroupContainer).toHaveBeenCalledWith('ld4p')
     expect(dispatch).toHaveBeenCalledTimes(0)
   })
+  it('handles a connection error', async () => {
+    const resourceTemplateId = 'list of resource templates'
+
+    server.listResourcesInGroupContainer = jest.fn().mockRejectedValue('Error: Request has been terminated..., etc.')
+    const dispatch = jest.fn()
+
+    await fetchResourceTemplateSummaries()(dispatch)
+
+    expect(dispatch).toBeCalledWith({
+      type: 'RETRIEVE_RESOURCE_TEMPLATE_ERROR',
+      payload: {
+        resourceTemplateId,
+        reason: 'Error: Request has been terminated..., etc.',
+      },
+    })
+  })
 })
