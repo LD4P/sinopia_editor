@@ -70,27 +70,22 @@ export default class ResourceStateBuilder {
     const thisPropertyState = {}
     const propertyURI = propertyTemplate.propertyURI
 
+    // literal, resource (URI), or embedded_resource
+    const propertyType = _.isEmpty(propertyTemplate?.valueConstraint?.valueTemplateRefs) ? propertyTemplate.type : 'embedded_resource'
+
     // All quads for this property
     const propertyQuads = this.match(resourceTerm, rdf.namedNode(propertyURI)).toArray()
     await Promise.all(propertyQuads.map(async (quad) => {
-      // Assume that if there are children quads or there are valueTemplateRefs then this is an embedded resource.
-      // Otherwise, it is a terminal literal or URI.
-      let childrenQuads = []
-      // Because literals won't have children quads.
-      if (quad.object.termType !== 'Literal') {
-        childrenQuads = this.match(quad.object).toArray()
-      }
-      // If terminal (not embedded)
-      if (_.isEmpty(childrenQuads) && (!propertyTemplate.valueConstraint || _.isEmpty(propertyTemplate.valueConstraint.valueTemplateRefs))) {
-        if (_.isEmpty(thisPropertyState)) {
-          thisPropertyState.items = {}
-        }
-        thisPropertyState.items[shortid.generate()] = this.buildItem(quad)
-      } else {
+      if (propertyType === 'embedded_resource') {
         const embeddedResourceState = await this.buildEmbeddedResource(quad, propertyTemplate)
         if (embeddedResourceState) {
           thisPropertyState[shortid.generate()] = embeddedResourceState
         }
+      } else {
+        if (_.isEmpty(thisPropertyState)) {
+          thisPropertyState.items = {}
+        }
+        thisPropertyState.items[shortid.generate()] = this.buildItem(quad)
       }
     }))
     return thisPropertyState
