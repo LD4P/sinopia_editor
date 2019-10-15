@@ -21,7 +21,7 @@ const Alert = (props) => {
 }
 
 Alert.propTypes = {
-  text: PropTypes.oneOfType([PropTypes.element, PropTypes.string])
+  text: PropTypes.oneOfType([PropTypes.element, PropTypes.string]),
 }
 
 export default Alert

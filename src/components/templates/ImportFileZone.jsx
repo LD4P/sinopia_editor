@@ -1,7 +1,7 @@
 // Copyright 2019 Stanford University see LICENSE for license
 
 import React, { Component } from 'react'
-import Dropzone from 'react-dropzone'
+import DropZone from './DropZone'
 import PropTypes from 'prop-types'
 import Ajv from 'ajv' // JSON schema validation
 import Config from 'Config'

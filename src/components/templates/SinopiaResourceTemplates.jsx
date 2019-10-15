@@ -1,6 +1,6 @@
 // Copyright 2019 Stanford University see LICENSE for license
 
-import React, { useEffect, useState } from 'react'
+import React, { useEffect, useState, useMemo } from 'react'
 import { useSelector, useDispatch } from 'react-redux'
 import PropTypes from 'prop-types'
 import { Link } from 'react-router-dom'
@@ -15,6 +15,9 @@ const SinopiaResourceTemplates = (props) => {
   const dispatch = useDispatch()
 
   const resourceTemplateSummaries = useSelector(state => Object.values(state.selectorReducer.entities.resourceTemplateSummaries))
+  const sortedResourceTemplateSummaries = useMemo(() => resourceTemplateSummaries.sort(
+    (a, b) => a.name.localeCompare(b.name),
+  ), [resourceTemplateSummaries])
   const error = useSelector(state => state.selectorReducer.editor.retrieveResourceTemplateError)
   const rtRoot = useSelector(state => rootResource(state))
 
@@ -32,12 +35,20 @@ const SinopiaResourceTemplates = (props) => {
     dispatch(newResource(resourceTemplateId)).then(result => setNavigateEditor(result))
   }
 
-  generateRows = () => {
+  const createResourceMessage = props.messages.length === 0
+    ? (<span />)
+    : (
+      <div className="alert alert-info">
+        { props.messages.join(', ') }
+      </div>
+    )
+
+  const generateRows = () => {
     const rows = []
-    this.props.resourceTemplateSummaries.forEach((row) => {
+    sortedResourceTemplateSummaries.forEach((row) => {
       rows.push(<tr key={row.id}>
         <td style={{ wordBreak: 'break-all' }}>
-          <Link to={{ pathname: '/editor', state: { } }} onClick={e => this.handleClick(row.id, e)}>{row.name}</Link>
+          <Link to={{ pathname: '/editor', state: { } }} onClick={e => handleClick(row.id, e)}>{row.name}</Link>
         </td>
         <td style={{ wordBreak: 'break-all' }}>
           { row.id }
@@ -56,114 +67,31 @@ const SinopiaResourceTemplates = (props) => {
     return rows
   }
 
-  render() {
-    if (this.props.resourceTemplateSummaries.length === 0) {
-      return (
-        <div className="alert alert-warning alert-dismissible">
-          <button className="close" data-dismiss="alert" aria-label="close">&times;</button>
-          No connection to the Sinopia Server is available, or there are no resources for any group.
-        </div>
-      )
-    }
-
-    const createResourceMessage = this.props.messages.length === 0
-      ? (<span />)
-      : (
-        <div className="alert alert-info">
-          { this.props.messages.join(', ') }
-        </div>
-      )
-
-    const errorMessage = this.props.error === undefined
-      ? (<span />)
-      : (<div className="alert alert-warning">{ this.props.error }</div>)
-
-    return (
-      <div>
-        { createResourceMessage }
-        { errorMessage }
-        <h4>Available Resource Templates in Sinopia</h4>
-        <table className="table table-bordered"
-               id="resource-template-list">
-          <thead>
-            <tr>
-              <th style={{ backgroundColor: '#F8F6EF', width: '30%' }}>Template name</th>
-              <th style={{ backgroundColor: '#F8F6EF', width: '30%' }}>ID</th>
-              <th style={{ backgroundColor: '#F8F6EF', width: '10%' }}>Author</th>
-              <th style={{ backgroundColor: '#F8F6EF', width: '22%' }}>Guiding statement</th>
-              <th style={{ backgroundColor: '#F8F6EF', width: '8%' }}>Download</th>
-            </tr>
-          </thead>
-          <tbody>
-            { this.generateRows()}
-          </tbody>
-        </table>
-      </div>
-    )
-
   const errorMessage = error === undefined
     ? (<span />)
     : (<div className="alert alert-warning">{ error }</div>)
-
-  const defaultSorted = [{
-    dataField: 'name', // default sort column name
-    order: 'asc', // default sort order
-  }]
-
-  const columns = [
-    {
-      dataField: 'name',
-      text: 'Template name',
-      sort: true,
-      formatter: linkFormatter,
-      headerStyle: { backgroundColor: '#F8F6EF', width: '30%' },
-      style: { wordBreak: 'break-all' },
-    },
-    {
-      dataField: 'id',
-      text: 'ID',
-      sort: true,
-      headerStyle: { backgroundColor: '#F8F6EF', width: '30%' },
-      style: { wordBreak: 'break-all' },
-    },
-    {
-      dataField: 'author',
-      text: 'Author',
-      sort: true,
-      headerStyle: { backgroundColor: '#F8F6EF', width: '10%' },
-      style: { wordBreak: 'break-all' },
-    },
-    {
-      dataField: 'remark',
-      text: 'Guiding statement',
-      sort: false,
-      headerStyle: { backgroundColor: '#F8F6EF', width: '22%' },
-      style: { wordBreak: 'break-all' },
-    },
-    {
-      dataField: 'download',
-      text: 'Download',
-      sort: false,
-      formatter: downloadLinkFormatter,
-      headerStyle: { backgroundColor: '#F8F6EF', width: '8%' },
-      style: { wordBreak: 'break-all' },
-      attrs: {
-        'data-testid': 'download-col-header',
-      },
-    },
-  ]
 
   return (
     <div>
       { createResourceMessage }
       { errorMessage }
       <h4>Available Resource Templates in Sinopia</h4>
-      <BootstrapTable
-        id="resource-template-list"
-        keyField="key"
-        data={ resourceTemplateSummaries }
-        columns={ columns }
-        defaultSorted={ defaultSorted }/>
+      <table className="table table-bordered"
+             id="resource-template-list">
+        <thead>
+          <tr>
+            <th style={{ backgroundColor: '#F8F6EF', width: '30%' }}>Template name</th>
+            <th style={{ backgroundColor: '#F8F6EF', width: '30%' }}>ID</th>
+            <th style={{ backgroundColor: '#F8F6EF', width: '10%' }}>Author</th>
+            <th style={{ backgroundColor: '#F8F6EF', width: '22%' }}>Guiding statement</th>
+            <th style={{ backgroundColor: '#F8F6EF', width: '8%' }}
+                data-testid="download-col-header">Download</th>
+          </tr>
+        </thead>
+        <tbody>
+          { generateRows() }
+        </tbody>
+      </table>
     </div>
   )
 }

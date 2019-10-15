@@ -1,7 +1,9 @@
 import React from 'react'
 import { fireEvent, waitForElement, wait } from '@testing-library/react'
 import InputURI from 'components/editor/property/InputURI'
-import { renderWithRedux, assertRDF, createReduxStore } from 'testUtils'
+import {
+  renderWithRedux, assertRDF, createReduxStore, setupModal,
+} from 'testUtils'
 import { showValidationErrors, validateResource } from 'actions/index'
 
 const createInitialState = (options = {}) => {
@@ -81,6 +83,8 @@ const reduxPath = [
 ]
 
 describe('InputURI', () => {
+  setupModal()
+
   it('renders when no value', () => {
     const store = createReduxStore(createInitialState())
     const { container, getByPlaceholderText, queryByText } = renderWithRedux(

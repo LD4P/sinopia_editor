@@ -89,7 +89,7 @@ describe('Preview and try to save resource', () => {
   const store = createReduxStore(createInitialState())
   setupModal()
   const {
-    getByText, getByTitle, getByTestId, queryAllByText, queryByText,
+    getByText, getByTitle, getByTestId, queryAllByText, findByText,
   } = renderWithRedux(
     (<MemoryRouter><App /></MemoryRouter>), store,
   )
@@ -126,7 +126,6 @@ describe('Preview and try to save resource', () => {
       expect(rdfModal.classList.contains('show')).not.toBe(true)
     })
     expect(groupChoiceModal.classList.contains('show')).not.toBe(true)
-    expect(queryByText(/There was a problem saving this resource/)).toBeInTheDocument()
-    expect(queryByText('Required')).toBeInTheDocument()
+    expect(await findByText(/There was a problem saving this resource/)).toBeInTheDocument()
   })
 })

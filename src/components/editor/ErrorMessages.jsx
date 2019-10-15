@@ -13,7 +13,7 @@ const ErrorMessages = (props) => {
 
 
   const errorList = props.errors.map(elem => (<li key={elem.reduxPath.join('-')}>{elem.path.join(' > ')}: {elem.message}</li>))
-  const text = (<span>There was a probem saving this resource. Validation errors: <ul>{ errorList }</ul></span>)
+  const text = (<span>There was a problem saving this resource. Validation errors: <ul>{ errorList }</ul></span>)
   return (
     <Alert text={text}/>
   )

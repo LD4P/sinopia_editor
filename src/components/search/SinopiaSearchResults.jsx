@@ -49,16 +49,7 @@ const SinopiaSearchResults = (props) => {
 
   return (
     <React.Fragment>
-      { props.error
-        && <div className="row">
-          <div className="col-md-12" style={{ marginTop: '10px' }}>
-            <div className="alert alert-danger alert-dismissible">
-              <button className="close" data-dismiss="alert" aria-label="close">&times;</button>
-              { props.error }
-            </div>
-          </div>
-        </div>
-      }
+      <Alert text={props.error} />
       <div id="search-results" className="row">
         <div className="col-sm-2"></div>
         <div className="col-sm-8">
