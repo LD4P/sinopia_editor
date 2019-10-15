@@ -139,10 +139,9 @@ describe('ResourceStateBuilder', () => {
 
 
   it('builds the state for URI resource properties', async () => {
-    // Yes, a rdf-schema#label should not be a URI. However, OK for testing purposes.
-    const resource = `<http://example/123> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://id.loc.gov/ontologies/bibframe/Note> .
-  <http://example/123> <http://sinopia.io/vocabulary/hasResourceTemplate> "resourceTemplate:bf2:Note" .
-  <http://example/123> <http://www.w3.org/2000/01/rdf-schema#label> <http://id.loc.gov/vocabulary/organizations/wauar> .`
+    const resource = `<http://example/123> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://id.loc.gov/ontologies/bibframe/Work> .
+  <http://example/123> <http://sinopia.io/vocabulary/hasResourceTemplate> "test:RT:genreform" .
+  <http://example/123> <http://id.loc.gov/ontologies/bibframe/genreForm> <http://id.loc.gov/authorities/genreForms/gf2014026879> .`
 
     const dataset = await rdfDatasetFromN3(resource)
 
@@ -152,18 +151,51 @@ describe('ResourceStateBuilder', () => {
     const [state] = await builder.buildState()
 
     expect(state).toEqual({
-      'resourceTemplate:bf2:Note': {
-        'http://www.w3.org/2000/01/rdf-schema#label': {
+      'test:RT:genreform': {
+        'http://id.loc.gov/ontologies/bibframe/genreForm': {
           items: {
             abc123: {
-              uri: 'http://id.loc.gov/vocabulary/organizations/wauar',
-              label: 'http://id.loc.gov/vocabulary/organizations/wauar',
+              uri: 'http://id.loc.gov/authorities/genreForms/gf2014026879',
+              label: 'http://id.loc.gov/authorities/genreForms/gf2014026879',
             },
           },
         },
       },
     })
   })
+
+  // See https://github.com/LD4P/sinopia_editor/issues/1516
+  it('builds the state for URI resource properties with extra triples', async () => {
+    const resource = `<http://example/123> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://id.loc.gov/ontologies/bibframe/Work> .
+  <http://example/123> <http://sinopia.io/vocabulary/hasResourceTemplate> "test:RT:genreform" .
+  <http://example/123> <http://id.loc.gov/ontologies/bibframe/genreForm> <http://id.loc.gov/authorities/genreForms/gf2014026879> .
+  <http://id.loc.gov/authorities/genreForms/gf2014026879> <http://www.w3.org/2000/01/rdf-schema#label> "Jazz"@en .`
+
+    const dataset = await rdfDatasetFromN3(resource)
+
+    shortid.generate = jest.fn().mockReturnValueOnce('abc123').mockReturnValueOnce('def456').mockReturnValueOnce('ghi789')
+
+    const builder = new ResourceStateBuilder(dataset, 'http://example/123')
+    const [state, unusedDataset] = await builder.buildState()
+
+    expect(state).toEqual({
+      'test:RT:genreform': {
+        'http://id.loc.gov/ontologies/bibframe/genreForm': {
+          items: {
+            abc123: {
+              uri: 'http://id.loc.gov/authorities/genreForms/gf2014026879',
+              label: 'http://id.loc.gov/authorities/genreForms/gf2014026879',
+            },
+          },
+        },
+      },
+    })
+
+    const unmatched = `<http://id.loc.gov/authorities/genreForms/gf2014026879> <http://www.w3.org/2000/01/rdf-schema#label> "Jazz"@en .
+`
+    expect(unusedDataset.toCanonical()).toEqual(unmatched)
+  })
+
 
   it('builds the state for embedded resource property', async () => {
     const resource = `<http://example/123> <http://id.loc.gov/ontologies/bibframe/carrier> <http://id.loc.gov/vocabulary/carriers/nc> .
