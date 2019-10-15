@@ -10,6 +10,7 @@ import { rootResource as rootResourceSelector } from 'selectors/resourceSelector
 import useResource from 'hooks/useResource'
 import { showResourceTemplateChooser as showResourceTemplateChooserAction } from 'actions/index'
 import ResourceTemplateChoiceModal from '../ResourceTemplateChoiceModal'
+import Alert from '../Alert'
 import _ from 'lodash'
 
 const LoadByRDFForm = (props) => {
@@ -71,16 +72,8 @@ const LoadByRDFForm = (props) => {
   return (
     <div>
       <h4>Load RDF into Editor</h4>
-      { error
-        && <div className="row">
-          <div className="col-md-12" style={{ marginTop: '10px' }}>
-            <div className="alert alert-danger alert-dismissible">
-              <button className="close" data-dismiss="alert" aria-label="close">&times;</button>
-              { error.toString() }
-            </div>
-          </div>
-        </div>
-      }
+      <Alert text={error?.toString()} />
+
       <form id="loadForm" onSubmit={handleSubmit}>
         <div className="form-group">
           <label htmlFor="resourceTextArea">RDF</label>

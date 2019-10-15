@@ -12,6 +12,7 @@ import PreviewButton from './PreviewButton'
 import SaveAndPublishButton from './SaveAndPublishButton'
 import ErrorMessages from './ErrorMessages'
 import AuthenticationMessage from './AuthenticationMessage'
+import Alert from '../Alert'
 import { resourceHasChangesSinceLastSave } from 'selectors/resourceSelectors'
 import { Prompt } from 'react-router'
 
@@ -42,16 +43,7 @@ const Editor = (props) => {
       </div>
       <RDFModal />
       <ErrorMessages />
-      { props.saveError
-        && <div className="row">
-          <div className="col-md-12" style={{ marginTop: '10px' }}>
-            <div className="alert alert-danger alert-dismissible">
-              <button className="close" data-dismiss="alert" aria-label="close">&times;</button>
-              { props.saveError }
-            </div>
-          </div>
-        </div>
-      }
+      <Alert text={props.saveError} />
       <GroupChoiceModal />
       <ResourceTemplate />
     </div>

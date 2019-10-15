@@ -41,7 +41,7 @@ describe('<Editor />', () => {
       expect(wrapper.exists(Prompt)).toBe(true)
     })
     it('renders error', () => {
-      expect(wrapper.find('div.alert-danger').length).toBe(1)
+      expect(wrapper.exists('Alert')).toBe(true)
     })
   })
   describe('authenticated user', () => {

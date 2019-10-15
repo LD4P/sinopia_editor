@@ -9,6 +9,7 @@ import InputURI from './InputURI'
 import InputListLOC from './InputListLOC'
 import InputLookupQA from './InputLookupQA'
 import InputLookupSinopia from './InputLookupSinopia'
+import Alert from '../../Alert'
 
 const PropertyComponent = (props) => {
   let tag
@@ -45,14 +46,7 @@ const PropertyComponent = (props) => {
       )
     default:
       return (
-        <div className="row">
-          <div className="col-md-12" style={{ marginTop: '10px' }}>
-            <div className="alert alert-danger alert-dismissible">
-              <button className="close" data-dismiss="alert" aria-label="close">&times;</button>
-              {message}
-            </div>
-          </div>
-        </div>
+        <Alert text={message} />
       )
   }
 }
