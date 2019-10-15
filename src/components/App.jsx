@@ -1,6 +1,8 @@
 // Copyright 2018 Stanford University see LICENSE for license
 
 import React, { Component } from 'react'
+import DocumentMeta from 'react-document-meta'
+import Config from 'Config'
 import 'react-bootstrap-typeahead/css/Typeahead.css'
 import LoginPanel from './LoginPanel'
 import PropTypes from 'prop-types'
@@ -57,11 +59,13 @@ class App extends Component {
       )
     }
     return (
-      <div id="app">
-        <LoginPanel />
-        {routes}
-        <Footer />
-      </div>
+      <DocumentMeta title={`Sinopia ${Config.sinopiaEnv}`}>
+        <div id="app">
+          <LoginPanel />
+          {routes}
+          <Footer />
+        </div>
+      </DocumentMeta>
     )
   }
 }
