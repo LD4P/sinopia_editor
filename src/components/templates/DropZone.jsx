@@ -3,7 +3,6 @@
 import React, { Component } from 'react'
 import Dropzone from 'react-dropzone'
 import PropTypes from 'prop-types'
-import Config from 'Config'
 
 class DropZone extends Component {
   constructor(props) {
@@ -19,7 +18,7 @@ class DropZone extends Component {
    * }
    */
   handleOnDrop = (files) => {
-    this.props.setGroupCallback(Config.defaultSinopiaGroupId)
+    this.props.setGroupCallback(this.props.defaultSinopiaGroupId)
     this.props.dropFileCallback(files)
   }
 
@@ -74,6 +73,7 @@ DropZone.propTypes = {
   showDropZoneCallback: PropTypes.func,
   filesCallback: PropTypes.array,
   setGroupCallback: PropTypes.func,
+  defaultSinopiaGroupId: PropTypes.string,
 }
 
 export default DropZone

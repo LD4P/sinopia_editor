@@ -181,7 +181,8 @@ class ImportFileZone extends Component {
               dropFileCallback={this.onDropFile}
               filesCallback={this.state.files}
               groupCallback={this.state.group}
-              setGroupCallback={this.setGroup} />
+              setGroupCallback={this.setGroup}
+              defaultSinopiaGroupId={Config.defaultSinopiaGroupId} />
   )
 
   render() {
