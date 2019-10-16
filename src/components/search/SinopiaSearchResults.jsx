@@ -15,6 +15,11 @@ import SinopiaSort from './SinopiaSort'
 const SinopiaSearchResults = (props) => {
   const [navigateEditor, setNavigateEditor] = useState(false)
 
+  const groupName = (uri) => {
+    const groupSlug = uri.split('/')[1]
+    return Config.groupsInSinopia[groupSlug]
+  }
+
   const handleClick = (resourceURI) => {
     props.retrieveResource(props.currentUser, resourceURI).then((success) => {
       setNavigateEditor(success)
@@ -33,11 +38,15 @@ const SinopiaSearchResults = (props) => {
   const generateRows = () => {
     const rows = []
     props.searchResults.forEach((row, _index) => {
-      const rowIndex = _index + 1
       const link = `${Config.sinopiaServerBase}/${row.uri}`
       rows.push(<tr key={_index}>
-        <td>{ rowIndex }</td>
         <td><button className="btn btn-link" onClick={e => handleClick(link, e) }>{ row.label }</button></td>
+        <td></td>
+        <td>{ groupName(row.uri) }</td>
+        <td></td>
+        <td><button className="btn btn-link">Edit</button>
+          <button className="btn btn-link">Copy</button>
+        </td>
       </tr>)
     })
     return rows
@@ -58,12 +67,19 @@ const SinopiaSearchResults = (props) => {
           <table className="table table-bordered" id="search-results-list">
             <thead>
               <tr>
-                <th className="search-header" style={{ width: '5%' }}>
-                  ID
-                </th>
-                <th className="search-header" style={{ width: '95%' }}>
+                <th className="search-header" style={{ width: '35%' }}>
                   Title
                 </th>
+                <th className="search-header" style={{ width: '35%' }}>
+                  Type
+                </th>
+                <th className="search-header" style={{ width: '25%' }}>
+                  Institution
+                </th>
+                <th className="search-header" style={{ width: '5%' }}>
+                  Modified
+                </th>
+                <th className="search-header"></th>
               </tr>
             </thead>
             <tbody>
