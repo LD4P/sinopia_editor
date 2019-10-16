@@ -93,7 +93,7 @@ describe('Preview and save resource', () => {
   const store = createReduxStore(createInitialState())
   setupModal()
   const {
-    getByText, queryByText, queryAllByText, getByTestId, getByTitle,
+    getByText, queryByText, queryAllByText, getByTestId, getByTitle, findByLabelText,
   } = renderWithRedux(
     (<MemoryRouter><App /></MemoryRouter>), store,
   )
@@ -105,6 +105,7 @@ describe('Preview and save resource', () => {
 
     // Preview the RDF
     fireEvent.click(getByTitle('Preview RDF'))
+    fireEvent.change(await findByLabelText(/Format/), { target: { value: 'n-triples' } })
     expect(getByText(/<> <http:\/\/id.loc.gov\/ontologies\/bibframe\/mainTitle> "foo"@en \./)).toBeInTheDocument()
 
     // Save

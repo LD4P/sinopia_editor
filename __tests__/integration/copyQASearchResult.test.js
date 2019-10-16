@@ -176,6 +176,6 @@ rdfs:label "These twain.";
 
     // Opens editor
     expect(await findByText(/Unable to load the entire resource/)).toBeInTheDocument()
-    expect(getByText('These twain.', 'div.rbt-token')).toBeInTheDocument()
+    expect(getByText('These twain.', { selector: 'div.rbt-token' })).toBeInTheDocument()
   })
 })

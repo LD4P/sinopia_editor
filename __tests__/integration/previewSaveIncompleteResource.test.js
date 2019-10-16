@@ -89,7 +89,7 @@ describe('Preview and try to save resource', () => {
   const store = createReduxStore(createInitialState())
   setupModal()
   const {
-    getByText, getByTitle, getByTestId, queryAllByText, findByText,
+    getByText, getByTitle, getByTestId, queryAllByText, findByText, findByLabelText,
   } = renderWithRedux(
     (<MemoryRouter><App /></MemoryRouter>), store,
   )
@@ -112,6 +112,7 @@ describe('Preview and try to save resource', () => {
       expect(rdfModal.classList.contains('show')).toBe(true)
     })
 
+    fireEvent.change(await findByLabelText(/Format/), { target: { value: 'n-triples' } })
     expect(getByText(/<> <http:\/\/sinopia.io\/vocabulary\/hasResourceTemplate> "resourceTemplate:bf2:WorkTitle" ./)).toBeInTheDocument()
 
     // Save

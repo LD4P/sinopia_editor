@@ -7,6 +7,7 @@ import PropTypes from 'prop-types'
 import GraphBuilder from 'GraphBuilder'
 import ModalWrapper from './ModalWrapper'
 import SaveAndPublishButton from './SaveAndPublishButton'
+import RDFDisplay from './RDFDisplay'
 
 const RDFModal = (props) => {
   const dispatch = useDispatch()
@@ -45,7 +46,7 @@ const RDFModal = (props) => {
                 <SaveAndPublishButton id="modal-save" />
               </div>
             </div>
-            <pre style={{ marginTop: '10px' }}>{ props.rdf() }</pre>
+            <RDFDisplay rdf={props.rdf()} />
           </div>
         </div>
       </div>

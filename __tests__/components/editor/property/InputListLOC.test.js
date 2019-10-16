@@ -338,7 +338,7 @@ describe('InputListLOC', () => {
     expect(getByDisplayValue('optical')).toBeInTheDocument()
 
     // Render an RDFModal
-    assertRDF(store, [
+    await assertRDF(store, [
       '<> <http://id.loc.gov/ontologies/bibframe/soundCharacteristics> <http://id.loc.gov/vocabulary/mrecmedium/opt> .',
       '<> <http://sinopia.io/vocabulary/hasResourceTemplate> "test:bf2:soundCharacteristics" .',
       '<> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://id.loc.gov/ontologies/bibframe/soundCharacteristics> .',
@@ -366,7 +366,7 @@ describe('InputListLOC', () => {
     expect(getByDisplayValue('foo')).toBeInTheDocument()
 
     // Render an RDFModal
-    assertRDF(store, [
+    await assertRDF(store, [
       '<> <http://id.loc.gov/ontologies/bibframe/soundCharacteristics> "foo" .',
       '<> <http://sinopia.io/vocabulary/hasResourceTemplate> "test:bf2:soundCharacteristics" .',
       '<> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://id.loc.gov/ontologies/bibframe/soundCharacteristics> .',
