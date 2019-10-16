@@ -37,7 +37,7 @@ const SinopiaSearchResults = (props) => {
       const link = `${Config.sinopiaServerBase}/${row.uri}`
       rows.push(<tr key={_index}>
         <td>{ rowIndex }</td>
-        <td><button className="btn btn-link" onClick={e => handleClick(link, e) }>{ row.title }</button></td>
+        <td><button className="btn btn-link" onClick={e => handleClick(link, e) }>{ row.label }</button></td>
       </tr>)
     })
     return rows
