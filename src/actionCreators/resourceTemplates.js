@@ -7,9 +7,16 @@ import validateResourceTemplate from 'ResourceTemplateValidator'
 import Config from 'Config'
 import { getResourceTemplate, listResourcesInGroupContainer } from 'sinopiaServer'
 import { resourceToName } from 'Utilities'
+import { findResourceTemplate } from 'selectors/entitySelectors'
 import _ from 'lodash'
 
-export const fetchResourceTemplate = (resourceTemplateId, dispatch) => {
+// A thunk that gets a resource template from state or the server.
+export const fetchResourceTemplate = resourceTemplateId => (dispatch, getState) => {
+  // Try to get it from state.
+  const resourceTemplate = findResourceTemplate(getState(), resourceTemplateId)
+  if (resourceTemplate) return resourceTemplate
+
+  // Otherwise, retrieve from server and add to state.
   dispatch(retrieveResourceTemplateStarted(resourceTemplateId))
 
   return getResourceTemplate(resourceTemplateId, 'ld4p').then((response) => {
@@ -23,11 +30,13 @@ export const fetchResourceTemplate = (resourceTemplateId, dispatch) => {
       dispatch(setRetrieveResourceTemplateError(resourceTemplateId, reason))
     }).catch((err) => {
       console.error(err)
-      dispatch(setRetrieveResourceTemplateError(resourceTemplateId, err))
+      dispatch(setRetrieveResourceTemplateError(resourceTemplateId, err.toString()))
+      return null
     })
   }).catch((err) => {
     console.error(err)
-    dispatch(setRetrieveResourceTemplateError(resourceTemplateId, err))
+    dispatch(setRetrieveResourceTemplateError(resourceTemplateId, err.toString()))
+    return null
   })
 }
 

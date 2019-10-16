@@ -10,19 +10,15 @@ import { getFixtureResourceTemplate } from '../fixtureLoaderHelper'
 import configureMockStore from 'redux-mock-store'
 import thunk from 'redux-thunk'
 import shortid from 'shortid'
-import * as resourceTemplateThunks from 'actionCreators/resourceTemplates'
-
 
 jest.mock('sinopiaServer')
-
-const mockStore = configureMockStore([thunk])
 
 beforeEach(() => {
   shortid.generate = jest.fn().mockReturnValueOnce('abc123').mockReturnValueOnce('def456')
     .mockReturnValue('ghi789')
 })
 
-const state = {
+const initialState = {
   selectorReducer: {
     entities: {
       resourceTemplates: {
@@ -39,15 +35,26 @@ const state = {
   },
 }
 
+const blankState = {
+  selectorReducer: {
+    entities: {
+      resourceTemplates: {},
+    },
+    resource: {},
+  },
+}
+
+
 const currentUser = {
   getSession: jest.fn(),
 }
-const store = mockStore(state)
 
 describe('update', () => {
   it('dispatches actions when started and finished', async () => {
     sinopiaServer.updateRDFResource = jest.fn().mockResolvedValue(true)
 
+    const mockStore = configureMockStore([thunk])
+    const store = mockStore(initialState)
     await store.dispatch(update(currentUser))
 
     const actions = store.getActions()
@@ -63,35 +70,40 @@ describe('retrieveResource', () => {
 <> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://id.loc.gov/ontologies/bibframe/Note> .
 <> <http://sinopia.io/vocabulary/hasResourceTemplate> "resourceTemplate:bf2:Note" .`
 
-  const state = {
-    selectorReducer: {
-      entities: {
-        resourceTemplates: {},
-      },
-      resource: {},
-    },
-  }
   sinopiaServer.loadRDFResource = jest.fn().mockResolvedValue({ response: { text: received } })
-  sinopiaServer.getResourceTemplate.mockImplementation(getFixtureResourceTemplate)
+  let store
+  beforeEach(() => {
+    const mockStore = configureMockStore([thunk])
+    store = mockStore(blankState)
+  })
+  // sinopiaServer.getResourceTemplate.mockImplementation(getFixtureResourceTemplate)
   describe('when dispatch to existing resource returns undefined', () => {
-    const store = mockStore(state)
+    // const store = mockStore(state)
     it('it does not dispatch setLastSaveChecksum', async () => {
-      resourceTemplateThunks.fetchResourceTemplate = jest.fn().mockResolvedValue(undefined)
+      sinopiaServer.getResourceTemplate.mockRejectedValue(new Error('not found'))
 
       expect(await store.dispatch(retrieveResource(currentUser, uri))).toBe(false)
 
-      const actions = store.getActions()
-      expect(actions.length).toEqual(1)
-      expect(actions[0]).toEqual({ type: 'RETRIEVE_RESOURCE_STARTED' })
+      expect(store.getActions()).toEqual([
+        { type: 'RETRIEVE_RESOURCE_STARTED' },
+        {
+          type: 'RETRIEVE_RESOURCE_ERROR',
+          payload: {
+            uri: 'http://sinopia.io/repository/stanford/123',
+            reason: 'Error getting resourceTemplate:bf2:Note: Error: not found',
+          },
+        },
+      ])
     })
   })
   describe('when dispatch to existing resource returns a result', () => {
-    const store = mockStore(state)
+    // const store = mockStore(state)
     it('it dispatches actions', async () => {
       const resourceTemplateId = 'resourceTemplate:bf2:Note'
       const templateResponse = await getFixtureResourceTemplate(resourceTemplateId)
       const resourceTemplate = templateResponse.response.body
-      resourceTemplateThunks.fetchResourceTemplate = jest.fn().mockResolvedValue(resourceTemplate)
+
+      sinopiaServer.getResourceTemplate.mockImplementation(getFixtureResourceTemplate)
 
       expect(await store.dispatch(retrieveResource(currentUser, uri))).toBe(true)
 
@@ -114,6 +126,8 @@ describe('retrieveResource', () => {
 
       expect(actions).toEqual([
         { type: 'RETRIEVE_RESOURCE_STARTED', payload: undefined },
+        { type: 'RETRIEVE_RESOURCE_TEMPLATE_STARTED', payload: 'resourceTemplate:bf2:Note' },
+        { type: 'RESOURCE_TEMPLATE_LOADED', payload: resourceTemplate },
         { type: 'TOGGLE_COLLAPSE', payload: { reduxPath } },
         { type: 'RESOURCE_LOADED', payload: { resource: expectedResource, resourceTemplates: { [resourceTemplateId]: resourceTemplate } } },
         { type: 'SET_LAST_SAVE_CHECKSUM', payload: undefined },
@@ -123,20 +137,18 @@ describe('retrieveResource', () => {
     })
   })
   describe('when an error is raised', () => {
-    const store = mockStore(state)
+    // const store = mockStore(state)
     it('it dispatches retrieve resource error', async () => {
-      resourceTemplateThunks.fetchResourceTemplate = jest.fn().mockRejectedValue(new Error('Ooops'))
+      sinopiaServer.getResourceTemplate.mockRejectedValue(new Error('Ooops'))
 
       expect(await store.dispatch(retrieveResource(currentUser, uri))).toBe(false)
 
-      const actions = store.getActions()
-      expect(actions.length).toEqual(2)
-      expect(actions).toEqual([
+      expect(store.getActions()).toEqual([
         { type: 'RETRIEVE_RESOURCE_STARTED' },
         {
           type: 'RETRIEVE_RESOURCE_ERROR',
           payload: {
-            reason: 'Error: Ooops',
+            reason: 'Error getting resourceTemplate:bf2:Note: Error: Ooops',
             uri: 'http://sinopia.io/repository/stanford/123',
           },
         },
@@ -151,8 +163,14 @@ describe('publishResource', () => {
 <> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://id.loc.gov/ontologies/bibframe/Note> .
 <> <http://sinopia.io/vocabulary/hasResourceTemplate> "profile:bf2:Note" .`
 
+  let store
+  beforeEach(() => {
+    const mockStore = configureMockStore([thunk])
+    store = mockStore(initialState)
+  })
+
   it('dispatches actions for happy path', async () => {
-    const store = mockStore(state)
+    // const store = mockStore(state)
     sinopiaServer.publishRDFResource = jest.fn().mockResolvedValue({
       response: {
         headers: { location: 'http://sinopia.io/repository/myGroup/myResource' },
@@ -168,49 +186,57 @@ describe('publishResource', () => {
     expect(actions[2]).toEqual({ type: 'SAVE_RESOURCE_FINISHED', payload: '5e30bd59d0186c5307065436240ba108' })
   })
   it('dispatches actions for error path', async () => {
-    const store = mockStore(state)
+    // const store = mockStore(state)
     sinopiaServer.publishRDFResource = jest.fn().mockRejectedValue(new Error('publish error'))
 
     await store.dispatch(publishResource(currentUser, group))
-    const actions = store.getActions()
-    expect(actions.length).toEqual(2)
-    expect(actions[0]).toEqual({ type: 'SAVE_RESOURCE_STARTED' })
-    expect(actions[1]).toEqual({ type: 'SAVE_RESOURCE_ERROR', payload: { uri: null, reason: 'Error: publish error' } })
+    expect(store.getActions()).toEqual([
+      { type: 'SAVE_RESOURCE_STARTED' },
+      { type: 'SAVE_RESOURCE_ERROR', payload: { uri: null, reason: 'Error: publish error' } },
+    ])
   })
 })
 
 describe('newResource', () => {
   const resourceTemplateId = 'resourceTemplate:bf2:Note'
 
-  const store = mockStore({
-    selectorReducer: {
-      entities: {
-        resourceTemplates: {},
+  let store
+  beforeEach(() => {
+    const mockStore = configureMockStore([thunk])
+    store = mockStore({
+      selectorReducer: {
+        entities: {
+          resourceTemplates: {},
+        },
+        resource: {
+          'resourceTemplate:bf2:Note': {},
+        },
       },
-      resource: {
-        'resourceTemplate:bf2:Note': {},
-      },
-    },
+    })
   })
 
   describe('when dispatch to stubResource returns undefined', () => {
     it('dispatches no actions', async () => {
-      resourceTemplateThunks.fetchResourceTemplate = jest.fn().mockResolvedValue(undefined)
+      sinopiaServer.getResourceTemplate.mockRejectedValue(new Error('Ooops'))
       await store.dispatch(newResource(resourceTemplateId))
-      const actions = store.getActions()
-      expect(actions.length).toEqual(0)
+
+      expect(store.getActions()).toEqual([
+        { type: 'RETRIEVE_RESOURCE_TEMPLATE_STARTED', payload: 'resourceTemplate:bf2:Note' },
+        { type: 'RETRIEVE_RESOURCE_TEMPLATE_ERROR', payload: { resourceTemplateId: 'resourceTemplate:bf2:Note', reason: 'Error: Ooops' } },
+      ])
     })
   })
   describe('when dispatch to stubResource returns a result', () => {
     it('dispatches actions', async () => {
       const resourceTemplateResponse = await getFixtureResourceTemplate(resourceTemplateId)
       const resourceTemplate = resourceTemplateResponse.response.body
-      resourceTemplateThunks.fetchResourceTemplate = jest.fn().mockResolvedValue(resourceTemplate)
+      sinopiaServer.getResourceTemplate.mockImplementation(getFixtureResourceTemplate)
 
       await store.dispatch(newResource(resourceTemplateId))
-      const actions = store.getActions()
       const expectedResource = { [resourceTemplateId]: { 'http://www.w3.org/2000/01/rdf-schema#label': {} } }
-      expect(actions).toEqual([
+      expect(store.getActions()).toEqual([
+        { type: 'RETRIEVE_RESOURCE_TEMPLATE_STARTED', payload: 'resourceTemplate:bf2:Note' },
+        { type: 'RESOURCE_TEMPLATE_LOADED', payload: resourceTemplate },
         { type: 'RESOURCE_LOADED', payload: { resource: expectedResource, resourceTemplates: { [resourceTemplateId]: resourceTemplate } } },
         { type: 'SET_LAST_SAVE_CHECKSUM', payload: 'baf92a33bf689d599a41bb4563db42fc' },
         { type: 'SET_UNUSED_RDF', payload: null }])
@@ -227,42 +253,49 @@ describe('existingResource', () => {
 
   const resourceTemplateId = 'resourceTemplate:bf2:Note'
 
-  const store = mockStore({
-    selectorReducer: {
-      entities: {
-        resourceTemplates: { [resourceTemplateId]: {} },
-      },
-      resource: {},
-    },
+  let store
+  beforeEach(() => {
+    const mockStore = configureMockStore([thunk])
+    store = mockStore(blankState)
   })
 
   describe('when stubResource returns undefined', () => {
     it('dispatches no actions', async () => {
-      resourceTemplateThunks.fetchResourceTemplate = jest.fn().mockResolvedValue(undefined)
+      sinopiaServer.getResourceTemplate.mockRejectedValue(new Error('Ooops'))
 
       await store.dispatch(existingResource(resource, null, uri))
-      const actions = store.getActions()
-      expect(actions.length).toEqual(0)
+      expect(store.getActions()).toEqual([
+        { type: 'RETRIEVE_RESOURCE_TEMPLATE_STARTED', payload: 'resourceTemplate:bf2:Note' },
+        { type: 'RETRIEVE_RESOURCE_TEMPLATE_ERROR', payload: { resourceTemplateId: 'resourceTemplate:bf2:Note', reason: 'Error: Ooops' } },
+      ])
     })
   })
 
   describe('when stubResource returns a result', () => {
+    let store
+    beforeEach(() => {
+      const mockStore = configureMockStore([thunk])
+      store = mockStore(blankState)
+    })
+
     it('dispatches actions', async () => {
       const resourceTemplateResponse = await getFixtureResourceTemplate(resourceTemplateId)
       const resourceTemplate = resourceTemplateResponse.response.body
-      resourceTemplateThunks.fetchResourceTemplate = jest.fn().mockResolvedValue(resourceTemplate)
+      sinopiaServer.getResourceTemplate.mockImplementation(getFixtureResourceTemplate)
 
       const unusedRDF = '<> <http://id.loc.gov/ontologies/bibframe/mainTitle> "foo"@en .'
 
       await store.dispatch(existingResource(resource, unusedRDF, uri))
-      const actions = store.getActions()
       const expectedResource = {
         'resourceTemplate:bf2:Note': {
           resourceURI: 'http://localhost:8080/repository/stanford/888ea64d-f471-41bf-9d33-c9426ab83b5c',
           'http://www.w3.org/2000/01/rdf-schema#label': {},
         },
       }
-      expect(actions).toEqual([
+      // console.log(actions)
+      expect(store.getActions()).toEqual([
+        { type: 'RETRIEVE_RESOURCE_TEMPLATE_STARTED', payload: 'resourceTemplate:bf2:Note' },
+        { type: 'RESOURCE_TEMPLATE_LOADED', payload: resourceTemplate },
         { type: 'RESOURCE_LOADED', payload: { resource: expectedResource, resourceTemplates: { [resourceTemplateId]: resourceTemplate } } },
         { type: 'SET_LAST_SAVE_CHECKSUM' },
         { type: 'SET_UNUSED_RDF', payload: unusedRDF }])
@@ -271,20 +304,19 @@ describe('existingResource', () => {
 })
 
 describe('stubResourceProperties', () => {
+  sinopiaServer.getResourceTemplate.mockImplementation(getFixtureResourceTemplate)
+  sinopiaServer.foundResourceTemplate.mockResolvedValue(true)
+  let store
   beforeEach(() => {
-    resourceTemplateThunks.fetchResourceTemplate = async (resourceTemplateId) => {
-      const resourceTemplateResponse = await getFixtureResourceTemplate(resourceTemplateId)
-      return resourceTemplateResponse.response.body
-    }
+    const mockStore = configureMockStore([thunk])
+    store = mockStore(blankState)
   })
 
   describe('resource using defaults', () => {
-    let dispatch
     let resource
     let resourceTemplates
     beforeEach(async () => {
-      dispatch = jest.fn()
-      const result = await stubResourceProperties('resourceTemplate:bf2:Monograph:Instance', {}, {}, ['resource'], true, false, false, dispatch)
+      const result = await store.dispatch(stubResourceProperties('resourceTemplate:bf2:Monograph:Instance', {}, {}, ['resource'], true, false, false))
       resource = result[0]
       resourceTemplates = result[1]
     })
@@ -297,12 +329,12 @@ describe('stubResourceProperties', () => {
       const nestedResource = property.abc123['resourceTemplate:bf2:Monograph:Work']
       expect(nestedResource['http://id.loc.gov/ontologies/bibframe/temporalCoverage']).toEqual({})
       expect(nestedResource['http://id.loc.gov/ontologies/bibframe/content'].items).toBeTruthy()
-      expect(findToggleCollapse(dispatch.mock.calls, [
+      expect(findToggleCollapse(store.getActions(), [
         'resource',
         'resourceTemplate:bf2:Monograph:Instance',
         'http://id.loc.gov/ontologies/bibframe/instanceOf',
       ]).length).toEqual(1)
-      expect(findToggleCollapse(dispatch.mock.calls, [
+      expect(findToggleCollapse(store.getActions(), [
         'resource',
         'resourceTemplate:bf2:Monograph:Instance',
         'http://id.loc.gov/ontologies/bibframe/instanceOf',
@@ -314,7 +346,7 @@ describe('stubResourceProperties', () => {
     it('stubs mandatory properties that are property refs', () => {
       // Agent contribution
       expect(resource['http://id.loc.gov/ontologies/bibframe/contribution'].items).toEqual({})
-      expect(findToggleCollapse(dispatch.mock.calls, [
+      expect(findToggleCollapse(store.getActions(), [
         'resource',
         'resourceTemplate:bf2:Monograph:Instance',
         'http://id.loc.gov/ontologies/bibframe/contribution',
@@ -325,7 +357,7 @@ describe('stubResourceProperties', () => {
       const item = resource['http://id.loc.gov/ontologies/bibframe/carrier'].items.ghi789
       expect(item.label).toEqual('volume')
       expect(item.uri).toEqual('http://id.loc.gov/vocabulary/carriers/nc')
-      expect(findToggleCollapse(dispatch.mock.calls, [
+      expect(findToggleCollapse(store.getActions(), [
         'resource',
         'resourceTemplate:bf2:Monograph:Instance',
         'http://id.loc.gov/ontologies/bibframe/carrier',
@@ -337,13 +369,9 @@ describe('stubResourceProperties', () => {
     })
   })
   describe('resource with multiple value template refs', () => {
-    let dispatch
-    beforeEach(async () => {
-      dispatch = jest.fn()
-    })
     it('stubs each of the values template refs when no existing value', async () => {
       const existingResource = { 'http://id.loc.gov/ontologies/bibframe/Identifier': {} }
-      const [resource] = await stubResourceProperties('test:RT:bf2:Identifiers', {}, existingResource, ['resource'], true, false, 'http://id.loc.gov/ontologies/bibframe/Identifier', dispatch)
+      const [resource] = await store.dispatch(stubResourceProperties('test:RT:bf2:Identifiers', {}, existingResource, ['resource'], true, false, 'http://id.loc.gov/ontologies/bibframe/Identifier'))
       expect(resource).toEqual({
         'http://id.loc.gov/ontologies/bibframe/Identifier': {
           abc123: {
@@ -354,14 +382,6 @@ describe('stubResourceProperties', () => {
             },
           },
           def456: {
-            'ld4p:RT:bf2:Identifiers:ISBN': {
-              'http://id.loc.gov/ontologies/bibframe/note': {},
-              'http://id.loc.gov/ontologies/bibframe/qualifier': {},
-              'http://id.loc.gov/ontologies/bibframe/status': {},
-              'http://www.w3.org/1999/02/22-rdf-syntax-ns#value': {},
-            },
-          },
-          ghi789: {
             'ld4p:RT:bf2:Identifiers:EAN': {
               'http://id.loc.gov/ontologies/bibframe/note': {},
               'http://id.loc.gov/ontologies/bibframe/qualifier': {},
@@ -389,7 +409,7 @@ describe('stubResourceProperties', () => {
           },
         },
       }
-      const [resource] = await stubResourceProperties('test:RT:bf2:Identifiers', {}, existingResource, ['resource'], false, false, false, dispatch)
+      const [resource] = await store.dispatch(stubResourceProperties('test:RT:bf2:Identifiers', {}, existingResource, ['resource'], false, false, false))
       expect(resource).toEqual({
         'http://id.loc.gov/ontologies/bibframe/Identifier': {
           xViwLfpI7: {
@@ -408,14 +428,6 @@ describe('stubResourceProperties', () => {
             },
           },
           def456: {
-            'ld4p:RT:bf2:Identifiers:ISBN': {
-              'http://www.w3.org/1999/02/22-rdf-syntax-ns#value': {},
-              'http://id.loc.gov/ontologies/bibframe/qualifier': {},
-              'http://id.loc.gov/ontologies/bibframe/note': {},
-              'http://id.loc.gov/ontologies/bibframe/status': {},
-            },
-          },
-          ghi789: {
             'ld4p:RT:bf2:Identifiers:EAN': {
               'http://www.w3.org/1999/02/22-rdf-syntax-ns#value': {},
               'http://id.loc.gov/ontologies/bibframe/qualifier': {},
@@ -426,6 +438,7 @@ describe('stubResourceProperties', () => {
       })
     })
   })
+
   describe('resource with existing values', () => {
     const existingResource = {
       'http://id.loc.gov/ontologies/bibframe/itemPortion': {
@@ -447,16 +460,14 @@ describe('stubResourceProperties', () => {
     }
 
     let resource
-    let dispatch
     beforeEach(async () => {
-      dispatch = jest.fn()
-      const result = await stubResourceProperties('resourceTemplate:bf2:Monograph:Instance', {}, existingResource, ['resource'], true, true, false, dispatch)
+      const result = await store.dispatch(stubResourceProperties('resourceTemplate:bf2:Monograph:Instance', {}, existingResource, ['resource'], true, true, false))
       resource = result[0]
     })
     it('stubs properties with existing values', () => {
       expect(resource['http://id.loc.gov/ontologies/bibframe/itemPortion']).toEqual(existingResource['http://id.loc.gov/ontologies/bibframe/itemPortion'])
 
-      expect(findToggleCollapse(dispatch.mock.calls, [
+      expect(findToggleCollapse(store.getActions(), [
         'resource',
         'resourceTemplate:bf2:Monograph:Instance',
         'http://id.loc.gov/ontologies/bibframe/itemPortion',
@@ -464,7 +475,7 @@ describe('stubResourceProperties', () => {
         'resourceTemplate:bf2:Identifiers:Barcode',
         'http://www.w3.org/1999/02/22-rdf-syntax-ns#value',
       ]).length).toEqual(1)
-      expect(findToggleCollapse(dispatch.mock.calls, [
+      expect(findToggleCollapse(store.getActions(), [
         'resource',
         'resourceTemplate:bf2:Monograph:Instance',
         'http://id.loc.gov/ontologies/bibframe/itemPortion',
@@ -474,12 +485,11 @@ describe('stubResourceProperties', () => {
       ]).length).toEqual(1)
     })
   })
+
   describe('single property of resource', () => {
     let resource
-    let dispatch
     beforeEach(async () => {
-      dispatch = jest.fn()
-      const result = await stubResourceProperties('resourceTemplate:bf2:Monograph:Instance', {}, existingResource, ['resource'], true, false, 'http://id.loc.gov/ontologies/bibframe/itemPortion', dispatch)
+      const result = await store.dispatch(stubResourceProperties('resourceTemplate:bf2:Monograph:Instance', {}, existingResource, ['resource'], true, false, 'http://id.loc.gov/ontologies/bibframe/itemPortion'))
       resource = result[0]
     })
     it('stubs that property', () => {
@@ -500,7 +510,7 @@ describe('stubResourceProperties', () => {
         },
       })
 
-      expect(findToggleCollapse(dispatch.mock.calls, [
+      expect(findToggleCollapse(store.getActions(), [
         'resource',
         'resourceTemplate:bf2:Monograph:Instance',
         'http://id.loc.gov/ontologies/bibframe/itemPortion',
@@ -518,6 +528,6 @@ describe('stubResourceProperties', () => {
 
 const findToggleCollapse = (actions, reduxPath) => {
   return actions.filter((action) => {
-    return action[0].type === 'TOGGLE_COLLAPSE' && action[0].payload.reduxPath.join(' > ') === reduxPath.join(' > ')
+    return action.type === 'TOGGLE_COLLAPSE' && action.payload.reduxPath.join(' > ') === reduxPath.join(' > ')
   })
 }

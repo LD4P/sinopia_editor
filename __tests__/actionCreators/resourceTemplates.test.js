@@ -5,39 +5,65 @@ import { fetchResourceTemplate, fetchResourceTemplateSummaries } from 'actionCre
 import * as server from 'sinopiaServer'
 import { getFixtureResourceTemplate } from '../fixtureLoaderHelper'
 import Config from 'Config'
+import configureMockStore from 'redux-mock-store'
+import thunk from 'redux-thunk'
 
 // This forces Sinopia server to use fixtures
 jest.spyOn(Config, 'useResourceTemplateFixtures', 'get').mockReturnValue(true)
+
+const mockStore = configureMockStore([thunk])
 
 describe('fetchResourceTemplate', () => {
   describe('a valid template', () => {
     const resourceTemplateId = 'resourceTemplate:bf2:Title'
     it('dispatches actions when started and finished', async () => {
+      const store = mockStore({ selectorReducer: { entities: { resourceTemplates: {} } } })
+
       const templateResponse = await getFixtureResourceTemplate(resourceTemplateId)
       server.getResourceTemplate = jest.fn().mockResolvedValue(templateResponse)
-      const dispatch = jest.fn()
-      await fetchResourceTemplate(resourceTemplateId, dispatch)
-      expect(dispatch).toBeCalledWith({ type: 'RETRIEVE_RESOURCE_TEMPLATE_STARTED', payload: resourceTemplateId })
-      expect(dispatch).toBeCalledWith({ type: 'RESOURCE_TEMPLATE_LOADED', payload: templateResponse.response.body })
+
+      const resourceTemplate = await store.dispatch(fetchResourceTemplate(resourceTemplateId))
+
+      expect(resourceTemplate).toEqual(templateResponse.response.body)
+      expect(store.getActions()).toEqual([
+        { type: 'RETRIEVE_RESOURCE_TEMPLATE_STARTED', payload: resourceTemplateId },
+        { type: 'RESOURCE_TEMPLATE_LOADED', payload: templateResponse.response.body },
+      ])
+    })
+  })
+  describe('a template already in state', () => {
+    const resourceTemplateId = 'resourceTemplate:bf2:Title'
+    it('dispatches actions when started and finished', async () => {
+      const store = mockStore({ selectorReducer: { entities: { resourceTemplates: { 'resourceTemplate:bf2:Title': 'notatemplate' } } } })
+
+      const resourceTemplate = await store.dispatch(fetchResourceTemplate(resourceTemplateId))
+
+      expect(resourceTemplate).toEqual('notatemplate')
+      expect(store.getActions()).toEqual([])
     })
   })
   describe('an invalid template', () => {
     const resourceTemplateId = 'rt:repeated:propertyURI:propertyLabel'
     it('dispatches actions when started and on error', async () => {
+      const store = mockStore({ selectorReducer: { entities: { resourceTemplates: {} } } })
+
       const templateResponse = await getFixtureResourceTemplate(resourceTemplateId)
       server.getResourceTemplate = jest.fn().mockResolvedValue(templateResponse)
-      const dispatch = jest.fn()
-      await fetchResourceTemplate(resourceTemplateId, dispatch)
-      expect(dispatch).toBeCalledWith({ type: 'RETRIEVE_RESOURCE_TEMPLATE_STARTED', payload: resourceTemplateId })
-      expect(dispatch).toBeCalledWith({
-        type: 'RETRIEVE_RESOURCE_TEMPLATE_ERROR',
-        payload: {
-          resourceTemplateId,
-          reason: [
-            'Repeated property templates with same property URI (http://id.loc.gov/ontologies/bibframe/geographicCoverage) are not allowed.',
-          ],
+
+      const resourceTemplate = await store.dispatch(fetchResourceTemplate(resourceTemplateId))
+      expect(resourceTemplate).toBeFalsy()
+      expect(store.getActions()).toEqual([
+        { type: 'RETRIEVE_RESOURCE_TEMPLATE_STARTED', payload: resourceTemplateId },
+        {
+          type: 'RETRIEVE_RESOURCE_TEMPLATE_ERROR',
+          payload: {
+            resourceTemplateId,
+            reason: [
+              'Repeated property templates with same property URI (http://id.loc.gov/ontologies/bibframe/geographicCoverage) are not allowed.',
+            ],
+          },
         },
-      })
+      ])
     })
   })
 })
