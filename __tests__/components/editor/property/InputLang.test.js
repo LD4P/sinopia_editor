@@ -52,22 +52,13 @@ describe('<InputLang />', () => {
     expect(queryByText(expected)).toBeInTheDocument()
   })
 
-  it('change to match text changes input text', async () => {
-    global.document.createRange = () => ({
-      setStart: () => {},
-      setEnd: () => {},
-      commonAncestorContainer: {
-        nodeName: 'BODY',
-        ownerDocument: document,
-      },
-    })
-
+  it('change to match text changes input text', () => {
     const { getByRole } = renderWithRedux(
       <InputLang {...plProps} />,
       store,
     )
-    fireEvent.change(getByRole('combobox'), { target: { value: 'English' } })
-    const comboBox = getByRole('combobox')
+    const comboBox = getByRole('combobox', { hidden: true })
+    fireEvent.change(comboBox, { target: { value: 'English' } })
     expect(comboBox.value).toBe('English')
   })
 })
