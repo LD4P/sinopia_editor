@@ -1,7 +1,7 @@
 // Copyright 2019 Stanford University see LICENSE for license
 
 import React, { useEffect, useState } from 'react'
-import { connect } from 'react-redux'
+import { useSelector } from 'react-redux'
 import PropTypes from 'prop-types'
 import ResourceTemplate from './ResourceTemplate'
 import Header from '../Header'
@@ -18,10 +18,12 @@ import { Prompt } from 'react-router'
 
 const Editor = (props) => {
   const [isPrompt, setPrompt] = useState(false)
+  const saveError = useSelector(state => state.selectorReducer.editor.saveResourceError)
+  const resourceHasChanges = useSelector(state => resourceHasChangesSinceLastSave(state))
 
   useEffect(() => {
-    setPrompt(props.resourceHasChanges && !props.isMenuOpened)
-  }, [props.resourceHasChanges, props.isMenuOpened])
+    setPrompt(resourceHasChanges && !props.isMenuOpened)
+  }, [resourceHasChanges, props.isMenuOpened])
 
 
   // To handle prompt correctly with Chrome.
@@ -44,7 +46,7 @@ const Editor = (props) => {
       </div>
       <RDFModal />
       <ErrorMessages />
-      <Alert text={props.saveError} />
+      <Alert text={saveError} />
       <GroupChoiceModal />
       <ResourceTemplate />
     </div>
@@ -58,14 +60,7 @@ Editor.propTypes = {
   location: PropTypes.object,
   history: PropTypes.object,
   currentUser: PropTypes.object,
-  resourceHasChanges: PropTypes.bool,
   isMenuOpened: PropTypes.bool,
-  saveError: PropTypes.string,
 }
 
-const mapStateToProps = state => ({
-  resourceHasChanges: resourceHasChangesSinceLastSave(state),
-  saveError: state.selectorReducer.editor.saveResourceError,
-})
-
-export default connect(mapStateToProps)(Editor)
+export default Editor
