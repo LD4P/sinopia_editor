@@ -16,3 +16,7 @@ export const lookupOptionsRetrieved = (uri, lookup) => ({
     lookup,
   },
 })
+
+export const loadedResourceTemplateSummaries = () => ({
+  type: 'LOADED_RESOURCE_TEMPLATE_SUMMARIES',
+})

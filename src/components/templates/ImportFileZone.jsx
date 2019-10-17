@@ -54,7 +54,6 @@ class ImportFileZone extends Component {
     } catch (err) {
       this.addMessage(`Error reading the loaded template: ${err}`)
     }
-
     this.setState({
       files,
     })

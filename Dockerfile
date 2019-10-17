@@ -2,7 +2,7 @@ FROM circleci/node:12.6
 
 # Allow build-time arguments (for, environment variables that need to be encoded into the webpack distribution)
 ARG USE_FIXTURES
-ARG TRELLIS_BASE_URL
+ARG TRELLIS_BASE_URL=http://localhost:8080
 ARG DEFAULT_PROFILE_SCHEMA_VERSION
 ARG SINOPIA_GROUP
 ARG SINOPIA_URI
@@ -11,6 +11,8 @@ ARG AWS_COGNITO_DOMAIN
 ARG COGNITO_CLIENT_ID
 ARG COGNITO_USER_POOL_ID
 ARG INDEX_URL
+
+RUN echo $TRELLIS_BASE_URL
 
 # Set environment variables from the build args
 ENV INDEX_URL ${INDEX_URL}

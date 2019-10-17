@@ -34,7 +34,7 @@ const initialState = {
     },
     entities: { // The stuff we've retrieved from the server
       resourceTemplates: {},
-      resourceTemplateSummaries: {},
+      resourceTemplateSummaries: undefined,
       languages: { loading: false, options: [] },
       qa: { loading: false, options: [] },
       lookups: {},

@@ -3,6 +3,8 @@ import {
   retrieveResourceTemplateStarted,
   setRetrieveResourceTemplateError, setResourceTemplate, setResourceTemplateSummary,
 } from 'actions/index'
+import { loadedResourceTemplateSummaries } from 'actions/entities'
+
 import validateResourceTemplate from 'ResourceTemplateValidator'
 import Config from 'Config'
 import { getResourceTemplate, listResourcesInGroupContainer } from 'sinopiaServer'
@@ -51,6 +53,8 @@ export const fetchResourceTemplateSummaries = () => (dispatch) => {
   }, (error) => {
     console.error('Error retrieving list of resource templates', error)
     dispatch(setRetrieveResourceTemplateError('list of resource templates', error))
+  }).then(() => {
+    dispatch(loadedResourceTemplateSummaries())
   })
 }
 

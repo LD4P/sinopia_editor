@@ -11,7 +11,7 @@ import {
 import {
   setResourceTemplate, clearResourceTemplates, setResourceTemplateSummary,
   loadingLanguages, languagesReceived,
-  loadingQaResults, qaResultsReceived, copyResourceToEditor,
+  loadingQaResults, qaResultsReceived, copyResourceToEditor, loadedResourceTemplateSummaries,
 } from './entities'
 import { clearSearchResults, setSearchResults } from './search'
 import { findObjectAtPath } from 'selectors/resourceSelectors'
@@ -223,6 +223,7 @@ const handlers = {
   ITEMS_SELECTED: setItemsOrSelections,
   LANGUAGE_SELECTED: setMyItemsLang,
   LANGUAGES_RECEIVED: languagesReceived,
+  LOADED_RESOURCE_TEMPLATE_SUMMARIES: loadedResourceTemplateSummaries,
   LOADING_LANGUAGES: loadingLanguages,
   LOADING_QA_RESULTS: loadingQaResults,
   LOOKUP_OPTIONS_RETRIEVED: lookupOptionsRetrieved,

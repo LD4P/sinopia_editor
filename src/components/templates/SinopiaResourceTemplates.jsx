@@ -14,10 +14,15 @@ import { rootResource } from 'selectors/resourceSelectors'
 const SinopiaResourceTemplates = (props) => {
   const dispatch = useDispatch()
 
-  const resourceTemplateSummaries = useSelector(state => Object.values(state.selectorReducer.entities.resourceTemplateSummaries))
-  const sortedResourceTemplateSummaries = useMemo(() => resourceTemplateSummaries.sort(
-    (a, b) => a.name.localeCompare(b.name),
-  ), [resourceTemplateSummaries])
+  const resourceTemplateSummaries = useSelector((state) => {
+    // This is undefined if have not yet fetched resource template summaries.
+    if (state.selectorReducer.entities.resourceTemplateSummaries === undefined) return undefined
+    return Object.values(state.selectorReducer.entities.resourceTemplateSummaries)
+  })
+  const sortedResourceTemplateSummaries = useMemo(() => {
+    if (resourceTemplateSummaries === undefined) return []
+    return resourceTemplateSummaries.sort((a, b) => a.name.localeCompare(b.name))
+  }, [resourceTemplateSummaries])
   const error = useSelector(state => state.selectorReducer.editor.retrieveResourceTemplateError)
   const rtRoot = useSelector(state => rootResource(state))
 
@@ -70,6 +75,22 @@ const SinopiaResourceTemplates = (props) => {
   const errorMessage = error === undefined
     ? (<span />)
     : (<div className="alert alert-warning">{ error }</div>)
+
+  // Don't render until resource template summaries have been retrieved.
+  // This makes testing deterministic (viz., when a result appears that result reflects the found rts)
+  if (resourceTemplateSummaries === undefined) {
+    return null
+  }
+
+  if (resourceTemplateSummaries.length === 0) {
+    return (
+      <div>
+        <h4>Available Resource Templates in Sinopia</h4>
+        <div className="alert alert-warning" id="resource-template-list">No resource template are available.
+          This may be because none have been loaded or there is an error with the Sinopia server.</div>
+      </div>
+    )
+  }
 
   return (
     <div>

@@ -9,5 +9,8 @@ tmp
 dist
 # Contains secrets!
 .env
+cypress.env.json
 
 test.html
+cypress/videos/
+cypress/screenshots/
