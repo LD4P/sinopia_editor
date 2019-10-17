@@ -9,6 +9,9 @@ import Config from 'Config'
 import { getCurrentUser } from 'authSelectors'
 import { retrieveResource } from 'actionCreators/resources'
 import { rootResource } from 'selectors/resourceSelectors'
+import CopyToNewButton from 'components/editor/CopyToNewButton'
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { faEdit } from '@fortawesome/free-solid-svg-icons'
 import Alert from '../Alert'
 import SinopiaSort from './SinopiaSort'
 
@@ -40,12 +43,17 @@ const SinopiaSearchResults = (props) => {
     props.searchResults.forEach((row, _index) => {
       const link = `${Config.sinopiaServerBase}/${row.uri}`
       rows.push(<tr key={_index}>
-        <td><button className="btn btn-link" onClick={e => handleClick(link, e) }>{ row.label }</button></td>
+        <td>{ row.label }</td>
         <td></td>
         <td>{ groupName(row.uri) }</td>
         <td></td>
-        <td><button className="btn btn-link">Edit</button>
-          <button className="btn btn-link">Copy</button>
+        <td>
+          <div className="btn-group" role="group" aria-label="Result Actions">
+            <button className="btn btn-link" onClick={e => handleClick(link, e) }>
+              <FontAwesomeIcon icon={faEdit} size="2x" />
+            </button>
+            <CopyToNewButton id={row.uri} />
+          </div>
         </td>
       </tr>)
     })
