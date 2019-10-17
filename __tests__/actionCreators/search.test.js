@@ -20,16 +20,17 @@ describe('fetchSinopiaSearchResults', () => {
   it('dispatches actions', async () => {
     server.getSearchResults = jest.fn().mockResolvedValue(mockSearchResults)
     const dispatch = jest.fn()
-    await fetchSinopiaSearchResults(query)(dispatch)
+    await fetchSinopiaSearchResults(query, 5, 10)(dispatch)
     expect(dispatch).toHaveBeenCalledTimes(1)
     expect(dispatch).toBeCalledWith({
       type: 'SET_SEARCH_RESULTS',
       payload: {
+        error: undefined,
         uri: 'sinopia',
         query: '*',
         searchResults: mockSearchResults.results,
         totalResults: mockSearchResults.totalHits,
-        startOfRange: 0,
+        startOfRange: 5,
       },
     })
   })

@@ -4,7 +4,7 @@ import { getSearchResults } from 'sinopiaSearch'
 import { createLookupPromises } from 'utilities/qa'
 import { findAuthorityConfig } from 'utilities/authorityConfig'
 
-export const fetchSinopiaSearchResults = (query, queryFrom = 0) => dispatch => getSearchResults(query, queryFrom).then((response) => {
+export const fetchSinopiaSearchResults = (query, queryFrom, resultsPerPage) => dispatch => getSearchResults(query, queryFrom, resultsPerPage).then((response) => {
   dispatch(setSearchResults('sinopia', response.results, response.totalHits, query, queryFrom, response.error))
 })
 
