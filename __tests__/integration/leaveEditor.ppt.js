@@ -22,7 +22,7 @@ describe('Leaving the editor', () => {
 
     // Can navigate away, since no changes
     await pupExpect(page).toClick('a.nav-link', { text: 'Load RDF' })
-    await pupExpect(page).toMatch('Load by URI')
+    await pupExpect(page).toMatch('Load RDF into Editor')
 
     // Navigate back
     await pupExpect(page).toClick('a.nav-link', { text: /^Editor$/ })
@@ -37,12 +37,12 @@ describe('Leaving the editor', () => {
       await pupExpect(page).toClick('a.nav-link', { text: 'Load RDF' })
     })
     await dialog1.dismiss()
-    await pupExpect(page).not.toMatch('Load by URI')
+    await pupExpect(page).not.toMatch('Load RDF into Editor')
 
     const dialog2 = await expect(page).toDisplayDialog(async () => {
       await pupExpect(page).toClick('a.nav-link', { text: 'Load RDF' })
     })
     await dialog2.accept()
-    await pupExpect(page).toMatch('Load by URI')
+    await pupExpect(page).toMatch('Load RDF into Editor')
   })
 })
