@@ -63,6 +63,7 @@ describe('End-to-end test', () => {
 
   it('Previews the RDF', () => {
     cy.get('button[title="Preview RDF"]').click()
+    cy.get('select#rdfFormat').select('n-triples')
     cy.contains(`<> <http://id.loc.gov/ontologies/bibframe/mainTitle> "${title}"@en .`)
     cy.contains('<> <http://sinopia.io/vocabulary/hasResourceTemplate> "ld4p:RT:bf2:WorkTitle" .')
     cy.contains('<> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://id.loc.gov/ontologies/bibframe/Title> .')
