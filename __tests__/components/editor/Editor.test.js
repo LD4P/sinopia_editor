@@ -1,10 +1,8 @@
 // Copyright 2018, 2019 Stanford University see LICENSE for license
 
 import React from 'react'
-import { renderWithReduxAndRouter, createReduxStore } from 'testUtils'
+import { renderWithReduxAndRouter, createReduxStore, setupModal } from 'testUtils'
 import Editor from 'components/editor/Editor'
-import { MemoryRouter } from 'react-router-dom'
-
 
 const props = {
   location: { state: { resourceTemplateId: 'resourceTemplate:bf:Note' } },
@@ -94,6 +92,8 @@ const createInitialState = (options = {}) => {
 /* eslint security/detect-non-literal-fs-filename: 'off' */
 
 describe('<Editor />', () => {
+  setupModal()
+
   describe('any user', () => {
     const store = createReduxStore(createInitialState())
 
