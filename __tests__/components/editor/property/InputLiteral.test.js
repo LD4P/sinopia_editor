@@ -275,7 +275,7 @@ describe('InputLiteral', () => {
     await waitForElement(() => getByText('Edit'))
 
     // Render an RDFModal
-    assertRDF(store, [
+    await assertRDF(store, [
       '<> <http://id.loc.gov/ontologies/bibframe/mainTitle> "foo"@en .',
       '<> <http://sinopia.io/vocabulary/hasResourceTemplate> "resourceTemplate:bf2:WorkTitle" .',
       '<> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://id.loc.gov/ontologies/bibframe/Title> .',
@@ -299,7 +299,7 @@ describe('InputLiteral', () => {
     await waitForElement(() => getByText('bar'))
 
     // Render an RDFModal
-    assertRDF(store, [
+    await assertRDF(store, [
       '<> <http://id.loc.gov/ontologies/bibframe/mainTitle> "foo"@en .',
       '<> <http://id.loc.gov/ontologies/bibframe/mainTitle> "bar"@en .',
       '<> <http://sinopia.io/vocabulary/hasResourceTemplate> "resourceTemplate:bf2:WorkTitle" .',

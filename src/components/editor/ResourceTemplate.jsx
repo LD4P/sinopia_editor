@@ -10,6 +10,7 @@ import loadLanguages from 'actionCreators/languages'
 import CopyToNewMessage from './CopyToNewMessage'
 import ResourceURIMessage from './ResourceURIMessage'
 import SaveAlert from './SaveAlert'
+import RDFDisplay from './RDFDisplay'
 import _ from 'lodash'
 
 /**
@@ -41,7 +42,7 @@ class ResourceTemplate extends Component {
           {this.props.unusedRDF
             && <div className="alert alert-warning" role="alert">
               <strong>Unable to load the entire resource.</strong> The unused triples are:
-              <pre>{ this.props.unusedRDF }</pre>
+              <RDFDisplay rdf={this.props.unusedRDF} />
             </div>
           }
           <ResourceTemplateForm reduxPath = {['resource', this.props.resourceTemplate.id]} />

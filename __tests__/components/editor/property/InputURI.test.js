@@ -252,7 +252,7 @@ describe('InputURI', () => {
     await waitForElement(() => getByText('Edit'))
 
     // Render an RDFModal
-    assertRDF(store, [
+    await assertRDF(store, [
       '<> <http://id.loc.gov/ontologies/bibframe/mainTitleURI> <http://foo> .',
       '<> <http://sinopia.io/vocabulary/hasResourceTemplate> "resourceTemplate:bf2:WorkURI" .',
       '<> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://id.loc.gov/ontologies/bibframe/TitleURI> .',
@@ -276,7 +276,7 @@ describe('InputURI', () => {
     await waitForElement(() => getByText('http://bar'))
 
     // Render an RDFModal
-    assertRDF(store, [
+    await assertRDF(store, [
       '<> <http://id.loc.gov/ontologies/bibframe/mainTitleURI> <http://foo> .',
       '<> <http://id.loc.gov/ontologies/bibframe/mainTitleURI> <http://bar> .',
       '<> <http://sinopia.io/vocabulary/hasResourceTemplate> "resourceTemplate:bf2:WorkURI" .',
