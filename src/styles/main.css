@@ -194,7 +194,6 @@ pre {
 .editor-navbar{
   background-image: url('./editorheaderbg.png');
   padding-bottom: 1em;
-  height: 9.75em;
   margin-bottom: 1em;
 }
 .editor-header-text{
@@ -209,7 +208,7 @@ a.editor-help-resources {
 h1.editor-logo {
   text-decoration: none;
   font-family: "Copperplate Gothic Light";
-  font-size: 3.5em;
+  font-size: 3em;
   color: #2F2424;
   margin-top: 5px;
   padding-left: 25px;

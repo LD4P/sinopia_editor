@@ -12,11 +12,11 @@ class Header extends Component {
     return (
       <div className="editor-navbar">
         <div className="row">
-          <div className="col-8">
+          <div className="col-9">
             <h2 className="editor-subtitle"><a className="editor-subtitle" href="/">SINOPIA</a></h2> <h2 className="editor-version">v{this.props.version}</h2>
             <h1 className="editor-logo">LINKED DATA EDITOR{`${Config.sinopiaEnv}`}</h1>
           </div>
-          <div className="col-4">
+          <div className="col-3">
             <ul className="nav pull-right">
               <li className="nav-item">
                 <a className="nav-link editor-header-text" href={`https://profile-editor.${Config.sinopiaDomainName}/`}>Profile Editor</a>
@@ -27,17 +27,15 @@ class Header extends Component {
             </ul>
           </div>
         </div>
-        <div>
-          <ul className="nav nav-tabs pull-left editor-navtabs">
-            { /* Navlinks enable highlighting the appropriate tab based on route, active style is defined in css */}
-            <li className="nav-item"><NavLink className="nav-link" to="/search">Search</NavLink></li>
-            <li className="nav-item"><NavLink className="nav-link" to="/templates">Resource Templates</NavLink></li>
-            <li className="nav-item"><NavLink className="nav-link" to="/load">Load RDF</NavLink></li>
-            { this.props.hasResource
-             && <li className="nav-item"><NavLink className="nav-link" to="/editor">Editor</NavLink></li>
-            }
-          </ul>
-        </div>
+        <ul className="nav nav-tabs editor-navtabs">
+          { /* Navlinks enable highlighting the appropriate tab based on route, active style is defined in css */}
+          <li className="nav-item"><NavLink className="nav-link" to="/search">Search</NavLink></li>
+          <li className="nav-item"><NavLink className="nav-link" to="/templates">Resource Templates</NavLink></li>
+          <li className="nav-item"><NavLink className="nav-link" to="/load">Load RDF</NavLink></li>
+          { this.props.hasResource
+           && <li className="nav-item"><NavLink className="nav-link" to="/editor">Editor</NavLink></li>
+          }
+        </ul>
       </div>
     )
   }
