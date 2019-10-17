@@ -43,7 +43,7 @@ class UpdateResourceModal extends Component {
   render() {
     return (
       <div>
-        <div className="modal fade" data-show={this.props.show} role="dialog">
+        <div className="modal fade" data-show={true} role="dialog">
           <div className="modal-dialog" role="document">
             <div className="modal-content">
               <div className="modal-header">
@@ -66,7 +66,6 @@ class UpdateResourceModal extends Component {
 
 UpdateResourceModal.propTypes = {
   close: PropTypes.func,
-  show: PropTypes.bool,
   messages: PropTypes.array,
   update: PropTypes.func,
 }

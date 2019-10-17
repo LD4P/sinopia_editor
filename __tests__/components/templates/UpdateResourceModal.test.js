@@ -33,7 +33,7 @@ describe('<UpdateResourceModal> with conflict message', () => {
   }]
 
   const mockUpdate = jest.fn()
-  const wrapper = shallow(<UpdateResourceModal show={true} messages={messages} update={mockUpdate} />)
+  const wrapper = shallow(<UpdateResourceModal messages={messages} update={mockUpdate} />)
 
   wrapper.update()
 
@@ -76,7 +76,7 @@ describe('message with no data (or id)', () => {
 
   const mockUpdate = jest.fn()
   const mockClose = jest.fn()
-  const wrapper = shallow(<UpdateResourceModal show={true} close={mockClose} messages={messages} update={mockUpdate} />)
+  const wrapper = shallow(<UpdateResourceModal close={mockClose} messages={messages} update={mockUpdate} />)
 
   wrapper.update()
 

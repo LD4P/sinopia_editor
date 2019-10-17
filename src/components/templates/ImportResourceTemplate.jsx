@@ -143,14 +143,11 @@ class ImportResourceTemplate extends Component {
   render() {
     return (
       <div id="importResourceTemplate">
-        <div>
-          { this.state.modalShow ? (
-            <UpdateResourceModal show={this.state.modalShow}
-                                 close={this.modalClose}
-                                 messages={this.state.modalMessages}
-                                 update={this.handleUpdateResource} />)
-            : (<div/>) }
-        </div>
+        { this.state.modalShow && (
+          <UpdateResourceModal close={this.modalClose}
+                               messages={this.state.modalMessages}
+                               update={this.handleUpdateResource} />)
+        }
         <Header triggerEditorMenu={this.props.triggerHandleOffsetMenu}/>
         <ImportFileZone setResourceTemplateCallback={this.setResourceTemplates} />
         <SinopiaResourceTemplates messages={this.state.flashMessages} history={this.props.history} key="sinopia-resource-templates" />
