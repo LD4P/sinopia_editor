@@ -9,7 +9,7 @@ import Download from 'components/templates/Download'
  * This is the list view of all the templates
  */
 const ResourceTemplateRow = props => (<tr key={props.row.id}>
-  <td style={{ wordBreak: 'break-all' }}>
+  <td style={{ wordBreak: 'break-all' }} data-testid="name">
     <Link to={{ pathname: '/editor', state: { } }} onClick={e => props.navigate(props.row.id, e)}>{props.row.name}</Link>
   </td>
   <td style={{ wordBreak: 'break-all' }}>
