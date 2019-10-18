@@ -1,71 +1,94 @@
 // Copyright 2019 Stanford University see LICENSE for license
 
-import React, { Component } from 'react'
+import React, { useEffect, useState } from 'react'
+import { hideModal } from 'actions/index'
+import { useDispatch, useSelector } from 'react-redux'
 import PropTypes from 'prop-types'
+import ModalWrapper from '../ModalWrapper'
 import { resourceToName } from 'Utilities'
-
 import _ from 'lodash'
 
-class UpdateResourceModal extends Component {
-  constructor(props) {
-    super(props)
-    this.state = {
-      titleMessage: [],
-      rts: [],
-    }
-  }
+const UpdateResourceModal = (props) => {
+  const dispatch = useDispatch()
 
-  componentDidMount() {
+  const show = useSelector(state => state.selectorReducer.editor.modal === 'UpdateResourceModal')
+
+  const [group, setGroup] = useState('')
+  const [resourceTemplates, setResourceTemplates] = useState([])
+
+  useEffect(() => {
     let group = ''
-    const rts = []
-    const titleMessages = []
-    const messages = this.props.messages
-
-    messages.map((message) => {
+    const resourceTemplates = []
+    props.messages.forEach((message) => {
       if (_.get(message, 'req._data.id')) {
         const req = message.req
 
         group = resourceToName(req.url)
-        const rt = req._data
+        const resourceTemplate = req._data
 
-        rts.push(rt)
-        titleMessages.push(`${rt.id} already exists`)
+        resourceTemplates.push(resourceTemplate)
       }
     })
+    setResourceTemplates(resourceTemplates)
+    setGroup(group)
+  }, [props.messages])
 
-    this.setState({
-      titleMessage: titleMessages.join(', '),
-      rts,
-      group,
-    })
+  const handleClose = (event) => {
+    dispatch(hideModal())
+    event.preventDefault()
   }
 
-  render() {
-    return (
-      <div>
-        <div className="modal fade" data-show={true} role="dialog">
-          <div className="modal-dialog" role="document">
-            <div className="modal-content">
-              <div className="modal-header">
-                <h3 className="modal-title">{this.state.titleMessage}</h3>
-              </div>
-              <div className="modal-body">
-                Do you want to overwrite these resource templates?
-              </div>
-              <div className="modal-footer">
-                <button className="btn btn-link" onClick={async () => { await this.props.update(this.state.rts, this.state.group) }}>Yes, overwrite</button>
-                <button className="btn btn-link" data-dismiss="modal">No, get me out of here!</button>
-              </div>
+  const handleOverwriteClick = (event) => {
+    props.update(resourceTemplates, group)
+    dispatch(hideModal())
+    event.preventDefault()
+  }
+
+  const classes = ['modal', 'fade']
+  let display = 'none'
+  if (show) {
+    classes.push('show')
+    display = 'block'
+  }
+
+  const resourceTemplateItems = resourceTemplates.map(resourceTemplate => <li key={resourceTemplate.id}>{resourceTemplate.id}</li>)
+
+  const modal = (
+    <div className={ classes.join(' ') }
+         id="update-resource-modal"
+         data-testid="update-resource-modal"
+         tabIndex="-1"
+         role="dialog"
+         style={{ display }}>
+      <div className="modal-dialog modal-lg">
+        <div className="modal-content">
+          <div className="modal-header" data-testid="update-resource-modal-header">
+            <h4 className="modal-title">Do you want to overwrite these resource templates?</h4>
+            <button type="button" className="close" onClick={handleClose} aria-label="Close">
+              <span aria-hidden="true">&times;</span>
+            </button>
+          </div>
+          <div className="modal-body rdf-modal-content">
+            <ul>
+              { resourceTemplateItems }
+            </ul>
+            <div className="row" style={{ marginLeft: '0', marginRight: '0' }}>
+              <button className="btn btn-link btn-sm" data-dismiss="modal" style={{ paddingRight: '20px' }} onClick={ handleClose }>
+                Cancel
+              </button>
+              <button className="btn btn-primary btn-sm" data-dismiss="modal" onClick={ handleOverwriteClick }>
+                Overwrite
+              </button>
             </div>
           </div>
         </div>
       </div>
-    )
-  }
+    </div>)
+
+  return (<ModalWrapper modal={modal} />)
 }
 
 UpdateResourceModal.propTypes = {
-  close: PropTypes.func,
   messages: PropTypes.array,
   update: PropTypes.func,
 }

@@ -8,7 +8,7 @@ import Config from 'Config'
 import { hideModal } from 'actions/index'
 import { getCurrentUser } from 'authSelectors'
 import { publishResource } from 'actionCreators/resources'
-import ModalWrapper from './ModalWrapper'
+import ModalWrapper from '../ModalWrapper'
 
 const GroupChoiceModal = (props) => {
   // The ld4p group is only for templates

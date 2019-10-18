@@ -1,6 +1,8 @@
 import React from 'react'
-import { fireEvent, render, wait } from '@testing-library/react'
-import { renderWithRedux, createReduxStore } from 'testUtils'
+import {
+  fireEvent, render, wait, act,
+} from '@testing-library/react'
+import { renderWithRedux, createReduxStore, setupModal } from 'testUtils'
 import App from 'components/App'
 import { MemoryRouter } from 'react-router-dom'
 import { Provider } from 'react-redux'
@@ -32,6 +34,8 @@ const createInitialState = () => {
 }
 
 describe('Loading an invalid resource template', () => {
+  setupModal()
+
   const store = createReduxStore(createInitialState())
   const app = (<MemoryRouter><App /></MemoryRouter>)
   const {
@@ -58,7 +62,9 @@ describe('Loading an invalid resource template', () => {
     })
 
     dispatchEvt(input, 'change')
-    await flushPromises(app, store, container)
+    act(() => {
+      flushPromises(app, store, container)
+    })
 
     await wait(() => expect(queryByText(/The profile you provided was not valid JSON/)).toBeInTheDocument())
   })

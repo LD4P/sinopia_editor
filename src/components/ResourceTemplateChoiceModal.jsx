@@ -2,7 +2,7 @@
 
 import React, { useState, useMemo } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
-import ModalWrapper from 'components/editor/ModalWrapper'
+import ModalWrapper from 'components/ModalWrapper'
 import PropTypes from 'prop-types'
 import { closeResourceTemplateChooser as closeResourceTemplateChooserAction, hideModal } from 'actions/index'
 

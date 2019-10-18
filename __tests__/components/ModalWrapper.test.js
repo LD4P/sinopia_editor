@@ -2,7 +2,7 @@
 
 import React from 'react'
 import { render } from '@testing-library/react'
-import ModalWrapper from 'components/editor/ModalWrapper'
+import ModalWrapper from 'components/ModalWrapper'
 
 const testModal = () => {
   return (
