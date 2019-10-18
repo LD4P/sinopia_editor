@@ -22,7 +22,10 @@ import searchConfig from '../../../static/searchConfig.json'
 const Search = (props) => {
   const dispatch = useDispatch()
   const fetchQASearchResults = (queryString, uri) => dispatch(fetchQASearchResultsCreator(queryString, uri))
-  const fetchSinopiaSearchResults = queryString => dispatch(fetchSinopiaSearchResultsCreator(queryString))
+
+  const resultsPerPage = useSelector(state => state.selectorReducer.search.resultsPerPage)
+  const fetchSinopiaSearchResults = (queryString, startOfRange) => dispatch(fetchSinopiaSearchResultsCreator(queryString, startOfRange, resultsPerPage))
+
   const clearRetrieveResourceError = () => dispatch(clearRetrieveResourceErrorAction())
   const clearSearchResults = useCallback(() => dispatch(clearSearchResultsAction()), [dispatch])
 
@@ -54,10 +57,14 @@ const Search = (props) => {
     }
     clearRetrieveResourceError()
     if (uri === 'sinopia') {
-      fetchSinopiaSearchResults(queryString)
+      fetchSinopiaSearchResults(queryString, 0)
     } else {
       fetchQASearchResults(queryString, uri)
     }
+  }
+
+  const changeSinopiaSearchPage = (startOfRange) => {
+    fetchSinopiaSearchResults(queryString, startOfRange)
   }
 
   const options = searchConfig.map(config => (<option key={config.uri} value={config.uri}>{config.label}</option>))
@@ -67,7 +74,7 @@ const Search = (props) => {
     results = (
       <div>
         <SinopiaSearchResults {...props} key="search-results" />
-        <SearchResultsPaging {...props} key="search-paging" pageSize="1"/>
+        <SearchResultsPaging key="search-paging" changePage={changeSinopiaSearchPage} />
         <SearchResultsMessage />
       </div>
     )

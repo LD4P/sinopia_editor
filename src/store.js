@@ -4,6 +4,7 @@
 import { createStore, applyMiddleware, compose } from 'redux'
 import thunk from 'redux-thunk'
 import reducer from './reducers/index'
+import Config from 'Config'
 
 const initialState = {
   selectorReducer: {
@@ -46,6 +47,8 @@ const initialState = {
       query: undefined,
       authority: undefined,
       error: undefined,
+      resultsPerPage: Config.searchResultsPerPage,
+      startOfRange: 0, // 0 based
     },
   },
 }
