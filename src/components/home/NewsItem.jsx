@@ -8,9 +8,10 @@ const NewsItem = () => (
     <h1>Sinopia Version {version} released with new features and bug fixes!</h1>
     <ul>
       <li>Friendlier preview: choice of table, N-triples ot Turtle.</li>
-      <li>"Copy URI" button to copy a URI as soon as a Resource is saved.</li>
-      <li>Ability to search indexed Resources by Resource URI.</li>
-      <li>Search finds matching strings with and without diacritics.</li>
+      <li>Copy URI button to copy a URI as soon as a Resource is saved.</li>
+      <li>Ability to search indexed Sinopia Resources by Resource URI.</li>
+      <li>Sinopia search finds matching strings with and without diacritics.</li>
+      <li>Sinopia search is now case-insensitive.</li>
       <li>Visual indication of which environment you are in (development, stage, production).</li>
       <li>Fixed bug where nested Resource Templates with property type resource (not pointing to Resource Templates, but instead expecting a URI) did not work.</li>
       <li>Fixed bug related to loading triples.</li>
