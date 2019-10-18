@@ -17,8 +17,12 @@ describe('<ImportResourceTemplate />', () => {
     },
   }
   const mockFetchResourceTemplateSummaries = jest.fn()
+  const mockShowModal = jest.fn()
 
-  const wrapper = shallow(<ImportResourceTemplate.WrappedComponent authenticationState={authenticationState} fetchResourceTemplateSummaries={mockFetchResourceTemplateSummaries} />)
+  const wrapper = shallow(<ImportResourceTemplate.WrappedComponent
+    authenticationState={authenticationState}
+    fetchResourceTemplateSummaries={mockFetchResourceTemplateSummaries}
+    showModal={mockShowModal} />)
 
   // Make sure spies/mocks don't leak between tests
   afterEach(() => {
@@ -136,15 +140,15 @@ describe('<ImportResourceTemplate />', () => {
       expect(wrapper.state().flashMessages).toEqual(['Unexpected response (200)! '])
     })
 
-    it('sets modalShow to true when receiving HTTP 409 and errors >= profileCount', () => {
+    it('sets modal when receiving HTTP 409 and errors >= profileCount', () => {
       // Set new wrapper in each of these tests because we are changing state
-      const wrapper = shallow(<ImportResourceTemplate.WrappedComponent authenticationState={authenticationState}/>)
-
-      expect(wrapper.state().modalShow).toBe(false)
+      const wrapper = shallow(<ImportResourceTemplate.WrappedComponent
+        authenticationState={authenticationState}
+        showModal={mockShowModal} />)
 
       wrapper.instance().updateStateFromServerResponses([{ status: 409, headers: {} }])
 
-      expect(wrapper.state().modalShow).toBe(true)
+      expect(mockShowModal).toHaveBeenCalledWith('UpdateResourceModal')
     })
 
     it('sets message in state with any create operation not resulting in HTTP 409', () => {
@@ -160,10 +164,11 @@ describe('<ImportResourceTemplate />', () => {
 
     it('handles multi-response calls with different results', () => {
       // Set new wrapper in each of these tests because we are changing state
-      const wrapper = shallow(<ImportResourceTemplate.WrappedComponent authenticationState={authenticationState}/>)
+      const wrapper = shallow(<ImportResourceTemplate.WrappedComponent
+        authenticationState={authenticationState}
+        showModal={mockShowModal} />)
 
       expect(wrapper.state().flashMessages).toEqual([])
-      expect(wrapper.state().modalShow).toEqual(false)
 
       wrapper.instance().updateStateFromServerResponses([
         { status: 201, headers: { location: 'http://sinopia.io/repository/ld4p/myResourceTemplate1' } },
@@ -174,7 +179,7 @@ describe('<ImportResourceTemplate />', () => {
         'Created http://sinopia.io/repository/ld4p/myResourceTemplate1',
         'Prompting user about updating http://sinopia.io/repository/ld4p/myResourceTemplate2',
       ])
-      expect(wrapper.state().modalShow).toEqual(true)
+      expect(mockShowModal).toHaveBeenCalledWith('UpdateResourceModal')
     })
   })
 
@@ -279,20 +284,6 @@ describe('<ImportResourceTemplate />', () => {
     })
   })
 
-  describe('modalClose()', () => {
-    it('sets modalShow to false in component state', () => {
-      // Set new wrapper because we are changing state
-      const wrapper = shallow(<ImportResourceTemplate.WrappedComponent authenticationState={authenticationState}/>)
-
-      wrapper.setState({ modalShow: true })
-      expect(wrapper.state().modalShow).toBe(true)
-
-      wrapper.instance().modalClose()
-
-      expect(wrapper.state().modalShow).toBe(false)
-    })
-  })
-
   describe('handleUpdateResource()', () => {
     const templates = [
       {
@@ -303,17 +294,15 @@ describe('<ImportResourceTemplate />', () => {
       },
     ]
 
-    it('updates every template, updates state, closes the modal and reloads', async () => {
-      expect.assertions(4)
+    it('updates every template, updates state, and reloads', async () => {
+      expect.assertions(3)
       const updateResourceSpy = jest.spyOn(wrapper.instance(), 'updateResource').mockImplementation(async () => {})
       const updateStateSpy = jest.spyOn(wrapper.instance(), 'updateStateFromServerResponses').mockReturnValue(null)
-      const modalCloseSpy = jest.spyOn(wrapper.instance(), 'modalClose').mockReturnValue(null)
 
       await wrapper.instance().handleUpdateResource(templates, 'ld4p')
 
       expect(updateResourceSpy).toHaveBeenCalledTimes(2)
       expect(updateStateSpy).toHaveBeenCalledTimes(1)
-      expect(modalCloseSpy).toHaveBeenCalledTimes(1)
       expect(mockFetchResourceTemplateSummaries).toHaveBeenCalledTimes(2)
     })
   })

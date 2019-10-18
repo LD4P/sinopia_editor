@@ -5,7 +5,7 @@ import { hideModal } from 'actions/index'
 import { connect, useDispatch } from 'react-redux'
 import PropTypes from 'prop-types'
 import GraphBuilder from 'GraphBuilder'
-import ModalWrapper from './ModalWrapper'
+import ModalWrapper from '../ModalWrapper'
 import SaveAndPublishButton from './SaveAndPublishButton'
 import RDFDisplay from './RDFDisplay'
 

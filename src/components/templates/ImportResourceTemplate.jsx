@@ -11,6 +11,7 @@ import UpdateResourceModal from './UpdateResourceModal'
 import { createResourceTemplate, updateResourceTemplate } from 'sinopiaServer'
 import { getCurrentUser } from 'authSelectors'
 import { fetchResourceTemplateSummaries } from 'actionCreators/resourceTemplates'
+import { showModal } from 'actions/index'
 
 class ImportResourceTemplate extends Component {
   constructor(props) {
@@ -18,12 +19,7 @@ class ImportResourceTemplate extends Component {
     this.state = {
       flashMessages: [],
       modalMessages: [],
-      modalShow: false,
     }
-  }
-
-  modalClose = () => {
-    this.setState({ modalShow: false })
   }
 
   // Resource templates are set via ImportFileZone and passed to ResourceTemplate via redirect to Editor
@@ -59,8 +55,6 @@ class ImportResourceTemplate extends Component {
   updateResource = async (content, group) => {
     try {
       const response = await updateResourceTemplate(content, group, this.props.currentUser)
-
-
       return response.response
     } catch (error) {
       return error.response
@@ -76,7 +70,6 @@ class ImportResourceTemplate extends Component {
 
   updateStateFromServerResponses = (responses) => {
     const newFlashMessages = []
-    const newState = {}
     let showModal = false
 
     responses.forEach((response) => {
@@ -85,11 +78,11 @@ class ImportResourceTemplate extends Component {
       newFlashMessages.push(`${this.humanReadableStatus(response.status)} ${this.humanReadableLocation(response)}`)
     })
 
-    if (newFlashMessages.length > 0) newState.flashMessages = [...this.state.flashMessages, ...newFlashMessages]
+    if (newFlashMessages.length > 0) {
+      this.setState({ flashMessages: [...newFlashMessages] })
+    }
 
-    if (showModal) newState.modalShow = true
-
-    this.setState(newState)
+    if (showModal) this.props.showModal('UpdateResourceModal')
   }
 
   // Returns a URL or an empty string
@@ -126,28 +119,17 @@ class ImportResourceTemplate extends Component {
   }
 
   handleUpdateResource = async (rts, group) => {
-    const responses = []
-    // Prefer for ... of to forEach when loop body uses async/await
+    const responses = await Promise.all(rts.map(rt => this.updateResource(rt, group)))
 
-    for (const rt of rts) {
-      const response = await this.updateResource(rt, group)
-
-      responses.push(response)
-    }
     this.updateStateFromServerResponses(responses)
     this.props.fetchResourceTemplateSummaries()
-
-    this.modalClose()
   }
 
   render() {
     return (
       <div id="importResourceTemplate">
-        { this.state.modalShow && (
-          <UpdateResourceModal close={this.modalClose}
-                               messages={this.state.modalMessages}
-                               update={this.handleUpdateResource} />)
-        }
+        <UpdateResourceModal messages={this.state.modalMessages}
+                             update={this.handleUpdateResource} />)
         <Header triggerEditorMenu={this.props.triggerHandleOffsetMenu}/>
         <ImportFileZone setResourceTemplateCallback={this.setResourceTemplates} />
         <SinopiaResourceTemplates messages={this.state.flashMessages} history={this.props.history} key="sinopia-resource-templates" />
@@ -161,6 +143,7 @@ ImportResourceTemplate.propTypes = {
   triggerHandleOffsetMenu: PropTypes.func,
   currentUser: PropTypes.object,
   fetchResourceTemplateSummaries: PropTypes.func,
+  showModal: PropTypes.func,
   history: PropTypes.object,
 }
 
@@ -168,6 +151,6 @@ const mapStateToProps = state => ({
   currentUser: getCurrentUser(state),
 })
 
-const mapDispatchToProps = dispatch => bindActionCreators({ fetchResourceTemplateSummaries }, dispatch)
+const mapDispatchToProps = dispatch => bindActionCreators({ fetchResourceTemplateSummaries, showModal }, dispatch)
 
 export default connect(mapStateToProps, mapDispatchToProps)(ImportResourceTemplate)

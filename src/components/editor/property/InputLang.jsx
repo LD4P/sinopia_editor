@@ -7,7 +7,7 @@ import { connect } from 'react-redux'
 import { findNode } from 'selectors/resourceSelectors'
 import { hideModal, languageSelected } from 'actions/index'
 import { bindActionCreators } from 'redux'
-import ModalWrapper from 'components/editor/ModalWrapper'
+import ModalWrapper from 'components/ModalWrapper'
 import _ from 'lodash'
 
 /**
