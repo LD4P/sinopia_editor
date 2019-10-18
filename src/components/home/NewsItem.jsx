@@ -5,16 +5,15 @@ import { version } from '../../../package.json'
 
 const NewsItem = () => (
   <div className="news-item">
-    <h1>Sinopia Version {version} fixes critical bugs</h1>
+    <h1>Sinopia Version {version} released with new features and bug fixes!</h1>
     <ul>
-      <li>From Search tab when you try to open a Resource created with a Resource
-        Template that no longer exists, you will get a message explaining why the Resource cannot be opened.
-      </li>
-      <li>From Resource Template tab, Sinopia now checks for problems with a Resource Template before opening,
-        and reports those problems, including: nesting another Resource Template that does not exist, or referring to a lookup source that is not supported.
-      </li>
-      <li>Fixes issue where Resources were not getting saved.</li>
-      <li>New feature: Lookup fields now support having multiple sources that are direct lookups to id.loc.gov.</li>
+      <li>Friendlier preview: choice of table, N-triples ot Turtle.</li>
+      <li>"Copy URI" button to copy a URI as soon as a Resource is saved.</li>
+      <li>Ability to search indexed Resources by Resource URI.</li>
+      <li>Search finds matching strings with and without diacritics.</li>
+      <li>Visual indication of which environment you are in (development, stage, production).</li>
+      <li>Fixed bug where nested Resource Templates with property type resource (not pointing to Resource Templates, but instead expecting a URI) did not work.</li>
+      <li>Fixed bug related to loading triples.</li>
       <li>For complete {version} release notes see the <a href="https://github.com/LD4P/sinopia/wiki/Latest-Release,-What's-Next">Sinopia help site</a>.
       </li>
     </ul>
