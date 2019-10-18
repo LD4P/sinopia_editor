@@ -49,16 +49,24 @@ const createInitialState = () => {
   return state
 }
 
-const resourceTemplateSummary = {
-  name: 'Note',
-  key: 'resourceTemplate:bf2:Note',
-  id: 'resourceTemplate:bf2:Note',
-  author: 'wright.lee.renønd',
-  remark: 'very salient information',
-  group: 'ld4p',
-}
-
-const resourceTemplateSummaries = [resourceTemplateSummary]
+const resourceTemplateSummaries = [
+  {
+    name: 'Note',
+    key: 'resourceTemplate:bf2:Note',
+    id: 'resourceTemplate:bf2:Note',
+    author: 'wright.lee.renønd',
+    remark: 'very salient information',
+    group: 'ld4p',
+  },
+  {
+    name: 'First Thing',
+    key: 'resourceTemplate:bf2:Alternative',
+    id: 'resourceTemplate:bf2:Alternative',
+    author: 'bob',
+    remark: 'very salient information',
+    group: 'ld4p',
+  },
+]
 
 describe('SinopiaResourceTemplates', () => {
   it('displays a list of resource templates with links to load and to download the resources', async () => {
@@ -67,7 +75,9 @@ describe('SinopiaResourceTemplates', () => {
 
     sinopiaServer.getResourceTemplate.mockImplementation(getFixtureResourceTemplate)
 
-    const { container, getByText, getByTestId } = renderWithReduxAndRouter(
+    const {
+      container, getByText, getByTestId, getAllByTestId, queryAllByTestId,
+    } = renderWithReduxAndRouter(
       <SinopiaResourceTemplates messages={[]} history={history} />, store,
     )
     // There is a table with heading and header columns
@@ -79,6 +89,12 @@ describe('SinopiaResourceTemplates', () => {
     expect(getByText(/Guiding statement/)).toBeInTheDocument()
     expect(getByTestId('download-col-header')).toBeInTheDocument()
 
+    // Sorting
+    expect(queryAllByTestId('name').map(obj => obj.children[0].text)).toEqual(['First Thing', 'Note'])
+    fireEvent.click(getByText('Template name'))
+    expect(queryAllByTestId('name').map(obj => obj.children[0].text)).toEqual(['Note', 'First Thing'])
+
+
     // There is a link from the resource label that loads the resource into the editor tab
     expect(container.querySelector('a[href="/editor"]')).toBeInTheDocument()
     fireEvent.click(getByText('Note'))
@@ -87,33 +103,7 @@ describe('SinopiaResourceTemplates', () => {
     // There is download link
     saveAs.mockReturnValue('file saved')
     expect(container.querySelector('button.btn-linky')).toBeInTheDocument()
-    fireEvent.click(getByTestId('download-link'))
+    fireEvent.click(getAllByTestId('download-link')[0])
     expect(saveAs()).toMatch('file saved')
   })
-  //   it('renders the table of resource templates with name, id, author, guiding statement, download columns', () => {
-  //     const tableHeaderCellText = wrapper.find('div > table > thead > tr > th')
-  //     expect(tableHeaderCellText.at(0).text()).toEqual('Template name')
-  //     expect(tableHeaderCellText.at(1).text()).toEqual('ID')
-  //     expect(tableHeaderCellText.at(2).text()).toEqual('Author')
-  //     expect(tableHeaderCellText.at(3).text()).toEqual('Guiding statement')
-  //     expect(tableHeaderCellText.at(4).text()).toEqual('Download')
-  //   })
-  // })
-  //
-  // describe('linking back to the Editor component', () => {
-  //   it('renders a link to the Editor', () => {
-  //     expect.assertions(1)
-  //     const link = wrapper.find('Link')
-  //     expect(link.props().to.pathname).toEqual('/editor')
-  //   })
-  // })
-  // describe('linking to download the template', () => {
-  //   it('renders a link to download the template', () => {
-  //     expect.assertions(2)
-  //     const link = wrapper.find('Download')
-  //
-  //     expect(link.props().resourceTemplateId).toEqual('ld4p:resourceTemplate:bf2:Note')
-  //     expect(link.props().groupName).toEqual('stanford')
-  //   })
-  // })
 })
