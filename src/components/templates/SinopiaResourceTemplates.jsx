@@ -3,8 +3,7 @@
 import React, { useEffect, useState, useMemo } from 'react'
 import { useSelector, useDispatch } from 'react-redux'
 import PropTypes from 'prop-types'
-import { Link } from 'react-router-dom'
-import Download from 'components/templates/Download'
+import ResourceTemplateRow from './ResourceTemplateRow'
 import { newResource } from 'actionCreators/resources'
 import { rootResource } from 'selectors/resourceSelectors'
 
@@ -19,10 +18,12 @@ const SinopiaResourceTemplates = (props) => {
     if (state.selectorReducer.entities.resourceTemplateSummaries === undefined) return undefined
     return Object.values(state.selectorReducer.entities.resourceTemplateSummaries)
   })
+
   const sortedResourceTemplateSummaries = useMemo(() => {
     if (resourceTemplateSummaries === undefined) return []
     return resourceTemplateSummaries.sort((a, b) => a.name.localeCompare(b.name))
   }, [resourceTemplateSummaries])
+
   const error = useSelector(state => state.selectorReducer.editor.retrieveResourceTemplateError)
   const rtRoot = useSelector(state => rootResource(state))
 
@@ -51,29 +52,8 @@ const SinopiaResourceTemplates = (props) => {
       </div>
     )
   }
-  const generateRows = () => {
-    const rows = []
-    sortedResourceTemplateSummaries.forEach((row) => {
-      rows.push(<tr key={row.id}>
-        <td style={{ wordBreak: 'break-all' }}>
-          <Link to={{ pathname: '/editor', state: { } }} onClick={e => handleClick(row.id, e)}>{row.name}</Link>
-        </td>
-        <td style={{ wordBreak: 'break-all' }}>
-          { row.id }
-        </td>
-        <td style={{ wordBreak: 'break-all' }}>
-          { row.author }
-        </td>
-        <td style={{ wordBreak: 'break-all' }}>
-          { row.remark }
-        </td>
-        <td>
-          <Download resourceTemplateId={ row.id } groupName={ row.group } />
-        </td>
-      </tr>)
-    })
-    return rows
-  }
+
+  const rows = sortedResourceTemplateSummaries.map(row => <ResourceTemplateRow row={row} key={row.id} navigate={handleClick}/>)
 
   const errorMessage = error === undefined
     ? (<span />)
@@ -113,7 +93,7 @@ const SinopiaResourceTemplates = (props) => {
           </tr>
         </thead>
         <tbody>
-          { generateRows() }
+          { rows }
         </tbody>
       </table>
     </div>
@@ -122,11 +102,7 @@ const SinopiaResourceTemplates = (props) => {
 
 SinopiaResourceTemplates.propTypes = {
   messages: PropTypes.array,
-  resourceTemplateSummaries: PropTypes.array,
-  newResource: PropTypes.func,
   history: PropTypes.object,
-  error: PropTypes.string,
-  rootResource: PropTypes.object,
 }
 
 export default SinopiaResourceTemplates
