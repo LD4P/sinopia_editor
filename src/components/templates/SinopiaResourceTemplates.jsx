@@ -41,18 +41,6 @@ const SinopiaResourceTemplates = (props) => {
     dispatch(newResource(resourceTemplateId)).then(result => setNavigateEditor(result))
   }
 
-  const createResourceMessage = () => {
-    if (props.messages.length === 0) return <span />
-    const messageItems = props.messages.map(message => <li key={message}>{message}</li>)
-    return (
-      <div className="alert alert-info">
-        <ul className="list-unstyled" style={{ marginBottom: 0 }}>
-          { messageItems }
-        </ul>
-      </div>
-    )
-  }
-
   const rows = sortedResourceTemplateSummaries.map(row => <ResourceTemplateRow row={row} key={row.id} navigate={handleClick}/>)
 
   const errorMessage = error === undefined
@@ -77,7 +65,6 @@ const SinopiaResourceTemplates = (props) => {
 
   return (
     <div>
-      { createResourceMessage() }
       { errorMessage }
       <h4>Available Resource Templates in Sinopia</h4>
       <table className="table table-bordered"
@@ -101,7 +88,6 @@ const SinopiaResourceTemplates = (props) => {
 }
 
 SinopiaResourceTemplates.propTypes = {
-  messages: PropTypes.array,
   history: PropTypes.object,
 }
 

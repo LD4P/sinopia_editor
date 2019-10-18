@@ -8,6 +8,7 @@ import Header from '../Header'
 import ImportFileZone from './ImportFileZone'
 import SinopiaResourceTemplates from './SinopiaResourceTemplates'
 import UpdateResourceModal from './UpdateResourceModal'
+import CreateResourceMessages from './CreateResourceMessages'
 import { createResourceTemplate, updateResourceTemplate } from 'sinopiaServer'
 import { getCurrentUser } from 'authSelectors'
 import { fetchResourceTemplateSummaries } from 'actionCreators/resourceTemplates'
@@ -132,6 +133,7 @@ class ImportResourceTemplate extends Component {
                              update={this.handleUpdateResource} />)
         <Header triggerEditorMenu={this.props.triggerHandleOffsetMenu}/>
         <ImportFileZone setResourceTemplateCallback={this.setResourceTemplates} />
+        <CreateResourceMessages messages={this.state.flashMessages} />
         <SinopiaResourceTemplates messages={this.state.flashMessages} history={this.props.history} key="sinopia-resource-templates" />
       </div>
     )
