@@ -40,14 +40,17 @@ const SinopiaResourceTemplates = (props) => {
     dispatch(newResource(resourceTemplateId)).then(result => setNavigateEditor(result))
   }
 
-  const createResourceMessage = props.messages.length === 0
-    ? (<span />)
-    : (
+  const createResourceMessage = () => {
+    if (props.messages.length === 0) return <span />
+    const messageItems = props.messages.map(message => <li key={message}>{message}</li>)
+    return (
       <div className="alert alert-info">
-        { props.messages.join(', ') }
+        <ul className="list-unstyled" style={{ marginBottom: 0 }}>
+          { messageItems }
+        </ul>
       </div>
     )
-
+  }
   const generateRows = () => {
     const rows = []
     sortedResourceTemplateSummaries.forEach((row) => {
@@ -94,7 +97,7 @@ const SinopiaResourceTemplates = (props) => {
 
   return (
     <div>
-      { createResourceMessage }
+      { createResourceMessage() }
       { errorMessage }
       <h4>Available Resource Templates in Sinopia</h4>
       <table className="table table-bordered"
