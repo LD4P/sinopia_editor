@@ -130,7 +130,7 @@ class ImportResourceTemplate extends Component {
     return (
       <div id="importResourceTemplate">
         <UpdateResourceModal messages={this.state.modalMessages}
-                             update={this.handleUpdateResource} />)
+                             update={this.handleUpdateResource} />
         <Header triggerEditorMenu={this.props.triggerHandleOffsetMenu}/>
         <ImportFileZone setResourceTemplateCallback={this.setResourceTemplates} />
         <CreateResourceMessages messages={this.state.flashMessages} />
