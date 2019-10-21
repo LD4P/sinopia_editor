@@ -10,7 +10,7 @@ import { getCurrentUser } from 'authSelectors'
 import { retrieveResource } from 'actionCreators/resources'
 import { rootResource } from 'selectors/resourceSelectors'
 import Alert from '../Alert'
-
+import SinopiaSort from './SinopiaSort'
 
 const SinopiaSearchResults = (props) => {
   const [navigateEditor, setNavigateEditor] = useState(false)
@@ -54,6 +54,7 @@ const SinopiaSearchResults = (props) => {
         <div className="col-sm-2"></div>
         <div className="col-sm-8">
           <h3>Your List of Bibliographic Metadata Stored in Sinopia</h3>
+          <SinopiaSort />
           <table className="table table-bordered" id="search-results-list">
             <thead>
               <tr>

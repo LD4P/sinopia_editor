@@ -58,7 +58,7 @@ describe('getSearchResults', () => {
     },
   }
 
-  it('performs a search and returns results', async () => {
+  it('performs a search with default sort order and returns results', async () => {
     global.fetch = jest.fn().mockImplementation(() => Promise.resolve({ json: () => successResult }))
 
     const results = await getSearchResults('foo')
@@ -85,9 +85,29 @@ describe('getSearchResults', () => {
       },
       from: 0,
       size: 10,
+      sort: ['_score'],
     }
     expect(global.fetch).toHaveBeenCalledWith('/api/search/sinopia_resources/sinopia/_search', { body: JSON.stringify(body), headers: { 'Content-Type': 'application/json' }, method: 'POST' })
   })
+
+  it('performs a search with specified page and sort order and returns results', async () => {
+    global.fetch = jest.fn().mockImplementation(() => Promise.resolve({ json: () => successResult }))
+    await getSearchResults('foo', 10, 15, 'label', 'desc')
+    const body = {
+      query: {
+        simple_query_string: {
+          fields: ['title', 'subtitle', 'uri'],
+          default_operator: 'AND',
+          query: 'foo',
+        },
+      },
+      from: 10,
+      size: 15,
+      sort: [{ label: 'desc' }],
+    }
+    expect(global.fetch).toHaveBeenCalledWith('/api/search/sinopia_resources/sinopia/_search', { body: JSON.stringify(body), headers: { 'Content-Type': 'application/json' }, method: 'POST' })
+  })
+
 
   it('performs a search and handles ES error', async () => {
     global.fetch = jest.fn().mockImplementation(() => Promise.resolve({ json: () => errorResult }))
