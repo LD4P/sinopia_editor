@@ -1,7 +1,11 @@
 [
   {
-    "label": "DISCOGS",
-    "uri": "urn:discogs"
+    "label": "DISCOGS Masters",
+    "uri": "urn:discogs:master"
+  },
+  {
+    "label": "DISCOGS Releases",
+    "uri": "urn:discogs:release"
   },
   {
     "label": "SHAREVDE ALBERTA",

@@ -31,6 +31,7 @@ const Search = (props) => {
 
   const error = useSelector(state => state.selectorReducer.search.error)
   const searchUri = useSelector(state => state.selectorReducer.search.uri)
+  const retrieveResourceTemplateError = useSelector(state => state.selectorReducer.editor.retrieveResourceTemplateError)
 
   const [queryString, setQueryString] = useState('')
   const [uri, setUri] = useState('sinopia')
@@ -116,6 +117,7 @@ const Search = (props) => {
         </div>
         <span className="help-block">For searching Sinopia, use a * to wildcard your search.</span>
       </div>
+      <Alert text={retrieveResourceTemplateError} />
       {results}
     </div>
   )

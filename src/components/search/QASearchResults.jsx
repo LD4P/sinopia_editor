@@ -22,15 +22,11 @@ const QASearchResults = (props) => {
 
   const [error, setError] = useState(null)
   const [resourceURI, setResourceURI] = useState(null)
+  // Resource ID is for handling non-LD QA authorities, e.g., Discog
+  const [resourceId, setResourceId] = useState(null)
   const [resourceTemplateId, setResourceTemplateId] = useState(null)
   const [resourceN3, setResourceN3] = useState(null)
   const [resourceState, unusedDataset, useResourceError] = useResource(resourceN3, resourceURI, resourceTemplateId, rootResource, props.history)
-
-  useEffect(() => {
-    if (useResourceError && !error) {
-      setError(useResourceError)
-    }
-  }, [useResourceError, error])
 
   useEffect(() => {
     if (resourceState && unusedDataset) {
@@ -43,26 +39,38 @@ const QASearchResults = (props) => {
     if (!resourceURI || !searchUri) {
       return
     }
-    getTerm(resourceURI, searchUri)
+    getTerm(resourceURI, resourceId, searchUri)
       .then(resourceN3 => setResourceN3(resourceN3))
       .catch(err => setError(`Error retrieving resource: ${err.toString()}`))
-  }, [resourceURI, searchUri])
+  }, [resourceId, resourceURI, searchUri])
 
   // Transform the results into the format to be displayed in the table.
   const tableData = useMemo(() => searchResults.map((result) => {
-    const classContext = result.context.find(context => context.property === 'Type')
-    const classes = classContext ? classContext.values : []
+    // Discogs returns a context that is not an array
+    const types = []
+    if (result.context) {
+      if (Array.isArray(result.context)) {
+        const classContext = result.context.find(context => context.property === 'Type')
+        if (classContext) {
+          types.push(...classContext.values)
+        }
+      } else if (Array.isArray(result.context.Type)) {
+        types.push(...result.context.Type)
+      }
+    }
 
     return {
       label: result.label,
       uri: result.uri,
-      classes,
+      id: result.id,
+      types,
     }
   }),
   [searchResults])
 
-  const handleCopy = (uri) => {
+  const handleCopy = (uri, id) => {
     setResourceURI(uri)
+    setResourceId(id)
     setResourceTemplateId(null)
     dispatch(showModal('ResourceTemplateChoiceModal'))
   }
@@ -72,20 +80,20 @@ const QASearchResults = (props) => {
     setResourceTemplateId(resourceTemplateId)
   }
 
-  function classFormatter(cell) {
+  function typesFormatter(types) {
     return (
       <ul className="list-unstyled">
-        {cell.map(clazz => <li key={clazz}>{clazz}</li>)}
+        {types.map(type => <li key={type}>{type}</li>)}
       </ul>
     )
   }
 
-  function actionFormatter(cell) {
+  function actionFormatter(uri, id) {
     return (
       <div>
         <button type="button"
                 className="btn btn-link"
-                onClick={() => handleCopy(cell)}
+                onClick={() => handleCopy(uri, id)}
                 title="Copy"
                 aria-label="Copy this resource">
           <FontAwesomeIcon icon={faCopy} size="2x" />
@@ -99,8 +107,8 @@ const QASearchResults = (props) => {
     tableData.forEach((row) => {
       rows.push(<tr key={row.uri}>
         <td>{ row.label }</td>
-        <td>{classFormatter(row.classes)}</td>
-        <td>{actionFormatter(row.uri)}</td>
+        <td>{typesFormatter(row.types)}</td>
+        <td>{actionFormatter(row.uri, row.id)}</td>
       </tr>)
     })
     return rows
@@ -109,6 +117,7 @@ const QASearchResults = (props) => {
   return (
     <div id="search-results" className="row">
       <Alert text={error?.toString()} />
+      <Alert text={useResourceError?.toString()} />
       <div className="col-sm-2"></div>
       <div className="col-sm-8">
         <table className="table table-bordered">
