@@ -76,7 +76,7 @@ services:
     ports:
       - 61613:61613
   database:
-    image: postgres:latest
+    image: postgres:11
     environment:
       POSTGRES_USER: sinopia
       POSTGRES_DB: sinopia
