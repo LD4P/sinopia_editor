@@ -48,8 +48,7 @@ describe('Loading an invalid resource template', () => {
     // Upload the resource template
     fireEvent.click(getByText('Linked Data Editor'))
     fireEvent.click(getByText('Import a Profile containing New or Revised Resource Templates'))
-
-    expect(getByText(/Drag and drop a resource template file/)).toBeInTheDocument()
+    expect(getByText(/Drag and drop a profile or resource template file/)).toBeInTheDocument()
     expect(queryByText(/The profile you provided was not valid JSON/)).not.toBeInTheDocument()
 
     const file = new File(['(⌐□_□)'], 'bad_json.json', {

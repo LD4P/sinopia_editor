@@ -56,7 +56,7 @@ const DropZone = (props) => {
       <p style={{
         marginLeft: 'auto', marginRight: 'auto', paddingLeft: '1.5em', textIndent: '-1.5em', width: '300px',
       }}>
-        Drag and drop a resource template file in the box
+        Drag and drop a profile or resource template file in the box
           or click it to select a file to upload:
       </p>
 

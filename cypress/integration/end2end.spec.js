@@ -37,7 +37,7 @@ describe('End-to-end test', () => {
     cy.get('#resource-template-list').then((resourceTemplateList) => {
       if (resourceTemplateList.text().includes('No resource template are available.')) {
         cy.contains('Import a Profile').click()
-        cy.contains('Drag and drop a resource template file')
+        cy.contains('Drag and drop a profile or resource template file')
         const fileName = 'LD4P_BIBFRAME_2.0_Title_Information.json'
         cy.fixture(fileName).then((fileJson) => {
           const fileContent = JSON.stringify(fileJson)
