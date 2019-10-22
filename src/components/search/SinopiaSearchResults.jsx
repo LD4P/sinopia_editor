@@ -7,11 +7,12 @@ import { bindActionCreators } from 'redux'
 import PropTypes from 'prop-types'
 import Config from 'Config'
 import { getCurrentUser } from 'authSelectors'
+import { copyNewResource } from 'actions/index'
 import { retrieveResource } from 'actionCreators/resources'
 import { rootResource } from 'selectors/resourceSelectors'
 import CopyToNewButton from 'components/editor/CopyToNewButton'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faEdit } from '@fortawesome/free-solid-svg-icons'
+import { faCopy, faEdit } from '@fortawesome/free-solid-svg-icons'
 import Alert from '../Alert'
 import SinopiaSort from './SinopiaSort'
 
@@ -23,11 +24,19 @@ const SinopiaSearchResults = (props) => {
     return Config.groupsInSinopia[groupSlug]
   }
 
-  const handleClick = (resourceURI) => {
+  const handleCopy = (resourceURI) => {
+    props.retrieveResource(props.currentUser, resourceURI).then((success) => {
+      props.copyNewResource({ uri: resourceURI })
+      setNavigateEditor(success)
+    })
+  }
+
+  const handleEdit = (resourceURI) => {
     props.retrieveResource(props.currentUser, resourceURI).then((success) => {
       setNavigateEditor(success)
     })
   }
+
 
   useEffect(() => {
     // Forces a wait until the root resource has been set in state
@@ -46,13 +55,19 @@ const SinopiaSearchResults = (props) => {
         <td>{ row.label }</td>
         <td></td>
         <td>{ groupName(row.uri) }</td>
-        <td></td>
+        <td>{ row.modified } </td>
         <td>
           <div className="btn-group" role="group" aria-label="Result Actions">
-            <button className="btn btn-link" onClick={e => handleClick(link, e) }>
+            <button className="btn btn-link" onClick={e => handleEdit(link, e) }>
               <FontAwesomeIcon icon={faEdit} size="2x" />
             </button>
-            <CopyToNewButton id={row.uri} />
+            <button type="button"
+                    className="btn btn-link"
+                    onClick={() => handleCopy(link)}
+                    title="Copy"
+                    aria-label="Copy this resource">
+              <FontAwesomeIcon icon={faCopy} size="2x" />
+            </button>
           </div>
         </td>
       </tr>)
@@ -71,7 +86,7 @@ const SinopiaSearchResults = (props) => {
         <div className="col-sm-2"></div>
         <div className="col-sm-8">
           <h3>Your List of Bibliographic Metadata Stored in Sinopia</h3>
-          <SinopiaSort />
+
           <table className="table table-bordered" id="search-results-list">
             <thead>
               <tr>
@@ -87,7 +102,9 @@ const SinopiaSearchResults = (props) => {
                 <th className="search-header" style={{ width: '5%' }}>
                   Modified
                 </th>
-                <th className="search-header"></th>
+                <th className="search-header">
+                  <SinopiaSort />
+                </th>
               </tr>
             </thead>
             <tbody>
@@ -116,6 +133,6 @@ const mapStateToProps = state => ({
   error: state.selectorReducer.editor.retrieveResourceError,
 })
 
-const mapDispatchToProps = dispatch => bindActionCreators({ retrieveResource }, dispatch)
+const mapDispatchToProps = dispatch => bindActionCreators({ retrieveResource, copyNewResource }, dispatch)
 
 export default connect(mapStateToProps, mapDispatchToProps)(SinopiaSearchResults)

@@ -28,6 +28,7 @@ export const copyResourceToEditor = (state, action) => {
 
   if (uri !== undefined) {
     // TODO: For incoming search
+    console.log(`in copyResourceToEditor ${uri}`)
   }
   // Removes URI if it exists, feels like this could be cleaner
   Object.keys(newState.resource).forEach((resource) => {
