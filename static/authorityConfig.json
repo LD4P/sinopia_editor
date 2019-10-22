@@ -1790,6 +1790,11 @@
     "component": "list"
   },
   {
+    "label": "special playback characteristics",
+    "uri": "https://id.loc.gov/vocabulary/mspecplayback",
+    "component": "list"
+  },
+  {
     "label": "subject schemes",
     "uri": "https://id.loc.gov/vocabulary/subjectSchemes",
     "component": "list"
