@@ -177,7 +177,6 @@ describe('<ImportResourceTemplate />', () => {
 
       expect(wrapper.state().flashMessages).toEqual([
         'Created http://sinopia.io/repository/ld4p/myResourceTemplate1',
-        'Prompting user about updating http://sinopia.io/repository/ld4p/myResourceTemplate2',
       ])
       expect(mockShowModal).toHaveBeenCalledWith('UpdateResourceModal')
     })
@@ -260,7 +259,7 @@ describe('<ImportResourceTemplate />', () => {
     })
 
     it('returns human-readable label for HTTP 409', () => {
-      expect(wrapper.instance().humanReadableStatus(409)).toEqual('Prompting user about updating')
+      expect(wrapper.instance().humanReadableStatus(409)).toEqual('') // 409 errors are an overwrite operation, which spawn a modal but no flash messages
     })
 
     it('returns human-readable label for any other HTTP status', () => {
