@@ -29,9 +29,16 @@ class ImportResourceTemplate extends Component {
     const responses = []
     // Prefer for ... of to forEach when loop body uses async/await
 
-    for (const rt of content.Profile.resourceTemplates) {
-      const response = await this.createResource(rt, group)
-
+    // if we have a profile with multiple resource templates, iterate and load all of them
+    if (content.Profile) {
+      for (const rt of content.Profile.resourceTemplates) {
+        const response = await this.createResource(rt, group)
+        responses.push(response)
+      }
+    }
+    else // if the uploaded content is a single resource template, just load that one
+    {
+      const response = await this.createResource(content, group)
       responses.push(response)
     }
     this.updateStateFromServerResponses(responses)
