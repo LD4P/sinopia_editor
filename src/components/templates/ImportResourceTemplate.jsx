@@ -74,9 +74,11 @@ class ImportResourceTemplate extends Component {
     let showModal = false
 
     responses.forEach((response) => {
-      // If any responses are HTTP 409s, flip `showModal` to true
+      // If any responses are HTTP 409s, flip `showModal` to true, which then renders the overwrite confirmation prompt
       showModal = showModal || response.status === 409
-      newFlashMessages.push(`${this.humanReadableStatus(response.status)} ${this.humanReadableLocation(response)}`)
+      if (!showModal) { // only show flash error messages if we are *not* showing the modal confirmation
+        newFlashMessages.push(`${this.humanReadableStatus(response.status)} ${this.humanReadableLocation(response)}`)
+      }
     })
 
     if (newFlashMessages.length > 0) {
@@ -113,7 +115,7 @@ class ImportResourceTemplate extends Component {
       case 401:
         return 'You are not authorized to do this. Try logging in again!'
       case 409:
-        return 'Prompting user about updating'
+        return '' // 409 errors are an overwrite operation, which spawn a modal but no flash messages
       default:
         return `Unexpected response (${status})!`
     }
