@@ -66,6 +66,8 @@ const rtFileNames = [
   'sinopia_resourceTemplate_bf2_Title.json',
   'sinopia_resourceTemplate_bflc_TranscribedTitle.json',
   'sinopia_resourceTemplate_bf2_Title_Note.json',
+  'ld4p_RT_bf2_RareMat_RBMS.json',
+  'nonUniqueValueTemplateRefs.json',
   'ld4p_RT_bf2_AdminMetadata_BFDB.json',
   'ld4p_RT_bf2_AdminMetadata.json',
   'ld4p_RT_bf2_AdminMetadata_GenerationProcess.json',
@@ -195,23 +197,15 @@ function loadFixtureResourceTemplates() {
   return result
 }
 
-const emptyTemplate = { propertyTemplates: [{}] }
-
 export const resourceTemplateIds = resourceTemplateId2Json.map(template => template.id)
 
 export const getFixtureResourceTemplate = (templateId) => {
   if (!templateId) {
-    emptyTemplate.error = 'ERROR: asked for resourceTemplate with null/undefined id'
-    console.error(emptyTemplate.error)
-
-    return emptyTemplate
+    return Promise.reject(new Error('ERROR: asked for resourceTemplate with null/undefined id'))
   }
 
   if (!resourceTemplateIds.includes(templateId)) {
-    emptyTemplate.error = `ERROR: non-fixture resourceTemplate: ${templateId}`
-    console.error(emptyTemplate.error)
-
-    return emptyTemplate
+    return Promise.reject(new Error(`ERROR: non-fixture resourceTemplate: ${templateId}`))
   }
 
   const fixtureResponse = { response: {} }

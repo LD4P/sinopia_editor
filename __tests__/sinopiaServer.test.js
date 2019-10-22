@@ -16,32 +16,8 @@ describe('sinopiaServer', () => {
       expect(template.response.body.resourceLabel).toEqual('Instance Title')
     })
     it('unknown id: returns empty resource template and logs error', () => {
-      expect(sinopiaServer.getResourceTemplate('not:there')).toEqual(
-        {
-          error: 'ERROR: non-fixture resourceTemplate: not:there',
-          propertyTemplates: [{}],
-        },
-      )
-    })
-    it('null id: returns empty resource template and logs error', () => {
-      expect(sinopiaServer.getResourceTemplate()).toEqual(
-        {
-          error: 'ERROR: asked for resourceTemplate with null/undefined id',
-          propertyTemplates: [{}],
-        },
-      )
-      expect(sinopiaServer.getResourceTemplate(null)).toEqual({
-        error: 'ERROR: asked for resourceTemplate with null/undefined id',
-        propertyTemplates: [{}],
-      })
-      expect(sinopiaServer.getResourceTemplate(undefined)).toEqual({
-        error: 'ERROR: asked for resourceTemplate with null/undefined id',
-        propertyTemplates: [{}],
-      })
-      expect(sinopiaServer.getResourceTemplate('')).toEqual({
-        error: 'ERROR: asked for resourceTemplate with null/undefined id',
-        propertyTemplates: [{}],
-      })
+      expect.assertions(1)
+      expect(sinopiaServer.getResourceTemplate('not:there')).rejects.toThrow('ERROR: non-fixture resourceTemplate: not:there')
     })
   })
   describe('foundResourceTemplate', () => {

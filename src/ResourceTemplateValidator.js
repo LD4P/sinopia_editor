@@ -1,7 +1,8 @@
 // Copyright 2019 Stanford University see LICENSE for license
 
-import { foundResourceTemplate } from 'sinopiaServer'
+import { foundResourceTemplate, getResourceTemplate } from 'sinopiaServer'
 import { getTagNameForPropertyTemplate } from 'utilities/propertyTemplates'
+
 
 /**
  * Validates a resource template.
@@ -14,6 +15,7 @@ const validateResourceTemplate = async resourceTemplate => [].concat(
   validateNoDefaultURIForLiterals(resourceTemplate),
   validateNoDefaultsForTemplateRefs(resourceTemplate),
   await validateTemplateRefsExist(resourceTemplate),
+  await validateUniqueResourceURIs(resourceTemplate),
   validateKnownTagName(resourceTemplate),
 )
 
@@ -128,6 +130,41 @@ const validateTemplateRefsExist = async (resourceTemplate) => {
   }
   return []
 }
+
+/**
+ * Validates that all value template refs have unique resource URIs.
+ * @param {Object} resourceTemplate to validate
+ * @return {Promise<Array<string>>} reasons that validation failed if invalid
+ */
+const validateUniqueResourceURIs = async (resourceTemplate) => {
+  const errors = []
+  await Promise.all(resourceTemplate.propertyTemplates.map(async (propertyTemplate) => {
+    const refs = propertyTemplate.valueConstraint?.valueTemplateRefs || []
+    const resourceURIs = {}
+    await Promise.all(refs.map(async (resourceTemplateIdRef) => {
+      const resourceTemplateRef = await fetchResourceTemplate(resourceTemplateIdRef)
+      if (resourceTemplateRef) {
+        const resourceURI = resourceTemplateRef.resourceURI
+        if (!resourceURIs[resourceURI]) resourceURIs[resourceURI] = []
+        resourceURIs[resourceURI].push(resourceTemplateIdRef)
+      }
+    }))
+    const multipleResourceURIs = Object.keys(resourceURIs).filter(resourceURI => resourceURIs[resourceURI].length > 1)
+    multipleResourceURIs.forEach((resourceURI) => {
+      // eslint-disable-next-line max-len
+      errors.push(`The following resource templates references for ${propertyTemplate.propertyURI} have the same resource URI (${resourceURI}), but must be unique: ${resourceURIs[resourceURI].join(', ')}`)
+    })
+  }))
+  return errors
+}
+
+// Not using actionCreator/fetchResourceTemplate because want to avoid affecting state.
+const fetchResourceTemplate = async resourceTemplateId => getResourceTemplate(resourceTemplateId, 'ld4p')
+  .then(response => response.response.body)
+  .catch((err) => {
+    console.error(err.toString())
+    return null
+  })
 
 
 export default validateResourceTemplate
