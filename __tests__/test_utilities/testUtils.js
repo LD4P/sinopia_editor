@@ -14,10 +14,10 @@ export const renderWithRedux = (ui, store) => {
   }
 }
 
-export const renderWithReduxAndRouter = (ui, store) => {
+export const renderWithReduxAndRouter = (ui, store, initialEntries) => {
   return {
     ...render(
-      <MemoryRouter>
+      <MemoryRouter initialEntries={initialEntries}>
         <Provider store={store}>{ui}</Provider>
       </MemoryRouter>,
     ),

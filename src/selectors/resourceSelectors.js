@@ -4,6 +4,8 @@ import { generateMD5 } from 'Utilities'
 
 export const rootResource = state => Object.values(state.selectorReducer.resource)[0]
 
+export const rootResourceTemplateId = state => Object.keys(state.selectorReducer.resource)[0]
+
 export const rootResourceId = state => rootResource(state)?.resourceURI
 
 export const findNode = (state, reduxPath) => findObjectAtPath(state.selectorReducer, reduxPath)

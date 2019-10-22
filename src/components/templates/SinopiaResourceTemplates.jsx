@@ -9,7 +9,7 @@ import ResourceTemplateRow from './ResourceTemplateRow'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faSort, faSortUp, faSortDown } from '@fortawesome/free-solid-svg-icons'
 import { newResource } from 'actionCreators/resources'
-import { rootResource } from 'selectors/resourceSelectors'
+import { rootResource as rootResourceSelector, rootResourceTemplateId as rootResourceTemplateIdSelector } from 'selectors/resourceSelectors'
 
 /**
  * This is the list view of all the templates
@@ -42,16 +42,17 @@ const SinopiaResourceTemplates = (props) => {
   }, [resourceTemplateSummaries, sortColumn, sortDirection])
 
   const error = useSelector(state => state.selectorReducer.editor.retrieveResourceTemplateError)
-  const rtRoot = useSelector(state => rootResource(state))
+  const rootResource = useSelector(state => rootResourceSelector(state))
+  const rootResourceTemplateId = useSelector(state => rootResourceTemplateIdSelector(state))
 
   const [navigateEditor, setNavigateEditor] = useState(false)
 
   useEffect(() => {
     // Forces a wait until the root resource has been set in state
-    if (navigateEditor && rtRoot && !error) {
-      props.history.push('/editor')
+    if (navigateEditor && rootResource && rootResourceTemplateId && !error) {
+      props.history.push(`/editor/${rootResourceTemplateId}`)
     }
-  }, [navigateEditor, rtRoot, props.history, error])
+  }, [navigateEditor, rootResource, rootResourceTemplateId, props.history, error])
 
   const topRef = useRef(null)
 

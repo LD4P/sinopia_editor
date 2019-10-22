@@ -1,204 +1,236 @@
 // Copyright 2019 Stanford University see LICENSE for license
 
-import 'isomorphic-fetch'
 import React from 'react'
-import { mount, shallow } from 'enzyme'
-import { MemoryRouter } from 'react-router'
-import { Provider } from 'react-redux'
+import { fireEvent, wait } from '@testing-library/react'
+// eslint-disable-next-line import/no-unresolved
+import {
+  renderWithRedux, createReduxStore, setupModal, renderWithReduxAndRouter,
+} from 'testUtils'
 import App from 'components/App'
-import LoginPanel from 'components/LoginPanel'
-import HomePage from 'components/home/HomePage'
-import Editor from 'components/editor/Editor'
-import Search from 'components/search/Search'
-import CanvasMenu from 'components/menu/CanvasMenu'
-import Footer from 'components/Footer'
-import ImportResourceTemplate from 'components/templates/ImportResourceTemplate'
+import { Router } from 'react-router-dom'
+import { getFixtureResourceTemplate } from '../fixtureLoaderHelper'
+/* eslint import/namespace: 'off' */
+import * as sinopiaServer from 'sinopiaServer'
+import { createMemoryHistory } from 'history'
 
-jest.mock('components/editor/Editor', () => () => 'MockEditor')
-jest.mock('components/templates/ImportResourceTemplate')
+jest.mock('sinopiaServer')
+
+sinopiaServer.getResourceTemplate.mockImplementation(getFixtureResourceTemplate)
+sinopiaServer.listResourcesInGroupContainer.mockResolvedValue({ response: { body: { contains: ['resourceTemplate:bf2:Note'] } } })
+
+const createInitialState = (options = {}) => {
+  const state = {
+    authenticate: {
+    },
+    selectorReducer: {
+      resource: {},
+      entities: {
+        resourceTemplates: {},
+        languages: {
+          loading: false,
+          options: [],
+        },
+        lookups: {},
+        resourceTemplateSummaries: {},
+      },
+      editor: {
+        copyToNewMessage: {},
+      },
+      appVersion: {
+        version: undefined,
+        lastChecked: Date.now(),
+      },
+      search: {
+        results: [],
+        totalResults: 0,
+        query: undefined,
+        authority: undefined,
+        error: undefined,
+        resultsPerPage: 15,
+        startOfRange: 0,
+      },
+    },
+  }
+
+  if (options.authenticated) {
+    state.authenticate.authenticationState = { currentSession: { idToken: {} } }
+  }
+  if (options.hasResource) {
+    state.selectorReducer.resource = {
+      'resourceTemplate:bf2:Note': {
+        'http://www.w3.org/2000/01/rdf-schema#label': {
+          items: {
+            '3Qnc1x-T': {
+              content: 'foo',
+              lang: 'en',
+            },
+          },
+        },
+      },
+    }
+    state.selectorReducer.entities.resourceTemplates['resourceTemplate:bf2:Note'] = {
+      id: 'resourceTemplate:bf2:Note',
+      resourceURI: 'http://id.loc.gov/ontologies/bibframe/Note',
+      resourceLabel: 'Note',
+      propertyTemplates: [
+        {
+          propertyURI: 'http://www.w3.org/2000/01/rdf-schema#label',
+          propertyLabel: 'Note',
+          mandatory: 'false',
+          repeatable: 'false',
+          type: 'literal',
+          resourceTemplates: [],
+          valueConstraint: {
+            valueTemplateRefs: [],
+            useValuesFrom: [],
+            valueDataType: {},
+            editable: 'true',
+            repeatable: 'false',
+            defaults: [],
+          },
+        },
+      ],
+    }
+  }
+  return state
+}
+
+setupModal()
 
 describe('<App />', () => {
-  const mockStoreAppVersion = jest.fn()
-  const mockFetchResourceTemplateSummaries = jest.fn()
-  const wrapper = shallow(<App.WrappedComponent saveAppVersion={mockStoreAppVersion}
-                                                fetchResourceTemplateSummaries={mockFetchResourceTemplateSummaries} />)
+  it('renders', () => {
+    const store = createReduxStore(createInitialState({ authenticated: true }))
+    const { getByText } = renderWithReduxAndRouter((<App />), store)
+    // renders login panel
+    expect(getByText('Sign out')).toBeInTheDocument()
 
-  it('is selectable by id "#app"', () => {
-    expect(wrapper.find('div#app').length).toEqual(1)
+    // renders footer
+    expect(getByText(/Sinopia is a project/)).toBeInTheDocument()
   })
 
-  it('renders the LoginPanel component', () => {
-    expect(wrapper.find(LoginPanel).length).toEqual(1)
+  it('loads languages', async () => {
+    const store = createReduxStore(createInitialState({ authenticated: true }))
+    renderWithReduxAndRouter((<App />), store)
+
+    await wait(() => store.getState().selectorReducer.entities.languages.options.size > 0)
   })
 
-  it('renders the Footer component', () => {
-    expect(wrapper.find(Footer).length).toBe(1)
+  it('sets app version', async () => {
+    const store = createReduxStore(createInitialState({ authenticated: true }))
+    const { getByText } = renderWithReduxAndRouter((<App />), store)
+    fireEvent.click(getByText('Linked Data Editor'))
+
+    expect(getByText(/v\d+\.\d+\.\d+/)).toBeInTheDocument()
   })
 
-  it('calls saveAppVersion on componentDidMount', () => {
-    expect(mockStoreAppVersion).toBeCalled()
+  it('load resource template summaries', async () => {
+    const store = createReduxStore(createInitialState({ authenticated: true }))
+    const { getByText, findByText } = renderWithReduxAndRouter((<App />), store)
+    fireEvent.click(getByText('Linked Data Editor'))
+
+    expect(await findByText('Note')).toBeInTheDocument()
+    expect(getByText('resourceTemplate:bf2:Note')).toBeInTheDocument()
   })
 
-  it('calls fetchResourceTemplateSummaries on componentDidMount', () => {
-    expect(mockFetchResourceTemplateSummaries).toBeCalled()
-  })
-})
+  describe('when user is not authenticated', () => {
+    it('renders homepage for /', () => {
+      const store = createReduxStore(createInitialState())
+      const { getByTestId } = renderWithReduxAndRouter((<App />), store, ['/'])
 
-describe('#routes', () => {
-  // Pattern cribbed/adapted from https://stackoverflow.com/a/54807560
-  const makeStoreFake = state => ({
-    default: () => {
-    },
-    subscribe: () => {
-    },
-    dispatch: () => {
-    },
-    getState: () => ({ ...state }),
-  })
-
-  describe('when the user is not authenticated', () => {
-    const unauthenticatedStoreFake = makeStoreFake({
-      selectorReducer: {
-        appVersion: {
-          version: undefined,
-          lastChecked: Date.now(),
-        },
-        resource: { 'myOrg:myRt': {} },
-        search: { results: [] },
-      },
-      authenticate: {
-        authenticationState: {
-          currentSession: null,
-        },
-      },
+      expect(getByTestId('news-item')).toBeInTheDocument()
     })
 
-    const renderRoutes = path => mount(
-      <Provider store={unauthenticatedStoreFake}>
-        <MemoryRouter initialEntries={[path]}>
-          <App />
-        </MemoryRouter>
-      </Provider>,
-    )
+    it('renders homepage for /search', () => {
+      const store = createReduxStore(createInitialState())
+      const { getByTestId } = renderWithReduxAndRouter((<App />), store, ['/search'])
 
-    it('renders the HomePage component when "/" is visited', () => {
-      const component = renderRoutes('/')
-
-      expect(component.find(HomePage).length).toEqual(1)
+      expect(getByTestId('news-item')).toBeInTheDocument()
     })
 
-    it('renders the HomePage component when "/search" is visited', () => {
-      const component = renderRoutes('/search')
+    it('renders homepage for /<anything>', () => {
+      const store = createReduxStore(createInitialState())
+      const { getByTestId } = renderWithReduxAndRouter((<App />), store, ['/foo'])
 
-      expect(component.find(HomePage).length).toEqual(1)
-    })
-
-    it('renders the HomePage for unknown path', () => {
-      const component = renderRoutes('/blah')
-
-      expect(component.find(HomePage).length).toEqual(1)
-    })
-
-    afterAll(() => {
-      renderRoutes.unmount()
+      expect(getByTestId('news-item')).toBeInTheDocument()
     })
   })
 
-  describe('when the user is authenticated', () => {
-    const authenticatedStoreFake = makeStoreFake({
-      authenticate: {
-        authenticationState: {
-          currentSession: { wouldBe: 'a CognitoSession obj IRL, but only presence is checked ATM' },
-        },
-      },
-      selectorReducer: {
-        appVersion: {
-          version: undefined,
-          lastChecked: Date.now(),
-        },
-        resource: { 'myOrg:myRt': {} },
-        search: { results: [] },
-        editor: {
-          retrieveResourceTemplateError: undefined,
-        },
-      },
+  describe('when user is authenticated and there is no resource', () => {
+    it('renders homepage for /', () => {
+      const store = createReduxStore(createInitialState({ authenticated: true }))
+      const { getByTestId } = renderWithReduxAndRouter((<App />), store, ['/'])
+
+      expect(getByTestId('news-item')).toBeInTheDocument()
     })
 
-    const renderRoutes = path => mount(
-      <Provider store={authenticatedStoreFake}>
-        <MemoryRouter initialEntries={[path]}>
-          <App />
-        </MemoryRouter>
-      </Provider>,
-    )
+    it('creates new resource and renders editor for /editor/<rtId>', async () => {
+      const store = createReduxStore(createInitialState({ authenticated: true }))
+      const { findByText } = renderWithReduxAndRouter((<App />), store, ['/editor/resourceTemplate:bf2:Note'])
 
-    it('renders the ImportResourceTemplate component when "/templates" is visited', () => {
-      const component = renderRoutes('/templates')
-
-      expect(component.find(ImportResourceTemplate).length).toEqual(1)
+      expect(await findByText('Note', { selector: 'h1 > em' })).toBeInTheDocument()
     })
 
-    it('renders a 404 for an unknown path', () => {
-      const component = renderRoutes('/blah')
-
-      expect(component.contains(<h1>404</h1>)).toEqual(true)
+    it('redirects to /templates when for /editor/<rtId> when rtId not found', async () => {
+      const store = createReduxStore(createInitialState({ authenticated: true }))
+      const history = createMemoryHistory()
+      history.push('/editor/resourceTemplate:bf2:Notex')
+      const { getByText } = renderWithRedux((<Router history={history}><App /></Router>), store)
+      await wait(() => expect(history.location.pathname).toEqual('/templates'))
+      expect(getByText(/There was a problem retrieving resourceTemplate:bf2:Notex/)).toBeInTheDocument()
     })
 
-    it('renders the Editor component when "/editor" is visited with resource', () => {
-      const component = renderRoutes('/editor')
+    it('renders templates for /templates', async () => {
+      const store = createReduxStore(createInitialState({ authenticated: true }))
+      const { findByText, getByText } = renderWithReduxAndRouter((<App />), store, ['/templates'])
 
-      expect(component.find(Editor).length).toEqual(1)
+      expect(await findByText('Note')).toBeInTheDocument()
+      expect(getByText('resourceTemplate:bf2:Note')).toBeInTheDocument()
     })
 
-    it('renders the Search component when "/search" is visited', () => {
-      const component = renderRoutes('/search')
+    it('renders search for /search', () => {
+      const store = createReduxStore(createInitialState({ authenticated: true }))
+      const { getByLabelText } = renderWithReduxAndRouter((<App />), store, ['/search'])
 
-      expect(component.find(Search).length).toEqual(1)
+      expect(getByLabelText('Query')).toBeInTheDocument()
     })
 
-    it('renders the Menu component when "/menu" is visited', () => {
-      const component = renderRoutes('/menu')
+    it('renders load for /load', () => {
+      const store = createReduxStore(createInitialState({ authenticated: true }))
+      const { getByText } = renderWithReduxAndRouter((<App />), store, ['/load'])
 
-      expect(component.find(CanvasMenu).length).toEqual(1)
+      expect(getByText('Load RDF into Editor')).toBeInTheDocument()
     })
 
-    afterAll(() => {
-      renderRoutes.unmount()
+    it('renders menu for /menu', async () => {
+      const store = createReduxStore(createInitialState({ authenticated: true }))
+      const { findByText } = renderWithReduxAndRouter((<App />), store, ['/menu'])
+
+      expect(await findByText('Sinopia help site')).toBeInTheDocument()
+    })
+
+    it('404s for /<anything else>', () => {
+      const store = createReduxStore(createInitialState({ authenticated: true }))
+      const { getByText } = renderWithReduxAndRouter((<App />), store, ['/foo'])
+
+      expect(getByText('404')).toBeInTheDocument()
     })
   })
 
-  describe('when the user is authenticated and there is no resource', () => {
-    const authenticatedStoreFake = makeStoreFake({
-      authenticate: {
-        authenticationState: {
-          currentSession: { wouldBe: 'a CognitoSession obj IRL, but only presence is checked ATM' },
-        },
-      },
-      selectorReducer: {
-        appVersion: {
-          version: undefined,
-          lastChecked: Date.now(),
-        },
-        resource: {},
-      },
+  describe('when user is authenticated and there is a resource', () => {
+    it('renders resource for /editor', () => {
+      const store = createReduxStore(createInitialState({ authenticated: true, hasResource: true }))
+      const { getByText } = renderWithReduxAndRouter((<App />), store, ['/editor'])
+
+      expect(getByText('Note', { selector: 'h1 > em' })).toBeInTheDocument()
+      expect(getByText('foo')).toBeInTheDocument()
     })
+    // This should not actually occur in the app.
+    it('renders resource for /editor/<rtId>', () => {
+      const store = createReduxStore(createInitialState({ authenticated: true, hasResource: true }))
+      const { getByText } = renderWithReduxAndRouter((<App />), store, ['/editor/resourceTemplate:bf2:Note'])
 
-    const renderRoutes = path => mount(
-      <Provider store={authenticatedStoreFake}>
-        <MemoryRouter initialEntries={[path]}>
-          <App />
-        </MemoryRouter>
-      </Provider>,
-    )
-
-    it('redirects to /templates when "/editor" is visited without resource', () => {
-      const component = renderRoutes('/editor')
-
-      expect(component.find(ImportResourceTemplate).length).toEqual(1)
-    })
-
-    afterAll(() => {
-      renderRoutes.unmount()
+      expect(getByText('Note', { selector: 'h1 > em' })).toBeInTheDocument()
+      expect(getByText('foo')).toBeInTheDocument()
     })
   })
 })

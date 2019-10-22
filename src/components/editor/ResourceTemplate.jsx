@@ -5,8 +5,6 @@ import { connect } from 'react-redux'
 import PropTypes from 'prop-types'
 import ResourceTemplateForm from './ResourceTemplateForm'
 import { getResourceTemplate } from 'selectors/resourceSelectors'
-import { bindActionCreators } from 'redux'
-import loadLanguages from 'actionCreators/languages'
 import CopyToNewMessage from './CopyToNewMessage'
 import ResourceURIMessage from './ResourceURIMessage'
 import SaveAlert from './SaveAlert'
@@ -17,11 +15,6 @@ import _ from 'lodash'
  * This is the root component of the editor on the resource edit page
  */
 class ResourceTemplate extends Component {
-  componentDidMount() {
-    // We load the languages once here so that each literal doesn't try to hit the LOC endpoint
-    this.props.loadLanguages()
-  }
-
   render() {
     if (this.props.error) {
       return (<div className="alert alert-warning">{ this.props.error }</div>)
@@ -55,7 +48,6 @@ class ResourceTemplate extends Component {
 ResourceTemplate.propTypes = {
   resourceTemplate: PropTypes.object,
   error: PropTypes.string,
-  loadLanguages: PropTypes.func,
   unusedRDF: PropTypes.string,
 }
 
@@ -72,6 +64,4 @@ const mapStateToProps = (state) => {
   }
 }
 
-const mapDispatchToProps = dispatch => bindActionCreators({ loadLanguages }, dispatch)
-
-export default connect(mapStateToProps, mapDispatchToProps)(ResourceTemplate)
+export default connect(mapStateToProps)(ResourceTemplate)
