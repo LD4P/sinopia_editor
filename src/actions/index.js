@@ -1,5 +1,5 @@
 // Copyright 2019 Stanford University see LICENSE for license
-/* eslint max-params: ["warn", 6] */
+/* eslint max-params: ["warn", 8] */
 
 export const appendResource = (reduxPath, resource, resourceTemplates) => ({
   type: 'APPEND_RESOURCE',
@@ -173,7 +173,7 @@ export const setSaveResourceTemplateError = (resourceTemplateId, reason) => ({
   payload: { resourceTemplateId, reason },
 })
 
-export const setSearchResults = (uri, searchResults, totalResults, query, startOfRange, error) => ({
+export const setSearchResults = (uri, searchResults, totalResults, query, startOfRange, sortField, sortOrder, error) => ({
   type: 'SET_SEARCH_RESULTS',
   payload: {
     uri,
@@ -181,6 +181,8 @@ export const setSearchResults = (uri, searchResults, totalResults, query, startO
     totalResults,
     query,
     startOfRange,
+    sortField,
+    sortOrder,
     error,
   },
 })

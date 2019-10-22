@@ -14,6 +14,8 @@ export const setSearchResults = (state, action) => {
   newState.search.totalResults = action.payload.totalResults
   newState.search.query = action.payload.query
   newState.search.startOfRange = action.payload.startOfRange
+  newState.search.sortField = action.payload.sortField
+  newState.search.sortOrder = action.payload.sortOrder
   newState.search.error = action.payload.error
 
   return newState
@@ -32,6 +34,8 @@ export const clearSearchResults = (state) => {
   newState.search.totalResults = 0
   newState.search.query = undefined
   newState.search.startOfRange = 0
+  newState.search.sortField = undefined
+  newState.search.sortOrder = undefined
   newState.search.error = undefined
 
   // Also clear retrieve resource error

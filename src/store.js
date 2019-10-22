@@ -49,6 +49,8 @@ const initialState = {
       error: undefined,
       resultsPerPage: Config.searchResultsPerPage,
       startOfRange: 0, // 0 based
+      sortField: undefined,
+      sortOrder: undefined,
     },
   },
 }

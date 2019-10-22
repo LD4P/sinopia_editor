@@ -2,8 +2,8 @@
 import Config from './Config'
 
 // Not using ES client because not intended for use in browser.
-
-export const getSearchResults = async (query, queryFrom = 0, size = Config.searchResultsPerPage) => {
+// eslint-disable-next-line max-params
+export const getSearchResults = async (query, queryFrom = 0, size = Config.searchResultsPerPage, sortField, sortOrder) => {
   const body = {
     query: {
       simple_query_string: {
@@ -14,6 +14,7 @@ export const getSearchResults = async (query, queryFrom = 0, size = Config.searc
     },
     from: queryFrom,
     size,
+    sort: sort(sortField, sortOrder),
   }
   const url = `${Config.searchHost}${Config.searchPath}`
 
@@ -40,6 +41,14 @@ export const getSearchResults = async (query, queryFrom = 0, size = Config.searc
       results: [],
       error: err.toString(),
     }))
+}
+
+const sort = (sortField, sortOrder) => {
+  if (sortField === undefined) {
+    return ['_score']
+  }
+
+  return [{ [sortField]: sortOrder || 'asc' }]
 }
 
 // Adding an additional export to avoid a default export.

@@ -23,6 +23,8 @@ describe('<Search />', () => {
           totalResults: 0,
           query: undefined,
           resultsPerPage: 10,
+          sortField: undefined,
+          sortOrder: undefined,
         },
         appVersion: {
           version: '1.0.2',
@@ -134,7 +136,7 @@ describe('<Search />', () => {
     fireEvent.click(container.querySelector('button[type="submit"]'))
 
     // Called once
-    expect(mockGetSearchResults).toBeCalledWith('foo', 0, 10)
+    expect(mockGetSearchResults).toBeCalledWith('foo', 0, 10, undefined, undefined)
 
     // Result
     expect(await findByText('Your List of Bibliographic Metadata Stored in Sinopia')).toBeInTheDocument()
@@ -161,7 +163,7 @@ describe('<Search />', () => {
     fireEvent.keyPress(getByLabelText('Query'), { key: 'Enter', code: 13, charCode: 13 })
 
     // Called once
-    expect(mockGetSearchResults).toBeCalledWith('foo', 0, 10)
+    expect(mockGetSearchResults).toBeCalledWith('foo', 0, 10, undefined, undefined)
   })
 
   it('ignores when query is blank', () => {

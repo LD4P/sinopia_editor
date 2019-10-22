@@ -3,6 +3,7 @@
 import React from 'react'
 import { shallow } from 'enzyme'
 import SinopiaSearchResults from 'components/search/SinopiaSearchResults'
+import SinopiaSort from 'components/search/SinopiaSort'
 
 describe('<SinopiaSearchResults />', () => {
   describe('when there are no search results', () => {
@@ -31,6 +32,10 @@ describe('<SinopiaSearchResults />', () => {
     it('it contains the main div', () => {
       expect(wrapper.find('div#search-results').length).toBe(1)
       expect(wrapper.find('table#search-results-list').length).toBe(1)
+    })
+
+    it('has a sort', () => {
+      expect(wrapper.find(SinopiaSort).length).toBe(1)
     })
   })
 })
