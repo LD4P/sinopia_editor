@@ -1,6 +1,8 @@
 // Copyright 2019 Stanford University see LICENSE for license
 
-import React, { useEffect, useState, useMemo } from 'react'
+import React, {
+  useEffect, useState, useMemo, useRef,
+} from 'react'
 import { useSelector, useDispatch } from 'react-redux'
 import PropTypes from 'prop-types'
 import ResourceTemplateRow from './ResourceTemplateRow'
@@ -51,9 +53,14 @@ const SinopiaResourceTemplates = (props) => {
     }
   }, [navigateEditor, rtRoot, props.history, error])
 
+  const topRef = useRef(null)
+
   const handleClick = (resourceTemplateId, event) => {
     event.preventDefault()
-    dispatch(newResource(resourceTemplateId)).then(result => setNavigateEditor(result))
+    dispatch(newResource(resourceTemplateId)).then((result) => {
+      setNavigateEditor(result)
+      if (!result) window.scrollTo(0, topRef.current.offsetTop)
+    })
   }
 
   const toggleSortDirection = () => {
@@ -69,7 +76,6 @@ const SinopiaResourceTemplates = (props) => {
     }
     setSortColumn(column)
   }
-
   const rows = sortedResourceTemplateSummaries.map(row => <ResourceTemplateRow row={row} key={row.id} navigate={handleClick}/>)
 
   const errorMessage = error === undefined
@@ -105,7 +111,7 @@ const SinopiaResourceTemplates = (props) => {
   }
 
   return (
-    <div>
+    <div ref={topRef}>
       { errorMessage }
       <h4>Available Resource Templates in Sinopia</h4>
       <table className="table table-bordered"
