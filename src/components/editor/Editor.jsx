@@ -57,7 +57,6 @@ const Editor = (props) => {
     event.preventDefault()
     dispatch(setCurrentResource(resourceKey))
   }
-  console.log(resourceTemplateNavItems)
 
   return (
     <div id="editor">
