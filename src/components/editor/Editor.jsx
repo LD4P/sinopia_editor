@@ -19,7 +19,8 @@ import { Prompt } from 'react-router'
 const Editor = (props) => {
   const [isPrompt, setPrompt] = useState(false)
   const saveError = useSelector(state => state.selectorReducer.editor.saveResourceError)
-  const resourceHasChanges = useSelector(state => resourceHasChangesSinceLastSave(state))
+  const resourceKey = useSelector(state => state.selectorReducer.editor.currentResource)
+  const resourceHasChanges = useSelector(state => resourceHasChangesSinceLastSave(state, resourceKey))
 
   useEffect(() => {
     setPrompt(resourceHasChanges && !props.isMenuOpened)

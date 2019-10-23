@@ -12,6 +12,7 @@ const UpdateResourceModal = (props) => {
   const dispatch = useDispatch()
 
   const show = useSelector(state => state.selectorReducer.editor.modal === 'UpdateResourceModal')
+  const resourceKey = useSelector(state => state.selectorReducer.editor.currentResource)
 
   const [group, setGroup] = useState('')
   const [resourceTemplates, setResourceTemplates] = useState([])
@@ -39,7 +40,7 @@ const UpdateResourceModal = (props) => {
   }
 
   const handleOverwriteClick = (event) => {
-    props.update(resourceTemplates, group)
+    props.update(resourceKey, resourceTemplates, group)
     dispatch(hideModal())
     event.preventDefault()
   }

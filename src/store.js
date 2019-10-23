@@ -13,8 +13,9 @@ const initialState = {
       lastChecked: Date.now(),
     },
     editor: { // The state of the editor
+      currentResource: undefined,
       displayValidations: false,
-      errors: [],
+      errors: {}, //Arrays, by resource key,
       modal: undefined, // Name of modal to show. Should only be one at a time.
       resourceURIMessage: {
         show: false,
@@ -24,14 +25,17 @@ const initialState = {
         show: false,
       },
       copyToNewMessage: {},
-      expanded: { // Should this node display as expanded in the editor (redux path organized)
+      expanded: { // Should this node display as expanded in the editor (resource key > redux path organized)
       },
-      resourceValidationErrors: { // Errors from validating resource (redux path organized)
+      resourceValidationErrors: { // Errors from validating resource (resource key > redux path organized)
       },
       retrieveResourceError: undefined,
       retrieveResourceTemplateError: undefined,
       saveResourceTemplateError: undefined,
       saveResourceError: undefined,
+      lastSave: {}, // By resource key
+      lastSaveChecksum: {}, // By resource key
+      unusedRDF: {} // By resource key
     },
     entities: { // The stuff we've retrieved from the server
       resourceTemplates: {},
@@ -40,7 +44,7 @@ const initialState = {
       qa: { loading: false, options: [] },
       lookups: {},
     },
-    resource: {}, // The state we're displaying in the editor
+    resources: {}, // The state we're displaying in the editor
     search: {
       results: [],
       totalResults: 0,

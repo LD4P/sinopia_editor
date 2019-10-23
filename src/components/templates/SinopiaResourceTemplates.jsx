@@ -40,7 +40,8 @@ const SinopiaResourceTemplates = (props) => {
   }, [resourceTemplateSummaries, sortColumn, sortDirection])
 
   const error = useSelector(state => state.selectorReducer.editor.retrieveResourceTemplateError)
-  const rtRoot = useSelector(state => rootResource(state))
+  const resourceKey = useSelector(state => state.selectorReducer.editor.currentResource)
+  const rtRoot = useSelector(state => rootResource(state, resourceKey))
 
   const [navigateEditor, setNavigateEditor] = useState(false)
 

@@ -6,13 +6,14 @@ import { findObjectAtPath } from 'selectors/resourceSelectors'
 /**
  * Validates the resource and adds errors to state
  * @param {Object} state the previous redux state
+ * @param {string} resourceKey to validate
  * @return {Object} the next redux state
  */
-export const validate = (state) => {
+export const validate = (state, resourceKey) => {
   const newState = { ...state }
-  const result = new Validator(newState).validate()
-  newState.editor.resourceValidationErrors = result[0]
-  newState.editor.errors = result[1]
+  const result = new Validator(newState, resourceKey).validate()
+  newState.editor.resourceValidationErrors[resourceKey] = result[0]
+  newState.editor.errors[resourceKey] = result[1]
   return newState
 }
 
@@ -23,8 +24,8 @@ export const validate = (state) => {
  */
 export const showGroupChooser = (state) => {
   const newState = { ...state }
-
-  if (validate(state).editor.errors.length === 0) {
+  const resourceKey = state.editor.currentResource
+  if (validate(state, resourceKey).editor.errors[resourceKey].length === 0) {
     // Show the window to select a group
     newState.editor.modal = 'GroupChoiceModal'
   } else {
@@ -168,7 +169,7 @@ export const setItemsOrSelections = (state, action) => {
     // return the next object in the tree with the key, which is the parent object id
     return obj[key]
   }, newState)
-  return validate(newState)
+  return validate(newState, state.editor.currentResource)
 }
 
 export const setMyItemsLang = (state, action) => {
@@ -184,8 +185,8 @@ export const setBaseURL = (state, action) => {
   const newState = { ...state }
 
   // Is there ever more than one base node?
-  Object.values(newState.resource).forEach((value) => {
-    value.resourceURI = action.payload
+  Object.values(newState.resources[action.payload.resourceKey]).forEach((value) => {
+    value.resourceURI = action.payload.resourceURI
   })
   return newState
 }
@@ -197,7 +198,7 @@ export const removeMyItem = (state, action) => {
   const node = findObjectAtPath(newState, reduxPath.slice(0, -1))
   delete node[reduxPath.slice(-1)[0]]
 
-  return validate(newState)
+  return validate(newState, state.editor.currentResource)
 }
 
 export const showModal = (state, action) => {

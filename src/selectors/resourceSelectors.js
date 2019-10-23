@@ -2,9 +2,9 @@
 import GraphBuilder from 'GraphBuilder'
 import { generateMD5 } from 'Utilities'
 
-export const rootResource = state => Object.values(state.selectorReducer.resource)[0]
+export const rootResource = (state, resourceKey) => state.selectorReducer.resources[resourceKey] ? Object.values(state.selectorReducer.resources[resourceKey])[0] : undefined
 
-export const rootResourceId = state => rootResource(state)?.resourceURI
+export const rootResourceId = (state, resourceKey) => rootResource(state, resourceKey)?.resourceURI
 
 export const findNode = (state, reduxPath) => findObjectAtPath(state.selectorReducer, reduxPath)
 
@@ -51,12 +51,12 @@ export const getPropertyTemplate = (state, resourceTemplateId, propertyURI) => {
   return resourceTemplate.propertyTemplates.find(propertyTemplate => propertyTemplate.propertyURI === propertyURI)
 }
 
-export const resourceHasChangesSinceLastSave = (state) => {
-  const lastSaveChecksum = state.selectorReducer?.editor?.lastSaveChecksum
+export const resourceHasChangesSinceLastSave = (state, resourceKey) => {
+  const lastSaveChecksum = state.selectorReducer?.editor?.lastSaveChecksum[resourceKey]
   if (lastSaveChecksum === undefined) {
     return true
   }
-  const rdf = new GraphBuilder(state.selectorReducer).graph.toCanonical()
+  const rdf = new GraphBuilder(state.selectorReducer, resourceKey).graph.toCanonical()
   const resourceChecksum = generateMD5(rdf)
   return lastSaveChecksum !== resourceChecksum
 }

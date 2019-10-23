@@ -23,7 +23,7 @@ const GroupChoiceModal = (props) => {
   }
 
   const saveAndClose = (event) => {
-    props.publishResource(props.currentUser, selectedValue)
+    props.publishResource(props.resourceKey, props.currentUser, selectedValue)
     props.hideModal()
     event.preventDefault()
   }
@@ -97,11 +97,13 @@ GroupChoiceModal.propTypes = {
   currentUser: PropTypes.object,
   publishResource: PropTypes.func,
   hideModal: PropTypes.func,
+  resourceKey: PropTypes.string,
 }
 
 const mapStateToProps = state => ({
   show: state.selectorReducer.editor.modal === 'GroupChoiceModal',
   currentUser: getCurrentUser(state),
+  resourceKey: state.selectorReducer.editor.currentResource,
 })
 
 const mapDispatchToProps = dispatch => bindActionCreators({ publishResource, hideModal }, dispatch)

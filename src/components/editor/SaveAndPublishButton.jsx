@@ -16,15 +16,16 @@ const SaveAndPublishButton = (props) => {
   const dispatch = useDispatch()
 
   const currentUser = useSelector(state => getCurrentUser(state))
-  const update = () => dispatch(updateCreator(currentUser))
+  const resourceKey = useSelector(state => state.selectorReducer.editor.currentResource)
+  const update = () => dispatch(updateCreator(resourceKey, currentUser))
 
   const showGroupChooser = () => dispatch(showGroupChooserAction())
   const showValidationErrors = () => dispatch(showValidationErrorsAction())
   const hideValidationErrors = () => dispatch(hideValidationErrorsAction())
 
-  const resourceHasChanged = useSelector(state => resourceHasChangesSinceLastSave(state))
-  const isSaved = useSelector(state => !!rootResourceId(state))
-  const hasValidationErrors = useSelector(state => state.selectorReducer.editor.errors?.length > 0)
+  const resourceHasChanged = useSelector(state => resourceHasChangesSinceLastSave(state, resourceKey))
+  const isSaved = useSelector(state => !!rootResourceId(state, resourceKey))
+  const hasValidationErrors = useSelector(state => state.selectorReducer.editor.errors[resourceKey]?.length > 0)
   const validationErrorsAreShowing = useSelector(state => state.selectorReducer.editor.displayValidations)
   const [isDisabled, setIsDisabled] = useState(true)
 

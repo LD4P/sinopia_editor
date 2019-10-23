@@ -13,10 +13,13 @@ const CopyToNewButton = (props) => {
   const dispatch = useDispatch()
   const resourceId = useSelector(state => rootResourceId(state))
   const currentUser = useSelector(state => getCurrentUser(state))
+  const resourceKey = useSelector(state => state.selectorReducer.editor.currentResource)
 
   const handleClick = () => {
+    // TODO: This needs the resourceKey
     dispatch(copyNewResource(
       {
+        resourceKey,
         currentUser,
         uri: resourceId,
       },

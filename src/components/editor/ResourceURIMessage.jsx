@@ -6,7 +6,8 @@ import { rootResourceId } from 'selectors/resourceSelectors'
 
 // Renders the resource URI message for saved resource
 const ResourceURIMessage = () => {
-  const uri = useSelector(state => rootResourceId(state))
+  const resourceKey = useSelector(state => state.selectorReducer.editor.currentResource)
+  const uri = useSelector(state => rootResourceId(state, resourceKey))
 
   if (!uri) {
     return null

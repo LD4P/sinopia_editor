@@ -23,9 +23,10 @@ export const setResource = (state, action) => {
   const newState = { ...state }
   newState.editor.displayValidations = false
   newState.editor.copyToNewMessage = {}
-  newState.resource = action.payload.resource
+  newState.resources[action.payload.resourceKey] = action.payload.resource
+  newState.editor.currentResource = action.payload.resourceKey
   newState.entities.resourceTemplates = { ...newState.entities.resourceTemplates, ...action.payload.resourceTemplates }
-  return validate(newState)
+  return validate(newState, action.payload.resourceKey)
 }
 
 export const updateProperty = (state, action) => {
@@ -41,7 +42,7 @@ export const updateProperty = (state, action) => {
 
   newState.entities.resourceTemplates = { ...newState.entities.resourceTemplates, ...action.payload.resourceTemplates }
 
-  return validate(newState)
+  return validate(newState, newState.editor.currentResource)
 }
 
 export const appendResource = (state, action) => {
@@ -57,7 +58,7 @@ export const appendResource = (state, action) => {
 
   newState.entities.resourceTemplates = { ...newState.entities.resourceTemplates, ...action.payload.resourceTemplates }
 
-  return validate(newState)
+  return validate(newState, newState.editor.currentResource)
 }
 
 export const removeResource = (state, action) => {
@@ -67,7 +68,7 @@ export const removeResource = (state, action) => {
   const parentReduxPath = reduxPath.slice(0, reduxPath.length - 1)
   const parentPropertyNode = findObjectAtPath(newState, parentReduxPath)
   delete parentPropertyNode[key]
-  return validate(newState)
+  return validate(newState, newState.editor.currentResource)
 }
 
 export const setSaveResourceError = (state, action) => {
@@ -186,23 +187,29 @@ export const toggleCollapse = (state, action) => {
 
 export const saveResourceFinished = (state, action) => {
   const newState = { ...state }
-  newState.editor.lastSave = Date.now()
-  newState.editor.lastSaveChecksum = action.payload
+  newState.editor.lastSave[action.payload.resourceKey] = Date.now()
+  newState.editor.lastSaveChecksum[action.payload.resourceKey] = action.payload.checksum
 
   return newState
 }
 
 export const setLastSaveChecksum = (state, action) => {
   const newState = { ...state }
-  newState.editor.lastSaveChecksum = action.payload
+  newState.editor.lastSaveChecksum[action.payload.resourceKey] = action.payload.checksum
 
   return newState
 }
 
 export const setUnusedRDF = (state, action) => {
   const newState = { ...state }
-  newState.editor.unusedRDF = action.payload
+  newState.editor.unusedRDF[action.payload.resourceKey] = action.payload.rdf
 
+  return newState
+}
+
+export const setCurrentResource = (state, action) => {
+  const newState = { ...state }
+  newState.editor.currentResource = action.payload
   return newState
 }
 
@@ -245,6 +252,7 @@ const handlers = {
   SAVE_RESOURCE_TEMPLATE_ERROR: setSaveResourceTemplateError,
   SAVE_RESOURCE_TEMPLATE_STARTED: clearSaveResourceTemplateError,
   SET_BASE_URL: setBaseURL,
+  SET_CURRENT_RESOURCE: setCurrentResource,
   SET_LAST_SAVE_CHECKSUM: setLastSaveChecksum,
   SET_SEARCH_RESULTS: setSearchResults,
   SET_UNUSED_RDF: setUnusedRDF,

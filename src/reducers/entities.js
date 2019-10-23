@@ -25,14 +25,15 @@ export const clearResourceTemplates = (state) => {
 export const copyResourceToEditor = (state, action) => {
   const newState = { ...state }
   const uri = action.uri
+  const resourceKey = action.resourceKey
 
   if (uri !== undefined) {
     // TODO: For incoming search
   }
   // Removes URI if it exists, feels like this could be cleaner
-  Object.keys(newState.resource).forEach((resource) => {
-    if ('resourceURI' in newState.resource[resource]) {
-      delete newState.resource[resource].resourceURI
+  Object.keys(newState.resources[resourceKey]).forEach((resource) => {
+    if ('resourceURI' in newState.resources[resourceKey][resource]) {
+      delete newState.resources[resourceKey][resource].resourceURI
     }
   })
   return newState

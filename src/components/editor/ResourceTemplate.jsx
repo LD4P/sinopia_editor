@@ -45,7 +45,7 @@ class ResourceTemplate extends Component {
               <RDFDisplay rdf={this.props.unusedRDF} />
             </div>
           }
-          <ResourceTemplateForm reduxPath = {['resource', this.props.resourceTemplate.id]} />
+          <ResourceTemplateForm reduxPath = {['resources', this.props.resourceKey, this.props.resourceTemplate.id]} />
         </div>
       </div>
     )
@@ -60,12 +60,14 @@ ResourceTemplate.propTypes = {
 }
 
 const mapStateToProps = (state) => {
-  const resourceTemplateId = _.first(Object.keys(state.selectorReducer.resource))
+  const resourceKey = state.selectorReducer.editor.currentResource
+  const resourceTemplateId = _.first(Object.keys(state.selectorReducer.resources[resourceKey]))
 
   const resourceTemplate = getResourceTemplate(state, resourceTemplateId)
   const error = state.selectorReducer.editor.retrieveResourceTemplateError
-  const unusedRDF = state.selectorReducer.editor.unusedRDF
+  const unusedRDF = state.selectorReducer.editor.unusedRDF[resourceKey]
   return {
+    resourceKey,
     resourceTemplate,
     error,
     unusedRDF,

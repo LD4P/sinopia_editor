@@ -22,6 +22,7 @@ import { bindActionCreators } from 'redux'
 import { connect } from 'react-redux'
 import { version } from '../../package.json'
 import { fetchResourceTemplateSummaries } from 'actionCreators/resourceTemplates'
+import { rootResource } from 'selectors/resourceSelectors'
 
 import _ from 'lodash'
 
@@ -79,7 +80,8 @@ App.propTypes = {
 }
 
 const mapStateToProps = (state) => {
-  const hasResource = !_.isEmpty(state?.selectorReducer?.resource)
+  const rtRoot = rootResource(state, state.selectorReducer.editor.currentResource)
+  const hasResource = rtRoot !== undefined ? true : false
   return {
     hasResource,
     currentSession: state.authenticate.authenticationState ? state.authenticate.authenticationState.currentSession : null,

@@ -59,10 +59,9 @@ RDFModal.propTypes = {
   show: PropTypes.bool,
   rdf: PropTypes.func,
 }
-
 const mapStateToProps = state => ({
   show: state.selectorReducer.editor.modal === 'RDFModal',
-  rdf: () => new GraphBuilder(state.selectorReducer).graph.toCanonical(),
+  rdf: () => new GraphBuilder(state.selectorReducer, state.selectorReducer.editor.currentResource).graph.toCanonical(),
 })
 
 export default connect(mapStateToProps, null)(RDFModal)

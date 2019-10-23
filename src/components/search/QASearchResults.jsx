@@ -18,7 +18,8 @@ const QASearchResults = (props) => {
 
   const searchResults = useSelector(state => state.selectorReducer.search.results)
   const searchUri = useSelector(state => state.selectorReducer.search.uri)
-  const rootResource = useSelector(state => rootResourceSelector(state))
+  const resourceKey = useSelector(state => state.selectorReducer.editor.currentResource)
+  const rootResource = useSelector(state => rootResourceSelector(state, resourceKey))
 
   const [error, setError] = useState(null)
   const [resourceURI, setResourceURI] = useState(null)

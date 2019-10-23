@@ -6,9 +6,9 @@ export const appendResource = (reduxPath, resource, resourceTemplates) => ({
   payload: { reduxPath, resource, resourceTemplates },
 })
 
-export const assignBaseURL = item => ({
+export const assignBaseURL = (resourceKey, resourceURI) => ({
   type: 'SET_BASE_URL',
-  payload: item,
+  payload: {resourceKey, resourceURI},
 })
 
 export const authenticationFailure = authenticationResult => ({
@@ -120,9 +120,9 @@ export const saveAppVersion = version => ({
   payload: version,
 })
 
-export const saveResourceFinished = checksum => ({
+export const saveResourceFinished = (resourceKey, checksum) => ({
   type: 'SAVE_RESOURCE_FINISHED',
-  payload: checksum,
+  payload: {resourceKey, checksum},
 })
 
 export const saveResourceStarted = () => ({
@@ -133,9 +133,14 @@ export const saveResourceTemplateStarted = () => ({
   type: 'SAVE_RESOURCE_TEMPLATE_STARTED',
 })
 
-export const setLastSaveChecksum = checksum => ({
+export const setCurrentResource = resourceKey => ({
+  type: 'SET_CURRENT_RESOURCE',
+  payload: resourceKey,
+})
+
+export const setLastSaveChecksum = (resourceKey, checksum) => ({
   type: 'SET_LAST_SAVE_CHECKSUM',
-  payload: checksum,
+  payload: {resourceKey, checksum},
 })
 
 export const setRetrieveResourceError = (uri, reason) => ({
@@ -148,9 +153,9 @@ export const setRetrieveResourceTemplateError = (resourceTemplateId, reason) => 
   payload: { resourceTemplateId, reason },
 })
 
-export const setResource = (resource, resourceTemplates) => ({
+export const setResource = (resourceKey, resource, resourceTemplates) => ({
   type: 'RESOURCE_LOADED',
-  payload: { resource, resourceTemplates },
+  payload: { resourceKey, resource, resourceTemplates },
 })
 
 export const setResourceTemplate = resourceTemplate => ({
@@ -187,9 +192,9 @@ export const setSearchResults = (uri, searchResults, totalResults, query, startO
   },
 })
 
-export const setUnusedRDF = rdf => ({
+export const setUnusedRDF = (resourceKey, rdf) => ({
   type: 'SET_UNUSED_RDF',
-  payload: rdf,
+  payload: {resourceKey, rdf},
 })
 
 export const showCopyNewMessage = showInfo => ({
