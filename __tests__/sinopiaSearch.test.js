@@ -78,7 +78,7 @@ describe('getSearchResults', () => {
     const body = {
       query: {
         simple_query_string: {
-          fields: ['title', 'subtitle', 'uri'],
+          fields: ['title^3', 'subtitle^2', 'uri^3', 'text'],
           default_operator: 'AND',
           query: 'foo',
         },
@@ -96,7 +96,7 @@ describe('getSearchResults', () => {
     const body = {
       query: {
         simple_query_string: {
-          fields: ['title', 'subtitle', 'uri'],
+          fields: ['title^3', 'subtitle^2', 'uri^3', 'text'],
           default_operator: 'AND',
           query: 'foo',
         },
