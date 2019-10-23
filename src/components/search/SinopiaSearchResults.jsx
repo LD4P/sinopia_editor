@@ -10,7 +10,6 @@ import { getCurrentUser } from 'authSelectors'
 import { copyNewResource } from 'actions/index'
 import { retrieveResource } from 'actionCreators/resources'
 import { rootResource } from 'selectors/resourceSelectors'
-import CopyToNewButton from 'components/editor/CopyToNewButton'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faCopy, faEdit } from '@fortawesome/free-solid-svg-icons'
 import Alert from '../Alert'
@@ -46,14 +45,18 @@ const SinopiaSearchResults = (props) => {
   })
 
   // Generates an HTML row
-
+  // TODO: Turn this function into a functional component
   const generateRows = () => {
     const rows = []
     props.searchResults.forEach((row, _index) => {
       const link = `${Config.sinopiaServerBase}/${row.uri}`
       rows.push(<tr key={_index}>
         <td>{ row.label }</td>
-        <td></td>
+        <td>
+          <ul className="list-unstyled">
+            { row.type?.map(type => <li key={type}>{type}</li>) }
+          </ul>
+        </td>
         <td>{ groupName(row.uri) }</td>
         <td>{ row.modified } </td>
         <td>
@@ -121,6 +124,7 @@ SinopiaSearchResults.propTypes = {
   searchResults: PropTypes.array,
   retrieveResource: PropTypes.func,
   currentUser: PropTypes.object,
+  copyNewResource: PropTypes.func,
   history: PropTypes.object,
   rootResource: PropTypes.object,
   error: PropTypes.string,

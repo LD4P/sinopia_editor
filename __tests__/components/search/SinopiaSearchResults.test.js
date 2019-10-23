@@ -3,7 +3,6 @@
 import React from 'react'
 import { renderWithRedux, createReduxStore } from 'testUtils'
 import SinopiaSearchResults from 'components/search/SinopiaSearchResults'
-import SinopiaSort from 'components/search/SinopiaSort'
 
 describe('<SinopiaSearchResults />', () => {
   const state = {
@@ -37,7 +36,10 @@ describe('<SinopiaSearchResults />', () => {
     it('it contains the main div', () => {
       state.selectorReducer.search.results.push({
         uri: 'some/stanford/path',
+        type: ['http://schema.org/Thing'],
         label: 'An item title',
+        modified: '2019-10-23T22:42:57.623Z',
+        created: '2019-10-23T22:42:57.623Z',
       })
       const store = createReduxStore(state)
       const { queryByText, getByText, container } = renderWithRedux(
@@ -52,14 +54,14 @@ describe('<SinopiaSearchResults />', () => {
       expect(queryByText('Type')).toBeInTheDocument()
       expect(queryByText('Institution')).toBeInTheDocument()
       expect(getByText('Modified', 'th')).toBeInTheDocument()
+      // It has a sort button
+      expect(getByText('Sort by')).toBeInTheDocument()
 
       // First row of search results
       expect(queryByText('An item title')).toBeInTheDocument()
+      expect(queryByText('2019-10-23T22:42:57.623Z')).toBeInTheDocument()
+      expect(queryByText('http://schema.org/Thing')).toBeInTheDocument()
       expect(queryByText('Stanford University')).toBeInTheDocument()
-    })
-
-    it('has a sort', () => {
-      expect(wrapper.find(SinopiaSort).length).toBe(1)
     })
   })
 })
