@@ -29,7 +29,7 @@ describe('End-to-end test', () => {
     cy.url().should('include', '/templates')
   })
 
-  it('Uploads a resource template', () => {
+  it('Uploads a profile template', () => {
     // Need to determine if should upload a resource template.
     // Both the resource template list and the notification that there are no loaded resource templates
     // have the same id. Waiting for that element to be present allows this test to be deterministic,
