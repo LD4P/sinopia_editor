@@ -1,7 +1,7 @@
 // Copyright 2019 Stanford University see LICENSE for license
 
 import React, { useEffect, useState } from 'react'
-import { useSelector } from 'react-redux'
+import { useSelector, useDispatch } from 'react-redux'
 import PropTypes from 'prop-types'
 import ResourceTemplate from './ResourceTemplate'
 import Header from '../Header'
@@ -15,12 +15,15 @@ import AuthenticationMessage from './AuthenticationMessage'
 import Alert from '../Alert'
 import { resourceHasChangesSinceLastSave } from 'selectors/resourceSelectors'
 import { Prompt } from 'react-router'
+import { setCurrentResource } from 'actions/index'
 
 const Editor = (props) => {
   const [isPrompt, setPrompt] = useState(false)
   const saveError = useSelector(state => state.selectorReducer.editor.saveResourceError)
   const resourceKey = useSelector(state => state.selectorReducer.editor.currentResource)
   const resourceHasChanges = useSelector(state => resourceHasChangesSinceLastSave(state, resourceKey))
+  const dispatch = useDispatch()
+
 
   useEffect(() => {
     setPrompt(resourceHasChanges && !props.isMenuOpened)
@@ -32,6 +35,29 @@ const Editor = (props) => {
     setPrompt(false)
     props.triggerHandleOffsetMenu()
   }
+
+  const resourceKeys = useSelector(state => Object.keys(state.selectorReducer.resources))
+  const currentResourceKey = useSelector(state =>state.selectorReducer.editor.currentResource)
+  const createResourceTemplateNavItem = (resourceKey, active) => {
+    const classes = ['nav-link']
+    if (active) classes.push('active')
+    return (
+      <li className="nav-item" key={resourceKey}>
+        <a className={classes.join(' ')}
+          href="#"
+          onClick={(event) => handleResourceNavClick(event, resourceKey)}>{resourceKey}</a>
+      </li>
+    )
+  }
+  const resourceTemplateNavItems = resourceKeys.map((resourceKey) => {
+    return createResourceTemplateNavItem(resourceKey, resourceKey === currentResourceKey)
+  })
+
+  const handleResourceNavClick = (event, resourceKey) => {
+    event.preventDefault()
+    dispatch(setCurrentResource(resourceKey))
+  }
+  console.log(resourceTemplateNavItems)
 
   return (
     <div id="editor">
@@ -49,6 +75,11 @@ const Editor = (props) => {
       <ErrorMessages />
       <Alert text={saveError} />
       <GroupChoiceModal />
+      <div className="row">
+        <ul className="nav nav-pills">
+          { resourceTemplateNavItems }
+        </ul>
+      </div>
       <ResourceTemplate />
     </div>
   ) }
