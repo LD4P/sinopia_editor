@@ -1,0 +1,27 @@
+{
+  "propertyTemplates": [
+    {
+      "mandatory": "false",
+      "repeatable": "true",
+      "type": "resource",
+      "valueConstraint": {
+        "valueTemplateRefs": [
+          "ld4p:RT:bf2:Form",
+          "ld4p:RT:bf2:RareMat:RBMS"
+        ],
+        "useValuesFrom": [],
+        "defaults": []
+      },
+      "propertyURI": "http://id.loc.gov/ontologies/bibframe/genreForm",
+      "propertyLabel": "Form of Instance",
+      "resourceTemplates": []
+    }
+  ],
+  "id": "test:RT:bf2:RareMat:Instance",
+  "resourceURI": "http://id.loc.gov/ontologies/bibframe/Instance",
+  "resourceLabel": "Value template refs with non-unique resource URIs",
+  "remark": "based on LC template ld4p:RT:bf2:RareMat:Instance",
+  "author": "LD4P",
+  "date": "2019-08-19",
+  "schema": "https://ld4p.github.io/sinopia/schemas/0.0.9/resource-template.json"
+}

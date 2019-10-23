@@ -1,12 +1,15 @@
 // Copyright 2019 Stanford University see LICENSE for license
 
-import { getFixtureResourceTemplate } from './fixtureLoaderHelper'
+import { getFixtureResourceTemplate, resourceTemplateIds } from './fixtureLoaderHelper'
 import validateResourceTemplate from 'ResourceTemplateValidator'
 import _ from 'lodash'
-import Config from 'Config'
+import * as sinopiaServer from 'sinopiaServer'
 
-// This forces Sinopia server to use fixtures
-jest.spyOn(Config, 'useResourceTemplateFixtures', 'get').mockReturnValue(true)
+jest.mock('sinopiaServer')
+
+
+sinopiaServer.getResourceTemplate.mockImplementation(getFixtureResourceTemplate)
+sinopiaServer.foundResourceTemplate.mockImplementation(templateId => resourceTemplateIds.includes(templateId))
 
 describe('validateResourceTemplate', () => {
   it('returns [] for valid', async () => {
@@ -47,5 +50,11 @@ describe('validateResourceTemplate', () => {
     const templateResponse = await getFixtureResourceTemplate('test:RT:bf2:notFoundValueTemplateRefs')
     const reasons = await validateResourceTemplate(templateResponse.response.body)
     expect(reasons[0]).toMatch(/The following referenced resource templates are not available in Sinopia: lc:RT:bf2:Identifiers:Barcode,/)
+  })
+
+  it('returns reason for non-unique property template refs', async () => {
+    const templateResponse = await getFixtureResourceTemplate('test:RT:bf2:RareMat:Instance')
+    const reasons = await validateResourceTemplate(templateResponse.response.body)
+    expect(reasons[0]).toEqual('The following resource templates references for http://id.loc.gov/ontologies/bibframe/genreForm have the same resource URI (http://id.loc.gov/ontologies/bibframe/GenreForm), but must be unique: ld4p:RT:bf2:Form, ld4p:RT:bf2:RareMat:RBMS')
   })
 })

@@ -41,32 +41,13 @@ describe('fixtureLoaderHelper', () => {
       expect(template.response.body.resourceLabel).toEqual('Instance Title')
     })
     it('unknown id: returns empty resource template and logs error', () => {
-      expect(getFixtureResourceTemplate('not:there')).toEqual(
-        {
-          error: 'ERROR: non-fixture resourceTemplate: not:there',
-          propertyTemplates: [{}],
-        },
-      )
+      expect(getFixtureResourceTemplate('not:there')).rejects.toThrow('ERROR: non-fixture resourceTemplate: not:there')
     })
     it('null id: returns empty resource template and logs error', () => {
-      expect(getFixtureResourceTemplate()).toEqual(
-        {
-          error: 'ERROR: asked for resourceTemplate with null/undefined id',
-          propertyTemplates: [{}],
-        },
-      )
-      expect(getFixtureResourceTemplate(null)).toEqual({
-        error: 'ERROR: asked for resourceTemplate with null/undefined id',
-        propertyTemplates: [{}],
-      })
-      expect(getFixtureResourceTemplate(undefined)).toEqual({
-        error: 'ERROR: asked for resourceTemplate with null/undefined id',
-        propertyTemplates: [{}],
-      })
-      expect(getFixtureResourceTemplate('')).toEqual({
-        error: 'ERROR: asked for resourceTemplate with null/undefined id',
-        propertyTemplates: [{}],
-      })
+      expect(getFixtureResourceTemplate()).rejects.toThrow('ERROR: asked for resourceTemplate with null/undefined id')
+      expect(getFixtureResourceTemplate(null)).rejects.toThrow('ERROR: asked for resourceTemplate with null/undefined id')
+      expect(getFixtureResourceTemplate(undefined)).rejects.toThrow('ERROR: asked for resourceTemplate with null/undefined id')
+      expect(getFixtureResourceTemplate('')).rejects.toThrow('ERROR: asked for resourceTemplate with null/undefined id')
     })
   })
 

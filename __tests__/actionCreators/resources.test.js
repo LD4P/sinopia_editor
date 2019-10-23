@@ -78,7 +78,6 @@ describe('retrieveResource', () => {
   })
   // sinopiaServer.getResourceTemplate.mockImplementation(getFixtureResourceTemplate)
   describe('when dispatch to existing resource returns undefined', () => {
-    // const store = mockStore(state)
     it('it does not dispatch setLastSaveChecksum', async () => {
       sinopiaServer.getResourceTemplate.mockRejectedValue(new Error('not found'))
 
@@ -97,7 +96,6 @@ describe('retrieveResource', () => {
     })
   })
   describe('when dispatch to existing resource returns a result', () => {
-    // const store = mockStore(state)
     it('it dispatches actions', async () => {
       const resourceTemplateId = 'resourceTemplate:bf2:Note'
       const templateResponse = await getFixtureResourceTemplate(resourceTemplateId)
@@ -292,7 +290,6 @@ describe('existingResource', () => {
           'http://www.w3.org/2000/01/rdf-schema#label': {},
         },
       }
-      // console.log(actions)
       expect(store.getActions()).toEqual([
         { type: 'RETRIEVE_RESOURCE_TEMPLATE_STARTED', payload: 'resourceTemplate:bf2:Note' },
         { type: 'RESOURCE_TEMPLATE_LOADED', payload: resourceTemplate },
