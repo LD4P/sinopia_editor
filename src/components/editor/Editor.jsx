@@ -38,20 +38,20 @@ const Editor = (props) => {
 
   const resourceKeys = useSelector(state => Object.keys(state.selectorReducer.resources))
   const currentResourceKey = useSelector(state =>state.selectorReducer.editor.currentResource)
-  const createResourceTemplateNavItem = (resourceKey, active) => {
+  const createResourceTemplateNavItem = (resourceKey, idx, active) => {
     const classes = ['nav-link']
     if (active) classes.push('active')
     return (
       <li className="nav-item" key={resourceKey}>
         <a className={classes.join(' ')}
           href="#"
-          onClick={(event) => handleResourceNavClick(event, resourceKey)}>{resourceKey}</a>
+          onClick={(event) => handleResourceNavClick(event, resourceKey)}>Resource {idx+1}</a>
       </li>
     )
   }
-  const resourceTemplateNavItems = resourceKeys.map((resourceKey) => {
-    return createResourceTemplateNavItem(resourceKey, resourceKey === currentResourceKey)
-  })
+  const resourceTemplateNavItems = resourceKeys.length > 1 ? resourceKeys.map((resourceKey, idx) => {
+    return createResourceTemplateNavItem(resourceKey, idx, resourceKey === currentResourceKey)
+  }) : []
 
   const handleResourceNavClick = (event, resourceKey) => {
     event.preventDefault()

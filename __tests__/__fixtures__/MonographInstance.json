@@ -5,20 +5,21 @@
   "remark": "This is altered greatly for testing purposes",
   "propertyTemplates": [
     {
-      "propertyLabel": "Instance of",
       "propertyURI": "http://id.loc.gov/ontologies/bibframe/instanceOf",
+      "propertyLabel": "Instance of (lookup)",
+      "remark": "lookup",
+      "mandatory": "true",
+      "repeatable": "false",
+      "type": "lookup",
       "resourceTemplates": [],
-      "type": "resource",
       "valueConstraint": {
-        "valueTemplateRefs": [
-          "resourceTemplate:bf2:Monograph:Work"
+        "valueTemplateRefs": [],
+        "useValuesFrom": [
+          "urn:ld4p:sinopia"
         ],
-        "useValuesFrom": [],
         "valueDataType": {},
         "defaults": []
-      },
-      "mandatory": "true",
-      "repeatable": "true"
+      }
     },
     {
       "propertyLabel": "Title Information",

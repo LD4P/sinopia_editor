@@ -14,6 +14,7 @@ import { changeSelections } from 'actions/index'
 import { booleanPropertyFromTemplate } from 'utilities/propertyTemplates'
 import { renderMenuFunc, renderTokenFunc } from './renderTypeaheadFunctions'
 import { getSearchResults } from 'sinopiaSearch'
+import { newResource } from 'actionCreators/resources'
 import _ from 'lodash'
 
 const AsyncTypeahead = asyncContainer(Typeahead)
@@ -68,6 +69,11 @@ const InputLookupSinopia = (props) => {
     error = props.errors.join(',')
   }
 
+  const handleNewResource = (event, resourceTemplateId) => {
+    event.preventDefault()
+    props.newResource(resourceTemplateId)
+  }
+
   return (
     <div className={groupClasses}>
       <AsyncTypeahead renderMenu={(results, menuProps) => renderMenuFunc(results, menuProps)}
@@ -87,6 +93,7 @@ const InputLookupSinopia = (props) => {
                       id="sinopia-lookup" />
 
       <span className="help-block">Use a * to wildcard your search.</span>
+      <p>Create a new <a href="#" onClick={(event) => handleNewResource(event, 'resourceTemplate:bf2:Monograph:Work')}>BIBFRAME Work (resourceTemplate:bf2:Monograph:Work)</a></p>
       {error && <span className="help-block help-block-error">{error}</span>}
     </div>
   )
@@ -119,6 +126,6 @@ const mapStateToProps = (state, ownProps) => {
   }
 }
 
-const mapDispatchToProps = dispatch => bindActionCreators({ changeSelections }, dispatch)
+const mapDispatchToProps = dispatch => bindActionCreators({ changeSelections, newResource }, dispatch)
 
 export default connect(mapStateToProps, mapDispatchToProps)(InputLookupSinopia)
