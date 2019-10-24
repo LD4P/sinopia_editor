@@ -32,7 +32,11 @@ beforeEach(() => {
       resource: { // The state we're displaying in the editor
       },
       editor: {
-        displayValidations: false,
+        resourceValidation: {
+          show: false,
+          errors: [],
+          errorsByPath: {},
+        },
       },
     },
   }
@@ -302,8 +306,8 @@ describe('removeResource', () => {
       },
     })
     // Validation performed
-    expect(newState.editor.errors).toBeTruthy()
-    expect(newState.editor.resourceValidationErrors).toBeTruthy()
+    expect(newState.editor.resourceValidation.errors).toBeTruthy()
+    expect(newState.editor.resourceValidation.errorsByPath).toBeTruthy()
   })
 })
 
@@ -340,7 +344,7 @@ describe('setLastSaveChecksum', () => {
 describe('setResource', () => {
   it('updates state', () => {
     initialState.selectorReducer.entities.resourceTemplates['resourceTemplate:bf2:Work:Instance'] = 'anotherrt'
-    initialState.selectorReducer.editor.displayValidations = true
+    initialState.selectorReducer.editor.resourceValidation.show = true
     initialState.selectorReducer.editor.copyToNewMessage = { foo: 'bar' }
     const newState = appReducer(initialState, {
       type: 'RESOURCE_LOADED',
@@ -357,7 +361,7 @@ describe('setResource', () => {
       'resourceTemplate:bf2:Monograph:Instance': 'thert',
       'resourceTemplate:bf2:Work:Instance': 'anotherrt',
     })
-    expect(newState.selectorReducer.editor.displayValidations).toBe(false)
+    expect(newState.selectorReducer.editor.resourceValidation.show).toBe(false)
     expect(newState.selectorReducer.editor.copyToNewMessage).toEqual({})
   })
 })

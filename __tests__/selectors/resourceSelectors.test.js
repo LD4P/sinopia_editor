@@ -2,7 +2,7 @@
 
 import {
   rootResourceId, isExpanded, itemsForProperty,
-  getDisplayValidations, getResourceTemplate, getPropertyTemplate,
+  getDisplayResourceValidations, getResourceTemplate, getPropertyTemplate,
   resourceHasChangesSinceLastSave,
 } from 'selectors/resourceSelectors'
 import { getFixtureResourceTemplate } from '../fixtureLoaderHelper'
@@ -37,21 +37,18 @@ describe('rootResourceId', () => {
   })
 })
 
-describe('getDisplayValidations()', () => {
-  it('returns false when missing', () => {
-    expect(getDisplayValidations(initialState)).toBeFalsy()
-  })
-
+describe('getDisplayResourceValidations()', () => {
   it('returns value when present', () => {
     const state = {
       selectorReducer: {
         editor: {
-          displayValidations: true,
+          resourceValidation: {
+            show: true,
+          },
         },
       },
     }
-
-    expect(getDisplayValidations(state)).toBeTruthy()
+    expect(getDisplayResourceValidations(state)).toBeTruthy()
   })
 })
 

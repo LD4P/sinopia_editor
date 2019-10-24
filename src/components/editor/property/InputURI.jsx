@@ -8,7 +8,7 @@ import { connect } from 'react-redux'
 import shortid from 'shortid'
 import { itemsSelected } from 'actions/index'
 import {
-  findNode, getDisplayValidations, getPropertyTemplate, findErrors,
+  findNode, getDisplayResourceValidations, getPropertyTemplate, findResourceValidationErrorsByPath,
 } from 'selectors/resourceSelectors'
 
 import InputValue from './InputValue'
@@ -126,11 +126,11 @@ const mapStateToProps = (state, props) => {
   const reduxPath = props.reduxPath
   const resourceTemplateId = reduxPath[reduxPath.length - 2]
   const propertyURI = reduxPath[reduxPath.length - 1]
-  const displayValidations = getDisplayValidations(state)
+  const displayValidations = getDisplayResourceValidations(state)
   // items has to be its own prop or rerendering won't occur when one is removed
   const items = findNode(state, reduxPath).items || {}
   const propertyTemplate = getPropertyTemplate(state, resourceTemplateId, propertyURI)
-  const errors = findErrors(state, reduxPath)
+  const errors = findResourceValidationErrorsByPath(state, reduxPath)
 
   return {
     items,

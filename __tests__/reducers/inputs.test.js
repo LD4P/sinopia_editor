@@ -5,9 +5,7 @@ import {
   validate, showGroupChooser, showCopyNewMessage,
   showModal, hideModal,
 } from 'reducers/inputs'
-import {
-  findNode,
-} from 'selectors/resourceSelectors'
+import { findNode } from 'selectors/resourceSelectors'
 import Validator from 'ResourceValidator'
 
 let initialState
@@ -27,8 +25,11 @@ beforeAll(() => {
 beforeEach(() => {
   initialState = {
     editor: {
-      errors: [],
-      displayValidations: false,
+      resourceValidation: {
+        show: false,
+        errors: [],
+        errorsByPath: {},
+      },
       modal: undefined,
       copyToNewMessage: {},
       resourceURIMessage: {
@@ -446,6 +447,6 @@ describe('removeMyItem', () => {
 describe('validate', () => {
   it('returns a new state', () => {
     const result = validate(initialState)
-    expect(findNode({ selectorReducer: result }, ['resource', 'editor', 'displayValidations'])).toBeTruthy()
+    expect(findNode({ selectorReducer: result }, ['resource', 'editor', 'resourceValidation', 'show'])).toBeTruthy()
   })
 })

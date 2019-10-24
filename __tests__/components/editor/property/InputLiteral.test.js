@@ -56,14 +56,17 @@ const createInitialState = (options = {}) => {
         },
       },
       editor: {
-        resourceValidationErrors: {},
+        resourceValidation: {
+          show: false,
+          errors: [],
+          errorsByPath: {},
+        },
         rdfPreview: {
           show: true,
         },
         groupChoice: {
           show: false,
         },
-        errors: [],
       },
     },
   }

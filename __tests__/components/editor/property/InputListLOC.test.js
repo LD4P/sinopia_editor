@@ -41,15 +41,17 @@ const createInitialState = (options = {}) => {
         lookups: {},
       },
       editor: {
-        resourceValidationErrors: {},
+        resourceValidation: {
+          show: false,
+          errors: [],
+          errorsByPath: {},
+        },
         rdfPreview: {
           show: true,
         },
         groupChoice: {
           show: false,
         },
-        errors: [],
-        displayValidations: false,
       },
     },
   }

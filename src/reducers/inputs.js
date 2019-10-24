@@ -11,8 +11,8 @@ import { findObjectAtPath } from 'selectors/resourceSelectors'
 export const validate = (state) => {
   const newState = { ...state }
   const result = new Validator(newState).validate()
-  newState.editor.resourceValidationErrors = result[0]
-  newState.editor.errors = result[1]
+  newState.editor.resourceValidation.errorsByPath = result[0]
+  newState.editor.resourceValidation.errors = result[1]
   return newState
 }
 
@@ -24,13 +24,13 @@ export const validate = (state) => {
 export const showGroupChooser = (state) => {
   const newState = { ...state }
 
-  if (validate(state).editor.errors.length === 0) {
+  if (validate(state).editor.resourceValidation.errors.length === 0) {
     // Show the window to select a group
     newState.editor.modal = 'GroupChoiceModal'
   } else {
     newState.editor.modal = undefined
     // Show errors that prevent save
-    newState.editor.displayValidations = true
+    newState.editor.resourceValidation.show = true
   }
 
   return newState
@@ -45,7 +45,7 @@ export const showValidationErrors = (state) => {
   const newState = { ...state }
 
   newState.editor.modal = undefined
-  newState.editor.displayValidations = true
+  newState.editor.resourceValidation.show = true
 
   return newState
 }
@@ -58,7 +58,7 @@ export const showValidationErrors = (state) => {
 export const hideValidationErrors = (state) => {
   const newState = { ...state }
 
-  newState.editor.displayValidations = false
+  newState.editor.resourceValidation.show = false
 
   return newState
 }

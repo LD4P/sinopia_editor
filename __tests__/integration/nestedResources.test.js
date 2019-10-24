@@ -41,8 +41,11 @@ const createInitialState = () => {
         lookups: {},
       },
       editor: {
-        resourceValidationErrors: {},
-        errors: [],
+        resourceValidation: {
+          show: false,
+          errors: [],
+          errorsByPath: {},
+        },
         copyToNewMessage: {},
         rdfPreview: {
           show: true,

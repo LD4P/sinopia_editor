@@ -29,6 +29,11 @@ const createInitialState = () => {
       },
       editor: {
         expanded: {},
+        resourceValidation: {
+          show: false,
+          errors: [],
+          errorsByPath: {},
+        },
       },
     },
     authenticate: {

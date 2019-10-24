@@ -13,16 +13,17 @@ const initialState = {
       lastChecked: Date.now(),
     },
     editor: { // The state of the editor
-      displayValidations: false,
-      errors: [],
+      resourceValidation: {
+        show: false,
+        errors: [], // List of validation errors
+        errorsByPath: {}, // Errors from validating resource (redux path organized)
+      },
       modal: undefined, // Name of modal to show. Should only be one at a time.
       resourceURIMessage: {
         show: false,
       },
       copyToNewMessage: {},
       expanded: { // Should this node display as expanded in the editor (redux path organized)
-      },
-      resourceValidationErrors: { // Errors from validating resource (redux path organized)
       },
       retrieveResourceError: undefined,
       retrieveResourceTemplateError: undefined,

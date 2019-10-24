@@ -12,6 +12,11 @@ describe('<RDFModal />', () => {
     selectorReducer: {
       editor: {
         modal: undefined,
+        resourceValidation: {
+          show: false,
+          errors: [],
+          errorsByPath: {},
+        },
       },
       resource: {},
     },

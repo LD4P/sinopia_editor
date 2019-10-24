@@ -4,7 +4,10 @@ import React, { useState, useEffect } from 'react'
 import { useSelector, useDispatch } from 'react-redux'
 import PropTypes from 'prop-types'
 import { update as updateCreator } from 'actionCreators/resources'
-import { rootResourceId, resourceHasChangesSinceLastSave } from 'selectors/resourceSelectors'
+import {
+  rootResourceId, resourceHasChangesSinceLastSave, findResourceValidationErrors,
+  getDisplayResourceValidations,
+} from 'selectors/resourceSelectors'
 import { getCurrentUser } from 'authSelectors'
 import {
   showGroupChooser as showGroupChooserAction,
@@ -24,8 +27,8 @@ const SaveAndPublishButton = (props) => {
 
   const resourceHasChanged = useSelector(state => resourceHasChangesSinceLastSave(state))
   const isSaved = useSelector(state => !!rootResourceId(state))
-  const hasValidationErrors = useSelector(state => state.selectorReducer.editor.errors?.length > 0)
-  const validationErrorsAreShowing = useSelector(state => state.selectorReducer.editor.displayValidations)
+  const hasValidationErrors = useSelector(state => findResourceValidationErrors(state).length > 0)
+  const validationErrorsAreShowing = useSelector(state => getDisplayResourceValidations(state))
   const [isDisabled, setIsDisabled] = useState(true)
 
   useEffect(() => {
