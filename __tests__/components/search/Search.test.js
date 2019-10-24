@@ -140,9 +140,8 @@ describe('<Search />', () => {
     expect(mockGetSearchResults).toBeCalledWith('foo', 0, 10, undefined, undefined)
 
     // Result
-    expect(await findByText('Your List of Bibliographic Metadata Stored in Sinopia')).toBeInTheDocument()
+    expect(await findByText('foo')).toBeInTheDocument()
 
-    expect(getByText('foo', { selector: 'td' })).toBeInTheDocument()
     expect(getByText('http://id.loc.gov/ontologies/bibframe/Title', { selector: 'li' }))
       .toBeInTheDocument()
   })

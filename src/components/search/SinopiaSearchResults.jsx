@@ -6,6 +6,7 @@ import { connect } from 'react-redux'
 import { bindActionCreators } from 'redux'
 import PropTypes from 'prop-types'
 import Config from 'Config'
+import shortid from 'shortid'
 import { getCurrentUser } from 'authSelectors'
 import { copyNewResource } from 'actions/index'
 import { retrieveResource } from 'actionCreators/resources'
@@ -48,9 +49,9 @@ const SinopiaSearchResults = (props) => {
   // TODO: Turn this function into a functional component
   const generateRows = () => {
     const rows = []
-    props.searchResults.forEach((row, _index) => {
+    props.searchResults.forEach((row) => {
       const link = `${Config.sinopiaServerBase}/${row.uri}`
-      rows.push(<tr key={_index}>
+      rows.push(<tr key={shortid.generate()}>
         <td>{ row.label }</td>
         <td>
           <ul className="list-unstyled">
@@ -90,8 +91,6 @@ const SinopiaSearchResults = (props) => {
       <div id="search-results" className="row">
         <div className="col-sm-2"></div>
         <div className="col-sm-8">
-          <h3>Your List of Bibliographic Metadata Stored in Sinopia</h3>
-
           <table className="table table-bordered" id="search-results-list">
             <thead>
               <tr>

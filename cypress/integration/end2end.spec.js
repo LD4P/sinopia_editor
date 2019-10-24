@@ -88,7 +88,6 @@ describe('End-to-end test', () => {
     cy.get('input#searchInput')
       .type(`${title}{enter}`, { force: true })
 
-    cy.contains('Your List of Bibliographic Metadata Stored in Sinopia')
     cy.contains(title)
   })
 
