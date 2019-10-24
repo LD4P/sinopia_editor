@@ -8,6 +8,9 @@ import { getFixtureResourceTemplate } from '../fixtureLoaderHelper'
 
 jest.mock('sinopiaServer')
 
+// Mock jquery
+global.$ = jest.fn().mockReturnValue({ popover: jest.fn() })
+
 const createInitialState = () => {
   return {
     authenticate: {
