@@ -50,14 +50,6 @@ export const clearSearchResults = () => ({
   type: 'CLEAR_SEARCH_RESULTS',
 })
 
-export const closeGroupChooser = () => ({
-  type: 'CLOSE_GROUP_CHOOSER',
-})
-
-export const closeResourceTemplateChooser = () => ({
-  type: 'CLOSE_RESOURCE_TEMPLATE_CHOOSER',
-})
-
 export const copyNewResource = copyInfo => ({
   type: 'COPY_NEW_RESOURCE',
   payload: copyInfo,
@@ -205,10 +197,6 @@ export const showGroupChooser = show => ({
 export const showRdfPreview = show => ({
   type: 'SHOW_RDF_PREVIEW',
   payload: show,
-})
-
-export const showResourceTemplateChooser = () => ({
-  type: 'SHOW_RESOURCE_TEMPLATE_CHOOSER',
 })
 
 export const showValidationErrors = () => ({

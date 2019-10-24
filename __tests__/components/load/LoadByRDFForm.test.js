@@ -29,9 +29,6 @@ const createInitialState = () => {
       },
       editor: {
         expanded: {},
-        resourceTemplateChoice: {
-          show: false,
-        },
       },
     },
     authenticate: {

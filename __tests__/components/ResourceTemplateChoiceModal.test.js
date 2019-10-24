@@ -8,14 +8,10 @@ import { fireEvent, wait } from '@testing-library/react'
 $.fn.modal = jest.fn()
 
 describe('<ResourceTemplateChoiceModal />', () => {
-  const createState = (options = {}) => {
+  const createState = () => {
     return {
       selectorReducer: {
-        editor: {
-          resourceTemplateChoice: {
-            show: !options.noShow,
-          },
-        },
+        editor: {},
         entities: {
           resourceTemplateSummaries: {
             'resourceTemplate:bf2:Identifiers:DDC': {

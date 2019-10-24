@@ -4,12 +4,10 @@ import React, { useState, useMemo } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import ModalWrapper from 'components/ModalWrapper'
 import PropTypes from 'prop-types'
-import { closeResourceTemplateChooser as closeResourceTemplateChooserAction, hideModal } from 'actions/index'
+import { hideModal } from 'actions/index'
 
 const ResourceTemplateChoiceModal = (props) => {
   const dispatch = useDispatch()
-  /* eslint no-unused-vars: "off" */
-  const closeResourceTemplateChooser = () => dispatch(closeResourceTemplateChooserAction())
   const show = useSelector(state => state.selectorReducer.editor.modal === 'ResourceTemplateChoiceModal')
 
   const classes = ['modal', 'fade']

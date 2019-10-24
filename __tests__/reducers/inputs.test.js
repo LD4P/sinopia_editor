@@ -2,7 +2,7 @@
 
 import {
   removeMyItem, setItemsOrSelections, setBaseURL,
-  validate, showGroupChooser, closeGroupChooser, showCopyNewMessage,
+  validate, showGroupChooser, showCopyNewMessage,
   showModal, hideModal,
 } from 'reducers/inputs'
 import {
@@ -69,14 +69,6 @@ describe('showCopyNewMessage()', () => {
       })
     expect(result.editor.copyToNewMessage.oldUri).toMatch('https://sinopia.io/1234')
     expect(result.editor.copyToNewMessage.timestamp).toBeTruthy()
-  })
-})
-
-describe('closeGroupChooser()', () => {
-  it('sets the groupChoice.show to false', () => {
-    initialState.editor.modal = 'GroupChoiceModal'
-    const result = closeGroupChooser(initialState)
-    expect(result.editor.modal).toBe(undefined)
   })
 })
 

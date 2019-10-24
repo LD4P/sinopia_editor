@@ -51,15 +51,6 @@ const createInitialState = () => {
         copyToNewMessage: {
           show: false,
         },
-        rdfPreview: {
-          show: true,
-        },
-        groupChoice: {
-          show: false,
-        },
-        resourceTemplateChoice: {
-          show: false,
-        },
         expanded: {},
       },
       appVersion: {

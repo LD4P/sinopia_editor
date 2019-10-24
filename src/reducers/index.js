@@ -4,9 +4,8 @@ import { combineReducers } from 'redux'
 import authenticate from './authenticate'
 import {
   removeMyItem, setItemsOrSelections, setBaseURL,
-  setMyItemsLang, showGroupChooser, closeGroupChooser, showCopyNewMessage,
-  validate, showResourceTemplateChooser, closeResourceTemplateChooser,
-  showValidationErrors, hideValidationErrors, showModal, hideModal,
+  setMyItemsLang, showGroupChooser, showCopyNewMessage,
+  validate, showValidationErrors, hideValidationErrors, showModal, hideModal,
 } from './inputs'
 import {
   setResourceTemplate, clearResourceTemplates, setResourceTemplateSummary,
@@ -215,8 +214,6 @@ const handlers = {
   CLEAR_SAVE_RESOURCE_ERROR: clearSaveResourceError,
   CLEAR_SAVE_RESOURCE_TEMPLATE_ERROR: clearSaveResourceTemplateError,
   CLEAR_SEARCH_RESULTS: clearSearchResults,
-  CLOSE_GROUP_CHOOSER: closeGroupChooser,
-  CLOSE_RESOURCE_TEMPLATE_CHOOSER: closeResourceTemplateChooser,
   HIDE_MODAL: hideModal,
   COPY_NEW_RESOURCE: copyResourceToEditor,
   HIDE_VALIDATION_ERRORS: hideValidationErrors,
@@ -251,7 +248,6 @@ const handlers = {
   SHOW_COPY_NEW_MESSAGE: showCopyNewMessage,
   SHOW_GROUP_CHOOSER: showGroupChooser,
   SHOW_MODAL: showModal,
-  SHOW_RESOURCE_TEMPLATE_CHOOSER: showResourceTemplateChooser,
   SHOW_VALIDATION_ERRORS: showValidationErrors,
   TOGGLE_COLLAPSE: toggleCollapse,
   UPDATE_PROPERTY: updateProperty,
