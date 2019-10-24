@@ -22,6 +22,10 @@ pre {
   border-color: transparent !important;
 }
 
+.btn-link.left-justify {
+  text-align: left;
+}
+
 .btn-linky {
   padding: 0px;
 }
