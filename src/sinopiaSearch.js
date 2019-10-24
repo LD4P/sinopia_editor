@@ -33,6 +33,9 @@ export const getSearchResults = async (query, queryFrom = 0, size = Config.searc
         results: json.hits.hits.map(row => ({
           uri: row._id,
           label: row._source.label,
+          created: row._source.created,
+          modified: row._source.modified,
+          type: row._source.type,
         })),
       }
     })

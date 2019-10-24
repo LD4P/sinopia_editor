@@ -6,20 +6,37 @@ import { connect } from 'react-redux'
 import { bindActionCreators } from 'redux'
 import PropTypes from 'prop-types'
 import Config from 'Config'
+import shortid from 'shortid'
 import { getCurrentUser } from 'authSelectors'
+import { copyNewResource } from 'actions/index'
 import { retrieveResource } from 'actionCreators/resources'
 import { rootResource } from 'selectors/resourceSelectors'
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { faCopy, faEdit } from '@fortawesome/free-solid-svg-icons'
 import Alert from '../Alert'
 import SinopiaSort from './SinopiaSort'
 
 const SinopiaSearchResults = (props) => {
   const [navigateEditor, setNavigateEditor] = useState(false)
 
-  const handleClick = (resourceURI) => {
+  const groupName = (uri) => {
+    const groupSlug = uri.split('/')[1]
+    return Config.groupsInSinopia[groupSlug]
+  }
+
+  const handleCopy = (resourceURI) => {
+    props.retrieveResource(props.currentUser, resourceURI).then((success) => {
+      props.copyNewResource({ uri: resourceURI })
+      setNavigateEditor(success)
+    })
+  }
+
+  const handleEdit = (resourceURI) => {
     props.retrieveResource(props.currentUser, resourceURI).then((success) => {
       setNavigateEditor(success)
     })
   }
+
 
   useEffect(() => {
     // Forces a wait until the root resource has been set in state
@@ -29,15 +46,36 @@ const SinopiaSearchResults = (props) => {
   })
 
   // Generates an HTML row
-
+  // TODO: Turn this function into a functional component
   const generateRows = () => {
     const rows = []
-    props.searchResults.forEach((row, _index) => {
-      const rowIndex = _index + 1
+    props.searchResults.forEach((row) => {
       const link = `${Config.sinopiaServerBase}/${row.uri}`
-      rows.push(<tr key={_index}>
-        <td>{ rowIndex }</td>
-        <td><button className="btn btn-link" onClick={e => handleClick(link, e) }>{ row.label }</button></td>
+      rows.push(<tr key={shortid.generate()}>
+        <td>{ row.label }</td>
+        <td>
+          <ul className="list-unstyled">
+            { row.type?.map(type => <li key={type}>{type}</li>) }
+          </ul>
+        </td>
+        <td>{ groupName(row.uri) }</td>
+        <td>{ row.modified } </td>
+        <td>
+          <div className="btn-group" role="group" aria-label="Result Actions">
+            <button className="btn btn-link"
+                    title="Edit"
+                    onClick={e => handleEdit(link, e) }>
+              <FontAwesomeIcon icon={faEdit} size="2x" />
+            </button>
+            <button type="button"
+                    className="btn btn-link"
+                    onClick={() => handleCopy(link)}
+                    title="Copy"
+                    aria-label="Copy this resource">
+              <FontAwesomeIcon icon={faCopy} size="2x" />
+            </button>
+          </div>
+        </td>
       </tr>)
     })
     return rows
@@ -53,16 +91,23 @@ const SinopiaSearchResults = (props) => {
       <div id="search-results" className="row">
         <div className="col-sm-2"></div>
         <div className="col-sm-8">
-          <h3>Your List of Bibliographic Metadata Stored in Sinopia</h3>
-          <SinopiaSort />
           <table className="table table-bordered" id="search-results-list">
             <thead>
               <tr>
-                <th className="search-header" style={{ width: '5%' }}>
-                  ID
-                </th>
-                <th className="search-header" style={{ width: '95%' }}>
+                <th className="search-header" style={{ width: '35%' }}>
                   Title
+                </th>
+                <th className="search-header" style={{ width: '35%' }}>
+                  Type
+                </th>
+                <th className="search-header" style={{ width: '25%' }}>
+                  Institution
+                </th>
+                <th className="search-header" style={{ width: '5%' }}>
+                  Modified
+                </th>
+                <th className="search-header">
+                  <SinopiaSort />
                 </th>
               </tr>
             </thead>
@@ -80,6 +125,7 @@ SinopiaSearchResults.propTypes = {
   searchResults: PropTypes.array,
   retrieveResource: PropTypes.func,
   currentUser: PropTypes.object,
+  copyNewResource: PropTypes.func,
   history: PropTypes.object,
   rootResource: PropTypes.object,
   error: PropTypes.string,
@@ -92,6 +138,6 @@ const mapStateToProps = state => ({
   error: state.selectorReducer.editor.retrieveResourceError,
 })
 
-const mapDispatchToProps = dispatch => bindActionCreators({ retrieveResource }, dispatch)
+const mapDispatchToProps = dispatch => bindActionCreators({ retrieveResource, copyNewResource }, dispatch)
 
 export default connect(mapStateToProps, mapDispatchToProps)(SinopiaSearchResults)

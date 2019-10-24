@@ -119,6 +119,7 @@ describe('<Search />', () => {
           uri: 'repository/cornell/ca0d53d0-2b99-4f75-afb0-739a6f0af4f4',
           label: 'foo',
           title: ['foo'],
+          type: ['http://id.loc.gov/ontologies/bibframe/Title'],
         },
       ],
     })
@@ -139,9 +140,10 @@ describe('<Search />', () => {
     expect(mockGetSearchResults).toBeCalledWith('foo', 0, 10, undefined, undefined)
 
     // Result
-    expect(await findByText('Your List of Bibliographic Metadata Stored in Sinopia')).toBeInTheDocument()
+    expect(await findByText('foo')).toBeInTheDocument()
 
-    expect(getByText('foo', { selector: 'button' })).toBeInTheDocument()
+    expect(getByText('http://id.loc.gov/ontologies/bibframe/Title', { selector: 'li' }))
+      .toBeInTheDocument()
   })
 
   it('requests on enter', () => {

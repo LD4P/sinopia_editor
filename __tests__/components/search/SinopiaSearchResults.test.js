@@ -1,41 +1,67 @@
 // Copyright 2019 Stanford University see LICENSE for license
 
 import React from 'react'
-import { shallow } from 'enzyme'
+import { renderWithRedux, createReduxStore } from 'testUtils'
 import SinopiaSearchResults from 'components/search/SinopiaSearchResults'
-import SinopiaSort from 'components/search/SinopiaSort'
 
 describe('<SinopiaSearchResults />', () => {
-  describe('when there are no search results', () => {
-    const props = {
-      searchResults: [],
-    }
+  const state = {
+    selectorReducer: {
+      editor: {
+        retrieveResourceError: undefined,
+      },
+      resource: {},
+      search: {
+        results: [],
+      },
+    },
+  }
 
-    const wrapper = shallow(<SinopiaSearchResults.WrappedComponent {...props} />)
+  describe('when there are no search results', () => {
+    const store = createReduxStore(state)
+
+    const { container } = renderWithRedux(
+      <SinopiaSearchResults />,
+      store,
+    )
+
 
     it('does not contain the main div', () => {
-      expect(wrapper.find('div#search-results').length).toBe(0)
+      expect(container.querySelector('div#search-results')).not.toBeInTheDocument()
     })
   })
 
 
   describe('when there are search results', () => {
-    const props = {
-      searchResults: [{
-        uri: '/some/example/path',
-        title: 'An item title',
-      }],
-    }
-
-    const wrapper = shallow(<SinopiaSearchResults.WrappedComponent {...props} />)
-
     it('it contains the main div', () => {
-      expect(wrapper.find('div#search-results').length).toBe(1)
-      expect(wrapper.find('table#search-results-list').length).toBe(1)
-    })
+      state.selectorReducer.search.results.push({
+        uri: 'some/stanford/path',
+        type: ['http://schema.org/Thing'],
+        label: 'An item title',
+        modified: '2019-10-23T22:42:57.623Z',
+        created: '2019-10-23T22:42:57.623Z',
+      })
+      const store = createReduxStore(state)
+      const { queryByText, getByText, container } = renderWithRedux(
+        <SinopiaSearchResults />,
+        store,
+      )
+      expect(container.querySelector('div#search-results')).toBeInTheDocument()
+      expect(container.querySelector('table#search-results-list')).toBeInTheDocument()
 
-    it('has a sort', () => {
-      expect(wrapper.find(SinopiaSort).length).toBe(1)
+      // Search table headers
+      expect(queryByText('Title')).toBeInTheDocument()
+      expect(queryByText('Type')).toBeInTheDocument()
+      expect(queryByText('Institution')).toBeInTheDocument()
+      expect(getByText('Modified', 'th')).toBeInTheDocument()
+      // It has a sort button
+      expect(getByText('Sort by')).toBeInTheDocument()
+
+      // First row of search results
+      expect(queryByText('An item title')).toBeInTheDocument()
+      expect(queryByText('2019-10-23T22:42:57.623Z')).toBeInTheDocument()
+      expect(queryByText('http://schema.org/Thing')).toBeInTheDocument()
+      expect(queryByText('Stanford University')).toBeInTheDocument()
     })
   })
 })

@@ -88,12 +88,11 @@ describe('End-to-end test', () => {
     cy.get('input#searchInput')
       .type(`${title}{enter}`, { force: true })
 
-    cy.contains('Your List of Bibliographic Metadata Stored in Sinopia')
     cy.contains(title)
   })
 
   it('Open existing resource in editor', () => {
-    cy.get('button').contains(title).click()
+    cy.get('button[title=Edit]').click()
     cy.url().should('include', '/editor')
 
     cy.contains('h1', 'Work Title')
