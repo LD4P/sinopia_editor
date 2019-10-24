@@ -29,7 +29,7 @@ describe('End-to-end test', () => {
     cy.url().should('include', '/templates')
   })
 
-  it('Uploads a resource template', () => {
+  it('Uploads a profile template', () => {
     // Need to determine if should upload a resource template.
     // Both the resource template list and the notification that there are no loaded resource templates
     // have the same id. Waiting for that element to be present allows this test to be deterministic,
@@ -37,7 +37,7 @@ describe('End-to-end test', () => {
     cy.get('#resource-template-list').then((resourceTemplateList) => {
       if (resourceTemplateList.text().includes('No resource template are available.')) {
         cy.contains('Import a Profile').click()
-        cy.contains('Drag and drop a resource template file')
+        cy.contains('Drag and drop a profile or resource template file')
         const fileName = 'LD4P_BIBFRAME_2.0_Title_Information.json'
         cy.fixture(fileName).then((fileJson) => {
           const fileContent = JSON.stringify(fileJson)

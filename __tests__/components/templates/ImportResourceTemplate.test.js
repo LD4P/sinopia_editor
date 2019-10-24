@@ -43,7 +43,7 @@ describe('<ImportResourceTemplate />', () => {
   })
 
   describe('setResourceTemplates()', () => {
-    const content = {
+    const profileContent = {
       Profile: {
         resourceTemplates: [
           {
@@ -56,15 +56,32 @@ describe('<ImportResourceTemplate />', () => {
       },
     }
 
-    it('resets messages, creates one resource per template, and then updates state', async () => {
+    const resourceTemplateContent = {
+      id: 'template1',
+    }
+
+    it('resets messages, creates one resource per template in profile, and then updates state', async () => {
       expect.assertions(3)
       const createResourceSpy = jest.spyOn(wrapper.instance(), 'createResource').mockImplementation(async () => {})
       const updateStateSpy = jest.spyOn(wrapper.instance(), 'updateStateFromServerResponses').mockReturnValue(null)
       const resetMessagesSpy = jest.spyOn(wrapper.instance(), 'resetMessages').mockReturnValue(null)
 
-      await wrapper.instance().setResourceTemplates(content, 'ld4p')
+      await wrapper.instance().setResourceTemplates(profileContent, 'ld4p')
 
       expect(createResourceSpy).toHaveBeenCalledTimes(2)
+      expect(updateStateSpy).toHaveBeenCalledTimes(1)
+      expect(resetMessagesSpy).toHaveBeenCalledTimes(1)
+    })
+
+    it('resets messages, creates one resource template, and then updates state', async () => {
+      expect.assertions(3)
+      const createResourceSpy = jest.spyOn(wrapper.instance(), 'createResource').mockImplementation(async () => {})
+      const updateStateSpy = jest.spyOn(wrapper.instance(), 'updateStateFromServerResponses').mockReturnValue(null)
+      const resetMessagesSpy = jest.spyOn(wrapper.instance(), 'resetMessages').mockReturnValue(null)
+
+      await wrapper.instance().setResourceTemplates(resourceTemplateContent, 'ld4p')
+
+      expect(createResourceSpy).toHaveBeenCalledTimes(1)
       expect(updateStateSpy).toHaveBeenCalledTimes(1)
       expect(resetMessagesSpy).toHaveBeenCalledTimes(1)
     })
@@ -302,7 +319,7 @@ describe('<ImportResourceTemplate />', () => {
 
       expect(updateResourceSpy).toHaveBeenCalledTimes(2)
       expect(updateStateSpy).toHaveBeenCalledTimes(1)
-      expect(mockFetchResourceTemplateSummaries).toHaveBeenCalledTimes(2)
+      expect(mockFetchResourceTemplateSummaries).toHaveBeenCalledTimes(3)
     })
   })
 })

@@ -159,7 +159,7 @@ describe('<DropZone />', () => {
     wrapper.setState({ showDropZone: false })
     wrapper.find('button.btn').simulate('click')
     expect(wrapper.find('DropZone > section > p').last().text())
-      .toMatch('Drag and drop a resource template file in the box or click it to select a file to upload:')
+      .toMatch('Drag and drop a profile or resource template file in the box or click it to select a file to upload:')
   })
 
   it('hides the dropzone div when button is clicked again', () => {
