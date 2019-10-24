@@ -68,7 +68,11 @@ const createInitialState = () => {
         },
       },
       editor: {
-        resourceValidationErrors: {},
+        resourceValidation: {
+          show: false,
+          errors: [],
+          errorsByPath: {},
+        },
         copyToNewMessage: {},
         rdfPreview: {
           show: true,

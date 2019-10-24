@@ -6,10 +6,12 @@ import SaveAndPublishButton from 'components/editor/SaveAndPublishButton'
 const createInitialState = () => ({
   selectorReducer: {
     editor: {
-      displayValidations: false,
+      resourceValidation: {
+        show: false,
+        errors: [],
+        errorsByPath: {},
+      },
       lastSaveChecksum: '54527c024d0021784f666c2794856938',
-      errors: [],
-      resourceValidationErrors: {},
     },
     resource: {
       'resourceTemplate:bf2:Identifiers:Barcode': {
@@ -82,7 +84,7 @@ describe('<SaveAndPublishButton />', () => {
   })
   it('is enabled if resource has changed and no validation errors', () => {
     const initialState = createInitialState()
-    initialState.selectorReducer.editor.displayValidations = true
+    initialState.selectorReducer.editor.resourceValidation.show = true
     const store = createReduxStore(initialState)
     const { getByText } = renderWithRedux(
       <SaveAndPublishButton id="test" />, store,
@@ -101,8 +103,8 @@ describe('<SaveAndPublishButton />', () => {
   it('is disabled if resource has changed and has validation errors', () => {
     const initialState = createInitialState()
     // initialState.selectorReducer.editor.lastSaveChecksum = 'c5c8da42a2b460a740c33c72acb4d115'
-    initialState.selectorReducer.editor.displayValidations = true
-    initialState.selectorReducer.editor.errors = [
+    initialState.selectorReducer.editor.resourceValidation.show = true
+    initialState.selectorReducer.editor.resourceValidation.errors = [
       {
         message: 'Required',
         path: [

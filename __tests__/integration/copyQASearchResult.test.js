@@ -47,7 +47,11 @@ const createInitialState = () => {
         lookups: {},
       },
       editor: {
-        resourceValidationErrors: {},
+        resourceValidation: {
+          show: false,
+          errors: [],
+          errorsByPath: {},
+        },
         copyToNewMessage: {
           show: false,
         },

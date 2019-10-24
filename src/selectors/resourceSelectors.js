@@ -15,7 +15,22 @@ export const findObjectAtPath = (parent, path) => path.reduce((obj, key) => obj?
 export const isExpanded = (state, reduxPath) => [...reduxPath, 'expanded']
   .reduce((obj, key) => (typeof obj[key] !== 'undefined' ? obj[key] : false), state.selectorReducer.editor.expanded)
 
-export const findErrors = (state, reduxPath) => findObjectAtPath(state.selectorReducer.editor.resourceValidationErrors, reduxPath).errors || []
+const findResourceValidation = state => state.selectorReducer.editor.resourceValidation
+
+/**
+ * @returns {function} a function that returns all of the validation errors for the redux path
+ */
+export const findResourceValidationErrorsByPath = (state, reduxPath) => findObjectAtPath(findResourceValidation(state).errorsByPath, reduxPath).errors || []
+
+/**
+ * @returns {function} a function that returns all of the validation errors for the resource
+ */
+export const findResourceValidationErrors = state => findResourceValidation(state).errors
+
+/**
+ * @returns {function} a function that returns true if validations should be displayed
+ */
+export const getDisplayResourceValidations = state => findResourceValidation(state).show
 
 /**
  * Get a list of selections that have been made for the given reduxPath
@@ -27,11 +42,6 @@ export const itemsForProperty = (state, reduxPath) => {
   const result = findNode(state, reduxPath)
   return Object.values(result.items || {})
 }
-
-/**
- * @returns {function} a function that returns true if validations should be displayed
- */
-export const getDisplayValidations = state => findNode(state, ['editor']).displayValidations
 
 /**
  * @returns {function} a function that gets a resource template from state or undefined

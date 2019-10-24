@@ -7,7 +7,7 @@ import PropTypes from 'prop-types'
 import { useDispatch, useSelector } from 'react-redux'
 import { changeSelections as changeSelectionsAction } from 'actions/index'
 import {
-  itemsForProperty, getDisplayValidations, getPropertyTemplate, findErrors,
+  itemsForProperty, getDisplayResourceValidations, getPropertyTemplate, findResourceValidationErrorsByPath,
 } from 'selectors/resourceSelectors'
 import { booleanPropertyFromTemplate, getLookupConfigItems } from 'utilities/propertyTemplates'
 import { renderMenuFunc, renderTokenFunc } from './renderTypeaheadFunctions'
@@ -91,8 +91,8 @@ const InputListLOC = (props) => {
     return defaultFilterBy(option, props)
   }
 
-  const displayValidations = useSelector(state => getDisplayValidations(state))
-  const validationErrors = useSelector(state => findErrors(state, props.reduxPath))
+  const displayValidations = useSelector(state => getDisplayResourceValidations(state))
+  const validationErrors = useSelector(state => findResourceValidationErrorsByPath(state, props.reduxPath))
 
   let error
   let groupClasses = 'form-group'

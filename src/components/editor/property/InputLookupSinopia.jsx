@@ -8,7 +8,8 @@ import SinopiaPropTypes from 'SinopiaPropTypes'
 import { bindActionCreators } from 'redux'
 import { connect } from 'react-redux'
 import {
-  itemsForProperty, getDisplayValidations, getPropertyTemplate, findErrors,
+  itemsForProperty, getDisplayResourceValidations, getPropertyTemplate,
+  findResourceValidationErrorsByPath,
 } from 'selectors/resourceSelectors'
 import { changeSelections } from 'actions/index'
 import { booleanPropertyFromTemplate } from 'utilities/propertyTemplates'
@@ -105,9 +106,9 @@ const mapStateToProps = (state, ownProps) => {
   const reduxPath = ownProps.reduxPath
   const resourceTemplateId = reduxPath[reduxPath.length - 2]
   const propertyURI = reduxPath[reduxPath.length - 1]
-  const displayValidations = getDisplayValidations(state)
+  const displayValidations = getDisplayResourceValidations(state)
   const propertyTemplate = getPropertyTemplate(state, resourceTemplateId, propertyURI)
-  const errors = findErrors(state, ownProps.reduxPath)
+  const errors = findResourceValidationErrorsByPath(state, ownProps.reduxPath)
   const selected = itemsForProperty(state, ownProps.reduxPath)
 
   return {

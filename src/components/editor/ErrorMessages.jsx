@@ -3,7 +3,7 @@
 import React from 'react'
 import { connect } from 'react-redux'
 import PropTypes from 'prop-types'
-import { findNode } from 'selectors/resourceSelectors'
+import { getDisplayResourceValidations, findResourceValidationErrors } from 'selectors/resourceSelectors'
 import Alert from '../Alert'
 
 const ErrorMessages = (props) => {
@@ -25,8 +25,8 @@ ErrorMessages.propTypes = {
 }
 
 const mapStateToProps = state => ({
-  errors: findNode(state, ['editor']).errors,
-  displayValidations: state.selectorReducer.editor.displayValidations,
+  errors: findResourceValidationErrors(state),
+  displayValidations: getDisplayResourceValidations(state),
 })
 
 export default connect(mapStateToProps, {})(ErrorMessages)

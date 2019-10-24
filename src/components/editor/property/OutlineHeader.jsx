@@ -8,7 +8,7 @@ import { faAngleRight, faAngleDown } from '@fortawesome/free-solid-svg-icons'
 import PropertyLabel from './PropertyLabel'
 import PropertyLabelInfo from './PropertyLabelInfo'
 import {
-  findNode, isExpanded, getPropertyTemplate, findErrors, getDisplayValidations,
+  findNode, isExpanded, getPropertyTemplate, findResourceValidationErrorsByPath, getDisplayResourceValidations,
 } from 'selectors/resourceSelectors'
 import { toggleCollapse, removeResource } from 'actions/index'
 import { expandResource } from 'actionCreators/resources'
@@ -74,8 +74,8 @@ const mapStateToProps = (state, ownProps) => {
   const resourceTemplateId = ownProps.reduxPath.slice(-2)[0]
   const property = getPropertyTemplate(state, resourceTemplateId, propertyURI)
   const resourceModel = findNode(state, ownProps.reduxPath)
-  const errors = findErrors(state, ownProps.reduxPath)
-  const displayValidations = getDisplayValidations(state)
+  const errors = findResourceValidationErrorsByPath(state, ownProps.reduxPath)
+  const displayValidations = getDisplayResourceValidations(state)
   return {
     resourceModel,
     property,

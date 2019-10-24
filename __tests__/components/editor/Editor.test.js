@@ -61,7 +61,11 @@ const createInitialState = (options = {}) => {
           timestamp: Date.now(),
           oldUri: 'https://sinopia.io/pcc/1345',
         },
-        resourceValidationErrors: {},
+        resourceValidation: {
+          show: false,
+          errors: [],
+          errorsByPath: {},
+        },
         saveResourceError: 'Error 999',
         rdfPreview: {
           show: true,
@@ -69,7 +73,6 @@ const createInitialState = (options = {}) => {
         groupChoice: {
           show: false,
         },
-        errors: [],
       },
     },
   }

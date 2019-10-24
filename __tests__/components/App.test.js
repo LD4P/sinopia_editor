@@ -35,6 +35,11 @@ const createInitialState = (options = {}) => {
       },
       editor: {
         copyToNewMessage: {},
+        resourceValidation: {
+          show: false,
+          errors: [],
+          errorsByPath: {},
+        }
       },
       appVersion: {
         version: undefined,

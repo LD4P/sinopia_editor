@@ -42,6 +42,9 @@ const createInitialState = () => {
       },
       editor: {
         serverError: '',
+        resourceValidation: {
+          show: false,
+        },
       },
     },
 
