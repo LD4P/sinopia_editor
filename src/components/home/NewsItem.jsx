@@ -4,7 +4,7 @@ import React from 'react'
 import { version } from '../../../package.json'
 
 const NewsItem = () => (
-  <div className="news-item">
+  <div className="news-item" data-testid="news-item">
     <h1>Sinopia Version {version} released with new features and bug fixes!</h1>
     <ul>
       <li>Friendlier preview: choice of table, N-triples ot Turtle.</li>

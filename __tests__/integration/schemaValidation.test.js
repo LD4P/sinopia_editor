@@ -22,6 +22,7 @@ const createInitialState = () => {
       entities: {
         resourceTemplateSummaries: {},
         resourceTemplates: {},
+        languages: { loading: false, options: [] },
       },
       editor: {
       },

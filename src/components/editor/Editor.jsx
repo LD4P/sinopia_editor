@@ -25,7 +25,6 @@ const Editor = (props) => {
     setPrompt(resourceHasChanges && !props.isMenuOpened)
   }, [resourceHasChanges, props.isMenuOpened])
 
-
   // To handle prompt correctly with Chrome.
   const triggerHandleOffsetMenu = () => {
     setPrompt(false)

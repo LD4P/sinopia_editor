@@ -98,7 +98,7 @@ describe('SinopiaResourceTemplates', () => {
     // There is a link from the resource label that loads the resource into the editor tab
     expect(container.querySelector('a[href="/editor"]')).toBeInTheDocument()
     fireEvent.click(getByText('Note'))
-    await wait(() => expect(history.location.pathname).toBe('/editor'))
+    await wait(() => expect(history.location.pathname).toBe('/editor/resourceTemplate:bf2:Note'))
 
     // There is download link
     saveAs.mockReturnValue('file saved')
