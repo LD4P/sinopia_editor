@@ -10,11 +10,7 @@ describe('<QASearchResults />', () => {
     const state = {
       selectorReducer: {
         resource: {},
-        editor: {
-          resourceTemplateChoice: {
-            show: false,
-          },
-        },
+        editor: {},
         entities: {
           resourceTemplateSummaries: {},
         },
@@ -110,11 +106,7 @@ describe('<QASearchResults />', () => {
     const state = {
       selectorReducer: {
         resource: {},
-        editor: {
-          resourceTemplateChoice: {
-            show: false,
-          },
-        },
+        editor: {},
         entities: {
           resourceTemplateSummaries: {},
         },

@@ -19,10 +19,6 @@ const initialState = {
       resourceURIMessage: {
         show: false,
       },
-      // TODO: Merge this with modal above.
-      resourceTemplateChoice: {
-        show: false,
-      },
       copyToNewMessage: {},
       expanded: { // Should this node display as expanded in the editor (redux path organized)
       },
