@@ -6,7 +6,6 @@ import { connect } from 'react-redux'
 import { bindActionCreators } from 'redux'
 import PropTypes from 'prop-types'
 import Config from 'Config'
-import shortid from 'shortid'
 import { getCurrentUser } from 'authSelectors'
 import { copyNewResource } from 'actions/index'
 import { retrieveResource } from 'actionCreators/resources'
@@ -51,7 +50,7 @@ const SinopiaSearchResults = (props) => {
     const rows = []
     props.searchResults.forEach((row) => {
       const link = `${Config.sinopiaServerBase}/${row.uri}`
-      rows.push(<tr key={shortid.generate()}>
+      rows.push(<tr key={row.uri}>
         <td>{ row.label }</td>
         <td>
           <ul className="list-unstyled">
