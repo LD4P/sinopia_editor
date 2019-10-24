@@ -8,7 +8,7 @@ import {
   fetchSinopiaSearchResults as fetchSinopiaSearchResultsCreator,
   fetchQASearchResults as fetchQASearchResultsCreator,
 } from 'actionCreators/search'
-import { clearRetrieveResourceError as clearRetrieveResourceErrorAction, clearSearchResults as clearSearchResultsAction } from 'actions/index'
+import { clearSearchResults as clearSearchResultsAction } from 'actions/index'
 import SinopiaSearchResults from './SinopiaSearchResults'
 import QASearchResults from './QASearchResults'
 import SearchResultsPaging from './SearchResultsPaging'
@@ -26,12 +26,10 @@ const Search = (props) => {
   const resultsPerPage = useSelector(state => state.selectorReducer.search.resultsPerPage)
   const fetchSinopiaSearchResults = (queryString, startOfRange) => dispatch(fetchSinopiaSearchResultsCreator(queryString, startOfRange, resultsPerPage))
 
-  const clearRetrieveResourceError = () => dispatch(clearRetrieveResourceErrorAction())
   const clearSearchResults = useCallback(() => dispatch(clearSearchResultsAction()), [dispatch])
 
   const error = useSelector(state => state.selectorReducer.search.error)
   const searchUri = useSelector(state => state.selectorReducer.search.uri)
-  const retrieveResourceTemplateError = useSelector(state => state.selectorReducer.editor.retrieveResourceTemplateError)
 
   const [queryString, setQueryString] = useState('')
   const [uri, setUri] = useState('sinopia')
@@ -56,7 +54,6 @@ const Search = (props) => {
     if (queryString === '') {
       return
     }
-    clearRetrieveResourceError()
     if (uri === 'sinopia') {
       fetchSinopiaSearchResults(queryString, 0)
     } else {
@@ -117,7 +114,6 @@ const Search = (props) => {
         </div>
         <span className="help-block">For searching Sinopia, use a * to wildcard your search.</span>
       </div>
-      <Alert text={retrieveResourceTemplateError} />
       {results}
     </div>
   )

@@ -25,6 +25,7 @@ const createInitialState = () => {
         languages: { loading: false, options: [] },
       },
       editor: {
+        errors: {},
       },
       appVersion: {
         version: undefined,

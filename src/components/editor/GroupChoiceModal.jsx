@@ -9,6 +9,7 @@ import { hideModal } from 'actions/index'
 import { getCurrentUser } from 'authSelectors'
 import { publishResource } from 'actionCreators/resources'
 import ModalWrapper from '../ModalWrapper'
+import { resourceEditErrorKey } from './ResourceTemplate'
 
 const GroupChoiceModal = (props) => {
   // The ld4p group is only for templates
@@ -23,7 +24,7 @@ const GroupChoiceModal = (props) => {
   }
 
   const saveAndClose = (event) => {
-    props.publishResource(props.currentUser, selectedValue)
+    props.publishResource(props.currentUser, selectedValue, resourceEditErrorKey)
     props.hideModal()
     event.preventDefault()
   }

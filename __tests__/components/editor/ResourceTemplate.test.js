@@ -4,6 +4,7 @@ import React from 'react'
 import { shallow } from 'enzyme'
 import ResourceTemplate from 'components/editor/ResourceTemplate'
 import ResourceTemplateForm from 'components/editor/ResourceTemplateForm'
+import Alerts from 'components/Alerts'
 
 describe('<ResourceTemplate />', () => {
   const resourceTemplate = {
@@ -33,5 +34,10 @@ describe('<ResourceTemplate />', () => {
 
   it('displays the unused RDF', () => {
     expect(wrapper.find('div.alert-warning').text()).toMatch(/Unable to load the entire resource./)
+  })
+
+  it('displays Alert', () => {
+    const alertWrapper = shallow(<ResourceTemplate.WrappedComponent errors={['Oooops']} />)
+    expect(alertWrapper.find(Alerts).length).toEqual(1)
   })
 })

@@ -26,7 +26,6 @@ describe('fetchResourceTemplate', () => {
 
       expect(resourceTemplate).toEqual(templateResponse.response.body)
       expect(store.getActions()).toEqual([
-        { type: 'RETRIEVE_RESOURCE_TEMPLATE_STARTED', payload: resourceTemplateId },
         { type: 'RESOURCE_TEMPLATE_LOADED', payload: templateResponse.response.body },
       ])
     })
@@ -50,17 +49,14 @@ describe('fetchResourceTemplate', () => {
       const templateResponse = await getFixtureResourceTemplate(resourceTemplateId)
       server.getResourceTemplate = jest.fn().mockResolvedValue(templateResponse)
 
-      const resourceTemplate = await store.dispatch(fetchResourceTemplate(resourceTemplateId))
+      const resourceTemplate = await store.dispatch(fetchResourceTemplate(resourceTemplateId, 'testerrorkey'))
       expect(resourceTemplate).toBeFalsy()
       expect(store.getActions()).toEqual([
-        { type: 'RETRIEVE_RESOURCE_TEMPLATE_STARTED', payload: resourceTemplateId },
         {
-          type: 'RETRIEVE_RESOURCE_TEMPLATE_ERROR',
+          type: 'APPEND_ERROR',
           payload: {
-            resourceTemplateId,
-            reason: [
-              'Repeated property templates with same property URI (http://id.loc.gov/ontologies/bibframe/geographicCoverage) are not allowed.',
-            ],
+            errorKey: 'testerrorkey',
+            error: 'Validation error for http://id.loc.gov/ontologies/bibframe/Work: Repeated property templates with same property URI (http://id.loc.gov/ontologies/bibframe/geographicCoverage) are not allowed.',
           },
         },
       ])
@@ -84,32 +80,42 @@ describe('fetchResourceTemplateSummaries', () => {
 
     server.listResourcesInGroupContainer = jest.fn().mockResolvedValue(resourceTemplatesResponse)
     server.getResourceTemplate = jest.fn().mockResolvedValue(barcodeTemplateResponse).mockResolvedValueOnce(noteTemplateResponse)
-    const dispatch = jest.fn()
 
-    await fetchResourceTemplateSummaries()(dispatch)
+    const store = mockStore({})
+    await store.dispatch(fetchResourceTemplateSummaries('testerrorkey'))
+
     expect(server.listResourcesInGroupContainer).toHaveBeenCalledTimes(1)
     expect(server.listResourcesInGroupContainer).toHaveBeenCalledWith('ld4p')
 
     expect(server.getResourceTemplate).toHaveBeenCalledTimes(2)
     expect(server.getResourceTemplate).toHaveBeenCalledWith(noteId, 'ld4p')
     expect(server.getResourceTemplate).toHaveBeenCalledWith(barcodeId, 'ld4p')
-
-    expect(dispatch).toHaveBeenCalledTimes(5)
-    expect(dispatch).toBeCalledWith({
-      type: 'RESOURCE_TEMPLATE_SUMMARY_LOADED',
-      payload: {
-        key: noteId,
-        name: 'Note',
-        id: noteId,
-        group: 'ld4p',
-        author: undefined,
-        remark: undefined,
+    expect(store.getActions()).toEqual([
+      { type: 'CLEAR_ERRORS', payload: 'testerrorkey' },
+      {
+        type: 'RESOURCE_TEMPLATE_SUMMARY_LOADED',
+        payload: {
+          key: 'resourceTemplate:bf2:Note',
+          name: 'Note',
+          id: 'resourceTemplate:bf2:Note',
+          group: 'ld4p',
+          author: undefined,
+          remark: undefined,
+        },
       },
-    })
-
-    expect(dispatch).toBeCalledWith({
-      type: 'LOADED_RESOURCE_TEMPLATE_SUMMARIES',
-    })
+      {
+        type: 'RESOURCE_TEMPLATE_SUMMARY_LOADED',
+        payload: {
+          key: 'resourceTemplate:bf2:Identifiers:Barcode',
+          name: 'Barcode',
+          id: 'resourceTemplate:bf2:Identifiers:Barcode',
+          group: 'ld4p',
+          author: undefined,
+          remark: undefined,
+        },
+      },
+      { type: 'LOADED_RESOURCE_TEMPLATE_SUMMARIES' },
+    ])
   })
   it('handles no templates', async () => {
     const resourceTemplatesResponse = {
@@ -121,30 +127,73 @@ describe('fetchResourceTemplateSummaries', () => {
     }
 
     server.listResourcesInGroupContainer = jest.fn().mockResolvedValue(resourceTemplatesResponse)
-    const dispatch = jest.fn()
-
-    await fetchResourceTemplateSummaries()(dispatch)
+    const store = mockStore({})
+    await store.dispatch(fetchResourceTemplateSummaries('testerrorkey'))
     expect(server.listResourcesInGroupContainer).toHaveBeenCalledTimes(1)
     expect(server.listResourcesInGroupContainer).toHaveBeenCalledWith('ld4p')
-    expect(dispatch).toHaveBeenCalledTimes(1)
-    expect(dispatch).toBeCalledWith({
-      type: 'LOADED_RESOURCE_TEMPLATE_SUMMARIES',
-    })
+    expect(store.getActions()).toEqual([
+      { type: 'CLEAR_ERRORS', payload: 'testerrorkey' },
+      { type: 'LOADED_RESOURCE_TEMPLATE_SUMMARIES', payload: undefined },
+    ])
   })
   it('handles a connection error', async () => {
-    const resourceTemplateId = 'list of resource templates'
+    const store = mockStore({})
 
     server.listResourcesInGroupContainer = jest.fn().mockRejectedValue('Error: Request has been terminated..., etc.')
-    const dispatch = jest.fn()
-
-    await fetchResourceTemplateSummaries()(dispatch)
-
-    expect(dispatch).toBeCalledWith({
-      type: 'RETRIEVE_RESOURCE_TEMPLATE_ERROR',
-      payload: {
-        resourceTemplateId,
-        reason: 'Error: Request has been terminated..., etc.',
+    await store.dispatch(fetchResourceTemplateSummaries('testerrorkey'))
+    expect(store.getActions()).toEqual([
+      { type: 'CLEAR_ERRORS', payload: 'testerrorkey' },
+      {
+        type: 'APPEND_ERROR',
+        payload: {
+          errorKey: 'testerrorkey',
+          error: 'Error retrieving list of resource templates: Error: Request has been terminated..., etc.',
+        },
       },
-    })
+    ])
+  })
+  it('handles error loading a resource template summary', async () => {
+    const noteId = 'resourceTemplate:bf2:Note'
+    const barcodeId = 'resourceTemplate:bf2:Identifiers:Barcode'
+    const resourceTemplatesResponse = {
+      response: {
+        body: {
+          contains: [`http://platform:8080/repository/ld4p/${noteId}`, `http://platform:8080/repository/ld4p/${barcodeId}`],
+        },
+      },
+    }
+    const noteTemplateResponse = await getFixtureResourceTemplate(noteId)
+
+    server.listResourcesInGroupContainer = jest.fn().mockResolvedValue(resourceTemplatesResponse)
+    server.getResourceTemplate = jest.fn().mockResolvedValueOnce(noteTemplateResponse).mockRejectedValue(new Error('Drats'))
+
+    const store = mockStore({})
+    await store.dispatch(fetchResourceTemplateSummaries('testerrorkey'))
+
+    expect(server.getResourceTemplate).toHaveBeenCalledTimes(2)
+    expect(server.getResourceTemplate).toHaveBeenCalledWith(noteId, 'ld4p')
+    expect(server.getResourceTemplate).toHaveBeenCalledWith(barcodeId, 'ld4p')
+    expect(store.getActions()).toEqual([
+      { type: 'CLEAR_ERRORS', payload: 'testerrorkey' },
+      {
+        type: 'RESOURCE_TEMPLATE_SUMMARY_LOADED',
+        payload: {
+          key: 'resourceTemplate:bf2:Note',
+          name: 'Note',
+          id: 'resourceTemplate:bf2:Note',
+          group: 'ld4p',
+          author: undefined,
+          remark: undefined,
+        },
+      },
+      {
+        type: 'APPEND_ERROR',
+        payload: {
+          errorKey: 'testerrorkey',
+          error: 'Error retrieving http://platform:8080/repository/ld4p/resourceTemplate:bf2:Identifiers:Barcode: Error: Drats',
+        },
+      },
+      { type: 'LOADED_RESOURCE_TEMPLATE_SUMMARIES' },
+    ])
   })
 })

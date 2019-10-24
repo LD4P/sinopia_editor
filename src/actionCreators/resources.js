@@ -3,11 +3,10 @@
 /* eslint complexity: ["warn", 14] */
 
 import {
-  retrieveResourceStarted, setResource, updateProperty,
+  setResource, updateProperty,
   toggleCollapse, appendResource, setLastSaveChecksum,
   assignBaseURL, setUnusedRDF,
-  setRetrieveResourceError, saveResourceStarted, setSaveResourceError,
-  saveResourceFinished,
+  saveResourceFinished, appendError, clearErrors,
 } from 'actions/index'
 import { fetchResourceTemplate } from 'actionCreators/resourceTemplates'
 import { updateRDFResource, loadRDFResource, publishRDFResource } from 'sinopiaServer'
@@ -22,22 +21,17 @@ import ResourceStateBuilder from 'ResourceStateBuilder'
 import _ from 'lodash'
 
 // A thunk that updates (saves) an existing resource in Trellis
-export const update = currentUser => (dispatch, getState) => {
-  dispatch(saveResourceStarted())
-
+export const update = (currentUser, errorKey) => (dispatch, getState) => {
   const uri = rootResourceId(getState())
   const rdf = new GraphBuilder(getState().selectorReducer).graph.toCanonical()
   return updateRDFResource(currentUser, uri, rdf)
     .then(() => dispatch(saveResourceFinished(generateMD5(rdf))))
-    .catch(err => dispatch(setSaveResourceError(uri, err.toString())))
+    .catch(err => dispatch(appendError(errorKey, `Error saving ${uri}: ${err.toString()}`)))
 }
 
 // A thunk that loads an existing resource from Trellis
-export const retrieveResource = (currentUser, uri) => (dispatch) => {
-  // First dispatch: inform the app that loading has started
-  dispatch(retrieveResourceStarted())
-  // TODO: Handle error from retrieving resource, parsing, and building state
-  // See https://github.com/LD4P/sinopia_editor/issues/1395
+export const retrieveResource = (currentUser, uri, errorKey) => (dispatch) => {
+  dispatch(clearErrors(errorKey))
   return loadRDFResource(currentUser, uri)
     .then((response) => {
       const data = response.response.text
@@ -45,7 +39,7 @@ export const retrieveResource = (currentUser, uri) => (dispatch) => {
         const builder = new ResourceStateBuilder(dataset, null)
         // This also returns the resource templates. Could they be used?
         // See https://github.com/LD4P/sinopia_editor/issues/1396
-        return builder.buildState().then(([state, unusedDataset]) => dispatch(existingResourceFunc(state, uri)).then((result) => {
+        return builder.buildState().then(([state, unusedDataset]) => dispatch(existingResourceFunc(state, uri, errorKey)).then((result) => {
           if (result !== undefined) {
             const rdf = new GraphBuilder({ resource: result[0], entities: { resourceTemplates: result[1] } }).graph.toCanonical()
             dispatch(setLastSaveChecksum(generateMD5(rdf)))
@@ -53,21 +47,16 @@ export const retrieveResource = (currentUser, uri) => (dispatch) => {
             return true
           }
           return false
-        })).catch((err) => {
-          dispatch(setRetrieveResourceError(uri, err.toString()))
-          return false
-        })
+        })).catch((err) => { throw err })
       })
     }).catch((err) => {
-      dispatch(setRetrieveResourceError(uri, err.toString()))
+      dispatch(appendError(errorKey, `Error retrieving ${uri}: ${err.toString()}`))
       return false
     })
 }
 
 // A thunk that publishes (saves) a new resource in Trellis
-export const publishResource = (currentUser, group) => (dispatch, getState) => {
-  dispatch(saveResourceStarted()) // clears possible residual server error
-
+export const publishResource = (currentUser, group, errorKey) => (dispatch, getState) => {
   // Make a copy of state to prevent changes that will affect the publish.
   const state = _.cloneDeep(getState())
   const rdf = new GraphBuilder(state.selectorReducer).graph.toCanonical()
@@ -77,15 +66,16 @@ export const publishResource = (currentUser, group) => (dispatch, getState) => {
     dispatch(assignBaseURL(resourceUrl))
     dispatch(saveResourceFinished(generateMD5(rdf)))
   }).catch((err) => {
-    dispatch(setSaveResourceError(null, err.toString()))
+    dispatch(appendError(errorKey, `Error saving: ${err.toString()}`))
   })
 }
 
 // A thunk that stubs out a new resource
-export const newResource = resourceTemplateId => (dispatch) => {
+export const newResource = (resourceTemplateId, errorKey) => (dispatch) => {
+  dispatch(clearErrors(errorKey))
   const resource = {}
   resource[resourceTemplateId] = {}
-  return stubResource(resource, true, undefined, dispatch).then((result) => {
+  return stubResource(resource, true, undefined, errorKey, dispatch).then((result) => {
     if (result !== undefined) {
       const rdf = new GraphBuilder({ resource: result[0], entities: { resourceTemplates: result[1] } }).graph.toCanonical()
       dispatch(setLastSaveChecksum(generateMD5(rdf)))
@@ -97,20 +87,23 @@ export const newResource = resourceTemplateId => (dispatch) => {
 }
 
 // A thunk that stubs out an existing new resource
-export const existingResource = (resource, unusedRDF, uri) => dispatch => dispatch(existingResourceFunc(resource, uri)).then((result) => {
+// Note that errors are not cleared here.
+export const existingResource = (resource, unusedRDF, uri, errorKey) => dispatch => dispatch(existingResourceFunc(resource, uri, errorKey)).then((result) => {
   if (result !== undefined) {
     dispatch(setUnusedRDF(unusedRDF))
+    return true
   }
+  return false
 })
 
 // A thunk that expands a nested resource for a property
-export const expandResource = reduxPath => (dispatch, getState) => {
+export const expandResource = (reduxPath, errorKey) => (dispatch, getState) => {
   const state = getState()
   const resourceTemplateId = reduxPath.slice(-2)[0]
   const propertyURI = reduxPath.slice(-1)[0]
   const resourceTemplates = state.selectorReducer.entities.resourceTemplates
   const parentKeyReduxPath = reduxPath.slice(0, reduxPath.length - 2)
-  dispatch(stubResourceProperties(resourceTemplateId, resourceTemplates, {}, parentKeyReduxPath, true, false, propertyURI)).then((result) => {
+  dispatch(stubResourceProperties(resourceTemplateId, resourceTemplates, {}, parentKeyReduxPath, true, false, propertyURI, errorKey)).then((result) => {
     if (result !== undefined) {
       dispatch(updateProperty(reduxPath, result[0][propertyURI], result[1]))
     }
@@ -118,7 +111,7 @@ export const expandResource = reduxPath => (dispatch, getState) => {
 }
 
 // A thunk that adds a resource as sibling of provided reduxPath
-export const addResource = reduxPath => (dispatch, getState) => {
+export const addResource = (reduxPath, errorKey) => (dispatch, getState) => {
   const state = getState()
   const resourceTemplateId = reduxPath.slice(-1)[0]
   const resourceTemplates = state.selectorReducer.entities.resourceTemplates
@@ -127,7 +120,7 @@ export const addResource = reduxPath => (dispatch, getState) => {
   const newKeyReduxPath = [...parentReduxPath, key]
   const newResourceReduxPath = [...newKeyReduxPath, resourceTemplateId]
 
-  dispatch(stubResourceProperties(resourceTemplateId, resourceTemplates, {}, newKeyReduxPath, false, false, false)).then((result) => {
+  dispatch(stubResourceProperties(resourceTemplateId, resourceTemplates, {}, newKeyReduxPath, false, false, false, errorKey)).then((result) => {
     if (result !== undefined) {
       const addedResource = { [key]: { [resourceTemplateId]: result[0] } }
       dispatch(appendResource(newResourceReduxPath, addedResource, result[1]))
@@ -135,7 +128,7 @@ export const addResource = reduxPath => (dispatch, getState) => {
   })
 }
 
-const existingResourceFunc = (resource, uri) => dispatch => stubResource(resource, false, uri, dispatch).then((result) => {
+const existingResourceFunc = (resource, uri, errorKey) => dispatch => stubResource(resource, false, uri, errorKey, dispatch).then((result) => {
   if (result !== undefined) {
     dispatch(setLastSaveChecksum(undefined))
   }
@@ -143,7 +136,7 @@ const existingResourceFunc = (resource, uri) => dispatch => stubResource(resourc
 })
 
 // Stubs out a root resource
-const stubResource = (resource, useDefaults, uri, dispatch) => {
+const stubResource = (resource, useDefaults, uri, errorKey, dispatch) => {
   const newResource = { ...resource }
   const rootResourceTemplateId = Object.keys(newResource)[0]
   const rootResource = newResource[rootResourceTemplateId]
@@ -151,7 +144,7 @@ const stubResource = (resource, useDefaults, uri, dispatch) => {
     rootResource.resourceURI = uri
   }
   // Note that {} for resourceTemplates clears the existing resource templates.
-  return dispatch(stubResourceProperties(rootResourceTemplateId, {}, rootResource, ['resource'], useDefaults, false, false)).then((result) => {
+  return dispatch(stubResourceProperties(rootResourceTemplateId, {}, rootResource, ['resource'], useDefaults, false, false, errorKey)).then((result) => {
     if (result !== undefined) {
       newResource[rootResourceTemplateId] = result[0]
       dispatch(setResource(newResource, result[1]))
@@ -180,7 +173,7 @@ const stubResource = (resource, useDefaults, uri, dispatch) => {
  * @return {Promise<[Object, Object]>} the stubbed resource, resource templates
  */
 export const stubResourceProperties = (resourceTemplateId, resourceTemplates,
-  resource, reduxPath, useDefaults, stubMandatoryOnly, stubPropertyURIOnly) => async (dispatch) => {
+  resource, reduxPath, useDefaults, stubMandatoryOnly, stubPropertyURIOnly, errorKey) => async (dispatch) => {
   const newResource = _.cloneDeep(resource)
   const newResourceReduxPath = [...reduxPath, resourceTemplateId]
   let newResourceTemplates = _.cloneDeep(resourceTemplates)
@@ -188,7 +181,7 @@ export const stubResourceProperties = (resourceTemplateId, resourceTemplates,
   if (newResourceTemplates[resourceTemplateId]) {
     resourceTemplate = newResourceTemplates[resourceTemplateId]
   } else {
-    resourceTemplate = await dispatch(fetchResourceTemplate(resourceTemplateId))
+    resourceTemplate = await dispatch(fetchResourceTemplate(resourceTemplateId, errorKey))
     newResourceTemplates[resourceTemplateId] = resourceTemplate
   }
 
@@ -251,7 +244,7 @@ export const stubResourceProperties = (resourceTemplateId, resourceTemplates,
             const newResourcePropertyValueReduxPath = [...newResourcePropertyReduxPath, nestedResourceKey]
             const nestedResource = newResource[propertyTemplate.propertyURI][nestedResourceKey][resourceTemplateId]
             const stubResult = await dispatch(stubResourceProperties(resourceTemplateId, newResourceTemplates,
-              nestedResource, newResourcePropertyValueReduxPath, useDefaults, isMandatory, false))
+              nestedResource, newResourcePropertyValueReduxPath, useDefaults, isMandatory, false, errorKey))
             if (!stubResult) return
             const newNestedResource = stubResult[0]
             newResourceTemplates = { ...newResourceTemplates, ...stubResult[1] }

@@ -47,6 +47,7 @@ describe('<PropertyActionButtons />', () => {
       it('calls addResource', () => {
         button.simulate('click', mockEvent)
         expect(mockAddResource).toHaveBeenCalledTimes(1)
+        expect(mockAddResource).toHaveBeenCalledWith(['resource', 'myOrg:myRT'], 'resourceedit')
       })
     })
   })

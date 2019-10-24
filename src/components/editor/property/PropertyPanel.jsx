@@ -10,6 +10,7 @@ import { findNode, getPropertyTemplate } from 'selectors/resourceSelectors'
 import { removeResource } from 'actions/index'
 import { expandResource } from 'actionCreators/resources'
 import _ from 'lodash'
+import { resourceEditErrorKey } from '../ResourceTemplate'
 
 const PropertyPanel = (props) => {
   const isAdd = _.isEmpty(props.resourceModel)
@@ -24,7 +25,11 @@ const PropertyPanel = (props) => {
             <PropertyLabel propertyTemplate={ props.propertyTemplate } />
             <PropertyLabelInfo propertyTemplate={ props.propertyTemplate } />{nbsp}
             { isAdd && (
-              <button type="button" className="btn btn-sm btn-primary btn-add pull-right" onClick={() => props.expandResource(props.reduxPath)} data-id={props.id}>
+              <button
+                type="button"
+                className="btn btn-sm btn-primary btn-add pull-right"
+                onClick={() => props.expandResource(props.reduxPath, resourceEditErrorKey)}
+                data-id={props.id}>
                 + Add
               </button>
             )}

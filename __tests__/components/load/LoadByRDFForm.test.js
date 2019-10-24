@@ -34,6 +34,7 @@ const createInitialState = () => {
           errors: [],
           errorsByPath: {},
         },
+        errors: {},
       },
     },
     authenticate: {
@@ -145,9 +146,6 @@ describe('LoadByRDFForm', () => {
 
     // Page doesn't change
     expect(history.location.pathname).toBe('/')
-
-    // State doesn't change
-    expect(store.getState()).toEqual(createInitialState())
   })
 
   it('asks user for resource template when not provided', async () => {

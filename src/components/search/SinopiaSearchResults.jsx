@@ -7,13 +7,18 @@ import { bindActionCreators } from 'redux'
 import PropTypes from 'prop-types'
 import Config from 'Config'
 import { getCurrentUser } from 'authSelectors'
-import { copyNewResource } from 'actions/index'
+import { copyNewResource, clearErrors } from 'actions/index'
 import { retrieveResource } from 'actionCreators/resources'
-import { rootResource } from 'selectors/resourceSelectors'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faCopy, faEdit } from '@fortawesome/free-solid-svg-icons'
-import Alert from '../Alert'
+import { rootResource, findErrors } from 'selectors/resourceSelectors'
+import Alerts from '../Alerts'
 import SinopiaSort from './SinopiaSort'
+import _ from 'lodash'
+import { resourceEditErrorKey } from 'components/editor/ResourceTemplate'
+
+// Errors from retrieving a resource from this page.
+export const searchRetrieveErrorKey = 'searchresource'
 
 const SinopiaSearchResults = (props) => {
   const [navigateEditor, setNavigateEditor] = useState(false)
@@ -31,15 +36,15 @@ const SinopiaSearchResults = (props) => {
   }
 
   const handleEdit = (resourceURI) => {
-    props.retrieveResource(props.currentUser, resourceURI).then((success) => {
+    props.retrieveResource(props.currentUser, resourceURI, searchRetrieveErrorKey).then((success) => {
       setNavigateEditor(success)
     })
   }
 
-
   useEffect(() => {
     // Forces a wait until the root resource has been set in state
-    if (navigateEditor && props.rootResource && !props.error) {
+    if (navigateEditor && props.rootResource && _.isEmpty(props.errors)) {
+      props.clearErrors(resourceEditErrorKey)
       props.history.push('/editor')
     }
   })
@@ -86,7 +91,7 @@ const SinopiaSearchResults = (props) => {
 
   return (
     <React.Fragment>
-      <Alert text={props.error} />
+      <Alerts errorKey={searchRetrieveErrorKey} />
       <div id="search-results" className="row">
         <div className="col-sm-2"></div>
         <div className="col-sm-8">
@@ -127,16 +132,17 @@ SinopiaSearchResults.propTypes = {
   copyNewResource: PropTypes.func,
   history: PropTypes.object,
   rootResource: PropTypes.object,
-  error: PropTypes.string,
+  errors: PropTypes.array,
+  clearErrors: PropTypes.func,
 }
 
 const mapStateToProps = state => ({
   currentUser: getCurrentUser(state),
   searchResults: state.selectorReducer.search.results,
   rootResource: rootResource(state),
-  error: state.selectorReducer.editor.retrieveResourceError,
+  errors: findErrors(state, searchRetrieveErrorKey),
 })
 
-const mapDispatchToProps = dispatch => bindActionCreators({ retrieveResource, copyNewResource }, dispatch)
+const mapDispatchToProps = dispatch => bindActionCreators({ retrieveResource, copyNewResource, clearErrors }, dispatch)
 
 export default connect(mapStateToProps, mapDispatchToProps)(SinopiaSearchResults)

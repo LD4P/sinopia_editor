@@ -69,92 +69,25 @@ export const removeResource = (state, action) => {
   return validate(newState)
 }
 
-export const setSaveResourceError = (state, action) => {
-  const uri = action.payload.uri
-  const reason = action.payload.reason
+export const appendError = (state, action) => {
   const newState = { ...state }
 
-  let error = 'There was a problem saving'
-  if (uri) {
-    error += ` ${uri}`
-  }
-  if (reason) {
-    error += `: ${reason}`
+  const existingErrors = newState.editor.errors[action.payload.errorKey]
+  if (existingErrors) {
+    newState.editor.errors[action.payload.errorKey] = [...existingErrors, action.payload.error]
   } else {
-    error += '.'
+    newState.editor.errors[action.payload.errorKey] = [action.payload.error]
   }
 
-  newState.editor.saveResourceError = error
   return newState
 }
 
-export const setSaveResourceTemplateError = (state, action) => {
-  const resourceTemplateId = action.payload.resourceTemplateId
-  const reason = action.payload.reason
+export const clearErrors = (state, action) => {
   const newState = { ...state }
 
-  let error = `There was a problem saving ${resourceTemplateId}`
-  if (reason) {
-    error += `: ${reason}`
-  } else {
-    error += '.'
-  }
+  newState.editor.errors[action.payload] = []
 
-  newState.editor.saveResourceTemplateError = error
   return newState
-}
-
-export const setRetrieveResourceTemplateError = (state, action) => {
-  const resourceTemplateId = action.payload.resourceTemplateId
-  const reason = action.payload.reason
-  const newState = { ...state }
-
-  let error = `There was a problem retrieving ${resourceTemplateId}`
-  if (reason) {
-    error += `: ${reason}`
-  } else {
-    error += '.'
-  }
-
-  newState.editor.retrieveResourceTemplateError = error
-  return newState
-}
-
-export const setRetrieveResourceError = (state, action) => {
-  const uri = action.payload.uri
-  const reason = action.payload.reason
-  const newState = { ...state }
-
-  let error = `There was a problem retrieving ${uri}`
-  if (reason) {
-    error += `: ${reason}`
-  } else {
-    error += '.'
-  }
-
-  newState.editor.retrieveResourceError = error
-  return newState
-}
-
-
-export const clearRetrieveResourceTemplateError = (state) => {
-  const newEditor = { ...state.editor, retrieveResourceTemplateError: undefined }
-  return { ...state, editor: newEditor }
-}
-
-export const clearRetrieveResourceError = (state) => {
-  const newEditor = { ...state.editor, retrieveResourceError: undefined }
-  return { ...state, editor: newEditor }
-}
-
-export const clearSaveResourceTemplateError = (state) => {
-  const newEditor = { ...state.editor, saveResourceTemplateError: undefined }
-  return { ...state, editor: newEditor }
-}
-
-export const clearSaveResourceError = (state) => {
-  const newEditor = { ...state.editor, saveResourceError: undefined }
-  return { ...state, editor: newEditor }
 }
 
 export const saveAppVersion = (state, action) => {
@@ -206,16 +139,14 @@ export const setUnusedRDF = (state, action) => {
 }
 
 const handlers = {
+  APPEND_ERROR: appendError,
   APPEND_RESOURCE: appendResource,
   CHANGE_SELECTIONS: setItemsOrSelections,
-  CLEAR_RETRIEVE_RESOURCE_ERROR: clearRetrieveResourceError,
-  CLEAR_RETRIEVE_RESOURCE_TEMPLATE_ERROR: clearRetrieveResourceTemplateError,
+  CLEAR_ERRORS: clearErrors,
   CLEAR_RESOURCE_TEMPLATES: clearResourceTemplates,
-  CLEAR_SAVE_RESOURCE_ERROR: clearSaveResourceError,
-  CLEAR_SAVE_RESOURCE_TEMPLATE_ERROR: clearSaveResourceTemplateError,
   CLEAR_SEARCH_RESULTS: clearSearchResults,
-  HIDE_MODAL: hideModal,
   COPY_NEW_RESOURCE: copyResourceToEditor,
+  HIDE_MODAL: hideModal,
   HIDE_VALIDATION_ERRORS: hideValidationErrors,
   ITEMS_SELECTED: setItemsOrSelections,
   LANGUAGE_SELECTED: setMyItemsLang,
@@ -224,23 +155,14 @@ const handlers = {
   LOADING_LANGUAGES: loadingLanguages,
   LOADING_QA_RESULTS: loadingQaResults,
   LOOKUP_OPTIONS_RETRIEVED: lookupOptionsRetrieved,
-  PUBLISH_STARTED: clearSaveResourceError,
   QA_RESULTS_RECEIVED: qaResultsReceived,
   REMOVE_ITEM: removeMyItem,
   REMOVE_RESOURCE: removeResource,
   RESOURCE_LOADED: setResource,
   RESOURCE_TEMPLATE_LOADED: setResourceTemplate,
   RESOURCE_TEMPLATE_SUMMARY_LOADED: setResourceTemplateSummary,
-  RETRIEVE_RESOURCE_ERROR: setRetrieveResourceError,
-  RETRIEVE_RESOURCE_STARTED: clearRetrieveResourceError,
-  RETRIEVE_RESOURCE_TEMPLATE_ERROR: setRetrieveResourceTemplateError,
-  RETRIEVE_RESOURCE_TEMPLATE_STARTED: clearRetrieveResourceTemplateError,
   SAVE_APP_VERSION: saveAppVersion,
-  SAVE_RESOURCE_ERROR: setSaveResourceError,
   SAVE_RESOURCE_FINISHED: saveResourceFinished,
-  SAVE_RESOURCE_STARTED: clearSaveResourceError,
-  SAVE_RESOURCE_TEMPLATE_ERROR: setSaveResourceTemplateError,
-  SAVE_RESOURCE_TEMPLATE_STARTED: clearSaveResourceTemplateError,
   SET_BASE_URL: setBaseURL,
   SET_LAST_SAVE_CHECKSUM: setLastSaveChecksum,
   SET_SEARCH_RESULTS: setSearchResults,

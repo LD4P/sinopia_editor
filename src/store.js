@@ -25,10 +25,7 @@ const initialState = {
       copyToNewMessage: {},
       expanded: { // Should this node display as expanded in the editor (redux path organized)
       },
-      retrieveResourceError: undefined,
-      retrieveResourceTemplateError: undefined,
-      saveResourceTemplateError: undefined,
-      saveResourceError: undefined,
+      errors: {}, // {<error key>: [errors...]}
     },
     entities: { // The stuff we've retrieved from the server
       resourceTemplates: {},

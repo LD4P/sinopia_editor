@@ -3,46 +3,40 @@
 import React, { useMemo, useState, useEffect } from 'react'
 import { useSelector, useDispatch } from 'react-redux'
 import PropTypes from 'prop-types'
-import { showModal } from 'actions/index'
+import { showModal, clearErrors, appendError } from 'actions/index'
 import ResourceTemplateChoiceModal from '../ResourceTemplateChoiceModal'
 import { getTerm } from 'utilities/qa'
-import { existingResource as existingResourceAction } from 'actionCreators/resources'
-import { rootResource as rootResourceSelector } from 'selectors/resourceSelectors'
 import useResource from 'hooks/useResource'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faCopy } from '@fortawesome/free-solid-svg-icons'
-import Alert from '../Alert'
+import Alerts from '../Alerts'
+
+// Errors from retrieving a resource from this page.
+export const searchQARetrieveErrorKey = 'searchqaresource'
 
 const QASearchResults = (props) => {
   const dispatch = useDispatch()
 
   const searchResults = useSelector(state => state.selectorReducer.search.results)
   const searchUri = useSelector(state => state.selectorReducer.search.uri)
-  const rootResource = useSelector(state => rootResourceSelector(state))
 
-  const [error, setError] = useState(null)
   const [resourceURI, setResourceURI] = useState(null)
   // Resource ID is for handling non-LD QA authorities, e.g., Discog
   const [resourceId, setResourceId] = useState(null)
   const [resourceTemplateId, setResourceTemplateId] = useState(null)
   const [resourceN3, setResourceN3] = useState(null)
-  const [resourceState, unusedDataset, useResourceError] = useResource(resourceN3, resourceURI, resourceTemplateId, rootResource, props.history)
-
-  useEffect(() => {
-    if (resourceState && unusedDataset) {
-      dispatch(existingResourceAction(resourceState, unusedDataset.toCanonical()))
-    }
-  }, [dispatch, resourceState, unusedDataset])
+  useResource(resourceN3, resourceURI, resourceTemplateId, searchQARetrieveErrorKey, props.history)
 
   // Retrieve N3 from QA
   useEffect(() => {
     if (!resourceURI || !searchUri) {
       return
     }
+    dispatch(clearErrors(searchQARetrieveErrorKey))
     getTerm(resourceURI, resourceId, searchUri)
       .then(resourceN3 => setResourceN3(resourceN3))
-      .catch(err => setError(`Error retrieving resource: ${err.toString()}`))
-  }, [resourceId, resourceURI, searchUri])
+      .catch(err => dispatch(appendError(`Error retrieving resource: ${err.toString()}`)))
+  }, [dispatch, resourceId, resourceURI, searchUri])
 
   // Transform the results into the format to be displayed in the table.
   const tableData = useMemo(() => searchResults.map((result) => {
@@ -114,10 +108,13 @@ const QASearchResults = (props) => {
     return rows
   }
 
+  if (searchResults.length === 0) {
+    return null
+  }
+
   return (
     <div id="search-results" className="row">
-      <Alert text={error?.toString()} />
-      <Alert text={useResourceError?.toString()} />
+      <Alerts errorKey={searchQARetrieveErrorKey} />
       <div className="col-sm-2"></div>
       <div className="col-sm-8">
         <table className="table table-bordered">

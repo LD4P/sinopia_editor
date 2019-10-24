@@ -8,7 +8,7 @@ describe('<SinopiaSearchResults />', () => {
   const state = {
     selectorReducer: {
       editor: {
-        retrieveResourceError: undefined,
+        errors: {},
       },
       resource: {},
       search: {
@@ -63,5 +63,38 @@ describe('<SinopiaSearchResults />', () => {
       expect(queryByText('http://schema.org/Thing')).toBeInTheDocument()
       expect(queryByText('Stanford University')).toBeInTheDocument()
     })
+  })
+
+  it('renders errors', () => {
+    const state = {
+      selectorReducer: {
+        resource: {},
+        editor: {
+          errors: {
+            searchresource: ['Ooops'],
+          },
+        },
+        entities: {
+          resourceTemplateSummaries: {},
+        },
+        search: {
+          results: [{
+            uri: 'some/stanford/path',
+            type: ['http://schema.org/Thing'],
+            label: 'An item title',
+            modified: '2019-10-23T22:42:57.623Z',
+            created: '2019-10-23T22:42:57.623Z',
+          }],
+          totalResults: 1,
+          query: 'twain',
+        },
+      },
+    }
+
+    const store = createReduxStore(state)
+    const { getByText } = renderWithRedux(
+      <SinopiaSearchResults />, store,
+    )
+    expect(getByText('Ooops')).toBeInTheDocument()
   })
 })

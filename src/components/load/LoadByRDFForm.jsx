@@ -1,40 +1,27 @@
 // Copyright 2019 Stanford University see LICENSE for license
 
 import React, { useState, useEffect } from 'react'
-import { useDispatch, useSelector } from 'react-redux'
+import { useDispatch } from 'react-redux'
 import PropTypes from 'prop-types'
-import { existingResource as existingResourceCreator } from 'actionCreators/resources'
 import ResourceStateBuilder from 'ResourceStateBuilder'
 import { rdfDatasetFromN3 } from 'Utilities'
-import { rootResource as rootResourceSelector } from 'selectors/resourceSelectors'
 import useResource from 'hooks/useResource'
-import { showModal } from 'actions/index'
+import { showModal, clearErrors, appendError } from 'actions/index'
 import ResourceTemplateChoiceModal from '../ResourceTemplateChoiceModal'
-import Alert from '../Alert'
+import Alerts from '../Alerts'
+
 import _ from 'lodash'
 
-const LoadByRDFForm = (props) => {
-  const rootResource = useSelector(state => rootResourceSelector(state))
+// Errors from retrieving a resource from this page.
+export const loadResourceByRDFErrorKey = 'loadrdfresource'
 
+const LoadByRDFForm = (props) => {
   const dispatch = useDispatch()
 
   const [baseURI, setBaseURI] = useState('')
   const [resourceN3, setResourceN3] = useState('')
   const [resourceTemplateId, setResourceTemplateId] = useState('')
-  const [error, setError] = useState('')
-  const [resourceState, unusedDataset, useResourceError] = useResource(resourceN3, baseURI, resourceTemplateId, rootResource, props.history)
-
-  useEffect(() => {
-    if (useResourceError && !error) {
-      setError(useResourceError)
-    }
-  }, [useResourceError, error])
-
-  useEffect(() => {
-    if (resourceState && unusedDataset) {
-      dispatch(existingResourceCreator(resourceState, unusedDataset.toCanonical()))
-    }
-  }, [dispatch, resourceState, unusedDataset])
+  useResource(resourceN3, baseURI, resourceTemplateId, loadResourceByRDFErrorKey, props.history)
 
   // Passed into resource template chooser to allow it to pass back selected resource template id.
   const chooseResourceTemplate = (resourceTemplateId) => {
@@ -44,9 +31,12 @@ const LoadByRDFForm = (props) => {
   useEffect(() => {
     // Clear resource template id so that useResource doesn't trigger with previous resource template id.
     setResourceTemplateId(null)
-  }, [resourceN3])
+    // Clear errors
+    if (resourceN3 === '') dispatch(clearErrors(loadResourceByRDFErrorKey))
+  }, [dispatch, resourceN3])
 
   const handleSubmit = (event) => {
+    dispatch(clearErrors(loadResourceByRDFErrorKey))
     // Try parsing to extract the resource template id
     rdfDatasetFromN3(resourceN3).then((dataset) => {
       const builder = new ResourceStateBuilder(dataset, baseURI)
@@ -57,7 +47,7 @@ const LoadByRDFForm = (props) => {
       } catch (err) {
         dispatch(showModal('ResourceTemplateChoiceModal'))
       }
-    }).catch(err => setError(`Error parsing: ${err}`))
+    }).catch(err => dispatch(appendError(loadResourceByRDFErrorKey, `Error parsing: ${err}`)))
     event.preventDefault()
   }
 
@@ -72,7 +62,7 @@ const LoadByRDFForm = (props) => {
   return (
     <div>
       <h4>Load RDF into Editor</h4>
-      <Alert text={error?.toString()} />
+      <Alerts errorKey={loadResourceByRDFErrorKey} />
 
       <form id="loadForm" onSubmit={handleSubmit}>
         <div className="form-group">

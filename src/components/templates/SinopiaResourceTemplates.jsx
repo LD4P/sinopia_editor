@@ -9,7 +9,14 @@ import ResourceTemplateRow from './ResourceTemplateRow'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faSort, faSortUp, faSortDown } from '@fortawesome/free-solid-svg-icons'
 import { newResource } from 'actionCreators/resources'
-import { rootResource as rootResourceSelector, rootResourceTemplateId as rootResourceTemplateIdSelector } from 'selectors/resourceSelectors'
+import { rootResource as rootResourceSelector, rootResourceTemplateId as rootResourceTemplateIdSelector, findErrors } from 'selectors/resourceSelectors'
+import _ from 'lodash'
+import Alerts from '../Alerts'
+
+// Errors from loading a new resource from this page.
+export const newResourceErrorKey = 'newresource'
+// Errors from loading the list of resource templates.
+export const resourceTemplateListErrorKey = 'listresourcetemplates'
 
 /**
  * This is the list view of all the templates
@@ -41,7 +48,7 @@ const SinopiaResourceTemplates = (props) => {
     })
   }, [resourceTemplateSummaries, sortColumn, sortDirection])
 
-  const error = useSelector(state => state.selectorReducer.editor.retrieveResourceTemplateError)
+  const errors = useSelector(state => findErrors(state, newResourceErrorKey))
   const rootResource = useSelector(state => rootResourceSelector(state))
   const rootResourceTemplateId = useSelector(state => rootResourceTemplateIdSelector(state))
 
@@ -49,16 +56,16 @@ const SinopiaResourceTemplates = (props) => {
 
   useEffect(() => {
     // Forces a wait until the root resource has been set in state
-    if (navigateEditor && rootResource && rootResourceTemplateId && !error) {
+    if (navigateEditor && rootResource && rootResourceTemplateId && _.isEmpty(errors)) {
       props.history.push(`/editor/${rootResourceTemplateId}`)
     }
-  }, [navigateEditor, rootResource, rootResourceTemplateId, props.history, error])
+  }, [navigateEditor, rootResource, rootResourceTemplateId, props.history, errors])
 
   const topRef = useRef(null)
 
   const handleClick = (resourceTemplateId, event) => {
     event.preventDefault()
-    dispatch(newResource(resourceTemplateId)).then((result) => {
+    dispatch(newResource(resourceTemplateId, newResourceErrorKey)).then((result) => {
       setNavigateEditor(result)
       if (!result) window.scrollTo(0, topRef.current.offsetTop)
     })
@@ -78,10 +85,6 @@ const SinopiaResourceTemplates = (props) => {
     setSortColumn(column)
   }
   const rows = sortedResourceTemplateSummaries.map(row => <ResourceTemplateRow row={row} key={row.id} navigate={handleClick}/>)
-
-  const errorMessage = error === undefined
-    ? (<span />)
-    : (<div className="alert alert-warning">{ error }</div>)
 
   // Don't render until resource template summaries have been retrieved.
   // This makes testing deterministic (viz., when a result appears that result reflects the found rts)
@@ -113,7 +116,8 @@ const SinopiaResourceTemplates = (props) => {
 
   return (
     <div ref={topRef}>
-      { errorMessage }
+      <Alerts errorKey={newResourceErrorKey} />
+      <Alerts errorKey={resourceTemplateListErrorKey} />
       <h4>Available Resource Templates in Sinopia</h4>
       <table className="table table-bordered"
              id="resource-template-list">

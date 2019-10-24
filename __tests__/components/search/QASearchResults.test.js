@@ -10,7 +10,9 @@ describe('<QASearchResults />', () => {
     const state = {
       selectorReducer: {
         resource: {},
-        editor: {},
+        editor: {
+          errors: {},
+        },
         entities: {
           resourceTemplateSummaries: {},
         },
@@ -106,7 +108,9 @@ describe('<QASearchResults />', () => {
     const state = {
       selectorReducer: {
         resource: {},
-        editor: {},
+        editor: {
+          errors: {},
+        },
         entities: {
           resourceTemplateSummaries: {},
         },
@@ -187,5 +191,59 @@ describe('<QASearchResults />', () => {
     expect(getByText('Eric Burdon & The Animals - The Twain Shall Meet')).toBeInTheDocument()
     expect(getAllByText('master').length).toBe(2)
     expect(getAllByTitle('Copy').length).toBe(2)
+  })
+
+  it('renders errors', () => {
+    const state = {
+      selectorReducer: {
+        resource: {},
+        editor: {
+          errors: {
+            searchqaresource: ['Ooops'],
+          },
+        },
+        entities: {
+          resourceTemplateSummaries: {},
+        },
+        search: {
+          results: [{
+            uri: 'https://www.discogs.com/Shania-Twain-Shania-Twain/master/132553',
+            id: '132553',
+            label: 'Shania Twain - Shania Twain',
+            context: {
+              'Image URL': [
+                'https://img.discogs.com/v-Gvq7D2Sjxz9QtYt4rlcBNtkuY=/fit-in/600x600/filters:strip_icc():format(jpeg):mode_rgb():quality(90)/discogs-images/R-429801-1476775497-2961.jpeg.jpg',
+              ],
+              Year: [
+                '1993',
+              ],
+              'Record Labels': [
+                'Mercury',
+                'PolyGram Records, Inc.',
+                'PolyGram Records, Inc.',
+                'PolyGram Group Canada Inc.',
+                'PolyGram Group Canada Inc.',
+                'Cinram',
+              ],
+              Formats: [
+                'CD',
+                'Album',
+              ],
+              Type: [
+                'master',
+              ],
+            },
+          }],
+          totalResults: 1,
+          query: 'twain',
+        },
+      },
+    }
+
+    const store = createReduxStore(state)
+    const { getByText } = renderWithRedux(
+      <QASearchResults history={{}}/>, store,
+    )
+    expect(getByText('Ooops')).toBeInTheDocument()
   })
 })

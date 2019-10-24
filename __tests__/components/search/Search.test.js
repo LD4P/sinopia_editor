@@ -30,7 +30,9 @@ describe('<Search />', () => {
           version: '1.0.2',
           lastChecked: 1569901390063,
         },
-        editor: {},
+        editor: {
+          errors: {},
+        },
         entities: {
           resourceTemplateSummaries: {},
         },

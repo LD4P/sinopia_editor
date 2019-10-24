@@ -18,7 +18,10 @@ const ResourceTemplateChoiceModal = (props) => {
     display = 'block'
   }
 
-  const resourceTemplateSummaries = useSelector(state => Object.values(state.selectorReducer.entities.resourceTemplateSummaries))
+  const resourceTemplateSummaries = useSelector((state) => {
+    const resourceTemplateSummaries = state.selectorReducer.entities.resourceTemplateSummaries
+    return resourceTemplateSummaries ? Object.values(state.selectorReducer.entities.resourceTemplateSummaries) : []
+  })
   const sortedResourceTemplateSummaries = useMemo(() => resourceTemplateSummaries.sort(
     (a, b) => a.name.localeCompare(b.name),
   ), [resourceTemplateSummaries])

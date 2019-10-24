@@ -50,17 +50,23 @@ const currentUser = {
 }
 
 describe('update', () => {
-  it('dispatches actions when started and finished', async () => {
+  it('dispatches actions when successful', async () => {
     sinopiaServer.updateRDFResource = jest.fn().mockResolvedValue(true)
 
     const mockStore = configureMockStore([thunk])
     const store = mockStore(initialState)
-    await store.dispatch(update(currentUser))
+    await store.dispatch(update(currentUser, 'testerrorkey'))
 
-    const actions = store.getActions()
-    expect(actions.length).toEqual(2)
-    expect(actions[0]).toEqual({ type: 'SAVE_RESOURCE_STARTED' })
-    expect(actions[1]).toEqual({ type: 'SAVE_RESOURCE_FINISHED', payload: '5e30bd59d0186c5307065436240ba108' })
+    expect(store.getActions()).toEqual([{ type: 'SAVE_RESOURCE_FINISHED', payload: '5e30bd59d0186c5307065436240ba108' }])
+  })
+  it('dispatches actions when error occurs', async () => {
+    sinopiaServer.updateRDFResource = jest.fn().mockRejectedValue(new Error('Ooops'))
+
+    const mockStore = configureMockStore([thunk])
+    const store = mockStore(initialState)
+    await store.dispatch(update(currentUser, 'testerrorkey'))
+
+    expect(store.getActions()).toEqual([{ type: 'APPEND_ERROR', payload: { errorKey: 'testerrorkey', error: 'Error saving http://example.com/repository/stanford/12345: Error: Ooops' } }])
   })
 })
 
@@ -81,15 +87,15 @@ describe('retrieveResource', () => {
     it('it does not dispatch setLastSaveChecksum', async () => {
       sinopiaServer.getResourceTemplate.mockRejectedValue(new Error('not found'))
 
-      expect(await store.dispatch(retrieveResource(currentUser, uri))).toBe(false)
+      expect(await store.dispatch(retrieveResource(currentUser, uri, 'testerrorkey'))).toBe(false)
 
       expect(store.getActions()).toEqual([
-        { type: 'RETRIEVE_RESOURCE_STARTED' },
+        { type: 'CLEAR_ERRORS', payload: 'testerrorkey' },
         {
-          type: 'RETRIEVE_RESOURCE_ERROR',
+          type: 'APPEND_ERROR',
           payload: {
-            uri: 'http://sinopia.io/repository/stanford/123',
-            reason: 'Error getting resourceTemplate:bf2:Note: Error: not found',
+            errorKey: 'testerrorkey',
+            error: 'Error retrieving http://sinopia.io/repository/stanford/123: Error getting resourceTemplate:bf2:Note: Error: not found',
           },
         },
       ])
@@ -103,7 +109,7 @@ describe('retrieveResource', () => {
 
       sinopiaServer.getResourceTemplate.mockImplementation(getFixtureResourceTemplate)
 
-      expect(await store.dispatch(retrieveResource(currentUser, uri))).toBe(true)
+      expect(await store.dispatch(retrieveResource(currentUser, uri, 'testerrorkey'))).toBe(true)
 
       const actions = store.getActions()
       const expectedResource = {
@@ -123,8 +129,7 @@ describe('retrieveResource', () => {
       const reduxPath = ['resource', 'resourceTemplate:bf2:Note', 'http://www.w3.org/2000/01/rdf-schema#label']
 
       expect(actions).toEqual([
-        { type: 'RETRIEVE_RESOURCE_STARTED', payload: undefined },
-        { type: 'RETRIEVE_RESOURCE_TEMPLATE_STARTED', payload: 'resourceTemplate:bf2:Note' },
+        { type: 'CLEAR_ERRORS', payload: 'testerrorkey' },
         { type: 'RESOURCE_TEMPLATE_LOADED', payload: resourceTemplate },
         { type: 'TOGGLE_COLLAPSE', payload: { reduxPath } },
         { type: 'RESOURCE_LOADED', payload: { resource: expectedResource, resourceTemplates: { [resourceTemplateId]: resourceTemplate } } },
@@ -139,15 +144,15 @@ describe('retrieveResource', () => {
     it('it dispatches retrieve resource error', async () => {
       sinopiaServer.getResourceTemplate.mockRejectedValue(new Error('Ooops'))
 
-      expect(await store.dispatch(retrieveResource(currentUser, uri))).toBe(false)
+      expect(await store.dispatch(retrieveResource(currentUser, uri, 'testerrorkey'))).toBe(false)
 
       expect(store.getActions()).toEqual([
-        { type: 'RETRIEVE_RESOURCE_STARTED' },
+        { type: 'CLEAR_ERRORS', payload: 'testerrorkey' },
         {
-          type: 'RETRIEVE_RESOURCE_ERROR',
+          type: 'APPEND_ERROR',
           payload: {
-            reason: 'Error getting resourceTemplate:bf2:Note: Error: Ooops',
-            uri: 'http://sinopia.io/repository/stanford/123',
+            error: 'Error retrieving http://sinopia.io/repository/stanford/123: Error getting resourceTemplate:bf2:Note: Error: Ooops',
+            errorKey: 'testerrorkey',
           },
         },
       ])
@@ -176,21 +181,20 @@ describe('publishResource', () => {
       },
     })
 
-    await store.dispatch(publishResource(currentUser, group))
-    const actions = store.getActions()
-    expect(actions.length).toEqual(3)
-    expect(actions[0]).toEqual({ type: 'SAVE_RESOURCE_STARTED' })
-    expect(actions[1]).toEqual({ type: 'SET_BASE_URL', payload: 'http://sinopia.io/repository/myGroup/myResource' })
-    expect(actions[2]).toEqual({ type: 'SAVE_RESOURCE_FINISHED', payload: '5e30bd59d0186c5307065436240ba108' })
+    await store.dispatch(publishResource(currentUser, group, 'testerrorkey'))
+    expect(store.getActions()).toEqual([
+      { type: 'SET_BASE_URL', payload: 'http://sinopia.io/repository/myGroup/myResource' },
+      { type: 'SAVE_RESOURCE_FINISHED', payload: '5e30bd59d0186c5307065436240ba108' },
+    ])
   })
+
   it('dispatches actions for error path', async () => {
     // const store = mockStore(state)
     sinopiaServer.publishRDFResource = jest.fn().mockRejectedValue(new Error('publish error'))
 
-    await store.dispatch(publishResource(currentUser, group))
+    await store.dispatch(publishResource(currentUser, group, 'testerrorkey'))
     expect(store.getActions()).toEqual([
-      { type: 'SAVE_RESOURCE_STARTED' },
-      { type: 'SAVE_RESOURCE_ERROR', payload: { uri: null, reason: 'Error: publish error' } },
+      { type: 'APPEND_ERROR', payload: { errorKey: 'testerrorkey', error: 'Error saving: Error: publish error' } },
     ])
   })
 })
@@ -216,11 +220,11 @@ describe('newResource', () => {
   describe('when dispatch to stubResource returns undefined', () => {
     it('dispatches no actions', async () => {
       sinopiaServer.getResourceTemplate.mockRejectedValue(new Error('Ooops'))
-      await store.dispatch(newResource(resourceTemplateId))
+      await store.dispatch(newResource(resourceTemplateId, 'testerrorkey'))
 
       expect(store.getActions()).toEqual([
-        { type: 'RETRIEVE_RESOURCE_TEMPLATE_STARTED', payload: 'resourceTemplate:bf2:Note' },
-        { type: 'RETRIEVE_RESOURCE_TEMPLATE_ERROR', payload: { resourceTemplateId: 'resourceTemplate:bf2:Note', reason: 'Error: Ooops' } },
+        { type: 'CLEAR_ERRORS', payload: 'testerrorkey' },
+        { type: 'APPEND_ERROR', payload: { errorKey: 'testerrorkey', error: 'Error retrieving resourceTemplate:bf2:Note: Error: Ooops' } },
       ])
     })
   })
@@ -230,10 +234,10 @@ describe('newResource', () => {
       const resourceTemplate = resourceTemplateResponse.response.body
       sinopiaServer.getResourceTemplate.mockImplementation(getFixtureResourceTemplate)
 
-      await store.dispatch(newResource(resourceTemplateId))
+      await store.dispatch(newResource(resourceTemplateId, 'testerrorkey'))
       const expectedResource = { [resourceTemplateId]: { 'http://www.w3.org/2000/01/rdf-schema#label': {} } }
       expect(store.getActions()).toEqual([
-        { type: 'RETRIEVE_RESOURCE_TEMPLATE_STARTED', payload: 'resourceTemplate:bf2:Note' },
+        { type: 'CLEAR_ERRORS', payload: 'testerrorkey' },
         { type: 'RESOURCE_TEMPLATE_LOADED', payload: resourceTemplate },
         { type: 'RESOURCE_LOADED', payload: { resource: expectedResource, resourceTemplates: { [resourceTemplateId]: resourceTemplate } } },
         { type: 'SET_LAST_SAVE_CHECKSUM', payload: 'baf92a33bf689d599a41bb4563db42fc' },
@@ -261,10 +265,9 @@ describe('existingResource', () => {
     it('dispatches no actions', async () => {
       sinopiaServer.getResourceTemplate.mockRejectedValue(new Error('Ooops'))
 
-      await store.dispatch(existingResource(resource, null, uri))
+      expect(await store.dispatch(existingResource(resource, null, uri, 'testerrorkey'))).toBe(false)
       expect(store.getActions()).toEqual([
-        { type: 'RETRIEVE_RESOURCE_TEMPLATE_STARTED', payload: 'resourceTemplate:bf2:Note' },
-        { type: 'RETRIEVE_RESOURCE_TEMPLATE_ERROR', payload: { resourceTemplateId: 'resourceTemplate:bf2:Note', reason: 'Error: Ooops' } },
+        { type: 'APPEND_ERROR', payload: { errorKey: 'testerrorkey', error: 'Error retrieving resourceTemplate:bf2:Note: Error: Ooops' } },
       ])
     })
   })
@@ -283,7 +286,7 @@ describe('existingResource', () => {
 
       const unusedRDF = '<> <http://id.loc.gov/ontologies/bibframe/mainTitle> "foo"@en .'
 
-      await store.dispatch(existingResource(resource, unusedRDF, uri))
+      expect(await store.dispatch(existingResource(resource, unusedRDF, uri, 'testerrorkey'))).toBe(true)
       const expectedResource = {
         'resourceTemplate:bf2:Note': {
           resourceURI: 'http://localhost:8080/repository/stanford/888ea64d-f471-41bf-9d33-c9426ab83b5c',
@@ -291,10 +294,9 @@ describe('existingResource', () => {
         },
       }
       expect(store.getActions()).toEqual([
-        { type: 'RETRIEVE_RESOURCE_TEMPLATE_STARTED', payload: 'resourceTemplate:bf2:Note' },
         { type: 'RESOURCE_TEMPLATE_LOADED', payload: resourceTemplate },
         { type: 'RESOURCE_LOADED', payload: { resource: expectedResource, resourceTemplates: { [resourceTemplateId]: resourceTemplate } } },
-        { type: 'SET_LAST_SAVE_CHECKSUM' },
+        { type: 'SET_LAST_SAVE_CHECKSUM', payload: undefined },
         { type: 'SET_UNUSED_RDF', payload: unusedRDF }])
     })
   })

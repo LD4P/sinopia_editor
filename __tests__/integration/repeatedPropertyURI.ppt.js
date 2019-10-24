@@ -11,6 +11,6 @@ describe('A repeated propertyURI', () => {
   it('renders an error message', async () => {
     expect.assertions(2)
     await pupExpect(page).toClick('a', { text: 'repeated propertyURI with differing propertyLabel' })
-    await pupExpect(page).toMatch('There was a problem retrieving rt:repeated:propertyURI:propertyLabel: Repeated property templates with same property URI (http://id.loc.gov/ontologies/bibframe/geographicCoverage) are not allowed.')
+    await pupExpect(page).toMatch('Validation error for http://id.loc.gov/ontologies/bibframe/Work: Repeated property templates with same property URI (http://id.loc.gov/ontologies/bibframe/geographicCoverage) are not allowed.')
   })
 })
