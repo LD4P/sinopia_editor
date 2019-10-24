@@ -61,7 +61,9 @@ const SinopiaSearchResults = (props) => {
         <td>{ row.modified } </td>
         <td>
           <div className="btn-group" role="group" aria-label="Result Actions">
-            <button className="btn btn-link" onClick={e => handleEdit(link, e) }>
+            <button className="btn btn-link"
+                    title="Edit"
+                    onClick={e => handleEdit(link, e) }>
               <FontAwesomeIcon icon={faEdit} size="2x" />
             </button>
             <button type="button"
