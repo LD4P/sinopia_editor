@@ -340,6 +340,10 @@ input.rbt-input-main {
   padding-left: 8px;
 }
 
+.dropdown-item.active {
+  color: #000000;
+}
+
 th.search-header {
   background-color: #F8F6EF;
 }
