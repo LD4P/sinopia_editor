@@ -21,6 +21,7 @@ import { version } from '../../package.json'
 import { fetchResourceTemplateSummaries } from 'actionCreators/resourceTemplates'
 import { newResource as newResourceCreator } from 'actionCreators/resources'
 import loadLanguages from 'actionCreators/languages'
+import { resourceTemplateListErrorKey, newResourceErrorKey } from './templates/SinopiaResourceTemplates'
 
 import _ from 'lodash'
 
@@ -28,11 +29,11 @@ const FourOhFour = () => <h1>404</h1>
 
 const App = (props) => {
   const dispatch = useDispatch()
-  const newResource = rtId => dispatch(newResourceCreator(rtId))
+  const newResource = rtId => dispatch(newResourceCreator(rtId, newResourceErrorKey))
 
   useEffect(() => {
     dispatch(saveAppVersion(version))
-    dispatch(fetchResourceTemplateSummaries())
+    dispatch(fetchResourceTemplateSummaries(resourceTemplateListErrorKey))
     dispatch(loadLanguages())
   }, [dispatch])
 

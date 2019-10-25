@@ -41,7 +41,7 @@ const createInitialState = () => {
         },
       },
       editor: {
-        serverError: '',
+        errors: {},
         resourceValidation: {
           show: false,
         },
@@ -71,17 +71,17 @@ const resourceTemplateSummaries = [
   },
 ]
 
+sinopiaServer.getResourceTemplate.mockImplementation(getFixtureResourceTemplate)
+
 describe('SinopiaResourceTemplates', () => {
   it('displays a list of resource templates with links to load and to download the resources', async () => {
     const store = createReduxStore(createInitialState())
     const history = createMemoryHistory()
 
-    sinopiaServer.getResourceTemplate.mockImplementation(getFixtureResourceTemplate)
-
     const {
       container, getByText, getByTestId, getAllByTestId, queryAllByTestId,
     } = renderWithReduxAndRouter(
-      <SinopiaResourceTemplates messages={[]} history={history} />, store,
+      <SinopiaResourceTemplates history={history} />, store,
     )
     // There is a table with heading and header columns
     expect(getByText('Available Resource Templates in Sinopia')).toBeInTheDocument()
@@ -108,5 +108,20 @@ describe('SinopiaResourceTemplates', () => {
     expect(container.querySelector('button.btn-linky')).toBeInTheDocument()
     fireEvent.click(getAllByTestId('download-link')[0])
     expect(saveAs()).toMatch('file saved')
+  })
+  it('displays errors', async () => {
+    const state = createInitialState()
+    state.selectorReducer.editor.errors = {
+      newresource: ['Ooops'],
+      listresourcetemplates: ['Darn'],
+    }
+    const store = createReduxStore(state)
+
+    const { getByText } = renderWithReduxAndRouter(
+      <SinopiaResourceTemplates history={{}} />, store,
+    )
+
+    expect(getByText('Ooops')).toBeInTheDocument()
+    expect(getByText('Darn')).toBeInTheDocument()
   })
 })

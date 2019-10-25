@@ -96,7 +96,7 @@ describe('<GroupChoiceModal />', () => {
       it('saves the RDF content with group choice when save is clicked and then closes the modals', () => {
         const selectedGroup = 'cornell' // default is first choice, which is cornell
         wrapper.find('button.btn-primary').simulate('click')
-        expect(mockPublishMyResource).toHaveBeenCalledWith(currentUser, selectedGroup)
+        expect(mockPublishMyResource).toHaveBeenCalledWith(currentUser, selectedGroup, 'resourceedit')
         expect(mockHideModal).toHaveBeenCalled()
       })
     })
@@ -105,7 +105,7 @@ describe('<GroupChoiceModal />', () => {
       it('attempts to save the RDF content with group choice when save is clicked and then closes the modals', () => {
         const selectedGroup = 'cornell' // default is first choice, which is cornell
         wrapper.find('button.btn-primary').simulate('click')
-        expect(mockPublishMyResource).toHaveBeenCalledWith(currentUser, selectedGroup)
+        expect(mockPublishMyResource).toHaveBeenCalledWith(currentUser, selectedGroup, 'resourceedit')
         expect(mockHideModal).toHaveBeenCalled()
       })
     })

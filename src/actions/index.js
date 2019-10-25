@@ -1,6 +1,11 @@
 // Copyright 2019 Stanford University see LICENSE for license
 /* eslint max-params: ["warn", 8] */
 
+export const appendError = (errorKey, error) => ({
+  type: 'APPEND_ERROR',
+  payload: { errorKey, error },
+})
+
 export const appendResource = (reduxPath, resource, resourceTemplates) => ({
   type: 'APPEND_RESOURCE',
   payload: { reduxPath, resource, resourceTemplates },
@@ -26,24 +31,13 @@ export const changeSelections = item => ({
   payload: item,
 })
 
+export const clearErrors = errorKey => ({
+  type: 'CLEAR_ERRORS',
+  payload: errorKey,
+})
+
 export const clearResourceTemplates = () => ({
   type: 'CLEAR_RESOURCE_TEMPLATES',
-})
-
-export const clearRetrieveResourceError = () => ({
-  type: 'CLEAR_RETRIEVE_RESOURCE_ERROR',
-})
-
-export const clearRetrieveResourceTemplateError = () => ({
-  type: 'CLEAR_RETRIEVE_RESOURCE_TEMPLATE_ERROR',
-})
-
-export const clearSaveResourceError = () => ({
-  type: 'CLEAR_SAVE_RESOURCE_ERROR',
-})
-
-export const clearSaveResourceTemplateError = () => ({
-  type: 'CLEAR_SAVE_RESOURCE_TEMPLATE_ERROR',
 })
 
 export const clearSearchResults = () => ({
@@ -97,16 +91,6 @@ export const removeResource = reduxPath => ({
   payload: reduxPath,
 })
 
-export const retrieveResourceStarted = uri => ({
-  type: 'RETRIEVE_RESOURCE_STARTED',
-  payload: uri,
-})
-
-export const retrieveResourceTemplateStarted = resourceTemplateId => ({
-  type: 'RETRIEVE_RESOURCE_TEMPLATE_STARTED',
-  payload: resourceTemplateId,
-})
-
 export const saveAppVersion = version => ({
   type: 'SAVE_APP_VERSION',
   payload: version,
@@ -117,27 +101,9 @@ export const saveResourceFinished = checksum => ({
   payload: checksum,
 })
 
-export const saveResourceStarted = () => ({
-  type: 'SAVE_RESOURCE_STARTED',
-})
-
-export const saveResourceTemplateStarted = () => ({
-  type: 'SAVE_RESOURCE_TEMPLATE_STARTED',
-})
-
 export const setLastSaveChecksum = checksum => ({
   type: 'SET_LAST_SAVE_CHECKSUM',
   payload: checksum,
-})
-
-export const setRetrieveResourceError = (uri, reason) => ({
-  type: 'RETRIEVE_RESOURCE_ERROR',
-  payload: { uri, reason },
-})
-
-export const setRetrieveResourceTemplateError = (resourceTemplateId, reason) => ({
-  type: 'RETRIEVE_RESOURCE_TEMPLATE_ERROR',
-  payload: { resourceTemplateId, reason },
 })
 
 export const setResource = (resource, resourceTemplates) => ({
@@ -153,16 +119,6 @@ export const setResourceTemplate = resourceTemplate => ({
 export const setResourceTemplateSummary = resourceTemplateSummary => ({
   type: 'RESOURCE_TEMPLATE_SUMMARY_LOADED',
   payload: resourceTemplateSummary,
-})
-
-export const setSaveResourceError = (uri, reason) => ({
-  type: 'SAVE_RESOURCE_ERROR',
-  payload: { uri, reason },
-})
-
-export const setSaveResourceTemplateError = (resourceTemplateId, reason) => ({
-  type: 'SAVE_RESOURCE_TEMPLATE_ERROR',
-  payload: { resourceTemplateId, reason },
 })
 
 export const setSearchResults = (uri, searchResults, totalResults, query, startOfRange, sortField, sortOrder, error) => ({

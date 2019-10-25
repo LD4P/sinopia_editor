@@ -13,7 +13,7 @@ import {
 import { toggleCollapse, removeResource } from 'actions/index'
 import { expandResource } from 'actionCreators/resources'
 import _ from 'lodash'
-
+import { resourceEditErrorKey } from '../ResourceTemplate'
 
 const OutlineHeader = (props) => {
   const icon = props.collapsed === true ? faAngleRight : faAngleDown
@@ -92,7 +92,7 @@ const mapDispatchToProps = (dispatch, ownProps) => ({
   },
   handleAddButton: (event) => {
     event.preventDefault()
-    dispatch(expandResource(ownProps.reduxPath))
+    dispatch(expandResource(ownProps.reduxPath, resourceEditErrorKey))
   },
   handleRemoveButton: (event) => {
     event.preventDefault()

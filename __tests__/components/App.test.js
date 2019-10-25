@@ -39,7 +39,8 @@ const createInitialState = (options = {}) => {
           show: false,
           errors: [],
           errorsByPath: {},
-        }
+        },
+        errors: {},
       },
       appVersion: {
         version: undefined,
@@ -181,7 +182,7 @@ describe('<App />', () => {
       history.push('/editor/resourceTemplate:bf2:Notex')
       const { getByText } = renderWithRedux((<Router history={history}><App /></Router>), store)
       await wait(() => expect(history.location.pathname).toEqual('/templates'))
-      expect(getByText(/There was a problem retrieving resourceTemplate:bf2:Notex/)).toBeInTheDocument()
+      expect(getByText(/Error retrieving resourceTemplate:bf2:Notex/)).toBeInTheDocument()
     })
 
     it('renders templates for /templates', async () => {

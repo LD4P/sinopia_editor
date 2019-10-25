@@ -66,7 +66,7 @@ const createInitialState = (options = {}) => {
           errors: [],
           errorsByPath: {},
         },
-        saveResourceError: 'Error 999',
+        errors: {},
         rdfPreview: {
           show: true,
         },
@@ -107,7 +107,6 @@ describe('<Editor />', () => {
       expect(queryByText(/Preferred Title for Work/)).toBeInTheDocument()
       expect(queryByText('LINKED DATA EDITOR')).toBeInTheDocument()
       expect(queryByText(/Alert! No data can be saved unless you are logged in with group permissions./)).toBeInTheDocument()
-      expect(queryByText(/Error 999/)).toBeInTheDocument()
     })
   })
 

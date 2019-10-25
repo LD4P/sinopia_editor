@@ -54,6 +54,7 @@ const createInitialState = () => {
           show: false,
         },
         expanded: {},
+        errors: {},
       },
       appVersion: {
         version: undefined,

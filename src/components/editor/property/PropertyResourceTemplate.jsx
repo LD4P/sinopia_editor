@@ -88,7 +88,6 @@ PropertyResourceTemplate.propTypes = {
   isRepeatable: PropTypes.string,
   reduxPath: PropTypes.array,
   resourceTemplate: PropTypes.object,
-  addResource: PropTypes.func,
   siblingResourceCount: PropTypes.number,
 }
 

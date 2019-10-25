@@ -36,7 +36,7 @@ const validateRepeatedPropertyTemplates = (resourceTemplate) => {
     }
   })
   if (dupes.length > 0) {
-    return [`Repeated property templates with same property URI (${dupes}) are not allowed.`]
+    return [formatError(`Repeated property templates with same property URI (${dupes}) are not allowed.`, resourceTemplate)]
   }
   return []
 }
@@ -61,7 +61,7 @@ const validateNoDefaultURIForLiterals = (resourceTemplate) => {
     }
   })
   if (propertyTemplateIds.size > 0) {
-    return [`Literal property templates (${Array.from(propertyTemplateIds)}) cannot have default URIs.`]
+    return [formatError(`Literal property templates (${Array.from(propertyTemplateIds)}) cannot have default URIs.`, resourceTemplate)]
   }
   return []
 }
@@ -83,7 +83,7 @@ const validateNoDefaultsForTemplateRefs = (resourceTemplate) => {
     }
   })
   if (propertyTemplateIds.size > 0) {
-    return [`Property templates (${Array.from(propertyTemplateIds)}) cannot have both defaults and valueTemplateRefs.`]
+    return [formatError(`Property templates (${Array.from(propertyTemplateIds)}) cannot have both defaults and valueTemplateRefs.`, resourceTemplate)]
   }
 
   return []
@@ -104,7 +104,7 @@ const validateKnownTagName = (resourceTemplate) => {
     }
   })
   if (propertyTemplateIds.length > 0) {
-    return [`The following property templates have unknown types or lookups: ${propertyTemplateIds.join(', ')}`]
+    return [formatError(`The following property templates have unknown types or lookups: ${propertyTemplateIds.join(', ')}`, resourceTemplate)]
   }
   return []
 }
@@ -126,7 +126,8 @@ const validateTemplateRefsExist = async (resourceTemplate) => {
     }))
   }))
   if (missingResourceTemplateIds.size > 0) {
-    return [`The following referenced resource templates are not available in Sinopia: ${Array.from(missingResourceTemplateIds).join(', ')}`]
+    // eslint-disable-next-line max-len
+    return [formatError(`The following referenced resource templates are not available in Sinopia: ${Array.from(missingResourceTemplateIds).join(', ')}`, resourceTemplate)]
   }
   return []
 }
@@ -152,7 +153,7 @@ const validateUniqueResourceURIs = async (resourceTemplate) => {
     const multipleResourceURIs = Object.keys(resourceURIs).filter(resourceURI => resourceURIs[resourceURI].length > 1)
     multipleResourceURIs.forEach((resourceURI) => {
       // eslint-disable-next-line max-len
-      errors.push(`The following resource templates references for ${propertyTemplate.propertyURI} have the same resource URI (${resourceURI}), but must be unique: ${resourceURIs[resourceURI].join(', ')}`)
+      errors.push(formatError(`The following resource templates references for ${propertyTemplate.propertyURI} have the same resource URI (${resourceURI}), but must be unique: ${resourceURIs[resourceURI].join(', ')}`, resourceTemplate))
     })
   }))
   return errors
@@ -165,6 +166,8 @@ const fetchResourceTemplate = async resourceTemplateId => getResourceTemplate(re
     console.error(err.toString())
     return null
   })
+
+const formatError = (error, resourceTemplate) => `Validation error for ${resourceTemplate.resourceURI}: ${error}`
 
 
 export default validateResourceTemplate

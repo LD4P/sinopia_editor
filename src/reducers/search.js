@@ -38,8 +38,5 @@ export const clearSearchResults = (state) => {
   newState.search.sortOrder = undefined
   newState.search.error = undefined
 
-  // Also clear retrieve resource error
-  newState.editor.retrieveResourceError = undefined
-
   return newState
 }

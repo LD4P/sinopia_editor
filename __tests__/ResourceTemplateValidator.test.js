@@ -19,14 +19,14 @@ describe('validateResourceTemplate', () => {
 
   it('returns reason for repeated property URIs', async () => {
     const template = await getFixtureResourceTemplate('rt:repeated:propertyURI:propertyLabel')
-    expect(await validateResourceTemplate(template.response.body)).toEqual(['Repeated property templates with same property URI (http://id.loc.gov/ontologies/bibframe/geographicCoverage) are not allowed.'])
+    expect(await validateResourceTemplate(template.response.body)).toEqual(['Validation error for http://id.loc.gov/ontologies/bibframe/Work: Repeated property templates with same property URI (http://id.loc.gov/ontologies/bibframe/geographicCoverage) are not allowed.'])
   })
 
   it('returns reason for literal with default URI', async () => {
     const templateResponse = await getFixtureResourceTemplate('resourceTemplate:bf2:Title')
     const template = _.cloneDeep(templateResponse.response.body)
     template.propertyTemplates[0].valueConstraint.defaults.push({ defaultURI: 'http://example.org/title#AClockworkOrange' })
-    expect(await validateResourceTemplate(template)).toEqual(['Literal property templates (http://id.loc.gov/ontologies/bibframe/mainTitle) cannot have default URIs.'])
+    expect(await validateResourceTemplate(template)).toEqual(['Validation error for http://id.loc.gov/ontologies/bibframe/Title: Literal property templates (http://id.loc.gov/ontologies/bibframe/mainTitle) cannot have default URIs.'])
   })
 
   it('allows blank default URIs', async () => {
@@ -38,12 +38,12 @@ describe('validateResourceTemplate', () => {
 
   it('returns reason for property with refs and defaults', async () => {
     const template = await getFixtureResourceTemplate('rt:resource:DefaultsAndRefs')
-    expect(await validateResourceTemplate(template.response.body)).toEqual(['Property templates (http://examples.org/bogusOntologies/invalid) cannot have both defaults and valueTemplateRefs.'])
+    expect(await validateResourceTemplate(template.response.body)).toEqual(['Validation error for http://examples.org/bogusOntologies/Resource: Property templates (http://examples.org/bogusOntologies/invalid) cannot have both defaults and valueTemplateRefs.'])
   })
 
   it('returns reason for misconfigured resource template', async () => {
     const templateResponse = await getFixtureResourceTemplate('Sinopia:RT:Fixture:LookupWithValueTemplateRefs')
-    expect(await validateResourceTemplate(templateResponse.response.body)).toEqual(['The following property templates have unknown types or lookups: http://examples.org/bogusOntologies/lookup1'])
+    expect(await validateResourceTemplate(templateResponse.response.body)).toEqual(['Validation error for http://examples.org/bogusOntologies/Resource: The following property templates have unknown types or lookups: http://examples.org/bogusOntologies/lookup1'])
   })
 
   it('returns reason for missing resource templates', async () => {
@@ -55,6 +55,6 @@ describe('validateResourceTemplate', () => {
   it('returns reason for non-unique property template refs', async () => {
     const templateResponse = await getFixtureResourceTemplate('test:RT:bf2:RareMat:Instance')
     const reasons = await validateResourceTemplate(templateResponse.response.body)
-    expect(reasons[0]).toEqual('The following resource templates references for http://id.loc.gov/ontologies/bibframe/genreForm have the same resource URI (http://id.loc.gov/ontologies/bibframe/GenreForm), but must be unique: ld4p:RT:bf2:Form, ld4p:RT:bf2:RareMat:RBMS')
+    expect(reasons[0]).toEqual('Validation error for http://id.loc.gov/ontologies/bibframe/Instance: The following resource templates references for http://id.loc.gov/ontologies/bibframe/genreForm have the same resource URI (http://id.loc.gov/ontologies/bibframe/GenreForm), but must be unique: ld4p:RT:bf2:Form, ld4p:RT:bf2:RareMat:RBMS')
   })
 })

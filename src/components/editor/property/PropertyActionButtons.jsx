@@ -7,11 +7,12 @@ import { connect } from 'react-redux'
 import { addResource } from 'actionCreators/resources'
 import { removeResource } from 'actions/index'
 import { getResourceTemplate } from 'selectors/resourceSelectors'
+import { resourceEditErrorKey } from '../ResourceTemplate'
 
 const PropertyActionButtons = (props) => {
   const handleAddClick = (event) => {
     event.preventDefault()
-    props.addResource(props.reduxPath)
+    props.addResource(props.reduxPath, resourceEditErrorKey)
   }
 
   const handleRemoveClick = (event) => {

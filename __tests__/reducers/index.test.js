@@ -37,6 +37,7 @@ beforeEach(() => {
           errors: [],
           errorsByPath: {},
         },
+        errors: {},
       },
     },
   }
@@ -90,148 +91,51 @@ describe('createReducer', () => {
   })
 })
 
-describe('clearRetrieveResourceError', () => {
-  it('clears the error', () => {
+describe('clearErrors', () => {
+  it('clears the error when already exists', () => {
     const newInitialState = { ...initialState }
-    newInitialState.selectorReducer.editor.retrieveResourceError = 'Ooops'
+    newInitialState.selectorReducer.editor.errors.testerrorkey = ['Ooops']
 
     const newState = appReducer(newInitialState, {
-      type: 'CLEAR_RETRIEVE_RESOURCE_ERROR',
+      type: 'CLEAR_ERRORS',
+      payload: 'testerrorkey',
     })
 
-    expect(newState.selectorReducer.editor.retrieveResourceError).toBeUndefined()
+    expect(newState.selectorReducer.editor.errors.testerrorkey).toEqual([])
   })
-})
-
-describe('clearRetrieveResourceTemplateError', () => {
-  it('clears the error', () => {
+  it('clears the error when does not already exists', () => {
     const newInitialState = { ...initialState }
-    newInitialState.selectorReducer.editor.retrieveResourceTemplateError = 'Ooops'
 
     const newState = appReducer(newInitialState, {
-      type: 'CLEAR_RETRIEVE_RESOURCE_TEMPLATE_ERROR',
+      type: 'CLEAR_ERRORS',
+      payload: 'testerrorkey',
     })
 
-    expect(newState.selectorReducer.editor.retrieveResourceTemplateError).toBeUndefined()
+    expect(newState.selectorReducer.editor.errors.testerrorkey).toEqual([])
   })
 })
 
-describe('clearSaveResourceError', () => {
-  it('clears the error', () => {
-    const newInitialState = { ...initialState }
-    newInitialState.selectorReducer.editor.saveResourceError = 'Ooops'
-
-    const newState = appReducer(newInitialState, {
-      type: 'CLEAR_SAVE_RESOURCE_ERROR',
-    })
-
-    expect(newState.selectorReducer.editor.saveResourceError).toBeUndefined()
-  })
-})
-
-describe('clearSaveResourceTemplateError', () => {
-  it('clears the error', () => {
-    const newInitialState = { ...initialState }
-    newInitialState.selectorReducer.editor.saveResourceTemplateError = 'Ooops'
-
-    const newState = appReducer(newInitialState, {
-      type: 'CLEAR_SAVE_RESOURCE_TEMPLATE_ERROR',
-    })
-
-    expect(newState.selectorReducer.editor.saveResourceTemplateError).toBeUndefined()
-  })
-})
-
-describe('setRetrieveResourceError', () => {
-  it('adds error with uri to editor state', () => {
+describe('appendError', () => {
+  it('adds error when error key does not exist', () => {
     const newState = appReducer(initialState, {
-      type: 'RETRIEVE_RESOURCE_ERROR',
+      type: 'APPEND_ERROR',
       payload: {
-        uri: 'http://abc123',
+        errorKey: 'testerrorkey',
+        error: 'Error: test',
       },
     })
-    expect(newState.selectorReducer.editor.retrieveResourceError).toEqual('There was a problem retrieving http://abc123.')
+    expect(newState.selectorReducer.editor.errors.testerrorkey).toEqual(['Error: test'])
   })
-  it('adds error with uri and reason to editor state', () => {
+  it('adds error when error key already exists', () => {
+    initialState.selectorReducer.editor.errors.testerrorkey = ['Error: existing']
     const newState = appReducer(initialState, {
-      type: 'RETRIEVE_RESOURCE_ERROR',
+      type: 'APPEND_ERROR',
       payload: {
-        uri: 'http://abc123',
-        reason: 'Ooops',
+        errorKey: 'testerrorkey',
+        error: 'Error: test',
       },
     })
-    expect(newState.selectorReducer.editor.retrieveResourceError).toEqual('There was a problem retrieving http://abc123: Ooops')
-  })
-})
-
-describe('setRetrieveResourceTemplateError', () => {
-  it('adds error with resourceTemplateId to editor state', () => {
-    const newState = appReducer(initialState, {
-      type: 'RETRIEVE_RESOURCE_TEMPLATE_ERROR',
-      payload: {
-        resourceTemplateId: 'bf2:WorkTitle',
-      },
-    })
-    expect(newState.selectorReducer.editor.retrieveResourceTemplateError).toEqual('There was a problem retrieving bf2:WorkTitle.')
-  })
-  it('adds error with resourceTemplateId and reason to editor state', () => {
-    const newState = appReducer(initialState, {
-      type: 'RETRIEVE_RESOURCE_TEMPLATE_ERROR',
-      payload: {
-        resourceTemplateId: 'bf2:WorkTitle',
-        reason: 'Ooops',
-      },
-    })
-    expect(newState.selectorReducer.editor.retrieveResourceTemplateError).toEqual('There was a problem retrieving bf2:WorkTitle: Ooops')
-  })
-})
-
-describe('setSaveResourceError', () => {
-  it('adds error with reason to editor state', () => {
-    const newState = appReducer(initialState, {
-      type: 'SAVE_RESOURCE_ERROR',
-      payload: {
-        uri: null,
-        reason: 'publishing error msg',
-      },
-    })
-    expect(newState.selectorReducer.editor.saveResourceError).toEqual('There was a problem saving: publishing error msg')
-  })
-
-  it('adds error with reason and uri to editor state', () => {
-    const newState = appReducer(initialState, {
-      type: 'SAVE_RESOURCE_ERROR',
-      payload: {
-        uri: 'http://abc123',
-        reason: 'publishing error msg',
-      },
-    })
-
-    expect(newState.selectorReducer.editor.saveResourceError).toEqual('There was a problem saving http://abc123: publishing error msg')
-  })
-})
-
-describe('setSaveResourceTemplateError', () => {
-  it('adds error with resourceTemplateId to editor state', () => {
-    const newState = appReducer(initialState, {
-      type: 'SAVE_RESOURCE_TEMPLATE_ERROR',
-      payload: {
-        resourceTemplateId: 'bf2:WorkTitle',
-      },
-    })
-    expect(newState.selectorReducer.editor.saveResourceTemplateError).toEqual('There was a problem saving bf2:WorkTitle.')
-  })
-
-  it('adds error with reason and resourceTemplateId to editor state', () => {
-    const newState = appReducer(initialState, {
-      type: 'SAVE_RESOURCE_TEMPLATE_ERROR',
-      payload: {
-        resourceTemplateId: 'bf2:WorkTitle',
-        reason: 'publishing error msg',
-      },
-    })
-
-    expect(newState.selectorReducer.editor.saveResourceTemplateError).toEqual('There was a problem saving bf2:WorkTitle: publishing error msg')
+    expect(newState.selectorReducer.editor.errors.testerrorkey).toEqual(['Error: existing', 'Error: test'])
   })
 })
 

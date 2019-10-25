@@ -33,6 +33,11 @@ export const findResourceValidationErrors = state => findResourceValidation(stat
 export const getDisplayResourceValidations = state => findResourceValidation(state).show
 
 /**
+ * @returns {function} a function that returns the errors for an error key
+ */
+export const findErrors = (state, errorKey) => state.selectorReducer.editor.errors[errorKey] || []
+
+/**
  * Get a list of selections that have been made for the given reduxPath
  * @param {Object} state the redux state
  * @param {string[]} reduxPath the path to the input field

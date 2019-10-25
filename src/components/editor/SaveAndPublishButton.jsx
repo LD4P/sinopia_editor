@@ -14,12 +14,13 @@ import {
   showValidationErrors as showValidationErrorsAction,
   hideValidationErrors as hideValidationErrorsAction,
 } from 'actions/index'
+import { resourceEditErrorKey } from './ResourceTemplate'
 
 const SaveAndPublishButton = (props) => {
   const dispatch = useDispatch()
 
   const currentUser = useSelector(state => getCurrentUser(state))
-  const update = () => dispatch(updateCreator(currentUser))
+  const update = () => dispatch(updateCreator(currentUser, resourceEditErrorKey))
 
   const showGroupChooser = () => dispatch(showGroupChooserAction())
   const showValidationErrors = () => dispatch(showValidationErrorsAction())

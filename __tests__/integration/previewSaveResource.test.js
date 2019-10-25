@@ -83,6 +83,7 @@ const createInitialState = () => {
         groupChoice: {
           show: false,
         },
+        errors: {},
       },
       appVersion: {
         version: undefined,

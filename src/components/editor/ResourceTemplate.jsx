@@ -4,20 +4,24 @@ import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import PropTypes from 'prop-types'
 import ResourceTemplateForm from './ResourceTemplateForm'
-import { getResourceTemplate } from 'selectors/resourceSelectors'
+import { getResourceTemplate, findErrors } from 'selectors/resourceSelectors'
 import CopyToNewMessage from './CopyToNewMessage'
 import ResourceURIMessage from './ResourceURIMessage'
 import SaveAlert from './SaveAlert'
 import RDFDisplay from './RDFDisplay'
+import Alerts from '../Alerts'
 import _ from 'lodash'
+
+// Error key for errors that occur while editing a resource.
+export const resourceEditErrorKey = 'resourceedit'
 
 /**
  * This is the root component of the editor on the resource edit page
  */
 class ResourceTemplate extends Component {
   render() {
-    if (this.props.error) {
-      return (<div className="alert alert-warning">{ this.props.error }</div>)
+    if (!_.isEmpty(this.props.errors)) {
+      return (<Alerts errorKey={resourceEditErrorKey} />)
     }
 
     if (_.isEmpty(this.props.resourceTemplate)) {
@@ -47,7 +51,7 @@ class ResourceTemplate extends Component {
 
 ResourceTemplate.propTypes = {
   resourceTemplate: PropTypes.object,
-  error: PropTypes.string,
+  errors: PropTypes.array,
   unusedRDF: PropTypes.string,
 }
 
@@ -55,11 +59,11 @@ const mapStateToProps = (state) => {
   const resourceTemplateId = _.first(Object.keys(state.selectorReducer.resource))
 
   const resourceTemplate = getResourceTemplate(state, resourceTemplateId)
-  const error = state.selectorReducer.editor.retrieveResourceTemplateError
+  const errors = findErrors(state, resourceEditErrorKey)
   const unusedRDF = state.selectorReducer.editor.unusedRDF
   return {
     resourceTemplate,
-    error,
+    errors,
     unusedRDF,
   }
 }

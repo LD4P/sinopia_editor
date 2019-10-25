@@ -6,13 +6,14 @@ import { bindActionCreators } from 'redux'
 import { connect } from 'react-redux'
 import Header from '../Header'
 import ImportFileZone from './ImportFileZone'
-import SinopiaResourceTemplates from './SinopiaResourceTemplates'
+import SinopiaResourceTemplates, { resourceTemplateListErrorKey } from './SinopiaResourceTemplates'
 import UpdateResourceModal from './UpdateResourceModal'
 import CreateResourceMessages from './CreateResourceMessages'
 import { createResourceTemplate, updateResourceTemplate } from 'sinopiaServer'
 import { getCurrentUser } from 'authSelectors'
 import { fetchResourceTemplateSummaries } from 'actionCreators/resourceTemplates'
 import { showModal } from 'actions/index'
+
 
 class ImportResourceTemplate extends Component {
   constructor(props) {
@@ -42,7 +43,7 @@ class ImportResourceTemplate extends Component {
       responses.push(response)
     }
     this.updateStateFromServerResponses(responses)
-    this.props.fetchResourceTemplateSummaries()
+    this.props.fetchResourceTemplateSummaries(resourceTemplateListErrorKey)
   }
 
   createResource = async (content, group) => {
@@ -132,7 +133,7 @@ class ImportResourceTemplate extends Component {
     const responses = await Promise.all(rts.map(rt => this.updateResource(rt, group)))
 
     this.updateStateFromServerResponses(responses)
-    this.props.fetchResourceTemplateSummaries()
+    this.props.fetchResourceTemplateSummaries(resourceTemplateListErrorKey)
   }
 
   render() {
