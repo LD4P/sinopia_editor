@@ -1,5 +1,5 @@
 import React from 'react'
-import { fireEvent } from '@testing-library/react'
+import { fireEvent, wait } from '@testing-library/react'
 import ResourceURIMessage from 'components/editor/ResourceURIMessage'
 /* eslint import/no-unresolved: 'off' */
 import { renderWithRedux, createReduxStore } from 'testUtils'
@@ -45,5 +45,9 @@ describe('ResourceURIMessage', () => {
     )
     fireEvent.click(getByText('Copy URI'))
     expect(navigator.clipboard.writeText).toHaveBeenCalledWith('http://localhost:8080/repository/cornell/f6b80d28-cc1b-44ef-8aaf-618569a981cd')
+    expect(getByText('Copied URI to Clipboard'))
+    wait(() => {
+      expect(getByText('Copy URI'))
+    })
   })
 })
