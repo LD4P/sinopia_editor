@@ -31,7 +31,7 @@ const RDFModal = (props) => {
          tabIndex="-1"
          role="dialog"
          style={{ display }}>
-      <div className="modal-dialog modal-lg">
+      <div className="modal-dialog modal-lg modal-dialog-scrollable">
         <div className="modal-content">
           <div className="modal-header" data-testid="rdf-modal-header">
             <h4 className="modal-title">RDF Preview</h4>
