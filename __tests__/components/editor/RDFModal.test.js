@@ -1,6 +1,7 @@
 // Copyright 2019 Stanford University see LICENSE for license
 
 import React from 'react'
+import { fireEvent, wait } from '@testing-library/react'
 /* eslint import/no-unresolved: 'off' */
 import { renderWithRedux, createReduxStore, setupModal } from 'testUtils'
 import RDFModal from 'components/editor/RDFModal'
@@ -24,7 +25,7 @@ describe('<RDFModal />', () => {
   const store = createReduxStore(state)
 
 
-  it('renders the <RDFModal /> component as a Modal', () => {
+  it('renders the <RDFModal /> component as a Modal', async () => {
     const { getByLabelText, getByTestId, getByText } = renderWithRedux(
       <RDFModal />,
       store,
@@ -45,5 +46,11 @@ describe('<RDFModal />', () => {
 
     // has a Modal.Body
     expect(getByText('If this looks good, then click Save and Publish')).toBeInTheDocument()
+
+    // Clicking the Save and Publish button closes the Modal
+    fireEvent.click(getByLabelText('Save'))
+    await wait(() => {
+      expect(store.getState().selectorReducer.editor.modal).toBe(undefined)
+    })
   })
 })
