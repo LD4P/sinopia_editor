@@ -5,17 +5,15 @@ import { hideModal } from 'actions/index'
 import { connect, useDispatch } from 'react-redux'
 import PropTypes from 'prop-types'
 import GraphBuilder from 'GraphBuilder'
-import ModalWrapper from '../ModalWrapper'
+import ModalWrapper, { useModalCss } from '../ModalWrapper'
 import SaveAndPublishButton from './SaveAndPublishButton'
 import RDFDisplay from './RDFDisplay'
 
 const RDFModal = (props) => {
   const dispatch = useDispatch()
 
-  const classes = ['modal', 'fade']
   let display = 'none'
   if (props.show) {
-    classes.push('show')
     display = 'block'
   }
 
@@ -25,7 +23,7 @@ const RDFModal = (props) => {
   }
 
   const modal = (
-    <div className={ classes.join(' ') }
+    <div className={ useModalCss(props.show) }
          id="rdf-modal"
          data-testid="rdf-modal"
          tabIndex="-1"

@@ -4,7 +4,7 @@ import React, { useEffect, useState } from 'react'
 import { hideModal } from 'actions/index'
 import { useDispatch, useSelector } from 'react-redux'
 import PropTypes from 'prop-types'
-import ModalWrapper from '../ModalWrapper'
+import ModalWrapper, { useModalCss } from '../ModalWrapper'
 import { resourceToName } from 'Utilities'
 import _ from 'lodash'
 
@@ -44,17 +44,15 @@ const UpdateResourceModal = (props) => {
     event.preventDefault()
   }
 
-  const classes = ['modal', 'fade']
   let display = 'none'
   if (show) {
-    classes.push('show')
     display = 'block'
   }
 
   const resourceTemplateItems = resourceTemplates.map(resourceTemplate => <li key={resourceTemplate.id}>{resourceTemplate.id}</li>)
 
   const modal = (
-    <div className={ classes.join(' ') }
+    <div className={ useModalCss(show) }
          id="update-resource-modal"
          data-testid="update-resource-modal"
          tabIndex="-1"

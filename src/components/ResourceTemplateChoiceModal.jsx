@@ -2,7 +2,7 @@
 
 import React, { useState, useMemo } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
-import ModalWrapper from 'components/ModalWrapper'
+import ModalWrapper, { useModalCss } from 'components/ModalWrapper'
 import PropTypes from 'prop-types'
 import { hideModal } from 'actions/index'
 
@@ -10,11 +10,9 @@ const ResourceTemplateChoiceModal = (props) => {
   const dispatch = useDispatch()
   const show = useSelector(state => state.selectorReducer.editor.modal === 'ResourceTemplateChoiceModal')
 
-  const classes = ['modal', 'fade']
   let display = 'none'
 
   if (show) {
-    classes.push('show')
     display = 'block'
   }
 
@@ -46,7 +44,7 @@ const ResourceTemplateChoiceModal = (props) => {
   }
 
   const modal = (
-    <div className={ classes.join(' ') }
+    <div className={ useModalCss(show) }
          tabIndex="-1"
          role="dialog"
          id="choose-rt" style={{ display }}>

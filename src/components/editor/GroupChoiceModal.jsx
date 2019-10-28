@@ -8,7 +8,7 @@ import Config from 'Config'
 import { hideModal } from 'actions/index'
 import { getCurrentUser } from 'authSelectors'
 import { publishResource } from 'actionCreators/resources'
-import ModalWrapper from '../ModalWrapper'
+import ModalWrapper, { useModalCss } from '../ModalWrapper'
 import { resourceEditErrorKey } from './ResourceTemplate'
 
 const GroupChoiceModal = (props) => {
@@ -34,16 +34,14 @@ const GroupChoiceModal = (props) => {
     event.preventDefault()
   }
 
-  const classes = ['modal', 'fade']
   let display = 'none'
   if (props.show) {
-    classes.push('show')
     display = 'block'
   }
 
   const modal = (
     <div>
-      <div className={classes.join(' ')}
+      <div className={ useModalCss(props.show) }
            role="dialog"
            tabIndex="-1"
            id="group-choice-modal"
