@@ -39,15 +39,17 @@ export const retrieveResource = (currentUser, uri, errorKey) => (dispatch) => {
         const builder = new ResourceStateBuilder(dataset, null)
         // This also returns the resource templates. Could they be used?
         // See https://github.com/LD4P/sinopia_editor/issues/1396
-        return builder.buildState().then(([state, unusedDataset]) => dispatch(existingResourceFunc(state, uri, errorKey)).then((result) => {
-          if (result !== undefined) {
+        return builder.buildState().then(([state, unusedDataset]) => dispatch(existingResourceFunc(state, uri, errorKey))
+          .then((result) => {
             const rdf = new GraphBuilder({ resource: result[0], entities: { resourceTemplates: result[1] } }).graph.toCanonical()
             dispatch(setLastSaveChecksum(generateMD5(rdf)))
             dispatch(setUnusedRDF(unusedDataset.toCanonical()))
             return true
-          }
-          return false
-        })).catch((err) => { throw err })
+          }))
+          .catch((err) => {
+            if (err.name !== 'ResourceTemplateError') throw err
+            return false
+          })
       })
     }).catch((err) => {
       dispatch(appendError(errorKey, `Error retrieving ${uri}: ${err.toString()}`))
@@ -75,26 +77,30 @@ export const newResource = (resourceTemplateId, errorKey) => (dispatch) => {
   dispatch(clearErrors(errorKey))
   const resource = {}
   resource[resourceTemplateId] = {}
-  return stubResource(resource, true, undefined, errorKey, dispatch).then((result) => {
-    if (result !== undefined) {
+  return stubResource(resource, true, undefined, errorKey, dispatch)
+    .then((result) => {
       const rdf = new GraphBuilder({ resource: result[0], entities: { resourceTemplates: result[1] } }).graph.toCanonical()
       dispatch(setLastSaveChecksum(generateMD5(rdf)))
       dispatch(setUnusedRDF(null))
       return true
-    }
-    return false
-  })
+    })
+    .catch((err) => {
+      if (err.name !== 'ResourceTemplateError') throw err
+      return false
+    })
 }
 
 // A thunk that stubs out an existing new resource
 // Note that errors are not cleared here.
-export const existingResource = (resource, unusedRDF, uri, errorKey) => dispatch => dispatch(existingResourceFunc(resource, uri, errorKey)).then((result) => {
-  if (result !== undefined) {
+export const existingResource = (resource, unusedRDF, uri, errorKey) => dispatch => dispatch(existingResourceFunc(resource, uri, errorKey))
+  .then(() => {
     dispatch(setUnusedRDF(unusedRDF))
     return true
-  }
-  return false
-})
+  })
+  .catch((err) => {
+    if (err.name !== 'ResourceTemplateError') throw err
+    return false
+  })
 
 // A thunk that expands a nested resource for a property
 export const expandResource = (reduxPath, errorKey) => (dispatch, getState) => {
@@ -103,11 +109,13 @@ export const expandResource = (reduxPath, errorKey) => (dispatch, getState) => {
   const propertyURI = reduxPath.slice(-1)[0]
   const resourceTemplates = state.selectorReducer.entities.resourceTemplates
   const parentKeyReduxPath = reduxPath.slice(0, reduxPath.length - 2)
-  dispatch(stubResourceProperties(resourceTemplateId, resourceTemplates, {}, parentKeyReduxPath, true, false, propertyURI, errorKey)).then((result) => {
-    if (result !== undefined) {
+  dispatch(stubResourceProperties(resourceTemplateId, resourceTemplates, {}, parentKeyReduxPath, true, false, propertyURI, errorKey))
+    .then((result) => {
       dispatch(updateProperty(reduxPath, result[0][propertyURI], result[1]))
-    }
-  })
+    })
+    .catch((err) => {
+      if (err.name !== 'ResourceTemplateError') throw err
+    })
 }
 
 // A thunk that adds a resource as sibling of provided reduxPath
@@ -120,18 +128,18 @@ export const addResource = (reduxPath, errorKey) => (dispatch, getState) => {
   const newKeyReduxPath = [...parentReduxPath, key]
   const newResourceReduxPath = [...newKeyReduxPath, resourceTemplateId]
 
-  dispatch(stubResourceProperties(resourceTemplateId, resourceTemplates, {}, newKeyReduxPath, false, false, false, errorKey)).then((result) => {
-    if (result !== undefined) {
+  dispatch(stubResourceProperties(resourceTemplateId, resourceTemplates, {}, newKeyReduxPath, false, false, false, errorKey))
+    .then((result) => {
       const addedResource = { [key]: { [resourceTemplateId]: result[0] } }
       dispatch(appendResource(newResourceReduxPath, addedResource, result[1]))
-    }
-  })
+    })
+    .catch((err) => {
+      if (err.name !== 'ResourceTemplateError') throw err
+    })
 }
 
 const existingResourceFunc = (resource, uri, errorKey) => dispatch => stubResource(resource, false, uri, errorKey, dispatch).then((result) => {
-  if (result !== undefined) {
-    dispatch(setLastSaveChecksum(undefined))
-  }
+  dispatch(setLastSaveChecksum(undefined))
   return result
 })
 
@@ -145,11 +153,9 @@ const stubResource = (resource, useDefaults, uri, errorKey, dispatch) => {
   }
   // Note that {} for resourceTemplates clears the existing resource templates.
   return dispatch(stubResourceProperties(rootResourceTemplateId, {}, rootResource, ['resource'], useDefaults, false, false, errorKey)).then((result) => {
-    if (result !== undefined) {
-      newResource[rootResourceTemplateId] = result[0]
-      dispatch(setResource(newResource, result[1]))
-      return [newResource, result[1]]
-    }
+    newResource[rootResourceTemplateId] = result[0]
+    dispatch(setResource(newResource, result[1]))
+    return [newResource, result[1]]
   })
 }
 
@@ -161,7 +167,7 @@ const stubResource = (resource, useDefaults, uri, errorKey, dispatch) => {
  * Any resource templates that are needed by not in provided resource templates will be retrieved
  * and added to the returned resources templates.
  *
- * If there is an error retrieving a resource template, undefined will be returned.
+ * If there is an error retrieving a resource template, a ResourceTemplateError error will be thrown.
  *
  * @param {string} resourceTemplateId
  * @param {Object} resourceTemplates resource templates indexed by resource template id
@@ -171,6 +177,7 @@ const stubResource = (resource, useDefaults, uri, errorKey, dispatch) => {
  * @param {boolean} stubMandatoryOnly if true, only stub properties that are mandatory
  * @param {string} stubPropertyURIOnly limit stubbing to this single property or undefined
  * @return {Promise<[Object, Object]>} the stubbed resource, resource templates
+ * @throws {ResourceTemplateError} if a resource template cannot be loaded or is not found
  */
 export const stubResourceProperties = (resourceTemplateId, resourceTemplates,
   resource, reduxPath, useDefaults, stubMandatoryOnly, stubPropertyURIOnly, errorKey) => async (dispatch) => {
@@ -187,8 +194,10 @@ export const stubResourceProperties = (resourceTemplateId, resourceTemplates,
 
   // This handles if there was an error fetching resource template
   if (!resourceTemplate) {
-    console.error(`Unable to load ${resourceTemplateId}`)
-    return
+    const err = new Error(`Unable to load ${resourceTemplateId}`)
+    err.name = 'ResourceTemplateError'
+    console.error(err.toString())
+    throw err
   }
   // Given the resource template for this resource
   // For each property template
@@ -245,7 +254,6 @@ export const stubResourceProperties = (resourceTemplateId, resourceTemplates,
             const nestedResource = newResource[propertyTemplate.propertyURI][nestedResourceKey][resourceTemplateId]
             const stubResult = await dispatch(stubResourceProperties(resourceTemplateId, newResourceTemplates,
               nestedResource, newResourcePropertyValueReduxPath, useDefaults, isMandatory, false, errorKey))
-            if (!stubResult) return
             const newNestedResource = stubResult[0]
             newResourceTemplates = { ...newResourceTemplates, ...stubResult[1] }
             newResource[propertyTemplate.propertyURI][nestedResourceKey][resourceTemplateId] = newNestedResource

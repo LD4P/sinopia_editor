@@ -19,7 +19,8 @@ const LoadByRDFForm = (props) => {
   const dispatch = useDispatch()
 
   const [baseURI, setBaseURI] = useState('')
-  const [resourceN3, setResourceN3] = useState('')
+  const [n3, setN3] = useState('')
+  const [resourceN3, setResourceN3] = useState(false)
   const [resourceTemplateId, setResourceTemplateId] = useState('')
   useResource(resourceN3, baseURI, resourceTemplateId, loadResourceByRDFErrorKey, props.history)
 
@@ -35,10 +36,18 @@ const LoadByRDFForm = (props) => {
     if (resourceN3 === '') dispatch(clearErrors(loadResourceByRDFErrorKey))
   }, [dispatch, resourceN3])
 
+  const changeN3 = (event) => {
+    setN3(event.target.value)
+    // This will get set on submit.
+    setResourceN3(false)
+    event.preventDefault()
+  }
+
   const handleSubmit = (event) => {
+    setResourceN3(false)
     dispatch(clearErrors(loadResourceByRDFErrorKey))
     // Try parsing to extract the resource template id
-    rdfDatasetFromN3(resourceN3).then((dataset) => {
+    rdfDatasetFromN3(n3).then((dataset) => {
       const builder = new ResourceStateBuilder(dataset, baseURI)
       // findRootResourceTemplateId() throws an error when resource template id not specified.
       // If it is not specified, then show the resource template chooser.
@@ -47,7 +56,10 @@ const LoadByRDFForm = (props) => {
       } catch (err) {
         dispatch(showModal('ResourceTemplateChoiceModal'))
       }
-    }).catch(err => dispatch(appendError(loadResourceByRDFErrorKey, `Error parsing: ${err}`)))
+      setResourceN3(n3)
+    }).catch((err) => {
+      dispatch(appendError(loadResourceByRDFErrorKey, `Error parsing: ${err}`))
+    })
     event.preventDefault()
   }
 
@@ -67,8 +79,8 @@ const LoadByRDFForm = (props) => {
       <form id="loadForm" onSubmit={handleSubmit}>
         <div className="form-group">
           <label htmlFor="resourceTextArea">RDF</label>
-          <textarea className="form-control" id="resourceTextArea" rows="15" value={resourceN3}
-                    onChange={event => setResourceN3(event.target.value)} placeholder={n3PlaceHolder}></textarea>
+          <textarea className="form-control" id="resourceTextArea" rows="15" value={n3}
+                    onChange={event => changeN3(event)} placeholder={n3PlaceHolder}></textarea>
           <p className="help-block">Accepts Turtle, TriG, N-Triples, N-Quads, and Notation3 (N3).</p>
         </div>
         <div className="form-group">
@@ -78,7 +90,7 @@ const LoadByRDFForm = (props) => {
                  placeholder={baseURIPlaceholder} />
           <p className="help-block">Omit brackets. If base URI is &lt;&gt;, leave blank.</p>
         </div>
-        <button type="submit" disabled={ _.isEmpty(resourceN3) } className="btn btn-primary">Submit</button>
+        <button type="submit" disabled={ _.isEmpty(n3) } className="btn btn-primary">Submit</button>
         <p className="help-block">This will create a new resource that can be saved in Sinopia.</p>
       </form>
       <ResourceTemplateChoiceModal choose={chooseResourceTemplate} />
