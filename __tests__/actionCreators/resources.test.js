@@ -82,8 +82,8 @@ describe('retrieveResource', () => {
     const mockStore = configureMockStore([thunk])
     store = mockStore(blankState)
   })
-  // sinopiaServer.getResourceTemplate.mockImplementation(getFixtureResourceTemplate)
-  describe('when dispatch to existing resource returns undefined', () => {
+
+  describe('when dispatch to existing resource raises exception', () => {
     it('it does not dispatch setLastSaveChecksum', async () => {
       sinopiaServer.getResourceTemplate.mockRejectedValue(new Error('not found'))
 
@@ -101,6 +101,7 @@ describe('retrieveResource', () => {
       ])
     })
   })
+
   describe('when dispatch to existing resource returns a result', () => {
     it('it dispatches actions', async () => {
       const resourceTemplateId = 'resourceTemplate:bf2:Note'
@@ -139,8 +140,8 @@ describe('retrieveResource', () => {
       ])
     })
   })
+
   describe('when an error is raised', () => {
-    // const store = mockStore(state)
     it('it dispatches retrieve resource error', async () => {
       sinopiaServer.getResourceTemplate.mockRejectedValue(new Error('Ooops'))
 
@@ -173,7 +174,6 @@ describe('publishResource', () => {
   })
 
   it('dispatches actions for happy path', async () => {
-    // const store = mockStore(state)
     sinopiaServer.publishRDFResource = jest.fn().mockResolvedValue({
       response: {
         headers: { location: 'http://sinopia.io/repository/myGroup/myResource' },
@@ -217,7 +217,7 @@ describe('newResource', () => {
     })
   })
 
-  describe('when dispatch to stubResource returns undefined', () => {
+  describe('when dispatch to stubResource raises exception', () => {
     it('dispatches no actions', async () => {
       sinopiaServer.getResourceTemplate.mockRejectedValue(new Error('Ooops'))
       await store.dispatch(newResource(resourceTemplateId, 'testerrorkey'))
@@ -228,6 +228,7 @@ describe('newResource', () => {
       ])
     })
   })
+
   describe('when dispatch to stubResource returns a result', () => {
     it('dispatches actions', async () => {
       const resourceTemplateResponse = await getFixtureResourceTemplate(resourceTemplateId)
@@ -261,7 +262,7 @@ describe('existingResource', () => {
     store = mockStore(blankState)
   })
 
-  describe('when stubResource returns undefined', () => {
+  describe('when stubResource raises an exception', () => {
     it('dispatches no actions', async () => {
       sinopiaServer.getResourceTemplate.mockRejectedValue(new Error('Ooops'))
 
@@ -367,6 +368,7 @@ describe('stubResourceProperties', () => {
       expect(resource['http://id.loc.gov/ontologies/bibframe/itemPortion']).toEqual({})
     })
   })
+
   describe('resource with multiple value template refs', () => {
     it('stubs each of the values template refs when no existing value', async () => {
       const existingResource = { 'http://id.loc.gov/ontologies/bibframe/Identifier': {} }
