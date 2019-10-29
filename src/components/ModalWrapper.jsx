@@ -3,6 +3,9 @@
 import { useEffect, useRef } from 'react'
 import { createPortal } from 'react-dom'
 
+
+export const useDisplayStyle = show => (show ? 'block' : 'none')
+
 export const useModalCss = (show) => {
   const classes = ['modal', 'fade']
   if (show) {

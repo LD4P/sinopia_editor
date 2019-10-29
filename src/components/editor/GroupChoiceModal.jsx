@@ -8,7 +8,7 @@ import Config from 'Config'
 import { hideModal } from 'actions/index'
 import { getCurrentUser } from 'authSelectors'
 import { publishResource } from 'actionCreators/resources'
-import ModalWrapper, { useModalCss } from '../ModalWrapper'
+import ModalWrapper, { useDisplayStyle, useModalCss } from '../ModalWrapper'
 import { resourceEditErrorKey } from './ResourceTemplate'
 
 const GroupChoiceModal = (props) => {
@@ -34,11 +34,6 @@ const GroupChoiceModal = (props) => {
     event.preventDefault()
   }
 
-  let display = 'none'
-  if (props.show) {
-    display = 'block'
-  }
-
   const modal = (
     <div>
       <div className={ useModalCss(props.show) }
@@ -46,7 +41,7 @@ const GroupChoiceModal = (props) => {
            tabIndex="-1"
            id="group-choice-modal"
            data-testid="group-choice-modal"
-           style={{ display }}>
+           style={{ display: useDisplayStyle(props.show) }}>
         <div className="modal-dialog modal-lg" role="document">
           <div className="modal-content">
             <div className="modal-header prop-heading">

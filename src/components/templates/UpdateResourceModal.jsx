@@ -4,7 +4,7 @@ import React, { useEffect, useState } from 'react'
 import { hideModal } from 'actions/index'
 import { useDispatch, useSelector } from 'react-redux'
 import PropTypes from 'prop-types'
-import ModalWrapper, { useModalCss } from '../ModalWrapper'
+import ModalWrapper, { useDisplayStyle, useModalCss } from '../ModalWrapper'
 import { resourceToName } from 'Utilities'
 import _ from 'lodash'
 
@@ -44,11 +44,6 @@ const UpdateResourceModal = (props) => {
     event.preventDefault()
   }
 
-  let display = 'none'
-  if (show) {
-    display = 'block'
-  }
-
   const resourceTemplateItems = resourceTemplates.map(resourceTemplate => <li key={resourceTemplate.id}>{resourceTemplate.id}</li>)
 
   const modal = (
@@ -57,7 +52,7 @@ const UpdateResourceModal = (props) => {
          data-testid="update-resource-modal"
          tabIndex="-1"
          role="dialog"
-         style={{ display }}>
+         style={{ display: useDisplayStyle(show) }}>
       <div className="modal-dialog modal-lg">
         <div className="modal-content">
           <div className="modal-header" data-testid="update-resource-modal-header">

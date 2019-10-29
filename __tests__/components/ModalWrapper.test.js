@@ -2,7 +2,7 @@
 
 import React from 'react'
 import { render } from '@testing-library/react'
-import ModalWrapper, { useModalCss } from 'components/ModalWrapper'
+import ModalWrapper, { useDisplayStyle, useModalCss } from 'components/ModalWrapper'
 
 const testModal = () => {
   return (
@@ -53,5 +53,17 @@ describe('useModalCss hook for generating modal-specific CSS classes', () => {
   it('returns all modal classes when show is true', () => {
     const cssClasses = useModalCss(true)
     expect(cssClasses).toMatch('modal fade show')
+  })
+})
+
+describe('useDisplayStyle hook for setting modal display style', () => {
+  it('returns none style as a default and when show is false', () => {
+    expect(useDisplayStyle()).toMatch('none')
+    // When show is true returns block
+    expect(useDisplayStyle(false)).toMatch('none')
+  })
+
+  it('returns block style when show is true', () => {
+    expect(useDisplayStyle(true)).toMatch('block')
   })
 })
