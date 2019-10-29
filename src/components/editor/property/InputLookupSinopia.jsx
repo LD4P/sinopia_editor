@@ -71,7 +71,7 @@ const InputLookupSinopia = (props) => {
 
   return (
     <div className={groupClasses}>
-      <AsyncTypeahead renderMenu={(results, menuProps) => renderMenuFunc(results, menuProps)}
+      <AsyncTypeahead renderMenu={(results, menuProps) => renderMenuFunc(results, menuProps, props.propertyTemplate)}
                       renderToken={(option, props, idx) => renderTokenFunc(option, props, idx)}
                       onSearch={search}
                       onChange={change}

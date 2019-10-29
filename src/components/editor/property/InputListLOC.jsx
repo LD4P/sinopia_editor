@@ -45,7 +45,9 @@ const InputListLOC = (props) => {
 
   const lookups = useSelector((state) => {
     const newLookups = {}
-    lookupConfigs.forEach(lookupConfig => newLookups[lookupConfig.uri] = findLookup(state, lookupConfig.uri) || [])
+    lookupConfigs.forEach((lookupConfig) => {
+      newLookups[lookupConfig.uri] = findLookup(state, lookupConfig.uri) || []
+    })
     return newLookups
   })
 
@@ -108,7 +110,7 @@ const InputListLOC = (props) => {
   return (
     <div className={groupClasses}>
       <Typeahead
-        renderMenu={(results, menuProps) => renderMenuFunc(results, menuProps)}
+        renderMenu={(results, menuProps) => renderMenuFunc(results, menuProps, propertyTemplate)}
         renderToken={(option, props, idx) => renderTokenFunc(option, props, idx)}
         allowNew={() => true }
         onChange={selected => selectionChanged(selected)}
