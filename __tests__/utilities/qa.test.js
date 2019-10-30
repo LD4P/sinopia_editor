@@ -20,22 +20,6 @@ describe('getSearchResults()', () => {
     const result = await results[0]
     expect(result.body.length).toEqual(8)
   })
-
-  it('returns a single value using a bad authority source', async () => {
-    expect.assertions(1)
-
-    const badAuthorityURItemplate = {
-      valueConstraint: {
-        useValuesFrom: [
-          'urn:ld4p:qa:names:organization',
-        ],
-      },
-    }
-
-    const results = getSearchResults('Austin, Jane', badAuthorityURItemplate)
-    const result = await results[0]
-    expect(result.isError).toEqual(true)
-  })
 })
 
 describe('getTerm', () => {
