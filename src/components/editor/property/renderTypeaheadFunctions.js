@@ -80,7 +80,7 @@ export const renderMenuFunc = (results, menuProps, propertyTemplate) => {
       content: result.label,
     }
     items.push(<Menu.Header key="customOption-header">{headerLabel}</Menu.Header>)
-    items.push(<MenuItem key={result.label} option={option}>{result.label}</MenuItem>)
+    items.push(<MenuItem key={result.label} option={option} data-testid="customOption-link">{result.label}</MenuItem>)
   })
 
 
@@ -101,7 +101,6 @@ export const renderTokenFunc = (option, tokenProps, idx) => {
   const children = option.uri ? (<a href={option.uri} rel="noopener noreferrer" target="_blank">{optionLabel}</a>) : optionLabel
   return (
     <Token
-      disabled={tokenProps.disabled}
       key={idx}
       onRemove={tokenProps.onRemove}
       tabIndex={tokenProps.tabIndex}>

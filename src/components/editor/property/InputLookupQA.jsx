@@ -30,6 +30,8 @@ const InputLookupQA = (props) => {
   // search, but causes result to be ignored.
   const tokens = useRef([])
 
+  const myInput = useRef([])
+
   const search = (query) => {
     // Clear the results.
     // No re-render, so change not visible to user.
@@ -100,14 +102,19 @@ const InputLookupQA = (props) => {
     }
   }
 
-  const isMandatory = booleanPropertyFromTemplate(props.propertyTemplate, 'mandatory', false)
-
+  const isMandatory = booleanPropertyFromTemplate(props.propertyTemplate, 'mandatory', true)
   const isRepeatable = booleanPropertyFromTemplate(props.propertyTemplate, 'repeatable', true)
+
+  const setDisabled = () => {
+    if (props.selected?.length > 0 && !isRepeatable) {
+      myInput.current._instance?.blur()
+      return true
+    }
+  }
 
   const typeaheadProps = {
     id: 'lookupComponent',
-    required: isMandatory,
-    multiple: isRepeatable,
+    multiple: true,
     placeholder: props.propertyTemplate.propertyLabel,
     useCache: true,
     selectHintOnEnter: true,
@@ -128,6 +135,9 @@ const InputLookupQA = (props) => {
   return (
     <div className={groupClasses}>
       <AsyncTypeahead renderMenu={(results, menuProps) => renderMenuFunc(results, menuProps, props.propertyTemplate)}
+                      ref={myInput}
+                      required={isMandatory}
+                      disabled={setDisabled()}
                       onChange={(selected) => {
                         const payload = {
                           uri: props.propertyTemplate.propertyURI,
@@ -140,10 +150,7 @@ const InputLookupQA = (props) => {
                       onSearch={search}
                       renderToken={(option, props, idx) => renderTokenFunc(option, props, idx)}
                       {...typeaheadProps}
-
-                      filterBy={() => true
-                      }
-
+                      filterBy={() => true}
       />
       {error && <span className="help-block help-block-error">{error}</span>}
     </div>
