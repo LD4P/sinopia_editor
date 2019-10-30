@@ -110,3 +110,9 @@ const createOptions = json => json.reduce((result, item) => {
   result.push({ id, label })
   return result
 }, [])
+
+export const exportsReceived = (state, action) => {
+  const newState = { ...state }
+  newState.entities.exports = [...action.payload]
+  return newState
+}

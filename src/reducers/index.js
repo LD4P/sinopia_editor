@@ -9,7 +9,7 @@ import {
 } from './inputs'
 import {
   setResourceTemplate, clearResourceTemplates, setResourceTemplateSummary,
-  loadingLanguages, languagesReceived,
+  loadingLanguages, languagesReceived, exportsReceived,
   loadingQaResults, qaResultsReceived, copyResourceToEditor, loadedResourceTemplateSummaries,
 } from './entities'
 import { clearSearchResults, setSearchResults } from './search'
@@ -146,6 +146,7 @@ const handlers = {
   CLEAR_RESOURCE_TEMPLATES: clearResourceTemplates,
   CLEAR_SEARCH_RESULTS: clearSearchResults,
   COPY_NEW_RESOURCE: copyResourceToEditor,
+  EXPORTS_RECEIVED: exportsReceived,
   HIDE_MODAL: hideModal,
   HIDE_VALIDATION_ERRORS: hideValidationErrors,
   ITEMS_SELECTED: setItemsOrSelections,
