@@ -34,7 +34,7 @@ export const assertRDF = async (store, triples) => {
   // For this to work, show for rdfPreview must be set to true and groupChoice to false
   expect(store.getState().selectorReducer.editor.rdfPreview.show).toBe(true)
   expect(store.getState().selectorReducer.editor.groupChoice.show).toBe(false)
-  const { findByText, findByLabelText } = renderWithRedux(
+  const { findByText, findByLabelText, unmount } = renderWithRedux(
     <RDFModal />, store,
   )
 
@@ -44,6 +44,7 @@ export const assertRDF = async (store, triples) => {
       expect(await findByText(triple, { exact: false })).toBeInTheDocument()
     }),
   )
+  unmount()
 }
 
 export const setupModal = () => {

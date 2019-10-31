@@ -16,12 +16,10 @@ describe('<ImportResourceTemplate />', () => {
       wouldActuallyBe: 'a CognitoUser object, IRL',
     },
   }
-  const mockFetchResourceTemplateSummaries = jest.fn()
   const mockShowModal = jest.fn()
 
   const wrapper = shallow(<ImportResourceTemplate.WrappedComponent
     authenticationState={authenticationState}
-    fetchResourceTemplateSummaries={mockFetchResourceTemplateSummaries}
     showModal={mockShowModal} />)
 
   // Make sure spies/mocks don't leak between tests
@@ -311,7 +309,7 @@ describe('<ImportResourceTemplate />', () => {
     ]
 
     it('updates every template, updates state, and reloads', async () => {
-      expect.assertions(3)
+      expect.assertions(2)
       const updateResourceSpy = jest.spyOn(wrapper.instance(), 'updateResource').mockImplementation(async () => {})
       const updateStateSpy = jest.spyOn(wrapper.instance(), 'updateStateFromServerResponses').mockReturnValue(null)
 
@@ -319,7 +317,6 @@ describe('<ImportResourceTemplate />', () => {
 
       expect(updateResourceSpy).toHaveBeenCalledTimes(2)
       expect(updateStateSpy).toHaveBeenCalledTimes(1)
-      expect(mockFetchResourceTemplateSummaries).toHaveBeenCalledTimes(3)
     })
   })
 })

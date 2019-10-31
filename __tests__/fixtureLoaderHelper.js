@@ -199,6 +199,16 @@ function loadFixtureResourceTemplates() {
 
 export const resourceTemplateIds = resourceTemplateId2Json.map(template => template.id)
 
+// These are used as fake template search results
+export const resourceTemplateSearchResults = resourceTemplateId2Json.map(template => ({
+  id: template.json.id,
+  author: template.json.author,
+  date: template.json.date,
+  remark: template.json.remark,
+  resourceLabel: template.json.resourceLabel,
+  resourceURI: template.json.resourceURI,
+})).sort((a, b) => a.resourceLabel.localeCompare(b.resourceLabel))
+
 export const getFixtureResourceTemplate = (templateId) => {
   if (!templateId) {
     return Promise.reject(new Error('ERROR: asked for resourceTemplate with null/undefined id'))

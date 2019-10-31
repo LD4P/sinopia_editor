@@ -8,11 +8,13 @@ import {
   validate, showValidationErrors, hideValidationErrors, showModal, hideModal,
 } from './inputs'
 import {
-  setResourceTemplate, clearResourceTemplates, setResourceTemplateSummary,
+  setResourceTemplate, clearResourceTemplates,
   loadingLanguages, languagesReceived, exportsReceived,
-  loadingQaResults, qaResultsReceived, copyResourceToEditor, loadedResourceTemplateSummaries,
+  loadingQaResults, qaResultsReceived, copyResourceToEditor,
 } from './entities'
-import { clearSearchResults, setSearchResults } from './search'
+import {
+  clearSearchResults, setSearchResults, clearTemplateSearchResults, setTemplateSearchResults,
+} from './search'
 import { findObjectAtPath } from 'selectors/resourceSelectors'
 import lookupOptionsRetrieved from './lookups'
 import _ from 'lodash'
@@ -145,6 +147,7 @@ const handlers = {
   CLEAR_ERRORS: clearErrors,
   CLEAR_RESOURCE_TEMPLATES: clearResourceTemplates,
   CLEAR_SEARCH_RESULTS: clearSearchResults,
+  CLEAR_TEMPLATE_SEARCH_RESULTS: clearTemplateSearchResults,
   COPY_NEW_RESOURCE: copyResourceToEditor,
   EXPORTS_RECEIVED: exportsReceived,
   HIDE_MODAL: hideModal,
@@ -152,7 +155,6 @@ const handlers = {
   ITEMS_SELECTED: setItemsOrSelections,
   LANGUAGE_SELECTED: setMyItemsLang,
   LANGUAGES_RECEIVED: languagesReceived,
-  LOADED_RESOURCE_TEMPLATE_SUMMARIES: loadedResourceTemplateSummaries,
   LOADING_LANGUAGES: loadingLanguages,
   LOADING_QA_RESULTS: loadingQaResults,
   LOOKUP_OPTIONS_RETRIEVED: lookupOptionsRetrieved,
@@ -161,12 +163,12 @@ const handlers = {
   REMOVE_RESOURCE: removeResource,
   RESOURCE_LOADED: setResource,
   RESOURCE_TEMPLATE_LOADED: setResourceTemplate,
-  RESOURCE_TEMPLATE_SUMMARY_LOADED: setResourceTemplateSummary,
   SAVE_APP_VERSION: saveAppVersion,
   SAVE_RESOURCE_FINISHED: saveResourceFinished,
   SET_BASE_URL: setBaseURL,
   SET_LAST_SAVE_CHECKSUM: setLastSaveChecksum,
   SET_SEARCH_RESULTS: setSearchResults,
+  SET_TEMPLATE_SEARCH_RESULTS: setTemplateSearchResults,
   SET_UNUSED_RDF: setUnusedRDF,
   SHOW_COPY_NEW_MESSAGE: showCopyNewMessage,
   SHOW_GROUP_CHOOSER: showGroupChooser,

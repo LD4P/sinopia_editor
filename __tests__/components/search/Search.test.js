@@ -33,9 +33,6 @@ describe('<Search />', () => {
         editor: {
           errors: {},
         },
-        entities: {
-          resourceTemplateSummaries: {},
-        },
       },
     }
   }

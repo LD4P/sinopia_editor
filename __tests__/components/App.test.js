@@ -16,7 +16,6 @@ import { createMemoryHistory } from 'history'
 jest.mock('sinopiaServer')
 
 sinopiaServer.getResourceTemplate.mockImplementation(getFixtureResourceTemplate)
-sinopiaServer.listResourcesInGroupContainer.mockResolvedValue({ response: { body: { contains: ['resourceTemplate:bf2:Note'] } } })
 
 const createInitialState = (options = {}) => {
   const state = {
@@ -31,7 +30,6 @@ const createInitialState = (options = {}) => {
           options: [],
         },
         lookups: {},
-        resourceTemplateSummaries: {},
         exports: [],
       },
       editor: {
@@ -55,6 +53,11 @@ const createInitialState = (options = {}) => {
         error: undefined,
         resultsPerPage: 15,
         startOfRange: 0,
+      },
+      templateSearch: {
+        results: [],
+        totalResults: 0,
+        error: undefined,
       },
     },
   }
@@ -130,15 +133,6 @@ describe('<App />', () => {
     expect(getByText(/v\d+\.\d+\.\d+/)).toBeInTheDocument()
   })
 
-  it('loads resource template summaries', async () => {
-    const store = createReduxStore(createInitialState({ authenticated: true }))
-    const { getByText, findByText } = renderWithReduxAndRouter((<App />), store)
-    fireEvent.click(getByText('Linked Data Editor'))
-
-    expect(await findByText('Note')).toBeInTheDocument()
-    expect(getByText('resourceTemplate:bf2:Note')).toBeInTheDocument()
-  })
-
   it('loads exports', async () => {
     const store = createReduxStore(createInitialState({ authenticated: true }))
     const { getByText, findByText } = renderWithReduxAndRouter((<App />), store)
@@ -190,17 +184,16 @@ describe('<App />', () => {
       const store = createReduxStore(createInitialState({ authenticated: true }))
       const history = createMemoryHistory()
       history.push('/editor/resourceTemplate:bf2:Notex')
-      const { getByText } = renderWithRedux((<Router history={history}><App /></Router>), store)
+      const { findByText } = renderWithRedux((<Router history={history}><App /></Router>), store)
       await wait(() => expect(history.location.pathname).toEqual('/templates'))
-      expect(getByText(/Error retrieving resourceTemplate:bf2:Notex/)).toBeInTheDocument()
+      expect(await findByText(/Error retrieving resourceTemplate:bf2:Notex/)).toBeInTheDocument()
     })
 
     it('renders templates for /templates', async () => {
       const store = createReduxStore(createInitialState({ authenticated: true }))
-      const { findByText, getByText } = renderWithReduxAndRouter((<App />), store, ['/templates'])
+      const { findByText } = renderWithReduxAndRouter((<App />), store, ['/templates'])
 
-      expect(await findByText('Note')).toBeInTheDocument()
-      expect(getByText('resourceTemplate:bf2:Note')).toBeInTheDocument()
+      expect(await findByText('Find a resource template')).toBeInTheDocument()
     })
 
     it('renders search for /search', () => {

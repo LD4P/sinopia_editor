@@ -74,9 +74,6 @@ describe('<SinopiaSearchResults />', () => {
             searchresource: ['Ooops'],
           },
         },
-        entities: {
-          resourceTemplateSummaries: {},
-        },
         search: {
           results: [{
             uri: 'some/stanford/path',

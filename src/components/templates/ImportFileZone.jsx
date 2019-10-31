@@ -186,12 +186,13 @@ class ImportFileZone extends Component {
   render() {
     const importFileZone = {
       display: 'flex',
-      justifyContent: 'center',
-      padding: '40px',
+      justifyContent: 'right',
+      padding: '10px',
     }
     const dropzoneContainer = {
       display: 'flex',
       justifyContent: 'center',
+      paddingBottom: '10px',
     }
 
     const alerts = this.state.messages.map((message, idx) => (

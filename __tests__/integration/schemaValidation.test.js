@@ -20,12 +20,16 @@ const createInitialState = () => {
     selectorReducer: {
       resource: {},
       entities: {
-        resourceTemplateSummaries: {},
         resourceTemplates: {},
         languages: { loading: false, options: [] },
       },
       editor: {
         errors: {},
+      },
+      templateSearch: {
+        results: [],
+        totalResults: 0,
+        error: undefined,
       },
       appVersion: {
         version: undefined,

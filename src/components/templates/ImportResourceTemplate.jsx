@@ -6,13 +6,13 @@ import { bindActionCreators } from 'redux'
 import { connect } from 'react-redux'
 import Header from '../Header'
 import ImportFileZone from './ImportFileZone'
-import SinopiaResourceTemplates, { resourceTemplateListErrorKey } from './SinopiaResourceTemplates'
+import SinopiaResourceTemplates from './SinopiaResourceTemplates'
 import UpdateResourceModal from './UpdateResourceModal'
 import CreateResourceMessages from './CreateResourceMessages'
 import { createResourceTemplate, updateResourceTemplate } from 'sinopiaServer'
 import { getCurrentUser } from 'authSelectors'
-import { fetchResourceTemplateSummaries } from 'actionCreators/resourceTemplates'
 import { showModal } from 'actions/index'
+import TemplateSearch from './TemplateSearch'
 
 
 class ImportResourceTemplate extends Component {
@@ -43,7 +43,6 @@ class ImportResourceTemplate extends Component {
       responses.push(response)
     }
     this.updateStateFromServerResponses(responses)
-    this.props.fetchResourceTemplateSummaries(resourceTemplateListErrorKey)
   }
 
   createResource = async (content, group) => {
@@ -133,7 +132,6 @@ class ImportResourceTemplate extends Component {
     const responses = await Promise.all(rts.map(rt => this.updateResource(rt, group)))
 
     this.updateStateFromServerResponses(responses)
-    this.props.fetchResourceTemplateSummaries(resourceTemplateListErrorKey)
   }
 
   render() {
@@ -144,6 +142,7 @@ class ImportResourceTemplate extends Component {
         <Header triggerEditorMenu={this.props.triggerHandleOffsetMenu}/>
         <ImportFileZone setResourceTemplateCallback={this.setResourceTemplates} />
         <CreateResourceMessages messages={this.state.flashMessages} />
+        <TemplateSearch />
         <SinopiaResourceTemplates messages={this.state.flashMessages} history={this.props.history} key="sinopia-resource-templates" />
       </div>
     )
@@ -154,7 +153,6 @@ ImportResourceTemplate.propTypes = {
   children: PropTypes.array,
   triggerHandleOffsetMenu: PropTypes.func,
   currentUser: PropTypes.object,
-  fetchResourceTemplateSummaries: PropTypes.func,
   showModal: PropTypes.func,
   history: PropTypes.object,
 }
@@ -163,6 +161,6 @@ const mapStateToProps = state => ({
   currentUser: getCurrentUser(state),
 })
 
-const mapDispatchToProps = dispatch => bindActionCreators({ fetchResourceTemplateSummaries, showModal }, dispatch)
+const mapDispatchToProps = dispatch => bindActionCreators({ showModal }, dispatch)
 
 export default connect(mapStateToProps, mapDispatchToProps)(ImportResourceTemplate)

@@ -44,6 +44,10 @@ export const clearSearchResults = () => ({
   type: 'CLEAR_SEARCH_RESULTS',
 })
 
+export const clearTemplateSearchResults = () => ({
+  type: 'CLEAR_TEMPLATE_SEARCH_RESULTS',
+})
+
 export const copyNewResource = copyInfo => ({
   type: 'COPY_NEW_RESOURCE',
   payload: copyInfo,
@@ -116,11 +120,6 @@ export const setResourceTemplate = resourceTemplate => ({
   payload: resourceTemplate,
 })
 
-export const setResourceTemplateSummary = resourceTemplateSummary => ({
-  type: 'RESOURCE_TEMPLATE_SUMMARY_LOADED',
-  payload: resourceTemplateSummary,
-})
-
 export const setSearchResults = (uri, searchResults, totalResults, query, startOfRange, sortField, sortOrder, error) => ({
   type: 'SET_SEARCH_RESULTS',
   payload: {
@@ -131,6 +130,15 @@ export const setSearchResults = (uri, searchResults, totalResults, query, startO
     startOfRange,
     sortField,
     sortOrder,
+    error,
+  },
+})
+
+export const setTemplateSearchResults = (searchResults, totalResults, error) => ({
+  type: 'SET_TEMPLATE_SEARCH_RESULTS',
+  payload: {
+    searchResults,
+    totalResults,
     error,
   },
 })

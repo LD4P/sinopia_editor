@@ -18,10 +18,9 @@ import CanvasMenu from './menu/CanvasMenu'
 import { saveAppVersion } from 'actions/index'
 import { useDispatch, useSelector } from 'react-redux'
 import { version } from '../../package.json'
-import { fetchResourceTemplateSummaries } from 'actionCreators/resourceTemplates'
 import { newResource as newResourceCreator } from 'actionCreators/resources'
 import loadLanguages from 'actionCreators/languages'
-import { resourceTemplateListErrorKey, newResourceErrorKey } from './templates/SinopiaResourceTemplates'
+import { newResourceErrorKey } from './templates/SinopiaResourceTemplates'
 import listExports from 'actionCreators/export'
 import Exports, { exportsErrorKey } from './exports/Exports'
 
@@ -35,7 +34,6 @@ const App = (props) => {
 
   useEffect(() => {
     dispatch(saveAppVersion(version))
-    dispatch(fetchResourceTemplateSummaries(resourceTemplateListErrorKey))
     dispatch(loadLanguages())
     dispatch(listExports(exportsErrorKey))
   }, [dispatch])

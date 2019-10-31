@@ -28,14 +28,14 @@ app.use((req, res, next) => {
 // ElasticSearch proxy middleware
 app.use('/api/search', (req, res) => {
   if (!['GET', 'POST'].includes(req.method)) {
-    res.status(400).json({ error: `unsupported method: ${req.method}` })
+    res.status(400).json({ error: { reason: `unsupported method: ${req.method}` } })
     return
   }
 
-  // Hard-coded for now since we only have the one use case for proxying ES,
+  // Hard-coded for now since we only have the two use cases for proxying ES,
   // i.e., full-text search of resources
-  if (req.path !== '/sinopia_resources/sinopia/_search') {
-    res.status(400).json({ error: `unsupported path: ${req.path}` })
+  if (req.path !== '/sinopia_resources/sinopia/_search' && req.path !== '/sinopia_templates/sinopia/_search') {
+    res.status(400).json({ error: { reason: `unsupported path: ${req.path}` } })
     return
   }
 

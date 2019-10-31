@@ -3,30 +3,33 @@ import ResourceTemplateChoiceModal from 'components/ResourceTemplateChoiceModal'
 // eslint-disable-next-line import/no-unresolved
 import { renderWithRedux, createReduxStore, setupModal } from 'testUtils'
 import { fireEvent, wait } from '@testing-library/react'
+import * as sinopiaSearch from 'sinopiaSearch'
+
+jest.mock('sinopiaSearch')
 
 /* eslint no-undef: 'off' */
 $.fn.modal = jest.fn()
+
+sinopiaSearch.getTemplateSearchResults.mockResolvedValue({
+  totalHits: 1,
+  results: [{
+    id: 'resourceTemplate:bf2:Monograph:Work',
+    resourceLabel: 'BIBFRAME Work',
+    resourceURI: 'http://id.loc.gov/ontologies/bibframe/Work',
+  }],
+  error: undefined,
+})
 
 describe('<ResourceTemplateChoiceModal />', () => {
   const createState = () => {
     return {
       selectorReducer: {
         editor: {},
-        entities: {
-          resourceTemplateSummaries: {
-            'resourceTemplate:bf2:Identifiers:DDC': {
-              key: 'resourceTemplate:bf2:Identifiers:DDC',
-              name: 'Dewey Decimal Classification',
-              id: 'resourceTemplate:bf2:Identifiers:DDC',
-              group: 'ld4p',
-            },
-            'resourceTemplate:bf2:Identifiers:Barcode': {
-              key: 'resourceTemplate:bf2:Identifiers:Barcode',
-              name: 'Barcode',
-              id: 'resourceTemplate:bf2:Identifiers:Barcode',
-              group: 'ld4p',
-            },
-          },
+        entities: {},
+        templateSearch: {
+          results: [],
+          totalResults: 0,
+          error: undefined,
         },
       },
     }
@@ -37,21 +40,22 @@ describe('<ResourceTemplateChoiceModal />', () => {
 
     const mockChoose = jest.fn()
     const store = createReduxStore(createState())
-    const { getByText, getByTestId } = renderWithRedux(
+    const {
+      getByText, getByPlaceholderText, findByText,
+    } = renderWithRedux(
       <div><ResourceTemplateChoiceModal choose={mockChoose} /></div>, store,
     )
 
     expect(getByText('Choose resource template')).toBeInTheDocument()
-    expect(getByText('Barcode')).toBeInTheDocument()
-    expect(getByText('Dewey Decimal Classification')).toBeInTheDocument()
+    fireEvent.change(getByPlaceholderText(/Enter id, label/), { target: { value: 'resourceTemplate:bf2:Monograph:Work' } })
 
-    fireEvent.blur(getByTestId('resourceTemplateSelect'), { target: { value: 'resourceTemplate:bf2:Identifiers:DDC' } })
+    fireEvent.click(await findByText(/BIBFRAME Work/))
 
     fireEvent.click(getByText('Save', 'Button'))
 
     await wait(() => expect(store.getState().selectorReducer.editor.modal === undefined))
 
-    expect(mockChoose).toBeCalledWith('resourceTemplate:bf2:Identifiers:DDC')
+    expect(mockChoose).toBeCalledWith('resourceTemplate:bf2:Monograph:Work')
   })
 
   it('closes when click Cancel', async () => {

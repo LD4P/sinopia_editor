@@ -51,6 +51,8 @@ const DropZone = (props) => {
     fontSize: '18px',
   }
 
+  const files = props.filesCallback
+
   return (
     <section>
       <p style={{
@@ -63,12 +65,14 @@ const DropZone = (props) => {
       <div {...getRootProps({ style })}>
         <input {...getInputProps()} />
       </div>
-      <aside>
-        <h5>Loaded resource template file:</h5>
-        <ul style={listStyle}>
-          { props.filesCallback.map(f => <li style={fileName} key={f.name}>{f.name} - {f.size} bytes</li>) }
-        </ul>
-      </aside>
+      { files.length > 0
+        && <aside>
+          <h5>Loaded resource template file:</h5>
+          <ul style={listStyle}>
+            { props.filesCallback.map(f => <li style={fileName} key={f.name}>{f.name} - {f.size} bytes</li>) }
+          </ul>
+        </aside>
+      }
     </section>
   )
 }

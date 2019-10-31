@@ -1,29 +1,37 @@
 // Copyright 2019 Stanford University see LICENSE for license
 
-import React, { useState, useMemo } from 'react'
+import React, { useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import ModalWrapper, { useDisplayStyle, useModalCss } from 'components/ModalWrapper'
 import PropTypes from 'prop-types'
 import { hideModal } from 'actions/index'
+import { Typeahead, asyncContainer } from 'react-bootstrap-typeahead'
+import { getTemplateSearchResults } from 'sinopiaSearch'
+
+const AsyncTypeahead = asyncContainer(Typeahead)
 
 const ResourceTemplateChoiceModal = (props) => {
   const dispatch = useDispatch()
   const show = useSelector(state => state.selectorReducer.editor.modal === 'ResourceTemplateChoiceModal')
 
-  const resourceTemplateSummaries = useSelector((state) => {
-    const resourceTemplateSummaries = state.selectorReducer.entities.resourceTemplateSummaries
-    return resourceTemplateSummaries ? Object.values(state.selectorReducer.entities.resourceTemplateSummaries) : []
-  })
-  const sortedResourceTemplateSummaries = useMemo(() => resourceTemplateSummaries.sort(
-    (a, b) => a.name.localeCompare(b.name),
-  ), [resourceTemplateSummaries])
+  const [isLoading, setLoading] = useState(false)
+  const [options, setOptions] = useState([])
+  const [selected, setSelected] = useState(undefined)
+  const [selectedValue, setSelectedValue] = useState(undefined)
 
-  const defaultSelectedValue = sortedResourceTemplateSummaries.length > 0 ? sortedResourceTemplateSummaries[0].id : ''
-  const [selectedValue, setSelectedValue] = useState(defaultSelectedValue)
-
-  const updateSelectedValue = (event) => {
-    event.preventDefault()
-    setSelectedValue(event.target.value)
+  const search = (query) => {
+    setLoading(true)
+    getTemplateSearchResults(query)
+      .then((searchResults) => {
+        setOptions(searchResults.results.map(result => ({ label: `${result.resourceLabel} (${result.id})`, id: result.id })))
+        setLoading(false)
+      })
+  }
+  const change = (selected) => {
+    setSelected(selected)
+    if (selected.length === 1) {
+      setSelectedValue(selected[0].id)
+    }
   }
 
   const close = (event) => {
@@ -55,12 +63,18 @@ const ResourceTemplateChoiceModal = (props) => {
               <label className="group-select-label" htmlFor="resourceTemplateSelect">
               Into which resource template do you want to load this resource?
               </label>
-              <select className="form-control"
-                      data-testid="resourceTemplateSelect"
-                      id="resourceTemplateSelect"
-                      defaultValue={ selectedValue } onBlur={ event => updateSelectedValue(event)} >
-                { sortedResourceTemplateSummaries.map(summary => <option key={summary.key} value={ summary.id }>{ summary.name }</option>) }
-              </select>
+              <AsyncTypeahead onSearch={search}
+                              onChange={change}
+                              options={options}
+                              required={false}
+                              multiple={false}
+                              isLoading={isLoading}
+                              selected={selected}
+                              placeholder="Enter id, label, URI, remark, or author"
+                              minLength={1}
+                              filterBy={() => true }
+                              allowNew={() => false }
+                              id="template-lookup" />
               <div className="group-choose-buttons">
                 <button className="btn btn-link" style={{ paddingRight: '20px' }} onClick={ close }>
                   Cancel

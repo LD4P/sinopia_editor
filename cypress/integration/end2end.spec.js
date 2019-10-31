@@ -30,26 +30,35 @@ describe('End-to-end test', () => {
   })
 
   it('Uploads a profile template', () => {
+    cy.get('#searchInput')
+      .type('ld4p:RT:bf2:WorkTitle')
+      .should('have.value', 'ld4p:RT:bf2:WorkTitle')
+
     // Need to determine if should upload a resource template.
-    // Both the resource template list and the notification that there are no loaded resource templates
-    // have the same id. Waiting for that element to be present allows this test to be deterministic,
-    // even though the rendering is async.
-    cy.get('#resource-template-list').then((resourceTemplateList) => {
-      if (resourceTemplateList.text().includes('No resource template are available.')) {
-        cy.contains('Import a Profile').click()
+    cy.get('div#resource-templates').then((rtDiv) => {
+      if (rtDiv.find('div#no-rt-warning').length > 0) {
+        cy.contains('Import a Profile or Resource Template').click()
         cy.contains('Drag and drop a profile or resource template file')
         const fileName = 'LD4P_BIBFRAME_2.0_Title_Information.json'
         cy.fixture(fileName).then((fileJson) => {
           const fileContent = JSON.stringify(fileJson)
           cy.get('input[type="file"]').upload({ fileContent, fileName, mimeType: 'application/json' })
         })
+        // Waiting for indexing. If this proves problematic, can try a different approach.
+        // eslint-disable-next-line cypress/no-unnecessary-waiting
+        cy.wait(30000)
+        cy.get('#searchInput')
+          .type('{backspace}')
+          .should('have.value', 'ld4p:RT:bf2:WorkTitl')
+        cy.get('#searchInput')
+          .type('e')
+          .should('have.value', 'ld4p:RT:bf2:WorkTitle')
       }
     })
   })
 
   it('Opens a resource template', () => {
-    // It may take some time for the Work Title to be listed, especially when it is uploaded.
-    cy.contains('a', /^Work Title$/, { timeout: 15000 }).click()
+    cy.contains('a', /^Work Title$/).click()
     cy.url().should('include', '/editor')
   })
 
