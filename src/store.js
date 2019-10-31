@@ -33,6 +33,7 @@ const initialState = {
       languages: { loading: false, options: [] },
       qa: { loading: false, options: [] },
       lookups: {},
+      exports: [],
     },
     resource: {}, // The state we're displaying in the editor
     search: {

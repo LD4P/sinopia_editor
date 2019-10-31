@@ -22,6 +22,8 @@ import { fetchResourceTemplateSummaries } from 'actionCreators/resourceTemplates
 import { newResource as newResourceCreator } from 'actionCreators/resources'
 import loadLanguages from 'actionCreators/languages'
 import { resourceTemplateListErrorKey, newResourceErrorKey } from './templates/SinopiaResourceTemplates'
+import listExports from 'actionCreators/export'
+import Exports, { exportsErrorKey } from './exports/Exports'
 
 import _ from 'lodash'
 
@@ -35,6 +37,7 @@ const App = (props) => {
     dispatch(saveAppVersion(version))
     dispatch(fetchResourceTemplateSummaries(resourceTemplateListErrorKey))
     dispatch(loadLanguages())
+    dispatch(listExports(exportsErrorKey))
   }, [dispatch])
 
   const hasResource = useSelector(state => !_.isEmpty(state?.selectorReducer?.resource))
@@ -68,6 +71,7 @@ const App = (props) => {
                                                                               key="import-resource-template" />} />
       <Route exact path="/search" render={props => <Search {...props} triggerHandleOffsetMenu={props.handleOffsetMenu} />} />
       <Route exact path="/load" render={props => <LoadResource {...props} triggerHandleOffsetMenu={props.handleOffsetMenu} />} />
+      <Route exact path="/exports" render={props => <Exports triggerHandleOffsetMenu={props.handleOffsetMenu} />} />
       <Route path="/menu" render={props => <CanvasMenu {...props} />} />
       <Route id="404" component={FourOhFour} />
     </Switch>

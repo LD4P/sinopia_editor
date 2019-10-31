@@ -111,6 +111,9 @@ class Config {
     return process.env.QA_URL || 'https://lookup.ld4l.org'
   }
 
+  static get exportBucketUrl() {
+    return process.env.EXPORT_BUCKET_URL || 'https://sinopia-exports-development.s3-us-west-2.amazonaws.com'
+  }
 
   // WARNING: the groups section in config/default.js in the sinopia_acl codebase *must* be kept in sync with this section
   static get groupsInSinopia() {

@@ -32,6 +32,7 @@ const createInitialState = (options = {}) => {
         },
         lookups: {},
         resourceTemplateSummaries: {},
+        exports: [],
       },
       editor: {
         copyToNewMessage: {},
@@ -129,13 +130,22 @@ describe('<App />', () => {
     expect(getByText(/v\d+\.\d+\.\d+/)).toBeInTheDocument()
   })
 
-  it('load resource template summaries', async () => {
+  it('loads resource template summaries', async () => {
     const store = createReduxStore(createInitialState({ authenticated: true }))
     const { getByText, findByText } = renderWithReduxAndRouter((<App />), store)
     fireEvent.click(getByText('Linked Data Editor'))
 
     expect(await findByText('Note')).toBeInTheDocument()
     expect(getByText('resourceTemplate:bf2:Note')).toBeInTheDocument()
+  })
+
+  it('loads exports', async () => {
+    const store = createReduxStore(createInitialState({ authenticated: true }))
+    const { getByText, findByText } = renderWithReduxAndRouter((<App />), store)
+    fireEvent.click(getByText('Linked Data Editor'))
+    fireEvent.click(getByText('Exports'))
+
+    expect(await findByText(/sinopia_export_all/)).toBeInTheDocument()
   })
 
   describe('when user is not authenticated', () => {
