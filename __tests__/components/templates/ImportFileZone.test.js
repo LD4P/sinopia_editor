@@ -11,7 +11,7 @@ describe('<ImportFileZone />', () => {
     const wrapper = shallow(<ImportFileZone />)
 
     expect(wrapper.find('button#ImportProfile').exists()).toBeTruthy()
-    expect(wrapper.find('button#ImportProfile').text()).toEqual('Import a Profile containing New or Revised Resource Templates')
+    expect(wrapper.find('button#ImportProfile').text()).toEqual('Import a Profile or Resource Template')
   })
 
   describe('schema valid', () => {
