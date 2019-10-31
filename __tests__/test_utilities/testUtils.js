@@ -1,3 +1,5 @@
+// Copyright 2019 Stanford University see LICENSE for licenseimport React from 'react'
+
 import React from 'react'
 import { Provider } from 'react-redux'
 // Will use for testing generated RDF.

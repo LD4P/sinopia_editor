@@ -1,86 +1,93 @@
+// Copyright 2019 Stanford University see LICENSE for license
+
 import React from 'react'
 import { Menu, MenuItem, Token } from 'react-bootstrap-typeahead'
 import { getOptionLabel } from 'react-bootstrap-typeahead/lib/utils'
 import { isValidURI } from '../../../Utilities'
+import { findAuthorityConfig } from 'utilities/authorityConfig'
 import RenderLookupContext from './RenderLookupContext'
 import shortid from 'shortid'
 
-export const renderMenuFunc = (results, menuProps) => {
+export const renderMenuFunc = (results, menuProps, propertyTemplate) => {
+  const vocabUriList = propertyTemplate?.valueConstraint?.useValuesFrom
+
+  const lookupConfigs = vocabUriList === undefined || vocabUriList.length === 0 ? [] : vocabUriList
+
   const items = []
-  let authURI
-  let authLabel
+
+  // TODO: When we have multiple Sinopia lookup sources, we should add what
+  // authority is being used to the search results similar to QA so this
+  // conditional can be removed
+  if (menuProps.id === 'sinopia-lookup') {
+    results.unshift({ authURI: 'urn:ld4p:sinopia', authLabel: 'Sinopia Entity' })
+  }
+  lookupConfigs.forEach((uri) => {
+    const authority = findAuthorityConfig(uri)
+    items.push(<Menu.Header key={authority.uri}>{authority.label}</Menu.Header>)
+
+    const hits = []
+    let inAuthority = false
+    results.forEach((row) => {
+      if ('authURI' in row) {
+        if (row.authURI === authority.uri) {
+          inAuthority = true
+          return
+        }
+        inAuthority = false
+      }
+      if (inAuthority) {
+        hits.push(row)
+      }
+    })
+    if (hits.length < 1) {
+      const key = shortid.generate()
+      items.push(<MenuItem key={key} option={{ id: key, label: 'Search' }}>Searching &hellip;</MenuItem>)
+    }
+    hits.forEach((result, i) => {
+      if (result.customOption) return
+      const bgClass = i % 2 ? 'context-result-bg' : 'context-result-alt-bg'
+      if (result.isError) {
+        const errorMessage = result.label || 'An error occurred in retrieving results'
+        items.push(
+          <Menu.Header key={shortid.generate()}>
+            <span className="dropdown-error">{errorMessage}</span>
+          </Menu.Header>,
+        )
+      } else {
+        const key = `${authority.uri}-${i}`
+        items.push(
+          <MenuItem option={result} key={key}>
+            { result.context ? (
+              <RenderLookupContext innerResult={result}
+                                   authLabel={authority.label}
+                                   authURI={authority.uri}
+                                   colorClassName={bgClass}></RenderLookupContext>
+            ) : result.label
+            }
+          </MenuItem>,
+        )
+      }
+    })
+  })
+
+
+  const customOption = results.filter(result => result.customOption)
+  customOption.forEach((result) => {
+    const headerLabel = isValidURI(result.label) ? 'New URI' : 'New Literal'
+    const option = {
+      id: result.label,
+      label: result.label,
+      content: result.label,
+    }
+    items.push(<Menu.Header key="customOption-header">{headerLabel}</Menu.Header>)
+    items.push(<MenuItem key={result.label} option={option}>{result.label}</MenuItem>)
+  })
+
 
   /*
    * Returning results
    * If error is returned, it will be used to display for that source
    */
-  results.forEach((result, i) => {
-    if (result.customOption) {
-      let headerLabel
-      let option
-
-      if (isValidURI(result.label)) {
-        headerLabel = 'New URI'
-        option = {
-          id: result.label,
-          label: result.label,
-          uri: result.label,
-        }
-      } else {
-        headerLabel = 'New Literal'
-        option = {
-          id: result.label,
-          label: result.label,
-          content: result.label,
-        }
-      }
-      items.push(<Menu.Header key="customOption-header">{headerLabel}</Menu.Header>)
-      items.push(
-        <MenuItem option={option} position={i} key={i}>
-          {result.label}
-        </MenuItem>,
-      )
-      return
-    }
-
-    if (result.isError) {
-      const errorMessage = result.label || 'An error occurred in retrieving results'
-
-      items.push(
-        <Menu.Header key={shortid.generate()}>
-          <span className="dropdown-error">{errorMessage}</span>
-        </Menu.Header>,
-      )
-
-      // Effectively a `continue`/`next` statement within the `forEach()` context, skipping to the next iteration
-      return
-    }
-    if ('authURI' in result) {
-      authLabel = result.authLabel
-      authURI = result.authURI
-      const labelKey = `${authLabel}-header`
-      items.push(<Menu.Header key={labelKey}>{authLabel}</Menu.Header>)
-      return
-    }
-    if (menuProps.id === 'sinopia-lookup') {
-      const labelKey = `${result.uri}-header`
-      items.push(<Menu.Header key={labelKey}>Sinopia Entity</Menu.Header>)
-    }
-
-    let bgClass = 'context-result-bg'
-    if (i % 2 === 0) {
-      bgClass = 'context-result-alt-bg'
-    }
-    items.push(
-      <MenuItem option={result} position={i} key={i}>
-        {result.context ? (
-          <RenderLookupContext innerResult={result} authLabel={authLabel} authURI={authURI} colorClassName={bgClass}></RenderLookupContext>
-        ) : result.label
-        }
-      </MenuItem>,
-    )
-  })
-
   return (
     <Menu {...menuProps} id={menuProps.id}>
       {items}

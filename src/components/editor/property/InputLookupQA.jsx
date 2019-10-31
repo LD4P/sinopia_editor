@@ -127,7 +127,7 @@ const InputLookupQA = (props) => {
   }
   return (
     <div className={groupClasses}>
-      <AsyncTypeahead renderMenu={(results, menuProps) => renderMenuFunc(results, menuProps)}
+      <AsyncTypeahead renderMenu={(results, menuProps) => renderMenuFunc(results, menuProps, props.propertyTemplate)}
                       onChange={(selected) => {
                         const payload = {
                           uri: props.propertyTemplate.propertyURI,
@@ -143,6 +143,7 @@ const InputLookupQA = (props) => {
 
                       filterBy={() => true
                       }
+
       />
       {error && <span className="help-block help-block-error">{error}</span>}
     </div>
