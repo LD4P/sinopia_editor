@@ -56,29 +56,29 @@ const App = (props) => {
 
   const routesWithCurrentSession = (
     <Switch>
-      <Route exact path="/" render={props => <HomePage {...props} triggerHandleOffsetMenu={props.handleOffsetMenu} />} />
+      <Route exact path="/" render={renderProps => <HomePage {...renderProps} triggerHandleOffsetMenu={props.handleOffsetMenu} />} />
       {!hasResource
         && <Route exact path="/editor/:rtId" render={props => editorWithRtId(props)} />
       }
 
       {hasResource ? (
-        <Route path="/editor" render={props => <Editor {...props} triggerHandleOffsetMenu={props.handleOffsetMenu} />} />
+        <Route path="/editor" render={renderProps => <Editor {...renderProps} triggerHandleOffsetMenu={props.handleOffsetMenu} />} />
       ) : (
         <Redirect from="/editor" to="/templates" />
       )}
-      <Route exact path="/templates" render={props => <ImportResourceTemplate {...props}
-                                                                              triggerHandleOffsetMenu={props.handleOffsetMenu}
-                                                                              key="import-resource-template" />} />
-      <Route exact path="/search" render={props => <Search {...props} triggerHandleOffsetMenu={props.handleOffsetMenu} />} />
-      <Route exact path="/load" render={props => <LoadResource {...props} triggerHandleOffsetMenu={props.handleOffsetMenu} />} />
-      <Route exact path="/exports" render={props => <Exports triggerHandleOffsetMenu={props.handleOffsetMenu} />} />
-      <Route path="/menu" render={props => <CanvasMenu {...props} />} />
+      <Route exact path="/templates" render={renderProps => <ImportResourceTemplate {...renderProps}
+                                                                                    triggerHandleOffsetMenu={props.handleOffsetMenu}
+                                                                                    key="import-resource-template" />} />
+      <Route exact path="/search" render={renderProps => <Search {...renderProps} triggerHandleOffsetMenu={props.handleOffsetMenu} />} />
+      <Route exact path="/load" render={renderProps => <LoadResource {...renderProps} triggerHandleOffsetMenu={props.handleOffsetMenu} />} />
+      <Route exact path="/exports" render={renderProps => <Exports {...renderProps} triggerHandleOffsetMenu={props.handleOffsetMenu} />} />
+      <Route path="/menu" render={renderProps => <CanvasMenu {...renderProps} />} />
       <Route id="404" component={FourOhFour} />
     </Switch>
   )
 
   const routesWithOutCurrentSession = (
-    <Route render={props => <HomePage {...props} triggerHandleOffsetMenu={props.handleOffsetMenu} />} />
+    <Route render={renderProps => <HomePage {...renderProps} triggerHandleOffsetMenu={props.handleOffsetMenu} />} />
   )
 
   return (
