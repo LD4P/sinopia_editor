@@ -36,6 +36,12 @@ describe('validateResourceTemplate', () => {
     expect(await validateResourceTemplate(template)).toEqual([])
   })
 
+  it('ignores blank valueTemplateRefs', async () => {
+    const templateResponse = await getFixtureResourceTemplate('test:RT:bf2:blankValueTemplateRefs')
+    const template = _.cloneDeep(templateResponse.response.body)
+    expect(await validateResourceTemplate(template)).toEqual([])
+  })
+
   it('returns reason for property with refs and defaults', async () => {
     const template = await getFixtureResourceTemplate('rt:resource:DefaultsAndRefs')
     expect(await validateResourceTemplate(template.response.body)).toEqual(['Validation error for http://examples.org/bogusOntologies/Resource: Property templates (http://examples.org/bogusOntologies/invalid) cannot have both defaults and valueTemplateRefs.'])
