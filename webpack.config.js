@@ -64,6 +64,7 @@ module.exports = {
         'COGNITO_USER_POOL_ID',
         'INDEX_URL',
         'SEARCH_HOST',
+        'EXPORT_BUCKET_URL',
       ],
     ),
   ],
