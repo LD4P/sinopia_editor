@@ -5,18 +5,15 @@ import { version } from '../../../package.json'
 
 const NewsItem = () => (
   <div className="news-item" data-testid="news-item">
-    <h1>Sinopia Version {version} released with new features and bug fixes!</h1>
+    <h1>Sinopia Version {version}: new feature highlights.</h1>
+    <p><i>For complete release notes see the <a href="https://github.com/LD4P/sinopia/wiki/Latest-Release,-What's-Next">Sinopia help site</a>.</i></p>
     <ul>
-      <li>Friendlier preview: choice of table, N-triples ot Turtle.</li>
-      <li>Copy URI button to copy a URI as soon as a Resource is saved.</li>
-      <li>Ability to search indexed Sinopia Resources by Resource URI.</li>
-      <li>Sinopia search finds matching strings with and without diacritics.</li>
-      <li>Sinopia search is now case-insensitive.</li>
-      <li>Visual indication of which environment you are in (development, stage, production).</li>
-      <li>Fixed bug where nested Resource Templates with property type resource (not pointing to Resource Templates, but instead expecting a URI) did not work.</li>
-      <li>Fixed bug related to loading triples.</li>
-      <li>For complete {version} release notes see the <a href="https://github.com/LD4P/sinopia/wiki/Latest-Release,-What's-Next">Sinopia help site</a>.
-      </li>
+      <li>Sinopia search results include type, group, and date modified.</li>
+      <li>All Sinopia resources are now searchable, and all literal fields are searchable.</li>
+      <li>Resource Templates accessible by unique URL for bookmarking and sharing.</li>
+      <li>Import accepts a Resource Template file.</li>
+      <li>Search and copy DISCOGS data.</li>
+      <li>Download full exports of Sinopia data.</li>
     </ul>
   </div>
 )

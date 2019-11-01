@@ -25,6 +25,6 @@ describe('<NewsItem />', () => {
       - https://github.com/nodesecurity/eslint-plugin-security#detect-non-literal-regexp
      */
     // eslint-disable-next-line security/detect-non-literal-regexp
-    expect(wrapper.text()).toMatch(new RegExp(`For complete ${version} release notes`))
+    expect(wrapper.text()).toMatch(new RegExp(`Sinopia Version ${version}`))
   })
 })
