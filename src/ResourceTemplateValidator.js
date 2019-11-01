@@ -120,7 +120,7 @@ const validateTemplateRefsExist = async (resourceTemplate) => {
     const refs = propertyTemplate.valueConstraint?.valueTemplateRefs || []
     await Promise.all(refs.map(async (resourceTemplateIdRef) => {
       const found = await foundResourceTemplate(resourceTemplateIdRef)
-      if (!found) {
+      if (!found && resourceTemplateIdRef) { // ignore blank referenced templates elements
         missingResourceTemplateIds.add(resourceTemplateIdRef)
       }
     }))
@@ -143,11 +143,13 @@ const validateUniqueResourceURIs = async (resourceTemplate) => {
     const refs = propertyTemplate.valueConstraint?.valueTemplateRefs || []
     const resourceURIs = {}
     await Promise.all(refs.map(async (resourceTemplateIdRef) => {
-      const resourceTemplateRef = await fetchResourceTemplate(resourceTemplateIdRef)
-      if (resourceTemplateRef) {
-        const resourceURI = resourceTemplateRef.resourceURI
-        if (!resourceURIs[resourceURI]) resourceURIs[resourceURI] = []
-        resourceURIs[resourceURI].push(resourceTemplateIdRef)
+      if (resourceTemplateIdRef) { // ignore blank referenced templates elements
+        const resourceTemplateRef = await fetchResourceTemplate(resourceTemplateIdRef)
+        if (resourceTemplateRef) {
+          const resourceURI = resourceTemplateRef.resourceURI
+          if (!resourceURIs[resourceURI]) resourceURIs[resourceURI] = []
+          resourceURIs[resourceURI].push(resourceTemplateIdRef)
+        }
       }
     }))
     const multipleResourceURIs = Object.keys(resourceURIs).filter(resourceURI => resourceURIs[resourceURI].length > 1)
