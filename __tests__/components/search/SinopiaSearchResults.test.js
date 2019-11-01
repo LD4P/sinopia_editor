@@ -50,10 +50,10 @@ describe('<SinopiaSearchResults />', () => {
       expect(container.querySelector('table#search-results-list')).toBeInTheDocument()
 
       // Search table headers
-      expect(queryByText('Title')).toBeInTheDocument()
+      expect(queryByText('Label')).toBeInTheDocument()
       expect(queryByText('Type')).toBeInTheDocument()
       expect(queryByText('Institution')).toBeInTheDocument()
-      expect(getByText('Modified', 'th')).toBeInTheDocument()
+      expect(getByText('Modified Date', 'th')).toBeInTheDocument()
       // It has a sort button
       expect(getByText('Sort by')).toBeInTheDocument()
 
