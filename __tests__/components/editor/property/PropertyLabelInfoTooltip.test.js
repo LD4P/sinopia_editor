@@ -16,7 +16,7 @@ describe('<PropertyLabelInfoTooltip />', () => {
   const wrapper = shallow(<PropertyLabelInfoTooltip {...props} />)
 
   it('displays a tooltip from the label', () => {
-    expect(wrapper.find('span[data-toggle="popover"]').length).toEqual(1)
+    expect(wrapper.find('a[data-toggle="popover"]').length).toEqual(1)
   })
 
   it('renders an info icon', () => {

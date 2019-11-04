@@ -11,17 +11,22 @@ const PropertyLabelInfoTooltip = (props) => {
 
   useEffect(() => {
     window.$('[data-toggle="popover"]').popover()
+    window.$('.popover-dismiss').popover({ trigger: 'focus' })
   })
 
   return (
-    <span data-toggle="popover"
-          data-placement="right"
-          data-container="body"
-          title={props.propertyTemplate.label}
-          data-content={props.propertyTemplate.remark}
-          key={key} >
+    <a data-toggle="popover"
+       data-trigger="focus"
+       data-placement="right"
+       data-container="body"
+       tabIndex="0"
+       className="prop-remark"
+       title={props.propertyTemplate.label}
+       data-content={props.propertyTemplate.remark}
+       href="#"
+       key={key} >
       <FontAwesomeIcon className="info-icon" icon={faInfoCircle} />
-    </span>
+    </a>
   )
 }
 
