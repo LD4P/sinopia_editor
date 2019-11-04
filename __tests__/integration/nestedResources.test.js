@@ -4,9 +4,11 @@ import { fireEvent } from '@testing-library/react'
 import { renderWithReduxAndRouter, createReduxStore, setupModal } from 'testUtils'
 import App from 'components/App'
 import * as sinopiaServer from 'sinopiaServer'
+import * as sinopiaSearch from 'sinopiaSearch'
 import { getFixtureResourceTemplate } from '../fixtureLoaderHelper'
 
 jest.mock('sinopiaServer')
+jest.mock('sinopiaSearch')
 
 // Mock jquery
 global.$ = jest.fn().mockReturnValue({ popover: jest.fn() })
@@ -32,7 +34,6 @@ const createInitialState = () => {
             },
           ],
         },
-        resourceTemplateSummaries: {},
         resourceTemplates: {},
         qa: {
           loading: false,
@@ -50,11 +51,13 @@ const createInitialState = () => {
         rdfPreview: {
           show: true,
         },
-        groupChoice: {
-          show: false,
-        },
         expanded: {},
         errors: {},
+      },
+      templateSearch: {
+        results: [],
+        totalResults: 0,
+        error: undefined,
       },
       appVersion: {
         version: undefined,
@@ -67,7 +70,16 @@ const createInitialState = () => {
 describe('Expanding a resource property in a property panel', () => {
   sinopiaServer.getResourceTemplate.mockImplementation(getFixtureResourceTemplate)
   sinopiaServer.foundResourceTemplate.mockResolvedValue(true)
-  sinopiaServer.listResourcesInGroupContainer.mockResolvedValue({ response: { body: { contains: ['resourceTemplate:bf2:Monograph:Instance'] } } })
+  sinopiaSearch.getTemplateSearchResults.mockResolvedValue({
+    totalHits: 1,
+    results: [{
+      id: 'resourceTemplate:bf2:Monograph:Instance',
+      remark: 'This is altered greatly for testing purposes',
+      resourceLabel: 'BIBFRAME Instance',
+      resourceURI: 'http://id.loc.gov/ontologies/bibframe/Instance',
+    }],
+    error: undefined,
+  })
 
   const store = createReduxStore(createInitialState())
   setupModal()
@@ -81,22 +93,19 @@ describe('Expanding a resource property in a property panel', () => {
   it('loads a resource template and expands', async () => {
     // Open the resource
     fireEvent.click(getByText('Linked Data Editor'))
-    fireEvent.click(getByText('BIBFRAME Instance'))
+    fireEvent.change(getByPlaceholderText(/Enter id, label/), { target: { value: 'resourceTemplate:bf2:Monograph:Instance' } })
+
+    fireEvent.click(await findByText('BIBFRAME Instance'))
 
     expect(await findByText(/Instance of/)).toBeInTheDocument()
 
     // Clicks on one of the property type rows to expand a nested resource
-    // fireEvent.click(getByText('+ Add', {selector: 'button.btn-add[data-id="temporalCoverage"]'}))
-    // expect(getByPlaceholderText('(Time) Coverage of the Content (RDA 7.3)')).toBeInTheDocument()
     fireEvent.click(getByText('+ Add', { selector: 'button.btn-add[data-id="hasInstance"]' }))
     expect(await findByText('BIBFRAME Instance', { selector: 'h5' })).toBeInTheDocument()
 
     // Now remove it
     fireEvent.click(await findByText('Remove', { selector: 'button.btn-remove[data-id="hasInstance"]' }))
     expect(queryByText('BIBFRAME Instance', { selector: 'h5' })).not.toBeInTheDocument()
-
-    // fireEvent.click(await findByText('Remove', {selector: 'button.btn-remove[data-id="temporalCoverag"]'}))
-    // expect(queryByPlaceholderText('(Time) Coverage of the Content (RDA 7.3)')).not.toBeInTheDocument()
 
     // nested property with default is already expanded
     expect(getByPlaceholderText('Holdings')).toBeInTheDocument()

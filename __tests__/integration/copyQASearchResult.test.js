@@ -8,18 +8,11 @@ import { getFixtureResourceTemplate } from '../fixtureLoaderHelper'
 /* eslint import/namespace: 'off' */
 import * as sinopiaServer from 'sinopiaServer'
 import Swagger from 'swagger-client'
+import * as sinopiaSearch from 'sinopiaSearch'
 
+jest.mock('sinopiaSearch')
 jest.mock('swagger-client')
 jest.mock('sinopiaServer')
-
-const resourceTemplateSummaries = {
-  'resourceTemplate:bf2:Monograph:Work': {
-    key: 'resourceTemplate:bf2:Monograph:Work',
-    name: 'BIBFRAME Work',
-    id: 'resourceTemplate:bf2:Monograph:Work',
-    group: 'ld4p',
-  },
-}
 
 const createInitialState = () => {
   return {
@@ -33,7 +26,6 @@ const createInitialState = () => {
     selectorReducer: {
       resource: {},
       entities: {
-        resourceTemplateSummaries,
         resourceTemplates: {},
         languages: {
           loading: false,
@@ -67,6 +59,11 @@ const createInitialState = () => {
         totalResults: 0,
         query: undefined,
         uri: undefined,
+      },
+      templateSearch: {
+        results: [],
+        totalResults: 0,
+        error: undefined,
       },
     },
   }
@@ -132,11 +129,20 @@ rdfs:label "These twain.";
   sinopiaServer.getResourceTemplate.mockImplementation(getFixtureResourceTemplate)
   sinopiaServer.foundResourceTemplate.mockResolvedValue(true)
   sinopiaServer.listResourcesInGroupContainer.mockResolvedValue({ response: { body: { contains: false } } })
+  sinopiaSearch.getTemplateSearchResults.mockResolvedValue({
+    totalHits: 1,
+    results: [{
+      id: 'resourceTemplate:bf2:Monograph:Work',
+      resourceLabel: 'BIBFRAME Work',
+      resourceURI: 'http://id.loc.gov/ontologies/bibframe/Work',
+    }],
+    error: undefined,
+  })
 
 
   const store = createReduxStore(createInitialState())
   const {
-    getByText, queryByText, getByTitle,
+    getByText, queryByText, getByTitle, getByPlaceholderText,
     findByText, getByLabelText, getByDisplayValue, container,
   } = renderWithRedux(
     (<MemoryRouter><App /></MemoryRouter>), store,
@@ -166,7 +172,10 @@ rdfs:label "These twain.";
 
     // Resource template choice modal open
     expect(getByText('Choose resource template')).toBeInTheDocument()
-    expect(getByText('BIBFRAME Work')).toBeInTheDocument()
+    fireEvent.change(getByPlaceholderText(/Enter id, label/), { target: { value: 'resourceTemplate:bf2:Monograph:Work' } })
+
+    fireEvent.click(await findByText(/BIBFRAME Work/))
+
     fireEvent.click(getByText('Save'))
     await wait(() => expect(queryByText('Choose resource template')).not.toBeInTheDocument())
 

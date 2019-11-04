@@ -34,14 +34,6 @@ const createInitialState = () => {
             },
           ],
         },
-        resourceTemplateSummaries: {
-          'resourceTemplate:bf2:WorkTitle': {
-            key: 'resourceTemplate:bf2:WorkTitle',
-            name: 'Work Title',
-            id: 'resourceTemplate:bf2:WorkTitle',
-            group: 'ld4p',
-          },
-        },
         resourceTemplates: {
           'resourceTemplate:bf2:WorkTitle': {
             id: 'resourceTemplate:bf2:WorkTitle',
@@ -74,13 +66,12 @@ const createInitialState = () => {
           errorsByPath: {},
         },
         copyToNewMessage: {},
-        rdfPreview: {
-          show: true,
-        },
-        groupChoice: {
-          show: false,
-        },
         errors: {},
+      },
+      templateSearch: {
+        results: [],
+        totalResults: 0,
+        error: undefined,
       },
       appVersion: {
         version: undefined,

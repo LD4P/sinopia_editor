@@ -4,25 +4,32 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import { Link } from 'react-router-dom'
 import Download from 'components/templates/Download'
+import Config from 'Config'
 
 /**
  * This is the list view of all the templates
  */
 const ResourceTemplateRow = props => (<tr key={props.row.id}>
   <td style={{ wordBreak: 'break-all' }} data-testid="name">
-    <Link to={{ pathname: '/editor', state: { } }} onClick={e => props.navigate(props.row.id, e)}>{props.row.name}</Link>
+    <Link to={{ pathname: '/editor', state: { } }} onClick={e => props.navigate(props.row.id, e)}>{props.row.resourceLabel}</Link>
   </td>
   <td style={{ wordBreak: 'break-all' }}>
     { props.row.id }
   </td>
   <td style={{ wordBreak: 'break-all' }}>
+    { props.row.resourceURI }
+  </td>
+  <td style={{ wordBreak: 'break-all' }}>
     { props.row.author }
+  </td>
+  <td style={{ wordBreak: 'break-all' }}>
+    { props.row.date }
   </td>
   <td style={{ wordBreak: 'break-all' }}>
     { props.row.remark }
   </td>
   <td>
-    <Download resourceTemplateId={ props.row.id } groupName={ props.row.group } />
+    <Download resourceTemplateId={ props.row.id } groupName={ Config.defaultSinopiaGroupId } />
   </td>
 </tr>)
 

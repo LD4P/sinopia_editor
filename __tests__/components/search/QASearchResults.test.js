@@ -13,9 +13,6 @@ describe('<QASearchResults />', () => {
         editor: {
           errors: {},
         },
-        entities: {
-          resourceTemplateSummaries: {},
-        },
         search: {
           results: [
             {
@@ -111,9 +108,6 @@ describe('<QASearchResults />', () => {
         editor: {
           errors: {},
         },
-        entities: {
-          resourceTemplateSummaries: {},
-        },
         search: {
           results: [{
             uri: 'https://www.discogs.com/Shania-Twain-Shania-Twain/master/132553',
@@ -201,9 +195,6 @@ describe('<QASearchResults />', () => {
           errors: {
             searchqaresource: ['Ooops'],
           },
-        },
-        entities: {
-          resourceTemplateSummaries: {},
         },
         search: {
           results: [{

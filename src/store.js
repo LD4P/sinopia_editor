@@ -29,7 +29,6 @@ const initialState = {
     },
     entities: { // The stuff we've retrieved from the server
       resourceTemplates: {},
-      resourceTemplateSummaries: undefined,
       languages: { loading: false, options: [] },
       qa: { loading: false, options: [] },
       lookups: {},
@@ -46,6 +45,11 @@ const initialState = {
       startOfRange: 0, // 0 based
       sortField: undefined,
       sortOrder: undefined,
+    },
+    templateSearch: {
+      results: [],
+      totalResults: 0,
+      error: undefined,
     },
   },
 }

@@ -5,7 +5,6 @@ import SinopiaResourceTemplates from 'components/templates/SinopiaResourceTempla
 import * as sinopiaServer from 'sinopiaServer'
 import { fireEvent, wait } from '@testing-library/react'
 import { createMemoryHistory } from 'history'
-/* eslint import/no-unresolved: 'off' */
 import { renderWithReduxAndRouter, createReduxStore } from 'testUtils'
 import { getFixtureResourceTemplate } from '../../fixtureLoaderHelper'
 import { saveAs } from 'file-saver'
@@ -24,7 +23,6 @@ const createInitialState = () => {
         },
       },
       entities: {
-        resourceTemplateSummaries,
         resourceTemplates: {
           'resourceTemplate:bf2:Note': {
             id: 'resourceTemplate:bf2:Note',
@@ -40,6 +38,23 @@ const createInitialState = () => {
           },
         },
       },
+      templateSearch: {
+        results: [{
+          id: 'resourceTemplate:bf2:Note',
+          resourceLabel: 'Note',
+          resourceURI: 'http://id.loc.gov/ontologies/bibframe/Note',
+          remark: 'very salient information',
+          author: 'wright.lee.renønd',
+          date: '2019-11-01',
+        }, {
+          id: 'resourceTemplate:bf2:Alternative',
+          resourceLabel: 'Alternative',
+          resourceURI: 'http://id.loc.gov/ontologies/bibframe/Alternative',
+        },
+        ],
+        totalResults: 2,
+        error: undefined,
+      },
       editor: {
         errors: {},
         resourceValidation: {
@@ -52,25 +67,6 @@ const createInitialState = () => {
   return state
 }
 
-const resourceTemplateSummaries = [
-  {
-    name: 'Note',
-    key: 'resourceTemplate:bf2:Note',
-    id: 'resourceTemplate:bf2:Note',
-    author: 'wright.lee.renønd',
-    remark: 'very salient information',
-    group: 'ld4p',
-  },
-  {
-    name: 'First Thing',
-    key: 'resourceTemplate:bf2:Alternative',
-    id: 'resourceTemplate:bf2:Alternative',
-    author: 'bob',
-    remark: 'very salient information',
-    group: 'ld4p',
-  },
-]
-
 sinopiaServer.getResourceTemplate.mockImplementation(getFixtureResourceTemplate)
 
 describe('SinopiaResourceTemplates', () => {
@@ -79,24 +75,27 @@ describe('SinopiaResourceTemplates', () => {
     const history = createMemoryHistory()
 
     const {
-      container, getByText, getByTestId, getAllByTestId, queryAllByTestId,
+      container, getByText, getByTestId, getAllByTestId,
     } = renderWithReduxAndRouter(
       <SinopiaResourceTemplates history={history} />, store,
     )
     // There is a table with heading and header columns
-    expect(getByText('Available Resource Templates in Sinopia')).toBeInTheDocument()
     expect(container.querySelector('table#resource-template-list')).toBeInTheDocument()
-    expect(getByText(/Template name/)).toBeInTheDocument()
+    expect(getByText(/Label/)).toBeInTheDocument()
     expect(getByText(/ID/)).toBeInTheDocument()
+    expect(getByText(/Resource URI/)).toBeInTheDocument()
     expect(getByText(/Author/)).toBeInTheDocument()
+    expect(getByText(/Date/)).toBeInTheDocument()
     expect(getByText(/Guiding statement/)).toBeInTheDocument()
     expect(getByTestId('download-col-header')).toBeInTheDocument()
 
-    // Sorting
-    expect(queryAllByTestId('name').map(obj => obj.children[0].text)).toEqual(['First Thing', 'Note'])
-    fireEvent.click(getByText('Template name'))
-    expect(queryAllByTestId('name').map(obj => obj.children[0].text)).toEqual(['Note', 'First Thing'])
-
+    expect(getByText('resourceTemplate:bf2:Note')).toBeInTheDocument()
+    expect(getByText('resourceTemplate:bf2:Alternative')).toBeInTheDocument()
+    expect(getByText('Note')).toBeInTheDocument()
+    expect(getByText('http://id.loc.gov/ontologies/bibframe/Note')).toBeInTheDocument()
+    expect(getByText('very salient information')).toBeInTheDocument()
+    expect(getByText('wright.lee.renønd')).toBeInTheDocument()
+    expect(getByText('2019-11-01')).toBeInTheDocument()
 
     // There is a link from the resource label that loads the resource into the editor tab
     expect(container.querySelector('a[href="/editor"]')).toBeInTheDocument()
@@ -113,7 +112,6 @@ describe('SinopiaResourceTemplates', () => {
     const state = createInitialState()
     state.selectorReducer.editor.errors = {
       newresource: ['Ooops'],
-      listresourcetemplates: ['Darn'],
     }
     const store = createReduxStore(state)
 
@@ -122,6 +120,5 @@ describe('SinopiaResourceTemplates', () => {
     )
 
     expect(getByText('Ooops')).toBeInTheDocument()
-    expect(getByText('Darn')).toBeInTheDocument()
   })
 })

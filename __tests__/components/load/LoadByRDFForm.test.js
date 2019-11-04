@@ -9,7 +9,9 @@ import { getFixtureResourceTemplate } from '../../fixtureLoaderHelper'
 import * as sinopiaServer from 'sinopiaServer'
 import { createMemoryHistory } from 'history'
 import shortid from 'shortid'
+import * as sinopiaSearch from 'sinopiaSearch'
 
+jest.mock('sinopiaSearch')
 jest.mock('sinopiaServer')
 
 const createInitialState = () => {
@@ -18,14 +20,6 @@ const createInitialState = () => {
       resource: {},
       entities: {
         resourceTemplates: {},
-        resourceTemplateSummaries: {
-          'resourceTemplate:bf2:WorkTitle': {
-            key: 'resourceTemplate:bf2:WorkTitle',
-            name: 'Work Title',
-            id: 'resourceTemplate:bf2:WorkTitle',
-            group: 'ld4p',
-          },
-        },
       },
       editor: {
         expanded: {},
@@ -76,6 +70,15 @@ describe('LoadByRDFForm', () => {
   shortid.generate = jest.fn().mockReturnValue('abc123')
   sinopiaServer.getResourceTemplate.mockImplementation(getFixtureResourceTemplate)
   sinopiaServer.foundResourceTemplate.mockResolvedValue(true)
+  sinopiaSearch.getTemplateSearchResults.mockResolvedValue({
+    totalHits: 1,
+    results: [{
+      id: 'resourceTemplate:bf2:WorkTitle',
+      resourceLabel: 'Work Title',
+      resourceURI: 'http://id.loc.gov/ontologies/bibframe/Title',
+    }],
+    error: undefined,
+  })
 
   it('loads resource from provided N3', async () => {
     const history = createMemoryHistory()
@@ -156,7 +159,7 @@ describe('LoadByRDFForm', () => {
     const history = createMemoryHistory()
     const store = createReduxStore(createInitialState())
     const {
-      getByText, getByLabelText, findByText,
+      getByText, getByLabelText, findByText, getByPlaceholderText,
     } = renderWithRedux(
       <LoadByRDFForm history={history} />, store,
     )
@@ -169,7 +172,9 @@ describe('LoadByRDFForm', () => {
 
     // Wait for resource template chooser modal
     expect(await findByText('Choose resource template')).toBeInTheDocument()
-    expect(getByText('Work Title')).toBeInTheDocument()
+    fireEvent.change(getByPlaceholderText(/Enter id, label/), { target: { value: 'resourceTemplate:bf2:WorkTitle' } })
+
+    fireEvent.click(await findByText(/Work Title/))
 
     fireEvent.click(getByText('Save', 'Button'))
 

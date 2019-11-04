@@ -34,29 +34,6 @@ export const copyResourceToEditor = (state) => {
   return newState
 }
 
-export const loadedResourceTemplateSummaries = (state) => {
-  const newState = { ...state }
-
-  if (newState.entities.resourceTemplateSummaries === undefined) {
-    newState.entities.resourceTemplateSummaries = {}
-  }
-
-  return newState
-}
-
-export const setResourceTemplateSummary = (state, action) => {
-  const resourceTemplateId = action.payload.id
-  const newState = { ...state }
-
-  if (newState.entities.resourceTemplateSummaries === undefined) {
-    newState.entities.resourceTemplateSummaries = {}
-  }
-
-  newState.entities.resourceTemplateSummaries[resourceTemplateId] = action.payload
-
-  return newState
-}
-
 /**
  * This state change helps drive the isLoading value in the Typeahead (see the InputLang component)
  */
