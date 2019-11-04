@@ -11,6 +11,7 @@ const PropertyLabelInfoTooltip = (props) => {
 
   useEffect(() => {
     window.$('[data-toggle="popover"]').popover()
+    window.$('a.nav-link').on('click',function(e) {window.$('.popover').popover('hide')})
   })
 
   return (
