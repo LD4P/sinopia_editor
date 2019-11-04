@@ -8,6 +8,12 @@ import { connect } from 'react-redux'
 import _ from 'lodash'
 
 class Header extends Component {
+  hidePopovers() {
+    if (window.$('.popover').popover) {
+      window.$('.popover').popover('hide')
+    }
+  }
+
   render() {
     return (
       <div className="editor-navbar">
@@ -29,12 +35,12 @@ class Header extends Component {
         </div>
         <ul className="nav nav-tabs editor-navtabs">
           { /* Navlinks enable highlighting the appropriate tab based on route, active style is defined in css */}
-          <li className="nav-item"><NavLink className="nav-link" to="/search">Search</NavLink></li>
-          <li className="nav-item"><NavLink className="nav-link" to="/templates">Resource Templates</NavLink></li>
-          <li className="nav-item"><NavLink className="nav-link" to="/load">Load RDF</NavLink></li>
-          <li className="nav-item"><NavLink className="nav-link" to="/exports">Exports</NavLink></li>
+          <li className="nav-item"><NavLink onClick={this.hidePopovers} className="nav-link" to="/search">Search</NavLink></li>
+          <li className="nav-item"><NavLink onClick={this.hidePopovers} className="nav-link" to="/templates">Resource Templates</NavLink></li>
+          <li className="nav-item"><NavLink onClick={this.hidePopovers} className="nav-link" to="/load">Load RDF</NavLink></li>
+          <li className="nav-item"><NavLink onClick={this.hidePopovers} className="nav-link" to="/exports">Exports</NavLink></li>
           { this.props.hasResource
-           && <li className="nav-item"><NavLink className="nav-link" to="/editor">Editor</NavLink></li>
+           && <li className="nav-item"><NavLink onClick={this.hidePopovers} className="nav-link" to="/editor">Editor</NavLink></li>
           }
         </ul>
       </div>
