@@ -99,7 +99,7 @@ const Search = (props) => {
                 {options}
               </select>
             </div>
-            <div className="form-group" style={{ width: '750px', paddingLeft: '5px' }}>
+            <div className="form-group" style={{ width: '750px', paddingLeft: '5px', paddingBottom: '10px' }}>
               <label className="sr-only" htmlFor="searchInput">Query</label>
               <div className="input-group" style={{ width: '100%' }}>
                 <input id="searchInput" type="text" className="form-control"
@@ -112,7 +112,10 @@ const Search = (props) => {
             </div>
           </form>
         </div>
-        <span className="help-block">For searching Sinopia, use a * to wildcard your search.</span>
+        <span className="help-block">Sinopia search: use * as wildcard;
+          default operator for multiple terms is AND; use | (pipe) as OR operator;
+          use quotation marks for exact match. For more details see <a href="https://github.com/LD4P/sinopia/wiki/Searching-in-Sinopia">Searching in Sinopia</a>.
+        </span>
       </div>
       {results}
     </div>
