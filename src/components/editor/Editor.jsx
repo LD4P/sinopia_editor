@@ -7,9 +7,7 @@ import ResourceTemplate from './ResourceTemplate'
 import Header from '../Header'
 import RDFModal from './RDFModal'
 import GroupChoiceModal from './GroupChoiceModal'
-import CopyToNewButton from './CopyToNewButton'
-import PreviewButton from './PreviewButton'
-import SaveAndPublishButton from './SaveAndPublishButton'
+import EditorActions from './EditorActions'
 import ErrorMessages from './ErrorMessages'
 import AuthenticationMessage from './AuthenticationMessage'
 import Alert from '../Alert'
@@ -36,18 +34,13 @@ const Editor = (props) => {
       <Prompt when={isPrompt} message="Resource has unsaved changes. Are you sure you want to leave?" />
       <Header triggerEditorMenu={ triggerHandleOffsetMenu }/>
       <AuthenticationMessage />
-      <div className="row">
-        <section className="col-md-3 offset-md-9 text-right">
-          <CopyToNewButton />
-          <PreviewButton />
-          <SaveAndPublishButton id="editor-save" />
-        </section>
-      </div>
+      <EditorActions />
       <RDFModal />
       <ErrorMessages />
       <Alert text={saveError} />
       <GroupChoiceModal />
       <ResourceTemplate />
+      <EditorActions />
     </div>
   ) }
 

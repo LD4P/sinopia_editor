@@ -2,7 +2,7 @@
 
 import React from 'react'
 import { createStore } from 'redux'
-import CopyToNewButton from 'components/editor/CopyToNewButton'
+import CopyToNewButton from 'components/editor/actions/CopyToNewButton'
 import appReducer from 'reducers/index'
 import { renderWithRedux } from 'testUtils'
 import { fireEvent, wait } from '@testing-library/react'

@@ -71,7 +71,7 @@ describe('End-to-end test', () => {
   })
 
   it('Previews the RDF', () => {
-    cy.get('button[title="Preview RDF"]').click()
+    cy.get('button[title="Preview RDF"]').first().click()
     cy.get('select#rdfFormat').select('n-triples')
     cy.contains(`<> <http://id.loc.gov/ontologies/bibframe/mainTitle> "${title}"@en .`)
     cy.contains('<> <http://sinopia.io/vocabulary/hasResourceTemplate> "ld4p:RT:bf2:WorkTitle" .')
@@ -79,7 +79,7 @@ describe('End-to-end test', () => {
   })
 
   it('Saves', () => {
-    cy.get('button#modal-save').click()
+    cy.get('button.modal-save').click()
 
     cy.contains('Which group do you want to save to?')
     cy.get('div#group-choice-modal button').contains('Save').click()

@@ -8,9 +8,8 @@ import { bindActionCreators } from 'redux'
 import { connect } from 'react-redux'
 import { findNode, getPropertyTemplate } from 'selectors/resourceSelectors'
 import { removeResource } from 'actions/index'
-import { expandResource } from 'actionCreators/resources'
+import { resourceEditErrorKey, expandResource } from 'actionCreators/resources'
 import _ from 'lodash'
-import { resourceEditErrorKey } from '../ResourceTemplate'
 
 const PropertyPanel = (props) => {
   const isAdd = _.isEmpty(props.resourceModel)

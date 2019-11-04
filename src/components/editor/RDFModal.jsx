@@ -6,7 +6,7 @@ import { connect, useDispatch } from 'react-redux'
 import PropTypes from 'prop-types'
 import GraphBuilder from 'GraphBuilder'
 import ModalWrapper, { useDisplayStyle, useModalCss } from '../ModalWrapper'
-import SaveAndPublishButton from './SaveAndPublishButton'
+import SaveAndPublishButton from './actions/SaveAndPublishButton'
 import RDFDisplay from './RDFDisplay'
 
 const RDFModal = (props) => {
@@ -36,7 +36,7 @@ const RDFModal = (props) => {
             <div className="row" style={{ marginLeft: '0', marginRight: '0' }}>
               <div className="col-sm-6">If this looks good, then click Save and Publish</div>
               <div className="col-sm-6" style={{ textAlign: 'right' }}>
-                <SaveAndPublishButton id="modal-save" />
+                <SaveAndPublishButton class="modal-save" />
               </div>
             </div>
             <RDFDisplay rdf={props.rdf()} />

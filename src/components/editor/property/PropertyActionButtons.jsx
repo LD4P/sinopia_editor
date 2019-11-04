@@ -6,8 +6,7 @@ import { bindActionCreators } from 'redux'
 import { connect } from 'react-redux'
 import { addResource } from 'actionCreators/resources'
 import { removeResource } from 'actions/index'
-import { getResourceTemplate } from 'selectors/resourceSelectors'
-import { resourceEditErrorKey } from '../ResourceTemplate'
+import { resourceEditErrorKey, getResourceTemplate } from 'selectors/resourceSelectors'
 
 const PropertyActionButtons = (props) => {
   const handleAddClick = (event) => {

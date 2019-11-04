@@ -18,7 +18,7 @@ describe('Leaving the editor', () => {
 
     // Load up a Bibframe Instance
     await pupExpect(page).toClick('a', { text: 'BIBFRAME Instance' })
-    await pupExpect(page).toMatchElement('button#editor-save')
+    await pupExpect(page).toMatchElement('button.editor-save')
 
     // Can navigate away, since no changes
     await pupExpect(page).toClick('a.nav-link', { text: 'Load RDF' })
@@ -26,7 +26,7 @@ describe('Leaving the editor', () => {
 
     // Navigate back
     await pupExpect(page).toClick('a.nav-link', { text: /^Editor$/ })
-    await pupExpect(page).toMatchElement('button#editor-save')
+    await pupExpect(page).toMatchElement('button.editor-save')
 
     // Change something
     await pupExpect(page).toMatchElement('[placeholder=\'Statement of Responsibility Relating to Title Proper (RDA 2.4.2)\'', 'World')
