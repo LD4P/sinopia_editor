@@ -7,9 +7,9 @@ import PropTypes from 'prop-types'
 import Config from 'Config'
 import { hideModal } from 'actions/index'
 import { getCurrentUser } from 'authSelectors'
+import { resourceEditErrorKey } from 'selectors/resourceSelectors'
 import { publishResource } from 'actionCreators/resources'
 import ModalWrapper, { useDisplayStyle, useModalCss } from '../ModalWrapper'
-import { resourceEditErrorKey } from './ResourceTemplate'
 
 const GroupChoiceModal = (props) => {
   // The ld4p group is only for templates

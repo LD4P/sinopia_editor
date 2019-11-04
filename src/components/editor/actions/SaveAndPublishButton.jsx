@@ -6,7 +6,7 @@ import PropTypes from 'prop-types'
 import { update as updateCreator } from 'actionCreators/resources'
 import {
   rootResourceId, resourceHasChangesSinceLastSave, findResourceValidationErrors,
-  getDisplayResourceValidations,
+  resourceEditErrorKey, getDisplayResourceValidations,
 } from 'selectors/resourceSelectors'
 import { getCurrentUser } from 'authSelectors'
 import {
@@ -14,7 +14,6 @@ import {
   showValidationErrors as showValidationErrorsAction,
   hideValidationErrors as hideValidationErrorsAction,
 } from 'actions/index'
-import { resourceEditErrorKey } from './ResourceTemplate'
 
 const SaveAndPublishButton = (props) => {
   const dispatch = useDispatch()
@@ -53,18 +52,14 @@ const SaveAndPublishButton = (props) => {
   }
 
   return (
-    <button id={ props.id } className="btn btn-primary" onClick={ save } aria-label="Save" disabled={ isDisabled }>
+    <button className={ `btn btn-primary ${props.class}` } onClick={ save } aria-label="Save" disabled={ isDisabled }>
       Save
     </button>
   )
 }
 
 SaveAndPublishButton.propTypes = {
-  id: PropTypes.string,
-  isDisabled: PropTypes.bool,
-  update: PropTypes.func,
-  isSaved: PropTypes.bool,
-  currentUser: PropTypes.object,
+  class: PropTypes.string,
 }
 
 export default SaveAndPublishButton

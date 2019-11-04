@@ -4,16 +4,13 @@ import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import PropTypes from 'prop-types'
 import ResourceTemplateForm from './ResourceTemplateForm'
-import { getResourceTemplate, findErrors } from 'selectors/resourceSelectors'
+import { resourceEditErrorKey, getResourceTemplate, findErrors } from 'selectors/resourceSelectors'
 import CopyToNewMessage from './CopyToNewMessage'
 import ResourceURIMessage from './ResourceURIMessage'
 import SaveAlert from './SaveAlert'
 import RDFDisplay from './RDFDisplay'
 import Alerts from '../Alerts'
 import _ from 'lodash'
-
-// Error key for errors that occur while editing a resource.
-export const resourceEditErrorKey = 'resourceedit'
 
 /**
  * This is the root component of the editor on the resource edit page

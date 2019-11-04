@@ -1,7 +1,8 @@
 // Copyright 2019 Stanford University see LICENSE for license
+
 import React from 'react'
 import { renderWithRedux, createReduxStore } from 'testUtils'
-import SaveAndPublishButton from 'components/editor/SaveAndPublishButton'
+import SaveAndPublishButton from 'components/editor/actions/SaveAndPublishButton'
 
 const createInitialState = () => ({
   selectorReducer: {
@@ -78,7 +79,7 @@ describe('<SaveAndPublishButton />', () => {
   it('is enabled if resource has changed and validation errors are not shown', () => {
     const store = createReduxStore(createInitialState())
     const { getByText } = renderWithRedux(
-      <SaveAndPublishButton id="test" />, store,
+      <SaveAndPublishButton class="test" />, store,
     )
     expect(getByText('Save')).not.toBeDisabled()
   })
@@ -87,7 +88,7 @@ describe('<SaveAndPublishButton />', () => {
     initialState.selectorReducer.editor.resourceValidation.show = true
     const store = createReduxStore(initialState)
     const { getByText } = renderWithRedux(
-      <SaveAndPublishButton id="test" />, store,
+      <SaveAndPublishButton class="test" />, store,
     )
     expect(getByText('Save')).not.toBeDisabled()
   })
@@ -96,7 +97,7 @@ describe('<SaveAndPublishButton />', () => {
     initialState.selectorReducer.editor.lastSaveChecksum = 'c5c8da42a2b460a740c33c72acb4d115'
     const store = createReduxStore(initialState)
     const { getByText } = renderWithRedux(
-      <SaveAndPublishButton id="test" />, store,
+      <SaveAndPublishButton class="test" />, store,
     )
     expect(getByText('Save')).toBeDisabled()
   })
@@ -120,7 +121,7 @@ describe('<SaveAndPublishButton />', () => {
     ]
     const store = createReduxStore(initialState)
     const { getByText } = renderWithRedux(
-      <SaveAndPublishButton id="test" />, store,
+      <SaveAndPublishButton class="test" />, store,
     )
     expect(getByText('Save')).toBeDisabled()
   })

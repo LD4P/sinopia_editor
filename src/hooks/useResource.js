@@ -5,8 +5,7 @@ import { rdfDatasetFromN3 } from 'Utilities'
 import { useDispatch, useSelector } from 'react-redux'
 import { existingResource } from 'actionCreators/resources'
 import { appendError, clearErrors } from 'actions/index'
-import { rootResource as rootResourceSelector } from 'selectors/resourceSelectors'
-import { resourceEditErrorKey } from 'components/editor/ResourceTemplate'
+import { resourceEditErrorKey, rootResource as rootResourceSelector } from 'selectors/resourceSelectors'
 
 /**
  * Hook for transforming a resource to state and changing the page to the editor (i.e., /editor path).

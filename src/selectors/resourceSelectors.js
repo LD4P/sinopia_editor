@@ -2,6 +2,9 @@
 import GraphBuilder from 'GraphBuilder'
 import { generateMD5 } from 'Utilities'
 
+// Error key for errors that occur while editing a resource.
+export const resourceEditErrorKey = 'resourceedit'
+
 export const rootResource = state => Object.values(state.selectorReducer.resource)[0]
 
 export const rootResourceTemplateId = state => Object.keys(state.selectorReducer.resource)[0]

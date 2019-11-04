@@ -88,7 +88,7 @@ describe('Preview and save resource', () => {
   const store = createReduxStore(createInitialState())
   setupModal()
   const {
-    getByText, queryByText, queryAllByText, getByTestId, getByTitle, findByLabelText,
+    findByLabelText, getAllByTitle, getByTestId, getByText, queryAllByText, queryByText,
   } = renderWithRedux(
     (<MemoryRouter><App /></MemoryRouter>), store,
   )
@@ -99,7 +99,7 @@ describe('Preview and save resource', () => {
     fireEvent.click(getByText('Editor'))
 
     // Preview the RDF
-    fireEvent.click(getByTitle('Preview RDF'))
+    fireEvent.click(getAllByTitle('Preview RDF')[0])
     fireEvent.change(await findByLabelText(/Format/), { target: { value: 'n-triples' } })
     expect(getByText(/<> <http:\/\/id.loc.gov\/ontologies\/bibframe\/mainTitle> "foo"@en \./)).toBeInTheDocument()
 
@@ -107,7 +107,7 @@ describe('Preview and save resource', () => {
     // There are multiple of these on screen, so selecting by id.
     // There is probably a more idiomatic way of doing this.
     const save = queryAllByText('Save').find((btn) => {
-      return btn.id === 'modal-save'
+      return btn.classList.contains('modal-save')
     })
     fireEvent.click(save)
     expect(queryByText('Which group do you want to save to?')).toBeInTheDocument()
@@ -116,7 +116,7 @@ describe('Preview and save resource', () => {
 
     // There are multiple of these on screen, so selecting by id
     const finalSave = queryAllByText('Save').find((btn) => {
-      return btn.id !== 'modal-save' && btn.id !== 'editor-save'
+      return !btn.classList.contains('modal-save') && !btn.classList.contains('editor-save')
     })
     fireEvent.click(finalSave)
 

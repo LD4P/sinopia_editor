@@ -11,11 +11,10 @@ import { copyNewResource, clearErrors } from 'actions/index'
 import { retrieveResource } from 'actionCreators/resources'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faCopy, faEdit } from '@fortawesome/free-solid-svg-icons'
-import { rootResource, findErrors } from 'selectors/resourceSelectors'
+import { resourceEditErrorKey, rootResource, findErrors } from 'selectors/resourceSelectors'
 import Alerts from '../Alerts'
 import SinopiaSort from './SinopiaSort'
 import _ from 'lodash'
-import { resourceEditErrorKey } from 'components/editor/ResourceTemplate'
 
 // Errors from retrieving a resource from this page.
 export const searchRetrieveErrorKey = 'searchresource'

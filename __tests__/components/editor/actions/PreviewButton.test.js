@@ -2,7 +2,7 @@
 
 import React from 'react'
 import { createStore } from 'redux'
-import PreviewButton from 'components/editor/PreviewButton'
+import PreviewButton from 'components/editor/actions/PreviewButton'
 import appReducer from 'reducers/index'
 import { renderWithRedux } from 'testUtils'
 import { fireEvent, wait } from '@testing-library/react'

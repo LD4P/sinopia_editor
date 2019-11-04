@@ -85,7 +85,7 @@ describe('Preview and try to save resource', () => {
   const store = createReduxStore(createInitialState())
   setupModal()
   const {
-    getByText, getByTitle, getByTestId, queryAllByText, findByText, findByLabelText,
+    findByLabelText, findByText, getAllByTitle, getByText, getByTestId, queryAllByText,
   } = renderWithRedux(
     (<MemoryRouter><App /></MemoryRouter>), store,
   )
@@ -101,9 +101,8 @@ describe('Preview and try to save resource', () => {
     expect(groupChoiceModal.classList.contains('show')).not.toBe(true)
 
     // Preview the RDF
-    const previewBtn = getByTitle('Preview RDF')
-
-    fireEvent.click(previewBtn)
+    const previewBtn = getAllByTitle('Preview RDF')
+    fireEvent.click(previewBtn[0])
     await wait(() => {
       expect(rdfModal.classList.contains('show')).toBe(true)
     })
@@ -115,7 +114,7 @@ describe('Preview and try to save resource', () => {
     // There are multiple of these on screen, so selecting by id.
     // There is probably a more idiomatic way of doing this.
     const saveAndPublish = queryAllByText('Save').find((btn) => {
-      return btn.id === 'modal-save'
+      return btn.classList.contains('modal-save')
     })
     fireEvent.click(saveAndPublish)
     await wait(() => {

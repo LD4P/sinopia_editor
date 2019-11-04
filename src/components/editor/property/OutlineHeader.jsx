@@ -8,12 +8,12 @@ import { faAngleRight, faAngleDown } from '@fortawesome/free-solid-svg-icons'
 import PropertyLabel from './PropertyLabel'
 import PropertyLabelInfo from './PropertyLabelInfo'
 import {
-  findNode, isExpanded, getPropertyTemplate, findResourceValidationErrorsByPath, getDisplayResourceValidations,
+  resourceEditErrorKey, findNode, isExpanded, getPropertyTemplate,
+  findResourceValidationErrorsByPath, getDisplayResourceValidations,
 } from 'selectors/resourceSelectors'
 import { toggleCollapse, removeResource } from 'actions/index'
 import { expandResource } from 'actionCreators/resources'
 import _ from 'lodash'
-import { resourceEditErrorKey } from '../ResourceTemplate'
 
 const OutlineHeader = (props) => {
   const icon = props.collapsed === true ? faAngleRight : faAngleDown
