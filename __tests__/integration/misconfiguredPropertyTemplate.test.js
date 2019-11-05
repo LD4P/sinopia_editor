@@ -39,6 +39,9 @@ const createInitialState = () => {
         resourceValidationErrors: {},
         expanded: {},
         errors: {},
+        flash: {
+          messages: [],
+        },
         modal: {
           name: undefined,
           messages: [],

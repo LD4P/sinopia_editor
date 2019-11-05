@@ -1,3 +1,4 @@
+
 import React from 'react'
 import { fireEvent } from '@testing-library/react'
 // eslint-disable-next-line import/no-unresolved
@@ -71,6 +72,9 @@ const createInitialState = () => {
         },
         copyToNewMessage: {},
         errors: {},
+        flash: {
+          messages: [],
+        },
         modal: {
           name: undefined,
           messages: [],
