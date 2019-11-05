@@ -6,9 +6,9 @@ import PropertyLabel from './PropertyLabel'
 import PropertyLabelInfo from './PropertyLabelInfo'
 import { bindActionCreators } from 'redux'
 import { connect } from 'react-redux'
-import { findNode, getPropertyTemplate } from 'selectors/resourceSelectors'
+import { findNode, getPropertyTemplate, resourceEditErrorKey } from 'selectors/resourceSelectors'
 import { removeResource } from 'actions/index'
-import { resourceEditErrorKey, expandResource } from 'actionCreators/resources'
+import { expandResource } from 'actionCreators/resources'
 import _ from 'lodash'
 
 const PropertyPanel = (props) => {
