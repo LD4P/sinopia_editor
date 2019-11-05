@@ -169,7 +169,8 @@ describe('ResourceStateBuilder', () => {
     const resource = `<http://example/123> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://id.loc.gov/ontologies/bibframe/Work> .
   <http://example/123> <http://sinopia.io/vocabulary/hasResourceTemplate> "test:RT:genreform" .
   <http://example/123> <http://id.loc.gov/ontologies/bibframe/genreForm> <http://id.loc.gov/authorities/genreForms/gf2014026879> .
-  <http://id.loc.gov/authorities/genreForms/gf2014026879> <http://www.w3.org/2000/01/rdf-schema#label> "Jazz"@en .`
+  <http://id.loc.gov/authorities/genreForms/gf2014026879> <http://www.w3.org/2000/01/rdf-schema#label> "Jazz"@en .
+  <https://example/1234> <http://schema.org/name> "Jazz Genre"@en .`
 
     const dataset = await rdfDatasetFromN3(resource)
 
@@ -184,14 +185,14 @@ describe('ResourceStateBuilder', () => {
           items: {
             abc123: {
               uri: 'http://id.loc.gov/authorities/genreForms/gf2014026879',
-              label: 'http://id.loc.gov/authorities/genreForms/gf2014026879',
+              label: 'Jazz',
             },
           },
         },
       },
     })
 
-    const unmatched = `<http://id.loc.gov/authorities/genreForms/gf2014026879> <http://www.w3.org/2000/01/rdf-schema#label> "Jazz"@en .
+    const unmatched = `<https://example/1234> <http://schema.org/name> "Jazz Genre"@en .
 `
     expect(unusedDataset.toCanonical()).toEqual(unmatched)
   })
