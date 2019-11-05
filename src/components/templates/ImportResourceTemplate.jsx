@@ -12,16 +12,11 @@ import CreateResourceMessages from './CreateResourceMessages'
 import { createResourceTemplate, updateResourceTemplate } from 'sinopiaServer'
 import { getCurrentUser } from 'authSelectors'
 import { clearModalMessages, addModalMessage, showModal } from 'actions/modals'
+import { clearFlashMessages, setFlashMessages } from 'actions/flash'
 import TemplateSearch from './TemplateSearch'
 import { modalMessages } from 'selectors/modalSelectors'
 
-
 class ImportResourceTemplate extends Component {
-  constructor(props) {
-    super(props)
-    this.state = { flashMessages: [] }
-  }
-
   // Resource templates are set via ImportFileZone and passed to ResourceTemplate via redirect to Editor
   setResourceTemplates = async (content, group) => {
     this.resetMessages()
@@ -66,7 +61,7 @@ class ImportResourceTemplate extends Component {
   }
 
   resetMessages = () => {
-    this.setState({ flashMessages: [] })
+    this.props.clearFlashMessages()
     this.props.clearModalMessages()
   }
 
@@ -83,7 +78,7 @@ class ImportResourceTemplate extends Component {
     })
 
     if (newFlashMessages.length > 0) {
-      this.setState({ flashMessages: [...newFlashMessages] })
+      this.props.setFlashMessages(newFlashMessages)
     }
 
     if (showModal) this.props.showModal('UpdateResourceModal')
@@ -135,7 +130,7 @@ class ImportResourceTemplate extends Component {
                              update={this.handleUpdateResource} />
         <Header triggerEditorMenu={this.props.triggerHandleOffsetMenu}/>
         <ImportFileZone setResourceTemplateCallback={this.setResourceTemplates} />
-        <CreateResourceMessages messages={this.state.flashMessages} />
+        <CreateResourceMessages />
         <TemplateSearch />
         <SinopiaResourceTemplates history={this.props.history} key="sinopia-resource-templates" />
       </div>
@@ -149,7 +144,9 @@ ImportResourceTemplate.propTypes = {
   currentUser: PropTypes.object,
   showModal: PropTypes.func,
   addModalMessage: PropTypes.func,
+  setFlashMessages: PropTypes.func,
   clearModalMessages: PropTypes.func,
+  clearFlashMessages: PropTypes.func,
   history: PropTypes.object,
   modalMessages: PropTypes.array,
 }
@@ -159,6 +156,8 @@ const mapStateToProps = state => ({
   modalMessages: modalMessages(state),
 })
 
-const mapDispatchToProps = dispatch => bindActionCreators({ showModal, clearModalMessages, addModalMessage }, dispatch)
+const mapDispatchToProps = dispatch => bindActionCreators({
+  showModal, clearModalMessages, addModalMessage, clearFlashMessages, setFlashMessages,
+}, dispatch)
 
 export default connect(mapStateToProps, mapDispatchToProps)(ImportResourceTemplate)

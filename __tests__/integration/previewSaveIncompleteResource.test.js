@@ -67,6 +67,9 @@ const createInitialState = () => {
         },
         copyToNewMessage: {},
         errors: {},
+        flash: {
+          messages: [],
+        },
         modal: {
           name: undefined,
           messages: [],
