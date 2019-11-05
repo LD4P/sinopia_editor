@@ -59,12 +59,6 @@ const createInitialState = (options = {}) => {
           errors: [],
           errorsByPath: {},
         },
-        rdfPreview: {
-          show: true,
-        },
-        groupChoice: {
-          show: false,
-        },
         errors: [],
       },
     },

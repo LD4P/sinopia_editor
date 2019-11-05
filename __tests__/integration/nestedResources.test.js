@@ -51,9 +51,6 @@ const createInitialState = () => {
           errorsByPath: {},
         },
         copyToNewMessage: {},
-        rdfPreview: {
-          show: true,
-        },
         expanded: {},
         errors: {},
       },

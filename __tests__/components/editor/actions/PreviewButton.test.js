@@ -14,9 +14,6 @@ describe('When the button is clicked', () => {
       entities: {},
       resource: {},
       editor: {
-        rdfPreview: {
-          show: false,
-        },
         modal: {
           name: undefined,
         },

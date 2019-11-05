@@ -37,12 +37,6 @@ const createInitialState = () => {
       },
       editor: {
         resourceValidationErrors: {},
-        rdfPreview: {
-          show: true,
-        },
-        groupChoice: {
-          show: false,
-        },
         expanded: {},
         errors: {},
         modal: {

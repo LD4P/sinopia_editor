@@ -53,14 +53,8 @@ const createInitialState = (options = {}) => {
           errors: [],
           errorsByPath: {},
         },
-        rdfPreview: {
-          show: true,
-        },
         modal: {
           name: undefined,
-        },
-        groupChoice: {
-          show: false,
         },
       },
     },
