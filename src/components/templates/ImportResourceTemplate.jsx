@@ -14,7 +14,6 @@ import { getCurrentUser } from 'authSelectors'
 import { clearModalMessages, addModalMessage, showModal } from 'actions/modals'
 import { clearFlashMessages, setFlashMessages } from 'actions/flash'
 import TemplateSearch from './TemplateSearch'
-import { modalMessages } from 'selectors/modalSelectors'
 
 class ImportResourceTemplate extends Component {
   // Resource templates are set via ImportFileZone and passed to ResourceTemplate via redirect to Editor
@@ -126,8 +125,7 @@ class ImportResourceTemplate extends Component {
   render() {
     return (
       <div id="importResourceTemplate">
-        <UpdateResourceModal messages={this.props.modalMessages}
-                             update={this.handleUpdateResource} />
+        <UpdateResourceModal update={this.handleUpdateResource} />
         <Header triggerEditorMenu={this.props.triggerHandleOffsetMenu}/>
         <ImportFileZone setResourceTemplateCallback={this.setResourceTemplates} />
         <CreateResourceMessages />
@@ -148,12 +146,10 @@ ImportResourceTemplate.propTypes = {
   clearModalMessages: PropTypes.func,
   clearFlashMessages: PropTypes.func,
   history: PropTypes.object,
-  modalMessages: PropTypes.array,
 }
 
 const mapStateToProps = state => ({
   currentUser: getCurrentUser(state),
-  modalMessages: modalMessages(state),
 })
 
 const mapDispatchToProps = dispatch => bindActionCreators({

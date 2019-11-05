@@ -6,12 +6,13 @@ import { useDispatch, useSelector } from 'react-redux'
 import PropTypes from 'prop-types'
 import ModalWrapper, { useDisplayStyle, useModalCss } from '../ModalWrapper'
 import { resourceToName } from 'Utilities'
-import { modalType } from 'selectors/modalSelectors'
+import { modalType, modalMessages } from 'selectors/modalSelectors'
 import _ from 'lodash'
 
 const UpdateResourceModal = (props) => {
   const dispatch = useDispatch()
   const show = useSelector(state => modalType(state) === 'UpdateResourceModal')
+  const messages = useSelector(state => modalMessages(state))
 
   const [group, setGroup] = useState('')
   const [resourceTemplates, setResourceTemplates] = useState([])
@@ -19,7 +20,7 @@ const UpdateResourceModal = (props) => {
   useEffect(() => {
     let group = ''
     const resourceTemplates = []
-    props.messages.forEach((message) => {
+    messages.forEach((message) => {
       if (_.get(message, 'req._data.id')) {
         const req = message.req
 
@@ -31,7 +32,7 @@ const UpdateResourceModal = (props) => {
     })
     setResourceTemplates(resourceTemplates)
     setGroup(group)
-  }, [props.messages])
+  }, [messages])
 
   const handleClose = (event) => {
     dispatch(hideModal())
@@ -82,7 +83,6 @@ const UpdateResourceModal = (props) => {
 }
 
 UpdateResourceModal.propTypes = {
-  messages: PropTypes.array,
   update: PropTypes.func,
 }
 
