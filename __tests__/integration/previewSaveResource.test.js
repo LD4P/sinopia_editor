@@ -4,6 +4,7 @@ import { fireEvent } from '@testing-library/react'
 import { renderWithRedux, createReduxStore, setupModal } from 'testUtils'
 import App from 'components/App'
 import { MemoryRouter } from 'react-router-dom'
+import { modalType } from 'selectors/modalSelectors'
 
 const createInitialState = () => {
   return {
@@ -70,6 +71,9 @@ const createInitialState = () => {
         },
         copyToNewMessage: {},
         errors: {},
+        modal: {
+          name: undefined,
+        },
       },
       templateSearch: {
         results: [],
@@ -121,6 +125,6 @@ describe('Preview and save resource', () => {
     fireEvent.click(finalSave)
 
     // Confirm that the modal is closed
-    expect(store.getState().selectorReducer.editor.modal).toBe(undefined)
+    expect(modalType(store.getState())).toBe(undefined)
   })
 })

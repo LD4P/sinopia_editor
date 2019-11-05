@@ -67,6 +67,9 @@ const createInitialState = () => {
         },
         copyToNewMessage: {},
         errors: {},
+        modal: {
+          name: undefined,
+        },
       },
       templateSearch: {
         results: [],

@@ -7,12 +7,13 @@ import PropTypes from 'prop-types'
 import { hideModal } from 'actions/index'
 import { Typeahead, asyncContainer } from 'react-bootstrap-typeahead'
 import { getTemplateSearchResults } from 'sinopiaSearch'
+import { modalType } from 'selectors/modalSelectors'
 
 const AsyncTypeahead = asyncContainer(Typeahead)
 
 const ResourceTemplateChoiceModal = (props) => {
   const dispatch = useDispatch()
-  const show = useSelector(state => state.selectorReducer.editor.modal === 'ResourceTemplateChoiceModal')
+  const show = useSelector(state => modalType(state) === 'ResourceTemplateChoiceModal')
 
   const [isLoading, setLoading] = useState(false)
   const [options, setOptions] = useState([])

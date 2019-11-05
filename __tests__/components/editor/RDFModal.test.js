@@ -5,6 +5,7 @@ import { fireEvent, wait } from '@testing-library/react'
 /* eslint import/no-unresolved: 'off' */
 import { renderWithRedux, createReduxStore, setupModal } from 'testUtils'
 import RDFModal from 'components/editor/RDFModal'
+import { modalType } from 'selectors/modalSelectors'
 
 describe('<RDFModal />', () => {
   setupModal()
@@ -12,7 +13,9 @@ describe('<RDFModal />', () => {
   const state = {
     selectorReducer: {
       editor: {
-        modal: undefined,
+        modal: {
+          name: undefined,
+        },
         resourceValidation: {
           show: false,
           errors: [],
@@ -50,7 +53,7 @@ describe('<RDFModal />', () => {
     // Clicking the Save and Publish button closes the Modal
     fireEvent.click(getByLabelText('Save'))
     await wait(() => {
-      expect(store.getState().selectorReducer.editor.modal).toBe(undefined)
+      expect(modalType(store.getState())).toBe(undefined)
     })
   })
 })

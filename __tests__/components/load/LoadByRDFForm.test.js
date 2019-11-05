@@ -10,6 +10,7 @@ import * as sinopiaServer from 'sinopiaServer'
 import { createMemoryHistory } from 'history'
 import shortid from 'shortid'
 import * as sinopiaSearch from 'sinopiaSearch'
+import { modalType } from 'selectors/modalSelectors'
 
 jest.mock('sinopiaSearch')
 jest.mock('sinopiaServer')
@@ -29,6 +30,9 @@ const createInitialState = () => {
           errorsByPath: {},
         },
         errors: {},
+        modal: {
+          name: undefined,
+        },
       },
     },
     authenticate: {
@@ -178,7 +182,7 @@ describe('LoadByRDFForm', () => {
 
     fireEvent.click(getByText('Save', 'Button'))
 
-    await wait(() => store.getState().selectorReducer.editor.modal !== 'GroupChoiceModal')
+    await wait(() => modalType(store.getState()) !== 'GroupChoiceModal')
 
     // Wait for the page change
     await wait(() => expect(history.location.pathname).toBe('/editor'))

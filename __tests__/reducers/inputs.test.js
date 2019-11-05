@@ -6,6 +6,7 @@ import {
   showModal, hideModal,
 } from 'reducers/inputs'
 import { findNode } from 'selectors/resourceSelectors'
+import { modalType } from 'selectors/modalSelectors'
 import Validator from 'ResourceValidator'
 
 let initialState
@@ -30,7 +31,9 @@ beforeEach(() => {
         errors: [],
         errorsByPath: {},
       },
-      modal: undefined,
+      modal: {
+        name: undefined,
+      },
       copyToNewMessage: {},
       resourceURIMessage: {
         show: false,
@@ -53,10 +56,10 @@ beforeEach(() => {
 
 describe('showGroupChooser()', () => {
   it('the groupChoice.show to true', () => {
-    initialState.editor.modal = 'RDFModal'
+    initialState.editor.modal.name = 'RDFModal'
     const result = showGroupChooser(initialState)
 
-    expect(result.editor.modal).toBe('GroupChoiceModal')
+    expect(modalType({ selectorReducer: result })).toBe('GroupChoiceModal')
   })
 })
 
@@ -77,13 +80,13 @@ describe('showModal and hideModal for RDFModal', () => {
   it('sets the showRdfPreview to true', () => {
     const result = showModal(initialState, { payload: 'RDFModal' })
 
-    expect(result.editor.modal).toBe('RDFModal')
+    expect(modalType({ selectorReducer: result })).toBe('RDFModal')
   })
 
   it('sets the showRdfPreview to false', () => {
     const result = hideModal(initialState)
 
-    expect(result.editor.modal).toBe(undefined)
+    expect(modalType({ selectorReducer: result })).toBe(undefined)
   })
 })
 

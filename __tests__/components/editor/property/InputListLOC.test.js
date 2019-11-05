@@ -41,6 +41,9 @@ const createInitialState = (options = {}) => {
         lookups: {},
       },
       editor: {
+        modal: {
+          name: undefined,
+        },
         resourceValidation: {
           show: false,
           errors: [],

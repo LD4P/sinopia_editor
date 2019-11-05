@@ -61,6 +61,9 @@ const createInitialState = (options = {}) => {
           errors: [],
           errorsByPath: {},
         },
+        modal: {
+          name: undefined,
+        },
         rdfPreview: {
           show: true,
         },
