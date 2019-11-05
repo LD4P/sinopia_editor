@@ -74,6 +74,7 @@ class ImportFileZone extends Component {
           await this.props.setResourceTemplateCallback(template, this.state.group)
         })
         .catch((err) => {
+          console.trace(err)
           this.addMessage(`The profile you provided was not in an acceptable format: ${err}`)
         })
     } catch (err) {

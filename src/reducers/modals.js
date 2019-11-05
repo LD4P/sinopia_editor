@@ -9,7 +9,6 @@ export const clearModalMessages = (state) => {
 
 export const addModalMessage = (state, action) => {
   const newState = { ...state }
-
   newState.editor.modal.messages = [...newState.editor.modal.messages, action.message]
   return newState
 }
