@@ -17,6 +17,9 @@ describe('When the button is clicked', () => {
         modal: {
           name: undefined,
         },
+        modal: {
+          name: undefined,
+        },
       },
     },
   })
