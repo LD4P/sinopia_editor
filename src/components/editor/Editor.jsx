@@ -46,12 +46,6 @@ const Editor = (props) => {
 
 Editor.propTypes = {
   triggerHandleOffsetMenu: PropTypes.func,
-  userWantsToSave: PropTypes.func,
-  copyToNewResource: PropTypes.func,
-  isSaved: PropTypes.bool,
-  location: PropTypes.object,
-  history: PropTypes.object,
-  currentUser: PropTypes.object,
   isMenuOpened: PropTypes.bool,
 }
 
