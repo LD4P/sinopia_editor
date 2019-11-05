@@ -4,6 +4,7 @@ import { createStore, applyMiddleware, compose } from 'redux'
 import thunk from 'redux-thunk'
 import reducer from './reducers/index'
 import Config from 'Config'
+import Honeybadger from 'honeybadger-js'
 
 export const initialState = {
   selectorReducer: {
@@ -40,6 +41,10 @@ export const initialState = {
       qa: { loading: false, options: [] },
       lookups: {},
       exports: [],
+    },
+    honeybadger: {
+      // start with an unconfigured instance in case something tries to use it before RootContainer configures properly
+      notifier: Honeybadger.configure({}),
     },
     search: {
       results: [],

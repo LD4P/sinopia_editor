@@ -15,7 +15,7 @@ import ImportResourceTemplate from './templates/ImportResourceTemplate'
 import LoadResource from './load/LoadResource'
 import Search from './search/Search'
 import CanvasMenu from './menu/CanvasMenu'
-import { saveAppVersion } from 'actions/index'
+import { saveAppVersion, saveHoneybadgerNotifier } from 'actions/index'
 import { useDispatch, useSelector } from 'react-redux'
 import { version } from '../../package.json'
 import { newResource as newResourceCreator } from 'actionCreators/resources'
@@ -35,7 +35,8 @@ const App = (props) => {
     dispatch(saveAppVersion(version))
     dispatch(loadLanguages())
     dispatch(listExports(exportsErrorKey))
-  }, [dispatch])
+    dispatch(saveHoneybadgerNotifier(props.honeybadger))
+  }, [dispatch, props.honeybadger])
 
   const hasResource = useSelector(state => hasResourceSelector(state))
   const currentSession = useSelector(state => (state.authenticate.authenticationState ? state.authenticate.authenticationState.currentSession : null))
@@ -93,6 +94,7 @@ const App = (props) => {
 
 App.propTypes = {
   handleOffsetMenu: PropTypes.func,
+  honeybadger: PropTypes.object,
 }
 
 export default App
