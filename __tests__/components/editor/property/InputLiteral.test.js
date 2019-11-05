@@ -64,12 +64,6 @@ const createInitialState = (options = {}) => {
         modal: {
           name: undefined,
         },
-        rdfPreview: {
-          show: true,
-        },
-        groupChoice: {
-          show: false,
-        },
       },
     },
   }

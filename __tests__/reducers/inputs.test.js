@@ -55,7 +55,7 @@ beforeEach(() => {
 })
 
 describe('showGroupChooser()', () => {
-  it('the groupChoice.show to true', () => {
+  it('sets the modal name to GroupChoiceModal', () => {
     initialState.editor.modal.name = 'RDFModal'
     const result = showGroupChooser(initialState)
 
