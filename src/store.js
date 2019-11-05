@@ -1,4 +1,3 @@
-
 // Copyright 2019 Stanford University see LICENSE for license
 
 import { createStore, applyMiddleware, compose } from 'redux'
@@ -18,7 +17,9 @@ const initialState = {
         errors: [], // List of validation errors
         errorsByPath: {}, // Errors from validating resource (redux path organized)
       },
-      modal: undefined, // Name of modal to show. Should only be one at a time.
+      modal: {
+        name: undefined, // Name of modal to show. Should only be one at a time.
+      },
       resourceURIMessage: {
         show: false,
       },

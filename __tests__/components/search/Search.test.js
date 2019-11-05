@@ -31,6 +31,9 @@ describe('<Search />', () => {
           lastChecked: 1569901390063,
         },
         editor: {
+          modal: {
+            name: undefined,
+          },
           errors: {},
         },
       },

@@ -61,6 +61,9 @@ const createInitialState = (options = {}) => {
           timestamp: Date.now(),
           oldUri: 'https://sinopia.io/pcc/1345',
         },
+        modal: {
+          name: undefined,
+        },
         resourceValidation: {
           show: false,
           errors: [],

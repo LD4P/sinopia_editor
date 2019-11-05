@@ -6,12 +6,12 @@ import { useDispatch, useSelector } from 'react-redux'
 import PropTypes from 'prop-types'
 import ModalWrapper, { useDisplayStyle, useModalCss } from '../ModalWrapper'
 import { resourceToName } from 'Utilities'
+import { modalType } from 'selectors/modalSelectors'
 import _ from 'lodash'
 
 const UpdateResourceModal = (props) => {
   const dispatch = useDispatch()
-
-  const show = useSelector(state => state.selectorReducer.editor.modal === 'UpdateResourceModal')
+  const show = useSelector(state => modalType(state) === 'UpdateResourceModal')
 
   const [group, setGroup] = useState('')
   const [resourceTemplates, setResourceTemplates] = useState([])

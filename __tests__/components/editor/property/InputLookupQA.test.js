@@ -51,6 +51,9 @@ const createInitialState = (options = {}) => {
         },
       },
       editor: {
+        modal: {
+          name: undefined,
+        },
         resourceValidation: {
           show: false,
           errors: [],

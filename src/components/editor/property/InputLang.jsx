@@ -5,6 +5,7 @@ import { Typeahead } from 'react-bootstrap-typeahead'
 import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
 import { findNode } from 'selectors/resourceSelectors'
+import { modalType } from 'selectors/modalSelectors'
 import { hideModal, languageSelected } from 'actions/index'
 import { bindActionCreators } from 'redux'
 import ModalWrapper from 'components/ModalWrapper'
@@ -96,7 +97,7 @@ InputLang.propTypes = {
 const mapStateToProps = (state, ourProps) => {
   const languages = state.selectorReducer.entities.languages
   const textValue = findNode(state, ourProps.reduxPath).content
-  const show = state.selectorReducer.editor.modal === 'LanguageModal'
+  const show = modalType(state) === 'LanguageModal'
   return {
     textValue,
     options: languages?.options || [],

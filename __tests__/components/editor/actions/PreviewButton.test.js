@@ -6,6 +6,7 @@ import PreviewButton from 'components/editor/actions/PreviewButton'
 import appReducer from 'reducers/index'
 import { renderWithRedux } from 'testUtils'
 import { fireEvent, wait } from '@testing-library/react'
+import { modalType } from 'selectors/modalSelectors'
 
 describe('When the button is clicked', () => {
   const store = createStore(appReducer, {
@@ -15,6 +16,9 @@ describe('When the button is clicked', () => {
       editor: {
         rdfPreview: {
           show: false,
+        },
+        modal: {
+          name: undefined,
         },
       },
     },
@@ -26,7 +30,7 @@ describe('When the button is clicked', () => {
   it('shows the preview', async () => {
     fireEvent.click(getByTitle('Preview RDF'))
     await wait(() => {
-      expect(store.getState().selectorReducer.editor.modal).toMatch('RDFModal')
+      expect(modalType(store.getState())).toMatch('RDFModal')
     })
   })
 })

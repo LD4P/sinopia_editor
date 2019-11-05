@@ -25,6 +25,9 @@ const createInitialState = () => {
       },
       editor: {
         errors: {},
+        modal: {
+          name: undefined,
+        },
       },
       templateSearch: {
         results: [],

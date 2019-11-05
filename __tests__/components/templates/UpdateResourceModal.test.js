@@ -12,7 +12,9 @@ describe('<UpdateResourceModal />', () => {
     return {
       selectorReducer: {
         editor: {
-          modal: 'UpdateResourceModal',
+          modal: {
+            name: 'UpdateResourceModal',
+          },
         },
       },
     }
@@ -49,7 +51,7 @@ describe('<UpdateResourceModal />', () => {
     }]
 
     it('does not render based on state', () => {
-      const store = createReduxStore({ selectorReducer: { editor: { modal: undefined } } })
+      const store = createReduxStore({ selectorReducer: { editor: { modal: { name: undefined } } } })
       const { getByTestId } = renderWithRedux(
         <UpdateResourceModal update={jest.fn()} messages={messages} />,
         store,

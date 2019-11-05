@@ -8,6 +8,7 @@ import Config from 'Config'
 import { hideModal } from 'actions/index'
 import { getCurrentUser } from 'authSelectors'
 import { resourceEditErrorKey } from 'selectors/resourceSelectors'
+import { modalType } from 'selectors/modalSelectors'
 import { publishResource } from 'actionCreators/resources'
 import ModalWrapper, { useDisplayStyle, useModalCss } from '../ModalWrapper'
 
@@ -94,7 +95,7 @@ GroupChoiceModal.propTypes = {
 }
 
 const mapStateToProps = state => ({
-  show: state.selectorReducer.editor.modal === 'GroupChoiceModal',
+  show: modalType(state) === 'GroupChoiceModal',
   currentUser: getCurrentUser(state),
 })
 

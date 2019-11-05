@@ -34,6 +34,9 @@ const createInitialState = (options = {}) => {
       },
       editor: {
         copyToNewMessage: {},
+        modal: {
+          name: undefined,
+        },
         resourceValidation: {
           show: false,
           errors: [],

@@ -12,6 +12,9 @@ describe('<QASearchResults />', () => {
         resource: {},
         editor: {
           errors: {},
+          modal: {
+            name: undefined,
+          },
         },
         search: {
           results: [
@@ -107,6 +110,9 @@ describe('<QASearchResults />', () => {
         resource: {},
         editor: {
           errors: {},
+          modal: {
+            name: undefined,
+          },
         },
         search: {
           results: [{
@@ -194,6 +200,9 @@ describe('<QASearchResults />', () => {
         editor: {
           errors: {
             searchqaresource: ['Ooops'],
+          },
+          modal: {
+            name: undefined,
           },
         },
         search: {

@@ -4,6 +4,7 @@ import ResourceTemplateChoiceModal from 'components/ResourceTemplateChoiceModal'
 import { renderWithRedux, createReduxStore, setupModal } from 'testUtils'
 import { fireEvent, wait } from '@testing-library/react'
 import * as sinopiaSearch from 'sinopiaSearch'
+import { modalType } from 'selectors/modalSelectors'
 
 jest.mock('sinopiaSearch')
 
@@ -24,7 +25,11 @@ describe('<ResourceTemplateChoiceModal />', () => {
   const createState = () => {
     return {
       selectorReducer: {
-        editor: {},
+        editor: {
+          modal: {
+            name: undefined,
+          },
+        },
         entities: {},
         templateSearch: {
           results: [],
@@ -53,7 +58,7 @@ describe('<ResourceTemplateChoiceModal />', () => {
 
     fireEvent.click(getByText('Save', 'Button'))
 
-    await wait(() => expect(store.getState().selectorReducer.editor.modal === undefined))
+    await wait(() => expect(modalType(store.getState()) === undefined))
 
     expect(mockChoose).toBeCalledWith('resourceTemplate:bf2:Monograph:Work')
   })
@@ -69,6 +74,6 @@ describe('<ResourceTemplateChoiceModal />', () => {
 
     expect(getByText('Choose resource template')).toBeInTheDocument()
     fireEvent.click(getByText('Cancel', 'Button'))
-    await wait(() => expect(store.getState().selectorReducer.editor.modal === undefined))
+    await wait(() => expect(modalType(store.getState()) === undefined))
   })
 })

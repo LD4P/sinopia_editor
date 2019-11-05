@@ -5,6 +5,7 @@ import { fireEvent } from '@testing-library/react'
 /* eslint import/no-unresolved: 'off' */
 import { renderWithRedux, createReduxStore, setupModal } from 'testUtils'
 import LanguageButton from 'components/editor/property/LanguageButton'
+import { modalType } from 'selectors/modalSelectors'
 
 describe('When the user enters input into language modal', () => {
   setupModal()
@@ -12,7 +13,9 @@ describe('When the user enters input into language modal', () => {
   const state = {
     selectorReducer: {
       editor: {
-        modal: undefined,
+        modal: {
+          name: undefined,
+        },
       },
       entities: {
         languages: {
@@ -45,6 +48,6 @@ describe('When the user enters input into language modal', () => {
 
   it('shows the <InputLang> modal when the <Button/> is clicked', async () => {
     fireEvent.click(getByText('Language:'))
-    expect(store.getState().selectorReducer.editor.modal).toBe('LanguageModal')
+    expect(modalType(store.getState())).toMatch('LanguageModal')
   })
 })

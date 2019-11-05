@@ -4,6 +4,7 @@ import React from 'react'
 import { hideModal } from 'actions/index'
 import { connect, useDispatch } from 'react-redux'
 import PropTypes from 'prop-types'
+import { modalType } from 'selectors/modalSelectors'
 import GraphBuilder from 'GraphBuilder'
 import ModalWrapper, { useDisplayStyle, useModalCss } from '../ModalWrapper'
 import SaveAndPublishButton from './actions/SaveAndPublishButton'
@@ -54,7 +55,7 @@ RDFModal.propTypes = {
 }
 
 const mapStateToProps = state => ({
-  show: state.selectorReducer.editor.modal === 'RDFModal',
+  show: modalType(state) === 'RDFModal',
   rdf: () => new GraphBuilder(state.selectorReducer).graph.toCanonical(),
 })
 

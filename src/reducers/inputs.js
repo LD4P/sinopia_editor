@@ -22,18 +22,12 @@ export const validate = (state) => {
  * @return {Object} the next redux state
  */
 export const showGroupChooser = (state) => {
-  const newState = { ...state }
-
   if (validate(state).editor.resourceValidation.errors.length === 0) {
     // Show the window to select a group
-    newState.editor.modal = 'GroupChoiceModal'
-  } else {
-    newState.editor.modal = undefined
-    // Show errors that prevent save
-    newState.editor.resourceValidation.show = true
+    return setModal({ ...state }, 'GroupChoiceModal')
   }
 
-  return newState
+  return showValidationErrors(state)
 }
 
 /**
@@ -42,9 +36,7 @@ export const showGroupChooser = (state) => {
  * @return {Object} the next redux state
  */
 export const showValidationErrors = (state) => {
-  const newState = { ...state }
-
-  newState.editor.modal = undefined
+  const newState = hideModal(state)
   newState.editor.resourceValidation.show = true
 
   return newState
@@ -160,16 +152,11 @@ export const removeMyItem = (state, action) => {
   return validate(newState)
 }
 
-export const showModal = (state, action) => {
-  const newState = { ...state }
-
-  newState.editor.modal = action.payload
+const setModal = (newState, name) => {
+  newState.editor.modal.name = name
   return newState
 }
 
-export const hideModal = (state) => {
-  const newState = { ...state }
+export const showModal = (state, action) => setModal({ ...state }, action.payload)
 
-  newState.editor.modal = undefined
-  return newState
-}
+export const hideModal = state => setModal({ ...state }, undefined)

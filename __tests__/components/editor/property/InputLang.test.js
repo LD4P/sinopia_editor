@@ -9,7 +9,9 @@ import { renderWithRedux, createReduxStore, setupModal } from 'testUtils'
 const state = {
   selectorReducer: {
     editor: {
-      modal: undefined,
+      modal: {
+        name: undefined,
+      },
     },
     entities: {
       languages: {
