@@ -1,6 +1,8 @@
 // Copyright 2019 Stanford University see LICENSE for license
 
-import React, { useState, useEffect, useCallback } from 'react'
+import React, {
+  useState, useEffect, useCallback, useRef
+} from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import PropTypes from 'prop-types'
 import Header from '../Header'
@@ -18,7 +20,6 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faSearch } from '@fortawesome/free-solid-svg-icons'
 import searchConfig from '../../../static/searchConfig.json'
 
-
 const Search = (props) => {
   const dispatch = useDispatch()
   const fetchQASearchResults = (queryString, uri) => dispatch(fetchQASearchResultsCreator(queryString, uri))
@@ -30,6 +31,8 @@ const Search = (props) => {
 
   const error = useSelector(state => state.selectorReducer.search.error)
   const searchUri = useSelector(state => state.selectorReducer.search.uri)
+
+  const topRef = useRef(null)
 
   const [queryString, setQueryString] = useState('')
   const [uri, setUri] = useState('sinopia')
@@ -59,6 +62,7 @@ const Search = (props) => {
     } else {
       fetchQASearchResults(queryString, uri)
     }
+    if (error) window.scrollTo(0, topRef.current.offsetTop)
   }
 
   const changeSinopiaSearchPage = (startOfRange) => {
@@ -83,7 +87,7 @@ const Search = (props) => {
   }
 
   return (
-    <div id="search">
+    <div id="search" ref={topRef}>
       <Header triggerEditorMenu={props.triggerHandleOffsetMenu} />
       <Alert text={error && `An error occurred while searching: ${error.toString()}`} />
       <div className="container">
