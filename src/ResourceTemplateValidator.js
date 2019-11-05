@@ -2,7 +2,7 @@
 
 import { foundResourceTemplate, getResourceTemplate } from 'sinopiaServer'
 import { getTagNameForPropertyTemplate } from 'utilities/propertyTemplates'
-
+import _ from 'lodash'
 
 /**
  * Validates a resource template.
@@ -120,7 +120,7 @@ const validateTemplateRefsExist = async (resourceTemplate) => {
     const refs = propertyTemplate.valueConstraint?.valueTemplateRefs || []
     await Promise.all(refs.map(async (resourceTemplateIdRef) => {
       const found = await foundResourceTemplate(resourceTemplateIdRef)
-      if (!found) {
+      if (!found && !_.isEmpty(resourceTemplateIdRef)) { // ignore blank referenced templates elements
         missingResourceTemplateIds.add(resourceTemplateIdRef)
       }
     }))
@@ -142,7 +142,8 @@ const validateUniqueResourceURIs = async (resourceTemplate) => {
   await Promise.all(resourceTemplate.propertyTemplates.map(async (propertyTemplate) => {
     const refs = propertyTemplate.valueConstraint?.valueTemplateRefs || []
     const resourceURIs = {}
-    await Promise.all(refs.map(async (resourceTemplateIdRef) => {
+    // filter out blank referenced templates elements
+    await Promise.all(refs.filter(resourceTemplateIdRef => !_.isEmpty(resourceTemplateIdRef)).map(async (resourceTemplateIdRef) => {
       const resourceTemplateRef = await fetchResourceTemplate(resourceTemplateIdRef)
       if (resourceTemplateRef) {
         const resourceURI = resourceTemplateRef.resourceURI

@@ -51,6 +51,7 @@ const rtFileNames = [
   'literalRepeatDefaultLiteralOnly.json',
   'literalRepeatNoDefault.json',
   'lookupWithValueTemplateRefs.json',
+  'blankValueTemplateRefs.json',
   'multiple_valuetemplaterefs.json',
   'propertyURIRepeated.json',
   'lc_RT_bf2_Agent_Role.json',
