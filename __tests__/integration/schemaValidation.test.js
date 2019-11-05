@@ -26,6 +26,7 @@ const createInitialState = () => {
       editor: {
         errors: {},
         modal: {
+          messages: [],
           name: undefined,
         },
       },

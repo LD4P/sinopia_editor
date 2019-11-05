@@ -1,7 +1,7 @@
 // Copyright 2019 Stanford University see LICENSE for license
 
 import React, { useEffect, useState } from 'react'
-import { hideModal } from 'actions/index'
+import { hideModal } from 'actions/modals'
 import { useDispatch, useSelector } from 'react-redux'
 import PropTypes from 'prop-types'
 import ModalWrapper, { useDisplayStyle, useModalCss } from '../ModalWrapper'

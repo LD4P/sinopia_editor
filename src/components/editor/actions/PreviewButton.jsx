@@ -4,7 +4,7 @@ import React from 'react'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faEye } from '@fortawesome/free-solid-svg-icons'
 import { useDispatch } from 'react-redux'
-import { showModal } from 'actions/index'
+import { showModal } from 'actions/modals'
 
 const PreviewButton = () => {
   const dispatch = useDispatch()
