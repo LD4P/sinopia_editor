@@ -44,6 +44,7 @@ const createInitialState = () => {
       editor: {
         modal: {
           name: undefined,
+          messages: [],
         },
         resourceValidation: {
           show: false,

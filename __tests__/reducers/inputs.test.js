@@ -2,11 +2,9 @@
 
 import {
   removeMyItem, setItemsOrSelections, setBaseURL,
-  validate, showGroupChooser, showCopyNewMessage,
-  showModal, hideModal,
+  validate, showCopyNewMessage,
 } from 'reducers/inputs'
 import { findNode } from 'selectors/resourceSelectors'
-import { modalType } from 'selectors/modalSelectors'
 import Validator from 'ResourceValidator'
 
 let initialState
@@ -54,15 +52,6 @@ beforeEach(() => {
   }
 })
 
-describe('showGroupChooser()', () => {
-  it('sets the modal name to GroupChoiceModal', () => {
-    initialState.editor.modal.name = 'RDFModal'
-    const result = showGroupChooser(initialState)
-
-    expect(modalType({ selectorReducer: result })).toBe('GroupChoiceModal')
-  })
-})
-
 describe('showCopyNewMessage()', () => {
   it('sets the showCopyNewMessage oldUri to a value', () => {
     const result = showCopyNewMessage(initialState,
@@ -76,19 +65,6 @@ describe('showCopyNewMessage()', () => {
   })
 })
 
-describe('showModal and hideModal for RDFModal', () => {
-  it('sets the showRdfPreview to true', () => {
-    const result = showModal(initialState, { payload: 'RDFModal' })
-
-    expect(modalType({ selectorReducer: result })).toBe('RDFModal')
-  })
-
-  it('sets the showRdfPreview to false', () => {
-    const result = hideModal(initialState)
-
-    expect(modalType({ selectorReducer: result })).toBe(undefined)
-  })
-})
 
 describe('setItemsOrSelections with action type: ITEMS_SELECTED', () => {
   it('adds item to state', () => {

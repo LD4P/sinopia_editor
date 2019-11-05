@@ -19,6 +19,7 @@ const initialState = {
       },
       modal: {
         name: undefined, // Name of modal to show. Should only be one at a time.
+        messages: [],
       },
       resourceURIMessage: {
         show: false,

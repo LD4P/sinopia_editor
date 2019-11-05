@@ -4,7 +4,7 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import { useDispatch, connect } from 'react-redux'
 import InputLang from './InputLang'
-import { showModal } from 'actions/index'
+import { showModal } from 'actions/modals'
 import { findNode } from 'selectors/resourceSelectors'
 import { languageLabel } from 'selectors/entitySelectors'
 

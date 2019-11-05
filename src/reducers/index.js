@@ -3,10 +3,13 @@
 import { combineReducers } from 'redux'
 import authenticate from './authenticate'
 import {
-  removeMyItem, setItemsOrSelections, setBaseURL,
-  setMyItemsLang, showGroupChooser, showCopyNewMessage,
-  validate, showValidationErrors, hideValidationErrors, showModal, hideModal,
+  removeMyItem, setItemsOrSelections, setBaseURL, setMyItemsLang,
+  showCopyNewMessage, validate, hideValidationErrors,
 } from './inputs'
+import {
+  showGroupChooser, showValidationErrors,
+  showModal, hideModal, addModalMessage, clearModalMessages,
+} from './modals'
 import {
   setResourceTemplate, clearResourceTemplates,
   loadingLanguages, languagesReceived, exportsReceived,
@@ -141,10 +144,12 @@ export const setUnusedRDF = (state, action) => {
 }
 
 const handlers = {
+  ADD_MODAL_MESSAGE: addModalMessage,
   APPEND_ERROR: appendError,
   APPEND_RESOURCE: appendResource,
   CHANGE_SELECTIONS: setItemsOrSelections,
   CLEAR_ERRORS: clearErrors,
+  CLEAR_MODAL_MESSAGES: clearModalMessages,
   CLEAR_RESOURCE_TEMPLATES: clearResourceTemplates,
   CLEAR_SEARCH_RESULTS: clearSearchResults,
   CLEAR_TEMPLATE_SEARCH_RESULTS: clearTemplateSearchResults,

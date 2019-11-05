@@ -188,12 +188,3 @@ export const updateProperty = (reduxPath, resourceFragment, resourceTemplates) =
 export const validateResource = () => ({
   type: 'VALIDATE_RESOURCE',
 })
-
-export const showModal = name => ({
-  type: 'SHOW_MODAL',
-  payload: name,
-})
-
-export const hideModal = () => ({
-  type: 'HIDE_MODAL',
-})

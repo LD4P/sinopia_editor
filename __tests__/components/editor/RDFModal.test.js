@@ -15,6 +15,7 @@ describe('<RDFModal />', () => {
       editor: {
         modal: {
           name: undefined,
+          messages: [],
         },
         resourceValidation: {
           show: false,
