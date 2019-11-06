@@ -1,10 +1,10 @@
 // Copyright 2019 Stanford University see LICENSE for license
 
 import React from 'react'
-import { hideModal } from 'actions/index'
 import { connect, useDispatch } from 'react-redux'
 import PropTypes from 'prop-types'
 import { modalType } from 'selectors/modalSelectors'
+import { hideModal } from 'actions/modals'
 import GraphBuilder from 'GraphBuilder'
 import ModalWrapper, { useDisplayStyle, useModalCss } from '../ModalWrapper'
 import SaveAndPublishButton from './actions/SaveAndPublishButton'

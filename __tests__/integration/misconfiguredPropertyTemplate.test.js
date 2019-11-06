@@ -41,6 +41,7 @@ const createInitialState = () => {
         errors: {},
         modal: {
           name: undefined,
+          messages: [],
         },
       },
       templateSearch: {

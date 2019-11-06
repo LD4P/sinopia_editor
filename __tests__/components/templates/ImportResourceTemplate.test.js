@@ -12,9 +12,12 @@ jest.mock('../../../src/sinopiaServer')
 
 describe('<ImportResourceTemplate />', () => {
   const mockShowModal = jest.fn()
+  const addModalMessage = jest.fn()
 
   const wrapper = shallow(<ImportResourceTemplate.WrappedComponent
-    showModal={mockShowModal} />)
+    showModal={mockShowModal}
+    clearModalMessages={jest.fn()}
+    addModalMessage={addModalMessage}/>)
 
   // Make sure spies/mocks don't leak between tests
   afterEach(() => {
@@ -99,13 +102,10 @@ describe('<ImportResourceTemplate />', () => {
         }
       })
 
-      const setStateSpy = jest.spyOn(wrapper.instance(), 'setState').mockReturnValue(null)
       const response = await wrapper.instance().createResource({ foo: 'bar' }, 'ld4p')
 
       expect(response).toEqual('i am an error for a created object')
-      expect(setStateSpy).toHaveBeenCalledWith({
-        modalMessages: ['i am an error for a created object'],
-      })
+      expect(addModalMessage).toHaveBeenCalledWith('i am an error for a created object')
     })
 
     // TODO: test scenario where id token retrieval fails (e.g. expired refresh token) for #528
@@ -276,16 +276,17 @@ describe('<ImportResourceTemplate />', () => {
 
   describe('resetMessages()', () => {
     it('resets modalMessages and flashMessages in component state', () => {
+      const clearModalMessages = jest.fn()
       // Set new wrapper because we are changing state
-      const wrapper = shallow(<ImportResourceTemplate.WrappedComponent/>)
+      const wrapper = shallow(<ImportResourceTemplate.WrappedComponent modalMessages={['Could not update resource!']}
+                                                                       clearModalMessages={clearModalMessages}/>)
 
-      wrapper.setState({ modalMessages: ['Could not update resource!'], flashMessages: ['Updated http:sinopia.io/repository/ld4p/myResourceTemplate'] })
-      expect(wrapper.state().modalMessages).toEqual(['Could not update resource!'])
+      wrapper.setState({ flashMessages: ['Updated http:sinopia.io/repository/ld4p/myResourceTemplate'] })
       expect(wrapper.state().flashMessages).toEqual(['Updated http:sinopia.io/repository/ld4p/myResourceTemplate'])
 
       wrapper.instance().resetMessages()
 
-      expect(wrapper.state().modalMessages).toEqual([])
+      expect(clearModalMessages).toHaveBeenCalled()
       expect(wrapper.state().flashMessages).toEqual([])
     })
   })
