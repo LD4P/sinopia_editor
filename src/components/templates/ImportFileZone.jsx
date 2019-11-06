@@ -1,10 +1,12 @@
 // Copyright 2019 Stanford University see LICENSE for license
 
 import React, { Component } from 'react'
+import { connect } from 'react-redux'
 import DropZone from './DropZone'
 import PropTypes from 'prop-types'
 import Ajv from 'ajv' // JSON schema validation
 import Config from 'Config'
+import { setResourceTemplates } from 'actionCreators/resourceTemplates'
 
 const util = require('util')
 // For JSON schema validation errors
@@ -71,7 +73,7 @@ class ImportFileZone extends Component {
 
       this.promiseTemplateValidated(template, this.schemaUrl(template))
         .then(async () => {
-          await this.props.setResourceTemplateCallback(template, this.state.group)
+          await this.props.setResourceTemplates(template, this.state.group)
         })
         .catch((err) => {
           this.addMessage(`The profile you provided was not in an acceptable format: ${err}`)
@@ -221,7 +223,7 @@ class ImportFileZone extends Component {
 }
 
 ImportFileZone.propTypes = {
-  setResourceTemplateCallback: PropTypes.func,
+  setResourceTemplates: PropTypes.func,
   resourceTemplateId: PropTypes.string,
 }
-export default ImportFileZone
+export default connect(null, { setResourceTemplates })(ImportFileZone)

@@ -2,14 +2,14 @@
 
 import React, { useEffect, useState } from 'react'
 import { hideModal } from 'actions/modals'
+import { handleUpdateResource } from 'actionCreators/resourceTemplates'
 import { useDispatch, useSelector } from 'react-redux'
-import PropTypes from 'prop-types'
 import ModalWrapper, { useDisplayStyle, useModalCss } from '../ModalWrapper'
 import { resourceToName } from 'Utilities'
 import { modalType, modalMessages } from 'selectors/modalSelectors'
 import _ from 'lodash'
 
-const UpdateResourceModal = (props) => {
+const UpdateResourceModal = () => {
   const dispatch = useDispatch()
   const show = useSelector(state => modalType(state) === 'UpdateResourceModal')
   const messages = useSelector(state => modalMessages(state))
@@ -40,7 +40,7 @@ const UpdateResourceModal = (props) => {
   }
 
   const handleOverwriteClick = (event) => {
-    props.update(resourceTemplates, group)
+    dispatch(handleUpdateResource(resourceTemplates, group))
     dispatch(hideModal())
     event.preventDefault()
   }
@@ -80,10 +80,6 @@ const UpdateResourceModal = (props) => {
     </div>)
 
   return (<ModalWrapper modal={modal} />)
-}
-
-UpdateResourceModal.propTypes = {
-  update: PropTypes.func,
 }
 
 export default UpdateResourceModal

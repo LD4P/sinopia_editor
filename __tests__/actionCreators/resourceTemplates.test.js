@@ -1,6 +1,8 @@
 // Copyright 2019 Stanford University see LICENSE for license
 
-import { fetchResourceTemplate } from 'actionCreators/resourceTemplates'
+import {
+  fetchResourceTemplate, setResourceTemplates, handleUpdateResource,
+} from 'actionCreators/resourceTemplates'
 /* eslint import/namespace: 'off' */
 import * as server from 'sinopiaServer'
 import { getFixtureResourceTemplate } from '../fixtureLoaderHelper'
@@ -61,5 +63,95 @@ describe('fetchResourceTemplate', () => {
         },
       ])
     })
+  })
+})
+
+
+describe('setResourceTemplates()', () => {
+  const profileContent = {
+    Profile: {
+      resourceTemplates: [
+        {
+          id: 'template1',
+        },
+        {
+          id: 'template2',
+        },
+      ],
+    },
+  }
+
+  it('opens the modal if there is a conflict', async () => {
+    const store = mockStore({
+      authenticate: { authenticationState: {} },
+    })
+    server.createResourceTemplate = jest.fn().mockResolvedValue({ response: { status: 409 } })
+
+    await store.dispatch(setResourceTemplates(profileContent, 'ld4p'))
+
+    expect(store.getActions()).toEqual([
+      {
+        type: 'CLEAR_FLASH_MESSAGES',
+      },
+      {
+        type: 'CLEAR_MODAL_MESSAGES',
+      },
+      {
+        type: 'SHOW_MODAL',
+        payload: 'UpdateResourceModal',
+      },
+    ])
+  })
+
+  it('updates the flash messages if they were created', async () => {
+    const store = mockStore({
+      authenticate: { authenticationState: {} },
+    })
+    server.createResourceTemplate = jest.fn()
+      .mockResolvedValue({ response: { status: 201, headers: { location: 'http://resource1' } } })
+
+    await store.dispatch(setResourceTemplates(profileContent, 'ld4p'))
+
+    expect(store.getActions()).toEqual([
+      {
+        type: 'CLEAR_FLASH_MESSAGES',
+      },
+      {
+        type: 'CLEAR_MODAL_MESSAGES',
+      },
+      {
+        type: 'SET_FLASH_MESSAGES',
+        messages: ['Created http://resource1', 'Created http://resource1'],
+      },
+    ])
+  })
+})
+
+describe('handleUpdateResource()', () => {
+  const templates = [
+    {
+      id: 'template1',
+    },
+    {
+      id: 'template2',
+    },
+  ]
+
+  it('updates every template and sets the flash', async () => {
+    const store = mockStore({
+      authenticate: { authenticationState: {} },
+    })
+    server.updateResourceTemplate = jest.fn()
+      .mockResolvedValue({ response: { status: 204, headers: { location: 'http://resource1' } } })
+
+    await store.dispatch(handleUpdateResource(templates, 'ld4p'))
+
+
+    expect(store.getActions()).toEqual([
+      {
+        type: 'SET_FLASH_MESSAGES',
+        messages: ['Updated http://resource1', 'Updated http://resource1'],
+      },
+    ])
   })
 })
