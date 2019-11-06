@@ -4,6 +4,10 @@ import React from 'react'
 import { renderWithRedux, createReduxStore, setupModal } from 'testUtils'
 import { fireEvent } from '@testing-library/react'
 import UpdateResourceModal from 'components/templates/UpdateResourceModal'
+/* eslint import/namespace: 'off' */
+import * as sinopiaServer from 'sinopiaServer'
+
+jest.mock('sinopiaServer')
 
 describe('<UpdateResourceModal />', () => {
   setupModal()
@@ -54,7 +58,7 @@ describe('<UpdateResourceModal />', () => {
     it('does not render based on state', () => {
       const store = createReduxStore({ selectorReducer: { editor: { modal: { name: undefined, messages } } } })
       const { getByTestId } = renderWithRedux(
-        <UpdateResourceModal update={jest.fn()} messages={messages} />,
+        <UpdateResourceModal />,
         store,
       )
 
@@ -63,7 +67,7 @@ describe('<UpdateResourceModal />', () => {
     it('renders', () => {
       const store = createReduxStore(createInitialState())
       const { getByTestId, getByText } = renderWithRedux(
-        <UpdateResourceModal update={jest.fn()} messages={messages} />,
+        <UpdateResourceModal />,
         store,
       )
 
@@ -75,7 +79,7 @@ describe('<UpdateResourceModal />', () => {
     it('cancels when cancel is clicked', () => {
       const store = createReduxStore(createInitialState())
       const { getByTestId, getByText } = renderWithRedux(
-        <UpdateResourceModal update={jest.fn()} messages={messages} />,
+        <UpdateResourceModal />,
         store,
       )
 
@@ -85,16 +89,16 @@ describe('<UpdateResourceModal />', () => {
     })
 
     it('updates when overwrite is clicked', () => {
-      const mockUpdate = jest.fn()
+      sinopiaServer.updateResourceTemplate = jest.fn().mockResolvedValue({ response: { status: 409 } })
+
       const store = createReduxStore(createInitialState())
       const { getByTestId, getByText } = renderWithRedux(
-        <UpdateResourceModal update={mockUpdate} messages={messages} />,
+        <UpdateResourceModal />,
         store,
       )
 
       expect(getByTestId('update-resource-modal').classList.contains('show')).toBe(true)
       fireEvent.click(getByText('Overwrite'))
-      expect(mockUpdate).toHaveBeenCalledWith([resourceTemplate], 'ld4p')
       expect(getByTestId('update-resource-modal').classList.contains('show')).toBe(false)
     })
   })
