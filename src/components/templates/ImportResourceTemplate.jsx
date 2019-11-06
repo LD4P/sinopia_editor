@@ -143,7 +143,7 @@ class ImportResourceTemplate extends Component {
         <ImportFileZone setResourceTemplateCallback={this.setResourceTemplates} />
         <CreateResourceMessages messages={this.state.flashMessages} />
         <TemplateSearch />
-        <SinopiaResourceTemplates messages={this.state.flashMessages} history={this.props.history} key="sinopia-resource-templates" />
+        <SinopiaResourceTemplates history={this.props.history} key="sinopia-resource-templates" />
       </div>
     )
   }
