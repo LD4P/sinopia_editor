@@ -222,6 +222,5 @@ class ImportFileZone extends Component {
 
 ImportFileZone.propTypes = {
   setResourceTemplateCallback: PropTypes.func,
-  resourceTemplateId: PropTypes.string,
 }
 export default ImportFileZone
