@@ -1,8 +1,8 @@
-export const clearFlashMessages = () => ({
-  type: 'CLEAR_FLASH_MESSAGES',
+export const clearTemplateMessages = () => ({
+  type: 'CLEAR_TEMPLATE_MESSAGES',
 })
 
-export const setFlashMessages = messages => ({
-  type: 'SET_FLASH_MESSAGES',
+export const setTemplateMessages = messages => ({
+  type: 'SET_TEMPLATE_MESSAGES',
   messages,
 })

@@ -139,15 +139,15 @@ describe('<ImportResourceTemplate />', () => {
 
   describe('updateStateFromServerResponses()', () => {
     it('adds error message to store when update operation does *not* result in HTTP 409 Conflict', () => {
-      const clearFlashMessages = jest.fn()
-      const setFlashMessages = jest.fn()
+      const clearTemplateMessages = jest.fn()
+      const setTemplateMessages = jest.fn()
 
       // Set new wrapper in each of these tests because we are changing state
-      const wrapper = shallow(<ImportResourceTemplate.WrappedComponent setFlashMessages={setFlashMessages} clearFlashMessages={clearFlashMessages} />)
+      const wrapper = shallow(<ImportResourceTemplate.WrappedComponent setTemplateMessages={setTemplateMessages} clearTemplateMessages={clearTemplateMessages} />)
 
       wrapper.instance().updateStateFromServerResponses([{ status: 200, headers: {} }])
 
-      expect(setFlashMessages).toHaveBeenCalledWith(['Unexpected response (200)! '])
+      expect(setTemplateMessages).toHaveBeenCalledWith(['Unexpected response (200)! '])
     })
 
     it('sets modal when receiving HTTP 409 and errors >= profileCount', () => {
@@ -161,21 +161,21 @@ describe('<ImportResourceTemplate />', () => {
     })
 
     it('sets message in state with any create operation not resulting in HTTP 409', () => {
-      const setFlashMessages = jest.fn()
+      const setTemplateMessages = jest.fn()
       // Set new wrapper in each of these tests because we are changing state
-      const wrapper = shallow(<ImportResourceTemplate.WrappedComponent setFlashMessages={setFlashMessages} />)
+      const wrapper = shallow(<ImportResourceTemplate.WrappedComponent setTemplateMessages={setTemplateMessages} />)
 
       wrapper.instance().updateStateFromServerResponses([{ status: 201, headers: { location: 'http://sinopia.io/repository/ld4p/myResourceTemplate' } }])
 
-      expect(setFlashMessages).toHaveBeenCalledWith(['Created http://sinopia.io/repository/ld4p/myResourceTemplate'])
+      expect(setTemplateMessages).toHaveBeenCalledWith(['Created http://sinopia.io/repository/ld4p/myResourceTemplate'])
     })
 
     it('handles multi-response calls with different results', () => {
-      const setFlashMessages = jest.fn()
+      const setTemplateMessages = jest.fn()
 
       // Set new wrapper in each of these tests because we are changing state
       const wrapper = shallow(<ImportResourceTemplate.WrappedComponent
-        setFlashMessages={setFlashMessages}
+        setTemplateMessages={setTemplateMessages}
         showModal={mockShowModal} />)
 
       wrapper.instance().updateStateFromServerResponses([
@@ -183,7 +183,7 @@ describe('<ImportResourceTemplate />', () => {
         { status: 409, headers: { location: 'http://sinopia.io/repository/ld4p/myResourceTemplate2' } },
       ])
 
-      expect(setFlashMessages).toHaveBeenCalledWith(['Created http://sinopia.io/repository/ld4p/myResourceTemplate1'])
+      expect(setTemplateMessages).toHaveBeenCalledWith(['Created http://sinopia.io/repository/ld4p/myResourceTemplate1'])
       expect(mockShowModal).toHaveBeenCalledWith('UpdateResourceModal')
     })
   })
@@ -274,19 +274,19 @@ describe('<ImportResourceTemplate />', () => {
   })
 
   describe('resetMessages()', () => {
-    it('resets modalMessages and flashMessages in component state', () => {
+    it('resets modalMessages and uploadTemplateMessages in component state', () => {
       const clearModalMessages = jest.fn()
-      const clearFlashMessages = jest.fn()
+      const clearTemplateMessages = jest.fn()
 
       // Set new wrapper because we are changing state
       const wrapper = shallow(<ImportResourceTemplate.WrappedComponent modalMessages={['Could not update resource!']}
                                                                        clearModalMessages={clearModalMessages}
-                                                                       clearFlashMessages={clearFlashMessages} />)
+                                                                       clearTemplateMessages={clearTemplateMessages} />)
 
       wrapper.instance().resetMessages()
 
       expect(clearModalMessages).toHaveBeenCalled()
-      expect(clearFlashMessages).toHaveBeenCalled()
+      expect(clearTemplateMessages).toHaveBeenCalled()
     })
   })
 

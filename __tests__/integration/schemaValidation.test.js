@@ -26,9 +26,7 @@ const createInitialState = () => {
       },
       editor: {
         errors: {},
-        flash: {
-          messages: [],
-        },
+        uploadTemplateMessages: [],
         modal: {
           messages: [],
           name: undefined,

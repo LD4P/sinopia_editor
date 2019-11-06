@@ -1,15 +1,15 @@
 // Copyright 2019 Stanford University see LICENSE for license
 
-export const clearFlashMessages = (state) => {
+export const clearTemplateMessages = (state) => {
   const newState = { ...state }
 
-  newState.editor.flash.messages = []
+  newState.editor.uploadTemplateMessages = []
   return newState
 }
 
-export const setFlashMessages = (state, action) => {
+export const setTemplateMessages = (state, action) => {
   const newState = { ...state }
 
-  newState.editor.flash.messages = action.messages
+  newState.editor.uploadTemplateMessages = action.messages
   return newState
 }

@@ -11,7 +11,7 @@ import {
   showModal, hideModal, addModalMessage, clearModalMessages,
 } from './modals'
 import {
-  setFlashMessages, clearFlashMessages,
+  setTemplateMessages, clearTemplateMessages,
 } from './flash'
 import {
   setResourceTemplate, clearResourceTemplates,
@@ -153,7 +153,7 @@ const handlers = {
   CHANGE_SELECTIONS: setItemsOrSelections,
   CLEAR_ERRORS: clearErrors,
   CLEAR_MODAL_MESSAGES: clearModalMessages,
-  CLEAR_FLASH_MESSAGES: clearFlashMessages,
+  CLEAR_TEMPLATE_MESSAGES: clearTemplateMessages,
   CLEAR_RESOURCE_TEMPLATES: clearResourceTemplates,
   CLEAR_SEARCH_RESULTS: clearSearchResults,
   CLEAR_TEMPLATE_SEARCH_RESULTS: clearTemplateSearchResults,
@@ -175,7 +175,7 @@ const handlers = {
   SAVE_APP_VERSION: saveAppVersion,
   SAVE_RESOURCE_FINISHED: saveResourceFinished,
   SET_BASE_URL: setBaseURL,
-  SET_FLASH_MESSAGES: setFlashMessages,
+  SET_TEMPLATE_MESSAGES: setTemplateMessages,
   SET_LAST_SAVE_CHECKSUM: setLastSaveChecksum,
   SET_SEARCH_RESULTS: setSearchResults,
   SET_TEMPLATE_SEARCH_RESULTS: setTemplateSearchResults,

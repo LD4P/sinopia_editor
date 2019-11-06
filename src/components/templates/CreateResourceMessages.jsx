@@ -2,13 +2,13 @@
 
 import React from 'react'
 import { useSelector } from 'react-redux'
-import { flashMessages } from 'selectors/flashSelectors'
+import { findTemplateMessages } from 'selectors/flashSelectors'
 
 /**
  * An info message that is populated when retrieving a resource template
  */
 const CreateResourceMessages = () => {
-  const messages = useSelector(state => flashMessages(state))
+  const messages = useSelector(state => findTemplateMessages(state))
 
   if (messages.length === 0) return null
 

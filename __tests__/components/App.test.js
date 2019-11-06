@@ -34,9 +34,7 @@ const createInitialState = (options = {}) => {
       },
       editor: {
         copyToNewMessage: {},
-        flash: {
-          messages: [],
-        },
+        uploadTemplateMessages: [],
         modal: {
           messages: [],
           name: undefined,

@@ -42,9 +42,7 @@ const createInitialState = () => {
         lookups: {},
       },
       editor: {
-        flash: {
-          messages: [],
-        },
+        uploadTemplateMessages: [],
         modal: {
           name: undefined,
           messages: [],

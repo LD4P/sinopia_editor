@@ -12,7 +12,7 @@ import CreateResourceMessages from './CreateResourceMessages'
 import { createResourceTemplate, updateResourceTemplate } from 'sinopiaServer'
 import { getCurrentUser } from 'authSelectors'
 import { clearModalMessages, addModalMessage, showModal } from 'actions/modals'
-import { clearFlashMessages, setFlashMessages } from 'actions/flash'
+import { clearTemplateMessages, setTemplateMessages } from 'actions/flash'
 import TemplateSearch from './TemplateSearch'
 
 class ImportResourceTemplate extends Component {
@@ -60,7 +60,7 @@ class ImportResourceTemplate extends Component {
   }
 
   resetMessages = () => {
-    this.props.clearFlashMessages()
+    this.props.clearTemplateMessages()
     this.props.clearModalMessages()
   }
 
@@ -77,7 +77,7 @@ class ImportResourceTemplate extends Component {
     })
 
     if (newFlashMessages.length > 0) {
-      this.props.setFlashMessages(newFlashMessages)
+      this.props.setTemplateMessages(newFlashMessages)
     }
 
     if (showModal) this.props.showModal('UpdateResourceModal')
@@ -142,9 +142,9 @@ ImportResourceTemplate.propTypes = {
   currentUser: PropTypes.object,
   showModal: PropTypes.func,
   addModalMessage: PropTypes.func,
-  setFlashMessages: PropTypes.func,
+  setTemplateMessages: PropTypes.func,
   clearModalMessages: PropTypes.func,
-  clearFlashMessages: PropTypes.func,
+  clearTemplateMessages: PropTypes.func,
   history: PropTypes.object,
 }
 
@@ -153,7 +153,7 @@ const mapStateToProps = state => ({
 })
 
 const mapDispatchToProps = dispatch => bindActionCreators({
-  showModal, clearModalMessages, addModalMessage, clearFlashMessages, setFlashMessages,
+  showModal, clearModalMessages, addModalMessage, clearTemplateMessages, setTemplateMessages,
 }, dispatch)
 
 export default connect(mapStateToProps, mapDispatchToProps)(ImportResourceTemplate)
