@@ -1,7 +1,7 @@
 // Copyright 2019 Stanford University see LICENSE for license
 
 import React, {
-  useState, useEffect, useCallback, useRef
+  useState, useEffect, useCallback, useRef,
 } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import PropTypes from 'prop-types'

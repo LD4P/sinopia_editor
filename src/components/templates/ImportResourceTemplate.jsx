@@ -12,16 +12,10 @@ import CreateResourceMessages from './CreateResourceMessages'
 import { createResourceTemplate, updateResourceTemplate } from 'sinopiaServer'
 import { getCurrentUser } from 'authSelectors'
 import { clearModalMessages, addModalMessage, showModal } from 'actions/modals'
+import { clearTemplateMessages, setTemplateMessages } from 'actions/flash'
 import TemplateSearch from './TemplateSearch'
-import { modalMessages } from 'selectors/modalSelectors'
-
 
 class ImportResourceTemplate extends Component {
-  constructor(props) {
-    super(props)
-    this.state = { flashMessages: [] }
-  }
-
   // Resource templates are set via ImportFileZone and passed to ResourceTemplate via redirect to Editor
   setResourceTemplates = async (content, group) => {
     this.resetMessages()
@@ -66,7 +60,7 @@ class ImportResourceTemplate extends Component {
   }
 
   resetMessages = () => {
-    this.setState({ flashMessages: [] })
+    this.props.clearTemplateMessages()
     this.props.clearModalMessages()
   }
 
@@ -83,7 +77,7 @@ class ImportResourceTemplate extends Component {
     })
 
     if (newFlashMessages.length > 0) {
-      this.setState({ flashMessages: [...newFlashMessages] })
+      this.props.setTemplateMessages(newFlashMessages)
     }
 
     if (showModal) this.props.showModal('UpdateResourceModal')
@@ -131,11 +125,10 @@ class ImportResourceTemplate extends Component {
   render() {
     return (
       <div id="importResourceTemplate">
-        <UpdateResourceModal messages={this.props.modalMessages}
-                             update={this.handleUpdateResource} />
+        <UpdateResourceModal update={this.handleUpdateResource} />
         <Header triggerEditorMenu={this.props.triggerHandleOffsetMenu}/>
         <ImportFileZone setResourceTemplateCallback={this.setResourceTemplates} />
-        <CreateResourceMessages messages={this.state.flashMessages} />
+        <CreateResourceMessages />
         <TemplateSearch />
         <SinopiaResourceTemplates history={this.props.history} key="sinopia-resource-templates" />
       </div>
@@ -149,16 +142,18 @@ ImportResourceTemplate.propTypes = {
   currentUser: PropTypes.object,
   showModal: PropTypes.func,
   addModalMessage: PropTypes.func,
+  setTemplateMessages: PropTypes.func,
   clearModalMessages: PropTypes.func,
+  clearTemplateMessages: PropTypes.func,
   history: PropTypes.object,
-  modalMessages: PropTypes.array,
 }
 
 const mapStateToProps = state => ({
   currentUser: getCurrentUser(state),
-  modalMessages: modalMessages(state),
 })
 
-const mapDispatchToProps = dispatch => bindActionCreators({ showModal, clearModalMessages, addModalMessage }, dispatch)
+const mapDispatchToProps = dispatch => bindActionCreators({
+  showModal, clearModalMessages, addModalMessage, clearTemplateMessages, setTemplateMessages,
+}, dispatch)
 
 export default connect(mapStateToProps, mapDispatchToProps)(ImportResourceTemplate)

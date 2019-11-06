@@ -21,6 +21,7 @@ const initialState = {
         name: undefined, // Name of modal to show. Should only be one at a time.
         messages: [],
       },
+      uploadTemplateMessages: [],
       resourceURIMessage: {
         show: false,
       },

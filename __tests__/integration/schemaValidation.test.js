@@ -1,3 +1,4 @@
+
 import React from 'react'
 import {
   fireEvent, render, wait, act,
@@ -25,6 +26,7 @@ const createInitialState = () => {
       },
       editor: {
         errors: {},
+        uploadTemplateMessages: [],
         modal: {
           messages: [],
           name: undefined,

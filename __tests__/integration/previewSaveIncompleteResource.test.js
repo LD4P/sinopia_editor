@@ -67,6 +67,7 @@ const createInitialState = () => {
         },
         copyToNewMessage: {},
         errors: {},
+        uploadTemplateMessages: [],
         modal: {
           name: undefined,
           messages: [],

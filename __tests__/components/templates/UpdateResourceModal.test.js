@@ -8,18 +8,6 @@ import UpdateResourceModal from 'components/templates/UpdateResourceModal'
 describe('<UpdateResourceModal />', () => {
   setupModal()
 
-  const createInitialState = () => {
-    return {
-      selectorReducer: {
-        editor: {
-          modal: {
-            name: 'UpdateResourceModal',
-          },
-        },
-      },
-    }
-  }
-
   describe('with conflict message', () => {
     const resourceTemplate = {
       propertyTemplates: [
@@ -50,8 +38,21 @@ describe('<UpdateResourceModal />', () => {
       status: 409,
     }]
 
+    const createInitialState = () => {
+      return {
+        selectorReducer: {
+          editor: {
+            modal: {
+              name: 'UpdateResourceModal',
+              messages,
+            },
+          },
+        },
+      }
+    }
+
     it('does not render based on state', () => {
-      const store = createReduxStore({ selectorReducer: { editor: { modal: { name: undefined } } } })
+      const store = createReduxStore({ selectorReducer: { editor: { modal: { name: undefined, messages } } } })
       const { getByTestId } = renderWithRedux(
         <UpdateResourceModal update={jest.fn()} messages={messages} />,
         store,
