@@ -67,7 +67,6 @@ const ResourceTemplateChoiceModal = (props) => {
               <AsyncTypeahead onSearch={search}
                               onChange={change}
                               options={options}
-                              required={false}
                               multiple={false}
                               isLoading={isLoading}
                               selected={selected}
