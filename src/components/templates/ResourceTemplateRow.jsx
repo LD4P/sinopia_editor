@@ -22,8 +22,8 @@ const ResourceTemplateRow = props => (<tr key={props.row.id}>
   <td style={{ wordBreak: 'break-all' }}>
     { props.row.author }
   </td>
-  <td style={{ wordBreak: 'break-all' }}>
-    { props.row.date }
+  <td>
+    <relative-time datetime={ props.row.date }>{ props.row.date }</relative-time>
   </td>
   <td style={{ wordBreak: 'break-all' }}>
     { props.row.remark }
