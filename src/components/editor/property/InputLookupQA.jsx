@@ -102,7 +102,6 @@ const InputLookupQA = (props) => {
     }
   }
 
-  const isMandatory = booleanPropertyFromTemplate(props.propertyTemplate, 'mandatory', true)
   const isRepeatable = booleanPropertyFromTemplate(props.propertyTemplate, 'repeatable', true)
 
   const setDisabled = () => {
@@ -136,7 +135,6 @@ const InputLookupQA = (props) => {
     <div className={groupClasses}>
       <AsyncTypeahead renderMenu={(results, menuProps) => renderMenuFunc(results, menuProps, props.propertyTemplate)}
                       ref={myInput}
-                      required={isMandatory}
                       disabled={setDisabled()}
                       onChange={(selected) => {
                         const payload = {

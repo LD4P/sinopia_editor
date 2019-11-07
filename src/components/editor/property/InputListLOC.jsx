@@ -29,11 +29,9 @@ const InputListLOC = (props) => {
   })
 
   const [isRepeatable, setIsRepeatable] = useState(true)
-  const [isMandatory, setIsMandatory] = useState(false)
   const [lookupConfigs, setlookupConfigs] = useState([])
   useEffect(() => {
     setIsRepeatable(booleanPropertyFromTemplate(propertyTemplate, 'repeatable', true))
-    setIsMandatory(booleanPropertyFromTemplate(propertyTemplate, 'mandatory', false))
     setlookupConfigs(getLookupConfigItems(propertyTemplate))
   }, [propertyTemplate])
 
@@ -115,7 +113,6 @@ const InputListLOC = (props) => {
         allowNew={() => true }
         onChange={selected => selectionChanged(selected)}
         id="loc-vocab-list"
-        required={isMandatory}
         multiple={isRepeatable}
         placeholder={propertyTemplate.propertyLabel}
         emptyLabel="retrieving list of terms..."

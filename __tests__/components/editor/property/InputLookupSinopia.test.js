@@ -35,19 +35,6 @@ describe('<InputLookupSinopia />', () => {
     expect(wrapper.find('#sinopia-lookup').props().placeholder).toMatch('Name Lookup')
   })
 
-  it('sets the typeahead component required attribute according to the mandatory property from the template', () => {
-    expect(wrapper.find('#sinopia-lookup').props().required).toBeFalsy()
-  })
-
-  describe('when mandatory is true', () => {
-    const template = { ...plProps.propertyTemplate, mandatory: 'true' }
-    const wrapper2 = shallow(<InputLookupSinopia.WrappedComponent {...plProps} propertyTemplate={template} />)
-
-    it('is required', () => {
-      expect(wrapper2.find('#sinopia-lookup').props().required).toBeTruthy()
-    })
-  })
-
   it('sets the typeahead component multiple attribute according to the repeatable property from the template', () => {
     expect(wrapper.find('#sinopia-lookup').props().multiple).toBeFalsy()
   })

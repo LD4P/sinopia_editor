@@ -131,7 +131,6 @@ describe('InputListLOC', () => {
     expect(getByPlaceholderText('Sound characteristics')).toBeInTheDocument()
     // Not required.
     expect(queryByText('Required')).not.toBeInTheDocument()
-    expect(getByPlaceholderText('Sound characteristics')).not.toHaveAttribute('required')
     // No existing values are present. This sort of a query isn't recommended but since testing for absence, seems OK.
     expect(container.querySelector('.rbt-token')).not.toBeInTheDocument()
   })

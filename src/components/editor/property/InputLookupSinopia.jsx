@@ -28,7 +28,6 @@ const InputLookupSinopia = (props) => {
     return null
   }
 
-  const isMandatory = booleanPropertyFromTemplate(props.propertyTemplate, 'mandatory', false)
   const isRepeatable = booleanPropertyFromTemplate(props.propertyTemplate, 'repeatable', true)
 
   const search = (query) => {
@@ -77,7 +76,6 @@ const InputLookupSinopia = (props) => {
                       onChange={change}
                       onKeyDown={onKeyDown}
                       options={options}
-                      required={isMandatory}
                       multiple={isRepeatable}
                       isLoading={isLoading}
                       selected={props.selected}
