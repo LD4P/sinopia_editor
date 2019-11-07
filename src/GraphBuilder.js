@@ -9,9 +9,11 @@ import _ from 'lodash'
 export default class GraphBuilder {
   /**
    * @param {Object} state the Redux state (which is global state.selectorReducer)
+   * @param {Object} resourcKey of the resource to be graphed
    */
-  constructor(state) {
+  constructor(state, resourceKey) {
     this.state = state
+    this.resourceKey = resourceKey
     this.dataset = rdf.dataset()
   }
 
@@ -19,8 +21,7 @@ export default class GraphBuilder {
    * @return {Graph} an RDF graph that represents the data in the state
    */
   get graph() {
-    // Is there ever more than one base node?
-    const resource = this.state.resource
+    const resource = this.state.entities.resources[this.resourceKey]
 
     Object.keys(resource).forEach((resourceTemplateId) => {
       // Always save with relative URI

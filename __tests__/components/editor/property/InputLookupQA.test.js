@@ -10,6 +10,7 @@ import {
 
 const createInitialState = (options = {}) => {
   const state = createBlankState()
+  state.selectorReducer.editor.currentResource = 'abc123'
   state.selectorReducer.entities.resourceTemplates = {
     'ld4p:RT:bf2:Agent:bfPerson': {
       propertyTemplates: [
@@ -35,7 +36,7 @@ const createInitialState = (options = {}) => {
       schema: 'https://ld4p.github.io/sinopia/schemas/0.2.0/resource-template.json',
     },
   }
-  state.selectorReducer.resource = {
+  state.selectorReducer.entities.resources.abc123 = {
     'ld4p:RT:bf2:Agent:bfPerson': {
       'http://id.loc.gov/ontologies/bibframe/Person': {
         items: {},
@@ -52,7 +53,7 @@ const createInitialState = (options = {}) => {
         content: 'foo',
       },
     ]
-    state.selectorReducer.resource['ld4p:RT:bf2:Agent:bfPerson']['http://id.loc.gov/ontologies/bibframe/Person'].items = items
+    state.selectorReducer.entities.resources.abc123['ld4p:RT:bf2:Agent:bfPerson']['http://id.loc.gov/ontologies/bibframe/Person'].items = items
   }
   if (options.repeatable) {
     state.selectorReducer.entities.resourceTemplates['ld4p:RT:bf2:Agent:bfPerson'].propertyTemplates[0].repeatable = 'true'
@@ -63,7 +64,9 @@ const createInitialState = (options = {}) => {
 setupModal()
 
 const reduxPath = [
-  'resource',
+  'entities',
+  'resources',
+  'abc123',
   'ld4p:RT:bf2:Agent:bfPerson',
   'http://id.loc.gov/ontologies/bibframe/Person',
 ]
@@ -187,8 +190,8 @@ describe('InputLookupQA', () => {
     )
 
     // Trigger validation
-    store.dispatch(validateResource())
-    store.dispatch(showValidationErrors())
+    store.dispatch(validateResource('abc123'))
+    store.dispatch(showValidationErrors('abc123'))
 
     await waitForElement(() => getByText('Required'))
   })

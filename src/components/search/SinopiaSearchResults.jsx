@@ -7,11 +7,10 @@ import { bindActionCreators } from 'redux'
 import PropTypes from 'prop-types'
 import Config from 'Config'
 import { getCurrentUser } from 'authSelectors'
-import { copyNewResource, clearErrors } from 'actions/index'
 import { retrieveResource } from 'actionCreators/resources'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faCopy, faEdit } from '@fortawesome/free-solid-svg-icons'
-import { resourceEditErrorKey, rootResource, findErrors } from 'selectors/resourceSelectors'
+import { findResource, findErrors } from 'selectors/resourceSelectors'
 import Alerts from '../Alerts'
 import SinopiaSort from './SinopiaSort'
 import _ from 'lodash'
@@ -28,8 +27,7 @@ const SinopiaSearchResults = (props) => {
   }
 
   const handleCopy = (resourceURI) => {
-    props.retrieveResource(props.currentUser, resourceURI).then((success) => {
-      props.copyNewResource({ uri: resourceURI })
+    props.retrieveResource(props.currentUser, resourceURI, searchRetrieveErrorKey, true).then((success) => {
       setNavigateEditor(success)
     })
   }
@@ -41,9 +39,8 @@ const SinopiaSearchResults = (props) => {
   }
 
   useEffect(() => {
-    // Forces a wait until the root resource has been set in state
+    // Forces a wait until the resource has been set in state
     if (navigateEditor && props.rootResource && _.isEmpty(props.errors)) {
-      props.clearErrors(resourceEditErrorKey)
       props.history.push('/editor')
     }
   })
@@ -128,20 +125,18 @@ SinopiaSearchResults.propTypes = {
   searchResults: PropTypes.array,
   retrieveResource: PropTypes.func,
   currentUser: PropTypes.object,
-  copyNewResource: PropTypes.func,
   history: PropTypes.object,
   rootResource: PropTypes.object,
   errors: PropTypes.array,
-  clearErrors: PropTypes.func,
 }
 
 const mapStateToProps = state => ({
   currentUser: getCurrentUser(state),
   searchResults: state.selectorReducer.search.results,
-  rootResource: rootResource(state),
+  rootResource: findResource(state),
   errors: findErrors(state, searchRetrieveErrorKey),
 })
 
-const mapDispatchToProps = dispatch => bindActionCreators({ retrieveResource, copyNewResource, clearErrors }, dispatch)
+const mapDispatchToProps = dispatch => bindActionCreators({ retrieveResource }, dispatch)
 
 export default connect(mapStateToProps, mapDispatchToProps)(SinopiaSearchResults)

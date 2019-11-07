@@ -5,6 +5,8 @@ import {
   copyResourceToEditor,
 } from 'reducers/entities'
 import { createReducer } from 'reducers/index'
+import { createBlankState } from 'testUtils'
+import shortid from 'shortid'
 
 describe('clearResourceTemplates', () => {
   const handlers = { CLEAR_RESOURCE_TEMPLATES: clearResourceTemplates }
@@ -108,43 +110,20 @@ describe('languagesReceived', () => {
 })
 
 describe('copyResourceToEditor', () => {
-  const handlers = { COPY_NEW_RESOURCE: copyResourceToEditor }
-  const reducer = createReducer(handlers)
+  shortid.generate = jest.fn().mockReturnValue('abc123')
 
-  it('returns the same state if no resourceURI is present in state', () => {
-    const oldState = {
-      resource: {
-        'ld4p:RT:barcode': {},
-      },
-    }
-    const action = {
-      currentUser: {},
-    }
-    const newState = reducer(oldState, action)
-    expect(newState).toEqual({
-      resource: {
-        'ld4p:RT:barcode': {},
-      },
-    })
-  })
+  const resource = {
+    'ld4p:RT:barcode': {
+      resourceURI: 'https://sinopia.io/5678/',
+    },
+  }
 
-  it('returns the state with resourceURI removed', () => {
-    const oldState = {
-      resource: {
-        'ld4p:RT:barcode': {
-          resourceURI: 'https://sinopia.io/5678/',
-        },
-      },
-    }
-    const action = {
-      currentUser: {},
-      uri: 'https://sinopia.io/5678/',
-    }
-    const newState = copyResourceToEditor(oldState, action)
-    expect(newState).toEqual({
-      resource: {
-        'ld4p:RT:barcode': {},
-      },
+  it('adds the resource with resourceURI removed', () => {
+    const action = { payload: resource }
+    const newState = copyResourceToEditor(createBlankState().selectorReducer, action)
+    expect(newState.entities.resources.abc123).toEqual({
+      'ld4p:RT:barcode': {},
     })
+    expect(newState.editor.currentResource = 'abc123')
   })
 })

@@ -8,7 +8,8 @@ import {
 
 const createInitialState = (options = {}) => {
   const state = createBlankState()
-  state.selectorReducer.resource = {
+  state.selectorReducer.editor.currentResource = 'abc123'
+  state.selectorReducer.entities.resources.abc123 = {
     'test:bf2:soundCharacteristics': {
       'http://id.loc.gov/ontologies/bibframe/soundCharacteristics': {
         items: {},
@@ -43,7 +44,7 @@ const createInitialState = (options = {}) => {
         label: 'http://id.loc.gov/vocabulary/mgroove/coarse',
       },
     }
-    state.selectorReducer.resource['test:bf2:soundCharacteristics']['http://id.loc.gov/ontologies/bibframe/soundCharacteristics'].items = items
+    state.selectorReducer.entities.resources.abc123['test:bf2:soundCharacteristics']['http://id.loc.gov/ontologies/bibframe/soundCharacteristics'].items = items
   }
 
   if (options.hasInitialURIValues) {
@@ -57,7 +58,7 @@ const createInitialState = (options = {}) => {
         label: 'http://id.loc.gov/vocabulary/mgroove/lateral',
       },
     }
-    state.selectorReducer.resource['test:bf2:soundCharacteristics']['http://id.loc.gov/ontologies/bibframe/soundCharacteristics'].items = items
+    state.selectorReducer.entities.resources.abc123['test:bf2:soundCharacteristics']['http://id.loc.gov/ontologies/bibframe/soundCharacteristics'].items = items
   }
 
   if (options.hasInitialLiteralValue) {
@@ -67,7 +68,7 @@ const createInitialState = (options = {}) => {
         label: 'foo',
       },
     }
-    state.selectorReducer.resource['test:bf2:soundCharacteristics']['http://id.loc.gov/ontologies/bibframe/soundCharacteristics'].items = items
+    state.selectorReducer.entities.resources.abc123['test:bf2:soundCharacteristics']['http://id.loc.gov/ontologies/bibframe/soundCharacteristics'].items = items
   }
 
   if (options.mandatory) {
@@ -113,7 +114,9 @@ const lookups = {
 }
 
 const reduxPath = [
-  'resource',
+  'entities',
+  'resources',
+  'abc123',
   'test:bf2:soundCharacteristics',
   'http://id.loc.gov/ontologies/bibframe/soundCharacteristics',
 ]
@@ -363,8 +366,8 @@ describe('InputListLOC', () => {
     expect(queryByText('Required')).not.toBeInTheDocument()
 
     // Trigger validation
-    store.dispatch(validateResource())
-    store.dispatch(showValidationErrors())
+    store.dispatch(validateResource('abc123'))
+    store.dispatch(showValidationErrors('abc123'))
 
     await waitForElement(() => getByText('Required'))
   })

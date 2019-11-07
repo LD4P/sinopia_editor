@@ -1,31 +1,47 @@
 // Copyright 2019 Stanford University see LICENSE for license
 
 import {
-  rootResourceId, isExpanded, itemsForProperty,
+  findResourceURI, isExpanded, itemsForProperty,
   getDisplayResourceValidations, getResourceTemplate, getPropertyTemplate,
-  resourceHasChangesSinceLastSave,
+  resourceHasChangesSinceLastSave, findResource, rootResourceTemplateId,
+  hasResource,
 } from 'selectors/resourceSelectors'
 import { getFixtureResourceTemplate } from '../fixtureLoaderHelper'
 import { createBlankState } from 'testUtils'
 
-describe('rootResourceId', () => {
+describe('findResourceURI', () => {
+  const resource = {
+    'profile:bf2:Work': {
+      resourceURI: 'http://platform:8080/repository/stanford/1f14d358-a0c9-4e66-b7e8-7c6ae5475036',
+    },
+  }
+
   it('returns the uri', () => {
     const state = createBlankState()
-    state.selectorReducer.resource = {
-      'profile:bf2:Work': {
-        resourceURI: 'http://platform:8080/repository/stanford/1f14d358-a0c9-4e66-b7e8-7c6ae5475036',
-      },
-    }
+    state.selectorReducer.entities.resources.abc123 = resource
 
-    expect(rootResourceId(state)).toEqual('http://platform:8080/repository/stanford/1f14d358-a0c9-4e66-b7e8-7c6ae5475036')
+    expect(findResourceURI(state, 'abc123')).toEqual('http://platform:8080/repository/stanford/1f14d358-a0c9-4e66-b7e8-7c6ae5475036')
+  })
+
+  it('returns the uri for current resource', () => {
+    const state = createBlankState()
+    state.selectorReducer.editor.currentResource = 'abc123'
+    state.selectorReducer.entities.resources.abc123 = resource
+
+    expect(findResourceURI(state)).toEqual('http://platform:8080/repository/stanford/1f14d358-a0c9-4e66-b7e8-7c6ae5475036')
+  })
+
+  it('returns undefined if resource not found', () => {
+    const state = createBlankState()
+    expect(findResourceURI(state, 'abc123')).toEqual(undefined)
   })
 })
 
 describe('getDisplayResourceValidations()', () => {
   it('returns value when present', () => {
     const state = createBlankState()
-    state.selectorReducer.editor.resourceValidation.show = true
-    expect(getDisplayResourceValidations(state)).toBeTruthy()
+    state.selectorReducer.editor.resourceValidation.show.abc123 = true
+    expect(getDisplayResourceValidations(state, 'abc123')).toBeTruthy()
   })
 })
 
@@ -160,10 +176,72 @@ describe('resourceHasChangesSinceLastSave', () => {
   describe('when resource has not changed', () => {
     it('returns not changed', () => {
       const state = createBlankState()
-      state.selectorReducer.resource = resource
+      state.selectorReducer.entities.resources.abc123 = resource
       state.selectorReducer.entities.resourceTemplates['resourceTemplate:bf2:Note'] = template
-      state.selectorReducer.editor.lastSaveChecksum = '3c1ce87bdaedc34b4d3f55c1aa775838'
-      expect(resourceHasChangesSinceLastSave(state)).toBe(false)
+      state.selectorReducer.editor.lastSaveChecksum.abc123 = '3c1ce87bdaedc34b4d3f55c1aa775838'
+      expect(resourceHasChangesSinceLastSave(state, 'abc123')).toBe(false)
     })
+  })
+})
+
+describe('findResource', () => {
+  const resource = {
+    'profile:bf2:Work': {},
+  }
+  it('returns the resource', () => {
+    const state = createBlankState()
+    state.selectorReducer.entities.resources.abc123 = resource
+
+    expect(findResource(state, 'abc123')).toEqual(resource)
+  })
+  it('returns undefined when not found', () => {
+    const state = createBlankState()
+
+    expect(findResource(state, 'xabc123')).toEqual(undefined)
+  })
+  it('returns the current resource', () => {
+    const state = createBlankState()
+    state.selectorReducer.editor.currentResource = 'abc123'
+    state.selectorReducer.entities.resources.abc123 = resource
+
+    expect(findResource(state)).toEqual(resource)
+  })
+})
+
+describe('rootResourceTemplateId', () => {
+  const resource = {
+    'profile:bf2:Work': {},
+  }
+  it('returns the resource template id', () => {
+    const state = createBlankState()
+    state.selectorReducer.entities.resources.abc123 = resource
+
+    expect(rootResourceTemplateId(state, 'abc123')).toEqual('profile:bf2:Work')
+  })
+  it('returns undefined when not found', () => {
+    const state = createBlankState()
+    expect(rootResourceTemplateId(state, 'xabc123')).toEqual(undefined)
+  })
+  it('returns the resource template id for current resource', () => {
+    const state = createBlankState()
+    state.selectorReducer.editor.currentResource = 'abc123'
+    state.selectorReducer.entities.resources.abc123 = resource
+
+    expect(rootResourceTemplateId(state)).toEqual('profile:bf2:Work')
+  })
+})
+
+describe('hasResource', () => {
+  it('returns false when no current resource', () => {
+    const state = createBlankState()
+
+    expect(hasResource(state)).toEqual(false)
+  })
+  it('returns true when current resource', () => {
+    const state = createBlankState()
+    state.selectorReducer.editor.currentResource = 'abc123'
+    state.selectorReducer.entities.resources.abc123 = {}
+
+    expect(hasResource(state)).toEqual(true)
   })
 })

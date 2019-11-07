@@ -5,7 +5,7 @@ import { rdfDatasetFromN3 } from 'Utilities'
 import { useDispatch, useSelector } from 'react-redux'
 import { existingResource } from 'actionCreators/resources'
 import { appendError, clearErrors } from 'actions/index'
-import { resourceEditErrorKey, rootResource as rootResourceSelector } from 'selectors/resourceSelectors'
+import { hasResource as hasResourceSelector } from 'selectors/resourceSelectors'
 
 /**
  * Hook for transforming a resource to state and changing the page to the editor (i.e., /editor path).
@@ -18,7 +18,7 @@ import { resourceEditErrorKey, rootResource as rootResourceSelector } from 'sele
  */
 const useResource = (resourceN3, baseURI, resourceTemplateId, errorKey, history) => {
   const dispatch = useDispatch()
-  const rootResource = useSelector(state => rootResourceSelector(state))
+  const hasResource = useSelector(state => hasResourceSelector(state))
 
   // Indicates that would like to change to editor once resource is in state
   const [navigateEditor, setNavigateEditor] = useState(false)
@@ -45,11 +45,10 @@ const useResource = (resourceN3, baseURI, resourceTemplateId, errorKey, history)
 
   useEffect(() => {
     // Forces a wait until the root resource has been set in state
-    if (navigateEditor && rootResource) {
-      dispatch(clearErrors(resourceEditErrorKey))
+    if (navigateEditor && hasResource) {
       history.push('/editor')
     }
-  }, [rootResource, navigateEditor, history, dispatch])
+  }, [navigateEditor, history, hasResource])
 }
 
 export default useResource

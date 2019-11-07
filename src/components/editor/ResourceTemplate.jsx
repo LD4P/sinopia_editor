@@ -4,12 +4,15 @@ import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import PropTypes from 'prop-types'
 import ResourceTemplateForm from './ResourceTemplateForm'
-import { resourceEditErrorKey, getResourceTemplate, findErrors } from 'selectors/resourceSelectors'
+import {
+  getResourceTemplate, findErrors, rootResourceTemplateId, currentResourceKey,
+} from 'selectors/resourceSelectors'
 import CopyToNewMessage from './CopyToNewMessage'
 import ResourceURIMessage from './ResourceURIMessage'
 import SaveAlert from './SaveAlert'
 import RDFDisplay from './RDFDisplay'
 import Alerts from '../Alerts'
+import { resourceEditErrorKey } from './Editor'
 import _ from 'lodash'
 
 /**
@@ -18,7 +21,7 @@ import _ from 'lodash'
 class ResourceTemplate extends Component {
   render() {
     if (!_.isEmpty(this.props.errors)) {
-      return (<Alerts errorKey={resourceEditErrorKey} />)
+      return (<Alerts errorKey={resourceEditErrorKey(this.props.resourceKey)} />)
     }
 
     if (_.isEmpty(this.props.resourceTemplate)) {
@@ -39,7 +42,7 @@ class ResourceTemplate extends Component {
               <RDFDisplay rdf={this.props.unusedRDF} />
             </div>
           }
-          <ResourceTemplateForm reduxPath = {['resource', this.props.resourceTemplate.id]} />
+          <ResourceTemplateForm reduxPath = {['entities', 'resources', this.props.resourceKey, this.props.resourceTemplate.id]} />
         </div>
       </div>
     )
@@ -50,15 +53,18 @@ ResourceTemplate.propTypes = {
   resourceTemplate: PropTypes.object,
   errors: PropTypes.array,
   unusedRDF: PropTypes.string,
+  resourceKey: PropTypes.string,
 }
 
 const mapStateToProps = (state) => {
-  const resourceTemplateId = _.first(Object.keys(state.selectorReducer.resource))
-
+  const resourceTemplateId = rootResourceTemplateId(state)
   const resourceTemplate = getResourceTemplate(state, resourceTemplateId)
-  const errors = findErrors(state, resourceEditErrorKey)
-  const unusedRDF = state.selectorReducer.editor.unusedRDF
+  const resourceKey = currentResourceKey(state)
+  const errors = findErrors(state, resourceEditErrorKey(resourceKey))
+  const unusedRDF = state.selectorReducer.editor.unusedRDF[resourceKey]
+
   return {
+    resourceKey,
     resourceTemplate,
     errors,
     unusedRDF,

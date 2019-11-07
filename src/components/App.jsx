@@ -23,8 +23,7 @@ import loadLanguages from 'actionCreators/languages'
 import { newResourceErrorKey } from './templates/SinopiaResourceTemplates'
 import listExports from 'actionCreators/export'
 import Exports, { exportsErrorKey } from './exports/Exports'
-
-import _ from 'lodash'
+import { hasResource as hasResourceSelector } from 'selectors/resourceSelectors'
 
 const FourOhFour = () => <h1>404</h1>
 
@@ -38,7 +37,7 @@ const App = (props) => {
     dispatch(listExports(exportsErrorKey))
   }, [dispatch])
 
-  const hasResource = useSelector(state => !_.isEmpty(state?.selectorReducer?.resource))
+  const hasResource = useSelector(state => hasResourceSelector(state))
   const currentSession = useSelector(state => (state.authenticate.authenticationState ? state.authenticate.authenticationState.currentSession : null))
 
   const editorWithRtId = (thisprops) => {

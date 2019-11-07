@@ -21,8 +21,9 @@ describe('showGroupChooser()', () => {
   })
   it('sets the modal name to GroupChoiceModal', () => {
     const state = createBlankState()
+    state.selectorReducer.entities.resources.abc123 = {}
     state.selectorReducer.editor.modal.name = 'RDFModal'
-    const result = showGroupChooser(state.selectorReducer)
+    const result = showGroupChooser(state.selectorReducer, 'abc123')
 
     expect(modalType({ selectorReducer: result })).toBe('GroupChoiceModal')
   })

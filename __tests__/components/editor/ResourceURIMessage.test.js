@@ -6,7 +6,8 @@ import { renderWithRedux, createReduxStore, createBlankState } from 'testUtils'
 describe('ResourceURIMessage', () => {
   const createInitialState = () => {
     const state = createBlankState()
-    state.selectorReducer.resource = {
+    state.selectorReducer.editor.currentResource = 'abc123'
+    state.selectorReducer.entities.resources.abc123 = {
       'ld4p:RT:bf2:WorkTitle': {
         resourceURI: 'http://localhost:8080/repository/cornell/f6b80d28-cc1b-44ef-8aaf-618569a981cd',
       },

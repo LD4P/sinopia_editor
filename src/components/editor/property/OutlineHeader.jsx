@@ -8,11 +8,12 @@ import { faAngleRight, faAngleDown } from '@fortawesome/free-solid-svg-icons'
 import PropertyLabel from './PropertyLabel'
 import PropertyLabelInfo from './PropertyLabelInfo'
 import {
-  resourceEditErrorKey, findNode, isExpanded, getPropertyTemplate,
+  findNode, isExpanded, getPropertyTemplate,
   findResourceValidationErrorsByPath, getDisplayResourceValidations,
 } from 'selectors/resourceSelectors'
 import { toggleCollapse, removeResource } from 'actions/index'
 import { expandResource } from 'actionCreators/resources'
+import { resourceEditErrorKey } from '../Editor'
 import _ from 'lodash'
 
 const OutlineHeader = (props) => {
@@ -92,7 +93,7 @@ const mapDispatchToProps = (dispatch, ownProps) => ({
   },
   handleAddButton: (event) => {
     event.preventDefault()
-    dispatch(expandResource(ownProps.reduxPath, resourceEditErrorKey))
+    dispatch(expandResource(ownProps.reduxPath, resourceEditErrorKey(ownProps.reduxPath.slice(1, 2)[0])))
   },
   handleRemoveButton: (event) => {
     event.preventDefault()

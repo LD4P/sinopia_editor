@@ -35,37 +35,11 @@ describe('createReducer', () => {
         selectorReducer: {
           entities: {
             resourceTemplates: {},
+            resources: {},
           },
-          resource: {},
         },
       },
     )
-  })
-
-  it('handles SET_BASE_URL', () => {
-    const setBaseURL = jest.fn().mockReturnValue({})
-    const handlers = { SET_BASE_URL: setBaseURL }
-    const oldState = {
-      entities: {
-        resourceTemplates: {
-          'resourceTemplate:bf2:Monograph:Instance': {
-            resourceURI: 'http://id.loc.gov/ontologies/bibframe/Instance',
-          },
-        },
-      },
-      resource: {
-        'resourceTemplate:bf2:Monograph:Instance': {
-        },
-      },
-    }
-
-    const action = {
-      type: 'SET_BASE_URL',
-      payload: 'http://example.com/base/123',
-    }
-    const reducer = createReducer(handlers)
-    reducer(oldState, action)
-    expect(setBaseURL).toBeCalledWith(oldState, action)
   })
 })
 
@@ -194,10 +168,10 @@ describe('removeResource', () => {
 })
 
 describe('saveResourceFinished', () => {
-  const action = { payload: 'abc123' }
+  const action = { payload: { resourceKey: 'abc123', checksum: '123456789' } }
   it('sets last save differently each time called', () => {
     const state = createBlankState()
-    expect(state.selectorReducer.editor.lastSave).toBeFalsy()
+    expect(state.selectorReducer.editor.lastSave.abc123).toBeFalsy()
     const newState = saveResourceFinished(state.selectorReducer, action)
     expect(newState.editor.lastSave).toBeTruthy()
 
@@ -212,17 +186,17 @@ describe('saveResourceFinished', () => {
   it('sets lastSaveChecksum', () => {
     const state = createBlankState()
     const newState = saveResourceFinished(state.selectorReducer, action)
-    expect(newState.editor.lastSaveChecksum).toEqual('abc123')
+    expect(newState.editor.lastSaveChecksum.abc123).toEqual('123456789')
   })
 })
 
 describe('setLastSaveChecksum', () => {
-  const action = { payload: 'abc123' }
+  const action = { payload: { resourceKey: 'abc123', checksum: '123456789' } }
 
   it('sets lastSaveChecksum', () => {
     const state = createBlankState()
     const newState = setLastSaveChecksum(state.selectorReducer, action)
-    expect(newState.editor.lastSaveChecksum).toEqual('abc123')
+    expect(newState.editor.lastSaveChecksum.abc123).toEqual('123456789')
   })
 })
 
@@ -230,12 +204,13 @@ describe('setResource', () => {
   it('updates state', () => {
     const state = createBlankState()
     state.selectorReducer.entities.resourceTemplates['resourceTemplate:bf2:Work:Instance'] = 'anotherrt'
-    state.selectorReducer.editor.resourceValidation.show = true
+    state.selectorReducer.editor.resourceValidation.show.abc123 = true
     state.selectorReducer.editor.copyToNewMessage = { foo: 'bar' }
 
     const newState = appReducer(state, {
       type: 'RESOURCE_LOADED',
       payload: {
+        resourceKey: 'abc123',
         resource: 'theresource',
         resourceTemplates: {
           'resourceTemplate:bf2:Monograph:Instance': 'thert',
@@ -243,13 +218,14 @@ describe('setResource', () => {
       },
     })
 
-    expect(newState.selectorReducer.resource).toEqual('theresource')
+    expect(newState.selectorReducer.entities.resources.abc123).toEqual('theresource')
     expect(newState.selectorReducer.entities.resourceTemplates).toEqual({
       'resourceTemplate:bf2:Monograph:Instance': 'thert',
       'resourceTemplate:bf2:Work:Instance': 'anotherrt',
     })
-    expect(newState.selectorReducer.editor.resourceValidation.show).toBe(false)
+    expect(newState.selectorReducer.editor.resourceValidation.show.abc123).toBe(false)
     expect(newState.selectorReducer.editor.copyToNewMessage).toEqual({})
+    expect(newState.selectorReducer.editor.currentResource).toEqual('abc123')
   })
 })
 
@@ -358,5 +334,80 @@ describe('appendResource', () => {
       'ld4p:RT:bf2:Identifiers:LC': 'the2ndrt',
       'resourceTemplate:bf2:Work:Instance': 'anotherrt',
     })
+  })
+})
+
+describe('setCurrentResource', () => {
+  it('updates state', () => {
+    const state = createBlankState()
+
+    const newState = appReducer(state, {
+      type: 'SET_CURRENT_RESOURCE',
+      payload: 'abc123',
+    })
+
+    expect(newState.selectorReducer.editor.currentResource).toEqual('abc123')
+  })
+})
+
+describe('clearResource', () => {
+  // delete newState.editor.unusedRDF[resourceKey]
+  // delete newState.editor.errors[resourceEditErrorKey(resourceKey)]
+  //
+  // newState.editor.currentResource = _.first(Object.keys(newState.resources))
+  it('updates state', () => {
+    const state = createBlankState()
+    state.selectorReducer.entities.resources = {
+      abc123: {},
+      def456: {},
+    }
+    state.selectorReducer.editor.resourceValidation.errors = {
+      abc123: ['something wrong'],
+      def456: [],
+    }
+    state.selectorReducer.editor.resourceValidation.errorsByPath.entities = {
+      resources: {
+        abc123: { something: 'wrong' },
+        def456: {},
+      },
+    }
+    state.selectorReducer.editor.expanded.entities = {
+      resources: {
+        abc123: {},
+        def456: {},
+      },
+    }
+    state.selectorReducer.editor.lastSave = {
+      abc123: 'now',
+      def456: 'not now',
+    }
+    state.selectorReducer.editor.lastSaveChecksum = {
+      abc123: '123456789',
+      def456: '987654321',
+    }
+    state.selectorReducer.editor.unusedRDF = {
+      abc123: 'not used',
+      def456: 'at all',
+    }
+    state.selectorReducer.editor.errors = {
+      'resourceedit-abc123': ['Ooops'],
+      anothererror: ['Oooph'],
+    }
+    state.selectorReducer.editor.currentResource = 'abc123'
+
+    const newState = appReducer(state, {
+      type: 'CLEAR_RESOURCE',
+      payload: 'abc123',
+    })
+
+    expect(newState.selectorReducer.entities.resources).toEqual({ def456: {} })
+    expect(newState.selectorReducer.editor.resourceValidation.errors).toEqual({ def456: [] })
+    expect(newState.selectorReducer.editor.resourceValidation.errorsByPath.entities.resources).toEqual({ def456: {} })
+    expect(newState.selectorReducer.editor.expanded.entities.resources).toEqual({ def456: {} })
+    expect(newState.selectorReducer.editor.lastSave).toEqual({ def456: 'not now' })
+    expect(newState.selectorReducer.editor.lastSaveChecksum).toEqual({ def456: '987654321' })
+    expect(newState.selectorReducer.editor.unusedRDF).toEqual({ def456: 'at all' })
+    expect(newState.selectorReducer.editor.errors).toEqual({ anothererror: ['Oooph'] })
+    expect(newState.selectorReducer.editor.currentResource).toEqual('def456')
   })
 })

@@ -2,7 +2,7 @@
 
 import {
   removeMyItem, setItemsOrSelections, setBaseURL,
-  validate, showCopyNewMessage,
+  validateResource, showCopyNewMessage,
 } from 'reducers/inputs'
 import { findNode } from 'selectors/resourceSelectors'
 import { createBlankState } from 'testUtils'
@@ -37,11 +37,7 @@ const createInitialState = () => {
 describe('showCopyNewMessage()', () => {
   it('sets the showCopyNewMessage oldUri to a value', () => {
     const result = showCopyNewMessage(createInitialState().selectorReducer,
-      {
-        payload: {
-          oldUri: 'https://sinopia.io/1234',
-        },
-      })
+      { payload: 'https://sinopia.io/1234' })
     expect(result.editor.copyToNewMessage.oldUri).toMatch('https://sinopia.io/1234')
     expect(result.editor.copyToNewMessage.timestamp).toBeTruthy()
   })
@@ -339,7 +335,7 @@ describe('setItemsOrSelections with action type: CHANGE_SELECTIONS', () => {
 describe('setBaseURL', () => {
   it('sets the base URL', () => {
     const state = createInitialState()
-    state.selectorReducer.resource = {
+    state.selectorReducer.entities.resources.abc123 = {
       'resourceTemplate:Monograph:Instance': {
         'http://schema.org/name': {
           items: {
@@ -353,9 +349,9 @@ describe('setBaseURL', () => {
 
     const result = setBaseURL(state.selectorReducer, {
       type: 'SET_BASE_URL',
-      payload: 'http://example.com/foo/123',
+      payload: { resourceKey: 'abc123', resourceURI: 'http://example.com/foo/123' },
     })
-    const reduxPath = ['resource', 'resourceTemplate:Monograph:Instance', 'resourceURI']
+    const reduxPath = ['entities', 'resources', 'abc123', 'resourceTemplate:Monograph:Instance', 'resourceURI']
 
     expect(findNode({ selectorReducer: result }, reduxPath)).toEqual('http://example.com/foo/123')
   })
@@ -416,9 +412,48 @@ describe('removeMyItem', () => {
   })
 })
 
-describe('validate', () => {
-  it('returns a new state', () => {
-    const result = validate(createInitialState().selectorReducer)
-    expect(findNode({ selectorReducer: result }, ['resource', 'editor', 'resourceValidation', 'show'])).toBeTruthy()
+describe('validateResource', () => {
+  describe('successful validation', () => {
+    it('returns a new state', () => {
+      Validator.mockImplementation(() => {
+        return {
+          validate: () => {
+            return [{ resources: { abc123: {} } }, []]
+          },
+        }
+      })
+
+      const state = createInitialState()
+      state.selectorReducer.editor.resourceValidation.errorsByPath.entities = { resources: { abc123: { something: 'wrong' } } }
+      state.selectorReducer.editor.resourceValidation.errors.abc123 = ['something wrong']
+      const newState = validateResource(state.selectorReducer,
+        {
+          type: 'VALIDATE_RESOURCE',
+          payload: 'abc123',
+        })
+      expect(newState.editor.resourceValidation.errorsByPath.entities.resources.abc123).toEqual({})
+      expect(newState.editor.resourceValidation.errors.abc123).toEqual([])
+    })
+  })
+
+  describe('unsuccessful validation', () => {
+    it('returns a new state', () => {
+      Validator.mockImplementation(() => {
+        return {
+          validate: () => {
+            return [{ resources: { abc123: { something: 'wrong' } } }, ['something wrong']]
+          },
+        }
+      })
+
+      const state = createInitialState()
+      const newState = validateResource(state.selectorReducer,
+        {
+          type: 'VALIDATE_RESOURCE',
+          payload: 'abc123',
+        })
+      expect(newState.editor.resourceValidation.errorsByPath.entities.resources.abc123).toEqual({ something: 'wrong' })
+      expect(newState.editor.resourceValidation.errors.abc123).toEqual(['something wrong'])
+    })
   })
 })

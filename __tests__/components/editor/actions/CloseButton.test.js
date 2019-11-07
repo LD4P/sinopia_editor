@@ -1,8 +1,11 @@
 // Copyright 2019 Stanford University see LICENSE for license
 
 import React from 'react'
-import { renderWithRedux, createReduxStore, createBlankState } from 'testUtils'
-import SaveAndPublishButton from 'components/editor/actions/SaveAndPublishButton'
+import {
+  renderWithReduxAndRouter, createReduxStore, createBlankState, setupModal,
+} from 'testUtils'
+import CloseButton from 'components/editor/actions/CloseButton'
+import { fireEvent } from '@testing-library/react'
 
 const createInitialState = () => {
   const state = createBlankState()
@@ -67,53 +70,44 @@ const createInitialState = () => {
 }
 
 // Clicking the button is covered by previewSaveIncompleteResource and previewSaveResource
-describe('<SaveAndPublishButton />', () => {
-  it('is enabled if resource has changed and validation errors are not shown', () => {
+describe('<CloseButton />', () => {
+  setupModal()
+  it('renders', () => {
     const store = createReduxStore(createInitialState())
-    const { getByText } = renderWithRedux(
-      <SaveAndPublishButton class="test" />, store,
+    const { getByTitle, getByTestId } = renderWithReduxAndRouter(
+      <CloseButton />, store,
     )
-    expect(getByText('Save')).not.toBeDisabled()
+
+    expect(getByTitle('Close', { selector: 'button' })).toBeInTheDocument()
+    expect(getByTestId('close-resource-modal').classList.contains('show')).toBe(false)
   })
-  it('is enabled if resource has changed and no validation errors', () => {
-    const initialState = createInitialState()
-    initialState.selectorReducer.editor.resourceValidation.show.abc123 = true
-    const store = createReduxStore(initialState)
-    const { getByText } = renderWithRedux(
-      <SaveAndPublishButton class="test" />, store,
-    )
-    expect(getByText('Save')).not.toBeDisabled()
+
+  describe('closing when resource has not changed', () => {
+    const state = createInitialState()
+    state.selectorReducer.editor.lastSaveChecksum.abc123 = 'c5c8da42a2b460a740c33c72acb4d115'
+    const store = createReduxStore(state)
+
+    it('clears the resource', () => {
+      const { getByTitle } = renderWithReduxAndRouter(
+        <CloseButton />, store,
+      )
+      fireEvent.click(getByTitle('Close'))
+
+      // Resource has been cleared
+      expect(store.getState().selectorReducer.editor.currentResource).toEqual(undefined)
+    })
   })
-  it('is disabled if resource has not changed', () => {
-    const initialState = createInitialState()
-    initialState.selectorReducer.editor.lastSaveChecksum.abc123 = 'c5c8da42a2b460a740c33c72acb4d115'
-    const store = createReduxStore(initialState)
-    const { getByText } = renderWithRedux(
-      <SaveAndPublishButton class="test" />, store,
-    )
-    expect(getByText('Save')).toBeDisabled()
-  })
-  it('is disabled if resource has changed and has validation errors', () => {
-    const initialState = createInitialState()
-    initialState.selectorReducer.editor.resourceValidation.show.abc123 = true
-    initialState.selectorReducer.editor.resourceValidation.errors.abc123 = [
-      {
-        message: 'Required',
-        path: [
-          'Barcode',
-          'Barcode',
-        ],
-        reduxPath: [
-          'resource',
-          'resourceTemplate:bf2:Identifiers:Barcode',
-          'http://www.w3.org/1999/02/22-rdf-syntax-ns#value',
-        ],
-      },
-    ]
-    const store = createReduxStore(initialState)
-    const { getByText } = renderWithRedux(
-      <SaveAndPublishButton class="test" />, store,
-    )
-    expect(getByText('Save')).toBeDisabled()
+  describe('closing when resource has changed', () => {
+    const store = createReduxStore(createInitialState())
+
+    it('opens the close resource modal', () => {
+      const { getByTitle, getByTestId } = renderWithReduxAndRouter(
+        <CloseButton />, store,
+      )
+      fireEvent.click(getByTitle('Close'))
+
+      // Modal opened
+      expect(getByTestId('close-resource-modal').classList.contains('show')).toBe(true)
+    })
   })
 })

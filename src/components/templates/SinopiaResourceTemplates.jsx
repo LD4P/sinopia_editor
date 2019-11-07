@@ -4,7 +4,7 @@ import React, { useEffect, useState, useRef } from 'react'
 import { useSelector, useDispatch } from 'react-redux'
 import PropTypes from 'prop-types'
 import { newResource } from 'actionCreators/resources'
-import { rootResource as rootResourceSelector, rootResourceTemplateId as rootResourceTemplateIdSelector, findErrors } from 'selectors/resourceSelectors'
+import { findResource, rootResourceTemplateId as rootResourceTemplateIdSelector, findErrors } from 'selectors/resourceSelectors'
 import _ from 'lodash'
 import Alerts from '../Alerts'
 import ResourceTemplateSearchResult from './ResourceTemplateSearchResult'
@@ -21,7 +21,7 @@ const SinopiaResourceTemplates = (props) => {
   const historicallyUsedTemplates = useSelector(state => state.selectorReducer.historicalTemplates)
 
   const errors = useSelector(state => findErrors(state, newResourceErrorKey))
-  const rootResource = useSelector(state => rootResourceSelector(state))
+  const rootResource = useSelector(state => findResource(state))
   const rootResourceTemplateId = useSelector(state => rootResourceTemplateIdSelector(state))
 
   const [navigateEditor, setNavigateEditor] = useState(false)

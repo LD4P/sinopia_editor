@@ -19,9 +19,10 @@ test('Clicking copy link changes copyToNewMessage show', async () => {
   })
 })
 
-test('Clicking copy link removes existing resourceId and saves oldUri to message', async () => {
+test('Clicking copy link creates a new resource without resourceURI and saves oldUri to message', async () => {
   const state = createBlankState()
-  state.selectorReducer.resource = {
+  state.selectorReducer.editor.currentResource = 'abc123'
+  state.selectorReducer.entities.resources.abc123 = {
     'ld4p:RT:bf2:WorkTitle': {
       resourceURI: 'http://platform:8080/repository/pcc/f006e8ae-8588-4f61-ae95-a0cdb16dedee',
     },
@@ -33,7 +34,8 @@ test('Clicking copy link removes existing resourceId and saves oldUri to message
   fireEvent.click(getByTitle('Copy'))
   await wait(() => {
     const newState = store.getState()
-    expect(newState.selectorReducer.resource['ld4p:RT:bf2:WorkTitle'].resourceURI).toBeFalsy()
+    const currentResourceKey = newState.selectorReducer.editor.currentResource
+    expect(newState.selectorReducer.entities.resources[currentResourceKey]['ld4p:RT:bf2:WorkTitle'].resourceURI).toBeFalsy()
     expect(newState.selectorReducer.editor.copyToNewMessage.oldUri).toBe('http://platform:8080/repository/pcc/f006e8ae-8588-4f61-ae95-a0cdb16dedee')
   })
 })

@@ -2,8 +2,9 @@ import { getResourceTemplate, findObjectAtPath } from 'selectors/resourceSelecto
 import _ from 'lodash'
 
 export default class Validator {
-  constructor(selectorReducer) {
+  constructor(selectorReducer, resourceKey) {
     this.selectorReducer = selectorReducer
+    this.resourceKey = resourceKey
     this.errorState = {}
     this.errors = []
   }
@@ -25,8 +26,9 @@ export default class Validator {
    * }]]
    */
   validate() {
-    const resourceTemplateId = _.first(Object.keys(this.selectorReducer.resource))
-    const reduxPath = ['resource', resourceTemplateId]
+    const resourceTemplateId = _.first(Object.keys(this.selectorReducer.entities.resources[this.resourceKey]))
+    const reduxPath = ['resources', this.resourceKey, resourceTemplateId]
+
     this.validateResource(reduxPath, [])
     return [this.errorState, this.errors]
   }
@@ -53,7 +55,7 @@ export default class Validator {
   }
 
   validateMandatoryProperty(reduxPath, labelPath) {
-    const propertyNode = findObjectAtPath(this.selectorReducer, reduxPath)
+    const propertyNode = findObjectAtPath(this.selectorReducer.entities, reduxPath)
     if (propertyNode.items) {
       if (_.isEmpty(propertyNode.items)) this.addError(reduxPath, labelPath, 'Required')
     } else if (_.isEmpty(propertyNode)) {
@@ -62,7 +64,7 @@ export default class Validator {
   }
 
   validateNestedResourceProperty(reduxPath, labelPath, propertyTemplate) {
-    const propertyNode = findObjectAtPath(this.selectorReducer, reduxPath)
+    const propertyNode = findObjectAtPath(this.selectorReducer.entities, reduxPath)
     propertyTemplate.valueConstraint.valueTemplateRefs.forEach((resourceTemplateId) => {
       Object.keys(propertyNode).forEach((key) => {
         const newReduxPath = [...reduxPath, key, resourceTemplateId]
