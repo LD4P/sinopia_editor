@@ -1,4 +1,4 @@
-// Copyright 2018 Stanford University see LICENSE for license
+// Copyright 2019 Stanford University see LICENSE for license
 
 import 'isomorphic-fetch'
 import React from 'react'
@@ -8,7 +8,7 @@ import Config from 'Config'
 
 describe('<ImportFileZone />', () => {
   it('has an upload button', () => {
-    const wrapper = shallow(<ImportFileZone />)
+    const wrapper = shallow(<ImportFileZone.WrappedComponent />)
 
     expect(wrapper.find('button#ImportProfile').exists()).toBeTruthy()
     expect(wrapper.find('button#ImportProfile').text()).toEqual('Import a Profile or Resource Template')
@@ -16,7 +16,7 @@ describe('<ImportFileZone />', () => {
 
   describe('schema valid', () => {
     describe('schema url in JSON', () => {
-      const wrapper = shallow(<ImportFileZone />)
+      const wrapper = shallow(<ImportFileZone.WrappedComponent />)
       let schemaUrl
       let template
 
@@ -52,7 +52,7 @@ describe('<ImportFileZone />', () => {
     })
 
     describe('schema url not in JSON - default schemas used', () => {
-      const wrapper = shallow(<ImportFileZone />)
+      const wrapper = shallow(<ImportFileZone.WrappedComponent />)
       let schemaUrl
       let template
 
@@ -89,7 +89,7 @@ describe('<ImportFileZone />', () => {
   })
 
   describe('not schema valid', () => {
-    const wrapper = shallow(<ImportFileZone />)
+    const wrapper = shallow(<ImportFileZone.WrappedComponent />)
     let schemaUrl
     let template
 
@@ -123,7 +123,7 @@ describe('<ImportFileZone />', () => {
   })
 
   describe('unfindable schema', () => {
-    const wrapper = shallow(<ImportFileZone />)
+    const wrapper = shallow(<ImportFileZone.WrappedComponent />)
     let schemaUrl
     let template
 
@@ -141,7 +141,7 @@ describe('<ImportFileZone />', () => {
   })
 
   describe('unable to read json file as text', () => {
-    const wrapper = shallow(<ImportFileZone />)
+    const wrapper = shallow(<ImportFileZone.WrappedComponent />)
     const notBlob = {}
 
     it('displays an error message if the loaded file cannot be read as text', () => {
@@ -153,7 +153,7 @@ describe('<ImportFileZone />', () => {
 })
 
 describe('<DropZone />', () => {
-  const wrapper = mount(<ImportFileZone />)
+  const wrapper = mount(<ImportFileZone.WrappedComponent />)
 
   it('shows the dropzone div when button is clicked', () => {
     wrapper.setState({ showDropZone: false })
