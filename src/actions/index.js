@@ -120,6 +120,11 @@ export const setResourceTemplate = resourceTemplate => ({
   payload: resourceTemplate,
 })
 
+export const addTemplateHistory = resourceTemplate => ({
+  type: 'ADD_TEMPLATE_HISTORY',
+  payload: resourceTemplate,
+})
+
 export const setSearchResults = (uri, searchResults, totalResults, query, startOfRange, sortField, sortOrder, error) => ({
   type: 'SET_SEARCH_RESULTS',
   payload: {

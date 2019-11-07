@@ -121,6 +121,7 @@ describe('retrieveResource', () => {
       expect(actions).toEqual([
         { type: 'CLEAR_ERRORS', payload: 'testerrorkey' },
         { type: 'RESOURCE_TEMPLATE_LOADED', payload: resourceTemplate },
+        { type: 'ADD_TEMPLATE_HISTORY', payload: resourceTemplate },
         { type: 'TOGGLE_COLLAPSE', payload: { reduxPath } },
         { type: 'RESOURCE_LOADED', payload: { resource: expectedResource, resourceTemplates: { [resourceTemplateId]: resourceTemplate } } },
         { type: 'SET_LAST_SAVE_CHECKSUM', payload: undefined },
@@ -222,6 +223,7 @@ describe('newResource', () => {
       expect(store.getActions()).toEqual([
         { type: 'CLEAR_ERRORS', payload: 'testerrorkey' },
         { type: 'RESOURCE_TEMPLATE_LOADED', payload: resourceTemplate },
+        { type: 'ADD_TEMPLATE_HISTORY', payload: resourceTemplate },
         { type: 'RESOURCE_LOADED', payload: { resource: expectedResource, resourceTemplates: { [resourceTemplateId]: resourceTemplate } } },
         { type: 'SET_LAST_SAVE_CHECKSUM', payload: 'baf92a33bf689d599a41bb4563db42fc' },
         { type: 'SET_UNUSED_RDF', payload: null }])
@@ -278,6 +280,7 @@ describe('existingResource', () => {
       }
       expect(store.getActions()).toEqual([
         { type: 'RESOURCE_TEMPLATE_LOADED', payload: resourceTemplate },
+        { type: 'ADD_TEMPLATE_HISTORY', payload: resourceTemplate },
         { type: 'RESOURCE_LOADED', payload: { resource: expectedResource, resourceTemplates: { [resourceTemplateId]: resourceTemplate } } },
         { type: 'SET_LAST_SAVE_CHECKSUM', payload: undefined },
         { type: 'SET_UNUSED_RDF', payload: unusedRDF }])

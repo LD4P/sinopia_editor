@@ -35,7 +35,7 @@ describe('End-to-end test', () => {
       .should('have.value', 'ld4p:RT:bf2:WorkTitle')
 
     // Need to determine if should upload a resource template.
-    cy.get('div#resource-templates').then((rtDiv) => {
+    cy.get('#resource-templates').then((rtDiv) => {
       if (rtDiv.find('div#no-rt-warning').length > 0) {
         cy.contains('Import a Profile or Resource Template').click()
         cy.contains('Drag and drop a profile or resource template file')

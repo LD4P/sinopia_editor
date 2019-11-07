@@ -54,6 +54,11 @@ export const initialState = {
       totalResults: 0,
       error: undefined,
     },
+    historicalTemplates: {
+      results: [],
+      totalResults: 0,
+      error: undefined,
+    },
   },
 }
 
