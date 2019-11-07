@@ -5,64 +5,45 @@ import InputLookupQA from 'components/editor/property/InputLookupQA'
 import { fireEvent, wait, waitForElement } from '@testing-library/react'
 import { showValidationErrors, validateResource } from 'actions/index'
 import {
-  renderWithRedux, assertRDF, createReduxStore, setupModal,
+  renderWithRedux, assertRDF, createReduxStore, setupModal, createBlankState,
 } from 'testUtils'
 
 const createInitialState = (options = {}) => {
-  const state = {
-    selectorReducer: {
-      entities: {
-        resourceTemplates: {
-          'ld4p:RT:bf2:Agent:bfPerson': {
-            propertyTemplates: [
-              {
-                repeatable: 'false',
-                mandatory: 'true',
-                type: 'lookup',
-                valueConstraint: {
-                  useValuesFrom: [
-                    'urn:ld4p:qa:names',
-                  ],
-                },
-                propertyLabel: 'Search LCNAF',
-                propertyURI: 'http://id.loc.gov/ontologies/bibframe/Person',
-                editable: 'true',
-              },
+  const state = createBlankState()
+  state.selectorReducer.entities.resourceTemplates = {
+    'ld4p:RT:bf2:Agent:bfPerson': {
+      propertyTemplates: [
+        {
+          repeatable: 'false',
+          mandatory: 'true',
+          type: 'lookup',
+          valueConstraint: {
+            useValuesFrom: [
+              'urn:ld4p:qa:names',
             ],
-            id: 'ld4p:RT:bf2:Agent:bfPerson',
-            resourceURI: 'http://id.loc.gov/ontologies/bibframe/Person',
-            resourceLabel: 'Bibframe Person',
-            author: 'LD4P',
-            date: '2019-08-19',
-            schema: 'https://ld4p.github.io/sinopia/schemas/0.2.0/resource-template.json',
           },
+          propertyLabel: 'Search LCNAF',
+          propertyURI: 'http://id.loc.gov/ontologies/bibframe/Person',
+          editable: 'true',
         },
-        qa: {
-          loading: false,
-          options: [],
-        },
-      },
-      resource: {
-        'ld4p:RT:bf2:Agent:bfPerson': {
-          'http://id.loc.gov/ontologies/bibframe/Person': {
-            items: {},
-          },
-          'http://www.w3.org/2000/01/rdf-schema#label': {},
-        },
-      },
-      editor: {
-        modal: {
-          name: undefined,
-        },
-        resourceValidation: {
-          show: false,
-          errors: [],
-          errorsByPath: {},
-        },
-        errors: [],
-      },
+      ],
+      id: 'ld4p:RT:bf2:Agent:bfPerson',
+      resourceURI: 'http://id.loc.gov/ontologies/bibframe/Person',
+      resourceLabel: 'Bibframe Person',
+      author: 'LD4P',
+      date: '2019-08-19',
+      schema: 'https://ld4p.github.io/sinopia/schemas/0.2.0/resource-template.json',
     },
   }
+  state.selectorReducer.resource = {
+    'ld4p:RT:bf2:Agent:bfPerson': {
+      'http://id.loc.gov/ontologies/bibframe/Person': {
+        items: {},
+      },
+      'http://www.w3.org/2000/01/rdf-schema#label': {},
+    },
+  }
+
   if (options.hasInitialValue) {
     const items = [
       {

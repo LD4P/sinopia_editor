@@ -3,8 +3,9 @@
 import React from 'react'
 import LoadByRDFForm from 'components/load/LoadByRDFForm'
 import { fireEvent, wait } from '@testing-library/react'
-/* eslint import/no-unresolved: 'off' */
-import { renderWithRedux, createReduxStore, setupModal } from 'testUtils'
+import {
+  renderWithRedux, createReduxStore, setupModal, createBlankState,
+} from 'testUtils'
 import { getFixtureResourceTemplate } from '../../fixtureLoaderHelper'
 import * as sinopiaServer from 'sinopiaServer'
 import { createMemoryHistory } from 'history'
@@ -16,33 +17,13 @@ jest.mock('sinopiaSearch')
 jest.mock('sinopiaServer')
 
 const createInitialState = () => {
-  return {
-    selectorReducer: {
-      resource: {},
-      entities: {
-        resourceTemplates: {},
-      },
-      editor: {
-        expanded: {},
-        resourceValidation: {
-          show: false,
-          errors: [],
-          errorsByPath: {},
-        },
-        errors: {},
-        modal: {
-          name: undefined,
-        },
-      },
-    },
-    authenticate: {
-      authenticationState: {
-        currentUser: {
-          username: 'jlittman',
-        },
-      },
+  const state = createBlankState()
+  state.authenticate.authenticationState = {
+    currentUser: {
+      username: 'jlittman',
     },
   }
+  return state
 }
 
 const n3 = `<> <http://id.loc.gov/ontologies/bibframe/mainTitle> "foo"@en .

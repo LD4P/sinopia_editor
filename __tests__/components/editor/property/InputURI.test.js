@@ -2,61 +2,40 @@ import React from 'react'
 import { fireEvent, waitForElement, wait } from '@testing-library/react'
 import InputURI from 'components/editor/property/InputURI'
 import {
-  renderWithRedux, assertRDF, createReduxStore, setupModal,
+  renderWithRedux, assertRDF, createReduxStore, setupModal, createBlankState,
 } from 'testUtils'
 import { showValidationErrors, validateResource } from 'actions/index'
 
 const createInitialState = (options = {}) => {
-  const state = {
-    selectorReducer: {
-      resource: {
-        'resourceTemplate:bf2:WorkURI': {
-          'http://id.loc.gov/ontologies/bibframe/mainTitleURI': {
+  const state = createBlankState()
+  state.selectorReducer.resource = {
+    'resourceTemplate:bf2:WorkURI': {
+      'http://id.loc.gov/ontologies/bibframe/mainTitleURI': {
+      },
+    },
+  }
+  state.selectorReducer.entities.resourceTemplates = {
+    'resourceTemplate:bf2:WorkURI': {
+      id: 'resourceTemplate:bf2:WorkURI',
+      resourceLabel: 'Work URI',
+      resourceURI: 'http://id.loc.gov/ontologies/bibframe/TitleURI',
+      propertyTemplates: [
+        {
+          propertyURI: 'http://id.loc.gov/ontologies/bibframe/mainTitleURI',
+          propertyLabel: 'Preferred URI for Work',
+          remark: 'http://access.rdatoolkit.org/rdachp6_rda6-2036.html',
+          mandatory: 'false',
+          repeatable: 'true',
+          type: 'resource',
+          resourceTemplates: [],
+          valueConstraint: {
+            valueTemplateRefs: [],
+            useValuesFrom: [],
+            valueDataType: {},
+            defaults: [],
           },
         },
-      },
-      entities: {
-        languages: {
-          options: [{
-            id: 'en',
-            label: 'English',
-          }],
-        },
-        resourceTemplates: {
-          'resourceTemplate:bf2:WorkURI': {
-            id: 'resourceTemplate:bf2:WorkURI',
-            resourceLabel: 'Work URI',
-            resourceURI: 'http://id.loc.gov/ontologies/bibframe/TitleURI',
-            propertyTemplates: [
-              {
-                propertyURI: 'http://id.loc.gov/ontologies/bibframe/mainTitleURI',
-                propertyLabel: 'Preferred URI for Work',
-                remark: 'http://access.rdatoolkit.org/rdachp6_rda6-2036.html',
-                mandatory: 'false',
-                repeatable: 'true',
-                type: 'resource',
-                resourceTemplates: [],
-                valueConstraint: {
-                  valueTemplateRefs: [],
-                  useValuesFrom: [],
-                  valueDataType: {},
-                  defaults: [],
-                },
-              },
-            ],
-          },
-        },
-      },
-      editor: {
-        resourceValidation: {
-          show: false,
-          errors: [],
-          errorsByPath: {},
-        },
-        modal: {
-          name: undefined,
-        },
-      },
+      ],
     },
   }
 

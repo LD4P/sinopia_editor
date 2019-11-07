@@ -1,4 +1,6 @@
 // Copyright 2019 Stanford University see LICENSE for license
+/* eslint max-params: ["warn", 4] */
+
 import { appendError, setResourceTemplate } from 'actions/index'
 import { clearTemplateMessages, setTemplateMessages } from 'actions/flash'
 import { clearModalMessages, addModalMessage, showModal } from 'actions/modals'

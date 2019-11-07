@@ -3,30 +3,24 @@
 import React from 'react'
 import InputLang from 'components/editor/property/InputLang'
 import { fireEvent } from '@testing-library/react'
-/* eslint import/no-unresolved: 'off' */
-import { renderWithRedux, createReduxStore, setupModal } from 'testUtils'
+import {
+  renderWithRedux, createReduxStore, setupModal, createBlankState,
+} from 'testUtils'
 
-const state = {
-  selectorReducer: {
-    editor: {
-      modal: {
-        name: undefined,
-      },
+const createInitialState = () => {
+  const state = createBlankState()
+  state.selectorReducer.resource = {
+    'http://id.loc.gov/ontologies/bibframe/instanceOf': {
+      content: '45678',
     },
-    entities: {
-      languages: {
-        options: [{
-          id: 'en',
-          label: 'English',
-        }],
-      },
-    },
-    resource: {
-      'http://id.loc.gov/ontologies/bibframe/instanceOf': {
-        content: '45678',
-      },
-    },
-  },
+  }
+  state.selectorReducer.entities.languages = {
+    options: [{
+      id: 'en',
+      label: 'English',
+    }],
+  }
+  return state
 }
 
 const plProps = {
@@ -42,7 +36,7 @@ const plProps = {
 }
 
 describe('<InputLang />', () => {
-  const store = createReduxStore(state)
+  const store = createReduxStore(createInitialState())
   setupModal()
 
   it('contains a label with the value of propertyLabel', () => {

@@ -2,52 +2,17 @@ import React from 'react'
 import {
   fireEvent, render, wait, act,
 } from '@testing-library/react'
-import { renderWithRedux, createReduxStore, setupModal } from 'testUtils'
+import {
+  renderWithRedux, createReduxStore, setupModal, createBlankState,
+} from 'testUtils'
 import App from 'components/App'
 import { MemoryRouter } from 'react-router-dom'
 import { Provider } from 'react-redux'
 
-
-const createInitialState = () => {
-  return {
-    authenticate: {
-      authenticationState: {
-        currentSession: {
-          idToken: {},
-        },
-      },
-    },
-    selectorReducer: {
-      resource: {},
-      entities: {
-        resourceTemplates: {},
-        languages: { loading: false, options: [] },
-      },
-      editor: {
-        errors: {},
-        uploadTemplateMessages: [],
-        modal: {
-          messages: [],
-          name: undefined,
-        },
-      },
-      templateSearch: {
-        results: [],
-        totalResults: 0,
-        error: undefined,
-      },
-      appVersion: {
-        version: undefined,
-        lastChecked: Date.now(),
-      },
-    },
-  }
-}
-
 describe('Loading an invalid resource template', () => {
   setupModal()
 
-  const store = createReduxStore(createInitialState())
+  const store = createReduxStore(createBlankState({ authenticated: true }))
   const app = (<MemoryRouter><App /></MemoryRouter>)
   const {
     getByText, queryByText, container,

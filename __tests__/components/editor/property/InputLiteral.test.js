@@ -3,7 +3,7 @@ import { fireEvent, waitForElement, wait } from '@testing-library/react'
 import InputLiteral from 'components/editor/property/InputLiteral'
 import { showValidationErrors, validateResource } from 'actions/index'
 import {
-  renderWithRedux, assertRDF, createReduxStore, setupModal,
+  renderWithRedux, assertRDF, createReduxStore, setupModal, createBlankState,
 } from 'testUtils'
 
 // Testing principles:
@@ -14,58 +14,43 @@ import {
 // Note: Defaults are handled when constructing the state, not by the InputLiteral component.
 
 const createInitialState = (options = {}) => {
-  const state = {
-    selectorReducer: {
-      resource: {
-        'resourceTemplate:bf2:WorkTitle': {
-          'http://id.loc.gov/ontologies/bibframe/mainTitle': {
-            items: {},
-          },
-        },
-      },
-      entities: {
-        languages: {
-          options: [{
-            id: 'en',
-            label: 'English',
-          }],
-        },
-        resourceTemplates: {
-          'resourceTemplate:bf2:WorkTitle': {
-            id: 'resourceTemplate:bf2:WorkTitle',
-            resourceLabel: 'Work Title',
-            resourceURI: 'http://id.loc.gov/ontologies/bibframe/Title',
-            propertyTemplates: [
-              {
-                propertyURI: 'http://id.loc.gov/ontologies/bibframe/mainTitle',
-                propertyLabel: 'Preferred Title for Work',
-                remark: 'http://access.rdatoolkit.org/rdachp6_rda6-2036.html',
-                mandatory: 'false',
-                repeatable: 'true',
-                type: 'literal',
-                resourceTemplates: [],
-                valueConstraint: {
-                  valueTemplateRefs: [],
-                  useValuesFrom: [],
-                  valueDataType: {},
-                  defaults: [],
-                },
-              },
-            ],
-          },
-        },
-      },
-      editor: {
-        resourceValidation: {
-          show: false,
-          errors: [],
-          errorsByPath: {},
-        },
-        modal: {
-          name: undefined,
-        },
+  const state = createBlankState()
+  state.selectorReducer.resource = {
+    'resourceTemplate:bf2:WorkTitle': {
+      'http://id.loc.gov/ontologies/bibframe/mainTitle': {
+        items: {},
       },
     },
+  }
+  state.selectorReducer.entities.resourceTemplates = {
+    'resourceTemplate:bf2:WorkTitle': {
+      id: 'resourceTemplate:bf2:WorkTitle',
+      resourceLabel: 'Work Title',
+      resourceURI: 'http://id.loc.gov/ontologies/bibframe/Title',
+      propertyTemplates: [
+        {
+          propertyURI: 'http://id.loc.gov/ontologies/bibframe/mainTitle',
+          propertyLabel: 'Preferred Title for Work',
+          remark: 'http://access.rdatoolkit.org/rdachp6_rda6-2036.html',
+          mandatory: 'false',
+          repeatable: 'true',
+          type: 'literal',
+          resourceTemplates: [],
+          valueConstraint: {
+            valueTemplateRefs: [],
+            useValuesFrom: [],
+            valueDataType: {},
+            defaults: [],
+          },
+        },
+      ],
+    },
+  }
+  state.selectorReducer.entities.languages = {
+    options: [{
+      id: 'en',
+      label: 'English',
+    }],
   }
 
   if (options.hasInitialValue) {

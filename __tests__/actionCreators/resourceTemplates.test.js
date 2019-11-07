@@ -9,6 +9,7 @@ import { getFixtureResourceTemplate } from '../fixtureLoaderHelper'
 import Config from 'Config'
 import configureMockStore from 'redux-mock-store'
 import thunk from 'redux-thunk'
+import { createBlankState } from 'testUtils'
 
 // This forces Sinopia server to use fixtures
 jest.spyOn(Config, 'useResourceTemplateFixtures', 'get').mockReturnValue(true)
@@ -19,7 +20,7 @@ describe('fetchResourceTemplate', () => {
   describe('a valid template', () => {
     const resourceTemplateId = 'resourceTemplate:bf2:Title'
     it('dispatches actions when started and finished', async () => {
-      const store = mockStore({ selectorReducer: { entities: { resourceTemplates: {} } } })
+      const store = mockStore(createBlankState())
 
       const templateResponse = await getFixtureResourceTemplate(resourceTemplateId)
       server.getResourceTemplate = jest.fn().mockResolvedValue(templateResponse)
@@ -35,7 +36,9 @@ describe('fetchResourceTemplate', () => {
   describe('a template already in state', () => {
     const resourceTemplateId = 'resourceTemplate:bf2:Title'
     it('dispatches actions when started and finished', async () => {
-      const store = mockStore({ selectorReducer: { entities: { resourceTemplates: { 'resourceTemplate:bf2:Title': 'notatemplate' } } } })
+      const state = createBlankState()
+      state.selectorReducer.entities.resourceTemplates = { 'resourceTemplate:bf2:Title': 'notatemplate' }
+      const store = mockStore(state)
 
       const resourceTemplate = await store.dispatch(fetchResourceTemplate(resourceTemplateId))
 
@@ -46,7 +49,7 @@ describe('fetchResourceTemplate', () => {
   describe('an invalid template', () => {
     const resourceTemplateId = 'rt:repeated:propertyURI:propertyLabel'
     it('dispatches actions when started and on error', async () => {
-      const store = mockStore({ selectorReducer: { entities: { resourceTemplates: {} } } })
+      const store = mockStore(createBlankState())
 
       const templateResponse = await getFixtureResourceTemplate(resourceTemplateId)
       server.getResourceTemplate = jest.fn().mockResolvedValue(templateResponse)
@@ -82,9 +85,7 @@ describe('setResourceTemplates()', () => {
   }
 
   it('opens the modal if there is a conflict', async () => {
-    const store = mockStore({
-      authenticate: { authenticationState: {} },
-    })
+    const store = mockStore(createBlankState())
     server.createResourceTemplate = jest.fn().mockResolvedValue({ response: { status: 409 } })
 
     await store.dispatch(setResourceTemplates(profileContent, 'ld4p'))
@@ -104,9 +105,7 @@ describe('setResourceTemplates()', () => {
   })
 
   it('updates the flash messages if they were created', async () => {
-    const store = mockStore({
-      authenticate: { authenticationState: {} },
-    })
+    const store = mockStore(createBlankState())
     server.createResourceTemplate = jest.fn()
       .mockResolvedValue({ response: { status: 201, headers: { location: 'http://resource1' } } })
 
@@ -138,9 +137,7 @@ describe('handleUpdateResource()', () => {
   ]
 
   it('updates every template and sets the flash', async () => {
-    const store = mockStore({
-      authenticate: { authenticationState: {} },
-    })
+    const store = mockStore(createBlankState())
     server.updateResourceTemplate = jest.fn()
       .mockResolvedValue({ response: { status: 204, headers: { location: 'http://resource1' } } })
 

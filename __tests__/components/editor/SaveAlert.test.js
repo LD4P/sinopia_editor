@@ -2,19 +2,14 @@
 
 import React from 'react'
 import { createStore } from 'redux'
-import { renderWithRedux } from 'testUtils'
+import { renderWithRedux, createBlankState } from 'testUtils'
 import SaveAlert from 'components/editor/SaveAlert'
 import appReducer from 'reducers/index'
 
 
 describe('<SaveAlert />', () => {
   describe('when lastSave is undefined', () => {
-    const store = createStore(appReducer, {
-      selectorReducer: {
-        editor: {
-        },
-      },
-    })
+    const store = createStore(appReducer, createBlankState())
     const { queryByText } = renderWithRedux(
       <SaveAlert />, store,
     )
@@ -25,13 +20,9 @@ describe('<SaveAlert />', () => {
   })
 
   describe('when it expired', () => {
-    const store = createStore(appReducer, {
-      selectorReducer: {
-        editor: {
-          lastSave: 12345,
-        },
-      },
-    })
+    const state = createBlankState()
+    state.selectorReducer.editor.lastSave = 12345
+    const store = createStore(appReducer, state)
 
     const { queryByText } = renderWithRedux(
       <SaveAlert />, store,

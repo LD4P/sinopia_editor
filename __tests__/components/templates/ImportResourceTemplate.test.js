@@ -2,42 +2,15 @@
 
 import 'isomorphic-fetch'
 import React from 'react'
-import { renderWithReduxAndRouter, createReduxStore, setupModal } from 'testUtils'
+import {
+  renderWithReduxAndRouter, createReduxStore, setupModal, createBlankState,
+} from 'testUtils'
 import ImportResourceTemplate from 'components/templates/ImportResourceTemplate'
 
 describe('<ImportResourceTemplate />', () => {
-  const createInitialState = () => {
-    return {
-      selectorReducer: {
-        appVersion: {
-          version: '1.0',
-        },
-        editor: {
-          copyToNewMessage: {},
-          uploadTemplateMessages: [],
-          modal: {
-            messages: [],
-            name: undefined,
-          },
-          resourceValidation: {
-            show: false,
-            errors: [],
-            errorsByPath: {},
-          },
-          errors: {},
-        },
-        resource: {},
-        templateSearch: {
-          results: [],
-          totalResults: 0,
-          error: undefined,
-        },
-      },
-    }
-  }
   setupModal()
 
-  const store = createReduxStore(createInitialState())
+  const store = createReduxStore(createBlankState())
   const { getByText } = renderWithReduxAndRouter(
     <ImportResourceTemplate />,
     store,

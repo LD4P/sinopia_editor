@@ -1,13 +1,13 @@
 import React from 'react'
 import SinopiaSort from 'components/search/SinopiaSort'
-import { renderWithRedux, createReduxStore } from 'testUtils'
+import { renderWithRedux, createReduxStore, createBlankState } from 'testUtils'
 import { fireEvent } from '@testing-library/react'
 /* eslint import/namespace: 'off' */
 import * as server from 'sinopiaSearch'
 
 describe('<SinopiaSort />', () => {
   it('renders with default', () => {
-    const store = createReduxStore({ selectorReducer: { search: { sortField: undefined, sortOrder: undefined } } })
+    const store = createReduxStore(createBlankState())
     const { getByText, queryByText } = renderWithRedux(
       <SinopiaSort />, store,
     )
@@ -19,7 +19,10 @@ describe('<SinopiaSort />', () => {
   })
 
   it('renders with selected sort order', () => {
-    const store = createReduxStore({ selectorReducer: { search: { sortField: 'label', sortOrder: 'asc' } } })
+    const state = createBlankState()
+    state.selectorReducer.search.sortField = 'label'
+    state.selectorReducer.search.sortOrder = 'asc'
+    const store = createReduxStore(state)
     const { getByText } = renderWithRedux(
       <SinopiaSort />, store,
     )
@@ -39,21 +42,11 @@ describe('<SinopiaSort />', () => {
       ],
     })
 
-    const state = {
-      selectorReducer: {
-        search: {
-          results: [],
-          totalResults: 0,
-          query: 'twain',
-          authority: undefined,
-          error: undefined,
-          resultsPerPage: 15,
-          startOfRange: 10, // 0 based
-          sortField: undefined,
-          sortOrder: undefined,
-        },
-      },
-    }
+    const state = createBlankState()
+    state.selectorReducer.search.query = 'twain'
+    state.selectorReducer.search.startOfRange = 10
+    state.selectorReducer.search.resultsPerPage = 15
+
     const store = createReduxStore(state)
     const { getByText, findByText } = renderWithRedux(
       <SinopiaSort />, store,

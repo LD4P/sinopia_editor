@@ -1,7 +1,8 @@
 import React from 'react'
 import { fireEvent } from '@testing-library/react'
-// eslint-disable-next-line import/no-unresolved
-import { renderWithRedux, createReduxStore, setupModal } from 'testUtils'
+import {
+  renderWithRedux, createReduxStore, setupModal, createBlankState,
+} from 'testUtils'
 import App from 'components/App'
 import { MemoryRouter } from 'react-router-dom'
 import Config from 'Config'
@@ -11,52 +12,6 @@ jest.mock('sinopiaSearch')
 
 // This forces Sinopia server to use fixtures
 jest.spyOn(Config, 'useResourceTemplateFixtures', 'get').mockReturnValue(true)
-
-const createInitialState = () => {
-  return {
-    authenticate: {
-      authenticationState: {
-        currentSession: {
-          idToken: {},
-        },
-      },
-    },
-    selectorReducer: {
-      resource: {},
-      entities: {
-        resourceTemplates: {},
-        languages: {
-          loading: false,
-          options: [
-            {
-              id: 'en',
-              label: 'English',
-            },
-          ],
-        },
-      },
-      editor: {
-        resourceValidationErrors: {},
-        expanded: {},
-        errors: {},
-        uploadTemplateMessages: [],
-        modal: {
-          name: undefined,
-          messages: [],
-        },
-      },
-      templateSearch: {
-        results: [],
-        totalResults: 0,
-        error: undefined,
-      },
-      appVersion: {
-        version: undefined,
-        lastChecked: Date.now(),
-      },
-    },
-  }
-}
 
 describe('Loading a misconfigured property template', () => {
   sinopiaSearch.getTemplateSearchResults.mockResolvedValue({
@@ -71,7 +26,7 @@ describe('Loading a misconfigured property template', () => {
   })
 
   setupModal()
-  const store = createReduxStore(createInitialState())
+  const store = createReduxStore(createBlankState({ authenticated: true }))
   const app = (<MemoryRouter><App /></MemoryRouter>)
   const { getByText, findByText, getByPlaceholderText } = renderWithRedux(
     app, store,

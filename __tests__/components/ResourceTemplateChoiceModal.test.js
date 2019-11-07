@@ -1,7 +1,8 @@
 import React from 'react'
 import ResourceTemplateChoiceModal from 'components/ResourceTemplateChoiceModal'
-// eslint-disable-next-line import/no-unresolved
-import { renderWithRedux, createReduxStore, setupModal } from 'testUtils'
+import {
+  renderWithRedux, createReduxStore, setupModal, createBlankState,
+} from 'testUtils'
 import { fireEvent, wait } from '@testing-library/react'
 import * as sinopiaSearch from 'sinopiaSearch'
 import { modalType } from 'selectors/modalSelectors'
@@ -22,29 +23,11 @@ sinopiaSearch.getTemplateSearchResults.mockResolvedValue({
 })
 
 describe('<ResourceTemplateChoiceModal />', () => {
-  const createState = () => {
-    return {
-      selectorReducer: {
-        editor: {
-          modal: {
-            name: undefined,
-          },
-        },
-        entities: {},
-        templateSearch: {
-          results: [],
-          totalResults: 0,
-          error: undefined,
-        },
-      },
-    }
-  }
-
   it('saves choice', async () => {
     setupModal()
 
     const mockChoose = jest.fn()
-    const store = createReduxStore(createState())
+    const store = createReduxStore(createBlankState())
     const {
       getByText, getByPlaceholderText, findByText,
     } = renderWithRedux(
@@ -66,7 +49,7 @@ describe('<ResourceTemplateChoiceModal />', () => {
   it('closes when click Cancel', async () => {
     setupModal()
 
-    const store = createReduxStore(createState())
+    const store = createReduxStore(createBlankState())
 
     const { getByText } = renderWithRedux(
       <div><ResourceTemplateChoiceModal choose={jest.fn()} /></div>, store,

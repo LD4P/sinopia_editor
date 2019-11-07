@@ -2,13 +2,13 @@
 
 import React from 'react'
 import { createStore } from 'redux'
-import { renderWithRedux } from 'testUtils'
+import { renderWithRedux, createBlankState } from 'testUtils'
 import Alerts from 'components/Alerts'
 import appReducer from 'reducers/index'
 
 describe('<Alerts />', () => {
   describe('when no errors', () => {
-    const store = createStore(appReducer, { selectorReducer: { editor: { errors: {} } } })
+    const store = createStore(appReducer, createBlankState())
     it('does not render any alerts', () => {
       const { queryByText } = renderWithRedux(
         <Alerts errorKey="testerrorkey" />, store,
@@ -20,15 +20,9 @@ describe('<Alerts />', () => {
 
   describe('when there are errors', () => {
     it('renders alerts', () => {
-      const state = {
-        selectorReducer: {
-          editor: {
-            errors: {
-              testerrorkey: ['Grrr...', 'Frick'],
-            },
-          },
-        },
-      }
+      const state = createBlankState()
+      state.selectorReducer.editor.errors.testerrorkey = ['Grrr...', 'Frick']
+
       const store = createStore(appReducer, state)
       const { queryAllByText, getByText } = renderWithRedux(
         <Alerts errorKey="testerrorkey" />, store,

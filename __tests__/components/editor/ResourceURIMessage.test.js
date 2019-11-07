@@ -1,28 +1,21 @@
 import React from 'react'
 import { fireEvent, wait } from '@testing-library/react'
 import ResourceURIMessage from 'components/editor/ResourceURIMessage'
-/* eslint import/no-unresolved: 'off' */
-import { renderWithRedux, createReduxStore } from 'testUtils'
+import { renderWithRedux, createReduxStore, createBlankState } from 'testUtils'
 
 describe('ResourceURIMessage', () => {
-  const stateNoURI = {
-    selectorReducer: {
-      resource: {},
-    },
-  }
-
-  const stateURI = {
-    selectorReducer: {
-      resource: {
-        'ld4p:RT:bf2:WorkTitle': {
-          resourceURI: 'http://localhost:8080/repository/cornell/f6b80d28-cc1b-44ef-8aaf-618569a981cd',
-        },
+  const createInitialState = () => {
+    const state = createBlankState()
+    state.selectorReducer.resource = {
+      'ld4p:RT:bf2:WorkTitle': {
+        resourceURI: 'http://localhost:8080/repository/cornell/f6b80d28-cc1b-44ef-8aaf-618569a981cd',
       },
-    },
+    }
+    return state
   }
 
   it('does not render when no URI', () => {
-    const store = createReduxStore(stateNoURI)
+    const store = createReduxStore(createBlankState())
     const { queryByText } = renderWithRedux(
       <ResourceURIMessage />, store,
     )
@@ -30,7 +23,7 @@ describe('ResourceURIMessage', () => {
   })
 
   it('render when URI', () => {
-    const store = createReduxStore(stateURI)
+    const store = createReduxStore(createInitialState())
     const { getByText } = renderWithRedux(
       <ResourceURIMessage />, store,
     )
@@ -38,7 +31,7 @@ describe('ResourceURIMessage', () => {
   })
 
   it('copies the URI to clipboard', () => {
-    const store = createReduxStore(stateURI)
+    const store = createReduxStore(createInitialState())
     navigator.clipboard = { writeText: jest.fn() }
     const { getByText } = renderWithRedux(
       <ResourceURIMessage />, store,

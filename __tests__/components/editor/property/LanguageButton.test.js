@@ -2,39 +2,28 @@
 
 import React from 'react'
 import { fireEvent } from '@testing-library/react'
-/* eslint import/no-unresolved: 'off' */
-import { renderWithRedux, createReduxStore, setupModal } from 'testUtils'
+import {
+  renderWithRedux, createReduxStore, setupModal, createBlankState,
+} from 'testUtils'
 import LanguageButton from 'components/editor/property/LanguageButton'
 import { modalType } from 'selectors/modalSelectors'
 
 describe('When the user enters input into language modal', () => {
   setupModal()
 
-  const state = {
-    selectorReducer: {
-      editor: {
-        modal: {
-          name: undefined,
+  const createInitialState = () => {
+    const state = createBlankState()
+    state.selectorReducer.resource = {
+      'resourceTemplate:bf2:Monograph:Instance': {
+        'http://id.loc.gov/ontologies/bibframe/instanceOf': {
+          content: '122345',
         },
       },
-      entities: {
-        languages: {
-          options: [{
-            id: 'en',
-            label: 'English',
-          }],
-        },
-      },
-      resource: {
-        'resourceTemplate:bf2:Monograph:Instance': {
-          'http://id.loc.gov/ontologies/bibframe/instanceOf': {
-            content: '122345',
-          },
-        },
-      },
-    },
+    }
+    return state
   }
-  const store = createReduxStore(state)
+
+  const store = createReduxStore(createInitialState())
   const { getByText } = renderWithRedux(
     <LanguageButton
       reduxPath={[

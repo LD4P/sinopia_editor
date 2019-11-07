@@ -1,78 +1,69 @@
 // Copyright 2019 Stanford University see LICENSE for license
 
 import React from 'react'
-import { renderWithRedux, createReduxStore } from 'testUtils'
+import { renderWithRedux, createReduxStore, createBlankState } from 'testUtils'
 import SaveAndPublishButton from 'components/editor/actions/SaveAndPublishButton'
 
-const createInitialState = () => ({
-  selectorReducer: {
-    editor: {
-      resourceValidation: {
-        show: false,
-        errors: [],
-        errorsByPath: {},
-      },
-      lastSaveChecksum: '54527c024d0021784f666c2794856938',
-    },
-    resource: {
-      'resourceTemplate:bf2:Identifiers:Barcode': {
-        'http://www.w3.org/1999/02/22-rdf-syntax-ns#value': {
-          items: {
-            hPSHr9jA: {
-              content: '123456',
-              lang: 'en',
-            },
+const createInitialState = () => {
+  const state = createBlankState()
+  state.selectorReducer.editor.lastSaveChecksum = '54527c024d0021784f666c2794856938'
+  state.selectorReducer.resource = {
+    'resourceTemplate:bf2:Identifiers:Barcode': {
+      'http://www.w3.org/1999/02/22-rdf-syntax-ns#value': {
+        items: {
+          hPSHr9jA: {
+            content: '123456',
+            lang: 'en',
           },
         },
-        'http://id.loc.gov/ontologies/bibframe/enumerationAndChronology': {},
       },
+      'http://id.loc.gov/ontologies/bibframe/enumerationAndChronology': {},
     },
-    entities: {
-      resourceTemplates: {
-        'resourceTemplate:bf2:Identifiers:Barcode': {
-          id: 'resourceTemplate:bf2:Identifiers:Barcode',
-          resourceURI: 'http://id.loc.gov/ontologies/bibframe/Barcode',
-          resourceLabel: 'Barcode',
-          propertyTemplates: [
-            {
-              mandatory: 'true',
-              repeatable: 'false',
-              type: 'literal',
-              resourceTemplates: [],
-              valueConstraint: {
-                valueTemplateRefs: [],
-                useValuesFrom: [],
-                valueDataType: {},
-                defaults: [
-                  {
-                    defaultLiteral: '12345',
-                  },
-                ],
+  }
+  state.selectorReducer.entities.resourceTemplates = {
+    'resourceTemplate:bf2:Identifiers:Barcode': {
+      id: 'resourceTemplate:bf2:Identifiers:Barcode',
+      resourceURI: 'http://id.loc.gov/ontologies/bibframe/Barcode',
+      resourceLabel: 'Barcode',
+      propertyTemplates: [
+        {
+          mandatory: 'true',
+          repeatable: 'false',
+          type: 'literal',
+          resourceTemplates: [],
+          valueConstraint: {
+            valueTemplateRefs: [],
+            useValuesFrom: [],
+            valueDataType: {},
+            defaults: [
+              {
+                defaultLiteral: '12345',
               },
-              propertyURI: 'http://www.w3.org/1999/02/22-rdf-syntax-ns#value',
-              propertyLabel: 'Barcode',
-              editable: 'true',
-            },
-            {
-              mandatory: 'false',
-              repeatable: 'true',
-              type: 'literal',
-              resourceTemplates: [],
-              valueConstraint: {
-                valueTemplateRefs: [],
-                useValuesFrom: [],
-                valueDataType: {},
-              },
-              propertyURI: 'http://id.loc.gov/ontologies/bibframe/enumerationAndChronology',
-              propertyLabel: 'Enumeration and chronology',
-              editable: 'true',
-            },
-          ],
+            ],
+          },
+          propertyURI: 'http://www.w3.org/1999/02/22-rdf-syntax-ns#value',
+          propertyLabel: 'Barcode',
+          editable: 'true',
         },
-      },
+        {
+          mandatory: 'false',
+          repeatable: 'true',
+          type: 'literal',
+          resourceTemplates: [],
+          valueConstraint: {
+            valueTemplateRefs: [],
+            useValuesFrom: [],
+            valueDataType: {},
+          },
+          propertyURI: 'http://id.loc.gov/ontologies/bibframe/enumerationAndChronology',
+          propertyLabel: 'Enumeration and chronology',
+          editable: 'true',
+        },
+      ],
     },
-  },
-})
+  }
+  return state
+}
 
 // Clicking the button is covered by previewSaveIncompleteResource and previewSaveResource
 describe('<SaveAndPublishButton />', () => {

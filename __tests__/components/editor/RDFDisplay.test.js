@@ -2,7 +2,6 @@
 
 import React from 'react'
 import { render, fireEvent } from '@testing-library/react'
-// import { renderWithRedux, createReduxStore, setupModal } from 'testUtils'
 import RDFDisplay from 'components/editor/RDFDisplay'
 
 describe('<RDFDisplay />', () => {

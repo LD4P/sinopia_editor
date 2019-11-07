@@ -4,18 +4,10 @@ import React from 'react'
 import { createStore } from 'redux'
 import CopyToNewMessage from 'components/editor/CopyToNewMessage'
 import appReducer from 'reducers/index'
-import { renderWithRedux } from 'testUtils'
+import { renderWithRedux, createBlankState } from 'testUtils'
 
 test('Message is not displayed when timestamp is false', () => {
-  const store = createStore(appReducer, {
-    selectorReducer: {
-      entities: {},
-      resource: {},
-      editor: {
-        copyToNewMessage: {},
-      },
-    },
-  })
+  const store = createStore(appReducer, createBlankState())
   const { container } = renderWithRedux(
     <CopyToNewMessage />, store,
   )

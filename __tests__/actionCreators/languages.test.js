@@ -3,6 +3,7 @@
 import loadLanguages from 'actionCreators/languages'
 import configureMockStore from 'redux-mock-store'
 import thunk from 'redux-thunk'
+import { createBlankState } from 'testUtils'
 
 const mockStore = configureMockStore([thunk])
 
@@ -13,16 +14,7 @@ describe('loadLanguages', () => {
     json: () => mockJsonPromise,
   })
 
-  const state = {
-    selectorReducer: {
-      entities: {
-        languages: {
-          options: [],
-        },
-      },
-    },
-  }
-  const store = mockStore(state)
+  const store = mockStore(createBlankState())
 
   global.fetch = jest.fn().mockImplementation(() => mockFetchPromise)
 

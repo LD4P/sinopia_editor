@@ -6,6 +6,7 @@ import appReducer, {
 } from 'reducers/index'
 import _ from 'lodash'
 import { getFixtureResourceTemplate } from '../fixtureLoaderHelper'
+import { createBlankState } from 'testUtils'
 import Validator from 'ResourceValidator'
 
 jest.mock('ResourceValidator')
@@ -20,29 +21,6 @@ beforeAll(() => {
   })
 })
 
-let initialState
-
-beforeEach(() => {
-  initialState = {
-    selectorReducer: {
-      entities: {
-        // The stuff we've retrieved from the server
-        resourceTemplates: { },
-      },
-      resource: { // The state we're displaying in the editor
-      },
-      editor: {
-        resourceValidation: {
-          show: false,
-          errors: [],
-          errorsByPath: {},
-        },
-        errors: {},
-      },
-    },
-  }
-})
-
 describe('createReducer', () => {
   // Make sure spies/mocks don't leak between tests
   afterAll(() => {
@@ -52,7 +30,7 @@ describe('createReducer', () => {
   it('handles the initial state', () => {
     const reducer = createReducer({})
     const action = {}
-    expect(reducer(initialState, action)).toMatchObject(
+    expect(reducer(createBlankState(), action)).toMatchObject(
       {
         selectorReducer: {
           entities: {
@@ -93,10 +71,10 @@ describe('createReducer', () => {
 
 describe('clearErrors', () => {
   it('clears the error when already exists', () => {
-    const newInitialState = { ...initialState }
-    newInitialState.selectorReducer.editor.errors.testerrorkey = ['Ooops']
+    const state = createBlankState()
+    state.selectorReducer.editor.errors.testerrorkey = ['Ooops']
 
-    const newState = appReducer(newInitialState, {
+    const newState = appReducer(state, {
       type: 'CLEAR_ERRORS',
       payload: 'testerrorkey',
     })
@@ -104,9 +82,7 @@ describe('clearErrors', () => {
     expect(newState.selectorReducer.editor.errors.testerrorkey).toEqual([])
   })
   it('clears the error when does not already exists', () => {
-    const newInitialState = { ...initialState }
-
-    const newState = appReducer(newInitialState, {
+    const newState = appReducer(createBlankState(), {
       type: 'CLEAR_ERRORS',
       payload: 'testerrorkey',
     })
@@ -117,7 +93,7 @@ describe('clearErrors', () => {
 
 describe('appendError', () => {
   it('adds error when error key does not exist', () => {
-    const newState = appReducer(initialState, {
+    const newState = appReducer(createBlankState(), {
       type: 'APPEND_ERROR',
       payload: {
         errorKey: 'testerrorkey',
@@ -127,8 +103,9 @@ describe('appendError', () => {
     expect(newState.selectorReducer.editor.errors.testerrorkey).toEqual(['Error: test'])
   })
   it('adds error when error key already exists', () => {
-    initialState.selectorReducer.editor.errors.testerrorkey = ['Error: existing']
-    const newState = appReducer(initialState, {
+    const state = createBlankState()
+    state.selectorReducer.editor.errors.testerrorkey = ['Error: existing']
+    const newState = appReducer(state, {
       type: 'APPEND_ERROR',
       payload: {
         errorKey: 'testerrorkey',
@@ -142,11 +119,12 @@ describe('appendError', () => {
 describe('removeResource', () => {
   it('removes resource', async () => {
     const handlers = { REMOVE_RESOURCE: removeResource }
-    initialState.selectorReducer.entities.resourceTemplates = {
+    const state = createBlankState()
+    state.selectorReducer.entities.resourceTemplates = {
       'resourceTemplate:bf2:Monograph:Instance': (await getFixtureResourceTemplate('resourceTemplate:bf2:Monograph:Instance')).response.body,
       'resourceTemplate:bf2:Monograph:Work': (await getFixtureResourceTemplate('resourceTemplate:bf2:Monograph:Work')).response.body,
     }
-    initialState.selectorReducer.resource = {
+    state.selectorReducer.resource = {
       'resourceTemplate:bf2:Monograph:Instance': {
         'http://id.loc.gov/ontologies/bibframe/instanceOf': {
           omHNLGWY71J: {
@@ -199,7 +177,7 @@ describe('removeResource', () => {
     }
 
     const reducer = createReducer(handlers)
-    const newState = reducer(initialState.selectorReducer, action)
+    const newState = reducer(state.selectorReducer, action)
     expect(newState.resource).toEqual({
       'resourceTemplate:bf2:Monograph:Instance': {
         'http://id.loc.gov/ontologies/bibframe/instanceOf': {
@@ -218,8 +196,9 @@ describe('removeResource', () => {
 describe('saveResourceFinished', () => {
   const action = { payload: 'abc123' }
   it('sets last save differently each time called', () => {
-    expect(initialState.selectorReducer.editor.lastSave).toBeFalsy()
-    const newState = saveResourceFinished(initialState.selectorReducer, action)
+    const state = createBlankState()
+    expect(state.selectorReducer.editor.lastSave).toBeFalsy()
+    const newState = saveResourceFinished(state.selectorReducer, action)
     expect(newState.editor.lastSave).toBeTruthy()
 
     const now = Date.now()
@@ -231,7 +210,8 @@ describe('saveResourceFinished', () => {
     expect(newState.editor.lastSave).not.toEqual(newState2.editor.lastSave)
   })
   it('sets lastSaveChecksum', () => {
-    const newState = saveResourceFinished(initialState.selectorReducer, action)
+    const state = createBlankState()
+    const newState = saveResourceFinished(state.selectorReducer, action)
     expect(newState.editor.lastSaveChecksum).toEqual('abc123')
   })
 })
@@ -240,17 +220,20 @@ describe('setLastSaveChecksum', () => {
   const action = { payload: 'abc123' }
 
   it('sets lastSaveChecksum', () => {
-    const newState = setLastSaveChecksum(initialState.selectorReducer, action)
+    const state = createBlankState()
+    const newState = setLastSaveChecksum(state.selectorReducer, action)
     expect(newState.editor.lastSaveChecksum).toEqual('abc123')
   })
 })
 
 describe('setResource', () => {
   it('updates state', () => {
-    initialState.selectorReducer.entities.resourceTemplates['resourceTemplate:bf2:Work:Instance'] = 'anotherrt'
-    initialState.selectorReducer.editor.resourceValidation.show = true
-    initialState.selectorReducer.editor.copyToNewMessage = { foo: 'bar' }
-    const newState = appReducer(initialState, {
+    const state = createBlankState()
+    state.selectorReducer.entities.resourceTemplates['resourceTemplate:bf2:Work:Instance'] = 'anotherrt'
+    state.selectorReducer.editor.resourceValidation.show = true
+    state.selectorReducer.editor.copyToNewMessage = { foo: 'bar' }
+
+    const newState = appReducer(state, {
       type: 'RESOURCE_LOADED',
       payload: {
         resource: 'theresource',
@@ -272,14 +255,15 @@ describe('setResource', () => {
 
 describe('updateProperty', () => {
   it('updates state', () => {
-    initialState.selectorReducer.resource = {
+    const state = createBlankState()
+    state.selectorReducer.resource = {
       'ld4p:RT:bf2:Monograph:Item': {
         'http://id.loc.gov/ontologies/bibframe/heldBy': {},
         'http://id.loc.gov/ontologies/bibframe/shelfMark': {},
       },
     }
-    initialState.selectorReducer.entities.resourceTemplates['resourceTemplate:bf2:Work:Instance'] = 'anotherrt'
-    const newState = appReducer(initialState, {
+    state.selectorReducer.entities.resourceTemplates['resourceTemplate:bf2:Work:Instance'] = 'anotherrt'
+    const newState = appReducer(state, {
       type: 'UPDATE_PROPERTY',
       payload: {
         reduxPath: [
@@ -311,7 +295,8 @@ describe('updateProperty', () => {
 
 describe('appendResource', () => {
   it('updates state', () => {
-    initialState.selectorReducer.resource = {
+    const state = createBlankState()
+    state.selectorReducer.resource = {
       'ld4p:RT:bf2:Monograph:Item': {
         'http://id.loc.gov/ontologies/bibframe/heldBy': {
           items: [],
@@ -325,8 +310,8 @@ describe('appendResource', () => {
         },
       },
     }
-    initialState.selectorReducer.entities.resourceTemplates['resourceTemplate:bf2:Work:Instance'] = 'anotherrt'
-    const newState = appReducer(initialState, {
+    state.selectorReducer.entities.resourceTemplates['resourceTemplate:bf2:Work:Instance'] = 'anotherrt'
+    const newState = appReducer(state, {
       type: 'APPEND_RESOURCE',
       payload: {
         reduxPath: [

@@ -9,6 +9,8 @@ import { createStore, applyMiddleware } from 'redux'
 import thunk from 'redux-thunk'
 import appReducer from 'reducers/index'
 import { MemoryRouter } from 'react-router-dom'
+import { initialState } from 'store'
+import _ from 'lodash'
 
 export const renderWithRedux = (ui, store) => {
   return {
@@ -48,4 +50,18 @@ export const setupModal = () => {
   const portalRoot = document.createElement('div')
   portalRoot.setAttribute('id', 'modal')
   document.body.appendChild(portalRoot)
+}
+
+export const createBlankState = (options = {}) => {
+  // const state = {...initialState}
+  const state = _.cloneDeep(initialState)
+  state.authenticate = { authenticationState: {} }
+  if (options.authenticated) {
+    state.authenticate.authenticationState = {
+      currentSession: {
+        idToken: {},
+      },
+    }
+  }
+  return state
 }
