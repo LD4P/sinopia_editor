@@ -2,6 +2,7 @@
 
 import { foundResourceTemplate, getResourceTemplate } from 'sinopiaServer'
 import { getTagNameForPropertyTemplate } from 'utilities/propertyTemplates'
+import { findAuthorityConfig } from 'utilities/authorityConfig'
 import _ from 'lodash'
 
 /**
@@ -14,6 +15,7 @@ const validateResourceTemplate = async resourceTemplate => [].concat(
   validateRepeatedPropertyTemplates(resourceTemplate),
   validateNoDefaultURIForLiterals(resourceTemplate),
   validateNoDefaultsForTemplateRefs(resourceTemplate),
+  validateTypeAheadAuthorityURIs(resourceTemplate),
   await validateTemplateRefsExist(resourceTemplate),
   await validateUniqueResourceURIs(resourceTemplate),
   validateKnownTagName(resourceTemplate),
@@ -86,6 +88,36 @@ const validateNoDefaultsForTemplateRefs = (resourceTemplate) => {
     return [formatError(`Property templates (${Array.from(propertyTemplateIds)}) cannot have both defaults and valueTemplateRefs.`, resourceTemplate)]
   }
 
+  return []
+}
+
+/**
+ * Validates that property templates with URIs in valueConstraints are found in authorityConfig.js file
+ * @param {Object} resourceTemplate to validate
+ * @return {Array<string} reasons that validation failed if invalid
+ */
+const validateTypeAheadAuthorityURIs = (resourceTemplate) => {
+  const propertyTemplateIds = []
+  const notFoundURIs = []
+  resourceTemplate.propertyTemplates.forEach((propertyTemplate) => {
+    const vocabUriList = propertyTemplate?.valueConstraint?.useValuesFrom
+    const lookupConfigs = _.isEmpty(vocabUriList) ? [] : vocabUriList
+    lookupConfigs.forEach((uri) => {
+      const authority = findAuthorityConfig(uri)
+      if (!authority) {
+        propertyTemplateIds.push(propertyTemplate.propertyURI)
+        notFoundURIs.push(uri)
+      }
+    })
+  })
+  if (propertyTemplateIds.length > 0) {
+    return [
+      formatError(
+        `Property templates ${propertyTemplateIds.join(', ')} have value constraint lookup URIs that are not found in configuration: ${notFoundURIs.join(', ')}`,
+        resourceTemplate
+      )
+    ]
+  }
   return []
 }
 
