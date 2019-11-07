@@ -2,12 +2,12 @@
 
 import React from 'react'
 import { createStore } from 'redux'
-import { renderWithRedux } from 'testUtils'
+import { renderWithRedux, createBlankState } from 'testUtils'
 import Alert from 'components/Alert'
 import appReducer from 'reducers/index'
 
 describe('<Alert />', () => {
-  const store = createStore(appReducer, {})
+  const store = createStore(appReducer, createBlankState())
   describe('when text is undefined', () => {
     it('does not render', () => {
       const { queryByText } = renderWithRedux(

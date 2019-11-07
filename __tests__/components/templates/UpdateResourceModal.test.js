@@ -1,7 +1,9 @@
 // Copyright 2019 Stanford University see LICENSE for license
 
 import React from 'react'
-import { renderWithRedux, createReduxStore, setupModal } from 'testUtils'
+import {
+  renderWithRedux, createReduxStore, setupModal, createBlankState,
+} from 'testUtils'
 import { fireEvent } from '@testing-library/react'
 import UpdateResourceModal from 'components/templates/UpdateResourceModal'
 /* eslint import/namespace: 'off' */
@@ -43,20 +45,14 @@ describe('<UpdateResourceModal />', () => {
     }]
 
     const createInitialState = () => {
-      return {
-        selectorReducer: {
-          editor: {
-            modal: {
-              name: 'UpdateResourceModal',
-              messages,
-            },
-          },
-        },
-      }
+      const state = createBlankState()
+      state.selectorReducer.editor.modal.name = 'UpdateResourceModal'
+      state.selectorReducer.editor.modal.messages = messages
+      return state
     }
 
     it('does not render based on state', () => {
-      const store = createReduxStore({ selectorReducer: { editor: { modal: { name: undefined, messages } } } })
+      const store = createReduxStore(createBlankState())
       const { getByTestId } = renderWithRedux(
         <UpdateResourceModal />,
         store,

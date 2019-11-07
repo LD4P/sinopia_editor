@@ -5,7 +5,7 @@ import thunk from 'redux-thunk'
 import reducer from './reducers/index'
 import Config from 'Config'
 
-const initialState = {
+export const initialState = {
   selectorReducer: {
     appVersion: {
       version: undefined,

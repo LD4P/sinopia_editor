@@ -2,7 +2,7 @@
 
 import React from 'react'
 import {
-  renderWithRedux, renderWithReduxAndRouter, createReduxStore,
+  renderWithRedux, renderWithReduxAndRouter, createReduxStore, createBlankState,
 } from 'testUtils'
 import { fireEvent } from '@testing-library/react'
 import TemplateSearch from 'components/templates/TemplateSearch'
@@ -12,20 +12,6 @@ import * as sinopiaSearch from 'sinopiaSearch'
 jest.mock('sinopiaSearch')
 
 describe('<TemplateSearch />', () => {
-  const createInitialState = () => ({
-    selectorReducer: {
-      templateSearch: {
-        results: [],
-        totalResults: 0,
-        error: undefined,
-      },
-      editor: {
-        errors: {},
-      },
-      resource: {},
-    },
-  })
-
   const result1 = {
     id: 'ld4p:RT:bf2:Monograph:Instance',
     author: 'LD4P',
@@ -60,7 +46,7 @@ describe('<TemplateSearch />', () => {
   })
 
   it('renders', () => {
-    const store = createReduxStore(createInitialState())
+    const store = createReduxStore(createBlankState())
     const { getByPlaceholderText } = renderWithRedux(
       <TemplateSearch />, store,
     )
@@ -69,7 +55,7 @@ describe('<TemplateSearch />', () => {
   })
 
   it('performs a default search', async () => {
-    const store = createReduxStore(createInitialState())
+    const store = createReduxStore(createBlankState())
     renderWithRedux(<TemplateSearch />, store)
 
     expect(sinopiaSearch.getTemplateSearchResults).toHaveBeenCalledWith('')
@@ -94,7 +80,7 @@ describe('<TemplateSearch />', () => {
     })
 
     it('searches and updates with results', async () => {
-      const store = createReduxStore(createInitialState())
+      const store = createReduxStore(createBlankState())
       const { getByPlaceholderText } = renderWithRedux(
         <TemplateSearch />, store,
       )
@@ -119,7 +105,9 @@ describe('<TemplateSearch />', () => {
 
   describe('when there is a search error', () => {
     it('renders error', () => {
-      const store = createReduxStore({ selectorReducer: { templateSearch: { error: 'ES is red' } } })
+      const state = createBlankState()
+      state.selectorReducer.templateSearch.error = 'ES is red'
+      const store = createReduxStore(state)
       const { getByText } = renderWithRedux(
         <TemplateSearch />, store,
       )

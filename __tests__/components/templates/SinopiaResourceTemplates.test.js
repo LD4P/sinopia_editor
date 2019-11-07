@@ -5,7 +5,7 @@ import SinopiaResourceTemplates from 'components/templates/SinopiaResourceTempla
 import * as sinopiaServer from 'sinopiaServer'
 import { fireEvent, wait } from '@testing-library/react'
 import { createMemoryHistory } from 'history'
-import { renderWithReduxAndRouter, createReduxStore } from 'testUtils'
+import { renderWithReduxAndRouter, createReduxStore, createBlankState } from 'testUtils'
 import { getFixtureResourceTemplate } from '../../fixtureLoaderHelper'
 import { saveAs } from 'file-saver'
 
@@ -13,57 +13,41 @@ jest.mock('sinopiaServer')
 jest.mock('file-saver')
 
 const createInitialState = () => {
-  const state = {
-    selectorReducer: {
-      resource: {
-        'resourceTemplate:bf2:Note': {
-          'http://id.loc.gov/ontologies/bibframe/note': {
-            items: {},
-          },
-        },
-      },
-      entities: {
-        resourceTemplates: {
-          'resourceTemplate:bf2:Note': {
-            id: 'resourceTemplate:bf2:Note',
-            resourceURI: 'http://id.loc.gov/ontologies/bibframe/Note',
-            resourceLabel: 'Note',
-            propertyTemplates: [
-              {
-                propertyURI: 'http://www.w3.org/2000/01/rdf-schema#label',
-                propertyLabel: 'Note',
-                type: 'literal',
-              },
-            ],
-          },
-        },
-      },
-      templateSearch: {
-        results: [{
-          id: 'resourceTemplate:bf2:Note',
-          resourceLabel: 'Note',
-          resourceURI: 'http://id.loc.gov/ontologies/bibframe/Note',
-          remark: 'very salient information',
-          author: 'wright.lee.renønd',
-          date: '2019-11-01',
-        }, {
-          id: 'resourceTemplate:bf2:Alternative',
-          resourceLabel: 'Alternative',
-          resourceURI: 'http://id.loc.gov/ontologies/bibframe/Alternative',
-        },
-        ],
-        totalResults: 2,
-        error: undefined,
-      },
-      editor: {
-        errors: {},
-        resourceValidation: {
-          show: false,
-        },
+  const state = createBlankState()
+  state.selectorReducer.resource = {
+    'resourceTemplate:bf2:Note': {
+      'http://id.loc.gov/ontologies/bibframe/note': {
+        items: {},
       },
     },
-
   }
+  state.selectorReducer.entities.resourceTemplates = {
+    'resourceTemplate:bf2:Note': {
+      id: 'resourceTemplate:bf2:Note',
+      resourceURI: 'http://id.loc.gov/ontologies/bibframe/Note',
+      resourceLabel: 'Note',
+      propertyTemplates: [
+        {
+          propertyURI: 'http://www.w3.org/2000/01/rdf-schema#label',
+          propertyLabel: 'Note',
+          type: 'literal',
+        },
+      ],
+    },
+  }
+  state.selectorReducer.templateSearch.results = [{
+    id: 'resourceTemplate:bf2:Note',
+    resourceLabel: 'Note',
+    resourceURI: 'http://id.loc.gov/ontologies/bibframe/Note',
+    remark: 'very salient information',
+    author: 'wright.lee.renønd',
+    date: '2019-11-01',
+  }, {
+    id: 'resourceTemplate:bf2:Alternative',
+    resourceLabel: 'Alternative',
+    resourceURI: 'http://id.loc.gov/ontologies/bibframe/Alternative',
+  }]
+  state.selectorReducer.templateSearch.totalResults = 2
   return state
 }
 

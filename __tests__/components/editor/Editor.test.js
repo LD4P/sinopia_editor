@@ -1,7 +1,9 @@
 // Copyright 2018, 2019 Stanford University see LICENSE for license
 
 import React from 'react'
-import { renderWithReduxAndRouter, createReduxStore, setupModal } from 'testUtils'
+import {
+  renderWithReduxAndRouter, createReduxStore, setupModal, createBlankState,
+} from 'testUtils'
 import Editor from 'components/editor/Editor'
 
 const props = {
@@ -12,66 +14,42 @@ const props = {
 
 
 const createInitialState = (options = {}) => {
-  const state = {
-    selectorReducer: {
-      appVersion: {
-        version: '9.3',
-      },
-      resource: {
-        'resourceTemplate:bf2:WorkTitle': {
-          'http://id.loc.gov/ontologies/bibframe/mainTitle': {
-            items: {},
-          },
-        },
-      },
-      entities: {
-        languages: {
-          options: [{
-            id: 'en',
-            label: 'English',
-          }],
-        },
-        resourceTemplates: {
-          'resourceTemplate:bf2:WorkTitle': {
-            id: 'resourceTemplate:bf2:WorkTitle',
-            resourceLabel: 'Work Title',
-            resourceURI: 'http://id.loc.gov/ontologies/bibframe/Title',
-            propertyTemplates: [
-              {
-                propertyURI: 'http://id.loc.gov/ontologies/bibframe/mainTitle',
-                propertyLabel: 'Preferred Title for Work',
-                remark: 'http://access.rdatoolkit.org/rdachp6_rda6-2036.html',
-                mandatory: 'false',
-                repeatable: 'true',
-                type: 'literal',
-                resourceTemplates: [],
-                valueConstraint: {
-                  valueTemplateRefs: [],
-                  useValuesFrom: [],
-                  valueDataType: {},
-                  defaults: [],
-                },
-              },
-            ],
-          },
-        },
-      },
-      editor: {
-        copyToNewMessage: {
-          timestamp: Date.now(),
-          oldUri: 'https://sinopia.io/pcc/1345',
-        },
-        modal: {
-          name: undefined,
-        },
-        resourceValidation: {
-          show: false,
-          errors: [],
-          errorsByPath: {},
-        },
-        errors: {},
+  const state = createBlankState()
+  state.selectorReducer.appVersion.version = '9.3'
+  state.selectorReducer.resource = {
+    'resourceTemplate:bf2:WorkTitle': {
+      'http://id.loc.gov/ontologies/bibframe/mainTitle': {
+        items: {},
       },
     },
+  }
+  state.selectorReducer.entities.resourceTemplates = {
+    'resourceTemplate:bf2:WorkTitle': {
+      id: 'resourceTemplate:bf2:WorkTitle',
+      resourceLabel: 'Work Title',
+      resourceURI: 'http://id.loc.gov/ontologies/bibframe/Title',
+      propertyTemplates: [
+        {
+          propertyURI: 'http://id.loc.gov/ontologies/bibframe/mainTitle',
+          propertyLabel: 'Preferred Title for Work',
+          remark: 'http://access.rdatoolkit.org/rdachp6_rda6-2036.html',
+          mandatory: 'false',
+          repeatable: 'true',
+          type: 'literal',
+          resourceTemplates: [],
+          valueConstraint: {
+            valueTemplateRefs: [],
+            useValuesFrom: [],
+            valueDataType: {},
+            defaults: [],
+          },
+        },
+      ],
+    },
+  }
+  state.selectorReducer.editor.copyToNewMessage = {
+    timestamp: Date.now(),
+    oldUri: 'https://sinopia.io/pcc/1345',
   }
 
   if (options.loggedIn) {

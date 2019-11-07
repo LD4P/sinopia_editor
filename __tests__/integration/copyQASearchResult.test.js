@@ -1,7 +1,8 @@
 import React from 'react'
 import { fireEvent, wait } from '@testing-library/react'
-// eslint-disable-next-line import/no-unresolved
-import { renderWithRedux, createReduxStore, setupModal } from 'testUtils'
+import {
+  renderWithRedux, createReduxStore, setupModal, createBlankState,
+} from 'testUtils'
 import App from 'components/App'
 import { MemoryRouter } from 'react-router-dom'
 import { getFixtureResourceTemplate } from '../fixtureLoaderHelper'
@@ -13,66 +14,6 @@ import * as sinopiaSearch from 'sinopiaSearch'
 jest.mock('sinopiaSearch')
 jest.mock('swagger-client')
 jest.mock('sinopiaServer')
-
-const createInitialState = () => {
-  return {
-    authenticate: {
-      authenticationState: {
-        currentSession: {
-          idToken: {},
-        },
-      },
-    },
-    selectorReducer: {
-      resource: {},
-      entities: {
-        resourceTemplates: {},
-        languages: {
-          loading: false,
-          options: [
-            {
-              id: 'en',
-              label: 'English',
-            },
-          ],
-        },
-        lookups: {},
-      },
-      editor: {
-        uploadTemplateMessages: [],
-        modal: {
-          name: undefined,
-          messages: [],
-        },
-        resourceValidation: {
-          show: false,
-          errors: [],
-          errorsByPath: {},
-        },
-        copyToNewMessage: {
-          show: false,
-        },
-        expanded: {},
-        errors: {},
-      },
-      appVersion: {
-        version: undefined,
-        lastChecked: Date.now(),
-      },
-      search: {
-        results: [],
-        totalResults: 0,
-        query: undefined,
-        uri: undefined,
-      },
-      templateSearch: {
-        results: [],
-        totalResults: 0,
-        error: undefined,
-      },
-    },
-  }
-}
 
 describe('Search, copy QA result, and open in editor', () => {
   setupModal()
@@ -144,8 +85,7 @@ rdfs:label "These twain.";
     error: undefined,
   })
 
-
-  const store = createReduxStore(createInitialState())
+  const store = createReduxStore(createBlankState({ authenticated: true }))
   const {
     getByText, queryByText, getByTitle, getByPlaceholderText,
     findByText, getByLabelText, getByDisplayValue, container,

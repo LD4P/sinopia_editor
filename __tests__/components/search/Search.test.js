@@ -2,8 +2,9 @@
 import React from 'react'
 import { fireEvent } from '@testing-library/react'
 import Search from 'components/search/Search'
-// eslint-disable-next-line import/no-unresolved
-import { renderWithRedux, createReduxStore, setupModal } from 'testUtils'
+import {
+  renderWithRedux, createReduxStore, setupModal, createBlankState,
+} from 'testUtils'
 import { MemoryRouter } from 'react-router-dom'
 import * as server from 'sinopiaSearch'
 import Swagger from 'swagger-client'
@@ -13,32 +14,6 @@ jest.mock('swagger-client')
 
 describe('<Search />', () => {
   setupModal()
-
-  const createInitialState = () => {
-    return {
-      selectorReducer: {
-        resource: {},
-        search: {
-          results: [],
-          totalResults: 0,
-          query: undefined,
-          resultsPerPage: 10,
-          sortField: undefined,
-          sortOrder: undefined,
-        },
-        appVersion: {
-          version: '1.0.2',
-          lastChecked: 1569901390063,
-        },
-        editor: {
-          modal: {
-            name: undefined,
-          },
-          errors: {},
-        },
-      },
-    }
-  }
 
   it('requests a QA search', async () => {
     const mockSearchResults = [
@@ -78,7 +53,7 @@ describe('<Search />', () => {
     const client = { apis: { SearchQuery: { GET_searchAuthority: mockActionFunction } } }
     Swagger.mockResolvedValue(client)
 
-    const store = createReduxStore(createInitialState())
+    const store = createReduxStore(createBlankState())
 
     const {
       container, getByLabelText, getByDisplayValue, findByText, getByText,
@@ -107,7 +82,7 @@ describe('<Search />', () => {
   })
 
   it('requests a Sinopia search', async () => {
-    const store = createReduxStore(createInitialState())
+    const store = createReduxStore(createBlankState())
 
     const mockGetSearchResults = jest.fn()
     server.getSearchResults = mockGetSearchResults.mockResolvedValue({
@@ -145,7 +120,7 @@ describe('<Search />', () => {
   })
 
   it('requests on enter', () => {
-    const store = createReduxStore(createInitialState())
+    const store = createReduxStore(createBlankState())
 
     const mockGetSearchResults = jest.fn()
     server.getSearchResults = mockGetSearchResults.mockResolvedValue({
@@ -167,7 +142,7 @@ describe('<Search />', () => {
   })
 
   it('ignores when query is blank', () => {
-    const store = createReduxStore(createInitialState())
+    const store = createReduxStore(createBlankState())
 
     const mockGetSearchResults = jest.fn()
     const { getByLabelText } = renderWithRedux(
@@ -188,7 +163,7 @@ describe('<Search />', () => {
       error: new Error('Grrr...'),
     })
 
-    const store = createReduxStore(createInitialState())
+    const store = createReduxStore(createBlankState())
 
     const { findByText, getByLabelText, container } = renderWithRedux(
       <MemoryRouter><Search /></MemoryRouter>, store,

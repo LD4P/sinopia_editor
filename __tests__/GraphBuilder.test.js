@@ -1,78 +1,76 @@
 // Copyright 2019 Stanford University see LICENSE for license
 
-import GraphBuilder from '../src/GraphBuilder'
+import GraphBuilder from 'GraphBuilder'
+import { createBlankState } from 'testUtils'
 
 const rdf = require('rdf-ext')
 
 describe('GraphBuilder', () => {
   describe('when the state does not have a resourceURI', () => {
-    const state = {
-      entities: {
-        resourceTemplates: {
-          'resourceTemplate:bf2:Monograph:Work': {
-            resourceURI: 'http://id.loc.gov/ontologies/bibframe/Work',
-          },
-          'resourceTemplate:bf2:Note': {
-            resourceURI: 'http://id.loc.gov/ontologies/bibframe/Note',
-          },
-        },
+    const state = createBlankState()
+    state.selectorReducer.entities.resourceTemplates = {
+      'resourceTemplate:bf2:Monograph:Work': {
+        resourceURI: 'http://id.loc.gov/ontologies/bibframe/Work',
       },
-      resource: {
-        'resourceTemplate:bf2:Monograph:Work': {
-          'http://id.loc.gov/ontologies/bibframe/title': {},
-          'http://id.loc.gov/ontologies/bibframe/temporalCoverage': {},
-          'http://id.loc.gov/ontologies/bibframe/note': {},
-          'http://id.loc.gov/ontologies/bibframe/content': {
-            items: {
-              abc123: {
-                label: 'text',
-                uri: 'http://id.loc.gov/vocabulary/contentTypes/txt',
-              },
+      'resourceTemplate:bf2:Note': {
+        resourceURI: 'http://id.loc.gov/ontologies/bibframe/Note',
+      },
+    }
+    state.selectorReducer.resource = {
+      'resourceTemplate:bf2:Monograph:Work': {
+        'http://id.loc.gov/ontologies/bibframe/title': {},
+        'http://id.loc.gov/ontologies/bibframe/temporalCoverage': {},
+        'http://id.loc.gov/ontologies/bibframe/note': {},
+        'http://id.loc.gov/ontologies/bibframe/content': {
+          items: {
+            abc123: {
+              label: 'text',
+              uri: 'http://id.loc.gov/vocabulary/contentTypes/txt',
             },
           },
-          'http://id.loc.gov/ontologies/bibframe/illustrativeContent': {
-            items: {
-              '2_RmnVrDkk9': {
-                label: 'Genealogical tables',
-                uri: 'http://id.loc.gov/vocabulary/millus/gnt',
-              },
-            },
-          },
-          'http://id.loc.gov/ontologies/bibframe/colorContent': {
-            '-KACHlqQ4A': {
-              'resourceTemplate:bf2:Note': {
-                'http://www.w3.org/2000/01/rdf-schema#label': {
-                  items: {
-                    '3TzRpgv65': {
-                      content: 'Very colorful',
-                      lang: 'en',
-                    },
-                    '5TzRpgv72': {
-                      content: 'Sparkly',
-                    },
-                  },
-                },
-              },
-            },
-            gdndfCHlqQ4z: {
-              'resourceTemplate:bf2:Note': {
-                'http://www.w3.org/2000/01/rdf-schema#label': {
-                  items: {
-                    '4dzRpgv42': {
-                      content: 'Shiney',
-                    },
-                  },
-                },
-              },
-            },
-          },
-          'http://id.loc.gov/ontologies/bibframe/hasInstance': {},
-          'http://www.w3.org/2000/01/rdf-schema#label': {},
         },
+        'http://id.loc.gov/ontologies/bibframe/illustrativeContent': {
+          items: {
+            '2_RmnVrDkk9': {
+              label: 'Genealogical tables',
+              uri: 'http://id.loc.gov/vocabulary/millus/gnt',
+            },
+          },
+        },
+        'http://id.loc.gov/ontologies/bibframe/colorContent': {
+          '-KACHlqQ4A': {
+            'resourceTemplate:bf2:Note': {
+              'http://www.w3.org/2000/01/rdf-schema#label': {
+                items: {
+                  '3TzRpgv65': {
+                    content: 'Very colorful',
+                    lang: 'en',
+                  },
+                  '5TzRpgv72': {
+                    content: 'Sparkly',
+                  },
+                },
+              },
+            },
+          },
+          gdndfCHlqQ4z: {
+            'resourceTemplate:bf2:Note': {
+              'http://www.w3.org/2000/01/rdf-schema#label': {
+                items: {
+                  '4dzRpgv42': {
+                    content: 'Shiney',
+                  },
+                },
+              },
+            },
+          },
+        },
+        'http://id.loc.gov/ontologies/bibframe/hasInstance': {},
+        'http://www.w3.org/2000/01/rdf-schema#label': {},
       },
     }
 
-    const builder = new GraphBuilder(state)
+    const builder = new GraphBuilder(state.selectorReducer)
 
 
     it('returns the graph', () => {
@@ -110,62 +108,59 @@ describe('GraphBuilder', () => {
   })
 
   describe('when the state has a resourceURI', () => {
-    const state = {
-      entities: {
-        resourceTemplates: {
-          'resourceTemplate:bf2:Monograph:Work': {
-            resourceURI: 'http://id.loc.gov/ontologies/bibframe/Work',
-          },
-          'resourceTemplate:bf2:Note': {
-            resourceURI: 'http://id.loc.gov/ontologies/bibframe/Note',
+    const state = createBlankState()
+    state.selectorReducer.entities.resourceTemplates = {
+      'resourceTemplate:bf2:Monograph:Work': {
+        resourceURI: 'http://id.loc.gov/ontologies/bibframe/Work',
+      },
+      'resourceTemplate:bf2:Note': {
+        resourceURI: 'http://id.loc.gov/ontologies/bibframe/Note',
+      },
+    }
+    state.selectorReducer.resource = {
+      'resourceTemplate:bf2:Monograph:Work': {
+        resourceURI: 'http://example.com/base/123',
+        'http://id.loc.gov/ontologies/bibframe/title': {},
+        'http://id.loc.gov/ontologies/bibframe/temporalCoverage': {},
+        'http://id.loc.gov/ontologies/bibframe/note': {},
+        'http://id.loc.gov/ontologies/bibframe/content': {
+          items: {
+            abc123: {
+              label: 'text',
+              uri: 'http://id.loc.gov/vocabulary/contentTypes/txt',
+            },
           },
         },
-      },
-      resource: {
-        'resourceTemplate:bf2:Monograph:Work': {
-          resourceURI: 'http://example.com/base/123',
-          'http://id.loc.gov/ontologies/bibframe/title': {},
-          'http://id.loc.gov/ontologies/bibframe/temporalCoverage': {},
-          'http://id.loc.gov/ontologies/bibframe/note': {},
-          'http://id.loc.gov/ontologies/bibframe/content': {
-            items: {
-              abc123: {
-                label: 'text',
-                uri: 'http://id.loc.gov/vocabulary/contentTypes/txt',
-              },
+        'http://id.loc.gov/ontologies/bibframe/illustrativeContent': {
+          items: {
+            '2_RmnVrDkk9': {
+              label: 'Genealogical tables',
+              uri: 'http://id.loc.gov/vocabulary/millus/gnt',
             },
           },
-          'http://id.loc.gov/ontologies/bibframe/illustrativeContent': {
-            items: {
-              '2_RmnVrDkk9': {
-                label: 'Genealogical tables',
-                uri: 'http://id.loc.gov/vocabulary/millus/gnt',
-              },
-            },
-          },
-          'http://id.loc.gov/ontologies/bibframe/colorContent': {
-            '-KACHlqQ4A': {
-              'resourceTemplate:bf2:Note': {
-                'http://www.w3.org/2000/01/rdf-schema#label': {
-                  items: {
-                    '3TzRpgv65': {
-                      content: 'Very colorful',
-                    },
-                    zvwwe8321: {
-                      content: 'Sparkly',
-                    },
+        },
+        'http://id.loc.gov/ontologies/bibframe/colorContent': {
+          '-KACHlqQ4A': {
+            'resourceTemplate:bf2:Note': {
+              'http://www.w3.org/2000/01/rdf-schema#label': {
+                items: {
+                  '3TzRpgv65': {
+                    content: 'Very colorful',
+                  },
+                  zvwwe8321: {
+                    content: 'Sparkly',
                   },
                 },
               },
             },
           },
-          'http://id.loc.gov/ontologies/bibframe/hasInstance': {},
-          'http://www.w3.org/2000/01/rdf-schema#label': {},
         },
+        'http://id.loc.gov/ontologies/bibframe/hasInstance': {},
+        'http://www.w3.org/2000/01/rdf-schema#label': {},
       },
     }
 
-    const builder = new GraphBuilder(state)
+    const builder = new GraphBuilder(state.selectorReducer)
 
 
     it('returns the graph', () => {
@@ -204,26 +199,22 @@ describe('GraphBuilder', () => {
   })
 
   describe('when the state has errors', () => {
-    const state = {
-      entities: {
-        resourceTemplates: {
-          'resourceTemplate:bf2:Monograph:Work': {
-            resourceURI: 'http://id.loc.gov/ontologies/bibframe/Work',
-          },
-        },
+    const state = createBlankState()
+    state.selectorReducer.entities.resourceTemplates = {
+      'resourceTemplate:bf2:Monograph:Work': {
+        resourceURI: 'http://id.loc.gov/ontologies/bibframe/Work',
       },
-      resource: {
-        'resourceTemplate:bf2:Monograph:Work': {
-          resourceURI: 'http://example.com/base/123',
-          'http://id.loc.gov/ontologies/bibframe/title': {
-            errors: [{ label: 'Required' }],
-          },
+    }
+    state.selectorReducer.resource = {
+      'resourceTemplate:bf2:Monograph:Work': {
+        resourceURI: 'http://example.com/base/123',
+        'http://id.loc.gov/ontologies/bibframe/title': {
+          errors: [{ label: 'Required' }],
         },
       },
     }
 
-    const builder = new GraphBuilder(state)
-
+    const builder = new GraphBuilder(state.selectorReducer)
 
     it('returns the graph and ignores the errors', () => {
       const graph = builder.graph
@@ -237,41 +228,37 @@ describe('GraphBuilder', () => {
   })
 
   describe('when the state has empty items', () => {
-    const state = {
-      entities: {
-        resourceTemplates: {
-          'resourceTemplate:bf2:Monograph:Work': {
-            resourceURI: 'http://id.loc.gov/ontologies/bibframe/Work',
-          },
-          'resourceTemplate:bf2:Note': {
-            resourceURI: 'http://id.loc.gov/ontologies/bibframe/Note',
-          },
-        },
+    const state = createBlankState()
+    state.selectorReducer.entities.resourceTemplates = {
+      'resourceTemplate:bf2:Monograph:Work': {
+        resourceURI: 'http://id.loc.gov/ontologies/bibframe/Work',
       },
-      resource: {
-        'resourceTemplate:bf2:Monograph:Work': {
-          'http://id.loc.gov/ontologies/bibframe/title': {},
-          'http://id.loc.gov/ontologies/bibframe/temporalCoverage': {},
-          'http://id.loc.gov/ontologies/bibframe/note': {},
-          'http://id.loc.gov/ontologies/bibframe/content': {},
-          'http://id.loc.gov/ontologies/bibframe/illustrativeContent': {},
-          'http://id.loc.gov/ontologies/bibframe/colorContent': {
-            '-KACHlqQ4A': {
-              'resourceTemplate:bf2:Note': {
-                'http://www.w3.org/2000/01/rdf-schema#label': {
-                  items: {},
-                },
+      'resourceTemplate:bf2:Note': {
+        resourceURI: 'http://id.loc.gov/ontologies/bibframe/Note',
+      },
+    }
+    state.selectorReducer.resource = {
+      'resourceTemplate:bf2:Monograph:Work': {
+        'http://id.loc.gov/ontologies/bibframe/title': {},
+        'http://id.loc.gov/ontologies/bibframe/temporalCoverage': {},
+        'http://id.loc.gov/ontologies/bibframe/note': {},
+        'http://id.loc.gov/ontologies/bibframe/content': {},
+        'http://id.loc.gov/ontologies/bibframe/illustrativeContent': {},
+        'http://id.loc.gov/ontologies/bibframe/colorContent': {
+          '-KACHlqQ4A': {
+            'resourceTemplate:bf2:Note': {
+              'http://www.w3.org/2000/01/rdf-schema#label': {
+                items: {},
               },
             },
           },
-          'http://id.loc.gov/ontologies/bibframe/hasInstance': {},
-          'http://www.w3.org/2000/01/rdf-schema#label': {},
         },
+        'http://id.loc.gov/ontologies/bibframe/hasInstance': {},
+        'http://www.w3.org/2000/01/rdf-schema#label': {},
       },
     }
 
-    const builder = new GraphBuilder(state)
-
+    const builder = new GraphBuilder(state.selectorReducer)
 
     it('returns the graph without blank node', () => {
       const graph = builder.graph

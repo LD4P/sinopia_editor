@@ -4,7 +4,7 @@ import React from 'react'
 import { fireEvent, wait } from '@testing-library/react'
 // eslint-disable-next-line import/no-unresolved
 import {
-  renderWithRedux, createReduxStore, setupModal, renderWithReduxAndRouter,
+  renderWithRedux, createReduxStore, setupModal, renderWithReduxAndRouter, createBlankState,
 } from 'testUtils'
 import App from 'components/App'
 import { Router } from 'react-router-dom'
@@ -18,54 +18,7 @@ jest.mock('sinopiaServer')
 sinopiaServer.getResourceTemplate.mockImplementation(getFixtureResourceTemplate)
 
 const createInitialState = (options = {}) => {
-  const state = {
-    authenticate: {
-    },
-    selectorReducer: {
-      resource: {},
-      entities: {
-        resourceTemplates: {},
-        languages: {
-          loading: false,
-          options: [],
-        },
-        lookups: {},
-        exports: [],
-      },
-      editor: {
-        copyToNewMessage: {},
-        uploadTemplateMessages: [],
-        modal: {
-          messages: [],
-          name: undefined,
-        },
-        resourceValidation: {
-          show: false,
-          errors: [],
-          errorsByPath: {},
-        },
-        errors: {},
-      },
-      appVersion: {
-        version: undefined,
-        lastChecked: Date.now(),
-      },
-      search: {
-        results: [],
-        totalResults: 0,
-        query: undefined,
-        authority: undefined,
-        error: undefined,
-        resultsPerPage: 15,
-        startOfRange: 0,
-      },
-      templateSearch: {
-        results: [],
-        totalResults: 0,
-        error: undefined,
-      },
-    },
-  }
+  const state = createBlankState()
 
   if (options.authenticated) {
     state.authenticate.authenticationState = { currentSession: { idToken: {} } }

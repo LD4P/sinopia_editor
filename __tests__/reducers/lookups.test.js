@@ -1,6 +1,7 @@
 // Copyright 2018 Stanford University see LICENSE for license
 
 import setLookup from 'reducers/lookups'
+import { createBlankState } from 'testUtils'
 
 describe('changing the reducer state', () => {
   const uri = 'https://id.loc.gov/vocabulary/mgroove'
@@ -18,13 +19,8 @@ describe('changing the reducer state', () => {
   ]
 
   it('adds a new lookup', () => {
-    const state = {
-      entities: {
-        lookups: {},
-      },
-    }
-    const newState = setLookup(state, { payload: { uri, lookup } })
-    expect(newState).toEqual({
+    const newState = setLookup(createBlankState().selectorReducer, { payload: { uri, lookup } })
+    expect(newState).toMatchObject({
       entities: {
         lookups: { [uri]: lookup },
       },

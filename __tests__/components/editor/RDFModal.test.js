@@ -2,32 +2,15 @@
 
 import React from 'react'
 import { fireEvent, wait } from '@testing-library/react'
-/* eslint import/no-unresolved: 'off' */
-import { renderWithRedux, createReduxStore, setupModal } from 'testUtils'
+import {
+  renderWithRedux, createReduxStore, setupModal, createBlankState,
+} from 'testUtils'
 import RDFModal from 'components/editor/RDFModal'
 import { modalType } from 'selectors/modalSelectors'
 
 describe('<RDFModal />', () => {
   setupModal()
-
-  const state = {
-    selectorReducer: {
-      editor: {
-        modal: {
-          name: undefined,
-          messages: [],
-        },
-        resourceValidation: {
-          show: false,
-          errors: [],
-          errorsByPath: {},
-        },
-      },
-      resource: {},
-    },
-  }
-  const store = createReduxStore(state)
-
+  const store = createReduxStore(createBlankState())
 
   it('renders the <RDFModal /> component as a Modal', async () => {
     const { getByLabelText, getByTestId, getByText } = renderWithRedux(

@@ -10,6 +10,7 @@ import { getFixtureResourceTemplate } from '../fixtureLoaderHelper'
 import configureMockStore from 'redux-mock-store'
 import thunk from 'redux-thunk'
 import shortid from 'shortid'
+import { createBlankState } from 'testUtils'
 
 jest.mock('sinopiaServer')
 
@@ -18,32 +19,20 @@ beforeEach(() => {
     .mockReturnValue('ghi789')
 })
 
-const initialState = {
-  selectorReducer: {
-    entities: {
-      resourceTemplates: {
-        'sinopia:profile:bf2:Place': {
-          resourceURI: 'http://id.loc.gov/ontologies/bibframe/place',
-        },
-      },
+const createInitialState = () => {
+  const state = createBlankState()
+  state.selectorReducer.entities.resourceTemplates = {
+    'sinopia:profile:bf2:Place': {
+      resourceURI: 'http://id.loc.gov/ontologies/bibframe/place',
     },
-    resource: {
-      'sinopia:profile:bf2:Place': {
-        resourceURI: 'http://example.com/repository/stanford/12345',
-      },
+  }
+  state.selectorReducer.resource = {
+    'sinopia:profile:bf2:Place': {
+      resourceURI: 'http://example.com/repository/stanford/12345',
     },
-  },
+  }
+  return state
 }
-
-const blankState = {
-  selectorReducer: {
-    entities: {
-      resourceTemplates: {},
-    },
-    resource: {},
-  },
-}
-
 
 const currentUser = {
   getSession: jest.fn(),
@@ -54,7 +43,7 @@ describe('update', () => {
     sinopiaServer.updateRDFResource = jest.fn().mockResolvedValue(true)
 
     const mockStore = configureMockStore([thunk])
-    const store = mockStore(initialState)
+    const store = mockStore(createInitialState())
     await store.dispatch(update(currentUser, 'testerrorkey'))
 
     expect(store.getActions()).toEqual([{ type: 'SAVE_RESOURCE_FINISHED', payload: '5e30bd59d0186c5307065436240ba108' }])
@@ -63,7 +52,7 @@ describe('update', () => {
     sinopiaServer.updateRDFResource = jest.fn().mockRejectedValue(new Error('Ooops'))
 
     const mockStore = configureMockStore([thunk])
-    const store = mockStore(initialState)
+    const store = mockStore(createInitialState())
     await store.dispatch(update(currentUser, 'testerrorkey'))
 
     expect(store.getActions()).toEqual([{ type: 'APPEND_ERROR', payload: { errorKey: 'testerrorkey', error: 'Error saving http://example.com/repository/stanford/12345: Error: Ooops' } }])
@@ -80,7 +69,7 @@ describe('retrieveResource', () => {
   let store
   beforeEach(() => {
     const mockStore = configureMockStore([thunk])
-    store = mockStore(blankState)
+    store = mockStore(createBlankState())
   })
 
   describe('when dispatch to existing resource raises exception', () => {
@@ -170,7 +159,7 @@ describe('publishResource', () => {
   let store
   beforeEach(() => {
     const mockStore = configureMockStore([thunk])
-    store = mockStore(initialState)
+    store = mockStore(createInitialState())
   })
 
   it('dispatches actions for happy path', async () => {
@@ -205,16 +194,9 @@ describe('newResource', () => {
   let store
   beforeEach(() => {
     const mockStore = configureMockStore([thunk])
-    store = mockStore({
-      selectorReducer: {
-        entities: {
-          resourceTemplates: {},
-        },
-        resource: {
-          'resourceTemplate:bf2:Note': {},
-        },
-      },
-    })
+    const state = createBlankState()
+    state.selectorReducer.resource['resourceTemplate:bf2:Note'] = {}
+    store = mockStore(state)
   })
 
   describe('when dispatch to stubResource raises exception', () => {
@@ -259,7 +241,7 @@ describe('existingResource', () => {
   let store
   beforeEach(() => {
     const mockStore = configureMockStore([thunk])
-    store = mockStore(blankState)
+    store = mockStore(createBlankState())
   })
 
   describe('when stubResource raises an exception', () => {
@@ -277,7 +259,7 @@ describe('existingResource', () => {
     let store
     beforeEach(() => {
       const mockStore = configureMockStore([thunk])
-      store = mockStore(blankState)
+      store = mockStore(createBlankState())
     })
 
     it('dispatches actions', async () => {
@@ -309,7 +291,7 @@ describe('stubResourceProperties', () => {
   let store
   beforeEach(() => {
     const mockStore = configureMockStore([thunk])
-    store = mockStore(blankState)
+    store = mockStore(createBlankState())
   })
 
   describe('resource using defaults', () => {

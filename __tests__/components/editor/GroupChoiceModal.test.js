@@ -2,7 +2,6 @@
 
 import React from 'react'
 import { mount } from 'enzyme'
-/* eslint import/no-unresolved: 'off' */
 import { setupModal } from 'testUtils'
 import Config from 'Config'
 import GroupChoiceModal from 'components/editor/GroupChoiceModal'

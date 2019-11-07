@@ -4,13 +4,13 @@ import React from 'react'
 import { createStore } from 'redux'
 import ExpiringMessage from 'components/editor/ExpiringMessage'
 import appReducer from 'reducers/index'
-import { renderWithRedux } from 'testUtils'
+import { renderWithRedux, createBlankState } from 'testUtils'
 
 // A positve test is challenging to write, because the nominal behavior depends
 // on this component rendering once, and then the passed in property changing.
 
 it('is not displayed if it expired', () => {
-  const store = createStore(appReducer, {})
+  const store = createStore(appReducer, createBlankState())
   const { queryByText } = renderWithRedux(
     <ExpiringMessage timestamp={123}>Hello</ExpiringMessage>, store,
   )

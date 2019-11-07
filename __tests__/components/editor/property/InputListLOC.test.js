@@ -2,54 +2,37 @@ import React from 'react'
 import { fireEvent, waitForElement, wait } from '@testing-library/react'
 import InputListLOC from 'components/editor/property/InputListLOC'
 import { showValidationErrors, validateResource } from 'actions/index'
-/* eslint import/no-unresolved: 'off' */
 import {
-  renderWithRedux, assertRDF, createReduxStore, setupModal,
+  renderWithRedux, assertRDF, createReduxStore, setupModal, createBlankState,
 } from 'testUtils'
 
 const createInitialState = (options = {}) => {
-  const state = {
-    selectorReducer: {
-      resource: {
-        'test:bf2:soundCharacteristics': {
-          'http://id.loc.gov/ontologies/bibframe/soundCharacteristics': {
-            items: {},
-          },
-        },
+  const state = createBlankState()
+  state.selectorReducer.resource = {
+    'test:bf2:soundCharacteristics': {
+      'http://id.loc.gov/ontologies/bibframe/soundCharacteristics': {
+        items: {},
       },
-      entities: {
-        resourceTemplates: {
-          'test:bf2:soundCharacteristics': {
-            id: 'test:bf2:soundCharacteristics',
-            propertyTemplates: [{
-              propertyLabel: 'Sound characteristics',
-              propertyURI: 'http://id.loc.gov/ontologies/bibframe/soundCharacteristics',
-              repeatable: 'false',
-              type: 'lookup',
-              valueConstraint: {
-                useValuesFrom: ['https://id.loc.gov/vocabulary/mrectype',
-                  'https://id.loc.gov/vocabulary/mrecmedium',
-                ],
-                valueDataType: {},
-              },
-              mandatory: 'false',
-            }],
-            resourceLabel: 'Multiple LOC lookups',
-            resourceURI: 'http://id.loc.gov/ontologies/bibframe/soundCharacteristics',
-          },
+    },
+  }
+  state.selectorReducer.entities.resourceTemplates = {
+    'test:bf2:soundCharacteristics': {
+      id: 'test:bf2:soundCharacteristics',
+      propertyTemplates: [{
+        propertyLabel: 'Sound characteristics',
+        propertyURI: 'http://id.loc.gov/ontologies/bibframe/soundCharacteristics',
+        repeatable: 'false',
+        type: 'lookup',
+        valueConstraint: {
+          useValuesFrom: ['https://id.loc.gov/vocabulary/mrectype',
+            'https://id.loc.gov/vocabulary/mrecmedium',
+          ],
+          valueDataType: {},
         },
-        lookups: {},
-      },
-      editor: {
-        modal: {
-          name: undefined,
-        },
-        resourceValidation: {
-          show: false,
-          errors: [],
-          errorsByPath: {},
-        },
-      },
+        mandatory: 'false',
+      }],
+      resourceLabel: 'Multiple LOC lookups',
+      resourceURI: 'http://id.loc.gov/ontologies/bibframe/soundCharacteristics',
     },
   }
 

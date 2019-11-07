@@ -2,28 +2,17 @@
 
 import React from 'react'
 import Exports from 'components/exports/Exports'
-import { renderWithReduxAndRouter, createReduxStore } from 'testUtils'
+import { renderWithReduxAndRouter, createReduxStore, createBlankState } from 'testUtils'
 
 describe('Exports', () => {
   it('renders list of export files', async () => {
-    const initialState = {
-      selectorReducer: {
-        entities: {
-          exports: [
-            'alberta_2019-10-28T16:44:08.978Z.zip',
-            'boulder_2019-10-28T16:44:10.116Z.zip',
-          ],
-        },
-        editor: {
-          errors: {},
-        },
-        appVersion: {
-          version: undefined,
-          lastChecked: Date.now(),
-        },
-      },
-    }
-    const store = createReduxStore(initialState)
+    const state = createBlankState()
+    state.selectorReducer.entities.exports = [
+      'alberta_2019-10-28T16:44:08.978Z.zip',
+      'boulder_2019-10-28T16:44:10.116Z.zip',
+    ]
+
+    const store = createReduxStore(state)
     const { getByText, container } = renderWithReduxAndRouter(
       <Exports />, store,
     )
@@ -35,23 +24,10 @@ describe('Exports', () => {
   })
 
   it('renders errors', async () => {
-    const initialState = {
-      selectorReducer: {
-        entities: {
-          exports: [],
-        },
-        editor: {
-          errors: {
-            exports: ['AWS messed up'],
-          },
-        },
-        appVersion: {
-          version: undefined,
-          lastChecked: Date.now(),
-        },
-      },
-    }
-    const store = createReduxStore(initialState)
+    const state = createBlankState()
+    state.selectorReducer.editor.errors.exports = ['AWS messed up']
+
+    const store = createReduxStore(state)
     const { getByText, container } = renderWithReduxAndRouter(
       <Exports />, store,
     )

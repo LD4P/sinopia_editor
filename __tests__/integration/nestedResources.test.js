@@ -1,7 +1,9 @@
 // Copyright 2019 Stanford University see LICENSE for license
 import React from 'react'
 import { fireEvent } from '@testing-library/react'
-import { renderWithReduxAndRouter, createReduxStore, setupModal } from 'testUtils'
+import {
+  renderWithReduxAndRouter, createReduxStore, setupModal, createBlankState,
+} from 'testUtils'
 import App from 'components/App'
 import * as sinopiaServer from 'sinopiaServer'
 import * as sinopiaSearch from 'sinopiaSearch'
@@ -12,62 +14,6 @@ jest.mock('sinopiaSearch')
 
 // Mock jquery
 global.$ = jest.fn().mockReturnValue({ popover: jest.fn() })
-
-const createInitialState = () => {
-  return {
-    authenticate: {
-      authenticationState: {
-        currentSession: {
-          idToken: {},
-        },
-      },
-    },
-    selectorReducer: {
-      resource: {},
-      entities: {
-        languages: {
-          loading: false,
-          options: [
-            {
-              id: 'en',
-              label: 'English',
-            },
-          ],
-        },
-        resourceTemplates: {},
-        qa: {
-          loading: false,
-          options: [],
-        },
-        lookups: {},
-      },
-      editor: {
-        uploadTemplateMessages: [],
-        modal: {
-          name: undefined,
-          messages: [],
-        },
-        resourceValidation: {
-          show: false,
-          errors: [],
-          errorsByPath: {},
-        },
-        copyToNewMessage: {},
-        expanded: {},
-        errors: {},
-      },
-      templateSearch: {
-        results: [],
-        totalResults: 0,
-        error: undefined,
-      },
-      appVersion: {
-        version: undefined,
-        lastChecked: Date.now(),
-      },
-    },
-  }
-}
 
 describe('Expanding a resource property in a property panel', () => {
   sinopiaServer.getResourceTemplate.mockImplementation(getFixtureResourceTemplate)
@@ -83,7 +29,7 @@ describe('Expanding a resource property in a property panel', () => {
     error: undefined,
   })
 
-  const store = createReduxStore(createInitialState())
+  const store = createReduxStore(createBlankState({ authenticated: true }))
   setupModal()
   const {
     getByText, queryByText, findByText,

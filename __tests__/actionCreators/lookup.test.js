@@ -5,20 +5,11 @@ import configureMockStore from 'redux-mock-store'
 import thunk from 'redux-thunk'
 import shortid from 'shortid'
 import 'isomorphic-fetch'
+import { createBlankState } from 'testUtils'
 
 const mockStore = configureMockStore([thunk])
 
 shortid.generate = jest.fn().mockReturnValue('abc123')
-
-const createState = () => {
-  return {
-    selectorReducer: {
-      entities: {
-        lookups: {},
-      },
-    },
-  }
-}
 
 const uri = 'https://id.loc.gov/vocabulary/carriers'
 const carriers = [{
@@ -65,7 +56,7 @@ describe('fetchLookup', () => {
   it('fetches the lookup, transforms it, and adds to state', async () => {
     global.fetch = jest.fn().mockImplementation(() => Promise.resolve({ json: () => carriers }))
 
-    const store = mockStore(createState())
+    const store = mockStore(createBlankState())
     await store.dispatch(fetchLookup(uri))
 
     const actions = store.getActions()
@@ -87,7 +78,7 @@ describe('fetchLookup', () => {
   it('handles fetch error and adds to state', async () => {
     global.fetch = jest.fn().mockImplementation(() => Promise.reject(new Error('fail')))
 
-    const store = mockStore(createState())
+    const store = mockStore(createBlankState())
     await store.dispatch(fetchLookup(uri))
 
     const actions = store.getActions()

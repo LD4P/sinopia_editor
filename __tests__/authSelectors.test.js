@@ -3,17 +3,12 @@
 import {
   getAuthenticationError, getAuthenticationState, getCurrentSession, getCurrentUser,
 } from '../src/authSelectors'
+import { createBlankState } from 'testUtils'
 
 describe('getCurrentUser', () => {
   const currentUser = { hello: 'world' }
-
-  const state = {
-    authenticate: {
-      authenticationState: {
-        currentUser,
-      },
-    },
-  }
+  const state = createBlankState()
+  state.authenticate.authenticationState = { currentUser }
 
   it('returns user', () => {
     expect(getCurrentUser(state)).toBe(currentUser)
@@ -23,13 +18,8 @@ describe('getCurrentUser', () => {
 describe('getCurrentSession', () => {
   const currentSession = { hello: 'world' }
 
-  const state = {
-    authenticate: {
-      authenticationState: {
-        currentSession,
-      },
-    },
-  }
+  const state = createBlankState()
+  state.authenticate.authenticationState = { currentSession }
 
   it('returns currentSession', () => {
     expect(getCurrentSession(state)).toBe(currentSession)
@@ -39,13 +29,8 @@ describe('getCurrentSession', () => {
 describe('getAuthenticationError', () => {
   const authenticationError = { hello: 'world' }
 
-  const state = {
-    authenticate: {
-      authenticationState: {
-        authenticationError,
-      },
-    },
-  }
+  const state = createBlankState()
+  state.authenticate.authenticationState = { authenticationError }
 
   it('returns authentication error', () => {
     expect(getAuthenticationError(state)).toBe(authenticationError)

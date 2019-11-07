@@ -5,26 +5,9 @@ import {
 } from 'reducers/modals'
 import { modalType, modalMessages } from 'selectors/modalSelectors'
 import Validator from 'ResourceValidator'
+import { createBlankState } from 'testUtils'
 
 jest.mock('ResourceValidator')
-
-let initialState
-beforeEach(() => {
-  initialState = {
-    editor: {
-      resourceValidation: {
-        show: false,
-        errors: [],
-        errorsByPath: {},
-      },
-      modal: {
-        name: undefined,
-      },
-    },
-    resource: { },
-    entities: { },
-  }
-})
 
 describe('showGroupChooser()', () => {
   beforeAll(() => {
@@ -37,8 +20,9 @@ describe('showGroupChooser()', () => {
     })
   })
   it('sets the modal name to GroupChoiceModal', () => {
-    initialState.editor.modal.name = 'RDFModal'
-    const result = showGroupChooser(initialState)
+    const state = createBlankState()
+    state.selectorReducer.editor.modal.name = 'RDFModal'
+    const result = showGroupChooser(state.selectorReducer)
 
     expect(modalType({ selectorReducer: result })).toBe('GroupChoiceModal')
   })
@@ -46,13 +30,13 @@ describe('showGroupChooser()', () => {
 
 describe('showModal and hideModal for RDFModal', () => {
   it('sets the showRdfPreview to true', () => {
-    const result = showModal(initialState, { payload: 'RDFModal' })
+    const result = showModal(createBlankState().selectorReducer, { payload: 'RDFModal' })
 
     expect(modalType({ selectorReducer: result })).toBe('RDFModal')
   })
 
   it('sets the showRdfPreview to false', () => {
-    const result = hideModal(initialState)
+    const result = hideModal(createBlankState().selectorReducer)
 
     expect(modalType({ selectorReducer: result })).toBe(undefined)
   })
@@ -60,9 +44,10 @@ describe('showModal and hideModal for RDFModal', () => {
 
 describe('clearModalMessages', () => {
   it('sets the showRdfPreview to true', () => {
-    initialState.editor.modal.messages = ['hello']
+    const state = createBlankState()
+    state.selectorReducer.editor.modal.messages = ['hello']
 
-    const result = clearModalMessages(initialState)
+    const result = clearModalMessages(state.selectorReducer)
 
     expect(modalMessages({ selectorReducer: result })).toEqual([])
   })

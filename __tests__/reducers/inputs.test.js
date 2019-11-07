@@ -5,9 +5,8 @@ import {
   validate, showCopyNewMessage,
 } from 'reducers/inputs'
 import { findNode } from 'selectors/resourceSelectors'
+import { createBlankState } from 'testUtils'
 import Validator from 'ResourceValidator'
-
-let initialState
 
 jest.mock('ResourceValidator')
 
@@ -21,40 +20,23 @@ beforeAll(() => {
   })
 })
 
-beforeEach(() => {
-  initialState = {
-    editor: {
-      resourceValidation: {
-        show: false,
-        errors: [],
-        errorsByPath: {},
-      },
-      modal: {
-        name: undefined,
-      },
-      copyToNewMessage: {},
-      resourceURIMessage: {
-        show: false,
-      },
-    },
-    resource: { },
-    entities: {
-      resourceTemplates: {
-        'resourceTemplate:Monograph:Instance': {
-          propertyTemplates: [
-            { propertyURI: 'http://schema.org/name' },
-            { propertyURI: 'http://schema.org/description' },
-            { propertyURI: 'http://id.loc.gov/ontologies/bibframe/title' },
-          ],
-        },
-      },
+const createInitialState = () => {
+  const state = createBlankState()
+  state.selectorReducer.entities.resourceTemplates = {
+    'resourceTemplate:Monograph:Instance': {
+      propertyTemplates: [
+        { propertyURI: 'http://schema.org/name' },
+        { propertyURI: 'http://schema.org/description' },
+        { propertyURI: 'http://id.loc.gov/ontologies/bibframe/title' },
+      ],
     },
   }
-})
+  return state
+}
 
 describe('showCopyNewMessage()', () => {
   it('sets the showCopyNewMessage oldUri to a value', () => {
-    const result = showCopyNewMessage(initialState,
+    const result = showCopyNewMessage(createInitialState().selectorReducer,
       {
         payload: {
           oldUri: 'https://sinopia.io/1234',
@@ -68,14 +50,15 @@ describe('showCopyNewMessage()', () => {
 
 describe('setItemsOrSelections with action type: ITEMS_SELECTED', () => {
   it('adds item to state', () => {
-    initialState.resource = {
+    const state = createInitialState()
+    state.selectorReducer.resource = {
       'resourceTemplate:Monograph:Instance': {
         'http://schema.org/name': { items: {} },
       },
     }
 
     const reduxPath = ['resource', 'resourceTemplate:Monograph:Instance', 'http://schema.org/name']
-    const result = setItemsOrSelections(initialState, {
+    const result = setItemsOrSelections(state.selectorReducer, {
       type: 'ITEMS_SELECTED',
       payload: {
         rtId: 'resourceTemplate:Monograph:Instance',
@@ -100,7 +83,7 @@ describe('setItemsOrSelections with action type: ITEMS_SELECTED', () => {
 
   it('adds item to an empty state', () => {
     const reduxPath = ['resource', 'resourceTemplate:Monograph:Instance', 'http://schema.org/name']
-    const result = setItemsOrSelections(initialState,
+    const result = setItemsOrSelections(createInitialState().selectorReducer,
       {
         type: 'ITEMS_SELECTED',
         payload: {
@@ -125,12 +108,13 @@ describe('setItemsOrSelections with action type: ITEMS_SELECTED', () => {
   })
 
   it('appends item to populated state', () => {
-    initialState.resource = {
+    const state = createInitialState()
+    state.selectorReducer.resource = {
       'resourceTemplate:Monograph:Book': {},
     }
 
     const reduxPath = ['resource', 'resourceTemplate:Monograph:Instance', 'http://schema.org/description']
-    const result = setItemsOrSelections(initialState,
+    const result = setItemsOrSelections(state.selectorReducer,
       {
         type: 'ITEMS_SELECTED',
         payload: {
@@ -151,7 +135,8 @@ describe('setItemsOrSelections with action type: ITEMS_SELECTED', () => {
   })
 
   it('creates intermediate objects in the Redux state if present in reduxPath', () => {
-    initialState.resource = {
+    const state = createInitialState()
+    state.selectorReducer.resource = {
       'resourceTemplate:Monograph:Instance': {
         'http://id.loc.gov/ontologies/bibframe/title': {
         },
@@ -166,7 +151,7 @@ describe('setItemsOrSelections with action type: ITEMS_SELECTED', () => {
       'resourceTemplate:bf2:Title',
       'http://id.loc.gov/ontologies/bibframe/mainTitle',
     ]
-    const result = setItemsOrSelections(initialState,
+    const result = setItemsOrSelections(state.selectorReducer,
       {
         type: 'ITEMS_SELECTED',
         payload: {
@@ -187,7 +172,8 @@ describe('setItemsOrSelections with action type: ITEMS_SELECTED', () => {
   })
 
   it('adds new item to state when state has existing selector for another literal', () => {
-    initialState.resource = {
+    const state = createInitialState()
+    state.selectorReducer.resource = {
       'resourceTemplate:Monograph:Instance': {
         'http://schema.org/name': {
           items: {
@@ -204,7 +190,7 @@ describe('setItemsOrSelections with action type: ITEMS_SELECTED', () => {
     }
 
     const reduxPath = ['resource', 'resourceTemplate:Monograph:Instance', 'http://schema.org/description']
-    const result = setItemsOrSelections(initialState,
+    const result = setItemsOrSelections(state.selectorReducer,
       {
         type: 'ITEMS_SELECTED',
         payload: {
@@ -235,14 +221,15 @@ describe('setItemsOrSelections with action type: ITEMS_SELECTED', () => {
 
 describe('setItemsOrSelections with action type: CHANGE_SELECTIONS', () => {
   it('adds items to state', () => {
-    initialState.resource = {
+    const state = createInitialState()
+    state.selectorReducer.resource = {
       'resourceTemplate:Monograph:Instance': {
         'http://schema.org/name': { items: {} },
       },
     }
 
     const reduxPath = ['resource', 'resourceTemplate:Monograph:Instance', 'http://schema.org/name']
-    const result = setItemsOrSelections(initialState, {
+    const result = setItemsOrSelections(state.selectorReducer, {
       type: 'CHANGE_SELECTIONS',
       payload: {
         id: 'abc123',
@@ -262,7 +249,8 @@ describe('setItemsOrSelections with action type: CHANGE_SELECTIONS', () => {
   })
 
   it('overwrites items in  current state', () => {
-    initialState.resource = {
+    const state = createInitialState()
+    state.selectorReducer.resource = {
       'resourceTemplate:Monograph:Instance': {
         'http://schema.org/name': {
           items: {
@@ -273,7 +261,7 @@ describe('setItemsOrSelections with action type: CHANGE_SELECTIONS', () => {
     }
 
     const reduxPath = ['resource', 'resourceTemplate:Monograph:Instance', 'http://schema.org/name']
-    const result = setItemsOrSelections(initialState, {
+    const result = setItemsOrSelections(state.selectorReducer, {
       type: 'CHANGE_SELECTIONS',
       payload: {
         id: 'def456',
@@ -295,7 +283,8 @@ describe('setItemsOrSelections with action type: CHANGE_SELECTIONS', () => {
   })
 
   it('removes all items in  current state by overwriting with an empty object', () => {
-    initialState.resource = {
+    const state = createInitialState()
+    state.selectorReducer.resource = {
       'resourceTemplate:Monograph:Instance': {
         'http://schema.org/name': {
           items: {
@@ -307,7 +296,7 @@ describe('setItemsOrSelections with action type: CHANGE_SELECTIONS', () => {
     }
 
     const reduxPath = ['resource', 'resourceTemplate:Monograph:Instance', 'http://schema.org/name']
-    const result = setItemsOrSelections(initialState, {
+    const result = setItemsOrSelections(state.selectorReducer, {
       type: 'CHANGE_SELECTIONS',
       payload: {
         id: 'nomatter',
@@ -321,14 +310,15 @@ describe('setItemsOrSelections with action type: CHANGE_SELECTIONS', () => {
   })
 
   it('adds an empty object for a key if the key does not contain an object by default', () => {
-    initialState.resource = {
+    const state = createInitialState()
+    state.selectorReducer.resource = {
       'resourceTemplate:Monograph:Instance': {
         'http://schema.org/name': {},
       },
     }
 
     const reduxPath = ['resource', 'resourceTemplate:Monograph:Instance', 'http://schema.org/name', 'QBzX5hqphW', 'test:RT:SomethingElse', 'http://not.important']
-    const result = setItemsOrSelections(initialState, {
+    const result = setItemsOrSelections(state.selectorReducer, {
       type: 'CHANGE_SELECTIONS',
       payload: {
         uri: 'http://not.important/now',
@@ -348,7 +338,8 @@ describe('setItemsOrSelections with action type: CHANGE_SELECTIONS', () => {
 
 describe('setBaseURL', () => {
   it('sets the base URL', () => {
-    initialState.resource = {
+    const state = createInitialState()
+    state.selectorReducer.resource = {
       'resourceTemplate:Monograph:Instance': {
         'http://schema.org/name': {
           items: {
@@ -360,7 +351,7 @@ describe('setBaseURL', () => {
       },
     }
 
-    const result = setBaseURL(initialState, {
+    const result = setBaseURL(state.selectorReducer, {
       type: 'SET_BASE_URL',
       payload: 'http://example.com/foo/123',
     })
@@ -372,7 +363,8 @@ describe('setBaseURL', () => {
 
 describe('removeMyItem', () => {
   it('removes an item from state', () => {
-    initialState.resource = {
+    const state = createInitialState()
+    state.selectorReducer.resource = {
       'resourceTemplate:Monograph:Instance': {
         'http://schema.org/name': {
           items: {
@@ -383,7 +375,7 @@ describe('removeMyItem', () => {
       },
     }
     const reduxPath = ['resource', 'resourceTemplate:Monograph:Instance', 'http://schema.org/name', 'items', 'abc123']
-    const result = removeMyItem(initialState,
+    const result = removeMyItem(state.selectorReducer,
       {
         type: 'REMOVE_ITEM',
         payload: reduxPath,
@@ -397,7 +389,8 @@ describe('removeMyItem', () => {
   })
 
   it('with non-existent id does not change state', () => {
-    initialState.resource = {
+    const state = createInitialState()
+    state.selectorReducer.resource = {
       'resourceTemplate:Monograph:Instance': {
         'http://schema.org/name': {
           items: {
@@ -408,7 +401,7 @@ describe('removeMyItem', () => {
       },
     }
     const reduxPath = ['resource', 'resourceTemplate:Monograph:Instance', 'http://schema.org/name', 'items', '0']
-    const result = removeMyItem(initialState,
+    const result = removeMyItem(state.selectorReducer,
       {
         type: 'REMOVE_ITEM',
         payload: reduxPath,
@@ -425,7 +418,7 @@ describe('removeMyItem', () => {
 
 describe('validate', () => {
   it('returns a new state', () => {
-    const result = validate(initialState)
+    const result = validate(createInitialState().selectorReducer)
     expect(findNode({ selectorReducer: result }, ['resource', 'editor', 'resourceValidation', 'show'])).toBeTruthy()
   })
 })
