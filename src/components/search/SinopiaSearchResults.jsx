@@ -62,7 +62,7 @@ const SinopiaSearchResults = (props) => {
           </ul>
         </td>
         <td>{ groupName(row.uri) }</td>
-        <td>{ row.modified } </td>
+        <td><relative-time datetime={ row.modified }>{ row.modified }</relative-time></td>
         <td>
           <div className="btn-group" role="group" aria-label="Result Actions">
             <button className="btn btn-link"

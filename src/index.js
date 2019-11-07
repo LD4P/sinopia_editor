@@ -1,11 +1,12 @@
-// Copyright 2018 Stanford University see LICENSE for license
+// Copyright 2019 Stanford University see LICENSE for license
 
 import React from 'react'
 import ReactDOM from 'react-dom'
 import RootContainer from './components/RootContainer'
 
-const root = document.createElement('div')
+require('@github/time-elements')
 
+const root = document.createElement('div')
 document.body.appendChild(root)
 
 ReactDOM.render(
