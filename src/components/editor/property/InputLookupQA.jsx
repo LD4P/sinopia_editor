@@ -150,7 +150,7 @@ const InputLookupQA = (props) => {
                       {...typeaheadProps}
                       filterBy={() => true}
       />
-      {error && <span className="help-block help-block-error">{error}</span>}
+      {error && <span className="text-danger">{error}</span>}
     </div>
   )
 }

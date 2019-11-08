@@ -82,17 +82,17 @@ const LoadByRDFForm = (props) => {
           <label htmlFor="resourceTextArea">RDF</label>
           <textarea className="form-control" id="resourceTextArea" rows="15" value={n3}
                     onChange={event => changeN3(event)} placeholder={n3PlaceHolder}></textarea>
-          <p className="help-block">Accepts Turtle, TriG, N-Triples, N-Quads, and Notation3 (N3).</p>
+          <p className="text-muted">Accepts Turtle, TriG, N-Triples, N-Quads, and Notation3 (N3).</p>
         </div>
         <div className="form-group">
           <label htmlFor="uriInput">Base URI</label>
           <input type="url" className="form-control" id="uriInput" value={baseURI}
                  onChange={event => setBaseURI(event.target.value)}
                  placeholder={baseURIPlaceholder} />
-          <p className="help-block">Omit brackets. If base URI is &lt;&gt;, leave blank.</p>
+          <p className="text-muted">Omit brackets. If base URI is &lt;&gt;, leave blank.</p>
         </div>
         <button type="submit" disabled={ _.isEmpty(n3) } className="btn btn-primary">Submit</button>
-        <p className="help-block">This will create a new resource that can be saved in Sinopia.</p>
+        <p className="text-muted">This will create a new resource that can be saved in Sinopia.</p>
       </form>
       <ResourceTemplateChoiceModal choose={chooseResourceTemplate} />
     </div>
