@@ -114,8 +114,8 @@ const validateTypeAheadAuthorityURIs = (resourceTemplate) => {
     return [
       formatError(
         `Property templates ${propertyTemplateIds.join(', ')} have value constraint lookup URIs that are not found in configuration: ${notFoundURIs.join(', ')}`,
-        resourceTemplate
-      )
+        resourceTemplate,
+      ),
     ]
   }
   return []
