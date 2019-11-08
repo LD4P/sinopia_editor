@@ -56,6 +56,7 @@ const rtFileNames = [
   'propertyURIRepeated.json',
   'lc_RT_bf2_Agent_Role.json',
   'notFoundValueTemplateRefs.json',
+  'notFoundValueTemplateRefsURI.json',
   'genreForm.json',
   'sinopia_resourceTemplate_bf2_Item_Chronology.json',
   'sinopia_resourceTemplate_bf2_Item_Enumeration.json',
