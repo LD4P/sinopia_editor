@@ -136,7 +136,7 @@ describe('handleUpdateResource()', () => {
     },
   ]
 
-  it('updates every template and sets the flash', async () => {
+  it('updates every template, clears the cache, and sets the flash', async () => {
     const store = mockStore(createBlankState())
     server.updateResourceTemplate = jest.fn()
       .mockResolvedValue({ response: { status: 204, headers: { location: 'http://resource1' } } })
@@ -145,6 +145,18 @@ describe('handleUpdateResource()', () => {
 
 
     expect(store.getActions()).toEqual([
+      {
+        type: 'RESOURCE_TEMPLATE_LOADED',
+        payload: {
+          id: 'template1',
+        },
+      },
+      {
+        type: 'RESOURCE_TEMPLATE_LOADED',
+        payload: {
+          id: 'template2',
+        },
+      },
       {
         type: 'SET_TEMPLATE_MESSAGES',
         messages: ['Updated http://resource1', 'Updated http://resource1'],

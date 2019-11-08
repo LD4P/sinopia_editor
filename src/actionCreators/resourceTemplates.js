@@ -68,15 +68,6 @@ const createResource = async (content, group, user, dispatch) => {
   }
 }
 
-const updateResource = async (content, group, user) => {
-  try {
-    const response = await updateResourceTemplate(content, group, user)
-    return response.response
-  } catch (error) {
-    return error.response
-  }
-}
-
 const updateStateFromServerResponses = (responses, dispatch) => {
   const newFlashMessages = []
   let showModalBit = false
@@ -131,7 +122,18 @@ const humanReadableStatus = (status) => {
 
 export const handleUpdateResource = (rts, group) => async (dispatch, getState) => {
   const user = getCurrentUser(getState())
-  const responses = await Promise.all(rts.map(rt => updateResource(rt, group, user)))
+  const responses = await Promise.all(rts.map(rt => updateResource(rt, group, user, dispatch)))
 
   updateStateFromServerResponses(responses, dispatch)
+}
+
+// Update the content in Trellis and update our local cache.
+const updateResource = async (content, group, user, dispatch) => {
+  try {
+    const response = await updateResourceTemplate(content, group, user)
+    dispatch(setResourceTemplate(content)) // This updates the cache
+    return response.response
+  } catch (error) {
+    return error.response
+  }
 }
