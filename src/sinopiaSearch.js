@@ -22,7 +22,16 @@ export const getSearchResults = async (query, queryFrom = 0, size = Config.searc
   const url = `${Config.searchHost}${Config.searchPath}`
 
   return fetch(url, { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(body) })
-    .then(resp => resp.json())
+    .then((resp) => {
+      if (resp.status >= 300) {
+        return {
+          totalHits: 0,
+          results: [],
+          error: `${resp.status}: ${resp.statusText}`,
+        }
+      }
+      return resp.json()
+    })
     .then((json) => {
       if (json.error) {
         return {
@@ -72,7 +81,7 @@ export const getTemplateSearchResults = async (query) => {
   const url = `${Config.searchHost}${Config.templateSearchPath}`
   return fetch(url, { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(body) })
     .then((resp) => {
-      if (resp.status > 300) {
+      if (resp.status >= 300) {
         return {
           totalHits: 0,
           results: [],
