@@ -1,7 +1,7 @@
 // Copyright 2019 Stanford University see LICENSE for license
 import { setSearchResults } from 'actions/index'
 import { getSearchResults } from 'sinopiaSearch'
-import { createLookupPromises } from 'utilities/qa'
+import { createLookupPromises } from 'utilities/QuestioningAuthority'
 import { findAuthorityConfig } from 'utilities/authorityConfig'
 
 // eslint-disable-next-line max-params
