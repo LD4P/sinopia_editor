@@ -19,6 +19,9 @@ import {
   loadingQaResults, qaResultsReceived, copyResourceToEditor,
 } from './entities'
 import {
+  addTemplateHistory,
+} from './resourceTemplates'
+import {
   clearSearchResults, setSearchResults, clearTemplateSearchResults, setTemplateSearchResults,
 } from './search'
 import { findObjectAtPath } from 'selectors/resourceSelectors'
@@ -148,6 +151,7 @@ export const setUnusedRDF = (state, action) => {
 
 const handlers = {
   ADD_MODAL_MESSAGE: addModalMessage,
+  ADD_TEMPLATE_HISTORY: addTemplateHistory,
   APPEND_ERROR: appendError,
   APPEND_RESOURCE: appendResource,
   CHANGE_SELECTIONS: setItemsOrSelections,

@@ -30,6 +30,7 @@ describe('fetchResourceTemplate', () => {
       expect(resourceTemplate).toEqual(templateResponse.response.body)
       expect(store.getActions()).toEqual([
         { type: 'RESOURCE_TEMPLATE_LOADED', payload: templateResponse.response.body },
+        { type: 'ADD_TEMPLATE_HISTORY', payload: templateResponse.response.body },
       ])
     })
   })

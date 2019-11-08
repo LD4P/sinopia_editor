@@ -10,14 +10,15 @@ import CreateResourceMessages from './CreateResourceMessages'
 import TemplateSearch from './TemplateSearch'
 
 const ImportResourceTemplate = props => (
-  <div id="importResourceTemplate">
+  <section id="importResourceTemplate">
     <UpdateResourceModal />
     <Header triggerEditorMenu={props.triggerHandleOffsetMenu}/>
     <ImportFileZone />
     <CreateResourceMessages />
     <TemplateSearch />
-    <SinopiaResourceTemplates history={props.history} key="sinopia-resource-templates" />
-  </div>
+
+    <SinopiaResourceTemplates history={props.history} />
+  </section>
 )
 
 ImportResourceTemplate.propTypes = {

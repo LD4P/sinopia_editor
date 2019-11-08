@@ -48,6 +48,19 @@ const createInitialState = () => {
     resourceURI: 'http://id.loc.gov/ontologies/bibframe/Alternative',
   }]
   state.selectorReducer.templateSearch.totalResults = 2
+  state.selectorReducer.historicalTemplates.results = [{
+    id: 'resourceTemplate:bf2:Note',
+    resourceLabel: 'Note',
+    resourceURI: 'http://id.loc.gov/ontologies/bibframe/Note',
+    remark: 'very salient information',
+    author: 'wright.lee.renønd',
+    date: '2019-11-01',
+  }, {
+    id: 'resourceTemplate:bf2:Alternative',
+    resourceLabel: 'Alternative',
+    resourceURI: 'http://id.loc.gov/ontologies/bibframe/Alternative',
+  }]
+  state.selectorReducer.historicalTemplates.totalResults = 2
   return state
 }
 
@@ -59,31 +72,31 @@ describe('SinopiaResourceTemplates', () => {
     const history = createMemoryHistory()
 
     const {
-      container, getByText, getByTestId, getAllByTestId,
+      container, getAllByText, getAllByTestId,
     } = renderWithReduxAndRouter(
       <SinopiaResourceTemplates history={history} />, store,
     )
-    // There is a table with heading and header columns
+    // There are 2 tables with heading and header columns
     expect(container.querySelector('table#resource-template-list')).toBeInTheDocument()
-    expect(getByText(/Label/)).toBeInTheDocument()
-    expect(getByText(/ID/)).toBeInTheDocument()
-    expect(getByText(/Resource URI/)).toBeInTheDocument()
-    expect(getByText(/Author/)).toBeInTheDocument()
-    expect(getByText(/Date/)).toBeInTheDocument()
-    expect(getByText(/Guiding statement/)).toBeInTheDocument()
-    expect(getByTestId('download-col-header')).toBeInTheDocument()
+    expect(getAllByText(/ID/).length).toEqual(2)
+    expect(getAllByText(/Resource URI/).length).toEqual(2)
+    expect(getAllByText(/Author/).length).toEqual(2)
+    expect(getAllByText(/Date/).length).toEqual(2)
+    expect(getAllByText(/Guiding statement/).length).toEqual(2)
+    expect(getAllByTestId(/download-col-header/).length).toEqual(2)
 
-    expect(getByText('resourceTemplate:bf2:Note')).toBeInTheDocument()
-    expect(getByText('resourceTemplate:bf2:Alternative')).toBeInTheDocument()
-    expect(getByText('Note')).toBeInTheDocument()
-    expect(getByText('http://id.loc.gov/ontologies/bibframe/Note')).toBeInTheDocument()
-    expect(getByText('very salient information')).toBeInTheDocument()
-    expect(getByText('wright.lee.renønd')).toBeInTheDocument()
-    expect(getByText('2019-11-01')).toBeInTheDocument()
+
+    expect(getAllByText('resourceTemplate:bf2:Note').length).toEqual(2)
+    expect(getAllByText('resourceTemplate:bf2:Alternative').length).toEqual(2)
+    expect(getAllByText('Note').length).toEqual(2)
+    expect(getAllByText('http://id.loc.gov/ontologies/bibframe/Note').length).toEqual(2)
+    expect(getAllByText('very salient information').length).toEqual(2)
+    expect(getAllByText('wright.lee.renønd').length).toEqual(2)
+    expect(getAllByText('2019-11-01').length).toEqual(2)
 
     // There is a link from the resource label that loads the resource into the editor tab
     expect(container.querySelector('a[href="/editor"]')).toBeInTheDocument()
-    fireEvent.click(getByText('Note'))
+    fireEvent.click(getAllByText('Note')[0])
     await wait(() => expect(history.location.pathname).toBe('/editor/resourceTemplate:bf2:Note'))
 
     // There is download link
