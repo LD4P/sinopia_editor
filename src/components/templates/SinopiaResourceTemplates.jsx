@@ -46,10 +46,16 @@ const SinopiaResourceTemplates = (props) => {
   let history
   if (historicallyUsedTemplates.totalResults > 0) {
     history = (
-      <React.Fragment>
-        <h3>Most recently used resource templates</h3>
-        <ResourceTemplateSearchResult search={historicallyUsedTemplates} handleClick={handleClick} />
-      </React.Fragment>
+      <div className="card" style={{ marginBottom: '20px' }}>
+        <div className="card-header">
+          <h3><button className="btn btn-link collapse-heading collapsed"
+                      data-toggle="collapse" data-target="#historicalTemplates">Most recently used resource templates</button>
+          </h3>
+        </div>
+        <div id="historicalTemplates" className="collapse" style={{ padding: '5px' }}>
+          <ResourceTemplateSearchResult search={historicallyUsedTemplates} handleClick={handleClick} />
+        </div>
+      </div>
     )
   }
 

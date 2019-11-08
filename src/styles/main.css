@@ -347,3 +347,20 @@ input.rbt-input-main {
 th.search-header {
   background-color: #F8F6EF;
 }
+
+button.collapse-heading {
+  border: 1px solid pink;
+  position: relative;
+}
+
+button.collapse-heading::before {
+  content: "❯";
+  position: absolute;
+  left: -5px;
+  transform: rotate(90deg);
+}
+
+button.collapse-heading.collapsed::before {
+  transform: rotate(0deg);
+  transition: transform 0.1s ease;
+}
