@@ -1,6 +1,6 @@
 // Copyright 2019 Stanford University see LICENSE for license
 
-import { getSearchResults, getTerm } from 'utilities/qa'
+import { getSearchResults, getTerm } from 'utilities/QuestioningAuthority'
 
 describe('getSearchResults()', () => {
   it('returns an array of promises from a search', async () => {
