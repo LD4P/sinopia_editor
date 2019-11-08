@@ -1,6 +1,6 @@
 // Copyright 2019 Stanford University see LICENSE for license
 
-import { getSearchResults } from 'sinopiaSearch'
+import { getSearchResults, getTemplateSearchResults } from 'sinopiaSearch'
 
 describe('getSearchResults', () => {
   const successResult = {
@@ -128,6 +128,23 @@ describe('getSearchResults', () => {
       totalHits: 0,
       results: [],
       error: 'Error: Frickin network',
+    })
+  })
+})
+
+describe('getTemplateSearchResults', () => {
+  const trellisDownResult = {
+    totalHits: 0,
+    results: [],
+    error: '504: Gateway Timout',
+  }
+  it('returns 504 timeout error if Sinopia server is unavailable', async () => {
+    global.fetch = jest.fn().mockImplementation(() => Promise.resolve({ json: () => trellisDownResult }))
+    const results = await getTemplateSearchResults('Palo Alto')
+    expect(results).toEqual({
+      totalHits: 0,
+      results: [],
+      error: '504: Gateway Timout',
     })
   })
 })
