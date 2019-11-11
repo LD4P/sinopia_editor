@@ -5,74 +5,7 @@ import { renderMenuFunc, renderTokenFunc } from 'components/editor/property/rend
 
 
 describe('Rendering Typeahead Menu', () => {
-  const validNewLiteralResults = [{
-    customOption: true,
-    label: 'Some non URI string',
-  }]
-
-  describe('Sinopia lookups', () => {
-    const propertyTemplate = {
-      valueConstraint: {
-        useValuesFrom: [
-          'urn:ld4p:sinopia',
-        ],
-      },
-    }
-
-    const plProps = {
-      id: 'sinopia-lookup',
-    }
-
-    const validNewURIResults = [{
-      customOption: true,
-      label: 'https://sinopia.io/repository/test/hijklmnop',
-    }]
-
-    const multipleResults = [
-      { uri: 'https://sinopia.io/repository/test/abcdefg', label: 'Blue hat, green hat' },
-      { customOption: true, id: 'new-id-18', label: 'blue' },
-    ]
-
-    it('shows menu headers with sinopia source label and literal value in the dropdown when provided results', () => {
-      const menuWrapper = shallow(renderMenuFunc(multipleResults, plProps, propertyTemplate))
-      const menuChildrenNumber = menuWrapper.children().length
-      // One top level menu component
-
-      expect(menuWrapper.find('ul').length).toEqual(1)
-      // Four children, with two headings and two items
-      expect(menuChildrenNumber).toEqual(4)
-      expect(menuWrapper.childAt(0).html()).toEqual('<li class="dropdown-header">Sinopia (local)</li>')
-      expect(menuWrapper.childAt(1).childAt(0).text()).toEqual('Blue hat, green hat')
-      expect(menuWrapper.childAt(2).html()).toEqual('<li class="dropdown-header">New Literal</li>')
-      expect(menuWrapper.childAt(3).childAt(0).text()).toEqual('blue')
-    })
-
-    it('shows a single new valid URI value with the correct header when no other matches are found', () => {
-      const menuWrapper = shallow(renderMenuFunc(validNewURIResults, plProps))
-      const menuChildrenNumber = menuWrapper.children().length
-      // One top level menu component
-
-      expect(menuWrapper.find('ul').length).toEqual(1)
-      // Two children, with one headings and one custom item
-      expect(menuChildrenNumber).toEqual(2)
-      expect(menuWrapper.childAt(0).html()).toEqual('<li class="dropdown-header">New URI</li>')
-      expect(menuWrapper.childAt(1).childAt(0).text()).toEqual('https://sinopia.io/repository/test/hijklmnop')
-    })
-
-    it('does show a single new literal value when no other matches are found', () => {
-      const menuWrapper = shallow(renderMenuFunc(validNewLiteralResults, plProps))
-      const menuChildrenNumber = menuWrapper.children().length
-      // One top level menu component
-
-      expect(menuWrapper.find('ul').length).toEqual(1)
-      // Nothing shown because the entered URI is not valid
-      expect(menuChildrenNumber).toEqual(2)
-      expect(menuWrapper.childAt(0).html()).toEqual('<li class="dropdown-header">New Literal</li>')
-      expect(menuWrapper.childAt(1).childAt(0).text()).toEqual('Some non URI string')
-    })
-  })
-
-  describe('QA Lookup', () => {
+  describe('Lookup', () => {
     const p2Props = {
       id: 'lookupComponent',
     }

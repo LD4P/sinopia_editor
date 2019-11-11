@@ -15,12 +15,6 @@ export const renderMenuFunc = (results, menuProps, propertyTemplate) => {
 
   const items = []
 
-  // TODO: When we have multiple Sinopia lookup sources, we should add what
-  // authority is being used to the search results similar to QA so this
-  // conditional can be removed
-  if (menuProps.id === 'sinopia-lookup') {
-    results.unshift({ authURI: 'urn:ld4p:sinopia', authLabel: 'Sinopia Entity' })
-  }
   lookupConfigs.forEach((uri) => {
     const authority = findAuthorityConfig(uri)
     items.push(<Menu.Header key={authority.uri}>{authority.label}</Menu.Header>)
@@ -39,10 +33,6 @@ export const renderMenuFunc = (results, menuProps, propertyTemplate) => {
         hits.push(row)
       }
     })
-    if (hits.length < 1) {
-      const key = shortid.generate()
-      items.push(<MenuItem key={key} option={{ id: key, label: 'Search' }}>Searching &hellip;</MenuItem>)
-    }
     hits.forEach((result, i) => {
       if (result.customOption) return
       const bgClass = i % 2 ? 'context-result-bg' : 'context-result-alt-bg'

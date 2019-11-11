@@ -15,7 +15,8 @@
       "valueConstraint": {
         "valueTemplateRefs": [],
         "useValuesFrom": [
-          "urn:ld4p:sinopia"
+          "urn:ld4p:sinopia:bibframe:instance",
+          "urn:ld4p:sinopia:bibframe:work"
         ],
         "valueDataType": {},
         "defaults": []
