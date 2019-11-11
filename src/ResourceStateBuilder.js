@@ -106,10 +106,17 @@ export default class ResourceStateBuilder {
    */
   buildItem(quad) {
     const item = {}
+    const labelNode = rdf.namedNode('http://www.w3.org/2000/01/rdf-schema#label')
     if (quad.object.termType === 'NamedNode') {
       item.uri = quad.object.value
-      // Until we have a way of looking up label values, use the URI as the label
-      item.label = item.uri
+      const label = this.dataset.match(item.uri, labelNode).toArray()
+      if (label.length > 0) {
+        item.label = label[0].object.value // Use first match
+        // Remove quad(s) from dataset
+        this.dataset.removeMatches(item.uri, labelNode)
+      } else {
+        item.label = item.uri
+      }
     } else {
       // A literal
       item.content = quad.object.value

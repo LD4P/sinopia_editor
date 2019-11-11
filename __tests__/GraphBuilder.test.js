@@ -267,4 +267,39 @@ describe('GraphBuilder', () => {
       expect(result.length).toEqual(0)
     })
   })
+
+  describe('when the state has item labels', () => {
+    const state = createBlankState()
+    state.selectorReducer.entities.resourceTemplates = {
+      'ld4p:RT:bf2:Agents:RWO:Country': {
+        resourceURI: 'http://id.loc.gov/ontologies/bibframe/Work',
+      },
+    }
+    state.selectorReducer.resource = {
+      'ld4p:RT:bf2:Agents:RWO:Country': {
+        'http://www.loc.gov/mads/rdf/v1#associatedLocale': {
+          items: [
+            {
+              uri: 'http://id.loc.gov/authorities/names/n85149930',
+              id: 'n 85149930',
+              label: 'Palisade (Colo.)',
+            },
+          ],
+        },
+        'http://www.loc.gov/mads/rdf/v1#activityStartDate': {},
+        'http://www.loc.gov/mads/rdf/v1#activityEndDate': {},
+      },
+    }
+    const builder = new GraphBuilder(state.selectorReducer)
+
+    it('graph contains authority URI and label', () => {
+      const graph = builder.graph
+      const labelTriple = rdf.quad(
+        rdf.namedNode('http://id.loc.gov/authorities/names/n85149930'),
+        rdf.namedNode('http://www.w3.org/2000/01/rdf-schema#label'),
+        rdf.literal('Palisade (Colo.)'),
+      )
+      expect(graph.has(labelTriple)).toBeTruthy()
+    })
+  })
 })

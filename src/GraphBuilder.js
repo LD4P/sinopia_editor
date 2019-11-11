@@ -29,7 +29,6 @@ export default class GraphBuilder {
       this.buildTriplesForNode(resourceURI,
         resourceTemplateId,
         this.getPredicateList(resource[resourceTemplateId]))
-
       this.addGeneratedByTriple(resourceURI, resourceTemplateId)
     })
     return this.dataset
@@ -93,12 +92,18 @@ export default class GraphBuilder {
       if (_.isEmpty(value)) {
         continue
       }
-
+      const labelNode = rdf.namedNode('http://www.w3.org/2000/01/rdf-schema#label')
       if (value.items) {
         Object.keys(value.items).forEach((key) => {
           const item = value.items[key]
           const object = item.uri ? rdf.namedNode(item.uri) : this.createLiteral(item)
           this.dataset.add(rdf.quad(baseURI, rdf.namedNode(predicate), object))
+          // If the item is a uri and has a label, adds a label triple to the graph
+          if (item.uri && item.label) {
+            this.dataset.add(rdf.quad(rdf.namedNode(item.uri),
+              labelNode,
+              rdf.literal(item.label)))
+          }
         })
       } else { // It's a deeply nested object
         Object.keys(value).filter(elem => elem !== 'errors').forEach((key) => {
