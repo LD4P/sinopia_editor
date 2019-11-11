@@ -92,7 +92,9 @@ describe('getSearchResults', () => {
 
   it('performs a search with specified page and sort order and returns results', async () => {
     global.fetch = jest.fn().mockImplementation(() => Promise.resolve({ json: () => successResult }))
-    await getSearchResults('foo', 10, 15, 'label', 'desc')
+    await getSearchResults('foo', {
+      queryFrom: 10, resultsPerPage: 15, sortField: 'label', sortOrder: 'desc',
+    })
     const body = {
       query: {
         simple_query_string: {

@@ -6,7 +6,9 @@ import { findAuthorityConfig } from 'utilities/authorityConfig'
 
 // eslint-disable-next-line max-params
 export const fetchSinopiaSearchResults = (query, queryFrom, resultsPerPage, sortField, sortOrder) => dispatch => getSearchResults(
-  query, queryFrom, resultsPerPage, sortField, sortOrder,
+  query, {
+    queryFrom, resultsPerPage, sortField, sortOrder,
+  },
 ).then((response) => {
   dispatch(setSearchResults('sinopia', response.results, response.totalHits, query, queryFrom, sortField, sortOrder, response.error))
 })
