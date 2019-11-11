@@ -87,7 +87,7 @@ describe('<InputLookupSinopia />', () => {
     const wrapper = shallow(<InputLookupSinopia.WrappedComponent displayValidations={true} errors={errors} {...plProps}/>)
 
     it('displays the errors', () => {
-      expect(wrapper.find('span.help-block-error').text()).toEqual('Required')
+      expect(wrapper.find('span.text-danger').text()).toEqual('Required')
     })
 
     it('sets the has-error class', () => {

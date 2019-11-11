@@ -23,7 +23,7 @@ const Exports = (props) => {
       <Header triggerEditorMenu={props.triggerHandleOffsetMenu}/>
       <h4>Exports</h4>
       <Alerts errorKey={exportsErrorKey} />
-      <p className="help-block">Exports are regenerated weekly. Each zip file contains separate files per record (as JSON-LD).</p>
+      <p className="text-muted">Exports are regenerated weekly. Each zip file contains separate files per record (as JSON-LD).</p>
       <ul className="list-unstyled">
         {exportFileList}
       </ul>

@@ -116,7 +116,7 @@ const Search = (props) => {
             </div>
           </form>
         </div>
-        <span className="help-block">Sinopia search: use * as wildcard;
+        <span className="text-muted">Sinopia search: use * as wildcard;
           default operator for multiple terms is AND; use | (pipe) as OR operator;
           use quotation marks for exact match. For more details see <a href="https://github.com/LD4P/sinopia/wiki/Searching-in-Sinopia">Searching in Sinopia</a>.
         </span>

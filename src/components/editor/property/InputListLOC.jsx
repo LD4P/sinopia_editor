@@ -123,7 +123,7 @@ const InputListLOC = (props) => {
         filterBy={filterBy}
         onKeyDown={onKeyDown}
       />
-      {error && <span className="help-block help-block-error">{error}</span>}
+      {error && <span className="text-danger">{error}</span>}
     </div>
   )
 }

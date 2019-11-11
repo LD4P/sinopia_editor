@@ -87,7 +87,7 @@ const InputLiteral = (props) => {
             disabled={disabled}
             ref={inputLiteralRef}
       />
-      {error && <span className="help-block help-block-error">{error}</span>}
+      {error && <span className="text-danger">{error}</span>}
       {addedList}
     </div>
   )
