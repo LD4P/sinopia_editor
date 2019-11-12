@@ -88,7 +88,7 @@ const App = (props) => {
         <LoginPanel />
         {currentSession ? routesWithCurrentSession : routesWithOutCurrentSession }
         <Footer />
-       </div>
+      </div>
     </HelmetProvider>
   )
 }
