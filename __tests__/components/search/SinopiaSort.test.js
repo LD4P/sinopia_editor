@@ -55,6 +55,8 @@ describe('<SinopiaSort />', () => {
     fireEvent.click(getByText('Label, ascending'))
 
     expect(await findByText('Label, ascending', { selector: '.active' })).toBeInTheDocument()
-    expect(server.getSearchResults).toHaveBeenCalledWith('twain', 0, 15, 'label', 'asc')
+    expect(server.getSearchResults).toHaveBeenCalledWith('twain', {
+      queryFrom: 0, resultsPerPage: 15, sortField: 'label', sortOrder: 'asc',
+    })
   })
 })

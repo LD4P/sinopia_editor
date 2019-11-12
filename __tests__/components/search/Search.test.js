@@ -110,7 +110,9 @@ describe('<Search />', () => {
     fireEvent.click(container.querySelector('button[type="submit"]'))
 
     // Called once
-    expect(mockGetSearchResults).toBeCalledWith('foo', 0, 10, undefined, undefined)
+    expect(mockGetSearchResults).toBeCalledWith('foo', {
+      queryFrom: 0, resultsPerPage: 10, sortField: undefined, sortOrder: undefined,
+    })
 
     // Result
     expect(await findByText('foo')).toBeInTheDocument()
@@ -138,7 +140,9 @@ describe('<Search />', () => {
     fireEvent.keyPress(getByLabelText('Query'), { key: 'Enter', code: 13, charCode: 13 })
 
     // Called once
-    expect(mockGetSearchResults).toBeCalledWith('foo', 0, 10, undefined, undefined)
+    expect(mockGetSearchResults).toBeCalledWith('foo', {
+      queryFrom: 0, resultsPerPage: 10, sortField: undefined, sortOrder: undefined,
+    })
   })
 
   it('ignores when query is blank', () => {

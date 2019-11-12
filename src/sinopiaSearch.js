@@ -6,7 +6,13 @@ import { resourceTemplateSearchResults } from '../__tests__/fixtureLoaderHelper'
 
 // Not using ES client because not intended for use in browser.
 // eslint-disable-next-line max-params
-export const getSearchResults = async (query, queryFrom = 0, size = Config.searchResultsPerPage, sortField, sortOrder) => {
+/**
+ * Performs a search of Sinopia resources.
+ * @param {string} query
+ * @param {Object} options for the search (resultsPerPage, queryFrom, sortField, sortOrder, typeFilters)
+ * @return {Promise<Object>} promise containing the result of the search.
+ */
+export const getSearchResults = async (query, options = {}) => {
   const body = {
     query: {
       simple_query_string: {
@@ -15,9 +21,9 @@ export const getSearchResults = async (query, queryFrom = 0, size = Config.searc
         query,
       },
     },
-    from: queryFrom,
-    size,
-    sort: sort(sortField, sortOrder),
+    from: options.queryFrom || 0,
+    size: options.resultsPerPage || Config.searchResultsPerPage,
+    sort: sort(options.sortField, options.sortOrder),
   }
   const url = `${Config.searchHost}${Config.searchPath}`
 
