@@ -97,6 +97,7 @@
     "react-document-meta": "^3.0.0-beta.2",
     "react-dom": "^16.9.0",
     "react-dropzone": "^10.1.10",
+    "react-helmet-async": "^1.0.4",
     "react-hot-loader": "^4.8.4",
     "react-offcanvas": "^0.4.0",
     "react-redux": "^7.1.1",
