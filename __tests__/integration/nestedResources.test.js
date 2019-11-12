@@ -32,7 +32,7 @@ describe('Expanding a resource property in a property panel', () => {
   const store = createReduxStore(createBlankState({ authenticated: true }))
   setupModal()
   const {
-    getByText, queryByText, findByText,
+    getByText, queryByText, findByText, container,
     getByPlaceholderText, queryByPlaceholderText, findByPlaceholderText,
   } = renderWithReduxAndRouter(
     (<App />), store,
@@ -52,7 +52,7 @@ describe('Expanding a resource property in a property panel', () => {
     expect(await findByText('BIBFRAME Instance', { selector: 'h5' })).toBeInTheDocument()
 
     // Now remove it
-    fireEvent.click(await findByText('Remove', { selector: 'button.btn-remove[data-id="hasInstance"]' }))
+    fireEvent.click(await container.querySelector('button.btn-remove[data-id="hasInstance"]'))
     expect(queryByText('BIBFRAME Instance', { selector: 'h5' })).not.toBeInTheDocument()
 
     // nested property with default is already expanded

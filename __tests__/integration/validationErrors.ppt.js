@@ -14,7 +14,7 @@ describe('Validation errors', () => {
     expect.assertions(7)
 
     // Make a change
-    await pupExpect(page).toClick('button.btn-remove[data-id=\'content\']', { text: 'Remove' })
+    await pupExpect(page).toClick('button.btn-remove[data-id=\'content\']')
 
     // Request validation
     await pupExpect(page).toClick('button:enabled.editor-save', { text: 'Save' })

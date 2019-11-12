@@ -3,6 +3,7 @@
 import React from 'react'
 import { shallow } from 'enzyme'
 import PropertyActionButtons from 'components/editor/property/PropertyActionButtons'
+import { faTrashAlt } from '@fortawesome/free-solid-svg-icons'
 
 describe('<PropertyActionButtons />', () => {
   let propertyActionWrapper
@@ -17,7 +18,7 @@ describe('<PropertyActionButtons />', () => {
     })
 
     it('has label "Add"', () => {
-      expect(button.text()).toEqual('Add another Note')
+      expect(button.text()).toEqual('+ Add another')
     })
 
     it('is not hidden by default', () => {
@@ -61,8 +62,8 @@ describe('<PropertyActionButtons />', () => {
       button = propertyActionWrapper.find('button.btn-remove-another')
     })
 
-    it('has label "Remove"', () => {
-      expect(button.text()).toEqual('Remove Note')
+    it('has remove trash icon', () => {
+      expect(button.find('FontAwesomeIcon').props().icon).toEqual(faTrashAlt)
     })
 
     it('is not disabled by default', () => {

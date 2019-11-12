@@ -28,7 +28,7 @@ describe('Adding and removing resources', () => {
     expect.assertions(3)
     expect(await nodesWithTextCount('h4', 'BIBFRAME Work', page)).toEqual(2)
 
-    await pupExpect(page).toClick('button.btn-remove-another', { text: 'Remove' })
+    await pupExpect(page).toClick('button.btn-remove-another')
     expect(await nodesWithTextCount('h4', 'BIBFRAME Work', page)).toEqual(1)
   })
 

@@ -364,3 +364,9 @@ button.collapse-heading.collapsed::before {
   transform: rotate(0deg);
   transition: transform 0.1s ease;
 }
+
+button.btn-add-property {
+  font-size: 14px;
+  color: blue;
+  text-decoration: underline;
+}
