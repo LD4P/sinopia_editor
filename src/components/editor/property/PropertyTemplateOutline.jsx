@@ -8,7 +8,7 @@ import { isResourceWithValueTemplateRef, resourceToName } from 'Utilities'
 import { booleanPropertyFromTemplate } from 'utilities/propertyTemplates'
 import PropertyComponent from './PropertyComponent'
 import ResourceProperty from './ResourceProperty'
-import { findNode, isExpanded, getPropertyTemplate } from 'selectors/resourceSelectors'
+import { isExpanded, getPropertyTemplate } from 'selectors/resourceSelectors'
 
 class PropertyTemplateOutline extends Component {
   outlineRowClass = () => {
@@ -52,7 +52,6 @@ class PropertyTemplateOutline extends Component {
 PropertyTemplateOutline.propTypes = {
   reduxPath: PropTypes.array,
   property: PropTypes.object.isRequired,
-  resourceModel: PropTypes.object,
   collapsed: PropTypes.bool,
 }
 
@@ -61,10 +60,8 @@ const mapStateToProps = (state, ourProps) => {
   const propertyURI = reduxPath.pop()
   const resourceTemplateId = reduxPath.pop()
   const property = getPropertyTemplate(state, resourceTemplateId, propertyURI)
-  const resourceModel = findNode(state, ourProps.reduxPath)
 
   return {
-    resourceModel,
     property,
     collapsed: !isExpanded(state, ourProps.reduxPath),
   }
