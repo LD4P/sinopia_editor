@@ -1,6 +1,6 @@
 // Copyright 2019 Stanford University see LICENSE for license
 
-import React, { Component } from 'react'
+import React from 'react'
 import { connect } from 'react-redux'
 import PropTypes from 'prop-types'
 import OutlineHeader from './OutlineHeader'
@@ -10,43 +10,33 @@ import PropertyComponent from './PropertyComponent'
 import ResourceProperty from './ResourceProperty'
 import { isExpanded, getPropertyTemplate } from 'selectors/resourceSelectors'
 
-class PropertyTemplateOutline extends Component {
-  outlineRowClass = () => {
-    let classNames = 'rOutline-property'
+const PropertyTemplateOutline = (props) => {
+  let classNames = 'rOutline-property'
+  if (props.collapsed) { classNames += ' collapse' }
 
-    if (this.props.collapsed) { classNames += ' collapse' }
-
-    return classNames
+  let propertyRows = null
+  if (!props.collapsed) {
+    if (isResourceWithValueTemplateRef(props.property)) {
+      const isAddHidden = !booleanPropertyFromTemplate(props.property, 'repeatable', false)
+      propertyRows = (<ResourceProperty key={props.reduxPath.join()}
+                                        propertyTemplate={props.property}
+                                        reduxPath={props.reduxPath}
+                                        addButtonHidden={isAddHidden} />)
+    } else {
+      propertyRows = (<PropertyComponent key={props.reduxPath.join()} propertyTemplate={props.property} reduxPath={props.reduxPath} />)
+    }
   }
 
-  renderPropertyRows = () => {
-    if (this.props.collapsed) {
-      return
-    }
-
-    if (isResourceWithValueTemplateRef(this.props.property)) {
-      const isAddHidden = !booleanPropertyFromTemplate(this.props.property, 'repeatable', false)
-      return (<ResourceProperty key={this.props.reduxPath.join()}
-                                propertyTemplate={this.props.property}
-                                reduxPath={this.props.reduxPath}
-                                addButtonHidden={isAddHidden} />)
-    }
-
-    return (<PropertyComponent key={this.props.reduxPath.join()} propertyTemplate={this.props.property} reduxPath={this.props.reduxPath} />)
-  }
-
-  render() {
-    return (
-      <div className="rtOutline" data-label={this.props.property.propertyLabel}>
-        <OutlineHeader reduxPath={this.props.reduxPath}
-                       id={resourceToName(this.props.property.propertyURI)}
-                       key={this.props.reduxPath.join()} />
-        <div className={this.outlineRowClass()}>
-          {this.renderPropertyRows()}
-        </div>
+  return (
+    <div className="rtOutline" data-label={props.property.propertyLabel}>
+      <OutlineHeader reduxPath={props.reduxPath}
+                     id={resourceToName(props.property.propertyURI)}
+                     key={props.reduxPath.join()} />
+      <div className={classNames}>
+        {propertyRows}
       </div>
-    )
-  }
+    </div>
+  )
 }
 
 PropertyTemplateOutline.propTypes = {
