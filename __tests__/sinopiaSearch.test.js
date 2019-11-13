@@ -1,6 +1,6 @@
 // Copyright 2019 Stanford University see LICENSE for license
 
-import { getSearchResults, getTemplateSearchResults } from 'sinopiaSearch'
+import { getSearchResults, getTemplateSearchResults, getLookupResults } from 'sinopiaSearch'
 
 describe('getSearchResults', () => {
   const successResult = {
@@ -77,10 +77,14 @@ describe('getSearchResults', () => {
     })
     const body = {
       query: {
-        simple_query_string: {
-          fields: ['title^3', 'subtitle^2', 'uri^3', 'text'],
-          default_operator: 'AND',
-          query: 'foo',
+        bool: {
+          must: {
+            simple_query_string: {
+              fields: ['title^3', 'subtitle^2', 'uri^3', 'text'],
+              default_operator: 'AND',
+              query: 'foo',
+            },
+          },
         },
       },
       from: 0,
@@ -97,15 +101,21 @@ describe('getSearchResults', () => {
     })
     const body = {
       query: {
-        simple_query_string: {
-          fields: ['title^3', 'subtitle^2', 'uri^3', 'text'],
-          default_operator: 'AND',
-          query: 'foo',
+        bool: {
+          must: {
+            simple_query_string: {
+              fields: ['title^3', 'subtitle^2', 'uri^3', 'text'],
+              default_operator: 'AND',
+              query: 'foo',
+            },
+          },
         },
       },
       from: 10,
       size: 15,
-      sort: [{ label: 'desc' }],
+      sort: [{
+        label: 'desc',
+      }],
     }
     expect(global.fetch).toHaveBeenCalledWith('/api/search/sinopia_resources/sinopia/_search', { body: JSON.stringify(body), headers: { 'Content-Type': 'application/json' }, method: 'POST' })
   })
@@ -148,5 +158,107 @@ describe('getTemplateSearchResults', () => {
       results: [],
       error: '504: Gateway Timout',
     })
+  })
+})
+
+describe('getLookupResults', () => {
+  const propertyTemplate = {
+    propertyURI: 'http://id.loc.gov/ontologies/bibframe/instanceOf',
+    propertyLabel: 'Instance of (lookup)',
+    remark: 'lookup',
+    mandatory: 'true',
+    repeatable: 'false',
+    type: 'lookup',
+    resourceTemplates: [],
+    valueConstraint: {
+      valueTemplateRefs: [],
+      useValuesFrom: [
+        'urn:ld4p:sinopia:bibframe:instance',
+        'urn:ld4p:sinopia:bibframe:work',
+      ],
+      valueDataType: {},
+      defaults: [],
+    },
+  }
+  const instanceResult = {
+    took: 5,
+    timed_out: false,
+    _shards: {
+      total: 5,
+      successful: 5,
+      skipped: 0,
+      failed: 0,
+    },
+    hits: {
+      total: 0,
+      max_score: null,
+      hits: [],
+    },
+  }
+
+  const workResult = {
+    took: 12,
+    timed_out: false,
+    _shards: {
+      total: 5,
+      successful: 5,
+      skipped: 0,
+      failed: 0,
+    },
+    hits: {
+      total: 1,
+      max_score: 0.53412557,
+      hits: [
+        {
+          _index: 'sinopia_resources',
+          _type: 'sinopia',
+          _id: 'repository/cornell/3519e138-0f07-46a6-bd82-d4804c3b4890',
+          _score: 0.53412557,
+          _source: {
+            uri: 'http://platform:8080/repository/cornell/3519e138-0f07-46a6-bd82-d4804c3b4890',
+            title: [
+              'Foo',
+            ],
+            label: 'Foo',
+            text: [
+              'Foo',
+            ],
+            created: '2019-11-03T15:04:18.015Z',
+            modified: '2019-11-03T15:04:18.015Z',
+            type: [
+              'http://id.loc.gov/ontologies/bibframe/Work',
+            ],
+          },
+        },
+      ],
+    },
+  }
+  it('performs a search and returns result', async () => {
+    global.fetch = jest.fn()
+      .mockImplementationOnce(() => Promise.resolve({ json: () => instanceResult }))
+      .mockImplementationOnce(() => Promise.resolve({ json: () => workResult }))
+
+    const results = await Promise.all(getLookupResults('foo', propertyTemplate))
+    expect(results).toEqual([{
+      totalHits: 0,
+      results: [],
+      authLabel: 'Sinopia BIBFRAME instance resources',
+      authURI: 'urn:ld4p:sinopia:bibframe:instance',
+      label: 'Sinopia BIBFRAME instance resources',
+      id: 'urn:ld4p:sinopia:bibframe:instance',
+    }, {
+      totalHits: 1,
+      results: [{
+        uri: 'repository/cornell/3519e138-0f07-46a6-bd82-d4804c3b4890',
+        label: 'Foo',
+        created: '2019-11-03T15:04:18.015Z',
+        modified: '2019-11-03T15:04:18.015Z',
+        type: ['http://id.loc.gov/ontologies/bibframe/Work'],
+      }],
+      authLabel: 'Sinopia BIBFRAME work resources',
+      authURI: 'urn:ld4p:sinopia:bibframe:work',
+      label: 'Sinopia BIBFRAME work resources',
+      id: 'urn:ld4p:sinopia:bibframe:work',
+    }])
   })
 })

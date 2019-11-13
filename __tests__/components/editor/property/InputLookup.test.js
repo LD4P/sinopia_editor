@@ -1,7 +1,7 @@
 // Copyright 2019 Stanford University see LICENSE for license
 
 import React from 'react'
-import InputLookupQA from 'components/editor/property/InputLookupQA'
+import InputLookup from 'components/editor/property/InputLookup'
 import { fireEvent, wait, waitForElement } from '@testing-library/react'
 import { showValidationErrors, validateResource } from 'actions/index'
 import {
@@ -71,11 +71,11 @@ const reduxPath = [
   'http://id.loc.gov/ontologies/bibframe/Person',
 ]
 
-describe('InputLookupQA', () => {
+describe('InputLookup', () => {
   it('renders when no value', () => {
     const store = createReduxStore(createInitialState())
     const { container, getByPlaceholderText } = renderWithRedux(
-      <InputLookupQA reduxPath={reduxPath} />, store,
+      <InputLookup reduxPath={reduxPath} getLookupResults={jest.fn()} getOptions={jest.fn()} />, store,
     )
     // The input box is present.
     expect(getByPlaceholderText('Search LCNAF')).toBeInTheDocument()
@@ -88,7 +88,7 @@ describe('InputLookupQA', () => {
   it('renders existing value', () => {
     const store = createReduxStore(createInitialState({ hasInitialValue: true }))
     const { getByText } = renderWithRedux(
-      <InputLookupQA reduxPath={reduxPath} />, store,
+      <InputLookup reduxPath={reduxPath} getLookupResults={jest.fn()} getOptions={jest.fn()} />, store,
     )
 
     // The subject is displayed
@@ -100,7 +100,7 @@ describe('InputLookupQA', () => {
     const {
       container, getByPlaceholderText, getByText, getAllByText, getByTestId,
     } = renderWithRedux(
-      <InputLookupQA reduxPath={reduxPath} />, store,
+      <InputLookup reduxPath={reduxPath} getLookupResults={jest.fn()} getOptions={jest.fn()} />, store,
     )
 
     // Add a value
@@ -122,7 +122,7 @@ describe('InputLookupQA', () => {
     const {
       container, getByPlaceholderText, getByText, getAllByText,
     } = renderWithRedux(
-      <InputLookupQA reduxPath={reduxPath} />, store,
+      <InputLookup reduxPath={reduxPath} getLookupResults={jest.fn()} getOptions={jest.fn()} />, store,
     )
     const artOfWar = '战争的艺术' // Chinese characters for Sun Tzu's Art of War
 
@@ -142,7 +142,7 @@ describe('InputLookupQA', () => {
     const {
       container, getByPlaceholderText, getByText, getAllByText, getByTestId,
     } = renderWithRedux(
-      <InputLookupQA reduxPath={reduxPath} />, store,
+      <InputLookup reduxPath={reduxPath} getLookupResults={jest.fn()} getOptions={jest.fn()} />, store,
     )
 
     // Add values
@@ -172,7 +172,7 @@ describe('InputLookupQA', () => {
   it('allows deleting a value', async () => {
     const store = createReduxStore(createInitialState({ hasInitialValue: true }))
     const { getByText, queryByText } = renderWithRedux(
-      <InputLookupQA reduxPath={reduxPath} />, store,
+      <InputLookup reduxPath={reduxPath} getLookupResults={jest.fn()} getOptions={jest.fn()} />, store,
     )
     expect(getByText('foo')).toBeInTheDocument()
 
@@ -186,7 +186,7 @@ describe('InputLookupQA', () => {
   it('validates when mandatory', async () => {
     const store = createReduxStore(createInitialState())
     const { getByText } = renderWithRedux(
-      <InputLookupQA reduxPath={reduxPath} />, store,
+      <InputLookup reduxPath={reduxPath} getLookupResults={jest.fn()} getOptions={jest.fn()} />, store,
     )
 
     // Trigger validation
@@ -202,7 +202,7 @@ describe('InputLookupQA', () => {
     const {
       container, getByPlaceholderText, getByText, getAllByText, getByTestId,
     } = renderWithRedux(
-      <InputLookupQA reduxPath={reduxPath} />, store,
+      <InputLookup reduxPath={reduxPath} getLookupResults={jest.fn()} getOptions={jest.fn()} />, store,
     )
 
     // Add a value
@@ -228,7 +228,7 @@ describe('InputLookupQA', () => {
     const {
       container, getByPlaceholderText, getByText, getByTestId,
     } = renderWithRedux(
-      <InputLookupQA reduxPath={reduxPath} />, store,
+      <InputLookup reduxPath={reduxPath} getLookupResults={jest.fn()} getOptions={jest.fn()} />, store,
     )
 
     // Add a value
