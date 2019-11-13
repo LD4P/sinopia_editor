@@ -23,13 +23,14 @@ export const hideModal = state => setModal({ ...state }, undefined)
  * @param {Object} state the previous redux state
  * @return {Object} the next redux state
  */
-export const showGroupChooser = (state) => {
-  if (validate(state).editor.resourceValidation.errors.length === 0) {
+export const showGroupChooser = (state, action) => {
+  const resourceKey = action.payload
+  if (validate(state, resourceKey).editor.resourceValidation.errors[resourceKey].length === 0) {
     // Show the window to select a group
     return setModal({ ...state }, 'GroupChoiceModal')
   }
 
-  return showValidationErrors(state)
+  return showValidationErrors(state, action)
 }
 
 /**
@@ -37,9 +38,10 @@ export const showGroupChooser = (state) => {
  * @param {Object} state the previous redux state
  * @return {Object} the next redux state
  */
-export const showValidationErrors = (state) => {
+export const showValidationErrors = (state, action) => {
   const newState = hideModal(state)
-  newState.editor.resourceValidation.show = true
+  const resourceKey = action.payload
+  newState.editor.resourceValidation.show[resourceKey] = true
 
   return newState
 }

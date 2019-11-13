@@ -9,7 +9,8 @@ import { modalType } from 'selectors/modalSelectors'
 
 const createInitialState = () => {
   const state = createBlankState({ authenticated: true })
-  state.selectorReducer.resource = {
+  state.selectorReducer.editor.currentResource = 'abc123'
+  state.selectorReducer.entities.resources.abc123 = {
     'resourceTemplate:bf2:WorkTitle': {
       'http://id.loc.gov/ontologies/bibframe/mainTitle': {
         items: {

@@ -8,7 +8,8 @@ import { showValidationErrors, validateResource } from 'actions/index'
 
 const createInitialState = (options = {}) => {
   const state = createBlankState()
-  state.selectorReducer.resource = {
+  state.selectorReducer.editor.currentResource = 'abc123'
+  state.selectorReducer.entities.resources.abc123 = {
     'resourceTemplate:bf2:WorkURI': {
       'http://id.loc.gov/ontologies/bibframe/mainTitleURI': {
       },
@@ -45,7 +46,7 @@ const createInitialState = (options = {}) => {
         uri: 'http://foo',
       },
     }
-    state.selectorReducer.resource['resourceTemplate:bf2:WorkURI']['http://id.loc.gov/ontologies/bibframe/mainTitleURI'].items = items
+    state.selectorReducer.entities.resources.abc123['resourceTemplate:bf2:WorkURI']['http://id.loc.gov/ontologies/bibframe/mainTitleURI'].items = items
   }
   if (options.mandatory) {
     state.selectorReducer.entities.resourceTemplates['resourceTemplate:bf2:WorkURI'].propertyTemplates[0].mandatory = 'true'
@@ -57,7 +58,9 @@ const createInitialState = (options = {}) => {
 }
 
 const reduxPath = [
-  'resource',
+  'entities',
+  'resources',
+  'abc123',
   'resourceTemplate:bf2:WorkURI',
   'http://id.loc.gov/ontologies/bibframe/mainTitleURI',
 ]
@@ -212,8 +215,8 @@ describe('InputURI', () => {
     expect(queryByText('Required')).not.toBeInTheDocument()
 
     // Trigger validation
-    store.dispatch(validateResource())
-    store.dispatch(showValidationErrors())
+    store.dispatch(validateResource('abc123'))
+    store.dispatch(showValidationErrors('abc123'))
 
     await waitForElement(() => getByText('Required'))
   })

@@ -10,7 +10,10 @@ import { modalType } from 'selectors/modalSelectors'
 
 describe('<RDFModal />', () => {
   setupModal()
-  const store = createReduxStore(createBlankState())
+  const state = createBlankState()
+  state.selectorReducer.editor.currentResource = 'abc123'
+  state.selectorReducer.entities.resources.abc123 = {}
+  const store = createReduxStore(state)
 
   it('renders the <RDFModal /> component as a Modal', async () => {
     const { getByLabelText, getByTestId, getByText } = renderWithRedux(

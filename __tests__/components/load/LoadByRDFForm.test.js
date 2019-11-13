@@ -85,8 +85,8 @@ describe('LoadByRDFForm', () => {
     // Wait for the page change
     await wait(() => expect(history.location.pathname).toBe('/editor'))
 
-    expect(store.getState().selectorReducer.resource).toEqual(resource)
-    expect(store.getState().selectorReducer.editor.unusedRDF).toEqual(`<http://foo> <http://id.loc.gov/ontologies/bibframe/mainTitle> "foo"@en .
+    expect(store.getState().selectorReducer.entities.resources.abc123).toEqual(resource)
+    expect(store.getState().selectorReducer.editor.unusedRDF.abc123).toEqual(`<http://foo> <http://id.loc.gov/ontologies/bibframe/mainTitle> "foo"@en .
 `)
   })
 
@@ -108,8 +108,8 @@ describe('LoadByRDFForm', () => {
     // Wait for the page change
     await wait(() => expect(history.location.pathname).toBe('/editor'))
 
-    expect(store.getState().selectorReducer.resource).toEqual(resource)
-    expect(store.getState().selectorReducer.editor.unusedRDF).toEqual(`<http://foo> <http://id.loc.gov/ontologies/bibframe/mainTitle> "foo"@en .
+    expect(store.getState().selectorReducer.entities.resources.abc123).toEqual(resource)
+    expect(store.getState().selectorReducer.editor.unusedRDF.abc123).toEqual(`<http://foo> <http://id.loc.gov/ontologies/bibframe/mainTitle> "foo"@en .
 `)
   })
 

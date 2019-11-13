@@ -6,7 +6,8 @@ import PropertyLabel from './PropertyLabel'
 import PropertyLabelInfo from './PropertyLabelInfo'
 import { bindActionCreators } from 'redux'
 import { connect } from 'react-redux'
-import { findNode, getPropertyTemplate, resourceEditErrorKey } from 'selectors/resourceSelectors'
+import { findNode, getPropertyTemplate } from 'selectors/resourceSelectors'
+import { resourceEditErrorKey } from '../Editor'
 import { removeResource } from 'actions/index'
 import { expandResource } from 'actionCreators/resources'
 import _ from 'lodash'
@@ -27,7 +28,7 @@ const PropertyPanel = (props) => {
               <button
                 type="button"
                 className="btn btn-sm btn-primary btn-add pull-right"
-                onClick={() => props.expandResource(props.reduxPath, resourceEditErrorKey)}
+                onClick={() => props.expandResource(props.reduxPath, resourceEditErrorKey(props.resourceKey))}
                 data-id={props.id}>
                 + Add
               </button>
@@ -60,17 +61,20 @@ PropertyPanel.propTypes = {
   id: PropTypes.string,
   expandResource: PropTypes.func,
   removeResource: PropTypes.func,
+  resourceKey: PropTypes.string,
 }
 
 const mapStateToProps = (state, ourProps) => {
   const propertyURI = ourProps.reduxPath.slice(-1)[0]
   const resourceTemplateId = ourProps.reduxPath.slice(-2)[0]
+  const resourceKey = ourProps.reduxPath.slice(2, 3)[0]
   const propertyTemplate = getPropertyTemplate(state, resourceTemplateId, propertyURI)
   const resourceModel = findNode(state, ourProps.reduxPath)
 
   return {
     resourceModel,
     propertyTemplate,
+    resourceKey,
   }
 }
 

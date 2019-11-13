@@ -16,7 +16,8 @@ const props = {
 const createInitialState = (options = {}) => {
   const state = createBlankState()
   state.selectorReducer.appVersion.version = '9.3'
-  state.selectorReducer.resource = {
+  state.selectorReducer.editor.currentResource = 'abc123'
+  state.selectorReducer.entities.resources.abc123 = {
     'resourceTemplate:bf2:WorkTitle': {
       'http://id.loc.gov/ontologies/bibframe/mainTitle': {
         items: {},

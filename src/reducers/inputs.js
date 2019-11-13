@@ -2,29 +2,36 @@
 
 import Validator from '../ResourceValidator'
 import { findObjectAtPath } from 'selectors/resourceSelectors'
+import _ from 'lodash'
 
 /**
  * Validates the resource and adds errors to state
  * @param {Object} state the previous redux state
+ * @param {Object} resourceKey of the resource to validate
  * @return {Object} the next redux state
  */
-export const validate = (state) => {
+export const validate = (state, resourceKey) => {
   const newState = { ...state }
-  const result = new Validator(newState).validate()
-  newState.editor.resourceValidation.errorsByPath = result[0]
-  newState.editor.resourceValidation.errors = result[1]
+  const result = new Validator(newState, resourceKey).validate()
+  const newErrorsByPath = { ...newState.editor.resourceValidation.errorsByPath }
+  if (_.isEmpty(newErrorsByPath)) newErrorsByPath.entities = { resources: {} }
+  if (!_.isEmpty(result[0])) newErrorsByPath.entities.resources[resourceKey] = { ...result[0].resources[resourceKey] }
+  newState.editor.resourceValidation.errorsByPath = newErrorsByPath
+  newState.editor.resourceValidation.errors[resourceKey] = result[1]
   return newState
 }
+
+export const validateResource = (state, action) => validate(state, action.payload)
 
 /**
  * Hide validation errors
  * @param {Object} state the previous redux state
  * @return {Object} the next redux state
  */
-export const hideValidationErrors = (state) => {
+export const hideValidationErrors = (state, action) => {
   const newState = { ...state }
-
-  newState.editor.resourceValidation.show = false
+  const resourceKey = action.payload
+  newState.editor.resourceValidation.show[resourceKey] = false
 
   return newState
 }
@@ -37,9 +44,10 @@ export const hideValidationErrors = (state) => {
 export const showCopyNewMessage = (state, action) => {
   const newState = { ...state }
 
+  const oldUri = action.payload
   newState.editor.copyToNewMessage.timestamp = Date.now()
-  if (action.payload.oldUri !== undefined) {
-    newState.editor.copyToNewMessage.oldUri = action.payload.oldUri
+  if (oldUri !== undefined) {
+    newState.editor.copyToNewMessage.oldUri = oldUri
   }
   return newState
 }
@@ -94,7 +102,7 @@ export const setItemsOrSelections = (state, action) => {
     // return the next object in the tree with the key, which is the parent object id
     return obj[key]
   }, newState)
-  return validate(newState)
+  return validate(newState, newState.editor.currentResource)
 }
 
 export const setMyItemsLang = (state, action) => {
@@ -109,9 +117,8 @@ export const setMyItemsLang = (state, action) => {
 export const setBaseURL = (state, action) => {
   const newState = { ...state }
 
-  // Is there ever more than one base node?
-  Object.values(newState.resource).forEach((value) => {
-    value.resourceURI = action.payload
+  Object.values(newState.entities.resources[action.payload.resourceKey]).forEach((value) => {
+    value.resourceURI = action.payload.resourceURI
   })
   return newState
 }
@@ -123,5 +130,5 @@ export const removeMyItem = (state, action) => {
   const node = findObjectAtPath(newState, reduxPath.slice(0, -1))
   delete node[reduxPath.slice(-1)[0]]
 
-  return validate(newState)
+  return validate(newState, newState.editor.currentResource)
 }

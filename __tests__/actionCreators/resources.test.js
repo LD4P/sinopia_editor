@@ -26,7 +26,7 @@ const createInitialState = () => {
       resourceURI: 'http://id.loc.gov/ontologies/bibframe/place',
     },
   }
-  state.selectorReducer.resource = {
+  state.selectorReducer.entities.resources.jkl012 = {
     'sinopia:profile:bf2:Place': {
       resourceURI: 'http://example.com/repository/stanford/12345',
     },
@@ -44,16 +44,18 @@ describe('update', () => {
 
     const mockStore = configureMockStore([thunk])
     const store = mockStore(createInitialState())
-    await store.dispatch(update(currentUser, 'testerrorkey'))
+    await store.dispatch(update('jkl012', currentUser, 'testerrorkey'))
 
-    expect(store.getActions()).toEqual([{ type: 'SAVE_RESOURCE_FINISHED', payload: '5e30bd59d0186c5307065436240ba108' }])
+    expect(store.getActions()).toEqual([
+      { type: 'SAVE_RESOURCE_FINISHED', payload: { resourceKey: 'jkl012', checksum: '5e30bd59d0186c5307065436240ba108' } },
+    ])
   })
   it('dispatches actions when error occurs', async () => {
     sinopiaServer.updateRDFResource = jest.fn().mockRejectedValue(new Error('Ooops'))
 
     const mockStore = configureMockStore([thunk])
     const store = mockStore(createInitialState())
-    await store.dispatch(update(currentUser, 'testerrorkey'))
+    await store.dispatch(update('jkl012', currentUser, 'testerrorkey'))
 
     expect(store.getActions()).toEqual([{ type: 'APPEND_ERROR', payload: { errorKey: 'testerrorkey', error: 'Error saving http://example.com/repository/stanford/12345: Error: Ooops' } }])
   })
@@ -106,7 +108,7 @@ describe('retrieveResource', () => {
         'resourceTemplate:bf2:Note': {
           'http://www.w3.org/2000/01/rdf-schema#label': {
             items: {
-              abc123: {
+              def456: {
                 content: 'splendid',
                 label: 'splendid',
                 lang: 'en',
@@ -116,17 +118,56 @@ describe('retrieveResource', () => {
           resourceURI: 'http://sinopia.io/repository/stanford/123',
         },
       }
-      const reduxPath = ['resource', 'resourceTemplate:bf2:Note', 'http://www.w3.org/2000/01/rdf-schema#label']
+      const reduxPath = ['entities', 'resources', 'abc123', 'resourceTemplate:bf2:Note', 'http://www.w3.org/2000/01/rdf-schema#label']
 
       expect(actions).toEqual([
         { type: 'CLEAR_ERRORS', payload: 'testerrorkey' },
         { type: 'RESOURCE_TEMPLATE_LOADED', payload: resourceTemplate },
         { type: 'ADD_TEMPLATE_HISTORY', payload: resourceTemplate },
         { type: 'TOGGLE_COLLAPSE', payload: { reduxPath } },
-        { type: 'RESOURCE_LOADED', payload: { resource: expectedResource, resourceTemplates: { [resourceTemplateId]: resourceTemplate } } },
-        { type: 'SET_LAST_SAVE_CHECKSUM', payload: undefined },
-        { type: 'SET_LAST_SAVE_CHECKSUM', payload: 'f767b63c3e1d1af6f8c136b15a31a1e0' },
-        { type: 'SET_UNUSED_RDF', payload: '' },
+        { type: 'RESOURCE_LOADED', payload: { resourceKey: 'abc123', resource: expectedResource, resourceTemplates: { [resourceTemplateId]: resourceTemplate } } },
+        { type: 'SET_LAST_SAVE_CHECKSUM', payload: { resourceKey: 'abc123', checksum: undefined } },
+        { type: 'SET_LAST_SAVE_CHECKSUM', payload: { resourceKey: 'abc123', checksum: 'f767b63c3e1d1af6f8c136b15a31a1e0' } },
+        { type: 'SET_UNUSED_RDF', payload: { resourceKey: 'abc123', rdf: '' } },
+        { type: 'SET_CURRENT_RESOURCE', payload: 'abc123' },
+      ])
+    })
+  })
+
+  describe('as a new resource', () => {
+    it('it dispatches actions', async () => {
+      const resourceTemplateId = 'resourceTemplate:bf2:Note'
+      const templateResponse = await getFixtureResourceTemplate(resourceTemplateId)
+      const resourceTemplate = templateResponse.response.body
+
+      sinopiaServer.getResourceTemplate.mockImplementation(getFixtureResourceTemplate)
+
+      expect(await store.dispatch(retrieveResource(currentUser, uri, 'testerrorkey', true))).toBe(true)
+
+      const expectedResource = {
+        'resourceTemplate:bf2:Note': {
+          'http://www.w3.org/2000/01/rdf-schema#label': {
+            items: {
+              def456: {
+                content: 'splendid',
+                label: 'splendid',
+                lang: 'en',
+              },
+            },
+          },
+        },
+      }
+      const reduxPath = ['entities', 'resources', 'abc123', 'resourceTemplate:bf2:Note', 'http://www.w3.org/2000/01/rdf-schema#label']
+
+      expect(store.getActions()).toEqual([
+        { type: 'CLEAR_ERRORS', payload: 'testerrorkey' },
+        { type: 'RESOURCE_TEMPLATE_LOADED', payload: resourceTemplate },
+        { type: 'ADD_TEMPLATE_HISTORY', payload: resourceTemplate },
+        { type: 'TOGGLE_COLLAPSE', payload: { reduxPath } },
+        { type: 'RESOURCE_LOADED', payload: { resourceKey: 'abc123', resource: expectedResource, resourceTemplates: { [resourceTemplateId]: resourceTemplate } } },
+        { type: 'SET_LAST_SAVE_CHECKSUM', payload: { resourceKey: 'abc123', checksum: undefined } },
+        { type: 'SET_UNUSED_RDF', payload: { resourceKey: 'abc123', rdf: '' } },
+        { type: 'SET_CURRENT_RESOURCE', payload: 'abc123' },
       ])
     })
   })
@@ -171,18 +212,17 @@ describe('publishResource', () => {
       },
     })
 
-    await store.dispatch(publishResource(currentUser, group, 'testerrorkey'))
+    await store.dispatch(publishResource('jkl012', currentUser, group, 'testerrorkey'))
     expect(store.getActions()).toEqual([
-      { type: 'SET_BASE_URL', payload: 'http://sinopia.io/repository/myGroup/myResource' },
-      { type: 'SAVE_RESOURCE_FINISHED', payload: '5e30bd59d0186c5307065436240ba108' },
+      { type: 'SET_BASE_URL', payload: { resourceKey: 'jkl012', resourceURI: 'http://sinopia.io/repository/myGroup/myResource' } },
+      { type: 'SAVE_RESOURCE_FINISHED', payload: { resourceKey: 'jkl012', checksum: '5e30bd59d0186c5307065436240ba108' } },
     ])
   })
 
   it('dispatches actions for error path', async () => {
-    // const store = mockStore(state)
     sinopiaServer.publishRDFResource = jest.fn().mockRejectedValue(new Error('publish error'))
 
-    await store.dispatch(publishResource(currentUser, group, 'testerrorkey'))
+    await store.dispatch(publishResource('jkl012', currentUser, group, 'testerrorkey'))
     expect(store.getActions()).toEqual([
       { type: 'APPEND_ERROR', payload: { errorKey: 'testerrorkey', error: 'Error saving: Error: publish error' } },
     ])
@@ -196,7 +236,6 @@ describe('newResource', () => {
   beforeEach(() => {
     const mockStore = configureMockStore([thunk])
     const state = createBlankState()
-    state.selectorReducer.resource['resourceTemplate:bf2:Note'] = {}
     store = mockStore(state)
   })
 
@@ -224,9 +263,9 @@ describe('newResource', () => {
         { type: 'CLEAR_ERRORS', payload: 'testerrorkey' },
         { type: 'RESOURCE_TEMPLATE_LOADED', payload: resourceTemplate },
         { type: 'ADD_TEMPLATE_HISTORY', payload: resourceTemplate },
-        { type: 'RESOURCE_LOADED', payload: { resource: expectedResource, resourceTemplates: { [resourceTemplateId]: resourceTemplate } } },
-        { type: 'SET_LAST_SAVE_CHECKSUM', payload: 'baf92a33bf689d599a41bb4563db42fc' },
-        { type: 'SET_UNUSED_RDF', payload: null }])
+        { type: 'RESOURCE_LOADED', payload: { resourceKey: 'abc123', resource: expectedResource, resourceTemplates: { [resourceTemplateId]: resourceTemplate } } },
+        { type: 'SET_LAST_SAVE_CHECKSUM', payload: { resourceKey: 'abc123', checksum: 'baf92a33bf689d599a41bb4563db42fc' } },
+        { type: 'SET_UNUSED_RDF', payload: { resourceKey: 'abc123', rdf: null } }])
     })
   })
 })
@@ -281,9 +320,11 @@ describe('existingResource', () => {
       expect(store.getActions()).toEqual([
         { type: 'RESOURCE_TEMPLATE_LOADED', payload: resourceTemplate },
         { type: 'ADD_TEMPLATE_HISTORY', payload: resourceTemplate },
-        { type: 'RESOURCE_LOADED', payload: { resource: expectedResource, resourceTemplates: { [resourceTemplateId]: resourceTemplate } } },
-        { type: 'SET_LAST_SAVE_CHECKSUM', payload: undefined },
-        { type: 'SET_UNUSED_RDF', payload: unusedRDF }])
+        { type: 'RESOURCE_LOADED', payload: { resourceKey: 'abc123', resource: expectedResource, resourceTemplates: { [resourceTemplateId]: resourceTemplate } } },
+        { type: 'SET_LAST_SAVE_CHECKSUM', payload: { resourceKey: 'abc123', checksum: undefined } },
+        { type: 'SET_UNUSED_RDF', payload: { resourceKey: 'abc123', rdf: unusedRDF } },
+        { type: 'SET_CURRENT_RESOURCE', payload: 'abc123' },
+      ])
     })
   })
 })

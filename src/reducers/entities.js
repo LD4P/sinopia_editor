@@ -1,4 +1,6 @@
 // Copyright 2019 Stanford University see LICENSE for license
+import shortid from 'shortid'
+import _ from 'lodash'
 
 /**
  * These are the reducers that effect the 'entities' redux store.
@@ -22,15 +24,21 @@ export const clearResourceTemplates = (state) => {
 }
 
 // Takes current user and optional uri and removes resourceURI
-export const copyResourceToEditor = (state) => {
+export const copyResourceToEditor = (state, action) => {
   const newState = { ...state }
+  const newResource = _.cloneDeep(action.payload)
 
-  // Removes URI if it exists, feels like this could be cleaner
-  Object.keys(newState.resource).forEach((resource) => {
-    if ('resourceURI' in newState.resource[resource]) {
-      delete newState.resource[resource].resourceURI
+  Object.keys(newResource).forEach((resource) => {
+    if ('resourceURI' in newResource[resource]) {
+      delete newResource[resource].resourceURI
     }
   })
+
+  const newResourceKey = shortid.generate()
+
+  newState.entities.resources[newResourceKey] = newResource
+  newState.editor.currentResource = newResourceKey
+
   return newState
 }
 

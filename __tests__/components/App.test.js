@@ -24,7 +24,8 @@ const createInitialState = (options = {}) => {
     state.authenticate.authenticationState = { currentSession: { idToken: {} } }
   }
   if (options.hasResource) {
-    state.selectorReducer.resource = {
+    state.selectorReducer.editor.currentResource = 'abc123'
+    state.selectorReducer.entities.resources.abc123 = {
       'resourceTemplate:bf2:Note': {
         'http://www.w3.org/2000/01/rdf-schema#label': {
           items: {

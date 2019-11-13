@@ -16,7 +16,7 @@ describe('GraphBuilder', () => {
         resourceURI: 'http://id.loc.gov/ontologies/bibframe/Note',
       },
     }
-    state.selectorReducer.resource = {
+    state.selectorReducer.entities.resources.abc123 = {
       'resourceTemplate:bf2:Monograph:Work': {
         'http://id.loc.gov/ontologies/bibframe/title': {},
         'http://id.loc.gov/ontologies/bibframe/temporalCoverage': {},
@@ -70,7 +70,7 @@ describe('GraphBuilder', () => {
       },
     }
 
-    const builder = new GraphBuilder(state.selectorReducer)
+    const builder = new GraphBuilder(state.selectorReducer, 'abc123')
 
 
     it('returns the graph', () => {
@@ -117,7 +117,7 @@ describe('GraphBuilder', () => {
         resourceURI: 'http://id.loc.gov/ontologies/bibframe/Note',
       },
     }
-    state.selectorReducer.resource = {
+    state.selectorReducer.entities.resources.abc123 = {
       'resourceTemplate:bf2:Monograph:Work': {
         resourceURI: 'http://example.com/base/123',
         'http://id.loc.gov/ontologies/bibframe/title': {},
@@ -160,7 +160,7 @@ describe('GraphBuilder', () => {
       },
     }
 
-    const builder = new GraphBuilder(state.selectorReducer)
+    const builder = new GraphBuilder(state.selectorReducer, 'abc123')
 
 
     it('returns the graph', () => {
@@ -205,7 +205,7 @@ describe('GraphBuilder', () => {
         resourceURI: 'http://id.loc.gov/ontologies/bibframe/Work',
       },
     }
-    state.selectorReducer.resource = {
+    state.selectorReducer.entities.resources.abc123 = {
       'resourceTemplate:bf2:Monograph:Work': {
         resourceURI: 'http://example.com/base/123',
         'http://id.loc.gov/ontologies/bibframe/title': {
@@ -214,7 +214,7 @@ describe('GraphBuilder', () => {
       },
     }
 
-    const builder = new GraphBuilder(state.selectorReducer)
+    const builder = new GraphBuilder(state.selectorReducer, 'abc123')
 
     it('returns the graph and ignores the errors', () => {
       const graph = builder.graph
@@ -237,7 +237,7 @@ describe('GraphBuilder', () => {
         resourceURI: 'http://id.loc.gov/ontologies/bibframe/Note',
       },
     }
-    state.selectorReducer.resource = {
+    state.selectorReducer.entities.resources.abc123 = {
       'resourceTemplate:bf2:Monograph:Work': {
         'http://id.loc.gov/ontologies/bibframe/title': {},
         'http://id.loc.gov/ontologies/bibframe/temporalCoverage': {},
@@ -258,7 +258,7 @@ describe('GraphBuilder', () => {
       },
     }
 
-    const builder = new GraphBuilder(state.selectorReducer)
+    const builder = new GraphBuilder(state.selectorReducer, 'abc123')
 
     it('returns the graph without blank node', () => {
       const graph = builder.graph
@@ -275,7 +275,7 @@ describe('GraphBuilder', () => {
         resourceURI: 'http://id.loc.gov/ontologies/bibframe/Work',
       },
     }
-    state.selectorReducer.resource = {
+    state.selectorReducer.entities.resources.abc123 = {
       'ld4p:RT:bf2:Agents:RWO:Country': {
         'http://www.loc.gov/mads/rdf/v1#associatedLocale': {
           items: [
@@ -290,7 +290,7 @@ describe('GraphBuilder', () => {
         'http://www.loc.gov/mads/rdf/v1#activityEndDate': {},
       },
     }
-    const builder = new GraphBuilder(state.selectorReducer)
+    const builder = new GraphBuilder(state.selectorReducer, 'abc123')
 
     it('graph contains authority URI and label', () => {
       const graph = builder.graph

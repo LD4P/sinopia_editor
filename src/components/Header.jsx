@@ -5,7 +5,7 @@ import PropTypes from 'prop-types'
 import { NavLink } from 'react-router-dom'
 import Config from 'Config'
 import { connect } from 'react-redux'
-import _ from 'lodash'
+import { hasResource as hasResourceSelector } from 'selectors/resourceSelectors'
 
 class Header extends Component {
   hidePopovers() {
@@ -55,7 +55,7 @@ Header.propTypes = {
 }
 
 const mapStateToProps = (state) => {
-  const hasResource = !_.isEmpty(state.selectorReducer.resource)
+  const hasResource = hasResourceSelector(state)
   return {
     version: state.selectorReducer.appVersion.version,
     hasResource,

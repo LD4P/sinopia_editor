@@ -12,10 +12,11 @@ export const initialState = {
       lastChecked: Date.now(),
     },
     editor: { // The state of the editor
+      currentResource: undefined,
       resourceValidation: {
-        show: false,
-        errors: [], // List of validation errors
-        errorsByPath: {}, // Errors from validating resource (redux path organized)
+        show: {}, // {<resourceKey>: boolean}
+        errors: {}, // {<resource key>: [validation errors...]}
+        errorsByPath: {}, // {<redux path...>: [validation errors ...]}
       },
       modal: {
         name: undefined, // Name of modal to show. Should only be one at a time.
@@ -26,18 +27,20 @@ export const initialState = {
         show: false,
       },
       copyToNewMessage: {},
-      expanded: { // Should this node display as expanded in the editor (redux path organized)
-      },
-      errors: {}, // {<error key>: [errors...]}
+      expanded: {}, // Should this node display as expanded in the editor. {<redux path...>: boolean}}
+      errors: {}, // {<error key>: [errors...]} or {<error key>: {<resourceKey>: [errors...]}}
+      lastSave: {}, // {<resourceKey>: date}
+      lastSaveChecksum: {}, // {<resourceKey>: checksum}
+      unusedRDF: {}, // {<resourceKey>: rdf}
     },
     entities: { // The stuff we've retrieved from the server
+      resources: {}, // The state we're displaying in the editor. {<resourceKey>: {<redux path ...>}}
       resourceTemplates: {},
       languages: { loading: false, options: [] },
       qa: { loading: false, options: [] },
       lookups: {},
       exports: [],
     },
-    resource: {}, // The state we're displaying in the editor
     search: {
       results: [],
       totalResults: 0,

@@ -6,12 +6,13 @@ import { bindActionCreators } from 'redux'
 import { connect } from 'react-redux'
 import { addResource } from 'actionCreators/resources'
 import { removeResource } from 'actions/index'
-import { resourceEditErrorKey, getResourceTemplate } from 'selectors/resourceSelectors'
+import { getResourceTemplate } from 'selectors/resourceSelectors'
+import { resourceEditErrorKey } from '../Editor'
 
 const PropertyActionButtons = (props) => {
   const handleAddClick = (event) => {
     event.preventDefault()
-    props.addResource(props.reduxPath, resourceEditErrorKey)
+    props.addResource(props.reduxPath, resourceEditErrorKey(props.resourceKey))
   }
 
   const handleRemoveClick = (event) => {
@@ -38,14 +39,17 @@ PropertyActionButtons.propTypes = {
   addResource: PropTypes.func,
   removeResource: PropTypes.func,
   resourceLabel: PropTypes.string,
+  resourceKey: PropTypes.string,
 }
 
 const mapStateToProps = (state, ownProps) => {
   const resourceTemplateId = ownProps.reduxPath.slice(-1)[0]
   const resourceTemplate = getResourceTemplate(state, resourceTemplateId)
   const resourceLabel = resourceTemplate.resourceLabel
+  const resourceKey = ownProps.reduxPath.slice(2, 3)[0]
   return {
     resourceLabel,
+    resourceKey,
   }
 }
 

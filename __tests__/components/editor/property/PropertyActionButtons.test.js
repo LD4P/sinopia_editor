@@ -36,18 +36,21 @@ describe('<PropertyActionButtons />', () => {
     })
 
     describe('when add button is clicked', () => {
-      const reduxPath = ['resource', 'myOrg:myRT']
+      const reduxPath = ['resources', 'abc123', 'myOrg:myRT']
       const mockAddResource = jest.fn()
       const mockEvent = { preventDefault: () => {} }
       beforeEach(() => {
-        propertyActionWrapper = shallow(<PropertyActionButtons.WrappedComponent reduxPath={reduxPath} addResource={mockAddResource} />)
+        propertyActionWrapper = shallow(<PropertyActionButtons.WrappedComponent
+          reduxPath={reduxPath}
+          addResource={mockAddResource}
+          resourceKey="abc123" />)
         button = propertyActionWrapper.find('button.btn-add-another')
       })
 
       it('calls addResource', () => {
         button.simulate('click', mockEvent)
         expect(mockAddResource).toHaveBeenCalledTimes(1)
-        expect(mockAddResource).toHaveBeenCalledWith(['resource', 'myOrg:myRT'], 'resourceedit')
+        expect(mockAddResource).toHaveBeenCalledWith(['resources', 'abc123', 'myOrg:myRT'], 'resourceedit-abc123')
       })
     })
   })
@@ -78,7 +81,7 @@ describe('<PropertyActionButtons />', () => {
     })
 
     describe('when remove button is clicked', () => {
-      const reduxPath = ['resource', 'myOrg:myRT']
+      const reduxPath = ['resources', 'abc123', 'myOrg:myRT']
       const mockRemoveResource = jest.fn()
       const mockEvent = { preventDefault: () => {} }
       beforeEach(() => {

@@ -49,7 +49,7 @@ beforeEach(() => {
 
 describe('validate()', () => {
   it('when no properties are mandatory', () => {
-    const results = new Validator({ resource, entities: { resourceTemplates } }).validate()
+    const results = new Validator({ entities: { resources: { abc123: resource }, resourceTemplates } }, 'abc123').validate()
 
     expect(results[0]).toEqual({})
     expect(results[1]).toEqual([])
@@ -58,7 +58,7 @@ describe('validate()', () => {
   it('when a property is mandatory and provided', () => {
     resourceTemplates['resourceTemplate:Monograph:Instance'].propertyTemplates[0].mandatory = 'true'
     resource['resourceTemplate:Monograph:Instance']['http://id.loc.gov/ontologies/bibframe/title'].items = [{ content: 'bar' }]
-    const results = new Validator({ resource, entities: { resourceTemplates } }).validate()
+    const results = new Validator({ entities: { resources: { abc123: resource }, resourceTemplates } }, 'abc123').validate()
 
     expect(results[0]).toEqual({})
     expect(results[1]).toEqual([])
@@ -66,15 +66,17 @@ describe('validate()', () => {
 
   it('when a property is mandatory and not provided', () => {
     resourceTemplates['resourceTemplate:Monograph:Instance'].propertyTemplates[0].mandatory = 'true'
-    const results = new Validator({ resource, entities: { resourceTemplates } }).validate()
+    const results = new Validator({ entities: { resources: { abc123: resource }, resourceTemplates } }, 'abc123').validate()
 
     expect(results[0]).toEqual({
-      resource: {
-        'resourceTemplate:Monograph:Instance': {
-          'http://id.loc.gov/ontologies/bibframe/title': {
-            errors: [
-              'Required',
-            ],
+      resources: {
+        abc123: {
+          'resourceTemplate:Monograph:Instance': {
+            'http://id.loc.gov/ontologies/bibframe/title': {
+              errors: [
+                'Required',
+              ],
+            },
           },
         },
       },
@@ -83,14 +85,14 @@ describe('validate()', () => {
     expect(results[1]).toEqual([{
       message: 'Required',
       path: ['Instance', 'Title'],
-      reduxPath: ['resource', 'resourceTemplate:Monograph:Instance', 'http://id.loc.gov/ontologies/bibframe/title'],
+      reduxPath: ['resources', 'abc123', 'resourceTemplate:Monograph:Instance', 'http://id.loc.gov/ontologies/bibframe/title'],
     }])
   })
 
   it('when a nested resource is mandatory and provided', () => {
     resourceTemplates['resourceTemplate:Monograph:Instance'].propertyTemplates[0].mandatory = 'true'
     resource['resourceTemplate:Monograph:Instance']['http://id.loc.gov/ontologies/bibframe/title'].abcdCode = { 'resourceTemplate:bf2:Title': {} }
-    const results = new Validator({ resource, entities: { resourceTemplates } }).validate()
+    const results = new Validator({ entities: { resources: { abc123: resource }, resourceTemplates } }, 'abc123').validate()
 
     expect(results[0]).toEqual({})
     expect(results[1]).toEqual([])
@@ -100,18 +102,20 @@ describe('validate()', () => {
     // Make barcode mandatory
     resourceTemplates['resourceTemplate:Monograph:Instance'].propertyTemplates[1].mandatory = 'true'
     resource['resourceTemplate:Monograph:Instance']['http://id.loc.gov/ontologies/bibframe/itemPortion'].abcdCode = { 'resourceTemplate:bf2:Identifiers:Barcode': {} }
-    const results = new Validator({ resource, entities: { resourceTemplates } }).validate()
+    const results = new Validator({ entities: { resources: { abc123: resource }, resourceTemplates } }, 'abc123').validate()
 
     expect(results[0]).toEqual({
-      resource: {
-        'resourceTemplate:Monograph:Instance': {
-          'http://id.loc.gov/ontologies/bibframe/itemPortion': {
-            abcdCode: {
-              'resourceTemplate:bf2:Identifiers:Barcode': {
-                'http://www.w3.org/1999/02/22-rdf-syntax-ns#value': {
-                  errors: [
-                    'Required',
-                  ],
+      resources: {
+        abc123: {
+          'resourceTemplate:Monograph:Instance': {
+            'http://id.loc.gov/ontologies/bibframe/itemPortion': {
+              abcdCode: {
+                'resourceTemplate:bf2:Identifiers:Barcode': {
+                  'http://www.w3.org/1999/02/22-rdf-syntax-ns#value': {
+                    errors: [
+                      'Required',
+                    ],
+                  },
                 },
               },
             },
@@ -120,7 +124,7 @@ describe('validate()', () => {
       },
     })
 
-    expect(results[1]).toEqual([{ message: 'Required', path: ['Instance', 'Barcode', 'Barcode', 'Barcode'], reduxPath: ['resource', 'resourceTemplate:Monograph:Instance', 'http://id.loc.gov/ontologies/bibframe/itemPortion', 'abcdCode', 'resourceTemplate:bf2:Identifiers:Barcode', 'http://www.w3.org/1999/02/22-rdf-syntax-ns#value'] }])
+    expect(results[1]).toEqual([{ message: 'Required', path: ['Instance', 'Barcode', 'Barcode', 'Barcode'], reduxPath: ['resources', 'abc123', 'resourceTemplate:Monograph:Instance', 'http://id.loc.gov/ontologies/bibframe/itemPortion', 'abcdCode', 'resourceTemplate:bf2:Identifiers:Barcode', 'http://www.w3.org/1999/02/22-rdf-syntax-ns#value'] }])
   })
 
   it('when a resourceTemplate is not found', () => {
@@ -144,8 +148,8 @@ describe('validate()', () => {
         ],
       },
     }
-    const results = new Validator({ resource, entities: { rt } }).validate()
+    const results = new Validator({ entities: { resources: { abc123: resource }, rt } }, 'abc123').validate()
 
-    expect(results[0].resource['rt:fooched'].errors[0]).toMatch('unable to retrieve rt:fooched from local store')
+    expect(results[0].resources.abc123['rt:fooched'].errors[0]).toMatch('unable to retrieve rt:fooched from local store')
   })
 })

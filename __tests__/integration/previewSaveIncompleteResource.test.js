@@ -8,7 +8,8 @@ import { MemoryRouter } from 'react-router-dom'
 
 const createInitialState = () => {
   const state = createBlankState({ authenticated: true })
-  state.selectorReducer.resource = {
+  state.selectorReducer.editor.currentResource = 'abc123'
+  state.selectorReducer.entities.resources.abc123 = {
     'resourceTemplate:bf2:WorkTitle': {
       'http://id.loc.gov/ontologies/bibframe/mainTitle': {
         items: {
@@ -85,6 +86,6 @@ describe('Preview and try to save resource', () => {
       expect(rdfModal.classList.contains('show')).not.toBe(true)
     })
     expect(groupChoiceModal.classList.contains('show')).not.toBe(true)
-    expect(await findByText(/There was a problem saving this resource/)).toBeInTheDocument()
+    expect(await findByText(/Unable to save this resource/)).toBeInTheDocument()
   })
 })

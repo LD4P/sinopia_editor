@@ -5,7 +5,8 @@ import { useSelector } from 'react-redux'
 import ExpiringMessage from './ExpiringMessage'
 
 const SaveAlert = () => {
-  const lastSave = useSelector(state => state.selectorReducer.editor.lastSave)
+  const resourceKey = useSelector(state => state.selectorReducer.editor.currentResource)
+  const lastSave = useSelector(state => state.selectorReducer.editor.lastSave[resourceKey])
 
   return (
     <ExpiringMessage timestamp={lastSave}>

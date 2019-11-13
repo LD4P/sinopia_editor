@@ -23,7 +23,8 @@ describe('<GroupChoiceModal />', () => {
                                                            closeGroupChooser={mockCloseGroupChooser}
                                                            showRdfPreview={mockCloseRdfPreview}
                                                            currentUser={currentUser}
-                                                           publishResource={mockPublishMyResource} />)
+                                                           publishResource={mockPublishMyResource}
+                                                           resourceKey="abc123" />)
 
   it('renders the <GroupChoiceModal /> component as a modal', () => {
     expect(wrapper.find('.modal').length).toBe(1)
@@ -95,7 +96,7 @@ describe('<GroupChoiceModal />', () => {
       it('saves the RDF content with group choice when save is clicked and then closes the modals', () => {
         const selectedGroup = 'cornell' // default is first choice, which is cornell
         wrapper.find('button.btn-primary').simulate('click')
-        expect(mockPublishMyResource).toHaveBeenCalledWith(currentUser, selectedGroup, 'resourceedit')
+        expect(mockPublishMyResource).toHaveBeenCalledWith('abc123', currentUser, selectedGroup, 'resourceedit-abc123')
         expect(mockHideModal).toHaveBeenCalled()
       })
     })
@@ -104,7 +105,7 @@ describe('<GroupChoiceModal />', () => {
       it('attempts to save the RDF content with group choice when save is clicked and then closes the modals', () => {
         const selectedGroup = 'cornell' // default is first choice, which is cornell
         wrapper.find('button.btn-primary').simulate('click')
-        expect(mockPublishMyResource).toHaveBeenCalledWith(currentUser, selectedGroup, 'resourceedit')
+        expect(mockPublishMyResource).toHaveBeenCalledWith('abc123', currentUser, selectedGroup, 'resourceedit-abc123')
         expect(mockHideModal).toHaveBeenCalled()
       })
     })

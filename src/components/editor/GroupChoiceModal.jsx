@@ -7,7 +7,7 @@ import PropTypes from 'prop-types'
 import Config from 'Config'
 import { hideModal } from 'actions/modals'
 import { getCurrentUser } from 'authSelectors'
-import { resourceEditErrorKey } from 'selectors/resourceSelectors'
+import { resourceEditErrorKey } from './Editor'
 import { modalType } from 'selectors/modalSelectors'
 import { publishResource } from 'actionCreators/resources'
 import ModalWrapper, { useDisplayStyle, useModalCss } from '../ModalWrapper'
@@ -25,7 +25,7 @@ const GroupChoiceModal = (props) => {
   }
 
   const saveAndClose = (event) => {
-    props.publishResource(props.currentUser, selectedValue, resourceEditErrorKey)
+    props.publishResource(props.resourceKey, props.currentUser, selectedValue, resourceEditErrorKey(props.resourceKey))
     props.hideModal()
     event.preventDefault()
   }
@@ -92,11 +92,13 @@ GroupChoiceModal.propTypes = {
   currentUser: PropTypes.object,
   publishResource: PropTypes.func,
   hideModal: PropTypes.func,
+  resourceKey: PropTypes.string,
 }
 
 const mapStateToProps = state => ({
   show: modalType(state) === 'GroupChoiceModal',
   currentUser: getCurrentUser(state),
+  resourceKey: state.selectorReducer.editor.currentResource,
 })
 
 const mapDispatchToProps = dispatch => bindActionCreators({ publishResource, hideModal }, dispatch)

@@ -6,11 +6,11 @@ import {
   setResource, updateProperty,
   toggleCollapse, appendResource, setLastSaveChecksum,
   assignBaseURL, setUnusedRDF,
-  saveResourceFinished, appendError, clearErrors,
+  saveResourceFinished, appendError, clearErrors, setCurrentResource,
 } from 'actions/index'
 import { fetchResourceTemplate } from 'actionCreators/resourceTemplates'
 import { updateRDFResource, loadRDFResource, publishRDFResource } from 'sinopiaServer'
-import { rootResourceId } from 'selectors/resourceSelectors'
+import { findResourceURI } from 'selectors/resourceSelectors'
 import GraphBuilder from 'GraphBuilder'
 import {
   isResourceWithValueTemplateRef, rdfDatasetFromN3, generateMD5,
@@ -21,29 +21,32 @@ import ResourceStateBuilder from 'ResourceStateBuilder'
 import _ from 'lodash'
 
 // A thunk that updates (saves) an existing resource in Trellis
-export const update = (currentUser, errorKey) => (dispatch, getState) => {
-  const uri = rootResourceId(getState())
-  const rdf = new GraphBuilder(getState().selectorReducer).graph.toCanonical()
+export const update = (resourceKey, currentUser, errorKey) => (dispatch, getState) => {
+  const uri = findResourceURI(getState(), resourceKey)
+  const rdf = new GraphBuilder(getState().selectorReducer, resourceKey).graph.toCanonical()
   return updateRDFResource(currentUser, uri, rdf)
-    .then(() => dispatch(saveResourceFinished(generateMD5(rdf))))
+    .then(() => dispatch(saveResourceFinished(resourceKey, generateMD5(rdf))))
     .catch(err => dispatch(appendError(errorKey, `Error saving ${uri}: ${err.toString()}`)))
 }
 
 // A thunk that loads an existing resource from Trellis
-export const retrieveResource = (currentUser, uri, errorKey) => (dispatch) => {
+export const retrieveResource = (currentUser, uri, errorKey, asNewResource) => (dispatch) => {
   dispatch(clearErrors(errorKey))
   return loadRDFResource(currentUser, uri)
     .then((response) => {
       const data = response.response.text
       return rdfDatasetFromN3(data).then((dataset) => {
         const builder = new ResourceStateBuilder(dataset, null)
+        const resourceKey = shortid.generate()
         // This also returns the resource templates. Could they be used?
         // See https://github.com/LD4P/sinopia_editor/issues/1396
-        return builder.buildState().then(([state, unusedDataset]) => dispatch(existingResourceFunc(state, uri, errorKey))
+        const newURI = asNewResource ? undefined : uri
+        return builder.buildState().then(([state, unusedDataset]) => dispatch(existingResourceFunc(state, newURI, resourceKey, errorKey))
           .then((result) => {
-            const rdf = new GraphBuilder({ resource: result[0], entities: { resourceTemplates: result[1] } }).graph.toCanonical()
-            dispatch(setLastSaveChecksum(generateMD5(rdf)))
-            dispatch(setUnusedRDF(unusedDataset.toCanonical()))
+            const rdf = new GraphBuilder({ entities: { resources: { [resourceKey]: result[0] }, resourceTemplates: result[1] } }, resourceKey).graph.toCanonical()
+            if (!asNewResource) dispatch(setLastSaveChecksum(resourceKey, generateMD5(rdf)))
+            dispatch(setUnusedRDF(resourceKey, unusedDataset.toCanonical()))
+            dispatch(setCurrentResource(resourceKey))
             return true
           }))
           .catch((err) => {
@@ -58,15 +61,15 @@ export const retrieveResource = (currentUser, uri, errorKey) => (dispatch) => {
 }
 
 // A thunk that publishes (saves) a new resource in Trellis
-export const publishResource = (currentUser, group, errorKey) => (dispatch, getState) => {
+export const publishResource = (resourceKey, currentUser, group, errorKey) => (dispatch, getState) => {
   // Make a copy of state to prevent changes that will affect the publish.
   const state = _.cloneDeep(getState())
-  const rdf = new GraphBuilder(state.selectorReducer).graph.toCanonical()
+  const rdf = new GraphBuilder(state.selectorReducer, resourceKey).graph.toCanonical()
 
   return publishRDFResource(currentUser, rdf, group).then((result) => {
     const resourceUrl = result.response.headers.location
-    dispatch(assignBaseURL(resourceUrl))
-    dispatch(saveResourceFinished(generateMD5(rdf)))
+    dispatch(assignBaseURL(resourceKey, resourceUrl))
+    dispatch(saveResourceFinished(resourceKey, generateMD5(rdf)))
   }).catch((err) => {
     dispatch(appendError(errorKey, `Error saving: ${err.toString()}`))
   })
@@ -77,11 +80,12 @@ export const newResource = (resourceTemplateId, errorKey) => (dispatch) => {
   dispatch(clearErrors(errorKey))
   const resource = {}
   resource[resourceTemplateId] = {}
-  return stubResource(resource, true, undefined, errorKey, dispatch)
+  const resourceKey = shortid.generate()
+  return stubResource(resource, true, undefined, resourceKey, errorKey, dispatch)
     .then((result) => {
-      const rdf = new GraphBuilder({ resource: result[0], entities: { resourceTemplates: result[1] } }).graph.toCanonical()
-      dispatch(setLastSaveChecksum(generateMD5(rdf)))
-      dispatch(setUnusedRDF(null))
+      const rdf = new GraphBuilder({ entities: { resources: { [resourceKey]: result[0] }, resourceTemplates: result[1] } }, resourceKey).graph.toCanonical()
+      dispatch(setLastSaveChecksum(resourceKey, generateMD5(rdf)))
+      dispatch(setUnusedRDF(resourceKey, null))
       return true
     })
     .catch((err) => {
@@ -92,15 +96,19 @@ export const newResource = (resourceTemplateId, errorKey) => (dispatch) => {
 
 // A thunk that stubs out an existing new resource
 // Note that errors are not cleared here.
-export const existingResource = (resource, unusedRDF, uri, errorKey) => dispatch => dispatch(existingResourceFunc(resource, uri, errorKey))
-  .then(() => {
-    dispatch(setUnusedRDF(unusedRDF))
-    return true
-  })
-  .catch((err) => {
-    if (err.name !== 'ResourceTemplateError') throw err
-    return false
-  })
+export const existingResource = (resource, unusedRDF, uri, errorKey) => (dispatch) => {
+  const resourceKey = shortid.generate()
+  return dispatch(existingResourceFunc(resource, uri, resourceKey, errorKey))
+    .then(() => {
+      dispatch(setUnusedRDF(resourceKey, unusedRDF))
+      dispatch(setCurrentResource(resourceKey))
+      return true
+    })
+    .catch((err) => {
+      if (err.name !== 'ResourceTemplateError') throw err
+      return false
+    })
+}
 
 // A thunk that expands a nested resource for a property
 export const expandResource = (reduxPath, errorKey) => (dispatch, getState) => {
@@ -138,13 +146,14 @@ export const addResource = (reduxPath, errorKey) => (dispatch, getState) => {
     })
 }
 
-const existingResourceFunc = (resource, uri, errorKey) => dispatch => stubResource(resource, false, uri, errorKey, dispatch).then((result) => {
-  dispatch(setLastSaveChecksum(undefined))
-  return result
-})
+const existingResourceFunc = (resource, uri, resourceKey, errorKey) => dispatch => stubResource(resource, false, uri, resourceKey, errorKey, dispatch)
+  .then((result) => {
+    dispatch(setLastSaveChecksum(resourceKey, undefined))
+    return result
+  })
 
 // Stubs out a root resource
-const stubResource = (resource, useDefaults, uri, errorKey, dispatch) => {
+const stubResource = (resource, useDefaults, uri, resourceKey, errorKey, dispatch) => {
   const newResource = { ...resource }
   const rootResourceTemplateId = Object.keys(newResource)[0]
   const rootResource = newResource[rootResourceTemplateId]
@@ -152,11 +161,12 @@ const stubResource = (resource, useDefaults, uri, errorKey, dispatch) => {
     rootResource.resourceURI = uri
   }
   // Note that {} for resourceTemplates clears the existing resource templates.
-  return dispatch(stubResourceProperties(rootResourceTemplateId, {}, rootResource, ['resource'], useDefaults, false, false, errorKey)).then((result) => {
-    newResource[rootResourceTemplateId] = result[0]
-    dispatch(setResource(newResource, result[1]))
-    return [newResource, result[1]]
-  })
+  return dispatch(stubResourceProperties(rootResourceTemplateId, {}, rootResource, ['entities', 'resources', resourceKey], useDefaults, false, false, errorKey))
+    .then((result) => {
+      newResource[rootResourceTemplateId] = result[0]
+      dispatch(setResource(resourceKey, newResource, result[1]))
+      return [newResource, result[1]]
+    })
 }
 
 /**

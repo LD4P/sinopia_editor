@@ -5,8 +5,8 @@ import { useSelector, useDispatch } from 'react-redux'
 import PropTypes from 'prop-types'
 import { update as updateCreator } from 'actionCreators/resources'
 import {
-  rootResourceId, resourceHasChangesSinceLastSave, findResourceValidationErrors,
-  resourceEditErrorKey, getDisplayResourceValidations,
+  findResourceURI, resourceHasChangesSinceLastSave, findResourceValidationErrors,
+  getDisplayResourceValidations, currentResourceKey,
 } from 'selectors/resourceSelectors'
 import { getCurrentUser } from 'authSelectors'
 import {
@@ -14,19 +14,21 @@ import {
   showValidationErrors as showValidationErrorsAction,
   hideValidationErrors as hideValidationErrorsAction,
 } from 'actions/index'
+import { resourceEditErrorKey } from '../Editor'
 
 const SaveAndPublishButton = (props) => {
   const dispatch = useDispatch()
 
   const currentUser = useSelector(state => getCurrentUser(state))
-  const update = () => dispatch(updateCreator(currentUser, resourceEditErrorKey))
+  const resourceKey = useSelector(state => currentResourceKey(state))
+  const update = () => dispatch(updateCreator(resourceKey, currentUser, resourceEditErrorKey(resourceKey)))
 
-  const showGroupChooser = () => dispatch(showGroupChooserAction())
-  const showValidationErrors = () => dispatch(showValidationErrorsAction())
-  const hideValidationErrors = () => dispatch(hideValidationErrorsAction())
+  const showGroupChooser = () => dispatch(showGroupChooserAction(resourceKey))
+  const showValidationErrors = () => dispatch(showValidationErrorsAction(resourceKey))
+  const hideValidationErrors = () => dispatch(hideValidationErrorsAction(resourceKey))
 
   const resourceHasChanged = useSelector(state => resourceHasChangesSinceLastSave(state))
-  const isSaved = useSelector(state => !!rootResourceId(state))
+  const isSaved = useSelector(state => !!findResourceURI(state))
   const hasValidationErrors = useSelector(state => findResourceValidationErrors(state).length > 0)
   const validationErrorsAreShowing = useSelector(state => getDisplayResourceValidations(state))
   const [isDisabled, setIsDisabled] = useState(true)
