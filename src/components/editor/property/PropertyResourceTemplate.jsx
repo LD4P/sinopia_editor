@@ -47,11 +47,7 @@ class PropertyResourceTemplate extends Component {
      */
     const newReduxPath = [...this.props.reduxPath, property.propertyURI]
 
-    return (<PropertyTemplateOutline
-                    propertyTemplate={property}
-                    rtId={this.props.resourceTemplate.id}
-                    reduxPath={newReduxPath}
-                    key={newReduxPath.join()} />)
+    return (<PropertyTemplateOutline reduxPath={newReduxPath} key={newReduxPath.join()} />)
   })
 
   render() {

@@ -36,14 +36,6 @@ describe('<PropertyResourceTemplate />', () => {
     expect(wrapper.find('h4').text()).toBe(`${propertyRtProps.resourceTemplate.resourceLabel}`)
   })
 
-  it('Contains a <PropertyTemplateOutline />', () => {
-    expect(wrapper.find(PropertyTemplateOutline)).toBeTruthy()
-  })
-
-  it('<PropertyTemplateOutline /> contains a propertyTemplate', () => {
-    expect(propTemplateOutline.props().propertyTemplate).toBeTruthy()
-  })
-
   it('<PropertyTemplateOutline /> has the expected Redux path', () => {
     expect(propTemplateOutline.props().reduxPath).toEqual([
       'resource',
