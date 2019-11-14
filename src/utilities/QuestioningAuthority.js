@@ -98,3 +98,27 @@ export const getTerm = (uri, id, searchUri, format = 'n3') => {
   return fetch(url)
     .then(resp => resp.text())
 }
+
+/**
+ * Finds property values in QA contexts.
+ * @param {Array} QA contexts
+ * @param {string} name of property
+ * @return {string[]} property values or undefined
+ */
+export const getContextValues = (contexts, property) => {
+  const context = contexts.find(context => context.property === property)
+  if (!context || !context.values) return undefined
+  return context.values
+}
+
+/**
+ * Finds first property value in QA contexts.
+ * @param {Array} QA contexts
+ * @param {string} name of property
+ * @return {string} first property value or undefined
+ */
+export const getContextValue = (contexts, property) => {
+  const values = getContextValues(contexts, property)
+  if (_.isEmpty(values)) return undefined
+  return values[0]
+}

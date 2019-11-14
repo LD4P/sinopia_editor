@@ -3,6 +3,7 @@
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
+import { getContextValues, getContextValue } from 'utilities/QuestioningAuthority'
 
 class RenderLookupContext extends Component {
   // Discogs specific functions
@@ -15,32 +16,29 @@ class RenderLookupContext extends Component {
     }
   }
 
-    buildDiscogsContext = (innerResult) => {
-      // const url = innerResult.uri
-      const context = innerResult.context
-      const imageUrl = context['Image URL'][0]
-      let year = ''
-      if (context.Year[0].length > 0) {
-        year = `(${context.Year[0]})`
-      }
-      const recLabel = context['Record Labels'][0]
-      const formats = context.Formats.toString()
-      // const discogsType = context.Type[0]
-      // const target = '_blank'
-      const type = context.Type[0].charAt(0).toUpperCase() + context.Type[0].slice(1)
-      return (
-        <div className="row discogs-container">
-          <div className="image-container col-md-2">
-            <img alt="Result" className="discogs-image-style" src={imageUrl}/><br />
-          </div>
-          <div className="col-md-10 details-container">
-            {innerResult.label} {year}<br />
-            <b>Format: </b>{formats}<br />
-            <b>Label: </b>{recLabel}<span className="type-span"><b>Type: </b>{type}</span>
-          </div>
+  buildDiscogsContext = (innerResult) => {
+    // const url = innerResult.uri
+    const contexts = innerResult.context
+    const imageUrl = getContextValue(contexts, 'Image URL')
+    const yearValue = getContextValue(contexts, 'Year')
+    const year = yearValue ? `(${yearValue})` : ''
+    const recLabel = getContextValue(contexts, 'Record Labels')
+    const formats = getContextValues(contexts, 'Formats').join(', ')
+    const typeValue = getContextValue(contexts, 'Type')
+    const type = typeValue.charAt(0).toUpperCase() + typeValue.slice(1)
+    return (
+      <div className="row discogs-container">
+        <div className="image-container col-md-2">
+          <img alt="Result" className="discogs-image-style" src={imageUrl}/><br />
         </div>
-      )
-    }
+        <div className="col-md-10 details-container">
+          {innerResult.label} {year}<br />
+          <b>Format: </b>{formats}<br />
+          <b>Label: </b>{recLabel}<span className="type-span"><b>Type: </b>{type}</span>
+        </div>
+      </div>
+    )
+  }
 
   renderContextContent = (innerResult, authURI) => {
     const context = innerResult.context

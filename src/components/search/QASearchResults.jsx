@@ -8,7 +8,7 @@ import PropTypes from 'prop-types'
 import { clearErrors, appendError } from 'actions/index'
 import { showModal } from 'actions/modals'
 import ResourceTemplateChoiceModal from '../ResourceTemplateChoiceModal'
-import { getTerm } from 'utilities/QuestioningAuthority'
+import { getTerm, getContextValues } from 'utilities/QuestioningAuthority'
 import useResource from 'hooks/useResource'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faCopy } from '@fortawesome/free-solid-svg-icons'
@@ -51,22 +51,15 @@ const QASearchResults = (props) => {
 
   // Transform the results into the format to be displayed in the table.
   const tableData = useMemo(() => searchResults.map((result) => {
-    // Discogs returns a context that is not an array
     const types = []
     const contexts = {}
     if (result.context) {
-      if (Array.isArray(result.context)) {
-        const classContext = result.context.find(context => context.property === 'Type')
-        if (classContext) {
-          types.push(...classContext.values)
-        }
-        const excludeProperties = ['Type', 'Title', 'Image URL']
-        result.context.forEach((context) => {
-          if (!excludeProperties.includes(context.property)) contexts[context.property] = context.values
-        })
-      } else if (Array.isArray(result.context.Type)) {
-        types.push(...result.context.Type)
-      }
+      const typeValues = getContextValues(result.context, 'Type')
+      if (typeValues) types.push(...typeValues)
+      const excludeProperties = ['Type', 'Title', 'Image URL']
+      result.context.forEach((context) => {
+        if (!excludeProperties.includes(context.property)) contexts[context.property] = context.values
+      })
     }
 
     return {
@@ -111,7 +104,7 @@ const QASearchResults = (props) => {
 
   const contextFormatter = (contexts) => {
     const contextItems = Object.entries(contexts).map(([property, values]) => (
-      <li key={property}><strong>{property}</strong>: {values}</li>
+      <li key={property}><strong>{property}</strong>: {values.join(', ')}</li>
     ))
     return (<ul className="list-unstyled">{contextItems}</ul>)
   }
