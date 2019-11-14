@@ -9,6 +9,7 @@
 export const setSearchResults = (state, action) => {
   const newState = { ...state }
 
+  newState.search = { ...state.search }
   newState.search.uri = action.payload.uri
   newState.search.results = action.payload.searchResults
   newState.search.totalResults = action.payload.totalResults
@@ -29,6 +30,7 @@ export const setSearchResults = (state, action) => {
 export const clearSearchResults = (state) => {
   const newState = { ...state }
 
+  newState.search = { ...state.search }
   newState.search.uri = undefined
   newState.search.results = []
   newState.search.totalResults = 0
@@ -50,6 +52,7 @@ export const clearSearchResults = (state) => {
 export const setTemplateSearchResults = (state, action) => {
   const newState = { ...state }
 
+  newState.templateSearch = { ...state.templateSearch }
   newState.templateSearch.results = action.payload.searchResults
   newState.templateSearch.totalResults = action.payload.totalResults
   newState.templateSearch.error = action.payload.error
@@ -65,6 +68,7 @@ export const setTemplateSearchResults = (state, action) => {
 export const clearTemplateSearchResults = (state) => {
   const newState = { ...state }
 
+  newState.templateSearch = { ...state.templateSearch }
   newState.templateSearch.results = []
   newState.templateSearch.totalResults = 0
   newState.templateSearch.error = undefined
