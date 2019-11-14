@@ -77,7 +77,7 @@ describe('SinopiaResourceTemplates', () => {
       <SinopiaResourceTemplates history={history} />, store,
     )
     // There are 2 tables with heading and header columns
-    expect(container.querySelector('table#resource-template-list')).toBeInTheDocument()
+    expect(container.querySelector('table.resource-template-list')).toBeInTheDocument()
     expect(getAllByText(/ID/).length).toEqual(2)
     expect(getAllByText(/Resource URI/).length).toEqual(2)
     expect(getAllByText(/Author/).length).toEqual(2)

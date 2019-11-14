@@ -20,7 +20,7 @@ import _ from 'lodash'
  */
 class ResourceTemplate extends Component {
   render() {
-    if (!_.isEmpty(this.props.errors)) {
+    if (!_.isEmpty(this.props.errors) && _.isEmpty(this.props.resourceTemplate)) {
       return (<Alerts errorKey={resourceEditErrorKey(this.props.resourceKey)} />)
     }
 
@@ -30,6 +30,7 @@ class ResourceTemplate extends Component {
     return (
       <div className="ResourceTemplate">
         <div id="resourceTemplate">
+          <Alerts errorKey={resourceEditErrorKey(this.props.resourceKey)} />
           <section>
             <h1><em>{this.props.resourceTemplate.resourceLabel}</em></h1>
             <CopyToNewMessage />

@@ -12,8 +12,7 @@ const ResourceTemplateSearchResult = (props) => {
   const rows = resourceTemplateSummaries.map(row => <ResourceTemplateRow row={row} key={row.id} navigate={props.handleClick}/>)
 
   return (
-    <table className="table table-bordered"
-           id="resource-template-list">
+    <table className="table table-bordered resource-template-list">
       <thead>
         <tr>
           <th style={{ backgroundColor: '#F8F6EF', width: '20%' }}>

@@ -13,7 +13,8 @@ describe('<ResourceTemplate />', () => {
   const wrapper = shallow(<ResourceTemplate.WrappedComponent resourceTemplateId="resourceTemplate:bf2:Note"
                                                              resourceTemplate={resourceTemplate}
                                                              retrieveResourceTemplate={jest.fn()}
-                                                             unusedRDF="foo" />)
+                                                             unusedRDF="foo"
+                                                             errors={['Oooops']} />)
 
   it('has div with class "ResourceTemplate"', () => {
     expect(wrapper.find('div.ResourceTemplate').length).toEqual(1)
@@ -37,7 +38,17 @@ describe('<ResourceTemplate />', () => {
   })
 
   it('displays Alert', () => {
+    expect(wrapper.find(Alerts).length).toEqual(1)
+  })
+
+  describe('When there is an error and no resource template', () => {
     const alertWrapper = shallow(<ResourceTemplate.WrappedComponent errors={['Oooops']} />)
-    expect(alertWrapper.find(Alerts).length).toEqual(1)
+    it('displays Alert', () => {
+      expect(alertWrapper.find(Alerts).length).toEqual(1)
+    })
+
+    it('does not display the resource', () => {
+      expect(alertWrapper.find('div.ResourceTemplate').length).toEqual(0)
+    })
   })
 })
