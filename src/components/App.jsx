@@ -1,7 +1,7 @@
 // Copyright 2018 Stanford University see LICENSE for license
 
 import React, { useEffect } from 'react'
-import DocumentMeta from 'react-document-meta'
+import { Helmet, HelmetProvider } from 'react-helmet-async'
 import Config from 'Config'
 import 'react-bootstrap-typeahead/css/Typeahead.css'
 import LoginPanel from './LoginPanel'
@@ -79,13 +79,16 @@ const App = (props) => {
   )
 
   return (
-    <DocumentMeta title={`Sinopia ${Config.sinopiaEnv}`}>
+    <HelmetProvider>
       <div id="app">
+        <Helmet>
+          <title>Sinopia {Config.sinopiaEnv}</title>
+        </Helmet>
         <LoginPanel />
         {currentSession ? routesWithCurrentSession : routesWithOutCurrentSession }
         <Footer />
       </div>
-    </DocumentMeta>
+    </HelmetProvider>
   )
 }
 
