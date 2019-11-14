@@ -483,6 +483,20 @@ describe('stubResourceProperties', () => {
             'http://id.loc.gov/ontologies/bibframe/enumerationAndChronology': {},
           },
         },
+        k8xanLzV: {
+          'resourceTemplate:bf2:Identifiers:Barcode': {
+            'http://www.w3.org/1999/02/22-rdf-syntax-ns#value': {
+              items: [
+                {
+                  id: '8kxanLzV',
+                  content: '9992123',
+                  lang: 'ru',
+                },
+              ],
+            },
+            'http://id.loc.gov/ontologies/bibframe/enumerationAndChronology': {},
+          },
+        },
       },
     }
 
@@ -499,6 +513,15 @@ describe('stubResourceProperties', () => {
         'resourceTemplate:bf2:Monograph:Instance',
         'http://id.loc.gov/ontologies/bibframe/itemPortion',
         'M16a_G7Zc',
+        'resourceTemplate:bf2:Identifiers:Barcode',
+        'http://www.w3.org/1999/02/22-rdf-syntax-ns#value',
+      ]).length).toEqual(1)
+
+      expect(findToggleCollapse(store.getActions(), [
+        'resource',
+        'resourceTemplate:bf2:Monograph:Instance',
+        'http://id.loc.gov/ontologies/bibframe/itemPortion',
+        'k8xanLzV',
         'resourceTemplate:bf2:Identifiers:Barcode',
         'http://www.w3.org/1999/02/22-rdf-syntax-ns#value',
       ]).length).toEqual(1)

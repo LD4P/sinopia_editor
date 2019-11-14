@@ -247,26 +247,32 @@ export const stubResourceProperties = (resourceTemplateId, resourceTemplates,
         await Promise.all(
           propertyTemplate.valueConstraint.valueTemplateRefs.map(async (resourceTemplateId) => {
             // See if there is alread a <key> > <resource template id> for this resource template id
-            const existingNestedResourceKey = Object.keys(newResource[propertyTemplate.propertyURI]).find(
+            const nestedResourceKeys = Object.keys(newResource[propertyTemplate.propertyURI]).filter(
               key => _.first(Object.keys(newResource[propertyTemplate.propertyURI][key])) === resourceTemplateId,
             )
 
+
             const newResourceKey = shortid.generate()
-            if (existingNestedResourceKey === undefined) {
+            if (_.isEmpty(nestedResourceKeys)) {
               if (!isMandatory && !stubPropertyURIOnly && !anyExistingNestedResourceKeys) {
                 return
               }
               newResource[propertyTemplate.propertyURI][newResourceKey] = { [resourceTemplateId]: {} }
               dispatch(toggleCollapse(newResourcePropertyReduxPath))
+              nestedResourceKeys.push(newResourceKey)
             }
-            const nestedResourceKey = existingNestedResourceKey || newResourceKey
-            const newResourcePropertyValueReduxPath = [...newResourcePropertyReduxPath, nestedResourceKey]
-            const nestedResource = newResource[propertyTemplate.propertyURI][nestedResourceKey][resourceTemplateId]
-            const stubResult = await dispatch(stubResourceProperties(resourceTemplateId, newResourceTemplates,
-              nestedResource, newResourcePropertyValueReduxPath, useDefaults, isMandatory, false, errorKey))
-            const newNestedResource = stubResult[0]
-            newResourceTemplates = { ...newResourceTemplates, ...stubResult[1] }
-            newResource[propertyTemplate.propertyURI][nestedResourceKey][resourceTemplateId] = newNestedResource
+
+            await Promise.all(
+              nestedResourceKeys.map(async (nestedResourceKey) => {
+                const newResourcePropertyValueReduxPath = [...newResourcePropertyReduxPath, nestedResourceKey]
+                const nestedResource = newResource[propertyTemplate.propertyURI][nestedResourceKey][resourceTemplateId]
+                const stubResult = await dispatch(stubResourceProperties(resourceTemplateId, newResourceTemplates,
+                  nestedResource, newResourcePropertyValueReduxPath, useDefaults, isMandatory, false, errorKey))
+                const newNestedResource = stubResult[0]
+                newResourceTemplates = { ...newResourceTemplates, ...stubResult[1] }
+                newResource[propertyTemplate.propertyURI][nestedResourceKey][resourceTemplateId] = newNestedResource
+              }),
+            )
           }),
         )
         // If it is a property ref
