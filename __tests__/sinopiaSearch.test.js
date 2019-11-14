@@ -66,11 +66,11 @@ describe('getSearchResults', () => {
       totalHits: 2,
       results: [
         {
-          uri: 'repository/cornell/34ef053e-f558-4299-a8a7-c8b79a598d99',
+          uri: 'http://platform:8080/repository/cornell/34ef053e-f558-4299-a8a7-c8b79a598d99',
           label: 'foo bar',
         },
         {
-          uri: 'repository/cornell/a96f16c1-a15c-4f4f-8a25-7ed49ba1eebe',
+          uri: 'http://platform:8080/repository/cornell/a96f16c1-a15c-4f4f-8a25-7ed49ba1eebe',
           label: 'foo',
         },
       ],
@@ -249,7 +249,7 @@ describe('getLookupResults', () => {
     }, {
       totalHits: 1,
       results: [{
-        uri: 'repository/cornell/3519e138-0f07-46a6-bd82-d4804c3b4890',
+        uri: 'http://platform:8080/repository/cornell/3519e138-0f07-46a6-bd82-d4804c3b4890',
         label: 'Foo',
         created: '2019-11-03T15:04:18.015Z',
         modified: '2019-11-03T15:04:18.015Z',

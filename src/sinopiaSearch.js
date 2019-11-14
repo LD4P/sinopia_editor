@@ -59,7 +59,7 @@ export const getSearchResults = async (query, options = {}) => {
       return {
         totalHits: json.hits.total,
         results: json.hits.hits.map(row => ({
-          uri: row._id,
+          uri: row._source.uri,
           label: row._source.label,
           created: row._source.created,
           modified: row._source.modified,
