@@ -70,7 +70,7 @@ describe('GraphBuilder', () => {
       },
     }
 
-    const builder = new GraphBuilder(state.selectorReducer, 'abc123')
+    const builder = new GraphBuilder(state.selectorReducer.entities.resources.abc123, state.selectorReducer.entities.resourceTemplates)
 
 
     it('returns the graph', () => {
@@ -160,7 +160,7 @@ describe('GraphBuilder', () => {
       },
     }
 
-    const builder = new GraphBuilder(state.selectorReducer, 'abc123')
+    const builder = new GraphBuilder(state.selectorReducer.entities.resources.abc123, state.selectorReducer.entities.resourceTemplates)
 
 
     it('returns the graph', () => {
@@ -214,7 +214,7 @@ describe('GraphBuilder', () => {
       },
     }
 
-    const builder = new GraphBuilder(state.selectorReducer, 'abc123')
+    const builder = new GraphBuilder(state.selectorReducer.entities.resources.abc123, state.selectorReducer.entities.resourceTemplates)
 
     it('returns the graph and ignores the errors', () => {
       const graph = builder.graph
@@ -258,7 +258,7 @@ describe('GraphBuilder', () => {
       },
     }
 
-    const builder = new GraphBuilder(state.selectorReducer, 'abc123')
+    const builder = new GraphBuilder(state.selectorReducer.entities.resources.abc123, state.selectorReducer.entities.resourceTemplates)
 
     it('returns the graph without blank node', () => {
       const graph = builder.graph
@@ -290,7 +290,7 @@ describe('GraphBuilder', () => {
         'http://www.loc.gov/mads/rdf/v1#activityEndDate': {},
       },
     }
-    const builder = new GraphBuilder(state.selectorReducer, 'abc123')
+    const builder = new GraphBuilder(state.selectorReducer.entities.resources.abc123, state.selectorReducer.entities.resourceTemplates)
 
     it('graph contains authority URI and label', () => {
       const graph = builder.graph

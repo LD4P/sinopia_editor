@@ -4,7 +4,7 @@ import ResourceStateBuilder from 'ResourceStateBuilder'
 import { rdfDatasetFromN3 } from 'Utilities'
 import { useDispatch, useSelector } from 'react-redux'
 import { existingResource } from 'actionCreators/resources'
-import { appendError, clearErrors } from 'actions/index'
+import { appendError, clearErrors, setResourceTemplates } from 'actions/index'
 import { hasResource as hasResourceSelector } from 'selectors/resourceSelectors'
 
 /**
@@ -32,10 +32,10 @@ const useResource = (resourceN3, baseURI, resourceTemplateId, errorKey, history)
       const builder = new ResourceStateBuilder(dataset, baseURI, resourceTemplateId)
 
       return builder.buildState().then((result) => {
-        // TODO: This also returns the resource templates, which could be added to state.
-        // See https://github.com/LD4P/sinopia_editor/issues/1396
         const resourceState = result[0]
         const unusedDataset = result[1]
+        const resourceTemplates = result[2]
+        dispatch(setResourceTemplates(resourceTemplates))
         dispatch(existingResource(resourceState, unusedDataset.toCanonical(), undefined, errorKey)).then((result) => {
           setNavigateEditor(result)
         })

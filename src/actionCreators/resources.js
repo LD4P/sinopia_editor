@@ -3,7 +3,7 @@
 /* eslint complexity: ["warn", 14] */
 
 import {
-  setResource, updateProperty,
+  setResource, updateProperty, setResourceTemplates,
   toggleCollapse, appendResource, setLastSaveChecksum,
   assignBaseURL, setUnusedRDF,
   saveResourceFinished, appendError, clearErrors, setCurrentResource,
@@ -23,8 +23,9 @@ import _ from 'lodash'
 
 // A thunk that updates (saves) an existing resource in Trellis
 export const update = (resourceKey, currentUser, errorKey) => (dispatch, getState) => {
-  const uri = findResourceURI(getState(), resourceKey)
-  const rdf = new GraphBuilder(getState().selectorReducer, resourceKey).graph.toCanonical()
+  const state = getState()
+  const uri = findResourceURI(state, resourceKey)
+  const rdf = new GraphBuilder(state.selectorReducer.entities.resources[resourceKey], state.selectorReducer.entities.resourceTemplates).graph.toCanonical()
   return updateRDFResource(currentUser, uri, rdf)
     .then(() => dispatch(saveResourceFinished(resourceKey, generateMD5(rdf))))
     .catch(err => dispatch(appendError(errorKey, `Error saving ${uri}: ${err.toString()}`)))
@@ -39,17 +40,18 @@ export const retrieveResource = (currentUser, uri, errorKey, asNewResource) => (
       return rdfDatasetFromN3(data).then((dataset) => {
         const builder = new ResourceStateBuilder(dataset, null)
         const resourceKey = shortid.generate()
-        // This also returns the resource templates. Could they be used?
-        // See https://github.com/LD4P/sinopia_editor/issues/1396
         const newURI = asNewResource ? undefined : uri
-        return builder.buildState().then(([state, unusedDataset]) => dispatch(existingResourceFunc(state, newURI, resourceKey, errorKey))
-          .then((result) => {
-            const rdf = new GraphBuilder({ entities: { resources: { [resourceKey]: result[0] }, resourceTemplates: result[1] } }, resourceKey).graph.toCanonical()
-            if (!asNewResource) dispatch(setLastSaveChecksum(resourceKey, generateMD5(rdf)))
-            dispatch(setUnusedRDF(resourceKey, unusedDataset.toCanonical()))
-            dispatch(setCurrentResource(resourceKey))
-            return true
-          }))
+        return builder.buildState().then(([state, unusedDataset, resourceTemplates]) => {
+          dispatch(setResourceTemplates(resourceTemplates))
+          return dispatch(existingResourceFunc(state, newURI, resourceKey, errorKey))
+            .then((result) => {
+              const rdf = new GraphBuilder(result[0], result[1]).graph.toCanonical()
+              if (!asNewResource) dispatch(setLastSaveChecksum(resourceKey, generateMD5(rdf)))
+              dispatch(setUnusedRDF(resourceKey, unusedDataset.toCanonical()))
+              dispatch(setCurrentResource(resourceKey))
+              return true
+            })
+        })
           .catch((err) => {
             if (err.name !== 'ResourceTemplateError') throw err
             return false
@@ -65,7 +67,7 @@ export const retrieveResource = (currentUser, uri, errorKey, asNewResource) => (
 export const publishResource = (resourceKey, currentUser, group, errorKey) => (dispatch, getState) => {
   // Make a copy of state to prevent changes that will affect the publish.
   const state = _.cloneDeep(getState())
-  const rdf = new GraphBuilder(state.selectorReducer, resourceKey).graph.toCanonical()
+  const rdf = new GraphBuilder(state.selectorReducer.entities.resources[resourceKey], state.selectorReducer.entities.resourceTemplates).graph.toCanonical()
 
   return publishRDFResource(currentUser, rdf, group).then((result) => {
     const resourceUrl = result.response.headers.location
@@ -85,7 +87,7 @@ export const newResource = (resourceTemplateId, errorKey) => (dispatch) => {
   return stubResource(resource, true, undefined, resourceKey, errorKey, dispatch)
     .then((result) => {
       const resourceTemplates = result[1]
-      const rdf = new GraphBuilder({ entities: { resources: { [resourceKey]: result[0] }, resourceTemplates } }, resourceKey).graph.toCanonical()
+      const rdf = new GraphBuilder(result[0], resourceTemplates).graph.toCanonical()
       dispatch(setLastSaveChecksum(resourceKey, generateMD5(rdf)))
       dispatch(setUnusedRDF(resourceKey, null))
       dispatch(addTemplateHistory(resourceTemplates[resourceTemplateId]))

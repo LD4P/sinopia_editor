@@ -122,6 +122,7 @@ describe('retrieveResource', () => {
 
       expect(actions).toEqual([
         { type: 'CLEAR_ERRORS', payload: 'testerrorkey' },
+        { type: 'RESOURCE_TEMPLATES_LOADED', payload: { 'resourceTemplate:bf2:Note': resourceTemplate } },
         { type: 'RESOURCE_TEMPLATE_LOADED', payload: resourceTemplate },
         { type: 'TOGGLE_COLLAPSE', payload: { reduxPath } },
         { type: 'RESOURCE_LOADED', payload: { resourceKey: 'abc123', resource: expectedResource, resourceTemplates: { [resourceTemplateId]: resourceTemplate } } },
@@ -160,6 +161,7 @@ describe('retrieveResource', () => {
 
       expect(store.getActions()).toEqual([
         { type: 'CLEAR_ERRORS', payload: 'testerrorkey' },
+        { type: 'RESOURCE_TEMPLATES_LOADED', payload: { 'resourceTemplate:bf2:Note': resourceTemplate } },
         { type: 'RESOURCE_TEMPLATE_LOADED', payload: resourceTemplate },
         { type: 'TOGGLE_COLLAPSE', payload: { reduxPath } },
         { type: 'RESOURCE_LOADED', payload: { resourceKey: 'abc123', resource: expectedResource, resourceTemplates: { [resourceTemplateId]: resourceTemplate } } },
