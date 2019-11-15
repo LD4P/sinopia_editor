@@ -34,7 +34,7 @@ const OutlineHeader = (props) => {
     return (
       <div className={groupClasses}>
         <button type="button" className="btn btn-default btn-add btn-add-property" onClick={props.handleAddButton} data-id={props.id}>
-          + Add
+          + Add <strong><PropertyLabel propertyTemplate={props.property} /></strong>
         </button>
         <PropertyLabelInfo propertyTemplate={ props.property } />
         { error && <span className="text-danger">{error}</span>}
@@ -45,12 +45,12 @@ const OutlineHeader = (props) => {
   return (
     <div className={groupClasses}>
       <button type="button" className="btn btn-sm btn-toggle" onClick={props.handleToggle} data-id={props.id} disabled={isAdd}>
-        <FontAwesomeIcon id="toggle-icon" icon={toggleIcon} />
+        <FontAwesomeIcon className="toggle-icon" icon={toggleIcon} />
       </button>
       <strong><PropertyLabel propertyTemplate={props.property} /></strong>
       <PropertyLabelInfo propertyTemplate={ props.property } />
       <button type="button" className="btn btn-sm btn-remove" onClick={props.handleRemoveButton} data-id={props.id}>
-        <FontAwesomeIcon id="trash-icon" icon={trashIcon} />
+        <FontAwesomeIcon className="trash-icon" icon={trashIcon} />
       </button>
 
     </div>

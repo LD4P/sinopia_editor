@@ -23,6 +23,10 @@ describe('<OutlineHeader />', () => {
     }
     const wrapper = shallow(<OutlineHeader.WrappedComponent {...headerProps} />)
 
+    it('contains a <PropertyLabel />', () => {
+      expect(wrapper.exists('PropertyLabel')).toEqual(true)
+    })
+
     it('contains a <PropertyLabelInfo />', () => {
       expect(wrapper.exists('PropertyLabelInfo')).toEqual(true)
     })
@@ -30,7 +34,7 @@ describe('<OutlineHeader />', () => {
     describe('add button', () => {
       it('has an add button', () => {
         expect(wrapper.exists('button.btn-add')).toEqual(true)
-        expect(wrapper.find('button.btn-add').text()).toEqual('+ Add')
+        expect(wrapper.find('button.btn-add').text()).toEqual('+ Add <PropertyLabel />')
       })
 
       it('calls handleAddButton when clicked', () => {
@@ -72,7 +76,7 @@ describe('<OutlineHeader />', () => {
 
     describe('expand button', () => {
       it('is plus', () => {
-        expect(wrapper.find('FontAwesomeIcon#toggle-icon').props().icon).toEqual(faAngleRight)
+        expect(wrapper.find('FontAwesomeIcon.toggle-icon').props().icon).toEqual(faAngleRight)
       })
 
       it('is not disabled', () => {
@@ -112,7 +116,7 @@ describe('<OutlineHeader />', () => {
 
     it('expand button is angle down and not disabled', () => {
       expect(wrapper.exists('button.btn-toggle[disabled=false]')).toEqual(true)
-      expect(wrapper.find('FontAwesomeIcon#toggle-icon').props().icon).toEqual(faAngleDown)
+      expect(wrapper.find('FontAwesomeIcon.toggle-icon').props().icon).toEqual(faAngleDown)
     })
 
     it('does not have an add button', () => {
