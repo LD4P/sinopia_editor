@@ -31,6 +31,9 @@ assignees: ''
     - [ ] Publish a [new release](https://github.com/LD4P/sinopia_indexing_pipeline/releases/new) with a version like `v1.0.2` and wait for Circleci to complete building and pushing docker images.
   - [ ] Sinopia Exporter https://github.com/LD4P/sinopia_exporter
     - [ ] Publish a [new release](https://github.com/LD4P/sinopia_exporter/releases/new) with a version like `v1.0.2` and wait for Circleci to complete building and pushing docker images.
+  - [ ] Sinopia Profile Editor https://github.com/LD4P/sinopia_profile_editor
+    - [ ] Publish a [new release](https://github.com/LD4P/sinopia_profile_editor/releases/new) with a version like `v1.0.2` and wait for Circleci to complete building and pushing docker images.
+    
 - [ ] Deploy to staging
   - [ ] Follow [instructions](https://github.com/sul-dlss/terraform-aws/tree/master/organizations/staging/sinopia#deploying-a-release-to-staging) for pushing a release to staging. Make sure to update versions to Sinopia Editor, Sinopia Indexing Pipeline, and Sinopia Exporter.
   - [ ] Submit a new terraform PR.
