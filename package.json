@@ -40,7 +40,7 @@
     "dev-build": "webpack --progress --mode development",
     "dev-build-test": "npm run dev-build && npm run test",
     "dev-start": "webpack-dev-server --config ./webpack.config.js --mode development",
-    "eslint": "eslint --color -c .eslintrc.js --ext js,jsx .",
+    "eslint": "eslint --color -c .eslintrc.js --ext js,jsx --max-warnings 0 .",
     "eslint-fix": "eslint --color -c .eslintrc.js --ext js,jsx --fix .",
     "eslint-fix-single": "eslint --color -c .eslintrc.js --fix",
     "jest-cov": "jest --coverage --colors --silent --runInBand",
