@@ -9,11 +9,13 @@ import {
 
 const createInitialState = () => {
   const state = createBlankState()
-  state.selectorReducer.resource = {
-    'http://id.loc.gov/ontologies/bibframe/instanceOf': {
-      content: '45678',
+  state.selectorReducer.entities.resources = {
+    abc123: {
+      'http://id.loc.gov/ontologies/bibframe/instanceOf': {
+        content: '45678',
+      },
     },
-  }
+  },
   state.selectorReducer.entities.languages = {
     options: [{
       id: 'en',
@@ -32,29 +34,52 @@ const plProps = {
   },
   loadLanguages: jest.fn(),
   options: [],
-  reduxPath: ['resource', 'http://id.loc.gov/ontologies/bibframe/instanceOf'],
+  reduxPath: ['entities', 'resources', 'abc123', 'http://id.loc.gov/ontologies/bibframe/instanceOf'],
 }
 
 describe('<InputLang />', () => {
-  const store = createReduxStore(createInitialState())
   setupModal()
+  const initialState = createInitialState()
 
-  it('contains a label with the value of propertyLabel', () => {
-    const { queryByText } = renderWithRedux(
-      <InputLang {...plProps} />,
-      store,
-    )
-    const expected = 'Select language for 45678'
-    expect(queryByText(expected)).toBeInTheDocument()
+  describe('when nothing has been selected', () => {
+    it('contains a label with the value of propertyLabel', () => {
+      const store = createReduxStore(initialState)
+
+      const { queryByText } = renderWithRedux(
+        <InputLang {...plProps} />,
+        store,
+      )
+      const expected = 'Select language for 45678'
+      expect(queryByText(expected)).toBeInTheDocument()
+    })
+
+    it('change to match text changes input text', () => {
+      const store = createReduxStore(initialState)
+
+      const { getByLabelText, getByRole } = renderWithRedux(
+        <InputLang {...plProps} />,
+        store,
+      )
+      const radio = getByLabelText(/No language specified/)
+      expect(radio.checked).toBe(true)
+      const comboBox = getByRole('combobox', { hidden: true })
+      fireEvent.change(comboBox, { target: { value: 'English' } })
+      expect(comboBox.value).toBe('English')
+    })
   })
 
-  it('change to match text changes input text', () => {
-    const { getByRole } = renderWithRedux(
-      <InputLang {...plProps} />,
-      store,
-    )
-    const comboBox = getByRole('combobox', { hidden: true })
-    fireEvent.change(comboBox, { target: { value: 'English' } })
-    expect(comboBox.value).toBe('English')
+  describe('when English has been selected', () => {
+    it('change to match text changes input text', () => {
+      const state = { ...initialState }
+      state.selectorReducer.entities.resources.abc123['http://id.loc.gov/ontologies/bibframe/instanceOf'].lang = 'en'
+      const store = createReduxStore(state)
+
+      const { getByLabelText } = renderWithRedux(
+        <InputLang {...plProps} />,
+        store,
+      )
+      const radio = getByLabelText(/Select language for 45678/)
+      expect(radio.checked).toBe(true)
+    })
   })
 })
