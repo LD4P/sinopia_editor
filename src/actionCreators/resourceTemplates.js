@@ -1,7 +1,7 @@
 // Copyright 2019 Stanford University see LICENSE for license
 /* eslint max-params: ["warn", 4] */
 
-import { appendError, setResourceTemplate, addTemplateHistory } from 'actions/index'
+import { appendError, setResourceTemplate } from 'actions/index'
 import { clearTemplateMessages, setTemplateMessages } from 'actions/flash'
 import { clearModalMessages, addModalMessage, showModal } from 'actions/modals'
 import validateResourceTemplate from 'ResourceTemplateValidator'
@@ -22,8 +22,6 @@ export const fetchResourceTemplate = (resourceTemplateId, errorKey) => (dispatch
     return validateResourceTemplate(resourceTemplate).then((errors) => {
       if (_.isEmpty(errors)) {
         dispatch(setResourceTemplate(resourceTemplate))
-        dispatch(addTemplateHistory(resourceTemplate))
-
         return resourceTemplate
       }
       errors.forEach(error => dispatch(appendError(errorKey, error)))
