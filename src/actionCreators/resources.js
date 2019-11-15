@@ -7,6 +7,7 @@ import {
   toggleCollapse, appendResource, setLastSaveChecksum,
   assignBaseURL, setUnusedRDF,
   saveResourceFinished, appendError, clearErrors, setCurrentResource,
+  addTemplateHistory,
 } from 'actions/index'
 import { fetchResourceTemplate } from 'actionCreators/resourceTemplates'
 import { updateRDFResource, loadRDFResource, publishRDFResource } from 'sinopiaServer'
@@ -83,9 +84,11 @@ export const newResource = (resourceTemplateId, errorKey) => (dispatch) => {
   const resourceKey = shortid.generate()
   return stubResource(resource, true, undefined, resourceKey, errorKey, dispatch)
     .then((result) => {
-      const rdf = new GraphBuilder({ entities: { resources: { [resourceKey]: result[0] }, resourceTemplates: result[1] } }, resourceKey).graph.toCanonical()
+      const resourceTemplates = result[1]
+      const rdf = new GraphBuilder({ entities: { resources: { [resourceKey]: result[0] }, resourceTemplates } }, resourceKey).graph.toCanonical()
       dispatch(setLastSaveChecksum(resourceKey, generateMD5(rdf)))
       dispatch(setUnusedRDF(resourceKey, null))
+      dispatch(addTemplateHistory(resourceTemplates[resourceTemplateId]))
       return true
     })
     .catch((err) => {

@@ -123,7 +123,6 @@ describe('retrieveResource', () => {
       expect(actions).toEqual([
         { type: 'CLEAR_ERRORS', payload: 'testerrorkey' },
         { type: 'RESOURCE_TEMPLATE_LOADED', payload: resourceTemplate },
-        { type: 'ADD_TEMPLATE_HISTORY', payload: resourceTemplate },
         { type: 'TOGGLE_COLLAPSE', payload: { reduxPath } },
         { type: 'RESOURCE_LOADED', payload: { resourceKey: 'abc123', resource: expectedResource, resourceTemplates: { [resourceTemplateId]: resourceTemplate } } },
         { type: 'SET_LAST_SAVE_CHECKSUM', payload: { resourceKey: 'abc123', checksum: undefined } },
@@ -162,7 +161,6 @@ describe('retrieveResource', () => {
       expect(store.getActions()).toEqual([
         { type: 'CLEAR_ERRORS', payload: 'testerrorkey' },
         { type: 'RESOURCE_TEMPLATE_LOADED', payload: resourceTemplate },
-        { type: 'ADD_TEMPLATE_HISTORY', payload: resourceTemplate },
         { type: 'TOGGLE_COLLAPSE', payload: { reduxPath } },
         { type: 'RESOURCE_LOADED', payload: { resourceKey: 'abc123', resource: expectedResource, resourceTemplates: { [resourceTemplateId]: resourceTemplate } } },
         { type: 'SET_LAST_SAVE_CHECKSUM', payload: { resourceKey: 'abc123', checksum: undefined } },
@@ -262,10 +260,10 @@ describe('newResource', () => {
       expect(store.getActions()).toEqual([
         { type: 'CLEAR_ERRORS', payload: 'testerrorkey' },
         { type: 'RESOURCE_TEMPLATE_LOADED', payload: resourceTemplate },
-        { type: 'ADD_TEMPLATE_HISTORY', payload: resourceTemplate },
         { type: 'RESOURCE_LOADED', payload: { resourceKey: 'abc123', resource: expectedResource, resourceTemplates: { [resourceTemplateId]: resourceTemplate } } },
         { type: 'SET_LAST_SAVE_CHECKSUM', payload: { resourceKey: 'abc123', checksum: 'baf92a33bf689d599a41bb4563db42fc' } },
-        { type: 'SET_UNUSED_RDF', payload: { resourceKey: 'abc123', rdf: null } }])
+        { type: 'SET_UNUSED_RDF', payload: { resourceKey: 'abc123', rdf: null } },
+        { type: 'ADD_TEMPLATE_HISTORY', payload: resourceTemplate }])
     })
   })
 })
@@ -319,7 +317,6 @@ describe('existingResource', () => {
       }
       expect(store.getActions()).toEqual([
         { type: 'RESOURCE_TEMPLATE_LOADED', payload: resourceTemplate },
-        { type: 'ADD_TEMPLATE_HISTORY', payload: resourceTemplate },
         { type: 'RESOURCE_LOADED', payload: { resourceKey: 'abc123', resource: expectedResource, resourceTemplates: { [resourceTemplateId]: resourceTemplate } } },
         { type: 'SET_LAST_SAVE_CHECKSUM', payload: { resourceKey: 'abc123', checksum: undefined } },
         { type: 'SET_UNUSED_RDF', payload: { resourceKey: 'abc123', rdf: unusedRDF } },
