@@ -9,7 +9,7 @@ import GraphBuilder from 'GraphBuilder'
 import ModalWrapper, { useDisplayStyle, useModalCss } from '../ModalWrapper'
 import SaveAndPublishButton from './actions/SaveAndPublishButton'
 import RDFDisplay from './RDFDisplay'
-import { currentResourceKey } from 'selectors/resourceSelectors'
+import { findResource } from 'selectors/resourceSelectors'
 
 const RDFModal = (props) => {
   const dispatch = useDispatch()
@@ -57,7 +57,7 @@ RDFModal.propTypes = {
 
 const mapStateToProps = state => ({
   show: modalType(state) === 'RDFModal',
-  rdf: () => new GraphBuilder(state.selectorReducer, currentResourceKey(state)).graph.toCanonical(),
+  rdf: () => new GraphBuilder(findResource(state), state.selectorReducer.entities.resourceTemplates).graph.toCanonical(),
 })
 
 export default connect(mapStateToProps, null)(RDFModal)

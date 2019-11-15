@@ -8,12 +8,12 @@ import _ from 'lodash'
  */
 export default class GraphBuilder {
   /**
-   * @param {Object} state the Redux state (which is global state.selectorReducer)
-   * @param {Object} resourcKey of the resource to be graphed
+   * @param {Object} resource to be converted to graph
+   * @param {Object} resourceTemplates to be used to convert to graph
    */
-  constructor(state, resourceKey) {
-    this.state = state
-    this.resourceKey = resourceKey
+  constructor(resource, resourceTemplates) {
+    this.resource = resource
+    this.resourceTemplates = resourceTemplates
     this.dataset = rdf.dataset()
   }
 
@@ -21,17 +21,17 @@ export default class GraphBuilder {
    * @return {Graph} an RDF graph that represents the data in the state
    */
   get graph() {
-    const resource = this.state.entities.resources[this.resourceKey]
+    if (this.resource) {
+      Object.keys(this.resource).forEach((resourceTemplateId) => {
+        // Always save with relative URI
+        const resourceURI = rdf.namedNode('')
 
-    Object.keys(resource).forEach((resourceTemplateId) => {
-      // Always save with relative URI
-      const resourceURI = rdf.namedNode('')
-
-      this.buildTriplesForNode(resourceURI,
-        resourceTemplateId,
-        this.getPredicateList(resource[resourceTemplateId]))
-      this.addGeneratedByTriple(resourceURI, resourceTemplateId)
-    })
+        this.buildTriplesForNode(resourceURI,
+          resourceTemplateId,
+          this.getPredicateList(this.resource[resourceTemplateId]))
+        this.addGeneratedByTriple(resourceURI, resourceTemplateId)
+      })
+    }
     return this.dataset
   }
 
@@ -39,7 +39,9 @@ export default class GraphBuilder {
    * @return {string} a string containing a uri for the class
    */
   getResourceTemplateClass(resourceTemplateId) {
-    return this.state.entities.resourceTemplates[resourceTemplateId].resourceURI
+    const resourceTemplate = this.resourceTemplates[resourceTemplateId]
+    if (!resourceTemplate) throw `Error building graph. ${resourceTemplateId} is missing.`
+    return resourceTemplate.resourceURI
   }
 
   /**

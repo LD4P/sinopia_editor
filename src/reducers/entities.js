@@ -15,6 +15,15 @@ export const setResourceTemplate = (state, action) => {
   return newState
 }
 
+export const setResourceTemplates = (state, action) => {
+  const newState = { ...state }
+
+  newState.entities.resourceTemplates = { ...newState.entities.resourceTemplates, ...action.payload }
+
+  return newState
+}
+
+
 export const clearResourceTemplates = (state) => {
   const newState = { ...state }
 

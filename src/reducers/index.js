@@ -14,7 +14,7 @@ import {
   setTemplateMessages, clearTemplateMessages,
 } from './flash'
 import {
-  setResourceTemplate, clearResourceTemplates,
+  setResourceTemplate, setResourceTemplates, clearResourceTemplates,
   loadingLanguages, languagesReceived, exportsReceived,
   loadingQaResults, qaResultsReceived, copyResourceToEditor,
 } from './entities'
@@ -203,6 +203,7 @@ const handlers = {
   REMOVE_RESOURCE: removeResource,
   RESOURCE_LOADED: setResource,
   RESOURCE_TEMPLATE_LOADED: setResourceTemplate,
+  RESOURCE_TEMPLATES_LOADED: setResourceTemplates,
   SAVE_APP_VERSION: saveAppVersion,
   SAVE_RESOURCE_FINISHED: saveResourceFinished,
   SET_BASE_URL: setBaseURL,

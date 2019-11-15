@@ -131,6 +131,11 @@ export const setResourceTemplate = resourceTemplate => ({
   payload: resourceTemplate,
 })
 
+export const setResourceTemplates = resourceTemplates => ({
+  type: 'RESOURCE_TEMPLATES_LOADED',
+  payload: resourceTemplates,
+})
+
 export const addTemplateHistory = resourceTemplate => ({
   type: 'ADD_TEMPLATE_HISTORY',
   payload: resourceTemplate,
