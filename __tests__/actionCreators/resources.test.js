@@ -11,6 +11,7 @@ import configureMockStore from 'redux-mock-store'
 import thunk from 'redux-thunk'
 import shortid from 'shortid'
 import { createBlankState } from 'testUtils'
+import * as resourceTemplateValidator from 'ResourceTemplateValidator'
 
 jest.mock('sinopiaServer')
 
@@ -86,7 +87,7 @@ describe('retrieveResource', () => {
           type: 'APPEND_ERROR',
           payload: {
             errorKey: 'testerrorkey',
-            error: 'Error retrieving http://sinopia.io/repository/stanford/123: Error getting resourceTemplate:bf2:Note: Error: not found',
+            error: 'ResourceStateBuilderTemplateError: Unable to load resourceTemplate:bf2:Note: Error: not found',
           },
         },
       ])
@@ -183,11 +184,31 @@ describe('retrieveResource', () => {
         {
           type: 'APPEND_ERROR',
           payload: {
-            error: 'Error retrieving http://sinopia.io/repository/stanford/123: Error getting resourceTemplate:bf2:Note: Error: Ooops',
+            error: 'ResourceStateBuilderTemplateError: Unable to load resourceTemplate:bf2:Note: Error: Ooops',
             errorKey: 'testerrorkey',
           },
         },
       ])
+    })
+  })
+
+  describe('when validation errors occur', () => {
+    it('it dispatches errors', async () => {
+      const validateResourceTemplateSpy = jest.spyOn(resourceTemplateValidator, 'validateResourceTemplate').mockResolvedValue(['First error', 'Second error'])
+
+      expect(await store.dispatch(retrieveResource(currentUser, uri, 'testerrorkey'))).toBe(false)
+
+      expect(store.getActions()).toEqual([
+        { type: 'CLEAR_ERRORS', payload: 'testerrorkey' },
+        {
+          type: 'APPEND_ERROR',
+          payload: {
+            error: 'ResourceStateBuilderTemplateError: Unable to load resourceTemplate:bf2:Note: Error: Ooops',
+            errorKey: 'testerrorkey',
+          },
+        },
+      ])
+      validateResourceTemplateSpy.mockRestore()
     })
   })
 })

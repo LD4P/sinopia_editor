@@ -11,7 +11,7 @@ import _ from 'lodash'
  * @param {Array<string>} resourceTemplatesIds that are available
  * @return {Promise<Array<string>>} reasons that validation failed
  */
-const validateResourceTemplate = async resourceTemplate => [].concat(
+export const validateResourceTemplate = async resourceTemplate => [].concat(
   validateRepeatedPropertyTemplates(resourceTemplate),
   validateNoDefaultURIForLiterals(resourceTemplate),
   validateNoDefaultsForTemplateRefs(resourceTemplate),
@@ -202,5 +202,4 @@ const fetchResourceTemplate = async resourceTemplateId => getResourceTemplate(re
 
 const formatError = (error, resourceTemplate) => `Validation error for ${resourceTemplate.resourceURI}: ${error}`
 
-
-export default validateResourceTemplate
+export const noop = () => {}
