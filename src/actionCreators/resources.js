@@ -37,28 +37,42 @@ export const retrieveResource = (currentUser, uri, errorKey, asNewResource) => (
   return loadRDFResource(currentUser, uri)
     .then((response) => {
       const data = response.response.text
-      return rdfDatasetFromN3(data).then((dataset) => {
-        const builder = new ResourceStateBuilder(dataset, null)
-        const resourceKey = shortid.generate()
-        const newURI = asNewResource ? undefined : uri
-        return builder.buildState().then(([state, unusedDataset, resourceTemplates]) => {
-          dispatch(setResourceTemplates(resourceTemplates))
-          return dispatch(existingResourceFunc(state, newURI, resourceKey, errorKey))
-            .then((result) => {
-              const rdf = new GraphBuilder(result[0], result[1]).graph.toCanonical()
-              if (!asNewResource) dispatch(setLastSaveChecksum(resourceKey, generateMD5(rdf)))
-              dispatch(setUnusedRDF(resourceKey, unusedDataset.toCanonical()))
-              dispatch(setCurrentResource(resourceKey))
-              return true
+      return rdfDatasetFromN3(data)
+        .then((dataset) => {
+          const builder = new ResourceStateBuilder(dataset, null)
+          const resourceKey = shortid.generate()
+          const newURI = asNewResource ? undefined : uri
+          return builder.buildState()
+            .then(([state, unusedDataset, resourceTemplates]) => {
+              dispatch(setResourceTemplates(resourceTemplates))
+              return dispatch(existingResourceFunc(state, newURI, resourceKey, errorKey))
+                .then((result) => {
+                  const rdf = new GraphBuilder(result[0], result[1]).graph.toCanonical()
+                  if (!asNewResource) dispatch(setLastSaveChecksum(resourceKey, generateMD5(rdf)))
+                  dispatch(setUnusedRDF(resourceKey, unusedDataset.toCanonical()))
+                  dispatch(setCurrentResource(resourceKey))
+                  return true
+                })
+            })
+            .catch((err) => {
+              if (err.name !== 'ResourceStateBuilderTemplateError') throw err
+              // A ResourceStateBuilderTemplateError raised by the GraphBuilder may include multiple validation errors.
+              // These errors have not been dispatched.
+              if (err.name === 'ResourceStateBuilderTemplateError' && err.validationErrors) {
+                err.validationErrors.forEach(validationErr => dispatch(appendError(errorKey, validationErr)))
+              } else {
+                dispatch(appendError(errorKey, err.toString()))
+              }
+              return false
             })
         })
-          .catch((err) => {
-            if (err.name !== 'ResourceTemplateError') throw err
-            return false
-          })
-      })
-    }).catch((err) => {
-      dispatch(appendError(errorKey, `Error retrieving ${uri}: ${err.toString()}`))
+        .catch((err) => { throw err })
+    })
+    .catch((err) => {
+      // ResourceTemplateErrors have already been dispatched.
+      if (err.name !== 'ResourceTemplateError') {
+        dispatch(appendError(errorKey, `Error retrieving ${uri}: ${err.toString()}`))
+      }
       return false
     })
 }

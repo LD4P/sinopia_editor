@@ -39,7 +39,14 @@ const useResource = (resourceN3, baseURI, resourceTemplateId, errorKey, history)
         dispatch(existingResource(resourceState, unusedDataset.toCanonical(), undefined, errorKey)).then((result) => {
           setNavigateEditor(result)
         })
-      }).catch(err => dispatch(appendError(errorKey, err.toString())))
+      }).catch((err) => {
+        // A ResourceStateBuilderTemplateError may include multiple validation errors.
+        if (err.name === 'ResourceStateBuilderTemplateError' && err.validationErrors) {
+          err.validationErrors.forEach(validationErr => dispatch(appendError(errorKey, validationErr)))
+        } else {
+          dispatch(appendError(errorKey, err.toString()))
+        }
+      })
     }).catch(err => dispatch(appendError(errorKey, `Error parsing: ${err.toString()}`)))
   }, [resourceN3, baseURI, resourceTemplateId, dispatch, errorKey])
 

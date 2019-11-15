@@ -3,14 +3,16 @@
 import ResourceStateBuilder from 'ResourceStateBuilder'
 import shortid from 'shortid'
 import * as sinopiaServer from 'sinopiaServer'
+import * as resourceTemplateValidator from 'ResourceTemplateValidator'
 import { rdfDatasetFromN3 } from 'Utilities'
-import { getFixtureResourceTemplate } from './fixtureLoaderHelper'
+import { getFixtureResourceTemplate, resourceTemplateIds } from './fixtureLoaderHelper'
 
 jest.mock('sinopiaServer')
 
 describe('ResourceStateBuilder', () => {
   beforeEach(() => {
     sinopiaServer.getResourceTemplate.mockImplementation(getFixtureResourceTemplate)
+    sinopiaServer.foundResourceTemplate.mockImplementation(templateId => resourceTemplateIds.includes(templateId))
   })
 
   it('builds the state for literal properties', async () => {
@@ -134,9 +136,21 @@ describe('ResourceStateBuilder', () => {
     const dataset = await rdfDatasetFromN3(resource)
 
     const builder = new ResourceStateBuilder(dataset, 'http://example/123')
-    await expect(builder.buildState()).rejects.toMatch(/Error getting resourceTemplate:bf2:Note/)
+
+    await expect(builder.buildState()).rejects.toHaveProperty('message', 'Unable to load resourceTemplate:bf2:Note: Error: 404')
   })
 
+  it('raises when error when resource template validation errors', async () => {
+    const resource = `<http://example/123> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://id.loc.gov/ontologies/bibframe/Note> .
+    <http://example/123> <http://sinopia.io/vocabulary/hasResourceTemplate> "rt:repeated:propertyURI:propertyLabel" .
+    <http://example/123> <http://www.w3.org/2000/01/rdf-schema#label> "bar"@en .`
+
+    const dataset = await rdfDatasetFromN3(resource)
+
+    const builder = new ResourceStateBuilder(dataset, 'http://example/123')
+    await expect(builder.buildState()).rejects.toHaveProperty('message', 'Error validating rt:repeated:propertyURI:propertyLabel: Validation error for http://id.loc.gov/ontologies/bibframe/Work: Repeated property templates with same property URI (http://id.loc.gov/ontologies/bibframe/geographicCoverage) are not allowed.')
+    await expect(builder.buildState()).rejects.toHaveProperty('validationErrors', ['Validation error for http://id.loc.gov/ontologies/bibframe/Work: Repeated property templates with same property URI (http://id.loc.gov/ontologies/bibframe/geographicCoverage) are not allowed.'])
+  })
 
   it('builds the state for URI resource properties', async () => {
     const resource = `<http://example/123> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://id.loc.gov/ontologies/bibframe/Work> .
@@ -196,7 +210,6 @@ describe('ResourceStateBuilder', () => {
 `
     expect(unusedDataset.toCanonical()).toEqual(unmatched)
   })
-
 
   it('builds the state for embedded resource property', async () => {
     const resource = `<http://example/123> <http://id.loc.gov/ontologies/bibframe/carrier> <http://id.loc.gov/vocabulary/carriers/nc> .
@@ -349,6 +362,7 @@ _:c14n1 <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://id.loc.gov/ont
       }
       return getFixtureResourceTemplate(rtId)
     })
+    const validateResourceTemplateSpy = jest.spyOn(resourceTemplateValidator, 'validateResourceTemplate').mockResolvedValue([])
 
     const dataset = await rdfDatasetFromN3(resource)
 
@@ -356,6 +370,8 @@ _:c14n1 <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://id.loc.gov/ont
 
     const builder = new ResourceStateBuilder(dataset, 'http://example/123')
     await expect(builder.buildState()).rejects.toMatch(/More than one resource template matches/)
+
+    validateResourceTemplateSpy.mockRestore()
   })
 
   it('ignores when 0 possible resource templates for an embedded resource', async () => {

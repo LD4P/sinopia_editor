@@ -4,7 +4,7 @@
 import { appendError, setResourceTemplate } from 'actions/index'
 import { clearTemplateMessages, setTemplateMessages } from 'actions/flash'
 import { clearModalMessages, addModalMessage, showModal } from 'actions/modals'
-import validateResourceTemplate from 'ResourceTemplateValidator'
+import { validateResourceTemplate } from 'ResourceTemplateValidator'
 import { createResourceTemplate, getResourceTemplate, updateResourceTemplate } from 'sinopiaServer'
 import { findResourceTemplate } from 'selectors/entitySelectors'
 import { getCurrentUser } from 'authSelectors'

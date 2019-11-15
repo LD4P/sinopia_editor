@@ -1,10 +1,10 @@
 // Copyright 2019 Stanford University see LICENSE for license
 
 import shortid from 'shortid'
-
 import rdf from 'rdf-ext'
 import { getResourceTemplate } from 'sinopiaServer'
 import _ from 'lodash'
+import { validateResourceTemplate } from 'ResourceTemplateValidator'
 
 /**
  * Builds Redux state from an RDF graph.
@@ -21,9 +21,6 @@ export default class ResourceStateBuilder {
   constructor(dataset, resourceURI, resourceTemplateId) {
     this.dataset = dataset
     this.resourceURI = resourceURI === '' ? null : resourceURI
-    this.resourceState = {}
-    this.usedDataset = rdf.dataset(this.findTypeQuads(rdf.namedNode(this.resourceURI)))
-    this.resourceTemplates = {}
     this.baseResourceTemplateId = resourceTemplateId
   }
 
@@ -31,8 +28,13 @@ export default class ResourceStateBuilder {
    * @return {Promise<[Object, rdf.Dataset, Object]>} the resource represented as Redux state,
    *  dataset containing unmatched triples, the resource templates
    * @raise reasons that generating state failed, including problems with the resource and loaded resource templates
+   * @raise {ResourceStateBuilderTemplateError} if a resource template cannot be loaded or is not found or is invalid
    */
   async buildState() {
+    this.resourceState = {}
+    this.usedDataset = rdf.dataset(this.findTypeQuads(rdf.namedNode(this.resourceURI)))
+    this.resourceTemplates = {}
+
     // Find the resource template id of base resource. Should be only 1.
     const rtId = this.baseResourceTemplateId || this.findRootResourceTemplateId()
     this.usedDataset.addAll(this.findResourceTemplateQuads(rdf.namedNode(this.resourceURI)))
@@ -187,10 +189,22 @@ export default class ResourceStateBuilder {
     return getResourceTemplate(rtId, 'ld4p').then((response) => {
       const resourceTemplate = response.response.body
       this.resourceTemplates[rtId] = resourceTemplate
-      // TODO: Validate template. See https://github.com/LD4P/sinopia_editor/issues/1394
-      return resourceTemplate
+      return validateResourceTemplate(resourceTemplate)
+        .then((errors) => {
+          if (!_.isEmpty(errors)) {
+            const err = new Error(`Error validating ${rtId}: ${errors.join(' ')}`)
+            err.name = 'ResourceStateBuilderTemplateError'
+            err.validationErrors = errors
+            throw err
+          }
+          return resourceTemplate
+        })
+        .catch((err) => { throw err })
     }).catch((err) => {
-      throw `Error getting ${rtId}: ${err}`
+      if (err.name === 'ResourceStateBuilderTemplateError') throw err
+      const error = new Error(`Unable to load ${rtId}: ${err}`)
+      error.name = 'ResourceStateBuilderTemplateError'
+      throw error
     })
   }
 
