@@ -19,10 +19,10 @@ const ModalWrapper = (props) => {
   const el = useRef(document.createElement('div'))
 
   useEffect(() => {
-    modalRoot.appendChild(el.current)
-  })
-
-  useEffect(() => { () => modalRoot.removeChild(el.current) })
+    const currentNode = el.current
+    modalRoot.appendChild(currentNode)
+    return () => modalRoot.removeChild(currentNode)
+  }, [modalRoot])
 
   return createPortal(props.modal, el.current)
 }

@@ -13,7 +13,7 @@ const LanguageButton = (props) => {
 
   const handleClick = (event) => {
     event.preventDefault()
-    dispatch(showModal('LanguageModal'))
+    dispatch(showModal(`LanguageModal-${props.reduxPath.join()}`))
   }
 
   return (

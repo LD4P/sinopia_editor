@@ -1,7 +1,8 @@
 // Copyright 2019 Stanford University see LICENSE for license
 
 import React from 'react'
-import { render } from '@testing-library/react'
+import { cleanup, render } from '@testing-library/react'
+import { setupModal } from 'testUtils'
 import ModalWrapper, { useDisplayStyle, useModalCss } from 'components/ModalWrapper'
 
 const testModal = () => {
@@ -29,9 +30,7 @@ const testModal = () => {
 
 
 describe('<ModalWrapper />, A wrapper for moving modals to a different location in the DOM', () => {
-  const portalRoot = document.createElement('div')
-  portalRoot.setAttribute('id', 'modal')
-  document.body.appendChild(portalRoot)
+  setupModal()
 
   const { getByText } = render(
     <ModalWrapper modal={testModal()} />,
@@ -39,6 +38,11 @@ describe('<ModalWrapper />, A wrapper for moving modals to a different location 
 
   it('modal is rendered in a div"', () => {
     expect(getByText('Modal title')).toBeInTheDocument()
+  })
+
+  it('modal div no longer in DOM after component is unmounted', () => {
+    cleanup() // Calls the useEffect cleanup function
+    expect(document.getElementById('modal').querySelector('div')).toBeFalsy()
   })
 })
 

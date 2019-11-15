@@ -37,6 +37,6 @@ describe('When the user enters input into language modal', () => {
 
   it('shows the <InputLang> modal when the <Button/> is clicked', async () => {
     fireEvent.click(getByText('Language:'))
-    expect(modalType(store.getState())).toMatch('LanguageModal')
+    expect(modalType(store.getState())).toMatch('LanguageModal-resource,resourceTemplate:bf2:Monograph:Instance,http://id.loc.gov/ontologies/bibframe/instanceOf')
   })
 })
