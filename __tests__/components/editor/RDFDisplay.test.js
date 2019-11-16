@@ -5,7 +5,7 @@ import { render, fireEvent } from '@testing-library/react'
 import RDFDisplay from 'components/editor/RDFDisplay'
 
 describe('<RDFDisplay />', () => {
-  const rdf = `<> <http://id.loc.gov/ontologies/bibframe/mainTitle> "foo"@en .
+  const rdf = `<> <http://id.loc.gov/ontologies/bibframe/mainTitle> "foo"@eng .
 <> <http://sinopia.io/vocabulary/hasResourceTemplate> "ld4p:RT:bf2:Title:AbbrTitle" .
 <> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://id.loc.gov/ontologies/bibframe/AbbreviatedTitle> .
 `
@@ -35,7 +35,7 @@ describe('<RDFDisplay />', () => {
 
     fireEvent.change(getByLabelText(/Format/), { target: { value: 'n-triples' } })
 
-    expect(await findByText(/<> <http:\/\/id.loc.gov\/ontologies\/bibframe\/mainTitle> "foo"@en \./)).toBeInTheDocument()
+    expect(await findByText(/<> <http:\/\/id.loc.gov\/ontologies\/bibframe\/mainTitle> "foo"@eng \./)).toBeInTheDocument()
   })
 
   it('renders Turtle', async () => {
@@ -44,7 +44,7 @@ describe('<RDFDisplay />', () => {
 
     fireEvent.change(getByLabelText(/Format/), { target: { value: 'turtle' } })
 
-    expect(await findByText(/<> <http:\/\/id.loc.gov\/ontologies\/bibframe\/mainTitle> "foo"@en;/)).toBeInTheDocument()
+    expect(await findByText(/<> <http:\/\/id.loc.gov\/ontologies\/bibframe\/mainTitle> "foo"@eng;/)).toBeInTheDocument()
   })
 
   it('displays errors', async () => {

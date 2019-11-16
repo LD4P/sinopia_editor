@@ -49,7 +49,7 @@ const createInitialState = (options = {}) => {
   }
   state.selectorReducer.entities.languages = {
     options: [{
-      id: 'en',
+      id: 'eng',
       label: 'English',
     }],
   }
@@ -58,7 +58,7 @@ const createInitialState = (options = {}) => {
     const items = {
       Uv8UAARr8: {
         content: 'foo',
-        lang: 'en',
+        lang: 'eng',
       },
     }
     state.selectorReducer.entities.resources.abc123['resourceTemplate:bf2:WorkTitle']['http://id.loc.gov/ontologies/bibframe/mainTitle'].items = items
@@ -264,7 +264,7 @@ describe('InputLiteral', () => {
 
     // Render an RDFModal
     await assertRDF(store, [
-      '<> <http://id.loc.gov/ontologies/bibframe/mainTitle> "foo"@en .',
+      '<> <http://id.loc.gov/ontologies/bibframe/mainTitle> "foo"@eng .',
       '<> <http://sinopia.io/vocabulary/hasResourceTemplate> "resourceTemplate:bf2:WorkTitle" .',
       '<> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://id.loc.gov/ontologies/bibframe/Title> .',
     ])
@@ -288,8 +288,8 @@ describe('InputLiteral', () => {
 
     // Render an RDFModal
     await assertRDF(store, [
-      '<> <http://id.loc.gov/ontologies/bibframe/mainTitle> "foo"@en .',
-      '<> <http://id.loc.gov/ontologies/bibframe/mainTitle> "bar"@en .',
+      '<> <http://id.loc.gov/ontologies/bibframe/mainTitle> "foo"@eng .',
+      '<> <http://id.loc.gov/ontologies/bibframe/mainTitle> "bar"@eng .',
       '<> <http://sinopia.io/vocabulary/hasResourceTemplate> "resourceTemplate:bf2:WorkTitle" .',
       '<> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://id.loc.gov/ontologies/bibframe/Title> .',
     ])

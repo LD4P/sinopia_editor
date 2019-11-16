@@ -44,7 +44,7 @@ describe('GraphBuilder', () => {
                 items: {
                   '3TzRpgv65': {
                     content: 'Very colorful',
-                    lang: 'en',
+                    lang: 'eng',
                   },
                   '5TzRpgv72': {
                     content: 'Sparkly',
@@ -89,7 +89,7 @@ describe('GraphBuilder', () => {
       expect(graph.has(propertyTriple)).toBeTruthy()
 
       // An triple with a lang tag
-      const result1 = graph.filter(quad => quad.object.equals(rdf.literal('Very colorful', 'en'))).toArray()
+      const result1 = graph.filter(quad => quad.object.equals(rdf.literal('Very colorful', 'eng'))).toArray()
       // An triple without a lang tag
       const result2 = graph.filter(quad => quad.object.equals(rdf.literal('Sparkly'))).toArray()
       // A triple on a separate resource (bf:Note)

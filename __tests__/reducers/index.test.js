@@ -117,7 +117,7 @@ describe('removeResource', () => {
                           lang: {
                             items: [
                               {
-                                id: 'en',
+                                id: 'eng',
                                 label: 'English',
                               },
                             ],

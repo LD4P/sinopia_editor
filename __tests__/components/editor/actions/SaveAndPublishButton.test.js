@@ -14,7 +14,7 @@ const createInitialState = () => {
         items: {
           hPSHr9jA: {
             content: '123456',
-            lang: 'en',
+            lang: 'eng',
           },
         },
       },
@@ -86,7 +86,8 @@ describe('<SaveAndPublishButton />', () => {
   })
   it('is disabled if resource has not changed', () => {
     const initialState = createInitialState()
-    initialState.selectorReducer.editor.lastSaveChecksum.abc123 = 'c5c8da42a2b460a740c33c72acb4d115'
+    // See resourceHasChangesSinceLastSave() for checksum
+    initialState.selectorReducer.editor.lastSaveChecksum.abc123 = '5267eb8da0ab5ef646cae0190cf13a7c'
     const store = createReduxStore(initialState)
     const { getByText } = renderWithRedux(
       <SaveAndPublishButton class="test" />, store,

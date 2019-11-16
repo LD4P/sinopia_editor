@@ -72,7 +72,7 @@ describe('languagesReceived', () => {
   it('creates a hash of options that it renders in the form field', () => {
     const lcLanguage = [
       {
-        '@id': 'http://id.loc.gov/vocabulary/iso639-1/sn',
+        '@id': 'http://id.loc.gov/vocabulary/iso639-2/sna',
         'http://www.loc.gov/mads/rdf/v1#authoritativeLabel': [
           {
             '@language': 'en',
@@ -102,7 +102,7 @@ describe('languagesReceived', () => {
         resourceTemplates: {},
         languages: {
           loading: false,
-          options: [{ id: 'sn', label: 'Shona' }],
+          options: [{ id: 'sna', label: 'Shona' }],
         },
       },
     })

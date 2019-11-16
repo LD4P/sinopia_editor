@@ -98,7 +98,6 @@ export const appendError = (state, action) => {
 export const clearResource = (state, action) => {
   const newState = { ...state }
   const resourceKey = action.payload
-
   delete newState.entities.resources[resourceKey]
   delete newState.editor.resourceValidation.errors[resourceKey]
   if (newState.editor.resourceValidation.errorsByPath.entities?.resources) delete newState.editor.resourceValidation.errorsByPath.entities.resources[resourceKey]

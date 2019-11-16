@@ -16,7 +16,7 @@ describe('Loading RDF', () => {
     await pupExpect(page).toMatch('Load RDF into Editor')
 
     // Fill out the form and click submit
-    await expect(page).toFill('form#loadForm textarea[id="resourceTextArea"]', '<http://abc123> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://id.loc.gov/ontologies/bibframe/Note> . <http://abc123> <http://sinopia.io/vocabulary/hasResourceTemplate> "resourceTemplate:bf2:Note" . <http://abc123> <http://www.w3.org/2000/01/rdf-schema#label> "foo"@en .')
+    await expect(page).toFill('form#loadForm textarea[id="resourceTextArea"]', '<http://abc123> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://id.loc.gov/ontologies/bibframe/Note> . <http://abc123> <http://sinopia.io/vocabulary/hasResourceTemplate> "resourceTemplate:bf2:Note" . <http://abc123> <http://www.w3.org/2000/01/rdf-schema#label> "foo"@eng .')
     await expect(page).toFill('form#loadForm input[id="uriInput"]', 'http://abc123')
     await pupExpect(page).toClick('form#loadForm button[type="submit"]')
 
