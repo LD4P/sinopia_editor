@@ -10,7 +10,7 @@ assignees: ''
 - [ ] Product owner assigned Release notes
   - [ ] Updates `NewsItem.js` component.
   - [ ] Sinopia [Wiki](https://github.com/LD4P/sinopia/wiki/Latest-Release,-What's-Next)
-- [ ] Tech lead creates release.
+- [ ] Create release.
   - [ ] Pull latest master.
   - [ ] Update the version in *package.json*
   - [ ] `npm i` to regenerate *package-lock.json*
