@@ -10,7 +10,6 @@ import { languageSelected } from 'actions/index'
 import { hideModal } from 'actions/modals'
 import { bindActionCreators } from 'redux'
 import ModalWrapper from 'components/ModalWrapper'
-import _ from 'lodash'
 
 /**
  * Provides the RFC 5646 language tag for a literal element.
@@ -18,7 +17,9 @@ import _ from 'lodash'
  * See ISO 639 for the list of registered language codes
  */
 const InputLang = (props) => {
-  const [lang, setLang] = useState('')
+  const [lang, setLang] = useState(props.lang)
+  const langPresent = typeof lang !== 'undefined'
+  const [languageSelectorEnabled, setLanguageSelectorEnabled] = useState(langPresent)
 
   const classes = ['modal', 'fade']
   let display = 'none'
@@ -28,12 +29,19 @@ const InputLang = (props) => {
     display = 'block'
   }
 
-  const setPayLoad = (selected) => {
+  const selectLanguage = (selected) => {
     if (selected.length === 1) {
       setLang(selected[0].id)
     } else {
-      setLang('')
+      setLang(undefined)
     }
+  }
+
+  const enableLanguageSelector = () => setLanguageSelectorEnabled(true)
+
+  const disableLanguageSelector = () => {
+    setLanguageSelectorEnabled(false)
+    setLang(undefined)
   }
 
   const close = (event) => {
@@ -42,28 +50,30 @@ const InputLang = (props) => {
   }
 
   const handleLangSubmit = (event) => {
-    if (!_.isEmpty(lang)) {
-      props.languageSelected({
-        reduxPath: props.reduxPath,
-        lang,
-      })
-      close(event)
-    }
+    props.languageSelected({
+      reduxPath: props.reduxPath,
+      lang,
+    })
+    close(event)
     event.preventDefault()
   }
 
   const modal = (
-    <React.Fragment>
-      <div className={ classes.join(' ') } style={{ display }}>
-        <div className="modal-dialog" role="document">
-          <div className="modal-content">
-            <div className="modal-header">
-              <h4 className="modal-title">Languages</h4>
-            </div>
-            <div className="modal-body">
-              <label htmlFor="langComponent">Select language for {props.textValue}
+    <div className={ classes.join(' ') } style={{ display }}>
+      <div className="modal-dialog" role="document">
+        <div className="modal-content">
+          <div className="modal-header">
+            <h4 className="modal-title">Languages</h4>
+          </div>
+          <div className="modal-body">
+            <div className="form-check">
+              <input type="radio" className="form-check-input" name="lang"
+                     id="present" value="present" defaultChecked={langPresent}
+                     onChange={enableLanguageSelector} />
+              <label className="form-check-label" htmlFor="present">Select language for {props.textValue}
                 <Typeahead
-                  onChange={setPayLoad}
+                  disabled={!languageSelectorEnabled}
+                  onChange={selectLanguage}
                   isLoading={props.loading}
                   options={props.options}
                   emptyLabel={'retrieving list of languages...'}
@@ -71,15 +81,23 @@ const InputLang = (props) => {
                   id={'langComponent'}
                 />
               </label>
+              <p style={{ fontStyle: 'italic', marginTop: '10px' }}>or select</p>
             </div>
-            <div className="modal-footer">
-              <button className="btn btn-default" onClick={ handleLangSubmit }>Submit</button>
-              <button className="btn btn-default" onClick={ close }>Close</button>
+
+            <div className="form-check">
+              <input type="radio" className="form-check-input" name="lang"
+                     id="absent" value="absent" defaultChecked={!langPresent}
+                     onChange={disableLanguageSelector} />
+              <label className="form-check-label" htmlFor="absent">No language specified</label>
             </div>
+          </div>
+          <div className="modal-footer">
+            <button className="btn btn-default" onClick={ handleLangSubmit }>Submit</button>
+            <button className="btn btn-default" onClick={ close }>Close</button>
           </div>
         </div>
       </div>
-    </React.Fragment>
+    </div>
   )
 
   return (<ModalWrapper modal={modal} />)
@@ -93,13 +111,17 @@ InputLang.propTypes = {
   loading: PropTypes.bool,
   hideModal: PropTypes.func,
   show: PropTypes.bool,
+  lang: PropTypes.string,
 }
 
 const mapStateToProps = (state, ourProps) => {
   const languages = state.selectorReducer.entities.languages
-  const textValue = findNode(state, ourProps.reduxPath).content
+  const node = findNode(state, ourProps.reduxPath)
+  const textValue = node.content
+  const lang = node.lang
   const show = modalType(state) === `LanguageModal-${ourProps.reduxPath.join()}`
   return {
+    lang,
     textValue,
     options: languages?.options || [],
     loading: languages?.loading || false,

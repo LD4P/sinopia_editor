@@ -16,13 +16,15 @@ const LanguageButton = (props) => {
     dispatch(showModal(`LanguageModal-${props.reduxPath.join()}`))
   }
 
+  const languageLabel = props.language || 'No language specified'
+
   return (
     <React.Fragment>
       <button
         id="language"
         onClick={ handleClick }
         className="btn btn-sm btn-secondary btn-literal">
-        Language: {props.language}
+        Language: {languageLabel}
       </button>
       <InputLang reduxPath={props.reduxPath} />
     </React.Fragment>
