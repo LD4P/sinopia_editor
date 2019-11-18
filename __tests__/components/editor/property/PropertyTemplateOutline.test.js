@@ -1,95 +1,131 @@
-// Copyright 2019 Stanford University see LICENSE for license
-
 import React from 'react'
-import { shallow } from 'enzyme'
+import {
+  fireEvent, getByText as getByTextContainer,
+} from '@testing-library/react'
 import PropertyTemplateOutline from 'components/editor/property/PropertyTemplateOutline'
-import ResourceProperty from 'components/editor/property/ResourceProperty'
-import OutlineHeader from 'components/editor/property/OutlineHeader'
+import {
+  renderWithRedux, createReduxStore, createBlankState,
+} from 'testUtils'
 
-describe('<PropertyTemplateOutline />', () => {
-  const reduxPath = ['resource', 'resourceTemplate:bf2:Monograph:Instance', 'http://id.loc.gov/ontologies/bibframe/note', 'abc123']
-  const propertyRtProps = {
-    property: {
-      propertyLabel: 'Notes about the Instance',
-      remark: 'This is a great note',
-      propertyURI: 'http://id.loc.gov/ontologies/bibframe/note',
-      mandatory: 'true',
-      repeatable: 'true',
-      type: 'resource',
-      resourceTemplates: [],
-      valueConstraint: {
-        valueTemplateRefs: [
-          'resourceTemplate:bf2:Note',
-        ],
-        useValuesFrom: [],
-        valueDataType: {},
-        defaults: [],
-      },
+const createInitialState = () => {
+  const state = createBlankState()
+  state.selectorReducer.editor.currentResource = 'abc123'
+  state.selectorReducer.entities.resources.abc123 = {
+    'resourceTemplate:bf2:Monograph:Work': {
+      'http://id.loc.gov/ontologies/bibframe/title': {},
+      'http://id.loc.gov/ontologies/bibframe/temporalCoverage': {},
     },
-    reduxPath,
   }
-  const wrapper = shallow(<PropertyTemplateOutline.WrappedComponent {...propertyRtProps} />)
-
-  it('has an outline header', () => {
-    expect(wrapper.find(OutlineHeader).length).toEqual(1)
-    expect(wrapper.find(OutlineHeader).prop('id')).toEqual('note')
-    expect(wrapper.find(OutlineHeader).prop('reduxPath')).toEqual(reduxPath)
-  })
-
-  describe('Nested property components', () => {
-    const wrapper = shallow(<PropertyTemplateOutline.WrappedComponent {...propertyRtProps} />)
-
-    it('adds a ResourceProperty div for a row with the nested resourceTemplate', () => {
-      expect(wrapper.find('div Connect(ResourceProperty)').length).toEqual(1)
-    })
-
-    it('creates a <ResourceProperty /> for the nested resourceTemplate with "Add" button not hidden', () => {
-      const resourceProperty = wrapper.find(ResourceProperty)
-
-      expect(resourceProperty.length).toEqual(1)
-      expect(resourceProperty.props().propertyTemplate).toEqual(propertyRtProps.property)
-      expect(resourceProperty.props().addButtonHidden).toEqual(false) // repeatable is true in outer propTemp
-    })
-
-    it('"Add" button hidden for outer propertyTemplate with repeatable false', () => {
-      const resourceTypePropTemp = { ...propertyRtProps }
-
-      resourceTypePropTemp.property.repeatable = 'false'
-      const myWrapper = shallow(<PropertyTemplateOutline.WrappedComponent {...resourceTypePropTemp} />)
-      const resourceProperty = myWrapper.find(ResourceProperty)
-
-      expect(resourceProperty.props().addButtonHidden).toEqual(true)
-    })
-    it('"Add" button hidden for outer propertyTemplate without repeatable indicated (defaults to false)', () => {
-      const resourceTypePropTemp = { ...propertyRtProps }
-
-      delete resourceTypePropTemp.property.repeatable
-      const myWrapper = shallow(<PropertyTemplateOutline.WrappedComponent {...resourceTypePropTemp} />)
-      const resourceProperty = myWrapper.find(ResourceProperty)
-
-      expect(resourceProperty.props().addButtonHidden).toEqual(true)
-    })
-
-    it('adds a PropertyComponent div for a row with the nested template', () => {
-      const propertyRtPropsLiteral = {
-        property: {
-          propertyLabel: 'Holdings',
-          propertyURI: 'http://id.loc.gov/ontologies/bibframe/heldBy',
-          type: 'literal',
+  state.selectorReducer.entities.resourceTemplates = {
+    'resourceTemplate:bf2:Monograph:Work': {
+      id: 'resourceTemplate:bf2:Monograph:Work',
+      resourceURI: 'http://id.loc.gov/ontologies/bibframe/Work',
+      resourceLabel: 'BIBFRAME Work',
+      propertyTemplates: [
+        {
+          propertyURI: 'http://id.loc.gov/ontologies/bibframe/title',
+          propertyLabel: 'Title Information',
+          mandatory: 'false',
+          repeatable: 'true',
+          type: 'resource',
+          resourceTemplates: [],
           valueConstraint: {
-            defaults: [{
-              defaultURI: 'http://id.loc.gov/vocabulary/organizations/dlc',
-              defaultLiteral: 'DLC',
-            }],
+            valueTemplateRefs: [
+              'resourceTemplate:bf2:WorkTitle',
+            ],
+            useValuesFrom: [],
+            valueDataType: {},
+            defaults: [],
           },
         },
-      }
+        {
+          propertyURI: 'http://id.loc.gov/ontologies/bibframe/temporalCoverage',
+          propertyLabel: '(Time) Coverage of the Content (RDA 7.3)',
+          remark: 'http://access.rdatoolkit.org/7.3.html',
+          mandatory: 'false',
+          repeatable: 'true',
+          type: 'literal',
+          resourceTemplates: [],
+          valueConstraint: {
+            valueTemplateRefs: [],
+            useValuesFrom: [],
+            valueDataType: {},
+            defaults: [],
+          },
+        },
+      ],
+    },
+    'resourceTemplate:bf2:WorkTitle': {
+      id: 'resourceTemplate:bf2:WorkTitle',
+      resourceLabel: 'Work Title',
+      resourceURI: 'http://id.loc.gov/ontologies/bibframe/Title',
+      propertyTemplates: [
+        {
+          propertyURI: 'http://id.loc.gov/ontologies/bibframe/mainTitle',
+          propertyLabel: 'Preferred Title for Work (RDA 6.2.2, RDA 6.14.2) (BIBFRAME: Main title)',
+          remark: 'http://access.rdatoolkit.org/rdachp6_rda6-2036.html',
+          mandatory: 'false',
+          repeatable: 'true',
+          type: 'literal',
+          resourceTemplates: [],
+          valueConstraint: {
+            valueTemplateRefs: [],
+            useValuesFrom: [],
+            valueDataType: {},
+            defaults: [],
+          },
+        },
+      ],
+    },
+  }
+  return state
+}
 
-      const wrapper = shallow(<PropertyTemplateOutline.WrappedComponent {...propertyRtPropsLiteral}
-                                                                        reduxPath={['http://id.loc.gov/ontologies/bibframe/heldBy']} />)
+const titleReduxPath = [
+  'entities', 'resources', 'abc123', 'resourceTemplate:bf2:Monograph:Work', 'http://id.loc.gov/ontologies/bibframe/title',
+]
 
-      wrapper.instance().outlineRowClass()
-      expect(wrapper.find('div PropertyComponent').length).toEqual(1)
+const temporalCoverageReduxPath = [
+  'entities', 'resources', 'abc123', 'resourceTemplate:bf2:Monograph:Work', 'http://id.loc.gov/ontologies/bibframe/temporalCoverage',
+]
+
+describe('<PropertyTemplateOutline />', () => {
+  describe('Property with value template ref', () => {
+    it('renders and can be expanded', async () => {
+      const store = createReduxStore(createInitialState())
+      const { getByText, findByText, container } = renderWithRedux(
+        <PropertyTemplateOutline reduxPath={titleReduxPath} />, store,
+      )
+      const addButton = getByText(/\+ Add/, { selector: 'button.btn-add' })
+      expect(addButton).toBeInTheDocument()
+      expect(getByTextContainer(addButton, 'Title Information')).toBeInTheDocument()
+
+      fireEvent.click(addButton)
+
+      expect(await findByText('Work Title', { selector: 'h5' })).toBeInTheDocument()
+      expect(getByText('Add another Work Title', { selector: 'button.btn-add-another' })).toBeInTheDocument()
+
+      expect(getByText('Remove', { selector: 'button.btn-remove' })).toBeInTheDocument()
+      expect(container.querySelector('button.btn-toggle')).toBeInTheDocument()
+    })
+  })
+
+  describe('Property without value template ref', () => {
+    it('renders and can be expanded', async () => {
+      const store = createReduxStore(createInitialState())
+      const { getByText, findByPlaceholderText, container } = renderWithRedux(
+        <PropertyTemplateOutline reduxPath={temporalCoverageReduxPath} />, store,
+      )
+      const addButton = getByText(/\+ Add/, { selector: 'button.btn-add' })
+      expect(addButton).toBeInTheDocument()
+      expect(getByTextContainer(addButton, '(Time) Coverage of the Content (RDA 7.3)')).toBeInTheDocument()
+
+      fireEvent.click(addButton)
+
+      expect(await findByPlaceholderText('(Time) Coverage of the Content (RDA 7.3)')).toBeInTheDocument()
+
+      expect(getByText('Remove', { selector: 'button.btn-remove' })).toBeInTheDocument()
+      expect(container.querySelector('button.btn-toggle')).toBeInTheDocument()
     })
   })
 })
