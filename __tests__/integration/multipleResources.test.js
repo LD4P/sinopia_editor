@@ -45,6 +45,6 @@ describe('Loading multiple resources', () => {
     fireEvent.click(queryAllByText('Close')[0])
 
     // Back to Resource Template page
-    expect(await findByText('_Monograph Instance (BIBFRAME)')).toBeInTheDocument()
+    expect(await findByText('BIBFRAME Instance')).toBeInTheDocument()
   })
 })
