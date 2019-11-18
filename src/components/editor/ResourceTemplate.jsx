@@ -12,6 +12,7 @@ import ResourceURIMessage from './ResourceURIMessage'
 import SaveAlert from './SaveAlert'
 import RDFDisplay from './RDFDisplay'
 import Alerts from '../Alerts'
+import { newResourceErrorKey } from './property/ResourceList'
 import { resourceEditErrorKey } from './Editor'
 import _ from 'lodash'
 
@@ -31,6 +32,7 @@ class ResourceTemplate extends Component {
       <div className="ResourceTemplate">
         <div id="resourceTemplate">
           <Alerts errorKey={resourceEditErrorKey(this.props.resourceKey)} />
+          <Alerts errorKey={newResourceErrorKey} />
           <section>
             <h3>{this.props.resourceTemplate.resourceLabel}</h3>
             <CopyToNewMessage />
