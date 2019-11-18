@@ -49,7 +49,7 @@ const OutlineHeader = (props) => {
       </button>
       <strong><PropertyLabel propertyTemplate={props.property} /></strong>
       <PropertyLabelInfo propertyTemplate={ props.property } />
-      <button type="button" className="btn btn-sm btn-remove" onClick={props.handleRemoveButton} data-id={props.id}>
+      <button type="button" className="btn btn-sm btn-remove pull-right" onClick={props.handleRemoveButton} data-id={props.id}>
         <FontAwesomeIcon className="trash-icon" icon={trashIcon} />
       </button>
 

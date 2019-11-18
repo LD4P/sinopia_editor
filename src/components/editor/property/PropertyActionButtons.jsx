@@ -24,7 +24,7 @@ const PropertyActionButtons = (props) => {
     props.removeResource(props.reduxPath.slice(0, props.reduxPath.length - 1))
   }
 
-  return (<div className="btn-group" role="group" aria-label="...">
+  return (<div className="btn-group pull-right" role="group" aria-label="...">
     { props.addButtonHidden
       || <button className="btn btn-sm btn-add-property btn-add-another"
                  onClick={ handleAddClick }>+ Add another</button>

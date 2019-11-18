@@ -63,7 +63,7 @@ describe('Expanding a resource property in a property panel', () => {
     expect(await findByPlaceholderText('Frequency (RDA 2.14)')).toBeInTheDocument()
 
     // Now remove it
-    fireEvent.click(await findByText('Remove', { selector: 'button.btn-remove[data-id="frequency"]' }))
+    fireEvent.click(await container.querySelector('button.btn-remove[data-id="frequency"]'))
     expect(queryByPlaceholderText('Frequency (RDA 2.14)')).not.toBeInTheDocument()
 
     // enters a value into a nested property component

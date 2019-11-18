@@ -4,6 +4,8 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import PropertyLabel from './PropertyLabel'
 import PropertyLabelInfo from './PropertyLabelInfo'
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { faTrashAlt } from '@fortawesome/free-solid-svg-icons'
 import { bindActionCreators } from 'redux'
 import { connect } from 'react-redux'
 import { findNode, getPropertyTemplate } from 'selectors/resourceSelectors'
@@ -16,6 +18,7 @@ const PropertyPanel = (props) => {
   const isAdd = _.isEmpty(props.resourceModel)
   const isMandatory = props.propertyTemplate.mandatory === 'true'
   const nbsp = '\u00A0'
+  const trashIcon = faTrashAlt
 
   return (
     <div className="col-6">
@@ -27,7 +30,7 @@ const PropertyPanel = (props) => {
             { isAdd && (
               <button
                 type="button"
-                className="btn btn-sm btn-primary btn-add pull-right"
+                className="btn btn-sm btn-add btn-add-instance pull-right"
                 onClick={() => props.expandResource(props.reduxPath, resourceEditErrorKey(props.resourceKey))}
                 data-id={props.id}>
                 + Add
@@ -35,9 +38,9 @@ const PropertyPanel = (props) => {
             )}
             { !isAdd && !isMandatory && (
               <button type="button"
-                      className="btn btn-sm btn-primary btn-remove pull-right"
+                      className="btn btn-sm btn-remove pull-right"
                       onClick={() => props.removeResource(props.reduxPath)} data-id={props.id}>
-                Remove
+                <FontAwesomeIcon className="fa-inverse trash-icon" icon={trashIcon} />
               </button>
             )}
           </h5>
