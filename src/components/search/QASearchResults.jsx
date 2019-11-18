@@ -43,12 +43,17 @@ const QASearchResults = (props) => {
   const tableData = useMemo(() => searchResults.map((result) => {
     // Discogs returns a context that is not an array
     const types = []
+    const contexts = {}
     if (result.context) {
       if (Array.isArray(result.context)) {
         const classContext = result.context.find(context => context.property === 'Type')
         if (classContext) {
           types.push(...classContext.values)
         }
+        const excludeProperties = ['Type', 'Title', 'Image URL']
+        result.context.forEach((context) => {
+          if (!excludeProperties.includes(context.property)) contexts[context.property] = context.values
+        })
       } else if (Array.isArray(result.context.Type)) {
         types.push(...result.context.Type)
       }
@@ -59,6 +64,7 @@ const QASearchResults = (props) => {
       uri: result.uri,
       id: result.id,
       types,
+      contexts,
     }
   }),
   [searchResults])
@@ -75,26 +81,29 @@ const QASearchResults = (props) => {
     setResourceTemplateId(resourceTemplateId)
   }
 
-  function typesFormatter(types) {
-    return (
-      <ul className="list-unstyled">
-        {types.map(type => <li key={type}>{type}</li>)}
-      </ul>
-    )
-  }
+  const typesFormatter = types => (
+    <ul className="list-unstyled">
+      {types.map(type => <li key={type}>{type}</li>)}
+    </ul>
+  )
 
-  function actionFormatter(uri, id) {
-    return (
-      <div>
-        <button type="button"
-                className="btn btn-link"
-                onClick={() => handleCopy(uri, id)}
-                title="Copy"
-                aria-label="Copy this resource">
-          <FontAwesomeIcon icon={faCopy} size="2x" />
-        </button>
-      </div>
-    )
+  const actionFormatter = (uri, id) => (
+    <div>
+      <button type="button"
+              className="btn btn-link"
+              onClick={() => handleCopy(uri, id)}
+              title="Copy"
+              aria-label="Copy this resource">
+        <FontAwesomeIcon icon={faCopy} size="2x" />
+      </button>
+    </div>
+  )
+
+  const contextFormatter = (contexts) => {
+    const contextItems = Object.entries(contexts).map(([property, values]) => (
+      <li key={property}><strong>{property}</strong>: {values}</li>
+    ))
+    return (<ul className="list-unstyled">{contextItems}</ul>)
   }
 
   const generateRows = () => {
@@ -103,6 +112,7 @@ const QASearchResults = (props) => {
       rows.push(<tr key={row.uri}>
         <td>{ row.label }</td>
         <td>{typesFormatter(row.types)}</td>
+        <td>{contextFormatter(row.contexts)}</td>
         <td>{actionFormatter(row.uri, row.id)}</td>
       </tr>)
     })
@@ -121,13 +131,16 @@ const QASearchResults = (props) => {
         <table className="table table-bordered">
           <thead>
             <tr>
-              <th className="search-header" style={{ width: '45%' }}>
+              <th className="search-header" style={{ width: '40%' }}>
                 Label
               </th>
-              <th className="search-header" style={{ width: '40%' }}>
+              <th className="search-header" style={{ width: '25%' }}>
                 Classes
               </th>
-              <th className="search-header" style={{ width: '15%' }}/>
+              <th className="search-header" style={{ width: '25%' }}>
+                Context
+              </th>
+              <th className="search-header" style={{ width: '10%' }}/>
             </tr>
           </thead>
           <tbody>
