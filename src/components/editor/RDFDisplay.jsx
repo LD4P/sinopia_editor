@@ -41,13 +41,12 @@ const RDFDisplay = (props) => {
     return null
   }
 
-
   let body
   if (format === 'table') {
     const rows = dataset.toArray().map(quad => <tr key={[quad.subject.value, quad.predicate.value, quad.object.value].concat('-')}>
       <td>{quad.subject.value || '<>'}</td>
       <td>{quad.predicate.value}</td>
-      <td>{quad.object.value}</td>
+      <td>{quad.object.value}{quad.object.language && ` [${quad.object.language}]`}</td>
     </tr>)
     body = (
       <table className="table table-striped table-sm" style={{ backgroundColor: 'white' }}>

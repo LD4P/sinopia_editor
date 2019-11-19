@@ -6,6 +6,7 @@ import RDFDisplay from 'components/editor/RDFDisplay'
 
 describe('<RDFDisplay />', () => {
   const rdf = `<> <http://id.loc.gov/ontologies/bibframe/mainTitle> "foo"@eng .
+<> <http://id.loc.gov/ontologies/bibframe/mainTitle> "bar" .
 <> <http://sinopia.io/vocabulary/hasResourceTemplate> "ld4p:RT:bf2:Title:AbbrTitle" .
 <> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://id.loc.gov/ontologies/bibframe/AbbreviatedTitle> .
 `
@@ -24,9 +25,10 @@ describe('<RDFDisplay />', () => {
     expect(getByText('Predicate', 'th')).toBeInTheDocument()
     expect(getByText('Object', 'th')).toBeInTheDocument()
     // And table rows
-    expect(getAllByText('<>', 'td')).toHaveLength(3)
-    expect(getByText('http://id.loc.gov/ontologies/bibframe/mainTitle', 'td')).toBeInTheDocument()
-    expect(getByText('foo', 'td')).toBeInTheDocument()
+    expect(getAllByText('<>', 'td')).toHaveLength(4)
+    expect(getAllByText('http://id.loc.gov/ontologies/bibframe/mainTitle', 'td')).toHaveLength(2)
+    expect(getByText('foo [eng]', 'td')).toBeInTheDocument()
+    expect(getByText('bar', 'td')).toBeInTheDocument()
   })
 
   it('renders N-Triples', async () => {
@@ -44,7 +46,7 @@ describe('<RDFDisplay />', () => {
 
     fireEvent.change(getByLabelText(/Format/), { target: { value: 'turtle' } })
 
-    expect(await findByText(/<> <http:\/\/id.loc.gov\/ontologies\/bibframe\/mainTitle> "foo"@eng;/)).toBeInTheDocument()
+    expect(await findByText(/<> <http:\/\/id.loc.gov\/ontologies\/bibframe\/mainTitle> "foo"@eng, "bar";/)).toBeInTheDocument()
   })
 
   it('displays errors', async () => {
