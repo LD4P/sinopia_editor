@@ -1,4 +1,4 @@
-// Copyright 2018 Stanford University see LICENSE for license
+// Copyright 2019 Stanford University see LICENSE for license
 
 import React, { useEffect } from 'react'
 import { Helmet, HelmetProvider } from 'react-helmet-async'
@@ -7,7 +7,7 @@ import 'react-bootstrap-typeahead/css/Typeahead.css'
 import LoginPanel from './LoginPanel'
 import PropTypes from 'prop-types'
 import HomePage from './home/HomePage'
-import '../styles/main.css'
+import '../styles/main.scss'
 import Editor from './editor/Editor'
 import Footer from './Footer'
 import { Route, Switch, Redirect } from 'react-router-dom'

@@ -1,4 +1,6 @@
- /* Copyright 2018 Stanford University see LICENSE for license */
+ /* Copyright 2019 Stanford University see LICENSE for license */
+
+@import "~bootstrap/scss/bootstrap";
 
 .asterick-icon {
     margin-left: 3px;
@@ -23,12 +25,22 @@ pre {
   background-image: url("home-background.png");
 }
 
+.btn-secondary {
+  background-color: transparent;
+  @include button-outline-variant(map-get($theme-colors,"secondary"));
+}
+
+$primary-disabled: lighten( map-get($theme-colors,"secondary"), 20% );
+
+.btn-primary:disabled {
+  @include button-variant($primary-disabled, $primary-disabled);
+}
+
 .btn-link {
-  border-color: transparent !important;
   text-decoration: underline;
 }
 
-.btn-linky {
+.btn-download {
   padding: 0px;
 }
 

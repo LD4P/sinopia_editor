@@ -3,6 +3,7 @@
 import React from 'react'
 import ReactDOM from 'react-dom'
 import RootContainer from './components/RootContainer'
+import 'bootstrap'
 
 const root = document.createElement('div')
 root.className = 'container-fluid'
