@@ -103,7 +103,9 @@ const Search = (props) => {
                 {options}
               </select>
             </div>
-            <div className="form-group" style={{ width: '750px', paddingLeft: '5px', paddingBottom: '10px' }}>
+            <div className="form-group" style={{
+              width: '750px', marginTop: '10px', paddingLeft: '5px', paddingBottom: '10px',
+            }}>
               <label className="sr-only" htmlFor="searchInput">Query</label>
               <div className="input-group" style={{ width: '100%' }}>
                 <input id="searchInput" type="text" className="form-control"
