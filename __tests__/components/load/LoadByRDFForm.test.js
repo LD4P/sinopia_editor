@@ -26,10 +26,10 @@ const createInitialState = () => {
   return state
 }
 
-const n3 = `<> <http://id.loc.gov/ontologies/bibframe/mainTitle> "foo"@en .
+const n3 = `<> <http://id.loc.gov/ontologies/bibframe/mainTitle> "foo"@eng .
 <> <http://sinopia.io/vocabulary/hasResourceTemplate> "resourceTemplate:bf2:WorkTitle" .
 <> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://id.loc.gov/ontologies/bibframe/Title> .
-<http://foo> <http://id.loc.gov/ontologies/bibframe/mainTitle> "foo"@en .
+<http://foo> <http://id.loc.gov/ontologies/bibframe/mainTitle> "foo"@eng .
 `
 
 const resource = {
@@ -39,7 +39,7 @@ const resource = {
         abc123: {
           content: 'foo',
           label: 'foo',
-          lang: 'en',
+          lang: 'eng',
         },
       },
     },
@@ -86,7 +86,7 @@ describe('LoadByRDFForm', () => {
     await wait(() => expect(history.location.pathname).toBe('/editor'))
 
     expect(store.getState().selectorReducer.entities.resources.abc123).toEqual(resource)
-    expect(store.getState().selectorReducer.editor.unusedRDF.abc123).toEqual(`<http://foo> <http://id.loc.gov/ontologies/bibframe/mainTitle> "foo"@en .
+    expect(store.getState().selectorReducer.editor.unusedRDF.abc123).toEqual(`<http://foo> <http://id.loc.gov/ontologies/bibframe/mainTitle> "foo"@eng .
 `)
   })
 
@@ -109,7 +109,7 @@ describe('LoadByRDFForm', () => {
     await wait(() => expect(history.location.pathname).toBe('/editor'))
 
     expect(store.getState().selectorReducer.entities.resources.abc123).toEqual(resource)
-    expect(store.getState().selectorReducer.editor.unusedRDF.abc123).toEqual(`<http://foo> <http://id.loc.gov/ontologies/bibframe/mainTitle> "foo"@en .
+    expect(store.getState().selectorReducer.editor.unusedRDF.abc123).toEqual(`<http://foo> <http://id.loc.gov/ontologies/bibframe/mainTitle> "foo"@eng .
 `)
   })
 
@@ -137,7 +137,7 @@ describe('LoadByRDFForm', () => {
   })
 
   it('asks user for resource template when not provided', async () => {
-    const n3WithRt = `<> <http://id.loc.gov/ontologies/bibframe/mainTitle> "foo"@en .
+    const n3WithRt = `<> <http://id.loc.gov/ontologies/bibframe/mainTitle> "foo"@eng .
     <> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://id.loc.gov/ontologies/bibframe/Title> .
     `
 

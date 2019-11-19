@@ -31,7 +31,7 @@ const createInitialState = (options = {}) => {
           items: {
             '3Qnc1x-T': {
               content: 'foo',
-              lang: 'en',
+              lang: 'eng',
             },
           },
         },

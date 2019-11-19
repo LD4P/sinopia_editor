@@ -13,7 +13,7 @@ describe('<InputValue>', () => {
     itemsChangeFn = jest.fn()
     removeDataFn = jest.fn()
 
-    mockWrapper = shallow(<InputValue.WrappedComponent item={{ content: 'foo', lang: 'en' }}
+    mockWrapper = shallow(<InputValue.WrappedComponent item={{ content: 'foo', lang: 'eng' }}
                                                        reduxPath={[
                                                          'resourceTemplate:bf2:Monograph:Instance',
                                                          'http://id.loc.gov/ontologies/bibframe/instanceOf',
@@ -52,6 +52,6 @@ describe('<InputValue>', () => {
   it('calls the removeMockDataFn and mockItemsChange when Edit is clicked', () => {
     mockWrapper.find('button#editItem').first().simulate('click', { target: { dataset: { item: 5 } } })
     expect(removeDataFn).toHaveBeenCalled()
-    expect(itemsChangeFn).toHaveBeenCalledWith('foo', 'en')
+    expect(itemsChangeFn).toHaveBeenCalledWith('foo', 'eng')
   })
 })

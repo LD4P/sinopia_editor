@@ -64,7 +64,7 @@ describe('update', () => {
 
 describe('retrieveResource', () => {
   const uri = 'http://sinopia.io/repository/stanford/123'
-  const received = `<> <http://www.w3.org/2000/01/rdf-schema#label> "splendid"@en .
+  const received = `<> <http://www.w3.org/2000/01/rdf-schema#label> "splendid"@eng .
 <> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://id.loc.gov/ontologies/bibframe/Note> .
 <> <http://sinopia.io/vocabulary/hasResourceTemplate> "resourceTemplate:bf2:Note" .`
 
@@ -112,7 +112,7 @@ describe('retrieveResource', () => {
               def456: {
                 content: 'splendid',
                 label: 'splendid',
-                lang: 'en',
+                lang: 'eng',
               },
             },
           },
@@ -128,7 +128,7 @@ describe('retrieveResource', () => {
         { type: 'TOGGLE_COLLAPSE', payload: { reduxPath } },
         { type: 'RESOURCE_LOADED', payload: { resourceKey: 'abc123', resource: expectedResource, resourceTemplates: { [resourceTemplateId]: resourceTemplate } } },
         { type: 'SET_LAST_SAVE_CHECKSUM', payload: { resourceKey: 'abc123', checksum: undefined } },
-        { type: 'SET_LAST_SAVE_CHECKSUM', payload: { resourceKey: 'abc123', checksum: 'f767b63c3e1d1af6f8c136b15a31a1e0' } },
+        { type: 'SET_LAST_SAVE_CHECKSUM', payload: { resourceKey: 'abc123', checksum: 'a4c091070fd59aeed47e608ad2194092' } },
         { type: 'SET_UNUSED_RDF', payload: { resourceKey: 'abc123', rdf: '' } },
         { type: 'SET_CURRENT_RESOURCE', payload: 'abc123' },
       ])
@@ -152,7 +152,7 @@ describe('retrieveResource', () => {
               def456: {
                 content: 'splendid',
                 label: 'splendid',
-                lang: 'en',
+                lang: 'eng',
               },
             },
           },
@@ -215,7 +215,7 @@ describe('retrieveResource', () => {
 
 describe('publishResource', () => {
   const group = 'myGroup'
-  const received = `<http://sinopia.io/repository/myGroup/myResource> <http://www.w3.org/2000/01/rdf-schema#label> "splendid"@en .
+  const received = `<http://sinopia.io/repository/myGroup/myResource> <http://www.w3.org/2000/01/rdf-schema#label> "splendid"@eng .
 <> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://id.loc.gov/ontologies/bibframe/Note> .
 <> <http://sinopia.io/vocabulary/hasResourceTemplate> "profile:bf2:Note" .`
 
@@ -329,7 +329,7 @@ describe('existingResource', () => {
       const resourceTemplate = resourceTemplateResponse.response.body
       sinopiaServer.getResourceTemplate.mockImplementation(getFixtureResourceTemplate)
 
-      const unusedRDF = '<> <http://id.loc.gov/ontologies/bibframe/mainTitle> "foo"@en .'
+      const unusedRDF = '<> <http://id.loc.gov/ontologies/bibframe/mainTitle> "foo"@eng .'
 
       expect(await store.dispatch(existingResource(resource, unusedRDF, uri, 'testerrorkey'))).toBe(true)
       const expectedResource = {
@@ -448,7 +448,7 @@ describe('stubResourceProperties', () => {
                   'gZHIw-NM': {
                     content: '123456789',
                     label: '123456789',
-                    lang: 'en',
+                    lang: 'eng',
                   },
                 },
               },
@@ -466,7 +466,7 @@ describe('stubResourceProperties', () => {
                   'gZHIw-NM': {
                     content: '123456789',
                     label: '123456789',
-                    lang: 'en',
+                    lang: 'eng',
                   },
                 },
               },
@@ -496,7 +496,7 @@ describe('stubResourceProperties', () => {
                 {
                   id: 'wORfB8Vnvdw',
                   content: '67890',
-                  lang: 'en',
+                  lang: 'eng',
                 },
               ],
             },
@@ -571,7 +571,7 @@ describe('stubResourceProperties', () => {
               items: {
                 def456: {
                   content: '12345',
-                  lang: 'en',
+                  lang: 'eng',
                 },
               },
             },

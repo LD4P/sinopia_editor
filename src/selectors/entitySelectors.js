@@ -6,7 +6,7 @@ export const findResourceTemplate = (state, resourceTemplateId) => state.selecto
 /**
  * Return the full name of the language given the ISO 639 language code
  * @param [Object] state
- * @param [string] languageId the identifier of the language, (e.g. 'en')
+ * @param [string] languageId the identifier of the language, (e.g. 'eng')
  * @return [string] the label of the language or an empty string
  */
 export const languageLabel = (state, languageId) => {

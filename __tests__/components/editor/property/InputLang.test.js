@@ -18,7 +18,7 @@ const createInitialState = () => {
   },
   state.selectorReducer.entities.languages = {
     options: [{
-      id: 'en',
+      id: 'eng',
       label: 'English',
     }],
   }

@@ -83,7 +83,7 @@ export const qaResultsReceived = (state, action) => {
 
 const createOptions = json => json.reduce((result, item) => {
   // Object.getOwnPropertyDescriptor is necessary to handle the @
-  const id = Object.getOwnPropertyDescriptor(item, '@id').value.replace('http://id.loc.gov/vocabulary/iso639-1/', '')
+  const id = Object.getOwnPropertyDescriptor(item, '@id').value.replace('http://id.loc.gov/vocabulary/iso639-2/', '')
   const labelArrayDescr = Object.getOwnPropertyDescriptor(item, 'http://www.loc.gov/mads/rdf/v1#authoritativeLabel')
 
   // Some of the LOC items do not have labels so ignore them.
@@ -98,6 +98,7 @@ const createOptions = json => json.reduce((result, item) => {
       label = langItem['@value']
     }
   })
+
   // But not every language has an English label.
   if (!label) return result
 

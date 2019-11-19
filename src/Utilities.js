@@ -5,7 +5,7 @@ import rdf from 'rdf-ext'
 import _ from 'lodash'
 import CryptoJS from 'crypto-js'
 
-export const defaultLanguageId = 'en'
+export const defaultLanguageId = 'eng'
 
 export const isResourceWithValueTemplateRef = property => property?.type === 'resource'
     && property?.valueConstraint?.valueTemplateRefs?.length > 0

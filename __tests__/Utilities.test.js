@@ -120,7 +120,7 @@ describe('Utilities', () => {
 
   describe('rdfDatasetFromN3()', () => {
     it('parses N3', async () => {
-      const n3 = `<> <http://id.loc.gov/ontologies/bibframe/mainTitle> "foo"@en .
+      const n3 = `<> <http://id.loc.gov/ontologies/bibframe/mainTitle> "foo"@eng .
 <> <http://sinopia.io/vocabulary/hasResourceTemplate> "ld4p:RT:bf2:WorkTitle" .
 <> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://id.loc.gov/ontologies/bibframe/Title> .
 `

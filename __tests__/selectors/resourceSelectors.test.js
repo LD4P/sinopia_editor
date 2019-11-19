@@ -153,7 +153,7 @@ describe('resourceHasChangesSinceLastSave', () => {
           {
             content: 'foo',
             id: 'VBtih30me',
-            lang: 'en',
+            lang: 'eng',
           },
         ],
       },
@@ -178,7 +178,8 @@ describe('resourceHasChangesSinceLastSave', () => {
       const state = createBlankState()
       state.selectorReducer.entities.resources.abc123 = resource
       state.selectorReducer.entities.resourceTemplates['resourceTemplate:bf2:Note'] = template
-      state.selectorReducer.editor.lastSaveChecksum.abc123 = '3c1ce87bdaedc34b4d3f55c1aa775838'
+      // See resourceHasChangesSinceLastSave() for checksum
+      state.selectorReducer.editor.lastSaveChecksum.abc123 = '5a003d6032fe9e3cd7d7e5cf4b388e2a'
       expect(resourceHasChangesSinceLastSave(state, 'abc123')).toBe(false)
     })
   })

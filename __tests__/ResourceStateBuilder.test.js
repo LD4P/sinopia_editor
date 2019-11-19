@@ -18,8 +18,8 @@ describe('ResourceStateBuilder', () => {
   it('builds the state for literal properties', async () => {
     const resource = `<http://example/123> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://id.loc.gov/ontologies/bibframe/Note> .
   <http://example/123> <http://sinopia.io/vocabulary/hasResourceTemplate> "resourceTemplate:bf2:Note" .
-  <http://example/123> <http://www.w3.org/2000/01/rdf-schema#label> "foo"@en .
-  <http://example/123> <http://www.w3.org/2000/01/rdf-schema#label> "bar"@en .`
+  <http://example/123> <http://www.w3.org/2000/01/rdf-schema#label> "foo"@eng .
+  <http://example/123> <http://www.w3.org/2000/01/rdf-schema#label> "bar"@eng .`
 
     const dataset = await rdfDatasetFromN3(resource)
 
@@ -34,12 +34,12 @@ describe('ResourceStateBuilder', () => {
             abc123: {
               content: 'foo',
               label: 'foo',
-              lang: 'en',
+              lang: 'eng',
             },
             def456: {
               content: 'bar',
               label: 'bar',
-              lang: 'en',
+              lang: 'eng',
             },
           },
         },
@@ -56,7 +56,7 @@ describe('ResourceStateBuilder', () => {
   it('builds the state when null root node', async () => {
     const resource = `<> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://id.loc.gov/ontologies/bibframe/Note> .
   <> <http://sinopia.io/vocabulary/hasResourceTemplate> "resourceTemplate:bf2:Note" .
-  <> <http://www.w3.org/2000/01/rdf-schema#label> "foo"@en .`
+  <> <http://www.w3.org/2000/01/rdf-schema#label> "foo"@eng .`
 
     const dataset = await rdfDatasetFromN3(resource)
 
@@ -71,7 +71,7 @@ describe('ResourceStateBuilder', () => {
             abc123: {
               content: 'foo',
               label: 'foo',
-              lang: 'en',
+              lang: 'eng',
             },
           },
         },
@@ -81,7 +81,7 @@ describe('ResourceStateBuilder', () => {
 
   it('uses provided resource template id', async () => {
     const resource = `<> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://id.loc.gov/ontologies/bibframe/Note> .
-  <> <http://www.w3.org/2000/01/rdf-schema#label> "foo"@en .`
+  <> <http://www.w3.org/2000/01/rdf-schema#label> "foo"@eng .`
 
     const dataset = await rdfDatasetFromN3(resource)
 
@@ -96,7 +96,7 @@ describe('ResourceStateBuilder', () => {
             abc123: {
               content: 'foo',
               label: 'foo',
-              lang: 'en',
+              lang: 'eng',
             },
           },
         },
@@ -106,7 +106,7 @@ describe('ResourceStateBuilder', () => {
 
   it('raises when 0 resource templates', async () => {
     const resource = `<http://example/123> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://id.loc.gov/ontologies/bibframe/Note> .
-  <http://example/123> <http://www.w3.org/2000/01/rdf-schema#label> "bar"@en .`
+  <http://example/123> <http://www.w3.org/2000/01/rdf-schema#label> "bar"@eng .`
 
     const dataset = await rdfDatasetFromN3(resource)
 
@@ -118,7 +118,7 @@ describe('ResourceStateBuilder', () => {
     const resource = `<http://example/123> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://id.loc.gov/ontologies/bibframe/Note> .
     <http://example/123> <http://sinopia.io/vocabulary/hasResourceTemplate> "resourceTemplate:bf2:Note" .
     <http://example/123> <http://sinopia.io/vocabulary/hasResourceTemplate> "resourceTemplate:bf2:Note2" .
-    <http://example/123> <http://www.w3.org/2000/01/rdf-schema#label> "bar"@en .`
+    <http://example/123> <http://www.w3.org/2000/01/rdf-schema#label> "bar"@eng .`
 
     const dataset = await rdfDatasetFromN3(resource)
 
@@ -129,7 +129,7 @@ describe('ResourceStateBuilder', () => {
   it('raises when error loading resource templates', async () => {
     const resource = `<http://example/123> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://id.loc.gov/ontologies/bibframe/Note> .
     <http://example/123> <http://sinopia.io/vocabulary/hasResourceTemplate> "resourceTemplate:bf2:Note" .
-    <http://example/123> <http://www.w3.org/2000/01/rdf-schema#label> "bar"@en .`
+    <http://example/123> <http://www.w3.org/2000/01/rdf-schema#label> "bar"@eng .`
 
     sinopiaServer.getResourceTemplate.mockRejectedValue(new Error('404'))
 
@@ -143,7 +143,7 @@ describe('ResourceStateBuilder', () => {
   it('raises when error when resource template validation errors', async () => {
     const resource = `<http://example/123> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://id.loc.gov/ontologies/bibframe/Note> .
     <http://example/123> <http://sinopia.io/vocabulary/hasResourceTemplate> "rt:repeated:propertyURI:propertyLabel" .
-    <http://example/123> <http://www.w3.org/2000/01/rdf-schema#label> "bar"@en .`
+    <http://example/123> <http://www.w3.org/2000/01/rdf-schema#label> "bar"@eng .`
 
     const dataset = await rdfDatasetFromN3(resource)
 
@@ -183,8 +183,8 @@ describe('ResourceStateBuilder', () => {
     const resource = `<http://example/123> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://id.loc.gov/ontologies/bibframe/Work> .
   <http://example/123> <http://sinopia.io/vocabulary/hasResourceTemplate> "test:RT:genreform" .
   <http://example/123> <http://id.loc.gov/ontologies/bibframe/genreForm> <http://id.loc.gov/authorities/genreForms/gf2014026879> .
-  <http://id.loc.gov/authorities/genreForms/gf2014026879> <http://www.w3.org/2000/01/rdf-schema#label> "Jazz"@en .
-  <https://example/1234> <http://schema.org/name> "Jazz Genre"@en .`
+  <http://id.loc.gov/authorities/genreForms/gf2014026879> <http://www.w3.org/2000/01/rdf-schema#label> "Jazz"@eng .
+  <https://example/1234> <http://schema.org/name> "Jazz Genre"@eng .`
 
     const dataset = await rdfDatasetFromN3(resource)
 
@@ -206,14 +206,14 @@ describe('ResourceStateBuilder', () => {
       },
     })
 
-    const unmatched = `<https://example/1234> <http://schema.org/name> "Jazz Genre"@en .
+    const unmatched = `<https://example/1234> <http://schema.org/name> "Jazz Genre"@eng .
 `
     expect(unusedDataset.toCanonical()).toEqual(unmatched)
   })
 
   it('builds the state for embedded resource property', async () => {
     const resource = `<http://example/123> <http://id.loc.gov/ontologies/bibframe/carrier> <http://id.loc.gov/vocabulary/carriers/nc> .
-<http://example/123> <http://id.loc.gov/ontologies/bibframe/heldBy> "DLC"@en .
+<http://example/123> <http://id.loc.gov/ontologies/bibframe/heldBy> "DLC"@eng .
 <http://example/123> <http://id.loc.gov/ontologies/bibframe/instanceOf> _:c14n0 .
 <http://example/123> <http://id.loc.gov/ontologies/bibframe/issuance> <http://id.loc.gov/vocabulary/issuance/mono> .
 <http://example/123> <http://sinopia.io/vocabulary/hasResourceTemplate> "resourceTemplate:bf2:Monograph:Instance" .
@@ -221,7 +221,7 @@ describe('ResourceStateBuilder', () => {
 _:c14n0 <http://id.loc.gov/ontologies/bibframe/content> <http://id.loc.gov/vocabulary/contentTypes/txt> .
 _:c14n0 <http://id.loc.gov/ontologies/bibframe/title> _:c14n1 .
 _:c14n0 <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://id.loc.gov/ontologies/bibframe/Work> .
-_:c14n1 <http://id.loc.gov/ontologies/bibframe/mainTitle> "foo"@en .
+_:c14n1 <http://id.loc.gov/ontologies/bibframe/mainTitle> "foo"@eng .
 _:c14n1 <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://id.loc.gov/ontologies/bibframe/Title> .`
 
     const dataset = await rdfDatasetFromN3(resource)
@@ -260,7 +260,7 @@ _:c14n1 <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://id.loc.gov/ont
             abc125: {
               content: 'DLC',
               label: 'DLC',
-              lang: 'en',
+              lang: 'eng',
             },
           },
         },
@@ -283,7 +283,7 @@ _:c14n1 <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://id.loc.gov/ont
                         abc127: {
                           content: 'foo',
                           label: 'foo',
-                          lang: 'en',
+                          lang: 'eng',
                         },
                       },
                     },
@@ -305,7 +305,7 @@ _:c14n1 <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://id.loc.gov/ont
 <http://example/123> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://id.loc.gov/ontologies/bibframe/Instance> .
 _:c14n0 <http://id.loc.gov/ontologies/bibframe/title> _:c14n1 .
 _:c14n0 <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://id.loc.gov/ontologies/bibframe/Work> .
-_:c14n1 <http://id.loc.gov/ontologies/bibframe/mainTitle> "foo"@en .
+_:c14n1 <http://id.loc.gov/ontologies/bibframe/mainTitle> "foo"@eng .
 _:c14n1 <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://id.loc.gov/ontologies/bibframe/Title> .
 _:c14n1 <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://id.loc.gov/ontologies/bibframe/Foo> .`
 
@@ -331,7 +331,7 @@ _:c14n1 <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://id.loc.gov/ont
                         abc123: {
                           content: 'foo',
                           label: 'foo',
-                          lang: 'en',
+                          lang: 'eng',
                         },
                       },
                     },
@@ -353,7 +353,7 @@ _:c14n1 <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://id.loc.gov/ont
 <http://example/123> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://id.loc.gov/ontologies/bibframe/Instance> .
 _:c14n0 <http://id.loc.gov/ontologies/bibframe/title> _:c14n1 .
 _:c14n0 <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://id.loc.gov/ontologies/bibframe/Work> .
-_:c14n1 <http://id.loc.gov/ontologies/bibframe/mainTitle> "foo"@en .
+_:c14n1 <http://id.loc.gov/ontologies/bibframe/mainTitle> "foo"@eng .
 _:c14n1 <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://id.loc.gov/ontologies/bibframe/Title> .`
 
     sinopiaServer.getResourceTemplate.mockImplementation(async (rtId) => {
@@ -381,7 +381,7 @@ _:c14n1 <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://id.loc.gov/ont
 <http://example/123> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://id.loc.gov/ontologies/bibframe/Instance> .
 _:c14n0 <http://id.loc.gov/ontologies/bibframe/title> _:c14n1 .
 _:c14n0 <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://id.loc.gov/ontologies/bibframe/Work> .
-_:c14n1 <http://id.loc.gov/ontologies/bibframe/mainTitle> "foo"@en .
+_:c14n1 <http://id.loc.gov/ontologies/bibframe/mainTitle> "foo"@eng .
 _:c14n1 <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://id.loc.gov/ontologies/bibframe/Titlex> .`
 
     const dataset = await rdfDatasetFromN3(resource)
@@ -400,7 +400,7 @@ _:c14n1 <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://id.loc.gov/ont
         },
       },
     })
-    const unmatched = `_:c14n0 <http://id.loc.gov/ontologies/bibframe/mainTitle> "foo"@en .
+    const unmatched = `_:c14n0 <http://id.loc.gov/ontologies/bibframe/mainTitle> "foo"@eng .
 _:c14n0 <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://id.loc.gov/ontologies/bibframe/Titlex> .
 _:c14n1 <http://id.loc.gov/ontologies/bibframe/title> _:c14n0 .
 `
@@ -413,7 +413,7 @@ _:c14n1 <http://id.loc.gov/ontologies/bibframe/title> _:c14n0 .
   <http://example/123> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://id.loc.gov/ontologies/bibframe/Instance> .
   _:c14n0 <http://id.loc.gov/ontologies/bibframe/title> _:c14n1 .
   _:c14n0 <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://id.loc.gov/ontologies/bibframe/Work> .
-  _:c14n1 <http://id.loc.gov/ontologies/bibframe/mainTitle> "foo"@en .
+  _:c14n1 <http://id.loc.gov/ontologies/bibframe/mainTitle> "foo"@eng .
   _:c14n1 <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://id.loc.gov/ontologies/bibframe/Title> .
   <http://example/124> <http://id.loc.gov/ontologies/bibframe/instanceOf> _:c14n0 .
   <http://example/123> <http://id.loc.gov/ontologies/bibframe/instanceOfx> _:c14n0 .

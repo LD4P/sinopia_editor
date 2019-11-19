@@ -17,7 +17,7 @@ const createInitialState = () => {
         items: {
           hPSHr9jA: {
             content: '123456',
-            lang: 'en',
+            lang: 'eng',
           },
         },
       },
@@ -84,7 +84,8 @@ describe('<CloseButton />', () => {
 
   describe('closing when resource has not changed', () => {
     const state = createInitialState()
-    state.selectorReducer.editor.lastSaveChecksum.abc123 = 'c5c8da42a2b460a740c33c72acb4d115'
+    // See resourceHasChangesSinceLastSave() for checksum
+    state.selectorReducer.editor.lastSaveChecksum.abc123 = '5267eb8da0ab5ef646cae0190cf13a7c'
     const store = createReduxStore(state)
 
     it('clears the resource', () => {

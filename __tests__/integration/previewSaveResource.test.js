@@ -16,7 +16,7 @@ const createInitialState = () => {
         items: {
           Uv8UAARr8: {
             content: 'foo',
-            lang: 'en',
+            lang: 'eng',
           },
         },
       },
@@ -66,7 +66,7 @@ describe('Preview and save resource', () => {
     // Preview the RDF
     fireEvent.click(getAllByTitle('Preview RDF')[0])
     fireEvent.change(await findByLabelText(/Format/), { target: { value: 'n-triples' } })
-    expect(getByText(/<> <http:\/\/id.loc.gov\/ontologies\/bibframe\/mainTitle> "foo"@en \./)).toBeInTheDocument()
+    expect(getByText(/<> <http:\/\/id.loc.gov\/ontologies\/bibframe\/mainTitle> "foo"@eng \./)).toBeInTheDocument()
 
     // Save
     // There are multiple of these on screen, so selecting by id.
