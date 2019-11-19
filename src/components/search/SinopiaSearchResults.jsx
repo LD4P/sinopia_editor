@@ -22,7 +22,7 @@ const SinopiaSearchResults = (props) => {
   const [navigateEditor, setNavigateEditor] = useState(false)
 
   const groupName = (uri) => {
-    const groupSlug = uri.split('/')[1]
+    const groupSlug = uri.split('/')[4]
     return Config.groupsInSinopia[groupSlug]
   }
 
