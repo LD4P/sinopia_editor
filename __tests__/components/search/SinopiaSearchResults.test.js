@@ -46,7 +46,7 @@ describe('<SinopiaSearchResults />', () => {
 
       // First row of search results
       expect(queryByText('An item title')).toBeInTheDocument()
-      expect(queryByText('2019-10-23T22:42:57.623Z')).toBeInTheDocument()
+      expect(queryByText('Oct 23, 2019')).toBeInTheDocument()
       expect(queryByText('http://schema.org/Thing')).toBeInTheDocument()
       expect(queryByText('Stanford University')).toBeInTheDocument()
     })
