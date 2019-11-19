@@ -116,8 +116,7 @@ const QASearchResults = (props) => {
   return (
     <div id="search-results" className="row">
       <Alerts errorKey={searchQARetrieveErrorKey} />
-      <div className="col-sm-2"></div>
-      <div className="col-sm-8">
+      <div className="col">
         <table className="table table-bordered">
           <thead>
             <tr>

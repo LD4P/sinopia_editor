@@ -18,11 +18,11 @@ class Header extends Component {
     return (
       <div className="editor-navbar">
         <div className="row">
-          <div className="col-9">
+          <div className="col-8">
             <h2 className="editor-subtitle"><a className="editor-subtitle" href="/">SINOPIA</a></h2> <h2 className="editor-version">v{this.props.version}</h2>
             <h1 className="editor-logo">LINKED DATA EDITOR{`${Config.sinopiaEnv}`}</h1>
           </div>
-          <div className="col-3">
+          <div className="col-4">
             <ul className="nav pull-right">
               <li className="nav-item">
                 <a className="nav-link editor-header-text" href={`https://profile-editor.${Config.sinopiaDomainName}/`}>Profile Editor</a>

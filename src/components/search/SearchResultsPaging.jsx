@@ -46,8 +46,7 @@ const SearchResultsPaging = (props) => {
 
   return (
     <div id="search-results-pages" className="row">
-      <div className="col-2"></div>
-      <div className="col-8 pagination_rounded">
+      <div className="col">
         <nav aria-label="search results navigation">
           <ul className="pagination">
             {pageButton('first', '«', 1, false)}
@@ -62,7 +61,6 @@ const SearchResultsPaging = (props) => {
           </ul>
         </nav>
       </div>
-      <div className="col-2"></div>
     </div>
   )
 }

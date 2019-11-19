@@ -12,37 +12,41 @@ const ResourceTemplateSearchResult = (props) => {
   const rows = resourceTemplateSummaries.map(row => <ResourceTemplateRow row={row} key={row.id} navigate={props.handleClick}/>)
 
   return (
-    <table className="table table-bordered resource-template-list">
-      <thead>
-        <tr>
-          <th style={{ backgroundColor: '#F8F6EF', width: '20%' }}>
-            Label
-          </th>
-          <th style={{ backgroundColor: '#F8F6EF', width: '20%' }}>
-            ID
-          </th>
-          <th style={{ backgroundColor: '#F8F6EF', width: '20%' }}>
-            Resource URI
-          </th>
-          <th style={{ backgroundColor: '#F8F6EF', width: '10%' }}>
-            Author
-          </th>
-          <th style={{ backgroundColor: '#F8F6EF', width: '5%' }}>
-            Date
-          </th>
-          <th style={{ backgroundColor: '#F8F6EF', width: '17%' }}>
-            Guiding statement
-          </th>
-          <th style={{ backgroundColor: '#F8F6EF', width: '8%' }}
-              data-testid="download-col-header">
-              Download
-          </th>
-        </tr>
-      </thead>
-      <tbody>
-        { rows }
-      </tbody>
-    </table>
+    <div className="row">
+      <div className="col">
+        <table className="table table-bordered resource-template-list">
+          <thead>
+            <tr>
+              <th style={{ backgroundColor: '#F8F6EF', width: '20%' }}>
+              Label
+              </th>
+              <th style={{ backgroundColor: '#F8F6EF', width: '20%' }}>
+              ID
+              </th>
+              <th style={{ backgroundColor: '#F8F6EF', width: '20%' }}>
+              Resource URI
+              </th>
+              <th style={{ backgroundColor: '#F8F6EF', width: '10%' }}>
+              Author
+              </th>
+              <th style={{ backgroundColor: '#F8F6EF', width: '5%' }}>
+              Date
+              </th>
+              <th style={{ backgroundColor: '#F8F6EF', width: '17%' }}>
+              Guiding statement
+              </th>
+              <th style={{ backgroundColor: '#F8F6EF', width: '8%' }}
+                  data-testid="download-col-header">
+                Download
+              </th>
+            </tr>
+          </thead>
+          <tbody>
+            { rows }
+          </tbody>
+        </table>
+      </div>
+    </div>
   )
 }
 

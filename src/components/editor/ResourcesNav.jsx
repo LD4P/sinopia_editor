@@ -47,9 +47,11 @@ const ResourcesNav = () => {
 
   return (
     <div className="row">
-      <ul className="nav nav-tabs">
-        { resourceTemplateNavItems }
-      </ul>
+      <div className="col">
+        <ul className="nav nav-tabs">
+          { resourceTemplateNavItems }
+        </ul>
+      </div>
     </div>
   ) }
 

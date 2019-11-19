@@ -95,8 +95,8 @@ const Search = (props) => {
     <div id="search" ref={topRef}>
       <Header triggerEditorMenu={props.triggerHandleOffsetMenu} />
       <Alert text={error && `An error occurred while searching: ${error.toString()}`} />
-      <div className="container">
-        <div className="row">
+      <div className="row">
+        <div className="col">
           <form className="form-inline" onSubmit={handleSubmit}>
             <div className="form-group">
               <label htmlFor="searchType">Search</label>&nbsp;
@@ -123,10 +123,14 @@ const Search = (props) => {
             </div>
           </form>
         </div>
-        <span className="text-muted">Sinopia search: use * as wildcard;
-          default operator for multiple terms is AND; use | (pipe) as OR operator;
-          use quotation marks for exact match. For more details see <a href="https://github.com/LD4P/sinopia/wiki/Searching-in-Sinopia">Searching in Sinopia</a>.
-        </span>
+      </div>
+      <div className="row">
+        <div className="col">
+          <span className="text-muted">Sinopia search: use * as wildcard;
+            default operator for multiple terms is AND; use | (pipe) as OR operator;
+            use quotation marks for exact match. For more details see <a href="https://github.com/LD4P/sinopia/wiki/Searching-in-Sinopia">Searching in Sinopia</a>.
+          </span>
+        </div>
       </div>
       {results}
     </div>

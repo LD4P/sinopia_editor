@@ -89,8 +89,7 @@ const SinopiaSearchResults = (props) => {
     <React.Fragment>
       <Alerts errorKey={searchRetrieveErrorKey} />
       <div id="search-results" className="row">
-        <div className="col-sm-2"></div>
-        <div className="col-sm-8">
+        <div className="col">
           <table className="table table-bordered" id="search-results-list">
             <thead>
               <tr>
