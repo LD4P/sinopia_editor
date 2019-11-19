@@ -1,6 +1,6 @@
 /* eslint import/namespace: 'off' */
 import React from 'react'
-import { fireEvent } from '@testing-library/react'
+import { fireEvent, wait } from '@testing-library/react'
 import Search from 'components/search/Search'
 import {
   renderWithRedux, createReduxStore, setupModal, createBlankState,
@@ -180,5 +180,75 @@ describe('<Search />', () => {
     fireEvent.click(container.querySelector('button[type="submit"]'))
 
     expect(await findByText('An error occurred while searching: Error: Grrr...')).toBeInTheDocument()
+  })
+
+  it('retains sort order when paging', async () => {
+    const state = createBlankState()
+    state.selectorReducer.search.resultsPerPage = 2
+    const store = createReduxStore(state)
+
+    const mockGetSearchResults = jest.fn()
+    server.getSearchResults = mockGetSearchResults.mockResolvedValue({
+      totalHits: 3,
+      results: [
+        {
+          uri: 'repository/cornell/ca0d53d0-2b99-4f75-afb0-739a6f0af4f4',
+          label: 'foo1',
+          title: ['foo1'],
+          type: ['http://id.loc.gov/ontologies/bibframe/Title'],
+        },
+        {
+          uri: 'repository/cornell/ca0d53d0-2b99-4f75-afb0-739a6f0af4f5',
+          label: 'foo2',
+          title: ['foo2'],
+          type: ['http://id.loc.gov/ontologies/bibframe/Title'],
+        },
+        {
+          uri: 'repository/cornell/ca0d53d0-2b99-4f75-afb0-739a6f0af4f5',
+          label: 'foo3',
+          title: ['foo3'],
+          type: ['http://id.loc.gov/ontologies/bibframe/Title'],
+        },
+      ],
+    })
+
+    const {
+      container, getByLabelText, findByText, getByText, queryByText,
+    } = renderWithRedux(
+      <MemoryRouter><Search history={{}} /></MemoryRouter>, store,
+    )
+
+    // Enter a query
+    fireEvent.change(getByLabelText('Query'), { target: { value: 'foo' } })
+
+    // Click search
+    fireEvent.click(container.querySelector('button[type="submit"]'))
+
+    expect(await findByText('Sort by')).toBeInTheDocument()
+
+    // Change sort order
+    expect(getByText('Relevance', { selector: 'button.active' })).toBeInTheDocument()
+    fireEvent.click(getByText('Sort by'))
+    fireEvent.click(getByText('Modified date, newest first'))
+
+    await wait(() => expect(queryByText('Relevance', { selector: 'button.active' })).not.toBeInTheDocument())
+    expect(getByText('Modified date, newest first', { selector: 'button.active' })).toBeInTheDocument()
+
+    fireEvent.click(getByText('›'))
+
+    expect(await findByText('2', { selector: 'li.active > button' })).toBeInTheDocument()
+    expect(getByText('Modified date, newest first', { selector: 'button.active' })).toBeInTheDocument()
+
+    expect(mockGetSearchResults.mock.calls).toEqual([
+      ['foo', {
+        queryFrom: 0, resultsPerPage: 2, sortField: undefined, sortOrder: undefined,
+      }],
+      ['foo', {
+        queryFrom: 0, resultsPerPage: 2, sortField: 'modified', sortOrder: 'desc',
+      }],
+      ['foo', {
+        queryFrom: 2, resultsPerPage: 2, sortField: 'modified', sortOrder: 'desc',
+      }],
+    ])
   })
 })
