@@ -103,9 +103,9 @@ describe('<PropertyTemplateOutline />', () => {
       fireEvent.click(addButton)
 
       expect(await findByText('Work Title', { selector: 'h5' })).toBeInTheDocument()
-      expect(getByText('Add another Work Title', { selector: 'button.btn-add-another' })).toBeInTheDocument()
+      expect(getByText('+ Add another', { selector: 'button.btn-add-another' })).toBeInTheDocument()
 
-      expect(getByText('Remove', { selector: 'button.btn-remove' })).toBeInTheDocument()
+      expect(container.querySelector('button.btn-remove')).toBeInTheDocument()
       expect(container.querySelector('button.btn-toggle')).toBeInTheDocument()
     })
   })
@@ -124,7 +124,7 @@ describe('<PropertyTemplateOutline />', () => {
 
       expect(await findByPlaceholderText('(Time) Coverage of the Content (RDA 7.3)')).toBeInTheDocument()
 
-      expect(getByText('Remove', { selector: 'button.btn-remove' })).toBeInTheDocument()
+      expect(container.querySelector('button.btn-remove')).toBeInTheDocument()
       expect(container.querySelector('button.btn-toggle')).toBeInTheDocument()
     })
   })

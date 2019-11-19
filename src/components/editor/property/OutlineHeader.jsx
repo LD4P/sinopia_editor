@@ -4,7 +4,7 @@ import React from 'react'
 import { connect } from 'react-redux'
 import PropTypes from 'prop-types'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faAngleRight, faAngleDown } from '@fortawesome/free-solid-svg-icons'
+import { faAngleRight, faAngleDown, faTrashAlt } from '@fortawesome/free-solid-svg-icons'
 import PropertyLabel from './PropertyLabel'
 import PropertyLabelInfo from './PropertyLabelInfo'
 import {
@@ -17,7 +17,8 @@ import { resourceEditErrorKey } from '../Editor'
 import _ from 'lodash'
 
 const OutlineHeader = (props) => {
-  const icon = props.collapsed === true ? faAngleRight : faAngleDown
+  const toggleIcon = props.collapsed === true ? faAngleRight : faAngleDown
+  const trashIcon = faTrashAlt
 
   const isAdd = _.isEmpty(props.resourceModel)
 
@@ -32,7 +33,7 @@ const OutlineHeader = (props) => {
   if (isAdd) {
     return (
       <div className={groupClasses}>
-        <button type="button" className="btn btn-default btn-add" onClick={props.handleAddButton} data-id={props.id}>
+        <button type="button" className="btn btn-default btn-add btn-add-property" onClick={props.handleAddButton} data-id={props.id}>
           + Add <strong><PropertyLabel propertyTemplate={props.property} /></strong>
         </button>
         <PropertyLabelInfo propertyTemplate={ props.property } />
@@ -44,12 +45,12 @@ const OutlineHeader = (props) => {
   return (
     <div className={groupClasses}>
       <button type="button" className="btn btn-sm btn-toggle" onClick={props.handleToggle} data-id={props.id} disabled={isAdd}>
-        <FontAwesomeIcon icon={icon} />
+        <FontAwesomeIcon className="toggle-icon" icon={toggleIcon} />
       </button>
       <strong><PropertyLabel propertyTemplate={props.property} /></strong>
       <PropertyLabelInfo propertyTemplate={ props.property } />
-      <button type="button" className="btn btn-sm btn-outline-primary btn-remove" onClick={props.handleRemoveButton} data-id={props.id}>
-        Remove
+      <button type="button" className="btn btn-sm btn-remove pull-right" onClick={props.handleRemoveButton} data-id={props.id}>
+        <FontAwesomeIcon className="trash-icon" icon={trashIcon} />
       </button>
 
     </div>
