@@ -4,6 +4,8 @@ import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import DropZone from './DropZone'
 import PropTypes from 'prop-types'
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { faUpload } from '@fortawesome/free-solid-svg-icons'
 import Ajv from 'ajv' // JSON schema validation
 import Config from 'Config'
 import { setResourceTemplates } from 'actionCreators/resourceTemplates'
@@ -189,7 +191,6 @@ class ImportFileZone extends Component {
     const importFileZone = {
       display: 'flex',
       justifyContent: 'right',
-      padding: '10px',
     }
     const dropzoneContainer = {
       display: 'flex',
@@ -209,9 +210,11 @@ class ImportFileZone extends Component {
     return (
       <section>
         <div className="ImportFileZone" style={importFileZone}>
+          <FontAwesomeIcon style={ { marginTop: '9px' } } icon={faUpload} />
           <button id="ImportProfile"
-                  className="btn btn-primary btn-lg"
-                  onClick={this.handleClick}>Import a Profile or Resource Template</button>
+                  className="btn btn-link"
+                  onClick={this.handleClick}>
+                  Import Profile / Resource Template</button>
         </div>
         <div className="dropzoneContainer" style={dropzoneContainer}>
           { this.state.showDropZone ? this.renderDropZone() : null }

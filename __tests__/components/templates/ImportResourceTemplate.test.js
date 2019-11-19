@@ -18,7 +18,7 @@ describe('<ImportResourceTemplate />', () => {
 
   it('draws the templates page', () => {
     expect(getByText('LINKED DATA EDITOR')).toBeInTheDocument()
-    expect(getByText('Import a Profile or Resource Template')).toBeInTheDocument()
+    expect(getByText('Import Profile / Resource Template')).toBeInTheDocument()
     expect(getByText('Find a resource template')).toBeInTheDocument()
   })
 })

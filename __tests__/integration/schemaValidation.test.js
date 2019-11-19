@@ -23,7 +23,7 @@ describe('Loading an invalid resource template', () => {
   it('notifies the user that invalid', async () => {
     // Upload the resource template
     fireEvent.click(getByText('Linked Data Editor'))
-    fireEvent.click(getByText('Import a Profile or Resource Template'))
+    fireEvent.click(getByText('Import Profile / Resource Template'))
     expect(getByText(/Drag and drop a profile or resource template file/)).toBeInTheDocument()
     expect(queryByText(/The profile you provided was not valid JSON/)).not.toBeInTheDocument()
 
