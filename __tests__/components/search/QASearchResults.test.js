@@ -67,7 +67,7 @@ describe('<QASearchResults />', () => {
           {
             property: 'Contributor',
             values: [
-              'Bennett, Arnold,1867-1931.',
+              'Bennett, Arnold.',
             ],
             selectable: false,
             drillable: false,
@@ -84,12 +84,15 @@ describe('<QASearchResults />', () => {
     // Headers
     expect(getByText('Label')).toBeInTheDocument()
     expect(getByText('Classes')).toBeInTheDocument()
+    expect(getByText('Context')).toBeInTheDocument()
 
     // Rows
     expect(getByText('These twain')).toBeInTheDocument()
     expect(getByText('Those twain')).toBeInTheDocument()
     expect(getByText('http://id.loc.gov/ontologies/bflc/Hub')).toBeInTheDocument()
     expect(getAllByText('http://id.loc.gov/ontologies/bibframe/Work').length).toBe(2)
+    expect(getAllByText('Contributor', { selector: 'strong' }).length).toBe(2)
+    expect(getByText(/Bennett, Arnold,1867-1931./)).toBeInTheDocument()
     expect(getAllByTitle('Copy').length).toBe(2)
   })
 
