@@ -1,7 +1,7 @@
 // Copyright 2019 Stanford University see LICENSE for license
 /* eslint max-params: ["error", 4] */
 
-import React, { useState, useEffect } from 'react'
+import React, { useState, useEffect, useRef } from 'react'
 import { connect } from 'react-redux'
 import { bindActionCreators } from 'redux'
 import PropTypes from 'prop-types'
@@ -20,6 +20,8 @@ export const searchRetrieveErrorKey = 'searchresource'
 
 const SinopiaSearchResults = (props) => {
   const [navigateEditor, setNavigateEditor] = useState(false)
+
+  const errorsRef = useRef(null)
 
   const groupName = (uri) => {
     const groupSlug = uri.split('/')[4]
@@ -42,6 +44,10 @@ const SinopiaSearchResults = (props) => {
     // Forces a wait until the resource has been set in state
     if (navigateEditor && props.rootResource && _.isEmpty(props.errors)) {
       props.history.push('/editor')
+    }
+    else if (!_.isEmpty(props.errors))
+    {
+      window.scrollTo(0, errorsRef.current.offsetTop)
     }
   })
 
@@ -86,7 +92,7 @@ const SinopiaSearchResults = (props) => {
 
   return (
     <React.Fragment>
-      <Alerts errorKey={searchRetrieveErrorKey} />
+      <div ref={errorsRef}><Alerts errorKey={searchRetrieveErrorKey} /></div>
       <div id="search-results" className="row">
         <div className="col">
           <table className="table table-bordered" id="search-results-list">
