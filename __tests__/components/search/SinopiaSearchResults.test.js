@@ -22,7 +22,7 @@ describe('<SinopiaSearchResults />', () => {
     it('it contains the main div', () => {
       const state = createBlankState()
       state.selectorReducer.search.results = [{
-        uri: 'some/stanford/path',
+        uri: 'https://trellis.sinopia.io/repository/stanford/some/path',
         type: ['http://schema.org/Thing'],
         label: 'An item title',
         modified: '2019-10-23T22:42:57.623Z',
@@ -55,7 +55,7 @@ describe('<SinopiaSearchResults />', () => {
   it('renders errors', () => {
     const state = createBlankState()
     state.selectorReducer.search.results = [{
-      uri: 'some/stanford/path',
+      uri: 'http://platform:8080/repository/stanford/some/path',
       type: ['http://schema.org/Thing'],
       label: 'An item title',
       modified: '2019-10-23T22:42:57.623Z',
