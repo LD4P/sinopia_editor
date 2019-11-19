@@ -104,7 +104,7 @@ const QASearchResults = (props) => {
               onClick={() => handleCopy(uri, id)}
               title="Copy"
               aria-label="Copy this resource">
-        <FontAwesomeIcon icon={faCopy} size="2x" />
+        <FontAwesomeIcon icon={faCopy} className="icon-lg" />
       </button>
     </div>
   )
