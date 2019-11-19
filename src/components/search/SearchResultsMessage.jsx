@@ -18,8 +18,7 @@ const SearchResultsMessage = (props) => {
   if (props.totalResults === 0) {
     return (
       <div id="search-results-message" className="row">
-        <div className="col-sm-2"></div>
-        <div className="col-sm-8 text-center">
+        <div className="col">
           <div><strong>Displaying 0 Search Results</strong></div>
         </div>
       </div>
@@ -28,11 +27,9 @@ const SearchResultsMessage = (props) => {
 
   return (
     <div id="search-results-message" className="row">
-      <div className="col-sm-2"></div>
-      <div className="col-sm-8 text-center">
+      <div className="col">
         <div><strong>Displaying {props.startOfRange + 1} - {lastItemOnPage} of {props.totalResults}</strong></div>
       </div>
-      <div className="col-sm-2"></div>
     </div>
   )
 }

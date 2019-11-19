@@ -8,7 +8,7 @@ import SaveAndPublishButton from './actions/SaveAndPublishButton'
 
 const EditorActions = () => (
   <div className="row">
-    <section className="col-md-3 offset-md-9 text-right">
+    <section className="col-md-4 offset-md-8 text-right">
       <CopyToNewButton />
       <PreviewButton />
       <CloseButton />

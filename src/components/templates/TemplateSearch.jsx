@@ -37,8 +37,8 @@ const TemplateSearch = () => {
   return (
     <div id="search">
       <Alert text={error} />
-      <div className="container">
-        <div className="row">
+      <div className="row">
+        <div className="col">
           <form className="form-inline" onSubmit={event => event.preventDefault()}>
             <div className="form-group" style={{ paddingBottom: '10px', paddingTop: '10px' }}>
               <label htmlFor="searchInput">Find a resource template</label>&nbsp;

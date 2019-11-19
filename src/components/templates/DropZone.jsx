@@ -55,9 +55,7 @@ const DropZone = (props) => {
 
   return (
     <section>
-      <p style={{
-        marginLeft: 'auto', marginRight: 'auto', paddingLeft: '1.5em', textIndent: '-1.5em', width: '300px',
-      }}>
+      <p>
         Drag and drop a profile or resource template file in the box
           or click it to select a file to upload:
       </p>

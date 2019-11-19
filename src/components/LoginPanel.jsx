@@ -70,7 +70,7 @@ class LoginPanel extends Component {
 
     const currentUserInfoPanel = (
       <div className="row logged-in-user-info">
-        <div>current cognito user: { currentUser ? currentUser.username : null }</div>
+        <div className="col-sm-3">current cognito user: { currentUser ? currentUser.username : null }</div>
       </div>
     )
 
@@ -104,7 +104,9 @@ class LoginPanel extends Component {
 
     const logoutButton = (
       <div className="row">
-        <button className="signout-btn" onClick={this.handleSignout}>Sign out</button>
+        <div className="col-sm-2">
+          <button className="signout-btn" onClick={this.handleSignout}>Sign out</button>
+        </div>
       </div>
     )
 
