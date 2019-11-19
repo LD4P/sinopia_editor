@@ -26,9 +26,9 @@ const SinopiaSort = () => {
           Label, ascending</button>
         <button type="button" className={getClasses('label', 'desc')} href="#" onClick={ () => handleSort('label', 'desc') }>
           Label, descending</button>
-        <button type="button" className={getClasses('modified', 'asc')} href="#" onClick={ () => handleSort('modified', 'desc') }>
+        <button type="button" className={getClasses('modified', 'desc')} href="#" onClick={ () => handleSort('modified', 'desc') }>
           Modified date, newest first</button>
-        <button type="button" className={getClasses('modified', 'desc')} href="#" onClick={ () => handleSort('modified', 'asc') }>
+        <button type="button" className={getClasses('modified', 'asc')} href="#" onClick={ () => handleSort('modified', 'asc') }>
           Modified date, oldest first</button>
         <button type="button" className={getClasses(undefined, undefined)} href="#" onClick={ () => handleSort(undefined, undefined) }>
           Relevance</button>

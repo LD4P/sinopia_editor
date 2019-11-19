@@ -25,7 +25,12 @@ const Search = (props) => {
   const fetchQASearchResults = (queryString, uri) => dispatch(fetchQASearchResultsCreator(queryString, uri))
 
   const resultsPerPage = useSelector(state => state.selectorReducer.search.resultsPerPage)
-  const fetchSinopiaSearchResults = (queryString, startOfRange) => dispatch(fetchSinopiaSearchResultsCreator(queryString, startOfRange, resultsPerPage))
+  const sortField = useSelector(state => state.selectorReducer.search.sortField)
+  const sortOrder = useSelector(state => state.selectorReducer.search.sortOrder)
+  // eslint-disable-next-line max-params
+  const fetchSinopiaSearchResults = (queryString, startOfRange, sortField, sortOrder) => dispatch(fetchSinopiaSearchResultsCreator(
+    queryString, startOfRange, resultsPerPage, sortField, sortOrder,
+  ))
 
   const clearSearchResults = useCallback(() => dispatch(clearSearchResultsAction()), [dispatch])
 
@@ -66,7 +71,7 @@ const Search = (props) => {
   }
 
   const changeSinopiaSearchPage = (startOfRange) => {
-    fetchSinopiaSearchResults(queryString, startOfRange)
+    fetchSinopiaSearchResults(queryString, startOfRange, sortField, sortOrder)
   }
 
   const options = searchConfig.map(config => (<option key={config.uri} value={config.uri}>{config.label}</option>))
