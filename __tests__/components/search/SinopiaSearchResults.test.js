@@ -38,7 +38,7 @@ describe('<SinopiaSearchResults />', () => {
 
       // Search table headers
       expect(queryByText('Label')).toBeInTheDocument()
-      expect(queryByText('Type')).toBeInTheDocument()
+      expect(queryByText('Class')).toBeInTheDocument()
       expect(queryByText('Institution')).toBeInTheDocument()
       expect(getByText('Modified Date', 'th')).toBeInTheDocument()
       // It has a sort button
