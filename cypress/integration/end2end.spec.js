@@ -37,7 +37,7 @@ describe('End-to-end test', () => {
     // Need to determine if should upload a resource template.
     cy.get('#resource-templates').then((rtDiv) => {
       if (rtDiv.find('div#no-rt-warning').length > 0) {
-        cy.contains('Import a Profile or Resource Template').click()
+        cy.contains('Import Profile / Resource Template').click()
         cy.contains('Drag and drop a profile or resource template file')
         const fileName = 'LD4P_BIBFRAME_2.0_Title_Information.json'
         cy.fixture(fileName).then((fileJson) => {

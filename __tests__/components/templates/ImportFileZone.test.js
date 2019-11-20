@@ -11,7 +11,7 @@ describe('<ImportFileZone />', () => {
     const wrapper = shallow(<ImportFileZone.WrappedComponent />)
 
     expect(wrapper.find('button#ImportProfile').exists()).toBeTruthy()
-    expect(wrapper.find('button#ImportProfile').text()).toEqual('Import a Profile or Resource Template')
+    expect(wrapper.find('button#ImportProfile').text()).toEqual('Import Profile / Resource Template')
   })
 
   describe('schema valid', () => {
@@ -157,19 +157,19 @@ describe('<DropZone />', () => {
 
   it('shows the dropzone div when button is clicked', () => {
     wrapper.setState({ showDropZone: false })
-    wrapper.find('button.btn').simulate('click')
+    wrapper.find('button.btn-link').simulate('click')
     expect(wrapper.find('DropZone > section > p').last().text())
       .toMatch('Drag and drop a profile or resource template file in the box or click it to select a file to upload:')
   })
 
   it('hides the dropzone div when button is clicked again', () => {
-    wrapper.find('button.btn').simulate('click')
+    wrapper.find('button.btn-link').simulate('click')
     expect(wrapper.find('DropZone > section > p').exists()).toBeFalsy()
   })
 
   it('hides the dropzone div when the file dialog is canceled', () => {
     wrapper.setState({ showDropZone: false })
-    wrapper.find('button.btn').simulate('click')
+    wrapper.find('button.btn-link').simulate('click')
     expect(wrapper.state('showDropZone')).toBeTruthy()
     wrapper.setState({ showDropZone: false })
     expect(wrapper.state('showDropZone')).toBeFalsy()
@@ -177,7 +177,7 @@ describe('<DropZone />', () => {
 
   it('hides the dropzone div when the resource template menu link is clicked', () => {
     wrapper.setState({ showDropZone: false })
-    wrapper.find('button.btn').simulate('click')
+    wrapper.find('button.btn-link').simulate('click')
     expect(wrapper.state('showDropZone')).toBeTruthy()
     wrapper.instance().handleClick()
     wrapper.setState({ showDropZone: false })
