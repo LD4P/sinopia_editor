@@ -36,7 +36,7 @@ class RootContainer extends Component {
 
     return (
       <div id="home-page">
-        <OffCanvas width={300} transitionDuration={300} isMenuOpened={this.state.isMenuOpened} position={'right'}>
+        <OffCanvas width={300} transitionDuration={300} isMenuOpened={this.state.isMenuOpened} position={'right'} effect={'overlay'}>
           <OffCanvasBody className={offcanvasClass}>
             <BrowserRouter>
               <Provider store={store}>
