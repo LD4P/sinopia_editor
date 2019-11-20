@@ -74,7 +74,7 @@ const LoadByRDFForm = (props) => {
 
   return (
     <div>
-      <h4>Load RDF into Editor</h4>
+      <h3>Load RDF into Editor</h3>
       <Alerts errorKey={loadResourceByRDFErrorKey} />
 
       <form id="loadForm" onSubmit={handleSubmit}>

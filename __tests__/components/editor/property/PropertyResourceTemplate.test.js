@@ -33,7 +33,7 @@ describe('<PropertyResourceTemplate />', () => {
   })
 
   it('Contains label of from the props', () => {
-    expect(wrapper.find('h4').text()).toBe(`${propertyRtProps.resourceTemplate.resourceLabel}`)
+    expect(wrapper.find('h5').text()).toBe(`${propertyRtProps.resourceTemplate.resourceLabel}`)
   })
 
   it('<PropertyTemplateOutline /> has the expected Redux path', () => {

@@ -61,7 +61,7 @@ class PropertyResourceTemplate extends Component {
     return (<div>
       <div className="row" key={this.props.reduxPath.join()}>
         <section className="col-md-6">
-          <h4>{this.props.resourceTemplate.resourceLabel}</h4>
+          <h5>{this.props.resourceTemplate.resourceLabel}</h5>
         </section>
         <section className="col-md-6">
           <PropertyActionButtons

@@ -32,7 +32,7 @@ class ResourceTemplate extends Component {
         <div id="resourceTemplate">
           <Alerts errorKey={resourceEditErrorKey(this.props.resourceKey)} />
           <section>
-            <h1><em>{this.props.resourceTemplate.resourceLabel}</em></h1>
+            <h3>{this.props.resourceTemplate.resourceLabel}</h3>
             <CopyToNewMessage />
             <ResourceURIMessage />
             <SaveAlert />

@@ -24,13 +24,13 @@ describe('Loading multiple resources', () => {
     // Open a resource
     fireEvent.click(await findByText('Abbreviated Title'))
 
-    expect(await findByText('Abbreviated Title', { selector: 'h1 em' })).toBeInTheDocument()
+    expect(await findByText('Abbreviated Title', { selector: 'h3' })).toBeInTheDocument()
 
     // Open another resource
     fireEvent.click(getByText('Resource Templates'))
     fireEvent.click(await findByText('Addresses'))
 
-    expect(await findByText('Addresses', { selector: 'h1 em' })).toBeInTheDocument()
+    expect(await findByText('Addresses', { selector: 'h3' })).toBeInTheDocument()
 
     // Nav pills
     expect(getByText('Addresses', { selector: 'button' })).toBeInTheDocument()
@@ -38,7 +38,7 @@ describe('Loading multiple resources', () => {
 
     // Close
     fireEvent.click(queryAllByText('Close')[0])
-    expect(await findByText('Abbreviated Title', { selector: 'h1 em' })).toBeInTheDocument()
+    expect(await findByText('Abbreviated Title', { selector: 'h3' })).toBeInTheDocument()
     await wait(() => expect(queryByText('Abbreviated Title', { selector: 'button' })).not.toBeInTheDocument())
 
     // Close again

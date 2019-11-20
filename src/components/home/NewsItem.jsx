@@ -5,7 +5,7 @@ import { version } from '../../../package.json'
 
 const NewsItem = () => (
   <div className="news-item" data-testid="news-item">
-    <h1>Sinopia Version {version}: new features and bug fixes</h1>
+    <h3>Sinopia Version {version}: new features and bug fixes</h3>
     <p><i>For complete release notes see the <a href="https://github.com/LD4P/sinopia/wiki/Latest-Release,-What's-Next">Sinopia help site</a>.</i></p>
     <ul>
       <li>You can catalog in multiple resource templates at once; each template is opened in a tab within the Editor tab</li>

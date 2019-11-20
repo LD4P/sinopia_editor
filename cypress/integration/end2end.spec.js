@@ -104,7 +104,7 @@ describe('End-to-end test', () => {
     cy.get('button[title=Edit]').click()
     cy.url().should('include', '/editor')
 
-    cy.contains('h1', 'Work Title')
+    cy.contains('h3', 'Work Title')
     cy.contains('URI for this resource')
     cy.get('div.rbt-token').contains(title)
   })
