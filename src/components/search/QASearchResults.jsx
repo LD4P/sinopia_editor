@@ -134,7 +134,7 @@ const QASearchResults = (props) => {
                 Label
               </th>
               <th className="search-header" style={{ width: '25%' }}>
-                Classes
+                Class
               </th>
               <th className="search-header" style={{ width: '25%' }}>
                 Context

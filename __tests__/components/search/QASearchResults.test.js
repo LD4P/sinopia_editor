@@ -83,8 +83,7 @@ describe('<QASearchResults />', () => {
     )
     // Headers
     expect(getByText('Label')).toBeInTheDocument()
-    expect(getByText('Classes')).toBeInTheDocument()
-    expect(getByText('Context')).toBeInTheDocument()
+    expect(getByText('Class')).toBeInTheDocument()
 
     // Rows
     expect(getByText('These twain')).toBeInTheDocument()
@@ -164,7 +163,7 @@ describe('<QASearchResults />', () => {
     )
     // Headers
     expect(getByText('Label')).toBeInTheDocument()
-    expect(getByText('Classes')).toBeInTheDocument()
+    expect(getByText('Class')).toBeInTheDocument()
 
     // Rows
     expect(getByText('Shania Twain - Shania Twain')).toBeInTheDocument()
