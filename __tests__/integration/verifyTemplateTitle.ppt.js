@@ -12,6 +12,6 @@ describe('Verify the resource template label is displayed in the editor', () => 
     expect.assertions(2)
 
     await pupExpect(page).toClick('a', { text: 'Note' })
-    await pupExpect(page).toMatchElement('#resourceTemplate h1', { text: 'Note' })
+    await pupExpect(page).toMatchElement('#resourceTemplate h3', { text: 'Note' })
   })
 })

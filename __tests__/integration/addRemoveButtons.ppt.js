@@ -18,18 +18,18 @@ describe('Adding and removing resources', () => {
 
   it('clicks on add button for a resource property', async () => {
     expect.assertions(3)
-    expect(await nodesWithTextCount('h4', 'BIBFRAME Work', page)).toEqual(1)
+    expect(await nodesWithTextCount('h5', 'BIBFRAME Work', page)).toEqual(1)
 
     await pupExpect(page).toClick('button.btn-add-another', { text: 'Add' })
-    expect(await nodesWithTextCount('h4', 'BIBFRAME Work', page)).toEqual(2)
+    expect(await nodesWithTextCount('h5', 'BIBFRAME Work', page)).toEqual(2)
   })
 
   it('clicks on remove button for a resource property', async () => {
     expect.assertions(3)
-    expect(await nodesWithTextCount('h4', 'BIBFRAME Work', page)).toEqual(2)
+    expect(await nodesWithTextCount('h5', 'BIBFRAME Work', page)).toEqual(2)
 
     await pupExpect(page).toClick('button.btn-remove-another')
-    expect(await nodesWithTextCount('h4', 'BIBFRAME Work', page)).toEqual(1)
+    expect(await nodesWithTextCount('h5', 'BIBFRAME Work', page)).toEqual(1)
   })
 
   it('clicks on add button for a nested resource property', async () => {

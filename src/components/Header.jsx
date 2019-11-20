@@ -20,7 +20,7 @@ class Header extends Component {
         <div className="row">
           <div className="col-8">
             <h2 className="editor-subtitle"><a className="editor-subtitle" href="/">SINOPIA</a></h2> <h2 className="editor-version">v{this.props.version}</h2>
-            <h1 className="editor-logo">LINKED DATA EDITOR{`${Config.sinopiaEnv}`}</h1>
+            <h1 className="editor-logo Display5">LINKED DATA EDITOR{`${Config.sinopiaEnv}`}</h1>
           </div>
           <div className="col-4">
             <ul className="nav pull-right">

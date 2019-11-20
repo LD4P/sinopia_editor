@@ -21,7 +21,7 @@ describe('<ResourceTemplate />', () => {
   })
 
   it('displays the resource label of the resource template', () => {
-    expect(wrapper.find('#resourceTemplate h1').text()).toEqual('BF2 Work')
+    expect(wrapper.find('#resourceTemplate h3').text()).toEqual('BF2 Work')
   })
 
   // TODO: if we have more than one resourceTemplate form, they need to have unique ids (see #130)

@@ -17,6 +17,7 @@ pre {
   background-color: #f5f5f5;
   border: 1px solid #ccc;
 }
+
 .banner {
   background-size: cover;
   background-image: url("home-background.png");
@@ -70,9 +71,6 @@ pre {
   opacity:0.85;
   box-shadow: -3px 3px 10px 0px #999999;
 }
-.jumbotron h1{
-  font-size: 30px;
-}
 
 .ResourceTemplateForm {
   column-count: 2;
@@ -94,28 +92,27 @@ pre {
   padding: 0 10%;
   margin-bottom: 10%;
 }
-.desc-panel h4 {
+
+.desc-panel h3 {
   font-weight: 600;
   margin-top: 5%;
   margin-bottom: 2%
 }
-.desc-panel p {
-  font-size: 13.5px;
-}
+
 #footer {
   float: right;
   padding: 3% 10% 0 3%;
 }
-.header-text{
-  font-size:15px;
-}
+
 .offcanvas-menu{
   background-color: rgb(55,66,79);
   height: 100%;
 }
+
 .offcanvas-menu a{
   color: white;
 }
+
 .closeMargin{
   margin-right: -12.5%;
 }
@@ -157,17 +154,16 @@ pre {
   float: left;
   padding-right: 20px;
   position: relative;
-  /*top: 58px;*/
 }
 
 .group-select-options {
   position: relative;
-  /*top: 70px;*/
 }
 
 .menu-item{
   margin-left: 1.4em;
 }
+
 .close-icon{
   font-size: 1.6em;
   margin-top: 10%;
@@ -188,44 +184,30 @@ pre {
   padding: .25em;
 }
 
-/* .rOutline-property div {
-  padding-left: .5em;
-} */
-
-.arrow-icon{
-  color: white;
-  font-size: 1.2em;
-}
 .editor-navbar{
   background-image: url('./editorheaderbg.png');
   padding-bottom: 1em;
   margin-bottom: 1em;
 }
-.editor-header-text{
-  font-size: .85em;
-}
-a.editor-help-resources {
-  font-size: .85em;
-}
+
 #footer-text{
   padding-left: 10%;
 }
+
 h1.editor-logo {
   text-decoration: none;
   font-family: "Copperplate Gothic Light";
-  font-size: 3em;
   color: #2F2424;
   margin-top: 5px;
   padding-left: 25px;
 }
 
 h2.editor-subtitle {
-  font-size: 1.2em;
   margin-bottom: 5px;
   display: inline;
 }
+
 h2.editor-version {
-  font-size: 0.9em;
   margin-bottom: 5px;
   display: inline;
 }
@@ -256,29 +238,31 @@ a.editor-subtitle {
 input.rbt-input-main {
   min-width: 300px;
 }
- .rdf-modal-content {
+
+.rdf-modal-content {
   padding: 20px 25px 20px 20px;
 }
 
 /** For header tabs **/
 .editor-navtabs {
-    font-size: 1.5em;
-    color: #2F2424;
-    /** top right bottom left **/
-    margin:0 5px -15px 5px;
-    border:0px;
+  color: #2F2424;
+  /** top right bottom left **/
+  margin:0 5px -15px 5px;
+  border:0px;
 }
 
 .editor-navtabs .active {
-    background-color:#fff; /** Based on body background-color color **/
+  background-color:#fff; /** Based on body background-color color **/
 }
 
 .editor-navtabs .hover {
-    background-color:transparent;
+  background-color:transparent;
 }
 
 .editor-navtabs a {
-    color: #2F2424;
+  color: #2F2424;
+  font-weight: 500;
+  line-height: 1.2;
 }
 
 /** For lookup menu headers **/
@@ -287,29 +271,32 @@ input.rbt-input-main {
 	color:#333;
 	background-color:#d3d3d3;
 }
+
 .dropdown-empty, .dropdown-error {
 	font-weight:400;
 	color: #999999;
 }
 /** For typeahead discogs context**/
 .context-result {
-        padding: 4px 2px 2px 5px;
+  padding: 4px 2px 2px 5px;
 }
+
 .context-result-bg {
-        background-color: #fff;
+  background-color: #fff;
 }
+
 .context-result-alt-bg {
-        background-color: #ede7d4;
+  background-color: #ede7d4;
 }
 .context-label {
-      font-weight: bold;
-      font-size: 18px;
-      padding-left: 5px;
+  font-weight: bold;
+  font-size: 18px;
+  padding-left: 5px;
 }
 .context-heading {
-      margin: 0 -15px;
-      padding: 8px 0 4px 8px;
-      background-color: #ccc;
+  margin: 0 -15px;
+  padding: 8px 0 4px 8px;
+  background-color: #ccc;
 }
 .context-label-dropdown {
   font-weight:bold;
@@ -371,13 +358,11 @@ button.collapse-heading.collapsed::before {
 }
 
 button.btn-add-property {
-  font-size: 14px;
   color: blue;
   text-decoration: underline;
 }
 
 button.btn-add-instance {
-  font-size: 14px;
   color: white;
   text-decoration: underline;
 }

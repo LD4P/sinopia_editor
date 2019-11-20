@@ -4,7 +4,7 @@ import React from 'react'
 
 const DescPanel = () => (
   <div className="desc-panel">
-    <h4>The underdrawing for the new world of linked data in libraries</h4>
+    <h3>The underdrawing for the new world of linked data in libraries</h3>
     <p>Sinopia is a linked data creation environment where libraries can: </p>
     <ul>
       <li>create metadata in a linked data environment without having to set up and maintain tools</li>

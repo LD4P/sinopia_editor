@@ -136,7 +136,7 @@ describe('<App />', () => {
       const store = createReduxStore(createInitialState({ authenticated: true }))
       const { findByText } = renderWithReduxAndRouter((<App />), store, ['/editor/resourceTemplate:bf2:Note'])
 
-      expect(await findByText('Note', { selector: 'h1 > em' })).toBeInTheDocument()
+      expect(await findByText('Note', { selector: 'h3' })).toBeInTheDocument()
     })
 
     it('redirects to /templates when for /editor/<rtId> when rtId not found', async () => {
@@ -185,19 +185,19 @@ describe('<App />', () => {
   })
 
   describe('when user is authenticated and there is a resource', () => {
-    it('renders resource for /editor', () => {
+    it('renders resource for /editor', async () => {
       const store = createReduxStore(createInitialState({ authenticated: true, hasResource: true }))
-      const { getByText } = renderWithReduxAndRouter((<App />), store, ['/editor'])
+      const { getByText, findByText } = renderWithReduxAndRouter((<App />), store, ['/editor'])
 
-      expect(getByText('Note', { selector: 'h1 > em' })).toBeInTheDocument()
+      expect(await findByText('Note', { selector: 'h3' })).toBeInTheDocument()
       expect(getByText('foo')).toBeInTheDocument()
     })
     // This should not actually occur in the app.
-    it('renders resource for /editor/<rtId>', () => {
+    it('renders resource for /editor/<rtId>', async () => {
       const store = createReduxStore(createInitialState({ authenticated: true, hasResource: true }))
-      const { getByText } = renderWithReduxAndRouter((<App />), store, ['/editor/resourceTemplate:bf2:Note'])
+      const { getByText, findByText } = renderWithReduxAndRouter((<App />), store, ['/editor/resourceTemplate:bf2:Note'])
 
-      expect(getByText('Note', { selector: 'h1 > em' })).toBeInTheDocument()
+      expect(await findByText('Note', { selector: 'h3' })).toBeInTheDocument()
       expect(getByText('foo')).toBeInTheDocument()
     })
   })
