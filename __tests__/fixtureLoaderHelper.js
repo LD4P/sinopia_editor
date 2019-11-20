@@ -39,6 +39,7 @@ const rtFileNames = [
   'TitleNote.json',
   'TranscribedTitle.json',
   'VarTitle.json',
+  'WikidataLookup.json',
   'WorkTitle.json',
   'WorkVariantTitle.json',
   'defaultsAndRefs.json',
