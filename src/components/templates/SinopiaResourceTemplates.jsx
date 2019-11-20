@@ -63,7 +63,6 @@ const SinopiaResourceTemplates = (props) => {
     <section id="resource-templates" ref={topRef}>
       <Alerts errorKey={newResourceErrorKey} />
       { history }
-      <h3>Available resource templates in Sinopia</h3>
       { searchResults.totalResults > 0
         ? <ResourceTemplateSearchResult search={searchResults} handleClick={handleClick} />
         : <div className="alert alert-warning" id="no-rt-warning">No resource templates match.</div>
