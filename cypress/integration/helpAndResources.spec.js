@@ -11,7 +11,7 @@ describe('Looking at the Help and Resources gutter', () => {
   })
 
   it('Closes help and resources', () => {
-    cy.contains('a', 'Help and Resources').click()
+    cy.get('button[aria-label="Close Help Menu"]').click()
 
     cy.contains('External Identifier Sources and Vocabularies')
   })
@@ -42,7 +42,7 @@ describe('Looking at the Help and Resources gutter', () => {
   })
 
   it('Closes help and resources', () => {
-    cy.contains('a', 'Help and Resources').click()
+    cy.get('button[aria-label="Close Help Menu"]').click()
 
     cy.contains('External Identifier Sources and Vocabularies')
   })
@@ -60,7 +60,7 @@ describe('Looking at the Help and Resources gutter', () => {
   })
 
   it('Closes help and resources', () => {
-    cy.contains('a', 'Help and Resources').click()
+    cy.get('button[aria-label="Close Help Menu"]').click()
 
     cy.contains('External Identifier Sources and Vocabularies')
   })
@@ -78,7 +78,7 @@ describe('Looking at the Help and Resources gutter', () => {
   })
 
   it('Closes help and resources', () => {
-    cy.contains('a', 'Help and Resources').click()
+    cy.get('button[aria-label="Close Help Menu"]').click()
 
     cy.contains('External Identifier Sources and Vocabularies')
   })
@@ -96,7 +96,7 @@ describe('Looking at the Help and Resources gutter', () => {
   })
 
   it('Closes help and resources', () => {
-    cy.contains('a', 'Help and Resources').click()
+    cy.get('button[aria-label="Close Help Menu"]').click()
 
     cy.contains('External Identifier Sources and Vocabularies')
   })
