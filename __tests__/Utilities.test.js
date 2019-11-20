@@ -4,9 +4,16 @@ import {
   isResourceWithValueTemplateRef,
   resourceToName,
   rdfDatasetFromN3,
+  groupName,
 } from '../src/Utilities'
 
 describe('Utilities', () => {
+  describe('groupName()', () => {
+    it('returns a group name from a URI', () => {
+      const uri = 'http://hostname/repository/pcc/objectidentifier'
+      expect(groupName(uri)).toEqual('PCC')
+    })
+  })
   describe('isResourceWithValueTemplateRef()', () => {
     it('returns true when there is a valueTemplateRef', () => {
       const templateWithValueTemplateRefs = {
