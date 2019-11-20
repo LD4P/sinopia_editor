@@ -50,7 +50,6 @@ const SinopiaSearchResults = (props) => {
   const generateRows = () => {
     const rows = []
     props.searchResults.forEach((row) => {
-      const link = `${Config.sinopiaServerBase}/${row.uri}`
       rows.push(<tr key={row.uri}>
         <td>{ row.label }</td>
         <td>
@@ -64,12 +63,12 @@ const SinopiaSearchResults = (props) => {
           <div className="btn-group" role="group" aria-label="Result Actions">
             <button className="btn btn-link"
                     title="Edit"
-                    onClick={e => handleEdit(link, e) }>
+                    onClick={e => handleEdit(row.uri, e) }>
               <FontAwesomeIcon icon={faEdit} size="2x" />
             </button>
             <button type="button"
                     className="btn btn-link"
-                    onClick={() => handleCopy(link)}
+                    onClick={() => handleCopy(row.uri)}
                     title="Copy"
                     aria-label="Copy this resource">
               <FontAwesomeIcon icon={faCopy} size="2x" />
