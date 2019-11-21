@@ -200,16 +200,7 @@ h1.editor-logo {
   color: #2F2424;
   margin-top: 5px;
   padding-left: 25px;
-}
-
-h2.editor-subtitle {
-  margin-bottom: 5px;
-  display: inline;
-}
-
-h2.editor-version {
-  margin-bottom: 5px;
-  display: inline;
+  margin-bottom: 0px;
 }
 
 a.prop-remark {
@@ -228,11 +219,8 @@ span.prop-remark {
 }
 
 a.editor-subtitle {
-  text-decoration: none;
   font-family: "Copperplate Gothic Light";
   color: #2F2424 !important;
-  padding-left: 25px;
-
 }
 
 input.rbt-input-main {
@@ -251,8 +239,8 @@ input.rbt-input-main {
   border:0px;
 }
 
-.editor-navtabs .active {
-  background-color:#fff; /** Based on body background-color color **/
+.editor-navtabs .nav-link.active {
+  font-weight: 900;
 }
 
 .editor-navtabs .hover {

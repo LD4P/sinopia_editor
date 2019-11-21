@@ -70,8 +70,6 @@ describe('<App />', () => {
   it('renders', () => {
     const store = createReduxStore(createInitialState({ authenticated: true }))
     const { getByText } = renderWithReduxAndRouter((<App />), store)
-    // renders login panel
-    expect(getByText('Sign out')).toBeInTheDocument()
 
     // renders footer
     expect(getByText(/Sinopia is a project/)).toBeInTheDocument()

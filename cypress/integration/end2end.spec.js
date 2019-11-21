@@ -20,7 +20,6 @@ describe('End-to-end test', () => {
       .type(Cypress.env('COGNITO_TEST_USER_PASS'))
       .should('have.value', Cypress.env('COGNITO_TEST_USER_PASS'))
     cy.contains('Login').click()
-    cy.contains('current cognito user: sinopia-devs_client-tester')
   })
 
   it('Opens Linked Data Editor', () => {
@@ -110,7 +109,7 @@ describe('End-to-end test', () => {
   })
 
   it('Logs out', () => {
-    cy.get('button').contains('Sign out').click()
+    cy.contains('a', 'Logout').click()
     // Well, sign out doesn't actually work ...
   })
 })

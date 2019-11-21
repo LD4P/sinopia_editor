@@ -2,12 +2,8 @@
 
 import React from 'react'
 import { shallow } from 'enzyme'
-import {
-  CognitoAccessToken, CognitoIdToken, CognitoRefreshToken, CognitoUserSession,
-} from 'amazon-cognito-identity-js'
 import LoginPanel from 'components/LoginPanel'
 import Config from 'Config'
-import CognitoUtils from 'CognitoUtils'
 
 global.alert = jest.fn().mockImplementationOnce(() => {})
 
@@ -47,61 +43,5 @@ describe('<LoginPanel /> when there is an authentication failure', () => {
 
   it('renders the failure message', () => {
     expect(wrapper.find('.login-form .error-message').text()).toMatch('borked!')
-  })
-})
-
-describe('<LoginPanel /> when the user is authenticated', () => {
-  const username = 't.mctesterson'
-  const currentUser = CognitoUtils.cognitoUser(username)
-  const currentSession = new CognitoUserSession({
-    IdToken: new CognitoIdToken(), RefreshToken: new CognitoRefreshToken(), AccessToken: new CognitoAccessToken(),
-  })
-
-  currentUser.setSignInUserSession(currentSession)
-
-  const failToAuthenticate = jest.fn()
-  const authenticate = jest.fn()
-  const signout = jest.fn()
-
-  const wrapper = shallow(<LoginPanel.WrappedComponent currentUser={currentUser}
-                                                       currentSession={currentSession}
-                                                       failToAuthenticate={failToAuthenticate}
-                                                       authenticate={authenticate}
-                                                       signout={signout}/>)
-
-  it('renders the welcome text with the logged in user\'s username', () => {
-    expect(wrapper.find('div.logged-in-user-info').text()).toMatch(`current cognito user: ${username}`)
-  })
-
-  it('renders a sign-out button', () => {
-    expect(wrapper.find('button').text()).toEqual('Sign out')
-  })
-
-  describe('user tries to sign out of cognito', () => {
-    const signoutSpy = jest.spyOn(wrapper.instance().props.currentUser, 'globalSignOut')
-
-    afterEach(() => {
-      signoutSpy.mockReset()
-      signout.mockReset()
-    })
-
-    afterAll(() => {
-      signoutSpy.mockRestore()
-    })
-
-    it('signout succeeds', () => {
-      signoutSpy.mockImplementation((resultHandler) => { resultHandler.onSuccess('all signed out!') })
-      wrapper.find('button.signout-btn').simulate('click')
-      expect(signout).toHaveBeenCalled()
-      expect(signoutSpy).toHaveBeenCalled()
-    })
-
-    it('signout fails', () => {
-      signoutSpy.mockImplementation((resultHandler) => { resultHandler.onFailure('must have already signed out or something') })
-      wrapper.find('button.signout-btn').simulate('click')
-      expect(signout).not.toHaveBeenCalled()
-      expect(signoutSpy).toHaveBeenCalled()
-      expect(global.alert).toHaveBeenCalled()
-    })
   })
 })
