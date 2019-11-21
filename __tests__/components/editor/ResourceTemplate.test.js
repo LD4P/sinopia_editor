@@ -38,7 +38,7 @@ describe('<ResourceTemplate />', () => {
   })
 
   it('displays Alert', () => {
-    expect(wrapper.find(Alerts).length).toEqual(1)
+    expect(wrapper.find(Alerts).length).toEqual(2)
   })
 
   describe('When there is an error and no resource template', () => {

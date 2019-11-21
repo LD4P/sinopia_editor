@@ -1,10 +1,10 @@
-
 // Copyright 2019 Stanford University see LICENSE for license
 
 import React from 'react'
+import shortid from 'shortid'
 import PropTypes from 'prop-types'
 import { getLookupResults } from 'sinopiaSearch'
-import shortid from 'shortid'
+import ResourceList from './ResourceList'
 import InputLookup from './InputLookup'
 
 const InputLookupSinopia = (props) => {
@@ -34,7 +34,10 @@ const InputLookupSinopia = (props) => {
   }
 
   return (
-    <InputLookup getLookupResults={getLookupResults} getOptions={getOptions} reduxPath={props.reduxPath} />
+    <React.Fragment>
+      <InputLookup getLookupResults={getLookupResults} getOptions={getOptions} reduxPath={props.reduxPath} />
+      <ResourceList reduxPath={props.reduxPath} />
+    </React.Fragment>
   )
 }
 
