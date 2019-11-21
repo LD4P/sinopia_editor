@@ -1,6 +1,8 @@
 // Copyright 2019 Stanford University see LICENSE for license
 
-import React, { useState, useEffect, useMemo } from 'react'
+import React, {
+  useState, useEffect, useMemo, useRef,
+} from 'react'
 import { Typeahead } from 'react-bootstrap-typeahead'
 import defaultFilterBy from 'react-bootstrap-typeahead/lib/utils/defaultFilterBy'
 import PropTypes from 'prop-types'
@@ -22,28 +24,35 @@ const InputListLOC = (props) => {
   const dispatch = useDispatch()
   const changeSelections = payload => dispatch(changeSelectionsAction(payload))
 
-  const propertyTemplate = useSelector((state) => {
-    const resourceTemplateId = props.reduxPath[props.reduxPath.length - 2]
-    const propertyURI = props.reduxPath[props.reduxPath.length - 1]
-    return getPropertyTemplate(state, resourceTemplateId, propertyURI)
-  })
+  const resourceTemplateId = props.reduxPath[props.reduxPath.length - 2]
+  const propertyURI = props.reduxPath[props.reduxPath.length - 1]
+  const propertyTemplate = useSelector(state => getPropertyTemplate(state, resourceTemplateId, propertyURI))
+  const typeAheadRef = useRef(null)
 
-  const [isRepeatable, setIsRepeatable] = useState(true)
-  const [lookupConfigs, setlookupConfigs] = useState([])
-  useEffect(() => {
-    setIsRepeatable(booleanPropertyFromTemplate(propertyTemplate, 'repeatable', true))
-    setlookupConfigs(getLookupConfigItems(propertyTemplate))
+  const allLookupConfigs = useMemo(() => {
+    const lookupConfigs = {}
+    if (propertyTemplate) {
+      getLookupConfigItems(propertyTemplate).forEach(lookupConfig => lookupConfigs[lookupConfig.uri] = lookupConfig)
+    }
+    return lookupConfigs
   }, [propertyTemplate])
+  const [selectedLookupConfigs, setSelectedLookupConfigs] = useState({})
 
   useEffect(() => {
-    lookupConfigs.forEach((lookupConfig) => {
+    setSelectedLookupConfigs(allLookupConfigs)
+  }, [allLookupConfigs])
+
+  const isRepeatable = booleanPropertyFromTemplate(propertyTemplate, 'repeatable', true)
+
+  useEffect(() => {
+    Object.values(allLookupConfigs).forEach((lookupConfig) => {
       dispatch(fetchLookup(lookupConfig.uri))
     })
-  }, [dispatch, lookupConfigs])
+  }, [dispatch, allLookupConfigs])
 
   const lookups = useSelector((state) => {
     const newLookups = {}
-    lookupConfigs.forEach((lookupConfig) => {
+    Object.values(allLookupConfigs).forEach((lookupConfig) => {
       newLookups[lookupConfig.uri] = findLookup(state, lookupConfig.uri) || []
     })
     return newLookups
@@ -52,12 +61,12 @@ const InputListLOC = (props) => {
   // Only update options when lookups or lookupConfigs change.
   const options = useMemo(() => {
     const newOptions = []
-    lookupConfigs.forEach((lookupConfig) => {
+    Object.values(selectedLookupConfigs).forEach((lookupConfig) => {
       newOptions.push({ authLabel: lookupConfig.label, authURI: lookupConfig.uri })
       newOptions.push(...lookups[lookupConfig.uri] || [])
     })
     return newOptions
-  }, [lookups, lookupConfigs])
+  }, [lookups, selectedLookupConfigs])
 
 
   const selected = useSelector(state => itemsForProperty(state, props.reduxPath))
@@ -82,6 +91,20 @@ const InputListLOC = (props) => {
     changeSelections(payload)
   }
 
+  const lookupCheckboxes = Object.values(allLookupConfigs).map((lookupConfig) => {
+    const id = `${props.reduxPath.join()}-${lookupConfig.uri}`
+    return (
+      <div key={lookupConfig.uri} className="form-check">
+        <input className="form-check-input"
+               type="checkbox" id={id}
+               checked={!!selectedLookupConfigs[lookupConfig.uri]}
+               onChange={() => toggleLookup(lookupConfig.uri)} />
+        <label className="form-check-label" htmlFor={id}>
+          {lookupConfig.label}
+        </label>
+      </div>
+    ) })
+
   // Custom filterBy to retain authority labels when filtering to provide context.
   const filterBy = (option, props) => {
     if (option.authURI || option.isError) {
@@ -90,6 +113,18 @@ const InputListLOC = (props) => {
     props.filterBy = ['label']
     return defaultFilterBy(option, props)
   }
+
+  const toggleLookup = (uri) => {
+    const newSelectedLookupConfigs = { ...selectedLookupConfigs }
+    if (newSelectedLookupConfigs[uri]) {
+      delete newSelectedLookupConfigs[uri]
+    } else {
+      newSelectedLookupConfigs[uri] = allLookupConfigs[uri]
+    }
+    setSelectedLookupConfigs(newSelectedLookupConfigs)
+    typeAheadRef.current.getInstance().getInput().click()
+  }
+
 
   const displayValidations = useSelector(state => getDisplayResourceValidations(state))
   const validationErrors = useSelector(state => findResourceValidationErrorsByPath(state, props.reduxPath))
@@ -108,26 +143,30 @@ const InputListLOC = (props) => {
   }
 
   return (
-    <div className={groupClasses}>
-      <Typeahead
-        renderMenu={(results, menuProps) => renderMenuFunc(results, menuProps, propertyTemplate)}
-        renderToken={(option, props, idx) => renderTokenFunc(option, props, idx)}
-        allowNew={() => true }
-        onChange={selected => selectionChanged(selected)}
-        id="loc-vocab-list"
-        multiple={true}
-        placeholder={propertyTemplate.propertyLabel}
-        emptyLabel="retrieving list of terms..."
-        useCache={true}
-        selectHintOnEnter={true}
-        options={options}
-        selected={selected}
-        filterBy={filterBy}
-        onKeyDown={onKeyDown}
-        disabled={isDisabled}
-      />
-      {error && <span className="text-danger">{error}</span>}
-    </div>
+    <React.Fragment>
+      {lookupCheckboxes.length > 1 && lookupCheckboxes}
+      <div className={groupClasses}>
+        <Typeahead
+          renderMenu={(results, menuProps) => renderMenuFunc(results, menuProps, Object.values(selectedLookupConfigs))}
+          renderToken={(option, props, idx) => renderTokenFunc(option, props, idx)}
+          allowNew={() => true }
+          onChange={selected => selectionChanged(selected)}
+          id="loc-vocab-list"
+          multiple={true}
+          placeholder={propertyTemplate.propertyLabel}
+          emptyLabel="retrieving list of terms..."
+          useCache={true}
+          selectHintOnEnter={true}
+          options={options}
+          selected={selected}
+          filterBy={filterBy}
+          onKeyDown={onKeyDown}
+          disabled={isDisabled}
+          ref={ref => typeAheadRef.current = ref}
+        />
+        {error && <span className="text-danger">{error}</span>}
+      </div>
+    </React.Fragment>
   )
 }
 

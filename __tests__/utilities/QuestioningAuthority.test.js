@@ -1,20 +1,14 @@
 // Copyright 2019 Stanford University see LICENSE for license
 
 import { getSearchResults, getTerm } from 'utilities/QuestioningAuthority'
+import { findAuthorityConfigs } from 'utilities/authorityConfig'
 
 describe('getSearchResults()', () => {
   it('returns an array of promises from a search', async () => {
     expect.assertions(2)
 
-    const template = {
-      valueConstraint: {
-        useValuesFrom: [
-          'urn:ld4p:qa:agrovoc',
-        ],
-      },
-    }
-
-    const results = getSearchResults('Corn', template)
+    const authorityConfigs = findAuthorityConfigs(['urn:ld4p:qa:agrovoc'])
+    const results = getSearchResults('Corn', authorityConfigs)
     expect(results.length).toEqual(1)
 
     const result = await results[0]

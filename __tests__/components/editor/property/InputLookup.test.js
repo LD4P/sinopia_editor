@@ -21,6 +21,7 @@ const createInitialState = (options = {}) => {
           valueConstraint: {
             useValuesFrom: [
               'urn:ld4p:qa:names',
+              'urn:ld4p:qa:names:person',
             ],
           },
           propertyLabel: 'Search LCNAF',
@@ -74,7 +75,7 @@ const reduxPath = [
 describe('InputLookup', () => {
   it('renders when no value', () => {
     const store = createReduxStore(createInitialState())
-    const { container, getByPlaceholderText } = renderWithRedux(
+    const { container, getByPlaceholderText, getByLabelText } = renderWithRedux(
       <InputLookup reduxPath={reduxPath} getLookupResults={jest.fn()} getOptions={jest.fn()} />, store,
     )
     // The input box is present.
@@ -83,6 +84,10 @@ describe('InputLookup', () => {
     expect(container.querySelector('.rbt-token')).not.toBeInTheDocument()
     // The typeahead's multiple attribute is always set to 'true' in order to always allow the tokenization
     expect(container.querySelector('.rbt-input-multi')).toBeInTheDocument()
+
+    // Checkboxes are present and checked
+    expect(getByLabelText('LOC person [names (rwo)] (QA)').checked).toBe(true)
+    expect(getByLabelText('LOC all names (QA)').checked).toBe(true)
   })
 
   it('renders existing value', () => {
@@ -167,6 +172,28 @@ describe('InputLookup', () => {
     // Verify the value
     expect(getByText('bar')).toBeInTheDocument()
     expect(getAllByText('×')).toHaveLength(2)
+  })
+
+  it('allows selecting authority', async () => {
+    const store = createReduxStore(createInitialState())
+    const {
+      getByPlaceholderText, getByText, getAllByText, getByLabelText, queryByText,
+    } = renderWithRedux(
+      <InputLookup reduxPath={reduxPath} getLookupResults={jest.fn()} getOptions={jest.fn()} />, store,
+    )
+
+    // Uncheck an authority
+    const checkbox = getByLabelText('LOC person [names (rwo)] (QA)')
+    fireEvent.click(checkbox)
+    await wait(() => expect(checkbox.checked).toBe(false))
+
+    // Add a value
+    fireEvent.change(getByPlaceholderText('Search LCNAF'), { target: { value: 'foo' } })
+    expect(getAllByText('foo')).toHaveLength(2)
+
+    // Dropdown headers
+    expect(queryByText('LOC person [names (rwo)] (QA)', { selector: '.dropdown-header' })).not.toBeInTheDocument()
+    expect(getByText('LOC all names (QA)', { selector: '.dropdown-header' })).toBeInTheDocument()
   })
 
   it('allows deleting a value', async () => {

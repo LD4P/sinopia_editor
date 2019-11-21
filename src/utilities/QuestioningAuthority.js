@@ -3,16 +3,12 @@
 
 import Swagger from 'swagger-client'
 import swaggerSpec from 'lib/apidoc.json'
-import { getLookupConfigItems } from 'utilities/propertyTemplates'
 import Config from 'Config'
 import { findAuthorityConfig } from 'utilities/authorityConfig'
 import _ from 'lodash'
 
-export const getSearchResults = (query, propertyTemplate) => {
-  const lookupConfigs = getLookupConfigItems(propertyTemplate)
-
-  // Create array of Promises<results> based on the lookup config array that is sent in
-  return createLookupPromises(query, lookupConfigs).map((lookupPromise, i) => lookupPromise.then((value) => {
+export const getSearchResults = (query, lookupConfigs) => createLookupPromises(query, lookupConfigs)
+  .map((lookupPromise, i) => lookupPromise.then((value) => {
     if (value) {
       value.authLabel = lookupConfigs[i].label
       value.authURI = lookupConfigs[i].uri
@@ -21,7 +17,7 @@ export const getSearchResults = (query, propertyTemplate) => {
     }
     return value
   }))
-}
+
 
 export const isContext = propertyTemplate => propertyTemplate?.subtype === 'context'
 

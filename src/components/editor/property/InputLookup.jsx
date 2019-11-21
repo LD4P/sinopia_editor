@@ -1,6 +1,8 @@
 // Copyright 2019 Stanford University see LICENSE for license
 
-import React, { useState, useRef } from 'react'
+import React, {
+  useState, useRef, useMemo, useEffect,
+} from 'react'
 import { Typeahead, asyncContainer } from 'react-bootstrap-typeahead'
 import PropTypes from 'prop-types'
 import { useSelector, useDispatch } from 'react-redux'
@@ -8,7 +10,7 @@ import {
   itemsForProperty, getDisplayResourceValidations, getPropertyTemplate, findResourceValidationErrorsByPath,
 } from 'selectors/resourceSelectors'
 import { changeSelections as changeSelectionsAction } from 'actions/index'
-import { booleanPropertyFromTemplate } from 'utilities/propertyTemplates'
+import { booleanPropertyFromTemplate, getLookupConfigItems } from 'utilities/propertyTemplates'
 import _ from 'lodash'
 import { renderMenuFunc, renderTokenFunc } from './renderTypeaheadFunctions'
 
@@ -31,8 +33,25 @@ const InputLookup = (props) => {
   const propertyTemplate = useSelector(state => getPropertyTemplate(state, resourceTemplateId, propertyURI))
   const errors = useSelector(state => findResourceValidationErrorsByPath(state, props.reduxPath))
   const selected = useSelector(state => itemsForProperty(state, props.reduxPath))
+  const [selectedLookupConfigs, setSelectedLookupConfigs] = useState({})
+  const [query, setQuery] = useState(false)
+  const typeAheadRef = useRef(null)
 
-  const search = (query) => {
+  const allLookupConfigs = useMemo(() => {
+    const lookupConfigs = {}
+    if (propertyTemplate) {
+      getLookupConfigItems(propertyTemplate).forEach(lookupConfig => lookupConfigs[lookupConfig.uri] = lookupConfig)
+    }
+    return lookupConfigs
+  }, [propertyTemplate])
+
+  useEffect(() => {
+    setSelectedLookupConfigs(allLookupConfigs)
+  }, [allLookupConfigs])
+
+  useEffect(() => {
+    if (!query) return
+
     // Clear the results.
     // No re-render, so change not visible to user.
     allResults.current = []
@@ -47,7 +66,7 @@ const InputLookup = (props) => {
     tokens.current.push(token)
 
     // resultPromises is an array of Promise<result>
-    const resultPromises = props.getLookupResults(query, propertyTemplate)
+    const resultPromises = props.getLookupResults(query, Object.values(selectedLookupConfigs))
     resultPromises.forEach((resultPromise) => {
       resultPromise.then((resultSet) => {
         // Only use these results if not cancelled.
@@ -58,7 +77,7 @@ const InputLookup = (props) => {
         }
       })
     })
-  }
+  }, [props, query, selectedLookupConfigs])
 
   // From https://github.com/ericgio/react-bootstrap-typeahead/issues/389
   const onKeyDown = (e) => {
@@ -89,6 +108,32 @@ const InputLookup = (props) => {
     return null
   }
 
+  const toggleLookup = (uri) => {
+    const newSelectedLookupConfigs = { ...selectedLookupConfigs }
+    if (newSelectedLookupConfigs[uri]) {
+      delete newSelectedLookupConfigs[uri]
+    } else {
+      newSelectedLookupConfigs[uri] = allLookupConfigs[uri]
+    }
+    setSelectedLookupConfigs(newSelectedLookupConfigs)
+    typeAheadRef.current.getInstance().getInput().click()
+  }
+
+  const lookupCheckboxes = Object.values(allLookupConfigs).map((lookupConfig) => {
+    const id = `${props.reduxPath.join()}-${lookupConfig.uri}`
+    return (
+      <div key={lookupConfig.uri} className="form-check">
+        <input className="form-check-input"
+               type="checkbox"
+               id={id}
+               checked={!!selectedLookupConfigs[lookupConfig.uri]}
+               onChange={() => toggleLookup(lookupConfig.uri)} />
+        <label className="form-check-label" htmlFor={id}>
+          {lookupConfig.label}
+        </label>
+      </div>
+    ) })
+
   const typeaheadProps = {
     id: 'lookupComponent',
     multiple: true,
@@ -109,19 +154,23 @@ const InputLookup = (props) => {
     error = errors.join(',')
   }
   return (
-    <div className={groupClasses}>
-      <AsyncTypeahead renderMenu={(results, menuProps) => renderMenuFunc(results, menuProps, propertyTemplate)}
-                      renderToken={(option, props, idx) => renderTokenFunc(option, props, idx)}
-                      disabled={isDisabled}
-                      onChange={newSelected => selectionChanged(newSelected)}
-                      options={props.getOptions(allResults.current)}
-                      onSearch={search}
-                      selected={selected}
-                      {...typeaheadProps}
-                      filterBy={() => true}
-      />
-      {error && <span className="text-danger">{error}</span>}
-    </div>
+    <React.Fragment>
+      {lookupCheckboxes.length > 1 && lookupCheckboxes}
+      <div className={groupClasses}>
+        <AsyncTypeahead renderMenu={(results, menuProps) => renderMenuFunc(results, menuProps, Object.values(selectedLookupConfigs))}
+                        renderToken={(option, props, idx) => renderTokenFunc(option, props, idx)}
+                        disabled={isDisabled}
+                        onChange={newSelected => selectionChanged(newSelected)}
+                        options={props.getOptions(allResults.current)}
+                        onSearch={setQuery}
+                        selected={selected}
+                        {...typeaheadProps}
+                        filterBy={() => true}
+                        ref={ref => typeAheadRef.current = ref}
+        />
+        {error && <span className="text-danger">{error}</span>}
+      </div>
+    </React.Fragment>
   )
 }
 

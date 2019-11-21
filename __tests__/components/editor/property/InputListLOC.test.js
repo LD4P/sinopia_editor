@@ -127,7 +127,9 @@ describe('InputListLOC', () => {
 
   it('renders when no value', () => {
     const store = createReduxStore(createInitialState())
-    const { container, getByPlaceholderText, queryByText } = renderWithRedux(
+    const {
+      container, getByPlaceholderText, queryByText, getByLabelText,
+    } = renderWithRedux(
       <InputListLOC reduxPath={reduxPath} />, store,
     )
     // The input box is present.
@@ -136,6 +138,10 @@ describe('InputListLOC', () => {
     expect(queryByText('Required')).not.toBeInTheDocument()
     // No existing values are present. This sort of a query isn't recommended but since testing for absence, seems OK.
     expect(container.querySelector('.rbt-token')).not.toBeInTheDocument()
+
+    // Checkboxes are present and checked
+    expect(getByLabelText('recording medium').checked).toBe(true)
+    expect(getByLabelText('type of recording').checked).toBe(true)
   })
 
   it('renders existing URI value', () => {
@@ -153,8 +159,8 @@ describe('InputListLOC', () => {
       <InputListLOC reduxPath={reduxPath} />, store,
     )
     // The URIs are displayed in the input box
-    expect(getByText('http://id.loc.gov/vocabulary/mgroove/lateral', 'div.rbt-token > a')).toBeInTheDocument()
-    expect(getByText('http://id.loc.gov/vocabulary/mgroove/coarse', 'div.rbt-token > a')).toBeInTheDocument()
+    expect(getByText('http://id.loc.gov/vocabulary/mgroove/lateral', { selector: 'div.rbt-token > a' })).toBeInTheDocument()
+    expect(getByText('http://id.loc.gov/vocabulary/mgroove/coarse', { selector: 'div.rbt-token > a' })).toBeInTheDocument()
   })
 
   it('renders existing literal value', () => {
@@ -181,24 +187,24 @@ describe('InputListLOC', () => {
     fireEvent.click(input)
 
     // Dropdown headers
-    expect(getByText('recording medium', '.dropdown-header')).toBeInTheDocument()
-    expect(getByText('type of recording', '.dropdown-header')).toBeInTheDocument()
+    expect(getByText('recording medium', { selector: '.dropdown-header' })).toBeInTheDocument()
+    expect(getByText('type of recording', { selector: '.dropdown-header' })).toBeInTheDocument()
 
     // Dropdown values
-    expect(await findByText('analog', '.dropdown-item')).toBeInTheDocument()
-    expect(await findByText('digital', '.dropdown-item')).toBeInTheDocument()
-    expect(await findByText('magneto-optical', '.dropdown-item')).toBeInTheDocument()
-    expect(await findByText('optical', '.dropdown-item')).toBeInTheDocument()
+    expect(await findByText('analog', { selector: '.dropdown-item' })).toBeInTheDocument()
+    expect(await findByText('digital', { selector: '.dropdown-item' })).toBeInTheDocument()
+    expect(await findByText('magneto-optical', { selector: '.dropdown-item' })).toBeInTheDocument()
+    expect(await findByText('optical', { selector: '.dropdown-item' })).toBeInTheDocument()
 
     // Start typing optical
     fireEvent.change(input, { target: { value: 'opt' } })
 
-    await wait(() => expect(queryByText('analog', '.dropdown-item')).not.toBeInTheDocument())
-    await wait(() => expect(queryByText('digital', '.dropdown-item')).not.toBeInTheDocument())
-    expect(getByText('magneto-optical', '.dropdown-item')).toBeInTheDocument()
-    expect(getByText('optical', '.dropdown-item')).toBeInTheDocument()
+    await wait(() => expect(queryByText('analog', { selector: '.dropdown-item' })).not.toBeInTheDocument())
+    await wait(() => expect(queryByText('digital', { selector: '.dropdown-item' })).not.toBeInTheDocument())
+    expect(getByText('magneto-optical', { selector: '.dropdown-item' })).toBeInTheDocument()
+    expect(getByText('optical', { selector: '.dropdown-item' })).toBeInTheDocument()
 
-    fireEvent.click(getByText('optical', '.dropdown-item'))
+    fireEvent.click(getByText('optical', { selector: '.dropdown-item' }))
 
     expect(getByText('optical')).toBeInTheDocument()
     // Ideally would like to test can't add repeated value. However, the user
@@ -222,12 +228,12 @@ describe('InputListLOC', () => {
     // Start typing optical and select it
     fireEvent.change(input, { target: { value: 'opt' } })
 
-    expect(await findByText('magneto-optical', '.dropdown-item')).toBeInTheDocument()
-    expect(await findByText('optical', '.dropdown-item')).toBeInTheDocument()
+    expect(await findByText('magneto-optical', { selector: '.dropdown-item' })).toBeInTheDocument()
+    expect(await findByText('optical', { selector: '.dropdown-item' })).toBeInTheDocument()
 
-    fireEvent.click(getByText('optical', '.dropdown-item'))
+    fireEvent.click(getByText('optical', { selector: '.dropdown-item' }))
 
-    expect(getByText('optical', 'div.rbt-token > a')).toBeInTheDocument()
+    expect(getByText('optical', { selector: 'div.rbt-token > a' })).toBeInTheDocument()
 
     // Input is enabled for multiple values
     expect(container.querySelector('input.rbt-input-main[disabled]')).not.toBeInTheDocument()
@@ -235,13 +241,13 @@ describe('InputListLOC', () => {
     // Start typing analog and select it
     fireEvent.change(input, { target: { value: 'ana' } })
 
-    expect(await findByText('analog', '.dropdown-item')).toBeInTheDocument()
+    expect(await findByText('analog', { selector: '.dropdown-item' })).toBeInTheDocument()
 
-    fireEvent.click(getByText('analog', '.dropdown-item'))
+    fireEvent.click(getByText('analog', { selector: '.dropdown-item' }))
 
     // Analog and optical are entered
-    expect(getByText('optical', 'div.rbt-token > a')).toBeInTheDocument()
-    expect(getByText('analog', 'div.rbt-token > a')).toBeInTheDocument()
+    expect(getByText('optical', { selector: 'div.rbt-token > a' })).toBeInTheDocument()
+    expect(getByText('analog', { selector: 'div.rbt-token > a' })).toBeInTheDocument()
   })
 
   it('handles entering a new literal', async () => {
@@ -300,6 +306,34 @@ describe('InputListLOC', () => {
     expect(token).not.toBeInTheDocument()
   })
 
+  it('allows selecting authorities', async () => {
+    const store = createReduxStore(createInitialState())
+    const {
+      getByPlaceholderText, queryByText, getByText, findByText, getByLabelText,
+    } = renderWithRedux(
+      <InputListLOC reduxPath={reduxPath} />, store,
+    )
+
+    // Uncheck an authority
+    const checkbox = getByLabelText('recording medium')
+    fireEvent.click(checkbox)
+    await wait(() => expect(checkbox.checked).toBe(false))
+
+    // Click in the input box
+    const input = getByPlaceholderText('Sound characteristics')
+    fireEvent.click(input)
+
+    // Dropdown headers
+    expect(queryByText('recording medium', { selector: '.dropdown-header' })).not.toBeInTheDocument()
+    expect(getByText('type of recording', { selector: '.dropdown-header' })).toBeInTheDocument()
+
+    // Dropdown values
+    expect(await findByText('analog', { selector: '.dropdown-item' })).toBeInTheDocument()
+    expect(await findByText('digital', { selector: '.dropdown-item' })).toBeInTheDocument()
+    expect(queryByText('magneto-optical', { selector: '.dropdown-item' })).not.toBeInTheDocument()
+    expect(queryByText('optical', { selector: '.dropdown-item' })).not.toBeInTheDocument()
+  })
+
   it('produces expected triples for value', async () => {
     const store = createReduxStore(createInitialState())
     const {
@@ -314,9 +348,9 @@ describe('InputListLOC', () => {
     // Start typing optical
     fireEvent.change(input, { target: { value: 'opt' } })
 
-    expect(await findByText('optical', '.dropdown-item')).toBeInTheDocument()
+    expect(await findByText('optical', { selector: '.dropdown-item' })).toBeInTheDocument()
 
-    fireEvent.click(getByText('optical', '.dropdown-item'))
+    fireEvent.click(getByText('optical', { selector: '.dropdown-item' }))
 
     expect(getByText('optical')).toBeInTheDocument()
 
