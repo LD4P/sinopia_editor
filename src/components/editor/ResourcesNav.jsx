@@ -2,6 +2,7 @@
 
 import React from 'react'
 import { useSelector, useDispatch } from 'react-redux'
+import CloseButton from './actions/CloseButton'
 import {
   getResourceTemplate, rootResourceTemplateId,
   currentResourceKey as currentResourceKeySelector,
@@ -28,15 +29,21 @@ const ResourcesNav = () => {
   const createResourceTemplateNavItem = (resourceKey, active) => {
     const linkClasses = ['nav-link', 'btn']
     const itemClasses = ['nav-item']
+    let closeButton
     if (active) {
       linkClasses.push('active')
       itemClasses.push('active')
+    } else {
+      closeButton = <CloseButton label={'x'} css={'button'} />
     }
     return (
       <li className={itemClasses.join(' ')} key={resourceKey}>
-        <button className={linkClasses.join(' ')}
-                href="#"
-                onClick={event => handleResourceNavClick(event, resourceKey)}>{navLabels[resourceKey]}</button>
+        <div className="btn-group">
+          <button className={linkClasses.join(' ')}
+                  href="#"
+                  onClick={event => handleResourceNavClick(event, resourceKey)}>{navLabels[resourceKey]}</button>
+          {closeButton}
+        </div>
       </li>
     )
   }
