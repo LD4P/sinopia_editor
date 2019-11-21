@@ -20,6 +20,7 @@
 
 const rtFileNames = [
   'Barcode.json',
+  'DiscogsLookup.json',
   'DDC.json',
   'Item.json',
   'ItemAcqSource.json',

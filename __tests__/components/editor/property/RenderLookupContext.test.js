@@ -38,7 +38,6 @@ const genericResult = {
   id: 'n 79021164',
   label: 'Biology',
   context: [
-
     {
       property: 'Preferred label',
       values: [
@@ -50,7 +49,6 @@ const genericResult = {
       values: [
         'Additional Information',
       ],
-
     },
   ],
 }
@@ -59,24 +57,38 @@ const discogsResult = {
   uri: 'https://api.discogs.com/masters/144098',
   id: '144098',
   label: 'Frank Sinatra',
-  context: {
-    'Image URL': [
-      'https://imageurl.jpg',
-    ],
-    Year: [
-      '1963',
-    ],
-    'Record Labels': [
-      'Reprise Records',
-    ],
-    Formats: [
-      'Vinyl',
-    ],
-    Type: [
-      'master',
-    ],
-  },
-
+  context: [
+    {
+      property: 'Image URL',
+      values: [
+        'https://imageurl.jpg',
+      ],
+    },
+    {
+      property: 'Year',
+      values: [
+        '1963',
+      ],
+    },
+    {
+      property: 'Record Labels',
+      values: [
+        'Reprise Records',
+      ],
+    },
+    {
+      property: 'Formats',
+      values: [
+        'Vinyl',
+      ],
+    },
+    {
+      property: 'Type',
+      values: [
+        'master',
+      ],
+    },
+  ],
 }
 
 const genreResult = {
