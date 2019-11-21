@@ -5,6 +5,7 @@ import PropTypes from 'prop-types'
 import ResourceTemplate from './ResourceTemplate'
 import Header from '../Header'
 import RDFModal from './RDFModal'
+import DiacriticsSelection from './diacritics/DiacriticsSelection'
 import GroupChoiceModal from './GroupChoiceModal'
 import EditorActions from './EditorActions'
 import ErrorMessages from './ErrorMessages'
@@ -19,6 +20,7 @@ const Editor = (props) => (
     <Header triggerEditorMenu={ props.triggerHandleOffsetMenu }/>
     <AuthenticationMessage />
     <EditorActions />
+    <DiacriticsSelection />
     <RDFModal />
     <ErrorMessages />
     <GroupChoiceModal />

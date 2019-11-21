@@ -2,7 +2,7 @@
 
 import appReducer, {
   createReducer, removeResource, saveResourceFinished,
-  setLastSaveChecksum,
+  setLastSaveChecksum, closeDiacriticsSelection, showDiacriticsSelection,
 } from 'reducers/index'
 import _ from 'lodash'
 import { getFixtureResourceTemplate } from '../fixtureLoaderHelper'
@@ -197,6 +197,56 @@ describe('setLastSaveChecksum', () => {
     const state = createBlankState()
     const newState = setLastSaveChecksum(state.selectorReducer, action)
     expect(newState.editor.lastSaveChecksum.abc123).toEqual('123456789')
+  })
+})
+
+describe('closeDiacriticsSelection', () => {
+  const handlers = { CLOSE_DIACRITICS: closeDiacriticsSelection }
+  const reducer = createReducer(handlers)
+
+  it('sets diacritics show in state to false', () => {
+    const oldState = {
+      editor: {
+        diacritics: {
+          show: true,
+        },
+      },
+    }
+
+    const action = {
+      type: 'CLOSE_DIACRITICS',
+    }
+
+    const newState = reducer(oldState, action)
+    expect(newState.editor.diacritics.show).toBeFalsy()
+  })
+})
+
+describe('showDiacriticsSelection', () => {
+  const handlers = { SHOW_DIACRITICS: showDiacriticsSelection }
+  const reducer = createReducer(handlers)
+
+  it('sets diacritics properties in state', () => {
+    const oldState = {
+      editor: {
+        diacritics: {
+          show: false,
+        },
+      },
+    }
+
+    const reduxPath = ['345adf', 'http://schema.org/name']
+
+    const action = {
+      type: 'SHOW_DIACRITICS',
+      payload: {
+        reduxPath,
+      },
+    }
+
+    const newState = reducer(oldState, action)
+    expect(newState.editor.diacritics.show).toBeTruthy()
+    expect(newState.editor.diacritics.reduxPath).toBe(reduxPath)
   })
 })
 

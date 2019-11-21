@@ -53,7 +53,11 @@ export const clearTemplateSearchResults = () => ({
   type: 'CLEAR_TEMPLATE_SEARCH_RESULTS',
 })
 
-export const copyNewResource = (resource) => ({
+export const closeDiacritics = () => ({
+  type: 'CLOSE_DIACRITICS',
+})
+
+export const copyNewResource = resource => ({
   type: 'COPY_NEW_RESOURCE',
   payload: resource,
 })
@@ -174,7 +178,12 @@ export const showCopyNewMessage = (oldUri) => ({
   payload: oldUri,
 })
 
-export const showGroupChooser = (resourceKey) => ({
+export const showDiacritics = reduxPath => ({
+  type: 'SHOW_DIACRITICS',
+  payload: { reduxPath },
+})
+
+export const showGroupChooser = resourceKey => ({
   type: 'SHOW_GROUP_CHOOSER',
   payload: resourceKey,
 })

@@ -93,6 +93,8 @@ describe('InputLiteral', () => {
     // Not required.
     expect(queryByText('Required')).not.toBeInTheDocument()
     expect(getByPlaceholderText('Preferred Title for Work')).not.toHaveAttribute('required')
+    // diacritics button is present
+    expect(queryByText('ä')).toBeInTheDocument()
     // No existing values are present. This sort of a query isn't recommended but since testing for absence, seems OK.
     expect(container.querySelector('.rbt-token')).not.toBeInTheDocument()
   })
@@ -165,6 +167,17 @@ describe('InputLiteral', () => {
     expect(getByText('Language: English')).toBeInTheDocument()
   })
 
+  it('displays diacritics component when button is clicked', async () => {
+    const store = createReduxStore(createInitialState())
+    const { getByText } = renderWithRedux(
+      <InputLiteral reduxPath={reduxPath} />, store,
+    )
+
+    // Clicks the diacritics button
+    fireEvent.click(getByText('ä'))
+
+    expect(store.getState().selectorReducer.editor.diacritics.show).toBeTruthy()
+  })
 
   it('handles entering repeatable values', async () => {
     const store = createReduxStore(createInitialState({ repeatable: true }))
