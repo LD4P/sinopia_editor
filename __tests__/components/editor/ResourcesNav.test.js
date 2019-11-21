@@ -4,8 +4,10 @@ import React from 'react'
 import { createStore } from 'redux'
 import ResourcesNav from 'components/editor/ResourcesNav'
 import appReducer from 'reducers/index'
-import { renderWithRedux, createBlankState } from 'testUtils'
-import { fireEvent } from '@testing-library/react'
+import {
+  renderWithRedux, renderWithReduxAndRouter, createBlankState, setupModal,
+} from 'testUtils'
+import { fireEvent, wait } from '@testing-library/react'
 
 
 describe('<ResourcesNav />', () => {
@@ -50,6 +52,7 @@ describe('<ResourcesNav />', () => {
   })
 
   describe('When multiple resources', () => {
+    setupModal()
     const state = createBlankState()
     state.selectorReducer.editor.currentResource = 'fAPJnBeb'
     state.selectorReducer.entities.resources.fAPJnBeb = shelfmarkResource
@@ -59,7 +62,7 @@ describe('<ResourcesNav />', () => {
 
     it('render navs', () => {
       const store = createStore(appReducer, state)
-      const { getByText } = renderWithRedux(
+      const { getByText } = renderWithReduxAndRouter(
         <ResourcesNav />, store,
       )
 
@@ -69,6 +72,17 @@ describe('<ResourcesNav />', () => {
       // Clicking changes active
       fireEvent.click(getByText('Abbreviated Title But Not a Very Abbrevi...'))
       expect(getByText('Abbreviated Title But Not a Very Abbrevi...', { selector: '.active' })).toBeInTheDocument()
+    })
+
+    it('clicking close button on tab removes resource template', () => {
+      const store = createStore(appReducer, state)
+      const { getByTitle, queryByText } = renderWithReduxAndRouter(
+        <ResourcesNav />, store,
+      )
+      fireEvent.click(getByTitle('Close'))
+      wait(() => {
+        expect(queryByText('Accession or copy number')).not.toBeInTheDocument()
+      })
     })
   })
 })
