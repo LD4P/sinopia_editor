@@ -92,7 +92,7 @@ describe('SinopiaResourceTemplates', () => {
     expect(getAllByText('http://id.loc.gov/ontologies/bibframe/Note').length).toEqual(2)
     expect(getAllByText('very salient information').length).toEqual(2)
     expect(getAllByText('wright.lee.renønd').length).toEqual(2)
-    expect(getAllByText('2019-11-01').length).toEqual(2)
+    expect(getAllByText('Nov 1, 2019').length).toEqual(2)
 
     // There is a link from the resource label that loads the resource into the editor tab
     expect(container.querySelector('a[href="/editor"]')).toBeInTheDocument()

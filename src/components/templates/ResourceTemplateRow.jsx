@@ -4,6 +4,7 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import { Link } from 'react-router-dom'
 import Download from 'components/templates/Download'
+import LongDate from 'components/LongDate'
 import Config from 'Config'
 
 /**
@@ -23,7 +24,7 @@ const ResourceTemplateRow = props => (<tr key={props.row.id}>
     { props.row.author }
   </td>
   <td>
-    <relative-time datetime={ props.row.date }>{ props.row.date }</relative-time>
+    <LongDate datetime={ props.row.date} timeZone="UTC"/>
   </td>
   <td style={{ wordBreak: 'break-all' }}>
     { props.row.remark }

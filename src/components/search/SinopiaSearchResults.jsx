@@ -13,6 +13,7 @@ import { faCopy, faEdit } from '@fortawesome/free-solid-svg-icons'
 import { findResource, findErrors } from 'selectors/resourceSelectors'
 import Alerts from '../Alerts'
 import SinopiaSort from './SinopiaSort'
+import LongDate from 'components/LongDate'
 import _ from 'lodash'
 
 // Errors from retrieving a resource from this page.
@@ -58,7 +59,7 @@ const SinopiaSearchResults = (props) => {
           </ul>
         </td>
         <td>{ groupName(row.uri) }</td>
-        <td><relative-time datetime={ row.modified }>{ row.modified }</relative-time></td>
+        <td><LongDate datetime={ row.modified } /></td>
         <td>
           <div className="btn-group" role="group" aria-label="Result Actions">
             <button className="btn btn-link"
