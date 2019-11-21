@@ -26,11 +26,15 @@ const ResourcesNav = () => {
   })
 
   const createResourceTemplateNavItem = (resourceKey, active) => {
-    const classes = ['nav-link', 'btn', 'btn-link']
-    if (active) classes.push('active')
+    const linkClasses = ['nav-link', 'btn']
+    const itemClasses = ['nav-item']
+    if (active) {
+      linkClasses.push('active')
+      itemClasses.push('active')
+    }
     return (
-      <li className="nav-item" key={resourceKey}>
-        <button className={classes.join(' ')}
+      <li className={itemClasses.join(' ')} key={resourceKey}>
+        <button className={linkClasses.join(' ')}
                 href="#"
                 onClick={event => handleResourceNavClick(event, resourceKey)}>{navLabels[resourceKey]}</button>
       </li>
@@ -45,10 +49,12 @@ const ResourcesNav = () => {
     dispatch(setCurrentResource(resourceKey))
   }
 
+  if (resourceTemplateNavItems.length === 0) return null
+
   return (
     <div className="row">
       <div className="col">
-        <ul className="nav nav-tabs">
+        <ul className="nav nav-tabs resources-nav-tabs" style={{ marginBottom: '5px' }}>
           { resourceTemplateNavItems }
         </ul>
       </div>
