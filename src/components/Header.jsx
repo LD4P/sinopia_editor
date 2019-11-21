@@ -34,10 +34,10 @@ class Header extends Component {
     return (
       <div className="editor-navbar">
         <div className="row">
-          <div className="col-5">
+          <div className="col-6">
             <h1 className="editor-logo Display5">LINKED DATA EDITOR{`${Config.sinopiaEnv}`}</h1>
           </div>
-          <div className="col-7">
+          <div className="col-6">
             <ul className="nav pull-right">
               <li className="nav-item">
                 <a className="nav-link" href="/"><span className="editor-subtitle">SINOPIA</span> <span className="editor-version">v{this.props.version}</span></a>

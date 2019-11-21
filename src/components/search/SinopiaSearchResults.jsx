@@ -105,11 +105,11 @@ const SinopiaSearchResults = (props) => {
                 <th className="search-header" style={{ width: '35%' }}>
                   Class
                 </th>
-                <th className="search-header" style={{ width: '25%' }}>
+                <th className="search-header" style={{ width: '20%' }}>
                   Institution
                 </th>
-                <th className="search-header" style={{ width: '5%' }}>
-                  Modified Date
+                <th className="search-header" style={{ width: '10%' }}>
+                  Modified
                 </th>
                 <th className="search-header">
                   <SinopiaSort />
