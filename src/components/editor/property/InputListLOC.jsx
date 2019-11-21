@@ -94,6 +94,8 @@ const InputListLOC = (props) => {
   const displayValidations = useSelector(state => getDisplayResourceValidations(state))
   const validationErrors = useSelector(state => findResourceValidationErrorsByPath(state, props.reduxPath))
 
+  const isDisabled = selected?.length > 0 && !isRepeatable
+
   let error
   let groupClasses = 'form-group'
   if (displayValidations && !_.isEmpty(validationErrors)) {
@@ -113,7 +115,7 @@ const InputListLOC = (props) => {
         allowNew={() => true }
         onChange={selected => selectionChanged(selected)}
         id="loc-vocab-list"
-        multiple={isRepeatable}
+        multiple={true}
         placeholder={propertyTemplate.propertyLabel}
         emptyLabel="retrieving list of terms..."
         useCache={true}
@@ -122,6 +124,7 @@ const InputListLOC = (props) => {
         selected={selected}
         filterBy={filterBy}
         onKeyDown={onKeyDown}
+        disabled={isDisabled}
       />
       {error && <span className="text-danger">{error}</span>}
     </div>
