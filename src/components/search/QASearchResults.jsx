@@ -1,6 +1,8 @@
 // Copyright 2019 Stanford University see LICENSE for license
 
-import React, { useMemo, useState, useEffect } from 'react'
+import React, {
+  useMemo, useState, useEffect, useRef,
+} from 'react'
 import { useSelector, useDispatch } from 'react-redux'
 import PropTypes from 'prop-types'
 import { clearErrors, appendError } from 'actions/index'
@@ -11,12 +13,15 @@ import useResource from 'hooks/useResource'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faCopy } from '@fortawesome/free-solid-svg-icons'
 import Alerts from '../Alerts'
+import { findErrors } from 'selectors/resourceSelectors'
 
 // Errors from retrieving a resource from this page.
 export const searchQARetrieveErrorKey = 'searchqaresource'
 
 const QASearchResults = (props) => {
   const dispatch = useDispatch()
+
+  const errorsRef = useRef(null)
 
   const searchResults = useSelector(state => state.selectorReducer.search.results)
   const searchUri = useSelector(state => state.selectorReducer.search.uri)
@@ -38,6 +43,11 @@ const QASearchResults = (props) => {
       .then(resourceN3 => setResourceN3(resourceN3))
       .catch(err => dispatch(appendError(`Error retrieving resource: ${err.toString()}`)))
   }, [dispatch, resourceId, resourceURI, searchUri])
+
+  const errors = useSelector(state => findErrors(state, searchQARetrieveErrorKey))
+  useEffect(() => {
+    window.scrollTo(0, errorsRef.current.offsetTop)
+  }, [errors])
 
   // Transform the results into the format to be displayed in the table.
   const tableData = useMemo(() => searchResults.map((result) => {
@@ -125,7 +135,7 @@ const QASearchResults = (props) => {
 
   return (
     <div id="search-results" className="row">
-      <Alerts errorKey={searchQARetrieveErrorKey} />
+      <div ref={errorsRef}><Alerts errorKey={searchQARetrieveErrorKey} /></div>
       <div className="col">
         <table className="table table-bordered">
           <thead>
