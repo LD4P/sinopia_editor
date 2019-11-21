@@ -341,7 +341,7 @@ describe('InputListLOC', () => {
 
     // Start typing a new literal
     fireEvent.change(input, { target: { value: 'foo' } })
-    
+
     fireEvent.click(container.querySelector('.dropdown-item'))
 
     expect(getByText('foo')).toBeInTheDocument()
