@@ -12,6 +12,10 @@ import _ from 'lodash'
 const UpdateResourceModal = () => {
   const dispatch = useDispatch()
   const show = useSelector(state => modalType(state) === 'UpdateResourceModal')
+  const jquerySelector = window.$('#update-resource-modal')
+
+  if (show && jquerySelector.modal) jquerySelector.modal('show')
+
   const messages = useSelector(state => modalMessages(state))
 
   const [group, setGroup] = useState('')
@@ -35,12 +39,14 @@ const UpdateResourceModal = () => {
   }, [messages])
 
   const handleClose = (event) => {
+    if (jquerySelector.modal) jquerySelector.modal('hide')
     dispatch(hideModal())
     event.preventDefault()
   }
 
   const handleOverwriteClick = (event) => {
     dispatch(handleUpdateResource(resourceTemplates, group))
+    if (jquerySelector.modal) jquerySelector.modal('hide')
     dispatch(hideModal())
     event.preventDefault()
   }

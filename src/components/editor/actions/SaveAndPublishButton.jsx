@@ -1,3 +1,4 @@
+
 // Copyright 2019 Stanford University see LICENSE for license
 
 import React, { useState, useEffect } from 'react'
@@ -54,7 +55,7 @@ const SaveAndPublishButton = (props) => {
   }
 
   return (
-    <button className={ `btn btn-primary ${props.class}` } onClick={ save } aria-label="Save" disabled={ isDisabled }>
+    <button className={ `btn btn-primary ${props.class}` } data-dismiss="modal" onClick={ save } aria-label="Save" disabled={ isDisabled }>
       Save
     </button>
   )

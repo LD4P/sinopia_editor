@@ -24,13 +24,19 @@ const GroupChoiceModal = (props) => {
     setSelectedValue(event.target.value)
   }
 
+  const jquerySelector = window.$('#group-choice-modal')
+
+  if (props.show && jquerySelector.modal) jquerySelector.modal('show')
+
   const saveAndClose = (event) => {
     props.publishResource(props.resourceKey, props.currentUser, selectedValue, resourceEditErrorKey(props.resourceKey))
+    if (jquerySelector.modal) jquerySelector.modal('hide')
     props.hideModal()
     event.preventDefault()
   }
 
   const close = (event) => {
+    if (jquerySelector.modal) jquerySelector.modal('hide')
     props.hideModal()
     event.preventDefault()
   }

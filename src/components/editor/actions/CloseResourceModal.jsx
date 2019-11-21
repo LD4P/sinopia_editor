@@ -12,13 +12,19 @@ const CloseResourceModal = (props) => {
 
   const show = useSelector(state => modalType(state) === 'CloseResourceModal')
 
+  const jquerySelector = window.$('#close-resource-modal')
+
+  if (show && jquerySelector.modal) jquerySelector.modal('show')
+
   const handleClose = (event) => {
+    if (jquerySelector.modal) jquerySelector.modal('hide')
     dispatch(hideModal())
     event.preventDefault()
   }
 
   const handleCloseResource = (event) => {
     props.closeResource()
+    if (jquerySelector.modal) jquerySelector.modal('hide')
     dispatch(hideModal())
     event.preventDefault()
   }

@@ -14,6 +14,9 @@ const AsyncTypeahead = asyncContainer(Typeahead)
 const ResourceTemplateChoiceModal = (props) => {
   const dispatch = useDispatch()
   const show = useSelector(state => modalType(state) === 'ResourceTemplateChoiceModal')
+  const jquerySelector = window.$('#choose-rt')
+
+  if (show && jquerySelector.modal) jquerySelector.modal('show')
 
   const [isLoading, setLoading] = useState(false)
   const [options, setOptions] = useState([])
@@ -37,11 +40,13 @@ const ResourceTemplateChoiceModal = (props) => {
 
   const close = (event) => {
     event.preventDefault()
+    if (jquerySelector.modal) jquerySelector.modal('hide')
     dispatch(hideModal())
   }
 
   const saveAndClose = (event) => {
     event.preventDefault()
+    if (jquerySelector.modal) jquerySelector.modal('hide')
     props.choose(selectedValue)
     close(event)
   }

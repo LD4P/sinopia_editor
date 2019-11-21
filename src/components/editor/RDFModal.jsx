@@ -14,7 +14,12 @@ import { findResource } from 'selectors/resourceSelectors'
 const RDFModal = (props) => {
   const dispatch = useDispatch()
 
+  const jquerySelector = window.$('#rdf-modal')
+
+  if (props.show && jquerySelector.modal) jquerySelector.modal('show')
+
   const handleClose = (event) => {
+    if (jquerySelector.modal) jquerySelector.modal('hide')
     dispatch(hideModal())
     event.preventDefault()
   }
