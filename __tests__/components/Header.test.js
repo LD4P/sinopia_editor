@@ -3,6 +3,10 @@
 import React from 'react'
 import { shallow } from 'enzyme'
 import Header from 'components/Header'
+import {
+  CognitoAccessToken, CognitoIdToken, CognitoRefreshToken, CognitoUserSession,
+} from 'amazon-cognito-identity-js'
+import CognitoUtils from 'CognitoUtils'
 
 const props = {
   version: '1.0', // hardcode a version number for the test, in the actual app it will be set from the package.json file
@@ -20,11 +24,11 @@ describe('<Header />', () => {
   })
 
   it('displays the Sinopia subtitle', () => {
-    expect(wrapper.find('h2.editor-subtitle').text()).toBe('SINOPIA')
+    expect(wrapper.find('.editor-subtitle').text()).toBe('SINOPIA')
   })
 
   it('displays the Sinopia version number', () => {
-    expect(wrapper.find('h2.editor-version').text()).toBe('v1.0')
+    expect(wrapper.find('.editor-version').text()).toBe('v1.0')
   })
 
   describe('nav tabs', () => {
@@ -56,12 +60,62 @@ describe('<Header />', () => {
       })
     })
   })
-})
+  describe('user related', () => {
+    global.alert = jest.fn().mockImplementationOnce(() => {})
 
-describe('<Header /> with no environment set', () => {
-  const wrapper = shallow(<Header.WrappedComponent {...props}/>)
+    const username = 't.mctesterson'
+    const currentUser = CognitoUtils.cognitoUser(username)
+    const currentSession = new CognitoUserSession({
+      IdToken: new CognitoIdToken(), RefreshToken: new CognitoRefreshToken(), AccessToken: new CognitoAccessToken(),
+    })
 
-  it('displays the Sinopia text without any environment name when not set', () => {
-    expect(wrapper.find('h1.editor-logo').text()).toBe('LINKED DATA EDITOR')
+    currentUser.setSignInUserSession(currentSession)
+
+    const signout = jest.fn()
+    const wrapper = shallow(<Header.WrappedComponent hasResource={true} {...props}
+                                                     currentUser={currentUser} signedOut={signout} />)
+
+    it('shows username', () => {
+      expect(wrapper.find('.editor-header-user').text()).toBe(username)
+    })
+
+    it('shows logout', () => {
+      expect(wrapper.find('.editor-header-logout').text()).toBe('Logout')
+    })
+
+    describe('user tries to sign out of cognito', () => {
+      const signoutSpy = jest.spyOn(wrapper.instance().props.currentUser, 'globalSignOut')
+
+      afterEach(() => {
+        signoutSpy.mockReset()
+        signout.mockReset()
+      })
+
+      afterAll(() => {
+        signoutSpy.mockRestore()
+      })
+
+      it('signout succeeds', () => {
+        signoutSpy.mockImplementation((resultHandler) => { resultHandler.onSuccess('all signed out!') })
+        wrapper.find('a.editor-header-logout').simulate('click')
+        expect(signout).toHaveBeenCalled()
+        expect(signoutSpy).toHaveBeenCalled()
+      })
+
+      it('signout fails', () => {
+        signoutSpy.mockImplementation((resultHandler) => { resultHandler.onFailure('must have already signed out or something') })
+        wrapper.find('a.editor-header-logout').simulate('click')
+        expect(signout).not.toHaveBeenCalled()
+        expect(signoutSpy).toHaveBeenCalled()
+        expect(global.alert).toHaveBeenCalled()
+      })
+    })
+  })
+  describe('<Header /> with no environment set', () => {
+    const wrapper = shallow(<Header.WrappedComponent {...props}/>)
+
+    it('displays the Sinopia text without any environment name when not set', () => {
+      expect(wrapper.find('h1.editor-logo').text()).toBe('LINKED DATA EDITOR')
+    })
   })
 })

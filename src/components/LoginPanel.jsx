@@ -6,7 +6,7 @@ import { connect } from 'react-redux'
 import Config from 'Config'
 import CognitoUtils from '../CognitoUtils'
 import { getAuthenticationError, getCurrentSession, getCurrentUser } from '../authSelectors'
-import { authenticationFailed, authenticationSucceeded, signedOut } from '../actionCreators/authenticate'
+import { authenticationFailed, authenticationSucceeded } from '../actionCreators/authenticate'
 
 class LoginPanel extends Component {
   constructor(props) {
@@ -50,29 +50,9 @@ class LoginPanel extends Component {
     this.setState({ [event.target.name]: event.target.value })
   }
 
-  handleSignout = () => {
-    this.props.currentUser.globalSignOut({
-      onSuccess: () => {
-        this.props.signout()
-      },
-      onFailure: (err) => {
-        // TODO: capture error in state so you can display an error somewhere in the UI
-        alert(err.message)
-        console.error(err)
-      },
-    })
-  }
-
   render() {
-    const currentUser = this.props.currentUser
     const currentSession = this.props.currentSession
     const authenticationError = this.props.authenticationError
-
-    const currentUserInfoPanel = (
-      <div className="row logged-in-user-info">
-        <div className="col-sm-3">current cognito user: { currentUser ? currentUser.username : null }</div>
-      </div>
-    )
 
     const inlineLoginForm = (
       <React.Fragment>
@@ -102,23 +82,14 @@ class LoginPanel extends Component {
       </React.Fragment>
     )
 
-    const logoutButton = (
-      <div className="row">
-        <div className="col-sm-2">
-          <button className="signout-btn" onClick={this.handleSignout}>Sign out</button>
-        </div>
-      </div>
-    )
-
     /*
      * TODO:
      *   * polish the look of this now that it's been pulled up higher in component tree (directly in App)
      */
     return (
       <form className="login-form" onSubmit={this.handleLoginSubmit}>
-        { currentUser ? currentUserInfoPanel : null }
         { authenticationError ? <div className="row error-message">{ authenticationError.message }</div> : null }
-        { currentSession ? logoutButton : inlineLoginForm }
+        { !currentSession && inlineLoginForm }
       </form>
     )
   }
@@ -151,6 +122,5 @@ export default connect(
   {
     failToAuthenticate: authenticationFailed,
     authenticate: authenticationSucceeded,
-    signout: signedOut,
   },
 )(LoginPanel)

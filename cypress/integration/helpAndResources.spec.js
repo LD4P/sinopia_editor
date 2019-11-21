@@ -26,7 +26,6 @@ describe('Looking at the Help and Resources gutter', () => {
       .type(Cypress.env('COGNITO_TEST_USER_PASS'))
       .should('have.value', Cypress.env('COGNITO_TEST_USER_PASS'))
     cy.contains('Login').click()
-    cy.contains('current cognito user: sinopia-devs_client-tester')
   })
 
   it('Opens Linked Data Editor', () => {
