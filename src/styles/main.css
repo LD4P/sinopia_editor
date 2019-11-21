@@ -366,3 +366,21 @@ button.btn-add-instance {
   color: white;
   text-decoration: underline;
 }
+
+ul.resources-nav-tabs > li.nav-item {
+  margin-bottom: 0px;
+  margin-right: 10px;
+}
+
+ul.resources-nav-tabs > li.nav-item:not(.active) {
+  background-color: #8C8A83;
+}
+
+ul.resources-nav-tabs button:not(.active) {
+  color: #FFFFFF;
+}
+
+ul.resources-nav-tabs button.active {
+  font-weight: bold;
+  text-decoration: underline;
+}
