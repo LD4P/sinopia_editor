@@ -140,11 +140,11 @@ describe('InputListLOC', () => {
 
   it('renders existing URI value', () => {
     const store = createReduxStore(createInitialState({ hasInitialURIValue: true }))
-    const { getByDisplayValue } = renderWithRedux(
+    const { getByText } = renderWithRedux(
       <InputListLOC reduxPath={reduxPath} />, store,
     )
     // The URI is displayed in the input box
-    expect(getByDisplayValue('http://id.loc.gov/vocabulary/mgroove/coarse')).toBeInTheDocument()
+    expect(getByText('http://id.loc.gov/vocabulary/mgroove/coarse')).toBeInTheDocument()
   })
 
   it('renders existing URI values', () => {
@@ -157,25 +157,25 @@ describe('InputListLOC', () => {
     expect(getByText('http://id.loc.gov/vocabulary/mgroove/coarse', 'div.rbt-token > a')).toBeInTheDocument()
   })
 
-
   it('renders existing literal value', () => {
     const store = createReduxStore(createInitialState({ hasInitialLiteralValue: true }))
-    const { getByDisplayValue } = renderWithRedux(
+    const { getByText } = renderWithRedux(
       <InputListLOC reduxPath={reduxPath} />, store,
     )
     // The literal is displayed in the input box
-    expect(getByDisplayValue('foo')).toBeInTheDocument()
+    expect(getByText('foo')).toBeInTheDocument()
   })
 
   it('handles entering non-repeatable value', async () => {
     const store = createReduxStore(createInitialState())
     const {
-      getByPlaceholderText, queryByText, getByText, findByText, getByDisplayValue,
+      container, getByPlaceholderText, queryByText, getByText, findByText,
     } = renderWithRedux(
       <InputListLOC reduxPath={reduxPath} />, store,
     )
     // The input box is present.
-    expect(getByPlaceholderText('Sound characteristics')).toBeInTheDocument()
+    // expect(getByPlaceholderText('Sound characteristics')).toBeInTheDocument()
+
 
     // Click in the input box
     const input = getByPlaceholderText('Sound characteristics')
@@ -201,15 +201,18 @@ describe('InputListLOC', () => {
 
     fireEvent.click(getByText('optical', '.dropdown-item'))
 
-    expect(getByDisplayValue('optical')).toBeInTheDocument()
+    expect(getByText('optical')).toBeInTheDocument()
     // Ideally would like to test can't add repeated value. However, the user
     // can continue typing so this is a sub-optimal behavior and not really testable.
+
+    // Input is disabled for multiple values
+    expect(container.querySelector('input.rbt-input-main[disabled]')).toBeInTheDocument()
   })
 
   it('handles entering repeatable value', async () => {
     const store = createReduxStore(createInitialState({ repeatable: true }))
     const {
-      getByPlaceholderText, getByText, findByText,
+      container, getByPlaceholderText, getByText, findByText,
     } = renderWithRedux(
       <InputListLOC reduxPath={reduxPath} />, store,
     )
@@ -227,6 +230,9 @@ describe('InputListLOC', () => {
 
     expect(getByText('optical', 'div.rbt-token > a')).toBeInTheDocument()
 
+    // Input is enabled for multiple values
+    expect(container.querySelector('input.rbt-input-main[disabled]')).not.toBeInTheDocument()
+
     // Start typing analog and select it
     fireEvent.change(input, { target: { value: 'ana' } })
 
@@ -242,7 +248,7 @@ describe('InputListLOC', () => {
   it('handles entering a new literal', async () => {
     const store = createReduxStore(createInitialState())
     const {
-      getByPlaceholderText, getByText, findByText, getByDisplayValue,
+      container, getByPlaceholderText, getByText,
     } = renderWithRedux(
       <InputListLOC reduxPath={reduxPath} />, store,
     )
@@ -253,18 +259,17 @@ describe('InputListLOC', () => {
     // Start typing a new literal
     fireEvent.change(input, { target: { value: 'foo' } })
 
-    expect(await findByText('foo', '.dropdown-item')).toBeInTheDocument()
     expect(getByText('New Literal', '.dropdown-header')).toBeInTheDocument()
 
-    fireEvent.click(getByText('foo', '.dropdown-item'))
+    fireEvent.click(container.querySelector('.dropdown-item'))
 
-    expect(getByDisplayValue('foo')).toBeInTheDocument()
+    expect(getByText('foo')).toBeInTheDocument()
   })
 
   it('handles entering a new URI', async () => {
     const store = createReduxStore(createInitialState())
     const {
-      getByPlaceholderText, getByText, findByText, getByDisplayValue,
+      container, getByPlaceholderText, getByText,
     } = renderWithRedux(
       <InputListLOC reduxPath={reduxPath} />, store,
     )
@@ -275,14 +280,12 @@ describe('InputListLOC', () => {
     // Start typing a new literal
     fireEvent.change(input, { target: { value: 'http://foo' } })
 
-    expect(await findByText('http://foo', '.dropdown-item')).toBeInTheDocument()
     expect(getByText('New URI', '.dropdown-header')).toBeInTheDocument()
 
-    fireEvent.click(getByText('http://foo', '.dropdown-item'))
+    fireEvent.click(container.querySelector('.dropdown-item'))
 
-    expect(getByDisplayValue('http://foo')).toBeInTheDocument()
+    expect(getByText('http://foo')).toBeInTheDocument()
   })
-
 
   it('handles deleting value', () => {
     const store = createReduxStore(createInitialState({ hasInitialURIValue: true, repeatable: true }))
@@ -293,18 +296,15 @@ describe('InputListLOC', () => {
     const token = getByText('http://id.loc.gov/vocabulary/mgroove/coarse', 'div.rbt-token > a')
     expect(token).toBeInTheDocument()
 
-    // expect(getByText('×', 'button.rbt-token-remove-button')).toBeInTheDocument()
     fireEvent.click(getByText('×', 'button.rbt-token-remove-button'))
 
     expect(token).not.toBeInTheDocument()
-    // expect(await token).toBeInTheDocument()
-    // await wait(() => expect(token).not.toBeInTheDocument())
   })
 
   it('produces expected triples for value', async () => {
     const store = createReduxStore(createInitialState())
     const {
-      getByPlaceholderText, getByText, findByText, getByDisplayValue,
+      getByPlaceholderText, getByText, findByText,
     } = renderWithRedux(
       <InputListLOC reduxPath={reduxPath} />, store,
     )
@@ -319,7 +319,7 @@ describe('InputListLOC', () => {
 
     fireEvent.click(getByText('optical', '.dropdown-item'))
 
-    expect(getByDisplayValue('optical')).toBeInTheDocument()
+    expect(getByText('optical')).toBeInTheDocument()
 
     // Render an RDFModal
     await assertRDF(store, [
@@ -332,7 +332,7 @@ describe('InputListLOC', () => {
   it('produces expected triples for a literal', async () => {
     const store = createReduxStore(createInitialState())
     const {
-      getByPlaceholderText, getByText, findByText, getByDisplayValue,
+      container, getByPlaceholderText, getByText,
     } = renderWithRedux(
       <InputListLOC reduxPath={reduxPath} />, store,
     )
@@ -343,11 +343,12 @@ describe('InputListLOC', () => {
     // Start typing a new literal
     fireEvent.change(input, { target: { value: 'foo' } })
 
-    expect(await findByText('foo', 'a.dropdown-item')).toBeInTheDocument()
+    // expect(await findByText('foo', 'a.dropdown-item')).toBeInTheDocument()
 
-    fireEvent.click(getByText('foo', '.dropdown-item'))
+    // fireEvent.click(getByText('foo', '.dropdown-item'))
+    fireEvent.click(container.querySelector('.dropdown-item'))
 
-    expect(getByDisplayValue('foo')).toBeInTheDocument()
+    expect(getByText('foo')).toBeInTheDocument()
 
     // Render an RDFModal
     await assertRDF(store, [
