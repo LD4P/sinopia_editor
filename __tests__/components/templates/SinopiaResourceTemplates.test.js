@@ -101,7 +101,7 @@ describe('SinopiaResourceTemplates', () => {
 
     // There is download link
     saveAs.mockReturnValue('file saved')
-    expect(container.querySelector('button.btn-download')).toBeInTheDocument()
+
     fireEvent.click(getAllByTestId('download-link')[0])
     expect(saveAs()).toMatch('file saved')
   })

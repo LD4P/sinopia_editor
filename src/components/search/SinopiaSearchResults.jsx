@@ -71,14 +71,14 @@ const SinopiaSearchResults = (props) => {
             <button className="btn btn-link"
                     title="Edit"
                     onClick={e => handleEdit(row.uri, e) }>
-              <FontAwesomeIcon icon={faEdit} size="2x" />
+              <FontAwesomeIcon icon={faEdit} className="icon-lg" />
             </button>
             <button type="button"
                     className="btn btn-link"
                     onClick={() => handleCopy(row.uri)}
                     title="Copy"
                     aria-label="Copy this resource">
-              <FontAwesomeIcon icon={faCopy} size="2x" />
+              <FontAwesomeIcon icon={faCopy} className="icon-lg" />
             </button>
           </div>
         </td>

@@ -20,7 +20,7 @@ const PreviewButton = () => {
             aria-label="Preview RDF"
             title="Preview RDF"
             onClick={handleClick}>
-      <FontAwesomeIcon icon={faEye} size="2x" />
+      <FontAwesomeIcon icon={faEye} className="icon-lg" />
     </button>
   )
 }

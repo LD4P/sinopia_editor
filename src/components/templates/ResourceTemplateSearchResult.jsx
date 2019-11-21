@@ -29,13 +29,13 @@ const ResourceTemplateSearchResult = (props) => {
               <th style={{ backgroundColor: '#F8F6EF', width: '10%' }}>
               Author
               </th>
-              <th style={{ backgroundColor: '#F8F6EF', width: '5%' }}>
+              <th style={{ backgroundColor: '#F8F6EF', width: '9%' }}>
               Date
               </th>
               <th style={{ backgroundColor: '#F8F6EF', width: '17%' }}>
               Guiding statement
               </th>
-              <th style={{ backgroundColor: '#F8F6EF', width: '8%' }}
+              <th style={{ backgroundColor: '#F8F6EF', width: '4%' }}
                   data-testid="download-col-header">
                 Download
               </th>

@@ -40,10 +40,6 @@ $primary-disabled: lighten( map-get($theme-colors,"secondary"), 20% );
   text-decoration: underline;
 }
 
-.btn-download {
-  padding: 0px;
-}
-
 .editor-save {
   margin-left: 11px;
 }
@@ -383,4 +379,8 @@ ul.resources-nav-tabs button:not(.active) {
 ul.resources-nav-tabs button.active {
   font-weight: bold;
   text-decoration: underline;
+}
+
+.icon-lg {
+  font-size: 20px;
 }

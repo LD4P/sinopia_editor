@@ -2,6 +2,8 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import { saveAs } from 'file-saver'
 import { getResourceTemplate } from 'sinopiaServer'
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { faDownload } from '@fortawesome/free-solid-svg-icons'
 
 const Download = (props) => {
   const handleFileDownload = () => {
@@ -14,7 +16,14 @@ const Download = (props) => {
   }
 
   return (
-    <button className="btn btn-link btn-download" data-testid="download-link" onClick={handleFileDownload}>Download</button>
+    <button type="button"
+            data-testid="download-link"
+            className="btn btn-link"
+            onClick={handleFileDownload}
+            title="Download"
+            aria-label="Download this resource template">
+      <FontAwesomeIcon icon={faDownload} className="icon-lg" />
+    </button>
   )
 }
 
