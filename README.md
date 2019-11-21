@@ -46,6 +46,10 @@ You will need to be online to authenticate even when developing in localhost.
 - See `package.json` for npm package dependencies.
 - The web server used is the `express` web framework for node.js
 - React components are located in `src/components/` directory
+- Characters for the diacritics components come from the
+  [Mediawiki](https://github.com/wikimedia/mediawiki/) repository's [specialcharacters.json](https://github.com/wikimedia/mediawiki/blob/master/resources/src/mediawiki.language/specialcharacters.json). This file has been customized for use in Sinopia
+  by including a separate label for each character set and by removing MediaWiki-specific 
+  data structures that would have made processing by Sinopia more complicated.
 
 ### Use static resource templates instead of hitting Trellis
 

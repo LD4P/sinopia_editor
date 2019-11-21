@@ -12,7 +12,11 @@ export const initialState = {
       lastChecked: Date.now(),
     },
     editor: { // The state of the editor
-      currentResource: undefined,
+      currentPath: undefined,
+      diacritics: {
+        show: false,
+        reduxPath: [],
+      },
       resourceValidation: {
         show: {}, // {<resourceKey>: boolean}
         errors: {}, // {<resource key>: [validation errors...]}
