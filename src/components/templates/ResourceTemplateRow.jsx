@@ -12,9 +12,7 @@ import Config from 'Config'
  */
 const ResourceTemplateRow = props => (<tr key={props.row.id}>
   <td style={{ wordBreak: 'break-all' }} data-testid="name">
-    <Link to={{ pathname: '/editor', state: { } }} onClick={e => props.navigate(props.row.id, e)}>{props.row.resourceLabel}</Link>
-  </td>
-  <td style={{ wordBreak: 'break-all' }}>
+    <Link to={{ pathname: '/editor', state: { } }} onClick={e => props.navigate(props.row.id, e)}>{props.row.resourceLabel}</Link><br />
     { props.row.id }
   </td>
   <td style={{ wordBreak: 'break-all' }}>

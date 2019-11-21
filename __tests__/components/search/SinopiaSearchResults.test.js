@@ -40,7 +40,7 @@ describe('<SinopiaSearchResults />', () => {
       expect(queryByText('Label')).toBeInTheDocument()
       expect(queryByText('Class')).toBeInTheDocument()
       expect(queryByText('Institution')).toBeInTheDocument()
-      expect(getByText('Modified Date', 'th')).toBeInTheDocument()
+      expect(getByText('Modified', { selector: 'th' })).toBeInTheDocument()
       // It has a sort button
       expect(getByText('Sort by')).toBeInTheDocument()
 
