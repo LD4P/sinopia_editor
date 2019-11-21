@@ -14,7 +14,7 @@ const Download = (props) => {
   }
 
   return (
-    <button className="btn btn-link btn-linky" data-testid="download-link" onClick={handleFileDownload}>Download</button>
+    <button className="btn btn-link btn-download" data-testid="download-link" onClick={handleFileDownload}>Download</button>
   )
 }
 

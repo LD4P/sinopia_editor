@@ -34,7 +34,7 @@ const CloseButton = () => {
     <React.Fragment>
       <CloseResourceModal closeResource={closeResource} />
       <button type="button"
-              className="btn btn-primary"
+              className="btn btn-secondary"
               aria-label="Close"
               title="Close"
               onClick={handleClick}>
