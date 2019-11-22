@@ -4,7 +4,6 @@ import React, { useEffect } from 'react'
 import { Helmet, HelmetProvider } from 'react-helmet-async'
 import Config from 'Config'
 import 'react-bootstrap-typeahead/css/Typeahead.css'
-import LoginPanel from './LoginPanel'
 import PropTypes from 'prop-types'
 import HomePage from './home/HomePage'
 import '../styles/main.scss'
@@ -84,7 +83,6 @@ const App = (props) => {
         <Helmet>
           <title>Sinopia {Config.sinopiaEnv}</title>
         </Helmet>
-        <LoginPanel />
         {currentSession ? routesWithCurrentSession : routesWithOutCurrentSession }
         <Footer />
       </div>

@@ -5,7 +5,8 @@ import { version } from '../../../package.json'
 
 const NewsItem = () => (
   <div className="news-item" data-testid="news-item">
-    <h3>Sinopia Version {version}: new features and bug fixes</h3>
+    <h3>Latest news</h3>
+    <h4>Sinopia Version {version}</h4>
     <p><i>For complete release notes see the <a href="https://github.com/LD4P/sinopia/wiki/Latest-Release,-What's-Next">Sinopia help site</a>.</i></p>
     <ul>
       <li>Labels for items selected from lookups are indexed and searchable.</li>

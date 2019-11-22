@@ -2,7 +2,7 @@
 
 import React from 'react'
 import { shallow } from 'enzyme'
-import LoginPanel from 'components/LoginPanel'
+import LoginPanel from 'components/home/LoginPanel'
 import Config from 'Config'
 
 global.alert = jest.fn().mockImplementationOnce(() => {})

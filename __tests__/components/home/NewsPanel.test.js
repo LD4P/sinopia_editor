@@ -4,7 +4,7 @@ import React from 'react'
 import { shallow } from 'enzyme'
 import NewsPanel from 'components/home/NewsPanel'
 import NewsItem from 'components/home/NewsItem'
-import LoginPanel from 'components/LoginPanel'
+import LoginPanel from 'components/home/LoginPanel'
 
 describe('<NewsPanel />', () => {
   const wrapper = shallow(<NewsPanel />)

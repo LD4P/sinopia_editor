@@ -4,9 +4,9 @@ import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
 import Config from 'Config'
-import CognitoUtils from '../CognitoUtils'
-import { getAuthenticationError, getCurrentSession, getCurrentUser } from '../authSelectors'
-import { authenticationFailed, authenticationSucceeded } from '../actionCreators/authenticate'
+import CognitoUtils from '../../CognitoUtils'
+import { getAuthenticationError, getCurrentSession, getCurrentUser } from '../../authSelectors'
+import { authenticationFailed, authenticationSucceeded } from '../../actionCreators/authenticate'
 
 class LoginPanel extends Component {
   constructor(props) {
@@ -57,35 +57,44 @@ class LoginPanel extends Component {
     const inlineLoginForm = (
       <React.Fragment>
         <div className="row">
-          <div className="col-sm-3">
+          <h4>Login to the Linked Data Editor</h4>
+        </div>
+        <div className="row">
+          <div>
             <div className = "form-group">
-              <label htmlFor="username" className="text-uppercase">
-                Username
-                <input id="username" name="username" type="text" className="form-control" placeholder="" onChange={this.handleChange}></input>
-              </label>&nbsp;
-              <label htmlFor="password" className="text-uppercase">
-                  Password
-                <input id="password" name="password" type="password" className="form-control" placeholder="" onChange={this.handleChange}></input>
+              <label htmlFor="username">
+                User name
+                <input id="username" style={ { width: "300px" } } name="username" type="text" className="form-control" placeholder="" onChange={this.handleChange}></input>
               </label>
-              <button className="btn btn-block btn-primary" type="submit">Login</button>
             </div>
           </div>
         </div>
         <div className="row">
-          <div className="col-sm-2">
-            <a href={Config.awsCognitoForgotPasswordUrl}>Forgot Password?</a>
+          <div>
+            <div className = "form-group">
+              <label htmlFor="password">
+                  Password
+                <input id="password" style={ { width: "300px" } } name="password" type="password" className="form-control" placeholder="" onChange={this.handleChange}></input>
+              </label>
+            </div>
           </div>
-          <div className="col-sm-2">
-            <a href={Config.awsCognitoResetPasswordUrl}>Request Account</a>
+        </div>
+        <div className="row">
+          <div className="col-sm-4">
+            <button className="btn btn-block btn-primary" type="submit">Login</button>
+          </div>
+          <div className="col-sm-4">
+            <div className="row">
+              <a href={Config.awsCognitoForgotPasswordUrl}>Forgot Password</a>
+            </div>
+            <div className="row">
+              <a href={Config.awsCognitoResetPasswordUrl}>Request Account</a>
+            </div>
           </div>
         </div>
       </React.Fragment>
     )
 
-    /*
-     * TODO:
-     *   * polish the look of this now that it's been pulled up higher in component tree (directly in App)
-     */
     return (
       <form className="login-form" onSubmit={this.handleLoginSubmit}>
         { authenticationError ? <div className="row error-message">{ authenticationError.message }</div> : null }
