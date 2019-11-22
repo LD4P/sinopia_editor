@@ -8,18 +8,26 @@ const NewsItem = () => (
     <h3>Sinopia Version {version}: new features and bug fixes</h3>
     <p><i>For complete release notes see the <a href="https://github.com/LD4P/sinopia/wiki/Latest-Release,-What's-Next">Sinopia help site</a>.</i></p>
     <ul>
-      <li>You can catalog in multiple resource templates at once; each template is opened in a tab within the Editor tab</li>
-      <li>On Resource Templates tab, search for templates by id, label, author, or description</li>
-      <li>On Resource Templates tab, easy access to most recently used templates for your session</li>
-      <li>In Sinopia search results, Modified Date displayed as relative date</li>
-      <li>In Profile Editor, limit Sinopia lookups to BIBFRAME Instances or BIBFRAME Works</li>
-      <li>In Profile Editor, trash can icon lets you cleanly delete valueDataType</li>
-      <li>Error upon opening a Resource Template no longer prevents you from opening a different error-free Resource Template</li>
-      <li>When opening an existing description, all fields with data are opened for display</li>
-      <li>On Edit tab, Save and Close buttons available from bottom of screen as well as top</li>
-      <li>Improved checking for unsupported lookups in Resource Templates</li>
-      <li>For values selected from a lookup, labels are saved</li>
-      <li>Exports include timestamps when resource was created and modified</li>
+      <li>Labels for items selected from lookups are indexed and searchable.</li>
+      <li>On fields that are lookups to Sinopia BIBFRAME Instances or BIBFRAME Works, a &quot;Create New&quot;
+        link offers a quick way to open relevant Resource Templates,
+        to create a new Work or Instance if the one you want does not exist.</li>
+      <li>Language selection for literal values uses ISO 639-2 and offers additional &quot;no language specified&quot; choice.</li>
+      <li>Extended context displayed in Search tab results for external sources (QA searches).</li>
+      <li>Wikidata available as a lookup source.</li>
+      <li>Bug fixes including</li>
+      <ul>
+        <li>Language of literal restored to table preview.</li>
+        <li>Sort order retained when paging through results.</li>
+        <li>Editing previously seleted language tag on literal applies to correct literal.</li>
+      </ul>
+      <li>UX enhancements including</li>
+      <ul>
+        <li>Better visiblity of error message upon opening a Resource Template.</li>
+        <li>Modified date for search results displayed as absolute date.</li>
+        <li>Page header redesigned to save space.</li>
+        <li>Several improvements to look and consistency of buttons, links, and headers.</li>
+      </ul>
     </ul>
   </div>
 )
