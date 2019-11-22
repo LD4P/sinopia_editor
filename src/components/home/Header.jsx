@@ -5,6 +5,11 @@ import PropTypes from 'prop-types'
 import { Link } from 'react-router-dom'
 import SinopiaLogo from 'styles/sinopia-logo.png'
 import Config from 'Config'
+import CognitoUtils from '../../CognitoUtils'
+import { connect } from 'react-redux'
+import { getCurrentUser } from 'authSelectors'
+import { signedOut } from 'actionCreators/authenticate'
+import { bindActionCreators } from 'redux'
 
 class Header extends Component {
   render() {
@@ -16,6 +21,11 @@ class Header extends Component {
           </a>
         </div>
         <ul className= "nav">
+          {this.props.currentUser
+            && <li className="nav-item">
+              <span className="nav-link editor-header-user">{this.props.currentUser.username}</span>
+            </li>
+          }
           <li className="nav-item">
             <Link to="/templates" className="nav-link">Linked Data Editor</Link>
           </li>
@@ -25,6 +35,12 @@ class Header extends Component {
           <li className="menu nav-item">
             <a href="#" className="help-resources nav-link" onClick={this.props.triggerHomePageMenu}>Help and Resources</a>
           </li>
+          {this.props.currentUser
+            && <li className="nav-item">
+              <a href="#" className="nav-link editor-header-logout"
+                 onClick={() => CognitoUtils.handleSignout(this.props.currentUser, this.props.signedOut)}>Logout</a>
+            </li>
+          }
         </ul>
       </div>
     )
@@ -33,6 +49,14 @@ class Header extends Component {
 
 Header.propTypes = {
   triggerHomePageMenu: PropTypes.func,
+  currentUser: PropTypes.object,
+  signedOut: PropTypes.func,
 }
 
-export default Header
+const mapStateToProps = state => ({
+  currentUser: getCurrentUser(state),
+})
+
+const mapDispatchToProps = dispatch => bindActionCreators({ signedOut }, dispatch)
+
+export default connect(mapStateToProps, mapDispatchToProps)(Header)

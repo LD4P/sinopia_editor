@@ -64,7 +64,12 @@ class LoginPanel extends Component {
             <div className = "form-group">
               <label htmlFor="username">
                 User name
-                <input id="username" style={ { width: "300px" } } name="username" type="text" className="form-control" placeholder="" onChange={this.handleChange}></input>
+                <input id="username"
+                       style={ { width: '300px' } }
+                       name="username" type="text"
+                       className="form-control"
+                       placeholder=""
+                       onChange={this.handleChange}></input>
               </label>
             </div>
           </div>
@@ -74,7 +79,13 @@ class LoginPanel extends Component {
             <div className = "form-group">
               <label htmlFor="password">
                   Password
-                <input id="password" style={ { width: "300px" } } name="password" type="password" className="form-control" placeholder="" onChange={this.handleChange}></input>
+                <input id="password"
+                       style={ { width: '300px' } }
+                       name="password"
+                       type="password"
+                       className="form-control"
+                       placeholder=""
+                       onChange={this.handleChange}></input>
               </label>
             </div>
           </div>

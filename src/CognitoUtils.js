@@ -80,6 +80,19 @@ class CognitoUtils {
   static getIdTokenString(cognitoUser) {
     return CognitoUtils.getSession(cognitoUser).then(sessionData => sessionData.idToken.jwtToken)
   }
+
+  static handleSignout(currentUser, signedOut) {
+    currentUser.globalSignOut({
+      onSuccess: () => {
+        signedOut()
+      },
+      onFailure: (err) => {
+        // TODO: capture error in state so you can display an error somewhere in the UI
+        alert(err.message)
+        console.error(err)
+      },
+    })
+  }
 }
 
 export default CognitoUtils

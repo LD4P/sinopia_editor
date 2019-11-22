@@ -7,7 +7,7 @@ import NewsItem from 'components/home/NewsItem'
 import LoginPanel from 'components/home/LoginPanel'
 
 describe('<NewsPanel />', () => {
-  const wrapper = shallow(<NewsPanel />)
+  const wrapper = shallow(<NewsPanel.WrappedComponent />)
 
   it('renders <NewsItem /> component', () => {
     expect(wrapper.find(NewsItem)).toBeDefined()

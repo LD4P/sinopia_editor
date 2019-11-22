@@ -1,31 +1,29 @@
 // Copyright 2019 Stanford University see LICENSE for license
 
 import React, { Component } from 'react'
+import PropTypes from 'prop-types'
 import NewsItem from './NewsItem'
 import LoginPanel from './LoginPanel'
-import CognitoUtils from '../../CognitoUtils'
-import { getAuthenticationError, getCurrentSession, getCurrentUser } from '../../authSelectors'
+import { connect } from 'react-redux'
+import { getCurrentUser } from 'authSelectors'
 
 class NewsPanel extends Component {
-
   render() {
-    const currentUser = this.props.currentUser || CognitoUtils.cognitoUserPool().getCurrentUser()
-
     const loggedInPanel = (
       <React.Fragment>
-         <div className="col-md-12">
+        <div className="col-md-12">
           <NewsItem /><LoginPanel />
-         </div>
+        </div>
       </React.Fragment>
     )
 
     const notLoggedInPanel = (
       <React.Fragment>
         <div className="col-md-6">
-           <NewsItem />
+          <NewsItem />
         </div>
         <div className="col-md-6">
-           <LoginPanel />
+          <LoginPanel />
         </div>
       </React.Fragment>
     )
@@ -35,7 +33,7 @@ class NewsPanel extends Component {
         <div className="card panel-news">
           <div className="card-body">
             <div className="row">
-              { currentUser ? loggedInPanel : notLoggedInPanel }
+              { this.props.currentUser ? loggedInPanel : notLoggedInPanel }
             </div>
           </div>
         </div>
@@ -44,4 +42,12 @@ class NewsPanel extends Component {
   }
 }
 
-export default NewsPanel
+NewsPanel.propTypes = {
+  currentUser: PropTypes.object,
+}
+
+const mapStateToProps = state => ({
+  currentUser: getCurrentUser(state),
+})
+
+export default connect(mapStateToProps)(NewsPanel)

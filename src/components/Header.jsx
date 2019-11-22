@@ -4,6 +4,7 @@ import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 import { NavLink } from 'react-router-dom'
 import Config from 'Config'
+import CognitoUtils from '../CognitoUtils'
 import { connect } from 'react-redux'
 import { hasResource as hasResourceSelector } from 'selectors/resourceSelectors'
 import { getCurrentUser } from 'authSelectors'
@@ -15,19 +16,6 @@ class Header extends Component {
     if (window.$('.popover').popover) {
       window.$('.popover').popover('hide')
     }
-  }
-
-  handleSignout = () => {
-    this.props.currentUser.globalSignOut({
-      onSuccess: () => {
-        this.props.signedOut()
-      },
-      onFailure: (err) => {
-        // TODO: capture error in state so you can display an error somewhere in the UI
-        alert(err.message)
-        console.error(err)
-      },
-    })
   }
 
   render() {
@@ -55,7 +43,8 @@ class Header extends Component {
               </li>
               {this.props.currentUser
                 && <li className="nav-item">
-                  <a href="#" className="nav-link editor-header-logout" onClick={this.handleSignout}>Logout</a>
+                  <a href="#" className="nav-link editor-header-logout"
+                     onClick={() => CognitoUtils.handleSignout(this.props.currentUser, this.props.signedOut)}>Logout</a>
                 </li>
               }
             </ul>
