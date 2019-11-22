@@ -21,7 +21,7 @@ const PropertyPanel = (props) => {
   const trashIcon = faTrashAlt
 
   return (
-    <div className="col-6">
+    <div className="col-lg-6 col-xl-4">
       <div className="card" data-label={ props.propertyTemplate.propertyLabel } style={{ marginBottom: '1em' }}>
         <div className="card-header prop-heading">
           <h5 className="card-title">
