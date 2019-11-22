@@ -1,6 +1,6 @@
 // Copyright 2019 Stanford University see LICENSE for license
 
-import React, { useState, useRef } from 'react'
+import React, { useState, useRef, useEffect } from 'react'
 import { Typeahead, asyncContainer } from 'react-bootstrap-typeahead'
 import PropTypes from 'prop-types'
 import { useSelector, useDispatch } from 'react-redux'
@@ -16,6 +16,8 @@ import { renderMenuFunc, renderTokenFunc } from './renderTypeaheadFunctions'
 const AsyncTypeahead = asyncContainer(Typeahead)
 
 const InputLookup = (props) => {
+  const myInput = useRef([])
+
   const dispatch = useDispatch()
   const changeSelections = payload => dispatch(changeSelectionsAction(payload))
   const [, setTriggerRender] = useState('')
@@ -75,12 +77,21 @@ const InputLookup = (props) => {
 
   const isDisabled = selected?.length > 0 && !isRepeatable
 
+  useEffect(() => {
+    if (isDisabled) {
+      console.log("disabled", myInput.current._instance)
+      myInput.current._instance?.blur()
+    }
+  })
+
   const selectionChanged = (items) => {
     const payload = {
       id: propertyTemplate.propertyURI,
       items,
       reduxPath: props.reduxPath,
     }
+
+    console.log("changed")
     changeSelections(payload)
   }
 
@@ -108,6 +119,7 @@ const InputLookup = (props) => {
     groupClasses += ' has-error'
     error = errors.join(',')
   }
+
   return (
     <div className={groupClasses}>
       <AsyncTypeahead renderMenu={(results, menuProps) => renderMenuFunc(results, menuProps, propertyTemplate)}
@@ -118,6 +130,7 @@ const InputLookup = (props) => {
                       onSearch={search}
                       selected={selected}
                       {...typeaheadProps}
+                      ref={myInput}
                       filterBy={() => true}
       />
       {error && <span className="text-danger">{error}</span>}
