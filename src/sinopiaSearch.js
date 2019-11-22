@@ -75,7 +75,7 @@ export const getSearchResults = async (query, options = {}) => {
     }))
 }
 
-export const getTemplateSearchResults = async (query) => {
+export const getTemplateSearchResults = async (query, options = {}) => {
   // When using fixtures, always return all RTs.
   if (Config.useResourceTemplateFixtures) { return {
     totalHits: resourceTemplateSearchResults.length,
@@ -93,6 +93,7 @@ export const getTemplateSearchResults = async (query) => {
     },
     sort: sort('resourceLabel'),
     size: Config.templateSearchResultsPerPage,
+    from: options.startOfRange || 0,
   }
 
   const url = `${Config.searchHost}${Config.templateSearchPath}`

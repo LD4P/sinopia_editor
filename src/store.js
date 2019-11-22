@@ -56,6 +56,10 @@ export const initialState = {
     templateSearch: {
       results: [],
       totalResults: 0,
+      options: {
+        resultsPerPage: Config.searchResultsPerPage,
+        startOfRange: 0, // 0 based
+      },
       error: undefined,
     },
     historicalTemplates: {

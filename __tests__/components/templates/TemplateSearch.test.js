@@ -2,7 +2,7 @@
 
 import React from 'react'
 import {
-  renderWithRedux, renderWithReduxAndRouter, createReduxStore, createBlankState,
+  renderWithReduxAndRouter, createReduxStore, createBlankState,
 } from 'testUtils'
 import { fireEvent } from '@testing-library/react'
 import TemplateSearch from 'components/templates/TemplateSearch'
@@ -47,7 +47,7 @@ describe('<TemplateSearch />', () => {
 
   it('renders', () => {
     const store = createReduxStore(createBlankState())
-    const { getByPlaceholderText } = renderWithRedux(
+    const { getByPlaceholderText } = renderWithReduxAndRouter(
       <TemplateSearch />, store,
     )
 
@@ -56,9 +56,10 @@ describe('<TemplateSearch />', () => {
 
   it('performs a default search', async () => {
     const store = createReduxStore(createBlankState())
-    renderWithRedux(<TemplateSearch />, store)
+    const { unmount } = renderWithReduxAndRouter(<TemplateSearch />, store)
 
-    expect(sinopiaSearch.getTemplateSearchResults).toHaveBeenCalledWith('')
+    expect(sinopiaSearch.getTemplateSearchResults).toHaveBeenCalledWith('', { startOfRange: 0 })
+    unmount()
     await assertTemplate(store, 'ld4p:RT:bf2:Serial:Instance')
   })
 
@@ -81,38 +82,39 @@ describe('<TemplateSearch />', () => {
 
     it('searches and updates with results', async () => {
       const store = createReduxStore(createBlankState())
-      const { getByPlaceholderText } = renderWithRedux(
+      const { getByPlaceholderText, unmount } = renderWithReduxAndRouter(
         <TemplateSearch />, store,
       )
 
       const input = getByPlaceholderText(/Enter id, label/)
-      await assertTemplate(store, result1.id)
-      await assertTemplate(store, result2.id)
-      await assertTemplate(store, result3.id)
       fireEvent.change(input, { target: { value: 'Instance' } })
-      await assertTemplate(store, result1.id)
-      await assertTemplate(store, result3.id)
-      await assertNotTemplate(store, result2.id)
       fireEvent.change(input, { target: { value: 'Serial:Instance' } })
+      unmount()
       await assertTemplate(store, result3.id)
       await assertNotTemplate(store, result1.id)
       await assertNotTemplate(store, result2.id)
-      expect(sinopiaSearch.getTemplateSearchResults).toHaveBeenNthCalledWith(1, '')
-      expect(sinopiaSearch.getTemplateSearchResults).toHaveBeenNthCalledWith(2, 'Instance')
-      expect(sinopiaSearch.getTemplateSearchResults).toHaveBeenNthCalledWith(3, 'Serial:Instance')
+      expect(sinopiaSearch.getTemplateSearchResults).toHaveBeenNthCalledWith(1, '', { startOfRange: 0 })
+      expect(sinopiaSearch.getTemplateSearchResults).toHaveBeenNthCalledWith(2, 'Instance', { startOfRange: 0 })
+      expect(sinopiaSearch.getTemplateSearchResults).toHaveBeenNthCalledWith(3, 'Serial:Instance', { startOfRange: 0 })
     })
   })
 
   describe('when there is a search error', () => {
-    it('renders error', () => {
-      const state = createBlankState()
-      state.selectorReducer.templateSearch.error = 'ES is red'
-      const store = createReduxStore(state)
-      const { getByText } = renderWithRedux(
+    beforeEach(() => {
+      sinopiaSearch.getTemplateSearchResults.mockResolvedValue({
+        totalHits: 0,
+        results: [],
+        error: 'ES is red',
+      })
+    })
+
+    it('renders error', async () => {
+      const store = createReduxStore(createBlankState())
+      const { findByText } = renderWithReduxAndRouter(
         <TemplateSearch />, store,
       )
 
-      expect(getByText('ES is red')).toBeInTheDocument()
+      expect(await findByText('ES is red')).toBeInTheDocument()
     })
   })
 })

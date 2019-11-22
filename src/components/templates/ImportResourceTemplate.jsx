@@ -4,7 +4,6 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import Header from '../Header'
 import ImportFileZone from './ImportFileZone'
-import SinopiaResourceTemplates from './SinopiaResourceTemplates'
 import UpdateResourceModal from './UpdateResourceModal'
 import CreateResourceMessages from './CreateResourceMessages'
 import TemplateSearch from './TemplateSearch'
@@ -15,9 +14,7 @@ const ImportResourceTemplate = props => (
     <Header triggerEditorMenu={props.triggerHandleOffsetMenu}/>
     <ImportFileZone />
     <CreateResourceMessages />
-    <TemplateSearch />
-
-    <SinopiaResourceTemplates history={props.history} />
+    <TemplateSearch history={props.history} />
   </section>
 )
 

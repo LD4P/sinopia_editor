@@ -5,10 +5,9 @@ import { useSelector } from 'react-redux'
 import PropTypes from 'prop-types'
 
 const SearchResultsPaging = (props) => {
-  const totalResults = useSelector(state => state.selectorReducer.search.totalResults)
-  const resultsPerPage = useSelector(state => state.selectorReducer.search.options.resultsPerPage)
-
-  const startOfRange = useSelector(state => state.selectorReducer.search.options.startOfRange)
+  const totalResults = useSelector(state => state.selectorReducer[props.path].totalResults)
+  const resultsPerPage = useSelector(state => state.selectorReducer[props.path].options.resultsPerPage)
+  const startOfRange = useSelector(state => state.selectorReducer[props.path].options.startOfRange)
   const currentPage = Math.ceil((startOfRange + 1) / resultsPerPage)
 
   const changePage = (page) => {
@@ -67,6 +66,7 @@ const SearchResultsPaging = (props) => {
 
 SearchResultsPaging.propTypes = {
   changePage: PropTypes.func.isRequired,
+  path: PropTypes.oneOf(['search', 'templateSearch']).isRequired,
 }
 
 export default SearchResultsPaging
