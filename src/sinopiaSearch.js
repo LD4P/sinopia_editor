@@ -12,7 +12,16 @@ import { resourceTemplateSearchResults } from '../__tests__/fixtureLoaderHelper'
  * @param {Object} options for the search (resultsPerPage, startOfRange, sortField, sortOrder, typeFilter)
  * @return {Promise<Object>} promise containing the result of the search.
  */
-export const getSearchResults = async (query, options = {}) => {
+export const getSearchResults = async (query, options = {}) => getSearchResultsWithFacets(query, { ...options, noFacetResults: true })
+  .then(([results]) => results)
+
+/**
+ * Performs a search of Sinopia resources.
+ * @param {string} query
+ * @param {Object} options for the search (resultsPerPage, queryFrom, sortField, sortOrder, typeFilter, noFacetResults)
+ * @return {Promise<Object>} promise containing the result of the search.
+ */
+export const getSearchResultsWithFacets = async (query, options = {}) => {
   const body = {
     query: {
       bool: {
@@ -29,12 +38,31 @@ export const getSearchResults = async (query, options = {}) => {
     size: options.resultsPerPage || Config.searchResultsPerPage,
     sort: sort(options.sortField, options.sortOrder),
   }
-  if (options.typeFilter) { body.query.bool.filter = {
-    term: {
-      type: options.typeFilter,
-    },
-  } }
+  if (options.typeFilter) {
+    if (Array.isArray(options.typeFilter)) {
+      body.query.bool.filter = {
+        terms: {
+          type: options.typeFilter,
+        },
+      }
+    } else {
+      body.query.bool.filter = {
+        term: {
+          type: options.typeFilter,
+        },
+      }
+    }
+  }
 
+  if (!options.noFacetResults) {
+    body.aggs = {
+      types: {
+        terms: {
+          field: 'type',
+        },
+      },
+    }
+  }
   const url = `${Config.searchHost}${Config.searchPath}`
 
   return fetch(url, { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(body) })
@@ -50,28 +78,41 @@ export const getSearchResults = async (query, options = {}) => {
     })
     .then((json) => {
       if (json.error) {
-        return {
+        return [{
           totalHits: 0,
           results: [],
           error: json.error.reason || json.error,
-        }
+        }, undefined]
       }
-      return {
-        totalHits: json.hits.total,
-        results: json.hits.hits.map(row => ({
-          uri: row._source.uri,
-          label: row._source.label,
-          created: row._source.created,
-          modified: row._source.modified,
-          type: row._source.type,
-        })),
-      }
+      return [hitsToResult(json.hits), aggregationsToResult(json.aggregations)]
     })
-    .catch(err => ({
+    .catch(err => [{
       totalHits: 0,
       results: [],
       error: err.toString(),
-    }))
+    }, undefined])
+}
+
+const hitsToResult = hits => (
+  {
+    totalHits: hits.total,
+    results: hits.hits.map(row => ({
+      uri: row._source.uri,
+      label: row._source.label,
+      created: row._source.created,
+      modified: row._source.modified,
+      type: row._source.type,
+    })),
+  }
+)
+
+const aggregationsToResult = (aggs) => {
+  if (!aggs) return undefined
+  const result = {}
+  Object.keys(aggs).forEach((field) => {
+    result[field] = aggs[field].buckets
+  })
+  return result
 }
 
 export const getTemplateSearchResults = async (query, options = {}) => {

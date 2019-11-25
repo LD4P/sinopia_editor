@@ -31,7 +31,7 @@ describe('<SinopiaSort />', () => {
 
   it('clicking changes the sort order', async () => {
     const mockGetSearchResults = jest.fn()
-    server.getSearchResults = mockGetSearchResults.mockResolvedValue({
+    server.getSearchResultsWithFacets = mockGetSearchResults.mockResolvedValue([{
       totalHits: 1,
       results: [
         {
@@ -40,7 +40,7 @@ describe('<SinopiaSort />', () => {
           title: ['The Real Mark Twain'],
         },
       ],
-    })
+    }])
 
     const state = createBlankState()
     state.selectorReducer.search.query = 'twain'
@@ -55,7 +55,7 @@ describe('<SinopiaSort />', () => {
     fireEvent.click(getByText('Label, ascending'))
 
     expect(await findByText('Label, ascending', { selector: '.active' })).toBeInTheDocument()
-    expect(server.getSearchResults).toHaveBeenCalledWith('twain', {
+    expect(server.getSearchResultsWithFacets).toHaveBeenCalledWith('twain', {
       startOfRange: 0, resultsPerPage: 15, sortField: 'label', sortOrder: 'asc',
     })
   })

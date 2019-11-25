@@ -44,12 +44,14 @@ export const initialState = {
     search: {
       results: [],
       totalResults: 0,
+      facetResults: [],
       query: undefined,
       options: {
         resultsPerPage: Config.searchResultsPerPage,
         startOfRange: 0, // 0 based
         sortField: undefined,
         sortOrder: undefined,
+        typeFilter: undefined,
       },
       error: undefined,
     },

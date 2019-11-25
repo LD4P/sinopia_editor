@@ -122,7 +122,7 @@ const Search = (props) => {
           </form>
         </div>
       </div>
-      <div className="row">
+      <div className="row" style={{ marginBottom: '10px' }}>
         <div className="col">
           <span className="text-muted">Sinopia search: use * as wildcard;
             default operator for multiple terms is AND; use | (pipe) as OR operator;

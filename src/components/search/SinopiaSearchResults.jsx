@@ -9,9 +9,11 @@ import { getCurrentUser } from 'authSelectors'
 import { retrieveResource } from 'actionCreators/resources'
 import { findResource, findErrors } from 'selectors/resourceSelectors'
 import Alerts from '../Alerts'
+import TypeFilter from './TypeFilter'
 import SearchResultRows from './SearchResultRows'
 import SinopiaSort from './SinopiaSort'
 import _ from 'lodash'
+
 
 // Errors from retrieving a resource from this page.
 export const searchRetrieveErrorKey = 'searchresource'
@@ -51,6 +53,11 @@ const SinopiaSearchResults = (props) => {
   return (
     <React.Fragment>
       <div ref={errorsRef}><Alerts errorKey={searchRetrieveErrorKey} /></div>
+      <div className="row">
+        <div className="col" style={{ marginBottom: '5px' }}>
+          <TypeFilter />
+        </div>
+      </div>
       <div id="search-results" className="row">
         <div className="col">
           <table className="table table-bordered" id="search-results-list">
@@ -90,6 +97,7 @@ SinopiaSearchResults.propTypes = {
   history: PropTypes.object,
   rootResource: PropTypes.object,
   errors: PropTypes.array,
+  fetchSinopiaSearchResults: PropTypes.func,
 }
 
 const mapStateToProps = state => ({
