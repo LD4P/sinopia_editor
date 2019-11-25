@@ -7,7 +7,7 @@ import { clearModalMessages, addModalMessage, showModal } from 'actions/modals'
 import { validateResourceTemplate } from 'ResourceTemplateValidator'
 import { createResourceTemplate, getResourceTemplate, updateResourceTemplate } from 'sinopiaServer'
 import { findResourceTemplate } from 'selectors/entitySelectors'
-import { getHoneybadgerNotifier } from 'selectors/honeybadgerSelectors'
+// import { getHoneybadgerNotifier } from 'selectors/honeybadgerSelectors'
 import { getCurrentUser } from 'authSelectors'
 import _ from 'lodash'
 
@@ -29,7 +29,7 @@ export const fetchResourceTemplate = (resourceTemplateId, errorKey) => (dispatch
     }).catch((err) => { throw err })
   }).catch((err) => {
     console.error(err)
-    getHoneybadgerNotifier(getState()).notify(err)
+    // getHoneybadgerNotifier(getState()).notify(err)
     dispatch(appendError(errorKey, `Error retrieving ${resourceTemplateId}: ${err.toString()}`))
     return null
   })

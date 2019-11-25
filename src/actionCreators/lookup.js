@@ -1,5 +1,5 @@
 import { findLookup } from 'selectors/entitySelectors'
-import { getHoneybadgerNotifier } from 'selectors/honeybadgerSelectors'
+// import { getHoneybadgerNotifier } from 'selectors/honeybadgerSelectors'
 import { lookupOptionsRetrieved } from 'actions/entities'
 import shortid from 'shortid'
 
@@ -19,7 +19,7 @@ const fetchLookup = uri => (dispatch, getState) => {
     })
     .catch((err) => {
       console.error(`Error fetching ${url}: ${err.toString()}`)
-      getHoneybadgerNotifier(getState()).notify(err)
+      // getHoneybadgerNotifier(getState()).notify(err)
       const opts = [{
         isError: true,
       }]
