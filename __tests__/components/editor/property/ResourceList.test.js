@@ -26,40 +26,42 @@ sinopiaSearch.getTemplateSearchResults = jest.fn().mockResolvedValue(
   },
 )
 
+const initialEntity = {
+  resourceTemplates: {
+    'test:resource:SinopiaLookup': {
+      id: 'test:resource:SinopiaLookup',
+      resourceLabel: 'Testing sinopia lookup',
+      remark: 'This hits elasticsearch',
+      resourceURI: 'http://id.loc.gov/ontologies/bibframe/Instance',
+      propertyTemplates: [
+        {
+          propertyURI: 'http://id.loc.gov/ontologies/bibframe/instanceOf',
+          propertyLabel: 'Instance of (lookup)',
+          remark: 'lookup',
+          mandatory: 'true',
+          repeatable: 'false',
+          type: 'lookup',
+          resourceTemplates: [],
+          valueConstraint: {
+            valueTemplateRefs: [],
+            useValuesFrom: [
+              'urn:ld4p:sinopia:bibframe:instance',
+              'urn:ld4p:sinopia:bibframe:work',
+            ],
+            valueDataType: {},
+            defaults: [],
+          },
+          editable: 'true',
+        },
+      ],
+    },
+  },
+}
+
 describe('ResultList', () => {
   it('it displays a list of links to existing resource templates', async () => {
     const state = createBlankState()
-    state.selectorReducer.entities = {
-      resourceTemplates: {
-        'test:resource:SinopiaLookup': {
-          id: 'test:resource:SinopiaLookup',
-          resourceLabel: 'Testing sinopia lookup',
-          remark: 'This hits elasticsearch',
-          resourceURI: 'http://id.loc.gov/ontologies/bibframe/Instance',
-          propertyTemplates: [
-            {
-              propertyURI: 'http://id.loc.gov/ontologies/bibframe/instanceOf',
-              propertyLabel: 'Instance of (lookup)',
-              remark: 'lookup',
-              mandatory: 'true',
-              repeatable: 'false',
-              type: 'lookup',
-              resourceTemplates: [],
-              valueConstraint: {
-                valueTemplateRefs: [],
-                useValuesFrom: [
-                  'urn:ld4p:sinopia:bibframe:instance',
-                  'urn:ld4p:sinopia:bibframe:work',
-                ],
-                valueDataType: {},
-                defaults: [],
-              },
-              editable: 'true',
-            },
-          ],
-        },
-      },
-    }
+    state.selectorReducer.entities = initialEntity
     const store = createReduxStore(state)
     const reduxPath = [
       'entities',
@@ -76,6 +78,32 @@ describe('ResultList', () => {
     await wait(() => {
       expect(getByText('Create New:')).toBeInTheDocument()
       expect(getByText('BIBFRAME Instance')).toBeInTheDocument()
+    })
+  })
+  it('does not display Create New when there is not a matching URI', async () => {
+    // eslint-disable-next-line import/namespace
+    sinopiaSearch.getTemplateSearchResults = jest.fn().mockResolvedValue({
+      error: undefined,
+      results: [],
+      totalHits: 0,
+    })
+    const state = createBlankState()
+    state.selectorReducer.entities = initialEntity
+    const store = createReduxStore(state)
+    const reduxPath = [
+      'entities',
+      'resources',
+      'puSv04OT',
+      'test:resource:SinopiaLookup',
+      'http://id.loc.gov/ontologies/bibframe/instanceOf',
+    ]
+    const { queryByText } = renderWithReduxAndRouter(
+      <ResultList reduxPath={reduxPath} />,
+      store,
+    )
+
+    await wait(() => {
+      expect(queryByText('Create New:')).not.toBeInTheDocument()
     })
   })
 })

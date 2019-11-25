@@ -47,6 +47,8 @@ const ResourceList = (props) => {
     getNewResourceList()
   }, [dispatch, property])
 
+  if (newResourceList.length < 1) return null
+
   return (<React.Fragment>
     Create New:
     <ul>{newResourceList}</ul>
