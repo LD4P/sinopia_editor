@@ -79,7 +79,7 @@ describe('ResultList', () => {
       expect(getByText('Create New:')).toBeInTheDocument()
       expect(getByText('BIBFRAME Instance')).toBeInTheDocument()
       expect(getByText('(http://id.loc.gov/ontologies/bibframe/Instance)', {
-        normalizer: str => getDefaultNormalizer({trim: false})(str).replace(/\n*/g, '')
+        normalizer: str => getDefaultNormalizer({ trim: false })(str).replace(/\n*/g, ''),
       })).toBeInTheDocument()
     })
   })

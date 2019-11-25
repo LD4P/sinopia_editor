@@ -38,7 +38,7 @@ const ResourceList = (props) => {
                     onClick={e => handleClick(hit.id, e)}>
                 {hit.resourceLabel}
               </Link>
-               <span className="left-space">({hit.resourceURI})</span>
+              <span className="left-space">({hit.resourceURI})</span>
             </li>)
           }
         })
