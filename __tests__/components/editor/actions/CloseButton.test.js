@@ -85,7 +85,7 @@ describe('<CloseButton />', () => {
   describe('customized close button', () => {
     const state = createInitialState()
     // See resourceHasChangesSinceLastSave() for checksum
-    state.selectorReducer.editor.lastSaveChecksum.abc123 = '5267eb8da0ab5ef646cae0190cf13a7c'
+    state.selectorReducer.editor.lastSaveChecksum.abc123 = '8300ef4c8fb6681ec4b62d2674502e84'
     const store = createReduxStore(state)
 
     it('renders with props', () => {
@@ -105,7 +105,7 @@ describe('<CloseButton />', () => {
   describe('closing when resource has not changed', () => {
     const state = createInitialState()
     // See resourceHasChangesSinceLastSave() for checksum
-    state.selectorReducer.editor.lastSaveChecksum.abc123 = '5267eb8da0ab5ef646cae0190cf13a7c'
+    state.selectorReducer.editor.lastSaveChecksum.abc123 = '8300ef4c8fb6681ec4b62d2674502e84'
     const store = createReduxStore(state)
 
     it('clears the resource', () => {

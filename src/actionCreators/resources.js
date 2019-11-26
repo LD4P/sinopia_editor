@@ -25,7 +25,7 @@ import _ from 'lodash'
 export const update = (resourceKey, currentUser, errorKey) => (dispatch, getState) => {
   const state = getState()
   const uri = findResourceURI(state, resourceKey)
-  const rdf = new GraphBuilder(state.selectorReducer.entities.resources[resourceKey], state.selectorReducer.entities.resourceTemplates).graph.toCanonical()
+  const rdf = new GraphBuilder(state.selectorReducer.entities.resources[resourceKey], state.selectorReducer.entities.resourceTemplates).toTurtle()
   return updateRDFResource(currentUser, uri, rdf)
     .then(() => dispatch(saveResourceFinished(resourceKey, generateMD5(rdf))))
     .catch(err => dispatch(appendError(errorKey, `Error saving ${uri}: ${err.toString()}`)))
@@ -47,7 +47,7 @@ export const retrieveResource = (currentUser, uri, errorKey, asNewResource) => (
               dispatch(setResourceTemplates(resourceTemplates))
               return dispatch(existingResourceFunc(state, newURI, resourceKey, errorKey))
                 .then((result) => {
-                  const rdf = new GraphBuilder(result[0], result[1]).graph.toCanonical()
+                  const rdf = new GraphBuilder(result[0], result[1]).toTurtle()
                   if (!asNewResource) dispatch(setLastSaveChecksum(resourceKey, generateMD5(rdf)))
                   dispatch(setUnusedRDF(resourceKey, unusedDataset.toCanonical()))
                   dispatch(setCurrentResource(resourceKey))
@@ -81,7 +81,7 @@ export const retrieveResource = (currentUser, uri, errorKey, asNewResource) => (
 export const publishResource = (resourceKey, currentUser, group, errorKey) => (dispatch, getState) => {
   // Make a copy of state to prevent changes that will affect the publish.
   const state = _.cloneDeep(getState())
-  const rdf = new GraphBuilder(state.selectorReducer.entities.resources[resourceKey], state.selectorReducer.entities.resourceTemplates).graph.toCanonical()
+  const rdf = new GraphBuilder(state.selectorReducer.entities.resources[resourceKey], state.selectorReducer.entities.resourceTemplates).toTurtle()
 
   return publishRDFResource(currentUser, rdf, group).then((result) => {
     const resourceUrl = result.response.headers.location
@@ -101,7 +101,7 @@ export const newResource = (resourceTemplateId, errorKey) => (dispatch) => {
   return stubResource(resource, true, undefined, resourceKey, errorKey, dispatch)
     .then((result) => {
       const resourceTemplates = result[1]
-      const rdf = new GraphBuilder(result[0], resourceTemplates).graph.toCanonical()
+      const rdf = new GraphBuilder(result[0], resourceTemplates).toTurtle()
       dispatch(setLastSaveChecksum(resourceKey, generateMD5(rdf)))
       dispatch(setUnusedRDF(resourceKey, null))
       dispatch(addTemplateHistory(resourceTemplates[resourceTemplateId]))
