@@ -92,7 +92,7 @@ describe('<CloseButton />', () => {
       const { container, getByTitle } = renderWithReduxAndRouter(
         <CloseButton label={'x'} css={'button'} resourceKey={'abc123'}/>, store,
       )
-      
+
       expect(getByTitle('x', { selector: 'button' })).toBeInTheDocument()
       expect(container.querySelector('button[class="btn button"]')).toBeInTheDocument()
 

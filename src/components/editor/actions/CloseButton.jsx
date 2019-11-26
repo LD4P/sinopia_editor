@@ -52,6 +52,7 @@ const CloseButton = (props) => {
 CloseButton.propTypes = {
   css: PropTypes.string,
   label: PropTypes.string,
+  resourceKey: PropTypes.string,
 }
 
 export default CloseButton
