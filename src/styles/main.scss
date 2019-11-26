@@ -1,5 +1,12 @@
  /* Copyright 2019 Stanford University see LICENSE for license */
 
+$modal-backdrop-bg: white;
+$modal-backdrop-opacity: 80%;
+$modal-content-border-radius: 2px;
+$enable-shadows: true;
+$modal-content-box-shadow-xs: 0 .125rem .25rem rgba(black, .075) !default;
+$modal-content-border-color: gray;
+$modal-content-bg: #F8F6EF;
 @import "~bootstrap/scss/bootstrap";
 
 .left-space {
