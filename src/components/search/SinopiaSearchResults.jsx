@@ -5,15 +5,12 @@ import React, { useState, useEffect, useRef } from 'react'
 import { connect } from 'react-redux'
 import { bindActionCreators } from 'redux'
 import PropTypes from 'prop-types'
-import Config from 'Config'
 import { getCurrentUser } from 'authSelectors'
 import { retrieveResource } from 'actionCreators/resources'
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faCopy, faEdit } from '@fortawesome/free-solid-svg-icons'
 import { findResource, findErrors } from 'selectors/resourceSelectors'
 import Alerts from '../Alerts'
+import SearchResultRows from './SearchResultRows'
 import SinopiaSort from './SinopiaSort'
-import LongDate from 'components/LongDate'
 import _ from 'lodash'
 
 // Errors from retrieving a resource from this page.
@@ -23,11 +20,6 @@ const SinopiaSearchResults = (props) => {
   const [navigateEditor, setNavigateEditor] = useState(false)
 
   const errorsRef = useRef(null)
-
-  const groupName = (uri) => {
-    const groupSlug = uri.split('/')[4]
-    return Config.groupsInSinopia[groupSlug]
-  }
 
   const handleCopy = (resourceURI) => {
     props.retrieveResource(props.currentUser, resourceURI, searchRetrieveErrorKey, true).then((success) => {
@@ -51,41 +43,6 @@ const SinopiaSearchResults = (props) => {
       window.scrollTo(0, errorsRef.current.offsetTop)
     }
   })
-
-  // Generates an HTML row
-  // TODO: Turn this function into a functional component
-  const generateRows = () => {
-    const rows = []
-    props.searchResults.forEach((row) => {
-      rows.push(<tr key={row.uri}>
-        <td>{ row.label }</td>
-        <td>
-          <ul className="list-unstyled">
-            { row.type?.map(type => <li key={type}>{type}</li>) }
-          </ul>
-        </td>
-        <td>{ groupName(row.uri) }</td>
-        <td><LongDate datetime={ row.modified } /></td>
-        <td>
-          <div className="btn-group" role="group" aria-label="Result Actions">
-            <button className="btn btn-link"
-                    title="Edit"
-                    onClick={e => handleEdit(row.uri, e) }>
-              <FontAwesomeIcon icon={faEdit} className="icon-lg" />
-            </button>
-            <button type="button"
-                    className="btn btn-link"
-                    onClick={() => handleCopy(row.uri)}
-                    title="Copy"
-                    aria-label="Copy this resource">
-              <FontAwesomeIcon icon={faCopy} className="icon-lg" />
-            </button>
-          </div>
-        </td>
-      </tr>)
-    })
-    return rows
-  }
 
   if (props.searchResults.length === 0) {
     return null
@@ -117,7 +74,7 @@ const SinopiaSearchResults = (props) => {
               </tr>
             </thead>
             <tbody>
-              { generateRows() }
+              <SearchResultRows searchResults={props.searchResults} handleEdit={handleEdit} handleCopy={handleCopy} />
             </tbody>
           </table>
         </div>
