@@ -10,7 +10,7 @@ const RequiredSuperscript = () => (
        trigger={['hover', 'focus']}
        key={shortid.generate()}
        title="please fill out this field">
-    <FontAwesomeIcon className="asterick-icon" icon={faAsterisk} />
+    <FontAwesomeIcon className="left-space" icon={faAsterisk} />
   </sup>
 )
 

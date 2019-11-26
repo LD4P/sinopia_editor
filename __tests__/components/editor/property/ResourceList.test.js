@@ -1,6 +1,6 @@
 // Copyright 2019 Stanford University see LICENSE for license
 import React from 'react'
-import { wait } from '@testing-library/react'
+import { wait, getDefaultNormalizer } from '@testing-library/react'
 import ResultList from 'components/editor/property/ResourceList'
 
 import * as sinopiaSearch from 'sinopiaSearch'
@@ -59,7 +59,7 @@ const initialEntity = {
 }
 
 describe('ResultList', () => {
-  it('it displays a list of links to existing resource templates', async () => {
+  it('it displays a list of links with URIs to existing resource templates', async () => {
     const state = createBlankState()
     state.selectorReducer.entities = initialEntity
     const store = createReduxStore(state)
@@ -78,6 +78,9 @@ describe('ResultList', () => {
     await wait(() => {
       expect(getByText('Create New:')).toBeInTheDocument()
       expect(getByText('BIBFRAME Instance')).toBeInTheDocument()
+      expect(getByText('(http://id.loc.gov/ontologies/bibframe/Instance)', {
+        normalizer: str => getDefaultNormalizer({ trim: false })(str).replace(/\n*/g, ''),
+      })).toBeInTheDocument()
     })
   })
   it('does not display Create New when there is not a matching URI', async () => {
