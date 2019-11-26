@@ -45,12 +45,13 @@ export const initialState = {
       results: [],
       totalResults: 0,
       query: undefined,
-      authority: undefined,
+      options: {
+        resultsPerPage: Config.searchResultsPerPage,
+        startOfRange: 0, // 0 based
+        sortField: undefined,
+        sortOrder: undefined,
+      },
       error: undefined,
-      resultsPerPage: Config.searchResultsPerPage,
-      startOfRange: 0, // 0 based
-      sortField: undefined,
-      sortOrder: undefined,
     },
     templateSearch: {
       results: [],

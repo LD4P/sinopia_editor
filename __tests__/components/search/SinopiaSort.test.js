@@ -20,8 +20,8 @@ describe('<SinopiaSort />', () => {
 
   it('renders with selected sort order', () => {
     const state = createBlankState()
-    state.selectorReducer.search.sortField = 'label'
-    state.selectorReducer.search.sortOrder = 'asc'
+    state.selectorReducer.search.options.sortField = 'label'
+    state.selectorReducer.search.options.sortOrder = 'asc'
     const store = createReduxStore(state)
     const { getByText } = renderWithRedux(
       <SinopiaSort />, store,
@@ -44,8 +44,8 @@ describe('<SinopiaSort />', () => {
 
     const state = createBlankState()
     state.selectorReducer.search.query = 'twain'
-    state.selectorReducer.search.startOfRange = 10
-    state.selectorReducer.search.resultsPerPage = 15
+    state.selectorReducer.search.options.startOfRange = 10
+    state.selectorReducer.search.options.resultsPerPage = 15
 
     const store = createReduxStore(state)
     const { getByText, findByText } = renderWithRedux(
@@ -56,7 +56,7 @@ describe('<SinopiaSort />', () => {
 
     expect(await findByText('Label, ascending', { selector: '.active' })).toBeInTheDocument()
     expect(server.getSearchResults).toHaveBeenCalledWith('twain', {
-      queryFrom: 0, resultsPerPage: 15, sortField: 'label', sortOrder: 'asc',
+      startOfRange: 0, resultsPerPage: 15, sortField: 'label', sortOrder: 'asc',
     })
   })
 })

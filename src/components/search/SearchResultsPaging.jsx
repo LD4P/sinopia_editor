@@ -6,9 +6,9 @@ import PropTypes from 'prop-types'
 
 const SearchResultsPaging = (props) => {
   const totalResults = useSelector(state => state.selectorReducer.search.totalResults)
-  const resultsPerPage = useSelector(state => state.selectorReducer.search.resultsPerPage)
+  const resultsPerPage = useSelector(state => state.selectorReducer.search.options.resultsPerPage)
 
-  const startOfRange = useSelector(state => state.selectorReducer.search.startOfRange)
+  const startOfRange = useSelector(state => state.selectorReducer.search.options.startOfRange)
   const currentPage = Math.ceil((startOfRange + 1) / resultsPerPage)
 
   const changePage = (page) => {

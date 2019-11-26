@@ -10,7 +10,7 @@ import { getLookupConfigItems } from 'utilities/propertyTemplates'
 /**
  * Performs a search of Sinopia resources.
  * @param {string} query
- * @param {Object} options for the search (resultsPerPage, queryFrom, sortField, sortOrder, typeFilter)
+ * @param {Object} options for the search (resultsPerPage, startOfRange, sortField, sortOrder, typeFilter)
  * @return {Promise<Object>} promise containing the result of the search.
  */
 export const getSearchResults = async (query, options = {}) => {
@@ -26,7 +26,7 @@ export const getSearchResults = async (query, options = {}) => {
         },
       },
     },
-    from: options.queryFrom || 0,
+    from: options.startOfRange || 0,
     size: options.resultsPerPage || Config.searchResultsPerPage,
     sort: sort(options.sortField, options.sortOrder),
   }
@@ -35,6 +35,7 @@ export const getSearchResults = async (query, options = {}) => {
       type: options.typeFilter,
     },
   } }
+
   const url = `${Config.searchHost}${Config.searchPath}`
 
   return fetch(url, { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(body) })

@@ -3,7 +3,6 @@
 import React from 'react'
 import { connect } from 'react-redux'
 import PropTypes from 'prop-types'
-import Config from 'Config'
 
 // Renders the search results message after a search
 const SearchResultsMessage = (props) => {
@@ -11,9 +10,9 @@ const SearchResultsMessage = (props) => {
     return null
   }
 
-  const lastItemOnPage = props.startOfRange + Config.searchResultsPerPage > props.totalResults
+  const lastItemOnPage = props.startOfRange + props.resultsPerPage > props.totalResults
     ? props.totalResults
-    : props.startOfRange + Config.searchResultsPerPage
+    : props.startOfRange + props.resultsPerPage
 
   if (props.totalResults === 0) {
     return (
@@ -38,12 +37,14 @@ SearchResultsMessage.propTypes = {
   query: PropTypes.string,
   totalResults: PropTypes.number,
   startOfRange: PropTypes.number,
+  resultsPerPage: PropTypes.number,
 }
 
 const mapStateToProps = state => ({
   query: state.selectorReducer.search.query,
   totalResults: state.selectorReducer.search.totalResults,
-  startOfRange: state.selectorReducer.search.startOfRange,
+  startOfRange: state.selectorReducer.search.options.startOfRange,
+  resultsPerPage: state.selectorReducer.search.options.resultsPerPage,
 })
 
 export default connect(mapStateToProps, null)(SearchResultsMessage)

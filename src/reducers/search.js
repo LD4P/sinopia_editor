@@ -1,4 +1,5 @@
 // Copyright 2019 Stanford University see LICENSE for license
+import Config from 'Config'
 
 /**
  * Sets state for search results.
@@ -14,9 +15,9 @@ export const setSearchResults = (state, action) => {
   newState.search.results = action.payload.searchResults
   newState.search.totalResults = action.payload.totalResults
   newState.search.query = action.payload.query
-  newState.search.startOfRange = action.payload.startOfRange
-  newState.search.sortField = action.payload.sortField
-  newState.search.sortOrder = action.payload.sortOrder
+  newState.search.options = { ...action.payload.options }
+  if (newState.search.options.startOfRange === undefined) newState.search.options.startOfRange = 0
+  if (newState.search.options.resultsPerPage === undefined) newState.search.options.startOfRange = Config.searchResultsPerPage
   newState.search.error = action.payload.error
 
   return newState
@@ -35,9 +36,11 @@ export const clearSearchResults = (state) => {
   newState.search.results = []
   newState.search.totalResults = 0
   newState.search.query = undefined
-  newState.search.startOfRange = 0
-  newState.search.sortField = undefined
-  newState.search.sortOrder = undefined
+  newState.search.options = {}
+  newState.search.options.startOfRange = 0
+  newState.search.options.sortField = undefined
+  newState.search.options.sortOrder = undefined
+  newState.search.options.resultsPerPage = Config.searchResultsPerPage,
   newState.search.error = undefined
 
   return newState

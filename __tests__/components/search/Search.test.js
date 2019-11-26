@@ -8,6 +8,7 @@ import {
 import { MemoryRouter } from 'react-router-dom'
 import * as server from 'sinopiaSearch'
 import Swagger from 'swagger-client'
+import Config from 'Config'
 
 jest.mock('swagger-client')
 
@@ -111,7 +112,7 @@ describe('<Search />', () => {
 
     // Called once
     expect(mockGetSearchResults).toBeCalledWith('foo', {
-      queryFrom: 0, resultsPerPage: 10, sortField: undefined, sortOrder: undefined,
+      startOfRange: 0, resultsPerPage: 10, sortField: undefined, sortOrder: undefined,
     })
 
     // Result
@@ -141,7 +142,7 @@ describe('<Search />', () => {
 
     // Called once
     expect(mockGetSearchResults).toBeCalledWith('foo', {
-      queryFrom: 0, resultsPerPage: 10, sortField: undefined, sortOrder: undefined,
+      startOfRange: 0, resultsPerPage: 10, sortField: undefined, sortOrder: undefined,
     })
   })
 
@@ -183,9 +184,8 @@ describe('<Search />', () => {
   })
 
   it('retains sort order when paging', async () => {
-    const state = createBlankState()
-    state.selectorReducer.search.resultsPerPage = 2
-    const store = createReduxStore(state)
+    jest.spyOn(Config, 'searchResultsPerPage', 'get').mockReturnValue(2)
+    const store = createReduxStore(createBlankState())
 
     const mockGetSearchResults = jest.fn()
     server.getSearchResults = mockGetSearchResults.mockResolvedValue({
@@ -204,7 +204,7 @@ describe('<Search />', () => {
           type: ['http://id.loc.gov/ontologies/bibframe/Title'],
         },
         {
-          uri: 'repository/cornell/ca0d53d0-2b99-4f75-afb0-739a6f0af4f5',
+          uri: 'repository/cornell/ca0d53d0-2b99-4f75-afb0-739a6f0af4f6',
           label: 'foo3',
           title: ['foo3'],
           type: ['http://id.loc.gov/ontologies/bibframe/Title'],
@@ -241,13 +241,13 @@ describe('<Search />', () => {
 
     expect(mockGetSearchResults.mock.calls).toEqual([
       ['foo', {
-        queryFrom: 0, resultsPerPage: 2, sortField: undefined, sortOrder: undefined,
+        startOfRange: 0, resultsPerPage: 2, sortField: undefined, sortOrder: undefined,
       }],
       ['foo', {
-        queryFrom: 0, resultsPerPage: 2, sortField: 'modified', sortOrder: 'desc',
+        startOfRange: 0, resultsPerPage: 2, sortField: 'modified', sortOrder: 'desc',
       }],
       ['foo', {
-        queryFrom: 2, resultsPerPage: 2, sortField: 'modified', sortOrder: 'desc',
+        startOfRange: 2, resultsPerPage: 2, sortField: 'modified', sortOrder: 'desc',
       }],
     ])
   })
