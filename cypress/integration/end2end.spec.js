@@ -19,7 +19,7 @@ describe('End-to-end test', () => {
     cy.get('#password')
       .type(Cypress.env('COGNITO_TEST_USER_PASS'))
       .should('have.value', Cypress.env('COGNITO_TEST_USER_PASS'))
-    cy.contains('Login').click()
+    cy.get('button[type="submit"]').contains('Login').click()
   })
 
   it('Opens Linked Data Editor', () => {
