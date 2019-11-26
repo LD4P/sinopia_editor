@@ -72,7 +72,7 @@ const createInitialState = () => {
 // Clicking the button is covered by previewSaveIncompleteResource and previewSaveResource
 describe('<CloseButton />', () => {
   setupModal()
-  it('renders', () => {
+  it('renders a default close button', () => {
     const store = createReduxStore(createInitialState())
     const { getByTitle, getByTestId } = renderWithReduxAndRouter(
       <CloseButton />, store,
@@ -82,6 +82,26 @@ describe('<CloseButton />', () => {
     expect(getByTestId('close-resource-modal').classList.contains('show')).toBe(false)
   })
 
+  describe('customized close button', () => {
+    const state = createInitialState()
+    // See resourceHasChangesSinceLastSave() for checksum
+    state.selectorReducer.editor.lastSaveChecksum.abc123 = '5267eb8da0ab5ef646cae0190cf13a7c'
+    const store = createReduxStore(state)
+
+    it('renders with props', () => {
+      const { container, getByTitle } = renderWithReduxAndRouter(
+        <CloseButton label={'x'} css={'button'} resourceKey={'abc123'}/>, store,
+      )
+      
+      expect(getByTitle('x', { selector: 'button' })).toBeInTheDocument()
+      expect(container.querySelector('button[class="btn button"]')).toBeInTheDocument()
+
+      fireEvent.click(getByTitle('x'))
+
+      // Resource has been cleared
+      expect(store.getState().selectorReducer.editor.currentResource).toEqual(undefined)
+    })
+  })
   describe('closing when resource has not changed', () => {
     const state = createInitialState()
     // See resourceHasChangesSinceLastSave() for checksum

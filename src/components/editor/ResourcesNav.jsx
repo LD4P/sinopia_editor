@@ -34,7 +34,7 @@ const ResourcesNav = () => {
       linkClasses.push('active')
       itemClasses.push('active')
     } else {
-      closeButton = <CloseButton label={'x'} css={'button'} />
+      closeButton = <CloseButton label={'x'} css={'button'} resourceKey={resourceKey}/>
     }
     return (
       <li className={itemClasses.join(' ')} key={resourceKey}>

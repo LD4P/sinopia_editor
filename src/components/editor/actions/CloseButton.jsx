@@ -27,9 +27,10 @@ const CloseButton = (props) => {
   const btnClass = props.css || 'btn-primary'
   const buttonLabel = props.label || 'Close'
   const buttonClasses = `btn ${btnClass}`
+  const closeResourceKey = props.resourceKey || resourceKey
 
   const closeResource = () => {
-    dispatch(clearResource(resourceKey))
+    dispatch(clearResource(closeResourceKey))
     // In case this is /editor/<rtId>, clear
     history.push('/editor')
   }
