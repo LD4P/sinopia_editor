@@ -36,6 +36,7 @@ describe('<SearchResultsMessage />', () => {
       query: '*',
       totalResults: 100,
       startOfRange: 0,
+      resultsPerPage: 10,
     }
 
     const wrapper = shallow(<SearchResultsMessage.WrappedComponent {...props} />)

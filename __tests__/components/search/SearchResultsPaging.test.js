@@ -11,8 +11,8 @@ describe('<SearchResultsPaging />', () => {
   const createInitialState = (totalResults, resultsPerPage, startOfRange) => {
     const state = createBlankState()
     if (totalResults !== undefined) state.selectorReducer.search.totalResults = totalResults
-    if (resultsPerPage !== undefined) state.selectorReducer.search.resultsPerPage = resultsPerPage
-    if (startOfRange !== undefined) state.selectorReducer.search.startOfRange = startOfRange
+    if (resultsPerPage !== undefined) state.selectorReducer.search.options.resultsPerPage = resultsPerPage
+    if (startOfRange !== undefined) state.selectorReducer.search.options.startOfRange = startOfRange
     return state
   }
 

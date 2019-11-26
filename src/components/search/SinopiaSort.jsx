@@ -6,12 +6,14 @@ import { fetchSinopiaSearchResults } from 'actionCreators/search'
 
 const SinopiaSort = () => {
   const query = useSelector(state => state.selectorReducer.search.query)
-  const resultsPerPage = useSelector(state => state.selectorReducer.search.resultsPerPage)
-  const curSortField = useSelector(state => state.selectorReducer.search.sortField)
-  const curSortOrder = useSelector(state => state.selectorReducer.search.sortOrder)
+  const searchOptions = useSelector(state => state.selectorReducer.search.options)
+  const curSortField = searchOptions.sortField
+  const curSortOrder = searchOptions.sortOrder
 
   const dispatch = useDispatch()
-  const handleSort = (sortField, sortOrder) => dispatch(fetchSinopiaSearchResults(query, 0, resultsPerPage, sortField, sortOrder))
+  const handleSort = (sortField, sortOrder) => dispatch(fetchSinopiaSearchResults(query, {
+    ...searchOptions, startOfRange: 0, sortField, sortOrder,
+  }))
 
   const getClasses = (sortField, sortOrder) => (curSortField === sortField && curSortOrder === sortOrder ? 'dropdown-item active' : 'dropdown-item')
 

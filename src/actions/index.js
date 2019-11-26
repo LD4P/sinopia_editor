@@ -141,16 +141,14 @@ export const addTemplateHistory = resourceTemplate => ({
   payload: resourceTemplate,
 })
 
-export const setSearchResults = (uri, searchResults, totalResults, query, startOfRange, sortField, sortOrder, error) => ({
+export const setSearchResults = (uri, searchResults, totalResults, query, options, error) => ({
   type: 'SET_SEARCH_RESULTS',
   payload: {
     uri,
     searchResults,
     totalResults,
     query,
-    startOfRange,
-    sortField,
-    sortOrder,
+    options,
     error,
   },
 })

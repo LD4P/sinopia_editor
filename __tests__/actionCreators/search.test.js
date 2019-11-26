@@ -20,7 +20,9 @@ describe('fetchSinopiaSearchResults', () => {
   it('dispatches actions', async () => {
     server.getSearchResults = jest.fn().mockResolvedValue(mockSearchResults)
     const dispatch = jest.fn()
-    await fetchSinopiaSearchResults(query, 5, 10, 'label', 'desc')(dispatch)
+    await fetchSinopiaSearchResults(query, {
+      startOfRange: 5, resultsPerPage: 10, sortField: 'label', sortOrder: 'desc',
+    })(dispatch)
     expect(dispatch).toHaveBeenCalledTimes(1)
     expect(dispatch).toBeCalledWith({
       type: 'SET_SEARCH_RESULTS',
@@ -30,9 +32,12 @@ describe('fetchSinopiaSearchResults', () => {
         query: '*',
         searchResults: mockSearchResults.results,
         totalResults: mockSearchResults.totalHits,
-        sortField: 'label',
-        sortOrder: 'desc',
-        startOfRange: 5,
+        options: {
+          sortField: 'label',
+          sortOrder: 'desc',
+          startOfRange: 5,
+          resultsPerPage: 10,
+        },
       },
     })
   })
@@ -122,9 +127,11 @@ describe('fetchQASearchResults', () => {
         query,
         searchResults: mockSearchResults,
         totalResults: 2,
-        startOfRange: 0,
-        sortOrder: undefined,
-        sortField: undefined,
+        options: {
+          startOfRange: 0,
+          sortOrder: undefined,
+          sortField: undefined,
+        },
       },
     })
   })
@@ -145,9 +152,11 @@ describe('fetchQASearchResults', () => {
         query,
         searchResults: [],
         totalResults: 0,
-        startOfRange: 0,
-        sortOrder: undefined,
-        sortField: undefined,
+        options: {
+          startOfRange: 0,
+          sortOrder: undefined,
+          sortField: undefined,
+        },
         error: { message: 'Ooops...' },
       },
     })
