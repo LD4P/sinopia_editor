@@ -2,21 +2,12 @@
 
 import { shallow } from 'enzyme'
 import { renderMenuFunc, renderTokenFunc } from 'components/editor/property/renderTypeaheadFunctions'
-
+import { findAuthorityConfigs } from 'utilities/authorityConfig'
 
 describe('Rendering Typeahead Menu', () => {
   describe('Lookup', () => {
     const p2Props = {
       id: 'lookupComponent',
-    }
-
-    const propertyTemplate = {
-      valueConstraint: {
-        useValuesFrom: [
-          'urn:ld4p:qa:gettyulan:person',
-          'urn:ld4p:qa:subjects',
-        ],
-      },
     }
 
     const multipleResults = [
@@ -32,7 +23,8 @@ describe('Rendering Typeahead Menu', () => {
     }]
 
     it('shows menu headers for both lookups and new valid URI value with the correct headers when matches are found', () => {
-      const menuWrapper = shallow(renderMenuFunc(multipleResults.concat(validNewURIResults), p2Props, propertyTemplate))
+      const lookupConfigs = findAuthorityConfigs(['urn:ld4p:qa:gettyulan:person', 'urn:ld4p:qa:subjects'])
+      const menuWrapper = shallow(renderMenuFunc(multipleResults.concat(validNewURIResults), p2Props, lookupConfigs))
       const menuChildrenNumber = menuWrapper.children().length
 
       // One top level menu component

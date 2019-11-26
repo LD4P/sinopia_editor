@@ -4,19 +4,13 @@ import React from 'react'
 import { Menu, MenuItem, Token } from 'react-bootstrap-typeahead'
 import { getOptionLabel } from 'react-bootstrap-typeahead/lib/utils'
 import { isValidURI } from '../../../Utilities'
-import { findAuthorityConfig } from 'utilities/authorityConfig'
 import RenderLookupContext from './RenderLookupContext'
 import shortid from 'shortid'
 
-export const renderMenuFunc = (results, menuProps, propertyTemplate) => {
-  const vocabUriList = propertyTemplate?.valueConstraint?.useValuesFrom
-
-  const lookupConfigs = vocabUriList === undefined || vocabUriList.length === 0 ? [] : vocabUriList
-
+export const renderMenuFunc = (results, menuProps, lookupConfigs) => {
   const items = []
 
-  lookupConfigs.forEach((uri) => {
-    const authority = findAuthorityConfig(uri)
+  lookupConfigs.forEach((authority) => {
     items.push(<Menu.Header key={authority.uri}>{authority.label}</Menu.Header>)
 
     const hits = []
