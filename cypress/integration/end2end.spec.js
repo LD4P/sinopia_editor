@@ -43,6 +43,7 @@ describe('End-to-end test', () => {
           const fileContent = JSON.stringify(fileJson)
           cy.get('input[type="file"]').upload({ fileContent, fileName, mimeType: 'application/json' })
         })
+        cy.get('button[data-dismiss=modal]').contains('Overwrite').click({ force: true }) // allow overwrite of templates if they exist aleady for some reason
         // Waiting for indexing. If this proves problematic, can try a different approach.
         // eslint-disable-next-line cypress/no-unnecessary-waiting
         cy.wait(30000)
