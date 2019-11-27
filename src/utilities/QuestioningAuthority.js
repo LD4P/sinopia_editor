@@ -7,7 +7,7 @@ import Config from 'Config'
 import { findAuthorityConfig } from 'utilities/authorityConfig'
 import _ from 'lodash'
 
-export const getSearchResults = (query, lookupConfigs) => createLookupPromises(query, lookupConfigs)
+export const getSearchResults = (query, lookupConfigs, options = {}) => createLookupPromises(query, lookupConfigs, options)
   .map((lookupPromise, i) => lookupPromise.then((value) => {
     if (value) {
       value.authLabel = lookupConfigs[i].label
@@ -21,7 +21,7 @@ export const getSearchResults = (query, lookupConfigs) => createLookupPromises(q
 
 export const isContext = (propertyTemplate) => propertyTemplate?.subtype === 'context'
 
-export const createLookupPromises = (query, lookupConfigs) => lookupConfigs.map((lookupConfig) => {
+export const createLookupPromises = (query, lookupConfigs, options = {}) => lookupConfigs.map((lookupConfig) => {
   const authority = lookupConfig.authority
   const subauthority = lookupConfig.subauthority
   const language = lookupConfig.language
@@ -58,9 +58,11 @@ export const createLookupPromises = (query, lookupConfigs) => lookupConfigs.map(
       q: query,
       vocab: authority,
       subauthority,
-      maxRecords: Config.maxRecordsForQALookups,
+      maxRecords: options.resultsPerPage || Config.maxRecordsForQALookups,
       lang: language,
       context: true, // Always search to see if context is available
+      response_header: true,
+      startRecord: options.startOfRange ? options.startOfRange + 1 : 1,
     })
       .catch((err) => {
         console.error('Error in executing lookup against source', err.toString())

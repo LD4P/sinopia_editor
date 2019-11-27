@@ -9,16 +9,15 @@ export const fetchSinopiaSearchResults = (query, options) => (dispatch) => getSe
     dispatch(setSearchResults('sinopia', response.results, response.totalHits, facetResponse, query, options, response.error))
   })
 
-export const fetchQASearchResults = (query, uri, startOfRange = 0) => (dispatch) => {
+export const fetchQASearchResults = (query, uri, options = {}) => (dispatch) => {
   const result = findAuthorityConfig(uri)
-  const searchPromise = createLookupPromises(query, [result])[0]
+  const searchPromise = createLookupPromises(query, [result], options)[0]
 
   return searchPromise.then((response) => {
     if (response.isError) {
-      dispatch(setSearchResults(uri, [], 0, undefined, query, { startOfRange }, { message: response.errorObject.message }))
+      dispatch(setSearchResults(uri, [], 0, undefined, query, options, { message: response.errorObject.message }))
     } else {
-      // Don't have total hits yet, so just using size of this response
-      dispatch(setSearchResults(uri, response.body, response.body.length, undefined, query, { startOfRange }))
+      dispatch(setSearchResults(uri, response.body.results, response.body.response_header.total_records, undefined, query, options))
     }
   })
 }

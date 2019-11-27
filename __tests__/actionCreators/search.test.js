@@ -123,7 +123,7 @@ describe('fetchQASearchResults', () => {
           },
         ],
       }]
-    const mockActionFunction = jest.fn().mockResolvedValue({ body: mockSearchResults })
+    const mockActionFunction = jest.fn().mockResolvedValue({ body: { results: mockSearchResults, response_header: { total_records: 15 } } })
     const client = { apis: { SearchQuery: { GET_searchAuthority: mockActionFunction } } }
     Swagger.mockResolvedValue(client)
 
@@ -136,12 +136,10 @@ describe('fetchQASearchResults', () => {
         uri,
         query,
         searchResults: mockSearchResults,
-        totalResults: 2,
-        options: {
-          startOfRange: 0,
-          sortOrder: undefined,
-          sortField: undefined,
-        },
+        totalResults: 15,
+        options: {},
+        error: undefined,
+        facetResults: undefined,
       },
     })
   })
@@ -162,11 +160,8 @@ describe('fetchQASearchResults', () => {
         query,
         searchResults: [],
         totalResults: 0,
-        options: {
-          startOfRange: 0,
-          sortOrder: undefined,
-          sortField: undefined,
-        },
+        options: {},
+        facetResults: undefined,
         error: { message: 'Ooops...' },
       },
     })

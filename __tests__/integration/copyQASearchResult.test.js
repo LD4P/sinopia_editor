@@ -51,7 +51,7 @@ describe('Search, copy QA result, and open in editor', () => {
         },
       ],
     }]
-  const mockActionFunction = jest.fn().mockResolvedValue({ body: mockSearchResults })
+  const mockActionFunction = jest.fn().mockResolvedValue({ body: { results: mockSearchResults, response_header: { total_records: 15 } } })
   const client = { apis: { SearchQuery: { GET_searchAuthority: mockActionFunction } } }
   Swagger.mockResolvedValue(client)
 
