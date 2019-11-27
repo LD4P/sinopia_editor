@@ -64,9 +64,9 @@ describe('update', () => {
 
 describe('retrieveResource', () => {
   const uri = 'http://sinopia.io/repository/stanford/123'
-  const received = `<> <http://www.w3.org/2000/01/rdf-schema#label> "splendid"@eng .
-<> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://id.loc.gov/ontologies/bibframe/Note> .
-<> <http://sinopia.io/vocabulary/hasResourceTemplate> "resourceTemplate:bf2:Note" .`
+  const received = `<${uri}> <http://www.w3.org/2000/01/rdf-schema#label> "splendid"@eng .
+<${uri}> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://id.loc.gov/ontologies/bibframe/Note> .
+<${uri}> <http://sinopia.io/vocabulary/hasResourceTemplate> "resourceTemplate:bf2:Note" .`
 
   sinopiaServer.loadRDFResource = jest.fn().mockResolvedValue({ response: { text: received } })
   let store
@@ -216,8 +216,8 @@ describe('retrieveResource', () => {
 describe('publishResource', () => {
   const group = 'myGroup'
   const received = `<http://sinopia.io/repository/myGroup/myResource> <http://www.w3.org/2000/01/rdf-schema#label> "splendid"@eng .
-<> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://id.loc.gov/ontologies/bibframe/Note> .
-<> <http://sinopia.io/vocabulary/hasResourceTemplate> "profile:bf2:Note" .`
+<http://sinopia.io/repository/myGroup/myResource> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://id.loc.gov/ontologies/bibframe/Note> .
+<http://sinopia.io/repository/myGroup/myResource> <http://sinopia.io/vocabulary/hasResourceTemplate> "profile:bf2:Note" .`
 
   let store
   beforeEach(() => {
@@ -329,7 +329,7 @@ describe('existingResource', () => {
       const resourceTemplate = resourceTemplateResponse.response.body
       sinopiaServer.getResourceTemplate.mockImplementation(getFixtureResourceTemplate)
 
-      const unusedRDF = '<> <http://id.loc.gov/ontologies/bibframe/mainTitle> "foo"@eng .'
+      const unusedRDF = `<${uri}> <http://id.loc.gov/ontologies/bibframe/mainTitle> "foo"@eng .`
 
       expect(await store.dispatch(existingResource(resource, unusedRDF, uri, 'testerrorkey'))).toBe(true)
       const expectedResource = {

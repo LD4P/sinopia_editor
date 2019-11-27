@@ -39,7 +39,7 @@ export const retrieveResource = (currentUser, uri, errorKey, asNewResource) => (
       const data = response.response.text
       return rdfDatasetFromN3(data)
         .then((dataset) => {
-          const builder = new ResourceStateBuilder(dataset, null)
+          const builder = new ResourceStateBuilder(dataset, uri)
           const resourceKey = shortid.generate()
           const newURI = asNewResource ? undefined : uri
           return builder.buildState()
