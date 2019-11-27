@@ -14,6 +14,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faCopy } from '@fortawesome/free-solid-svg-icons'
 import Alerts from '../Alerts'
 import { findErrors } from 'selectors/resourceSelectors'
+import _ from 'lodash'
 
 // Errors from retrieving a resource from this page.
 export const searchQARetrieveErrorKey = 'searchqaresource'
@@ -46,7 +47,7 @@ const QASearchResults = (props) => {
 
   const errors = useSelector(state => findErrors(state, searchQARetrieveErrorKey))
   useEffect(() => {
-    window.scrollTo(0, errorsRef.current.offsetTop)
+    if (!_.isEmpty(errors)) window.scrollTo(0, errorsRef.current.offsetTop)
   }, [errors])
 
   // Transform the results into the format to be displayed in the table.
