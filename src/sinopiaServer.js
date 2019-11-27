@@ -99,7 +99,7 @@ export const updateResourceTemplate = async (templateObject, group, currentUser)
   return await instance.updateResourceWithHttpInfo(group, templateObject.id, templateObject, { contentType: 'application/json' })
 }
 
-const sendingNtriples = { contentType: 'application/n-triples' }
+const sendingTurtle = { contentType: 'text/turtle' }
 const returningNtriples = { accept: 'application/n-triples' }
 
 /**
@@ -175,7 +175,7 @@ const returningNtriples = { accept: 'application/n-triples' }
  */
 export const publishRDFResource = async (currentUser, rdf, group) => {
   await authenticate(currentUser)
-  return await instance.createResourceWithHttpInfo(group, rdf, sendingNtriples)
+  return await instance.createResourceWithHttpInfo(group, rdf, sendingTurtle)
 }
 
 /* eslint security/detect-unsafe-regex: ["off"] */
@@ -190,7 +190,7 @@ export const updateRDFResource = async (currentUser, uri, rdf) => {
   await authenticate(currentUser)
 
   const id = identifiersForUri(uri)
-  return await instance.updateResource(id.group, id.identifier, rdf, sendingNtriples)
+  return await instance.updateResource(id.group, id.identifier, rdf, sendingTurtle)
 }
 
 export const loadRDFResource = async (currentUser, uri) => {
