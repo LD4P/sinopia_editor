@@ -23,7 +23,7 @@ services:
       - search
       - platform
   search:
-    image: docker.elastic.co/elasticsearch/elasticsearch:6.3.2
+    image: ld4p/sinopia_elasticsearch:latest
     entrypoint:
       - elasticsearch
       - -Ehttp.port=9200
