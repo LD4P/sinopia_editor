@@ -17,7 +17,7 @@ export const setSearchResults = (state, action) => {
   newState.search.query = action.payload.query
   newState.search.options = { ...action.payload.options }
   if (newState.search.options.startOfRange === undefined) newState.search.options.startOfRange = 0
-  if (newState.search.options.resultsPerPage === undefined) newState.search.options.startOfRange = Config.searchResultsPerPage
+  if (newState.search.options.resultsPerPage === undefined) newState.search.options.resultsPerPage = Config.searchResultsPerPage
   newState.search.error = action.payload.error
 
   return newState
