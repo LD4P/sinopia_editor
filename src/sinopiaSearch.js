@@ -2,6 +2,7 @@
 import Config from './Config'
 /* eslint-disable node/no-unpublished-import */
 import { resourceTemplateSearchResults } from '../__tests__/fixtureLoaderHelper'
+import _ from 'lodash'
 
 /* eslint-enable node/no-unpublished-import */
 
@@ -38,27 +39,25 @@ export const getSearchResultsWithFacets = async (query, options = {}) => {
     size: options.resultsPerPage || Config.searchResultsPerPage,
     sort: sort(options.sortField, options.sortOrder),
   }
+  const termsFilter = {}
   if (options.typeFilter) {
-    if (Array.isArray(options.typeFilter)) {
-      body.query.bool.filter = {
-        terms: {
-          type: options.typeFilter,
-        },
-      }
-    } else {
-      body.query.bool.filter = {
-        term: {
-          type: options.typeFilter,
-        },
-      }
-    }
+    termsFilter.type = Array.isArray(options.typeFilter) ? options.typeFilter : [options.typeFilter]
   }
+  if (options.groupFilter) {
+    termsFilter.group = Array.isArray(options.groupFilter) ? options.groupFilter : [options.groupFilter]
+  }
+  if (!_.isEmpty(termsFilter)) body.query.bool.filter = { terms: termsFilter }
 
   if (!options.noFacetResults) {
     body.aggs = {
       types: {
         terms: {
           field: 'type',
+        },
+      },
+      groups: {
+        terms: {
+          field: 'group',
         },
       },
     }
@@ -102,6 +101,7 @@ const hitsToResult = hits => (
       created: row._source.created,
       modified: row._source.modified,
       type: row._source.type,
+      group: row._source.group,
     })),
   }
 )

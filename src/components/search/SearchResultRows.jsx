@@ -4,7 +4,7 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faCopy, faEdit } from '@fortawesome/free-solid-svg-icons'
-import { groupName } from 'Utilities'
+import { groupNameFromGroup } from 'Utilities'
 import LongDate from 'components/LongDate'
 
 /**
@@ -18,7 +18,7 @@ const SearchResultRows = props => props.searchResults.map(row => (
         { row.type?.map(type => <li key={type}>{type}</li>) }
       </ul>
     </td>
-    <td>{ groupName(row.uri) }</td>
+    <td>{ groupNameFromGroup(row.group) }</td>
     <td><LongDate datetime={ row.modified } /></td>
     <td>
       <div className="btn-group" role="group" aria-label="Result Actions">

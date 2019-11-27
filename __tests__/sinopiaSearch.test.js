@@ -1,6 +1,8 @@
 // Copyright 2019 Stanford University see LICENSE for license
 
-import { getSearchResults, getTemplateSearchResults, getLookupResults } from 'sinopiaSearch'
+import {
+  getSearchResults, getTemplateSearchResults, getLookupResults, getSearchResultsWithFacets,
+} from 'sinopiaSearch'
 import { findAuthorityConfigs } from 'utilities/authorityConfig'
 
 describe('getSearchResults', () => {
@@ -23,10 +25,12 @@ describe('getSearchResults', () => {
         _score: 0.2876821,
         _source: {
           title: ['foo bar'],
-          subtitle: [],
           uri: 'http://platform:8080/repository/cornell/34ef053e-f558-4299-a8a7-c8b79a598d99',
           label: 'foo bar',
-          'title-suggest': ['foo', 'bar'],
+          type: ['http://id.loc.gov/ontologies/bibframe/AbbreviatedTitle'],
+          group: 'cornell',
+          created: '2019-11-27T19:05:48.496Z',
+          modified: '2019-11-27T19:05:48.496Z',
         },
       }, {
         _index: 'sinopia_resources',
@@ -38,7 +42,10 @@ describe('getSearchResults', () => {
           subtitle: [],
           uri: 'http://platform:8080/repository/cornell/a96f16c1-a15c-4f4f-8a25-7ed49ba1eebe',
           label: 'foo',
-          'title-suggest': ['foo'],
+          type: ['http://id.loc.gov/ontologies/bibframe/AbbreviatedTitle'],
+          group: 'cornell',
+          created: '2019-11-27T19:05:48.496Z',
+          modified: '2019-11-27T19:05:48.496Z',
         },
       }],
     },
@@ -69,10 +76,18 @@ describe('getSearchResults', () => {
         {
           uri: 'http://platform:8080/repository/cornell/34ef053e-f558-4299-a8a7-c8b79a598d99',
           label: 'foo bar',
+          created: '2019-11-27T19:05:48.496Z',
+          modified: '2019-11-27T19:05:48.496Z',
+          type: ['http://id.loc.gov/ontologies/bibframe/AbbreviatedTitle'],
+          group: 'cornell',
         },
         {
           uri: 'http://platform:8080/repository/cornell/a96f16c1-a15c-4f4f-8a25-7ed49ba1eebe',
           label: 'foo',
+          created: '2019-11-27T19:05:48.496Z',
+          modified: '2019-11-27T19:05:48.496Z',
+          type: ['http://id.loc.gov/ontologies/bibframe/AbbreviatedTitle'],
+          group: 'cornell',
         },
       ],
     })
@@ -121,7 +136,6 @@ describe('getSearchResults', () => {
     expect(global.fetch).toHaveBeenCalledWith('/api/search/sinopia_resources/sinopia/_search', { body: JSON.stringify(body), headers: { 'Content-Type': 'application/json' }, method: 'POST' })
   })
 
-
   it('performs a search and handles ES error', async () => {
     global.fetch = jest.fn().mockImplementation(() => Promise.resolve({ json: () => errorResult }))
 
@@ -159,6 +173,193 @@ describe('getTemplateSearchResults', () => {
       results: [],
       error: '504: Gateway Timout',
     })
+  })
+})
+
+describe('getSearchResultsWithFacets', () => {
+  const successResult = {
+    took: 5,
+    timed_out: false,
+    _shards: {
+      total: 5,
+      successful: 5,
+      skipped: 0,
+      failed: 0,
+    },
+    hits: {
+      total: 2,
+      max_score: 1,
+      hits: [
+        {
+          _index: 'sinopia_resources',
+          _type: 'sinopia',
+          _id: 'repository/cornell/f2b0291d-b679-4560-bd03-d3eb3b6fa187',
+          _score: 1,
+          _source: {
+            uri: 'http://platform:8080/repository/cornell/f2b0291d-b679-4560-bd03-d3eb3b6fa187',
+            title: [
+              'foo',
+            ],
+            label: 'foo',
+            text: [
+              'foo',
+            ],
+            created: '2019-11-27T19:05:48.496Z',
+            modified: '2019-11-27T19:05:48.496Z',
+            type: [
+              'http://id.loc.gov/ontologies/bibframe/AbbreviatedTitle',
+            ],
+            group: 'cornell',
+          },
+        },
+        {
+          _index: 'sinopia_resources',
+          _type: 'sinopia',
+          _id: 'repository/duke/718e77f1-a07d-4579-ad56-0c93bd3067ea',
+          _score: 1,
+          _source: {
+            uri: 'http://platform:8080/repository/duke/718e77f1-a07d-4579-ad56-0c93bd3067ea',
+            title: [
+              'bar',
+            ],
+            label: 'bar',
+            text: [
+              'bar',
+            ],
+            created: '2019-11-27T19:07:03.643Z',
+            modified: '2019-11-27T19:07:03.643Z',
+            type: [
+              'http://id.loc.gov/ontologies/bibframe/AbbreviatedTitle',
+            ],
+            group: 'duke',
+          },
+        },
+      ],
+    },
+    aggregations: {
+      types: {
+        doc_count_error_upper_bound: 0,
+        sum_other_doc_count: 0,
+        buckets: [
+          {
+            key: 'http://id.loc.gov/ontologies/bibframe/AbbreviatedTitle',
+            doc_count: 2,
+          },
+        ],
+      },
+      groups: {
+        doc_count_error_upper_bound: 0,
+        sum_other_doc_count: 0,
+        buckets: [
+          {
+            key: 'cornell',
+            doc_count: 1,
+          },
+          {
+            key: 'duke',
+            doc_count: 1,
+          },
+        ],
+      },
+    },
+  }
+
+  it('performs a search with defaults and returns results', async () => {
+    global.fetch = jest.fn().mockImplementation(() => Promise.resolve({ json: () => successResult }))
+
+    const results = await getSearchResultsWithFacets('foo')
+    expect(results).toEqual([{
+      totalHits: 2,
+      results: [{
+        uri: 'http://platform:8080/repository/cornell/f2b0291d-b679-4560-bd03-d3eb3b6fa187',
+        label: 'foo',
+        created: '2019-11-27T19:05:48.496Z',
+        modified: '2019-11-27T19:05:48.496Z',
+        type: ['http://id.loc.gov/ontologies/bibframe/AbbreviatedTitle'],
+        group: 'cornell',
+      }, {
+        uri: 'http://platform:8080/repository/duke/718e77f1-a07d-4579-ad56-0c93bd3067ea',
+        label: 'bar',
+        created: '2019-11-27T19:07:03.643Z',
+        modified: '2019-11-27T19:07:03.643Z',
+        type: ['http://id.loc.gov/ontologies/bibframe/AbbreviatedTitle'],
+        group: 'duke',
+      }],
+    }, {
+      types: [{
+        key: 'http://id.loc.gov/ontologies/bibframe/AbbreviatedTitle',
+        doc_count: 2,
+      }],
+      groups: [{
+        key: 'cornell',
+        doc_count: 1,
+      }, {
+        key: 'duke',
+        doc_count: 1,
+      }],
+    }])
+    const body = {
+      query: {
+        bool: {
+          must: {
+            simple_query_string: {
+              fields: ['title^3', 'subtitle^2', 'uri^3', 'text'],
+              default_operator: 'AND',
+              query: 'foo',
+            },
+          },
+        },
+      },
+      from: 0,
+      size: 10,
+      sort: ['_score'],
+      aggs: {
+        types: {
+          terms: {
+            field: 'type',
+          },
+        },
+        groups: {
+          terms: {
+            field: 'group',
+          },
+        },
+      },
+    }
+    expect(global.fetch).toHaveBeenCalledWith('/api/search/sinopia_resources/sinopia/_search', { body: JSON.stringify(body), headers: { 'Content-Type': 'application/json' }, method: 'POST' })
+  })
+
+  it('performs a search with specified filters and no aggs and returns results', async () => {
+    global.fetch = jest.fn().mockImplementation(() => Promise.resolve({ json: () => successResult }))
+
+    await getSearchResultsWithFacets('foo', {
+      typeFilter: ['http://id.loc.gov/ontologies/bibframe/AbbreviatedTitle'],
+      groupFilter: ['cornell'],
+      noFacetResults: true,
+    })
+    const body = {
+      query: {
+        bool: {
+          must: {
+            simple_query_string: {
+              fields: ['title^3', 'subtitle^2', 'uri^3', 'text'],
+              default_operator: 'AND',
+              query: 'foo',
+            },
+          },
+          filter: {
+            terms: {
+              type: ['http://id.loc.gov/ontologies/bibframe/AbbreviatedTitle'],
+              group: ['cornell'],
+            },
+          },
+        },
+      },
+      from: 0,
+      size: 10,
+      sort: ['_score'],
+    }
+    expect(global.fetch).toHaveBeenCalledWith('/api/search/sinopia_resources/sinopia/_search', { body: JSON.stringify(body), headers: { 'Content-Type': 'application/json' }, method: 'POST' })
   })
 })
 

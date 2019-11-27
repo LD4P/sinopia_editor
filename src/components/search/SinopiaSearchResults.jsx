@@ -10,6 +10,7 @@ import { retrieveResource } from 'actionCreators/resources'
 import { findResource, findErrors } from 'selectors/resourceSelectors'
 import Alerts from '../Alerts'
 import TypeFilter from './TypeFilter'
+import GroupFilter from './GroupFilter'
 import SearchResultRows from './SearchResultRows'
 import SinopiaSort from './SinopiaSort'
 import _ from 'lodash'
@@ -56,6 +57,7 @@ const SinopiaSearchResults = (props) => {
       <div className="row">
         <div className="col" style={{ marginBottom: '5px' }}>
           <TypeFilter />
+          <GroupFilter />
         </div>
       </div>
       <div id="search-results" className="row">

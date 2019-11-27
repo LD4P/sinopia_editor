@@ -52,6 +52,7 @@ export const initialState = {
         sortField: undefined,
         sortOrder: undefined,
         typeFilter: undefined,
+        groupFilter: undefined,
       },
       error: undefined,
     },

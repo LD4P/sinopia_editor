@@ -78,6 +78,7 @@ const clearResults = (searchState) => {
   searchState.options.sortOrder = undefined
   searchState.options.resultsPerPage = Config.searchResultsPerPage
   searchState.options.typeFilter = undefined
+  searchState.options.groupFilter = undefined
   searchState.error = undefined
   return searchState
 }

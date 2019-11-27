@@ -13,8 +13,10 @@ export const isResourceWithValueTemplateRef = property => property?.type === 're
 
 export const groupName = (uri) => {
   const groupSlug = uri.split('/')[4]
-  return Config.groupsInSinopia[groupSlug]
+  return groupNameFromGroup(groupSlug)
 }
+
+export const groupNameFromGroup = group => Config.groupsInSinopia[group] || 'Unknown'
 
 export const resourceToName = (uri) => {
   if (!_.isString(uri)) return undefined
