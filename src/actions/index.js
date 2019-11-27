@@ -153,11 +153,12 @@ export const setSearchResults = (uri, searchResults, totalResults, query, option
   },
 })
 
-export const setTemplateSearchResults = (searchResults, totalResults, error) => ({
+export const setTemplateSearchResults = (searchResults, totalResults, options, error) => ({
   type: 'SET_TEMPLATE_SEARCH_RESULTS',
   payload: {
     searchResults,
     totalResults,
+    options,
     error,
   },
 })

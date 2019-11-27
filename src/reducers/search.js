@@ -30,19 +30,7 @@ export const setSearchResults = (state, action) => {
  */
 export const clearSearchResults = (state) => {
   const newState = { ...state }
-
-  newState.search = { ...state.search }
-  newState.search.uri = undefined
-  newState.search.results = []
-  newState.search.totalResults = 0
-  newState.search.query = undefined
-  newState.search.options = {}
-  newState.search.options.startOfRange = 0
-  newState.search.options.sortField = undefined
-  newState.search.options.sortOrder = undefined
-  newState.search.options.resultsPerPage = Config.searchResultsPerPage,
-  newState.search.error = undefined
-
+  newState.search = clearResults({ ...state.search })
   return newState
 }
 
@@ -54,10 +42,12 @@ export const clearSearchResults = (state) => {
  */
 export const setTemplateSearchResults = (state, action) => {
   const newState = { ...state }
-
   newState.templateSearch = { ...state.templateSearch }
   newState.templateSearch.results = action.payload.searchResults
   newState.templateSearch.totalResults = action.payload.totalResults
+  newState.templateSearch.options = { ...action.payload.options }
+  if (newState.templateSearch.options.resultsPerPage === undefined) newState.templateSearch.options.resultsPerPage = Config.searchResultsPerPage
+
   newState.templateSearch.error = action.payload.error
 
   return newState
@@ -71,10 +61,20 @@ export const setTemplateSearchResults = (state, action) => {
 export const clearTemplateSearchResults = (state) => {
   const newState = { ...state }
 
-  newState.templateSearch = { ...state.templateSearch }
-  newState.templateSearch.results = []
-  newState.templateSearch.totalResults = 0
-  newState.templateSearch.error = undefined
-
+  newState.templateSearch = clearResults({ ...state.templateSearch })
   return newState
+}
+
+const clearResults = (searchState) => {
+  searchState.uri = undefined
+  searchState.results = []
+  searchState.totalResults = 0
+  searchState.query = undefined
+  searchState.options = {}
+  searchState.options.startOfRange = 0
+  searchState.options.sortField = undefined
+  searchState.options.sortOrder = undefined
+  searchState.options.resultsPerPage = Config.searchResultsPerPage,
+  searchState.error = undefined
+  return searchState
 }

@@ -79,7 +79,7 @@ const Search = (props) => {
     results = (
       <div>
         <SinopiaSearchResults {...props} key="search-results" />
-        <SearchResultsPaging key="search-paging" changePage={changeSinopiaSearchPage} />
+        <SearchResultsPaging key="search-paging" path="search" changePage={changeSinopiaSearchPage} />
         <SearchResultsMessage />
       </div>
     )
