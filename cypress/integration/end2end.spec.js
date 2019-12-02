@@ -45,7 +45,7 @@ describe('End-to-end test', () => {
         })
         // Waiting for indexing. If this proves problematic, can try a different approach.
         // eslint-disable-next-line cypress/no-unnecessary-waiting
-        cy.wait(30000)
+        cy.wait(15000)
         cy.get('#searchInput')
           .type('{backspace}')
           .should('have.value', 'ld4p:RT:bf2:WorkTitl')
@@ -84,10 +84,14 @@ describe('End-to-end test', () => {
     cy.get('div#group-choice-modal button').contains('Save').click()
 
     cy.contains('URI for this resource')
-    cy.contains('Saved ...').should('not.exist')
+    cy.contains('Saved').should('not.exist')
   })
 
   it('Search', () => {
+    // Waiting for indexing. If this proves problematic, can try a different approach.
+    // eslint-disable-next-line cypress/no-unnecessary-waiting
+    cy.wait(15000)
+
     cy.get('a').contains('Search').click()
     cy.url().should('include', '/search')
 

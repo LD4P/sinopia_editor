@@ -3,7 +3,6 @@
 import React, { useEffect, useRef, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import PropTypes from 'prop-types'
-import { Link } from 'react-router-dom'
 import { getTemplateSearchResults } from 'sinopiaSearch'
 import shortid from 'shortid'
 import { newResource } from 'actionCreators/resources'
@@ -20,8 +19,7 @@ const ResourceList = (props) => {
   const topRef = useRef(null)
 
   useEffect(() => {
-    const handleClick = (resourceTemplateId, event) => {
-      event.preventDefault()
+    const handleChange = (resourceTemplateId) => {
       dispatch(newResource(resourceTemplateId, newResourceErrorKey)).then((result) => {
         if (!result) window.scrollTo(0, topRef.current?.offsetTop)
       })
@@ -33,13 +31,11 @@ const ResourceList = (props) => {
         if (response.error !== undefined) return ''
         response.results?.forEach((hit) => {
           if (hit.resourceURI === authority.type) {
-            listItems.push(<li key={shortid.generate()}>
-              <Link to={{ pathname: '/editor', state: { } }}
-                    onClick={e => handleClick(hit.id, e)}>
-                {hit.resourceLabel}
-              </Link>
-              <span className="left-space">({hit.resourceURI})</span>
-            </li>)
+            listItems.push(
+              <button className="dropdown-item" href="#" data-resource-id={hit.id} key={shortid.generate()} onClick={() => { handleChange(hit.id) }}>
+                {hit.resourceLabel} ({hit.resourceURI})
+              </button>,
+            )
           }
         })
       })))
@@ -48,12 +44,19 @@ const ResourceList = (props) => {
     getNewResourceList()
   }, [dispatch, property])
 
+  const dropdown = items => <div className="dropdown">
+    <button className="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown"
+            aria-haspopup="true" aria-expanded="false">
+      Create New
+    </button>
+    <div className="dropdown-menu" aria-labelledby="dropdownMenuButton">
+      {items}
+    </div>
+  </div>
+
   if (newResourceList.length < 1) return null
 
-  return (<React.Fragment>
-    Create New:
-    <ul>{newResourceList}</ul>
-  </React.Fragment>
+  return (<React.Fragment>{ dropdown(newResourceList) }</React.Fragment>
   )
 }
 

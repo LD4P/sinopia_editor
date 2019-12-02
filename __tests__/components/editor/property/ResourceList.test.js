@@ -59,7 +59,7 @@ const initialEntity = {
 }
 
 describe('ResultList', () => {
-  it('it displays a list of links with URIs to existing resource templates', async () => {
+  it('it displays a dropdown selection of options to load existing resource templates', async () => {
     const state = createBlankState()
     state.selectorReducer.entities = initialEntity
     const store = createReduxStore(state)
@@ -70,15 +70,17 @@ describe('ResultList', () => {
       'test:resource:SinopiaLookup',
       'http://id.loc.gov/ontologies/bibframe/instanceOf',
     ]
-    const { getByText } = renderWithReduxAndRouter(
+    const { container, getByText } = renderWithReduxAndRouter(
       <ResultList reduxPath={reduxPath} />,
       store,
     )
 
+
     await wait(() => {
-      expect(getByText('Create New:')).toBeInTheDocument()
-      expect(getByText('BIBFRAME Instance')).toBeInTheDocument()
-      expect(getByText('(http://id.loc.gov/ontologies/bibframe/Instance)', {
+      expect(container.querySelector('div.dropdown')).toBeInTheDocument()
+      expect(getByText('Create New')).toBeInTheDocument()
+      expect(container.querySelector('button[data-resource-id="resourceTemplate:bf2:Monograph:Instance"]')).toBeInTheDocument()
+      expect(getByText('BIBFRAME Instance (http://id.loc.gov/ontologies/bibframe/Instance)', {
         normalizer: str => getDefaultNormalizer({ trim: false })(str).replace(/\n*/g, ''),
       })).toBeInTheDocument()
     })
