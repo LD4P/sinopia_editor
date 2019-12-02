@@ -10,7 +10,7 @@ const SaveAlert = () => {
 
   return (
     <ExpiringMessage timestamp={lastSave}>
-      Saved ...
+      Saved
     </ExpiringMessage>)
 }
 
