@@ -136,7 +136,7 @@
     "file-loader": "^4.2.0",
     "isomorphic-fetch": "^2.2.1",
     "jest": "^24.8.0",
-    "jest-junit": "^9.0.0",
+    "jest-junit": "^10.0.0",
     "jest-localstorage-mock": "^2.4.0",
     "jest-prop-type-error": "^1.1.0",
     "jest-puppeteer": "^4.1.1",
