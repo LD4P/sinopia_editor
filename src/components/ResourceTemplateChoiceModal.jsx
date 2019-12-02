@@ -51,7 +51,7 @@ const ResourceTemplateChoiceModal = (props) => {
          tabIndex="-1"
          role="dialog"
          id="choose-rt" style={{ display: useDisplayStyle(show) }}>
-      <div className="modal-dialog" role="document">
+      <div className="modal-dialog modal-lg" role="document">
         <div className="modal-content">
           <div className="modal-header prop-heading">
             <h4 className="modal-title">Choose resource template</h4>
