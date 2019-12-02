@@ -347,12 +347,15 @@ describe('getSearchResultsWithFacets', () => {
               query: 'foo',
             },
           },
-          filter: {
+          filter: [{
             terms: {
               type: ['http://id.loc.gov/ontologies/bibframe/AbbreviatedTitle'],
+            },
+          }, {
+            terms: {
               group: ['cornell'],
             },
-          },
+          }],
         },
       },
       from: 0,

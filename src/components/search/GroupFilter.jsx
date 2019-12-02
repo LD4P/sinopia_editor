@@ -36,7 +36,7 @@ const GroupFilter = () => {
     if (selectedGroupFilters.includes(toggleType)) {
       setSelectedGroupFilters(selectedGroupFilters.filter(type => type !== toggleType))
     } else {
-      setSelectedGroupFilters({ ...selectedGroupFilters, toggleType })
+      setSelectedGroupFilters([...selectedGroupFilters, toggleType])
     }
   }
 
