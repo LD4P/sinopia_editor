@@ -210,10 +210,10 @@ class ImportFileZone extends Component {
     return (
       <section>
         <div className="ImportFileZone" style={importFileZone}>
-          <FontAwesomeIcon style={ { marginTop: '9px' } } icon={faUpload} />
           <button id="ImportProfile"
                   className="btn btn-link"
                   onClick={this.handleClick}>
+            <FontAwesomeIcon style={ { marginRight: '0.8rem' } } icon={faUpload} />
                   Import Profile / Resource Template</button>
         </div>
         <div className="dropzoneContainer" style={dropzoneContainer}>
