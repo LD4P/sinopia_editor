@@ -6,29 +6,14 @@ import { version } from '../../../package.json'
 const NewsItem = () => (
   <div className="news-item" data-testid="news-item">
     <h3>Latest news</h3>
-    <h4>Sinopia Version {version}</h4>
+    <h4>Sinopia Version {version} highlights</h4>
     <p><i>For complete release notes see the <a href="https://github.com/LD4P/sinopia/wiki/Latest-Release,-What's-Next">Sinopia help site</a>.</i></p>
     <ul>
-      <li>Labels for items selected from lookups are indexed and searchable.</li>
-      <li>On fields that are lookups to Sinopia BIBFRAME Instances or BIBFRAME Works, a &quot;Create New&quot;
-        link offers a quick way to open relevant Resource Templates,
-        to create a new Work or Instance if the one you want does not exist.</li>
-      <li>Language selection for literal values uses ISO 639-2 and offers additional &quot;no language specified&quot; choice.</li>
-      <li>Extended context displayed in Search tab results for external sources (QA searches).</li>
-      <li>Wikidata available as a lookup source.</li>
-      <li>Bug fixes including</li>
-      <ul>
-        <li>Language of literal restored to table preview.</li>
-        <li>Sort order retained when paging through results.</li>
-        <li>Editing previously seleted language tag on literal applies to correct literal.</li>
-      </ul>
-      <li>UX enhancements including</li>
-      <ul>
-        <li>Better visiblity of error message upon opening a Resource Template.</li>
-        <li>Modified date for search results displayed as absolute date.</li>
-        <li>Page header redesigned to save space.</li>
-        <li>Several improvements to look and consistency of buttons, links, and headers.</li>
-      </ul>
+      <li>On Search tab, filter your Sinopia search results by resource class and by group.</li>
+      <li>&quot;Create New&quot; dropdown menu on Sinopia lookup fields displays entire template label and ID.</li>
+      <li>In lookup fields with multiple sources, select which of the sources you want results from.</li>
+      <li>On Resource Templates tab, page through additional items.</li>
+      <li>On Edit tab, number of columns expands as you widen browser.</li>
     </ul>
   </div>
 )
