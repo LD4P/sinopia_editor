@@ -17,8 +17,17 @@ describe('fetchSinopiaSearchResults', () => {
     },
   }
 
+  const mockFacetResults = {
+    types: [
+      {
+        key: 'http://id.loc.gov/ontologies/bibframe/AbbreviatedTitle',
+        doc_count: 1,
+      },
+    ],
+  }
+
   it('dispatches actions', async () => {
-    server.getSearchResults = jest.fn().mockResolvedValue(mockSearchResults)
+    server.getSearchResultsWithFacets = jest.fn().mockResolvedValue([mockSearchResults, mockFacetResults])
     const dispatch = jest.fn()
     await fetchSinopiaSearchResults(query, {
       startOfRange: 5, resultsPerPage: 10, sortField: 'label', sortOrder: 'desc',
@@ -32,6 +41,7 @@ describe('fetchSinopiaSearchResults', () => {
         query: '*',
         searchResults: mockSearchResults.results,
         totalResults: mockSearchResults.totalHits,
+        facetResults: mockFacetResults,
         options: {
           sortField: 'label',
           sortOrder: 'desc',

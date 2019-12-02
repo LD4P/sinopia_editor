@@ -86,7 +86,7 @@ describe('<Search />', () => {
     const store = createReduxStore(createBlankState())
 
     const mockGetSearchResults = jest.fn()
-    server.getSearchResults = mockGetSearchResults.mockResolvedValue({
+    server.getSearchResultsWithFacets = mockGetSearchResults.mockResolvedValue([{
       totalHits: 1,
       results: [
         {
@@ -96,7 +96,7 @@ describe('<Search />', () => {
           type: ['http://id.loc.gov/ontologies/bibframe/Title'],
         },
       ],
-    })
+    }])
 
     const {
       container, getByLabelText, findByText, getByText,
@@ -126,10 +126,10 @@ describe('<Search />', () => {
     const store = createReduxStore(createBlankState())
 
     const mockGetSearchResults = jest.fn()
-    server.getSearchResults = mockGetSearchResults.mockResolvedValue({
+    server.getSearchResultsWithFacets = mockGetSearchResults.mockResolvedValue([{
       totalHits: 0,
       results: [],
-    })
+    }])
     const { getByLabelText } = renderWithRedux(
       <MemoryRouter><Search /></MemoryRouter>, store,
     )
@@ -162,11 +162,11 @@ describe('<Search />', () => {
   })
 
   it('displays an error message', async () => {
-    server.getSearchResults = jest.fn().mockResolvedValue({
+    server.getSearchResultsWithFacets = jest.fn().mockResolvedValue([{
       totalHits: 0,
       results: [],
       error: new Error('Grrr...'),
-    })
+    }])
 
     const store = createReduxStore(createBlankState())
 
@@ -188,7 +188,7 @@ describe('<Search />', () => {
     const store = createReduxStore(createBlankState())
 
     const mockGetSearchResults = jest.fn()
-    server.getSearchResults = mockGetSearchResults.mockResolvedValue({
+    server.getSearchResultsWithFacets = mockGetSearchResults.mockResolvedValue([{
       totalHits: 3,
       results: [
         {
@@ -210,7 +210,7 @@ describe('<Search />', () => {
           type: ['http://id.loc.gov/ontologies/bibframe/Title'],
         },
       ],
-    })
+    }])
 
     const {
       container, getByLabelText, findByText, getByText, queryByText,

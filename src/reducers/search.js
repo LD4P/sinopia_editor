@@ -14,6 +14,7 @@ export const setSearchResults = (state, action) => {
   newState.search.uri = action.payload.uri
   newState.search.results = action.payload.searchResults
   newState.search.totalResults = action.payload.totalResults
+  newState.search.facetResults = action.payload.facetResults
   newState.search.query = action.payload.query
   newState.search.options = { ...action.payload.options }
   if (newState.search.options.startOfRange === undefined) newState.search.options.startOfRange = 0
@@ -69,12 +70,14 @@ const clearResults = (searchState) => {
   searchState.uri = undefined
   searchState.results = []
   searchState.totalResults = 0
+  searchState.facetResults = undefined
   searchState.query = undefined
   searchState.options = {}
   searchState.options.startOfRange = 0
   searchState.options.sortField = undefined
   searchState.options.sortOrder = undefined
-  searchState.options.resultsPerPage = Config.searchResultsPerPage,
+  searchState.options.resultsPerPage = Config.searchResultsPerPage
+  searchState.options.typeFilter = undefined
   searchState.error = undefined
   return searchState
 }

@@ -8,13 +8,14 @@ describe('<SinopiaSearchResults />', () => {
   describe('when there are no search results', () => {
     const store = createReduxStore(createBlankState())
 
-    const { container } = renderWithRedux(
+    const { container, queryByText } = renderWithRedux(
       <SinopiaSearchResults />,
       store,
     )
 
     it('does not contain the main div', () => {
       expect(container.querySelector('div#search-results')).not.toBeInTheDocument()
+      expect(queryByText('Filter by class')).not.toBeInTheDocument()
     })
   })
 
@@ -28,6 +29,14 @@ describe('<SinopiaSearchResults />', () => {
         modified: '2019-10-23T22:42:57.623Z',
         created: '2019-10-23T22:42:57.623Z',
       }]
+      state.selectorReducer.search.facetResults = {
+        types: [
+          {
+            key: 'http://schema.org/Thing',
+            doc_count: 1,
+          },
+        ],
+      }
       const store = createReduxStore(state)
       const { queryByText, getByText, container } = renderWithRedux(
         <SinopiaSearchResults />,
@@ -41,8 +50,12 @@ describe('<SinopiaSearchResults />', () => {
       expect(queryByText('Class')).toBeInTheDocument()
       expect(queryByText('Institution')).toBeInTheDocument()
       expect(getByText('Modified', { selector: 'th' })).toBeInTheDocument()
+
       // It has a sort button
       expect(getByText('Sort by')).toBeInTheDocument()
+
+      // It has a Filter by class
+      expect(getByText('Filter by class')).toBeInTheDocument()
 
       // First row of search results
       expect(queryByText('An item title')).toBeInTheDocument()
