@@ -15,7 +15,7 @@ describe('<SaveAlert />', () => {
     )
 
     it('does not render', () => {
-      expect(queryByText('Saved ...')).not.toBeInTheDocument()
+      expect(queryByText('Saved')).not.toBeInTheDocument()
     })
   })
 
@@ -29,7 +29,7 @@ describe('<SaveAlert />', () => {
     )
 
     it('is not displayed', () => {
-      expect(queryByText('Saved ...')).not.toBeInTheDocument()
+      expect(queryByText('Saved')).not.toBeInTheDocument()
     })
   })
 })
