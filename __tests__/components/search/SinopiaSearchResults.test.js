@@ -25,6 +25,7 @@ describe('<SinopiaSearchResults />', () => {
       state.selectorReducer.search.results = [{
         uri: 'https://trellis.sinopia.io/repository/stanford/some/path',
         type: ['http://schema.org/Thing'],
+        group: ['stanford'],
         label: 'An item title',
         modified: '2019-10-23T22:42:57.623Z',
         created: '2019-10-23T22:42:57.623Z',
@@ -36,6 +37,13 @@ describe('<SinopiaSearchResults />', () => {
             doc_count: 1,
           },
         ],
+        groups: [
+          {
+            key: 'stanford',
+            doc_count: 1,
+          },
+        ],
+
       }
       const store = createReduxStore(state)
       const { queryByText, getByText, container } = renderWithRedux(
@@ -54,8 +62,9 @@ describe('<SinopiaSearchResults />', () => {
       // It has a sort button
       expect(getByText('Sort by')).toBeInTheDocument()
 
-      // It has a Filter by class
+      // It has filters
       expect(getByText('Filter by class')).toBeInTheDocument()
+      expect(getByText('Filter by institution')).toBeInTheDocument()
 
       // First row of search results
       expect(queryByText('An item title')).toBeInTheDocument()
