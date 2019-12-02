@@ -23,7 +23,7 @@ const SinopiaSort = () => {
       <button className="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                 Sort by
       </button>
-      <div className="dropdown-menu" aria-labelledby="dropdownMenuButton">
+      <div className="dropdown-menu dropdown-menu-right" aria-labelledby="dropdownMenuButton">
         <button type="button" className={getClasses('label', 'asc')} href="#" onClick={ () => handleSort('label', 'asc') }>
           Label, ascending</button>
         <button type="button" className={getClasses('label', 'desc')} href="#" onClick={ () => handleSort('label', 'desc') }>
