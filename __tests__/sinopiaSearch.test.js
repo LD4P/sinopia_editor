@@ -1,6 +1,7 @@
 // Copyright 2019 Stanford University see LICENSE for license
 
 import { getSearchResults, getTemplateSearchResults, getLookupResults } from 'sinopiaSearch'
+import { findAuthorityConfigs } from 'utilities/authorityConfig'
 
 describe('getSearchResults', () => {
   const successResult = {
@@ -162,24 +163,10 @@ describe('getTemplateSearchResults', () => {
 })
 
 describe('getLookupResults', () => {
-  const propertyTemplate = {
-    propertyURI: 'http://id.loc.gov/ontologies/bibframe/instanceOf',
-    propertyLabel: 'Instance of (lookup)',
-    remark: 'lookup',
-    mandatory: 'true',
-    repeatable: 'false',
-    type: 'lookup',
-    resourceTemplates: [],
-    valueConstraint: {
-      valueTemplateRefs: [],
-      useValuesFrom: [
-        'urn:ld4p:sinopia:bibframe:instance',
-        'urn:ld4p:sinopia:bibframe:work',
-      ],
-      valueDataType: {},
-      defaults: [],
-    },
-  }
+  const lookupConfigs = findAuthorityConfigs([
+    'urn:ld4p:sinopia:bibframe:instance',
+    'urn:ld4p:sinopia:bibframe:work',
+  ])
   const instanceResult = {
     took: 5,
     timed_out: false,
@@ -233,12 +220,13 @@ describe('getLookupResults', () => {
       ],
     },
   }
+
   it('performs a search and returns result', async () => {
     global.fetch = jest.fn()
       .mockImplementationOnce(() => Promise.resolve({ json: () => instanceResult }))
       .mockImplementationOnce(() => Promise.resolve({ json: () => workResult }))
 
-    const results = await Promise.all(getLookupResults('foo', propertyTemplate))
+    const results = await Promise.all(getLookupResults('foo', lookupConfigs))
     expect(results).toEqual([{
       totalHits: 0,
       results: [],

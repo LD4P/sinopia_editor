@@ -2,7 +2,6 @@
 import Config from './Config'
 /* eslint-disable node/no-unpublished-import */
 import { resourceTemplateSearchResults } from '../__tests__/fixtureLoaderHelper'
-import { getLookupConfigItems } from 'utilities/propertyTemplates'
 
 /* eslint-enable node/no-unpublished-import */
 
@@ -137,11 +136,8 @@ const sort = (sortField, sortOrder) => {
   return [{ [sortField]: sortOrder || 'asc' }]
 }
 
-export const getLookupResults = (query, propertyTemplate) => {
-  const lookupConfigs = getLookupConfigItems(propertyTemplate)
-
-  // Create array of Promises<results> based on the lookup config array that is sent in
-  return lookupConfigs.map(lookupConfig => getSearchResults(query, { typeFilter: lookupConfig.type, resultsPerPage: 8 })
+export const getLookupResults = (query, lookupConfigs) => lookupConfigs.map(
+  lookupConfig => getSearchResults(query, { typeFilter: lookupConfig.type, resultsPerPage: 8 })
     .then((result) => {
       if (result) {
         result.authLabel = lookupConfig.label
@@ -150,5 +146,5 @@ export const getLookupResults = (query, propertyTemplate) => {
         result.id = lookupConfig.uri
       }
       return result
-    }))
-}
+    }),
+)
