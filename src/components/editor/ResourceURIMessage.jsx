@@ -22,13 +22,11 @@ const ResourceURIMessage = () => {
   }
 
   return (
-    <div>
-      <p>URI for this resource: &lt;{ uri }&gt;&nbsp;
-        <button type="button"
-                className="btn btn-secondary btn-xs"
-                onClick={ handleClick }>{ copyText }</button>
-      </p>
-    </div>
+    <p>URI for this resource: &lt;{ uri }&gt;&nbsp;
+      <button type="button"
+              className="btn btn-secondary btn-xs"
+              onClick={ handleClick }>{ copyText }</button>
+    </p>
   )
 }
 
