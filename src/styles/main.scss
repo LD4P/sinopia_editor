@@ -34,7 +34,8 @@ pre {
 
 .btn-secondary {
   background-color: transparent;
-  @include button-outline-variant(map-get($theme-colors,"secondary"));
+  text-decoration: underline;
+  @include button-outline-variant(map-get($theme-colors,"primary"));
 }
 
 $primary-disabled: lighten( map-get($theme-colors,"secondary"), 20% );
