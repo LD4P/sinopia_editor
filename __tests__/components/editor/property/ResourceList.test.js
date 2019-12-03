@@ -80,7 +80,7 @@ describe('ResultList', () => {
       expect(container.querySelector('div.dropdown')).toBeInTheDocument()
       expect(getByText('Create New')).toBeInTheDocument()
       expect(container.querySelector('button[data-resource-id="resourceTemplate:bf2:Monograph:Instance"]')).toBeInTheDocument()
-      expect(getByText('BIBFRAME Instance (http://id.loc.gov/ontologies/bibframe/Instance)', {
+      expect(getByText('BIBFRAME Instance (resourceTemplate:bf2:Monograph:Instance)', {
         normalizer: str => getDefaultNormalizer({ trim: false })(str).replace(/\n*/g, ''),
       })).toBeInTheDocument()
     })
@@ -108,7 +108,7 @@ describe('ResultList', () => {
     )
 
     await wait(() => {
-      expect(queryByText('Create New:')).not.toBeInTheDocument()
+      expect(queryByText('Create New')).not.toBeInTheDocument()
     })
   })
 })
