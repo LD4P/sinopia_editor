@@ -48,7 +48,7 @@ describe('update', () => {
     await store.dispatch(update('jkl012', currentUser, 'testerrorkey'))
 
     expect(store.getActions()).toEqual([
-      { type: 'SAVE_RESOURCE_FINISHED', payload: { resourceKey: 'jkl012', checksum: '5e30bd59d0186c5307065436240ba108' } },
+      { type: 'SAVE_RESOURCE_FINISHED', payload: { resourceKey: 'jkl012', checksum: 'e37c563187b12275acf955128f14f3f3' } },
     ])
   })
   it('dispatches actions when error occurs', async () => {
@@ -64,9 +64,9 @@ describe('update', () => {
 
 describe('retrieveResource', () => {
   const uri = 'http://sinopia.io/repository/stanford/123'
-  const received = `<> <http://www.w3.org/2000/01/rdf-schema#label> "splendid"@eng .
-<> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://id.loc.gov/ontologies/bibframe/Note> .
-<> <http://sinopia.io/vocabulary/hasResourceTemplate> "resourceTemplate:bf2:Note" .`
+  const received = `<${uri}> <http://www.w3.org/2000/01/rdf-schema#label> "splendid"@eng .
+<${uri}> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://id.loc.gov/ontologies/bibframe/Note> .
+<${uri}> <http://sinopia.io/vocabulary/hasResourceTemplate> "resourceTemplate:bf2:Note" .`
 
   sinopiaServer.loadRDFResource = jest.fn().mockResolvedValue({ response: { text: received } })
   let store
@@ -128,7 +128,54 @@ describe('retrieveResource', () => {
         { type: 'TOGGLE_COLLAPSE', payload: { reduxPath } },
         { type: 'RESOURCE_LOADED', payload: { resourceKey: 'abc123', resource: expectedResource, resourceTemplates: { [resourceTemplateId]: resourceTemplate } } },
         { type: 'SET_LAST_SAVE_CHECKSUM', payload: { resourceKey: 'abc123', checksum: undefined } },
-        { type: 'SET_LAST_SAVE_CHECKSUM', payload: { resourceKey: 'abc123', checksum: 'a4c091070fd59aeed47e608ad2194092' } },
+        { type: 'SET_LAST_SAVE_CHECKSUM', payload: { resourceKey: 'abc123', checksum: '547880ad2b8b81bfac4d15e0f856f248' } },
+        { type: 'SET_UNUSED_RDF', payload: { resourceKey: 'abc123', rdf: '' } },
+        { type: 'SET_CURRENT_RESOURCE', payload: 'abc123' },
+      ])
+    })
+  })
+
+  describe('when relative URI', () => {
+    const received = `<> <http://www.w3.org/2000/01/rdf-schema#label> "splendid"@eng .
+  <> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://id.loc.gov/ontologies/bibframe/Note> .
+  <> <http://sinopia.io/vocabulary/hasResourceTemplate> "resourceTemplate:bf2:Note" .`
+
+    sinopiaServer.loadRDFResource = jest.fn().mockResolvedValue({ response: { text: received } })
+
+    it('it dispatches actions', async () => {
+      const resourceTemplateId = 'resourceTemplate:bf2:Note'
+      const templateResponse = await getFixtureResourceTemplate(resourceTemplateId)
+      const resourceTemplate = templateResponse.response.body
+
+      sinopiaServer.getResourceTemplate.mockImplementation(getFixtureResourceTemplate)
+
+      expect(await store.dispatch(retrieveResource(currentUser, uri, 'testerrorkey'))).toBe(true)
+
+      const actions = store.getActions()
+      const expectedResource = {
+        'resourceTemplate:bf2:Note': {
+          'http://www.w3.org/2000/01/rdf-schema#label': {
+            items: {
+              def456: {
+                content: 'splendid',
+                label: 'splendid',
+                lang: 'eng',
+              },
+            },
+          },
+          resourceURI: 'http://sinopia.io/repository/stanford/123',
+        },
+      }
+      const reduxPath = ['entities', 'resources', 'abc123', 'resourceTemplate:bf2:Note', 'http://www.w3.org/2000/01/rdf-schema#label']
+
+      expect(actions).toEqual([
+        { type: 'CLEAR_ERRORS', payload: 'testerrorkey' },
+        { type: 'RESOURCE_TEMPLATES_LOADED', payload: { 'resourceTemplate:bf2:Note': resourceTemplate } },
+        { type: 'RESOURCE_TEMPLATE_LOADED', payload: resourceTemplate },
+        { type: 'TOGGLE_COLLAPSE', payload: { reduxPath } },
+        { type: 'RESOURCE_LOADED', payload: { resourceKey: 'abc123', resource: expectedResource, resourceTemplates: { [resourceTemplateId]: resourceTemplate } } },
+        { type: 'SET_LAST_SAVE_CHECKSUM', payload: { resourceKey: 'abc123', checksum: undefined } },
+        { type: 'SET_LAST_SAVE_CHECKSUM', payload: { resourceKey: 'abc123', checksum: '547880ad2b8b81bfac4d15e0f856f248' } },
         { type: 'SET_UNUSED_RDF', payload: { resourceKey: 'abc123', rdf: '' } },
         { type: 'SET_CURRENT_RESOURCE', payload: 'abc123' },
       ])
@@ -216,8 +263,8 @@ describe('retrieveResource', () => {
 describe('publishResource', () => {
   const group = 'myGroup'
   const received = `<http://sinopia.io/repository/myGroup/myResource> <http://www.w3.org/2000/01/rdf-schema#label> "splendid"@eng .
-<> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://id.loc.gov/ontologies/bibframe/Note> .
-<> <http://sinopia.io/vocabulary/hasResourceTemplate> "profile:bf2:Note" .`
+<http://sinopia.io/repository/myGroup/myResource> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://id.loc.gov/ontologies/bibframe/Note> .
+<http://sinopia.io/repository/myGroup/myResource> <http://sinopia.io/vocabulary/hasResourceTemplate> "profile:bf2:Note" .`
 
   let store
   beforeEach(() => {
@@ -236,7 +283,7 @@ describe('publishResource', () => {
     await store.dispatch(publishResource('jkl012', currentUser, group, 'testerrorkey'))
     expect(store.getActions()).toEqual([
       { type: 'SET_BASE_URL', payload: { resourceKey: 'jkl012', resourceURI: 'http://sinopia.io/repository/myGroup/myResource' } },
-      { type: 'SAVE_RESOURCE_FINISHED', payload: { resourceKey: 'jkl012', checksum: '5e30bd59d0186c5307065436240ba108' } },
+      { type: 'SAVE_RESOURCE_FINISHED', payload: { resourceKey: 'jkl012', checksum: 'e37c563187b12275acf955128f14f3f3' } },
     ])
   })
 
@@ -284,7 +331,7 @@ describe('newResource', () => {
         { type: 'CLEAR_ERRORS', payload: 'testerrorkey' },
         { type: 'RESOURCE_TEMPLATE_LOADED', payload: resourceTemplate },
         { type: 'RESOURCE_LOADED', payload: { resourceKey: 'abc123', resource: expectedResource, resourceTemplates: { [resourceTemplateId]: resourceTemplate } } },
-        { type: 'SET_LAST_SAVE_CHECKSUM', payload: { resourceKey: 'abc123', checksum: 'baf92a33bf689d599a41bb4563db42fc' } },
+        { type: 'SET_LAST_SAVE_CHECKSUM', payload: { resourceKey: 'abc123', checksum: 'bbf95e2eaec615f77fa4f230d746ff68' } },
         { type: 'SET_UNUSED_RDF', payload: { resourceKey: 'abc123', rdf: null } },
         { type: 'ADD_TEMPLATE_HISTORY', payload: resourceTemplate }])
     })
@@ -329,7 +376,7 @@ describe('existingResource', () => {
       const resourceTemplate = resourceTemplateResponse.response.body
       sinopiaServer.getResourceTemplate.mockImplementation(getFixtureResourceTemplate)
 
-      const unusedRDF = '<> <http://id.loc.gov/ontologies/bibframe/mainTitle> "foo"@eng .'
+      const unusedRDF = `<${uri}> <http://id.loc.gov/ontologies/bibframe/mainTitle> "foo"@eng .`
 
       expect(await store.dispatch(existingResource(resource, unusedRDF, uri, 'testerrorkey'))).toBe(true)
       const expectedResource = {

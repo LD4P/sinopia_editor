@@ -1,9 +1,8 @@
 // Copyright 2019 Stanford University see LICENSE for license
 
 import GraphBuilder from 'GraphBuilder'
+import rdf from 'rdf-ext'
 import { createBlankState } from 'testUtils'
-
-const rdf = require('rdf-ext')
 
 describe('GraphBuilder', () => {
   describe('when the state does not have a resourceURI', () => {
@@ -72,7 +71,6 @@ describe('GraphBuilder', () => {
 
     const builder = new GraphBuilder(state.selectorReducer.entities.resources.abc123, state.selectorReducer.entities.resourceTemplates)
 
-
     it('returns the graph', () => {
       const graph = builder.graph
 
@@ -104,6 +102,30 @@ describe('GraphBuilder', () => {
 
       // Literals from different notes have different blank node.
       expect(result1[0].subject).not.toEqual(result3[0].subject)
+    })
+
+    describe('toTurtle()', () => {
+      it('returns the graph as a string represented as Turtle', () => {
+        expect(builder.toTurtle()).toEqual(`<> a <http://id.loc.gov/ontologies/bibframe/Work>;
+    <http://id.loc.gov/ontologies/bibframe/content> <http://id.loc.gov/vocabulary/contentTypes/txt>.
+<http://id.loc.gov/vocabulary/contentTypes/txt> <http://www.w3.org/2000/01/rdf-schema#label> "text".
+<> <http://id.loc.gov/ontologies/bibframe/illustrativeContent> <http://id.loc.gov/vocabulary/millus/gnt>.
+<http://id.loc.gov/vocabulary/millus/gnt> <http://www.w3.org/2000/01/rdf-schema#label> "Genealogical tables".
+<> <http://id.loc.gov/ontologies/bibframe/colorContent> _:b1.
+_:b1 a <http://id.loc.gov/ontologies/bibframe/Note>;
+    <http://www.w3.org/2000/01/rdf-schema#label> "Very colorful"@eng, "Sparkly".
+<> <http://id.loc.gov/ontologies/bibframe/colorContent> _:b2.
+_:b2 a <http://id.loc.gov/ontologies/bibframe/Note>;
+    <http://www.w3.org/2000/01/rdf-schema#label> "Shiney".
+<> <http://sinopia.io/vocabulary/hasResourceTemplate> "resourceTemplate:bf2:Monograph:Work";
+    <http://id.loc.gov/ontologies/bibframe/colorContent> _:b3.
+_:b3 a <http://id.loc.gov/ontologies/bibframe/Note>;
+    <http://www.w3.org/2000/01/rdf-schema#label> "Very colorful"@eng, "Sparkly".
+<> <http://id.loc.gov/ontologies/bibframe/colorContent> _:b4.
+_:b4 a <http://id.loc.gov/ontologies/bibframe/Note>;
+    <http://www.w3.org/2000/01/rdf-schema#label> "Shiney".
+`)
+      })
     })
   })
 
@@ -161,7 +183,6 @@ describe('GraphBuilder', () => {
     }
 
     const builder = new GraphBuilder(state.selectorReducer.entities.resources.abc123, state.selectorReducer.entities.resourceTemplates)
-
 
     it('returns the graph', () => {
       const graph = builder.graph

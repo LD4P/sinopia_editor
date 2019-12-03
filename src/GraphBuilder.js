@@ -1,7 +1,9 @@
 // Copyright 2019 Stanford University see LICENSE for license
 
-import rdf from 'rdf-ext'
+import N3Writer from 'n3/lib/N3Writer'
+import Stream from 'stream'
 import _ from 'lodash'
+import rdf from 'rdf-ext'
 
 /**
  * Builds RDF graphs from the Redux state
@@ -23,7 +25,7 @@ export default class GraphBuilder {
   get graph() {
     if (this.resource) {
       Object.keys(this.resource).forEach((resourceTemplateId) => {
-        // Always save with relative URI
+        // Always save with relative URI (@NOTE that this precludes serializing as N-Triples)
         const resourceURI = rdf.namedNode('')
 
         this.buildTriplesForNode(resourceURI,
@@ -33,6 +35,24 @@ export default class GraphBuilder {
       })
     }
     return this.dataset
+  }
+
+  /**
+   * @return {string} a Turtle representation of a graph
+   */
+  toTurtle() {
+    const turtleChunks = []
+
+    const stream = new Stream.Writable()
+    stream._write = (chunk, _encoding, next) => {
+      turtleChunks.push(chunk.toString())
+      next()
+    }
+
+    const writer = new N3Writer(stream, { end: false })
+    writer.addQuads(this.graph.toArray())
+    writer.end()
+    return turtleChunks.join('')
   }
 
   /**

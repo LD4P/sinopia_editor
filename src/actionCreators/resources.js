@@ -19,13 +19,14 @@ import {
 import { defaultValuesFromPropertyTemplate } from 'utilities/propertyTemplates'
 import shortid from 'shortid'
 import ResourceStateBuilder from 'ResourceStateBuilder'
+import rdf from 'rdf-ext'
 import _ from 'lodash'
 
 // A thunk that updates (saves) an existing resource in Trellis
 export const update = (resourceKey, currentUser, errorKey) => (dispatch, getState) => {
   const state = getState()
   const uri = findResourceURI(state, resourceKey)
-  const rdf = new GraphBuilder(state.selectorReducer.entities.resources[resourceKey], state.selectorReducer.entities.resourceTemplates).graph.toCanonical()
+  const rdf = new GraphBuilder(state.selectorReducer.entities.resources[resourceKey], state.selectorReducer.entities.resourceTemplates).toTurtle()
   return updateRDFResource(currentUser, uri, rdf)
     .then(() => dispatch(saveResourceFinished(resourceKey, generateMD5(rdf))))
     .catch(err => dispatch(appendError(errorKey, `Error saving ${uri}: ${err.toString()}`)))
@@ -39,7 +40,7 @@ export const retrieveResource = (currentUser, uri, errorKey, asNewResource) => (
       const data = response.response.text
       return rdfDatasetFromN3(data)
         .then((dataset) => {
-          const builder = new ResourceStateBuilder(dataset, null)
+          const builder = new ResourceStateBuilder(dataset, chooseURI(dataset, uri))
           const resourceKey = shortid.generate()
           const newURI = asNewResource ? undefined : uri
           return builder.buildState()
@@ -47,7 +48,7 @@ export const retrieveResource = (currentUser, uri, errorKey, asNewResource) => (
               dispatch(setResourceTemplates(resourceTemplates))
               return dispatch(existingResourceFunc(state, newURI, resourceKey, errorKey))
                 .then((result) => {
-                  const rdf = new GraphBuilder(result[0], result[1]).graph.toCanonical()
+                  const rdf = new GraphBuilder(result[0], result[1]).toTurtle()
                   if (!asNewResource) dispatch(setLastSaveChecksum(resourceKey, generateMD5(rdf)))
                   dispatch(setUnusedRDF(resourceKey, unusedDataset.toCanonical()))
                   dispatch(setCurrentResource(resourceKey))
@@ -77,11 +78,18 @@ export const retrieveResource = (currentUser, uri, errorKey, asNewResource) => (
     })
 }
 
+// In the early days, resources were persisted to Trellis with a relative URI (<>) as N-Triples.
+// When these resources are retrieved, they retain a relative URI.
+// Now, resources are persisted to Trellis as Turtle. When these resources are retrieved,
+// they have the resource's URI.
+// This function guesses which.
+const chooseURI = (dataset, uri) => (dataset.match(rdf.namedNode(uri)).size > 0 ? uri : null)
+
 // A thunk that publishes (saves) a new resource in Trellis
 export const publishResource = (resourceKey, currentUser, group, errorKey) => (dispatch, getState) => {
   // Make a copy of state to prevent changes that will affect the publish.
   const state = _.cloneDeep(getState())
-  const rdf = new GraphBuilder(state.selectorReducer.entities.resources[resourceKey], state.selectorReducer.entities.resourceTemplates).graph.toCanonical()
+  const rdf = new GraphBuilder(state.selectorReducer.entities.resources[resourceKey], state.selectorReducer.entities.resourceTemplates).toTurtle()
 
   return publishRDFResource(currentUser, rdf, group).then((result) => {
     const resourceUrl = result.response.headers.location
@@ -101,7 +109,7 @@ export const newResource = (resourceTemplateId, errorKey) => (dispatch) => {
   return stubResource(resource, true, undefined, resourceKey, errorKey, dispatch)
     .then((result) => {
       const resourceTemplates = result[1]
-      const rdf = new GraphBuilder(result[0], resourceTemplates).graph.toCanonical()
+      const rdf = new GraphBuilder(result[0], resourceTemplates).toTurtle()
       dispatch(setLastSaveChecksum(resourceKey, generateMD5(rdf)))
       dispatch(setUnusedRDF(resourceKey, null))
       dispatch(addTemplateHistory(resourceTemplates[resourceTemplateId]))

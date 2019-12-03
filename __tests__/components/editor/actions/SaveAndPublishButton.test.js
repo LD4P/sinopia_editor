@@ -87,7 +87,7 @@ describe('<SaveAndPublishButton />', () => {
   it('is disabled if resource has not changed', () => {
     const initialState = createInitialState()
     // See resourceHasChangesSinceLastSave() for checksum
-    initialState.selectorReducer.editor.lastSaveChecksum.abc123 = '5267eb8da0ab5ef646cae0190cf13a7c'
+    initialState.selectorReducer.editor.lastSaveChecksum.abc123 = '8300ef4c8fb6681ec4b62d2674502e84'
     const store = createReduxStore(initialState)
     const { getByText } = renderWithRedux(
       <SaveAndPublishButton class="test" />, store,
