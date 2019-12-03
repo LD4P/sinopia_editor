@@ -56,39 +56,29 @@ class LoginPanel extends Component {
 
     const inlineLoginForm = (
       <React.Fragment>
-        <div className="row">
-          <h4>Login to the Linked Data Editor</h4>
+        <h4>Login to the Linked Data Editor</h4>
+        <div className = "form-group">
+          <label htmlFor="username">
+            User name
+            <input id="username"
+                   style={ { width: '300px' } }
+                   name="username" type="text"
+                   className="form-control"
+                   placeholder=""
+                   onChange={this.handleChange}></input>
+          </label>
         </div>
-        <div className="row">
-          <div>
-            <div className = "form-group">
-              <label htmlFor="username">
-                User name
-                <input id="username"
-                       style={ { width: '300px' } }
-                       name="username" type="text"
-                       className="form-control"
-                       placeholder=""
-                       onChange={this.handleChange}></input>
-              </label>
-            </div>
-          </div>
-        </div>
-        <div className="row">
-          <div>
-            <div className = "form-group">
-              <label htmlFor="password">
-                  Password
-                <input id="password"
-                       style={ { width: '300px' } }
-                       name="password"
-                       type="password"
-                       className="form-control"
-                       placeholder=""
-                       onChange={this.handleChange}></input>
-              </label>
-            </div>
-          </div>
+        <div className = "form-group">
+          <label htmlFor="password">
+              Password
+            <input id="password"
+                   style={ { width: '300px' } }
+                   name="password"
+                   type="password"
+                   className="form-control"
+                   placeholder=""
+                   onChange={this.handleChange}></input>
+          </label>
         </div>
         <div className="row">
           <div className="col-sm-4">
@@ -107,10 +97,12 @@ class LoginPanel extends Component {
     )
 
     return (
-      <form className="login-form" onSubmit={this.handleLoginSubmit}>
-        { authenticationError ? <div className="row error-message">{ authenticationError.message }</div> : null }
-        { !currentSession && inlineLoginForm }
-      </form>
+      <React.Fragment>
+        { authenticationError && <div className="alert alert-danger alert-dismissible">{ authenticationError.message }</div> }
+        <form className="login-form" onSubmit={this.handleLoginSubmit}>
+          { !currentSession && inlineLoginForm }
+        </form>
+      </React.Fragment>
     )
   }
 }
