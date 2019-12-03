@@ -19,6 +19,7 @@ import {
 import { defaultValuesFromPropertyTemplate } from 'utilities/propertyTemplates'
 import shortid from 'shortid'
 import ResourceStateBuilder from 'ResourceStateBuilder'
+import rdf from 'rdf-ext'
 import _ from 'lodash'
 
 // A thunk that updates (saves) an existing resource in Trellis
@@ -39,7 +40,7 @@ export const retrieveResource = (currentUser, uri, errorKey, asNewResource) => (
       const data = response.response.text
       return rdfDatasetFromN3(data)
         .then((dataset) => {
-          const builder = new ResourceStateBuilder(dataset, uri)
+          const builder = new ResourceStateBuilder(dataset, chooseURI(dataset, uri))
           const resourceKey = shortid.generate()
           const newURI = asNewResource ? undefined : uri
           return builder.buildState()
@@ -76,6 +77,13 @@ export const retrieveResource = (currentUser, uri, errorKey, asNewResource) => (
       return false
     })
 }
+
+// In the early days, resources were persisted to Trellis with a relative URI (<>) as N-Triples.
+// When these resources are retrieved, they retain a relative URI.
+// Now, resources are persisted to Trellis as Turtle. When these resources are retrieved,
+// they have the resource's URI.
+// This function guesses which.
+const chooseURI = (dataset, uri) => (dataset.match(rdf.namedNode(uri)).size > 0 ? uri : null)
 
 // A thunk that publishes (saves) a new resource in Trellis
 export const publishResource = (resourceKey, currentUser, group, errorKey) => (dispatch, getState) => {
