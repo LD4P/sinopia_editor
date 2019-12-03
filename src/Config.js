@@ -69,7 +69,8 @@ class Config {
   }
 
   static get templateSearchResultsPerPage() {
-    return process.env.TEMPLATE_SEARCH_RESULTS_PER_PAGE || 25
+    // This # should be large enough to return all results.
+    return process.env.TEMPLATE_SEARCH_RESULTS_PER_PAGE || 250
   }
 
 
