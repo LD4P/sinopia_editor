@@ -2,10 +2,68 @@
 
 import { getSearchResults, getTerm } from 'utilities/QuestioningAuthority'
 import { findAuthorityConfigs } from 'utilities/authorityConfig'
+import Swagger from 'swagger-client'
+
+jest.mock('swagger-client')
 
 describe('getSearchResults()', () => {
   it('returns an array of promises from a search', async () => {
-    expect.assertions(2)
+    const response = {
+      ok: true,
+      url: 'https://lookup.ld4l.org/authorities/search/linked_data/agrovoc_ld4l_cache?q=Corn&maxRecords=8&lang=en&context=true',
+      status: 200,
+      statusText: 'OK',
+      body: [
+        {
+          uri: 'http://aims.fao.org/aos/agrovoc/c_331388',
+          id: 'http://aims.fao.org/aos/agrovoc/c_331388',
+          label: 'corn sheller',
+        },
+        {
+          uri: 'http://aims.fao.org/aos/agrovoc/c_33224',
+          id: 'http://aims.fao.org/aos/agrovoc/c_33224',
+          label: 'Corn Belt (USA)',
+        },
+        {
+          uri: 'http://aims.fao.org/aos/agrovoc/c_16171',
+          id: 'http://aims.fao.org/aos/agrovoc/c_16171',
+          label: 'corn cob mix',
+        },
+        {
+          uri: 'http://aims.fao.org/aos/agrovoc/c_14385',
+          id: 'http://aims.fao.org/aos/agrovoc/c_14385',
+          label: 'soft corn',
+        },
+        {
+          uri: 'http://aims.fao.org/aos/agrovoc/c_fd817c5d',
+          id: 'http://aims.fao.org/aos/agrovoc/c_fd817c5d',
+          label: 'southern leaf blight of maize',
+        },
+        {
+          uri: 'http://aims.fao.org/aos/agrovoc/c_34f087cf',
+          id: 'http://aims.fao.org/aos/agrovoc/c_34f087cf',
+          label: 'maize gluten',
+        },
+        {
+          uri: 'http://aims.fao.org/aos/agrovoc/c_d859f064',
+          id: 'http://aims.fao.org/aos/agrovoc/c_d859f064',
+          label: 'maize bran',
+        },
+        {
+          uri: 'http://aims.fao.org/aos/agrovoc/c_7552',
+          id: 'http://aims.fao.org/aos/agrovoc/c_7552',
+          label: 'sweet corn',
+        },
+      ],
+      authLabel: 'AGROVOC (QA)',
+      authURI: 'urn:ld4p:qa:agrovoc',
+      label: 'AGROVOC (QA)',
+      id: 'urn:ld4p:qa:agrovoc',
+    }
+
+    const mockActionFunction = jest.fn().mockResolvedValue(response)
+    const client = { apis: { SearchQuery: { GET_searchAuthority: mockActionFunction } } }
+    Swagger.mockResolvedValue(client)
 
     const authorityConfigs = findAuthorityConfigs(['urn:ld4p:qa:agrovoc'])
     const results = getSearchResults('Corn', authorityConfigs)
