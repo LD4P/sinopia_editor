@@ -30,6 +30,11 @@ const Search = (props) => {
     queryString, { ...searchOptions, startOfRange },
   ))
 
+  const fetchNewSinopiaSearchResults = queryString => dispatch(fetchSinopiaSearchResultsCreator(
+    queryString,
+  ))
+
+
   const clearSearchResults = useCallback(() => dispatch(clearSearchResultsAction()), [dispatch])
 
   const error = useSelector(state => state.selectorReducer.search.error)
@@ -61,7 +66,7 @@ const Search = (props) => {
       return
     }
     if (uri === 'sinopia') {
-      fetchSinopiaSearchResults(queryString, 0)
+      fetchNewSinopiaSearchResults(queryString)
     } else {
       fetchQASearchResults(queryString, uri)
     }

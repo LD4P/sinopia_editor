@@ -36,7 +36,7 @@ const TypeFilter = () => {
     if (selectedTypeFilters.includes(toggleType)) {
       setSelectedTypeFilters(selectedTypeFilters.filter(type => type !== toggleType))
     } else {
-      setSelectedTypeFilters({ ...selectedTypeFilters, toggleType })
+      setSelectedTypeFilters([...selectedTypeFilters, toggleType])
     }
   }
 

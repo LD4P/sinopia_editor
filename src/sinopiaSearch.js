@@ -39,14 +39,14 @@ export const getSearchResultsWithFacets = async (query, options = {}) => {
     size: options.resultsPerPage || Config.searchResultsPerPage,
     sort: sort(options.sortField, options.sortOrder),
   }
-  const termsFilter = {}
+  const termsFilters = []
   if (options.typeFilter) {
-    termsFilter.type = Array.isArray(options.typeFilter) ? options.typeFilter : [options.typeFilter]
+    termsFilters.push({ terms: { type: Array.isArray(options.typeFilter) ? options.typeFilter : [options.typeFilter] } })
   }
   if (options.groupFilter) {
-    termsFilter.group = Array.isArray(options.groupFilter) ? options.groupFilter : [options.groupFilter]
+    termsFilters.push({ terms: { group: Array.isArray(options.groupFilter) ? options.groupFilter : [options.groupFilter] } })
   }
-  if (!_.isEmpty(termsFilter)) body.query.bool.filter = { terms: termsFilter }
+  if (!_.isEmpty(termsFilters)) body.query.bool.filter = termsFilters
 
   if (!options.noFacetResults) {
     body.aggs = {
