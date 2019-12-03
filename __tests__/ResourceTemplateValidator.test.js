@@ -64,7 +64,7 @@ describe('validateResourceTemplate', () => {
     expect(reasons[0]).toEqual('Validation error for http://id.loc.gov/ontologies/bibframe/Instance: The following resource templates references for http://id.loc.gov/ontologies/bibframe/genreForm have the same resource URI (http://id.loc.gov/ontologies/bibframe/GenreForm), but must be unique: ld4p:RT:bf2:Form, ld4p:RT:bf2:RareMat:RBMS')
   })
 
-  it('returns reason for missing lookup valueConstrant URI', async () => {
+  it('returns reason for missing lookup valueConstraint URI', async () => {
     const templateResponse = await getFixtureResourceTemplate('test:RT:bf2:notFoundValueTemplateRefsURI')
     const reasons = await validateResourceTemplate(templateResponse.response.body)
     expect(reasons[0]).toEqual('Validation error for http://id.loc.gov/ontologies/bibframe/Identifier: Property templates http://id.loc.gov/ontologies/bibframe/geographicCoverage, http://id.loc.gov/ontologies/bibframe/geographicCoverage have value constraint lookup URIs that are not found in configuration: urn:ld4p:qa:names:place, urn:ld4p:qa:subjects:place')

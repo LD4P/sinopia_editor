@@ -15,11 +15,18 @@ export const validateResourceTemplate = async resourceTemplate => [].concat(
   validateRepeatedPropertyTemplates(resourceTemplate),
   validateNoDefaultURIForLiterals(resourceTemplate),
   validateNoDefaultsForTemplateRefs(resourceTemplate),
-  validateTypeAheadAuthorityURIs(resourceTemplate),
+  validateLookupAuthorityOrKnownTagName(resourceTemplate),
   await validateTemplateRefsExist(resourceTemplate),
   await validateUniqueResourceURIs(resourceTemplate),
-  validateKnownTagName(resourceTemplate),
 )
+
+const validateLookupAuthorityOrKnownTagName = (resourceTemplate) => {
+  let validation = validateTypeAheadAuthorityURIs(resourceTemplate)
+  if (validation.length === 0) {
+    validation = validateKnownTagName(resourceTemplate)
+  }
+  return validation
+}
 
 /**
  * Validates that a resource template does not contain repeated property templates.
