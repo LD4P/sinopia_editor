@@ -1,6 +1,6 @@
 // Copyright 2019 Stanford University see LICENSE for license
 
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import { useSelector } from 'react-redux'
 import { findResourceURI } from 'selectors/resourceSelectors'
 
@@ -9,16 +9,21 @@ const ResourceURIMessage = () => {
   const uri = useSelector(state => findResourceURI(state))
 
   const [copyText, setCopyText] = useState('Copy URI')
+  const [timerId, setTimerId] = useState(false)
 
-  if (!uri) {
-    return null
-  }
+  useEffect(() => () => {
+    if (timerId) clearTimeout(timerId)
+  })
 
   const handleClick = (event) => {
     navigator.clipboard.writeText(uri)
     setCopyText(<em>Copied URI to Clipboard</em>)
-    setTimeout(() => setCopyText('Copy URI'), 3000)
+    setTimerId(setTimeout(() => setCopyText('Copy URI'), 3000))
     event.preventDefault()
+  }
+
+  if (!uri) {
+    return null
   }
 
   return (
