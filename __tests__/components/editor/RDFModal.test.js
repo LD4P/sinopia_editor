@@ -35,7 +35,7 @@ describe('<RDFModal />', () => {
     expect(getByLabelText('Save')).toBeInTheDocument()
 
     // has a Modal.Body
-    expect(getByText('If this looks good, then click Save and Publish')).toBeInTheDocument()
+    expect(getByText('If this looks good, then click Save')).toBeInTheDocument()
 
     // Clicking the Save and Publish button closes the Modal
     fireEvent.click(getByLabelText('Save'))
