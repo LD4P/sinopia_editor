@@ -33,7 +33,7 @@ const ResourceList = (props) => {
           if (hit.resourceURI === authority.type) {
             listItems.push(
               <button className="dropdown-item" href="#" data-resource-id={hit.id} key={shortid.generate()} onClick={() => { handleChange(hit.id) }}>
-                {hit.resourceLabel} ({hit.resourceURI})
+                {hit.resourceLabel} ({hit.id})
               </button>,
             )
           }
