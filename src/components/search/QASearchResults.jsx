@@ -54,21 +54,23 @@ const QASearchResults = (props) => {
   const tableData = useMemo(() => searchResults.map((result) => {
     const types = []
     const contexts = {}
+    let imageURL
     if (result.context) {
       const typeValues = getContextValues(result.context, 'Type')
+      imageURL = _.first(getContextValues(result.context, 'Image URL'))
       if (typeValues) types.push(...typeValues)
       const excludeProperties = ['Type', 'Title', 'Image URL']
       result.context.forEach((context) => {
         if (!excludeProperties.includes(context.property)) contexts[context.property] = context.values
       })
     }
-
     return {
       label: result.label,
       uri: result.uri,
       id: result.id,
       types,
       contexts,
+      imageURL,
     }
   }),
   [searchResults])
@@ -90,6 +92,14 @@ const QASearchResults = (props) => {
       {types.map(type => <li key={type}>{type}</li>)}
     </ul>
   )
+
+  const imageFormatter = (imageURL, label) => {
+    if (imageURL) {
+      return (
+        <img src={imageURL} className="img-thumbnail float-left" alt={label} style={{ width: '100px', marginRight: '4px' }}/>
+      )
+    }
+  }
 
   const actionFormatter = (uri, id) => (
     <div>
@@ -116,7 +126,7 @@ const QASearchResults = (props) => {
       rows.push(<tr key={row.uri}>
         <td>{ row.label }{ row.label !== row.uri && <React.Fragment><br />{ row.uri }</React.Fragment>}</td>
         <td>{typesFormatter(row.types)}</td>
-        <td>{contextFormatter(row.contexts)}</td>
+        <td>{imageFormatter(row.imageURL, row.label) }{contextFormatter(row.contexts)}</td>
         <td>{actionFormatter(row.uri, row.id)}</td>
       </tr>)
     })

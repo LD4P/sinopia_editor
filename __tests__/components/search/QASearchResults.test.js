@@ -72,13 +72,21 @@ describe('<QASearchResults />', () => {
             selectable: false,
             drillable: false,
           },
+          {
+            property: 'Image URL',
+            values: [
+              'https://img.discogs.com/ilqScil5LIpcF_povstRcaEtEeg=/fit-in/600x527/filters:strip_icc():format(jpeg):mode_rgb():quality(90)/discogs-images/R-1622463-1425003720-8692.jpeg.jpg',
+            ],
+          },
         ],
       }]
     state.selectorReducer.search.totalResults = 2
     state.selectorReducer.search.query = 'twain'
 
     const store = createReduxStore(state)
-    const { getByText, getAllByText, getAllByTitle } = renderWithRedux(
+    const {
+      getByText, getAllByText, getAllByTitle, container,
+    } = renderWithRedux(
       <QASearchResults history={{}}/>, store,
     )
     // Headers
@@ -94,6 +102,7 @@ describe('<QASearchResults />', () => {
     expect(getAllByText('Contributor', { selector: 'strong' }).length).toBe(2)
     expect(getByText(/Bennett, Arnold,1867-1931./)).toBeInTheDocument()
     expect(getAllByTitle('Copy').length).toBe(2)
+    expect(container.querySelector('img')).toBeInTheDocument()
   })
 
   it('renders errors', () => {
