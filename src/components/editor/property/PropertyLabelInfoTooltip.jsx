@@ -1,17 +1,17 @@
 // Copyright 2019 Stanford University see LICENSE for license
 
 import shortid from 'shortid'
-import React, { useEffect } from 'react'
+import React, { useEffect, useState } from 'react'
 import PropTypes from 'prop-types'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faInfoCircle } from '@fortawesome/free-solid-svg-icons'
 
 const PropertyLabelInfoTooltip = (props) => {
-  const key = shortid.generate()
+  const [key] = useState(`popover-${shortid.generate()}`)
 
   useEffect(() => {
-    window.$('[data-toggle="popover"]').popover()
-  })
+    window.$(`#${key}`).popover()
+  }, [key])
 
   return (
     <span data-toggle="popover"
@@ -19,7 +19,8 @@ const PropertyLabelInfoTooltip = (props) => {
           data-container="body"
           title={props.propertyTemplate.label}
           data-content={props.propertyTemplate.remark}
-          key={key} >
+          key={key}
+          id={key}>
       <FontAwesomeIcon className="info-icon" icon={faInfoCircle} />
     </span>
   )
