@@ -26,7 +26,7 @@ const RDFModal = (props) => {
          tabIndex="-1"
          role="dialog"
          style={{ display: useDisplayStyle(props.show) }}>
-      <div className="modal-dialog modal-lg modal-dialog-scrollable">
+      <div className="modal-dialog modal-xl modal-dialog-scrollable">
         <div className="modal-content">
           <div className="modal-header" data-testid="rdf-modal-header">
             <h4 className="modal-title">RDF Preview</h4>
@@ -36,7 +36,7 @@ const RDFModal = (props) => {
           </div>
           <div className="modal-body rdf-modal-content">
             <div className="row" style={{ marginLeft: '0', marginRight: '0' }}>
-              <div className="col-sm-6">If this looks good, then click Save and Publish</div>
+              <div className="col-sm-6">If this looks good, then click Save</div>
               <div className="col-sm-6" style={{ textAlign: 'right' }}>
                 <SaveAndPublishButton class="modal-save" />
               </div>
