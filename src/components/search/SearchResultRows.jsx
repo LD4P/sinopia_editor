@@ -12,7 +12,7 @@ import LongDate from 'components/LongDate'
  */
 const SearchResultRows = props => props.searchResults.map(row => (
   <tr key={row.uri}>
-    <td>{ row.label }</td>
+    <td>{ row.label }{ row.label !== row.uri && <React.Fragment><br />{ row.uri }</React.Fragment>}</td>
     <td>
       <ul className="list-unstyled">
         { row.type?.map(type => <li key={type}>{type}</li>) }

@@ -110,7 +110,7 @@ rdfs:label "These twain.";
     fireEvent.click(container.querySelector('button[type="submit"]'))
 
     // Display results
-    expect(await findByText('These twain')).toBeInTheDocument()
+    expect(await findByText(/These twain/)).toBeInTheDocument()
 
     // Click copy
     fireEvent.click(getByTitle('Copy'))
