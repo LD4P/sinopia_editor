@@ -13,7 +13,7 @@ const VocabChoice = (props) => {
     return options
   }
 
-  return (<select className="form-control" size="10" onClick={event => props.selectVocabulary(event)}>{getOptions()}</select>)
+  return (<select className="form-control" size="10" onClick={(event) => props.selectVocabulary(event)}>{getOptions()}</select>)
 }
 
 VocabChoice.propTypes = {
