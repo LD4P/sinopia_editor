@@ -21,11 +21,11 @@ export const getTagNameForPropertyTemplate = (propertyTemplate) => {
     case 'list':
       return 'InputListLOC'
     default:
-      return textFieldType(config, propertyTemplate)
+      return textFieldType(propertyTemplate)
   }
 }
 
-const textFieldType = (config, propertyTemplate) => {
+const textFieldType = (propertyTemplate) => {
   switch (propertyTemplate.type) {
     case 'literal':
       return 'InputLiteral'
