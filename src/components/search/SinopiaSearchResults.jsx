@@ -66,7 +66,7 @@ const SinopiaSearchResults = (props) => {
             <thead>
               <tr>
                 <th className="search-header" style={{ width: '35%' }}>
-                  Label
+                  Label / ID
                 </th>
                 <th className="search-header" style={{ width: '35%' }}>
                   Class

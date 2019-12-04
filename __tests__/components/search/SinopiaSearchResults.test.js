@@ -54,7 +54,7 @@ describe('<SinopiaSearchResults />', () => {
       expect(container.querySelector('table#search-results-list')).toBeInTheDocument()
 
       // Search table headers
-      expect(queryByText('Label')).toBeInTheDocument()
+      expect(queryByText('Label / ID')).toBeInTheDocument()
       expect(queryByText('Class')).toBeInTheDocument()
       expect(queryByText('Institution')).toBeInTheDocument()
       expect(getByText('Modified', { selector: 'th' })).toBeInTheDocument()
@@ -67,7 +67,8 @@ describe('<SinopiaSearchResults />', () => {
       expect(getByText('Filter by institution')).toBeInTheDocument()
 
       // First row of search results
-      expect(queryByText('An item title')).toBeInTheDocument()
+      expect(queryByText(/An item title/)).toBeInTheDocument()
+      expect(queryByText(/https:\/\/trellis.sinopia.io\/repository\/stanford\/some\/path/)).toBeInTheDocument()
       expect(queryByText('Oct 23, 2019')).toBeInTheDocument()
       expect(queryByText('http://schema.org/Thing')).toBeInTheDocument()
       expect(queryByText('Stanford University')).toBeInTheDocument()

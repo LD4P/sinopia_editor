@@ -78,8 +78,8 @@ describe('<Search />', () => {
     fireEvent.click(container.querySelector('button[type="submit"]'))
 
     // Display results
-    expect(await findByText('Label')).toBeInTheDocument()
-    expect(getByText('These twain')).toBeInTheDocument()
+    expect(await findByText('Label / ID')).toBeInTheDocument()
+    expect(getByText(/These twain/)).toBeInTheDocument()
   })
 
   it('requests a Sinopia search', async () => {
@@ -114,7 +114,7 @@ describe('<Search />', () => {
     expect(mockGetSearchResults).toBeCalledWith('foo', undefined)
 
     // Result
-    expect(await findByText('foo')).toBeInTheDocument()
+    expect(await findByText(/foo/)).toBeInTheDocument()
 
     expect(getByText('http://id.loc.gov/ontologies/bibframe/Title', { selector: 'li' }))
       .toBeInTheDocument()

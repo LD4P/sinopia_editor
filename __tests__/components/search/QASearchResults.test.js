@@ -43,8 +43,8 @@ describe('<QASearchResults />', () => {
         ],
       },
       {
-        uri: 'http://share-vde.org/sharevde/rdfBibframe/Work/3107365-1',
-        id: 'http://share-vde.org/sharevde/rdfBibframe/Work/3107365-1',
+        uri: 'http://share-vde.org/sharevde/rdfBibframe/Work/3107366',
+        id: 'http://share-vde.org/sharevde/rdfBibframe/Work/31073656',
         label: 'Those twain',
         context: [
           {
@@ -82,12 +82,13 @@ describe('<QASearchResults />', () => {
       <QASearchResults history={{}}/>, store,
     )
     // Headers
-    expect(getByText('Label')).toBeInTheDocument()
+    expect(getByText('Label / ID')).toBeInTheDocument()
     expect(getByText('Class')).toBeInTheDocument()
 
     // Rows
-    expect(getByText('These twain')).toBeInTheDocument()
-    expect(getByText('Those twain')).toBeInTheDocument()
+    expect(getByText(/These twain/)).toBeInTheDocument()
+    expect(getByText(/http:\/\/share-vde.org\/sharevde\/rdfBibframe\/Work\/3107365/)).toBeInTheDocument()
+    expect(getByText(/Those twain/)).toBeInTheDocument()
     expect(getByText('http://id.loc.gov/ontologies/bflc/Hub')).toBeInTheDocument()
     expect(getAllByText('http://id.loc.gov/ontologies/bibframe/Work').length).toBe(2)
     expect(getAllByText('Contributor', { selector: 'strong' }).length).toBe(2)

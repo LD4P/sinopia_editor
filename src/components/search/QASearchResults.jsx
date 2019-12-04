@@ -114,7 +114,7 @@ const QASearchResults = (props) => {
     const rows = []
     tableData.forEach((row) => {
       rows.push(<tr key={row.uri}>
-        <td>{ row.label }</td>
+        <td>{ row.label }{ row.label !== row.uri && <React.Fragment><br />{ row.uri }</React.Fragment>}</td>
         <td>{typesFormatter(row.types)}</td>
         <td>{contextFormatter(row.contexts)}</td>
         <td>{actionFormatter(row.uri, row.id)}</td>
@@ -136,7 +136,7 @@ const QASearchResults = (props) => {
             <thead>
               <tr>
                 <th className="search-header" style={{ width: '40%' }}>
-                  Label
+                  Label / ID
                 </th>
                 <th className="search-header" style={{ width: '25%' }}>
                   Class
