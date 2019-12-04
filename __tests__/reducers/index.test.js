@@ -209,6 +209,7 @@ describe('closeDiacriticsSelection', () => {
       editor: {
         diacritics: {
           show: true,
+          reduxPath: [],
         },
       },
     }

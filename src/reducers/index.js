@@ -5,6 +5,7 @@ import authenticate from './authenticate'
 import {
   removeMyItem, setItemsOrSelections, setBaseURL, setMyItemsLang,
   showCopyNewMessage, validateResource, hideValidationErrors, validate,
+  setLiteralInputContent,
 } from './inputs'
 import {
   showGroupChooser, showValidationErrors,
@@ -80,6 +81,7 @@ export const removeResource = (state, action) => {
   const parentReduxPath = reduxPath.slice(0, reduxPath.length - 1)
   const parentPropertyNode = findObjectAtPath(newState, parentReduxPath)
   delete parentPropertyNode[key]
+  // closeDiacriticsSelection(state)
   return validate(newState, newState.editor.currentResource)
 }
 
@@ -123,6 +125,8 @@ export const clearErrors = (state, action) => {
 
 export const closeDiacriticsSelection = (state) => {
   const newState = { ...state }
+  const activeNode = findObjectAtPath(state, newState.editor.diacritics.reduxPath)
+  activeNode.content = ''
   newState.editor.diacritics.show = false
   newState.editor.diacritics.reduxPath = []
   return newState
@@ -186,6 +190,7 @@ export const showDiacriticsSelection = (state, action) => {
   const newState = { ...state }
   newState.editor.diacritics.show = true
   newState.editor.diacritics.reduxPath = action.payload.reduxPath
+  newState.editor.diacritics.originalValue = action.payload.originalValue
   return newState
 }
 
@@ -222,6 +227,7 @@ const handlers = {
   SAVE_APP_VERSION: saveAppVersion,
   SAVE_RESOURCE_FINISHED: saveResourceFinished,
   SET_BASE_URL: setBaseURL,
+  SET_LITERAL_CONTENT: setLiteralInputContent,
   SET_CURRENT_RESOURCE: setCurrentResource,
   SET_TEMPLATE_MESSAGES: setTemplateMessages,
   SET_LAST_SAVE_CHECKSUM: setLastSaveChecksum,
