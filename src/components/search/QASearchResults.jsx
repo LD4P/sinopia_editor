@@ -128,32 +128,33 @@ const QASearchResults = (props) => {
   }
 
   return (
-    <div id="search-results" className="row">
+    <React.Fragment>
       <div ref={errorsRef}><Alerts errorKey={searchQARetrieveErrorKey} /></div>
-      <div className="col">
-        <table className="table table-bordered">
-          <thead>
-            <tr>
-              <th className="search-header" style={{ width: '40%' }}>
-                Label
-              </th>
-              <th className="search-header" style={{ width: '25%' }}>
-                Class
-              </th>
-              <th className="search-header" style={{ width: '25%' }}>
-                Context
-              </th>
-              <th className="search-header" style={{ width: '10%' }}/>
-            </tr>
-          </thead>
-          <tbody>
-            { generateRows() }
-          </tbody>
-        </table>
+      <div id="search-results" className="row">
+        <div className="col">
+          <table className="table table-bordered">
+            <thead>
+              <tr>
+                <th className="search-header" style={{ width: '40%' }}>
+                  Label
+                </th>
+                <th className="search-header" style={{ width: '25%' }}>
+                  Class
+                </th>
+                <th className="search-header" style={{ width: '25%' }}>
+                  Context
+                </th>
+                <th className="search-header" style={{ width: '10%' }}/>
+              </tr>
+            </thead>
+            <tbody>
+              { generateRows() }
+            </tbody>
+          </table>
+        </div>
+        <ResourceTemplateChoiceModal choose={chooseResourceTemplate} />
       </div>
-      <div className="col-sm-2"></div>
-      <ResourceTemplateChoiceModal choose={chooseResourceTemplate} />
-    </div>
+    </React.Fragment>
   )
 }
 
