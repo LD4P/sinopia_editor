@@ -9,11 +9,15 @@ import App from 'components/App'
 import { MemoryRouter } from 'react-router-dom'
 import { Provider } from 'react-redux'
 
+import Honeybadger from 'honeybadger-js'
+import ErrorBoundary from '@honeybadger-io/react'
+
 describe('Loading an invalid resource template', () => {
   setupModal()
 
   const store = createReduxStore(createBlankState({ authenticated: true }))
-  const app = (<MemoryRouter><App /></MemoryRouter>)
+  const honeybadger = Honeybadger.configure({})
+  const app = (<ErrorBoundary honeybadger={honeybadger}><MemoryRouter><App /></MemoryRouter></ErrorBoundary>)
   const {
     getByText, queryByText, container,
   } = renderWithRedux(

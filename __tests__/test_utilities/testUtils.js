@@ -12,18 +12,26 @@ import { MemoryRouter } from 'react-router-dom'
 import { initialState } from 'store'
 import _ from 'lodash'
 
+import Honeybadger from 'honeybadger-js'
+import ErrorBoundary from '@honeybadger-io/react'
+
+const honeybadger = Honeybadger.configure({})
+
 export const renderWithRedux = (ui, store) => {
   return {
-    ...render(<Provider store={store}>{ui}</Provider>),
+    ...render(<ErrorBoundary honeybadger={honeybadger}><Provider store={store}>{ui}</Provider></ErrorBoundary>),
   }
 }
 
+// TODO maybe apply this to copyQASearchResult instead of inline memory router, also maybe add error boundry wrapper here
 export const renderWithReduxAndRouter = (ui, store, initialEntries) => {
   return {
     ...render(
-      <MemoryRouter initialEntries={initialEntries}>
-        <Provider store={store}>{ui}</Provider>
-      </MemoryRouter>,
+      <ErrorBoundary honeybadger={honeybadger}>
+        <MemoryRouter initialEntries={initialEntries}>
+          <Provider store={store}>{ui}</Provider>
+        </MemoryRouter>
+      </ErrorBoundary>,
     ),
   }
 }

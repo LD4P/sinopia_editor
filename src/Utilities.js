@@ -5,6 +5,7 @@ import rdf from 'rdf-ext'
 import _ from 'lodash'
 import Config from 'Config'
 import CryptoJS from 'crypto-js'
+import Honeybadger from 'honeybadger-js'
 
 export const defaultLanguageId = 'eng'
 
@@ -58,3 +59,8 @@ export const rdfDatasetFromN3 = data => new Promise((resolve, reject) => {
 })
 
 export const generateMD5 = message => CryptoJS.MD5(message).toString()
+
+export const getHoneybadgerNotifier = () => Honeybadger.configure({
+  apiKey: Config.honeybadgerApiKey,
+  environment: process.env.SINOPIA_ENV,
+})

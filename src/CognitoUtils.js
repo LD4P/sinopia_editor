@@ -2,9 +2,7 @@
 
 import { AuthenticationDetails, CognitoUser, CognitoUserPool } from 'amazon-cognito-identity-js'
 import Config from './Config'
-
-// TODO: need to get state to get HB notifier?  or just pass notifier into handleSignout
-// import { getHoneybadgerNotifier } from '../selectors/honeybadgerSelectors'
+import { getHoneybadgerNotifier } from 'Utilities'
 
 class CognitoUtils {
   static authenticationDetails(username, password) {
@@ -93,7 +91,7 @@ class CognitoUtils {
         // TODO: capture error in state so you can display an error somewhere in the UI
         alert(err.message)
         console.error(err)
-        // honeybadger.notify(err) // TODO: how to get HB notifier instance?
+        getHoneybadgerNotifier().notify(err) // TODO: how to get HB notifier instance?
       },
     })
   }

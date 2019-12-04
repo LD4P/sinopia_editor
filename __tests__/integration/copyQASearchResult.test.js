@@ -11,6 +11,9 @@ import * as sinopiaServer from 'sinopiaServer'
 import Swagger from 'swagger-client'
 import * as sinopiaSearch from 'sinopiaSearch'
 
+import Honeybadger from 'honeybadger-js'
+import ErrorBoundary from '@honeybadger-io/react'
+
 jest.mock('sinopiaSearch')
 jest.mock('swagger-client')
 jest.mock('sinopiaServer')
@@ -86,11 +89,12 @@ rdfs:label "These twain.";
   })
 
   const store = createReduxStore(createBlankState({ authenticated: true }))
+  const honeybadger = Honeybadger.configure({})
   const {
     getByText, queryByText, getByTitle, getByPlaceholderText,
     findByText, getByLabelText, getByDisplayValue, container,
   } = renderWithRedux(
-    (<MemoryRouter><App /></MemoryRouter>), store,
+    (<ErrorBoundary honeybadger={honeybadger}><MemoryRouter><App /></MemoryRouter></ErrorBoundary>), store,
   )
 
   it('searches, fetches the resource, and opens in editor', async () => {

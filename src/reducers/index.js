@@ -127,13 +127,6 @@ export const saveAppVersion = (state, action) => {
   return newState
 }
 
-export const saveHoneybadgerNotifier = (state, action) => {
-  const newState = { ...state }
-
-  newState.honeybadger.notifier = action.payload
-  return newState
-}
-
 /**
  * Set a section to expanded or collapsed.
  * This sets values in the redux store under editor.expanded and then the reduxPath
@@ -211,7 +204,6 @@ const handlers = {
   RESOURCE_TEMPLATE_LOADED: setResourceTemplate,
   RESOURCE_TEMPLATES_LOADED: setResourceTemplates,
   SAVE_APP_VERSION: saveAppVersion,
-  SAVE_HONEYBADGER_NOTIFIER: saveHoneybadgerNotifier,
   SAVE_RESOURCE_FINISHED: saveResourceFinished,
   SET_BASE_URL: setBaseURL,
   SET_CURRENT_RESOURCE: setCurrentResource,

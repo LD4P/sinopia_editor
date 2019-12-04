@@ -106,11 +106,6 @@ export const saveAppVersion = version => ({
   payload: version,
 })
 
-export const saveHoneybadgerNotifier = notifier => ({
-  type: 'SAVE_HONEYBADGER_NOTIFIER',
-  payload: notifier,
-})
-
 export const setCurrentResource = resourceKey => ({
   type: 'SET_CURRENT_RESOURCE',
   payload: resourceKey,
