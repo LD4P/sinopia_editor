@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react'
 import PropTypes from 'prop-types'
 import { rdfDatasetFromN3 } from 'Utilities'
 import Alert from '../Alert'
-import N3 from 'n3'
+import { Writer as N3Writer } from 'n3'
 
 const RDFDisplay = (props) => {
   const [error, setError] = useState(false)
@@ -19,7 +19,7 @@ const RDFDisplay = (props) => {
   useEffect(() => {
     if (!dataset || format === 'table') return
     setError(false)
-    const writer = new N3.Writer({ format: format === 'n-triples' ? 'N-Triples' : undefined })
+    const writer = new N3Writer({ format: format === 'n-triples' ? 'N-Triples' : undefined })
     writer.addQuads(dataset.toArray())
     writer.end((error, result) => {
       if (error) {

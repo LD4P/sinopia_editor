@@ -20,7 +20,7 @@ export default class ResourceStateBuilder {
    */
   constructor(dataset, resourceURI, resourceTemplateId) {
     this.dataset = dataset
-    this.resourceURI = resourceURI === '' ? null : resourceURI
+    this.resourceURI = _.isEmpty(resourceURI) ? '' : resourceURI
     this.baseResourceTemplateId = resourceTemplateId
   }
 
