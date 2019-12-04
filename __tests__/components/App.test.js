@@ -18,11 +18,8 @@ jest.mock('sinopiaServer')
 sinopiaServer.getResourceTemplate.mockImplementation(getFixtureResourceTemplate)
 
 const createInitialState = (options = {}) => {
-  const state = createBlankState()
+  const state = createBlankState(options)
 
-  if (options.authenticated) {
-    state.authenticate.authenticationState = { currentSession: { idToken: {} } }
-  }
   if (options.hasResource) {
     state.selectorReducer.editor.currentResource = 'abc123'
     state.selectorReducer.entities.resources.abc123 = {

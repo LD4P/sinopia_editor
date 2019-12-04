@@ -42,11 +42,6 @@ describe('<Header />', () => {
     expect(wrapper.find(`a[href="https://profile-editor.${Config.sinopiaDomainName}/"]`).text()).toBe('Profile Editor')
   })
 
-  it('links to Linked Data Editor', () => {
-    expect(wrapper.find(Link).props().to).toBe('/templates')
-    expect(wrapper.find(Link).children(0).text()).toBe('Linked Data Editor')
-  })
-
   describe('when user is not logged in', () => {
     it('does not show username', () => {
       expect(wrapper.find('.editor-header-user')).toHaveLength(0)
@@ -66,7 +61,7 @@ describe('<Header />', () => {
 
     currentUser.setSignInUserSession(currentSession)
 
-    const wrapper = shallow(<Header.WrappedComponent currentUser={ currentUser } />)
+    const wrapper = shallow(<Header.WrappedComponent currentUser={ currentUser } currentSession={ currentSession } />)
 
     it('shows username', () => {
       expect(wrapper.find('.editor-header-user').text()).toBe(username)
@@ -74,6 +69,11 @@ describe('<Header />', () => {
 
     it('shows logout', () => {
       expect(wrapper.find('.editor-header-logout').text()).toBe('Logout')
+    })
+
+    it('links to Linked Data Editor', () => {
+      expect(wrapper.find(Link).props().to).toBe('/templates')
+      expect(wrapper.find(Link).children(0).text()).toBe('Linked Data Editor')
     })
   })
 })
