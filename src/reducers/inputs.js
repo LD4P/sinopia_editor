@@ -52,6 +52,26 @@ export const showCopyNewMessage = (state, action) => {
   return newState
 }
 
+
+export const setLiteralInputContent = (state, action) => {
+  const newState = { ...state }
+  const reduxPath = action.payload.reduxPath
+  const content = action.payload.content
+  let level = 0
+  reduxPath.reduce((obj, key) => {
+    level++
+    if (level === reduxPath.length) {
+      if ((key in obj) !== true) {
+        obj[key] = { content, items: {} }
+      } else {
+        obj[key].content = content
+      }
+    }
+    return obj[key]
+  }, newState)
+  return newState
+}
+
 /**
  * Takes the reduxPath (an array of keys that correspond to the redux state tree for a 'resource') and performs a reduce
  * function on each of the keys, searching for the last key in the path and then appending an object with an `items` array.

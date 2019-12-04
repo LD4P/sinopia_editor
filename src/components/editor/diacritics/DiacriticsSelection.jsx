@@ -6,6 +6,7 @@ import { closeDiacritics, itemsSelected } from 'actions/index'
 import shortid from 'shortid'
 import CharacterButton from './CharacterButton'
 import VocabChoice from './VocabChoice'
+import { findNode } from 'selectors/resourceSelectors'
 import specialcharacters from '../../../../static/specialcharacters.json'
 
 
@@ -14,6 +15,7 @@ const DiacriticsSelection = () => {
   const [characterButtons, setCharacterButtons] = useState([])
   const show = useSelector(state => state.selectorReducer.editor.diacritics.show)
   const targetReduxPath = useSelector(state => state.selectorReducer.editor.diacritics.reduxPath)
+  const targetNode = useSelector(state => findNode(state, targetReduxPath))
 
   let cssClasses
   if (show) {
@@ -35,18 +37,17 @@ const DiacriticsSelection = () => {
   }
 
   const closeHandler = (event) => {
-    const targetElement = document.getElementById(`literal-${targetReduxPath.join('')}`)
-    if (targetElement.value.length > 0) {
+    if (targetNode.content.length > 0) {
       // hardcodes lang to eng to be consistent with default for InputLang
       const item = {
         reduxPath: targetReduxPath,
         items: {
-          [shortid.generate()]: { content: targetElement.value, lang: 'eng' },
+          [shortid.generate()]: { content: targetNode.content, lang: 'eng' },
         },
       }
       dispatch(itemsSelected(item))
     }
-    dispatch(closeDiacritics())
+    dispatch(closeDiacritics(targetReduxPath))
     event.preventDefault()
   }
 

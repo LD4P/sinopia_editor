@@ -145,6 +145,11 @@ export const addTemplateHistory = (resourceTemplate) => ({
   payload: resourceTemplate,
 })
 
+export const setLiteralContent = (content, reduxPath) => ({
+  type: 'SET_LITERAL_CONTENT',
+  payload: { content, reduxPath },
+})
+
 export const setSearchResults = (uri, searchResults, totalResults, facetResults, query, options, error) => ({
   type: 'SET_SEARCH_RESULTS',
   payload: {
@@ -178,9 +183,9 @@ export const showCopyNewMessage = (oldUri) => ({
   payload: oldUri,
 })
 
-export const showDiacritics = reduxPath => ({
+export const showDiacritics = (reduxPath, originalValue) => ({
   type: 'SHOW_DIACRITICS',
-  payload: { reduxPath },
+  payload: { reduxPath, originalValue },
 })
 
 export const showGroupChooser = resourceKey => ({
