@@ -6,7 +6,7 @@ import { useSelector } from 'react-redux'
 
 const CharacterButton = (props) => {
   const targetReduxPath = useSelector(state => state.selectorReducer.editor.diacritics.reduxPath)
-  const targetElement = document.getElementById(targetReduxPath.join(''))
+  const targetElement = document.getElementById(`literal-${targetReduxPath.join('')}`)
 
 
   const handleClick = (event) => {
@@ -19,7 +19,6 @@ const CharacterButton = (props) => {
   return (
     <button className="btn btn-light"
             style={{ margin: '3px' }}
-            value={props.character}
             onClick={handleClick}>{props.character}</button>
   )
 }

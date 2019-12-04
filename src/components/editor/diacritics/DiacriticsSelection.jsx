@@ -35,7 +35,7 @@ const DiacriticsSelection = () => {
   }
 
   const closeHandler = (event) => {
-    const targetElement = document.getElementById(targetReduxPath.join(''))
+    const targetElement = document.getElementById(`literal-${targetReduxPath.join('')}`)
     if (targetElement.value.length > 0) {
       // hardcodes lang to eng to be consistent with default for InputLang
       const item = {

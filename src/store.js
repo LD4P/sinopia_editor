@@ -12,7 +12,7 @@ export const initialState = {
       lastChecked: Date.now(),
     },
     editor: { // The state of the editor
-      currentPath: undefined,
+      currentResource: undefined,
       diacritics: {
         show: false,
         reduxPath: [],
