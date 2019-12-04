@@ -91,6 +91,7 @@ const InputLiteral = (props) => {
   const handleBlur = () => {
     if (!props.shouldShowDiacritic) addItem()
   }
+  const ident = `literal-${props.reduxPath.join('')}`
   return (
     <div className={groupClasses}>
       <div className="input-group">
@@ -104,7 +105,7 @@ const InputLiteral = (props) => {
               value={content}
               disabled={disabled}
               ref={inputLiteralRef}
-              id={props.reduxPath.join('')}
+              id={ident}
         />
         <div className="input-group-append">
           <button className="btn btn-outline-primary"
