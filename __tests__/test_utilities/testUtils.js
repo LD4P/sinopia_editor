@@ -53,13 +53,15 @@ export const setupModal = () => {
 }
 
 export const createBlankState = (options = {}) => {
-  // const state = {...initialState}
   const state = _.cloneDeep(initialState)
   state.authenticate = { authenticationState: {} }
   if (options.authenticated) {
     state.authenticate.authenticationState = {
       currentSession: {
         idToken: {},
+      },
+      currentUser: {
+        username: 'Foo McBar',
       },
     }
   }
