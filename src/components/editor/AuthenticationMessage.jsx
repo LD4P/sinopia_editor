@@ -22,7 +22,7 @@ AuthenticationMessage.propTypes = {
   currentSession: PropTypes.object,
 }
 
-const mapStateToProps = state => ({
+const mapStateToProps = (state) => ({
   currentSession: getCurrentSession(state),
 })
 

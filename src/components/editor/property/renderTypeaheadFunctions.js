@@ -55,7 +55,7 @@ export const renderMenuFunc = (results, menuProps, lookupConfigs) => {
   })
 
 
-  const customOption = results.filter(result => result.customOption)
+  const customOption = results.filter((result) => result.customOption)
   customOption.forEach((result) => {
     const headerLabel = isValidURI(result.label) ? 'New URI' : 'New Literal'
     const option = {

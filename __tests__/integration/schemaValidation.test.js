@@ -57,7 +57,7 @@ function dispatchEvt(node, type, data) {
 }
 
 function flushPromises(ui, store, container) {
-  return new Promise(resolve => global.setImmediate(() => {
+  return new Promise((resolve) => global.setImmediate(() => {
     render((<Provider store={store}>{ui}</Provider>), { container })
     resolve(container)
   }))

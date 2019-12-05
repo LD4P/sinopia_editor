@@ -5,9 +5,9 @@ import { useSelector } from 'react-redux'
 import PropTypes from 'prop-types'
 
 const SearchResultsPaging = (props) => {
-  const totalResults = useSelector(state => state.selectorReducer[props.path].totalResults)
-  const resultsPerPage = useSelector(state => state.selectorReducer[props.path].options.resultsPerPage)
-  const startOfRange = useSelector(state => state.selectorReducer[props.path].options.startOfRange)
+  const totalResults = useSelector((state) => state.selectorReducer[props.path].totalResults)
+  const resultsPerPage = useSelector((state) => state.selectorReducer[props.path].options.resultsPerPage)
+  const startOfRange = useSelector((state) => state.selectorReducer[props.path].options.startOfRange)
   const currentPage = Math.ceil((startOfRange + 1) / resultsPerPage)
 
   const changePage = (page) => {
@@ -41,7 +41,7 @@ const SearchResultsPaging = (props) => {
   const elipsis = (<li className="page-item" style={{ borderStyle: 'hidden', marginLeft: '1px', marginRight: '1px' }}>...</li>)
   const startElipsis = startPos > 2 ? elipsis : ''
   const endElipsis = endPos < lastPage - 1 ? elipsis : ''
-  const pageButtons = range.map(index => pageButton(index, index, index, index === currentPage))
+  const pageButtons = range.map((index) => pageButton(index, index, index, index === currentPage))
 
   return (
     <div id="search-results-pages" className="row">

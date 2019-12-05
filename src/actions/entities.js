@@ -4,7 +4,7 @@ export const loadingLanguages = () => ({
   type: 'LOADING_LANGUAGES',
 })
 
-export const languagesReceived = json => ({
+export const languagesReceived = (json) => ({
   type: 'LANGUAGES_RECEIVED',
   payload: json,
 })
@@ -17,7 +17,7 @@ export const lookupOptionsRetrieved = (uri, lookup) => ({
   },
 })
 
-export const exportsReceived = keys => ({
+export const exportsReceived = (keys) => ({
   type: 'EXPORTS_RECEIVED',
   payload: keys,
 })

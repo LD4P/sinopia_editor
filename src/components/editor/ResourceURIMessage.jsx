@@ -6,7 +6,7 @@ import { findResourceURI } from 'selectors/resourceSelectors'
 
 // Renders the resource URI message for saved resource
 const ResourceURIMessage = () => {
-  const uri = useSelector(state => findResourceURI(state))
+  const uri = useSelector((state) => findResourceURI(state))
 
   const [copyText, setCopyText] = useState('Copy URI')
   const [timerId, setTimerId] = useState(false)

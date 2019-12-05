@@ -123,7 +123,7 @@ const reduxPath = [
 
 describe('InputListLOC', () => {
   setupModal()
-  global.fetch = jest.fn().mockImplementation(url => Promise.resolve({ json: () => lookups[url] }))
+  global.fetch = jest.fn().mockImplementation((url) => Promise.resolve({ json: () => lookups[url] }))
 
   it('renders when no value', () => {
     const store = createReduxStore(createInitialState())

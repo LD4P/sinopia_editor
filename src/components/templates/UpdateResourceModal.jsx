@@ -11,8 +11,8 @@ import _ from 'lodash'
 
 const UpdateResourceModal = () => {
   const dispatch = useDispatch()
-  const show = useSelector(state => modalType(state) === 'UpdateResourceModal')
-  const messages = useSelector(state => modalMessages(state))
+  const show = useSelector((state) => modalType(state) === 'UpdateResourceModal')
+  const messages = useSelector((state) => modalMessages(state))
 
   const [group, setGroup] = useState('')
   const [resourceTemplates, setResourceTemplates] = useState([])
@@ -45,7 +45,7 @@ const UpdateResourceModal = () => {
     event.preventDefault()
   }
 
-  const resourceTemplateItems = resourceTemplates.map(resourceTemplate => <li key={resourceTemplate.id}>{resourceTemplate.id}</li>)
+  const resourceTemplateItems = resourceTemplates.map((resourceTemplate) => <li key={resourceTemplate.id}>{resourceTemplate.id}</li>)
 
   const modal = (
     <div className={ useModalCss(show) }

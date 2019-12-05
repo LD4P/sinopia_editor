@@ -67,7 +67,7 @@ const DropZone = (props) => {
         && <aside>
           <h5>Loaded resource template file:</h5>
           <ul style={listStyle}>
-            { props.filesCallback.map(f => <li style={fileName} key={f.name}>{f.name} - {f.size} bytes</li>) }
+            { props.filesCallback.map((f) => <li style={fileName} key={f.name}>{f.name} - {f.size} bytes</li>) }
           </ul>
         </aside>
       }

@@ -27,7 +27,7 @@ export class ResourceTemplateForm extends Component {
       if (!resourceProperty) {
         return
       }
-      const keys = Object.keys(resourceProperty).filter(key => _.first(Object.keys(resourceProperty[key])) === rtId)
+      const keys = Object.keys(resourceProperty).filter((key) => _.first(Object.keys(resourceProperty[key])) === rtId)
       if (_.isEmpty(keys)) {
         return
       }
@@ -60,7 +60,7 @@ export class ResourceTemplateForm extends Component {
 
   renderComponentForm = () => (
     <div>
-      <form onSubmit={e => e.preventDefault()}>
+      <form onSubmit={(e) => e.preventDefault()}>
         <div className="row" id="ResourceTemplateForm">
           {
             this.props.propertyTemplates.map((propertyTemplate, index) => {

@@ -78,7 +78,7 @@ class CognitoUtils {
    * sessionData that's most often useful to other parts of the editor (the JWT ID token string).
    */
   static getIdTokenString(cognitoUser) {
-    return CognitoUtils.getSession(cognitoUser).then(sessionData => sessionData.idToken.jwtToken)
+    return CognitoUtils.getSession(cognitoUser).then((sessionData) => sessionData.idToken.jwtToken)
   }
 
   static handleSignout(currentUser, signedOut) {

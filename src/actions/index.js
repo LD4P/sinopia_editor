@@ -16,27 +16,27 @@ export const assignBaseURL = (resourceKey, resourceURI) => ({
   payload: { resourceKey, resourceURI },
 })
 
-export const authenticationFailure = authenticationResult => ({
+export const authenticationFailure = (authenticationResult) => ({
   type: 'AUTHENTICATION_FAILURE',
   payload: authenticationResult,
 })
 
-export const authenticationSuccess = authenticationResult => ({
+export const authenticationSuccess = (authenticationResult) => ({
   type: 'AUTHENTICATION_SUCCESS',
   payload: authenticationResult,
 })
 
-export const changeSelections = item => ({
+export const changeSelections = (item) => ({
   type: 'CHANGE_SELECTIONS',
   payload: item,
 })
 
-export const clearErrors = errorKey => ({
+export const clearErrors = (errorKey) => ({
   type: 'CLEAR_ERRORS',
   payload: errorKey,
 })
 
-export const clearResource = resourceKey => ({
+export const clearResource = (resourceKey) => ({
   type: 'CLEAR_RESOURCE',
   payload: resourceKey,
 })
@@ -53,22 +53,22 @@ export const clearTemplateSearchResults = () => ({
   type: 'CLEAR_TEMPLATE_SEARCH_RESULTS',
 })
 
-export const copyNewResource = resource => ({
+export const copyNewResource = (resource) => ({
   type: 'COPY_NEW_RESOURCE',
   payload: resource,
 })
 
-export const hideValidationErrors = resourceKey => ({
+export const hideValidationErrors = (resourceKey) => ({
   type: 'HIDE_VALIDATION_ERRORS',
   payload: resourceKey,
 })
 
-export const itemsSelected = item => ({
+export const itemsSelected = (item) => ({
   type: 'ITEMS_SELECTED',
   payload: item,
 })
 
-export const languageSelected = item => ({
+export const languageSelected = (item) => ({
   type: 'LANGUAGE_SELECTED',
   payload: item,
 })
@@ -81,32 +81,32 @@ export const loadingQaResults = () => ({
   type: 'LOADING_QA_RESULTS',
 })
 
-export const qaResultsReceived = results => ({
+export const qaResultsReceived = (results) => ({
   type: 'QA_RESULTS_RECEIVED',
   payload: results,
 })
 
-export const removeAllItems = item => ({
+export const removeAllItems = (item) => ({
   type: 'REMOVE_ALL',
   payload: item,
 })
 
-export const removeItem = reduxPath => ({
+export const removeItem = (reduxPath) => ({
   type: 'REMOVE_ITEM',
   payload: reduxPath,
 })
 
-export const removeResource = reduxPath => ({
+export const removeResource = (reduxPath) => ({
   type: 'REMOVE_RESOURCE',
   payload: reduxPath,
 })
 
-export const saveAppVersion = version => ({
+export const saveAppVersion = (version) => ({
   type: 'SAVE_APP_VERSION',
   payload: version,
 })
 
-export const setCurrentResource = resourceKey => ({
+export const setCurrentResource = (resourceKey) => ({
   type: 'SET_CURRENT_RESOURCE',
   payload: resourceKey,
 })
@@ -126,17 +126,17 @@ export const setResource = (resourceKey, resource, resourceTemplates) => ({
   payload: { resourceKey, resource, resourceTemplates },
 })
 
-export const setResourceTemplate = resourceTemplate => ({
+export const setResourceTemplate = (resourceTemplate) => ({
   type: 'RESOURCE_TEMPLATE_LOADED',
   payload: resourceTemplate,
 })
 
-export const setResourceTemplates = resourceTemplates => ({
+export const setResourceTemplates = (resourceTemplates) => ({
   type: 'RESOURCE_TEMPLATES_LOADED',
   payload: resourceTemplates,
 })
 
-export const addTemplateHistory = resourceTemplate => ({
+export const addTemplateHistory = (resourceTemplate) => ({
   type: 'ADD_TEMPLATE_HISTORY',
   payload: resourceTemplate,
 })
@@ -169,22 +169,22 @@ export const setUnusedRDF = (resourceKey, rdf) => ({
   payload: { resourceKey, rdf },
 })
 
-export const showCopyNewMessage = oldUri => ({
+export const showCopyNewMessage = (oldUri) => ({
   type: 'SHOW_COPY_NEW_MESSAGE',
   payload: oldUri,
 })
 
-export const showGroupChooser = resourceKey => ({
+export const showGroupChooser = (resourceKey) => ({
   type: 'SHOW_GROUP_CHOOSER',
   payload: resourceKey,
 })
 
-export const showRdfPreview = show => ({
+export const showRdfPreview = (show) => ({
   type: 'SHOW_RDF_PREVIEW',
   payload: show,
 })
 
-export const showValidationErrors = resourceKey => ({
+export const showValidationErrors = (resourceKey) => ({
   type: 'SHOW_VALIDATION_ERRORS',
   payload: resourceKey,
 })
@@ -197,7 +197,7 @@ export const stubResource = () => ({
   type: 'STUB_RESOURCE',
 })
 
-export const toggleCollapse = reduxPath => ({
+export const toggleCollapse = (reduxPath) => ({
   type: 'TOGGLE_COLLAPSE',
   payload: { reduxPath },
 })
@@ -207,7 +207,7 @@ export const updateProperty = (reduxPath, resourceFragment, resourceTemplates) =
   payload: { reduxPath, resourceFragment, resourceTemplates },
 })
 
-export const validateResource = resourceKey => ({
+export const validateResource = (resourceKey) => ({
   type: 'VALIDATE_RESOURCE',
   payload: resourceKey,
 })

@@ -12,7 +12,7 @@ jest.mock('sinopiaServer')
 describe('ResourceStateBuilder', () => {
   beforeEach(() => {
     sinopiaServer.getResourceTemplate.mockImplementation(getFixtureResourceTemplate)
-    sinopiaServer.foundResourceTemplate.mockImplementation(templateId => resourceTemplateIds.includes(templateId))
+    sinopiaServer.foundResourceTemplate.mockImplementation((templateId) => resourceTemplateIds.includes(templateId))
   })
 
   it('builds the state for literal properties', async () => {

@@ -10,9 +10,9 @@ import Config from 'Config'
 /**
  * This is the list view of all the templates
  */
-const ResourceTemplateRow = props => (<tr key={props.row.id}>
+const ResourceTemplateRow = (props) => (<tr key={props.row.id}>
   <td style={{ wordBreak: 'break-all' }} data-testid="name">
-    <Link to={{ pathname: '/editor', state: { } }} onClick={e => props.navigate(props.row.id, e)}>{props.row.resourceLabel}</Link><br />
+    <Link to={{ pathname: '/editor', state: { } }} onClick={(e) => props.navigate(props.row.id, e)}>{props.row.resourceLabel}</Link><br />
     { props.row.id }
   </td>
   <td style={{ wordBreak: 'break-all' }}>

@@ -19,7 +19,7 @@ const AsyncTypeahead = asyncContainer(Typeahead)
 
 const InputLookup = (props) => {
   const dispatch = useDispatch()
-  const changeSelections = payload => dispatch(changeSelectionsAction(payload))
+  const changeSelections = (payload) => dispatch(changeSelectionsAction(payload))
   const [, setTriggerRender] = useState('')
   // Using a ref so that can append to current list of results.
   const allResults = useRef([])
@@ -29,10 +29,10 @@ const InputLookup = (props) => {
 
   const resourceTemplateId = props.reduxPath[props.reduxPath.length - 2]
   const propertyURI = props.reduxPath[props.reduxPath.length - 1]
-  const displayValidations = useSelector(state => getDisplayResourceValidations(state))
-  const propertyTemplate = useSelector(state => getPropertyTemplate(state, resourceTemplateId, propertyURI))
-  const errors = useSelector(state => findResourceValidationErrorsByPath(state, props.reduxPath))
-  const selected = useSelector(state => itemsForProperty(state, props.reduxPath))
+  const displayValidations = useSelector((state) => getDisplayResourceValidations(state))
+  const propertyTemplate = useSelector((state) => getPropertyTemplate(state, resourceTemplateId, propertyURI))
+  const errors = useSelector((state) => findResourceValidationErrorsByPath(state, props.reduxPath))
+  const selected = useSelector((state) => itemsForProperty(state, props.reduxPath))
   const [selectedLookupConfigs, setSelectedLookupConfigs] = useState({})
   const [query, setQuery] = useState(false)
   const typeAheadRef = useRef(null)
@@ -40,7 +40,7 @@ const InputLookup = (props) => {
   const allLookupConfigs = useMemo(() => {
     const lookupConfigs = {}
     if (propertyTemplate) {
-      getLookupConfigItems(propertyTemplate).forEach(lookupConfig => lookupConfigs[lookupConfig.uri] = lookupConfig)
+      getLookupConfigItems(propertyTemplate).forEach((lookupConfig) => lookupConfigs[lookupConfig.uri] = lookupConfig)
     }
     return lookupConfigs
   }, [propertyTemplate])
@@ -160,13 +160,13 @@ const InputLookup = (props) => {
         <AsyncTypeahead renderMenu={(results, menuProps) => renderMenuFunc(results, menuProps, Object.values(selectedLookupConfigs))}
                         renderToken={(option, props, idx) => renderTokenFunc(option, props, idx)}
                         disabled={isDisabled}
-                        onChange={newSelected => selectionChanged(newSelected)}
+                        onChange={(newSelected) => selectionChanged(newSelected)}
                         options={props.getOptions(allResults.current)}
                         onSearch={setQuery}
                         selected={selected}
                         {...typeaheadProps}
                         filterBy={() => true}
-                        ref={ref => typeAheadRef.current = ref}
+                        ref={(ref) => typeAheadRef.current = ref}
         />
         {error && <span className="text-danger">{error}</span>}
       </div>

@@ -57,6 +57,6 @@ const mapStateToProps = (state, ownProps) => {
   }
 }
 
-const mapDispatchToProps = dispatch => bindActionCreators({ addResource, removeResource }, dispatch)
+const mapDispatchToProps = (dispatch) => bindActionCreators({ addResource, removeResource }, dispatch)
 
 export default connect(mapStateToProps, mapDispatchToProps)(PropertyActionButtons)

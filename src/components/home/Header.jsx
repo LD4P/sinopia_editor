@@ -56,11 +56,11 @@ Header.propTypes = {
   signedOut: PropTypes.func,
 }
 
-const mapStateToProps = state => ({
+const mapStateToProps = (state) => ({
   currentUser: getCurrentUser(state),
   currentSession: getCurrentSession(state),
 })
 
-const mapDispatchToProps = dispatch => bindActionCreators({ signedOut }, dispatch)
+const mapDispatchToProps = (dispatch) => bindActionCreators({ signedOut }, dispatch)
 
 export default connect(mapStateToProps, mapDispatchToProps)(Header)

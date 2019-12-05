@@ -8,7 +8,7 @@ import UpdateResourceModal from './UpdateResourceModal'
 import CreateResourceMessages from './CreateResourceMessages'
 import TemplateSearch from './TemplateSearch'
 
-const ImportResourceTemplate = props => (
+const ImportResourceTemplate = (props) => (
   <section id="importResourceTemplate">
     <UpdateResourceModal />
     <Header triggerEditorMenu={props.triggerHandleOffsetMenu}/>

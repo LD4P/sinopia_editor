@@ -91,10 +91,10 @@ function loadFixtureResourceTemplates() {
   return result
 }
 
-export const resourceTemplateIds = resourceTemplateId2Json.map(template => template.id)
+export const resourceTemplateIds = resourceTemplateId2Json.map((template) => template.id)
 
 // These are used as fake template search results
-export const resourceTemplateSearchResults = resourceTemplateId2Json.map(template => ({
+export const resourceTemplateSearchResults = resourceTemplateId2Json.map((template) => ({
   id: template.json.id,
   author: template.json.author,
   date: template.json.date,
@@ -125,7 +125,7 @@ export const getFixtureResourceTemplate = (templateId) => {
 
 export const fixtureResourcesInGroupContainer = (group) => {
   const container = `http://spoof.trellis.io/${group}`
-  const ids = resourceTemplateId2Json.map(rt => `${container}/${rt.id}`)
+  const ids = resourceTemplateId2Json.map((rt) => `${container}/${rt.id}`)
 
   return {
     response: {
@@ -147,6 +147,6 @@ export const rtFixturesGroups = () => new Promise((resolve) => {
   })
 })
 
-export const listFixtureResourcesInGroupContainer = group => new Promise((resolve) => {
+export const listFixtureResourcesInGroupContainer = (group) => new Promise((resolve) => {
   resolve(fixtureResourcesInGroupContainer(group))
 })

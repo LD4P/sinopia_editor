@@ -29,7 +29,7 @@ export const update = (resourceKey, currentUser, errorKey) => (dispatch, getStat
   const rdf = new GraphBuilder(state.selectorReducer.entities.resources[resourceKey], state.selectorReducer.entities.resourceTemplates).toTurtle()
   return updateRDFResource(currentUser, uri, rdf)
     .then(() => dispatch(saveResourceFinished(resourceKey, generateMD5(rdf))))
-    .catch(err => dispatch(appendError(errorKey, `Error saving ${uri}: ${err.toString()}`)))
+    .catch((err) => dispatch(appendError(errorKey, `Error saving ${uri}: ${err.toString()}`)))
 }
 
 // A thunk that loads an existing resource from Trellis
@@ -60,7 +60,7 @@ export const retrieveResource = (currentUser, uri, errorKey, asNewResource) => (
               // A ResourceStateBuilderTemplateError raised by the GraphBuilder may include multiple validation errors.
               // These errors have not been dispatched.
               if (err.name === 'ResourceStateBuilderTemplateError' && err.validationErrors) {
-                err.validationErrors.forEach(validationErr => dispatch(appendError(errorKey, validationErr)))
+                err.validationErrors.forEach((validationErr) => dispatch(appendError(errorKey, validationErr)))
               } else {
                 dispatch(appendError(errorKey, err.toString()))
               }
@@ -173,7 +173,7 @@ export const addResource = (reduxPath, errorKey) => (dispatch, getState) => {
     })
 }
 
-const existingResourceFunc = (resource, uri, resourceKey, errorKey) => dispatch => stubResource(resource, false, uri, resourceKey, errorKey, dispatch)
+const existingResourceFunc = (resource, uri, resourceKey, errorKey) => (dispatch) => stubResource(resource, false, uri, resourceKey, errorKey, dispatch)
   .then((result) => {
     dispatch(setLastSaveChecksum(resourceKey, undefined))
     return result
@@ -264,8 +264,8 @@ export const stubResourceProperties = (resourceTemplateId, resourceTemplates,
         // Determine if any of the valueTemplateRefs have existing values.
         // If any of the nested resources have values, then will want to add all.
         const anyExistingNestedResourceKeys = propertyTemplate.valueConstraint.valueTemplateRefs.some(
-          resourceTemplateId => Object.keys(newResource[propertyTemplate.propertyURI]).find(
-            key => _.first(Object.keys(newResource[propertyTemplate.propertyURI][key])) === resourceTemplateId,
+          (resourceTemplateId) => Object.keys(newResource[propertyTemplate.propertyURI]).find(
+            (key) => _.first(Object.keys(newResource[propertyTemplate.propertyURI][key])) === resourceTemplateId,
           ) !== undefined,
         )
 
@@ -275,7 +275,7 @@ export const stubResourceProperties = (resourceTemplateId, resourceTemplates,
           propertyTemplate.valueConstraint.valueTemplateRefs.map(async (resourceTemplateId) => {
             // See if there is alread a <key> > <resource template id> for this resource template id
             const nestedResourceKeys = Object.keys(newResource[propertyTemplate.propertyURI]).filter(
-              key => _.first(Object.keys(newResource[propertyTemplate.propertyURI][key])) === resourceTemplateId,
+              (key) => _.first(Object.keys(newResource[propertyTemplate.propertyURI][key])) === resourceTemplateId,
             )
 
 

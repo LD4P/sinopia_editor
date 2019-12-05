@@ -10,8 +10,8 @@ import { faCopy } from '@fortawesome/free-solid-svg-icons'
 
 const CopyToNewButton = (props) => {
   const dispatch = useDispatch()
-  const resource = useSelector(state => findResource(state))
-  const resourceURI = useSelector(state => findResourceURI(state))
+  const resource = useSelector((state) => findResource(state))
+  const resourceURI = useSelector((state) => findResourceURI(state))
 
   const handleClick = () => {
     dispatch(copyNewResource(resource))

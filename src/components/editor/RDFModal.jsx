@@ -55,7 +55,7 @@ RDFModal.propTypes = {
   rdf: PropTypes.func,
 }
 
-const mapStateToProps = state => ({
+const mapStateToProps = (state) => ({
   show: modalType(state) === 'RDFModal',
   rdf: () => new GraphBuilder(findResource(state), state.selectorReducer.entities.resourceTemplates).graph.toCanonical(),
 })

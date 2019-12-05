@@ -40,7 +40,7 @@ SearchResultsMessage.propTypes = {
   resultsPerPage: PropTypes.number,
 }
 
-const mapStateToProps = state => ({
+const mapStateToProps = (state) => ({
   query: state.selectorReducer.search.query,
   totalResults: state.selectorReducer.search.totalResults,
   startOfRange: state.selectorReducer.search.options.startOfRange,

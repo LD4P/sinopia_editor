@@ -49,6 +49,6 @@ const mapStateToProps = (state, ownProps) => ({
   item: findNode(state, ownProps.reduxPath),
 })
 
-const mapDispatchToProps = dispatch => bindActionCreators({ removeItem }, dispatch)
+const mapDispatchToProps = (dispatch) => bindActionCreators({ removeItem }, dispatch)
 
 export default connect(mapStateToProps, mapDispatchToProps)(InputValue)

@@ -9,7 +9,7 @@ const loadLanguages = () => (dispatch, getState) => {
 
   dispatch(loadingLanguages())
   return fetch('https://id.loc.gov/vocabulary/iso639-2.json')
-    .then(resp => resp.json())
+    .then((resp) => resp.json())
     .then((json) => {
       dispatch(languagesReceived(json))
     })

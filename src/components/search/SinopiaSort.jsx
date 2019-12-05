@@ -5,8 +5,8 @@ import { fetchSinopiaSearchResults } from 'actionCreators/search'
 
 
 const SinopiaSort = () => {
-  const query = useSelector(state => state.selectorReducer.search.query)
-  const searchOptions = useSelector(state => state.selectorReducer.search.options)
+  const query = useSelector((state) => state.selectorReducer.search.query)
+  const searchOptions = useSelector((state) => state.selectorReducer.search.options)
   const curSortField = searchOptions.sortField
   const curSortOrder = searchOptions.sortOrder
 

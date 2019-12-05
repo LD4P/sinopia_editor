@@ -24,21 +24,21 @@ const Search = (props) => {
   const dispatch = useDispatch()
   const fetchQASearchResults = (queryString, uri) => dispatch(fetchQASearchResultsCreator(queryString, uri))
 
-  const searchOptions = useSelector(state => state.selectorReducer.search.options)
+  const searchOptions = useSelector((state) => state.selectorReducer.search.options)
 
   const fetchSinopiaSearchResults = (queryString, startOfRange) => dispatch(fetchSinopiaSearchResultsCreator(
     queryString, { ...searchOptions, startOfRange },
   ))
 
-  const fetchNewSinopiaSearchResults = queryString => dispatch(fetchSinopiaSearchResultsCreator(
+  const fetchNewSinopiaSearchResults = (queryString) => dispatch(fetchSinopiaSearchResultsCreator(
     queryString,
   ))
 
 
   const clearSearchResults = useCallback(() => dispatch(clearSearchResultsAction()), [dispatch])
 
-  const error = useSelector(state => state.selectorReducer.search.error)
-  const searchUri = useSelector(state => state.selectorReducer.search.uri)
+  const error = useSelector((state) => state.selectorReducer.search.error)
+  const searchUri = useSelector((state) => state.selectorReducer.search.uri)
 
   const topRef = useRef(null)
 
@@ -77,7 +77,7 @@ const Search = (props) => {
     fetchSinopiaSearchResults(queryString, startOfRange)
   }
 
-  const options = searchConfig.map(config => (<option key={config.uri} value={config.uri}>{config.label}</option>))
+  const options = searchConfig.map((config) => (<option key={config.uri} value={config.uri}>{config.label}</option>))
 
   let results
   if (searchUri === 'sinopia') {
@@ -105,8 +105,8 @@ const Search = (props) => {
               <label htmlFor="searchType">Search</label>&nbsp;
               <select className="form-control" id="searchType"
                       value={uri}
-                      onChange={ event => setUri(event.target.value) }
-                      onBlur={ event => setUri(event.target.value) }>
+                      onChange={ (event) => setUri(event.target.value) }
+                      onBlur={ (event) => setUri(event.target.value) }>
                 <option value="sinopia">Sinopia</option>
                 {options}
               </select>
@@ -117,7 +117,7 @@ const Search = (props) => {
               <label className="sr-only" htmlFor="searchInput">Query</label>
               <div className="input-group" style={{ width: '100%' }}>
                 <input id="searchInput" type="text" className="form-control"
-                       onChange={ event => setQueryString(event.target.value) }
+                       onChange={ (event) => setQueryString(event.target.value) }
                        onKeyPress={handleKeyPress} />
                 <span className="input-group-btn">
                   <button className="btn btn-default" type="submit" aria-label="submit search"><FontAwesomeIcon className="fa-search" icon={faSearch} /></button>

@@ -18,7 +18,7 @@ module.exports = {
     "plugin:import/warnings",
     "plugin:jsx-a11y/recommended",
     "plugin:security/recommended",
-    "airbnb-base/whitespace",
+    "airbnb-base",
     "plugin:cypress/recommended"
   ],
   "parser": "babel-eslint",

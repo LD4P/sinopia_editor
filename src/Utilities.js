@@ -8,7 +8,7 @@ import CryptoJS from 'crypto-js'
 
 export const defaultLanguageId = 'eng'
 
-export const isResourceWithValueTemplateRef = property => property?.type === 'resource'
+export const isResourceWithValueTemplateRef = (property) => property?.type === 'resource'
     && property?.valueConstraint?.valueTemplateRefs?.length > 0
 
 export const groupName = (uri) => {
@@ -16,7 +16,7 @@ export const groupName = (uri) => {
   return groupNameFromGroup(groupSlug)
 }
 
-export const groupNameFromGroup = group => Config.groupsInSinopia[group] || 'Unknown'
+export const groupNameFromGroup = (group) => Config.groupsInSinopia[group] || 'Unknown'
 
 export const resourceToName = (uri) => {
   if (!_.isString(uri)) return undefined
@@ -39,7 +39,7 @@ export const isValidURI = (value) => {
  * @param {string} data that is the N3
  * @return {Promise<rdf.Dataset>} a promise that resolves to the loaded dataset
  */
-export const rdfDatasetFromN3 = data => new Promise((resolve, reject) => {
+export const rdfDatasetFromN3 = (data) => new Promise((resolve, reject) => {
   const parser = new N3Parser({ factory: rdf })
   const dataset = rdf.dataset()
   parser.parse(data,
@@ -57,4 +57,4 @@ export const rdfDatasetFromN3 = data => new Promise((resolve, reject) => {
     })
 })
 
-export const generateMD5 = message => CryptoJS.MD5(message).toString()
+export const generateMD5 = (message) => CryptoJS.MD5(message).toString()

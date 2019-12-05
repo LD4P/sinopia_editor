@@ -6,16 +6,16 @@ import _ from 'lodash'
 
 const TypeFilter = () => {
   const dispatch = useDispatch()
-  const query = useSelector(state => state.selectorReducer.search.query)
-  const searchOptions = useSelector(state => state.selectorReducer.search.options)
-  const typeFacetResults = useSelector(state => state.selectorReducer.search.facetResults?.types)
+  const query = useSelector((state) => state.selectorReducer.search.query)
+  const searchOptions = useSelector((state) => state.selectorReducer.search.options)
+  const typeFacetResults = useSelector((state) => state.selectorReducer.search.facetResults?.types)
 
   const [typeFilterShowDropdown, setTypeFilterShowDropdown] = useState(false)
   const [selectedTypeFilters, setSelectedTypeFilters] = useState([])
 
   useEffect(() => {
     if (_.isEmpty(typeFacetResults)) return
-    setSelectedTypeFilters(typeFacetResults.map(result => result.key))
+    setSelectedTypeFilters(typeFacetResults.map((result) => result.key))
   }, [typeFacetResults])
 
   const handleFilter = () => {
@@ -34,7 +34,7 @@ const TypeFilter = () => {
 
   const toggleSelectedTypeFilter = (toggleType) => {
     if (selectedTypeFilters.includes(toggleType)) {
-      setSelectedTypeFilters(selectedTypeFilters.filter(type => type !== toggleType))
+      setSelectedTypeFilters(selectedTypeFilters.filter((type) => type !== toggleType))
     } else {
       setSelectedTypeFilters([...selectedTypeFilters, toggleType])
     }

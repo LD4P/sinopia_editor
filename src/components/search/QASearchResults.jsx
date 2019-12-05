@@ -24,8 +24,8 @@ const QASearchResults = (props) => {
 
   const errorsRef = useRef(null)
 
-  const searchResults = useSelector(state => state.selectorReducer.search.results)
-  const searchUri = useSelector(state => state.selectorReducer.search.uri)
+  const searchResults = useSelector((state) => state.selectorReducer.search.results)
+  const searchUri = useSelector((state) => state.selectorReducer.search.uri)
 
   const [resourceURI, setResourceURI] = useState(null)
   // Resource ID is for handling non-LD QA authorities, e.g., Discog
@@ -41,11 +41,11 @@ const QASearchResults = (props) => {
     }
     dispatch(clearErrors(searchQARetrieveErrorKey))
     getTerm(resourceURI, resourceId, searchUri)
-      .then(resourceN3 => setResourceN3(resourceN3))
-      .catch(err => dispatch(appendError(`Error retrieving resource: ${err.toString()}`)))
+      .then((resourceN3) => setResourceN3(resourceN3))
+      .catch((err) => dispatch(appendError(`Error retrieving resource: ${err.toString()}`)))
   }, [dispatch, resourceId, resourceURI, searchUri])
 
-  const errors = useSelector(state => findErrors(state, searchQARetrieveErrorKey))
+  const errors = useSelector((state) => findErrors(state, searchQARetrieveErrorKey))
   useEffect(() => {
     if (!_.isEmpty(errors)) window.scrollTo(0, errorsRef.current.offsetTop)
   }, [errors])
@@ -87,9 +87,9 @@ const QASearchResults = (props) => {
     setResourceTemplateId(resourceTemplateId)
   }
 
-  const typesFormatter = types => (
+  const typesFormatter = (types) => (
     <ul className="list-unstyled">
-      {types.map(type => <li key={type}>{type}</li>)}
+      {types.map((type) => <li key={type}>{type}</li>)}
     </ul>
   )
 

@@ -5,7 +5,7 @@ import PropTypes from 'prop-types'
 import Header from '../Header'
 import LoadByRDFForm from './LoadByRDFForm'
 
-const LoadResource = props => (
+const LoadResource = (props) => (
   <div id="loadResource">
     <Header triggerEditorMenu={props.triggerHandleOffsetMenu}/>
     <LoadByRDFForm {...props} />

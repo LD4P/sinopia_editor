@@ -5,8 +5,8 @@ import { useSelector } from 'react-redux'
 import ExpiringMessage from './ExpiringMessage'
 
 const CopyToNewMessage = () => {
-  const oldUri = useSelector(state => state.selectorReducer.editor.copyToNewMessage.oldUri)
-  const timestamp = useSelector(state => state.selectorReducer.editor.copyToNewMessage.timestamp)
+  const oldUri = useSelector((state) => state.selectorReducer.editor.copyToNewMessage.oldUri)
+  const timestamp = useSelector((state) => state.selectorReducer.editor.copyToNewMessage.timestamp)
 
   return (
     <ExpiringMessage timestamp={timestamp}>

@@ -80,9 +80,9 @@ const InputURI = (props) => {
   }
 
   const itemKeys = Object.keys(props.items)
-  const addedList = itemKeys.map(itemId => (<InputValue key={itemId}
-                                                        handleEdit={handleEdit}
-                                                        reduxPath={[...props.reduxPath, 'items', itemId]} />))
+  const addedList = itemKeys.map((itemId) => (<InputValue key={itemId}
+                                                          handleEdit={handleEdit}
+                                                          reduxPath={[...props.reduxPath, 'items', itemId]} />))
 
   let error
   let groupClasses = 'form-group'
@@ -100,7 +100,7 @@ const InputURI = (props) => {
              required={required}
              className="form-control"
              placeholder={props.propertyTemplate.propertyLabel}
-             onChange={event => setContent(event.target.value)}
+             onChange={(event) => setContent(event.target.value)}
              onKeyPress={handleKeypress}
              value={content}
              disabled={disabled}
@@ -140,6 +140,6 @@ const mapStateToProps = (state, props) => {
   }
 }
 
-const mapDispatchToProps = dispatch => bindActionCreators({ itemsSelected }, dispatch)
+const mapDispatchToProps = (dispatch) => bindActionCreators({ itemsSelected }, dispatch)
 
 export default connect(mapStateToProps, mapDispatchToProps)(InputURI)

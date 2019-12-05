@@ -6,7 +6,7 @@ import _ from 'lodash'
 export const addTemplateHistory = (state, action) => {
   const newState = { ...state }
   newState.historicalTemplates.results = _.uniqBy([...state.historicalTemplates.results, action.payload],
-    item => item.id).slice(-7)
+    (item) => item.id).slice(-7)
   newState.historicalTemplates.totalResults = newState.historicalTemplates.results.length
   return newState
 }

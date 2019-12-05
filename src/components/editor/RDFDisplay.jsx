@@ -10,8 +10,8 @@ const RDFDisplay = (props) => {
   useEffect(() => {
     setError(false)
     rdfDatasetFromN3(props.rdf)
-      .then(dataset => setDataset(dataset))
-      .catch(err => setError(err.toString()))
+      .then((dataset) => setDataset(dataset))
+      .catch((err) => setError(err.toString()))
   }, [props.rdf])
 
   const [format, setFormat] = useState('table')
@@ -43,7 +43,7 @@ const RDFDisplay = (props) => {
 
   let body
   if (format === 'table') {
-    const rows = dataset.toArray().map(quad => <tr key={[quad.subject.value, quad.predicate.value, quad.object.value].concat('-')}>
+    const rows = dataset.toArray().map((quad) => <tr key={[quad.subject.value, quad.predicate.value, quad.object.value].concat('-')}>
       <td>{quad.subject.value || '<>'}</td>
       <td>{quad.predicate.value}</td>
       <td>{quad.object.value}{quad.object.language && ` [${quad.object.language}]`}</td>
@@ -71,8 +71,8 @@ const RDFDisplay = (props) => {
       <form className="form-inline">
         <label htmlFor="rdfFormat">Format: &nbsp;</label>
         <select className="form-control" id="rdfFormat"
-                onBlur={event => setFormat(event.target.value)}
-                onChange={event => setFormat(event.target.value)}
+                onBlur={(event) => setFormat(event.target.value)}
+                onChange={(event) => setFormat(event.target.value)}
                 value={format}>
           <option value="n-triples">N-Triples</option>
           <option value="table">Table</option>

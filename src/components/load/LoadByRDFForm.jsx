@@ -81,13 +81,13 @@ const LoadByRDFForm = (props) => {
         <div className="form-group">
           <label htmlFor="resourceTextArea">RDF</label>
           <textarea className="form-control" id="resourceTextArea" rows="15" value={n3}
-                    onChange={event => changeN3(event)} placeholder={n3PlaceHolder}></textarea>
+                    onChange={(event) => changeN3(event)} placeholder={n3PlaceHolder}></textarea>
           <p className="text-muted">Accepts Turtle, TriG, N-Triples, N-Quads, and Notation3 (N3).</p>
         </div>
         <div className="form-group">
           <label htmlFor="uriInput">Base URI</label>
           <input type="url" className="form-control" id="uriInput" value={baseURI}
-                 onChange={event => setBaseURI(event.target.value)}
+                 onChange={(event) => setBaseURI(event.target.value)}
                  placeholder={baseURIPlaceholder} />
           <p className="text-muted">Omit brackets. If base URI is &lt;&gt;, leave blank.</p>
         </div>
