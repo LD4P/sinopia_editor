@@ -19,7 +19,6 @@ import _ from 'lodash'
 
 const InputLiteral = (props) => {
   const inputLiteralRef = useRef(100 * Math.random())
-  // const [content, setContent] = useState('')
   const [lang, setLang] = useState(defaultLanguageId)
 
   // Don't render if don't have property templates yet.
@@ -69,7 +68,7 @@ const InputLiteral = (props) => {
       if (props.content.length > 0) addItem()
       props.closeDiacritics(props.reduxPath)
     } else {
-      props.showDiacritics(props.reduxPath, props.content)
+      props.showDiacritics(props.reduxPath)
     }
     event.preventDefault()
   }
@@ -90,20 +89,32 @@ const InputLiteral = (props) => {
     error = props.errors.join(',')
   }
 
-  const handleBlur = () => {
-    if (props.content.length > 0) addItem()
+  const focusInCurrentTarget = ({ target, currentTarget }) => {
+    if (target === null) return false
+
+    let node = target.parentNode
+
+    while (node !== null) {
+      if (node === currentTarget) return true
+      node = node.parentNode
+    }
+
+    return false
+  }
+
+  const handleBlur = (e) => {
+    if (!focusInCurrentTarget(e) && props.content.length > 0) addItem()
   }
 
   return (
     <div className={groupClasses}>
-      <div className="input-group">
+      <div className="input-group" onBlur={handleBlur}>
         <input
               required={required}
               className="form-control"
               placeholder={props.propertyTemplate.propertyLabel}
               onChange={(event) => props.setLiteralContent(event.target.value, props.reduxPath)}
               onKeyPress={handleKeypress}
-              onBlur={handleBlur}
               value={props.content}
               disabled={disabled}
               ref={inputLiteralRef}

@@ -183,9 +183,9 @@ export const showCopyNewMessage = (oldUri) => ({
   payload: oldUri,
 })
 
-export const showDiacritics = (reduxPath, originalValue) => ({
+export const showDiacritics = (reduxPath) => ({
   type: 'SHOW_DIACRITICS',
-  payload: { reduxPath, originalValue },
+  payload: reduxPath,
 })
 
 export const showGroupChooser = (resourceKey) => ({
