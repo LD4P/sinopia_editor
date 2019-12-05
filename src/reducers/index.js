@@ -189,8 +189,7 @@ export const setCurrentResource = (state, action) => {
 export const showDiacriticsSelection = (state, action) => {
   const newState = { ...state }
   newState.editor.diacritics.show = true
-  newState.editor.diacritics.reduxPath = action.payload.reduxPath
-  newState.editor.diacritics.originalValue = action.payload.originalValue
+  newState.editor.diacritics.reduxPath = action.payload
   return newState
 }
 

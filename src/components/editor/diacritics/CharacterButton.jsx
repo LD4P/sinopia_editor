@@ -7,8 +7,8 @@ import { useSelector, useDispatch } from 'react-redux'
 import { findNode } from 'selectors/resourceSelectors'
 
 const CharacterButton = (props) => {
-  const targetReduxPath = useSelector(state => state.selectorReducer.editor.diacritics.reduxPath)
-  const inputNode = useSelector(state => findNode(state, targetReduxPath))
+  const targetReduxPath = useSelector((state) => state.selectorReducer.editor.diacritics.reduxPath)
+  const inputNode = useSelector((state) => findNode(state, targetReduxPath))
 
   const dispatch = useDispatch()
 

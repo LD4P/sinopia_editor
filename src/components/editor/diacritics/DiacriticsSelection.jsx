@@ -13,9 +13,9 @@ import specialcharacters from '../../../../static/specialcharacters.json'
 const DiacriticsSelection = () => {
   const dispatch = useDispatch()
   const [characterButtons, setCharacterButtons] = useState([])
-  const show = useSelector(state => state.selectorReducer.editor.diacritics.show)
-  const targetReduxPath = useSelector(state => state.selectorReducer.editor.diacritics.reduxPath)
-  const targetNode = useSelector(state => findNode(state, targetReduxPath))
+  const show = useSelector((state) => state.selectorReducer.editor.diacritics.show)
+  const targetReduxPath = useSelector((state) => state.selectorReducer.editor.diacritics.reduxPath)
+  const targetNode = useSelector((state) => findNode(state, targetReduxPath))
 
   let cssClasses
   if (show) {

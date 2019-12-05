@@ -57,7 +57,7 @@ export const closeDiacritics = () => ({
   type: 'CLOSE_DIACRITICS',
 })
 
-export const copyNewResource = resource => ({
+export const copyNewResource = (resource) => ({
   type: 'COPY_NEW_RESOURCE',
   payload: resource,
 })
@@ -183,12 +183,12 @@ export const showCopyNewMessage = (oldUri) => ({
   payload: oldUri,
 })
 
-export const showDiacritics = (reduxPath, originalValue) => ({
+export const showDiacritics = (reduxPath) => ({
   type: 'SHOW_DIACRITICS',
-  payload: { reduxPath, originalValue },
+  payload: reduxPath,
 })
 
-export const showGroupChooser = resourceKey => ({
+export const showGroupChooser = (resourceKey) => ({
   type: 'SHOW_GROUP_CHOOSER',
   payload: resourceKey,
 })
