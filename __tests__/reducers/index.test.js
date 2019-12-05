@@ -240,9 +240,7 @@ describe('showDiacriticsSelection', () => {
 
     const action = {
       type: 'SHOW_DIACRITICS',
-      payload: {
-        reduxPath,
-      },
+      payload: reduxPath,
     }
 
     const newState = reducer(oldState, action)

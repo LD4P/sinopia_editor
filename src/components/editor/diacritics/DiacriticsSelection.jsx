@@ -2,11 +2,10 @@
 
 import React, { useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
-import { closeDiacritics, itemsSelected } from 'actions/index'
+import { closeDiacritics } from 'actions/index'
 import shortid from 'shortid'
 import CharacterButton from './CharacterButton'
 import VocabChoice from './VocabChoice'
-import { findNode } from 'selectors/resourceSelectors'
 import specialcharacters from '../../../../static/specialcharacters.json'
 
 
@@ -14,8 +13,6 @@ const DiacriticsSelection = () => {
   const dispatch = useDispatch()
   const [characterButtons, setCharacterButtons] = useState([])
   const show = useSelector((state) => state.selectorReducer.editor.diacritics.show)
-  const targetReduxPath = useSelector((state) => state.selectorReducer.editor.diacritics.reduxPath)
-  const targetNode = useSelector((state) => findNode(state, targetReduxPath))
 
   let cssClasses
   if (show) {
@@ -37,21 +34,11 @@ const DiacriticsSelection = () => {
   }
 
   const closeHandler = (event) => {
-    if (targetNode.content.length > 0) {
-      // hardcodes lang to eng to be consistent with default for InputLang
-      const item = {
-        reduxPath: targetReduxPath,
-        items: {
-          [shortid.generate()]: { content: targetNode.content, lang: 'eng' },
-        },
-      }
-      dispatch(itemsSelected(item))
-    }
-    dispatch(closeDiacritics(targetReduxPath))
+    dispatch(closeDiacritics())
     event.preventDefault()
   }
 
-  return (<div className={cssClasses.join(' ')}>
+  return (<div id="diacritics-selection" className={cssClasses.join(' ')} tabIndex="0">
     <div className="row">
       <section className="col-1 offset-9">
         <button className="btn btn-lg" onClick={closeHandler}>&times;</button>

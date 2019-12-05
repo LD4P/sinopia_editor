@@ -81,7 +81,6 @@ export const removeResource = (state, action) => {
   const parentReduxPath = reduxPath.slice(0, reduxPath.length - 1)
   const parentPropertyNode = findObjectAtPath(newState, parentReduxPath)
   delete parentPropertyNode[key]
-  // closeDiacriticsSelection(state)
   return validate(newState, newState.editor.currentResource)
 }
 
@@ -125,8 +124,6 @@ export const clearErrors = (state, action) => {
 
 export const closeDiacriticsSelection = (state) => {
   const newState = { ...state }
-  const activeNode = findObjectAtPath(state, newState.editor.diacritics.reduxPath)
-  activeNode.content = ''
   newState.editor.diacritics.show = false
   newState.editor.diacritics.reduxPath = []
   return newState
@@ -189,8 +186,7 @@ export const setCurrentResource = (state, action) => {
 export const showDiacriticsSelection = (state, action) => {
   const newState = { ...state }
   newState.editor.diacritics.show = true
-  newState.editor.diacritics.reduxPath = action.payload.reduxPath
-  newState.editor.diacritics.originalValue = action.payload.originalValue
+  newState.editor.diacritics.reduxPath = action.payload
   return newState
 }
 

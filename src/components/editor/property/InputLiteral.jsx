@@ -19,8 +19,8 @@ import _ from 'lodash'
 
 const InputLiteral = (props) => {
   const inputLiteralRef = useRef(100 * Math.random())
-  // const [content, setContent] = useState('')
   const [lang, setLang] = useState(defaultLanguageId)
+  const id = `inputliteral-${props.reduxPath.join('')}`
 
   // Don't render if don't have property templates yet.
   if (!props.propertyTemplate) {
@@ -66,10 +66,9 @@ const InputLiteral = (props) => {
 
   const toggleDiacritics = (event) => {
     if (props.shouldShowDiacritic) {
-      if (props.content.length > 0) addItem()
       props.closeDiacritics(props.reduxPath)
     } else {
-      props.showDiacritics(props.reduxPath, props.content)
+      props.showDiacritics(props.reduxPath)
     }
     event.preventDefault()
   }
@@ -90,25 +89,40 @@ const InputLiteral = (props) => {
     error = props.errors.join(',')
   }
 
-  const handleBlur = () => {
-    if (props.content.length > 0) addItem()
+  const focusIn = (event, checkId) => {
+    if (event.relatedTarget === null) return false
+
+    let node = event.relatedTarget
+
+    while (node !== null) {
+      if (node.id === checkId) return true
+      node = node.parentNode
+    }
+
+    return false
+  }
+
+  const handleBlur = (e) => {
+    if (!focusIn(e, 'diacritics-selection') && !focusIn(e, id) && props.content.length > 0) {
+      addItem()
+      props.closeDiacritics(props.reduxPath)
+    }
   }
 
   return (
     <div className={groupClasses}>
-      <div className="input-group">
+      <div className="input-group" onBlur={handleBlur} id={id}>
         <input
               required={required}
               className="form-control"
               placeholder={props.propertyTemplate.propertyLabel}
               onChange={(event) => props.setLiteralContent(event.target.value, props.reduxPath)}
               onKeyPress={handleKeypress}
-              onBlur={handleBlur}
               value={props.content}
               disabled={disabled}
               ref={inputLiteralRef}
         />
-        <div className="input-group-append">
+        <div className="input-group-append" tabIndex="0">
           <button className="btn btn-outline-primary"
                   disabled={disabled}
                   onClick={toggleDiacritics}>&auml;</button>
