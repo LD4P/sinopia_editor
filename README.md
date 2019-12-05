@@ -336,6 +336,9 @@ We use open source BrowserStack accounts for cross-platform/browser testing. See
 [![Browserstack](https://github.com/LD4P/sinopia_editor/wiki/images/Browserstack-logo.png)](https://www.browserstack.com)
 
 
+#### Testing Honeybadger
+To trigger a test exception, doubleclick "The underdrawing for the new world of linked data in libraries" on the home page.
+
 Acknowledgements
 ----------
 

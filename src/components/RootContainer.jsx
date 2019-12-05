@@ -8,6 +8,8 @@ import { Provider } from 'react-redux'
 import CanvasMenu from './menu/CanvasMenu'
 import App from './App'
 import store from '../store'
+import HoneybadgerNotifier from 'Honeybadger'
+import ErrorBoundary from '@honeybadger-io/react'
 
 class RootContainer extends Component {
   constructor(props) {
@@ -35,20 +37,22 @@ class RootContainer extends Component {
 
 
     return (
-      <div id="home-page">
-        <OffCanvas width={300} transitionDuration={300} isMenuOpened={this.state.isMenuOpened} position={'right'} effect={'overlay'}>
-          <OffCanvasBody className={offcanvasClass}>
-            <BrowserRouter>
-              <Provider store={store}>
-                <App isMenuOpened={this.state.isMenuOpened} handleOffsetMenu={this.handleOffsetMenu}/>
-              </Provider>
-            </BrowserRouter>
-          </OffCanvasBody>
-          <OffCanvasMenu className="offcanvas-menu">
-            <CanvasMenu closeHandleMenu={this.closeMenu} />
-          </OffCanvasMenu>
-        </OffCanvas>
-      </div>
+      <ErrorBoundary honeybadger={HoneybadgerNotifier}>
+        <div id="home-page">
+          <OffCanvas width={300} transitionDuration={300} isMenuOpened={this.state.isMenuOpened} position={'right'} effect={'overlay'}>
+            <OffCanvasBody className={offcanvasClass}>
+              <BrowserRouter>
+                <Provider store={store}>
+                  <App isMenuOpened={this.state.isMenuOpened} handleOffsetMenu={this.handleOffsetMenu}/>
+                </Provider>
+              </BrowserRouter>
+            </OffCanvasBody>
+            <OffCanvasMenu className="offcanvas-menu">
+              <CanvasMenu closeHandleMenu={this.closeMenu} />
+            </OffCanvasMenu>
+          </OffCanvas>
+        </div>
+      </ErrorBoundary>
     )
   }
 }
