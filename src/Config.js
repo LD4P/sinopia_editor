@@ -125,6 +125,10 @@ class Config {
     return process.env.EXPORT_BUCKET_URL || 'https://sinopia-exports-development.s3-us-west-2.amazonaws.com'
   }
 
+  static get honeybadgerApiKey() {
+    return process.env.HONEYBADGER_API_KEY || ''
+  }
+
   // WARNING: the groups section in config/default.js in the sinopia_acl codebase *must* be kept in sync with this section
   static get groupsInSinopia() {
     return {

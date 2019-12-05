@@ -82,6 +82,7 @@ module.exports = {
         'INDEX_URL',
         'SEARCH_HOST',
         'EXPORT_BUCKET_URL',
+        'HONEYBADGER_API_KEY',
       ],
     ),
   ],
