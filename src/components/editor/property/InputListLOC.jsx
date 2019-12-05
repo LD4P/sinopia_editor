@@ -22,17 +22,17 @@ import _ from 'lodash'
 //  and the lookupConfig for the URI has component value of 'list'
 const InputListLOC = (props) => {
   const dispatch = useDispatch()
-  const changeSelections = payload => dispatch(changeSelectionsAction(payload))
+  const changeSelections = (payload) => dispatch(changeSelectionsAction(payload))
 
   const resourceTemplateId = props.reduxPath[props.reduxPath.length - 2]
   const propertyURI = props.reduxPath[props.reduxPath.length - 1]
-  const propertyTemplate = useSelector(state => getPropertyTemplate(state, resourceTemplateId, propertyURI))
+  const propertyTemplate = useSelector((state) => getPropertyTemplate(state, resourceTemplateId, propertyURI))
   const typeAheadRef = useRef(null)
 
   const allLookupConfigs = useMemo(() => {
     const lookupConfigs = {}
     if (propertyTemplate) {
-      getLookupConfigItems(propertyTemplate).forEach(lookupConfig => lookupConfigs[lookupConfig.uri] = lookupConfig)
+      getLookupConfigItems(propertyTemplate).forEach((lookupConfig) => lookupConfigs[lookupConfig.uri] = lookupConfig)
     }
     return lookupConfigs
   }, [propertyTemplate])
@@ -69,7 +69,7 @@ const InputListLOC = (props) => {
   }, [lookups, selectedLookupConfigs])
 
 
-  const selected = useSelector(state => itemsForProperty(state, props.reduxPath))
+  const selected = useSelector((state) => itemsForProperty(state, props.reduxPath))
 
   // From https://github.com/ericgio/react-bootstrap-typeahead/issues/389
   const onKeyDown = (e) => {
@@ -126,8 +126,8 @@ const InputListLOC = (props) => {
   }
 
 
-  const displayValidations = useSelector(state => getDisplayResourceValidations(state))
-  const validationErrors = useSelector(state => findResourceValidationErrorsByPath(state, props.reduxPath))
+  const displayValidations = useSelector((state) => getDisplayResourceValidations(state))
+  const validationErrors = useSelector((state) => findResourceValidationErrorsByPath(state, props.reduxPath))
 
   const isDisabled = selected?.length > 0 && !isRepeatable
 
@@ -150,7 +150,7 @@ const InputListLOC = (props) => {
           renderMenu={(results, menuProps) => renderMenuFunc(results, menuProps, Object.values(selectedLookupConfigs))}
           renderToken={(option, props, idx) => renderTokenFunc(option, props, idx)}
           allowNew={() => true }
-          onChange={selected => selectionChanged(selected)}
+          onChange={(selected) => selectionChanged(selected)}
           id="loc-vocab-list"
           multiple={true}
           placeholder={propertyTemplate.propertyLabel}
@@ -162,7 +162,7 @@ const InputListLOC = (props) => {
           filterBy={filterBy}
           onKeyDown={onKeyDown}
           disabled={isDisabled}
-          ref={ref => typeAheadRef.current = ref}
+          ref={(ref) => typeAheadRef.current = ref}
         />
         {error && <span className="text-danger">{error}</span>}
       </div>

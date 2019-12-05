@@ -19,7 +19,7 @@ describe('fixtureLoaderHelper', () => {
 
   describe('resourceTemplateId2Json', () => {
     it('mapping has id', () => {
-      expect(resourceTemplateId2Json.map(e => e.id)).toEqual(
+      expect(resourceTemplateId2Json.map((e) => e.id)).toEqual(
         expect.arrayContaining([
           'resourceTemplate:bf2:Monograph:Instance',
           'resourceTemplate:bf2:WorkVariantTitle',

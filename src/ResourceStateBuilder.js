@@ -147,7 +147,7 @@ export default class ResourceStateBuilder {
 
     // Among the valueTemplateRefs, find all of the resource templates that match a type.
     // Ideally, only want 1 but need to handle other cases.
-    const childRtIds = await Promise.all(typeQuads.map(async typeQuad => this.selectResourceTemplateId(propertyTemplate, typeQuad.object.value)))
+    const childRtIds = await Promise.all(typeQuads.map(async (typeQuad) => this.selectResourceTemplateId(propertyTemplate, typeQuad.object.value)))
     const compactChildRtIds = _.compact(_.flatten(childRtIds))
 
     // Don't know which to pick, so error.

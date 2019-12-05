@@ -12,7 +12,7 @@ const ErrorMessages = (props) => {
   }
 
 
-  const errorList = props.errors.map(elem => (<li key={elem.reduxPath.join('-')}>{elem.path.join(' > ')}: {elem.message}</li>))
+  const errorList = props.errors.map((elem) => (<li key={elem.reduxPath.join('-')}>{elem.path.join(' > ')}: {elem.message}</li>))
   const text = (<span>Unable to save this resource. Validation errors: <ul>{ errorList }</ul></span>)
   return (
     <Alert text={text}/>
@@ -24,7 +24,7 @@ ErrorMessages.propTypes = {
   displayValidations: PropTypes.bool,
 }
 
-const mapStateToProps = state => ({
+const mapStateToProps = (state) => ({
   errors: findResourceValidationErrors(state),
   displayValidations: getDisplayResourceValidations(state),
 })

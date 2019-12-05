@@ -13,7 +13,7 @@ const AsyncTypeahead = asyncContainer(Typeahead)
 
 const ResourceTemplateChoiceModal = (props) => {
   const dispatch = useDispatch()
-  const show = useSelector(state => modalType(state) === 'ResourceTemplateChoiceModal')
+  const show = useSelector((state) => modalType(state) === 'ResourceTemplateChoiceModal')
 
   const [isLoading, setLoading] = useState(false)
   const [options, setOptions] = useState([])
@@ -24,7 +24,7 @@ const ResourceTemplateChoiceModal = (props) => {
     setLoading(true)
     getTemplateSearchResults(query)
       .then((searchResults) => {
-        setOptions(searchResults.results.map(result => ({ label: `${result.resourceLabel} (${result.id})`, id: result.id })))
+        setOptions(searchResults.results.map((result) => ({ label: `${result.resourceLabel} (${result.id})`, id: result.id })))
         setLoading(false)
       })
   }
@@ -79,7 +79,7 @@ const ResourceTemplateChoiceModal = (props) => {
                 <button className="btn btn-link" style={{ paddingRight: '20px' }} onClick={ close }>
                   Cancel
                 </button>
-                <button className="btn btn-primary btn-sm" onClick={event => saveAndClose(event) }>
+                <button className="btn btn-primary btn-sm" onClick={(event) => saveAndClose(event) }>
                  Save
                 </button>
               </div>

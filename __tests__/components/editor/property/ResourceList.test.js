@@ -81,7 +81,7 @@ describe('ResultList', () => {
       expect(getByText('Create New')).toBeInTheDocument()
       expect(container.querySelector('button[data-resource-id="resourceTemplate:bf2:Monograph:Instance"]')).toBeInTheDocument()
       expect(getByText('BIBFRAME Instance (resourceTemplate:bf2:Monograph:Instance)', {
-        normalizer: str => getDefaultNormalizer({ trim: false })(str).replace(/\n*/g, ''),
+        normalizer: (str) => getDefaultNormalizer({ trim: false })(str).replace(/\n*/g, ''),
       })).toBeInTheDocument()
     })
   })

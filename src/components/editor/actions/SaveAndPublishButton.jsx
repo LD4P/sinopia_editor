@@ -19,18 +19,18 @@ import { resourceEditErrorKey } from '../Editor'
 const SaveAndPublishButton = (props) => {
   const dispatch = useDispatch()
 
-  const currentUser = useSelector(state => getCurrentUser(state))
-  const resourceKey = useSelector(state => currentResourceKey(state))
+  const currentUser = useSelector((state) => getCurrentUser(state))
+  const resourceKey = useSelector((state) => currentResourceKey(state))
   const update = () => dispatch(updateCreator(resourceKey, currentUser, resourceEditErrorKey(resourceKey)))
 
   const showGroupChooser = () => dispatch(showGroupChooserAction(resourceKey))
   const showValidationErrors = () => dispatch(showValidationErrorsAction(resourceKey))
   const hideValidationErrors = () => dispatch(hideValidationErrorsAction(resourceKey))
 
-  const resourceHasChanged = useSelector(state => resourceHasChangesSinceLastSave(state))
-  const isSaved = useSelector(state => !!findResourceURI(state))
-  const hasValidationErrors = useSelector(state => findResourceValidationErrors(state).length > 0)
-  const validationErrorsAreShowing = useSelector(state => getDisplayResourceValidations(state))
+  const resourceHasChanged = useSelector((state) => resourceHasChangesSinceLastSave(state))
+  const isSaved = useSelector((state) => !!findResourceURI(state))
+  const hasValidationErrors = useSelector((state) => findResourceValidationErrors(state).length > 0)
+  const validationErrorsAreShowing = useSelector((state) => getDisplayResourceValidations(state))
   const [isDisabled, setIsDisabled] = useState(true)
 
   useEffect(() => {

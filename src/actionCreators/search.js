@@ -4,7 +4,7 @@ import { getSearchResultsWithFacets } from 'sinopiaSearch'
 import { createLookupPromises } from 'utilities/QuestioningAuthority'
 import { findAuthorityConfig } from 'utilities/authorityConfig'
 
-export const fetchSinopiaSearchResults = (query, options) => dispatch => getSearchResultsWithFacets(query, options)
+export const fetchSinopiaSearchResults = (query, options) => (dispatch) => getSearchResultsWithFacets(query, options)
   .then(([response, facetResponse]) => {
     dispatch(setSearchResults('sinopia', response.results, response.totalHits, facetResponse, query, options, response.error))
   })

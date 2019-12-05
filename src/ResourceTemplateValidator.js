@@ -11,7 +11,7 @@ import _ from 'lodash'
  * @param {Array<string>} resourceTemplatesIds that are available
  * @return {Promise<Array<string>>} reasons that validation failed
  */
-export const validateResourceTemplate = async resourceTemplate => [].concat(
+export const validateResourceTemplate = async (resourceTemplate) => [].concat(
   validateRepeatedPropertyTemplates(resourceTemplate),
   validateNoDefaultURIForLiterals(resourceTemplate),
   validateNoDefaultsForTemplateRefs(resourceTemplate),
@@ -182,7 +182,7 @@ const validateUniqueResourceURIs = async (resourceTemplate) => {
     const refs = propertyTemplate.valueConstraint?.valueTemplateRefs || []
     const resourceURIs = {}
     // filter out blank referenced templates elements
-    await Promise.all(refs.filter(resourceTemplateIdRef => !_.isEmpty(resourceTemplateIdRef)).map(async (resourceTemplateIdRef) => {
+    await Promise.all(refs.filter((resourceTemplateIdRef) => !_.isEmpty(resourceTemplateIdRef)).map(async (resourceTemplateIdRef) => {
       const resourceTemplateRef = await fetchResourceTemplate(resourceTemplateIdRef)
       if (resourceTemplateRef) {
         const resourceURI = resourceTemplateRef.resourceURI
@@ -190,7 +190,7 @@ const validateUniqueResourceURIs = async (resourceTemplate) => {
         resourceURIs[resourceURI].push(resourceTemplateIdRef)
       }
     }))
-    const multipleResourceURIs = Object.keys(resourceURIs).filter(resourceURI => resourceURIs[resourceURI].length > 1)
+    const multipleResourceURIs = Object.keys(resourceURIs).filter((resourceURI) => resourceURIs[resourceURI].length > 1)
     multipleResourceURIs.forEach((resourceURI) => {
       // eslint-disable-next-line max-len
       errors.push(formatError(`The following resource templates references for ${propertyTemplate.propertyURI} have the same resource URI (${resourceURI}), but must be unique: ${resourceURIs[resourceURI].join(', ')}`, resourceTemplate))
@@ -200,8 +200,8 @@ const validateUniqueResourceURIs = async (resourceTemplate) => {
 }
 
 // Not using actionCreator/fetchResourceTemplate because want to avoid affecting state.
-const fetchResourceTemplate = async resourceTemplateId => getResourceTemplate(resourceTemplateId, 'ld4p')
-  .then(response => response.response.body)
+const fetchResourceTemplate = async (resourceTemplateId) => getResourceTemplate(resourceTemplateId, 'ld4p')
+  .then((response) => response.response.body)
   .catch((err) => {
     console.error(err.toString())
     return null

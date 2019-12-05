@@ -123,7 +123,7 @@ LoginPanel.propTypes = {
   signout: PropTypes.func,
 }
 
-const mapStateToProps = state => ({
+const mapStateToProps = (state) => ({
   currentUser: getCurrentUser(state),
   currentSession: getCurrentSession(state),
   authenticationError: getAuthenticationError(state),

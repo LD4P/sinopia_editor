@@ -15,7 +15,7 @@ const ResourceList = (props) => {
   const dispatch = useDispatch()
   const [newResourceList, setNewResourceList] = useState([])
   const rtAndProp = props.reduxPath.slice(-2)
-  const property = useSelector(state => getPropertyTemplate(state, rtAndProp[0], rtAndProp[1]))
+  const property = useSelector((state) => getPropertyTemplate(state, rtAndProp[0], rtAndProp[1]))
   const topRef = useRef(null)
 
   useEffect(() => {
@@ -27,7 +27,7 @@ const ResourceList = (props) => {
     const getNewResourceList = async () => {
       const listItems = []
       const authorities = findAuthorityConfigs(property.valueConstraint?.useValuesFrom)
-      await Promise.all(authorities.map(authority => getTemplateSearchResults(authority.type).then((response) => {
+      await Promise.all(authorities.map((authority) => getTemplateSearchResults(authority.type).then((response) => {
         if (response.error !== undefined) return ''
         response.results?.forEach((hit) => {
           if (hit.resourceURI === authority.type) {
@@ -44,7 +44,7 @@ const ResourceList = (props) => {
     getNewResourceList()
   }, [dispatch, property])
 
-  const dropdown = items => <div className="dropdown">
+  const dropdown = (items) => <div className="dropdown">
     <button className="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown"
             aria-haspopup="true" aria-expanded="false">
       Create New

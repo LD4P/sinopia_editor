@@ -85,17 +85,17 @@ export const getSearchResultsWithFacets = async (query, options = {}) => {
       }
       return [hitsToResult(json.hits), aggregationsToResult(json.aggregations)]
     })
-    .catch(err => [{
+    .catch((err) => [{
       totalHits: 0,
       results: [],
       error: err.toString(),
     }, undefined])
 }
 
-const hitsToResult = hits => (
+const hitsToResult = (hits) => (
   {
     totalHits: hits.total,
-    results: hits.hits.map(row => ({
+    results: hits.hits.map((row) => ({
       uri: row._source.uri,
       label: row._source.label,
       created: row._source.created,
@@ -124,7 +124,7 @@ export const getTemplateSearchResults = async (query, options = {}) => {
   } }
 
   const fields = ['id', 'resourceLabel', 'resourceURI', 'remark', 'author']
-  const should = fields.map(field => ({ wildcard: { [field]: { value: `*${query}*` } } }))
+  const should = fields.map((field) => ({ wildcard: { [field]: { value: `*${query}*` } } }))
   const body = {
     query: {
       bool: {
@@ -158,11 +158,11 @@ export const getTemplateSearchResults = async (query, options = {}) => {
       }
       return {
         totalHits: json.hits.total,
-        results: json.hits.hits.map(row => row._source),
+        results: json.hits.hits.map((row) => row._source),
         error: undefined,
       }
     })
-    .catch(err => ({
+    .catch((err) => ({
       totalHits: 0,
       results: [],
       error: err.toString(),
@@ -178,7 +178,7 @@ const sort = (sortField, sortOrder) => {
 }
 
 export const getLookupResults = (query, lookupConfigs) => lookupConfigs.map(
-  lookupConfig => getSearchResults(query, { typeFilter: lookupConfig.type, resultsPerPage: 8 })
+  (lookupConfig) => getSearchResults(query, { typeFilter: lookupConfig.type, resultsPerPage: 8 })
     .then((result) => {
       if (result) {
         result.authLabel = lookupConfig.label

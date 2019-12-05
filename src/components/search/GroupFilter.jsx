@@ -7,15 +7,15 @@ import { groupNameFromGroup } from 'Utilities'
 
 const GroupFilter = () => {
   const dispatch = useDispatch()
-  const query = useSelector(state => state.selectorReducer.search.query)
-  const searchOptions = useSelector(state => state.selectorReducer.search.options)
-  const groupFacetResults = useSelector(state => state.selectorReducer.search.facetResults?.groups)
+  const query = useSelector((state) => state.selectorReducer.search.query)
+  const searchOptions = useSelector((state) => state.selectorReducer.search.options)
+  const groupFacetResults = useSelector((state) => state.selectorReducer.search.facetResults?.groups)
   const [groupFilterShowDropdown, setGroupFilterShowDropdown] = useState(false)
   const [selectedGroupFilters, setSelectedGroupFilters] = useState([])
 
   useEffect(() => {
     if (_.isEmpty(groupFacetResults)) return
-    setSelectedGroupFilters(groupFacetResults.map(result => result.key))
+    setSelectedGroupFilters(groupFacetResults.map((result) => result.key))
   }, [groupFacetResults])
 
   const handleFilter = () => {
@@ -34,7 +34,7 @@ const GroupFilter = () => {
 
   const toggleSelectedGroupFilter = (toggleType) => {
     if (selectedGroupFilters.includes(toggleType)) {
-      setSelectedGroupFilters(selectedGroupFilters.filter(type => type !== toggleType))
+      setSelectedGroupFilters(selectedGroupFilters.filter((type) => type !== toggleType))
     } else {
       setSelectedGroupFilters([...selectedGroupFilters, toggleType])
     }

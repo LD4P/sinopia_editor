@@ -9,7 +9,7 @@ import ResourceTemplateRow from './ResourceTemplateRow'
  */
 const ResourceTemplateSearchResult = (props) => {
   const resourceTemplateSummaries = props.search.results
-  const rows = resourceTemplateSummaries.map(row => <ResourceTemplateRow row={row} key={row.id} navigate={props.handleClick}/>)
+  const rows = resourceTemplateSummaries.map((row) => <ResourceTemplateRow row={row} key={row.id} navigate={props.handleClick}/>)
 
   return (
     <div className="row">

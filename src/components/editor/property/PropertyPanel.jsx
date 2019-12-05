@@ -81,6 +81,6 @@ const mapStateToProps = (state, ourProps) => {
   }
 }
 
-const mapDispatchToProps = dispatch => bindActionCreators({ expandResource, removeResource }, dispatch)
+const mapDispatchToProps = (dispatch) => bindActionCreators({ expandResource, removeResource }, dispatch)
 
 export default connect(mapStateToProps, mapDispatchToProps)(PropertyPanel)

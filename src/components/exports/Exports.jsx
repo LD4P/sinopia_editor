@@ -10,11 +10,11 @@ import Config from 'Config'
 export const exportsErrorKey = 'exports'
 
 const Exports = (props) => {
-  const exportFiles = useSelector(state => state.selectorReducer.entities.exports)
+  const exportFiles = useSelector((state) => state.selectorReducer.entities.exports)
 
   const sortedExportFiles = useMemo(() => exportFiles.sort((a, b) => a.localeCompare(b)), [exportFiles])
 
-  const exportFileList = sortedExportFiles.map(exportFile => (
+  const exportFileList = sortedExportFiles.map((exportFile) => (
     <li key={exportFile}><a target="_blank" rel="noopener noreferrer" href={`${Config.exportBucketUrl}/${exportFile}`}>{exportFile}</a></li>
   ))
 

@@ -102,13 +102,13 @@ SinopiaSearchResults.propTypes = {
   fetchSinopiaSearchResults: PropTypes.func,
 }
 
-const mapStateToProps = state => ({
+const mapStateToProps = (state) => ({
   currentUser: getCurrentUser(state),
   searchResults: state.selectorReducer.search.results,
   rootResource: findResource(state),
   errors: findErrors(state, searchRetrieveErrorKey),
 })
 
-const mapDispatchToProps = dispatch => bindActionCreators({ retrieveResource }, dispatch)
+const mapDispatchToProps = (dispatch) => bindActionCreators({ retrieveResource }, dispatch)
 
 export default connect(mapStateToProps, mapDispatchToProps)(SinopiaSearchResults)

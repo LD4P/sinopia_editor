@@ -10,7 +10,7 @@ export const findResourceTemplate = (state, resourceTemplateId) => state.selecto
  * @return [string] the label of the language or an empty string
  */
 export const languageLabel = (state, languageId) => {
-  const lang = state.selectorReducer.entities.languages.options.find(lang => lang.id === languageId)
+  const lang = state.selectorReducer.entities.languages.options.find((lang) => lang.id === languageId)
   return lang ? lang.label : ''
 }
 

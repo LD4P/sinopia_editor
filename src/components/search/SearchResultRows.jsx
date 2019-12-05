@@ -10,12 +10,12 @@ import LongDate from 'components/LongDate'
 /**
  * Generates HTML rows of all search results
  */
-const SearchResultRows = props => props.searchResults.map(row => (
+const SearchResultRows = (props) => props.searchResults.map((row) => (
   <tr key={row.uri}>
     <td>{ row.label }</td>
     <td>
       <ul className="list-unstyled">
-        { row.type?.map(type => <li key={type}>{type}</li>) }
+        { row.type?.map((type) => <li key={type}>{type}</li>) }
       </ul>
     </td>
     <td>{ groupNameFromGroup(row.group) }</td>
@@ -24,7 +24,7 @@ const SearchResultRows = props => props.searchResults.map(row => (
       <div className="btn-group" role="group" aria-label="Result Actions">
         <button className="btn btn-link"
                 title="Edit"
-                onClick={e => props.handleEdit(row.uri, e) }>
+                onClick={(e) => props.handleEdit(row.uri, e) }>
           <FontAwesomeIcon icon={faEdit} className="icon-lg" />
         </button>
         <button type="button"

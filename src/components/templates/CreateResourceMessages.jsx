@@ -8,11 +8,11 @@ import { findTemplateMessages } from 'selectors/flashSelectors'
  * An info message that is populated when retrieving a resource template
  */
 const CreateResourceMessages = () => {
-  const messages = useSelector(state => findTemplateMessages(state))
+  const messages = useSelector((state) => findTemplateMessages(state))
 
   if (messages.length === 0) return null
 
-  const messageItems = messages.map(message => <li key={message}>{message}</li>)
+  const messageItems = messages.map((message) => <li key={message}>{message}</li>)
 
   return (
     <div className="alert alert-info">

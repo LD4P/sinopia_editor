@@ -10,7 +10,7 @@ import { modalType } from 'selectors/modalSelectors'
 const CloseResourceModal = (props) => {
   const dispatch = useDispatch()
 
-  const show = useSelector(state => modalType(state) === 'CloseResourceModal')
+  const show = useSelector((state) => modalType(state) === 'CloseResourceModal')
 
   const handleClose = (event) => {
     dispatch(hideModal())

@@ -129,7 +129,7 @@ export default class GraphBuilder {
           }
         })
       } else { // It's a deeply nested object
-        Object.keys(value).filter(elem => elem !== 'errors').forEach((key) => {
+        Object.keys(value).filter((elem) => elem !== 'errors').forEach((key) => {
           const nestedValue = value[key]
           const bnode = rdf.blankNode()
 
@@ -151,7 +151,7 @@ export default class GraphBuilder {
     if (value.items && Object.keys(value.items).length > 0) {
       return true
     }
-    return Object.keys(value).some(key => this.hasItemDescendants(value[key]))
+    return Object.keys(value).some((key) => this.hasItemDescendants(value[key]))
   }
 
   /**

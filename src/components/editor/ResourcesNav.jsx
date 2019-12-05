@@ -12,9 +12,9 @@ import { setCurrentResource } from 'actions/index'
 const ResourcesNav = () => {
   const dispatch = useDispatch()
 
-  const currentResourceKey = useSelector(state => currentResourceKeySelector(state))
+  const currentResourceKey = useSelector((state) => currentResourceKeySelector(state))
 
-  const resourceKeys = useSelector(state => Object.keys(state.selectorReducer.entities.resources))
+  const resourceKeys = useSelector((state) => Object.keys(state.selectorReducer.entities.resources))
 
   const navLabels = useSelector((state) => {
     const labels = {}
@@ -41,14 +41,14 @@ const ResourcesNav = () => {
         <div className="btn-group">
           <button className={linkClasses.join(' ')}
                   href="#"
-                  onClick={event => handleResourceNavClick(event, resourceKey)}>{navLabels[resourceKey]}</button>
+                  onClick={(event) => handleResourceNavClick(event, resourceKey)}>{navLabels[resourceKey]}</button>
           {closeButton}
         </div>
       </li>
     )
   }
 
-  const generateNavItems = () => resourceKeys.map(resourceKey => createResourceTemplateNavItem(resourceKey, resourceKey === currentResourceKey))
+  const generateNavItems = () => resourceKeys.map((resourceKey) => createResourceTemplateNavItem(resourceKey, resourceKey === currentResourceKey))
   const resourceTemplateNavItems = resourceKeys.length > 1 ? generateNavItems() : []
 
   const handleResourceNavClick = (event, resourceKey) => {

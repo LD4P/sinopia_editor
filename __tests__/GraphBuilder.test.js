@@ -87,11 +87,11 @@ describe('GraphBuilder', () => {
       expect(graph.has(propertyTriple)).toBeTruthy()
 
       // An triple with a lang tag
-      const result1 = graph.filter(quad => quad.object.equals(rdf.literal('Very colorful', 'eng'))).toArray()
+      const result1 = graph.filter((quad) => quad.object.equals(rdf.literal('Very colorful', 'eng'))).toArray()
       // An triple without a lang tag
-      const result2 = graph.filter(quad => quad.object.equals(rdf.literal('Sparkly'))).toArray()
+      const result2 = graph.filter((quad) => quad.object.equals(rdf.literal('Sparkly'))).toArray()
       // A triple on a separate resource (bf:Note)
-      const result3 = graph.filter(quad => quad.object.equals(rdf.literal('Shiney'))).toArray()
+      const result3 = graph.filter((quad) => quad.object.equals(rdf.literal('Shiney'))).toArray()
 
       expect(result1.length).toEqual(1)
       expect(result2.length).toEqual(1)
@@ -200,21 +200,21 @@ _:b4 a <http://id.loc.gov/ontologies/bibframe/Note>;
       expect(graph.has(propertyTriple)).toBeTruthy()
       expect(graph.has(generatedByTriple)).toBeTruthy()
 
-      let result = graph.filter(quad => quad.object.equals(rdf.literal('Very colorful')))
+      let result = graph.filter((quad) => quad.object.equals(rdf.literal('Very colorful')))
 
       expect(result.toArray().length).toEqual(1)
 
-      result = graph.filter(quad => quad.object.equals(rdf.literal('Sparkly')))
+      result = graph.filter((quad) => quad.object.equals(rdf.literal('Sparkly')))
       expect(result.toArray().length).toEqual(1)
 
       // _:b1 <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://id.loc.gov/ontologies/bibframe/Note> .
-      result = graph.filter(quad => quad.object.equals(rdf.namedNode('http://id.loc.gov/ontologies/bibframe/Note'))
+      result = graph.filter((quad) => quad.object.equals(rdf.namedNode('http://id.loc.gov/ontologies/bibframe/Note'))
         && quad.predicate.equals(rdf.namedNode('http://www.w3.org/1999/02/22-rdf-syntax-ns#type')))
       expect(result.toArray().length).toEqual(1)
 
       // There should only be one hasResourceTemplate assertion in the whole graph
       const hasResourceTemplate = rdf.namedNode('http://sinopia.io/vocabulary/hasResourceTemplate')
-      result = graph.filter(quad => quad.predicate.equals(hasResourceTemplate))
+      result = graph.filter((quad) => quad.predicate.equals(hasResourceTemplate))
       expect(result.toArray().length).toEqual(1)
     })
   })
@@ -284,7 +284,7 @@ _:b4 a <http://id.loc.gov/ontologies/bibframe/Note>;
     it('returns the graph without blank node', () => {
       const graph = builder.graph
 
-      const result = graph.filter(quad => quad.object.equals(rdf.namedNode('http://id.loc.gov/ontologies/bibframe/Note'))).toArray()
+      const result = graph.filter((quad) => quad.object.equals(rdf.namedNode('http://id.loc.gov/ontologies/bibframe/Note'))).toArray()
       expect(result.length).toEqual(0)
     })
   })

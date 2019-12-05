@@ -59,9 +59,9 @@ const InputLiteral = (props) => {
   }
 
   const itemKeys = Object.keys(props.items)
-  const addedList = itemKeys.map(itemId => (<InputValue key={itemId}
-                                                        handleEdit={handleEdit}
-                                                        reduxPath={[...props.reduxPath, 'items', itemId]} />))
+  const addedList = itemKeys.map((itemId) => (<InputValue key={itemId}
+                                                          handleEdit={handleEdit}
+                                                          reduxPath={[...props.reduxPath, 'items', itemId]} />))
 
 
   const required = booleanPropertyFromTemplate(props.propertyTemplate, 'mandatory', false)
@@ -80,7 +80,7 @@ const InputLiteral = (props) => {
             required={required}
             className="form-control"
             placeholder={props.propertyTemplate.propertyLabel}
-            onChange={event => setContent(event.target.value)}
+            onChange={(event) => setContent(event.target.value)}
             onKeyPress={handleKeypress}
             onBlur={addItem}
             value={content}
@@ -120,6 +120,6 @@ const mapStateToProps = (state, ownProps) => {
   }
 }
 
-const mapDispatchToProps = dispatch => bindActionCreators({ itemsSelected }, dispatch)
+const mapDispatchToProps = (dispatch) => bindActionCreators({ itemsSelected }, dispatch)
 
 export default connect(mapStateToProps, mapDispatchToProps)(InputLiteral)

@@ -72,7 +72,7 @@ export const getEntityTagFromGroupContainer = async (group) => {
 const authenticate = async (currentUser) => {
   // First, make sure the client instance has a valid JWT id token set
   await CognitoUtils.getIdTokenString(currentUser)
-    .then(idToken => instance.apiClient.authentications.CognitoUser.accessToken = idToken)
+    .then((idToken) => instance.apiClient.authentications.CognitoUser.accessToken = idToken)
 
   /*
    * TODO: add auth-related error handling similar to the catch on the createResourceWithHttpInfo try below, e.g.
@@ -184,7 +184,7 @@ export const publishRDFResource = async (currentUser, rdf, group) => {
  * we only have a URI, so parse those out.
  * @return {object} and object with two keys: 'group' and 'identifier'
  */
-const identifiersForUri = uri => uri.match(/.*\/\/.*\/repository\/(?<group>.*)\/(?<identifier>.*)/).groups
+const identifiersForUri = (uri) => uri.match(/.*\/\/.*\/repository\/(?<group>.*)\/(?<identifier>.*)/).groups
 
 export const updateRDFResource = async (currentUser, uri, rdf) => {
   await authenticate(currentUser)

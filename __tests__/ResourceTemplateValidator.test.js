@@ -9,7 +9,7 @@ jest.mock('sinopiaServer')
 
 
 sinopiaServer.getResourceTemplate.mockImplementation(getFixtureResourceTemplate)
-sinopiaServer.foundResourceTemplate.mockImplementation(templateId => resourceTemplateIds.includes(templateId))
+sinopiaServer.foundResourceTemplate.mockImplementation((templateId) => resourceTemplateIds.includes(templateId))
 
 describe('validateResourceTemplate', () => {
   it('returns [] for valid', async () => {

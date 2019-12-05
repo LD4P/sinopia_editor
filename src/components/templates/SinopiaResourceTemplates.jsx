@@ -17,12 +17,12 @@ export const newResourceErrorKey = 'newresource'
  */
 const SinopiaResourceTemplates = (props) => {
   const dispatch = useDispatch()
-  const searchResults = useSelector(state => state.selectorReducer.templateSearch)
-  const historicallyUsedTemplates = useSelector(state => state.selectorReducer.historicalTemplates)
+  const searchResults = useSelector((state) => state.selectorReducer.templateSearch)
+  const historicallyUsedTemplates = useSelector((state) => state.selectorReducer.historicalTemplates)
 
-  const errors = useSelector(state => findErrors(state, newResourceErrorKey))
-  const rootResource = useSelector(state => findResource(state))
-  const rootResourceTemplateId = useSelector(state => rootResourceTemplateIdSelector(state))
+  const errors = useSelector((state) => findErrors(state, newResourceErrorKey))
+  const rootResource = useSelector((state) => findResource(state))
+  const rootResourceTemplateId = useSelector((state) => rootResourceTemplateIdSelector(state))
 
   const [navigateEditor, setNavigateEditor] = useState(false)
 

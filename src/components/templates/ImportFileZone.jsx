@@ -110,9 +110,9 @@ class ImportFileZone extends Component {
 
       return resolve() // W00t!
     })
-    .catch(err => reject(err)))
+    .catch((err) => reject(err)))
 
-  promiseSchemasLoaded = schemaUrl => new Promise((resolve, reject) => {
+  promiseSchemasLoaded = (schemaUrl) => new Promise((resolve, reject) => {
     try {
       const schemaFunction = this.ajv.getSchema(schemaUrl)
 
@@ -160,7 +160,7 @@ class ImportFileZone extends Component {
     return Promise.all(schemaFetchPromises)
   }
 
-  fetchJsonPromise = uri => new Promise((resolve, reject) => {
+  fetchJsonPromise = (uri) => new Promise((resolve, reject) => {
     fetch(uri)
       .then((resp) => {
         if (resp.ok) {

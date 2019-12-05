@@ -129,6 +129,6 @@ const mapStateToProps = (state, ourProps) => {
   }
 }
 
-const mapDispatchToProps = dispatch => bindActionCreators({ hideModal, languageSelected }, dispatch)
+const mapDispatchToProps = (dispatch) => bindActionCreators({ hideModal, languageSelected }, dispatch)
 
 export default connect(mapStateToProps, mapDispatchToProps)(InputLang)

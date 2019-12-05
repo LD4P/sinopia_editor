@@ -24,7 +24,7 @@ export const fetchResourceTemplate = (resourceTemplateId, errorKey) => (dispatch
         dispatch(setResourceTemplate(resourceTemplate))
         return resourceTemplate
       }
-      errors.forEach(error => dispatch(appendError(errorKey, error)))
+      errors.forEach((error) => dispatch(appendError(errorKey, error)))
     }).catch((err) => { throw err })
   }).catch((err) => {
     console.error(err)
@@ -122,7 +122,7 @@ const humanReadableStatus = (status) => {
 
 export const handleUpdateResource = (rts, group) => async (dispatch, getState) => {
   const user = getCurrentUser(getState())
-  const responses = await Promise.all(rts.map(rt => updateResource(rt, group, user, dispatch)))
+  const responses = await Promise.all(rts.map((rt) => updateResource(rt, group, user, dispatch)))
 
   updateStateFromServerResponses(responses, dispatch)
 }

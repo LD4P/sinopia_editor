@@ -12,9 +12,9 @@ import ResourcesNav from './ResourcesNav'
 import AuthenticationMessage from './AuthenticationMessage'
 
 // Error key for errors that occur while editing a resource.
-export const resourceEditErrorKey = resourceKey => `resourceedit-${resourceKey}`
+export const resourceEditErrorKey = (resourceKey) => `resourceedit-${resourceKey}`
 
-const Editor = props => (
+const Editor = (props) => (
   <div id="editor">
     <Header triggerEditorMenu={ props.triggerHandleOffsetMenu }/>
     <AuthenticationMessage />

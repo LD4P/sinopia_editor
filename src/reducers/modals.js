@@ -15,7 +15,7 @@ export const addModalMessage = (state, action) => {
 
 export const showModal = (state, action) => setModal({ ...state }, action.payload)
 
-export const hideModal = state => setModal({ ...state }, undefined)
+export const hideModal = (state) => setModal({ ...state }, undefined)
 
 
 /**

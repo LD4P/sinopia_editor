@@ -21,7 +21,7 @@ const TemplateSearch = (props) => {
   const [query, setQueryText] = useState('')
   const [startOfRange, setStartOfRange] = useState(0)
 
-  const error = useSelector(state => state.selectorReducer.templateSearch.error)
+  const error = useSelector((state) => state.selectorReducer.templateSearch.error)
   const clearSearchResults = useCallback(() => dispatch(clearTemplateSearchResults()), [dispatch])
 
   useEffect(() => {
@@ -57,7 +57,7 @@ const TemplateSearch = (props) => {
         <Alert text={error} />
         <div className="row">
           <div className="col">
-            <form className="form-inline" onSubmit={event => event.preventDefault()}>
+            <form className="form-inline" onSubmit={(event) => event.preventDefault()}>
               <div className="form-group" style={{ paddingBottom: '10px', paddingTop: '10px' }}>
                 <label className="font-weight-bold" htmlFor="searchInput">Find a resource template</label>&nbsp;
                 <div className="input-group" style={{ width: '750px', paddingLeft: '5px' }}>

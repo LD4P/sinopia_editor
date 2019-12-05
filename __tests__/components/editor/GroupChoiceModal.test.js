@@ -68,7 +68,7 @@ describe('<GroupChoiceModal />', () => {
 
       const actualGroups = wrapper.find('.modal-body')
         .find('form.group-select-options select option')
-        .map(node => [node.prop('value'), node.text()])
+        .map((node) => [node.prop('value'), node.text()])
 
       expect(actualGroups).toEqual(expectedGroups)
     })

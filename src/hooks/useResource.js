@@ -18,7 +18,7 @@ import { hasResource as hasResourceSelector } from 'selectors/resourceSelectors'
  */
 const useResource = (resourceN3, baseURI, resourceTemplateId, errorKey, history) => {
   const dispatch = useDispatch()
-  const hasResource = useSelector(state => hasResourceSelector(state))
+  const hasResource = useSelector((state) => hasResourceSelector(state))
 
   // Indicates that would like to change to editor once resource is in state
   const [navigateEditor, setNavigateEditor] = useState(false)
@@ -42,12 +42,12 @@ const useResource = (resourceN3, baseURI, resourceTemplateId, errorKey, history)
       }).catch((err) => {
         // A ResourceStateBuilderTemplateError may include multiple validation errors.
         if (err.name === 'ResourceStateBuilderTemplateError' && err.validationErrors) {
-          err.validationErrors.forEach(validationErr => dispatch(appendError(errorKey, validationErr)))
+          err.validationErrors.forEach((validationErr) => dispatch(appendError(errorKey, validationErr)))
         } else {
           dispatch(appendError(errorKey, err.toString()))
         }
       })
-    }).catch(err => dispatch(appendError(errorKey, `Error parsing: ${err.toString()}`)))
+    }).catch((err) => dispatch(appendError(errorKey, `Error parsing: ${err.toString()}`)))
   }, [resourceN3, baseURI, resourceTemplateId, dispatch, errorKey])
 
   useEffect(() => {

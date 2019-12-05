@@ -19,7 +19,7 @@ export const getSearchResults = (query, lookupConfigs) => createLookupPromises(q
   }))
 
 
-export const isContext = propertyTemplate => propertyTemplate?.subtype === 'context'
+export const isContext = (propertyTemplate) => propertyTemplate?.subtype === 'context'
 
 export const createLookupPromises = (query, lookupConfigs) => lookupConfigs.map((lookupConfig) => {
   const authority = lookupConfig.authority
@@ -52,7 +52,7 @@ export const createLookupPromises = (query, lookupConfigs) => lookupConfigs.map(
    */
   const actionFunction = subauthority ? subAuthCall : authorityCall
 
-  return Swagger({ spec: swaggerSpec }).then(client => client
+  return Swagger({ spec: swaggerSpec }).then((client) => client
     .apis
     .SearchQuery?.[actionFunction]({
       q: query,
@@ -92,7 +92,7 @@ export const getTerm = (uri, id, searchUri, format = 'n3') => {
   }
 
   return fetch(url)
-    .then(resp => resp.text())
+    .then((resp) => resp.text())
 }
 
 /**
@@ -102,7 +102,7 @@ export const getTerm = (uri, id, searchUri, format = 'n3') => {
  * @return {string[]} property values or undefined
  */
 export const getContextValues = (contexts, property) => {
-  const context = contexts.find(context => context.property === property)
+  const context = contexts.find((context) => context.property === property)
   if (!context || !context.values) return undefined
   return context.values
 }

@@ -85,7 +85,7 @@ app.all('/profile-edit/server/whichrt', (req, res) => {
 
   if (reqUri !== null) {
     if (versoSpoof.ontologyUrls.includes(reqUri)) {
-      const json = versoSpoof.owlOntUrl2JsonMappings.find(el => reqUri === el.url).json
+      const json = versoSpoof.owlOntUrl2JsonMappings.find((el) => reqUri === el.url).json
 
       res.json(json)
     } else {

@@ -13,8 +13,8 @@ const CloseButton = (props) => {
   const dispatch = useDispatch()
   const history = useHistory()
 
-  const resourceKey = useSelector(state => currentResourceKey(state))
-  const resourceHasChanged = useSelector(state => resourceHasChangesSinceLastSave(state))
+  const resourceKey = useSelector((state) => currentResourceKey(state))
+  const resourceHasChanged = useSelector((state) => resourceHasChangesSinceLastSave(state))
 
   const handleClick = (event) => {
     if (resourceHasChanged) {

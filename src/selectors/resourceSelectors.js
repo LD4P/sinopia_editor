@@ -2,7 +2,7 @@
 import GraphBuilder from 'GraphBuilder'
 import { generateMD5 } from 'Utilities'
 
-export const currentResourceKey = state => state.selectorReducer.editor.currentResource
+export const currentResourceKey = (state) => state.selectorReducer.editor.currentResource
 
 /**
  * Find a resource.
@@ -41,7 +41,7 @@ export const rootResourceTemplateId = (state, resourceKey) => {
  * @param {Object} state the redux state
  * @return {boolean} true if there is a resource
  */
-export const hasResource = state => findResource(state) !== undefined
+export const hasResource = (state) => findResource(state) !== undefined
 
 export const findNode = (state, reduxPath) => findObjectAtPath(state.selectorReducer, reduxPath)
 
@@ -50,7 +50,7 @@ export const findObjectAtPath = (parent, path) => path.reduce((obj, key) => obj?
 export const isExpanded = (state, reduxPath) => [...reduxPath, 'expanded']
   .reduce((obj, key) => (typeof obj[key] !== 'undefined' ? obj[key] : false), state.selectorReducer.editor.expanded)
 
-const resourceValidation = state => state.selectorReducer.editor.resourceValidation
+const resourceValidation = (state) => state.selectorReducer.editor.resourceValidation
 
 /**
  * @returns {function} a function that returns all of the validation errors for the redux path
@@ -106,7 +106,7 @@ export const getPropertyTemplate = (state, resourceTemplateId, propertyURI) => {
   }
 
   // Find the property template
-  return resourceTemplate.propertyTemplates.find(propertyTemplate => propertyTemplate.propertyURI === propertyURI)
+  return resourceTemplate.propertyTemplates.find((propertyTemplate) => propertyTemplate.propertyURI === propertyURI)
 }
 
 /**

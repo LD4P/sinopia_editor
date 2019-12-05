@@ -221,7 +221,7 @@ const handlers = {
   VALIDATE_RESOURCE: validateResource,
 }
 
-export const createReducer = handlers => (state = {}, action) => {
+export const createReducer = (handlers) => (state = {}, action) => {
   const fn = handlers[action.type]
   return fn ? fn(state, action) : state
 }
