@@ -53,6 +53,10 @@ export const clearTemplateSearchResults = () => ({
   type: 'CLEAR_TEMPLATE_SEARCH_RESULTS',
 })
 
+export const closeDiacritics = () => ({
+  type: 'CLOSE_DIACRITICS',
+})
+
 export const copyNewResource = (resource) => ({
   type: 'COPY_NEW_RESOURCE',
   payload: resource,
@@ -141,6 +145,11 @@ export const addTemplateHistory = (resourceTemplate) => ({
   payload: resourceTemplate,
 })
 
+export const setLiteralContent = (content, reduxPath) => ({
+  type: 'SET_LITERAL_CONTENT',
+  payload: { content, reduxPath },
+})
+
 export const setSearchResults = (uri, searchResults, totalResults, facetResults, query, options, error) => ({
   type: 'SET_SEARCH_RESULTS',
   payload: {
@@ -172,6 +181,11 @@ export const setUnusedRDF = (resourceKey, rdf) => ({
 export const showCopyNewMessage = (oldUri) => ({
   type: 'SHOW_COPY_NEW_MESSAGE',
   payload: oldUri,
+})
+
+export const showDiacritics = (reduxPath) => ({
+  type: 'SHOW_DIACRITICS',
+  payload: reduxPath,
 })
 
 export const showGroupChooser = (resourceKey) => ({

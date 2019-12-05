@@ -5,6 +5,7 @@ import authenticate from './authenticate'
 import {
   removeMyItem, setItemsOrSelections, setBaseURL, setMyItemsLang,
   showCopyNewMessage, validateResource, hideValidationErrors, validate,
+  setLiteralInputContent,
 } from './inputs'
 import {
   showGroupChooser, showValidationErrors,
@@ -39,6 +40,7 @@ export const setResource = (state, action) => {
   newState.entities.resourceTemplates = { ...newState.entities.resourceTemplates, ...action.payload.resourceTemplates }
   return validate(newState, action.payload.resourceKey)
 }
+
 
 export const updateProperty = (state, action) => {
   const reduxPath = action.payload.reduxPath
@@ -120,6 +122,13 @@ export const clearErrors = (state, action) => {
   return newState
 }
 
+export const closeDiacriticsSelection = (state) => {
+  const newState = { ...state }
+  newState.editor.diacritics.show = false
+  newState.editor.diacritics.reduxPath = []
+  return newState
+}
+
 export const saveAppVersion = (state, action) => {
   const newState = { ...state }
 
@@ -174,6 +183,13 @@ export const setCurrentResource = (state, action) => {
   return newState
 }
 
+export const showDiacriticsSelection = (state, action) => {
+  const newState = { ...state }
+  newState.editor.diacritics.show = true
+  newState.editor.diacritics.reduxPath = action.payload
+  return newState
+}
+
 const handlers = {
   ADD_MODAL_MESSAGE: addModalMessage,
   ADD_TEMPLATE_HISTORY: addTemplateHistory,
@@ -187,6 +203,7 @@ const handlers = {
   CLEAR_RESOURCE_TEMPLATES: clearResourceTemplates,
   CLEAR_SEARCH_RESULTS: clearSearchResults,
   CLEAR_TEMPLATE_SEARCH_RESULTS: clearTemplateSearchResults,
+  CLOSE_DIACRITICS: closeDiacriticsSelection,
   COPY_NEW_RESOURCE: copyResourceToEditor,
   EXPORTS_RECEIVED: exportsReceived,
   HIDE_MODAL: hideModal,
@@ -206,6 +223,7 @@ const handlers = {
   SAVE_APP_VERSION: saveAppVersion,
   SAVE_RESOURCE_FINISHED: saveResourceFinished,
   SET_BASE_URL: setBaseURL,
+  SET_LITERAL_CONTENT: setLiteralInputContent,
   SET_CURRENT_RESOURCE: setCurrentResource,
   SET_TEMPLATE_MESSAGES: setTemplateMessages,
   SET_LAST_SAVE_CHECKSUM: setLastSaveChecksum,
@@ -213,6 +231,7 @@ const handlers = {
   SET_TEMPLATE_SEARCH_RESULTS: setTemplateSearchResults,
   SET_UNUSED_RDF: setUnusedRDF,
   SHOW_COPY_NEW_MESSAGE: showCopyNewMessage,
+  SHOW_DIACRITICS: showDiacriticsSelection,
   SHOW_GROUP_CHOOSER: showGroupChooser,
   SHOW_MODAL: showModal,
   SHOW_VALIDATION_ERRORS: showValidationErrors,

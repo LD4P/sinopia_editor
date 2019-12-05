@@ -13,6 +13,10 @@ export const initialState = {
     },
     editor: { // The state of the editor
       currentResource: undefined,
+      diacritics: {
+        show: false,
+        reduxPath: [],
+      },
       resourceValidation: {
         show: {}, // {<resourceKey>: boolean}
         errors: {}, // {<resource key>: [validation errors...]}
