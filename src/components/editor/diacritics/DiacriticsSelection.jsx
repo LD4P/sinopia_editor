@@ -37,21 +37,11 @@ const DiacriticsSelection = () => {
   }
 
   const closeHandler = (event) => {
-    if (targetNode.content.length > 0) {
-      // hardcodes lang to eng to be consistent with default for InputLang
-      const item = {
-        reduxPath: targetReduxPath,
-        items: {
-          [shortid.generate()]: { content: targetNode.content, lang: 'eng' },
-        },
-      }
-      dispatch(itemsSelected(item))
-    }
     dispatch(closeDiacritics(targetReduxPath))
     event.preventDefault()
   }
 
-  return (<div className={cssClasses.join(' ')}>
+  return (<div id="diacritics-selection" className={cssClasses.join(' ')} tabIndex="0">
     <div className="row">
       <section className="col-1 offset-9">
         <button className="btn btn-lg" onClick={closeHandler}>&times;</button>

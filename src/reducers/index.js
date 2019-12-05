@@ -125,8 +125,6 @@ export const clearErrors = (state, action) => {
 
 export const closeDiacriticsSelection = (state) => {
   const newState = { ...state }
-  const activeNode = findObjectAtPath(state, newState.editor.diacritics.reduxPath)
-  activeNode.content = ''
   newState.editor.diacritics.show = false
   newState.editor.diacritics.reduxPath = []
   return newState
