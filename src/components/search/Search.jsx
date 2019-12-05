@@ -22,7 +22,7 @@ import searchConfig from '../../../static/searchConfig.json'
 
 const Search = (props) => {
   const dispatch = useDispatch()
-  const fetchQASearchResults = (queryString, uri) => dispatch(fetchQASearchResultsCreator(queryString, uri))
+  const fetchQASearchResults = (queryString, uri, startOfRange) => dispatch(fetchQASearchResultsCreator(queryString, uri, { ...searchOptions, startOfRange }))
 
   const searchOptions = useSelector((state) => state.selectorReducer.search.options)
 
@@ -68,13 +68,17 @@ const Search = (props) => {
     if (uri === 'sinopia') {
       fetchNewSinopiaSearchResults(queryString)
     } else {
-      fetchQASearchResults(queryString, uri)
+      fetchQASearchResults(queryString, uri, 0)
     }
     if (error) window.scrollTo(0, topRef.current.offsetTop)
   }
 
   const changeSinopiaSearchPage = (startOfRange) => {
     fetchSinopiaSearchResults(queryString, startOfRange)
+  }
+
+  const changeQASearchPage = (startOfRange) => {
+    fetchQASearchResults(queryString, uri, startOfRange)
   }
 
   const options = searchConfig.map((config) => (<option key={config.uri} value={config.uri}>{config.label}</option>))
@@ -90,7 +94,11 @@ const Search = (props) => {
     )
   } else if (searchUri) {
     results = (
-      <QASearchResults history={props.history} key="search-results" />
+      <div>
+        <QASearchResults history={props.history} key="search-results" />
+        <SearchResultsPaging key="search-paging" path="search" changePage={changeQASearchPage} />
+        <SearchResultsMessage />
+      </div>
     )
   }
 

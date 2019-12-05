@@ -173,8 +173,28 @@
             "schema": {
               "default": "en",
               "type": "string"
-			}
-		  }
+			         }
+           },
+           {
+            "description": "Include response header",
+            "in": "query",
+            "name": "response_header",
+            "required": true,
+            "schema": {
+              "default": "true",
+              "type": "string"
+			         }
+           },
+           {
+            "description": "First record offset (1 based)",
+            "in": "query",
+            "name": "startRecord",
+            "required": false,
+            "schema": {
+              "default": 1,
+              "type": "integer"
+			         }
+           }
         ],
         "responses": {
           "200": {
@@ -190,7 +210,21 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/linked_data_query_results"
+                  "type": "object",
+                  "items": {
+                    "required": [
+                      "results",
+                      "response_header"
+                    ],
+                    "properties": {
+                      "results": {
+                        "$ref": "#/components/schemas/linked_data_query_results"
+                      },
+                      "response_header": {
+                        "$ref": "#/components/schemas/response_header"
+                      }
+                    }
+                  }
                 }
               }
             }
@@ -360,8 +394,28 @@
             "schema": {
               "default": "en",
               "type": "string"
-			}
-		  }
+	           }
+		       },
+           {
+            "description": "Include response header",
+            "in": "query",
+            "name": "response_header",
+            "required": true,
+            "schema": {
+              "default": "true",
+              "type": "string"
+			         }
+           },
+           {
+            "description": "First record offset (1 based)",
+            "in": "query",
+            "name": "startRecord",
+            "required": false,
+            "schema": {
+              "default": 1,
+              "type": "integer"
+			         }
+           }
         ],
         "responses": {
           "200": {
@@ -377,7 +431,21 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/linked_data_query_results"
+                  "type": "object",
+                  "items": {
+                    "required": [
+                      "results",
+                      "response_header"
+                    ],
+                    "properties": {
+                      "results": {
+                        "$ref": "#/components/schemas/linked_data_query_results"
+                      },
+                      "response_header": {
+                        "$ref": "#/components/schemas/response_header"
+                      }
+                    }
+                  }
                 }
               }
             }
@@ -942,7 +1010,21 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/linked_data_term_json_result"
+                  "type": "object",
+                  "items": {
+                    "required": [
+                      "results",
+                      "response_header"
+                    ],
+                    "properties": {
+                      "results": {
+                        "$ref": "#/components/schemas/linked_data_query_results"
+                      },
+                      "response_header": {
+                        "$ref": "#/components/schemas/response_header"
+                      }
+                    }
+                  }
                 }
               },
               "application/ld+json": {
@@ -1128,8 +1210,28 @@
             "schema": {
               "default": "en",
               "type": "string"
-			}
-		  }
+		         }
+           },
+           {
+            "description": "Include response header",
+            "in": "query",
+            "name": "response_header",
+            "required": true,
+            "schema": {
+              "default": "true",
+              "type": "string"
+			         }
+           },
+           {
+            "description": "First record offset (1 based)",
+            "in": "query",
+            "name": "startRecord",
+            "required": false,
+            "schema": {
+              "default": 1,
+              "type": "integer"
+			         }
+           }
          ],
          "responses":{
             "200":{
@@ -1315,8 +1417,28 @@
             "schema": {
               "default": "en",
               "type": "string"
-			}
-		   }
+	           }
+		       },
+           {
+            "description": "Include response header",
+            "in": "query",
+            "name": "response_header",
+            "required": true,
+            "schema": {
+              "default": "true",
+              "type": "string"
+			         }
+           },
+           {
+            "description": "First record offset (1 based)",
+            "in": "query",
+            "name": "startRecord",
+            "required": false,
+            "schema": {
+              "default": 1,
+              "type": "integer"
+			         }
+           }
          ],
          "responses":{
             "200":{
@@ -1331,9 +1453,23 @@
                },
                "content":{
                   "application/json":{
-                     "schema":{
-                        "$ref":"#/components/schemas/linked_data_query_results"
-                     }
+                    "schema": {
+                      "type": "object",
+                      "items": {
+                        "required": [
+                          "results",
+                          "response_header"
+                        ],
+                        "properties": {
+                          "results": {
+                            "$ref": "#/components/schemas/linked_data_query_results"
+                          },
+                          "response_header": {
+                            "$ref": "#/components/schemas/response_header"
+                          }
+                        }
+                      }
+                    }
                   }
                }
             },
@@ -1664,6 +1800,31 @@
         "type": "array",
         "items": {
           "type": "string"
+        }
+      },
+      "response_header": {
+        "type": "object",
+        "items": {
+          "required": [
+            "start_record",
+            "requested_records",
+            "retrieved_records",
+            "total_records"
+          ],
+          "properties": {
+            "start_record": {
+              "type": "integer"
+            },
+            "requested_records": {
+              "type": "integer"
+            },
+            "retrieved_records": {
+              "type": "integer"
+            },
+            "total_records": {
+              "type": "integer"
+            }
+          }
         }
       },
       "linked_data_query_results": {

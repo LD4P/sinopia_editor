@@ -13,48 +13,56 @@ describe('getSearchResults()', () => {
       url: 'https://lookup.ld4l.org/authorities/search/linked_data/agrovoc_ld4l_cache?q=Corn&maxRecords=8&lang=en&context=true',
       status: 200,
       statusText: 'OK',
-      body: [
-        {
-          uri: 'http://aims.fao.org/aos/agrovoc/c_331388',
-          id: 'http://aims.fao.org/aos/agrovoc/c_331388',
-          label: 'corn sheller',
+      body: {
+        response_header: {
+          start_record: 1,
+          requested_records: 8,
+          retrieved_records: 8,
+          total_records: 23,
         },
-        {
-          uri: 'http://aims.fao.org/aos/agrovoc/c_33224',
-          id: 'http://aims.fao.org/aos/agrovoc/c_33224',
-          label: 'Corn Belt (USA)',
-        },
-        {
-          uri: 'http://aims.fao.org/aos/agrovoc/c_16171',
-          id: 'http://aims.fao.org/aos/agrovoc/c_16171',
-          label: 'corn cob mix',
-        },
-        {
-          uri: 'http://aims.fao.org/aos/agrovoc/c_14385',
-          id: 'http://aims.fao.org/aos/agrovoc/c_14385',
-          label: 'soft corn',
-        },
-        {
-          uri: 'http://aims.fao.org/aos/agrovoc/c_fd817c5d',
-          id: 'http://aims.fao.org/aos/agrovoc/c_fd817c5d',
-          label: 'southern leaf blight of maize',
-        },
-        {
-          uri: 'http://aims.fao.org/aos/agrovoc/c_34f087cf',
-          id: 'http://aims.fao.org/aos/agrovoc/c_34f087cf',
-          label: 'maize gluten',
-        },
-        {
-          uri: 'http://aims.fao.org/aos/agrovoc/c_d859f064',
-          id: 'http://aims.fao.org/aos/agrovoc/c_d859f064',
-          label: 'maize bran',
-        },
-        {
-          uri: 'http://aims.fao.org/aos/agrovoc/c_7552',
-          id: 'http://aims.fao.org/aos/agrovoc/c_7552',
-          label: 'sweet corn',
-        },
-      ],
+        results: [
+          {
+            uri: 'http://aims.fao.org/aos/agrovoc/c_331388',
+            id: 'http://aims.fao.org/aos/agrovoc/c_331388',
+            label: 'corn sheller',
+          },
+          {
+            uri: 'http://aims.fao.org/aos/agrovoc/c_33224',
+            id: 'http://aims.fao.org/aos/agrovoc/c_33224',
+            label: 'Corn Belt (USA)',
+          },
+          {
+            uri: 'http://aims.fao.org/aos/agrovoc/c_16171',
+            id: 'http://aims.fao.org/aos/agrovoc/c_16171',
+            label: 'corn cob mix',
+          },
+          {
+            uri: 'http://aims.fao.org/aos/agrovoc/c_14385',
+            id: 'http://aims.fao.org/aos/agrovoc/c_14385',
+            label: 'soft corn',
+          },
+          {
+            uri: 'http://aims.fao.org/aos/agrovoc/c_fd817c5d',
+            id: 'http://aims.fao.org/aos/agrovoc/c_fd817c5d',
+            label: 'southern leaf blight of maize',
+          },
+          {
+            uri: 'http://aims.fao.org/aos/agrovoc/c_34f087cf',
+            id: 'http://aims.fao.org/aos/agrovoc/c_34f087cf',
+            label: 'maize gluten',
+          },
+          {
+            uri: 'http://aims.fao.org/aos/agrovoc/c_d859f064',
+            id: 'http://aims.fao.org/aos/agrovoc/c_d859f064',
+            label: 'maize bran',
+          },
+          {
+            uri: 'http://aims.fao.org/aos/agrovoc/c_7552',
+            id: 'http://aims.fao.org/aos/agrovoc/c_7552',
+            label: 'sweet corn',
+          },
+        ],
+      },
       authLabel: 'AGROVOC (QA)',
       authURI: 'urn:ld4p:qa:agrovoc',
       label: 'AGROVOC (QA)',
@@ -70,7 +78,7 @@ describe('getSearchResults()', () => {
     expect(results.length).toEqual(1)
 
     const result = await results[0]
-    expect(result.body.length).toEqual(8)
+    expect(result.body.results.length).toEqual(8)
   })
 })
 

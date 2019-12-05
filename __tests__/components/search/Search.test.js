@@ -50,7 +50,7 @@ describe('<Search />', () => {
           },
         ],
       }]
-    const mockActionFunction = jest.fn().mockResolvedValue({ body: mockSearchResults })
+    const mockActionFunction = jest.fn().mockResolvedValue({ body: { results: mockSearchResults, response_header: { total_records: 15 } } })
     const client = { apis: { SearchQuery: { GET_searchAuthority: mockActionFunction } } }
     Swagger.mockResolvedValue(client)
 
@@ -80,6 +80,12 @@ describe('<Search />', () => {
     // Display results
     expect(await findByText('Label / ID')).toBeInTheDocument()
     expect(getByText(/These twain/)).toBeInTheDocument()
+
+    // Display paging
+    expect(getByText('»')).toBeInTheDocument()
+
+    // Display results message
+    expect(getByText(/Displaying 1 - 10 of 15/)).toBeInTheDocument()
   })
 
   it('requests a Sinopia search', async () => {
