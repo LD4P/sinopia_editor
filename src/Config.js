@@ -129,6 +129,10 @@ class Config {
     return process.env.HONEYBADGER_API_KEY || ''
   }
 
+  static get honeybadgerRevision() {
+    return process.env.HONEYBADGER_REVISION || ''
+  }
+
   // WARNING: the groups section in config/default.js in the sinopia_acl codebase *must* be kept in sync with this section
   static get groupsInSinopia() {
     return {
