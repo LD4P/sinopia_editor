@@ -25,7 +25,7 @@ const InputLookupQA = (props) => {
         })
         return
       }
-      result.body.forEach((option) => {
+      result.body.results.forEach((option) => {
         options.push(option)
       })
     })
