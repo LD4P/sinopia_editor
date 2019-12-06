@@ -4,7 +4,7 @@ import React from 'react'
 
 const DescPanel = () => {
   const throwException = () => {
-    throw 'Test Exception'
+    throw new Error('Test Exception')
   }
 
   return (
