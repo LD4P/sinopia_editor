@@ -12,9 +12,19 @@ const CharacterButton = (props) => {
 
   const dispatch = useDispatch()
 
+  const cleanCharacter = () => {
+    // For some reason, some combining characters are precombined with ◌ (U+25CC)
+    if (props.character.length > 1) {
+      for (let i = 0; i < props.character.length; i++) {
+        if (props.character.codePointAt(i) !== 9676) return props.character[i]
+      }
+    }
+    return props.character
+  }
+
   const handleClick = (event) => {
     const existingValue = inputNode.content || ''
-    const newValue = existingValue + props.character
+    const newValue = existingValue + cleanCharacter()
     dispatch(setLiteralContent(newValue, targetReduxPath))
     event.preventDefault()
   }
