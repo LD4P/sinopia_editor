@@ -13,6 +13,7 @@ ARG COGNITO_USER_POOL_ID
 ARG INDEX_URL
 ARG EXPORT_BUCKET_URL
 ARG HONEYBADGER_API_KEY
+ARG HONEYBADGER_REVISION
 
 RUN echo $TRELLIS_BASE_URL
 
@@ -40,6 +41,14 @@ RUN npm install
 
 # Build the app *within* the container because environment variables are fixed at build-time
 RUN npm run build
+
+# Send source map to HB
+RUN if [ -n "$HONEYBADGER_API_KEY" ]; then curl https://api.honeybadger.io/v1/source_maps \
+  -F api_key=$HONEYBADGER_API_KEY \
+  -F revision=$HONEYBADGER_REVISION \
+  -F minified_url=$SINOPIA_URI/dist/bundle.js \
+  -F source_map=@dist/bundle.js.map \
+  -F minified_file=@dist/bundle.js ; fi
 
 # docker daemon maps app's port
 EXPOSE 8000
