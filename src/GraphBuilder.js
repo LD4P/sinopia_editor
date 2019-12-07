@@ -151,6 +151,8 @@ export default class GraphBuilder {
     if (value.items && Object.keys(value.items).length > 0) {
       return true
     }
+    // If items is an empty object ignores content in state
+    if ('content' in value) return false
     return Object.keys(value).some((key) => this.hasItemDescendants(value[key]))
   }
 

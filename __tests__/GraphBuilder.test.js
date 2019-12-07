@@ -269,6 +269,7 @@ _:b4 a <http://id.loc.gov/ontologies/bibframe/Note>;
           '-KACHlqQ4A': {
             'resourceTemplate:bf2:Note': {
               'http://www.w3.org/2000/01/rdf-schema#label': {
+                content: 'a',
                 items: {},
               },
             },
