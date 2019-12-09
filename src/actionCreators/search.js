@@ -15,7 +15,7 @@ export const fetchQASearchResults = (query, uri, options = {}) => (dispatch) => 
 
   return searchPromise.then((response) => {
     if (response.isError) {
-      dispatch(setSearchResults(uri, [], 0, undefined, query, options, { message: response.errorObject.message }))
+      dispatch(setSearchResults(uri, [], 0, undefined, query, options, response.errorObject.message))
     } else {
       dispatch(setSearchResults(uri, response.body.results, response.body.response_header.total_records, undefined, query, options))
     }

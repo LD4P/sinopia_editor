@@ -162,7 +162,7 @@ describe('fetchQASearchResults', () => {
         totalResults: 0,
         options: {},
         facetResults: undefined,
-        error: { message: 'Ooops...' },
+        error: 'Ooops...',
       },
     })
   })
