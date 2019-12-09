@@ -92,8 +92,8 @@ const InputLang = (props) => {
             </div>
           </div>
           <div className="modal-footer">
-            <button className="btn btn-default" onClick={ handleLangSubmit }>Submit</button>
-            <button className="btn btn-default" onClick={ close }>Close</button>
+            <button className="btn btn-link" onClick={ close }>Cancel</button>
+            <button className="btn btn-primary" onClick={ handleLangSubmit }>Submit</button>
           </div>
         </div>
       </div>
