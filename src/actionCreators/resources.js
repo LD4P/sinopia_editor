@@ -26,9 +26,9 @@ import _ from 'lodash'
 export const update = (resourceKey, currentUser, errorKey) => (dispatch, getState) => {
   const state = getState()
   const uri = findResourceURI(state, resourceKey)
-  const rdf = new GraphBuilder(state.selectorReducer.entities.resources[resourceKey], state.selectorReducer.entities.resourceTemplates).graph.toCanonical()
-  return updateRDFResource(currentUser, uri, rdf)
-    .then(() => dispatch(saveResourceFinished(resourceKey, generateMD5(rdf))))
+  const rdfBuilder = new GraphBuilder(state.selectorReducer.entities.resources[resourceKey], state.selectorReducer.entities.resourceTemplates)
+  return updateRDFResource(currentUser, uri, rdfBuilder.toTurtle())
+    .then(() => dispatch(saveResourceFinished(resourceKey, generateMD5(rdfBuilder.graph.toCanonical()))))
     .catch((err) => dispatch(appendError(errorKey, `Error saving ${uri}: ${err.toString()}`)))
 }
 
