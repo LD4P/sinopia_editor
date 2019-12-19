@@ -48,7 +48,7 @@ describe('update', () => {
     await store.dispatch(update('jkl012', currentUser, 'testerrorkey'))
 
     expect(store.getActions()).toEqual([
-      { type: 'SAVE_RESOURCE_FINISHED', payload: { resourceKey: 'jkl012', checksum: 'e37c563187b12275acf955128f14f3f3' } },
+      { type: 'SAVE_RESOURCE_FINISHED', payload: { resourceKey: 'jkl012', checksum: '5e30bd59d0186c5307065436240ba108' } },
     ])
   })
   it('dispatches actions when error occurs', async () => {
@@ -128,7 +128,7 @@ describe('retrieveResource', () => {
         { type: 'TOGGLE_COLLAPSE', payload: { reduxPath } },
         { type: 'RESOURCE_LOADED', payload: { resourceKey: 'abc123', resource: expectedResource, resourceTemplates: { [resourceTemplateId]: resourceTemplate } } },
         { type: 'SET_LAST_SAVE_CHECKSUM', payload: { resourceKey: 'abc123', checksum: undefined } },
-        { type: 'SET_LAST_SAVE_CHECKSUM', payload: { resourceKey: 'abc123', checksum: '547880ad2b8b81bfac4d15e0f856f248' } },
+        { type: 'SET_LAST_SAVE_CHECKSUM', payload: { resourceKey: 'abc123', checksum: 'a4c091070fd59aeed47e608ad2194092' } },
         { type: 'SET_UNUSED_RDF', payload: { resourceKey: 'abc123', rdf: '' } },
         { type: 'SET_CURRENT_RESOURCE', payload: 'abc123' },
       ])
@@ -175,7 +175,7 @@ describe('retrieveResource', () => {
         { type: 'TOGGLE_COLLAPSE', payload: { reduxPath } },
         { type: 'RESOURCE_LOADED', payload: { resourceKey: 'abc123', resource: expectedResource, resourceTemplates: { [resourceTemplateId]: resourceTemplate } } },
         { type: 'SET_LAST_SAVE_CHECKSUM', payload: { resourceKey: 'abc123', checksum: undefined } },
-        { type: 'SET_LAST_SAVE_CHECKSUM', payload: { resourceKey: 'abc123', checksum: '547880ad2b8b81bfac4d15e0f856f248' } },
+        { type: 'SET_LAST_SAVE_CHECKSUM', payload: { resourceKey: 'abc123', checksum: 'a4c091070fd59aeed47e608ad2194092' } },
         { type: 'SET_UNUSED_RDF', payload: { resourceKey: 'abc123', rdf: '' } },
         { type: 'SET_CURRENT_RESOURCE', payload: 'abc123' },
       ])
@@ -331,7 +331,7 @@ describe('newResource', () => {
         { type: 'CLEAR_ERRORS', payload: 'testerrorkey' },
         { type: 'RESOURCE_TEMPLATE_LOADED', payload: resourceTemplate },
         { type: 'RESOURCE_LOADED', payload: { resourceKey: 'abc123', resource: expectedResource, resourceTemplates: { [resourceTemplateId]: resourceTemplate } } },
-        { type: 'SET_LAST_SAVE_CHECKSUM', payload: { resourceKey: 'abc123', checksum: 'bbf95e2eaec615f77fa4f230d746ff68' } },
+        { type: 'SET_LAST_SAVE_CHECKSUM', payload: { resourceKey: 'abc123', checksum: 'baf92a33bf689d599a41bb4563db42fc' } },
         { type: 'SET_UNUSED_RDF', payload: { resourceKey: 'abc123', rdf: null } },
         { type: 'ADD_TEMPLATE_HISTORY', payload: resourceTemplate }])
     })

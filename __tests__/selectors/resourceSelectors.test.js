@@ -179,7 +179,7 @@ describe('resourceHasChangesSinceLastSave', () => {
       state.selectorReducer.entities.resources.abc123 = resource
       state.selectorReducer.entities.resourceTemplates['resourceTemplate:bf2:Note'] = template
       // See resourceHasChangesSinceLastSave() for checksum
-      state.selectorReducer.editor.lastSaveChecksum.abc123 = '75021e66490d12ff17d7e3a6c5e94d26'
+      state.selectorReducer.editor.lastSaveChecksum.abc123 = '5a003d6032fe9e3cd7d7e5cf4b388e2a'
       expect(resourceHasChangesSinceLastSave(state, 'abc123')).toBe(false)
     })
   })

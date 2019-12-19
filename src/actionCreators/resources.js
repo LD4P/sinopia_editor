@@ -26,9 +26,9 @@ import _ from 'lodash'
 export const update = (resourceKey, currentUser, errorKey) => (dispatch, getState) => {
   const state = getState()
   const uri = findResourceURI(state, resourceKey)
-  const rdf = new GraphBuilder(state.selectorReducer.entities.resources[resourceKey], state.selectorReducer.entities.resourceTemplates).toTurtle()
-  return updateRDFResource(currentUser, uri, rdf)
-    .then(() => dispatch(saveResourceFinished(resourceKey, generateMD5(rdf))))
+  const rdfBuilder = new GraphBuilder(state.selectorReducer.entities.resources[resourceKey], state.selectorReducer.entities.resourceTemplates)
+  return updateRDFResource(currentUser, uri, rdfBuilder.toTurtle())
+    .then(() => dispatch(saveResourceFinished(resourceKey, generateMD5(rdfBuilder.graph.toCanonical()))))
     .catch((err) => dispatch(appendError(errorKey, `Error saving ${uri}: ${err.toString()}`)))
 }
 
@@ -48,7 +48,7 @@ export const retrieveResource = (currentUser, uri, errorKey, asNewResource) => (
               dispatch(setResourceTemplates(resourceTemplates))
               return dispatch(existingResourceFunc(state, newURI, resourceKey, errorKey))
                 .then((result) => {
-                  const rdf = new GraphBuilder(result[0], result[1]).toTurtle()
+                  const rdf = new GraphBuilder(result[0], result[1]).graph.toCanonical()
                   if (!asNewResource) dispatch(setLastSaveChecksum(resourceKey, generateMD5(rdf)))
                   dispatch(setUnusedRDF(resourceKey, unusedDataset.toCanonical()))
                   dispatch(setCurrentResource(resourceKey))
@@ -109,7 +109,7 @@ export const newResource = (resourceTemplateId, errorKey) => (dispatch) => {
   return stubResource(resource, true, undefined, resourceKey, errorKey, dispatch)
     .then((result) => {
       const resourceTemplates = result[1]
-      const rdf = new GraphBuilder(result[0], resourceTemplates).toTurtle()
+      const rdf = new GraphBuilder(result[0], resourceTemplates).graph.toCanonical()
       dispatch(setLastSaveChecksum(resourceKey, generateMD5(rdf)))
       dispatch(setUnusedRDF(resourceKey, null))
       dispatch(addTemplateHistory(resourceTemplates[resourceTemplateId]))
