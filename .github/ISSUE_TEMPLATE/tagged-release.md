@@ -12,9 +12,10 @@ assignees: ''
   - [ ] Sinopia [Wiki](https://github.com/LD4P/sinopia/wiki/Latest-Release,-What's-Next)
 - [ ] Create release.
   - [ ] Pull latest master.
-  - [ ] Update the version in *package.json*
-  - [ ] `npm i` to regenerate *package-lock.json*
-  - [ ] `npm publish` to publish the version to [npm registry](https://npmjs.com).
+  - For the sinopia_editor only (sinopia_indexing_pipeline does not need to update the version number in the package.json file):
+    - [ ] Update the version in *package.json*
+    - [ ] `npm i` to regenerate *package-lock.json*
+    - [ ] `npm publish` to publish the version to [npm registry](https://npmjs.com).
   - [ ] Commit change to master and push.
   - [ ] Publish a [new release](https://github.com/LD4P/sinopia_editor/releases/new) with a version like `v1.0.2` and wait for Circleci to complete building and pushing docker images.
 - [ ] AWS Images for supporting projects - the Sinopia stack requires
