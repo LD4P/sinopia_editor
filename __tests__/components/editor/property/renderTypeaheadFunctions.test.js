@@ -38,6 +38,25 @@ describe('Rendering Typeahead Menu', () => {
       expect(menuWrapper.childAt(4).html()).toEqual('<li class="dropdown-header">New URI</li>')
       expect(menuWrapper.childAt(5).childAt(0).text()).toEqual('http://id.loc.gov/authorities/subjects/123456789')
     })
+
+    it('sets the correct for customOptions', () => {
+      const lookupConfigs = findAuthorityConfigs(['urn:ld4p:qa:agrovoc'])
+      const customOptions = [
+        {
+          customOption: true,
+          label: 'http://schema.org/Food',
+        },
+        {
+          customOption: true,
+          label: 'A piece of corn-on-the-cob',
+        },
+      ]
+      const menuWrapper = shallow(renderMenuFunc(customOptions, p2Props, lookupConfigs))
+      expect(menuWrapper.childAt(1).childAt(0).text()).toEqual('New URI')
+      expect(menuWrapper.childAt(2).childAt(0).text()).toEqual('http://schema.org/Food')
+      expect(menuWrapper.childAt(3).childAt(0).text()).toEqual('New Literal')
+      expect(menuWrapper.childAt(4).childAt(0).text()).toEqual('A piece of corn-on-the-cob')
+    })
   })
 
   describe('Rendering Tokens', () => {
