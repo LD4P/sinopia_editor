@@ -57,12 +57,13 @@ export const renderMenuFunc = (results, menuProps, lookupConfigs) => {
 
   const customOption = results.filter((result) => result.customOption)
   customOption.forEach((result) => {
-    const headerLabel = isValidURI(result.label) ? 'New URI' : 'New Literal'
+    const isURI = isValidURI(result.label)
+    const headerLabel = isURI ? 'New URI' : 'New Literal'
     const option = {
       id: result.label,
       label: result.label,
-      content: result.label,
     }
+    isURI ? option.uri = result.label : option.content = result.label
     items.push(<Menu.Header key="customOption-header">{headerLabel}</Menu.Header>)
     items.push(<MenuItem key={result.label} option={option} data-testid="customOption-link">{result.label}</MenuItem>)
   })
