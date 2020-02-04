@@ -214,7 +214,8 @@ class ImportFileZone extends Component {
                   className="btn btn-link"
                   onClick={this.handleClick}>
             <FontAwesomeIcon style={ { marginRight: '0.8rem' } } icon={faUpload} />
-                  Import Profile / Resource Template</button>
+            Import Profile / Resource Template
+          </button>
         </div>
         <div className="dropzoneContainer" style={dropzoneContainer}>
           { this.state.showDropZone ? this.renderDropZone() : null }

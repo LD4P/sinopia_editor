@@ -70,7 +70,7 @@ class LoginPanel extends Component {
         </div>
         <div className = "form-group">
           <label htmlFor="password">
-              Password
+            Password
             <input id="password"
                    style={ { width: '300px' } }
                    name="password"

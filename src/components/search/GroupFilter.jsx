@@ -76,7 +76,7 @@ const GroupFilter = () => {
                   aria-haspopup="true"
                   aria-expanded={groupFilterShowDropdown}
                   onClick={() => setGroupFilterShowDropdown(!groupFilterShowDropdown)} >
-              Filter by institution
+            Filter by institution
           </button>
           <div className={dropDownMenuClasses.join(' ')} aria-labelledby="groupFilterDropdownButton">
             {searchOptions.groupFilter

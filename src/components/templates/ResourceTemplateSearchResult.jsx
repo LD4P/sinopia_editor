@@ -18,19 +18,19 @@ const ResourceTemplateSearchResult = (props) => {
           <thead>
             <tr>
               <th style={{ backgroundColor: '#F8F6EF', width: '30%' }}>
-              Label / ID
+                Label / ID
               </th>
               <th style={{ backgroundColor: '#F8F6EF', width: '20%' }}>
-              Resource URI
+                Resource URI
               </th>
               <th style={{ backgroundColor: '#F8F6EF', width: '12%' }}>
-              Author
+                Author
               </th>
               <th style={{ backgroundColor: '#F8F6EF', width: '10%' }}>
-              Date
+                Date
               </th>
               <th style={{ backgroundColor: '#F8F6EF', width: '24%' }}>
-              Guiding statement
+                Guiding statement
               </th>
               <th style={{ backgroundColor: '#F8F6EF', width: '4%' }}
                   data-testid="download-col-header">

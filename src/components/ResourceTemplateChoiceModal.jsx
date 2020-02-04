@@ -62,7 +62,7 @@ const ResourceTemplateChoiceModal = (props) => {
           <form className="group-select-options">
             <div className="modal-body group-panel">
               <label className="group-select-label" htmlFor="resourceTemplateSelect">
-              Into which resource template do you want to load this resource?
+                Into which resource template do you want to load this resource?
               </label>
               <AsyncTypeahead onSearch={search}
                               onChange={change}
@@ -80,7 +80,7 @@ const ResourceTemplateChoiceModal = (props) => {
                   Cancel
                 </button>
                 <button className="btn btn-primary btn-sm" onClick={(event) => saveAndClose(event) }>
-                 Save
+                  Save
                 </button>
               </div>
             </div>
