@@ -57,7 +57,7 @@ const DropZone = (props) => {
     <section>
       <p>
         Drag and drop a profile or resource template file in the box
-          or click it to select a file to upload:
+        or click it to select a file to upload:
       </p>
 
       <div {...getRootProps({ style })}>

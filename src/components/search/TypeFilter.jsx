@@ -76,7 +76,7 @@ const TypeFilter = () => {
                   aria-haspopup="true"
                   aria-expanded={typeFilterShowDropdown}
                   onClick={() => setTypeFilterShowDropdown(!typeFilterShowDropdown)} >
-              Filter by class
+            Filter by class
           </button>
           <div className={dropDownMenuClasses.join(' ')} aria-labelledby="typeFilterDropdownButton">
             {searchOptions.typeFilter
