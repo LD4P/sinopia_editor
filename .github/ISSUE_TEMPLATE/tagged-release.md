@@ -38,6 +38,6 @@ assignees: ''
 - [ ] Deploy to staging
   - [ ] Follow [instructions](https://github.com/sul-dlss/terraform-aws/tree/master/organizations/staging/sinopia#deploying-a-release-to-staging) for pushing a release to staging. Make sure to update versions to Sinopia Editor, Sinopia Indexing Pipeline, and Sinopia Exporter.
   - [ ] Submit a new terraform PR.
-- [ ] Produce owner decides whether to deploy to production (which may not occur for every tagged release)
+- [ ] Product owner decides whether to deploy to production (which may not occur for every tagged release)
   - [ ] Create a new terraform PR for production, making similar changes to staging.
   - [ ] Request that Ops deploy to production.
