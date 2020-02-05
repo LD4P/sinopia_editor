@@ -13,11 +13,11 @@ assignees: ''
 - [ ] Create release.
   - [ ] Pull latest master.
   - For the sinopia_editor only (sinopia_indexing_pipeline does not need to update the version number in the package.json file):
-    - [ ] Update the version in *package.json*
+    - [ ] Check out a branch and update the version in *package.json*
     - [ ] `npm i` to regenerate *package-lock.json*
     - [ ] `npm publish` to publish the version to [npm registry](https://npmjs.com).
-  - [ ] Commit change to master and push.
-  - [ ] Publish a [new release](https://github.com/LD4P/sinopia_editor/releases/new) with a version like `v1.0.2` and wait for Circleci to complete building and pushing docker images.
+    - [ ] Commit change to branch and push; create PR for version bump.  (You can't push directly to master, since it's a protected branch).
+    - [ ] Once PR is merged, publish a [new release](https://github.com/LD4P/sinopia_editor/releases/new) with a version like `v1.0.2` and wait for Circleci to complete building and pushing docker images.
 - [ ] AWS Images for supporting projects - the Sinopia stack requires
   a number of other projects to run successfully both locally and on AWS. If any of
   these projects changed between tagged releases, you will need to update and tag the
