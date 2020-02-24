@@ -25,6 +25,38 @@
     "component": "lookup"
   },
   {
+    "label": "CERL (QA)",
+    "uri": "urn:ld4p:qa:cerl",
+    "authority": "cerl_ld4l_cache",
+    "subauthority": "",
+    "language": "en",
+    "component": "lookup"
+  },
+  {
+    "label": "CERL person (QA)",
+    "uri": "urn:ld4p:qa:cerl",
+    "authority": "cerl_ld4l_cache",
+    "subauthority": "person",
+    "language": "en",
+    "component": "lookup"
+  },
+  {
+    "label": "CERL corporate_body (QA)",
+    "uri": "urn:ld4p:qa:cerl",
+    "authority": "cerl_ld4l_cache",
+    "subauthority": "corporate",
+    "language": "en",
+    "component": "lookup"
+  },
+  {
+    "label": "CERL imprint (QA)",
+    "uri": "urn:ld4p:qa:cerl",
+    "authority": "cerl_ld4l_cache",
+    "subauthority": "imprint",
+    "language": "en",
+    "component": "lookup"
+  },
+  {
     "label": "DBPEDIA_(QA)",
     "uri": "urn:ld4p:qa:dbpedia",
     "authority": "dbpedia_ld4l_cache",
@@ -60,7 +92,7 @@
     "nonldLookup": true
   },
   {
-    "label": "GEONAMES_all (QA)",
+    "label": "GEONAMES all (QA)",
     "uri": "urn:ld4p:qa:geonames",
     "authority": "geonames_ld4l_cache",
     "subauthority": "",
@@ -68,7 +100,7 @@
     "component": "lookup"
   },
   {
-    "label": "GEONAMES_area (QA)",
+    "label": "GEONAMES area (QA)",
     "uri": "urn:ld4p:qa:geonames:area",
     "authority": "geonames_ld4l_cache",
     "subauthority": "area",
@@ -76,7 +108,7 @@
     "component": "lookup"
   },
   {
-    "label": "GEONAMES_place (QA)",
+    "label": "GEONAMES place (QA)",
     "uri": "urn:ld4p:qa:geonames:place",
     "authority": "geonames_ld4l_cache",
     "subauthority": "place",
@@ -84,7 +116,7 @@
     "component": "lookup"
   },
   {
-    "label": "GEONAMES_area_and_place (QA)",
+    "label": "GEONAMES area_and_place (QA)",
     "uri": "urn:ld4p:qa:geonames:area_and_place",
     "authority": "geonames_ld4l_cache",
     "subauthority": "area_and_place",
@@ -92,7 +124,7 @@
     "component": "lookup"
   },
   {
-    "label": "GEONAMES_water (QA)",
+    "label": "GEONAMES water (QA)",
     "uri": "urn:ld4p:qa:geonames:water",
     "authority": "geonames_ld4l_cache",
     "subauthority": "water",
@@ -100,7 +132,7 @@
     "component": "lookup"
   },
   {
-    "label": "GEONAMES_park (QA)",
+    "label": "GEONAMES park (QA)",
     "uri": "urn:ld4p:qa:geonames:park",
     "authority": "geonames_ld4l_cache",
     "subauthority": "park",
@@ -108,7 +140,7 @@
     "component": "lookup"
   },
   {
-    "label": "GEONAMES_road (QA)",
+    "label": "GEONAMES road (QA)",
     "uri": "urn:ld4p:qa:geonames:road",
     "authority": "geonames_ld4l_cache",
     "subauthority": "road",
@@ -116,7 +148,7 @@
     "component": "lookup"
   },
   {
-    "label": "GEONAMES_spot (QA)",
+    "label": "GEONAMES spot (QA)",
     "uri": "urn:ld4p:qa:geonames:spot",
     "authority": "geonames_ld4l_cache",
     "subauthority": "spot",
@@ -124,7 +156,7 @@
     "component": "lookup"
   },
   {
-    "label": "GEONAMES_terrain (QA)",
+    "label": "GEONAMES terrain (QA)",
     "uri": "urn:ld4p:qa:geonames:terrain",
     "authority": "geonames_ld4l_cache",
     "subauthority": "terrain",
@@ -132,7 +164,7 @@
     "component": "lookup"
   },
   {
-    "label": "GEONAMES_undersea (QA)",
+    "label": "GEONAMES undersea (QA)",
     "uri": "urn:ld4p:qa:geonames:undersea",
     "authority": "geonames_ld4l_cache",
     "subauthority": "undersea",
@@ -140,7 +172,7 @@
     "component": "lookup"
   },
   {
-    "label": "GEONAMES_vegetation (QA)",
+    "label": "GEONAMES vegetation (QA)",
     "uri": "urn:ld4p:qa:geonames:vegetation",
     "authority": "geonames_ld4l_cache",
     "subauthority": "vegetation",
@@ -436,6 +468,14 @@
     "component": "lookup"
   },
   {
+    "label": "Ligatus (QA)",
+    "uri": "urn:ld4p:qa:ligatus",
+    "authority": "ligatus_ld4l_cache",
+    "subauthority": "",
+    "language": "en",
+    "component": "lookup"
+  },
+  {
     "label": "LOC demographics (QA)",
     "uri": "urn:ld4p:qa:demographics",
     "authority": "locdemographics_ld4l_cache",
@@ -532,10 +572,26 @@
     "component": "lookup"
   },
   {
-    "label": "MESH (QA)",
+    "label": "MESH (default: subjects) (QA)",
     "uri": "urn:ld4p:qa:mesh",
     "authority": "mesh_nlm_ld4l_cache",
-    "subauthority": "",
+    "subauthority": "subject",
+    "language": "en",
+    "component": "lookup"
+  },
+  {
+    "label": "MESH subjects (QA)",
+    "uri": "urn:ld4p:qa:mesh:subject",
+    "authority": "mesh_nlm_ld4l_cache",
+    "subauthority": "subject",
+    "language": "en",
+    "component": "lookup"
+  },
+  {
+    "label": "MESH production types (QA)",
+    "uri": "urn:ld4p:qa:mesh:conference",
+    "authority": "mesh_nlm_ld4l_cache",
+    "subauthority": "production_type",
     "language": "en",
     "component": "lookup"
   },
