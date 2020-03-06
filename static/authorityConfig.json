@@ -572,14 +572,6 @@
     "component": "lookup"
   },
   {
-    "label": "MESH (default: subjects) (QA)",
-    "uri": "urn:ld4p:qa:mesh",
-    "authority": "mesh_nlm_ld4l_cache",
-    "subauthority": "subject",
-    "language": "en",
-    "component": "lookup"
-  },
-  {
     "label": "MESH subjects (QA)",
     "uri": "urn:ld4p:qa:mesh:subject",
     "authority": "mesh_nlm_ld4l_cache",
@@ -588,10 +580,10 @@
     "component": "lookup"
   },
   {
-    "label": "MESH production types (QA)",
-    "uri": "urn:ld4p:qa:mesh:conference",
+    "label": "MESH publication types (QA)",
+    "uri": "urn:ld4p:qa:mesh:publication_type",
     "authority": "mesh_nlm_ld4l_cache",
-    "subauthority": "production_type",
+    "subauthority": "publication_type",
     "language": "en",
     "component": "lookup"
   },
