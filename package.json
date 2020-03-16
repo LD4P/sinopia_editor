@@ -85,7 +85,7 @@
     "react-dom": "^16.13.0",
     "react-dropzone": "^10.1.10",
     "react-helmet-async": "^1.0.4",
-    "react-hot-loader": "^4.12.19",
+    "react-hot-loader": "^4.12.20",
     "react-offcanvas": "^0.4.0",
     "react-redux": "^7.2.0",
     "react-router-dom": "^5.1.2",
