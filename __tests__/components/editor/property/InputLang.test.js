@@ -74,12 +74,12 @@ describe('<InputLang />', () => {
       state.selectorReducer.entities.resources.abc123['http://id.loc.gov/ontologies/bibframe/instanceOf'].lang = 'en'
       const store = createReduxStore(state)
 
-      const { getByLabelText } = renderWithRedux(
+      const { getAllByLabelText } = renderWithRedux(
         <InputLang {...plProps} />,
         store,
       )
-      const radio = getByLabelText(/Select language for 45678/)
-      expect(radio.checked).toBe(true)
+      const radio = getAllByLabelText(/Select language for 45678/)
+      expect(radio[0].checked).toBe(true)
     })
   })
 })
