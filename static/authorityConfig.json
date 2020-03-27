@@ -468,6 +468,14 @@
     "component": "lookup"
   },
   {
+    "label": "ISNI (QA)",
+    "uri": "urn:ld4p:qa:isni",
+    "authority": "isni_ld4l_cache",
+    "subauthority": "",
+    "language": "en",
+    "component": "lookup"
+  },
+  {
     "label": "Ligatus (QA)",
     "uri": "urn:ld4p:qa:ligatus",
     "authority": "ligatus_ld4l_cache",
