@@ -604,7 +604,7 @@
     "component": "lookup"
   },
   {
-    "label": "OCLCFAST (QA)",
+    "label": "OCLCFAST (QA) - cache",
     "uri": "urn:ld4p:qa:fast",
     "authority": "oclcfast_ld4l_cache",
     "subauthority": "",
@@ -612,7 +612,7 @@
     "component": "lookup"
   },
   {
-    "label": "OCLCFAST concept (QA)",
+    "label": "OCLCFAST concept (QA) - cache",
     "uri": "urn:ld4p:qa:fast:concept",
     "authority": "oclcfast_ld4l_cache",
     "subauthority": "concept",
@@ -620,7 +620,7 @@
     "component": "lookup"
   },
   {
-    "label": "OCLCFAST event (QA)",
+    "label": "OCLCFAST event (QA) - cache",
     "uri": "urn:ld4p:qa:fast:event",
     "authority": "oclcfast_ld4l_cache",
     "subauthority": "event",
@@ -628,7 +628,7 @@
     "component": "lookup"
   },
   {
-    "label": "OCLCFAST person (QA)",
+    "label": "OCLCFAST person (QA) - cache",
     "uri": "urn:ld4p:qa:fast:person",
     "authority": "oclcfast_ld4l_cache",
     "subauthority": "person",
@@ -636,7 +636,7 @@
     "component": "lookup"
   },
   {
-    "label": "OCLCFAST organization (QA)",
+    "label": "OCLCFAST organization (QA) - cache",
     "uri": "urn:ld4p:qa:fast:organization",
     "authority": "oclcfast_ld4l_cache",
     "subauthority": "organization",
@@ -644,7 +644,7 @@
     "component": "lookup"
   },
   {
-    "label": "OCLCFAST place (QA)",
+    "label": "OCLCFAST place (QA) - cache",
     "uri": "urn:ld4p:qa:fast:place",
     "authority": "oclcfast_ld4l_cache",
     "subauthority": "place",
@@ -652,7 +652,7 @@
     "component": "lookup"
   },
   {
-    "label": "OCLCFAST intangible (QA)",
+    "label": "OCLCFAST intangible (QA) - cache",
     "uri": "urn:ld4p:qa:fast:intangible",
     "authority": "oclcfast_ld4l_cache",
     "subauthority": "intangible",
@@ -660,7 +660,7 @@
     "component": "lookup"
   },
   {
-    "label": "OCLCFAST work (QA)",
+    "label": "OCLCFAST work (QA) - cache",
     "uri": "urn:ld4p:qa:fast:work",
     "authority": "oclcfast_ld4l_cache",
     "subauthority": "work",
@@ -668,73 +668,73 @@
     "component": "lookup"
   },
   {
-    "label": "OCLCFAST topic (QA)",
+    "label": "OCLCFAST topic (QA) - direct",
     "uri": "urn:ld4p:qa:oclc_fast:topic",
-    "authority": "oclc_fast",
+    "authority": "oclcfast_direct",
     "subauthority": "topic",
     "language": "en",
     "component": "lookup"
   },
   {
-    "label": "OCLCFAST geographic (QA)",
+    "label": "OCLCFAST geographic (QA) - direct",
     "uri": "urn:ld4p:qa:oclc_fast:geographic",
-    "authority": "oclc_fast",
+    "authority": "oclcfast_direct",
     "subauthority": "geographic",
     "language": "en",
     "component": "lookup"
   },
   {
-    "label": "OCLCFAST event_name (QA)",
+    "label": "OCLCFAST event_name (QA) - direct",
     "uri": "urn:ld4p:qa:oclc_fast:event_name",
-    "authority": "oclc_fast",
+    "authority": "oclcfast_direct",
     "subauthority": "event_name",
     "language": "en",
     "component": "lookup"
   },
   {
-    "label": "OCLCFAST personal_name (QA)",
+    "label": "OCLCFAST personal_name (QA) - direct",
     "uri": "urn:ld4p:qa:oclc_fast:personal_name",
-    "authority": "oclc_fast",
+    "authority": "oclcfast_direct",
     "subauthority": "personal_name",
     "language": "en",
     "component": "lookup"
   },
   {
-    "label": "OCLCFAST corporate_name (QA)",
+    "label": "OCLCFAST corporate_name (QA) - direct",
     "uri": "urn:ld4p:qa:oclc_fast:corporate_name",
-    "authority": "oclc_fast",
+    "authority": "oclcfast_direct",
     "subauthority": "corporate_name",
     "language": "en",
     "component": "lookup"
   },
   {
-    "label": "OCLCFAST uniform_title (QA)",
+    "label": "OCLCFAST uniform_title (QA) - direct",
     "uri": "urn:ld4p:qa:oclc_fast:uniform_title",
-    "authority": "oclc_fast",
+    "authority": "oclcfast_direct",
     "subauthority": "uniform_title",
     "language": "en",
     "component": "lookup"
   },
   {
-    "label": "OCLCFAST period (QA)",
+    "label": "OCLCFAST period (QA) - direct",
     "uri": "urn:ld4p:qa:oclc_fast:period",
-    "authority": "oclc_fast",
+    "authority": "oclcfast_direct",
     "subauthority": "period",
     "language": "en",
     "component": "lookup"
   },
   {
-    "label": "OCLCFAST form (QA)",
+    "label": "OCLCFAST form (QA) - direct",
     "uri": "urn:ld4p:qa:oclc_fast:form",
-    "authority": "oclc_fast",
+    "authority": "oclcfast_direct",
     "subauthority": "form",
     "language": "en",
     "component": "lookup"
   },
   {
-    "label": "OCLCFAST alt_lc (QA)",
+    "label": "OCLCFAST alt_lc (QA) - direct",
     "uri": "urn:ld4p:qa:oclc_fast:alt_lc",
-    "authority": "oclc_fast",
+    "authority": "oclcfast_direct",
     "subauthority": "alt_lc",
     "language": "en",
     "component": "lookup"
