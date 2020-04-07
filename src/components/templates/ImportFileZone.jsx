@@ -127,7 +127,8 @@ class ImportFileZone extends Component {
             resolve()
           })
           .catch((err) => {
-            if (err.indexOf('already exists') > 0) resolve()
+            // An UnhandledPromiseRejectionWarning without indexof
+            if (Object.prototype.hasOwnProperty.call(err, 'indexOf') && err.indexOf('already exists') > 0) resolve()
             else reject(new Error(`error getting json schemas ${err}`))
           })
       } else {
