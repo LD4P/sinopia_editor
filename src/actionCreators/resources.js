@@ -89,7 +89,7 @@ const chooseURI = (dataset, uri) => (dataset.match(rdf.namedNode(uri)).size > 0 
 export const publishResource = (resourceKey, currentUser, group, errorKey) => (dispatch, getState) => {
   // Make a copy of state to prevent changes that will affect the publish.
   const state = _.cloneDeep(getState())
-  const rdf = new GraphBuilder(state.selectorReducer.entities.resources[resourceKey], state.selectorReducer.entities.resourceTemplates).toTurtle()
+  const rdf = new GraphBuilder(state.selectorReducer.entities.resources[resourceKey], state.selectorReducer.entities.resourceTemplates).graph.toCanonical()
 
   return publishRDFResource(currentUser, rdf, group).then((result) => {
     const resourceUrl = result.response.headers.location
