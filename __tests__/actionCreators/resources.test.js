@@ -283,7 +283,7 @@ describe('publishResource', () => {
     await store.dispatch(publishResource('jkl012', currentUser, group, 'testerrorkey'))
     expect(store.getActions()).toEqual([
       { type: 'SET_BASE_URL', payload: { resourceKey: 'jkl012', resourceURI: 'http://sinopia.io/repository/myGroup/myResource' } },
-      { type: 'SAVE_RESOURCE_FINISHED', payload: { resourceKey: 'jkl012', checksum: 'e37c563187b12275acf955128f14f3f3' } },
+      { type: 'SAVE_RESOURCE_FINISHED', payload: { resourceKey: 'jkl012', checksum: '5e30bd59d0186c5307065436240ba108' } },
     ])
   })
 
