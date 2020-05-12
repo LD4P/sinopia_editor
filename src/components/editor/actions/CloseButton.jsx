@@ -37,7 +37,7 @@ const CloseButton = (props) => {
 
   return (
     <React.Fragment>
-      <CloseResourceModal closeResource={closeResource} />
+      <CloseResourceModal />
       <button type="button"
               className={buttonClasses}
               aria-label="Close"

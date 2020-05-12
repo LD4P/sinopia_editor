@@ -48,9 +48,8 @@ describe('<CloseResourceModal />', () => {
   })
 
   it('clicking closes closes and invokes closeResource()', async () => {
-    const mockCloseResource = jest.fn()
     const { getByText } = renderWithRedux(
-      <RDFModal closeResource={mockCloseResource}/>,
+      <RDFModal />,
       store,
     )
     fireEvent.click(getByText('Close'))
@@ -58,6 +57,5 @@ describe('<CloseResourceModal />', () => {
     await wait(() => {
       expect(modalType(store.getState())).toBe(undefined)
     })
-    expect(mockCloseResource).toBeCalled()
   })
 })

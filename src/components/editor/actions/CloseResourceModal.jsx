@@ -3,14 +3,16 @@
 import React from 'react'
 import { hideModal } from 'actions/modals'
 import { useDispatch, useSelector } from 'react-redux'
-import PropTypes from 'prop-types'
+import { clearResource } from 'actions/index'
+import { currentResourceKey } from 'selectors/resourceSelectors'
 import ModalWrapper, { useDisplayStyle, useModalCss } from '../../ModalWrapper'
 import { modalType } from 'selectors/modalSelectors'
 
-const CloseResourceModal = (props) => {
+const CloseResourceModal = () => {
   const dispatch = useDispatch()
 
   const show = useSelector((state) => modalType(state) === 'CloseResourceModal')
+  const resourceKey = useSelector((state) => currentResourceKey(state))
 
   const handleClose = (event) => {
     dispatch(hideModal())
@@ -18,7 +20,7 @@ const CloseResourceModal = (props) => {
   }
 
   const handleCloseResource = (event) => {
-    props.closeResource()
+    dispatch(clearResource(resourceKey))
     dispatch(hideModal())
     event.preventDefault()
   }
@@ -53,10 +55,6 @@ const CloseResourceModal = (props) => {
     </div>)
 
   return (<ModalWrapper modal={modal} />)
-}
-
-CloseResourceModal.propTypes = {
-  closeResource: PropTypes.func,
 }
 
 export default CloseResourceModal
