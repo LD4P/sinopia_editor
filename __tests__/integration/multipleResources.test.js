@@ -42,7 +42,7 @@ describe('Loading multiple resources', () => {
     await wait(() => expect(queryByText('Abbreviated Title', { selector: 'button' })).not.toBeInTheDocument())
 
     // Close again
-    fireEvent.click(queryAllByText('Close')[0])
+    fireEvent.click(queryAllByText('Close')[3])
 
     // Back to Resource Template page
     expect(await findByText('BIBFRAME Instance')).toBeInTheDocument()
