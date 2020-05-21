@@ -34,7 +34,7 @@
   },
   {
     "label": "CERL person (QA)",
-    "uri": "urn:ld4p:qa:cerl",
+    "uri": "urn:ld4p:qa:cerl:person",
     "authority": "cerl_ld4l_cache",
     "subauthority": "person",
     "language": "en",
@@ -42,7 +42,7 @@
   },
   {
     "label": "CERL corporate_body (QA)",
-    "uri": "urn:ld4p:qa:cerl",
+    "uri": "urn:ld4p:qa:cerl:corporate",
     "authority": "cerl_ld4l_cache",
     "subauthority": "corporate",
     "language": "en",
@@ -50,7 +50,7 @@
   },
   {
     "label": "CERL imprint (QA)",
-    "uri": "urn:ld4p:qa:cerl",
+    "uri": "urn:ld4p:qa:cerl:imprint",
     "authority": "cerl_ld4l_cache",
     "subauthority": "imprint",
     "language": "en",
