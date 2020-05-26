@@ -96,7 +96,7 @@
     "set-value": "^3.0.2",
     "shortid": "^2.2.14",
     "sinopia_server": "^3.0.0-beta4",
-    "swagger-client": "^3.10.3",
+    "swagger-client": "^3.10.4",
     "x2js": "^3.2.6"
   },
   "devDependencies": {
