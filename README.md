@@ -18,7 +18,7 @@ Technical documentation specific to the Sinopia Linked Data Editor may also be f
 4.  Get latest npm: `npm install -g npm@latest`
 5.  Run `npm install`. This installs everything needed for the build to run successfully.
 
-Note: Currently you need to have node version 10 (version 12 may not work).
+Note: Currently you need to have node version >= 11 (testing with version 14).
 You can use the "n" node package management to manage multiple version of node: https://www.npmjs.com/package/n
 
 ## Build the distribution
@@ -48,7 +48,7 @@ You will need to be online to authenticate even when developing in localhost.
 - React components are located in `src/components/` directory
 - Characters for the diacritics components come from the
   [Mediawiki](https://github.com/wikimedia/mediawiki/) repository's [specialcharacters.json](https://github.com/wikimedia/mediawiki/blob/master/resources/src/mediawiki.language/specialcharacters.json). This file has been customized for use in Sinopia
-  by including a separate label for each character set and by removing MediaWiki-specific 
+  by including a separate label for each character set and by removing MediaWiki-specific
   data structures that would have made processing by Sinopia more complicated.
 
 ### Use static resource templates instead of hitting Trellis
