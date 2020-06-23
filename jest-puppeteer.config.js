@@ -1,6 +1,7 @@
 // Copyright 2018 Stanford University see LICENSE for license
 
 module.exports = {
+  browser: 'firefox',
   launch: {
     headless: process.env.HEADLESS !== 'false',
     args: ['--disable-web-security'],

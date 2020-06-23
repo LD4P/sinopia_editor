@@ -24,7 +24,10 @@ jobs:
             - node_modules
       - restore_cache:
           key: dependencies-ci-{{ checksum "package.json" }}
-      - run: npm install # including CI/Test dependencies
+      - run:
+          command: npm install # including CI/Test dependencies
+          environment:
+            PUPPETEER_PRODUCT: firefox
       - save_cache:
           key: dependencies-ci-{{ checksum "package.json" }}
           paths:
