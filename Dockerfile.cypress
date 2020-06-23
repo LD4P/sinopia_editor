@@ -1,4 +1,4 @@
-FROM cypress/browsers
+FROM cypress/browsers:node12.6.0-chrome75
 
 # Rolling our own instead of using cypress-provided images because want to use
 # additional libraries.
