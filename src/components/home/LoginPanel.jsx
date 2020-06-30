@@ -4,9 +4,9 @@ import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
 import Config from 'Config'
-import CognitoUtils from '../../CognitoUtils'
-import { getAuthenticationError, getCurrentSession, getCurrentUser } from '../../authSelectors'
-import { authenticationFailed, authenticationSucceeded } from '../../actionCreators/authenticate'
+import CognitoUtils from 'utilities/CognitoUtils'
+import { selectAuthenticationError, selectCurrentSession, selectCurrentUser } from 'selectors/authenticate'
+import { authenticationFailed, authenticationSucceeded } from 'actionCreators/authenticate'
 
 class LoginPanel extends Component {
   constructor(props) {
@@ -124,9 +124,9 @@ LoginPanel.propTypes = {
 }
 
 const mapStateToProps = (state) => ({
-  currentUser: getCurrentUser(state),
-  currentSession: getCurrentSession(state),
-  authenticationError: getAuthenticationError(state),
+  currentUser: selectCurrentUser(state),
+  currentSession: selectCurrentSession(state),
+  authenticationError: selectAuthenticationError(state),
 })
 
 export default connect(

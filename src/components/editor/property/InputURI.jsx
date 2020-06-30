@@ -2,18 +2,15 @@
 
 import React, { useRef, useState } from 'react'
 import PropTypes from 'prop-types'
-import SinopiaPropTypes from 'SinopiaPropTypes'
 import { bindActionCreators } from 'redux'
 import { connect } from 'react-redux'
 import shortid from 'shortid'
-import { itemsSelected } from 'actions/index'
-import {
-  findNode, getDisplayResourceValidations, getPropertyTemplate, findResourceValidationErrorsByPath,
-} from 'selectors/resourceSelectors'
-
+import { displayResourceValidations } from 'selectors/errors'
+import { addValue } from 'actions/resources'
+import { newUriValue } from 'utilities/valueFactory'
 import InputValue from './InputValue'
-import { isValidURI } from 'Utilities'
-import { booleanPropertyFromTemplate } from 'utilities/propertyTemplates'
+import { isValidURI } from 'utilities/Utilities'
+import { selectProperty } from 'selectors/resources'
 
 import _ from 'lodash'
 
@@ -22,31 +19,22 @@ const InputURI = (props) => {
   const [content, setContent] = useState('')
   const [uriError, setURIError] = useState(false)
 
-  // Don't render if don't have property templates yet.
-  if (!props.propertyTemplate) {
-    return null
-  }
-
-  const disabled = !booleanPropertyFromTemplate(props.propertyTemplate, 'repeatable', true)
-      && Object.keys(props.items).length > 0
+  const disabled = !props.property.propertyTemplate.repeatable
+      && props.property.values.length > 0
 
   const addItem = () => {
     const currentcontent = content.trim()
 
-    if (!currentcontent || !isValidURI(currentcontent)) {
+    if (!currentcontent) return
+
+    if (!isValidURI(currentcontent)) {
       setURIError(true)
       return
     }
     setURIError(false)
 
-    const userInput = {
-      reduxPath: props.reduxPath,
-      items: {
-        [shortid.generate()]: { uri: currentcontent },
-      },
-    }
+    props.addValue(newUriValue(props.propertyKey, currentcontent, null))
 
-    props.itemsSelected(userInput)
     setContent('')
   }
 
@@ -62,27 +50,22 @@ const InputURI = (props) => {
     inputLiteralRef.current.focus()
   }
 
-  /**
-   * @return {bool} true if the field should be marked as required (e.g. not all obligations met)
-   */
-
-  const required = booleanPropertyFromTemplate(props.propertyTemplate, 'mandatory', false)
+  const required = props.property.propertyTemplate.required
 
   const mergeErrors = () => {
     let errors = []
     if (uriError) {
       errors.push('Not a valid URI.')
     }
-    if (props.displayValidations && !_.isEmpty(props.errors)) {
-      errors = errors.concat(props.errors)
+    if (props.displayValidations && !_.isEmpty(props.property.errors)) {
+      errors = errors.concat(props.property.errors)
     }
     return errors
   }
 
-  const itemKeys = Object.keys(props.items)
-  const addedList = itemKeys.map((itemId) => (<InputValue key={itemId}
-                                                          handleEdit={handleEdit}
-                                                          reduxPath={[...props.reduxPath, 'items', itemId]} />))
+  const addedList = props.property.valueKeys.map((valueKey) => (<InputValue key={valueKey}
+                                                                            handleEdit={handleEdit}
+                                                                            valueKey={valueKey} />))
 
   let error
   let groupClasses = 'form-group'
@@ -99,7 +82,7 @@ const InputURI = (props) => {
       <input id={id}
              required={required}
              className="form-control"
-             placeholder={props.propertyTemplate.propertyLabel}
+             placeholder={props.property.propertyTemplate.propertyLabel}
              onChange={(event) => setContent(event.target.value)}
              onKeyPress={handleKeypress}
              value={content}
@@ -114,32 +97,17 @@ const InputURI = (props) => {
 }
 
 InputURI.propTypes = {
-  propertyTemplate: SinopiaPropTypes.propertyTemplate,
-  items: PropTypes.object,
-  itemsSelected: PropTypes.func,
-  reduxPath: PropTypes.array.isRequired,
+  propertyKey: PropTypes.string,
+  property: PropTypes.object,
   displayValidations: PropTypes.bool,
-  errors: PropTypes.array,
+  addValue: PropTypes.func,
 }
 
-const mapStateToProps = (state, props) => {
-  const reduxPath = props.reduxPath
-  const resourceTemplateId = reduxPath[reduxPath.length - 2]
-  const propertyURI = reduxPath[reduxPath.length - 1]
-  const displayValidations = getDisplayResourceValidations(state)
-  // items has to be its own prop or rerendering won't occur when one is removed
-  const items = findNode(state, reduxPath).items || {}
-  const propertyTemplate = getPropertyTemplate(state, resourceTemplateId, propertyURI)
-  const errors = findResourceValidationErrorsByPath(state, reduxPath)
+const mapStateToProps = (state, ownProps) => ({
+  property: selectProperty(state, ownProps.propertyKey),
+  displayValidations: displayResourceValidations(state),
+})
 
-  return {
-    items,
-    propertyTemplate,
-    displayValidations,
-    errors,
-  }
-}
-
-const mapDispatchToProps = (dispatch) => bindActionCreators({ itemsSelected }, dispatch)
+const mapDispatchToProps = (dispatch) => bindActionCreators({ addValue }, dispatch)
 
 export default connect(mapStateToProps, mapDispatchToProps)(InputURI)

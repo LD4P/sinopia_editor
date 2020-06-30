@@ -1,4 +1,6 @@
-import { validate } from 'reducers/inputs'
+import { selectValidationErrors } from 'selectors/errors'
+import { showValidationErrors } from './errors'
+import _ from 'lodash'
 
 export const clearModalMessages = (state) => {
   const newState = { ...state }
@@ -9,7 +11,7 @@ export const clearModalMessages = (state) => {
 
 export const addModalMessage = (state, action) => {
   const newState = { ...state }
-  newState.editor.modal.messages = [...newState.editor.modal.messages, action.message]
+  newState.editor.modal.messages = [...newState.editor.modal.messages, action.payload]
   return newState
 }
 
@@ -25,25 +27,12 @@ export const hideModal = (state) => setModal({ ...state }, undefined)
  */
 export const showGroupChooser = (state, action) => {
   const resourceKey = action.payload
-  if (validate(state, resourceKey).editor.resourceValidation.errors[resourceKey].length === 0) {
+  if (_.isEmpty(selectValidationErrors({ selectorReducer: state }, resourceKey))) {
     // Show the window to select a group
     return setModal({ ...state }, 'GroupChoiceModal')
   }
 
   return showValidationErrors(state, action)
-}
-
-/**
- * Close modals and show validation errors
- * @param {Object} state the previous redux state
- * @return {Object} the next redux state
- */
-export const showValidationErrors = (state, action) => {
-  const newState = hideModal(state)
-  const resourceKey = action.payload
-  newState.editor.resourceValidation.show[resourceKey] = true
-
-  return newState
 }
 
 const setModal = (newState, name) => {

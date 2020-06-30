@@ -3,10 +3,11 @@
 import React, { useState, useEffect } from 'react'
 import { useDispatch } from 'react-redux'
 import PropTypes from 'prop-types'
-import ResourceStateBuilder from 'ResourceStateBuilder'
-import { rdfDatasetFromN3 } from 'Utilities'
+import {
+  rdfDatasetFromN3, findRootResourceTemplateId, hasQuadsForRootResourceTemplateId,
+} from 'utilities/Utilities'
 import useResource from 'hooks/useResource'
-import { clearErrors, appendError } from 'actions/index'
+import { clearErrors, addError } from 'actions/errors'
 import { showModal } from 'actions/modals'
 import ResourceTemplateChoiceModal from '../ResourceTemplateChoiceModal'
 import Alerts from '../Alerts'
@@ -38,6 +39,7 @@ const LoadByRDFForm = (props) => {
   }, [dispatch, resourceN3])
 
   const changeN3 = (event) => {
+    dispatch(clearErrors(loadResourceByRDFErrorKey))
     setN3(event.target.value)
     // This will get set on submit.
     setResourceN3(false)
@@ -45,23 +47,28 @@ const LoadByRDFForm = (props) => {
   }
 
   const handleSubmit = (event) => {
+    event.preventDefault()
     setResourceN3(false)
     dispatch(clearErrors(loadResourceByRDFErrorKey))
-    // Try parsing to extract the resource template id
+    // Try parsing
     rdfDatasetFromN3(n3).then((dataset) => {
-      const builder = new ResourceStateBuilder(dataset, baseURI)
-      // findRootResourceTemplateId() throws an error when resource template id not specified.
-      // If it is not specified, then show the resource template chooser.
-      try {
-        setResourceTemplateId(builder.findRootResourceTemplateId())
-      } catch (err) {
+      // Determine if base URI must be provided.
+      if (!hasQuadsForRootResourceTemplateId(baseURI, dataset)) {
+        dispatch(addError(loadResourceByRDFErrorKey, 'Base URI must be provided.'))
+        return
+      }
+
+      // Determine if need to ask for resource template id.
+      const resourceTemplateId = findRootResourceTemplateId(baseURI, dataset)
+      if (resourceTemplateId) {
+        setResourceTemplateId(resourceTemplateId)
+      } else {
         dispatch(showModal('ResourceTemplateChoiceModal'))
       }
       setResourceN3(n3)
     }).catch((err) => {
-      dispatch(appendError(loadResourceByRDFErrorKey, `Error parsing: ${err}`))
+      dispatch(addError(loadResourceByRDFErrorKey, `Error parsing: ${err}`))
     })
-    event.preventDefault()
   }
 
   const n3PlaceHolder = `For example:

@@ -1,8 +1,8 @@
 import React from 'react'
 import TypeFilter from 'components/search/TypeFilter'
-import { renderWithRedux, createReduxStore, createBlankState } from 'testUtils'
-import { fireEvent, wait } from '@testing-library/react'
-/* eslint import/namespace: 'off' */
+import { fireEvent, wait, screen } from '@testing-library/react'
+import { createStore, renderComponent } from 'testUtils'
+import { createState } from 'stateUtils'
 import * as server from 'sinopiaSearch'
 
 describe('<TypeFilter />', () => {
@@ -27,19 +27,17 @@ describe('<TypeFilter />', () => {
     ],
   }
 
-  const createState = () => {
-    const state = createBlankState()
+  const createInitialState = () => {
+    const state = createState()
     state.selectorReducer.search.facetResults = facetResults
     state.selectorReducer.search.query = 'twain'
     return state
   }
 
   it('does not render when no facet results', () => {
-    const store = createReduxStore(createBlankState())
-    const { queryByText } = renderWithRedux(
-      <TypeFilter />, store,
-    )
-    expect(queryByText('Filter by class')).not.toBeInTheDocument()
+    renderComponent(<TypeFilter />)
+
+    expect(screen.queryByText('Filter by class')).not.toBeInTheDocument()
   })
 
   it('renders when results', () => {
@@ -47,36 +45,34 @@ describe('<TypeFilter />', () => {
     server.getSearchResultsWithFacets = mockGetSearchResults.mockResolvedValue([{}, undefined])
 
 
-    const store = createReduxStore(createState())
-    const { getByText, container } = renderWithRedux(
-      <TypeFilter />, store,
-    )
-    expect(getByText('Filter by class')).toBeInTheDocument()
-    expect(getByText('http://id.loc.gov/ontologies/bibframe/Title (5)')).toBeInTheDocument()
-    expect(getByText('http://id.loc.gov/ontologies/bibframe/Chronology (1)')).toBeInTheDocument()
+    const store = createStore(createInitialState())
+    const { container } = renderComponent(<TypeFilter />, store)
+
+    screen.getByText('Filter by class')
+    screen.getByText('http://id.loc.gov/ontologies/bibframe/Title (5)')
+    screen.getByText('http://id.loc.gov/ontologies/bibframe/Chronology (1)')
 
     // Everything checked
-    expect(container.querySelectorAll('input:checked').length).toBe(4)
+    expect(container.querySelectorAll('input:checked')).toHaveLength(4)
   })
 
   it('allows changing filters by unselecting', async () => {
     const mockGetSearchResults = jest.fn()
     server.getSearchResultsWithFacets = mockGetSearchResults.mockResolvedValue([{}, undefined])
 
-    const store = createReduxStore(createState())
-    const { getByText, container } = renderWithRedux(
-      <TypeFilter />, store,
-    )
+    const store = createStore(createInitialState())
+    const { container } = renderComponent(<TypeFilter />, store)
+
     expect(container.querySelector('div.show')).not.toBeInTheDocument()
-    fireEvent.click(getByText('Filter by class'))
+    fireEvent.click(screen.getByText('Filter by class'))
     expect(container.querySelector('div.show')).toBeInTheDocument()
-    fireEvent.click(getByText('http://id.loc.gov/ontologies/bibframe/Title (5)'))
+    fireEvent.click(screen.getByText('http://id.loc.gov/ontologies/bibframe/Title (5)'))
 
     // 3 checked
-    expect(container.querySelectorAll('input:checked').length).toBe(3)
+    expect(container.querySelectorAll('input:checked')).toHaveLength(3)
 
     // Apply filter
-    fireEvent.click(getByText('Go'))
+    fireEvent.click(screen.getByText('Go'))
 
     await wait(() => expect(container.querySelector('div.show')).not.toBeInTheDocument())
 
@@ -97,19 +93,17 @@ describe('<TypeFilter />', () => {
     const mockGetSearchResults = jest.fn()
     server.getSearchResultsWithFacets = mockGetSearchResults.mockResolvedValue([{}, undefined])
 
-    const store = createReduxStore(createState())
-    const { getAllByText, container, getByText } = renderWithRedux(
-      <TypeFilter />, store,
-    )
+    const store = createStore(createInitialState())
+    const { container } = renderComponent(<TypeFilter />, store)
 
-    fireEvent.click(getByText('Filter by class'))
-    fireEvent.click(getAllByText('Only')[0])
+    fireEvent.click(screen.getByText('Filter by class'))
+    fireEvent.click(screen.getAllByText('Only')[0])
 
     // 3 checked
-    expect(container.querySelectorAll('input:checked').length).toBe(1)
+    expect(container.querySelectorAll('input:checked')).toHaveLength(1)
 
     // Apply filter
-    fireEvent.click(getByText('Go'))
+    fireEvent.click(screen.getByText('Go'))
 
     await wait(() => expect(container.querySelector('div.show')).not.toBeInTheDocument())
 
@@ -128,24 +122,22 @@ describe('<TypeFilter />', () => {
     const mockGetSearchResults = jest.fn()
     server.getSearchResultsWithFacets = mockGetSearchResults.mockResolvedValue([{}, facetResults])
 
-    const state = createState()
-    const store = createReduxStore(state)
-    const { getByText, container } = renderWithRedux(
-      <TypeFilter />, store,
-    )
-    fireEvent.click(getByText('Filter by class'))
-    fireEvent.click(getByText('http://id.loc.gov/ontologies/bibframe/Title (5)'))
+    const store = createStore(createInitialState())
+    const { container } = renderComponent(<TypeFilter />, store)
+
+    fireEvent.click(screen.getByText('Filter by class'))
+    fireEvent.click(screen.getByText('http://id.loc.gov/ontologies/bibframe/Title (5)'))
 
     // 3 checked
-    expect(container.querySelectorAll('input:checked').length).toBe(3)
+    expect(container.querySelectorAll('input:checked')).toHaveLength(3)
 
     // Apply filter
-    fireEvent.click(getByText('Go'))
+    fireEvent.click(screen.getByText('Go'))
 
     await wait(() => expect(container.querySelector('div.show')).not.toBeInTheDocument())
 
-    fireEvent.click(getByText('Filter by class'))
-    fireEvent.click(getByText('Clear filter'))
+    fireEvent.click(screen.getByText('Filter by class'))
+    fireEvent.click(screen.getByText('Clear filter'))
 
     expect(mockGetSearchResults).toHaveBeenLastCalledWith('twain', {
       resultsPerPage: 10,

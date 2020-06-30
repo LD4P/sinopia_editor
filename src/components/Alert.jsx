@@ -11,9 +11,11 @@ const Alert = (props) => {
   return (
     <div className="row">
       <div className="col" style={{ marginTop: '10px' }}>
-        <div className="alert alert-danger alert-dismissible">
-          <button className="close" data-dismiss="alert" aria-label="close">&times;</button>
+        <div className="alert alert-danger alert-dismissible" role="alert">
           { props.text }
+          <button type="button" className="close" data-dismiss="alert" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
         </div>
       </div>
     </div>

@@ -1,8 +1,8 @@
 // Copyright 2019 Stanford University see LICENSE for license
 
-import { findAuthorityConfigs } from 'utilities/authorityConfig'
+import { findAuthorityConfigs } from './authorityConfig'
 import shortid from 'shortid'
-import { defaultLanguageId } from 'Utilities'
+import { defaultLanguageId } from './Utilities'
 
 /**
  * @return {string} the component to render
@@ -64,20 +64,6 @@ export const defaultValuesFromPropertyTemplate = (propertyTemplate) => {
   })
   return defaultValues
 }
-
-export const booleanPropertyFromTemplate = (template, key, defaultValue) => {
-  // Use safe navigation for dynamic properties: https://github.com/tc39/proposal-optional-chaining#syntax
-  const propertyValue = template?.[key]
-
-  if (!propertyValue) return defaultValue
-
-  const parsedValue = JSON.parse(propertyValue)
-
-  if (parsedValue !== true && parsedValue !== false) return defaultValue
-
-  return parsedValue
-}
-
 
 export const getLookupConfigItems = (propertyTemplate) => {
   const vocabUriList = propertyTemplate?.valueConstraint?.useValuesFrom

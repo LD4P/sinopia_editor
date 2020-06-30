@@ -1,7 +1,5 @@
 // Copyright 2019 Stanford University see LICENSE for license
-
 import { fetchSinopiaSearchResults, fetchQASearchResults } from 'actionCreators/search'
-/* eslint import/namespace: 'off' */
 import * as server from 'sinopiaSearch'
 import Swagger from 'swagger-client'
 

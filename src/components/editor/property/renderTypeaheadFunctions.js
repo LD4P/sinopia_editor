@@ -3,7 +3,7 @@
 import React from 'react'
 import { Menu, MenuItem, Token } from 'react-bootstrap-typeahead'
 import { getOptionLabel } from 'react-bootstrap-typeahead/lib/utils'
-import { isValidURI } from '../../../Utilities'
+import { isValidURI } from 'utilities/Utilities'
 import RenderLookupContext from './RenderLookupContext'
 import shortid from 'shortid'
 
@@ -93,3 +93,10 @@ export const renderTokenFunc = (option, tokenProps, idx) => {
     </Token>
   )
 }
+
+export const itemsForProperty = (property) => property.values.map((value) => ({
+  id: value.key,
+  content: value.literal,
+  uri: value.uri,
+  label: value.label || value.literal,
+}))

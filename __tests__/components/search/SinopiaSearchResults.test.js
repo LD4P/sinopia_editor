@@ -1,27 +1,24 @@
 // Copyright 2019 Stanford University see LICENSE for license
 
 import React from 'react'
-import { renderWithRedux, createReduxStore, createBlankState } from 'testUtils'
 import SinopiaSearchResults from 'components/search/SinopiaSearchResults'
+import { screen } from '@testing-library/react'
+import { createStore, renderComponent } from 'testUtils'
+import { createState } from 'stateUtils'
 
 describe('<SinopiaSearchResults />', () => {
   describe('when there are no search results', () => {
-    const store = createReduxStore(createBlankState())
-
-    const { container, queryByText } = renderWithRedux(
-      <SinopiaSearchResults />,
-      store,
-    )
+    const { container } = renderComponent(<SinopiaSearchResults />)
 
     it('does not contain the main div', () => {
       expect(container.querySelector('div#search-results')).not.toBeInTheDocument()
-      expect(queryByText('Filter by class')).not.toBeInTheDocument()
+      expect(screen.queryByText('Filter by class')).not.toBeInTheDocument()
     })
   })
 
   describe('when there are search results', () => {
     it('it contains the main div', () => {
-      const state = createBlankState()
+      const state = createState()
       state.selectorReducer.search.results = [{
         uri: 'https://trellis.sinopia.io/repository/stanford/some/path',
         type: ['http://schema.org/Thing'],
@@ -45,38 +42,36 @@ describe('<SinopiaSearchResults />', () => {
         ],
 
       }
-      const store = createReduxStore(state)
-      const { queryByText, getByText, container } = renderWithRedux(
-        <SinopiaSearchResults />,
-        store,
-      )
+      const store = createStore(state)
+      const { container } = renderComponent(<SinopiaSearchResults />, store)
+
       expect(container.querySelector('div#search-results')).toBeInTheDocument()
       expect(container.querySelector('table#search-results-list')).toBeInTheDocument()
 
       // Search table headers
-      expect(queryByText('Label / ID')).toBeInTheDocument()
-      expect(queryByText('Class')).toBeInTheDocument()
-      expect(queryByText('Institution')).toBeInTheDocument()
-      expect(getByText('Modified', { selector: 'th' })).toBeInTheDocument()
+      screen.queryByText('Label / ID')
+      screen.queryByText('Class')
+      screen.queryByText('Institution')
+      screen.getByText('Modified', { selector: 'th' })
 
       // It has a sort button
-      expect(getByText('Sort by')).toBeInTheDocument()
+      screen.getByText('Sort by')
 
       // It has filters
-      expect(getByText('Filter by class')).toBeInTheDocument()
-      expect(getByText('Filter by institution')).toBeInTheDocument()
+      screen.getByText('Filter by class')
+      screen.getByText('Filter by institution')
 
       // First row of search results
-      expect(queryByText(/An item title/)).toBeInTheDocument()
-      expect(queryByText(/https:\/\/trellis.sinopia.io\/repository\/stanford\/some\/path/)).toBeInTheDocument()
-      expect(queryByText('Oct 23, 2019')).toBeInTheDocument()
-      expect(queryByText('http://schema.org/Thing')).toBeInTheDocument()
-      expect(queryByText('Stanford University')).toBeInTheDocument()
+      screen.queryByText(/An item title/)
+      screen.queryByText(/https:\/\/trellis.sinopia.io\/repository\/stanford\/some\/path/)
+      screen.queryByText('Oct 23, 2019')
+      screen.queryByText('http://schema.org/Thing')
+      screen.queryByText('Stanford University')
     })
   })
 
   it('renders errors', () => {
-    const state = createBlankState()
+    const state = createState()
     state.selectorReducer.search.results = [{
       uri: 'http://platform:8080/repository/stanford/some/path',
       type: ['http://schema.org/Thing'],
@@ -88,10 +83,9 @@ describe('<SinopiaSearchResults />', () => {
     state.selectorReducer.search.query = 'twain'
     state.selectorReducer.editor.errors.searchresource = ['Ooops']
 
-    const store = createReduxStore(state)
-    const { getByText } = renderWithRedux(
-      <SinopiaSearchResults />, store,
-    )
-    expect(getByText('Ooops')).toBeInTheDocument()
+    const store = createStore(state)
+    renderComponent(<SinopiaSearchResults />, store)
+
+    screen.getByText('Ooops')
   })
 })

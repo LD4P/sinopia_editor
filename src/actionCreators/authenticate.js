@@ -3,7 +3,7 @@
 
 import {
   authenticationFailure, authenticationSuccess, signOutSuccess,
-} from 'actions/index'
+} from 'actions/authenticate'
 
 export const authenticationFailed = (authenticationResult) => authenticationFailure(authenticationResult)
 

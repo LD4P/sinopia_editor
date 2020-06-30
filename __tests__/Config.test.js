@@ -1,6 +1,5 @@
 // Copyright 2018 Stanford University see LICENSE for license
-
-import Config from '../src/Config'
+import Config from 'Config'
 
 const OLD_ENV = process.env
 

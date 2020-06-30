@@ -1,0 +1,27 @@
+{
+  "id": "resourceTemplate:testing:uber3",
+  "resourceLabel": "Uber template3",
+  "resourceURI": "http://id.loc.gov/ontologies/bibframe/Uber3",
+  "remark": "Template for testing purposes with multiple literal.",
+  "propertyTemplates": [
+    {
+      "propertyLabel": "Uber template3, property1",
+      "propertyURI": "http://id.loc.gov/ontologies/bibframe/uber/template3/property1",
+      "resourceTemplates": [],
+      "mandatory": "false",
+      "repeatable": "true",
+      "type": "literal",
+      "remark": "A literal"
+    },
+    {
+      "propertyLabel": "Uber template3, property2",
+      "propertyURI": "http://id.loc.gov/ontologies/bibframe/uber/template3/property2",
+      "resourceTemplates": [],
+      "mandatory": "false",
+      "repeatable": "true",
+      "type": "literal",
+      "remark": "A literal"
+    }
+
+  ]
+}

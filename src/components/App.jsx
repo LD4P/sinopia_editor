@@ -15,15 +15,15 @@ import ImportResourceTemplate from './templates/ImportResourceTemplate'
 import LoadResource from './load/LoadResource'
 import Search from './search/Search'
 import CanvasMenu from './menu/CanvasMenu'
-import { saveAppVersion } from 'actions/index'
+import { setAppVersion } from 'actions/index'
 import { useDispatch, useSelector } from 'react-redux'
 import { version } from '../../package.json'
 import { newResource as newResourceCreator } from 'actionCreators/resources'
-import loadLanguages from 'actionCreators/languages'
+import { fetchLanguages } from 'actionCreators/languages'
 import { newResourceErrorKey } from './templates/SinopiaResourceTemplates'
-import listExports from 'actionCreators/export'
+import { fetchExports } from 'actionCreators/exports'
 import Exports, { exportsErrorKey } from './exports/Exports'
-import { hasResource as hasResourceSelector } from 'selectors/resourceSelectors'
+import { selectCurrentResourceKey } from 'selectors/resources'
 
 const FourOhFour = () => <h1>404</h1>
 
@@ -32,12 +32,12 @@ const App = (props) => {
   const newResource = (rtId) => dispatch(newResourceCreator(rtId, newResourceErrorKey))
 
   useEffect(() => {
-    dispatch(saveAppVersion(version))
-    dispatch(loadLanguages())
-    dispatch(listExports(exportsErrorKey))
+    dispatch(setAppVersion(version))
+    dispatch(fetchLanguages())
+    dispatch(fetchExports(exportsErrorKey))
   }, [dispatch])
 
-  const hasResource = useSelector((state) => hasResourceSelector(state))
+  const hasResource = useSelector((state) => !!selectCurrentResourceKey(state))
   const currentSession = useSelector((state) => (state.authenticate.authenticationState ? state.authenticate.authenticationState.currentSession : null))
 
   const editorWithRtId = (thisprops) => {
@@ -49,7 +49,6 @@ const App = (props) => {
         thisprops.history.push('/templates')
       })
   }
-
 
   const routesWithCurrentSession = (
     <Switch>

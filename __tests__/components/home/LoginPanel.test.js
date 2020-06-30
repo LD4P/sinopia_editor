@@ -4,7 +4,7 @@ import React from 'react'
 import { shallow } from 'enzyme'
 import LoginPanel from 'components/home/LoginPanel'
 import Config from 'Config'
-import CognitoUtils from 'CognitoUtils'
+import CognitoUtils from 'utilities/CognitoUtils'
 import {
   CognitoAccessToken, CognitoIdToken, CognitoRefreshToken, CognitoUserSession,
 } from 'amazon-cognito-identity-js'

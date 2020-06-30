@@ -1,0 +1,17 @@
+{
+  "id": "resourceTemplate:testing:uber2",
+  "resourceLabel": "Uber template2",
+  "resourceURI": "http://id.loc.gov/ontologies/bibframe/Uber2",
+  "remark": "Template for testing purposes with single repeatable literal.",
+  "propertyTemplates": [
+    {
+      "propertyLabel": "Uber template2, property1",
+      "propertyURI": "http://id.loc.gov/ontologies/bibframe/uber/template2/property1",
+      "resourceTemplates": [],
+      "mandatory": "false",
+      "repeatable": "true",
+      "type": "literal",
+      "remark": "A repeatable literal"
+    }
+  ]
+}

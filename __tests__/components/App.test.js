@@ -1,199 +1,134 @@
 // Copyright 2019 Stanford University see LICENSE for license
-
-import React from 'react'
-import { fireEvent, wait } from '@testing-library/react'
-// eslint-disable-next-line import/no-unresolved
-import {
-  renderWithRedux, createReduxStore, setupModal, renderWithReduxAndRouter, createBlankState,
-} from 'testUtils'
-import App from 'components/App'
-import { Router } from 'react-router-dom'
-import { getFixtureResourceTemplate } from '../fixtureLoaderHelper'
-/* eslint import/namespace: 'off' */
+import { fireEvent, wait, screen } from '@testing-library/react'
+import { createStore, renderApp, createHistory } from 'testUtils'
+import { createState } from 'stateUtils'
+import { getFixtureResourceTemplate } from 'fixtureLoaderHelper'
 import * as sinopiaServer from 'sinopiaServer'
-import { createMemoryHistory } from 'history'
 
 jest.mock('sinopiaServer')
 
 sinopiaServer.getResourceTemplate.mockImplementation(getFixtureResourceTemplate)
 
-const createInitialState = (options = {}) => {
-  const state = createBlankState(options)
-
-  if (options.hasResource) {
-    state.selectorReducer.editor.currentResource = 'abc123'
-    state.selectorReducer.entities.resources.abc123 = {
-      'resourceTemplate:bf2:Note': {
-        'http://www.w3.org/2000/01/rdf-schema#label': {
-          items: {
-            '3Qnc1x-T': {
-              content: 'foo',
-              lang: 'eng',
-            },
-          },
-        },
-      },
-    }
-    state.selectorReducer.entities.resourceTemplates['resourceTemplate:bf2:Note'] = {
-      id: 'resourceTemplate:bf2:Note',
-      resourceURI: 'http://id.loc.gov/ontologies/bibframe/Note',
-      resourceLabel: 'Note',
-      propertyTemplates: [
-        {
-          propertyURI: 'http://www.w3.org/2000/01/rdf-schema#label',
-          propertyLabel: 'Note',
-          mandatory: 'false',
-          repeatable: 'false',
-          type: 'literal',
-          resourceTemplates: [],
-          valueConstraint: {
-            valueTemplateRefs: [],
-            useValuesFrom: [],
-            valueDataType: {},
-            editable: 'true',
-            repeatable: 'false',
-            defaults: [],
-          },
-        },
-      ],
-    }
-  }
-  return state
-}
-
-setupModal()
-
 describe('<App />', () => {
-  it('renders', () => {
-    const store = createReduxStore(createInitialState({ authenticated: true }))
-    const { getByText } = renderWithReduxAndRouter((<App />), store)
-
-    // renders footer
-    expect(getByText(/Sinopia is a project/)).toBeInTheDocument()
-  })
-
   it('loads languages', async () => {
-    const store = createReduxStore(createInitialState({ authenticated: true }))
-    renderWithReduxAndRouter((<App />), store)
+    const store = createStore()
+    renderApp(store)
 
     await wait(() => store.getState().selectorReducer.entities.languages.options.size > 0)
   })
 
   it('sets app version', async () => {
-    const store = createReduxStore(createInitialState({ authenticated: true }))
-    const { getByText } = renderWithReduxAndRouter((<App />), store)
-    fireEvent.click(getByText('Linked Data Editor'))
+    renderApp()
 
-    expect(getByText(/v\d+\.\d+\.\d+/)).toBeInTheDocument()
+    fireEvent.click(screen.getByText('Linked Data Editor'))
+
+    screen.getByText(/v\d+\.\d+\.\d+/)
   })
 
   it('loads exports', async () => {
-    const store = createReduxStore(createInitialState({ authenticated: true }))
-    const { getByText, findByText } = renderWithReduxAndRouter((<App />), store)
-    fireEvent.click(getByText('Linked Data Editor'))
-    fireEvent.click(getByText('Exports'))
+    renderApp()
 
-    expect(await findByText(/sinopia_export_all/)).toBeInTheDocument()
+    fireEvent.click(screen.getByText('Linked Data Editor'))
+    fireEvent.click(screen.getByText('Exports'))
+
+    await screen.findByText(/sinopia_export_all/)
   })
 
   describe('when user is not authenticated', () => {
-    it('renders homepage for /', () => {
-      const store = createReduxStore(createInitialState())
-      const { getByTestId } = renderWithReduxAndRouter((<App />), store, ['/'])
+    const state = createState({ notAuthenticated: true })
+    const store = createStore(state)
 
-      expect(getByTestId('news-item')).toBeInTheDocument()
+    it('renders homepage for /', () => {
+      const history = createHistory(['/'])
+      renderApp(store, history)
+
+      screen.getByTestId('news-item')
     })
 
     it('renders homepage for /search', () => {
-      const store = createReduxStore(createInitialState())
-      const { getByTestId } = renderWithReduxAndRouter((<App />), store, ['/search'])
+      const history = createHistory(['/search'])
+      renderApp(store, history)
 
-      expect(getByTestId('news-item')).toBeInTheDocument()
+      screen.getByTestId('news-item')
     })
 
     it('renders homepage for /<anything>', () => {
-      const store = createReduxStore(createInitialState())
-      const { getByTestId } = renderWithReduxAndRouter((<App />), store, ['/foo'])
+      const history = createHistory(['/foo'])
+      renderApp(store, history)
 
-      expect(getByTestId('news-item')).toBeInTheDocument()
+      screen.getByTestId('news-item')
     })
   })
 
   describe('when user is authenticated and there is no resource', () => {
     it('renders homepage for /', () => {
-      const store = createReduxStore(createInitialState({ authenticated: true }))
-      const { getByTestId } = renderWithReduxAndRouter((<App />), store, ['/'])
+      const history = createHistory(['/'])
+      renderApp(null, history)
 
-      expect(getByTestId('news-item')).toBeInTheDocument()
+      screen.getByTestId('news-item')
     })
 
     it('creates new resource and renders editor for /editor/<rtId>', async () => {
-      const store = createReduxStore(createInitialState({ authenticated: true }))
-      const { findByText } = renderWithReduxAndRouter((<App />), store, ['/editor/resourceTemplate:bf2:Note'])
+      const history = createHistory(['/editor/resourceTemplate:bf2:Note'])
+      renderApp(null, history)
 
-      expect(await findByText('Note', { selector: 'h3' })).toBeInTheDocument()
+      await screen.findByText('Note', { selector: 'h3' })
     })
 
     it('redirects to /templates when for /editor/<rtId> when rtId not found', async () => {
-      const store = createReduxStore(createInitialState({ authenticated: true }))
-      const history = createMemoryHistory()
-      history.push('/editor/resourceTemplate:bf2:Notex')
-      const { findByText } = renderWithRedux((<Router history={history}><App /></Router>), store)
+      const history = createHistory(['/editor/resourceTemplate:bf2:Notex'])
+      renderApp(null, history)
+
       await wait(() => expect(history.location.pathname).toEqual('/templates'))
-      expect(await findByText(/Error retrieving resourceTemplate:bf2:Notex/)).toBeInTheDocument()
+      await screen.findByText(/Error retrieving resourceTemplate:bf2:Notex/)
     })
 
     it('renders templates for /templates', async () => {
-      const store = createReduxStore(createInitialState({ authenticated: true }))
-      const { findByText } = renderWithReduxAndRouter((<App />), store, ['/templates'])
+      const history = createHistory(['/templates'])
+      renderApp(null, history)
 
-      expect(await findByText('Find a resource template')).toBeInTheDocument()
+      await screen.findByText('Find a resource template')
     })
 
     it('renders search for /search', () => {
-      const store = createReduxStore(createInitialState({ authenticated: true }))
-      const { getByLabelText } = renderWithReduxAndRouter((<App />), store, ['/search'])
+      const history = createHistory(['/search'])
+      renderApp(null, history)
 
-      expect(getByLabelText('Query')).toBeInTheDocument()
+      screen.getByLabelText('Query')
     })
 
     it('renders load for /load', () => {
-      const store = createReduxStore(createInitialState({ authenticated: true }))
-      const { getByText } = renderWithReduxAndRouter((<App />), store, ['/load'])
+      const history = createHistory(['/load'])
+      renderApp(null, history)
 
-      expect(getByText('Load RDF into Editor')).toBeInTheDocument()
+      screen.getByText('Load RDF into Editor')
     })
 
     it('renders menu for /menu', async () => {
-      const store = createReduxStore(createInitialState({ authenticated: true }))
-      const { findByText } = renderWithReduxAndRouter((<App />), store, ['/menu'])
+      const history = createHistory(['/menu'])
+      renderApp(null, history)
 
-      expect(await findByText('Sinopia help site')).toBeInTheDocument()
+      await screen.findByText('Sinopia help site')
     })
 
     it('404s for /<anything else>', () => {
-      const store = createReduxStore(createInitialState({ authenticated: true }))
-      const { getByText } = renderWithReduxAndRouter((<App />), store, ['/foo'])
+      const history = createHistory(['/foo'])
+      renderApp(null, history)
 
-      expect(getByText('404')).toBeInTheDocument()
+      screen.getByText('404')
     })
   })
 
   describe('when user is authenticated and there is a resource', () => {
     it('renders resource for /editor', async () => {
-      const store = createReduxStore(createInitialState({ authenticated: true, hasResource: true }))
-      const { getByText, findByText } = renderWithReduxAndRouter((<App />), store, ['/editor'])
+      const state = createState({ hasCurrentResource: true })
+      const store = createStore(state)
+      const history = createHistory(['/'])
+      renderApp(store, history)
+      history.push('/editor')
 
-      expect(await findByText('Note', { selector: 'h3' })).toBeInTheDocument()
-      expect(getByText('foo')).toBeInTheDocument()
-    })
-    // This should not actually occur in the app.
-    it('renders resource for /editor/<rtId>', async () => {
-      const store = createReduxStore(createInitialState({ authenticated: true, hasResource: true }))
-      const { getByText, findByText } = renderWithReduxAndRouter((<App />), store, ['/editor/resourceTemplate:bf2:Note'])
-
-      expect(await findByText('Note', { selector: 'h3' })).toBeInTheDocument()
-      expect(getByText('foo')).toBeInTheDocument()
+      await screen.findByText('Abbreviated Title', { selector: 'h3' })
+      screen.getByText('foo')
     })
   })
 })

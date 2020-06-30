@@ -3,34 +3,38 @@
 import React, { useState, useEffect } from 'react'
 import { useSelector, useDispatch } from 'react-redux'
 import PropTypes from 'prop-types'
-import { update as updateCreator } from 'actionCreators/resources'
+import { saveResource as saveResourceAction } from 'actionCreators/resources'
 import {
-  findResourceURI, resourceHasChangesSinceLastSave, findResourceValidationErrors,
-  getDisplayResourceValidations, currentResourceKey,
-} from 'selectors/resourceSelectors'
-import { getCurrentUser } from 'authSelectors'
+  resourceHasChangesSinceLastSave, selectCurrentResource,
+} from 'selectors/resources'
+import {
+  displayResourceValidations, selectCurrentResourceValidationErrors,
+} from 'selectors/errors'
+import { selectCurrentUser } from 'selectors/authenticate'
 import {
   showGroupChooser as showGroupChooserAction,
+} from 'actions/modals'
+import {
   showValidationErrors as showValidationErrorsAction,
   hideValidationErrors as hideValidationErrorsAction,
-} from 'actions/index'
+} from 'actions/errors'
 import { resourceEditErrorKey } from '../Editor'
 
 const SaveAndPublishButton = (props) => {
   const dispatch = useDispatch()
 
-  const currentUser = useSelector((state) => getCurrentUser(state))
-  const resourceKey = useSelector((state) => currentResourceKey(state))
-  const update = () => dispatch(updateCreator(resourceKey, currentUser, resourceEditErrorKey(resourceKey)))
+  const currentUser = useSelector((state) => selectCurrentUser(state))
+  const resource = useSelector((state) => selectCurrentResource(state))
+  const isSaved = !!resource.uri
+  const saveResource = () => dispatch(saveResourceAction(resource.key, currentUser, resourceEditErrorKey(resource.key)))
 
-  const showGroupChooser = () => dispatch(showGroupChooserAction(resourceKey))
-  const showValidationErrors = () => dispatch(showValidationErrorsAction(resourceKey))
-  const hideValidationErrors = () => dispatch(hideValidationErrorsAction(resourceKey))
+  const showGroupChooser = () => dispatch(showGroupChooserAction(resource.key))
+  const showValidationErrors = () => dispatch(showValidationErrorsAction(resource.key))
+  const hideValidationErrors = () => dispatch(hideValidationErrorsAction(resource.key))
 
   const resourceHasChanged = useSelector((state) => resourceHasChangesSinceLastSave(state))
-  const isSaved = useSelector((state) => !!findResourceURI(state))
-  const hasValidationErrors = useSelector((state) => findResourceValidationErrors(state).length > 0)
-  const validationErrorsAreShowing = useSelector((state) => getDisplayResourceValidations(state))
+  const hasValidationErrors = useSelector((state) => selectCurrentResourceValidationErrors(state).length > 0)
+  const validationErrorsAreShowing = useSelector((state) => displayResourceValidations(state))
   const [isDisabled, setIsDisabled] = useState(true)
 
   useEffect(() => {
@@ -46,7 +50,7 @@ const SaveAndPublishButton = (props) => {
     else {
       hideValidationErrors()
       if (isSaved) {
-        update()
+        saveResource()
       } else {
         showGroupChooser()
       }

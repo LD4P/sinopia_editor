@@ -2,33 +2,29 @@
 
 import React, { useRef, useState } from 'react'
 import PropTypes from 'prop-types'
-import SinopiaPropTypes from 'SinopiaPropTypes'
 import { bindActionCreators } from 'redux'
 import { connect } from 'react-redux'
-import shortid from 'shortid'
 import {
-  itemsSelected, closeDiacritics, showDiacritics, setLiteralContent,
-} from 'actions/index'
-import {
-  findNode, getDisplayResourceValidations, getPropertyTemplate, findResourceValidationErrorsByPath,
-} from 'selectors/resourceSelectors'
+  hideDiacritics, showDiacritics,
+  setLiteralContent,
+} from 'actions/inputs'
+import { displayResourceValidations } from 'selectors/errors'
 import InputValue from './InputValue'
-import { defaultLanguageId } from 'Utilities'
-import { booleanPropertyFromTemplate } from 'utilities/propertyTemplates'
+import { defaultLanguageId } from 'utilities/Utilities'
 import _ from 'lodash'
+import { selectProperty } from 'selectors/resources'
+import { addValue } from 'actions/resources'
+import { newLiteralValue } from 'utilities/valueFactory'
+import { selectLiteralInputContent } from 'selectors/inputs'
+
 
 const InputLiteral = (props) => {
   const inputLiteralRef = useRef(100 * Math.random())
   const [lang, setLang] = useState(defaultLanguageId)
-  const id = `inputliteral-${props.reduxPath.join('')}`
+  const id = `inputliteral-${props.propertyKey}`
 
-  // Don't render if don't have property templates yet.
-  if (!props.propertyTemplate) {
-    return null
-  }
-
-  const disabled = !booleanPropertyFromTemplate(props.propertyTemplate, 'repeatable', true)
-      && Object.keys(props.items).length > 0
+  const disabled = !props.property.propertyTemplate.repeatable
+      && props.property.values.length > 0
 
   const addItem = () => {
     let currentcontent = props.content.trim()
@@ -39,54 +35,47 @@ const InputLiteral = (props) => {
     if (props.shouldShowDiacritic && !currentcontent) {
       currentcontent = inputLiteralRef.current.value
     }
-    const userInput = {
-      reduxPath: props.reduxPath,
-      items: {
-        [shortid.generate()]: { content: currentcontent, lang },
-      },
-    }
-    props.itemsSelected(userInput)
-    props.setLiteralContent('', props.reduxPath)
+
+    props.addValue(newLiteralValue(props.propertyKey, currentcontent, lang))
+    props.setLiteralContent(props.propertyKey, '')
     setLang(defaultLanguageId)
   }
 
   const handleKeypress = (event) => {
     if (event.key === 'Enter') {
       addItem()
-      props.closeDiacritics()
+      props.hideDiacritics()
       event.preventDefault()
     }
   }
 
   const handleEdit = (content, lang) => {
-    props.setLiteralContent(content, props.reduxPath)
+    props.setLiteralContent(props.propertyKey, content)
     setLang(lang)
     inputLiteralRef.current.focus()
   }
 
   const toggleDiacritics = (event) => {
     if (props.shouldShowDiacritic) {
-      props.closeDiacritics(props.reduxPath)
+      props.hideDiacritics()
     } else {
-      props.showDiacritics(props.reduxPath)
+      props.showDiacritics(props.propertyKey)
     }
     event.preventDefault()
   }
 
-  const itemKeys = Object.keys(props.items)
-  const addedList = itemKeys.map((itemId) => (<InputValue key={itemId}
-                                                          handleEdit={handleEdit}
-                                                          reduxPath={[...props.reduxPath, 'items', itemId]} />))
+  const addedList = props.property.valueKeys.map((valueKey) => (<InputValue key={valueKey}
+                                                                            handleEdit={handleEdit}
+                                                                            valueKey={valueKey} />))
 
-
-  const required = booleanPropertyFromTemplate(props.propertyTemplate, 'mandatory', false)
+  const required = props.property.propertyTemplate.required
 
   let error
   let groupClasses = 'form-group'
 
-  if (props.displayValidations && !_.isEmpty(props.errors)) {
+  if (props.displayValidations && !_.isEmpty(props.property.errors)) {
     groupClasses += ' has-error'
-    error = props.errors.join(',')
+    error = props.property.errors.join(',')
   }
 
   const focusIn = (event, checkId) => {
@@ -103,9 +92,9 @@ const InputLiteral = (props) => {
   }
 
   const handleBlur = (e) => {
-    if (!focusIn(e, 'diacritics-selection') && !focusIn(e, id) && props.content.length > 0) {
+    if (!focusIn(e, 'diacritics-selection') && !focusIn(e, id) && props.property.valueKeys.length > 0) {
       addItem()
-      props.closeDiacritics(props.reduxPath)
+      props.hideDiacritics()
     }
   }
 
@@ -115,8 +104,8 @@ const InputLiteral = (props) => {
         <input
               required={required}
               className="form-control"
-              placeholder={props.propertyTemplate.propertyLabel}
-              onChange={(event) => props.setLiteralContent(event.target.value, props.reduxPath)}
+              placeholder={props.property.propertyTemplate.label}
+              onChange={(event) => props.setLiteralContent(props.propertyKey, event.target.value)}
               onKeyPress={handleKeypress}
               value={props.content}
               disabled={disabled}
@@ -135,43 +124,26 @@ const InputLiteral = (props) => {
 }
 
 InputLiteral.propTypes = {
-  propertyTemplate: SinopiaPropTypes.propertyTemplate,
-  errors: PropTypes.array,
-  content: PropTypes.string,
-  items: PropTypes.object,
   shouldShowDiacritic: PropTypes.bool,
-  closeDiacritics: PropTypes.func,
+  hideDiacritics: PropTypes.func,
   showDiacritics: PropTypes.func,
-  itemsSelected: PropTypes.func,
-  reduxPath: PropTypes.array.isRequired,
   displayValidations: PropTypes.bool,
+  propertyKey: PropTypes.string,
+  property: PropTypes.object,
+  addValue: PropTypes.func,
+  content: PropTypes.string,
   setLiteralContent: PropTypes.func,
 }
 
-const mapStateToProps = (state, ownProps) => {
-  const reduxPath = ownProps.reduxPath
-  const resourceTemplateId = reduxPath[reduxPath.length - 2]
-  const propertyURI = reduxPath[reduxPath.length - 1]
-  const displayValidations = getDisplayResourceValidations(state)
-  const formData = findNode(state, reduxPath)
-  const errors = findResourceValidationErrorsByPath(state, reduxPath)
-  const shouldShowDiacritic = state.selectorReducer.editor.diacritics.show
-  // items has to be its own prop or rerendering won't occur when one is removed
-  const items = formData.items || {}
-  const content = formData.content || ''
-  const propertyTemplate = getPropertyTemplate(state, resourceTemplateId, propertyURI)
-  return {
-    items,
-    propertyTemplate,
-    displayValidations,
-    shouldShowDiacritic,
-    errors,
-    content,
-  }
-}
+const mapStateToProps = (state, ownProps) => ({
+  displayValidations: displayResourceValidations(state),
+  shouldShowDiacritic: state.selectorReducer.editor.diacritics.show,
+  property: selectProperty(state, ownProps.propertyKey),
+  content: selectLiteralInputContent(state, ownProps.propertyKey) || '',
+})
 
 const mapDispatchToProps = (dispatch) => bindActionCreators({
-  itemsSelected, closeDiacritics, showDiacritics, setLiteralContent,
+  hideDiacritics, showDiacritics, addValue, setLiteralContent,
 }, dispatch)
 
 export default connect(mapStateToProps, mapDispatchToProps)(InputLiteral)

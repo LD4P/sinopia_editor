@@ -31,12 +31,12 @@ module.exports = {
   },
   settings: {
     "node": {
-      "resolvePaths": ['src', '__tests__/test_utilities'],
+      "resolvePaths": ['src', '__tests__/testUtilities'],
       "tryExtensions": ['.js','.jsx','.json','.node']
     },
     "import/resolver": {
       "node": {
-        "paths": ['src', '__tests__/test_utilities'],
+        "paths": ['src', '__tests__/testUtilities'],
         "extensions": ['.js','.jsx']
       }
     },

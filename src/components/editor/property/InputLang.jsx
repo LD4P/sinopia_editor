@@ -4,12 +4,12 @@ import React, { useState } from 'react'
 import { Typeahead } from 'react-bootstrap-typeahead'
 import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
-import { findNode } from 'selectors/resourceSelectors'
-import { modalType } from 'selectors/modalSelectors'
-import { languageSelected } from 'actions/index'
+import { selectModalType } from 'selectors/modals'
+import { languageSelected } from 'actions/languages'
 import { hideModal } from 'actions/modals'
 import { bindActionCreators } from 'redux'
 import ModalWrapper from 'components/ModalWrapper'
+import { selectValue } from 'selectors/resources'
 
 /**
  * Provides the RFC 5646 language tag for a literal element.
@@ -50,10 +50,7 @@ const InputLang = (props) => {
   }
 
   const handleLangSubmit = (event) => {
-    props.languageSelected({
-      reduxPath: props.reduxPath,
-      lang,
-    })
+    props.languageSelected(props.valueKey, lang)
     close(event)
     event.preventDefault()
   }
@@ -79,6 +76,7 @@ const InputLang = (props) => {
                   emptyLabel={'retrieving list of languages...'}
                   selectHintOnEnter={true}
                   id={'langComponent'}
+                  inputProps={{ 'data-testid': 'langComponent' }}
                 />
               </label>
               <p style={{ fontStyle: 'italic', marginTop: '10px' }}>or select</p>
@@ -105,7 +103,7 @@ const InputLang = (props) => {
 
 InputLang.propTypes = {
   textValue: PropTypes.string.isRequired,
-  reduxPath: PropTypes.array.isRequired,
+  valueKey: PropTypes.string.isRequired,
   languageSelected: PropTypes.func,
   options: PropTypes.array,
   loading: PropTypes.bool,
@@ -116,13 +114,11 @@ InputLang.propTypes = {
 
 const mapStateToProps = (state, ourProps) => {
   const languages = state.selectorReducer.entities.languages
-  const node = findNode(state, ourProps.reduxPath)
-  const textValue = node.content
-  const lang = node.lang
-  const show = modalType(state) === `LanguageModal-${ourProps.reduxPath.join()}`
+  const value = selectValue(state, ourProps.valueKey)
+  const show = selectModalType(state) === `LanguageModal-${ourProps.valueKey}`
   return {
-    lang,
-    textValue,
+    lang: value.lang,
+    textValue: value.literal,
     options: languages?.options || [],
     loading: languages?.loading || false,
     show,

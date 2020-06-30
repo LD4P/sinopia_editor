@@ -6,10 +6,10 @@ import { connect } from 'react-redux'
 import PropTypes from 'prop-types'
 import Config from 'Config'
 import { hideModal } from 'actions/modals'
-import { getCurrentUser } from 'authSelectors'
+import { selectCurrentUser } from 'selectors/authenticate'
 import { resourceEditErrorKey } from './Editor'
-import { modalType } from 'selectors/modalSelectors'
-import { publishResource } from 'actionCreators/resources'
+import { selectModalType } from 'selectors/modals'
+import { saveNewResource } from 'actionCreators/resources'
 import ModalWrapper, { useDisplayStyle, useModalCss } from '../ModalWrapper'
 
 const GroupChoiceModal = (props) => {
@@ -25,7 +25,7 @@ const GroupChoiceModal = (props) => {
   }
 
   const saveAndClose = (event) => {
-    props.publishResource(props.resourceKey, props.currentUser, selectedValue, resourceEditErrorKey(props.resourceKey))
+    props.saveNewResource(props.resourceKey, props.currentUser, selectedValue, resourceEditErrorKey(props.resourceKey))
     props.hideModal()
     event.preventDefault()
   }
@@ -90,17 +90,17 @@ GroupChoiceModal.propTypes = {
   choose: PropTypes.func,
   show: PropTypes.bool,
   currentUser: PropTypes.object,
-  publishResource: PropTypes.func,
+  saveNewResource: PropTypes.func,
   hideModal: PropTypes.func,
   resourceKey: PropTypes.string,
 }
 
 const mapStateToProps = (state) => ({
-  show: modalType(state) === 'GroupChoiceModal',
-  currentUser: getCurrentUser(state),
+  show: selectModalType(state) === 'GroupChoiceModal',
+  currentUser: selectCurrentUser(state),
   resourceKey: state.selectorReducer.editor.currentResource,
 })
 
-const mapDispatchToProps = (dispatch) => bindActionCreators({ publishResource, hideModal }, dispatch)
+const mapDispatchToProps = (dispatch) => bindActionCreators({ saveNewResource, hideModal }, dispatch)
 
 export default connect(mapStateToProps, mapDispatchToProps)(GroupChoiceModal)

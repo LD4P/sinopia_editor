@@ -5,7 +5,7 @@ import React, {
 } from 'react'
 import { useSelector, useDispatch } from 'react-redux'
 import PropTypes from 'prop-types'
-import { clearErrors, appendError } from 'actions/index'
+import { clearErrors, addError } from 'actions/errors'
 import { showModal } from 'actions/modals'
 import ResourceTemplateChoiceModal from '../ResourceTemplateChoiceModal'
 import { getTerm, getContextValues } from 'utilities/QuestioningAuthority'
@@ -13,7 +13,7 @@ import useResource from 'hooks/useResource'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faCopy } from '@fortawesome/free-solid-svg-icons'
 import Alerts from '../Alerts'
-import { findErrors } from 'selectors/resourceSelectors'
+import { selectErrors } from 'selectors/errors'
 import _ from 'lodash'
 
 // Errors from retrieving a resource from this page.
@@ -42,10 +42,10 @@ const QASearchResults = (props) => {
     dispatch(clearErrors(searchQARetrieveErrorKey))
     getTerm(resourceURI, resourceId, searchUri)
       .then((resourceN3) => setResourceN3(resourceN3))
-      .catch((err) => dispatch(appendError(`Error retrieving resource: ${err.toString()}`)))
+      .catch((err) => dispatch(addError(`Error retrieving resource: ${err.toString()}`)))
   }, [dispatch, resourceId, resourceURI, searchUri])
 
-  const errors = useSelector((state) => findErrors(state, searchQARetrieveErrorKey))
+  const errors = useSelector((state) => selectErrors(state, searchQARetrieveErrorKey))
   useEffect(() => {
     if (!_.isEmpty(errors)) window.scrollTo(0, errorsRef.current.offsetTop)
   }, [errors])

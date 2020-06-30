@@ -13,37 +13,35 @@ export const initialState = {
     },
     editor: { // The state of the editor
       currentResource: undefined,
+      resources: [], // Subject keys for open resources
       diacritics: {
         show: false,
-        reduxPath: [],
+        key: undefined, // Key to link diacritic entry to component
       },
       resourceValidation: {
         show: {}, // {<resourceKey>: boolean}
-        errors: {}, // {<resource key>: [validation errors...]}
-        errorsByPath: {}, // {<redux path...>: [validation errors ...]}
       },
       modal: {
         name: undefined, // Name of modal to show. Should only be one at a time.
         messages: [],
       },
       uploadTemplateMessages: [],
-      resourceURIMessage: {
-        show: false,
-      },
       copyToNewMessage: {},
-      expanded: {}, // Should this node display as expanded in the editor. {<redux path...>: boolean}}
       errors: {}, // {<error key>: [errors...]} or {<error key>: {<resourceKey>: [errors...]}}
       lastSave: {}, // {<resourceKey>: date}
       lastSaveChecksum: {}, // {<resourceKey>: checksum}
       unusedRDF: {}, // {<resourceKey>: rdf}
+      content: {}, // State for content for input components. Allows communication between components, e.g, entering diacritics.
     },
     entities: { // The stuff we've retrieved from the server
-      resources: {}, // The state we're displaying in the editor. {<resourceKey>: {<redux path ...>}}
-      resourceTemplates: {},
       languages: { loading: false, options: [] },
-      qa: { loading: false, options: [] },
       lookups: {},
       exports: [],
+      subjectTemplates: {},
+      propertyTemplates: {},
+      subjects: {},
+      properties: {},
+      values: {},
     },
     search: {
       results: [],
@@ -69,11 +67,7 @@ export const initialState = {
       },
       error: undefined,
     },
-    historicalTemplates: {
-      results: [],
-      totalResults: 0,
-      error: undefined,
-    },
+    historicalTemplates: [],
   },
 }
 

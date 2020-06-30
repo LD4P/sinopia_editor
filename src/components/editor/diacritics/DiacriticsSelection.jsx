@@ -2,7 +2,7 @@
 
 import React, { useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
-import { closeDiacritics } from 'actions/index'
+import { hideDiacritics } from 'actions/inputs'
 import shortid from 'shortid'
 import CharacterButton from './CharacterButton'
 import VocabChoice from './VocabChoice'
@@ -14,12 +14,7 @@ const DiacriticsSelection = () => {
   const [characterButtons, setCharacterButtons] = useState([])
   const show = useSelector((state) => state.selectorReducer.editor.diacritics.show)
 
-  let cssClasses
-  if (show) {
-    cssClasses = ['sticky-top', 'bg-white']
-  } else {
-    cssClasses = ['d-none']
-  }
+  if (!show) return null
 
   const selectVocabulary = (event) => {
     const vocabChoice = event.target.value
@@ -34,11 +29,11 @@ const DiacriticsSelection = () => {
   }
 
   const closeHandler = (event) => {
-    dispatch(closeDiacritics())
+    dispatch(hideDiacritics())
     event.preventDefault()
   }
 
-  return (<div id="diacritics-selection" className={cssClasses.join(' ')} tabIndex="0">
+  return (<div id="diacritics-selection" className="sticky-top bg-white" tabIndex="0">
     <div className="row">
       <section className="col-1 offset-9">
         <button className="btn btn-lg" onClick={closeHandler}>&times;</button>

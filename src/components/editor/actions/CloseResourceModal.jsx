@@ -3,16 +3,18 @@
 import React from 'react'
 import { hideModal } from 'actions/modals'
 import { useDispatch, useSelector } from 'react-redux'
-import { clearResource } from 'actions/index'
-import { currentResourceKey } from 'selectors/resourceSelectors'
+import { clearResource } from 'actions/resources'
 import ModalWrapper, { useDisplayStyle, useModalCss } from '../../ModalWrapper'
-import { modalType } from 'selectors/modalSelectors'
+import { selectModalType } from 'selectors/modals'
+import { useHistory } from 'react-router-dom'
+import { selectCurrentResourceKey } from 'selectors/resources'
 
 const CloseResourceModal = () => {
   const dispatch = useDispatch()
+  const history = useHistory()
 
-  const show = useSelector((state) => modalType(state) === 'CloseResourceModal')
-  const resourceKey = useSelector((state) => currentResourceKey(state))
+  const show = useSelector((state) => selectModalType(state) === 'CloseResourceModal')
+  const resourceKey = useSelector((state) => selectCurrentResourceKey(state))
 
   const handleClose = (event) => {
     dispatch(hideModal())
@@ -22,6 +24,8 @@ const CloseResourceModal = () => {
   const handleCloseResource = (event) => {
     dispatch(clearResource(resourceKey))
     dispatch(hideModal())
+    // In case this is /editor/<rtId>, clear
+    history.push('/editor')
     event.preventDefault()
   }
 

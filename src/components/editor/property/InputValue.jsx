@@ -4,17 +4,19 @@ import React from 'react'
 import { connect } from 'react-redux'
 import { bindActionCreators } from 'redux'
 import PropTypes from 'prop-types'
-import { removeItem } from 'actions/index'
+import { removeValue } from 'actions/resources'
 import LanguageButton from './LanguageButton'
-import { findNode } from 'selectors/resourceSelectors'
+import { selectValue } from 'selectors/resources'
 
 const InputValue = (props) => {
-  const isLiteral = typeof props.item.content !== 'undefined'
-  const label = isLiteral ? props.item.content : props.item.uri
+  if (!props.value) return null
+
+  const isLiteral = props.value.property.propertyTemplate.type === 'literal'
+  const label = isLiteral ? props.value.literal : props.value.uri
 
   const handleEditClick = () => {
-    props.handleEdit(label, props.item.lang)
-    props.removeItem(props.reduxPath)
+    props.handleEdit(label, props.value.lang)
+    props.removeValue(props.valueKey)
   }
 
   return (<div id="userInput" style={{ marginTop: '.25em' }}>
@@ -22,7 +24,8 @@ const InputValue = (props) => {
       className="rbt-token rbt-token-removeable">
       {label}
       <button
-        onClick={() => props.removeItem(props.reduxPath)}
+        onClick={() => props.removeValue(props.valueKey)}
+        aria-label={`Remove ${label}`}
         className="close rbt-close rbt-token-remove-button">
         <span aria-hidden="true">×</span>
       </button>
@@ -31,24 +34,25 @@ const InputValue = (props) => {
       id="editItem"
       onClick={handleEditClick}
       style={ { marginRight: '.25em' } }
+      aria-label={`Edit ${label}`}
       className="btn btn-sm btn-secondary btn-default">
       Edit
     </button>
-    { isLiteral ? (<LanguageButton reduxPath={props.reduxPath}/>) : '' }
+    { isLiteral ? (<LanguageButton valueKey={props.valueKey} />) : '' }
   </div>)
 }
 
 InputValue.propTypes = {
-  item: PropTypes.object.isRequired,
-  reduxPath: PropTypes.array.isRequired,
   handleEdit: PropTypes.func.isRequired,
-  removeItem: PropTypes.func.isRequired,
+  removeValue: PropTypes.func.isRequired,
+  valueKey: PropTypes.string,
+  value: PropTypes.object,
 }
 
 const mapStateToProps = (state, ownProps) => ({
-  item: findNode(state, ownProps.reduxPath),
+  value: selectValue(state, ownProps.valueKey),
 })
 
-const mapDispatchToProps = (dispatch) => bindActionCreators({ removeItem }, dispatch)
+const mapDispatchToProps = (dispatch) => bindActionCreators({ removeValue }, dispatch)
 
 export default connect(mapStateToProps, mapDispatchToProps)(InputValue)

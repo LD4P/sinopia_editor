@@ -3,7 +3,7 @@ import React, { useState, useEffect } from 'react'
 import { useSelector, useDispatch } from 'react-redux'
 import { fetchSinopiaSearchResults } from 'actionCreators/search'
 import _ from 'lodash'
-import { groupNameFromGroup } from 'Utilities'
+import { groupNameFromGroup } from 'utilities/Utilities'
 
 const GroupFilter = () => {
   const dispatch = useDispatch()

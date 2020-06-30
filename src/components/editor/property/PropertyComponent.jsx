@@ -2,58 +2,59 @@
 
 import React from 'react'
 import PropTypes from 'prop-types'
-import SinopiaPropTypes from 'SinopiaPropTypes'
-import { getTagNameForPropertyTemplate } from 'utilities/propertyTemplates'
 import InputLiteral from './InputLiteral'
 import InputURI from './InputURI'
 import InputListLOC from './InputListLOC'
 import InputLookupQA from './InputLookupQA'
 import InputLookupSinopia from './InputLookupSinopia'
+import NestedResource from './NestedResource'
 import Alert from '../../Alert'
+import { selectProperty } from 'selectors/resources'
+import { connect } from 'react-redux'
 
+// Decides how to render this property.
 const PropertyComponent = (props) => {
-  let tag
-  let message
-
-  try {
-    tag = getTagNameForPropertyTemplate(props.propertyTemplate)
-  } catch (errorMessage) {
-    // If we have a better error message, use it.
-    message = errorMessage
+  if (props.property.propertyTemplate.type === 'resource') {
+    return props.property.values.map((value) => (
+      <NestedResource key={value.key} valueKey={value.key} />
+    ))
   }
-
   // Might be tempted to use lazy / suspense here, but it forces a remounting of components.
-  switch (tag) {
+  switch (props.property.propertyTemplate.component) {
     case 'InputLiteral':
       return (
-        <InputLiteral reduxPath={props.reduxPath} />
+        <InputLiteral propertyKey={props.propertyKey} />
       )
     case 'InputURI':
       return (
-        <InputURI reduxPath={props.reduxPath} />
+        <InputURI propertyKey={props.propertyKey} />
       )
     case 'InputLookupQA':
       return (
-        <InputLookupQA reduxPath={props.reduxPath} />
+        <InputLookupQA propertyKey={props.propertyKey} />
       )
     case 'InputLookupSinopia':
       return (
-        <InputLookupSinopia reduxPath={props.reduxPath} />
+        <InputLookupSinopia propertyKey={props.propertyKey} />
       )
     case 'InputListLOC':
       return (
-        <InputListLOC reduxPath={props.reduxPath} />
+        <InputListLOC propertyKey={props.propertyKey} />
       )
     default:
       return (
-        <Alert text={message} />
+        <Alert text="No component." />
       )
   }
 }
 
 PropertyComponent.propTypes = {
-  propertyTemplate: SinopiaPropTypes.propertyTemplate,
-  reduxPath: PropTypes.array.isRequired,
+  propertyKey: PropTypes.string,
+  property: PropTypes.object,
 }
 
-export default PropertyComponent
+const mapStateToProps = (state, ourProps) => ({
+  property: selectProperty(state, ourProps.propertyKey),
+})
+
+export default connect(mapStateToProps)(PropertyComponent)

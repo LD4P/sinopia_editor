@@ -3,7 +3,7 @@
 import React from 'react'
 import { connect } from 'react-redux'
 import PropTypes from 'prop-types'
-import { getDisplayResourceValidations, findResourceValidationErrors } from 'selectors/resourceSelectors'
+import { displayResourceValidations, selectCurrentResourceValidationErrors } from 'selectors/errors'
 import Alert from '../Alert'
 
 const ErrorMessages = (props) => {
@@ -11,8 +11,7 @@ const ErrorMessages = (props) => {
     return null
   }
 
-
-  const errorList = props.errors.map((elem) => (<li key={elem.reduxPath.join('-')}>{elem.path.join(' > ')}: {elem.message}</li>))
+  const errorList = props.errors.map((error) => (<li key={error.propertyKey + error.message}>{error.labelPath.join(' > ')}: {error.message}</li>))
   const text = (<span>Unable to save this resource. Validation errors: <ul>{ errorList }</ul></span>)
   return (
     <Alert text={text}/>
@@ -25,8 +24,8 @@ ErrorMessages.propTypes = {
 }
 
 const mapStateToProps = (state) => ({
-  errors: findResourceValidationErrors(state),
-  displayValidations: getDisplayResourceValidations(state),
+  errors: selectCurrentResourceValidationErrors(state),
+  displayValidations: displayResourceValidations(state),
 })
 
 export default connect(mapStateToProps, {})(ErrorMessages)

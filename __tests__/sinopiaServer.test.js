@@ -1,5 +1,4 @@
 // Copyright 2019 Stanford University see LICENSE for license
-
 import Config from '../src/Config'
 
 const sinopiaServer = require('../src/sinopiaServer')

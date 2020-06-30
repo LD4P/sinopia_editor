@@ -1,5 +1,4 @@
 // Copyright 2019 Stanford University see LICENSE for license
-
 import { getSearchResults, getTerm } from 'utilities/QuestioningAuthority'
 import { findAuthorityConfigs } from 'utilities/authorityConfig'
 import Swagger from 'swagger-client'

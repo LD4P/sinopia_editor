@@ -3,7 +3,7 @@
 import React from 'react'
 import { connect } from 'react-redux'
 import PropTypes from 'prop-types'
-import { getCurrentSession } from 'authSelectors'
+import { selectCurrentSession } from 'selectors/authenticate'
 
 const AuthenticationMessage = (props) => {
   if (props.currentSession) {
@@ -23,7 +23,7 @@ AuthenticationMessage.propTypes = {
 }
 
 const mapStateToProps = (state) => ({
-  currentSession: getCurrentSession(state),
+  currentSession: selectCurrentSession(state),
 })
 
 export default connect(mapStateToProps, {})(AuthenticationMessage)

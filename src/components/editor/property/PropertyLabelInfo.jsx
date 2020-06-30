@@ -8,15 +8,7 @@ import PropertyLabelInfoTooltip from './PropertyLabelInfoTooltip'
 import _ from 'lodash'
 
 const PropertyLabelInfo = (props) => {
-  let url
-
-  try {
-    url = new URL(props.propertyTemplate.remark)
-  } catch {
-    // Ignore
-  }
-
-  if (url !== undefined) {
+  if (props.propertyTemplate.remarkUrl !== null) {
     return (<PropertyLabelInfoLink {...props} />)
   } if (!_.isEmpty(props.propertyTemplate.remark)) {
     return (<PropertyLabelInfoTooltip {...props} />)

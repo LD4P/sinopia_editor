@@ -1,14 +1,12 @@
 import React from 'react'
+import { screen } from '@testing-library/react'
 import QASearchResults from 'components/search/QASearchResults'
-import {
-  renderWithRedux, createReduxStore, setupModal, createBlankState,
-} from 'testUtils'
+import { createStore, renderComponent } from 'testUtils'
+import { createState } from 'stateUtils'
 
 describe('<QASearchResults />', () => {
-  setupModal()
-
   it('renders results', () => {
-    const state = createBlankState()
+    const state = createState()
     state.selectorReducer.search.results = [
       {
         uri: 'http://share-vde.org/sharevde/rdfBibframe/Work/3107365',
@@ -83,30 +81,27 @@ describe('<QASearchResults />', () => {
     state.selectorReducer.search.totalResults = 2
     state.selectorReducer.search.query = 'twain'
 
-    const store = createReduxStore(state)
-    const {
-      getByText, getAllByText, getAllByTitle, container,
-    } = renderWithRedux(
-      <QASearchResults history={{}}/>, store,
-    )
+    const store = createStore(state)
+    const { container } = renderComponent(<QASearchResults history={{}} />, store)
+
     // Headers
-    expect(getByText('Label / ID')).toBeInTheDocument()
-    expect(getByText('Class')).toBeInTheDocument()
+    screen.getByText('Label / ID')
+    screen.getByText('Class')
 
     // Rows
-    expect(getByText(/These twain/)).toBeInTheDocument()
-    expect(getByText(/http:\/\/share-vde.org\/sharevde\/rdfBibframe\/Work\/3107365/)).toBeInTheDocument()
-    expect(getByText(/Those twain/)).toBeInTheDocument()
-    expect(getByText('http://id.loc.gov/ontologies/bflc/Hub')).toBeInTheDocument()
-    expect(getAllByText('http://id.loc.gov/ontologies/bibframe/Work').length).toBe(2)
-    expect(getAllByText('Contributor', { selector: 'strong' }).length).toBe(2)
-    expect(getByText(/Bennett, Arnold,1867-1931./)).toBeInTheDocument()
-    expect(getAllByTitle('Copy').length).toBe(2)
+    screen.getByText(/These twain/)
+    screen.getByText(/http:\/\/share-vde.org\/sharevde\/rdfBibframe\/Work\/3107365/)
+    screen.getByText(/Those twain/)
+    screen.getByText('http://id.loc.gov/ontologies/bflc/Hub')
+    expect(screen.getAllByText('http://id.loc.gov/ontologies/bibframe/Work')).toHaveLength(2)
+    expect(screen.getAllByText('Contributor', { selector: 'strong' })).toHaveLength(2)
+    screen.getByText(/Bennett, Arnold,1867-1931./)
+    expect(screen.getAllByTitle('Copy')).toHaveLength(2)
     expect(container.querySelector('img')).toBeInTheDocument()
   })
 
   it('renders errors', () => {
-    const state = createBlankState()
+    const state = createState()
     state.selectorReducer.editor.errors.searchqaresource = ['Ooops']
     state.selectorReducer.search.results = [
       {
@@ -144,10 +139,8 @@ describe('<QASearchResults />', () => {
     state.selectorReducer.search.totalResults = 1
     state.selectorReducer.search.query = 'twain'
 
-    const store = createReduxStore(state)
-    const { getByText } = renderWithRedux(
-      <QASearchResults history={{}}/>, store,
-    )
-    expect(getByText('Ooops')).toBeInTheDocument()
+    const store = createStore(state)
+    renderComponent(<QASearchResults history={{}}/>, store)
+    screen.getByText('Ooops')
   })
 })

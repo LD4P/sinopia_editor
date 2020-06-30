@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react'
 import PropTypes from 'prop-types'
-import { rdfDatasetFromN3 } from 'Utilities'
+import { rdfDatasetFromN3 } from 'utilities/Utilities'
 import Alert from '../Alert'
 import { Writer as N3Writer } from 'n3'
 

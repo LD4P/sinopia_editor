@@ -6,20 +6,19 @@ import React, {
 import { Typeahead, asyncContainer } from 'react-bootstrap-typeahead'
 import PropTypes from 'prop-types'
 import { useSelector, useDispatch } from 'react-redux'
-import {
-  itemsForProperty, getDisplayResourceValidations, getPropertyTemplate, findResourceValidationErrorsByPath,
-} from 'selectors/resourceSelectors'
-import { changeSelections as changeSelectionsAction } from 'actions/index'
-import { booleanPropertyFromTemplate, getLookupConfigItems } from 'utilities/propertyTemplates'
+import { displayResourceValidations } from 'selectors/errors'
 import _ from 'lodash'
-import { renderMenuFunc, renderTokenFunc } from './renderTypeaheadFunctions'
+import { renderMenuFunc, renderTokenFunc, itemsForProperty } from './renderTypeaheadFunctions'
+import { selectProperty } from 'selectors/resources'
+import { newUriValue, newLiteralValue } from 'utilities/valueFactory'
+import { clearValues, replaceValues } from 'actions/resources'
 
 
 const AsyncTypeahead = asyncContainer(Typeahead)
 
 const InputLookup = (props) => {
   const dispatch = useDispatch()
-  const changeSelections = (payload) => dispatch(changeSelectionsAction(payload))
+  const property = useSelector((state) => selectProperty(state, props.propertyKey))
   const [, setTriggerRender] = useState('')
   // Using a ref so that can append to current list of results.
   const allResults = useRef([])
@@ -27,27 +26,23 @@ const InputLookup = (props) => {
   // search, but causes result to be ignored.
   const tokens = useRef([])
 
-  const resourceTemplateId = props.reduxPath[props.reduxPath.length - 2]
-  const propertyURI = props.reduxPath[props.reduxPath.length - 1]
-  const displayValidations = useSelector((state) => getDisplayResourceValidations(state))
-  const propertyTemplate = useSelector((state) => getPropertyTemplate(state, resourceTemplateId, propertyURI))
-  const errors = useSelector((state) => findResourceValidationErrorsByPath(state, props.reduxPath))
-  const selected = useSelector((state) => itemsForProperty(state, props.reduxPath))
-  const [selectedLookupConfigs, setSelectedLookupConfigs] = useState({})
+  const displayValidations = useSelector((state) => displayResourceValidations(state))
+  const errors = property.errors
+  const selected = itemsForProperty(property)
   const [query, setQuery] = useState(false)
   const typeAheadRef = useRef(null)
 
-  const allLookupConfigs = useMemo(() => {
-    const lookupConfigs = {}
-    if (propertyTemplate) {
-      getLookupConfigItems(propertyTemplate).forEach((lookupConfig) => lookupConfigs[lookupConfig.uri] = lookupConfig)
-    }
-    return lookupConfigs
-  }, [propertyTemplate])
+  const allAuthorities = useMemo(() => {
+    const authorities = {}
+    property.propertyTemplate.authorities.forEach((authority) => authorities[authority.uri] = authority)
+    return authorities
+  }, [property.propertyTemplate.authorities])
+
+  const [selectedAuthorities, setSelectedAuthorities] = useState({})
 
   useEffect(() => {
-    setSelectedLookupConfigs(allLookupConfigs)
-  }, [allLookupConfigs])
+    setSelectedAuthorities(allAuthorities)
+  }, [allAuthorities])
 
   useEffect(() => {
     if (!query) return
@@ -66,7 +61,7 @@ const InputLookup = (props) => {
     tokens.current.push(token)
 
     // resultPromises is an array of Promise<result>
-    const resultPromises = props.getLookupResults(query, Object.values(selectedLookupConfigs))
+    const resultPromises = props.getLookupResults(query, Object.values(selectedAuthorities))
     resultPromises.forEach((resultPromise) => {
       resultPromise.then((resultSet) => {
         // Only use these results if not cancelled.
@@ -77,7 +72,7 @@ const InputLookup = (props) => {
         }
       })
     })
-  }, [props, query, selectedLookupConfigs])
+  }, [props, query, selectedAuthorities])
 
   // From https://github.com/ericgio/react-bootstrap-typeahead/issues/389
   const onKeyDown = (e) => {
@@ -90,46 +85,46 @@ const InputLookup = (props) => {
     }
   }
 
-  const isRepeatable = booleanPropertyFromTemplate(propertyTemplate, 'repeatable', true)
+  const isRepeatable = property.propertyTemplate.repeatable
 
   const isDisabled = selected?.length > 0 && !isRepeatable
 
   const selectionChanged = (items) => {
-    const payload = {
-      id: propertyTemplate.propertyURI,
-      items,
-      reduxPath: props.reduxPath,
+    if (_.isEmpty(items)) {
+      dispatch(clearValues(props.propertyKey))
+    } else {
+      const values = items.map((item) => {
+        if (item.uri) {
+          return newUriValue(props.propertyKey, item.uri, item.label)
+        }
+        return newLiteralValue(props.propertyKey, item.content, null)
+      })
+      dispatch(replaceValues(values))
     }
-    changeSelections(payload)
-  }
-
-  // Don't render if no property template yet
-  if (!propertyTemplate) {
-    return null
   }
 
   const toggleLookup = (uri) => {
-    const newSelectedLookupConfigs = { ...selectedLookupConfigs }
-    if (newSelectedLookupConfigs[uri]) {
-      delete newSelectedLookupConfigs[uri]
+    const newSelectedAuthorities = { ...selectedAuthorities }
+    if (newSelectedAuthorities[uri]) {
+      delete newSelectedAuthorities[uri]
     } else {
-      newSelectedLookupConfigs[uri] = allLookupConfigs[uri]
+      newSelectedAuthorities[uri] = allAuthorities[uri]
     }
-    setSelectedLookupConfigs(newSelectedLookupConfigs)
+    setSelectedAuthorities(newSelectedAuthorities)
     typeAheadRef.current.getInstance().getInput().click()
   }
 
-  const lookupCheckboxes = Object.values(allLookupConfigs).map((lookupConfig) => {
-    const id = `${props.reduxPath.join()}-${lookupConfig.uri}`
+  const lookupCheckboxes = Object.values(allAuthorities).map((authority) => {
+    const id = `${props.propertyKey}-${authority.uri}`
     return (
-      <div key={lookupConfig.uri} className="form-check">
+      <div key={authority.uri} className="form-check">
         <input className="form-check-input"
                type="checkbox"
                id={id}
-               checked={!!selectedLookupConfigs[lookupConfig.uri]}
-               onChange={() => toggleLookup(lookupConfig.uri)} />
+               checked={!!selectedAuthorities[authority.uri]}
+               onChange={() => toggleLookup(authority.uri)} />
         <label className="form-check-label" htmlFor={id}>
-          {lookupConfig.label}
+          {authority.label}
         </label>
       </div>
     ) })
@@ -137,7 +132,7 @@ const InputLookup = (props) => {
   const typeaheadProps = {
     id: 'lookupComponent',
     multiple: true,
-    placeholder: propertyTemplate.propertyLabel,
+    placeholder: property.propertyTemplate.propertyLabel,
     useCache: true,
     selectHintOnEnter: true,
     isLoading: false,
@@ -157,7 +152,7 @@ const InputLookup = (props) => {
     <React.Fragment>
       {lookupCheckboxes.length > 1 && lookupCheckboxes}
       <div className={groupClasses}>
-        <AsyncTypeahead renderMenu={(results, menuProps) => renderMenuFunc(results, menuProps, Object.values(selectedLookupConfigs))}
+        <AsyncTypeahead renderMenu={(results, menuProps) => renderMenuFunc(results, menuProps, Object.values(selectedAuthorities))}
                         renderToken={(option, props, idx) => renderTokenFunc(option, props, idx)}
                         disabled={isDisabled}
                         onChange={(newSelected) => selectionChanged(newSelected)}
@@ -175,7 +170,7 @@ const InputLookup = (props) => {
 }
 
 InputLookup.propTypes = {
-  reduxPath: PropTypes.arrayOf(PropTypes.string).isRequired,
+  propertyKey: PropTypes.string.isRequired,
   getLookupResults: PropTypes.func.isRequired,
   getOptions: PropTypes.func.isRequired,
 }
