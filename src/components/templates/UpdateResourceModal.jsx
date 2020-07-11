@@ -2,17 +2,17 @@
 
 import React, { useEffect, useState } from 'react'
 import { hideModal } from 'actions/modals'
-import { handleUpdateResource } from 'actionCreators/resourceTemplates'
+import { saveResourceTemplates } from 'actionCreators/templates'
 import { useDispatch, useSelector } from 'react-redux'
 import ModalWrapper, { useDisplayStyle, useModalCss } from '../ModalWrapper'
-import { resourceToName } from 'Utilities'
-import { modalType, modalMessages } from 'selectors/modalSelectors'
+import { resourceToName } from 'utilities/Utilities'
+import { selectModalType, selectModalMessages } from 'selectors/modals'
 import _ from 'lodash'
 
 const UpdateResourceModal = () => {
   const dispatch = useDispatch()
-  const show = useSelector((state) => modalType(state) === 'UpdateResourceModal')
-  const messages = useSelector((state) => modalMessages(state))
+  const show = useSelector((state) => selectModalType(state) === 'UpdateResourceModal')
+  const messages = useSelector((state) => selectModalMessages(state))
 
   const [group, setGroup] = useState('')
   const [resourceTemplates, setResourceTemplates] = useState([])
@@ -40,7 +40,7 @@ const UpdateResourceModal = () => {
   }
 
   const handleOverwriteClick = (event) => {
-    dispatch(handleUpdateResource(resourceTemplates, group))
+    dispatch(saveResourceTemplates(resourceTemplates, group))
     dispatch(hideModal())
     event.preventDefault()
   }

@@ -1,21 +1,14 @@
-/* eslint import/namespace: 'off' */
 import React from 'react'
-import { fireEvent, wait } from '@testing-library/react'
+import { fireEvent, wait, screen } from '@testing-library/react'
 import Search from 'components/search/Search'
-import {
-  renderWithRedux, createReduxStore, setupModal, createBlankState,
-} from 'testUtils'
-import { MemoryRouter } from 'react-router-dom'
+import { renderComponent } from 'testUtils'
 import * as server from 'sinopiaSearch'
 import Swagger from 'swagger-client'
 import Config from 'Config'
 
 jest.mock('swagger-client')
 
-
 describe('<Search />', () => {
-  setupModal()
-
   it('requests a QA search', async () => {
     const mockSearchResults = [
       {
@@ -54,43 +47,35 @@ describe('<Search />', () => {
     const client = { apis: { SearchQuery: { GET_searchAuthority: mockActionFunction } } }
     Swagger.mockResolvedValue(client)
 
-    const store = createReduxStore(createBlankState())
+    const { container } = renderComponent(<Search history={{}} />)
 
-    const {
-      container, getByLabelText, getByDisplayValue, findByText, getByText,
-    } = renderWithRedux(
-      <MemoryRouter><Search history={{}} /></MemoryRouter>, store,
-    )
-
-    expect(getByLabelText('Search')).toBeInTheDocument()
+    screen.getByLabelText('Search')
     // Sinopia is selected by default
-    expect(getByDisplayValue('Sinopia')).toBeInTheDocument()
+    screen.getByDisplayValue('Sinopia')
 
     // Select an authority
-    fireEvent.change(getByDisplayValue('Sinopia'), { target: { value: 'urn:ld4p:qa:sharevde_stanford_ld4l_cache:all' } })
+    fireEvent.change(screen.getByDisplayValue('Sinopia'), { target: { value: 'urn:ld4p:qa:sharevde_stanford_ld4l_cache:all' } })
 
-    expect(getByText('SHAREVDE STANFORD')).toBeInTheDocument()
+    screen.getByText('SHAREVDE STANFORD')
 
     // Enter a query
-    fireEvent.change(getByLabelText('Query'), { target: { value: 'twain' } })
+    fireEvent.change(screen.getByLabelText('Query'), { target: { value: 'twain' } })
 
     // Click search
     fireEvent.click(container.querySelector('button[type="submit"]'))
 
     // Display results
-    expect(await findByText('Label / ID')).toBeInTheDocument()
-    expect(getByText(/These twain/)).toBeInTheDocument()
+    await screen.findByText('Label / ID')
+    screen.getByText(/These twain/)
 
     // Display paging
-    expect(getByText('»')).toBeInTheDocument()
+    screen.getByText('»')
 
     // Display results message
-    expect(getByText(/Displaying 1 - 10 of 15/)).toBeInTheDocument()
+    screen.getByText(/Displaying 1 - 10 of 15/)
   })
 
   it('requests a Sinopia search', async () => {
-    const store = createReduxStore(createBlankState())
-
     const mockGetSearchResults = jest.fn()
     server.getSearchResultsWithFacets = mockGetSearchResults.mockResolvedValue([{
       totalHits: 1,
@@ -104,14 +89,10 @@ describe('<Search />', () => {
       ],
     }])
 
-    const {
-      container, getByLabelText, findByText, getByText,
-    } = renderWithRedux(
-      <MemoryRouter><Search history={{}} /></MemoryRouter>, store,
-    )
+    const { container } = renderComponent(<Search history={{}} />)
 
     // Enter a query
-    fireEvent.change(getByLabelText('Query'), { target: { value: 'foo' } })
+    fireEvent.change(screen.getByLabelText('Query'), { target: { value: 'foo' } })
 
     // Click search
     fireEvent.click(container.querySelector('button[type="submit"]'))
@@ -120,44 +101,37 @@ describe('<Search />', () => {
     expect(mockGetSearchResults).toBeCalledWith('foo', undefined)
 
     // Result
-    expect(await findByText(/foo/)).toBeInTheDocument()
+    await screen.findByText(/foo/)
 
-    expect(getByText('http://id.loc.gov/ontologies/bibframe/Title', { selector: 'li' }))
-      .toBeInTheDocument()
+    screen.getByText('http://id.loc.gov/ontologies/bibframe/Title', { selector: 'li' })
   })
 
   it('requests on enter', () => {
-    const store = createReduxStore(createBlankState())
-
     const mockGetSearchResults = jest.fn()
     server.getSearchResultsWithFacets = mockGetSearchResults.mockResolvedValue([{
       totalHits: 0,
       results: [],
     }])
-    const { getByLabelText } = renderWithRedux(
-      <MemoryRouter><Search /></MemoryRouter>, store,
-    )
+
+    renderComponent(<Search />)
 
     // Enter a query
-    fireEvent.change(getByLabelText('Query'), { target: { value: 'foo' } })
+    fireEvent.change(screen.getByLabelText('Query'), { target: { value: 'foo' } })
 
     // Hit enter
-    fireEvent.keyPress(getByLabelText('Query'), { key: 'Enter', code: 13, charCode: 13 })
+    fireEvent.keyPress(screen.getByLabelText('Query'), { key: 'Enter', code: 13, charCode: 13 })
 
     // Called once
     expect(mockGetSearchResults).toBeCalledWith('foo', undefined)
   })
 
   it('ignores when query is blank', () => {
-    const store = createReduxStore(createBlankState())
-
     const mockGetSearchResults = jest.fn()
-    const { getByLabelText } = renderWithRedux(
-      <MemoryRouter><Search /></MemoryRouter>, store,
-    )
+
+    renderComponent(<Search />)
 
     // Hit enter
-    fireEvent.keyPress(getByLabelText('Query'), { key: 'Enter', code: 13, charCode: 13 })
+    fireEvent.keyPress(screen.getByLabelText('Query'), { key: 'Enter', code: 13, charCode: 13 })
 
     // Not called
     expect(mockGetSearchResults.mock.calls.length).toBe(0)
@@ -170,25 +144,19 @@ describe('<Search />', () => {
       error: new Error('Grrr...'),
     }])
 
-    const store = createReduxStore(createBlankState())
-
-    const { findByText, getByLabelText, container } = renderWithRedux(
-      <MemoryRouter><Search /></MemoryRouter>, store,
-    )
+    const { container } = renderComponent(<Search />)
 
     // Enter a query
-    fireEvent.change(getByLabelText('Query'), { target: { value: 'foo' } })
+    fireEvent.change(screen.getByLabelText('Query'), { target: { value: 'foo' } })
 
     // Click search
     fireEvent.click(container.querySelector('button[type="submit"]'))
 
-    expect(await findByText('An error occurred while searching: Error: Grrr...')).toBeInTheDocument()
+    await screen.findByText('An error occurred while searching: Error: Grrr...')
   })
 
   it('retains sort order when paging', async () => {
     jest.spyOn(Config, 'searchResultsPerPage', 'get').mockReturnValue(2)
-    const store = createReduxStore(createBlankState())
-
     const mockGetSearchResults = jest.fn()
     server.getSearchResultsWithFacets = mockGetSearchResults.mockResolvedValue([{
       totalHits: 3,
@@ -214,32 +182,28 @@ describe('<Search />', () => {
       ],
     }])
 
-    const {
-      container, getByLabelText, findByText, getByText, queryByText,
-    } = renderWithRedux(
-      <MemoryRouter><Search history={{}} /></MemoryRouter>, store,
-    )
+    const { container } = renderComponent(<Search history={{}} />)
 
     // Enter a query
-    fireEvent.change(getByLabelText('Query'), { target: { value: 'foo' } })
+    fireEvent.change(screen.getByLabelText('Query'), { target: { value: 'foo' } })
 
     // Click search
     fireEvent.click(container.querySelector('button[type="submit"]'))
 
-    expect(await findByText('Sort by')).toBeInTheDocument()
+    await screen.findByText('Sort by')
 
     // Change sort order
-    expect(getByText('Relevance', { selector: 'button.active' })).toBeInTheDocument()
-    fireEvent.click(getByText('Sort by'))
-    fireEvent.click(getByText('Modified date, newest first'))
+    screen.getByText('Relevance', { selector: 'button.active' })
+    fireEvent.click(screen.getByText('Sort by'))
+    fireEvent.click(screen.getByText('Modified date, newest first'))
 
-    await wait(() => expect(queryByText('Relevance', { selector: 'button.active' })).not.toBeInTheDocument())
-    expect(getByText('Modified date, newest first', { selector: 'button.active' })).toBeInTheDocument()
+    await wait(() => expect(screen.queryByText('Relevance', { selector: 'button.active' })).not.toBeInTheDocument())
+    screen.getByText('Modified date, newest first', { selector: 'button.active' })
 
-    fireEvent.click(getByText('›'))
+    fireEvent.click(screen.getByText('›'))
 
-    expect(await findByText('2', { selector: 'li.active > button' })).toBeInTheDocument()
-    expect(getByText('Modified date, newest first', { selector: 'button.active' })).toBeInTheDocument()
+    await screen.findByText('2', { selector: 'li.active > button' })
+    screen.getByText('Modified date, newest first', { selector: 'button.active' })
 
     expect(mockGetSearchResults.mock.calls).toEqual([
       ['foo', undefined],

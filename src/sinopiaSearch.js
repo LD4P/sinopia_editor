@@ -1,7 +1,7 @@
 // Copyright 2019 Stanford University see LICENSE for license
 import Config from './Config'
 /* eslint-disable node/no-unpublished-import */
-import { resourceTemplateSearchResults } from '../__tests__/fixtureLoaderHelper'
+import { resourceTemplateSearchResults } from '../__tests__/testUtilities/fixtureLoaderHelper'
 import _ from 'lodash'
 
 /* eslint-enable node/no-unpublished-import */

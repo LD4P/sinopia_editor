@@ -5,16 +5,16 @@ import React, { useState, useEffect, useRef } from 'react'
 import { connect } from 'react-redux'
 import { bindActionCreators } from 'redux'
 import PropTypes from 'prop-types'
-import { getCurrentUser } from 'authSelectors'
-import { retrieveResource } from 'actionCreators/resources'
-import { findResource, findErrors } from 'selectors/resourceSelectors'
+import { selectCurrentUser } from 'selectors/authenticate'
+import { loadResource } from 'actionCreators/resources'
+import { selectErrors } from 'selectors/errors'
 import Alerts from '../Alerts'
 import TypeFilter from './TypeFilter'
 import GroupFilter from './GroupFilter'
 import SearchResultRows from './SearchResultRows'
 import SinopiaSort from './SinopiaSort'
 import _ from 'lodash'
-
+import { selectCurrentResource } from 'selectors/resources'
 
 // Errors from retrieving a resource from this page.
 export const searchRetrieveErrorKey = 'searchresource'
@@ -25,20 +25,20 @@ const SinopiaSearchResults = (props) => {
   const errorsRef = useRef(null)
 
   const handleCopy = (resourceURI) => {
-    props.retrieveResource(props.currentUser, resourceURI, searchRetrieveErrorKey, true).then((success) => {
+    props.loadResource(props.currentUser, resourceURI, searchRetrieveErrorKey, true).then((success) => {
       setNavigateEditor(success)
     })
   }
 
   const handleEdit = (resourceURI) => {
-    props.retrieveResource(props.currentUser, resourceURI, searchRetrieveErrorKey).then((success) => {
+    props.loadResource(props.currentUser, resourceURI, searchRetrieveErrorKey).then((success) => {
       setNavigateEditor(success)
     })
   }
 
   useEffect(() => {
     // Forces a wait until the resource has been set in state
-    if (navigateEditor && props.rootResource && _.isEmpty(props.errors)) {
+    if (navigateEditor && props.currentResource && _.isEmpty(props.errors)) {
       props.history.push('/editor')
     }
     else if (!_.isEmpty(props.errors))
@@ -94,21 +94,21 @@ const SinopiaSearchResults = (props) => {
 
 SinopiaSearchResults.propTypes = {
   searchResults: PropTypes.array,
-  retrieveResource: PropTypes.func,
+  loadResource: PropTypes.func,
   currentUser: PropTypes.object,
   history: PropTypes.object,
-  rootResource: PropTypes.object,
+  currentResource: PropTypes.object,
   errors: PropTypes.array,
   fetchSinopiaSearchResults: PropTypes.func,
 }
 
 const mapStateToProps = (state) => ({
-  currentUser: getCurrentUser(state),
+  currentUser: selectCurrentUser(state),
   searchResults: state.selectorReducer.search.results,
-  rootResource: findResource(state),
-  errors: findErrors(state, searchRetrieveErrorKey),
+  currentResource: selectCurrentResource(state),
+  errors: selectErrors(state, searchRetrieveErrorKey),
 })
 
-const mapDispatchToProps = (dispatch) => bindActionCreators({ retrieveResource }, dispatch)
+const mapDispatchToProps = (dispatch) => bindActionCreators({ loadResource }, dispatch)
 
 export default connect(mapStateToProps, mapDispatchToProps)(SinopiaSearchResults)

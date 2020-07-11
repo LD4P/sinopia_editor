@@ -1,13 +1,17 @@
 // Copyright 2019 Stanford University see LICENSE for license
 
-import React, { useEffect, useState, useRef } from 'react'
+import React, {
+  useEffect, useState, useRef, useMemo,
+} from 'react'
 import { useSelector, useDispatch } from 'react-redux'
 import PropTypes from 'prop-types'
 import { newResource } from 'actionCreators/resources'
-import { findResource, rootResourceTemplateId as rootResourceTemplateIdSelector, findErrors } from 'selectors/resourceSelectors'
+import { selectErrors } from 'selectors/errors'
+import { selectCurrentResource } from 'selectors/resources'
 import _ from 'lodash'
 import Alerts from '../Alerts'
 import ResourceTemplateSearchResult from './ResourceTemplateSearchResult'
+import { selectHistoricalTemplates } from 'selectors/templates'
 
 // Errors from loading a new resource from this page.
 export const newResourceErrorKey = 'newresource'
@@ -18,20 +22,37 @@ export const newResourceErrorKey = 'newresource'
 const SinopiaResourceTemplates = (props) => {
   const dispatch = useDispatch()
   const searchResults = useSelector((state) => state.selectorReducer.templateSearch)
-  const historicallyUsedTemplates = useSelector((state) => state.selectorReducer.historicalTemplates)
+  const historicallyUsedTemplates = useSelector((state) => selectHistoricalTemplates(state))
 
-  const errors = useSelector((state) => findErrors(state, newResourceErrorKey))
-  const rootResource = useSelector((state) => findResource(state))
-  const rootResourceTemplateId = useSelector((state) => rootResourceTemplateIdSelector(state))
+  // Transform to the result structure.
+  const historicallyUsedTemplateResults = useMemo(() => {
+    const results = historicallyUsedTemplates.map((template) => ({
+      id: template.key,
+      resourceLabel: template.label,
+      resourceURI: template.class,
+      author: template.author,
+      remark: template.remark,
+      date: template.date,
+    }))
+    return {
+      results,
+      totalResults: results.length,
+      error: undefined,
+    }
+  }, [historicallyUsedTemplates])
+
+  const errors = useSelector((state) => selectErrors(state, newResourceErrorKey))
+  const resource = useSelector((state) => selectCurrentResource(state))
 
   const [navigateEditor, setNavigateEditor] = useState(false)
 
   useEffect(() => {
     // Forces a wait until the root resource has been set in state
-    if (navigateEditor && rootResource && rootResourceTemplateId && _.isEmpty(errors)) {
-      props.history.push(`/editor/${rootResourceTemplateId}`)
+    if (navigateEditor && resource && _.isEmpty(errors)) {
+      const resourceTemplateId = resource.subjectTemplate.id
+      props.history.push(`/editor/${resourceTemplateId}`)
     }
-  }, [navigateEditor, rootResource, rootResourceTemplateId, props.history, errors])
+  }, [navigateEditor, resource, props.history, errors])
 
   const topRef = useRef(null)
 
@@ -44,7 +65,7 @@ const SinopiaResourceTemplates = (props) => {
   }
 
   let history
-  if (historicallyUsedTemplates.totalResults > 0) {
+  if (historicallyUsedTemplateResults.totalResults > 0) {
     history = (
       <div className="card" style={{ marginBottom: '20px' }}>
         <div className="card-header">
@@ -53,7 +74,7 @@ const SinopiaResourceTemplates = (props) => {
           </h3>
         </div>
         <div id="historicalTemplates" className="collapse" style={{ padding: '5px' }}>
-          <ResourceTemplateSearchResult search={historicallyUsedTemplates} handleClick={handleClick} />
+          <ResourceTemplateSearchResult search={historicallyUsedTemplateResults} handleClick={handleClick} />
         </div>
       </div>
     )

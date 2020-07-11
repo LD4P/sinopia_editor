@@ -1,9 +1,8 @@
 // Copyright 2018 Stanford University see LICENSE for license
+import { lookupOptionsRetrieved } from 'reducers/lookups'
+import { createState } from 'stateUtils'
 
-import setLookup from 'reducers/lookups'
-import { createBlankState } from 'testUtils'
-
-describe('changing the reducer state', () => {
+describe('lookupOptionsRetrieved', () => {
   const uri = 'https://id.loc.gov/vocabulary/mgroove'
   const lookup = [
     {
@@ -19,7 +18,7 @@ describe('changing the reducer state', () => {
   ]
 
   it('adds a new lookup', () => {
-    const newState = setLookup(createBlankState().selectorReducer, { payload: { uri, lookup } })
+    const newState = lookupOptionsRetrieved(createState().selectorReducer, { payload: { uri, lookup } })
     expect(newState).toMatchObject({
       entities: {
         lookups: { [uri]: lookup },

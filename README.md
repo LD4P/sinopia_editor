@@ -48,7 +48,7 @@ You will need to be online to authenticate even when developing in localhost.
 - React components are located in `src/components/` directory
 - Characters for the diacritics components come from the
   [Mediawiki](https://github.com/wikimedia/mediawiki/) repository's [specialcharacters.json](https://github.com/wikimedia/mediawiki/blob/master/resources/src/mediawiki.language/specialcharacters.json). This file has been customized for use in Sinopia
-  by including a separate label for each character set and by removing MediaWiki-specific 
+  by including a separate label for each character set and by removing MediaWiki-specific
   data structures that would have made processing by Sinopia more complicated.
 
 ### Use static resource templates instead of hitting Trellis
@@ -99,16 +99,10 @@ We are using webpack as a build tool.  See `webpack.config.js` for build depende
 
 ### Running Tests
 
-Tests are written with jest:
-* Unit tests ("in jsdom") are written with enzyme and react-testing-library
-* Integration tests ("in-browser") are written with puppeteer
-
-We are currently in the process of switching tests to react-testing-library.
+Tests are written with jest and react-testing-library.
 
 To properly run all of the tests (including integration), you'll have to provide a couple of environment variables,
-so that the tests have valid user info with which to login.  The env vars are:
-
-Add these to your local `.env` file:
+so that the tests have valid user info with which to login. Add these to your local `.env` file:
 
 ```sh
 COGNITO_TEST_USER_NAME='sinopia-devs+client-tester@lists.stanford.edu' # a test user we have on dev and stage
@@ -119,10 +113,7 @@ Putting it all together, to run all of the tests:
 
 ```sh
 npm test
-npm run integration
 ```
-
-Note that if you have an instance of the dev server already running in a separate terminal, you may need to stop the server or you may get a port conflict when running the integration tests.
 
 #### Test coverage
 
@@ -342,6 +333,122 @@ We use open source BrowserStack accounts for cross-platform/browser testing. See
 
 #### Testing Honeybadger
 To trigger a test exception, doubleclick "The underdrawing for the new world of linked data in libraries" on the home page.
+
+## State model
+```
+{
+  subjects: {
+    <subject key [shortid]>: {<subject>},
+    ...
+  }
+  properties: {
+    <property key [shortid]>: {<property>}
+    ...
+  }
+  values: {
+    <value key, [shortid]>: {<values>}
+    ...
+  },
+  subjectTemplates: {
+    <subject template key [resource template id]>: {<subject template>}
+    ...
+  },
+  propertyTemplates: {
+    <property template key [resource template id > property uri]>: {<[property template]>}
+    ...
+  }
+}
+```
+
+### Subject model
+```
+{
+  key: <shortid>
+  uri: <uri|null>
+  subjectTemplateKey: <key of subject template>,
+  -> subjectTemplate: {subjectTemplate}
+  propertyKeys: [key of property, ...]
+  -> properties: [{property}, ...]
+}
+```
+-> Added by selector, not stored in state.
+
+### Subject template model
+```
+{
+  key: <resource template id, e.g., resourceTemplate:bf2:Monograph:Instance>,
+  id: <resource template id, e.g., resourceTemplate:bf2:Monograph:Instance>,
+  class: <resource URI, e.g., http://id.loc.gov/ontologies/bibframe/Instance>,
+  label: <resource label, e.g., "BIBFRAME Instance">,
+  author: <author>,
+  remark: <remark>,
+  date: <date>,
+  propertyKeys: [key of property templates, ...]
+}
+```
+
+### Property model
+```
+{
+  key: <shortid>,
+  subjectKey: <key of subject>,
+  -> subject: {<subject>}
+  propertyTemplateKey: <key of property template>,
+  -> propertyTemplate: {<propertyTemplate>},
+  valueKeys: [key of value, ...] | null (if not expanded)
+  -> values: [{value},...]
+  toggleOpen: <true | false>
+}
+```
+-> Added by selector, not stored in state.
+
+### Property template model
+```
+{
+  key: <resource template id > property uri>,
+  subjectTemplateKey: <key of subject template>,
+  label: <label, e.g., "Title Information">,
+  uri: <property uri, e.g., "http://id.loc.gov/ontologies/bibframe/title">
+  required: <true | false>
+  repeatable: <true | false >
+  defaults: [{literal: <literal>, lang: <lang>}, {uri: <uri>, label: <label>},...]
+  remark: <remark>,
+  remarkUrl: <remark url, e.g., "http://access.rdatoolkit.org/2.13.html">
+  type: <resource | uri | literal>,
+  component: <InputLookupSinopia | InputLookupQA | InputListLOC | InputLiteral | InputURI>,
+  valueSubjectTemplateKeys: [<subject template keys>]
+  authorities: [{authority}, ...]
+
+}
+
+### Authority model
+```
+{
+  uri: <authority uri>
+  label: <label>
+  authority: <authority, e.g., "geonames_ld4l_cache">
+  subauthority: <subauthority, e.g., "area">
+  nonldLookup: <true | false>
+}
+```
+
+### Value model
+```
+{
+  key: <shortid>,
+  propertyKey: <key of property>,
+  -> property: {<property>},
+  literal: <literal>,
+  lang: <language for literal>,
+  uri: <uri>,
+  label: <label for uri>,
+  valueSubjectKey: <key for subject for a nested resource>,
+  -> valueSubject: {<subject>}
+}
+```
+-> Added by selector, not stored in state.
+
+Note: A value will have literal / lang or uri / label or valueSubjectKey.
 
 Acknowledgements
 ----------

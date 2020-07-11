@@ -1,13 +1,13 @@
 // Copyright 2019 Stanford University see LICENSE for license
 
 import SinopiaServer from 'sinopia_server'
-import CognitoUtils from './CognitoUtils'
+import CognitoUtils from './utilities/CognitoUtils'
 import Config from './Config'
 /* eslint-disable node/no-unpublished-import */
 import {
   rtFixturesGroups, getFixtureResourceTemplate,
   listFixtureResourcesInGroupContainer, resourceTemplateIds,
-} from '../__tests__/fixtureLoaderHelper'
+} from '../__tests__/testUtilities/fixtureLoaderHelper'
 /* eslint-enable node/no-unpublished-import */
 
 const instance = new SinopiaServer.LDPApi()
@@ -88,15 +88,14 @@ const authenticate = async (currentUser) => {
 export const createResourceTemplate = async (templateObject, group, currentUser) => {
   // If the authentication function throws, let the caller of this function catch it
   await authenticate(currentUser)
-
-  return await instance.createResourceWithHttpInfo(group, templateObject, { slug: templateObject.id, contentType: 'application/json' })
+  return instance.createResourceWithHttpInfo(group, templateObject, { slug: templateObject.id, contentType: 'application/json' })
 }
 
 export const updateResourceTemplate = async (templateObject, group, currentUser) => {
   // If the authentication function throws, let the caller of this function catch it
   await authenticate(currentUser)
 
-  return await instance.updateResourceWithHttpInfo(group, templateObject.id, templateObject, { contentType: 'application/json' })
+  return instance.updateResourceWithHttpInfo(group, templateObject.id, templateObject, { contentType: 'application/json' })
 }
 
 const sendingTurtle = { contentType: 'text/turtle' }
@@ -175,7 +174,7 @@ const returningNtriples = { accept: 'application/n-triples' }
  */
 export const publishRDFResource = async (currentUser, rdf, group) => {
   await authenticate(currentUser)
-  return await instance.createResourceWithHttpInfo(group, rdf, sendingTurtle)
+  return instance.createResourceWithHttpInfo(group, rdf, sendingTurtle)
 }
 
 /* eslint security/detect-unsafe-regex: ["off"] */
@@ -190,12 +189,12 @@ export const updateRDFResource = async (currentUser, uri, rdf) => {
   await authenticate(currentUser)
 
   const id = identifiersForUri(uri)
-  return await instance.updateResource(id.group, id.identifier, rdf, sendingTurtle)
+  return instance.updateResource(id.group, id.identifier, rdf, sendingTurtle)
 }
 
 export const loadRDFResource = async (currentUser, uri) => {
   await authenticate(currentUser)
 
   const id = identifiersForUri(uri)
-  return await instance.getResourceWithHttpInfo(id.group, id.identifier, returningNtriples)
+  return instance.getResourceWithHttpInfo(id.group, id.identifier, returningNtriples)
 }

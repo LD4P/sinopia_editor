@@ -5,7 +5,7 @@ import React, {
 } from 'react'
 import { getTemplateSearchResults } from 'sinopiaSearch'
 import { useDispatch, useSelector } from 'react-redux'
-import { clearTemplateSearchResults, setTemplateSearchResults } from 'actions/index'
+import { clearTemplateSearchResults, setTemplateSearchResults } from 'actions/search'
 import Alert from '../Alert'
 import SinopiaResourceTemplates from './SinopiaResourceTemplates'
 import SearchResultsPaging from 'components/search/SearchResultsPaging'

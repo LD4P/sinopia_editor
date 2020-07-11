@@ -1,6 +1,5 @@
 // Copyright 2019 Stanford University see LICENSE for license
-
-import { getFixtureResourceTemplate, resourceTemplateIds } from './fixtureLoaderHelper'
+import { getFixtureResourceTemplate, resourceTemplateIds } from 'fixtureLoaderHelper'
 import { validateResourceTemplate } from 'ResourceTemplateValidator'
 import _ from 'lodash'
 import * as sinopiaServer from 'sinopiaServer'

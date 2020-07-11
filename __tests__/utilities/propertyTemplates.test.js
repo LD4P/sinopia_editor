@@ -1,11 +1,9 @@
 // Copyright 2019 Stanford University see LICENSE for license
-
 import {
   defaultValuesFromPropertyTemplate,
   getLookupConfigItems,
   getTagNameForPropertyTemplate,
 } from 'utilities/propertyTemplates'
-
 import shortid from 'shortid'
 
 describe('Utilities', () => {

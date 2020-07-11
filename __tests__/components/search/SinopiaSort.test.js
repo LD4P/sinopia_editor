@@ -1,32 +1,28 @@
 import React from 'react'
 import SinopiaSort from 'components/search/SinopiaSort'
-import { renderWithRedux, createReduxStore, createBlankState } from 'testUtils'
-import { fireEvent } from '@testing-library/react'
-/* eslint import/namespace: 'off' */
 import * as server from 'sinopiaSearch'
+import { fireEvent, screen } from '@testing-library/react'
+import { createStore, renderComponent } from 'testUtils'
+import { createState } from 'stateUtils'
 
 describe('<SinopiaSort />', () => {
   it('renders with default', () => {
-    const store = createReduxStore(createBlankState())
-    const { getByText, queryByText } = renderWithRedux(
-      <SinopiaSort />, store,
-    )
-    expect(getByText('Sort by')).toBeInTheDocument()
-    expect(getByText('Label, ascending')).toBeInTheDocument()
-    expect(queryByText('Label, ascending', { selector: '.active' })).not.toBeInTheDocument()
+    renderComponent(<SinopiaSort />)
+    screen.getByText('Sort by')
+    screen.getByText('Label, ascending')
+    expect(screen.queryByText('Label, ascending', { selector: '.active' })).not.toBeInTheDocument()
 
-    expect(getByText('Relevance', { selector: '.active' })).toBeInTheDocument()
+    screen.getByText('Relevance', { selector: '.active' })
   })
 
   it('renders with selected sort order', () => {
-    const state = createBlankState()
+    const state = createState()
     state.selectorReducer.search.options.sortField = 'label'
     state.selectorReducer.search.options.sortOrder = 'asc'
-    const store = createReduxStore(state)
-    const { getByText } = renderWithRedux(
-      <SinopiaSort />, store,
-    )
-    expect(getByText('Label, ascending', { selector: '.active' })).toBeInTheDocument()
+    const store = createStore(state)
+    renderComponent(<SinopiaSort />, store)
+
+    screen.getByText('Label, ascending', { selector: '.active' })
   })
 
   it('clicking changes the sort order', async () => {
@@ -42,19 +38,18 @@ describe('<SinopiaSort />', () => {
       ],
     }])
 
-    const state = createBlankState()
+    const state = createState()
     state.selectorReducer.search.query = 'twain'
     state.selectorReducer.search.options.startOfRange = 10
     state.selectorReducer.search.options.resultsPerPage = 15
 
-    const store = createReduxStore(state)
-    const { getByText, findByText } = renderWithRedux(
-      <SinopiaSort />, store,
-    )
-    fireEvent.click(getByText('Sort by'))
-    fireEvent.click(getByText('Label, ascending'))
+    const store = createStore(state)
+    renderComponent(<SinopiaSort />, store)
 
-    expect(await findByText('Label, ascending', { selector: '.active' })).toBeInTheDocument()
+    fireEvent.click(screen.getByText('Sort by'))
+    fireEvent.click(screen.getByText('Label, ascending'))
+
+    await screen.findByText('Label, ascending', { selector: '.active' })
     expect(server.getSearchResultsWithFacets).toHaveBeenCalledWith('twain', {
       startOfRange: 0, resultsPerPage: 15, sortField: 'label', sortOrder: 'asc',
     })

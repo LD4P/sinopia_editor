@@ -3,26 +3,26 @@
 import React from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import PropTypes from 'prop-types'
-import { findResourceURI, findResource } from 'selectors/resourceSelectors'
-import { copyNewResource, showCopyNewMessage } from 'actions/index'
+import { showCopyNewMessage } from 'actions/messages'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faCopy } from '@fortawesome/free-solid-svg-icons'
+import { selectCurrentResource } from 'selectors/resources'
+import { newResourceCopy } from 'actionCreators/resources'
 
 const CopyToNewButton = (props) => {
   const dispatch = useDispatch()
-  const resource = useSelector((state) => findResource(state))
-  const resourceURI = useSelector((state) => findResourceURI(state))
+  const resource = useSelector((state) => selectCurrentResource(state))
 
   const handleClick = () => {
-    dispatch(copyNewResource(resource))
-    dispatch(showCopyNewMessage(resourceURI))
+    dispatch(newResourceCopy(resource.key))
+    dispatch(showCopyNewMessage(resource.uri))
   }
 
   return (
     <button type="button"
             className="btn btn-link"
             id={props.id}
-            disabled={!resourceURI}
+            disabled={!resource.uri}
             onClick={handleClick}
             title="Copy"
             aria-label="Copy this resource to a new resource">

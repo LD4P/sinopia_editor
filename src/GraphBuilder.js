@@ -2,20 +2,17 @@
 
 import N3Writer from 'n3/lib/N3Writer'
 import Stream from 'stream'
-import _ from 'lodash'
 import rdf from 'rdf-ext'
 
 /**
- * Builds RDF graphs from the Redux state
+ * Builds RDF graphs for a full resource
  */
 export default class GraphBuilder {
   /**
    * @param {Object} resource to be converted to graph
-   * @param {Object} resourceTemplates to be used to convert to graph
    */
-  constructor(resource, resourceTemplates) {
+  constructor(resource) {
     this.resource = resource
-    this.resourceTemplates = resourceTemplates
     this.dataset = rdf.dataset()
   }
 
@@ -24,15 +21,9 @@ export default class GraphBuilder {
    */
   get graph() {
     if (this.resource) {
-      Object.keys(this.resource).forEach((resourceTemplateId) => {
-        // Always save with relative URI (@NOTE that this precludes serializing as N-Triples)
-        const resourceURI = rdf.namedNode('')
-
-        this.buildTriplesForNode(resourceURI,
-          resourceTemplateId,
-          this.getPredicateList(this.resource[resourceTemplateId]))
-        this.addGeneratedByTriple(resourceURI, resourceTemplateId)
-      })
+      const resourceTerm = rdf.namedNode('')
+      this.addGeneratedByTriple(resourceTerm, this.resource.subjectTemplate.id)
+      this.buildSubject(this.resource, resourceTerm)
     }
     return this.dataset
   }
@@ -55,124 +46,47 @@ export default class GraphBuilder {
     return turtleChunks.join('')
   }
 
-  /**
-   * @return {string} a string containing a uri for the class
-   */
-  getResourceTemplateClass(resourceTemplateId) {
-    const resourceTemplate = this.resourceTemplates[resourceTemplateId]
-    if (!resourceTemplate) throw `Error building graph. ${resourceTemplateId} is missing.`
-    return resourceTemplate.resourceURI
+  buildSubject(subject, subjectTerm) {
+    this.dataset.add(rdf.quad(subjectTerm, rdf.namedNode('http://www.w3.org/1999/02/22-rdf-syntax-ns#type'), rdf.namedNode(subject.subjectTemplate.class)))
+    subject.properties.forEach((property) => this.buildProperty(property, subjectTerm))
   }
 
-  /**
-   * Filter out the non-predicate values (e.g. resourceURI)
-   * @param {<object>} Object containing predicates as keys
-   * @return {<Object>} the filtered predicate list
-   */
-  getPredicateList(predicateList) {
-    const newPredicateList = {}
+  buildProperty(property, subjectTerm) {
+    if (property.values == null) return
 
-    Object.keys(predicateList).forEach((predicateKey) => {
-      if (!['resourceURI'].includes(predicateKey)) {
-        newPredicateList[predicateKey] = predicateList[predicateKey]
-      }
-    })
-    return newPredicateList
+    property.values.forEach((value) => this.buildValue(value, subjectTerm, rdf.namedNode(property.propertyTemplate.uri)))
   }
 
-  /**
-   * @param {rdf.Term} baseURI
-   * @param {Object} value looks something like this:
-   *   { 'resourceTemplate:bf2:WorkTitle':
-   *     { 'http://id.loc.gov/ontologies/bibframe/mainTitle': {},
-   *       'http://id.loc.gov/ontologies/bibframe/partName': {} } }
-   */
-  buildTriplesForNestedObject(baseURI, value) {
-    // Is there ever more than one base node?
-    Object.keys(value).forEach((resourceTemplateId) => {
-      this.buildTriplesForNode(baseURI,
-        resourceTemplateId,
-        this.getPredicateList(value[resourceTemplateId]))
-    })
-  }
-
-  /**
-   * @param {rdf.Term} baseURI
-   * @param {string} resourceTemplateId the identifier of the resource template
-   * @param {Array.<Object>}
-   */
-  buildTriplesForNode(baseURI, resourceTemplateId, predicateList) {
-    const type = this.getResourceTemplateClass(resourceTemplateId)
-
-    if (type) {
-      this.addTypeTriple(baseURI, rdf.namedNode(type))
-    }
-
-    // Now add all the other properties
-    for (const predicate in predicateList) {
-      const value = predicateList[predicate]
-
-      if (_.isEmpty(value)) {
-        continue
-      }
-      const labelNode = rdf.namedNode('http://www.w3.org/2000/01/rdf-schema#label')
-      if (value.items) {
-        Object.keys(value.items).forEach((key) => {
-          const item = value.items[key]
-          const object = item.uri ? rdf.namedNode(item.uri) : this.createLiteral(item)
-          this.dataset.add(rdf.quad(baseURI, rdf.namedNode(predicate), object))
-          // If the item is a uri and has a label, adds a label triple to the graph
-          if (item.uri && item.label) {
-            this.dataset.add(rdf.quad(rdf.namedNode(item.uri),
-              labelNode,
-              rdf.literal(item.label)))
-          }
-        })
-      } else { // It's a deeply nested object
-        Object.keys(value).filter((elem) => elem !== 'errors').forEach((key) => {
-          const nestedValue = value[key]
-          const bnode = rdf.blankNode()
-
-          // Before adding blank node, make sure that there is a descendant non-empty items array.
-          if (this.hasItemDescendants(nestedValue)) {
-            this.dataset.add(rdf.quad(baseURI, rdf.namedNode(predicate), bnode))
-            this.buildTriplesForNestedObject(bnode, nestedValue)
-          }
-        })
-      }
+  buildValue(value, subjectTerm, propertyTerm) {
+    // Can't use type to distinguish between uri and literal because inputlookups allow providing a literal for a uri.
+    if (value.property.propertyTemplate.type === 'resource') {
+      this.buildValueSubject(value, subjectTerm, propertyTerm)
+    } else if (value.uri) {
+      this.buildUriValue(value, subjectTerm, propertyTerm)
+    } else {
+      this.buildLiteralValue(value, subjectTerm, propertyTerm)
     }
   }
 
-  /**
-   * Returns true if value or descendant has a non-empty item
-   * @param {Object} value from the redux store
-   */
-  hasItemDescendants(value) {
-    if (value.items && Object.keys(value.items).length > 0) {
-      return true
+  buildLiteralValue(value, subjectTerm, propertyTerm) {
+    const valueTerm = rdf.literal(value.literal, value.lang)
+    this.dataset.add(rdf.quad(subjectTerm, propertyTerm, valueTerm))
+  }
+
+  buildUriValue(value, subjectTerm, propertyTerm) {
+    const valueTerm = rdf.namedNode(value.uri)
+    this.dataset.add(rdf.quad(subjectTerm, propertyTerm, valueTerm))
+    if (valueTerm.label) {
+      this.dataset.add(rdf.quad(valueTerm,
+        rdf.namedNode('http://www.w3.org/2000/01/rdf-schema#label'),
+        rdf.literal(value.label)))
     }
-    // If items is an empty object ignores content in state
-    if ('content' in value) return false
-    return Object.keys(value).some((key) => this.hasItemDescendants(value[key]))
   }
 
-  /**
-   * Returns a literal with an optional language tag
-   * @param {Object} item from the redux store
-   * @return {rdf.LiteralExt} the literal with a language value
-   */
-  createLiteral(item) {
-    return rdf.literal(item.content, item.lang)
-  }
-
-  /**
-   * @param {rdf.Term} baseURI
-   * @param {rdf.Term} type
-   */
-  addTypeTriple(baseURI, type) {
-    this.dataset.add(rdf.quad(baseURI,
-      rdf.namedNode('http://www.w3.org/1999/02/22-rdf-syntax-ns#type'),
-      type))
+  buildValueSubject(value, subjectTerm, propertyTerm) {
+    const bnode = rdf.blankNode()
+    this.dataset.add(rdf.quad(subjectTerm, propertyTerm, bnode))
+    this.buildSubject(value.valueSubject, bnode)
   }
 
   /**

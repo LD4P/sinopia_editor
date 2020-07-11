@@ -1,13 +1,13 @@
 // Copyright 2019 Stanford University see LICENSE for license
 
-import { loadingLanguages, languagesReceived } from 'actions/entities'
+import { fetchingLanguages, languagesReceived } from 'actions/languages'
 
-const loadLanguages = () => (dispatch, getState) => {
+export const fetchLanguages = () => (dispatch, getState) => {
   if (getState().selectorReducer.entities.languages.options.length > 0) {
     return // Languages already loaded
   }
 
-  dispatch(loadingLanguages())
+  dispatch(fetchingLanguages())
   return fetch('https://id.loc.gov/vocabulary/iso639-2.json')
     .then((resp) => resp.json())
     .then((json) => {
@@ -16,4 +16,4 @@ const loadLanguages = () => (dispatch, getState) => {
     .catch(() => false)
 }
 
-export default loadLanguages
+export const noop = () => {}

@@ -1,5 +1,4 @@
 // Copyright 2018 Stanford University see LICENSE for license
-
 describe('spoofed verso', () => {
   const versoSpoof = require('../src/versoSpoof.js')
 

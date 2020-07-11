@@ -1,8 +1,8 @@
 import React from 'react'
 import GroupFilter from 'components/search/GroupFilter'
-import { renderWithRedux, createReduxStore, createBlankState } from 'testUtils'
-import { fireEvent, wait } from '@testing-library/react'
-/* eslint import/namespace: 'off' */
+import { createStore, renderComponent } from 'testUtils'
+import { createState } from 'stateUtils'
+import { fireEvent, wait, screen } from '@testing-library/react'
 import * as server from 'sinopiaSearch'
 
 describe('<GroupFilter />', () => {
@@ -27,56 +27,51 @@ describe('<GroupFilter />', () => {
     ],
   }
 
-  const createState = () => {
-    const state = createBlankState()
+  const createInitialState = () => {
+    const state = createState()
     state.selectorReducer.search.facetResults = facetResults
     state.selectorReducer.search.query = 'twain'
     return state
   }
 
   it('does not render when no facet results', () => {
-    const store = createReduxStore(createBlankState())
-    const { queryByText } = renderWithRedux(
-      <GroupFilter />, store,
-    )
-    expect(queryByText('Filter by institution')).not.toBeInTheDocument()
+    renderComponent(<GroupFilter />)
+
+    expect(screen.queryByText('Filter by institution')).not.toBeInTheDocument()
   })
 
   it('renders when results', () => {
     const mockGetSearchResults = jest.fn()
     server.getSearchResultsWithFacets = mockGetSearchResults.mockResolvedValue([{}, undefined])
 
+    const store = createStore(createInitialState())
+    const { container } = renderComponent(<GroupFilter />, store)
 
-    const store = createReduxStore(createState())
-    const { getByText, container } = renderWithRedux(
-      <GroupFilter />, store,
-    )
-    expect(getByText('Filter by institution')).toBeInTheDocument()
-    expect(getByText('Stanford University (5)')).toBeInTheDocument()
-    expect(getByText('Princeton University (1)')).toBeInTheDocument()
+    expect(screen.getByText('Filter by institution')).toBeInTheDocument()
+    expect(screen.getByText('Stanford University (5)')).toBeInTheDocument()
+    expect(screen.getByText('Princeton University (1)')).toBeInTheDocument()
 
     // Everything checked
-    expect(container.querySelectorAll('input:checked').length).toBe(4)
+    expect(container.querySelectorAll('input:checked')).toHaveLength(4)
   })
 
   it('allows changing filters by unselecting', async () => {
     const mockGetSearchResults = jest.fn()
     server.getSearchResultsWithFacets = mockGetSearchResults.mockResolvedValue([{}, undefined])
 
-    const store = createReduxStore(createState())
-    const { getByText, container } = renderWithRedux(
-      <GroupFilter />, store,
-    )
+    const store = createStore(createInitialState())
+    const { container } = renderComponent(<GroupFilter />, store)
+
     expect(container.querySelector('div.show')).not.toBeInTheDocument()
-    fireEvent.click(getByText('Filter by institution'))
+    fireEvent.click(screen.getByText('Filter by institution'))
     expect(container.querySelector('div.show')).toBeInTheDocument()
-    fireEvent.click(getByText('Stanford University (5)'))
+    fireEvent.click(screen.getByText('Stanford University (5)'))
 
     // 3 checked
     expect(container.querySelectorAll('input:checked').length).toBe(3)
 
     // Apply filter
-    fireEvent.click(getByText('Go'))
+    fireEvent.click(screen.getByText('Go'))
 
     await wait(() => expect(container.querySelector('div.show')).not.toBeInTheDocument())
 
@@ -97,19 +92,17 @@ describe('<GroupFilter />', () => {
     const mockGetSearchResults = jest.fn()
     server.getSearchResultsWithFacets = mockGetSearchResults.mockResolvedValue([{}, undefined])
 
-    const store = createReduxStore(createState())
-    const { getAllByText, container, getByText } = renderWithRedux(
-      <GroupFilter />, store,
-    )
+    const store = createStore(createInitialState())
+    const { container } = renderComponent(<GroupFilter />, store)
 
-    fireEvent.click(getByText('Filter by institution'))
-    fireEvent.click(getAllByText('Only')[0])
+    fireEvent.click(screen.getByText('Filter by institution'))
+    fireEvent.click(screen.getAllByText('Only')[0])
 
     // 3 checked
-    expect(container.querySelectorAll('input:checked').length).toBe(1)
+    expect(container.querySelectorAll('input:checked')).toHaveLength(1)
 
     // Apply filter
-    fireEvent.click(getByText('Go'))
+    fireEvent.click(screen.getByText('Go'))
 
     await wait(() => expect(container.querySelector('div.show')).not.toBeInTheDocument())
 
@@ -128,24 +121,21 @@ describe('<GroupFilter />', () => {
     const mockGetSearchResults = jest.fn()
     server.getSearchResultsWithFacets = mockGetSearchResults.mockResolvedValue([{}, facetResults])
 
-    const state = createState()
-    const store = createReduxStore(state)
-    const { getByText, container } = renderWithRedux(
-      <GroupFilter />, store,
-    )
-    fireEvent.click(getByText('Filter by institution'))
-    fireEvent.click(getByText('Stanford University (5)'))
+    const store = createStore(createInitialState())
+    const { container } = renderComponent(<GroupFilter />, store)
+    fireEvent.click(screen.getByText('Filter by institution'))
+    fireEvent.click(screen.getByText('Stanford University (5)'))
 
     // 3 checked
     expect(container.querySelectorAll('input:checked').length).toBe(3)
 
     // Apply filter
-    fireEvent.click(getByText('Go'))
+    fireEvent.click(screen.getByText('Go'))
 
     await wait(() => expect(container.querySelector('div.show')).not.toBeInTheDocument())
 
-    fireEvent.click(getByText('Filter by institution'))
-    fireEvent.click(getByText('Clear filter'))
+    fireEvent.click(screen.getByText('Filter by institution'))
+    fireEvent.click(screen.getByText('Clear filter'))
 
     expect(mockGetSearchResults).toHaveBeenLastCalledWith('twain', {
       resultsPerPage: 10,

@@ -2,7 +2,7 @@
 
 import React from 'react'
 import PropTypes from 'prop-types'
-import ResourceTemplate from './ResourceTemplate'
+import ResourceComponent from './ResourceComponent'
 import Header from '../Header'
 import RDFModal from './RDFModal'
 import DiacriticsSelection from './diacritics/DiacriticsSelection'
@@ -25,7 +25,7 @@ const Editor = (props) => (
     <ErrorMessages />
     <GroupChoiceModal />
     <ResourcesNav />
-    <ResourceTemplate />
+    <ResourceComponent />
     <EditorActions />
   </div>
 )

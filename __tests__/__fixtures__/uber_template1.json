@@ -1,0 +1,66 @@
+{
+  "id": "resourceTemplate:testing:uber1",
+  "resourceLabel": "Uber template1",
+  "resourceURI": "http://id.loc.gov/ontologies/bibframe/Uber1",
+  "remark": "Template for testing purposes.",
+  "propertyTemplates": [
+    {
+      "propertyLabel": "Uber template1, property1",
+      "propertyURI": "http://id.loc.gov/ontologies/bibframe/uber/template1/property1",
+      "resourceTemplates": [],
+      "valueConstraint": {
+        "valueTemplateRefs": [
+          "resourceTemplate:testing:uber2",
+          "resourceTemplate:testing:uber3"
+        ],
+        "useValuesFrom": [],
+        "valueDataType": {
+          "remark": ""
+        },
+        "defaults": []
+      },
+      "mandatory": "false",
+      "repeatable": "true",
+      "type": "resource",
+      "remark": "Multiple nested, repeatable resource templates."
+    },
+    {
+      "propertyLabel": "Uber template1, property2",
+      "propertyURI": "http://id.loc.gov/ontologies/bibframe/uber/template1/property2",
+      "resourceTemplates": [],
+      "mandatory": "false",
+      "repeatable": "true",
+      "type": "literal",
+      "remark": "A repeatable literal."
+    },
+    {
+      "propertyLabel": "Uber template1, property3",
+      "propertyURI": "http://id.loc.gov/ontologies/bibframe/uber/template1/property3",
+      "resourceTemplates": [],
+      "valueConstraint": {
+        "valueTemplateRefs": [
+          "resourceTemplate:testing:uber2",
+          "resourceTemplate:testing:uber3"
+        ],
+        "useValuesFrom": [],
+        "valueDataType": {
+          "remark": ""
+        },
+        "defaults": []
+      },
+      "mandatory": "false",
+      "repeatable": "false",
+      "type": "resource",
+      "remark": "Multiple nested, non-repeatable resource templates."
+    },
+    {
+      "propertyLabel": "Uber template1, property4",
+      "propertyURI": "http://id.loc.gov/ontologies/bibframe/uber/template1/property4",
+      "resourceTemplates": [],
+      "mandatory": "true",
+      "repeatable": "false",
+      "type": "literal",
+      "remark": "A non-repeatable literal."
+    }
+  ]
+}

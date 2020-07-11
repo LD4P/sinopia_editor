@@ -33,12 +33,12 @@ const InputLookupQA = (props) => {
   }
 
   return (
-    <InputLookup getLookupResults={getSearchResults} getOptions={getOptions} reduxPath={props.reduxPath} />
+    <InputLookup getLookupResults={getSearchResults} getOptions={getOptions} propertyKey={props.propertyKey} />
   )
 }
 
 InputLookupQA.propTypes = {
-  reduxPath: PropTypes.arrayOf(PropTypes.string).isRequired,
+  propertyKey: PropTypes.string.isRequired,
 }
 
 export default InputLookupQA

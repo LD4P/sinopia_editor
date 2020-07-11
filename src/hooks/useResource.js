@@ -1,11 +1,9 @@
 /* eslint max-params: ["error", 5] */
 import { useState, useEffect } from 'react'
-import ResourceStateBuilder from 'ResourceStateBuilder'
-import { rdfDatasetFromN3 } from 'Utilities'
 import { useDispatch, useSelector } from 'react-redux'
-import { existingResource } from 'actionCreators/resources'
-import { appendError, clearErrors, setResourceTemplates } from 'actions/index'
-import { hasResource as hasResourceSelector } from 'selectors/resourceSelectors'
+import { newResourceFromN3 } from 'actionCreators/resources'
+import { clearErrors } from 'actions/errors'
+import { selectCurrentResource } from 'selectors/resources'
 
 /**
  * Hook for transforming a resource to state and changing the page to the editor (i.e., /editor path).
@@ -18,7 +16,7 @@ import { hasResource as hasResourceSelector } from 'selectors/resourceSelectors'
  */
 const useResource = (resourceN3, baseURI, resourceTemplateId, errorKey, history) => {
   const dispatch = useDispatch()
-  const hasResource = useSelector((state) => hasResourceSelector(state))
+  const hasResource = useSelector((state) => !!selectCurrentResource(state))
 
   // Indicates that would like to change to editor once resource is in state
   const [navigateEditor, setNavigateEditor] = useState(false)
@@ -28,26 +26,10 @@ const useResource = (resourceN3, baseURI, resourceTemplateId, errorKey, history)
       return
     }
     dispatch(clearErrors(errorKey))
-    rdfDatasetFromN3(resourceN3).then((dataset) => {
-      const builder = new ResourceStateBuilder(dataset, baseURI, resourceTemplateId)
-
-      return builder.buildState().then((result) => {
-        const resourceState = result[0]
-        const unusedDataset = result[1]
-        const resourceTemplates = result[2]
-        dispatch(setResourceTemplates(resourceTemplates))
-        dispatch(existingResource(resourceState, unusedDataset.toCanonical(), undefined, errorKey)).then((result) => {
-          setNavigateEditor(result)
-        })
-      }).catch((err) => {
-        // A ResourceStateBuilderTemplateError may include multiple validation errors.
-        if (err.name === 'ResourceStateBuilderTemplateError' && err.validationErrors) {
-          err.validationErrors.forEach((validationErr) => dispatch(appendError(errorKey, validationErr)))
-        } else {
-          dispatch(appendError(errorKey, err.toString()))
-        }
+    dispatch(newResourceFromN3(resourceN3, baseURI, resourceTemplateId, errorKey, true))
+      .then((result) => {
+        setNavigateEditor(result)
       })
-    }).catch((err) => dispatch(appendError(errorKey, `Error parsing: ${err.toString()}`)))
   }, [resourceN3, baseURI, resourceTemplateId, dispatch, errorKey])
 
   useEffect(() => {

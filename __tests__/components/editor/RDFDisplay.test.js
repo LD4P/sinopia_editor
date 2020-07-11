@@ -1,7 +1,7 @@
 // Copyright 2019 Stanford University see LICENSE for license
 
 import React from 'react'
-import { render, fireEvent } from '@testing-library/react'
+import { render, fireEvent, screen } from '@testing-library/react'
 import RDFDisplay from 'components/editor/RDFDisplay'
 
 describe('<RDFDisplay />', () => {
@@ -12,45 +12,46 @@ describe('<RDFDisplay />', () => {
 `
 
   it('renders by default as a table', async () => {
-    const {
-      getAllByText, findByText, getByText, getByDisplayValue, container,
-    } = render(<RDFDisplay rdf={rdf} />)
-    expect(await findByText(/Format:/)).toBeInTheDocument()
+    const { container } = render(<RDFDisplay rdf={rdf} />)
+    await screen.findByText(/Format:/)
     // Table is selected.
-    expect(getByDisplayValue('Table')).toBeInTheDocument()
+    screen.getByDisplayValue('Table')
     // There is a table
     expect(container.querySelector('table')).toBeInTheDocument()
     // With table headers
-    expect(getByText('Subject', 'th')).toBeInTheDocument()
-    expect(getByText('Predicate', 'th')).toBeInTheDocument()
-    expect(getByText('Object', 'th')).toBeInTheDocument()
+    screen.getByText('Subject', 'th')
+    screen.getByText('Predicate', 'th')
+    screen.getByText('Object', 'th')
     // And table rows
-    expect(getAllByText('<>', 'td')).toHaveLength(4)
-    expect(getAllByText('http://id.loc.gov/ontologies/bibframe/mainTitle', 'td')).toHaveLength(2)
-    expect(getByText('foo [eng]', 'td')).toBeInTheDocument()
-    expect(getByText('bar', 'td')).toBeInTheDocument()
+    expect(screen.getAllByText('<>', 'td')).toHaveLength(4)
+    expect(screen.getAllByText('http://id.loc.gov/ontologies/bibframe/mainTitle', 'td')).toHaveLength(2)
+    screen.getByText('foo [eng]', 'td')
+    screen.getByText('bar', 'td')
   })
 
   it('renders N-Triples', async () => {
-    const { getByLabelText, findByText } = render(<RDFDisplay rdf={rdf} />)
-    expect(await findByText(/Format:/)).toBeInTheDocument()
+    render(<RDFDisplay rdf={rdf} />)
 
-    fireEvent.change(getByLabelText(/Format/), { target: { value: 'n-triples' } })
+    await screen.findByText(/Format:/)
 
-    expect(await findByText(/<> <http:\/\/id.loc.gov\/ontologies\/bibframe\/mainTitle> "foo"@eng \./)).toBeInTheDocument()
+    fireEvent.change(screen.getByLabelText(/Format/), { target: { value: 'n-triples' } })
+
+    await screen.findByText(/<> <http:\/\/id.loc.gov\/ontologies\/bibframe\/mainTitle> "foo"@eng \./)
   })
 
   it('renders Turtle', async () => {
-    const { getByLabelText, findByText } = render(<RDFDisplay rdf={rdf} />)
-    expect(await findByText(/Format:/)).toBeInTheDocument()
+    render(<RDFDisplay rdf={rdf} />)
 
-    fireEvent.change(getByLabelText(/Format/), { target: { value: 'turtle' } })
+    await screen.findByText(/Format:/)
 
-    expect(await findByText(/<> <http:\/\/id.loc.gov\/ontologies\/bibframe\/mainTitle> "foo"@eng, "bar";/)).toBeInTheDocument()
+    fireEvent.change(screen.getByLabelText(/Format/), { target: { value: 'turtle' } })
+
+    await screen.findByText(/<> <http:\/\/id.loc.gov\/ontologies\/bibframe\/mainTitle> "foo"@eng, "bar";/)
   })
 
   it('displays errors', async () => {
-    const { findByText } = render(<RDFDisplay rdf={`${rdf}x`} />)
-    expect(await findByText(/Error: Unexpected "x"/)).toBeInTheDocument()
+    render(<RDFDisplay rdf={`${rdf}x`} />)
+
+    await screen.findByText(/Error: Unexpected "x"/)
   })
 })

@@ -3,24 +3,21 @@
 import React from 'react'
 import { useSelector, useDispatch } from 'react-redux'
 import CloseButton from './actions/CloseButton'
-import {
-  getResourceTemplate, rootResourceTemplateId,
-  currentResourceKey as currentResourceKeySelector,
-} from 'selectors/resourceSelectors'
-import { setCurrentResource } from 'actions/index'
+import { selectCurrentResourceKey, selectSubject } from 'selectors/resources'
+import { setCurrentResource } from 'actions/resources'
 
 const ResourcesNav = () => {
   const dispatch = useDispatch()
 
-  const currentResourceKey = useSelector((state) => currentResourceKeySelector(state))
+  const currentResourceKey = useSelector((state) => selectCurrentResourceKey(state))
 
-  const resourceKeys = useSelector((state) => Object.keys(state.selectorReducer.entities.resources))
+  const resourceKeys = useSelector((state) => state.selectorReducer.editor.resources)
 
   const navLabels = useSelector((state) => {
     const labels = {}
     resourceKeys.forEach((resourceKey) => {
-      const resourceTemplateId = rootResourceTemplateId(state, resourceKey)
-      const resourceLabel = getResourceTemplate(state, resourceTemplateId).resourceLabel
+      const subject = selectSubject(state, resourceKey)
+      const resourceLabel = subject.subjectTemplate.label
       labels[resourceKey] = resourceLabel.length > 40 ? `${resourceLabel.slice(0, 40)}...` : resourceLabel
     })
     return labels

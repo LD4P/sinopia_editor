@@ -1,5 +1,4 @@
 // Copyright 2019 Stanford University see LICENSE for license
-
 import {
   getSearchResults, getTemplateSearchResults, getLookupResults, getSearchResultsWithFacets,
 } from 'sinopiaSearch'

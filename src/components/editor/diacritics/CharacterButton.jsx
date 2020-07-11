@@ -2,15 +2,14 @@
 
 import React from 'react'
 import PropTypes from 'prop-types'
-import { setLiteralContent } from 'actions/index'
 import { useSelector, useDispatch } from 'react-redux'
-import { findNode } from 'selectors/resourceSelectors'
+import { selectLiteralInputContent } from 'selectors/inputs'
+import { setLiteralContent } from 'actions/inputs'
 
 const CharacterButton = (props) => {
-  const targetReduxPath = useSelector((state) => state.selectorReducer.editor.diacritics.reduxPath)
-  const inputNode = useSelector((state) => findNode(state, targetReduxPath))
-
   const dispatch = useDispatch()
+  const targetPropertyKey = useSelector((state) => state.selectorReducer.editor.diacritics.key)
+  const content = useSelector((state) => selectLiteralInputContent(state, targetPropertyKey)) || ''
 
   const cleanCharacter = () => {
     // For some reason, some combining characters are precombined with ◌ (U+25CC)
@@ -23,9 +22,8 @@ const CharacterButton = (props) => {
   }
 
   const handleClick = (event) => {
-    const existingValue = inputNode.content || ''
-    const newValue = existingValue + cleanCharacter()
-    dispatch(setLiteralContent(newValue, targetReduxPath))
+    const newValue = content + cleanCharacter()
+    dispatch(setLiteralContent(targetPropertyKey, newValue))
     event.preventDefault()
   }
 

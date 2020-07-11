@@ -4,7 +4,7 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faCopy, faEdit } from '@fortawesome/free-solid-svg-icons'
-import { groupNameFromGroup } from 'Utilities'
+import { groupNameFromGroup } from 'utilities/Utilities'
 import LongDate from 'components/LongDate'
 
 /**

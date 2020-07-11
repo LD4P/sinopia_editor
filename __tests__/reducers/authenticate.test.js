@@ -1,5 +1,4 @@
 // Copyright 2018 Stanford University see LICENSE for license
-
 import authenticate from 'reducers/authenticate'
 
 describe('changing the reducer state', () => {

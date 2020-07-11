@@ -8,7 +8,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faUpload } from '@fortawesome/free-solid-svg-icons'
 import Ajv from 'ajv' // JSON schema validation
 import Config from 'Config'
-import { setResourceTemplates } from 'actionCreators/resourceTemplates'
+import { saveNewProfileOrResourceTemplate } from 'actionCreators/templates'
 
 const util = require('util')
 // For JSON schema validation errors
@@ -72,10 +72,9 @@ class ImportFileZone extends Component {
 
     try {
       template = JSON.parse(fileReader.result)
-
       this.promiseTemplateValidated(template, this.schemaUrl(template))
         .then(async () => {
-          await this.props.setResourceTemplates(template, this.state.group)
+          await this.props.saveNewProfileOrResourceTemplate(template, this.state.group)
         })
         .catch((err) => {
           this.addMessage(`The profile you provided was not in an acceptable format: ${err}`)
@@ -228,6 +227,6 @@ class ImportFileZone extends Component {
 }
 
 ImportFileZone.propTypes = {
-  setResourceTemplates: PropTypes.func,
+  saveNewProfileOrResourceTemplate: PropTypes.func,
 }
-export default connect(null, { setResourceTemplates })(ImportFileZone)
+export default connect(null, { saveNewProfileOrResourceTemplate })(ImportFileZone)

@@ -10,7 +10,7 @@ import {
   fetchSinopiaSearchResults as fetchSinopiaSearchResultsCreator,
   fetchQASearchResults as fetchQASearchResultsCreator,
 } from 'actionCreators/search'
-import { clearSearchResults as clearSearchResultsAction } from 'actions/index'
+import { clearSearchResults as clearSearchResultsAction } from 'actions/search'
 import SinopiaSearchResults from './SinopiaSearchResults'
 import QASearchResults from './QASearchResults'
 import SearchResultsPaging from './SearchResultsPaging'

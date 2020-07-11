@@ -5,15 +5,15 @@ import PropTypes from 'prop-types'
 import { useDispatch, connect } from 'react-redux'
 import InputLang from './InputLang'
 import { showModal } from 'actions/modals'
-import { findNode } from 'selectors/resourceSelectors'
-import { languageLabel } from 'selectors/entitySelectors'
+import { selectLanguageLabel } from 'selectors/languages'
+import { selectValue } from 'selectors/resources'
 
 const LanguageButton = (props) => {
   const dispatch = useDispatch()
 
   const handleClick = (event) => {
     event.preventDefault()
-    dispatch(showModal(`LanguageModal-${props.reduxPath.join()}`))
+    dispatch(showModal(`LanguageModal-${props.valueKey}`))
   }
 
   const languageLabel = props.language || 'No language specified'
@@ -23,23 +23,26 @@ const LanguageButton = (props) => {
       <button
         id="language"
         onClick={ handleClick }
+        aria-label={`Change language for ${props.value.literal}`}
         className="btn btn-sm btn-secondary btn-literal">
         Language: {languageLabel}
       </button>
-      <InputLang reduxPath={props.reduxPath} />
+      <InputLang valueKey={props.valueKey} />
     </React.Fragment>
   )
 }
 
 LanguageButton.propTypes = {
-  reduxPath: PropTypes.array.isRequired,
+  valueKey: PropTypes.string.isRequired,
   language: PropTypes.string.isRequired,
+  value: PropTypes.object,
 }
 
 const mapStateToProps = (state, ourProps) => {
-  const language = languageLabel(state, findNode(state, ourProps.reduxPath).lang)
+  const value = selectValue(state, ourProps.valueKey)
   return {
-    language,
+    value,
+    language: selectLanguageLabel(state, value.lang),
   }
 }
 

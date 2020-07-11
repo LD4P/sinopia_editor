@@ -2,11 +2,11 @@
 
 import React, { useState, useEffect } from 'react'
 import { useSelector } from 'react-redux'
-import { findResourceURI } from 'selectors/resourceSelectors'
+import { selectCurrentResource } from 'selectors/resources'
 
 // Renders the resource URI message for saved resource
 const ResourceURIMessage = () => {
-  const uri = useSelector((state) => findResourceURI(state))
+  const uri = useSelector((state) => selectCurrentResource(state).uri)
 
   const [copyText, setCopyText] = useState('Copy URI')
   const [timerId, setTimerId] = useState(false)

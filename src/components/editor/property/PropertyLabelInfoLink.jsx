@@ -1,17 +1,15 @@
 // Copyright 2019 Stanford University see LICENSE for license
 
-import shortid from 'shortid'
 import React from 'react'
 import PropTypes from 'prop-types'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faExternalLinkAlt } from '@fortawesome/free-solid-svg-icons'
 
 const PropertyLabelInfoLink = (props) => {
-  const key = shortid.generate()
-  const url = new URL(props.propertyTemplate.remark)
+  const url = new URL(props.propertyTemplate.remarkUrl)
 
   return (
-    <a href={url} className="prop-remark" alt={props.propertyTemplate.remark} key={key}
+    <a href={url} className="prop-remark" alt={props.propertyTemplate.remarkUrl}
        target="_blank" rel="noopener noreferrer">
       <FontAwesomeIcon className="info-icon" icon={faExternalLinkAlt} />
     </a>

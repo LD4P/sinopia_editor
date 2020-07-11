@@ -6,7 +6,7 @@
  * @param {Object} action to be performed
  * @return {Object} the next redux state
  */
-const lookupOptionsRetrieved = (state, action) => {
+export const lookupOptionsRetrieved = (state, action) => {
   const newState = { ...state }
 
   newState.entities.lookups[action.payload.uri] = action.payload.lookup
@@ -14,4 +14,4 @@ const lookupOptionsRetrieved = (state, action) => {
   return newState
 }
 
-export default lookupOptionsRetrieved
+export const noop = () => {}

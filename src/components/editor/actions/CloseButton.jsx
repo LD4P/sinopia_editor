@@ -3,8 +3,8 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import { useDispatch, useSelector } from 'react-redux'
-import { clearResource } from 'actions/index'
-import { currentResourceKey, resourceHasChangesSinceLastSave } from 'selectors/resourceSelectors'
+import { clearResource } from 'actions/resources'
+import { resourceHasChangesSinceLastSave, selectCurrentResourceKey } from 'selectors/resources'
 import { useHistory } from 'react-router-dom'
 import CloseResourceModal from './CloseResourceModal'
 import { showModal } from 'actions/modals'
@@ -13,7 +13,7 @@ const CloseButton = (props) => {
   const dispatch = useDispatch()
   const history = useHistory()
 
-  let resourceKey = useSelector((state) => currentResourceKey(state))
+  let resourceKey = useSelector((state) => selectCurrentResourceKey(state))
   if (props.resourceKey) { resourceKey = props.resourceKey }
   const resourceHasChanged = useSelector((state) => resourceHasChangesSinceLastSave(state, resourceKey))
 

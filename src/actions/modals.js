@@ -4,14 +4,19 @@ export const clearModalMessages = () => ({
 
 export const addModalMessage = (message) => ({
   type: 'ADD_MODAL_MESSAGE',
-  message,
+  payload: message,
+})
+
+export const hideModal = () => ({
+  type: 'HIDE_MODAL',
+})
+
+export const showGroupChooser = (resourceKey) => ({
+  type: 'SHOW_GROUP_CHOOSER',
+  payload: resourceKey,
 })
 
 export const showModal = (name) => ({
   type: 'SHOW_MODAL',
   payload: name,
-})
-
-export const hideModal = () => ({
-  type: 'HIDE_MODAL',
 })
