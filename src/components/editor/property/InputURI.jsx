@@ -82,7 +82,7 @@ const InputURI = (props) => {
       <input id={id}
              required={required}
              className="form-control"
-             placeholder={props.property.propertyTemplate.propertyLabel}
+             placeholder={props.property.propertyTemplate.label}
              onChange={(event) => setContent(event.target.value)}
              onKeyPress={handleKeypress}
              value={content}
