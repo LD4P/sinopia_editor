@@ -61,6 +61,24 @@
       "repeatable": "false",
       "type": "literal",
       "remark": "A non-repeatable literal."
+    },
+    {
+      "propertyLabel": "Uber template1, property5",
+      "propertyURI": "http://id.loc.gov/ontologies/bibframe/uber/template1/property5",
+      "resourceTemplates": [],
+      "mandatory": "true",
+      "repeatable": "false",
+      "type": "resource",
+      "remark": "A non-repeatable URI."
+    },
+    {
+      "propertyLabel": "Uber template1, property6",
+      "propertyURI": "http://id.loc.gov/ontologies/bibframe/uber/template1/property6",
+      "resourceTemplates": [],
+      "mandatory": "true",
+      "repeatable": "true",
+      "type": "resource",
+      "remark": "A repeatable URI."
     }
   ]
 }
