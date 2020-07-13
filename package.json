@@ -150,7 +150,8 @@
   "jest": {
     "setupFilesAfterEnv": [
       "<rootDir>/setupEnzyme.js",
-      "<rootDir>/react-testing-library.setup.js"
+      "<rootDir>/react-testing-library.setup.js",
+      "<rootDir>/__tests__/matchers/templates.js"
     ],
     "moduleDirectories": [
       "node_modules",
