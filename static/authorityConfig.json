@@ -1885,5 +1885,20 @@
     "label": "type of recording",
     "uri": "https://id.loc.gov/vocabulary/mrectype",
     "component": "list"
+  },
+  {
+    "label": "cardinality",
+    "uri": "file:/cardinality.json",
+    "component": "list"
+  },
+  {
+    "label": "property type",
+    "uri": "file:/propertyType.json",
+    "component": "list"
+  },
+  {
+    "label": "authorities",
+    "uri": "file:/authorityConfig.json",
+    "component": "list"
   }
 ]

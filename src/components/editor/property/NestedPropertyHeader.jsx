@@ -10,7 +10,7 @@ import PropertyLabelInfo from './PropertyLabelInfo'
 import { displayResourceValidations } from 'selectors/errors'
 import { showProperty, hideProperty } from 'actions/resources'
 import { resourceEditErrorKey } from '../Editor'
-import { selectProperty } from 'selectors/resources'
+import { selectProperty, selectCurrentResourceKey } from 'selectors/resources'
 import _ from 'lodash'
 import { expandProperty, contractProperty } from 'actionCreators/resources'
 import { bindActionCreators } from 'redux'
@@ -97,6 +97,7 @@ const mapStateToProps = (state, ownProps) => ({
   property: selectProperty(state, ownProps.propertyKey),
   collapsed: false,
   displayValidations: displayResourceValidations(state),
+  resourceKey: selectCurrentResourceKey(state)
 })
 
 const mapDispatchToProps = (dispatch) => bindActionCreators({

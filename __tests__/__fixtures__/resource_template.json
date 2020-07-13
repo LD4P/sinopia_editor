@@ -1,0 +1,67 @@
+{
+  "id": "sinopia:template:resource",
+  "resourceLabel": "Resource template",
+  "resourceURI": "http://sinopia.io/vocabulary/ResourceTemplate",
+  "remark": "Template for creating resource templates.",
+  "propertyTemplates": [
+    {
+      "propertyLabel": "Class",
+      "propertyURI": "http://www.w3.org/1999/02/22-rdf-syntax-ns#type",
+      "resourceTemplates": [],
+      "mandatory": "true",
+      "repeatable": "false",
+      "type": "resource",
+      "remark": "The resource's class."
+    },
+    {
+      "propertyLabel": "Label",
+      "propertyURI": "http://www.w3.org/2000/01/rdf-schema#label",
+      "resourceTemplates": [],
+      "mandatory": "true",
+      "repeatable": "false",
+      "type": "literal",
+      "remark": "The resource's label."
+    },
+    {
+      "propertyLabel": "Author",
+      "propertyURI": "http://sinopia.io/vocabulary/hasAuthor",
+      "resourceTemplates": [],
+      "mandatory": "false",
+      "repeatable": "false",
+      "type": "literal",
+      "remark": "The resource's author."
+    },
+    {
+      "propertyLabel": "Remark",
+      "propertyURI": "http://www.w3.org/2000/01/rdf-schema#comment",
+      "resourceTemplates": [],
+      "mandatory": "false",
+      "repeatable": "false",
+      "type": "literal",
+      "remark": "The resource's remark."
+    },
+    {
+      "propertyLabel": "Date",
+      "propertyURI": "http://sinopia.io/vocabulary/hasDate",
+      "resourceTemplates": [],
+      "mandatory": "false",
+      "repeatable": "false",
+      "type": "literal",
+      "remark": "The resource's date."
+    },
+    {
+      "propertyLabel": "Property templates",
+      "propertyURI": "http://sinopia.io/vocabulary/hasPropertyTemplate",
+      "resourceTemplates": [],
+      "valueConstraint": {
+        "valueTemplateRefs": [
+          "sinopia:template:property"
+        ]
+      },
+      "mandatory": "false",
+      "repeatable": "true",
+      "type": "resource",
+      "remark": "The resource's property templates."
+    }
+  ]
+}

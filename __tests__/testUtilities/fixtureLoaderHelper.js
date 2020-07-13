@@ -80,6 +80,13 @@ const rtFileNames = [
   'uber_template1.json',
   'uber_template2.json',
   'uber_template3.json',
+  'resource_template.json',
+  'property_template.json',
+  'literal_property_attributes.json',
+  'uri_property_attributes.json',
+  'uri.json',
+  'lookup_property_attributes.json',
+  'resource_property_attributes.json'
 ]
 
 export const resourceTemplateId2Json = loadFixtureResourceTemplates()

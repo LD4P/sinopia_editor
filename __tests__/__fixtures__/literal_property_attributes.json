@@ -1,0 +1,17 @@
+{
+  "id": "sinopia:template:property:literal",
+  "resourceLabel": "Literal attributes",
+  "resourceURI": "http://sinopia.io/vocabulary/LiteralPropertyTemplate",
+  "remark": "Attributes for a literal property.",
+  "propertyTemplates": [
+    {
+      "propertyLabel": "Defaults",
+      "propertyURI": "http://sinopia.io/vocabulary/hasDefault",
+      "resourceTemplates": [],
+      "mandatory": "false",
+      "repeatable": "true",
+      "type": "literal",
+      "remark": "Default literals."
+    }
+  ]
+}

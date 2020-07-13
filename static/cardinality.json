@@ -1,0 +1,10 @@
+[
+  {
+    "uri": "http://sinopia.io/vocabulary/cardinality/repeatable",
+    "label": "repeatable"
+  },
+  {
+    "uri": "http://sinopia.io/vocabulary/cardinality/required",
+    "label": "required"
+  }
+]

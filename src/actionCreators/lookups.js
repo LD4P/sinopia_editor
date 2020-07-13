@@ -8,6 +8,30 @@ export const fetchLookup = (uri) => (dispatch, getState) => {
   if (existingLookup) {
     return existingLookup
   }
+
+  if(uri.startsWith('file:')) return dispatch(fetchFileLookup(uri))
+
+  return dispatch(fetchHttpLookup(uri))
+}
+
+const fetchFileLookup = (uri) => (dispatch) => {
+  const lookupJson = require(`../../static/${uri.substring(6)}`)
+  const opts = lookupJson.map((authority) => {
+    return { id: shortid.generate(), label: authority.label, uri: authority.uri }
+  })
+  dispatch(lookupOptionsRetrieved(uri, opts))
+  return opts
+}
+
+const fetchAuthorityLookup = (uri) => (dispatch) => {
+  const opts = Object.entries(lookupJson).map((entry) => {
+    return { id: shortid.generate(), label: entry[1], uri: entry[0] }
+  })
+  dispatch(lookupOptionsRetrieved(uri, opts))
+  return opts
+}
+
+const fetchHttpLookup = (uri) => (dispatch) => {
   const url = `${uri}.json`
   return fetch(url)
     .then((resp) => resp.json())

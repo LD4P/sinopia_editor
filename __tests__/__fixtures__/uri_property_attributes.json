@@ -1,0 +1,22 @@
+{
+  "id": "sinopia:template:property:uri",
+  "resourceLabel": "URI attributes",
+  "resourceURI": "http://sinopia.io/vocabulary/UriPropertyTemplate",
+  "remark": "Attributes for a URI property.",
+  "propertyTemplates": [
+    {
+      "propertyLabel": "Defaults",
+      "propertyURI": "http://sinopia.io/vocabulary/hasDefault",
+      "resourceTemplates": [],
+      "valueConstraint": {
+        "valueTemplateRefs": [
+          "sinopia:template:uri"
+        ]
+      },
+      "mandatory": "false",
+      "repeatable": "true",
+      "type": "resource",
+      "remark": "Default URIs."
+    }
+  ]
+}

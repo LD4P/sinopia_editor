@@ -1,0 +1,17 @@
+{
+  "id": "sinopia:template:property:resource",
+  "resourceLabel": "Resource attributes",
+  "resourceURI": "http://sinopia.io/vocabulary/ResourcePropertyTemplate",
+  "remark": "Attributes for a nested resource.",
+  "propertyTemplates": [
+    {
+      "propertyLabel": "Resource template ids",
+      "propertyURI": "http://sinopia.io/vocabulary/hasResourceTemplateId",
+      "resourceTemplates": [],
+      "mandatory": "true",
+      "repeatable": "true",
+      "type": "resource",
+      "remark": "Resource template ids, e.g., ld4p:RT:bf2:Title:AbbrTitle."
+    }
+  ]
+}
