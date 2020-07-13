@@ -1,0 +1,101 @@
+import { createState } from 'stateUtils'
+import {
+  selectSubject, selectProperty, selectValue,
+  selectCurrentResource, selectFullSubject, resourceHasChangesSinceLastSave,
+} from 'selectors/resources'
+
+describe('selectSubject()', () => {
+  it('returns null when no match', () => {
+    const state = createState()
+    expect(selectSubject(state, 'abc123')).toBeNull()
+  })
+
+  it('returns subject', () => {
+    const state = createState({ hasResourceWithNestedResource: true })
+    expect(selectSubject(state, 'ljAblGiBW')).toBeSubject('ljAblGiBW')
+  })
+})
+
+describe('selectProperty()', () => {
+  it('returns null when no match', () => {
+    const state = createState()
+    expect(selectProperty(state, 'abc123')).toBeNull()
+  })
+
+  it('returns property', () => {
+    const state = createState({ hasResourceWithNestedResource: true })
+    expect(selectProperty(state, 'v1o90QO1Qx')).toBeProperty('v1o90QO1Qx')
+  })
+})
+
+describe('selectValue()', () => {
+  it('returns null when no match', () => {
+    const state = createState()
+    expect(selectValue(state, 'abc123')).toBeNull()
+  })
+
+  it('returns value', () => {
+    const state = createState({ hasResourceWithNestedResource: true })
+    expect(selectValue(state, 'VDOeQCnFA8')).toBeValue('VDOeQCnFA8')
+  })
+})
+
+describe('selectCurrentResource()', () => {
+  it('returns null when no current resource', () => {
+    const state = createState()
+    expect(selectCurrentResource(state)).toBeNull()
+  })
+
+  it('returns subject for current resource', () => {
+    const state = createState({ hasResourceWithNestedResource: true })
+    expect(selectCurrentResource(state)).toBeSubject('ljAblGiBW')
+  })
+})
+
+describe('selectFullSubject()', () => {
+  it('returns null when no match', () => {
+    const state = createState()
+    expect(selectFullSubject(state, 'abc123')).toBeNull()
+  })
+
+  it('returns subject and all descendants', () => {
+    const state = createState({ hasResourceWithNestedResource: true })
+    const subject = selectFullSubject(state, 'ljAblGiBW')
+    expect(subject).toBeSubject('ljAblGiBW')
+    expect(subject.properties).toHaveLength(1)
+    const property = subject.properties[0]
+    expect(property).toBeProperty('v1o90QO1Qx')
+    expect(property.values).toHaveLength(1)
+    const value = property.values[0]
+    expect(value).toBeValue('VDOeQCnFA8')
+    const nestedSubject = value.valueSubject
+    expect(nestedSubject).toBeSubject('XPb8jaPWo')
+    expect(nestedSubject.properties).toHaveLength(1)
+    const nestedProperty = nestedSubject.properties[0]
+    expect(nestedProperty).toBeProperty('7caLbfwwle')
+    expect(nestedProperty.values).toHaveLength(1)
+    const nestedValue = nestedProperty.values[0]
+    expect(nestedValue).toBeValue('pRJ0lO_mT-')
+  })
+})
+
+describe('resourceHasChangesSinceLastSave', () => {
+  it('returns currentResource if key not provided', () => {
+    const state = createState({ hasResourceWithNestedResource: true })
+    expect(resourceHasChangesSinceLastSave(state)).toBe(true)
+  })
+  it('returns true if no lastSaveChecksum', () => {
+    const state = createState({ hasResourceWithNestedResource: true })
+    expect(resourceHasChangesSinceLastSave(state, 'ljAblGiBW')).toBe(true)
+  })
+  it('returns false if lastSaveChecksum matches', () => {
+    const state = createState({ hasResourceWithNestedResource: true })
+    state.selectorReducer.editor.lastSaveChecksum.ljAblGiBW = '8c669777a5be1e02e912189a7c14e549'
+    expect(resourceHasChangesSinceLastSave(state, 'ljAblGiBW')).toBe(false)
+  })
+  it('returns true if lastSaveChecksum does not match', () => {
+    const state = createState({ hasResourceWithNestedResource: true })
+    state.selectorReducer.editor.lastSaveChecksum.ljAblGiBW = 'x8c669777a5be1e02e912189a7c14e549'
+    expect(resourceHasChangesSinceLastSave(state, 'ljAblGiBW')).toBe(true)
+  })
+})
