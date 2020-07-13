@@ -121,7 +121,7 @@ describe('<App />', () => {
 
   describe('when user is authenticated and there is a resource', () => {
     it('renders resource for /editor', async () => {
-      const state = createState({ hasCurrentResource: true })
+      const state = createState({ hasResourceWithLiteral: true })
       const store = createStore(state)
       const history = createHistory(['/'])
       renderApp(store, history)

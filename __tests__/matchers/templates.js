@@ -1,5 +1,6 @@
-// Goal with these matchers is to make tests more resilient to changes in template model.
+import { pretty } from './matcherUtils'
 
+// Goal with these matchers is to make tests more resilient to changes in template model.
 expect.extend({
   toBeSubjectTemplate(subjectTemplate, subjectTemplateKey) {
     if (typeof subjectTemplateKey !== 'string') {
@@ -10,13 +11,13 @@ expect.extend({
     if (subjectTemplate == null || subjectTemplate.key !== subjectTemplateKey || subjectTemplate.class === undefined) {
       return {
         pass: false,
-        message: `Expected ${subjectTemplate} to be subject template ${subjectTemplateKey}`,
+        message: () => `Expected ${pretty(subjectTemplate)} to be subject template ${subjectTemplateKey}`,
       }
     }
 
     return {
       pass: true,
-      message: `Expected ${subjectTemplate} not to be subject template ${subjectTemplateKey}`,
+      message: () => `Expected ${pretty(subjectTemplate)} not to be subject template ${subjectTemplateKey}`,
     }
   },
   toBePropertyTemplate(propertyTemplate, propertyTemplateKey) {
@@ -27,13 +28,13 @@ expect.extend({
     if (!equalsPropertyTemplate(propertyTemplate, propertyTemplateKey)) {
       return {
         pass: false,
-        message: `Expected ${propertyTemplate} to be property template ${propertyTemplateKey}`,
+        message: () => `Expected ${pretty(propertyTemplate)} to be property template ${propertyTemplateKey}`,
       }
     }
 
     return {
       pass: true,
-      message: `Expected ${propertyTemplate} not to be property template ${propertyTemplateKey}`,
+      message: () => `Expected ${pretty(propertyTemplate)} not to be property template ${propertyTemplateKey}`,
     }
   },
   toBePropertyTemplates(propertyTemplates, propertyTemplateKeys) {
@@ -44,20 +45,20 @@ expect.extend({
     if (propertyTemplates.length !== propertyTemplateKeys.length) {
       return {
         pass: false,
-        message: `Expected ${propertyTemplates} to have length ${propertyTemplateKeys.length}`,
+        message: () => `Expected ${pretty(propertyTemplates)} to have length ${propertyTemplateKeys.length}`,
       }
     }
 
     if (!propertyTemplates.every((propertyTemplate, index) => equalsPropertyTemplate(propertyTemplate, propertyTemplateKeys[index]))) {
       return {
         pass: false,
-        message: `Expected ${propertyTemplates} to be property templates ${propertyTemplateKeys}`,
+        message: () => `Expected ${pretty(propertyTemplates)} to be property templates ${propertyTemplateKeys}`,
       }
     }
 
     return {
       pass: true,
-      message: `Expected ${propertyTemplates} not to be property template ${propertyTemplateKeys}`,
+      message: () => `Expected ${pretty(propertyTemplates)} not to be property template ${propertyTemplateKeys}`,
     }
   },
 })

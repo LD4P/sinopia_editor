@@ -151,7 +151,8 @@
     "setupFilesAfterEnv": [
       "<rootDir>/setupEnzyme.js",
       "<rootDir>/react-testing-library.setup.js",
-      "<rootDir>/__tests__/matchers/templates.js"
+      "<rootDir>/__tests__/matchers/templates.js",
+      "<rootDir>/__tests__/matchers/resources.js"
     ],
     "moduleDirectories": [
       "node_modules",

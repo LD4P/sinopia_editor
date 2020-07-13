@@ -8,7 +8,7 @@ describe('selectHistoricalTemplates()', () => {
   })
 
   it('returns templates', () => {
-    const state = createState({ hasCurrentResource: true })
+    const state = createState({ hasResourceWithLiteral: true })
     state.selectorReducer.historicalTemplates = ['ld4p:RT:bf2:Title:AbbrTitle']
 
     const templates = selectHistoricalTemplates(state)
@@ -24,7 +24,7 @@ describe('selectSubjectAndPropertyTemplates()', () => {
   })
 
   it('returns templates', () => {
-    const state = createState({ hasCurrentResource: true })
+    const state = createState({ hasResourceWithLiteral: true })
     const [subjectTemplate, propertyTemplates] = selectSubjectAndPropertyTemplates(state, 'ld4p:RT:bf2:Title:AbbrTitle')
     expect(subjectTemplate).toBeSubjectTemplate('ld4p:RT:bf2:Title:AbbrTitle')
     expect(propertyTemplates).toBePropertyTemplates(['ld4p:RT:bf2:Title:AbbrTitle > http://id.loc.gov/ontologies/bibframe/mainTitle'])
