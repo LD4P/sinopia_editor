@@ -1,5 +1,6 @@
 [![CircleCI](https://circleci.com/gh/LD4P/sinopia_editor.svg?style=svg)](https://circleci.com/gh/LD4P/sinopia_editor)
 [![Coverage Status](https://img.shields.io/coveralls/github/LD4P/sinopia_editor.svg)](https://coveralls.io/github/LD4P/sinopia_editor?branch=master)
+[![Maintainability](https://api.codeclimate.com/v1/badges/27fe0fcbf342d0bca13b/maintainability)](https://codeclimate.com/github/LD4P/sinopia_editor/maintainability)
 
 # Sinopia Linked Data Editor
 
@@ -420,6 +421,7 @@ To trigger a test exception, doubleclick "The underdrawing for the new world of 
   authorities: [{authority}, ...]
 
 }
+```
 
 ### Authority model
 ```
