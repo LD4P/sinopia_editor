@@ -21,21 +21,30 @@ import { newUriValue, newLiteralValue } from 'utilities/valueFactory'
 //  and the lookupConfig for the URI has component value of 'list'
 const InputListLOC = (props) => {
   const dispatch = useDispatch()
-  // const changeSelections = (payload) => dispatch(changeSelectionsAction(payload))
+  const typeAheadRef = useRef(null)
   const property = useSelector((state) => selectProperty(state, props.propertyKey))
 
-  const typeAheadRef = useRef(null)
+  // Select the actual lookup values.
+  const authorities = useSelector((state) => {
+    const newAuthorities = {}
+    property.propertyTemplate.authorities.forEach((authority) => {
+      newAuthorities[authority.uri] = selectLookup(state, authority.uri) || []
+    })
+    return newAuthorities
+  })
 
+  // Create a map of authority uri to authority
   const allAuthorities = useMemo(() => {
     const authorities = {}
     property.propertyTemplate.authorities.forEach((authority) => authorities[authority.uri] = authority)
     return authorities
   }, [property.propertyTemplate.authorities])
+
   const [selectedAuthorities, setSelectedAuthorities] = useState({})
 
   useEffect(() => {
     setSelectedAuthorities(allAuthorities)
-  }, [allAuthorities])
+  }, [allAuthorities, setSelectedAuthorities])
 
   const isRepeatable = property.propertyTemplate.repeatable
 
@@ -45,15 +54,7 @@ const InputListLOC = (props) => {
     })
   }, [dispatch, property.propertyTemplate.authorities])
 
-  const authorities = useSelector((state) => {
-    const newAuthorities = {}
-    property.propertyTemplate.authorities.forEach((authority) => {
-      newAuthorities[authority.uri] = selectLookup(state, authority.uri) || []
-    })
-    return newAuthorities
-  })
-
-  // Only update options when lookups or lookupConfigs change.
+  // Only update options when selected authorities change.
   const options = useMemo(() => {
     const newOptions = []
     Object.values(selectedAuthorities).forEach((authority) => {
@@ -64,17 +65,6 @@ const InputListLOC = (props) => {
   }, [authorities, selectedAuthorities])
 
   const selected = itemsForProperty(property)
-
-  // From https://github.com/ericgio/react-bootstrap-typeahead/issues/389
-  const onKeyDown = (e) => {
-    // 8 = backspace
-    if (e.keyCode === 8
-        && e.target.value === '') {
-      // Don't trigger a "back" in the browser on backspace
-      e.returnValue = false
-      e.preventDefault()
-    }
-  }
 
   const selectionChanged = (items) => {
     if (_.isEmpty(items)) {
@@ -121,7 +111,7 @@ const InputListLOC = (props) => {
       newSelectedAuthorities[uri] = allAuthorities[uri]
     }
     setSelectedAuthorities(newSelectedAuthorities)
-    typeAheadRef.current.getInstance().getInput().click()
+    typeAheadRef.current.getInput().click()
   }
 
 
@@ -145,17 +135,16 @@ const InputListLOC = (props) => {
           renderMenu={(results, menuProps) => renderMenuFunc(results, menuProps, Object.values(selectedAuthorities))}
           renderToken={(option, props, idx) => renderTokenFunc(option, props, idx)}
           allowNew={() => true }
-          onChange={(selected) => selectionChanged(selected)}
-          id="loc-vocab-list"
+          onChange={(newSelected) => selectionChanged(newSelected)}
+          id={`loc-vocab-list-${props.propertyKey}`}
           multiple={true}
-          placeholder={property.propertyTemplate.propertyLabel}
+          isLoading={false}
+          placeholder={property.propertyTemplate.label}
           emptyLabel="retrieving list of terms..."
           useCache={true}
-          selectHintOnEnter={true}
-          options={options}
+          options={xoptions}
           selected={selected}
           filterBy={filterBy}
-          onKeyDown={onKeyDown}
           disabled={isDisabled}
           ref={(ref) => typeAheadRef.current = ref}
         />
@@ -163,6 +152,7 @@ const InputListLOC = (props) => {
       </div>
     </React.Fragment>
   )
+
 }
 
 InputListLOC.propTypes = {

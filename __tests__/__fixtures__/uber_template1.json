@@ -79,6 +79,50 @@
       "repeatable": "true",
       "type": "resource",
       "remark": "A repeatable URI."
+    },
+    {
+      "propertyLabel": "Uber template1, property7",
+      "propertyURI": "http://id.loc.gov/ontologies/bibframe/uber/template1/property7",
+      "resourceTemplates": [],
+      "valueConstraint": {
+        "useValuesFrom": [
+          "https://id.loc.gov/vocabulary/mrectype"
+        ]
+      },
+      "mandatory": "true",
+      "repeatable": "false",
+      "type": "resource",
+      "remark": "A non-repeatable LOC lookup."
+    },
+    {
+      "propertyLabel": "Uber template1, property8",
+      "propertyURI": "http://id.loc.gov/ontologies/bibframe/uber/template1/property8",
+      "resourceTemplates": [],
+      "valueConstraint": {
+        "useValuesFrom": [
+          "https://id.loc.gov/vocabulary/mrectype"
+        ]
+      },
+      "mandatory": "true",
+      "repeatable": "true",
+      "type": "resource",
+      "remark": "A repeatable LOC lookup."
+    },
+    {
+      "propertyLabel": "Uber template1, property9",
+      "propertyURI": "http://id.loc.gov/ontologies/bibframe/uber/template1/property9",
+      "resourceTemplates": [],
+      "valueConstraint": {
+        "useValuesFrom": [
+          "https://id.loc.gov/vocabulary/mrectype",
+          "https://id.loc.gov/vocabulary/mrecmedium"
+        ]
+      },
+      "mandatory": "true",
+      "repeatable": "false",
+      "type": "resource",
+      "remark": "A LOC lookup with multiple authorities."
     }
+
   ]
 }
