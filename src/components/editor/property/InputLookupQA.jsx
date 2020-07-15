@@ -33,12 +33,12 @@ const InputLookupQA = (props) => {
   }
 
   return (
-    <InputLookup getLookupResults={getSearchResults} getOptions={getOptions} propertyKey={props.propertyKey} />
+    <InputLookup getLookupResults={getSearchResults} getOptions={getOptions} property={props.property} />
   )
 }
 
 InputLookupQA.propTypes = {
-  propertyKey: PropTypes.string.isRequired,
+  property: PropTypes.object.isRequired,
 }
 
 export default InputLookupQA

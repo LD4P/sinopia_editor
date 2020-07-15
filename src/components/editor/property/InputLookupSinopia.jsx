@@ -35,14 +35,14 @@ const InputLookupSinopia = (props) => {
 
   return (
     <React.Fragment>
-      <InputLookup getLookupResults={getLookupResults} getOptions={getOptions} propertyKey={props.propertyKey} />
-      <ResourceList propertyKey={props.propertyKey} />
+      <InputLookup getLookupResults={getLookupResults} getOptions={getOptions} property={props.property} />
+      <ResourceList property={props.property} />
     </React.Fragment>
   )
 }
 
 InputLookupSinopia.propTypes = {
-  propertyKey: PropTypes.string.isRequired,
+  property: PropTypes.object.isRequired,
 }
 
 export default InputLookupSinopia

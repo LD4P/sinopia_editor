@@ -9,8 +9,6 @@ import InputLookupQA from './InputLookupQA'
 import InputLookupSinopia from './InputLookupSinopia'
 import NestedResource from './NestedResource'
 import Alert from '../../Alert'
-import { selectProperty } from 'selectors/resources'
-import { connect } from 'react-redux'
 
 // Decides how to render this property.
 const PropertyComponent = (props) => {
@@ -23,23 +21,23 @@ const PropertyComponent = (props) => {
   switch (props.property.propertyTemplate.component) {
     case 'InputLiteral':
       return (
-        <InputLiteral propertyKey={props.propertyKey} />
+        <InputLiteral property={props.property} />
       )
     case 'InputURI':
       return (
-        <InputURI propertyKey={props.propertyKey} />
+        <InputURI property={props.property} />
       )
     case 'InputLookupQA':
       return (
-        <InputLookupQA propertyKey={props.propertyKey} />
+        <InputLookupQA property={props.property} />
       )
     case 'InputLookupSinopia':
       return (
-        <InputLookupSinopia propertyKey={props.propertyKey} />
+        <InputLookupSinopia property={props.property} />
       )
     case 'InputListLOC':
       return (
-        <InputListLOC propertyKey={props.propertyKey} />
+        <InputListLOC property={props.property} />
       )
     default:
       return (
@@ -49,12 +47,7 @@ const PropertyComponent = (props) => {
 }
 
 PropertyComponent.propTypes = {
-  propertyKey: PropTypes.string,
-  property: PropTypes.object,
+  property: PropTypes.object.isRequired,
 }
 
-const mapStateToProps = (state, ourProps) => ({
-  property: selectProperty(state, ourProps.propertyKey),
-})
-
-export default connect(mapStateToProps)(PropertyComponent)
+export default PropertyComponent

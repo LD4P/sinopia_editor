@@ -10,7 +10,6 @@ import { addValue } from 'actions/resources'
 import { newUriValue } from 'utilities/valueFactory'
 import InputValue from './InputValue'
 import { isValidURI } from 'utilities/Utilities'
-import { selectProperty } from 'selectors/resources'
 
 import _ from 'lodash'
 
@@ -33,7 +32,7 @@ const InputURI = (props) => {
     }
     setURIError(false)
 
-    props.addValue(newUriValue(props.propertyKey, currentcontent, null))
+    props.addValue(newUriValue(props.property.key, currentcontent, null))
 
     setContent('')
   }
@@ -97,14 +96,12 @@ const InputURI = (props) => {
 }
 
 InputURI.propTypes = {
-  propertyKey: PropTypes.string,
-  property: PropTypes.object,
+  property: PropTypes.object.isRequired,
   displayValidations: PropTypes.bool,
   addValue: PropTypes.func,
 }
 
-const mapStateToProps = (state, ownProps) => ({
-  property: selectProperty(state, ownProps.propertyKey),
+const mapStateToProps = (state) => ({
   displayValidations: displayResourceValidations(state),
 })
 

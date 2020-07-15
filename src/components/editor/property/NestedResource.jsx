@@ -15,7 +15,7 @@ const NestedResource = (props) => (
         <h5>{ props.value.valueSubject.subjectTemplate.label }</h5>
       </section>
       <section className="col-md-6">
-        <NestedResourceActionButtons valueKey={props.valueKey} />
+        <NestedResourceActionButtons value={props.value} />
       </section>
     </div>
     <div>
@@ -29,7 +29,7 @@ const NestedResource = (props) => (
 )
 
 NestedResource.propTypes = {
-  valueKey: PropTypes.string,
+  valueKey: PropTypes.string.isRequired,
   value: PropTypes.object,
 }
 

@@ -43,7 +43,7 @@ const ResourceComponent = (props) => {
            <RDFDisplay rdf={props.unusedRDF} />
          </div>
         }
-        <PanelResource />
+        <PanelResource resource={props.resource} />
       </div>
     </div>
   )

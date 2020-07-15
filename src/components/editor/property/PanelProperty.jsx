@@ -49,7 +49,7 @@ const PanelProperty = (props) => {
         </div>
         { !isAdd && (
           <div className="card-body panel-property">
-            <PropertyComponent propertyKey={ props.propertyKey } />
+            <PropertyComponent property={ props.property } />
           </div>
         )}
       </div>
@@ -61,7 +61,7 @@ PanelProperty.propTypes = {
   float: PropTypes.number,
   id: PropTypes.string,
   property: PropTypes.object,
-  propertyKey: PropTypes.string,
+  propertyKey: PropTypes.string.isRequired,
   expandProperty: PropTypes.func,
   contractProperty: PropTypes.func,
   resourceKey: PropTypes.string,

@@ -38,14 +38,14 @@ const InputValue = (props) => {
       className="btn btn-sm btn-secondary btn-default">
       Edit
     </button>
-    { isLiteral ? (<LanguageButton valueKey={props.valueKey} />) : '' }
+    { isLiteral ? (<LanguageButton value={props.value} />) : '' }
   </div>)
 }
 
 InputValue.propTypes = {
   handleEdit: PropTypes.func.isRequired,
   removeValue: PropTypes.func.isRequired,
-  valueKey: PropTypes.string,
+  valueKey: PropTypes.string.isRequired,
   value: PropTypes.object,
 }
 

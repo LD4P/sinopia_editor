@@ -11,7 +11,6 @@ import { displayResourceValidations } from 'selectors/errors'
 import { renderMenuFunc, renderTokenFunc, itemsForProperty } from './renderTypeaheadFunctions'
 import { fetchLookup } from 'actionCreators/lookups'
 import { selectLookup } from 'selectors/lookups'
-import { selectProperty } from 'selectors/resources'
 import _ from 'lodash'
 import { replaceValues, clearValues } from 'actions/resources'
 import { newUriValue, newLiteralValue } from 'utilities/valueFactory'
@@ -21,33 +20,31 @@ import { newUriValue, newLiteralValue } from 'utilities/valueFactory'
 //  and the lookupConfig for the URI has component value of 'list'
 const InputListLOC = (props) => {
   const dispatch = useDispatch()
-  // const changeSelections = (payload) => dispatch(changeSelectionsAction(payload))
-  const property = useSelector((state) => selectProperty(state, props.propertyKey))
 
   const typeAheadRef = useRef(null)
 
   const allAuthorities = useMemo(() => {
     const authorities = {}
-    property.propertyTemplate.authorities.forEach((authority) => authorities[authority.uri] = authority)
+    props.property.propertyTemplate.authorities.forEach((authority) => authorities[authority.uri] = authority)
     return authorities
-  }, [property.propertyTemplate.authorities])
+  }, [props.property.propertyTemplate.authorities])
   const [selectedAuthorities, setSelectedAuthorities] = useState({})
 
   useEffect(() => {
     setSelectedAuthorities(allAuthorities)
   }, [allAuthorities])
 
-  const isRepeatable = property.propertyTemplate.repeatable
+  const isRepeatable = props.property.propertyTemplate.repeatable
 
   useEffect(() => {
-    property.propertyTemplate.authorities.forEach((authority) => {
+    props.property.propertyTemplate.authorities.forEach((authority) => {
       dispatch(fetchLookup(authority.uri))
     })
-  }, [dispatch, property.propertyTemplate.authorities])
+  }, [dispatch, props.property.propertyTemplate.authorities])
 
   const authorities = useSelector((state) => {
     const newAuthorities = {}
-    property.propertyTemplate.authorities.forEach((authority) => {
+    props.property.propertyTemplate.authorities.forEach((authority) => {
       newAuthorities[authority.uri] = selectLookup(state, authority.uri) || []
     })
     return newAuthorities
@@ -63,7 +60,7 @@ const InputListLOC = (props) => {
     return newOptions
   }, [authorities, selectedAuthorities])
 
-  const selected = itemsForProperty(property)
+  const selected = itemsForProperty(props.property)
 
   // From https://github.com/ericgio/react-bootstrap-typeahead/issues/389
   const onKeyDown = (e) => {
@@ -78,20 +75,20 @@ const InputListLOC = (props) => {
 
   const selectionChanged = (items) => {
     if (_.isEmpty(items)) {
-      dispatch(clearValues(props.propertyKey))
+      dispatch(clearValues(props.property.key))
     } else {
       const values = items.map((item) => {
         if (item.uri) {
-          return newUriValue(props.propertyKey, item.uri, item.label)
+          return newUriValue(props.property.key, item.uri, item.label)
         }
-        return newLiteralValue(props.propertyKey, item.content, null)
+        return newLiteralValue(props.property.key, item.content, null)
       })
       dispatch(replaceValues(values))
     }
   }
 
-  const lookupCheckboxes = property.propertyTemplate.authorities.map((authority) => {
-    const id = `${property.key}-${authority.uri}`
+  const lookupCheckboxes = props.property.propertyTemplate.authorities.map((authority) => {
+    const id = `${props.property.key}-${authority.uri}`
     return (
       <div key={authority.uri} className="form-check">
         <input className="form-check-input"
@@ -126,7 +123,7 @@ const InputListLOC = (props) => {
 
 
   const displayValidations = useSelector((state) => displayResourceValidations(state))
-  const validationErrors = property.errors
+  const validationErrors = props.property.errors
 
   const isDisabled = selected?.length > 0 && !isRepeatable
 
@@ -148,7 +145,7 @@ const InputListLOC = (props) => {
           onChange={(selected) => selectionChanged(selected)}
           id="loc-vocab-list"
           multiple={true}
-          placeholder={property.propertyTemplate.propertyLabel}
+          placeholder={props.property.propertyTemplate.label}
           emptyLabel="retrieving list of terms..."
           useCache={true}
           selectHintOnEnter={true}
@@ -166,7 +163,7 @@ const InputListLOC = (props) => {
 }
 
 InputListLOC.propTypes = {
-  propertyKey: PropTypes.string.isRequired,
+  property: PropTypes.object.isRequired,
 }
 
 export default InputListLOC

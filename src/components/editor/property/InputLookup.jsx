@@ -9,7 +9,6 @@ import { useSelector, useDispatch } from 'react-redux'
 import { displayResourceValidations } from 'selectors/errors'
 import _ from 'lodash'
 import { renderMenuFunc, renderTokenFunc, itemsForProperty } from './renderTypeaheadFunctions'
-import { selectProperty } from 'selectors/resources'
 import { newUriValue, newLiteralValue } from 'utilities/valueFactory'
 import { clearValues, replaceValues } from 'actions/resources'
 
@@ -18,7 +17,6 @@ const AsyncTypeahead = asyncContainer(Typeahead)
 
 const InputLookup = (props) => {
   const dispatch = useDispatch()
-  const property = useSelector((state) => selectProperty(state, props.propertyKey))
   const [, setTriggerRender] = useState('')
   // Using a ref so that can append to current list of results.
   const allResults = useRef([])
@@ -27,16 +25,16 @@ const InputLookup = (props) => {
   const tokens = useRef([])
 
   const displayValidations = useSelector((state) => displayResourceValidations(state))
-  const errors = property.errors
-  const selected = itemsForProperty(property)
+  const errors = props.property.errors
+  const selected = itemsForProperty(props.property)
   const [query, setQuery] = useState(false)
   const typeAheadRef = useRef(null)
 
   const allAuthorities = useMemo(() => {
     const authorities = {}
-    property.propertyTemplate.authorities.forEach((authority) => authorities[authority.uri] = authority)
+    props.property.propertyTemplate.authorities.forEach((authority) => authorities[authority.uri] = authority)
     return authorities
-  }, [property.propertyTemplate.authorities])
+  }, [props.property.propertyTemplate.authorities])
 
   const [selectedAuthorities, setSelectedAuthorities] = useState({})
 
@@ -85,19 +83,19 @@ const InputLookup = (props) => {
     }
   }
 
-  const isRepeatable = property.propertyTemplate.repeatable
+  const isRepeatable = props.property.propertyTemplate.repeatable
 
   const isDisabled = selected?.length > 0 && !isRepeatable
 
   const selectionChanged = (items) => {
     if (_.isEmpty(items)) {
-      dispatch(clearValues(props.propertyKey))
+      dispatch(clearValues(props.property.key))
     } else {
       const values = items.map((item) => {
         if (item.uri) {
-          return newUriValue(props.propertyKey, item.uri, item.label)
+          return newUriValue(props.property.key, item.uri, item.label)
         }
-        return newLiteralValue(props.propertyKey, item.content, null)
+        return newLiteralValue(props.property.key, item.content, null)
       })
       dispatch(replaceValues(values))
     }
@@ -115,7 +113,7 @@ const InputLookup = (props) => {
   }
 
   const lookupCheckboxes = Object.values(allAuthorities).map((authority) => {
-    const id = `${props.propertyKey}-${authority.uri}`
+    const id = `${props.property.key}-${authority.uri}`
     return (
       <div key={authority.uri} className="form-check">
         <input className="form-check-input"
@@ -132,7 +130,7 @@ const InputLookup = (props) => {
   const typeaheadProps = {
     id: 'lookupComponent',
     multiple: true,
-    placeholder: property.propertyTemplate.propertyLabel,
+    placeholder: props.property.propertyTemplate.label,
     useCache: true,
     selectHintOnEnter: true,
     isLoading: false,
@@ -170,7 +168,7 @@ const InputLookup = (props) => {
 }
 
 InputLookup.propTypes = {
-  propertyKey: PropTypes.string.isRequired,
+  property: PropTypes.object.isRequired,
   getLookupResults: PropTypes.func.isRequired,
   getOptions: PropTypes.func.isRequired,
 }
