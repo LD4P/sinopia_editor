@@ -1,19 +1,17 @@
 // Copyright 2019 Stanford University see LICENSE for license
 
 import React, { useEffect, useRef, useState } from 'react'
-import { useDispatch, useSelector } from 'react-redux'
+import { useDispatch } from 'react-redux'
 import PropTypes from 'prop-types'
 import { getTemplateSearchResults } from 'sinopiaSearch'
 import shortid from 'shortid'
 import { newResource } from 'actionCreators/resources'
-import { selectProperty } from 'selectors/resources'
 
 export const newResourceErrorKey = 'newresource'
 
 const ResourceList = (props) => {
   const dispatch = useDispatch()
   const [newResourceList, setNewResourceList] = useState([])
-  const property = useSelector((state) => selectProperty(state, props.propertyKey))
   const topRef = useRef(null)
 
   useEffect(() => {
@@ -24,11 +22,11 @@ const ResourceList = (props) => {
     }
     const getNewResourceList = async () => {
       const listItems = []
-      const authorities = property.propertyTemplate.authorities
+      const authorities = props.property.propertyTemplate.authorities
       await Promise.all(authorities.map((authority) => getTemplateSearchResults(authority.type).then((response) => {
         if (response.error !== undefined) return ''
         response.results?.forEach((hit) => {
-          if (hit.resourceURI === property.subject.subjectTemplate.class) {
+          if (hit.resourceURI === props.property.subject.subjectTemplate.class) {
             listItems.push(
               <button className="dropdown-item" href="#" data-resource-id={hit.id} key={shortid.generate()} onClick={() => { handleChange(hit.id) }}>
                 {hit.resourceLabel} ({hit.id})
@@ -40,7 +38,7 @@ const ResourceList = (props) => {
       setNewResourceList(listItems)
     }
     getNewResourceList()
-  }, [dispatch, property.propertyTemplate.authorities, property.subject.subjectTemplate.class])
+  }, [dispatch, props.property.propertyTemplate.authorities, props.property.subject.subjectTemplate.class])
 
   const dropdown = (items) => <div className="dropdown">
     <button className="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown"
@@ -59,7 +57,7 @@ const ResourceList = (props) => {
 }
 
 ResourceList.propTypes = {
-  propertyKey: PropTypes.string.isRequired,
+  property: PropTypes.object.isRequired,
 }
 
 export default ResourceList

@@ -7,7 +7,7 @@ import { connect } from 'react-redux'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faTrashAlt } from '@fortawesome/free-solid-svg-icons'
 import { resourceEditErrorKey } from '../Editor'
-import { selectValue, selectCurrentResourceKey, selectProperty } from 'selectors/resources'
+import { selectCurrentResourceKey, selectProperty } from 'selectors/resources'
 import { addSiblingValueSubject, removeValue } from 'actionCreators/resources'
 import _ from 'lodash'
 
@@ -17,7 +17,7 @@ const NestedResourceActionButtons = (props) => {
     .filter((value) => value.valueSubject.subjectTemplateKey === subjectTemplateKey),
   [props.property.values, subjectTemplateKey])
   // Show add button if repeatable and first value.
-  const showAddButton = props.property.propertyTemplate.repeatable && props.valueKey === _.first(siblingValues).key
+  const showAddButton = props.property.propertyTemplate.repeatable && props.value.key === _.first(siblingValues).key
   // Show delete button if more than one.
   const showRemoveButton = siblingValues.length > 1
 
@@ -34,29 +34,25 @@ const NestedResourceActionButtons = (props) => {
       && <button
         className="btn btn-sm btn-remove-another"
         aria-label={`Remove ${props.value.valueSubject.subjectTemplate.label}`}
-        onClick={() => props.removeValue(props.valueKey)}><FontAwesomeIcon icon={trashIcon} /></button>
+        onClick={() => props.removeValue(props.value.key)}><FontAwesomeIcon icon={trashIcon} /></button>
     }
 
   </div>)
 }
 NestedResourceActionButtons.propTypes = {
   resourceKey: PropTypes.string,
-  valueKey: PropTypes.string,
-  value: PropTypes.object,
+  value: PropTypes.object.isRequired,
   addSiblingValueSubject: PropTypes.func,
   removeValue: PropTypes.func,
   property: PropTypes.object,
 }
 
-const mapStateToProps = (state, ownProps) => {
-  const value = selectValue(state, ownProps.valueKey)
+const mapStateToProps = (state, ownProps) => ({
   // Separately getting property because going to need to evaluate sibling values.
-  return {
-    value,
-    property: selectProperty(state, value.propertyKey),
-    resourceKey: selectCurrentResourceKey(state),
-  }
-}
+  property: selectProperty(state, ownProps.value.propertyKey),
+  resourceKey: selectCurrentResourceKey(state),
+})
+
 
 const mapDispatchToProps = (dispatch) => bindActionCreators({ addSiblingValueSubject, removeValue }, dispatch)
 

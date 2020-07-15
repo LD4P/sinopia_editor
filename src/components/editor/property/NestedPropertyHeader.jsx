@@ -10,7 +10,7 @@ import PropertyLabelInfo from './PropertyLabelInfo'
 import { displayResourceValidations } from 'selectors/errors'
 import { showProperty, hideProperty } from 'actions/resources'
 import { resourceEditErrorKey } from '../Editor'
-import { selectProperty, selectCurrentResourceKey } from 'selectors/resources'
+import { selectCurrentResourceKey } from 'selectors/resources'
 import _ from 'lodash'
 import { expandProperty, contractProperty } from 'actionCreators/resources'
 import { bindActionCreators } from 'redux'
@@ -32,9 +32,9 @@ const NestedPropertyHeader = (props) => {
 
   const toggleProperty = () => {
     if (props.property.show) {
-      props.hideProperty(props.propertyKey)
+      props.hideProperty(props.property.key)
     } else {
-      props.showProperty(props.propertyKey)
+      props.showProperty(props.property.key)
     }
   }
 
@@ -43,9 +43,9 @@ const NestedPropertyHeader = (props) => {
       <div className={groupClasses}>
         <button type="button"
                 className="btn btn-default btn-add btn-add-property"
-                onClick={() => props.expandProperty(props.propertyKey, resourceEditErrorKey(props.resourceKey))}
+                onClick={() => props.expandProperty(props.property.key, resourceEditErrorKey(props.resourceKey))}
                 aria-label={`Add ${props.property.propertyTemplate.label}`}
-                data-id={props.propertyKey}>
+                data-id={props.property.key}>
           + Add <strong><PropertyLabel propertyTemplate={props.property.propertyTemplate} /></strong>
         </button>
         <PropertyLabelInfo propertyTemplate={ props.property.propertyTemplate } />
@@ -68,9 +68,9 @@ const NestedPropertyHeader = (props) => {
       <PropertyLabelInfo propertyTemplate={ props.property.propertyTemplate } />
       <button type="button"
               className="btn btn-sm btn-remove pull-right"
-              onClick={() => props.contractProperty(props.propertyKey)}
+              onClick={() => props.contractProperty(props.property.key)}
               aria-label={`Remove ${props.property.propertyTemplate.label}`}
-              data-id={props.propertyKey}>
+              data-id={props.property.key}>
         <FontAwesomeIcon className="trash-icon" icon={trashIcon} />
       </button>
     </div>
@@ -80,11 +80,10 @@ const NestedPropertyHeader = (props) => {
 NestedPropertyHeader.propTypes = {
   collapsed: PropTypes.any,
   handleCollapsed: PropTypes.func,
-  property: PropTypes.object,
+  property: PropTypes.object.isRequired,
   handleAddButton: PropTypes.func,
   handleRemoveButton: PropTypes.func,
   displayValidations: PropTypes.bool,
-  propertyKey: PropTypes.string,
   expandProperty: PropTypes.func,
   contractProperty: PropTypes.func,
   showProperty: PropTypes.func,
@@ -93,8 +92,7 @@ NestedPropertyHeader.propTypes = {
   resourceKey: PropTypes.string,
 }
 
-const mapStateToProps = (state, ownProps) => ({
-  property: selectProperty(state, ownProps.propertyKey),
+const mapStateToProps = (state) => ({
   collapsed: false,
   displayValidations: displayResourceValidations(state),
   resourceKey: selectCurrentResourceKey(state),

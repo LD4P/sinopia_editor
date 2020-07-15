@@ -17,7 +17,7 @@ const PropertyLabel = (props) => {
 }
 
 PropertyLabel.propTypes = {
-  propertyTemplate: PropTypes.object,
+  propertyTemplate: PropTypes.object.isRequired,
 }
 
 export default PropertyLabel

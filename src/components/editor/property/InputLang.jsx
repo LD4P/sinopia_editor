@@ -9,7 +9,6 @@ import { languageSelected } from 'actions/languages'
 import { hideModal } from 'actions/modals'
 import { bindActionCreators } from 'redux'
 import ModalWrapper from 'components/ModalWrapper'
-import { selectValue } from 'selectors/resources'
 
 /**
  * Provides the RFC 5646 language tag for a literal element.
@@ -50,7 +49,7 @@ const InputLang = (props) => {
   }
 
   const handleLangSubmit = (event) => {
-    props.languageSelected(props.valueKey, lang)
+    props.languageSelected(props.value.key, lang)
     close(event)
     event.preventDefault()
   }
@@ -103,7 +102,7 @@ const InputLang = (props) => {
 
 InputLang.propTypes = {
   textValue: PropTypes.string.isRequired,
-  valueKey: PropTypes.string.isRequired,
+  value: PropTypes.object.isRequired,
   languageSelected: PropTypes.func,
   options: PropTypes.array,
   loading: PropTypes.bool,
@@ -112,13 +111,12 @@ InputLang.propTypes = {
   lang: PropTypes.string,
 }
 
-const mapStateToProps = (state, ourProps) => {
+const mapStateToProps = (state, ownProps) => {
   const languages = state.selectorReducer.entities.languages
-  const value = selectValue(state, ourProps.valueKey)
-  const show = selectModalType(state) === `LanguageModal-${ourProps.valueKey}`
+  const show = selectModalType(state) === `LanguageModal-${ownProps.value.key}`
   return {
-    lang: value.lang,
-    textValue: value.literal,
+    lang: ownProps.value.lang,
+    textValue: ownProps.value.literal,
     options: languages?.options || [],
     loading: languages?.loading || false,
     show,

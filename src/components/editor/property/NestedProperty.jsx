@@ -9,11 +9,11 @@ import { connect } from 'react-redux'
 
 const NestedProperty = (props) => (
   <div className="rtOutline" data-label={props.property.propertyTemplate.label}>
-    <NestedPropertyHeader propertyKey={props.propertyKey} />
+    <NestedPropertyHeader property={ props.property } />
     { props.property.values !== null && props.property.show
         && (
           <div className="rOutline-property">
-            <PropertyComponent propertyKey={ props.propertyKey } />
+            <PropertyComponent property={ props.property } />
           </div>
         )
     }
@@ -21,7 +21,7 @@ const NestedProperty = (props) => (
 )
 
 NestedProperty.propTypes = {
-  propertyKey: PropTypes.string,
+  propertyKey: PropTypes.string.isRequired,
   property: PropTypes.object,
 }
 

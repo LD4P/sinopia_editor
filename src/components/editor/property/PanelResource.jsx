@@ -1,10 +1,8 @@
 // Copyright 2019 Stanford University see LICENSE for license
 
 import React from 'react'
-import { connect } from 'react-redux'
 import PropTypes from 'prop-types'
 import PanelProperty from './PanelProperty'
-import { selectCurrentResource } from 'selectors/resources'
 
 // Top-level resource
 const PanelResource = (props) => (
@@ -22,11 +20,7 @@ const PanelResource = (props) => (
 )
 
 PanelResource.propTypes = {
-  resource: PropTypes.object,
+  resource: PropTypes.object.isRequired,
 }
 
-const mapStateToProps = (state) => ({
-  resource: selectCurrentResource(state),
-})
-
-export default connect(mapStateToProps)(PanelResource)
+export default PanelResource

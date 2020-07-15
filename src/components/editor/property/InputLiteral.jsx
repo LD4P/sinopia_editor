@@ -12,7 +12,6 @@ import { displayResourceValidations } from 'selectors/errors'
 import InputValue from './InputValue'
 import { defaultLanguageId } from 'utilities/Utilities'
 import _ from 'lodash'
-import { selectProperty } from 'selectors/resources'
 import { addValue } from 'actions/resources'
 import { newLiteralValue } from 'utilities/valueFactory'
 import { selectLiteralInputContent } from 'selectors/inputs'
@@ -21,7 +20,7 @@ import { selectLiteralInputContent } from 'selectors/inputs'
 const InputLiteral = (props) => {
   const inputLiteralRef = useRef(100 * Math.random())
   const [lang, setLang] = useState(defaultLanguageId)
-  const id = `inputliteral-${props.propertyKey}`
+  const id = `inputliteral-${props.property.key}`
 
   const disabled = !props.property.propertyTemplate.repeatable
       && props.property.values.length > 0
@@ -36,8 +35,8 @@ const InputLiteral = (props) => {
       currentcontent = inputLiteralRef.current.value
     }
 
-    props.addValue(newLiteralValue(props.propertyKey, currentcontent, lang))
-    props.setLiteralContent(props.propertyKey, '')
+    props.addValue(newLiteralValue(props.property.key, currentcontent, lang))
+    props.setLiteralContent(props.property.key, '')
     setLang(defaultLanguageId)
   }
 
@@ -50,7 +49,7 @@ const InputLiteral = (props) => {
   }
 
   const handleEdit = (content, lang) => {
-    props.setLiteralContent(props.propertyKey, content)
+    props.setLiteralContent(props.property.key, content)
     setLang(lang)
     inputLiteralRef.current.focus()
   }
@@ -59,7 +58,7 @@ const InputLiteral = (props) => {
     if (props.shouldShowDiacritic) {
       props.hideDiacritics()
     } else {
-      props.showDiacritics(props.propertyKey)
+      props.showDiacritics(props.property.key)
     }
     event.preventDefault()
   }
@@ -105,7 +104,7 @@ const InputLiteral = (props) => {
               required={required}
               className="form-control"
               placeholder={props.property.propertyTemplate.label}
-              onChange={(event) => props.setLiteralContent(props.propertyKey, event.target.value)}
+              onChange={(event) => props.setLiteralContent(props.property.key, event.target.value)}
               onKeyPress={handleKeypress}
               value={props.content}
               disabled={disabled}
@@ -128,8 +127,7 @@ InputLiteral.propTypes = {
   hideDiacritics: PropTypes.func,
   showDiacritics: PropTypes.func,
   displayValidations: PropTypes.bool,
-  propertyKey: PropTypes.string,
-  property: PropTypes.object,
+  property: PropTypes.object.isRequired,
   addValue: PropTypes.func,
   content: PropTypes.string,
   setLiteralContent: PropTypes.func,
@@ -138,8 +136,7 @@ InputLiteral.propTypes = {
 const mapStateToProps = (state, ownProps) => ({
   displayValidations: displayResourceValidations(state),
   shouldShowDiacritic: state.selectorReducer.editor.diacritics.show,
-  property: selectProperty(state, ownProps.propertyKey),
-  content: selectLiteralInputContent(state, ownProps.propertyKey) || '',
+  content: selectLiteralInputContent(state, ownProps.property.key) || '',
 })
 
 const mapDispatchToProps = (dispatch) => bindActionCreators({
