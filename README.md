@@ -369,6 +369,7 @@ To trigger a test exception, doubleclick "The underdrawing for the new world of 
   subjectTemplateKey: <key of subject template>,
   -> subjectTemplate: {subjectTemplate}
   propertyKeys: [key of property, ...]
+  resourceKey: <key of resource that this subject is part of>
   -> properties: [{property}, ...]
 }
 ```
@@ -393,6 +394,7 @@ To trigger a test exception, doubleclick "The underdrawing for the new world of 
 {
   key: <shortid>,
   subjectKey: <key of subject>,
+  resourceKey: <key of resource that this subject is part of>
   -> subject: {<subject>}
   propertyTemplateKey: <key of property template>,
   -> propertyTemplate: {<propertyTemplate>},
@@ -439,6 +441,7 @@ To trigger a test exception, doubleclick "The underdrawing for the new world of 
 {
   key: <shortid>,
   propertyKey: <key of property>,
+  resourceKey: <key of resource that this subject is part of>
   -> property: {<property>},
   literal: <literal>,
   lang: <language for literal>,

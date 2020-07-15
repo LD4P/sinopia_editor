@@ -1,6 +1,4 @@
 // Copyright 2018, 2019 Stanford University see LICENSE for license
-import GraphBuilder from 'GraphBuilder'
-import { generateMD5 } from 'utilities/Utilities'
 import _ from 'lodash'
 import { selectSubjectTemplate, selectPropertyTemplate } from 'selectors/templates'
 
@@ -98,11 +96,5 @@ const selectFullValue = (state, key, property) => {
  */
 export const resourceHasChangesSinceLastSave = (state, resourceKey) => {
   const thisResourceKey = resourceKey || selectCurrentResourceKey(state)
-  const lastSaveChecksum = state.selectorReducer?.editor?.lastSaveChecksum[thisResourceKey]
-  if (lastSaveChecksum === undefined) {
-    return true
-  }
-  const rdf = new GraphBuilder(selectFullSubject(state, thisResourceKey)).graph.toCanonical()
-  const resourceChecksum = generateMD5(rdf)
-  return lastSaveChecksum !== resourceChecksum
+  return state.selectorReducer.entities.subjects[thisResourceKey].changed
 }

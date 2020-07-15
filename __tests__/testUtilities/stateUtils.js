@@ -71,17 +71,20 @@ const buildResourceWithLiteral = (state, options) => {
   state.selectorReducer.entities.subjects = {
     t9zVwg2zO: {
       key: 't9zVwg2zO',
+      resourceKey: 't9zVwg2zO',
       uri: 'https://trellis.sinopia.io/repository/washington/0894a8b3',
       subjectTemplateKey: 'ld4p:RT:bf2:Title:AbbrTitle',
       propertyKeys: [
         'JQEtq-vmq8',
       ],
+      changed: false,
     },
   }
   state.selectorReducer.entities.properties = {
     'JQEtq-vmq8': {
       key: 'JQEtq-vmq8',
       subjectKey: 't9zVwg2zO',
+      resourceKey: 't9zVwg2zO',
       propertyTemplateKey: 'ld4p:RT:bf2:Title:AbbrTitle > http://id.loc.gov/ontologies/bibframe/mainTitle',
       valueKeys: [
         'CxGx7WMh2',
@@ -94,6 +97,7 @@ const buildResourceWithLiteral = (state, options) => {
     CxGx7WMh2: {
       key: 'CxGx7WMh2',
       propertyKey: 'JQEtq-vmq8',
+      resourceKey: 't9zVwg2zO',
       literal: 'foo',
       lang: 'eng',
       uri: null,
@@ -166,44 +170,28 @@ const buildResourceWithNestedResource = (state, options) => {
     ljAblGiBW: {
       key: 'ljAblGiBW',
       uri: null,
+      resourceKey: 'ljAblGiBW',
       subjectTemplateKey: 'resourceTemplate:testing:uber1',
       propertyKeys: [
         'v1o90QO1Qx',
       ],
-      subjectTemplate: {
-        key: 'resourceTemplate:testing:uber1',
-        id: 'resourceTemplate:testing:uber1',
-        class: 'http://id.loc.gov/ontologies/bibframe/Uber1',
-        label: 'Uber template1',
-        remark: 'Template for testing purposes.',
-        propertyTemplateKeys: [
-          'resourceTemplate:testing:uber1 > http://id.loc.gov/ontologies/bibframe/uber/template1/property1',
-        ],
-      },
+      changed: false,
     },
     XPb8jaPWo: {
       key: 'XPb8jaPWo',
       uri: null,
       subjectTemplateKey: 'resourceTemplate:testing:uber2',
+      resourceKey: 'ljAblGiBW',
       propertyKeys: [
         '7caLbfwwle',
       ],
-      subjectTemplate: {
-        key: 'resourceTemplate:testing:uber2',
-        id: 'resourceTemplate:testing:uber2',
-        class: 'http://id.loc.gov/ontologies/bibframe/Uber2',
-        label: 'Uber template2',
-        remark: 'Template for testing purposes with single repeatable literal.',
-        propertyTemplateKeys: [
-          'resourceTemplate:testing:uber2 > http://id.loc.gov/ontologies/bibframe/uber/template2/property1',
-        ],
-      },
     },
   }
   state.selectorReducer.entities.properties = {
     v1o90QO1Qx: {
       key: 'v1o90QO1Qx',
       subjectKey: 'ljAblGiBW',
+      resourceKey: 'ljAblGiBW',
       propertyTemplateKey: 'resourceTemplate:testing:uber1 > http://id.loc.gov/ontologies/bibframe/uber/template1/property1',
       valueKeys: [
         'VDOeQCnFA8',
@@ -214,6 +202,7 @@ const buildResourceWithNestedResource = (state, options) => {
     '7caLbfwwle': {
       key: '7caLbfwwle',
       subjectKey: 'XPb8jaPWo',
+      resourceKey: 'ljAblGiBW',
       propertyTemplateKey: 'resourceTemplate:testing:uber2 > http://id.loc.gov/ontologies/bibframe/uber/template2/property1',
       valueKeys: [
         'pRJ0lO_mT-',
@@ -226,6 +215,7 @@ const buildResourceWithNestedResource = (state, options) => {
     VDOeQCnFA8: {
       key: 'VDOeQCnFA8',
       propertyKey: 'v1o90QO1Qx',
+      resourceKey: 'ljAblGiBW',
       literal: null,
       lang: null,
       uri: null,
@@ -235,6 +225,7 @@ const buildResourceWithNestedResource = (state, options) => {
     'pRJ0lO_mT-': {
       key: 'pRJ0lO_mT-',
       propertyKey: '7caLbfwwle',
+      resourceKey: 'ljAblGiBW',
       literal: 'foo',
       lang: 'eng',
       uri: null,

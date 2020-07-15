@@ -1,9 +1,7 @@
 import { addTemplateHistory } from 'actions/templates'
 import { clearErrors, addError } from 'actions/errors'
 import { updateRDFResource, loadRDFResource, publishRDFResource } from 'sinopiaServer'
-import {
-  rdfDatasetFromN3, generateMD5, findRootResourceTemplateId,
-} from 'utilities/Utilities'
+import { rdfDatasetFromN3, findRootResourceTemplateId } from 'utilities/Utilities'
 import {
   addResourceFromDataset, addEmptyResource, addSubject, addValueSubject,
   removeSubject, addSubjectCopy, addPropertiesFromTemplates,
@@ -13,14 +11,9 @@ import {
   selectProperty, selectNormProperty, selectNormValue, selectValue, selectFullSubject,
 } from 'selectors/resources'
 import {
-  addProperty as addPropertyAction,
-  removeValue as removeValueAction,
-  showProperty,
-  setBaseURL,
-  setCurrentResource,
-  setLastSaveChecksum,
-  saveResourceFinished,
-  setUnusedRDF,
+  addProperty as addPropertyAction, removeValue as removeValueAction,
+  showProperty, setBaseURL, setCurrentResource, saveResourceFinished,
+  setUnusedRDF, loadResourceFinished,
 } from 'actions/resources'
 
 
@@ -40,10 +33,10 @@ export const newResource = (resourceTemplateId, errorKey) => (dispatch) => {
   return dispatch(addEmptyResource(resourceTemplateId, errorKey))
     .then((resource) => {
       dispatch(setCurrentResource(resource.key))
-      const rdf = new GraphBuilder(resource).graph.toCanonical()
-      dispatch(setLastSaveChecksum(resource.key, generateMD5(rdf)))
       dispatch(setUnusedRDF(resource.key, null))
       dispatch(addTemplateHistory(resourceTemplateId))
+      // This will mark the resource has unchanged.
+      dispatch(loadResourceFinished(resource.key))
       return true
     })
     .catch((err) => {
@@ -59,28 +52,22 @@ export const newResource = (resourceTemplateId, errorKey) => (dispatch) => {
 export const newResourceCopy = (resourceKey) => (dispatch) => {
   const newResource = dispatch(addResourceCopy(resourceKey))
   dispatch(setCurrentResource(newResource.key))
-  const rdf = new GraphBuilder(newResource).graph.toCanonical()
-  dispatch(setLastSaveChecksum(newResource.key, generateMD5(rdf)))
   dispatch(setUnusedRDF(newResource.key, null))
 }
 
 export const newResourceFromN3 = (data, uri, resourceTemplateId, errorKey, asNewResource) => (dispatch) => rdfDatasetFromN3(data)
   .then((dataset) => dispatch(addResourceFromDataset(dataset, uri, resourceTemplateId || resourceTemplateIdFromDataset(uri, dataset), errorKey, asNewResource))
     .then(([resource, usedDataset]) => {
-      const graph = new GraphBuilder(resource).graph
-      if (!asNewResource) {
-        dispatch(setLastSaveChecksum(resource.key, generateMD5(graph.toCanonical())))
-      }
-
       const unusedDataset = dataset.difference(usedDataset)
       dispatch(setUnusedRDF(resource.key, unusedDataset.size > 0 ? unusedDataset.toCanonical() : null))
       dispatch(setCurrentResource(resource.key))
+      if (!asNewResource) dispatch(loadResourceFinished(resource.key))
       return true
     })
     .catch((err) => {
       // ResourceTemplateErrors have already been dispatched.
       if (err.name !== 'ResourceTemplateError') {
-        dispatch(addError(errorKey, `Error retrieving ${uri}: ${err.toString()}`))
+        dispatch(addError(errorKey, `Error retrieving ${resourceTemplateId}: ${err.toString()}`))
       }
       return false
     }))
@@ -103,7 +90,7 @@ export const saveNewResource = (resourceKey, currentUser, group, errorKey) => (d
   return publishRDFResource(currentUser, rdf, group).then((result) => {
     const resourceUrl = result.response.headers.location
     dispatch(setBaseURL(resourceKey, resourceUrl))
-    dispatch(saveResourceFinished(resourceKey, generateMD5(rdf)))
+    dispatch(saveResourceFinished(resourceKey))
   }).catch((err) => {
     dispatch(addError(errorKey, `Error saving: ${err.toString()}`))
   })
@@ -115,7 +102,7 @@ export const saveResource = (resourceKey, currentUser, errorKey) => (dispatch, g
 
   const rdfBuilder = new GraphBuilder(resource)
   return updateRDFResource(currentUser, resource.uri, rdfBuilder.toTurtle())
-    .then(() => dispatch(saveResourceFinished(resourceKey, generateMD5(rdfBuilder.graph.toCanonical()))))
+    .then(() => dispatch(saveResourceFinished(resourceKey)))
     .catch((err) => dispatch(addError(errorKey, `Error saving ${resource.uri}: ${err.toString()}`)))
 }
 
@@ -123,10 +110,10 @@ export const expandProperty = (propertyKey, errorKey) => (dispatch, getState) =>
   const property = selectProperty(getState(), propertyKey)
   if (property.propertyTemplate.type === 'resource') {
     property.propertyTemplate.valueSubjectTemplateKeys.forEach((resourceTemplateId) => {
-      dispatch(addSubject(null, resourceTemplateId, errorKey))
+      dispatch(addSubject(null, resourceTemplateId, property.resourceKey, errorKey))
         .then(([subject, , propertyTemplates]) => {
-          dispatch(addValueSubject(propertyKey, subject.key))
-          dispatch(addPropertiesFromTemplates(subject.key, propertyTemplates, false))
+          dispatch(addValueSubject(property, subject.key))
+          dispatch(addPropertiesFromTemplates(subject, propertyTemplates, false))
         })
     })
   } else {
@@ -148,10 +135,10 @@ export const contractProperty = (propertyKey) => (dispatch, getState) => {
 
 export const addSiblingValueSubject = (valueKey, errorKey) => (dispatch, getState) => {
   const value = selectValue(getState(), valueKey)
-  dispatch(addSubject(null, value.valueSubject.subjectTemplate.id, errorKey))
+  dispatch(addSubject(null, value.valueSubject.subjectTemplate.id, value.resourceKey, errorKey))
     .then(([subject, , propertyTemplates]) => {
-      dispatch(addValueSubject(value.propertyKey, subject.key, valueKey))
-      dispatch(addPropertiesFromTemplates(subject.key, propertyTemplates, false))
+      dispatch(addValueSubject(value.property, subject.key, valueKey))
+      dispatch(addPropertiesFromTemplates(subject, propertyTemplates, false))
     })
 }
 

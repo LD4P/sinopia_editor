@@ -26,17 +26,17 @@ export const hideProperty = (state, action) => {
   return newState
 }
 
-export const saveResourceFinished = (state, action) => {
+export const loadResourceFinished = (state, action) => {
   const newState = { ...state }
-  newState.editor.lastSave[action.payload.resourceKey] = Date.now()
-  newState.editor.lastSaveChecksum[action.payload.resourceKey] = action.payload.checksum
+  newState.entities.subjects[action.payload].changed = false
 
   return newState
 }
 
-export const setLastSaveChecksum = (state, action) => {
+export const saveResourceFinished = (state, action) => {
   const newState = { ...state }
-  newState.editor.lastSaveChecksum[action.payload.resourceKey] = action.payload.checksum
+  newState.editor.lastSave[action.payload] = Date.now()
+  newState.entities.subjects[action.payload].changed = false
 
   return newState
 }
@@ -62,10 +62,15 @@ export const setCurrentResource = (state, action) => {
 export const addSubject = (state, action) => {
   const newState = { ...state }
 
+  const subject = state.entities.subjects[action.payload.key]
   const newSubject = { ...action.payload }
   delete newSubject.properties
   delete newSubject.subjectTemplate
   newState.entities.subjects[action.payload.key] = newSubject
+
+  if (!_.isEqual(newSubject, subject)) {
+    newState.entities.subjects[newSubject.resourceKey].changed = true
+  }
 
   return newState
 }
@@ -73,6 +78,7 @@ export const addSubject = (state, action) => {
 export const addProperty = (state, action) => {
   const newState = { ...state }
 
+  const property = state.entities.properties[action.payload.key]
   const newProperty = { ...action.payload }
   delete newProperty.subject
   delete newProperty.values
@@ -85,6 +91,11 @@ export const addProperty = (state, action) => {
   if (subject.propertyKeys.indexOf(action.payload.key) === -1) {
     subject.propertyKeys = [...subject.propertyKeys, action.payload.key]
   }
+
+  if (!_.isEqual(newProperty, property)) {
+    newState.entities.subjects[newProperty.resourceKey].changed = true
+  }
+
 
   return newState
 }
@@ -110,6 +121,10 @@ export const addValue = (state, action) => {
   }
   property.errors = errorsForProperty(state, property)
 
+  if (!_.isEqual(newValue, state.entities.values[action.payload.key])) {
+    newState.entities.subjects[newValue.resourceKey].changed = true
+  }
+
   return newState
 }
 
@@ -122,6 +137,9 @@ export const removeValue = (state, action) => {
   const property = newState.entities.properties[value.propertyKey]
   property.valueKeys = property.valueKeys.filter((valueKey) => valueKey !== action.payload)
   property.errors = errorsForProperty(newState, property)
+
+  newState.entities.subjects[value.resourceKey].changed = true
+
   return newState
 }
 
@@ -132,13 +150,20 @@ export const removeProperty = (state, action) => {
   const subject = newState.entities.subjects[property.subjectKey]
   newState.entities.subjects[property.subjectKey].propertyKeys = subject.propertyKeys.filter((propertyKey) => propertyKey !== action.payload)
   clearProperty(newState, property.key)
+
+  newState.entities.subjects[property.resourceKey].changed = true
+
   return newState
 }
 
 export const removeSubject = (state, action) => {
   const newState = { ...state }
 
+  const subject = newState.entities.subjects[action.payload]
   delete newState.entities.subjects[action.payload]
+
+  if (subject.resourceKey !== action.payload) newState.entities.subjects[subject.resourceKey].changed = true
+
   return newState
 }
 
@@ -159,7 +184,6 @@ export const clearResource = (state, action) => {
   }
 
   delete newState.editor.lastSave[resourceKey]
-  delete newState.editor.lastSaveChecksum[resourceKey]
   delete newState.editor.unusedRDF[resourceKey]
   delete newState.editor.errors[resourceEditErrorKey(resourceKey)]
   clearSubject(newState, resourceKey)
@@ -211,13 +235,18 @@ export const replaceValues = (state, action) => {
     })
   }
 
+  newState.entities.subjects[newValues[0].resourceKey].changed = true
+
   return newState
 }
 
 export const clearValues = (state, action) => {
   const newState = { ...state }
 
-  state.entities.properties[action.payload].valueKeys = []
+  const property = newState.entities.properties[action.payload]
+  newState.entities.properties[action.payload].valueKeys = []
+
+  newState.entities.subjects[property.resourceKey].changed = true
 
   return newState
 }

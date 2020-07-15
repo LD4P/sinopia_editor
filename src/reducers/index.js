@@ -6,11 +6,11 @@ import {
   setLiteralInputContent, hideDiacriticsSelection, showDiacriticsSelection,
 } from './inputs'
 import {
-  setBaseURL, hideProperty, showProperty, setLastSaveChecksum,
+  setBaseURL, hideProperty, showProperty,
   setUnusedRDF, setCurrentResource,
   addSubject, addProperty, addValue, removeValue,
   removeProperty, removeSubject, clearResource, replaceValues, clearValues,
-  saveResourceFinished,
+  saveResourceFinished, loadResourceFinished,
 } from './resources'
 import {
   setLanguage, fetchingLanguages, languagesReceived,
@@ -64,6 +64,7 @@ const handlers = {
   HIDE_VALIDATION_ERRORS: hideValidationErrors,
   LANGUAGE_SELECTED: setLanguage,
   LANGUAGES_RECEIVED: languagesReceived,
+  LOAD_RESOURCE_FINISHED: loadResourceFinished,
   LOOKUP_OPTIONS_RETRIEVED: lookupOptionsRetrieved,
   SAVE_RESOURCE_FINISHED: saveResourceFinished,
   SET_APP_VERSION: setAppVersion,
@@ -71,7 +72,6 @@ const handlers = {
   SET_LITERAL_CONTENT: setLiteralInputContent,
   SET_CURRENT_RESOURCE: setCurrentResource,
   SET_TEMPLATE_MESSAGES: setTemplateMessages,
-  SET_LAST_SAVE_CHECKSUM: setLastSaveChecksum,
   SET_SEARCH_RESULTS: setSearchResults,
   SET_TEMPLATE_SEARCH_RESULTS: setTemplateSearchResults,
   SET_UNUSED_RDF: setUnusedRDF,

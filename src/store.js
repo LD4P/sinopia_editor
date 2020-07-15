@@ -29,7 +29,6 @@ export const initialState = {
       copyToNewMessage: {},
       errors: {}, // {<error key>: [errors...]} or {<error key>: {<resourceKey>: [errors...]}}
       lastSave: {}, // {<resourceKey>: date}
-      lastSaveChecksum: {}, // {<resourceKey>: checksum}
       unusedRDF: {}, // {<resourceKey>: rdf}
       content: {}, // State for content for input components. Allows communication between components, e.g, entering diacritics.
     },

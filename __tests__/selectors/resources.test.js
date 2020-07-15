@@ -80,22 +80,14 @@ describe('selectFullSubject()', () => {
 })
 
 describe('resourceHasChangesSinceLastSave', () => {
-  it('returns currentResource if key not provided', () => {
+  it('returns changed for currentResource if key not provided', () => {
     const state = createState({ hasResourceWithNestedResource: true })
+    state.selectorReducer.entities.subjects.ljAblGiBW.changed = true
     expect(resourceHasChangesSinceLastSave(state)).toBe(true)
   })
-  it('returns true if no lastSaveChecksum', () => {
+  it('returns changed for provided resource', () => {
     const state = createState({ hasResourceWithNestedResource: true })
-    expect(resourceHasChangesSinceLastSave(state, 'ljAblGiBW')).toBe(true)
-  })
-  it('returns false if lastSaveChecksum matches', () => {
-    const state = createState({ hasResourceWithNestedResource: true })
-    state.selectorReducer.editor.lastSaveChecksum.ljAblGiBW = '8c669777a5be1e02e912189a7c14e549'
-    expect(resourceHasChangesSinceLastSave(state, 'ljAblGiBW')).toBe(false)
-  })
-  it('returns true if lastSaveChecksum does not match', () => {
-    const state = createState({ hasResourceWithNestedResource: true })
-    state.selectorReducer.editor.lastSaveChecksum.ljAblGiBW = 'x8c669777a5be1e02e912189a7c14e549'
+    state.selectorReducer.entities.subjects.ljAblGiBW.changed = true
     expect(resourceHasChangesSinceLastSave(state, 'ljAblGiBW')).toBe(true)
   })
 })
