@@ -6,7 +6,8 @@ import {
 } from 'utilities/Utilities'
 import {
   addResourceFromDataset, addEmptyResource, addSubject, addValueSubject,
-  removeSubject, addSubjectCopy, addPropertiesFromTemplates,
+  removeSubject, addSubjectCopy, addPropertiesFromTemplates, addEmptyResource2,
+  addResourceFromDataset2
 } from './resourceHelpers'
 import GraphBuilder from 'GraphBuilder'
 import {
@@ -55,6 +56,30 @@ export const newResource = (resourceTemplateId, errorKey) => (dispatch) => {
     })
 }
 
+export const newResource2 = (currentUser, resourceTemplateUri, errorKey) => (dispatch) => {
+  console.log('newResource2', resourceTemplateUri)
+  dispatch(clearErrors(errorKey))
+  return dispatch(addEmptyResource2(currentUser, resourceTemplateUri, errorKey))
+    .then((resource) => {
+      dispatch(setCurrentResource(resource.key))
+      console.log('setCurrentResource')
+      const rdf = new GraphBuilder(resource).graph.toCanonical()
+      console.log('buildGraph')
+      dispatch(setLastSaveChecksum(resource.key, generateMD5(rdf)))
+      dispatch(setUnusedRDF(resource.key, null))
+      // dispatch(addTemplateHistory(resourceTemplateId))
+      return true
+    })
+    .catch((err) => {
+      // ResourceTemplateErrors have already been dispatched.
+      if (err.name !== 'ResourceTemplateError') {
+        dispatch(addError(errorKey, `Error creating new resource: ${err.toString()}`))
+      }
+      return false
+    })
+}
+
+
 // A thunk that copies an existing resource (in state) to  new resource
 export const newResourceCopy = (resourceKey) => (dispatch) => {
   const newResource = dispatch(addResourceCopy(resourceKey))
@@ -88,6 +113,32 @@ export const newResourceFromN3 = (data, uri, resourceTemplateId, errorKey, asNew
     dispatch(addError(errorKey, `Error parsing: ${err.toString()}`))
     return false
   })
+
+export const newResourceFromN32 = (data, uri, resourceTemplateId, errorKey, asNewResource) => (dispatch) => rdfDatasetFromN3(data)
+  .then((dataset) => dispatch(addResourceFromDataset2(dataset, uri, resourceTemplateId || resourceTemplateIdFromDataset(uri, dataset), errorKey, asNewResource))
+    .then(([resource, usedDataset]) => {
+      const graph = new GraphBuilder(resource).graph
+      if (!asNewResource) {
+        dispatch(setLastSaveChecksum(resource.key, generateMD5(graph.toCanonical())))
+      }
+
+      const unusedDataset = dataset.difference(usedDataset)
+      dispatch(setUnusedRDF(resource.key, unusedDataset.size > 0 ? unusedDataset.toCanonical() : null))
+      dispatch(setCurrentResource(resource.key))
+      return true
+    })
+    .catch((err) => {
+      // ResourceTemplateErrors have already been dispatched.
+      if (err.name !== 'ResourceTemplateError') {
+        dispatch(addError(errorKey, `Error retrieving ${uri}: ${err.toString()}`))
+      }
+      return false
+    }))
+  .catch((err) => {
+    dispatch(addError(errorKey, `Error parsing: ${err.toString()}`))
+    return false
+  })
+
 
 const resourceTemplateIdFromDataset = (uri, dataset) => {
   const resourceTemplateId = findRootResourceTemplateId(uri, dataset)

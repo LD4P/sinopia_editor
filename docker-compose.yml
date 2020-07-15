@@ -14,7 +14,8 @@ services:
       - platform
       - pipeline
   pipeline:
-    image: ld4p/sinopia_indexing_pipeline:latest
+    build:
+      context: ../sinopia_indexing_pipeline
     environment:
       INDEX_URL: http://search:9200
       BROKER_HOST: broker
@@ -22,6 +23,17 @@ services:
       - broker
       - search
       - platform
+  reindexer:
+    build:
+      context: ../sinopia_indexing_pipeline
+    environment:
+      TRELLIS_BASE_URL: http://platform:8080
+      INDEX_URL: http://search:9200
+      BROKER_HOST: broker
+      INSIDE_CONTAINER: 'true'
+    command: bin/reindex
+    depends_on:
+      - pipeline
   search:
     image: ld4p/sinopia_elasticsearch:latest
     entrypoint:

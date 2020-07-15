@@ -6,7 +6,7 @@ import { connect } from 'react-redux'
 import { bindActionCreators } from 'redux'
 import PropTypes from 'prop-types'
 import { selectCurrentUser } from 'selectors/authenticate'
-import { loadResource } from 'actionCreators/resources'
+import { loadResource, newResource2 } from 'actionCreators/resources'
 import { selectErrors } from 'selectors/errors'
 import Alerts from '../Alerts'
 import TypeFilter from './TypeFilter'
@@ -32,6 +32,13 @@ const SinopiaSearchResults = (props) => {
 
   const handleEdit = (resourceURI) => {
     props.loadResource(props.currentUser, resourceURI, searchRetrieveErrorKey).then((success) => {
+      setNavigateEditor(success)
+    })
+  }
+
+  const handleRT = (resourceURI) => {
+    console.log('resourceURI', resourceURI)
+    props.newResource2(props.currentUser, resourceURI, searchRetrieveErrorKey).then((success) => {
       setNavigateEditor(success)
     })
   }
@@ -83,7 +90,7 @@ const SinopiaSearchResults = (props) => {
               </tr>
             </thead>
             <tbody>
-              <SearchResultRows searchResults={props.searchResults} handleEdit={handleEdit} handleCopy={handleCopy} />
+              <SearchResultRows searchResults={props.searchResults} handleEdit={handleEdit} handleCopy={handleCopy} handleRT={handleRT}/>
             </tbody>
           </table>
         </div>
@@ -100,6 +107,7 @@ SinopiaSearchResults.propTypes = {
   currentResource: PropTypes.object,
   errors: PropTypes.array,
   fetchSinopiaSearchResults: PropTypes.func,
+  newResource2: PropTypes.func,
 }
 
 const mapStateToProps = (state) => ({
@@ -109,6 +117,6 @@ const mapStateToProps = (state) => ({
   errors: selectErrors(state, searchRetrieveErrorKey),
 })
 
-const mapDispatchToProps = (dispatch) => bindActionCreators({ loadResource }, dispatch)
+const mapDispatchToProps = (dispatch) => bindActionCreators({ loadResource, newResource2 }, dispatch)
 
 export default connect(mapStateToProps, mapDispatchToProps)(SinopiaSearchResults)

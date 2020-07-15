@@ -34,6 +34,13 @@ const SearchResultRows = (props) => props.searchResults.map((row) => (
                 aria-label="Copy this resource">
           <FontAwesomeIcon icon={faCopy} className="icon-lg" />
         </button>
+        <button type="button"
+                className="btn btn-link"
+                onClick={() => props.handleRT(row.uri)}
+                title="Open resource template"
+                aria-label="Open resource templae">
+          RT
+        </button>
       </div>
     </td>
   </tr>
@@ -43,6 +50,7 @@ SearchResultRows.propTypes = {
   searchResults: PropTypes.array,
   handleEdit: PropTypes.func,
   handleCopy: PropTypes.func,
+  handleRT: PropTypes.func,
 }
 
 export default SearchResultRows

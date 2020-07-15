@@ -23,6 +23,24 @@
       "remark": "The property's label."
     },
     {
+      "propertyLabel": "Remark",
+      "propertyURI": "http://sinopia.io/vocabulary/hasRemark",
+      "resourceTemplates": [],
+      "mandatory": "false",
+      "repeatable": "false",
+      "type": "literal",
+      "remark": "The property's remark (literal)."
+    },
+    {
+      "propertyLabel": "Remark URL",
+      "propertyURI": "http://sinopia.io/vocabulary/hasRemarkUrl",
+      "resourceTemplates": [],
+      "mandatory": "false",
+      "repeatable": "false",
+      "type": "uri",
+      "remark": "The property's remark (URL)."
+    },
+    {
       "propertyLabel": "Cardinality",
       "propertyURI": "http://sinopia.io/vocabulary/hasCardinality",
       "resourceTemplates": [],

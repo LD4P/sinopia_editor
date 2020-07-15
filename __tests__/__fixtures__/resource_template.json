@@ -5,13 +5,22 @@
   "remark": "Template for creating resource templates.",
   "propertyTemplates": [
     {
-      "propertyLabel": "Class",
-      "propertyURI": "http://www.w3.org/1999/02/22-rdf-syntax-ns#type",
+      "propertyLabel": "Id",
+      "propertyURI": "http://sinopia.io/vocabulary/hasResourceId",
       "resourceTemplates": [],
       "mandatory": "true",
       "repeatable": "false",
       "type": "resource",
-      "remark": "The resource's class."
+      "remark": "The resource's ID, e.g., ld4p:RT:bf2:Title:AbbrTitle."
+    },
+    {
+      "propertyLabel": "Class",
+      "propertyURI": "http://sinopia.io/vocabulary/hasClass",
+      "resourceTemplates": [],
+      "mandatory": "true",
+      "repeatable": "false",
+      "type": "resource",
+      "remark": "The resource's class, e.g., http://id.loc.gov/ontologies/bibframe/AbbreviatedTitle."
     },
     {
       "propertyLabel": "Label",
@@ -33,7 +42,7 @@
     },
     {
       "propertyLabel": "Remark",
-      "propertyURI": "http://www.w3.org/2000/01/rdf-schema#comment",
+      "propertyURI": "http://sinopia.io/vocabulary/hasRemark",
       "resourceTemplates": [],
       "mandatory": "false",
       "repeatable": "false",

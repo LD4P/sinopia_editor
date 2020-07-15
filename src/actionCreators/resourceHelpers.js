@@ -1,7 +1,7 @@
 import rdf from 'rdf-ext'
 import shortid from 'shortid'
 import _ from 'lodash'
-import { loadResourceTemplate } from 'actionCreators/templates'
+import { loadResourceTemplate, loadResourceTemplate2 } from 'actionCreators/templates'
 import {
   addSubject as addSubjectAction,
   addProperty as addPropertyAction,
@@ -34,6 +34,13 @@ export const addResourceFromDataset = (dataset, uri, resourceTemplateId, errorKe
 const chooseURI = (dataset, uri) => (dataset.match(rdf.namedNode(uri)).size > 0 ? uri : '')
 
 export const addEmptyResource = (resourceTemplateId, errorKey) => (dispatch) => dispatch(addSubject(null, resourceTemplateId, errorKey))
+  .then(([subject, , propertyTemplates]) => {
+    const properties = dispatch(addPropertiesFromTemplates(subject.key, propertyTemplates, false))
+    subject.properties = properties
+    return subject
+  })
+
+export const addEmptyResource2 = (currentUser, resourceTemplateUri, errorKey) => (dispatch) => dispatch(addSubject2(currentUser, null, resourceTemplateUri, errorKey))
   .then(([subject, , propertyTemplates]) => {
     const properties = dispatch(addPropertiesFromTemplates(subject.key, propertyTemplates, false))
     subject.properties = properties
@@ -85,6 +92,33 @@ export const addSubject = (uri, resourceTemplateId, errorKey) => (dispatch) => {
       return [subject, subjectTemplate, propertyTemplates]
     })
 }
+
+export const addSubject2 = (currentUser, uri, resourceTemplateUri, errorKey) => (dispatch) => {
+  console.log('addSubject2', resourceTemplateUri)
+  const key = shortid.generate()
+  return dispatch(loadResourceTemplate2(currentUser, resourceTemplateUri, errorKey))
+    .then(([subjectTemplate, propertyTemplates]) => {
+      // This handles if there was an error fetching resource template
+      if (!subjectTemplate) {
+        const err = new Error(`Unable to load ${resourceTemplateUri}`)
+        err.name = 'ResourceTemplateError'
+        console.error(err.toString())
+        throw err
+      }
+
+      const subject = {
+        key,
+        uri: _.isEmpty(uri) ? null : uri,
+        subjectTemplateKey: subjectTemplate.key,
+        subjectTemplate,
+        propertyKeys: [],
+      }
+      // Add the subject
+      dispatch(addSubjectAction(subject))
+      return [subject, subjectTemplate, propertyTemplates]
+    })
+}
+
 
 export const addPropertiesFromTemplates = (subjectKey, propertyTemplates, noDefaults) => (dispatch) => propertyTemplates.map((propertyTemplate) => {
   const property = dispatch(addProperty(subjectKey, propertyTemplate, noDefaults))

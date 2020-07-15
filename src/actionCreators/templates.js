@@ -6,11 +6,15 @@ import { addTemplates } from 'actions/templates'
 import { clearTemplateMessages, setTemplateMessages } from 'actions/messages'
 import { clearModalMessages, addModalMessage, showModal } from 'actions/modals'
 import { validateResourceTemplate } from 'ResourceTemplateValidator'
-import { createResourceTemplate, getResourceTemplate, updateResourceTemplate } from 'sinopiaServer'
+import { createResourceTemplate, getResourceTemplate, updateResourceTemplate, loadRDFResource } from 'sinopiaServer'
 import { selectCurrentUser } from 'selectors/authenticate'
 import _ from 'lodash'
 import { selectSubjectAndPropertyTemplates } from 'selectors/templates'
 import { buildTemplates } from 'TemplatesBuilder'
+import { buildTemplates as buildTemplates2 } from 'TemplatesBuilder2'
+import {
+  rdfDatasetFromN3, generateMD5, findRootResourceTemplateId,
+} from 'utilities/Utilities'
 
 /**
  * A thunk that gets a resource template from state or the server.
@@ -39,6 +43,40 @@ export const loadResourceTemplate = (resourceTemplateId, errorKey) => (dispatch,
     return Promise.resolve([null, []])
   })
 }
+
+export const loadResourceTemplate2 = (currentUser, resourceTemplateUri, errorKey) => (dispatch, getState) => {
+  console.log('loadResourceTemplate2', resourceTemplateUri)
+  // Try to get it from state.
+  // let [subjectTemplate, propertyTemplates] = selectSubjectAndPropertyTemplates(getState(), resourceTemplateId)
+  // if (subjectTemplate) return Promise.resolve([subjectTemplate, propertyTemplates])
+  // loadRDFResource = async (currentUser, uri)
+  return loadRDFResource(currentUser, resourceTemplateUri).then((response) => {
+    // If resource template loads, then validate.
+    const data = response.response.text
+    return rdfDatasetFromN3(data)
+      .then((dataset) => {
+        const [subjectTemplate, propertyTemplates] = buildTemplates2(dataset, resourceTemplateUri)
+        console.log('subjectTemplate', subjectTemplate, propertyTemplates)
+        dispatch(addTemplates(subjectTemplate, propertyTemplates))
+        return [subjectTemplate, propertyTemplates]
+      })
+
+    // return validateResourceTemplate(resourceTemplate).then((errors) => {
+    //   if (_.isEmpty(errors)) {
+    //     [subjectTemplate, propertyTemplates] = buildTemplates(resourceTemplate)
+    //     dispatch(addTemplates(subjectTemplate, propertyTemplates))
+    //     return [subjectTemplate, propertyTemplates]
+    //   }
+    //   errors.forEach((error) => dispatch(addError(errorKey, error)))
+    // return [null, []]
+    // }).catch((err) => { throw err })
+  }).catch((err) => {
+    console.error(err)
+    dispatch(addError(errorKey, `Error retrieving ${resourceTemplateId}: ${err.toString()}`))
+    return Promise.resolve([null, []])
+  })
+}
+
 
 // Resource templates are set via ImportFileZone
 export const saveNewProfileOrResourceTemplate = (content, group) => (dispatch, getState) => {
