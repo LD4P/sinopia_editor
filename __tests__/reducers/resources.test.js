@@ -110,7 +110,6 @@ describe('addValue()', () => {
         uri: null,
         label: null,
         valueSubjectKey: null,
-        property: '[CIRCULAR]',
       },
     },
   }
@@ -224,7 +223,7 @@ describe('clearResource()', () => {
 
     const newState = reducer(oldState.selectorReducer, action)
     expect(newState.editor.currentResource).toBe(undefined)
-    expect(Object.keys(newState.entities.subjects).length).toBe(0)
+    expect(Object.keys(newState.entities.subjects)).toHaveLength(0)
   })
 })
 
@@ -257,7 +256,7 @@ describe('clearValues()', () => {
       payload: 'kqKVn-1TbC',
     }
     const newState = reducer(oldState, action)
-    expect(newState.entities.properties['kqKVn-1TbC'].valueKeys.length).toBe(0)
+    expect(newState.entities.properties['kqKVn-1TbC'].valueKeys).toHaveLength(0)
   })
 })
 
@@ -321,7 +320,7 @@ describe('removeValue()', () => {
     const newState = reducer(oldState.selectorReducer, action)
     expect(newState.entities.values.CxGx7WMh2).toBe(undefined)
     expect(newState.entities.properties['JQEtq-vmq8'].valueKeys.CxGx7WMh2).toBe(undefined)
-    expect(newState.entities.properties['JQEtq-vmq8'].errors.length).toBe(0)
+    expect(newState.entities.properties['JQEtq-vmq8'].errors).toHaveLength(0)
   })
 })
 
@@ -354,7 +353,7 @@ describe('replaceValues()', () => {
       ],
     }
     const newState = reducer(oldState.selectorReducer, action)
-    expect(Object.keys(newState.entities.values).length).toBe(0)
+    expect(Object.keys(newState.entities.values)).toHaveLength(0)
   })
 })
 
