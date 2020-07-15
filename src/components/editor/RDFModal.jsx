@@ -41,7 +41,9 @@ const RDFModal = (props) => {
                 <SaveAndPublishButton class="modal-save" />
               </div>
             </div>
-            <RDFDisplay rdf={props.rdf()} />
+            { props.show
+              && <RDFDisplay rdf={props.rdf()} />
+            }
           </div>
         </div>
       </div>
