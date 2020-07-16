@@ -146,7 +146,7 @@ describe('addValue()', () => {
           errors: [],
           valueKeys: ['wWPvilOlqH'],
           propertyTemplateKey: 'resourceTemplate:bf2:Identifiers:Barcode > http://www.w3.org/1999/02/22-rdf-syntax-ns#value',
-          show: false,
+          show: true,
         },
       },
       values: {

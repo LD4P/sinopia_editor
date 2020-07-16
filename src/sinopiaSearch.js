@@ -1,7 +1,7 @@
 // Copyright 2019 Stanford University see LICENSE for license
 import Config from './Config'
 /* eslint-disable node/no-unpublished-import */
-import { resourceTemplateSearchResults } from '../__tests__/testUtilities/fixtureLoaderHelper'
+import { resourceTemplateSearchResults, hasFixtureResource, resourceSearchResults } from '../__tests__/testUtilities/fixtureLoaderHelper'
 import _ from 'lodash'
 
 /* eslint-enable node/no-unpublished-import */
@@ -23,6 +23,8 @@ export const getSearchResults = async (query, options = {}) => getSearchResultsW
  * @return {Promise<Object>} promise containing the result of the search.
  */
 export const getSearchResultsWithFacets = async (query, options = {}) => {
+  if (Config.useResourceTemplateFixtures && hasFixtureResource(query)) return Promise.resolve(resourceSearchResults(query))
+
   const body = {
     query: {
       bool: {

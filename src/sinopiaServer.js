@@ -7,6 +7,7 @@ import Config from './Config'
 import {
   rtFixturesGroups, getFixtureResourceTemplate,
   listFixtureResourcesInGroupContainer, resourceTemplateIds,
+  hasFixtureResource, getFixtureResource,
 } from '../__tests__/testUtilities/fixtureLoaderHelper'
 /* eslint-enable node/no-unpublished-import */
 
@@ -193,6 +194,10 @@ export const updateRDFResource = async (currentUser, uri, rdf) => {
 }
 
 export const loadRDFResource = async (currentUser, uri) => {
+  if (Config.useResourceTemplateFixtures && hasFixtureResource(uri)) {
+    return getFixtureResource(currentUser, uri)
+  }
+
   await authenticate(currentUser)
 
   const id = identifiersForUri(uri)

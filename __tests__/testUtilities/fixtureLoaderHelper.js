@@ -88,7 +88,7 @@ function loadFixtureResourceTemplates() {
   const result = []
   rtFileNames.forEach((filename) => {
     /* eslint security/detect-non-literal-require: 'off' */
-    const rtjson = require(`../__fixtures__/${filename}`)
+    const rtjson = require(`../__template_fixtures__/${filename}`)
     result.push({ id: rtjson.id, json: rtjson })
   })
   return result
@@ -153,3 +153,54 @@ export const rtFixturesGroups = () => new Promise((resolve) => {
 export const listFixtureResourcesInGroupContainer = (group) => new Promise((resolve) => {
   resolve(fixtureResourcesInGroupContainer(group))
 })
+
+const resourceFilenames = {
+  'cornell/c7db5404-7d7d-40ac-b38e-c821d2c3ae3f': 'test.n3',
+  'cornell/c7db5404-7d7d-40ac-b38e-c821d2c3ae3f-invalid': 'invalid_rt.n3',
+}
+
+export const hasFixtureResource = (uri) => !!resourceFilenames[normUri(uri)]
+
+export const getFixtureResource = (currentUser, uri) => {
+  const resourceObj = require(`../__resource_fixtures__/${resourceFilenames[normUri(uri)]}`)
+  // Depends on whether webpack or jest.
+  const resourceN3 = resourceObj.default || resourceObj
+  return Promise.resolve({ response: { text: resourceN3.replace(/<>/g, `<${uri}>`) } })
+}
+
+const normUri = (uri) => uri.substring(uri.indexOf('repository/') + 11)
+
+// These are used as fake resource search results
+export const resourceSearchResults = (uri) => {
+  return [
+    {
+      totalHits: 1,
+      results: [
+        {
+          uri,
+          label: uri,
+          created: '2020-07-15T20:48:29.274Z',
+          modified: '2020-07-15T21:04:46.012Z',
+          type: [
+            'http://id.loc.gov/ontologies/bibframe/Fixture',
+          ],
+          group: 'stanford',
+        },
+      ],
+    },
+    {
+      types: [
+        {
+          key: 'http://id.loc.gov/ontologies/bibframe/Fixture',
+          doc_count: 1,
+        },
+      ],
+      groups: [
+        {
+          key: 'stanford',
+          doc_count: 1,
+        },
+      ],
+    },
+  ]
+}
