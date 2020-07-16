@@ -3,24 +3,24 @@ export const clearResource = (resourceKey) => ({
   payload: resourceKey,
 })
 
+export const loadResourceFinished = (resourceKey) => ({
+  type: 'LOAD_RESOURCE_FINISHED',
+  payload: resourceKey,
+})
+
 export const setBaseURL = (resourceKey, resourceURI) => ({
   type: 'SET_BASE_URL',
   payload: { resourceKey, resourceURI },
 })
 
-export const saveResourceFinished = (resourceKey, checksum) => ({
+export const saveResourceFinished = (resourceKey) => ({
   type: 'SAVE_RESOURCE_FINISHED',
-  payload: { resourceKey, checksum },
+  payload: resourceKey,
 })
 
 export const setCurrentResource = (resourceKey) => ({
   type: 'SET_CURRENT_RESOURCE',
   payload: resourceKey,
-})
-
-export const setLastSaveChecksum = (resourceKey, checksum) => ({
-  type: 'SET_LAST_SAVE_CHECKSUM',
-  payload: { resourceKey, checksum },
 })
 
 export const setUnusedRDF = (resourceKey, rdf) => ({

@@ -33,19 +33,19 @@ export const addResourceFromDataset = (dataset, uri, resourceTemplateId, errorKe
 // This function guesses which.
 const chooseURI = (dataset, uri) => (dataset.match(rdf.namedNode(uri)).size > 0 ? uri : '')
 
-export const addEmptyResource = (resourceTemplateId, errorKey) => (dispatch) => dispatch(addSubject(null, resourceTemplateId, errorKey))
+export const addEmptyResource = (resourceTemplateId, errorKey) => (dispatch) => dispatch(addSubject(null, resourceTemplateId, null, errorKey))
   .then(([subject, , propertyTemplates]) => {
-    const properties = dispatch(addPropertiesFromTemplates(subject.key, propertyTemplates, false))
+    const properties = dispatch(addPropertiesFromTemplates(subject, propertyTemplates, false))
     subject.properties = properties
     return subject
   })
 
-const recursiveResourceFromDataset = (subjectTerm, uri, resourceTemplateId, dataset,
+const recursiveResourceFromDataset = (subjectTerm, uri, resourceTemplateId, resourceKey, dataset,
   usedDataset, errorKey) => (dispatch) => dispatch(addSubject(uri, resourceTemplateId, errorKey))
   .then(([subject, , propertyTemplates]) => {
-    const properties = dispatch(addPropertiesFromTemplates(subject.key, propertyTemplates, true))
+    const properties = dispatch(addPropertiesFromTemplates(subject, propertyTemplates, true))
     return Promise.all(
-      properties.map((property) => dispatch(addValuesFromDataset(subjectTerm, property.key, property.propertyTemplate, dataset, usedDataset, errorKey))
+      properties.map((property) => dispatch(addValuesFromDataset(subjectTerm, property, property.propertyTemplate, resourceKey, dataset, usedDataset, errorKey))
         .then((values) => {
           const compactValues = _.compact(values)
           property.values = compactValues
@@ -61,7 +61,7 @@ const recursiveResourceFromDataset = (subjectTerm, uri, resourceTemplateId, data
       })
   })
 
-export const addSubject = (uri, resourceTemplateId, errorKey) => (dispatch) => {
+export const addSubject = (uri, resourceTemplateId, resourceKey, errorKey) => (dispatch) => {
   const key = shortid.generate()
   return dispatch(loadResourceTemplate(resourceTemplateId, errorKey))
     .then(([subjectTemplate, propertyTemplates]) => {
@@ -78,6 +78,7 @@ export const addSubject = (uri, resourceTemplateId, errorKey) => (dispatch) => {
         uri: _.isEmpty(uri) ? null : uri,
         subjectTemplateKey: subjectTemplate.key,
         subjectTemplate,
+        resourceKey: resourceKey || key,
         propertyKeys: [],
       }
       // Add the subject
@@ -86,27 +87,27 @@ export const addSubject = (uri, resourceTemplateId, errorKey) => (dispatch) => {
     })
 }
 
-export const addPropertiesFromTemplates = (subjectKey, propertyTemplates, noDefaults) => (dispatch) => propertyTemplates.map((propertyTemplate) => {
-  const property = dispatch(addProperty(subjectKey, propertyTemplate, noDefaults))
+export const addPropertiesFromTemplates = (subject, propertyTemplates, noDefaults) => (dispatch) => propertyTemplates.map((propertyTemplate) => {
+  const property = dispatch(addProperty(subject, propertyTemplate, noDefaults))
   return property
 })
 
-const addValuesFromDataset = (subjectTerm, propertyKey, propertyTemplate, dataset, usedDataset, errorKey) => (dispatch) => {
+const addValuesFromDataset = (subjectTerm, property, propertyTemplate, dataset, usedDataset, errorKey) => (dispatch) => {
   // All quads for this property
   const quads = dataset.match(subjectTerm, rdf.namedNode(propertyTemplate.uri)).toArray()
   return Promise.all(quads.map((quad) => {
     if (propertyTemplate.type === 'resource') {
-      return dispatch(addNestedResourceFromQuad(quad, propertyKey, propertyTemplate, dataset, usedDataset, errorKey))
+      return dispatch(addNestedResourceFromQuad(quad, property, propertyTemplate, dataset, usedDataset, errorKey))
     } if (quad.object.termType === 'NamedNode') {
       // URI
-      return Promise.resolve(dispatch(addUriFromQuad(quad, propertyKey, dataset, usedDataset)))
+      return Promise.resolve(dispatch(addUriFromQuad(quad, property, dataset, usedDataset)))
     }
     // Literal
-    return Promise.resolve(dispatch(addLiteralFromQuad(quad, propertyKey, usedDataset)))
+    return Promise.resolve(dispatch(addLiteralFromQuad(quad, property, usedDataset)))
   }))
 }
 
-const addNestedResourceFromQuad = (quad, propertyKey, propertyTemplate, dataset, usedDataset, errorKey) => (dispatch) => {
+const addNestedResourceFromQuad = (quad, property, propertyTemplate, dataset, usedDataset, errorKey) => (dispatch) => {
   // Only build this embedded resource if can find the resource template.
   // Multiple types may be provided.
   const typeQuads = dataset.match(quad.object, rdf.namedNode('http://www.w3.org/1999/02/22-rdf-syntax-ns#type')).toArray()
@@ -129,9 +130,9 @@ const addNestedResourceFromQuad = (quad, propertyKey, propertyTemplate, dataset,
       usedDataset.addAll(typeQuads)
 
       // One resource template
-      return dispatch(recursiveResourceFromDataset(quad.object, null, compactChildRtIds[0], dataset, usedDataset, errorKey))
+      return dispatch(recursiveResourceFromDataset(quad.object, null, compactChildRtIds[0], property.resourceKey, dataset, usedDataset, errorKey))
         .then((subject) => {
-          const value = dispatch(addValueSubject(propertyKey, subject.key))
+          const value = dispatch(addValueSubject(property, subject.key))
           value.valueSubject = subject
           return value
         })
@@ -144,12 +145,12 @@ const selectResourceTemplateId = (propertyTemplate, resourceURI, errorKey) => (d
     .then(([subjectTemplate]) => (subjectTemplate.class === resourceURI ? resourceTemplateId : undefined))),
 )
 
-const addLiteralFromQuad = (quad, propertyKey, usedDataset) => (dispatch) => {
+const addLiteralFromQuad = (quad, property, usedDataset) => (dispatch) => {
   usedDataset.add(quad)
-  return dispatch(addLiteralValue(propertyKey, quad.object.value, quad.object.language))
+  return dispatch(addLiteralValue(property, quad.object.value, quad.object.language))
 }
 
-const addUriFromQuad = (quad, propertyKey, dataset, usedDataset) => (dispatch) => {
+const addUriFromQuad = (quad, property, dataset, usedDataset) => (dispatch) => {
   const uri = quad.object.value
   usedDataset.add(quad)
   const labelQuads = dataset.match(quad.object, rdf.namedNode('http://www.w3.org/2000/01/rdf-schema#label')).toArray()
@@ -159,32 +160,33 @@ const addUriFromQuad = (quad, propertyKey, dataset, usedDataset) => (dispatch) =
     usedDataset.add(labelQuads[0])
   }
 
-  return dispatch(addUriValue(propertyKey, uri, label))
+  return dispatch(addUriValue(property, uri, label))
 }
 
-const addLiteralValue = (propertyKey, literal, lang) => (dispatch) => {
-  const value = newLiteralValue(propertyKey, literal, lang)
+const addLiteralValue = (property, literal, lang) => (dispatch) => {
+  const value = newLiteralValue(property.key, property.resourceKey, literal, lang)
   dispatch(addValueAction(value))
   return value
 }
 
-const addUriValue = (propertyKey, uri, label) => (dispatch) => {
-  const value = newUriValue(propertyKey, uri, label)
+const addUriValue = (property, uri, label) => (dispatch) => {
+  const value = newUriValue(property.key, property.resourceKey, uri, label)
   dispatch(addValueAction(value))
   return value
 }
 
-export const addValueSubject = (propertyKey, subjectKey, siblingValueKey) => (dispatch) => {
-  const value = newValueSubject(propertyKey, subjectKey)
+export const addValueSubject = (property, subjectKey, siblingValueKey) => (dispatch) => {
+  const value = newValueSubject(property.key, property.resourceKey, subjectKey)
   dispatch(addValueAction(value, siblingValueKey))
   return value
 }
 
-const addProperty = (subjectKey, propertyTemplate, noDefaults) => (dispatch) => {
+const addProperty = (subject, propertyTemplate, noDefaults) => (dispatch) => {
   const key = shortid.generate()
   const property = {
     key,
-    subjectKey,
+    subjectKey: subject.key,
+    resourceKey: subject.resourceKey,
     propertyTemplateKey: propertyTemplate.key,
     propertyTemplate,
     valueKeys: null,
@@ -194,9 +196,9 @@ const addProperty = (subjectKey, propertyTemplate, noDefaults) => (dispatch) => 
   if (!noDefaults && !_.isEmpty(property.propertyTemplate.defaults)) {
     const values = property.propertyTemplate.defaults.map((defaultValue) => {
       if (property.propertyTemplate.type === 'uri') {
-        return dispatch(addUriValue(key, defaultValue.uri, defaultValue.label))
+        return dispatch(addUriValue(property, defaultValue.uri, defaultValue.label))
       }
-      return dispatch(addLiteralValue(key, defaultValue.literal, defaultValue.lang))
+      return dispatch(addLiteralValue(property, defaultValue.literal, defaultValue.lang))
     })
     property.values = values
     property.valueKeys = values.map((value) => value.key)

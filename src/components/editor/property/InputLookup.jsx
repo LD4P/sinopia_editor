@@ -93,9 +93,9 @@ const InputLookup = (props) => {
     } else {
       const values = items.map((item) => {
         if (item.uri) {
-          return newUriValue(props.property.key, item.uri, item.label)
+          return newUriValue(props.property.key, props.property.resourceKey, item.uri, item.label)
         }
-        return newLiteralValue(props.property.key, item.content, null)
+        return newLiteralValue(props.property.key, props.property.resourceKey, item.content, null)
       })
       dispatch(replaceValues(values))
     }

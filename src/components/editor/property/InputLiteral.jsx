@@ -35,7 +35,7 @@ const InputLiteral = (props) => {
       currentcontent = inputLiteralRef.current.value
     }
 
-    props.addValue(newLiteralValue(props.property.key, currentcontent, lang))
+    props.addValue(newLiteralValue(props.property.key, props.property.resourceKey, currentcontent, lang))
     props.setLiteralContent(props.property.key, '')
     setLang(defaultLanguageId)
   }
