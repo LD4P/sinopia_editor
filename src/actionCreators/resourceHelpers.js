@@ -23,7 +23,8 @@ export const addResourceFromDataset = (dataset, uri, resourceTemplateId, errorKe
   const usedDataset = rdf.dataset()
   usedDataset.addAll(dataset.match(subjectTerm, rdf.namedNode('http://sinopia.io/vocabulary/hasResourceTemplate')))
   usedDataset.addAll(dataset.match(subjectTerm, rdf.namedNode('http://www.w3.org/1999/02/22-rdf-syntax-ns#type')))
-  return Promise.all([dispatch(recursiveResourceFromDataset(subjectTerm, newUri, resourceTemplateId, dataset, usedDataset)), Promise.resolve(usedDataset)])
+  return Promise.all([dispatch(recursiveResourceFromDataset(subjectTerm, newUri, resourceTemplateId, dataset, usedDataset, errorKey)),
+    Promise.resolve(usedDataset)])
 }
 
 // In the early days, resources were persisted to Trellis with a relative URI (<>) as N-Triples.

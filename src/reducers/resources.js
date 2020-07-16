@@ -108,6 +108,7 @@ export const addValue = (state, action) => {
       property.valueKeys = [...valueKeys, origValue.key]
     }
   }
+  property.show = true
   property.errors = errorsForProperty(state, property)
 
   return newState

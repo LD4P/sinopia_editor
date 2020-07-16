@@ -21,14 +21,14 @@ describe('<ImportFileZone />', () => {
       let template
 
       it('gets the schemaUrl from the resource-template', () => {
-        template = require('../../__fixtures__/lcc_v0.2.0.json')
+        template = require('../../__template_fixtures__/lcc_v0.2.0.json')
         schemaUrl = wrapper.instance().schemaUrl(template)
         expect(schemaUrl).toEqual('https://ld4p.github.io/sinopia/schemas/0.2.0/resource-template.json')
       })
 
       it('resolves the passing RT validation, returning undefined', async () => {
         expect.assertions(1)
-        template = require('../../__fixtures__/lcc_v0.2.0.json')
+        template = require('../../__template_fixtures__/lcc_v0.2.0.json')
         schemaUrl = wrapper.instance().schemaUrl(template)
         const resolution = await wrapper.instance().promiseTemplateValidated(template, schemaUrl)
 
@@ -36,14 +36,14 @@ describe('<ImportFileZone />', () => {
       })
 
       it('gets the schemaUrl from the profile', () => {
-        template = require('../../__fixtures__/place_profile_v0.2.0.json')
+        template = require('../../__template_fixtures__/place_profile_v0.2.0.json')
         schemaUrl = wrapper.instance().schemaUrl(template)
         expect(schemaUrl).toEqual('https://ld4p.github.io/sinopia/schemas/0.2.0/profile.json')
       })
 
       it('resolves the passing profile validation, returning undefined', async () => {
         expect.assertions(1)
-        template = require('../../__fixtures__/place_profile_v0.2.0.json')
+        template = require('../../__template_fixtures__/place_profile_v0.2.0.json')
         schemaUrl = wrapper.instance().schemaUrl(template)
         const resolution = await wrapper.instance().promiseTemplateValidated(template, schemaUrl)
 
@@ -57,14 +57,14 @@ describe('<ImportFileZone />', () => {
       let template
 
       it('gets the schemaUrl from the resource-template', () => {
-        template = require('../../__fixtures__/lcc_no_schema_specified.json')
+        template = require('../../__template_fixtures__/lcc_no_schema_specified.json')
         schemaUrl = wrapper.instance().schemaUrl(template)
         expect(schemaUrl).toEqual(`https://ld4p.github.io/sinopia/schemas/${Config.defaultProfileSchemaVersion}/resource-template.json`)
       })
 
       it('resolves the passing RT validation, returning undefined', async () => {
         expect.assertions(1)
-        template = require('../../__fixtures__/lcc_no_schema_specified.json')
+        template = require('../../__template_fixtures__/lcc_no_schema_specified.json')
         schemaUrl = wrapper.instance().schemaUrl(template)
         const resolution = await wrapper.instance().promiseTemplateValidated(template, schemaUrl)
 
@@ -72,14 +72,14 @@ describe('<ImportFileZone />', () => {
       })
 
       it('gets the schemaUrl from the profile', () => {
-        template = require('../../__fixtures__/place_profile_no_schema_specified.json')
+        template = require('../../__template_fixtures__/place_profile_no_schema_specified.json')
         schemaUrl = wrapper.instance().schemaUrl(template)
         expect(schemaUrl).toEqual(`https://ld4p.github.io/sinopia/schemas/${Config.defaultProfileSchemaVersion}/profile.json`)
       })
 
       it('resolves the passing profile validation, returning undefined', async () => {
         expect.assertions(1)
-        template = require('../../__fixtures__/place_profile_no_schema_specified.json')
+        template = require('../../__template_fixtures__/place_profile_no_schema_specified.json')
         schemaUrl = wrapper.instance().schemaUrl(template)
         const resolution = await wrapper.instance().promiseTemplateValidated(template, schemaUrl)
 
@@ -94,13 +94,13 @@ describe('<ImportFileZone />', () => {
     let template
 
     it('gets the schemaUrl from the resource-template', () => {
-      template = require('../../__fixtures__/lcc_v0.2.0_invalid.json')
+      template = require('../../__template_fixtures__/lcc_v0.2.0_invalid.json')
       schemaUrl = wrapper.instance().schemaUrl(template)
       expect(schemaUrl).toEqual('https://ld4p.github.io/sinopia/schemas/0.2.0/resource-template.json')
     })
 
     it('displays an error message when missing required property', () => {
-      template = require('../../__fixtures__/lcc_v0.2.0_invalid.json')
+      template = require('../../__template_fixtures__/lcc_v0.2.0_invalid.json')
       schemaUrl = wrapper.instance().schemaUrl(template)
       return wrapper.instance().promiseTemplateValidated(template, schemaUrl).catch((err) => {
         return expect(err.toString()).toMatch('should have required property')
@@ -108,13 +108,13 @@ describe('<ImportFileZone />', () => {
     })
 
     it('gets the schemaUrl from the resource-template', () => {
-      template = require('../../__fixtures__/lcc_v0.2.0_bad_id.json')
+      template = require('../../__template_fixtures__/lcc_v0.2.0_bad_id.json')
       schemaUrl = wrapper.instance().schemaUrl(template)
       expect(schemaUrl).toEqual('https://ld4p.github.io/sinopia/schemas/0.2.0/resource-template.json')
     })
 
     it('displays an error message when the id is invalid', () => {
-      template = require('../../__fixtures__/lcc_v0.2.0_bad_id.json')
+      template = require('../../__template_fixtures__/lcc_v0.2.0_bad_id.json')
       schemaUrl = wrapper.instance().schemaUrl(template)
       return wrapper.instance().promiseTemplateValidated(template, schemaUrl).catch((err) => {
         return expect(err.toString()).toMatch('should match pattern')
@@ -128,7 +128,7 @@ describe('<ImportFileZone />', () => {
     let template
 
     it('gets the schemaUrl from the resource-template', () => {
-      template = require('../../__fixtures__/edition_bad_schema.json')
+      template = require('../../__template_fixtures__/edition_bad_schema.json')
       schemaUrl = wrapper.instance().schemaUrl(template)
       expect(schemaUrl).toEqual('https://ld4p.github.io/sinopia/schemas/not-there.json')
     })

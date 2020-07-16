@@ -38,6 +38,12 @@ module.exports = {
         ],
       },
       {
+        test: /\.n3$/,
+        use: [
+          'raw-loader',
+        ],
+      },
+      {
         parser: {
           amd: false,
         },
