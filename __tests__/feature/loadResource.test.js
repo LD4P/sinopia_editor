@@ -46,7 +46,7 @@ describe('loading saved resource', () => {
 
       // Headings
       screen.getByRole('heading', { name: 'Uber template1' })
-      screen.getByRole('heading', { name: /Uber template1, property1/ })
+      screen.getByRole('heading', { name: /Uber template1, property1 / })
       expect(screen.getAllByRole('heading', { name: 'Uber template2' })).toHaveLength(2)
       screen.getByRole('heading', { name: 'Uber template3' })
       // Length is the heading and the value.
@@ -90,7 +90,7 @@ describe('loading saved resource', () => {
 
       // Error displayed and remain on search page.
       screen.getByLabelText('Query')
-      await screen.findByText(/Validation error/)
+      await screen.findByText(/Repeated property templates/)
     })
   })
 })

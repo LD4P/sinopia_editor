@@ -15,7 +15,9 @@ import {
 import { newLiteralValue, newUriValue, newValueSubject } from 'utilities/valueFactory'
 import { removeValue } from './resources'
 
-// These should only be used in 'actionCreators/resources'
+/**
+ * Helper methods that should only be used in 'actionCreators/resources'
+ */
 
 export const addResourceFromDataset = (dataset, uri, resourceTemplateId, errorKey, asNewResource) => (dispatch) => {
   const subjectTerm = rdf.namedNode(chooseURI(dataset, uri))
@@ -35,16 +37,16 @@ export const addResourceFromDataset = (dataset, uri, resourceTemplateId, errorKe
 const chooseURI = (dataset, uri) => (dataset.match(rdf.namedNode(uri)).size > 0 ? uri : '')
 
 export const addEmptyResource = (resourceTemplateId, errorKey) => (dispatch) => dispatch(addSubject(null, resourceTemplateId, null, errorKey))
-  .then(([subject, , propertyTemplates]) => {
-    const properties = dispatch(addPropertiesFromTemplates(subject, propertyTemplates, false))
+  .then((subject) => {
+    const properties = dispatch(addPropertiesFromTemplates(subject, false))
     subject.properties = properties
     return subject
   })
 
 const recursiveResourceFromDataset = (subjectTerm, uri, resourceTemplateId, resourceKey, dataset,
   usedDataset, errorKey) => (dispatch) => dispatch(addSubject(uri, resourceTemplateId, resourceKey, errorKey))
-  .then(([subject, , propertyTemplates]) => {
-    const properties = dispatch(addPropertiesFromTemplates(subject, propertyTemplates, true))
+  .then((subject) => {
+    const properties = dispatch(addPropertiesFromTemplates(subject, true))
     return Promise.all(
       properties.map((property) => dispatch(addValuesFromDataset(subjectTerm, property, property.propertyTemplate, dataset, usedDataset, errorKey))
         .then((values) => {
@@ -65,7 +67,7 @@ const recursiveResourceFromDataset = (subjectTerm, uri, resourceTemplateId, reso
 export const addSubject = (uri, resourceTemplateId, resourceKey, errorKey) => (dispatch) => {
   const key = shortid.generate()
   return dispatch(loadResourceTemplate(resourceTemplateId, errorKey))
-    .then(([subjectTemplate, propertyTemplates]) => {
+    .then((subjectTemplate) => {
       // This handles if there was an error fetching resource template
       if (!subjectTemplate) {
         const err = new Error(`Unable to load ${resourceTemplateId}`)
@@ -84,13 +86,14 @@ export const addSubject = (uri, resourceTemplateId, resourceKey, errorKey) => (d
       }
       // Add the subject
       dispatch(addSubjectAction(subject))
-      return [subject, subjectTemplate, propertyTemplates]
+      return subject
     })
 }
 
-export const addPropertiesFromTemplates = (subject,
-  propertyTemplates,
-  noDefaults) => (dispatch) => propertyTemplates.map((propertyTemplate) => dispatch(addProperty(subject, propertyTemplate, noDefaults)))
+export const addPropertiesFromTemplates = (subject, noDefaults) => (dispatch) => subject.subjectTemplate.propertyTemplates.map((propertyTemplate) => {
+  const property = dispatch(addProperty(subject, propertyTemplate, noDefaults))
+  return property
+})
 
 const addValuesFromDataset = (subjectTerm, property, propertyTemplate, dataset, usedDataset, errorKey) => (dispatch) => {
   // All quads for this property
@@ -142,7 +145,7 @@ const addNestedResourceFromQuad = (quad, property, propertyTemplate, dataset, us
 const selectResourceTemplateId = (propertyTemplate, resourceURI, errorKey) => (dispatch) => Promise.all(
   // The keys are resource template ids. They may or may not be in state
   propertyTemplate.valueSubjectTemplateKeys.map(async (resourceTemplateId) => dispatch(loadResourceTemplate(resourceTemplateId, errorKey))
-    .then(([subjectTemplate]) => (subjectTemplate.class === resourceURI ? resourceTemplateId : undefined))),
+    .then((subjectTemplate) => (subjectTemplate.class === resourceURI ? resourceTemplateId : undefined))),
 )
 
 const addLiteralFromQuad = (quad, property, usedDataset) => (dispatch) => {

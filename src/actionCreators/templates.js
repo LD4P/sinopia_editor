@@ -1,44 +1,22 @@
 // Copyright 2019 Stanford University see LICENSE for license
-/* eslint max-params: ["warn", 4] */
-
 import { addError } from 'actions/errors'
-import { addTemplates } from 'actions/templates'
 import { clearTemplateMessages, setTemplateMessages } from 'actions/messages'
 import { clearModalMessages, addModalMessage, showModal } from 'actions/modals'
-import { validateResourceTemplate } from 'ResourceTemplateValidator'
-import { createResourceTemplate, getResourceTemplate, updateResourceTemplate } from 'sinopiaServer'
+import { createResourceTemplate, updateResourceTemplate } from 'sinopiaServer'
 import { selectCurrentUser } from 'selectors/authenticate'
-import _ from 'lodash'
-import { selectSubjectAndPropertyTemplates } from 'selectors/templates'
-import { buildTemplates } from 'TemplatesBuilder'
+import { loadResourceTemplateWithoutValidation } from './templateHelpers'
+import { validateTemplates } from './templateValidationHelpers'
 
 /**
  * A thunk that gets a resource template from state or the server.
- * @return [Object, [Object]] subject template, propertyTemplates
+ * @return [Object] subject template
  */
-export const loadResourceTemplate = (resourceTemplateId, errorKey) => (dispatch, getState) => {
-  // Try to get it from state.
-  let [subjectTemplate, propertyTemplates] = selectSubjectAndPropertyTemplates(getState(), resourceTemplateId)
-  if (subjectTemplate) return Promise.resolve([subjectTemplate, propertyTemplates])
-
-  return getResourceTemplate(resourceTemplateId, 'ld4p').then((response) => {
-    // If resource template loads, then validate.
-    const resourceTemplate = response.response.body
-    return validateResourceTemplate(resourceTemplate).then((errors) => {
-      if (_.isEmpty(errors)) {
-        [subjectTemplate, propertyTemplates] = buildTemplates(resourceTemplate)
-        dispatch(addTemplates(subjectTemplate, propertyTemplates))
-        return [subjectTemplate, propertyTemplates]
-      }
-      errors.forEach((error) => dispatch(addError(errorKey, error)))
-      return [null, []]
-    }).catch((err) => { throw err })
-  }).catch((err) => {
-    console.error(err)
+export const loadResourceTemplate = (resourceTemplateId, errorKey) => (dispatch) => dispatch(loadResourceTemplateWithoutValidation(resourceTemplateId))
+  .then((subjectTemplate) => dispatch(validateTemplates(subjectTemplate, errorKey))
+    .then((isValid) => (isValid ? subjectTemplate : null))).catch((err) => {
     dispatch(addError(errorKey, `Error retrieving ${resourceTemplateId}: ${err.toString()}`))
-    return Promise.resolve([null, []])
+    return null
   })
-}
 
 // Resource templates are set via ImportFileZone
 export const saveNewProfileOrResourceTemplate = (content, group) => (dispatch, getState) => {
