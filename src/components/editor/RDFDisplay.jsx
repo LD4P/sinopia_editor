@@ -30,6 +30,7 @@ const RDFDisplay = (props) => {
     })
   }, [dataset, format])
 
+
   if (error) {
     return (<Alert text={error} />)
   }
@@ -62,6 +63,9 @@ const RDFDisplay = (props) => {
         </tbody>
       </table>
     )
+  } else if (format === 'marc') {
+    props.marc.marc21()
+    body = (<pre style={{ padding: '5px' }}>{ props.marc.marcRecord.toString()}</pre>)
   } else {
     body = (<pre style={{ padding: '5px' }}>{ formattedRDF }</pre>)
   }
@@ -77,6 +81,7 @@ const RDFDisplay = (props) => {
           <option value="n-triples">N-Triples</option>
           <option value="table">Table</option>
           <option value="turtle">Turtle</option>
+          <option value="marc">MARC 21</option>
         </select>
       </form>
       { body }
@@ -87,6 +92,7 @@ const RDFDisplay = (props) => {
 RDFDisplay.propTypes = {
   rdf: PropTypes.string,
   id: PropTypes.string,
+  marc: PropTypes.object,
 }
 
 export default RDFDisplay

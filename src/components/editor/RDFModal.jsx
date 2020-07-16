@@ -10,6 +10,7 @@ import ModalWrapper, { useDisplayStyle, useModalCss } from '../ModalWrapper'
 import SaveAndPublishButton from './actions/SaveAndPublishButton'
 import RDFDisplay from './RDFDisplay'
 import { selectFullSubject, selectCurrentResourceKey } from 'selectors/resources'
+import MarcBuilder from 'MarcBuilder'
 
 const RDFModal = (props) => {
   const dispatch = useDispatch()
@@ -42,7 +43,7 @@ const RDFModal = (props) => {
               </div>
             </div>
             { props.show
-              && <RDFDisplay rdf={props.rdf()} />
+              && <RDFDisplay rdf={props.rdf()} marc={props.marc()} />
             }
           </div>
         </div>
@@ -60,6 +61,8 @@ RDFModal.propTypes = {
 const mapStateToProps = (state) => ({
   show: selectModalType(state) === 'RDFModal',
   rdf: () => new GraphBuilder(selectFullSubject(state, selectCurrentResourceKey(state))).graph.toCanonical(),
+  marc: () => new MarcBuilder(state),
 })
+
 
 export default connect(mapStateToProps, null)(RDFModal)

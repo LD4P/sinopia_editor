@@ -79,5 +79,23 @@
         "defaults": []
       }
     }
+  ],
+  "marcTemplates": [
+    { "marcTag": "245",
+      "indicator0": "",
+      "indicator1": "",
+      "repeatable": "false",
+      "subfields": [
+        { "code": "a",
+          "propertyURI": "http://id.loc.gov/ontologies/bibframe/mainTitle",
+          "repeatable": "false"
+        },
+        {
+          "code": "n",
+          "propertyURI": "http://id.loc.gov/ontologies/bibframe/partNumber",
+          "repeatable": "true"
+        }
+      ]
+    }
   ]
 }
