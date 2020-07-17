@@ -96,7 +96,7 @@ export const getSearchResultsWithFacets = async (query, options = {}) => {
 
 const hitsToResult = (hits) => (
   {
-    totalHits: hits.total,
+    totalHits: hits.total.value,
     results: hits.hits.map((row) => ({
       uri: row._source.uri,
       label: row._source.label,
@@ -159,7 +159,7 @@ export const getTemplateSearchResults = async (query, options = {}) => {
         }
       }
       return {
-        totalHits: json.hits.total,
+        totalHits: json.hits.total.value,
         results: json.hits.hits.map((row) => row._source),
         error: undefined,
       }
