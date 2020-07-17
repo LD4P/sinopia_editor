@@ -23,7 +23,7 @@ export const addResourceFromDataset = (dataset, uri, resourceTemplateId, errorKe
   const usedDataset = rdf.dataset()
   usedDataset.addAll(dataset.match(subjectTerm, rdf.namedNode('http://sinopia.io/vocabulary/hasResourceTemplate')))
   usedDataset.addAll(dataset.match(subjectTerm, rdf.namedNode('http://www.w3.org/1999/02/22-rdf-syntax-ns#type')))
-  return Promise.all([dispatch(recursiveResourceFromDataset(subjectTerm, newUri, resourceTemplateId, dataset, usedDataset, errorKey)),
+  return Promise.all([dispatch(recursiveResourceFromDataset(subjectTerm, newUri, resourceTemplateId, null, dataset, usedDataset, errorKey)),
     Promise.resolve(usedDataset)])
 }
 
@@ -42,11 +42,11 @@ export const addEmptyResource = (resourceTemplateId, errorKey) => (dispatch) => 
   })
 
 const recursiveResourceFromDataset = (subjectTerm, uri, resourceTemplateId, resourceKey, dataset,
-  usedDataset, errorKey) => (dispatch) => dispatch(addSubject(uri, resourceTemplateId, errorKey))
+  usedDataset, errorKey) => (dispatch) => dispatch(addSubject(uri, resourceTemplateId, resourceKey, errorKey))
   .then(([subject, , propertyTemplates]) => {
     const properties = dispatch(addPropertiesFromTemplates(subject, propertyTemplates, true))
     return Promise.all(
-      properties.map((property) => dispatch(addValuesFromDataset(subjectTerm, property, property.propertyTemplate, resourceKey, dataset, usedDataset, errorKey))
+      properties.map((property) => dispatch(addValuesFromDataset(subjectTerm, property, property.propertyTemplate, dataset, usedDataset, errorKey))
         .then((values) => {
           const compactValues = _.compact(values)
           property.values = compactValues
@@ -88,10 +88,9 @@ export const addSubject = (uri, resourceTemplateId, resourceKey, errorKey) => (d
     })
 }
 
-export const addPropertiesFromTemplates = (subject, propertyTemplates, noDefaults) => (dispatch) => propertyTemplates.map((propertyTemplate) => {
-  const property = dispatch(addProperty(subject, propertyTemplate, noDefaults))
-  return property
-})
+export const addPropertiesFromTemplates = (subject,
+  propertyTemplates,
+  noDefaults) => (dispatch) => propertyTemplates.map((propertyTemplate) => dispatch(addProperty(subject, propertyTemplate, noDefaults)))
 
 const addValuesFromDataset = (subjectTerm, property, propertyTemplate, dataset, usedDataset, errorKey) => (dispatch) => {
   // All quads for this property
