@@ -54,8 +54,8 @@
   },
   "license": "Apache-2.0",
   "dependencies": {
-    "@fortawesome/fontawesome-svg-core": "^1.2.29",
-    "@fortawesome/free-solid-svg-icons": "^5.13.1",
+    "@fortawesome/fontawesome-svg-core": "^1.2.30",
+    "@fortawesome/free-solid-svg-icons": "^5.14.0",
     "@fortawesome/react-fontawesome": "^0.1.11",
     "@honeybadger-io/react": "0.0.6",
     "ajv": "^6.12.2",
@@ -94,7 +94,7 @@
     "set-value": "^3.0.2",
     "shortid": "^2.2.14",
     "sinopia_server": "^3.0.0-beta4",
-    "swagger-client": "^3.10.10",
+    "swagger-client": "^3.10.12",
     "x2js": "^3.2.6"
   },
   "devDependencies": {
@@ -135,7 +135,7 @@
     "isomorphic-fetch": "^2.2.1",
     "jest": "^24.8.0",
     "jest-junit": "^10.0.0",
-    "jest-localstorage-mock": "^2.4.2",
+    "jest-localstorage-mock": "^2.4.3",
     "jest-prop-type-error": "^1.1.0",
     "jsdom": "15.2.1",
     "jsdom-global": "3.0.2",
