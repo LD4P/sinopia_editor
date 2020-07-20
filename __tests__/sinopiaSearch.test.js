@@ -15,7 +15,7 @@ describe('getSearchResults', () => {
       failed: 0,
     },
     hits: {
-      total: 2,
+      total: { value: 2 },
       max_score: 0.2876821,
       hits: [{
         _index: 'sinopia_resources',
@@ -186,7 +186,7 @@ describe('getSearchResultsWithFacets', () => {
       failed: 0,
     },
     hits: {
-      total: 2,
+      total: { value: 2 },
       max_score: 1,
       hits: [
         {
@@ -380,7 +380,7 @@ describe('getLookupResults', () => {
       failed: 0,
     },
     hits: {
-      total: 0,
+      total: { value: 0 },
       max_score: null,
       hits: [],
     },
@@ -396,7 +396,7 @@ describe('getLookupResults', () => {
       failed: 0,
     },
     hits: {
-      total: 1,
+      total: { value: 1 },
       max_score: 0.53412557,
       hits: [
         {
