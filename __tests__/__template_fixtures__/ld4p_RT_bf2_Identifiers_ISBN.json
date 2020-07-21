@@ -1,0 +1,92 @@
+{
+  "propertyTemplates": [
+    {
+      "mandatory": "false",
+      "repeatable": "false",
+      "type": "literal",
+      "propertyURI": "http://www.w3.org/1999/02/22-rdf-syntax-ns#value",
+      "propertyLabel": "ISBN",
+      "resourceTemplates": [],
+      "valueConstraint": {
+        "valueTemplateRefs": [],
+        "useValuesFrom": [],
+        "defaults": []
+      }
+    },
+    {
+      "mandatory": "false",
+      "repeatable": "true",
+      "type": "literal",
+      "propertyURI": "http://id.loc.gov/ontologies/bibframe/qualifier",
+      "propertyLabel": "Qualifier",
+      "resourceTemplates": [],
+      "valueConstraint": {
+        "valueTemplateRefs": [],
+        "useValuesFrom": [],
+        "defaults": []
+      }
+    },
+    {
+      "mandatory": "false",
+      "repeatable": "true",
+      "type": "resource",
+      "valueConstraint": {
+        "valueTemplateRefs": [
+          "ld4p:RT:bf2:Identifiers:Note"
+        ],
+        "useValuesFrom": [],
+        "defaults": []
+      },
+      "propertyURI": "http://id.loc.gov/ontologies/bibframe/note",
+      "propertyLabel": "Note",
+      "resourceTemplates": []
+    },
+    {
+      "mandatory": "false",
+      "repeatable": "true",
+      "type": "lookup",
+      "valueConstraint": {
+        "useValuesFrom": [
+          "https://id.loc.gov/vocabulary/mstatus"
+        ],
+        "valueDataType": {
+          "dataTypeURI": "http://id.loc.gov/ontologies/bibframe/Status"
+        },
+        "valueTemplateRefs": [],
+        "defaults": []
+      },
+      "propertyURI": "http://id.loc.gov/ontologies/bibframe/status",
+      "propertyLabel": "Incorrect, Invalid or Canceled?",
+      "resourceTemplates": []
+    }
+  ],
+  "marcTemplates": [
+    { "marcTag": "020",
+      "indicator0": "",
+      "indicator1": "",
+      "repeatable": "false",
+      "subfields": [
+        { "code": "a",
+          "propertyURI": "http://www.w3.org/1999/02/22-rdf-syntax-ns#value",
+          "repeatable": "false"
+        },
+        {
+          "code": "q",
+          "propertyURI": "http://id.loc.gov/ontologies/bibframe/qualifier",
+          "repeatable": "true"
+        },
+        {
+          "code": "z",
+          "propertyURI": "http://id.loc.gov/ontologies/bibframe/status",
+          "repeatable": "true"
+        }
+      ]
+    }
+  ],
+  "id": "ld4p:RT:bf2:Identifiers:ISBN",
+  "resourceURI": "http://id.loc.gov/ontologies/bibframe/Isbn",
+  "resourceLabel": "ISBN",
+  "author": "LD4P",
+  "date": "2019-08-19",
+  "schema": "https://ld4p.github.io/sinopia/schemas/0.0.9/resource-template.json"
+}

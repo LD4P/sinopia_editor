@@ -3,9 +3,11 @@ import { getTagNameForPropertyTemplate } from 'utilities/propertyTemplates'
 import { findAuthorityConfigs } from 'utilities/authorityConfig'
 
 export const buildTemplates = (resourceTemplate) => {
-  const subjectTemplate = buildSubjectTemplate(resourceTemplate)
-  const propertyTemplates = buildPropertyTemplates(resourceTemplate.id, resourceTemplate.propertyTemplates)
+  let subjectTemplate = buildSubjectTemplate(resourceTemplate)
+  let propertyTemplates = buildPropertyTemplates(resourceTemplate.id, resourceTemplate.propertyTemplates)
   subjectTemplate.propertyTemplateKeys = propertyTemplateKeysFor(propertyTemplates)
+  propertyTemplates = buildMarcSubfields(resourceTemplate, propertyTemplates)
+  subjectTemplate = buildMarcTemplates(resourceTemplate, subjectTemplate)
   return [subjectTemplate, propertyTemplates]
 }
 
@@ -90,6 +92,44 @@ const buildAuthorities = (propertyTemplate) => {
     subauthority: authorityConfig.subauthority,
     nonldLookup: authorityConfig.nonldLookup || false,
   }))
+}
+
+const buildMarcSubfields = (resourceTemplate, propertyTemplates) => {
+  resourceTemplate.marcTemplates?.forEach((marcTemplate) => {
+    marcTemplate.subfields?.forEach((subfield) => {
+      const propertyKey = `${resourceTemplate.id} > ${subfield.propertyURI}`
+      propertyTemplates.forEach((propertyTemplate) => {
+        if (propertyTemplate.key === propertyKey) {
+          const propertySubfield = {
+            marcTag: marcTemplate.marcTag,
+            code: subfield.code,
+            repeatable: subfield.repeatable
+          }
+          if ('valueSource' in subfield) {
+            propertySubfield['valueSource'] = subfield.valueSource
+          }
+          if ('marcSubfields' in propertyTemplate) {
+            propertyTemplate['marcSubfields'].push(propertySubfield)
+          } else {
+            propertyTemplate['marcSubfields'] = [propertySubfield]
+          }
+        }
+      })
+    })
+  })
+  return propertyTemplates
+}
+
+const buildMarcTemplates = (resourceTemplate, subjectTemplate) => {
+  resourceTemplate.marcTemplates?.forEach((marcTemplate) => {
+    delete marcTemplate.subfields
+    if ('marcTemplates' in subjectTemplate) {
+      subjectTemplate['marcTemplates'].push(marcTemplate)
+    } else {
+      subjectTemplate['marcTemplates'] = [marcTemplate]
+    }
+  })
+  return subjectTemplate
 }
 
 // To avoid have to export buildTemplates as default

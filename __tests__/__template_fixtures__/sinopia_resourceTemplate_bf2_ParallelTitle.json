@@ -31,6 +31,29 @@
       "remark": "http://access.rdatoolkit.org/2.17.2.html"
     }
   ],
+  "marcTemplates": [
+    { "marcTag": "246",
+      "indicator0": "",
+      "indicator1": "",
+      "repeatable": "false",
+      "subfields": [
+        { "code": "a",
+          "propertyURI": "http://id.loc.gov/ontologies/bibframe/mainTitle",
+          "repeatable": "false"
+        },
+        {
+          "code": "b",
+          "propertyURI": "http://id.loc.gov/ontologies/bibframe/subtitle",
+          "repeatable": "true"
+        },
+        {
+          "code": "n",
+          "propertyURI": "http://id.loc.gov/ontologies/bibframe/partNumber",
+          "repeatable": "true"
+        }
+      ]
+    }
+  ],
   "id": "sinopia:resourceTemplate:bf2:ParallelTitle",
   "resourceURI": "http://id.loc.gov/ontologies/bibframe/ParallelTitle",
   "resourceLabel": "Parallel Title",

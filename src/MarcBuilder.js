@@ -18,112 +18,138 @@ class MarcBuilder {
   /**
    * @return {Record} a MARC21 record that represents the data in the state
    */
-  async marc21() {
-    //  await Object.keys(this.entities.subjectTemplates).map((subjectKey) => {
-    //   getResourceTemplate(subjectKey, 'ld4p').then((response) => {
-    //     const resourceTemplate = response.response.body
-    //     if ('marcTemplates' in resourceTemplate) {
-    //       this.generateMarc(subjectKey, resourceTemplate.marcTemplates)
-    //     }
-    //   })
-    // })
+  get marc21() {
     Object.values(this.entities.subjects).forEach((subject) => {
-      console.log(`${subject} ${subject.subjectTemplateKey}`)
+      this.generateMarc(subject)
     })
     return this.marcRecord
   }
 
   /**
-   * @param (Object) resource from state
+   * @param (Object) subject from state
    */
-  generateMarc(subjectKey, marcTemplates) {
-    marcTemplates.forEach((marcMap) => {
-      if (marcMap.marcTag === 'LDR') {
-        this.updateLeader(marcMap)
-      } else if (parseInt(marcMap.marcTag, 10) < 10) {
-
+  generateMarc(subject) {
+    const subjectTemplate = this.entities.subjectTemplates[subject.subjectTemplateKey]
+    subjectTemplate.marcTemplates?.forEach((marcTemplate) => {
+      if (marcTemplate.marcTag === 'LDR') {
+        this.updateLeader(marcTemplate)
+      } else if (parseInt(marcTemplate.marcTag, 10) < 10) {
+        this.makeControlField(subject, marcTemplate)
       } else {
-        this.makeDataField(subjectKey, marcMap)
+        this.makeDataField(subject, marcTemplate)
       }
     })
-    console.log(this.marcRecord.toString())
-    // Object.keys(resource).forEach((rtKey) => {
-    //   if (rtKey in this.resourceTemplates) {
-    //     this.makeFields(this.resourceTemplates[rtKey], resource)
-    //   } else {
-    //     Object.keys(resource[rtKey]).forEach((key) => {
-    //       const property = resource[rtKey][key]
-    //       if (key in this.resourceTemplates) this.makeFields(this.resourceTemplates[key], property)
-    //       if (!(_.isEmpty(property) || typeof property === 'string' || 'items' in property)) {
-    //         return this.generateMarc(property)
-    //       }
-    //     })
-    //   }
-    // })
   }
 
-  makeControlField(resource, mapping) {
-    const tag = mapping.marcTag
-    if (this.marcRecord.get(mapping.marcTag) && mapping.repeatable === 'false') return
-    const data = {}
-    if ('constant' in mapping) {
-      const value = this.setValueAt(' ', mapping.position, mapping.constant)
-      data.value = value
-    }
-    if ('conversion' in mapping) {
-      const regEx = new RegExp(mapping.conversion)
-      data.value = regEx.replace(data.value)
-    }
-    console.log(`Before control field `, data)
-    this.marcRecord.insertControlField({ tag, ...data })
-  }
-
-  makeDataField(subjectTemplateKey, mapping) {
-    const tag = mapping.marcTag
-    if (this.marcRecord.get(tag).length > 0 && mapping.repeatable === 'false') return
-    const data = {
-      ind1: mapping.indicator0,
-      ind2: mapping.indicator1,
-      subfields: [],
-    }
-    const subjects = Object.values(this.entities.subjects).filter((value) => value.subjectTemplateKey === subjectTemplateKey)
-    mapping.subfields.forEach((subfield) => {
-      const subfieldPropertyKey = `${subjectTemplateKey} > ${subfield.propertyURI}`
-      subjects.forEach((subject) => {
-        const properties = subject.propertyKeys.reduce((propKey) => {
-          const prop = this.entities.properties[propKey]
-          if (prop.propertyTemplateKey === subfieldPropertyKey) return prop
-        })
-        console.log(`Properties are `, properties)
-      })
-      // const property = resource[subfield.propertyURI] || {}
-      // if (Object.keys(property).length < 1) return
-      // if (!('items' in property)) {
-      //   console.log('ERROR: Need to handle embedded resource templates')
-      //   return
-      // }
-      // const itemValues = Object.values(property.items)
-      // if (itemValues.length < 1) return
-      // if (subfield.repeatable === 'true') {
-      //   itemValues.forEach((item) => {
-      //     data.subfields.push({ code: subfield.code, value: this.conversion(subfield, item.content || item.label) })
-      //   })
-      // } else {
-      //   // Use the first value in items
-      //   data.subfields.push({ code: subfield.code, value: this.conversion(subfield, itemValues[0].content || itemValues[0].label) })
-      // }
+  makeControlField(subject, marcTemplate) {
+    const controlField = { tag: marcTemplate.marcTag, value: [] }
+    const value = this.getControlFieldValue(subject, marcTemplate)
+    marcTemplate.positions?.forEach((position) => {
+      const positionAt = parseInt(position.at, 10)
+      if (controlField.value.length < 1) {
+        controlField.value = new Array(positionAt).fill('')
+      }
+      if ('constant' in position) {
+        controlField.value[positionAt] = position.constant
+      } else if(!_.isEmpty(value)) {
+        controlField.value[positionAt] = value[parseInt(position.source, 10)]
+      }
     })
-    // if (data.subfields.length < 1) return
-    this.marcRecord.insertField({ tag, ...data })
+    const existingFields = this.marcRecord.get(marcTemplate.marcTag)
+    controlField.value = _.join(controlField.value, ' ')
+    if (existingFields.length > 0 && marcTemplate.repeatable === 'false') {
+      const combinedValue = this.mergeFieldValues(existingFields[0].value,
+                                                  controlField.value)
+      delete existingFields[0]
+
+
+    }
+    if(!_.isEmpty(controlField.value)) this.marcRecord.insertControlField(controlField)
   }
 
+  getControlFieldValue(subject, marcTemplate) {
+    let value = undefined
+    if ('propertyURI' in marcTemplate) {
+      const propertyTemplateKey = `${subject.subjectTemplateKey} > ${marcTemplate.propertyURI}`
+      subject.propertyKeys?.forEach((propKey) => {
+        const property = this.entities.properties[propKey]
+        if (property.propertyTemplateKey === propertyTemplateKey) {
+          property.valueKeys?.forEach((valueKey) => {
+            value = this.entities.values[valueKey].literal
+          })
+        }
+      })
+    }
+    return value
+  }
 
+  mergeFieldValues(existingValue, newValue) {
+    let largerChars = undefined
+    let smallerChars = undefined
+    console.log(existingValue, newValue)
+    if (existingValue.length >= newValue.length) {
+      largerChars = existingValue.split('')
+      smallerChars = newValue.split('')
+    } else {
+      largerChars = newValue.split('')
+      smallerChars = existingValue.split('')
+    }
+    let count = 0
+    let combinedChars = ''
+    largerChars.forEach((char) => {
+      if (char === ' ' && smallerChars[count] !== ' ') {
+        combinedChars += smallerChars[count]
+      } else {
+        combinedChars += char
+      }
+      count += 1
+    })
+    console.log(`Before join call`, combinedChars)
+    return combinedChars
+    // return _.join(combinedChars)
+  }
+
+  makeDataField(subject, marcTemplate) {
+    const tag = marcTemplate.marcTag
+    if (this.marcRecord.get(tag).length > 0 && marcTemplate.repeatable === 'false') return
+    const data = {
+      ind1: marcTemplate.indicator0,
+      ind2: marcTemplate.indicator1,
+      subfields: []
+    }
+    subject.propertyKeys.forEach((propertyKey) => {
+      const property = this.entities.properties[propertyKey]
+      const propertyTemplate = this.entities.propertyTemplates[property.propertyTemplateKey]
+      propertyTemplate.marcSubfields?.forEach((subfield) => {
+        if (subfield.marcTag === tag) {
+          property.valueKeys?.forEach((valueKey) => {
+            const value = this.entities.values[valueKey]
+            //! Need to restrict when repeatable is false
+            const marcValue = this.getDataFieldValue(subfield, value)
+            if (!_.isEmpty(marcValue)) {
+              data.subfields.push({ code: subfield.code, value: marcValue })
+            }
+          })
+        }
+      })
+    })
+    if(!_.isEmpty(data.subfields)) this.marcRecord.insertField({ tag, ...data })
+  }
+
+  getDataFieldValue(subfield, value) {
+    // Can be literal, uri, or label
+    if ('valueSource' in subfield) {
+      return this.conversion(subfield, value[subfield.valueSource])
+    }
+    return this.conversion(subfield, value.literal || value.label)
+  }
 
   conversion(subfield, content) {
     if (!('conversion' in subfield)) return content
     const regex = new RegExp(`${subfield.conversion}`)
     return regex.replace(content)
   }
+
 
   setValueAt(string, index, value) {
     if (index > string.length-1) return string

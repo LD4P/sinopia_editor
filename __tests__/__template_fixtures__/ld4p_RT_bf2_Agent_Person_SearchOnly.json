@@ -1,0 +1,47 @@
+{
+  "resourceURI": "http://id.loc.gov/ontologies/bibframe/Person",
+  "id": "ld4p:RT:bf2:Agent:Person:SearchOnly",
+  "resourceLabel": "Person",
+  "propertyTemplates": [
+    {
+      "propertyLabel": "Name of Person",
+      "valueConstraint": {
+        "useValuesFrom": [
+          "urn:ld4p:qa:names"
+        ],
+        "valueTemplateRefs": [],
+        "defaults": []
+      },
+      "propertyURI": "http://www.w3.org/1999/02/22-rdf-syntax-ns#value",
+      "type": "lookup",
+      "mandatory": "false",
+      "repeatable": "true",
+      "resourceTemplates": [],
+      "remark": ""
+    }
+  ],
+  "marcTemplates": [
+    {
+      "marcTag": "100",
+      "indicator0": "1",
+      "indicator1": "0",
+      "repeatable": "false",
+      "subfields": [
+        {
+          "code": "a",
+          "propertyURI": "http://www.w3.org/1999/02/22-rdf-syntax-ns#value",
+          "repeatable": "false"
+        },
+        {
+          "code": "0",
+          "propertyURI": "http://www.w3.org/1999/02/22-rdf-syntax-ns#value",
+          "repeatable": "true",
+          "valueSource": "uri"
+        }
+      ]
+    }
+  ],
+  "author": "LD4P",
+  "date": "2019-08-19",
+  "schema": "https://ld4p.github.io/sinopia/schemas/0.0.9/resource-template.json"
+}

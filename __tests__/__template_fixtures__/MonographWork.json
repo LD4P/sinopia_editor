@@ -4,6 +4,22 @@
   "resourceLabel": "BIBFRAME Work",
   "propertyTemplates": [
     {
+      "mandatory": "false",
+      "repeatable": "true",
+      "type": "resource",
+      "resourceTemplates": [],
+      "valueConstraint": {
+        "valueTemplateRefs": [
+          "ld4p:RT:bflc:Agents:PrimaryContribution:byEntity"
+        ],
+        "useValuesFrom": [],
+        "defaults": [],
+        "valueDataType": {}
+      },
+      "propertyURI": "http://id.loc.gov/ontologies/bibframe/contribution",
+      "propertyLabel": "Contribution (Creator/Contributor)"
+    },
+    {
       "propertyURI": "http://id.loc.gov/ontologies/bibframe/title",
       "propertyLabel": "Title Information",
       "mandatory": "false",
@@ -149,6 +165,18 @@
     }
   ],
   "marcTemplates": [
+    {
+      "repeatable": "false",
+      "marcTag": "LDR",
+      "position": ["6"],
+      "constant": "a"
+    },
+    {
+      "repeatable": "false",
+      "marcTag": "LDR",
+      "position": ["7"],
+      "constant": "a"
+    },
     {
       "repeatable": "false",
       "marcTag": "LDR",

@@ -16,6 +16,29 @@
       "propertyLabel": "Variant title type"
     }
   ],
+  "marcTemplates": [
+    { "marcTag": "246",
+      "indicator0": "",
+      "indicator1": "",
+      "repeatable": "false",
+      "subfields": [
+        { "code": "a",
+          "propertyURI": "http://id.loc.gov/ontologies/bibframe/mainTitle",
+          "repeatable": "false"
+        },
+        {
+          "code": "i",
+          "propertyURI": "http://id.loc.gov/ontologies/bibframe/variantType",
+          "repeatable": "true"
+        },
+        {
+          "code": "n",
+          "propertyURI": "http://id.loc.gov/ontologies/bibframe/partNumber",
+          "repeatable": "true"
+        }
+      ]
+    }
+  ],
   "id": "sinopia:resourceTemplate:bf2:Title:VarTitle",
   "resourceURI": "http://id.loc.gov/ontologies/bibframe/VariantTitle",
   "resourceLabel": "Variant Title",

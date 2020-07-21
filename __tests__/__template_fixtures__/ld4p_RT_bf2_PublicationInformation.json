@@ -1,0 +1,119 @@
+{
+  "propertyTemplates": [
+    {
+      "mandatory": "false",
+      "repeatable": "true",
+      "type": "lookup",
+      "valueConstraint": {
+        "valueTemplateRefs": [],
+        "useValuesFrom": [
+          "urn:ld4p:qa:names:geographic",
+          "urn:ld4p:qa:geonames:area_and_place"
+        ],
+        "defaults": []
+      },
+      "propertyURI": "http://id.loc.gov/ontologies/bibframe/place",
+      "propertyLabel": "Place",
+      "resourceTemplates": []
+    },
+    {
+      "mandatory": "false",
+      "repeatable": "true",
+      "type": "resource",
+      "valueConstraint": {
+        "valueTemplateRefs": [
+          "ld4p:RT:bf2:Provision:Name"
+        ],
+        "useValuesFrom": [],
+        "defaults": []
+      },
+      "propertyURI": "http://id.loc.gov/ontologies/bibframe/agent",
+      "propertyLabel": "Name",
+      "resourceTemplates": []
+    },
+    {
+      "mandatory": "false",
+      "repeatable": "true",
+      "type": "literal",
+      "propertyURI": "http://id.loc.gov/ontologies/bibframe/date",
+      "propertyLabel": "Date",
+      "remark": "http://access.rdatoolkit.org/2.8.6.html",
+      "resourceTemplates": [],
+      "valueConstraint": {
+        "valueTemplateRefs": [],
+        "useValuesFrom": [],
+        "defaults": []
+      }
+    },
+    {
+      "mandatory": "false",
+      "repeatable": "true",
+      "type": "resource",
+      "valueConstraint": {
+        "valueTemplateRefs": [
+          "resourceTemplate:bf2:Note"
+        ],
+        "useValuesFrom": [],
+        "defaults": []
+      },
+      "propertyURI": "http://id.loc.gov/ontologies/bibframe/note",
+      "propertyLabel": "Note",
+      "remark": "http://access.rdatoolkit.org/2.17.7.html",
+      "resourceTemplates": []
+    }
+  ],
+  "marcTemplates": [
+    {
+      "marcTag": "008",
+      "repeatable": "false",
+      "positions": [
+        {
+          "at": "07",
+          "source": "00"
+        },
+        {
+          "at": "08",
+          "source": "01"
+        },
+        {
+          "at": "09",
+          "source": "02"
+        },
+        {
+          "at": "10",
+          "source": "03"
+        }
+      ],
+      "propertyURI": "http://id.loc.gov/ontologies/bibframe/date"
+    },
+    {
+      "indicator0": "3",
+      "indicator1": "",
+      "marcTag": "264",
+      "repeatable": "true",
+      "subfields": [
+        {
+          "code": "a",
+          "propertyURI": "http://id.loc.gov/ontologies/bibframe/place",
+          "repeatable": "true"
+        },
+        {
+          "code": "b",
+          "propertyURI":  "http://id.loc.gov/ontologies/bibframe/agent",
+          "repeatable": "true"
+        },
+        {
+          "code": "c",
+          "propertyURI": "http://id.loc.gov/ontologies/bibframe/date",
+          "repeatable": "true"
+        }
+      ]
+    }
+  ],
+  "id": "ld4p:RT:bf2:PublicationInformation",
+  "resourceURI": "http://id.loc.gov/ontologies/bibframe/Publication",
+  "resourceLabel": "Publication",
+  "author": "LD4P",
+  "date": "2019-08-19",
+  "schema": "https://ld4p.github.io/sinopia/schemas/0.0.9/resource-template.json"
+}

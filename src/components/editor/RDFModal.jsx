@@ -30,7 +30,7 @@ const RDFModal = (props) => {
       <div className="modal-dialog modal-xl modal-dialog-scrollable">
         <div className="modal-content">
           <div className="modal-header" data-testid="rdf-modal-header">
-            <h4 className="modal-title">RDF Preview</h4>
+            <h4 className="modal-title">RDF &amp; MARC21 Preview</h4>
             <button type="button" className="close" onClick={handleClose} aria-label="Close">
               <span aria-hidden="true">&times;</span>
             </button>

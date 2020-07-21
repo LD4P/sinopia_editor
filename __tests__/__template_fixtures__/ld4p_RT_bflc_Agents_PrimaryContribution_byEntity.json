@@ -1,0 +1,44 @@
+{
+  "propertyTemplates": [
+    {
+      "mandatory": "false",
+      "repeatable": "false",
+      "type": "resource",
+      "valueConstraint": {
+        "valueTemplateRefs": [
+          "ld4p:RT:bf2:Agent:Person:SearchOnly",
+          "ld4p:RT:bf2:Agent:CorporateBody:SearchOnly"
+        ],
+        "useValuesFrom": [],
+        "defaults": []
+      },
+      "propertyURI": "http://id.loc.gov/ontologies/bibframe/agent",
+      "propertyLabel": "Primary Contributor (only one per primary contribution node!)",
+      "resourceTemplates": [],
+      "remark": "Only one contributor per Contribution node!"
+    },
+    {
+      "mandatory": "false",
+      "repeatable": "true",
+      "type": "resource",
+      "valueConstraint": {
+        "valueTemplateRefs": [],
+        "useValuesFrom": [
+          "https://id.loc.gov/vocabulary/relators"
+        ],
+        "defaults": []
+      },
+      "propertyURI": "http://id.loc.gov/ontologies/bibframe/role",
+      "propertyLabel": "Relationship Designator (RDA Appendix I)",
+      "remark": "http://access.rdatoolkit.org/rdaappi_rdai-34.html",
+      "resourceTemplates": []
+    }
+  ],
+  "id": "ld4p:RT:bflc:Agents:PrimaryContribution:byEntity",
+  "resourceLabel": "Primary Contribution",
+  "resourceURI": "http://id.loc.gov/ontologies/bflc/PrimaryContribution",
+  "author": "LD4P",
+  "date": "2019-08-19",
+  "schema": "https://ld4p.github.io/sinopia/schemas/0.0.9/resource-template.json",
+  "remark": ""
+}

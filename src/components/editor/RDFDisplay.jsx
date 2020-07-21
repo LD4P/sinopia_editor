@@ -64,8 +64,7 @@ const RDFDisplay = (props) => {
       </table>
     )
   } else if (format === 'marc') {
-    props.marc.marc21()
-    body = (<pre style={{ padding: '5px' }}>{ props.marc.marcRecord.toString()}</pre>)
+    body = (<pre style={{ padding: '5px' }}>{ props.marc.marc21.toString()}</pre>)
   } else {
     body = (<pre style={{ padding: '5px' }}>{ formattedRDF }</pre>)
   }
