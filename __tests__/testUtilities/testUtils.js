@@ -1,4 +1,4 @@
-// Copyright 2019 Stanford University see LICENSE for licenseimport React from 'react'
+// Copyright 2019 Stanford University see LICENSE for license
 
 import React from 'react'
 import { Provider } from 'react-redux'
