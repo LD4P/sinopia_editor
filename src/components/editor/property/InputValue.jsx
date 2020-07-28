@@ -12,7 +12,7 @@ const InputValue = (props) => {
   if (!props.value) return null
 
   const isLiteral = props.value.property.propertyTemplate.type === 'literal'
-  const label = isLiteral ? props.value.literal : props.value.uri
+  const label = props.value.literal || props.value.label || props.value.uri
 
   const handleEditClick = () => {
     props.handleEdit(label, props.value.lang)

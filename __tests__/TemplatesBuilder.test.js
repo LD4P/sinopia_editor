@@ -46,7 +46,7 @@ describe('TemplatesBuilder', () => {
     const propertyTemplate8 = subjectTemplate.propertyTemplates[7]
     expect(propertyTemplate8.type).toBe('uri')
     expect(propertyTemplate8.defaults).toHaveLength(2)
-    expect(propertyTemplate8.defaults[0]).toEqual({ uri: 'http://sinopia.io/defaultURI1', label: 'Default UR1' })
+    expect(propertyTemplate8.defaults[0]).toEqual({ uri: 'http://sinopia.io/defaultURI1', label: 'Default URI1' })
     expect(propertyTemplate8.defaults[1]).toEqual({ uri: 'http://sinopia.io/defaultURI2' })
     expect(propertyTemplate8.component).toEqual('InputURI')
 

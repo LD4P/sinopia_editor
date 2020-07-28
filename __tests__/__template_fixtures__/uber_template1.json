@@ -112,7 +112,7 @@
       "valueConstraint": {
         "defaults": [
           {
-            "defaultLiteral": "Default UR1",
+            "defaultLiteral": "Default URI1",
             "defaultURI": "http://sinopia.io/defaultURI1"
 
           },
