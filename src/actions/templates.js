@@ -3,7 +3,7 @@ export const addTemplateHistory = (resourceTemplate) => ({
   payload: resourceTemplate,
 })
 
-export const addTemplates = (subjectTemplate, propertyTemplates) => ({
+export const addTemplates = (subjectTemplate) => ({
   type: 'ADD_TEMPLATES',
-  payload: { subjectTemplate, propertyTemplates },
+  payload: subjectTemplate,
 })

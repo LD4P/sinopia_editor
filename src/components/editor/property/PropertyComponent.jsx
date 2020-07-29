@@ -12,13 +12,12 @@ import Alert from '../../Alert'
 
 // Decides how to render this property.
 const PropertyComponent = (props) => {
-  if (props.property.propertyTemplate.type === 'resource') {
-    return props.property.values.map((value) => (
-      <NestedResource key={value.key} valueKey={value.key} />
-    ))
-  }
   // Might be tempted to use lazy / suspense here, but it forces a remounting of components.
   switch (props.property.propertyTemplate.component) {
+    case 'NestedResource':
+      return props.property.values.map((value) => (
+        <NestedResource key={value.key} valueKey={value.key} />
+      ))
     case 'InputLiteral':
       return (
         <InputLiteral property={props.property} />

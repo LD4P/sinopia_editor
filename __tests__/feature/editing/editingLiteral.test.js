@@ -110,7 +110,7 @@ describe('editing a literal property', () => {
 
     // Click diacritic button
     expect(screen.queryAllByText('Latin Extended').length).toBeFalsy()
-    const diacriticBtn = screen.getByRole('button', { name: 'ä' })
+    const diacriticBtn = screen.getAllByRole('button', { name: 'ä' })[0]
     fireEvent.click(diacriticBtn)
 
     // Click a diacritic
@@ -145,7 +145,7 @@ describe('editing a literal property', () => {
     fireEvent.click(langBtn)
     screen.getByRole('heading', { name: 'Languages' })
 
-    const langInput = screen.getByTestId('langComponent')
+    const langInput = screen.getByTestId('langComponent-foo')
 
     fireEvent.click(langInput)
     fireEvent.change(langInput, { target: { value: 'Tai languages' } })
@@ -179,8 +179,9 @@ describe('editing a literal property', () => {
     fireEvent.click(langBtn)
     screen.getByRole('heading', { name: 'Languages' })
 
-    fireEvent.click(screen.getByLabelText('No language specified'))
-    fireEvent.click(screen.getByRole('button', { name: 'Submit' }))
+    // Using testid here because there are multiple modals.
+    fireEvent.click(screen.getByTestId('noLangRadio-foo'))
+    fireEvent.click(screen.getByTestId('submit-foo'))
 
 
     await wait(() => expect(screen.queryAllByRole('heading', { name: 'Languages' }).length).toBeFalsy())

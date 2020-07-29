@@ -14,18 +14,15 @@ describe('loadResourceTemplate()', () => {
     it('returns templates and dispatches actions when loaded', async () => {
       const store = mockStore(createState())
 
-      const [subjectTemplate, propertyTemplates] = await store.dispatch(loadResourceTemplate('ld4p:RT:bf2:Title:AbbrTitle', 'testerrorkey'))
+      const subjectTemplate = await store.dispatch(loadResourceTemplate('ld4p:RT:bf2:Title:AbbrTitle', 'testerrorkey'))
       expect(subjectTemplate).toBeSubjectTemplate('ld4p:RT:bf2:Title:AbbrTitle')
-      expect(propertyTemplates).toHaveLength(1)
-      expect(propertyTemplates[0]).toBePropertyTemplate('ld4p:RT:bf2:Title:AbbrTitle > http://id.loc.gov/ontologies/bibframe/mainTitle')
+      expect(subjectTemplate.propertyTemplates).toHaveLength(1)
+      expect(subjectTemplate.propertyTemplates[0]).toBePropertyTemplate('ld4p:RT:bf2:Title:AbbrTitle > http://id.loc.gov/ontologies/bibframe/mainTitle')
 
       expect(store.getActions()).toEqual([
         {
           type: 'ADD_TEMPLATES',
-          payload: {
-            subjectTemplate: expect.toBeSubjectTemplate('ld4p:RT:bf2:Title:AbbrTitle'),
-            propertyTemplates: [expect.toBePropertyTemplate('ld4p:RT:bf2:Title:AbbrTitle > http://id.loc.gov/ontologies/bibframe/mainTitle')],
-          },
+          payload: expect.toBeSubjectTemplate('ld4p:RT:bf2:Title:AbbrTitle'),
         },
       ])
     })
@@ -35,10 +32,10 @@ describe('loadResourceTemplate()', () => {
     it('returns templates', async () => {
       const store = mockStore(createState({ hasResourceWithLiteral: true }))
 
-      const [subjectTemplate, propertyTemplates] = await store.dispatch(loadResourceTemplate('ld4p:RT:bf2:Title:AbbrTitle', 'testerrorkey'))
+      const subjectTemplate = await store.dispatch(loadResourceTemplate('ld4p:RT:bf2:Title:AbbrTitle', 'testerrorkey'))
       expect(subjectTemplate).toBeSubjectTemplate('ld4p:RT:bf2:Title:AbbrTitle')
-      expect(propertyTemplates).toHaveLength(1)
-      expect(propertyTemplates[0]).toBePropertyTemplate('ld4p:RT:bf2:Title:AbbrTitle > http://id.loc.gov/ontologies/bibframe/mainTitle')
+      expect(subjectTemplate.propertyTemplates).toHaveLength(1)
+      expect(subjectTemplate.propertyTemplates[0]).toBePropertyTemplate('ld4p:RT:bf2:Title:AbbrTitle > http://id.loc.gov/ontologies/bibframe/mainTitle')
 
       expect(store.getActions()).toHaveLength(0)
     })
@@ -48,16 +45,19 @@ describe('loadResourceTemplate()', () => {
     it('dispatches errors and returns empty', async () => {
       const store = mockStore(createState({ hasResourceWithLiteral: true }))
 
-      const [subjectTemplate, propertyTemplates] = await store.dispatch(loadResourceTemplate('rt:repeated:propertyURI:propertyLabel', 'testerrorkey'))
+      const subjectTemplate = await store.dispatch(loadResourceTemplate('rt:repeated:propertyURI:propertyLabel', 'testerrorkey'))
       expect(subjectTemplate).toBeNull()
-      expect(propertyTemplates).toHaveLength(0)
 
       expect(store.getActions()).toEqual([
+        {
+          type: 'ADD_TEMPLATES',
+          payload: expect.toBeSubjectTemplate('rt:repeated:propertyURI:propertyLabel'),
+        },
         {
           type: 'ADD_ERROR',
           payload: {
             errorKey: 'testerrorkey',
-            error: 'Validation error for http://id.loc.gov/ontologies/bibframe/Work: Repeated property templates with same property URI (http://id.loc.gov/ontologies/bibframe/geographicCoverage) are not allowed.',
+            error: 'Repeated property templates with same property URI (http://id.loc.gov/ontologies/bibframe/geographicCoverage) are not allowed.',
           },
         },
       ])
@@ -68,9 +68,8 @@ describe('loadResourceTemplate()', () => {
     it('dispatches errors and returns empty', async () => {
       const store = mockStore(createState({ hasResourceWithLiteral: true }))
 
-      const [subjectTemplate, propertyTemplates] = await store.dispatch(loadResourceTemplate('ld4p:RT:bf2:xxx', 'testerrorkey'))
+      const subjectTemplate = await store.dispatch(loadResourceTemplate('ld4p:RT:bf2:xxx', 'testerrorkey'))
       expect(subjectTemplate).toBeNull()
-      expect(propertyTemplates).toHaveLength(0)
 
       expect(store.getActions()).toEqual([
         {

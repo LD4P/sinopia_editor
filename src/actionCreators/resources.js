@@ -42,6 +42,7 @@ export const newResource = (resourceTemplateId, errorKey) => (dispatch) => {
     .catch((err) => {
       // ResourceTemplateErrors have already been dispatched.
       if (err.name !== 'ResourceTemplateError') {
+        console.error(err)
         dispatch(addError(errorKey, `Error creating new resource: ${err.toString()}`))
       }
       return false
@@ -67,11 +68,13 @@ export const newResourceFromN3 = (data, uri, resourceTemplateId, errorKey, asNew
     .catch((err) => {
       // ResourceTemplateErrors have already been dispatched.
       if (err.name !== 'ResourceTemplateError') {
+        console.error(err)
         dispatch(addError(errorKey, `Error retrieving ${resourceTemplateId}: ${err.toString()}`))
       }
       return false
     }))
   .catch((err) => {
+    console.error(err)
     dispatch(addError(errorKey, `Error parsing: ${err.toString()}`))
     return false
   })
@@ -92,6 +95,7 @@ export const saveNewResource = (resourceKey, currentUser, group, errorKey) => (d
     dispatch(setBaseURL(resourceKey, resourceUrl))
     dispatch(saveResourceFinished(resourceKey))
   }).catch((err) => {
+    console.error(err)
     dispatch(addError(errorKey, `Error saving: ${err.toString()}`))
   })
 }
@@ -111,9 +115,9 @@ export const expandProperty = (propertyKey, errorKey) => (dispatch, getState) =>
   if (property.propertyTemplate.type === 'resource') {
     property.propertyTemplate.valueSubjectTemplateKeys.forEach((resourceTemplateId) => {
       dispatch(addSubject(null, resourceTemplateId, property.resourceKey, errorKey))
-        .then(([subject, , propertyTemplates]) => {
+        .then((subject) => {
           dispatch(addValueSubject(property, subject.key))
-          dispatch(addPropertiesFromTemplates(subject, propertyTemplates, false))
+          dispatch(addPropertiesFromTemplates(subject, false))
         })
     })
   } else {
@@ -135,10 +139,10 @@ export const contractProperty = (propertyKey) => (dispatch, getState) => {
 
 export const addSiblingValueSubject = (valueKey, errorKey) => (dispatch, getState) => {
   const value = selectValue(getState(), valueKey)
-  dispatch(addSubject(null, value.valueSubject.subjectTemplate.id, value.resourceKey, errorKey))
-    .then(([subject, , propertyTemplates]) => {
+  dispatch(addSubject(null, value.valueSubject.subjectTemplate.id, value.resourcKey, errorKey))
+    .then((subject) => {
       dispatch(addValueSubject(value.property, subject.key, valueKey))
-      dispatch(addPropertiesFromTemplates(subject, propertyTemplates, false))
+      dispatch(addPropertiesFromTemplates(subject, false))
     })
 }
 

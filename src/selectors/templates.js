@@ -20,16 +20,17 @@ export const selectPropertyTemplate = (state, key) => state.selectorReducer
      * Selects a subject template and associated property templates by key.
      * @param [Object] state
      * @param [string] key
-     * @return [Object, [Object]] subject template, propertyTemplates
+     * @return [Object] subject template
      */
 export const selectSubjectAndPropertyTemplates = (state, key) => {
   const subjectTemplate = selectSubjectTemplate(state, key)
-  if (!subjectTemplate) return [null, []]
+  if (!subjectTemplate) return null
 
-  const propertyTemplates = subjectTemplate.propertyTemplateKeys
+  const newSubjectTemplate = { ...subjectTemplate }
+  newSubjectTemplate.propertyTemplates = subjectTemplate.propertyTemplateKeys
     .map((propertyTemplateKey) => selectPropertyTemplate(state, propertyTemplateKey))
 
-  return [subjectTemplate, propertyTemplates]
+  return newSubjectTemplate
 }
 
 export const selectHistoricalTemplates = (state) => state.selectorReducer.historicalTemplates

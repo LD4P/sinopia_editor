@@ -75,22 +75,27 @@ const InputLang = (props) => {
                   emptyLabel={'retrieving list of languages...'}
                   selectHintOnEnter={true}
                   id={'langComponent'}
-                  inputProps={{ 'data-testid': 'langComponent' }}
+                  inputProps={{ 'data-testid': `langComponent-${props.textValue}` }}
                 />
               </label>
               <p style={{ fontStyle: 'italic', marginTop: '10px' }}>or select</p>
             </div>
 
             <div className="form-check">
-              <input type="radio" className="form-check-input" name="lang"
-                     id="absent" value="absent" defaultChecked={!langPresent}
+              <input type="radio"
+                     className="form-check-input"
+                     name="lang"
+                     id={`noLangRadio-${props.textValue}`}
+                     data-testid={`noLangRadio-${props.textValue}`}
+                     value="absent"
+                     defaultChecked={!langPresent}
                      onChange={disableLanguageSelector} />
-              <label className="form-check-label" htmlFor="absent">No language specified</label>
+              <label className="form-check-label" htmlFor={`noLangRadio-${props.textValue}`}>No language specified</label>
             </div>
           </div>
           <div className="modal-footer">
             <button className="btn btn-link" onClick={ close }>Cancel</button>
-            <button className="btn btn-primary" onClick={ handleLangSubmit }>Submit</button>
+            <button className="btn btn-primary" onClick={ handleLangSubmit } data-testid={`submit-${props.textValue}`}>Submit</button>
           </div>
         </div>
       </div>

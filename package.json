@@ -153,7 +153,8 @@
       "<rootDir>/setupEnzyme.js",
       "<rootDir>/react-testing-library.setup.js",
       "<rootDir>/__tests__/matchers/templates.js",
-      "<rootDir>/__tests__/matchers/resources.js"
+      "<rootDir>/__tests__/matchers/resources.js",
+      "<rootDir>/__tests__/matchers/actions.js"
     ],
     "moduleDirectories": [
       "node_modules",

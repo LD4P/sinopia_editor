@@ -44,7 +44,7 @@ describe('adding and removing properties', () => {
     await screen.findByRole('heading', { name: 'Uber template1' })
 
     // Add a panel property
-    screen.getByRole('heading', { name: /Uber template1, property1/ })
+    screen.getByRole('heading', { name: /Uber template1, property1 / })
     fireEvent.click(screen.getByRole('button', { name: 'Add Uber template1, property1' }))
 
     await screen.findByText('Uber template2')
@@ -97,7 +97,7 @@ describe('adding and removing properties', () => {
     await screen.findByRole('heading', { name: 'Uber template1' })
 
     // Add a panel property
-    screen.getByRole('heading', { name: /Uber template1, property1/ })
+    screen.getByRole('heading', { name: /Uber template1, property1 / })
     fireEvent.click(screen.getByRole('button', { name: 'Add Uber template1, property1' }))
 
     await screen.findByText('Uber template2')
