@@ -17,7 +17,7 @@ export default class GraphBuilder {
   }
 
   /**
-   * @return {Graph} an RDF graph that represents the data in the state
+   * @return {Dataset} an RDF graph that represents the data in the state
    */
   get graph() {
     if (this.resource) {
@@ -76,7 +76,7 @@ export default class GraphBuilder {
   buildUriValue(value, subjectTerm, propertyTerm) {
     const valueTerm = rdf.namedNode(value.uri)
     this.dataset.add(rdf.quad(subjectTerm, propertyTerm, valueTerm))
-    if (valueTerm.label) {
+    if (value.label) {
       this.dataset.add(rdf.quad(valueTerm,
         rdf.namedNode('http://www.w3.org/2000/01/rdf-schema#label'),
         rdf.literal(value.label)))
