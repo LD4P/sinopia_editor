@@ -10,8 +10,7 @@ import { displayResourceValidations } from 'selectors/errors'
 import _ from 'lodash'
 import { renderMenuFunc, renderTokenFunc, itemsForProperty } from './renderTypeaheadFunctions'
 import { newUriValue, newLiteralValue } from 'utilities/valueFactory'
-import { clearValues, replaceValues } from 'actions/resources'
-
+import { addProperty } from 'actions/resources'
 
 const AsyncTypeahead = asyncContainer(Typeahead)
 
@@ -88,17 +87,18 @@ const InputLookup = (props) => {
   const isDisabled = selected?.length > 0 && !isRepeatable
 
   const selectionChanged = (items) => {
+    const newProperty = { ...props.property }
     if (_.isEmpty(items)) {
-      dispatch(clearValues(props.property.key))
+      newProperty.values = []
     } else {
-      const values = items.map((item) => {
+      newProperty.values = items.map((item) => {
         if (item.uri) {
-          return newUriValue(props.property.key, props.property.resourceKey, item.uri, item.label)
+          return newUriValue(props.property, item.uri, item.label)
         }
-        return newLiteralValue(props.property.key, props.property.resourceKey, item.content, null)
+        return newLiteralValue(props.property, item.content, null)
       })
-      dispatch(replaceValues(values))
     }
+    dispatch(addProperty(newProperty))
   }
 
   const toggleLookup = (uri) => {

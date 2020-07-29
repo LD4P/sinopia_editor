@@ -70,13 +70,3 @@ export const removeProperty = (propertyKey) => ({
   type: 'REMOVE_PROPERTY',
   payload: propertyKey,
 })
-
-export const replaceValues = (values) => ({
-  type: 'REPLACE_VALUES',
-  payload: values,
-})
-
-export const clearValues = (propertyKey) => ({
-  type: 'CLEAR_VALUES',
-  payload: propertyKey,
-})

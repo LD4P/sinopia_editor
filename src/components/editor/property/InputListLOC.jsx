@@ -12,7 +12,7 @@ import { renderMenuFunc, renderTokenFunc, itemsForProperty } from './renderTypea
 import { fetchLookup } from 'actionCreators/lookups'
 import { selectLookup } from 'selectors/lookups'
 import _ from 'lodash'
-import { replaceValues, clearValues } from 'actions/resources'
+import { addProperty } from 'actions/resources'
 import { newUriValue, newLiteralValue } from 'utilities/valueFactory'
 
 // propertyTemplate of type 'lookup' does live QA lookup via API
@@ -74,17 +74,18 @@ const InputListLOC = (props) => {
   }
 
   const selectionChanged = (items) => {
+    const newProperty = { ...props.property }
     if (_.isEmpty(items)) {
-      dispatch(clearValues(props.property.key))
+      newProperty.values = []
     } else {
-      const values = items.map((item) => {
+      newProperty.values = items.map((item) => {
         if (item.uri) {
-          return newUriValue(props.property.key, props.property.resourceKey, item.uri, item.label)
+          return newUriValue(props.property, item.uri, item.label)
         }
-        return newLiteralValue(props.property.key, props.property.resourceKey, item.content, null)
+        return newLiteralValue(props.property, item.content, null)
       })
-      dispatch(replaceValues(values))
     }
+    dispatch(addProperty(newProperty))
   }
 
   const lookupCheckboxes = props.property.propertyTemplate.authorities.map((authority) => {

@@ -1,0 +1,81 @@
+{
+      "type": "ADD_VALUE",
+      "payload": {
+        "value": {
+          "key": "abc2",
+          "property": {
+            "key": "v1o90QO1Qx",
+            "subjectKey": "ljAblGiBW",
+            "resourceKey": "ljAblGiBW",
+            "propertyTemplateKey": "resourceTemplate:testing:uber1 > http://id.loc.gov/ontologies/bibframe/uber/template1/property1",
+            "valueKeys": [
+              "VDOeQCnFA8"
+            ],
+            "show": true,
+            "errors": [],
+            "propertyTemplate": {
+              "key": "resourceTemplate:testing:uber1 > http://id.loc.gov/ontologies/bibframe/uber/template1/property1",
+              "subjectTemplateKey": "resourceTemplate:testing:uber1",
+              "label": "Uber template1, property1",
+              "uri": "http://id.loc.gov/ontologies/bibframe/uber/template1/property1",
+              "required": false,
+              "repeatable": true,
+              "defaults": [],
+              "remark": "Nested, repeatable resource template.",
+              "remarkUrl": null,
+              "type": "resource",
+              "component": "InputURI",
+              "valueSubjectTemplateKeys": [
+                "resourceTemplate:testing:uber2"
+              ],
+              "authorities": []
+            }
+          },
+          "resourceKey": "ljAblGiBW",
+          "literal": null,
+          "lang": null,
+          "uri": null,
+          "label": null,
+          "valueSubject": {
+            "key": "abc0",
+            "uri": null,
+            "subjectTemplate": {
+              "key": "resourceTemplate:testing:uber2",
+              "id": "resourceTemplate:testing:uber2",
+              "class": "http://id.loc.gov/ontologies/bibframe/Uber2",
+              "label": "Uber template2",
+              "remark": "Template for testing purposes with single repeatable literal.",
+              "propertyTemplateKeys": [
+                "resourceTemplate:testing:uber2 > http://id.loc.gov/ontologies/bibframe/uber/template2/property1"
+              ],
+              "propertyTemplates": [
+                {
+                  "key": "resourceTemplate:testing:uber2 > http://id.loc.gov/ontologies/bibframe/uber/template2/property1",
+                  "subjectTemplateKey": "resourceTemplate:testing:uber2",
+                  "label": "Uber template2, property1",
+                  "uri": "http://id.loc.gov/ontologies/bibframe/uber/template2/property1",
+                  "required": false,
+                  "repeatable": true,
+                  "defaults": [],
+                  "remark": "A repeatable literal",
+                  "remarkUrl": null,
+                  "type": "literal",
+                  "component": "InputLiteral",
+                  "authorities": []
+                }
+              ]
+            },
+            "resourceKey": "abc0",
+            "properties": [
+              {
+                "key": "abc1",
+                "resourceKey": "abc0",
+                "values": null,
+                "show": false
+              }
+            ]
+          }
+        },
+        "siblingValueKey": "VDOeQCnFA8"
+      }
+    }

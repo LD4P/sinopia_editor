@@ -3,21 +3,26 @@ import { clearErrors, addError } from 'actions/errors'
 import { updateRDFResource, loadRDFResource, publishRDFResource } from 'sinopiaServer'
 import { rdfDatasetFromN3, findRootResourceTemplateId } from 'utilities/Utilities'
 import {
-  addResourceFromDataset, addEmptyResource, addSubject, addValueSubject,
-  removeSubject, addSubjectCopy, addPropertiesFromTemplates,
+  addResourceFromDataset, addEmptyResource, newSubject,
+  newSubjectCopy, newPropertiesFromTemplates,
 } from './resourceHelpers'
 import GraphBuilder from 'GraphBuilder'
 import {
-  selectProperty, selectNormProperty, selectNormValue, selectValue, selectFullSubject,
+  selectProperty, selectValue, selectFullSubject,
 } from 'selectors/resources'
 import {
-  addProperty as addPropertyAction, removeValue as removeValueAction,
+  addProperty as addPropertyAction,
+  addValue as addValueAction, addSubject as addSubjectAction,
   showProperty, setBaseURL, setCurrentResource, saveResourceFinished,
   setUnusedRDF, loadResourceFinished,
 } from 'actions/resources'
+import { newValueSubject } from 'utilities/valueFactory'
+import rdf from 'rdf-ext'
 
-
-// A thunk that loads an existing resource from Trellis
+/**
+ * A thunk that loads an existing resource from Trellis and adds to state.
+ * @return {boolean} true if successful
+ */
 export const loadResource = (currentUser, uri, errorKey, asNewResource) => (dispatch) => {
   dispatch(clearErrors(errorKey))
   return loadRDFResource(currentUser, uri)
@@ -25,9 +30,16 @@ export const loadResource = (currentUser, uri, errorKey, asNewResource) => (disp
       const data = response.response.text
       return dispatch(newResourceFromN3(data, uri, null, errorKey, asNewResource))
     })
+    .catch((err) => {
+      dispatch(addError(errorKey, `Error retrieving resource: ${err.toString()}`))
+      return false
+    })
 }
 
-// A thunk that stubs out a new resource
+/**
+ * A thunk that creates a new resource from a resource template and adds to state.
+ * @return {boolean} true if successful
+ */
 export const newResource = (resourceTemplateId, errorKey) => (dispatch) => {
   dispatch(clearErrors(errorKey))
   return dispatch(addEmptyResource(resourceTemplateId, errorKey))
@@ -49,35 +61,63 @@ export const newResource = (resourceTemplateId, errorKey) => (dispatch) => {
     })
 }
 
-// A thunk that copies an existing resource (in state) to  new resource
-export const newResourceCopy = (resourceKey) => (dispatch) => {
-  const newResource = dispatch(addResourceCopy(resourceKey))
-  dispatch(setCurrentResource(newResource.key))
-  dispatch(setUnusedRDF(newResource.key, null))
-}
+/**
+ * A thunk that creates a new resource from an existing in-state resource and adds to state.
+ */
+export const newResourceCopy = (resourceKey) => (dispatch) => dispatch(newSubjectCopy(resourceKey))
+  .then((newResource) => {
+    dispatch(addSubjectAction(newResource))
+    dispatch(setCurrentResource(newResource.key))
+    dispatch(setUnusedRDF(newResource.key, null))
+  })
+  .catch((err) => {
+    console.error(err)
+  })
 
+/**
+ * A thunk that loads a resource from N3 data and adds to state.
+ * @param {string} data containing N3 for resource.
+ * @param {string} URI for the resource.
+ * @param {string} resourceTemplateId if known.
+ * @param {string} errorKey
+ * @param {boolean} asNewResource if true, does not set URI for the resource.
+ * @return {boolean} true if successful
+ */
 export const newResourceFromN3 = (data, uri, resourceTemplateId, errorKey, asNewResource) => (dispatch) => rdfDatasetFromN3(data)
-  .then((dataset) => dispatch(addResourceFromDataset(dataset, uri, resourceTemplateId || resourceTemplateIdFromDataset(uri, dataset), errorKey, asNewResource))
-    .then(([resource, usedDataset]) => {
-      const unusedDataset = dataset.difference(usedDataset)
-      dispatch(setUnusedRDF(resource.key, unusedDataset.size > 0 ? unusedDataset.toCanonical() : null))
-      dispatch(setCurrentResource(resource.key))
-      if (!asNewResource) dispatch(loadResourceFinished(resource.key))
-      return true
-    })
-    .catch((err) => {
-      // ResourceTemplateErrors have already been dispatched.
-      if (err.name !== 'ResourceTemplateError') {
-        console.error(err)
-        dispatch(addError(errorKey, `Error retrieving ${resourceTemplateId}: ${err.toString()}`))
-      }
-      return false
-    }))
+  .then((dataset) => {
+    const newUri = chooseURI(dataset, uri)
+    return dispatch(addResourceFromDataset(dataset, newUri, resourceTemplateId || resourceTemplateIdFromDataset(newUri, dataset), errorKey, asNewResource))
+      .then(([resource, usedDataset]) => {
+        // If a legacy resource, uri will not be set, so setting here.
+        if (newUri !== uri) resource.uri = uri
+        const unusedDataset = dataset.difference(usedDataset)
+        dispatch(setUnusedRDF(resource.key, unusedDataset.size > 0 ? unusedDataset.toCanonical() : null))
+        dispatch(setCurrentResource(resource.key))
+        if (!asNewResource) dispatch(loadResourceFinished(resource.key))
+        return true
+      })
+      .catch((err) => {
+        // ResourceTemplateErrors have already been dispatched.
+        if (err.name !== 'ResourceTemplateError') {
+          console.error(err)
+          dispatch(addError(errorKey, `Error retrieving ${resourceTemplateId}: ${err.toString()}`))
+        }
+        return false
+      })
+  })
   .catch((err) => {
     console.error(err)
     dispatch(addError(errorKey, `Error parsing: ${err.toString()}`))
     return false
   })
+
+// In the early days, resources were persisted to Trellis with a relative URI (<>) as N-Triples.
+// When these resources are retrieved, they retain a relative URI.
+// Now, resources are persisted to Trellis as Turtle. When these resources are retrieved,
+// they have the resource's URI.
+// This function guesses which.
+const chooseURI = (dataset, uri) => (dataset.match(rdf.namedNode(uri)).size > 0 ? uri : '')
+
 
 const resourceTemplateIdFromDataset = (uri, dataset) => {
   const resourceTemplateId = findRootResourceTemplateId(uri, dataset)
@@ -110,48 +150,48 @@ export const saveResource = (resourceKey, currentUser, errorKey) => (dispatch, g
     .catch((err) => dispatch(addError(errorKey, `Error saving ${resource.uri}: ${err.toString()}`)))
 }
 
+/**
+ * A thunk that expands a property based on resource template and adds to state.
+ * Note that this is NOT showing/hiding a property.
+ */
 export const expandProperty = (propertyKey, errorKey) => (dispatch, getState) => {
   const property = selectProperty(getState(), propertyKey)
+  let promises
   if (property.propertyTemplate.type === 'resource') {
-    property.propertyTemplate.valueSubjectTemplateKeys.forEach((resourceTemplateId) => {
-      dispatch(addSubject(null, resourceTemplateId, property.resourceKey, errorKey))
-        .then((subject) => {
-          dispatch(addValueSubject(property, subject.key))
-          dispatch(addPropertiesFromTemplates(subject, false))
-        })
-    })
+    promises = property.propertyTemplate.valueSubjectTemplateKeys.map((resourceTemplateId) => dispatch(newSubject(null,
+      resourceTemplateId, property.resourceKey, errorKey))
+      .then((subject) => {
+        subject.properties = newPropertiesFromTemplates(subject, false)
+        const newValue = newValueSubject(property, subject)
+        dispatch(addValueAction(newValue))
+      }))
   } else {
-    property.valueKeys = []
-    dispatch(addPropertyAction(property))
+    property.values = []
+    promises = [dispatch(addPropertyAction(property))]
   }
-  dispatch(showProperty(property.key))
+  return Promise.all(promises)
+    .then(() => dispatch(showProperty(property.key)))
 }
 
+/**
+ * A thunk that removes a property from state (the opposite of expandProperty).
+ * Note that this is NOT showing/hiding a property.
+ */
 export const contractProperty = (propertyKey) => (dispatch, getState) => {
-  const property = selectNormProperty(getState(), propertyKey)
-  // Remove each of the values.
-  if (property.valueKeys !== null) {
-    property.valueKeys.forEach((valueKey) => dispatch(removeValue(valueKey)))
-  }
-  property.valueKeys = null
+  const property = selectProperty(getState(), propertyKey)
+  property.values = null
   dispatch(addPropertyAction(property))
 }
 
+/**
+ * A thunk that adds a new value subject that is based on an existing value subject (i.e., "add another").
+ */
 export const addSiblingValueSubject = (valueKey, errorKey) => (dispatch, getState) => {
   const value = selectValue(getState(), valueKey)
-  dispatch(addSubject(null, value.valueSubject.subjectTemplate.id, value.resourcKey, errorKey))
+  return dispatch(newSubject(null, value.valueSubject.subjectTemplate.id, value.resourcKey, errorKey))
     .then((subject) => {
-      dispatch(addValueSubject(value.property, subject.key, valueKey))
-      dispatch(addPropertiesFromTemplates(subject, false))
+      subject.properties = newPropertiesFromTemplates(subject, false)
+      const newValue = newValueSubject(value.property, subject)
+      return dispatch(addValueAction(newValue, valueKey))
     })
-}
-
-export const addResourceCopy = (resourceKey) => (dispatch) => dispatch(addSubjectCopy(resourceKey, true))
-
-export const removeValue = (valueKey) => (dispatch, getState) => {
-  const value = selectNormValue(getState(), valueKey)
-  // Remove valueSubject
-  if (value.valueSubjectKey) dispatch(removeSubject(value.valueSubjectKey))
-  // Remove value
-  dispatch(removeValueAction(valueKey))
 }

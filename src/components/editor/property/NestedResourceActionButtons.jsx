@@ -8,7 +8,8 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faTrashAlt } from '@fortawesome/free-solid-svg-icons'
 import { resourceEditErrorKey } from '../Editor'
 import { selectCurrentResourceKey, selectProperty } from 'selectors/resources'
-import { addSiblingValueSubject, removeValue } from 'actionCreators/resources'
+import { addSiblingValueSubject } from 'actionCreators/resources'
+import { removeValue } from 'actions/resources'
 import _ from 'lodash'
 
 const NestedResourceActionButtons = (props) => {

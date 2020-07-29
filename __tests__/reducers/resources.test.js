@@ -2,8 +2,8 @@
 
 import {
   addProperty, addSubject, addValue, clearResource,
-  clearValues, hideProperty, removeProperty, removeSubject,
-  removeValue, replaceValues, saveResourceFinished, setBaseURL, setCurrentResource,
+  hideProperty, removeProperty, removeSubject,
+  removeValue, saveResourceFinished, setBaseURL, setCurrentResource,
   setUnusedRDF, showProperty, loadResourceFinished,
 } from 'reducers/resources'
 
@@ -14,11 +14,9 @@ const reducers = {
   ADD_PROPERTY: addProperty,
   ADD_SUBJECT: addSubject,
   ADD_VALUE: addValue,
-  CLEAR_VALUES: clearValues,
   CLEAR_RESOURCE: clearResource,
   HIDE_PROPERTY: hideProperty,
   LOAD_RESOURCE_FINISHED: loadResourceFinished,
-  REPLACE_VALUES: replaceValues,
   REMOVE_PROPERTY: removeProperty,
   REMOVE_SUBJECT: removeSubject,
   REMOVE_VALUE: removeValue,
@@ -32,12 +30,24 @@ const reducers = {
 const reducer = createReducer(reducers)
 
 describe('addProperty()', () => {
-  it('adds a property key to a subject propertyTemplateKeys', () => {
-    const oldState = createState({ hasResourceWithLiteral: true })
+  describe('new property with no values', () => {
+    it('updates state', () => {
+      const oldState = createState({ hasResourceWithLiteral: true })
 
-    const action = {
-      type: 'ADD_PROPERTY',
-      payload: {
+      const action = {
+        type: 'ADD_PROPERTY',
+        payload: {
+          key: 'vmq88891',
+          subject: { key: 't9zVwg2zO' },
+          resourceKey: 't9zVwg2zO',
+          propertyTemplate: { key: 'ld4p:RT:bf2:Title:AbbrTitle > http://id.loc.gov/ontologies/bibframe/mainTitle' },
+          values: [],
+          show: true,
+          errors: [],
+        },
+      }
+      const newState = reducer(oldState.selectorReducer, action)
+      expect(newState.entities.properties.vmq88891).toStrictEqual({
         key: 'vmq88891',
         subjectKey: 't9zVwg2zO',
         resourceKey: 't9zVwg2zO',
@@ -45,196 +55,265 @@ describe('addProperty()', () => {
         valueKeys: [],
         show: true,
         errors: [],
-      },
-    }
-    const newState = reducer(oldState.selectorReducer, action)
-    expect(newState.entities.properties.vmq88891).toStrictEqual({
-      key: 'vmq88891',
-      subjectKey: 't9zVwg2zO',
-      resourceKey: 't9zVwg2zO',
-      propertyTemplateKey: 'ld4p:RT:bf2:Title:AbbrTitle > http://id.loc.gov/ontologies/bibframe/mainTitle',
-      valueKeys: [],
-      show: true,
-      errors: [],
+      })
+      expect(newState.entities.subjects.t9zVwg2zO.propertyKeys).toContain('vmq88891')
+      expect(newState.entities.subjects.t9zVwg2zO.changed).toBe(true)
     })
-    expect(newState.entities.subjects.t9zVwg2zO.propertyKeys).toContain('vmq88891')
-    expect(newState.entities.subjects.t9zVwg2zO.changed).toBe(true)
+  })
+
+  describe('existing property with values', () => {
+    it('updates state', () => {
+      const oldState = createState({ hasResourceWithLiteral: true })
+
+      const action = {
+        type: 'ADD_PROPERTY',
+        payload: {
+          key: 'JQEtq-vmq8',
+          subject: { key: 't9zVwg2zO' },
+          resourceKey: 't9zVwg2zO',
+          propertyTemplate: { key: 'ld4p:RT:bf2:Title:AbbrTitle > http://id.loc.gov/ontologies/bibframe/mainTitle' },
+          values: [{
+            key: 'RxGx7WMh4',
+            property: { key: 'JQEtq-vmq8' },
+            resourceKey: 't9zVwg2zO',
+            literal: 'bar',
+            lang: 'eng',
+            uri: null,
+            label: null,
+            valueSubject: null,
+          }],
+          show: true,
+          errors: [],
+        },
+      }
+
+      const newState = reducer(oldState.selectorReducer, action)
+      expect(newState.entities.properties['JQEtq-vmq8']).toStrictEqual({
+        key: 'JQEtq-vmq8',
+        subjectKey: 't9zVwg2zO',
+        resourceKey: 't9zVwg2zO',
+        propertyTemplateKey: 'ld4p:RT:bf2:Title:AbbrTitle > http://id.loc.gov/ontologies/bibframe/mainTitle',
+        valueKeys: ['RxGx7WMh4'],
+        show: true,
+        errors: [],
+      })
+      expect(newState.entities.subjects.t9zVwg2zO.propertyKeys).toContain('JQEtq-vmq8')
+      // Replaces values
+      expect(newState.entities.values.RxGx7WMh4).not.toBeUndefined()
+      expect(newState.entities.values.CxGx7WMh2).toBeUndefined()
+      expect(newState.entities.subjects.t9zVwg2zO.changed).toBe(true)
+    })
+  })
+
+  describe('property with validation error', () => {
+    it('adds error', () => {
+      const oldState = createState({ hasResourceWithLiteral: true })
+
+      const action = {
+        type: 'ADD_PROPERTY',
+        payload: {
+          key: 'vmq88891',
+          subject: { key: 't9zVwg2zO' },
+          resourceKey: 't9zVwg2zO',
+          propertyTemplate: { key: 'ld4p:RT:bf2:Title:AbbrTitle > http://id.loc.gov/ontologies/bibframe/mainTitle', required: true },
+          values: [],
+          show: true,
+          errors: [],
+        },
+      }
+      const newState = reducer(oldState.selectorReducer, action)
+      expect(newState.entities.properties.vmq88891).toStrictEqual({
+        key: 'vmq88891',
+        subjectKey: 't9zVwg2zO',
+        resourceKey: 't9zVwg2zO',
+        propertyTemplateKey: 'ld4p:RT:bf2:Title:AbbrTitle > http://id.loc.gov/ontologies/bibframe/mainTitle',
+        valueKeys: [],
+        show: true,
+        errors: ['Required'],
+      })
+    })
   })
 })
 
 describe('addSubject()', () => {
-  it('adds a subject', () => {
-    const oldState = {
-      entities: {
-        subjects: {},
-      },
-    }
+  describe('new subject with no properties', () => {
+    it('updates state', () => {
+      const oldState = createState()
 
-    const action = {
-      type: 'ADD_SUBJECT',
-      payload: {
-        key: '45689df',
-        resourceKey: '45689df',
-        properties: {},
-        subjectTemplate: {
-          key: 'resourceTemplate:bf2:Identifiers:Barcode',
-          id: 'resourceTemplate:bf2:Identifiers:Barcode',
-          class: 'http://id.loc.gov/ontologies/bibframe/Barcode',
-          label: 'Barcode',
+      const action = {
+        type: 'ADD_SUBJECT',
+        payload: {
+          key: '45689df',
+          resourceKey: '45689df',
+          properties: [],
+          subjectTemplate: { key: 'resourceTemplate:bf2:Identifiers:Barcode' },
+          uri: null,
         },
-        uri: null,
-        subjectTemplateKey: 'resourceTemplate:bf2:Identifiers:Barcode',
-      },
-    }
+      }
 
-    const newState = reducer(oldState, action)
-    expect(newState).toStrictEqual({
-      entities: {
-        subjects: {
-          '45689df': {
-            key: '45689df',
-            uri: null,
-            resourceKey: '45689df',
-            changed: true,
-            subjectTemplateKey: 'resourceTemplate:bf2:Identifiers:Barcode',
-          },
+      const newState = reducer(oldState.selectorReducer, action)
+      expect(newState.entities.subjects).toStrictEqual({
+        '45689df': {
+          key: '45689df',
+          propertyKeys: [],
+          uri: null,
+          resourceKey: '45689df',
+          changed: true,
+          subjectTemplateKey: 'resourceTemplate:bf2:Identifiers:Barcode',
         },
-      },
+      })
+    })
+  })
+
+  describe('existing subject with properties', () => {
+    it('updates state', () => {
+      const oldState = createState({ hasResourceWithLiteral: true })
+
+      const action = {
+        type: 'ADD_SUBJECT',
+        payload: {
+          key: 't9zVwg2zO',
+          resourceKey: 't9zVwg2zO',
+          uri: 'https://trellis.sinopia.io/repository/washington/0894a8b3',
+          subjectTemplate: { key: 'ld4p:RT:bf2:Title:AbbrTitle' },
+          properties: [
+            {
+              key: 'KQEtq-vmq9',
+              subject: { key: 't9zVwg2zO' },
+              resourceKey: 't9zVwg2zO',
+              propertyTemplate: { key: 'ld4p:RT:bf2:Title:AbbrTitle > http://id.loc.gov/ontologies/bibframe/mainTitle' },
+              valueKeys: [],
+              show: true,
+              errors: [],
+            },
+          ],
+          changed: false,
+        },
+      }
+
+      const newState = reducer(oldState.selectorReducer, action)
+      expect(newState.entities.subjects.t9zVwg2zO).toStrictEqual({
+        key: 't9zVwg2zO',
+        resourceKey: 't9zVwg2zO',
+        uri: 'https://trellis.sinopia.io/repository/washington/0894a8b3',
+        subjectTemplateKey: 'ld4p:RT:bf2:Title:AbbrTitle',
+        propertyKeys: [
+          'KQEtq-vmq9',
+        ],
+        changed: true,
+      })
+      // Replaces values
+      expect(newState.entities.properties['KQEtq-vmq9']).not.toBeUndefined()
+      expect(newState.entities.properties['JQEtq-vmq8']).toBeUndefined()
     })
   })
 })
 
 describe('addValue()', () => {
-  const action = {
-    type: 'ADD_VALUE',
-    payload: {
-      value: {
-        key: 'wWPvilOlqH',
-        propertyKey: 'kqKVn-1TbC',
-        resourceKey: '45689df',
-        literal: '12345',
-        lang: null,
+  describe('new literal value', () => {
+    it('updates state', () => {
+      const oldState = createState({ hasResourceWithLiteral: true })
+
+      const action = {
+        type: 'ADD_VALUE',
+        payload: {
+          value: {
+            key: 'DxGx7WMh3',
+            property: { key: 'JQEtq-vmq8' },
+            resourceKey: 't9zVwg2zO',
+            literal: 'bar',
+            lang: 'eng',
+            uri: null,
+            label: null,
+            valueSubjectKey: null,
+          },
+        },
+      }
+
+      const newState = reducer(oldState.selectorReducer, action)
+
+      expect(newState.entities.values.DxGx7WMh3).toStrictEqual({
+        key: 'DxGx7WMh3',
+        propertyKey: 'JQEtq-vmq8',
+        resourceKey: 't9zVwg2zO',
+        literal: 'bar',
+        lang: 'eng',
         uri: null,
         label: null,
         valueSubjectKey: null,
-      },
-    },
-  }
-
-  const expectedState = {
-    entities: {
-      subjects: {
-        '45689df': {
-          changed: true,
-        },
-      },
-      propertyTemplates: {
-        'resourceTemplate:bf2:Identifiers:Barcode > http://www.w3.org/1999/02/22-rdf-syntax-ns#value': {
-          key: 'resourceTemplate:bf2:Identifiers:Barcode > http://www.w3.org/1999/02/22-rdf-syntax-ns#value',
-          subjectTemplateKey: 'resourceTemplate:bf2:Identifiers:Barcode',
-          label: 'Barcode',
-          uri: 'http://www.w3.org/1999/02/22-rdf-syntax-ns#value',
-          required: true,
-          repeatable: false,
-          type: 'literal',
-        },
-      },
-      properties: {
-        'kqKVn-1TbC': {
-          key: 'kqKVn-1TbC',
-          resourceKey: '45689df',
-          errors: [],
-          valueKeys: ['wWPvilOlqH'],
-          propertyTemplateKey: 'resourceTemplate:bf2:Identifiers:Barcode > http://www.w3.org/1999/02/22-rdf-syntax-ns#value',
-          show: true,
-        },
-      },
-      values: {
-        wWPvilOlqH: {
-          key: 'wWPvilOlqH',
-          propertyKey: 'kqKVn-1TbC',
-          resourceKey: '45689df',
-          literal: '12345',
-          lang: null,
-          uri: null,
-          label: null,
-          valueSubjectKey: null,
-        },
-      },
-    },
-  }
-
-  it('adds a value if it value does not exist', () => {
-    const oldState = {
-      entities: {
-        subjects: {
-          '45689df': {
-            changed: false,
-          },
-        },
-        properties: {
-          'kqKVn-1TbC': {
-            key: 'kqKVn-1TbC',
-            resourceKey: '45689df',
-            valueKeys: [],
-            propertyTemplateKey: 'resourceTemplate:bf2:Identifiers:Barcode > http://www.w3.org/1999/02/22-rdf-syntax-ns#value',
-            show: false,
-          },
-        },
-        propertyTemplates: {
-          'resourceTemplate:bf2:Identifiers:Barcode > http://www.w3.org/1999/02/22-rdf-syntax-ns#value': {
-            key: 'resourceTemplate:bf2:Identifiers:Barcode > http://www.w3.org/1999/02/22-rdf-syntax-ns#value',
-            subjectTemplateKey: 'resourceTemplate:bf2:Identifiers:Barcode',
-            label: 'Barcode',
-            uri: 'http://www.w3.org/1999/02/22-rdf-syntax-ns#value',
-            required: true,
-            repeatable: false,
-            type: 'literal',
-          },
-        },
-        values: {},
-      },
-    }
-
-    const newState = reducer(oldState, action)
-    expect(newState).toStrictEqual(expectedState)
+      })
+      expect(newState.entities.properties['JQEtq-vmq8'].valueKeys).toContain('DxGx7WMh3')
+      expect(newState.entities.properties['JQEtq-vmq8'].show).toBe(true)
+    })
   })
 
-  it('adds a value if valueKey exists', () => {
-    const oldState = {
-      entities: {
-        subjects: {
-          '45689df': {
-            changed: false,
-          },
-        },
-        properties: {
-          'kqKVn-1TbC': {
-            key: 'kqKVn-1TbC',
-            resourceKey: '45689df',
-            valueKeys: ['wWPvilOlqH'],
-            propertyTemplateKey: 'resourceTemplate:bf2:Identifiers:Barcode > http://www.w3.org/1999/02/22-rdf-syntax-ns#value',
-            show: false,
-          },
-        },
-        propertyTemplates: {
-          'resourceTemplate:bf2:Identifiers:Barcode > http://www.w3.org/1999/02/22-rdf-syntax-ns#value': {
-            key: 'resourceTemplate:bf2:Identifiers:Barcode > http://www.w3.org/1999/02/22-rdf-syntax-ns#value',
-            subjectTemplateKey: 'resourceTemplate:bf2:Identifiers:Barcode',
-            label: 'Barcode',
-            uri: 'http://www.w3.org/1999/02/22-rdf-syntax-ns#value',
-            required: true,
-            repeatable: false,
-            type: 'literal',
-          },
-        },
-        values: {},
-      },
-    }
+  describe('new literal value with siblingValueKey', () => {
+    it('updates state', () => {
+      const oldState = createState({ hasResourceWithLiteral: true })
+      oldState.selectorReducer.entities.properties['JQEtq-vmq8'].valueKeys = ['abc123', 'def456']
 
-    // oldState contains existing property
-    const newState = reducer(oldState, action)
-    expect(newState).toStrictEqual(expectedState)
+      const action = {
+        type: 'ADD_VALUE',
+        payload: {
+          value: {
+            key: 'DxGx7WMh3',
+            property: { key: 'JQEtq-vmq8' },
+            resourceKey: 't9zVwg2zO',
+            literal: 'bar',
+            lang: 'eng',
+            uri: null,
+            label: null,
+            valueSubjectKey: null,
+          },
+          siblingValueKey: 'abc123',
+        },
+      }
+
+      const newState = reducer(oldState.selectorReducer, action)
+      expect(newState.entities.properties['JQEtq-vmq8'].valueKeys).toEqual(['abc123', 'DxGx7WMh3', 'def456'])
+    })
+  })
+  describe('existing nested resource value', () => {
+    it('updates state', () => {
+      const oldState = createState({ hasResourceWithNestedResource: true })
+
+      const action = {
+        type: 'ADD_VALUE',
+        payload: {
+          value: {
+            key: 'VDOeQCnFA8',
+            property: { key: 'v1o90QO1Qx' },
+            resourceKey: 'ljAblGiBW',
+            literal: null,
+            lang: null,
+            uri: null,
+            label: null,
+            valueSubject: {
+              key: 'YPb8jaPW1',
+              uri: null,
+              subjectTemplate: { key: 'resourceTemplate:testing:uber2' },
+              resourceKey: 'ljAblGiBW',
+              properties: [],
+            },
+          },
+        },
+      }
+
+      const newState = reducer(oldState.selectorReducer, action)
+      expect(newState.entities.values.VDOeQCnFA8).toStrictEqual({
+        key: 'VDOeQCnFA8',
+        propertyKey: 'v1o90QO1Qx',
+        resourceKey: 'ljAblGiBW',
+        literal: null,
+        lang: null,
+        uri: null,
+        label: null,
+        valueSubjectKey: 'YPb8jaPW1',
+      })
+      // Replaces subjects
+      expect(newState.entities.subjects.YPb8jaPW1).not.toBeUndefined()
+      expect(newState.entities.subjects.JXPb8jaPWo).toBeUndefined()
+    })
   })
 })
 
@@ -250,47 +329,8 @@ describe('clearResource()', () => {
     const newState = reducer(oldState.selectorReducer, action)
     expect(newState.editor.currentResource).toBe(undefined)
     expect(Object.keys(newState.entities.subjects)).toHaveLength(0)
-  })
-})
-
-describe('clearValues()', () => {
-  it('sets property valueKeys to an empty list', () => {
-    const oldState = {
-      entities: {
-        subjects: {
-          '45689df': {
-            changed: false,
-          },
-        },
-        properties: {
-          'kqKVn-1TbC': {
-            key: 'kqKVn-1TbC',
-            resourceKey: '45689df',
-            show: true,
-            valueKeys: ['wWPvilOlqH'],
-          },
-        },
-        values: {
-          wWPvilOlqH: {
-            key: 'wWPvilOlqH',
-            propertyKey: 'kqKVn-1TbC',
-            resourceKey: '45689df',
-            literal: '12345',
-            lang: null,
-            uri: null,
-            label: null,
-            valueSubjectKey: null,
-          },
-        },
-      },
-    }
-    const action = {
-      type: 'CLEAR_VALUES',
-      payload: 'kqKVn-1TbC',
-    }
-    const newState = reducer(oldState, action)
-    expect(newState.entities.properties['kqKVn-1TbC'].valueKeys).toHaveLength(0)
-    expect(newState.entities.subjects['45689df'].changed).toBe(true)
+    expect(Object.keys(newState.entities.properties)).toHaveLength(0)
+    expect(Object.keys(newState.entities.values)).toHaveLength(0)
   })
 })
 
@@ -327,6 +367,8 @@ describe('removeProperty()', () => {
 
     const newState = reducer(oldState.selectorReducer, action)
     expect(newState.entities.properties['JQEtq-vmq8']).toBe(undefined)
+    expect(newState.entities.subjects.t9zVwg2zO.propertyKeys).not.toContain('JQEtq-vmq8')
+    expect(newState.entities.values.CxGx7WMh2).toBe(undefined)
     expect(newState.entities.subjects.t9zVwg2zO.changed).toBe(true)
   })
 })
@@ -341,6 +383,8 @@ describe('removeSubject()', () => {
 
     const newState = reducer(oldState.selectorReducer, action)
     expect(newState.entities.subjects.t9zVwg2zO).toBe(undefined)
+    expect(newState.entities.properties['JQEtq-vmq8']).toBe(undefined)
+    expect(newState.entities.values.CxGx7WMh2).toBe(undefined)
   })
 })
 
@@ -354,43 +398,8 @@ describe('removeValue()', () => {
 
     const newState = reducer(oldState.selectorReducer, action)
     expect(newState.entities.values.CxGx7WMh2).toBe(undefined)
-    expect(newState.entities.properties['JQEtq-vmq8'].valueKeys.CxGx7WMh2).toBe(undefined)
+    expect(newState.entities.properties['JQEtq-vmq8'].valueKeys).not.toContain('CxGx7WMh2')
     expect(newState.entities.properties['JQEtq-vmq8'].errors).toHaveLength(0)
-    expect(newState.entities.subjects.t9zVwg2zO.changed).toBe(true)
-  })
-})
-
-describe('replaceValues()', () => {
-  it('does not change state if value is absent', () => {
-    const oldState = createState({ hasResourceWithLiteral: true })
-    const action = {
-      type: 'REPLACE_VALUES',
-      payload: [],
-    }
-
-    const newState = reducer(oldState.selectorReducer, action)
-    expect(newState).toStrictEqual(oldState.selectorReducer)
-  })
-
-  it('changes value', () => {
-    const oldState = createState({ hasResourceWithLiteral: true })
-    const action = {
-      type: 'REPLACE_VALUES',
-      payload: [
-        {
-          key: 'CxGx7WMh2',
-          propertyKey: 'JQEtq-vmq8',
-          resourceKey: 't9zVwg2zO',
-          literal: 'foo',
-          lang: 'eng',
-          uri: null,
-          label: null,
-          valueSubjectKey: null,
-        },
-      ],
-    }
-    const newState = reducer(oldState.selectorReducer, action)
-    expect(Object.keys(newState.entities.values)).toHaveLength(0)
     expect(newState.entities.subjects.t9zVwg2zO.changed).toBe(true)
   })
 })

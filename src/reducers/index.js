@@ -9,7 +9,7 @@ import {
   setBaseURL, hideProperty, showProperty,
   setUnusedRDF, setCurrentResource,
   addSubject, addProperty, addValue, removeValue,
-  removeProperty, removeSubject, clearResource, replaceValues, clearValues,
+  removeProperty, removeSubject, clearResource,
   saveResourceFinished, loadResourceFinished,
 } from './resources'
 import {
@@ -88,8 +88,6 @@ const handlers = {
   REMOVE_VALUE: removeValue,
   REMOVE_SUBJECT: removeSubject,
   REMOVE_PROPERTY: removeProperty,
-  REPLACE_VALUES: replaceValues,
-  CLEAR_VALUES: clearValues,
 }
 
 export const createReducer = (handlers) => (state = {}, action) => {

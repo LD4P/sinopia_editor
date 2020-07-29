@@ -7,6 +7,8 @@
 <> <http://id.loc.gov/ontologies/bibframe/uber/template1/property6> <ubertemplate1:property6> .
 <> <http://sinopia.io/vocabulary/hasResourceTemplate> "resourceTemplate:testing:uber1" .
 <> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://id.loc.gov/ontologies/bibframe/Uber1> .
+<ubertemplate1:property5> <http://www.w3.org/2000/01/rdf-schema#label> "ubertemplate1:property5" .
+<ubertemplate1:property6> <http://www.w3.org/2000/01/rdf-schema#label> "ubertemplate1:property6" .
 _:b2_c14n0 <http://id.loc.gov/ontologies/bibframe/uber/template3/property1> "Uber template3, property1"@eng .
 _:b2_c14n0 <http://id.loc.gov/ontologies/bibframe/uber/template3/property2> "Uber template3, property2"@eng .
 _:b2_c14n0 <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://id.loc.gov/ontologies/bibframe/Uber3> .
