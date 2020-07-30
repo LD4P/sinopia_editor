@@ -25,17 +25,35 @@ describe('adding and removing properties', () => {
     // Input box displayed
     await screen.findByPlaceholderText('Uber template1, property2')
     // Add button removed.
-    expect(screen.queryAllByRole('button', { name: 'Add Uber template1, property2' }).length).toBeFalsy()
+    expect(screen.queryAllByRole('button', { name: 'Add Uber template1, property2' })).toHaveLength(0)
 
     // Now remove it.
     fireEvent.click(screen.getByRole('button', { name: 'Remove Uber template1, property2' }))
 
     // Input box removed.
-    expect((await screen.queryAllByPlaceholderText('Uber template1, property2')).length).toBeFalsy()
+    expect((await screen.queryAllByPlaceholderText('Uber template1, property2'))).toHaveLength(0)
     // Add button displayed.
     screen.getByRole('button', { name: 'Add Uber template1, property2' })
     // Remove button removed.
-    expect(screen.queryAllByRole('button', { name: 'Remove Uber template1, property2' }).length).toBeFalsy()
+    expect(screen.queryAllByRole('button', { name: 'Remove Uber template1, property2' })).toHaveLength(0)
+  })
+
+  it('adds required panel properties', async () => {
+    renderApp(null, history)
+
+    await screen.findByRole('heading', { name: 'Uber template1' })
+
+    // Add a panel property
+    screen.getByRole('heading', { name: /Uber template1, property4/ })
+    fireEvent.click(screen.getByRole('button', { name: 'Add Uber template1, property4' }))
+
+    // Input box displayed
+    await screen.findByPlaceholderText('Uber template1, property4')
+    // Add button removed.
+    expect(screen.queryAllByRole('button', { name: 'Add Uber template1, property4' })).toHaveLength(0)
+
+    // No remove button since required
+    expect(screen.queryAllByRole('button', { name: 'Remove Uber template1, property4' })).toHaveLength(0)
   })
 
   it('adds and removes repeatable nested resources', async () => {
@@ -112,8 +130,8 @@ describe('adding and removing properties', () => {
     fireEvent.click(screen.getByRole('button', { name: 'Remove Uber template2, property1' }))
 
     // Input box removed.
-    expect((await screen.queryAllByPlaceholderText('Uber template2, property1')).length).toBeFalsy()
+    expect((await screen.queryAllByPlaceholderText('Uber template2, property1'))).toHaveLength(0)
     // Delete button removed
-    expect(screen.queryAllByRole('button', { name: 'Remove Uber template2, property1' }).length).toBeFalsy()
+    expect(screen.queryAllByRole('button', { name: 'Remove Uber template2, property1' })).toHaveLength(0)
   })
 })

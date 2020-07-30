@@ -16,7 +16,7 @@ import { selectProperty, selectCurrentResourceKey } from 'selectors/resources'
 const PanelProperty = (props) => {
   // Null values indicates that can be added.
   const isAdd = props.property.values === null
-  const isMandatory = props.property.propertyTemplate.mandatory
+  const isRequired = props.property.propertyTemplate.required
   const nbsp = '\u00A0'
   const trashIcon = faTrashAlt
 
@@ -37,7 +37,7 @@ const PanelProperty = (props) => {
                 + Add
               </button>
             )}
-            { !isAdd && !isMandatory && (
+            { !isAdd && !isRequired && (
               <button type="button"
                       className="btn btn-sm btn-remove pull-right"
                       aria-label={`Remove ${props.property.propertyTemplate.label}`}
