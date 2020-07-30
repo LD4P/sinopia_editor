@@ -17,9 +17,6 @@ describe('editing a literal property', () => {
 
     await screen.findByRole('heading', { name: 'Uber template1' })
 
-    // Add a panel property
-    fireEvent.click(screen.getByRole('button', { name: 'Add Uber template1, property4' }))
-
     // Add a value
     const input = screen.getByPlaceholderText('Uber template1, property4')
     fireEvent.change(input, { target: { value: 'foo' } })
@@ -100,9 +97,6 @@ describe('editing a literal property', () => {
 
     await screen.findByRole('heading', { name: 'Uber template1' })
 
-    // Add a panel property
-    fireEvent.click(screen.getByRole('button', { name: 'Add Uber template1, property4' }))
-
     // Add a value
     const input = screen.getByPlaceholderText('Uber template1, property4')
     fireEvent.change(input, { target: { value: 'Fo' } })
@@ -127,9 +121,6 @@ describe('editing a literal property', () => {
     renderApp(null, history)
 
     await screen.findByRole('heading', { name: 'Uber template1' })
-
-    // Add a panel property
-    fireEvent.click(screen.getByRole('button', { name: 'Add Uber template1, property4' }))
 
     // Add a value
     const input = screen.getByPlaceholderText('Uber template1, property4')
@@ -161,9 +152,6 @@ describe('editing a literal property', () => {
     renderApp(null, history)
 
     await screen.findByRole('heading', { name: 'Uber template1' })
-
-    // Add a panel property
-    fireEvent.click(screen.getByRole('button', { name: 'Add Uber template1, property4' }))
 
     // Add a value
     const input = screen.getByPlaceholderText('Uber template1, property4')

@@ -18,8 +18,8 @@ describe('TemplatesBuilder', () => {
     expect(subjectTemplate.author).toBe('Justin Littman')
     expect(subjectTemplate.date).toBe('2020-07-27')
     expect(subjectTemplate.remark).toBe('Template for testing purposes.')
-    expect(subjectTemplate.propertyTemplateKeys).toHaveLength(17)
-    expect(subjectTemplate.propertyTemplates).toHaveLength(17)
+    expect(subjectTemplate.propertyTemplateKeys).toHaveLength(18)
+    expect(subjectTemplate.propertyTemplates).toHaveLength(18)
 
     const propertyTemplate = subjectTemplate.propertyTemplates[0]
     expect(propertyTemplate.key).toBe('resourceTemplate:testing:uber1 > http://id.loc.gov/ontologies/bibframe/uber/template1/property1')

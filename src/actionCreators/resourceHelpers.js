@@ -26,17 +26,17 @@ export const addResourceFromDataset = (dataset, uri, resourceTemplateId, errorKe
 }
 
 export const addEmptyResource = (resourceTemplateId, errorKey) => (dispatch) => dispatch(newSubject(null, resourceTemplateId, null, errorKey))
-  .then((subject) => {
-    subject.properties = newPropertiesFromTemplates(subject, false)
-    dispatch(addSubjectAction(subject))
-    return subject
-  })
+  .then((subject) => dispatch(newPropertiesFromTemplates(subject, false, errorKey))
+    .then((properties) => {
+      subject.properties = properties
+      dispatch(addSubjectAction(subject))
+      return subject
+    }))
 
 const recursiveResourceFromDataset = (subjectTerm, uri, resourceTemplateId, resourceKey, dataset,
   usedDataset, errorKey) => (dispatch) => dispatch(newSubject(uri, resourceTemplateId, resourceKey, errorKey))
-  .then((subject) => {
-    const properties = newPropertiesFromTemplates(subject, true)
-    return Promise.all(
+  .then((subject) => dispatch(newPropertiesFromTemplates(subject, true, errorKey))
+    .then((properties) => Promise.all(
       properties.map((property) => dispatch(newValuesFromDataset(subjectTerm, property, dataset, usedDataset, errorKey))
         .then((values) => {
           const compactValues = _.compact(values)
@@ -47,8 +47,7 @@ const recursiveResourceFromDataset = (subjectTerm, uri, resourceTemplateId, reso
       .then(() => {
         subject.properties = properties
         return subject
-      })
-  })
+      })))
 
 export const newSubject = (uri, resourceTemplateId, resourceKey, errorKey) => (dispatch) => {
   const key = shortid.generate()
@@ -72,9 +71,9 @@ export const newSubject = (uri, resourceTemplateId, resourceKey, errorKey) => (d
     })
 }
 
-export const newPropertiesFromTemplates = (subject,
-  noDefaults) => subject.subjectTemplate.propertyTemplates.map((propertyTemplate) => newProperty(subject,
-  propertyTemplate, noDefaults))
+export const newPropertiesFromTemplates = (subject, noDefaults, errorKey) => (dispatch) => Promise.all(
+  subject.subjectTemplate.propertyTemplates.map((propertyTemplate) => dispatch(newProperty(subject, propertyTemplate, noDefaults, errorKey))),
+)
 
 const newValuesFromDataset = (subjectTerm, property, dataset, usedDataset, errorKey) => (dispatch) => {
   // All quads for this property
@@ -142,7 +141,7 @@ const newUriFromQuad = (quad, property, dataset, usedDataset) => {
   return newUriValue(property, uri, label)
 }
 
-const newProperty = (subject, propertyTemplate, noDefaults) => {
+const newProperty = (subject, propertyTemplate, noDefaults, errorKey) => (dispatch) => {
   const key = shortid.generate()
   const property = {
     key,
@@ -159,8 +158,33 @@ const newProperty = (subject, propertyTemplate, noDefaults) => {
       }
       return newLiteralValue(property, defaultValue.literal, defaultValue.lang)
     })
+    property.show = true
   }
+
+  // If required, then expand the property.
+  if (propertyTemplate.required) {
+    property.show = true
+    return dispatch(valuesForExpandedProperty(property, noDefaults, errorKey))
+      .then((values) => {
+        property.values = values
+        return property
+      })
+  }
+
   return property
+}
+
+const valuesForExpandedProperty = (property, noDefaults, errorKey) => (dispatch) => {
+  if (property.propertyTemplate.type === 'resource') {
+    return Promise.all(property.propertyTemplate.valueSubjectTemplateKeys.map((resourceTemplateId) => dispatch(newSubject(null,
+      resourceTemplateId, property.resourceKey, errorKey))
+      .then((subject) => dispatch(newPropertiesFromTemplates(subject, noDefaults, errorKey))
+        .then((properties) => {
+          subject.properties = properties
+          return newValueSubject(property, subject)
+        }))))
+  }
+  return Promise.resolve([])
 }
 
 export const newSubjectCopy = (subjectKey, value) => (dispatch, getState) => {

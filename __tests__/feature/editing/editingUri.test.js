@@ -17,9 +17,6 @@ describe('editing a URI property', () => {
 
     await screen.findByRole('heading', { name: 'Uber template1' })
 
-    // Add a panel property
-    fireEvent.click(screen.getByRole('button', { name: 'Add Uber template1, property5' }))
-
     // Add a value
     const input = screen.getByPlaceholderText('Uber template1, property5')
     fireEvent.change(input, { target: { value: 'http://id.loc.gov/authorities/names/n79032058' } })
@@ -60,9 +57,6 @@ describe('editing a URI property', () => {
 
     await screen.findByRole('heading', { name: 'Uber template1' })
 
-    // Add a panel property
-    fireEvent.click(screen.getByRole('button', { name: 'Add Uber template1, property6' }))
-
     // Add two values
     const input = screen.getByPlaceholderText('Uber template1, property6')
     fireEvent.change(input, { target: { value: 'http://id.loc.gov/authorities/names/n79032058' } })
@@ -93,9 +87,6 @@ describe('editing a URI property', () => {
     renderApp(null, history)
 
     await screen.findByRole('heading', { name: 'Uber template1' })
-
-    // Add a panel property
-    fireEvent.click(screen.getByRole('button', { name: 'Add Uber template1, property5' }))
 
     // Add a value
     const input = screen.getByPlaceholderText('Uber template1, property5')
