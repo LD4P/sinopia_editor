@@ -21,8 +21,8 @@ describe('fixtureLoaderHelper', () => {
     it('mapping has id', () => {
       expect(resourceTemplateId2Json.map((e) => e.id)).toEqual(
         expect.arrayContaining([
-          'resourceTemplate:bf2:Monograph:Instance',
-          'resourceTemplate:bf2:WorkVariantTitle',
+          'resourceTemplate:testing:uber1',
+          'resourceTemplate:testing:uber2',
         ]),
       )
     })
@@ -57,8 +57,8 @@ describe('fixtureLoaderHelper', () => {
       expect(result.response.body['@id']).toEqual('http://spoof.trellis.io/ld4p')
       expect(result.response.body.contains).toEqual(
         expect.arrayContaining([
-          'http://spoof.trellis.io/ld4p/resourceTemplate:bf2:Monograph:Instance',
-          'http://spoof.trellis.io/ld4p/resourceTemplate:bf2:Monograph:Work',
+          'http://spoof.trellis.io/ld4p/resourceTemplate:testing:uber1',
+          'http://spoof.trellis.io/ld4p/resourceTemplate:testing:uber2',
         ]),
       )
     })
