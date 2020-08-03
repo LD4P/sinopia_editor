@@ -88,22 +88,6 @@ $primary-disabled: lighten( map-get($theme-colors,"secondary"), 20% );
   box-shadow: -3px 3px 10px 0px #999999;
 }
 
-.ResourceTemplateForm {
-  column-count: 2;
-}
-
-/* This prevents one card from breaking in the middle. https://blog.room34.com/archives/5454 */
-.ResourceTemplateForm > * {
-  display: inline-block;
-  width: 100%;
-}
-
-@media only screen and (max-width: 768px) {
-  .ResourceTemplateForm {
-    column-count: 1;
-  }
-}
-
 .desc-panel{
   padding: 0 10%;
   margin-bottom: 10%;
@@ -395,4 +379,27 @@ ul.resources-nav-tabs button.active {
 
 .icon-lg {
   font-size: 20px;
+}
+
+.resource-nav-list-group {
+  position: sticky;
+  top: 0;
+  overflow-y: auto;
+  height: 100vh;
+}
+
+a.list-group-item {
+  text-decoration: none;
+}
+
+.list-group-item {
+  padding-top: 0px;
+  padding-bottom: 0px;
+  padding-left: 3px;
+  padding-right: 10px;
+  border-style: none;
+}
+
+.list-group-top-item {
+  padding-top: 5px;
 }

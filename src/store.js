@@ -13,6 +13,7 @@ export const initialState = {
     },
     editor: { // The state of the editor
       currentResource: undefined,
+      currentComponent: {},
       resources: [], // Subject keys for open resources
       diacritics: {
         show: false,

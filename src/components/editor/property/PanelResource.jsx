@@ -3,19 +3,21 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import PanelProperty from './PanelProperty'
+import PanelResourceNav from './PanelResourceNav'
 
 // Top-level resource
 const PanelResource = (props) => (
-  <div>
-    <form onSubmit={(e) => e.preventDefault()}>
-      <div className="row" id="ResourceTemplateForm">
+  <div className="row" >
+    <PanelResourceNav resourceKey={props.resource.key} />
+    <div className="col-sm-9">
+      <form>
         {
           props.resource.properties.map((property, index) => (
             <PanelProperty propertyKey={property.key} key={property.key} float={index} id={property.key} />
           ))
         }
-      </div>
-    </form>
+      </form>
+    </div>
   </div>
 )
 

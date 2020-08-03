@@ -6,7 +6,10 @@ jest.spyOn(Config, 'useResourceTemplateFixtures', 'get').mockReturnValue(true)
 
 // Mock jquery
 global.$ = jest.fn().mockReturnValue({ popover: jest.fn() })
-
+// Mock out document.elementFromPoint used by useNavigableComponent.
+global.document.elementFromPoint = jest.fn()
+// Mock out scrollIntoView used by useNavigableComponent. See https://github.com/jsdom/jsdom/issues/1695
+Element.prototype.scrollIntoView = jest.fn()
 
 describe('adding and removing properties', () => {
   const history = createHistory(['/editor/resourceTemplate:testing:uber1'])
@@ -17,7 +20,7 @@ describe('adding and removing properties', () => {
     await screen.findByRole('heading', { name: 'Uber template1' })
 
     // Add a panel property
-    screen.getByRole('heading', { name: /Uber template1, property2/ })
+    expect(screen.getAllByRole('heading', { name: /Uber template1, property2/ })).toHaveLength(2)
     fireEvent.click(screen.getByRole('button', { name: 'Add Uber template1, property2' }))
 
     // Input box displayed
@@ -69,7 +72,7 @@ describe('adding and removing properties', () => {
     expect(screen.queryAllByRole('button', { name: 'Remove Uber template2' }).length).toBeFalsy
     // Add another still visible
     screen.getByRole('button', { name: 'Add another Uber template2' })
-  })
+  }, 10000)
 
   it('adds and removes non-repeatable nested resources', async () => {
     renderApp(null, history)
@@ -77,7 +80,7 @@ describe('adding and removing properties', () => {
     await screen.findByRole('heading', { name: 'Uber template1' })
 
     // Add a panel property
-    screen.getByRole('heading', { name: /Uber template1, property3/ })
+    expect(screen.getAllByRole('heading', { name: /Uber template1, property3/ })).toHaveLength(2)
     fireEvent.click(screen.getByRole('button', { name: 'Add Uber template1, property3' }))
 
     await screen.findByText('Uber template2')

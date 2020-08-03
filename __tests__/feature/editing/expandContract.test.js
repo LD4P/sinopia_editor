@@ -6,6 +6,10 @@ jest.spyOn(Config, 'useResourceTemplateFixtures', 'get').mockReturnValue(true)
 
 // Mock jquery
 global.$ = jest.fn().mockReturnValue({ popover: jest.fn() })
+// Mock out document.elementFromPoint used by useNavigableComponent.
+global.document.elementFromPoint = jest.fn()
+// Mock out scrollIntoView used by useNavigableComponent. See https://github.com/jsdom/jsdom/issues/1695
+Element.prototype.scrollIntoView = jest.fn()
 
 describe('expanding and contracting properties', () => {
   it('shows and hides nested properties', async () => {
@@ -35,5 +39,5 @@ describe('expanding and contracting properties', () => {
     fireEvent.click(screen.getByRole('button', { name: 'Show Uber template2, property1' }))
     // Input box displayed
     await screen.findByPlaceholderText('Uber template2, property1')
-  })
+  }, 10000)
 })

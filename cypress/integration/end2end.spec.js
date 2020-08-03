@@ -44,7 +44,6 @@ describe('End-to-end test', () => {
         cy.fixture('WorkTitle.txt').then((json) => {
           // Type is to slow. See https://github.com/cypress-io/cypress/issues/1123
           cy.get('#resourceTextArea').paste(json)
-          // .type(json, {delay: 0})
           cy.get('#uriInput')
             .type('http://localhost:3000/repository/resourceTemplate:bf2:WorkTitle')
           cy.get('button[type="submit"]:not(:disabled)').contains('Submit').click()

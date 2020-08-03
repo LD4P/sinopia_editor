@@ -7,6 +7,9 @@ import Config from 'Config'
 jest.spyOn(Config, 'useResourceTemplateFixtures', 'get').mockReturnValue(true)
 jest.spyOn(sinopiaApi, 'postResource').mockResolvedValue('http://localhost:3000/repository/c7db5404-7d7d-40ac-b38e-c821d2c3ae3f')
 
+// Mock out document.elementFromPoint used by useNavigableComponent.
+global.document.elementFromPoint = jest.fn()
+
 describe('saving a resource', () => {
   describe('when creating a new resource', () => {
     window.HTMLElement.prototype.scrollIntoView = jest.fn() // required to allow scrolling in the jsdom
