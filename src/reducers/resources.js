@@ -62,83 +62,162 @@ export const setCurrentResource = (state, action) => {
 export const addSubject = (state, action) => {
   const newState = { ...state }
 
-  const subject = state.entities.subjects[action.payload.key]
-  const newSubject = { ...action.payload }
-  delete newSubject.properties
-  delete newSubject.subjectTemplate
-  newState.entities.subjects[action.payload.key] = newSubject
-
-  if (!_.isEqual(newSubject, subject)) {
-    newState.entities.subjects[newSubject.resourceKey].changed = true
-  }
+  addSubjectToNewState(newState, action.payload)
 
   return newState
+}
+
+const addSubjectToNewState = (newState, subject) => {
+  const newSubject = { ...subject }
+  // Subject template
+  newSubject.subjectTemplateKey = newSubject.subjectTemplate.key
+  delete newSubject.subjectTemplate
+
+  // Add subject to state
+  const oldSubject = newState.entities.subjects[newSubject.key]
+  newState.entities.subjects[newSubject.key] = newSubject
+
+  // Remove existing properties
+  const oldPropertyKeys = oldSubject?.propertyKeys || []
+  oldPropertyKeys.forEach((propertyKey) => clearPropertyFromNewState(newState, propertyKey))
+
+  // Add new properties
+  newSubject.propertyKeys = []
+  newSubject.properties.forEach((property) => addPropertyToNewState(newState, property))
+  delete newSubject.properties
+
+  // If changed, then set resource as changed.
+  if (!_.isEqual(newSubject, oldSubject)) {
+    newState.entities.subjects[newSubject.resourceKey].changed = true
+  }
 }
 
 export const addProperty = (state, action) => {
   const newState = { ...state }
 
-  const property = state.entities.properties[action.payload.key]
-  const newProperty = { ...action.payload }
-  delete newProperty.subject
-  delete newProperty.values
-  delete newProperty.propertyTemplate
-  newProperty.errors = errorsForProperty(state, newProperty)
-  newState.entities.properties[action.payload.key] = newProperty
-
-  const subject = newState.entities.subjects[action.payload.subjectKey]
-  // Add if doesn't exist.
-  if (subject.propertyKeys.indexOf(action.payload.key) === -1) {
-    subject.propertyKeys = [...subject.propertyKeys, action.payload.key]
-  }
-
-  if (!_.isEqual(newProperty, property)) {
-    newState.entities.subjects[newProperty.resourceKey].changed = true
-  }
-
+  addPropertyToNewState(newState, action.payload)
 
   return newState
+}
+
+const addPropertyToNewState = (newState, property) => {
+  const newProperty = { ...property }
+
+  // Subject
+  newProperty.subjectKey = newProperty.subject.key
+  delete newProperty.subject
+
+  // Property template
+  newProperty.propertyTemplateKey = newProperty.propertyTemplate.key
+  delete newProperty.propertyTemplate
+
+  // Errors
+  newProperty.errors = errorsForProperty(newProperty, property.propertyTemplate)
+
+  // Add property to state
+  const oldProperty = newState.entities.properties[newProperty.key]
+  newState.entities.properties[newProperty.key] = newProperty
+
+  // Remove existing values
+  const oldValueKeys = oldProperty?.valueKeys || []
+  oldValueKeys.forEach((valueKey) => clearValueFromNewState(newState, valueKey))
+
+  // Add new values
+  if (newProperty.values) {
+    newProperty.valueKeys = []
+    newProperty.values.forEach((value) => addValueToNewState(newState, value))
+  } else {
+    newProperty.valueKeys = null
+  }
+  delete newProperty.values
+
+  // Add property to subject
+  const newSubject = newState.entities.subjects[newProperty.subjectKey]
+  // Add if doesn't exist.
+  if (newSubject.propertyKeys.indexOf(newProperty.key) === -1) {
+    newSubject.propertyKeys = [...newSubject.propertyKeys, newProperty.key]
+  }
+
+  // If changed, then set resource as changed.
+  if (!_.isEqual(newProperty, oldProperty)) {
+    newState.entities.subjects[newProperty.resourceKey].changed = true
+  }
 }
 
 export const addValue = (state, action) => {
   const newState = { ...state }
 
-  const origValue = action.payload.value
-  const newValue = { ...origValue }
-  cleanValue(newValue)
-  newState.entities.values[origValue.key] = newValue
-
-  const property = newState.entities.properties[origValue.propertyKey]
-  const valueKeys = property.valueKeys || []
-  // Add if doesn't exist.
-  if (valueKeys.indexOf(origValue.key) === -1) {
-    if (action.payload.siblingValueKey) {
-      const index = property.valueKeys.indexOf(action.payload.siblingValueKey)
-      property.valueKeys.splice(index + 1, 0, origValue.key)
-    } else {
-      property.valueKeys = [...valueKeys, origValue.key]
-    }
-  }
-  property.show = true
-  property.errors = errorsForProperty(state, property)
-
-  if (!_.isEqual(newValue, state.entities.values[action.payload.key])) {
-    newState.entities.subjects[newValue.resourceKey].changed = true
-  }
+  addValueToNewState(newState, action.payload.value, action.payload.siblingValueKey)
 
   return newState
+}
+
+const addValueToNewState = (newState, value, siblingValueKey) => {
+  const newValue = { ...value }
+  // Property
+  newValue.propertyKey = newValue.property.key
+  delete newValue.property
+
+  // Add value to state
+  const oldValue = newState.entities.values[newValue.key]
+  newState.entities.values[newValue.key] = newValue
+
+  // Add value to property
+  const newProperty = newState.entities.properties[newValue.propertyKey]
+  const valueKeys = newProperty.valueKeys || []
+  // Add if doesn't exist.
+  if (valueKeys.indexOf(newValue.key) === -1) {
+    if (siblingValueKey) {
+      const index = newProperty.valueKeys.indexOf(siblingValueKey)
+      newProperty.valueKeys.splice(index + 1, 0, newValue.key)
+    } else {
+      newProperty.valueKeys = [...valueKeys, newValue.key]
+    }
+  }
+  // Set to show
+  newProperty.show = true
+
+  // Remove existing value subject
+  if (oldValue?.valueSubjectKey) {
+    clearSubjectFromNewState(newState, oldValue.valueSubjectKey)
+  }
+
+  // Add new value subject
+  if (newValue.valueSubject) {
+    addSubjectToNewState(newState, newValue.valueSubject)
+    newValue.valueSubjectKey = newValue.valueSubject.key
+  } else {
+    newValue.valueSubjectKey = null
+  }
+  delete newValue.valueSubject
+
+  // Errors
+  const propertyTemplate = selectPropertyTemplate({ selectorReducer: newState }, newProperty.propertyTemplateKey)
+  newProperty.errors = errorsForProperty(newProperty, propertyTemplate)
+
+  // If changed, then set resource as changed.
+  if (!_.isEqual(newValue, oldValue)) {
+    newState.entities.subjects[newValue.resourceKey].changed = true
+  }
 }
 
 export const removeValue = (state, action) => {
   const newState = { ...state }
 
   const value = newState.entities.values[action.payload]
-  delete newState.entities.values[action.payload]
 
+  // Remove from property
   const property = newState.entities.properties[value.propertyKey]
   property.valueKeys = property.valueKeys.filter((valueKey) => valueKey !== action.payload)
-  property.errors = errorsForProperty(newState, property)
 
+  // Recursively remove value
+  clearValueFromNewState(newState, value.key)
+
+  // Errors
+  const propertyTemplate = selectPropertyTemplate({ selectorReducer: newState }, property.propertyTemplateKey)
+  property.errors = errorsForProperty(property, propertyTemplate)
+
+  // Set resource as changed
   newState.entities.subjects[value.resourceKey].changed = true
 
   return newState
@@ -148,9 +227,13 @@ export const removeProperty = (state, action) => {
   const newState = { ...state }
 
   const property = newState.entities.properties[action.payload]
+
+  // Remove from subject
   const subject = newState.entities.subjects[property.subjectKey]
   newState.entities.subjects[property.subjectKey].propertyKeys = subject.propertyKeys.filter((propertyKey) => propertyKey !== action.payload)
-  clearProperty(newState, property.key)
+
+  // Recursively remove property
+  clearPropertyFromNewState(newState, property.key)
 
   newState.entities.subjects[property.resourceKey].changed = true
 
@@ -161,15 +244,16 @@ export const removeSubject = (state, action) => {
   const newState = { ...state }
 
   const subject = newState.entities.subjects[action.payload]
-  delete newState.entities.subjects[action.payload]
+
+  // Recursively remove subject
+  clearSubjectFromNewState(newState, subject.key)
 
   if (subject.resourceKey !== action.payload) newState.entities.subjects[subject.resourceKey].changed = true
 
   return newState
 }
 
-const errorsForProperty = (state, property) => {
-  const propertyTemplate = selectPropertyTemplate({ selectorReducer: state }, property.propertyTemplateKey)
+const errorsForProperty = (property, propertyTemplate) => {
   if (propertyTemplate.type !== 'resource' && propertyTemplate.required && _.isEmpty(property.valueKeys)) {
     return ['Required']
   }
@@ -187,73 +271,27 @@ export const clearResource = (state, action) => {
   delete newState.editor.lastSave[resourceKey]
   delete newState.editor.unusedRDF[resourceKey]
   delete newState.editor.errors[resourceEditErrorKey(resourceKey)]
-  clearSubject(newState, resourceKey)
+  clearSubjectFromNewState(newState, resourceKey)
 
   return newState
 }
 
-const clearSubject = (newState, subjectKey) => {
+const clearSubjectFromNewState = (newState, subjectKey) => {
   const subject = newState.entities.subjects[subjectKey]
-  subject.propertyKeys.forEach((propertyKey) => clearProperty(newState, propertyKey))
+  subject.propertyKeys.forEach((propertyKey) => clearPropertyFromNewState(newState, propertyKey))
   delete newState.entities.subjects[subjectKey]
 }
 
-const clearProperty = (newState, propertyKey) => {
+const clearPropertyFromNewState = (newState, propertyKey) => {
   const property = newState.entities.properties[propertyKey]
-  if (!_.isEmpty(property.valueKey)) {
-    property.valueKeys.forEach((valueKey) => clearValue(newState, valueKey))
+  if (!_.isEmpty(property.valueKeys)) {
+    property.valueKeys.forEach((valueKey) => clearValueFromNewState(newState, valueKey))
   }
   delete newState.entities.properties[propertyKey]
 }
 
-const clearValue = (newState, valueKey) => {
+const clearValueFromNewState = (newState, valueKey) => {
   const value = newState.entities.values[valueKey]
-  if (value.valueSubjectKey) clearSubject(newState, value.valueSubjectKey)
+  if (value.valueSubjectKey) clearSubjectFromNewState(newState, value.valueSubjectKey)
   delete newState.entities.values[valueKey]
-}
-
-export const replaceValues = (state, action) => {
-  if (_.isEmpty(action.payload)) return state
-
-  const newState = { ...state }
-  const newValues = [...action.payload]
-
-  const existingValueKeys = [...newState.entities.properties[newValues[0].propertyKey].valueKeys]
-
-  newValues.forEach((newValue) => {
-    cleanValue(newValue)
-    newState.entities.values[newValue.key] = newValue
-  })
-
-  const property = newState.entities.properties[newValues[0].propertyKey]
-  property.valueKeys = newValues.map((newValue) => newValue.key)
-  property.errors = errorsForProperty(state, property)
-
-  // Remove existing values
-  if (!_.isEmpty(existingValueKeys)) {
-    existingValueKeys.forEach((valueKey) => {
-      clearValue(newState, valueKey)
-    })
-  }
-
-  newState.entities.subjects[newValues[0].resourceKey].changed = true
-
-  return newState
-}
-
-export const clearValues = (state, action) => {
-  const newState = { ...state }
-
-  const property = newState.entities.properties[action.payload]
-  newState.entities.properties[action.payload].valueKeys = []
-
-  newState.entities.subjects[property.resourceKey].changed = true
-
-  return newState
-}
-
-const cleanValue = (newValue) => {
-  delete newValue.property
-  delete newValue.valueSubject
-  return newValue
 }

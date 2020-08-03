@@ -1,0 +1,47 @@
+{
+      "type": "ADD_PROPERTY",
+      "payload": {
+        "key": "JQEtq-vmq8",
+        "subjectKey": "t9zVwg2zO",
+        "resourceKey": "t9zVwg2zO",
+        "propertyTemplateKey": "ld4p:RT:bf2:Title:AbbrTitle > http://id.loc.gov/ontologies/bibframe/mainTitle",
+        "valueKeys": null,
+        "show": true,
+        "errors": [],
+        "subject": {
+          "key": "t9zVwg2zO",
+          "resourceKey": "t9zVwg2zO",
+          "uri": "https://trellis.sinopia.io/repository/washington/0894a8b3",
+          "subjectTemplateKey": "ld4p:RT:bf2:Title:AbbrTitle",
+          "propertyKeys": [
+            "JQEtq-vmq8"
+          ],
+          "changed": false,
+          "subjectTemplate": {
+            "key": "ld4p:RT:bf2:Title:AbbrTitle",
+            "id": "ld4p:RT:bf2:Title:AbbrTitle",
+            "class": "http://id.loc.gov/ontologies/bibframe/AbbreviatedTitle",
+            "label": "Abbreviated Title",
+            "author": "LD4P",
+            "date": "2019-08-19",
+            "propertyTemplateKeys": [
+              "ld4p:RT:bf2:Title:AbbrTitle > http://id.loc.gov/ontologies/bibframe/mainTitle"
+            ]
+          }
+        },
+        "propertyTemplate": {
+          "key": "ld4p:RT:bf2:Title:AbbrTitle > http://id.loc.gov/ontologies/bibframe/mainTitle",
+          "subjectTemplateKey": "ld4p:RT:bf2:Title:AbbrTitle",
+          "label": "Abbreviated Title",
+          "uri": "http://id.loc.gov/ontologies/bibframe/mainTitle",
+          "required": false,
+          "repeatable": false,
+          "defaults": [],
+          "remarkUrl": null,
+          "type": "literal",
+          "component": "InputLiteral",
+          "authorities": []
+        },
+        "values": []
+      }
+    }

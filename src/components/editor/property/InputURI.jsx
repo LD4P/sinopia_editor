@@ -32,7 +32,7 @@ const InputURI = (props) => {
     }
     setURIError(false)
 
-    props.addValue(newUriValue(props.property.key, props.property.resourceKey, currentcontent, null))
+    props.addValue(newUriValue(props.property, currentcontent, null))
 
     setContent('')
   }

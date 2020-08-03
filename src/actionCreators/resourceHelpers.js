@@ -2,69 +2,55 @@ import rdf from 'rdf-ext'
 import shortid from 'shortid'
 import _ from 'lodash'
 import { loadResourceTemplate } from 'actionCreators/templates'
+import { addSubject as addSubjectAction } from 'actions/resources'
 import {
-  addSubject as addSubjectAction,
-  addProperty as addPropertyAction,
-  addValue as addValueAction,
-  removeSubject as removeSubjectAction,
-  removeProperty as removePropertyAction,
-} from 'actions/resources'
-import {
-  selectProperty, selectNormProperty, selectNormSubject, selectNormValue, selectSubject,
+  selectProperty, selectSubject, selectValue,
 } from 'selectors/resources'
 import { newLiteralValue, newUriValue, newValueSubject } from 'utilities/valueFactory'
-import { removeValue } from './resources'
 
 /**
  * Helper methods that should only be used in 'actionCreators/resources'
  */
 
 export const addResourceFromDataset = (dataset, uri, resourceTemplateId, errorKey, asNewResource) => (dispatch) => {
-  const subjectTerm = rdf.namedNode(chooseURI(dataset, uri))
+  const subjectTerm = rdf.namedNode(uri)
   const newUri = asNewResource ? null : uri
   const usedDataset = rdf.dataset()
   usedDataset.addAll(dataset.match(subjectTerm, rdf.namedNode('http://sinopia.io/vocabulary/hasResourceTemplate')))
   usedDataset.addAll(dataset.match(subjectTerm, rdf.namedNode('http://www.w3.org/1999/02/22-rdf-syntax-ns#type')))
-  return Promise.all([dispatch(recursiveResourceFromDataset(subjectTerm, newUri, resourceTemplateId, null, dataset, usedDataset, errorKey)),
-    Promise.resolve(usedDataset)])
+  return dispatch(recursiveResourceFromDataset(subjectTerm, newUri, resourceTemplateId, null, dataset, usedDataset, errorKey))
+    .then((resource) => {
+      dispatch(addSubjectAction(resource))
+      return [resource, usedDataset]
+    })
 }
 
-// In the early days, resources were persisted to Trellis with a relative URI (<>) as N-Triples.
-// When these resources are retrieved, they retain a relative URI.
-// Now, resources are persisted to Trellis as Turtle. When these resources are retrieved,
-// they have the resource's URI.
-// This function guesses which.
-const chooseURI = (dataset, uri) => (dataset.match(rdf.namedNode(uri)).size > 0 ? uri : '')
-
-export const addEmptyResource = (resourceTemplateId, errorKey) => (dispatch) => dispatch(addSubject(null, resourceTemplateId, null, errorKey))
+export const addEmptyResource = (resourceTemplateId, errorKey) => (dispatch) => dispatch(newSubject(null, resourceTemplateId, null, errorKey))
   .then((subject) => {
-    const properties = dispatch(addPropertiesFromTemplates(subject, false))
-    subject.properties = properties
+    subject.properties = newPropertiesFromTemplates(subject, false)
+    dispatch(addSubjectAction(subject))
     return subject
   })
 
 const recursiveResourceFromDataset = (subjectTerm, uri, resourceTemplateId, resourceKey, dataset,
-  usedDataset, errorKey) => (dispatch) => dispatch(addSubject(uri, resourceTemplateId, resourceKey, errorKey))
+  usedDataset, errorKey) => (dispatch) => dispatch(newSubject(uri, resourceTemplateId, resourceKey, errorKey))
   .then((subject) => {
-    const properties = dispatch(addPropertiesFromTemplates(subject, true))
+    const properties = newPropertiesFromTemplates(subject, true)
     return Promise.all(
-      properties.map((property) => dispatch(addValuesFromDataset(subjectTerm, property, property.propertyTemplate, dataset, usedDataset, errorKey))
+      properties.map((property) => dispatch(newValuesFromDataset(subjectTerm, property, dataset, usedDataset, errorKey))
         .then((values) => {
           const compactValues = _.compact(values)
-          property.values = compactValues
-          property.valueKeys = compactValues.map((value) => value.key)
-          compactValues.forEach((value) => value.property = property)
+          if (!_.isEmpty(compactValues)) property.values = compactValues
           return compactValues
         })),
     )
       .then(() => {
         subject.properties = properties
-        subject.propertyKeys = properties.map((property) => property.key)
         return subject
       })
   })
 
-export const addSubject = (uri, resourceTemplateId, resourceKey, errorKey) => (dispatch) => {
+export const newSubject = (uri, resourceTemplateId, resourceKey, errorKey) => (dispatch) => {
   const key = shortid.generate()
   return dispatch(loadResourceTemplate(resourceTemplateId, errorKey))
     .then((subjectTemplate) => {
@@ -76,48 +62,43 @@ export const addSubject = (uri, resourceTemplateId, resourceKey, errorKey) => (d
         throw err
       }
 
-      const subject = {
+      return {
         key,
         uri: _.isEmpty(uri) ? null : uri,
-        subjectTemplateKey: subjectTemplate.key,
         subjectTemplate,
         resourceKey: resourceKey || key,
-        propertyKeys: [],
+        properties: [],
       }
-      // Add the subject
-      dispatch(addSubjectAction(subject))
-      return subject
     })
 }
 
-export const addPropertiesFromTemplates = (subject, noDefaults) => (dispatch) => subject.subjectTemplate.propertyTemplates.map((propertyTemplate) => {
-  const property = dispatch(addProperty(subject, propertyTemplate, noDefaults))
-  return property
-})
+export const newPropertiesFromTemplates = (subject,
+  noDefaults) => subject.subjectTemplate.propertyTemplates.map((propertyTemplate) => newProperty(subject,
+  propertyTemplate, noDefaults))
 
-const addValuesFromDataset = (subjectTerm, property, propertyTemplate, dataset, usedDataset, errorKey) => (dispatch) => {
+const newValuesFromDataset = (subjectTerm, property, dataset, usedDataset, errorKey) => (dispatch) => {
   // All quads for this property
-  const quads = dataset.match(subjectTerm, rdf.namedNode(propertyTemplate.uri)).toArray()
+  const quads = dataset.match(subjectTerm, rdf.namedNode(property.propertyTemplate.uri)).toArray()
   return Promise.all(quads.map((quad) => {
-    if (propertyTemplate.type === 'resource') {
-      return dispatch(addNestedResourceFromQuad(quad, property, propertyTemplate, dataset, usedDataset, errorKey))
+    if (property.propertyTemplate.type === 'resource') {
+      return dispatch(newNestedResourceFromQuad(quad, property, dataset, usedDataset, errorKey))
     } if (quad.object.termType === 'NamedNode') {
       // URI
-      return Promise.resolve(dispatch(addUriFromQuad(quad, property, dataset, usedDataset)))
+      return Promise.resolve(newUriFromQuad(quad, property, dataset, usedDataset))
     }
     // Literal
-    return Promise.resolve(dispatch(addLiteralFromQuad(quad, property, usedDataset)))
+    return Promise.resolve(newLiteralFromQuad(quad, property, usedDataset))
   }))
 }
 
-const addNestedResourceFromQuad = (quad, property, propertyTemplate, dataset, usedDataset, errorKey) => (dispatch) => {
+const newNestedResourceFromQuad = (quad, property, dataset, usedDataset, errorKey) => (dispatch) => {
   // Only build this embedded resource if can find the resource template.
   // Multiple types may be provided.
   const typeQuads = dataset.match(quad.object, rdf.namedNode('http://www.w3.org/1999/02/22-rdf-syntax-ns#type')).toArray()
 
   // Among the valueTemplateRefs, find all of the resource templates that match a type.
   // Ideally, only want 1 but need to handle other cases.
-  return Promise.all(typeQuads.map(async (typeQuad) => dispatch(selectResourceTemplateId(propertyTemplate, typeQuad.object.value))))
+  return Promise.all(typeQuads.map(async (typeQuad) => dispatch(selectResourceTemplateId(property.propertyTemplate, typeQuad.object.value))))
     .then((childRtIds) => {
       const compactChildRtIds = _.compact(_.flatten(childRtIds))
 
@@ -134,11 +115,7 @@ const addNestedResourceFromQuad = (quad, property, propertyTemplate, dataset, us
 
       // One resource template
       return dispatch(recursiveResourceFromDataset(quad.object, null, compactChildRtIds[0], property.resourceKey, dataset, usedDataset, errorKey))
-        .then((subject) => {
-          const value = dispatch(addValueSubject(property, subject.key))
-          value.valueSubject = subject
-          return value
-        })
+        .then((subject) => newValueSubject(property, subject))
     })
 }
 
@@ -148,12 +125,12 @@ const selectResourceTemplateId = (propertyTemplate, resourceURI, errorKey) => (d
     .then((subjectTemplate) => (subjectTemplate.class === resourceURI ? resourceTemplateId : undefined))),
 )
 
-const addLiteralFromQuad = (quad, property, usedDataset) => (dispatch) => {
+const newLiteralFromQuad = (quad, property, usedDataset) => {
   usedDataset.add(quad)
-  return dispatch(addLiteralValue(property, quad.object.value, quad.object.language))
+  return newLiteralValue(property, quad.object.value, quad.object.language)
 }
 
-const addUriFromQuad = (quad, property, dataset, usedDataset) => (dispatch) => {
+const newUriFromQuad = (quad, property, dataset, usedDataset) => {
   const uri = quad.object.value
   usedDataset.add(quad)
   const labelQuads = dataset.match(quad.object, rdf.namedNode('http://www.w3.org/2000/01/rdf-schema#label')).toArray()
@@ -162,126 +139,97 @@ const addUriFromQuad = (quad, property, dataset, usedDataset) => (dispatch) => {
     label = labelQuads[0].object.value // Use first match
     usedDataset.add(labelQuads[0])
   }
-
-  return dispatch(addUriValue(property, uri, label))
+  return newUriValue(property, uri, label)
 }
 
-const addLiteralValue = (property, literal, lang) => (dispatch) => {
-  const value = newLiteralValue(property.key, property.resourceKey, literal, lang)
-  dispatch(addValueAction(value))
-  return value
-}
-
-const addUriValue = (property, uri, label) => (dispatch) => {
-  const value = newUriValue(property.key, property.resourceKey, uri, label)
-  dispatch(addValueAction(value))
-  return value
-}
-
-export const addValueSubject = (property, subjectKey, siblingValueKey) => (dispatch) => {
-  const value = newValueSubject(property.key, property.resourceKey, subjectKey)
-  dispatch(addValueAction(value, siblingValueKey))
-  return value
-}
-
-const addProperty = (subject, propertyTemplate, noDefaults) => (dispatch) => {
+const newProperty = (subject, propertyTemplate, noDefaults) => {
   const key = shortid.generate()
   const property = {
     key,
-    subjectKey: subject.key,
+    subject,
     resourceKey: subject.resourceKey,
-    propertyTemplateKey: propertyTemplate.key,
     propertyTemplate,
-    valueKeys: null,
+    values: null,
     show: false,
   }
-  dispatch(addPropertyAction(property))
   if (!noDefaults && !_.isEmpty(property.propertyTemplate.defaults)) {
-    const values = property.propertyTemplate.defaults.map((defaultValue) => {
+    property.values = property.propertyTemplate.defaults.map((defaultValue) => {
       if (property.propertyTemplate.type === 'uri') {
-        return dispatch(addUriValue(property, defaultValue.uri, defaultValue.label))
+        return newUriValue(property, defaultValue.uri, defaultValue.label)
       }
-      return dispatch(addLiteralValue(property, defaultValue.literal, defaultValue.lang))
+      return newLiteralValue(property, defaultValue.literal, defaultValue.lang)
     })
-    property.values = values
-    property.valueKeys = values.map((value) => value.key)
-    values.forEach((value) => value.property = property)
   }
   return property
 }
 
-const removeProperty = (propertyKey) => (dispatch, getState) => {
-  const property = selectNormProperty(getState(), propertyKey)
-  // Remove each of the values.
-  if (property.valueKeys !== null) {
-    property.valueKeys.forEach((valueKey) => dispatch(removeValue(valueKey)))
-  }
-  // Remove the property
-  dispatch(removePropertyAction(propertyKey))
-}
-
-export const removeSubject = (subjectKey) => (dispatch, getState) => {
-  const subject = selectNormSubject(getState(), subjectKey)
-  // Remove properties.
-  subject.propertyKeys.forEach((propertyKey) => dispatch(removeProperty(propertyKey)))
-  // Remove subject
-  dispatch(removeSubjectAction(subjectKey))
-}
-
-export const addSubjectCopy = (subjectKey) => (dispatch, getState) => {
+export const newSubjectCopy = (subjectKey, value) => (dispatch, getState) => {
   const subject = selectSubject(getState(), subjectKey)
   const newSubject = { ...subject }
 
+  // Add to value
+  if (value) value.valueSubject = newSubject
+
+  // New key
   const key = shortid.generate()
   newSubject.key = key
+
+  // Clear some values
   newSubject.uri = null
-  newSubject.propertyKeys = []
+  delete newSubject.propertyKeys
   newSubject.properties = []
-  dispatch(addSubjectAction(newSubject))
 
-  const newProperties = subject.propertyKeys.map((propertyKey) => dispatch(addPropertyCopy(propertyKey, newSubject)))
-  newSubject.properties = newProperties
-  newSubject.propertyKeys = newProperties.map((property) => property.key)
-
-  return newSubject
+  // Add properties
+  return Promise.all(subject.properties.map((property) => dispatch(newPropertyCopy(property.key, newSubject))))
+    .then(() => newSubject)
 }
 
-const addPropertyCopy = (propertyKey, subject) => (dispatch, getState) => {
+const newPropertyCopy = (propertyKey, subject) => (dispatch, getState) => {
   const property = selectProperty(getState(), propertyKey)
   const newProperty = { ...property }
 
+  // Add to subject
+  subject.properties.push(newProperty)
+
+  // New key
   const key = shortid.generate()
   newProperty.key = key
-  newProperty.subjectKey = subject.key
+
+  // Clear some values
+  delete newProperty.subjectKey
   newProperty.subject = subject
-  newProperty.valueKeys = property.valueKeys === null ? null : []
+  delete newProperty.valueKeys
   newProperty.values = property.valueKeys === null ? null : []
-  dispatch(addPropertyAction(newProperty))
 
-  if (property.valueKeys) {
-    const newValues = property.valueKeys.map((valueKey) => dispatch(addValueCopy(valueKey, newProperty)))
-    newProperty.values = newValues
-    newProperty.valueKeys = newValues.map((value) => value.key)
+  // Add values
+  if (property.values) {
+    return Promise.all(property.values.map((value) => dispatch(newValueCopy(value.key, newProperty))))
+      .then(() => newProperty)
   }
-
   return newProperty
 }
 
-const addValueCopy = (valueKey, property) => (dispatch, getState) => {
-  const value = selectNormValue(getState(), valueKey)
+const newValueCopy = (valueKey, property) => (dispatch, getState) => {
+  const value = selectValue(getState(), valueKey)
   const newValue = { ...value }
 
+  // Add to property
+  property.values.push(newValue)
+
+  // New key
   const key = shortid.generate()
   newValue.key = key
-  newValue.propertyKey = property.key
-  newValue.property = property
-  if (value.valueSubjectKey) {
-    const newValueSubject = dispatch(addSubjectCopy(value.valueSubjectKey))
-    newValue.valueSubject = newValueSubject
-    newValue.valueSubjectKey = newValueSubject.key
-  }
 
-  dispatch(addValueAction(newValue))
+  // Clear some values
+  delete newValue.propertyKey
+  newValue.property = property
+  delete newValue.valueSubjectKey
+  newValue.valueSubject = null
+
+  if (value.valueSubject) {
+    return dispatch(newSubjectCopy(value.valueSubject.key, newValue))
+      .then(() => newValue)
+  }
 
   return newValue
 }
