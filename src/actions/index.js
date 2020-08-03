@@ -4,4 +4,7 @@ export const setAppVersion = (version) => ({
   payload: version,
 })
 
-export const noop = () => {}
+export const setCurrentComponent = (resourceKey, key) => ({
+  type: 'SET_CURRENT_COMPONENT',
+  payload: { resourceKey, key },
+})

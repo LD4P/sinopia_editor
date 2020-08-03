@@ -46,6 +46,14 @@ export const setAppVersion = (state, action) => {
   return newState
 }
 
+export const setCurrentComponent = (state, action) => {
+  const newState = { ...state }
+
+  newState.editor.currentComponent[action.payload.resourceKey] = action.payload.key
+
+  return newState
+}
+
 const handlers = {
   ADD_MODAL_MESSAGE: addModalMessage,
   ADD_TEMPLATE_HISTORY: addTemplateHistory,
@@ -70,6 +78,7 @@ const handlers = {
   SET_APP_VERSION: setAppVersion,
   SET_BASE_URL: setBaseURL,
   SET_LITERAL_CONTENT: setLiteralInputContent,
+  SET_CURRENT_COMPONENT: setCurrentComponent,
   SET_CURRENT_RESOURCE: setCurrentResource,
   SET_TEMPLATE_MESSAGES: setTemplateMessages,
   SET_SEARCH_RESULTS: setSearchResults,

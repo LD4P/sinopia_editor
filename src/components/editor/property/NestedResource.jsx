@@ -6,27 +6,32 @@ import NestedProperty from './NestedProperty'
 import NestedResourceActionButtons from './NestedResourceActionButtons'
 import { selectValue } from 'selectors/resources'
 import { connect } from 'react-redux'
+import useNavigableComponent from 'hooks/useNavigableComponent'
 
 // AKA a value subject.
-const NestedResource = (props) => (
-  <div>
-    <div className="row" key={props.valueKey}>
-      <section className="col-md-6">
-        <h5>{ props.value.valueSubject.subjectTemplate.label }</h5>
-      </section>
-      <section className="col-md-6">
-        <NestedResourceActionButtons value={props.value} />
-      </section>
+const NestedResource = (props) => {
+  const [navEl, navClickHandler] = useNavigableComponent(props.value.valueSubject.resourceKey, props.value.valueSubject.key)
+
+  return (
+    <div ref={navEl} onClick={navClickHandler}>
+      <div className="row" key={props.valueKey}>
+        <section className="col-md-6">
+          <h5>{ props.value.valueSubject.subjectTemplate.label }</h5>
+        </section>
+        <section className="col-md-6">
+          <NestedResourceActionButtons value={props.value} />
+        </section>
+      </div>
+      <div>
+        {
+          props.value.valueSubject.propertyKeys.map((propertyKey) => (
+            <NestedProperty key={propertyKey} propertyKey={propertyKey} />
+          ))
+        }
+      </div>
     </div>
-    <div>
-      {
-        props.value.valueSubject.propertyKeys.map((propertyKey) => (
-          <NestedProperty key={propertyKey} propertyKey={propertyKey} />
-        ))
-      }
-    </div>
-  </div>
-)
+  )
+}
 
 NestedResource.propTypes = {
   valueKey: PropTypes.string.isRequired,

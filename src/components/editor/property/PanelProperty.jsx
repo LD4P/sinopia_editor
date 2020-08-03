@@ -12,6 +12,7 @@ import { connect } from 'react-redux'
 import { resourceEditErrorKey } from '../Editor'
 import { expandProperty, contractProperty } from 'actionCreators/resources'
 import { selectProperty, selectCurrentResourceKey } from 'selectors/resources'
+import useNavigableComponent from 'hooks/useNavigableComponent'
 
 const PanelProperty = (props) => {
   // Null values indicates that can be added.
@@ -19,9 +20,10 @@ const PanelProperty = (props) => {
   const isMandatory = props.property.propertyTemplate.mandatory
   const nbsp = '\u00A0'
   const trashIcon = faTrashAlt
+  const [navEl, navClickHandler] = useNavigableComponent(props.resourceKey, props.propertyKey)
 
   return (
-    <div className="col-lg-6 col-xl-4">
+    <div ref={navEl} onClick={navClickHandler}>
       <div className="card" data-label={ props.property.propertyTemplate.label } style={{ marginBottom: '1em' }}>
         <div className="card-header prop-heading">
           <h5 className="card-title">

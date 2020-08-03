@@ -6,19 +6,24 @@ import NestedPropertyHeader from './NestedPropertyHeader'
 import PropertyComponent from './PropertyComponent'
 import { selectProperty } from 'selectors/resources'
 import { connect } from 'react-redux'
+import useNavigableComponent from 'hooks/useNavigableComponent'
 
-const NestedProperty = (props) => (
-  <div className="rtOutline" data-label={props.property.propertyTemplate.label}>
-    <NestedPropertyHeader property={ props.property } />
-    { props.property.values !== null && props.property.show
-        && (
-          <div className="rOutline-property">
-            <PropertyComponent property={ props.property } />
-          </div>
-        )
-    }
-  </div>
-)
+const NestedProperty = (props) => {
+  const [navEl, navClickHandler] = useNavigableComponent(props.property.resourceKey, props.property.key)
+
+  return (
+    <div ref={navEl} onClick={navClickHandler} className="rtOutline" data-label={props.property.propertyTemplate.label}>
+      <NestedPropertyHeader property={ props.property } />
+      { props.property.values !== null && props.property.show
+          && (
+            <div className="rOutline-property">
+              <PropertyComponent property={ props.property } />
+            </div>
+          )
+      }
+    </div>
+  )
+}
 
 NestedProperty.propTypes = {
   propertyKey: PropTypes.string.isRequired,
