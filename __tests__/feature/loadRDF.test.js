@@ -34,7 +34,7 @@ describe('loading from RDF', () => {
     })
   })
 
-  describe('when RDF with base URI', async () => {
+  describe('when RDF with base URI', () => {
     it('opens the resource', async () => {
       renderApp()
 

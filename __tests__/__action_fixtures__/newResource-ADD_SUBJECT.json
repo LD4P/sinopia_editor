@@ -28,7 +28,8 @@
             "resourceTemplate:testing:uber1 > http://id.loc.gov/ontologies/bibframe/uber/template1/property14",
             "resourceTemplate:testing:uber1 > http://id.loc.gov/ontologies/bibframe/uber/template1/property15",
             "resourceTemplate:testing:uber1 > http://id.loc.gov/ontologies/bibframe/uber/template1/property16",
-            "resourceTemplate:testing:uber1 > http://id.loc.gov/ontologies/bibframe/uber/template1/property17"
+            "resourceTemplate:testing:uber1 > http://id.loc.gov/ontologies/bibframe/uber/template1/property17",
+            "resourceTemplate:testing:uber1 > http://id.loc.gov/ontologies/bibframe/uber/template1/property18"
           ],
           "propertyTemplates": [
             {
@@ -374,6 +375,23 @@
                   "nonldLookup": false
                 }
               ]
+            },
+            {
+              "key": "resourceTemplate:testing:uber1 > http://id.loc.gov/ontologies/bibframe/uber/template1/property18",
+              "subjectTemplateKey": "resourceTemplate:testing:uber1",
+              "label": "Uber template1, property18",
+              "uri": "http://id.loc.gov/ontologies/bibframe/uber/template1/property18",
+              "required": true,
+              "repeatable": true,
+              "defaults": [],
+              "remark": "Mandatory nested resource templates.",
+              "remarkUrl": null,
+              "type": "resource",
+              "component": "NestedResource",
+              "valueSubjectTemplateKeys": [
+                "resourceTemplate:testing:uber4"
+              ],
+              "authorities": []
             }
           ]
         },
@@ -400,20 +418,20 @@
           {
             "key": "abc4",
             "resourceKey": "abc0",
-            "values": null,
-            "show": false
+            "values": [],
+            "show": true
           },
           {
             "key": "abc5",
             "resourceKey": "abc0",
-            "values": null,
-            "show": false
+            "values": [],
+            "show": true
           },
           {
             "key": "abc6",
             "resourceKey": "abc0",
-            "values": null,
-            "show": false
+            "values": [],
+            "show": true
           },
           {
             "key": "abc7",
@@ -438,7 +456,7 @@
                 "valueSubject": null
               }
             ],
-            "show": false
+            "show": true
           },
           {
             "key": "abc10",
@@ -462,61 +480,116 @@
                 "valueSubject": null
               }
             ],
-            "show": false
+            "show": true
           },
           {
             "key": "abc13",
             "resourceKey": "abc0",
-            "values": null,
-            "show": false
+            "values": [],
+            "show": true
           },
           {
             "key": "abc14",
             "resourceKey": "abc0",
-            "values": null,
-            "show": false
+            "values": [],
+            "show": true
           },
           {
             "key": "abc15",
             "resourceKey": "abc0",
-            "values": null,
-            "show": false
+            "values": [],
+            "show": true
           },
           {
             "key": "abc16",
             "resourceKey": "abc0",
-            "values": null,
-            "show": false
+            "values": [],
+            "show": true
           },
           {
             "key": "abc17",
             "resourceKey": "abc0",
-            "values": null,
-            "show": false
+            "values": [],
+            "show": true
           },
           {
             "key": "abc18",
             "resourceKey": "abc0",
-            "values": null,
-            "show": false
+            "values": [],
+            "show": true
           },
           {
             "key": "abc19",
             "resourceKey": "abc0",
-            "values": null,
-            "show": false
+            "values": [],
+            "show": true
           },
           {
             "key": "abc20",
             "resourceKey": "abc0",
-            "values": null,
-            "show": false
+            "values": [],
+            "show": true
           },
           {
             "key": "abc21",
             "resourceKey": "abc0",
-            "values": null,
-            "show": false
+            "values": [],
+            "show": true
+          },
+          {
+            "key": "abc22",
+            "resourceKey": "abc0",
+            "values": [
+              {
+                "key": "abc25",
+                "resourceKey": "abc0",
+                "literal": null,
+                "lang": null,
+                "uri": null,
+                "label": null,
+                "valueSubject": {
+                  "key": "abc23",
+                  "uri": null,
+                  "subjectTemplate": {
+                    "key": "resourceTemplate:testing:uber4",
+                    "id": "resourceTemplate:testing:uber4",
+                    "class": "http://id.loc.gov/ontologies/bibframe/Uber4",
+                    "label": "Uber template4",
+                    "remark": "Template for testing purposes with single repeatable, required literal.",
+                    "propertyTemplateKeys": [
+                      "resourceTemplate:testing:uber4 > http://id.loc.gov/ontologies/bibframe/uber/template4/property1"
+                    ],
+                    "propertyTemplates": [
+                      {
+                        "key": "resourceTemplate:testing:uber4 > http://id.loc.gov/ontologies/bibframe/uber/template4/property1",
+                        "subjectTemplateKey": "resourceTemplate:testing:uber4",
+                        "label": "Uber template4, property1",
+                        "uri": "http://id.loc.gov/ontologies/bibframe/uber/template4/property1",
+                        "required": true,
+                        "repeatable": true,
+                        "defaults": [],
+                        "remark": "A repeatable, required literal",
+                        "remarkUrl": null,
+                        "type": "literal",
+                        "component": "InputLiteral",
+                        "valueSubjectTemplateKeys": null,
+                        "authorities": []
+                      }
+                    ]
+                  },
+                  "resourceKey": "abc0",
+                  "properties": [
+                    {
+                      "key": "abc24",
+                      "resourceKey": "abc0",
+                      "values": [],
+                      "show": true
+                    }
+                  ]
+                }
+              }
+            ],
+            "show": true
           }
         ]
       }

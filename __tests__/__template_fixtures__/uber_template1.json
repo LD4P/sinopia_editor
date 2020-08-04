@@ -244,6 +244,25 @@
       "repeatable": "true",
       "type": "resource",
       "remark": "A repeatable Sinopia lookup."
+    },
+    {
+      "propertyLabel": "Uber template1, property18",
+      "propertyURI": "http://id.loc.gov/ontologies/bibframe/uber/template1/property18",
+      "resourceTemplates": [],
+      "valueConstraint": {
+        "valueTemplateRefs": [
+          "resourceTemplate:testing:uber4"
+        ],
+        "useValuesFrom": [],
+        "valueDataType": {
+          "remark": ""
+        },
+        "defaults": []
+      },
+      "mandatory": "true",
+      "repeatable": "true",
+      "type": "resource",
+      "remark": "Mandatory nested resource templates."
     }
   ]
 }

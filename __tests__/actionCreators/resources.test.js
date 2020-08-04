@@ -256,6 +256,7 @@ describe('newResource', () => {
       expect(actions).toHaveAction('ADD_TEMPLATES')
 
       const addSubjectAction = actions.find((action) => action.type === 'ADD_SUBJECT')
+
       expect(safeAction(addSubjectAction)).toEqual(expectedAddResourceAction)
 
       expect(actions).toHaveAction('SET_UNUSED_RDF', { resourceKey: 'abc0', rdf: null })

@@ -84,9 +84,30 @@ export default class GraphBuilder {
   }
 
   buildValueSubject(value, subjectTerm, propertyTerm) {
+    if (!this.shouldAddValueSubject(value)) return
     const bnode = rdf.blankNode()
     this.dataset.add(rdf.quad(subjectTerm, propertyTerm, bnode))
     this.buildSubject(value.valueSubject, bnode)
+  }
+
+  // Add only if there is actually a value somewhere.
+  shouldAddValueSubject(value) {
+    return this.checkSubjectHasValue(value.valueSubject)
+  }
+
+  checkSubjectHasValue(subject) {
+    return subject.properties.some((property) => this.checkPropertyHasValue(property))
+  }
+
+  checkPropertyHasValue(property) {
+    if (!property.values) return false
+    return property.values.some((value) => this.checkValueHasValue(value))
+  }
+
+  checkValueHasValue(value) {
+    if (value.literal || value.uri) return true
+    if (value.valueSubject) return this.checkSubjectHasValue(value.valueSubject)
+    return false
   }
 
   /**

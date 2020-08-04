@@ -160,11 +160,12 @@ export const expandProperty = (propertyKey, errorKey) => (dispatch, getState) =>
   if (property.propertyTemplate.type === 'resource') {
     promises = property.propertyTemplate.valueSubjectTemplateKeys.map((resourceTemplateId) => dispatch(newSubject(null,
       resourceTemplateId, property.resourceKey, errorKey))
-      .then((subject) => {
-        subject.properties = newPropertiesFromTemplates(subject, false)
-        const newValue = newValueSubject(property, subject)
-        dispatch(addValueAction(newValue))
-      }))
+      .then((subject) => dispatch(newPropertiesFromTemplates(subject, false, errorKey))
+        .then((properties) => {
+          subject.properties = properties
+          const newValue = newValueSubject(property, subject)
+          return dispatch(addValueAction(newValue))
+        })))
   } else {
     property.values = []
     promises = [dispatch(addPropertyAction(property))]
@@ -189,9 +190,10 @@ export const contractProperty = (propertyKey) => (dispatch, getState) => {
 export const addSiblingValueSubject = (valueKey, errorKey) => (dispatch, getState) => {
   const value = selectValue(getState(), valueKey)
   return dispatch(newSubject(null, value.valueSubject.subjectTemplate.id, value.resourcKey, errorKey))
-    .then((subject) => {
-      subject.properties = newPropertiesFromTemplates(subject, false)
-      const newValue = newValueSubject(value.property, subject)
-      return dispatch(addValueAction(newValue, valueKey))
-    })
+    .then((subject) => dispatch(newPropertiesFromTemplates(subject, false, errorKey))
+      .then((properties) => {
+        subject.properties = properties
+        const newValue = newValueSubject(value.property, subject)
+        return dispatch(addValueAction(newValue, valueKey))
+      }))
 }

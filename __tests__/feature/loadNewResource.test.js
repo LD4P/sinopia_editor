@@ -41,6 +41,15 @@ describe('loading new resource', () => {
     screen.getByText('Default URI1')
     screen.getByText('http://sinopia.io/defaultURI2')
 
+    // Required properties are expanded.
+    screen.getByPlaceholderText('Uber template1, property4')
+    screen.getByPlaceholderText('Uber template1, property5')
+    screen.getByPlaceholderText('Uber template1, property10')
+    screen.getByPlaceholderText('Uber template1, property15')
+    screen.getByPlaceholderText('Uber template1, property16')
+    screen.getByRole('heading', { name: 'Uber template4' })
+    screen.getByPlaceholderText('Uber template4, property1')
+
     // Save button is disabled
     expect(screen.getAllByRole('button', { name: 'Save' })[0]).toBeDisabled()
   })

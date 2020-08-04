@@ -166,5 +166,47 @@ _:c14n0 <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://id.loc.gov/ont
 <> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://id.loc.gov/ontologies/bibframe/Uber1> .`
       expect(new GraphBuilder(resource).graph.toCanonical()).toMatch(rdf)
     })
+
+    it('builds a graph ignoring empty nested resources', () => {
+      const resource = {
+        subjectTemplate: {
+          id: 'resourceTemplate:testing:uber1',
+          class: 'http://id.loc.gov/ontologies/bibframe/Uber1',
+        },
+        properties: [
+          {
+            propertyTemplate: {
+              uri: 'http://id.loc.gov/ontologies/bibframe/uber/template1/property1',
+            },
+            values: [
+              {
+                uri: null,
+                property: {
+                  propertyTemplate: {
+                    type: 'resource',
+                  },
+                },
+                valueSubject: {
+                  subjectTemplate: {
+                    class: 'http://id.loc.gov/ontologies/bibframe/Uber2',
+                  },
+                  properties: [
+                    {
+                      propertyTemplate: {
+                        uri: 'http://id.loc.gov/ontologies/bibframe/uber/template2/property1',
+                      },
+                      values: [],
+                    },
+                  ],
+                },
+              },
+            ],
+          },
+        ],
+      }
+      const rdf = `<> <http://sinopia.io/vocabulary/hasResourceTemplate> "resourceTemplate:testing:uber1" .
+<> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://id.loc.gov/ontologies/bibframe/Uber1> .`
+      expect(new GraphBuilder(resource).graph.toCanonical()).toMatch(rdf)
+    })
   })
 })
