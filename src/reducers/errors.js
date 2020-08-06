@@ -1,3 +1,5 @@
+// Copyright 2020 Stanford University see LICENSE for license
+
 import { hideModal } from './modals'
 
 /**
