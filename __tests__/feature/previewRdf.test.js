@@ -1,6 +1,6 @@
 // Copyright 2020 Stanford University see LICENSE for license
 
-import { renderApp, createHistory } from 'testUtils'
+import { renderApp } from 'testUtils'
 import { fireEvent, screen } from '@testing-library/react'
 import * as sinopiaServer from 'sinopiaServer'
 import { getFixtureResourceTemplate } from 'fixtureLoaderHelper'
@@ -22,7 +22,6 @@ describe('preview RDF after editing', () => {
   sinopiaServer.getResourceTemplate.mockImplementation(getFixtureResourceTemplate)
 
   it('adds properties and then displays preview RDF model', async () => {
-
     renderApp()
 
     // Open the editor and then the templates tab
@@ -35,12 +34,12 @@ describe('preview RDF after editing', () => {
 
     // Click on the Preview RDF Button
     await screen.findByText(/Uber template1/)
-    fireEvent.click(screen.getAllByRole('button', { name: 'Preview RDF'})[0])
+    fireEvent.click(screen.getAllByRole('button', { name: 'Preview RDF' })[0])
 
     // Wait for RDF Preview Modal and selects turtle Format
     await screen.findByText(/RDF Preview/)
-    fireEvent.change(screen.getByRole('combobox', { name: 'RDF Format Selection'}),
-                     { target: { value: 'turtle'} })
+    fireEvent.change(screen.getByRole('combobox', { name: 'RDF Format Selection' }),
+      { target: { value: 'turtle' } })
 
     // Tests for presence of turtle RDF in the model
     expect(screen.findByText(rdf)).toBeTruthy()
