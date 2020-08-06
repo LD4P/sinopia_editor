@@ -11,6 +11,7 @@ import {
   addSubject, addProperty, addValue, removeValue,
   removeProperty, removeSubject, clearResource,
   saveResourceFinished, loadResourceFinished,
+  setResourceGroup
 } from './resources'
 import {
   setLanguage, fetchingLanguages, languagesReceived,
@@ -71,6 +72,7 @@ const handlers = {
   SET_BASE_URL: setBaseURL,
   SET_LITERAL_CONTENT: setLiteralInputContent,
   SET_CURRENT_RESOURCE: setCurrentResource,
+  SET_RESOURCE_GROUP: setResourceGroup,
   SET_TEMPLATE_MESSAGES: setTemplateMessages,
   SET_SEARCH_RESULTS: setSearchResults,
   SET_TEMPLATE_SEARCH_RESULTS: setTemplateSearchResults,

@@ -295,3 +295,11 @@ const clearValueFromNewState = (newState, valueKey) => {
   if (value.valueSubjectKey) clearSubjectFromNewState(newState, value.valueSubjectKey)
   delete newState.entities.values[valueKey]
 }
+
+export const setResourceGroup = (state, action) => {
+  const newState = { ...state }
+
+  newState.entities.subjects[action.payload.resourceKey].group = action.payload.group
+
+  return newState
+}

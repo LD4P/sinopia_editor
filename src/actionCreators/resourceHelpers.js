@@ -7,23 +7,33 @@ import {
   selectProperty, selectSubject, selectValue,
 } from 'selectors/resources'
 import { newLiteralValue, newUriValue, newValueSubject } from 'utilities/valueFactory'
+import { datasetFromJsonld } from 'utilities/Utilities'
 
 /**
  * Helper methods that should only be used in 'actionCreators/resources'
  */
 
-export const addResourceFromDataset = (dataset, uri, resourceTemplateId, errorKey, asNewResource) => (dispatch) => {
-  const subjectTerm = rdf.namedNode(uri)
+export const addResourceFromDataset = (dataset, uri, resourceTemplateId, errorKey, asNewResource, group) => (dispatch) => {
+  const subjectTerm = rdf.namedNode(chooseURI(dataset, uri))
   const newUri = asNewResource ? null : uri
   const usedDataset = rdf.dataset()
   usedDataset.addAll(dataset.match(subjectTerm, rdf.namedNode('http://sinopia.io/vocabulary/hasResourceTemplate')))
   usedDataset.addAll(dataset.match(subjectTerm, rdf.namedNode('http://www.w3.org/1999/02/22-rdf-syntax-ns#type')))
   return dispatch(recursiveResourceFromDataset(subjectTerm, newUri, resourceTemplateId, null, dataset, usedDataset, errorKey))
     .then((resource) => {
+      resource.group = group
       dispatch(addSubjectAction(resource))
       return [resource, usedDataset]
     })
 }
+
+// In the early days, resources were persisted to Trellis with a relative URI (<>) as N-Triples.
+// When these resources are retrieved, they retain a relative URI.
+// Now, resources are persisted to Trellis as Turtle. When these resources are retrieved,
+// they have the resource's URI.
+// This function guesses which.
+export const chooseURI = (dataset, uri) => (dataset.match(rdf.namedNode(uri)).size > 0 ? uri : '')
+
 
 export const addEmptyResource = (resourceTemplateId, errorKey) => (dispatch) => dispatch(newSubject(null, resourceTemplateId, null, errorKey))
   .then((subject) => dispatch(newPropertiesFromTemplates(subject, false, errorKey))
@@ -256,4 +266,30 @@ const newValueCopy = (valueKey, property) => (dispatch, getState) => {
   }
 
   return newValue
+}
+
+export const fetchResource = (uri, errorKey) => (dispatch) => {
+  return fetch(uri, {
+    headers: { 'Accept': 'application/json' }
+  })
+  .then((resp) => {
+    if(! resp.ok) {
+      dispatch(addError(errorKey, `Error retrieving resource: ${resp.statusText}`))
+      return [null, null]
+    }
+    return resp.json()
+      .then((response) => {
+        return Promise.all([datasetFromJsonld(response.data), Promise.resolve(response)])
+      })
+      .catch((err) => {
+        console.error(err)
+        dispatch(addError(errorKey, `Error parsing resource: ${err.toString()}`))
+        return [null, null]
+      })
+  })
+  .catch((err) => {
+    console.error(err)
+    dispatch(addError(errorKey, `Error retrieving resource: ${err.toString()}`))
+    return [null, null]
+  })
 }
