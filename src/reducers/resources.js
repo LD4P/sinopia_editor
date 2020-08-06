@@ -73,6 +73,15 @@ const addSubjectToNewState = (newState, subject) => {
   newSubject.subjectTemplateKey = newSubject.subjectTemplate.key
   delete newSubject.subjectTemplate
 
+  // Add properties for resource (root subject)
+  if (newSubject.resourceKey === newSubject.key) {
+    if (_.isUndefined(newSubject.group)) newSubject.group = null
+    if (_.isUndefined(newSubject.bfAdminMetadataRefs)) newSubject.bfAdminMetadataRefs = []
+    if (_.isUndefined(newSubject.bfItemRefs)) newSubject.bfItemRefs = []
+    if (_.isUndefined(newSubject.bfInstanceRefs)) newSubject.bfInstanceRefs = []
+    if (_.isUndefined(newSubject.bfWorkRefs)) newSubject.bfWorkRefs = []
+  }
+
   // Add subject to state
   const oldSubject = newState.entities.subjects[newSubject.key]
   newState.entities.subjects[newSubject.key] = newSubject
@@ -120,7 +129,10 @@ const addPropertyToNewState = (newState, property) => {
 
   // Remove existing values
   const oldValueKeys = oldProperty?.valueKeys || []
-  oldValueKeys.forEach((valueKey) => clearValueFromNewState(newState, valueKey))
+  oldValueKeys.forEach((valueKey) => {
+    removeBibframeRefs(newState, newState.entities.values[valueKey], oldProperty)
+    clearValueFromNewState(newState, valueKey)
+  })
 
   // Add new values
   if (newProperty.values) {
@@ -195,10 +207,47 @@ const addValueToNewState = (newState, value, siblingValueKey) => {
   const propertyTemplate = selectPropertyTemplate({ selectorReducer: newState }, newProperty.propertyTemplateKey)
   newProperty.errors = errorsForProperty(newProperty, propertyTemplate)
 
+  // Update Bibframe refs
+  updateBibframeRefs(newState, newValue, newProperty)
+
   // If changed, then set resource as changed.
   if (!_.isEqual(newValue, oldValue)) {
     newState.entities.subjects[newValue.resourceKey].changed = true
   }
+}
+
+const updateBibframeRefs = (newState, newValue, newProperty) => {
+  if (!newValue.uri) return
+  const newPropertyTemplate = newState.entities.propertyTemplates[newProperty.propertyTemplateKey]
+  const newSubject = newState.entities.subjects[newValue.resourceKey]
+  switch (newPropertyTemplate.uri) {
+    case 'http://id.loc.gov/ontologies/bibframe/adminMetadata':
+      // References admin metadata
+      pushUniq(newSubject.bfAdminMetadataRefs, newValue.uri)
+      break
+    case 'http://id.loc.gov/ontologies/bibframe/itemOf':
+      // References instance
+      pushUniq(newSubject.bfInstanceRefs, newValue.uri)
+      break
+    case 'http://id.loc.gov/ontologies/bibframe/hasItem':
+      // References item
+      pushUniq(newSubject.bfItemRefs, newValue.uri)
+      break
+    case 'http://id.loc.gov/ontologies/bibframe/instanceOf':
+      // References work
+      pushUniq(newSubject.bfWorkRefs, newValue.uri)
+      break
+    case 'http://id.loc.gov/ontologies/bibframe/hasInstance':
+      // References instance
+      pushUniq(newSubject.bfInstanceRefs, newValue.uri)
+      break
+    default:
+      // Nothing
+  }
+}
+
+const pushUniq = (array, value) => {
+  if (array.indexOf(value) === -1) array.push(value)
 }
 
 export const removeValue = (state, action) => {
@@ -220,7 +269,39 @@ export const removeValue = (state, action) => {
   // Set resource as changed
   newState.entities.subjects[value.resourceKey].changed = true
 
+  removeBibframeRefs(newState, value, property)
+
   return newState
+}
+
+const removeBibframeRefs = (newState, value, newProperty) => {
+  if (!value.uri) return
+  const newPropertyTemplate = newState.entities.propertyTemplates[newProperty.propertyTemplateKey]
+  const newSubject = newState.entities.subjects[value.resourceKey]
+  switch (newPropertyTemplate.uri) {
+    case 'http://id.loc.gov/ontologies/bibframe/adminMetadata':
+      // References admin metadata
+      newSubject.bfAdminMetadataRefs = newSubject.bfAdminMetadataRefs.filter((uri) => uri !== value.uri)
+      break
+    case 'http://id.loc.gov/ontologies/bibframe/itemOf':
+      // References instance
+      newSubject.bfInstanceRefs = newSubject.bfInstanceRefs.filter((uri) => uri !== value.uri)
+      break
+    case 'http://id.loc.gov/ontologies/bibframe/hasItem':
+      // References item
+      newSubject.bfItemRefs = newSubject.bfItemRefs.filter((uri) => uri !== value.uri)
+      break
+    case 'http://id.loc.gov/ontologies/bibframe/instanceOf':
+      // References work
+      newSubject.bfWorkRefs = newSubject.bfWorkRefs.filter((uri) => uri !== value.uri)
+      break
+    case 'http://id.loc.gov/ontologies/bibframe/hasInstance':
+      // References instance
+      newSubject.bfInstanceRefs = newSubject.bfInstanceRefs.filter((uri) => uri !== value.uri)
+      break
+    default:
+      // Nothing
+  }
 }
 
 export const removeProperty = (state, action) => {
@@ -294,4 +375,12 @@ const clearValueFromNewState = (newState, valueKey) => {
   const value = newState.entities.values[valueKey]
   if (value.valueSubjectKey) clearSubjectFromNewState(newState, value.valueSubjectKey)
   delete newState.entities.values[valueKey]
+}
+
+export const setResourceGroup = (state, action) => {
+  const newState = { ...state }
+
+  newState.entities.subjects[action.payload.resourceKey].group = action.payload.group
+
+  return newState
 }

@@ -1,0 +1,138 @@
+{
+  "id": "sinopia:template:property",
+  "resourceLabel": "Property template",
+  "resourceURI": "http://sinopia.io/vocabulary/PropertyTemplate",
+  "remark": "Template for creating property templates.",
+  "propertyTemplates": [
+    {
+      "propertyLabel": "Property",
+      "propertyURI": "http://www.w3.org/1999/02/22-rdf-syntax-ns#",
+      "resourceTemplates": [],
+      "mandatory": "true",
+      "repeatable": "false",
+      "type": "resource",
+      "remark": "The property's URI."
+    },
+    {
+      "propertyLabel": "Label",
+      "propertyURI": "http://www.w3.org/2000/01/rdf-schema#label",
+      "resourceTemplates": [],
+      "mandatory": "true",
+      "repeatable": "false",
+      "type": "literal",
+      "remark": "The property's label."
+    },
+    {
+      "propertyLabel": "Remark",
+      "propertyURI": "http://sinopia.io/vocabulary/hasRemark",
+      "resourceTemplates": [],
+      "mandatory": "false",
+      "repeatable": "false",
+      "type": "literal",
+      "remark": "The property's remark (literal)."
+    },
+    {
+      "propertyLabel": "Remark URL",
+      "propertyURI": "http://sinopia.io/vocabulary/hasRemarkUrl",
+      "resourceTemplates": [],
+      "mandatory": "false",
+      "repeatable": "false",
+      "type": "resource",
+      "remark": "The property's remark (URL)."
+    },
+    {
+      "propertyLabel": "Cardinality",
+      "propertyURI": "http://sinopia.io/vocabulary/hasCardinality",
+      "resourceTemplates": [],
+      "valueConstraint": {
+        "valueTemplateRefs": [],
+        "useValuesFrom": [
+          "file:/cardinality.json"
+        ],
+        "valueDataType": {
+          "dataTypeURI": "http://sinopia.io/vocabulary/Cardinality"
+        },
+        "defaults": []
+      },
+      "mandatory": "false",
+      "repeatable": "true",
+      "type": "resource",
+      "remark": "Whether is property is repeatable and/or required."
+    },
+    {
+      "propertyLabel": "Property type",
+      "propertyURI": "http://sinopia.io/vocabulary/hasPropertyType",
+      "resourceTemplates": [],
+      "valueConstraint": {
+        "valueTemplateRefs": [],
+        "useValuesFrom": [
+          "file:/propertyType.json"
+        ],
+        "valueDataType": {
+          "dataTypeURI": "http://sinopia.io/vocabulary/PropertyCardinality"
+        },
+        "defaults": []
+      },
+      "mandatory": "true",
+      "repeatable": "false",
+      "type": "resource",
+      "remark": "Type of property."
+    },
+    {
+      "propertyLabel": "Literal attributes (if a literal)",
+      "propertyURI": "http://sinopia.io/vocabulary/hasLiteralAttributes",
+      "resourceTemplates": [],
+      "valueConstraint": {
+        "valueTemplateRefs": [
+          "sinopia:template:property:literal"
+        ]
+      },
+      "mandatory": "false",
+      "repeatable": "false",
+      "type": "resource",
+      "remark": "Attributes for a literal."
+    },
+    {
+      "propertyLabel": "URI attributes (if a URI)",
+      "propertyURI": "http://sinopia.io/vocabulary/hasUriAttributes",
+      "resourceTemplates": [],
+      "valueConstraint": {
+        "valueTemplateRefs": [
+          "sinopia:template:property:uri"
+        ]
+      },
+      "mandatory": "false",
+      "repeatable": "false",
+      "type": "resource",
+      "remark": "Attributes for a URI."
+    },
+    {
+      "propertyLabel": "Lookup attributes (if a lookup)",
+      "propertyURI": "http://sinopia.io/vocabulary/hasLookupAttributes",
+      "resourceTemplates": [],
+      "valueConstraint": {
+        "valueTemplateRefs": [
+          "sinopia:template:property:lookup"
+        ]
+      },
+      "mandatory": "false",
+      "repeatable": "false",
+      "type": "resource",
+      "remark": "Attributes for a lookup."
+    },
+    {
+      "propertyLabel": "Nested resource attributes (if a resource)",
+      "propertyURI": "http://sinopia.io/vocabulary/hasResourceAttributes",
+      "resourceTemplates": [],
+      "valueConstraint": {
+        "valueTemplateRefs": [
+          "sinopia:template:property:resource"
+        ]
+      },
+      "mandatory": "false",
+      "repeatable": "false",
+      "type": "resource",
+      "remark": "Attributes for a nested resource."
+    }
+  ]
+}

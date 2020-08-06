@@ -1,0 +1,47 @@
+{
+  "propertyTemplates": [
+    {
+      "mandatory": "false",
+      "repeatable": "true",
+      "type": "literal",
+      "resourceTemplates": [],
+      "valueConstraint": {
+        "valueTemplateRefs": [],
+        "useValuesFrom": [],
+        "defaults": [],
+        "valueDataType": {}
+      },
+      "propertyURI": "http://www.loc.gov/mads/rdf/v1#authoritativeLabel",
+      "propertyLabel": "RBMS term"
+    },
+    {
+      "mandatory": "false",
+      "repeatable": "true",
+      "type": "lookup",
+      "resourceTemplates": [],
+      "valueConstraint": {
+        "valueTemplateRefs": [],
+        "useValuesFrom": [
+          "https://id.loc.gov/vocabulary/genreFormSchemes"
+        ],
+        "defaults": [
+          {
+            "defaultURI": "http://id.loc.gov/vocabulary/genreFormSchemes/rbmscv",
+            "defaultLiteral": "RBMS"
+          }
+        ],
+        "valueDataType": {
+          "dataTypeURI": "http://id.loc.gov/ontologies/bibframe/Source"
+        }
+      },
+      "propertyURI": "http://id.loc.gov/ontologies/bibframe/source",
+      "propertyLabel": "Source of term"
+    }
+  ],
+  "id": "ld4p:RT:bf2:RareMat:RBMS",
+  "resourceURI": "http://id.loc.gov/ontologies/bibframe/GenreForm",
+  "author": "LD4P",
+  "resourceLabel": "RBMS term",
+  "remark": "based on LC template ld4p:RT:bf2:RareMat:RBMS",
+  "schema": "https://ld4p.github.io/sinopia/schemas/0.0.9/resource-template.json"
+}

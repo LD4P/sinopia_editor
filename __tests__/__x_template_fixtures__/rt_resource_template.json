@@ -1,0 +1,76 @@
+{
+  "id": "sinopia:template:resource",
+  "resourceLabel": "Resource template",
+  "resourceURI": "http://sinopia.io/vocabulary/ResourceTemplate",
+  "remark": "Template for creating resource templates.",
+  "propertyTemplates": [
+    {
+      "propertyLabel": "Id",
+      "propertyURI": "http://sinopia.io/vocabulary/hasResourceId",
+      "resourceTemplates": [],
+      "mandatory": "true",
+      "repeatable": "false",
+      "type": "resource",
+      "remark": "The resource's ID, e.g., ld4p:RT:bf2:Title:AbbrTitle."
+    },
+    {
+      "propertyLabel": "Class",
+      "propertyURI": "http://sinopia.io/vocabulary/hasClass",
+      "resourceTemplates": [],
+      "mandatory": "true",
+      "repeatable": "false",
+      "type": "resource",
+      "remark": "The resource's class, e.g., http://id.loc.gov/ontologies/bibframe/AbbreviatedTitle."
+    },
+    {
+      "propertyLabel": "Label",
+      "propertyURI": "http://www.w3.org/2000/01/rdf-schema#label",
+      "resourceTemplates": [],
+      "mandatory": "true",
+      "repeatable": "false",
+      "type": "literal",
+      "remark": "The resource's label."
+    },
+    {
+      "propertyLabel": "Author",
+      "propertyURI": "http://sinopia.io/vocabulary/hasAuthor",
+      "resourceTemplates": [],
+      "mandatory": "false",
+      "repeatable": "false",
+      "type": "literal",
+      "remark": "The resource's author."
+    },
+    {
+      "propertyLabel": "Remark",
+      "propertyURI": "http://sinopia.io/vocabulary/hasRemark",
+      "resourceTemplates": [],
+      "mandatory": "false",
+      "repeatable": "false",
+      "type": "literal",
+      "remark": "The resource's remark."
+    },
+    {
+      "propertyLabel": "Date",
+      "propertyURI": "http://sinopia.io/vocabulary/hasDate",
+      "resourceTemplates": [],
+      "mandatory": "false",
+      "repeatable": "false",
+      "type": "literal",
+      "remark": "The resource's date."
+    },
+    {
+      "propertyLabel": "Property templates",
+      "propertyURI": "http://sinopia.io/vocabulary/hasPropertyTemplate",
+      "resourceTemplates": [],
+      "valueConstraint": {
+        "valueTemplateRefs": [
+          "sinopia:template:property"
+        ]
+      },
+      "mandatory": "false",
+      "repeatable": "true",
+      "type": "resource",
+      "remark": "The resource's property templates."
+    }
+  ]
+}

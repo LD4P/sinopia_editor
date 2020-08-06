@@ -1,0 +1,25 @@
+{
+  "id": "test:resource:DiscogsLookup",
+  "resourceLabel": "Testing discogs lookup",
+  "remark": "This hits discogs",
+  "resourceURI": "http://id.loc.gov/ontologies/bibframe/Instance",
+  "propertyTemplates": [
+    {
+      "propertyURI": "http://id.loc.gov/ontologies/bibframe/instanceOf",
+      "propertyLabel": "Instance of (lookup)",
+      "remark": "lookup",
+      "mandatory": "true",
+      "repeatable": "false",
+      "type": "lookup",
+      "resourceTemplates": [],
+      "valueConstraint": {
+        "valueTemplateRefs": [],
+        "useValuesFrom": [
+          "urn:discogs"
+        ],
+        "valueDataType": {},
+        "defaults": []
+      }
+    }
+  ]
+}

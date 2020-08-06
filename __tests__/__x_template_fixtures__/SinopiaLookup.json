@@ -1,0 +1,26 @@
+{
+  "id": "test:resource:SinopiaLookup",
+  "resourceLabel": "Testing sinopia lookup",
+  "remark": "This hits elasticsearch",
+  "resourceURI": "http://id.loc.gov/ontologies/bibframe/Instance",
+  "propertyTemplates": [
+    {
+      "propertyURI": "http://id.loc.gov/ontologies/bibframe/instanceOf",
+      "propertyLabel": "Instance of (lookup)",
+      "remark": "lookup",
+      "mandatory": "true",
+      "repeatable": "false",
+      "type": "lookup",
+      "resourceTemplates": [],
+      "valueConstraint": {
+        "valueTemplateRefs": [],
+        "useValuesFrom": [
+          "urn:ld4p:sinopia:bibframe:instance",
+          "urn:ld4p:sinopia:bibframe:work"
+        ],
+        "valueDataType": {},
+        "defaults": []
+      }
+    }
+  ]
+}

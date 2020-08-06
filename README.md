@@ -164,6 +164,17 @@ The steps to create a tagged release are documented in the tagged-release ticket
 ```
 -> Added by selector, not stored in state.
 
+The following are only in the resource subject (that is, the base subject).
+```
+{
+  group: <group that that resource belongs to>,
+  bfAdminMetadataRefs: [uri of referenced admin metadata resource, ...],
+  bfWorkRefs: [uri of referenced Bibframe Work resource, ...],
+  bfInstanceRefs: [uri of referenced Bibframe Instance resource, ...],
+  bfItemRefs: [uri of referenced Bibframe Item resources, ...]
+}
+```
+
 ### Subject template model
 ```
 {
@@ -202,7 +213,8 @@ The steps to create a tagged release are documented in the tagged-release ticket
   label: <label, e.g., "Title Information">,
   uri: <property uri, e.g., "http://id.loc.gov/ontologies/bibframe/title">
   required: <true | false>
-  repeatable: <true | false >
+  repeatable: <true | false>
+  ordered: <true | false>
   defaults: [{literal: <literal>, lang: <lang>}, {uri: <uri>, label: <label>},...]
   remark: <remark>,
   remarkUrl: <remark url, e.g., "http://access.rdatoolkit.org/2.13.html">

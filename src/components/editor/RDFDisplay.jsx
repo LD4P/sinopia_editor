@@ -2,18 +2,17 @@
 
 import React, { useState, useEffect } from 'react'
 import PropTypes from 'prop-types'
-import { rdfDatasetFromN3 } from 'utilities/Utilities'
+import { datasetFromN3, n3FromDataset, jsonldFromDataset } from 'utilities/Utilities'
 import Alert from '../Alert'
-import { Writer as N3Writer } from 'n3'
 
 const RDFDisplay = (props) => {
   const [error, setError] = useState(false)
   const [dataset, setDataset] = useState(false)
   useEffect(() => {
     setError(false)
-    rdfDatasetFromN3(props.rdf)
+    datasetFromN3(props.rdf)
       .then((dataset) => setDataset(dataset))
-      .catch((err) => setError(err.toString()))
+      .catch((err) => setError(err.message))
   }, [props.rdf])
 
   const [format, setFormat] = useState('table')
@@ -21,15 +20,15 @@ const RDFDisplay = (props) => {
   useEffect(() => {
     if (!dataset || format === 'table') return
     setError(false)
-    const writer = new N3Writer({ format: format === 'n-triples' ? 'N-Triples' : undefined })
-    writer.addQuads(dataset.toArray())
-    writer.end((error, result) => {
-      if (error) {
-        setError(error.toString())
-      } else {
-        setFormattedRDF(result.replace(/<null>/g, '<>'))
-      }
-    })
+    if (format === 'jsonld') {
+      jsonldFromDataset(dataset)
+        .then((result) => setFormattedRDF(JSON.stringify(result, null, 2)))
+        .catch((error) => setError(error.message))
+    } else {
+      n3FromDataset(dataset, format)
+        .then((result) => setFormattedRDF(result.replace(/<null>/g, '<>')))
+        .catch((error) => setError(error.message))
+    }
   }, [dataset, format])
 
   if (error) {
@@ -77,6 +76,7 @@ const RDFDisplay = (props) => {
                 onBlur={(event) => setFormat(event.target.value)}
                 onChange={(event) => setFormat(event.target.value)}
                 value={format}>
+          <option value="jsonld">JSON-LD</option>
           <option value="n-triples">N-Triples</option>
           <option value="table">Table</option>
           <option value="turtle">Turtle</option>

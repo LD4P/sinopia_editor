@@ -1,7 +1,9 @@
 // Copyright 2019 Stanford University see LICENSE for license
 import Config from './Config'
 /* eslint-disable node/no-unpublished-import */
-import { resourceTemplateSearchResults, hasFixtureResource, resourceSearchResults } from '../__tests__/testUtilities/fixtureLoaderHelper'
+import {
+  getFixtureTemplateSearchResults, hasFixtureResource, resourceSearchResults,
+} from '../__tests__/testUtilities/fixtureLoaderHelper'
 import _ from 'lodash'
 
 /* eslint-enable node/no-unpublished-import */
@@ -118,12 +120,14 @@ const aggregationsToResult = (aggs) => {
 }
 
 export const getTemplateSearchResults = async (query, options = {}) => {
-  // When using fixtures, always return all RTs.
-  if (Config.useResourceTemplateFixtures) { return {
-    totalHits: resourceTemplateSearchResults.length,
-    results: resourceTemplateSearchResults,
-    error: undefined,
-  } }
+  if (Config.useResourceTemplateFixtures) {
+    const results = await getFixtureTemplateSearchResults()
+    return {
+      totalHits: results.length,
+      results,
+      error: undefined,
+    }
+  }
 
   const fields = ['id', 'resourceLabel', 'resourceURI', 'remark', 'author']
   const should = fields.map((field) => ({ wildcard: { [field]: { value: `*${query}*` } } }))

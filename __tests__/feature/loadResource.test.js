@@ -1,18 +1,19 @@
 import { renderApp } from 'testUtils'
 import { fireEvent, screen } from '@testing-library/react'
 import * as sinopiaSearch from 'sinopiaSearch'
-import * as sinopiaServer from 'sinopiaServer'
-import { getFixtureResourceTemplate, getFixtureResource, resourceSearchResults } from 'fixtureLoaderHelper'
+import { resourceSearchResults } from 'fixtureLoaderHelper'
+import Config from 'Config'
+
+jest.spyOn(Config, 'useResourceTemplateFixtures', 'get').mockReturnValue(true)
 
 jest.mock('sinopiaSearch')
-jest.mock('sinopiaServer')
 // Mock jquery
 global.$ = jest.fn().mockReturnValue({ popover: jest.fn() })
 
 describe('loading saved resource', () => {
-  sinopiaServer.foundResourceTemplate.mockResolvedValue(true)
-  sinopiaServer.getResourceTemplate.mockImplementation(getFixtureResourceTemplate)
-  sinopiaServer.loadRDFResource.mockImplementation(getFixtureResource)
+  // sinopiaServer.foundResourceTemplate.mockResolvedValue(true)
+  // sinopiaServer.getResourceTemplate.mockImplementation(getFixtureResourceTemplate)
+  // sinopiaServer.loadRDFResource.mockImplementation(getFixtureResource)
   sinopiaSearch.getTemplateSearchResults.mockResolvedValue({
     totalHits: 0,
     results: [],
@@ -20,7 +21,7 @@ describe('loading saved resource', () => {
   })
   describe('when RDF', () => {
     it('opens the resource', async () => {
-      const uri = 'http://platform:8080/repository/cornell/c7db5404-7d7d-40ac-b38e-c821d2c3ae3f'
+      const uri = 'http://localhost:3000/repository/c7db5404-7d7d-40ac-b38e-c821d2c3ae3f'
       sinopiaSearch.getSearchResultsWithFacets.mockResolvedValue(resourceSearchResults(uri))
 
       renderApp()
@@ -42,7 +43,7 @@ describe('loading saved resource', () => {
       expect((await screen.findAllByRole('heading', { name: 'Uber template1' }))).toHaveLength(1)
 
       // URI displayed
-      screen.getByText('URI for this resource: <http://platform:8080/repository/cornell/c7db5404-7d7d-40ac-b38e-c821d2c3ae3f>')
+      screen.getByText(`URI for this resource: <${uri}>`)
 
       // Headings
       screen.getByRole('heading', { name: 'Uber template1' })
@@ -68,7 +69,7 @@ describe('loading saved resource', () => {
 
   describe('when invalid resource template', () => {
     it('displays error', async () => {
-      const uri = 'http://platform:8080/repository/cornell/c7db5404-7d7d-40ac-b38e-c821d2c3ae3f-invalid'
+      const uri = 'http://localhost:3000/repository/c7db5404-7d7d-40ac-b38e-c821d2c3ae3f-invalid'
       sinopiaSearch.getSearchResultsWithFacets.mockResolvedValue(resourceSearchResults(uri))
 
       renderApp()

@@ -15,6 +15,8 @@ import { faCopy } from '@fortawesome/free-solid-svg-icons'
 import Alerts from '../Alerts'
 import { selectErrors } from 'selectors/errors'
 import _ from 'lodash'
+import { datasetFromN3 } from 'utilities/Utilities'
+
 
 // Errors from retrieving a resource from this page.
 export const searchQARetrieveErrorKey = 'searchqaresource'
@@ -31,8 +33,8 @@ const QASearchResults = (props) => {
   // Resource ID is for handling non-LD QA authorities, e.g., Discog
   const [resourceId, setResourceId] = useState(null)
   const [resourceTemplateId, setResourceTemplateId] = useState(null)
-  const [resourceN3, setResourceN3] = useState(null)
-  useResource(resourceN3, resourceURI, resourceTemplateId, searchQARetrieveErrorKey, props.history)
+  const [dataset, setDataset] = useState(null)
+  useResource(dataset, resourceURI, resourceTemplateId, searchQARetrieveErrorKey, props.history)
 
   // Retrieve N3 from QA
   useEffect(() => {
@@ -41,8 +43,12 @@ const QASearchResults = (props) => {
     }
     dispatch(clearErrors(searchQARetrieveErrorKey))
     getTerm(resourceURI, resourceId, searchUri)
-      .then((resourceN3) => setResourceN3(resourceN3))
-      .catch((err) => dispatch(addError(`Error retrieving resource: ${err.toString()}`)))
+      .then((resourceN3) => {
+        datasetFromN3(resourceN3)
+          .then((newDataset) => setDataset(newDataset))
+          .catch((err) => dispatch(addError(`Error parsing resource: ${err.message}`)))
+      })
+      .catch((err) => dispatch(addError(`Error retrieving resource: ${err.message}`)))
   }, [dispatch, resourceId, resourceURI, searchUri])
 
   const errors = useSelector((state) => selectErrors(state, searchQARetrieveErrorKey))

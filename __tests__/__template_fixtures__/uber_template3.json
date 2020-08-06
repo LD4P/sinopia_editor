@@ -1,26 +1,107 @@
-{
-  "id": "resourceTemplate:testing:uber3",
-  "resourceLabel": "Uber template3",
-  "resourceURI": "http://id.loc.gov/ontologies/bibframe/Uber3",
-  "remark": "Template for testing purposes with multiple literal.",
-  "propertyTemplates": [
-    {
-      "propertyLabel": "Uber template3, property1",
-      "propertyURI": "http://id.loc.gov/ontologies/bibframe/uber/template3/property1",
-      "resourceTemplates": [],
-      "mandatory": "false",
-      "repeatable": "true",
-      "type": "literal",
-      "remark": "A literal"
-    },
-    {
-      "propertyLabel": "Uber template3, property2",
-      "propertyURI": "http://id.loc.gov/ontologies/bibframe/uber/template3/property2",
-      "resourceTemplates": [],
-      "mandatory": "false",
-      "repeatable": "true",
-      "type": "literal",
-      "remark": "http://access.rdatoolkit.org/1.0.html"
-    }
-  ]
-}
+[
+  {
+    "@id": "_:b3",
+    "@type": [
+      "http://sinopia.io/vocabulary/PropertyTemplate"
+    ],
+    "http://www.w3.org/2000/01/rdf-schema#label": [
+      {
+        "@value": "Uber template3, property1"
+      }
+    ],
+    "http://sinopia.io/vocabulary/hasRemark": [
+      {
+        "@value": "A literal"
+      }
+    ],
+    "http://sinopia.io/vocabulary/hasPropertyUri": [
+      {
+        "@id": "http://id.loc.gov/ontologies/bibframe/uber/template3/property1"
+      }
+    ],
+    "http://sinopia.io/vocabulary/hasPropertyAttribute": [
+      {
+        "@id": "http://sinopia.io/vocabulary/propertyAttribute/repeatable"
+      }
+    ],
+    "http://sinopia.io/vocabulary/hasPropertyType": [
+      {
+        "@id": "http://sinopia.io/vocabulary/propertyType/literal"
+      }
+    ]
+  },
+  {
+    "@id": "_:b4",
+    "@type": [
+      "http://sinopia.io/vocabulary/PropertyTemplate"
+    ],
+    "http://www.w3.org/2000/01/rdf-schema#label": [
+      {
+        "@value": "Uber template3, property2"
+      }
+    ],
+    "http://sinopia.io/vocabulary/hasPropertyUri": [
+      {
+        "@id": "http://id.loc.gov/ontologies/bibframe/uber/template3/property2"
+      }
+    ],
+    "http://sinopia.io/vocabulary/hasPropertyAttribute": [
+      {
+        "@id": "http://sinopia.io/vocabulary/propertyAttribute/repeatable"
+      }
+    ],
+    "http://sinopia.io/vocabulary/hasPropertyType": [
+      {
+        "@id": "http://sinopia.io/vocabulary/propertyType/literal"
+      }
+    ],
+    "http://sinopia.io/vocabulary/hasRemarkUrl": [
+      {
+        "@id": "http://access.rdatoolkit.org/1.0.html"
+      }
+    ]
+  },
+  {
+    "@id": "http://localhost:3000/repository/resourceTemplate:testing:uber3",
+    "http://sinopia.io/vocabulary/hasResourceTemplate": [
+      {
+        "@value": "sinopia:template:resource"
+      }
+    ],
+    "@type": [
+      "http://sinopia.io/vocabulary/ResourceTemplate"
+    ],
+    "http://sinopia.io/vocabulary/hasResourceId": [
+      {
+        "@id": "resourceTemplate:testing:uber3"
+      }
+    ],
+    "http://sinopia.io/vocabulary/hasClass": [
+      {
+        "@id": "http://id.loc.gov/ontologies/bibframe/Uber3"
+      }
+    ],
+    "http://www.w3.org/2000/01/rdf-schema#label": [
+      {
+        "@value": "Uber template3"
+      }
+    ],
+    "http://sinopia.io/vocabulary/hasRemark": [
+      {
+        "@value": "Template for testing purposes with multiple literal."
+      }
+    ],
+    "http://sinopia.io/vocabulary/hasPropertyTemplate": [
+      {
+        "@list": [
+          {
+            "@id": "_:b3"
+          },
+          {
+            "@id": "_:b4"
+          }
+        ]
+      }
+    ]
+  }
+]

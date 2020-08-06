@@ -1,24 +1,17 @@
 import {
-  newResourceFromN3, loadResource, newResource, newResourceCopy,
+  newResourceFromDataset, loadResource, newResource, newResourceCopy,
   expandProperty, addSiblingValueSubject,
 } from 'actionCreators/resources'
 import Config from 'Config'
 import configureMockStore from 'redux-mock-store'
 import thunk from 'redux-thunk'
 import { createState } from 'stateUtils'
-import { getFixtureResource, getFixtureResourceTemplate } from 'fixtureLoaderHelper'
 import GraphBuilder from 'GraphBuilder'
-import { rdfDatasetFromN3 } from 'utilities/Utilities'
-import * as sinopiaServer from 'sinopiaServer'
+import { datasetFromN3 } from 'utilities/Utilities'
 import shortid from 'shortid'
 import _ from 'lodash'
 
-jest.mock('sinopiaServer')
-
 beforeEach(() => {
-  sinopiaServer.foundResourceTemplate.mockResolvedValue(true)
-  sinopiaServer.getResourceTemplate.mockImplementation(getFixtureResourceTemplate)
-  sinopiaServer.loadRDFResource.mockImplementation(getFixtureResource)
   let counter = 0
   shortid.generate = jest.fn().mockImplementation(() => `abc${counter++}`)
 })
@@ -31,16 +24,38 @@ const mockStore = configureMockStore([thunk])
 // This removes circular references.
 const safeAction = (action) => JSON.parse(JSON.safeStringify(action))
 
-describe('newResourceFromN3', () => {
-  const expectedAddResourceAction = require('../__action_fixtures__/newResourceFromN3-ADD_SUBJECT.json')
+const uri = 'http://localhost:3000/repository/c7db5404-7d7d-40ac-b38e-c821d2c3ae3f'
+const resourceTemplateId = 'resourceTemplate:testing:uber1'
+
+const n3 = `<> <http://id.loc.gov/ontologies/bibframe/uber/template1/property1> _:b2_c14n0 .
+<> <http://id.loc.gov/ontologies/bibframe/uber/template1/property1> _:b2_c14n1 .
+<> <http://id.loc.gov/ontologies/bibframe/uber/template1/property1> _:b2_c14n2 .
+<> <http://id.loc.gov/ontologies/bibframe/uber/template1/property2> "Uber template1, property2"@eng .
+<> <http://id.loc.gov/ontologies/bibframe/uber/template1/property4> "Uber template1, property4"@eng .
+<> <http://id.loc.gov/ontologies/bibframe/uber/template1/property5> <ubertemplate1:property5> .
+<> <http://id.loc.gov/ontologies/bibframe/uber/template1/property6> <ubertemplate1:property6> .
+<> <http://sinopia.io/vocabulary/hasResourceTemplate> "resourceTemplate:testing:uber1" .
+<> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://id.loc.gov/ontologies/bibframe/Uber1> .
+<ubertemplate1:property5> <http://www.w3.org/2000/01/rdf-schema#label> "ubertemplate1:property5" .
+<ubertemplate1:property6> <http://www.w3.org/2000/01/rdf-schema#label> "ubertemplate1:property6" .
+_:b2_c14n0 <http://id.loc.gov/ontologies/bibframe/uber/template3/property1> "Uber template3, property1"@eng .
+_:b2_c14n0 <http://id.loc.gov/ontologies/bibframe/uber/template3/property2> "Uber template3, property2"@eng .
+_:b2_c14n0 <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://id.loc.gov/ontologies/bibframe/Uber3> .
+_:b2_c14n1 <http://id.loc.gov/ontologies/bibframe/uber/template2/property1> "Uber template2, property1"@eng .
+_:b2_c14n1 <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://id.loc.gov/ontologies/bibframe/Uber2> .
+_:b2_c14n2 <http://id.loc.gov/ontologies/bibframe/uber/template2/property1> "Uber template2, property1b"@eng .
+_:b2_c14n2 <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://id.loc.gov/ontologies/bibframe/Uber2> .
+`
+
+describe('newResourceFromDataset', () => {
+  const expectedAddResourceAction = require('../__action_fixtures__/newResourceFromDataset-ADD_SUBJECT.json')
 
   describe('loading a resource', () => {
     const store = mockStore(createState())
 
     it('dispatches actions', async () => {
-      const uri = 'https://sinopia.io/repository/cornell/c7db5404-7d7d-40ac-b38e-c821d2c3ae3f'
-      const response = await getFixtureResource(null, uri)
-      const result = await store.dispatch(newResourceFromN3(response.response.text, uri, null, 'testerrorkey'))
+      const dataset = await datasetFromN3(n3.replace(/<>/g, `<${uri}>`))
+      const result = await store.dispatch(newResourceFromDataset(dataset, uri, null, 'testerrorkey'))
       expect(result).toBe(true)
 
       const actions = store.getActions()
@@ -57,7 +72,7 @@ describe('newResourceFromN3', () => {
 
       // As a bonus check, roundtrip to RDF.
       const actualRdf = new GraphBuilder(addSubjectAction.payload).graph.toCanonical()
-      const expectedGraph = await rdfDatasetFromN3(response.response.text.replace(RegExp(`<${uri}>`, 'g'), '<>'))
+      const expectedGraph = await datasetFromN3(n3.replace(/<>/g, `<${uri}>`))
       const expectedRdf = expectedGraph.toCanonical()
       expect(actualRdf).toMatch(expectedRdf)
 
@@ -72,10 +87,8 @@ describe('newResourceFromN3', () => {
     const store = mockStore(createState())
 
     it('dispatches actions', async () => {
-      const uri = 'https://sinopia.io/repository/cornell/c7db5404-7d7d-40ac-b38e-c821d2c3ae3f'
-      const response = await getFixtureResource(null, uri)
-      const fixtureRdf = response.response.text.replace(RegExp(`<${uri}>`, 'g'), '<>')
-      const result = await store.dispatch(newResourceFromN3(fixtureRdf, uri, null, 'testerrorkey'))
+      const dataset = await datasetFromN3(n3)
+      const result = await store.dispatch(newResourceFromDataset(dataset, uri, null, 'testerrorkey'))
       expect(result).toBe(true)
 
       const actions = store.getActions()
@@ -84,17 +97,16 @@ describe('newResourceFromN3', () => {
       expect(safeAction(addSubjectAction)).toEqual(expectedAddResourceAction)
     })
   })
+
   describe('loading a resource with extra triples', () => {
     const store = mockStore(createState())
 
     it('dispatches actions', async () => {
-      const uri = 'https://sinopia.io/repository/cornell/c7db5404-7d7d-40ac-b38e-c821d2c3ae3f'
-      const response = await getFixtureResource(null, uri)
       const extraRdf = `<> <http://id.loc.gov/ontologies/bibframe/uber/template1/property6x> <ubertemplate1:property6> .
 <x> <http://id.loc.gov/ontologies/bibframe/uber/template1/property6> <ubertemplate1:property6> .
 `
-      const fixtureRdf = response.response.text + extraRdf
-      const result = await store.dispatch(newResourceFromN3(fixtureRdf, uri, null, 'testerrorkey'))
+      const dataset = await datasetFromN3(n3 + extraRdf)
+      const result = await store.dispatch(newResourceFromDataset(dataset, uri, null, 'testerrorkey'))
       expect(result).toBe(true)
 
       const actions = store.getActions()
@@ -110,9 +122,8 @@ describe('newResourceFromN3', () => {
     const store = mockStore(createState())
 
     it('dispatches actions', async () => {
-      const uri = 'https://sinopia.io/repository/cornell/c7db5404-7d7d-40ac-b38e-c821d2c3ae3f'
-      const response = await getFixtureResource(null, uri)
-      const result = await store.dispatch(newResourceFromN3(response.response.text, uri, null, 'testerrorkey', true))
+      const dataset = await datasetFromN3(n3.replace(/<>/g, `<${uri}>`))
+      const result = await store.dispatch(newResourceFromDataset(dataset, uri, null, 'testerrorkey', true))
       expect(result).toBe(true)
 
       const actions = store.getActions()
@@ -135,12 +146,10 @@ describe('newResourceFromN3', () => {
     const store = mockStore(createState())
 
     it('dispatches actions', async () => {
-      const uri = 'https://sinopia.io/repository/cornell/c7db5404-7d7d-40ac-b38e-c821d2c3ae3f'
-      const response = await getFixtureResource(null, uri)
-      const resourceTemplateId = 'resourceTemplate:testing:uber1'
       // Change the hasResourceTemplate triple.
-      const fixtureRdf = response.response.text.replace(resourceTemplateId, `${resourceTemplateId}x`)
-      const result = await store.dispatch(newResourceFromN3(fixtureRdf, uri, resourceTemplateId, 'testerrorkey'))
+      const fixtureRdf = n3.replace(resourceTemplateId, `${resourceTemplateId}x`)
+      const dataset = await datasetFromN3(fixtureRdf)
+      const result = await store.dispatch(newResourceFromDataset(dataset, uri, resourceTemplateId, 'testerrorkey'))
       expect(result).toBe(true)
 
       const actions = store.getActions()
@@ -154,9 +163,9 @@ describe('newResourceFromN3', () => {
     const store = mockStore(createState())
 
     it('dispatches actions', async () => {
-      const uri = 'https://sinopia.io/repository/cornell/c7db5404-7d7d-40ac-b38e-c821d2c3ae3f-invalid'
-      const response = await getFixtureResource(null, uri)
-      const result = await store.dispatch(newResourceFromN3(response.response.text, uri, null, 'testerrorkey'))
+      const fixtureRdf = n3.replace(resourceTemplateId, 'rt:repeated:propertyURI:propertyLabel')
+      const dataset = await datasetFromN3(fixtureRdf)
+      const result = await store.dispatch(newResourceFromDataset(dataset, uri, null, 'testerrorkey'))
       expect(result).toBe(false)
 
       const actions = store.getActions()
@@ -170,17 +179,23 @@ describe('newResourceFromN3', () => {
 
 describe('loadResource', () => {
   describe('loading a resource', () => {
+    const expectedAddResourceAction = require('../__action_fixtures__/loadResource-ADD_SUBJECT.json')
     const store = mockStore(createState())
 
     it('dispatches actions', async () => {
-      const uri = 'https://sinopia.io/repository/cornell/c7db5404-7d7d-40ac-b38e-c821d2c3ae3f'
+      const uri = 'http://localhost:3000/repository/c7db5404-7d7d-40ac-b38e-c821d2c3ae3f'
       const result = await store.dispatch(loadResource('jlit', uri, 'testerrorkey'))
       expect(result).toBe(true)
 
       const actions = store.getActions()
+
+      const addSubjectAction = actions.find((action) => action.type === 'ADD_SUBJECT')
+      expect(addSubjectAction).not.toBeNull()
+      // safeStringify is used because it removes circular references
+      expect(safeAction(addSubjectAction)).toEqual(expectedAddResourceAction)
+
       expect(actions).toHaveAction('CLEAR_ERRORS')
       expect(actions).toHaveAction('ADD_TEMPLATES')
-      expect(actions).toHaveAction('ADD_SUBJECT')
       expect(actions).toHaveAction('SET_UNUSED_RDF')
       expect(actions).toHaveAction('SET_CURRENT_RESOURCE')
       expect(actions).toHaveAction('LOAD_RESOURCE_FINISHED')
@@ -191,7 +206,7 @@ describe('loadResource', () => {
     const store = mockStore(createState())
 
     it('dispatches actions', async () => {
-      const uri = 'https://sinopia.io/repository/cornell/c7db5404-7d7d-40ac-b38e-c821d2c3ae3f'
+      const uri = 'http://localhost:3000/repository/c7db5404-7d7d-40ac-b38e-c821d2c3ae3f'
       const result = await store.dispatch(loadResource('jlit', uri, 'testerrorkey', true))
       expect(result).toBe(true)
 
@@ -209,7 +224,7 @@ describe('loadResource', () => {
     const store = mockStore(createState())
 
     it('dispatches actions', async () => {
-      const uri = 'https://sinopia.io/repository/cornell/c7db5404-7d7d-40ac-b38e-c821d2c3ae3f-invalid'
+      const uri = 'http://localhost:3000/repository/c7db5404-7d7d-40ac-b38e-c821d2c3ae3f-invalid'
       const result = await store.dispatch(loadResource('jlit', uri, 'testerrorkey'))
       expect(result).toBe(false)
 
@@ -226,16 +241,15 @@ describe('loadResource', () => {
     const store = mockStore(createState())
 
     it('dispatches actions', async () => {
-      sinopiaServer.loadRDFResource.mockRejectedValue(new Error('Ooops'))
-      const uri = 'https://sinopia.io/repository/cornell/c7db5404-7d7d-40ac-b38e-c821d2c3ae3f'
-      const result = await store.dispatch(loadResource('jlit', uri, 'testerrorkey'))
+      // http://error is a special URI that will cause an error to be thrown.
+      const result = await store.dispatch(loadResource('jlit', 'http://error', 'testerrorkey'))
       expect(result).toBe(false)
 
       const actions = store.getActions()
       expect(actions).toHaveAction('CLEAR_ERRORS')
       expect(actions).toHaveAction('ADD_ERROR', {
         errorKey: 'testerrorkey',
-        error: 'Error retrieving resource: Error: Ooops',
+        error: 'Error retrieving http://error: Error parsing resource: Ooops',
       })
     })
   })
@@ -295,6 +309,7 @@ describe('newResourceCopy', () => {
       const actions = store.getActions()
 
       const addSubjectAction = actions.find((action) => action.type === 'ADD_SUBJECT')
+
       expect(safeAction(addSubjectAction)).toEqual(expectedAddResourceAction)
 
       expect(actions).toHaveAction('SET_UNUSED_RDF', { resourceKey: 'abc0', rdf: null })

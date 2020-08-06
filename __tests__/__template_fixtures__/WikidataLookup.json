@@ -1,25 +1,89 @@
-{
-  "id": "test:resource:WikidataLookup",
-  "resourceLabel": "Testing wikidata lookup",
-  "remark": "This hits wikidata",
-  "resourceURI": "http://id.loc.gov/ontologies/bibframe/Instance",
-  "propertyTemplates": [
-    {
-      "propertyURI": "http://id.loc.gov/ontologies/bibframe/instanceOf",
-      "propertyLabel": "Instance of (lookup)",
-      "remark": "lookup",
-      "mandatory": "true",
-      "repeatable": "false",
-      "type": "lookup",
-      "resourceTemplates": [],
-      "valueConstraint": {
-        "valueTemplateRefs": [],
-        "useValuesFrom": [
-          "urn:wikidata"
-        ],
-        "valueDataType": {},
-        "defaults": []
+[
+  {
+    "@id": "_:b2",
+    "@type": [
+      "http://sinopia.io/vocabulary/PropertyTemplate"
+    ],
+    "http://www.w3.org/2000/01/rdf-schema#label": [
+      {
+        "@value": "Instance of (lookup)"
       }
-    }
-  ]
-}
+    ],
+    "http://sinopia.io/vocabulary/hasRemark": [
+      {
+        "@value": "lookup"
+      }
+    ],
+    "http://sinopia.io/vocabulary/hasPropertyUri": [
+      {
+        "@id": "http://id.loc.gov/ontologies/bibframe/instanceOf"
+      }
+    ],
+    "http://sinopia.io/vocabulary/hasPropertyAttribute": [
+      {
+        "@id": "http://sinopia.io/vocabulary/propertyAttribute/required"
+      }
+    ],
+    "http://sinopia.io/vocabulary/hasPropertyType": [
+      {
+        "@id": "http://sinopia.io/vocabulary/propertyType/uri"
+      }
+    ],
+    "http://sinopia.io/vocabulary/hasLookupAttributes": [
+      {
+        "@id": "_:b3"
+      }
+    ]
+  },
+  {
+    "@id": "_:b3",
+    "@type": [
+      "http://sinopia.io/vocabulary/LookupPropertyTemplate"
+    ],
+    "http://sinopia.io/vocabulary/hasAuthority": [
+      {
+        "@id": "urn:wikidata"
+      }
+    ]
+  },
+  {
+    "@id": "http://localhost:3000/repository/test:resource:WikidataLookup",
+    "http://sinopia.io/vocabulary/hasResourceTemplate": [
+      {
+        "@value": "sinopia:template:resource"
+      }
+    ],
+    "@type": [
+      "http://sinopia.io/vocabulary/ResourceTemplate"
+    ],
+    "http://sinopia.io/vocabulary/hasResourceId": [
+      {
+        "@id": "test:resource:WikidataLookup"
+      }
+    ],
+    "http://sinopia.io/vocabulary/hasClass": [
+      {
+        "@id": "http://id.loc.gov/ontologies/bibframe/Instance"
+      }
+    ],
+    "http://www.w3.org/2000/01/rdf-schema#label": [
+      {
+        "@value": "Testing wikidata lookup"
+      }
+    ],
+    "http://sinopia.io/vocabulary/hasRemark": [
+      {
+        "@value": "This hits wikidata"
+      }
+    ],
+    "http://sinopia.io/vocabulary/hasPropertyTemplate": [
+      {
+        "@list": [
+          {
+            "@id": "_:b2"
+          }
+        ]
+      }
+    ]
+  }
+]

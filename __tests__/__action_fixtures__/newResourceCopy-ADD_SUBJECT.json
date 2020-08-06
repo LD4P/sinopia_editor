@@ -6,6 +6,11 @@
         "uri": null,
         "subjectTemplateKey": "ld4p:RT:bf2:Title:AbbrTitle",
         "changed": false,
+        "bfAdminMetadataRefs": [],
+        "bfInstanceRefs": [],
+        "bfItemRefs": [],
+        "bfWorkRefs": [],
+        "group": null,
         "subjectTemplate": {
           "key": "ld4p:RT:bf2:Title:AbbrTitle",
           "id": "ld4p:RT:bf2:Title:AbbrTitle",

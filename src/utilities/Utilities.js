@@ -5,6 +5,12 @@ import rdf from 'rdf-ext'
 import _ from 'lodash'
 import Config from 'Config'
 import CryptoJS from 'crypto-js'
+import { JsonLdParser } from 'jsonld-streaming-parser'
+import { Writer as N3Writer } from 'n3'
+
+const concatStream = require('concat-stream')
+const Readable = require('stream').Readable
+const SerializerJsonld = require('@rdfjs/serializer-jsonld-ext')
 
 export const defaultLanguageId = 'eng'
 
@@ -39,7 +45,7 @@ export const isValidURI = (value) => {
  * @param {string} data that is the N3
  * @return {Promise<rdf.Dataset>} a promise that resolves to the loaded dataset
  */
-export const rdfDatasetFromN3 = (data) => new Promise((resolve, reject) => {
+export const datasetFromN3 = (data) => new Promise((resolve, reject) => {
   const parser = new N3Parser({ factory: rdf })
   const dataset = rdf.dataset()
   parser.parse(data,
@@ -57,6 +63,55 @@ export const rdfDatasetFromN3 = (data) => new Promise((resolve, reject) => {
     })
 })
 
+export const n3FromDataset = (dataset, format) => new Promise((resolve, reject) => {
+  const writer = new N3Writer({ format: format === 'n-triples' ? 'N-Triples' : undefined })
+  writer.addQuads(dataset.toArray())
+  writer.end((error, result) => {
+    if (error) {
+      reject(error)
+    } else {
+      resolve(result)
+    }
+  })
+})
+
+export const jsonldFromDataset = (dataset) => {
+  const serializerJsonld = new SerializerJsonld({ expand: true })
+
+  const output = serializerJsonld.import(dataset.toStream())
+
+  return new Promise((resolve, reject) => {
+    output.pipe(concatStream((content) => resolve(content)))
+
+    output.on('error', (err) => reject(err))
+  })
+}
+
+export const datasetFromJsonld = (jsonld) => {
+  const parserJsonld = new JsonLdParser()
+
+  const input = new Readable({
+    read: () => {
+      input.push(JSON.stringify(jsonld))
+      input.push(null)
+    },
+  })
+
+  const output = parserJsonld.import(input)
+  const dataset = rdf.dataset()
+
+  output.on('data', (quad) => {
+    dataset.add(quad)
+  })
+
+  return new Promise((resolve, reject) => {
+    output.on('end', resolve)
+    output.on('error', reject)
+  })
+    .then(() => dataset)
+}
+
+
 export const generateMD5 = (message) => CryptoJS.MD5(message).toString()
 
 export const findRootResourceTemplateId = (resourceURI, dataset) => {
@@ -70,4 +125,15 @@ export const findRootResourceTemplateId = (resourceURI, dataset) => {
 export const hasQuadsForRootResourceTemplateId = (resourceURI, dataset) => {
   const rtQuads = dataset.match(rdf.namedNode(resourceURI)).toArray()
   return rtQuads.length > 0
+}
+
+export const datasetFromRdf = (rdf) => {
+  // Try parsing as JSON.
+  let json
+  try {
+    json = JSON.parse(rdf)
+  } catch {
+    return datasetFromN3(rdf)
+  }
+  return datasetFromJsonld(json)
 }

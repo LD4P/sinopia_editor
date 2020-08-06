@@ -1,131 +1,86 @@
-// Copyright 2018, 2019 Stanford University see LICENSE for license
-
-// ideally we would like to automagically load everything in the fixtures dir
-//  (with a short black list), but because we want to be able to spin up the
-//  web server with fixtures, we can't use fs.readdir, fs.readfile and so on.
-// Using require to load the json files gets around this, but only if we have
-//  the names of the files in a list already.
-
-// note that the following fixtures are used for schemaValidation tests and don't need to be autoloaded
-// 'edition_bad_schema',
-// 'lcc_no_schema_specified',
-// 'lcc_v0.2.0.bad_id.json',
-// 'lcc_v0.2.0_invalid.json',
-// 'lcc_v0.2.0.json',
-// 'place_profile_no_schema_specified',
-// 'place_profile_v0.2.0.json',
-
-const rtFileNames = [
-  'DiscogsLookup.json',
-  'multiple_loc.json',
-  'Note.json',
-  'SinopiaLookup.json',
-  'Title.json',
-  'TitleNote.json',
-  'WikidataLookup.json',
-  'WorkTitle.json',
-  'propertyURIRepeated.json',
-  'notFoundValueTemplateRefs.json',
-  'ld4p_RT_bf2_Form.json',
-  'ld4p_RT_bf2_RareMat_RBMS.json',
-  'ld4p_RT_bf2_Title_AbbrTitle.json',
-  'nonUniqueValueTemplateRefs.json',
-  'uber_template1.json',
-  'uber_template2.json',
-  'uber_template3.json',
-  'uber_template4.json',
-]
-
-export const resourceTemplateId2Json = loadFixtureResourceTemplates()
-
-function loadFixtureResourceTemplates() {
-  const result = []
-  rtFileNames.forEach((filename) => {
-    /* eslint security/detect-non-literal-require: 'off' */
-    const rtjson = require(`../__template_fixtures__/${filename}`)
-    result.push({ id: rtjson.id, json: rtjson })
-  })
-  return result
-}
-
-export const resourceTemplateIds = resourceTemplateId2Json.map((template) => template.id)
-
-// These are used as fake template search results
-export const resourceTemplateSearchResults = resourceTemplateId2Json.map((template) => ({
-  id: template.json.id,
-  author: template.json.author,
-  date: template.json.date,
-  remark: template.json.remark,
-  resourceLabel: template.json.resourceLabel,
-  resourceURI: template.json.resourceURI,
-})).sort((a, b) => a.resourceLabel.localeCompare(b.resourceLabel))
-
-export const getFixtureResourceTemplate = (templateId) => {
-  if (!templateId) {
-    return Promise.reject(new Error('ERROR: asked for resourceTemplate with null/undefined id'))
-  }
-
-  if (!resourceTemplateIds.includes(templateId)) {
-    return Promise.reject(new Error(`ERROR: non-fixture resourceTemplate: ${templateId}`))
-  }
-
-  const fixtureResponse = { response: {} }
-
-  fixtureResponse.response.body = resourceTemplateId2Json.find((template) => {
-    if (template.id === templateId) return template
-  }).json
-
-  return new Promise((resolve) => {
-    resolve(fixtureResponse)
-  })
-}
-
-export const fixtureResourcesInGroupContainer = (group) => {
-  const container = `http://spoof.trellis.io/${group}`
-  const ids = resourceTemplateId2Json.map((rt) => `${container}/${rt.id}`)
-
-  return {
-    response: {
-      body: {
-        '@id': container,
-        contains: ids,
-      },
-    },
-  }
-}
-
-export const rtFixturesGroups = () => new Promise((resolve) => {
-  resolve({
-    response: {
-      body: {
-        contains: 'http://spoof.trellis.io/ld4p',
-      },
-      headers: {
-        location: 'http://localhost/something/or/other',
-      },
-    },
-  })
-})
-
-export const listFixtureResourcesInGroupContainer = (group) => new Promise((resolve) => {
-  resolve(fixtureResourcesInGroupContainer(group))
-})
+import TemplatesBuilder from '../../src/TemplatesBuilder'
+import { datasetFromJsonld } from '../../src/utilities/Utilities'
+import _ from 'lodash'
 
 const resourceFilenames = {
-  'cornell/c7db5404-7d7d-40ac-b38e-c821d2c3ae3f': 'test.n3',
-  'cornell/c7db5404-7d7d-40ac-b38e-c821d2c3ae3f-invalid': 'invalid_rt.n3',
+  'c7db5404-7d7d-40ac-b38e-c821d2c3ae3f': 'test.json',
+  'c7db5404-7d7d-40ac-b38e-c821d2c3ae3f-invalid': 'invalid_rt.json',
 }
 
-export const hasFixtureResource = (uri) => !!resourceFilenames[normUri(uri)]
-
-export const getFixtureResource = (currentUser, uri) => {
-  const resourceObj = require(`../__resource_fixtures__/${resourceFilenames[normUri(uri)]}`)
-  // Depends on whether webpack or jest.
-  const resourceN3 = resourceObj.default || resourceObj
-  return Promise.resolve({ response: { text: resourceN3.replace(/<>/g, `<${uri}>`) } })
+const templateFilenames = {
+  'test:resource:DiscogsLookup': 'DiscogsLookup.json',
+  'test:bf2:soundCharacteristics': 'multiple_loc.json',
+  'resourceTemplate:bf2:Note': 'Note.json',
+  'test:resource:SinopiaLookup': 'SinopiaLookup.json',
+  'resourceTemplate:bf2:Title': 'Title.json',
+  'resourceTemplate:bf2:Title:Note': 'TitleNote.json',
+  'test:resource:WikidataLookup': 'WikidataLookup.json',
+  'resourceTemplate:bf2:WorkTitle': 'WorkTitle.json',
+  'rt:repeated:propertyURI:propertyLabel': 'propertyURIRepeated.json',
+  'test:RT:bf2:notFoundValueTemplateRefs': 'notFoundValueTemplateRefs.json',
+  'ld4p:RT:bf2:Form': 'ld4p_RT_bf2_Form.json',
+  'ld4p:RT:bf2:RareMat:RBMS': 'ld4p_RT_bf2_RareMat_RBMS.json',
+  'ld4p:RT:bf2:Title:AbbrTitle': 'ld4p_RT_bf2_Title_AbbrTitle.json',
+  'test:RT:bf2:RareMat:Instance': 'nonUniqueValueTemplateRefs.json',
+  'resourceTemplate:testing:uber1': 'uber_template1.json',
+  'resourceTemplate:testing:uber2': 'uber_template2.json',
+  'resourceTemplate:testing:uber3': 'uber_template3.json',
+  'resourceTemplate:testing:uber4': 'uber_template4.json',
 }
 
-const normUri = (uri) => uri.substring(uri.indexOf('repository/') + 11)
+export const hasFixtureResource = (uri) => !!resourceFilenames[normUri(uri)] || !!templateFilenames[normUri(uri)] || ['http://error', 'http://localhost:3000/repository/ld4p:RT:bf2:xxx'].includes(uri)
+
+export const getFixtureResource = (uri) => {
+  // A special URI for testing.
+  if (uri === 'http://error') throw new Error('Ooops')
+  if (uri === 'http://localhost:3000/repository/ld4p:RT:bf2:xxx') throw new Error('Error retrieving resource: Not Found')
+
+  const id = normUri(uri)
+  // For some reason, require must have __xxx__ and cannot be provided in variable.
+  let resource
+  if (resourceFilenames[id]) {
+    /* eslint security/detect-non-literal-require: 'off' */
+    resource = require(`../__resource_fixtures__/${resourceFilenames[id]}`)
+  } else {
+    /* eslint security/detect-non-literal-require: 'off' */
+    resource = require(`../__template_fixtures__/${templateFilenames[id]}`)
+  }
+
+  return { id, uri, data: resource }
+}
+
+const normUri = (uri) => {
+  return uri.substring(uri.indexOf('repository/') + 11)
+}
+
+// Cache of search results
+const fixtureTemplateSearchResults = []
+
+// These are used as fake template search results
+export const getFixtureTemplateSearchResults = () => {
+  if (!_.isEmpty(fixtureTemplateSearchResults)) return fixtureTemplateSearchResults
+
+  return Promise.all(Object.keys(templateFilenames)
+    .map((id) => {
+      const jsonld = require(`../__template_fixtures__/${templateFilenames[id]}`)
+      return datasetFromJsonld(jsonld)
+        .then((dataset) => {
+          const uri = `http://localhost:3000/repository/${id}`
+          const template = new TemplatesBuilder(dataset, uri).build()
+          const result = {
+            id: template.id,
+            author: template.author,
+            date: template.date,
+            remark: template.remark,
+            resourceLabel: template.label,
+            resourceURI: template.class,
+            uri,
+          }
+          fixtureTemplateSearchResults.push(result)
+          return result
+        })
+    }))
+}
 
 // These are used as fake resource search results
 export const resourceSearchResults = (uri) => {

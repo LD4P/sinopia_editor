@@ -1,15 +1,12 @@
 import { renderApp, createHistory } from 'testUtils'
 import { fireEvent, screen } from '@testing-library/react'
-import * as sinopiaServer from 'sinopiaServer'
-import { getFixtureResourceTemplate } from 'fixtureLoaderHelper'
+import Config from 'Config'
 
-jest.mock('sinopiaServer')
+jest.spyOn(Config, 'useResourceTemplateFixtures', 'get').mockReturnValue(true)
 // Mock jquery
 global.$ = jest.fn().mockReturnValue({ popover: jest.fn() })
 
 describe('editing a URI property', () => {
-  sinopiaServer.foundResourceTemplate.mockResolvedValue(true)
-  sinopiaServer.getResourceTemplate.mockImplementation(getFixtureResourceTemplate)
   const history = createHistory(['/editor/resourceTemplate:testing:uber1'])
 
   it('allows entering, editing, and removing a non-repeatable URI', async () => {

@@ -1,0 +1,41 @@
+{
+  "id": "sinopia:template:property:lookup",
+  "resourceLabel": "Lookup attributes",
+  "resourceURI": "http://sinopia.io/vocabulary/LookupPropertyTemplate",
+  "remark": "Attributes for a lookup property.",
+  "propertyTemplates": [
+    {
+      "propertyLabel": "Authorities",
+      "propertyURI": "http://sinopia.io/vocabulary/hasAuthority",
+      "resourceTemplates": [],
+      "valueConstraint": {
+        "valueTemplateRefs": [],
+        "useValuesFrom": [
+          "file:/authorityConfig.json"
+        ],
+        "valueDataType": {
+          "dataTypeURI": "http://sinopia.io/vocabulary/Authority"
+        },
+        "defaults": []
+      },
+      "mandatory": "true",
+      "repeatable": "true",
+      "type": "literal",
+      "remark": "Authorities for lookup."
+    },
+    {
+      "propertyLabel": "Defaults",
+      "propertyURI": "http://sinopia.io/vocabulary/hasDefault",
+      "resourceTemplates": [],
+      "valueConstraint": {
+        "valueTemplateRefs": [
+          "sinopia:template:uri"
+        ]
+      },
+      "mandatory": "false",
+      "repeatable": "true",
+      "type": "resource",
+      "remark": "Default URIs."
+    }
+  ]
+}

@@ -1,0 +1,223 @@
+[
+  {
+    "@id": "_:b455",
+    "@type": [
+      "http://id.loc.gov/ontologies/bibframe/Uber3"
+    ],
+    "http://id.loc.gov/ontologies/bibframe/uber/template3/property1": [
+      {
+        "@value": "Uber template3, property1",
+        "@language": "eng"
+      }
+    ],
+    "http://id.loc.gov/ontologies/bibframe/uber/template3/property2": [
+      {
+        "@value": "Uber template3, property2",
+        "@language": "eng"
+      }
+    ]
+  },
+  {
+    "@id": "_:b456",
+    "@type": [
+      "http://id.loc.gov/ontologies/bibframe/Uber2"
+    ],
+    "http://id.loc.gov/ontologies/bibframe/uber/template2/property1": [
+      {
+        "@value": "Uber template2, property1",
+        "@language": "eng"
+      }
+    ]
+  },
+  {
+    "@id": "_:b457",
+    "@type": [
+      "http://id.loc.gov/ontologies/bibframe/Uber2"
+    ],
+    "http://id.loc.gov/ontologies/bibframe/uber/template2/property1": [
+      {
+        "@value": "Uber template2, property1b",
+        "@language": "eng"
+      }
+    ]
+  },
+  {
+    "@id": "_:b458",
+    "@type": [
+      "http://id.loc.gov/ontologies/bibframe/Uber4"
+    ],
+    "http://id.loc.gov/ontologies/bibframe/uber/template4/property1": [
+      {
+        "@value": "Uber template4, property1",
+        "@language": "eng"
+      }
+    ]
+  },
+  {
+    "@id": "http://aims.fao.org/aos/agrovoc/c_331388",
+    "http://www.w3.org/2000/01/rdf-schema#label": [
+      {
+        "@value": "corn sheller"
+      }
+    ]
+  },
+  {
+    "@id": "http://aims.fao.org/aos/agrovoc/c_35856",
+    "http://www.w3.org/2000/01/rdf-schema#label": [
+      {
+        "@value": "summer squash"
+      }
+    ]
+  },
+  {
+    "@id": "http://id.loc.gov/vocabulary/mrecmedium/mag",
+    "http://www.w3.org/2000/01/rdf-schema#label": [
+      {
+        "@value": "magnetic"
+      }
+    ]
+  },
+  {
+    "@id": "http://id.loc.gov/vocabulary/mrectype/analog",
+    "http://www.w3.org/2000/01/rdf-schema#label": [
+      {
+        "@value": "analog"
+      }
+    ]
+  },
+  {
+    "@id": "http://id.loc.gov/vocabulary/mrectype/digital",
+    "http://www.w3.org/2000/01/rdf-schema#label": [
+      {
+        "@value": "digital"
+      }
+    ]
+  },
+  {
+    "@id": "http://localhost:3000/repository/c7db5404-7d7d-40ac-b38e-c821d2c3ae3f-invalid",
+    "http://www.w3.org/2000/01/rdf-schema#label": [
+      {
+        "@value": "foo"
+      }
+    ]
+  },
+  {
+    "@id": "http://localhost:3000/repository/c7db5404-7d7d-40ac-b38e-c821d2c3ae3f-invalid",
+    "http://sinopia.io/vocabulary/hasResourceTemplate": [
+      {
+        "@value": "rt:repeated:propertyURI:propertyLabel"
+      }
+    ],
+    "@type": [
+      "http://id.loc.gov/ontologies/bibframe/Uber1"
+    ],
+    "http://id.loc.gov/ontologies/bibframe/uber/template1/property1": [
+      {
+        "@id": "_:b455"
+      },
+      {
+        "@id": "_:b456"
+      },
+      {
+        "@id": "_:b457"
+      }
+    ],
+    "http://id.loc.gov/ontologies/bibframe/uber/template1/property2": [
+      {
+        "@value": "Uber template1, property2",
+        "@language": "eng"
+      }
+    ],
+    "http://id.loc.gov/ontologies/bibframe/uber/template1/property4": [
+      {
+        "@value": "Uber template1, property4",
+        "@language": "eng"
+      }
+    ],
+    "http://id.loc.gov/ontologies/bibframe/uber/template1/property5": [
+      {
+        "@id": "ubertemplate1:property5"
+      }
+    ],
+    "http://id.loc.gov/ontologies/bibframe/uber/template1/property6": [
+      {
+        "@id": "ubertemplate1:property6"
+      }
+    ],
+    "http://id.loc.gov/ontologies/bibframe/uber/template1/property9": [
+      {
+        "@value": "Uber template1, property9",
+        "@language": "eng"
+      }
+    ],
+    "http://id.loc.gov/ontologies/bibframe/uber/template1/property10": [
+      {
+        "@id": "http://id.loc.gov/vocabulary/mrectype/analog"
+      }
+    ],
+    "http://id.loc.gov/ontologies/bibframe/uber/template1/property11": [
+      {
+        "@id": "http://id.loc.gov/vocabulary/mrectype/digital"
+      }
+    ],
+    "http://id.loc.gov/ontologies/bibframe/uber/template1/property12": [
+      {
+        "@id": "http://id.loc.gov/vocabulary/mrecmedium/mag"
+      }
+    ],
+    "http://id.loc.gov/ontologies/bibframe/uber/template1/property13": [
+      {
+        "@id": "http://aims.fao.org/aos/agrovoc/c_35856"
+      }
+    ],
+    "http://id.loc.gov/ontologies/bibframe/uber/template1/property14": [
+      {
+        "@id": "http://aims.fao.org/aos/agrovoc/c_331388"
+      }
+    ],
+    "http://id.loc.gov/ontologies/bibframe/uber/template1/property15": [
+      {
+        "@id": "http://sws.geonames.org/5098279/"
+      }
+    ],
+    "http://id.loc.gov/ontologies/bibframe/uber/template1/property16": [
+      {
+        "@id": "http://localhost:3000/repository/c7db5404-7d7d-40ac-b38e-c821d2c3ae3f"
+      }
+    ],
+    "http://id.loc.gov/ontologies/bibframe/uber/template1/property17": [
+      {
+        "@id": "http://localhost:3000/repository/c7db5404-7d7d-40ac-b38e-c821d2c3ae3f"
+      }
+    ],
+    "http://id.loc.gov/ontologies/bibframe/uber/template1/property18": [
+      {
+        "@id": "_:b458"
+      }
+    ]
+  },
+  {
+    "@id": "http://sws.geonames.org/5098279/",
+    "http://www.w3.org/2000/01/rdf-schema#label": [
+      {
+        "@value": "Freehold Borough High School (US)"
+      }
+    ]
+  },
+  {
+    "@id": "ubertemplate1:property5",
+    "http://www.w3.org/2000/01/rdf-schema#label": [
+      {
+        "@value": "ubertemplate1:property5"
+      }
+    ]
+  },
+  {
+    "@id": "ubertemplate1:property6",
+    "http://www.w3.org/2000/01/rdf-schema#label": [
+      {
+        "@value": "ubertemplate1:property6"
+      }
+    ]
+  }
+]

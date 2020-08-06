@@ -21,7 +21,7 @@ export default class GraphBuilder {
    */
   get graph() {
     if (this.resource) {
-      const resourceTerm = rdf.namedNode('')
+      const resourceTerm = rdf.namedNode(this.resource.uri || '')
       this.addGeneratedByTriple(resourceTerm, this.resource.subjectTemplate.id)
       this.buildSubject(this.resource, resourceTerm)
     }
@@ -52,9 +52,20 @@ export default class GraphBuilder {
   }
 
   buildProperty(property, subjectTerm) {
-    if (property.values == null) return
+    if (property.values == null || property.values.length === 0) return
 
-    property.values.forEach((value) => this.buildValue(value, subjectTerm, rdf.namedNode(property.propertyTemplate.uri)))
+    if (property.propertyTemplate.ordered) {
+      let nextNode = rdf.blankNode()
+      this.dataset.add(rdf.quad(subjectTerm, rdf.namedNode(property.propertyTemplate.uri), nextNode))
+      property.values.forEach((value, index) => {
+        const thisNode = nextNode
+        nextNode = index !== property.values.length - 1 ? rdf.blankNode() : rdf.namedNode('http://www.w3.org/1999/02/22-rdf-syntax-ns#nil')
+        this.dataset.add(rdf.quad(thisNode, rdf.namedNode('http://www.w3.org/1999/02/22-rdf-syntax-ns#rest'), nextNode))
+        this.buildValue(value, thisNode, rdf.namedNode('http://www.w3.org/1999/02/22-rdf-syntax-ns#first'))
+      })
+    } else {
+      property.values.forEach((value) => this.buildValue(value, subjectTerm, rdf.namedNode(property.propertyTemplate.uri)))
+    }
   }
 
   buildValue(value, subjectTerm, propertyTerm) {

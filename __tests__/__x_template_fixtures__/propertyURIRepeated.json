@@ -1,0 +1,39 @@
+{
+  "propertyTemplates": [
+    {
+      "mandatory": "false",
+      "repeatable": "true",
+      "type": "literal",
+      "resourceTemplates": [],
+      "valueConstraint": {
+        "valueTemplateRefs": [],
+        "useValuesFrom": [],
+        "defaults": [],
+        "valueDataType": {}
+      },
+      "propertyURI": "http://id.loc.gov/ontologies/bibframe/geographicCoverage",
+      "propertyLabel": "Geographic Coverage 1",
+      "remark": "tooltip 1"
+    },
+    {
+      "mandatory": "false",
+      "repeatable": "true",
+      "type": "literal",
+      "resourceTemplates": [],
+      "valueConstraint": {
+        "valueTemplateRefs": [],
+        "useValuesFrom": [],
+        "defaults": [],
+        "valueDataType": {}
+      },
+      "propertyURI": "http://id.loc.gov/ontologies/bibframe/geographicCoverage",
+      "propertyLabel": "Geographic Coverage 2",
+      "remark": "tooltip 2"
+    }
+  ],
+  "id": "rt:repeated:propertyURI:propertyLabel",
+  "resourceURI": "http://id.loc.gov/ontologies/bibframe/Work",
+  "author": "michelle",
+  "resourceLabel": "repeated propertyURI with differing propertyLabel",
+  "schema": "https://ld4p.github.io/sinopia/schemas/0.0.9/resource-template.json"
+}

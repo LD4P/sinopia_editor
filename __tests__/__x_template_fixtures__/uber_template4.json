@@ -1,0 +1,17 @@
+{
+  "id": "resourceTemplate:testing:uber4",
+  "resourceLabel": "Uber template4",
+  "resourceURI": "http://id.loc.gov/ontologies/bibframe/Uber4",
+  "remark": "Template for testing purposes with single repeatable, required literal.",
+  "propertyTemplates": [
+    {
+      "propertyLabel": "Uber template4, property1",
+      "propertyURI": "http://id.loc.gov/ontologies/bibframe/uber/template4/property1",
+      "resourceTemplates": [],
+      "mandatory": "true",
+      "repeatable": "true",
+      "type": "literal",
+      "remark": "A repeatable, required literal"
+    }
+  ]
+}

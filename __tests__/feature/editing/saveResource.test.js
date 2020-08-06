@@ -1,17 +1,15 @@
 import { renderApp, createHistory } from 'testUtils'
 import { fireEvent, wait, screen } from '@testing-library/react'
-import * as sinopiaServer from 'sinopiaServer'
-import { getFixtureResourceTemplate, rtFixturesGroups } from 'fixtureLoaderHelper'
+import * as sinopiaApi from 'sinopiaApi'
+import Config from 'Config'
 
-jest.mock('sinopiaServer')
+// This forces Sinopia server to use fixtures
+jest.spyOn(Config, 'useResourceTemplateFixtures', 'get').mockReturnValue(true)
+jest.spyOn(sinopiaApi, 'postResource').mockResolvedValue('http://localhost:3000/repository/c7db5404-7d7d-40ac-b38e-c821d2c3ae3f')
 
 describe('saving a resource', () => {
-  sinopiaServer.foundResourceTemplate.mockResolvedValue(true)
-  sinopiaServer.getResourceTemplate.mockImplementation(getFixtureResourceTemplate)
-  sinopiaServer.publishRDFResource.mockImplementation(rtFixturesGroups)
-
   describe('when creating a new resource', () => {
-    window.HTMLElement.prototype.scrollIntoView = function foo() {} // required to allow scrolling in the jsdom
+    window.HTMLElement.prototype.scrollIntoView = jest.fn() // required to allow scrolling in the jsdom
     const history = createHistory(['/editor/resourceTemplate:bf2:Title:Note'])
 
     it('opens the resource template', async () => {

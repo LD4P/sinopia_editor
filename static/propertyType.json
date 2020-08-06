@@ -1,0 +1,14 @@
+[
+  {
+    "uri": "http://sinopia.io/vocabulary/propertyType/literal",
+    "label": "literal"
+  },
+  {
+    "uri": "http://sinopia.io/vocabulary/propertyType/uri",
+    "label": "uri or lookup"
+  },
+  {
+    "uri": "http://sinopia.io/vocabulary/propertyType/resource",
+    "label": "nested resource"
+  }
+]

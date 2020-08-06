@@ -108,7 +108,7 @@ describe('validateTemplates()', () => {
     it('returns no errors', async () => {
       const store = mockStore(createState())
 
-      expect(await store.dispatch(validateTemplates(subjectTemplate, 'testerrorkey'))).toBe(true)
+      expect(await store.dispatch(validateTemplates(subjectTemplate, {}, 'testerrorkey'))).toBe(true)
       expect(store.getActions()).toHaveAction('ADD_TEMPLATES')
       expect(store.getActions()).not.toHaveAction('ADD_ERROR')
     })
@@ -130,7 +130,7 @@ describe('validateTemplates()', () => {
     it('returns error', async () => {
       const store = mockStore(createState())
 
-      expect(await store.dispatch(validateTemplates(subjectTemplate, 'testerrorkey'))).toBe(false)
+      expect(await store.dispatch(validateTemplates(subjectTemplate, {}, 'testerrorkey'))).toBe(false)
       const payload1 = {
         errorKey: 'testerrorkey',
         error: 'Resource template id is missing from resource template.',
@@ -180,7 +180,7 @@ describe('validateTemplates()', () => {
     it('returns error', async () => {
       const store = mockStore(createState())
 
-      expect(await store.dispatch(validateTemplates(subjectTemplate, 'testerrorkey'))).toBe(false)
+      expect(await store.dispatch(validateTemplates(subjectTemplate, {}, 'testerrorkey'))).toBe(false)
       const payload = {
         errorKey: 'testerrorkey',
         error: 'Property template URI is required.',
@@ -222,7 +222,7 @@ describe('validateTemplates()', () => {
     it('returns error', async () => {
       const store = mockStore(createState())
 
-      expect(await store.dispatch(validateTemplates(subjectTemplate, 'testerrorkey'))).toBe(false)
+      expect(await store.dispatch(validateTemplates(subjectTemplate, {}, 'testerrorkey'))).toBe(false)
       const payload1 = {
         errorKey: 'testerrorkey',
         error: 'Property template label is required for http://id.loc.gov/ontologies/bibframe/mainTitle.',
@@ -275,7 +275,7 @@ describe('validateTemplates()', () => {
     it('returns error', async () => {
       const store = mockStore(createState())
 
-      expect(await store.dispatch(validateTemplates(subjectTemplate, 'testerrorkey'))).toBe(false)
+      expect(await store.dispatch(validateTemplates(subjectTemplate, {}, 'testerrorkey'))).toBe(false)
       const payload = {
         errorKey: 'testerrorkey',
         error: 'Misconfigured authority xurn:ld4p:sinopia:bibframe:instance for http://id.loc.gov/ontologies/bibframe/instanceOf.',
@@ -334,7 +334,7 @@ describe('validateTemplates()', () => {
     it('returns error', async () => {
       const store = mockStore(createState())
 
-      expect(await store.dispatch(validateTemplates(subjectTemplate, 'testerrorkey'))).toBe(false)
+      expect(await store.dispatch(validateTemplates(subjectTemplate, {}, 'testerrorkey'))).toBe(false)
       const payload = {
         errorKey: 'testerrorkey',
         error: 'Repeated property templates with same property URI (http://id.loc.gov/ontologies/bibframe/geographicCoverage) are not allowed.',
@@ -393,7 +393,7 @@ describe('validateTemplates()', () => {
     it('returns error', async () => {
       const store = mockStore(createState())
 
-      expect(await store.dispatch(validateTemplates(subjectTemplate, 'testerrorkey'))).toBe(false)
+      expect(await store.dispatch(validateTemplates(subjectTemplate, {}, 'testerrorkey'))).toBe(false)
       const payload = {
         errorKey: 'testerrorkey',
         error: 'The following referenced resource templates are not available in Sinopia: lc:RT:bf2:Identifiers:Barcode, lc:RT:bf2:Identifiers:Copyright',
@@ -436,7 +436,7 @@ describe('validateTemplates()', () => {
     it('returns error', async () => {
       const store = mockStore(createState())
 
-      expect(await store.dispatch(validateTemplates(subjectTemplate, 'testerrorkey'))).toBe(false)
+      expect(await store.dispatch(validateTemplates(subjectTemplate, {}, 'testerrorkey'))).toBe(false)
       const payload = {
         errorKey: 'testerrorkey',
         error: 'The following resource templates references for http://id.loc.gov/ontologies/bibframe/genreForm have the same class (http://id.loc.gov/ontologies/bibframe/GenreForm), but must be unique: ld4p:RT:bf2:Form, ld4p:RT:bf2:RareMat:RBMS',

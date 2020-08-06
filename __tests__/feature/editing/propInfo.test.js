@@ -1,16 +1,13 @@
 import { renderApp, createHistory } from 'testUtils'
 import { screen } from '@testing-library/react'
-import * as sinopiaServer from 'sinopiaServer'
-import { getFixtureResourceTemplate } from 'fixtureLoaderHelper'
+import Config from 'Config'
 
-jest.mock('sinopiaServer')
 // Mock jquery
 global.$ = jest.fn().mockReturnValue({ popover: jest.fn() })
+// This forces Sinopia server to use fixtures
+jest.spyOn(Config, 'useResourceTemplateFixtures', 'get').mockReturnValue(true)
 
 describe('getting property related info from a resorce', () => {
-  sinopiaServer.foundResourceTemplate.mockResolvedValue(true)
-  sinopiaServer.getResourceTemplate.mockImplementation(getFixtureResourceTemplate)
-
   it('has tooltip text info or a link based on the content of a top-level property remark', async () => {
     const history = createHistory(['/editor/resourceTemplate:testing:uber3'])
     renderApp(null, history)
