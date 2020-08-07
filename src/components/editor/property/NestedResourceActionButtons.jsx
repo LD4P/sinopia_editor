@@ -24,12 +24,17 @@ const NestedResourceActionButtons = (props) => {
 
   const trashIcon = faTrashAlt
 
+  const addAnother = (event) => {
+    event.preventDefault()
+    return props.addSiblingValueSubject(_.last(siblingValues).key, resourceEditErrorKey(props.resourceKey))
+  }
+
   return (<div className="btn-group pull-right" role="group">
     { showAddButton
       && <button
           className="btn btn-sm btn-add-property btn-add-another"
           aria-label={`Add another ${props.value.valueSubject.subjectTemplate.label}`}
-          onClick={() => props.addSiblingValueSubject(_.last(siblingValues).key, resourceEditErrorKey(props.resourceKey))}>+ Add another</button>
+          onClick={addAnother}>+ Add another</button>
     }
     { showRemoveButton
       && <button
