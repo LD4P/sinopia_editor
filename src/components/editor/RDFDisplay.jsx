@@ -65,7 +65,7 @@ const RDFDisplay = (props) => {
       </table>
     )
   } else {
-    body = (<pre style={{ padding: '5px' }}>{ formattedRDF }</pre>)
+    body = (<pre style={{ padding: '5px' }} data-testid='rdf-display'>{ formattedRDF }</pre>)
   }
 
   return (

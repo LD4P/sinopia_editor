@@ -16,7 +16,6 @@ const rdf = `<> <http://id.loc.gov/ontologies/bibframe/uber/template1/property7>
     a <http://id.loc.gov/ontologies/bibframe/Uber1>.
 <http://sinopia.io/defaultURI1> <http://www.w3.org/2000/01/rdf-schema#label> "Default URI1".`
 
-
 describe('preview RDF after editing', () => {
   sinopiaServer.foundResourceTemplate.mockResolvedValue(true)
   sinopiaServer.getResourceTemplate.mockImplementation(getFixtureResourceTemplate)
@@ -42,6 +41,6 @@ describe('preview RDF after editing', () => {
       { target: { value: 'turtle' } })
 
     // Tests for presence of turtle RDF in the model
-    expect(screen.findByText(rdf)).toBeTruthy()
+    expect(screen.getByTestId('rdf-display').textContent).toContain(rdf)
   })
 })
