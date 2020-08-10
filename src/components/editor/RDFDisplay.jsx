@@ -1,3 +1,5 @@
+// Copyright 2020 Stanford University see LICENSE for license
+
 import React, { useState, useEffect } from 'react'
 import PropTypes from 'prop-types'
 import { rdfDatasetFromN3 } from 'utilities/Utilities'
@@ -63,7 +65,7 @@ const RDFDisplay = (props) => {
       </table>
     )
   } else {
-    body = (<pre style={{ padding: '5px' }}>{ formattedRDF }</pre>)
+    body = (<pre style={{ padding: '5px' }} data-testid='rdf-display'>{ formattedRDF }</pre>)
   }
 
   return (
@@ -71,6 +73,7 @@ const RDFDisplay = (props) => {
       <form className="form-inline">
         <label htmlFor="rdfFormat">Format: &nbsp;</label>
         <select className="form-control" id="rdfFormat"
+                aria-label="RDF Format Selection"
                 onBlur={(event) => setFormat(event.target.value)}
                 onChange={(event) => setFormat(event.target.value)}
                 value={format}>
