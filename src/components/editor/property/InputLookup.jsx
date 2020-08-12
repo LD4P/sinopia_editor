@@ -41,9 +41,10 @@ const InputLookup = (props) => {
     setSelectedAuthorities(allAuthorities)
   }, [allAuthorities])
 
+  // For use inside the effect without having to add props to dependency array.
+  const getLookupResults = props.getLookupResults
   useEffect(() => {
     if (!query) return
-
     // Clear the results.
     // No re-render, so change not visible to user.
     allResults.current = []
@@ -58,7 +59,7 @@ const InputLookup = (props) => {
     tokens.current.push(token)
 
     // resultPromises is an array of Promise<result>
-    const resultPromises = props.getLookupResults(query, Object.values(selectedAuthorities))
+    const resultPromises = getLookupResults(query, Object.values(selectedAuthorities))
     resultPromises.forEach((resultPromise) => {
       resultPromise.then((resultSet) => {
         // Only use these results if not cancelled.
@@ -69,7 +70,7 @@ const InputLookup = (props) => {
         }
       })
     })
-  }, [props, query, selectedAuthorities])
+  }, [query, selectedAuthorities, getLookupResults])
 
   // From https://github.com/ericgio/react-bootstrap-typeahead/issues/389
   const onKeyDown = (e) => {
