@@ -1,42 +1,98 @@
 // Copyright 2019 Stanford University see LICENSE for license
 
 import {
-  showGroupChooser, showModal, hideModal, clearModalMessages,
+  showGroupChooser, showModal, hideModal, clearModalMessages, addModalMessage,
 } from 'reducers/modals'
-import { selectModalType, selectModalMessages } from 'selectors/modals'
 import { createState } from 'stateUtils'
+import { createReducer } from 'reducers/index'
+
+const reducers = {
+  ADD_MODAL_MESSAGE: addModalMessage,
+  CLEAR_MODAL_MESSAGES: clearModalMessages,
+  HIDE_MODAL: hideModal,
+  SHOW_GROUP_CHOOSER: showGroupChooser,
+  SHOW_MODAL: showModal,
+}
+
+const reducer = createReducer(reducers)
 
 describe('showGroupChooser()', () => {
   it('sets the modal name to GroupChoiceModal', () => {
-    const state = createState()
-    state.selectorReducer.editor.modal.name = 'RDFModal'
-    const result = showGroupChooser(state.selectorReducer, 'abc123')
+    const oldState = createState({ hasResourceWithLiteral: true })
 
-    expect(selectModalType({ selectorReducer: result })).toBe('GroupChoiceModal')
+    const action = {
+      type: 'SHOW_GROUP_CHOOSER',
+      payload: 't9zVwg2zO',
+    }
+
+    const newState = reducer(oldState.selectorReducer, action)
+
+    expect(newState.editor.modal.name).toBe('GroupChoiceModal')
   })
 })
 
 describe('showModal and hideModal for RDFModal', () => {
   it('sets the showRdfPreview to true', () => {
-    const result = showModal(createState().selectorReducer, { payload: 'RDFModal' })
+    const oldState = createState()
 
-    expect(selectModalType({ selectorReducer: result })).toBe('RDFModal')
+    const action = {
+      type: 'SHOW_MODAL',
+      payload: 'RDFModal',
+    }
+
+    const newState = reducer(oldState.selectorReducer, action)
+
+    expect(newState.editor.modal.name).toBe('RDFModal')
   })
 
   it('sets the showRdfPreview to false', () => {
-    const result = hideModal(createState().selectorReducer)
+    const oldState = createState()
+    oldState.selectorReducer.editor.modal.name = 'RDFModal'
 
-    expect(selectModalType({ selectorReducer: result })).toBe(undefined)
+    const action = {
+      type: 'HIDE_MODAL',
+    }
+
+    const newState = reducer(oldState.selectorReducer, action)
+    expect(newState.editor.modal.name).toBe(undefined)
   })
 })
 
 describe('clearModalMessages', () => {
   it('sets the showRdfPreview to true', () => {
-    const state = createState()
-    state.selectorReducer.editor.modal.messages = ['hello']
+    const oldState = createState()
+    oldState.selectorReducer.editor.modal.messages = ['hello']
 
-    const result = clearModalMessages(state.selectorReducer)
+    const action = {
+      type: 'CLEAR_MODAL_MESSAGES',
+    }
 
-    expect(selectModalMessages({ selectorReducer: result })).toEqual([])
+    const newState = reducer(oldState.selectorReducer, action)
+
+    expect(newState.editor.modal.messages).toEqual([])
+  })
+})
+
+describe('addModalMessage()', () => {
+  const action = {
+    type: 'ADD_MODAL_MESSAGE',
+    payload: 'An exciting new message',
+  }
+
+  it('adds message with no existing messages', () => {
+    const oldState = createState()
+
+    const newState = reducer(oldState.selectorReducer, action)
+
+    expect(newState.editor.modal.messages).toEqual(['An exciting new message'])
+  })
+
+  it('adds message with existing messages', () => {
+    const oldState = createState()
+
+    oldState.selectorReducer.editor.modal.messages = ['An existing message']
+
+    const newState = reducer(oldState.selectorReducer, action)
+    expect(newState.editor.modal.messages).toEqual(['An existing message', 'An exciting new message'])
   })
 })
