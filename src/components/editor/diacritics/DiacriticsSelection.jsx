@@ -8,6 +8,8 @@ import CharacterButton from './CharacterButton'
 import VocabChoice from './VocabChoice'
 import specialcharacters from '../../../../static/specialcharacters.json'
 
+// specialcharacters.json imported above is derived from Mediawiki's specialcharacters.json
+// See https://github.com/wikimedia/mediawiki/blob/master/resources/src/mediawiki.language/specialcharacters.json
 
 const DiacriticsSelection = () => {
   const dispatch = useDispatch()
