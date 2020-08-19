@@ -35,8 +35,8 @@ COGNITO_ADMIN_PASSWORD='<get this from shared_configs or another developer>'
 To start all of the supporting services (ElasticSearch, Trellis, etc.):
 `docker-compose up -d`
 
-To start the Express web server and run the application at [http://localhost:8000](http://localhost:8000):
-`npm dev-start`
+To start the Express web server and run the application at [http://localhost:8888](http://localhost:8888):
+`npm run dev-start`
 
 This is in development mode and code changes will immediately be loaded without having to restart the server.
 
