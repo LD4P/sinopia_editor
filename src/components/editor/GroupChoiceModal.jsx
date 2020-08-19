@@ -69,7 +69,7 @@ const GroupChoiceModal = (props) => {
                     <button className="btn btn-link btn-sm" style={{ paddingRight: '20px' }} onClick={ close }>
                       Cancel
                     </button>
-                    <button className="btn btn-primary btn-sm" data-dismiss="modal" onClick={ saveAndClose }>
+                    <button className="btn btn-primary btn-sm" data-dismiss="modal" aria-label="Save Group" onClick={ saveAndClose }>
                       Save
                     </button>
                   </div>
