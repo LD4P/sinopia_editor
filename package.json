@@ -10,7 +10,7 @@
   "homepage": "http://github.com/LD4P/sinopia_editor/",
   "repository": {
     "type": "git",
-    "url": "https://github.com/LD4P/sinopia_editor.git"
+    "url": "git+https://github.com/LD4P/sinopia_editor.git"
   },
   "engines": {
     "node": ">= 11.0.0"
@@ -141,6 +141,8 @@
     "jsdom-global": "3.0.2",
     "node-sass": "^4.14.1",
     "raw-loader": "^4.0.1",
+    "react-select": "^3.1.0",
+    "react-select-event": "^5.0.0",
     "redux-mock-store": "^1.5.3",
     "sass-loader": "^8.0.2",
     "style-loader": "^1.2.1",
@@ -187,5 +189,7 @@
       "^.+\\.[jt]sx?$": "babel-jest",
       "\\.n3$": "<rootDir>/__tests__/testUtilities/jestFileTransformer.js"
     }
-  }
+  },
+  "main": ".eslintrc.js",
+  "author": ""
 }
