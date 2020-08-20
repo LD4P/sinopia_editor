@@ -7,6 +7,7 @@ export const createState = (options = {}) => {
   buildAuthenticate(state, options)
   buildLanguages(state, options)
   buildResourceWithLiteral(state, options)
+  buildTwoLiteralResources(state, options)
   buildResourceWithContractedLiteral(state, options)
   buildResourceWithNestedResource(state, options)
   buildResourceWithContractedNestedResource(state, options)
@@ -107,6 +108,133 @@ const buildResourceWithLiteral = (state, options) => {
       valueSubjectKey: null,
     },
   }
+}
+
+const buildTwoLiteralResources = (state, options) => {
+  if (!options.hasTwoLiteralResources) return
+
+  state.selectorReducer.editor.currentResource = 't9zVwg2zO'
+  state.selectorReducer.entities.subjectTemplates = {
+    'ld4p:RT:bf2:Title:AbbrTitle': {
+      key: 'ld4p:RT:bf2:Title:AbbrTitle',
+      id: 'ld4p:RT:bf2:Title:AbbrTitle',
+      class: 'http://id.loc.gov/ontologies/bibframe/AbbreviatedTitle',
+      label: 'Abbreviated Title',
+      author: 'LD4P',
+      date: '2019-08-19',
+      propertyTemplateKeys: [
+        'ld4p:RT:bf2:Title:AbbrTitle > http://id.loc.gov/ontologies/bibframe/mainTitle',
+      ],
+    },
+    'ld4p:RT:bf2:Note': {
+      key: 'ld4p:RT:bf2:Note',
+      id: 'ld4p:RT:bf2:Note',
+      class: 'http://id.loc.gov/ontologies/bibframe/Note',
+      label: 'Note',
+      author: 'LD4P',
+      date: '2019-08-19',
+      propertyTemplateKeys: [
+        'ld4p:RT:bf2:Note > http://id.loc.gov/ontologies/bibframe/note',
+      ],
+    },
+  }
+  state.selectorReducer.entities.propertyTemplates = {
+    'ld4p:RT:bf2:Title:AbbrTitle > http://id.loc.gov/ontologies/bibframe/mainTitle': {
+      key: 'ld4p:RT:bf2:Title:AbbrTitle > http://id.loc.gov/ontologies/bibframe/mainTitle',
+      subjectTemplateKey: 'ld4p:RT:bf2:Title:AbbrTitle',
+      label: 'Abbreviated Title',
+      uri: 'http://id.loc.gov/ontologies/bibframe/mainTitle',
+      required: false,
+      repeatable: false,
+      defaults: [],
+      remarkUrl: null,
+      type: 'literal',
+      component: 'InputLiteral',
+      authorities: [],
+    },
+    'ld4p:RT:bf2:Note > http://id.loc.gov/ontologies/bibframe/note': {
+      key: 'ld4p:RT:bf2:Note > http://id.loc.gov/ontologies/bibframe/note',
+      subjectTemplateKey: 'ld4p:RT:bf2:Note',
+      label: 'Note',
+      uri: 'http://id.loc.gov/ontologies/bibframe/note',
+      required: false,
+      repeatable: false,
+      defaults: [],
+      remarkUrl: null,
+      type: 'literal',
+      component: 'InputLiteral',
+      authorities: [],
+    },
+  }
+  state.selectorReducer.entities.subjects = {
+    t9zVwg2zO: {
+      key: 't9zVwg2zO',
+      resourceKey: 't9zVwg2zO',
+      uri: 'https://trellis.sinopia.io/repository/washington/0894a8b3',
+      subjectTemplateKey: 'ld4p:RT:bf2:Title:AbbrTitle',
+      propertyKeys: [
+        'JQEtq-vmq8',
+      ],
+      changed: false,
+    },
+    u0aWxh3a1: {
+      key: 'u0aWxh3a1',
+      resourceKey: 'u0aWxh3a1',
+      uri: 'https://trellis.sinopia.io/repository/washington/0704b9c4',
+      subjectTemplateKey: 'ld4p:RT:bf2:Note',
+      propertyKeys: [
+        'KRFur-wnr9',
+      ],
+      changed: false,
+    },
+  }
+  state.selectorReducer.entities.properties = {
+    'JQEtq-vmq8': {
+      key: 'JQEtq-vmq8',
+      subjectKey: 't9zVwg2zO',
+      resourceKey: 't9zVwg2zO',
+      propertyTemplateKey: 'ld4p:RT:bf2:Title:AbbrTitle > http://id.loc.gov/ontologies/bibframe/mainTitle',
+      valueKeys: [
+        'CxGx7WMh2',
+      ],
+      show: true,
+      errors: [],
+    },
+    'KRFur-wnr9': {
+      key: 'KRFur-wnr9',
+      subjectKey: 'u0aWxh3a1',
+      resourceKey: 'u0aWxh3a1',
+      propertyTemplateKey: 'ld4p:RT:bf2:Note > http://id.loc.gov/ontologies/bibframe/note',
+      valueKeys: [
+        'DyHy8XNi3',
+      ],
+      show: true,
+      errors: [],
+    },
+  }
+  state.selectorReducer.entities.values = {
+    CxGx7WMh2: {
+      key: 'CxGx7WMh2',
+      propertyKey: 'JQEtq-vmq8',
+      resourceKey: 't9zVwg2zO',
+      literal: 'foo',
+      lang: 'eng',
+      uri: null,
+      label: null,
+      valueSubjectKey: null,
+    },
+    DyHy8XNi3: {
+      key: 'DyHy8XNi3',
+      propertyKey: 'KRFur-wnr9',
+      resourceKey: 'u0aWxh3a1',
+      literal: 'This is a note',
+      lang: 'eng',
+      uri: null,
+      label: null,
+      valueSubjectKey: null,
+    },
+  }
+  state.selectorReducer.editor.resources = ['t9zVwg2zO', 'u0aWxh3a1']
 }
 
 const buildResourceWithContractedLiteral = (state, options) => {
