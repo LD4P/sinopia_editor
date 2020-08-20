@@ -35,13 +35,21 @@ COGNITO_ADMIN_PASSWORD='<get this from shared_configs or another developer>'
 To start all of the supporting services (ElasticSearch, Trellis, etc.):
 `docker-compose up -d`
 
-To start the Express web server and run the application at [http://localhost:8888](http://localhost:8888):
+Note that this will bring up the sinopia-editor app on port 8000, but it will NOT be in a mode where
+you can make code changes and see them live.  To do this, start the Express web server and run the
+application at [http://localhost:8888](http://localhost:8888):
+
 `npm run dev-start`
 
-This is in development mode and code changes will immediately be loaded without having to restart the server.
+This will run the app in development mode and code changes will immediately be loaded without having to restart the server.
+Note that sinopia editor being run by docker on port 8000 will still be viewable but will not reflect any code changes you make
+immediately, so be careful which port you are accessing the app at to avoid confusion.
 
-Specify the environment variable `USE_FIXTURES=true` if you would like to use fixture resources and resource templates.
-The fixtures are listed in `__tests__/testUtilities/fixtureLoaderHelper.js`. Fixture resource templates will be listed on the templates list page and fixture resources can be searched on by entering the resource's URI in the Sinopia search box.
+Specify the environment variable `USE_FIXTURES=true` as shown below if you would like to use fixture resources and resource templates.
+The fixtures are listed in `__tests__/testUtilities/fixtureLoaderHelper.js`. Fixture resource templates will be listed on the
+templates list page and fixture resources can be searched on by entering the resource's URI in the Sinopia search box.
+
+`USE_FIXTURES=true npm run dev-start`
 
 ## Developers
 
