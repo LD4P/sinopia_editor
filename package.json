@@ -10,7 +10,7 @@
   "homepage": "http://github.com/LD4P/sinopia_editor/",
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/LD4P/sinopia_editor.git"
+    "url": "https://github.com/LD4P/sinopia_editor.git"
   },
   "engines": {
     "node": ">= 11.0.0"
@@ -187,7 +187,5 @@
       "^.+\\.[jt]sx?$": "babel-jest",
       "\\.n3$": "<rootDir>/__tests__/testUtilities/jestFileTransformer.js"
     }
-  },
-  "main": ".eslintrc.js",
-  "author": ""
+  }
 }

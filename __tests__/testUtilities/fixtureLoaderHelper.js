@@ -107,7 +107,6 @@ export const rtFixturesGroups = () => new Promise((resolve) => {
   })
 })
 
-
 export const listFixtureResourcesInGroupContainer = (group) => new Promise((resolve) => {
   resolve(fixtureResourcesInGroupContainer(group))
 })

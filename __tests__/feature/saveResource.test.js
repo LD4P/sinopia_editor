@@ -1,11 +1,8 @@
 import { renderApp, createHistory } from 'testUtils'
 import { fireEvent, wait, screen } from '@testing-library/react'
-import * as sinopiaSearch from 'sinopiaSearch'
 import * as sinopiaServer from 'sinopiaServer'
-import { getFixtureResourceTemplate, rtFixturesGroups, getFixtureResource, resourceSearchResults } from 'fixtureLoaderHelper'
-// import { createBlankState } from 'testUtils'
+import { getFixtureResourceTemplate, rtFixturesGroups } from 'fixtureLoaderHelper'
 
-jest.mock('sinopiaSearch')
 jest.mock('sinopiaServer')
 
 describe('saving a resource', () => {
@@ -16,9 +13,9 @@ describe('saving a resource', () => {
 
   describe('when creating a new resource', () => {
     it('opens the resource template', async () => {
+      window.HTMLElement.prototype.scrollIntoView = function() {}; // required to allow scrolling in the jsdom
       renderApp(null, history)
 
-      // const state = createBlankState()
       await screen.findByRole('heading', { name: 'Title note' })
 
       const addBtn = screen.getByRole('button', { name: 'Add Note Text' })
@@ -46,17 +43,9 @@ describe('saving a resource', () => {
       expect(saveBtn).not.toBeDisabled()
       fireEvent.click(saveBtn)
 
-      // const groupSelect = screen.getByRole('combobox') // I think we only have one select
-      // fireEvent.change(groupSelect, { target: { value: 'Stanford University' } })
-      // fireEvent.click(screen.getByText('Stanford University'))
-      // await selectEvent.select(getByLabelText('Which group do you want to associate this record to?'), ['Stanford University'])
-      // fireEvent.click(groupSelect)
-      // screen.debug(groupSelect)
-      // fireEvent.select(groupSelect, { value: 'stanford' })
-      // fireEvent.click(screen.getByText("Stanford University"));
       const modalSave = screen.getByRole('button', { name: 'Save Group' })
       fireEvent.click(modalSave)
-      // screen.debug()
+      expect(screen.findByText('URI for this resource'))
     })
   })
 })
