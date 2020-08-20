@@ -122,6 +122,9 @@ If you add environment variables to which the Editor needs to pay attention (e.g
 The steps to create a tagged release are documented in the tagged-release ticket template. Please create a tagged-release ticket when performing a release.
 
 ## State model
+
+![Redux State ER Diagram](redux-state.svg)
+
 ```
 {
   subjects: {
