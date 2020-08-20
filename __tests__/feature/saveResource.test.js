@@ -2,9 +2,8 @@ import { renderApp, createHistory } from 'testUtils'
 import { fireEvent, wait, screen } from '@testing-library/react'
 import * as sinopiaSearch from 'sinopiaSearch'
 import * as sinopiaServer from 'sinopiaServer'
-import { getFixtureResourceTemplate, getFixtureResource, resourceSearchResults } from 'fixtureLoaderHelper'
-import Select from 'react-select'
-import selectEvent from 'react-select-event'
+import { getFixtureResourceTemplate, rtFixturesGroups, getFixtureResource, resourceSearchResults } from 'fixtureLoaderHelper'
+// import { createBlankState } from 'testUtils'
 
 jest.mock('sinopiaSearch')
 jest.mock('sinopiaServer')
@@ -12,12 +11,14 @@ jest.mock('sinopiaServer')
 describe('saving a resource', () => {
   sinopiaServer.foundResourceTemplate.mockResolvedValue(true)
   sinopiaServer.getResourceTemplate.mockImplementation(getFixtureResourceTemplate)
+  sinopiaServer.publishRDFResource.mockImplementation(rtFixturesGroups)
   const history = createHistory(['/editor/resourceTemplate:bf2:Title:Note'])
 
   describe('when creating a new resource', () => {
     it('opens the resource template', async () => {
       renderApp(null, history)
 
+      // const state = createBlankState()
       await screen.findByRole('heading', { name: 'Title note' })
 
       const addBtn = screen.getByRole('button', { name: 'Add Note Text' })
@@ -46,13 +47,16 @@ describe('saving a resource', () => {
       fireEvent.click(saveBtn)
 
       // const groupSelect = screen.getByRole('combobox') // I think we only have one select
+      // fireEvent.change(groupSelect, { target: { value: 'Stanford University' } })
+      // fireEvent.click(screen.getByText('Stanford University'))
+      // await selectEvent.select(getByLabelText('Which group do you want to associate this record to?'), ['Stanford University'])
       // fireEvent.click(groupSelect)
-      // // screen.debug(groupSelect)
+      // screen.debug(groupSelect)
       // fireEvent.select(groupSelect, { value: 'stanford' })
-      fireEvent.click(screen.getByText("Stanford University"));
+      // fireEvent.click(screen.getByText("Stanford University"));
       const modalSave = screen.getByRole('button', { name: 'Save Group' })
       fireEvent.click(modalSave)
-      screen.debug()
+      // screen.debug()
     })
   })
 })
