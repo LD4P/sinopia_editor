@@ -13,7 +13,7 @@ describe('saving a resource', () => {
 
   describe('when creating a new resource', () => {
     it('opens the resource template', async () => {
-      window.HTMLElement.prototype.scrollIntoView = function() {}; // required to allow scrolling in the jsdom
+      window.HTMLElement.prototype.scrollIntoView = function foo() {} // required to allow scrolling in the jsdom
       renderApp(null, history)
 
       await screen.findByRole('heading', { name: 'Title note' })
