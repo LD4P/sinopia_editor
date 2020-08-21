@@ -10,6 +10,6 @@ describe('reading the latest Sinopia news items', () => {
     await screen.findByText(/Sinopia Version \d\.\d\.\d highlights/)
     screen.getByRole('link', { name: 'Sinopia help site' })
     const list = screen.getAllByRole('listitem')
-    expect(list.length).not.toBeLessThan(4)
+    expect(list.length).not.toBeLessThan(1)
   })
 })
