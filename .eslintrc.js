@@ -124,6 +124,7 @@ module.exports = {
     "no-undefined": "off",
     "no-underscore-dangle": "off",
     "no-unused-expressions": "off",
+    "no-unused-vars": ['error', { 'argsIgnorePattern': '^_.*'  }],
     "no-use-before-define": "off",
     "no-useless-constructor": "warn",
     "no-var": "error",

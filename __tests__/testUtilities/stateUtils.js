@@ -26,6 +26,7 @@ const buildAuthenticate = (state, options) => {
     },
     currentUser: {
       username: 'Foo McBar',
+      globalSignOut: (resultHandler) => { resultHandler.onSuccess() },
     },
   }
 }
