@@ -20,8 +20,7 @@
       "mandatory": "false",
       "repeatable": "true",
       "type": "literal",
-      "remark": "A literal"
+      "remark": "http://access.rdatoolkit.org/1.0.html"
     }
-
   ]
 }
