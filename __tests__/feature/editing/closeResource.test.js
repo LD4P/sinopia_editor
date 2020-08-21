@@ -9,7 +9,7 @@ describe('closing a resource', () => {
   const history = createHistory(['/editor/ld4p:RT:bf2:Title:AbbrTitle', '/editor/ld4p:RT:bf2:Note'])
 
   it('removes the resource from history and view', async () => {
-    const state = createState({ hasTwoLiteralResources: true, buildTwoLiteralResources: true })
+    const state = createState({ hasTwoLiteralResources: true })
     const store = createStore(state)
     renderApp(store, history)
 
