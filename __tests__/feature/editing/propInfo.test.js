@@ -1,17 +1,23 @@
 import { renderApp, createHistory } from 'testUtils'
 import { screen } from '@testing-library/react'
+import * as sinopiaServer from 'sinopiaServer'
+import { getFixtureResourceTemplate } from 'fixtureLoaderHelper'
 
+jest.mock('sinopiaServer')
 // Mock jquery
 global.$ = jest.fn().mockReturnValue({ popover: jest.fn() })
 
 describe('getting property related info from a resorce', () => {
+  sinopiaServer.foundResourceTemplate.mockResolvedValue(true)
+  sinopiaServer.getResourceTemplate.mockImplementation(getFixtureResourceTemplate)
+
   it('has tooltip text info or a link based on the content of a top-level property remark', async () => {
     const history = createHistory(['/editor/resourceTemplate:testing:uber3'])
     renderApp(null, history)
 
     // // if the tooltip remark is text
-    const infoIcon = await screen.findByTitle('Uber template3, property1')
-    expect(infoIcon).toHaveAttribute('data-content', 'A literal')
+    const infoIcon3 = await screen.findByTitle('Uber template3, property1')
+    expect(infoIcon3).toHaveAttribute('data-content', 'A literal')
 
     // // if the remark us a Url
     const infoLink = await screen.findByRole('link', { name: 'http://access.rdatoolkit.org/1.0.html' })
@@ -23,8 +29,8 @@ describe('getting property related info from a resorce', () => {
     renderApp(null, history)
 
     // Finds the parent property
-    const infoIcon = await screen.findByTitle('Uber template1, property18')
-    expect(infoIcon).toHaveAttribute('data-content', 'Mandatory nested resource templates.')
+    const infoIcon1 = await screen.findByTitle('Uber template1, property18')
+    expect(infoIcon1).toHaveAttribute('data-content', 'Mandatory nested resource templates.')
 
     // Finds the nested resource
     await screen.findByRole('heading', { name: 'Uber template4' })
