@@ -9,11 +9,12 @@ describe('saving a resource', () => {
   sinopiaServer.foundResourceTemplate.mockResolvedValue(true)
   sinopiaServer.getResourceTemplate.mockImplementation(getFixtureResourceTemplate)
   sinopiaServer.publishRDFResource.mockImplementation(rtFixturesGroups)
-  const history = createHistory(['/editor/resourceTemplate:bf2:Title:Note'])
 
   describe('when creating a new resource', () => {
+    window.HTMLElement.prototype.scrollIntoView = function foo() {} // required to allow scrolling in the jsdom
+    const history = createHistory(['/editor/resourceTemplate:bf2:Title:Note'])
+
     it('opens the resource template', async () => {
-      window.HTMLElement.prototype.scrollIntoView = function foo() {} // required to allow scrolling in the jsdom
       renderApp(null, history)
 
       await screen.findByRole('heading', { name: 'Title note' })
