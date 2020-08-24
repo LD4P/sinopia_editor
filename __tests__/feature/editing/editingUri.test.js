@@ -30,12 +30,12 @@ describe('editing a URI property', () => {
     const editBtn = screen.getByRole('button', { name: 'Edit http://id.loc.gov/authorities/names/n79032058' })
     expect(editBtn).toHaveTextContent('Edit')
     // Input is disabled and empty
-    expect(input).toBeDisabled
+    expect(input).toBeDisabled()
     expect(input).toHaveValue('')
 
     // Clicking edit
     fireEvent.click(editBtn)
-    expect(input).not.toBeDisabled
+    expect(input).not.toBeDisabled()
     expect(input).toHaveValue('http://id.loc.gov/authorities/names/n79032058')
     expect(screen.queryAllByText('http://id.loc.gov/authorities/names/n79032058').length).toBeFalsy()
 
@@ -48,7 +48,7 @@ describe('editing a URI property', () => {
     fireEvent.click(removeBtn)
 
     expect(screen.queryAllByText('http://id.loc.gov/authorities/names/n79056054').length).toBeFalsy()
-    expect(input).not.toBeDisabled
+    expect(input).not.toBeDisabled()
     expect(input).toHaveValue('')
   })
 
@@ -79,7 +79,7 @@ describe('editing a URI property', () => {
     expect(screen.getByRole('button', { name: 'Edit http://id.loc.gov/authorities/names/n79056054' })).toHaveTextContent('Edit')
 
     // Input is not disabled and empty
-    expect(input).not.toBeDisabled
+    expect(input).not.toBeDisabled()
     expect(input).toHaveValue('')
   })
 
