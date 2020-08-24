@@ -32,12 +32,12 @@ describe('editing a literal property', () => {
     // There is language button.
     expect(screen.getByRole('button', { name: 'Change language for foo' })).toHaveTextContent('Language: English')
     // Input is disabled and empty
-    expect(input).toBeDisabled
+    expect(input).toBeDisabled()
     expect(input).toHaveValue('')
 
     // Clicking edit
     fireEvent.click(editBtn)
-    expect(input).not.toBeDisabled
+    expect(input).not.toBeDisabled()
     expect(input).toHaveValue('foo')
     expect(screen.queryAllByText('foo').length).toBeFalsy()
 
@@ -50,7 +50,7 @@ describe('editing a literal property', () => {
     fireEvent.click(removeBtn)
 
     expect(screen.queryAllByText('foobar').length).toBeFalsy()
-    expect(input).not.toBeDisabled
+    expect(input).not.toBeDisabled()
     expect(input).toHaveValue('')
   })
 
@@ -88,7 +88,7 @@ describe('editing a literal property', () => {
     expect(screen.getByRole('button', { name: 'Change language for bar' })).toHaveTextContent('Language: English')
 
     // Input is not disabled and empty
-    expect(input).not.toBeDisabled
+    expect(input).not.toBeDisabled()
     expect(input).toHaveValue('')
   })
 
