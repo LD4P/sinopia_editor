@@ -15,11 +15,11 @@ describe('getting property related info from a resorce', () => {
     const history = createHistory(['/editor/resourceTemplate:testing:uber3'])
     renderApp(null, history)
 
-    // // if the tooltip remark is text
+    // if the tooltip remark is text
     const infoIcon3 = await screen.findByTitle('Uber template3, property1')
     expect(infoIcon3).toHaveAttribute('data-content', 'A literal')
 
-    // // if the remark us a Url
+    // if the remark us a Url
     const infoLink = await screen.findByRole('link', { name: 'http://access.rdatoolkit.org/1.0.html' })
     expect(infoLink).toHaveClass('prop-remark')
   })
