@@ -1,8 +1,7 @@
-import { renderApp, createHistory, createStore } from 'testUtils'
+import { renderApp, createHistory } from 'testUtils'
 import { fireEvent, wait, screen } from '@testing-library/react'
 import * as sinopiaServer from 'sinopiaServer'
 import { getFixtureResourceTemplate, rtFixturesGroups } from 'fixtureLoaderHelper'
-import { createState } from '../testUtilities/stateUtils'
 
 jest.mock('sinopiaServer')
 
@@ -16,9 +15,7 @@ describe('saving a resource', () => {
     const history = createHistory(['/editor/resourceTemplate:bf2:Title:Note'])
 
     it('opens the resource template', async () => {
-      const state = createState({ buildResourceWithLiteral: true })
-      const store = createStore(state)
-      renderApp(store, history)
+      renderApp(null, history)
 
       await screen.findByRole('heading', { name: 'Title note' })
 
