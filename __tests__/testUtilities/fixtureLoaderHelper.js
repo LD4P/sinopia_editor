@@ -100,6 +100,9 @@ export const rtFixturesGroups = () => new Promise((resolve) => {
       body: {
         contains: 'http://spoof.trellis.io/ld4p',
       },
+      headers: {
+        location: 'http://localhost/something/or/other',
+      },
     },
   })
 })
