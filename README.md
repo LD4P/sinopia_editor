@@ -4,7 +4,7 @@
 
 # Sinopia Linked Data Editor
 
-Technical documentation specific to the Sinopia Linked Data Editor may also be found in the [wiki](https://github.com/LD4P/sinopia_editor/wiki/Sinopia-Editor). The Sinopia Editor homepage is available [development.sinopia.io](http://development.sinopia.io), [stage.sinopia.io][https://stage.sinopia.io], and [sinopia.io](https://sinopia.io). The Sinopia Editor is a React application with all new user interfaces and functionality using React and the React ecosystem. Portions of the codebase originally extracted from the Library of Congress [bfe project](https://github.com/lcnetdev/bfe).
+Technical documentation specific to the Sinopia Linked Data Editor may also be found in the [wiki](https://github.com/LD4P/sinopia_editor/wiki/Sinopia-Editor). The Sinopia Editor homepage is available [development.sinopia.io](http://development.sinopia.io), [stage.sinopia.io](https://stage.sinopia.io), and [sinopia.io](https://sinopia.io). The Sinopia Editor is a React application with all new user interfaces and functionality using React and the React ecosystem. Portions of the codebase originally extracted from the Library of Congress [bfe project](https://github.com/lcnetdev/bfe).
 
 ## Installation
 
