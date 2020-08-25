@@ -49,7 +49,7 @@ describe('saving a resource', () => {
 
       const modalSave = screen.getByRole('button', { name: 'Save Group' })
       fireEvent.click(modalSave)
-      expect(screen.findByText('URI for this resource'))
+      await screen.findByText(/URI for this resource/)
     })
   })
 })
