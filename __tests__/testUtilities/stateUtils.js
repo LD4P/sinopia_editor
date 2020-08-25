@@ -10,7 +10,8 @@ export const createState = (options = {}) => {
   buildTwoLiteralResources(state, options)
   buildResourceWithContractedLiteral(state, options)
   buildResourceWithNestedResource(state, options)
-  buildResourceWithContractedNestedResource(state, options)
+  buildResourceWithContractedNestedResource(state, options),
+  buildResourceWithError(state, options)
 
   return state
 }
@@ -38,6 +39,25 @@ const buildLanguages = (state, options) => {
     { id: 'tai', label: 'Tai languages' },
     { id: 'eng', label: 'English' },
   ]
+}
+
+const buildResourceWithError = (state, options) => {
+  if (!options.hasResourceWithError) return
+
+  state.selectorReducer.editor = {
+    resourceValidation: {
+      show: {
+        '3h4Fp8ANu': true,
+      },
+    },
+    errors: {
+      '3h4Fp8ANu': ['error 1', 'error 2'],
+      lkqatmo20: {
+        dairdj42u: ['error 3'],
+        fQMouMqB0: ['error 4'],
+      },
+    },
+  }
 }
 
 const buildResourceWithLiteral = (state, options) => {
@@ -94,7 +114,7 @@ const buildResourceWithLiteral = (state, options) => {
         'CxGx7WMh2',
       ],
       show: true,
-      errors: [],
+      errors: ['error 1'],
     },
   }
   state.selectorReducer.entities.values = {
@@ -386,7 +406,7 @@ const buildResourceWithNestedResource = (state, options) => {
         'VDOeQCnFA8',
       ],
       show: true,
-      errors: [],
+      errors: ['error 2'],
     },
     '7caLbfwwle': {
       key: '7caLbfwwle',
