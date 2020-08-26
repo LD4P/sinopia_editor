@@ -51,7 +51,7 @@ describe('selectValidationErrors()', () => {
   })
 
   it('returns errors for a property given a subject key', () => {
-    const state = createState({ hasResourceWithLiteral: true })
+    const state = createState({ hasResourceWithLiteral: true, error: ['error 1'] })
     const errors = selectValidationErrors(state, 't9zVwg2zO')
     expect(errors.length).toBe(1)
     expect(errors[0].message).toEqual('error 1')
@@ -60,7 +60,7 @@ describe('selectValidationErrors()', () => {
   })
 
   it('returns errors for a property with a nested resource given a subject key', () => {
-    const state = createState({ hasResourceWithNestedResource: true })
+    const state = createState({ hasResourceWithNestedResource: true, error: ['error 2'] })
     const errors = selectValidationErrors(state, 'ljAblGiBW')
     expect(errors[0].message).toEqual('error 2')
     expect(errors[0].propertyKey).toEqual('v1o90QO1Qx')
@@ -76,7 +76,7 @@ describe('selectCurrentResourceValidationErrors()', () => {
   })
 
   it('returns errors for a given property in state', () => {
-    const state = createState({ hasResourceWithLiteral: true })
+    const state = createState({ hasResourceWithLiteral: true, error: ['error 1'] })
     const errors = selectCurrentResourceValidationErrors(state)
     expect(errors.length).toBe(1)
     expect(errors[0].message).toEqual('error 1')
@@ -85,7 +85,7 @@ describe('selectCurrentResourceValidationErrors()', () => {
   })
 
   it('returns errors for a property in state with a nested resource', () => {
-    const state = createState({ hasResourceWithNestedResource: true })
+    const state = createState({ hasResourceWithNestedResource: true, error: ['error 2'] })
     const errors = selectCurrentResourceValidationErrors(state)
     expect(errors[0].message).toEqual('error 2')
     expect(errors[0].propertyKey).toEqual('v1o90QO1Qx')

@@ -114,7 +114,7 @@ const buildResourceWithLiteral = (state, options) => {
         'CxGx7WMh2',
       ],
       show: true,
-      errors: ['error 1'],
+      errors: options.error || [],
     },
   }
   state.selectorReducer.entities.values = {
@@ -406,7 +406,7 @@ const buildResourceWithNestedResource = (state, options) => {
         'VDOeQCnFA8',
       ],
       show: true,
-      errors: ['error 2'],
+      errors: options.error || [],
     },
     '7caLbfwwle': {
       key: '7caLbfwwle',
