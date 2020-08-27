@@ -11,9 +11,19 @@ export const createState = (options = {}) => {
   buildResourceWithContractedLiteral(state, options)
   buildResourceWithNestedResource(state, options)
   buildResourceWithContractedNestedResource(state, options),
-  buildResourceWithError(state, options)
+  buildResourceWithError(state, options),
+  buildExports(state, options)
 
   return state
+}
+
+const buildExports = (state, options) => {
+  if (!options.buildExports) return
+
+  state.selectorReducer.entities.exports = [
+    'sinopia_export_all_2020-01-01T00:00:00.000Z.zip',
+    'stanford_2020-01-01T00:00:00.000Z.zip',
+  ]
 }
 
 const buildAuthenticate = (state, options) => {
@@ -504,6 +514,5 @@ const buildResourceWithContractedNestedResource = (state, options) => {
   }
   state.selectorReducer.entities.values = {}
 }
-
 
 export const noop = () => {}
