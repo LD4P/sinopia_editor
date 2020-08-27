@@ -81,6 +81,6 @@ describe('<LoginPanel /> when there is an authentication failure', () => {
   const wrapper = shallow(<LoginPanel.WrappedComponent authenticationError={authenticationError}/>)
 
   it('renders the failure message', () => {
-    expect(wrapper.find('.alert').text()).toMatch('borked!')
+    expect(wrapper.find('div[role="alert"]').text()).toMatch('borked!')
   })
 })
