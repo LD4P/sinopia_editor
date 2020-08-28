@@ -71,12 +71,15 @@ describe('user authentication', () => {
 
     awsCognito.CognitoUser.mockImplementation(MockCognitoUserAuthenticationFailure)
 
+    // we don't expect any alerts to be present yet...
+    expect(screen.queryByRole('alert')).not.toBeInTheDocument()
+
     // try to login
     fireEvent.change(screen.getByLabelText('User name'), { target: { value: 'baz.le.quux@example.edu' } })
     fireEvent.change(screen.getByLabelText('Password'), { target: { value: 'password1' } })
     fireEvent.click(screen.getByRole('button', { name: 'Login' }))
 
-    // an error message should be presented
-    await screen.findByText(/Incorrect username or password./)
+    // ...and an accessible alert should be present now that a failed login attempt was made
+    await screen.findByRole('alert', { name: 'Incorrect username or password.' })
   })
 })
