@@ -96,9 +96,18 @@ class LoginPanel extends Component {
       </React.Fragment>
     )
 
+    const loginErrorMessageElement = (
+      <React.Fragment>
+        {
+          authenticationError
+            && <div className="alert alert-danger alert-dismissible" role="alert" aria-label={ authenticationError.message }>{ authenticationError.message }</div>
+        }
+      </React.Fragment>
+    )
+
     return (
       <React.Fragment>
-        { authenticationError && <div className="alert alert-danger alert-dismissible" role="alert" aria-label={ authenticationError.message }>{ authenticationError.message }</div> }
+        { loginErrorMessageElement }
         <form className="login-form" onSubmit={this.handleLoginSubmit}>
           { !currentSession && inlineLoginForm }
         </form>
