@@ -191,7 +191,7 @@ export const contractProperty = (propertyKey) => (dispatch, getState) => {
  */
 export const addSiblingValueSubject = (valueKey, errorKey) => (dispatch, getState) => {
   const value = selectValue(getState(), valueKey)
-  return dispatch(newSubject(null, value.valueSubject.subjectTemplate.id, value.resourcKey, {}, errorKey))
+  return dispatch(newSubject(null, value.valueSubject.subjectTemplate.id, value.resourceKey, {}, errorKey))
     .then((subject) => dispatch(newPropertiesFromTemplates(subject, false, errorKey))
       .then((properties) => {
         subject.properties = properties
