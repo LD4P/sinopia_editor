@@ -1,17 +1,73 @@
-{
-  "id": "resourceTemplate:testing:uber2",
-  "resourceLabel": "Uber template2",
-  "resourceURI": "http://id.loc.gov/ontologies/bibframe/Uber2",
-  "remark": "Template for testing purposes with single repeatable literal.",
-  "propertyTemplates": [
-    {
-      "propertyLabel": "Uber template2, property1",
-      "propertyURI": "http://id.loc.gov/ontologies/bibframe/uber/template2/property1",
-      "resourceTemplates": [],
-      "mandatory": "false",
-      "repeatable": "true",
-      "type": "literal",
-      "remark": "A repeatable literal"
-    }
-  ]
-}
+[
+  {
+    "@id": "_:b2",
+    "@type": [
+      "http://sinopia.io/vocabulary/PropertyTemplate"
+    ],
+    "http://www.w3.org/2000/01/rdf-schema#label": [
+      {
+        "@value": "Uber template2, property1"
+      }
+    ],
+    "http://sinopia.io/vocabulary/hasRemark": [
+      {
+        "@value": "A repeatable literal"
+      }
+    ],
+    "http://sinopia.io/vocabulary/hasPropertyUri": [
+      {
+        "@id": "http://id.loc.gov/ontologies/bibframe/uber/template2/property1"
+      }
+    ],
+    "http://sinopia.io/vocabulary/hasPropertyAttribute": [
+      {
+        "@id": "http://sinopia.io/vocabulary/propertyAttribute/repeatable"
+      }
+    ],
+    "http://sinopia.io/vocabulary/hasPropertyType": [
+      {
+        "@id": "http://sinopia.io/vocabulary/propertyType/literal"
+      }
+    ]
+  },
+  {
+    "@id": "http://localhost:3000/repository/resourceTemplate:testing:uber2",
+    "http://sinopia.io/vocabulary/hasResourceTemplate": [
+      {
+        "@value": "sinopia:template:resource"
+      }
+    ],
+    "@type": [
+      "http://sinopia.io/vocabulary/ResourceTemplate"
+    ],
+    "http://sinopia.io/vocabulary/hasResourceId": [
+      {
+        "@id": "resourceTemplate:testing:uber2"
+      }
+    ],
+    "http://sinopia.io/vocabulary/hasClass": [
+      {
+        "@id": "http://id.loc.gov/ontologies/bibframe/Uber2"
+      }
+    ],
+    "http://www.w3.org/2000/01/rdf-schema#label": [
+      {
+        "@value": "Uber template2"
+      }
+    ],
+    "http://sinopia.io/vocabulary/hasRemark": [
+      {
+        "@value": "Template for testing purposes with single repeatable literal."
+      }
+    ],
+    "http://sinopia.io/vocabulary/hasPropertyTemplate": [
+      {
+        "@list": [
+          {
+            "@id": "_:b2"
+          }
+        ]
+      }
+    ]
+  }
+]

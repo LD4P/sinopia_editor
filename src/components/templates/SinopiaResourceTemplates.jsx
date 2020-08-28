@@ -5,13 +5,14 @@ import React, {
 } from 'react'
 import { useSelector, useDispatch } from 'react-redux'
 import PropTypes from 'prop-types'
-import { newResource } from 'actionCreators/resources'
+import { newResource, loadResource } from 'actionCreators/resources'
 import { selectErrors } from 'selectors/errors'
 import { selectCurrentResource } from 'selectors/resources'
 import _ from 'lodash'
 import Alerts from '../Alerts'
 import ResourceTemplateSearchResult from './ResourceTemplateSearchResult'
 import { selectHistoricalTemplates } from 'selectors/templates'
+import { selectCurrentUser } from 'selectors/authenticate'
 
 // Errors from loading a new resource from this page.
 export const newResourceErrorKey = 'newresource'
@@ -22,6 +23,7 @@ export const newResourceErrorKey = 'newresource'
 const SinopiaResourceTemplates = (props) => {
   const dispatch = useDispatch()
   const searchResults = useSelector((state) => state.selectorReducer.templateSearch)
+  const currentUser = useSelector((state) => selectCurrentUser(state))
   const historicallyUsedTemplates = useSelector((state) => selectHistoricalTemplates(state))
 
   // Transform to the result structure.
@@ -64,6 +66,18 @@ const SinopiaResourceTemplates = (props) => {
     })
   }
 
+  const handleCopy = (resourceURI) => {
+    dispatch(loadResource(currentUser, resourceURI, newResourceErrorKey, true)).then((result) => {
+      setNavigateEditor(result)
+    })
+  }
+
+  const handleEdit = (resourceURI) => {
+    dispatch(loadResource(currentUser, resourceURI, newResourceErrorKey)).then((result) => {
+      setNavigateEditor(result)
+    })
+  }
+
   let history
   if (historicallyUsedTemplateResults.totalResults > 0) {
     history = (
@@ -74,7 +88,7 @@ const SinopiaResourceTemplates = (props) => {
           </h3>
         </div>
         <div id="historicalTemplates" className="collapse" style={{ padding: '5px' }}>
-          <ResourceTemplateSearchResult search={historicallyUsedTemplateResults} handleClick={handleClick} />
+          <ResourceTemplateSearchResult search={historicallyUsedTemplateResults} handleClick={handleClick} handleEdit={handleEdit} handleCopy={handleCopy} />
         </div>
       </div>
     )
@@ -85,7 +99,7 @@ const SinopiaResourceTemplates = (props) => {
       <Alerts errorKey={newResourceErrorKey} />
       { history }
       { searchResults.totalResults > 0
-        ? <ResourceTemplateSearchResult search={searchResults} handleClick={handleClick} />
+        ? <ResourceTemplateSearchResult search={searchResults} handleClick={handleClick} handleEdit={handleEdit} handleCopy={handleCopy} />
         : <div className="alert alert-warning" id="no-rt-warning">No resource templates match.</div>
       }
     </section>

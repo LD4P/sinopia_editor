@@ -1,0 +1,21 @@
+{
+  "id": "resourceTemplate:bf2:Title:Note",
+  "resourceURI": "http://id.loc.gov/ontologies/bibframe/Note",
+  "resourceLabel": "Title note",
+  "propertyTemplates": [
+    {
+      "propertyURI": "http://www.w3.org/2000/01/rdf-schema#label",
+      "propertyLabel": "Note Text",
+      "mandatory": "false",
+      "repeatable": "true",
+      "type": "literal",
+      "resourceTemplates": [],
+      "valueConstraint": {
+        "valueTemplateRefs": [],
+        "useValuesFrom": [],
+        "valueDataType": {},
+        "defaults": []
+      }
+    }
+  ]
+}

@@ -2,12 +2,10 @@
 
 import { renderApp } from 'testUtils'
 import { fireEvent, screen } from '@testing-library/react'
-import * as sinopiaServer from 'sinopiaServer'
-import { getFixtureResourceTemplate } from 'fixtureLoaderHelper'
 import Config from 'Config'
 
-jest.mock('sinopiaServer')
 global.$ = jest.fn().mockReturnValue({ popover: jest.fn() })
+
 jest.spyOn(Config, 'useResourceTemplateFixtures', 'get').mockReturnValue(true)
 
 const rdf = `<> <http://id.loc.gov/ontologies/bibframe/uber/template1/property7> "Default literal1", "Default literal2";
@@ -17,9 +15,6 @@ const rdf = `<> <http://id.loc.gov/ontologies/bibframe/uber/template1/property7>
 <http://sinopia.io/defaultURI1> <http://www.w3.org/2000/01/rdf-schema#label> "Default URI1".`
 
 describe('preview RDF after editing', () => {
-  sinopiaServer.foundResourceTemplate.mockResolvedValue(true)
-  sinopiaServer.getResourceTemplate.mockImplementation(getFixtureResourceTemplate)
-
   it('adds properties and then displays preview RDF model', async () => {
     renderApp()
 
@@ -41,6 +36,7 @@ describe('preview RDF after editing', () => {
       { target: { value: 'turtle' } })
 
     // Tests for presence of turtle RDF in the model
-    expect(screen.getByTestId('rdf-display').textContent).toContain(rdf)
+    const rdfDisplay = await screen.findByTestId('rdf-display')
+    expect(rdfDisplay.textContent).toContain(rdf)
   })
 })

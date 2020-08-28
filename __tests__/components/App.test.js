@@ -2,12 +2,9 @@
 import { fireEvent, wait, screen } from '@testing-library/react'
 import { createStore, renderApp, createHistory } from 'testUtils'
 import { createState } from 'stateUtils'
-import { getFixtureResourceTemplate } from 'fixtureLoaderHelper'
-import * as sinopiaServer from 'sinopiaServer'
+import Config from 'Config'
 
-jest.mock('sinopiaServer')
-
-sinopiaServer.getResourceTemplate.mockImplementation(getFixtureResourceTemplate)
+jest.spyOn(Config, 'useResourceTemplateFixtures', 'get').mockReturnValue(true)
 
 describe('<App />', () => {
   it('loads languages', async () => {

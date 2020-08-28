@@ -49,9 +49,19 @@ describe('<RDFDisplay />', () => {
     await screen.findByText(/<> <http:\/\/id.loc.gov\/ontologies\/bibframe\/mainTitle> "foo"@eng, "bar";/)
   })
 
+  it('renders JSON-LD', async () => {
+    render(<RDFDisplay rdf={rdf} />)
+
+    await screen.findByText(/Format:/)
+
+    fireEvent.change(screen.getByLabelText(/Format/), { target: { value: 'jsondld' } })
+
+    await screen.findByText(/"@value": "foo",/)
+  })
+
   it('displays errors', async () => {
     render(<RDFDisplay rdf={`${rdf}x`} />)
 
-    await screen.findByText(/Error: Unexpected "x"/)
+    await screen.findByText(/Unexpected "x"/)
   })
 })

@@ -1,0 +1,26 @@
+{
+  "id": "sinopia:template:uri",
+  "resourceLabel": "URI",
+  "resourceURI": "http://sinopia.io/vocabulary/Uri",
+  "remark": "A URI.",
+  "propertyTemplates": [
+    {
+      "propertyLabel": "URI",
+      "propertyURI": "http://sinopia.io/vocabulary/hasUri",
+      "resourceTemplates": [],
+      "mandatory": "true",
+      "repeatable": "false",
+      "type": "resource",
+      "remark": "URI"
+    },
+    {
+      "propertyLabel": "Label",
+      "propertyURI": "http://www.w3.org/2000/01/rdf-schema#label",
+      "resourceTemplates": [],
+      "mandatory": "true",
+      "repeatable": "false",
+      "type": "literal",
+      "remark": "Label"
+    }
+  ]
+}

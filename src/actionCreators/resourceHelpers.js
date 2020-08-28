@@ -12,20 +12,24 @@ import { newLiteralValue, newUriValue, newValueSubject } from 'utilities/valueFa
  * Helper methods that should only be used in 'actionCreators/resources'
  */
 
-export const addResourceFromDataset = (dataset, uri, resourceTemplateId, errorKey, asNewResource) => (dispatch) => {
-  const subjectTerm = rdf.namedNode(uri)
+export const addResourceFromDataset = (dataset, uri, resourceTemplateId, errorKey, asNewResource, group) => (dispatch) => {
+  const subjectTerm = rdf.namedNode(chooseURI(dataset, uri))
   const newUri = asNewResource ? null : uri
   const usedDataset = rdf.dataset()
   usedDataset.addAll(dataset.match(subjectTerm, rdf.namedNode('http://sinopia.io/vocabulary/hasResourceTemplate')))
   usedDataset.addAll(dataset.match(subjectTerm, rdf.namedNode('http://www.w3.org/1999/02/22-rdf-syntax-ns#type')))
-  return dispatch(recursiveResourceFromDataset(subjectTerm, newUri, resourceTemplateId, null, dataset, usedDataset, errorKey))
+  return dispatch(recursiveResourceFromDataset(subjectTerm, newUri, resourceTemplateId, null, {}, dataset, usedDataset, errorKey))
     .then((resource) => {
+      resource.group = group
       dispatch(addSubjectAction(resource))
       return [resource, usedDataset]
     })
 }
 
-export const addEmptyResource = (resourceTemplateId, errorKey) => (dispatch) => dispatch(newSubject(null, resourceTemplateId, null, errorKey))
+// The provided URI or <>.
+export const chooseURI = (dataset, uri) => (dataset.match(rdf.namedNode(uri)).size > 0 ? uri : '')
+
+export const addEmptyResource = (resourceTemplateId, errorKey) => (dispatch) => dispatch(newSubject(null, resourceTemplateId, null, {}, errorKey))
   .then((subject) => dispatch(newPropertiesFromTemplates(subject, false, errorKey))
     .then((properties) => {
       subject.properties = properties
@@ -33,11 +37,11 @@ export const addEmptyResource = (resourceTemplateId, errorKey) => (dispatch) => 
       return subject
     }))
 
-const recursiveResourceFromDataset = (subjectTerm, uri, resourceTemplateId, resourceKey, dataset,
-  usedDataset, errorKey) => (dispatch) => dispatch(newSubject(uri, resourceTemplateId, resourceKey, errorKey))
+const recursiveResourceFromDataset = (subjectTerm, uri, resourceTemplateId, resourceKey, resourceTemplatePromises, dataset,
+  usedDataset, errorKey) => (dispatch) => dispatch(newSubject(uri, resourceTemplateId, resourceKey, resourceTemplatePromises, errorKey))
   .then((subject) => dispatch(newPropertiesFromTemplates(subject, true, errorKey))
     .then((properties) => Promise.all(
-      properties.map((property) => dispatch(newValuesFromDataset(subjectTerm, property, dataset, usedDataset, errorKey))
+      properties.map((property) => dispatch(newValuesFromDataset(subjectTerm, property, resourceTemplatePromises, dataset, usedDataset, errorKey))
         .then((values) => {
           const compactValues = _.compact(values)
           if (!_.isEmpty(compactValues)) property.values = compactValues
@@ -49,9 +53,9 @@ const recursiveResourceFromDataset = (subjectTerm, uri, resourceTemplateId, reso
         return subject
       })))
 
-export const newSubject = (uri, resourceTemplateId, resourceKey, errorKey) => (dispatch) => {
+export const newSubject = (uri, resourceTemplateId, resourceKey, resourceTemplatePromises, errorKey) => (dispatch) => {
   const key = shortid.generate()
-  return dispatch(loadResourceTemplate(resourceTemplateId, errorKey))
+  return dispatch(loadResourceTemplate(resourceTemplateId, resourceTemplatePromises, errorKey))
     .then((subjectTemplate) => {
       // This handles if there was an error fetching resource template
       if (!subjectTemplate) {
@@ -75,29 +79,63 @@ export const newPropertiesFromTemplates = (subject, noDefaults, errorKey) => (di
   subject.subjectTemplate.propertyTemplates.map((propertyTemplate) => dispatch(newProperty(subject, propertyTemplate, noDefaults, errorKey))),
 )
 
-const newValuesFromDataset = (subjectTerm, property, dataset, usedDataset, errorKey) => (dispatch) => {
-  // All quads for this property
-  const quads = dataset.match(subjectTerm, rdf.namedNode(property.propertyTemplate.uri)).toArray()
-  return Promise.all(quads.map((quad) => {
+const newValuesFromDataset = (subjectTerm, property, resourceTemplatePromises, dataset, usedDataset, errorKey) => (dispatch) => {
+  // Get the objects for the values. How depends on whether property is ordered.
+  const objectsFunc = property.propertyTemplate.ordered ? orderedObjects : unorderedObjects
+  const objects = objectsFunc(subjectTerm, property, dataset, usedDataset)
+  return Promise.all(objects.map((obj) => {
     if (property.propertyTemplate.type === 'resource') {
-      return dispatch(newNestedResourceFromQuad(quad, property, dataset, usedDataset, errorKey))
-    } if (quad.object.termType === 'NamedNode') {
+      return dispatch(newNestedResourceFromObject(obj, property, resourceTemplatePromises, dataset, usedDataset, errorKey))
+    } if (obj.termType === 'NamedNode') {
       // URI
-      return Promise.resolve(newUriFromQuad(quad, property, dataset, usedDataset))
+      return Promise.resolve(newUriFromObject(obj, property, dataset, usedDataset))
     }
     // Literal
-    return Promise.resolve(newLiteralFromQuad(quad, property, usedDataset))
+    return Promise.resolve(newLiteralFromObject(obj, property))
   }))
 }
 
-const newNestedResourceFromQuad = (quad, property, dataset, usedDataset, errorKey) => (dispatch) => {
+const orderedObjects = (subjectTerm, property, dataset, usedDataset) => {
+  // All quads for this property
+  const quads = dataset.match(subjectTerm, rdf.namedNode(property.propertyTemplate.uri)).toArray()
+  // Should only be one.
+  if (quads.length > 1) {
+    throw `More than one quad for ordered property ${property.propertyTemplate.uri}: ${quads}`
+  }
+  if (quads.length === 0) return []
+  usedDataset.addAll(quads)
+  const objects = []
+  recursiveOrderedObjects(quads[0].object, objects, dataset, usedDataset)
+  return objects
+}
+
+const recursiveOrderedObjects = (subjectTerm, objects, dataset, usedDataset) => {
+  const firstQuad = dataset.match(subjectTerm, rdf.namedNode('http://www.w3.org/1999/02/22-rdf-syntax-ns#first')).toArray()[0]
+  usedDataset.add(firstQuad)
+  objects.push(firstQuad.object)
+  const restQuad = dataset.match(subjectTerm, rdf.namedNode('http://www.w3.org/1999/02/22-rdf-syntax-ns#rest')).toArray()[0]
+  usedDataset.add(restQuad)
+  if (restQuad.object.value !== 'http://www.w3.org/1999/02/22-rdf-syntax-ns#nil') recursiveOrderedObjects(restQuad.object, objects, dataset, usedDataset)
+}
+
+const unorderedObjects = (subjectTerm, property, dataset, usedDataset) => {
+  // All quads for this property
+  const quads = dataset.match(subjectTerm, rdf.namedNode(property.propertyTemplate.uri)).toArray()
+  usedDataset.addAll(quads)
+  return quads.map((quad) => quad.object)
+}
+
+const newNestedResourceFromObject = (obj, property, resourceTemplatePromises, dataset, usedDataset, errorKey) => (dispatch) => {
   // Only build this embedded resource if can find the resource template.
   // Multiple types may be provided.
-  const typeQuads = dataset.match(quad.object, rdf.namedNode('http://www.w3.org/1999/02/22-rdf-syntax-ns#type')).toArray()
+  const typeQuads = dataset.match(obj, rdf.namedNode('http://www.w3.org/1999/02/22-rdf-syntax-ns#type')).toArray()
 
   // Among the valueTemplateRefs, find all of the resource templates that match a type.
   // Ideally, only want 1 but need to handle other cases.
-  return Promise.all(typeQuads.map(async (typeQuad) => dispatch(selectResourceTemplateId(property.propertyTemplate, typeQuad.object.value))))
+  return Promise.all(
+    typeQuads.map((typeQuad) => dispatch(selectResourceTemplateId(property.propertyTemplate,
+      typeQuad.object.value, resourceTemplatePromises, errorKey))),
+  )
     .then((childRtIds) => {
       const compactChildRtIds = _.compact(_.flatten(childRtIds))
 
@@ -109,30 +147,26 @@ const newNestedResourceFromQuad = (quad, property, dataset, usedDataset, errorKe
       if (_.isEmpty(compactChildRtIds)) {
         return null
       }
-      usedDataset.add(quad)
       usedDataset.addAll(typeQuads)
 
       // One resource template
-      return dispatch(recursiveResourceFromDataset(quad.object, null, compactChildRtIds[0], property.resourceKey, dataset, usedDataset, errorKey))
+      return dispatch(recursiveResourceFromDataset(obj, null, compactChildRtIds[0],
+        property.resourceKey, resourceTemplatePromises, dataset, usedDataset, errorKey))
         .then((subject) => newValueSubject(property, subject))
     })
 }
 
-const selectResourceTemplateId = (propertyTemplate, resourceURI, errorKey) => (dispatch) => Promise.all(
+const selectResourceTemplateId = (propertyTemplate, resourceURI, resourceTemplatePromises, errorKey) => (dispatch) => Promise.all(
   // The keys are resource template ids. They may or may not be in state
-  propertyTemplate.valueSubjectTemplateKeys.map(async (resourceTemplateId) => dispatch(loadResourceTemplate(resourceTemplateId, errorKey))
+  propertyTemplate.valueSubjectTemplateKeys.map((resourceTemplateId) => dispatch(loadResourceTemplate(resourceTemplateId, resourceTemplatePromises, errorKey))
     .then((subjectTemplate) => (subjectTemplate.class === resourceURI ? resourceTemplateId : undefined))),
 )
 
-const newLiteralFromQuad = (quad, property, usedDataset) => {
-  usedDataset.add(quad)
-  return newLiteralValue(property, quad.object.value, quad.object.language)
-}
+const newLiteralFromObject = (obj, property) => newLiteralValue(property, obj.value, obj.language)
 
-const newUriFromQuad = (quad, property, dataset, usedDataset) => {
-  const uri = quad.object.value
-  usedDataset.add(quad)
-  const labelQuads = dataset.match(quad.object, rdf.namedNode('http://www.w3.org/2000/01/rdf-schema#label')).toArray()
+const newUriFromObject = (obj, property, dataset, usedDataset) => {
+  const uri = obj.value
+  const labelQuads = dataset.match(obj, rdf.namedNode('http://www.w3.org/2000/01/rdf-schema#label')).toArray()
   let label = uri
   if (labelQuads.length > 0) {
     label = labelQuads[0].object.value // Use first match
@@ -177,7 +211,7 @@ const newProperty = (subject, propertyTemplate, noDefaults, errorKey) => (dispat
 const valuesForExpandedProperty = (property, noDefaults, errorKey) => (dispatch) => {
   if (property.propertyTemplate.type === 'resource') {
     return Promise.all(property.propertyTemplate.valueSubjectTemplateKeys.map((resourceTemplateId) => dispatch(newSubject(null,
-      resourceTemplateId, property.resourceKey, errorKey))
+      resourceTemplateId, property.resourceKey, {}, errorKey))
       .then((subject) => dispatch(newPropertiesFromTemplates(subject, noDefaults, errorKey))
         .then((properties) => {
           subject.properties = properties

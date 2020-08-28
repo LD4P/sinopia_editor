@@ -46,7 +46,7 @@ describe('export', () => {
         {
           type: 'ADD_ERROR',
           payload: {
-            error: 'Error retrieving list of exports: Error: S3 fail',
+            error: 'Error retrieving list of exports: S3 fail',
             errorKey: 'testerrorkey',
           },
         },

@@ -16,6 +16,11 @@
               "uri": null,
               "resourceKey": "ljAblGiBW",
               "subjectTemplateKey": "resourceTemplate:testing:uber1",
+              "bfAdminMetadataRefs": [],
+              "bfInstanceRefs": [],
+              "bfItemRefs": [],
+              "bfWorkRefs": [],
+              "group": null,
               "propertyKeys": [
                 "v1o90QO1Qx"
               ],
@@ -61,7 +66,9 @@
             "subjectTemplate": {
               "key": "resourceTemplate:testing:uber2",
               "id": "resourceTemplate:testing:uber2",
+              "author": null,
               "class": "http://id.loc.gov/ontologies/bibframe/Uber2",
+              "date": null,
               "label": "Uber template2",
               "remark": "Template for testing purposes with single repeatable literal.",
               "propertyTemplateKeys": [
@@ -75,12 +82,13 @@
                   "uri": "http://id.loc.gov/ontologies/bibframe/uber/template2/property1",
                   "required": false,
                   "repeatable": true,
+                  "ordered": false,
                   "defaults": [],
                   "remark": "A repeatable literal",
                   "remarkUrl": null,
                   "type": "literal",
                   "component": "InputLiteral",
-                  "valueSubjectTemplateKeys": null,
+                  "valueSubjectTemplateKeys": [],
                   "authorities": []
                 }
               ]

@@ -1,0 +1,29 @@
+{
+	"id": "test:bf2:soundCharacteristics",
+	"propertyTemplates": [{
+		"propertyLabel": "Sound characteristics",
+		"propertyURI": "http://id.loc.gov/ontologies/bibframe/soundCharacteristics",
+		"repeatable": "true",
+		"type": "lookup",
+		"valueConstraint": {
+			"useValuesFrom": ["https://id.loc.gov/vocabulary/mrectype",
+				"https://id.loc.gov/vocabulary/mrecmedium",
+				"https://id.loc.gov/vocabulary/mgroove",
+				"https://id.loc.gov/vocabulary/mplayspeed",
+				"https://id.loc.gov/vocabulary/mplayback",
+				"https://id.loc.gov/vocabulary/mcapturestorage"
+			],
+			"valueDataType": {
+				"dataTypeURI": "http://id.loc.gov/ontologies/bibframe/soundCharacteristics"
+			}
+		},
+		"mandatory": "true",
+		"remark": "http://access.rdatoolkit.org/3.3.html"
+	}],
+	"resourceLabel": "Multiple LOC lookups",
+	"resourceURI": "http://id.loc.gov/ontologies/bibframe/soundCharacteristics",
+	"remark": "Test for multiple LOC lookups",
+	"author": "Justin Littman",
+	"date": "2019-08-19",
+	"schema": "https://ld4p.github.io/sinopia/schemas/0.2.0/resource-template.json"
+}

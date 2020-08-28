@@ -1,10 +1,7 @@
 import { renderApp } from 'testUtils'
 import { fireEvent, screen, wait } from '@testing-library/react'
-import * as sinopiaServer from 'sinopiaServer'
-import { getFixtureResourceTemplate } from 'fixtureLoaderHelper'
 import Config from 'Config'
 
-jest.mock('sinopiaServer')
 // Mock jquery
 global.$ = jest.fn().mockReturnValue({ popover: jest.fn() })
 // This forces Sinopia server to use fixtures
@@ -12,8 +9,6 @@ jest.spyOn(Config, 'useResourceTemplateFixtures', 'get').mockReturnValue(true)
 
 
 describe('loading new resource', () => {
-  sinopiaServer.foundResourceTemplate.mockResolvedValue(true)
-  sinopiaServer.getResourceTemplate.mockImplementation(getFixtureResourceTemplate)
   it('opens the resource', async () => {
     renderApp()
 

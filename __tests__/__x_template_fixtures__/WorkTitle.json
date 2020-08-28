@@ -1,0 +1,66 @@
+{
+  "id": "resourceTemplate:bf2:WorkTitle",
+  "resourceLabel": "Work Title",
+  "resourceURI": "http://id.loc.gov/ontologies/bibframe/Title",
+  "propertyTemplates": [
+    {
+      "propertyURI": "http://id.loc.gov/ontologies/bibframe/mainTitle",
+      "propertyLabel": "Preferred Title for Work (RDA 6.2.2, RDA 6.14.2) (BIBFRAME: Main title)",
+      "remark": "http://access.rdatoolkit.org/rdachp6_rda6-2036.html",
+      "mandatory": "false",
+      "repeatable": "true",
+      "type": "literal",
+      "resourceTemplates": [],
+      "valueConstraint": {
+        "valueTemplateRefs": [],
+        "useValuesFrom": [],
+        "valueDataType": {},
+        "defaults": []
+      }
+    },
+    {
+      "propertyURI": "http://id.loc.gov/ontologies/bibframe/partName",
+      "propertyLabel": "Part name",
+      "mandatory": "false",
+      "repeatable": "true",
+      "type": "literal",
+      "resourceTemplates": [],
+      "valueConstraint": {
+        "valueTemplateRefs": [],
+        "useValuesFrom": [],
+        "valueDataType": {},
+        "defaults": []
+      }
+    },
+    {
+      "propertyURI": "http://id.loc.gov/ontologies/bibframe/partNumber",
+      "propertyLabel": "Part number",
+      "mandatory": "false",
+      "repeatable": "true",
+      "type": "literal",
+      "resourceTemplates": [],
+      "valueConstraint": {
+        "valueTemplateRefs": [],
+        "useValuesFrom": [],
+        "valueDataType": {},
+        "defaults": []
+      }
+    },
+    {
+      "propertyURI": "http://id.loc.gov/ontologies/bibframe/note",
+      "propertyLabel": "Note on title",
+      "mandatory": "false",
+      "repeatable": "true",
+      "type": "resource",
+      "resourceTemplates": [],
+      "valueConstraint": {
+        "valueTemplateRefs": [
+          "resourceTemplate:bf2:Title:Note"
+        ],
+        "useValuesFrom": [],
+        "valueDataType": {},
+        "defaults": []
+      }
+    }
+  ]
+}

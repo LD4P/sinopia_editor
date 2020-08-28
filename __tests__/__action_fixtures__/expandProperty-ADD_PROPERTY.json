@@ -13,6 +13,11 @@
           "resourceKey": "t9zVwg2zO",
           "uri": "https://trellis.sinopia.io/repository/washington/0894a8b3",
           "subjectTemplateKey": "ld4p:RT:bf2:Title:AbbrTitle",
+          "bfAdminMetadataRefs": [],
+          "bfInstanceRefs": [],
+          "bfItemRefs": [],
+          "bfWorkRefs": [],
+          "group": null,
           "propertyKeys": [
             "JQEtq-vmq8"
           ],

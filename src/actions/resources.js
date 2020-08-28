@@ -23,6 +23,11 @@ export const setCurrentResource = (resourceKey) => ({
   payload: resourceKey,
 })
 
+export const setResourceGroup = (resourceKey, group) => ({
+  type: 'SET_RESOURCE_GROUP',
+  payload: { resourceKey, group },
+})
+
 export const setUnusedRDF = (resourceKey, rdf) => ({
   type: 'SET_UNUSED_RDF',
   payload: { resourceKey, rdf },

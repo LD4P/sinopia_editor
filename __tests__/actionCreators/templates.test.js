@@ -14,7 +14,7 @@ describe('loadResourceTemplate()', () => {
     it('returns templates and dispatches actions when loaded', async () => {
       const store = mockStore(createState())
 
-      const subjectTemplate = await store.dispatch(loadResourceTemplate('ld4p:RT:bf2:Title:AbbrTitle', 'testerrorkey'))
+      const subjectTemplate = await store.dispatch(loadResourceTemplate('ld4p:RT:bf2:Title:AbbrTitle', {}, 'testerrorkey'))
       expect(subjectTemplate).toBeSubjectTemplate('ld4p:RT:bf2:Title:AbbrTitle')
       expect(subjectTemplate.propertyTemplates).toHaveLength(1)
       expect(subjectTemplate.propertyTemplates[0]).toBePropertyTemplate('ld4p:RT:bf2:Title:AbbrTitle > http://id.loc.gov/ontologies/bibframe/mainTitle')
@@ -32,7 +32,7 @@ describe('loadResourceTemplate()', () => {
     it('returns templates', async () => {
       const store = mockStore(createState({ hasResourceWithLiteral: true }))
 
-      const subjectTemplate = await store.dispatch(loadResourceTemplate('ld4p:RT:bf2:Title:AbbrTitle', 'testerrorkey'))
+      const subjectTemplate = await store.dispatch(loadResourceTemplate('ld4p:RT:bf2:Title:AbbrTitle', {}, 'testerrorkey'))
       expect(subjectTemplate).toBeSubjectTemplate('ld4p:RT:bf2:Title:AbbrTitle')
       expect(subjectTemplate.propertyTemplates).toHaveLength(1)
       expect(subjectTemplate.propertyTemplates[0]).toBePropertyTemplate('ld4p:RT:bf2:Title:AbbrTitle > http://id.loc.gov/ontologies/bibframe/mainTitle')
@@ -45,7 +45,7 @@ describe('loadResourceTemplate()', () => {
     it('dispatches errors and returns empty', async () => {
       const store = mockStore(createState({ hasResourceWithLiteral: true }))
 
-      const subjectTemplate = await store.dispatch(loadResourceTemplate('rt:repeated:propertyURI:propertyLabel', 'testerrorkey'))
+      const subjectTemplate = await store.dispatch(loadResourceTemplate('rt:repeated:propertyURI:propertyLabel', {}, 'testerrorkey'))
       expect(subjectTemplate).toBeNull()
 
       expect(store.getActions()).toEqual([
@@ -68,7 +68,7 @@ describe('loadResourceTemplate()', () => {
     it('dispatches errors and returns empty', async () => {
       const store = mockStore(createState({ hasResourceWithLiteral: true }))
 
-      const subjectTemplate = await store.dispatch(loadResourceTemplate('ld4p:RT:bf2:xxx', 'testerrorkey'))
+      const subjectTemplate = await store.dispatch(loadResourceTemplate('ld4p:RT:bf2:xxx', {}, 'testerrorkey'))
       expect(subjectTemplate).toBeNull()
 
       expect(store.getActions()).toEqual([
@@ -76,7 +76,7 @@ describe('loadResourceTemplate()', () => {
           type: 'ADD_ERROR',
           payload: {
             errorKey: 'testerrorkey',
-            error: 'Error retrieving ld4p:RT:bf2:xxx: Error: ERROR: non-fixture resourceTemplate: ld4p:RT:bf2:xxx',
+            error: 'Error retrieving ld4p:RT:bf2:xxx: Error parsing resource: Error retrieving resource: Not Found',
           },
         },
       ])

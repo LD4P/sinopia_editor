@@ -9,7 +9,14 @@ import ResourceTemplateRow from './ResourceTemplateRow'
  */
 const ResourceTemplateSearchResult = (props) => {
   const resourceTemplateSummaries = props.search.results
-  const rows = resourceTemplateSummaries.map((row) => <ResourceTemplateRow row={row} key={row.id} navigate={props.handleClick}/>)
+  const rows = resourceTemplateSummaries.map((row) => (
+    <ResourceTemplateRow
+        row={row}
+        key={row.id}
+        handleClick={props.handleClick}
+        handleEdit={props.handleEdit}
+        handleCopy={props.handleCopy} />
+  ))
 
   return (
     <div className="row">
@@ -33,8 +40,7 @@ const ResourceTemplateSearchResult = (props) => {
                 Guiding statement
               </th>
               <th style={{ backgroundColor: '#F8F6EF', width: '4%' }}
-                  data-testid="download-col-header">
-                Download
+                  data-testid="action-col-header">
               </th>
             </tr>
           </thead>
@@ -48,7 +54,9 @@ const ResourceTemplateSearchResult = (props) => {
 }
 
 ResourceTemplateSearchResult.propTypes = {
-  handleClick: PropTypes.func,
+  handleClick: PropTypes.func.isRequired,
+  handleEdit: PropTypes.func.isRequired,
+  handleCopy: PropTypes.func.isRequired,
   search: PropTypes.object,
 }
 

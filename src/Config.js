@@ -1,16 +1,8 @@
 // Copyright 2019 Stanford University see LICENSE for license
 
 class Config {
-  static get defaultSinopiaGroupId() {
-    return process.env.SINOPIA_GROUP || 'ld4p'
-  }
-
-  static get defaultProfileSchemaVersion() {
-    return process.env.DEFAULT_PROFILE_SCHEMA_VERSION || '0.0.3'
-  }
-
-  static get sinopiaServerBase() {
-    return process.env.TRELLIS_BASE_URL || 'http://localhost:8080'
+  static get sinopiaApiBase() {
+    return process.env.SINOPIA_API_BASE_URL || 'http://localhost:3000/repository'
   }
 
   static get awsCognitoDomain() {

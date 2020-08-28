@@ -1,16 +1,14 @@
+import Config from 'Config'
 import { renderApp, createHistory } from 'testUtils'
 import { fireEvent, wait, screen } from '@testing-library/react'
-import * as sinopiaServer from 'sinopiaServer'
-import { getFixtureResourceTemplate } from 'fixtureLoaderHelper'
 
-jest.mock('sinopiaServer')
+jest.spyOn(Config, 'useResourceTemplateFixtures', 'get').mockReturnValue(true)
+
 // Mock jquery
 global.$ = jest.fn().mockReturnValue({ popover: jest.fn() })
 
 
 describe('adding and removing properties', () => {
-  sinopiaServer.foundResourceTemplate.mockResolvedValue(true)
-  sinopiaServer.getResourceTemplate.mockImplementation(getFixtureResourceTemplate)
   const history = createHistory(['/editor/resourceTemplate:testing:uber1'])
 
   it('adds and removes panel properties', async () => {

@@ -4,7 +4,7 @@ import {
   addProperty, addSubject, addValue, clearResource,
   hideProperty, removeProperty, removeSubject,
   removeValue, saveResourceFinished, setBaseURL, setCurrentResource,
-  setUnusedRDF, showProperty, loadResourceFinished,
+  setUnusedRDF, showProperty, loadResourceFinished, setResourceGroup,
 } from 'reducers/resources'
 
 import { createState } from 'stateUtils'
@@ -24,6 +24,7 @@ const reducers = {
   SET_BASE_URL: setBaseURL,
   SET_CURRENT_RESOURCE: setCurrentResource,
   SET_UNUSED_RDF: setUnusedRDF,
+  SET_RESOURCE_GROUP: setResourceGroup,
   SHOW_PROPERTY: showProperty,
 }
 
@@ -105,6 +106,41 @@ describe('addProperty()', () => {
     })
   })
 
+  describe('existing uri property with no values', () => {
+    it('updates state', () => {
+      const oldState = createState({ hasResourceWithUri: true })
+
+      const action = {
+        type: 'ADD_PROPERTY',
+        payload: {
+          key: 'i0SAJP-Zhd',
+          subject: { key: 'wihOjn-0Z' },
+          resourceKey: 'wihOjn-0Z',
+          propertyTemplate: { key: 'test:resource:SinopiaLookup > http://id.loc.gov/ontologies/bibframe/instanceOf' },
+          values: [],
+          show: true,
+          errors: [],
+        },
+      }
+
+      const newState = reducer(oldState.selectorReducer, action)
+      expect(newState.entities.properties['i0SAJP-Zhd']).toStrictEqual({
+        key: 'i0SAJP-Zhd',
+        subjectKey: 'wihOjn-0Z',
+        resourceKey: 'wihOjn-0Z',
+        propertyTemplateKey: 'test:resource:SinopiaLookup > http://id.loc.gov/ontologies/bibframe/instanceOf',
+        valueKeys: [],
+        show: true,
+        errors: [],
+      })
+      expect(newState.entities.subjects['wihOjn-0Z'].propertyKeys).toContain('i0SAJP-Zhd')
+      expect(newState.entities.values['s8-qt3-uu']).toBeUndefined()
+      expect(newState.entities.subjects['wihOjn-0Z'].changed).toBe(true)
+      // Removes from bfWorkRefs
+      expect(newState.entities.subjects['wihOjn-0Z'].bfWorkRefs).toHaveLength(0)
+    })
+  })
+
   describe('property with validation error', () => {
     it('adds error', () => {
       const oldState = createState({ hasResourceWithLiteral: true })
@@ -136,7 +172,7 @@ describe('addProperty()', () => {
 })
 
 describe('addSubject()', () => {
-  describe('new subject with no properties', () => {
+  describe('new subject with no properties and matching resource key', () => {
     it('updates state', () => {
       const oldState = createState()
 
@@ -158,12 +194,44 @@ describe('addSubject()', () => {
           propertyKeys: [],
           uri: null,
           resourceKey: '45689df',
+          bfAdminMetadataRefs: [],
+          bfInstanceRefs: [],
+          bfItemRefs: [],
+          bfWorkRefs: [],
           changed: true,
+          group: null,
           subjectTemplateKey: 'resourceTemplate:bf2:Identifiers:Barcode',
         },
       })
     })
   })
+
+  describe('new subject with no properties and different resource key', () => {
+    it('updates state', () => {
+      const oldState = createState({ hasResourceWithLiteral: true })
+
+      const action = {
+        type: 'ADD_SUBJECT',
+        payload: {
+          key: '45689df',
+          resourceKey: 't9zVwg2zO',
+          properties: [],
+          subjectTemplate: { key: 'resourceTemplate:bf2:Identifiers:Barcode' },
+          uri: null,
+        },
+      }
+
+      const newState = reducer(oldState.selectorReducer, action)
+      expect(newState.entities.subjects['45689df']).toStrictEqual({
+        key: '45689df',
+        propertyKeys: [],
+        uri: null,
+        resourceKey: 't9zVwg2zO',
+        subjectTemplateKey: 'resourceTemplate:bf2:Identifiers:Barcode',
+      })
+    })
+  })
+
 
   describe('existing subject with properties', () => {
     it('updates state', () => {
@@ -201,6 +269,11 @@ describe('addSubject()', () => {
           'KQEtq-vmq9',
         ],
         changed: true,
+        bfAdminMetadataRefs: [],
+        bfInstanceRefs: [],
+        bfItemRefs: [],
+        bfWorkRefs: [],
+        group: null,
       })
       // Replaces values
       expect(newState.entities.properties['KQEtq-vmq9']).not.toBeUndefined()
@@ -210,6 +283,22 @@ describe('addSubject()', () => {
 })
 
 describe('addValue()', () => {
+  const addUriAction = {
+    type: 'ADD_VALUE',
+    payload: {
+      value: {
+        key: 'DxGx7WMh3',
+        property: { key: 'i0SAJP-Zhd' },
+        resourceKey: 'wihOjn-0Z',
+        literal: null,
+        lang: null,
+        uri: 'http://localhost:3000/repository/stanford/85770f92-f8cf-48ee-970a-aefc97843749',
+        label: null,
+        valueSubjectKey: null,
+      },
+    },
+  }
+
   describe('new literal value', () => {
     it('updates state', () => {
       const oldState = createState({ hasResourceWithLiteral: true })
@@ -273,6 +362,7 @@ describe('addValue()', () => {
       expect(newState.entities.properties['JQEtq-vmq8'].valueKeys).toEqual(['abc123', 'DxGx7WMh3', 'def456'])
     })
   })
+
   describe('existing nested resource value', () => {
     it('updates state', () => {
       const oldState = createState({ hasResourceWithNestedResource: true })
@@ -313,6 +403,75 @@ describe('addValue()', () => {
       // Replaces subjects
       expect(newState.entities.subjects.YPb8jaPW1).not.toBeUndefined()
       expect(newState.entities.subjects.JXPb8jaPWo).toBeUndefined()
+    })
+  })
+
+  describe('new uri value that is a bf Work ref', () => {
+    it('updates state', () => {
+      const oldState = createState({ hasResourceWithUri: true })
+
+      const newState = reducer(oldState.selectorReducer, addUriAction)
+
+      expect(newState.entities.values.DxGx7WMh3).toStrictEqual({
+        key: 'DxGx7WMh3',
+        propertyKey: 'i0SAJP-Zhd',
+        resourceKey: 'wihOjn-0Z',
+        literal: null,
+        lang: null,
+        uri: 'http://localhost:3000/repository/stanford/85770f92-f8cf-48ee-970a-aefc97843749',
+        label: null,
+        valueSubjectKey: null,
+      })
+      expect(newState.entities.properties['i0SAJP-Zhd'].valueKeys).toContain('DxGx7WMh3')
+      expect(newState.entities.properties['i0SAJP-Zhd'].show).toBe(true)
+      expect(newState.entities.subjects['wihOjn-0Z'].bfAdminMetadataRefs).toHaveLength(0)
+      expect(newState.entities.subjects['wihOjn-0Z'].bfInstanceRefs).toHaveLength(0)
+      expect(newState.entities.subjects['wihOjn-0Z'].bfItemRefs).toHaveLength(0)
+      expect(newState.entities.subjects['wihOjn-0Z'].bfWorkRefs).toEqual(['http://localhost:3000/repository/stanford/74770f92-f8cf-48ee-970a-aefc97843738', 'http://localhost:3000/repository/stanford/85770f92-f8cf-48ee-970a-aefc97843749'])
+    })
+  })
+
+  describe('new uri value that is a bf Instance ref', () => {
+    it('updates state', () => {
+      const oldState = createState({ hasResourceWithUri: true })
+      oldState.selectorReducer.entities.propertyTemplates['test:resource:SinopiaLookup > http://id.loc.gov/ontologies/bibframe/instanceOf'].uri = 'http://id.loc.gov/ontologies/bibframe/hasInstance'
+
+      const newState = reducer(oldState.selectorReducer, addUriAction)
+
+      expect(newState.entities.subjects['wihOjn-0Z'].bfAdminMetadataRefs).toHaveLength(0)
+      expect(newState.entities.subjects['wihOjn-0Z'].bfInstanceRefs).toEqual(['http://localhost:3000/repository/stanford/85770f92-f8cf-48ee-970a-aefc97843749'])
+      expect(newState.entities.subjects['wihOjn-0Z'].bfItemRefs).toHaveLength(0)
+      expect(newState.entities.subjects['wihOjn-0Z'].bfWorkRefs).toHaveLength(1)
+    })
+  })
+
+  describe('new uri value that is a bf Item ref', () => {
+    it('updates state', () => {
+      const oldState = createState({ hasResourceWithUri: true })
+      // Ignore the key here.
+      oldState.selectorReducer.entities.propertyTemplates['test:resource:SinopiaLookup > http://id.loc.gov/ontologies/bibframe/instanceOf'].uri = 'http://id.loc.gov/ontologies/bibframe/hasItem'
+
+      const newState = reducer(oldState.selectorReducer, addUriAction)
+
+      expect(newState.entities.subjects['wihOjn-0Z'].bfAdminMetadataRefs).toHaveLength(0)
+      expect(newState.entities.subjects['wihOjn-0Z'].bfInstanceRefs).toHaveLength(0)
+      expect(newState.entities.subjects['wihOjn-0Z'].bfItemRefs).toEqual(['http://localhost:3000/repository/stanford/85770f92-f8cf-48ee-970a-aefc97843749'])
+      expect(newState.entities.subjects['wihOjn-0Z'].bfWorkRefs).toHaveLength(1)
+    })
+  })
+
+  describe('new uri value that is a bf Admin Metadata ref', () => {
+    it('updates state', () => {
+      const oldState = createState({ hasResourceWithUri: true })
+      // Ignore the key here.
+      oldState.selectorReducer.entities.propertyTemplates['test:resource:SinopiaLookup > http://id.loc.gov/ontologies/bibframe/instanceOf'].uri = 'http://id.loc.gov/ontologies/bibframe/adminMetadata'
+
+      const newState = reducer(oldState.selectorReducer, addUriAction)
+
+      expect(newState.entities.subjects['wihOjn-0Z'].bfAdminMetadataRefs).toEqual(['http://localhost:3000/repository/stanford/85770f92-f8cf-48ee-970a-aefc97843749'])
+      expect(newState.entities.subjects['wihOjn-0Z'].bfInstanceRefs).toHaveLength(0)
+      expect(newState.entities.subjects['wihOjn-0Z'].bfItemRefs).toHaveLength(0)
+      expect(newState.entities.subjects['wihOjn-0Z'].bfWorkRefs).toHaveLength(1)
     })
   })
 })
@@ -538,5 +697,34 @@ describe('showProperty()', () => {
     }
     const newState = reducer(oldState, action)
     expect(newState.entities.properties['kqKVn-1TbC'].show).toBeTruthy()
+  })
+})
+
+describe('setResourceGroup()', () => {
+  it('sets group', () => {
+    const oldState = {
+      entities: {
+        subjects: {
+          abcde345: {},
+        },
+      },
+    }
+    const action = {
+      type: 'SET_RESOURCE_GROUP',
+      payload: {
+        resourceKey: 'abcde345',
+        group: 'stanford',
+      },
+    }
+    const newState = reducer(oldState, action)
+    expect(newState).toStrictEqual({
+      entities: {
+        subjects: {
+          abcde345: {
+            group: 'stanford',
+          },
+        },
+      },
+    })
   })
 })

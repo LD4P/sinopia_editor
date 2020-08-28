@@ -1,15 +1,13 @@
 import { renderApp } from 'testUtils'
 import { fireEvent, wait, screen } from '@testing-library/react'
 import * as sinopiaSearch from 'sinopiaSearch'
-import * as sinopiaServer from 'sinopiaServer'
-import { getFixtureResourceTemplate } from 'fixtureLoaderHelper'
+import Config from 'Config'
+
+jest.spyOn(Config, 'useResourceTemplateFixtures', 'get').mockReturnValue(true)
 
 jest.mock('sinopiaSearch')
-jest.mock('sinopiaServer')
 
 describe('loading from RDF', () => {
-  sinopiaServer.foundResourceTemplate.mockResolvedValue(true)
-  sinopiaServer.getResourceTemplate.mockImplementation(getFixtureResourceTemplate)
   describe('when RDF', () => {
     it('opens the resource', async () => {
       renderApp()

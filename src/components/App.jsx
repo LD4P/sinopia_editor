@@ -11,7 +11,7 @@ import '../styles/main.scss'
 import Editor from './editor/Editor'
 import Footer from './Footer'
 import { Route, Switch, Redirect } from 'react-router-dom'
-import ImportResourceTemplate from './templates/ImportResourceTemplate'
+import ResourceTemplate from './templates/ResourceTemplate'
 import LoadResource from './load/LoadResource'
 import Search from './search/Search'
 import CanvasMenu from './menu/CanvasMenu'
@@ -62,9 +62,9 @@ const App = (props) => {
       ) : (
         <Redirect from="/editor" to="/templates" />
       )}
-      <Route exact path="/templates" render={(renderProps) => <ImportResourceTemplate {...renderProps}
-                                                                                      triggerHandleOffsetMenu={props.handleOffsetMenu}
-                                                                                      key="import-resource-template" />} />
+      <Route exact path="/templates" render={(renderProps) => <ResourceTemplate {...renderProps}
+                                                                                triggerHandleOffsetMenu={props.handleOffsetMenu}
+                                                                                key="import-resource-template" />} />
       <Route exact path="/search" render={(renderProps) => <Search {...renderProps} triggerHandleOffsetMenu={props.handleOffsetMenu} />} />
       <Route exact path="/load" render={(renderProps) => <LoadResource {...renderProps} triggerHandleOffsetMenu={props.handleOffsetMenu} />} />
       <Route exact path="/exports" render={(renderProps) => <Exports {...renderProps} triggerHandleOffsetMenu={props.handleOffsetMenu} />} />

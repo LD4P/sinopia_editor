@@ -17,6 +17,18 @@
     "component": "local-lookup"
   },
   {
+    "label": "Sinopia BIBFRAME item resources",
+    "uri": "urn:ld4p:sinopia:bibframe:item",
+    "type": "http://id.loc.gov/ontologies/bibframe/Item",
+    "component": "local-lookup"
+  },
+  {
+    "label": "Sinopia BIBFRAME admin metadata resources",
+    "uri": "urn:ld4p:sinopia:bibframe:adminMetadata",
+    "type": "http://id.loc.gov/ontologies/bibframe/AdminMetadata",
+    "component": "local-lookup"
+  },
+  {
     "label": "AGROVOC (QA)",
     "uri": "urn:ld4p:qa:agrovoc",
     "authority": "agrovoc_ld4l_cache",
@@ -1884,6 +1896,21 @@
   {
     "label": "type of recording",
     "uri": "https://id.loc.gov/vocabulary/mrectype",
+    "component": "list"
+  },
+  {
+    "label": "propertyAttribute",
+    "uri": "file:/propertyAttribute.json",
+    "component": "list"
+  },
+  {
+    "label": "property type",
+    "uri": "file:/propertyType.json",
+    "component": "list"
+  },
+  {
+    "label": "authorities",
+    "uri": "file:/authorityConfig.json",
     "component": "list"
   }
 ]

@@ -1,16 +1,13 @@
+import Config from 'Config'
 import { renderApp, createHistory } from 'testUtils'
 import { fireEvent, screen } from '@testing-library/react'
-import * as sinopiaServer from 'sinopiaServer'
-import { getFixtureResourceTemplate } from 'fixtureLoaderHelper'
 
-jest.mock('sinopiaServer')
+jest.spyOn(Config, 'useResourceTemplateFixtures', 'get').mockReturnValue(true)
+
 // Mock jquery
 global.$ = jest.fn().mockReturnValue({ popover: jest.fn() })
 
 describe('expanding and contracting properties', () => {
-  sinopiaServer.foundResourceTemplate.mockResolvedValue(true)
-  sinopiaServer.getResourceTemplate.mockImplementation(getFixtureResourceTemplate)
-
   it('shows and hides nested properties', async () => {
     const history = createHistory(['/editor/resourceTemplate:testing:uber1'])
     renderApp(null, history)

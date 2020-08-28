@@ -1,12 +1,11 @@
 import { addTemplateHistory } from 'actions/templates'
 import { clearErrors, addError } from 'actions/errors'
-import { updateRDFResource, loadRDFResource, publishRDFResource } from 'sinopiaServer'
-import { rdfDatasetFromN3, findRootResourceTemplateId } from 'utilities/Utilities'
+import { findRootResourceTemplateId } from 'utilities/Utilities'
 import {
   addResourceFromDataset, addEmptyResource, newSubject,
-  newSubjectCopy, newPropertiesFromTemplates,
+  newSubjectCopy, newPropertiesFromTemplates, chooseURI,
 } from './resourceHelpers'
-import GraphBuilder from 'GraphBuilder'
+import { fetchResource, putResource, postResource } from 'sinopiaApi'
 import {
   selectProperty, selectValue, selectFullSubject,
 } from 'selectors/resources'
@@ -14,24 +13,40 @@ import {
   addProperty as addPropertyAction,
   addValue as addValueAction, addSubject as addSubjectAction,
   showProperty, setBaseURL, setCurrentResource, saveResourceFinished,
-  setUnusedRDF, loadResourceFinished,
+  setUnusedRDF, loadResourceFinished, setResourceGroup,
 } from 'actions/resources'
 import { newValueSubject } from 'utilities/valueFactory'
-import rdf from 'rdf-ext'
 
 /**
- * A thunk that loads an existing resource from Trellis and adds to state.
+ * A thunk that loads an existing resource from Sinopia API and adds to state.
  * @return {boolean} true if successful
  */
 export const loadResource = (currentUser, uri, errorKey, asNewResource) => (dispatch) => {
   dispatch(clearErrors(errorKey))
-  return loadRDFResource(currentUser, uri)
-    .then((response) => {
-      const data = response.response.text
-      return dispatch(newResourceFromN3(data, uri, null, errorKey, asNewResource))
+  return fetchResource(uri)
+    .then(([dataset, response]) => {
+      if (!dataset) return false
+      const resourceTemplateId = resourceTemplateIdFromDataset(uri, dataset)
+      return dispatch(addResourceFromDataset(dataset, uri, resourceTemplateId, errorKey, asNewResource, response.group))
+        .then(([resource, usedDataset]) => {
+          const unusedDataset = dataset.difference(usedDataset)
+          dispatch(setUnusedRDF(resource.key, unusedDataset.size > 0 ? unusedDataset.toCanonical() : null))
+          dispatch(setCurrentResource(resource.key))
+          if (!asNewResource) dispatch(loadResourceFinished(resource.key))
+          return true
+        })
+        .catch((err) => {
+          // ResourceTemplateErrors have already been dispatched.
+          if (err.name !== 'ResourceTemplateError') {
+            console.error(err)
+            dispatch(addError(errorKey, `Error retrieving ${uri}: ${err.message}`))
+          }
+          return false
+        })
     })
     .catch((err) => {
-      dispatch(addError(errorKey, `Error retrieving resource: ${err.toString()}`))
+      console.error(err)
+      dispatch(addError(errorKey, `Error retrieving ${uri}: ${err.message}`))
       return false
     })
 }
@@ -55,7 +70,7 @@ export const newResource = (resourceTemplateId, errorKey) => (dispatch) => {
       // ResourceTemplateErrors have already been dispatched.
       if (err.name !== 'ResourceTemplateError') {
         console.error(err)
-        dispatch(addError(errorKey, `Error creating new resource: ${err.toString()}`))
+        dispatch(addError(errorKey, `Error creating new resource: ${err.message}`))
       }
       return false
     })
@@ -76,78 +91,65 @@ export const newResourceCopy = (resourceKey) => (dispatch) => dispatch(newSubjec
 
 /**
  * A thunk that loads a resource from N3 data and adds to state.
- * @param {string} data containing N3 for resource.
+ * @param {rdf.Dataset} dataset containing the resource.
  * @param {string} URI for the resource.
  * @param {string} resourceTemplateId if known.
  * @param {string} errorKey
  * @param {boolean} asNewResource if true, does not set URI for the resource.
  * @return {boolean} true if successful
  */
-export const newResourceFromN3 = (data, uri, resourceTemplateId, errorKey, asNewResource) => (dispatch) => rdfDatasetFromN3(data)
-  .then((dataset) => {
-    const newUri = chooseURI(dataset, uri)
-    return dispatch(addResourceFromDataset(dataset, newUri, resourceTemplateId || resourceTemplateIdFromDataset(newUri, dataset), errorKey, asNewResource))
-      .then(([resource, usedDataset]) => {
-        // If a legacy resource, uri will not be set, so setting here.
-        if (newUri !== uri) resource.uri = uri
-        const unusedDataset = dataset.difference(usedDataset)
-        dispatch(setUnusedRDF(resource.key, unusedDataset.size > 0 ? unusedDataset.toCanonical() : null))
-        dispatch(setCurrentResource(resource.key))
-        if (!asNewResource) dispatch(loadResourceFinished(resource.key))
-        return true
-      })
-      .catch((err) => {
-        // ResourceTemplateErrors have already been dispatched.
-        if (err.name !== 'ResourceTemplateError') {
-          console.error(err)
-          dispatch(addError(errorKey, `Error retrieving ${resourceTemplateId}: ${err.toString()}`))
-        }
-        return false
-      })
-  })
-  .catch((err) => {
-    console.error(err)
-    dispatch(addError(errorKey, `Error parsing: ${err.toString()}`))
-    return false
-  })
-
-// In the early days, resources were persisted to Trellis with a relative URI (<>) as N-Triples.
-// When these resources are retrieved, they retain a relative URI.
-// Now, resources are persisted to Trellis as Turtle. When these resources are retrieved,
-// they have the resource's URI.
-// This function guesses which.
-const chooseURI = (dataset, uri) => (dataset.match(rdf.namedNode(uri)).size > 0 ? uri : '')
-
+export const newResourceFromDataset = (dataset, uri, resourceTemplateId, errorKey, asNewResource) => (dispatch) => {
+  const newResourceTemplateId = resourceTemplateId || resourceTemplateIdFromDataset(chooseURI(dataset, uri), dataset)
+  return dispatch(addResourceFromDataset(dataset, uri, newResourceTemplateId, errorKey, asNewResource))
+    .then(([resource, usedDataset]) => {
+      const unusedDataset = dataset.difference(usedDataset)
+      dispatch(setUnusedRDF(resource.key, unusedDataset.size > 0 ? unusedDataset.toCanonical() : null))
+      dispatch(setCurrentResource(resource.key))
+      if (!asNewResource) dispatch(loadResourceFinished(resource.key))
+      return true
+    })
+    .catch((err) => {
+      // ResourceTemplateErrors have already been dispatched.
+      if (err.name !== 'ResourceTemplateError') {
+        console.error(err)
+        dispatch(addError(errorKey, `Error retrieving ${resourceTemplateId}: ${err.message}`))
+      }
+      return false
+    })
+}
 
 const resourceTemplateIdFromDataset = (uri, dataset) => {
   const resourceTemplateId = findRootResourceTemplateId(uri, dataset)
-  if (!resourceTemplateId) throw 'A single resource template must be included as a triple (http://sinopia.io/vocabulary/hasResourceTemplate)'
+  if (!resourceTemplateId) throw new Error('A single resource template must be included as a triple (http://sinopia.io/vocabulary/hasResourceTemplate)')
   return resourceTemplateId
 }
 
 // A thunk that publishes (saves) a new resource in Trellis
 export const saveNewResource = (resourceKey, currentUser, group, errorKey) => (dispatch, getState) => {
   const resource = selectFullSubject(getState(), resourceKey)
-  const rdf = new GraphBuilder(resource).graph.toCanonical()
 
-  return publishRDFResource(currentUser, rdf, group).then((result) => {
-    const resourceUrl = result.response.headers.location
-    dispatch(setBaseURL(resourceKey, resourceUrl))
-    dispatch(saveResourceFinished(resourceKey))
-  }).catch((err) => {
-    console.error(err)
-    dispatch(addError(errorKey, `Error saving: ${err.toString()}`))
-  })
+  postResource(resource, currentUser, group)
+    .then((resourceUrl) => {
+      dispatch(setBaseURL(resourceKey, resourceUrl))
+      dispatch(setResourceGroup(resourceKey, group))
+      dispatch(saveResourceFinished(resourceKey))
+    })
+    .catch((err) => {
+      console.error(err)
+      dispatch(addError(errorKey, `Error saving: ${err.message}`))
+    })
 }
 
 // A thunk that saves an existing resource in Trellis
 export const saveResource = (resourceKey, currentUser, errorKey) => (dispatch, getState) => {
   const resource = selectFullSubject(getState(), resourceKey)
 
-  const rdfBuilder = new GraphBuilder(resource)
-  return updateRDFResource(currentUser, resource.uri, rdfBuilder.toTurtle())
+  putResource(resource, currentUser)
     .then(() => dispatch(saveResourceFinished(resourceKey)))
-    .catch((err) => dispatch(addError(errorKey, `Error saving ${resource.uri}: ${err.toString()}`)))
+    .catch((err) => {
+      console.error(err)
+      dispatch(addError(errorKey, `Error saving: ${err.message}`))
+    })
 }
 
 /**
@@ -159,7 +161,7 @@ export const expandProperty = (propertyKey, errorKey) => (dispatch, getState) =>
   let promises
   if (property.propertyTemplate.type === 'resource') {
     promises = property.propertyTemplate.valueSubjectTemplateKeys.map((resourceTemplateId) => dispatch(newSubject(null,
-      resourceTemplateId, property.resourceKey, errorKey))
+      resourceTemplateId, property.resourceKey, {}, errorKey))
       .then((subject) => dispatch(newPropertiesFromTemplates(subject, false, errorKey))
         .then((properties) => {
           subject.properties = properties
@@ -189,7 +191,7 @@ export const contractProperty = (propertyKey) => (dispatch, getState) => {
  */
 export const addSiblingValueSubject = (valueKey, errorKey) => (dispatch, getState) => {
   const value = selectValue(getState(), valueKey)
-  return dispatch(newSubject(null, value.valueSubject.subjectTemplate.id, value.resourcKey, errorKey))
+  return dispatch(newSubject(null, value.valueSubject.subjectTemplate.id, value.resourcKey, {}, errorKey))
     .then((subject) => dispatch(newPropertiesFromTemplates(subject, false, errorKey))
       .then((properties) => {
         subject.properties = properties

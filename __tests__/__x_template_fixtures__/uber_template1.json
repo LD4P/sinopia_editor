@@ -1,0 +1,353 @@
+{
+  "id": "resourceTemplate:testing:uber1",
+  "resourceLabel": "Uber template1",
+  "resourceURI": "http://id.loc.gov/ontologies/bibframe/Uber1",
+  "remark": "Template for testing purposes.",
+  "author": "Justin Littman",
+  "date": "2020-07-27",
+  "propertyTemplates": [
+    {
+      "propertyLabel": "Uber template1, property1",
+      "propertyURI": "http://id.loc.gov/ontologies/bibframe/uber/template1/property1",
+      "resourceTemplates": [],
+      "valueConstraint": {
+        "valueTemplateRefs": [
+          "resourceTemplate:testing:uber2",
+          "resourceTemplate:testing:uber3"
+        ],
+        "useValuesFrom": [],
+        "valueDataType": {
+          "remark": ""
+        },
+        "defaults": []
+      },
+      "mandatory": "false",
+      "repeatable": "true",
+      "type": "resource",
+      "remark": "Multiple nested, repeatable resource templates."
+    },
+    {
+      "propertyLabel": "Uber template1, property2",
+      "propertyURI": "http://id.loc.gov/ontologies/bibframe/uber/template1/property2",
+      "resourceTemplates": [],
+      "mandatory": "false",
+      "repeatable": "true",
+      "type": "literal",
+      "remark": "A repeatable literal."
+    },
+    {
+      "propertyLabel": "Uber template1, property3",
+      "propertyURI": "http://id.loc.gov/ontologies/bibframe/uber/template1/property3",
+      "resourceTemplates": [],
+      "valueConstraint": {
+        "valueTemplateRefs": [
+          "resourceTemplate:testing:uber2",
+          "resourceTemplate:testing:uber3"
+        ],
+        "useValuesFrom": [],
+        "valueDataType": {
+          "remark": ""
+        },
+        "defaults": []
+      },
+      "mandatory": "false",
+      "repeatable": "false",
+      "type": "resource",
+      "remark": "Multiple nested, non-repeatable resource templates."
+    },
+    {
+      "propertyLabel": "Uber template1, property4",
+      "propertyURI": "http://id.loc.gov/ontologies/bibframe/uber/template1/property4",
+      "resourceTemplates": [],
+      "mandatory": "true",
+      "repeatable": "false",
+      "type": "literal",
+      "remark": "A non-repeatable literal."
+    },
+    {
+      "propertyLabel": "Uber template1, property5",
+      "propertyURI": "http://id.loc.gov/ontologies/bibframe/uber/template1/property5",
+      "resourceTemplates": [],
+      "mandatory": "true",
+      "repeatable": "false",
+      "type": "resource",
+      "remark": "A non-repeatable URI."
+    },
+    {
+      "propertyLabel": "Uber template1, property6",
+      "propertyURI": "http://id.loc.gov/ontologies/bibframe/uber/template1/property6",
+      "resourceTemplates": [],
+      "mandatory": "true",
+      "repeatable": "true",
+      "type": "resource",
+      "remark": "A repeatable URI."
+    },
+    {
+      "propertyLabel": "Uber template1, property7",
+      "propertyURI": "http://id.loc.gov/ontologies/bibframe/uber/template1/property7",
+      "resourceTemplates": [],
+      "mandatory": "false",
+      "repeatable": "true",
+      "type": "literal",
+      "remark": "A repeatable literal with defaults.",
+      "valueConstraint": {
+        "defaults": [
+          {
+            "defaultLiteral": "Default literal1"
+          },
+          {
+            "defaultLiteral": "Default literal2"
+          }
+        ]
+      }
+    },
+    {
+      "propertyLabel": "Uber template1, property8",
+      "propertyURI": "http://id.loc.gov/ontologies/bibframe/uber/template1/property8",
+      "resourceTemplates": [],
+      "mandatory": "false",
+      "repeatable": "true",
+      "type": "resource",
+      "remark": "A repeatable URI with defaults.",
+      "valueConstraint": {
+        "defaults": [
+          {
+            "defaultLiteral": "Default URI1",
+            "defaultURI": "http://sinopia.io/defaultURI1"
+
+          },
+          {
+            "defaultURI": "http://sinopia.io/defaultURI2"
+          }
+        ]
+      }
+    },
+    {
+      "propertyLabel": "Uber template1, property9",
+      "propertyURI": "http://id.loc.gov/ontologies/bibframe/uber/template1/property9",
+      "resourceTemplates": [],
+      "mandatory": "true",
+      "repeatable": "false",
+      "type": "literal",
+      "remark": "http://access.rdatoolkit.org/2.13.html"
+    },
+    {
+      "propertyLabel": "Uber template1, property10",
+      "propertyURI": "http://id.loc.gov/ontologies/bibframe/uber/template1/property10",
+      "resourceTemplates": [],
+      "valueConstraint": {
+        "useValuesFrom": [
+          "https://id.loc.gov/vocabulary/mrectype"
+        ]
+      },
+      "mandatory": "true",
+      "repeatable": "false",
+      "type": "resource",
+      "remark": "A non-repeatable LOC lookup."
+    },
+    {
+      "propertyLabel": "Uber template1, property11",
+      "propertyURI": "http://id.loc.gov/ontologies/bibframe/uber/template1/property11",
+      "resourceTemplates": [],
+      "valueConstraint": {
+        "useValuesFrom": [
+          "https://id.loc.gov/vocabulary/mrectype"
+        ]
+      },
+      "mandatory": "true",
+      "repeatable": "true",
+      "type": "resource",
+      "remark": "A repeatable LOC lookup."
+    },
+    {
+      "propertyLabel": "Uber template1, property12",
+      "propertyURI": "http://id.loc.gov/ontologies/bibframe/uber/template1/property12",
+      "resourceTemplates": [],
+      "valueConstraint": {
+        "useValuesFrom": [
+          "https://id.loc.gov/vocabulary/mrectype",
+          "https://id.loc.gov/vocabulary/mrecmedium"
+        ]
+      },
+      "mandatory": "true",
+      "repeatable": "false",
+      "type": "resource",
+      "remark": "A LOC lookup with multiple authorities."
+    },
+    {
+      "propertyLabel": "Uber template1, property13",
+      "propertyURI": "http://id.loc.gov/ontologies/bibframe/uber/template1/property13",
+      "resourceTemplates": [],
+      "valueConstraint": {
+        "useValuesFrom": [
+          "urn:ld4p:qa:agrovoc"
+        ]
+      },
+      "mandatory": "true",
+      "repeatable": "false",
+      "type": "resource",
+      "remark": "A non-repeatable QA lookup."
+    },
+    {
+      "propertyLabel": "Uber template1, property14",
+      "propertyURI": "http://id.loc.gov/ontologies/bibframe/uber/template1/property14",
+      "resourceTemplates": [],
+      "valueConstraint": {
+        "useValuesFrom": [
+          "urn:ld4p:qa:agrovoc"
+        ]
+      },
+      "mandatory": "true",
+      "repeatable": "true",
+      "type": "resource",
+      "remark": "A repeatable QA lookup."
+    },
+    {
+      "propertyLabel": "Uber template1, property15",
+      "propertyURI": "http://id.loc.gov/ontologies/bibframe/uber/template1/property15",
+      "resourceTemplates": [],
+      "valueConstraint": {
+        "useValuesFrom": [
+          "urn:ld4p:qa:agrovoc",
+          "urn:ld4p:qa:geonames:spot"
+        ]
+      },
+      "mandatory": "true",
+      "repeatable": "false",
+      "type": "resource",
+      "remark": "A QA lookup with multiple authorities."
+    },
+    {
+      "propertyLabel": "Uber template1, property16",
+      "propertyURI": "http://id.loc.gov/ontologies/bibframe/uber/template1/property16",
+      "resourceTemplates": [],
+      "valueConstraint": {
+        "useValuesFrom": [
+          "urn:ld4p:sinopia:bibframe:instance"
+        ]
+      },
+      "mandatory": "true",
+      "repeatable": "false",
+      "type": "resource",
+      "remark": "A non-repeatable Sinopia lookup."
+    },
+    {
+      "propertyLabel": "Uber template1, property17",
+      "propertyURI": "http://id.loc.gov/ontologies/bibframe/uber/template1/property17",
+      "resourceTemplates": [],
+      "valueConstraint": {
+        "useValuesFrom": [
+          "urn:ld4p:sinopia:bibframe:instance"
+        ]
+      },
+      "mandatory": "true",
+      "repeatable": "true",
+      "type": "resource",
+      "remark": "A repeatable Sinopia lookup."
+    },
+    {
+      "propertyLabel": "Uber template1, property18",
+      "propertyURI": "http://id.loc.gov/ontologies/bibframe/uber/template1/property18",
+      "resourceTemplates": [],
+      "valueConstraint": {
+        "valueTemplateRefs": [
+          "resourceTemplate:testing:uber4"
+        ],
+        "useValuesFrom": [],
+        "valueDataType": {
+          "remark": ""
+        },
+        "defaults": []
+      },
+      "mandatory": "true",
+      "repeatable": "true",
+      "type": "resource",
+      "remark": "Mandatory nested resource templates."
+    },
+    {
+      "propertyLabel": "Uber template1, property19",
+      "propertyURI": "http://id.loc.gov/ontologies/bibframe/uber/template1/property19",
+      "resourceTemplates": [],
+      "valueConstraint": {
+        "valueTemplateRefs": [
+          "resourceTemplate:testing:uber4"
+        ],
+        "useValuesFrom": [],
+        "valueDataType": {
+          "remark": ""
+        },
+        "defaults": []
+      },
+      "mandatory": "false",
+      "repeatable": "true",
+      "ordered": "true",
+      "type": "resource",
+      "remark": "Ordered nested resource templates."
+    },
+    {
+      "propertyLabel": "Admin metadata",
+      "propertyURI": "http://id.loc.gov/ontologies/bibframe/adminMetadata",
+      "resourceTemplates": [],
+      "valueConstraint": {
+        "useValuesFrom": [
+          "urn:ld4p:sinopia:bibframe:adminMetadata"
+        ]
+      },
+      "mandatory": "false",
+      "repeatable": "false",
+      "type": "resource"
+    },
+    {
+      "propertyLabel": "Has instance",
+      "propertyURI": "http://id.loc.gov/ontologies/bibframe/hasInstance",
+      "resourceTemplates": [],
+      "valueConstraint": {
+        "useValuesFrom": [
+          "urn:ld4p:sinopia:bibframe:instance"
+        ]
+      },
+      "mandatory": "false",
+      "repeatable": "true",
+      "type": "resource"
+    },
+    {
+      "propertyLabel": "Instance of",
+      "propertyURI": "http://id.loc.gov/ontologies/bibframe/instanceOf",
+      "resourceTemplates": [],
+      "valueConstraint": {
+        "useValuesFrom": [
+          "urn:ld4p:sinopia:bibframe:work"
+        ]
+      },
+      "mandatory": "false",
+      "repeatable": "true",
+      "type": "resource"
+    },
+    {
+      "propertyLabel": "Has item",
+      "propertyURI": "http://id.loc.gov/ontologies/bibframe/hasItem",
+      "resourceTemplates": [],
+      "valueConstraint": {
+        "useValuesFrom": [
+          "urn:ld4p:sinopia:bibframe:item"
+        ]
+      },
+      "mandatory": "false",
+      "repeatable": "true",
+      "type": "resource"
+    },
+    {
+      "propertyLabel": "Item of",
+      "propertyURI": "http://id.loc.gov/ontologies/bibframe/itemOf",
+      "resourceTemplates": [],
+      "valueConstraint": {
+        "useValuesFrom": [
+          "urn:ld4p:sinopia:bibframe:instance"
+        ]
+      },
+      "mandatory": "false",
+      "repeatable": "true",
+      "type": "resource"
+    }
+  ]
+}

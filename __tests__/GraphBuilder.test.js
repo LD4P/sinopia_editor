@@ -150,6 +150,101 @@ _:c14n0 <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://id.loc.gov/ont
       expect(new GraphBuilder(resource).graph.toCanonical()).toMatch(rdf)
     })
 
+    it('builds a graph for ordered resources', () => {
+      const resource = {
+        subjectTemplate: {
+          id: 'resourceTemplate:testing:uber1',
+          class: 'http://id.loc.gov/ontologies/bibframe/Uber1',
+        },
+        properties: [
+          {
+            propertyTemplate: {
+              uri: 'http://id.loc.gov/ontologies/bibframe/uber/template1/property19',
+              ordered: true,
+            },
+            values: [
+              {
+                uri: null,
+                property: {
+                  propertyTemplate: {
+                    type: 'resource',
+                  },
+                },
+                valueSubject: {
+                  subjectTemplate: {
+                    class: 'http://id.loc.gov/ontologies/bibframe/Uber4',
+                  },
+                  properties: [
+                    {
+                      propertyTemplate: {
+                        uri: 'http://id.loc.gov/ontologies/bibframe/uber/template4/property1',
+                      },
+                      values: [
+                        {
+                          literal: 'literal1',
+                          lang: 'eng',
+                          uri: null,
+                          property: {
+                            propertyTemplate: {
+                              type: 'literal',
+                            },
+                          },
+                        },
+                      ],
+                    },
+                  ],
+                },
+              },
+              {
+                uri: null,
+                property: {
+                  propertyTemplate: {
+                    type: 'resource',
+                  },
+                },
+                valueSubject: {
+                  subjectTemplate: {
+                    class: 'http://id.loc.gov/ontologies/bibframe/Uber4',
+                  },
+                  properties: [
+                    {
+                      propertyTemplate: {
+                        uri: 'http://id.loc.gov/ontologies/bibframe/uber/template4/property1',
+                      },
+                      values: [
+                        {
+                          literal: 'literal2',
+                          lang: 'eng',
+                          uri: null,
+                          property: {
+                            propertyTemplate: {
+                              type: 'literal',
+                            },
+                          },
+                        },
+                      ],
+                    },
+                  ],
+                },
+              },
+            ],
+          },
+        ],
+      }
+      const rdf = `<> <http://id.loc.gov/ontologies/bibframe/uber/template1/property19> _:c14n0 .
+<> <http://sinopia.io/vocabulary/hasResourceTemplate> "resourceTemplate:testing:uber1" .
+<> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://id.loc.gov/ontologies/bibframe/Uber1> .
+_:c14n0 <http://www.w3.org/1999/02/22-rdf-syntax-ns#first> _:c14n2 .
+_:c14n0 <http://www.w3.org/1999/02/22-rdf-syntax-ns#rest> _:c14n1 .
+_:c14n1 <http://www.w3.org/1999/02/22-rdf-syntax-ns#first> _:c14n3 .
+_:c14n1 <http://www.w3.org/1999/02/22-rdf-syntax-ns#rest> <http://www.w3.org/1999/02/22-rdf-syntax-ns#nil> .
+_:c14n2 <http://id.loc.gov/ontologies/bibframe/uber/template4/property1> "literal1"@eng .
+_:c14n2 <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://id.loc.gov/ontologies/bibframe/Uber4> .
+_:c14n3 <http://id.loc.gov/ontologies/bibframe/uber/template4/property1> "literal2"@eng .
+_:c14n3 <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://id.loc.gov/ontologies/bibframe/Uber4> .`
+      expect(new GraphBuilder(resource).graph.toCanonical()).toMatch(rdf)
+    })
+
     it('builds a graph ignoring null values', () => {
       const resource = {
         subjectTemplate: {

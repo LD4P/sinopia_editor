@@ -1,0 +1,25 @@
+{
+  "id": "test:resource:WikidataLookup",
+  "resourceLabel": "Testing wikidata lookup",
+  "remark": "This hits wikidata",
+  "resourceURI": "http://id.loc.gov/ontologies/bibframe/Instance",
+  "propertyTemplates": [
+    {
+      "propertyURI": "http://id.loc.gov/ontologies/bibframe/instanceOf",
+      "propertyLabel": "Instance of (lookup)",
+      "remark": "lookup",
+      "mandatory": "true",
+      "repeatable": "false",
+      "type": "lookup",
+      "resourceTemplates": [],
+      "valueConstraint": {
+        "valueTemplateRefs": [],
+        "useValuesFrom": [
+          "urn:wikidata"
+        ],
+        "valueDataType": {},
+        "defaults": []
+      }
+    }
+  ]
+}
