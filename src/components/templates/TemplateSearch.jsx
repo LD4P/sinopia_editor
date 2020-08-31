@@ -9,6 +9,7 @@ import { clearTemplateSearchResults, setTemplateSearchResults } from 'actions/se
 import Alert from '../Alert'
 import SinopiaResourceTemplates from './SinopiaResourceTemplates'
 import SearchResultsPaging from 'components/search/SearchResultsPaging'
+import NewResourceTemplateButton from './NewResourceTemplateButton'
 import PropTypes from 'prop-types'
 
 
@@ -67,6 +68,9 @@ const TemplateSearch = (props) => {
                 </div>
               </div>
             </form>
+          </div>
+          <div className="col-sm-2">
+            <NewResourceTemplateButton history={props.history} />
           </div>
         </div>
       </div>

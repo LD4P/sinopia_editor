@@ -26,6 +26,7 @@ const templateFilenames = {
   'resourceTemplate:testing:uber2': 'uber_template2.json',
   'resourceTemplate:testing:uber3': 'uber_template3.json',
   'resourceTemplate:testing:uber4': 'uber_template4.json',
+  'sinopia:template:resource': 'ResourceTemplate.json',
 }
 
 export const hasFixtureResource = (uri) => !!resourceFilenames[normUri(uri)] || !!templateFilenames[normUri(uri)] || ['http://error', 'http://localhost:3000/repository/ld4p:RT:bf2:xxx'].includes(uri)
