@@ -29,9 +29,6 @@ const Header = (props) => (
             </li>
           </React.Fragment>
       }
-      <li className="nav-item">
-        <a className="header-text nav-link" href={`https://profile-editor.${Config.sinopiaDomainName}/`}>Profile Editor</a>
-      </li>
       <li className="menu nav-item">
         <a href="#" className="help-resources nav-link" onClick={props.triggerHomePageMenu}>Help and Resources</a>
       </li>
