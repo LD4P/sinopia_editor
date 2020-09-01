@@ -35,9 +35,6 @@ const Header = (props) => {
               </li>
             }
             <li className="nav-item">
-              <a className="nav-link editor-header-text" href={`https://profile-editor.${Config.sinopiaDomainName}/`}>Profile Editor</a>
-            </li>
-            <li className="nav-item">
               <a href="#" className="nav-link editor-help-resources" onClick={props.triggerEditorMenu}>Help and Resources</a>
             </li>
             {props.currentUser
