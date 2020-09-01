@@ -5,7 +5,7 @@ import PropTypes from 'prop-types'
 
 const LongDate = (props) => {
   const date = new Date(props.datetime)
-  if (!date || !date.getTime || Number.isNaN(date.getTime())) return null
+  if (!props.datetime || !date || !date.getTime || Number.isNaN(date.getTime())) return null
   const options = {
     month: 'short', day: 'numeric', year: 'numeric', timeZone: props.timeZone,
   }
