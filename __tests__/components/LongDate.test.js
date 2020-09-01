@@ -12,4 +12,9 @@ describe('<LongDate />', () => {
     const { container } = render(<LongDate datetime="foo"/>)
     expect(container).toBeEmpty()
   })
+
+  it('does not render if null', async () => {
+    const { container } = render(<LongDate datetime={null} />)
+    expect(container).toBeEmpty()
+  })
 })
