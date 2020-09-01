@@ -12,7 +12,7 @@ services:
     depends_on:
       - api
   pipeline:
-    image: ld4p/sinopia_indexing_pipeline:mongo
+    image: ld4p/sinopia_indexing_pipeline:latest
     # build:
     #   context: ../sinopia_indexing_pipeline
     environment:
