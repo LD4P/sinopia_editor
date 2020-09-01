@@ -6,6 +6,10 @@ jest.spyOn(Config, 'useResourceTemplateFixtures', 'get').mockReturnValue(true)
 
 // Mock jquery
 global.$ = jest.fn().mockReturnValue({ popover: jest.fn() })
+// Mock out document.elementFromPoint used by useNavigableComponent.
+global.document.elementFromPoint = jest.fn()
+// Mock out scrollIntoView used by useNavigableComponent. See https://github.com/jsdom/jsdom/issues/1695
+Element.prototype.scrollIntoView = jest.fn()
 
 describe('editing a literal property', () => {
   const history = createHistory(['/editor/resourceTemplate:testing:uber1'])
