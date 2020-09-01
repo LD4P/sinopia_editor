@@ -56,7 +56,7 @@ describe('saving a resource', () => {
       // The copy resource button is active
       expect(copyBtn).not.toBeDisabled()
       fireEvent.click(copyBtn)
-      await screen.findByText(/Copied http:\/\/localhost\/something\/or\/other to new resource./)
+      screen.findByText(/Copied http:\/\/localhost\/something\/or\/other to new resource./)
 
       // There are nav tabs and a duplicate resource with the same content
       const tabBtns = await screen.findAllByRole('button', { name: 'Title note' })
