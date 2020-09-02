@@ -1,6 +1,10 @@
 describe('End-to-end test', () => {
   const title = `title-${new Date().toISOString()}`
 
+  // Cypress clears localstorage between tests, which includes Cognito auth.
+  beforeEach(() => cy.restoreLocalStorage())
+  afterEach(() => cy.saveLocalStorage())
+
   it('Opens the app', () => {
     cy.visit(Cypress.env('EDITOR_URL') || 'http://localhost:8000/')
     cy.contains('The underdrawing for the new world of linked data in libraries')
@@ -131,6 +135,5 @@ describe('End-to-end test', () => {
 
   it('Logs out', () => {
     cy.contains('a', 'Logout').click()
-    // Well, sign out doesn't actually work ...
   })
 })

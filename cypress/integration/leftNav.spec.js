@@ -1,4 +1,8 @@
 describe('Left-nav test', () => {
+  // Cypress clears localstorage between tests, which includes Cognito auth.
+  beforeEach(() => cy.restoreLocalStorage())
+  afterEach(() => cy.saveLocalStorage())
+
   it('Opens the app', () => {
     cy.visit(Cypress.env('EDITOR_URL') || 'http://localhost:8000/')
     cy.contains('The underdrawing for the new world of linked data in libraries')
@@ -89,6 +93,10 @@ describe('Left-nav test', () => {
     cy.wait(1000)
     cy.isInViewport('div[data-label="Item of"]')
     cy.get('button.active > h5').should('contain', 'Item of')
+  })
+
+  it('Logs out', () => {
+    cy.contains('a', 'Logout').click()
   })
 })
 

@@ -6,7 +6,6 @@ import { connect } from 'react-redux'
 import PropTypes from 'prop-types'
 import Config from 'Config'
 import { hideModal } from 'actions/modals'
-import { selectCurrentUser } from 'selectors/authenticate'
 import { resourceEditErrorKey } from './Editor'
 import { selectModalType } from 'selectors/modals'
 import { saveNewResource } from 'actionCreators/resources'
@@ -25,7 +24,7 @@ const GroupChoiceModal = (props) => {
   }
 
   const saveAndClose = (event) => {
-    props.saveNewResource(props.resourceKey, props.currentUser, selectedValue, resourceEditErrorKey(props.resourceKey))
+    props.saveNewResource(props.resourceKey, selectedValue, resourceEditErrorKey(props.resourceKey))
     props.hideModal()
     event.preventDefault()
   }
@@ -89,7 +88,6 @@ GroupChoiceModal.propTypes = {
   closeGroupChooser: PropTypes.func,
   choose: PropTypes.func,
   show: PropTypes.bool,
-  currentUser: PropTypes.object,
   saveNewResource: PropTypes.func,
   hideModal: PropTypes.func,
   resourceKey: PropTypes.string,
@@ -97,7 +95,6 @@ GroupChoiceModal.propTypes = {
 
 const mapStateToProps = (state) => ({
   show: selectModalType(state) === 'GroupChoiceModal',
-  currentUser: selectCurrentUser(state),
   resourceKey: state.selectorReducer.editor.currentResource,
 })
 

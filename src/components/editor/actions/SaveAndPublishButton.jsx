@@ -10,7 +10,6 @@ import {
 import {
   displayResourceValidations, selectCurrentResourceValidationErrors,
 } from 'selectors/errors'
-import { selectCurrentUser } from 'selectors/authenticate'
 import {
   showGroupChooser as showGroupChooserAction,
 } from 'actions/modals'
@@ -23,10 +22,9 @@ import { resourceEditErrorKey } from '../Editor'
 const SaveAndPublishButton = (props) => {
   const dispatch = useDispatch()
 
-  const currentUser = useSelector((state) => selectCurrentUser(state))
   const resource = useSelector((state) => selectCurrentResource(state))
   const isSaved = !!resource.uri
-  const saveResource = () => dispatch(saveResourceAction(resource.key, currentUser, resourceEditErrorKey(resource.key)))
+  const saveResource = () => dispatch(saveResourceAction(resource.key, resourceEditErrorKey(resource.key)))
 
   const showGroupChooser = () => dispatch(showGroupChooserAction(resource.key))
   const showValidationErrors = () => dispatch(showValidationErrorsAction(resource.key))

@@ -1,8 +1,3 @@
+export const hasUser = (state) => !!state.authenticate.user
 
-export const selectCurrentUser = (state) => getAuthenticationState(state)?.currentUser
-
-export const selectCurrentSession = (state) => getAuthenticationState(state)?.currentSession
-
-export const selectAuthenticationError = (state) => getAuthenticationState(state)?.authenticationError
-
-const getAuthenticationState = (state) => ({ ...state.authenticate.authenticationState })
+export const selectUser = (state) => state.authenticate.user

@@ -1,34 +1,19 @@
 // Copyright 2018 Stanford University see LICENSE for license
 
-import * as awsCognito from 'amazon-cognito-identity-js'
 import {
   fireEvent, screen, waitForElementToBeRemoved,
 } from '@testing-library/react'
-
 import { createState } from 'stateUtils'
 import { createStore, renderApp } from 'testUtils'
+import Auth from '@aws-amplify/auth'
 
-jest.mock('amazon-cognito-identity-js')
-
-function MockCognitoUserAuthenticationSuccess(_userData) {
-  this.username = 'Baz Le Quux'
-  this.authenticateUser = (_authnDetails, callbacks) => {
-    callbacks.onSuccess({ currentSession: { idToken: {} } })
-  }
-}
-
-function MockCognitoUserAuthenticationFailure(_userData) {
-  this.username = 'Baz Le Quux'
-  this.authenticateUser = (_authnDetails, callbacks) => {
-    callbacks.onFailure({
-      code: 'NotAuthorizedException', name: 'NotAuthorizedException', message: 'Incorrect username or password.',
-    })
-  }
-}
-
+jest.mock('@aws-amplify/auth')
 
 describe('user authentication', () => {
+  Auth.signOut.mockResolvedValue()
+  Auth.currentAuthenticatedUser.mockRejectedValue()
   it('allows a logged in user to log out and allows a new one to login', async () => {
+    Auth.signIn.mockResolvedValue({ username: 'Baz Le Quux' })
     renderApp()
     screen.getByText(/Foo McBar/) // user Foo McBar should be logged in already when using default test redux store
 
@@ -46,8 +31,6 @@ describe('user authentication', () => {
     screen.getByText(/Sinopia Version \d+.\d+.\d+ highlights/)
     screen.getByRole('link', { name: 'Sinopia help site' })
 
-    awsCognito.CognitoUser.mockImplementation(MockCognitoUserAuthenticationSuccess)
-
     // login as a different user
     fireEvent.change(screen.getByLabelText('User name'), { target: { value: 'baz.le.quux@example.edu' } })
     fireEvent.change(screen.getByLabelText('Password'), { target: { value: 'Password2' } })
@@ -59,6 +42,7 @@ describe('user authentication', () => {
   })
 
   it('presents a helpful error when the user enters the wrong password', async () => {
+    Auth.signIn.mockRejectedValue(new Error('Incorrect username or password.'))
     const state = createState({ notAuthenticated: true })
     const store = createStore(state)
     renderApp(store)
@@ -68,8 +52,6 @@ describe('user authentication', () => {
     screen.getByText(/Latest news/)
     screen.getByText(/Sinopia Version \d+.\d+.\d+ highlights/)
     screen.getByRole('link', { name: 'Sinopia help site' })
-
-    awsCognito.CognitoUser.mockImplementation(MockCognitoUserAuthenticationFailure)
 
     // try to login
     fireEvent.change(screen.getByLabelText('User name'), { target: { value: 'baz.le.quux@example.edu' } })

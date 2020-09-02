@@ -200,7 +200,7 @@ describe('loadResource', () => {
 
     it('dispatches actions', async () => {
       const uri = 'http://localhost:3000/repository/c7db5404-7d7d-40ac-b38e-c821d2c3ae3f'
-      const result = await store.dispatch(loadResource('jlit', uri, 'testerrorkey'))
+      const result = await store.dispatch(loadResource(uri, 'testerrorkey'))
       expect(result).toBe(true)
 
       const actions = store.getActions()
@@ -223,7 +223,7 @@ describe('loadResource', () => {
 
     it('dispatches actions', async () => {
       const uri = 'http://localhost:3000/repository/c7db5404-7d7d-40ac-b38e-c821d2c3ae3f'
-      const result = await store.dispatch(loadResource('jlit', uri, 'testerrorkey', true))
+      const result = await store.dispatch(loadResource(uri, 'testerrorkey', true))
       expect(result).toBe(true)
 
       const actions = store.getActions()
@@ -241,7 +241,7 @@ describe('loadResource', () => {
 
     it('dispatches actions', async () => {
       const uri = 'http://localhost:3000/repository/c7db5404-7d7d-40ac-b38e-c821d2c3ae3f-invalid'
-      const result = await store.dispatch(loadResource('jlit', uri, 'testerrorkey'))
+      const result = await store.dispatch(loadResource(uri, 'testerrorkey'))
       expect(result).toBe(false)
 
       const actions = store.getActions()
@@ -258,7 +258,7 @@ describe('loadResource', () => {
 
     it('dispatches actions', async () => {
       // http://error is a special URI that will cause an error to be thrown.
-      const result = await store.dispatch(loadResource('jlit', 'http://error', 'testerrorkey'))
+      const result = await store.dispatch(loadResource('http://error', 'testerrorkey'))
       expect(result).toBe(false)
 
       const actions = store.getActions()
@@ -392,7 +392,7 @@ describe('saveNewResource', () => {
     const store = mockStore(createState({ hasResourceWithLiteral: true }))
     sinopiaApi.postResource = jest.fn().mockResolvedValue(uri)
 
-    await store.dispatch(saveNewResource('t9zVwg2zO', 'jpn', 'stanford', 'testerror'))
+    await store.dispatch(saveNewResource('t9zVwg2zO', 'stanford', 'testerror'))
 
     const actions = store.getActions()
 
@@ -410,7 +410,7 @@ describe('saveNewResource', () => {
     const store = mockStore(createState({ hasResourceWithLiteral: true }))
     sinopiaApi.postResource.mockRejectedValue(new Error('Messed-up'))
 
-    await store.dispatch(saveNewResource('t9zVwg2zO', 'jpn', 'stanford', 'testerror'))
+    await store.dispatch(saveNewResource('t9zVwg2zO', 'stanford', 'testerror'))
 
     const actions = store.getActions()
 
@@ -427,7 +427,7 @@ describe('saveResource', () => {
     sinopiaApi.putResource = jest.fn().mockResolvedValue('t9zVwg2zO')
     const store = mockStore(createState({ hasResourceWithLiteral: true }))
 
-    await store.dispatch(saveResource('t9zVwg2zO', 'jpn', 'testerror'))
+    await store.dispatch(saveResource('t9zVwg2zO', 'testerror'))
     const actions = store.getActions()
     expect(actions).toHaveAction('SAVE_RESOURCE_FINISHED')
   })
@@ -435,7 +435,7 @@ describe('saveResource', () => {
   it('error when trying to save existing resource', async () => {
     sinopiaApi.putResource = jest.fn().mockRejectedValue(new Error('Messed-up'))
     const store = mockStore(createState({ hasResourceWithLiteral: true }))
-    await store.dispatch(saveResource('t9zVwg2zO', 'jpn', 'testerror'))
+    await store.dispatch(saveResource('t9zVwg2zO', 'testerror'))
     const actions = store.getActions()
     expect(actions).toHaveAction('ADD_ERROR', {
       errorKey: 'testerror',

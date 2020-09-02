@@ -5,10 +5,9 @@ import PropTypes from 'prop-types'
 import { Link } from 'react-router-dom'
 import SinopiaLogo from 'styles/sinopia-logo.png'
 import Config from 'Config'
-import CognitoUtils from 'utilities/CognitoUtils'
 import { connect } from 'react-redux'
-import { selectCurrentUser, selectCurrentSession } from 'selectors/authenticate'
-import { signedOut } from 'actionCreators/authenticate'
+import { selectUser } from 'selectors/authenticate'
+import { signOut } from 'actionCreators/authenticate'
 import { bindActionCreators } from 'redux'
 
 const Header = (props) => (
@@ -19,7 +18,7 @@ const Header = (props) => (
       </a>
     </div>
     <ul className= "nav">
-      {props.currentUser && props.currentSession
+      {props.currentUser
           && <React.Fragment>
             <li className="nav-item">
               <span className="nav-link editor-header-user">{props.currentUser.username}</span>
@@ -32,10 +31,10 @@ const Header = (props) => (
       <li className="menu nav-item">
         <a href="#" className="help-resources nav-link" onClick={props.triggerHomePageMenu}>Help and Resources</a>
       </li>
-      {props.currentUser && props.currentSession
+      {props.currentUser
           && <li className="nav-item">
             <a href="#" className="nav-link editor-header-logout"
-               onClick={() => CognitoUtils.handleSignout(props.currentUser, props.signedOut)}>Logout</a>
+               onClick={() => props.signOut()}>Logout</a>
           </li>
       }
     </ul>
@@ -45,15 +44,13 @@ const Header = (props) => (
 Header.propTypes = {
   triggerHomePageMenu: PropTypes.func,
   currentUser: PropTypes.object,
-  currentSession: PropTypes.object,
-  signedOut: PropTypes.func,
+  signOut: PropTypes.func,
 }
 
 const mapStateToProps = (state) => ({
-  currentUser: selectCurrentUser(state),
-  currentSession: selectCurrentSession(state),
+  currentUser: selectUser(state),
 })
 
-const mapDispatchToProps = (dispatch) => bindActionCreators({ signedOut }, dispatch)
+const mapDispatchToProps = (dispatch) => bindActionCreators({ signOut }, dispatch)
 
 export default connect(mapStateToProps, mapDispatchToProps)(Header)

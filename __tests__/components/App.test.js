@@ -3,10 +3,16 @@ import { fireEvent, wait, screen } from '@testing-library/react'
 import { createStore, renderApp, createHistory } from 'testUtils'
 import { createState } from 'stateUtils'
 import Config from 'Config'
+import Auth from '@aws-amplify/auth'
+
+jest.mock('@aws-amplify/auth')
 
 jest.spyOn(Config, 'useResourceTemplateFixtures', 'get').mockReturnValue(true)
 
 describe('<App />', () => {
+  beforeEach(() => {
+    Auth.currentAuthenticatedUser.mockResolvedValue({ username: 'Foo McBar' })
+  })
   it('loads languages', async () => {
     const store = createStore()
     renderApp(store)
@@ -31,7 +37,19 @@ describe('<App />', () => {
     await screen.findByText(/sinopia_export_all/)
   })
 
+  it('authenticates', () => {
+    const state = createState({ notAuthenticated: true })
+    const store = createStore(state)
+    renderApp(store)
+
+    expect(Auth.currentAuthenticatedUser).toHaveBeenCalled()
+  })
+
   describe('when user is not authenticated', () => {
+    beforeEach(() => {
+      Auth.currentAuthenticatedUser.mockRejectedValue(new Error('Not authenticated'))
+    })
+
     const state = createState({ notAuthenticated: true })
     const store = createStore(state)
 

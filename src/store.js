@@ -6,6 +6,9 @@ import reducer from './reducers/index'
 import Config from 'Config'
 
 export const initialState = {
+  authenticate: {
+    user: undefined,
+  },
   selectorReducer: {
     appVersion: {
       version: undefined,

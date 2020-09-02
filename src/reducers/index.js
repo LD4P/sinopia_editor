@@ -1,7 +1,9 @@
 // Copyright 2018, 2019 Stanford University see LICENSE for license
 
 import { combineReducers } from 'redux'
-import authenticate from './authenticate'
+import {
+  setUser, removeUser,
+} from './authenticate'
 import {
   setLiteralInputContent, hideDiacriticsSelection, showDiacriticsSelection,
 } from './inputs'
@@ -101,13 +103,18 @@ const handlers = {
   REMOVE_PROPERTY: removeProperty,
 }
 
+const authHandlers = {
+  SET_USER: setUser,
+  REMOVE_USER: removeUser,
+}
+
 export const createReducer = (handlers) => (state = {}, action) => {
   const fn = handlers[action.type]
   return fn ? fn(state, action) : state
 }
 
 const appReducer = combineReducers({
-  authenticate,
+  authenticate: createReducer(authHandlers),
   selectorReducer: createReducer(handlers),
 })
 

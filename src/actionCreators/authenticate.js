@@ -1,12 +1,37 @@
 // Copyright 2019 Stanford University see LICENSE for license
-/* eslint max-params: ["warn", 6] */
+import Auth from '@aws-amplify/auth'
 
-import {
-  authenticationFailure, authenticationSuccess, signOutSuccess,
-} from 'actions/authenticate'
+import { setUser, removeUser } from 'actions/authenticate'
+import { addError, clearErrors } from 'actions/errors'
+import { hasUser } from 'selectors/authenticate'
 
-export const authenticationFailed = (authenticationResult) => authenticationFailure(authenticationResult)
+export const authenticate = () => (dispatch, getState) => {
+  if (hasUser(getState())) return Promise.resolve()
+  return Auth.currentAuthenticatedUser()
+    .then((cognitoUser) => dispatch(setUser(toUser(cognitoUser))))
+    .catch(() => dispatch(removeUser()))
+}
 
-export const authenticationSucceeded = (authenticationResult) => authenticationSuccess(authenticationResult)
+export const signIn = (username, password, errorKey) => (dispatch) => {
+  dispatch(clearErrors(errorKey))
+  return Auth.signIn(username, password)
+    .then((cognitoUser) => {
+      dispatch(setUser(toUser(cognitoUser)))
+    })
+    .catch((err) => {
+      dispatch(addError(errorKey, `Login failed: ${err.message}`))
+      dispatch(removeUser())
+    })
+}
 
-export const signedOut = () => signOutSuccess()
+export const signOut = () => (dispatch) => Auth.signOut()
+  .then(() => {
+    dispatch(removeUser())
+  })
+  .catch((err) => {
+    // Not displaying to user as no action user could take.
+    console.error(err)
+  })
+
+// Note: User model can be extended as we add additional attributes to Cognito.
+const toUser = (cognitoUser) => ({ username: cognitoUser.username })
