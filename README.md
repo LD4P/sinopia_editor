@@ -193,6 +193,7 @@ The following are only in the resource subject (that is, the base subject).
 {
   key: <resource template id, e.g., resourceTemplate:bf2:Monograph:Instance>,
   id: <resource template id, e.g., resourceTemplate:bf2:Monograph:Instance>,
+  uri: <resource template uri, e.g. http://datastore/repository/resourceTemplate:bf2:Monograph:Instance>,
   class: <resource URI, e.g., http://id.loc.gov/ontologies/bibframe/Instance>,
   label: <resource label, e.g., "BIBFRAME Instance">,
   author: <author>,

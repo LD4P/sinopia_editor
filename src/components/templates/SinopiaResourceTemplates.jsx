@@ -32,6 +32,7 @@ const SinopiaResourceTemplates = (props) => {
       id: template.key,
       resourceLabel: template.label,
       resourceURI: template.class,
+      uri: template.uri,
       author: template.author,
       remark: template.remark,
       date: template.date,

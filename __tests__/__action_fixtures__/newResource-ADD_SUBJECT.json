@@ -10,6 +10,7 @@
       "label": "Uber template1",
       "author": "Justin Littman",
       "remark": "Template for testing purposes.",
+      "uri": "http://localhost:3000/repository/resourceTemplate:testing:uber1",
       "date": "2020-07-27",
       "propertyTemplateKeys": [
         "resourceTemplate:testing:uber1 > http://id.loc.gov/ontologies/bibframe/uber/template1/property1",
@@ -711,6 +712,7 @@
                 "label": "Uber template4",
                 "author": null,
                 "remark": "Template for testing purposes with single repeatable, required literal.",
+                "uri": "http://localhost:3000/repository/resourceTemplate:testing:uber4",
                 "date": null,
                 "propertyTemplateKeys": [
                   "resourceTemplate:testing:uber4 > http://id.loc.gov/ontologies/bibframe/uber/template4/property1"

@@ -17,6 +17,7 @@ describe('TemplatesBuilder', () => {
     expect(subjectTemplate).toStrictEqual({
       key: 'resourceTemplate:testing:uber1',
       id: 'resourceTemplate:testing:uber1',
+      uri: '',
       class: 'http://id.loc.gov/ontologies/bibframe/Uber1',
       label: 'Uber template1',
       author: 'Justin Littman',

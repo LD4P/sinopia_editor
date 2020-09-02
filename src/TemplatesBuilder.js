@@ -5,6 +5,7 @@ import rdf from 'rdf-ext'
 export default class TemplatesBuilder {
   constructor(dataset, uri) {
     this.dataset = dataset
+    this.uri = uri
     this.resourceTerm = rdf.namedNode(uri)
     this.subjectTemplate = null
   }
@@ -22,6 +23,7 @@ export default class TemplatesBuilder {
     this.subjectTemplate = {
       // This key will be unique for resource templates
       key: this.valueFor(this.resourceTerm, 'http://sinopia.io/vocabulary/hasResourceId'),
+      uri: this.uri,
       id: this.valueFor(this.resourceTerm, 'http://sinopia.io/vocabulary/hasResourceId'),
       class: this.valueFor(this.resourceTerm, 'http://sinopia.io/vocabulary/hasClass'),
       label: this.valueFor(this.resourceTerm, 'http://www.w3.org/2000/01/rdf-schema#label'),
