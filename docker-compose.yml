@@ -13,6 +13,7 @@ services:
       - api
   pipeline:
     image: ld4p/sinopia_indexing_pipeline:latest
+    # Replace image with build to build from local code. Do not commit docker-compose.yml.
     # build:
     #   context: ../sinopia_indexing_pipeline
     environment:
@@ -36,12 +37,13 @@ services:
     ports:
       - 9200:9200
       - 9300:9300
-  elasticsearch-ui:
-    image: appbaseio/dejavu:latest
-    ports:
-      - 1358:1358
-    depends_on:
-      - elasticsearch
+  # Uncomment to use Dejavu to monitor Elasticsearch. Do not commit docker-compose.yml.
+  # elasticsearch-ui:
+  #   image: appbaseio/dejavu:latest
+  #   ports:
+  #     - 1358:1358
+  #   depends_on:
+  #     - elasticsearch
   mongo:
     image: mongo:4.4
     restart: always
@@ -54,6 +56,7 @@ services:
     entrypoint: [ "/usr/bin/mongod", "--bind_ip_all", "--replSet", "rs0" ]
   mongo-setup:
     image: ld4p/sinopia_dev_setup:latest
+    # Replace image with build to build from local code. Do not commit docker-compose.yml.
     # build:
     #   context: ../sinopia_api
     #   dockerfile: Dockerfile-setup
@@ -61,16 +64,18 @@ services:
       - mongo
       - pipeline
     restart: "no"
-  mongo-express:
-    image: mongo-express
-    restart: always
-    ports:
-      - 8082:8081
-    environment:
-      ME_CONFIG_MONGODB_ADMINUSERNAME: root
-      ME_CONFIG_MONGODB_ADMINPASSWORD: sekret
+  # Uncomment to use Mongo-Express to monitor Mongo. Do not commit docker-compose.yml.
+  # mongo-express:
+  #   image: mongo-express
+  #   restart: always
+  #   ports:
+  #     - 8082:8081
+  #   environment:
+  #     ME_CONFIG_MONGODB_ADMINUSERNAME: root
+  #     ME_CONFIG_MONGODB_ADMINPASSWORD: sekret
   api:
     image: ld4p/sinopia_api:latest
+    # Replace image with build to build from local code. Do not commit docker-compose.yml.
     # build:
     #   context: ../sinopia_api
     #   dockerfile: Dockerfile
