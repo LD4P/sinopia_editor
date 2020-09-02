@@ -105,7 +105,20 @@ To trigger a test exception, doubleclick "The underdrawing for the new world of 
 ### Monitoring ElasticSearch
 DejaVu is available for monitoring local ElasticSearch.
 
-To use DejaVu, browse to http://localhost:1358, and when prompted, enter `http://localhost:9200` as the ElasticSearch URL and `*` as the index name.
+To use DejaVu:
+1. Uncomment the appropriate section in `docker-compose.yml`. (Do not commit this change.)
+2. `docker-compose up -d`
+3. Browse to http://localhost:1358.
+4. When prompted, enter `http://localhost:9200` as the ElasticSearch URL and `*` as the index name.
+
+### Monitoring Mongo
+Mongo-Express is available for monitoring local Mongo.
+
+To use Mongo-Express:
+1. Uncomment the appropriate section in `docker-compose.yml`. (Do not commit this change.)
+2. `docker-compose up -d`
+3. Browse to http://localhost:8082.
+
 
 #### Changes to environment variables
 
