@@ -71,6 +71,7 @@
               "date": null,
               "label": "Uber template2",
               "remark": "Template for testing purposes with single repeatable literal.",
+              "uri": "http://localhost:3000/repository/resourceTemplate:testing:uber2",
               "propertyTemplateKeys": [
                 "resourceTemplate:testing:uber2 > http://id.loc.gov/ontologies/bibframe/uber/template2/property1"
               ],
