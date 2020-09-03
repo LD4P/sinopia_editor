@@ -74,6 +74,17 @@ To run a single test file:
 To run a single test:
 `npx jest __tests__/actionCreators/resources.test.js -t "newResourceFromN3 loading a resource dispatches actions"`
 
+#### Adding new test fixtures
+If you have the docker environment running (and USE_FIXTURES env variable is false) you can use the `Load RDF tab`,
+paste in the JSON-LD, set the base URI, and submitting will save the RT into your environment.
+
+Otherwise, to use the static fixtures (USE_FIXTURES=true) add the fixture to the `__tests__/__template_fixtures__`
+direcotry and update the `templateFilenames` constant in the `_tests_/testUtilities/fixtureLoaderHelper.js` with the
+filename of the new test fixture.
+
+If there is a resource template you would like to copy, you can go to the direct URI in the sinopia api 
+(e.g.  `https://api.development.sinopia.io/repository/ld4p:RT:bf2:Monograph:Work:Un-nested`) and copy everything returned 
+from the data field.
 
 #### End-to-end tests
 
