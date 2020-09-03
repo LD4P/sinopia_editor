@@ -27,7 +27,7 @@ describe('Left-nav test', () => {
       .type('resourceTemplate:testing:uber1')
       .should('have.value', 'resourceTemplate:testing:uber1')
     // eslint-disable-next-line cypress/no-unnecessary-waiting
-    cy.wait(500)
+    cy.wait(1000)
 
     // Need to determine if should upload a resource template.
     cy.get('#resource-templates').then((rtDiv) => {
@@ -48,6 +48,9 @@ describe('Left-nav test', () => {
         cy.get('#searchInput')
           .type('resourceTemplate:testing:uber1')
           .should('have.value', 'resourceTemplate:testing:uber1')
+
+        // eslint-disable-next-line cypress/no-unnecessary-waiting
+        cy.wait(1000)
       }
     })
   })
