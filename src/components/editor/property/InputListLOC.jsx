@@ -6,6 +6,8 @@ import React, {
 import { Typeahead } from 'react-bootstrap-typeahead'
 import defaultFilterBy from 'react-bootstrap-typeahead/lib/utils/defaultFilterBy'
 import PropTypes from 'prop-types'
+import { connect } from 'react-redux'
+import { selectModalType } from 'selectors/modals'
 import { useDispatch, useSelector } from 'react-redux'
 import { displayResourceValidations } from 'selectors/errors'
 import { renderMenuFunc, renderTokenFunc, itemsForProperty } from './renderTypeaheadFunctions'
@@ -14,6 +16,10 @@ import { selectLookup } from 'selectors/lookups'
 import _ from 'lodash'
 import { addProperty } from 'actions/resources'
 import { newUriValue, newLiteralValue } from 'utilities/valueFactory'
+import { hideModal } from 'actions/modals'
+import { bindActionCreators } from 'redux'
+import ModalWrapper from 'components/ModalWrapper'
+import { showModal } from 'actions/modals'
 
 // propertyTemplate of type 'lookup' does live QA lookup via API
 //  based on URI in propertyTemplate.valueConstraint.useValuesFrom,
@@ -129,44 +135,96 @@ const InputListLOC = (props) => {
   const isDisabled = selected?.length > 0 && !isRepeatable
 
   let error
-  let className
+  let groupClasses = 'form-group'
+  const classes = ['modal', 'fade']
+  let display = 'none'
+
   if (displayValidations && !_.isEmpty(validationErrors)) {
-    className = 'is-invalid'
+    groupClasses += ' has-error'
     error = validationErrors.join(',')
   }
 
+  if (props.show) {
+    classes.push('show')
+    display = 'block'
+  }
+
+  const handleClick = (event) => {
+    event.preventDefault()
+    dispatch(showModal(`InputLookupModal`))
+  }
+
+  const close = (event) => {
+    props.hideModal()
+    event.preventDefault()
+  }
+
+  const modal = (
+    <div className={ classes.join(' ') } style={{ display }}>
+      <div className="modal-dialog" role="document">
+        <div className="modal-content">
+          <div className="modal-header">
+            <h4 className="modal-title">Lookup</h4>
+          </div>
+          <div className="modal-body">
+            {lookupCheckboxes.length > 1 && lookupCheckboxes}
+            <div className={groupClasses}>
+              <Typeahead
+                renderMenu={(results, menuProps) => renderMenuFunc(results, menuProps, Object.values(selectedAuthorities))}
+                renderToken={(option, props, idx) => renderTokenFunc(option, props, idx)}
+                allowNew={() => true }
+                onChange={(selected) => selectionChanged(selected)}
+                id="loc-vocab-list"
+                multiple={true}
+                placeholder={props.property.propertyTemplate.label}
+                emptyLabel="retrieving list of terms..."
+                useCache={true}
+                selectHintOnEnter={true}
+                options={options}
+                selected={selected}
+                filterBy={filterBy}
+                onKeyDown={onKeyDown}
+                disabled={isDisabled}
+                ref={(ref) => typeAheadRef.current = ref}
+              />
+              {error && <span className="text-danger">{error}</span>}
+            </div>
+          </div>
+          <div className="modal-footer">
+            <button className="btn btn-link" onClick={ close }>Cancel</button>
+            <button className="btn btn-primary" onClick={ close } data-testid={`submit-${props.textValue}`}>Submit</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  )
+
   return (
     <React.Fragment>
-      {lookupCheckboxes.length > 1 && lookupCheckboxes}
-      <div className="form-group">
-        <Typeahead
-          renderMenu={(results, menuProps) => renderMenuFunc(results, menuProps, Object.values(selectedAuthorities))}
-          renderToken={(option, props, idx) => renderTokenFunc(option, props, idx)}
-          allowNew={() => true }
-          onChange={(selected) => selectionChanged(selected)}
-          id="loc-vocab-list"
-          className={className}
-          isInvalid={!_.isEmpty(error)}
-          multiple={true}
-          placeholder={props.property.propertyTemplate.label}
-          emptyLabel="retrieving list of terms..."
-          useCache={true}
-          selectHintOnEnter={true}
-          options={options}
-          selected={selected}
-          filterBy={filterBy}
-          onKeyDown={onKeyDown}
-          disabled={isDisabled}
-          ref={(ref) => typeAheadRef.current = ref}
-        />
-        {error && <span className="invalid-feedback">{error}</span>}
-      </div>
+      <button
+        id="lookup"
+        onClick={ handleClick }
+        aria-label={`LookupLOC`}
+        className="btn btn-sm btn-secondary btn-literal">
+        My Button Label
+      </button>
+      <ModalWrapper modal={modal} />
     </React.Fragment>
   )
 }
 
 InputListLOC.propTypes = {
   property: PropTypes.object.isRequired,
+  show: PropTypes.bool,
 }
 
-export default InputListLOC
+const mapStateToProps = (state, ownProps) => {
+  const show = selectModalType(state) === `InputLookupModal`
+  return {
+    show,
+  }
+}
+
+const mapDispatchToProps = (dispatch) => bindActionCreators({ hideModal }, dispatch)
+
+export default connect(mapStateToProps, mapDispatchToProps)(InputListLOC)
