@@ -13,7 +13,7 @@ import {
   addProperty as addPropertyAction,
   addValue as addValueAction, addSubject as addSubjectAction,
   showProperty, setBaseURL, setCurrentResource, saveResourceFinished,
-  setUnusedRDF, loadResourceFinished, setResourceGroup,
+  setUnusedRDF, loadResourceFinished, setResourceGroup, removeProperty,
 } from 'actions/resources'
 import { newValueSubject } from 'utilities/valueFactory'
 
@@ -128,7 +128,7 @@ const resourceTemplateIdFromDataset = (uri, dataset) => {
 export const saveNewResource = (resourceKey, currentUser, group, errorKey) => (dispatch, getState) => {
   const resource = selectFullSubject(getState(), resourceKey)
 
-  postResource(resource, currentUser, group)
+  return postResource(resource, currentUser, group)
     .then((resourceUrl) => {
       dispatch(setBaseURL(resourceKey, resourceUrl))
       dispatch(setResourceGroup(resourceKey, group))
@@ -144,7 +144,7 @@ export const saveNewResource = (resourceKey, currentUser, group, errorKey) => (d
 export const saveResource = (resourceKey, currentUser, errorKey) => (dispatch, getState) => {
   const resource = selectFullSubject(getState(), resourceKey)
 
-  putResource(resource, currentUser)
+  return putResource(resource, currentUser)
     .then(() => dispatch(saveResourceFinished(resourceKey)))
     .catch((err) => {
       console.error(err)
@@ -183,6 +183,7 @@ export const expandProperty = (propertyKey, errorKey) => (dispatch, getState) =>
 export const contractProperty = (propertyKey) => (dispatch, getState) => {
   const property = selectProperty(getState(), propertyKey)
   property.values = null
+  dispatch(removeProperty(propertyKey))
   dispatch(addPropertyAction(property))
 }
 

@@ -1,7 +1,10 @@
 import {
   newResourceFromDataset, loadResource, newResource, newResourceCopy,
-  expandProperty, addSiblingValueSubject,
+  expandProperty, addSiblingValueSubject, saveNewResource, saveResource,
+  contractProperty,
 } from 'actionCreators/resources'
+import mockConsole from 'jest-mock-console'
+import * as sinopiaApi from 'sinopiaApi'
 import Config from 'Config'
 import configureMockStore from 'redux-mock-store'
 import thunk from 'redux-thunk'
@@ -11,10 +14,14 @@ import { datasetFromN3 } from 'utilities/Utilities'
 import shortid from 'shortid'
 import _ from 'lodash'
 
+
 beforeEach(() => {
   let counter = 0
   shortid.generate = jest.fn().mockImplementation(() => `abc${counter++}`)
 })
+
+// Support mocking/restoring the `console` object
+let restoreConsole = null
 
 // This forces Sinopia server to use fixtures
 jest.spyOn(Config, 'useResourceTemplateFixtures', 'get').mockReturnValue(true)
@@ -46,6 +53,15 @@ _:b2_c14n1 <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://id.loc.gov/
 _:b2_c14n2 <http://id.loc.gov/ontologies/bibframe/uber/template2/property1> "Uber template2, property1b"@eng .
 _:b2_c14n2 <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://id.loc.gov/ontologies/bibframe/Uber2> .
 `
+
+beforeAll(() => {
+  // Capture and not display console output
+  restoreConsole = mockConsole(['error', 'debug'])
+})
+
+afterAll(() => {
+  restoreConsole()
+})
 
 describe('newResourceFromDataset', () => {
   const expectedAddResourceAction = require('../__action_fixtures__/newResourceFromDataset-ADD_SUBJECT.json')
@@ -364,5 +380,76 @@ describe('addSiblingValueSubject', () => {
 
     const addValueAction = actions.find((action) => action.type === 'ADD_VALUE')
     expect(safeAction(addValueAction)).toEqual(expectedAddValueAction)
+  })
+})
+
+
+describe('saveNewResource', () => {
+  const uri = 'http://localhost:3000/repository/abcdeghij23455'
+
+
+  it('saves a new resource', async () => {
+    const store = mockStore(createState({ hasResourceWithLiteral: true }))
+    sinopiaApi.postResource = jest.fn().mockResolvedValue(uri)
+
+    await store.dispatch(saveNewResource('t9zVwg2zO', 'jpn', 'stanford', 'testerror'))
+
+    const actions = store.getActions()
+
+    expect(actions).toHaveAction('SET_BASE_URL')
+    expect(actions).toHaveAction('SAVE_RESOURCE_FINISHED')
+
+    const saveResourceFinishedAction = actions.find((action) => action.type === 'SAVE_RESOURCE_FINISHED')
+    expect(safeAction(saveResourceFinishedAction)).toEqual({
+      type: 'SAVE_RESOURCE_FINISHED',
+      payload: 't9zVwg2zO',
+    })
+  })
+
+  it('error when saving a new resource', async () => {
+    const store = mockStore(createState({ hasResourceWithLiteral: true }))
+    sinopiaApi.postResource.mockRejectedValue(new Error('Messed-up'))
+
+    await store.dispatch(saveNewResource('t9zVwg2zO', 'jpn', 'stanford', 'testerror'))
+
+    const actions = store.getActions()
+
+
+    expect(actions).toHaveAction('ADD_ERROR', {
+      errorKey: 'testerror',
+      error: 'Error saving: Messed-up',
+    })
+  })
+})
+
+describe('saveResource', () => {
+  it('saves an existing resource', async () => {
+    sinopiaApi.putResource = jest.fn().mockResolvedValue('t9zVwg2zO')
+    const store = mockStore(createState({ hasResourceWithLiteral: true }))
+
+    await store.dispatch(saveResource('t9zVwg2zO', 'jpn', 'testerror'))
+    const actions = store.getActions()
+    expect(actions).toHaveAction('SAVE_RESOURCE_FINISHED')
+  })
+
+  it('error when trying to save existing resource', async () => {
+    sinopiaApi.putResource = jest.fn().mockRejectedValue(new Error('Messed-up'))
+    const store = mockStore(createState({ hasResourceWithLiteral: true }))
+    await store.dispatch(saveResource('t9zVwg2zO', 'jpn', 'testerror'))
+    const actions = store.getActions()
+    expect(actions).toHaveAction('ADD_ERROR', {
+      errorKey: 'testerror',
+      error: 'Error saving: Messed-up',
+    })
+  })
+})
+
+describe('contractProperty', () => {
+  const store = mockStore(createState({ hasResourceWithLiteral: true }))
+
+  it('removes a property values from state', async () => {
+    await store.dispatch(contractProperty('JQEtq-vmq8'))
+    const actions = store.getActions()
+    expect(actions).toHaveAction('REMOVE_PROPERTY')
   })
 })
