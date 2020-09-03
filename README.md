@@ -36,7 +36,7 @@ To start all of the supporting services (ElasticSearch, Trellis, etc.):
 `docker-compose up -d`
 
 Note that this will bring up the sinopia-editor app on port 8000, but it will NOT be in a mode where
-you can make code changes and see them live.  To do this, start the Express web server and run the
+you can make code changes and see them live.  To do this, start the Express web server (via `npm start`) and run the
 application at [http://localhost:8888](http://localhost:8888):
 
 `npm run dev-start`
