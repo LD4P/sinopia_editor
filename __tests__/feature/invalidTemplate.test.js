@@ -6,9 +6,6 @@ import Config from 'Config'
 // This forces Sinopia server to use fixtures
 jest.spyOn(Config, 'useResourceTemplateFixtures', 'get').mockReturnValue(true)
 jest.mock('sinopiaSearch')
-
-// Mock jquery
-global.$ = jest.fn().mockReturnValue({ popover: jest.fn() })
 window.scrollTo = jest.fn()
 
 describe('an invalid resource template', () => {
