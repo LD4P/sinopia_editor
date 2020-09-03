@@ -1,6 +1,6 @@
 import { renderApp, createHistory, createStore } from 'testUtils'
 import { fireEvent, screen } from '@testing-library/react'
-import { createState } from '../../testUtilities/stateUtils'
+import { createState } from 'stateUtils'
 
 // Mock jquery
 global.$ = jest.fn().mockReturnValue({ popover: jest.fn() })
