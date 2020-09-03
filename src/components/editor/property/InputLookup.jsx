@@ -5,12 +5,18 @@ import React, {
 } from 'react'
 import { Typeahead, asyncContainer } from 'react-bootstrap-typeahead'
 import PropTypes from 'prop-types'
+import { connect } from 'react-redux'
+import { selectModalType } from 'selectors/modals'
 import { useSelector, useDispatch } from 'react-redux'
 import { displayResourceValidations } from 'selectors/errors'
 import _ from 'lodash'
 import { renderMenuFunc, renderTokenFunc, itemsForProperty } from './renderTypeaheadFunctions'
 import { newUriValue, newLiteralValue } from 'utilities/valueFactory'
 import { addProperty } from 'actions/resources'
+import { hideModal } from 'actions/modals'
+import { bindActionCreators } from 'redux'
+import ModalWrapper from 'components/ModalWrapper'
+import { showModal } from 'actions/modals'
 
 const AsyncTypeahead = asyncContainer(Typeahead)
 
@@ -141,31 +147,73 @@ const InputLookup = (props) => {
   }
 
   let error
-  let className
+  let groupClasses = 'form-group'
+  const classes = ['modal', 'fade']
+  let display = 'none'
+
   if (displayValidations && !_.isEmpty(errors)) {
-    className = 'is-invalid'
+    groupClasses += ' has-error'
     error = errors.join(',')
   }
 
+  if (props.show) {
+    classes.push('show')
+    display = 'block'
+  }
+
+  const handleClick = (event) => {
+    event.preventDefault()
+    dispatch(showModal(`InputLookupModal`))
+  }
+
+  const close = (event) => {
+    props.hideModal()
+    event.preventDefault()
+  }
+
+  const modal = (
+    <div className={ classes.join(' ') } style={{ display }}>
+      <div className="modal-dialog" role="document">
+        <div className="modal-content">
+          <div className="modal-header">
+            <h4 className="modal-title">Lookup</h4>
+          </div>
+          <div className="modal-body">
+            {lookupCheckboxes.length > 1 && lookupCheckboxes}
+            <div className={groupClasses}>
+              <AsyncTypeahead renderMenu={(results, menuProps) => renderMenuFunc(results, menuProps, Object.values(selectedAuthorities))}
+                              renderToken={(option, props, idx) => renderTokenFunc(option, props, idx)}
+                              disabled={isDisabled}
+                              onChange={(newSelected) => selectionChanged(newSelected)}
+                              options={props.getOptions(allResults.current)}
+                              onSearch={setQuery}
+                              selected={selected}
+                              {...typeaheadProps}
+                              filterBy={() => true}
+                              ref={(ref) => typeAheadRef.current = ref}
+              />
+              {error && <span className="text-danger">{error}</span>}
+            </div>
+          </div>
+          <div className="modal-footer">
+            <button className="btn btn-link" onClick={ close }>Cancel</button>
+            <button className="btn btn-primary" onClick={ close } data-testid={`submit-${props.textValue}`}>Submit</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  )
+  
   return (
     <React.Fragment>
-      {lookupCheckboxes.length > 1 && lookupCheckboxes}
-      <div className="form-group">
-        <AsyncTypeahead renderMenu={(results, menuProps) => renderMenuFunc(results, menuProps, Object.values(selectedAuthorities))}
-                        renderToken={(option, props, idx) => renderTokenFunc(option, props, idx)}
-                        disabled={isDisabled}
-                        className={className}
-                        isInvalid={!_.isEmpty(error)}
-                        onChange={(newSelected) => selectionChanged(newSelected)}
-                        options={props.getOptions(allResults.current)}
-                        onSearch={setQuery}
-                        selected={selected}
-                        {...typeaheadProps}
-                        filterBy={() => true}
-                        ref={(ref) => typeAheadRef.current = ref}
-        />
-        {error && <span className="invalid-feedback">{error}</span>}
-      </div>
+      <button
+        id="lookup"
+        onClick={ handleClick }
+        aria-label={`Lookups`}
+        className="btn btn-sm btn-secondary btn-literal">
+        My Button Label
+      </button>
+      <ModalWrapper modal={modal} />
     </React.Fragment>
   )
 }
@@ -174,6 +222,16 @@ InputLookup.propTypes = {
   property: PropTypes.object.isRequired,
   getLookupResults: PropTypes.func.isRequired,
   getOptions: PropTypes.func.isRequired,
+  show: PropTypes.bool,
 }
 
-export default InputLookup
+const mapStateToProps = (state, ownProps) => {
+  const show = selectModalType(state) === `InputLookupModal`
+  return {
+    show,
+  }
+}
+
+const mapDispatchToProps = (dispatch) => bindActionCreators({ hideModal }, dispatch)
+
+export default connect(mapStateToProps, mapDispatchToProps)(InputLookup)
