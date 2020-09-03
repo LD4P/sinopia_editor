@@ -7,9 +7,6 @@ import Config from 'Config'
 jest.spyOn(Config, 'useResourceTemplateFixtures', 'get').mockReturnValue(true)
 jest.mock('sinopiaSearch')
 
-// Mock jquery
-global.$ = jest.fn().mockReturnValue({ popover: jest.fn() })
-
 describe('searching and opening a resource', () => {
   const history = createHistory(['/templates'])
   const store = createStore()
