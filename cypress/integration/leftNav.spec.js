@@ -69,7 +69,7 @@ describe('Left-nav test', () => {
   })
 
   it('Marks properties with values with a check', () => {
-    cy.get('input[placeholder="Uber template1, property4"]')
+    cy.get('textarea[placeholder="Uber template1, property4"]')
       .type('foo{enter}')
     cy.get('button.active > h5')
       .should('contain', 'Uber template1, property4')
@@ -86,7 +86,7 @@ describe('Left-nav test', () => {
     cy.contains('button', 'Item of').click()
     // Wait for scroll
     // eslint-disable-next-line cypress/no-unnecessary-waiting
-    cy.wait(1000)
+    cy.wait(1500)
     cy.isInViewport('div[data-label="Item of"]')
     cy.get('button.active > h5').should('contain', 'Item of')
   })

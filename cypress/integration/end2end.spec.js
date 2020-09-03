@@ -85,7 +85,7 @@ describe('End-to-end test', () => {
   it('Populates a resource template', () => {
     // Add a value for the Preferred Title
     cy.get('button[aria-label="Add Preferred Title for Work"]').click()
-    cy.get('input[placeholder="Preferred Title for Work"]')
+    cy.get('textarea[placeholder="Preferred Title for Work"]')
       .type(`${title}{enter}`)
     cy.get('div.rbt-token').contains(title)
   })

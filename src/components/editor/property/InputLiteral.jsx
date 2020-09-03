@@ -4,6 +4,7 @@ import React, { useRef, useState } from 'react'
 import PropTypes from 'prop-types'
 import { bindActionCreators } from 'redux'
 import { connect } from 'react-redux'
+import TextareaAutosize from 'react-textarea-autosize'
 import {
   hideDiacritics, showDiacritics,
   setLiteralContent,
@@ -100,7 +101,7 @@ const InputLiteral = (props) => {
   return (
     <div className={groupClasses}>
       <div className="input-group" onBlur={handleBlur} id={id}>
-        <input
+        <TextareaAutosize
               required={required}
               className="form-control"
               placeholder={props.property.propertyTemplate.label}

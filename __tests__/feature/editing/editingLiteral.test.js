@@ -41,7 +41,7 @@ describe('editing a literal property', () => {
     fireEvent.click(editBtn)
     expect(input).not.toBeDisabled()
     expect(input).toHaveValue('foo')
-    expect(screen.queryAllByText('foo').length).toBeFalsy()
+    expect(screen.queryAllByText('foo').length).toBeLessThan(2)
 
     // Clicking remove
     fireEvent.change(input, { target: { value: 'foobar' } })
