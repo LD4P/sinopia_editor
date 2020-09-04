@@ -17,7 +17,7 @@ export const loadResourceTemplate = (resourceTemplateId,
   .then((subjectTemplate) => dispatch(validateTemplates(subjectTemplate, resourceTemplatePromises, errorKey))
     .then((isValid) => (isValid ? subjectTemplate : null)))
   .catch((err) => {
-    dispatch(addError(errorKey, `Error retrieving ${resourceTemplateId}: ${err.message}`))
+    dispatch(addError(errorKey, `Error retrieving ${resourceTemplateId}: ${err.message || err}`))
     return null
   })
 

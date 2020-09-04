@@ -38,7 +38,7 @@ export const fetchResource = (uri) => {
   return fetchPromise
     .then((response) => Promise.all([datasetFromJsonld(response.data), Promise.resolve(response)]))
     .catch((err) => {
-      throw new Error(`Error parsing resource: ${err.message}`)
+      throw new Error(`Error parsing resource: ${err.message || err}`)
     })
 }
 

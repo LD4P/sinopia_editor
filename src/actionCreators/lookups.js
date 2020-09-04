@@ -32,7 +32,7 @@ const fetchHttpLookup = (uri) => (dispatch) => {
       return opts
     })
     .catch((err) => {
-      console.error(`Error fetching ${url}: ${err.message}`)
+      console.error(`Error fetching ${url}: ${err.message || err}`)
       const opts = [{
         isError: true,
       }]

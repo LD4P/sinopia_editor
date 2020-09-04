@@ -46,9 +46,9 @@ const QASearchResults = (props) => {
       .then((resourceN3) => {
         datasetFromN3(resourceN3)
           .then((newDataset) => setDataset(newDataset))
-          .catch((err) => dispatch(addError(`Error parsing resource: ${err.message}`)))
+          .catch((err) => dispatch(addError(`Error parsing resource: ${err.message || err}`)))
       })
-      .catch((err) => dispatch(addError(`Error retrieving resource: ${err.message}`)))
+      .catch((err) => dispatch(addError(`Error retrieving resource: ${err.message || err}`)))
   }, [dispatch, resourceId, resourceURI, searchUri])
 
   const errors = useSelector((state) => selectErrors(state, searchQARetrieveErrorKey))
