@@ -84,7 +84,8 @@ filename of the new test fixture.
 
 If there is a resource template you would like to copy, you can go to the direct URI in the sinopia api 
 (e.g.  `https://api.development.sinopia.io/repository/ld4p:RT:bf2:Monograph:Work:Un-nested`) and copy everything returned 
-from the data field.
+for the data list. Make sure you change (e.g.) `"@id": "https://api.development.sinopia.io/repository/ld4p:RT:bf2:Monograph:Work:Un-nested"` to
+`"@id": "http://localhost:3000/repository/ld4p:RT:bf2:Monograph:Work:Un-nested"`
 
 #### End-to-end tests
 
