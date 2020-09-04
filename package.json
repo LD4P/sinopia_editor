@@ -50,7 +50,7 @@
     "test-verbose": "jest --colors --runInBand",
     "cypress-verify": "cypress verify",
     "cypress-open": "cypress open",
-    "cypress-run": "cypress run"
+    "cypress-run": "cypress run -b chrome --headless"
   },
   "license": "Apache-2.0",
   "dependencies": {
