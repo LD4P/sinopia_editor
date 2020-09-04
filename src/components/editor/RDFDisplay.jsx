@@ -12,7 +12,7 @@ const RDFDisplay = (props) => {
     setError(false)
     datasetFromN3(props.rdf)
       .then((dataset) => setDataset(dataset))
-      .catch((err) => setError(err.message))
+      .catch((err) => setError(err.message || err))
   }, [props.rdf])
 
   const [format, setFormat] = useState('table')
@@ -23,11 +23,11 @@ const RDFDisplay = (props) => {
     if (format === 'jsonld') {
       jsonldFromDataset(dataset)
         .then((result) => setFormattedRDF(JSON.stringify(result, null, 2)))
-        .catch((error) => setError(error.message))
+        .catch((err) => setError(err.message || err))
     } else {
       n3FromDataset(dataset, format)
         .then((result) => setFormattedRDF(result.replace(/<null>/g, '<>')))
-        .catch((error) => setError(error.message))
+        .catch((err) => setError(err.message || err))
     }
   }, [dataset, format])
 

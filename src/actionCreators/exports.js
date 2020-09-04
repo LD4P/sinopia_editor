@@ -16,7 +16,7 @@ export const fetchExports = (errorKey) => (dispatch) => {
       }
       dispatch(exportsReceived(keys))
     })
-    .catch((err) => dispatch(addError(errorKey, `Error retrieving list of exports: ${err.message}`)))
+    .catch((err) => dispatch(addError(errorKey, `Error retrieving list of exports: ${err.message || err}`)))
 }
 
 export const noop = () => {}

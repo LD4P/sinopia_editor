@@ -39,14 +39,14 @@ export const loadResource = (currentUser, uri, errorKey, asNewResource) => (disp
           // ResourceTemplateErrors have already been dispatched.
           if (err.name !== 'ResourceTemplateError') {
             console.error(err)
-            dispatch(addError(errorKey, `Error retrieving ${uri}: ${err.message}`))
+            dispatch(addError(errorKey, `Error retrieving ${uri}: ${err.message || err}`))
           }
           return false
         })
     })
     .catch((err) => {
       console.error(err)
-      dispatch(addError(errorKey, `Error retrieving ${uri}: ${err.message}`))
+      dispatch(addError(errorKey, `Error retrieving ${uri}: ${err.message || err}`))
       return false
     })
 }
@@ -70,7 +70,7 @@ export const newResource = (resourceTemplateId, errorKey) => (dispatch) => {
       // ResourceTemplateErrors have already been dispatched.
       if (err.name !== 'ResourceTemplateError') {
         console.error(err)
-        dispatch(addError(errorKey, `Error creating new resource: ${err.message}`))
+        dispatch(addError(errorKey, `Error creating new resource: ${err.message || err}`))
       }
       return false
     })
@@ -112,7 +112,7 @@ export const newResourceFromDataset = (dataset, uri, resourceTemplateId, errorKe
       // ResourceTemplateErrors have already been dispatched.
       if (err.name !== 'ResourceTemplateError') {
         console.error(err)
-        dispatch(addError(errorKey, `Error retrieving ${resourceTemplateId}: ${err.message}`))
+        dispatch(addError(errorKey, `Error retrieving ${resourceTemplateId}: ${err.message || err}`))
       }
       return false
     })
@@ -136,7 +136,7 @@ export const saveNewResource = (resourceKey, currentUser, group, errorKey) => (d
     })
     .catch((err) => {
       console.error(err)
-      dispatch(addError(errorKey, `Error saving: ${err.message}`))
+      dispatch(addError(errorKey, `Error saving: ${err.message || err}`))
     })
 }
 
@@ -148,7 +148,7 @@ export const saveResource = (resourceKey, currentUser, errorKey) => (dispatch, g
     .then(() => dispatch(saveResourceFinished(resourceKey)))
     .catch((err) => {
       console.error(err)
-      dispatch(addError(errorKey, `Error saving: ${err.message}`))
+      dispatch(addError(errorKey, `Error saving: ${err.message || err}`))
     })
 }
 
