@@ -1,26 +1,6 @@
-FROM cypress/browsers:node14.7.0-chrome84
+FROM cypress/included:4.12.1
 
-# Rolling our own instead of using cypress-provided images because want to use
-# additional libraries.
+COPY cypress /cypress
+COPY cypress.json cypress.json
 
-# This is the directory the user in the circleci/node image can write to
-# WORKDIR /home/circleci
-
-# Everything that isn't in .dockerignore ships
-COPY . .
-
-RUN mkdir node_modules
-
-# Allow circleci user to run npm build
-#USER root
-#RUN /bin/bash -c 'chown -R circleci node_modules'
-
-# Build and run app using non-privileged account
-#USER circleci
-
-# Install dependencies
-RUN npm install
-
-RUN npm run cypress-verify
-
-ENTRYPOINT ["npm", "run", "cypress-run"]
+ENTRYPOINT ["cypress", "run", "--headless", "-b", "chrome"]

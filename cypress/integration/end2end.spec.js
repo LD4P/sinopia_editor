@@ -1,9 +1,5 @@
-import shortid from 'shortid'
-
 describe('End-to-end test', () => {
-  // Avoid characters that will cause search to bomb, like -.
-  shortid.characters('0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ@_')
-  const title = shortid.generate()
+  const title = `title-${new Date().toISOString()}`
 
   it('Opens the app', () => {
     cy.visit(Cypress.env('EDITOR_URL') || 'http://localhost:8000/')
