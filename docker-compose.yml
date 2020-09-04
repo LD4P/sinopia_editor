@@ -62,7 +62,6 @@ services:
     #   dockerfile: Dockerfile-setup
     depends_on:
       - mongo
-      - pipeline
     restart: "no"
   # Uncomment to use Mongo-Express to monitor Mongo. Do not commit docker-compose.yml.
   # mongo-express:
@@ -87,4 +86,3 @@ services:
       NO_AUTH: "true"
     depends_on:
       - mongo
-      - pipeline
