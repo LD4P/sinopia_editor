@@ -13,7 +13,7 @@ global.document.elementFromPoint = jest.fn()
 describe('saving a resource', () => {
   describe('after opening a new resource', () => {
     window.HTMLElement.prototype.scrollIntoView = jest.fn() // required to allow scrolling in the jsdom
-    window.HTMLElement.prototype.scrollIntoView = function foo() {} // required to allow scrolling in the jsdom
+
     const history = createHistory(['/editor/resourceTemplate:bf2:Title:Note'])
     renderApp(null, history)
 
