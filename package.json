@@ -117,7 +117,6 @@
     "babel-plugin-module-resolver": "^4.0.0",
     "coveralls": "^3.1.0",
     "css-loader": "^3.6.0",
-    "cypress": "^4.12.1",
     "enzyme": "^3.10.0",
     "enzyme-adapter-react-16": "^1.15.3",
     "eslint": "^6.7.2",
@@ -187,5 +186,8 @@
     "transform": {
       "^.+\\.[jt]sx?$": "babel-jest"
     }
+  },
+  "optionalDependencies": {
+    "cypress": "^5.1.0"
   }
 }
