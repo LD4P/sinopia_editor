@@ -1,0 +1,3 @@
+FROM httpd:2.4-alpine
+
+COPY ./docker/proxy-httpd.conf /usr/local/apache2/conf/httpd.conf

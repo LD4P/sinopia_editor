@@ -82,8 +82,8 @@ Otherwise, to use the static fixtures (USE_FIXTURES=true) add the fixture to the
 direcotry and update the `templateFilenames` constant in the `_tests_/testUtilities/fixtureLoaderHelper.js` with the
 filename of the new test fixture.
 
-If there is a resource template you would like to copy, you can go to the direct URI in the sinopia api 
-(e.g.  `https://api.development.sinopia.io/repository/ld4p:RT:bf2:Monograph:Work:Un-nested`) and copy everything returned 
+If there is a resource template you would like to copy, you can go to the direct URI in the sinopia api
+(e.g.  `https://api.development.sinopia.io/repository/ld4p:RT:bf2:Monograph:Work:Un-nested`) and copy everything returned
 for the data list. Make sure you change (e.g.) `"@id": "https://api.development.sinopia.io/repository/ld4p:RT:bf2:Monograph:Work:Un-nested"` to
 `"@id": "http://localhost:3000/repository/ld4p:RT:bf2:Monograph:Work:Un-nested"`
 
@@ -141,6 +141,16 @@ If you add environment variables to which the Editor needs to pay attention (e.g
   * e.g. https://github.com/LD4P/sinopia_editor/commit/aadd9d6170b08ff9261392d5b2ec2c6f56470e20#diff-3254677a7917c6c01f55212f86c57fbfR10
 * the env specific `docker build` commands in the `register_image` section of `.circleci/config.yml`
   * e.g. https://github.com/LD4P/sinopia_editor/commit/1d3e381cb0f937300242cf896f62c2508e4a57e2#diff-1d37e48f9ceff6d8030570cd36286a61R63
+
+### Proxying to a different environment
+Proxying allows using the Sinopia API and search from a different environment, rather than local instances.
+
+To proxy to development:
+1. Build the proxy image: `docker build -t proxy-apache2:latest -f Dockerfile.proxy .`
+2. Start the proxy: `docker run --rm --name proxy-apache2 -p 8080:8080 -e ENV_HOSTNAME=development.sinopia.io proxy-apache2:latest`
+3. Start the Sinopia Editor: `SINOPIA_API_BASE_URL=http://localhost:8080/repository SEARCH_HOST=http://localhost:8080 npm run dev-start`
+
+Note that proxying to other environments may require additional Cognito configuration.
 
 ## Release Management
 
