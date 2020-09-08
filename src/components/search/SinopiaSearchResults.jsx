@@ -5,7 +5,6 @@ import React, { useState, useEffect, useRef } from 'react'
 import { connect } from 'react-redux'
 import { bindActionCreators } from 'redux'
 import PropTypes from 'prop-types'
-import { selectCurrentUser } from 'selectors/authenticate'
 import { loadResource } from 'actionCreators/resources'
 import { selectErrors } from 'selectors/errors'
 import Alerts from '../Alerts'
@@ -25,13 +24,13 @@ const SinopiaSearchResults = (props) => {
   const errorsRef = useRef(null)
 
   const handleCopy = (resourceURI) => {
-    props.loadResource(props.currentUser, resourceURI, searchRetrieveErrorKey, true).then((success) => {
+    props.loadResource(resourceURI, searchRetrieveErrorKey, true).then((success) => {
       setNavigateEditor(success)
     })
   }
 
   const handleEdit = (resourceURI) => {
-    props.loadResource(props.currentUser, resourceURI, searchRetrieveErrorKey).then((success) => {
+    props.loadResource(resourceURI, searchRetrieveErrorKey).then((success) => {
       setNavigateEditor(success)
     })
   }
@@ -95,7 +94,6 @@ const SinopiaSearchResults = (props) => {
 SinopiaSearchResults.propTypes = {
   searchResults: PropTypes.array,
   loadResource: PropTypes.func,
-  currentUser: PropTypes.object,
   history: PropTypes.object,
   currentResource: PropTypes.object,
   errors: PropTypes.array,
@@ -103,7 +101,6 @@ SinopiaSearchResults.propTypes = {
 }
 
 const mapStateToProps = (state) => ({
-  currentUser: selectCurrentUser(state),
   searchResults: state.selectorReducer.search.results,
   currentResource: selectCurrentResource(state),
   errors: selectErrors(state, searchRetrieveErrorKey),

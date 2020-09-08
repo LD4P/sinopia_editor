@@ -5,10 +5,6 @@ class Config {
     return process.env.SINOPIA_API_BASE_URL || 'http://localhost:3000/repository'
   }
 
-  static get awsCognitoDomain() {
-    return process.env.AWS_COGNITO_DOMAIN || 'https://sinopia-development.auth.us-west-2.amazoncognito.com'
-  }
-
   /*
    * There are two value types of `process.env` variables:
    *   1. When undefined, `if` condition is not satisfied and default `false` is returned
@@ -22,10 +18,6 @@ class Config {
     }
 
     return false
-  }
-
-  static get awsClientID() {
-    return process.env.COGNITO_CLIENT_ID || '2u6s7pqkc1grq1qs464fsi82at'
   }
 
   static get sinopiaUrl() {
@@ -84,6 +76,15 @@ class Config {
   static get sinopiaHelpAndResourcesMenuContent() {
     return 'https://ld4p.github.io/sinopia/help_and_resources/menu_content.html'
   }
+
+  static get awsCognitoDomain() {
+    return process.env.AWS_COGNITO_DOMAIN || 'https://sinopia-development.auth.us-west-2.amazoncognito.com'
+  }
+
+  static get awsClientID() {
+    return process.env.COGNITO_CLIENT_ID || '2u6s7pqkc1grq1qs464fsi82at'
+  }
+
 
   static get awsCognitoForgotPasswordUrl() {
     return `${this.awsCognitoDomain}/forgotPassword?response_type=token&client_id=${this.awsClientID}&redirect_uri=${this.sinopiaUrl}`

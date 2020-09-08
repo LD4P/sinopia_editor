@@ -32,13 +32,9 @@ const buildAuthenticate = (state, options) => {
 
   if (options.notAuthenticated) return
 
-  state.authenticate.authenticationState = {
-    currentSession: {
-      idToken: {},
-    },
-    currentUser: {
+  state.authenticate = {
+    user: {
       username: 'Foo McBar',
-      globalSignOut: (resultHandler) => { resultHandler.onSuccess() },
     },
   }
 }

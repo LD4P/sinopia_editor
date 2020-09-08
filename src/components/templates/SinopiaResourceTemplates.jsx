@@ -12,7 +12,6 @@ import _ from 'lodash'
 import Alerts from '../Alerts'
 import ResourceTemplateSearchResult from './ResourceTemplateSearchResult'
 import { selectHistoricalTemplates } from 'selectors/templates'
-import { selectCurrentUser } from 'selectors/authenticate'
 
 // Errors from loading a new resource from this page.
 export const newResourceErrorKey = 'newresource'
@@ -23,7 +22,6 @@ export const newResourceErrorKey = 'newresource'
 const SinopiaResourceTemplates = (props) => {
   const dispatch = useDispatch()
   const searchResults = useSelector((state) => state.selectorReducer.templateSearch)
-  const currentUser = useSelector((state) => selectCurrentUser(state))
   const historicallyUsedTemplates = useSelector((state) => selectHistoricalTemplates(state))
 
   // Transform to the result structure.
@@ -68,13 +66,13 @@ const SinopiaResourceTemplates = (props) => {
   }
 
   const handleCopy = (resourceURI) => {
-    dispatch(loadResource(currentUser, resourceURI, newResourceErrorKey, true)).then((result) => {
+    dispatch(loadResource(resourceURI, newResourceErrorKey, true)).then((result) => {
       setNavigateEditor(result)
     })
   }
 
   const handleEdit = (resourceURI) => {
-    dispatch(loadResource(currentUser, resourceURI, newResourceErrorKey)).then((result) => {
+    dispatch(loadResource(resourceURI, newResourceErrorKey)).then((result) => {
       setNavigateEditor(result)
     })
   }

@@ -24,6 +24,8 @@ import { newResourceErrorKey } from './templates/SinopiaResourceTemplates'
 import { fetchExports } from 'actionCreators/exports'
 import Exports, { exportsErrorKey } from './exports/Exports'
 import { selectCurrentResourceKey } from 'selectors/resources'
+import { authenticate } from 'actionCreators/authenticate'
+import { hasUser as hasUserSelector } from 'selectors/authenticate'
 
 const FourOhFour = () => <h1>404</h1>
 
@@ -35,10 +37,11 @@ const App = (props) => {
     dispatch(setAppVersion(version))
     dispatch(fetchLanguages())
     dispatch(fetchExports(exportsErrorKey))
+    dispatch(authenticate())
   }, [dispatch])
 
   const hasResource = useSelector((state) => !!selectCurrentResourceKey(state))
-  const currentSession = useSelector((state) => (state.authenticate.authenticationState ? state.authenticate.authenticationState.currentSession : null))
+  const hasUser = useSelector((state) => hasUserSelector(state))
 
   const editorWithRtId = (thisprops) => {
     newResource(thisprops.match.params.rtId)
@@ -50,7 +53,7 @@ const App = (props) => {
       })
   }
 
-  const routesWithCurrentSession = (
+  const routesWithCurrentUser = (
     <Switch>
       <Route exact path="/" render={(renderProps) => <HomePage {...renderProps} triggerHandleOffsetMenu={props.handleOffsetMenu} />} />
       {!hasResource
@@ -73,7 +76,7 @@ const App = (props) => {
     </Switch>
   )
 
-  const routesWithOutCurrentSession = (
+  const routesWithOutCurrentUser = (
     <Route render={(renderProps) => <HomePage {...renderProps} triggerHandleOffsetMenu={props.handleOffsetMenu} />} />
   )
 
@@ -83,7 +86,7 @@ const App = (props) => {
         <Helmet>
           <title>Sinopia {Config.sinopiaEnv}</title>
         </Helmet>
-        {currentSession ? routesWithCurrentSession : routesWithOutCurrentSession }
+        {hasUser ? routesWithCurrentUser : routesWithOutCurrentUser }
         <Footer />
       </div>
     </HelmetProvider>

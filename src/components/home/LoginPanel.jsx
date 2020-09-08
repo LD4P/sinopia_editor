@@ -1,71 +1,45 @@
-// Copyright 2019 Stanford University see LICENSE for license
-
-import React, { Component } from 'react'
-import PropTypes from 'prop-types'
-import { connect } from 'react-redux'
+import React, { useState } from 'react'
+import { useSelector, useDispatch } from 'react-redux'
+import { hasUser as hasUserSelector } from 'selectors/authenticate'
+import { signIn } from 'actionCreators/authenticate'
 import Config from 'Config'
-import CognitoUtils from 'utilities/CognitoUtils'
-import { selectAuthenticationError, selectCurrentSession, selectCurrentUser } from 'selectors/authenticate'
-import { authenticationFailed, authenticationSucceeded } from 'actionCreators/authenticate'
+import { selectErrors } from 'selectors/errors'
+import _ from 'lodash'
 
-class LoginPanel extends Component {
-  constructor(props) {
-    super(props)
-    this.state = {}
+export const signInErrorKey = 'signin'
 
-    /*
-     * If the Cognito user info was just retrieved from local storage, as when the app first
-     * loads, the session info we need won't be present on it.  However, the associated id,
-     * access, and refresh tokens are all saved in local storage also. As such, the getSession()
-     * method will attempt to use the refresh token (if present) to get new id and access tokens.
-     */
+const LoginPanel = () => {
+  const dispatch = useDispatch()
+  const hasUser = useSelector((state) => hasUserSelector(state))
 
-    const currentUser = this.props.currentUser || CognitoUtils.cognitoUserPool().getCurrentUser()
-    const currentSession = this.props.currentSession
+  const [username, setUsername] = useState('')
+  const [password, setPassword] = useState('')
 
-    if (currentUser && !currentSession) {
-      CognitoUtils.getSession(currentUser)
-        .then((sessionData) => {
-          this.props.authenticate({ currentUser, currentSession: sessionData })
-        }).catch((errInfo) => {
-          this.props.failToAuthenticate({ currentUser, authenticationError: errInfo })
-        })
-    }
-  }
+  const error = _.first(useSelector((state) => selectErrors(state, signInErrorKey)))
 
-  handleLoginSubmit = (event) => {
+  const handleSubmit = (event) => {
     event.preventDefault()
-
-    const cognitoUser = CognitoUtils.cognitoUser(this.state.username)
-
-    CognitoUtils.authenticateUser(cognitoUser, this.state.password)
-      .then((cognitoUserSession) => {
-        this.props.authenticate({ currentUser: cognitoUser, currentSession: cognitoUserSession })
-      }).catch((errInfo) => {
-        this.props.failToAuthenticate({ currentUser: cognitoUser, authenticationError: errInfo })
-      })
+    dispatch(signIn(username, password, signInErrorKey))
   }
 
-  handleChange = (event) => {
-    this.setState({ [event.target.name]: event.target.value })
-  }
+  if (hasUser) return null
 
-  render() {
-    const currentSession = this.props.currentSession
-    const authenticationError = this.props.authenticationError
-
-    const inlineLoginForm = (
-      <React.Fragment>
+  return (
+    <React.Fragment>
+      { error && <div className="alert alert-danger alert-dismissible" role="alert">{ error }</div> }
+      <form className="login-form" onSubmit={(event) => handleSubmit(event)}>
         <h4>Login to the Linked Data Editor</h4>
         <div className = "form-group">
           <label htmlFor="username">
             User name
             <input id="username"
                    style={ { width: '300px' } }
-                   name="username" type="text"
+                   name="username"
+                   type="text"
                    className="form-control"
                    placeholder=""
-                   onChange={this.handleChange}></input>
+                   value={username}
+                   onChange={(event) => setUsername(event.target.value)}></input>
           </label>
         </div>
         <div className = "form-group">
@@ -77,7 +51,8 @@ class LoginPanel extends Component {
                    type="password"
                    className="form-control"
                    placeholder=""
-                   onChange={this.handleChange}></input>
+                   value={password}
+                   onChange={(event) => setPassword(event.target.value)}></input>
           </label>
         </div>
         <div className="row">
@@ -93,46 +68,9 @@ class LoginPanel extends Component {
             </div>
           </div>
         </div>
-      </React.Fragment>
-    )
-
-    return (
-      <React.Fragment>
-        { authenticationError && <div className="alert alert-danger alert-dismissible" role="alert">{ authenticationError.message }</div> }
-        <form className="login-form" onSubmit={this.handleLoginSubmit}>
-          { !currentSession && inlineLoginForm }
-        </form>
-      </React.Fragment>
-    )
-  }
+      </form>
+    </React.Fragment>
+  )
 }
 
-LoginPanel.propTypes = {
-
-  /*
-   * Separate props for currentUser, currentSession, authenticationError.  see https://redux.js.org/faq/react-redux#why-is-my-component-re-rendering-too-often
-   *   "React Redux implements several optimizations to ensure your actual component only re-renders when actually necessary. One of those is a shallow equality
-   *   check on the combined props object generated by the mapStateToProps and mapDispatchToProps arguments passed to connect. Unfortunately, shallow equality does
-   *   not help in cases where new array or object instances are created each time mapStateToProps is called."
-   */
-  currentUser: PropTypes.object,
-  currentSession: PropTypes.object,
-  authenticationError: PropTypes.object,
-  failToAuthenticate: PropTypes.func,
-  authenticate: PropTypes.func,
-  signout: PropTypes.func,
-}
-
-const mapStateToProps = (state) => ({
-  currentUser: selectCurrentUser(state),
-  currentSession: selectCurrentSession(state),
-  authenticationError: selectAuthenticationError(state),
-})
-
-export default connect(
-  mapStateToProps,
-  {
-    failToAuthenticate: authenticationFailed,
-    authenticate: authenticationSucceeded,
-  },
-)(LoginPanel)
+export default LoginPanel

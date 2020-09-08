@@ -11,6 +11,7 @@ import bodyParser from 'body-parser'
 import Config from './src/Config'
 import versoSpoof from './src/versoSpoof'
 import _ from 'lodash'
+import cors from 'cors'
 
 const port = 8000
 const app = express()
@@ -19,31 +20,16 @@ const app = express()
 app.use(bodyParser.json()) // handle json data
 app.use(bodyParser.urlencoded({ extended: true })) // handle URL-encoded data
 
-app.use((req, res, next) => {
-  res.header('Access-Control-Allow-Origin', '*')
-  res.header('Access-Control-Allow-Headers', 'Origin, X-Requested-With, Content-Type, Accept')
-  next()
-})
+app.use(cors())
+app.options('*', cors())
 
 // ElasticSearch proxy middleware
-app.use('/api/search', (req, res) => {
-  if (!['GET', 'POST'].includes(req.method)) {
-    res.status(400).json({ error: { reason: `unsupported method: ${req.method}` } })
-    return
-  }
-
-  // Hard-coded for now since we only have the two use cases for proxying ES,
-  // i.e., full-text search of resources
-  if (req.path !== '/sinopia_resources/sinopia/_search' && req.path !== '/sinopia_templates/sinopia/_search') {
-    res.status(400).json({ error: { reason: `unsupported path: ${req.path}` } })
-    return
-  }
-
+app.post('/api/search/:index/sinopia/_search', (req, res) => {
   // Only use the method, path, and body from the original request: method and
   // path have already been validated above and the body must be a
   // JSON-serializeable entity
 
-  let searchUri = `${Config.indexUrl}${req.path}`
+  let searchUri = `${Config.indexUrl}/${req.params.index}/sinopia/_search`
   if (!_.isEmpty(req.query)) {
     const originalUrl = `${req.protocol}://${req.hostname}${req.originalUrl}`
     searchUri += new URL(originalUrl).search

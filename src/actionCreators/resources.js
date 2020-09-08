@@ -16,12 +16,13 @@ import {
   setUnusedRDF, loadResourceFinished, setResourceGroup, removeProperty,
 } from 'actions/resources'
 import { newValueSubject } from 'utilities/valueFactory'
+import { selectUser } from 'selectors/authenticate'
 
 /**
  * A thunk that loads an existing resource from Sinopia API and adds to state.
  * @return {boolean} true if successful
  */
-export const loadResource = (currentUser, uri, errorKey, asNewResource) => (dispatch) => {
+export const loadResource = (uri, errorKey, asNewResource) => (dispatch) => {
   dispatch(clearErrors(errorKey))
   return fetchResource(uri)
     .then(([dataset, response]) => {
@@ -125,9 +126,10 @@ const resourceTemplateIdFromDataset = (uri, dataset) => {
 }
 
 // A thunk that publishes (saves) a new resource in Trellis
-export const saveNewResource = (resourceKey, currentUser, group, errorKey) => (dispatch, getState) => {
-  const resource = selectFullSubject(getState(), resourceKey)
-
+export const saveNewResource = (resourceKey, group, errorKey) => (dispatch, getState) => {
+  const state = getState()
+  const resource = selectFullSubject(state, resourceKey)
+  const currentUser = selectUser(state)
   return postResource(resource, currentUser, group)
     .then((resourceUrl) => {
       dispatch(setBaseURL(resourceKey, resourceUrl))
@@ -141,8 +143,10 @@ export const saveNewResource = (resourceKey, currentUser, group, errorKey) => (d
 }
 
 // A thunk that saves an existing resource in Trellis
-export const saveResource = (resourceKey, currentUser, errorKey) => (dispatch, getState) => {
-  const resource = selectFullSubject(getState(), resourceKey)
+export const saveResource = (resourceKey, errorKey) => (dispatch, getState) => {
+  const state = getState()
+  const resource = selectFullSubject(state, resourceKey)
+  const currentUser = selectUser(state)
 
   return putResource(resource, currentUser)
     .then(() => dispatch(saveResourceFinished(resourceKey)))

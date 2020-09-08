@@ -1,38 +1,83 @@
 // Copyright 2019 Stanford University see LICENSE for license
 import {
-  authenticationFailed, authenticationSucceeded, signedOut,
+  authenticate, signIn, signOut,
 } from 'actionCreators/authenticate'
+import configureMockStore from 'redux-mock-store'
+import thunk from 'redux-thunk'
+import Auth from '@aws-amplify/auth'
 
-describe('authenticationFailed', () => {
-  const currentUser = { hello: 'world' }
-  const errInfoauthenticate = { foo: 'bar' }
+jest.mock('@aws-amplify/auth')
 
-  const authResult = {
-    currentUser,
-    authenticationError: errInfoauthenticate,
-  }
+const mockStore = configureMockStore([thunk])
 
-  it('returns the failure action', () => {
-    expect(authenticationFailed(authResult).type).toEqual('AUTHENTICATION_FAILURE')
+describe('authenticate', () => {
+  describe('user already in state', () => {
+    it('does not authenticate', async () => {
+      const store = mockStore({ authenticate: { user: { username: 'havram' } } })
+      await store.dispatch(authenticate())
+      expect(store.getActions()).toEqual([])
+    })
+  })
+  describe('successful', () => {
+    it('dispatches actions to add user', async () => {
+      Auth.currentAuthenticatedUser.mockResolvedValue({ username: 'havram', something: 'else' })
+      const store = mockStore({ authenticate: { user: undefined } })
+      await store.dispatch(authenticate())
+      expect(store.getActions()).toHaveAction('SET_USER', { username: 'havram' })
+    })
+  })
+  describe('failure', () => {
+    it('dispatches actions to remove user', async () => {
+      Auth.currentAuthenticatedUser.mockRejectedValue()
+      const store = mockStore({ authenticate: { user: undefined } })
+      await store.dispatch(authenticate())
+      expect(store.getActions()).toHaveAction('REMOVE_USER')
+    })
   })
 })
 
-describe('authenticationSucceeded', () => {
-  const currentUser = { hello: 'world' }
-  const sessionData = { foo: 'bar' }
+describe('signIn', () => {
+  describe('successful', () => {
+    it('dispatches actions to add user', async () => {
+      Auth.signIn.mockResolvedValue({ username: 'havram', something: 'else' })
+      const store = mockStore()
+      await store.dispatch(signIn('havram', 'm&rc', 'testerrorkey'))
 
-  const authResult = {
-    currentUser,
-    currentSession: sessionData,
-  }
+      expect(Auth.signIn).toHaveBeenCalledWith('havram', 'm&rc')
+      expect(store.getActions()).toHaveAction('SET_USER', { username: 'havram' })
+    })
+  })
+  describe('failure', () => {
+    it('dispatches actions to remove user', async () => {
+      Auth.signIn.mockRejectedValue(new Error('Bad user'))
+      const store = mockStore()
+      await store.dispatch(signIn('mdewey', 'amh&rst', 'testerrorkey'))
 
-  it('returns the success action', () => {
-    expect(authenticationSucceeded(authResult).type).toEqual('AUTHENTICATION_SUCCESS')
+      expect(store.getActions()).toHaveAction('CLEAR_ERRORS', 'testerrorkey')
+      expect(store.getActions()).toHaveAction('ADD_ERROR', { errorKey: 'testerrorkey', error: 'Login failed: Bad user' })
+      expect(store.getActions()).toHaveAction('REMOVE_USER')
+    })
   })
 })
 
-describe('signedOut', () => {
-  it('returns the signed out action', () => {
-    expect(signedOut().type).toEqual('SIGN_OUT_SUCCESS')
+describe('signOut', () => {
+  describe('successful', () => {
+    it('dispatches actions to remove user', async () => {
+      Auth.signOut.mockResolvedValue()
+      const store = mockStore()
+      await store.dispatch(signOut())
+
+      expect(Auth.signOut).toHaveBeenCalled()
+      expect(store.getActions()).toHaveAction('REMOVE_USER')
+    })
+  })
+  describe('failure', () => {
+    it('does nothing', async () => {
+      Auth.signOut.mockRejectedValue()
+      const store = mockStore()
+      await store.dispatch(signOut())
+
+      expect(store.getActions()).toEqual([])
+    })
   })
 })

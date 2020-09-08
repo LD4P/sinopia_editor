@@ -1,14 +1,12 @@
 // Copyright 2019 Stanford University see LICENSE for license
 
-// import SinopiaServer from 'sinopia_server'
-import CognitoUtils from './utilities/CognitoUtils'
 import { datasetFromJsonld, jsonldFromDataset } from 'utilities/Utilities'
 import Config from './Config'
 /* eslint-disable node/no-unpublished-import */
 import { hasFixtureResource, getFixtureResource } from '../__tests__/testUtilities/fixtureLoaderHelper'
 import GraphBuilder from 'GraphBuilder'
 import { v4 as uuidv4 } from 'uuid'
-
+import Auth from '@aws-amplify/auth'
 
 /**
  * Fetches a resource from the Sinopia API.
@@ -42,7 +40,7 @@ export const fetchResource = (uri) => {
     })
 }
 
-// A thunk that publishes (saves) a new resource in Trellis
+// Publishes (saves) a new resource in Trellis
 export const postResource = (resource, currentUser, group) => {
   const newResource = { ...resource }
   // Mint a uri. Resource templates use the template id.
@@ -54,9 +52,9 @@ export const postResource = (resource, currentUser, group) => {
     .then(() => uri)
 }
 
-// A thunk that saves an existing resource in Trellis
+// Saves an existing resource in Trellis
 export const putResource = (resource, currentUser, method) => saveBodyForResource(resource, currentUser.username, resource.group)
-  .then((body) => CognitoUtils.getIdTokenString(currentUser)
+  .then((body) => getJwt()
     .then((jwt) => fetch(resource.uri, {
       method: method || 'PUT',
       headers: {
@@ -96,3 +94,9 @@ const templateIdFor = (resource) => {
   const resourceIdProperty = resource.properties.find((property) => property.propertyTemplate.uri === 'http://sinopia.io/vocabulary/hasResourceId')
   return resourceIdProperty.values[0].uri
 }
+
+const getJwt = () => Auth.currentSession()
+  .then((data) => {
+    if (!data.idToken.jwtToken) throw new Error('jwt is undefined')
+    return data.idToken.jwtToken
+  })

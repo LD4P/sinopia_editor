@@ -4,10 +4,9 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import { NavLink } from 'react-router-dom'
 import Config from 'Config'
-import CognitoUtils from 'utilities/CognitoUtils'
 import { connect } from 'react-redux'
-import { selectCurrentUser } from 'selectors/authenticate'
-import { signedOut } from 'actionCreators/authenticate'
+import { selectUser } from 'selectors/authenticate'
+import { signOut } from 'actionCreators/authenticate'
 import { bindActionCreators } from 'redux'
 import { selectCurrentResourceKey } from 'selectors/resources'
 
@@ -40,7 +39,7 @@ const Header = (props) => {
             {props.currentUser
               && <li className="nav-item">
                 <a href="#" className="nav-link editor-header-logout"
-                   onClick={() => CognitoUtils.handleSignout(props.currentUser, props.signedOut)}>Logout</a>
+                   onClick={() => props.signOut()}>Logout</a>
               </li>
             }
           </ul>
@@ -65,15 +64,15 @@ Header.propTypes = {
   version: PropTypes.string,
   hasResource: PropTypes.bool,
   currentUser: PropTypes.object,
-  signedOut: PropTypes.func,
+  signOut: PropTypes.func,
 }
 
 const mapStateToProps = (state) => ({
-  currentUser: selectCurrentUser(state),
+  currentUser: selectUser(state),
   hasResource: !!selectCurrentResourceKey(state),
   version: state.selectorReducer.appVersion.version,
 })
 
-const mapDispatchToProps = (dispatch) => bindActionCreators({ signedOut }, dispatch)
+const mapDispatchToProps = (dispatch) => bindActionCreators({ signOut }, dispatch)
 
 export default connect(mapStateToProps, mapDispatchToProps)(Header)
