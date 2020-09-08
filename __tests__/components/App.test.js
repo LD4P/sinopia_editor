@@ -9,6 +9,9 @@ jest.mock('@aws-amplify/auth')
 
 jest.spyOn(Config, 'useResourceTemplateFixtures', 'get').mockReturnValue(true)
 
+const originalFetch = global.fetch
+afterEach(() => global.fetch = originalFetch)
+
 describe('<App />', () => {
   beforeEach(() => {
     Auth.currentAuthenticatedUser.mockResolvedValue({ username: 'Foo McBar' })
@@ -29,6 +32,7 @@ describe('<App />', () => {
   })
 
   it('loads exports', async () => {
+    global.fetch = jest.fn().mockResolvedValue({ text: jest.fn().mockResolvedValue('<?xml version="1.0" encoding="UTF-8"?><ListBucketResult xmlns="http://s3.amazonaws.com/doc/2006-03-01/"><Contents><Key>alberta_2020-09-06T00:01:18.798Z.zip</Key></Contents><Contents><Key>sinopia_export_all_2020-09-06T00:01:17.621Z.zip</Key></Contents></ListBucketResult>') })
     renderApp()
 
     fireEvent.click(screen.getByText('Linked Data Editor'))

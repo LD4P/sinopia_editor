@@ -54,10 +54,10 @@ describe('<RDFDisplay />', () => {
 
     await screen.findByText(/Format:/)
 
-    fireEvent.change(screen.getByLabelText(/Format/), { target: { value: 'jsondld' } })
+    fireEvent.change(screen.getByLabelText(/Format/), { target: { value: 'jsonld' } })
 
     await screen.findByText(/"@value": "foo",/)
-  })
+  }, 10000)
 
   it('displays errors', async () => {
     render(<RDFDisplay rdf={`${rdf}x`} />)

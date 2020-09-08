@@ -54,7 +54,7 @@ describe('editing a literal property', () => {
     expect(screen.queryAllByText('foobar').length).toBeFalsy()
     expect(input).not.toBeDisabled()
     expect(input).toHaveValue('')
-  })
+  }, 15000)
 
   it('allows entering a repeatable literal', async () => {
     renderApp(null, history)
@@ -92,7 +92,7 @@ describe('editing a literal property', () => {
     // Input is not disabled and empty
     expect(input).not.toBeDisabled()
     expect(input).toHaveValue('')
-  }, 10000)
+  }, 15000)
 
   it('allows entering diacritics', async () => {
     renderApp(null, history)
@@ -117,7 +117,7 @@ describe('editing a literal property', () => {
     // Close it
     fireEvent.click(diacriticBtn)
     expect(screen.queryAllByText('Latin Extended').length).toBeFalsy()
-  }, 10000)
+  }, 15000)
 
   it('allows selecting a language', async () => {
     renderApp(null, history)
@@ -148,7 +148,7 @@ describe('editing a literal property', () => {
 
     await wait(() => expect(screen.queryAllByRole('heading', { name: 'Languages' }).length).toBeFalsy())
     expect(langBtn).toHaveTextContent('Language: Tai languages')
-  })
+  }, 15000)
 
   it('allows selecting no language', async () => {
     renderApp(null, history)
@@ -176,5 +176,5 @@ describe('editing a literal property', () => {
 
     await wait(() => expect(screen.queryAllByRole('heading', { name: 'Languages' }).length).toBeFalsy())
     expect(langBtn).toHaveTextContent('Language: No language specified')
-  })
+  }, 15000)
 })

@@ -37,7 +37,7 @@ describe('adding and removing properties', () => {
     screen.getByRole('button', { name: 'Add Uber template1, property2' })
     // Remove button removed.
     expect(screen.queryAllByRole('button', { name: 'Remove Uber template1, property2' })).toHaveLength(0)
-  })
+  }, 15000)
 
   it('adds and removes repeatable nested resources', async () => {
     renderApp(null, history)
@@ -72,7 +72,7 @@ describe('adding and removing properties', () => {
     expect(screen.queryAllByRole('button', { name: 'Remove Uber template2' }).length).toBeFalsy
     // Add another still visible
     screen.getByRole('button', { name: 'Add another Uber template2' })
-  }, 10000)
+  }, 25000)
 
   it('adds and removes non-repeatable nested resources', async () => {
     renderApp(null, history)
@@ -90,7 +90,7 @@ describe('adding and removing properties', () => {
     expect(screen.queryAllByRole('button', { name: 'Remove Uber template2' }).length).toBeFalsy
     // No add another
     expect(screen.queryAllByRole('button', { name: 'Add another Uber template2' }).length).toBeFalsy
-  })
+  }, 15000)
 
   it('adds and removes nested inputs', async () => {
     renderApp(null, history)
@@ -116,5 +116,5 @@ describe('adding and removing properties', () => {
     expect((await screen.queryAllByPlaceholderText('Uber template2, property1'))).toHaveLength(0)
     // Delete button removed
     expect(screen.queryAllByRole('button', { name: 'Remove Uber template2, property1' })).toHaveLength(0)
-  })
+  }, 15000)
 })
