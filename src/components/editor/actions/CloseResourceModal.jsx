@@ -1,20 +1,19 @@
 // Copyright 2019 Stanford University see LICENSE for license
 
 import React from 'react'
+import PropTypes from 'prop-types'
 import { hideModal } from 'actions/modals'
 import { useDispatch, useSelector } from 'react-redux'
 import { clearResource } from 'actions/resources'
 import ModalWrapper, { useDisplayStyle, useModalCss } from '../../ModalWrapper'
 import { selectModalType } from 'selectors/modals'
 import { useHistory } from 'react-router-dom'
-import { selectCurrentResourceKey } from 'selectors/resources'
 
-const CloseResourceModal = () => {
+const CloseResourceModal = (props) => {
   const dispatch = useDispatch()
   const history = useHistory()
 
   const show = useSelector((state) => selectModalType(state) === 'CloseResourceModal')
-  const resourceKey = useSelector((state) => selectCurrentResourceKey(state))
 
   const handleClose = (event) => {
     dispatch(hideModal())
@@ -22,7 +21,7 @@ const CloseResourceModal = () => {
   }
 
   const handleCloseResource = (event) => {
-    dispatch(clearResource(resourceKey))
+    dispatch(clearResource(props.resourceKey))
     dispatch(hideModal())
     // In case this is /editor/<rtId>, clear
     history.push('/editor')
@@ -59,6 +58,10 @@ const CloseResourceModal = () => {
     </div>)
 
   return (<ModalWrapper modal={modal} />)
+}
+
+CloseResourceModal.propTypes = {
+  resourceKey: PropTypes.string.isRequired,
 }
 
 export default CloseResourceModal
