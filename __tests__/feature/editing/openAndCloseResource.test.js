@@ -14,7 +14,8 @@ describe('switching between multiple resources', () => {
     renderApp(store, history)
 
     await screen.findAllByRole('heading', { name: 'Abbreviated Title' })
-    const abbreviatedTitleTab = await screen.findByRole('button', { name: 'Abbreviated Title' })
+    // NOTE: There are two buttons with this name, so retrieve element using a selector
+    const abbreviatedTitleTab = screen.getByText('Abbreviated Title', { selector: 'button.nav-link' })
     expect(abbreviatedTitleTab).toHaveClass('active')
   })
 
@@ -47,7 +48,8 @@ describe('closing the resources', () => {
   it('removes the navigation tabs and the resources from view', async () => {
     renderApp(store, history)
 
-    const abbreviatedTitleTab = await screen.findByRole('button', { name: 'Abbreviated Title' })
+    // NOTE: There are two buttons with this name, so retrieve element using a selector
+    const abbreviatedTitleTab = screen.getByText('Abbreviated Title', { selector: 'button.nav-link' })
     const noteTab = await screen.findByRole('button', { name: 'Note' })
 
     // Closing the active tab will reveal the inactive resource as the one shown

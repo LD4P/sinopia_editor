@@ -1,12 +1,16 @@
-import { renderApp } from 'testUtils'
 import { fireEvent, screen, wait } from '@testing-library/react'
+import { renderApp } from 'testUtils'
 import Config from 'Config'
 
-// Mock jquery
-global.$ = jest.fn().mockReturnValue({ popover: jest.fn() })
 // This forces Sinopia server to use fixtures
 jest.spyOn(Config, 'useResourceTemplateFixtures', 'get').mockReturnValue(true)
 
+// Mock jquery
+global.$ = jest.fn().mockReturnValue({ popover: jest.fn() })
+// Mock out document.elementFromPoint used by useNavigableComponent.
+global.document.elementFromPoint = jest.fn()
+// Mock out scrollIntoView used by useNavigableComponent. See https://github.com/jsdom/jsdom/issues/1695
+Element.prototype.scrollIntoView = jest.fn()
 
 describe('loading new resource', () => {
   it('opens the resource', async () => {
@@ -23,10 +27,8 @@ describe('loading new resource', () => {
     screen.getByText('Jul 27, 2020')
 
     // Click the resource template
-    screen.debug(screen.getByRole('link', { name: 'Uber template1' }))
     fireEvent.click(screen.getByRole('link', { name: 'Uber template1' }))
     await wait(() => expect((screen.getAllByRole('heading', { name: 'Uber template1' }))).toHaveLength(1))
-
 
     // Not duplicating testing of rendering of resource template from loadResource test.
 
@@ -47,5 +49,23 @@ describe('loading new resource', () => {
 
     // Save button is disabled
     expect(screen.getAllByRole('button', { name: 'Save' })[0]).toBeDisabled()
-  })
+
+    // Only current property's subproperties are expanded in the nav panel
+    expect(screen.queryByRole('button', { name: '• Uber template2' })).not.toBeInTheDocument()
+    expect(screen.queryByRole('button', { name: '• Uber template3' })).not.toBeInTheDocument()
+    expect(screen.queryByRole('button', { name: '• Uber template4' })).not.toBeInTheDocument()
+
+    fireEvent.click(screen.getByRole('button', { name: 'Add Uber template1, property1' }))
+
+    // NOTE: using findByRole + a high timeout to allow enough time for the nav panel to re-render fully
+    expect(await screen.findByRole('button', { name: '• Uber template2' })).toBeInTheDocument()
+    expect(await screen.findByRole('button', { name: '• Uber template3' })).toBeInTheDocument()
+    expect(screen.queryByRole('button', { name: '• Uber template4' })).not.toBeInTheDocument()
+
+    fireEvent.click(screen.getByRole('button', { name: 'Uber template1, property18' }))
+
+    expect(screen.queryByRole('button', { name: '• Uber template2' })).not.toBeInTheDocument()
+    expect(screen.queryByRole('button', { name: '• Uber template3' })).not.toBeInTheDocument()
+    expect(screen.getByRole('button', { name: '• Uber template4' })).toBeInTheDocument()
+  }, 15000)
 })
