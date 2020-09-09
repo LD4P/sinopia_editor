@@ -1,5 +1,8 @@
 // Copyright 2020 Stanford University see LICENSE for license
-import { fetchResource, postResource, putResource } from 'sinopiaApi'
+import {
+  fetchResource, postResource, putResource,
+  postMarc, getMarcJob, getMarc,
+} from 'sinopiaApi'
 import { selectFullSubject } from 'selectors/resources'
 import { selectUser } from 'selectors/authenticate'
 import { createState } from 'stateUtils'
@@ -45,16 +48,14 @@ const resource = {
 }
 
 
-jest.spyOn(Auth, 'currentSession').mockReturnValue(new Promise((resolve) => {
-  resolve({
-    idToken: {
-      jwtToken: 'Secret-Token',
-    },
-  })
-}))
+jest.spyOn(Auth, 'currentSession').mockResolvedValue({ idToken: { jwtToken: 'Secret-Token' } })
 
 // Saves global fetch in order to be restored after each test with mocked fetch
 const originalFetch = global.fetch
+
+afterEach(() => {
+  global.fetch = originalFetch
+})
 
 describe('fetchResource', () => {
   describe('when using fixtures', () => {
@@ -69,26 +70,17 @@ describe('fetchResource', () => {
 
     it('errors if fixture does not exist', async () => {
       expect.assertions(1)
-      try {
-        await fetchResource('http://localhost:3000/repository/ld4p:RT:bf2:xxx')
-      } catch (e) {
-        expect(e.message).toBe('Error parsing resource: Error retrieving resource: Not Found')
-      }
+      await expect(fetchResource('http://localhost:3000/repository/ld4p:RT:bf2:xxx')).rejects.toThrow('Error parsing resource: Error retrieving resource: Not Found')
     })
   })
 
   describe('when using the api', () => {
-    afterEach(() => {
-      global.fetch = originalFetch
-    })
-
     it('retrieves resource', async () => {
       // mocks call to Sinopia API for a resource
-      global.fetch = jest.fn(() => new Promise((resolve) => (
-        resolve({
-          json: () => new Promise((resolve) => resolve(resource)),
-          ok: true,
-        }))))
+      global.fetch = jest.fn().mockResolvedValue({
+        json: jest.fn().mockResolvedValue(resource),
+        ok: true,
+      })
 
       const result = await fetchResource('https://api.development.sinopia.io/repository/yale/61f2f457-31f5-432c-8acf-b4037f77541f')
       expect(result[1].id).toBe('yale/61f2f457-31f5-432c-8acf-b4037f77541f')
@@ -96,18 +88,13 @@ describe('fetchResource', () => {
     })
 
     it('errors when unable to retrieve resource', async () => {
-      expect.assertions(1)
-      global.fetch = jest.fn(() => new Promise((resolve) => (
-        resolve({
-          statusText: 'failed to retrieve uri',
-          ok: false,
-        })
-      )))
-      try {
-        await fetchResource('http://api.sinopia.io/repository/12334')
-      } catch (e) {
-        expect(e.message).toBe('Error parsing resource: Error retrieving resource: failed to retrieve uri')
-      }
+      global.fetch = jest.fn().mockResolvedValue({
+        json: jest.fn().mockRejectedValue('Parse error'),
+        statusText: 'failed to retrieve uri',
+        ok: false,
+      })
+
+      await expect(fetchResource('http://api.sinopia.io/repository/12334')).rejects.toThrow('Error parsing resource: Sinopia API returned failed to retrieve uri')
     })
   })
 })
@@ -119,16 +106,11 @@ describe('postResource', () => {
   describe('with a new resource', () => {
     const resource = selectFullSubject(state, 't9zVwg2zO')
 
-    afterEach(() => {
-      global.fetch = originalFetch
-    })
-
     it('saves the new resource and returns uri', async () => {
-      global.fetch = jest.fn(() => new Promise((resolve) => (
-        resolve({
-          json: () => new Promise((resolve) => resolve(resource)),
-          ok: true,
-        }))))
+      global.fetch = jest.fn().mockResolvedValue({
+        json: jest.fn().mockResolvedValue(resource),
+        ok: true,
+      })
       const result = await postResource(resource, currentUser, 'pcc')
       expect(result).toContain('http://localhost:3000/repository/')
     })
@@ -138,9 +120,7 @@ describe('postResource', () => {
     const resource = selectFullSubject(state, 't9zVwg2zO')
 
     it('saves the new resource template and returns uri', async () => {
-      global.fetch = jest.fn(() => new Promise((resolve) => (
-        resolve({ ok: true })
-      )))
+      global.fetch = jest.fn().mockResolvedValue({ ok: true })
       // Mocks a resource template
       resource.subjectTemplate.id = 'sinopia:template:resource'
       resource.properties.push({
@@ -165,30 +145,107 @@ describe('putResource', () => {
     const resource = selectFullSubject(state, 't9zVwg2zO')
     const currentUser = selectUser(state)
 
-    afterEach(() => {
-      global.fetch = originalFetch
-    })
-
     it('saves the resource', async () => {
-      global.fetch = jest.fn(() => new Promise((resolve) => (
-        resolve({ ok: true })
-      )))
+      global.fetch = jest.fn().mockResolvedValue({ ok: true })
       const result = await putResource(resource, currentUser)
       expect(result).toBeTruthy()
     })
 
     it('errors if save failed', async () => {
-      global.fetch = jest.fn(() => new Promise((resolve) => (
-        resolve({
-          ok: false,
-          statusText: 'Cannot save resource',
-        })
-      )))
-      try {
-        await putResource(resource, currentUser)
-      } catch (e) {
-        expect(e.message).toBe('Sinopia API returned Cannot save resource')
-      }
+      global.fetch = jest.fn().mockResolvedValue({
+        ok: false,
+        json: jest.fn().mockRejectedValue('Parse error'),
+        statusText: 'Cannot save resource',
+      })
+      await expect(putResource(resource, currentUser)).rejects.toThrow('Sinopia API returned Cannot save resource')
+    })
+  })
+})
+
+const resourceUri = 'https://api.development.sinopia.io/repository/7b4c275d-b0c7-40a4-80b3-e95a0d9d987c'
+const marcPostUrl = 'https://api.development.sinopia.io/marc/7b4c275d-b0c7-40a4-80b3-e95a0d9d987c'
+const jobUrl = 'https://api.development.sinopia.io/marc/7b4c275d-b0c7-40a4-80b3-e95a0d9d987c/job/jlittman/2020-09-10T12:01:58.114Z'
+const marcUrl = 'https://api.development.sinopia.io/marc/70c5e814-a0f6-48cb-a4e5-91a5a71aae29/version/jlittman/2020-09-10T13:38:35.751Z'
+const marcTxt = 'This is the MARC text.'
+const marcBlob = 'xjkdfirwif2'
+
+describe('postMarc', () => {
+  describe('success', () => {
+    it('returns MARC job URL', async () => {
+      global.fetch = jest.fn().mockResolvedValue({ ok: true, headers: { get: jest.fn().mockReturnValue(jobUrl) } })
+
+      expect(await postMarc(resourceUri)).toEqual(jobUrl)
+      expect(global.fetch).toHaveBeenCalledWith(marcPostUrl, {
+        method: 'POST',
+        headers: {
+          Authorization: 'Bearer Secret-Token',
+        },
+      })
+    })
+  })
+
+  describe('failure', () => {
+    it('throws', async () => {
+      global.fetch = jest.fn().mockResolvedValue({ ok: false, json: jest.fn().mockResolvedValue([{ title: 'Ooops!', details: 'It failed.' }]) })
+
+      await expect(postMarc(resourceUri)).rejects.toThrow('Ooops!: It failed.')
+    })
+  })
+})
+
+describe('getMarcJob', () => {
+  describe('job not completed', () => {
+    it('returns undefined', async () => {
+      global.fetch = jest.fn().mockResolvedValue({ ok: true, redirected: false })
+
+      expect(await getMarcJob(jobUrl)).toEqual([undefined, undefined])
+      expect(global.fetch).toHaveBeenCalledWith(jobUrl)
+    })
+  })
+
+  describe('job completed', () => {
+    it('returns MARC url and MARC text', async () => {
+      global.fetch = jest.fn().mockResolvedValue({
+        ok: true, redirected: true, url: marcUrl, text: jest.fn().mockResolvedValue(marcTxt),
+      })
+
+      expect(await getMarcJob(jobUrl)).toEqual([marcUrl, marcTxt])
+    })
+  })
+
+  describe('failure', () => {
+    it('throws', async () => {
+      global.fetch = jest.fn().mockResolvedValue({ ok: false, json: jest.fn().mockResolvedValue([{ title: 'Ooops!', details: 'It failed.' }]) })
+
+      await expect(getMarcJob(jobUrl)).rejects.toThrow('Ooops!: It failed.')
+    })
+  })
+})
+
+describe('getMarc', () => {
+  describe('getting MARC text', () => {
+    it('returns blob', async () => {
+      global.fetch = jest.fn().mockResolvedValue({ ok: true, blob: jest.fn().mockResolvedValue(marcBlob) })
+
+      expect(await getMarc(marcUrl)).toEqual(marcBlob)
+      expect(global.fetch).toHaveBeenCalledWith(marcUrl, { headers: { Accept: 'application/marc' } })
+    })
+  })
+
+  describe('getting MARC record', () => {
+    it('returns blob', async () => {
+      global.fetch = jest.fn().mockResolvedValue({ ok: true, blob: jest.fn().mockResolvedValue(marcBlob) })
+
+      expect(await getMarc(marcUrl, true)).toEqual(marcBlob)
+      expect(global.fetch).toHaveBeenCalledWith(marcUrl, { headers: { Accept: 'text/plain' } })
+    })
+  })
+
+  describe('failure', () => {
+    it('throws', async () => {
+      global.fetch = jest.fn().mockResolvedValue({ ok: false, json: jest.fn().mockResolvedValue([{ title: 'Ooops!', details: 'It failed.' }]) })
+
+      await expect(getMarc(marcUrl)).rejects.toThrow('Ooops!: It failed.')
     })
   })
 })
