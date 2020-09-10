@@ -6,9 +6,8 @@ import React, {
 import { Typeahead } from 'react-bootstrap-typeahead'
 import defaultFilterBy from 'react-bootstrap-typeahead/lib/utils/defaultFilterBy'
 import PropTypes from 'prop-types'
-import { connect } from 'react-redux'
 import { selectModalType } from 'selectors/modals'
-import { useDispatch, useSelector } from 'react-redux'
+import { connect, useDispatch, useSelector } from 'react-redux'
 import { displayResourceValidations } from 'selectors/errors'
 import { renderMenuFunc, renderTokenFunc, itemsForProperty } from './renderTypeaheadFunctions'
 import { fetchLookup } from 'actionCreators/lookups'
@@ -16,10 +15,9 @@ import { selectLookup } from 'selectors/lookups'
 import _ from 'lodash'
 import { addProperty } from 'actions/resources'
 import { newUriValue, newLiteralValue } from 'utilities/valueFactory'
-import { hideModal } from 'actions/modals'
 import { bindActionCreators } from 'redux'
 import ModalWrapper from 'components/ModalWrapper'
-import { showModal } from 'actions/modals'
+import { hideModal, showModal } from 'actions/modals'
 
 // propertyTemplate of type 'lookup' does live QA lookup via API
 //  based on URI in propertyTemplate.valueConstraint.useValuesFrom,
@@ -151,7 +149,7 @@ const InputListLOC = (props) => {
 
   const handleClick = (event) => {
     event.preventDefault()
-    dispatch(showModal(`InputLookupModal`))
+    dispatch(showModal('InputLookupModal'))
   }
 
   const close = (event) => {
@@ -204,7 +202,7 @@ const InputListLOC = (props) => {
       <button
         id="lookup"
         onClick={ handleClick }
-        aria-label={`LookupLOC`}
+        aria-label={'LookupLOC'}
         className="btn btn-sm btn-secondary btn-literal">
         My Button Label
       </button>
@@ -216,10 +214,14 @@ const InputListLOC = (props) => {
 InputListLOC.propTypes = {
   property: PropTypes.object.isRequired,
   show: PropTypes.bool,
+  hideModal: PropTypes.func,
+  showModal: PropTypes.func,
+  textValue: PropTypes.string,
+
 }
 
-const mapStateToProps = (state, ownProps) => {
-  const show = selectModalType(state) === `InputLookupModal`
+const mapStateToProps = (state, _ownProps) => {
+  const show = selectModalType(state) === 'InputLookupModal'
   return {
     show,
   }
