@@ -46,7 +46,6 @@ services:
   #     - elasticsearch
   mongo:
     image: mongo:4.4
-    restart: always
     ports:
       - 27017:27017
       - 28017:28017
@@ -62,11 +61,9 @@ services:
     #   dockerfile: Dockerfile-setup
     depends_on:
       - mongo
-    restart: "no"
   # Uncomment to use Mongo-Express to monitor Mongo. Do not commit docker-compose.yml.
   # mongo-express:
   #   image: mongo-express
-  #   restart: always
   #   ports:
   #     - 8082:8081
   #   environment:
@@ -78,7 +75,6 @@ services:
     # build:
     #   context: ../sinopia_api
     #   dockerfile: Dockerfile
-    restart: always
     ports:
       - 3000:3000
     environment:
