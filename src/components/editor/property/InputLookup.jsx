@@ -5,18 +5,16 @@ import React, {
 } from 'react'
 import { Typeahead, asyncContainer } from 'react-bootstrap-typeahead'
 import PropTypes from 'prop-types'
-import { connect } from 'react-redux'
 import { selectModalType } from 'selectors/modals'
-import { useSelector, useDispatch } from 'react-redux'
+import { connect, useSelector, useDispatch } from 'react-redux'
 import { displayResourceValidations } from 'selectors/errors'
 import _ from 'lodash'
 import { renderMenuFunc, renderTokenFunc, itemsForProperty } from './renderTypeaheadFunctions'
 import { newUriValue, newLiteralValue } from 'utilities/valueFactory'
 import { addProperty } from 'actions/resources'
-import { hideModal } from 'actions/modals'
+import { hideModal, showModal } from 'actions/modals'
 import { bindActionCreators } from 'redux'
 import ModalWrapper from 'components/ModalWrapper'
-import { showModal } from 'actions/modals'
 
 const AsyncTypeahead = asyncContainer(Typeahead)
 
@@ -163,7 +161,7 @@ const InputLookup = (props) => {
 
   const handleClick = (event) => {
     event.preventDefault()
-    dispatch(showModal(`InputLookupModal`))
+    dispatch(showModal('InputLookupModal'))
   }
 
   const close = (event) => {
@@ -203,13 +201,13 @@ const InputLookup = (props) => {
       </div>
     </div>
   )
-  
+
   return (
     <React.Fragment>
       <button
         id="lookup"
         onClick={ handleClick }
-        aria-label={`Lookups`}
+        aria-label={'Lookups'}
         className="btn btn-sm btn-secondary btn-literal">
         My Button Label
       </button>
@@ -223,10 +221,12 @@ InputLookup.propTypes = {
   getLookupResults: PropTypes.func.isRequired,
   getOptions: PropTypes.func.isRequired,
   show: PropTypes.bool,
+  hideModal: PropTypes.func,
+  textValue: PropTypes.string,
 }
 
-const mapStateToProps = (state, ownProps) => {
-  const show = selectModalType(state) === `InputLookupModal`
+const mapStateToProps = (state, _ownProps) => {
+  const show = selectModalType(state) === 'InputLookupModal'
   return {
     show,
   }
