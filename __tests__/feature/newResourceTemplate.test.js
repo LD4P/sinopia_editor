@@ -15,7 +15,7 @@ describe('creating new resource template ', () => {
     fireEvent.click(screen.getByRole('link', { name: 'Resource Templates' }))
 
     // Click the new resource template button
-    fireEvent.click(screen.getByRole('link', { name: '+ New resource template' }))
+    fireEvent.click(screen.getByRole('link', { name: '+ New template' }))
     await wait(() => expect((screen.getAllByRole('heading', { name: 'Resource Template (dummy)' }))).toHaveLength(1))
   })
 })
