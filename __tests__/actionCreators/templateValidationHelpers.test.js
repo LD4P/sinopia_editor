@@ -399,7 +399,7 @@ describe('validateTemplates()', () => {
         error: 'The following referenced resource templates are not available in Sinopia: lc:RT:bf2:Identifiers:Barcode, lc:RT:bf2:Identifiers:Copyright',
       }
       expect(store.getActions()).toHaveAction('ADD_ERROR', payload)
-    })
+    }, 10000)
   })
 
   describe('template with non-unique property template refs', () => {

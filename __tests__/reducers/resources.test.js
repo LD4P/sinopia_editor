@@ -5,6 +5,7 @@ import {
   hideProperty, removeProperty, removeSubject,
   removeValue, saveResourceFinished, setBaseURL, setCurrentResource,
   setUnusedRDF, showProperty, loadResourceFinished, setResourceGroup,
+  setValueOrder,
 } from 'reducers/resources'
 
 import { createState } from 'stateUtils'
@@ -25,6 +26,7 @@ const reducers = {
   SET_CURRENT_RESOURCE: setCurrentResource,
   SET_UNUSED_RDF: setUnusedRDF,
   SET_RESOURCE_GROUP: setResourceGroup,
+  SET_VALUE_ORDER: setValueOrder,
   SHOW_PROPERTY: showProperty,
 }
 
@@ -726,5 +728,25 @@ describe('setResourceGroup()', () => {
         },
       },
     })
+  })
+})
+
+describe('setValueOrder()', () => {
+  it('sets value order', () => {
+    const oldState = createState({ hasResourceWithTwoNestedResources: true })
+
+    expect(oldState.selectorReducer.entities.properties.v1o90QO1Qx.valueKeys).toEqual(['VDOeQCnFA8', 'VDOeQCnFA9'])
+
+    const action = {
+      type: 'SET_VALUE_ORDER',
+      payload: {
+        valueKey: 'VDOeQCnFA9',
+        index: 1,
+      },
+    }
+
+    const newState = reducer(oldState.selectorReducer, action)
+
+    expect(newState.entities.properties.v1o90QO1Qx.valueKeys).toEqual(['VDOeQCnFA9', 'VDOeQCnFA8'])
   })
 })

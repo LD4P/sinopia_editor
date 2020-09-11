@@ -170,6 +170,9 @@ const addValueToNewState = (newState, value, siblingValueKey) => {
   newValue.propertyKey = newValue.property.key
   delete newValue.property
 
+  // Remove index
+  delete newValue.index
+
   // Add value to state
   const oldValue = newState.entities.values[newValue.key]
   newState.entities.values[newValue.key] = newValue
@@ -381,6 +384,20 @@ export const setResourceGroup = (state, action) => {
   const newState = { ...state }
 
   newState.entities.subjects[action.payload.resourceKey].group = action.payload.group
+
+  return newState
+}
+
+export const setValueOrder = (state, action) => {
+  const newState = { ...state }
+
+  const valueKey = action.payload.valueKey
+  const index = action.payload.index
+  const newValue = newState.entities.values[valueKey]
+  const newProperty = newState.entities.properties[newValue.propertyKey]
+
+  const filterValueKeys = newProperty.valueKeys.filter((key) => key !== valueKey)
+  newProperty.valueKeys = [...filterValueKeys.slice(0, index - 1), valueKey, ...filterValueKeys.slice(index - 1)]
 
   return newState
 }

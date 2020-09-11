@@ -36,7 +36,9 @@ describe('selectValue()', () => {
 
   it('returns value', () => {
     const state = createState({ hasResourceWithNestedResource: true })
-    expect(selectValue(state, 'VDOeQCnFA8')).toBeValue('VDOeQCnFA8')
+    const value = selectValue(state, 'VDOeQCnFA8')
+    expect(value).toBeValue('VDOeQCnFA8')
+    expect(value.index).toBe(1)
   })
 })
 

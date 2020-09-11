@@ -75,3 +75,11 @@ export const removeProperty = (propertyKey) => ({
   type: 'REMOVE_PROPERTY',
   payload: propertyKey,
 })
+
+export const setValueOrder = (valueKey, index) => ({
+  type: 'SET_VALUE_ORDER',
+  payload: {
+    valueKey,
+    index,
+  },
+})

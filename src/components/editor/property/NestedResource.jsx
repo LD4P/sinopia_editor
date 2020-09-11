@@ -16,7 +16,7 @@ const NestedResource = (props) => {
   /* eslint-disable jsx-a11y/click-events-have-key-events */
   /* eslint-disable jsx-a11y/no-static-element-interactions */
   return (
-    <div ref={navEl} onClick={navClickHandler}>
+    <div className='nested-resource' ref={navEl} onClick={navClickHandler}>
       <div className="row" key={props.valueKey}>
         <section className="col-md-6">
           <h5>{ props.value.valueSubject.subjectTemplate.label }</h5>

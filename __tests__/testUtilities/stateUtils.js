@@ -11,6 +11,7 @@ export const createState = (options = {}) => {
   buildResourceWithUri(state, options)
   buildResourceWithContractedLiteral(state, options)
   buildResourceWithNestedResource(state, options)
+  buildResourceWithTwoNestedResources(state, options)
   buildResourceWithContractedNestedResource(state, options),
   buildResourceWithError(state, options),
   buildExports(state, options)
@@ -673,4 +674,180 @@ const buildLookups = (state, options) => {
     ],
   }
 }
+
+const buildResourceWithTwoNestedResources = (state, options) => {
+  if (!options.hasResourceWithTwoNestedResources) return
+
+  state.selectorReducer.editor.currentResource = 'ljAblGiBW'
+  state.selectorReducer.entities.subjectTemplates = {
+    'resourceTemplate:testing:uber1': {
+      key: 'resourceTemplate:testing:uber1',
+      id: 'resourceTemplate:testing:uber1',
+      class: 'http://id.loc.gov/ontologies/bibframe/Uber1',
+      label: 'Uber template1',
+      remark: 'Template for testing purposes.',
+      propertyTemplateKeys: [
+        'resourceTemplate:testing:uber1 > http://id.loc.gov/ontologies/bibframe/uber/template1/property1',
+      ],
+    },
+    'resourceTemplate:testing:uber2': {
+      key: 'resourceTemplate:testing:uber2',
+      id: 'resourceTemplate:testing:uber2',
+      class: 'http://id.loc.gov/ontologies/bibframe/Uber2',
+      label: 'Uber template2',
+      remark: 'Template for testing purposes with single repeatable literal.',
+      propertyTemplateKeys: [
+        'resourceTemplate:testing:uber2 > http://id.loc.gov/ontologies/bibframe/uber/template2/property1',
+      ],
+    },
+  }
+  state.selectorReducer.entities.propertyTemplates = {
+    'resourceTemplate:testing:uber1 > http://id.loc.gov/ontologies/bibframe/uber/template1/property1': {
+      key: 'resourceTemplate:testing:uber1 > http://id.loc.gov/ontologies/bibframe/uber/template1/property1',
+      subjectTemplateKey: 'resourceTemplate:testing:uber1',
+      label: 'Uber template1, property1',
+      uri: 'http://id.loc.gov/ontologies/bibframe/uber/template1/property1',
+      required: false,
+      repeatable: true,
+      defaults: [],
+      remark: 'Nested, repeatable resource template.',
+      remarkUrl: null,
+      type: 'resource',
+      component: 'InputURI',
+      valueSubjectTemplateKeys: [
+        'resourceTemplate:testing:uber2',
+      ],
+      authorities: [],
+    },
+    'resourceTemplate:testing:uber2 > http://id.loc.gov/ontologies/bibframe/uber/template2/property1': {
+      key: 'resourceTemplate:testing:uber2 > http://id.loc.gov/ontologies/bibframe/uber/template2/property1',
+      subjectTemplateKey: 'resourceTemplate:testing:uber2',
+      label: 'Uber template2, property1',
+      uri: 'http://id.loc.gov/ontologies/bibframe/uber/template2/property1',
+      required: false,
+      repeatable: true,
+      defaults: [],
+      remark: 'A repeatable literal',
+      remarkUrl: null,
+      type: 'literal',
+      component: 'InputLiteral',
+      authorities: [],
+    },
+  }
+  state.selectorReducer.entities.subjects = {
+    ljAblGiBW: {
+      key: 'ljAblGiBW',
+      uri: null,
+      resourceKey: 'ljAblGiBW',
+      subjectTemplateKey: 'resourceTemplate:testing:uber1',
+      propertyKeys: [
+        'v1o90QO1Qx',
+      ],
+      changed: false,
+      bfAdminMetadataRefs: [],
+      bfInstanceRefs: [],
+      bfItemRefs: [],
+      bfWorkRefs: [],
+      group: null,
+    },
+    XPb8jaPWo: {
+      key: 'XPb8jaPWo',
+      uri: null,
+      subjectTemplateKey: 'resourceTemplate:testing:uber2',
+      resourceKey: 'ljAblGiBW',
+      propertyKeys: [
+        '7caLbfwwle',
+      ],
+    },
+    XPb8jaPWp: {
+      key: 'XPb8jaPWp',
+      uri: null,
+      subjectTemplateKey: 'resourceTemplate:testing:uber2',
+      resourceKey: 'ljAblGiBW',
+      propertyKeys: [
+        '7caLbfwwlf',
+      ],
+    },
+  }
+  state.selectorReducer.entities.properties = {
+    v1o90QO1Qx: {
+      key: 'v1o90QO1Qx',
+      subjectKey: 'ljAblGiBW',
+      resourceKey: 'ljAblGiBW',
+      propertyTemplateKey: 'resourceTemplate:testing:uber1 > http://id.loc.gov/ontologies/bibframe/uber/template1/property1',
+      valueKeys: [
+        'VDOeQCnFA8',
+        'VDOeQCnFA9',
+      ],
+      show: true,
+      errors: options.error || [],
+    },
+    '7caLbfwwle': {
+      key: '7caLbfwwle',
+      subjectKey: 'XPb8jaPWo',
+      resourceKey: 'ljAblGiBW',
+      propertyTemplateKey: 'resourceTemplate:testing:uber2 > http://id.loc.gov/ontologies/bibframe/uber/template2/property1',
+      valueKeys: [
+        'pRJ0lO_mT-',
+      ],
+      show: true,
+      errors: [],
+    },
+    '7caLbfwwlf': {
+      key: '7caLbfwwlf',
+      subjectKey: 'XPb8jaPWp',
+      resourceKey: 'ljAblGiBW',
+      propertyTemplateKey: 'resourceTemplate:testing:uber2 > http://id.loc.gov/ontologies/bibframe/uber/template2/property1',
+      valueKeys: [
+        'pRJ0lO_mU-',
+      ],
+      show: true,
+      errors: [],
+    },
+  }
+  state.selectorReducer.entities.values = {
+    VDOeQCnFA8: {
+      key: 'VDOeQCnFA8',
+      propertyKey: 'v1o90QO1Qx',
+      resourceKey: 'ljAblGiBW',
+      literal: null,
+      lang: null,
+      uri: null,
+      label: null,
+      valueSubjectKey: 'XPb8jaPWo',
+    },
+    VDOeQCnFA9: {
+      key: 'VDOeQCnFA9',
+      propertyKey: 'v1o90QO1Qx',
+      resourceKey: 'ljAblGiBW',
+      literal: null,
+      lang: null,
+      uri: null,
+      label: null,
+      valueSubjectKey: 'XPb8jaPWp',
+    },
+    'pRJ0lO_mT-': {
+      key: 'pRJ0lO_mT-',
+      propertyKey: '7caLbfwwle',
+      resourceKey: 'ljAblGiBW',
+      literal: 'foo',
+      lang: 'eng',
+      uri: null,
+      label: null,
+      valueSubjectKey: null,
+    },
+    'pRJ0lO_mU-': {
+      key: 'pRJ0lO_mU-',
+      propertyKey: '7caLbfwwlf',
+      resourceKey: 'ljAblGiBW',
+      literal: 'bar',
+      lang: 'eng',
+      uri: null,
+      label: null,
+      valueSubjectKey: null,
+    },
+  }
+}
+
+
 export const noop = () => {}

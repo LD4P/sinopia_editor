@@ -286,6 +286,7 @@ The following are only in the resource subject (that is, the base subject).
   label: <label for uri>,
   valueSubjectKey: <key for subject for a nested resource>,
   -> valueSubject: {<subject>}
+  -> index: <1 based index of the value (relative to siblings)>
 }
 ```
 -> Added by selector, not stored in state.

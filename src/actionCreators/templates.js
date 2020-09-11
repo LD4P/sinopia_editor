@@ -43,7 +43,7 @@ export const loadResourceTemplateWithoutValidation = (resourceTemplateId, resour
 
   const templateUri = `${Config.sinopiaApiBase}/resource/${resourceTemplateId}`
 
-  const newResourceTemplatePromise = fetchResource(templateUri)
+  const newResourceTemplatePromise = fetchResource(templateUri, true)
     .then(([dataset]) => {
       const subjectTemplate = new TemplatesBuilder(dataset, templateUri).build()
       dispatch(addTemplates(subjectTemplate))
