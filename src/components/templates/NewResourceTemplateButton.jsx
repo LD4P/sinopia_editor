@@ -35,7 +35,7 @@ const NewResourceTemplateButton = (props) => {
     })
   }
   return (
-    <Link to={{ pathname: '/editor', state: { } }} onClick={(e) => handleClick(e)}>+ New resource template</Link>
+    <Link to={{ pathname: '/editor', state: { } }} onClick={(e) => handleClick(e)}>+ New template</Link>
   )
 }
 
