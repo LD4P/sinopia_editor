@@ -11,4 +11,6 @@ export const selectLanguageLabel = (state, languageId) => {
   return lang ? lang.label : ''
 }
 
-export const noop = () => {}
+export const hasLanguages = (state) => {
+  state.selectorReducer.entities.languages.options.length > 0
+}

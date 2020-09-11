@@ -1,9 +1,10 @@
 // Copyright 2019 Stanford University see LICENSE for license
 
 import { fetchingLanguages, languagesReceived } from 'actions/languages'
+import { hasLanguages } from 'selectors/languages'
 
 export const fetchLanguages = () => (dispatch, getState) => {
-  if (getState().selectorReducer.entities.languages.options.length > 0) {
+  if (hasLanguages(getState())) {
     return // Languages already loaded
   }
 
