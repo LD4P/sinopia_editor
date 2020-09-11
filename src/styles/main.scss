@@ -6,7 +6,11 @@ $modal-content-border-radius: 2px;
 $enable-shadows: true;
 $modal-content-box-shadow-xs: 0 .125rem .25rem rgba(black, .075) !default;
 $modal-content-border-color: gray;
-$modal-content-bg: #F8F6EF;
+$modal-content-bg: #f8f6ef;
+
+$resource-tab-active-bg: #b26f16;
+// $tab-background-active: #b26f16;
+
 @import "~bootstrap/scss/bootstrap";
 
 .left-space {
@@ -235,28 +239,7 @@ div.rbt-input-multi {
   padding: 20px 25px 20px 20px;
 }
 
-/** For header tabs **/
-.editor-navtabs {
-  color: #2F2424;
-  /** top right bottom left **/
-  margin:0 5px -15px 5px;
-  border:0px;
-}
-
-.editor-navtabs .nav-link.active {
-  font-weight: 900;
-  text-decoration: none;
-}
-
-.editor-navtabs .hover {
-  background-color:transparent;
-}
-
-.editor-navtabs a {
-  color: #2F2424;
-  font-weight: 500;
-  line-height: 1.2;
-}
+@import 'header';
 
 /** For lookup menu headers **/
 .dropdown-header {
@@ -359,23 +342,7 @@ button.btn-add-instance {
   text-decoration: underline;
 }
 
-ul.resources-nav-tabs > li.nav-item {
-  margin-bottom: 0px;
-  margin-right: 10px;
-}
-
-ul.resources-nav-tabs > li.nav-item:not(.active) {
-  background-color: #8C8A83;
-}
-
-ul.resources-nav-tabs button:not(.active) {
-  color: #FFFFFF;
-}
-
-ul.resources-nav-tabs button.active {
-  font-weight: bold;
-  text-decoration: underline;
-}
+@import 'resourceTabs';
 
 .icon-lg {
   font-size: 20px;

@@ -66,8 +66,7 @@ describe('searching and opening a resource', () => {
     await screen.findByText('Title note', { selector: 'h3' })
 
     // There are nav tabs and a duplicate resource
-    const tabBtns = await screen.findAllByText('Title note', { selector: 'button' })
-    expect(tabBtns[0]).not.toHaveClass('active')
-    expect(tabBtns[1]).toHaveClass('active')
+    await screen.findAllByText('Title note', { selector: '.nav-item.active .nav-link' })
+    await screen.findAllByText('Title note', { selector: '.nav-item:not(.active) .nav-link' })
   })
 })

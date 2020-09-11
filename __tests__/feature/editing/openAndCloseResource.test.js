@@ -10,34 +10,29 @@ describe('switching between multiple resources', () => {
   const state = createState({ hasTwoLiteralResources: true })
   const store = createStore(state)
 
-  it('has a resource loaded into state and is shown as the active button tab', async () => {
+  it('has a resource loaded into state', async () => {
     renderApp(store, history)
 
     await screen.findByText('Abbreviated Title', { selector: 'h3' })
-    // NOTE: There are two buttons with this name, so retrieve element using a selector
-    const abbreviatedTitleTab = screen.getByText('Abbreviated Title', { selector: 'button.nav-link' })
-    expect(abbreviatedTitleTab).toHaveClass('active')
+    await screen.findByText('Abbreviated Title', { selector: '.nav-item.active .nav-link' })
   })
 
   it('has a second resource shown as the inactive button tab', async () => {
     renderApp(store, history)
 
-    const noteTab = await screen.findByText('Note', { selector: 'button' })
-    expect(noteTab).not.toHaveClass('active')
+    await screen.findByText('Note', { selector: '.nav-item:not(.active) .nav-link' })
   })
 
   it('switches between the active and inactive resources', async () => {
     renderApp(store, history)
 
-    // Click the inactive button tab
-    const noteTab = await screen.findByText('Note', { selector: 'button' })
+    // Click the inactive tab
+    const noteTab = await screen.findByText('Note', { selector: '.nav-link' })
     fireEvent.click(noteTab)
-    expect(noteTab).toHaveClass('active')
 
     // Note is now the active resource and Abbreviated Title is now the inactive resource
     await screen.findByText('Note', { selector: 'h3' })
-    const abbreviatedTitleTab = await screen.findByText('Abbreviated Title', { selector: 'button' })
-    expect(abbreviatedTitleTab).not.toHaveClass('active')
+    await screen.findByText('Abbreviated Title', { selector: '.nav-item:not(.active) .nav-link' })
   })
 })
 
@@ -48,9 +43,8 @@ describe('closing the resources', () => {
   it('removes the navigation tabs and the resources from view', async () => {
     renderApp(store, history)
 
-    // NOTE: There are two buttons with this name, so retrieve element using a selector
-    const abbreviatedTitleTab = screen.getByText('Abbreviated Title', { selector: 'button.nav-link' })
-    const noteTab = await screen.findByText('Note', { selector: 'button' })
+    const abbreviatedTitleTab = screen.getByText('Abbreviated Title', { selector: '.nav-link' })
+    const noteTab = await screen.findByText('Note', { selector: '.nav-link' })
 
     // Closing the active tab will reveal the inactive resource as the one shown
     const closeBtn = screen.getAllByText('Close', { selector: 'button' })
