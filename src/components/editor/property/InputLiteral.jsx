@@ -91,8 +91,14 @@ const InputLiteral = (props) => {
     return false
   }
 
+  const hasInput = () => !_.isEmpty(props.content)
+
   const handleBlur = (e) => {
-    if (!focusIn(e, 'diacritics-selection') && !focusIn(e, id) && props.property.valueKeys.length > 0) {
+    if (focusIn(e, 'diacritics-selection') || focusIn(e, id)) {
+      return
+    }
+
+    if (hasInput()) {
       addItem()
       props.hideDiacritics()
     }
