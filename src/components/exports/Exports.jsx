@@ -6,11 +6,12 @@ import Header from '../Header'
 import { useSelector } from 'react-redux'
 import Alerts from '../Alerts'
 import Config from 'Config'
+import { selectExports } from 'selectors/exports'
 
 export const exportsErrorKey = 'exports'
 
 const Exports = (props) => {
-  const exportFiles = useSelector((state) => state.selectorReducer.entities.exports)
+  const exportFiles = useSelector((state) => selectExports(state))
 
   const sortedExportFiles = useMemo(() => exportFiles.sort((a, b) => a.localeCompare(b)), [exportFiles])
 
