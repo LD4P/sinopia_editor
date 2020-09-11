@@ -38,5 +38,5 @@ describe('preview RDF after editing', () => {
     // Tests for presence of turtle RDF in the model
     const rdfDisplay = await screen.findByTestId('rdf-display')
     expect(rdfDisplay.textContent).toContain(rdf)
-  })
+  }, 15000)
 })
