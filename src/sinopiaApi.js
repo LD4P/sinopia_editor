@@ -25,12 +25,8 @@ export const fetchResource = (uri) => {
     fetchPromise = fetch(uri, {
       headers: { Accept: 'application/json' },
     })
-      .then((resp) => {
-        if (!resp.ok) {
-          throw new Error(`Error retrieving resource: ${resp.statusText}`)
-        }
-        return resp.json()
-      })
+      .then((resp) => checkResp(resp)
+        .then(() => resp.json()))
   }
 
   return fetchPromise
@@ -63,13 +59,40 @@ export const putResource = (resource, currentUser, method) => saveBodyForResourc
       },
       body,
     })
-      .then((resp) => {
-        if (!resp.ok) {
-          // TODO: Get info from returned errors object, but this is good enough for now.
-          throw new Error(`Sinopia API returned ${resp.statusText}`)
-        }
-        return true
-      })))
+      .then((resp) => checkResp(resp)
+        .then(() => true))))
+
+export const postMarc = (resourceUri) => {
+  const url = resourceUri.replace('repository', 'marc')
+  return getJwt()
+    .then((jwt) => fetch(url, {
+      method: 'POST',
+      headers: {
+        Authorization: `Bearer ${jwt}`,
+      },
+    }))
+    .then((resp) => checkResp(resp)
+      .then(() => resp.headers.get('Content-Location')))
+}
+
+export const getMarcJob = (marcJobUrl) => fetch(marcJobUrl)
+  .then((resp) => checkResp(resp)
+    .then(() => {
+      // Will return 200 if job is not yet completed.
+      // Will return 303 if job completed. Fetch automatically redirects,
+      // which retrieves the MARC text.
+      if (!resp.redirected) return [undefined, undefined]
+      return resp.text()
+        .then((body) => [resp.url, body])
+    }))
+
+export const getMarc = (marcUrl, asText) => fetch(marcUrl, {
+  headers: {
+    Accept: asText ? 'text/plain' : 'application/marc',
+  },
+})
+  .then((resp) => checkResp(resp)
+    .then(() => resp.blob()))
 
 const saveBodyForResource = (resource, user, group) => {
   const dataset = new GraphBuilder(resource).graph
@@ -100,3 +123,19 @@ const getJwt = () => Auth.currentSession()
     if (!data.idToken.jwtToken) throw new Error('jwt is undefined')
     return data.idToken.jwtToken
   })
+
+const checkResp = (resp) => {
+  if (resp.ok) return Promise.resolve()
+  return resp.json()
+    .then((errors) => {
+      // Assuming only one for now.
+      const error = errors[0]
+      const newError = new Error(`${error.title}: ${error.details}`)
+      newError.name = 'ApiError'
+      throw newError
+    })
+    .catch((err) => {
+      if (err.name === 'ApiError') throw err
+      throw new Error(`Sinopia API returned ${resp.statusText}`)
+    })
+}
