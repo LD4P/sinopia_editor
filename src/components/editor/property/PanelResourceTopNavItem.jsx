@@ -17,9 +17,10 @@ const PanelResourceTopNavItem = (props) => {
   if (displayValidations && props.hasError) classNames.push('text-danger')
 
   return (<button
-    type="button"
-    className={classNames.join(' ')}
-    onClick={() => dispatch(setCurrentComponent(props.resourceKey, props.componentKey))}>
+            type="button"
+            className={classNames.join(' ')}
+            aria-label={props.label}
+            onClick={() => dispatch(setCurrentComponent(props.resourceKey, props.componentKey))}>
     <h5>
       {prefixMark} {props.label}
     </h5>

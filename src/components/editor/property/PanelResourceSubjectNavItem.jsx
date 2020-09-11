@@ -19,7 +19,12 @@ const PanelResourceSubjectNavItem = (props) => {
   }
   subject.properties.forEach((property) => {
     if (props.level > 0 && !property.valueKeys) return
-    navItems.push(<PanelResourcePropertyNavItem key={property.key} propertyKey={property.key} level={props.level + 1} />)
+    navItems.push(
+      <PanelResourcePropertyNavItem key={property.key}
+                                    propertyKey={property.key}
+                                    resourceKey={subject.resourceKey}
+                                    level={props.level + 1} />,
+    )
   })
   return navItems
 }

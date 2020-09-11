@@ -1,6 +1,7 @@
 import React from 'react'
 import PanelResourceNavItem from './PanelResourceNavItem'
 import PanelResourceTopNavItem from './PanelResourceTopNavItem'
+import { selectCurrentComponentKey } from 'selectors/index'
 import { selectProperty } from 'selectors/resources'
 import { useSelector } from 'react-redux'
 import PanelResourceSubjectNavItem from './PanelResourceSubjectNavItem'
@@ -9,10 +10,11 @@ import _ from 'lodash'
 
 const PanelResourcePropertyNavItem = (props) => {
   const property = useSelector((state) => selectProperty(state, props.propertyKey))
-
   const hasValue = !_.isEmpty(property.values) && property.values.some((value) => value.literal || value.uri)
-
   const hasError = !_.isEmpty(property.errors)
+
+  const currentComponentKey = useSelector((state) => selectCurrentComponentKey(state, props.resourceKey))
+  const isCurrentComponent = props.propertyKey === currentComponentKey
 
   const navItems = []
   if (props.level === 1) {
@@ -34,7 +36,7 @@ const PanelResourcePropertyNavItem = (props) => {
         hasValue={hasValue}
         hasError={hasError} />)
   }
-  if (property.values) {
+  if (property.values && isCurrentComponent) {
     property.values.forEach((value) => {
       if (value.valueSubject) { navItems.push(<PanelResourceSubjectNavItem
         key={value.valueSubject.key}
@@ -47,6 +49,7 @@ const PanelResourcePropertyNavItem = (props) => {
 
 PanelResourcePropertyNavItem.propTypes = {
   propertyKey: PropTypes.string.isRequired,
+  resourceKey: PropTypes.string.isRequired,
   level: PropTypes.number.isRequired,
 }
 
