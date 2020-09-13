@@ -38,6 +38,7 @@ const PanelProperty = (props) => {
                   className="btn btn-sm btn-add btn-add-instance pull-right"
                   onClick={() => props.expandProperty(props.property.key, resourceEditErrorKey(props.resourceKey))}
                   aria-label={`Add ${props.property.propertyTemplate.label}`}
+                  data-testid={`Add ${props.property.propertyTemplate.label}`}
                   data-id={props.property.key}>
                 + Add
               </button>
@@ -46,6 +47,7 @@ const PanelProperty = (props) => {
               <button type="button"
                       className="btn btn-sm btn-remove pull-right"
                       aria-label={`Remove ${props.property.propertyTemplate.label}`}
+                      data-testid={`Remove ${props.property.propertyTemplate.label}`}
                       onClick={() => props.contractProperty(props.property.key)} data-id={props.id}>
                 <FontAwesomeIcon className="fa-inverse trash-icon" icon={trashIcon} />
               </button>

@@ -31,7 +31,7 @@ describe('getting property related info from a resource', () => {
     expect(infoIcon1).toHaveAttribute('data-content', 'Mandatory nested resource templates.')
 
     // Finds the nested resource
-    await screen.findByRole('heading', { name: 'Uber template4' })
+    await screen.findByText('Uber template4', { selector: 'h5' })
 
     // Finds the nested property info (tooltip remark is text)
     const nestedInfoIcon = await screen.findByTitle('Uber template4, property1')

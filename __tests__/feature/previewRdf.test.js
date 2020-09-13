@@ -16,24 +16,22 @@ const rdf = `<> <http://id.loc.gov/ontologies/bibframe/uber/template1/property7>
 
 describe('preview RDF after editing', () => {
   it('adds properties and then displays preview RDF model', async () => {
-    renderApp()
+    const { container } = renderApp()
 
     // Open the editor and then the templates tab
-    fireEvent.click(screen.getByRole('link', { name: 'Linked Data Editor' }))
-    fireEvent.click(screen.getByRole('link', { name: 'Resource Templates' }))
+    fireEvent.click(screen.getByText('Linked Data Editor', { selector: 'a' }))
+    fireEvent.click(screen.getByText('Resource Templates', { selector: 'a' }))
 
     // Click an existing resource template
-    await screen.findByText(/Uber template1/)
-    fireEvent.click(screen.getByRole('link', { name: 'Uber template1' }))
+    fireEvent.click(await screen.findByText(/Uber template1/, { selector: 'a' }))
 
     // Click on the Preview RDF Button
     await screen.findByText(/Uber template1/)
-    fireEvent.click(screen.getAllByRole('button', { name: 'Preview RDF' })[0])
+    fireEvent.click(container.querySelector('button[aria-label="Preview RDF"]'))
 
     // Wait for RDF Preview Modal and selects turtle Format
     await screen.findByText(/RDF Preview/)
-    fireEvent.change(screen.getByRole('combobox', { name: 'RDF Format Selection' }),
-      { target: { value: 'turtle' } })
+    fireEvent.change(screen.getByLabelText('RDF Format Selection'), { target: { value: 'turtle' } })
 
     // Tests for presence of turtle RDF in the model
     const rdfDisplay = await screen.findByTestId('rdf-display')

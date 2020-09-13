@@ -19,26 +19,26 @@ describe('user authentication', () => {
 
     // logout, and confirm that the UI gets rid of the old user name
     // and removes elements that require authentication to view
-    fireEvent.click(screen.getByRole('link', { name: 'Logout' }))
+    fireEvent.click(screen.getByText('Logout', { selector: 'a' }))
 
     // likely that things will have already re-rendered, but if not, wait for it
     if (screen.queryByText(/Foo McBar/)) {
       await waitForElementToBeRemoved(() => screen.getByText(/Foo McBar/))
     }
     // check for elements indicating we were sent back to the login page
-    expect(screen.queryByRole('link', { name: 'Logout' })).not.toBeInTheDocument()
+    expect(screen.queryByText('Logout')).not.toBeInTheDocument()
     screen.getByText(/Latest news/)
     screen.getByText(/Sinopia Version \d+.\d+.\d+ highlights/)
-    screen.getByRole('link', { name: 'Sinopia help site' })
+    screen.getByText('Sinopia help site', { selector: 'a' })
 
     // login as a different user
     fireEvent.change(screen.getByLabelText('User name'), { target: { value: 'baz.le.quux@example.edu' } })
     fireEvent.change(screen.getByLabelText('Password'), { target: { value: 'Password2' } })
-    fireEvent.click(screen.getByRole('button', { name: 'Login' }))
+    fireEvent.click(screen.getByText('Login', { selector: 'button' }))
 
     // make sure we get the expected username and page elements
     await screen.findByText(/Baz Le Quux/)
-    await screen.findByRole('link', { name: 'Logout' })
+    await screen.findByText('Logout', { selector: 'a' })
   })
 
   it('presents a helpful error when the user enters the wrong password', async () => {
@@ -48,15 +48,15 @@ describe('user authentication', () => {
     renderApp(store)
 
     // confirm that it appears user is not logged in
-    expect(screen.queryByRole('link', { name: 'Logout' })).not.toBeInTheDocument()
+    expect(screen.queryByText('Logout', { selector: 'a' })).not.toBeInTheDocument()
     screen.getByText(/Latest news/)
     screen.getByText(/Sinopia Version \d+.\d+.\d+ highlights/)
-    screen.getByRole('link', { name: 'Sinopia help site' })
+    screen.getByText('Sinopia help site', { selector: 'a' })
 
     // try to login
     fireEvent.change(screen.getByLabelText('User name'), { target: { value: 'baz.le.quux@example.edu' } })
     fireEvent.change(screen.getByLabelText('Password'), { target: { value: 'password1' } })
-    fireEvent.click(screen.getByRole('button', { name: 'Login' }))
+    fireEvent.click(screen.getByText('Login', { selector: 'button' }))
 
     // an error message should be presented
     await screen.findByText(/Incorrect username or password./)

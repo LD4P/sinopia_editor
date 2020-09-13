@@ -16,27 +16,27 @@ describe('expanding and contracting properties', () => {
     const history = createHistory(['/editor/resourceTemplate:testing:uber1'])
     renderApp(null, history)
 
-    await screen.findByRole('heading', { name: 'Uber template1' })
+    await screen.findByText('Uber template1', { selector: 'h3' })
 
     // Add a panel property
-    screen.getByRole('heading', { name: /Uber template1, property1 / })
-    fireEvent.click(screen.getByRole('button', { name: 'Add Uber template1, property1' }))
+    screen.getByText('Uber template1, property1', { selector: 'span' })
+    fireEvent.click(screen.getByTestId('Add Uber template1, property1'))
 
     await screen.findByText('Uber template2')
     await screen.findByText('Uber template3')
 
     // Add a nested property
-    fireEvent.click(screen.getByRole('button', { name: 'Add Uber template2, property1' }))
+    fireEvent.click(screen.getByTestId('Add Uber template2, property1'))
     // Input box displayed
     await screen.findByPlaceholderText('Uber template2, property1')
 
     // Hide
-    fireEvent.click(screen.getByRole('button', { name: 'Hide Uber template2, property1' }))
+    fireEvent.click(screen.getByTestId('Hide Uber template2, property1'))
     // Input box not displayed
-    expect(screen.queryAllByPlaceholderText('Uber template2, property1').length).toBeFalsy()
+    expect(screen.queryAllByPlaceholderText('Uber template2, property1')).toHaveLength(0)
 
     // Show
-    fireEvent.click(screen.getByRole('button', { name: 'Show Uber template2, property1' }))
+    fireEvent.click(screen.getByTestId('Show Uber template2, property1'))
     // Input box displayed
     await screen.findByPlaceholderText('Uber template2, property1')
   }, 25000)

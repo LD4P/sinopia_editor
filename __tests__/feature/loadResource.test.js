@@ -26,11 +26,11 @@ describe('loading saved resource', () => {
 
       renderApp()
 
-      fireEvent.click(screen.getByRole('link', { name: 'Linked Data Editor' }))
-      fireEvent.click(screen.getByRole('link', { name: 'Search' }))
+      fireEvent.click(screen.getByText('Linked Data Editor', { selector: 'a' }))
+      fireEvent.click(screen.getByText('Search', { selector: 'a' }))
 
       fireEvent.change(screen.getByLabelText('Query'), { target: { value: uri } })
-      fireEvent.click(screen.getByRole('button', { name: 'submit search' }))
+      fireEvent.click(screen.getByTestId('Submit search'))
 
       // The result
       await screen.findByText(uri)
@@ -39,17 +39,17 @@ describe('loading saved resource', () => {
       screen.getByText('Jul 15, 2020')
 
       // Click edit
-      fireEvent.click(screen.getByRole('button', { name: `Edit ${uri}` }))
-      expect((await screen.findAllByRole('heading', { name: 'Uber template1' }))).toHaveLength(1)
+      fireEvent.click(screen.getByTestId(`Edit ${uri}`))
+      expect((await screen.findAllByText('Uber template1', { selector: 'h3' }))).toHaveLength(1)
 
       // URI displayed
       screen.getByText(`URI for this resource: <${uri}>`)
 
       // Headings
-      screen.getByRole('heading', { name: 'Uber template1' })
-      screen.getByRole('heading', { name: /Uber template1, property1 / })
-      expect(screen.getAllByRole('heading', { name: 'Uber template2' })).toHaveLength(2)
-      screen.getByRole('heading', { name: 'Uber template3' })
+      screen.getByText('Uber template1', { selector: 'h3' })
+      screen.getByText('Uber template1, property1', { selector: 'span' })
+      screen.getAllByText('Uber template2', { selector: 'h5' })
+      screen.getByText('Uber template3', { selector: 'h5' })
       // Length is the heading and the value.
       expect(screen.getAllByText('Uber template3, property1')).toHaveLength(2)
       expect(screen.getAllByText('Uber template3, property2')).toHaveLength(2)
@@ -58,9 +58,9 @@ describe('loading saved resource', () => {
       expect(screen.getAllByText('Uber template2, property1')).toHaveLength(3)
 
       // Show input components
-      screen.getByRole('button', { name: 'Hide Uber template3, property1' })
-      screen.getByRole('button', { name: 'Hide Uber template3, property2' })
-      expect(screen.getAllByRole('button', { name: 'Hide Uber template2, property1' })).toHaveLength(2)
+      screen.getByTestId('Hide Uber template3, property1')
+      screen.getByTestId('Hide Uber template3, property2')
+      expect(screen.getAllByTestId('Hide Uber template2, property1')).toHaveLength(2)
       screen.getByPlaceholderText('Uber template3, property1')
       screen.getByPlaceholderText('Uber template3, property2')
       screen.getByPlaceholderText('Uber template1, property2')
@@ -74,11 +74,11 @@ describe('loading saved resource', () => {
 
       renderApp()
 
-      fireEvent.click(screen.getByRole('link', { name: 'Linked Data Editor' }))
-      fireEvent.click(screen.getByRole('link', { name: 'Search' }))
+      fireEvent.click(screen.getByText('Linked Data Editor', { selector: 'a' }))
+      fireEvent.click(screen.getByText('Search', { selector: 'a' }))
 
       fireEvent.change(screen.getByLabelText('Query'), { target: { value: uri } })
-      fireEvent.click(screen.getByRole('button', { name: 'submit search' }))
+      fireEvent.click(screen.getByTestId('Submit search'))
 
       // The result
       await screen.findByText(uri)
@@ -87,7 +87,7 @@ describe('loading saved resource', () => {
       screen.getByText('Jul 15, 2020')
 
       // Click edit
-      fireEvent.click(screen.getByRole('button', { name: `Edit ${uri}` }))
+      fireEvent.click(screen.getByTestId(`Edit ${uri}`))
 
       // Error displayed and remain on search page.
       screen.getByLabelText('Query')

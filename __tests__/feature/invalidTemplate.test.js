@@ -45,7 +45,7 @@ describe('an invalid resource template', () => {
     await fireEvent.change(input, { target: { value: 'Not found' } })
 
     // try to open the template
-    const link = await screen.findByRole('link', { name: 'Not found value template refs' })
+    const link = await screen.findByText('Not found value template refs', { selector: 'a' })
     fireEvent.click(link)
 
     // wait for the resource template to be loaded into the list of recently used templates
@@ -55,6 +55,6 @@ describe('an invalid resource template', () => {
 
     // check that the dismissable error message appears
     screen.findByText('The following referenced resource templates are not available in Sinopia:')
-    screen.findByRole('button', { name: 'x' })
+    screen.findByText('x', { selector: 'button' })
   })
 })

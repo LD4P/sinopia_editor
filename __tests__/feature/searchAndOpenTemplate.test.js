@@ -45,28 +45,28 @@ describe('searching and opening a resource', () => {
     await screen.findByText('resourceTemplate:bf2:Title:Note')
 
     // open the template
-    const link = await screen.findByRole('link', { name: 'Title note' })
+    const link = await screen.findByText('Title note', { selector: 'a' })
     fireEvent.click(link)
     await act(() => promise)
 
     // return the the RT list
-    const rtLink = await screen.findByRole('link', { name: 'Resource Templates' })
+    const rtLink = await screen.findByText('Resource Templates', { selector: 'a' })
     fireEvent.click(rtLink)
 
     // see the recently used RTs
-    const histTemplateBtn = await screen.findByRole('button', { name: 'Most recently used resource templates' })
+    const histTemplateBtn = await screen.findByText('Most recently used resource templates')
     fireEvent.click(histTemplateBtn)
     const rtHeaders = screen.getAllByText('Label / ID')
-    expect(rtHeaders.length).toBe(2)
+    expect(rtHeaders).toHaveLength(2)
 
     // open the recenly used RTs and click
-    const rtLinks = screen.getAllByRole('link', { name: 'Title note' })
-    expect(rtLinks.length).toBe(2)
+    const rtLinks = screen.getAllByText('Title note', { selector: 'a' })
+    expect(rtLinks).toHaveLength(2)
     fireEvent.click(rtLinks[0])
-    await screen.findByRole('heading', { name: 'Title note' })
+    await screen.findByText('Title note', { selector: 'h3' })
 
     // There are nav tabs and a duplicate resource
-    const tabBtns = await screen.findAllByRole('button', { name: 'Title note' })
+    const tabBtns = await screen.findAllByText('Title note', { selector: 'button' })
     expect(tabBtns[0]).not.toHaveClass('active')
     expect(tabBtns[1]).toHaveClass('active')
   })

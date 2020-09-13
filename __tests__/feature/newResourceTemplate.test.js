@@ -1,5 +1,5 @@
 import { renderApp } from 'testUtils'
-import { fireEvent, screen, wait } from '@testing-library/react'
+import { fireEvent, screen, waitFor } from '@testing-library/react'
 import Config from 'Config'
 
 // Mock jquery
@@ -11,11 +11,11 @@ describe('creating new resource template ', () => {
   it('opens the resource template for the resource', async () => {
     renderApp()
 
-    fireEvent.click(screen.getByRole('link', { name: 'Linked Data Editor' }))
-    fireEvent.click(screen.getByRole('link', { name: 'Resource Templates' }))
+    fireEvent.click(screen.getByText('Linked Data Editor', { selector: 'a' }))
+    fireEvent.click(screen.getByText('Resource Templates', { selector: 'a' }))
 
     // Click the new resource template button
-    fireEvent.click(screen.getByRole('link', { name: '+ New template' }))
-    await wait(() => expect((screen.getAllByRole('heading', { name: 'Resource Template (dummy)' }))).toHaveLength(1))
+    fireEvent.click(screen.getByText('+ New template', { selector: 'a' }))
+    await waitFor(() => expect((screen.getByText('Resource Template (dummy)', { selector: 'h3' }))))
   })
 })
