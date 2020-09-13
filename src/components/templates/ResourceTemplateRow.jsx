@@ -34,6 +34,7 @@ const ResourceTemplateRow = (props) => (<tr key={props.row.id}>
               className="btn btn-link"
               title="Edit"
               aria-label={`Edit ${props.row.label}`}
+              data-testid={`Edit ${props.row.label}`}
               onClick={(e) => props.handleEdit(props.row.uri, e) }>
         <FontAwesomeIcon icon={faEdit} className="icon-lg" />
       </button>
@@ -41,6 +42,7 @@ const ResourceTemplateRow = (props) => (<tr key={props.row.id}>
               className="btn btn-link"
               onClick={() => props.handleCopy(props.row.uri)}
               title="Copy"
+              data-testid={`Copy ${props.row.label}`}
               aria-label={`Copy ${props.row.label}`}>
         <FontAwesomeIcon icon={faCopy} className="icon-lg" />
       </button>

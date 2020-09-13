@@ -1,5 +1,5 @@
 import { renderApp } from 'testUtils'
-import { fireEvent, wait, screen } from '@testing-library/react'
+import { fireEvent, waitFor, screen } from '@testing-library/react'
 import * as sinopiaSearch from 'sinopiaSearch'
 import Config from 'Config'
 
@@ -12,8 +12,8 @@ describe('loading from RDF', () => {
     it('opens the resource', async () => {
       renderApp()
 
-      fireEvent.click(screen.getByRole('link', { name: 'Linked Data Editor' }))
-      fireEvent.click(screen.getByRole('link', { name: 'Load RDF' }))
+      fireEvent.click(screen.getByText('Linked Data Editor', { selector: 'a' }))
+      fireEvent.click(screen.getByText('Load RDF', { selector: 'a' }))
 
       screen.getByText('Load RDF into Editor')
 
@@ -24,9 +24,9 @@ describe('loading from RDF', () => {
       `
 
       fireEvent.change(screen.getByLabelText('RDF'), { target: { value: rdf } })
-      fireEvent.click(screen.getByRole('button', { name: 'Submit' }))
+      fireEvent.click(screen.getByText('Submit', { selector: 'button' }))
 
-      expect((await screen.findAllByRole('heading', { name: 'Abbreviated Title' })).length).toBeTruthy()
+      expect((await screen.findAllByText('Abbreviated Title', { selector: 'h3' })).length).toBeTruthy()
 
       screen.getByText('foo')
     })
@@ -36,8 +36,8 @@ describe('loading from RDF', () => {
     it('opens the resource', async () => {
       renderApp()
 
-      fireEvent.click(screen.getByRole('link', { name: 'Linked Data Editor' }))
-      fireEvent.click(screen.getByRole('link', { name: 'Load RDF' }))
+      fireEvent.click(screen.getByText('Linked Data Editor', { selector: 'a' }))
+      fireEvent.click(screen.getByText('Load RDF', { selector: 'a' }))
 
       screen.getByText('Load RDF into Editor')
 
@@ -49,9 +49,9 @@ describe('loading from RDF', () => {
 
       fireEvent.change(screen.getByLabelText('RDF'), { target: { value: rdf } })
       fireEvent.change(screen.getByLabelText('Base URI'), { target: { value: 'http://sinopia/c73d2fa9' } })
-      fireEvent.click(screen.getByRole('button', { name: 'Submit' }))
+      fireEvent.click(screen.getByText('Submit', { selector: 'button' }))
 
-      expect((await screen.findAllByRole('heading', { name: 'Abbreviated Title' })).length).toBeTruthy()
+      expect((await screen.findAllByText('Abbreviated Title', { selector: 'h3' })).length).toBeTruthy()
 
       screen.getByText('foo')
     })
@@ -61,8 +61,8 @@ describe('loading from RDF', () => {
     it('displays error', async () => {
       renderApp()
 
-      fireEvent.click(screen.getByRole('link', { name: 'Linked Data Editor' }))
-      fireEvent.click(screen.getByRole('link', { name: 'Load RDF' }))
+      fireEvent.click(screen.getByText('Linked Data Editor', { selector: 'a' }))
+      fireEvent.click(screen.getByText('Load RDF', { selector: 'a' }))
 
       screen.getByText('Load RDF into Editor')
 
@@ -73,7 +73,7 @@ describe('loading from RDF', () => {
       `
 
       fireEvent.change(screen.getByLabelText('RDF'), { target: { value: rdf } })
-      fireEvent.click(screen.getByRole('button', { name: 'Submit' }))
+      fireEvent.click(screen.getByText('Submit', { selector: 'button' }))
 
       await screen.findByText('Base URI must be provided.')
     })
@@ -93,8 +93,8 @@ describe('loading from RDF', () => {
     it('asks for the resource template id', async () => {
       renderApp()
 
-      fireEvent.click(screen.getByRole('link', { name: 'Linked Data Editor' }))
-      fireEvent.click(screen.getByRole('link', { name: 'Load RDF' }))
+      fireEvent.click(screen.getByText('Linked Data Editor', { selector: 'a' }))
+      fireEvent.click(screen.getByText('Load RDF', { selector: 'a' }))
 
       screen.getByText('Load RDF into Editor')
 
@@ -104,15 +104,15 @@ describe('loading from RDF', () => {
       `
 
       fireEvent.change(screen.getByLabelText('RDF'), { target: { value: rdf } })
-      fireEvent.click(screen.getByRole('button', { name: 'Submit' }))
+      fireEvent.click(screen.getByText('Submit', { selector: 'button' }))
 
-      await wait(() => {
+      await waitFor(() => {
         expect(screen.getByText('Choose resource template')).toBeVisible()
       })
 
       fireEvent.change(screen.getByPlaceholderText(/Enter id, label/), { target: { value: 'ld4p:RT:bf2:Title:AbbrTitle' } })
       fireEvent.click(await screen.findByText(/Abbreviated Title/))
-      fireEvent.click(screen.getByRole('button', { name: 'Save' }))
+      fireEvent.click(screen.getByText('Save', { selector: 'button' }))
 
       expect((await screen.findAllByText('Abbreviated Title')).length).toBeTruthy()
 
@@ -124,13 +124,13 @@ describe('loading from RDF', () => {
     it('displays error', async () => {
       renderApp()
 
-      fireEvent.click(screen.getByRole('link', { name: 'Linked Data Editor' }))
-      fireEvent.click(screen.getByRole('link', { name: 'Load RDF' }))
+      fireEvent.click(screen.getByText('Linked Data Editor', { selector: 'a' }))
+      fireEvent.click(screen.getByText('Load RDF', { selector: 'a' }))
 
       screen.getByText('Load RDF into Editor')
 
       fireEvent.change(screen.getByLabelText('RDF'), { target: { value: 'xyz' } })
-      fireEvent.click(screen.getByRole('button', { name: 'Submit' }))
+      fireEvent.click(screen.getByText('Submit', { selector: 'button' }))
 
       await screen.findByText(/Error parsing/)
     })
@@ -140,12 +140,12 @@ describe('loading from RDF', () => {
     it('disables submit', async () => {
       renderApp()
 
-      fireEvent.click(screen.getByRole('link', { name: 'Linked Data Editor' }))
-      fireEvent.click(screen.getByRole('link', { name: 'Load RDF' }))
+      fireEvent.click(screen.getByText('Linked Data Editor', { selector: 'a' }))
+      fireEvent.click(screen.getByText('Load RDF', { selector: 'a' }))
 
       screen.getByText('Load RDF into Editor')
 
-      const submitBtn = screen.getByRole('button', { name: 'Submit' })
+      const submitBtn = screen.getByText('Submit', { selector: 'button' })
       expect(submitBtn).toBeDisabled()
     })
   })

@@ -34,12 +34,14 @@ const NestedResourceActionButtons = (props) => {
       && <button
           className="btn btn-sm btn-add-property btn-add-another"
           aria-label={`Add another ${props.value.valueSubject.subjectTemplate.label}`}
+          data-testid={`Add another ${props.value.valueSubject.subjectTemplate.label}`}
           onClick={addAnother}>+ Add another</button>
     }
     { showRemoveButton
       && <button
         className="btn btn-sm btn-remove-another"
         aria-label={`Remove ${props.value.valueSubject.subjectTemplate.label}`}
+        data-testid={`Remove ${props.value.valueSubject.subjectTemplate.label}`}
         onClick={() => props.removeValue(props.value.key)}><FontAwesomeIcon icon={trashIcon} /></button>
     }
 

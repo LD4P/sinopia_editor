@@ -25,6 +25,7 @@ const SearchResultRows = (props) => props.searchResults.map((row) => (
         <button className="btn btn-link"
                 title="Edit"
                 aria-label={`Edit ${row.label}`}
+                data-testid={`Edit ${row.label}`}
                 onClick={(e) => props.handleEdit(row.uri, e) }>
           <FontAwesomeIcon icon={faEdit} className="icon-lg" />
         </button>
@@ -32,6 +33,7 @@ const SearchResultRows = (props) => props.searchResults.map((row) => (
                 className="btn btn-link"
                 onClick={() => props.handleCopy(row.uri)}
                 title="Copy"
+                data-testid={`Copy ${row.label}`}
                 aria-label={`Copy ${row.label}`}>
           <FontAwesomeIcon icon={faCopy} className="icon-lg" />
         </button>

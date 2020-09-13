@@ -18,11 +18,11 @@ describe('saving a resource', () => {
     renderApp(null, history)
 
     it('edits, saves, and copies the resource template', async () => {
-      await screen.findByRole('heading', { name: 'Title note' })
+      await screen.findByText('Title note', { selector: 'h3' })
 
-      const addBtn = screen.getByRole('button', { name: 'Add Note Text' })
-      const saveBtn = screen.getAllByRole('button', { name: 'Save' })[0] // there are multiple save buttons, grab the first
-      const copyBtn = await screen.getAllByRole('button', { name: 'Copy this resource to a new resource' })[0]
+      const addBtn = screen.getByTestId('Add Note Text')
+      const saveBtn = screen.getAllByText('Save', { selector: 'button' })[0] // there are multiple save buttons, grab the first
+      const copyBtn = await screen.getAllByTestId('Copy this resource to a new resource')[0]
 
       expect(saveBtn).toBeDisabled()
       expect(copyBtn).toBeDisabled()
@@ -35,12 +35,12 @@ describe('saving a resource', () => {
       // There is foo text. Perhaps check css.
       await wait(() => expect(screen.getByText('foo')).toHaveClass('rbt-token'))
       // There is remove button
-      expect(screen.getByRole('button', { name: 'Remove foo' })).toHaveTextContent('×')
+      expect(screen.getByTestId('Remove foo')).toHaveTextContent('×')
       // There is edit button.
-      const editBtn = screen.getByRole('button', { name: 'Edit foo' })
+      const editBtn = screen.getByTestId('Edit foo')
       expect(editBtn).toHaveTextContent('Edit')
       // There is language button.
-      expect(screen.getByRole('button', { name: 'Change language for foo' })).toHaveTextContent('Language: English')
+      expect(screen.getByTestId('Change language for foo')).toHaveTextContent('Language: English')
       // Input is Empty
       expect(input).toHaveValue('')
 
@@ -59,7 +59,7 @@ describe('saving a resource', () => {
       screen.findByText(/Copied http:\/\/localhost\/something\/or\/other to new resource./)
 
       // There are nav tabs and a duplicate resource with the same content
-      const tabBtns = await screen.findAllByRole('button', { name: 'Title note' })
+      const tabBtns = await screen.findAllByText('Title note', { selector: 'button' })
       expect(tabBtns[0]).not.toHaveClass('active')
       expect(tabBtns[1]).toHaveClass('active')
       expect(editBtn).toHaveTextContent('Edit')

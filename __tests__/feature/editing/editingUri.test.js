@@ -16,7 +16,7 @@ describe('editing a URI property', () => {
   it('allows entering, editing, and removing a non-repeatable URI', async () => {
     renderApp(null, history)
 
-    await screen.findByRole('heading', { name: 'Uber template1' })
+    await screen.findByText('Uber template1', { selector: 'h3' })
 
     // Add a value
     const input = screen.getByPlaceholderText('Uber template1, property5')
@@ -26,9 +26,9 @@ describe('editing a URI property', () => {
     // // There is uri text.
     expect(screen.getByText('http://id.loc.gov/authorities/names/n79032058')).toHaveClass('rbt-token')
     // There is remove button
-    expect(screen.getByRole('button', { name: 'Remove http://id.loc.gov/authorities/names/n79032058' })).toHaveTextContent('×')
+    expect(screen.getByTestId('Remove http://id.loc.gov/authorities/names/n79032058')).toHaveTextContent('×')
     // There is edit button.
-    const editBtn = screen.getByRole('button', { name: 'Edit http://id.loc.gov/authorities/names/n79032058' })
+    const editBtn = screen.getByTestId('Edit http://id.loc.gov/authorities/names/n79032058')
     expect(editBtn).toHaveTextContent('Edit')
     // Input is disabled and empty
     expect(input).toBeDisabled()
@@ -38,17 +38,17 @@ describe('editing a URI property', () => {
     fireEvent.click(editBtn)
     expect(input).not.toBeDisabled()
     expect(input).toHaveValue('http://id.loc.gov/authorities/names/n79032058')
-    expect(screen.queryAllByText('http://id.loc.gov/authorities/names/n79032058').length).toBeFalsy()
+    expect(screen.queryAllByText('http://id.loc.gov/authorities/names/n79032058')).toHaveLength(0)
 
     // Clicking remove
     fireEvent.change(input, { target: { value: 'http://id.loc.gov/authorities/names/n79056054' } })
     fireEvent.keyPress(input, { key: 'Enter', code: 13, charCode: 13 })
 
     expect(screen.getByText('http://id.loc.gov/authorities/names/n79056054')).toHaveClass('rbt-token')
-    const removeBtn = screen.getByRole('button', { name: 'Remove http://id.loc.gov/authorities/names/n79056054' })
+    const removeBtn = screen.getByTestId('Remove http://id.loc.gov/authorities/names/n79056054')
     fireEvent.click(removeBtn)
 
-    expect(screen.queryAllByText('http://id.loc.gov/authorities/names/n79056054').length).toBeFalsy()
+    expect(screen.queryAllByText('http://id.loc.gov/authorities/names/n79056054')).toHaveLength(0)
     expect(input).not.toBeDisabled()
     expect(input).toHaveValue('')
   })
@@ -56,7 +56,7 @@ describe('editing a URI property', () => {
   it('allows entering a repeatable URI', async () => {
     renderApp(null, history)
 
-    await screen.findByRole('heading', { name: 'Uber template1' })
+    await screen.findByText('Uber template1', { selector: 'h3' })
 
     // Add two values
     const input = screen.getByPlaceholderText('Uber template1, property6')
@@ -68,16 +68,16 @@ describe('editing a URI property', () => {
     // There is first uri.
     expect(screen.getByText('http://id.loc.gov/authorities/names/n79032058')).toHaveClass('rbt-token')
     // There is remove button
-    expect(screen.getByRole('button', { name: 'Remove http://id.loc.gov/authorities/names/n79032058' })).toHaveTextContent('×')
+    expect(screen.getByTestId('Remove http://id.loc.gov/authorities/names/n79032058')).toHaveTextContent('×')
     // There is edit button.
-    expect(screen.getByRole('button', { name: 'Edit http://id.loc.gov/authorities/names/n79032058' })).toHaveTextContent('Edit')
+    expect(screen.getByTestId('Edit http://id.loc.gov/authorities/names/n79032058')).toHaveTextContent('Edit')
 
     // And second uri.
     expect(screen.getByText('http://id.loc.gov/authorities/names/n79056054')).toHaveClass('rbt-token')
     // There is remove button
-    expect(screen.getByRole('button', { name: 'Remove http://id.loc.gov/authorities/names/n79056054' })).toHaveTextContent('×')
+    expect(screen.getByTestId('Remove http://id.loc.gov/authorities/names/n79056054')).toHaveTextContent('×')
     // There is edit button.
-    expect(screen.getByRole('button', { name: 'Edit http://id.loc.gov/authorities/names/n79056054' })).toHaveTextContent('Edit')
+    expect(screen.getByTestId('Edit http://id.loc.gov/authorities/names/n79056054')).toHaveTextContent('Edit')
 
     // Input is not disabled and empty
     expect(input).not.toBeDisabled()
@@ -87,7 +87,7 @@ describe('editing a URI property', () => {
   it('validates that a URI', async () => {
     renderApp(null, history)
 
-    await screen.findByRole('heading', { name: 'Uber template1' })
+    await screen.findByText('Uber template1', { selector: 'h3' })
 
     // Add a value
     const input = screen.getByPlaceholderText('Uber template1, property5')

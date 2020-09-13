@@ -1,6 +1,6 @@
 import Config from 'Config'
 import { renderApp, createHistory } from 'testUtils'
-import { fireEvent, wait, screen } from '@testing-library/react'
+import { fireEvent, waitFor, screen } from '@testing-library/react'
 
 jest.spyOn(Config, 'useResourceTemplateFixtures', 'get').mockReturnValue(true)
 
@@ -17,104 +17,104 @@ describe('adding and removing properties', () => {
   it('adds and removes panel properties', async () => {
     renderApp(null, history)
 
-    await screen.findByRole('heading', { name: 'Uber template1' })
+    await screen.findByText('Uber template1', { selector: 'h3' })
 
     // Add a panel property
-    expect(screen.getAllByRole('heading', { name: /Uber template1, property2/ })).toHaveLength(2)
-    fireEvent.click(screen.getByRole('button', { name: 'Add Uber template1, property2' }))
+    expect(screen.getAllByText(/Uber template1, property2/)).toHaveLength(2)
+    fireEvent.click(screen.getByTestId('Add Uber template1, property2'))
 
     // Input box displayed
     await screen.findByPlaceholderText('Uber template1, property2')
     // Add button removed.
-    expect(screen.queryAllByRole('button', { name: 'Add Uber template1, property2' })).toHaveLength(0)
+    expect(screen.queryAllByTestId('Add Uber template1, property2')).toHaveLength(0)
 
     // Now remove it.
-    fireEvent.click(screen.getByRole('button', { name: 'Remove Uber template1, property2' }))
+    fireEvent.click(screen.getByTestId('Remove Uber template1, property2'))
 
     // Input box removed.
     expect((await screen.queryAllByPlaceholderText('Uber template1, property2'))).toHaveLength(0)
     // Add button displayed.
-    screen.getByRole('button', { name: 'Add Uber template1, property2' })
+    screen.getByTestId('Add Uber template1, property2')
     // Remove button removed.
-    expect(screen.queryAllByRole('button', { name: 'Remove Uber template1, property2' })).toHaveLength(0)
+    expect(screen.queryAllByTestId('Remove Uber template1, property2')).toHaveLength(0)
   }, 15000)
 
   it('adds and removes repeatable nested resources', async () => {
     renderApp(null, history)
 
-    await screen.findByRole('heading', { name: 'Uber template1' })
+    await screen.findByText('Uber template1', { selector: 'h3' })
 
     // Add a panel property
-    screen.getByRole('heading', { name: /Uber template1, property1 / })
-    fireEvent.click(screen.getByRole('button', { name: 'Add Uber template1, property1' }))
+    screen.getByText('Uber template1, property1', { selector: 'span' })
+    fireEvent.click(screen.getByTestId('Add Uber template1, property1'))
 
     await screen.findByText('Uber template2')
     await screen.findByText('Uber template3')
 
     // No remove
-    expect(screen.queryAllByRole('button', { name: 'Remove Uber template2' }).length).toBeFalsy
+    expect(screen.queryAllByTestId('Remove Uber template2')).toHaveLength(0)
     // Add another Uber template2
-    fireEvent.click(screen.getByRole('button', { name: 'Add another Uber template2' }))
+    fireEvent.click(screen.getByTestId('Add another Uber template2'))
 
     // Two resource properties
-    await wait(() => expect(screen.queryAllByText('Uber template2').length).toEqual(2))
+    await waitFor(() => expect(screen.queryAllByText('Uber template2')).toHaveLength(2))
     // Two remove buttons
-    const removeBtns = screen.queryAllByRole('button', { name: 'Remove Uber template2' })
-    expect(removeBtns.length).toEqual(2)
+    const removeBtns = screen.queryAllByTestId('Remove Uber template2')
+    expect(removeBtns).toHaveLength(2)
     // Add another still visible
-    screen.getByRole('button', { name: 'Add another Uber template2' })
+    screen.getByTestId('Add another Uber template2')
 
     // Remove the first
     fireEvent.click(removeBtns[0])
     // One resource property
     await screen.findByText('Uber template2')
     // No remove
-    expect(screen.queryAllByRole('button', { name: 'Remove Uber template2' }).length).toBeFalsy
+    expect(screen.queryAllByTestId('Remove Uber template2')).toHaveLength(0)
     // Add another still visible
-    screen.getByRole('button', { name: 'Add another Uber template2' })
+    screen.getByTestId('Add another Uber template2')
   }, 25000)
 
   it('adds and removes non-repeatable nested resources', async () => {
     renderApp(null, history)
 
-    await screen.findByRole('heading', { name: 'Uber template1' })
+    await screen.findByText('Uber template1', { selector: 'h3' })
 
     // Add a panel property
-    expect(screen.getAllByRole('heading', { name: /Uber template1, property3/ })).toHaveLength(2)
-    fireEvent.click(screen.getByRole('button', { name: 'Add Uber template1, property3' }))
+    expect(screen.getAllByText('Uber template1, property3')).toHaveLength(2)
+    fireEvent.click(screen.getByTestId('Add Uber template1, property3'))
 
     await screen.findByText('Uber template2')
     await screen.findByText('Uber template3')
 
     // No remove
-    expect(screen.queryAllByRole('button', { name: 'Remove Uber template2' }).length).toBeFalsy
+    expect(screen.queryAllByTestId('Remove Uber template2')).toHaveLength(0)
     // No add another
-    expect(screen.queryAllByRole('button', { name: 'Add another Uber template2' }).length).toBeFalsy
+    expect(screen.queryAllByTestId('Add another Uber template2')).toHaveLength(0)
   }, 15000)
 
   it('adds and removes nested inputs', async () => {
     renderApp(null, history)
 
-    await screen.findByRole('heading', { name: 'Uber template1' })
+    await screen.findByText('Uber template1', { selector: 'h3' })
 
     // Add a panel property
-    screen.getByRole('heading', { name: /Uber template1, property1 / })
-    fireEvent.click(screen.getByRole('button', { name: 'Add Uber template1, property1' }))
+    screen.getByText('Uber template1, property1', { selector: 'span' })
+    fireEvent.click(screen.getByTestId('Add Uber template1, property1'))
 
     await screen.findByText('Uber template2')
     await screen.findByText('Uber template3')
 
     // Add a nested property (literal)
-    fireEvent.click(screen.getByRole('button', { name: 'Add Uber template2, property1' }))
+    fireEvent.click(screen.getByTestId('Add Uber template2, property1'))
     // Input box displayed
     await screen.findByPlaceholderText('Uber template2, property1')
 
     // Now remove it.
-    fireEvent.click(screen.getByRole('button', { name: 'Remove Uber template2, property1' }))
+    fireEvent.click(screen.getByTestId('Remove Uber template2, property1'))
 
     // Input box removed.
     expect((await screen.queryAllByPlaceholderText('Uber template2, property1'))).toHaveLength(0)
     // Delete button removed
-    expect(screen.queryAllByRole('button', { name: 'Remove Uber template2, property1' })).toHaveLength(0)
+    expect(screen.queryAllByTestId('Remove Uber template2, property1')).toHaveLength(0)
   }, 15000)
 })

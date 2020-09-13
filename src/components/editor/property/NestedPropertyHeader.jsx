@@ -45,6 +45,7 @@ const NestedPropertyHeader = (props) => {
                 className="btn btn-default btn-add btn-add-property"
                 onClick={() => props.expandProperty(props.property.key, resourceEditErrorKey(props.resourceKey))}
                 aria-label={`Add ${props.property.propertyTemplate.label}`}
+                data-testid={`Add ${props.property.propertyTemplate.label}`}
                 data-id={props.property.key}>
           + Add <strong><PropertyLabel propertyTemplate={props.property.propertyTemplate} /></strong>
         </button>
@@ -61,6 +62,7 @@ const NestedPropertyHeader = (props) => {
               data-id={props.id}
               disabled={isAdd}
               aria-label={toggleAria}
+              data-testid={toggleAria}
               onClick={() => toggleProperty()}>
         <FontAwesomeIcon className="toggle-icon" icon={toggleIcon} />
       </button>
@@ -70,6 +72,7 @@ const NestedPropertyHeader = (props) => {
               className="btn btn-sm btn-remove pull-right"
               onClick={() => props.contractProperty(props.property.key)}
               aria-label={`Remove ${props.property.propertyTemplate.label}`}
+              data-testid={`Remove ${props.property.propertyTemplate.label}`}
               data-id={props.property.key}>
         <FontAwesomeIcon className="trash-icon" icon={trashIcon} />
       </button>

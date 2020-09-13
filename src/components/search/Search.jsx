@@ -128,7 +128,12 @@ const Search = (props) => {
                        onChange={ (event) => setQueryString(event.target.value) }
                        onKeyPress={handleKeyPress} />
                 <span className="input-group-btn">
-                  <button className="btn btn-default" type="submit" aria-label="submit search"><FontAwesomeIcon className="fa-search" icon={faSearch} /></button>
+                  <button className="btn btn-default"
+                          type="submit"
+                          aria-label="Submit search"
+                          data-testid="Submit search">
+                    <FontAwesomeIcon className="fa-search" icon={faSearch} />
+                  </button>
                 </span>
               </div>
             </div>

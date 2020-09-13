@@ -26,6 +26,7 @@ const InputValue = (props) => {
       <button
         onClick={() => props.removeValue(props.valueKey)}
         aria-label={`Remove ${label}`}
+        data-testid={`Remove ${label}`}
         className="close rbt-close rbt-token-remove-button">
         <span aria-hidden="true">×</span>
       </button>
@@ -35,6 +36,7 @@ const InputValue = (props) => {
       onClick={handleEditClick}
       style={ { marginRight: '.25em' } }
       aria-label={`Edit ${label}`}
+      data-testid={`Edit ${label}`}
       className="btn btn-sm btn-secondary btn-default">
       Edit
     </button>

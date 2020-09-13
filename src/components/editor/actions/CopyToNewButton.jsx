@@ -25,6 +25,7 @@ const CopyToNewButton = (props) => {
             disabled={!resource.uri}
             onClick={handleClick}
             title="Copy"
+            data-testid="Copy this resource to a new resource"
             aria-label="Copy this resource to a new resource">
       <FontAwesomeIcon icon={faCopy} className="icon-lg" />
     </button>

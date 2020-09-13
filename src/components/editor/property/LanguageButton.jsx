@@ -23,6 +23,7 @@ const LanguageButton = (props) => {
         id="language"
         onClick={ handleClick }
         aria-label={`Change language for ${props.value.literal}`}
+        data-testid={`Change language for ${props.value.literal}`}
         className="btn btn-sm btn-secondary btn-literal">
         Language: {languageLabel}
       </button>
