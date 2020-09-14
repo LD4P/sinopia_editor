@@ -14,12 +14,13 @@ export const createState = (options = {}) => {
   buildResourceWithContractedNestedResource(state, options),
   buildResourceWithError(state, options),
   buildExports(state, options)
+  buildLookups(state, options)
 
   return state
 }
 
 const buildExports = (state, options) => {
-  if (!options.buildExports) return
+  if (options.noExports) return
 
   state.selectorReducer.entities.exports = [
     'sinopia_export_all_2020-01-01T00:00:00.000Z.zip',
@@ -637,4 +638,39 @@ const buildResourceWithContractedNestedResource = (state, options) => {
   state.selectorReducer.entities.values = {}
 }
 
+const buildLookups = (state, options) => {
+  if (options.noLookups) return
+
+  state.selectorReducer.entities.lookups = {
+    'https://id.loc.gov/vocabulary/mrectype': [
+      {
+        id: 'EQhmzQNidXD',
+        label: 'analog',
+        uri: 'http://id.loc.gov/vocabulary/mrectype/analog',
+      },
+      {
+        id: 'xrnwYKcpPws',
+        label: 'digital',
+        uri: 'http://id.loc.gov/vocabulary/mrectype/digital',
+      },
+    ],
+    'https://id.loc.gov/vocabulary/mrecmedium': [
+      {
+        id: 'T06WuAcWutk',
+        label: 'magnetic',
+        uri: 'http://id.loc.gov/vocabulary/mrecmedium/mag',
+      },
+      {
+        id: 'IbbEW9qnn-1',
+        label: 'optical',
+        uri: 'http://id.loc.gov/vocabulary/mrecmedium/opt',
+      },
+      {
+        id: 'FIEXVtapJ6C',
+        label: 'magneto-optical',
+        uri: 'http://id.loc.gov/vocabulary/mrecmedium/magopt',
+      },
+    ],
+  }
+}
 export const noop = () => {}

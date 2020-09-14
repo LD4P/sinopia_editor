@@ -33,7 +33,9 @@ describe('<App />', () => {
 
   it('loads exports', async () => {
     global.fetch = jest.fn().mockResolvedValue({ text: jest.fn().mockResolvedValue('<?xml version="1.0" encoding="UTF-8"?><ListBucketResult xmlns="http://s3.amazonaws.com/doc/2006-03-01/"><Contents><Key>alberta_2020-09-06T00:01:18.798Z.zip</Key></Contents><Contents><Key>sinopia_export_all_2020-09-06T00:01:17.621Z.zip</Key></Contents></ListBucketResult>') })
-    renderApp()
+    const state = createState({ noExports: true })
+    const store = createStore(state)
+    renderApp(store)
 
     fireEvent.click(screen.getByText('Linked Data Editor'))
     fireEvent.click(screen.getByText('Exports'))
