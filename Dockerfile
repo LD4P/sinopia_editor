@@ -2,7 +2,7 @@ FROM circleci/node:12.6
 
 # Allow build-time arguments (for, environment variables that need to be encoded into the webpack distribution)
 ARG USE_FIXTURES
-ARG SINOPIA_API_BASE_URL=http://localhost:3000/repository
+ARG SINOPIA_API_BASE_URL=http://localhost:3000
 ARG SINOPIA_URI
 ARG SINOPIA_ENV
 ARG AWS_COGNITO_DOMAIN

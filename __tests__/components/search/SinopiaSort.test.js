@@ -31,7 +31,7 @@ describe('<SinopiaSort />', () => {
       totalHits: 1,
       results: [
         {
-          uri: 'repository/cornell/ca0d53d0-2b99-4f75-afb0-739a6f0af4f4',
+          uri: 'resource/ca0d53d0-2b99-4f75-afb0-739a6f0af4f4',
           label: 'The Real Mark Twain',
           title: ['The Real Mark Twain'],
         },

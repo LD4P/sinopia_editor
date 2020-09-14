@@ -10,7 +10,7 @@ describe('fetchSinopiaSearchResults', () => {
   const mockSearchResults = {
     totalHits: 1,
     results: {
-      uri: 'http://sinopia.io/repository/stanford/123',
+      uri: 'http://sinopia.io/resource/123',
       label: 'A lonely title',
     },
   }

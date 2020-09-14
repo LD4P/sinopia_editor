@@ -21,7 +21,7 @@
     ]
   },
   {
-    "@id": "http://localhost:3000/repository/sinopia:template:resource",
+    "@id": "http://localhost:3000/resource/sinopia:template:resource",
     "http://sinopia.io/vocabulary/hasResourceTemplate": [
       {
         "@value": "sinopia:template:resource"

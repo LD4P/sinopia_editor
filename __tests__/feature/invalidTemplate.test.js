@@ -17,14 +17,14 @@ describe('an invalid resource template', () => {
     results: [
       {
         id: 'test:RT:bf2:RareMat:Instance',
-        uri: 'http://localhost:3000/repository/test:RT:bf2:RareMat:Instance',
+        uri: 'http://localhost:3000/resource/test:RT:bf2:RareMat:Instance',
         remark: '',
         resourceLabel: 'Value template refs with non-unique resource URIs',
         resourceURI: 'http://id.loc.gov/ontologies/bibframe/Instance',
       },
       {
         id: 'test:RT:bf2:notFoundValueTemplateRefs',
-        uri: 'http://localhost:3000/repository/test:RT:bf2:notFoundValueTemplateRefs',
+        uri: 'http://localhost:3000/resource/test:RT:bf2:notFoundValueTemplateRefs',
         remark: '',
         resourceLabel: 'Not found value template refs',
         resourceURI: 'http://id.loc.gov/ontologies/bibframe/Identifier',

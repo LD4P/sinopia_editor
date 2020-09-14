@@ -41,7 +41,7 @@ export const postResource = (resource, currentUser, group) => {
   const newResource = { ...resource }
   // Mint a uri. Resource templates use the template id.
   const resourceId = isTemplate(resource) ? templateIdFor(resource) : uuidv4()
-  const uri = `${Config.sinopiaApiBase}/${resourceId}`
+  const uri = `${Config.sinopiaApiBase}/resource/${resourceId}`
   newResource.uri = uri
   newResource.group = group
   return putResource(newResource, currentUser, 'POST')
@@ -63,7 +63,7 @@ export const putResource = (resource, currentUser, method) => saveBodyForResourc
         .then(() => true))))
 
 export const postMarc = (resourceUri) => {
-  const url = resourceUri.replace('repository', 'marc')
+  const url = resourceUri.replace('resource', 'marc')
   return getJwt()
     .then((jwt) => fetch(url, {
       method: 'POST',

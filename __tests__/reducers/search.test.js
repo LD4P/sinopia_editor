@@ -19,7 +19,7 @@ const reducer = createReducer(reducers)
 const searchExample = {
   results: [
     {
-      uri: 'http://stage.sinpia.io/repository/frick/8e4d3e69-1d5f-4112-968b-96d86a163895',
+      uri: 'http://stage.sinpia.io/resource/8e4d3e69-1d5f-4112-968b-96d86a163895',
       label: 'More and more and more',
       created: '2020-07-15T20:42:16.515Z',
       modified: '2020-07-15T20:42:16.515Z',
@@ -136,7 +136,7 @@ describe('setSearchResults()', () => {
       payload: newSearch,
     }
     const newState = reducer(oldState, action)
-    expect(newState.search.results[0].uri).toBe('http://stage.sinpia.io/repository/frick/8e4d3e69-1d5f-4112-968b-96d86a163895')
+    expect(newState.search.results[0].uri).toBe('http://stage.sinpia.io/resource/8e4d3e69-1d5f-4112-968b-96d86a163895')
     expect(newState.search.query).toBe('More')
   })
 })

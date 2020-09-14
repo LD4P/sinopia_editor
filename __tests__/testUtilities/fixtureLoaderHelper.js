@@ -29,12 +29,12 @@ const templateFilenames = {
   'sinopia:template:resource': 'ResourceTemplate.json',
 }
 
-export const hasFixtureResource = (uri) => !!resourceFilenames[normUri(uri)] || !!templateFilenames[normUri(uri)] || ['http://error', 'http://localhost:3000/repository/ld4p:RT:bf2:xxx'].includes(uri)
+export const hasFixtureResource = (uri) => !!resourceFilenames[normUri(uri)] || !!templateFilenames[normUri(uri)] || ['http://error', 'http://localhost:3000/resource/ld4p:RT:bf2:xxx'].includes(uri)
 
 export const getFixtureResource = (uri) => {
   // A special URI for testing.
   if (uri === 'http://error') throw new Error('Ooops')
-  if (uri === 'http://localhost:3000/repository/ld4p:RT:bf2:xxx') throw new Error('Error retrieving resource: Not Found')
+  if (uri === 'http://localhost:3000/resource/ld4p:RT:bf2:xxx') throw new Error('Error retrieving resource: Not Found')
 
   const id = normUri(uri)
   // For some reason, require must have __xxx__ and cannot be provided in variable.
@@ -51,7 +51,7 @@ export const getFixtureResource = (uri) => {
 }
 
 const normUri = (uri) => {
-  return uri.substring(uri.indexOf('repository/') + 11)
+  return uri.substring(uri.indexOf('resource/') + 9)
 }
 
 // Cache of search results
@@ -66,7 +66,7 @@ export const getFixtureTemplateSearchResults = () => {
       const jsonld = require(`../__template_fixtures__/${templateFilenames[id]}`)
       return datasetFromJsonld(jsonld)
         .then((dataset) => {
-          const uri = `http://localhost:3000/repository/${id}`
+          const uri = `http://localhost:3000/resource/${id}`
           const template = new TemplatesBuilder(dataset, uri).build()
           const result = {
             id: template.id,

@@ -47,7 +47,7 @@
     ]
   },
   {
-    "@id": "http://localhost:3000/repository/test:resource:WikidataLookup",
+    "@id": "http://localhost:3000/resource/test:resource:WikidataLookup",
     "http://sinopia.io/vocabulary/hasResourceTemplate": [
       {
         "@value": "sinopia:template:resource"

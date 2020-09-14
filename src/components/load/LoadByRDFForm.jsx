@@ -77,7 +77,7 @@ const LoadByRDFForm = (props) => {
 <> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://id.loc.gov/ontologies/bibframe/Title> .
   `
 
-  const baseURIPlaceholder = 'For example: https://trellis.sinopia.io/repository/stanford/e111a712-5a45-4c2a-9201-289b98d7452e.'
+  const baseURIPlaceholder = 'For example: https://api.sinopia.io/resource/e111a712-5a45-4c2a-9201-289b98d7452e.'
 
   return (
     <div>

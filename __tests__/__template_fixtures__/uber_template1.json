@@ -1076,7 +1076,7 @@
     ]
   },
   {
-    "@id": "http://localhost:3000/repository/resourceTemplate:testing:uber1",
+    "@id": "http://localhost:3000/resource/resourceTemplate:testing:uber1",
     "http://sinopia.io/vocabulary/hasResourceTemplate": [
       {
         "@value": "sinopia:template:resource"

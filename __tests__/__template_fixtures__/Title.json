@@ -161,7 +161,7 @@
     ]
   },
   {
-    "@id": "http://localhost:3000/repository/resourceTemplate:bf2:Title",
+    "@id": "http://localhost:3000/resource/resourceTemplate:bf2:Title",
     "http://sinopia.io/vocabulary/hasResourceTemplate": [
       {
         "@value": "sinopia:template:resource"

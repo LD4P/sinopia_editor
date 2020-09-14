@@ -94,7 +94,7 @@
     ]
   },
   {
-    "@id": "http://localhost:3000/repository/c7db5404-7d7d-40ac-b38e-c821d2c3ae3f-invalid",
+    "@id": "http://localhost:3000/resource/c7db5404-7d7d-40ac-b38e-c821d2c3ae3f-invalid",
     "http://www.w3.org/2000/01/rdf-schema#label": [
       {
         "@value": "foo"
@@ -102,7 +102,7 @@
     ]
   },
   {
-    "@id": "http://localhost:3000/repository/c7db5404-7d7d-40ac-b38e-c821d2c3ae3f-invalid",
+    "@id": "http://localhost:3000/resource/c7db5404-7d7d-40ac-b38e-c821d2c3ae3f-invalid",
     "http://sinopia.io/vocabulary/hasResourceTemplate": [
       {
         "@value": "rt:repeated:propertyURI:propertyLabel"
@@ -182,12 +182,12 @@
     ],
     "http://id.loc.gov/ontologies/bibframe/uber/template1/property16": [
       {
-        "@id": "http://localhost:3000/repository/c7db5404-7d7d-40ac-b38e-c821d2c3ae3f"
+        "@id": "http://localhost:3000/resource/c7db5404-7d7d-40ac-b38e-c821d2c3ae3f"
       }
     ],
     "http://id.loc.gov/ontologies/bibframe/uber/template1/property17": [
       {
-        "@id": "http://localhost:3000/repository/c7db5404-7d7d-40ac-b38e-c821d2c3ae3f"
+        "@id": "http://localhost:3000/resource/c7db5404-7d7d-40ac-b38e-c821d2c3ae3f"
       }
     ],
     "http://id.loc.gov/ontologies/bibframe/uber/template1/property18": [

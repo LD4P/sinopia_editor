@@ -5,7 +5,7 @@ import Config from 'Config'
 
 // This forces Sinopia server to use fixtures
 jest.spyOn(Config, 'useResourceTemplateFixtures', 'get').mockReturnValue(true)
-jest.spyOn(sinopiaApi, 'postResource').mockResolvedValue('http://localhost:3000/repository/c7db5404-7d7d-40ac-b38e-c821d2c3ae3f')
+jest.spyOn(sinopiaApi, 'postResource').mockResolvedValue('http://localhost:3000/resource/c7db5404-7d7d-40ac-b38e-c821d2c3ae3f')
 
 // Mock out document.elementFromPoint used by useNavigableComponent.
 global.document.elementFromPoint = jest.fn()

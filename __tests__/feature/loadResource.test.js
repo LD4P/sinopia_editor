@@ -11,9 +11,6 @@ jest.mock('sinopiaSearch')
 global.$ = jest.fn().mockReturnValue({ popover: jest.fn() })
 
 describe('loading saved resource', () => {
-  // sinopiaServer.foundResourceTemplate.mockResolvedValue(true)
-  // sinopiaServer.getResourceTemplate.mockImplementation(getFixtureResourceTemplate)
-  // sinopiaServer.loadRDFResource.mockImplementation(getFixtureResource)
   sinopiaSearch.getTemplateSearchResults.mockResolvedValue({
     totalHits: 0,
     results: [],
@@ -21,7 +18,7 @@ describe('loading saved resource', () => {
   })
   describe('when RDF', () => {
     it('opens the resource', async () => {
-      const uri = 'http://localhost:3000/repository/c7db5404-7d7d-40ac-b38e-c821d2c3ae3f'
+      const uri = 'http://localhost:3000/resource/c7db5404-7d7d-40ac-b38e-c821d2c3ae3f'
       sinopiaSearch.getSearchResultsWithFacets.mockResolvedValue(resourceSearchResults(uri))
 
       renderApp()
@@ -69,7 +66,7 @@ describe('loading saved resource', () => {
 
   describe('when invalid resource template', () => {
     it('displays error', async () => {
-      const uri = 'http://localhost:3000/repository/c7db5404-7d7d-40ac-b38e-c821d2c3ae3f-invalid'
+      const uri = 'http://localhost:3000/resource/c7db5404-7d7d-40ac-b38e-c821d2c3ae3f-invalid'
       sinopiaSearch.getSearchResultsWithFacets.mockResolvedValue(resourceSearchResults(uri))
 
       renderApp()

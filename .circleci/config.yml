@@ -46,7 +46,7 @@ jobs:
           environment:
             JEST_JUNIT_OUTPUT: "test-results/jest/jest-results.xml"
       - setup_remote_docker
-      - run: docker build -t ld4l/sinopia_editor --build-arg USE_FIXTURES=false --build-arg INDEX_URL=http://elasticsearch:9200 --build-arg SINOPIA_API_BASE_URL=http://api:3000/repository .
+      - run: docker build -t ld4l/sinopia_editor --build-arg USE_FIXTURES=false --build-arg INDEX_URL=http://elasticsearch:9200 --build-arg SINOPIA_API_BASE_URL=http://api:3000 .
       - run: docker build -f Dockerfile.cypress -t ld4l/sinopia_editor_cypress .
       - run:
           name: Start docker env

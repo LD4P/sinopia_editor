@@ -45,7 +45,7 @@
     ]
   },
   {
-    "@id": "http://localhost:3000/repository/test:RT:bf2:RareMat:Instance",
+    "@id": "http://localhost:3000/resource/test:RT:bf2:RareMat:Instance",
     "http://sinopia.io/vocabulary/hasResourceTemplate": [
       {
         "@value": "sinopia:template:resource"

@@ -21,7 +21,7 @@
     ]
   },
   {
-    "@id": "http://localhost:3000/repository/ld4p:RT:bf2:Title:AbbrTitle",
+    "@id": "http://localhost:3000/resource/ld4p:RT:bf2:Title:AbbrTitle",
     "http://sinopia.io/vocabulary/hasResourceTemplate": [
       {
         "@value": "sinopia:template:resource"

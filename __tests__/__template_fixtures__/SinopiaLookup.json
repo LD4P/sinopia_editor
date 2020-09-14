@@ -50,7 +50,7 @@
     ]
   },
   {
-    "@id": "http://localhost:3000/repository/test:resource:SinopiaLookup",
+    "@id": "http://localhost:3000/resource/test:resource:SinopiaLookup",
     "http://sinopia.io/vocabulary/hasResourceTemplate": [
       {
         "@value": "sinopia:template:resource"

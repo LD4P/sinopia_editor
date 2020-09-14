@@ -44,7 +44,7 @@ const resource = {
   timestamp: '2020-02-18T21:12:19.053Z',
   templateId: 'Yale:RT:ARM:Enclosure:CtY',
   id: 'yale/61f2f457-31f5-432c-8acf-b4037f77541f',
-  uri: 'https://api.development.sinopia.io/repository/yale/61f2f457-31f5-432c-8acf-b4037f77541f',
+  uri: 'https://api.development.sinopia.io/resource/61f2f457-31f5-432c-8acf-b4037f77541f',
 }
 
 
@@ -63,14 +63,14 @@ describe('fetchResource', () => {
     jest.spyOn(Config, 'useResourceTemplateFixtures', 'get').mockReturnValue(true)
 
     it('retrieves resource template', async () => {
-      const result = await fetchResource('http://localhost:3000/repository/resourceTemplate:bf2:Note')
+      const result = await fetchResource('http://localhost:3000/resource/resourceTemplate:bf2:Note')
       expect(result).toBeTruthy()
       expect(result[1].id).toBe('resourceTemplate:bf2:Note')
     })
 
     it('errors if fixture does not exist', async () => {
       expect.assertions(1)
-      await expect(fetchResource('http://localhost:3000/repository/ld4p:RT:bf2:xxx')).rejects.toThrow('Error parsing resource: Error retrieving resource: Not Found')
+      await expect(fetchResource('http://localhost:3000/resource/ld4p:RT:bf2:xxx')).rejects.toThrow('Error parsing resource: Error retrieving resource: Not Found')
     })
   })
 
@@ -82,7 +82,7 @@ describe('fetchResource', () => {
         ok: true,
       })
 
-      const result = await fetchResource('https://api.development.sinopia.io/repository/yale/61f2f457-31f5-432c-8acf-b4037f77541f')
+      const result = await fetchResource('https://api.development.sinopia.io/resource/yale/61f2f457-31f5-432c-8acf-b4037f77541f')
       expect(result[1].id).toBe('yale/61f2f457-31f5-432c-8acf-b4037f77541f')
       expect(result[1].user).toBe('tat2')
     })
@@ -94,7 +94,7 @@ describe('fetchResource', () => {
         ok: false,
       })
 
-      await expect(fetchResource('http://api.sinopia.io/repository/12334')).rejects.toThrow('Error parsing resource: Sinopia API returned failed to retrieve uri')
+      await expect(fetchResource('http://api.sinopia.io/resource/12334')).rejects.toThrow('Error parsing resource: Sinopia API returned failed to retrieve uri')
     })
   })
 })
@@ -112,7 +112,7 @@ describe('postResource', () => {
         ok: true,
       })
       const result = await postResource(resource, currentUser, 'pcc')
-      expect(result).toContain('http://localhost:3000/repository/')
+      expect(result).toContain('http://localhost:3000/resource/')
     })
   })
 
@@ -134,7 +134,7 @@ describe('postResource', () => {
         }],
       })
       const result = await postResource(resource, currentUser, 'pcc')
-      expect(result).toBe('http://localhost:3000/repository/resourceTemplate:bf2:Note')
+      expect(result).toBe('http://localhost:3000/resource/resourceTemplate:bf2:Note')
     })
   })
 })
@@ -162,7 +162,7 @@ describe('putResource', () => {
   })
 })
 
-const resourceUri = 'https://api.development.sinopia.io/repository/7b4c275d-b0c7-40a4-80b3-e95a0d9d987c'
+const resourceUri = 'https://api.development.sinopia.io/resource/7b4c275d-b0c7-40a4-80b3-e95a0d9d987c'
 const marcPostUrl = 'https://api.development.sinopia.io/marc/7b4c275d-b0c7-40a4-80b3-e95a0d9d987c'
 const jobUrl = 'https://api.development.sinopia.io/marc/7b4c275d-b0c7-40a4-80b3-e95a0d9d987c/job/jlittman/2020-09-10T12:01:58.114Z'
 const marcUrl = 'https://api.development.sinopia.io/marc/70c5e814-a0f6-48cb-a4e5-91a5a71aae29/version/jlittman/2020-09-10T13:38:35.751Z'

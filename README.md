@@ -83,9 +83,9 @@ directory and update the `templateFilenames` constant in the `_tests_/testUtilit
 filename of the new test fixture.
 
 If there is a resource template you would like to copy, you can go to the direct URI in the sinopia api
-(e.g.  `https://api.development.sinopia.io/repository/ld4p:RT:bf2:Monograph:Work:Un-nested`) and copy everything returned
-for the data list. Make sure you change (e.g.) `"@id": "https://api.development.sinopia.io/repository/ld4p:RT:bf2:Monograph:Work:Un-nested"` to
-`"@id": "http://localhost:3000/repository/ld4p:RT:bf2:Monograph:Work:Un-nested"`
+(e.g.  `https://api.development.sinopia.io/resource/ld4p:RT:bf2:Monograph:Work:Un-nested`) and copy everything returned
+for the data list. Make sure you change (e.g.) `"@id": "https://api.development.sinopia.io/resource/ld4p:RT:bf2:Monograph:Work:Un-nested"` to
+`"@id": "http://localhost:3000/resource/ld4p:RT:bf2:Monograph:Work:Un-nested"`
 
 #### End-to-end tests
 
@@ -148,7 +148,7 @@ Proxying allows using the Sinopia API and search from a different environment, r
 To proxy to development:
 1. Build the proxy image: `docker build -t proxy-apache2:latest -f Dockerfile.proxy .`
 2. Start the proxy: `docker run --rm --name proxy-apache2 -p 8080:8080 -e ENV_HOSTNAME=development.sinopia.io proxy-apache2:latest`
-3. Start the Sinopia Editor: `SINOPIA_API_BASE_URL=http://localhost:8080/repository SEARCH_HOST=http://localhost:8080 npm run dev-start`
+3. Start the Sinopia Editor: `SINOPIA_API_BASE_URL=http://localhost:8080 SEARCH_HOST=http://localhost:8080 npm run dev-start`
 
 Note that proxying to other environments may require additional Cognito configuration.
 
@@ -215,7 +215,7 @@ The following are only in the resource subject (that is, the base subject).
 {
   key: <resource template id, e.g., resourceTemplate:bf2:Monograph:Instance>,
   id: <resource template id, e.g., resourceTemplate:bf2:Monograph:Instance>,
-  uri: <resource template uri, e.g. http://datastore/repository/resourceTemplate:bf2:Monograph:Instance>,
+  uri: <resource template uri, e.g. http://datastore/resource/resourceTemplate:bf2:Monograph:Instance>,
   class: <resource URI, e.g., http://id.loc.gov/ontologies/bibframe/Instance>,
   label: <resource label, e.g., "BIBFRAME Instance">,
   author: <author>,

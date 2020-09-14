@@ -45,7 +45,7 @@ describe('End-to-end test', () => {
           // Type is to slow. See https://github.com/cypress-io/cypress/issues/1123
           cy.get('#resourceTextArea').paste(json)
           cy.get('#uriInput')
-            .type('http://localhost:3000/repository/resourceTemplate:bf2:WorkTitle')
+            .type('http://localhost:3000/resource/resourceTemplate:bf2:WorkTitle')
           cy.get('button[type="submit"]:not(:disabled)').contains('Submit').click()
           // eslint-disable-next-line cypress/no-unnecessary-waiting
           cy.wait(500)

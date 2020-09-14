@@ -26,7 +26,7 @@
     ]
   },
   {
-    "@id": "http://localhost:3000/repository/resourceTemplate:bf2:Title:Note",
+    "@id": "http://localhost:3000/resource/resourceTemplate:bf2:Title:Note",
     "http://sinopia.io/vocabulary/hasResourceTemplate": [
       {
         "@value": "sinopia:template:resource"

@@ -2,7 +2,7 @@
   "type": "ADD_SUBJECT",
   "payload": {
     "key": "abc0",
-    "uri": "http://localhost:3000/repository/c7db5404-7d7d-40ac-b38e-c821d2c3ae3f",
+    "uri": "http://localhost:3000/resource/c7db5404-7d7d-40ac-b38e-c821d2c3ae3f",
     "subjectTemplate": {
       "key": "resourceTemplate:testing:uber1",
       "id": "resourceTemplate:testing:uber1",
@@ -10,7 +10,7 @@
       "label": "Uber template1",
       "author": "Justin Littman",
       "remark": "Template for testing purposes.",
-      "uri": "http://localhost:3000/repository/resourceTemplate:testing:uber1",
+      "uri": "http://localhost:3000/resource/resourceTemplate:testing:uber1",
       "date": "2020-07-27",
       "propertyTemplateKeys": [
         "resourceTemplate:testing:uber1 > http://id.loc.gov/ontologies/bibframe/uber/template1/property1",
@@ -572,7 +572,7 @@
                 "label": "Uber template3",
                 "author": null,
                 "remark": "Template for testing purposes with multiple literal.",
-                "uri": "http://localhost:3000/repository/resourceTemplate:testing:uber3",
+                "uri": "http://localhost:3000/resource/resourceTemplate:testing:uber3",
                 "date": null,
                 "propertyTemplateKeys": [
                   "resourceTemplate:testing:uber3 > http://id.loc.gov/ontologies/bibframe/uber/template3/property1",
@@ -667,7 +667,7 @@
                 "label": "Uber template2",
                 "author": null,
                 "remark": "Template for testing purposes with single repeatable literal.",
-                "uri": "http://localhost:3000/repository/resourceTemplate:testing:uber2",
+                "uri": "http://localhost:3000/resource/resourceTemplate:testing:uber2",
                 "date": null,
                 "propertyTemplateKeys": [
                   "resourceTemplate:testing:uber2 > http://id.loc.gov/ontologies/bibframe/uber/template2/property1"
@@ -949,7 +949,7 @@
             "resourceKey": "abc0",
             "literal": null,
             "lang": null,
-            "uri": "http://localhost:3000/repository/c7db5404-7d7d-40ac-b38e-c821d2c3ae3f",
+            "uri": "http://localhost:3000/resource/c7db5404-7d7d-40ac-b38e-c821d2c3ae3f",
             "label": "foo",
             "valueSubject": null
           }
@@ -965,7 +965,7 @@
             "resourceKey": "abc0",
             "literal": null,
             "lang": null,
-            "uri": "http://localhost:3000/repository/c7db5404-7d7d-40ac-b38e-c821d2c3ae3f",
+            "uri": "http://localhost:3000/resource/c7db5404-7d7d-40ac-b38e-c821d2c3ae3f",
             "label": "foo",
             "valueSubject": null
           }
@@ -993,7 +993,7 @@
                 "label": "Uber template4",
                 "author": null,
                 "remark": "Template for testing purposes with single repeatable, required literal.",
-                "uri": "http://localhost:3000/repository/resourceTemplate:testing:uber4",
+                "uri": "http://localhost:3000/resource/resourceTemplate:testing:uber4",
                 "date": null,
                 "propertyTemplateKeys": [
                   "resourceTemplate:testing:uber4 > http://id.loc.gov/ontologies/bibframe/uber/template4/property1"
