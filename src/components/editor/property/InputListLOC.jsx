@@ -157,6 +157,14 @@ const InputListLOC = (props) => {
     event.preventDefault()
   }
 
+  // TODO: New styling to fit description in #2478
+  const lookupSelection = props.lookupValues.map((lookupValue) => (
+    <div key={ lookupValue.key } style={{ displaySelection }}>
+      <div key={lookupValue.key}>{lookupValue.label}</div>
+      <div><a href={lookupValue.uri}>LINK</a></div>
+    </div>
+  ))
+  
   const modal = (
     <div className={ classes.join(' ') } style={{ display }}>
       <div className="modal-dialog" role="document">
@@ -204,8 +212,9 @@ const InputListLOC = (props) => {
         onClick={ handleClick }
         aria-label={'LookupLOC'}
         className="btn btn-sm btn-secondary btn-literal">
-        My Button Label
+        +
       </button>
+      { lookupSelection }
       <ModalWrapper modal={modal} />
     </React.Fragment>
   )
@@ -217,12 +226,13 @@ InputListLOC.propTypes = {
   hideModal: PropTypes.func,
   showModal: PropTypes.func,
   textValue: PropTypes.string,
-
+  lookupValues: PropTypes.array,
 }
 
-const mapStateToProps = (state, _ownProps) => {
+const mapStateToProps = (state, ownProps) => {
   const show = selectModalType(state) === 'InputLookupModal'
   return {
+    lookupValues: ownProps.property.values,
     show,
   }
 }
