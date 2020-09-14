@@ -9,9 +9,10 @@ $modal-content-border-color: gray;
 $modal-content-bg: #f8f6ef;
 
 $resource-tab-active-bg: #b26f16;
-// $tab-background-active: #b26f16;
+$link-color: #00548f;
 
 @import "~bootstrap/scss/bootstrap";
+@import url('https://fonts.googleapis.com/css2?family=Source+Sans+Pro&display=swap');
 
 .left-space {
     margin-left: 3px;
