@@ -138,8 +138,8 @@ $primary-disabled: lighten( map-get($theme-colors,"secondary"), 20% );
 }
 
 .prop-heading {
-  background-color: #8C8A83 !important;
-  color: white !important;
+  background-color: #D0C1A8 !important;
+  color: black !important;
 }
 
 .prop-heading > span {
@@ -148,10 +148,7 @@ $primary-disabled: lighten( map-get($theme-colors,"secondary"), 20% );
 }
 
 .panel-property {
-  border-color: #8C8A83;
-  border-style: solid;
-  border-width: 1px;
-  background-color: #F8F6EF;
+  background-color: #F7F4F1;
   break-inside: avoid;
 }
 
