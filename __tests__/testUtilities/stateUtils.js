@@ -104,7 +104,7 @@ const buildResourceWithLiteral = (state, options) => {
     t9zVwg2zO: {
       key: 't9zVwg2zO',
       resourceKey: 't9zVwg2zO',
-      uri: 'https://trellis.sinopia.io/repository/washington/0894a8b3',
+      uri: 'https://api.sinopia.io/resource/0894a8b3',
       subjectTemplateKey: 'ld4p:RT:bf2:Title:AbbrTitle',
       propertyKeys: [
         'JQEtq-vmq8',
@@ -204,7 +204,7 @@ const buildTwoLiteralResources = (state, options) => {
     t9zVwg2zO: {
       key: 't9zVwg2zO',
       resourceKey: 't9zVwg2zO',
-      uri: 'https://trellis.sinopia.io/repository/washington/0894a8b3',
+      uri: 'https://api.sinopia.io/resource/0894a8b3',
       subjectTemplateKey: 'ld4p:RT:bf2:Title:AbbrTitle',
       propertyKeys: [
         'JQEtq-vmq8',
@@ -214,7 +214,7 @@ const buildTwoLiteralResources = (state, options) => {
     u0aWxh3a1: {
       key: 'u0aWxh3a1',
       resourceKey: 'u0aWxh3a1',
-      uri: 'https://trellis.sinopia.io/repository/washington/0704b9c4',
+      uri: 'https://api.sinopia.io/resource/0704b9c4',
       subjectTemplateKey: 'ld4p:RT:bf2:Note',
       propertyKeys: [
         'KRFur-wnr9',
@@ -329,7 +329,7 @@ const buildResourceWithUri = (state, options) => {
       bfItemRefs: [],
       bfInstanceRefs: [],
       bfWorkRefs: [
-        'http://localhost:3000/repository/stanford/74770f92-f8cf-48ee-970a-aefc97843738',
+        'http://localhost:3000/resource/74770f92-f8cf-48ee-970a-aefc97843738',
       ],
       propertyKeys: [
         'i0SAJP-Zhd',
@@ -368,7 +368,7 @@ const buildResourceWithUri = (state, options) => {
       resourceKey: 'wihOjn-0Z',
       literal: null,
       lang: null,
-      uri: 'http://localhost:3000/repository/stanford/74770f92-f8cf-48ee-970a-aefc97843738',
+      uri: 'http://localhost:3000/resource/74770f92-f8cf-48ee-970a-aefc97843738',
       label: 'foo',
       propertyKey: 'i0SAJP-Zhd',
       valueSubjectKey: null,
@@ -412,7 +412,7 @@ const buildResourceWithContractedLiteral = (state, options) => {
     t9zVwg2zO: {
       key: 't9zVwg2zO',
       resourceKey: 't9zVwg2zO',
-      uri: 'https://trellis.sinopia.io/repository/washington/0894a8b3',
+      uri: 'https://api.sinopia.io/resource/0894a8b3',
       subjectTemplateKey: 'ld4p:RT:bf2:Title:AbbrTitle',
       propertyKeys: [
         'JQEtq-vmq8',

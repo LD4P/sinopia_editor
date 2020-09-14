@@ -11,7 +11,7 @@
         "subject": {
           "key": "t9zVwg2zO",
           "resourceKey": "t9zVwg2zO",
-          "uri": "https://trellis.sinopia.io/repository/washington/0894a8b3",
+          "uri": "https://api.sinopia.io/resource/0894a8b3",
           "subjectTemplateKey": "ld4p:RT:bf2:Title:AbbrTitle",
           "bfAdminMetadataRefs": [],
           "bfInstanceRefs": [],

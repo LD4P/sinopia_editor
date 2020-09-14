@@ -62,7 +62,7 @@
     ]
   },
   {
-    "@id": "http://localhost:3000/repository/rt:repeated:propertyURI:propertyLabel",
+    "@id": "http://localhost:3000/resource/rt:repeated:propertyURI:propertyLabel",
     "http://sinopia.io/vocabulary/hasResourceTemplate": [
       {
         "@value": "sinopia:template:resource"

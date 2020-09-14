@@ -20,7 +20,7 @@ describe('<SinopiaSearchResults />', () => {
     it('it contains the main div', () => {
       const state = createState()
       state.selectorReducer.search.results = [{
-        uri: 'https://trellis.sinopia.io/repository/stanford/some/path',
+        uri: 'https://api.sinopia.io/resource/some/path',
         type: ['http://schema.org/Thing'],
         group: ['stanford'],
         label: 'An item title',
@@ -63,7 +63,7 @@ describe('<SinopiaSearchResults />', () => {
 
       // First row of search results
       screen.queryByText(/An item title/)
-      screen.queryByText(/https:\/\/trellis.sinopia.io\/repository\/stanford\/some\/path/)
+      screen.queryByText(/https:\/\/api.sinopia.io\/resource\/some\/path/)
       screen.queryByText('Oct 23, 2019')
       screen.queryByText('http://schema.org/Thing')
       screen.queryByText('Stanford University')
@@ -73,7 +73,7 @@ describe('<SinopiaSearchResults />', () => {
   it('renders errors', () => {
     const state = createState()
     state.selectorReducer.search.results = [{
-      uri: 'http://platform:8080/repository/stanford/some/path',
+      uri: 'http://platform:8080/resource/some/path',
       type: ['http://schema.org/Thing'],
       label: 'An item title',
       modified: '2019-10-23T22:42:57.623Z',

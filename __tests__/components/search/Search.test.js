@@ -66,7 +66,7 @@ describe('<Search />', () => {
 
     // Display results
     await screen.findByText('Label / ID')
-    screen.getByText(/These twain/)
+    await screen.findByText(/These twain/)
 
     // Display paging
     screen.getByText('»')
@@ -81,7 +81,7 @@ describe('<Search />', () => {
       totalHits: 1,
       results: [
         {
-          uri: 'repository/cornell/ca0d53d0-2b99-4f75-afb0-739a6f0af4f4',
+          uri: 'resource/ca0d53d0-2b99-4f75-afb0-739a6f0af4f4',
           label: 'foo',
           title: ['foo'],
           type: ['http://id.loc.gov/ontologies/bibframe/Title'],
@@ -162,19 +162,19 @@ describe('<Search />', () => {
       totalHits: 3,
       results: [
         {
-          uri: 'repository/cornell/ca0d53d0-2b99-4f75-afb0-739a6f0af4f4',
+          uri: 'resource/ca0d53d0-2b99-4f75-afb0-739a6f0af4f4',
           label: 'foo1',
           title: ['foo1'],
           type: ['http://id.loc.gov/ontologies/bibframe/Title'],
         },
         {
-          uri: 'repository/cornell/ca0d53d0-2b99-4f75-afb0-739a6f0af4f5',
+          uri: 'resource/ca0d53d0-2b99-4f75-afb0-739a6f0af4f5',
           label: 'foo2',
           title: ['foo2'],
           type: ['http://id.loc.gov/ontologies/bibframe/Title'],
         },
         {
-          uri: 'repository/cornell/ca0d53d0-2b99-4f75-afb0-739a6f0af4f6',
+          uri: 'resource/ca0d53d0-2b99-4f75-afb0-739a6f0af4f6',
           label: 'foo3',
           title: ['foo3'],
           type: ['http://id.loc.gov/ontologies/bibframe/Title'],

@@ -9,7 +9,7 @@ import {
 describe('Utilities', () => {
   describe('groupName()', () => {
     it('returns a group name from a URI', () => {
-      const uri = 'http://hostname/repository/pcc/objectidentifier'
+      const uri = 'http://hostname/resource/pcc/objectidentifier'
       expect(groupName(uri)).toEqual('PCC')
     })
   })
@@ -104,7 +104,7 @@ describe('Utilities', () => {
 
   describe('resourceToName()', () => {
     it('returns resource name from last path part of URI', () => {
-      const uri = 'https://trellis.sinopia.io/resources/ld4p/resourceTemplate:bf2:Note'
+      const uri = 'https://api.sinopia.io/resource/resourceTemplate:bf2:Note'
 
       expect(resourceToName(uri)).toEqual('resourceTemplate:bf2:Note')
     })

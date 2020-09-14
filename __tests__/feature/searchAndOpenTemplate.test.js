@@ -16,14 +16,14 @@ describe('searching and opening a resource', () => {
     results: [
       {
         id: 'resourceTemplate:bf2:Title',
-        uri: 'http://localhost:3000/repository/resourceTemplate:bf2:Title',
+        uri: 'http://localhost:3000/resource/resourceTemplate:bf2:Title',
         remark: 'Title information relating to a resource',
         resourceLabel: 'Instance Title',
         resourceURI: 'http://id.loc.gov/ontologies/bibframe/Title',
       },
       {
         id: 'resourceTemplate:bf2:Title:Note',
-        uri: 'http://localhost:3000/repository/resourceTemplate:bf2:Title:Note',
+        uri: 'http://localhost:3000/resource/resourceTemplate:bf2:Title:Note',
         remark: 'Note about the title',
         resourceLabel: 'Title note',
         resourceURI: 'http://id.loc.gov/ontologies/bibframe/Note',

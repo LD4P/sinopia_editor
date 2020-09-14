@@ -31,7 +31,7 @@ const mockStore = configureMockStore([thunk])
 // This removes circular references.
 const safeAction = (action) => JSON.parse(JSON.safeStringify(action))
 
-const uri = 'http://localhost:3000/repository/c7db5404-7d7d-40ac-b38e-c821d2c3ae3f'
+const uri = 'http://localhost:3000/resource/c7db5404-7d7d-40ac-b38e-c821d2c3ae3f'
 const resourceTemplateId = 'resourceTemplate:testing:uber1'
 
 const n3 = `<> <http://id.loc.gov/ontologies/bibframe/uber/template1/property1> _:b2_c14n0 .
@@ -199,7 +199,7 @@ describe('loadResource', () => {
     const store = mockStore(createState())
 
     it('dispatches actions', async () => {
-      const uri = 'http://localhost:3000/repository/c7db5404-7d7d-40ac-b38e-c821d2c3ae3f'
+      const uri = 'http://localhost:3000/resource/c7db5404-7d7d-40ac-b38e-c821d2c3ae3f'
       const result = await store.dispatch(loadResource(uri, 'testerrorkey'))
       expect(result).toBe(true)
 
@@ -222,7 +222,7 @@ describe('loadResource', () => {
     const store = mockStore(createState())
 
     it('dispatches actions', async () => {
-      const uri = 'http://localhost:3000/repository/c7db5404-7d7d-40ac-b38e-c821d2c3ae3f'
+      const uri = 'http://localhost:3000/resource/c7db5404-7d7d-40ac-b38e-c821d2c3ae3f'
       const result = await store.dispatch(loadResource(uri, 'testerrorkey', true))
       expect(result).toBe(true)
 
@@ -240,7 +240,7 @@ describe('loadResource', () => {
     const store = mockStore(createState())
 
     it('dispatches actions', async () => {
-      const uri = 'http://localhost:3000/repository/c7db5404-7d7d-40ac-b38e-c821d2c3ae3f-invalid'
+      const uri = 'http://localhost:3000/resource/c7db5404-7d7d-40ac-b38e-c821d2c3ae3f-invalid'
       const result = await store.dispatch(loadResource(uri, 'testerrorkey'))
       expect(result).toBe(false)
 
@@ -385,7 +385,7 @@ describe('addSiblingValueSubject', () => {
 
 
 describe('saveNewResource', () => {
-  const uri = 'http://localhost:3000/repository/abcdeghij23455'
+  const uri = 'http://localhost:3000/resource/abcdeghij23455'
 
 
   it('saves a new resource', async () => {

@@ -2,7 +2,7 @@
 
 class Config {
   static get sinopiaApiBase() {
-    return process.env.SINOPIA_API_BASE_URL || 'http://localhost:3000/repository'
+    return process.env.SINOPIA_API_BASE_URL || 'http://localhost:3000'
   }
 
   /*

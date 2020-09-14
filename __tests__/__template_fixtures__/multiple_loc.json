@@ -65,7 +65,7 @@
     ]
   },
   {
-    "@id": "http://localhost:3000/repository/test:bf2:soundCharacteristics",
+    "@id": "http://localhost:3000/resource/test:bf2:soundCharacteristics",
     "http://sinopia.io/vocabulary/hasResourceTemplate": [
       {
         "@value": "sinopia:template:resource"

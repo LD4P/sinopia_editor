@@ -242,7 +242,7 @@ describe('addSubject()', () => {
         payload: {
           key: 't9zVwg2zO',
           resourceKey: 't9zVwg2zO',
-          uri: 'https://trellis.sinopia.io/repository/washington/0894a8b3',
+          uri: 'https://api.sinopia.io/resource/0894a8b3',
           subjectTemplate: { key: 'ld4p:RT:bf2:Title:AbbrTitle' },
           properties: [
             {
@@ -263,7 +263,7 @@ describe('addSubject()', () => {
       expect(newState.entities.subjects.t9zVwg2zO).toStrictEqual({
         key: 't9zVwg2zO',
         resourceKey: 't9zVwg2zO',
-        uri: 'https://trellis.sinopia.io/repository/washington/0894a8b3',
+        uri: 'https://api.sinopia.io/resource/0894a8b3',
         subjectTemplateKey: 'ld4p:RT:bf2:Title:AbbrTitle',
         propertyKeys: [
           'KQEtq-vmq9',
@@ -292,7 +292,7 @@ describe('addValue()', () => {
         resourceKey: 'wihOjn-0Z',
         literal: null,
         lang: null,
-        uri: 'http://localhost:3000/repository/stanford/85770f92-f8cf-48ee-970a-aefc97843749',
+        uri: 'http://localhost:3000/resource/85770f92-f8cf-48ee-970a-aefc97843749',
         label: null,
         valueSubjectKey: null,
       },
@@ -418,7 +418,7 @@ describe('addValue()', () => {
         resourceKey: 'wihOjn-0Z',
         literal: null,
         lang: null,
-        uri: 'http://localhost:3000/repository/stanford/85770f92-f8cf-48ee-970a-aefc97843749',
+        uri: 'http://localhost:3000/resource/85770f92-f8cf-48ee-970a-aefc97843749',
         label: null,
         valueSubjectKey: null,
       })
@@ -427,7 +427,7 @@ describe('addValue()', () => {
       expect(newState.entities.subjects['wihOjn-0Z'].bfAdminMetadataRefs).toHaveLength(0)
       expect(newState.entities.subjects['wihOjn-0Z'].bfInstanceRefs).toHaveLength(0)
       expect(newState.entities.subjects['wihOjn-0Z'].bfItemRefs).toHaveLength(0)
-      expect(newState.entities.subjects['wihOjn-0Z'].bfWorkRefs).toEqual(['http://localhost:3000/repository/stanford/74770f92-f8cf-48ee-970a-aefc97843738', 'http://localhost:3000/repository/stanford/85770f92-f8cf-48ee-970a-aefc97843749'])
+      expect(newState.entities.subjects['wihOjn-0Z'].bfWorkRefs).toEqual(['http://localhost:3000/resource/74770f92-f8cf-48ee-970a-aefc97843738', 'http://localhost:3000/resource/85770f92-f8cf-48ee-970a-aefc97843749'])
     })
   })
 
@@ -439,7 +439,7 @@ describe('addValue()', () => {
       const newState = reducer(oldState.selectorReducer, addUriAction)
 
       expect(newState.entities.subjects['wihOjn-0Z'].bfAdminMetadataRefs).toHaveLength(0)
-      expect(newState.entities.subjects['wihOjn-0Z'].bfInstanceRefs).toEqual(['http://localhost:3000/repository/stanford/85770f92-f8cf-48ee-970a-aefc97843749'])
+      expect(newState.entities.subjects['wihOjn-0Z'].bfInstanceRefs).toEqual(['http://localhost:3000/resource/85770f92-f8cf-48ee-970a-aefc97843749'])
       expect(newState.entities.subjects['wihOjn-0Z'].bfItemRefs).toHaveLength(0)
       expect(newState.entities.subjects['wihOjn-0Z'].bfWorkRefs).toHaveLength(1)
     })
@@ -455,7 +455,7 @@ describe('addValue()', () => {
 
       expect(newState.entities.subjects['wihOjn-0Z'].bfAdminMetadataRefs).toHaveLength(0)
       expect(newState.entities.subjects['wihOjn-0Z'].bfInstanceRefs).toHaveLength(0)
-      expect(newState.entities.subjects['wihOjn-0Z'].bfItemRefs).toEqual(['http://localhost:3000/repository/stanford/85770f92-f8cf-48ee-970a-aefc97843749'])
+      expect(newState.entities.subjects['wihOjn-0Z'].bfItemRefs).toEqual(['http://localhost:3000/resource/85770f92-f8cf-48ee-970a-aefc97843749'])
       expect(newState.entities.subjects['wihOjn-0Z'].bfWorkRefs).toHaveLength(1)
     })
   })
@@ -468,7 +468,7 @@ describe('addValue()', () => {
 
       const newState = reducer(oldState.selectorReducer, addUriAction)
 
-      expect(newState.entities.subjects['wihOjn-0Z'].bfAdminMetadataRefs).toEqual(['http://localhost:3000/repository/stanford/85770f92-f8cf-48ee-970a-aefc97843749'])
+      expect(newState.entities.subjects['wihOjn-0Z'].bfAdminMetadataRefs).toEqual(['http://localhost:3000/resource/85770f92-f8cf-48ee-970a-aefc97843749'])
       expect(newState.entities.subjects['wihOjn-0Z'].bfInstanceRefs).toHaveLength(0)
       expect(newState.entities.subjects['wihOjn-0Z'].bfItemRefs).toHaveLength(0)
       expect(newState.entities.subjects['wihOjn-0Z'].bfWorkRefs).toHaveLength(1)

@@ -31,7 +31,7 @@
     ]
   },
   {
-    "@id": "http://localhost:3000/repository/resourceTemplate:testing:uber2",
+    "@id": "http://localhost:3000/resource/resourceTemplate:testing:uber2",
     "http://sinopia.io/vocabulary/hasResourceTemplate": [
       {
         "@value": "sinopia:template:resource"
