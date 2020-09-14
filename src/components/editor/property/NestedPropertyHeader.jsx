@@ -26,7 +26,7 @@ const NestedPropertyHeader = (props) => {
   let groupClasses = 'rOutline-header'
 
   if (props.displayValidations && !_.isEmpty(props.property.errors)) {
-    groupClasses += ' has-error'
+    groupClasses += ' is-invalid'
     error = props.property.errors.join(',')
   }
 
@@ -50,7 +50,7 @@ const NestedPropertyHeader = (props) => {
           + Add <strong><PropertyLabel propertyTemplate={props.property.propertyTemplate} /></strong>
         </button>
         <PropertyLabelInfo propertyTemplate={ props.property.propertyTemplate } />
-        { error && <span className="text-danger">{error}</span>}
+        { error && <span className="invalid-feedback">{error}</span>}
       </div>
     )
   }

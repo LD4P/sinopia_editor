@@ -67,20 +67,20 @@ const InputURI = (props) => {
                                                                             valueKey={valueKey} />))
 
   let error
-  let groupClasses = 'form-group'
+  let controlClasses = 'form-control'
   const errors = mergeErrors()
   if (!_.isEmpty(errors)) {
-    groupClasses += ' has-error'
+    controlClasses += ' is-invalid'
     error = errors.join(', ')
   }
   const id = shortid.generate()
 
   return (
-    <div className={groupClasses}>
+    <div className="form-group">
       <label htmlFor={id}>Enter a URI</label>
       <input id={id}
              required={required}
-             className="form-control"
+             className={controlClasses}
              placeholder={props.property.propertyTemplate.label}
              onChange={(event) => setContent(event.target.value)}
              onKeyPress={handleKeypress}
@@ -89,7 +89,7 @@ const InputURI = (props) => {
              onBlur={addItem}
              ref={inputLiteralRef}
       />
-      {error && <span className="text-danger">{error}</span>}
+      {error && <span className="invalid-feedback">{error}</span>}
       {addedList}
     </div>
   )

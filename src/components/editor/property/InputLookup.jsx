@@ -141,19 +141,21 @@ const InputLookup = (props) => {
   }
 
   let error
-  let groupClasses = 'form-group'
-
+  let className
   if (displayValidations && !_.isEmpty(errors)) {
-    groupClasses += ' has-error'
+    className = 'is-invalid'
     error = errors.join(',')
   }
+
   return (
     <React.Fragment>
       {lookupCheckboxes.length > 1 && lookupCheckboxes}
-      <div className={groupClasses}>
+      <div className="form-group">
         <AsyncTypeahead renderMenu={(results, menuProps) => renderMenuFunc(results, menuProps, Object.values(selectedAuthorities))}
                         renderToken={(option, props, idx) => renderTokenFunc(option, props, idx)}
                         disabled={isDisabled}
+                        className={className}
+                        isInvalid={!_.isEmpty(error)}
                         onChange={(newSelected) => selectionChanged(newSelected)}
                         options={props.getOptions(allResults.current)}
                         onSearch={setQuery}
@@ -162,7 +164,7 @@ const InputLookup = (props) => {
                         filterBy={() => true}
                         ref={(ref) => typeAheadRef.current = ref}
         />
-        {error && <span className="text-danger">{error}</span>}
+        {error && <span className="invalid-feedback">{error}</span>}
       </div>
     </React.Fragment>
   )

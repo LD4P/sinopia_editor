@@ -129,22 +129,24 @@ const InputListLOC = (props) => {
   const isDisabled = selected?.length > 0 && !isRepeatable
 
   let error
-  let groupClasses = 'form-group'
+  let className
   if (displayValidations && !_.isEmpty(validationErrors)) {
-    groupClasses += ' has-error'
+    className = 'is-invalid'
     error = validationErrors.join(',')
   }
 
   return (
     <React.Fragment>
       {lookupCheckboxes.length > 1 && lookupCheckboxes}
-      <div className={groupClasses}>
+      <div className="form-group">
         <Typeahead
           renderMenu={(results, menuProps) => renderMenuFunc(results, menuProps, Object.values(selectedAuthorities))}
           renderToken={(option, props, idx) => renderTokenFunc(option, props, idx)}
           allowNew={() => true }
           onChange={(selected) => selectionChanged(selected)}
           id="loc-vocab-list"
+          className={className}
+          isInvalid={!_.isEmpty(error)}
           multiple={true}
           placeholder={props.property.propertyTemplate.label}
           emptyLabel="retrieving list of terms..."
@@ -157,7 +159,7 @@ const InputListLOC = (props) => {
           disabled={isDisabled}
           ref={(ref) => typeAheadRef.current = ref}
         />
-        {error && <span className="text-danger">{error}</span>}
+        {error && <span className="invalid-feedback">{error}</span>}
       </div>
     </React.Fragment>
   )
