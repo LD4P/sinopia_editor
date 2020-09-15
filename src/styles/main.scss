@@ -8,29 +8,21 @@ $modal-content-box-shadow-xs: 0 .125rem .25rem rgba(black, .075) !default;
 $modal-content-border-color: gray;
 $modal-content-bg: #f8f6ef;
 $resource-tab-active-bg: #b26f16;
-
+// $tab-background-active: #b26f16;
 $link-color: #00548f;
 $theme-colors: (
   "danger": #b1020f
 );
 $enable-validation-icons: false;
-
-
 $lookup-value-bg: #E8E2DC;
+$prop-heading-bg: #B26F16;
+$prop-heading-color: white;
+$prop-panel-bg: #F7F4F1;
 
 @import "~bootstrap/scss/bootstrap";
-@import url('https://fonts.googleapis.com/css2?family=Source+Sans+Pro&display=swap');
 
 .left-space {
     margin-left: 3px;
-}
-
-.invalid-feedback {
-  padding-left: 1.5em;
-  background-image: escape-svg($form-feedback-icon-invalid);
-  background-repeat: no-repeat;
-  background-position: left 0 center;
-  background-size: $input-height-inner-half $input-height-inner-half;
 }
 
 body {
@@ -138,8 +130,8 @@ $primary-disabled: lighten( map-get($theme-colors,"secondary"), 20% );
 }
 
 .prop-heading {
-  background-color: #D0C1A8 !important;
-  color: black !important;
+  background-color: $prop-heading-bg !important;
+  color: $prop-heading-color !important;
 }
 
 .prop-heading > span {
@@ -148,7 +140,7 @@ $primary-disabled: lighten( map-get($theme-colors,"secondary"), 20% );
 }
 
 .panel-property {
-  background-color: #F7F4F1;
+  background-color: $prop-panel-bg;
   break-inside: avoid;
 }
 
@@ -246,10 +238,6 @@ input.rbt-input-main {
 
 div.rbt-input-multi {
   height: auto;
-}
-
-.input-value {
-  marginTop: .25em;
 }
 
 .rdf-modal-content {
@@ -386,23 +374,4 @@ a.list-group-item {
 
 .list-group-top-item {
   padding-top: 5px;
-}
-
-.btn-nested-resource {
-  padding-left: 2px;
-  padding-right: 2px;
-}
-
-.lookup-value {
-  background-color: $lookup-value-bg;
-  font-weight: bold;
-  float: left;
-  line-height: 1.5em;
-}
-
-.lookup-value span {
-  margin: 5px;
-  padding-left: 5px;
-  padding-right: 5px;
-  border-right: 1px solid black;
 }
