@@ -1,0 +1,22 @@
+/** For header tabs **/
+.editor-navtabs {
+  color: #2F2424;
+  /** top right bottom left **/
+  margin:0 5px -15px 5px;
+  border:0px;
+}
+
+.editor-navtabs .nav-link.active {
+  font-weight: 900;
+  text-decoration: none;
+}
+
+.editor-navtabs .hover {
+  background-color:transparent;
+}
+
+.editor-navtabs a {
+  color: #2F2424;
+  font-weight: 500;
+  line-height: 1.2;
+}

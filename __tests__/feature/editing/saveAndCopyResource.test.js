@@ -59,9 +59,8 @@ describe('saving a resource', () => {
       screen.findByText(/Copied http:\/\/localhost\/something\/or\/other to new resource./)
 
       // There are nav tabs and a duplicate resource with the same content
-      const tabBtns = await screen.findAllByText('Title note', { selector: 'button' })
-      expect(tabBtns[0]).not.toHaveClass('active')
-      expect(tabBtns[1]).toHaveClass('active')
+      await screen.findAllByText('Title note', { selector: '.nav-item.active .nav-link' })
+      await screen.findAllByText('Title note', { selector: '.nav-item:not(.active) .nav-link' })
       expect(editBtn).toHaveTextContent('Edit')
     })
   })

@@ -24,21 +24,19 @@ const ResourcesNav = () => {
   })
 
   const createResourceTemplateNavItem = (resourceKey, active) => {
-    const linkClasses = ['nav-link', 'btn']
     const itemClasses = ['nav-item']
     let closeButton
     if (active) {
-      linkClasses.push('active')
       itemClasses.push('active')
     } else {
-      closeButton = <CloseButton label={'x'} css={'button'} resourceKey={resourceKey}/>
+      closeButton = <CloseButton label={'×'} css={'button'} resourceKey={resourceKey}/>
     }
     return (
       <li className={itemClasses.join(' ')} key={resourceKey}>
         <div className="btn-group">
-          <button className={linkClasses.join(' ')}
-                  href="#"
-                  onClick={(event) => handleResourceNavClick(event, resourceKey)}>{navLabels[resourceKey]}</button>
+          <a className="nav-link"
+             href="#resourceTemplate"
+             onClick={(event) => handleResourceNavClick(event, resourceKey)}>{navLabels[resourceKey]}</a>
           {closeButton}
         </div>
       </li>
@@ -58,7 +56,7 @@ const ResourcesNav = () => {
   return (
     <div className="row">
       <div className="col">
-        <ul className="nav nav-tabs resources-nav-tabs" style={{ marginBottom: '5px' }}>
+        <ul className="nav nav-tabs resources-nav-tabs">
           { resourceTemplateNavItems }
         </ul>
       </div>

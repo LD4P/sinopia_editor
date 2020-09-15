@@ -1,0 +1,28 @@
+.resources-nav-tabs {
+  margin-bottom: 5px;
+
+  .nav-item {
+    border: 1px solid $gray-600;
+    margin-bottom: -1px;
+    margin-right: 10px;
+
+    .nav-link {
+      border: 0;
+      border-radius: 0;
+      color: $gray-600;
+      text-decoration: none;
+    }
+  }
+
+  .nav-item.active {
+    border: 0;
+    background-color: $resource-tab-active-bg;
+
+
+    .nav-link {
+      background-color: transparent;
+      color: $white;
+      font-weight: 600;
+    }
+  }
+}
