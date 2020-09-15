@@ -149,6 +149,7 @@ const InputLookup = (props) => {
   const classes = ['modal', 'fade']
   let display = 'none'
   let displaySelection = 'none'
+  const modalId = 'InputLookupModal' + props.property.key
 
   if (displayValidations && !_.isEmpty(errors)) {
     groupClasses += ' has-error'
@@ -162,7 +163,7 @@ const InputLookup = (props) => {
 
   const handleClick = (event) => {
     event.preventDefault()
-    dispatch(showModal('InputLookupModal'))
+    dispatch(showModal(modalId))
   }
 
   const close = (event) => {
@@ -179,7 +180,9 @@ const InputLookup = (props) => {
   ))
 
   const modal = (
-    <div className={ classes.join(' ') } style={{ display }}>
+    <div className={ classes.join(' ') }
+         id={ modalId }
+         style={{ display }}>
       <div className="modal-dialog" role="document">
         <div className="modal-content">
           <div className="modal-header">
@@ -237,7 +240,7 @@ InputLookup.propTypes = {
 }
 
 const mapStateToProps = (state, ownProps) => {
-  const show = selectModalType(state) === 'InputLookupModal'
+  const show = selectModalType(state) === 'InputLookupModal' + ownProps.property.key
   return {
     lookupValues: ownProps.property.values,
     show,
