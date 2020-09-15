@@ -41,18 +41,22 @@ const SaveAndPublishButton = (props) => {
   }, [resourceHasChanged, validationErrorsAreShowing, hasValidationErrors])
 
   const save = () => {
-    // Close RDF modal if open
-    if (hasValidationErrors) {
-      showValidationErrors()
-    }
-    else {
-      hideValidationErrors()
+    if (formIsValid()) {
       if (isSaved) {
         saveResource()
       } else {
         showGroupChooser()
       }
     }
+  }
+
+  const formIsValid = () => {
+    if (hasValidationErrors) {
+      showValidationErrors()
+      return false
+    }
+    hideValidationErrors()
+    return true
   }
 
   return (
