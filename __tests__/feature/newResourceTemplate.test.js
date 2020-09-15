@@ -17,5 +17,5 @@ describe('creating new resource template ', () => {
     // Click the new resource template button
     fireEvent.click(screen.getByText('+ New template', { selector: 'a' }))
     await waitFor(() => expect((screen.getByText('Resource Template (dummy)', { selector: 'h3' }))))
-  })
+  }, 15000)
 })

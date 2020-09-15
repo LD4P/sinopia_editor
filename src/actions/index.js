@@ -4,7 +4,7 @@ export const setAppVersion = (version) => ({
   payload: version,
 })
 
-export const setCurrentComponent = (resourceKey, key) => ({
+export const setCurrentComponent = (rootSubjectKey, rootPropertyKey, key) => ({
   type: 'SET_CURRENT_COMPONENT',
-  payload: { resourceKey, key },
+  payload: { rootSubjectKey, rootPropertyKey, key },
 })

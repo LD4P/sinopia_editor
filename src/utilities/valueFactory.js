@@ -1,19 +1,14 @@
 import shortid from 'shortid'
 
-const newValue = (property, literal, lang, uri, label, valueSubject) => {
-  const key = shortid.generate()
-  const resourceKey = property.resourceKey
-  return {
-    key,
-    property,
-    resourceKey,
-    literal,
-    lang,
-    uri,
-    label,
-    valueSubject,
-  }
-}
+const newValue = (property, literal, lang, uri, label, valueSubject) => ({
+  key: shortid.generate(),
+  property,
+  literal,
+  lang,
+  uri,
+  label,
+  valueSubject,
+})
 
 export const newLiteralValue = (property, literal, lang) => newValue(property, literal, lang, null, null, null)
 

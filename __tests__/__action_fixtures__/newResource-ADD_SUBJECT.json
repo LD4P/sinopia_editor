@@ -575,51 +575,42 @@
         }
       ]
     },
-    "resourceKey": "abc0",
     "properties": [
       {
         "key": "abc1",
-        "resourceKey": "abc0",
         "values": null,
         "show": false
       },
       {
         "key": "abc2",
-        "resourceKey": "abc0",
         "values": null,
         "show": false
       },
       {
         "key": "abc3",
-        "resourceKey": "abc0",
         "values": null,
         "show": false
       },
       {
         "key": "abc4",
-        "resourceKey": "abc0",
         "values": [],
         "show": true
       },
       {
         "key": "abc5",
-        "resourceKey": "abc0",
         "values": [],
         "show": true
       },
       {
         "key": "abc6",
-        "resourceKey": "abc0",
         "values": [],
         "show": true
       },
       {
         "key": "abc7",
-        "resourceKey": "abc0",
         "values": [
           {
             "key": "abc8",
-            "resourceKey": "abc0",
             "literal": "Default literal1",
             "lang": null,
             "uri": null,
@@ -628,7 +619,6 @@
           },
           {
             "key": "abc9",
-            "resourceKey": "abc0",
             "literal": "Default literal2",
             "lang": null,
             "uri": null,
@@ -640,11 +630,9 @@
       },
       {
         "key": "abc10",
-        "resourceKey": "abc0",
         "values": [
           {
             "key": "abc11",
-            "resourceKey": "abc0",
             "literal": null,
             "lang": null,
             "uri": "http://sinopia.io/defaultURI1",
@@ -653,7 +641,6 @@
           },
           {
             "key": "abc12",
-            "resourceKey": "abc0",
             "literal": null,
             "lang": null,
             "uri": "http://sinopia.io/defaultURI2",
@@ -665,65 +652,54 @@
       },
       {
         "key": "abc13",
-        "resourceKey": "abc0",
         "values": [],
         "show": true
       },
       {
         "key": "abc14",
-        "resourceKey": "abc0",
         "values": [],
         "show": true
       },
       {
         "key": "abc15",
-        "resourceKey": "abc0",
         "values": [],
         "show": true
       },
       {
         "key": "abc16",
-        "resourceKey": "abc0",
         "values": [],
         "show": true
       },
       {
         "key": "abc17",
-        "resourceKey": "abc0",
         "values": [],
         "show": true
       },
       {
         "key": "abc18",
-        "resourceKey": "abc0",
         "values": [],
         "show": true
       },
       {
         "key": "abc19",
-        "resourceKey": "abc0",
         "values": [],
         "show": true
       },
       {
         "key": "abc20",
-        "resourceKey": "abc0",
         "values": [],
         "show": true
       },
       {
         "key": "abc21",
-        "resourceKey": "abc0",
         "values": [],
         "show": true
       },
       {
         "key": "abc22",
-        "resourceKey": "abc0",
         "values": [
           {
             "key": "abc34",
-            "resourceKey": "abc0",
             "literal": null,
             "lang": null,
             "uri": null,
@@ -762,11 +738,9 @@
                   }
                 ]
               },
-              "resourceKey": "abc0",
               "properties": [
                 {
                   "key": "abc33",
-                  "resourceKey": "abc0",
                   "values": [],
                   "show": true
                 }
@@ -778,48 +752,40 @@
       },
       {
         "key": "abc24",
-        "resourceKey": "abc0",
         "values": null,
         "show": false
       },
       {
         "key": "abc25",
-        "resourceKey": "abc0",
         "values": null,
         "show": false
       },
       {
         "key": "abc26",
-        "resourceKey": "abc0",
         "values": null,
         "show": false
       },
       {
         "key": "abc27",
-        "resourceKey": "abc0",
         "values": null,
         "show": false
       },
       {
         "key": "abc28",
-        "resourceKey": "abc0",
         "values": null,
         "show": false
       },
       {
         "key": "abc29",
-        "resourceKey": "abc0",
         "values": null,
         "show": false
       },
       {
         "key": "abc30",
-        "resourceKey": "abc0",
         "show": true,
         "values": [
           {
             "key": "abc31",
-            "resourceKey": "abc0",
             "literal": "Default required literal1",
             "lang": null,
             "uri": null,
@@ -828,7 +794,6 @@
           },
           {
             "key": "abc32",
-            "resourceKey": "abc0",
             "literal": "Default required literal2",
             "lang": null,
             "uri": null,

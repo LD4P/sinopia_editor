@@ -8,12 +8,12 @@ import PanelResourceNav from './PanelResourceNav'
 // Top-level resource
 const PanelResource = (props) => (
   <div className="row" >
-    <PanelResourceNav resourceKey={props.resource.key} />
+    <PanelResourceNav resource={props.resource} />
     <div className="col-sm-9">
       <form>
         {
           props.resource.properties.map((property, index) => (
-            <PanelProperty propertyKey={property.key} key={property.key} float={index} id={property.key} />
+            <PanelProperty resourceKey={props.resource.key} propertyKey={property.key} key={property.key} float={index} id={property.key} />
           ))
         }
       </form>

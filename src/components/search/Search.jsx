@@ -70,7 +70,7 @@ const Search = (props) => {
     } else {
       fetchQASearchResults(queryString, uri, 0)
     }
-    if (error) window.scrollTo(0, topRef.current.offsetTop)
+    if (error && topRef.current) window.scrollTo(0, topRef.current.offsetTop)
   }
 
   const changeSinopiaSearchPage = (startOfRange) => {

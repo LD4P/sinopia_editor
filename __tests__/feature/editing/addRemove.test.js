@@ -48,8 +48,8 @@ describe('adding and removing properties', () => {
     screen.getByText('Uber template1, property1', { selector: 'span' })
     fireEvent.click(screen.getByTestId('Add Uber template1, property1'))
 
-    await screen.findByText('Uber template2')
-    await screen.findByText('Uber template3')
+    await screen.findByText('Uber template2', { selector: 'h5' })
+    await screen.findByText('Uber template3', { selector: 'h5' })
 
     // No remove
     expect(screen.queryAllByTestId('Remove Uber template2')).toHaveLength(0)
@@ -67,7 +67,7 @@ describe('adding and removing properties', () => {
     // Remove the first
     fireEvent.click(removeBtns[0])
     // One resource property
-    await screen.findByText('Uber template2')
+    await screen.findByText('Uber template2', { selector: 'h5' })
     // No remove
     expect(screen.queryAllByTestId('Remove Uber template2')).toHaveLength(0)
     // Add another still visible
@@ -83,8 +83,8 @@ describe('adding and removing properties', () => {
     expect(screen.getAllByText('Uber template1, property3')).toHaveLength(2)
     fireEvent.click(screen.getByTestId('Add Uber template1, property3'))
 
-    await screen.findByText('Uber template2')
-    await screen.findByText('Uber template3')
+    await screen.findByText('Uber template2', { selector: 'h5' })
+    await screen.findByText('Uber template3', { selector: 'h5' })
 
     // No remove
     expect(screen.queryAllByTestId('Remove Uber template2')).toHaveLength(0)
@@ -101,8 +101,8 @@ describe('adding and removing properties', () => {
     screen.getByText('Uber template1, property1', { selector: 'span' })
     fireEvent.click(screen.getByTestId('Add Uber template1, property1'))
 
-    await screen.findByText('Uber template2')
-    await screen.findByText('Uber template3')
+    await screen.findByText('Uber template2', { selector: 'h5' })
+    await screen.findByText('Uber template3', { selector: 'h5' })
 
     // Add a nested property (literal)
     fireEvent.click(screen.getByTestId('Add Uber template2, property1'))

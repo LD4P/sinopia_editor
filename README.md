@@ -193,7 +193,11 @@ The steps to create a tagged release are documented in the tagged-release ticket
   subjectTemplateKey: <key of subject template>,
   -> subjectTemplate: {subjectTemplate}
   propertyKeys: [key of property, ...]
-  resourceKey: <key of resource that this subject is part of>
+  rootResourceKey: <key of root resource that this subject is descendant of; for root resource is own key>
+  rootPropertyKey: <key of root property that this subject is part of; for root resource is null>
+  descUriOrLiteralValueKeys = [key of descendant uri or literal Value, ...]
+  descWithErrorPropertyKeys = [key of descendant property with an error, ...]
+  valueSubjectOfKey: <if a nested subject, key of the value | null>
   -> properties: [{property}, ...]
 }
 ```
@@ -230,13 +234,16 @@ The following are only in the resource subject (that is, the base subject).
 {
   key: <shortid>,
   subjectKey: <key of subject>,
-  resourceKey: <key of resource that this subject is part of>
   -> subject: {<subject>}
   propertyTemplateKey: <key of property template>,
   -> propertyTemplate: {<propertyTemplate>},
   valueKeys: [key of value, ...] | null (if not expanded)
   -> values: [{value},...]
   toggleOpen: <true | false>
+  rootResourceKey: <key of root resource that this property is descendant of>
+  rootPropertyKey: <key of root property that this subject is part of; for root property is own key>
+  descUriOrLiteralValueKeys = [key of descendant uri or literal Value, ...]
+  descWithErrorPropertyKeys = [key of descendant or self Property with an error, ...]
 }
 ```
 -> Added by selector, not stored in state.
@@ -278,7 +285,6 @@ The following are only in the resource subject (that is, the base subject).
 {
   key: <shortid>,
   propertyKey: <key of property>,
-  resourceKey: <key of resource that this subject is part of>
   -> property: {<property>},
   literal: <literal>,
   lang: <language for literal>,
@@ -286,7 +292,9 @@ The following are only in the resource subject (that is, the base subject).
   label: <label for uri>,
   valueSubjectKey: <key for subject for a nested resource>,
   -> valueSubject: {<subject>}
-  -> index: <1 based index of the value (relative to siblings)>
+-> index: <1 based index of the value (relative to siblings)>
+  rootResourceKey: <key of root resource that this property is descendant of>
+  rootPropertyKey: <key of root property that this subject is part of>
 }
 ```
 -> Added by selector, not stored in state.

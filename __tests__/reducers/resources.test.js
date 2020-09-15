@@ -41,7 +41,6 @@ describe('addProperty()', () => {
         payload: {
           key: 'vmq88891',
           subject: { key: 't9zVwg2zO' },
-          resourceKey: 't9zVwg2zO',
           propertyTemplate: { key: 'ld4p:RT:bf2:Title:AbbrTitle > http://id.loc.gov/ontologies/bibframe/mainTitle' },
           values: [],
           show: true,
@@ -52,11 +51,14 @@ describe('addProperty()', () => {
       expect(newState.entities.properties.vmq88891).toStrictEqual({
         key: 'vmq88891',
         subjectKey: 't9zVwg2zO',
-        resourceKey: 't9zVwg2zO',
+        rootSubjectKey: 't9zVwg2zO',
         propertyTemplateKey: 'ld4p:RT:bf2:Title:AbbrTitle > http://id.loc.gov/ontologies/bibframe/mainTitle',
         valueKeys: [],
         show: true,
         errors: [],
+        rootPropertyKey: 'vmq88891',
+        descUriOrLiteralValueKeys: [],
+        descWithErrorPropertyKeys: [],
       })
       expect(newState.entities.subjects.t9zVwg2zO.propertyKeys).toContain('vmq88891')
       expect(newState.entities.subjects.t9zVwg2zO.changed).toBe(true)
@@ -72,12 +74,10 @@ describe('addProperty()', () => {
         payload: {
           key: 'JQEtq-vmq8',
           subject: { key: 't9zVwg2zO' },
-          resourceKey: 't9zVwg2zO',
           propertyTemplate: { key: 'ld4p:RT:bf2:Title:AbbrTitle > http://id.loc.gov/ontologies/bibframe/mainTitle' },
           values: [{
             key: 'RxGx7WMh4',
             property: { key: 'JQEtq-vmq8' },
-            resourceKey: 't9zVwg2zO',
             literal: 'bar',
             lang: 'eng',
             uri: null,
@@ -93,11 +93,14 @@ describe('addProperty()', () => {
       expect(newState.entities.properties['JQEtq-vmq8']).toStrictEqual({
         key: 'JQEtq-vmq8',
         subjectKey: 't9zVwg2zO',
-        resourceKey: 't9zVwg2zO',
+        rootSubjectKey: 't9zVwg2zO',
         propertyTemplateKey: 'ld4p:RT:bf2:Title:AbbrTitle > http://id.loc.gov/ontologies/bibframe/mainTitle',
         valueKeys: ['RxGx7WMh4'],
         show: true,
         errors: [],
+        rootPropertyKey: 'JQEtq-vmq8',
+        descWithErrorPropertyKeys: [],
+        descUriOrLiteralValueKeys: ['RxGx7WMh4'],
       })
       expect(newState.entities.subjects.t9zVwg2zO.propertyKeys).toContain('JQEtq-vmq8')
       // Replaces values
@@ -116,7 +119,6 @@ describe('addProperty()', () => {
         payload: {
           key: 'i0SAJP-Zhd',
           subject: { key: 'wihOjn-0Z' },
-          resourceKey: 'wihOjn-0Z',
           propertyTemplate: { key: 'test:resource:SinopiaLookup > http://id.loc.gov/ontologies/bibframe/instanceOf' },
           values: [],
           show: true,
@@ -128,11 +130,14 @@ describe('addProperty()', () => {
       expect(newState.entities.properties['i0SAJP-Zhd']).toStrictEqual({
         key: 'i0SAJP-Zhd',
         subjectKey: 'wihOjn-0Z',
-        resourceKey: 'wihOjn-0Z',
+        rootSubjectKey: 'wihOjn-0Z',
         propertyTemplateKey: 'test:resource:SinopiaLookup > http://id.loc.gov/ontologies/bibframe/instanceOf',
         valueKeys: [],
         show: true,
-        errors: [],
+        errors: ['Required'],
+        rootPropertyKey: 'i0SAJP-Zhd',
+        descUriOrLiteralValueKeys: [],
+        descWithErrorPropertyKeys: ['i0SAJP-Zhd'],
       })
       expect(newState.entities.subjects['wihOjn-0Z'].propertyKeys).toContain('i0SAJP-Zhd')
       expect(newState.entities.values['s8-qt3-uu']).toBeUndefined()
@@ -145,14 +150,14 @@ describe('addProperty()', () => {
   describe('property with validation error', () => {
     it('adds error', () => {
       const oldState = createState({ hasResourceWithLiteral: true })
+      oldState.selectorReducer.entities.propertyTemplates['ld4p:RT:bf2:Title:AbbrTitle > http://id.loc.gov/ontologies/bibframe/mainTitle'].required = true
 
       const action = {
         type: 'ADD_PROPERTY',
         payload: {
           key: 'vmq88891',
           subject: { key: 't9zVwg2zO' },
-          resourceKey: 't9zVwg2zO',
-          propertyTemplate: { key: 'ld4p:RT:bf2:Title:AbbrTitle > http://id.loc.gov/ontologies/bibframe/mainTitle', required: true },
+          propertyTemplate: { key: 'ld4p:RT:bf2:Title:AbbrTitle > http://id.loc.gov/ontologies/bibframe/mainTitle' },
           values: [],
           show: true,
           errors: [],
@@ -162,12 +167,17 @@ describe('addProperty()', () => {
       expect(newState.entities.properties.vmq88891).toStrictEqual({
         key: 'vmq88891',
         subjectKey: 't9zVwg2zO',
-        resourceKey: 't9zVwg2zO',
+        rootSubjectKey: 't9zVwg2zO',
         propertyTemplateKey: 'ld4p:RT:bf2:Title:AbbrTitle > http://id.loc.gov/ontologies/bibframe/mainTitle',
         valueKeys: [],
         show: true,
         errors: ['Required'],
+        rootPropertyKey: 'vmq88891',
+        descUriOrLiteralValueKeys: [],
+        descWithErrorPropertyKeys: ['vmq88891'],
       })
+
+      expect(newState.entities.subjects.t9zVwg2zO.descWithErrorPropertyKeys).toContain('vmq88891')
     })
   })
 })
@@ -181,7 +191,6 @@ describe('addSubject()', () => {
         type: 'ADD_SUBJECT',
         payload: {
           key: '45689df',
-          resourceKey: '45689df',
           properties: [],
           subjectTemplate: { key: 'resourceTemplate:bf2:Identifiers:Barcode' },
           uri: null,
@@ -194,7 +203,7 @@ describe('addSubject()', () => {
           key: '45689df',
           propertyKeys: [],
           uri: null,
-          resourceKey: '45689df',
+          rootSubjectKey: '45689df',
           bfAdminMetadataRefs: [],
           bfInstanceRefs: [],
           bfItemRefs: [],
@@ -202,6 +211,10 @@ describe('addSubject()', () => {
           changed: true,
           group: null,
           subjectTemplateKey: 'resourceTemplate:bf2:Identifiers:Barcode',
+          descUriOrLiteralValueKeys: [],
+          descWithErrorPropertyKeys: [],
+          valueSubjectOfKey: null,
+          rootPropertyKey: null,
         },
       })
     })
@@ -215,7 +228,6 @@ describe('addSubject()', () => {
         type: 'ADD_SUBJECT',
         payload: {
           key: '45689df',
-          resourceKey: 't9zVwg2zO',
           properties: [],
           subjectTemplate: { key: 'resourceTemplate:bf2:Identifiers:Barcode' },
           uri: null,
@@ -227,8 +239,18 @@ describe('addSubject()', () => {
         key: '45689df',
         propertyKeys: [],
         uri: null,
-        resourceKey: 't9zVwg2zO',
+        rootSubjectKey: '45689df',
+        rootPropertyKey: null,
+        bfAdminMetadataRefs: [],
+        bfInstanceRefs: [],
+        bfItemRefs: [],
+        bfWorkRefs: [],
+        changed: true,
+        descUriOrLiteralValueKeys: [],
+        descWithErrorPropertyKeys: [],
+        group: null,
         subjectTemplateKey: 'resourceTemplate:bf2:Identifiers:Barcode',
+        valueSubjectOfKey: null,
       })
     })
   })
@@ -242,14 +264,12 @@ describe('addSubject()', () => {
         type: 'ADD_SUBJECT',
         payload: {
           key: 't9zVwg2zO',
-          resourceKey: 't9zVwg2zO',
           uri: 'https://api.sinopia.io/resource/0894a8b3',
           subjectTemplate: { key: 'ld4p:RT:bf2:Title:AbbrTitle' },
           properties: [
             {
               key: 'KQEtq-vmq9',
               subject: { key: 't9zVwg2zO' },
-              resourceKey: 't9zVwg2zO',
               propertyTemplate: { key: 'ld4p:RT:bf2:Title:AbbrTitle > http://id.loc.gov/ontologies/bibframe/mainTitle' },
               valueKeys: [],
               show: true,
@@ -263,7 +283,11 @@ describe('addSubject()', () => {
       const newState = reducer(oldState.selectorReducer, action)
       expect(newState.entities.subjects.t9zVwg2zO).toStrictEqual({
         key: 't9zVwg2zO',
-        resourceKey: 't9zVwg2zO',
+        rootSubjectKey: 't9zVwg2zO',
+        rootPropertyKey: null,
+        valueSubjectOfKey: null,
+        descUriOrLiteralValueKeys: [],
+        descWithErrorPropertyKeys: [],
         uri: 'https://api.sinopia.io/resource/0894a8b3',
         subjectTemplateKey: 'ld4p:RT:bf2:Title:AbbrTitle',
         propertyKeys: [
@@ -290,7 +314,7 @@ describe('addValue()', () => {
       value: {
         key: 'DxGx7WMh3',
         property: { key: 'i0SAJP-Zhd' },
-        resourceKey: 'wihOjn-0Z',
+        rootSubjectKey: 'wihOjn-0Z',
         literal: null,
         lang: null,
         uri: 'http://localhost:3000/resource/85770f92-f8cf-48ee-970a-aefc97843749',
@@ -310,7 +334,6 @@ describe('addValue()', () => {
           value: {
             key: 'DxGx7WMh3',
             property: { key: 'JQEtq-vmq8' },
-            resourceKey: 't9zVwg2zO',
             literal: 'bar',
             lang: 'eng',
             uri: null,
@@ -325,7 +348,8 @@ describe('addValue()', () => {
       expect(newState.entities.values.DxGx7WMh3).toStrictEqual({
         key: 'DxGx7WMh3',
         propertyKey: 'JQEtq-vmq8',
-        resourceKey: 't9zVwg2zO',
+        rootSubjectKey: 't9zVwg2zO',
+        rootPropertyKey: 'JQEtq-vmq8',
         literal: 'bar',
         lang: 'eng',
         uri: null,
@@ -334,6 +358,8 @@ describe('addValue()', () => {
       })
       expect(newState.entities.properties['JQEtq-vmq8'].valueKeys).toContain('DxGx7WMh3')
       expect(newState.entities.properties['JQEtq-vmq8'].show).toBe(true)
+      expect(newState.entities.properties['JQEtq-vmq8'].descUriOrLiteralValueKeys).toContain('DxGx7WMh3')
+      expect(newState.entities.subjects.t9zVwg2zO.descUriOrLiteralValueKeys).toContain('DxGx7WMh3')
     })
   })
 
@@ -348,7 +374,6 @@ describe('addValue()', () => {
           value: {
             key: 'DxGx7WMh3',
             property: { key: 'JQEtq-vmq8' },
-            resourceKey: 't9zVwg2zO',
             literal: 'bar',
             lang: 'eng',
             uri: null,
@@ -374,7 +399,6 @@ describe('addValue()', () => {
           value: {
             key: 'VDOeQCnFA8',
             property: { key: 'v1o90QO1Qx' },
-            resourceKey: 'ljAblGiBW',
             literal: null,
             lang: null,
             uri: null,
@@ -383,7 +407,6 @@ describe('addValue()', () => {
               key: 'YPb8jaPW1',
               uri: null,
               subjectTemplate: { key: 'resourceTemplate:testing:uber2' },
-              resourceKey: 'ljAblGiBW',
               properties: [],
             },
           },
@@ -394,7 +417,8 @@ describe('addValue()', () => {
       expect(newState.entities.values.VDOeQCnFA8).toStrictEqual({
         key: 'VDOeQCnFA8',
         propertyKey: 'v1o90QO1Qx',
-        resourceKey: 'ljAblGiBW',
+        rootSubjectKey: 'ljAblGiBW',
+        rootPropertyKey: 'v1o90QO1Qx',
         literal: null,
         lang: null,
         uri: null,
@@ -416,7 +440,8 @@ describe('addValue()', () => {
       expect(newState.entities.values.DxGx7WMh3).toStrictEqual({
         key: 'DxGx7WMh3',
         propertyKey: 'i0SAJP-Zhd',
-        resourceKey: 'wihOjn-0Z',
+        rootSubjectKey: 'wihOjn-0Z',
+        rootPropertyKey: 'i0SAJP-Zhd',
         literal: null,
         lang: null,
         uri: 'http://localhost:3000/resource/85770f92-f8cf-48ee-970a-aefc97843749',
@@ -533,18 +558,45 @@ describe('removeSubject()', () => {
 })
 
 describe('removeValue()', () => {
-  it('removes a value for a property', () => {
-    const oldState = createState({ hasResourceWithLiteral: true })
-    const action = {
-      type: 'REMOVE_VALUE',
-      payload: 'CxGx7WMh2',
-    }
+  describe('without an error', () => {
+    it('removes a value for a property', () => {
+      const oldState = createState({ hasResourceWithLiteral: true })
+      const action = {
+        type: 'REMOVE_VALUE',
+        payload: 'CxGx7WMh2',
+      }
 
-    const newState = reducer(oldState.selectorReducer, action)
-    expect(newState.entities.values.CxGx7WMh2).toBe(undefined)
-    expect(newState.entities.properties['JQEtq-vmq8'].valueKeys).not.toContain('CxGx7WMh2')
-    expect(newState.entities.properties['JQEtq-vmq8'].errors).toHaveLength(0)
-    expect(newState.entities.subjects.t9zVwg2zO.changed).toBe(true)
+      const newState = reducer(oldState.selectorReducer, action)
+      expect(newState.entities.values.CxGx7WMh2).toBe(undefined)
+      expect(newState.entities.properties['JQEtq-vmq8'].valueKeys).not.toContain('CxGx7WMh2')
+      expect(newState.entities.properties['JQEtq-vmq8'].errors).toHaveLength(0)
+      expect(newState.entities.properties['JQEtq-vmq8'].descUriOrLiteralValueKeys).not.toContain('CxGx7WMh2')
+      expect(newState.entities.subjects.t9zVwg2zO.changed).toBe(true)
+      expect(newState.entities.subjects.t9zVwg2zO.descUriOrLiteralValueKeys).not.toContain('CxGx7WMh2')
+    })
+  })
+  describe('with an error', () => {
+    it('removes a value for a property and clears error', () => {
+      const oldState = createState({ hasResourceWithLiteral: true, hasError: true })
+      oldState.selectorReducer.entities.propertyTemplates['ld4p:RT:bf2:Title:AbbrTitle > http://id.loc.gov/ontologies/bibframe/mainTitle'].required = false
+      const action = {
+        type: 'REMOVE_VALUE',
+        payload: 'CxGx7WMh2',
+      }
+
+      expect(oldState.selectorReducer.entities.properties['JQEtq-vmq8'].descWithErrorPropertyKeys).toContain('JQEtq-vmq8')
+      expect(oldState.selectorReducer.entities.subjects.t9zVwg2zO.descWithErrorPropertyKeys).toContain('JQEtq-vmq8')
+
+      const newState = reducer(oldState.selectorReducer, action)
+      expect(newState.entities.values.CxGx7WMh2).toBe(undefined)
+      expect(newState.entities.properties['JQEtq-vmq8'].valueKeys).not.toContain('CxGx7WMh2')
+      expect(newState.entities.properties['JQEtq-vmq8'].errors).toHaveLength(0)
+      expect(newState.entities.properties['JQEtq-vmq8'].descUriOrLiteralValueKeys).not.toContain('CxGx7WMh2')
+      expect(newState.entities.subjects.t9zVwg2zO.changed).toBe(true)
+      expect(newState.entities.subjects.t9zVwg2zO.descUriOrLiteralValueKeys).not.toContain('CxGx7WMh2')
+      expect(newState.entities.properties['JQEtq-vmq8'].descWithErrorPropertyKeys).not.toContain('JQEtq-vmq8')
+      expect(newState.entities.subjects.t9zVwg2zO.descWithErrorPropertyKeys).not.toContain('JQEtq-vmq8')
+    })
   })
 })
 

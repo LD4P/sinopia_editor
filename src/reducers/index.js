@@ -53,8 +53,10 @@ export const setAppVersion = (state, action) => {
 export const setCurrentComponent = (state, action) => {
   const newState = { ...state }
 
-  newState.editor.currentComponent[action.payload.resourceKey] = action.payload.key
-
+  newState.editor.currentComponent[action.payload.rootSubjectKey] = {
+    component: action.payload.key,
+    property: action.payload.rootPropertyKey,
+  }
   return newState
 }
 

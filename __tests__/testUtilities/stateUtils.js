@@ -92,7 +92,7 @@ const buildResourceWithLiteral = (state, options) => {
       subjectTemplateKey: 'ld4p:RT:bf2:Title:AbbrTitle',
       label: 'Abbreviated Title',
       uri: 'http://id.loc.gov/ontologies/bibframe/mainTitle',
-      required: false,
+      required: !!options.hasError,
       repeatable: false,
       defaults: [],
       remarkUrl: null,
@@ -104,7 +104,9 @@ const buildResourceWithLiteral = (state, options) => {
   state.selectorReducer.entities.subjects = {
     t9zVwg2zO: {
       key: 't9zVwg2zO',
-      resourceKey: 't9zVwg2zO',
+      rootSubjectKey: 't9zVwg2zO',
+      rootPropertyKey: null,
+      valueSubjectOfKey: null,
       uri: 'https://api.sinopia.io/resource/0894a8b3',
       subjectTemplateKey: 'ld4p:RT:bf2:Title:AbbrTitle',
       propertyKeys: [
@@ -116,26 +118,32 @@ const buildResourceWithLiteral = (state, options) => {
       bfWorkRefs: [],
       group: null,
       changed: false,
+      descUriOrLiteralValueKeys: ['CxGx7WMh2'],
+      descWithErrorPropertyKeys: options.hasError ? ['JQEtq-vmq8'] : [],
     },
   }
   state.selectorReducer.entities.properties = {
     'JQEtq-vmq8': {
       key: 'JQEtq-vmq8',
       subjectKey: 't9zVwg2zO',
-      resourceKey: 't9zVwg2zO',
+      rootSubjectKey: 't9zVwg2zO',
+      rootPropertyKey: 'JQEtq-vmq8',
       propertyTemplateKey: 'ld4p:RT:bf2:Title:AbbrTitle > http://id.loc.gov/ontologies/bibframe/mainTitle',
       valueKeys: [
         'CxGx7WMh2',
       ],
       show: true,
-      errors: options.error || [],
+      errors: options.hasError ? ['Required'] : [],
+      descUriOrLiteralValueKeys: ['CxGx7WMh2'],
+      descWithErrorPropertyKeys: options.hasError ? ['JQEtq-vmq8'] : [],
     },
   }
   state.selectorReducer.entities.values = {
     CxGx7WMh2: {
       key: 'CxGx7WMh2',
       propertyKey: 'JQEtq-vmq8',
-      resourceKey: 't9zVwg2zO',
+      rootSubjectKey: 't9zVwg2zO',
+      rootPropertyKey: 'JQEtq-vmq8',
       literal: 'foo',
       lang: 'eng',
       uri: null,
@@ -204,54 +212,69 @@ const buildTwoLiteralResources = (state, options) => {
   state.selectorReducer.entities.subjects = {
     t9zVwg2zO: {
       key: 't9zVwg2zO',
-      resourceKey: 't9zVwg2zO',
+      rootSubjectKey: 't9zVwg2zO',
+      rootPropertyKey: null,
+      valueSubjectOfKey: null,
       uri: 'https://api.sinopia.io/resource/0894a8b3',
       subjectTemplateKey: 'ld4p:RT:bf2:Title:AbbrTitle',
       propertyKeys: [
         'JQEtq-vmq8',
       ],
       changed: false,
+      descUriOrLiteralValueKeys: ['CxGx7WMh2'],
+      descWithErrorPropertyKeys: [],
     },
     u0aWxh3a1: {
       key: 'u0aWxh3a1',
-      resourceKey: 'u0aWxh3a1',
+      rootSubjectKey: 'u0aWxh3a1',
+      rootPropertyKey: null,
+      valueSubjectOfKey: null,
       uri: 'https://api.sinopia.io/resource/0704b9c4',
       subjectTemplateKey: 'ld4p:RT:bf2:Note',
       propertyKeys: [
         'KRFur-wnr9',
       ],
       changed: false,
+      descUriOrLiteralValueKeys: ['DyHy8XNi3'],
+      descWithErrorPropertyKeys: [],
     },
   }
   state.selectorReducer.entities.properties = {
     'JQEtq-vmq8': {
       key: 'JQEtq-vmq8',
       subjectKey: 't9zVwg2zO',
-      resourceKey: 't9zVwg2zO',
+      rootSubjectKey: 't9zVwg2zO',
+      rootPropertyKey: 'JQEtq-vmq8',
       propertyTemplateKey: 'ld4p:RT:bf2:Title:AbbrTitle > http://id.loc.gov/ontologies/bibframe/mainTitle',
       valueKeys: [
         'CxGx7WMh2',
       ],
       show: true,
       errors: [],
+      descUriOrLiteralValueKeys: ['CxGx7WMh2'],
+      descWithErrorPropertyKeys: [],
     },
     'KRFur-wnr9': {
       key: 'KRFur-wnr9',
       subjectKey: 'u0aWxh3a1',
-      resourceKey: 'u0aWxh3a1',
+      rootSubjectKey: 'u0aWxh3a1',
+      rootPropertyKey: 'KRFur-wnr9',
       propertyTemplateKey: 'ld4p:RT:bf2:Note > http://id.loc.gov/ontologies/bibframe/note',
       valueKeys: [
         'DyHy8XNi3',
       ],
       show: true,
       errors: [],
+      descUriOrLiteralValueKeys: ['DyHy8XNi3'],
+      descWithErrorPropertyKeys: [],
     },
   }
   state.selectorReducer.entities.values = {
     CxGx7WMh2: {
       key: 'CxGx7WMh2',
       propertyKey: 'JQEtq-vmq8',
-      resourceKey: 't9zVwg2zO',
+      rootSubjectKey: 't9zVwg2zO',
+      rootPropertyKey: 'JQEtq-vmq8',
       literal: 'foo',
       lang: 'eng',
       uri: null,
@@ -261,7 +284,8 @@ const buildTwoLiteralResources = (state, options) => {
     DyHy8XNi3: {
       key: 'DyHy8XNi3',
       propertyKey: 'KRFur-wnr9',
-      resourceKey: 'u0aWxh3a1',
+      rootSubjectKey: 'u0aWxh3a1',
+      rootPropertyKey: 'KRFur-wnr9',
       literal: 'This is a note',
       lang: 'eng',
       uri: null,
@@ -323,7 +347,9 @@ const buildResourceWithUri = (state, options) => {
     'wihOjn-0Z': {
       key: 'wihOjn-0Z',
       uri: null,
-      resourceKey: 'wihOjn-0Z',
+      rootSubjectKey: 'wihOjn-0Z',
+      rootPropertyKey: null,
+      valueSubjectOfKey: null,
       subjectTemplateKey: 'test:resource:SinopiaLookup',
       group: null,
       bfAdminMetadataRefs: [],
@@ -336,24 +362,15 @@ const buildResourceWithUri = (state, options) => {
         'i0SAJP-Zhd',
       ],
       changed: true,
-      subjectTemplate: {
-        key: 'test:resource:SinopiaLookup',
-        id: 'test:resource:SinopiaLookup',
-        class: 'http://id.loc.gov/ontologies/bibframe/Instance',
-        label: 'Testing sinopia lookup',
-        author: null,
-        remark: 'This hits elasticsearch',
-        date: null,
-        propertyTemplateKeys: [
-          'test:resource:SinopiaLookup > http://id.loc.gov/ontologies/bibframe/instanceOf',
-        ],
-      },
+      descUriOrLiteralValueKeys: ['s8-qt3-uu'],
+      descWithErrorPropertyKeys: [],
     },
   }
   state.selectorReducer.entities.properties = {
     'i0SAJP-Zhd': {
       key: 'i0SAJP-Zhd',
-      resourceKey: 'wihOjn-0Z',
+      rootSubjectKey: 'wihOjn-0Z',
+      rootPropertyKey: 'i0SAJP-Zhd',
       show: true,
       subjectKey: 'wihOjn-0Z',
       propertyTemplateKey: 'test:resource:SinopiaLookup > http://id.loc.gov/ontologies/bibframe/instanceOf',
@@ -361,12 +378,15 @@ const buildResourceWithUri = (state, options) => {
       valueKeys: [
         's8-qt3-uu',
       ],
+      descUriOrLiteralValueKeys: ['s8-qt3-uu'],
+      descWithErrorPropertyKeys: [],
     },
   }
   state.selectorReducer.entities.values = {
     's8-qt3-uu': {
       key: 's8-qt3-uu',
-      resourceKey: 'wihOjn-0Z',
+      rootSubjectKey: 'wihOjn-0Z',
+      rootPropertyKey: 'i0SAJP-Zhd',
       literal: null,
       lang: null,
       uri: 'http://localhost:3000/resource/74770f92-f8cf-48ee-970a-aefc97843738',
@@ -412,7 +432,9 @@ const buildResourceWithContractedLiteral = (state, options) => {
   state.selectorReducer.entities.subjects = {
     t9zVwg2zO: {
       key: 't9zVwg2zO',
-      resourceKey: 't9zVwg2zO',
+      rootSubjectKey: 't9zVwg2zO',
+      rootPropertyKey: null,
+      valueSubjectOfKey: null,
       uri: 'https://api.sinopia.io/resource/0894a8b3',
       subjectTemplateKey: 'ld4p:RT:bf2:Title:AbbrTitle',
       propertyKeys: [
@@ -424,17 +446,22 @@ const buildResourceWithContractedLiteral = (state, options) => {
       bfItemRefs: [],
       bfWorkRefs: [],
       group: null,
+      descUriOrLiteralValueKeys: [],
+      descWithErrorPropertyKeys: [],
     },
   }
   state.selectorReducer.entities.properties = {
     'JQEtq-vmq8': {
       key: 'JQEtq-vmq8',
       subjectKey: 't9zVwg2zO',
-      resourceKey: 't9zVwg2zO',
+      rootSubjectKey: 't9zVwg2zO',
+      rootPropertyKey: 'JQEtq-vmq8',
       propertyTemplateKey: 'ld4p:RT:bf2:Title:AbbrTitle > http://id.loc.gov/ontologies/bibframe/mainTitle',
       valueKeys: null,
       show: true,
       errors: [],
+      descUriOrLiteralValueKeys: [],
+      descWithErrorPropertyKeys: [],
     },
   }
   state.selectorReducer.entities.values = {}
@@ -503,7 +530,9 @@ const buildResourceWithNestedResource = (state, options) => {
     ljAblGiBW: {
       key: 'ljAblGiBW',
       uri: null,
-      resourceKey: 'ljAblGiBW',
+      rootSubjectKey: 'ljAblGiBW',
+      rootPropertyKey: null,
+      valueSubjectOfKey: null,
       subjectTemplateKey: 'resourceTemplate:testing:uber1',
       propertyKeys: [
         'v1o90QO1Qx',
@@ -514,46 +543,59 @@ const buildResourceWithNestedResource = (state, options) => {
       bfItemRefs: [],
       bfWorkRefs: [],
       group: null,
+      descUriOrLiteralValueKeys: ['pRJ0lO_mT-'],
+      descWithErrorPropertyKeys: options.hasError ? ['7caLbfwwle'] : [],
     },
     XPb8jaPWo: {
       key: 'XPb8jaPWo',
       uri: null,
       subjectTemplateKey: 'resourceTemplate:testing:uber2',
-      resourceKey: 'ljAblGiBW',
+      rootSubjectKey: 'ljAblGiBW',
+      rootPropertyKey: 'v1o90QO1Qx',
+      valueSubjectOfKey: 'VDOeQCnFA8',
       propertyKeys: [
         '7caLbfwwle',
       ],
+      descUriOrLiteralValueKeys: ['pRJ0lO_mT-'],
+      descWithErrorPropertyKeys: options.hasError ? ['7caLbfwwle'] : [],
     },
   }
   state.selectorReducer.entities.properties = {
     v1o90QO1Qx: {
       key: 'v1o90QO1Qx',
       subjectKey: 'ljAblGiBW',
-      resourceKey: 'ljAblGiBW',
+      rootSubjectKey: 'ljAblGiBW',
+      rootPropertyKey: 'v1o90QO1Qx',
       propertyTemplateKey: 'resourceTemplate:testing:uber1 > http://id.loc.gov/ontologies/bibframe/uber/template1/property1',
       valueKeys: [
         'VDOeQCnFA8',
       ],
       show: true,
-      errors: options.error || [],
+      errors: [],
+      descUriOrLiteralValueKeys: ['pRJ0lO_mT-'],
+      descWithErrorPropertyKeys: options.hasError ? ['7caLbfwwle'] : [],
     },
     '7caLbfwwle': {
       key: '7caLbfwwle',
       subjectKey: 'XPb8jaPWo',
-      resourceKey: 'ljAblGiBW',
+      rootSubjectKey: 'ljAblGiBW',
+      rootPropertyKey: 'v1o90QO1Qx',
       propertyTemplateKey: 'resourceTemplate:testing:uber2 > http://id.loc.gov/ontologies/bibframe/uber/template2/property1',
       valueKeys: [
         'pRJ0lO_mT-',
       ],
       show: true,
-      errors: [],
+      errors: options.hasError ? ['Required'] : [],
+      descUriOrLiteralValueKeys: ['pRJ0lO_mT-'],
+      descWithErrorPropertyKeys: options.hasError ? ['7caLbfwwle'] : [],
     },
   }
   state.selectorReducer.entities.values = {
     VDOeQCnFA8: {
       key: 'VDOeQCnFA8',
       propertyKey: 'v1o90QO1Qx',
-      resourceKey: 'ljAblGiBW',
+      rootSubjectKey: 'ljAblGiBW',
+      rootPropertyKey: 'v1o90QO1Qx',
       literal: null,
       lang: null,
       uri: null,
@@ -563,7 +605,8 @@ const buildResourceWithNestedResource = (state, options) => {
     'pRJ0lO_mT-': {
       key: 'pRJ0lO_mT-',
       propertyKey: '7caLbfwwle',
-      resourceKey: 'ljAblGiBW',
+      rootSubjectKey: 'ljAblGiBW',
+      rootPropertyKey: 'v1o90QO1Qx',
       literal: 'foo',
       lang: 'eng',
       uri: null,
@@ -595,7 +638,7 @@ const buildResourceWithContractedNestedResource = (state, options) => {
       subjectTemplateKey: 'resourceTemplate:testing:uber1',
       label: 'Uber template1, property1',
       uri: 'http://id.loc.gov/ontologies/bibframe/uber/template1/property1',
-      required: false,
+      required: !!options.hasError,
       repeatable: true,
       defaults: [],
       remark: 'Nested, repeatable resource template.',
@@ -612,7 +655,9 @@ const buildResourceWithContractedNestedResource = (state, options) => {
     ljAblGiBW: {
       key: 'ljAblGiBW',
       uri: null,
-      resourceKey: 'ljAblGiBW',
+      rootSubjectKey: 'ljAblGiBW',
+      rootPropertyKey: null,
+      valueSubjectOfKey: null,
       subjectTemplateKey: 'resourceTemplate:testing:uber1',
       propertyKeys: [
         'v1o90QO1Qx',
@@ -623,17 +668,22 @@ const buildResourceWithContractedNestedResource = (state, options) => {
       bfItemRefs: [],
       bfWorkRefs: [],
       group: null,
+      descUriOrLiteralValueKeys: [],
+      descWithErrorPropertyKeys: [],
     },
   }
   state.selectorReducer.entities.properties = {
     v1o90QO1Qx: {
       key: 'v1o90QO1Qx',
       subjectKey: 'ljAblGiBW',
-      resourceKey: 'ljAblGiBW',
+      rootSubjectKey: 'ljAblGiBW',
+      rootPropertyKey: 'v1o90QO1Qx',
       propertyTemplateKey: 'resourceTemplate:testing:uber1 > http://id.loc.gov/ontologies/bibframe/uber/template1/property1',
       valueKeys: null,
       show: true,
       errors: [],
+      descUriOrLiteralValueKeys: [],
+      descWithErrorPropertyKeys: [],
     },
   }
   state.selectorReducer.entities.values = {}

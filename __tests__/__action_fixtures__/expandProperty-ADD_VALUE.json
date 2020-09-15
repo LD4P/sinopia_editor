@@ -6,7 +6,10 @@
           "property": {
             "key": "v1o90QO1Qx",
             "subjectKey": "ljAblGiBW",
-            "resourceKey": "ljAblGiBW",
+            "rootSubjectKey": "ljAblGiBW",
+            "descUriOrLiteralValueKeys": [],
+            "descWithErrorPropertyKeys": [],
+            "rootPropertyKey": "v1o90QO1Qx",
             "propertyTemplateKey": "resourceTemplate:testing:uber1 > http://id.loc.gov/ontologies/bibframe/uber/template1/property1",
             "valueKeys": null,
             "show": true,
@@ -14,7 +17,10 @@
             "subject": {
               "key": "ljAblGiBW",
               "uri": null,
-              "resourceKey": "ljAblGiBW",
+              "rootSubjectKey": "ljAblGiBW",
+              "descUriOrLiteralValueKeys": [],
+              "descWithErrorPropertyKeys": [],
+              "rootPropertyKey": null,
               "subjectTemplateKey": "resourceTemplate:testing:uber1",
               "bfAdminMetadataRefs": [],
               "bfInstanceRefs": [],
@@ -34,7 +40,8 @@
                 "propertyTemplateKeys": [
                   "resourceTemplate:testing:uber1 > http://id.loc.gov/ontologies/bibframe/uber/template1/property1"
                 ]
-              }
+              },
+              "valueSubjectOfKey": null
             },
             "propertyTemplate": {
               "key": "resourceTemplate:testing:uber1 > http://id.loc.gov/ontologies/bibframe/uber/template1/property1",
@@ -55,7 +62,6 @@
             },
             "values": null
           },
-          "resourceKey": "ljAblGiBW",
           "literal": null,
           "lang": null,
           "uri": null,
@@ -94,11 +100,9 @@
                 }
               ]
             },
-            "resourceKey": "ljAblGiBW",
             "properties": [
               {
                 "key": "abc1",
-                "resourceKey": "ljAblGiBW",
                 "values": null,
                 "show": false
               }

@@ -3,14 +3,20 @@
       "payload": {
         "key": "JQEtq-vmq8",
         "subjectKey": "t9zVwg2zO",
-        "resourceKey": "t9zVwg2zO",
+        "rootSubjectKey": "t9zVwg2zO",
+        "rootPropertyKey": "JQEtq-vmq8",
+        "descUriOrLiteralValueKeys": [],
+        "descWithErrorPropertyKeys": [],
         "propertyTemplateKey": "ld4p:RT:bf2:Title:AbbrTitle > http://id.loc.gov/ontologies/bibframe/mainTitle",
         "valueKeys": null,
         "show": true,
         "errors": [],
         "subject": {
           "key": "t9zVwg2zO",
-          "resourceKey": "t9zVwg2zO",
+          "rootSubjectKey": "t9zVwg2zO",
+          "rootPropertyKey": null,
+          "descUriOrLiteralValueKeys": [],
+          "descWithErrorPropertyKeys": [],
           "uri": "https://api.sinopia.io/resource/0894a8b3",
           "subjectTemplateKey": "ld4p:RT:bf2:Title:AbbrTitle",
           "bfAdminMetadataRefs": [],
@@ -22,6 +28,7 @@
             "JQEtq-vmq8"
           ],
           "changed": false,
+          "valueSubjectOfKey": null,
           "subjectTemplate": {
             "key": "ld4p:RT:bf2:Title:AbbrTitle",
             "id": "ld4p:RT:bf2:Title:AbbrTitle",
