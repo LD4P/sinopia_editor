@@ -171,12 +171,17 @@ const InputLookup = (props) => {
   }
 
   // TODO: New styling to fit description in #2478
-  const lookupSelection = props.lookupValues.map((lookupValue) => (
-    <div key={ lookupValue.key }>
-      <div key={lookupValue.key}>{lookupValue.label}</div>
-      <div><a href={lookupValue.uri}>LINK</a></div>
-    </div>
-  ))
+  const lookupSelection = props.lookupValues.map((lookupValue) => {
+    let lookupLink = ""
+    if (lookupValue.uri) { lookupLink = "<a href={lookupValue.uri}>LINK</a>" }
+
+    return (
+      <div>
+        <span key={lookupValue.key}>{lookupValue.label || lookupValue.literal}</span>
+        <span>{ lookupLink }</span>
+      </div>
+    )
+  })
 
   const modal = (
     <div className={ classes.join(' ') }
