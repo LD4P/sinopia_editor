@@ -120,9 +120,6 @@ const addPropertyToNewState = (newState, property) => {
   newProperty.propertyTemplateKey = newProperty.propertyTemplate.key
   delete newProperty.propertyTemplate
 
-  // Errors
-  newProperty.errors = errorsForProperty(newProperty, property.propertyTemplate)
-
   // Add property to state
   const oldProperty = newState.entities.properties[newProperty.key]
   newState.entities.properties[newProperty.key] = newProperty
@@ -149,6 +146,9 @@ const addPropertyToNewState = (newState, property) => {
   if (newSubject.propertyKeys.indexOf(newProperty.key) === -1) {
     newSubject.propertyKeys = [...newSubject.propertyKeys, newProperty.key]
   }
+
+  // Errors
+  newProperty.errors = errorsForProperty(newProperty, property.propertyTemplate)
 
   // If changed, then set resource as changed.
   if (!_.isEqual(newProperty, oldProperty)) {
