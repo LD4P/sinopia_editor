@@ -148,7 +148,6 @@ const InputLookup = (props) => {
   let groupClasses = 'form-group'
   const classes = ['modal', 'fade']
   let display = 'none'
-  let displaySelection = 'none'
   const modalId = 'InputLookupModal' + props.property.key
 
   if (displayValidations && !_.isEmpty(errors)) {
@@ -173,7 +172,7 @@ const InputLookup = (props) => {
 
   // TODO: New styling to fit description in #2478
   const lookupSelection = props.lookupValues.map((lookupValue) => (
-    <div key={ lookupValue.key } style={{ displaySelection }}>
+    <div key={ lookupValue.key }>
       <div key={lookupValue.key}>{lookupValue.label}</div>
       <div><a href={lookupValue.uri}>LINK</a></div>
     </div>
