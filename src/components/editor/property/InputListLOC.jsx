@@ -18,6 +18,8 @@ import { newUriValue, newLiteralValue } from 'utilities/valueFactory'
 import { bindActionCreators } from 'redux'
 import ModalWrapper from 'components/ModalWrapper'
 import { hideModal, showModal } from 'actions/modals'
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { faTrashAlt, faGlobe } from '@fortawesome/free-solid-svg-icons'
 
 // propertyTemplate of type 'lookup' does live QA lookup via API
 //  based on URI in propertyTemplate.valueConstraint.useValuesFrom,
@@ -159,17 +161,21 @@ const InputListLOC = (props) => {
   }
 
   // TODO: New styling to fit description in #2478
-  const lookupSelection = props.lookupValues.map((lookupValue) => {
-    let lookupLink = ''
-    if (lookupValue.uri) { lookupLink = '<a href={lookupValue.uri}>LINK</a>' }
-
-    return (
-      <div key={lookupValue.key}>
-        <span key={lookupValue.key}>{lookupValue.label || lookupValue.literal}</span>
-        <span>{ lookupLink }</span>
-      </div>
-    )
-  })
+  const lookupSelection = props.lookupValues.map((lookupValue) => (
+    <div key={lookupValue.key} className="lookup-value">
+      <span key={lookupValue.key}>{lookupValue.label || lookupValue.literal}</span>
+      <button
+        onClick={() => props.removeValue(lookupValue.key)}
+        aria-label={`Remove ${lookupValue.label}`}
+        data-testid={`Remove ${lookupValue.label}`}
+        className="close rbt-close rbt-token-remove-button">
+        <span aria-hidden="true"><FontAwesomeIcon className="trash-icon" icon={faTrashAlt} /></span>
+      </button>
+      <a href={lookupValue.uri}>
+        <span aria-hidden="true"><FontAwesomeIcon className="globe-icon" icon={faGlobe} /></span>
+      </a>
+    </div>
+  ))
 
   const modal = (
     <div className={ classes.join(' ') }
@@ -235,6 +241,7 @@ InputListLOC.propTypes = {
   showModal: PropTypes.func,
   textValue: PropTypes.string,
   lookupValues: PropTypes.array,
+  removeValue: PropTypes.func,
 }
 
 const mapStateToProps = (state, ownProps) => {
