@@ -36,7 +36,8 @@
         "resourceTemplate:testing:uber1 > http://id.loc.gov/ontologies/bibframe/hasInstance",
         "resourceTemplate:testing:uber1 > http://id.loc.gov/ontologies/bibframe/instanceOf",
         "resourceTemplate:testing:uber1 > http://id.loc.gov/ontologies/bibframe/hasItem",
-        "resourceTemplate:testing:uber1 > http://id.loc.gov/ontologies/bibframe/itemOf"
+        "resourceTemplate:testing:uber1 > http://id.loc.gov/ontologies/bibframe/itemOf",
+        "resourceTemplate:testing:uber1 > http://id.loc.gov/ontologies/bibframe/uber/template1/property20"
       ],
       "propertyTemplates": [
         {
@@ -546,6 +547,31 @@
           ],
           "type": "uri",
           "component": "InputLookupSinopia"
+        },
+        {
+         "authorities": [],
+         "component": "InputLiteral",
+         "defaults": [
+           {
+             "lang": null,
+             "literal": "Default required literal1"
+           },
+           {
+             "lang": null,
+             "literal": "Default required literal2"
+           }
+         ],
+         "key": "resourceTemplate:testing:uber1 > http://id.loc.gov/ontologies/bibframe/uber/template1/property20",
+         "label": "Uber template1, property20",
+         "ordered": false,
+         "remark": "A required, repeatable literal with defaults.",
+         "remarkUrl": null,
+         "repeatable": false,
+         "required": true,
+         "subjectTemplateKey": "resourceTemplate:testing:uber1",
+         "type": "literal",
+         "uri": "http://id.loc.gov/ontologies/bibframe/uber/template1/property20",
+         "valueSubjectTemplateKeys": []
         }
       ]
     },
@@ -696,7 +722,7 @@
         "resourceKey": "abc0",
         "values": [
           {
-            "key": "abc31",
+            "key": "abc34",
             "resourceKey": "abc0",
             "literal": null,
             "lang": null,
@@ -739,7 +765,7 @@
               "resourceKey": "abc0",
               "properties": [
                 {
-                  "key": "abc30",
+                  "key": "abc33",
                   "resourceKey": "abc0",
                   "values": [],
                   "show": true
@@ -785,6 +811,31 @@
         "resourceKey": "abc0",
         "values": null,
         "show": false
+      },
+      {
+        "key": "abc30",
+        "resourceKey": "abc0",
+        "show": true,
+        "values": [
+          {
+            "key": "abc31",
+            "resourceKey": "abc0",
+            "literal": "Default required literal1",
+            "lang": null,
+            "uri": null,
+            "label": null,
+            "valueSubject": null
+          },
+          {
+            "key": "abc32",
+            "resourceKey": "abc0",
+            "literal": "Default required literal2",
+            "lang": null,
+            "uri": null,
+            "label": null,
+            "valueSubject": null
+          }
+        ]
       }
     ]
   }

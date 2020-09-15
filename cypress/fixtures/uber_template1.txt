@@ -1076,6 +1076,61 @@
     ]
   },
   {
+    "@id": "_:b70",
+    "@type": [
+      "http://sinopia.io/vocabulary/PropertyTemplate"
+    ],
+    "http://www.w3.org/2000/01/rdf-schema#label": [
+      {
+        "@value": "Uber template1, property20"
+      }
+    ],
+    "http://sinopia.io/vocabulary/hasRemark": [
+      {
+        "@value": "A required, repeatable literal with defaults."
+      }
+    ],
+    "http://sinopia.io/vocabulary/hasPropertyUri": [
+      {
+        "@id": "http://id.loc.gov/ontologies/bibframe/uber/template1/property20"
+      }
+    ],
+    "http://sinopia.io/vocabulary/hasPropertyAttribute": [
+      {
+        "@id": "http://sinopia.io/vocabulary/propertyAttribute/repeatable"
+      }
+    ],
+    "http://sinopia.io/vocabulary/hasPropertyAttribute": [
+      {
+        "@id": "http://sinopia.io/vocabulary/propertyAttribute/required"
+      }
+    ],
+    "http://sinopia.io/vocabulary/hasPropertyType": [
+      {
+        "@id": "http://sinopia.io/vocabulary/propertyType/literal"
+      }
+    ],
+    "http://sinopia.io/vocabulary/hasLiteralAttributes": [
+      {
+        "@id": "_:b71"
+      }
+    ]
+  },
+  {
+    "@id": "_:b71",
+    "@type": [
+      "http://sinopia.io/vocabulary/LiteralPropertyTemplate"
+    ],
+    "http://sinopia.io/vocabulary/hasDefault": [
+      {
+        "@value": "Default required literal1"
+      },
+      {
+        "@value": "Default required literal2"
+      }
+    ]
+  },
+  {
     "@id": "http://localhost:3000/resource/resourceTemplate:testing:uber1",
     "http://sinopia.io/vocabulary/hasResourceTemplate": [
       {

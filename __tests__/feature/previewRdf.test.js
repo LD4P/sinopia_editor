@@ -8,7 +8,8 @@ global.$ = jest.fn().mockReturnValue({ popover: jest.fn() })
 
 jest.spyOn(Config, 'useResourceTemplateFixtures', 'get').mockReturnValue(true)
 
-const rdf = `<> <http://id.loc.gov/ontologies/bibframe/uber/template1/property7> "Default literal1", "Default literal2";
+const rdf = `<> <http://id.loc.gov/ontologies/bibframe/uber/template1/property20> "Default required literal1", "Default required literal2";
+    <http://id.loc.gov/ontologies/bibframe/uber/template1/property7> "Default literal1", "Default literal2";
     <http://id.loc.gov/ontologies/bibframe/uber/template1/property8> <http://sinopia.io/defaultURI1>, <http://sinopia.io/defaultURI2>;
     <http://sinopia.io/vocabulary/hasResourceTemplate> "resourceTemplate:testing:uber1";
     a <http://id.loc.gov/ontologies/bibframe/Uber1>.
