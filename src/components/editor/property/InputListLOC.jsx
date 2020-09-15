@@ -136,7 +136,7 @@ const InputListLOC = (props) => {
   let groupClasses = 'form-group'
   const classes = ['modal', 'fade']
   let display = 'none'
-  const modalId = 'InputLookupModal' + props.property.key
+  const modalId = `InputLookupModal-${props.property.key}`
 
   if (displayValidations && !_.isEmpty(validationErrors)) {
     groupClasses += ' has-error'
@@ -160,17 +160,17 @@ const InputListLOC = (props) => {
 
   // TODO: New styling to fit description in #2478
   const lookupSelection = props.lookupValues.map((lookupValue) => {
-    let lookupLink = ""
-    if (lookupValue.uri) { lookupLink = "<a href={lookupValue.uri}>LINK</a>" }
+    let lookupLink = ''
+    if (lookupValue.uri) { lookupLink = '<a href={lookupValue.uri}>LINK</a>' }
 
     return (
-      <div>
+      <div key={lookupValue.key}>
         <span key={lookupValue.key}>{lookupValue.label || lookupValue.literal}</span>
         <span>{ lookupLink }</span>
       </div>
     )
   })
-  
+
   const modal = (
     <div className={ classes.join(' ') }
          id={ modalId }
@@ -238,7 +238,7 @@ InputListLOC.propTypes = {
 }
 
 const mapStateToProps = (state, ownProps) => {
-  const show = selectModalType(state) === 'InputLookupModal' + ownProps.property.key
+  const show = selectModalType(state) === `InputLookupModal-${ownProps.property.key}`
   return {
     lookupValues: ownProps.property.values,
     show,
