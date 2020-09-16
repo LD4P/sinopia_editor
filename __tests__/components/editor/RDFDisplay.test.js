@@ -3,16 +3,17 @@
 import React from 'react'
 import { render, fireEvent, screen } from '@testing-library/react'
 import RDFDisplay from 'components/editor/RDFDisplay'
+import GraphBuilder from 'GraphBuilder'
+import { createState } from 'stateUtils'
+import { selectFullSubject, selectCurrentResourceKey } from 'selectors/resources'
+import * as dataSetUtils from 'utilities/Utilities'
 
 describe('<RDFDisplay />', () => {
-  const rdf = `<> <http://id.loc.gov/ontologies/bibframe/mainTitle> "foo"@eng .
-<> <http://id.loc.gov/ontologies/bibframe/mainTitle> "bar" .
-<> <http://sinopia.io/vocabulary/hasResourceTemplate> "ld4p:RT:bf2:Title:AbbrTitle" .
-<> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://id.loc.gov/ontologies/bibframe/AbbreviatedTitle> .
-`
+  const state = createState({ hasTwoLiteralResources: true })
+  const dataset = new GraphBuilder(selectFullSubject(state, selectCurrentResourceKey(state))).graph
 
   it('renders by default as a table', async () => {
-    const { container } = render(<RDFDisplay rdf={rdf} />)
+    const { container } = render(<RDFDisplay dataset={dataset} />)
     await screen.findByText(/Format:/)
     // Table is selected.
     screen.getByDisplayValue('Table')
@@ -23,34 +24,33 @@ describe('<RDFDisplay />', () => {
     screen.getByText('Predicate', 'th')
     screen.getByText('Object', 'th')
     // And table rows
-    expect(screen.getAllByText('<>', 'td')).toHaveLength(4)
-    expect(screen.getAllByText('http://id.loc.gov/ontologies/bibframe/mainTitle', 'td')).toHaveLength(2)
+    expect(screen.getAllByText('https://api.sinopia.io/resource/0894a8b3', 'td')).toHaveLength(3)
+    expect(screen.getAllByText('http://id.loc.gov/ontologies/bibframe/mainTitle', 'td')).toHaveLength(1)
     screen.getByText('foo [eng]', 'td')
-    screen.getByText('bar', 'td')
   })
 
   it('renders N-Triples', async () => {
-    render(<RDFDisplay rdf={rdf} />)
+    render(<RDFDisplay dataset={dataset} />)
 
     await screen.findByText(/Format:/)
 
     fireEvent.change(screen.getByLabelText(/Format/), { target: { value: 'n-triples' } })
 
-    await screen.findByText(/<> <http:\/\/id.loc.gov\/ontologies\/bibframe\/mainTitle> "foo"@eng \./)
+    await screen.findByText(/<https:\/\/api.sinopia.io\/resource\/0894a8b3> <http:\/\/id.loc.gov\/ontologies\/bibframe\/mainTitle> "foo"@eng \./)
   })
 
   it('renders Turtle', async () => {
-    render(<RDFDisplay rdf={rdf} />)
+    render(<RDFDisplay dataset={dataset} />)
 
     await screen.findByText(/Format:/)
 
     fireEvent.change(screen.getByLabelText(/Format/), { target: { value: 'turtle' } })
 
-    await screen.findByText(/<> <http:\/\/id.loc.gov\/ontologies\/bibframe\/mainTitle> "foo"@eng, "bar";/)
+    await screen.findByText(/<http:\/\/id.loc.gov\/ontologies\/bibframe\/mainTitle> "foo"@eng./)
   })
 
   it('renders JSON-LD', async () => {
-    render(<RDFDisplay rdf={rdf} />)
+    render(<RDFDisplay dataset={dataset} />)
 
     await screen.findByText(/Format:/)
 
@@ -60,8 +60,14 @@ describe('<RDFDisplay />', () => {
   }, 10000)
 
   it('displays errors', async () => {
-    render(<RDFDisplay rdf={`${rdf}x`} />)
+    jest.spyOn(dataSetUtils, 'jsonldFromDataset').mockRejectedValueOnce(new Error('Alert error'))
 
-    await screen.findByText(/Unexpected "x"/)
+    render(<RDFDisplay dataset={dataset} />)
+
+    await screen.findByText(/Format:/)
+
+    fireEvent.change(screen.getByLabelText(/Format/), { target: { value: 'jsonld' } })
+
+    await screen.findByText(/Alert error/)
   })
 })
