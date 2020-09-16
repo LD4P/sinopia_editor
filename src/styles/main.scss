@@ -7,7 +7,6 @@ $enable-shadows: true;
 $modal-content-box-shadow-xs: 0 .125rem .25rem rgba(black, .075) !default;
 $modal-content-border-color: gray;
 $modal-content-bg: #f8f6ef;
-
 $resource-tab-active-bg: #b26f16;
 
 $link-color: #00548f;
@@ -15,6 +14,9 @@ $theme-colors: (
   "danger": #b1020f
 );
 $enable-validation-icons: false;
+
+
+$lookup-value-bg: #E8E2DC;
 
 @import "~bootstrap/scss/bootstrap";
 @import url('https://fonts.googleapis.com/css2?family=Source+Sans+Pro&display=swap');
@@ -385,7 +387,21 @@ a.list-group-item {
   padding-top: 5px;
 }
 
- .btn-nested-resource {
-   padding-left: 2px;
-   padding-right: 2px;
- }
+.btn-nested-resource {
+  padding-left: 2px;
+  padding-right: 2px;
+}
+
+.lookup-value {
+  background-color: $lookup-value-bg;
+  font-weight: bold;
+  float: left;
+  line-height: 1.5em;
+}
+
+.lookup-value span {
+  margin: 5px;
+  padding-left: 5px;
+  padding-right: 5px;
+  border-right: 1px solid black;
+}

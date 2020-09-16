@@ -1,32 +1,38 @@
 // Copyright 2019 Stanford University see LICENSE for license
 
 import React, {
-  useState, useEffect, useMemo, useRef,
+  useState, useRef, useMemo, useEffect,
 } from 'react'
-import { Typeahead } from 'react-bootstrap-typeahead'
-import defaultFilterBy from 'react-bootstrap-typeahead/lib/utils/defaultFilterBy'
+import { Typeahead, asyncContainer } from 'react-bootstrap-typeahead'
 import PropTypes from 'prop-types'
 import { selectModalType } from 'selectors/modals'
-import { connect, useDispatch, useSelector } from 'react-redux'
+import { connect, useSelector, useDispatch } from 'react-redux'
 import { displayResourceValidations } from 'selectors/errors'
-import { renderMenuFunc, renderTokenFunc, itemsForProperty } from './renderTypeaheadFunctions'
-import { fetchLookup } from 'actionCreators/lookups'
-import { selectLookup } from 'selectors/lookups'
 import _ from 'lodash'
-import { addProperty } from 'actions/resources'
+import { renderMenuFunc, renderTokenFunc, itemsForProperty } from './renderTypeaheadFunctions'
 import { newUriValue, newLiteralValue } from 'utilities/valueFactory'
+import { addProperty } from 'actions/resources'
+import { hideModal, showModal } from 'actions/modals'
 import { bindActionCreators } from 'redux'
 import ModalWrapper from 'components/ModalWrapper'
-import { hideModal, showModal } from 'actions/modals'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faTrashAlt, faGlobe } from '@fortawesome/free-solid-svg-icons'
+import { faGlobe } from '@fortawesome/free-solid-svg-icons'
 
-// propertyTemplate of type 'lookup' does live QA lookup via API
-//  based on URI in propertyTemplate.valueConstraint.useValuesFrom,
-//  and the lookupConfig for the URI has component value of 'list'
-const InputListLOC = (props) => {
+const AsyncTypeahead = asyncContainer(Typeahead)
+
+const InputLookupModal = (props) => {
   const dispatch = useDispatch()
+  const [, setTriggerRender] = useState('')
+  // Using a ref so that can append to current list of results.
+  const allResults = useRef([])
+  // Tokens allow us to cancel an existing search. Does not actually stop the
+  // search, but causes result to be ignored.
+  const tokens = useRef([])
 
+  const displayValidations = useSelector((state) => displayResourceValidations(state))
+  const errors = props.property.errors
+  const selected = itemsForProperty(props.property)
+  const [query, setQuery] = useState(false)
   const typeAheadRef = useRef(null)
 
   const allAuthorities = useMemo(() => {
@@ -34,39 +40,43 @@ const InputListLOC = (props) => {
     props.property.propertyTemplate.authorities.forEach((authority) => authorities[authority.uri] = authority)
     return authorities
   }, [props.property.propertyTemplate.authorities])
+
   const [selectedAuthorities, setSelectedAuthorities] = useState({})
 
   useEffect(() => {
     setSelectedAuthorities(allAuthorities)
   }, [allAuthorities])
 
-  const isRepeatable = props.property.propertyTemplate.repeatable
-
+  // For use inside the effect without having to add props to dependency array.
+  const getLookupResults = props.getLookupResults
   useEffect(() => {
-    props.property.propertyTemplate.authorities.forEach((authority) => {
-      dispatch(fetchLookup(authority.uri))
-    })
-  }, [dispatch, props.property.propertyTemplate.authorities])
+    if (!query) return
+    // Clear the results.
+    // No re-render, so change not visible to user.
+    allResults.current = []
 
-  const authorities = useSelector((state) => {
-    const newAuthorities = {}
-    props.property.propertyTemplate.authorities.forEach((authority) => {
-      newAuthorities[authority.uri] = selectLookup(state, authority.uri) || []
-    })
-    return newAuthorities
-  })
+    // Cancel all current searches
+    while (tokens.current.length > 0) {
+      tokens.current.pop().cancel = true
+    }
 
-  // Only update options when lookups or lookupConfigs change.
-  const options = useMemo(() => {
-    const newOptions = []
-    Object.values(selectedAuthorities).forEach((authority) => {
-      newOptions.push({ authLabel: authority.label, authURI: authority.uri })
-      newOptions.push(...authorities[authority.uri] || [])
-    })
-    return newOptions
-  }, [authorities, selectedAuthorities])
+    // Create a token for this set of searches
+    const token = { cancel: false }
+    tokens.current.push(token)
 
-  const selected = itemsForProperty(props.property)
+    // resultPromises is an array of Promise<result>
+    const resultPromises = getLookupResults(query, Object.values(selectedAuthorities))
+    resultPromises.forEach((resultPromise) => {
+      resultPromise.then((resultSet) => {
+        // Only use these results if not cancelled.
+        if (!token.cancel) {
+          allResults.current.push(resultSet)
+          // Changing state triggers re-render.
+          setTriggerRender(resultSet)
+        }
+      })
+    })
+  }, [query, selectedAuthorities, getLookupResults])
 
   // From https://github.com/ericgio/react-bootstrap-typeahead/issues/389
   const onKeyDown = (e) => {
@@ -78,6 +88,10 @@ const InputListLOC = (props) => {
       e.preventDefault()
     }
   }
+
+  const isRepeatable = props.property.propertyTemplate.repeatable
+
+  const isDisabled = selected?.length > 0 && !isRepeatable
 
   const selectionChanged = (items) => {
     const newProperty = { ...props.property }
@@ -94,29 +108,6 @@ const InputListLOC = (props) => {
     dispatch(addProperty(newProperty))
   }
 
-  const lookupCheckboxes = props.property.propertyTemplate.authorities.map((authority) => {
-    const id = `${props.property.key}-${authority.uri}`
-    return (
-      <div key={authority.uri} className="form-check">
-        <input className="form-check-input"
-               type="checkbox" id={id}
-               checked={!!selectedAuthorities[authority.uri]}
-               onChange={() => toggleLookup(authority.uri)} />
-        <label className="form-check-label" htmlFor={id}>
-          {authority.label}
-        </label>
-      </div>
-    ) })
-
-  // Custom filterBy to retain authority labels when filtering to provide context.
-  const filterBy = (option, props) => {
-    if (option.authURI || option.isError) {
-      return true
-    }
-    props.filterBy = ['label']
-    return defaultFilterBy(option, props)
-  }
-
   const toggleLookup = (uri) => {
     const newSelectedAuthorities = { ...selectedAuthorities }
     if (newSelectedAuthorities[uri]) {
@@ -128,11 +119,32 @@ const InputListLOC = (props) => {
     typeAheadRef.current.getInstance().getInput().click()
   }
 
+  const lookupCheckboxes = Object.values(allAuthorities).map((authority) => {
+    const id = `${props.property.key}-${authority.uri}`
+    return (
+      <div key={authority.uri} className="form-check">
+        <input className="form-check-input"
+               type="checkbox"
+               id={id}
+               checked={!!selectedAuthorities[authority.uri]}
+               onChange={() => toggleLookup(authority.uri)} />
+        <label className="form-check-label" htmlFor={id}>
+          {authority.label}
+        </label>
+      </div>
+    ) })
 
-  const displayValidations = useSelector((state) => displayResourceValidations(state))
-  const validationErrors = props.property.errors
-
-  const isDisabled = selected?.length > 0 && !isRepeatable
+  const typeaheadProps = {
+    id: 'lookupComponent',
+    multiple: true,
+    placeholder: props.property.propertyTemplate.label,
+    useCache: true,
+    selectHintOnEnter: true,
+    isLoading: false,
+    allowNew: true,
+    delay: 300,
+    onKeyDown,
+  }
 
   let error
   let groupClasses = 'form-group'
@@ -140,9 +152,9 @@ const InputListLOC = (props) => {
   let display = 'none'
   const modalId = `InputLookupModal-${props.property.key}`
 
-  if (displayValidations && !_.isEmpty(validationErrors)) {
+  if (displayValidations && !_.isEmpty(errors)) {
     groupClasses += ' has-error'
-    error = validationErrors.join(',')
+    error = errors.join(',')
   }
 
   if (props.show) {
@@ -164,13 +176,6 @@ const InputListLOC = (props) => {
   const lookupSelection = props.lookupValues.map((lookupValue) => (
     <div key={lookupValue.key} className="lookup-value">
       <span key={lookupValue.key}>{lookupValue.label || lookupValue.literal}</span>
-      <button
-        onClick={() => props.removeValue(lookupValue.key)}
-        aria-label={`Remove ${lookupValue.label}`}
-        data-testid={`Remove ${lookupValue.label}`}
-        className="close rbt-close rbt-token-remove-button">
-        <span aria-hidden="true"><FontAwesomeIcon className="trash-icon" icon={faTrashAlt} /></span>
-      </button>
       <a href={lookupValue.uri}>
         <span aria-hidden="true"><FontAwesomeIcon className="globe-icon" icon={faGlobe} /></span>
       </a>
@@ -188,24 +193,18 @@ const InputListLOC = (props) => {
           </div>
           <div className="modal-body">
             {lookupCheckboxes.length > 1 && lookupCheckboxes}
-            <div className={groupClasses}>
-              <Typeahead
-                renderMenu={(results, menuProps) => renderMenuFunc(results, menuProps, Object.values(selectedAuthorities))}
-                renderToken={(option, props, idx) => renderTokenFunc(option, props, idx)}
-                allowNew={() => true }
-                onChange={(selected) => selectionChanged(selected)}
-                id="loc-vocab-list"
-                multiple={true}
-                placeholder={props.property.propertyTemplate.label}
-                emptyLabel="retrieving list of terms..."
-                useCache={true}
-                selectHintOnEnter={true}
-                options={options}
-                selected={selected}
-                filterBy={filterBy}
-                onKeyDown={onKeyDown}
-                disabled={isDisabled}
-                ref={(ref) => typeAheadRef.current = ref}
+            <div className={groupClasses} data-testid='lookupForm'>
+              <AsyncTypeahead renderMenu={(results, menuProps) => renderMenuFunc(results, menuProps, Object.values(selectedAuthorities))}
+                              renderToken={(option, props, idx) => renderTokenFunc(option, props, idx)}
+                              data-testid='lookupList'
+                              disabled={isDisabled}
+                              onChange={(newSelected) => selectionChanged(newSelected)}
+                              options={props.getOptions(allResults.current)}
+                              onSearch={setQuery}
+                              selected={selected}
+                              {...typeaheadProps}
+                              filterBy={() => true}
+                              ref={(ref) => typeAheadRef.current = ref}
               />
               {error && <span className="text-danger">{error}</span>}
             </div>
@@ -223,8 +222,9 @@ const InputListLOC = (props) => {
     <React.Fragment>
       <button
         id="lookup"
+        data-testid="lookup"
         onClick={ handleClick }
-        aria-label={'LookupLOC'}
+        aria-label={'Lookups'}
         className="btn btn-sm btn-secondary btn-literal">
         +
       </button>
@@ -234,11 +234,12 @@ const InputListLOC = (props) => {
   )
 }
 
-InputListLOC.propTypes = {
+InputLookupModal.propTypes = {
   property: PropTypes.object.isRequired,
+  getLookupResults: PropTypes.func.isRequired,
+  getOptions: PropTypes.func.isRequired,
   show: PropTypes.bool,
   hideModal: PropTypes.func,
-  showModal: PropTypes.func,
   textValue: PropTypes.string,
   lookupValues: PropTypes.array,
   removeValue: PropTypes.func,
@@ -254,4 +255,4 @@ const mapStateToProps = (state, ownProps) => {
 
 const mapDispatchToProps = (dispatch) => bindActionCreators({ hideModal }, dispatch)
 
-export default connect(mapStateToProps, mapDispatchToProps)(InputListLOC)
+export default connect(mapStateToProps, mapDispatchToProps)(InputLookupModal)
