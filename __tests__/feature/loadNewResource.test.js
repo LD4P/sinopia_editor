@@ -37,6 +37,8 @@ describe('loading new resource', () => {
     screen.getByText('Default literal2')
     screen.getByText('Default URI1')
     screen.getByText('http://sinopia.io/defaultURI2')
+    screen.getByText('Default required literal1')
+    screen.getByText('Default required literal2')
 
     // Required properties are expanded.
     screen.getByPlaceholderText('Uber template1, property4')

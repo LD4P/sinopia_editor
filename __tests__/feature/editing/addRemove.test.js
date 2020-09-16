@@ -20,7 +20,7 @@ describe('adding and removing properties', () => {
     await screen.findByText('Uber template1', { selector: 'h3' })
 
     // Add a panel property
-    expect(screen.getAllByText(/Uber template1, property2/)).toHaveLength(2)
+    expect(screen.getAllByText(/Uber template1, property2$/)).toHaveLength(2) // do not want to match property20!
     fireEvent.click(screen.getByTestId('Add Uber template1, property2'))
 
     // Input box displayed
