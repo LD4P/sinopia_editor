@@ -13,7 +13,7 @@ import {
   addSubject, addProperty, addValue, removeValue,
   removeProperty, removeSubject, clearResource,
   saveResourceFinished, loadResourceFinished,
-  setResourceGroup,
+  setResourceGroup, setValueOrder,
 } from './resources'
 import {
   setLanguage, fetchingLanguages, languagesReceived,
@@ -88,6 +88,7 @@ const handlers = {
   SET_SEARCH_RESULTS: setSearchResults,
   SET_TEMPLATE_SEARCH_RESULTS: setTemplateSearchResults,
   SET_UNUSED_RDF: setUnusedRDF,
+  SET_VALUE_ORDER: setValueOrder,
   SHOW_COPY_NEW_MESSAGE: showCopyNewMessage,
   SHOW_DIACRITICS: showDiacriticsSelection,
   SHOW_GROUP_CHOOSER: showGroupChooser,

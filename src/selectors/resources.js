@@ -42,6 +42,7 @@ export const selectValue = (state, key) => {
   const newProperty = { ...property }
   newProperty.propertyTemplate = selectPropertyTemplate(state, newProperty.propertyTemplateKey)
   newValue.property = newProperty
+  newValue.index = newProperty.valueKeys.indexOf(value.key) + 1
   newValue.valueSubject = selectSubject(state, newValue.valueSubjectKey)
   return newValue
 }
