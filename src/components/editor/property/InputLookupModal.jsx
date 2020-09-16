@@ -200,9 +200,10 @@ const InputLookupModal = (props) => {
           </div>
           <div className="modal-body">
             {lookupCheckboxes.length > 1 && lookupCheckboxes}
-            <div className={groupClasses}>
+            <div className={groupClasses} data-testid='lookupForm'>
               <AsyncTypeahead renderMenu={(results, menuProps) => renderMenuFunc(results, menuProps, Object.values(selectedAuthorities))}
                               renderToken={(option, props, idx) => renderTokenFunc(option, props, idx)}
+                              data-testid='lookupList'
                               disabled={isDisabled}
                               onChange={(newSelected) => selectionChanged(newSelected)}
                               options={props.getOptions(allResults.current)}
@@ -228,6 +229,7 @@ const InputLookupModal = (props) => {
     <React.Fragment>
       <button
         id="lookup"
+        data-testid="lookup"
         onClick={ handleClick }
         aria-label={'Lookups'}
         className="btn btn-sm btn-secondary btn-literal">
