@@ -4,6 +4,7 @@ import { findRootResourceTemplateId } from 'utilities/Utilities'
 import {
   addResourceFromDataset, addEmptyResource, newSubject,
   newSubjectCopy, newPropertiesFromTemplates, chooseURI,
+  defaultValuesFor,
 } from './resourceHelpers'
 import { fetchResource, putResource, postResource } from 'sinopiaApi'
 import {
@@ -13,10 +14,11 @@ import {
   addProperty as addPropertyAction,
   addValue as addValueAction, addSubject as addSubjectAction,
   showProperty, setBaseURL, setCurrentResource, saveResourceFinished,
-  setUnusedRDF, loadResourceFinished, setResourceGroup, removeProperty,
+  setUnusedRDF, loadResourceFinished, setResourceGroup,
 } from 'actions/resources'
 import { newValueSubject } from 'utilities/valueFactory'
 import { selectUser } from 'selectors/authenticate'
+import _ from 'lodash'
 
 /**
  * A thunk that loads an existing resource from Sinopia API and adds to state.
@@ -173,7 +175,8 @@ export const expandProperty = (propertyKey, errorKey) => (dispatch, getState) =>
           return dispatch(addValueAction(newValue))
         })))
   } else {
-    property.values = []
+    property.values = defaultValuesFor(property)
+    if (!_.isEmpty(property.values)) property.show = true
     promises = [dispatch(addPropertyAction(property))]
   }
   return Promise.all(promises)
@@ -187,7 +190,6 @@ export const expandProperty = (propertyKey, errorKey) => (dispatch, getState) =>
 export const contractProperty = (propertyKey) => (dispatch, getState) => {
   const property = selectProperty(getState(), propertyKey)
   property.values = null
-  dispatch(removeProperty(propertyKey))
   dispatch(addPropertyAction(property))
 }
 
