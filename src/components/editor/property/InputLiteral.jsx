@@ -7,7 +7,7 @@ import { connect } from 'react-redux'
 import TextareaAutosize from 'react-textarea-autosize'
 import {
   hideDiacritics, showDiacritics,
-  setLiteralContent,
+  setLiteralContent, updateCursorPosition,
 } from 'actions/inputs'
 import { displayResourceValidations } from 'selectors/errors'
 import InputValue from './InputValue'
@@ -47,6 +47,8 @@ const InputLiteral = (props) => {
       props.hideDiacritics()
       event.preventDefault()
     }
+    // Handle any position changing
+    props.updateCursorPosition(inputLiteralRef.current.selectionStart)
   }
 
   const handleEdit = (content, lang) => {
@@ -59,6 +61,7 @@ const InputLiteral = (props) => {
     if (props.shouldShowDiacritic) {
       props.hideDiacritics()
     } else {
+      props.updateCursorPosition(inputLiteralRef.current.selectionStart)
       props.showDiacritics(props.property.key)
     }
     event.preventDefault()
@@ -104,6 +107,16 @@ const InputLiteral = (props) => {
     }
   }
 
+  // This handles if they change the cursor position within the field after the focus event.
+  const handleClick = () => {
+    props.updateCursorPosition(inputLiteralRef.current.selectionStart)
+  }
+
+  // This handles if they focus into the field using tab (no click)
+  const handleFocus = () => {
+    props.updateCursorPosition(inputLiteralRef.current.selectionStart)
+  }
+
   return (
     <div className={groupClasses}>
       <div className="input-group" onBlur={handleBlur} id={id}>
@@ -113,6 +126,8 @@ const InputLiteral = (props) => {
               placeholder={props.property.propertyTemplate.label}
               onChange={(event) => props.setLiteralContent(props.property.key, event.target.value)}
               onKeyPress={handleKeypress}
+              onFocus={handleFocus}
+              onClick={handleClick}
               value={props.content}
               disabled={disabled}
               ref={inputLiteralRef}
@@ -138,6 +153,7 @@ InputLiteral.propTypes = {
   addValue: PropTypes.func,
   content: PropTypes.string,
   setLiteralContent: PropTypes.func,
+  updateCursorPosition: PropTypes.func,
 }
 
 const mapStateToProps = (state, ownProps) => ({
@@ -147,7 +163,7 @@ const mapStateToProps = (state, ownProps) => ({
 })
 
 const mapDispatchToProps = (dispatch) => bindActionCreators({
-  hideDiacritics, showDiacritics, addValue, setLiteralContent,
+  hideDiacritics, showDiacritics, addValue, setLiteralContent, updateCursorPosition,
 }, dispatch)
 
 export default connect(mapStateToProps, mapDispatchToProps)(InputLiteral)

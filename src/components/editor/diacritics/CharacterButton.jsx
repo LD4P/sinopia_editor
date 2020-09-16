@@ -4,11 +4,12 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import { useSelector, useDispatch } from 'react-redux'
 import { selectLiteralInputContent } from 'selectors/inputs'
-import { setLiteralContent } from 'actions/inputs'
+import { setLiteralContent, updateCursorPosition } from 'actions/inputs'
 
 const CharacterButton = (props) => {
   const dispatch = useDispatch()
   const targetPropertyKey = useSelector((state) => state.selectorReducer.editor.diacritics.key)
+  const cursorOffset = useSelector((state) => state.selectorReducer.editor.diacritics.cursorOffset)
   const content = useSelector((state) => selectLiteralInputContent(state, targetPropertyKey)) || ''
 
   const cleanCharacter = () => {
@@ -22,8 +23,13 @@ const CharacterButton = (props) => {
   }
 
   const handleClick = (event) => {
-    const newValue = content + cleanCharacter()
+    const newValue = content.slice(0, cursorOffset)
+        + cleanCharacter()
+        + content.slice(cursorOffset)
+
     dispatch(setLiteralContent(targetPropertyKey, newValue))
+    // Move the insert position over one character
+    dispatch(updateCursorPosition(cursorOffset + 1))
     event.preventDefault()
   }
 

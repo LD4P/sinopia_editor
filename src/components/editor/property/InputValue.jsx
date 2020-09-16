@@ -32,7 +32,6 @@ const InputValue = (props) => {
       </button>
     </div>
     <button
-      id="editItem"
       onClick={handleEditClick}
       style={ { marginRight: '.25em' } }
       aria-label={`Edit ${label}`}

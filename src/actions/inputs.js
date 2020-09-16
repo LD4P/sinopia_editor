@@ -11,3 +11,8 @@ export const showDiacritics = (propertyKey) => ({
   type: 'SHOW_DIACRITICS',
   payload: propertyKey,
 })
+
+export const updateCursorPosition = (position) => ({
+  type: 'SET_CURSOR_POSITION',
+  payload: position,
+})
