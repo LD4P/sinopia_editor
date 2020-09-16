@@ -9,12 +9,26 @@ $modal-content-border-color: gray;
 $modal-content-bg: #f8f6ef;
 
 $resource-tab-active-bg: #b26f16;
-// $tab-background-active: #b26f16;
+
+$link-color: #00548f;
+$theme-colors: (
+  "danger": #b1020f
+);
+$enable-validation-icons: false;
 
 @import "~bootstrap/scss/bootstrap";
+@import url('https://fonts.googleapis.com/css2?family=Source+Sans+Pro&display=swap');
 
 .left-space {
     margin-left: 3px;
+}
+
+.invalid-feedback {
+  padding-left: 1.5em;
+  background-image: escape-svg($form-feedback-icon-invalid);
+  background-repeat: no-repeat;
+  background-position: left 0 center;
+  background-size: $input-height-inner-half $input-height-inner-half;
 }
 
 body {

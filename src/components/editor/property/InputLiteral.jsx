@@ -71,10 +71,9 @@ const InputLiteral = (props) => {
   const required = props.property.propertyTemplate.required
 
   let error
-  let groupClasses = 'form-group'
-
+  let controlClasses = 'form-control'
   if (props.displayValidations && !_.isEmpty(props.property.errors)) {
-    groupClasses += ' has-error'
+    controlClasses += ' is-invalid'
     error = props.property.errors.join(',')
   }
 
@@ -105,11 +104,11 @@ const InputLiteral = (props) => {
   }
 
   return (
-    <div className={groupClasses}>
+    <div className="form-group">
       <div className="input-group" onBlur={handleBlur} id={id}>
         <TextareaAutosize
               required={required}
-              className="form-control"
+              className={controlClasses}
               placeholder={props.property.propertyTemplate.label}
               onChange={(event) => props.setLiteralContent(props.property.key, event.target.value)}
               onKeyPress={handleKeypress}
@@ -122,8 +121,8 @@ const InputLiteral = (props) => {
                   disabled={disabled}
                   onClick={toggleDiacritics}>&auml;</button>
         </div>
+        {error && <span className="invalid-feedback">{error}</span>}
       </div>
-      {error && <span className="text-danger">{error}</span>}
       {addedList}
     </div>
   )
