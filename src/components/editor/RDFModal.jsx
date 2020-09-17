@@ -42,7 +42,7 @@ const RDFModal = (props) => {
               </div>
             </div>
             { props.show
-              && <RDFDisplay rdf={props.rdf()} />
+              && <RDFDisplay dataset={props.dataset()} />
             }
           </div>
         </div>
@@ -55,11 +55,13 @@ const RDFModal = (props) => {
 RDFModal.propTypes = {
   show: PropTypes.bool,
   rdf: PropTypes.func,
+  dataset: PropTypes.func,
 }
 
 const mapStateToProps = (state) => ({
   show: selectModalType(state) === 'RDFModal',
-  rdf: () => new GraphBuilder(selectFullSubject(state, selectCurrentResourceKey(state))).graph.toCanonical(),
+  dataset: () => new GraphBuilder(selectFullSubject(state, selectCurrentResourceKey(state))).graph,
 })
+
 
 export default connect(mapStateToProps, null)(RDFModal)

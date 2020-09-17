@@ -2,34 +2,26 @@
 
 import React, { useState, useEffect } from 'react'
 import PropTypes from 'prop-types'
-import { datasetFromN3, n3FromDataset, jsonldFromDataset } from 'utilities/Utilities'
+import { n3FromDataset, jsonldFromDataset } from 'utilities/Utilities'
 import Alert from '../Alert'
 
 const RDFDisplay = (props) => {
   const [error, setError] = useState(false)
-  const [dataset, setDataset] = useState(false)
-  useEffect(() => {
-    setError(false)
-    datasetFromN3(props.rdf)
-      .then((dataset) => setDataset(dataset))
-      .catch((err) => setError(err.message || err))
-  }, [props.rdf])
-
   const [format, setFormat] = useState('table')
   const [formattedRDF, setFormattedRDF] = useState(false)
   useEffect(() => {
-    if (!dataset || format === 'table') return
+    if (!props.dataset || format === 'table') return
     setError(false)
     if (format === 'jsonld') {
-      jsonldFromDataset(dataset)
+      jsonldFromDataset(props.dataset)
         .then((result) => setFormattedRDF(JSON.stringify(result, null, 2)))
         .catch((err) => setError(err.message || err))
     } else {
-      n3FromDataset(dataset, format)
+      n3FromDataset(props.dataset, format)
         .then((result) => setFormattedRDF(result.replace(/<null>/g, '<>')))
         .catch((err) => setError(err.message || err))
     }
-  }, [dataset, format])
+  }, [props.dataset, format])
 
   if (error) {
     return (<Alert text={error} />)
@@ -38,13 +30,10 @@ const RDFDisplay = (props) => {
   if (format !== 'table' && !formattedRDF) {
     return null
   }
-  if (format === 'table' && !dataset) {
-    return null
-  }
 
   let body
   if (format === 'table') {
-    const rows = dataset.toArray().map((quad) => <tr key={[quad.subject.value, quad.predicate.value, quad.object.value].concat('-')}>
+    const rows = props.dataset.toArray().map((quad) => <tr key={[quad.subject.value, quad.predicate.value, quad.object.value].concat('-')}>
       <td>{quad.subject.value || '<>'}</td>
       <td>{quad.predicate.value}</td>
       <td>{quad.object.value}{quad.object.language && ` [${quad.object.language}]`}</td>
@@ -88,7 +77,7 @@ const RDFDisplay = (props) => {
 }
 
 RDFDisplay.propTypes = {
-  rdf: PropTypes.string,
+  dataset: PropTypes.object.isRequired,
   id: PropTypes.string,
 }
 
