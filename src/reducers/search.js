@@ -47,7 +47,7 @@ export const setTemplateSearchResults = (state, action) => {
   newState.templateSearch.results = action.payload.searchResults
   newState.templateSearch.totalResults = action.payload.totalResults
   newState.templateSearch.options = { ...action.payload.options }
-  if (newState.templateSearch.options.resultsPerPage === undefined) newState.templateSearch.options.resultsPerPage = Config.searchResultsPerPage
+  if (newState.templateSearch.options.resultsPerPage === undefined) newState.templateSearch.options.resultsPerPage = Config.templateSearchResultsPerPage
 
   newState.templateSearch.error = action.payload.error
 
