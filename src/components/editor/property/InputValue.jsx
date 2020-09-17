@@ -19,7 +19,7 @@ const InputValue = (props) => {
     props.removeValue(props.valueKey)
   }
 
-  return (<div id="userInput" style={{ marginTop: '.25em' }}>
+  return (<div className="input-value">
     <div
       className="rbt-token rbt-token-removeable">
       {label}
@@ -32,7 +32,6 @@ const InputValue = (props) => {
       </button>
     </div>
     <button
-      id="editItem"
       onClick={handleEditClick}
       style={ { marginRight: '.25em' } }
       aria-label={`Edit ${label}`}
