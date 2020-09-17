@@ -1,7 +1,7 @@
 // Copyright 2019 Stanford University see LICENSE for license
 
 import React from 'react'
-import InputLookup from 'components/editor/property/InputLookup'
+import InputLookupModal from 'components/editor/property/InputLookupModal'
 import { fireEvent, wait, waitForElement } from '@testing-library/react'
 import { showValidationErrors, validateResource } from 'actions/index'
 import {
@@ -72,11 +72,11 @@ const reduxPath = [
   'http://id.loc.gov/ontologies/bibframe/Person',
 ]
 
-describe('InputLookup', () => {
+describe('InputLookupModal', () => {
   it('renders when no value', () => {
     const store = createReduxStore(createInitialState())
     const { container, getByPlaceholderText, getByLabelText } = renderWithRedux(
-      <InputLookup reduxPath={reduxPath} getLookupResults={jest.fn()} getOptions={jest.fn()} />, store,
+      <InputLookupModal reduxPath={reduxPath} getLookupResults={jest.fn()} getOptions={jest.fn()} />, store,
     )
     // The input box is present.
     expect(getByPlaceholderText('Search LCNAF')).toBeInTheDocument()
@@ -93,7 +93,7 @@ describe('InputLookup', () => {
   it('renders existing value', () => {
     const store = createReduxStore(createInitialState({ hasInitialValue: true }))
     const { getByText } = renderWithRedux(
-      <InputLookup reduxPath={reduxPath} getLookupResults={jest.fn()} getOptions={jest.fn()} />, store,
+      <InputLookupModal reduxPath={reduxPath} getLookupResults={jest.fn()} getOptions={jest.fn()} />, store,
     )
 
     // The subject is displayed
@@ -105,7 +105,7 @@ describe('InputLookup', () => {
     const {
       container, getByPlaceholderText, getByText, getAllByText, getByTestId,
     } = renderWithRedux(
-      <InputLookup reduxPath={reduxPath} getLookupResults={jest.fn()} getOptions={jest.fn()} />, store,
+      <InputLookupModal reduxPath={reduxPath} getLookupResults={jest.fn()} getOptions={jest.fn()} />, store,
     )
 
     // Add a value
@@ -127,7 +127,7 @@ describe('InputLookup', () => {
     const {
       container, getByPlaceholderText, getByText, getAllByText,
     } = renderWithRedux(
-      <InputLookup reduxPath={reduxPath} getLookupResults={jest.fn()} getOptions={jest.fn()} />, store,
+      <InputLookupModal reduxPath={reduxPath} getLookupResults={jest.fn()} getOptions={jest.fn()} />, store,
     )
     const artOfWar = '战争的艺术' // Chinese characters for Sun Tzu's Art of War
 
@@ -147,7 +147,7 @@ describe('InputLookup', () => {
     const {
       container, getByPlaceholderText, getByText, getAllByText, getByTestId,
     } = renderWithRedux(
-      <InputLookup reduxPath={reduxPath} getLookupResults={jest.fn()} getOptions={jest.fn()} />, store,
+      <InputLookupModal reduxPath={reduxPath} getLookupResults={jest.fn()} getOptions={jest.fn()} />, store,
     )
 
     // Add values
@@ -179,7 +179,7 @@ describe('InputLookup', () => {
     const {
       getByPlaceholderText, getByText, getAllByText, getByLabelText, queryByText,
     } = renderWithRedux(
-      <InputLookup reduxPath={reduxPath} getLookupResults={jest.fn()} getOptions={jest.fn()} />, store,
+      <InputLookupModal reduxPath={reduxPath} getLookupResults={jest.fn()} getOptions={jest.fn()} />, store,
     )
 
     // Uncheck an authority
@@ -199,7 +199,7 @@ describe('InputLookup', () => {
   it('allows deleting a value', async () => {
     const store = createReduxStore(createInitialState({ hasInitialValue: true }))
     const { getByText, queryByText } = renderWithRedux(
-      <InputLookup reduxPath={reduxPath} getLookupResults={jest.fn()} getOptions={jest.fn()} />, store,
+      <InputLookupModal reduxPath={reduxPath} getLookupResults={jest.fn()} getOptions={jest.fn()} />, store,
     )
     expect(getByText('foo')).toBeInTheDocument()
 
@@ -213,7 +213,7 @@ describe('InputLookup', () => {
   it('validates when mandatory', async () => {
     const store = createReduxStore(createInitialState())
     const { getByText } = renderWithRedux(
-      <InputLookup reduxPath={reduxPath} getLookupResults={jest.fn()} getOptions={jest.fn()} />, store,
+      <InputLookupModal reduxPath={reduxPath} getLookupResults={jest.fn()} getOptions={jest.fn()} />, store,
     )
 
     // Trigger validation
@@ -229,7 +229,7 @@ describe('InputLookup', () => {
     const {
       container, getByPlaceholderText, getByText, getAllByText, getByTestId,
     } = renderWithRedux(
-      <InputLookup reduxPath={reduxPath} getLookupResults={jest.fn()} getOptions={jest.fn()} />, store,
+      <InputLookupModal reduxPath={reduxPath} getLookupResults={jest.fn()} getOptions={jest.fn()} />, store,
     )
 
     // Add a value
@@ -255,7 +255,7 @@ describe('InputLookup', () => {
     const {
       container, getByPlaceholderText, getByText, getByTestId,
     } = renderWithRedux(
-      <InputLookup reduxPath={reduxPath} getLookupResults={jest.fn()} getOptions={jest.fn()} />, store,
+      <InputLookupModal reduxPath={reduxPath} getLookupResults={jest.fn()} getOptions={jest.fn()} />, store,
     )
 
     // Add a value

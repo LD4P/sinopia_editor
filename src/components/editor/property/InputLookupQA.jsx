@@ -4,7 +4,7 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import shortid from 'shortid'
 import { getSearchResults } from 'utilities/QuestioningAuthority'
-import InputLookup from './InputLookup'
+import InputLookupModal from './InputLookupModal'
 
 const InputLookupQA = (props) => {
   const getOptions = (results) => {
@@ -33,7 +33,7 @@ const InputLookupQA = (props) => {
   }
 
   return (
-    <InputLookup getLookupResults={getSearchResults} getOptions={getOptions} property={props.property} />
+    <InputLookupModal getLookupResults={getSearchResults} getOptions={getOptions} property={props.property} />
   )
 }
 
