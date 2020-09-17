@@ -5,7 +5,7 @@ import shortid from 'shortid'
 import PropTypes from 'prop-types'
 import { getLookupResults } from 'sinopiaSearch'
 import ResourceList from './ResourceList'
-import InputLookup from './InputLookup'
+import InputLookupModal from './InputLookupModal'
 
 const InputLookupSinopia = (props) => {
   const getOptions = (results) => {
@@ -35,7 +35,7 @@ const InputLookupSinopia = (props) => {
 
   return (
     <React.Fragment>
-      <InputLookup getLookupResults={getLookupResults} getOptions={getOptions} property={props.property} />
+      <InputLookupModal getLookupResults={getLookupResults} getOptions={getOptions} property={props.property} />
       <ResourceList property={props.property} />
     </React.Fragment>
   )
