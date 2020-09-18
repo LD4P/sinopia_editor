@@ -117,4 +117,43 @@ describe('adding and removing properties', () => {
     // Delete button removed
     expect(screen.queryAllByTestId('Remove Uber template2, property1')).toHaveLength(0)
   }, 15000)
+
+  it('removes and adds a required property with defaults, leaving the defaults but deleting the user entered literal', async () => {
+    renderApp(null, history)
+
+    const literalText = 'bogus in property 7'
+
+    await screen.findByText('Uber template1', { selector: 'h3' })
+
+    // Verify defaults for propert7 are shown
+    expect(screen.queryAllByText('Default literal1')).toHaveLength(1)
+    expect(screen.queryAllByText('Default literal2')).toHaveLength(1)
+
+    // Enter a new literal value
+    const input = screen.getByPlaceholderText('Uber template1, property7')
+    fireEvent.change(input, { target: { value: literalText } })
+    fireEvent.keyPress(input, { key: 'Enter', code: 13, charCode: 13 })
+
+    // Bogus literal is there
+    await waitFor(() => expect(screen.getByText(literalText)).toHaveClass('rbt-token'))
+
+    // Now remove property7.
+    fireEvent.click(screen.getByTestId('Remove Uber template1, property7'))
+
+    // Verify defaults and bogus literal for propert7 are gone
+    expect(screen.queryAllByText('Default literal1')).toHaveLength(0)
+    expect(screen.queryAllByText('Default literal2')).toHaveLength(0)
+    expect(screen.queryAllByText(literalText)).toHaveLength(0)
+
+    // Remove button removed.
+    expect(screen.queryAllByTestId('Remove Uber template1, property7')).toHaveLength(0)
+
+    // Now add back property7.
+    fireEvent.click(screen.getByTestId('Add Uber template1, property7'))
+
+    // Verify defaults for propert7 are back again but user entered literal is gone
+    expect(screen.queryAllByText('Default literal1')).toHaveLength(1)
+    expect(screen.queryAllByText('Default literal2')).toHaveLength(1)
+    expect(screen.queryAllByText(literalText)).toHaveLength(0)
+  }, 15000)
 })

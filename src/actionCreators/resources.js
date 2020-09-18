@@ -184,7 +184,7 @@ export const expandProperty = (propertyKey, errorKey) => (dispatch, getState) =>
 }
 
 /**
- * A thunk that removes a property from state (the opposite of expandProperty).
+ * A thunk that clears the values from a property from state (the opposite of expandProperty).
  * Note that this is NOT showing/hiding a property.
  */
 export const contractProperty = (propertyKey) => (dispatch, getState) => {
