@@ -2,7 +2,7 @@
 
 import {
   addProperty, addSubject, addValue, clearResource,
-  hideProperty, removeProperty, removeSubject,
+  hideProperty, removeSubject,
   removeValue, saveResourceFinished, setBaseURL, setCurrentResource,
   setUnusedRDF, showProperty, loadResourceFinished, setResourceGroup,
   setValueOrder,
@@ -18,7 +18,6 @@ const reducers = {
   CLEAR_RESOURCE: clearResource,
   HIDE_PROPERTY: hideProperty,
   LOAD_RESOURCE_FINISHED: loadResourceFinished,
-  REMOVE_PROPERTY: removeProperty,
   REMOVE_SUBJECT: removeSubject,
   REMOVE_VALUE: removeValue,
   SAVE_RESOURCE_FINISHED: saveResourceFinished,
@@ -515,22 +514,6 @@ describe('hideProperty()', () => {
 
     const newState = reducer(oldState, action)
     expect(newState.entities.properties['kqKVn-1TbC'].show).toBeFalsy()
-  })
-})
-
-describe('removeProperty()', () => {
-  it('removes a property from a subject', () => {
-    const oldState = createState({ hasResourceWithLiteral: true })
-    const action = {
-      type: 'REMOVE_PROPERTY',
-      payload: 'JQEtq-vmq8',
-    }
-
-    const newState = reducer(oldState.selectorReducer, action)
-    expect(newState.entities.properties['JQEtq-vmq8']).toBe(undefined)
-    expect(newState.entities.subjects.t9zVwg2zO.propertyKeys).not.toContain('JQEtq-vmq8')
-    expect(newState.entities.values.CxGx7WMh2).toBe(undefined)
-    expect(newState.entities.subjects.t9zVwg2zO.changed).toBe(true)
   })
 })
 

@@ -307,23 +307,6 @@ const removeBibframeRefs = (newState, value, newProperty) => {
   }
 }
 
-export const removeProperty = (state, action) => {
-  const newState = { ...state }
-
-  const property = newState.entities.properties[action.payload]
-
-  // Remove from subject
-  const subject = newState.entities.subjects[property.subjectKey]
-  newState.entities.subjects[property.subjectKey].propertyKeys = subject.propertyKeys.filter((propertyKey) => propertyKey !== action.payload)
-
-  // Recursively remove property
-  clearPropertyFromNewState(newState, property.key)
-
-  newState.entities.subjects[property.resourceKey].changed = true
-
-  return newState
-}
-
 export const removeSubject = (state, action) => {
   const newState = { ...state }
 
