@@ -9,11 +9,11 @@ export const initialState = {
   authenticate: {
     user: undefined,
   },
+  app: {
+    version: undefined,
+    lastChecked: Date.now(),
+  },
   selectorReducer: {
-    appVersion: {
-      version: undefined,
-      lastChecked: Date.now(),
-    },
     editor: { // The state of the editor
       currentResource: undefined,
       currentComponent: {},

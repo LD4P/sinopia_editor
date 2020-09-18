@@ -12,14 +12,12 @@ describe('setAppVersion()', () => {
     const action = { type: 'SET_APP_VERSION', payload: '2000.0.1' }
 
     const oldState = {
-      appVersion: {
-        version: '3.0.0',
-      },
+      version: '3.0.0',
     }
 
     const newState = reducer(oldState, action)
 
-    expect(newState.appVersion.version).toStrictEqual('2000.0.1')
+    expect(newState.version).toStrictEqual('2000.0.1')
   })
 })
 

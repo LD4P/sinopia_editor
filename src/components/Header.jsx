@@ -9,6 +9,7 @@ import { selectUser } from 'selectors/authenticate'
 import { signOut } from 'actionCreators/authenticate'
 import { bindActionCreators } from 'redux'
 import { selectCurrentResourceKey } from 'selectors/resources'
+import { selectAppVersion } from 'selectors/index'
 
 const Header = (props) => {
   const hidePopovers = () => {
@@ -70,7 +71,7 @@ Header.propTypes = {
 const mapStateToProps = (state) => ({
   currentUser: selectUser(state),
   hasResource: !!selectCurrentResourceKey(state),
-  version: state.selectorReducer.appVersion.version,
+  version: selectAppVersion(state),
 })
 
 const mapDispatchToProps = (dispatch) => bindActionCreators({ signOut }, dispatch)

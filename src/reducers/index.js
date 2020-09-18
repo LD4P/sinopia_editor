@@ -42,10 +42,7 @@ import {
 } from './lookups'
 
 export const setAppVersion = (state, action) => {
-  const newState = { ...state }
-
-  newState.appVersion.version = action.payload
-  return newState
+  return { ...state, version: action.payload }
 }
 
 export const setCurrentComponent = (state, action) => {
@@ -78,7 +75,6 @@ const handlers = {
   LOAD_RESOURCE_FINISHED: loadResourceFinished,
   LOOKUP_OPTIONS_RETRIEVED: lookupOptionsRetrieved,
   SAVE_RESOURCE_FINISHED: saveResourceFinished,
-  SET_APP_VERSION: setAppVersion,
   SET_BASE_URL: setBaseURL,
   SET_LITERAL_CONTENT: setLiteralInputContent,
   SET_CURRENT_COMPONENT: setCurrentComponent,
@@ -108,6 +104,10 @@ const authHandlers = {
   REMOVE_USER: removeUser,
 }
 
+const appHandlers = {
+  SET_APP_VERSION: setAppVersion,
+}
+
 export const createReducer = (handlers) => (state = {}, action) => {
   const fn = handlers[action.type]
   return fn ? fn(state, action) : state
@@ -115,6 +115,7 @@ export const createReducer = (handlers) => (state = {}, action) => {
 
 const appReducer = combineReducers({
   authenticate: createReducer(authHandlers),
+  app: createReducer(appHandlers),
   selectorReducer: createReducer(handlers),
 })
 
