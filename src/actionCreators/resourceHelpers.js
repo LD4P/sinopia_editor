@@ -186,13 +186,8 @@ const newProperty = (subject, propertyTemplate, noDefaults, errorKey) => (dispat
     show: false,
   }
   if (!noDefaults && !_.isEmpty(property.propertyTemplate.defaults)) {
-    property.values = property.propertyTemplate.defaults.map((defaultValue) => {
-      if (property.propertyTemplate.type === 'uri') {
-        return newUriValue(property, defaultValue.uri, defaultValue.label)
-      }
-      return newLiteralValue(property, defaultValue.literal, defaultValue.lang)
-    })
-    property.show = true
+    property.values = defaultValuesFor(property)
+    if (!_.isEmpty(property.values)) property.show = true
   }
 
   // If required and we do not already have some default values, then expand the property.
@@ -206,6 +201,15 @@ const newProperty = (subject, propertyTemplate, noDefaults, errorKey) => (dispat
   }
 
   return property
+}
+
+export function defaultValuesFor(property) {
+  return property.propertyTemplate.defaults.map((defaultValue) => {
+    if (property.propertyTemplate.type === 'uri') {
+      return newUriValue(property, defaultValue.uri, defaultValue.label)
+    }
+    return newLiteralValue(property, defaultValue.literal, defaultValue.lang)
+  })
 }
 
 const valuesForExpandedProperty = (property, noDefaults, errorKey) => (dispatch) => {

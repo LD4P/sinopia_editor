@@ -11,7 +11,7 @@ import {
   setBaseURL, hideProperty, showProperty,
   setUnusedRDF, setCurrentResource,
   addSubject, addProperty, addValue, removeValue,
-  removeProperty, removeSubject, clearResource,
+  removeSubject, clearResource,
   saveResourceFinished, loadResourceFinished,
   setResourceGroup, setValueOrder,
 } from './resources'
@@ -101,7 +101,6 @@ const handlers = {
   ADD_VALUE: addValue,
   REMOVE_VALUE: removeValue,
   REMOVE_SUBJECT: removeSubject,
-  REMOVE_PROPERTY: removeProperty,
 }
 
 const authHandlers = {

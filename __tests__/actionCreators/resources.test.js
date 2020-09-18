@@ -450,6 +450,6 @@ describe('contractProperty', () => {
   it('removes a property values from state', async () => {
     await store.dispatch(contractProperty('JQEtq-vmq8'))
     const actions = store.getActions()
-    expect(actions).toHaveAction('REMOVE_PROPERTY')
+    expect(actions).toHaveAction('ADD_PROPERTY')
   })
 })
