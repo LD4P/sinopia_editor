@@ -14,7 +14,9 @@ $theme-colors: (
   "danger": #b1020f
 );
 $enable-validation-icons: false;
-
+$prop-heading-bg: #B26F16;
+$prop-heading-color: white;
+$prop-panel-bg: #F7F4F1;
 
 $lookup-value-bg: #E8E2DC;
 
@@ -138,8 +140,8 @@ $primary-disabled: lighten( map-get($theme-colors,"secondary"), 20% );
 }
 
 .prop-heading {
-  background-color: #8C8A83 !important;
-  color: white !important;
+  background-color: $prop-heading-bg !important;
+  color: $prop-heading-color !important;
 }
 
 .prop-heading > span {
@@ -148,10 +150,7 @@ $primary-disabled: lighten( map-get($theme-colors,"secondary"), 20% );
 }
 
 .panel-property {
-  border-color: #8C8A83;
-  border-style: solid;
-  border-width: 1px;
-  background-color: #F8F6EF;
+  background-color: $prop-panel-bg;
   break-inside: avoid;
 }
 
