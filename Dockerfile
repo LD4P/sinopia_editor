@@ -1,4 +1,4 @@
-FROM circleci/node:12.6
+FROM circleci/node:14.11
 
 # Allow build-time arguments (for, environment variables that need to be encoded into the webpack distribution)
 ARG USE_FIXTURES
