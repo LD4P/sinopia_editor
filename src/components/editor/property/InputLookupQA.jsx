@@ -2,40 +2,15 @@
 
 import React from 'react'
 import PropTypes from 'prop-types'
-import shortid from 'shortid'
 import { getSearchResults } from 'utilities/QuestioningAuthority'
+import { getQAOptions } from 'utilities/Search'
+
 import InputLookupModal from './InputLookupModal'
 
-const InputLookupQA = (props) => {
-  const getOptions = (results) => {
-    const options = []
-    results.forEach((result) => {
-      const authLabel = result.authLabel
-      const authURI = result.authURI
-      options.push({
-        authURI,
-        authLabel,
-        label: authLabel,
-      })
-      if (result.isError) {
-        options.push({
-          isError: true,
-          label: result.errorObject.message,
-          id: shortid.generate(),
-        })
-        return
-      }
-      result.body.results.forEach((option) => {
-        options.push(option)
-      })
-    })
-    return options
-  }
+const InputLookupQA = (props) => (
+  <InputLookupModal getLookupResults={getSearchResults} getOptions={getQAOptions} property={props.property} />
+)
 
-  return (
-    <InputLookupModal getLookupResults={getSearchResults} getOptions={getOptions} property={props.property} />
-  )
-}
 
 InputLookupQA.propTypes = {
   property: PropTypes.object.isRequired,

@@ -1,45 +1,20 @@
 // Copyright 2019 Stanford University see LICENSE for license
 
 import React from 'react'
-import shortid from 'shortid'
 import PropTypes from 'prop-types'
 import { getLookupResults } from 'sinopiaSearch'
+import { getSinopiaOptions } from 'utilities/Search'
+
 import ResourceList from './ResourceList'
 import InputLookupModal from './InputLookupModal'
 
-const InputLookupSinopia = (props) => {
-  const getOptions = (results) => {
-    const options = []
-    results.forEach((result) => {
-      const authLabel = result.authLabel
-      const authURI = result.authURI
-      options.push({
-        authURI,
-        authLabel,
-        label: authLabel,
-      })
-      if (result.error) {
-        options.push({
-          isError: true,
-          label: result.error,
-          id: shortid.generate(),
-        })
-        return
-      }
-      result.results.forEach((option) => {
-        options.push(option)
-      })
-    })
-    return options
-  }
+const InputLookupSinopia = (props) => (
+  <React.Fragment>
+    <InputLookupModal getLookupResults={getLookupResults} getOptions={getSinopiaOptions} property={props.property} />
+    <ResourceList property={props.property} />
+  </React.Fragment>
+)
 
-  return (
-    <React.Fragment>
-      <InputLookupModal getLookupResults={getLookupResults} getOptions={getOptions} property={props.property} />
-      <ResourceList property={props.property} />
-    </React.Fragment>
-  )
-}
 
 InputLookupSinopia.propTypes = {
   property: PropTypes.object.isRequired,
