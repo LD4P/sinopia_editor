@@ -5,7 +5,7 @@
 #
 defaults: &defaults
   docker:
-    - image: circleci/node:12.6-browsers
+    - image: circleci/node:14.11.0-browsers
   working_directory: ~/sinopia_editor
 
 version: 2
