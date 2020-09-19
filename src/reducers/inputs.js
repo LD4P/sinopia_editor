@@ -20,3 +20,9 @@ export const showDiacriticsSelection = (state, action) => {
   newState.editor.diacritics.key = action.payload
   return newState
 }
+
+export const setCursorPosition = (state, action) => {
+  const newState = { ...state }
+  newState.editor.diacritics.cursorOffset = action.payload
+  return newState
+}

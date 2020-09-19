@@ -6,6 +6,7 @@ import {
 } from './authenticate'
 import {
   setLiteralInputContent, hideDiacriticsSelection, showDiacriticsSelection,
+  setCursorPosition,
 } from './inputs'
 import {
   setBaseURL, hideProperty, showProperty,
@@ -83,6 +84,7 @@ const handlers = {
   SET_LITERAL_CONTENT: setLiteralInputContent,
   SET_CURRENT_COMPONENT: setCurrentComponent,
   SET_CURRENT_RESOURCE: setCurrentResource,
+  SET_CURSOR_POSITION: setCursorPosition,
   SET_RESOURCE_GROUP: setResourceGroup,
   SET_TEMPLATE_MESSAGES: setTemplateMessages,
   SET_SEARCH_RESULTS: setSearchResults,
