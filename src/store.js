@@ -29,7 +29,6 @@ export const initialState = {
         name: undefined, // Name of modal to show. Should only be one at a time.
         messages: [],
       },
-      uploadTemplateMessages: [],
       copyToNewMessage: {},
       errors: {}, // {<error key>: [errors...]} or {<error key>: {<resourceKey>: [errors...]}}
       lastSave: {}, // {<resourceKey>: date}

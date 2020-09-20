@@ -27,9 +27,7 @@ import {
   showGroupChooser,
   showModal, hideModal, addModalMessage, clearModalMessages,
 } from './modals'
-import {
-  setTemplateMessages, clearTemplateMessages, showCopyNewMessage,
-} from './messages'
+import { showCopyNewMessage } from './messages'
 import {
   exportsReceived,
 } from './exports'
@@ -64,7 +62,6 @@ const handlers = {
   ADD_ERROR: addError,
   CLEAR_ERRORS: clearErrors,
   CLEAR_MODAL_MESSAGES: clearModalMessages,
-  CLEAR_TEMPLATE_MESSAGES: clearTemplateMessages,
   CLEAR_RESOURCE: clearResource,
   CLEAR_SEARCH_RESULTS: clearSearchResults,
   CLEAR_TEMPLATE_SEARCH_RESULTS: clearTemplateSearchResults,
@@ -86,7 +83,6 @@ const handlers = {
   SET_CURRENT_RESOURCE: setCurrentResource,
   SET_CURSOR_POSITION: setCursorPosition,
   SET_RESOURCE_GROUP: setResourceGroup,
-  SET_TEMPLATE_MESSAGES: setTemplateMessages,
   SET_SEARCH_RESULTS: setSearchResults,
   SET_TEMPLATE_SEARCH_RESULTS: setTemplateSearchResults,
   SET_UNUSED_RDF: setUnusedRDF,

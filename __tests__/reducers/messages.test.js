@@ -1,66 +1,7 @@
 // Copyright 2020 Stanford University see LICENSE for license
 
-import {
-  clearTemplateMessages, setTemplateMessages, showCopyNewMessage,
-} from 'reducers/messages'
+import { showCopyNewMessage } from 'reducers/messages'
 import { createReducer } from 'reducers/index'
-
-
-describe('clearTemplateMessages()', () => {
-  const handlers = { CLEAR_TEMPLATE_MESSAGES: clearTemplateMessages }
-  const reducer = createReducer(handlers)
-
-  it('removes any template messages', () => {
-    const oldState = {
-      editor: {
-        uploadTemplateMessages: [
-          'Template ld4P:bf2:test uploaded successfully',
-        ],
-      },
-    }
-
-    const action = {
-      type: 'CLEAR_TEMPLATE_MESSAGES',
-    }
-
-    const newState = reducer(oldState, action)
-    expect(newState).toStrictEqual({
-      editor: {
-        uploadTemplateMessages: [],
-      },
-    })
-  })
-})
-
-describe('setTemplateMessages()', () => {
-  const handlers = { SET_TEMPLATE_MESSAGES: setTemplateMessages }
-  const reducer = createReducer(handlers)
-
-  it('adds a new template message', () => {
-    const payloadMsg = 'Template ld4P:bf2:test uploaded successfully'
-
-    const oldState = {
-      editor: {
-        uploadTemplateMessages: [],
-      },
-    }
-
-    const action = {
-      type: 'SET_TEMPLATE_MESSAGES',
-      payload: [payloadMsg],
-    }
-
-    const newState = reducer(oldState, action)
-
-    expect(newState).toStrictEqual({
-      editor: {
-        uploadTemplateMessages: [
-          payloadMsg,
-        ],
-      },
-    })
-  })
-})
 
 describe('showCopyNewMessage()', () => {
   const handlers = { SHOW_COPY_NEW_MESSAGE: showCopyNewMessage }
