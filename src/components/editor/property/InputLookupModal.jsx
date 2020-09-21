@@ -179,7 +179,7 @@ const InputLookupModal = (props) => {
       <a href={lookupValue.uri}>
         <span aria-hidden="true"><FontAwesomeIcon className="globe-icon" icon={faGlobe} /></span>
       </a>
-      <button onClick={() => props.removeValue(props.valueKey)}>
+      <button onClick={() => props.removeValue(lookupValue.key)}>
         <FontAwesomeIcon className="trash-icon" icon={faTrashAlt} />
       </button>
     </div>
@@ -246,6 +246,7 @@ InputLookupModal.propTypes = {
   textValue: PropTypes.string,
   lookupValues: PropTypes.array,
   removeValue: PropTypes.func,
+  valueKey: PropTypes.string.isRequired,
 }
 
 const mapStateToProps = (state, ownProps) => {
@@ -256,6 +257,6 @@ const mapStateToProps = (state, ownProps) => {
   }
 }
 
-const mapDispatchToProps = (dispatch) => bindActionCreators({ hideModal }, dispatch)
+const mapDispatchToProps = (dispatch) => bindActionCreators({ removeValue, hideModal }, dispatch)
 
 export default connect(mapStateToProps, mapDispatchToProps)(InputLookupModal)
