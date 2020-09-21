@@ -148,7 +148,7 @@ describe('editing a literal property', () => {
 
     await waitFor(() => expect(screen.queryAllByRole('heading', { name: 'Languages' }).length).toBeFalsy())
     expect(langBtn).toHaveTextContent('Language: Tai languages')
-  }, 15000)
+  }, 25000)
 
   it('allows selecting no language', async () => {
     renderApp(null, history)

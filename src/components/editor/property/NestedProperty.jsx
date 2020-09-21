@@ -9,7 +9,7 @@ import { connect } from 'react-redux'
 import useNavigableComponent from 'hooks/useNavigableComponent'
 
 const NestedProperty = (props) => {
-  const [navEl, navClickHandler] = useNavigableComponent(props.property.resourceKey, props.property.key)
+  const [navEl, navClickHandler] = useNavigableComponent(props.property.rootSubjectKey, props.property.rootPropertyKey, props.property.key)
 
   // onClick is to support left navigation, so ignoring jsx-ally seems reasonable.
   /* eslint-disable jsx-a11y/click-events-have-key-events */

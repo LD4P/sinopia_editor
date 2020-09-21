@@ -18,7 +18,7 @@ export const addResourceFromDataset = (dataset, uri, resourceTemplateId, errorKe
   const usedDataset = rdf.dataset()
   usedDataset.addAll(dataset.match(subjectTerm, rdf.namedNode('http://sinopia.io/vocabulary/hasResourceTemplate')))
   usedDataset.addAll(dataset.match(subjectTerm, rdf.namedNode('http://www.w3.org/1999/02/22-rdf-syntax-ns#type')))
-  return dispatch(recursiveResourceFromDataset(subjectTerm, newUri, resourceTemplateId, null, {}, dataset, usedDataset, errorKey))
+  return dispatch(recursiveResourceFromDataset(subjectTerm, newUri, resourceTemplateId, {}, dataset, usedDataset, errorKey))
     .then((resource) => {
       resource.group = group
       dispatch(addSubjectAction(resource))
@@ -29,7 +29,7 @@ export const addResourceFromDataset = (dataset, uri, resourceTemplateId, errorKe
 // The provided URI or <>.
 export const chooseURI = (dataset, uri) => (dataset.match(rdf.namedNode(uri)).size > 0 ? uri : '')
 
-export const addEmptyResource = (resourceTemplateId, errorKey) => (dispatch) => dispatch(newSubject(null, resourceTemplateId, null, {}, errorKey))
+export const addEmptyResource = (resourceTemplateId, errorKey) => (dispatch) => dispatch(newSubject(null, resourceTemplateId, {}, errorKey))
   .then((subject) => dispatch(newPropertiesFromTemplates(subject, false, errorKey))
     .then((properties) => {
       subject.properties = properties
@@ -37,8 +37,8 @@ export const addEmptyResource = (resourceTemplateId, errorKey) => (dispatch) => 
       return subject
     }))
 
-const recursiveResourceFromDataset = (subjectTerm, uri, resourceTemplateId, resourceKey, resourceTemplatePromises, dataset,
-  usedDataset, errorKey) => (dispatch) => dispatch(newSubject(uri, resourceTemplateId, resourceKey, resourceTemplatePromises, errorKey))
+const recursiveResourceFromDataset = (subjectTerm, uri, resourceTemplateId, resourceTemplatePromises, dataset,
+  usedDataset, errorKey) => (dispatch) => dispatch(newSubject(uri, resourceTemplateId, resourceTemplatePromises, errorKey))
   .then((subject) => dispatch(newPropertiesFromTemplates(subject, true, errorKey))
     .then((properties) => Promise.all(
       properties.map((property) => dispatch(newValuesFromDataset(subjectTerm, property, resourceTemplatePromises, dataset, usedDataset, errorKey))
@@ -53,7 +53,7 @@ const recursiveResourceFromDataset = (subjectTerm, uri, resourceTemplateId, reso
         return subject
       })))
 
-export const newSubject = (uri, resourceTemplateId, resourceKey, resourceTemplatePromises, errorKey) => (dispatch) => {
+export const newSubject = (uri, resourceTemplateId, resourceTemplatePromises, errorKey) => (dispatch) => {
   const key = shortid.generate()
   return dispatch(loadResourceTemplate(resourceTemplateId, resourceTemplatePromises, errorKey))
     .then((subjectTemplate) => {
@@ -69,7 +69,6 @@ export const newSubject = (uri, resourceTemplateId, resourceKey, resourceTemplat
         key,
         uri: _.isEmpty(uri) ? null : uri,
         subjectTemplate,
-        resourceKey: resourceKey || key,
         properties: [],
       }
     })
@@ -150,8 +149,7 @@ const newNestedResourceFromObject = (obj, property, resourceTemplatePromises, da
       usedDataset.addAll(typeQuads)
 
       // One resource template
-      return dispatch(recursiveResourceFromDataset(obj, null, compactChildRtIds[0],
-        property.resourceKey, resourceTemplatePromises, dataset, usedDataset, errorKey))
+      return dispatch(recursiveResourceFromDataset(obj, null, compactChildRtIds[0], resourceTemplatePromises, dataset, usedDataset, errorKey))
         .then((subject) => newValueSubject(property, subject))
     })
 }
@@ -180,7 +178,6 @@ const newProperty = (subject, propertyTemplate, noDefaults, errorKey) => (dispat
   const property = {
     key,
     subject,
-    resourceKey: subject.resourceKey,
     propertyTemplate,
     values: null,
     show: false,
@@ -215,7 +212,7 @@ export function defaultValuesFor(property) {
 const valuesForExpandedProperty = (property, noDefaults, errorKey) => (dispatch) => {
   if (property.propertyTemplate.type === 'resource') {
     return Promise.all(property.propertyTemplate.valueSubjectTemplateKeys.map((resourceTemplateId) => dispatch(newSubject(null,
-      resourceTemplateId, property.resourceKey, {}, errorKey))
+      resourceTemplateId, {}, errorKey))
       .then((subject) => dispatch(newPropertiesFromTemplates(subject, noDefaults, errorKey))
         .then((properties) => {
           subject.properties = properties

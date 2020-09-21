@@ -51,20 +51,20 @@ describe('selectValidationErrors()', () => {
   })
 
   it('returns errors for a property given a subject key', () => {
-    const state = createState({ hasResourceWithLiteral: true, error: ['error 1'] })
+    const state = createState({ hasResourceWithLiteral: true, hasError: true })
     const errors = selectValidationErrors(state, 't9zVwg2zO')
     expect(errors.length).toBe(1)
-    expect(errors[0].message).toEqual('error 1')
+    expect(errors[0].message).toEqual('Required')
     expect(errors[0].propertyKey).toEqual('JQEtq-vmq8')
     expect(errors[0].labelPath).toEqual(['Abbreviated Title', 'Abbreviated Title'])
   })
 
   it('returns errors for a property with a nested resource given a subject key', () => {
-    const state = createState({ hasResourceWithNestedResource: true, error: ['error 2'] })
+    const state = createState({ hasResourceWithNestedResource: true, hasError: true })
     const errors = selectValidationErrors(state, 'ljAblGiBW')
-    expect(errors[0].message).toEqual('error 2')
-    expect(errors[0].propertyKey).toEqual('v1o90QO1Qx')
-    expect(errors[0].labelPath).toEqual(['Uber template1', 'Uber template1, property1'])
+    expect(errors[0].message).toEqual('Required')
+    expect(errors[0].propertyKey).toEqual('7caLbfwwle')
+    expect(errors[0].labelPath).toEqual(['Uber template1', 'Uber template2', 'Uber template2, property1'])
   })
 })
 
@@ -76,19 +76,19 @@ describe('selectCurrentResourceValidationErrors()', () => {
   })
 
   it('returns errors for a given property in state', () => {
-    const state = createState({ hasResourceWithLiteral: true, error: ['error 1'] })
+    const state = createState({ hasResourceWithLiteral: true, hasError: true })
     const errors = selectCurrentResourceValidationErrors(state)
     expect(errors.length).toBe(1)
-    expect(errors[0].message).toEqual('error 1')
+    expect(errors[0].message).toEqual('Required')
     expect(errors[0].propertyKey).toEqual('JQEtq-vmq8')
     expect(errors[0].labelPath).toEqual(['Abbreviated Title', 'Abbreviated Title'])
   })
 
   it('returns errors for a property in state with a nested resource', () => {
-    const state = createState({ hasResourceWithNestedResource: true, error: ['error 2'] })
+    const state = createState({ hasResourceWithNestedResource: true, hasError: true })
     const errors = selectCurrentResourceValidationErrors(state)
-    expect(errors[0].message).toEqual('error 2')
-    expect(errors[0].propertyKey).toEqual('v1o90QO1Qx')
-    expect(errors[0].labelPath).toEqual(['Uber template1', 'Uber template1, property1'])
+    expect(errors[0].message).toEqual('Required')
+    expect(errors[0].propertyKey).toEqual('7caLbfwwle')
+    expect(errors[0].labelPath).toEqual(['Uber template1', 'Uber template2', 'Uber template2, property1'])
   })
 })

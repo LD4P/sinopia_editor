@@ -1031,51 +1031,6 @@
     ]
   },
   {
-    "@id": "_:b8",
-    "@type": [
-      "http://sinopia.io/vocabulary/PropertyTemplate"
-    ],
-    "http://www.w3.org/2000/01/rdf-schema#label": [
-      {
-        "@value": "Uber template1, property3"
-      }
-    ],
-    "http://sinopia.io/vocabulary/hasRemark": [
-      {
-        "@value": "Multiple nested, non-repeatable resource templates."
-      }
-    ],
-    "http://sinopia.io/vocabulary/hasPropertyUri": [
-      {
-        "@id": "http://id.loc.gov/ontologies/bibframe/uber/template1/property3"
-      }
-    ],
-    "http://sinopia.io/vocabulary/hasPropertyType": [
-      {
-        "@id": "http://sinopia.io/vocabulary/propertyType/resource"
-      }
-    ],
-    "http://sinopia.io/vocabulary/hasResourceAttributes": [
-      {
-        "@id": "_:b9"
-      }
-    ]
-  },
-  {
-    "@id": "_:b9",
-    "@type": [
-      "http://sinopia.io/vocabulary/ResourcePropertyTemplate"
-    ],
-    "http://sinopia.io/vocabulary/hasResourceTemplateId": [
-      {
-        "@id": "resourceTemplate:testing:uber2"
-      },
-      {
-        "@id": "resourceTemplate:testing:uber3"
-      }
-    ]
-  },
-  {
     "@id": "_:b70",
     "@type": [
       "http://sinopia.io/vocabulary/PropertyTemplate"
@@ -1127,6 +1082,51 @@
       },
       {
         "@value": "Default required literal2"
+      }
+    ]
+  },
+  {
+    "@id": "_:b8",
+    "@type": [
+      "http://sinopia.io/vocabulary/PropertyTemplate"
+    ],
+    "http://www.w3.org/2000/01/rdf-schema#label": [
+      {
+        "@value": "Uber template1, property3"
+      }
+    ],
+    "http://sinopia.io/vocabulary/hasRemark": [
+      {
+        "@value": "Multiple nested, non-repeatable resource templates."
+      }
+    ],
+    "http://sinopia.io/vocabulary/hasPropertyUri": [
+      {
+        "@id": "http://id.loc.gov/ontologies/bibframe/uber/template1/property3"
+      }
+    ],
+    "http://sinopia.io/vocabulary/hasPropertyType": [
+      {
+        "@id": "http://sinopia.io/vocabulary/propertyType/resource"
+      }
+    ],
+    "http://sinopia.io/vocabulary/hasResourceAttributes": [
+      {
+        "@id": "_:b9"
+      }
+    ]
+  },
+  {
+    "@id": "_:b9",
+    "@type": [
+      "http://sinopia.io/vocabulary/ResourcePropertyTemplate"
+    ],
+    "http://sinopia.io/vocabulary/hasResourceTemplateId": [
+      {
+        "@id": "resourceTemplate:testing:uber2"
+      },
+      {
+        "@id": "resourceTemplate:testing:uber3"
       }
     ]
   },
@@ -1244,6 +1244,9 @@
           },
           {
             "@id": "_:b68"
+          },
+          {
+            "@id": "_:b70"
           }
         ]
       }

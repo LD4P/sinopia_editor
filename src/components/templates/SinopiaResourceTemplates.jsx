@@ -61,7 +61,7 @@ const SinopiaResourceTemplates = (props) => {
     event.preventDefault()
     dispatch(newResource(resourceTemplateId, newResourceErrorKey)).then((result) => {
       setNavigateEditor(result)
-      if (!result) window.scrollTo(0, topRef.current.offsetTop)
+      if (!result && topRef.current) window.scrollTo(0, topRef.current.offsetTop)
     })
   }
 

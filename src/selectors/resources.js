@@ -67,7 +67,7 @@ export const selectFullSubject = (state, key) => {
   return newSubject
 }
 
-const selectFullProperty = (state, key, subject) => {
+export const selectFullProperty = (state, key, subject) => {
   const property = selectNormProperty(state, key)
   if (_.isEmpty(property)) return null
 

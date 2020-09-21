@@ -6,8 +6,13 @@
           "property": {
             "key": "v1o90QO1Qx",
             "subjectKey": "ljAblGiBW",
-            "resourceKey": "ljAblGiBW",
             "propertyTemplateKey": "resourceTemplate:testing:uber1 > http://id.loc.gov/ontologies/bibframe/uber/template1/property1",
+            "rootPropertyKey": "v1o90QO1Qx",
+            "rootSubjectKey": "ljAblGiBW",
+            "descUriOrLiteralValueKeys": [
+              "pRJ0lO_mT-"
+            ],
+            "descWithErrorPropertyKeys": [],
             "valueKeys": [
               "VDOeQCnFA8"
             ],
@@ -31,7 +36,6 @@
               "authorities": []
             }
           },
-          "resourceKey": "ljAblGiBW",
           "literal": null,
           "lang": null,
           "uri": null,
@@ -65,11 +69,9 @@
                 }
               ]
             },
-            "resourceKey": "ljAblGiBW",
             "properties": [
               {
                 "key": "abc1",
-                "resourceKey": "ljAblGiBW",
                 "values": null,
                 "show": false
               }

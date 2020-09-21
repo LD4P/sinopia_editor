@@ -10,7 +10,7 @@ import useNavigableComponent from 'hooks/useNavigableComponent'
 
 // AKA a value subject.
 const NestedResource = (props) => {
-  const [navEl, navClickHandler] = useNavigableComponent(props.value.valueSubject.resourceKey, props.value.valueSubject.key)
+  const [navEl, navClickHandler] = useNavigableComponent(props.value.rootSubjectKey, props.value.rootPropertyKey, props.value.valueSubject.key)
 
   // onClick is to support left navigation, so ignoring jsx-ally seems reasonable.
   /* eslint-disable jsx-a11y/click-events-have-key-events */

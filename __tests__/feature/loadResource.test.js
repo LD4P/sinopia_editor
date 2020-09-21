@@ -50,7 +50,7 @@ describe('loading saved resource', () => {
       // Length is the heading and the value.
       expect(screen.getAllByText('Uber template3, property1')).toHaveLength(2)
       expect(screen.getAllByText('Uber template3, property2')).toHaveLength(2)
-      expect(screen.getAllByText('Uber template1, property2')).toHaveLength(2)
+      expect(screen.getAllByText('Uber template1, property2')).toHaveLength(3)
       // Heading appears twice, value once.
       expect(screen.getAllByText('Uber template2, property1')).toHaveLength(3)
 

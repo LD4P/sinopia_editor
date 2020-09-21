@@ -575,15 +575,12 @@
          }
       ]
     },
-    "resourceKey": "abc0",
     "properties": [
       {
         "key": "abc1",
-        "resourceKey": "abc0",
         "values": [
           {
             "key": "abc44",
-            "resourceKey": "abc0",
             "literal": null,
             "lang": null,
             "uri": null,
@@ -639,15 +636,12 @@
                   }
                 ]
               },
-              "resourceKey": "abc0",
               "properties": [
                 {
                   "key": "abc36",
-                  "resourceKey": "abc0",
                   "values": [
                     {
                       "key": "abc40",
-                      "resourceKey": "abc0",
                       "literal": "Uber template3, property1",
                       "lang": "eng",
                       "uri": null,
@@ -659,11 +653,9 @@
                 },
                 {
                   "key": "abc37",
-                  "resourceKey": "abc0",
                   "values": [
                     {
                       "key": "abc41",
-                      "resourceKey": "abc0",
                       "literal": "Uber template3, property2",
                       "lang": "eng",
                       "uri": null,
@@ -678,7 +670,6 @@
           },
           {
             "key": "abc45",
-            "resourceKey": "abc0",
             "literal": null,
             "lang": null,
             "uri": null,
@@ -717,15 +708,12 @@
                   }
                 ]
               },
-              "resourceKey": "abc0",
               "properties": [
                 {
                   "key": "abc38",
-                  "resourceKey": "abc0",
                   "values": [
                     {
                       "key": "abc42",
-                      "resourceKey": "abc0",
                       "literal": "Uber template2, property1",
                       "lang": "eng",
                       "uri": null,
@@ -740,7 +728,6 @@
           },
           {
             "key": "abc46",
-            "resourceKey": "abc0",
             "literal": null,
             "lang": null,
             "uri": null,
@@ -748,15 +735,12 @@
             "valueSubject": {
               "key": "abc35",
               "uri": null,
-              "resourceKey": "abc0",
               "properties": [
                 {
                   "key": "abc39",
-                  "resourceKey": "abc0",
                   "values": [
                     {
                       "key": "abc43",
-                      "resourceKey": "abc0",
                       "literal": "Uber template2, property1b",
                       "lang": "eng",
                       "uri": null,
@@ -774,11 +758,9 @@
       },
       {
         "key": "abc2",
-        "resourceKey": "abc0",
         "values": [
           {
             "key": "abc29",
-            "resourceKey": "abc0",
             "literal": "Uber template1, property2",
             "lang": "eng",
             "uri": null,
@@ -790,17 +772,14 @@
       },
       {
         "key": "abc3",
-        "resourceKey": "abc0",
         "values": null,
         "show": false
       },
       {
         "key": "abc4",
-        "resourceKey": "abc0",
         "values": [
           {
             "key": "abc30",
-            "resourceKey": "abc0",
             "literal": "Uber template1, property4",
             "lang": "eng",
             "uri": null,
@@ -812,11 +791,9 @@
       },
       {
         "key": "abc5",
-        "resourceKey": "abc0",
         "values": [
           {
             "key": "abc31",
-            "resourceKey": "abc0",
             "literal": null,
             "lang": null,
             "uri": "ubertemplate1:property5",
@@ -828,11 +805,9 @@
       },
       {
         "key": "abc6",
-        "resourceKey": "abc0",
         "values": [
           {
             "key": "abc32",
-            "resourceKey": "abc0",
             "literal": null,
             "lang": null,
             "uri": "ubertemplate1:property6",
@@ -844,77 +819,64 @@
       },
       {
         "key": "abc7",
-        "resourceKey": "abc0",
         "values": null,
         "show": false
       },
       {
         "key": "abc8",
-        "resourceKey": "abc0",
         "values": null,
         "show": false
       },
       {
         "key": "abc9",
-        "resourceKey": "abc0",
         "values": [],
         "show": true
       },
       {
         "key": "abc10",
-        "resourceKey": "abc0",
         "values": [],
         "show": true
       },
       {
         "key": "abc11",
-        "resourceKey": "abc0",
         "values": [],
         "show": true
       },
       {
         "key": "abc12",
-        "resourceKey": "abc0",
         "values": [],
         "show": true
       },
       {
         "key": "abc13",
-        "resourceKey": "abc0",
         "values": [],
         "show": true
       },
       {
         "key": "abc14",
-        "resourceKey": "abc0",
         "values": [],
         "show": true
       },
       {
         "key": "abc15",
-        "resourceKey": "abc0",
         "values": [],
         "show": true
       },
       {
         "key": "abc16",
-        "resourceKey": "abc0",
         "values": [],
         "show": true
       },
       {
         "key": "abc17",
-        "resourceKey": "abc0",
         "values": [],
         "show": true
       },
       {
         "key": "abc18",
-        "resourceKey": "abc0",
         "values": [
           {
             "key": "abc28",
-            "resourceKey": "abc0",
             "literal": null,
             "lang": null,
             "uri": null,
@@ -953,11 +915,9 @@
                   }
                 ]
               },
-              "resourceKey": "abc0",
               "properties": [
                 {
                   "key": "abc27",
-                  "resourceKey": "abc0",
                   "values": [],
                   "show": true
                 }
@@ -969,43 +929,36 @@
       },
       {
         "key": "abc20",
-        "resourceKey": "abc0",
         "values": null,
         "show": false
       },
       {
         "key": "abc21",
-        "resourceKey": "abc0",
         "values": null,
         "show": false
       },
       {
         "key": "abc22",
-        "resourceKey": "abc0",
         "values": null,
         "show": false
       },
       {
         "key": "abc23",
-        "resourceKey": "abc0",
         "values": null,
         "show": false
       },
       {
         "key": "abc24",
-        "resourceKey": "abc0",
         "values": null,
         "show": false
       },
       {
         "key": "abc25",
-        "resourceKey": "abc0",
         "values": null,
         "show": false
       },
       {
         "key": "abc26",
-        "resourceKey": "abc0",
         "show": true,
         "values": []
       }

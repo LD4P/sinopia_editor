@@ -20,7 +20,7 @@ const PanelProperty = (props) => {
   const isRequired = props.property.propertyTemplate.required
   const nbsp = '\u00A0'
   const trashIcon = faTrashAlt
-  const [navEl, navClickHandler] = useNavigableComponent(props.resourceKey, props.propertyKey)
+  const [navEl, navClickHandler] = useNavigableComponent(props.resourceKey, props.propertyKey, props.propertyKey)
 
   // onClick is to support left navigation, so ignoring jsx-ally seems reasonable.
   /* eslint-disable jsx-a11y/click-events-have-key-events */
@@ -71,7 +71,7 @@ PanelProperty.propTypes = {
   propertyKey: PropTypes.string.isRequired,
   expandProperty: PropTypes.func,
   contractProperty: PropTypes.func,
-  resourceKey: PropTypes.string,
+  resourceKey: PropTypes.string.isRequired,
 }
 
 const mapStateToProps = (state, ourProps) => ({

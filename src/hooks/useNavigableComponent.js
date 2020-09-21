@@ -3,13 +3,13 @@ import { setCurrentComponent } from 'actions/index'
 import { useDispatch, useSelector } from 'react-redux'
 import { selectCurrentComponentKey } from 'selectors/index'
 
-const useNavigableComponent = (resourceKey, componentKey) => {
+const useNavigableComponent = (rootSubjectKey, rootPropertyKey, componentKey) => {
   const navEl = useRef(null)
-  const currentComponentKey = useSelector((state) => selectCurrentComponentKey(state, resourceKey))
+  const currentComponentKey = useSelector((state) => selectCurrentComponentKey(state, rootSubjectKey))
 
   useEffect(() => {
     if (componentKey === currentComponentKey && !isVisible(navEl.current)) navEl.current.scrollIntoView({ behavior: 'smooth' })
-  }, [componentKey, currentComponentKey, navEl])
+  })
 
   // From  https://blogreact.com/check-element-is-in-viewport/
   const isVisible = (el) => {
@@ -33,7 +33,7 @@ const useNavigableComponent = (resourceKey, componentKey) => {
 
   const dispatch = useDispatch()
   const navClickHandler = (event) => {
-    dispatch(setCurrentComponent(resourceKey, componentKey))
+    dispatch(setCurrentComponent(rootSubjectKey, rootPropertyKey, componentKey))
     event.preventDefault()
     event.stopPropagation()
   }

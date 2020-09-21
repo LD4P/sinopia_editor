@@ -53,22 +53,21 @@ describe('loading new resource', () => {
     expect(screen.getAllByText('Save', { selector: 'button' })[0]).toBeDisabled()
 
     // Only current property's subproperties are expanded in the nav panel
-    expect(screen.queryByText(/Uber template2/, { selector: 'button' })).not.toBeInTheDocument()
-    expect(screen.queryByText(/Uber template3/, { selector: 'button' })).not.toBeInTheDocument()
-    expect(screen.queryByText(/Uber template4/, { selector: 'button' })).not.toBeInTheDocument()
+    expect(screen.queryByText('Uber template2', { selector: '.left-nav-header' })).not.toBeInTheDocument()
+    expect(screen.queryByText('Uber template3', { selector: '.left-nav-header' })).not.toBeInTheDocument()
+    expect(screen.queryByText('Uber template4', { selector: '.left-nav-header' })).not.toBeInTheDocument()
 
     fireEvent.click(screen.getByTestId('Add Uber template1, property1'))
 
-    // NOTE: using findByRole + a high timeout to allow enough time for the nav panel to re-render fully
-    expect(await screen.findByText(/Uber template2/, { selector: 'button' })).toBeInTheDocument()
-    expect(screen.queryByText(/Uber template3/, { selector: 'button' })).toBeInTheDocument()
-    expect(screen.queryByText(/Uber template4/, { selector: 'button' })).not.toBeInTheDocument()
+    expect(await screen.findByText('Uber template2', { selector: '.left-nav-header' })).toBeInTheDocument()
+    expect(screen.queryByText('Uber template3', { selector: '.left-nav-header' })).toBeInTheDocument()
+    expect(screen.queryByText('Uber template4', { selector: '.left-nav-header' })).not.toBeInTheDocument()
 
 
-    fireEvent.click(screen.getByText(/Uber template1, property18/, { selector: 'button h5' }))
+    fireEvent.click(screen.getByText('Uber template1, property18', { selector: '.left-nav-header' }))
 
-    expect(await screen.findByText(/Uber template4$/, { selector: 'button' })).toBeInTheDocument()
-    expect(screen.queryByText(/Uber template2/, { selector: 'button' })).not.toBeInTheDocument()
-    expect(screen.queryByText(/Uber template3/, { selector: 'button' })).not.toBeInTheDocument()
+    expect(await screen.findByText('Uber template4', { selector: '.left-nav-header' })).toBeInTheDocument()
+    expect(screen.queryByText('Uber template2', { selector: '.left-nav-header' })).not.toBeInTheDocument()
+    expect(screen.queryByText('Uber template3', { selector: '.left-nav-header' })).not.toBeInTheDocument()
   }, 15000)
 })
