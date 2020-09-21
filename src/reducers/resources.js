@@ -51,7 +51,7 @@ export const setCurrentResource = (state, action) => {
   const resourceKey = action.payload
   const newState = {
     ...state,
-    currentResource: resourceKey
+    currentResource: resourceKey,
   }
 
   if (state.resources.indexOf(resourceKey) === -1) {

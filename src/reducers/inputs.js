@@ -7,22 +7,28 @@ export const setLiteralInputContent = (state, action) => {
   return newState
 }
 
-export const hideDiacriticsSelection = (state) => {
-  const newState = { ...state }
-  newState.editor.diacritics.show = false
-  newState.editor.diacritics.key = null
-  return newState
-}
+export const hideDiacriticsSelection = (state) => ({
+  ...state,
+  diacritics: {
+    show: false,
+    key: null,
+    cursorOffset: null,
+  },
+})
 
-export const showDiacriticsSelection = (state, action) => {
-  const newState = { ...state }
-  newState.editor.diacritics.show = true
-  newState.editor.diacritics.key = action.payload
-  return newState
-}
+export const showDiacriticsSelection = (state, action) => ({
+  ...state,
+  diacritics: {
+    ...state.diacritics,
+    show: true,
+    key: action.payload,
+  },
+})
 
-export const setCursorPosition = (state, action) => {
-  const newState = { ...state }
-  newState.editor.diacritics.cursorOffset = action.payload
-  return newState
-}
+export const setCursorPosition = (state, action) => ({
+  ...state,
+  diacritics: {
+    ...state.diacritics,
+    cursorOffset: action.payload,
+  },
+})

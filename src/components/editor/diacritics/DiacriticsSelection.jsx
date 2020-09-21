@@ -7,6 +7,7 @@ import shortid from 'shortid'
 import CharacterButton from './CharacterButton'
 import VocabChoice from './VocabChoice'
 import specialcharacters from '../../../../static/specialcharacters.json'
+import { displayDiacritics } from 'selectors/inputs'
 
 // specialcharacters.json imported above is derived from Mediawiki's specialcharacters.json
 // See https://github.com/wikimedia/mediawiki/blob/master/resources/src/mediawiki.language/specialcharacters.json
@@ -14,7 +15,7 @@ import specialcharacters from '../../../../static/specialcharacters.json'
 const DiacriticsSelection = () => {
   const dispatch = useDispatch()
   const [characterButtons, setCharacterButtons] = useState([])
-  const show = useSelector((state) => state.selectorReducer.editor.diacritics.show)
+  const show = useSelector((state) => displayDiacritics(state))
 
   if (!show) return null
 

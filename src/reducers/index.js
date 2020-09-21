@@ -43,18 +43,16 @@ import {
 
 export const setAppVersion = (state, action) => ({ ...state, version: action.payload })
 
-export const setCurrentComponent = (state, action) => {
-  return {
-    ...state,
-    currentComponent: {
-      ...state.currentComponent,
-      [action.payload.rootSubjectKey]: {
-        component: action.payload.key,
-        property: action.payload.rootPropertyKey,
-      }
-    }
-  }
-}
+export const setCurrentComponent = (state, action) => ({
+  ...state,
+  currentComponent: {
+    ...state.currentComponent,
+    [action.payload.rootSubjectKey]: {
+      component: action.payload.key,
+      property: action.payload.rootPropertyKey,
+    },
+  },
+})
 
 const handlers = {
   ADD_TEMPLATE_HISTORY: addTemplateHistory,
@@ -63,7 +61,6 @@ const handlers = {
   CLEAR_TEMPLATE_SEARCH_RESULTS: clearTemplateSearchResults,
   EXPORTS_RECEIVED: exportsReceived,
   FETCHING_LANGUAGES: fetchingLanguages,
-  HIDE_DIACRITICS: hideDiacriticsSelection,
   HIDE_PROPERTY: hideProperty,
   HIDE_VALIDATION_ERRORS: hideValidationErrors,
   LANGUAGE_SELECTED: setLanguage,
@@ -73,14 +70,12 @@ const handlers = {
   SAVE_RESOURCE_FINISHED: saveResourceFinished,
   SET_BASE_URL: setBaseURL,
   SET_LITERAL_CONTENT: setLiteralInputContent,
-  SET_CURSOR_POSITION: setCursorPosition,
   SET_RESOURCE_GROUP: setResourceGroup,
   SET_SEARCH_RESULTS: setSearchResults,
   SET_TEMPLATE_SEARCH_RESULTS: setTemplateSearchResults,
   SET_UNUSED_RDF: setUnusedRDF,
   SET_VALUE_ORDER: setValueOrder,
   SHOW_COPY_NEW_MESSAGE: showCopyNewMessage,
-  SHOW_DIACRITICS: showDiacriticsSelection,
   SHOW_PROPERTY: showProperty,
   SHOW_VALIDATION_ERRORS: showValidationErrors,
   ADD_TEMPLATES: addTemplates,
@@ -106,9 +101,12 @@ const editorHandlers = {
   CLEAR_ERRORS: clearErrors,
   CLEAR_MODAL_MESSAGES: clearModalMessages,
   CLEAR_RESOURCE: clearResourceFromEditor,
+  HIDE_DIACRITICS: hideDiacriticsSelection,
   HIDE_MODAL: hideModal,
   SET_CURRENT_COMPONENT: setCurrentComponent,
   SET_CURRENT_RESOURCE: setCurrentResource,
+  SET_CURSOR_POSITION: setCursorPosition,
+  SHOW_DIACRITICS: showDiacriticsSelection,
   SHOW_MODAL: showModal,
 }
 

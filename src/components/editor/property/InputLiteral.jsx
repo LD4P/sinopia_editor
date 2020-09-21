@@ -15,7 +15,7 @@ import { defaultLanguageId } from 'utilities/Utilities'
 import _ from 'lodash'
 import { addValue } from 'actions/resources'
 import { newLiteralValue } from 'utilities/valueFactory'
-import { selectLiteralInputContent } from 'selectors/inputs'
+import { selectLiteralInputContent, displayDiacritics } from 'selectors/inputs'
 
 
 const InputLiteral = (props) => {
@@ -157,7 +157,7 @@ InputLiteral.propTypes = {
 
 const mapStateToProps = (state, ownProps) => ({
   displayValidations: displayResourceValidations(state),
-  shouldShowDiacritic: state.selectorReducer.editor.diacritics.show,
+  shouldShowDiacritic: displayDiacritics(state),
   content: selectLiteralInputContent(state, ownProps.property.key) || '',
 })
 

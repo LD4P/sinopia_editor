@@ -23,13 +23,14 @@ export const initialState = {
     },
     resources: [], // Subject keys for open resources
     resourceValidation: {}, // Show validation {<resourceKey>: boolean}
+    diacritics: {
+      show: false,
+      key: null, // Key to link diacritic entry to component
+      cursorOffset: null,
+    },
   },
   selectorReducer: {
     editor: { // The state of the editor
-      diacritics: {
-        show: false,
-        key: undefined, // Key to link diacritic entry to component
-      },
       copyToNewMessage: {},
       lastSave: {}, // {<resourceKey>: date}
       unusedRDF: {}, // {<resourceKey>: rdf}

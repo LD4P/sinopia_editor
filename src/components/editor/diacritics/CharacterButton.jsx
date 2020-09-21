@@ -3,13 +3,14 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import { useSelector, useDispatch } from 'react-redux'
-import { selectLiteralInputContent } from 'selectors/inputs'
+import { selectLiteralInputContent, selectDiacriticsCursorOffset, selectDiacriticsKey } from 'selectors/inputs'
 import { setLiteralContent, updateCursorPosition } from 'actions/inputs'
+
 
 const CharacterButton = (props) => {
   const dispatch = useDispatch()
-  const targetPropertyKey = useSelector((state) => state.selectorReducer.editor.diacritics.key)
-  const cursorOffset = useSelector((state) => state.selectorReducer.editor.diacritics.cursorOffset)
+  const targetPropertyKey = useSelector((state) => selectDiacriticsKey(state))
+  const cursorOffset = useSelector((state) => selectDiacriticsCursorOffset(state))
   const content = useSelector((state) => selectLiteralInputContent(state, targetPropertyKey)) || ''
 
   const cleanCharacter = () => {
