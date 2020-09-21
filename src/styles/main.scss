@@ -18,7 +18,8 @@ $prop-heading-bg: #B26F16;
 $prop-heading-color: white;
 $prop-panel-bg: #F7F4F1;
 
-$lookup-value-bg: #E8E2DC;
+$lookup-value-bg: #D7CEC4;
+$lookup-value-border: #979797;
 
 @import "~bootstrap/scss/bootstrap";
 @import url('https://fonts.googleapis.com/css2?family=Source+Sans+Pro&display=swap');
@@ -391,12 +392,19 @@ a.list-group-item {
   background-color: $lookup-value-bg;
   font-weight: bold;
   float: left;
-  line-height: 1.5em;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-right: 10px;
 }
 
-.lookup-value span {
-  margin: 5px;
-  padding-left: 5px;
-  padding-right: 5px;
-  border-right: 1px solid black;
+.lookup-value span, a.span {
+  padding: 5px 12px 5px 12px;
+  border-right: 1px solid $lookup-value-border;
+}
+
+.lookup-value button {
+  border: none;
+  padding: 5px 12px 5px 12px;
+  background-color: $lookup-value-bg;
 }

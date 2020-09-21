@@ -11,12 +11,12 @@ import { displayResourceValidations } from 'selectors/errors'
 import _ from 'lodash'
 import { renderMenuFunc, renderTokenFunc, itemsForProperty } from './renderTypeaheadFunctions'
 import { newUriValue, newLiteralValue } from 'utilities/valueFactory'
-import { addProperty } from 'actions/resources'
+import { addProperty, removeValue } from 'actions/resources'
 import { hideModal, showModal } from 'actions/modals'
 import { bindActionCreators } from 'redux'
 import ModalWrapper from 'components/ModalWrapper'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faGlobe } from '@fortawesome/free-solid-svg-icons'
+import { faGlobe, faSearch, faTrashAlt } from '@fortawesome/free-solid-svg-icons'
 
 const AsyncTypeahead = asyncContainer(Typeahead)
 
@@ -179,6 +179,9 @@ const InputLookupModal = (props) => {
       <a href={lookupValue.uri}>
         <span aria-hidden="true"><FontAwesomeIcon className="globe-icon" icon={faGlobe} /></span>
       </a>
+      <button onClick={() => props.removeValue(props.valueKey)}>
+        <FontAwesomeIcon className="trash-icon" icon={faTrashAlt} />
+      </button>
     </div>
   ))
 
@@ -226,7 +229,7 @@ const InputLookupModal = (props) => {
         onClick={ handleClick }
         aria-label={'Lookups'}
         className="btn btn-sm btn-secondary btn-literal">
-        +
+        <FontAwesomeIcon className="search-icon" icon={faSearch} />
       </button>
       { lookupSelection }
       <ModalWrapper modal={modal} />
