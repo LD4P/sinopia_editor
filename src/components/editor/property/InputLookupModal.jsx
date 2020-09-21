@@ -246,7 +246,6 @@ InputLookupModal.propTypes = {
   textValue: PropTypes.string,
   lookupValues: PropTypes.array,
   removeValue: PropTypes.func,
-  valueKey: PropTypes.string.isRequired,
 }
 
 const mapStateToProps = (state, ownProps) => {
