@@ -400,10 +400,7 @@ describe('saveNewResource', () => {
     expect(actions).toHaveAction('SAVE_RESOURCE_FINISHED')
 
     const saveResourceFinishedAction = actions.find((action) => action.type === 'SAVE_RESOURCE_FINISHED')
-    expect(safeAction(saveResourceFinishedAction)).toEqual({
-      type: 'SAVE_RESOURCE_FINISHED',
-      payload: 't9zVwg2zO',
-    })
+    expect(saveResourceFinishedAction.payload.resourceKey).toEqual('t9zVwg2zO')
   })
 
   it('error when saving a new resource', async () => {

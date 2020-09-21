@@ -6,8 +6,8 @@ import {
 import { createReducer } from 'reducers/index'
 
 const handlers = {
-  HIDE_DIACRITICS: hideDiacriticsSelection,
   SET_LITERAL_CONTENT: setLiteralInputContent,
+  HIDE_DIACRITICS: hideDiacriticsSelection,
   SHOW_DIACRITICS: showDiacriticsSelection,
 }
 
@@ -16,9 +16,7 @@ const reducer = createReducer(handlers)
 describe('setLiteralInputContent()', () => {
   it('sets a literal value', () => {
     const oldState = {
-      editor: {
-        content: {},
-      },
+      content: {},
     }
 
     const action = {
@@ -30,7 +28,7 @@ describe('setLiteralInputContent()', () => {
     }
 
     const newState = reducer(oldState, action)
-    expect(newState.editor.content).toStrictEqual({
+    expect(newState.content).toStrictEqual({
       '345adfe': 'A good thing',
     })
   })
@@ -39,11 +37,9 @@ describe('setLiteralInputContent()', () => {
 describe('hideDiacriticsSelection()', () => {
   it('hides the diacritic component', () => {
     const oldState = {
-      editor: {
-        diacritics: {
-          show: true,
-          key: '3456abc',
-        },
+      diacritics: {
+        show: true,
+        key: '3456abc',
       },
     }
 
@@ -52,19 +48,17 @@ describe('hideDiacriticsSelection()', () => {
     }
 
     const newState = reducer(oldState, action)
-    expect(newState.editor.diacritics.show).toBeFalsy()
-    expect(newState.editor.diacritics.key).toBe(null)
+    expect(newState.diacritics.show).toBeFalsy()
+    expect(newState.diacritics.key).toBe(null)
   })
 })
 
 describe('showDiacriticsSelection()', () => {
   it('shows diacritic component', () => {
     const oldState = {
-      editor: {
-        diacritics: {
-          show: false,
-          key: null,
-        },
+      diacritics: {
+        show: false,
+        key: null,
       },
     }
 
@@ -74,7 +68,7 @@ describe('showDiacriticsSelection()', () => {
     }
 
     const newState = reducer(oldState, action)
-    expect(newState.editor.diacritics).toStrictEqual({
+    expect(newState.diacritics).toStrictEqual({
       show: true,
       key: 'efq3450',
     })

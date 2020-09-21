@@ -9,32 +9,34 @@ export const initialState = {
   authenticate: {
     user: undefined,
   },
+  app: {
+    version: undefined,
+    lastChecked: Date.now(),
+  },
+  editor: { // The state of the editor
+    content: {}, // State for content for input components. Allows communication between components, e.g, entering diacritics.
+    copyToNewMessage: {
+      oldUri: null,
+      timestamp: null,
+    },
+    currentResource: undefined,
+    currentComponent: {},
+    diacritics: {
+      show: false,
+      key: null, // Key to link diacritic entry to component
+      cursorOffset: null,
+    },
+    errors: {}, // {<error key>: [errors...]} or {<error key>: {<resourceKey>: [errors...]}}
+    lastSave: {}, // {<resourceKey>: date}
+    modal: {
+      name: undefined, // Name of modal to show. Should only be one at a time.
+      messages: [],
+    },
+    resources: [], // Subject keys for open resources
+    resourceValidation: {}, // Show validation {<resourceKey>: boolean}
+    unusedRDF: {}, // {<resourceKey>: rdf}
+  },
   selectorReducer: {
-    appVersion: {
-      version: undefined,
-      lastChecked: Date.now(),
-    },
-    editor: { // The state of the editor
-      currentResource: undefined,
-      currentComponent: {},
-      resources: [], // Subject keys for open resources
-      diacritics: {
-        show: false,
-        key: undefined, // Key to link diacritic entry to component
-      },
-      resourceValidation: {
-        show: {}, // {<resourceKey>: boolean}
-      },
-      modal: {
-        name: undefined, // Name of modal to show. Should only be one at a time.
-        messages: [],
-      },
-      copyToNewMessage: {},
-      errors: {}, // {<error key>: [errors...]} or {<error key>: {<resourceKey>: [errors...]}}
-      lastSave: {}, // {<resourceKey>: date}
-      unusedRDF: {}, // {<resourceKey>: rdf}
-      content: {}, // State for content for input components. Allows communication between components, e.g, entering diacritics.
-    },
     entities: { // The stuff we've retrieved from the server
       languages: { loading: false, options: [] },
       lookups: {},

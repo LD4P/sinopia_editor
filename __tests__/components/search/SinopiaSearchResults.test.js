@@ -81,7 +81,7 @@ describe('<SinopiaSearchResults />', () => {
     }]
     state.selectorReducer.search.totalResults = 1
     state.selectorReducer.search.query = 'twain'
-    state.selectorReducer.editor.errors.searchresource = ['Ooops']
+    state.editor.errors.searchresource = ['Ooops']
 
     const store = createStore(state)
     renderComponent(<SinopiaSearchResults />, store)

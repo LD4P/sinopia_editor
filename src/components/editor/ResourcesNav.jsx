@@ -3,7 +3,7 @@
 import React from 'react'
 import { useSelector, useDispatch } from 'react-redux'
 import CloseButton from './actions/CloseButton'
-import { selectCurrentResourceKey, selectSubject } from 'selectors/resources'
+import { selectCurrentResourceKey, selectSubject, selectResourceKeys } from 'selectors/resources'
 import { setCurrentResource } from 'actions/resources'
 
 const ResourcesNav = () => {
@@ -11,7 +11,7 @@ const ResourcesNav = () => {
 
   const currentResourceKey = useSelector((state) => selectCurrentResourceKey(state))
 
-  const resourceKeys = useSelector((state) => state.selectorReducer.editor.resources)
+  const resourceKeys = useSelector((state) => selectResourceKeys(state))
 
   const navLabels = useSelector((state) => {
     const labels = {}

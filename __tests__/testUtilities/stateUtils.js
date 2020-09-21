@@ -53,11 +53,9 @@ const buildLanguages = (state, options) => {
 const buildResourceWithError = (state, options) => {
   if (!options.hasResourceWithError) return
 
-  state.selectorReducer.editor = {
+  state.editor = {
     resourceValidation: {
-      show: {
-        '3h4Fp8ANu': true,
-      },
+      '3h4Fp8ANu': true,
     },
     errors: {
       '3h4Fp8ANu': ['error 1', 'error 2'],
@@ -72,7 +70,8 @@ const buildResourceWithError = (state, options) => {
 const buildResourceWithLiteral = (state, options) => {
   if (!options.hasResourceWithLiteral) return
 
-  state.selectorReducer.editor.currentResource = 't9zVwg2zO'
+  state.editor.currentResource = 't9zVwg2zO'
+  state.editor.resources = ['t9zVwg2zO']
   state.selectorReducer.entities.subjectTemplates = {
     'ld4p:RT:bf2:Title:AbbrTitle': {
       key: 'ld4p:RT:bf2:Title:AbbrTitle',
@@ -156,7 +155,8 @@ const buildResourceWithLiteral = (state, options) => {
 const buildTwoLiteralResources = (state, options) => {
   if (!options.hasTwoLiteralResources) return
 
-  state.selectorReducer.editor.currentResource = 't9zVwg2zO'
+  state.editor.currentResource = 't9zVwg2zO'
+  state.editor.resources = ['t9zVwg2zO', 'u0aWxh3a1']
   state.selectorReducer.entities.subjectTemplates = {
     'ld4p:RT:bf2:Title:AbbrTitle': {
       key: 'ld4p:RT:bf2:Title:AbbrTitle',
@@ -293,13 +293,13 @@ const buildTwoLiteralResources = (state, options) => {
       valueSubjectKey: null,
     },
   }
-  state.selectorReducer.editor.resources = ['t9zVwg2zO', 'u0aWxh3a1']
 }
 
 const buildResourceWithUri = (state, options) => {
   if (!options.hasResourceWithUri) return
 
-  state.selectorReducer.editor.currentResource = 'wihOjn-0Z'
+  state.editor.currentResource = 'wihOjn-0Z'
+  state.editor.resources = ['wihOjn-0Z']
   state.selectorReducer.entities.subjectTemplates = {
     'test:resource:SinopiaLookup': {
       key: 'test:resource:SinopiaLookup',
@@ -400,7 +400,8 @@ const buildResourceWithUri = (state, options) => {
 const buildResourceWithContractedLiteral = (state, options) => {
   if (!options.hasResourceWithContractedLiteral) return
 
-  state.selectorReducer.editor.currentResource = 't9zVwg2zO'
+  state.editor.currentResource = 't9zVwg2zO'
+  state.editor.resources = ['t9zVwg2zO']
   state.selectorReducer.entities.subjectTemplates = {
     'ld4p:RT:bf2:Title:AbbrTitle': {
       key: 'ld4p:RT:bf2:Title:AbbrTitle',
@@ -470,7 +471,8 @@ const buildResourceWithContractedLiteral = (state, options) => {
 const buildResourceWithNestedResource = (state, options) => {
   if (!options.hasResourceWithNestedResource) return
 
-  state.selectorReducer.editor.currentResource = 'ljAblGiBW'
+  state.editor.currentResource = 'ljAblGiBW'
+  state.editor.resources = ['ljAblGiBW']
   state.selectorReducer.entities.subjectTemplates = {
     'resourceTemplate:testing:uber1': {
       key: 'resourceTemplate:testing:uber1',
@@ -619,7 +621,8 @@ const buildResourceWithNestedResource = (state, options) => {
 const buildResourceWithContractedNestedResource = (state, options) => {
   if (!options.hasResourceWithContractedNestedResource) return
 
-  state.selectorReducer.editor.currentResource = 'ljAblGiBW'
+  state.editor.currentResource = 'ljAblGiBW'
+  state.editor.resources = ['ljAblGiBW']
   state.selectorReducer.entities.subjectTemplates = {
     'resourceTemplate:testing:uber1': {
       key: 'resourceTemplate:testing:uber1',
@@ -728,7 +731,8 @@ const buildLookups = (state, options) => {
 const buildResourceWithTwoNestedResources = (state, options) => {
   if (!options.hasResourceWithTwoNestedResources) return
 
-  state.selectorReducer.editor.currentResource = 'ljAblGiBW'
+  state.editor.currentResource = 'ljAblGiBW'
+  state.editor.resources = ['ljAblGiBW']
   state.selectorReducer.entities.subjectTemplates = {
     'resourceTemplate:testing:uber1': {
       key: 'resourceTemplate:testing:uber1',

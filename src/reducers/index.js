@@ -15,6 +15,7 @@ import {
   removeSubject, clearResource,
   saveResourceFinished, loadResourceFinished,
   setResourceGroup, setValueOrder,
+  clearResourceFromEditor, saveResourceFinishedEditor,
 } from './resources'
 import {
   setLanguage, fetchingLanguages, languagesReceived,
@@ -24,7 +25,6 @@ import {
   showValidationErrors,
 } from './errors'
 import {
-  showGroupChooser,
   showModal, hideModal, addModalMessage, clearModalMessages,
 } from './modals'
 import { showCopyNewMessage } from './messages'
@@ -41,60 +41,39 @@ import {
   lookupOptionsRetrieved,
 } from './lookups'
 
-export const setAppVersion = (state, action) => {
-  const newState = { ...state }
+export const setAppVersion = (state, action) => ({ ...state, version: action.payload })
 
-  newState.appVersion.version = action.payload
-  return newState
-}
-
-export const setCurrentComponent = (state, action) => {
-  const newState = { ...state }
-
-  newState.editor.currentComponent[action.payload.rootSubjectKey] = {
-    component: action.payload.key,
-    property: action.payload.rootPropertyKey,
-  }
-  return newState
-}
+export const setCurrentComponent = (state, action) => ({
+  ...state,
+  currentComponent: {
+    ...state.currentComponent,
+    [action.payload.rootSubjectKey]: {
+      component: action.payload.key,
+      property: action.payload.rootPropertyKey,
+    },
+  },
+})
 
 const handlers = {
-  ADD_MODAL_MESSAGE: addModalMessage,
   ADD_TEMPLATE_HISTORY: addTemplateHistory,
-  ADD_ERROR: addError,
-  CLEAR_ERRORS: clearErrors,
-  CLEAR_MODAL_MESSAGES: clearModalMessages,
   CLEAR_RESOURCE: clearResource,
   CLEAR_SEARCH_RESULTS: clearSearchResults,
   CLEAR_TEMPLATE_SEARCH_RESULTS: clearTemplateSearchResults,
   EXPORTS_RECEIVED: exportsReceived,
   FETCHING_LANGUAGES: fetchingLanguages,
-  HIDE_DIACRITICS: hideDiacriticsSelection,
   HIDE_PROPERTY: hideProperty,
-  HIDE_MODAL: hideModal,
   HIDE_VALIDATION_ERRORS: hideValidationErrors,
   LANGUAGE_SELECTED: setLanguage,
   LANGUAGES_RECEIVED: languagesReceived,
   LOAD_RESOURCE_FINISHED: loadResourceFinished,
   LOOKUP_OPTIONS_RETRIEVED: lookupOptionsRetrieved,
   SAVE_RESOURCE_FINISHED: saveResourceFinished,
-  SET_APP_VERSION: setAppVersion,
   SET_BASE_URL: setBaseURL,
-  SET_LITERAL_CONTENT: setLiteralInputContent,
-  SET_CURRENT_COMPONENT: setCurrentComponent,
-  SET_CURRENT_RESOURCE: setCurrentResource,
-  SET_CURSOR_POSITION: setCursorPosition,
   SET_RESOURCE_GROUP: setResourceGroup,
   SET_SEARCH_RESULTS: setSearchResults,
   SET_TEMPLATE_SEARCH_RESULTS: setTemplateSearchResults,
-  SET_UNUSED_RDF: setUnusedRDF,
   SET_VALUE_ORDER: setValueOrder,
-  SHOW_COPY_NEW_MESSAGE: showCopyNewMessage,
-  SHOW_DIACRITICS: showDiacriticsSelection,
-  SHOW_GROUP_CHOOSER: showGroupChooser,
-  SHOW_MODAL: showModal,
   SHOW_PROPERTY: showProperty,
-  SHOW_VALIDATION_ERRORS: showValidationErrors,
   ADD_TEMPLATES: addTemplates,
   ADD_SUBJECT: addSubject,
   ADD_PROPERTY: addProperty,
@@ -108,6 +87,30 @@ const authHandlers = {
   REMOVE_USER: removeUser,
 }
 
+const appHandlers = {
+  SET_APP_VERSION: setAppVersion,
+}
+
+const editorHandlers = {
+  ADD_ERROR: addError,
+  ADD_MODAL_MESSAGE: addModalMessage,
+  CLEAR_ERRORS: clearErrors,
+  CLEAR_MODAL_MESSAGES: clearModalMessages,
+  CLEAR_RESOURCE: clearResourceFromEditor,
+  HIDE_DIACRITICS: hideDiacriticsSelection,
+  HIDE_MODAL: hideModal,
+  SAVE_RESOURCE_FINISHED: saveResourceFinishedEditor,
+  SET_CURRENT_COMPONENT: setCurrentComponent,
+  SET_CURRENT_RESOURCE: setCurrentResource,
+  SET_CURSOR_POSITION: setCursorPosition,
+  SET_LITERAL_CONTENT: setLiteralInputContent,
+  SET_UNUSED_RDF: setUnusedRDF,
+  SHOW_COPY_NEW_MESSAGE: showCopyNewMessage,
+  SHOW_DIACRITICS: showDiacriticsSelection,
+  SHOW_MODAL: showModal,
+  SHOW_VALIDATION_ERRORS: showValidationErrors,
+}
+
 export const createReducer = (handlers) => (state = {}, action) => {
   const fn = handlers[action.type]
   return fn ? fn(state, action) : state
@@ -115,6 +118,8 @@ export const createReducer = (handlers) => (state = {}, action) => {
 
 const appReducer = combineReducers({
   authenticate: createReducer(authHandlers),
+  app: createReducer(appHandlers),
+  editor: createReducer(editorHandlers),
   selectorReducer: createReducer(handlers),
 })
 

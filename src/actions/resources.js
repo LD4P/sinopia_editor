@@ -15,7 +15,10 @@ export const setBaseURL = (resourceKey, resourceURI) => ({
 
 export const saveResourceFinished = (resourceKey) => ({
   type: 'SAVE_RESOURCE_FINISHED',
-  payload: resourceKey,
+  payload: {
+    resourceKey,
+    timestamp: Date.now(),
+  },
 })
 
 export const setCurrentResource = (resourceKey) => ({

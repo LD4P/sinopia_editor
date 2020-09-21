@@ -32,28 +32,38 @@ export const loadResourceFinished = (state, action) => {
   return newState
 }
 
+export const saveResourceFinishedEditor = (state, action) => ({
+  ...state,
+  lastSave: {
+    ...state.lastSave,
+    [action.payload.resourceKey]: action.payload.timestamp,
+  },
+})
+
 export const saveResourceFinished = (state, action) => {
   const newState = { ...state }
-  newState.editor.lastSave[action.payload] = Date.now()
-  newState.entities.subjects[action.payload].changed = false
+  newState.entities.subjects[action.payload.resourceKey].changed = false
 
   return newState
 }
 
-export const setUnusedRDF = (state, action) => {
-  const newState = { ...state }
-  newState.editor.unusedRDF[action.payload.resourceKey] = action.payload.rdf
-
-  return newState
-}
+export const setUnusedRDF = (state, action) => ({
+  ...state,
+  unusedRDF: {
+    ...state.unusedRDF,
+    [action.payload.resourceKey]: action.payload.rdf,
+  },
+})
 
 export const setCurrentResource = (state, action) => {
-  const newState = { ...state }
-
   const resourceKey = action.payload
-  newState.editor.currentResource = resourceKey
-  if (newState.editor.resources.indexOf(resourceKey) === -1) {
-    newState.editor.resources = [...newState.editor.resources, resourceKey]
+  const newState = {
+    ...state,
+    currentResource: resourceKey,
+  }
+
+  if (state.resources.indexOf(resourceKey) === -1) {
+    newState.resources = [...state.resources, resourceKey]
   }
   return newState
 }
@@ -378,17 +388,39 @@ const updateErrors = (newState, newProperty) => {
   }
 }
 
+export const clearResourceFromEditor = (state, action) => {
+  const resourceKey = action.payload
+  const newState = {
+    ...state,
+    errors: {
+      ...state.errors,
+    },
+    lastSave: {
+      ...state.lastSave,
+    },
+    unusedRDF: {
+      ...state.unusedRDF,
+    },
+  }
+
+  const resourceIndex = state.resources.indexOf(resourceKey)
+  newState.resources = [...state.resources.slice(0, resourceIndex), ...state.resources.slice(resourceIndex + 1)]
+
+  if (state.currentResource === resourceKey) {
+    newState.currentResource = _.first(newState.resources)
+  }
+
+  delete newState.errors[resourceEditErrorKey(resourceKey)]
+  delete newState.lastSave[resourceKey]
+  delete newState.unusedRDF[resourceKey]
+
+  return newState
+}
+
 export const clearResource = (state, action) => {
   const newState = { ...state }
   const resourceKey = action.payload
-  newState.editor.resources = newState.editor.resources.filter((checkResourceKey) => checkResourceKey !== resourceKey)
-  if (newState.editor.currentResource === resourceKey) {
-    newState.editor.currentResource = _.first(newState.editor.resources)
-  }
 
-  delete newState.editor.lastSave[resourceKey]
-  delete newState.editor.unusedRDF[resourceKey]
-  delete newState.editor.errors[resourceEditErrorKey(resourceKey)]
   clearSubjectFromNewState(newState, resourceKey)
 
   return newState

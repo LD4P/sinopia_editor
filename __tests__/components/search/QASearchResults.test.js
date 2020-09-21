@@ -102,7 +102,7 @@ describe('<QASearchResults />', () => {
 
   it('renders errors', () => {
     const state = createState()
-    state.selectorReducer.editor.errors.searchqaresource = ['Ooops']
+    state.editor.errors.searchqaresource = ['Ooops']
     state.selectorReducer.search.results = [
       {
         uri: 'http://share-vde.org/sharevde/rdfBibframe/Work/3107365',

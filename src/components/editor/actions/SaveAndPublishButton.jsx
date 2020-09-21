@@ -11,7 +11,7 @@ import {
   displayResourceValidations, selectCurrentResourceValidationErrors,
 } from 'selectors/errors'
 import {
-  showGroupChooser as showGroupChooserAction,
+  showModal as showModalAction,
 } from 'actions/modals'
 import {
   showValidationErrors as showValidationErrorsAction,
@@ -26,7 +26,7 @@ const SaveAndPublishButton = (props) => {
   const isSaved = !!resource.uri
   const saveResource = () => dispatch(saveResourceAction(resource.key, resourceEditErrorKey(resource.key)))
 
-  const showGroupChooser = () => dispatch(showGroupChooserAction(resource.key))
+  const showGroupChooser = () => dispatch(showModalAction('GroupChoiceModal'))
   const showValidationErrors = () => dispatch(showValidationErrorsAction(resource.key))
   const hideValidationErrors = () => dispatch(hideValidationErrorsAction(resource.key))
 
