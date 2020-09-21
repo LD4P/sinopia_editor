@@ -75,7 +75,6 @@ const handlers = {
   SET_TEMPLATE_SEARCH_RESULTS: setTemplateSearchResults,
   SET_UNUSED_RDF: setUnusedRDF,
   SET_VALUE_ORDER: setValueOrder,
-  SHOW_COPY_NEW_MESSAGE: showCopyNewMessage,
   SHOW_PROPERTY: showProperty,
   SHOW_VALIDATION_ERRORS: showValidationErrors,
   ADD_TEMPLATES: addTemplates,
@@ -106,6 +105,7 @@ const editorHandlers = {
   SET_CURRENT_COMPONENT: setCurrentComponent,
   SET_CURRENT_RESOURCE: setCurrentResource,
   SET_CURSOR_POSITION: setCursorPosition,
+  SHOW_COPY_NEW_MESSAGE: showCopyNewMessage,
   SHOW_DIACRITICS: showDiacriticsSelection,
   SHOW_MODAL: showModal,
 }

@@ -14,6 +14,10 @@ export const initialState = {
     lastChecked: Date.now(),
   },
   editor: { // The state of the editor
+    copyToNewMessage: {
+      oldUri: null,
+      timestamp: null,
+    },
     currentResource: undefined,
     currentComponent: {},
     errors: {}, // {<error key>: [errors...]} or {<error key>: {<resourceKey>: [errors...]}}
@@ -31,7 +35,6 @@ export const initialState = {
   },
   selectorReducer: {
     editor: { // The state of the editor
-      copyToNewMessage: {},
       lastSave: {}, // {<resourceKey>: date}
       unusedRDF: {}, // {<resourceKey>: rdf}
       content: {}, // State for content for input components. Allows communication between components, e.g, entering diacritics.
