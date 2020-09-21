@@ -12,7 +12,7 @@ const NewsItem = () => (
       <li><strong>Redesign of Editor tab</strong>: The page where you catalog has a
         new look, inspired by the recent redesign of the Library of Congress BIBFRAME
         Editor. The new navigation bar gives an overview of all fields, lets you
-        quickly find and move to any field, shows which fields you`&apos;`ve filled in, and
+        quickly find and move to any field, shows which fields you&apos;ve filled in, and
         shows missing fields upon save.</li>
       <li><strong>RDF-to-MARC Conversion</strong>: For BIBFRAME Instances linked to
         Works, you can convert a Sinopia description to MARC record, view the results,
