@@ -3,13 +3,11 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import Header from '../Header'
-import CreateResourceMessages from './CreateResourceMessages'
 import TemplateSearch from './TemplateSearch'
 
 const ResourceTemplate = (props) => (
   <section id="resourceTemplate">
     <Header triggerEditorMenu={props.triggerHandleOffsetMenu}/>
-    <CreateResourceMessages />
     <TemplateSearch history={props.history} />
   </section>
 )
