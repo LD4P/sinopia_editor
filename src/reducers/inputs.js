@@ -1,11 +1,11 @@
 // Copyright 2018, 2019 Stanford University see LICENSE for license
-export const setLiteralInputContent = (state, action) => {
-  const newState = { ...state }
-
-  newState.editor.content[action.payload.key] = action.payload.literal
-
-  return newState
-}
+export const setLiteralInputContent = (state, action) => ({
+  ...state,
+  content: {
+    ...state.content,
+    [action.payload.key]: action.payload.literal,
+  },
+})
 
 export const hideDiacriticsSelection = (state) => ({
   ...state,

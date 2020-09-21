@@ -3,11 +3,11 @@
 import React from 'react'
 import { useSelector } from 'react-redux'
 import ExpiringMessage from './ExpiringMessage'
-import { selectCurrentResourceKey } from 'selectors/resources'
+import { selectCurrentResourceKey, selectLastSave } from 'selectors/resources'
 
 const SaveAlert = () => {
   const resourceKey = useSelector((state) => selectCurrentResourceKey(state))
-  const lastSave = useSelector((state) => state.selectorReducer.editor.lastSave[resourceKey])
+  const lastSave = useSelector((state) => selectLastSave(state, resourceKey))
 
   return (
     <ExpiringMessage timestamp={lastSave}>

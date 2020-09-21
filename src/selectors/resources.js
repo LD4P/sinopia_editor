@@ -101,3 +101,5 @@ export const resourceHasChangesSinceLastSave = (state, resourceKey) => {
 }
 
 export const selectResourceKeys = (state) => state.editor.resources
+
+export const selectLastSave = (state, resourceKey) => state.editor.lastSave[resourceKey]

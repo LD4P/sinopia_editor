@@ -621,8 +621,8 @@ const buildResourceWithNestedResource = (state, options) => {
 const buildResourceWithContractedNestedResource = (state, options) => {
   if (!options.hasResourceWithContractedNestedResource) return
 
-  state.selectorReducer.editor.currentResource = 'ljAblGiBW'
-  state.selectorReducer.editor.resources = ['ljAblGiBW']
+  state.editor.currentResource = 'ljAblGiBW'
+  state.editor.resources = ['ljAblGiBW']
   state.selectorReducer.entities.subjectTemplates = {
     'resourceTemplate:testing:uber1': {
       key: 'resourceTemplate:testing:uber1',

@@ -14,31 +14,29 @@ export const initialState = {
     lastChecked: Date.now(),
   },
   editor: { // The state of the editor
+    content: {}, // State for content for input components. Allows communication between components, e.g, entering diacritics.
     copyToNewMessage: {
       oldUri: null,
       timestamp: null,
     },
     currentResource: undefined,
     currentComponent: {},
+    diacritics: {
+      show: false,
+      key: null, // Key to link diacritic entry to component
+      cursorOffset: null,
+    },
     errors: {}, // {<error key>: [errors...]} or {<error key>: {<resourceKey>: [errors...]}}
+    lastSave: {}, // {<resourceKey>: date}
     modal: {
       name: undefined, // Name of modal to show. Should only be one at a time.
       messages: [],
     },
     resources: [], // Subject keys for open resources
     resourceValidation: {}, // Show validation {<resourceKey>: boolean}
-    diacritics: {
-      show: false,
-      key: null, // Key to link diacritic entry to component
-      cursorOffset: null,
-    },
+    unusedRDF: {}, // {<resourceKey>: rdf}
   },
   selectorReducer: {
-    editor: { // The state of the editor
-      lastSave: {}, // {<resourceKey>: date}
-      unusedRDF: {}, // {<resourceKey>: rdf}
-      content: {}, // State for content for input components. Allows communication between components, e.g, entering diacritics.
-    },
     entities: { // The stuff we've retrieved from the server
       languages: { loading: false, options: [] },
       lookups: {},

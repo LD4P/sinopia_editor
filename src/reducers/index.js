@@ -15,7 +15,7 @@ import {
   removeSubject, clearResource,
   saveResourceFinished, loadResourceFinished,
   setResourceGroup, setValueOrder,
-  clearResourceFromEditor,
+  clearResourceFromEditor, saveResourceFinishedEditor,
 } from './resources'
 import {
   setLanguage, fetchingLanguages, languagesReceived,
@@ -69,14 +69,11 @@ const handlers = {
   LOOKUP_OPTIONS_RETRIEVED: lookupOptionsRetrieved,
   SAVE_RESOURCE_FINISHED: saveResourceFinished,
   SET_BASE_URL: setBaseURL,
-  SET_LITERAL_CONTENT: setLiteralInputContent,
   SET_RESOURCE_GROUP: setResourceGroup,
   SET_SEARCH_RESULTS: setSearchResults,
   SET_TEMPLATE_SEARCH_RESULTS: setTemplateSearchResults,
-  SET_UNUSED_RDF: setUnusedRDF,
   SET_VALUE_ORDER: setValueOrder,
   SHOW_PROPERTY: showProperty,
-  SHOW_VALIDATION_ERRORS: showValidationErrors,
   ADD_TEMPLATES: addTemplates,
   ADD_SUBJECT: addSubject,
   ADD_PROPERTY: addProperty,
@@ -102,12 +99,16 @@ const editorHandlers = {
   CLEAR_RESOURCE: clearResourceFromEditor,
   HIDE_DIACRITICS: hideDiacriticsSelection,
   HIDE_MODAL: hideModal,
+  SAVE_RESOURCE_FINISHED: saveResourceFinishedEditor,
   SET_CURRENT_COMPONENT: setCurrentComponent,
   SET_CURRENT_RESOURCE: setCurrentResource,
   SET_CURSOR_POSITION: setCursorPosition,
+  SET_LITERAL_CONTENT: setLiteralInputContent,
+  SET_UNUSED_RDF: setUnusedRDF,
   SHOW_COPY_NEW_MESSAGE: showCopyNewMessage,
   SHOW_DIACRITICS: showDiacriticsSelection,
   SHOW_MODAL: showModal,
+  SHOW_VALIDATION_ERRORS: showValidationErrors,
 }
 
 export const createReducer = (handlers) => (state = {}, action) => {

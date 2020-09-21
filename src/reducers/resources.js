@@ -32,20 +32,28 @@ export const loadResourceFinished = (state, action) => {
   return newState
 }
 
+export const saveResourceFinishedEditor = (state, action) => ({
+  ...state,
+  lastSave: {
+    ...state.lastSave,
+    [action.payload.resourceKey]: action.payload.timestamp,
+  },
+})
+
 export const saveResourceFinished = (state, action) => {
   const newState = { ...state }
-  newState.editor.lastSave[action.payload] = Date.now()
-  newState.entities.subjects[action.payload].changed = false
+  newState.entities.subjects[action.payload.resourceKey].changed = false
 
   return newState
 }
 
-export const setUnusedRDF = (state, action) => {
-  const newState = { ...state }
-  newState.editor.unusedRDF[action.payload.resourceKey] = action.payload.rdf
-
-  return newState
-}
+export const setUnusedRDF = (state, action) => ({
+  ...state,
+  unusedRDF: {
+    ...state.unusedRDF,
+    [action.payload.resourceKey]: action.payload.rdf,
+  },
+})
 
 export const setCurrentResource = (state, action) => {
   const resourceKey = action.payload
@@ -387,6 +395,12 @@ export const clearResourceFromEditor = (state, action) => {
     errors: {
       ...state.errors,
     },
+    lastSave: {
+      ...state.lastSave,
+    },
+    unusedRDF: {
+      ...state.unusedRDF,
+    },
   }
 
   const resourceIndex = state.resources.indexOf(resourceKey)
@@ -397,6 +411,8 @@ export const clearResourceFromEditor = (state, action) => {
   }
 
   delete newState.errors[resourceEditErrorKey(resourceKey)]
+  delete newState.lastSave[resourceKey]
+  delete newState.unusedRDF[resourceKey]
 
   return newState
 }
@@ -404,9 +420,6 @@ export const clearResourceFromEditor = (state, action) => {
 export const clearResource = (state, action) => {
   const newState = { ...state }
   const resourceKey = action.payload
-
-  delete newState.editor.lastSave[resourceKey]
-  delete newState.editor.unusedRDF[resourceKey]
 
   clearSubjectFromNewState(newState, resourceKey)
 
