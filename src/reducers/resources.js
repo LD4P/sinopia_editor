@@ -48,12 +48,14 @@ export const setUnusedRDF = (state, action) => {
 }
 
 export const setCurrentResource = (state, action) => {
-  const newState = { ...state }
-
   const resourceKey = action.payload
-  newState.editor.currentResource = resourceKey
-  if (newState.editor.resources.indexOf(resourceKey) === -1) {
-    newState.editor.resources = [...newState.editor.resources, resourceKey]
+  const newState = {
+    ...state,
+    currentResource: resourceKey
+  }
+
+  if (state.resources.indexOf(resourceKey) === -1) {
+    newState.resources = [...state.resources, resourceKey]
   }
   return newState
 }
@@ -386,17 +388,22 @@ export const clearResourceFromEditor = (state, action) => {
       ...state.errors,
     },
   }
+
+  const resourceIndex = state.resources.indexOf(resourceKey)
+  newState.resources = [...state.resources.slice(0, resourceIndex), ...state.resources.slice(resourceIndex + 1)]
+
+  if (state.currentResource === resourceKey) {
+    newState.currentResource = _.first(newState.resources)
+  }
+
   delete newState.errors[resourceEditErrorKey(resourceKey)]
+
   return newState
 }
 
 export const clearResource = (state, action) => {
   const newState = { ...state }
   const resourceKey = action.payload
-  newState.editor.resources = newState.editor.resources.filter((checkResourceKey) => checkResourceKey !== resourceKey)
-  if (newState.editor.currentResource === resourceKey) {
-    newState.editor.currentResource = _.first(newState.editor.resources)
-  }
 
   delete newState.editor.lastSave[resourceKey]
   delete newState.editor.unusedRDF[resourceKey]

@@ -55,7 +55,7 @@ export const selectNormValue = (state, key) => state.selectorReducer.entities.va
 
 export const selectCurrentResource = (state) => selectSubject(state, selectCurrentResourceKey(state))
 
-export const selectCurrentResourceKey = (state) => state.selectorReducer.editor.currentResource
+export const selectCurrentResourceKey = (state) => state.editor.currentResource
 
 export const selectFullSubject = (state, key) => {
   const subject = selectNormSubject(state, key)
@@ -99,3 +99,5 @@ export const resourceHasChangesSinceLastSave = (state, resourceKey) => {
   const thisResourceKey = resourceKey || selectCurrentResourceKey(state)
   return state.selectorReducer.entities.subjects[thisResourceKey].changed
 }
+
+export const selectResourceKeys = (state) => state.editor.resources

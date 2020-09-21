@@ -3,9 +3,10 @@
 import React from 'react'
 import { useSelector } from 'react-redux'
 import ExpiringMessage from './ExpiringMessage'
+import { selectCurrentResourceKey } from 'selectors/resources'
 
 const SaveAlert = () => {
-  const resourceKey = useSelector((state) => state.selectorReducer.editor.currentResource)
+  const resourceKey = useSelector((state) => selectCurrentResourceKey(state))
   const lastSave = useSelector((state) => state.selectorReducer.editor.lastSave[resourceKey])
 
   return (

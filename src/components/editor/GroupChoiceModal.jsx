@@ -10,6 +10,7 @@ import { resourceEditErrorKey } from './Editor'
 import { selectModalType } from 'selectors/modals'
 import { saveNewResource } from 'actionCreators/resources'
 import ModalWrapper, { useDisplayStyle, useModalCss } from '../ModalWrapper'
+import { selectCurrentResourceKey } from 'selectors/resources'
 
 const GroupChoiceModal = (props) => {
   // The ld4p group is only for templates
@@ -95,7 +96,7 @@ GroupChoiceModal.propTypes = {
 
 const mapStateToProps = (state) => ({
   show: selectModalType(state) === 'GroupChoiceModal',
-  resourceKey: state.selectorReducer.editor.currentResource,
+  resourceKey: selectCurrentResourceKey(state),
 })
 
 const mapDispatchToProps = (dispatch) => bindActionCreators({ saveNewResource, hideModal }, dispatch)

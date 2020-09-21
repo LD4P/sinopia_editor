@@ -22,7 +22,6 @@ const reducers = {
   REMOVE_VALUE: removeValue,
   SAVE_RESOURCE_FINISHED: saveResourceFinished,
   SET_BASE_URL: setBaseURL,
-  SET_CURRENT_RESOURCE: setCurrentResource,
   SET_UNUSED_RDF: setUnusedRDF,
   SET_RESOURCE_GROUP: setResourceGroup,
   SET_VALUE_ORDER: setValueOrder,
@@ -33,10 +32,10 @@ const reducer = createReducer(reducers)
 
 const editorReducers = {
   CLEAR_RESOURCE: clearResourceFromEditor,
+  SET_CURRENT_RESOURCE: setCurrentResource,
 }
 
 const editorReducer = createReducer(editorReducers)
-
 
 describe('addProperty()', () => {
   describe('new property with no values', () => {
@@ -519,7 +518,6 @@ describe('clearResource()', () => {
     }
 
     const newState = reducer(oldState.selectorReducer, action)
-    expect(newState.editor.currentResource).toBe(undefined)
     expect(Object.keys(newState.entities.subjects)).toHaveLength(0)
     expect(Object.keys(newState.entities.properties)).toHaveLength(0)
     expect(Object.keys(newState.entities.values)).toHaveLength(0)
@@ -538,6 +536,8 @@ describe('clearResourceFromEditor()', () => {
 
     const newState = editorReducer(oldState.editor, action)
     expect(newState.errors['resourceedit-t9zVwg2zO']).toBe(undefined)
+    expect(newState.currentResource).toBe(undefined)
+    expect(newState.resources).toStrictEqual([])
   })
 })
 
@@ -695,29 +695,30 @@ describe('setBaseURL()', () => {
 describe('setCurrentResource()', () => {
   it('sets current resource if resource is in editor resources', () => {
     const oldState = createState({ hasResourceWithLiteral: true })
-    oldState.selectorReducer.editor.resources.push('t9zVwg2zO')
+    oldState.editor.currentResource = 'abc123'
 
     const action = {
       type: 'SET_CURRENT_RESOURCE',
       payload: 't9zVwg2zO',
     }
 
-    const newState = reducer(oldState.selectorReducer, action)
-    expect(newState.editor.currentResource).toBe('t9zVwg2zO')
-    expect(newState.editor.resources).toStrictEqual(['t9zVwg2zO'])
+    const newState = editorReducer(oldState.editor, action)
+    expect(newState.currentResource).toBe('t9zVwg2zO')
+    expect(newState.resources).toStrictEqual(['t9zVwg2zO'])
   })
 
   it('sets current resource and adds to editor resources', () => {
     const oldState = createState({ hasResourceWithLiteral: true })
+    oldState.editor.resources = []
 
     const action = {
       type: 'SET_CURRENT_RESOURCE',
       payload: 't9zVwg2zO',
     }
 
-    const newState = reducer(oldState.selectorReducer, action)
-    expect(newState.editor.currentResource).toBe('t9zVwg2zO')
-    expect(newState.editor.resources).toStrictEqual(['t9zVwg2zO'])
+    const newState = editorReducer(oldState.editor, action)
+    expect(newState.currentResource).toBe('t9zVwg2zO')
+    expect(newState.resources).toStrictEqual(['t9zVwg2zO'])
   })
 })
 

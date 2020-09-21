@@ -44,13 +44,16 @@ import {
 export const setAppVersion = (state, action) => ({ ...state, version: action.payload })
 
 export const setCurrentComponent = (state, action) => {
-  const newState = { ...state }
-
-  newState.editor.currentComponent[action.payload.rootSubjectKey] = {
-    component: action.payload.key,
-    property: action.payload.rootPropertyKey,
+  return {
+    ...state,
+    currentComponent: {
+      ...state.currentComponent,
+      [action.payload.rootSubjectKey]: {
+        component: action.payload.key,
+        property: action.payload.rootPropertyKey,
+      }
+    }
   }
-  return newState
 }
 
 const handlers = {
@@ -70,8 +73,6 @@ const handlers = {
   SAVE_RESOURCE_FINISHED: saveResourceFinished,
   SET_BASE_URL: setBaseURL,
   SET_LITERAL_CONTENT: setLiteralInputContent,
-  SET_CURRENT_COMPONENT: setCurrentComponent,
-  SET_CURRENT_RESOURCE: setCurrentResource,
   SET_CURSOR_POSITION: setCursorPosition,
   SET_RESOURCE_GROUP: setResourceGroup,
   SET_SEARCH_RESULTS: setSearchResults,
@@ -106,6 +107,8 @@ const editorHandlers = {
   CLEAR_MODAL_MESSAGES: clearModalMessages,
   CLEAR_RESOURCE: clearResourceFromEditor,
   HIDE_MODAL: hideModal,
+  SET_CURRENT_COMPONENT: setCurrentComponent,
+  SET_CURRENT_RESOURCE: setCurrentResource,
   SHOW_MODAL: showModal,
 }
 
