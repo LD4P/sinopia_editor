@@ -13,6 +13,14 @@ export const initialState = {
     version: undefined,
     lastChecked: Date.now(),
   },
+  editor: { // The state of the editor
+    errors: {}, // {<error key>: [errors...]} or {<error key>: {<resourceKey>: [errors...]}}
+    modal: {
+      name: undefined, // Name of modal to show. Should only be one at a time.
+      messages: [],
+    },
+    resourceValidation: {}, // Show validation {<resourceKey>: boolean}
+  },
   selectorReducer: {
     editor: { // The state of the editor
       currentResource: undefined,
@@ -22,15 +30,7 @@ export const initialState = {
         show: false,
         key: undefined, // Key to link diacritic entry to component
       },
-      resourceValidation: {
-        show: {}, // {<resourceKey>: boolean}
-      },
-      modal: {
-        name: undefined, // Name of modal to show. Should only be one at a time.
-        messages: [],
-      },
       copyToNewMessage: {},
-      errors: {}, // {<error key>: [errors...]} or {<error key>: {<resourceKey>: [errors...]}}
       lastSave: {}, // {<resourceKey>: date}
       unusedRDF: {}, // {<resourceKey>: rdf}
       content: {}, // State for content for input components. Allows communication between components, e.g, entering diacritics.

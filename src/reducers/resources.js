@@ -378,6 +378,18 @@ const updateErrors = (newState, newProperty) => {
   }
 }
 
+export const clearResourceFromEditor = (state, action) => {
+  const resourceKey = action.payload
+  const newState = {
+    ...state,
+    errors: {
+      ...state.errors,
+    },
+  }
+  delete newState.errors[resourceEditErrorKey(resourceKey)]
+  return newState
+}
+
 export const clearResource = (state, action) => {
   const newState = { ...state }
   const resourceKey = action.payload
@@ -388,7 +400,7 @@ export const clearResource = (state, action) => {
 
   delete newState.editor.lastSave[resourceKey]
   delete newState.editor.unusedRDF[resourceKey]
-  delete newState.editor.errors[resourceEditErrorKey(resourceKey)]
+
   clearSubjectFromNewState(newState, resourceKey)
 
   return newState

@@ -15,6 +15,7 @@ import {
   removeSubject, clearResource,
   saveResourceFinished, loadResourceFinished,
   setResourceGroup, setValueOrder,
+  clearResourceFromEditor,
 } from './resources'
 import {
   setLanguage, fetchingLanguages, languagesReceived,
@@ -24,7 +25,6 @@ import {
   showValidationErrors,
 } from './errors'
 import {
-  showGroupChooser,
   showModal, hideModal, addModalMessage, clearModalMessages,
 } from './modals'
 import { showCopyNewMessage } from './messages'
@@ -41,9 +41,7 @@ import {
   lookupOptionsRetrieved,
 } from './lookups'
 
-export const setAppVersion = (state, action) => {
-  return { ...state, version: action.payload }
-}
+export const setAppVersion = (state, action) => ({ ...state, version: action.payload })
 
 export const setCurrentComponent = (state, action) => {
   const newState = { ...state }
@@ -56,11 +54,7 @@ export const setCurrentComponent = (state, action) => {
 }
 
 const handlers = {
-  ADD_MODAL_MESSAGE: addModalMessage,
   ADD_TEMPLATE_HISTORY: addTemplateHistory,
-  ADD_ERROR: addError,
-  CLEAR_ERRORS: clearErrors,
-  CLEAR_MODAL_MESSAGES: clearModalMessages,
   CLEAR_RESOURCE: clearResource,
   CLEAR_SEARCH_RESULTS: clearSearchResults,
   CLEAR_TEMPLATE_SEARCH_RESULTS: clearTemplateSearchResults,
@@ -68,7 +62,6 @@ const handlers = {
   FETCHING_LANGUAGES: fetchingLanguages,
   HIDE_DIACRITICS: hideDiacriticsSelection,
   HIDE_PROPERTY: hideProperty,
-  HIDE_MODAL: hideModal,
   HIDE_VALIDATION_ERRORS: hideValidationErrors,
   LANGUAGE_SELECTED: setLanguage,
   LANGUAGES_RECEIVED: languagesReceived,
@@ -87,8 +80,6 @@ const handlers = {
   SET_VALUE_ORDER: setValueOrder,
   SHOW_COPY_NEW_MESSAGE: showCopyNewMessage,
   SHOW_DIACRITICS: showDiacriticsSelection,
-  SHOW_GROUP_CHOOSER: showGroupChooser,
-  SHOW_MODAL: showModal,
   SHOW_PROPERTY: showProperty,
   SHOW_VALIDATION_ERRORS: showValidationErrors,
   ADD_TEMPLATES: addTemplates,
@@ -108,6 +99,16 @@ const appHandlers = {
   SET_APP_VERSION: setAppVersion,
 }
 
+const editorHandlers = {
+  ADD_ERROR: addError,
+  ADD_MODAL_MESSAGE: addModalMessage,
+  CLEAR_ERRORS: clearErrors,
+  CLEAR_MODAL_MESSAGES: clearModalMessages,
+  CLEAR_RESOURCE: clearResourceFromEditor,
+  HIDE_MODAL: hideModal,
+  SHOW_MODAL: showModal,
+}
+
 export const createReducer = (handlers) => (state = {}, action) => {
   const fn = handlers[action.type]
   return fn ? fn(state, action) : state
@@ -116,6 +117,7 @@ export const createReducer = (handlers) => (state = {}, action) => {
 const appReducer = combineReducers({
   authenticate: createReducer(authHandlers),
   app: createReducer(appHandlers),
+  editor: createReducer(editorHandlers),
   selectorReducer: createReducer(handlers),
 })
 

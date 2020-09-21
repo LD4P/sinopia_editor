@@ -18,9 +18,7 @@ const reducer = createReducer(handlers)
 describe('addError()', () => {
   it('adds new error without existing errors', () => {
     const oldState = {
-      editor: {
-        errors: {},
-      },
+      errors: {},
     }
 
     const action = {
@@ -32,17 +30,15 @@ describe('addError()', () => {
     }
 
     const newState = reducer(oldState, action)
-    expect(newState.editor.errors).toStrictEqual({
+    expect(newState.errors).toStrictEqual({
       rty6789: ['Failed to add a resource'],
     })
   })
 
   it('adds error to existing errors', () => {
     const oldState = {
-      editor: {
-        errors: {
-          er345v2: ['Existing validation error'],
-        },
+      errors: {
+        er345v2: ['Existing validation error'],
       },
     }
 
@@ -55,7 +51,7 @@ describe('addError()', () => {
     }
 
     const newState = reducer(oldState, action)
-    expect(newState.editor.errors.er345v2).toStrictEqual([
+    expect(newState.errors.er345v2).toStrictEqual([
       'Existing validation error',
       'Second validation error',
     ])
@@ -65,13 +61,11 @@ describe('addError()', () => {
 describe('clearErrors()', () => {
   it('sets errors to empty for a given errorKey', () => {
     const oldState = {
-      editor: {
-        errors: {
-          gh345690: [
-            'a short error',
-            'a longer error message',
-          ],
-        },
+      errors: {
+        gh345690: [
+          'a short error',
+          'a longer error message',
+        ],
       },
     }
 
@@ -82,19 +76,15 @@ describe('clearErrors()', () => {
 
     const newState = reducer(oldState, action)
 
-    expect(newState.editor.errors.gh345690).toStrictEqual([])
+    expect(newState.errors.gh345690).toStrictEqual([])
   })
 })
 
 describe('hideValidationErrors()', () => {
   it('sets show validation error for a key to false', () => {
     const oldState = {
-      editor: {
-        resourceValidation: {
-          show: {
-            u230f67: true,
-          },
-        },
+      resourceValidation: {
+        u230f67: true,
       },
     }
 
@@ -105,22 +95,18 @@ describe('hideValidationErrors()', () => {
 
     const newState = reducer(oldState, action)
 
-    expect(newState.editor.resourceValidation.show.u230f67).toBeFalsy()
+    expect(newState.resourceValidation.u230f67).toBeFalsy()
   })
 })
 
 describe('showValidationErrors()', () => {
   it('shows validation errors for a resource', () => {
     const oldState = {
-      editor: {
-        modal: {
-          name: 'An error modal',
-        },
-        resourceValidation: {
-          show: {
-            fgen0234: false,
-          },
-        },
+      modal: {
+        name: 'An error modal',
+      },
+      resourceValidation: {
+        fgen0234: false,
       },
     }
 
@@ -131,7 +117,7 @@ describe('showValidationErrors()', () => {
 
     const newState = reducer(oldState, action)
 
-    expect(newState.editor.modal.name).toBe(undefined)
-    expect(newState.editor.resourceValidation.show.fgen0234).toBeTruthy()
+    expect(newState.modal.name).toBe(null)
+    expect(newState.resourceValidation.fgen0234).toBeTruthy()
   })
 })

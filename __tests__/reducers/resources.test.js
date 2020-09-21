@@ -5,7 +5,7 @@ import {
   hideProperty, removeSubject,
   removeValue, saveResourceFinished, setBaseURL, setCurrentResource,
   setUnusedRDF, showProperty, loadResourceFinished, setResourceGroup,
-  setValueOrder,
+  setValueOrder, clearResourceFromEditor,
 } from 'reducers/resources'
 
 import { createState } from 'stateUtils'
@@ -30,6 +30,13 @@ const reducers = {
 }
 
 const reducer = createReducer(reducers)
+
+const editorReducers = {
+  CLEAR_RESOURCE: clearResourceFromEditor,
+}
+
+const editorReducer = createReducer(editorReducers)
+
 
 describe('addProperty()', () => {
   describe('new property with no values', () => {
@@ -518,6 +525,22 @@ describe('clearResource()', () => {
     expect(Object.keys(newState.entities.values)).toHaveLength(0)
   })
 })
+
+describe('clearResourceFromEditor()', () => {
+  it('removes resource', () => {
+    const oldState = createState({ hasResourceWithLiteral: true })
+    oldState.editor.errors['resourceedit-t9zVwg2zO'] = ['An error']
+
+    const action = {
+      type: 'CLEAR_RESOURCE',
+      payload: 't9zVwg2zO',
+    }
+
+    const newState = editorReducer(oldState.editor, action)
+    expect(newState.errors['resourceedit-t9zVwg2zO']).toBe(undefined)
+  })
+})
+
 
 describe('hideProperty()', () => {
   it('sets show to false for property', () => {

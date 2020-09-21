@@ -53,11 +53,9 @@ const buildLanguages = (state, options) => {
 const buildResourceWithError = (state, options) => {
   if (!options.hasResourceWithError) return
 
-  state.selectorReducer.editor = {
+  state.editor = {
     resourceValidation: {
-      show: {
-        '3h4Fp8ANu': true,
-      },
+      '3h4Fp8ANu': true,
     },
     errors: {
       '3h4Fp8ANu': ['error 1', 'error 2'],
