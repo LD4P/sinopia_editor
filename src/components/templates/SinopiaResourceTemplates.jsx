@@ -12,6 +12,7 @@ import _ from 'lodash'
 import Alerts from '../Alerts'
 import ResourceTemplateSearchResult from './ResourceTemplateSearchResult'
 import { selectHistoricalTemplates } from 'selectors/templates'
+import { selectSearchResults } from 'selectors/search'
 
 // Errors from loading a new resource from this page.
 export const newResourceErrorKey = 'newresource'
@@ -21,26 +22,19 @@ export const newResourceErrorKey = 'newresource'
  */
 const SinopiaResourceTemplates = (props) => {
   const dispatch = useDispatch()
-  const searchResults = useSelector((state) => state.selectorReducer.templateSearch)
+  const searchResults = useSelector((state) => selectSearchResults(state, 'template'))
   const historicallyUsedTemplates = useSelector((state) => selectHistoricalTemplates(state))
 
   // Transform to the result structure.
-  const historicallyUsedTemplateResults = useMemo(() => {
-    const results = historicallyUsedTemplates.map((template) => ({
-      id: template.key,
-      resourceLabel: template.label,
-      resourceURI: template.class,
-      uri: template.uri,
-      author: template.author,
-      remark: template.remark,
-      date: template.date,
-    }))
-    return {
-      results,
-      totalResults: results.length,
-      error: undefined,
-    }
-  }, [historicallyUsedTemplates])
+  const historicallyUsedTemplateResults = useMemo(() => historicallyUsedTemplates.map((template) => ({
+    id: template.key,
+    resourceLabel: template.label,
+    resourceURI: template.class,
+    uri: template.uri,
+    author: template.author,
+    remark: template.remark,
+    date: template.date,
+  })), [historicallyUsedTemplates])
 
   const errors = useSelector((state) => selectErrors(state, newResourceErrorKey))
   const resource = useSelector((state) => selectCurrentResource(state))
@@ -78,7 +72,7 @@ const SinopiaResourceTemplates = (props) => {
   }
 
   let history
-  if (historicallyUsedTemplateResults.totalResults > 0) {
+  if (!_.isEmpty(historicallyUsedTemplateResults)) {
     history = (
       <div className="card" style={{ marginBottom: '20px' }}>
         <div className="card-header">
@@ -87,7 +81,7 @@ const SinopiaResourceTemplates = (props) => {
           </h3>
         </div>
         <div id="historicalTemplates" className="collapse" style={{ padding: '5px' }}>
-          <ResourceTemplateSearchResult search={historicallyUsedTemplateResults} handleClick={handleClick} handleEdit={handleEdit} handleCopy={handleCopy} />
+          <ResourceTemplateSearchResult results={historicallyUsedTemplateResults} handleClick={handleClick} handleEdit={handleEdit} handleCopy={handleCopy} />
         </div>
       </div>
     )
@@ -97,9 +91,9 @@ const SinopiaResourceTemplates = (props) => {
     <section id="resource-templates" ref={topRef}>
       <Alerts errorKey={newResourceErrorKey} />
       { history }
-      { searchResults.totalResults > 0
-        ? <ResourceTemplateSearchResult search={searchResults} handleClick={handleClick} handleEdit={handleEdit} handleCopy={handleCopy} />
-        : <div className="alert alert-warning" id="no-rt-warning">No resource templates match.</div>
+      { _.isEmpty(searchResults)
+        ? <div className="alert alert-warning" id="no-rt-warning">No resource templates match.</div>
+        : <ResourceTemplateSearchResult results={searchResults} handleClick={handleClick} handleEdit={handleEdit} handleCopy={handleCopy} />
       }
     </section>
   )

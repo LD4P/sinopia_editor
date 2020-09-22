@@ -1,5 +1,5 @@
 import React from 'react'
-import { fireEvent, wait, screen } from '@testing-library/react'
+import { fireEvent, waitFor, screen } from '@testing-library/react'
 import Search from 'components/search/Search'
 import { renderComponent } from 'testUtils'
 import * as server from 'sinopiaSearch'
@@ -197,7 +197,7 @@ describe('<Search />', () => {
     fireEvent.click(screen.getByText('Sort by'))
     fireEvent.click(screen.getByText('Modified date, newest first'))
 
-    await wait(() => expect(screen.queryByText('Relevance', { selector: 'button.active' })).not.toBeInTheDocument())
+    await waitFor(() => expect(screen.queryByText('Relevance', { selector: 'button.active' })).not.toBeInTheDocument())
     screen.getByText('Modified date, newest first', { selector: 'button.active' })
 
     fireEvent.click(screen.getByText('›'))

@@ -35,7 +35,7 @@ import {
   addTemplates, addTemplateHistory,
 } from './templates'
 import {
-  clearSearchResults, setSearchResults, clearTemplateSearchResults, setTemplateSearchResults,
+  clearSearchResults, setSearchResults,
 } from './search'
 import {
   lookupOptionsRetrieved,
@@ -57,8 +57,6 @@ export const setCurrentComponent = (state, action) => ({
 const handlers = {
   ADD_TEMPLATE_HISTORY: addTemplateHistory,
   CLEAR_RESOURCE: clearResource,
-  CLEAR_SEARCH_RESULTS: clearSearchResults,
-  CLEAR_TEMPLATE_SEARCH_RESULTS: clearTemplateSearchResults,
   EXPORTS_RECEIVED: exportsReceived,
   FETCHING_LANGUAGES: fetchingLanguages,
   HIDE_PROPERTY: hideProperty,
@@ -70,8 +68,6 @@ const handlers = {
   SAVE_RESOURCE_FINISHED: saveResourceFinished,
   SET_BASE_URL: setBaseURL,
   SET_RESOURCE_GROUP: setResourceGroup,
-  SET_SEARCH_RESULTS: setSearchResults,
-  SET_TEMPLATE_SEARCH_RESULTS: setTemplateSearchResults,
   SET_VALUE_ORDER: setValueOrder,
   SHOW_PROPERTY: showProperty,
   ADD_TEMPLATES: addTemplates,
@@ -111,6 +107,11 @@ const editorHandlers = {
   SHOW_VALIDATION_ERRORS: showValidationErrors,
 }
 
+const searchHandlers = {
+  CLEAR_SEARCH_RESULTS: clearSearchResults,
+  SET_SEARCH_RESULTS: setSearchResults,
+}
+
 export const createReducer = (handlers) => (state = {}, action) => {
   const fn = handlers[action.type]
   return fn ? fn(state, action) : state
@@ -120,6 +121,7 @@ const appReducer = combineReducers({
   authenticate: createReducer(authHandlers),
   app: createReducer(appHandlers),
   editor: createReducer(editorHandlers),
+  search: createReducer(searchHandlers),
   selectorReducer: createReducer(handlers),
 })
 

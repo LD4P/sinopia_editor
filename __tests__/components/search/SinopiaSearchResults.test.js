@@ -19,29 +19,32 @@ describe('<SinopiaSearchResults />', () => {
   describe('when there are search results', () => {
     it('it contains the main div', () => {
       const state = createState()
-      state.selectorReducer.search.results = [{
-        uri: 'https://api.sinopia.io/resource/some/path',
-        type: ['http://schema.org/Thing'],
-        group: ['stanford'],
-        label: 'An item title',
-        modified: '2019-10-23T22:42:57.623Z',
-        created: '2019-10-23T22:42:57.623Z',
-      }]
-      state.selectorReducer.search.facetResults = {
-        types: [
-          {
-            key: 'http://schema.org/Thing',
-            doc_count: 1,
-          },
-        ],
-        groups: [
-          {
-            key: 'stanford',
-            doc_count: 1,
-          },
-        ],
+      state.search.resource = {
+        results: [{
+          uri: 'https://api.sinopia.io/resource/some/path',
+          type: ['http://schema.org/Thing'],
+          group: ['stanford'],
+          label: 'An item title',
+          modified: '2019-10-23T22:42:57.623Z',
+          created: '2019-10-23T22:42:57.623Z',
+        }],
+        facetResults: {
+          types: [
+            {
+              key: 'http://schema.org/Thing',
+              doc_count: 1,
+            },
+          ],
+          groups: [
+            {
+              key: 'stanford',
+              doc_count: 1,
+            },
+          ],
 
+        },
       }
+
       const store = createStore(state)
       const { container } = renderComponent(<SinopiaSearchResults />, store)
 
@@ -72,15 +75,18 @@ describe('<SinopiaSearchResults />', () => {
 
   it('renders errors', () => {
     const state = createState()
-    state.selectorReducer.search.results = [{
-      uri: 'http://platform:8080/resource/some/path',
-      type: ['http://schema.org/Thing'],
-      label: 'An item title',
-      modified: '2019-10-23T22:42:57.623Z',
-      created: '2019-10-23T22:42:57.623Z',
-    }]
-    state.selectorReducer.search.totalResults = 1
-    state.selectorReducer.search.query = 'twain'
+    state.search.resource = {
+      results: [{
+        uri: 'http://platform:8080/resource/some/path',
+        type: ['http://schema.org/Thing'],
+        label: 'An item title',
+        modified: '2019-10-23T22:42:57.623Z',
+        created: '2019-10-23T22:42:57.623Z',
+      }],
+      totalResults: 1,
+      query: 'twain',
+      facetResults: {},
+    }
     state.editor.errors.searchresource = ['Ooops']
 
     const store = createStore(state)

@@ -3,11 +3,14 @@
 import React from 'react'
 import { useSelector } from 'react-redux'
 import PropTypes from 'prop-types'
+import { selectSearchTotalResults, selectSearchOptions } from 'selectors/search'
+
 
 const SearchResultsPaging = (props) => {
-  const totalResults = useSelector((state) => state.selectorReducer[props.path].totalResults)
-  const resultsPerPage = useSelector((state) => state.selectorReducer[props.path].options.resultsPerPage)
-  const startOfRange = useSelector((state) => state.selectorReducer[props.path].options.startOfRange)
+  const totalResults = useSelector((state) => selectSearchTotalResults(state, props.searchType))
+  const options = useSelector((state) => selectSearchOptions(state, props.searchType))
+  const resultsPerPage = options.resultsPerPage
+  const startOfRange = options.startOfRange
   const currentPage = Math.ceil((startOfRange + 1) / resultsPerPage)
 
   const changePage = (page) => {
@@ -66,7 +69,7 @@ const SearchResultsPaging = (props) => {
 
 SearchResultsPaging.propTypes = {
   changePage: PropTypes.func.isRequired,
-  path: PropTypes.oneOf(['search', 'templateSearch']).isRequired,
+  searchType: PropTypes.oneOf(['resource', 'template']).isRequired,
 }
 
 export default SearchResultsPaging

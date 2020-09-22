@@ -2,11 +2,11 @@
 import React from 'react'
 import { useSelector, useDispatch } from 'react-redux'
 import { fetchSinopiaSearchResults } from 'actionCreators/search'
-
+import { selectSearchOptions, selectSearchQuery } from 'selectors/search'
 
 const SinopiaSort = () => {
-  const query = useSelector((state) => state.selectorReducer.search.query)
-  const searchOptions = useSelector((state) => state.selectorReducer.search.options)
+  const query = useSelector((state) => selectSearchQuery(state, 'resource'))
+  const searchOptions = useSelector((state) => selectSearchOptions(state, 'resource'))
   const curSortField = searchOptions.sortField
   const curSortOrder = searchOptions.sortOrder
 

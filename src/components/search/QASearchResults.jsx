@@ -16,6 +16,7 @@ import Alerts from '../Alerts'
 import { selectErrors } from 'selectors/errors'
 import _ from 'lodash'
 import { datasetFromN3 } from 'utilities/Utilities'
+import { selectSearchUri, selectSearchResults } from 'selectors/search'
 
 
 // Errors from retrieving a resource from this page.
@@ -26,8 +27,8 @@ const QASearchResults = (props) => {
 
   const errorsRef = useRef(null)
 
-  const searchResults = useSelector((state) => state.selectorReducer.search.results)
-  const searchUri = useSelector((state) => state.selectorReducer.search.uri)
+  const searchResults = useSelector((state) => selectSearchResults(state, 'resource'))
+  const searchUri = useSelector((state) => selectSearchUri(state, 'resource'))
 
   const [resourceURI, setResourceURI] = useState(null)
   // Resource ID is for handling non-LD QA authorities, e.g., Discog

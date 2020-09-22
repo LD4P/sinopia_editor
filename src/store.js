@@ -3,7 +3,6 @@
 import { createStore, applyMiddleware, compose } from 'redux'
 import thunk from 'redux-thunk'
 import reducer from './reducers/index'
-import Config from 'Config'
 
 export const initialState = {
   authenticate: {
@@ -36,6 +35,26 @@ export const initialState = {
     resourceValidation: {}, // Show validation {<resourceKey>: boolean}
     unusedRDF: {}, // {<resourceKey>: rdf}
   },
+  search: {
+    // Search model:
+    // {
+    //   results: [],
+    //   totalResults: 0,
+    //   facetResults: {},
+    //   query: undefined,
+    //   options: {
+    //     resultsPerPage: Config.searchResultsPerPage,
+    //     startOfRange: 0, // 0 based
+    //     sortField: undefined,
+    //     sortOrder: undefined,
+    //     typeFilter: undefined,
+    //     groupFilter: undefined,
+    //   },
+    //   error: undefined,
+    // },
+    resource: null,
+    template: null,
+  },
   selectorReducer: {
     entities: { // The stuff we've retrieved from the server
       languages: { loading: false, options: [] },
@@ -46,30 +65,6 @@ export const initialState = {
       subjects: {},
       properties: {},
       values: {},
-    },
-    search: {
-      results: [],
-      totalResults: 0,
-      facetResults: [],
-      query: undefined,
-      options: {
-        resultsPerPage: Config.searchResultsPerPage,
-        startOfRange: 0, // 0 based
-        sortField: undefined,
-        sortOrder: undefined,
-        typeFilter: undefined,
-        groupFilter: undefined,
-      },
-      error: undefined,
-    },
-    templateSearch: {
-      results: [],
-      totalResults: 0,
-      options: {
-        resultsPerPage: Config.searchResultsPerPage,
-        startOfRange: 0, // 0 based
-      },
-      error: undefined,
     },
     historicalTemplates: [],
   },
