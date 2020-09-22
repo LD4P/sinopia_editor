@@ -81,7 +81,13 @@ const App = (props) => {
   )
 
   const routesWithOutCurrentUser = (
-    <Route render={(renderProps) => <HomePage {...renderProps} triggerHandleOffsetMenu={props.handleOffsetMenu} />} />
+    <Switch>
+      <Route path={['/vocabulary/:element/:sub', '/vocabulary/:element', '/vocabulary']}
+             render={(renderProps) => <Vocab {...renderProps}
+                                             triggerHandleOffsetMenu={props.handleOffsetMenu} />} />
+      <Route render={(renderProps) => <HomePage {...renderProps} triggerHandleOffsetMenu={props.handleOffsetMenu} />} />
+
+    </Switch>
   )
 
   return (

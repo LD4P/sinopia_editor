@@ -17,7 +17,7 @@ const Footer = () => (
           All metadata available on Sinopia are published free of restrictions, under the terms of the&nbsp;
           <a rel="license noopener noreferrer" href="https://creativecommons.org/publicdomain/zero/1.0/" target="_blank">
             Creative Commons CC0 1.0 Universal Public Domain Dedication
-          </a>.
+          </a>. Published <a href="/vocabulary">Vocabulary</a>.
         </small>
       </p>
     </div>
