@@ -61,12 +61,12 @@ describe('addTemplates', () => {
   it('adds subject template and property templates', () => {
     const state = createState()
 
-    const newState = addTemplates(state.selectorReducer, { payload: subjectTemplate })
+    const newState = addTemplates(state.entities, { payload: subjectTemplate })
 
-    const newSubjectTemplate = newState.entities.subjectTemplates['ld4p:RT:bf2:Title:AbbrTitle']
+    const newSubjectTemplate = newState.subjectTemplates['ld4p:RT:bf2:Title:AbbrTitle']
     expect(newSubjectTemplate).toBeSubjectTemplate('ld4p:RT:bf2:Title:AbbrTitle')
     expect(newSubjectTemplate.propertyTemplates).toBeUndefined()
 
-    expect(newState.entities.propertyTemplates['ld4p:RT:bf2:Title:AbbrTitle > http://id.loc.gov/ontologies/bibframe/mainTitle']).toBePropertyTemplate('ld4p:RT:bf2:Title:AbbrTitle > http://id.loc.gov/ontologies/bibframe/mainTitle')
+    expect(newState.propertyTemplates['ld4p:RT:bf2:Title:AbbrTitle > http://id.loc.gov/ontologies/bibframe/mainTitle']).toBePropertyTemplate('ld4p:RT:bf2:Title:AbbrTitle > http://id.loc.gov/ontologies/bibframe/mainTitle')
   })
 })

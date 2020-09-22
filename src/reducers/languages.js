@@ -1,12 +1,15 @@
 // Copyright 2020 Stanford University see LICENSE for license
 
-export const setLanguage = (state, action) => {
-  const newState = { ...state }
-
-  newState.entities.values[action.payload.valueKey].lang = action.payload.lang
-
-  return newState
-}
+export const setLanguage = (state, action) => ({
+  ...state,
+  values: {
+    ...state.values,
+    [action.payload.valueKey]: {
+      ...state.values[action.payload.valueKey],
+      lang: action.payload.lang,
+    },
+  },
+})
 
 export const languagesReceived = (state, action) => ({
   ...state,
