@@ -2,7 +2,7 @@ import React from 'react'
 import GroupFilter from 'components/search/GroupFilter'
 import { createStore, renderComponent } from 'testUtils'
 import { createState } from 'stateUtils'
-import { fireEvent, wait, screen } from '@testing-library/react'
+import { fireEvent, waitFor, screen } from '@testing-library/react'
 import * as server from 'sinopiaSearch'
 
 describe('<GroupFilter />', () => {
@@ -29,8 +29,10 @@ describe('<GroupFilter />', () => {
 
   const createInitialState = () => {
     const state = createState()
-    state.selectorReducer.search.facetResults = facetResults
-    state.selectorReducer.search.query = 'twain'
+    state.search.resource = {
+      facetResults,
+      query: 'twain',
+    }
     return state
   }
 
@@ -73,7 +75,7 @@ describe('<GroupFilter />', () => {
     // Apply filter
     fireEvent.click(screen.getByText('Go'))
 
-    await wait(() => expect(container.querySelector('div.show')).not.toBeInTheDocument())
+    await waitFor(() => expect(container.querySelector('div.show')).not.toBeInTheDocument())
 
     expect(mockGetSearchResults).toHaveBeenCalledWith('twain', {
       resultsPerPage: 10,
@@ -104,7 +106,7 @@ describe('<GroupFilter />', () => {
     // Apply filter
     fireEvent.click(screen.getByText('Go'))
 
-    await wait(() => expect(container.querySelector('div.show')).not.toBeInTheDocument())
+    await waitFor(() => expect(container.querySelector('div.show')).not.toBeInTheDocument())
 
     expect(mockGetSearchResults).toHaveBeenCalledWith('twain', {
       resultsPerPage: 10,
@@ -132,7 +134,7 @@ describe('<GroupFilter />', () => {
     // Apply filter
     fireEvent.click(screen.getByText('Go'))
 
-    await wait(() => expect(container.querySelector('div.show')).not.toBeInTheDocument())
+    await waitFor(() => expect(container.querySelector('div.show')).not.toBeInTheDocument())
 
     fireEvent.click(screen.getByText('Filter by institution'))
     fireEvent.click(screen.getByText('Clear filter'))

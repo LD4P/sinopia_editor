@@ -11,27 +11,35 @@ describe('<SearchResultsPaging />', () => {
 
   const createInitialState = (totalResults, resultsPerPage, startOfRange) => {
     const state = createState()
-    if (totalResults !== undefined) state.selectorReducer.search.totalResults = totalResults
-    if (resultsPerPage !== undefined) state.selectorReducer.search.options.resultsPerPage = resultsPerPage
-    if (startOfRange !== undefined) state.selectorReducer.search.options.startOfRange = startOfRange
-    return state
+    return {
+      ...state,
+      search: {
+        resource: {
+          totalResults,
+          options: {
+            resultsPerPage,
+            startOfRange,
+          },
+        },
+      },
+    }
   }
 
   it('does not render when no results', () => {
-    renderComponent(<SearchResultsPaging changePage={jest.fn()} path="search" />)
+    renderComponent(<SearchResultsPaging changePage={jest.fn()} searchType="resource" />)
     expect(screen.queryByText('First')).not.toBeInTheDocument()
   })
 
   it('does not render when less than a page of results', () => {
-    const store = createStore(createInitialState(5, 5))
-    renderComponent(<SearchResultsPaging changePage={jest.fn()} path="search" />, store)
+    const store = createStore(createInitialState(5, 5, 0))
+    renderComponent(<SearchResultsPaging changePage={jest.fn()} searchType="resource" />, store)
     expect(screen.queryByText('First')).not.toBeInTheDocument()
   })
 
   it('renders pages and selects first', () => {
-    const store = createStore(createInitialState(25, 5))
+    const store = createStore(createInitialState(25, 5, 0))
     const { container } = renderComponent(
-      <SearchResultsPaging changePage={jest.fn()} path="search" />, store,
+      <SearchResultsPaging changePage={jest.fn()} searchType="resource" />, store,
     )
     screen.getByLabelText('first', { selector: 'li:nth-child(1) > button' })
     screen.getByLabelText('previous', { selector: 'li:nth-child(2) > button' })
@@ -48,7 +56,7 @@ describe('<SearchResultsPaging />', () => {
   it('correct page is active', () => {
     const store = createStore(createInitialState(25, 5, 12))
     const { container } = renderComponent(
-      <SearchResultsPaging changePage={jest.fn()} path="search" />, store,
+      <SearchResultsPaging changePage={jest.fn()} searchType="resource" />, store,
     )
     // 3rd page
     expect(container.querySelector('li:nth-child(5)')).toHaveClass('active')
@@ -56,7 +64,7 @@ describe('<SearchResultsPaging />', () => {
   it('add elipsis at the end of long lists', () => {
     const store = createStore(createInitialState(100, 5, 0))
     const { container } = renderComponent(
-      <SearchResultsPaging changePage={jest.fn()} path="search" />, store,
+      <SearchResultsPaging changePage={jest.fn()} searchType="resource" />, store,
     )
     screen.getByLabelText('first', { selector: 'li:nth-child(1) > button' })
     screen.getByLabelText('previous', { selector: 'li:nth-child(2) > button' })
@@ -76,7 +84,7 @@ describe('<SearchResultsPaging />', () => {
   it('add elipsis at the beginning of long lists', () => {
     const store = createStore(createInitialState(100, 5, 99))
     const { container } = renderComponent(
-      <SearchResultsPaging changePage={jest.fn()} path="search" />, store,
+      <SearchResultsPaging changePage={jest.fn()} searchType="resource" />, store,
     )
     screen.getByLabelText('first', { selector: 'li:nth-child(1) > button' })
     screen.getByLabelText('previous', { selector: 'li:nth-child(2) > button' })
@@ -96,7 +104,7 @@ describe('<SearchResultsPaging />', () => {
   it('clicking a page goes to page', () => {
     const store = createStore(createInitialState(25, 5, 0))
     renderComponent(
-      <SearchResultsPaging changePage={mockChangePage} path="search" />, store,
+      <SearchResultsPaging changePage={mockChangePage} searchType="resource" />, store,
     )
     fireEvent.click(screen.getByText('3', { selector: 'li:nth-child(5) > button' }))
     expect(mockChangePage).toHaveBeenCalledWith(10)
@@ -104,7 +112,7 @@ describe('<SearchResultsPaging />', () => {
   it('clicking first goes to first page', () => {
     const store = createStore(createInitialState(25, 5, 10))
     renderComponent(
-      <SearchResultsPaging changePage={mockChangePage} path="search"/>, store,
+      <SearchResultsPaging changePage={mockChangePage} searchType="resource"/>, store,
     )
     fireEvent.click(screen.getByLabelText('first'))
     expect(mockChangePage).toHaveBeenCalledWith(0)
@@ -112,7 +120,7 @@ describe('<SearchResultsPaging />', () => {
   it('clicking last goes to last page', () => {
     const store = createStore(createInitialState(25, 5, 10))
     renderComponent(
-      <SearchResultsPaging changePage={mockChangePage} path="search" />, store,
+      <SearchResultsPaging changePage={mockChangePage} searchType="resource" />, store,
     )
     fireEvent.click(screen.getByLabelText('last'))
     expect(mockChangePage).toHaveBeenCalledWith(20)
@@ -120,7 +128,7 @@ describe('<SearchResultsPaging />', () => {
   it('clicking previous goes to previous page', () => {
     const store = createStore(createInitialState(25, 5, 10))
     renderComponent(
-      <SearchResultsPaging changePage={mockChangePage} path="search" />, store,
+      <SearchResultsPaging changePage={mockChangePage} searchType="resource" />, store,
     )
     fireEvent.click(screen.getByLabelText('previous'))
     expect(mockChangePage).toHaveBeenCalledWith(5)
@@ -128,7 +136,7 @@ describe('<SearchResultsPaging />', () => {
   it('clicking next goes to next page', () => {
     const store = createStore(createInitialState(25, 5, 10))
     renderComponent(
-      <SearchResultsPaging changePage={mockChangePage} path="search" />, store,
+      <SearchResultsPaging changePage={mockChangePage} searchType="resource" />, store,
     )
     fireEvent.click(screen.getByLabelText('next'))
     expect(mockChangePage).toHaveBeenCalledWith(15)

@@ -19,12 +19,13 @@ import Alert from '../Alert'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faSearch } from '@fortawesome/free-solid-svg-icons'
 import searchConfig from '../../../static/searchConfig.json'
+import { selectSearchError, selectSearchUri, selectSearchOptions } from 'selectors/search'
 
 const Search = (props) => {
   const dispatch = useDispatch()
   const fetchQASearchResults = (queryString, uri, startOfRange) => dispatch(fetchQASearchResultsCreator(queryString, uri, { ...searchOptions, startOfRange }))
 
-  const searchOptions = useSelector((state) => state.selectorReducer.search.options)
+  const searchOptions = useSelector((state) => selectSearchOptions(state, 'resource'))
 
   const fetchSinopiaSearchResults = (queryString, startOfRange) => dispatch(fetchSinopiaSearchResultsCreator(
     queryString, { ...searchOptions, startOfRange },
@@ -35,10 +36,10 @@ const Search = (props) => {
   ))
 
 
-  const clearSearchResults = useCallback(() => dispatch(clearSearchResultsAction()), [dispatch])
+  const clearSearchResults = useCallback(() => dispatch(clearSearchResultsAction('resource')), [dispatch])
 
-  const error = useSelector((state) => state.selectorReducer.search.error)
-  const searchUri = useSelector((state) => state.selectorReducer.search.uri)
+  const error = useSelector((state) => selectSearchError(state, 'resource'))
+  const searchUri = useSelector((state) => selectSearchUri(state, 'resource'))
 
   const topRef = useRef(null)
 
@@ -88,7 +89,7 @@ const Search = (props) => {
     results = (
       <div>
         <SinopiaSearchResults {...props} key="search-results" />
-        <SearchResultsPaging key="search-paging" path="search" changePage={changeSinopiaSearchPage} />
+        <SearchResultsPaging key="search-paging" searchType="resource" changePage={changeSinopiaSearchPage} />
         <SearchResultsMessage />
       </div>
     )
@@ -96,7 +97,7 @@ const Search = (props) => {
     results = (
       <div>
         <QASearchResults history={props.history} key="search-results" />
-        <SearchResultsPaging key="search-paging" path="search" changePage={changeQASearchPage} />
+        <SearchResultsPaging key="search-paging" searchType="resource" changePage={changeQASearchPage} />
         <SearchResultsMessage />
       </div>
     )

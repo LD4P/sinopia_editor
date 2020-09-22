@@ -34,10 +34,11 @@ describe('fetchSinopiaSearchResults', () => {
     expect(dispatch).toBeCalledWith({
       type: 'SET_SEARCH_RESULTS',
       payload: {
+        searchType: 'resource',
         error: undefined,
         uri: 'sinopia',
         query: '*',
-        searchResults: mockSearchResults.results,
+        results: mockSearchResults.results,
         totalResults: mockSearchResults.totalHits,
         facetResults: mockFacetResults,
         options: {
@@ -131,13 +132,14 @@ describe('fetchQASearchResults', () => {
     expect(dispatch).toBeCalledWith({
       type: 'SET_SEARCH_RESULTS',
       payload: {
+        searchType: 'resource',
         uri,
         query,
-        searchResults: mockSearchResults,
+        results: mockSearchResults,
         totalResults: 15,
         options: {},
         error: undefined,
-        facetResults: undefined,
+        facetResults: {},
       },
     })
   })
@@ -154,12 +156,13 @@ describe('fetchQASearchResults', () => {
     expect(dispatch).toBeCalledWith({
       type: 'SET_SEARCH_RESULTS',
       payload: {
+        searchType: 'resource',
         uri,
         query,
-        searchResults: [],
+        results: [],
         totalResults: 0,
         options: {},
-        facetResults: undefined,
+        facetResults: {},
         error: 'Ooops...',
       },
     })

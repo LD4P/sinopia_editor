@@ -2,14 +2,18 @@
 import React, { useState, useEffect } from 'react'
 import { useSelector, useDispatch } from 'react-redux'
 import { fetchSinopiaSearchResults } from 'actionCreators/search'
+import {
+  selectSearchOptions, selectSearchQuery,
+  selectSearchFacetResults,
+} from 'selectors/search'
 import _ from 'lodash'
 import { groupNameFromGroup } from 'utilities/Utilities'
 
 const GroupFilter = () => {
   const dispatch = useDispatch()
-  const query = useSelector((state) => state.selectorReducer.search.query)
-  const searchOptions = useSelector((state) => state.selectorReducer.search.options)
-  const groupFacetResults = useSelector((state) => state.selectorReducer.search.facetResults?.groups)
+  const query = useSelector((state) => selectSearchQuery(state, 'resource'))
+  const searchOptions = useSelector((state) => selectSearchOptions(state, 'resource'))
+  const groupFacetResults = useSelector((state) => selectSearchFacetResults(state, 'resource', 'groups'))
   const [groupFilterShowDropdown, setGroupFilterShowDropdown] = useState(false)
   const [selectedGroupFilters, setSelectedGroupFilters] = useState([])
 

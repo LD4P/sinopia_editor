@@ -1,6 +1,6 @@
 import React from 'react'
 import TypeFilter from 'components/search/TypeFilter'
-import { fireEvent, wait, screen } from '@testing-library/react'
+import { fireEvent, waitFor, screen } from '@testing-library/react'
 import { createStore, renderComponent } from 'testUtils'
 import { createState } from 'stateUtils'
 import * as server from 'sinopiaSearch'
@@ -29,8 +29,10 @@ describe('<TypeFilter />', () => {
 
   const createInitialState = () => {
     const state = createState()
-    state.selectorReducer.search.facetResults = facetResults
-    state.selectorReducer.search.query = 'twain'
+    state.search.resource = {
+      facetResults,
+      query: 'twain',
+    }
     return state
   }
 
@@ -74,7 +76,7 @@ describe('<TypeFilter />', () => {
     // Apply filter
     fireEvent.click(screen.getByText('Go'))
 
-    await wait(() => expect(container.querySelector('div.show')).not.toBeInTheDocument())
+    await waitFor(() => expect(container.querySelector('div.show')).not.toBeInTheDocument())
 
     expect(mockGetSearchResults).toHaveBeenCalledWith('twain', {
       resultsPerPage: 10,
@@ -105,7 +107,7 @@ describe('<TypeFilter />', () => {
     // Apply filter
     fireEvent.click(screen.getByText('Go'))
 
-    await wait(() => expect(container.querySelector('div.show')).not.toBeInTheDocument())
+    await waitFor(() => expect(container.querySelector('div.show')).not.toBeInTheDocument())
 
     expect(mockGetSearchResults).toHaveBeenCalledWith('twain', {
       resultsPerPage: 10,
@@ -134,7 +136,7 @@ describe('<TypeFilter />', () => {
     // Apply filter
     fireEvent.click(screen.getByText('Go'))
 
-    await wait(() => expect(container.querySelector('div.show')).not.toBeInTheDocument())
+    await waitFor(() => expect(container.querySelector('div.show')).not.toBeInTheDocument())
 
     fireEvent.click(screen.getByText('Filter by class'))
     fireEvent.click(screen.getByText('Clear filter'))

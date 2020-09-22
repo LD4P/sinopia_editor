@@ -14,6 +14,7 @@ import SearchResultRows from './SearchResultRows'
 import SinopiaSort from './SinopiaSort'
 import _ from 'lodash'
 import { selectCurrentResource } from 'selectors/resources'
+import { selectSearchResults } from 'selectors/search'
 
 // Errors from retrieving a resource from this page.
 export const searchRetrieveErrorKey = 'searchresource'
@@ -101,7 +102,7 @@ SinopiaSearchResults.propTypes = {
 }
 
 const mapStateToProps = (state) => ({
-  searchResults: state.selectorReducer.search.results,
+  searchResults: selectSearchResults(state, 'resource'),
   currentResource: selectCurrentResource(state),
   errors: selectErrors(state, searchRetrieveErrorKey),
 })

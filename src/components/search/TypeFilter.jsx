@@ -2,13 +2,17 @@
 import React, { useState, useEffect } from 'react'
 import { useSelector, useDispatch } from 'react-redux'
 import { fetchSinopiaSearchResults } from 'actionCreators/search'
+import {
+  selectSearchOptions, selectSearchQuery,
+  selectSearchFacetResults,
+} from 'selectors/search'
 import _ from 'lodash'
 
 const TypeFilter = () => {
   const dispatch = useDispatch()
-  const query = useSelector((state) => state.selectorReducer.search.query)
-  const searchOptions = useSelector((state) => state.selectorReducer.search.options)
-  const typeFacetResults = useSelector((state) => state.selectorReducer.search.facetResults?.types)
+  const query = useSelector((state) => selectSearchQuery(state, 'resource'))
+  const searchOptions = useSelector((state) => selectSearchOptions(state, 'resource'))
+  const typeFacetResults = useSelector((state) => selectSearchFacetResults(state, 'resource', 'types'))
 
   const [typeFilterShowDropdown, setTypeFilterShowDropdown] = useState(false)
   const [selectedTypeFilters, setSelectedTypeFilters] = useState([])

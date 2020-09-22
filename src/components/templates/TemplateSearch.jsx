@@ -5,11 +5,12 @@ import React, {
 } from 'react'
 import { getTemplateSearchResults } from 'sinopiaSearch'
 import { useDispatch, useSelector } from 'react-redux'
-import { clearTemplateSearchResults, setTemplateSearchResults } from 'actions/search'
+import { clearSearchResults as clearSearchResultsAction, setSearchResults } from 'actions/search'
 import Alert from '../Alert'
 import SinopiaResourceTemplates from './SinopiaResourceTemplates'
 import SearchResultsPaging from 'components/search/SearchResultsPaging'
 import NewResourceTemplateButton from './NewResourceTemplateButton'
+import { selectSearchError } from 'selectors/search'
 import PropTypes from 'prop-types'
 
 
@@ -22,8 +23,8 @@ const TemplateSearch = (props) => {
   const [query, setQueryText] = useState('')
   const [startOfRange, setStartOfRange] = useState(0)
 
-  const error = useSelector((state) => state.selectorReducer.templateSearch.error)
-  const clearSearchResults = useCallback(() => dispatch(clearTemplateSearchResults()), [dispatch])
+  const error = useSelector((state) => selectSearchError(state, 'template'))
+  const clearSearchResults = useCallback(() => dispatch(clearSearchResultsAction('template')), [dispatch])
 
   useEffect(() => {
     clearSearchResults()
@@ -39,7 +40,7 @@ const TemplateSearch = (props) => {
     const token = { cancel: false }
     tokens.current.push(token)
     getTemplateSearchResults(query, { startOfRange }).then((response) => {
-      if (!token.cancel) dispatch(setTemplateSearchResults(response.results, response.totalHits, { startOfRange }, response.error))
+      if (!token.cancel) dispatch(setSearchResults('template', null, response.results, response.totalHits, {}, null, { startOfRange }, response.error))
     })
   }, [dispatch, query, startOfRange])
 
@@ -77,7 +78,7 @@ const TemplateSearch = (props) => {
 
 
       <SinopiaResourceTemplates history={props.history} />
-      <SearchResultsPaging changePage={changePage} path="templateSearch" />
+      <SearchResultsPaging changePage={changePage} searchType="template" />
     </React.Fragment>
   )
 }

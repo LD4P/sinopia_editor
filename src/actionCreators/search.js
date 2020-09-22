@@ -6,7 +6,7 @@ import { findAuthorityConfig } from 'utilities/authorityConfig'
 
 export const fetchSinopiaSearchResults = (query, options) => (dispatch) => getSearchResultsWithFacets(query, options)
   .then(([response, facetResponse]) => {
-    dispatch(setSearchResults('sinopia', response.results, response.totalHits, facetResponse, query, options, response.error))
+    dispatch(setSearchResults('resource', 'sinopia', response.results, response.totalHits, facetResponse || {}, query, options, response.error))
   })
 
 export const fetchQASearchResults = (query, uri, options = {}) => (dispatch) => {
@@ -15,9 +15,10 @@ export const fetchQASearchResults = (query, uri, options = {}) => (dispatch) => 
 
   return searchPromise.then((response) => {
     if (response.isError) {
-      dispatch(setSearchResults(uri, [], 0, undefined, query, options, response.errorObject.message))
+      dispatch(setSearchResults('resource', uri, [], 0, {}, query, options, response.errorObject.message))
     } else {
-      dispatch(setSearchResults(uri, response.body.results, response.body.response_header.total_records, undefined, query, options))
+      dispatch(setSearchResults('resource', uri, response.body.results, response.body.response_header.total_records,
+        {}, query, options))
     }
   })
 }

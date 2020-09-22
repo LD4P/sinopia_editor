@@ -17,8 +17,12 @@ describe('<SinopiaSort />', () => {
 
   it('renders with selected sort order', () => {
     const state = createState()
-    state.selectorReducer.search.options.sortField = 'label'
-    state.selectorReducer.search.options.sortOrder = 'asc'
+    state.search.resource = {
+      options: {
+        sortField: 'label',
+        sortOrder: 'asc',
+      },
+    }
     const store = createStore(state)
     renderComponent(<SinopiaSort />, store)
 
@@ -39,9 +43,13 @@ describe('<SinopiaSort />', () => {
     }])
 
     const state = createState()
-    state.selectorReducer.search.query = 'twain'
-    state.selectorReducer.search.options.startOfRange = 10
-    state.selectorReducer.search.options.resultsPerPage = 15
+    state.search.resource = {
+      query: 'twain',
+      options: {
+        startOfRange: 10,
+        resultsPerPage: 15,
+      },
+    }
 
     const store = createStore(state)
     renderComponent(<SinopiaSort />, store)

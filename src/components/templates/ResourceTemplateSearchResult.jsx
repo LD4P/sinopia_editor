@@ -8,7 +8,7 @@ import ResourceTemplateRow from './ResourceTemplateRow'
  * This is the list view of all the templates
  */
 const ResourceTemplateSearchResult = (props) => {
-  const resourceTemplateSummaries = props.search.results
+  const resourceTemplateSummaries = props.results
   const rows = resourceTemplateSummaries.map((row) => (
     <ResourceTemplateRow
         row={row}
@@ -57,7 +57,7 @@ ResourceTemplateSearchResult.propTypes = {
   handleClick: PropTypes.func.isRequired,
   handleEdit: PropTypes.func.isRequired,
   handleCopy: PropTypes.func.isRequired,
-  search: PropTypes.object,
+  results: PropTypes.array,
 }
 
 export default ResourceTemplateSearchResult

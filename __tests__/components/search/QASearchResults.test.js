@@ -7,79 +7,81 @@ import { createState } from 'stateUtils'
 describe('<QASearchResults />', () => {
   it('renders results', () => {
     const state = createState()
-    state.selectorReducer.search.results = [
-      {
-        uri: 'http://share-vde.org/sharevde/rdfBibframe/Work/3107365',
-        id: 'http://share-vde.org/sharevde/rdfBibframe/Work/3107365',
-        label: 'These twain',
-        context: [
-          {
-            property: 'Title',
-            values: [
-              'These twain',
-            ],
-            selectable: true,
-            drillable: false,
-          },
-          {
-            property: 'Type',
-            values: [
-              'http://id.loc.gov/ontologies/bflc/Hub',
-              'http://id.loc.gov/ontologies/bibframe/Work',
-            ],
-            selectable: false,
-            drillable: false,
-          },
-          {
-            property: 'Contributor',
-            values: [
-              'Bennett, Arnold,1867-1931.',
-            ],
-            selectable: false,
-            drillable: false,
-          },
-        ],
-      },
-      {
-        uri: 'http://share-vde.org/sharevde/rdfBibframe/Work/3107366',
-        id: 'http://share-vde.org/sharevde/rdfBibframe/Work/31073656',
-        label: 'Those twain',
-        context: [
-          {
-            property: 'Title',
-            values: [
-              'Those twain',
-            ],
-            selectable: true,
-            drillable: false,
-          },
-          {
-            property: 'Type',
-            values: [
-              'http://id.loc.gov/ontologies/bibframe/Text',
-              'http://id.loc.gov/ontologies/bibframe/Work',
-            ],
-            selectable: false,
-            drillable: false,
-          },
-          {
-            property: 'Contributor',
-            values: [
-              'Bennett, Arnold.',
-            ],
-            selectable: false,
-            drillable: false,
-          },
-          {
-            property: 'Image URL',
-            values: [
-              'https://img.discogs.com/ilqScil5LIpcF_povstRcaEtEeg=/fit-in/600x527/filters:strip_icc():format(jpeg):mode_rgb():quality(90)/discogs-images/R-1622463-1425003720-8692.jpeg.jpg',
-            ],
-          },
-        ],
-      }]
-    state.selectorReducer.search.totalResults = 2
-    state.selectorReducer.search.query = 'twain'
+    state.search.resource = {
+      results: [
+        {
+          uri: 'http://share-vde.org/sharevde/rdfBibframe/Work/3107365',
+          id: 'http://share-vde.org/sharevde/rdfBibframe/Work/3107365',
+          label: 'These twain',
+          context: [
+            {
+              property: 'Title',
+              values: [
+                'These twain',
+              ],
+              selectable: true,
+              drillable: false,
+            },
+            {
+              property: 'Type',
+              values: [
+                'http://id.loc.gov/ontologies/bflc/Hub',
+                'http://id.loc.gov/ontologies/bibframe/Work',
+              ],
+              selectable: false,
+              drillable: false,
+            },
+            {
+              property: 'Contributor',
+              values: [
+                'Bennett, Arnold,1867-1931.',
+              ],
+              selectable: false,
+              drillable: false,
+            },
+          ],
+        },
+        {
+          uri: 'http://share-vde.org/sharevde/rdfBibframe/Work/3107366',
+          id: 'http://share-vde.org/sharevde/rdfBibframe/Work/31073656',
+          label: 'Those twain',
+          context: [
+            {
+              property: 'Title',
+              values: [
+                'Those twain',
+              ],
+              selectable: true,
+              drillable: false,
+            },
+            {
+              property: 'Type',
+              values: [
+                'http://id.loc.gov/ontologies/bibframe/Text',
+                'http://id.loc.gov/ontologies/bibframe/Work',
+              ],
+              selectable: false,
+              drillable: false,
+            },
+            {
+              property: 'Contributor',
+              values: [
+                'Bennett, Arnold.',
+              ],
+              selectable: false,
+              drillable: false,
+            },
+            {
+              property: 'Image URL',
+              values: [
+                'https://img.discogs.com/ilqScil5LIpcF_povstRcaEtEeg=/fit-in/600x527/filters:strip_icc():format(jpeg):mode_rgb():quality(90)/discogs-images/R-1622463-1425003720-8692.jpeg.jpg',
+              ],
+            },
+          ],
+        }],
+      totalResults: 2,
+      query: 'twain',
+    }
 
     const store = createStore(state)
     const { container } = renderComponent(<QASearchResults history={{}} />, store)
@@ -103,41 +105,43 @@ describe('<QASearchResults />', () => {
   it('renders errors', () => {
     const state = createState()
     state.editor.errors.searchqaresource = ['Ooops']
-    state.selectorReducer.search.results = [
-      {
-        uri: 'http://share-vde.org/sharevde/rdfBibframe/Work/3107365',
-        id: 'http://share-vde.org/sharevde/rdfBibframe/Work/3107365',
-        label: 'These twain',
-        context: [
-          {
-            property: 'Title',
-            values: [
-              'These twain',
-            ],
-            selectable: true,
-            drillable: false,
-          },
-          {
-            property: 'Type',
-            values: [
-              'http://id.loc.gov/ontologies/bflc/Hub',
-              'http://id.loc.gov/ontologies/bibframe/Work',
-            ],
-            selectable: false,
-            drillable: false,
-          },
-          {
-            property: 'Contributor',
-            values: [
-              'Bennett, Arnold,1867-1931.',
-            ],
-            selectable: false,
-            drillable: false,
-          },
-        ],
-      }]
-    state.selectorReducer.search.totalResults = 1
-    state.selectorReducer.search.query = 'twain'
+    state.search.resource = {
+      results: [
+        {
+          uri: 'http://share-vde.org/sharevde/rdfBibframe/Work/3107365',
+          id: 'http://share-vde.org/sharevde/rdfBibframe/Work/3107365',
+          label: 'These twain',
+          context: [
+            {
+              property: 'Title',
+              values: [
+                'These twain',
+              ],
+              selectable: true,
+              drillable: false,
+            },
+            {
+              property: 'Type',
+              values: [
+                'http://id.loc.gov/ontologies/bflc/Hub',
+                'http://id.loc.gov/ontologies/bibframe/Work',
+              ],
+              selectable: false,
+              drillable: false,
+            },
+            {
+              property: 'Contributor',
+              values: [
+                'Bennett, Arnold,1867-1931.',
+              ],
+              selectable: false,
+              drillable: false,
+            },
+          ],
+        }],
+      totalResults: 1,
+      query: 'twain',
+    }
 
     const store = createStore(state)
     renderComponent(<QASearchResults history={{}}/>, store)
