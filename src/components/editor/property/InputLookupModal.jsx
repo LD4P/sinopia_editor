@@ -3,26 +3,30 @@
 import React, {
   useState, useRef, useMemo, useEffect,
 } from 'react'
-import { Typeahead, asyncContainer } from 'react-bootstrap-typeahead'
 import PropTypes from 'prop-types'
 import { selectModalType } from 'selectors/modals'
 import { connect, useSelector, useDispatch } from 'react-redux'
 import { displayResourceValidations } from 'selectors/errors'
 import _ from 'lodash'
-import { renderMenuFunc, renderTokenFunc, itemsForProperty } from './renderTypeaheadFunctions'
+import { itemsForProperty } from './renderTypeaheadFunctions'
 import { newUriValue, newLiteralValue } from 'utilities/valueFactory'
+import shortid from 'shortid'
+
 import { addProperty, removeValue } from 'actions/resources'
 import { hideModal, showModal } from 'actions/modals'
 import { bindActionCreators } from 'redux'
 import ModalWrapper from 'components/ModalWrapper'
+import RenderLookupContext from './RenderLookupContext'
+import { Tab } from '../Tab'
+import { Tabs } from '../Tabs'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faGlobe, faSearch, faTrashAlt } from '@fortawesome/free-solid-svg-icons'
-
-const AsyncTypeahead = asyncContainer(Typeahead)
 
 const InputLookupModal = (props) => {
   const dispatch = useDispatch()
   const [, setTriggerRender] = useState('')
+  const [tabKey, setTabKey] = useState()
+
   // Using a ref so that can append to current list of results.
   const allResults = useRef([])
   // Tokens allow us to cancel an existing search. Does not actually stop the
@@ -33,19 +37,12 @@ const InputLookupModal = (props) => {
   const errors = props.property.errors
   const selected = itemsForProperty(props.property)
   const [query, setQuery] = useState(false)
-  const typeAheadRef = useRef(null)
 
   const allAuthorities = useMemo(() => {
     const authorities = {}
     props.property.propertyTemplate.authorities.forEach((authority) => authorities[authority.uri] = authority)
-    return authorities
+    return Object.values(authorities)
   }, [props.property.propertyTemplate.authorities])
-
-  const [selectedAuthorities, setSelectedAuthorities] = useState({})
-
-  useEffect(() => {
-    setSelectedAuthorities(allAuthorities)
-  }, [allAuthorities])
 
   // For use inside the effect without having to add props to dependency array.
   const getLookupResults = props.getLookupResults
@@ -63,9 +60,8 @@ const InputLookupModal = (props) => {
     // Create a token for this set of searches
     const token = { cancel: false }
     tokens.current.push(token)
-
     // resultPromises is an array of Promise<result>
-    const resultPromises = getLookupResults(query, Object.values(selectedAuthorities))
+    const resultPromises = getLookupResults(query, allAuthorities)
     resultPromises.forEach((resultPromise) => {
       resultPromise.then((resultSet) => {
         // Only use these results if not cancelled.
@@ -76,84 +72,31 @@ const InputLookupModal = (props) => {
         }
       })
     })
-  }, [query, selectedAuthorities, getLookupResults])
-
-  // From https://github.com/ericgio/react-bootstrap-typeahead/issues/389
-  const onKeyDown = (e) => {
-    // 8 = backspace
-    if (e.keyCode === 8
-        && e.target.value === '') {
-      // Don't trigger a "back" in the browser on backspace
-      e.returnValue = false
-      e.preventDefault()
-    }
-  }
+  }, [query, allAuthorities, getLookupResults])
 
   const isRepeatable = props.property.propertyTemplate.repeatable
 
   const isDisabled = selected?.length > 0 && !isRepeatable
 
-  const selectionChanged = (items) => {
+  const selectionChanged = (item) => {
+    props.hideModal()
     const newProperty = { ...props.property }
-    if (_.isEmpty(items)) {
-      newProperty.values = []
+    if (item.uri) {
+      newProperty.values.push(newUriValue(props.property, item.uri, item.label))
     } else {
-      newProperty.values = items.map((item) => {
-        if (item.uri) {
-          return newUriValue(props.property, item.uri, item.label)
-        }
-        return newLiteralValue(props.property, item.content, null)
-      })
+      newProperty.values.push(newLiteralValue(props.property, item.content, null))
     }
     dispatch(addProperty(newProperty))
   }
 
-  const toggleLookup = (uri) => {
-    const newSelectedAuthorities = { ...selectedAuthorities }
-    if (newSelectedAuthorities[uri]) {
-      delete newSelectedAuthorities[uri]
-    } else {
-      newSelectedAuthorities[uri] = allAuthorities[uri]
-    }
-    setSelectedAuthorities(newSelectedAuthorities)
-    typeAheadRef.current.getInstance().getInput().click()
-  }
-
-  const lookupCheckboxes = Object.values(allAuthorities).map((authority) => {
-    const id = `${props.property.key}-${authority.uri}`
-    return (
-      <div key={authority.uri} className="form-check">
-        <input className="form-check-input"
-               type="checkbox"
-               id={id}
-               checked={!!selectedAuthorities[authority.uri]}
-               onChange={() => toggleLookup(authority.uri)} />
-        <label className="form-check-label" htmlFor={id}>
-          {authority.label}
-        </label>
-      </div>
-    ) })
-
-  const typeaheadProps = {
-    id: 'lookupComponent',
-    multiple: true,
-    placeholder: props.property.propertyTemplate.label,
-    useCache: true,
-    selectHintOnEnter: true,
-    isLoading: false,
-    allowNew: true,
-    delay: 300,
-    onKeyDown,
-  }
-
   let error
-  let groupClasses = 'form-group'
+  let controlClasses = 'open-search-modal btn btn-sm btn-secondary btn-literal form-control'
   const classes = ['modal', 'fade']
   let display = 'none'
   const modalId = `InputLookupModal-${props.property.key}`
 
   if (displayValidations && !_.isEmpty(errors)) {
-    groupClasses += ' has-error'
+    controlClasses += ' is-invalid'
     error = errors.join(',')
   }
 
@@ -185,36 +128,91 @@ const InputLookupModal = (props) => {
     </div>
   ))
 
+  const renderMenuFunc = (results, lookupConfigs) => {
+    const resultsFor = {}
+    // First split the results out by authority id.
+    lookupConfigs.forEach((authority) => {
+      resultsFor[authority.uri] = []
+      let inAuthority = false
+      results.forEach((row) => {
+        if ('authURI' in row) {
+          if (row.authURI === authority.uri) {
+            inAuthority = true
+            return
+          }
+          inAuthority = false
+        }
+        if (inAuthority) {
+          resultsFor[authority.uri].push(row)
+        }
+      })
+    })
+
+    const tabs = lookupConfigs.map((authority) => {
+      const items = resultsFor[authority.uri].map((result, i) => {
+        if (result.authURI) return
+        if (result.customOption) return
+        const bgClass = i % 2 ? 'context-result-bg' : 'context-result-alt-bg'
+        if (result.isError) {
+          const errorMessage = result.label || 'An error occurred in retrieving results'
+          return (<h2 key={shortid.generate()}>
+            <span className="dropdown-error">{errorMessage}</span>
+          </h2>)
+        }
+        const key = `${authority.uri}-${i}`
+        return (<div key={key}>
+          <button onClick={() => selectionChanged(result)} className="btn search-result">
+            { result.context ? (
+              <RenderLookupContext innerResult={result}
+                                   authLabel={authority.label}
+                                   authURI={authority.uri}
+                                   colorClassName={bgClass}></RenderLookupContext>
+            ) : result.label
+            }
+          </button>
+        </div>)
+      })
+
+      return (<Tab key={authority.uri} eventKey={authority.uri} title={authority.label}>
+        {items}
+      </Tab>)
+    })
+
+    return (
+      <Tabs
+        id="controlled-tab-example"
+        activeKey={tabKey}
+        onSelect={(k) => setTabKey(k)}
+      >
+        {tabs}
+      </Tabs>
+    )
+  }
+
+  const options = renderMenuFunc(props.getOptions(allResults.current), allAuthorities)
+
   const modal = (
     <div className={ classes.join(' ') }
          id={ modalId }
          style={{ display }}>
-      <div className="modal-dialog" role="document">
+      <div className="modal-dialog modal-dialog-scrollable" role="document">
         <div className="modal-content">
           <div className="modal-header">
-            <h4 className="modal-title">Lookup</h4>
+            <div className="form-group">
+              <label htmlFor="search">{props.property.propertyTemplate.label}</label>
+              <input id="search" type="search" className="form-control"
+                     onKeyUp={(e) => setQuery(e.target.value)}></input>
+            </div>
+
+            <button type="button" className="close" onClick={close} aria-label="Close">
+              <span aria-hidden="true">&times;</span>
+            </button>
           </div>
           <div className="modal-body">
-            {lookupCheckboxes.length > 1 && lookupCheckboxes}
-            <div className={groupClasses} data-testid='lookupForm'>
-              <AsyncTypeahead renderMenu={(results, menuProps) => renderMenuFunc(results, menuProps, Object.values(selectedAuthorities))}
-                              renderToken={(option, props, idx) => renderTokenFunc(option, props, idx)}
-                              data-testid='lookupList'
-                              disabled={isDisabled}
-                              onChange={(newSelected) => selectionChanged(newSelected)}
-                              options={props.getOptions(allResults.current)}
-                              onSearch={setQuery}
-                              selected={selected}
-                              {...typeaheadProps}
-                              filterBy={() => true}
-                              ref={(ref) => typeAheadRef.current = ref}
-              />
-              {error && <span className="text-danger">{error}</span>}
-            </div>
+            {options}
           </div>
           <div className="modal-footer">
             <button className="btn btn-link" onClick={ close }>Cancel</button>
-            <button className="btn btn-primary" onClick={ close } data-testid={`submit-${props.textValue}`}>Submit</button>
           </div>
         </div>
       </div>
@@ -228,9 +226,11 @@ const InputLookupModal = (props) => {
         data-testid="lookup"
         onClick={ handleClick }
         aria-label={'Lookups'}
-        className="btn btn-sm btn-secondary btn-literal">
+        disabled={isDisabled}
+        className={controlClasses}>
         <FontAwesomeIcon className="search-icon" icon={faSearch} />
       </button>
+      {error && <span className="invalid-feedback">{error}</span>}
       { lookupSelection }
       <ModalWrapper modal={modal} />
     </React.Fragment>

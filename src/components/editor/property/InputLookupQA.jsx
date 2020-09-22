@@ -4,7 +4,6 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import { getSearchResults } from 'utilities/QuestioningAuthority'
 import { getQAOptions } from 'utilities/Search'
-
 import InputLookupModal from './InputLookupModal'
 
 const InputLookupQA = (props) => (
