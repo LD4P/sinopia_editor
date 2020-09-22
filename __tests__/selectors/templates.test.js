@@ -9,7 +9,7 @@ describe('selectHistoricalTemplates()', () => {
 
   it('returns templates', () => {
     const state = createState({ hasResourceWithLiteral: true })
-    state.selectorReducer.historicalTemplates = ['ld4p:RT:bf2:Title:AbbrTitle']
+    state.editor.historicalTemplates = ['ld4p:RT:bf2:Title:AbbrTitle']
 
     const templates = selectHistoricalTemplates(state)
     expect(templates).toHaveLength(1)

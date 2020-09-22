@@ -4,16 +4,14 @@ import Config from 'Config'
 
 // Keeps a unique list of templates limited to 7
 export const addTemplateHistory = (state, action) => {
-  const newState = { ...state }
-  const template = action.payload
+  const templateId = action.payload
+  if (state.historicalTemplates.indexOf(templateId) !== -1
+      || templateId === Config.rootResourceTemplateId) return state
 
-  if (newState.historicalTemplates.indexOf(template) !== -1
-      || template === Config.rootResourceTemplateId) {
-    return newState
+  return {
+    ...state,
+    historicalTemplates: [...state.historicalTemplates, templateId].slice(-7),
   }
-
-  newState.historicalTemplates = [...state.historicalTemplates, template].slice(-7)
-  return newState
 }
 
 export const addTemplates = (state, action) => {

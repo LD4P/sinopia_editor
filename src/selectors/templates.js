@@ -33,5 +33,5 @@ export const selectSubjectAndPropertyTemplates = (state, key) => {
   return newSubjectTemplate
 }
 
-export const selectHistoricalTemplates = (state) => state.selectorReducer.historicalTemplates
+export const selectHistoricalTemplates = (state) => state.editor.historicalTemplates
   .map((resourceTemplateId) => selectSubjectTemplate(state, resourceTemplateId))

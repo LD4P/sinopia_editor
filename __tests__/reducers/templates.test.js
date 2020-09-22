@@ -6,7 +6,7 @@ import Config from 'Config'
 
 describe('addTemplateHistory', () => {
   it('adds items uniquely', () => {
-    let state = addTemplateHistory(createState().selectorReducer, { payload: 'template1' })
+    let state = addTemplateHistory(createState().editor, { payload: 'template1' })
     state = addTemplateHistory(state, { payload: 'template2' })
     state = addTemplateHistory(state, { payload: 'template1' })
 
@@ -15,17 +15,17 @@ describe('addTemplateHistory', () => {
 
   it('limits to 7', () => {
     const state = createState()
-    state.selectorReducer.historicalTemplates = ['template1', 'template2', 'template3',
+    state.editor.historicalTemplates = ['template1', 'template2', 'template3',
       'template4', 'template5', 'template6', 'template7']
 
-    const newState = addTemplateHistory(state.selectorReducer, { payload: 'template8' })
+    const newState = addTemplateHistory(state.editor, { payload: 'template8' })
 
     expect(newState.historicalTemplates).toEqual(['template2', 'template3',
       'template4', 'template5', 'template6', 'template7', 'template8'])
   })
 
   it('does not add root resource template to history', () => {
-    let state = addTemplateHistory(createState().selectorReducer, { payload: 'template1' })
+    let state = addTemplateHistory(createState().editor, { payload: 'template1' })
     state = addTemplateHistory(state, { payload: Config.rootResourceTemplateId })
     state = addTemplateHistory(state, { payload: 'template2' })
 

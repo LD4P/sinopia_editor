@@ -26,6 +26,7 @@ export const initialState = {
       cursorOffset: null,
     },
     errors: {}, // {<error key>: [errors...]} or {<error key>: {<resourceKey>: [errors...]}}
+    historicalTemplates: [],
     lastSave: {}, // {<resourceKey>: date}
     modal: {
       name: undefined, // Name of modal to show. Should only be one at a time.
@@ -66,7 +67,6 @@ export const initialState = {
       properties: {},
       values: {},
     },
-    historicalTemplates: [],
   },
 }
 

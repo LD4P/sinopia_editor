@@ -55,7 +55,6 @@ export const setCurrentComponent = (state, action) => ({
 })
 
 const handlers = {
-  ADD_TEMPLATE_HISTORY: addTemplateHistory,
   CLEAR_RESOURCE: clearResource,
   EXPORTS_RECEIVED: exportsReceived,
   FETCHING_LANGUAGES: fetchingLanguages,
@@ -90,6 +89,7 @@ const appHandlers = {
 const editorHandlers = {
   ADD_ERROR: addError,
   ADD_MODAL_MESSAGE: addModalMessage,
+  ADD_TEMPLATE_HISTORY: addTemplateHistory,
   CLEAR_ERRORS: clearErrors,
   CLEAR_MODAL_MESSAGES: clearModalMessages,
   CLEAR_RESOURCE: clearResourceFromEditor,
