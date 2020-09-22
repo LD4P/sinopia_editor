@@ -54,12 +54,15 @@ const InputLookup = (props) => {
     </div>
   ))
 
-  const modal = (
-    <LookupWithMultipleAuthorities modalId={modalId} property={props.property}
-                                   getLookupResults={props.getLookupResults}
-                                   getOptions={props.getOptions}
-                                   show={props.show} />
-  )
+  let modal
+  if (props.show) {
+    modal = (
+      <LookupWithMultipleAuthorities modalId={modalId} property={props.property}
+                                     getLookupResults={props.getLookupResults}
+                                     getOptions={props.getOptions}
+                                     show={props.show} />
+    )
+  }
 
   return (
     <React.Fragment>
