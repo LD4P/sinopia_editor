@@ -17,10 +17,10 @@ describe('Editing a template resource', () => {
   it('has a resource loaded into state', async () => {
     renderApp(store, history)
 
-    // Template header
+    // Template header appears
     await screen.findByText('Resource Template (dummy)', { selector: 'h3' })
 
-    // Left-nav button and Property header
+    // Left-nav button and Property headers appear
     const labels = await screen.findAllByText('Resource Template (dummy)')
     expect(labels.length).toBe(2)
 
@@ -57,13 +57,5 @@ describe('Editing a template resource', () => {
 
     const saveBtn = await screen.findAllByRole('button', { name: 'Save' })
     expect(saveBtn[0]).not.toBeDisabled()
-  })
-
-  it('copys a template', async () => {
-    renderApp(store, history)
-
-    await waitFor(() => 5000)
-
-    screen.debug()
   })
 })

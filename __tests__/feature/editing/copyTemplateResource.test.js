@@ -21,7 +21,7 @@ describe('Copying a template resource', () => {
         remark: null,
         resourceLabel: 'Resource Template (dummy)',
         resourceURI: 'http://sinopia.io/vocabulary/ResourceTemplate',
-        uri: 'http://localhost:3000/resource/sinopia:template:resource'
+        uri: 'http://localhost:3000/resource/sinopia:template:resource',
       },
     ],
     totalHits: 1,
@@ -39,15 +39,16 @@ describe('Copying a template resource', () => {
     await fireEvent.change(input, { target: { value: 'dummy' } })
     await screen.findByText('sinopia:template:resource')
 
-    // open the template
+    // Open the template
     fireEvent.click(await screen.findByTestId('Copy Resource Template (dummy)'))
     await act(() => promise)
 
+    // Headers and labels appear
     await screen.findByText('Resource Template (dummy)', { selector: 'h3' })
-
     const labels = await screen.findAllByText('Resource Template (dummy)')
     expect(labels.length).toBe(2)
 
+    // But there is no resource URI for the unsaved copy
     expect(screen.queryByText(/URI for this resource: <http:\/\/localhost:3000\/resource\/sinopia:template:resource>/))
       .not.toBeInTheDocument()
 
