@@ -1,118 +1,44 @@
-// Copyright 2019 Stanford University see LICENSE for license
+// Copyright 2020 Stanford University see LICENSE for license
 
-import React, {
-  useState, useRef, useMemo, useEffect,
-} from 'react'
+import React from 'react'
 import PropTypes from 'prop-types'
 import { selectModalType } from 'selectors/modals'
 import { connect, useSelector, useDispatch } from 'react-redux'
 import { displayResourceValidations } from 'selectors/errors'
 import _ from 'lodash'
 import { itemsForProperty } from './renderTypeaheadFunctions'
-import { newUriValue, newLiteralValue } from 'utilities/valueFactory'
-import shortid from 'shortid'
-
-import { addProperty, removeValue } from 'actions/resources'
+import { removeValue } from 'actions/resources'
 import { hideModal, showModal } from 'actions/modals'
 import { bindActionCreators } from 'redux'
 import ModalWrapper from 'components/ModalWrapper'
-import RenderLookupContext from './RenderLookupContext'
-import { Tab } from '../Tab'
-import { Tabs } from '../Tabs'
+import Lookup from './Lookup'
+
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faGlobe, faSearch, faTrashAlt } from '@fortawesome/free-solid-svg-icons'
 
 const InputLookupModal = (props) => {
   const dispatch = useDispatch()
-  const [, setTriggerRender] = useState('')
-  const [tabKey, setTabKey] = useState()
-
-  // Using a ref so that can append to current list of results.
-  const allResults = useRef([])
-  // Tokens allow us to cancel an existing search. Does not actually stop the
-  // search, but causes result to be ignored.
-  const tokens = useRef([])
-
   const displayValidations = useSelector((state) => displayResourceValidations(state))
   const errors = props.property.errors
   const selected = itemsForProperty(props.property)
-  const [query, setQuery] = useState(false)
-
-  const allAuthorities = useMemo(() => {
-    const authorities = {}
-    props.property.propertyTemplate.authorities.forEach((authority) => authorities[authority.uri] = authority)
-    return Object.values(authorities)
-  }, [props.property.propertyTemplate.authorities])
-
-  // For use inside the effect without having to add props to dependency array.
-  const getLookupResults = props.getLookupResults
-  useEffect(() => {
-    if (!query) return
-    // Clear the results.
-    // No re-render, so change not visible to user.
-    allResults.current = []
-
-    // Cancel all current searches
-    while (tokens.current.length > 0) {
-      tokens.current.pop().cancel = true
-    }
-
-    // Create a token for this set of searches
-    const token = { cancel: false }
-    tokens.current.push(token)
-    // resultPromises is an array of Promise<result>
-    const resultPromises = getLookupResults(query, allAuthorities)
-    resultPromises.forEach((resultPromise) => {
-      resultPromise.then((resultSet) => {
-        // Only use these results if not cancelled.
-        if (!token.cancel) {
-          allResults.current.push(resultSet)
-          // Changing state triggers re-render.
-          setTriggerRender(resultSet)
-        }
-      })
-    })
-  }, [query, allAuthorities, getLookupResults])
 
   const isRepeatable = props.property.propertyTemplate.repeatable
 
   const isDisabled = selected?.length > 0 && !isRepeatable
 
-  const selectionChanged = (item) => {
-    props.hideModal()
-    const newProperty = { ...props.property }
-    if (item.uri) {
-      newProperty.values.push(newUriValue(props.property, item.uri, item.label))
-    } else {
-      newProperty.values.push(newLiteralValue(props.property, item.content, null))
-    }
-    dispatch(addProperty(newProperty))
-  }
-
   let error
   let controlClasses = 'open-search-modal btn btn-sm btn-secondary btn-literal form-control'
-  const classes = ['modal', 'fade']
-  let display = 'none'
-  const modalId = `InputLookupModal-${props.property.key}`
 
   if (displayValidations && !_.isEmpty(errors)) {
     controlClasses += ' is-invalid'
     error = errors.join(',')
   }
 
-  if (props.show) {
-    classes.push('show')
-    display = 'block'
-  }
+  const modalId = `InputLookupModal-${props.property.key}`
 
   const handleClick = (event) => {
     event.preventDefault()
     dispatch(showModal(modalId))
-  }
-
-  const close = (event) => {
-    props.hideModal()
-    event.preventDefault()
   }
 
   // TODO: New styling to fit description in #2478
@@ -128,95 +54,12 @@ const InputLookupModal = (props) => {
     </div>
   ))
 
-  const renderMenuFunc = (results, lookupConfigs) => {
-    const resultsFor = {}
-    // First split the results out by authority id.
-    lookupConfigs.forEach((authority) => {
-      resultsFor[authority.uri] = []
-      let inAuthority = false
-      results.forEach((row) => {
-        if ('authURI' in row) {
-          if (row.authURI === authority.uri) {
-            inAuthority = true
-            return
-          }
-          inAuthority = false
-        }
-        if (inAuthority) {
-          resultsFor[authority.uri].push(row)
-        }
-      })
-    })
-
-    const tabs = lookupConfigs.map((authority) => {
-      const items = resultsFor[authority.uri].map((result, i) => {
-        if (result.authURI) return
-        if (result.customOption) return
-        const bgClass = i % 2 ? 'context-result-bg' : 'context-result-alt-bg'
-        if (result.isError) {
-          const errorMessage = result.label || 'An error occurred in retrieving results'
-          return (<h2 key={shortid.generate()}>
-            <span className="dropdown-error">{errorMessage}</span>
-          </h2>)
-        }
-        const key = `${authority.uri}-${i}`
-        return (<div key={key}>
-          <button onClick={() => selectionChanged(result)} className="btn search-result">
-            { result.context ? (
-              <RenderLookupContext innerResult={result}
-                                   authLabel={authority.label}
-                                   authURI={authority.uri}
-                                   colorClassName={bgClass}></RenderLookupContext>
-            ) : result.label
-            }
-          </button>
-        </div>)
-      })
-
-      return (<Tab key={authority.uri} eventKey={authority.uri} title={authority.label}>
-        {items}
-      </Tab>)
-    })
-
-    return (
-      <Tabs
-        id="controlled-tab-example"
-        activeKey={tabKey}
-        onSelect={(k) => setTabKey(k)}
-      >
-        {tabs}
-      </Tabs>
-    )
-  }
-
-  const options = renderMenuFunc(props.getOptions(allResults.current), allAuthorities)
-
   const modal = (
-    <div className={ classes.join(' ') }
-         id={ modalId }
-         style={{ display }}>
-      <div className="modal-dialog modal-dialog-scrollable" role="document">
-        <div className="modal-content">
-          <div className="modal-header">
-            <div className="form-group">
-              <label htmlFor="search">{props.property.propertyTemplate.label}</label>
-              <input id="search" type="search" className="form-control"
-                     onKeyUp={(e) => setQuery(e.target.value)}></input>
-            </div>
-
-            <button type="button" className="close" onClick={close} aria-label="Close">
-              <span aria-hidden="true">&times;</span>
-            </button>
-          </div>
-          <div className="modal-body">
-            {options}
-          </div>
-          <div className="modal-footer">
-            <button className="btn btn-link" onClick={ close }>Cancel</button>
-          </div>
-        </div>
-      </div>
-    </div>
+    <Lookup modalId={modalId} property={props.property}
+            getLookupResults={props.getLookupResults}
+            getOptions={props.getOptions}
+            show={props.show}
+            hideModal={props.hideModal} />
   )
 
   return (

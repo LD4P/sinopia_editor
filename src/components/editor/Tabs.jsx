@@ -1,23 +1,21 @@
 // Copyright 2020 Stanford University see LICENSE for license
 
-import React, {
-  useState, useRef, useMemo, useEffect,
-} from 'react'
+import React from 'react'
 import PropTypes from 'prop-types'
 
-export const Tabs = (props) => {
+const Tabs = (props) => {
   const children = props.children
 
-  const getDefaultActiveKey = (children) => {
-    let defaultActiveKey;
-    React.Children.forEach(props.children, (child) => {
+  const getDefaultActiveKey = () => {
+    let defaultActiveKey
+    React.Children.forEach(children, (child) => {
       if (defaultActiveKey == null) {
         defaultActiveKey = child.props.eventKey
       }
     })
     return defaultActiveKey
   }
-  const activeKey = props.activeKey || getDefaultActiveKey(children)
+  const activeKey = props.activeKey || getDefaultActiveKey()
 
   const renderTab = (child) => {
     const id = `${child.props.eventKey}-tab`
@@ -28,7 +26,7 @@ export const Tabs = (props) => {
     }
     const selected = child.props.eventKey === activeKey ? 'true' : 'false'
 
-    return(
+    return (
       <li className="nav-item" role="presentation">
         <a className={classes} id={id} data-toggle="tab"
            href={href} role="tab" aria-controls={child.props.eventKey}
@@ -45,7 +43,7 @@ export const Tabs = (props) => {
       classes += ' show active'
     }
 
-    return(
+    return (
       <div className={classes} id={child.props.eventKey} role="tabpanel" aria-labelledby={labeler}>{child.props.children}</div>
     )
   }
@@ -53,10 +51,10 @@ export const Tabs = (props) => {
   return (
     <React.Fragment>
       <ul className="nav nav-tabs" role="tablist">
-        {React.Children.map(props.children, renderTab)}
+        {React.Children.map(children, renderTab)}
       </ul>
       <div className="tab-content">
-        {React.Children.map(props.children, renderPanel)}
+        {React.Children.map(children, renderPanel)}
       </div>
     </React.Fragment>
   )
@@ -66,4 +64,7 @@ export const Tabs = (props) => {
 Tabs.propTypes = {
   activeKey: PropTypes.string,
   onSelect: PropTypes.func.isRequired,
+  children: PropTypes.array.isRequired,
 }
+
+export default Tabs

@@ -2,11 +2,11 @@
 
 import PropTypes from 'prop-types'
 
-export const Tab = (props) => {
-  return
-}
+const Tab = () => null
 
 Tab.propTypes = {
   title: PropTypes.string.isRequired,
   eventKey: PropTypes.string.isRequired,
 }
+
+export default Tab
