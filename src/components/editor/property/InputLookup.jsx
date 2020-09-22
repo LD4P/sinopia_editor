@@ -16,7 +16,7 @@ import LookupWithMultipleAuthorities from './LookupWithMultipleAuthorities'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faGlobe, faSearch, faTrashAlt } from '@fortawesome/free-solid-svg-icons'
 
-const InputLookupModal = (props) => {
+const InputLookup = (props) => {
   const dispatch = useDispatch()
   const displayValidations = useSelector((state) => displayResourceValidations(state))
   const errors = props.property.errors
@@ -79,12 +79,13 @@ const InputLookupModal = (props) => {
   )
 }
 
-InputLookupModal.propTypes = {
+InputLookup.propTypes = {
   property: PropTypes.object.isRequired,
   getLookupResults: PropTypes.func.isRequired,
   getOptions: PropTypes.func.isRequired,
   show: PropTypes.bool,
   lookupValues: PropTypes.array,
+  removeValue: PropTypes.func,
 }
 
 const mapStateToProps = (state, ownProps) => {
@@ -97,4 +98,4 @@ const mapStateToProps = (state, ownProps) => {
 
 const mapDispatchToProps = (dispatch) => bindActionCreators({ removeValue }, dispatch)
 
-export default connect(mapStateToProps, mapDispatchToProps)(InputLookupModal)
+export default connect(mapStateToProps, mapDispatchToProps)(InputLookup)

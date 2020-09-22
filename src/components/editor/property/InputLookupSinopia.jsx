@@ -6,11 +6,11 @@ import { getLookupResults } from 'sinopiaSearch'
 import { getSinopiaOptions } from 'utilities/Search'
 
 import ResourceList from './ResourceList'
-import InputLookupModal from './InputLookupModal'
+import InputLookup from './InputLookup'
 
 const InputLookupSinopia = (props) => (
   <React.Fragment>
-    <InputLookupModal getLookupResults={getLookupResults} getOptions={getSinopiaOptions} property={props.property} />
+    <InputLookup getLookupResults={getLookupResults} getOptions={getSinopiaOptions} property={props.property} />
     <ResourceList property={props.property} />
   </React.Fragment>
 )
