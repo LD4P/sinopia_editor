@@ -38,6 +38,7 @@ export const initialState = {
   },
   entities: {
     languages: [],
+    lookups: {},
   },
   search: {
     // Search model:
@@ -61,7 +62,6 @@ export const initialState = {
   },
   selectorReducer: {
     entities: { // The stuff we've retrieved from the server
-      lookups: {},
       exports: [],
       subjectTemplates: {},
       propertyTemplates: {},

@@ -7,11 +7,13 @@
  * @return {Object} the next redux state
  */
 export const lookupOptionsRetrieved = (state, action) => {
-  const newState = { ...state }
-
-  newState.entities.lookups[action.payload.uri] = action.payload.lookup
-
-  return newState
+  return {
+    ...state,
+    lookups: {
+      ...state.lookups,
+      [action.payload.uri]: action.payload.lookup
+    }
+  }
 }
 
 export const noop = () => {}
