@@ -33,8 +33,8 @@ const ResourceTemplateRow = (props) => (<tr key={props.row.id}>
       <button type="button"
               className="btn btn-link"
               title="Edit"
-              aria-label={`Edit ${props.row.label}`}
-              data-testid={`Edit ${props.row.label}`}
+              aria-label={`Edit ${props.row.resourceLabel}`}
+              data-testid={`Edit ${props.row.resourceLabel}`}
               onClick={(e) => props.handleEdit(props.row.uri, e) }>
         <FontAwesomeIcon icon={faEdit} className="icon-lg" />
       </button>
@@ -42,8 +42,8 @@ const ResourceTemplateRow = (props) => (<tr key={props.row.id}>
               className="btn btn-link"
               onClick={() => props.handleCopy(props.row.uri)}
               title="Copy"
-              data-testid={`Copy ${props.row.label}`}
-              aria-label={`Copy ${props.row.label}`}>
+              data-testid={`Copy ${props.row.resourceLabel}`}
+              aria-label={`Copy ${props.row.resourceLabel}`}>
         <FontAwesomeIcon icon={faCopy} className="icon-lg" />
       </button>
     </div>
