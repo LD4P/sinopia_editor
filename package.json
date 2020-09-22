@@ -84,7 +84,7 @@
     "query-string": "^6.13.2",
     "rdf-ext": "^1.3.0",
     "react": "^16.13.1",
-    "react-bootstrap-typeahead": "^3.4.2",
+    "react-bootstrap-typeahead": "^5.1.1",
     "react-dom": "^16.13.1",
     "react-helmet-async": "^1.0.7",
     "react-hot-loader": "^4.12.21",

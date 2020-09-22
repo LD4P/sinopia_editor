@@ -61,20 +61,22 @@ const ResourceTemplateChoiceModal = (props) => {
           </div>
           <form className="group-select-options">
             <div className="modal-body group-panel">
-              <label className="group-select-label" htmlFor="resourceTemplateSelect">
-                Into which resource template do you want to load this resource?
-              </label>
-              <AsyncTypeahead onSearch={search}
-                              onChange={change}
-                              options={options}
-                              multiple={false}
-                              isLoading={isLoading}
-                              selected={selected}
-                              placeholder="Enter id, label, URI, remark, or author"
-                              minLength={1}
-                              filterBy={() => true }
-                              allowNew={() => false }
-                              id="template-lookup" />
+              <div className="formGroup">
+                <label htmlFor="resourceTemplateSelect">
+                  Into which resource template do you want to load this resource?
+                </label>
+                <AsyncTypeahead onSearch={search}
+                                onChange={change}
+                                options={options}
+                                multiple={false}
+                                isLoading={isLoading}
+                                selected={selected}
+                                placeholder="Enter id, label, URI, remark, or author"
+                                minLength={1}
+                                filterBy={() => true }
+                                allowNew={() => false }
+                                id="template-lookup" />
+              </div>
               <div className="group-choose-buttons">
                 <button className="btn btn-link" style={{ paddingRight: '20px' }} onClick={ close }>
                   Cancel
