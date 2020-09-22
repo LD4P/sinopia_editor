@@ -11,7 +11,7 @@ import { itemsForProperty } from './renderTypeaheadFunctions'
 import { removeValue } from 'actions/resources'
 import { showModal } from 'actions/modals'
 import ModalWrapper from 'components/ModalWrapper'
-import Lookup from './Lookup'
+import LookupWithMultipleAuthorities from './LookupWithMultipleAuthorities'
 
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faGlobe, faSearch, faTrashAlt } from '@fortawesome/free-solid-svg-icons'
@@ -55,10 +55,10 @@ const InputLookupModal = (props) => {
   ))
 
   const modal = (
-    <Lookup modalId={modalId} property={props.property}
-            getLookupResults={props.getLookupResults}
-            getOptions={props.getOptions}
-            show={props.show} />
+    <LookupWithMultipleAuthorities modalId={modalId} property={props.property}
+                                   getLookupResults={props.getLookupResults}
+                                   getOptions={props.getOptions}
+                                   show={props.show} />
   )
 
   return (

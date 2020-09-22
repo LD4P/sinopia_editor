@@ -16,7 +16,10 @@ import RenderLookupContext from './RenderLookupContext'
 import Tab from '../Tab'
 import Tabs from '../Tabs'
 
-const Lookup = (props) => {
+
+// This does a lookup, and puts the results from the various authorities into
+// individual tab panels.
+const LookupWithMultipleAuthorities = (props) => {
   const dispatch = useDispatch()
   const [, setTriggerRender] = useState('')
   const [tabKey, setTabKey] = useState()
@@ -182,7 +185,7 @@ const Lookup = (props) => {
   )
 }
 
-Lookup.propTypes = {
+LookupWithMultipleAuthorities.propTypes = {
   modalId: PropTypes.string,
   property: PropTypes.object.isRequired,
   getLookupResults: PropTypes.func.isRequired,
@@ -194,4 +197,4 @@ Lookup.propTypes = {
 
 const mapDispatchToProps = (dispatch) => bindActionCreators({ hideModal }, dispatch)
 
-export default connect(null, mapDispatchToProps)(Lookup)
+export default connect(null, mapDispatchToProps)(LookupWithMultipleAuthorities)
