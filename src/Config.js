@@ -1,6 +1,10 @@
 // Copyright 2019 Stanford University see LICENSE for license
 
 class Config {
+  static get rootResourceTemplateId() {
+    return process.env.ROOT_RESOURCE_TEMPLATE_ID || 'sinopia:template:resource'
+  }
+
   static get sinopiaApiBase() {
     return process.env.SINOPIA_API_BASE_URL || 'http://localhost:3000'
   }

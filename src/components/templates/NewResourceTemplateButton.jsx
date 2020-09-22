@@ -11,6 +11,7 @@ import { newResource } from 'actionCreators/resources'
 import { selectErrors } from 'selectors/errors'
 import { selectCurrentResource } from 'selectors/resources'
 import _ from 'lodash'
+import Config from 'Config'
 
 const NewResourceTemplateButton = (props) => {
   const dispatch = useDispatch()
@@ -30,7 +31,7 @@ const NewResourceTemplateButton = (props) => {
 
   const handleClick = (event) => {
     event.preventDefault()
-    dispatch(newResource('sinopia:template:resource', newResourceErrorKey)).then((result) => {
+    dispatch(newResource(Config.rootResourceTemplateId, newResourceErrorKey)).then((result) => {
       setNavigateEditor(result)
     })
   }

@@ -1,5 +1,5 @@
 // Copyright 2019 Stanford University see LICENSE for license
-import Config from './Config'
+import Config from 'Config'
 /* eslint-disable node/no-unpublished-import */
 import {
   getFixtureTemplateSearchResults, hasFixtureResource, resourceSearchResults,

@@ -1,7 +1,7 @@
 // Copyright 2019 Stanford University see LICENSE for license
 
 import { datasetFromJsonld, jsonldFromDataset } from 'utilities/Utilities'
-import Config from './Config'
+import Config from 'Config'
 /* eslint-disable node/no-unpublished-import */
 import { hasFixtureResource, getFixtureResource } from '../__tests__/testUtilities/fixtureLoaderHelper'
 import GraphBuilder from 'GraphBuilder'
@@ -115,7 +115,7 @@ const saveBodyForResource = (resource, user, group) => {
     }))
 }
 
-const isTemplate = (resource) => resource.subjectTemplate.id === 'sinopia:template:resource'
+const isTemplate = (resource) => resource.subjectTemplate.id === Config.rootResourceTemplateId
 
 const templateIdFor = (resource) => {
   const resourceIdProperty = resource.properties.find((property) => property.propertyTemplate.uri === 'http://sinopia.io/vocabulary/hasResourceId')

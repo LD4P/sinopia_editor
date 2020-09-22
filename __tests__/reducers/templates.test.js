@@ -2,6 +2,7 @@
 
 import { addTemplateHistory, addTemplates } from 'reducers/templates'
 import { createState } from 'stateUtils'
+import Config from 'Config'
 
 describe('addTemplateHistory', () => {
   it('adds items uniquely', () => {
@@ -21,6 +22,14 @@ describe('addTemplateHistory', () => {
 
     expect(newState.historicalTemplates).toEqual(['template2', 'template3',
       'template4', 'template5', 'template6', 'template7', 'template8'])
+  })
+
+  it('does not add root resource template to history', () => {
+    let state = addTemplateHistory(createState().selectorReducer, { payload: 'template1' })
+    state = addTemplateHistory(state, { payload: Config.rootResourceTemplateId })
+    state = addTemplateHistory(state, { payload: 'template2' })
+
+    expect(state.historicalTemplates).toEqual(['template1', 'template2'])
   })
 })
 
