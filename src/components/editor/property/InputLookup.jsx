@@ -70,7 +70,7 @@ const InputLookup = (props) => {
         id="lookup"
         data-testid="lookup"
         onClick={ handleClick }
-        aria-label={'Lookups'}
+        aria-label={`Lookup value for ${props.property.propertyTemplate.label}`}
         disabled={isDisabled}
         className={controlClasses}>
         <FontAwesomeIcon className="search-icon" icon={faSearch} />
