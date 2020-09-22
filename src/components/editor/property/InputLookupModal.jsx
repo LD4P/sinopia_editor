@@ -4,12 +4,12 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import { selectModalType } from 'selectors/modals'
 import { connect, useSelector, useDispatch } from 'react-redux'
+import { bindActionCreators } from 'redux'
 import { displayResourceValidations } from 'selectors/errors'
 import _ from 'lodash'
 import { itemsForProperty } from './renderTypeaheadFunctions'
 import { removeValue } from 'actions/resources'
-import { hideModal, showModal } from 'actions/modals'
-import { bindActionCreators } from 'redux'
+import { showModal } from 'actions/modals'
 import ModalWrapper from 'components/ModalWrapper'
 import Lookup from './Lookup'
 
@@ -58,8 +58,7 @@ const InputLookupModal = (props) => {
     <Lookup modalId={modalId} property={props.property}
             getLookupResults={props.getLookupResults}
             getOptions={props.getOptions}
-            show={props.show}
-            hideModal={props.hideModal} />
+            show={props.show} />
   )
 
   return (
@@ -85,10 +84,7 @@ InputLookupModal.propTypes = {
   getLookupResults: PropTypes.func.isRequired,
   getOptions: PropTypes.func.isRequired,
   show: PropTypes.bool,
-  hideModal: PropTypes.func,
-  textValue: PropTypes.string,
   lookupValues: PropTypes.array,
-  removeValue: PropTypes.func,
 }
 
 const mapStateToProps = (state, ownProps) => {
@@ -99,6 +95,6 @@ const mapStateToProps = (state, ownProps) => {
   }
 }
 
-const mapDispatchToProps = (dispatch) => bindActionCreators({ removeValue, hideModal }, dispatch)
+const mapDispatchToProps = (dispatch) => bindActionCreators({ removeValue }, dispatch)
 
 export default connect(mapStateToProps, mapDispatchToProps)(InputLookupModal)

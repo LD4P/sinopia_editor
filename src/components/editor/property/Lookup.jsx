@@ -4,11 +4,13 @@ import React, {
   useState, useRef, useMemo, useEffect,
 } from 'react'
 import PropTypes from 'prop-types'
-import { useDispatch } from 'react-redux'
+import { connect, useDispatch } from 'react-redux'
+import { bindActionCreators } from 'redux'
 
 import shortid from 'shortid'
 import { newUriValue, newLiteralValue } from 'utilities/valueFactory'
 import { addProperty } from 'actions/resources'
+import { hideModal } from 'actions/modals'
 
 import RenderLookupContext from './RenderLookupContext'
 import Tab from '../Tab'
@@ -188,4 +190,8 @@ Lookup.propTypes = {
   show: PropTypes.bool,
   hideModal: PropTypes.func,
 }
-export default Lookup
+
+
+const mapDispatchToProps = (dispatch) => bindActionCreators({ hideModal }, dispatch)
+
+export default connect(null, mapDispatchToProps)(Lookup)
