@@ -56,12 +56,10 @@ export const setCurrentComponent = (state, action) => ({
 
 const handlers = {
   CLEAR_RESOURCE: clearResource,
-  EXPORTS_RECEIVED: exportsReceived,
   HIDE_PROPERTY: hideProperty,
   HIDE_VALIDATION_ERRORS: hideValidationErrors,
   LANGUAGE_SELECTED: setLanguage,
   LOAD_RESOURCE_FINISHED: loadResourceFinished,
-  LOOKUP_OPTIONS_RETRIEVED: lookupOptionsRetrieved,
   SAVE_RESOURCE_FINISHED: saveResourceFinished,
   SET_BASE_URL: setBaseURL,
   SET_RESOURCE_GROUP: setResourceGroup,
@@ -106,7 +104,9 @@ const editorHandlers = {
 }
 
 const entityHandlers = {
+  EXPORTS_RECEIVED: exportsReceived,
   LANGUAGES_RECEIVED: languagesReceived,
+  LOOKUP_OPTIONS_RETRIEVED: lookupOptionsRetrieved,
 }
 
 const searchHandlers = {

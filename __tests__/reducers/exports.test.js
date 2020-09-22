@@ -21,11 +21,9 @@ describe('exportsReceived', () => {
     }
 
     const oldState = createState().selectorReducer
-    const newState = reducer(oldState, action)
+    const newState = reducer(oldState.entities, action)
     expect(newState).toMatchObject({
-      entities: {
-        exports: exportFilenames,
-      },
+      exports: exportFilenames,
     })
   })
 })
