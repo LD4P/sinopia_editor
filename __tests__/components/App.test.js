@@ -20,7 +20,7 @@ describe('<App />', () => {
     const store = createStore()
     renderApp(store)
 
-    await wait(() => store.getState().selectorReducer.entities.languages.options.size > 0)
+    await wait(() => store.getState().entities.languages.size > 0)
   })
 
   it('sets app version', async () => {

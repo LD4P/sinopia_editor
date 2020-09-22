@@ -21,8 +21,6 @@ describe('fetchLanguages', () => {
   it('dispatches actions', async () => {
     await store.dispatch(fetchLanguages())
     const actions = store.getActions()
-    expect(actions.length).toEqual(2)
-    expect(actions[0]).toEqual({ type: 'FETCHING_LANGUAGES' })
-    expect(actions[1]).toEqual({ type: 'LANGUAGES_RECEIVED', payload: mockSuccessResponse })
+    expect(actions).toEqual([{ type: 'LANGUAGES_RECEIVED', payload: mockSuccessResponse }])
   })
 })

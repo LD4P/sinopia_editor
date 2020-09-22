@@ -8,20 +8,10 @@ export const setLanguage = (state, action) => {
   return newState
 }
 
-/**
- * This state change helps drive the isLoading value in the Typeahead (see the InputLang component)
- */
-export const fetchingLanguages = (state) => {
-  const newState = { ...state }
-  newState.entities.languages.loading = true
-  return newState
-}
-
-export const languagesReceived = (state, action) => {
-  const newState = { ...state }
-  newState.entities.languages = { loading: false, options: createOptions(action.payload) }
-  return newState
-}
+export const languagesReceived = (state, action) => ({
+  ...state,
+  languages: createOptions(action.payload),
+})
 
 const createOptions = (json) => json.reduce((result, item) => {
   // Object.getOwnPropertyDescriptor is necessary to handle the @

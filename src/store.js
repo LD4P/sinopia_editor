@@ -36,6 +36,9 @@ export const initialState = {
     resourceValidation: {}, // Show validation {<resourceKey>: boolean}
     unusedRDF: {}, // {<resourceKey>: rdf}
   },
+  entities: {
+    languages: [],
+  },
   search: {
     // Search model:
     // {
@@ -58,7 +61,6 @@ export const initialState = {
   },
   selectorReducer: {
     entities: { // The stuff we've retrieved from the server
-      languages: { loading: false, options: [] },
       lookups: {},
       exports: [],
       subjectTemplates: {},

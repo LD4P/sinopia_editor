@@ -7,10 +7,12 @@
  * @return [string] the label of the language or an empty string
  */
 export const selectLanguageLabel = (state, languageId) => {
-  const lang = state.selectorReducer.entities.languages.options.find((lang) => lang.id === languageId)
+  const lang = state.entities.languages.find((lang) => lang.id === languageId)
   return lang ? lang.label : ''
 }
 
 export const hasLanguages = (state) => {
-  state.selectorReducer.entities.languages.options.length > 0
+  state.entities.languages.length > 0
 }
+
+export const selectLanguages = (state) => state.entities.languages

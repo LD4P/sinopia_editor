@@ -1,43 +1,17 @@
 // Copyright 2020 Stanford University see LICENSE for license
 
 import {
-  fetchingLanguages, languagesReceived, setLanguage,
+  languagesReceived, setLanguage,
 } from 'reducers/languages'
 
 import { createReducer } from 'reducers/index'
 import { createState } from 'stateUtils'
 
 const reducers = {
-  FETCHING_LANGUAGES: fetchingLanguages,
   LANGUAGE_SELECTED: setLanguage,
   LANGUAGES_RECEIVED: languagesReceived,
 }
 const reducer = createReducer(reducers)
-
-describe('fetchingLanguages()', () => {
-  it('sets loading in state', () => {
-    const oldState = {
-      entities: {
-        languages: {
-          loading: false,
-        },
-      },
-    }
-
-    const action = {
-      type: 'FETCHING_LANGUAGES',
-    }
-
-    const newState = reducer(oldState, action)
-    expect(newState).toStrictEqual({
-      entities: {
-        languages: {
-          loading: true,
-        },
-      },
-    })
-  })
-})
 
 describe('languagesReceived()', () => {
   it('creates a hash of options that it renders in the form field', () => {
@@ -57,9 +31,7 @@ describe('languagesReceived()', () => {
     ]
 
     const oldState = {
-      entities: {
-        resourceTemplates: {},
-      },
+      languages: [],
     }
 
     const action = {
@@ -69,13 +41,7 @@ describe('languagesReceived()', () => {
 
     const newState = reducer(oldState, action)
     expect(newState).toEqual({
-      entities: {
-        resourceTemplates: {},
-        languages: {
-          loading: false,
-          options: [{ id: 'sna', label: 'Shona' }],
-        },
-      },
+      languages: [{ id: 'sna', label: 'Shona' }],
     })
   })
 })

@@ -7,7 +7,3 @@ export const languagesReceived = (json) => ({
   type: 'LANGUAGES_RECEIVED',
   payload: json,
 })
-
-export const fetchingLanguages = () => ({
-  type: 'FETCHING_LANGUAGES',
-})
