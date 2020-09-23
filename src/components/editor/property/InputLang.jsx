@@ -9,6 +9,7 @@ import { languageSelected } from 'actions/languages'
 import { hideModal } from 'actions/modals'
 import { bindActionCreators } from 'redux'
 import ModalWrapper from 'components/ModalWrapper'
+import { selectLanguages, hasLanguages } from 'selectors/languages'
 
 /**
  * Provides the RFC 5646 language tag for a literal element.
@@ -117,13 +118,12 @@ InputLang.propTypes = {
 }
 
 const mapStateToProps = (state, ownProps) => {
-  const languages = state.selectorReducer.entities.languages
   const show = selectModalType(state) === `LanguageModal-${ownProps.value.key}`
   return {
     lang: ownProps.value.lang,
     textValue: ownProps.value.literal,
-    options: languages?.options || [],
-    loading: languages?.loading || false,
+    options: selectLanguages(state),
+    loading: hasLanguages(state),
     show,
   }
 }

@@ -18,11 +18,9 @@ describe('lookupOptionsRetrieved', () => {
   ]
 
   it('adds a new lookup', () => {
-    const newState = lookupOptionsRetrieved(createState().selectorReducer, { payload: { uri, lookup } })
+    const newState = lookupOptionsRetrieved(createState().entities, { payload: { uri, lookup } })
     expect(newState).toMatchObject({
-      entities: {
-        lookups: { [uri]: lookup },
-      },
+      lookups: { [uri]: lookup },
     })
   })
 })

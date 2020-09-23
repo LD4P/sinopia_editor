@@ -24,7 +24,7 @@ export const createState = (options = {}) => {
 const buildExports = (state, options) => {
   if (options.noExports) return
 
-  state.selectorReducer.entities.exports = [
+  state.entities.exports = [
     'sinopia_export_all_2020-01-01T00:00:00.000Z.zip',
     'stanford_2020-01-01T00:00:00.000Z.zip',
   ]
@@ -45,7 +45,7 @@ const buildAuthenticate = (state, options) => {
 const buildLanguages = (state, options) => {
   if (options.noLanguage) return
 
-  state.selectorReducer.entities.languages.options = [
+  state.entities.languages = [
     { id: 'tai', label: 'Tai languages' },
     { id: 'eng', label: 'English' },
   ]

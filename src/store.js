@@ -26,6 +26,7 @@ export const initialState = {
       cursorOffset: null,
     },
     errors: {}, // {<error key>: [errors...]} or {<error key>: {<resourceKey>: [errors...]}}
+    historicalTemplates: [],
     lastSave: {}, // {<resourceKey>: date}
     modal: {
       name: undefined, // Name of modal to show. Should only be one at a time.
@@ -34,6 +35,11 @@ export const initialState = {
     resources: [], // Subject keys for open resources
     resourceValidation: {}, // Show validation {<resourceKey>: boolean}
     unusedRDF: {}, // {<resourceKey>: rdf}
+  },
+  entities: {
+    languages: [],
+    lookups: {},
+    exports: [],
   },
   search: {
     // Search model:
@@ -57,16 +63,12 @@ export const initialState = {
   },
   selectorReducer: {
     entities: { // The stuff we've retrieved from the server
-      languages: { loading: false, options: [] },
-      lookups: {},
-      exports: [],
       subjectTemplates: {},
       propertyTemplates: {},
       subjects: {},
       properties: {},
       values: {},
     },
-    historicalTemplates: [],
   },
 }
 

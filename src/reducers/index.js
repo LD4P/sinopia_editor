@@ -18,7 +18,7 @@ import {
   clearResourceFromEditor, saveResourceFinishedEditor,
 } from './resources'
 import {
-  setLanguage, fetchingLanguages, languagesReceived,
+  setLanguage, languagesReceived,
 } from './languages'
 import {
   hideValidationErrors, addError, clearErrors,
@@ -55,16 +55,11 @@ export const setCurrentComponent = (state, action) => ({
 })
 
 const handlers = {
-  ADD_TEMPLATE_HISTORY: addTemplateHistory,
   CLEAR_RESOURCE: clearResource,
-  EXPORTS_RECEIVED: exportsReceived,
-  FETCHING_LANGUAGES: fetchingLanguages,
   HIDE_PROPERTY: hideProperty,
   HIDE_VALIDATION_ERRORS: hideValidationErrors,
   LANGUAGE_SELECTED: setLanguage,
-  LANGUAGES_RECEIVED: languagesReceived,
   LOAD_RESOURCE_FINISHED: loadResourceFinished,
-  LOOKUP_OPTIONS_RETRIEVED: lookupOptionsRetrieved,
   SAVE_RESOURCE_FINISHED: saveResourceFinished,
   SET_BASE_URL: setBaseURL,
   SET_RESOURCE_GROUP: setResourceGroup,
@@ -90,6 +85,7 @@ const appHandlers = {
 const editorHandlers = {
   ADD_ERROR: addError,
   ADD_MODAL_MESSAGE: addModalMessage,
+  ADD_TEMPLATE_HISTORY: addTemplateHistory,
   CLEAR_ERRORS: clearErrors,
   CLEAR_MODAL_MESSAGES: clearModalMessages,
   CLEAR_RESOURCE: clearResourceFromEditor,
@@ -107,6 +103,12 @@ const editorHandlers = {
   SHOW_VALIDATION_ERRORS: showValidationErrors,
 }
 
+const entityHandlers = {
+  EXPORTS_RECEIVED: exportsReceived,
+  LANGUAGES_RECEIVED: languagesReceived,
+  LOOKUP_OPTIONS_RETRIEVED: lookupOptionsRetrieved,
+}
+
 const searchHandlers = {
   CLEAR_SEARCH_RESULTS: clearSearchResults,
   SET_SEARCH_RESULTS: setSearchResults,
@@ -121,6 +123,7 @@ const appReducer = combineReducers({
   authenticate: createReducer(authHandlers),
   app: createReducer(appHandlers),
   editor: createReducer(editorHandlers),
+  entities: createReducer(entityHandlers),
   search: createReducer(searchHandlers),
   selectorReducer: createReducer(handlers),
 })

@@ -18,7 +18,7 @@ describe('export', () => {
     beforeEach(() => global.fetch = jest.fn().mockImplementation(() => mockFetchPromise))
 
     it('dispatches actions', async () => {
-      const store = mockStore({ selectorReducer: { entities: { exports: [] } } })
+      const store = mockStore({ entities: { exports: [] } })
       await store.dispatch(fetchExports('testerrorkey'))
       expect(store.getActions()).toEqual([
         { type: 'CLEAR_ERRORS', payload: 'testerrorkey' },
@@ -39,7 +39,7 @@ describe('export', () => {
     beforeEach(() => global.fetch = jest.fn().mockImplementation(() => mockFetchPromise))
 
     it('dispatches actions', async () => {
-      const store = mockStore({ selectorReducer: { entities: { exports: [] } } })
+      const store = mockStore({ entities: { exports: [] } })
       await store.dispatch(fetchExports('testerrorkey'))
       expect(store.getActions()).toEqual([
         { type: 'CLEAR_ERRORS', payload: 'testerrorkey' },

@@ -1,9 +1,8 @@
 // Copyright 2019 Stanford University see LICENSE for license
 
-export const exportsReceived = (state, action) => {
-  const newState = { ...state }
-  newState.entities.exports = [...action.payload]
-  return newState
-}
+export const exportsReceived = (state, action) => ({
+  ...state,
+  exports: action.payload,
+})
 
 export const noop = () => {}

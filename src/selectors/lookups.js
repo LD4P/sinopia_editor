@@ -6,6 +6,6 @@
  * @param [string] URI of the lookup
  * @return [Object] the lookup if found
  */
-export const selectLookup = (state, uri) => state.selectorReducer.entities.lookups[uri]
+export const selectLookup = (state, uri) => state.entities.lookups[uri]
 
 export const noop = () => {}
