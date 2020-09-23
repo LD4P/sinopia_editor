@@ -40,6 +40,11 @@ export const initialState = {
     languages: [],
     lookups: {},
     exports: [],
+    properties: {},
+    propertyTemplates: {},
+    subjects: {},
+    subjectTemplates: {},
+    values: {},
   },
   search: {
     // Search model:
@@ -60,15 +65,6 @@ export const initialState = {
     // },
     resource: null,
     template: null,
-  },
-  selectorReducer: {
-    entities: { // The stuff we've retrieved from the server
-      subjectTemplates: {},
-      propertyTemplates: {},
-      subjects: {},
-      properties: {},
-      values: {},
-    },
   },
 }
 

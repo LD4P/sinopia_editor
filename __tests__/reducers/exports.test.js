@@ -20,7 +20,7 @@ describe('exportsReceived', () => {
       payload: exportFilenames,
     }
 
-    const oldState = createState().selectorReducer
+    const oldState = createState()
     const newState = reducer(oldState.entities, action)
     expect(newState).toMatchObject({
       exports: exportFilenames,

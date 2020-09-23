@@ -4,8 +4,7 @@
  * @param [string] key
  * @return [Object] subject template
  */
-export const selectSubjectTemplate = (state, key) => state.selectorReducer
-  .entities.subjectTemplates[key]
+export const selectSubjectTemplate = (state, key) => state.entities.subjectTemplates[key]
 
 /**
    * Selects a property template by key.
@@ -13,8 +12,7 @@ export const selectSubjectTemplate = (state, key) => state.selectorReducer
    * @param [string] key
    * @return [Object] property template
    */
-export const selectPropertyTemplate = (state, key) => state.selectorReducer
-  .entities.propertyTemplates[key]
+export const selectPropertyTemplate = (state, key) => state.entities.propertyTemplates[key]
 
 /**
      * Selects a subject template and associated property templates by key.

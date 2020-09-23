@@ -47,11 +47,11 @@ export const selectValue = (state, key) => {
   return newValue
 }
 
-export const selectNormSubject = (state, key) => state.selectorReducer.entities.subjects[key]
+export const selectNormSubject = (state, key) => state.entities.subjects[key]
 
-export const selectNormProperty = (state, key) => state.selectorReducer.entities.properties[key]
+export const selectNormProperty = (state, key) => state.entities.properties[key]
 
-export const selectNormValue = (state, key) => state.selectorReducer.entities.values[key]
+export const selectNormValue = (state, key) => state.entities.values[key]
 
 export const selectCurrentResource = (state) => selectSubject(state, selectCurrentResourceKey(state))
 
@@ -97,7 +97,7 @@ const selectFullValue = (state, key, property) => {
  */
 export const resourceHasChangesSinceLastSave = (state, resourceKey) => {
   const thisResourceKey = resourceKey || selectCurrentResourceKey(state)
-  return state.selectorReducer.entities.subjects[thisResourceKey].changed
+  return state.entities.subjects[thisResourceKey].changed
 }
 
 export const selectResourceKeys = (state) => state.editor.resources

@@ -15,15 +15,19 @@ export const addTemplateHistory = (state, action) => {
 }
 
 export const addTemplates = (state, action) => {
-  const newState = { ...state }
-
   const newSubjectTemplate = { ...action.payload }
 
+  const newState = {
+    ...state,
+    subjectTemplates: { ...state.subjectTemplates },
+    propertyTemplates: { ...state.propertyTemplates },
+  }
+
   newSubjectTemplate.propertyTemplates.forEach((propertyTemplate) => {
-    newState.entities.propertyTemplates[propertyTemplate.key] = { ...propertyTemplate }
+    newState.propertyTemplates[propertyTemplate.key] = { ...propertyTemplate }
   })
   delete newSubjectTemplate.propertyTemplates
-  newState.entities.subjectTemplates[newSubjectTemplate.key] = newSubjectTemplate
+  newState.subjectTemplates[newSubjectTemplate.key] = newSubjectTemplate
 
   return newState
 }

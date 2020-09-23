@@ -84,12 +84,12 @@ describe('selectFullSubject()', () => {
 describe('resourceHasChangesSinceLastSave', () => {
   it('returns changed for currentResource if key not provided', () => {
     const state = createState({ hasResourceWithNestedResource: true })
-    state.selectorReducer.entities.subjects.ljAblGiBW.changed = true
+    state.entities.subjects.ljAblGiBW.changed = true
     expect(resourceHasChangesSinceLastSave(state)).toBe(true)
   })
   it('returns changed for provided resource', () => {
     const state = createState({ hasResourceWithNestedResource: true })
-    state.selectorReducer.entities.subjects.ljAblGiBW.changed = true
+    state.entities.subjects.ljAblGiBW.changed = true
     expect(resourceHasChangesSinceLastSave(state, 'ljAblGiBW')).toBe(true)
   })
 })

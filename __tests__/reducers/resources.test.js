@@ -54,8 +54,8 @@ describe('addProperty()', () => {
           errors: [],
         },
       }
-      const newState = reducer(oldState.selectorReducer, action)
-      expect(newState.entities.properties.vmq88891).toStrictEqual({
+      const newState = reducer(oldState.entities, action)
+      expect(newState.properties.vmq88891).toStrictEqual({
         key: 'vmq88891',
         subjectKey: 't9zVwg2zO',
         rootSubjectKey: 't9zVwg2zO',
@@ -67,8 +67,8 @@ describe('addProperty()', () => {
         descUriOrLiteralValueKeys: [],
         descWithErrorPropertyKeys: [],
       })
-      expect(newState.entities.subjects.t9zVwg2zO.propertyKeys).toContain('vmq88891')
-      expect(newState.entities.subjects.t9zVwg2zO.changed).toBe(true)
+      expect(newState.subjects.t9zVwg2zO.propertyKeys).toContain('vmq88891')
+      expect(newState.subjects.t9zVwg2zO.changed).toBe(true)
     })
   })
 
@@ -96,8 +96,8 @@ describe('addProperty()', () => {
         },
       }
 
-      const newState = reducer(oldState.selectorReducer, action)
-      expect(newState.entities.properties['JQEtq-vmq8']).toStrictEqual({
+      const newState = reducer(oldState.entities, action)
+      expect(newState.properties['JQEtq-vmq8']).toStrictEqual({
         key: 'JQEtq-vmq8',
         subjectKey: 't9zVwg2zO',
         rootSubjectKey: 't9zVwg2zO',
@@ -109,11 +109,11 @@ describe('addProperty()', () => {
         descWithErrorPropertyKeys: [],
         descUriOrLiteralValueKeys: ['RxGx7WMh4'],
       })
-      expect(newState.entities.subjects.t9zVwg2zO.propertyKeys).toContain('JQEtq-vmq8')
+      expect(newState.subjects.t9zVwg2zO.propertyKeys).toContain('JQEtq-vmq8')
       // Replaces values
-      expect(newState.entities.values.RxGx7WMh4).not.toBeUndefined()
-      expect(newState.entities.values.CxGx7WMh2).toBeUndefined()
-      expect(newState.entities.subjects.t9zVwg2zO.changed).toBe(true)
+      expect(newState.values.RxGx7WMh4).not.toBeUndefined()
+      expect(newState.values.CxGx7WMh2).toBeUndefined()
+      expect(newState.subjects.t9zVwg2zO.changed).toBe(true)
     })
   })
 
@@ -133,8 +133,8 @@ describe('addProperty()', () => {
         },
       }
 
-      const newState = reducer(oldState.selectorReducer, action)
-      expect(newState.entities.properties['i0SAJP-Zhd']).toStrictEqual({
+      const newState = reducer(oldState.entities, action)
+      expect(newState.properties['i0SAJP-Zhd']).toStrictEqual({
         key: 'i0SAJP-Zhd',
         subjectKey: 'wihOjn-0Z',
         rootSubjectKey: 'wihOjn-0Z',
@@ -146,18 +146,18 @@ describe('addProperty()', () => {
         descUriOrLiteralValueKeys: [],
         descWithErrorPropertyKeys: ['i0SAJP-Zhd'],
       })
-      expect(newState.entities.subjects['wihOjn-0Z'].propertyKeys).toContain('i0SAJP-Zhd')
-      expect(newState.entities.values['s8-qt3-uu']).toBeUndefined()
-      expect(newState.entities.subjects['wihOjn-0Z'].changed).toBe(true)
+      expect(newState.subjects['wihOjn-0Z'].propertyKeys).toContain('i0SAJP-Zhd')
+      expect(newState.values['s8-qt3-uu']).toBeUndefined()
+      expect(newState.subjects['wihOjn-0Z'].changed).toBe(true)
       // Removes from bfWorkRefs
-      expect(newState.entities.subjects['wihOjn-0Z'].bfWorkRefs).toHaveLength(0)
+      expect(newState.subjects['wihOjn-0Z'].bfWorkRefs).toHaveLength(0)
     })
   })
 
   describe('property with validation error', () => {
     it('adds error', () => {
       const oldState = createState({ hasResourceWithLiteral: true })
-      oldState.selectorReducer.entities.propertyTemplates['ld4p:RT:bf2:Title:AbbrTitle > http://id.loc.gov/ontologies/bibframe/mainTitle'].required = true
+      oldState.entities.propertyTemplates['ld4p:RT:bf2:Title:AbbrTitle > http://id.loc.gov/ontologies/bibframe/mainTitle'].required = true
 
       const action = {
         type: 'ADD_PROPERTY',
@@ -170,8 +170,8 @@ describe('addProperty()', () => {
           errors: [],
         },
       }
-      const newState = reducer(oldState.selectorReducer, action)
-      expect(newState.entities.properties.vmq88891).toStrictEqual({
+      const newState = reducer(oldState.entities, action)
+      expect(newState.properties.vmq88891).toStrictEqual({
         key: 'vmq88891',
         subjectKey: 't9zVwg2zO',
         rootSubjectKey: 't9zVwg2zO',
@@ -184,7 +184,7 @@ describe('addProperty()', () => {
         descWithErrorPropertyKeys: ['vmq88891'],
       })
 
-      expect(newState.entities.subjects.t9zVwg2zO.descWithErrorPropertyKeys).toContain('vmq88891')
+      expect(newState.subjects.t9zVwg2zO.descWithErrorPropertyKeys).toContain('vmq88891')
     })
   })
 })
@@ -204,8 +204,8 @@ describe('addSubject()', () => {
         },
       }
 
-      const newState = reducer(oldState.selectorReducer, action)
-      expect(newState.entities.subjects).toStrictEqual({
+      const newState = reducer(oldState.entities, action)
+      expect(newState.subjects).toStrictEqual({
         '45689df': {
           key: '45689df',
           propertyKeys: [],
@@ -241,8 +241,8 @@ describe('addSubject()', () => {
         },
       }
 
-      const newState = reducer(oldState.selectorReducer, action)
-      expect(newState.entities.subjects['45689df']).toStrictEqual({
+      const newState = reducer(oldState.entities, action)
+      expect(newState.subjects['45689df']).toStrictEqual({
         key: '45689df',
         propertyKeys: [],
         uri: null,
@@ -287,8 +287,8 @@ describe('addSubject()', () => {
         },
       }
 
-      const newState = reducer(oldState.selectorReducer, action)
-      expect(newState.entities.subjects.t9zVwg2zO).toStrictEqual({
+      const newState = reducer(oldState.entities, action)
+      expect(newState.subjects.t9zVwg2zO).toStrictEqual({
         key: 't9zVwg2zO',
         rootSubjectKey: 't9zVwg2zO',
         rootPropertyKey: null,
@@ -308,8 +308,8 @@ describe('addSubject()', () => {
         group: null,
       })
       // Replaces values
-      expect(newState.entities.properties['KQEtq-vmq9']).not.toBeUndefined()
-      expect(newState.entities.properties['JQEtq-vmq8']).toBeUndefined()
+      expect(newState.properties['KQEtq-vmq9']).not.toBeUndefined()
+      expect(newState.properties['JQEtq-vmq8']).toBeUndefined()
     })
   })
 })
@@ -350,9 +350,9 @@ describe('addValue()', () => {
         },
       }
 
-      const newState = reducer(oldState.selectorReducer, action)
+      const newState = reducer(oldState.entities, action)
 
-      expect(newState.entities.values.DxGx7WMh3).toStrictEqual({
+      expect(newState.values.DxGx7WMh3).toStrictEqual({
         key: 'DxGx7WMh3',
         propertyKey: 'JQEtq-vmq8',
         rootSubjectKey: 't9zVwg2zO',
@@ -363,17 +363,17 @@ describe('addValue()', () => {
         label: null,
         valueSubjectKey: null,
       })
-      expect(newState.entities.properties['JQEtq-vmq8'].valueKeys).toContain('DxGx7WMh3')
-      expect(newState.entities.properties['JQEtq-vmq8'].show).toBe(true)
-      expect(newState.entities.properties['JQEtq-vmq8'].descUriOrLiteralValueKeys).toContain('DxGx7WMh3')
-      expect(newState.entities.subjects.t9zVwg2zO.descUriOrLiteralValueKeys).toContain('DxGx7WMh3')
+      expect(newState.properties['JQEtq-vmq8'].valueKeys).toContain('DxGx7WMh3')
+      expect(newState.properties['JQEtq-vmq8'].show).toBe(true)
+      expect(newState.properties['JQEtq-vmq8'].descUriOrLiteralValueKeys).toContain('DxGx7WMh3')
+      expect(newState.subjects.t9zVwg2zO.descUriOrLiteralValueKeys).toContain('DxGx7WMh3')
     })
   })
 
   describe('new literal value with siblingValueKey', () => {
     it('updates state', () => {
       const oldState = createState({ hasResourceWithLiteral: true })
-      oldState.selectorReducer.entities.properties['JQEtq-vmq8'].valueKeys = ['abc123', 'def456']
+      oldState.entities.properties['JQEtq-vmq8'].valueKeys = ['abc123', 'def456']
 
       const action = {
         type: 'ADD_VALUE',
@@ -391,8 +391,8 @@ describe('addValue()', () => {
         },
       }
 
-      const newState = reducer(oldState.selectorReducer, action)
-      expect(newState.entities.properties['JQEtq-vmq8'].valueKeys).toEqual(['abc123', 'DxGx7WMh3', 'def456'])
+      const newState = reducer(oldState.entities, action)
+      expect(newState.properties['JQEtq-vmq8'].valueKeys).toEqual(['abc123', 'DxGx7WMh3', 'def456'])
     })
   })
 
@@ -420,8 +420,8 @@ describe('addValue()', () => {
         },
       }
 
-      const newState = reducer(oldState.selectorReducer, action)
-      expect(newState.entities.values.VDOeQCnFA8).toStrictEqual({
+      const newState = reducer(oldState.entities, action)
+      expect(newState.values.VDOeQCnFA8).toStrictEqual({
         key: 'VDOeQCnFA8',
         propertyKey: 'v1o90QO1Qx',
         rootSubjectKey: 'ljAblGiBW',
@@ -433,8 +433,8 @@ describe('addValue()', () => {
         valueSubjectKey: 'YPb8jaPW1',
       })
       // Replaces subjects
-      expect(newState.entities.subjects.YPb8jaPW1).not.toBeUndefined()
-      expect(newState.entities.subjects.JXPb8jaPWo).toBeUndefined()
+      expect(newState.subjects.YPb8jaPW1).not.toBeUndefined()
+      expect(newState.subjects.JXPb8jaPWo).toBeUndefined()
     })
   })
 
@@ -442,9 +442,9 @@ describe('addValue()', () => {
     it('updates state', () => {
       const oldState = createState({ hasResourceWithUri: true })
 
-      const newState = reducer(oldState.selectorReducer, addUriAction)
+      const newState = reducer(oldState.entities, addUriAction)
 
-      expect(newState.entities.values.DxGx7WMh3).toStrictEqual({
+      expect(newState.values.DxGx7WMh3).toStrictEqual({
         key: 'DxGx7WMh3',
         propertyKey: 'i0SAJP-Zhd',
         rootSubjectKey: 'wihOjn-0Z',
@@ -455,26 +455,26 @@ describe('addValue()', () => {
         label: null,
         valueSubjectKey: null,
       })
-      expect(newState.entities.properties['i0SAJP-Zhd'].valueKeys).toContain('DxGx7WMh3')
-      expect(newState.entities.properties['i0SAJP-Zhd'].show).toBe(true)
-      expect(newState.entities.subjects['wihOjn-0Z'].bfAdminMetadataRefs).toHaveLength(0)
-      expect(newState.entities.subjects['wihOjn-0Z'].bfInstanceRefs).toHaveLength(0)
-      expect(newState.entities.subjects['wihOjn-0Z'].bfItemRefs).toHaveLength(0)
-      expect(newState.entities.subjects['wihOjn-0Z'].bfWorkRefs).toEqual(['http://localhost:3000/resource/74770f92-f8cf-48ee-970a-aefc97843738', 'http://localhost:3000/resource/85770f92-f8cf-48ee-970a-aefc97843749'])
+      expect(newState.properties['i0SAJP-Zhd'].valueKeys).toContain('DxGx7WMh3')
+      expect(newState.properties['i0SAJP-Zhd'].show).toBe(true)
+      expect(newState.subjects['wihOjn-0Z'].bfAdminMetadataRefs).toHaveLength(0)
+      expect(newState.subjects['wihOjn-0Z'].bfInstanceRefs).toHaveLength(0)
+      expect(newState.subjects['wihOjn-0Z'].bfItemRefs).toHaveLength(0)
+      expect(newState.subjects['wihOjn-0Z'].bfWorkRefs).toEqual(['http://localhost:3000/resource/74770f92-f8cf-48ee-970a-aefc97843738', 'http://localhost:3000/resource/85770f92-f8cf-48ee-970a-aefc97843749'])
     })
   })
 
   describe('new uri value that is a bf Instance ref', () => {
     it('updates state', () => {
       const oldState = createState({ hasResourceWithUri: true })
-      oldState.selectorReducer.entities.propertyTemplates['test:resource:SinopiaLookup > http://id.loc.gov/ontologies/bibframe/instanceOf'].uri = 'http://id.loc.gov/ontologies/bibframe/hasInstance'
+      oldState.entities.propertyTemplates['test:resource:SinopiaLookup > http://id.loc.gov/ontologies/bibframe/instanceOf'].uri = 'http://id.loc.gov/ontologies/bibframe/hasInstance'
 
-      const newState = reducer(oldState.selectorReducer, addUriAction)
+      const newState = reducer(oldState.entities, addUriAction)
 
-      expect(newState.entities.subjects['wihOjn-0Z'].bfAdminMetadataRefs).toHaveLength(0)
-      expect(newState.entities.subjects['wihOjn-0Z'].bfInstanceRefs).toEqual(['http://localhost:3000/resource/85770f92-f8cf-48ee-970a-aefc97843749'])
-      expect(newState.entities.subjects['wihOjn-0Z'].bfItemRefs).toHaveLength(0)
-      expect(newState.entities.subjects['wihOjn-0Z'].bfWorkRefs).toHaveLength(1)
+      expect(newState.subjects['wihOjn-0Z'].bfAdminMetadataRefs).toHaveLength(0)
+      expect(newState.subjects['wihOjn-0Z'].bfInstanceRefs).toEqual(['http://localhost:3000/resource/85770f92-f8cf-48ee-970a-aefc97843749'])
+      expect(newState.subjects['wihOjn-0Z'].bfItemRefs).toHaveLength(0)
+      expect(newState.subjects['wihOjn-0Z'].bfWorkRefs).toHaveLength(1)
     })
   })
 
@@ -482,14 +482,14 @@ describe('addValue()', () => {
     it('updates state', () => {
       const oldState = createState({ hasResourceWithUri: true })
       // Ignore the key here.
-      oldState.selectorReducer.entities.propertyTemplates['test:resource:SinopiaLookup > http://id.loc.gov/ontologies/bibframe/instanceOf'].uri = 'http://id.loc.gov/ontologies/bibframe/hasItem'
+      oldState.entities.propertyTemplates['test:resource:SinopiaLookup > http://id.loc.gov/ontologies/bibframe/instanceOf'].uri = 'http://id.loc.gov/ontologies/bibframe/hasItem'
 
-      const newState = reducer(oldState.selectorReducer, addUriAction)
+      const newState = reducer(oldState.entities, addUriAction)
 
-      expect(newState.entities.subjects['wihOjn-0Z'].bfAdminMetadataRefs).toHaveLength(0)
-      expect(newState.entities.subjects['wihOjn-0Z'].bfInstanceRefs).toHaveLength(0)
-      expect(newState.entities.subjects['wihOjn-0Z'].bfItemRefs).toEqual(['http://localhost:3000/resource/85770f92-f8cf-48ee-970a-aefc97843749'])
-      expect(newState.entities.subjects['wihOjn-0Z'].bfWorkRefs).toHaveLength(1)
+      expect(newState.subjects['wihOjn-0Z'].bfAdminMetadataRefs).toHaveLength(0)
+      expect(newState.subjects['wihOjn-0Z'].bfInstanceRefs).toHaveLength(0)
+      expect(newState.subjects['wihOjn-0Z'].bfItemRefs).toEqual(['http://localhost:3000/resource/85770f92-f8cf-48ee-970a-aefc97843749'])
+      expect(newState.subjects['wihOjn-0Z'].bfWorkRefs).toHaveLength(1)
     })
   })
 
@@ -497,14 +497,14 @@ describe('addValue()', () => {
     it('updates state', () => {
       const oldState = createState({ hasResourceWithUri: true })
       // Ignore the key here.
-      oldState.selectorReducer.entities.propertyTemplates['test:resource:SinopiaLookup > http://id.loc.gov/ontologies/bibframe/instanceOf'].uri = 'http://id.loc.gov/ontologies/bibframe/adminMetadata'
+      oldState.entities.propertyTemplates['test:resource:SinopiaLookup > http://id.loc.gov/ontologies/bibframe/instanceOf'].uri = 'http://id.loc.gov/ontologies/bibframe/adminMetadata'
 
-      const newState = reducer(oldState.selectorReducer, addUriAction)
+      const newState = reducer(oldState.entities, addUriAction)
 
-      expect(newState.entities.subjects['wihOjn-0Z'].bfAdminMetadataRefs).toEqual(['http://localhost:3000/resource/85770f92-f8cf-48ee-970a-aefc97843749'])
-      expect(newState.entities.subjects['wihOjn-0Z'].bfInstanceRefs).toHaveLength(0)
-      expect(newState.entities.subjects['wihOjn-0Z'].bfItemRefs).toHaveLength(0)
-      expect(newState.entities.subjects['wihOjn-0Z'].bfWorkRefs).toHaveLength(1)
+      expect(newState.subjects['wihOjn-0Z'].bfAdminMetadataRefs).toEqual(['http://localhost:3000/resource/85770f92-f8cf-48ee-970a-aefc97843749'])
+      expect(newState.subjects['wihOjn-0Z'].bfInstanceRefs).toHaveLength(0)
+      expect(newState.subjects['wihOjn-0Z'].bfItemRefs).toHaveLength(0)
+      expect(newState.subjects['wihOjn-0Z'].bfWorkRefs).toHaveLength(1)
     })
   })
 })
@@ -518,10 +518,10 @@ describe('clearResource()', () => {
       payload: 't9zVwg2zO',
     }
 
-    const newState = reducer(oldState.selectorReducer, action)
-    expect(Object.keys(newState.entities.subjects)).toHaveLength(0)
-    expect(Object.keys(newState.entities.properties)).toHaveLength(0)
-    expect(Object.keys(newState.entities.values)).toHaveLength(0)
+    const newState = reducer(oldState.entities, action)
+    expect(Object.keys(newState.subjects)).toHaveLength(0)
+    expect(Object.keys(newState.properties)).toHaveLength(0)
+    expect(Object.keys(newState.values)).toHaveLength(0)
   })
 })
 
@@ -546,12 +546,10 @@ describe('clearResourceFromEditor()', () => {
 describe('hideProperty()', () => {
   it('sets show to false for property', () => {
     const oldState = {
-      entities: {
-        properties: {
-          'kqKVn-1TbC': {
-            key: 'kqKVn-1TbC',
-            show: true,
-          },
+      properties: {
+        'kqKVn-1TbC': {
+          key: 'kqKVn-1TbC',
+          show: true,
         },
       },
     }
@@ -562,7 +560,7 @@ describe('hideProperty()', () => {
     }
 
     const newState = reducer(oldState, action)
-    expect(newState.entities.properties['kqKVn-1TbC'].show).toBeFalsy()
+    expect(newState.properties['kqKVn-1TbC'].show).toBeFalsy()
   })
 })
 
@@ -574,10 +572,10 @@ describe('removeSubject()', () => {
       payload: 't9zVwg2zO',
     }
 
-    const newState = reducer(oldState.selectorReducer, action)
-    expect(newState.entities.subjects.t9zVwg2zO).toBe(undefined)
-    expect(newState.entities.properties['JQEtq-vmq8']).toBe(undefined)
-    expect(newState.entities.values.CxGx7WMh2).toBe(undefined)
+    const newState = reducer(oldState.entities, action)
+    expect(newState.subjects.t9zVwg2zO).toBe(undefined)
+    expect(newState.properties['JQEtq-vmq8']).toBe(undefined)
+    expect(newState.values.CxGx7WMh2).toBe(undefined)
   })
 })
 
@@ -590,36 +588,36 @@ describe('removeValue()', () => {
         payload: 'CxGx7WMh2',
       }
 
-      const newState = reducer(oldState.selectorReducer, action)
-      expect(newState.entities.values.CxGx7WMh2).toBe(undefined)
-      expect(newState.entities.properties['JQEtq-vmq8'].valueKeys).not.toContain('CxGx7WMh2')
-      expect(newState.entities.properties['JQEtq-vmq8'].errors).toHaveLength(0)
-      expect(newState.entities.properties['JQEtq-vmq8'].descUriOrLiteralValueKeys).not.toContain('CxGx7WMh2')
-      expect(newState.entities.subjects.t9zVwg2zO.changed).toBe(true)
-      expect(newState.entities.subjects.t9zVwg2zO.descUriOrLiteralValueKeys).not.toContain('CxGx7WMh2')
+      const newState = reducer(oldState.entities, action)
+      expect(newState.values.CxGx7WMh2).toBe(undefined)
+      expect(newState.properties['JQEtq-vmq8'].valueKeys).not.toContain('CxGx7WMh2')
+      expect(newState.properties['JQEtq-vmq8'].errors).toHaveLength(0)
+      expect(newState.properties['JQEtq-vmq8'].descUriOrLiteralValueKeys).not.toContain('CxGx7WMh2')
+      expect(newState.subjects.t9zVwg2zO.changed).toBe(true)
+      expect(newState.subjects.t9zVwg2zO.descUriOrLiteralValueKeys).not.toContain('CxGx7WMh2')
     })
   })
   describe('with an error', () => {
     it('removes a value for a property and clears error', () => {
       const oldState = createState({ hasResourceWithLiteral: true, hasError: true })
-      oldState.selectorReducer.entities.propertyTemplates['ld4p:RT:bf2:Title:AbbrTitle > http://id.loc.gov/ontologies/bibframe/mainTitle'].required = false
+      oldState.entities.propertyTemplates['ld4p:RT:bf2:Title:AbbrTitle > http://id.loc.gov/ontologies/bibframe/mainTitle'].required = false
       const action = {
         type: 'REMOVE_VALUE',
         payload: 'CxGx7WMh2',
       }
 
-      expect(oldState.selectorReducer.entities.properties['JQEtq-vmq8'].descWithErrorPropertyKeys).toContain('JQEtq-vmq8')
-      expect(oldState.selectorReducer.entities.subjects.t9zVwg2zO.descWithErrorPropertyKeys).toContain('JQEtq-vmq8')
+      expect(oldState.entities.properties['JQEtq-vmq8'].descWithErrorPropertyKeys).toContain('JQEtq-vmq8')
+      expect(oldState.entities.subjects.t9zVwg2zO.descWithErrorPropertyKeys).toContain('JQEtq-vmq8')
 
-      const newState = reducer(oldState.selectorReducer, action)
-      expect(newState.entities.values.CxGx7WMh2).toBe(undefined)
-      expect(newState.entities.properties['JQEtq-vmq8'].valueKeys).not.toContain('CxGx7WMh2')
-      expect(newState.entities.properties['JQEtq-vmq8'].errors).toHaveLength(0)
-      expect(newState.entities.properties['JQEtq-vmq8'].descUriOrLiteralValueKeys).not.toContain('CxGx7WMh2')
-      expect(newState.entities.subjects.t9zVwg2zO.changed).toBe(true)
-      expect(newState.entities.subjects.t9zVwg2zO.descUriOrLiteralValueKeys).not.toContain('CxGx7WMh2')
-      expect(newState.entities.properties['JQEtq-vmq8'].descWithErrorPropertyKeys).not.toContain('JQEtq-vmq8')
-      expect(newState.entities.subjects.t9zVwg2zO.descWithErrorPropertyKeys).not.toContain('JQEtq-vmq8')
+      const newState = reducer(oldState.entities, action)
+      expect(newState.values.CxGx7WMh2).toBe(undefined)
+      expect(newState.properties['JQEtq-vmq8'].valueKeys).not.toContain('CxGx7WMh2')
+      expect(newState.properties['JQEtq-vmq8'].errors).toHaveLength(0)
+      expect(newState.properties['JQEtq-vmq8'].descUriOrLiteralValueKeys).not.toContain('CxGx7WMh2')
+      expect(newState.subjects.t9zVwg2zO.changed).toBe(true)
+      expect(newState.subjects.t9zVwg2zO.descUriOrLiteralValueKeys).not.toContain('CxGx7WMh2')
+      expect(newState.properties['JQEtq-vmq8'].descWithErrorPropertyKeys).not.toContain('JQEtq-vmq8')
+      expect(newState.subjects.t9zVwg2zO.descWithErrorPropertyKeys).not.toContain('JQEtq-vmq8')
     })
   })
 })
@@ -627,7 +625,7 @@ describe('removeValue()', () => {
 describe('saveResourceFinished()', () => {
   it('sets resource as changed and date of last save', () => {
     const oldState = createState({ hasResourceWithLiteral: true })
-    oldState.selectorReducer.entities.subjects.t9zVwg2zO.changed = true
+    oldState.entities.subjects.t9zVwg2zO.changed = true
     const action = {
       type: 'SAVE_RESOURCE_FINISHED',
       payload: {
@@ -635,8 +633,8 @@ describe('saveResourceFinished()', () => {
         timestamp: 1594667068562,
       },
     }
-    const newState = reducer(oldState.selectorReducer, action)
-    expect(newState.entities.subjects.t9zVwg2zO.changed).toBe(false)
+    const newState = reducer(oldState.entities, action)
+    expect(newState.subjects.t9zVwg2zO.changed).toBe(false)
 
     const newState2 = editorReducer(oldState.editor, action)
     expect(newState2.lastSave.t9zVwg2zO).toBe(1594667068562)
@@ -646,24 +644,22 @@ describe('saveResourceFinished()', () => {
 describe('loadResourceFinished()', () => {
   it('sets resource as not changed', () => {
     const oldState = createState({ hasResourceWithLiteral: true })
-    oldState.selectorReducer.entities.subjects.t9zVwg2zO.changed = true
+    oldState.entities.subjects.t9zVwg2zO.changed = true
     const action = {
       type: 'LOAD_RESOURCE_FINISHED',
       payload: 't9zVwg2zO',
     }
-    const newState = reducer(oldState.selectorReducer, action)
-    expect(newState.entities.subjects.t9zVwg2zO.changed).toBe(false)
+    const newState = reducer(oldState.entities, action)
+    expect(newState.subjects.t9zVwg2zO.changed).toBe(false)
   })
 })
 
 describe('setBaseURL()', () => {
   it('sets base url', () => {
     const oldState = {
-      entities: {
-        subjects: {
-          abcde345: {
-            uri: '',
-          },
+      subjects: {
+        abcde345: {
+          uri: '',
         },
       },
     }
@@ -676,11 +672,9 @@ describe('setBaseURL()', () => {
     }
     const newState = reducer(oldState, action)
     expect(newState).toStrictEqual({
-      entities: {
-        subjects: {
-          abcde345: {
-            uri: 'https://sinopia.io/stanford/456hkl',
-          },
+      subjects: {
+        abcde345: {
+          uri: 'https://sinopia.io/stanford/456hkl',
         },
       },
     })
@@ -736,14 +730,12 @@ describe('setUnusedRDF()', () => {
 describe('showProperty()', () => {
   it('sets show to true for property', () => {
     const oldState = {
-      entities: {
-        properties: {
-          'kqKVn-1TbC': {
-            key: 'kqKVn-1TbC',
-            subjectKey: 'BraIA_lBw',
-            propertyTemplateKey: 'resourceTemplate:bf2:Identifiers:Barcode > http://www.w3.org/1999/02/22-rdf-syntax-ns#value',
-            show: false,
-          },
+      properties: {
+        'kqKVn-1TbC': {
+          key: 'kqKVn-1TbC',
+          subjectKey: 'BraIA_lBw',
+          propertyTemplateKey: 'resourceTemplate:bf2:Identifiers:Barcode > http://www.w3.org/1999/02/22-rdf-syntax-ns#value',
+          show: false,
         },
       },
     }
@@ -752,17 +744,15 @@ describe('showProperty()', () => {
       payload: 'kqKVn-1TbC',
     }
     const newState = reducer(oldState, action)
-    expect(newState.entities.properties['kqKVn-1TbC'].show).toBeTruthy()
+    expect(newState.properties['kqKVn-1TbC'].show).toBeTruthy()
   })
 })
 
 describe('setResourceGroup()', () => {
   it('sets group', () => {
     const oldState = {
-      entities: {
-        subjects: {
-          abcde345: {},
-        },
+      subjects: {
+        abcde345: {},
       },
     }
     const action = {
@@ -774,11 +764,9 @@ describe('setResourceGroup()', () => {
     }
     const newState = reducer(oldState, action)
     expect(newState).toStrictEqual({
-      entities: {
-        subjects: {
-          abcde345: {
-            group: 'stanford',
-          },
+      subjects: {
+        abcde345: {
+          group: 'stanford',
         },
       },
     })
@@ -789,7 +777,7 @@ describe('setValueOrder()', () => {
   it('sets value order', () => {
     const oldState = createState({ hasResourceWithTwoNestedResources: true })
 
-    expect(oldState.selectorReducer.entities.properties.v1o90QO1Qx.valueKeys).toEqual(['VDOeQCnFA8', 'VDOeQCnFA9'])
+    expect(oldState.entities.properties.v1o90QO1Qx.valueKeys).toEqual(['VDOeQCnFA8', 'VDOeQCnFA9'])
 
     const action = {
       type: 'SET_VALUE_ORDER',
@@ -799,8 +787,8 @@ describe('setValueOrder()', () => {
       },
     }
 
-    const newState = reducer(oldState.selectorReducer, action)
+    const newState = reducer(oldState.entities, action)
 
-    expect(newState.entities.properties.v1o90QO1Qx.valueKeys).toEqual(['VDOeQCnFA9', 'VDOeQCnFA8'])
+    expect(newState.properties.v1o90QO1Qx.valueKeys).toEqual(['VDOeQCnFA9', 'VDOeQCnFA8'])
   })
 })

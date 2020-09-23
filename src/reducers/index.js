@@ -54,25 +54,6 @@ export const setCurrentComponent = (state, action) => ({
   },
 })
 
-const handlers = {
-  CLEAR_RESOURCE: clearResource,
-  HIDE_PROPERTY: hideProperty,
-  HIDE_VALIDATION_ERRORS: hideValidationErrors,
-  LANGUAGE_SELECTED: setLanguage,
-  LOAD_RESOURCE_FINISHED: loadResourceFinished,
-  SAVE_RESOURCE_FINISHED: saveResourceFinished,
-  SET_BASE_URL: setBaseURL,
-  SET_RESOURCE_GROUP: setResourceGroup,
-  SET_VALUE_ORDER: setValueOrder,
-  SHOW_PROPERTY: showProperty,
-  ADD_TEMPLATES: addTemplates,
-  ADD_SUBJECT: addSubject,
-  ADD_PROPERTY: addProperty,
-  ADD_VALUE: addValue,
-  REMOVE_VALUE: removeValue,
-  REMOVE_SUBJECT: removeSubject,
-}
-
 const authHandlers = {
   SET_USER: setUser,
   REMOVE_USER: removeUser,
@@ -91,6 +72,7 @@ const editorHandlers = {
   CLEAR_RESOURCE: clearResourceFromEditor,
   HIDE_DIACRITICS: hideDiacriticsSelection,
   HIDE_MODAL: hideModal,
+  HIDE_VALIDATION_ERRORS: hideValidationErrors,
   SAVE_RESOURCE_FINISHED: saveResourceFinishedEditor,
   SET_CURRENT_COMPONENT: setCurrentComponent,
   SET_CURRENT_RESOURCE: setCurrentResource,
@@ -104,9 +86,24 @@ const editorHandlers = {
 }
 
 const entityHandlers = {
+  ADD_PROPERTY: addProperty,
+  ADD_SUBJECT: addSubject,
+  ADD_TEMPLATES: addTemplates,
+  ADD_VALUE: addValue,
+  CLEAR_RESOURCE: clearResource,
   EXPORTS_RECEIVED: exportsReceived,
+  HIDE_PROPERTY: hideProperty,
   LANGUAGES_RECEIVED: languagesReceived,
+  LANGUAGE_SELECTED: setLanguage,
+  LOAD_RESOURCE_FINISHED: loadResourceFinished,
   LOOKUP_OPTIONS_RETRIEVED: lookupOptionsRetrieved,
+  REMOVE_SUBJECT: removeSubject,
+  REMOVE_VALUE: removeValue,
+  SAVE_RESOURCE_FINISHED: saveResourceFinished,
+  SET_BASE_URL: setBaseURL,
+  SET_RESOURCE_GROUP: setResourceGroup,
+  SET_VALUE_ORDER: setValueOrder,
+  SHOW_PROPERTY: showProperty,
 }
 
 const searchHandlers = {
@@ -125,7 +122,6 @@ const appReducer = combineReducers({
   editor: createReducer(editorHandlers),
   entities: createReducer(entityHandlers),
   search: createReducer(searchHandlers),
-  selectorReducer: createReducer(handlers),
 })
 
 export default appReducer

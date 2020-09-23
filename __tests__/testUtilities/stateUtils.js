@@ -71,8 +71,8 @@ const buildResourceWithError = (state, options) => {
 const buildTemplateWithLiteral = (state, options) => {
   if (!options.hasTemplateWithLiteral) return
 
-  state.selectorReducer.editor.currentResource = '8VrbxGPeF'
-  state.selectorReducer.entities.subjectTemplates = {
+  state.editor.currentResource = '8VrbxGPeF'
+  state.entities.subjectTemplates = {
     'sinopia:template:resource': {
       key: 'sinopia:template:resource',
       uri: 'http://localhost:3000/resource/sinopia:template:resource',
@@ -87,7 +87,7 @@ const buildTemplateWithLiteral = (state, options) => {
       ],
     },
   }
-  state.selectorReducer.entities.propertyTemplates = {
+  state.entities.propertyTemplates = {
     'sinopia:template:resource > http://www.w3.org/2000/01/rdf-schema#label': {
       key: 'sinopia:template:resource > http://www.w3.org/2000/01/rdf-schema#label',
       subjectTemplateKey: 'sinopia:template:resource',
@@ -105,7 +105,7 @@ const buildTemplateWithLiteral = (state, options) => {
       component: 'InputLiteral',
     },
   }
-  state.selectorReducer.entities.subjects = {
+  state.entities.subjects = {
     '8VrbxGPeF': {
       key: '8VrbxGPeF',
       uri: 'http://localhost:3000/resource/sinopia:template:resource',
@@ -135,7 +135,7 @@ const buildTemplateWithLiteral = (state, options) => {
       },
     },
   }
-  state.selectorReducer.entities.properties = {
+  state.entities.properties = {
     mLi9ZqIjjx: {
       key: 'mLi9ZqIjjx',
       resourceKey: '8VrbxGPeF',
@@ -148,7 +148,7 @@ const buildTemplateWithLiteral = (state, options) => {
       ],
     },
   }
-  state.selectorReducer.entities.values = {
+  state.entities.values = {
     SgS9CqKjmb: {
       key: 'SgS9CqKjmb',
       resourceKey: '8VrbxGPeF',
@@ -167,7 +167,7 @@ const buildResourceWithLiteral = (state, options) => {
 
   state.editor.currentResource = 't9zVwg2zO'
   state.editor.resources = ['t9zVwg2zO']
-  state.selectorReducer.entities.subjectTemplates = {
+  state.entities.subjectTemplates = {
     'ld4p:RT:bf2:Title:AbbrTitle': {
       key: 'ld4p:RT:bf2:Title:AbbrTitle',
       id: 'ld4p:RT:bf2:Title:AbbrTitle',
@@ -180,7 +180,7 @@ const buildResourceWithLiteral = (state, options) => {
       ],
     },
   }
-  state.selectorReducer.entities.propertyTemplates = {
+  state.entities.propertyTemplates = {
     'ld4p:RT:bf2:Title:AbbrTitle > http://id.loc.gov/ontologies/bibframe/mainTitle': {
       key: 'ld4p:RT:bf2:Title:AbbrTitle > http://id.loc.gov/ontologies/bibframe/mainTitle',
       subjectTemplateKey: 'ld4p:RT:bf2:Title:AbbrTitle',
@@ -195,7 +195,7 @@ const buildResourceWithLiteral = (state, options) => {
       authorities: [],
     },
   }
-  state.selectorReducer.entities.subjects = {
+  state.entities.subjects = {
     t9zVwg2zO: {
       key: 't9zVwg2zO',
       rootSubjectKey: 't9zVwg2zO',
@@ -216,7 +216,7 @@ const buildResourceWithLiteral = (state, options) => {
       descWithErrorPropertyKeys: options.hasError ? ['JQEtq-vmq8'] : [],
     },
   }
-  state.selectorReducer.entities.properties = {
+  state.entities.properties = {
     'JQEtq-vmq8': {
       key: 'JQEtq-vmq8',
       subjectKey: 't9zVwg2zO',
@@ -232,7 +232,7 @@ const buildResourceWithLiteral = (state, options) => {
       descWithErrorPropertyKeys: options.hasError ? ['JQEtq-vmq8'] : [],
     },
   }
-  state.selectorReducer.entities.values = {
+  state.entities.values = {
     CxGx7WMh2: {
       key: 'CxGx7WMh2',
       propertyKey: 'JQEtq-vmq8',
@@ -252,7 +252,7 @@ const buildTwoLiteralResources = (state, options) => {
 
   state.editor.currentResource = 't9zVwg2zO'
   state.editor.resources = ['t9zVwg2zO', 'u0aWxh3a1']
-  state.selectorReducer.entities.subjectTemplates = {
+  state.entities.subjectTemplates = {
     'ld4p:RT:bf2:Title:AbbrTitle': {
       key: 'ld4p:RT:bf2:Title:AbbrTitle',
       id: 'ld4p:RT:bf2:Title:AbbrTitle',
@@ -276,7 +276,7 @@ const buildTwoLiteralResources = (state, options) => {
       ],
     },
   }
-  state.selectorReducer.entities.propertyTemplates = {
+  state.entities.propertyTemplates = {
     'ld4p:RT:bf2:Title:AbbrTitle > http://id.loc.gov/ontologies/bibframe/mainTitle': {
       key: 'ld4p:RT:bf2:Title:AbbrTitle > http://id.loc.gov/ontologies/bibframe/mainTitle',
       subjectTemplateKey: 'ld4p:RT:bf2:Title:AbbrTitle',
@@ -304,7 +304,7 @@ const buildTwoLiteralResources = (state, options) => {
       authorities: [],
     },
   }
-  state.selectorReducer.entities.subjects = {
+  state.entities.subjects = {
     t9zVwg2zO: {
       key: 't9zVwg2zO',
       rootSubjectKey: 't9zVwg2zO',
@@ -334,7 +334,7 @@ const buildTwoLiteralResources = (state, options) => {
       descWithErrorPropertyKeys: [],
     },
   }
-  state.selectorReducer.entities.properties = {
+  state.entities.properties = {
     'JQEtq-vmq8': {
       key: 'JQEtq-vmq8',
       subjectKey: 't9zVwg2zO',
@@ -364,7 +364,7 @@ const buildTwoLiteralResources = (state, options) => {
       descWithErrorPropertyKeys: [],
     },
   }
-  state.selectorReducer.entities.values = {
+  state.entities.values = {
     CxGx7WMh2: {
       key: 'CxGx7WMh2',
       propertyKey: 'JQEtq-vmq8',
@@ -395,7 +395,7 @@ const buildResourceWithUri = (state, options) => {
 
   state.editor.currentResource = 'wihOjn-0Z'
   state.editor.resources = ['wihOjn-0Z']
-  state.selectorReducer.entities.subjectTemplates = {
+  state.entities.subjectTemplates = {
     'test:resource:SinopiaLookup': {
       key: 'test:resource:SinopiaLookup',
       id: 'test:resource:SinopiaLookup',
@@ -409,7 +409,7 @@ const buildResourceWithUri = (state, options) => {
       ],
     },
   }
-  state.selectorReducer.entities.propertyTemplates = {
+  state.entities.propertyTemplates = {
     'test:resource:SinopiaLookup > http://id.loc.gov/ontologies/bibframe/instanceOf': {
       key: 'test:resource:SinopiaLookup > http://id.loc.gov/ontologies/bibframe/instanceOf',
       subjectTemplateKey: 'test:resource:SinopiaLookup',
@@ -438,7 +438,7 @@ const buildResourceWithUri = (state, options) => {
     },
   }
 
-  state.selectorReducer.entities.subjects = {
+  state.entities.subjects = {
     'wihOjn-0Z': {
       key: 'wihOjn-0Z',
       uri: null,
@@ -461,7 +461,7 @@ const buildResourceWithUri = (state, options) => {
       descWithErrorPropertyKeys: [],
     },
   }
-  state.selectorReducer.entities.properties = {
+  state.entities.properties = {
     'i0SAJP-Zhd': {
       key: 'i0SAJP-Zhd',
       rootSubjectKey: 'wihOjn-0Z',
@@ -477,7 +477,7 @@ const buildResourceWithUri = (state, options) => {
       descWithErrorPropertyKeys: [],
     },
   }
-  state.selectorReducer.entities.values = {
+  state.entities.values = {
     's8-qt3-uu': {
       key: 's8-qt3-uu',
       rootSubjectKey: 'wihOjn-0Z',
@@ -497,7 +497,7 @@ const buildResourceWithContractedLiteral = (state, options) => {
 
   state.editor.currentResource = 't9zVwg2zO'
   state.editor.resources = ['t9zVwg2zO']
-  state.selectorReducer.entities.subjectTemplates = {
+  state.entities.subjectTemplates = {
     'ld4p:RT:bf2:Title:AbbrTitle': {
       key: 'ld4p:RT:bf2:Title:AbbrTitle',
       id: 'ld4p:RT:bf2:Title:AbbrTitle',
@@ -510,7 +510,7 @@ const buildResourceWithContractedLiteral = (state, options) => {
       ],
     },
   }
-  state.selectorReducer.entities.propertyTemplates = {
+  state.entities.propertyTemplates = {
     'ld4p:RT:bf2:Title:AbbrTitle > http://id.loc.gov/ontologies/bibframe/mainTitle': {
       key: 'ld4p:RT:bf2:Title:AbbrTitle > http://id.loc.gov/ontologies/bibframe/mainTitle',
       subjectTemplateKey: 'ld4p:RT:bf2:Title:AbbrTitle',
@@ -525,7 +525,7 @@ const buildResourceWithContractedLiteral = (state, options) => {
       authorities: [],
     },
   }
-  state.selectorReducer.entities.subjects = {
+  state.entities.subjects = {
     t9zVwg2zO: {
       key: 't9zVwg2zO',
       rootSubjectKey: 't9zVwg2zO',
@@ -546,7 +546,7 @@ const buildResourceWithContractedLiteral = (state, options) => {
       descWithErrorPropertyKeys: [],
     },
   }
-  state.selectorReducer.entities.properties = {
+  state.entities.properties = {
     'JQEtq-vmq8': {
       key: 'JQEtq-vmq8',
       subjectKey: 't9zVwg2zO',
@@ -560,7 +560,7 @@ const buildResourceWithContractedLiteral = (state, options) => {
       descWithErrorPropertyKeys: [],
     },
   }
-  state.selectorReducer.entities.values = {}
+  state.entities.values = {}
 }
 
 const buildResourceWithNestedResource = (state, options) => {
@@ -568,7 +568,7 @@ const buildResourceWithNestedResource = (state, options) => {
 
   state.editor.currentResource = 'ljAblGiBW'
   state.editor.resources = ['ljAblGiBW']
-  state.selectorReducer.entities.subjectTemplates = {
+  state.entities.subjectTemplates = {
     'resourceTemplate:testing:uber1': {
       key: 'resourceTemplate:testing:uber1',
       id: 'resourceTemplate:testing:uber1',
@@ -590,7 +590,7 @@ const buildResourceWithNestedResource = (state, options) => {
       ],
     },
   }
-  state.selectorReducer.entities.propertyTemplates = {
+  state.entities.propertyTemplates = {
     'resourceTemplate:testing:uber1 > http://id.loc.gov/ontologies/bibframe/uber/template1/property1': {
       key: 'resourceTemplate:testing:uber1 > http://id.loc.gov/ontologies/bibframe/uber/template1/property1',
       subjectTemplateKey: 'resourceTemplate:testing:uber1',
@@ -623,7 +623,7 @@ const buildResourceWithNestedResource = (state, options) => {
       authorities: [],
     },
   }
-  state.selectorReducer.entities.subjects = {
+  state.entities.subjects = {
     ljAblGiBW: {
       key: 'ljAblGiBW',
       uri: null,
@@ -657,7 +657,7 @@ const buildResourceWithNestedResource = (state, options) => {
       descWithErrorPropertyKeys: options.hasError ? ['7caLbfwwle'] : [],
     },
   }
-  state.selectorReducer.entities.properties = {
+  state.entities.properties = {
     v1o90QO1Qx: {
       key: 'v1o90QO1Qx',
       subjectKey: 'ljAblGiBW',
@@ -687,7 +687,7 @@ const buildResourceWithNestedResource = (state, options) => {
       descWithErrorPropertyKeys: options.hasError ? ['7caLbfwwle'] : [],
     },
   }
-  state.selectorReducer.entities.values = {
+  state.entities.values = {
     VDOeQCnFA8: {
       key: 'VDOeQCnFA8',
       propertyKey: 'v1o90QO1Qx',
@@ -718,7 +718,7 @@ const buildResourceWithContractedNestedResource = (state, options) => {
 
   state.editor.currentResource = 'ljAblGiBW'
   state.editor.resources = ['ljAblGiBW']
-  state.selectorReducer.entities.subjectTemplates = {
+  state.entities.subjectTemplates = {
     'resourceTemplate:testing:uber1': {
       key: 'resourceTemplate:testing:uber1',
       id: 'resourceTemplate:testing:uber1',
@@ -730,7 +730,7 @@ const buildResourceWithContractedNestedResource = (state, options) => {
       ],
     },
   }
-  state.selectorReducer.entities.propertyTemplates = {
+  state.entities.propertyTemplates = {
     'resourceTemplate:testing:uber1 > http://id.loc.gov/ontologies/bibframe/uber/template1/property1': {
       key: 'resourceTemplate:testing:uber1 > http://id.loc.gov/ontologies/bibframe/uber/template1/property1',
       subjectTemplateKey: 'resourceTemplate:testing:uber1',
@@ -749,7 +749,7 @@ const buildResourceWithContractedNestedResource = (state, options) => {
       authorities: [],
     },
   }
-  state.selectorReducer.entities.subjects = {
+  state.entities.subjects = {
     ljAblGiBW: {
       key: 'ljAblGiBW',
       uri: null,
@@ -770,7 +770,7 @@ const buildResourceWithContractedNestedResource = (state, options) => {
       descWithErrorPropertyKeys: [],
     },
   }
-  state.selectorReducer.entities.properties = {
+  state.entities.properties = {
     v1o90QO1Qx: {
       key: 'v1o90QO1Qx',
       subjectKey: 'ljAblGiBW',
@@ -784,13 +784,13 @@ const buildResourceWithContractedNestedResource = (state, options) => {
       descWithErrorPropertyKeys: [],
     },
   }
-  state.selectorReducer.entities.values = {}
+  state.entities.values = {}
 }
 
 const buildLookups = (state, options) => {
   if (options.noLookups) return
 
-  state.selectorReducer.entities.lookups = {
+  state.entities.lookups = {
     'https://id.loc.gov/vocabulary/mrectype': [
       {
         id: 'EQhmzQNidXD',
@@ -828,7 +828,7 @@ const buildResourceWithTwoNestedResources = (state, options) => {
 
   state.editor.currentResource = 'ljAblGiBW'
   state.editor.resources = ['ljAblGiBW']
-  state.selectorReducer.entities.subjectTemplates = {
+  state.entities.subjectTemplates = {
     'resourceTemplate:testing:uber1': {
       key: 'resourceTemplate:testing:uber1',
       id: 'resourceTemplate:testing:uber1',
@@ -850,7 +850,7 @@ const buildResourceWithTwoNestedResources = (state, options) => {
       ],
     },
   }
-  state.selectorReducer.entities.propertyTemplates = {
+  state.entities.propertyTemplates = {
     'resourceTemplate:testing:uber1 > http://id.loc.gov/ontologies/bibframe/uber/template1/property1': {
       key: 'resourceTemplate:testing:uber1 > http://id.loc.gov/ontologies/bibframe/uber/template1/property1',
       subjectTemplateKey: 'resourceTemplate:testing:uber1',
@@ -883,7 +883,7 @@ const buildResourceWithTwoNestedResources = (state, options) => {
       authorities: [],
     },
   }
-  state.selectorReducer.entities.subjects = {
+  state.entities.subjects = {
     ljAblGiBW: {
       key: 'ljAblGiBW',
       uri: null,
@@ -918,7 +918,7 @@ const buildResourceWithTwoNestedResources = (state, options) => {
       ],
     },
   }
-  state.selectorReducer.entities.properties = {
+  state.entities.properties = {
     v1o90QO1Qx: {
       key: 'v1o90QO1Qx',
       subjectKey: 'ljAblGiBW',
@@ -954,7 +954,7 @@ const buildResourceWithTwoNestedResources = (state, options) => {
       errors: [],
     },
   }
-  state.selectorReducer.entities.values = {
+  state.entities.values = {
     VDOeQCnFA8: {
       key: 'VDOeQCnFA8',
       propertyKey: 'v1o90QO1Qx',

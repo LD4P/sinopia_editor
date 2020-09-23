@@ -57,7 +57,7 @@ describe('setLanguage', () => {
       },
     }
 
-    const newState = reducer(oldState.selectorReducer, action)
-    expect(newState.entities.values.CxGx7WMh2.lang).toBe('spa')
+    const newState = reducer(oldState.entities, action)
+    expect(newState.values.CxGx7WMh2.lang).toBe('spa')
   })
 })
