@@ -12,8 +12,9 @@ export const createState = (options = {}) => {
   buildResourceWithContractedLiteral(state, options)
   buildResourceWithNestedResource(state, options)
   buildResourceWithTwoNestedResources(state, options)
-  buildResourceWithContractedNestedResource(state, options),
-  buildResourceWithError(state, options),
+  buildResourceWithContractedNestedResource(state, options)
+  buildResourceWithError(state, options)
+  buildTemplateWithLiteral(state, options)
   buildExports(state, options)
   buildLookups(state, options)
 
@@ -63,6 +64,100 @@ const buildResourceWithError = (state, options) => {
         dairdj42u: ['error 3'],
         fQMouMqB0: ['error 4'],
       },
+    },
+  }
+}
+
+const buildTemplateWithLiteral = (state, options) => {
+  if (!options.hasTemplateWithLiteral) return
+
+  state.selectorReducer.editor.currentResource = '8VrbxGPeF'
+  state.selectorReducer.entities.subjectTemplates = {
+    'sinopia:template:resource': {
+      key: 'sinopia:template:resource',
+      uri: 'http://localhost:3000/resource/sinopia:template:resource',
+      id: 'sinopia:template:resource',
+      class: 'http://sinopia.io/vocabulary/ResourceTemplate',
+      label: 'Resource Template (dummy)',
+      author: null,
+      remark: null,
+      date: null,
+      propertyTemplateKeys: [
+        'sinopia:template:resource > http://www.w3.org/2000/01/rdf-schema#label',
+      ],
+    },
+  }
+  state.selectorReducer.entities.propertyTemplates = {
+    'sinopia:template:resource > http://www.w3.org/2000/01/rdf-schema#label': {
+      key: 'sinopia:template:resource > http://www.w3.org/2000/01/rdf-schema#label',
+      subjectTemplateKey: 'sinopia:template:resource',
+      label: 'Note',
+      uri: 'http://www.w3.org/2000/01/rdf-schema#label',
+      required: false,
+      repeatable: false,
+      ordered: false,
+      remark: null,
+      remarkUrl: null,
+      defaults: [],
+      valueSubjectTemplateKeys: [],
+      authorities: [],
+      type: 'literal',
+      component: 'InputLiteral',
+    },
+  }
+  state.selectorReducer.entities.subjects = {
+    '8VrbxGPeF': {
+      key: '8VrbxGPeF',
+      uri: 'http://localhost:3000/resource/sinopia:template:resource',
+      resourceKey: '8VrbxGPeF',
+      group: null,
+      subjectTemplateKey: 'sinopia:template:resource',
+      bfAdminMetadataRefs: [],
+      bfItemRefs: [],
+      bfInstanceRefs: [],
+      bfWorkRefs: [],
+      propertyKeys: [
+        'mLi9ZqIjjx',
+      ],
+      changed: false,
+      subjectTemplate: {
+        key: 'sinopia:template:resource',
+        uri: 'http://localhost:3000/resource/sinopia:template:resource',
+        id: 'sinopia:template:resource',
+        class: 'http://sinopia.io/vocabulary/ResourceTemplate',
+        label: 'Resource Template (dummy)',
+        author: null,
+        remark: null,
+        date: null,
+        propertyTemplateKeys: [
+          'sinopia:template:resource > http://www.w3.org/2000/01/rdf-schema#label',
+        ],
+      },
+    },
+  }
+  state.selectorReducer.entities.properties = {
+    mLi9ZqIjjx: {
+      key: 'mLi9ZqIjjx',
+      resourceKey: '8VrbxGPeF',
+      show: true,
+      subjectKey: '8VrbxGPeF',
+      propertyTemplateKey: 'sinopia:template:resource > http://www.w3.org/2000/01/rdf-schema#label',
+      errors: [],
+      valueKeys: [
+        'SgS9CqKjmb',
+      ],
+    },
+  }
+  state.selectorReducer.entities.values = {
+    SgS9CqKjmb: {
+      key: 'SgS9CqKjmb',
+      resourceKey: '8VrbxGPeF',
+      literal: 'Resource Template (dummy)',
+      lang: '',
+      uri: null,
+      label: null,
+      propertyKey: 'mLi9ZqIjjx',
+      valueSubjectKey: null,
     },
   }
 }
