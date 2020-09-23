@@ -1,15 +1,17 @@
 // Copyright 2019 Stanford University see LICENSE for license
 
 import React from 'react'
-import { connect } from 'react-redux'
+import { connect, useSelector } from 'react-redux'
 import { bindActionCreators } from 'redux'
 import PropTypes from 'prop-types'
 import { removeValue } from 'actions/resources'
 import LanguageButton from './LanguageButton'
-import { selectNormValue, selectNormProperty } from 'selectors/resources'
+import { selectCurrentResourceIsReadOnly, selectNormValue, selectNormProperty } from 'selectors/resources'
 import { selectPropertyTemplate } from 'selectors/templates'
 
 const InputValue = (props) => {
+  const readOnly = useSelector((state) => selectCurrentResourceIsReadOnly(state))
+
   if (!props.value) return null
 
   const isLiteral = props.propertyTemplate.type === 'literal'
@@ -25,6 +27,7 @@ const InputValue = (props) => {
       className="rbt-token rbt-token-removeable">
       {label}
       <button
+        disabled={readOnly}
         onClick={() => props.removeValue(props.valueKey)}
         aria-label={`Remove ${label}`}
         data-testid={`Remove ${label}`}
@@ -33,6 +36,7 @@ const InputValue = (props) => {
       </button>
     </div>
     <button
+      disabled={readOnly}
       onClick={handleEditClick}
       style={ { marginRight: '.25em' } }
       aria-label={`Edit ${label}`}

@@ -26,6 +26,11 @@ export const setCurrentResource = (resourceKey) => ({
   payload: resourceKey,
 })
 
+export const setCurrentResourceIsReadOnly = (readOnly) => ({
+  type: 'SET_CURRENT_RESOURCE_IS_READ_ONLY',
+  payload: readOnly,
+})
+
 export const setResourceGroup = (resourceKey, group) => ({
   type: 'SET_RESOURCE_GROUP',
   payload: { resourceKey, group },

@@ -10,7 +10,7 @@ import {
 } from './inputs'
 import {
   setBaseURL, hideProperty, showProperty,
-  setUnusedRDF, setCurrentResource,
+  setUnusedRDF, setCurrentResource, setCurrentResourceIsReadOnly,
   addSubject, addProperty, addValue, removeValue,
   removeSubject, clearResource,
   saveResourceFinished, loadResourceFinished,
@@ -76,6 +76,7 @@ const editorHandlers = {
   SAVE_RESOURCE_FINISHED: saveResourceFinishedEditor,
   SET_CURRENT_COMPONENT: setCurrentComponent,
   SET_CURRENT_RESOURCE: setCurrentResource,
+  SET_CURRENT_RESOURCE_IS_READ_ONLY: setCurrentResourceIsReadOnly,
   SET_CURSOR_POSITION: setCursorPosition,
   SET_LITERAL_CONTENT: setLiteralInputContent,
   SET_UNUSED_RDF: setUnusedRDF,

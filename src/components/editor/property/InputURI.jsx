@@ -3,9 +3,10 @@
 import React, { useRef, useState } from 'react'
 import PropTypes from 'prop-types'
 import { bindActionCreators } from 'redux'
-import { connect } from 'react-redux'
+import { connect, useSelector } from 'react-redux'
 import shortid from 'shortid'
 import { displayResourceValidations } from 'selectors/errors'
+import { selectCurrentResourceIsReadOnly } from 'selectors/resources'
 import { addValue } from 'actions/resources'
 import { newUriValue } from 'utilities/valueFactory'
 import InputValue from './InputValue'
@@ -17,9 +18,10 @@ const InputURI = (props) => {
   const inputLiteralRef = useRef(Math.floor(100 * Math.random()))
   const [content, setContent] = useState('')
   const [uriError, setURIError] = useState(false)
+  const readOnly = useSelector((state) => selectCurrentResourceIsReadOnly(state))
 
-  const disabled = !props.propertyTemplate.repeatable
-      && props.property.valueKeys.length > 0
+  const disabled = readOnly || (!props.propertyTemplate.repeatable
+                                && props.property.valueKeys.length > 0)
 
   const addItem = () => {
     const currentcontent = content.trim()

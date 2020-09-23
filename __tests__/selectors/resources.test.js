@@ -1,7 +1,8 @@
 import { createState } from 'stateUtils'
 import {
   selectSubject, selectProperty, selectValue,
-  selectFullSubject, resourceHasChangesSinceLastSave,
+  selectCurrentResourceIsReadOnly, selectFullSubject,
+  resourceHasChangesSinceLastSave,
 } from 'selectors/resources'
 
 describe('selectSubject()', () => {
@@ -40,6 +41,19 @@ describe('selectValue()', () => {
     expect(value).toBeValue('VDOeQCnFA8')
   })
 })
+
+describe('selectCurrentResourceIsReadOnly()', () => {
+  it('returns undefined when current resource is not read-only', () => {
+    const state = createState()
+    expect(selectCurrentResourceIsReadOnly(state)).toBeUndefined()
+  })
+
+  it('returns true when current resource is read-only', () => {
+    const state = createState({ hasResourceWithLiteral: true, readOnlyResource: true })
+    expect(selectCurrentResourceIsReadOnly(state)).toBe(true)
+  })
+})
+
 
 describe('selectFullSubject()', () => {
   it('returns null when no match', () => {

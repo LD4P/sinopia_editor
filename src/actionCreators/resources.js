@@ -14,7 +14,7 @@ import {
   addProperty as addPropertyAction,
   addValue as addValueAction, addSubject as addSubjectAction,
   showProperty, setBaseURL, setCurrentResource, saveResourceFinished,
-  setUnusedRDF, loadResourceFinished, setResourceGroup,
+  setUnusedRDF, loadResourceFinished, setResourceGroup, setCurrentResourceIsReadOnly,
 } from 'actions/resources'
 import { newValueSubject } from 'utilities/valueFactory'
 import { selectUser } from 'selectors/authenticate'
@@ -24,7 +24,7 @@ import _ from 'lodash'
  * A thunk that loads an existing resource from Sinopia API and adds to state.
  * @return {boolean} true if successful
  */
-export const loadResource = (uri, errorKey, asNewResource) => (dispatch) => {
+export const loadResource = (uri, errorKey, asNewResource, readOnly) => (dispatch) => {
   dispatch(clearErrors(errorKey))
   return fetchResource(uri)
     .then(([dataset, response]) => {
@@ -35,6 +35,7 @@ export const loadResource = (uri, errorKey, asNewResource) => (dispatch) => {
           const unusedDataset = dataset.difference(usedDataset)
           dispatch(setUnusedRDF(resource.key, unusedDataset.size > 0 ? unusedDataset.toCanonical() : null))
           dispatch(setCurrentResource(resource.key))
+          dispatch(setCurrentResourceIsReadOnly(readOnly))
           if (!asNewResource) dispatch(loadResourceFinished(resource.key))
           return true
         })

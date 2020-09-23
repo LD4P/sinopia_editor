@@ -4,14 +4,16 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import NestedProperty from './NestedProperty'
 import NestedResourceActionButtons from './NestedResourceActionButtons'
-import { selectNormValue, selectNormSubject } from 'selectors/resources'
+import { selectNormValue, selectNormSubject, selectCurrentResourceIsReadOnly } from 'selectors/resources'
 import { selectSubjectTemplate } from 'selectors/templates'
-import { connect } from 'react-redux'
+import { connect, useSelector } from 'react-redux'
 import useNavigableComponent from 'hooks/useNavigableComponent'
 
 // AKA a value subject.
 const NestedResource = (props) => {
   const [navEl, navClickHandler] = useNavigableComponent(props.value.rootSubjectKey, props.value.rootPropertyKey, props.value.valueSubjectKey)
+
+  const readOnly = useSelector((state) => selectCurrentResourceIsReadOnly(state))
 
   // onClick is to support left navigation, so ignoring jsx-ally seems reasonable.
   /* eslint-disable jsx-a11y/click-events-have-key-events */
@@ -23,7 +25,7 @@ const NestedResource = (props) => {
           <h5>{ props.subjectTemplate.label }</h5>
         </section>
         <section className="col-md-6">
-          <NestedResourceActionButtons value={props.value} />
+          {!readOnly && <NestedResourceActionButtons value={props.value} />}
         </section>
       </div>
       <div>

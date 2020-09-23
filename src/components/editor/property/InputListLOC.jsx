@@ -12,6 +12,7 @@ import { displayResourceValidations } from 'selectors/errors'
 import { renderMenuFunc, renderTokenFunc, itemsForValues } from './renderTypeaheadFunctions'
 import { fetchLookup } from 'actionCreators/lookups'
 import { selectLookup } from 'selectors/lookups'
+import { selectCurrentResourceIsReadOnly, selectNormValues } from 'selectors/resources'
 import _ from 'lodash'
 import { addProperty, removeValue } from 'actions/resources'
 import { newUriValue, newLiteralValue } from 'utilities/valueFactory'
@@ -20,8 +21,6 @@ import ModalWrapper from 'components/ModalWrapper'
 import { hideModal, showModal } from 'actions/modals'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faTrashAlt, faGlobe } from '@fortawesome/free-solid-svg-icons'
-import { selectNormValues } from 'selectors/resources'
-
 
 // propertyTemplate of type 'lookup' does live QA lookup via API
 //  based on URI in propertyTemplate.valueConstraint.useValuesFrom,
@@ -43,6 +42,8 @@ const InputListLOC = (props) => {
   }, [allAuthorities])
 
   const isRepeatable = props.propertyTemplate.repeatable
+
+  const readOnly = useSelector((state) => selectCurrentResourceIsReadOnly(state))
 
   useEffect(() => {
     props.propertyTemplate.authorities.forEach((authority) => {
@@ -134,7 +135,7 @@ const InputListLOC = (props) => {
   const displayValidations = useSelector((state) => displayResourceValidations(state, props.property.rootSubjectKey))
   const validationErrors = props.property.errors
 
-  const isDisabled = selected?.length > 0 && !isRepeatable
+  const isDisabled = readOnly || (selected?.length > 0 && !isRepeatable)
 
   let error
   let groupClasses = 'form-group'
@@ -170,6 +171,7 @@ const InputListLOC = (props) => {
         onClick={() => props.removeValue(lookupValue.key)}
         aria-label={`Remove ${lookupValue.label}`}
         data-testid={`Remove ${lookupValue.label}`}
+        disabled={isDisabled}
         className="close rbt-close rbt-token-remove-button">
         <span aria-hidden="true"><FontAwesomeIcon className="trash-icon" icon={faTrashAlt} /></span>
       </button>
@@ -227,6 +229,7 @@ const InputListLOC = (props) => {
         id="lookup"
         onClick={ handleClick }
         aria-label={'LookupLOC'}
+        disabled={isDisabled}
         className="btn btn-sm btn-secondary btn-literal">
         +
       </button>

@@ -3,13 +3,14 @@
 import React, { useRef, useState } from 'react'
 import PropTypes from 'prop-types'
 import { bindActionCreators } from 'redux'
-import { connect } from 'react-redux'
+import { connect, useSelector } from 'react-redux'
 import TextareaAutosize from 'react-textarea-autosize'
 import {
   hideDiacritics, showDiacritics,
   setLiteralContent, updateCursorPosition,
 } from 'actions/inputs'
 import { displayResourceValidations } from 'selectors/errors'
+import { selectCurrentResourceIsReadOnly } from 'selectors/resources'
 import InputValue from './InputValue'
 import { defaultLanguageId } from 'utilities/Utilities'
 import _ from 'lodash'
@@ -17,14 +18,14 @@ import { addValue } from 'actions/resources'
 import { newLiteralValue } from 'utilities/valueFactory'
 import { selectLiteralInputContent, displayDiacritics } from 'selectors/inputs'
 
-
 const InputLiteral = (props) => {
   const inputLiteralRef = useRef(100 * Math.random())
   const [lang, setLang] = useState(defaultLanguageId)
   const id = `inputliteral-${props.property.key}`
+  const readOnly = useSelector((state) => selectCurrentResourceIsReadOnly(state))
 
-  const disabled = !props.propertyTemplate.repeatable
-      && props.property.valueKeys.length > 0
+  const disabled = readOnly || (!props.propertyTemplate.repeatable
+                                && props.property.valueKeys.length > 0)
 
   const addItem = () => {
     let currentcontent = props.content.trim()

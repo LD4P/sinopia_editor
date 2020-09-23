@@ -3,7 +3,7 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faCopy, faEdit } from '@fortawesome/free-solid-svg-icons'
+import { faCopy, faEdit, faEye } from '@fortawesome/free-solid-svg-icons'
 import { groupNameFromGroup } from 'utilities/Utilities'
 import LongDate from 'components/LongDate'
 
@@ -22,6 +22,13 @@ const SearchResultRows = (props) => props.searchResults.map((row) => (
     <td><LongDate datetime={ row.modified } /></td>
     <td>
       <div className="btn-group" role="group" aria-label="Result Actions">
+        <button className="btn btn-link"
+                title="View"
+                aria-label={`View ${row.label}`}
+                data-testid={`View ${row.label}`}
+                onClick={() => props.handleView(row.uri) }>
+          <FontAwesomeIcon icon={faEye} className="icon-lg" />
+        </button>
         <button className="btn btn-link"
                 title="Edit"
                 aria-label={`Edit ${row.label}`}
@@ -46,6 +53,7 @@ SearchResultRows.propTypes = {
   searchResults: PropTypes.array,
   handleEdit: PropTypes.func,
   handleCopy: PropTypes.func,
+  handleView: PropTypes.func,
 }
 
 export default SearchResultRows

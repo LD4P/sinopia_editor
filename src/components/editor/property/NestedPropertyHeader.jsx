@@ -1,7 +1,7 @@
 // Copyright 2019 Stanford University see LICENSE for license
 
 import React from 'react'
-import { connect } from 'react-redux'
+import { connect, useSelector } from 'react-redux'
 import PropTypes from 'prop-types'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faAngleRight, faAngleDown, faTrashAlt } from '@fortawesome/free-solid-svg-icons'
@@ -10,6 +10,7 @@ import PropertyLabelInfo from './PropertyLabelInfo'
 import { displayResourceValidations } from 'selectors/errors'
 import { showProperty, hideProperty } from 'actions/resources'
 import { resourceEditErrorKey } from '../Editor'
+import { selectCurrentResourceIsReadOnly } from 'selectors/resources'
 import _ from 'lodash'
 import { expandProperty, contractProperty } from 'actionCreators/resources'
 import { bindActionCreators } from 'redux'
@@ -19,7 +20,9 @@ const NestedPropertyHeader = (props) => {
   const toggleAria = props.property.show === true ? `Hide ${props.propertyTemplate.label}` : `Show ${props.propertyTemplate.label}`
   const trashIcon = faTrashAlt
 
-  const isAdd = !props.property.valueKeys
+  const readOnly = useSelector((state) => selectCurrentResourceIsReadOnly(state))
+
+  const isAdd = !readOnly && !props.property.valueKeys
 
   let error
   let groupClasses = 'rOutline-header'
@@ -69,6 +72,7 @@ const NestedPropertyHeader = (props) => {
       <PropertyLabelInfo propertyTemplate={ props.propertyTemplate } />
       <button type="button"
               className="btn btn-sm btn-remove pull-right"
+              disabled={readOnly}
               onClick={() => props.contractProperty(props.property.key)}
               aria-label={`Remove ${props.propertyTemplate.label}`}
               data-testid={`Remove ${props.propertyTemplate.label}`}

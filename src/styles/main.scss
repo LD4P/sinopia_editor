@@ -397,6 +397,26 @@ a.list-group-item {
   padding-right: 2px;
 }
 
+.btn-view-resource {
+  padding-left: 20px;
+  padding-right: 20px;
+  margin-right: 20px;
+  background-color: $link-color;
+  border-color: $link-color;
+}
+
+.view-resource-buttons {
+  padding-right: 20px;
+}
+
+.view-resource-modal-content {
+  overflow-x: hidden;
+}
+
+.modal-close {
+  opacity: 1;
+}
+
 .lookup-value {
   background-color: $lookup-value-bg;
   font-weight: bold;
