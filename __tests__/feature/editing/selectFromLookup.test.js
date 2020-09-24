@@ -22,9 +22,9 @@ describe('selecting a value from the lookup modal', () => {
 
     fireEvent.click(addButton)
 
-    await waitFor(() => expect(screen.getByText('Lookup')).toHaveClass('modal-title'))
+    await waitFor(() => expect(screen.getByLabelText('Instance of (lookup)')))
 
-    const input = screen.getByPlaceholderText('Instance of (lookup)')
+    const input = screen.getByLabelText('Instance of (lookup)')
     fireEvent.change(input, { target: { value: 'test' } })
 
     expect(input).toHaveValue('test')

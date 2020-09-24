@@ -44,8 +44,8 @@ describe('loading new resource', () => {
     screen.getByPlaceholderText('Uber template1, property4')
     screen.getByPlaceholderText('Uber template1, property5')
     screen.getByPlaceholderText('Uber template1, property10')
-    screen.getByPlaceholderText('Uber template1, property15')
-    screen.getByPlaceholderText('Uber template1, property16')
+    screen.getByLabelText('Lookup value for Uber template1, property15')
+    screen.getByLabelText('Lookup value for Uber template1, property16')
     screen.getByText('Uber template4', { selector: 'h5' })
     screen.getByPlaceholderText('Uber template4, property1')
 
