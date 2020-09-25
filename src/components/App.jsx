@@ -15,6 +15,7 @@ import ResourceTemplate from './templates/ResourceTemplate'
 import LoadResource from './load/LoadResource'
 import Search from './search/Search'
 import CanvasMenu from './menu/CanvasMenu'
+import Vocab from './vocabulary/Vocab'
 import { setAppVersion } from 'actions/index'
 import { useDispatch, useSelector } from 'react-redux'
 import { version } from '../../package.json'
@@ -71,13 +72,22 @@ const App = (props) => {
       <Route exact path="/search" render={(renderProps) => <Search {...renderProps} triggerHandleOffsetMenu={props.handleOffsetMenu} />} />
       <Route exact path="/load" render={(renderProps) => <LoadResource {...renderProps} triggerHandleOffsetMenu={props.handleOffsetMenu} />} />
       <Route exact path="/exports" render={(renderProps) => <Exports {...renderProps} triggerHandleOffsetMenu={props.handleOffsetMenu} />} />
+      <Route path={['/vocabulary/:element/:sub', '/vocabulary/:element', '/vocabulary']}
+             render={(renderProps) => <Vocab {...renderProps}
+                                             triggerHandleOffsetMenu={props.handleOffsetMenu} />} />
       <Route path="/menu" render={(renderProps) => <CanvasMenu {...renderProps} />} />
       <Route id="404" component={FourOhFour} />
     </Switch>
   )
 
   const routesWithOutCurrentUser = (
-    <Route render={(renderProps) => <HomePage {...renderProps} triggerHandleOffsetMenu={props.handleOffsetMenu} />} />
+    <Switch>
+      <Route path={['/vocabulary/:element/:sub', '/vocabulary/:element', '/vocabulary']}
+             render={(renderProps) => <Vocab {...renderProps}
+                                             triggerHandleOffsetMenu={props.handleOffsetMenu} />} />
+      <Route render={(renderProps) => <HomePage {...renderProps} triggerHandleOffsetMenu={props.handleOffsetMenu} />} />
+
+    </Switch>
   )
 
   return (
