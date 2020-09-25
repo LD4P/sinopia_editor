@@ -10,7 +10,11 @@ import InputLookup from './InputLookup'
 
 const InputLookupSinopia = (props) => (
   <React.Fragment>
-    <InputLookup getLookupResults={getLookupResults} getOptions={getSinopiaOptions} property={props.property} />
+    <InputLookup
+      getLookupResults={getLookupResults}
+      getOptions={getSinopiaOptions}
+      property={props.property}
+      propertyTemplate={props.propertyTemplate} />
     <ResourceList property={props.property} />
   </React.Fragment>
 )
@@ -18,6 +22,7 @@ const InputLookupSinopia = (props) => (
 
 InputLookupSinopia.propTypes = {
   property: PropTypes.object.isRequired,
+  propertyTemplate: PropTypes.object.isRequired,
 }
 
 export default InputLookupSinopia

@@ -10,17 +10,16 @@ import PropertyLabelInfo from './PropertyLabelInfo'
 import { displayResourceValidations } from 'selectors/errors'
 import { showProperty, hideProperty } from 'actions/resources'
 import { resourceEditErrorKey } from '../Editor'
-import { selectCurrentResourceKey } from 'selectors/resources'
 import _ from 'lodash'
 import { expandProperty, contractProperty } from 'actionCreators/resources'
 import { bindActionCreators } from 'redux'
 
 const NestedPropertyHeader = (props) => {
   const toggleIcon = props.property.show === true ? faAngleDown : faAngleRight
-  const toggleAria = props.property.show === true ? `Hide ${props.property.propertyTemplate.label}` : `Show ${props.property.propertyTemplate.label}`
+  const toggleAria = props.property.show === true ? `Hide ${props.propertyTemplate.label}` : `Show ${props.propertyTemplate.label}`
   const trashIcon = faTrashAlt
 
-  const isAdd = props.property.values === null
+  const isAdd = !props.property.valueKeys
 
   let error
   let groupClasses = 'rOutline-header'
@@ -44,12 +43,12 @@ const NestedPropertyHeader = (props) => {
         <button type="button"
                 className="btn btn-default btn-add btn-add-property"
                 onClick={() => props.expandProperty(props.property.key, resourceEditErrorKey(props.resourceKey))}
-                aria-label={`Add ${props.property.propertyTemplate.label}`}
-                data-testid={`Add ${props.property.propertyTemplate.label}`}
+                aria-label={`Add ${props.propertyTemplate.label}`}
+                data-testid={`Add ${props.propertyTemplate.label}`}
                 data-id={props.property.key}>
-          + Add <strong><PropertyLabel propertyTemplate={props.property.propertyTemplate} /></strong>
+          + Add <strong><PropertyLabel propertyTemplate={props.propertyTemplate} /></strong>
         </button>
-        <PropertyLabelInfo propertyTemplate={ props.property.propertyTemplate } />
+        <PropertyLabelInfo propertyTemplate={ props.propertyTemplate } />
         { error && <span className="invalid-feedback">{error}</span>}
       </div>
     )
@@ -66,13 +65,13 @@ const NestedPropertyHeader = (props) => {
               onClick={() => toggleProperty()}>
         <FontAwesomeIcon className="toggle-icon" icon={toggleIcon} />
       </button>
-      <strong><PropertyLabel propertyTemplate={props.property.propertyTemplate} /></strong>
-      <PropertyLabelInfo propertyTemplate={ props.property.propertyTemplate } />
+      <strong><PropertyLabel propertyTemplate={props.propertyTemplate} /></strong>
+      <PropertyLabelInfo propertyTemplate={ props.propertyTemplate } />
       <button type="button"
               className="btn btn-sm btn-remove pull-right"
               onClick={() => props.contractProperty(props.property.key)}
-              aria-label={`Remove ${props.property.propertyTemplate.label}`}
-              data-testid={`Remove ${props.property.propertyTemplate.label}`}
+              aria-label={`Remove ${props.propertyTemplate.label}`}
+              data-testid={`Remove ${props.propertyTemplate.label}`}
               data-id={props.property.key}>
         <FontAwesomeIcon className="trash-icon" icon={trashIcon} />
       </button>
@@ -84,6 +83,7 @@ NestedPropertyHeader.propTypes = {
   collapsed: PropTypes.any,
   handleCollapsed: PropTypes.func,
   property: PropTypes.object.isRequired,
+  propertyTemplate: PropTypes.object.isRequired,
   handleAddButton: PropTypes.func,
   handleRemoveButton: PropTypes.func,
   displayValidations: PropTypes.bool,
@@ -95,10 +95,10 @@ NestedPropertyHeader.propTypes = {
   resourceKey: PropTypes.string,
 }
 
-const mapStateToProps = (state) => ({
+const mapStateToProps = (state, ownProps) => ({
   collapsed: false,
-  displayValidations: displayResourceValidations(state),
-  resourceKey: selectCurrentResourceKey(state),
+  displayValidations: displayResourceValidations(state, ownProps.property?.rootSubjectKey),
+  resourceKey: ownProps.property?.rootSubjectKey,
 })
 
 const mapDispatchToProps = (dispatch) => bindActionCreators({

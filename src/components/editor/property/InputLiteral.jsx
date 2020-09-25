@@ -23,8 +23,8 @@ const InputLiteral = (props) => {
   const [lang, setLang] = useState(defaultLanguageId)
   const id = `inputliteral-${props.property.key}`
 
-  const disabled = !props.property.propertyTemplate.repeatable
-      && props.property.values.length > 0
+  const disabled = !props.propertyTemplate.repeatable
+      && props.property.valueKeys.length > 0
 
   const addItem = () => {
     let currentcontent = props.content.trim()
@@ -70,8 +70,7 @@ const InputLiteral = (props) => {
   const addedList = props.property.valueKeys.map((valueKey) => (<InputValue key={valueKey}
                                                                             handleEdit={handleEdit}
                                                                             valueKey={valueKey} />))
-
-  const required = props.property.propertyTemplate.required
+  const required = props.propertyTemplate.required
 
   let error
   let controlClasses = 'form-control'
@@ -122,7 +121,7 @@ const InputLiteral = (props) => {
         <TextareaAutosize
               required={required}
               className={controlClasses}
-              placeholder={props.property.propertyTemplate.label}
+              placeholder={props.propertyTemplate.label}
               onChange={(event) => props.setLiteralContent(props.property.key, event.target.value)}
               onKeyPress={handleKeypress}
               onFocus={handleFocus}
@@ -149,6 +148,7 @@ InputLiteral.propTypes = {
   showDiacritics: PropTypes.func,
   displayValidations: PropTypes.bool,
   property: PropTypes.object.isRequired,
+  propertyTemplate: PropTypes.object.isRequired,
   addValue: PropTypes.func,
   content: PropTypes.string,
   setLiteralContent: PropTypes.func,
@@ -156,9 +156,9 @@ InputLiteral.propTypes = {
 }
 
 const mapStateToProps = (state, ownProps) => ({
-  displayValidations: displayResourceValidations(state),
+  displayValidations: displayResourceValidations(state, ownProps.property?.rootSubjectKey),
   shouldShowDiacritic: displayDiacritics(state),
-  content: selectLiteralInputContent(state, ownProps.property.key) || '',
+  content: selectLiteralInputContent(state, ownProps.property?.key) || '',
 })
 
 const mapDispatchToProps = (dispatch) => bindActionCreators({

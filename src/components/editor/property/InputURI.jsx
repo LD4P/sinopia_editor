@@ -18,8 +18,8 @@ const InputURI = (props) => {
   const [content, setContent] = useState('')
   const [uriError, setURIError] = useState(false)
 
-  const disabled = !props.property.propertyTemplate.repeatable
-      && props.property.values.length > 0
+  const disabled = !props.propertyTemplate.repeatable
+      && props.property.valueKeys.length > 0
 
   const addItem = () => {
     const currentcontent = content.trim()
@@ -49,7 +49,7 @@ const InputURI = (props) => {
     inputLiteralRef.current.focus()
   }
 
-  const required = props.property.propertyTemplate.required
+  const required = props.propertyTemplate.required
 
   const mergeErrors = () => {
     let errors = []
@@ -81,7 +81,7 @@ const InputURI = (props) => {
       <input id={id}
              required={required}
              className={controlClasses}
-             placeholder={props.property.propertyTemplate.label}
+             placeholder={props.propertyTemplate.label}
              onChange={(event) => setContent(event.target.value)}
              onKeyPress={handleKeypress}
              value={content}
@@ -97,12 +97,13 @@ const InputURI = (props) => {
 
 InputURI.propTypes = {
   property: PropTypes.object.isRequired,
+  propertyTemplate: PropTypes.object.isRequired,
   displayValidations: PropTypes.bool,
   addValue: PropTypes.func,
 }
 
-const mapStateToProps = (state) => ({
-  displayValidations: displayResourceValidations(state),
+const mapStateToProps = (state, ownProps) => ({
+  displayValidations: displayResourceValidations(state, ownProps.property?.rootSubjectKey),
 })
 
 const mapDispatchToProps = (dispatch) => bindActionCreators({ addValue }, dispatch)

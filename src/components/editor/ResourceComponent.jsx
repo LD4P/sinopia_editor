@@ -12,9 +12,10 @@ import { newResourceErrorKey } from './property/ResourceList'
 import { resourceEditErrorKey } from './Editor'
 import { addError } from 'actions/errors'
 import { datasetFromN3 } from 'utilities/Utilities'
-import { selectCurrentResource } from 'selectors/resources'
+import { selectNormSubject, selectCurrentResourceKey } from 'selectors/resources'
 import { selectErrors } from 'selectors/errors'
 import { selectUnusedRDF } from 'selectors/modals'
+import { selectSubjectTemplate } from 'selectors/templates'
 import _ from 'lodash'
 
 /**
@@ -22,8 +23,9 @@ import _ from 'lodash'
  */
 const ResourceComponent = () => {
   const dispatch = useDispatch()
-  const resource = useSelector((state) => selectCurrentResource(state))
-  const resourceKey = resource.key
+  const resourceKey = useSelector((state) => selectCurrentResourceKey(state))
+  const resource = useSelector((state) => selectNormSubject(state, resourceKey))
+  const subjectTemplate = useSelector((state) => selectSubjectTemplate(state, resource.subjectTemplateKey))
   const errors = useSelector((state) => selectErrors(state, resourceEditErrorKey(resourceKey)))
   const unusedRDF = useSelector((state) => selectUnusedRDF(state, resourceKey))
 
@@ -49,7 +51,7 @@ const ResourceComponent = () => {
         <Alerts errorKey={resourceEditErrorKey(resourceKey)} />
         <Alerts errorKey={newResourceErrorKey} />
         <section>
-          <h3>{resource.subjectTemplate.label}</h3>
+          <h3>{subjectTemplate.label}</h3>
           <CopyToNewMessage />
           <ResourceURIMessage />
           <SaveAlert />

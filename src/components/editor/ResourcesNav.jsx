@@ -3,7 +3,8 @@
 import React from 'react'
 import { useSelector, useDispatch } from 'react-redux'
 import CloseButton from './actions/CloseButton'
-import { selectCurrentResourceKey, selectSubject, selectResourceKeys } from 'selectors/resources'
+import { selectCurrentResourceKey, selectResourceKeys } from 'selectors/resources'
+import { selectSubjectTemplateFor } from 'selectors/templates'
 import { setCurrentResource } from 'actions/resources'
 
 const ResourcesNav = () => {
@@ -16,8 +17,8 @@ const ResourcesNav = () => {
   const navLabels = useSelector((state) => {
     const labels = {}
     resourceKeys.forEach((resourceKey) => {
-      const subject = selectSubject(state, resourceKey)
-      const resourceLabel = subject.subjectTemplate.label
+      const subjectTemplate = selectSubjectTemplateFor(state, resourceKey)
+      const resourceLabel = subjectTemplate.label
       labels[resourceKey] = resourceLabel.length > 40 ? `${resourceLabel.slice(0, 40)}...` : resourceLabel
     })
     return labels

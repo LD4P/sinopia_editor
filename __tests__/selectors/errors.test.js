@@ -1,6 +1,6 @@
 import { createState } from 'stateUtils'
 import {
-  displayResourceValidations, selectErrors, selectValidationErrors, selectCurrentResourceValidationErrors,
+  displayResourceValidations, selectErrors, selectValidationErrors,
 } from 'selectors/errors'
 
 describe('displayResourceValidations()', () => {
@@ -62,31 +62,6 @@ describe('selectValidationErrors()', () => {
   it('returns errors for a property with a nested resource given a subject key', () => {
     const state = createState({ hasResourceWithNestedResource: true, hasError: true })
     const errors = selectValidationErrors(state, 'ljAblGiBW')
-    expect(errors[0].message).toEqual('Required')
-    expect(errors[0].propertyKey).toEqual('7caLbfwwle')
-    expect(errors[0].labelPath).toEqual(['Uber template1', 'Uber template2', 'Uber template2, property1'])
-  })
-})
-
-describe('selectCurrentResourceValidationErrors()', () => {
-  it('returns nothing if there is no subject', () => {
-    const state = createState()
-    const errors = selectCurrentResourceValidationErrors(state)
-    expect(errors.length).toBe(0)
-  })
-
-  it('returns errors for a given property in state', () => {
-    const state = createState({ hasResourceWithLiteral: true, hasError: true })
-    const errors = selectCurrentResourceValidationErrors(state)
-    expect(errors.length).toBe(1)
-    expect(errors[0].message).toEqual('Required')
-    expect(errors[0].propertyKey).toEqual('JQEtq-vmq8')
-    expect(errors[0].labelPath).toEqual(['Abbreviated Title', 'Abbreviated Title'])
-  })
-
-  it('returns errors for a property in state with a nested resource', () => {
-    const state = createState({ hasResourceWithNestedResource: true, hasError: true })
-    const errors = selectCurrentResourceValidationErrors(state)
     expect(errors[0].message).toEqual('Required')
     expect(errors[0].propertyKey).toEqual('7caLbfwwle')
     expect(errors[0].labelPath).toEqual(['Uber template1', 'Uber template2', 'Uber template2, property1'])

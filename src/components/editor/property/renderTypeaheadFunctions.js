@@ -94,7 +94,7 @@ export const renderTokenFunc = (option, tokenProps, idx) => {
   )
 }
 
-export const itemsForProperty = (property) => property.values.map((value) => ({
+export const itemsForValues = (values) => values.map((value) => ({
   id: value.key,
   content: value.literal,
   uri: value.uri,

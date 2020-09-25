@@ -3,44 +3,46 @@ import PropTypes from 'prop-types'
 import { setCurrentComponent } from 'actions/index'
 import { useDispatch, useSelector } from 'react-redux'
 import { displayResourceValidations } from 'selectors/errors'
-import { selectSubject } from 'selectors/resources'
+import { selectNormSubject } from 'selectors/resources'
+import { selectSubjectTemplate } from 'selectors/templates'
 import PropertySubNav from './PropertySubNav'
 import _ from 'lodash'
 
 const SubjectSubNav = (props) => {
   const dispatch = useDispatch()
-
-  const subject = useSelector((state) => selectSubject(state, props.subjectKey))
+  const subject = useSelector((state) => selectNormSubject(state, props.subjectKey))
+  const subjectTemplate = useSelector((state) => selectSubjectTemplate(state, subject?.subjectTemplateKey))
 
   const hasValue = !_.isEmpty(subject.descUriOrLiteralValueKeys)
   const liClassNames = hasValue ? 'li-checked' : ''
 
   const hasError = !_.isEmpty(subject.descWithErrorPropertyKeys)
-  const displayValidations = useSelector((state) => displayResourceValidations(state))
+  const displayValidations = useSelector((state) => displayResourceValidations(state, subject?.rootSubjectKey))
   const headingClassNames = ['left-nav-header']
   if (displayValidations && hasError) headingClassNames.push('text-danger')
 
-  const subNavForSubject = (subNavSubj) => {
-    if (_.isEmpty(subNavSubj.properties)) return []
+  const subNavForSubject = () => {
+    if (_.isEmpty(subject.propertyKeys)) return []
     const subNavItems = []
 
-    subNavSubj.properties.forEach((subNavProp) => {
-      subNavItems.push(<PropertySubNav key={subNavProp.key} propertyKey={subNavProp.key} />)
+    subject.propertyKeys.forEach((propertyKey) => {
+      subNavItems.push(<PropertySubNav key={propertyKey} propertyKey={propertyKey} />)
     })
     return (<ul>{subNavItems}</ul>)
   }
-  const subNavItems = subNavForSubject(subject)
+
+  if (!subject) return null
 
   return (<li className={liClassNames}>
     <button
               type="button"
               className="btn btn-link"
-              aria-label={`Go to ${subject.subjectTemplate.label}`}
-              data-testid={`Go to ${subject.subjectTemplate.label}`}
+              aria-label={`Go to ${subjectTemplate.label}`}
+              data-testid={`Go to ${subjectTemplate.label}`}
               onClick={() => dispatch(setCurrentComponent(subject.rootSubjectKey, subject.rootPropertyKey, subject.key))}>
-      <span className={headingClassNames.join(' ')}>{subject.subjectTemplate.label}</span>
+      <span className={headingClassNames.join(' ')}>{subjectTemplate.label}</span>
     </button>
-    {subNavItems}
+    { subNavForSubject() }
   </li>)
 }
 

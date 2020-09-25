@@ -69,8 +69,10 @@ const addSubjectToNewState = (state, subject, valueSubjectOfKey) => {
   newSubject.descWithErrorPropertyKeys = []
 
   // Subject template
-  newSubject.subjectTemplateKey = newSubject.subjectTemplate.key
-  delete newSubject.subjectTemplate
+  if (newSubject.subjectTemplate !== undefined) {
+    newSubject.subjectTemplateKey = newSubject.subjectTemplate.key
+    delete newSubject.subjectTemplate
+  }
 
   // Add valueSubjectOf. If null, this is a root subject.
   newSubject.valueSubjectOfKey = valueSubjectOfKey || null
@@ -94,17 +96,19 @@ const addSubjectToNewState = (state, subject, valueSubjectOfKey) => {
     if (_.isUndefined(newSubject.bfWorkRefs)) newSubject.bfWorkRefs = []
   }
 
-  // Remove existing properties
   const oldSubject = state.subjects[newSubject.key]
-  const oldPropertyKeys = oldSubject?.propertyKeys || []
-  oldPropertyKeys.forEach((propertyKey) => newState = clearPropertyFromNewState(newState, propertyKey))
+  if (newSubject.properties !== undefined) {
+    // Remove existing properties
+    const oldPropertyKeys = oldSubject?.propertyKeys || []
+    oldPropertyKeys.forEach((propertyKey) => newState = clearPropertyFromNewState(newState, propertyKey))
 
-  // Add new properties
-  newSubject.propertyKeys = []
-  newSubject.properties.forEach((property) => newState = addPropertyToNewState(newState, property))
-  // Get a new reference to subject.
-  newSubject = newState.subjects[subject.key]
-  delete newSubject.properties
+    // Add new properties
+    newSubject.propertyKeys = []
+    newSubject.properties.forEach((property) => newState = addPropertyToNewState(newState, property))
+    // Get a new reference to subject.
+    newSubject = newState.subjects[subject.key]
+    delete newSubject.properties
+  }
 
   // If changed, then set resource as changed.
   if (!_.isEqual(newSubject, oldSubject)) {
@@ -131,12 +135,16 @@ const addPropertyToNewState = (state, property) => {
   const oldProperty = state.properties[newProperty.key]
 
   // Subject
-  newProperty.subjectKey = newProperty.subject.key
-  delete newProperty.subject
+  if (newProperty.subject) {
+    newProperty.subjectKey = newProperty.subject.key
+    delete newProperty.subject
+  }
 
   // Property template
-  newProperty.propertyTemplateKey = newProperty.propertyTemplate.key
-  delete newProperty.propertyTemplate
+  if (newProperty.propertyTemplate !== undefined) {
+    newProperty.propertyTemplateKey = newProperty.propertyTemplate.key
+    delete newProperty.propertyTemplate
+  }
 
   newProperty.descUriOrLiteralValueKeys = []
   newProperty.descWithErrorPropertyKeys = []
@@ -156,22 +164,24 @@ const addPropertyToNewState = (state, property) => {
   }
 
   // Remove existing values
-  const oldValueKeys = oldProperty?.valueKeys || []
-  oldValueKeys.forEach((valueKey) => {
-    newState = removeBibframeRefs(newState, newState.values[valueKey], oldProperty)
-    newState = clearValueFromNewState(newState, valueKey)
-  })
+  if (newProperty.values !== undefined) {
+    const oldValueKeys = oldProperty?.valueKeys || []
+    oldValueKeys.forEach((valueKey) => {
+      newState = removeBibframeRefs(newState, newState.values[valueKey], oldProperty)
+      newState = clearValueFromNewState(newState, valueKey)
+    })
 
-  // Add new values
-  newProperty = newState.properties[newProperty.key]
-  if (newProperty.values) {
-    newProperty.valueKeys = []
-    newProperty.values.forEach((value) => newState = addValueToNewState(newState, value))
-  } else {
-    newProperty.valueKeys = null
+    // Add new values
+    newProperty = newState.properties[newProperty.key]
+    if (newProperty.values) {
+      newProperty.valueKeys = []
+      newProperty.values.forEach((value) => newState = addValueToNewState(newState, value))
+    } else {
+      newProperty.valueKeys = null
+    }
+    newProperty = newState.properties[newProperty.key]
+    delete newProperty.values
   }
-  newProperty = newState.properties[newProperty.key]
-  delete newProperty.values
 
   // Errors
   newState = updateErrors(newState, newProperty.key)
@@ -190,11 +200,10 @@ const addValueToNewState = (state, value, siblingValueKey) => {
   let newValue = value
 
   // Property
-  newValue.propertyKey = newValue.property.key
-  delete newValue.property
-
-  // Remove index
-  delete newValue.index
+  if (newValue.property) {
+    newValue.propertyKey = newValue.property.key
+    delete newValue.property
+  }
 
   // Add value to state
   let newState = stateWithNewValue(state, newValue.key)
@@ -229,17 +238,23 @@ const addValueToNewState = (state, value, siblingValueKey) => {
   }
 
   // Add new value subject
-  newValue = newState.values[newValue.key]
-  if (newValue.valueSubject) {
-    newValue.valueSubjectKey = newValue.valueSubject.key
-    newState = addSubjectToNewState(newState, newValue.valueSubject, newValue.key)
-  } else {
-    newValue.valueSubjectKey = null
-    // Add value key to ancestors (for URIs and literals)
+  if (newValue.valueSubject !== undefined) {
+    newValue = newState.values[newValue.key]
+    if (newValue.valueSubject) {
+      newValue.valueSubjectKey = newValue.valueSubject.key
+      newState = addSubjectToNewState(newState, newValue.valueSubject, newValue.key)
+    } else {
+      newValue.valueSubjectKey = null
+    }
+    newValue = newState.values[newValue.key]
+    delete newValue.valueSubject
+  }
+
+  // Add value key to ancestors (for URIs and literals)
+  if (!newValue.valueSubjectKey) {
     newState = recursiveAncestorsFromValue(newState, newValue.key, addToDescUriOrLiteralValueKeysFunc(newValue.key))
   }
-  newValue = newState.values[newValue.key]
-  delete newValue.valueSubject
+
 
   // Errors
   newState = updateErrors(newState, newProperty.key)
@@ -413,7 +428,7 @@ export const clearResourceFromEditor = (state, action) => {
   newState.resources = [...state.resources.slice(0, resourceIndex), ...state.resources.slice(resourceIndex + 1)]
 
   if (state.currentResource === resourceKey) {
-    newState.currentResource = _.first(newState.resources)
+    newState.currentResource = _.first(newState.resources) || null
   }
 
   delete newState.errors[resourceEditErrorKey(resourceKey)]

@@ -37,7 +37,8 @@ export const initialState = {
     unusedRDF: {}, // {<resourceKey>: rdf}
   },
   entities: {
-    languages: [],
+    languageLookup: [],
+    languages: {},
     lookups: {},
     exports: [],
     properties: {},

@@ -11,13 +11,14 @@ import { bindActionCreators } from 'redux'
 import { connect } from 'react-redux'
 import { resourceEditErrorKey } from '../Editor'
 import { expandProperty, contractProperty } from 'actionCreators/resources'
-import { selectProperty, selectCurrentResourceKey } from 'selectors/resources'
+import { selectNormProperty, selectCurrentResourceKey } from 'selectors/resources'
+import { selectPropertyTemplate } from 'selectors/templates'
 import useNavigableComponent from 'hooks/useNavigableComponent'
 
 const PanelProperty = (props) => {
   // Null values indicates that can be added.
-  const isAdd = props.property.values === null
-  const isRequired = props.property.propertyTemplate.required
+  const isAdd = !props.property.valueKeys
+  const isRequired = props.propertyTemplate.required
   const nbsp = '\u00A0'
   const trashIcon = faTrashAlt
   const [navEl, navClickHandler] = useNavigableComponent(props.resourceKey, props.propertyKey, props.propertyKey)
@@ -27,18 +28,18 @@ const PanelProperty = (props) => {
   /* eslint-disable jsx-a11y/no-static-element-interactions */
   return (
     <div ref={navEl} onClick={navClickHandler}>
-      <div className="card" data-label={ props.property.propertyTemplate.label } style={{ marginBottom: '1em' }}>
+      <div className="card" data-label={ props.propertyTemplate.label } style={{ marginBottom: '1em' }}>
         <div className="card-header prop-heading">
           <h5 className="card-title">
-            <PropertyLabel propertyTemplate={ props.property.propertyTemplate } />
-            <PropertyLabelInfo propertyTemplate={ props.property.propertyTemplate } />{nbsp}
+            <PropertyLabel propertyTemplate={ props.propertyTemplate } />
+            <PropertyLabelInfo propertyTemplate={ props.propertyTemplate } />{nbsp}
             { isAdd && (
               <button
                   type="button"
                   className="btn btn-sm btn-add btn-add-instance pull-right"
                   onClick={() => props.expandProperty(props.property.key, resourceEditErrorKey(props.resourceKey))}
-                  aria-label={`Add ${props.property.propertyTemplate.label}`}
-                  data-testid={`Add ${props.property.propertyTemplate.label}`}
+                  aria-label={`Add ${props.propertyTemplate.label}`}
+                  data-testid={`Add ${props.propertyTemplate.label}`}
                   data-id={props.property.key}>
                 + Add
               </button>
@@ -46,8 +47,8 @@ const PanelProperty = (props) => {
             { !isAdd && !isRequired && (
               <button type="button"
                       className="btn btn-sm btn-remove pull-right"
-                      aria-label={`Remove ${props.property.propertyTemplate.label}`}
-                      data-testid={`Remove ${props.property.propertyTemplate.label}`}
+                      aria-label={`Remove ${props.propertyTemplate.label}`}
+                      data-testid={`Remove ${props.propertyTemplate.label}`}
                       onClick={() => props.contractProperty(props.property.key)} data-id={props.id}>
                 <FontAwesomeIcon className="fa-inverse trash-icon" icon={trashIcon} />
               </button>
@@ -56,7 +57,7 @@ const PanelProperty = (props) => {
         </div>
         { !isAdd && (
           <div className="card-body panel-property">
-            <PropertyComponent property={ props.property } />
+            <PropertyComponent property={ props.property } propertyTemplate={ props.propertyTemplate } />
           </div>
         )}
       </div>
@@ -68,16 +69,21 @@ PanelProperty.propTypes = {
   float: PropTypes.number,
   id: PropTypes.string,
   property: PropTypes.object,
+  propertyTemplate: PropTypes.object,
   propertyKey: PropTypes.string.isRequired,
   expandProperty: PropTypes.func,
   contractProperty: PropTypes.func,
   resourceKey: PropTypes.string.isRequired,
 }
 
-const mapStateToProps = (state, ourProps) => ({
-  property: selectProperty(state, ourProps.propertyKey),
-  resourceKey: selectCurrentResourceKey(state),
-})
+const mapStateToProps = (state, ourProps) => {
+  const property = selectNormProperty(state, ourProps.propertyKey)
+  return {
+    property,
+    propertyTemplate: selectPropertyTemplate(state, property?.propertyTemplateKey),
+    resourceKey: selectCurrentResourceKey(state),
+  }
+}
 
 const mapDispatchToProps = (dispatch) => bindActionCreators({ expandProperty, contractProperty }, dispatch)
 

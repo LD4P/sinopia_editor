@@ -3,7 +3,7 @@ import { useState, useEffect } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { newResourceFromDataset } from 'actionCreators/resources'
 import { clearErrors } from 'actions/errors'
-import { selectCurrentResource } from 'selectors/resources'
+import { selectCurrentResourceKey } from 'selectors/resources'
 
 /**
  * Hook for transforming a resource to state and changing the page to the editor (i.e., /editor path).
@@ -16,7 +16,7 @@ import { selectCurrentResource } from 'selectors/resources'
  */
 const useResource = (dataset, baseURI, resourceTemplateId, errorKey, history) => {
   const dispatch = useDispatch()
-  const hasResource = useSelector((state) => !!selectCurrentResource(state))
+  const hasResource = useSelector((state) => !!selectCurrentResourceKey(state))
 
   // Indicates that would like to change to editor once resource is in state
   const [navigateEditor, setNavigateEditor] = useState(false)

@@ -41,7 +41,8 @@ describe('languagesReceived()', () => {
 
     const newState = reducer(oldState, action)
     expect(newState).toEqual({
-      languages: [{ id: 'sna', label: 'Shona' }],
+      languageLookup: [{ id: 'sna', label: 'Shona' }],
+      languages: { sna: 'Shona' },
     })
   })
 })

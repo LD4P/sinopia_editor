@@ -537,7 +537,7 @@ describe('clearResourceFromEditor()', () => {
 
     const newState = editorReducer(oldState.editor, action)
     expect(newState.errors['resourceedit-t9zVwg2zO']).toBe(undefined)
-    expect(newState.currentResource).toBe(undefined)
+    expect(newState.currentResource).toBe(null)
     expect(newState.resources).toStrictEqual([])
   })
 })

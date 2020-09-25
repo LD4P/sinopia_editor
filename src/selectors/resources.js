@@ -2,6 +2,10 @@
 import _ from 'lodash'
 import { selectSubjectTemplate, selectPropertyTemplate } from 'selectors/templates'
 
+// Always use selectNormSubject/Property/Value in components.
+// selectSubject/Property/Value can be used in actionCreators.
+// Only use selectFullSubject/Property/Value where absolutely necessary, since expensive to create.
+
 export const selectSubject = (state, key) => {
   const subject = selectNormSubject(state, key)
   if (_.isEmpty(subject)) return null
@@ -42,7 +46,6 @@ export const selectValue = (state, key) => {
   const newProperty = { ...property }
   newProperty.propertyTemplate = selectPropertyTemplate(state, newProperty.propertyTemplateKey)
   newValue.property = newProperty
-  newValue.index = newProperty.valueKeys.indexOf(value.key) + 1
   newValue.valueSubject = selectSubject(state, newValue.valueSubjectKey)
   return newValue
 }
@@ -52,8 +55,6 @@ export const selectNormSubject = (state, key) => state.entities.subjects[key]
 export const selectNormProperty = (state, key) => state.entities.properties[key]
 
 export const selectNormValue = (state, key) => state.entities.values[key]
-
-export const selectCurrentResource = (state) => selectSubject(state, selectCurrentResourceKey(state))
 
 export const selectCurrentResourceKey = (state) => state.editor.currentResource
 
@@ -103,3 +104,8 @@ export const resourceHasChangesSinceLastSave = (state, resourceKey) => {
 export const selectResourceKeys = (state) => state.editor.resources
 
 export const selectLastSave = (state, resourceKey) => state.editor.lastSave[resourceKey]
+
+export const selectNormValues = (state, valueKeys) => {
+  if (!valueKeys) return null
+  return valueKeys.map((valueKey) => selectNormValue(state, valueKey))
+}

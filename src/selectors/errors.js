@@ -1,4 +1,4 @@
-import { selectCurrentResourceKey, selectProperty, selectSubject } from './resources'
+import { selectProperty, selectSubject } from './resources'
 import _ from 'lodash'
 
 /**
@@ -7,7 +7,12 @@ import _ from 'lodash'
   * @param {string} resourceKey of the resource to check; if omitted, current resource key is used
   * @return {boolean} true if resource validations should be displayed
   */
-export const displayResourceValidations = (state, resourceKey) => state.editor.resourceValidation[resourceKey || selectCurrentResourceKey(state)] || false
+export const displayResourceValidations = (state, resourceKey) => state.editor.resourceValidation[resourceKey] || false
+
+export const hasValidationErrors = (state, resourceKey) => {
+  const subject = selectSubject(state, resourceKey)
+  return !_.isEmpty(subject.descWithErrorPropertyKeys)
+}
 
 /**
  * @returns {function} a function that returns the errors for an error key
@@ -15,11 +20,6 @@ export const displayResourceValidations = (state, resourceKey) => state.editor.r
 export const selectErrors = (state, errorKey) => state.editor.errors[errorKey] || []
 
 export const selectValidationErrors = (state, resourceKey) => findValidationErrors(state, resourceKey, [])
-
-export const selectCurrentResourceValidationErrors = (state) => {
-  const resourceKey = selectCurrentResourceKey(state)
-  return findValidationErrors(state, resourceKey, [])
-}
 
 // Searches the subject for errors. Also, sets label path for each error.
 const findValidationErrors = (state, subjectKey, labelPath) => {

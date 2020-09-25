@@ -3,16 +3,19 @@
 import React, { useState } from 'react'
 import { useSelector } from 'react-redux'
 import { postMarc, getMarcJob, getMarc } from 'sinopiaApi'
-import { selectCurrentResource } from 'selectors/resources'
+import { selectCurrentResourceKey, selectNormSubject } from 'selectors/resources'
+import { selectSubjectTemplate } from 'selectors/templates'
 import { saveAs } from 'file-saver'
 
 const MarcButton = () => {
-  const currentResource = useSelector((state) => selectCurrentResource(state))
+  const resourceKey = useSelector((state) => selectCurrentResourceKey(state))
+  const resource = useSelector((state) => selectNormSubject(state, resourceKey))
+  const subjectTemplate = useSelector((state) => selectSubjectTemplate(state, resource?.subjectTemplateKey))
   const [marc, setMarc] = useState(false)
   const [marcUrl, setMarcUrl] = useState(false)
   const [error, setError] = useState(false)
 
-  if (!currentResource.uri || currentResource.subjectTemplate.class !== 'http://id.loc.gov/ontologies/bibframe/Instance') return null
+  if (!resource?.uri || subjectTemplate?.class !== 'http://id.loc.gov/ontologies/bibframe/Instance') return null
 
   const marcJobTimer = (marcJobUrl) => {
     getMarcJob(marcJobUrl)
@@ -31,7 +34,7 @@ const MarcButton = () => {
     setMarc(false)
     setMarcUrl(false)
     setError(false)
-    postMarc(currentResource.uri)
+    postMarc(resource.uri)
       .then((marcJobUrl) => {
         marcJobTimer(marcJobUrl)
       })
@@ -41,14 +44,14 @@ const MarcButton = () => {
 
   const handleDownloadTxt = (event) => {
     const blob = new Blob([marc], { type: 'text/plain;charset=utf-8' })
-    saveAs(blob, `record-${currentResource.uri}.txt`)
+    saveAs(blob, `record-${resource.uri}.txt`)
     event.preventDefault()
   }
 
   const handleDownloadMarc = (event) => {
     getMarc(marcUrl)
       .then((blob) => {
-        saveAs(blob, `record-${currentResource.uri}.mar`)
+        saveAs(blob, `record-${resource.uri}.mar`)
       })
       .catch((err) => setError(err.message || error))
     event.preventDefault()

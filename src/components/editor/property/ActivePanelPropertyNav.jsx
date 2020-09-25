@@ -3,47 +3,47 @@ import PropTypes from 'prop-types'
 import { setCurrentComponent } from 'actions/index'
 import { useDispatch, useSelector } from 'react-redux'
 import { displayResourceValidations } from 'selectors/errors'
-import { selectProperty } from 'selectors/resources'
+import { selectNormProperty, selectNormValues } from 'selectors/resources'
+import { selectPropertyTemplate } from 'selectors/templates'
 import SubjectSubNav from './SubjectSubNav'
 import _ from 'lodash'
 
 const ActivePanelPropertyNav = (props) => {
   const dispatch = useDispatch()
-  const property = useSelector((state) => selectProperty(state, props.propertyKey))
+  const property = useSelector((state) => selectNormProperty(state, props.propertyKey))
+  const values = useSelector((state) => selectNormValues(state, property.valueKeys))
+  const propertyTemplate = useSelector((state) => selectPropertyTemplate(state, property?.propertyTemplateKey))
 
   const hasValue = !_.isEmpty(property.descUriOrLiteralValueKeys)
   const liClassNames = hasValue ? 'li-checked' : ''
 
   const hasError = !_.isEmpty(property.descWithErrorPropertyKeys)
-  const displayValidations = useSelector((state) => displayResourceValidations(state))
+  const displayValidations = useSelector((state) => displayResourceValidations(state, property?.rootSubjectKey))
   const headingClassNames = ['left-nav-header']
   if (displayValidations && hasError) headingClassNames.push('text-danger')
 
-  const subNavForProperty = (subNavProp) => {
-    if (_.isEmpty(subNavProp.values) || subNavProp.propertyTemplate.type !== 'resource') return []
-    const subNavItems = []
+  const subNavForProperty = () => {
+    if (_.isEmpty(values) || propertyTemplate.type !== 'resource') return []
 
-    subNavProp.values.forEach((subNavValue) => {
-      const subNavSubject = subNavValue.valueSubject
-      subNavItems.push(<SubjectSubNav key={subNavSubject.key} subjectKey={subNavSubject.key} />)
-    })
+    const subNavItems = values.map((value) => (<SubjectSubNav key={value.valueSubjectKey} subjectKey={value.valueSubjectKey} />))
     return (<ul>{subNavItems}</ul>)
   }
-  const subNavItems = subNavForProperty(property)
+
+  if (!property) return null
 
   // Render this property and any children value subjects (if a property type = resource).
   return (<li className={liClassNames}>
     <button
               type="button"
               className='btn btn-primary'
-              aria-label={`Go to ${property.propertyTemplate.label}`}
-              data-testid={`Go to ${property.propertyTemplate.label}`}
+              aria-label={`Go to ${propertyTemplate.label}`}
+              data-testid={`Go to ${propertyTemplate.label}`}
               onClick={() => dispatch(setCurrentComponent(property.rootSubjectKey, property.rootPropertyKey, property.key))}>
       <h5 className={headingClassNames.join(' ')}>
-        {property.propertyTemplate.label}
+        {propertyTemplate.label}
       </h5>
     </button>
-    { subNavItems }
+    { subNavForProperty() }
   </li>)
 }
 

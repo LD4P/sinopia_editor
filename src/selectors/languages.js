@@ -6,13 +6,10 @@
  * @param [string] languageId the identifier of the language, (e.g. 'eng')
  * @return [string] the label of the language or an empty string
  */
-export const selectLanguageLabel = (state, languageId) => {
-  const lang = state.entities.languages.find((lang) => lang.id === languageId)
-  return lang ? lang.label : ''
-}
+export const selectLanguageLabel = (state, languageId) => state.entities.languages[languageId] || ''
 
 export const hasLanguages = (state) => {
   state.entities.languages.length > 0
 }
 
-export const selectLanguages = (state) => state.entities.languages
+export const selectLanguages = (state) => state.entities.languageLookup

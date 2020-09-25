@@ -9,7 +9,7 @@ import { Link } from 'react-router-dom'
 import { newResourceErrorKey } from './SinopiaResourceTemplates'
 import { newResource } from 'actionCreators/resources'
 import { selectErrors } from 'selectors/errors'
-import { selectCurrentResource } from 'selectors/resources'
+import { selectCurrentResourceKey } from 'selectors/resources'
 import _ from 'lodash'
 import Config from 'Config'
 
@@ -17,16 +17,16 @@ const NewResourceTemplateButton = (props) => {
   const dispatch = useDispatch()
 
   const errors = useSelector((state) => selectErrors(state, newResourceErrorKey))
-  const resource = useSelector((state) => selectCurrentResource(state))
+  const resourceKey = useSelector((state) => selectCurrentResourceKey(state))
 
   const [navigateEditor, setNavigateEditor] = useState(false)
 
   useEffect(() => {
     // Forces a wait until the root resource has been set in state
-    if (navigateEditor && resource && _.isEmpty(errors)) {
+    if (navigateEditor && resourceKey && _.isEmpty(errors)) {
       props.history.push('/editor')
     }
-  }, [navigateEditor, resource, props.history, errors])
+  }, [navigateEditor, resourceKey, props.history, errors])
 
 
   const handleClick = (event) => {

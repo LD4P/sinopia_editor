@@ -6,17 +6,18 @@ import { bindActionCreators } from 'redux'
 import PropTypes from 'prop-types'
 import { removeValue } from 'actions/resources'
 import LanguageButton from './LanguageButton'
-import { selectValue } from 'selectors/resources'
+import { selectNormValue, selectNormProperty } from 'selectors/resources'
+import { selectPropertyTemplate } from 'selectors/templates'
 
 const InputValue = (props) => {
   if (!props.value) return null
 
-  const isLiteral = props.value.property.propertyTemplate.type === 'literal'
+  const isLiteral = props.propertyTemplate.type === 'literal'
   const label = props.value.literal || props.value.label || props.value.uri
 
   const handleEditClick = () => {
-    props.handleEdit(label, props.value.lang)
     props.removeValue(props.valueKey)
+    props.handleEdit(label, props.value.lang)
   }
 
   return (<div className="input-value">
@@ -48,11 +49,17 @@ InputValue.propTypes = {
   removeValue: PropTypes.func.isRequired,
   valueKey: PropTypes.string.isRequired,
   value: PropTypes.object,
+  propertyTemplate: PropTypes.object,
 }
 
-const mapStateToProps = (state, ownProps) => ({
-  value: selectValue(state, ownProps.valueKey),
-})
+const mapStateToProps = (state, ownProps) => {
+  const value = selectNormValue(state, ownProps.valueKey)
+  const property = selectNormProperty(state, value?.propertyKey)
+  return {
+    value,
+    propertyTemplate: selectPropertyTemplate(state, property?.propertyTemplateKey),
+  }
+}
 
 const mapDispatchToProps = (dispatch) => bindActionCreators({ removeValue }, dispatch)
 

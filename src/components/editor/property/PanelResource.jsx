@@ -12,8 +12,8 @@ const PanelResource = (props) => (
     <div className="col-sm-9">
       <form>
         {
-          props.resource.properties.map((property, index) => (
-            <PanelProperty resourceKey={props.resource.key} propertyKey={property.key} key={property.key} float={index} id={property.key} />
+          props.resource.propertyKeys.map((propertyKey, index) => (
+            <PanelProperty resourceKey={props.resource.key} propertyKey={propertyKey} key={propertyKey} float={index} id={propertyKey} />
           ))
         }
       </form>

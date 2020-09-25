@@ -4,13 +4,14 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import NestedProperty from './NestedProperty'
 import NestedResourceActionButtons from './NestedResourceActionButtons'
-import { selectValue } from 'selectors/resources'
+import { selectNormValue, selectNormSubject } from 'selectors/resources'
+import { selectSubjectTemplate } from 'selectors/templates'
 import { connect } from 'react-redux'
 import useNavigableComponent from 'hooks/useNavigableComponent'
 
 // AKA a value subject.
 const NestedResource = (props) => {
-  const [navEl, navClickHandler] = useNavigableComponent(props.value.rootSubjectKey, props.value.rootPropertyKey, props.value.valueSubject.key)
+  const [navEl, navClickHandler] = useNavigableComponent(props.value.rootSubjectKey, props.value.rootPropertyKey, props.value.valueSubjectKey)
 
   // onClick is to support left navigation, so ignoring jsx-ally seems reasonable.
   /* eslint-disable jsx-a11y/click-events-have-key-events */
@@ -19,7 +20,7 @@ const NestedResource = (props) => {
     <div className='nested-resource' ref={navEl} onClick={navClickHandler}>
       <div className="row" key={props.valueKey}>
         <section className="col-md-6">
-          <h5>{ props.value.valueSubject.subjectTemplate.label }</h5>
+          <h5>{ props.subjectTemplate.label }</h5>
         </section>
         <section className="col-md-6">
           <NestedResourceActionButtons value={props.value} />
@@ -27,7 +28,7 @@ const NestedResource = (props) => {
       </div>
       <div>
         {
-          props.value.valueSubject.propertyKeys.map((propertyKey) => (
+          props.valueSubject.propertyKeys.map((propertyKey) => (
             <NestedProperty key={propertyKey} propertyKey={propertyKey} />
           ))
         }
@@ -39,10 +40,19 @@ const NestedResource = (props) => {
 NestedResource.propTypes = {
   valueKey: PropTypes.string.isRequired,
   value: PropTypes.object,
+  valueSubject: PropTypes.object,
+  subjectTemplate: PropTypes.object,
 }
 
-const mapStateToProps = (state, ourProps) => ({
-  value: selectValue(state, ourProps.valueKey),
-})
+const mapStateToProps = (state, ourProps) => {
+  // props.value.valueSubject.subjectTemplate
+  const value = selectNormValue(state, ourProps.valueKey)
+  const valueSubject = selectNormSubject(state, value?.valueSubjectKey)
+  return {
+    value,
+    valueSubject,
+    subjectTemplate: selectSubjectTemplate(state, valueSubject?.subjectTemplateKey),
+  }
+}
 
 export default connect(mapStateToProps)(NestedResource)

@@ -1,3 +1,5 @@
+import { selectNormSubject } from 'selectors/resources'
+
 /**
  * Selects a subject template by key.
  * @param [Object] state
@@ -33,3 +35,8 @@ export const selectSubjectAndPropertyTemplates = (state, key) => {
 
 export const selectHistoricalTemplates = (state) => state.editor.historicalTemplates
   .map((resourceTemplateId) => selectSubjectTemplate(state, resourceTemplateId))
+
+export const selectSubjectTemplateFor = (state, subjectKey) => {
+  const subject = selectNormSubject(state, subjectKey)
+  return selectSubjectTemplate(state, subject.subjectTemplateKey)
+}

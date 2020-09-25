@@ -11,10 +11,14 @@ export const setLanguage = (state, action) => ({
   },
 })
 
-export const languagesReceived = (state, action) => ({
-  ...state,
-  languages: createOptions(action.payload),
-})
+export const languagesReceived = (state, action) => {
+  const options = createOptions(action.payload)
+  return {
+    ...state,
+    languageLookup: options,
+    languages: createMap(options),
+  }
+}
 
 const createOptions = (json) => json.reduce((result, item) => {
   // Object.getOwnPropertyDescriptor is necessary to handle the @
@@ -40,3 +44,9 @@ const createOptions = (json) => json.reduce((result, item) => {
   result.push({ id, label })
   return result
 }, [])
+
+const createMap = (options) => {
+  const langMap = {}
+  options.forEach((item) => langMap[item.id] = item.label)
+  return langMap
+}
