@@ -45,10 +45,14 @@ const buildAuthenticate = (state, options) => {
 const buildLanguages = (state, options) => {
   if (options.noLanguage) return
 
-  state.entities.languages = [
+  state.entities.languageLookup = [
     { id: 'tai', label: 'Tai languages' },
     { id: 'eng', label: 'English' },
   ]
+  state.entities.languages = {
+    tai: 'Tai languages',
+    eng: 'English',
+  }
 }
 
 const buildResourceWithError = (state, options) => {

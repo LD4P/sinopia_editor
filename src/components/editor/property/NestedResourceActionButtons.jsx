@@ -1,41 +1,41 @@
 // Copyright 2019 Stanford University see LICENSE for license
 
-import React, { useMemo } from 'react'
+import React from 'react'
 import PropTypes from 'prop-types'
 import { bindActionCreators } from 'redux'
 import { connect } from 'react-redux'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faTrashAlt, faArrowUp, faArrowDown } from '@fortawesome/free-solid-svg-icons'
 import { resourceEditErrorKey } from '../Editor'
-import { selectCurrentResourceKey, selectProperty } from 'selectors/resources'
+import {
+  selectCurrentResourceKey, selectNormProperty, selectNormSubject,
+  selectNormValues,
+} from 'selectors/resources'
+import { selectPropertyTemplate, selectSubjectTemplate } from 'selectors/templates'
 import { addSiblingValueSubject } from 'actionCreators/resources'
 import { removeValue, setValueOrder } from 'actions/resources'
 import _ from 'lodash'
 
 const NestedResourceActionButtons = (props) => {
-  const subjectTemplateKey = props.value.valueSubject.subjectTemplateKey
-  const siblingValues = useMemo(() => props.property.values
-    .filter((value) => value.valueSubject.subjectTemplateKey === subjectTemplateKey),
-  [props.property.values, subjectTemplateKey])
   // Show add button if repeatable and first value.
-  const showAddButton = props.property.propertyTemplate.repeatable && props.value.key === _.first(siblingValues).key
+  const showAddButton = props.propertyTemplate.repeatable && props.value.key === _.first(props.siblingValues).key
   // Show delete button if more than one.
-  const showRemoveButton = siblingValues.length > 1
-  const showMoveUpButton = props.value.property.propertyTemplate.ordered && props.value.index > 1
-  const showMoveDownButton = props.value.property.propertyTemplate.ordered && props.value.index < props.property.values.length
+  const showRemoveButton = props.siblingValues.length > 1
+  const showMoveUpButton = props.propertyTemplate.ordered && props.index > 1
+  const showMoveDownButton = props.propertyTemplate.ordered && props.index < props.property.valueKeys.length
 
   const addAnother = (event) => {
     event.preventDefault()
-    return props.addSiblingValueSubject(_.last(siblingValues).key, resourceEditErrorKey(props.resourceKey))
+    return props.addSiblingValueSubject(_.last(props.siblingValues).key, resourceEditErrorKey(props.resourceKey))
   }
 
   const moveUp = (event) => {
-    props.setValueOrder(props.value.key, props.value.index - 1)
+    props.setValueOrder(props.value.key, props.index - 1)
     event.preventDefault()
   }
 
   const moveDown = (event) => {
-    props.setValueOrder(props.value.key, props.value.index + 1)
+    props.setValueOrder(props.value.key, props.index + 1)
     event.preventDefault()
   }
 
@@ -48,29 +48,29 @@ const NestedResourceActionButtons = (props) => {
     { showAddButton
       && <button
           className="btn btn-sm btn-add-property btn-add-another"
-          aria-label={`Add another ${props.value.valueSubject.subjectTemplate.label}`}
-          data-testid={`Add another ${props.value.valueSubject.subjectTemplate.label}`}
+          aria-label={`Add another ${props.subjectTemplate.label}`}
+          data-testid={`Add another ${props.subjectTemplate.label}`}
           onClick={addAnother}>+ Add another</button>
     }
     { showRemoveButton
       && <button
         className="btn btn-sm btn-remove-another btn-nested-resource"
-        aria-label={`Remove ${props.value.valueSubject.subjectTemplate.label}`}
-        data-testid={`Remove ${props.value.valueSubject.subjectTemplate.label}`}
+        aria-label={`Remove ${props.subjectTemplate.label}`}
+        data-testid={`Remove ${props.subjectTemplate.label}`}
         onClick={removeValue}><FontAwesomeIcon icon={faTrashAlt} /></button>
     }
     { showMoveUpButton
       && <button
           className="btn btn-sm btn-nested-resource btn-moveup"
-          aria-label={`Move up ${props.value.valueSubject.subjectTemplate.label}`}
-          data-testid={`Move up ${props.value.valueSubject.subjectTemplate.label}`}
+          aria-label={`Move up ${props.subjectTemplate.label}`}
+          data-testid={`Move up ${props.subjectTemplate.label}`}
           onClick={moveUp}><FontAwesomeIcon icon={faArrowUp} /></button>
     }
     { showMoveDownButton
       && <button
           className="btn btn-sm btn-nested-resource btn-movedown"
-          aria-label={`Move down ${props.value.valueSubject.subjectTemplate.label}`}
-          data-testid={`Move down ${props.value.valueSubject.subjectTemplate.label}`}
+          aria-label={`Move down ${props.subjectTemplate.label}`}
+          data-testid={`Move down ${props.subjectTemplate.label}`}
           onClick={moveDown}><FontAwesomeIcon icon={faArrowDown} /></button>
     }
 
@@ -83,13 +83,33 @@ NestedResourceActionButtons.propTypes = {
   removeValue: PropTypes.func,
   setValueOrder: PropTypes.func,
   property: PropTypes.object,
+  valueSubject: PropTypes.object,
+  propertyTemplate: PropTypes.object,
+  subjectTemplate: PropTypes.object,
+  siblingValues: PropTypes.array,
+  index: PropTypes.number,
 }
 
-const mapStateToProps = (state, ownProps) => ({
-  // Separately getting property because going to need to evaluate sibling values.
-  property: selectProperty(state, ownProps.value.propertyKey),
-  resourceKey: selectCurrentResourceKey(state),
-})
+const mapStateToProps = (state, ownProps) => {
+  const property = selectNormProperty(state, ownProps.value?.propertyKey)
+  const valueSubject = selectNormSubject(state, ownProps.value?.valueSubjectKey)
+  const values = selectNormValues(state, property?.valueKeys) || []
+
+  const siblingValues = values.filter((siblingValue) => {
+    const siblingValueSubject = selectNormSubject(state, siblingValue.valueSubjectKey)
+    return siblingValueSubject.subjectTemplateKey === valueSubject.subjectTemplateKey
+  })
+
+  return {
+    property,
+    valueSubject,
+    siblingValues,
+    propertyTemplate: selectPropertyTemplate(state, property?.propertyTemplateKey),
+    subjectTemplate: selectSubjectTemplate(state, valueSubject?.subjectTemplateKey),
+    resourceKey: selectCurrentResourceKey(state),
+    index: values.indexOf(ownProps.value) + 1,
+  }
+}
 
 
 const mapDispatchToProps = (dispatch) => bindActionCreators({ addSiblingValueSubject, removeValue, setValueOrder }, dispatch)

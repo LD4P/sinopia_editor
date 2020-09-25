@@ -5,10 +5,11 @@ import { useSelector, useDispatch } from 'react-redux'
 import PropTypes from 'prop-types'
 import { saveResource as saveResourceAction } from 'actionCreators/resources'
 import {
-  resourceHasChangesSinceLastSave, selectCurrentResource,
+  resourceHasChangesSinceLastSave, selectNormSubject,
+  selectCurrentResourceKey,
 } from 'selectors/resources'
 import {
-  displayResourceValidations, selectCurrentResourceValidationErrors,
+  displayResourceValidations, hasValidationErrors as hasValidationErrorsSelector,
 } from 'selectors/errors'
 import {
   showModal as showModalAction,
@@ -22,17 +23,18 @@ import { resourceEditErrorKey } from '../Editor'
 const SaveAndPublishButton = (props) => {
   const dispatch = useDispatch()
 
-  const resource = useSelector((state) => selectCurrentResource(state))
+  const resourceKey = useSelector((state) => selectCurrentResourceKey(state))
+  const resource = useSelector((state) => selectNormSubject(state, resourceKey))
   const isSaved = !!resource.uri
-  const saveResource = () => dispatch(saveResourceAction(resource.key, resourceEditErrorKey(resource.key)))
+  const saveResource = () => dispatch(saveResourceAction(resourceKey, resourceEditErrorKey(resourceKey)))
 
   const showGroupChooser = () => dispatch(showModalAction('GroupChoiceModal'))
-  const showValidationErrors = () => dispatch(showValidationErrorsAction(resource.key))
-  const hideValidationErrors = () => dispatch(hideValidationErrorsAction(resource.key))
+  const showValidationErrors = () => dispatch(showValidationErrorsAction(resourceKey))
+  const hideValidationErrors = () => dispatch(hideValidationErrorsAction(resourceKey))
 
   const resourceHasChanged = useSelector((state) => resourceHasChangesSinceLastSave(state))
-  const hasValidationErrors = useSelector((state) => selectCurrentResourceValidationErrors(state).length > 0)
-  const validationErrorsAreShowing = useSelector((state) => displayResourceValidations(state))
+  const hasValidationErrors = useSelector((state) => hasValidationErrorsSelector(state, resourceKey))
+  const validationErrorsAreShowing = useSelector((state) => displayResourceValidations(state, resourceKey))
   const [isDisabled, setIsDisabled] = useState(true)
 
   useEffect(() => {

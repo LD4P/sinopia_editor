@@ -9,17 +9,19 @@ import PropTypes from 'prop-types'
 import { selectModalType } from 'selectors/modals'
 import { connect, useDispatch, useSelector } from 'react-redux'
 import { displayResourceValidations } from 'selectors/errors'
-import { renderMenuFunc, renderTokenFunc, itemsForProperty } from './renderTypeaheadFunctions'
+import { renderMenuFunc, renderTokenFunc, itemsForValues } from './renderTypeaheadFunctions'
 import { fetchLookup } from 'actionCreators/lookups'
 import { selectLookup } from 'selectors/lookups'
 import _ from 'lodash'
-import { addProperty } from 'actions/resources'
+import { addProperty, removeValue } from 'actions/resources'
 import { newUriValue, newLiteralValue } from 'utilities/valueFactory'
 import { bindActionCreators } from 'redux'
 import ModalWrapper from 'components/ModalWrapper'
 import { hideModal, showModal } from 'actions/modals'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faTrashAlt, faGlobe } from '@fortawesome/free-solid-svg-icons'
+import { selectNormValues } from 'selectors/resources'
+
 
 // propertyTemplate of type 'lookup' does live QA lookup via API
 //  based on URI in propertyTemplate.valueConstraint.useValuesFrom,
@@ -31,26 +33,26 @@ const InputListLOC = (props) => {
 
   const allAuthorities = useMemo(() => {
     const authorities = {}
-    props.property.propertyTemplate.authorities.forEach((authority) => authorities[authority.uri] = authority)
+    props.propertyTemplate.authorities.forEach((authority) => authorities[authority.uri] = authority)
     return authorities
-  }, [props.property.propertyTemplate.authorities])
+  }, [props.propertyTemplate.authorities])
   const [selectedAuthorities, setSelectedAuthorities] = useState({})
 
   useEffect(() => {
     setSelectedAuthorities(allAuthorities)
   }, [allAuthorities])
 
-  const isRepeatable = props.property.propertyTemplate.repeatable
+  const isRepeatable = props.propertyTemplate.repeatable
 
   useEffect(() => {
-    props.property.propertyTemplate.authorities.forEach((authority) => {
+    props.propertyTemplate.authorities.forEach((authority) => {
       dispatch(fetchLookup(authority.uri))
     })
-  }, [dispatch, props.property.propertyTemplate.authorities])
+  }, [dispatch, props.propertyTemplate.authorities])
 
   const authorities = useSelector((state) => {
     const newAuthorities = {}
-    props.property.propertyTemplate.authorities.forEach((authority) => {
+    props.propertyTemplate.authorities.forEach((authority) => {
       newAuthorities[authority.uri] = selectLookup(state, authority.uri) || []
     })
     return newAuthorities
@@ -66,7 +68,7 @@ const InputListLOC = (props) => {
     return newOptions
   }, [authorities, selectedAuthorities])
 
-  const selected = itemsForProperty(props.property)
+  const selected = itemsForValues(props.lookupValues)
 
   // From https://github.com/ericgio/react-bootstrap-typeahead/issues/389
   const onKeyDown = (e) => {
@@ -94,7 +96,7 @@ const InputListLOC = (props) => {
     dispatch(addProperty(newProperty))
   }
 
-  const lookupCheckboxes = props.property.propertyTemplate.authorities.map((authority) => {
+  const lookupCheckboxes = props.propertyTemplate.authorities.map((authority) => {
     const id = `${props.property.key}-${authority.uri}`
     return (
       <div key={authority.uri} className="form-check">
@@ -129,7 +131,7 @@ const InputListLOC = (props) => {
   }
 
 
-  const displayValidations = useSelector((state) => displayResourceValidations(state))
+  const displayValidations = useSelector((state) => displayResourceValidations(state, props.property.rootSubjectKey))
   const validationErrors = props.property.errors
 
   const isDisabled = selected?.length > 0 && !isRepeatable
@@ -196,7 +198,7 @@ const InputListLOC = (props) => {
                 onChange={(selected) => selectionChanged(selected)}
                 id="loc-vocab-list"
                 multiple={true}
-                placeholder={props.property.propertyTemplate.label}
+                placeholder={props.propertyTemplate.label}
                 emptyLabel="retrieving list of terms..."
                 useCache={true}
                 selectHintOnEnter={true}
@@ -236,6 +238,7 @@ const InputListLOC = (props) => {
 
 InputListLOC.propTypes = {
   property: PropTypes.object.isRequired,
+  propertyTemplate: PropTypes.object.isRequired,
   show: PropTypes.bool,
   hideModal: PropTypes.func,
   showModal: PropTypes.func,
@@ -247,11 +250,11 @@ InputListLOC.propTypes = {
 const mapStateToProps = (state, ownProps) => {
   const show = selectModalType(state) === `InputLookupModal-${ownProps.property.key}`
   return {
-    lookupValues: ownProps.property.values,
+    lookupValues: selectNormValues(state, ownProps.property?.valueKeys),
     show,
   }
 }
 
-const mapDispatchToProps = (dispatch) => bindActionCreators({ hideModal }, dispatch)
+const mapDispatchToProps = (dispatch) => bindActionCreators({ hideModal, removeValue }, dispatch)
 
 export default connect(mapStateToProps, mapDispatchToProps)(InputListLOC)

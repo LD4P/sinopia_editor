@@ -13,7 +13,7 @@ import GroupFilter from './GroupFilter'
 import SearchResultRows from './SearchResultRows'
 import SinopiaSort from './SinopiaSort'
 import _ from 'lodash'
-import { selectCurrentResource } from 'selectors/resources'
+import { selectCurrentResourceKey } from 'selectors/resources'
 import { selectSearchResults } from 'selectors/search'
 
 // Errors from retrieving a resource from this page.
@@ -38,7 +38,7 @@ const SinopiaSearchResults = (props) => {
 
   useEffect(() => {
     // Forces a wait until the resource has been set in state
-    if (navigateEditor && props.currentResource && _.isEmpty(props.errors)) {
+    if (navigateEditor && props.currentResourceKey && _.isEmpty(props.errors)) {
       props.history.push('/editor')
     }
     else if (!_.isEmpty(props.errors))
@@ -96,14 +96,14 @@ SinopiaSearchResults.propTypes = {
   searchResults: PropTypes.array,
   loadResource: PropTypes.func,
   history: PropTypes.object,
-  currentResource: PropTypes.object,
+  currentResourceKey: PropTypes.string,
   errors: PropTypes.array,
   fetchSinopiaSearchResults: PropTypes.func,
 }
 
 const mapStateToProps = (state) => ({
   searchResults: selectSearchResults(state, 'resource'),
-  currentResource: selectCurrentResource(state),
+  currentResourceKey: selectCurrentResourceKey(state),
   errors: selectErrors(state, searchRetrieveErrorKey),
 })
 

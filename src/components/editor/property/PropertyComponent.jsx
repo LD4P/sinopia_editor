@@ -13,30 +13,30 @@ import Alert from '../../Alert'
 // Decides how to render this property.
 const PropertyComponent = (props) => {
   // Might be tempted to use lazy / suspense here, but it forces a remounting of components.
-  switch (props.property.propertyTemplate.component) {
+  switch (props.propertyTemplate.component) {
     case 'NestedResource':
-      return props.property.values.map((value) => (
-        <NestedResource key={value.key} valueKey={value.key} />
+      return props.property.valueKeys.map((valueKey) => (
+        <NestedResource key={valueKey} valueKey={valueKey} />
       ))
     case 'InputLiteral':
       return (
-        <InputLiteral property={props.property} />
+        <InputLiteral property={props.property} propertyTemplate={props.propertyTemplate} />
       )
     case 'InputURI':
       return (
-        <InputURI property={props.property} />
+        <InputURI property={props.property} propertyTemplate={props.propertyTemplate} />
       )
     case 'InputLookupQA':
       return (
-        <InputLookupQA property={props.property} />
+        <InputLookupQA property={props.property} propertyTemplate={props.propertyTemplate} />
       )
     case 'InputLookupSinopia':
       return (
-        <InputLookupSinopia property={props.property} />
+        <InputLookupSinopia property={props.property} propertyTemplate={props.propertyTemplate} />
       )
     case 'InputListLOC':
       return (
-        <InputListLOC property={props.property} />
+        <InputListLOC property={props.property} propertyTemplate={props.propertyTemplate} />
       )
     default:
       return (
@@ -47,6 +47,7 @@ const PropertyComponent = (props) => {
 
 PropertyComponent.propTypes = {
   property: PropTypes.object.isRequired,
+  propertyTemplate: PropTypes.object.isRequired,
 }
 
 export default PropertyComponent

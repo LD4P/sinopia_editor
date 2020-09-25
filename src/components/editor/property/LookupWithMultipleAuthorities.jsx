@@ -34,9 +34,9 @@ const LookupWithMultipleAuthorities = (props) => {
 
   const allAuthorities = useMemo(() => {
     const authorities = {}
-    props.property.propertyTemplate.authorities.forEach((authority) => authorities[authority.uri] = authority)
+    props.propertyTemplate.authorities.forEach((authority) => authorities[authority.uri] = authority)
     return Object.values(authorities)
-  }, [props.property.propertyTemplate.authorities])
+  }, [props.propertyTemplate.authorities])
 
 
   // For use inside the effect without having to add props to dependency array.
@@ -164,7 +164,7 @@ const LookupWithMultipleAuthorities = (props) => {
         <div className="modal-content">
           <div className="modal-header">
             <div className="form-group">
-              <label htmlFor="search">{props.property.propertyTemplate.label}</label>
+              <label htmlFor="search">{props.propertyTemplate.label}</label>
               <input id="search" type="search" className="form-control"
                      onKeyUp={(e) => setQuery(e.target.value)}></input>
             </div>
@@ -188,6 +188,7 @@ const LookupWithMultipleAuthorities = (props) => {
 LookupWithMultipleAuthorities.propTypes = {
   modalId: PropTypes.string,
   property: PropTypes.object.isRequired,
+  propertyTemplate: PropTypes.object.isRequired,
   getLookupResults: PropTypes.func.isRequired,
   getOptions: PropTypes.func.isRequired,
   show: PropTypes.bool,

@@ -1,7 +1,7 @@
 import { createState } from 'stateUtils'
 import {
   selectSubject, selectProperty, selectValue,
-  selectCurrentResource, selectFullSubject, resourceHasChangesSinceLastSave,
+  selectFullSubject, resourceHasChangesSinceLastSave,
 } from 'selectors/resources'
 
 describe('selectSubject()', () => {
@@ -38,19 +38,6 @@ describe('selectValue()', () => {
     const state = createState({ hasResourceWithNestedResource: true })
     const value = selectValue(state, 'VDOeQCnFA8')
     expect(value).toBeValue('VDOeQCnFA8')
-    expect(value.index).toBe(1)
-  })
-})
-
-describe('selectCurrentResource()', () => {
-  it('returns null when no current resource', () => {
-    const state = createState()
-    expect(selectCurrentResource(state)).toBeNull()
-  })
-
-  it('returns subject for current resource', () => {
-    const state = createState({ hasResourceWithNestedResource: true })
-    expect(selectCurrentResource(state)).toBeSubject('ljAblGiBW')
   })
 })
 

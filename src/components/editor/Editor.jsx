@@ -2,6 +2,7 @@
 
 import React from 'react'
 import PropTypes from 'prop-types'
+import { useSelector } from 'react-redux'
 import ResourceComponent from './ResourceComponent'
 import Header from '../Header'
 import RDFModal from './RDFModal'
@@ -10,23 +11,34 @@ import GroupChoiceModal from './GroupChoiceModal'
 import EditorActions from './EditorActions'
 import ErrorMessages from './ErrorMessages'
 import ResourcesNav from './ResourcesNav'
+import { displayResourceValidations, hasValidationErrors } from 'selectors/errors'
+import { selectCurrentResourceKey } from 'selectors/resources'
+
 
 // Error key for errors that occur while editing a resource.
 export const resourceEditErrorKey = (resourceKey) => `resourceedit-${resourceKey}`
 
-const Editor = (props) => (
-  <div id="editor">
-    <Header triggerEditorMenu={ props.triggerHandleOffsetMenu }/>
-    <EditorActions />
-    <DiacriticsSelection />
-    <RDFModal />
-    <ErrorMessages />
-    <GroupChoiceModal />
-    <ResourcesNav />
-    <ResourceComponent />
-    <EditorActions />
-  </div>
-)
+const Editor = (props) => {
+  const resourceKey = useSelector((state) => selectCurrentResourceKey(state))
+  const displayErrors = useSelector((state) => displayResourceValidations(state, resourceKey))
+  const hasErrors = useSelector((state) => hasValidationErrors(state, resourceKey))
+
+  if (!resourceKey) return null
+
+  return (
+    <div id="editor">
+      <Header triggerEditorMenu={ props.triggerHandleOffsetMenu }/>
+      <EditorActions />
+      <DiacriticsSelection />
+      <RDFModal />
+      {displayErrors && hasErrors && <ErrorMessages /> }
+      <GroupChoiceModal />
+      <ResourcesNav />
+      <ResourceComponent />
+      <EditorActions />
+    </div>
+  )
+}
 
 Editor.propTypes = {
   triggerHandleOffsetMenu: PropTypes.func,

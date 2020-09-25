@@ -6,12 +6,13 @@ import PropTypes from 'prop-types'
 import { showCopyNewMessage } from 'actions/messages'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faCopy } from '@fortawesome/free-solid-svg-icons'
-import { selectCurrentResource } from 'selectors/resources'
+import { selectCurrentResourceKey, selectNormSubject } from 'selectors/resources'
 import { newResourceCopy } from 'actionCreators/resources'
 
 const CopyToNewButton = (props) => {
   const dispatch = useDispatch()
-  const resource = useSelector((state) => selectCurrentResource(state))
+  const resourceKey = useSelector((state) => selectCurrentResourceKey(state))
+  const resource = useSelector((state) => selectNormSubject(state, resourceKey))
 
   const handleClick = () => {
     dispatch(newResourceCopy(resource.key))

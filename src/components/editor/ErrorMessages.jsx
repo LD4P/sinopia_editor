@@ -3,11 +3,12 @@
 import React from 'react'
 import { connect } from 'react-redux'
 import PropTypes from 'prop-types'
-import { displayResourceValidations, selectCurrentResourceValidationErrors } from 'selectors/errors'
+import { selectValidationErrors } from 'selectors/errors'
+import { selectCurrentResourceKey } from 'selectors/resources'
 import Alert from '../Alert'
 
 const ErrorMessages = (props) => {
-  if (!props.displayValidations || props.errors.length === 0) {
+  if (props.errors.length === 0) {
     return null
   }
 
@@ -23,9 +24,11 @@ ErrorMessages.propTypes = {
   displayValidations: PropTypes.bool,
 }
 
-const mapStateToProps = (state) => ({
-  errors: selectCurrentResourceValidationErrors(state),
-  displayValidations: displayResourceValidations(state),
-})
+const mapStateToProps = (state) => {
+  const resourceKey = selectCurrentResourceKey(state)
+  return {
+    errors: selectValidationErrors(state, resourceKey),
+  }
+}
 
 export default connect(mapStateToProps, {})(ErrorMessages)

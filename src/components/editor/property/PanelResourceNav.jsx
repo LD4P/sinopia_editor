@@ -8,13 +8,13 @@ import { selectCurrentPropertyKey } from 'selectors/index'
 import { useSelector } from 'react-redux'
 
 const PanelResourceNav = (props) => {
-  const currentPropertyKey = useSelector((state) => selectCurrentPropertyKey(state, props.resource.key))
+  const currentPropertyKey = useSelector((state) => selectCurrentPropertyKey(state, props.resource?.key))
 
-  const navItems = props.resource.properties.map((property) => {
-    if (property.key === currentPropertyKey) {
-      return (<ActivePanelPropertyNav key={property.key} propertyKey={property.key} />)
+  const navItems = props.resource.propertyKeys.map((propertyKey) => {
+    if (propertyKey === currentPropertyKey) {
+      return (<ActivePanelPropertyNav key={propertyKey} propertyKey={propertyKey} />)
     }
-    return (<PanelPropertyNav key={property.key} propertyKey={property.key} />)
+    return (<PanelPropertyNav key={propertyKey} propertyKey={propertyKey} />)
   })
   return (
     <div className="col-sm-3">

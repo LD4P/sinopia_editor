@@ -7,12 +7,17 @@ import { getQAOptions } from 'utilities/Search'
 import InputLookup from './InputLookup'
 
 const InputLookupQA = (props) => (
-  <InputLookup getLookupResults={getSearchResults} getOptions={getQAOptions} property={props.property} />
+  <InputLookup
+    getLookupResults={getSearchResults}
+    getOptions={getQAOptions}
+    property={props.property}
+    propertyTemplate={props.propertyTemplate} />
 )
 
 
 InputLookupQA.propTypes = {
   property: PropTypes.object.isRequired,
+  propertyTemplate: PropTypes.object.isRequired,
 }
 
 export default InputLookupQA

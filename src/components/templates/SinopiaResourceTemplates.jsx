@@ -7,7 +7,7 @@ import { useSelector, useDispatch } from 'react-redux'
 import PropTypes from 'prop-types'
 import { newResource, loadResource } from 'actionCreators/resources'
 import { selectErrors } from 'selectors/errors'
-import { selectCurrentResource } from 'selectors/resources'
+import { selectCurrentResourceKey, selectNormSubject } from 'selectors/resources'
 import _ from 'lodash'
 import Alerts from '../Alerts'
 import ResourceTemplateSearchResult from './ResourceTemplateSearchResult'
@@ -37,15 +37,15 @@ const SinopiaResourceTemplates = (props) => {
   })), [historicallyUsedTemplates])
 
   const errors = useSelector((state) => selectErrors(state, newResourceErrorKey))
-  const resource = useSelector((state) => selectCurrentResource(state))
+  const resourceKey = useSelector((state) => selectCurrentResourceKey(state))
+  const resource = useSelector((state) => selectNormSubject(state, resourceKey))
 
   const [navigateEditor, setNavigateEditor] = useState(false)
 
   useEffect(() => {
     // Forces a wait until the root resource has been set in state
     if (navigateEditor && resource && _.isEmpty(errors)) {
-      const resourceTemplateId = resource.subjectTemplate.id
-      props.history.push(`/editor/${resourceTemplateId}`)
+      props.history.push(`/editor/${resource.subjectTemplateKey}`)
     }
   }, [navigateEditor, resource, props.history, errors])
 
