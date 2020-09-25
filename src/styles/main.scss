@@ -1,25 +1,37 @@
  /* Copyright 2019 Stanford University see LICENSE for license */
 
+// Color palette:
+$swirl: #d7cec4;
+$pampas: #f7f4f1;
+$dusty-gray: #979797;
+$reno-sand: #b26f16;
+$orient: #00548f;
+$spring-wood: #f8f6ef;
+$bright-red: #b1020f;
+
 $modal-backdrop-bg: white;
 $modal-backdrop-opacity: 80%;
 $modal-content-border-radius: 2px;
 $enable-shadows: true;
 $modal-content-box-shadow-xs: 0 .125rem .25rem rgba(black, .075) !default;
-$modal-content-border-color: gray;
-$modal-content-bg: #f8f6ef;
-$resource-tab-active-bg: #b26f16;
+$modal-content-border-color: $dusty-gray;
+$modal-content-bg: $spring-wood;
+$resource-tab-active-bg: $reno-sand;
 
-$link-color: #00548f;
+$link-color: $orient;
 $theme-colors: (
-  "danger": #b1020f
+  "danger": $bright-red
 );
-$enable-validation-icons: false;
-$prop-heading-bg: #B26F16;
-$prop-heading-color: white;
-$prop-panel-bg: #F7F4F1;
 
-$lookup-value-bg: #D7CEC4;
-$lookup-value-border: #979797;
+$enable-validation-icons: false;
+$prop-heading-bg: $reno-sand;
+$prop-heading-color: white;
+$prop-panel-bg: $pampas;
+
+$lookup-value-bg: $swirl;
+$lookup-value-border: $dusty-gray;
+
+$lookup-search-result-bg: $pampas;
 
 @import "~bootstrap/scss/bootstrap";
 @import url('https://fonts.googleapis.com/css2?family=Source+Sans+Pro&display=swap');
@@ -251,11 +263,6 @@ div.rbt-input-multi {
   height: auto;
 }
 
-.search-result {
-  text-align: left;
-  width: 100%;
-}
-
 .open-search-modal {
   width: 2rem;
 }
@@ -269,6 +276,7 @@ div.rbt-input-multi {
 }
 
 @import 'header';
+@import 'lookupContext';
 
 /** For lookup menu headers **/
 .dropdown-header {
@@ -281,61 +289,7 @@ div.rbt-input-multi {
 	font-weight:400;
 	color: #999999;
 }
-/** For typeahead discogs context**/
-.context-result {
-  padding: 4px 2px 2px 5px;
-}
 
-.context-result-bg {
-  background-color: #fff;
-}
-
-.context-result-alt-bg {
-  background-color: #ede7d4;
-}
-.context-label {
-  font-weight: bold;
-  font-size: 18px;
-  padding-left: 5px;
-}
-.context-heading {
-  margin: 0 -15px;
-  padding: 8px 0 4px 8px;
-  background-color: #ccc;
-}
-.context-label-dropdown {
-  font-weight:bold;
-  padding-left:5px;
-}
-.context-field {
-  font-style: italic;
-}
-
-.discogs-container {
-  padding: 0 0 4px 3px;
-}
-
-.details-container {
-  padding: 0 0 0 8px;
-  white-space: normal;
-}
-
-.image-container {
-  width: 50px;
-  overflow: hidden;
-  padding: 3px 0 0;
-  text-align: center;
-}
-
-.discogs-image-style {
-  width: 100%;
-  margin-right: 10px;
-  vertical-align: top;
-}
-
-.type-span {
-  padding-left: 8px;
-}
 
 .dropdown-item.active {
   color: #000000;

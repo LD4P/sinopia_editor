@@ -117,7 +117,6 @@ const LookupWithMultipleAuthorities = (props) => {
       const items = resultsFor[authority.uri].map((result, i) => {
         if (result.authURI) return
         if (result.customOption) return
-        const bgClass = i % 2 ? 'context-result-bg' : 'context-result-alt-bg'
         if (result.isError) {
           const errorMessage = result.label || 'An error occurred in retrieving results'
           return (<h2 key={shortid.generate()}>
@@ -130,8 +129,7 @@ const LookupWithMultipleAuthorities = (props) => {
             { result.context ? (
               <RenderLookupContext innerResult={result}
                                    authLabel={authority.label}
-                                   authURI={authority.uri}
-                                   colorClassName={bgClass}></RenderLookupContext>
+                                   authURI={authority.uri}></RenderLookupContext>
             ) : result.label
             }
           </button>
@@ -173,7 +171,7 @@ const LookupWithMultipleAuthorities = (props) => {
               <span aria-hidden="true">&times;</span>
             </button>
           </div>
-          <div className="modal-body">
+          <div className="modal-body lookup-search-results">
             {options}
           </div>
           <div className="modal-footer">

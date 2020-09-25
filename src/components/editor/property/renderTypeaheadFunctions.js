@@ -29,7 +29,6 @@ export const renderMenuFunc = (results, menuProps, lookupConfigs) => {
     })
     hits.forEach((result, i) => {
       if (result.customOption) return
-      const bgClass = i % 2 ? 'context-result-bg' : 'context-result-alt-bg'
       if (result.isError) {
         const errorMessage = result.label || 'An error occurred in retrieving results'
         items.push(
@@ -44,8 +43,7 @@ export const renderMenuFunc = (results, menuProps, lookupConfigs) => {
             { result.context ? (
               <RenderLookupContext innerResult={result}
                                    authLabel={authority.label}
-                                   authURI={authority.uri}
-                                   colorClassName={bgClass}></RenderLookupContext>
+                                   authURI={authority.uri}></RenderLookupContext>
             ) : result.label
             }
           </MenuItem>,

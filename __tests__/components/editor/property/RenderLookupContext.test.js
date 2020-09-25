@@ -113,28 +113,24 @@ const plProps = {
   authURI: 'urn:ld4p:qa:names:person',
   authLabel: 'LOC person [names] (QA)',
   innerResult: contextPersonResult,
-  colorClassName: 'context-result-bg',
 }
 
 const p2Props = {
   authURI: 'urn:generic',
   authLabel: 'Lookups',
   innerResult: genericResult,
-  colorClassName: 'context-result-bg',
 }
 
 const p3Props = {
   authURI: 'urn:discogs',
   authLabel: 'Discogs',
   innerResult: discogsResult,
-  colorClassName: 'context-result-bg',
 }
 
 const p4Props = {
   authURI: 'urn:ld4p:qa:genres',
   authLabel: 'LOC Genre Forms',
   innerResult: genreResult,
-  colorClassName: 'context-result-bg',
 }
 
 
@@ -172,7 +168,7 @@ describe('<RenderLookupContext />', () => {
     expect(discogsDetailsContainer.contains('(1963)')).toEqual(true)
     expect(discogsDetailsContainer.contains('Reprise Records')).toEqual(true)
     expect(discogsDetailsContainer.contains('Vinyl')).toEqual(true)
-    expect(discogsDetailsContainer.find('.type-span').contains('Master')).toEqual(true)
+    expect(discogsDetailsContainer.contains('Master')).toEqual(true)
   })
 
   const genreWrapper = shallow(<RenderLookupContext.WrappedComponent {...p4Props} />)
