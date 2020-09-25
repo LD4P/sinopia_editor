@@ -212,7 +212,8 @@ module.exports = {
       // Might be able to fix this with BS4.
       "files": [
         "src/components/Header.jsx",
-        "src/components/home/Header.jsx"
+        "src/components/home/Header.jsx",
+        "src/components/editor/property/PropertyLabelInfoTooltip.jsx"
       ],
       "rules": {
         "jsx-a11y/anchor-is-valid": "off"

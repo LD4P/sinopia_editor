@@ -22,6 +22,7 @@ $link-color: $orient;
 $theme-colors: (
   "danger": $bright-red
 );
+$tooltip-color: white;
 
 $enable-validation-icons: false;
 $prop-heading-bg: $reno-sand;
@@ -90,6 +91,11 @@ $primary-disabled: lighten( map-get($theme-colors,"secondary"), 20% );
 .btn-add, .btn-remove {
   background-image: none;
   border-style: dashed;
+}
+
+a.tooltip-heading {
+  color: $tooltip-color;
+  outline: none;
 }
 
 .panel-heading > .btn-add, .panel-heading > .btn-remove {
