@@ -1,0 +1,59 @@
+.lookup-search-results {
+  .nav-tabs {
+    margin-bottom: 1em;
+    border: 0;
+  }
+  .nav-tabs .nav-link {
+    border: 0;
+    font-size: larger;
+    font-weight: bold;
+    padding: 0 0.15em;
+    text-decoration: none;
+    &.active {
+      background-color: transparent;
+      border-bottom: 2px solid $gray-600;
+    }
+  }
+
+  .btn.search-result {
+    background-color: $pampas;
+    border-radius: 0;
+    margin-bottom: 0.15em;
+    text-align: left;
+    width: 100%;
+
+    .row {
+      // necessary for the discogs where we put a grid inside the button.
+      margin-left: -5px;
+      margin-right: -5px;
+    }
+  }
+
+  /** For typeahead context **/
+  .context-container {
+    padding: 0 0 4px 3px;
+
+    .context-heading {
+      font-weight:bold;
+      padding-left:5px;
+    }
+
+    .details-container {
+      padding: 0 0 0 8px;
+      white-space: normal;
+    }
+
+    .image-container {
+      width: 50px;
+      overflow: hidden;
+      padding: 3px 0 0;
+      text-align: center;
+    }
+
+    .discogs-image {
+      width: 100%;
+      margin-right: 10px;
+      vertical-align: top;
+    }
+  }
+}

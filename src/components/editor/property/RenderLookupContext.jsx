@@ -27,14 +27,15 @@ class RenderLookupContext extends Component {
     const typeValue = getContextValue(contexts, 'Type')
     const type = typeValue.charAt(0).toUpperCase() + typeValue.slice(1)
     return (
-      <div className="row discogs-container">
+      <div className="context-container row">
         <div className="image-container col-md-2">
-          <img alt="Result" className="discogs-image-style" src={imageUrl}/><br />
+          <img alt="Result" className="discogs-image" src={imageUrl}/><br />
         </div>
-        <div className="col-md-10 details-container">
-          {innerResult.label} {year}<br />
-          <b>Format: </b>{formats}<br />
-          <b>Label: </b>{recLabel}<span className="type-span"><b>Type: </b>{type}</span>
+        <div className="col-md-10">
+          <div className="context-heading details-container">{innerResult.label} {year}</div>
+          <div className="details-container"><span className="context-field">Format:</span> {formats}</div>
+          <div className="details-container"><span className="context-field">Label:</span> {recLabel}</div>
+          <div className="details-container"><span className="context-field">Type:</span> {type}</div>
         </div>
       </div>
     )
@@ -49,8 +50,9 @@ class RenderLookupContext extends Component {
       { contextContent = this.generateOrderedContextView(authURI, context) }
       else
       { contextContent = this.generateDefaultContextView(context, mainLabelProperty) }
-      const divClassName = `row discogs-container ${this.props.colorClassName}`
-      return (<div className={divClassName}> <div className="context-label-dropdown details-container"> {innerResult.label} </div> {contextContent} </div>)
+      return (<div className="context-container">
+        <div className="context-heading details-container"> {innerResult.label} </div> {contextContent}
+      </div>)
     }
     return innerResult.label
   }
@@ -124,7 +126,6 @@ RenderLookupContext.propTypes = {
   innerResult: PropTypes.object,
   authLabel: PropTypes.string,
   authURI: PropTypes.string,
-  colorClassName: PropTypes.string,
 }
 
 
