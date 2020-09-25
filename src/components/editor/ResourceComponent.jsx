@@ -12,7 +12,7 @@ import { newResourceErrorKey } from './property/ResourceList'
 import { resourceEditErrorKey } from './Editor'
 import { addError } from 'actions/errors'
 import { datasetFromN3 } from 'utilities/Utilities'
-import { selectNormSubject, selectCurrentResourceKey } from 'selectors/resources'
+import { selectCurrentResourceKey, selectCurrentResourceIsReadOnly, selectNormSubject } from 'selectors/resources'
 import { selectErrors } from 'selectors/errors'
 import { selectUnusedRDF } from 'selectors/modals'
 import { selectSubjectTemplate } from 'selectors/templates'
@@ -28,6 +28,7 @@ const ResourceComponent = () => {
   const subjectTemplate = useSelector((state) => selectSubjectTemplate(state, resource.subjectTemplateKey))
   const errors = useSelector((state) => selectErrors(state, resourceEditErrorKey(resourceKey)))
   const unusedRDF = useSelector((state) => selectUnusedRDF(state, resourceKey))
+  const readOnly = useSelector((state) => selectCurrentResourceIsReadOnly(state))
 
   const [dataset, setDataset] = useState(null)
 
@@ -56,11 +57,12 @@ const ResourceComponent = () => {
           <ResourceURIMessage />
           <SaveAlert />
         </section>
-        {dataset
-         && <div className="alert alert-warning" role="alert">
-           <strong>Unable to load the entire resource.</strong> The unused triples are:
-           <RDFDisplay dataset={dataset} />
-         </div>
+        {
+          dataset && !readOnly
+          && <div className="alert alert-warning" role="alert">
+            <strong>Unable to load the entire resource.</strong> The unused triples are:
+            <RDFDisplay dataset={dataset} />
+          </div>
         }
         <PanelResource resource={resource} />
       </div>

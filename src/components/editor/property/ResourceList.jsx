@@ -7,7 +7,7 @@ import { getTemplateSearchResults } from 'sinopiaSearch'
 import shortid from 'shortid'
 import { newResource } from 'actionCreators/resources'
 import { selectPropertyTemplate, selectSubjectTemplate } from 'selectors/templates'
-import { selectNormSubject } from 'selectors/resources'
+import { selectCurrentResourceIsReadOnly, selectNormSubject } from 'selectors/resources'
 
 export const newResourceErrorKey = 'newresource'
 
@@ -15,6 +15,7 @@ const ResourceList = (props) => {
   const dispatch = useDispatch()
   const [newResourceList, setNewResourceList] = useState([])
   const topRef = useRef(null)
+  const readOnly = useSelector((state) => selectCurrentResourceIsReadOnly(state))
 
   const propertyTemplate = useSelector((state) => selectPropertyTemplate(state, props.property?.propertyTemplateKey))
   const subject = useSelector((state) => selectNormSubject(state, props.property?.subjectKey))
@@ -34,7 +35,12 @@ const ResourceList = (props) => {
         response.results?.forEach((hit) => {
           if (hit.resourceURI === subjectTemplate.class) {
             listItems.push(
-              <button className="dropdown-item" href="#" data-resource-id={hit.id} key={shortid.generate()} onClick={() => { handleChange(hit.id) }}>
+              <button disabled={readOnly}
+                      className="dropdown-item"
+                      href="#"
+                      data-resource-id={hit.id}
+                      key={shortid.generate()}
+                      onClick={() => { handleChange(hit.id) }}>
                 {hit.resourceLabel} ({hit.id})
               </button>,
             )
@@ -44,11 +50,11 @@ const ResourceList = (props) => {
       setNewResourceList(listItems)
     }
     getNewResourceList()
-  }, [dispatch, propertyTemplate.authorities, subjectTemplate.class])
+  }, [readOnly, dispatch, propertyTemplate.authorities, subjectTemplate.class])
 
   const dropdown = (items) => <div className="dropdown">
     <button className="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown"
-            aria-haspopup="true" aria-expanded="false">
+            aria-haspopup="true" aria-expanded="false" disabled={readOnly}>
       Create New
     </button>
     <div className="dropdown-menu" aria-labelledby="dropdownMenuButton">

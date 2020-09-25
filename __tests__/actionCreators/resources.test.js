@@ -214,6 +214,7 @@ describe('loadResource', () => {
       expect(actions).toHaveAction('ADD_TEMPLATES')
       expect(actions).toHaveAction('SET_UNUSED_RDF')
       expect(actions).toHaveAction('SET_CURRENT_RESOURCE')
+      expect(actions).toHaveAction('SET_CURRENT_RESOURCE_IS_READ_ONLY', undefined)
       expect(actions).toHaveAction('LOAD_RESOURCE_FINISHED')
     })
   })
@@ -232,7 +233,26 @@ describe('loadResource', () => {
       expect(actions).toHaveAction('ADD_SUBJECT')
       expect(actions).toHaveAction('SET_UNUSED_RDF')
       expect(actions).toHaveAction('SET_CURRENT_RESOURCE')
+      expect(actions).toHaveAction('SET_CURRENT_RESOURCE_IS_READ_ONLY', undefined)
       expect(actions).not.toHaveAction('LOAD_RESOURCE_FINISHED')
+    })
+  })
+
+  describe('loading a read-only resource', () => {
+    const store = mockStore(createState())
+
+    it('dispatches actions', async () => {
+      const uri = 'http://localhost:3000/resource/c7db5404-7d7d-40ac-b38e-c821d2c3ae3f'
+      const result = await store.dispatch(loadResource(uri, 'testerrorkey', false, true))
+      expect(result).toBe(true)
+
+      const actions = store.getActions()
+      expect(actions).toHaveAction('CLEAR_ERRORS')
+      expect(actions).toHaveAction('ADD_TEMPLATES')
+      expect(actions).toHaveAction('SET_UNUSED_RDF')
+      expect(actions).toHaveAction('SET_CURRENT_RESOURCE')
+      expect(actions).toHaveAction('SET_CURRENT_RESOURCE_IS_READ_ONLY', true)
+      expect(actions).toHaveAction('LOAD_RESOURCE_FINISHED')
     })
   })
 

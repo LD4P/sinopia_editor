@@ -2,19 +2,20 @@
 /* eslint max-params: ["error", 4] */
 
 import React, { useState, useEffect, useRef } from 'react'
-import { connect } from 'react-redux'
-import { bindActionCreators } from 'redux'
+import { useDispatch, useSelector } from 'react-redux'
 import PropTypes from 'prop-types'
+import { showModal } from 'actions/modals'
 import { loadResource } from 'actionCreators/resources'
 import { selectErrors } from 'selectors/errors'
+import { selectCurrentResourceKey } from 'selectors/resources'
+import { selectSearchResults } from 'selectors/search'
 import Alerts from '../Alerts'
 import TypeFilter from './TypeFilter'
 import GroupFilter from './GroupFilter'
 import SearchResultRows from './SearchResultRows'
 import SinopiaSort from './SinopiaSort'
+import ViewResourceModal from '../ViewResourceModal'
 import _ from 'lodash'
-import { selectCurrentResourceKey } from 'selectors/resources'
-import { selectSearchResults } from 'selectors/search'
 
 // Errors from retrieving a resource from this page.
 export const searchRetrieveErrorKey = 'searchresource'
@@ -24,35 +25,47 @@ const SinopiaSearchResults = (props) => {
 
   const errorsRef = useRef(null)
 
+  const searchResults = useSelector((state) => selectSearchResults(state, 'resource'))
+  const currentResourceKey = useSelector((state) => selectCurrentResourceKey(state))
+  const errors = useSelector((state) => selectErrors(state, searchRetrieveErrorKey))
+
+  const dispatch = useDispatch()
+
   const handleCopy = (resourceURI) => {
-    props.loadResource(resourceURI, searchRetrieveErrorKey, true).then((success) => {
+    dispatch(loadResource(resourceURI, searchRetrieveErrorKey, true)).then((success) => {
       setNavigateEditor(success)
     })
   }
 
   const handleEdit = (resourceURI) => {
-    props.loadResource(resourceURI, searchRetrieveErrorKey).then((success) => {
+    dispatch(loadResource(resourceURI, searchRetrieveErrorKey)).then((success) => {
       setNavigateEditor(success)
+    })
+  }
+
+  const handleView = (resourceURI) => {
+    dispatch(loadResource(resourceURI, searchRetrieveErrorKey, false, true)).then(() => {
+      dispatch(showModal('ViewResourceModal'))
     })
   }
 
   useEffect(() => {
     // Forces a wait until the resource has been set in state
-    if (navigateEditor && props.currentResourceKey && _.isEmpty(props.errors)) {
+    if (navigateEditor && currentResourceKey && _.isEmpty(errors)) {
       props.history.push('/editor')
     }
-    else if (!_.isEmpty(props.errors))
-    {
+    else if (!_.isEmpty(errors)) {
       window.scrollTo(0, errorsRef.current.offsetTop)
     }
   })
 
-  if (props.searchResults.length === 0) {
+  if (searchResults.length === 0) {
     return null
   }
 
   return (
     <React.Fragment>
+      <ViewResourceModal handleEdit={handleEdit} handleCopy={handleCopy} />
       <div ref={errorsRef}><Alerts errorKey={searchRetrieveErrorKey} /></div>
       <div className="row">
         <div className="col" style={{ marginBottom: '5px' }}>
@@ -83,7 +96,10 @@ const SinopiaSearchResults = (props) => {
               </tr>
             </thead>
             <tbody>
-              <SearchResultRows searchResults={props.searchResults} handleEdit={handleEdit} handleCopy={handleCopy} />
+              <SearchResultRows searchResults={searchResults}
+                                handleEdit={handleEdit}
+                                handleCopy={handleCopy}
+                                handleView={handleView} />
             </tbody>
           </table>
         </div>
@@ -93,20 +109,7 @@ const SinopiaSearchResults = (props) => {
 }
 
 SinopiaSearchResults.propTypes = {
-  searchResults: PropTypes.array,
-  loadResource: PropTypes.func,
   history: PropTypes.object,
-  currentResourceKey: PropTypes.string,
-  errors: PropTypes.array,
-  fetchSinopiaSearchResults: PropTypes.func,
 }
 
-const mapStateToProps = (state) => ({
-  searchResults: selectSearchResults(state, 'resource'),
-  currentResourceKey: selectCurrentResourceKey(state),
-  errors: selectErrors(state, searchRetrieveErrorKey),
-})
-
-const mapDispatchToProps = (dispatch) => bindActionCreators({ loadResource }, dispatch)
-
-export default connect(mapStateToProps, mapDispatchToProps)(SinopiaSearchResults)
+export default SinopiaSearchResults

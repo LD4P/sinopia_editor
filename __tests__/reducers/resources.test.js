@@ -1,11 +1,11 @@
 // Copyright 2020 Stanford University see LICENSE for license
 
 import {
-  addProperty, addSubject, addValue, clearResource,
-  hideProperty, removeSubject,
+  addProperty, addSubject, addValue, clearResource, hideProperty, removeSubject,
   removeValue, saveResourceFinished, setBaseURL, setCurrentResource,
-  setUnusedRDF, showProperty, loadResourceFinished, setResourceGroup,
-  setValueOrder, clearResourceFromEditor, saveResourceFinishedEditor,
+  setCurrentResourceIsReadOnly, setUnusedRDF, showProperty,
+  loadResourceFinished, setResourceGroup, setValueOrder,
+  clearResourceFromEditor, saveResourceFinishedEditor,
 } from 'reducers/resources'
 
 import { createState } from 'stateUtils'
@@ -33,6 +33,7 @@ const editorReducers = {
   CLEAR_RESOURCE: clearResourceFromEditor,
   SAVE_RESOURCE_FINISHED: saveResourceFinishedEditor,
   SET_CURRENT_RESOURCE: setCurrentResource,
+  SET_CURRENT_RESOURCE_IS_READ_ONLY: setCurrentResourceIsReadOnly,
   SET_UNUSED_RDF: setUnusedRDF,
 }
 
@@ -538,6 +539,7 @@ describe('clearResourceFromEditor()', () => {
     const newState = editorReducer(oldState.editor, action)
     expect(newState.errors['resourceedit-t9zVwg2zO']).toBe(undefined)
     expect(newState.currentResource).toBe(null)
+    expect(newState.currentResourceIsReadOnly).toBe(undefined)
     expect(newState.resources).toStrictEqual([])
   })
 })
@@ -708,6 +710,36 @@ describe('setCurrentResource()', () => {
     const newState = editorReducer(oldState.editor, action)
     expect(newState.currentResource).toBe('t9zVwg2zO')
     expect(newState.resources).toStrictEqual(['t9zVwg2zO'])
+  })
+})
+
+describe('setCurrentResourceIsReadOnly()', () => {
+  it('sets current resource to read-only', () => {
+    const oldState = createState({ hasResourceWithLiteral: true })
+    oldState.editor.currentResourceIsReadOnly = undefined
+    expect(oldState.editor.currentResourceIsReadOnly).toBeUndefined()
+
+    const action = {
+      type: 'SET_CURRENT_RESOURCE_IS_READ_ONLY',
+      payload: true,
+    }
+
+    const newState = editorReducer(oldState.editor, action)
+    expect(newState.currentResourceIsReadOnly).toBe(true)
+  })
+
+  it('sets current resource to not read-only', () => {
+    const oldState = createState({ hasResourceWithLiteral: true })
+    oldState.editor.currentResourceIsReadOnly = true
+    expect(oldState.editor.currentResourceIsReadOnly).toBe(true)
+
+    const action = {
+      type: 'SET_CURRENT_RESOURCE_IS_READ_ONLY',
+      payload: undefined,
+    }
+
+    const newState = editorReducer(oldState.editor, action)
+    expect(newState.currentResourceIsReadOnly).toBeUndefined()
   })
 })
 

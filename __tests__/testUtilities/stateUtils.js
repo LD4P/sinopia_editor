@@ -169,6 +169,8 @@ const buildTemplateWithLiteral = (state, options) => {
 const buildResourceWithLiteral = (state, options) => {
   if (!options.hasResourceWithLiteral) return
 
+  if (options.readOnlyResource) state.editor.currentResourceIsReadOnly = true
+
   state.editor.currentResource = 't9zVwg2zO'
   state.editor.resources = ['t9zVwg2zO']
   state.entities.subjectTemplates = {

@@ -6,6 +6,7 @@ import { selectModalType } from 'selectors/modals'
 import { connect, useSelector, useDispatch } from 'react-redux'
 import { bindActionCreators } from 'redux'
 import { displayResourceValidations } from 'selectors/errors'
+import { selectNormValues, selectCurrentResourceIsReadOnly } from 'selectors/resources'
 import _ from 'lodash'
 import { itemsForValues } from './renderTypeaheadFunctions'
 import { removeValue } from 'actions/resources'
@@ -14,17 +15,17 @@ import ModalWrapper from 'components/ModalWrapper'
 import LookupWithMultipleAuthorities from './LookupWithMultipleAuthorities'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faGlobe, faSearch, faTrashAlt } from '@fortawesome/free-solid-svg-icons'
-import { selectNormValues } from 'selectors/resources'
 
 const InputLookup = (props) => {
   const dispatch = useDispatch()
   const displayValidations = useSelector((state) => displayResourceValidations(state, props.property.rootSubjectKey))
   const errors = props.property.errors
   const selected = itemsForValues(props.lookupValues)
+  const readOnly = useSelector((state) => selectCurrentResourceIsReadOnly(state))
 
   const isRepeatable = props.propertyTemplate.repeatable
 
-  const isDisabled = selected?.length > 0 && !isRepeatable
+  const isDisabled = readOnly || (selected?.length > 0 && !isRepeatable)
 
   let error
   let controlClasses = 'open-search-modal btn btn-sm btn-secondary btn-literal form-control'

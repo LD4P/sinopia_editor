@@ -8,10 +8,10 @@ import PropertyComponent from './PropertyComponent'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faTrashAlt } from '@fortawesome/free-solid-svg-icons'
 import { bindActionCreators } from 'redux'
-import { connect } from 'react-redux'
+import { connect, useSelector } from 'react-redux'
 import { resourceEditErrorKey } from '../Editor'
 import { expandProperty, contractProperty } from 'actionCreators/resources'
-import { selectNormProperty, selectCurrentResourceKey } from 'selectors/resources'
+import { selectNormProperty, selectCurrentResourceKey, selectCurrentResourceIsReadOnly } from 'selectors/resources'
 import { selectPropertyTemplate } from 'selectors/templates'
 import useNavigableComponent from 'hooks/useNavigableComponent'
 
@@ -22,6 +22,7 @@ const PanelProperty = (props) => {
   const nbsp = '\u00A0'
   const trashIcon = faTrashAlt
   const [navEl, navClickHandler] = useNavigableComponent(props.resourceKey, props.propertyKey, props.propertyKey)
+  const readOnly = useSelector((state) => selectCurrentResourceIsReadOnly(state))
 
   // onClick is to support left navigation, so ignoring jsx-ally seems reasonable.
   /* eslint-disable jsx-a11y/click-events-have-key-events */
@@ -33,7 +34,7 @@ const PanelProperty = (props) => {
           <h5 className="card-title">
             <PropertyLabel propertyTemplate={ props.propertyTemplate } />
             <PropertyLabelInfo propertyTemplate={ props.propertyTemplate } />{nbsp}
-            { isAdd && (
+            { isAdd && !readOnly && (
               <button
                   type="button"
                   className="btn btn-sm btn-add btn-add-instance pull-right"
@@ -44,7 +45,7 @@ const PanelProperty = (props) => {
                 + Add
               </button>
             )}
-            { !isAdd && !isRequired && (
+            { !isAdd && !isRequired && !readOnly && (
               <button type="button"
                       className="btn btn-sm btn-remove pull-right"
                       aria-label={`Remove ${props.propertyTemplate.label}`}

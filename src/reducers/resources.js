@@ -55,6 +55,11 @@ export const setCurrentResource = (state, action) => {
   return newState
 }
 
+export const setCurrentResourceIsReadOnly = (state, action) => ({
+  ...state,
+  currentResourceIsReadOnly: action.payload,
+})
+
 export const addSubject = (state, action) => addSubjectToNewState(state, _.cloneDeep(action.payload))
 
 const addSubjectToNewState = (state, subject, valueSubjectOfKey) => {

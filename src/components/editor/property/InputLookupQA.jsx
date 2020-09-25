@@ -14,7 +14,6 @@ const InputLookupQA = (props) => (
     propertyTemplate={props.propertyTemplate} />
 )
 
-
 InputLookupQA.propTypes = {
   property: PropTypes.object.isRequired,
   propertyTemplate: PropTypes.object.isRequired,
