@@ -5,6 +5,7 @@ import PropTypes from 'prop-types'
 import InputLiteral from './InputLiteral'
 import InputURI from './InputURI'
 import InputListLOC from './InputListLOC'
+import InputList from './InputList'
 import InputLookupQA from './InputLookupQA'
 import InputLookupSinopia from './InputLookupSinopia'
 import NestedResource from './NestedResource'
@@ -33,6 +34,10 @@ const PropertyComponent = (props) => {
     case 'InputLookupSinopia':
       return (
         <InputLookupSinopia property={props.property} propertyTemplate={props.propertyTemplate} />
+      )
+    case 'InputList':
+      return (
+        <InputList property={props.property} propertyTemplate={props.propertyTemplate} />
       )
     case 'InputListLOC':
       return (

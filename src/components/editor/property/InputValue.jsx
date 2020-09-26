@@ -35,7 +35,7 @@ const InputValue = (props) => {
         <span aria-hidden="true">×</span>
       </button>
     </div>
-    <button
+    {props.handleEdit && <button
       disabled={readOnly}
       onClick={handleEditClick}
       style={ { marginRight: '.25em' } }
@@ -43,13 +43,13 @@ const InputValue = (props) => {
       data-testid={`Edit ${label}`}
       className="btn btn-sm btn-secondary btn-default">
       Edit
-    </button>
+    </button> }
     { isLiteral ? (<LanguageButton value={props.value} />) : '' }
   </div>)
 }
 
 InputValue.propTypes = {
-  handleEdit: PropTypes.func.isRequired,
+  handleEdit: PropTypes.func,
   removeValue: PropTypes.func.isRequired,
   valueKey: PropTypes.string.isRequired,
   value: PropTypes.object,
