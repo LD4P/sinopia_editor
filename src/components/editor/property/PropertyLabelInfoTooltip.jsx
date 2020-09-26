@@ -14,15 +14,20 @@ const PropertyLabelInfoTooltip = (props) => {
   }, [key])
 
   return (
-    <span data-toggle="popover"
-          data-placement="right"
-          data-container="body"
-          title={props.propertyTemplate.label}
-          data-content={props.propertyTemplate.remark}
-          key={key}
-          id={key}>
+    <a href="#"
+       className="tooltip-heading"
+       tabIndex="0"
+       data-toggle="popover"
+       data-trigger="focus"
+       data-placement="right"
+       data-container="body"
+       data-testid={props.propertyTemplate.label}
+       title={props.propertyTemplate.label}
+       data-content={props.propertyTemplate.remark}
+       key={key}
+       id={key}>
       <FontAwesomeIcon className="info-icon" icon={faInfoCircle} />
-    </span>
+    </a>
   )
 }
 

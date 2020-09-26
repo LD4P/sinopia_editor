@@ -1,11 +1,15 @@
 import { renderApp, createHistory } from 'testUtils'
-import { screen } from '@testing-library/react'
+import { fireEvent, screen } from '@testing-library/react'
 import Config from 'Config'
 
 // Mock jquery
 global.$ = jest.fn().mockReturnValue({ popover: jest.fn() })
 // This forces Sinopia server to use fixtures
 jest.spyOn(Config, 'useResourceTemplateFixtures', 'get').mockReturnValue(true)
+// Mock out document.elementFromPoint used by useNavigableComponent.
+global.document.elementFromPoint = jest.fn()
+// Mock out scrollIntoView used by useNavigableComponent. See https://github.com/jsdom/jsdom/issues/1695
+Element.prototype.scrollIntoView = jest.fn()
 
 describe('getting property related info from a resource', () => {
   it('has tooltip text info or a link based on the content of a top-level property remark', async () => {
@@ -25,6 +29,18 @@ describe('getting property related info from a resource', () => {
   it('has tooltip text info based on the content of a nested property remark', async () => {
     const history = createHistory(['/editor/resourceTemplate:testing:uber1'])
     renderApp(null, history)
+
+    // Verifies that tooltip pops up when clicked and hides when something else is clicked
+    const tooltipText = 'Multiple nested, repeatable resource templates.'
+    expect(screen.queryByText(tooltipText)).not.toBeInTheDocument()
+    fireEvent.click(await screen.findByTitle('Uber template1, property1'))
+    // NOTE: This is the line that should be doing the real testing... but I
+    //       can't get it to work after much googling and many different
+    //       incantations.
+    //
+    // expect(await screen.findByText(tooltipText)).toBeInTheDocument()
+    fireEvent.click(screen.getByPlaceholderText('Uber template1, property4'))
+    expect(screen.queryByText(tooltipText)).not.toBeInTheDocument()
 
     // Finds the parent property
     const infoIcon1 = await screen.findByTitle('Uber template1, property18')
