@@ -2,10 +2,15 @@ import { renderApp, createHistory } from 'testUtils'
 import { fireEvent, screen } from '@testing-library/react'
 import Config from 'Config'
 
-// Mock jquery
-global.$ = jest.fn().mockReturnValue({ popover: jest.fn() })
 // This forces Sinopia server to use fixtures
 jest.spyOn(Config, 'useResourceTemplateFixtures', 'get').mockReturnValue(true)
+// Mock out document.elementFromPoint used by useNavigableComponent.
+global.document.elementFromPoint = jest.fn()
+// Mock out scrollIntoView used by useNavigableComponent. See https://github.com/jsdom/jsdom/issues/1695
+Element.prototype.scrollIntoView = jest.fn()
+
+// Mock jquery
+global.$ = jest.fn().mockReturnValue({ popover: jest.fn() })
 // Mock out document.elementFromPoint used by useNavigableComponent.
 global.document.elementFromPoint = jest.fn()
 // Mock out scrollIntoView used by useNavigableComponent. See https://github.com/jsdom/jsdom/issues/1695
@@ -46,11 +51,8 @@ describe('getting property related info from a resource', () => {
     const infoIcon1 = await screen.findByTitle('Uber template1, property18')
     expect(infoIcon1).toHaveAttribute('data-content', 'Mandatory nested resource templates.')
 
-    // Finds the nested resource
-    await screen.findByText('Uber template4', { selector: 'h5' })
-
     // Finds the nested property info (tooltip remark is text)
-    const nestedInfoIcon = await screen.findByTitle('Uber template4, property1')
-    expect(nestedInfoIcon).toHaveAttribute('data-content', 'A repeatable, required literal')
+    const nestedInfoIcons = await screen.findAllByTitle('Uber template4, property1')
+    expect(nestedInfoIcons[0]).toHaveAttribute('data-content', 'A repeatable, required literal')
   }, 10000)
 })

@@ -20,12 +20,6 @@ describe('reordering properties', () => {
 
     await screen.findByText('Uber template1', { selector: 'h3' })
 
-    // Add a panel property
-    screen.getByText('Uber template1, property19', { selector: 'span' })
-    fireEvent.click(screen.getByTestId('Add Uber template1, property19'))
-
-    await screen.findByText('Uber template4')
-
     const nestedResource1 = container.querySelector('div[data-label="Uber template1, property19"] div.nested-resource')
 
     // No arrows.

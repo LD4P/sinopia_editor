@@ -18,9 +18,8 @@ describe('expanding and contracting properties', () => {
 
     await screen.findByText('Uber template1', { selector: 'h3' })
 
-    // Add a panel property
-    screen.getByText('Uber template1, property1', { selector: 'span' })
-    fireEvent.click(screen.getByTestId('Add Uber template1, property1'))
+    // Get rid of Uber template1, property3
+    fireEvent.click(screen.getByTestId('Remove Uber template1, property3'))
 
     await screen.findByText('Uber template2', { selector: 'h5' })
     await screen.findByText('Uber template3', { selector: 'h5' })

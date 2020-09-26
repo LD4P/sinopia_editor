@@ -19,16 +19,7 @@ describe('adding and removing properties', () => {
 
     await screen.findByText('Uber template1', { selector: 'h3' })
 
-    // Add a panel property
-    expect(screen.getAllByText(/Uber template1, property2$/)).toHaveLength(2) // do not want to match property20!
-    fireEvent.click(screen.getByTestId('Add Uber template1, property2'))
-
-    // Input box displayed
-    await screen.findByPlaceholderText('Uber template1, property2')
-    // Add button removed.
-    expect(screen.queryAllByTestId('Add Uber template1, property2')).toHaveLength(0)
-
-    // Now remove it.
+    // Remove panel property.
     fireEvent.click(screen.getByTestId('Remove Uber template1, property2'))
 
     // Input box removed.
@@ -37,6 +28,15 @@ describe('adding and removing properties', () => {
     screen.getByTestId('Add Uber template1, property2')
     // Remove button removed.
     expect(screen.queryAllByTestId('Remove Uber template1, property2')).toHaveLength(0)
+
+    // Now add it.
+    expect(screen.getAllByText(/Uber template1, property2$/)).toHaveLength(2) // do not want to match property20!
+    fireEvent.click(screen.getByTestId('Add Uber template1, property2'))
+
+    // Input box displayed
+    await screen.findByPlaceholderText('Uber template1, property2')
+    // Add button removed.
+    expect(screen.queryAllByTestId('Add Uber template1, property2')).toHaveLength(0)
   }, 15000)
 
   it('adds and removes repeatable nested resources', async () => {
@@ -44,14 +44,13 @@ describe('adding and removing properties', () => {
 
     await screen.findByText('Uber template1', { selector: 'h3' })
 
-    // Add a panel property
-    screen.getByText('Uber template1, property1', { selector: 'span' })
-    fireEvent.click(screen.getByTestId('Add Uber template1, property1'))
+    // Get rid of Uber template1, property3
+    fireEvent.click(screen.getByTestId('Remove Uber template1, property3'))
 
     await screen.findByText('Uber template2', { selector: 'h5' })
     await screen.findByText('Uber template3', { selector: 'h5' })
 
-    // No remove
+    // Now remove
     expect(screen.queryAllByTestId('Remove Uber template2')).toHaveLength(0)
     // Add another Uber template2
     fireEvent.click(screen.getByTestId('Add another Uber template2'))
@@ -79,9 +78,9 @@ describe('adding and removing properties', () => {
 
     await screen.findByText('Uber template1', { selector: 'h3' })
 
-    // Add a panel property
-    expect(screen.getAllByText('Uber template1, property3')).toHaveLength(2)
-    fireEvent.click(screen.getByTestId('Add Uber template1, property3'))
+    // Remove Uber template1, property1 to not confuse this test
+    // expect(screen.getAllByText('Uber template1, property3')).toHaveLength(2)
+    fireEvent.click(screen.getByTestId('Remove Uber template1, property1'))
 
     await screen.findByText('Uber template2', { selector: 'h5' })
     await screen.findByText('Uber template3', { selector: 'h5' })
@@ -97,15 +96,8 @@ describe('adding and removing properties', () => {
 
     await screen.findByText('Uber template1', { selector: 'h3' })
 
-    // Add a panel property
-    screen.getByText('Uber template1, property1', { selector: 'span' })
-    fireEvent.click(screen.getByTestId('Add Uber template1, property1'))
-
-    await screen.findByText('Uber template2', { selector: 'h5' })
-    await screen.findByText('Uber template3', { selector: 'h5' })
-
     // Add a nested property (literal)
-    fireEvent.click(screen.getByTestId('Add Uber template2, property1'))
+    fireEvent.click(screen.getAllByTestId('Add Uber template2, property1')[0])
     // Input box displayed
     await screen.findByPlaceholderText('Uber template2, property1')
 

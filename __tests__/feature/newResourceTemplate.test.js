@@ -2,6 +2,10 @@ import { renderApp } from 'testUtils'
 import { fireEvent, screen, waitFor } from '@testing-library/react'
 import Config from 'Config'
 
+// Mock out document.elementFromPoint used by useNavigableComponent.
+global.document.elementFromPoint = jest.fn()
+// Mock out scrollIntoView used by useNavigableComponent. See https://github.com/jsdom/jsdom/issues/1695
+Element.prototype.scrollIntoView = jest.fn()
 // Mock jquery
 global.$ = jest.fn().mockReturnValue({ popover: jest.fn() })
 // This forces Sinopia server to use fixtures
