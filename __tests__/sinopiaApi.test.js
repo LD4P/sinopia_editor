@@ -129,7 +129,7 @@ describe('postResource', () => {
           type: 'uri',
         },
         values: [{
-          uri: 'resourceTemplate:bf2:Note',
+          literal: 'resourceTemplate:bf2:Note',
           property: { propertyTemplate: { type: 'uri' } },
         }],
       })
