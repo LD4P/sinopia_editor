@@ -172,7 +172,7 @@
     ],
     "http://sinopia.io/vocabulary/hasResourceId": [
       {
-        "@id": "resourceTemplate:bf2:Title"
+        "@value": "resourceTemplate:bf2:Title"
       }
     ],
     "http://sinopia.io/vocabulary/hasClass": [

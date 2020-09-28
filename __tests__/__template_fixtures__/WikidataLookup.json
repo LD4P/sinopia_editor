@@ -58,7 +58,7 @@
     ],
     "http://sinopia.io/vocabulary/hasResourceId": [
       {
-        "@id": "test:resource:WikidataLookup"
+        "@value": "test:resource:WikidataLookup"
       }
     ],
     "http://sinopia.io/vocabulary/hasClass": [

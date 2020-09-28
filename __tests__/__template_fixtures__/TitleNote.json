@@ -37,7 +37,7 @@
     ],
     "http://sinopia.io/vocabulary/hasResourceId": [
       {
-        "@id": "resourceTemplate:bf2:Title:Note"
+        "@value": "resourceTemplate:bf2:Title:Note"
       }
     ],
     "http://sinopia.io/vocabulary/hasClass": [

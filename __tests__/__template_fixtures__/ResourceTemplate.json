@@ -32,7 +32,7 @@
     ],
     "http://sinopia.io/vocabulary/hasResourceId": [
       {
-        "@id": "sinopia:template:resource"
+        "@value": "sinopia:template:resource"
       }
     ],
     "http://sinopia.io/vocabulary/hasClass": [

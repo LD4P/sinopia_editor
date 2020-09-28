@@ -73,7 +73,7 @@
     ],
     "http://sinopia.io/vocabulary/hasResourceId": [
       {
-        "@id": "rt:repeated:propertyURI:propertyLabel"
+        "@value": "rt:repeated:propertyURI:propertyLabel"
       }
     ],
     "http://sinopia.io/vocabulary/hasClass": [

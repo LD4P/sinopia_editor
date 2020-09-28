@@ -56,7 +56,7 @@
     ],
     "http://sinopia.io/vocabulary/hasResourceId": [
       {
-        "@id": "test:RT:bf2:RareMat:Instance"
+        "@value": "test:RT:bf2:RareMat:Instance"
       }
     ],
     "http://sinopia.io/vocabulary/hasClass": [

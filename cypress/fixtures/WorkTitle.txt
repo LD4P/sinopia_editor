@@ -94,7 +94,7 @@
     ],
     "http://sinopia.io/vocabulary/hasResourceId": [
       {
-        "@id": "resourceTemplate:bf2:WorkTitle"
+        "@value": "resourceTemplate:bf2:WorkTitle"
       }
     ],
     "http://sinopia.io/vocabulary/hasClass": [

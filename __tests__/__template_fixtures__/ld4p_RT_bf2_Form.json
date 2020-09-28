@@ -53,7 +53,7 @@
     ],
     "http://sinopia.io/vocabulary/hasResourceId": [
       {
-        "@id": "ld4p:RT:bf2:Form"
+        "@value": "ld4p:RT:bf2:Form"
       }
     ],
     "http://sinopia.io/vocabulary/hasClass": [

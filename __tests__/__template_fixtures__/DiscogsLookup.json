@@ -58,7 +58,7 @@
     ],
     "http://sinopia.io/vocabulary/hasResourceId": [
       {
-        "@id": "test:resource:DiscogsLookup"
+        "@value": "test:resource:DiscogsLookup"
       }
     ],
     "http://sinopia.io/vocabulary/hasClass": [

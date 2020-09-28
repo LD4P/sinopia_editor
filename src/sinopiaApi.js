@@ -119,7 +119,7 @@ const isTemplate = (resource) => resource.subjectTemplate.id === Config.rootReso
 
 const templateIdFor = (resource) => {
   const resourceIdProperty = resource.properties.find((property) => property.propertyTemplate.uri === 'http://sinopia.io/vocabulary/hasResourceId')
-  return resourceIdProperty.values[0].uri
+  return resourceIdProperty.values[0].literal
 }
 
 const getJwt = () => Auth.currentSession()
