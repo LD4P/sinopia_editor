@@ -4,13 +4,13 @@ import React, {
   useState, useRef, useMemo, useEffect,
 } from 'react'
 import PropTypes from 'prop-types'
-import { connect, useDispatch } from 'react-redux'
-import { bindActionCreators } from 'redux'
+import { useDispatch, useSelector } from 'react-redux'
 
 import shortid from 'shortid'
 import { newUriValue, newLiteralValue } from 'utilities/valueFactory'
 import { addProperty } from 'actions/resources'
 import { hideModal } from 'actions/modals'
+import { selectNormValues } from 'selectors/resources'
 
 import RenderLookupContext from './RenderLookupContext'
 import Tab from '../Tab'
@@ -21,6 +21,8 @@ import Tabs from '../Tabs'
 // individual tab panels.
 const LookupWithMultipleAuthorities = (props) => {
   const dispatch = useDispatch()
+  const values = useSelector((state) => selectNormValues(state, props.property.valueKeys))
+
   const [, setTriggerRender] = useState('')
   const [tabKey, setTabKey] = useState()
   const [query, setQuery] = useState(false)
@@ -70,8 +72,8 @@ const LookupWithMultipleAuthorities = (props) => {
   }, [query, allAuthorities, getLookupResults])
 
   const selectionChanged = (item) => {
-    props.hideModal()
-    const newProperty = { ...props.property }
+    dispatch(hideModal())
+    const newProperty = { ...props.property, values }
     if (item.uri) {
       newProperty.values.push(newUriValue(props.property, item.uri, item.label))
     } else {
@@ -89,7 +91,7 @@ const LookupWithMultipleAuthorities = (props) => {
   }
 
   const close = (event) => {
-    props.hideModal()
+    dispatch(hideModal())
     event.preventDefault()
   }
 
@@ -190,10 +192,7 @@ LookupWithMultipleAuthorities.propTypes = {
   getLookupResults: PropTypes.func.isRequired,
   getOptions: PropTypes.func.isRequired,
   show: PropTypes.bool,
-  hideModal: PropTypes.func,
 }
 
 
-const mapDispatchToProps = (dispatch) => bindActionCreators({ hideModal }, dispatch)
-
-export default connect(null, mapDispatchToProps)(LookupWithMultipleAuthorities)
+export default LookupWithMultipleAuthorities
