@@ -105,6 +105,18 @@ describe('Left-nav test', () => {
     cy.get('li.li-checked .left-nav-header').should('contain', 'Uber template1, property7')
   })
 
+  it('Pops up tooltips for properties with remarks', () => {
+    // Verifies that tooltip pops up when clicked and hides when something else is clicked
+    const tooltipText = 'Multiple nested, repeatable resource templates.'
+    cy.get('body').should('not.contain', tooltipText)
+    cy.get('a[data-testid="Uber template1, property1"]').click()
+    // Tooltip appears when clicked
+    cy.get('body').should('contain', tooltipText)
+    // And disappears when anything else is clicked
+    cy.get('button[aria-label="Go to Uber template1, property1"]').click()
+    cy.get('body').should('not.contain', tooltipText)
+  })
+
   it('Marks properties with values with a check', () => {
     cy.get('li.li-checked .left-nav-header').should('not.contain', 'Uber template1, property18')
     cy.get('li.li-checked .left-nav-header').should('not.contain', 'Uber template4')
