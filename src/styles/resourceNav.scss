@@ -1,0 +1,15 @@
+.resource-nav-list-group {
+  position: sticky;
+  top: 0;
+  overflow-y: auto;
+  height: 100vh;
+
+  li {
+    list-style-type: none;
+
+    &.li-checked {
+      list-style-type: '\2713';
+    }
+  }
+
+}
