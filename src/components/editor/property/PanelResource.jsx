@@ -4,7 +4,7 @@ import React from 'react'
 import { useSelector } from 'react-redux'
 import PropTypes from 'prop-types'
 import PanelProperty from './PanelProperty'
-import PanelResourceNav from './PanelResourceNav'
+import PanelResourceNav from 'components/editor/leftNav/PanelResourceNav'
 import { selectCurrentResourceIsReadOnly } from 'selectors/resources'
 
 // Top-level resource
