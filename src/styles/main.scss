@@ -129,7 +129,7 @@ a.tooltip-heading {
   box-shadow: -3px 3px 10px 0px #999999;
 }
 
-.desc-panel{
+.desc-panel {
   padding: 0 10%;
   margin-bottom: 10%;
 }
@@ -145,16 +145,16 @@ a.tooltip-heading {
   padding: 3% 10% 0 3%;
 }
 
-.offcanvas-menu{
+.offcanvas-menu {
   background-color: rgb(55,66,79);
   height: 100%;
 }
 
-.offcanvas-menu a{
+.offcanvas-menu a {
   color: white;
 }
 
-.closeMargin{
+.closeMargin {
   margin-right: -12.5%;
 }
 
@@ -198,11 +198,11 @@ a.tooltip-heading {
   position: relative;
 }
 
-.menu-item{
+.menu-item {
   margin-left: 1.4em;
 }
 
-.close-icon{
+.close-icon {
   font-size: 1.6em;
   margin-top: 10%;
   margin-right: 10%;
@@ -332,24 +332,10 @@ button.btn-add-instance {
 }
 
 @import 'resourceTabs';
+@import 'resourceNav';
 
 .icon-lg {
   font-size: 20px;
-}
-
-.resource-nav-list-group {
-  position: sticky;
-  top: 0;
-  overflow-y: auto;
-  height: 100vh;
-}
-
-a.list-group-item {
-  text-decoration: none;
-}
-
-.li-checked {
-  list-style-type: '\2713';
 }
 
 .btn-nested-resource {
