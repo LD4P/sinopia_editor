@@ -4,7 +4,6 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import InputLiteral from './InputLiteral'
 import InputURI from './InputURI'
-import InputListLOC from './InputListLOC'
 import InputList from './InputList'
 import InputLookupQA from './InputLookupQA'
 import InputLookupSinopia from './InputLookupSinopia'
@@ -38,10 +37,6 @@ const PropertyComponent = (props) => {
     case 'InputList':
       return (
         <InputList property={props.property} propertyTemplate={props.propertyTemplate} />
-      )
-    case 'InputListLOC':
-      return (
-        <InputListLOC property={props.property} propertyTemplate={props.propertyTemplate} />
       )
     default:
       return (
