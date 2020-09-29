@@ -1,15 +1,30 @@
-.resource-nav-list-group {
-  position: sticky;
-  top: 0;
-  overflow-y: auto;
-  height: 100vh;
+.left-nav {
+  .resource-nav-list-group {
+    position: sticky;
+    top: 0;
+    overflow-y: auto;
+    height: 100vh;
 
-  li {
-    list-style-type: none;
-
-    &.li-checked {
-      list-style-type: '\2713';
+    // Templates have a different color than
+    .template {
+      .btn-primary {
+        background-color: $reno-sand;
+        border-color: $reno-sand;
+      }
     }
-  }
 
+    .btn-primary {
+      background-color: $vanilla;
+      border-color: $vanilla;
+    }
+
+    li {
+      list-style-type: none;
+
+      &.li-checked {
+        list-style-type: '\2713';
+      }
+    }
+
+  }
 }

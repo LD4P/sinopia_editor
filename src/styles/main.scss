@@ -1,5 +1,4 @@
  /* Copyright 2019 Stanford University see LICENSE for license */
-
 // Color palette:
 $swirl: #d7cec4;
 $pampas: #f7f4f1;
@@ -8,6 +7,8 @@ $reno-sand: #b26f16;
 $orient: #00548f;
 $spring-wood: #f8f6ef;
 $bright-red: #b1020f;
+$vanilla: #d0c1a8;
+$blue: #00548f;
 
 $modal-backdrop-bg: white;
 $modal-backdrop-opacity: 80%;
@@ -36,6 +37,11 @@ $lookup-search-result-bg: $pampas;
 
 @import "~bootstrap/scss/bootstrap";
 @import url('https://fonts.googleapis.com/css2?family=Source+Sans+Pro&display=swap');
+
+// So that the primary button matches the links, rather than $reno-sand
+.btn-primary {
+  @include button-variant($blue, $blue);
+}
 
 .left-space {
     margin-left: 3px;
