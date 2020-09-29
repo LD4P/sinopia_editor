@@ -76,7 +76,7 @@
     ],
     "http://sinopia.io/vocabulary/hasResourceId": [
       {
-        "@id": "test:bf2:soundCharacteristics"
+        "@value": "test:bf2:soundCharacteristics"
       }
     ],
     "http://sinopia.io/vocabulary/hasClass": [

@@ -100,7 +100,7 @@
     ],
     "http://sinopia.io/vocabulary/hasResourceId": [
       {
-        "@id": "ld4p:RT:bf2:RareMat:RBMS"
+        "@value": "ld4p:RT:bf2:RareMat:RBMS"
       }
     ],
     "http://sinopia.io/vocabulary/hasClass": [

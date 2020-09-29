@@ -683,7 +683,7 @@
     ],
     "http://sinopia.io/vocabulary/hasResourceId": [
       {
-        "@id": "test:RT:bf2:notFoundValueTemplateRefs"
+        "@value": "test:RT:bf2:notFoundValueTemplateRefs"
       }
     ],
     "http://sinopia.io/vocabulary/hasClass": [

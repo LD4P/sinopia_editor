@@ -126,11 +126,11 @@ describe('postResource', () => {
       resource.properties.push({
         propertyTemplate: {
           uri: 'http://sinopia.io/vocabulary/hasResourceId',
-          type: 'uri',
+          type: 'literal',
         },
         values: [{
-          uri: 'resourceTemplate:bf2:Note',
-          property: { propertyTemplate: { type: 'uri' } },
+          literal: 'resourceTemplate:bf2:Note',
+          property: { propertyTemplate: { type: 'literal' } },
         }],
       })
       const result = await postResource(resource, currentUser, 'pcc')

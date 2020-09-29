@@ -1142,7 +1142,7 @@
     ],
     "http://sinopia.io/vocabulary/hasResourceId": [
       {
-        "@id": "resourceTemplate:testing:uber1"
+        "@value": "resourceTemplate:testing:uber1"
       }
     ],
     "http://sinopia.io/vocabulary/hasClass": [

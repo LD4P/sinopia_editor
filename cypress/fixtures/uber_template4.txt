@@ -45,7 +45,7 @@
     ],
     "http://sinopia.io/vocabulary/hasResourceId": [
       {
-        "@id": "resourceTemplate:testing:uber4"
+        "@value": "resourceTemplate:testing:uber4"
       }
     ],
     "http://sinopia.io/vocabulary/hasClass": [

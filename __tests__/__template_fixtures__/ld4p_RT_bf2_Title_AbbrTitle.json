@@ -32,7 +32,7 @@
     ],
     "http://sinopia.io/vocabulary/hasResourceId": [
       {
-        "@id": "ld4p:RT:bf2:Title:AbbrTitle"
+        "@value": "ld4p:RT:bf2:Title:AbbrTitle"
       }
     ],
     "http://sinopia.io/vocabulary/hasClass": [

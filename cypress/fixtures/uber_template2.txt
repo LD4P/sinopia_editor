@@ -42,7 +42,7 @@
     ],
     "http://sinopia.io/vocabulary/hasResourceId": [
       {
-        "@id": "resourceTemplate:testing:uber2"
+        "@value": "resourceTemplate:testing:uber2"
       }
     ],
     "http://sinopia.io/vocabulary/hasClass": [
