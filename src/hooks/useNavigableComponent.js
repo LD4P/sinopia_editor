@@ -34,7 +34,6 @@ const useNavigableComponent = (rootSubjectKey, rootPropertyKey, componentKey) =>
   const dispatch = useDispatch()
   const navClickHandler = (event) => {
     dispatch(setCurrentComponent(rootSubjectKey, rootPropertyKey, componentKey))
-    event.preventDefault()
     event.stopPropagation()
   }
 
