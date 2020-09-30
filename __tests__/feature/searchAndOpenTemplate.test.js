@@ -45,9 +45,11 @@ describe('searching and opening a resource', () => {
   it('adds the template to recently used template history', async () => {
     renderApp(store, history)
 
+    const queryString = 'title'
+
     // Search for a template
     const input = screen.getByPlaceholderText('Enter id, label, URI, remark, or author')
-    await fireEvent.change(input, { target: { value: 'title' } })
+    await fireEvent.change(input, { target: { value: queryString } })
     await screen.findByText('resourceTemplate:bf2:Title:Note')
 
     // open the template
@@ -55,9 +57,16 @@ describe('searching and opening a resource', () => {
     fireEvent.click(link)
     await act(() => promise)
 
-    // return the the RT list
+    // return to the RT list
     const rtLink = await screen.findByText('Resource Templates', { selector: 'a' })
     fireEvent.click(rtLink)
+
+    // confirm RT query is still in place (stored in state and not cleared)
+    expect(input.value).toEqual(queryString)
+
+    // Clear search button empties the search field
+    fireEvent.click(screen.getByTestId('Clear query string', { selector: 'button' }))
+    expect(screen.getByPlaceholderText('Enter id, label, URI, remark, or author').value).toEqual('')
 
     // see the recently used RTs
     const histTemplateBtn = await screen.findByText('Most recently used resource templates')

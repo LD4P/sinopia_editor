@@ -50,7 +50,6 @@ describe('Left-nav test', () => {
         cy.url().should('include', '/templates')
 
         cy.get('#searchInput')
-          .type('resourceTemplate:testing:uber1')
           .should('have.value', 'resourceTemplate:testing:uber1')
 
         // eslint-disable-next-line cypress/no-unnecessary-waiting

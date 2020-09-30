@@ -10,9 +10,10 @@ import Alert from '../Alert'
 import SinopiaResourceTemplates from './SinopiaResourceTemplates'
 import SearchResultsPaging from 'components/search/SearchResultsPaging'
 import NewResourceTemplateButton from './NewResourceTemplateButton'
-import { selectSearchError } from 'selectors/search'
+import { selectSearchError, selectSearchQuery } from 'selectors/search'
 import PropTypes from 'prop-types'
-
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { faTrashAlt } from '@fortawesome/free-solid-svg-icons'
 
 const TemplateSearch = (props) => {
   const dispatch = useDispatch()
@@ -20,15 +21,17 @@ const TemplateSearch = (props) => {
   // search, but causes result to be ignored.
   const tokens = useRef([])
 
-  const [query, setQueryText] = useState('')
+  const error = useSelector((state) => selectSearchError(state, 'template'))
+  const lastQueryString = useSelector((state) => selectSearchQuery(state, 'template'))
+
+  const [queryString, setQueryString] = useState(lastQueryString || '')
   const [startOfRange, setStartOfRange] = useState(0)
 
-  const error = useSelector((state) => selectSearchError(state, 'template'))
   const clearSearchResults = useCallback(() => dispatch(clearSearchResultsAction('template')), [dispatch])
 
   useEffect(() => {
-    clearSearchResults()
-  }, [clearSearchResults])
+    if (!queryString) clearSearchResults()
+  }, [clearSearchResults, queryString])
 
   useEffect(() => {
     // Cancel all current searches
@@ -39,10 +42,10 @@ const TemplateSearch = (props) => {
     // Create a token for this set of searches
     const token = { cancel: false }
     tokens.current.push(token)
-    getTemplateSearchResults(query, { startOfRange }).then((response) => {
-      if (!token.cancel) dispatch(setSearchResults('template', null, response.results, response.totalHits, {}, null, { startOfRange }, response.error))
+    getTemplateSearchResults(queryString, { startOfRange }).then((response) => {
+      if (!token.cancel) dispatch(setSearchResults('template', null, response.results, response.totalHits, {}, queryString, { startOfRange }, response.error))
     })
-  }, [dispatch, query, startOfRange])
+  }, [dispatch, queryString, startOfRange])
 
   const changePage = (startOfRange) => {
     setStartOfRange(startOfRange)
@@ -50,7 +53,7 @@ const TemplateSearch = (props) => {
 
   const updateSearch = (e) => {
     setStartOfRange(0)
-    setQueryText(e.target.value)
+    setQueryString(e.target.value)
   }
 
   return (
@@ -63,9 +66,22 @@ const TemplateSearch = (props) => {
               <div className="form-group" style={{ paddingBottom: '10px', paddingTop: '10px' }}>
                 <label className="font-weight-bold" htmlFor="searchInput">Find a resource template</label>&nbsp;
                 <div className="input-group" style={{ width: '750px', paddingLeft: '5px' }}>
-                  <input id="searchInput" type="text" className="form-control"
+                  <input id="searchInput"
+                         type="text"
+                         className="form-control"
                          onChange={ updateSearch }
-                         placeholder="Enter id, label, URI, remark, or author" />
+                         placeholder="Enter id, label, URI, remark, or author"
+                         value={ queryString } />
+                  <span className="input-group-btn">
+                    <button className="btn btn-default"
+                            type="button"
+                            aria-label="Clear query string"
+                            title="Clear query string"
+                            data-testid="Clear query string"
+                            onClick={() => setQueryString('') }>
+                      <FontAwesomeIcon className="trash-icon" icon={faTrashAlt} />
+                    </button>
+                  </span>
                 </div>
               </div>
             </form>

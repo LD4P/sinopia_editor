@@ -10,45 +10,57 @@ import {
   fetchSinopiaSearchResults as fetchSinopiaSearchResultsCreator,
   fetchQASearchResults as fetchQASearchResultsCreator,
 } from 'actionCreators/search'
-import { clearSearchResults as clearSearchResultsAction } from 'actions/search'
+import { clearSearchResults as clearSearchResultsAction, setSearchResults } from 'actions/search'
 import SinopiaSearchResults from './SinopiaSearchResults'
 import QASearchResults from './QASearchResults'
 import SearchResultsPaging from './SearchResultsPaging'
 import SearchResultsMessage from './SearchResultsMessage'
 import Alert from '../Alert'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faSearch } from '@fortawesome/free-solid-svg-icons'
+import { faTrashAlt, faSearch } from '@fortawesome/free-solid-svg-icons'
 import searchConfig from '../../../static/searchConfig.json'
-import { selectSearchError, selectSearchUri, selectSearchOptions } from 'selectors/search'
+import {
+  selectSearchError, selectSearchQuery, selectSearchUri, selectSearchOptions,
+} from 'selectors/search'
 
 const Search = (props) => {
   const dispatch = useDispatch()
-  const fetchQASearchResults = (queryString, uri, startOfRange) => dispatch(fetchQASearchResultsCreator(queryString, uri, { ...searchOptions, startOfRange }))
 
   const searchOptions = useSelector((state) => selectSearchOptions(state, 'resource'))
-
-  const fetchSinopiaSearchResults = (queryString, startOfRange) => dispatch(fetchSinopiaSearchResultsCreator(
-    queryString, { ...searchOptions, startOfRange },
-  ))
-
-  const fetchNewSinopiaSearchResults = (queryString) => dispatch(fetchSinopiaSearchResultsCreator(
-    queryString,
-  ))
-
+  const error = useSelector((state) => selectSearchError(state, 'resource'))
+  const searchUri = useSelector((state) => selectSearchUri(state, 'resource'))
+  const lastQueryString = useSelector((state) => selectSearchQuery(state, 'resource'))
 
   const clearSearchResults = useCallback(() => dispatch(clearSearchResultsAction('resource')), [dispatch])
 
-  const error = useSelector((state) => selectSearchError(state, 'resource'))
-  const searchUri = useSelector((state) => selectSearchUri(state, 'resource'))
-
   const topRef = useRef(null)
 
-  const [queryString, setQueryString] = useState('')
-  const [uri, setUri] = useState('sinopia')
+  const defaultUri = 'sinopia'
+
+  const [queryString, setQueryString] = useState(lastQueryString || '')
+  const [uri, setUri] = useState(searchUri || defaultUri)
 
   useEffect(() => {
-    clearSearchResults()
-  }, [clearSearchResults])
+    if (!queryString) clearSearchResults()
+  }, [clearSearchResults, queryString])
+
+  const fetchQASearchResults = (queryString, uri, startOfRange) => {
+    dispatch(fetchQASearchResultsCreator(queryString, uri, { ...searchOptions, startOfRange })).then((response) => {
+      if (response) dispatch(setSearchResults('resource', uri, response.results, response.totalHits, {}, queryString, { startOfRange }, response.error))
+    })
+  }
+
+  const fetchSinopiaSearchResults = (queryString, startOfRange) => {
+    dispatch(fetchSinopiaSearchResultsCreator(queryString, { ...searchOptions, startOfRange })).then((response) => {
+      if (response) dispatch(setSearchResults('resource', null, response.results, response.totalHits, {}, queryString, { startOfRange }, response.error))
+    })
+  }
+
+  const fetchNewSinopiaSearchResults = (queryString) => {
+    dispatch(fetchSinopiaSearchResultsCreator(queryString)).then((response) => {
+      if (response) dispatch(setSearchResults('resource', null, response.results, response.totalHits, {}, queryString, {}, response.error))
+    })
+  }
 
   const handleKeyPress = (event) => {
     if (event.key === 'Enter') {
@@ -66,7 +78,7 @@ const Search = (props) => {
     if (queryString === '') {
       return
     }
-    if (uri === 'sinopia') {
+    if (uri === defaultUri) {
       fetchNewSinopiaSearchResults(queryString)
     } else {
       fetchQASearchResults(queryString, uri, 0)
@@ -85,7 +97,7 @@ const Search = (props) => {
   const options = searchConfig.map((config) => (<option key={config.uri} value={config.uri}>{config.label}</option>))
 
   let results
-  if (searchUri === 'sinopia') {
+  if (searchUri === defaultUri) {
     results = (
       <div>
         <SinopiaSearchResults {...props} key="search-results" />
@@ -116,7 +128,7 @@ const Search = (props) => {
                       value={uri}
                       onChange={ (event) => setUri(event.target.value) }
                       onBlur={ (event) => setUri(event.target.value) }>
-                <option value="sinopia">Sinopia</option>
+                <option value={defaultUri}>Sinopia</option>
                 {options}
               </select>
             </div>
@@ -127,13 +139,28 @@ const Search = (props) => {
               <div className="input-group" style={{ width: '100%' }}>
                 <input id="searchInput" type="text" className="form-control"
                        onChange={ (event) => setQueryString(event.target.value) }
-                       onKeyPress={handleKeyPress} />
+                       onKeyPress={handleKeyPress}
+                       placeholder="Enter query string"
+                       value={ queryString } />
                 <span className="input-group-btn">
                   <button className="btn btn-default"
                           type="submit"
+                          title="Submit search"
                           aria-label="Submit search"
                           data-testid="Submit search">
                     <FontAwesomeIcon className="fa-search" icon={faSearch} />
+                  </button>
+                  <button className="btn btn-default"
+                          type="button"
+                          aria-label="Clear query string"
+                          title="Clear query string"
+                          data-testid="Clear query string"
+                          onClick={() => {
+                            setQueryString('')
+                            setUri(defaultUri)
+                            clearSearchResults()
+                          } }>
+                    <FontAwesomeIcon className="trash-icon" icon={faTrashAlt} />
                   </button>
                 </span>
               </div>
