@@ -4,6 +4,7 @@ import { fireEvent, waitFor, screen } from '@testing-library/react'
 import { createStore, renderComponent } from 'testUtils'
 import { createState } from 'stateUtils'
 import * as server from 'sinopiaSearch'
+import * as sinopiaApi from 'sinopiaApi'
 
 describe('<TypeFilter />', () => {
   const facetResults = {
@@ -26,6 +27,8 @@ describe('<TypeFilter />', () => {
       },
     ],
   }
+
+  jest.spyOn(sinopiaApi, 'putUserHistory').mockResolvedValue()
 
   const createInitialState = () => {
     const state = createState()

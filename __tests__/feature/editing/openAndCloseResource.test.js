@@ -1,9 +1,10 @@
 import { renderApp, createHistory, createStore } from 'testUtils'
 import { fireEvent, screen } from '@testing-library/react'
 import { createState } from 'stateUtils'
+import { featureSetup } from 'featureUtils'
 
-// Mock jquery
-global.$ = jest.fn().mockReturnValue({ popover: jest.fn() })
+featureSetup()
+
 const history = createHistory(['/editor/ld4p:RT:bf2:Title:AbbrTitle', '/editor/ld4p:RT:bf2:Note'])
 
 describe('switching between multiple resources', () => {

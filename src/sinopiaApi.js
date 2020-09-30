@@ -98,6 +98,45 @@ export const getMarc = (marcUrl, asText) => fetch(marcUrl, {
   .then((resp) => checkResp(resp)
     .then(() => resp.blob()))
 
+export const fetchUser = (userId) => fetch(userUrlFor(userId), {
+  headers: {
+    Accept: 'application/json',
+  },
+})
+  .then((resp) => {
+    if (resp.status === 404) return postUser(userId)
+    return checkResp(resp)
+      .then(() => resp.json())
+  })
+
+const postUser = (userId) => getJwt()
+  .then((jwt) => fetch(userUrlFor(userId), {
+    method: 'POST',
+    headers: {
+      Authorization: `Bearer ${jwt}`,
+    },
+  })
+    .then((resp) => checkResp(resp)
+      .then(() => resp.json())))
+
+export const putUserHistory = (userId, historyType, historyItemKey, historyItemPayload) => {
+  const url = `${userUrlFor(userId)}/history/${historyType}/${encodeURI(historyItemKey)}`
+  return getJwt()
+    .then((jwt) => fetch(url, {
+      method: 'PUT',
+      headers: {
+        Authorization: `Bearer ${jwt}`,
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({ payload: historyItemPayload }),
+    })
+      .then((resp) => checkResp(resp)
+        .then(() => resp.json())))
+}
+
+
+const userUrlFor = (userId) => `${Config.sinopiaApiBase}/user/${encodeURI(userId)}`
+
 const saveBodyForResource = (resource, user, group) => {
   const dataset = new GraphBuilder(resource).graph
 
@@ -126,6 +165,10 @@ const getJwt = () => Auth.currentSession()
   .then((data) => {
     if (!data.idToken.jwtToken) throw new Error('jwt is undefined')
     return data.idToken.jwtToken
+  })
+  .catch((err) => {
+    if (err) throw err
+    throw new Error('Error getting current authentication session')
   })
 
 const checkResp = (resp) => {

@@ -4,6 +4,9 @@ import {
 
 import { renderApp } from 'testUtils'
 import Config from 'Config'
+import { featureSetup } from 'featureUtils'
+
+featureSetup()
 
 describe('sinopia resource search', () => {
   const fooBarHit = {

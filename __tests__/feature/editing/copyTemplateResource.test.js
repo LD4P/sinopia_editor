@@ -1,10 +1,9 @@
 import { renderApp, createHistory, createStore } from 'testUtils'
 import { act, fireEvent, screen } from '@testing-library/react'
 import * as sinopiaSearch from 'sinopiaSearch'
-import Config from 'Config'
+import { featureSetup } from 'featureUtils'
 
-// This forces Sinopia server to use fixtures
-jest.spyOn(Config, 'useResourceTemplateFixtures', 'get').mockReturnValue(true)
+featureSetup()
 jest.mock('sinopiaSearch')
 
 // Mock jquery

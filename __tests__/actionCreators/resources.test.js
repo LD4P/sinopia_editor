@@ -197,6 +197,7 @@ describe('loadResource', () => {
   describe('loading a resource', () => {
     const expectedAddResourceAction = require('../__action_fixtures__/loadResource-ADD_SUBJECT.json')
     const store = mockStore(createState())
+    sinopiaApi.putUserHistory = jest.fn().mockResolvedValue()
 
     it('dispatches actions', async () => {
       const uri = 'http://localhost:3000/resource/c7db5404-7d7d-40ac-b38e-c821d2c3ae3f'
@@ -216,6 +217,7 @@ describe('loadResource', () => {
       expect(actions).toHaveAction('SET_CURRENT_RESOURCE')
       expect(actions).toHaveAction('SET_CURRENT_RESOURCE_IS_READ_ONLY', undefined)
       expect(actions).toHaveAction('LOAD_RESOURCE_FINISHED')
+      expect(sinopiaApi.putUserHistory).toHaveBeenCalledWith('Foo McBar', 'resource', 'fa69abf421c862f9a62aa2192c61caa8', 'http://localhost:3000/resource/c7db5404-7d7d-40ac-b38e-c821d2c3ae3f')
     })
   })
 
@@ -298,6 +300,7 @@ describe('loadResource', () => {
 
 describe('newResource', () => {
   const expectedAddResourceAction = require('../__action_fixtures__/newResource-ADD_SUBJECT.json')
+  sinopiaApi.putUserHistory = jest.fn().mockResolvedValue()
 
   describe('loading from resource template', () => {
     const store = mockStore(createState())
@@ -317,12 +320,13 @@ describe('newResource', () => {
       expect(actions).toHaveAction('SET_UNUSED_RDF', { resourceKey: 'abc0', rdf: null })
       expect(actions).toHaveAction('SET_CURRENT_RESOURCE', 'abc0')
       expect(actions).toHaveAction('LOAD_RESOURCE_FINISHED', 'abc0')
-      expect(actions).toHaveAction('ADD_TEMPLATE_HISTORY', 'resourceTemplate:testing:uber1')
+      expect(actions).toHaveAction('ADD_TEMPLATE_HISTORY')
       expect(actions).toHaveAction('SET_CURRENT_COMPONENT', {
         rootSubjectKey: 'abc0',
         rootPropertyKey: 'abc1',
         key: 'abc1',
       })
+      expect(sinopiaApi.putUserHistory).toHaveBeenCalledWith('Foo McBar', 'template', 'be206d7f3a5b9ba621c6f66aef2858a8', 'resourceTemplate:testing:uber1')
     })
   })
 
@@ -421,7 +425,7 @@ describe('addSiblingValueSubject', () => {
 
 describe('saveNewResource', () => {
   const uri = 'http://localhost:3000/resource/abcdeghij23455'
-
+  sinopiaApi.putUserHistory = jest.fn().mockResolvedValue()
 
   it('saves a new resource', async () => {
     const store = mockStore(createState({ hasResourceWithLiteral: true }))
@@ -436,6 +440,7 @@ describe('saveNewResource', () => {
 
     const saveResourceFinishedAction = actions.find((action) => action.type === 'SAVE_RESOURCE_FINISHED')
     expect(saveResourceFinishedAction.payload.resourceKey).toEqual('t9zVwg2zO')
+    expect(sinopiaApi.putUserHistory).toHaveBeenCalledWith('Foo McBar', 'resource', 'bf59d4921535b8f951f1db52584c6d6e', 'http://localhost:3000/resource/abcdeghij23455')
   })
 
   it('error when saving a new resource', async () => {
@@ -455,6 +460,8 @@ describe('saveNewResource', () => {
 })
 
 describe('saveResource', () => {
+  sinopiaApi.putUserHistory = jest.fn().mockResolvedValue()
+
   it('saves an existing resource', async () => {
     sinopiaApi.putResource = jest.fn().mockResolvedValue('t9zVwg2zO')
     const store = mockStore(createState({ hasResourceWithLiteral: true }))
@@ -462,6 +469,7 @@ describe('saveResource', () => {
     await store.dispatch(saveResource('t9zVwg2zO', 'testerror'))
     const actions = store.getActions()
     expect(actions).toHaveAction('SAVE_RESOURCE_FINISHED')
+    expect(sinopiaApi.putUserHistory).toHaveBeenCalledWith('Foo McBar', 'resource', '3eb9f1444e9ec984fb165fc9c4de826a', 'https://api.sinopia.io/resource/0894a8b3')
   })
 
   it('error when trying to save existing resource', async () => {

@@ -18,6 +18,7 @@ import {
 } from 'actions/resources'
 import { newValueSubject } from 'utilities/valueFactory'
 import { selectUser } from 'selectors/authenticate'
+import { addTemplateHistory as addUserTemplateHistory, addResourceHistory } from 'actionCreators/user'
 import _ from 'lodash'
 import { setCurrentComponent } from 'actions/index'
 
@@ -38,7 +39,10 @@ export const loadResource = (uri, errorKey, asNewResource, readOnly) => (dispatc
           dispatch(setCurrentResource(resource.key))
           dispatch(setCurrentResourceIsReadOnly(readOnly))
           dispatch(setCurrentComponent(resource.key, resource.properties[0].key, resource.properties[0].key))
-          if (!asNewResource) dispatch(loadResourceFinished(resource.key))
+          if (!asNewResource) {
+            dispatch(addResourceHistory(uri))
+            dispatch(loadResourceFinished(resource.key))
+          }
           return true
         })
         .catch((err) => {
@@ -67,7 +71,8 @@ export const newResource = (resourceTemplateId, errorKey) => (dispatch) => {
     .then((resource) => {
       dispatch(setCurrentResource(resource.key))
       dispatch(setUnusedRDF(resource.key, null))
-      dispatch(addTemplateHistory(resourceTemplateId))
+      dispatch(addTemplateHistory(resource.subjectTemplate))
+      dispatch(addUserTemplateHistory(resourceTemplateId))
       // This will mark the resource has unchanged.
       dispatch(loadResourceFinished(resource.key))
       dispatch(setCurrentComponent(resource.key, resource.properties[0].key, resource.properties[0].key))
@@ -142,6 +147,7 @@ export const saveNewResource = (resourceKey, group, errorKey) => (dispatch, getS
       dispatch(setBaseURL(resourceKey, resourceUrl))
       dispatch(setResourceGroup(resourceKey, group))
       dispatch(saveResourceFinished(resourceKey))
+      dispatch(addResourceHistory(resourceUrl))
     })
     .catch((err) => {
       console.error(err)
@@ -156,7 +162,10 @@ export const saveResource = (resourceKey, errorKey) => (dispatch, getState) => {
   const currentUser = selectUser(state)
 
   return putResource(resource, currentUser)
-    .then(() => dispatch(saveResourceFinished(resourceKey)))
+    .then(() => {
+      dispatch(saveResourceFinished(resourceKey))
+      dispatch(addResourceHistory(resource.uri))
+    })
     .catch((err) => {
       console.error(err)
       dispatch(addError(errorKey, `Error saving: ${err.message || err}`))

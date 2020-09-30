@@ -4,11 +4,15 @@ import Auth from '@aws-amplify/auth'
 import { setUser, removeUser } from 'actions/authenticate'
 import { addError, clearErrors } from 'actions/errors'
 import { hasUser } from 'selectors/authenticate'
+import { loadUserData } from 'actionCreators/user'
 
 export const authenticate = () => (dispatch, getState) => {
   if (hasUser(getState())) return Promise.resolve()
   return Auth.currentAuthenticatedUser()
-    .then((cognitoUser) => dispatch(setUser(toUser(cognitoUser))))
+    .then((cognitoUser) => {
+      dispatch(setUser(toUser(cognitoUser)))
+      dispatch(loadUserData(cognitoUser.username))
+    })
     .catch(() => dispatch(removeUser()))
 }
 
@@ -17,6 +21,7 @@ export const signIn = (username, password, errorKey) => (dispatch) => {
   return Auth.signIn(username, password)
     .then((cognitoUser) => {
       dispatch(setUser(toUser(cognitoUser)))
+      dispatch(loadUserData(cognitoUser.username))
     })
     .catch((err) => {
       dispatch(addError(errorKey, `Login failed: ${err.message}`))

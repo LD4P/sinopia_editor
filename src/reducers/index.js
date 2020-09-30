@@ -32,7 +32,7 @@ import {
   exportsReceived,
 } from './exports'
 import {
-  addTemplates, addTemplateHistory,
+  addTemplates, addTemplateHistory, addTemplateHistoryByResult,
 } from './templates'
 import {
   clearSearchResults, setSearchResults,
@@ -67,6 +67,7 @@ const editorHandlers = {
   ADD_ERROR: addError,
   ADD_MODAL_MESSAGE: addModalMessage,
   ADD_TEMPLATE_HISTORY: addTemplateHistory,
+  ADD_TEMPLATE_HISTORY_BY_RESULT: addTemplateHistoryByResult,
   CLEAR_ERRORS: clearErrors,
   CLEAR_MODAL_MESSAGES: clearModalMessages,
   CLEAR_RESOURCE: clearResourceFromEditor,

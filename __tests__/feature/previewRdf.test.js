@@ -2,16 +2,9 @@
 
 import { renderApp } from 'testUtils'
 import { fireEvent, screen } from '@testing-library/react'
-import Config from 'Config'
+import { featureSetup } from 'featureUtils'
 
-// Mock out document.elementFromPoint used by useNavigableComponent.
-global.document.elementFromPoint = jest.fn()
-// Mock out scrollIntoView used by useNavigableComponent. See https://github.com/jsdom/jsdom/issues/1695
-Element.prototype.scrollIntoView = jest.fn()
-// Mock jquery
-global.$ = jest.fn().mockReturnValue({ popover: jest.fn() })
-
-jest.spyOn(Config, 'useResourceTemplateFixtures', 'get').mockReturnValue(true)
+featureSetup()
 
 const rdf = `<> <http://sinopia.io/vocabulary/hasResourceTemplate> "resourceTemplate:testing:uber1";
     a <http://id.loc.gov/ontologies/bibframe/Uber1>;
