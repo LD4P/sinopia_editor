@@ -113,6 +113,7 @@ const InputLiteral = (props) => {
 
   // This handles if they focus into the field using tab (no click)
   const handleFocus = () => {
+    props.hideDiacritics() // hide any previously opened diacritic panels to avoid cross input problems
     props.updateCursorPosition(inputLiteralRef.current.selectionStart)
   }
 
