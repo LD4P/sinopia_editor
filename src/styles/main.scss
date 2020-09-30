@@ -224,9 +224,8 @@ button.collapse-heading.collapsed::before {
   transition: transform 0.1s ease;
 }
 
-button.btn-add-property {
-  color: blue;
-  text-decoration: underline;
+.btn-add-property {
+  @extend .btn-link;
 }
 
 button.btn-add-instance {
