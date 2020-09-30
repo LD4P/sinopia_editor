@@ -59,8 +59,8 @@ describe('searching and viewing a resource', () => {
     screen.getAllByTestId('lookup').forEach((lookupValueControl) => {
       expect(lookupValueControl).toBeDisabled()
     })
-    screen.getAllByText('+').forEach((lookupControl) => {
-      expect(lookupControl).toBeDisabled()
+    screen.getAllByTestId('list').forEach((listControl) => {
+      expect(listControl).toBeDisabled()
     })
 
     // Modal has edit and copy buttons

@@ -228,7 +228,7 @@
             }
           ],
           "type": "uri",
-          "component": "InputListLOC"
+          "component": "InputList"
         },
         {
           "key": "resourceTemplate:testing:uber1 > http://id.loc.gov/ontologies/bibframe/uber/template1/property11",
@@ -250,7 +250,7 @@
             }
           ],
           "type": "uri",
-          "component": "InputListLOC"
+          "component": "InputList"
         },
         {
           "key": "resourceTemplate:testing:uber1 > http://id.loc.gov/ontologies/bibframe/uber/template1/property12",
@@ -277,7 +277,7 @@
             }
           ],
           "type": "uri",
-          "component": "InputListLOC"
+          "component": "InputList"
         },
         {
           "key": "resourceTemplate:testing:uber1 > http://id.loc.gov/ontologies/bibframe/uber/template1/property13",

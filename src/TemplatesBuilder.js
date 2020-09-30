@@ -200,7 +200,7 @@ export default class TemplatesBuilder {
       case 'lookup':
         return 'InputLookupQA'
       default:
-        return 'InputListLOC'
+        return 'InputList'
     }
   }
 }
