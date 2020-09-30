@@ -46,7 +46,7 @@ const InputLookup = (props) => {
   const lookupSelection = props.lookupValues.map((lookupValue) => (
     <div key={lookupValue.key} className="lookup-value">
       <span key={lookupValue.key}>{lookupValue.label || lookupValue.literal}</span>
-      <a href={lookupValue.uri}>
+      <a href={lookupValue.uri} aria-label={`Link to value ${lookupValue.uri}`} target="_new">
         <span aria-hidden="true"><FontAwesomeIcon className="globe-icon" icon={faGlobe} /></span>
       </a>
       <button onClick={() => props.removeValue(lookupValue.key)}>
