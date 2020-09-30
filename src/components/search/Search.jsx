@@ -33,6 +33,7 @@ const Search = (props) => {
   const clearSearchResults = useCallback(() => dispatch(clearSearchResultsAction('resource')), [dispatch])
 
   const topRef = useRef(null)
+  const loadingSearchRef = useRef(null)
 
   const [queryString, setQueryString] = useState(lastQueryString || '')
   const [uri, setUri] = useState(searchUri || sinopiaSearchUri)
@@ -65,7 +66,12 @@ const Search = (props) => {
     if (queryString === '') {
       return
     }
+
     fetchNewSearchResults(queryString, uri)
+
+    loadingSearchRef.current.classList.remove('hidden')
+    clearSearchResults()
+
     if (error && topRef.current) window.scrollTo(0, topRef.current.offsetTop)
   }
 
@@ -80,7 +86,9 @@ const Search = (props) => {
   const options = searchConfig.map((config) => (<option key={config.uri} value={config.uri}>{config.label}</option>))
 
   let results
+
   if (searchUri === sinopiaSearchUri) {
+    loadingSearchRef.current.classList.add('hidden')
     results = (
       <div>
         <SinopiaSearchResults {...props} key="search-results" />
@@ -89,6 +97,7 @@ const Search = (props) => {
       </div>
     )
   } else if (searchUri) {
+    loadingSearchRef.current.classList.add('hidden')
     results = (
       <div>
         <QASearchResults history={props.history} key="search-results" />
@@ -157,6 +166,11 @@ const Search = (props) => {
             default operator for multiple terms is AND; use | (pipe) as OR operator;
             use quotation marks for exact match. For more details see <a href="https://github.com/LD4P/sinopia/wiki/Searching-in-Sinopia">Searching in Sinopia</a>.
           </span>
+        </div>
+      </div>
+      <div ref={loadingSearchRef} id="search-results-loading" className="hidden text-center">
+        <div className="spinner-border" role="status">
+          <span className="sr-only">Results Loading...</span>
         </div>
       </div>
       {results}
