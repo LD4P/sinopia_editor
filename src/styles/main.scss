@@ -33,11 +33,6 @@
   border-style: dashed;
 }
 
-a.tooltip-heading {
-  color: $tooltip-color;
-  outline: none;
-}
-
 .panel-heading > .btn-add, .panel-heading > .btn-remove {
   float: right;
   margin-top: -5px;
@@ -101,11 +96,10 @@ a.tooltip-heading {
 .prop-heading {
   background-color: $prop-heading-bg !important;
   color: $prop-heading-color !important;
-}
 
-.prop-heading > span {
-  padding: 5px;
-  margin: 4px;
+  .tooltip-heading, .prop-remark  {
+    color: $heading-icon-color;
+  }
 }
 
 .panel-property {
@@ -138,20 +132,12 @@ a.tooltip-heading {
   position: relative;
 }
 
-.menu-item {
-  margin-left: 1.4em;
-}
-
 .close-icon {
   font-size: 1.6em;
   margin-top: 10%;
   margin-right: 10%;
   color: white;
   float: right;
-}
-
-.rtOutline a {
-  color: rgb(51, 51, 51);
 }
 
 .rOutline-property {
@@ -162,7 +148,7 @@ a.tooltip-heading {
   padding: .25em;
 }
 
-.editor-navbar{
+.editor-navbar {
   background-image: url('./editorheaderbg.png');
   padding-bottom: 1em;
   margin-bottom: 1em;
@@ -181,32 +167,9 @@ h1.editor-logo {
   margin-bottom: 0px;
 }
 
-a.prop-remark {
-  text-decoration: none;
-  color: white;
-}
-
- .rOutline-header a.prop-remark {
-  text-decoration: none;
-  color: black;
-}
-
-span.prop-remark {
-  border-width: thin;
-  border-bottom-style: dashed !important;
-}
-
 a.editor-subtitle {
   font-family: "Copperplate Gothic Light";
   color: #2F2424 !important;
-}
-
-input.rbt-input-main {
-  min-width: 300px;
-}
-
-div.rbt-input-multi {
-  height: auto;
 }
 
 .open-search-modal {
@@ -311,15 +274,16 @@ button.btn-add-instance {
   justify-content: center;
   align-items: center;
   margin-right: 10px;
-}
 
-.lookup-value span, a.span {
-  padding: 5px 12px 5px 12px;
-  border-right: 1px solid $lookup-value-border;
-}
+  span {
+    padding: 5px 12px 5px 12px;
+    border-right: 1px solid $lookup-value-border;
+  }
 
-.lookup-value button {
-  border: none;
-  padding: 5px 12px 5px 12px;
-  background-color: $lookup-value-bg;
+  button {
+    border: none;
+    padding: 5px 12px 5px 12px;
+    color: $orient;
+    background-color: $lookup-value-bg;
+  }
 }
