@@ -11,6 +11,7 @@ import { newUriValue, newLiteralValue } from 'utilities/valueFactory'
 import { addProperty } from 'actions/resources'
 import { hideModal } from 'actions/modals'
 import { selectNormValues } from 'selectors/resources'
+import { isValidURI } from 'utilities/Utilities'
 
 import RenderLookupContext from './RenderLookupContext'
 import Tab from '../Tab'
@@ -70,6 +71,25 @@ const LookupWithMultipleAuthorities = (props) => {
       })
     })
   }, [query, allAuthorities, getLookupResults])
+
+  const addUriOrLiteral = () => {
+    if (!query) return
+    const item = {}
+    let typeOf = 'Literal'
+    if (isValidURI(query)) {
+      item.uri = query
+      item.label = query
+      typeOf = 'URI'
+    } else {
+      item.content = query
+    }
+    const ariaLabel = `Add as new ${typeOf}`
+    return (<button onClick={() => selectionChanged(item)}
+                    aria-label={ariaLabel}
+                    className="btn search-result">
+      <strong>New {typeOf}:</strong> {query}</button>
+    )
+  }
 
   const selectionChanged = (item) => {
     dispatch(hideModal())
@@ -167,6 +187,7 @@ const LookupWithMultipleAuthorities = (props) => {
               <label htmlFor="search">{props.propertyTemplate.label}</label>
               <input id="search" type="search" className="form-control"
                      onKeyUp={(e) => setQuery(e.target.value)}></input>
+              {addUriOrLiteral()}
             </div>
 
             <button type="button" className="close" onClick={close} aria-label="Close">
