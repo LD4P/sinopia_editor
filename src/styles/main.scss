@@ -1,47 +1,11 @@
  /* Copyright 2019 Stanford University see LICENSE for license */
-// Color palette:
-$swirl: #d7cec4;
-$pampas: #f7f4f1;
-$dusty-gray: #979797;
-$reno-sand: #b26f16;
-$orient: #00548f;
-$spring-wood: #f8f6ef;
-$bright-red: #b1020f;
-$vanilla: #d0c1a8;
-$blue: #00548f;
 
-$modal-backdrop-bg: white;
-$modal-backdrop-opacity: 80%;
-$modal-content-border-radius: 2px;
-$enable-shadows: true;
-$modal-content-box-shadow-xs: 0 .125rem .25rem rgba(black, .075) !default;
-$modal-content-border-color: $dusty-gray;
-$modal-content-bg: $spring-wood;
-$resource-tab-active-bg: $reno-sand;
-
-$link-color: $orient;
-$theme-colors: (
-  "danger": $bright-red
-);
-$tooltip-color: white;
-
-$enable-validation-icons: false;
-$prop-heading-bg: $reno-sand;
-$prop-heading-color: white;
-$prop-panel-bg: $pampas;
-
-$lookup-value-bg: $swirl;
-$lookup-value-border: $dusty-gray;
-
-$lookup-search-result-bg: $pampas;
-
+@import 'colors';
+@import 'bootstrap-variables';
 @import "~bootstrap/scss/bootstrap";
 @import url('https://fonts.googleapis.com/css2?family=Source+Sans+Pro&display=swap');
-
-// So that the primary button matches the links, rather than $reno-sand
-.btn-primary {
-  @include button-variant($blue, $blue);
-}
+@import 'variables';
+@import 'bootstrap-override';
 
 .left-space {
     margin-left: 3px;
@@ -55,39 +19,9 @@ $lookup-search-result-bg: $pampas;
   background-size: $input-height-inner-half $input-height-inner-half;
 }
 
-body {
-  font-family: 'Source Sans Pro', sans-serif;
-  margin: 0 20px;
-}
-
-a {
-  text-decoration: underline;
-}
-
-pre {
-  background-color: #f5f5f5;
-  border: 1px solid #ccc;
-}
-
 .banner {
   background-size: cover;
   background-image: url("home-background.png");
-}
-
-.btn-secondary {
-  background-color: transparent;
-  text-decoration: underline;
-  @include button-outline-variant(map-get($theme-colors,"primary"));
-}
-
-$primary-disabled: lighten( map-get($theme-colors,"secondary"), 20% );
-
-.btn-primary:disabled {
-  @include button-variant($primary-disabled, $primary-disabled);
-}
-
-.btn-link {
-  text-decoration: underline;
 }
 
 .editor-save {
