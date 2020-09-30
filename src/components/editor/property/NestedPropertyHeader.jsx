@@ -44,7 +44,7 @@ const NestedPropertyHeader = (props) => {
     return (
       <div className={groupClasses}>
         <button type="button"
-                className="btn btn-default btn-add btn-add-property"
+                className="btn btn-add btn-add-property"
                 onClick={() => props.expandProperty(props.property.key, resourceEditErrorKey(props.resourceKey))}
                 aria-label={`Add ${props.propertyTemplate.label}`}
                 data-testid={`Add ${props.propertyTemplate.label}`}

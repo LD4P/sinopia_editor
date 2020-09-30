@@ -41,7 +41,7 @@ const InputValue = (props) => {
       style={ { marginRight: '.25em' } }
       aria-label={`Edit ${label}`}
       data-testid={`Edit ${label}`}
-      className="btn btn-sm btn-secondary btn-default">
+      className="btn btn-sm btn-secondary">
       Edit
     </button> }
     { isLiteral ? (<LanguageButton value={props.value} />) : '' }
