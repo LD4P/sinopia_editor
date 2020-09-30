@@ -32,10 +32,34 @@ export const chooseURI = (dataset, uri) => (dataset.match(rdf.namedNode(uri)).si
 export const addEmptyResource = (resourceTemplateId, errorKey) => (dispatch) => dispatch(newSubject(null, resourceTemplateId, {}, errorKey))
   .then((subject) => dispatch(newPropertiesFromTemplates(subject, false, errorKey))
     .then((properties) => {
-      subject.properties = properties
-      dispatch(addSubjectAction(subject))
-      return subject
+      const promises = properties.map((property) => dispatch(expandProperty(property, errorKey)))
+      return Promise.all(promises)
+        .then((expandedProperties) => {
+          subject.properties = expandedProperties
+          dispatch(addSubjectAction(subject))
+          return subject
+        })
     }))
+
+const expandProperty = (property, errorKey) => (dispatch) => {
+  if (property.propertyTemplate.type === 'resource') {
+    property.values = []
+    const promises = property.propertyTemplate.valueSubjectTemplateKeys.map((resourceTemplateId) => dispatch(newSubject(null,
+      resourceTemplateId, {}, errorKey))
+      .then((subject) => dispatch(newPropertiesFromTemplates(subject, false, errorKey))
+        .then((properties) => {
+          subject.properties = properties
+          const newValue = newValueSubject(property, subject)
+          property.values.push(newValue)
+          property.show = true
+        })))
+    return Promise.all(promises)
+      .then(() => property)
+  }
+  property.values = defaultValuesFor(property)
+  property.show = true
+  return property
+}
 
 const recursiveResourceFromDataset = (subjectTerm, uri, resourceTemplateId, resourceTemplatePromises, dataset,
   usedDataset, errorKey) => (dispatch) => dispatch(newSubject(uri, resourceTemplateId, resourceTemplatePromises, errorKey))

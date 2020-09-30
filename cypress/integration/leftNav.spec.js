@@ -66,20 +66,14 @@ describe('Left-nav test', () => {
     cy.url().should('include', '/editor')
   })
 
-  // No children displayed before adding.
-  // Adding child nav for nested resources.
-  // Adding a nested adds nav
-
-  it('Adds child nav when expanding nested resources', () => {
-    cy.get('.left-nav-header').should('not.contain', 'Uber template2')
-    cy.get('button[aria-label="Add Uber template1, property1"]').click()
+  it('Adds child nav for expanded nested resources', () => {
     cy.get('.left-nav-header').should('contain', 'Uber template2')
     cy.get('.left-nav-header').should('contain', 'Uber template3')
   })
 
   it('Adds child nav for expanding nested properties', () => {
     cy.get('.left-nav-header').should('not.contain', 'Uber template2, property1')
-    cy.get('button[aria-label="Add Uber template2, property1"]').click()
+    cy.get('div[data-label="Uber template1, property1"] button[aria-label="Add Uber template2, property1"]').click()
     cy.get('.left-nav-header').should('contain', 'Uber template2, property1')
   })
 
@@ -121,7 +115,7 @@ describe('Left-nav test', () => {
     cy.get('li.li-checked .left-nav-header').should('not.contain', 'Uber template1, property18')
     cy.get('li.li-checked .left-nav-header').should('not.contain', 'Uber template4')
     cy.get('li.li-checked .left-nav-header').should('not.contain', 'Uber template4, property1')
-    cy.get('textarea[placeholder="Uber template4, property1"]')
+    cy.get('div[data-label="Uber template1, property18"] textarea[placeholder="Uber template4, property1"]')
       .type('foo{enter}')
     cy.get('li.li-checked .left-nav-header').should('contain', 'Uber template1, property18')
     cy.get('li.li-checked .left-nav-header').should('contain', 'Uber template4')

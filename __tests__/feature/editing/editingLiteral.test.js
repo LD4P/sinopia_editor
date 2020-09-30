@@ -61,9 +61,6 @@ describe('editing a literal property', () => {
 
     await screen.findByText('Uber template1', { selector: 'h3' })
 
-    // Add a panel property
-    fireEvent.click(screen.getByTestId('Add Uber template1, property2'))
-
     // Add two values
     const input = screen.getByPlaceholderText('Uber template1, property2')
     fireEvent.change(input, { target: { value: 'foo' } })
@@ -106,7 +103,7 @@ describe('editing a literal property', () => {
 
     // Click diacritic button
     expect(screen.queryAllByText('Latin Extended')).toHaveLength(0)
-    const diacriticBtn = screen.getAllByText('ä')[0]
+    const diacriticBtn = screen.getAllByText('ä')[1]
     fireEvent.click(diacriticBtn)
 
     // Click a diacritic

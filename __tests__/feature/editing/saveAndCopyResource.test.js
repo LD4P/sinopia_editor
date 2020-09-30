@@ -20,14 +20,12 @@ describe('saving a resource', () => {
     it('edits, saves, and copies the resource template', async () => {
       await screen.findByText('Title note', { selector: 'h3' })
 
-      const addBtn = screen.getByTestId('Add Note Text')
       const saveBtn = screen.getAllByText('Save', { selector: 'button' })[0] // there are multiple save buttons, grab the first
       const copyBtn = await screen.getAllByTestId('Copy this resource to a new resource')[0]
 
       expect(saveBtn).toBeDisabled()
       expect(copyBtn).toBeDisabled()
 
-      fireEvent.click(addBtn)
       const input = screen.getByPlaceholderText('Note Text')
       fireEvent.change(input, { target: { value: 'foo' } })
       fireEvent.keyPress(input, { key: 'Enter', code: 13, charCode: 13 })

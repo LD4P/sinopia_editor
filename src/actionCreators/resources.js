@@ -19,6 +19,7 @@ import {
 import { newValueSubject } from 'utilities/valueFactory'
 import { selectUser } from 'selectors/authenticate'
 import _ from 'lodash'
+import { setCurrentComponent } from 'actions/index'
 
 /**
  * A thunk that loads an existing resource from Sinopia API and adds to state.
@@ -36,6 +37,7 @@ export const loadResource = (uri, errorKey, asNewResource, readOnly) => (dispatc
           dispatch(setUnusedRDF(resource.key, unusedDataset.size > 0 ? unusedDataset.toCanonical() : null))
           dispatch(setCurrentResource(resource.key))
           dispatch(setCurrentResourceIsReadOnly(readOnly))
+          dispatch(setCurrentComponent(resource.key, resource.properties[0].key, resource.properties[0].key))
           if (!asNewResource) dispatch(loadResourceFinished(resource.key))
           return true
         })
@@ -68,6 +70,7 @@ export const newResource = (resourceTemplateId, errorKey) => (dispatch) => {
       dispatch(addTemplateHistory(resourceTemplateId))
       // This will mark the resource has unchanged.
       dispatch(loadResourceFinished(resource.key))
+      dispatch(setCurrentComponent(resource.key, resource.properties[0].key, resource.properties[0].key))
       return true
     })
     .catch((err) => {
@@ -88,6 +91,7 @@ export const newResourceCopy = (resourceKey) => (dispatch) => dispatch(newSubjec
     dispatch(addSubjectAction(newResource))
     dispatch(setCurrentResource(newResource.key))
     dispatch(setUnusedRDF(newResource.key, null))
+    dispatch(setCurrentComponent(newResource.key, newResource.properties[0].key, newResource.properties[0].key))
   })
   .catch((err) => {
     console.error(err)

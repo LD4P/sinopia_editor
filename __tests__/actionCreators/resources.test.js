@@ -234,6 +234,11 @@ describe('loadResource', () => {
       expect(actions).toHaveAction('SET_UNUSED_RDF')
       expect(actions).toHaveAction('SET_CURRENT_RESOURCE')
       expect(actions).toHaveAction('SET_CURRENT_RESOURCE_IS_READ_ONLY', undefined)
+      expect(actions).toHaveAction('SET_CURRENT_COMPONENT', {
+        rootSubjectKey: 'abc0',
+        rootPropertyKey: 'abc1',
+        key: 'abc1',
+      })
       expect(actions).not.toHaveAction('LOAD_RESOURCE_FINISHED')
     })
   })
@@ -313,6 +318,11 @@ describe('newResource', () => {
       expect(actions).toHaveAction('SET_CURRENT_RESOURCE', 'abc0')
       expect(actions).toHaveAction('LOAD_RESOURCE_FINISHED', 'abc0')
       expect(actions).toHaveAction('ADD_TEMPLATE_HISTORY', 'resourceTemplate:testing:uber1')
+      expect(actions).toHaveAction('SET_CURRENT_COMPONENT', {
+        rootSubjectKey: 'abc0',
+        rootPropertyKey: 'abc1',
+        key: 'abc1',
+      })
     })
   })
 
@@ -350,6 +360,11 @@ describe('newResourceCopy', () => {
 
       expect(actions).toHaveAction('SET_UNUSED_RDF', { resourceKey: 'abc0', rdf: null })
       expect(actions).toHaveAction('SET_CURRENT_RESOURCE', 'abc0')
+      expect(actions).toHaveAction('SET_CURRENT_COMPONENT', {
+        rootSubjectKey: 'abc0',
+        rootPropertyKey: 'abc1',
+        key: 'abc1',
+      })
     })
   })
 })

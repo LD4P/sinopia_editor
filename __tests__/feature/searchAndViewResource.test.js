@@ -9,6 +9,10 @@ jest.spyOn(Config, 'useResourceTemplateFixtures', 'get').mockReturnValue(true)
 jest.mock('sinopiaSearch')
 // Mock jquery
 global.$ = jest.fn().mockReturnValue({ popover: jest.fn() })
+// Mock out document.elementFromPoint used by useNavigableComponent.
+global.document.elementFromPoint = jest.fn()
+// Mock out scrollIntoView used by useNavigableComponent. See https://github.com/jsdom/jsdom/issues/1695
+Element.prototype.scrollIntoView = jest.fn()
 
 describe('searching and viewing a resource', () => {
   sinopiaSearch.getTemplateSearchResults.mockResolvedValue({

@@ -7,8 +7,14 @@ import Config from 'Config'
 jest.spyOn(Config, 'useResourceTemplateFixtures', 'get').mockReturnValue(true)
 
 jest.mock('sinopiaSearch')
+// Mock out document.elementFromPoint used by useNavigableComponent.
+global.document.elementFromPoint = jest.fn()
+// Mock out scrollIntoView used by useNavigableComponent. See https://github.com/jsdom/jsdom/issues/1695
+Element.prototype.scrollIntoView = jest.fn()
 // Mock jquery
 global.$ = jest.fn().mockReturnValue({ popover: jest.fn() })
+// Mock out window.scrollTo
+global.window.scrollTo = jest.fn()
 
 describe('loading saved resource', () => {
   sinopiaSearch.getTemplateSearchResults.mockResolvedValue({
@@ -48,11 +54,11 @@ describe('loading saved resource', () => {
       screen.getAllByText('Uber template2', { selector: 'h5' })
       screen.getByText('Uber template3', { selector: 'h5' })
       // Length is the heading and the value.
-      expect(screen.getAllByText('Uber template3, property1')).toHaveLength(2)
-      expect(screen.getAllByText('Uber template3, property2')).toHaveLength(2)
+      expect(screen.getAllByText('Uber template3, property1')).toHaveLength(3)
+      expect(screen.getAllByText('Uber template3, property2')).toHaveLength(3)
       expect(screen.getAllByText('Uber template1, property2')).toHaveLength(3)
       // Heading appears twice, value once.
-      expect(screen.getAllByText('Uber template2, property1')).toHaveLength(3)
+      expect(screen.getAllByText('Uber template2, property1')).toHaveLength(5)
 
       // Show input components
       screen.getByTestId('Hide Uber template3, property1')
