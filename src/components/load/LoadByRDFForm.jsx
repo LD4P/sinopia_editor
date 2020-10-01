@@ -6,7 +6,7 @@ import PropTypes from 'prop-types'
 import {
   datasetFromRdf, findRootResourceTemplateId, hasQuadsForRootResourceTemplateId,
 } from 'utilities/Utilities'
-import useResource from 'hooks/useResource'
+import useRdfResource from 'hooks/useRdfResource'
 import { clearErrors, addError } from 'actions/errors'
 import { showModal } from 'actions/modals'
 import ResourceTemplateChoiceModal from '../ResourceTemplateChoiceModal'
@@ -24,7 +24,7 @@ const LoadByRDFForm = (props) => {
   const [rdf, setRdf] = useState('')
   const [dataset, setDataset] = useState(false)
   const [resourceTemplateId, setResourceTemplateId] = useState('')
-  useResource(dataset, baseURI, resourceTemplateId, loadResourceByRDFErrorKey, props.history)
+  useRdfResource(dataset, baseURI, resourceTemplateId, loadResourceByRDFErrorKey, props.history)
 
   // Passed into resource template chooser to allow it to pass back selected resource template id.
   const chooseResourceTemplate = (resourceTemplateId) => {

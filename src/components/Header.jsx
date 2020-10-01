@@ -48,6 +48,7 @@ const Header = (props) => {
       </div>
       <ul className="nav nav-tabs editor-navtabs">
         { /* Navlinks enable highlighting the appropriate tab based on route, active style is defined in css */}
+        <li className="nav-item"><NavLink onClick={hidePopovers} className="nav-link" to="/dashboard">Dashboard</NavLink></li>
         <li className="nav-item"><NavLink onClick={hidePopovers} className="nav-link" to="/templates">Resource Templates</NavLink></li>
         <li className="nav-item"><NavLink onClick={hidePopovers} className="nav-link" to="/search">Search</NavLink></li>
         <li className="nav-item"><NavLink onClick={hidePopovers} className="nav-link" to="/load">Load RDF</NavLink></li>

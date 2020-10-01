@@ -10,6 +10,7 @@ import HomePage from './home/HomePage'
 import '../styles/main.scss'
 import Editor from './editor/Editor'
 import Footer from './Footer'
+import Dashboard from './dashboard/Dashboard'
 import { Route, Switch, Redirect } from 'react-router-dom'
 import ResourceTemplate from './templates/ResourceTemplate'
 import LoadResource from './load/LoadResource'
@@ -72,6 +73,7 @@ const App = (props) => {
       <Route exact path="/search" render={(renderProps) => <Search {...renderProps} triggerHandleOffsetMenu={props.handleOffsetMenu} />} />
       <Route exact path="/load" render={(renderProps) => <LoadResource {...renderProps} triggerHandleOffsetMenu={props.handleOffsetMenu} />} />
       <Route exact path="/exports" render={(renderProps) => <Exports {...renderProps} triggerHandleOffsetMenu={props.handleOffsetMenu} />} />
+      <Route exact path="/dashboard" render={(renderProps) => <Dashboard {...renderProps} triggerHandleOffsetMenu={props.handleOffsetMenu} />} />
       <Route path={['/vocabulary/:element/:sub', '/vocabulary/:element', '/vocabulary']}
              render={(renderProps) => <Vocab {...renderProps}
                                              triggerHandleOffsetMenu={props.handleOffsetMenu} />} />
