@@ -45,6 +45,10 @@ jobs:
           command: npm run jest-ci
           environment:
             JEST_JUNIT_OUTPUT: "test-results/jest/jest-results.xml"
+  integration:
+    <<: *defaults
+    steps:
+      - checkout
       - setup_remote_docker
       - run: docker build -t ld4l/sinopia_editor --build-arg USE_FIXTURES=false --build-arg INDEX_URL=http://elasticsearch:9200 --build-arg SINOPIA_API_BASE_URL=http://api:3000 .
       - run: docker build -f Dockerfile.cypress -t ld4l/sinopia_editor_cypress .
@@ -154,6 +158,14 @@ workflows:
       - build:
           requires:
             - dependencies
+          filters:
+            branches:
+              only:
+                - /.*/
+            tags:
+              only:
+                - /v.*/
+      - integration:
           filters:
             branches:
               only:
