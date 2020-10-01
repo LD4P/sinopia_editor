@@ -14,7 +14,7 @@ const PropertyLabelInfoTooltip = (props) => {
   }, [key])
 
   return (
-    <a href="#"
+    <a href="#tooltip"
        className="tooltip-heading"
        tabIndex="0"
        data-toggle="popover"
