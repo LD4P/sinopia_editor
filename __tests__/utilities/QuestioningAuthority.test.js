@@ -92,7 +92,8 @@ describe('getTerm', () => {
 
     expect(global.fetch).toHaveBeenCalledTimes(1)
     const url = 'https://lookup.ld4l.org/authorities/fetch/linked_data/sharevde_chicago_ld4l_cache?format=n3&uri=http://share-vde.org/sharevde/rdfBibframe/Work/4840195'
-    expect(global.fetch).toHaveBeenCalledWith(url)
+    const controller = new AbortController()
+    expect(global.fetch).toHaveBeenCalledWith(url, { signal: controller.signal })
   })
   it('fetches N3 from QA with id', async () => {
     global.fetch = jest.fn().mockImplementation(() => Promise.resolve({ text: () => 'n3' }))
@@ -102,6 +103,7 @@ describe('getTerm', () => {
 
     expect(global.fetch).toHaveBeenCalledTimes(1)
     const url = 'https://lookup.ld4l.org/authorities/show/discogs/master/132553?format=n3'
-    expect(global.fetch).toHaveBeenCalledWith(url)
+    const controller = new AbortController()
+    expect(global.fetch).toHaveBeenCalledWith(url, { signal: controller.signal })
   })
 })

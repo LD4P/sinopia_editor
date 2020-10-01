@@ -6,6 +6,9 @@ import {
 } from '../__tests__/testUtilities/fixtureLoaderHelper'
 import _ from 'lodash'
 
+const controller = new AbortController()
+setTimeout(() => controller.abort(), 30000) // 30 second timeout for Sinopia search calls
+
 /* eslint-enable node/no-unpublished-import */
 
 // Not using ES client because not intended for use in browser.
@@ -69,7 +72,13 @@ export const getSearchResultsWithFacets = async (query, options = {}) => {
   }
   const url = `${Config.searchHost}${Config.searchPath}`
 
-  return fetch(url, { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(body) })
+  return fetch(url,
+    {
+      signal: controller.signal,
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(body),
+    })
     .then((resp) => {
       if (resp.status >= 300) {
         return {
@@ -159,7 +168,13 @@ const fetchTemplateSearchResults = async (body) => {
   }
 
   const url = `${Config.searchHost}${Config.templateSearchPath}`
-  return fetch(url, { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(body) })
+  return fetch(url,
+    {
+      signal: controller.signal,
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(body),
+    })
     .then((resp) => {
       if (resp.status >= 300) {
         return {

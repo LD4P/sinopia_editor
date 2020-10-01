@@ -107,7 +107,14 @@ describe('getSearchResults', () => {
       size: 10,
       sort: ['_score'],
     }
-    expect(global.fetch).toHaveBeenCalledWith('/api/search/sinopia_resources/sinopia/_search', { body: JSON.stringify(body), headers: { 'Content-Type': 'application/json' }, method: 'POST' })
+    const controller = new AbortController()
+    expect(global.fetch).toHaveBeenCalledWith('/api/search/sinopia_resources/sinopia/_search',
+      {
+        body: JSON.stringify(body),
+        headers: { 'Content-Type': 'application/json' },
+        method: 'POST',
+        signal: controller.signal,
+      })
   })
 
   it('performs a search with specified page and sort order and returns results', async () => {
@@ -133,7 +140,14 @@ describe('getSearchResults', () => {
         label: 'desc',
       }],
     }
-    expect(global.fetch).toHaveBeenCalledWith('/api/search/sinopia_resources/sinopia/_search', { body: JSON.stringify(body), headers: { 'Content-Type': 'application/json' }, method: 'POST' })
+    const controller = new AbortController()
+    expect(global.fetch).toHaveBeenCalledWith('/api/search/sinopia_resources/sinopia/_search',
+      {
+        body: JSON.stringify(body),
+        headers: { 'Content-Type': 'application/json' },
+        method: 'POST',
+        signal: controller.signal,
+      })
   })
 
   it('performs a search and handles ES error', async () => {
@@ -310,7 +324,14 @@ describe('getSearchResultsWithFacets', () => {
         },
       },
     }
-    expect(global.fetch).toHaveBeenCalledWith('/api/search/sinopia_resources/sinopia/_search', { body: JSON.stringify(body), headers: { 'Content-Type': 'application/json' }, method: 'POST' })
+    const controller = new AbortController()
+    expect(global.fetch).toHaveBeenCalledWith('/api/search/sinopia_resources/sinopia/_search',
+      {
+        body: JSON.stringify(body),
+        headers: { 'Content-Type': 'application/json' },
+        method: 'POST',
+        signal: controller.signal,
+      })
   })
 
   it('performs a search with specified filters and no aggs and returns results', async () => {
@@ -346,7 +367,14 @@ describe('getSearchResultsWithFacets', () => {
       size: 10,
       sort: ['_score'],
     }
-    expect(global.fetch).toHaveBeenCalledWith('/api/search/sinopia_resources/sinopia/_search', { body: JSON.stringify(body), headers: { 'Content-Type': 'application/json' }, method: 'POST' })
+    const controller = new AbortController()
+    expect(global.fetch).toHaveBeenCalledWith('/api/search/sinopia_resources/sinopia/_search',
+      {
+        body: JSON.stringify(body),
+        headers: { 'Content-Type': 'application/json' },
+        method: 'POST',
+        signal: controller.signal,
+      })
   })
 })
 
@@ -491,6 +519,7 @@ describe('getTemplateSearchResults', () => {
       error: undefined,
     })
 
+    const controller = new AbortController()
     expect(global.fetch).toHaveBeenCalledWith('/api/search/sinopia_templates/sinopia/_search',
       {
         body: '{"query":{"bool":{"should":[{"wildcard":{"id":{"value":"*Cartographic:Item*"}}},{"wildcard":{"resourceLabel":{"value":"*Cartographic:Item*"}}},{"wildcard":{"resourceURI":{"value":"*Cartographic:Item*"}}},{"wildcard":{"remark":{"value":"*Cartographic:Item*"}}},{"wildcard":{"author":{"value":"*Cartographic:Item*"}}}]}},"sort":[{"resourceLabel":"asc"}],"size":250,"from":0}',
@@ -498,6 +527,7 @@ describe('getTemplateSearchResults', () => {
           'Content-Type': 'application/json',
         },
         method: 'POST',
+        signal: controller.signal,
       })
   })
 
@@ -539,6 +569,7 @@ describe('getTemplateSearchResultsByIds', () => {
       error: undefined,
     })
 
+    const controller = new AbortController()
     expect(global.fetch).toHaveBeenCalledWith('/api/search/sinopia_templates/sinopia/_search',
       {
         body: '{"query":{"terms":{"id":["ld4p:RT:bf2:Cartographic:Item"]}},"size":1}',
@@ -546,6 +577,7 @@ describe('getTemplateSearchResultsByIds', () => {
           'Content-Type': 'application/json',
         },
         method: 'POST',
+        signal: controller.signal,
       })
   })
 })

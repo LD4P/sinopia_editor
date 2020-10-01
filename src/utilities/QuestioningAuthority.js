@@ -7,6 +7,9 @@ import Config from 'Config'
 import { findAuthorityConfig } from 'utilities/authorityConfig'
 import _ from 'lodash'
 
+const controller = new AbortController()
+setTimeout(() => controller.abort(), 30000) // 30 second timeout for QA search calls
+
 export const getSearchResults = (query, lookupConfigs, options = {}) => createLookupPromises(query, lookupConfigs, options)
   .map((lookupPromise, i) => lookupPromise.then((value) => {
     if (value) {
@@ -93,7 +96,7 @@ export const getTerm = (uri, id, searchUri, format = 'n3') => {
     url = `${Config.qaUrl}/authorities/fetch/linked_data/${authority.toLowerCase()}?format=${format}&uri=${uri}`
   }
 
-  return fetch(url)
+  return fetch(url, { signal: controller.signal })
     .then((resp) => resp.text())
 }
 
