@@ -25,11 +25,18 @@ describe('selecting a value from the lookup modal', () => {
     await waitFor(() => expect(screen.getByLabelText('Instance of (lookup)')))
 
     const input = screen.getByLabelText('Instance of (lookup)')
-    fireEvent.change(input, { target: { value: 'test' } })
+
+    fireEvent.keyUp(input, { target: { value: 'test' } })
 
     expect(input).toHaveValue('test')
 
-    // TODO: Add additional selection testing after https://github.com/LD4P/sinopia_editor/issues/2398
-    // This test is limited by the selectors assigned in AsyncTypeahead and will be replaced
+    // Checks if the Add Literal button is available
+    screen.getByLabelText(/add as new literal/i)
+
+    // Adds URI to search on
+    fireEvent.keyUp(input, { target: { value: 'http://example.com/' } })
+
+    // Checks if the  Add URI button is available
+    screen.getByLabelText(/add as new uri/i)
   })
 })
