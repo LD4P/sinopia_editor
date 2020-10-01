@@ -62,6 +62,7 @@ export const getSearchResultsWithFacets = async (query, options = {}) => {
       groups: {
         terms: {
           field: 'group',
+          size: 20,
         },
       },
     }

@@ -305,6 +305,7 @@ describe('getSearchResultsWithFacets', () => {
         groups: {
           terms: {
             field: 'group',
+            size: 20,
           },
         },
       },
