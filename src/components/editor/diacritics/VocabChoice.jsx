@@ -13,11 +13,25 @@ const VocabChoice = (props) => {
     return options
   }
 
-  return (<select className="form-control" size="10" onClick={(event) => props.selectVocabulary(event)}>{getOptions()}</select>)
+  const handleChange = (event) => {
+    props.selectVocabulary(event)
+  }
+
+  return (<select
+            className="form-control"
+            size="10"
+            value={props.vocabulary}
+            aria-label="Select vocabulary"
+            data-testid="Select vocabulary"
+            onBlur={handleChange}
+            onChange={handleChange}>
+    {getOptions()}
+  </select>)
 }
 
 VocabChoice.propTypes = {
-  selectVocabulary: PropTypes.func,
+  selectVocabulary: PropTypes.func.isRequired,
+  vocabulary: PropTypes.string.isRequired,
 }
 
 export default VocabChoice

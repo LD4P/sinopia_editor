@@ -24,7 +24,7 @@ describe('saving a resource', () => {
 
       const input = screen.getByPlaceholderText('Note Text')
       fireEvent.change(input, { target: { value: 'foo' } })
-      fireEvent.keyPress(input, { key: 'Enter', code: 13, charCode: 13 })
+      fireEvent.keyDown(input, { key: 'Enter', code: 13, charCode: 13 })
 
       // There is foo text. Perhaps check css.
       await waitFor(() => expect(screen.getByText('foo')).toHaveClass('rbt-token'))

@@ -4,10 +4,6 @@ import React, { useMemo, useEffect } from 'react'
 import PropTypes from 'prop-types'
 import { bindActionCreators } from 'redux'
 import { connect, useSelector, useDispatch } from 'react-redux'
-import {
-  hideDiacritics, showDiacritics,
-  setLiteralContent, updateCursorPosition,
-} from 'actions/inputs'
 import { displayResourceValidations } from 'selectors/errors'
 import { selectCurrentResourceIsReadOnly, selectNormValues } from 'selectors/resources'
 import InputValue from './InputValue'
@@ -120,8 +116,6 @@ const mapStateToProps = (state, ownProps) => ({
   values: selectNormValues(state, ownProps.property.valueKeys),
 })
 
-const mapDispatchToProps = (dispatch) => bindActionCreators({
-  hideDiacritics, showDiacritics, addValue, setLiteralContent, updateCursorPosition,
-}, dispatch)
+const mapDispatchToProps = (dispatch) => bindActionCreators({ addValue }, dispatch)
 
 export default connect(mapStateToProps, mapDispatchToProps)(InputList)

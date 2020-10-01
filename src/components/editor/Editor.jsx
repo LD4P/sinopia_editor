@@ -6,7 +6,6 @@ import { useSelector } from 'react-redux'
 import ResourceComponent from './ResourceComponent'
 import Header from '../Header'
 import RDFModal from './RDFModal'
-import DiacriticsSelection from './diacritics/DiacriticsSelection'
 import GroupChoiceModal from './GroupChoiceModal'
 import EditorActions from './EditorActions'
 import ErrorMessages from './ErrorMessages'
@@ -29,7 +28,6 @@ const Editor = (props) => {
     <div id="editor">
       <Header triggerEditorMenu={ props.triggerHandleOffsetMenu }/>
       <EditorActions />
-      <DiacriticsSelection />
       <RDFModal />
       {displayErrors && hasErrors && <ErrorMessages /> }
       <GroupChoiceModal />

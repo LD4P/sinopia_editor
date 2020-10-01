@@ -117,7 +117,7 @@ describe('adding and removing properties', () => {
     // Enter a new literal value
     const input = screen.getByPlaceholderText('Uber template1, property7')
     fireEvent.change(input, { target: { value: literalText } })
-    fireEvent.keyPress(input, { key: 'Enter', code: 13, charCode: 13 })
+    fireEvent.keyDown(input, { key: 'Enter', code: 13, charCode: 13 })
 
     // Bogus literal is there
     await waitFor(() => expect(screen.getByText(literalText)).toHaveClass('rbt-token'))

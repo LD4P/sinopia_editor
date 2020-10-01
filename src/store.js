@@ -13,18 +13,12 @@ export const initialState = {
     lastChecked: Date.now(),
   },
   editor: { // The state of the editor
-    content: {}, // State for content for input components. Allows communication between components, e.g, entering diacritics.
     copyToNewMessage: {
       oldUri: null,
       timestamp: null,
     },
     currentResource: undefined,
     currentComponent: {},
-    diacritics: {
-      show: false,
-      key: null, // Key to link diacritic entry to component
-      cursorOffset: null,
-    },
     errors: {}, // {<error key>: [errors...]} or {<error key>: {<resourceKey>: [errors...]}}
     historicalTemplates: [],
     lastSave: {}, // {<resourceKey>: date}
