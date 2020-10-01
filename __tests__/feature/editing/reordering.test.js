@@ -29,7 +29,7 @@ describe('reordering properties', () => {
     // Add a value
     const inputs1 = getAllByPlaceholderText(nestedResource1, 'Uber template4, property1')
     fireEvent.change(inputs1[0], { target: { value: 'a' } })
-    fireEvent.keyPress(inputs1[0], { key: 'Enter', code: 13, charCode: 13 })
+    fireEvent.keyDown(inputs1[0], { key: 'Enter', code: 13, charCode: 13 })
 
     // Add more nested resources
     const panel = container.querySelector('div[data-label="Uber template1, property19"]')
@@ -39,9 +39,9 @@ describe('reordering properties', () => {
 
     const inputs2 = getAllByPlaceholderText(panel, 'Uber template4, property1')
     fireEvent.change(inputs2[1], { target: { value: 'b' } })
-    fireEvent.keyPress(inputs2[1], { key: 'Enter', code: 13, charCode: 13 })
+    fireEvent.keyDown(inputs2[1], { key: 'Enter', code: 13, charCode: 13 })
     fireEvent.change(inputs2[2], { target: { value: 'c' } })
-    fireEvent.keyPress(inputs2[2], { key: 'Enter', code: 13, charCode: 13 })
+    fireEvent.keyDown(inputs2[2], { key: 'Enter', code: 13, charCode: 13 })
 
     const nestedResources1 = container.querySelectorAll('div[data-label="Uber template1, property19"] div.nested-resource')
 

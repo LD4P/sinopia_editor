@@ -5,10 +5,6 @@ import {
   setUser, removeUser,
 } from './authenticate'
 import {
-  setLiteralInputContent, hideDiacriticsSelection, showDiacriticsSelection,
-  setCursorPosition,
-} from './inputs'
-import {
   setBaseURL, hideProperty, showProperty,
   setUnusedRDF, setCurrentResource, setCurrentResourceIsReadOnly,
   addSubject, addProperty, addValue, removeValue,
@@ -70,18 +66,14 @@ const editorHandlers = {
   CLEAR_ERRORS: clearErrors,
   CLEAR_MODAL_MESSAGES: clearModalMessages,
   CLEAR_RESOURCE: clearResourceFromEditor,
-  HIDE_DIACRITICS: hideDiacriticsSelection,
   HIDE_MODAL: hideModal,
   HIDE_VALIDATION_ERRORS: hideValidationErrors,
   SAVE_RESOURCE_FINISHED: saveResourceFinishedEditor,
   SET_CURRENT_COMPONENT: setCurrentComponent,
   SET_CURRENT_RESOURCE: setCurrentResource,
   SET_CURRENT_RESOURCE_IS_READ_ONLY: setCurrentResourceIsReadOnly,
-  SET_CURSOR_POSITION: setCursorPosition,
-  SET_LITERAL_CONTENT: setLiteralInputContent,
   SET_UNUSED_RDF: setUnusedRDF,
   SHOW_COPY_NEW_MESSAGE: showCopyNewMessage,
-  SHOW_DIACRITICS: showDiacriticsSelection,
   SHOW_MODAL: showModal,
   SHOW_VALIDATION_ERRORS: showValidationErrors,
 }

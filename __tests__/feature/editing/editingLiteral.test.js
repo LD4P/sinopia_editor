@@ -22,7 +22,7 @@ describe('editing a literal property', () => {
     // Add a value
     const input = screen.getByPlaceholderText('Uber template1, property4')
     fireEvent.change(input, { target: { value: 'foo' } })
-    fireEvent.keyPress(input, { key: 'Enter', code: 13, charCode: 13 })
+    fireEvent.keyDown(input, { key: 'Enter', code: 13, charCode: 13 })
 
     // There is foo text. Perhaps check css.
     await waitFor(() => expect(screen.getByText('foo')).toHaveClass('rbt-token'))
@@ -45,7 +45,7 @@ describe('editing a literal property', () => {
 
     // Clicking remove
     fireEvent.change(input, { target: { value: 'foobar' } })
-    fireEvent.keyPress(input, { key: 'Enter', code: 13, charCode: 13 })
+    fireEvent.keyDown(input, { key: 'Enter', code: 13, charCode: 13 })
 
     await waitFor(() => expect(screen.getByText('foobar')).toHaveClass('rbt-token'))
     const removeBtn = screen.getByTestId('Remove foobar')
@@ -64,9 +64,9 @@ describe('editing a literal property', () => {
     // Add two values
     const input = screen.getByPlaceholderText('Uber template1, property2')
     fireEvent.change(input, { target: { value: 'foo' } })
-    fireEvent.keyPress(input, { key: 'Enter', code: 13, charCode: 13 })
+    fireEvent.keyDown(input, { key: 'Enter', code: 13, charCode: 13 })
     fireEvent.change(input, { target: { value: 'bar' } })
-    fireEvent.keyPress(input, { key: 'Enter', code: 13, charCode: 13 })
+    fireEvent.keyDown(input, { key: 'Enter', code: 13, charCode: 13 })
 
     // There is foo text.
     await waitFor(() => expect(screen.getByText('foo')).toHaveClass('rbt-token'))
@@ -98,17 +98,21 @@ describe('editing a literal property', () => {
 
     // Add a value
     const input = screen.getByPlaceholderText('Uber template1, property4')
+    // Yeah, these fireEvent's seem odd but they produce the desired effect.
     fireEvent.change(input, { target: { value: 'Fo' } })
+    fireEvent.keyDown(input, { key: 'F', code: 'KeyF', charCode: 70 })
+    fireEvent.keyDown(input, { key: 'o', code: 'Keyo', charCode: 111 })
     expect(input).toHaveValue('Fo')
 
     // Click diacritic button
     expect(screen.queryAllByText('Latin Extended')).toHaveLength(0)
-    const diacriticBtn = screen.getAllByText('ä')[1]
+    const diacriticBtn = screen.getByTestId('Select diacritics for Uber template1, property4')
     fireEvent.click(diacriticBtn)
 
     // Click a diacritic
-    fireEvent.click(screen.getByText('Latin Extended'))
-    fireEvent.click(screen.getByText('ọ'))
+    await screen.findByText('Latin Extended')
+    fireEvent.change(screen.getByTestId('Select vocabulary'), { target: { value: 'latinextended' } })
+    fireEvent.click(await screen.findByText('ọ'))
     expect(input).toHaveValue('Foọ')
 
     // Close it
@@ -124,7 +128,7 @@ describe('editing a literal property', () => {
     // Add a value
     const input = screen.getByPlaceholderText('Uber template1, property4')
     fireEvent.change(input, { target: { value: 'foo' } })
-    fireEvent.keyPress(input, { key: 'Enter', code: 13, charCode: 13 })
+    fireEvent.keyDown(input, { key: 'Enter', code: 13, charCode: 13 })
 
     // There is foo text.
     await waitFor(() => expect(screen.getByText('foo')).toHaveClass('rbt-token'))
@@ -155,7 +159,7 @@ describe('editing a literal property', () => {
     // Add a value
     const input = screen.getByPlaceholderText('Uber template1, property4')
     fireEvent.change(input, { target: { value: 'foo' } })
-    fireEvent.keyPress(input, { key: 'Enter', code: 13, charCode: 13 })
+    fireEvent.keyDown(input, { key: 'Enter', code: 13, charCode: 13 })
 
     // There is foo text.
     await waitFor(() => expect(screen.getByText('foo')).toHaveClass('rbt-token'))

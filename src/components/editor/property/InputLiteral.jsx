@@ -5,10 +5,6 @@ import PropTypes from 'prop-types'
 import { bindActionCreators } from 'redux'
 import { connect, useSelector } from 'react-redux'
 import TextareaAutosize from 'react-textarea-autosize'
-import {
-  hideDiacritics, showDiacritics,
-  setLiteralContent, updateCursorPosition,
-} from 'actions/inputs'
 import { displayResourceValidations } from 'selectors/errors'
 import { selectCurrentResourceIsReadOnly } from 'selectors/resources'
 import InputValue from './InputValue'
@@ -16,57 +12,78 @@ import { defaultLanguageId } from 'utilities/Utilities'
 import _ from 'lodash'
 import { addValue } from 'actions/resources'
 import { newLiteralValue } from 'utilities/valueFactory'
-import { selectLiteralInputContent, displayDiacritics } from 'selectors/inputs'
+import DiacriticsSelection from 'components/editor/diacritics/DiacriticsSelection'
 
 const InputLiteral = (props) => {
-  const inputLiteralRef = useRef(100 * Math.random())
+  const inputLiteralRef = useRef(null)
   const [lang, setLang] = useState(defaultLanguageId)
+  const [showDiacritics, setShowDiacritics] = useState(false)
+  const [currentContent, setCurrentContent] = useState('')
+  const [currentPosition, setCurrentPosition] = useState(0)
   const id = `inputliteral-${props.property.key}`
+  const diacriticsId = `diacritics-${props.property.key}`
   const readOnly = useSelector((state) => selectCurrentResourceIsReadOnly(state))
 
   const disabled = readOnly || (!props.propertyTemplate.repeatable
                                 && props.property.valueKeys.length > 0)
 
   const addItem = () => {
-    let currentcontent = props.content.trim()
-    if (!currentcontent && !props.shouldShowDiacritic) {
-      return
-    }
+    if (_.isEmpty(currentContent.trim())) return
 
-    if (props.shouldShowDiacritic && !currentcontent) {
-      currentcontent = inputLiteralRef.current.value
-    }
-
-    props.addValue(newLiteralValue(props.property, currentcontent, lang))
-    props.setLiteralContent(props.property.key, '')
+    props.addValue(newLiteralValue(props.property, currentContent.trim(), lang))
+    setCurrentContent('')
+    setCurrentPosition(0)
     setLang(defaultLanguageId)
   }
 
-  const handleKeypress = (event) => {
+  const handleKeyDown = (event) => {
     if (event.key === 'Enter') {
       addItem()
-      props.hideDiacritics()
       event.preventDefault()
     }
     // Handle any position changing
-    props.updateCursorPosition(inputLiteralRef.current.selectionStart)
+    setCurrentPosition(inputLiteralRef.current.selectionStart + 1)
+  }
+
+  const handleChange = (event) => {
+    setCurrentContent(event.target.value)
+    event.preventDefault()
   }
 
   const handleEdit = (content, lang) => {
-    props.setLiteralContent(props.property.key, content)
+    setCurrentContent(content)
     setLang(lang)
     inputLiteralRef.current.focus()
   }
 
-  const toggleDiacritics = (event) => {
-    if (props.shouldShowDiacritic) {
-      props.hideDiacritics()
-    } else {
-      props.updateCursorPosition(inputLiteralRef.current.selectionStart)
-      props.showDiacritics(props.property.key)
+  const handleBlur = (event) => {
+    if (focusIn(event, diacriticsId)) {
+      setCurrentPosition(inputLiteralRef.current.selectionStart)
+      return
     }
+    if (focusIn(event, id)) return
+
+    addItem()
+    setShowDiacritics(false)
+  }
+
+  const toggleDiacritics = (event) => {
+    setShowDiacritics(!showDiacritics)
+
     event.preventDefault()
   }
+
+  const closeDiacritics = () => {
+    setShowDiacritics(false)
+    inputLiteralRef.current.focus()
+  }
+
+  const handleAddCharacter = (character) => {
+    setCurrentContent(currentContent.slice(0, currentPosition) + character + currentContent.slice(currentPosition))
+    setCurrentPosition(currentPosition + 1)
+  }
+
+  const handleClick = () => setCurrentPosition(inputLiteralRef.current.selectionStart)
 
   const addedList = props.property.valueKeys.map((valueKey) => (<InputValue key={valueKey}
                                                                             handleEdit={handleEdit}
@@ -93,29 +110,7 @@ const InputLiteral = (props) => {
     return false
   }
 
-  const hasInput = () => !_.isEmpty(props.content)
-
-  const handleBlur = (e) => {
-    if (focusIn(e, 'diacritics-selection') || focusIn(e, id)) {
-      return
-    }
-
-    if (hasInput()) {
-      addItem()
-      props.hideDiacritics()
-    }
-  }
-
-  // This handles if they change the cursor position within the field after the focus event.
-  const handleClick = () => {
-    props.updateCursorPosition(inputLiteralRef.current.selectionStart)
-  }
-
-  // This handles if they focus into the field using tab (no click)
-  const handleFocus = () => {
-    props.hideDiacritics() // hide any previously opened diacritic panels to avoid cross input problems
-    props.updateCursorPosition(inputLiteralRef.current.selectionStart)
-  }
+  if (inputLiteralRef.current) inputLiteralRef.current.setSelectionRange(currentPosition, currentPosition)
 
   return (
     <div className="form-group">
@@ -124,47 +119,44 @@ const InputLiteral = (props) => {
               required={required}
               className={controlClasses}
               placeholder={props.propertyTemplate.label}
-              onChange={(event) => props.setLiteralContent(props.property.key, event.target.value)}
-              onKeyPress={handleKeypress}
-              onFocus={handleFocus}
+              onChange={handleChange}
+              onKeyDown={handleKeyDown}
               onClick={handleClick}
-              value={props.content}
+              value={currentContent}
               disabled={disabled}
               ref={inputLiteralRef}
         />
         <div className="input-group-append" tabIndex="0">
           <button className="btn btn-outline-primary"
                   disabled={disabled}
+                  aria-label={`Select diacritics for ${props.propertyTemplate.label}`}
+                  data-testid={`Select diacritics for ${props.propertyTemplate.label}`}
                   onClick={toggleDiacritics}>&auml;</button>
         </div>
         {error && <span className="invalid-feedback">{error}</span>}
       </div>
       {addedList}
+      <DiacriticsSelection
+          id={diacriticsId}
+          handleAddCharacter={handleAddCharacter}
+          closeDiacritics={closeDiacritics}
+          showDiacritics={showDiacritics} />
     </div>
   )
 }
 
 InputLiteral.propTypes = {
-  shouldShowDiacritic: PropTypes.bool,
-  hideDiacritics: PropTypes.func,
-  showDiacritics: PropTypes.func,
   displayValidations: PropTypes.bool,
   property: PropTypes.object.isRequired,
   propertyTemplate: PropTypes.object.isRequired,
   addValue: PropTypes.func,
   content: PropTypes.string,
-  setLiteralContent: PropTypes.func,
-  updateCursorPosition: PropTypes.func,
 }
 
 const mapStateToProps = (state, ownProps) => ({
   displayValidations: displayResourceValidations(state, ownProps.property?.rootSubjectKey),
-  shouldShowDiacritic: displayDiacritics(state),
-  content: selectLiteralInputContent(state, ownProps.property?.key) || '',
 })
 
-const mapDispatchToProps = (dispatch) => bindActionCreators({
-  hideDiacritics, showDiacritics, addValue, setLiteralContent, updateCursorPosition,
-}, dispatch)
+const mapDispatchToProps = (dispatch) => bindActionCreators({ addValue }, dispatch)
 
 export default connect(mapStateToProps, mapDispatchToProps)(InputLiteral)

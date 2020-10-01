@@ -2,17 +2,8 @@
 
 import React from 'react'
 import PropTypes from 'prop-types'
-import { useSelector, useDispatch } from 'react-redux'
-import { selectLiteralInputContent, selectDiacriticsCursorOffset, selectDiacriticsKey } from 'selectors/inputs'
-import { setLiteralContent, updateCursorPosition } from 'actions/inputs'
-
 
 const CharacterButton = (props) => {
-  const dispatch = useDispatch()
-  const targetPropertyKey = useSelector((state) => selectDiacriticsKey(state))
-  const cursorOffset = useSelector((state) => selectDiacriticsCursorOffset(state))
-  const content = useSelector((state) => selectLiteralInputContent(state, targetPropertyKey)) || ''
-
   const cleanCharacter = () => {
     // For some reason, some combining characters are precombined with ◌ (U+25CC)
     if (props.character.length > 1) {
@@ -24,13 +15,7 @@ const CharacterButton = (props) => {
   }
 
   const handleClick = (event) => {
-    const newValue = content.slice(0, cursorOffset)
-        + cleanCharacter()
-        + content.slice(cursorOffset)
-
-    dispatch(setLiteralContent(targetPropertyKey, newValue))
-    // Move the insert position over one character
-    dispatch(updateCursorPosition(cursorOffset + 1))
+    props.handleAddCharacter(cleanCharacter())
     event.preventDefault()
   }
 
@@ -42,7 +27,8 @@ const CharacterButton = (props) => {
 }
 
 CharacterButton.propTypes = {
-  character: PropTypes.string,
+  character: PropTypes.string.isRequired,
+  handleAddCharacter: PropTypes.func.isRequired,
 }
 
 export default CharacterButton
