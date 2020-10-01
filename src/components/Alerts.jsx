@@ -6,12 +6,11 @@ import { useSelector } from 'react-redux'
 import { selectErrors } from 'selectors/errors'
 import { generateMD5 } from 'utilities/Utilities'
 import Alert from './Alert'
+import _ from 'lodash'
 
 const Alerts = (props) => {
   const errors = useSelector((state) => selectErrors(state, props.errorKey))
-  if (!errors || errors.length === 0) {
-    return null
-  }
+  if (_.isEmpty(errors)) return null
 
   const alerts = errors.map((error) => (<Alert text={error} key={`${props.errorKey}-${generateMD5(error)}`} />))
 

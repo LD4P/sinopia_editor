@@ -24,7 +24,7 @@ const Header = (props) => (
               <span className="nav-link editor-header-user">{props.currentUser.username}</span>
             </li>
             <li className="nav-item">
-              <Link to="/templates" className="nav-link">Linked Data Editor</Link>
+              <Link to="/dashboard" className="nav-link">Linked Data Editor</Link>
             </li>
           </React.Fragment>
       }

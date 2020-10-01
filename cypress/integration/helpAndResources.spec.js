@@ -31,6 +31,24 @@ describe('Looking at the Help and Resources gutter', () => {
   it('Opens Linked Data Editor', () => {
     cy.contains('a', 'Linked Data Editor').click()
 
+    cy.url().should('include', '/dashboard')
+  })
+
+  it('Opens help and resources', () => {
+    cy.contains('a', 'Help and Resources').click()
+
+    cy.contains('External Identifier Sources and Vocabularies')
+  })
+
+  it('Closes help and resources', () => {
+    cy.get('button[aria-label="Close Help Menu"]').click()
+
+    cy.contains('External Identifier Sources and Vocabularies')
+  })
+
+  it('Opens Templates', () => {
+    cy.contains('a', 'Resource Templates').click()
+
     cy.url().should('include', '/templates')
   })
 

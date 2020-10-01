@@ -22,7 +22,9 @@ describe('Left-nav test', () => {
 
   it('Opens Linked Data Editor', () => {
     cy.contains('a', 'Linked Data Editor').click()
+    cy.url().should('include', '/dashboard')
 
+    cy.contains('a', 'Resource Templates').click()
     cy.url().should('include', '/templates')
   })
 

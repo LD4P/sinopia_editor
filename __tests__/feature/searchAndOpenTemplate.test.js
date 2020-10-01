@@ -59,7 +59,7 @@ describe('searching and opening a resource', () => {
     fireEvent.click(rtLink)
 
     // see the recently used RTs
-    const histTemplateBtn = await screen.findByText('Most recently used resource templates')
+    const histTemplateBtn = await screen.findByText('Most recently used templates')
     fireEvent.click(histTemplateBtn)
     const rtHeaders = screen.getAllByText('Label / ID')
     expect(rtHeaders).toHaveLength(2)

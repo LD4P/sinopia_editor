@@ -1,13 +1,9 @@
 // Copyright 2019 Stanford University see LICENSE for license
 /* eslint max-params: ["error", 4] */
 
-import React, { useState, useEffect, useRef } from 'react'
-import { useDispatch, useSelector } from 'react-redux'
+import React, { useRef } from 'react'
+import { useSelector } from 'react-redux'
 import PropTypes from 'prop-types'
-import { showModal } from 'actions/modals'
-import { loadResource } from 'actionCreators/resources'
-import { selectErrors } from 'selectors/errors'
-import { selectCurrentResourceKey } from 'selectors/resources'
 import { selectSearchResults } from 'selectors/search'
 import Alerts from '../Alerts'
 import TypeFilter from './TypeFilter'
@@ -15,49 +11,17 @@ import GroupFilter from './GroupFilter'
 import SearchResultRows from './SearchResultRows'
 import SinopiaSort from './SinopiaSort'
 import ViewResourceModal from '../ViewResourceModal'
-import _ from 'lodash'
+import useResource from 'hooks/useResource'
 
 // Errors from retrieving a resource from this page.
 export const searchRetrieveErrorKey = 'searchresource'
 
 const SinopiaSearchResults = (props) => {
-  const [navigateEditor, setNavigateEditor] = useState(false)
-
   const errorsRef = useRef(null)
 
+  const { handleCopy, handleEdit, handleView } = useResource(props.history, searchRetrieveErrorKey, errorsRef)
+
   const searchResults = useSelector((state) => selectSearchResults(state, 'resource'))
-  const currentResourceKey = useSelector((state) => selectCurrentResourceKey(state))
-  const errors = useSelector((state) => selectErrors(state, searchRetrieveErrorKey))
-
-  const dispatch = useDispatch()
-
-  const handleCopy = (resourceURI) => {
-    dispatch(loadResource(resourceURI, searchRetrieveErrorKey, true)).then((success) => {
-      setNavigateEditor(success)
-    })
-  }
-
-  const handleEdit = (resourceURI) => {
-    dispatch(loadResource(resourceURI, searchRetrieveErrorKey)).then((success) => {
-      setNavigateEditor(success)
-    })
-  }
-
-  const handleView = (resourceURI) => {
-    dispatch(loadResource(resourceURI, searchRetrieveErrorKey, false, true)).then(() => {
-      dispatch(showModal('ViewResourceModal'))
-    })
-  }
-
-  useEffect(() => {
-    // Forces a wait until the resource has been set in state
-    if (navigateEditor && currentResourceKey && _.isEmpty(errors)) {
-      props.history.push('/editor')
-    }
-    else if (!_.isEmpty(errors)) {
-      window.scrollTo(0, errorsRef.current.offsetTop)
-    }
-  })
 
   if (searchResults.length === 0) {
     return null

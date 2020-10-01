@@ -9,7 +9,7 @@ import { clearErrors, addError } from 'actions/errors'
 import { showModal } from 'actions/modals'
 import ResourceTemplateChoiceModal from '../ResourceTemplateChoiceModal'
 import { getTerm, getContextValues } from 'utilities/QuestioningAuthority'
-import useResource from 'hooks/useResource'
+import useRdfResource from 'hooks/useRdfResource'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faCopy } from '@fortawesome/free-solid-svg-icons'
 import Alerts from '../Alerts'
@@ -35,7 +35,7 @@ const QASearchResults = (props) => {
   const [resourceId, setResourceId] = useState(null)
   const [resourceTemplateId, setResourceTemplateId] = useState(null)
   const [dataset, setDataset] = useState(null)
-  useResource(dataset, resourceURI, resourceTemplateId, searchQARetrieveErrorKey, props.history)
+  useRdfResource(dataset, resourceURI, resourceTemplateId, searchQARetrieveErrorKey, props.history)
 
   // Retrieve N3 from QA
   useEffect(() => {

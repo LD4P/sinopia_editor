@@ -1,43 +1,63 @@
-/* eslint max-params: ["error", 5] */
-import { useState, useEffect } from 'react'
-import { useDispatch, useSelector } from 'react-redux'
-import { newResourceFromDataset } from 'actionCreators/resources'
-import { clearErrors } from 'actions/errors'
-import { selectCurrentResourceKey } from 'selectors/resources'
+import { useEffect, useState } from 'react'
+import { useSelector, useDispatch } from 'react-redux'
+import { newResource, loadResource } from 'actionCreators/resources'
+import { selectErrors } from 'selectors/errors'
+import { selectCurrentResourceKey, selectNormSubject } from 'selectors/resources'
+import _ from 'lodash'
+import { showModal } from 'actions/modals'
 
-/**
- * Hook for transforming a resource to state and changing the page to the editor (i.e., /editor path).
- * @param {rdf.Dataset} dataset containing resource
- * @param {string} baseURI of the resource
- * @param {string} resourceTemplateId to use for the resource
- * @param {string} errorKey to use when adding errors to state
- * @param {Object} history react-router history object
-  * @return {[Object, rdf.Dataset, string]} resource state, unused RDF, error
- */
-const useResource = (dataset, baseURI, resourceTemplateId, errorKey, history) => {
+const useResource = (history, errorKey, errorRef) => {
   const dispatch = useDispatch()
-  const hasResource = useSelector((state) => !!selectCurrentResourceKey(state))
+  const errors = useSelector((state) => selectErrors(state, errorKey))
+  const resourceKey = useSelector((state) => selectCurrentResourceKey(state))
+  const resource = useSelector((state) => selectNormSubject(state, resourceKey))
 
-  // Indicates that would like to change to editor once resource is in state
   const [navigateEditor, setNavigateEditor] = useState(false)
 
   useEffect(() => {
-    if (!dataset || baseURI === undefined || !resourceTemplateId) {
-      return
-    }
-    dispatch(clearErrors(errorKey))
-    dispatch(newResourceFromDataset(dataset, baseURI, resourceTemplateId, errorKey, true))
-      .then((result) => {
-        setNavigateEditor(result)
-      })
-  }, [dataset, baseURI, resourceTemplateId, dispatch, errorKey])
-
-  useEffect(() => {
     // Forces a wait until the root resource has been set in state
-    if (navigateEditor && hasResource) {
-      history.push('/editor')
+    if (navigateEditor && resource && _.isEmpty(errors)) {
+      if (navigateEditor === 'new') {
+        history.push(`/editor/${resource.subjectTemplateKey}`)
+      } else {
+        history.push('/editor')
+      }
+    } else if (!_.isEmpty(errors) && errorRef) {
+      window.scrollTo(0, errorRef.current.offsetTop)
     }
-  }, [navigateEditor, history, hasResource])
+  }, [navigateEditor, resource, history, errors, errorRef])
+
+  const handleNew = (resourceTemplateId, event) => {
+    if (event) event.preventDefault()
+    dispatch(newResource(resourceTemplateId, errorKey)).then((result) => {
+      if (result) setNavigateEditor('new')
+    })
+  }
+
+  const handleCopy = (resourceURI, event) => {
+    if (event) event.preventDefault()
+    dispatch(loadResource(resourceURI, errorKey, true)).then((result) => {
+      if (result) setNavigateEditor('copy')
+    })
+  }
+
+  const handleEdit = (resourceURI, event) => {
+    if (event) event.preventDefault()
+    dispatch(loadResource(resourceURI, errorKey)).then((result) => {
+      if (result) setNavigateEditor('edit')
+    })
+  }
+
+  const handleView = (resourceURI, event) => {
+    if (event) event.preventDefault()
+    dispatch(loadResource(resourceURI, errorKey, false, true)).then(() => {
+      dispatch(showModal('ViewResourceModal'))
+    })
+  }
+
+  return {
+    handleNew, handleCopy, handleEdit, handleView,
+  }
 }
 
 export default useResource
