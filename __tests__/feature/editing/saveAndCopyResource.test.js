@@ -1,19 +1,15 @@
 import { renderApp, createHistory } from 'testUtils'
-import { fireEvent, wait, screen } from '@testing-library/react'
+import { fireEvent, waitFor, screen } from '@testing-library/react'
 import * as sinopiaApi from 'sinopiaApi'
-import Config from 'Config'
 
-// This forces Sinopia server to use fixtures
-jest.spyOn(Config, 'useResourceTemplateFixtures', 'get').mockReturnValue(true)
+import { featureSetup } from 'featureUtils'
+
+featureSetup()
+
 jest.spyOn(sinopiaApi, 'postResource').mockResolvedValue('http://localhost:3000/resource/c7db5404-7d7d-40ac-b38e-c821d2c3ae3f')
-
-// Mock out document.elementFromPoint used by useNavigableComponent.
-global.document.elementFromPoint = jest.fn()
 
 describe('saving a resource', () => {
   describe('after opening a new resource', () => {
-    window.HTMLElement.prototype.scrollIntoView = jest.fn() // required to allow scrolling in the jsdom
-
     const history = createHistory(['/editor/resourceTemplate:bf2:Title:Note'])
     renderApp(null, history)
 
@@ -31,7 +27,7 @@ describe('saving a resource', () => {
       fireEvent.keyPress(input, { key: 'Enter', code: 13, charCode: 13 })
 
       // There is foo text. Perhaps check css.
-      await wait(() => expect(screen.getByText('foo')).toHaveClass('rbt-token'))
+      await waitFor(() => expect(screen.getByText('foo')).toHaveClass('rbt-token'))
       // There is remove button
       expect(screen.getByTestId('Remove foo')).toHaveTextContent('×')
       // There is edit button.

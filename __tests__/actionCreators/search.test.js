@@ -2,8 +2,14 @@
 import { fetchSinopiaSearchResults, fetchQASearchResults } from 'actionCreators/search'
 import * as server from 'sinopiaSearch'
 import Swagger from 'swagger-client'
+import configureMockStore from 'redux-mock-store'
+import thunk from 'redux-thunk'
+import { createState } from 'stateUtils'
+import * as sinopiaApi from 'sinopiaApi'
 
 jest.mock('swagger-client')
+
+const mockStore = configureMockStore([thunk])
 
 describe('fetchSinopiaSearchResults', () => {
   const query = '*'
@@ -26,12 +32,16 @@ describe('fetchSinopiaSearchResults', () => {
 
   it('dispatches actions', async () => {
     server.getSearchResultsWithFacets = jest.fn().mockResolvedValue([mockSearchResults, mockFacetResults])
-    const dispatch = jest.fn()
-    await fetchSinopiaSearchResults(query, {
+    sinopiaApi.putUserHistory = jest.fn().mockResolvedValue()
+    const store = mockStore(createState())
+    await store.dispatch(fetchSinopiaSearchResults(query, {
       startOfRange: 5, resultsPerPage: 10, sortField: 'label', sortOrder: 'desc',
-    })(dispatch)
-    expect(dispatch).toHaveBeenCalledTimes(1)
-    expect(dispatch).toBeCalledWith({
+    }))
+
+    const actions = store.getActions()
+
+    expect(actions).toHaveLength(1)
+    expect(actions[0]).toStrictEqual({
       type: 'SET_SEARCH_RESULTS',
       payload: {
         searchType: 'resource',
@@ -49,6 +59,7 @@ describe('fetchSinopiaSearchResults', () => {
         },
       },
     })
+    expect(sinopiaApi.putUserHistory).toHaveBeenCalledWith('Foo McBar', 'search', '76541d5398cb6aa99cd74c6dfb7a54b9', '{"authorityUri":"sinopia","query":"*"}')
   })
 })
 
@@ -56,7 +67,6 @@ describe('fetchQASearchResults', () => {
   const query = '*'
   const uri = 'urn:ld4p:qa:sharevde_stanford_ld4l_cache:all'
   it('dispatches action', async () => {
-    const dispatch = jest.fn()
     const mockSearchResults = [
       {
         uri: 'http://share-vde.org/sharevde/rdfBibframe/Work/3107365',
@@ -125,11 +135,15 @@ describe('fetchQASearchResults', () => {
     const mockActionFunction = jest.fn().mockResolvedValue({ body: { results: mockSearchResults, response_header: { total_records: 15 } } })
     const client = { apis: { SearchQuery: { GET_searchAuthority: mockActionFunction } } }
     Swagger.mockResolvedValue(client)
+    sinopiaApi.putUserHistory = jest.fn().mockResolvedValue()
 
-    await fetchQASearchResults(query, uri)(dispatch)
+    const store = mockStore(createState())
+    await store.dispatch(fetchQASearchResults(query, uri))
 
-    expect(dispatch).toHaveBeenCalledTimes(1)
-    expect(dispatch).toBeCalledWith({
+    const actions = store.getActions()
+
+    expect(actions).toHaveLength(1)
+    expect(actions[0]).toStrictEqual({
       type: 'SET_SEARCH_RESULTS',
       payload: {
         searchType: 'resource',
@@ -142,18 +156,21 @@ describe('fetchQASearchResults', () => {
         facetResults: {},
       },
     })
+    expect(sinopiaApi.putUserHistory).toHaveBeenCalledWith('Foo McBar', 'search', '4682c287952df68172c6c4a63bdc2887', '{"authorityUri":"urn:ld4p:qa:sharevde_stanford_ld4l_cache:all","query":"*"}')
   })
 
   it('dispatches action when error', async () => {
-    const dispatch = jest.fn()
     const mockActionFunction = jest.fn().mockRejectedValue(new Error('Ooops...'))
     const client = { apis: { SearchQuery: { GET_searchAuthority: mockActionFunction } } }
     Swagger.mockResolvedValue(client)
 
-    await fetchQASearchResults(query, uri)(dispatch)
+    const store = mockStore(createState())
+    await store.dispatch(fetchQASearchResults(query, uri))
 
-    expect(dispatch).toHaveBeenCalledTimes(1)
-    expect(dispatch).toBeCalledWith({
+    const actions = store.getActions()
+
+    expect(actions).toHaveLength(1)
+    expect(actions[0]).toStrictEqual({
       type: 'SET_SEARCH_RESULTS',
       payload: {
         searchType: 'resource',

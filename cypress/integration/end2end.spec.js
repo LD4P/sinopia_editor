@@ -78,7 +78,7 @@ describe('End-to-end test', () => {
   })
 
   it('Opens a resource template', () => {
-    cy.contains('a', /^Work Title$/).click()
+    cy.contains('a:visible', /^Work Title$/).click()
     cy.url().should('include', '/editor')
   })
 
@@ -130,6 +130,29 @@ describe('End-to-end test', () => {
     cy.contains('h3', 'Work Title')
     cy.contains('URI for this resource')
     cy.get('div.rbt-token').contains(title)
+  })
+
+  it('Logs out', () => {
+    cy.contains('a', 'Logout').click()
+  })
+
+  it('Logs in again', () => {
+    cy.get('#username')
+      .type(Cypress.env('COGNITO_TEST_USER_NAME'))
+      .should('have.value', Cypress.env('COGNITO_TEST_USER_NAME'))
+    cy.get('#password')
+      .type(Cypress.env('COGNITO_TEST_USER_PASS'))
+      .should('have.value', Cypress.env('COGNITO_TEST_USER_PASS'))
+    cy.get('button[type="submit"]').contains('Login').click()
+  })
+
+  it('Retains template history', () => {
+    // Go back to templates
+    cy.contains('a', /Resource Templates/).click()
+    cy.url().should('include', '/templates')
+
+    cy.contains('button', /Most recently used/).click()
+    cy.contains('div#historicalTemplates a', /^Work Title$/).click()
   })
 
   it('Logs out', () => {

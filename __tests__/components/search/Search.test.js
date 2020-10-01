@@ -5,10 +5,13 @@ import { renderComponent } from 'testUtils'
 import * as server from 'sinopiaSearch'
 import Swagger from 'swagger-client'
 import Config from 'Config'
+import * as sinopiaApi from 'sinopiaApi'
 
 jest.mock('swagger-client')
 
 describe('<Search />', () => {
+  jest.spyOn(sinopiaApi, 'putUserHistory').mockResolvedValue()
+
   it('requests a QA search', async () => {
     const mockSearchResults = [
       {

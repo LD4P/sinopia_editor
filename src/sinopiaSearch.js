@@ -119,16 +119,7 @@ const aggregationsToResult = (aggs) => {
   return result
 }
 
-export const getTemplateSearchResults = async (query, options = {}) => {
-  if (Config.useResourceTemplateFixtures) {
-    const results = await getFixtureTemplateSearchResults()
-    return {
-      totalHits: results.length,
-      results,
-      error: undefined,
-    }
-  }
-
+export const getTemplateSearchResults = (query, options = {}) => {
   const fields = ['id', 'resourceLabel', 'resourceURI', 'remark', 'author']
   const should = fields.map((field) => ({ wildcard: { [field]: { value: `*${query}*` } } }))
   const body = {
@@ -140,6 +131,30 @@ export const getTemplateSearchResults = async (query, options = {}) => {
     sort: sort('resourceLabel'),
     size: Config.templateSearchResultsPerPage,
     from: options.startOfRange || 0,
+  }
+  return fetchTemplateSearchResults(body)
+}
+
+export const getTemplateSearchResultsByIds = (templateIds) => {
+  const body = {
+    query: {
+      terms: {
+        id: templateIds,
+      },
+    },
+    size: templateIds.length,
+  }
+  return fetchTemplateSearchResults(body)
+}
+
+const fetchTemplateSearchResults = async (body) => {
+  if (Config.useResourceTemplateFixtures) {
+    const results = await getFixtureTemplateSearchResults()
+    return {
+      totalHits: results.length,
+      results,
+      error: undefined,
+    }
   }
 
   const url = `${Config.searchHost}${Config.templateSearchPath}`

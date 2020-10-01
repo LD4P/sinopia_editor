@@ -2,10 +2,12 @@
 import { addError } from 'actions/errors'
 import { validateTemplates } from './templateValidationHelpers'
 import Config from 'Config'
-import { addTemplates } from 'actions/templates'
+import { addTemplates, addTemplateHistoryByResult } from 'actions/templates'
 import { selectSubjectAndPropertyTemplates } from 'selectors/templates'
 import TemplatesBuilder from 'TemplatesBuilder'
 import { fetchResource } from 'sinopiaApi'
+import { getTemplateSearchResultsByIds } from 'sinopiaSearch'
+import _ from 'lodash'
 
 /**
  * A thunk that gets a resource template from state or the server.
@@ -52,4 +54,25 @@ export const loadResourceTemplateWithoutValidation = (resourceTemplateId, resour
 
   if (resourceTemplatePromises) resourceTemplatePromises[resourceTemplateId] = newResourceTemplatePromise
   return newResourceTemplatePromise
+}
+
+export const loadTemplateHistory = (templateIds) => (dispatch) => {
+  if (_.isEmpty(templateIds)) return
+  getTemplateSearchResultsByIds(templateIds)
+    .then((response) => {
+      if (response.error) {
+        console.error(response.error)
+        return
+      }
+      const resultMap = {}
+      response.results.forEach((result) => resultMap[result.id] = result)
+      // Reversing so that most recent is at top of list.
+      const reversedTemplateIds = [...templateIds].reverse()
+      reversedTemplateIds.forEach((templateId) => {
+        const result = resultMap[templateId]
+        if (!result) return
+        dispatch(addTemplateHistoryByResult(result))
+      })
+    })
+    .catch((err) => console.error(err))
 }

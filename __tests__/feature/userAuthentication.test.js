@@ -6,8 +6,10 @@ import {
 import { createState } from 'stateUtils'
 import { createStore, renderApp } from 'testUtils'
 import Auth from '@aws-amplify/auth'
+import * as sinopiaApi from 'sinopiaApi'
 
 jest.mock('@aws-amplify/auth')
+jest.spyOn(sinopiaApi, 'fetchUser').mockResolvedValue({ data: { history: { template: [], resource: [], search: [] } } })
 
 describe('user authentication', () => {
   Auth.signOut.mockResolvedValue()

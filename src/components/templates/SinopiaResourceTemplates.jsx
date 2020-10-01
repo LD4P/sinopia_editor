@@ -1,8 +1,6 @@
 // Copyright 2019 Stanford University see LICENSE for license
 
-import React, {
-  useEffect, useState, useRef, useMemo,
-} from 'react'
+import React, { useEffect, useState, useRef } from 'react'
 import { useSelector, useDispatch } from 'react-redux'
 import PropTypes from 'prop-types'
 import { newResource, loadResource } from 'actionCreators/resources'
@@ -23,18 +21,7 @@ export const newResourceErrorKey = 'newresource'
 const SinopiaResourceTemplates = (props) => {
   const dispatch = useDispatch()
   const searchResults = useSelector((state) => selectSearchResults(state, 'template'))
-  const historicallyUsedTemplates = useSelector((state) => selectHistoricalTemplates(state))
-
-  // Transform to the result structure.
-  const historicallyUsedTemplateResults = useMemo(() => historicallyUsedTemplates.map((template) => ({
-    id: template.key,
-    resourceLabel: template.label,
-    resourceURI: template.class,
-    uri: template.uri,
-    author: template.author,
-    remark: template.remark,
-    date: template.date,
-  })), [historicallyUsedTemplates])
+  const historicallyUsedTemplateResults = useSelector((state) => selectHistoricalTemplates(state))
 
   const errors = useSelector((state) => selectErrors(state, newResourceErrorKey))
   const resourceKey = useSelector((state) => selectCurrentResourceKey(state))

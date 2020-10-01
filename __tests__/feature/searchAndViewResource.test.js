@@ -2,17 +2,10 @@ import { fireEvent, screen } from '@testing-library/react'
 import { renderApp } from 'testUtils'
 import * as sinopiaSearch from 'sinopiaSearch'
 import { resourceSearchResults } from 'fixtureLoaderHelper'
-import Config from 'Config'
+import { featureSetup } from 'featureUtils'
 
-// This forces Sinopia server to use fixtures
-jest.spyOn(Config, 'useResourceTemplateFixtures', 'get').mockReturnValue(true)
+featureSetup()
 jest.mock('sinopiaSearch')
-// Mock jquery
-global.$ = jest.fn().mockReturnValue({ popover: jest.fn() })
-// Mock out document.elementFromPoint used by useNavigableComponent.
-global.document.elementFromPoint = jest.fn()
-// Mock out scrollIntoView used by useNavigableComponent. See https://github.com/jsdom/jsdom/issues/1695
-Element.prototype.scrollIntoView = jest.fn()
 
 describe('searching and viewing a resource', () => {
   sinopiaSearch.getTemplateSearchResults.mockResolvedValue({

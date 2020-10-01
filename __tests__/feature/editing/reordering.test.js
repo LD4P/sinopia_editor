@@ -1,17 +1,10 @@
-import Config from 'Config'
 import { renderApp, createHistory } from 'testUtils'
 import {
   fireEvent, screen, getAllByPlaceholderText, getByTestId, waitFor,
 } from '@testing-library/react'
+import { featureSetup } from 'featureUtils'
 
-jest.spyOn(Config, 'useResourceTemplateFixtures', 'get').mockReturnValue(true)
-
-// Mock jquery
-global.$ = jest.fn().mockReturnValue({ popover: jest.fn() })
-// Mock out document.elementFromPoint used by useNavigableComponent.
-global.document.elementFromPoint = jest.fn()
-// Mock out scrollIntoView used by useNavigableComponent. See https://github.com/jsdom/jsdom/issues/1695
-Element.prototype.scrollIntoView = jest.fn()
+featureSetup()
 
 describe('reordering properties', () => {
   it('reorders nested properties', async () => {

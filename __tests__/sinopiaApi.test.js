@@ -1,7 +1,7 @@
 // Copyright 2020 Stanford University see LICENSE for license
 import {
   fetchResource, postResource, putResource,
-  postMarc, getMarcJob, getMarc,
+  postMarc, getMarcJob, getMarc, fetchUser, putUserHistory,
 } from 'sinopiaApi'
 import { selectFullSubject } from 'selectors/resources'
 import { selectUser } from 'selectors/authenticate'
@@ -246,6 +246,49 @@ describe('getMarc', () => {
       global.fetch = jest.fn().mockResolvedValue({ ok: false, json: jest.fn().mockResolvedValue([{ title: 'Ooops!', details: 'It failed.' }]) })
 
       await expect(getMarc(marcUrl)).rejects.toThrow('Ooops!: It failed.')
+    })
+  })
+})
+
+const userData = { id: 'tmann', data: {} }
+describe('fetchUser', () => {
+  describe('user is found', () => {
+    it('returns user data', async () => {
+      global.fetch = jest.fn().mockResolvedValue({ ok: true, json: jest.fn().mockResolvedValue(userData) })
+
+      expect(await fetchUser('tmann')).toEqual(userData)
+    })
+  })
+
+  describe('user is not found', () => {
+    it('creates user and returns data', async () => {
+      global.fetch = jest.fn().mockResolvedValueOnce({ ok: false, status: 404 }).mockResolvedValue({ ok: true, json: jest.fn().mockResolvedValue(userData) })
+
+      expect(await fetchUser('tmann')).toEqual(userData)
+
+      expect(global.fetch).toHaveBeenCalledWith('http://localhost:3000/user/tmann', {
+        method: 'POST',
+        headers: {
+          Authorization: 'Bearer Secret-Token',
+        },
+      })
+    })
+  })
+})
+
+describe('putUserHistory', () => {
+  it('puts to API', async () => {
+    global.fetch = jest.fn().mockResolvedValue({ ok: true, json: jest.fn().mockResolvedValue(userData) })
+
+    expect(await putUserHistory('tmann', 'template', 'abc123', 'template1')).toEqual(userData)
+
+    expect(global.fetch).toHaveBeenCalledWith('http://localhost:3000/user/tmann/history/template/abc123', {
+      method: 'PUT',
+      headers: {
+        Authorization: 'Bearer Secret-Token',
+        'Content-Type': 'application/json',
+      },
+      body: '{"payload":"template1"}',
     })
   })
 })

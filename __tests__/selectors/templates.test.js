@@ -1,21 +1,5 @@
 import { createState } from 'stateUtils'
-import { selectHistoricalTemplates, selectSubjectAndPropertyTemplates } from 'selectors/templates'
-
-describe('selectHistoricalTemplates()', () => {
-  it('returns empty when no historical templates', () => {
-    const state = createState()
-    expect(selectHistoricalTemplates(state)).toHaveLength(0)
-  })
-
-  it('returns templates', () => {
-    const state = createState({ hasResourceWithLiteral: true })
-    state.editor.historicalTemplates = ['ld4p:RT:bf2:Title:AbbrTitle']
-
-    const templates = selectHistoricalTemplates(state)
-    expect(templates).toHaveLength(1)
-    expect(templates[0]).toBeSubjectTemplate('ld4p:RT:bf2:Title:AbbrTitle')
-  })
-})
+import { selectSubjectAndPropertyTemplates } from 'selectors/templates'
 
 describe('selectSubjectAndPropertyTemplates()', () => {
   it('returns null when no subject', () => {

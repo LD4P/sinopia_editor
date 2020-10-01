@@ -5,10 +5,13 @@ import {
 import configureMockStore from 'redux-mock-store'
 import thunk from 'redux-thunk'
 import Auth from '@aws-amplify/auth'
+import * as sinopiaApi from 'sinopiaApi'
 
 jest.mock('@aws-amplify/auth')
 
 const mockStore = configureMockStore([thunk])
+
+const userData = { data: { history: { template: [], resource: [], search: [] } } }
 
 describe('authenticate', () => {
   describe('user already in state', () => {
@@ -19,11 +22,13 @@ describe('authenticate', () => {
     })
   })
   describe('successful', () => {
+    sinopiaApi.fetchUser = jest.fn().mockResolvedValue(userData)
     it('dispatches actions to add user', async () => {
       Auth.currentAuthenticatedUser.mockResolvedValue({ username: 'havram', something: 'else' })
       const store = mockStore({ authenticate: { user: undefined } })
       await store.dispatch(authenticate())
       expect(store.getActions()).toHaveAction('SET_USER', { username: 'havram' })
+      expect(sinopiaApi.fetchUser).toHaveBeenCalledWith('havram')
     })
   })
   describe('failure', () => {
@@ -38,6 +43,7 @@ describe('authenticate', () => {
 
 describe('signIn', () => {
   describe('successful', () => {
+    sinopiaApi.fetchUser = jest.fn().mockResolvedValue(userData)
     it('dispatches actions to add user', async () => {
       Auth.signIn.mockResolvedValue({ username: 'havram', something: 'else' })
       const store = mockStore()
@@ -45,6 +51,7 @@ describe('signIn', () => {
 
       expect(Auth.signIn).toHaveBeenCalledWith('havram', 'm&rc')
       expect(store.getActions()).toHaveAction('SET_USER', { username: 'havram' })
+      expect(sinopiaApi.fetchUser).toHaveBeenCalledWith('havram')
     })
   })
   describe('failure', () => {

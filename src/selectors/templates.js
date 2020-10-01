@@ -34,7 +34,6 @@ export const selectSubjectAndPropertyTemplates = (state, key) => {
 }
 
 export const selectHistoricalTemplates = (state) => state.editor.historicalTemplates
-  .map((resourceTemplateId) => selectSubjectTemplate(state, resourceTemplateId))
 
 export const selectSubjectTemplateFor = (state, subjectKey) => {
   const subject = selectNormSubject(state, subjectKey)

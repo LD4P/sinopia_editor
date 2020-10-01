@@ -1,10 +1,9 @@
 import { renderApp } from 'testUtils'
 import { fireEvent, waitFor, screen } from '@testing-library/react'
 import * as sinopiaSearch from 'sinopiaSearch'
-import Config from 'Config'
+import { featureSetup } from 'featureUtils'
 
-jest.spyOn(Config, 'useResourceTemplateFixtures', 'get').mockReturnValue(true)
-
+featureSetup({ noMockSinopiaApi: true })
 jest.mock('sinopiaSearch')
 
 describe('loading from RDF', () => {

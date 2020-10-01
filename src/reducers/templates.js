@@ -2,17 +2,41 @@
 
 import Config from 'Config'
 
-// Keeps a unique list of templates limited to 7
+export const addTemplateHistoryByResult = (state, action) => addTemplateResult(state, action.payload)
+
 export const addTemplateHistory = (state, action) => {
-  const templateId = action.payload
-  if (state.historicalTemplates.indexOf(templateId) !== -1
-      || templateId === Config.rootResourceTemplateId) return state
+  const template = action.payload
+  const result = {
+    id: template.key,
+    resourceLabel: template.label,
+    resourceURI: template.class,
+    uri: template.uri,
+    author: template.author,
+    remark: template.remark,
+    date: template.date,
+  }
+  return addTemplateResult(state, result)
+}
+
+const addTemplateResult = (state, result) => {
+  // Don't add if root template.
+  if (result.id === Config.rootResourceTemplateId) return state
+
+  // Remove if already exists.
+  const filteredResults = state.historicalTemplates.filter((checkResult) => checkResult.id !== result.id)
+
+  // Add it to beginning.
+  const newResults = [
+    result,
+    ...filteredResults,
+  ].slice(0, 10)
 
   return {
     ...state,
-    historicalTemplates: [...state.historicalTemplates, templateId].slice(-7),
+    historicalTemplates: newResults,
   }
 }
+
 
 export const addTemplates = (state, action) => {
   const newSubjectTemplate = { ...action.payload }

@@ -1,6 +1,7 @@
 // Copyright 2019 Stanford University see LICENSE for license
 import {
-  getSearchResults, getTemplateSearchResults, getLookupResults, getSearchResultsWithFacets,
+  getSearchResults, getTemplateSearchResults, getLookupResults,
+  getSearchResultsWithFacets, getTemplateSearchResultsByIds,
 } from 'sinopiaSearch'
 import { findAuthorityConfigs } from 'utilities/authorityConfig'
 
@@ -154,23 +155,6 @@ describe('getSearchResults', () => {
       totalHits: 0,
       results: [],
       error: 'Error: Frickin network',
-    })
-  })
-})
-
-describe('getTemplateSearchResults', () => {
-  const trellisDownResult = {
-    totalHits: 0,
-    results: [],
-    error: '504: Gateway Timout',
-  }
-  it('returns 504 timeout error if Sinopia server is unavailable', async () => {
-    global.fetch = jest.fn().mockImplementation(() => Promise.resolve({ json: () => trellisDownResult }))
-    const results = await getTemplateSearchResults('Palo Alto')
-    expect(results).toEqual({
-      totalHits: 0,
-      results: [],
-      error: '504: Gateway Timout',
     })
   })
 })
@@ -451,5 +435,116 @@ describe('getLookupResults', () => {
       label: 'Sinopia BIBFRAME work resources',
       id: 'urn:ld4p:sinopia:bibframe:work',
     }])
+  })
+})
+
+const templateResult = {
+  took: 19,
+  timed_out: false,
+  _shards: {
+    total: 1, successful: 1, skipped: 0, failed: 0,
+  },
+  hits: {
+    total: {
+      value: 1,
+      relation: 'eq',
+    },
+    hits: [{
+      _index: 'sinopia_templates',
+      _type: 'sinopia',
+      _id: 'ld4p:RT:bf2:Cartographic:Item',
+      _score: null,
+      _source: {
+        id: 'ld4p:RT:bf2:Cartographic:Item',
+        uri: 'http://localhost:3000/resource/ld4p:RT:bf2:Cartographic:Item',
+        author: 'LD4P',
+        date: '2019-08-19',
+        remark: 'based on LC template ld4p:RT:bf2:Cartographic:Item',
+        resourceLabel: 'Cartographic Item (BIBFRAME)',
+        resourceURI: 'http://id.loc.gov/ontologies/bibframe/Item',
+      },
+      sort: ['cartographic item (bibframe)'],
+    },
+    ],
+  },
+}
+
+describe('getTemplateSearchResults', () => {
+  it('returns results', async () => {
+    global.fetch = jest.fn().mockImplementation(() => Promise.resolve({ json: () => templateResult }))
+    const results = await getTemplateSearchResults('Cartographic:Item')
+
+    expect(results).toEqual({
+      totalHits: 1,
+      results: [
+        {
+          id: 'ld4p:RT:bf2:Cartographic:Item',
+          uri: 'http://localhost:3000/resource/ld4p:RT:bf2:Cartographic:Item',
+          author: 'LD4P',
+          date: '2019-08-19',
+          remark: 'based on LC template ld4p:RT:bf2:Cartographic:Item',
+          resourceLabel: 'Cartographic Item (BIBFRAME)',
+          resourceURI: 'http://id.loc.gov/ontologies/bibframe/Item',
+        },
+      ],
+      error: undefined,
+    })
+
+    expect(global.fetch).toHaveBeenCalledWith('/api/search/sinopia_templates/sinopia/_search',
+      {
+        body: '{"query":{"bool":{"should":[{"wildcard":{"id":{"value":"*Cartographic:Item*"}}},{"wildcard":{"resourceLabel":{"value":"*Cartographic:Item*"}}},{"wildcard":{"resourceURI":{"value":"*Cartographic:Item*"}}},{"wildcard":{"remark":{"value":"*Cartographic:Item*"}}},{"wildcard":{"author":{"value":"*Cartographic:Item*"}}}]}},"sort":[{"resourceLabel":"asc"}],"size":250,"from":0}',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        method: 'POST',
+      })
+  })
+
+  it('returns 504 timeout error if Sinopia server is unavailable', async () => {
+    const searchDownResult = {
+      totalHits: 0,
+      results: [],
+      error: '504: Gateway Timout',
+    }
+
+    global.fetch = jest.fn().mockImplementation(() => Promise.resolve({ json: () => searchDownResult }))
+    const results = await getTemplateSearchResults('Palo Alto')
+    expect(results).toEqual({
+      totalHits: 0,
+      results: [],
+      error: '504: Gateway Timout',
+    })
+  })
+})
+
+describe('getTemplateSearchResultsByIds', () => {
+  it('returns results', async () => {
+    global.fetch = jest.fn().mockImplementation(() => Promise.resolve({ json: () => templateResult }))
+    const results = await getTemplateSearchResultsByIds(['ld4p:RT:bf2:Cartographic:Item'])
+
+    expect(results).toEqual({
+      totalHits: 1,
+      results: [
+        {
+          id: 'ld4p:RT:bf2:Cartographic:Item',
+          uri: 'http://localhost:3000/resource/ld4p:RT:bf2:Cartographic:Item',
+          author: 'LD4P',
+          date: '2019-08-19',
+          remark: 'based on LC template ld4p:RT:bf2:Cartographic:Item',
+          resourceLabel: 'Cartographic Item (BIBFRAME)',
+          resourceURI: 'http://id.loc.gov/ontologies/bibframe/Item',
+        },
+      ],
+      error: undefined,
+    })
+
+    expect(global.fetch).toHaveBeenCalledWith('/api/search/sinopia_templates/sinopia/_search',
+      {
+        body: '{"query":{"terms":{"id":["ld4p:RT:bf2:Cartographic:Item"]}},"size":1}',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        method: 'POST',
+      })
   })
 })

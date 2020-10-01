@@ -2,19 +2,10 @@ import { renderApp } from 'testUtils'
 import { fireEvent, screen } from '@testing-library/react'
 import * as sinopiaSearch from 'sinopiaSearch'
 import { resourceSearchResults } from 'fixtureLoaderHelper'
-import Config from 'Config'
+import { featureSetup } from 'featureUtils'
 
-jest.spyOn(Config, 'useResourceTemplateFixtures', 'get').mockReturnValue(true)
-
+featureSetup()
 jest.mock('sinopiaSearch')
-// Mock out document.elementFromPoint used by useNavigableComponent.
-global.document.elementFromPoint = jest.fn()
-// Mock out scrollIntoView used by useNavigableComponent. See https://github.com/jsdom/jsdom/issues/1695
-Element.prototype.scrollIntoView = jest.fn()
-// Mock jquery
-global.$ = jest.fn().mockReturnValue({ popover: jest.fn() })
-// Mock out window.scrollTo
-global.window.scrollTo = jest.fn()
 
 describe('loading saved resource', () => {
   sinopiaSearch.getTemplateSearchResults.mockResolvedValue({
@@ -22,6 +13,7 @@ describe('loading saved resource', () => {
     results: [],
     error: undefined,
   })
+
   describe('when RDF', () => {
     it('opens the resource', async () => {
       const uri = 'http://localhost:3000/resource/c7db5404-7d7d-40ac-b38e-c821d2c3ae3f'
