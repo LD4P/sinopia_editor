@@ -11,7 +11,7 @@ defaults: &defaults
 version: 2
 jobs:
   # Maintains cache of 2 sets of node_modules: production and CI
-  dependencies:
+  build:
     <<: *defaults
     steps:
       - checkout
@@ -29,18 +29,24 @@ jobs:
           key: dependencies-ci-{{ checksum "package.json" }}
           paths:
             - node_modules
-  build:
+      - run: npm run build
+      - persist_to_workspace:
+          root: .
+          paths:
+            - dist
+  lint:
     <<: *defaults
     steps:
       - checkout
       - restore_cache:
           key: dependencies-ci-{{ checksum "package.json" }}
       - run: npm run eslint
-      - run: npm run build
-      - persist_to_workspace:
-          root: .
-          paths:
-            - dist
+  test:
+    <<: *defaults
+    steps:
+      - checkout
+      - restore_cache:
+          key: dependencies-ci-{{ checksum "package.json" }}
       - run:
           command: npm run jest-ci
           environment:
@@ -147,7 +153,7 @@ workflows:
   version: 2
   build:
     jobs:
-      - dependencies:
+      - build:
           filters:
             branches:
               only:
@@ -155,9 +161,19 @@ workflows:
             tags:
               only:
                 - /v.*/
-      - build:
+      - lint:
           requires:
-            - dependencies
+            - build
+          filters:
+            branches:
+              only:
+                - /.*/
+            tags:
+              only:
+                - /v.*/
+      - test:
+          requires:
+            - build
           filters:
             branches:
               only:
