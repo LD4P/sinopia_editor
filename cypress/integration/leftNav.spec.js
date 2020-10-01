@@ -109,6 +109,10 @@ describe('Left-nav test', () => {
     // And disappears when anything else is clicked
     cy.get('button[aria-label="Go to Uber template1, property1"]').click()
     cy.get('body').should('not.contain', tooltipText)
+    // Clicks tooltip for property at the bottom of the page
+    cy.get('a[data-testid="Uber template1, property20"]').click()
+    // Ensure the viewport didn't shift to the top of the package
+    cy.get('a[data-testid="Uber template1, property20"]').should('be.visible')
   })
 
   it('Marks properties with values with a check', () => {
