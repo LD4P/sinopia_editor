@@ -12,6 +12,7 @@ const NewsItem = () => (
       <li>Sinopia API allows external systems to request data, including query by date and type</li>
       <li>Vocabulary of Sinopia-specific classes and properties published</li>
       <li>Modal lookups make it easier to see context for external authorities</li>
+      <li>Preview available from Search</li>
     </ul>
   </div>
 )
