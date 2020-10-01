@@ -74,7 +74,6 @@ const InputLang = (props) => {
                   isLoading={props.loading}
                   options={props.options}
                   emptyLabel={'retrieving list of languages...'}
-                  selectHintOnEnter={true}
                   id={'langComponent'}
                   inputProps={{ 'data-testid': `langComponent-${props.textValue}` }}
                 />

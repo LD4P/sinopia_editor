@@ -28,14 +28,14 @@ describe('Rendering Typeahead Menu', () => {
       const menuChildrenNumber = menuWrapper.children().length
 
       // One top level menu component
-      expect(menuWrapper.find('ul').length).toEqual(1)
+      expect(menuWrapper.find('div').length).toEqual(1)
       // Five children, with three headings and three items
       expect(menuChildrenNumber).toEqual(6)
-      expect(menuWrapper.childAt(0).html()).toEqual('<li class="dropdown-header">GETTY_ULAN person (QA)</li>')
+      expect(menuWrapper.childAt(0).html()).toEqual('<div class="dropdown-header" role="heading">GETTY_ULAN person (QA)</div>')
       expect(menuWrapper.childAt(1).childAt(0).text()).toEqual('Names, Someone')
-      expect(menuWrapper.childAt(2).html()).toEqual('<li class="dropdown-header">LOC all subjects (QA)</li>')
+      expect(menuWrapper.childAt(2).html()).toEqual('<div class="dropdown-header" role="heading">LOC all subjects (QA)</div>')
       expect(menuWrapper.childAt(3).childAt(0).text()).toEqual('A Specific Place')
-      expect(menuWrapper.childAt(4).html()).toEqual('<li class="dropdown-header">New URI</li>')
+      expect(menuWrapper.childAt(4).html()).toEqual('<div class="dropdown-header" role="heading">New URI</div>')
       expect(menuWrapper.childAt(5).childAt(0).text()).toEqual('http://id.loc.gov/authorities/subjects/123456789')
     })
 

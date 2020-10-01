@@ -85,6 +85,7 @@ export const renderTokenFunc = (option, tokenProps, idx) => {
   return (
     <Token
       key={idx}
+      option={option}
       onRemove={tokenProps.onRemove}
       tabIndex={tokenProps.tabIndex}>
       { children }
