@@ -66,12 +66,9 @@ const Search = (props) => {
     if (queryString === '') {
       return
     }
-
     fetchNewSearchResults(queryString, uri)
-
     loadingSearchRef.current.classList.remove('hidden')
     clearSearchResults()
-
     if (error && topRef.current) window.scrollTo(0, topRef.current.offsetTop)
   }
 
