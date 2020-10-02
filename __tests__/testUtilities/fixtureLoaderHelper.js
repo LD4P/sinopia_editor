@@ -47,7 +47,9 @@ export const getFixtureResource = (uri) => {
     resource = require(`../__template_fixtures__/${templateFilenames[id]}`)
   }
 
-  return { id, uri, data: resource }
+  return {
+    id, uri, data: resource, group: 'stanford', timestamp: '2020-08-20T11:34:40.887Z',
+  }
 }
 
 const normUri = (uri) => {

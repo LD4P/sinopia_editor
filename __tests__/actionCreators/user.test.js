@@ -12,18 +12,26 @@ const mockStore = configureMockStore([thunk])
 
 describe('loadUserData()', () => {
   it('fetches from Sinopia API and dispatches', async () => {
-    sinopiaApi.fetchUser = jest.fn().mockResolvedValue({ data: { history: { template: [{ id: 'abc123', payload: 'template1' }] } } })
+    sinopiaApi.fetchUser = jest.fn().mockResolvedValue({
+      data: {
+        history: {
+          template: [{ id: 'abc123', payload: 'template1' }],
+          resource: [{ id: 'def456', payload: 'http://localhost:3000/resource/c7db5404-7d7d-40ac-b38e-c821d2c3ae3f' }],
+          search: [{ id: 'ghi789', payload: JSON.stringify({ query: 'dracula', authorityUri: 'urn:ld4p:sinopia' }) }],
+        },
+      },
+    })
     sinopiaSearch.getTemplateSearchResultsByIds = jest.fn().mockResolvedValue({ results: [{ id: 'template1' }] })
+    sinopiaSearch.getSearchResultsByUris = jest.fn().mockResolvedValue({ results: [{ uri: 'http://localhost:3000/resource/c7db5404-7d7d-40ac-b38e-c821d2c3ae3f' }] })
     const store = mockStore(createState())
 
     await store.dispatch(loadUserData('ekostova'))
+    const actions = store.getActions()
 
-    expect(store.getActions()).toEqual([
-      {
-        type: 'ADD_TEMPLATE_HISTORY_BY_RESULT',
-        payload: { id: 'template1' },
-      },
-    ])
+    expect(actions).toHaveAction('ADD_TEMPLATE_HISTORY_BY_RESULT', { id: 'template1' })
+    expect(actions).toHaveAction('ADD_RESOURCE_HISTORY_BY_RESULT', { uri: 'http://localhost:3000/resource/c7db5404-7d7d-40ac-b38e-c821d2c3ae3f' })
+    expect(actions).toHaveAction('ADD_SEARCH_HISTORY', { authorityUri: 'urn:ld4p:sinopia', authorityLabel: 'Sinopia resources', query: 'dracula' })
+
     expect(sinopiaApi.fetchUser).toHaveBeenCalledWith('ekostova')
     expect(sinopiaSearch.getTemplateSearchResultsByIds).toHaveBeenCalledWith(['template1'])
   })

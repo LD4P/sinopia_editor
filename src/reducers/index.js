@@ -30,6 +30,7 @@ import {
 import { addTemplates } from './templates'
 import {
   addTemplateHistory, addTemplateHistoryByResult, addSearchHistory,
+  addResourceHistory, addResourceHistoryByResult,
 } from './history'
 import {
   clearSearchResults, setSearchResults,
@@ -100,9 +101,11 @@ const entityHandlers = {
 }
 
 const historyHandlers = {
+  ADD_RESOURCE_HISTORY: addResourceHistory,
+  ADD_RESOURCE_HISTORY_BY_RESULT: addResourceHistoryByResult,
+  ADD_SEARCH_HISTORY: addSearchHistory,
   ADD_TEMPLATE_HISTORY: addTemplateHistory,
   ADD_TEMPLATE_HISTORY_BY_RESULT: addTemplateHistoryByResult,
-  ADD_SEARCH_HISTORY: addSearchHistory,
 }
 
 const searchHandlers = {

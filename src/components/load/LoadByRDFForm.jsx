@@ -2,7 +2,6 @@
 
 import React, { useState, useEffect } from 'react'
 import { useDispatch } from 'react-redux'
-import PropTypes from 'prop-types'
 import {
   datasetFromRdf, findRootResourceTemplateId, hasQuadsForRootResourceTemplateId,
 } from 'utilities/Utilities'
@@ -17,14 +16,14 @@ import _ from 'lodash'
 // Errors from retrieving a resource from this page.
 export const loadResourceByRDFErrorKey = 'loadrdfresource'
 
-const LoadByRDFForm = (props) => {
+const LoadByRDFForm = () => {
   const dispatch = useDispatch()
 
   const [baseURI, setBaseURI] = useState('')
   const [rdf, setRdf] = useState('')
   const [dataset, setDataset] = useState(false)
   const [resourceTemplateId, setResourceTemplateId] = useState('')
-  useRdfResource(dataset, baseURI, resourceTemplateId, loadResourceByRDFErrorKey, props.history)
+  useRdfResource(dataset, baseURI, resourceTemplateId, loadResourceByRDFErrorKey)
 
   // Passed into resource template chooser to allow it to pass back selected resource template id.
   const chooseResourceTemplate = (resourceTemplateId) => {
@@ -32,7 +31,7 @@ const LoadByRDFForm = (props) => {
   }
 
   useEffect(() => {
-    // Clear resource template id so that useResource doesn't trigger with previous resource template id.
+    // Clear resource template id so that useRdfResource doesn't trigger with previous resource template id.
     setResourceTemplateId(null)
     // Clear errors
     if (!dataset) dispatch(clearErrors(loadResourceByRDFErrorKey))
@@ -104,10 +103,6 @@ const LoadByRDFForm = (props) => {
       <ResourceTemplateChoiceModal choose={chooseResourceTemplate} />
     </div>
   )
-}
-
-LoadByRDFForm.propTypes = {
-  history: PropTypes.object.isRequired,
 }
 
 export default LoadByRDFForm

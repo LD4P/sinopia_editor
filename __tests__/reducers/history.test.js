@@ -2,7 +2,7 @@
 
 import {
   addTemplateHistory, addTemplateHistoryByResult,
-  addSearchHistory,
+  addSearchHistory, addResourceHistoryByResult, addResourceHistory,
 } from 'reducers/history'
 import { createState } from 'stateUtils'
 import Config from 'Config'
@@ -93,5 +93,46 @@ describe('addSearchHistory', () => {
     state = addSearchHistory(state, { payload: search1 })
 
     expect(state.searches).toEqual([search1, search2])
+  })
+})
+
+describe('addResourceHistoryByResult', () => {
+  const result = {
+    uri: 'http://localhost:3000/resource/3d831f47-e686-4b8f-9086-11383b2af762',
+    label: 'http://localhost:3000/resource/3d831f47-e686-4b8f-9086-11383b2af762',
+    type: ['http://id.loc.gov/ontologies/bibframe/TableOfContents'],
+    modified: '2020-10-05T14:31:16.612Z',
+    group: 'stanford',
+  }
+
+  it('adds to historical resources', () => {
+    const state = createState()
+    const newState = addResourceHistoryByResult(state.history, { payload: result })
+
+    expect(newState.resources).toEqual([result])
+  })
+})
+
+describe('addResourceHistory', () => {
+  const resource = {
+    resourceUri: 'http://localhost:3000/resource/f383bfff-5364-47a3-a081-8c9e2d79f43f',
+    type: 'http://id.loc.gov/ontologies/bibframe/TableOfContents',
+    group: 'cornell',
+    modified: '2020-10-05T14:38:19.704Z',
+  }
+
+  it('transforms to a result', () => {
+    const state = createState()
+    const newState = addResourceHistory(state.history, { payload: resource })
+
+    expect(newState.resources).toEqual([{
+      uri: 'http://localhost:3000/resource/f383bfff-5364-47a3-a081-8c9e2d79f43f',
+      label: 'http://localhost:3000/resource/f383bfff-5364-47a3-a081-8c9e2d79f43f',
+      type: [
+        'http://id.loc.gov/ontologies/bibframe/TableOfContents',
+      ],
+      modified: '2020-10-05T14:38:19.704Z',
+      group: 'cornell',
+    }])
   })
 })

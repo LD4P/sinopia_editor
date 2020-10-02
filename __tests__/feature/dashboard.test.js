@@ -1,6 +1,8 @@
 import { fireEvent, screen, waitFor } from '@testing-library/react'
 import { renderApp } from 'testUtils'
 import { featureSetup } from 'featureUtils'
+import { resourceSearchResults } from 'fixtureLoaderHelper'
+import * as sinopiaSearch from 'sinopiaSearch'
 
 featureSetup()
 
@@ -33,7 +35,7 @@ describe('viewing the dashboard', () => {
 
       expect(screen.queryByText(/Welcome to Sinopia/)).not.toBeInTheDocument()
 
-      screen.getByText('Most recently used templates')
+      screen.getByText('Recent templates')
 
       // The result
       screen.getByText(/Uber template1/)
@@ -75,11 +77,40 @@ describe('viewing the dashboard', () => {
 
       fireEvent.click(screen.getByText('Dashboard', { selector: 'a' }))
 
-      screen.getByText('Most recent searches')
+      screen.getByText('Recent searches')
 
       // The result
       screen.getByText('Sinopia resources')
       screen.getByText('asdfqwerty')
+    })
+  })
+
+  describe('when user uses a resource', () => {
+    it('lists the resource', async () => {
+      const uri = 'http://localhost:3000/resource/c7db5404-7d7d-40ac-b38e-c821d2c3ae3f'
+      sinopiaSearch.getSearchResultsWithFacets = jest.fn().mockResolvedValue(resourceSearchResults(uri))
+
+      renderApp()
+
+      fireEvent.click(screen.getByText('Linked Data Editor', { selector: 'a' }))
+      fireEvent.click(screen.getByText('Search', { selector: 'a' }))
+
+      fireEvent.change(screen.getByLabelText('Query'), { target: { value: uri } })
+      fireEvent.click(screen.getByTestId('Submit search'))
+
+      // The result
+      await screen.findByText(uri)
+
+      // Click edit
+      fireEvent.click(screen.getByTestId(`Edit ${uri}`))
+      expect((await screen.findAllByText('Uber template1', { selector: 'h3' }))).toHaveLength(1)
+
+      fireEvent.click(screen.getByText('Dashboard', { selector: 'a' }))
+
+      screen.getByText('Recent resources')
+
+      // The result
+      screen.getByText('http://localhost:3000/resource/c7db5404-7d7d-40ac-b38e-c821d2c3ae3f', { selector: 'table.resource-list td' })
     })
   })
 })

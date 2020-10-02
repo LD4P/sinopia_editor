@@ -105,6 +105,16 @@ export const resourceHasChangesSinceLastSave = (state, resourceKey) => {
 
 export const selectResourceKeys = (state) => state.editor.resources
 
+export const selectResourceUriMap = (state) => {
+  const resourceKeys = selectResourceKeys(state)
+  const resourceUriMap = {}
+  resourceKeys.forEach((resourceKey) => {
+    const subject = selectNormSubject(state, resourceKey)
+    if (subject.uri) resourceUriMap[subject.uri] = resourceKey
+  })
+  return resourceUriMap
+}
+
 export const selectLastSave = (state, resourceKey) => state.editor.lastSave[resourceKey]
 
 export const selectNormValues = (state, valueKeys) => {

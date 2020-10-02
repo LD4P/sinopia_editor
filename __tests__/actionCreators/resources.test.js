@@ -5,6 +5,7 @@ import {
 } from 'actionCreators/resources'
 import mockConsole from 'jest-mock-console'
 import * as sinopiaApi from 'sinopiaApi'
+import * as sinopiaSearch from 'sinopiaSearch'
 import Config from 'Config'
 import configureMockStore from 'redux-mock-store'
 import thunk from 'redux-thunk'
@@ -13,11 +14,20 @@ import GraphBuilder from 'GraphBuilder'
 import { datasetFromN3 } from 'utilities/Utilities'
 import shortid from 'shortid'
 import _ from 'lodash'
+import FakeTimers from '@sinonjs/fake-timers'
 
+// This won't be required after Jest 27
+jest.useFakeTimers('modern')
 
+let clock
 beforeEach(() => {
   let counter = 0
   shortid.generate = jest.fn().mockImplementation(() => `abc${counter++}`)
+  clock = FakeTimers.install({ now: new Date('2020-08-20T11:34:40.887Z') })
+})
+
+afterAll(() => {
+  clock.uninstall()
 })
 
 // Support mocking/restoring the `console` object
@@ -198,6 +208,7 @@ describe('loadResource', () => {
     const expectedAddResourceAction = require('../__action_fixtures__/loadResource-ADD_SUBJECT.json')
     const store = mockStore(createState())
     sinopiaApi.putUserHistory = jest.fn().mockResolvedValue()
+    sinopiaSearch.getSearchResultsByUris = jest.fn().mockResolvedValue({ results: [] })
 
     it('dispatches actions', async () => {
       const uri = 'http://localhost:3000/resource/c7db5404-7d7d-40ac-b38e-c821d2c3ae3f'
@@ -217,6 +228,13 @@ describe('loadResource', () => {
       expect(actions).toHaveAction('SET_CURRENT_RESOURCE')
       expect(actions).toHaveAction('SET_CURRENT_RESOURCE_IS_READ_ONLY', undefined)
       expect(actions).toHaveAction('LOAD_RESOURCE_FINISHED')
+      expect(actions).toHaveAction('ADD_RESOURCE_HISTORY', {
+        resourceUri: 'http://localhost:3000/resource/c7db5404-7d7d-40ac-b38e-c821d2c3ae3f',
+        type: 'http://id.loc.gov/ontologies/bibframe/Uber1',
+        group: 'stanford',
+        modified: '2020-08-20T11:34:40.887Z',
+      })
+
       expect(sinopiaApi.putUserHistory).toHaveBeenCalledWith('Foo McBar', 'resource', 'fa69abf421c862f9a62aa2192c61caa8', 'http://localhost:3000/resource/c7db5404-7d7d-40ac-b38e-c821d2c3ae3f')
     })
   })
@@ -426,6 +444,7 @@ describe('addSiblingValueSubject', () => {
 describe('saveNewResource', () => {
   const uri = 'http://localhost:3000/resource/abcdeghij23455'
   sinopiaApi.putUserHistory = jest.fn().mockResolvedValue()
+  sinopiaSearch.getSearchResultsByUris = jest.fn().mockResolvedValue({ results: [] })
 
   it('saves a new resource', async () => {
     const store = mockStore(createState({ hasResourceWithLiteral: true }))
@@ -437,9 +456,16 @@ describe('saveNewResource', () => {
 
     expect(actions).toHaveAction('SET_BASE_URL')
     expect(actions).toHaveAction('SAVE_RESOURCE_FINISHED')
+    expect(actions).toHaveAction('ADD_RESOURCE_HISTORY', {
+      resourceUri: uri,
+      modified: '2020-08-20T11:34:40.887Z',
+      group: 'stanford',
+      type: 'http://id.loc.gov/ontologies/bibframe/AbbreviatedTitle',
+    })
 
     const saveResourceFinishedAction = actions.find((action) => action.type === 'SAVE_RESOURCE_FINISHED')
     expect(saveResourceFinishedAction.payload.resourceKey).toEqual('t9zVwg2zO')
+
     expect(sinopiaApi.putUserHistory).toHaveBeenCalledWith('Foo McBar', 'resource', 'bf59d4921535b8f951f1db52584c6d6e', 'http://localhost:3000/resource/abcdeghij23455')
   })
 
@@ -461,14 +487,24 @@ describe('saveNewResource', () => {
 
 describe('saveResource', () => {
   sinopiaApi.putUserHistory = jest.fn().mockResolvedValue()
+  sinopiaSearch.getSearchResultsByUris = jest.fn().mockResolvedValue({ results: [] })
 
   it('saves an existing resource', async () => {
     sinopiaApi.putResource = jest.fn().mockResolvedValue('t9zVwg2zO')
-    const store = mockStore(createState({ hasResourceWithLiteral: true }))
+    const state = createState({ hasResourceWithLiteral: true })
+    state.entities.subjects.t9zVwg2zO.group = 'stanford'
+    const store = mockStore(state)
 
     await store.dispatch(saveResource('t9zVwg2zO', 'testerror'))
     const actions = store.getActions()
     expect(actions).toHaveAction('SAVE_RESOURCE_FINISHED')
+    expect(actions).toHaveAction('ADD_RESOURCE_HISTORY', {
+      resourceUri: 'https://api.sinopia.io/resource/0894a8b3',
+      type: 'http://id.loc.gov/ontologies/bibframe/AbbreviatedTitle',
+      group: 'stanford',
+      modified: '2020-08-20T11:34:40.887Z',
+    })
+
     expect(sinopiaApi.putUserHistory).toHaveBeenCalledWith('Foo McBar', 'resource', '3eb9f1444e9ec984fb165fc9c4de826a', 'https://api.sinopia.io/resource/0894a8b3')
   })
 

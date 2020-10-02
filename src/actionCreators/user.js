@@ -1,6 +1,6 @@
 import { fetchUser, putUserHistory } from 'sinopiaApi'
 import { selectUser } from 'selectors/authenticate'
-import { loadTemplateHistory, loadSearchHistory } from 'actionCreators/history'
+import { loadTemplateHistory, loadSearchHistory, loadResourceHistory } from 'actionCreators/history'
 import md5 from 'crypto-js/md5'
 
 export const loadUserData = (userId) => (dispatch) => fetchUser(userId)
@@ -9,6 +9,8 @@ export const loadUserData = (userId) => (dispatch) => fetchUser(userId)
     dispatch(loadTemplateHistory(templateIds))
     const searches = userData.data.history.search.map((historyItem) => JSON.parse(historyItem.payload))
     dispatch(loadSearchHistory(searches))
+    const resourceUris = userData.data.history.resource.map((historyItem) => historyItem.payload)
+    dispatch(loadResourceHistory(resourceUris))
   })
   .catch((err) => console.error(err))
 

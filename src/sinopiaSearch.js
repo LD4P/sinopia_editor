@@ -67,8 +67,25 @@ export const getSearchResultsWithFacets = async (query, options = {}) => {
       },
     }
   }
-  const url = `${Config.searchHost}${Config.searchPath}`
 
+  return fetchSearchResults(body)
+}
+
+export const getSearchResultsByUris = (resourceUris) => {
+  const body = {
+    query: {
+      terms: {
+        uri: resourceUris,
+      },
+    },
+    size: resourceUris.length,
+  }
+  return fetchSearchResults(body)
+    .then((results) => results[0])
+}
+
+const fetchSearchResults = (body) => {
+  const url = `${Config.searchHost}${Config.searchPath}`
   return fetch(url, { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(body) })
     .then((resp) => {
       if (resp.status >= 300) {

@@ -43,6 +43,7 @@ export const initialState = {
   history: {
     templates: [],
     searches: [],
+    resources: [],
   },
   search: {
     // Search model:

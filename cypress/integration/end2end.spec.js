@@ -155,11 +155,14 @@ describe('End-to-end test', () => {
     cy.contains('a', 'Dashboard').click()
     cy.url().should('include', '/dashboard')
 
-    cy.contains('h2', 'Most recently used templates')
+    cy.contains('h2', 'Recent templates')
     cy.contains('a', 'Work Title')
 
-    cy.contains('h2', 'Most recent searches')
-    cy.contains('td', title)
+    cy.contains('h2', 'Recent searches')
+    cy.contains('table.search-list td', title)
+
+    cy.contains('h2', 'Recent resources')
+    cy.contains('table.resource-list td', title)
   })
 
   it('Logs out', () => {
