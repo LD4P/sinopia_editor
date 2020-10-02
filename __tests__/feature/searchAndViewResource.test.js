@@ -9,9 +9,27 @@ jest.mock('sinopiaSearch')
 
 describe('searching and viewing a resource', () => {
   sinopiaSearch.getTemplateSearchResults.mockResolvedValue({
-    totalHits: 0,
-    results: [],
-    error: undefined,
+    results: [
+      {
+        id: 'resourceTemplate:bf2:Title',
+        uri: 'http://localhost:3000/resource/resourceTemplate:bf2:Title',
+        remark: 'Title information relating to a resource',
+        resourceLabel: 'Instance Title',
+        resourceURI: 'http://id.loc.gov/ontologies/bibframe/Title',
+      },
+      {
+        id: 'resourceTemplate:bf2:Title:Note',
+        uri: 'http://localhost:3000/resource/resourceTemplate:bf2:Title:Note',
+        remark: 'Note about the title',
+        resourceLabel: 'Title note',
+        resourceURI: 'http://id.loc.gov/ontologies/bibframe/Note',
+      },
+    ],
+    totalHits: 2,
+    options: {
+      startOfRange: 0,
+      resultsPerPage: 10,
+    },
   })
 
   // Setup search component to return known resource
@@ -68,6 +86,11 @@ describe('searching and viewing a resource', () => {
     fireEvent.click(screen.getByLabelText('Edit', { selector: 'button', exact: true }))
     expect(screen.getByText('Uber template1', { selector: 'h3' })).toBeInTheDocument()
     expect(screen.getByText('Copy URI', { selector: 'button' })).toBeInTheDocument()
+
+    // Make sure nav panel didn't disappear
+    fireEvent.click(screen.getByText('Resource Templates', { selector: 'a' }))
+    fireEvent.click(await screen.findByText('Title note', { selector: 'a' }))
+    expect(await screen.findByTestId('Go to Note Text', { selector: 'button' })).toBeInTheDocument()
 
     // Switch back to search page
     fireEvent.click(screen.getByText('Search', { selector: 'a' }))
