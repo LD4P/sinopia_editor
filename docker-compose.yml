@@ -3,27 +3,40 @@ services:
   editor:
     build:
       context: .
-      args:
-        - USE_FIXTURES='false'
     environment:
-      INDEX_URL: http://elasticsearch:9200
+      - INDEX_URL=http://elasticsearch:9200
+      - USE_FIXTURES='false'
+      - SINOPIA_API_BASE_URL=http://api:3000
+      - COGNITO_ADMIN_PASSWORD
+      - AWS_ACCESS_KEY_ID
+      - AWS_SECRET_ACCESS_KEY
     ports:
       - 8000:8000
     depends_on:
       - api
+      - pipeline
+      - mongo
+      - elasticsearch
   pipeline:
     image: ld4p/sinopia_indexing_pipeline:latest
     # Replace image with build to build from local code. Do not commit docker-compose.yml.
     # build:
     #   context: ../sinopia_indexing_pipeline
     environment:
-      INDEX_URL: http://elasticsearch:9200
-      MONGODB_HOST: mongo
+      - INDEX_URL=http://elasticsearch:9200
+      - MONGODB_HOST=mongo
+      - COGNITO_ADMIN_PASSWORD
+      - AWS_ACCESS_KEY_ID
+      - AWS_SECRET_ACCESS_KEY
     depends_on:
       - elasticsearch
       - mongo
   elasticsearch:
     image: ld4p/sinopia_elasticsearch:latest
+    environment:
+      - COGNITO_ADMIN_PASSWORD
+      - AWS_ACCESS_KEY_ID
+      - AWS_SECRET_ACCESS_KEY
     entrypoint:
       - elasticsearch
       - -Ehttp.port=9200
@@ -50,8 +63,11 @@ services:
       - 27017:27017
       - 28017:28017
     environment:
-      MONGO_INITDB_ROOT_USERNAME: root
-      MONGO_INITDB_ROOT_PASSWORD: sekret
+      - MONGO_INITDB_ROOT_USERNAME=root
+      - MONGO_INITDB_ROOT_PASSWORD=sekret
+      - COGNITO_ADMIN_PASSWORD
+      - AWS_ACCESS_KEY_ID
+      - AWS_SECRET_ACCESS_KEY
     entrypoint: [ "/usr/bin/mongod", "--bind_ip_all", "--replSet", "rs0" ]
   mongo-setup:
     image: ld4p/sinopia_dev_setup:latest
@@ -78,7 +94,10 @@ services:
     ports:
       - 3000:3000
     environment:
-      MONGODB_HOST: mongo
-      NO_AUTH: "true"
+      - MONGODB_HOST=mongo
+      - NO_AUTH="true"
+      - COGNITO_ADMIN_PASSWORD
+      - AWS_ACCESS_KEY_ID
+      - AWS_SECRET_ACCESS_KEY
     depends_on:
       - mongo

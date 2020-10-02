@@ -1,0 +1,13 @@
+version: "3"
+services:
+  cypress:
+    build:
+      context: .
+      dockerfile: Dockerfile.cypress
+    environment:
+      - CYPRESS_EDITOR_URL=http://editor:8000/
+      - CYPRESS_COGNITO_TEST_USER_NAME=$COGNITO_TEST_USER_NAME
+      - CYPRESS_COGNITO_TEST_USER_PASS=$COGNITO_TEST_USER_PASS
+    # volumes:
+    #   - ./cypress:/cypress
+    #   - ./cypress.json:/cypress.json

@@ -15,15 +15,16 @@ ARG HONEYBADGER_REVISION
 
 # Set environment variables from the build args
 ENV INDEX_URL ${INDEX_URL}
+ENV USE_FIXTURES ${USE_FIXTURES}
+ENV SINOPIA_API_BASE_URL ${SINOPIA_API_BASE_URL}
 
 # This is the directory the user in the circleci/node image can write to
 WORKDIR /home/circleci
 
-# Everything that isn't in .dockerignore ships
-COPY . .
+# First copy just package.json to avoid re-running `npm install` when not needed
+COPY package.json .
 
-RUN mkdir dist
-RUN mkdir node_modules
+RUN mkdir -p dist node_modules
 
 # Allow circleci user to run npm build
 USER root
@@ -32,8 +33,11 @@ RUN /bin/bash -c 'chown -R circleci dist node_modules'
 # Build and run app using non-privileged account
 USER circleci
 
-# Install dependencies
-RUN npm install --no-optional
+# Install dependencies quietly
+RUN npm install --no-optional --no-audit --no-fund --silent
+
+# Everything that isn't in .dockerignore ships
+COPY . .
 
 # Build the app *within* the container because environment variables are fixed at build-time
 RUN npm run build

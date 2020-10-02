@@ -1,6 +1,11 @@
-FROM cypress/included:4.12.1
+FROM cypress/included:5.3.0
 
 COPY cypress /cypress
 COPY cypress.json cypress.json
 
-ENTRYPOINT ["cypress", "run", "--headless", "-b", "chrome"]
+ENV DOCKERIZE_VERSION v0.6.1
+RUN wget https://github.com/jwilder/dockerize/releases/download/$DOCKERIZE_VERSION/dockerize-linux-amd64-$DOCKERIZE_VERSION.tar.gz \
+  && tar -C /usr/local/bin -xzvf dockerize-linux-amd64-$DOCKERIZE_VERSION.tar.gz \
+  && rm dockerize-linux-amd64-$DOCKERIZE_VERSION.tar.gz
+
+ENTRYPOINT ["dockerize", "-wait", "http://editor:8000", "-wait", "http://api:3000", "-timeout", "2m", "cypress", "run", "--headless", "-b", "chrome"]
