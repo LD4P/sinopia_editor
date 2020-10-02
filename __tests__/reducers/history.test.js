@@ -1,6 +1,9 @@
 // Copyright 2019 Stanford University see LICENSE for license
 
-import { addTemplateHistory, addTemplateHistoryByResult } from 'reducers/history'
+import {
+  addTemplateHistory, addTemplateHistoryByResult,
+  addSearchHistory,
+} from 'reducers/history'
 import { createState } from 'stateUtils'
 import Config from 'Config'
 
@@ -77,5 +80,18 @@ describe('addTemplateHistoryByResult', () => {
     const newState = addTemplateHistoryByResult(state.history, { payload: result })
 
     expect(newState.templates).toEqual([result])
+  })
+})
+
+describe('addSearchHistory', () => {
+  const search1 = { authority: 'sinopia', query: 'commodore' }
+  const search2 = { authority: 'sinopia', query: 'atari' }
+
+  it('adds items uniquely', () => {
+    let state = addSearchHistory(createState().history, { payload: search1 })
+    state = addSearchHistory(state, { payload: search2 })
+    state = addSearchHistory(state, { payload: search1 })
+
+    expect(state.searches).toEqual([search1, search2])
   })
 })

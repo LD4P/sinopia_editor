@@ -1,3 +1,3 @@
 export const selectHistoricalTemplates = (state) => state.history.templates
 
-export const noop = () => {}
+export const selectHistoricalSearches = (state) => state.history.searches

@@ -2,6 +2,11 @@
 
 import authorityConfig from '../../static/authorityConfig.json'
 
-export const findAuthorityConfig = (searchUri) => authorityConfig.find((configItem) => configItem.uri === searchUri)
+const authorityConfigMap = {}
+authorityConfig.forEach((configItem) => authorityConfigMap[configItem.uri] = configItem)
 
-export const findAuthorityConfigs = (searchUris) => authorityConfig.filter((configItem) => searchUris.includes(configItem.uri))
+export const findAuthorityConfig = (searchUri) => authorityConfigMap[searchUri]
+
+export const findAuthorityConfigs = (searchUris) => searchUris.map((searchUri) => authorityConfigMap[searchUri])
+
+export const sinopiaSearchUri = 'urn:ld4p:sinopia'

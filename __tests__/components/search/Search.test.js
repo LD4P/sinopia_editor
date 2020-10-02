@@ -101,7 +101,7 @@ describe('<Search />', () => {
     fireEvent.click(container.querySelector('button[type="submit"]'))
 
     // Called once
-    expect(mockGetSearchResults).toBeCalledWith('foo', undefined)
+    expect(mockGetSearchResults).toBeCalledWith('foo', { startOfRange: 0 })
 
     // Result
     await screen.findByText(/foo/)
@@ -125,7 +125,7 @@ describe('<Search />', () => {
     fireEvent.keyPress(screen.getByLabelText('Query'), { key: 'Enter', code: 13, charCode: 13 })
 
     // Called once
-    expect(mockGetSearchResults).toBeCalledWith('foo', undefined)
+    expect(mockGetSearchResults).toBeCalledWith('foo', { startOfRange: 0 })
   })
 
   it('ignores when query is blank', () => {
@@ -209,7 +209,7 @@ describe('<Search />', () => {
     screen.getByText('Modified date, newest first', { selector: 'button.active' })
 
     expect(mockGetSearchResults.mock.calls).toEqual([
-      ['foo', undefined],
+      ['foo', { startOfRange: 0 }],
       ['foo', {
         startOfRange: 0, resultsPerPage: 2, sortField: 'modified', sortOrder: 'desc',
       }],

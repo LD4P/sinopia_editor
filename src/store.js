@@ -42,7 +42,7 @@ export const initialState = {
   },
   history: {
     templates: [],
-    search: [],
+    searches: [],
   },
   search: {
     // Search model:

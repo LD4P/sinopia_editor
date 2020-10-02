@@ -40,26 +40,28 @@ describe('fetchSinopiaSearchResults', () => {
 
     const actions = store.getActions()
 
-    expect(actions).toHaveLength(1)
-    expect(actions[0]).toStrictEqual({
-      type: 'SET_SEARCH_RESULTS',
-      payload: {
-        searchType: 'resource',
-        error: undefined,
-        uri: 'sinopia',
-        query: '*',
-        results: mockSearchResults.results,
-        totalResults: mockSearchResults.totalHits,
-        facetResults: mockFacetResults,
-        options: {
-          sortField: 'label',
-          sortOrder: 'desc',
-          startOfRange: 5,
-          resultsPerPage: 10,
-        },
+    expect(actions).toHaveLength(2)
+    expect(actions).toHaveAction('SET_SEARCH_RESULTS', {
+      searchType: 'resource',
+      error: undefined,
+      uri: 'urn:ld4p:sinopia',
+      query: '*',
+      results: mockSearchResults.results,
+      totalResults: mockSearchResults.totalHits,
+      facetResults: mockFacetResults,
+      options: {
+        sortField: 'label',
+        sortOrder: 'desc',
+        startOfRange: 5,
+        resultsPerPage: 10,
       },
     })
-    expect(sinopiaApi.putUserHistory).toHaveBeenCalledWith('Foo McBar', 'search', '76541d5398cb6aa99cd74c6dfb7a54b9', '{"authorityUri":"sinopia","query":"*"}')
+    expect(actions).toHaveAction('ADD_SEARCH_HISTORY', {
+      authorityUri: 'urn:ld4p:sinopia',
+      authorityLabel: 'Sinopia resources',
+      query: '*',
+    })
+    expect(sinopiaApi.putUserHistory).toHaveBeenCalledWith('Foo McBar', 'search', 'e983591a38cf0e7a8d9a2a1e3251a1b6', '{"authorityUri":"urn:ld4p:sinopia","query":"*"}')
   })
 })
 
@@ -142,19 +144,21 @@ describe('fetchQASearchResults', () => {
 
     const actions = store.getActions()
 
-    expect(actions).toHaveLength(1)
-    expect(actions[0]).toStrictEqual({
-      type: 'SET_SEARCH_RESULTS',
-      payload: {
-        searchType: 'resource',
-        uri,
-        query,
-        results: mockSearchResults,
-        totalResults: 15,
-        options: {},
-        error: undefined,
-        facetResults: {},
-      },
+    expect(actions).toHaveLength(2)
+    expect(actions).toHaveAction('SET_SEARCH_RESULTS', {
+      searchType: 'resource',
+      uri,
+      query,
+      results: mockSearchResults,
+      totalResults: 15,
+      options: {},
+      error: undefined,
+      facetResults: {},
+    })
+    expect(actions).toHaveAction('ADD_SEARCH_HISTORY', {
+      authorityUri: uri,
+      authorityLabel: 'SHAREVDE STANFORD (QA)',
+      query,
     })
     expect(sinopiaApi.putUserHistory).toHaveBeenCalledWith('Foo McBar', 'search', '4682c287952df68172c6c4a63bdc2887', '{"authorityUri":"urn:ld4p:qa:sharevde_stanford_ld4l_cache:all","query":"*"}')
   })
@@ -170,18 +174,15 @@ describe('fetchQASearchResults', () => {
     const actions = store.getActions()
 
     expect(actions).toHaveLength(1)
-    expect(actions[0]).toStrictEqual({
-      type: 'SET_SEARCH_RESULTS',
-      payload: {
-        searchType: 'resource',
-        uri,
-        query,
-        results: [],
-        totalResults: 0,
-        options: {},
-        facetResults: {},
-        error: 'Ooops...',
-      },
+    expect(actions).toHaveAction('SET_SEARCH_RESULTS', {
+      searchType: 'resource',
+      uri,
+      query,
+      results: [],
+      totalResults: 0,
+      options: {},
+      facetResults: {},
+      error: 'Ooops...',
     })
   })
 })
