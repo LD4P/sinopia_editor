@@ -152,10 +152,16 @@ describe('sinopia resource search', () => {
 
     fireEvent.click(screen.getByText(/Linked Data Editor/, { selector: 'a' }))
     fireEvent.click(screen.getByText(/Search/, { selector: 'a' }))
+
+    const searchSpinner = document.querySelector('#search-results-loading')
+    expect(searchSpinner.classList.contains('hidden')).toBe(true) // search spinner starts as hidden
+
     fireEvent.change(screen.getByLabelText('Query', { selector: 'input#searchInput' }), { target: { value: '*' } })
     fireEvent.click(screen.getByLabelText('Submit search', { selector: 'button' }))
+    expect(searchSpinner.classList.contains('hidden')).toBe(false) // search spinner shown
 
     await screen.findByText(/foo bar/)
+    expect(searchSpinner.classList.contains('hidden')).toBe(true) // search spinner hidden again
 
     // TODO: why don't filtering options show up in test UI?
     // screen.debug()
