@@ -6,11 +6,7 @@ import React, {
 import { useDispatch, useSelector } from 'react-redux'
 import PropTypes from 'prop-types'
 import Header from '../Header'
-import {
-  fetchSinopiaSearchResults as fetchSinopiaSearchResultsCreator,
-  fetchQASearchResults as fetchQASearchResultsCreator,
-} from 'actionCreators/search'
-import { clearSearchResults as clearSearchResultsAction, setSearchResults } from 'actions/search'
+import { clearSearchResults as clearSearchResultsAction } from 'actions/search'
 import SinopiaSearchResults from './SinopiaSearchResults'
 import QASearchResults from './QASearchResults'
 import SearchResultsPaging from './SearchResultsPaging'
@@ -22,9 +18,12 @@ import searchConfig from '../../../static/searchConfig.json'
 import {
   selectSearchError, selectSearchQuery, selectSearchUri, selectSearchOptions,
 } from 'selectors/search'
+import { sinopiaSearchUri } from 'utilities/authorityConfig'
+import useSearch from 'hooks/useSearch'
 
 const Search = (props) => {
   const dispatch = useDispatch()
+  const { fetchSearchResults, fetchNewSearchResults } = useSearch()
 
   const searchOptions = useSelector((state) => selectSearchOptions(state, 'resource'))
   const error = useSelector((state) => selectSearchError(state, 'resource'))
@@ -35,32 +34,20 @@ const Search = (props) => {
 
   const topRef = useRef(null)
 
-  const defaultUri = 'sinopia'
-
   const [queryString, setQueryString] = useState(lastQueryString || '')
-  const [uri, setUri] = useState(searchUri || defaultUri)
+  const [uri, setUri] = useState(searchUri || sinopiaSearchUri)
 
   useEffect(() => {
     if (!queryString) clearSearchResults()
   }, [clearSearchResults, queryString])
 
-  const fetchQASearchResults = (queryString, uri, startOfRange) => {
-    dispatch(fetchQASearchResultsCreator(queryString, uri, { ...searchOptions, startOfRange })).then((response) => {
-      if (response) dispatch(setSearchResults('resource', uri, response.results, response.totalHits, {}, queryString, { startOfRange }, response.error))
-    })
-  }
+  useEffect(() => {
+    if (lastQueryString) setQueryString(lastQueryString)
+  }, [lastQueryString, setQueryString])
 
-  const fetchSinopiaSearchResults = (queryString, startOfRange) => {
-    dispatch(fetchSinopiaSearchResultsCreator(queryString, { ...searchOptions, startOfRange })).then((response) => {
-      if (response) dispatch(setSearchResults('resource', null, response.results, response.totalHits, {}, queryString, { startOfRange }, response.error))
-    })
-  }
-
-  const fetchNewSinopiaSearchResults = (queryString) => {
-    dispatch(fetchSinopiaSearchResultsCreator(queryString)).then((response) => {
-      if (response) dispatch(setSearchResults('resource', null, response.results, response.totalHits, {}, queryString, {}, response.error))
-    })
-  }
+  useEffect(() => {
+    if (searchUri) setUri(searchUri)
+  }, [searchUri, setUri])
 
   const handleKeyPress = (event) => {
     if (event.key === 'Enter') {
@@ -78,26 +65,22 @@ const Search = (props) => {
     if (queryString === '') {
       return
     }
-    if (uri === defaultUri) {
-      fetchNewSinopiaSearchResults(queryString)
-    } else {
-      fetchQASearchResults(queryString, uri, 0)
-    }
+    fetchNewSearchResults(queryString, uri)
     if (error && topRef.current) window.scrollTo(0, topRef.current.offsetTop)
   }
 
   const changeSinopiaSearchPage = (startOfRange) => {
-    fetchSinopiaSearchResults(queryString, startOfRange)
+    fetchSearchResults(queryString, sinopiaSearchUri, searchOptions, startOfRange)
   }
 
   const changeQASearchPage = (startOfRange) => {
-    fetchQASearchResults(queryString, uri, startOfRange)
+    fetchSearchResults(queryString, uri, searchOptions, startOfRange)
   }
 
   const options = searchConfig.map((config) => (<option key={config.uri} value={config.uri}>{config.label}</option>))
 
   let results
-  if (searchUri === defaultUri) {
+  if (searchUri === sinopiaSearchUri) {
     results = (
       <div>
         <SinopiaSearchResults {...props} key="search-results" />
@@ -128,7 +111,7 @@ const Search = (props) => {
                       value={uri}
                       onChange={ (event) => setUri(event.target.value) }
                       onBlur={ (event) => setUri(event.target.value) }>
-                <option value={defaultUri}>Sinopia</option>
+                <option value={sinopiaSearchUri}>Sinopia</option>
                 {options}
               </select>
             </div>
@@ -157,7 +140,7 @@ const Search = (props) => {
                           data-testid="Clear query string"
                           onClick={() => {
                             setQueryString('')
-                            setUri(defaultUri)
+                            setUri(sinopiaSearchUri)
                             clearSearchResults()
                           } }>
                     <FontAwesomeIcon className="trash-icon" icon={faTrashAlt} />

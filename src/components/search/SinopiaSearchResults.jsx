@@ -39,22 +39,22 @@ const SinopiaSearchResults = (props) => {
       </div>
       <div id="search-results" className="row">
         <div className="col">
-          <table className="table table-bordered" id="search-results-list">
+          <table className="table table-bordered search-results-list" id="search-results-list">
             <thead>
               <tr>
-                <th className="search-header" style={{ width: '35%' }}>
+                <th style={{ width: '35%' }}>
                   Label / ID
                 </th>
-                <th className="search-header" style={{ width: '35%' }}>
+                <th style={{ width: '35%' }}>
                   Class
                 </th>
-                <th className="search-header" style={{ width: '20%' }}>
+                <th style={{ width: '20%' }}>
                   Institution
                 </th>
-                <th className="search-header" style={{ width: '10%' }}>
+                <th style={{ width: '10%' }}>
                   Modified
                 </th>
-                <th className="search-header">
+                <th>
                   <SinopiaSort />
                 </th>
               </tr>

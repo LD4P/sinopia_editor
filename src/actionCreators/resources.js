@@ -1,4 +1,4 @@
-import { addTemplateHistory } from 'actions/templates'
+import { addTemplateHistory } from 'actions/history'
 import { clearErrors, addError } from 'actions/errors'
 import { findRootResourceTemplateId } from 'utilities/Utilities'
 import {

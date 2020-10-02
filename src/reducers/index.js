@@ -27,9 +27,10 @@ import { showCopyNewMessage } from './messages'
 import {
   exportsReceived,
 } from './exports'
+import { addTemplates } from './templates'
 import {
-  addTemplates, addTemplateHistory, addTemplateHistoryByResult,
-} from './templates'
+  addTemplateHistory, addTemplateHistoryByResult, addSearchHistory,
+} from './history'
 import {
   clearSearchResults, setSearchResults,
 } from './search'
@@ -62,8 +63,6 @@ const appHandlers = {
 const editorHandlers = {
   ADD_ERROR: addError,
   ADD_MODAL_MESSAGE: addModalMessage,
-  ADD_TEMPLATE_HISTORY: addTemplateHistory,
-  ADD_TEMPLATE_HISTORY_BY_RESULT: addTemplateHistoryByResult,
   CLEAR_ERRORS: clearErrors,
   CLEAR_MODAL_MESSAGES: clearModalMessages,
   CLEAR_RESOURCE: clearResourceFromEditor,
@@ -100,6 +99,12 @@ const entityHandlers = {
   SHOW_PROPERTY: showProperty,
 }
 
+const historyHandlers = {
+  ADD_TEMPLATE_HISTORY: addTemplateHistory,
+  ADD_TEMPLATE_HISTORY_BY_RESULT: addTemplateHistoryByResult,
+  ADD_SEARCH_HISTORY: addSearchHistory,
+}
+
 const searchHandlers = {
   CLEAR_SEARCH_RESULTS: clearSearchResults,
   SET_SEARCH_RESULTS: setSearchResults,
@@ -115,6 +120,7 @@ const appReducer = combineReducers({
   app: createReducer(appHandlers),
   editor: createReducer(editorHandlers),
   entities: createReducer(entityHandlers),
+  history: createReducer(historyHandlers),
   search: createReducer(searchHandlers),
 })
 

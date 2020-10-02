@@ -33,8 +33,6 @@ export const selectSubjectAndPropertyTemplates = (state, key) => {
   return newSubjectTemplate
 }
 
-export const selectHistoricalTemplates = (state) => state.editor.historicalTemplates
-
 export const selectSubjectTemplateFor = (state, subjectKey) => {
   const subject = selectNormSubject(state, subjectKey)
   return selectSubjectTemplate(state, subject.subjectTemplateKey)

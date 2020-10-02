@@ -3,9 +3,10 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import { useSelector } from 'react-redux'
-import { selectHistoricalTemplates } from 'selectors/templates'
+import { selectHistoricalTemplates, selectHistoricalSearches } from 'selectors/history'
 import Header from '../Header'
 import ResourceTemplateSearchResult from '../templates/ResourceTemplateSearchResult'
+import SearchList from './SearchList'
 import Alerts from '../Alerts'
 import _ from 'lodash'
 import useResource from 'hooks/useResource'
@@ -14,9 +15,10 @@ export const dashboardErrorKey = 'dashboard'
 
 const Dashboard = (props) => {
   const historicalTemplates = useSelector((state) => selectHistoricalTemplates(state))
+  const historicalSearches = useSelector((state) => selectHistoricalSearches(state))
   const { handleNew, handleCopy, handleEdit } = useResource(props.history, dashboardErrorKey)
 
-  const showWelcome = _.isEmpty(historicalTemplates)
+  const showWelcome = _.isEmpty(historicalTemplates) && _.isEmpty(historicalSearches)
 
   return (<section id="dashboard">
     <Header triggerEditorMenu={props.triggerHandleOffsetMenu}/>
@@ -31,6 +33,12 @@ const Dashboard = (props) => {
       && <div>
         <h2>Most recently used templates</h2>
         <ResourceTemplateSearchResult results={historicalTemplates} handleClick={handleNew} handleEdit={handleEdit} handleCopy={handleCopy} />
+      </div>
+    }
+    { !_.isEmpty(historicalSearches)
+      && <div>
+        <h2>Most recent searches</h2>
+        <SearchList searches={historicalSearches} />
       </div>
     }
   </section>)

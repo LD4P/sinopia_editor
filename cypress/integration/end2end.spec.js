@@ -150,13 +150,16 @@ describe('End-to-end test', () => {
     cy.get('button[type="submit"]').contains('Login').click()
   })
 
-  it('Retains template history', () => {
-    // Go back to templates
-    cy.contains('a', /Resource Templates/).click()
-    cy.url().should('include', '/templates')
+  it('Retains history', () => {
+    // Go back to dashaboard
+    cy.contains('a', 'Dashboard').click()
+    cy.url().should('include', '/dashboard')
 
-    cy.contains('button', /Most recently used/).click()
-    cy.contains('div#historicalTemplates a', /^Work Title$/).click()
+    cy.contains('h2', 'Most recently used templates')
+    cy.contains('a', 'Work Title')
+
+    cy.contains('h2', 'Most recent searches')
+    cy.contains('td', title)
   })
 
   it('Logs out', () => {

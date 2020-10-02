@@ -43,4 +43,43 @@ describe('viewing the dashboard', () => {
       screen.getByText('Jul 27, 2020')
     })
   })
+
+  describe('when user performs a search', () => {
+    it('lists the search and allows performing search', async () => {
+      const noResult = {
+        took: 8,
+        timed_out: false,
+        _shards: {
+          total: 5,
+          successful: 5,
+          skipped: 0,
+          failed: 0,
+        },
+        hits: {
+          total: { value: 0 },
+          max_score: 0,
+          hits: [],
+        },
+      }
+      global.fetch = jest.fn().mockImplementation(() => Promise.resolve({ json: () => noResult }))
+
+      renderApp()
+
+      fireEvent.click(screen.getByText('Linked Data Editor', { selector: 'a' }))
+      fireEvent.click(screen.getByText('Search', { selector: 'a' }))
+
+      fireEvent.change(screen.getByLabelText('Query', { selector: 'input#searchInput' }), { target: { value: 'asdfqwerty' } })
+      fireEvent.click(screen.getByLabelText('Submit search', { selector: 'button' }))
+
+      await screen.findByText(/Displaying 0 Search Results/)
+
+      fireEvent.click(screen.getByText('Dashboard', { selector: 'a' }))
+
+      screen.getByText('Most recent searches')
+
+      // The result
+      screen.getByText('Sinopia resources')
+      screen.getByText('asdfqwerty')
+    })
+  })
 })
