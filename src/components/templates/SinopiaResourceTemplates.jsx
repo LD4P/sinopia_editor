@@ -6,7 +6,7 @@ import PropTypes from 'prop-types'
 import _ from 'lodash'
 import Alerts from '../Alerts'
 import ResourceTemplateSearchResult from './ResourceTemplateSearchResult'
-import { selectHistoricalTemplates } from 'selectors/templates'
+import { selectHistoricalTemplates } from 'selectors/history'
 import { selectSearchResults } from 'selectors/search'
 import useResource from 'hooks/useResource'
 

@@ -3,7 +3,7 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import { useSelector } from 'react-redux'
-import { selectHistoricalTemplates } from 'selectors/templates'
+import { selectHistoricalTemplates } from 'selectors/history'
 import Header from '../Header'
 import ResourceTemplateSearchResult from '../templates/ResourceTemplateSearchResult'
 import Alerts from '../Alerts'
