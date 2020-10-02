@@ -14,11 +14,11 @@ describe('searching and viewing a resource', () => {
     error: undefined,
   })
 
-  it('renders a modal without edit controls', async () => {
-    // Setup search component to return known resource
-    const uri = 'http://localhost:3000/resource/c7db5404-7d7d-40ac-b38e-c821d2c3ae3f'
-    sinopiaSearch.getSearchResultsWithFacets.mockResolvedValue(resourceSearchResults(uri))
+  // Setup search component to return known resource
+  const uri = 'http://localhost:3000/resource/c7db5404-7d7d-40ac-b38e-c821d2c3ae3f'
+  sinopiaSearch.getSearchResultsWithFacets.mockResolvedValue(resourceSearchResults(uri))
 
+  it('renders a modal without edit controls', async () => {
     renderApp()
 
     fireEvent.click(screen.getByText('Linked Data Editor', { selector: 'a' }))
@@ -68,5 +68,15 @@ describe('searching and viewing a resource', () => {
     fireEvent.click(screen.getByLabelText('Edit', { selector: 'button', exact: true }))
     expect(screen.getByText('Uber template1', { selector: 'h3' })).toBeInTheDocument()
     expect(screen.getByText('Copy URI', { selector: 'button' })).toBeInTheDocument()
+
+    // Switch back to search page
+    fireEvent.click(screen.getByText('Search', { selector: 'a' }))
+
+    // Confirm search query is still in place (stored in state and not cleared)
+    expect(await screen.getByLabelText('Query').value).toEqual(uri)
+
+    // Clear search button empties the search field
+    fireEvent.click(screen.getByTestId('Clear query string', { selector: 'button' }))
+    expect(await screen.getByLabelText('Query').value).toEqual('')
   })
 })
