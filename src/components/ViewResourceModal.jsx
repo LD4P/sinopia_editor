@@ -7,6 +7,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faCopy, faEdit } from '@fortawesome/free-solid-svg-icons'
 import ModalWrapper, { useDisplayStyle, useModalCss } from 'components/ModalWrapper'
 import { hideModal } from 'actions/modals'
+import { setCurrentResourceIsReadOnly } from 'actions/resources'
 import { selectModalType } from 'selectors/modals'
 import { selectCurrentResourceKey, selectNormSubject } from 'selectors/resources'
 import ResourceComponent from './editor/ResourceComponent'
@@ -22,6 +23,7 @@ const ViewResourceModal = (props) => {
 
   const close = (event) => {
     event.preventDefault()
+    dispatch(setCurrentResourceIsReadOnly(false))
     dispatch(hideModal())
   }
 
