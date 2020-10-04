@@ -42,7 +42,7 @@ const InputLiteral = (props) => {
       event.preventDefault()
     }
     // Handle any position changing
-    setCurrentPosition(inputLiteralRef.current.selectionStart + 1)
+    setCurrentPosition(event.target.selectionStart)
   }
 
   const handleChange = (event) => {
@@ -109,8 +109,6 @@ const InputLiteral = (props) => {
 
     return false
   }
-
-  if (inputLiteralRef.current) inputLiteralRef.current.setSelectionRange(currentPosition, currentPosition)
 
   return (
     <div className="form-group">
