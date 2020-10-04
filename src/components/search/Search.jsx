@@ -67,7 +67,7 @@ const Search = (props) => {
       return
     }
     fetchNewSearchResults(queryString, uri)
-    loadingSearchRef.current.classList.remove('hidden')
+    if (loadingSearchRef.current) loadingSearchRef.current.classList.remove('hidden')
     clearSearchResults()
     if (error && topRef.current) window.scrollTo(0, topRef.current.offsetTop)
   }
@@ -85,7 +85,7 @@ const Search = (props) => {
   let results
 
   if (searchUri === sinopiaSearchUri) {
-    loadingSearchRef.current.classList.add('hidden')
+    if (loadingSearchRef.current) loadingSearchRef.current.classList.add('hidden')
     results = (
       <div>
         <SinopiaSearchResults {...props} key="search-results" />
@@ -94,7 +94,7 @@ const Search = (props) => {
       </div>
     )
   } else if (searchUri) {
-    loadingSearchRef.current.classList.add('hidden')
+    if (loadingSearchRef.current) loadingSearchRef.current.classList.add('hidden')
     results = (
       <div>
         <QASearchResults history={props.history} key="search-results" />
