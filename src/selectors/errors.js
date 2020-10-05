@@ -10,6 +10,8 @@ import _ from 'lodash'
 export const displayResourceValidations = (state, resourceKey) => state.editor.resourceValidation[resourceKey] || false
 
 export const hasValidationErrors = (state, resourceKey) => {
+  if (!resourceKey) return false
+
   const subject = selectSubject(state, resourceKey)
   return !_.isEmpty(subject.descWithErrorPropertyKeys)
 }
