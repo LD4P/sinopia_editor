@@ -20,9 +20,7 @@ import Vocab from './vocabulary/Vocab'
 import { setAppVersion } from 'actions/index'
 import { useDispatch, useSelector } from 'react-redux'
 import { version } from '../../package.json'
-import { newResource as newResourceCreator } from 'actionCreators/resources'
 import { fetchLanguages } from 'actionCreators/languages'
-import { newResourceErrorKey } from './templates/SinopiaResourceTemplates'
 import { fetchExports } from 'actionCreators/exports'
 import Exports, { exportsErrorKey } from './exports/Exports'
 import { selectCurrentResourceKey } from 'selectors/resources'
@@ -33,7 +31,6 @@ const FourOhFour = () => <h1>404</h1>
 
 const App = (props) => {
   const dispatch = useDispatch()
-  const newResource = (rtId) => dispatch(newResourceCreator(rtId, newResourceErrorKey))
 
   useEffect(() => {
     dispatch(setAppVersion(version))
@@ -45,21 +42,11 @@ const App = (props) => {
   const hasResource = useSelector((state) => !!selectCurrentResourceKey(state))
   const hasUser = useSelector((state) => hasUserSelector(state))
 
-  const editorWithRtId = (thisprops) => {
-    newResource(thisprops.match.params.rtId)
-      .then((result) => {
-        if (result) {
-          return (<Editor {...props} triggerHandleOffsetMenu={thisprops.handleOffsetMenu} />)
-        }
-        thisprops.history.push('/templates')
-      })
-  }
-
   const routesWithCurrentUser = (
     <Switch>
       <Route exact path="/" render={(renderProps) => <HomePage {...renderProps} triggerHandleOffsetMenu={props.handleOffsetMenu} />} />
       {!hasResource
-        && <Route exact path="/editor/:rtId" render={(props) => editorWithRtId(props)} />
+        && <Route exact path="/editor/:rtId" render={(renderProps) => <Editor {...renderProps} triggerHandleOffsetMenu={props.handleOffsetMenu} />} />
       }
 
       {hasResource ? (
