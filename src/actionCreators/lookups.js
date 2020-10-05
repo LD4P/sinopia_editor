@@ -1,6 +1,7 @@
 import { selectLookup } from 'selectors/lookups'
 import { lookupOptionsRetrieved } from 'actions/lookups'
 import shortid from 'shortid'
+import _ from 'lodash'
 
 // A thunk that fetches a lookup, transforms it, and adds to state.
 export const fetchLookup = (uri) => (dispatch, getState) => {
@@ -54,7 +55,8 @@ const responseToOptions = (json) => {
       // Ignore
     }
   }
-  return opts
+
+  return _.uniqBy(opts, (opt) => opt.uri)
 }
 
 export const noop = () => {}
