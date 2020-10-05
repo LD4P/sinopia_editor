@@ -12,7 +12,17 @@ const mockStore = configureMockStore([thunk])
 shortid.generate = jest.fn().mockReturnValue('abc123')
 
 const uri = 'https://id.loc.gov/vocabulary/carriers'
+// Note that this has a duplicate to test de-duping.
+// For some reason, some authorities have dupes.
 const carriers = [{
+  '@id': 'http://id.loc.gov/vocabulary/carriers/nn',
+  '@type': [
+    'http://www.loc.gov/mads/rdf/v1#Authority',
+  ],
+  'http://www.loc.gov/mads/rdf/v1#authoritativeLabel': [{
+    '@value': 'flipchart',
+  }],
+}, {
   '@id': 'http://id.loc.gov/vocabulary/carriers/nn',
   '@type': [
     'http://www.loc.gov/mads/rdf/v1#Authority',
