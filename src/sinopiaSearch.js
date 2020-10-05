@@ -121,19 +121,23 @@ const aggregationsToResult = (aggs) => {
 }
 
 export const getTemplateSearchResults = (query, options = {}) => {
+  const body = getTemplateSearchResultsBody(query, options)
+  return fetchTemplateSearchResults(body, templateHitsToResult)
+}
+
+const getTemplateSearchResultsBody = (query, options) => {
   const fields = ['id', 'resourceLabel', 'resourceURI', 'remark', 'author']
   const should = fields.map((field) => ({ wildcard: { [field]: { value: `*${query}*` } } }))
-  const body = {
+  return {
     query: {
       bool: {
         should,
       },
     },
     sort: sort('resourceLabel'),
-    size: Config.templateSearchResultsPerPage,
-    from: options.startOfRange || 0,
+    size: options?.resultsPerPage || Config.templateSearchResultsPerPage,
+    from: options?.startOfRange || 0,
   }
-  return fetchTemplateSearchResults(body)
 }
 
 export const getTemplateSearchResultsByIds = (templateIds) => {
@@ -145,10 +149,10 @@ export const getTemplateSearchResultsByIds = (templateIds) => {
     },
     size: templateIds.length,
   }
-  return fetchTemplateSearchResults(body)
+  return fetchTemplateSearchResults(body, templateHitsToResult)
 }
 
-const fetchTemplateSearchResults = async (body) => {
+const fetchTemplateSearchResults = async (body, hitsToResultFunc) => {
   if (Config.useResourceTemplateFixtures) {
     const results = await getFixtureTemplateSearchResults()
     return {
@@ -178,11 +182,7 @@ const fetchTemplateSearchResults = async (body) => {
           error: json.error.reason || json.error,
         }
       }
-      return {
-        totalHits: json.hits.total.value,
-        results: json.hits.hits.map((row) => row._source),
-        error: undefined,
-      }
+      return hitsToResultFunc(json.hits)
     })
     .catch((err) => ({
       totalHits: 0,
@@ -190,6 +190,23 @@ const fetchTemplateSearchResults = async (body) => {
       error: err.toString(),
     }))
 }
+
+const templateHitsToResult = (hits) => (
+  {
+    totalHits: hits.total.value,
+    results: hits.hits.map((row) => row._source),
+  }
+)
+
+const templateLookupToResult = (hits) => (
+  {
+    totalHits: hits.total.value,
+    results: hits.hits.map((row) => ({
+      uri: row._source.id,
+      label: `${row._source.resourceLabel} (${row._source.id})`,
+    })),
+  }
+)
 
 const sort = (sortField, sortOrder) => {
   if (sortField === undefined) {
@@ -199,15 +216,29 @@ const sort = (sortField, sortOrder) => {
   return [{ [sortField]: sortOrder || 'asc' }]
 }
 
+const getTemplateLookupResults = (query, options = {}) => {
+  const body = getTemplateSearchResultsBody(query, options)
+  return fetchTemplateSearchResults(body, templateLookupToResult)
+}
+
 export const getLookupResults = (query, lookupConfigs) => lookupConfigs.map(
-  (lookupConfig) => getSearchResults(query, { typeFilter: lookupConfig.type, resultsPerPage: 8 })
-    .then((result) => {
-      if (result) {
-        result.authLabel = lookupConfig.label
-        result.authURI = lookupConfig.uri
-        result.label = lookupConfig.label
-        result.id = lookupConfig.uri
-      }
-      return result
-    }),
+  (lookupConfig) => {
+    // Templates get special handling since use id rather than URI.
+    let getSearchResultsPromise
+    if (lookupConfig.uri === 'urn:ld4p:sinopia:resourceTemplate') {
+      getSearchResultsPromise = getTemplateLookupResults(query, { resultsPerPage: 8 })
+    } else {
+      getSearchResultsPromise = getSearchResults(query, { typeFilter: lookupConfig.type, resultsPerPage: 8 })
+    }
+    return getSearchResultsPromise
+      .then((result) => {
+        if (result) {
+          result.authLabel = lookupConfig.label
+          result.authURI = lookupConfig.uri
+          result.label = lookupConfig.label
+          result.id = lookupConfig.uri
+        }
+        return result
+      })
+  },
 )
