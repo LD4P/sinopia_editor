@@ -3,7 +3,6 @@
 
 import React, { useRef } from 'react'
 import { useSelector } from 'react-redux'
-import PropTypes from 'prop-types'
 import { selectSearchResults } from 'selectors/search'
 import Alerts from '../Alerts'
 import TypeFilter from './TypeFilter'
@@ -16,10 +15,10 @@ import useResource from 'hooks/useResource'
 // Errors from retrieving a resource from this page.
 export const searchRetrieveErrorKey = 'searchresource'
 
-const SinopiaSearchResults = (props) => {
+const SinopiaSearchResults = () => {
   const errorsRef = useRef(null)
 
-  const { handleCopy, handleEdit, handleView } = useResource(props.history, searchRetrieveErrorKey, errorsRef)
+  const { handleCopy, handleEdit, handleView } = useResource(searchRetrieveErrorKey, errorsRef)
 
   const searchResults = useSelector((state) => selectSearchResults(state, 'resource'))
 
@@ -70,10 +69,6 @@ const SinopiaSearchResults = (props) => {
       </div>
     </React.Fragment>
   )
-}
-
-SinopiaSearchResults.propTypes = {
-  history: PropTypes.object,
 }
 
 export default SinopiaSearchResults

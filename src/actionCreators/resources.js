@@ -18,7 +18,10 @@ import {
 } from 'actions/resources'
 import { newValueSubject } from 'utilities/valueFactory'
 import { selectUser } from 'selectors/authenticate'
-import { addTemplateHistory as addUserTemplateHistory, addResourceHistory } from 'actionCreators/user'
+import {
+  addTemplateHistory as addUserTemplateHistory, addResourceHistory as addUserResourceHistory,
+} from 'actionCreators/user'
+import { addResourceHistory } from 'actionCreators/history'
 import _ from 'lodash'
 import { setCurrentComponent } from 'actions/index'
 
@@ -40,7 +43,8 @@ export const loadResource = (uri, errorKey, asNewResource, readOnly) => (dispatc
           dispatch(setCurrentResourceIsReadOnly(readOnly))
           dispatch(setCurrentComponent(resource.key, resource.properties[0].key, resource.properties[0].key))
           if (!asNewResource) {
-            dispatch(addResourceHistory(uri))
+            dispatch(addUserResourceHistory(uri))
+            dispatch(addResourceHistory(resource.uri, resource.subjectTemplate.class, response.group, response.timestamp))
             dispatch(loadResourceFinished(resource.key))
           }
           return true
@@ -147,7 +151,8 @@ export const saveNewResource = (resourceKey, group, errorKey) => (dispatch, getS
       dispatch(setBaseURL(resourceKey, resourceUrl))
       dispatch(setResourceGroup(resourceKey, group))
       dispatch(saveResourceFinished(resourceKey))
-      dispatch(addResourceHistory(resourceUrl))
+      dispatch(addUserResourceHistory(resourceUrl))
+      dispatch(addResourceHistory(resourceUrl, resource.subjectTemplate.class, group))
     })
     .catch((err) => {
       console.error(err)
@@ -164,7 +169,8 @@ export const saveResource = (resourceKey, errorKey) => (dispatch, getState) => {
   return putResource(resource, currentUser)
     .then(() => {
       dispatch(saveResourceFinished(resourceKey))
-      dispatch(addResourceHistory(resource.uri))
+      dispatch(addUserResourceHistory(resource.uri))
+      dispatch(addResourceHistory(resource.uri, resource.subjectTemplate.class, resource.group))
     })
     .catch((err) => {
       console.error(err)

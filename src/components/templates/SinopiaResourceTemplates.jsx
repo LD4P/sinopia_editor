@@ -2,7 +2,6 @@
 
 import React, { useRef } from 'react'
 import { useSelector } from 'react-redux'
-import PropTypes from 'prop-types'
 import _ from 'lodash'
 import Alerts from '../Alerts'
 import ResourceTemplateSearchResult from './ResourceTemplateSearchResult'
@@ -16,13 +15,13 @@ export const newResourceErrorKey = 'newresource'
 /**
  * This is the list view of all the templates
  */
-const SinopiaResourceTemplates = (props) => {
+const SinopiaResourceTemplates = () => {
   const searchResults = useSelector((state) => selectSearchResults(state, 'template'))
   const historicalTemplates = useSelector((state) => selectHistoricalTemplates(state))
 
   const topRef = useRef(null)
 
-  const { handleNew, handleCopy, handleEdit } = useResource(props.history, newResourceErrorKey, topRef)
+  const { handleNew, handleCopy, handleEdit } = useResource(newResourceErrorKey, topRef)
 
   let history
   if (!_.isEmpty(historicalTemplates)) {
@@ -50,10 +49,6 @@ const SinopiaResourceTemplates = (props) => {
       }
     </section>
   )
-}
-
-SinopiaResourceTemplates.propTypes = {
-  history: PropTypes.object,
 }
 
 export default SinopiaResourceTemplates

@@ -2,7 +2,7 @@ import { createState } from 'stateUtils'
 import {
   selectSubject, selectProperty, selectValue,
   selectCurrentResourceIsReadOnly, selectFullSubject,
-  resourceHasChangesSinceLastSave,
+  resourceHasChangesSinceLastSave, selectResourceUriMap,
 } from 'selectors/resources'
 
 describe('selectSubject()', () => {
@@ -92,5 +92,17 @@ describe('resourceHasChangesSinceLastSave', () => {
     const state = createState({ hasResourceWithNestedResource: true })
     state.entities.subjects.ljAblGiBW.changed = true
     expect(resourceHasChangesSinceLastSave(state, 'ljAblGiBW')).toBe(true)
+  })
+})
+
+describe('selectResourceUriMap', () => {
+  it('returns map of URIs to keys', () => {
+    const state = createState({ hasTwoLiteralResources: true })
+    state.entities.subjects.t9zVwg2zO.uri = 'http://localhost:3000/resource/f383bfff-5364-47a3-a081-8c9e2d79f43f'
+    state.entities.subjects.u0aWxh3a1.uri = 'http://localhost:3000/resource/g493bfff-5364-47a3-a081-8c9e2d79f5fg'
+    expect(selectResourceUriMap(state)).toEqual({
+      'http://localhost:3000/resource/f383bfff-5364-47a3-a081-8c9e2d79f43f': 't9zVwg2zO',
+      'http://localhost:3000/resource/g493bfff-5364-47a3-a081-8c9e2d79f5fg': 'u0aWxh3a1',
+    })
   })
 })

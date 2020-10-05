@@ -2,15 +2,22 @@ import { useEffect, useState } from 'react'
 import { useSelector, useDispatch } from 'react-redux'
 import { newResource, loadResource } from 'actionCreators/resources'
 import { selectErrors } from 'selectors/errors'
-import { selectCurrentResourceKey, selectNormSubject } from 'selectors/resources'
+import {
+  selectCurrentResourceKey, selectNormSubject, selectResourceUriMap,
+} from 'selectors/resources'
 import _ from 'lodash'
 import { showModal } from 'actions/modals'
+import { setCurrentResource } from 'actions/resources'
+import { useHistory } from 'react-router-dom'
 
-const useResource = (history, errorKey, errorRef) => {
+const useResource = (errorKey, errorRef) => {
   const dispatch = useDispatch()
+  const history = useHistory()
   const errors = useSelector((state) => selectErrors(state, errorKey))
   const resourceKey = useSelector((state) => selectCurrentResourceKey(state))
   const resource = useSelector((state) => selectNormSubject(state, resourceKey))
+  // These are resources that are already open in editor
+  const resourceUriMap = useSelector((state) => selectResourceUriMap(state))
 
   const [navigateEditor, setNavigateEditor] = useState(false)
 
@@ -43,9 +50,15 @@ const useResource = (history, errorKey, errorRef) => {
 
   const handleEdit = (resourceURI, event) => {
     if (event) event.preventDefault()
-    dispatch(loadResource(resourceURI, errorKey)).then((result) => {
-      if (result) setNavigateEditor('edit')
-    })
+    // Check if already open
+    if (resourceUriMap[resourceURI]) {
+      setCurrentResource(resourceUriMap[resourceURI])
+      setNavigateEditor('edit')
+    } else {
+      dispatch(loadResource(resourceURI, errorKey)).then((result) => {
+        if (result) setNavigateEditor('edit')
+      })
+    }
   }
 
   const handleView = (resourceURI, event) => {

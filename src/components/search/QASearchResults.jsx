@@ -4,7 +4,6 @@ import React, {
   useMemo, useState, useEffect, useRef,
 } from 'react'
 import { useSelector, useDispatch } from 'react-redux'
-import PropTypes from 'prop-types'
 import { clearErrors, addError } from 'actions/errors'
 import { showModal } from 'actions/modals'
 import ResourceTemplateChoiceModal from '../ResourceTemplateChoiceModal'
@@ -22,7 +21,7 @@ import { selectSearchUri, selectSearchResults } from 'selectors/search'
 // Errors from retrieving a resource from this page.
 export const searchQARetrieveErrorKey = 'searchqaresource'
 
-const QASearchResults = (props) => {
+const QASearchResults = () => {
   const dispatch = useDispatch()
 
   const errorsRef = useRef(null)
@@ -35,7 +34,7 @@ const QASearchResults = (props) => {
   const [resourceId, setResourceId] = useState(null)
   const [resourceTemplateId, setResourceTemplateId] = useState(null)
   const [dataset, setDataset] = useState(null)
-  useRdfResource(dataset, resourceURI, resourceTemplateId, searchQARetrieveErrorKey, props.history)
+  useRdfResource(dataset, resourceURI, resourceTemplateId, searchQARetrieveErrorKey)
 
   // Retrieve N3 from QA
   useEffect(() => {
@@ -173,10 +172,6 @@ const QASearchResults = (props) => {
       </div>
     </React.Fragment>
   )
-}
-
-QASearchResults.propTypes = {
-  history: PropTypes.object.isRequired,
 }
 
 export default QASearchResults

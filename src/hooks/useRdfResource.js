@@ -4,6 +4,7 @@ import { useDispatch, useSelector } from 'react-redux'
 import { newResourceFromDataset } from 'actionCreators/resources'
 import { clearErrors } from 'actions/errors'
 import { selectCurrentResourceKey } from 'selectors/resources'
+import { useHistory } from 'react-router-dom'
 
 /**
  * Hook for transforming a resource to state and changing the page to the editor (i.e., /editor path).
@@ -14,8 +15,9 @@ import { selectCurrentResourceKey } from 'selectors/resources'
  * @param {Object} history react-router history object
   * @return {[Object, rdf.Dataset, string]} resource state, unused RDF, error
  */
-const useRdfResource = (dataset, baseURI, resourceTemplateId, errorKey, history) => {
+const useRdfResource = (dataset, baseURI, resourceTemplateId, errorKey) => {
   const dispatch = useDispatch()
+  const history = useHistory()
   const hasResource = useSelector((state) => !!selectCurrentResourceKey(state))
 
   // Indicates that would like to change to editor once resource is in state

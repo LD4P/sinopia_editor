@@ -2,6 +2,7 @@
 import {
   getSearchResults, getTemplateSearchResults, getLookupResults,
   getSearchResultsWithFacets, getTemplateSearchResultsByIds,
+  getSearchResultsByUris,
 } from 'sinopiaSearch'
 import { findAuthorityConfigs } from 'utilities/authorityConfig'
 
@@ -547,5 +548,63 @@ describe('getTemplateSearchResultsByIds', () => {
         },
         method: 'POST',
       })
+  })
+})
+
+describe('getSearchResultsByUris', () => {
+  const successResult = {
+    took: 2,
+    timed_out: false,
+    hits: {
+      total: {
+        value: 1,
+        relation: 'eq',
+      },
+      hits: [
+        {
+          _index: 'sinopia_resources',
+          _type: 'sinopia',
+          _id: '3d831f47-e686-4b8f-9086-11383b2af762',
+          _score: 1,
+          _source: {
+            uri: 'http://localhost:3000/resource/3d831f47-e686-4b8f-9086-11383b2af762',
+            label: 'http://localhost:3000/resource/3d831f47-e686-4b8f-9086-11383b2af762',
+            text: [
+              'ld4p:RT:bf2:Contents',
+              'Foobar',
+            ],
+            modified: '2020-10-05T14:31:16.563Z',
+            type: [
+              'http://id.loc.gov/ontologies/bibframe/TableOfContents',
+            ],
+            group: 'stanford',
+          },
+        },
+      ],
+    },
+  }
+
+  it('performs a search and returns results', async () => {
+    global.fetch = jest.fn().mockImplementation(() => Promise.resolve({ json: () => successResult }))
+
+    const results = await getSearchResultsByUris(['http://localhost:3000/resource/3d831f47-e686-4b8f-9086-11383b2af762'])
+    expect(results).toEqual({
+      totalHits: 1,
+      results: [{
+        uri: 'http://localhost:3000/resource/3d831f47-e686-4b8f-9086-11383b2af762',
+        label: 'http://localhost:3000/resource/3d831f47-e686-4b8f-9086-11383b2af762',
+        modified: '2020-10-05T14:31:16.563Z',
+        type: [
+          'http://id.loc.gov/ontologies/bibframe/TableOfContents',
+        ],
+        group: 'stanford',
+        created: undefined,
+      }],
+    })
+    expect(global.fetch).toHaveBeenCalledWith('/api/search/sinopia_resources/sinopia/_search', {
+      body: '{"query":{"terms":{"uri":["http://localhost:3000/resource/3d831f47-e686-4b8f-9086-11383b2af762"]}},"size":1}',
+      headers: { 'Content-Type': 'application/json' },
+      method: 'POST',
+    })
   })
 })
