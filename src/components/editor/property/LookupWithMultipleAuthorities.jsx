@@ -76,7 +76,7 @@ const LookupWithMultipleAuthorities = (props) => {
         }
       })
     })
-  }, [query, allAuthorities, getLookupResults])
+  }, [query, allAuthorities, getLookupResults, clearSearchResults])
 
   // hide the spinner after the results are fetched
   if (allResults.current.length > 0) loadingSearchRef.current.classList.add('hidden')
