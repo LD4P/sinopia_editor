@@ -19,7 +19,7 @@ const ResourcesNav = () => {
     resourceKeys.forEach((resourceKey) => {
       const subjectTemplate = selectSubjectTemplateFor(state, resourceKey)
       const resourceLabel = subjectTemplate.label
-      labels[resourceKey] = resourceLabel.length > 40 ? `${resourceLabel.slice(0, 40)}...` : resourceLabel
+      labels[resourceKey] = resourceLabel.length > 38 ? `${resourceLabel.slice(0, 38)}...` : resourceLabel
     })
     return labels
   })
