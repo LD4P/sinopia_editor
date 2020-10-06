@@ -1,7 +1,7 @@
 // Copyright 2020 Stanford University see LICENSE for license
 
 import React, {
-  useState, useRef, useMemo, useEffect,
+  useState, useRef, useMemo, useEffect, useCallback,
 } from 'react'
 import PropTypes from 'prop-types'
 import { useDispatch, useSelector } from 'react-redux'
@@ -12,7 +12,7 @@ import { addProperty } from 'actions/resources'
 import { hideModal } from 'actions/modals'
 import { selectNormValues } from 'selectors/resources'
 import { isValidURI } from 'utilities/Utilities'
-
+import { clearSearchResults as clearSearchResultsAction } from 'actions/search'
 import RenderLookupContext from './RenderLookupContext'
 import Tab from '../Tab'
 import Tabs from '../Tabs'
@@ -41,6 +41,8 @@ const LookupWithMultipleAuthorities = (props) => {
     return Object.values(authorities)
   }, [props.propertyTemplate.authorities])
 
+  const clearSearchResults = useCallback(() => dispatch(clearSearchResultsAction('resource')), [dispatch])
+  const loadingSearchRef = useRef(null)
 
   // For use inside the effect without having to add props to dependency array.
   const getLookupResults = props.getLookupResults
@@ -60,6 +62,10 @@ const LookupWithMultipleAuthorities = (props) => {
     tokens.current.push(token)
     // resultPromises is an array of Promise<result>
     const resultPromises = getLookupResults(query, allAuthorities)
+    // show the search spinner pending the results
+    clearSearchResults()
+    if (loadingSearchRef.current) loadingSearchRef.current.classList.remove('hidden')
+
     resultPromises.forEach((resultPromise) => {
       resultPromise.then((resultSet) => {
         // Only use these results if not cancelled.
@@ -71,6 +77,9 @@ const LookupWithMultipleAuthorities = (props) => {
       })
     })
   }, [query, allAuthorities, getLookupResults])
+
+  // hide the spinner after the results are fetched
+  if (allResults.current.length > 0) loadingSearchRef.current.classList.add('hidden')
 
   const addUriOrLiteral = () => {
     if (!query) return
@@ -196,6 +205,11 @@ const LookupWithMultipleAuthorities = (props) => {
           </div>
           <div className="modal-body lookup-search-results">
             {options}
+            <div ref={loadingSearchRef} id="search-results-loading" className="hidden text-center">
+              <div className="spinner-border" role="status">
+                <span className="sr-only">Results Loading...</span>
+              </div>
+            </div>
           </div>
           <div className="modal-footer">
             <button className="btn btn-link" onClick={ close }>Cancel</button>
