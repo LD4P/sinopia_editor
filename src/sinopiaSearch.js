@@ -238,24 +238,13 @@ const getTemplateLookupResults = (query, options = {}) => {
   return fetchTemplateSearchResults(body, templateLookupToResult)
 }
 
-export const getLookupResults = (query, lookupConfigs) => lookupConfigs.map(
-  (lookupConfig) => {
-    // Templates get special handling since use id rather than URI.
-    let getSearchResultsPromise
-    if (lookupConfig.uri === 'urn:ld4p:sinopia:resourceTemplate') {
-      getSearchResultsPromise = getTemplateLookupResults(query, { resultsPerPage: 8 })
-    } else {
-      getSearchResultsPromise = getSearchResults(query, { typeFilter: lookupConfig.type, resultsPerPage: 8 })
-    }
-    return getSearchResultsPromise
-      .then((result) => {
-        if (result) {
-          result.authLabel = lookupConfig.label
-          result.authURI = lookupConfig.uri
-          result.label = lookupConfig.label
-          result.id = lookupConfig.uri
-        }
-        return result
-      })
-  },
-)
+export const getLookupResult = (query, lookupConfig, options) => {
+  // Templates get special handling since use id rather than URI.
+  let getSearchResultsPromise
+  if (lookupConfig.uri === 'urn:ld4p:sinopia:resourceTemplate') {
+    getSearchResultsPromise = getTemplateLookupResults(query, options)
+  } else {
+    getSearchResultsPromise = getSearchResults(query, { ...options, typeFilter: lookupConfig.type })
+  }
+  return getSearchResultsPromise
+}

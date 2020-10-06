@@ -196,9 +196,8 @@ export default class TemplatesBuilder {
     const config = findAuthorityConfig(vocabUri)
     switch (config?.component) {
       case 'local-lookup':
-        return 'InputLookupSinopia'
       case 'lookup':
-        return 'InputLookupQA'
+        return 'InputLookup'
       default:
         return 'InputList'
     }

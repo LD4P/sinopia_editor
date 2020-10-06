@@ -7,6 +7,4 @@ authorityConfig.forEach((configItem) => authorityConfigMap[configItem.uri] = con
 
 export const findAuthorityConfig = (searchUri) => authorityConfigMap[searchUri]
 
-export const findAuthorityConfigs = (searchUris) => searchUris.map((searchUri) => authorityConfigMap[searchUri])
-
 export const sinopiaSearchUri = 'urn:ld4p:sinopia'

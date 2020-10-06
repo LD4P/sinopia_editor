@@ -8,24 +8,23 @@ import { bindActionCreators } from 'redux'
 import { displayResourceValidations } from 'selectors/errors'
 import { selectNormValues, selectCurrentResourceIsReadOnly } from 'selectors/resources'
 import _ from 'lodash'
-import { itemsForValues } from './renderTypeaheadFunctions'
 import { removeValue } from 'actions/resources'
 import { showModal } from 'actions/modals'
 import ModalWrapper from 'components/ModalWrapper'
-import LookupWithMultipleAuthorities from './LookupWithMultipleAuthorities'
+import LookupModal from './LookupModal'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faGlobe, faSearch, faTrashAlt } from '@fortawesome/free-solid-svg-icons'
+import ResourceList from './ResourceList'
 
 const InputLookup = (props) => {
   const dispatch = useDispatch()
   const displayValidations = useSelector((state) => displayResourceValidations(state, props.property.rootSubjectKey))
   const errors = props.property.errors
-  const selected = itemsForValues(props.lookupValues)
   const readOnly = useSelector((state) => selectCurrentResourceIsReadOnly(state))
 
   const isRepeatable = props.propertyTemplate.repeatable
 
-  const isDisabled = readOnly || (selected?.length > 0 && !isRepeatable)
+  const isDisabled = readOnly || (props.lookupValues.length > 0 && !isRepeatable)
 
   let error
   let controlClasses = 'open-search-modal btn btn-sm btn-secondary btn-literal form-control'
@@ -42,7 +41,6 @@ const InputLookup = (props) => {
     dispatch(showModal(modalId))
   }
 
-  // TODO: New styling to fit description in #2478
   const lookupSelection = props.lookupValues.map((lookupValue) => (
     <div key={lookupValue.key} className="lookup-value">
       <span key={lookupValue.key}>{lookupValue.label || lookupValue.literal}</span>
@@ -58,12 +56,10 @@ const InputLookup = (props) => {
   let modal
   if (props.show) {
     modal = (
-      <LookupWithMultipleAuthorities modalId={modalId}
-                                     property={props.property}
-                                     propertyTemplate={props.propertyTemplate}
-                                     getLookupResults={props.getLookupResults}
-                                     getOptions={props.getOptions}
-                                     show={props.show} />
+      <LookupModal modalId={modalId}
+                   property={props.property}
+                   propertyTemplate={props.propertyTemplate}
+                   show={props.show} />
     )
   }
 
@@ -80,6 +76,7 @@ const InputLookup = (props) => {
       </button>
       {error && <span className="invalid-feedback">{error}</span>}
       { lookupSelection }
+      <ResourceList property={props.property} />
       <ModalWrapper modal={modal} />
     </React.Fragment>
   )
@@ -88,8 +85,6 @@ const InputLookup = (props) => {
 InputLookup.propTypes = {
   property: PropTypes.object.isRequired,
   propertyTemplate: PropTypes.object.isRequired,
-  getLookupResults: PropTypes.func.isRequired,
-  getOptions: PropTypes.func.isRequired,
   show: PropTypes.bool,
   lookupValues: PropTypes.array,
   removeValue: PropTypes.func,

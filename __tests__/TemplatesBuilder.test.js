@@ -254,7 +254,7 @@ _:b5_c14n2 <http://www.w3.org/2000/01/rdf-schema#label> "URI1"@eng .`
         },
       ],
       type: 'uri',
-      component: 'InputLookupQA',
+      component: 'InputLookup',
     })
   })
 })

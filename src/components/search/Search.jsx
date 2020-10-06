@@ -17,6 +17,7 @@ import { faTrashAlt, faSearch } from '@fortawesome/free-solid-svg-icons'
 import searchConfig from '../../../static/searchConfig.json'
 import {
   selectSearchError, selectSearchQuery, selectSearchUri, selectSearchOptions,
+  selectSearchTotalResults,
 } from 'selectors/search'
 import { sinopiaSearchUri } from 'utilities/authorityConfig'
 import useSearch from 'hooks/useSearch'
@@ -29,6 +30,7 @@ const Search = (props) => {
   const error = useSelector((state) => selectSearchError(state, 'resource'))
   const searchUri = useSelector((state) => selectSearchUri(state, 'resource'))
   const lastQueryString = useSelector((state) => selectSearchQuery(state, 'resource'))
+  const totalResults = useSelector((state) => selectSearchTotalResults(state, 'resource'))
 
   const clearSearchResults = useCallback(() => dispatch(clearSearchResultsAction('resource')), [dispatch])
 
@@ -89,7 +91,12 @@ const Search = (props) => {
     results = (
       <div>
         <SinopiaSearchResults {...props} key="search-results" />
-        <SearchResultsPaging key="search-paging" searchType="resource" changePage={changeSinopiaSearchPage} />
+        <SearchResultsPaging
+          key="search-paging"
+          resultsPerPage={searchOptions.resultsPerPage}
+          startOfRange={searchOptions.startOfRange}
+          totalResults={totalResults}
+          changePage={changeSinopiaSearchPage} />
         <SearchResultsMessage />
       </div>
     )
@@ -98,7 +105,12 @@ const Search = (props) => {
     results = (
       <div>
         <QASearchResults history={props.history} key="search-results" />
-        <SearchResultsPaging key="search-paging" searchType="resource" changePage={changeQASearchPage} />
+        <SearchResultsPaging
+          key="search-paging"
+          resultsPerPage={searchOptions.resultsPerPage}
+          startOfRange={searchOptions.startOfRange}
+          totalResults={totalResults}
+          changePage={changeQASearchPage} />
         <SearchResultsMessage />
       </div>
     )

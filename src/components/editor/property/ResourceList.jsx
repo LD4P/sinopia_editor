@@ -29,9 +29,9 @@ const ResourceList = (props) => {
     }
     const getNewResourceList = async () => {
       const listItems = []
-      const authorities = propertyTemplate.authorities
+      const authorities = propertyTemplate.authorities.filter((authority) => authority.uri.startsWith('urn:ld4p:sinopia'))
       await Promise.all(authorities.map((authority) => getTemplateSearchResults(authority.type).then((response) => {
-        if (response.error !== undefined) return ''
+        if (response.error) return ''
         response.results?.forEach((hit) => {
           if (hit.resourceURI === subjectTemplate.class) {
             listItems.push(
