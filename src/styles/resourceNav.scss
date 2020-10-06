@@ -26,7 +26,8 @@
       list-style-type: none;
 
       &.li-checked {
-        list-style-type: '\2713';
+        list-style-type: '\f00c';
+        font-family: FontAwesome;
       }
     }
   }
