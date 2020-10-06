@@ -52,7 +52,7 @@ export default class GraphBuilder {
   }
 
   buildProperty(property, subjectTerm) {
-    if (property.values == null || property.values.length === 0) return
+    if (!this.shouldAddProperty(property)) return
 
     if (property.propertyTemplate.ordered) {
       let nextNode = rdf.blankNode()
@@ -104,6 +104,10 @@ export default class GraphBuilder {
   // Add only if there is actually a value somewhere.
   shouldAddValueSubject(value) {
     return this.checkSubjectHasValue(value.valueSubject)
+  }
+
+  shouldAddProperty(property) {
+    return this.checkPropertyHasValue(property)
   }
 
   checkSubjectHasValue(subject) {
