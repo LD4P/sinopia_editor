@@ -355,6 +355,7 @@ describe('getLookupResults', () => {
   const lookupConfigs = findAuthorityConfigs([
     'urn:ld4p:sinopia:bibframe:instance',
     'urn:ld4p:sinopia:bibframe:work',
+    'urn:ld4p:sinopia:resourceTemplate',
   ])
   const instanceResult = {
     took: 5,
@@ -414,6 +415,7 @@ describe('getLookupResults', () => {
     global.fetch = jest.fn()
       .mockImplementationOnce(() => Promise.resolve({ json: () => instanceResult }))
       .mockImplementationOnce(() => Promise.resolve({ json: () => workResult }))
+      .mockImplementationOnce(() => Promise.resolve({ json: () => templateResult }))
 
     const results = await Promise.all(getLookupResults('foo', lookupConfigs))
     expect(results).toEqual([{
@@ -436,6 +438,16 @@ describe('getLookupResults', () => {
       authURI: 'urn:ld4p:sinopia:bibframe:work',
       label: 'Sinopia BIBFRAME work resources',
       id: 'urn:ld4p:sinopia:bibframe:work',
+    }, {
+      totalHits: 1,
+      results: [{
+        label: 'Cartographic Item (BIBFRAME) (ld4p:RT:bf2:Cartographic:Item)',
+        uri: 'ld4p:RT:bf2:Cartographic:Item',
+      }],
+      authLabel: 'Sinopia templates',
+      authURI: 'urn:ld4p:sinopia:resourceTemplate',
+      id: 'urn:ld4p:sinopia:resourceTemplate',
+      label: 'Sinopia templates',
     }])
   })
 })

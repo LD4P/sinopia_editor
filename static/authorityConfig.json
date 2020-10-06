@@ -29,6 +29,12 @@
     "component": "local-lookup"
   },
   {
+    "label": "Sinopia templates",
+    "uri": "urn:ld4p:sinopia:resourceTemplate",
+    "type": "http://sinopia.io/vocabulary/ResourceTemplate",
+    "component": "local-lookup"
+  },
+  {
     "label": "AGROVOC (QA)",
     "uri": "urn:ld4p:qa:agrovoc",
     "authority": "agrovoc_ld4l_cache",
