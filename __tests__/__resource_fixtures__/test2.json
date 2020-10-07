@@ -1,0 +1,36 @@
+[
+  {
+    "@id": "_:b1",
+    "@type": [
+      "http://id.loc.gov/ontologies/bibframe/Uber3"
+    ],
+    "http://id.loc.gov/ontologies/bibframe/uber/template3/property1": [
+      {
+        "@value": "Uber template3, property1",
+        "@language": "eng"
+      }
+    ],
+    "http://id.loc.gov/ontologies/bibframe/uber/template3/property2": [
+      {
+        "@value": "Uber template3, property2",
+        "@language": "eng"
+      }
+    ]
+  },
+  {
+    "@id": "http://localhost:3000/resource/a4181509-8046-47c8-9327-6e576c517d70",
+    "http://sinopia.io/vocabulary/hasResourceTemplate": [
+      {
+        "@value": "resourceTemplate:testing:uber1"
+      }
+    ],
+    "@type": [
+      "http://id.loc.gov/ontologies/bibframe/Uber1"
+    ],
+    "http://id.loc.gov/ontologies/bibframe/uber/template1/property1": [
+      {
+        "@id": "_:b1"
+      }
+    ]
+  }
+]

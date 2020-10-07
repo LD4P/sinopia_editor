@@ -314,6 +314,23 @@ describe('loadResource', () => {
       })
     })
   })
+
+  describe('load resource with nested resource', () => {
+    const store = mockStore(createState())
+    const expectedAddResourceNestedResourceAction = require('../__action_fixtures__/loadResourceNestedResource-ADD_SUBJECT.json')
+    it('should have nested resources from loading resource and templates', async () => {
+      const uri = 'http://localhost:3000/resource/a4181509-8046-47c8-9327-6e576c517d70'
+      const result = await store.dispatch(loadResource(uri, 'testerrorkey'))
+      expect(result).toBe(true)
+
+      const actions = store.getActions()
+
+      const addSubjectAction = actions.find((action) => action.type === 'ADD_SUBJECT')
+      expect(addSubjectAction).not.toBeNull()
+      // safeStringify is used because it removes circular references
+      expect(safeAction(addSubjectAction)).toEqual(expectedAddResourceNestedResourceAction)
+    })
+  })
 })
 
 describe('newResource', () => {

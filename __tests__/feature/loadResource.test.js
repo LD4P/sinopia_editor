@@ -44,7 +44,7 @@ describe('loading saved resource', () => {
       screen.getByText('Uber template1', { selector: 'h3' })
       screen.getByText('Uber template1, property1', { selector: 'span' })
       screen.getAllByText('Uber template2', { selector: 'h5' })
-      screen.getByText('Uber template3', { selector: 'h5' })
+      screen.getAllByText('Uber template3', { selector: 'h5' })
       // Length is the heading and the value.
       expect(screen.getAllByText('Uber template3, property1')).toHaveLength(3)
       expect(screen.getAllByText('Uber template3, property2')).toHaveLength(3)

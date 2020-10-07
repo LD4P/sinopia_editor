@@ -106,16 +106,63 @@ const newValuesFromDataset = (subjectTerm, property, resourceTemplatePromises, d
   // Get the objects for the values. How depends on whether property is ordered.
   const objectsFunc = property.propertyTemplate.ordered ? orderedObjects : unorderedObjects
   const objects = objectsFunc(subjectTerm, property, dataset, usedDataset)
+  if (property.propertyTemplate.type === 'resource') {
+    // Get the values based on the template and the dataset then merge.
+    const objPromises = _.compact(objects.map((obj) => dispatch(newNestedResourceFromObject(obj,
+      property, resourceTemplatePromises, dataset, usedDataset, errorKey))))
+    return Promise.all(objPromises)
+      .then((valuesFromObjs) => {
+        if (_.isEmpty(valuesFromObjs)) return []
+        const templatePromises = templatePromisesFor(property, errorKey, dispatch)
+        return Promise.all(templatePromises)
+          .then((valuesFromTemplates) => mergeValues(valuesFromTemplates, valuesFromObjs))
+      })
+  }
   return Promise.all(objects.map((obj) => {
-    if (property.propertyTemplate.type === 'resource') {
-      return dispatch(newNestedResourceFromObject(obj, property, resourceTemplatePromises, dataset, usedDataset, errorKey))
-    } if (obj.termType === 'NamedNode') {
+    if (obj.termType === 'NamedNode') {
       // URI
       return Promise.resolve(newUriFromObject(obj, property, dataset, usedDataset))
     }
     // Literal
     return Promise.resolve(newLiteralFromObject(obj, property))
   }))
+}
+
+// Promises that return values based on template
+const templatePromisesFor = (property, errorKey, dispatch) => property.propertyTemplate.valueSubjectTemplateKeys
+  .map((resourceTemplateId) => dispatch(newSubject(null, resourceTemplateId, {}, errorKey))
+    .then((subject) => dispatch(newPropertiesFromTemplates(subject, false, errorKey))
+      .then((properties) => {
+        subject.properties = properties
+        return newValueSubject(property, subject)
+      })))
+
+// Merge the values from the dataset and templates
+const mergeValues = (valuesFromTemplates, valuesFromObjs) => {
+  const valuesFromObjsMap = valuesMapFor(valuesFromObjs)
+  const newValues = []
+  valuesFromTemplates.forEach((valueFromTemplate) => {
+    // Use values from dataset.
+    // Otherwise, use values from template.
+    const subjectTemplateKey = valueFromTemplate.valueSubject.subjectTemplate.key
+    if (valuesFromObjsMap[subjectTemplateKey]) {
+      valuesFromObjsMap[subjectTemplateKey].forEach((valueFromObj) => newValues.push(valueFromObj))
+    } else {
+      newValues.push(valueFromTemplate)
+    }
+  })
+  return newValues
+}
+
+// Construct map of subject template key to value
+const valuesMapFor = (values) => {
+  const valuesMap = {}
+  values.forEach((value) => {
+    const subjectTemplateKey = value.valueSubject.subjectTemplate.key
+    if (!valuesMap[subjectTemplateKey]) valuesMap[subjectTemplateKey] = []
+    valuesMap[subjectTemplateKey].push(value)
+  })
+  return valuesMap
 }
 
 const orderedObjects = (subjectTerm, property, dataset, usedDataset) => {

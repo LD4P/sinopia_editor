@@ -2,7 +2,7 @@
   "type": "ADD_SUBJECT",
   "payload": {
     "key": "abc0",
-    "uri": "http://localhost:3000/resource/c7db5404-7d7d-40ac-b38e-c821d2c3ae3f",
+    "uri": "http://localhost:3000/resource/a4181509-8046-47c8-9327-6e576c517d70",
     "subjectTemplate": {
       "key": "resourceTemplate:testing:uber1",
       "uri": "http://localhost:3000/resource/resourceTemplate:testing:uber1",
@@ -580,13 +580,13 @@
         "key": "abc1",
         "values": [
           {
-            "key": "abc63",
+            "key": "abc40",
             "literal": null,
             "lang": null,
             "uri": null,
             "label": null,
             "valueSubject": {
-              "key": "abc43",
+              "key": "abc35",
               "uri": null,
               "subjectTemplate": {
                 "key": "resourceTemplate:testing:uber2",
@@ -621,57 +621,21 @@
               },
               "properties": [
                 {
-                  "key": "abc50",
-                  "values": [
-                    {
-                      "key": "abc57",
-                      "literal": "Uber template2, property1",
-                      "lang": "eng",
-                      "uri": null,
-                      "label": null,
-                      "valueSubject": null
-                    }
-                  ],
+                  "key": "abc37",
+                  "values": null,
                   "show": false
                 }
               ]
             }
           },
           {
-            "key": "abc64",
+            "key": "abc34",
             "literal": null,
             "lang": null,
             "uri": null,
             "label": null,
             "valueSubject": {
-              "key": "abc44",
-              "uri": null,
-              "properties": [
-                {
-                  "key": "abc51",
-                  "values": [
-                    {
-                      "key": "abc58",
-                      "literal": "Uber template2, property1b",
-                      "lang": "eng",
-                      "uri": null,
-                      "label": null,
-                      "valueSubject": null
-                    }
-                  ],
-                  "show": false
-                }
-              ]
-            }
-          },
-          {
-            "key": "abc62",
-            "literal": null,
-            "lang": null,
-            "uri": null,
-            "label": null,
-            "valueSubject": {
-              "key": "abc42",
+              "key": "abc29",
               "uri": null,
               "subjectTemplate": {
                 "key": "resourceTemplate:testing:uber3",
@@ -723,10 +687,10 @@
               },
               "properties": [
                 {
-                  "key": "abc48",
+                  "key": "abc30",
                   "values": [
                     {
-                      "key": "abc55",
+                      "key": "abc32",
                       "literal": "Uber template3, property1",
                       "lang": "eng",
                       "uri": null,
@@ -737,10 +701,10 @@
                   "show": false
                 },
                 {
-                  "key": "abc49",
+                  "key": "abc31",
                   "values": [
                     {
-                      "key": "abc56",
+                      "key": "abc33",
                       "literal": "Uber template3, property2",
                       "lang": "eng",
                       "uri": null,
@@ -758,16 +722,7 @@
       },
       {
         "key": "abc2",
-        "values": [
-          {
-            "key": "abc29",
-            "literal": "Uber template1, property2",
-            "lang": "eng",
-            "uri": null,
-            "label": null,
-            "valueSubject": null
-          }
-        ],
+        "values": null,
         "show": false
       },
       {
@@ -777,44 +732,17 @@
       },
       {
         "key": "abc4",
-        "values": [
-          {
-            "key": "abc30",
-            "literal": "Uber template1, property4",
-            "lang": "eng",
-            "uri": null,
-            "label": null,
-            "valueSubject": null
-          }
-        ],
+        "values": [],
         "show": true
       },
       {
         "key": "abc5",
-        "values": [
-          {
-            "key": "abc31",
-            "literal": null,
-            "lang": null,
-            "uri": "ubertemplate1:property5",
-            "label": "ubertemplate1:property5",
-            "valueSubject": null
-          }
-        ],
+        "values": [],
         "show": true
       },
       {
         "key": "abc6",
-        "values": [
-          {
-            "key": "abc32",
-            "literal": null,
-            "lang": null,
-            "uri": "ubertemplate1:property6",
-            "label": "ubertemplate1:property6",
-            "valueSubject": null
-          }
-        ],
+        "values": [],
         "show": true
       },
       {
@@ -829,141 +757,60 @@
       },
       {
         "key": "abc9",
-        "values": [
-          {
-            "key": "abc33",
-            "literal": "Uber template1, property9",
-            "lang": "eng",
-            "uri": null,
-            "label": null,
-            "valueSubject": null
-          }
-        ],
+        "values": [],
         "show": true
       },
       {
         "key": "abc10",
-        "values": [
-          {
-            "key": "abc34",
-            "literal": null,
-            "lang": null,
-            "uri": "http://id.loc.gov/vocabulary/mrectype/analog",
-            "label": "analog",
-            "valueSubject": null
-          }
-        ],
+        "values": [],
         "show": true
       },
       {
         "key": "abc11",
-        "values": [
-          {
-            "key": "abc35",
-            "literal": null,
-            "lang": null,
-            "uri": "http://id.loc.gov/vocabulary/mrectype/digital",
-            "label": "digital",
-            "valueSubject": null
-          }
-        ],
+        "values": [],
         "show": true
       },
       {
         "key": "abc12",
-        "values": [
-          {
-            "key": "abc36",
-            "literal": null,
-            "lang": null,
-            "uri": "http://id.loc.gov/vocabulary/mrecmedium/mag",
-            "label": "magnetic",
-            "valueSubject": null
-          }
-        ],
+        "values": [],
         "show": true
       },
       {
         "key": "abc13",
-        "values": [
-          {
-            "key": "abc37",
-            "literal": null,
-            "lang": null,
-            "uri": "http://aims.fao.org/aos/agrovoc/c_35856",
-            "label": "summer squash",
-            "valueSubject": null
-          }
-        ],
+        "values": [],
         "show": true
       },
       {
         "key": "abc14",
-        "values": [
-          {
-            "key": "abc38",
-            "literal": null,
-            "lang": null,
-            "uri": "http://aims.fao.org/aos/agrovoc/c_331388",
-            "label": "corn sheller",
-            "valueSubject": null
-          }
-        ],
+        "values": [],
         "show": true
       },
       {
         "key": "abc15",
-        "values": [
-          {
-            "key": "abc39",
-            "literal": null,
-            "lang": null,
-            "uri": "http://sws.geonames.org/5098279/",
-            "label": "Freehold Borough High School (US)",
-            "valueSubject": null
-          }
-        ],
+        "values": [],
         "show": true
       },
       {
         "key": "abc16",
-        "values": [
-          {
-            "key": "abc40",
-            "literal": null,
-            "lang": null,
-            "uri": "http://localhost:3000/resource/c7db5404-7d7d-40ac-b38e-c821d2c3ae3f",
-            "label": "foo",
-            "valueSubject": null
-          }
-        ],
+        "values": [],
         "show": true
       },
       {
         "key": "abc17",
-        "values": [
-          {
-            "key": "abc41",
-            "literal": null,
-            "lang": null,
-            "uri": "http://localhost:3000/resource/c7db5404-7d7d-40ac-b38e-c821d2c3ae3f",
-            "label": "foo",
-            "valueSubject": null
-          }
-        ],
+        "values": [],
         "show": true
       },
       {
         "key": "abc18",
         "values": [
           {
-            "key": "abc65",
+            "key": "abc28",
             "literal": null,
             "lang": null,
             "uri": null,
             "label": null,
             "valueSubject": {
-              "key": "abc45",
+              "key": "abc19",
               "uri": null,
               "subjectTemplate": {
                 "key": "resourceTemplate:testing:uber4",
@@ -998,17 +845,8 @@
               },
               "properties": [
                 {
-                  "key": "abc52",
-                  "values": [
-                    {
-                      "key": "abc59",
-                      "literal": "Uber template4, property1",
-                      "lang": "eng",
-                      "uri": null,
-                      "label": null,
-                      "valueSubject": null
-                    }
-                  ],
+                  "key": "abc27",
+                  "values": [],
                   "show": true
                 }
               ]
@@ -1019,62 +857,7 @@
       },
       {
         "key": "abc20",
-        "values": [
-          {
-            "key": "abc66",
-            "literal": null,
-            "lang": null,
-            "uri": null,
-            "label": null,
-            "valueSubject": {
-              "key": "abc46",
-              "uri": null,
-              "properties": [
-                {
-                  "key": "abc53",
-                  "values": [
-                    {
-                      "key": "abc60",
-                      "literal": "Uber template4, property1, first",
-                      "lang": "eng",
-                      "uri": null,
-                      "label": null,
-                      "valueSubject": null
-                    }
-                  ],
-                  "show": true
-                }
-              ]
-            }
-          },
-          {
-            "key": "abc67",
-            "literal": null,
-            "lang": null,
-            "uri": null,
-            "label": null,
-            "valueSubject": {
-              "key": "abc47",
-              "uri": null,
-              "properties": [
-                {
-                  "key": "abc54",
-                  "values": [
-                    {
-                      "key": "abc61",
-                      "literal": "Uber template4, property1, second",
-                      "lang": "eng",
-                      "uri": null,
-                      "label": null,
-                      "valueSubject": null
-                    }
-                  ],
-                  "show": true
-                }
-              ]
-            }
-          }
-        ],
+        "values": null,
         "show": false
       },
       {
