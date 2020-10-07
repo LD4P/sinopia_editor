@@ -14,6 +14,7 @@ import { expandProperty, contractProperty } from 'actionCreators/resources'
 import { selectNormProperty, selectCurrentResourceKey, selectCurrentResourceIsReadOnly } from 'selectors/resources'
 import { selectPropertyTemplate } from 'selectors/templates'
 import useNavigableComponent from 'hooks/useNavigableComponent'
+import shortid from 'shortid'
 
 const PanelProperty = (props) => {
   // Null values indicates that can be added.
@@ -31,6 +32,9 @@ const PanelProperty = (props) => {
   }
 
 
+  // used to associate the PropertyComponent field to be labeled with the PropertyLabel
+  const propertyLabelId = `labelled-by-${shortid.generate()}`
+
   // onClick is to support left navigation, so ignoring jsx-ally seems reasonable.
   /* eslint-disable jsx-a11y/click-events-have-key-events */
   /* eslint-disable jsx-a11y/no-static-element-interactions */
@@ -39,7 +43,7 @@ const PanelProperty = (props) => {
       <div className={cardClassName.join(' ')} data-testid={cardClassName[1]} data-label={ props.propertyTemplate.label } style={{ marginBottom: '1em' }}>
         <div className="card-header prop-heading">
           <h5 className="card-title">
-            <PropertyLabel propertyTemplate={ props.propertyTemplate } />
+            <PropertyLabel forId={propertyLabelId} propertyTemplate={ props.propertyTemplate } />
             <PropertyLabelInfo propertyTemplate={ props.propertyTemplate } />{nbsp}
             { isAdd && !readOnly && (
               <button
@@ -57,7 +61,8 @@ const PanelProperty = (props) => {
                       className="btn btn-sm btn-remove pull-right"
                       aria-label={`Remove ${props.propertyTemplate.label}`}
                       data-testid={`Remove ${props.propertyTemplate.label}`}
-                      onClick={() => props.contractProperty(props.property.key)} data-id={props.id}>
+                      onClick={() => props.contractProperty(props.property.key)}
+                      data-id={props.id}>
                 <FontAwesomeIcon className="fa-inverse trash-icon" icon={trashIcon} />
               </button>
             )}
@@ -65,7 +70,7 @@ const PanelProperty = (props) => {
         </div>
         { !isAdd && (
           <div className="card-body panel-property">
-            <PropertyComponent property={ props.property } propertyTemplate={ props.propertyTemplate } />
+            <PropertyComponent propertyLabelId={propertyLabelId} property={ props.property } propertyTemplate={ props.propertyTemplate } />
           </div>
         )}
       </div>

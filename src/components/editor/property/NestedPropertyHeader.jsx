@@ -48,8 +48,9 @@ const NestedPropertyHeader = (props) => {
                 onClick={() => props.expandProperty(props.property.key, resourceEditErrorKey(props.resourceKey))}
                 aria-label={`Add ${props.propertyTemplate.label}`}
                 data-testid={`Add ${props.propertyTemplate.label}`}
-                data-id={props.property.key}>
-          + Add <strong><PropertyLabel propertyTemplate={props.propertyTemplate} /></strong>
+                data-id={props.property.key}
+                id={props.property.key}>
+          + Add <strong><PropertyLabel forId={props.property.key} propertyTemplate={props.propertyTemplate} /></strong>
         </button>
         <PropertyLabelInfo propertyTemplate={ props.propertyTemplate } />
         { error && <span className="invalid-feedback">{error}</span>}
@@ -68,7 +69,7 @@ const NestedPropertyHeader = (props) => {
               onClick={() => toggleProperty()}>
         <FontAwesomeIcon className="toggle-icon" icon={toggleIcon} />
       </button>
-      <strong><PropertyLabel propertyTemplate={props.propertyTemplate} /></strong>
+      <strong><PropertyLabel forId={props.id} propertyTemplate={props.propertyTemplate} /></strong>
       <PropertyLabelInfo propertyTemplate={ props.propertyTemplate } />
       <button type="button"
               className="btn btn-sm btn-remove pull-right"
@@ -97,6 +98,7 @@ NestedPropertyHeader.propTypes = {
   hideProperty: PropTypes.func,
   id: PropTypes.string,
   resourceKey: PropTypes.string,
+  propertyLabelId: PropTypes.string,
 }
 
 const mapStateToProps = (state, ownProps) => ({

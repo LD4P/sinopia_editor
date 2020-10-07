@@ -6,7 +6,7 @@ import RequiredSuperscript from './RequiredSuperscript'
 
 const PropertyLabel = (props) => {
   const title = [(
-    <span key={props.propertyTemplate.key}>{props.propertyTemplate.label}</span>
+    <label htmlFor={props.forId} key={props.propertyTemplate.key}>{props.propertyTemplate.label}</label>
   )]
 
   if (props.propertyTemplate.required) {

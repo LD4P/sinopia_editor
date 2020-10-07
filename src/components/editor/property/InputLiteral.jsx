@@ -75,6 +75,7 @@ const InputLiteral = (props) => {
   }
 
   // TextareaAutosize does not disable well, so using a disabled input.
+
   return (
     <div className="form-group">
       <div className="input-group" onBlur={handleBlur} id={id}>
@@ -93,7 +94,8 @@ const InputLiteral = (props) => {
               onKeyDown={handleKeyDown}
               onClick={handleClickDiacritics}
               value={currentContent}
-              ref={inputLiteralRef} />
+              ref={inputLiteralRef}
+              id={props.propertyLabelId} />
         }
         <div className="input-group-append" tabIndex="0">
           <button className="btn btn-outline-primary"
@@ -120,6 +122,7 @@ InputLiteral.propTypes = {
   propertyTemplate: PropTypes.object.isRequired,
   addValue: PropTypes.func,
   content: PropTypes.string,
+  propertyLabelId: PropTypes.string.isRequired,
 }
 
 const mapStateToProps = (state, ownProps) => ({

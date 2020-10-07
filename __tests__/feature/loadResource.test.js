@@ -42,7 +42,7 @@ describe('loading saved resource', () => {
 
       // Headings
       screen.getByText('Uber template1', { selector: 'h3' })
-      screen.getByText('Uber template1, property1', { selector: 'span' })
+      screen.getByText('Uber template1, property1', { selector: 'label' })
       screen.getAllByText('Uber template2', { selector: 'h5' })
       screen.getAllByText('Uber template3', { selector: 'h5' })
       // Length is the heading and the value.
@@ -59,6 +59,9 @@ describe('loading saved resource', () => {
       screen.getByPlaceholderText('Uber template3, property1')
       screen.getByPlaceholderText('Uber template3, property2')
       screen.getByPlaceholderText('Uber template1, property2')
+
+      // confirm that the input field has an accessible label
+      screen.getByLabelText('Uber template3, property1')
     })
   })
 
