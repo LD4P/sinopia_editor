@@ -24,7 +24,8 @@ const VocabChoice = (props) => {
             aria-label="Select vocabulary"
             data-testid="Select vocabulary"
             onBlur={handleChange}
-            onChange={handleChange}>
+            onChange={handleChange}
+            onClick={handleChange}>
     {getOptions()}
   </select>)
 }
