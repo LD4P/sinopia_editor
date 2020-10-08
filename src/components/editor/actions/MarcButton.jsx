@@ -67,7 +67,7 @@ const MarcButton = () => {
   }
 
   return (
-    <div className="dropleft">
+    <div className="btn-group dropleft">
       <button type="button"
               id="marcBtn"
               className={btnClasses.join(' ')}
@@ -83,7 +83,7 @@ const MarcButton = () => {
             <button className="btn btn-link dropdown-item" onClick={(event) => handleDownloadTxt(event)}>Download text</button>
             <button className="btn btn-link dropdown-item" onClick={(event) => handleDownloadMarc(event)}>Download MARC</button>
             <pre style={{
-              marginLeft: '10px', marginRight: '10px', paddingLeft: '10px', paddingRight: '10px',
+              marginLeft: '10px', marginRight: '10px', paddingLeft: '10px', paddingRight: '10px', maxWidth: '750px',
             }}>{marc}</pre>
           </React.Fragment>
         }
