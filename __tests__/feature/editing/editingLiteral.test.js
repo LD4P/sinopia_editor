@@ -111,6 +111,10 @@ describe('editing a literal property', () => {
     fireEvent.click(await screen.findByText('ọ'))
     expect(input).toHaveValue('Foọ')
 
+    // press backspace while the focus is on the diacritic panel and make sure we are still on the edit page
+    fireEvent.keyDown(await screen.findByText('ọ'), { key: 'Backspace', code: 8, charCode: 8 })
+    expect(screen.queryAllByText('Latin Extended')).toHaveLength(1)
+
     // Close it
     fireEvent.click(diacriticBtn)
     expect(screen.queryAllByText('Latin Extended')).toHaveLength(0)

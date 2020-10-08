@@ -32,7 +32,11 @@ const DiacriticsSelection = (props) => {
 
   if (!props.showDiacritics) return null
 
-  return (<div id={props.id} tabIndex="0" >
+  const keyPressHandler = (event) => {
+    if (event.which === 8) event.preventDefault() // backspace should not be passed to the browser as it can cause the page to go back
+  }
+
+  return (<div id={props.id} onKeyDown={keyPressHandler} role="presentation" tabIndex="0" >
     <div className="row">
       <section className="col-1 offset-11">
         <button className="btn btn-lg" onClick={closeHandler}>&times;</button>
