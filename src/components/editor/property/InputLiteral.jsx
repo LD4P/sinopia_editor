@@ -110,10 +110,18 @@ const InputLiteral = (props) => {
     return false
   }
 
+  // TextareaAutosize does not disable well, so using a disabled input.
   return (
     <div className="form-group">
       <div className="input-group" onBlur={handleBlur} id={id}>
-        <TextareaAutosize
+        { disabled ? <input
+                        type="text"
+                        disabled={true}
+                        className="form-control"
+                        placeholder={props.propertyTemplate.label}
+                        value=""
+                        ref={inputLiteralRef} />
+          : <TextareaAutosize
               required={required}
               className={controlClasses}
               placeholder={props.propertyTemplate.label}
@@ -121,9 +129,8 @@ const InputLiteral = (props) => {
               onKeyDown={handleKeyDown}
               onClick={handleClick}
               value={currentContent}
-              disabled={disabled}
-              ref={inputLiteralRef}
-        />
+              ref={inputLiteralRef} />
+        }
         <div className="input-group-append" tabIndex="0">
           <button className="btn btn-outline-primary"
                   disabled={disabled}

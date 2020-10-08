@@ -10,12 +10,15 @@ describe('editing a literal property', () => {
   it('allows entering, editing, and removing a non-repeatable literal', async () => {
     renderApp(null, history)
 
+    // Due to issues with the text area component, a new input is created when disabling.
+    // Thus, for this using screen.getByPlaceholderText('Uber template1, property4') instead of a variable
+    // for input.
+
     await screen.findByText('Uber template1', { selector: 'h3' })
 
     // Add a value
-    const input = screen.getByPlaceholderText('Uber template1, property4')
-    fireEvent.change(input, { target: { value: 'foo' } })
-    fireEvent.keyDown(input, { key: 'Enter', code: 13, charCode: 13 })
+    fireEvent.change(screen.getByPlaceholderText('Uber template1, property4'), { target: { value: 'foo' } })
+    fireEvent.keyDown(screen.getByPlaceholderText('Uber template1, property4'), { key: 'Enter', code: 13, charCode: 13 })
 
     // There is foo text. Perhaps check css.
     await waitFor(() => expect(screen.getByText('foo')).toHaveClass('rbt-token'))
@@ -27,26 +30,26 @@ describe('editing a literal property', () => {
     // There is language button.
     expect(screen.getByTestId('Change language for foo')).toHaveTextContent('Language: English')
     // Input is disabled and empty
-    expect(input).toBeDisabled()
-    expect(input).toHaveValue('')
+    expect(screen.getByPlaceholderText('Uber template1, property4')).toBeDisabled()
+    expect(screen.getByPlaceholderText('Uber template1, property4')).toHaveValue('')
 
     // Clicking edit
     fireEvent.click(editBtn)
-    expect(input).not.toBeDisabled()
-    expect(input).toHaveValue('foo')
+    expect(screen.getByPlaceholderText('Uber template1, property4')).not.toBeDisabled()
+    expect(screen.getByPlaceholderText('Uber template1, property4')).toHaveValue('foo')
     expect(screen.queryAllByText('foo').length).toBeLessThan(2)
 
     // Clicking remove
-    fireEvent.change(input, { target: { value: 'foobar' } })
-    fireEvent.keyDown(input, { key: 'Enter', code: 13, charCode: 13 })
+    fireEvent.change(screen.getByPlaceholderText('Uber template1, property4'), { target: { value: 'foobar' } })
+    fireEvent.keyDown(screen.getByPlaceholderText('Uber template1, property4'), { key: 'Enter', code: 13, charCode: 13 })
 
     await waitFor(() => expect(screen.getByText('foobar')).toHaveClass('rbt-token'))
     const removeBtn = screen.getByTestId('Remove foobar')
     fireEvent.click(removeBtn)
 
     expect(screen.queryAllByText('foobar')).toHaveLength(0)
-    expect(input).not.toBeDisabled()
-    expect(input).toHaveValue('')
+    expect(screen.getByPlaceholderText('Uber template1, property4')).not.toBeDisabled()
+    expect(screen.getByPlaceholderText('Uber template1, property4')).toHaveValue('')
   }, 15000)
 
   it('allows entering a repeatable literal', async () => {
