@@ -11,6 +11,7 @@ import { selectCurrentResourceIsReadOnly } from 'selectors/resources'
 const PanelResource = (props) => {
   const readOnly = useSelector((state) => selectCurrentResourceIsReadOnly(state))
   const resourceDivClass = readOnly ? 'col-sm-12' : 'col-sm-9'
+  const isTemplate = props.resource.subjectTemplateKey === 'sinopia:template:resource'
 
   return (
     <div className="row" >
@@ -21,6 +22,7 @@ const PanelResource = (props) => {
             props.resource.propertyKeys.map((propertyKey, index) => (
               <PanelProperty resourceKey={props.resource.key}
                              propertyKey={propertyKey}
+                             isTemplate={isTemplate}
                              key={propertyKey}
                              float={index}
                              id={propertyKey} />

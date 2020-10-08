@@ -17,13 +17,13 @@ const PanelResourceNav = (props) => {
 
   const navItems = props.resource.propertyKeys.map((propertyKey) => {
     if (propertyKey === currentPropertyKey) {
-      return (<ActivePanelPropertyNav key={propertyKey} propertyKey={propertyKey} />)
+      return (<ActivePanelPropertyNav key={propertyKey} propertyKey={propertyKey} isTemplate={isTemplate} />)
     }
-    return (<PanelPropertyNav key={propertyKey} propertyKey={propertyKey} />)
+    return (<PanelPropertyNav key={propertyKey} propertyKey={propertyKey} isTemplate={isTemplate} />)
   })
   return (
     <div className="col-sm-3 left-nav">
-      <div className={classNames.join(' ')}>
+      <div className={classNames.join(' ')} data-testid={classNames[1]} >
         <ul>
           { navItems }
         </ul>

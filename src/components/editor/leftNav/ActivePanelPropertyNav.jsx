@@ -15,7 +15,9 @@ const ActivePanelPropertyNav = (props) => {
   const propertyTemplate = useSelector((state) => selectPropertyTemplate(state, property?.propertyTemplateKey))
 
   const hasValue = !_.isEmpty(property.descUriOrLiteralValueKeys)
-  const liClassNames = hasValue ? 'li-checked' : ''
+  const liClassNames = hasValue ? ['li-checked'] : []
+
+  if (props.isTemplate) liClassNames.push('template')
 
   const hasError = !_.isEmpty(property.descWithErrorPropertyKeys)
   const displayValidations = useSelector((state) => displayResourceValidations(state, property?.rootSubjectKey))
@@ -32,7 +34,7 @@ const ActivePanelPropertyNav = (props) => {
   if (!property) return null
 
   // Render this property and any children value subjects (if a property type = resource).
-  return (<li className={liClassNames}>
+  return (<li className={liClassNames.join(' ')}>
     <button
               type="button"
               className='btn btn-primary'
@@ -49,6 +51,7 @@ const ActivePanelPropertyNav = (props) => {
 
 ActivePanelPropertyNav.propTypes = {
   propertyKey: PropTypes.string.isRequired,
+  isTemplate: PropTypes.bool,
 }
 
 export default ActivePanelPropertyNav

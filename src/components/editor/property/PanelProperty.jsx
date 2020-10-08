@@ -23,13 +23,20 @@ const PanelProperty = (props) => {
   const trashIcon = faTrashAlt
   const [navEl, navClickHandler] = useNavigableComponent(props.resourceKey, props.propertyKey, props.propertyKey)
   const readOnly = useSelector((state) => selectCurrentResourceIsReadOnly(state))
+  const isTemplate = props.isTemplate
+  const cardClassName = ['card']
+
+  if (isTemplate) {
+    cardClassName.push('template')
+  }
+
 
   // onClick is to support left navigation, so ignoring jsx-ally seems reasonable.
   /* eslint-disable jsx-a11y/click-events-have-key-events */
   /* eslint-disable jsx-a11y/no-static-element-interactions */
   return (
     <div ref={navEl} onClick={navClickHandler}>
-      <div className="card" data-label={ props.propertyTemplate.label } style={{ marginBottom: '1em' }}>
+      <div className={cardClassName.join(' ')} data-testid={cardClassName[1]} data-label={ props.propertyTemplate.label } style={{ marginBottom: '1em' }}>
         <div className="card-header prop-heading">
           <h5 className="card-title">
             <PropertyLabel propertyTemplate={ props.propertyTemplate } />
@@ -75,6 +82,7 @@ PanelProperty.propTypes = {
   expandProperty: PropTypes.func,
   contractProperty: PropTypes.func,
   resourceKey: PropTypes.string.isRequired,
+  isTemplate: PropTypes.bool,
 }
 
 const mapStateToProps = (state, ourProps) => {
