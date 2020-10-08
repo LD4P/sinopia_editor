@@ -10,7 +10,9 @@ import Alert from '../Alert'
 import SinopiaResourceTemplates from './SinopiaResourceTemplates'
 import SearchResultsPaging from 'components/search/SearchResultsPaging'
 import NewResourceTemplateButton from './NewResourceTemplateButton'
-import { selectSearchError, selectSearchQuery } from 'selectors/search'
+import {
+  selectSearchError, selectSearchQuery, selectSearchOptions, selectSearchTotalResults,
+} from 'selectors/search'
 import PropTypes from 'prop-types'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faTrashAlt } from '@fortawesome/free-solid-svg-icons'
@@ -23,6 +25,8 @@ const TemplateSearch = (props) => {
 
   const error = useSelector((state) => selectSearchError(state, 'template'))
   const lastQueryString = useSelector((state) => selectSearchQuery(state, 'template'))
+  const searchOptions = useSelector((state) => selectSearchOptions(state, 'template'))
+  const totalResults = useSelector((state) => selectSearchTotalResults(state, 'template'))
 
   const [queryString, setQueryString] = useState(lastQueryString || '')
   const [startOfRange, setStartOfRange] = useState(0)
@@ -94,7 +98,11 @@ const TemplateSearch = (props) => {
 
 
       <SinopiaResourceTemplates history={props.history} />
-      <SearchResultsPaging changePage={changePage} searchType="template" />
+      <SearchResultsPaging
+        changePage={changePage}
+        resultsPerPage={searchOptions.resultsPerPage}
+        startOfRange={startOfRange}
+        totalResults={totalResults} />
     </React.Fragment>
   )
 }

@@ -7,21 +7,9 @@ import Config from 'Config'
 import { findAuthorityConfig } from 'utilities/authorityConfig'
 import _ from 'lodash'
 
-export const getSearchResults = (query, lookupConfigs, options = {}) => createLookupPromises(query, lookupConfigs, options)
-  .map((lookupPromise, i) => lookupPromise.then((value) => {
-    if (value) {
-      value.authLabel = lookupConfigs[i].label
-      value.authURI = lookupConfigs[i].uri
-      value.label = lookupConfigs[i].label
-      value.id = lookupConfigs[i].uri
-    }
-    return value
-  }))
-
-
 export const isContext = (propertyTemplate) => propertyTemplate?.subtype === 'context'
 
-export const createLookupPromises = (query, lookupConfigs, options = {}) => lookupConfigs.map((lookupConfig) => {
+export const createLookupPromise = (query, lookupConfig, options = {}) => {
   const authority = lookupConfig.authority
   const subauthority = lookupConfig.subauthority
   const language = lookupConfig.language
@@ -69,7 +57,7 @@ export const createLookupPromises = (query, lookupConfigs, options = {}) => look
       // Return information along with the error in its own object
       return { isError: true, errorObject: err }
     }))
-})
+}
 
 /**
  * Fetches a term (aka resource) from QA.

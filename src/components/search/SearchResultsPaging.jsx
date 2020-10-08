@@ -1,32 +1,25 @@
 // Copyright 2019 Stanford University see LICENSE for license
 
 import React from 'react'
-import { useSelector } from 'react-redux'
 import PropTypes from 'prop-types'
-import { selectSearchTotalResults, selectSearchOptions } from 'selectors/search'
-
 
 const SearchResultsPaging = (props) => {
-  const totalResults = useSelector((state) => selectSearchTotalResults(state, props.searchType))
-  const options = useSelector((state) => selectSearchOptions(state, props.searchType))
-  const resultsPerPage = options.resultsPerPage
-  const startOfRange = options.startOfRange
-  const currentPage = Math.ceil((startOfRange + 1) / resultsPerPage)
+  const currentPage = Math.ceil((props.startOfRange + 1) / props.resultsPerPage)
 
   const changePage = (page) => {
-    props.changePage((page - 1) * resultsPerPage)
+    props.changePage((page - 1) * props.resultsPerPage)
   }
 
   // If there are no results, we don't need paging
-  if (!totalResults) {
+  if (!props.totalResults) {
     return null
   }
 
   // If there are fewer results than one full page, we don't need paging
-  if (totalResults <= resultsPerPage) {
+  if (props.totalResults <= props.resultsPerPage) {
     return null
   }
-  const lastPage = Math.ceil(totalResults / resultsPerPage)
+  const lastPage = Math.ceil(props.totalResults / props.resultsPerPage)
   // eslint-disable-next-line max-params
   const pageButton = (key, label, page, active) => {
     const classes = ['page-item']
@@ -69,7 +62,9 @@ const SearchResultsPaging = (props) => {
 
 SearchResultsPaging.propTypes = {
   changePage: PropTypes.func.isRequired,
-  searchType: PropTypes.oneOf(['resource', 'template']).isRequired,
+  totalResults: PropTypes.number.isRequired,
+  resultsPerPage: PropTypes.number.isRequired,
+  startOfRange: PropTypes.number.isRequired,
 }
 
 export default SearchResultsPaging

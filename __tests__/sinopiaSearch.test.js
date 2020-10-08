@@ -1,10 +1,10 @@
 // Copyright 2019 Stanford University see LICENSE for license
 import {
-  getSearchResults, getTemplateSearchResults, getLookupResults,
+  getSearchResults, getTemplateSearchResults, getLookupResult,
   getSearchResultsWithFacets, getTemplateSearchResultsByIds,
   getSearchResultsByUris,
 } from 'sinopiaSearch'
-import { findAuthorityConfigs } from 'utilities/authorityConfig'
+import { findAuthorityConfig } from 'utilities/authorityConfig'
 
 describe('getSearchResults', () => {
   const successResult = {
@@ -351,104 +351,107 @@ describe('getSearchResultsWithFacets', () => {
   })
 })
 
-describe('getLookupResults', () => {
-  const lookupConfigs = findAuthorityConfigs([
-    'urn:ld4p:sinopia:bibframe:instance',
-    'urn:ld4p:sinopia:bibframe:work',
-    'urn:ld4p:sinopia:resourceTemplate',
-  ])
-  const instanceResult = {
-    took: 5,
-    timed_out: false,
-    _shards: {
-      total: 5,
-      successful: 5,
-      skipped: 0,
-      failed: 0,
-    },
-    hits: {
-      total: { value: 0 },
-      max_score: null,
-      hits: [],
-    },
-  }
-
-  const workResult = {
-    took: 12,
-    timed_out: false,
-    _shards: {
-      total: 5,
-      successful: 5,
-      skipped: 0,
-      failed: 0,
-    },
-    hits: {
-      total: { value: 1 },
-      max_score: 0.53412557,
-      hits: [
-        {
-          _index: 'sinopia_resources',
-          _type: 'sinopia',
-          _id: 'resource/3519e138-0f07-46a6-bd82-d4804c3b4890',
-          _score: 0.53412557,
-          _source: {
-            uri: 'http://platform:8080/resource/3519e138-0f07-46a6-bd82-d4804c3b4890',
-            title: [
-              'Foo',
-            ],
-            label: 'Foo',
-            text: [
-              'Foo',
-            ],
-            created: '2019-11-03T15:04:18.015Z',
-            modified: '2019-11-03T15:04:18.015Z',
-            type: [
-              'http://id.loc.gov/ontologies/bibframe/Work',
-            ],
+describe('getLookupResult', () => {
+  describe('for a non-template authority with results', () => {
+    const lookupConfig = findAuthorityConfig('urn:ld4p:sinopia:bibframe:work')
+    const workResult = {
+      took: 12,
+      timed_out: false,
+      _shards: {
+        total: 5,
+        successful: 5,
+        skipped: 0,
+        failed: 0,
+      },
+      hits: {
+        total: { value: 1 },
+        max_score: 0.53412557,
+        hits: [
+          {
+            _index: 'sinopia_resources',
+            _type: 'sinopia',
+            _id: 'resource/3519e138-0f07-46a6-bd82-d4804c3b4890',
+            _score: 0.53412557,
+            _source: {
+              uri: 'http://platform:8080/resource/3519e138-0f07-46a6-bd82-d4804c3b4890',
+              title: [
+                'Foo',
+              ],
+              label: 'Foo',
+              text: [
+                'Foo',
+              ],
+              created: '2019-11-03T15:04:18.015Z',
+              modified: '2019-11-03T15:04:18.015Z',
+              type: [
+                'http://id.loc.gov/ontologies/bibframe/Work',
+              ],
+            },
           },
-        },
-      ],
-    },
-  }
+        ],
+      },
+    }
+    it('performs a search and returns result', async () => {
+      global.fetch = jest.fn().mockImplementation(() => Promise.resolve({ json: () => workResult }))
 
-  it('performs a search and returns result', async () => {
-    global.fetch = jest.fn()
-      .mockImplementationOnce(() => Promise.resolve({ json: () => instanceResult }))
-      .mockImplementationOnce(() => Promise.resolve({ json: () => workResult }))
-      .mockImplementationOnce(() => Promise.resolve({ json: () => templateResult }))
+      const result = await getLookupResult('foo', lookupConfig)
+      expect(result).toEqual({
+        totalHits: 1,
+        results: [{
+          uri: 'http://platform:8080/resource/3519e138-0f07-46a6-bd82-d4804c3b4890',
+          label: 'Foo',
+          created: '2019-11-03T15:04:18.015Z',
+          modified: '2019-11-03T15:04:18.015Z',
+          type: ['http://id.loc.gov/ontologies/bibframe/Work'],
+        }],
+      })
+    })
+  })
 
-    const results = await Promise.all(getLookupResults('foo', lookupConfigs))
-    expect(results).toEqual([{
-      totalHits: 0,
-      results: [],
-      authLabel: 'Sinopia BIBFRAME instance resources',
-      authURI: 'urn:ld4p:sinopia:bibframe:instance',
-      label: 'Sinopia BIBFRAME instance resources',
-      id: 'urn:ld4p:sinopia:bibframe:instance',
-    }, {
-      totalHits: 1,
-      results: [{
-        uri: 'http://platform:8080/resource/3519e138-0f07-46a6-bd82-d4804c3b4890',
-        label: 'Foo',
-        created: '2019-11-03T15:04:18.015Z',
-        modified: '2019-11-03T15:04:18.015Z',
-        type: ['http://id.loc.gov/ontologies/bibframe/Work'],
-      }],
-      authLabel: 'Sinopia BIBFRAME work resources',
-      authURI: 'urn:ld4p:sinopia:bibframe:work',
-      label: 'Sinopia BIBFRAME work resources',
-      id: 'urn:ld4p:sinopia:bibframe:work',
-    }, {
-      totalHits: 1,
-      results: [{
-        label: 'Cartographic Item (BIBFRAME) (ld4p:RT:bf2:Cartographic:Item)',
-        uri: 'ld4p:RT:bf2:Cartographic:Item',
-      }],
-      authLabel: 'Sinopia templates',
-      authURI: 'urn:ld4p:sinopia:resourceTemplate',
-      id: 'urn:ld4p:sinopia:resourceTemplate',
-      label: 'Sinopia templates',
-    }])
+  describe('for a non-template authority with no results', () => {
+    const lookupConfig = findAuthorityConfig('urn:ld4p:sinopia:bibframe:instance')
+    const instanceResult = {
+      took: 5,
+      timed_out: false,
+      _shards: {
+        total: 5,
+        successful: 5,
+        skipped: 0,
+        failed: 0,
+      },
+      hits: {
+        total: { value: 0 },
+        max_score: null,
+        hits: [],
+      },
+    }
+
+    it('performs a search and returns result', async () => {
+      global.fetch = jest.fn().mockImplementationOnce(() => Promise.resolve({ json: () => instanceResult }))
+
+      const result = await getLookupResult('foo', lookupConfig)
+      expect(result).toEqual({
+        totalHits: 0,
+        results: [],
+      })
+    })
+  })
+
+  describe('for template authority', () => {
+    const lookupConfig = findAuthorityConfig('urn:ld4p:sinopia:resourceTemplate')
+
+    it('performs a search and returns result', async () => {
+      global.fetch = jest.fn().mockImplementationOnce(() => Promise.resolve({ json: () => templateResult }))
+
+      const result = await getLookupResult('foo', lookupConfig)
+      expect(result).toEqual({
+        totalHits: 1,
+        results: [{
+          label: 'Cartographic Item (BIBFRAME) (ld4p:RT:bf2:Cartographic:Item)',
+          uri: 'ld4p:RT:bf2:Cartographic:Item',
+        }],
+      })
+    })
   })
 })
 

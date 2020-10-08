@@ -1,7 +1,7 @@
 // Copyright 2019 Stanford University see LICENSE for license
 import { setSearchResults } from 'actions/search'
 import { getSearchResultsWithFacets } from 'sinopiaSearch'
-import { createLookupPromises } from 'utilities/QuestioningAuthority'
+import { createLookupPromise } from 'utilities/QuestioningAuthority'
 import { findAuthorityConfig, sinopiaSearchUri } from 'utilities/authorityConfig'
 import { addSearchHistory as addApiSearchHistory } from 'actionCreators/user'
 import { addSearchHistory } from 'actions/history'
@@ -16,7 +16,7 @@ export const fetchSinopiaSearchResults = (query, options) => (dispatch) => getSe
 
 export const fetchQASearchResults = (query, uri, options = {}) => (dispatch) => {
   const authorityConfig = findAuthorityConfig(uri)
-  const searchPromise = createLookupPromises(query, [authorityConfig], options)[0]
+  const searchPromise = createLookupPromise(query, [authorityConfig], options)
 
   return searchPromise.then((response) => {
     if (response.isError) {

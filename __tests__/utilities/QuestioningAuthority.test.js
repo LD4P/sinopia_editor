@@ -1,12 +1,12 @@
 // Copyright 2019 Stanford University see LICENSE for license
-import { getSearchResults, getTerm } from 'utilities/QuestioningAuthority'
-import { findAuthorityConfigs } from 'utilities/authorityConfig'
+import { createLookupPromise, getTerm } from 'utilities/QuestioningAuthority'
+import { findAuthorityConfig } from 'utilities/authorityConfig'
 import Swagger from 'swagger-client'
 
 jest.mock('swagger-client')
 
-describe('getSearchResults()', () => {
-  it('returns an array of promises from a search', async () => {
+describe('createLookupPromise()', () => {
+  it('returns a promise from a search', async () => {
     const response = {
       ok: true,
       url: 'https://lookup.ld4l.org/authorities/search/linked_data/agrovoc_ld4l_cache?q=Corn&maxRecords=8&lang=en&context=true',
@@ -72,11 +72,8 @@ describe('getSearchResults()', () => {
     const client = { apis: { SearchQuery: { GET_searchAuthority: mockActionFunction } } }
     Swagger.mockResolvedValue(client)
 
-    const authorityConfigs = findAuthorityConfigs(['urn:ld4p:qa:agrovoc'])
-    const results = getSearchResults('Corn', authorityConfigs)
-    expect(results.length).toEqual(1)
-
-    const result = await results[0]
+    const authorityConfig = findAuthorityConfig('urn:ld4p:qa:agrovoc')
+    const result = await createLookupPromise('Corn', authorityConfig)
     expect(result.body.results.length).toEqual(8)
   })
 })
