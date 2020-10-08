@@ -144,6 +144,28 @@ describe('newResourceFromDataset', () => {
     })
   })
 
+  describe('loading a resource with extra label triple', () => {
+    const store = mockStore(createState())
+
+    it('dispatches actions', async () => {
+      const extraRdf = `<ubertemplate1:property5> <http://www.w3.org/2000/01/rdf-schema#label> "http://sinopia.io/ubertemplate1:property5" .
+`
+      const dataset = await datasetFromN3(n3 + extraRdf)
+      const result = await store.dispatch(newResourceFromDataset(dataset, uri, null, 'testerrorkey'))
+      expect(result).toBe(true)
+
+      const actions = store.getActions()
+
+      const addSubjectAction = actions.find((action) => action.type === 'ADD_SUBJECT')
+      expect(safeAction(addSubjectAction)).toEqual(expectedAddResourceAction)
+
+      expect(actions).toHaveAction('SET_UNUSED_RDF', {
+        resourceKey: 'abc0',
+        rdf: null,
+      })
+    })
+  })
+
   describe('loading a new resource', () => {
     const store = mockStore(createState())
 
