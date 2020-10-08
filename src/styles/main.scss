@@ -1,4 +1,4 @@
- /* Copyright 2019 Stanford University see LICENSE for license */
+   /* Copyright 2019 Stanford University see LICENSE for license */
 
 @import 'colors';
 @import 'bootstrap-variables';
@@ -91,6 +91,12 @@
 
 .closeMargin {
   margin-right: -12.5%;
+}
+
+.template {
+  .prop-heading {
+    background-color: $reno-sand !important;
+  }
 }
 
 .prop-heading {

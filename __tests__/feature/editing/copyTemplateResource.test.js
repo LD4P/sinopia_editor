@@ -60,5 +60,9 @@ describe('Copying a template resource', () => {
 
     const saveBtn = await screen.findAllByRole('button', { name: 'Save' })
     expect(saveBtn[0]).not.toBeDisabled()
+
+    // It has the 'template' class for header color
+    const templateClasses = screen.getAllByTestId('template')
+    expect(templateClasses.length).toEqual(2)
   })
 })

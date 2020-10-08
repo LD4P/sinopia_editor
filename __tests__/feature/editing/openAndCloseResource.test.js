@@ -16,6 +16,10 @@ describe('switching between multiple resources', () => {
 
     await screen.findByText('Abbreviated Title', { selector: 'h3' })
     await screen.findByText('Abbreviated Title', { selector: '.nav-item.active .nav-link' })
+
+    // It does not have the the 'template' class for header color
+    const templateClass = screen.queryAllByTestId('template')
+    expect(templateClass.length).toEqual(0)
   })
 
   it('has a second resource shown as the inactive button tab', async () => {
@@ -34,6 +38,10 @@ describe('switching between multiple resources', () => {
     // Note is now the active resource and Abbreviated Title is now the inactive resource
     await screen.findByText('Note', { selector: 'h3' })
     await screen.findByText('Abbreviated Title', { selector: '.nav-item:not(.active) .nav-link' })
+
+    // It does not have the the 'template' class for header color
+    const templateClass = screen.queryAllByTestId('template')
+    expect(templateClass.length).toEqual(0)
   })
 })
 
