@@ -7,13 +7,13 @@ describe('Looking at the Help and Resources gutter', () => {
   it('Opens help and resources', () => {
     cy.contains('a', 'Help and Resources').click()
 
-    cy.contains('External Identifier Sources and Vocabularies')
+    cy.contains('Sinopia help site')
   })
 
   it('Closes help and resources', () => {
     cy.get('button[aria-label="Close Help Menu"]').click()
 
-    cy.contains('External Identifier Sources and Vocabularies')
+    cy.contains('Sinopia help site')
   })
 
   it('Logs in', () => {
@@ -37,13 +37,13 @@ describe('Looking at the Help and Resources gutter', () => {
   it('Opens help and resources', () => {
     cy.contains('a', 'Help and Resources').click()
 
-    cy.contains('External Identifier Sources and Vocabularies')
+    cy.contains('Sinopia help site')
   })
 
   it('Closes help and resources', () => {
     cy.get('button[aria-label="Close Help Menu"]').click()
 
-    cy.contains('External Identifier Sources and Vocabularies')
+    cy.contains('Sinopia help site')
   })
 
   it('Opens Templates', () => {
@@ -55,13 +55,13 @@ describe('Looking at the Help and Resources gutter', () => {
   it('Opens help and resources', () => {
     cy.contains('a', 'Help and Resources').click()
 
-    cy.contains('External Identifier Sources and Vocabularies')
+    cy.contains('Sinopia help site')
   })
 
   it('Closes help and resources', () => {
     cy.get('button[aria-label="Close Help Menu"]').click()
 
-    cy.contains('External Identifier Sources and Vocabularies')
+    cy.contains('Sinopia help site')
   })
 
   it('Opens Search', () => {
@@ -73,13 +73,13 @@ describe('Looking at the Help and Resources gutter', () => {
   it('Opens help and resources', () => {
     cy.contains('a', 'Help and Resources').click()
 
-    cy.contains('External Identifier Sources and Vocabularies')
+    cy.contains('Sinopia help site')
   })
 
   it('Closes help and resources', () => {
     cy.get('button[aria-label="Close Help Menu"]').click()
 
-    cy.contains('External Identifier Sources and Vocabularies')
+    cy.contains('Sinopia help site')
   })
 
   it('Opens Load RDF', () => {
@@ -91,13 +91,13 @@ describe('Looking at the Help and Resources gutter', () => {
   it('Opens help and resources', () => {
     cy.contains('a', 'Help and Resources').click()
 
-    cy.contains('External Identifier Sources and Vocabularies')
+    cy.contains('Sinopia help site')
   })
 
   it('Closes help and resources', () => {
     cy.get('button[aria-label="Close Help Menu"]').click()
 
-    cy.contains('External Identifier Sources and Vocabularies')
+    cy.contains('Sinopia help site')
   })
 
   it('Opens Exports', () => {
@@ -109,12 +109,12 @@ describe('Looking at the Help and Resources gutter', () => {
   it('Opens help and resources', () => {
     cy.contains('a', 'Help and Resources').click()
 
-    cy.contains('External Identifier Sources and Vocabularies')
+    cy.contains('Sinopia help site')
   })
 
   it('Closes help and resources', () => {
     cy.get('button[aria-label="Close Help Menu"]').click()
 
-    cy.contains('External Identifier Sources and Vocabularies')
+    cy.contains('Sinopia help site')
   })
 })
