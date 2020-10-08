@@ -1,44 +1,66 @@
 // Copyright 2020 Stanford University see LICENSE for license
 
-import React from 'react'
+import React, { useState } from 'react'
 import PropTypes from 'prop-types'
 import { selectModalType } from 'selectors/modals'
-import { connect, useSelector, useDispatch } from 'react-redux'
+import { connect, useSelector } from 'react-redux'
 import { bindActionCreators } from 'redux'
 import { displayResourceValidations } from 'selectors/errors'
 import { selectNormValues, selectCurrentResourceIsReadOnly } from 'selectors/resources'
 import _ from 'lodash'
 import { removeValue } from 'actions/resources'
-import { showModal } from 'actions/modals'
-import ModalWrapper from 'components/ModalWrapper'
-import LookupModal from './LookupModal'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faGlobe, faSearch, faTrashAlt } from '@fortawesome/free-solid-svg-icons'
 import ResourceList from './ResourceList'
+import Lookup from './Lookup'
 
 const InputLookup = (props) => {
-  const dispatch = useDispatch()
   const displayValidations = useSelector((state) => displayResourceValidations(state, props.property.rootSubjectKey))
   const errors = props.property.errors
   const readOnly = useSelector((state) => selectCurrentResourceIsReadOnly(state))
-
   const isRepeatable = props.propertyTemplate.repeatable
-
   const isDisabled = readOnly || (props.lookupValues.length > 0 && !isRepeatable)
 
-  let error
-  let controlClasses = 'open-search-modal btn btn-sm btn-secondary btn-literal form-control'
+  // LookupString is what appears in the input. Query is sent to Lookup.
+  const [lookupString, setLookupString] = useState('')
+  const [query, setQuery] = useState('')
 
+  const [showLookup, setShowLookup] = useState(false)
+
+
+  let error
+  const controlClasses = ['form-control']
   if (displayValidations && !_.isEmpty(errors)) {
-    controlClasses += ' is-invalid'
+    controlClasses.push('is-invalid')
     error = errors.join(',')
   }
 
-  const modalId = `InputLookupModal-${props.property.key}`
-
-  const handleClick = (event) => {
+  const handleLookupChange = (event) => {
     event.preventDefault()
-    dispatch(showModal(modalId))
+    setLookupString(event.target.value)
+  }
+
+  const handleKeyPress = (event) => {
+    if (event.key === 'Enter') {
+      event.preventDefault()
+      lookup()
+    }
+  }
+
+  const handleSubmit = (event) => {
+    event.preventDefault()
+    lookup()
+  }
+
+  const hideLookup = (event) => {
+    if (event) event.preventDefault()
+    setShowLookup(false)
+    setLookupString('')
+  }
+
+  const lookup = () => {
+    setShowLookup(true)
+    setQuery(lookupString)
   }
 
   const lookupSelection = props.lookupValues.map((lookupValue) => (
@@ -53,31 +75,41 @@ const InputLookup = (props) => {
     </div>
   ))
 
-  let modal
-  if (props.show) {
-    modal = (
-      <LookupModal modalId={modalId}
-                   property={props.property}
-                   propertyTemplate={props.propertyTemplate}
-                   show={props.show} />
-    )
-  }
-
+  const inputId = `lookup-input-${props.property.key}`
   return (
     <React.Fragment>
-      <button
-        id="lookup"
-        data-testid="lookup"
-        onClick={ handleClick }
-        aria-label={`Lookup value for ${props.propertyTemplate.label}`}
-        disabled={isDisabled}
-        className={controlClasses}>
-        <FontAwesomeIcon className="search-icon" icon={faSearch} />
-      </button>
+      <div className="form-inline" style={{ marginBottom: '5px' }}>
+        <label htmlFor={inputId}>Lookup</label>
+        <input id={inputId} type="text" className={controlClasses.join(' ')}
+               style={{ width: '750px', marginLeft: '5px' }}
+               onChange={handleLookupChange}
+               onKeyPress={handleKeyPress}
+               placeholder="Enter lookup query"
+               disabled={isDisabled}
+               value={ lookupString } />
+        <button className="btn btn-default"
+                type="submit"
+                title="Submit lookup"
+                onClick={handleSubmit}
+                disabled={isDisabled}
+                aria-label={`Submit lookup for ${props.propertyTemplate.label}`}
+                data-testid={`Submit lookup for ${props.propertyTemplate.label}`}>
+          <FontAwesomeIcon className="fa-search" icon={faSearch} />
+        </button>
+      </div>
       {error && <span className="invalid-feedback">{error}</span>}
-      { lookupSelection }
+      <div className="row">
+        { lookupSelection }
+      </div>
       <ResourceList property={props.property} />
-      <ModalWrapper modal={modal} />
+      <div className="row">
+        <Lookup
+          property={props.property}
+          propertyTemplate={props.propertyTemplate}
+          show={showLookup}
+          hideLookup={hideLookup}
+          query={query} />
+      </div>
     </React.Fragment>
   )
 }

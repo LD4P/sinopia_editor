@@ -71,7 +71,7 @@ describe('searching and viewing a resource', () => {
     expect(screen.getByTestId('Edit Uber template3, property1')).toBeDisabled()
     expect(screen.getByTestId('Change language for Uber template3, property1')).toBeDisabled()
     expect(screen.getByTestId('Remove analog')).toBeDisabled()
-    screen.getAllByTestId('lookup').forEach((lookupValueControl) => {
+    screen.getAllByTestId(/Submit lookup/).forEach((lookupValueControl) => {
       expect(lookupValueControl).toBeDisabled()
     })
     screen.getAllByTestId('list').forEach((listControl) => {
