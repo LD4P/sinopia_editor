@@ -13,7 +13,7 @@ import SearchResultsPaging from './SearchResultsPaging'
 import SearchResultsMessage from './SearchResultsMessage'
 import Alert from '../Alert'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faTrashAlt, faSearch } from '@fortawesome/free-solid-svg-icons'
+import { faTrashAlt } from '@fortawesome/free-solid-svg-icons'
 import searchConfig from '../../../static/searchConfig.json'
 import {
   selectSearchError, selectSearchQuery, selectSearchUri, selectSearchOptions,
@@ -149,7 +149,7 @@ const Search = (props) => {
                           title="Submit search"
                           aria-label="Submit search"
                           data-testid="Submit search">
-                          Search
+                    Search
                   </button>
                   <button className="btn btn-default"
                           type="button"
