@@ -1,6 +1,6 @@
 // Copyright 2020 Stanford University see LICENSE for license
 
-import React, { useState } from 'react'
+import React, { useState, useRef } from 'react'
 import PropTypes from 'prop-types'
 import { selectModalType } from 'selectors/modals'
 import { connect, useSelector } from 'react-redux'
@@ -13,20 +13,30 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faGlobe, faSearch, faTrashAlt } from '@fortawesome/free-solid-svg-icons'
 import ResourceList from './ResourceList'
 import Lookup from './Lookup'
+import useDiacritics from 'hooks/useDiacritics'
+import DiacriticsSelection from 'components/editor/diacritics/DiacriticsSelection'
 
 const InputLookup = (props) => {
+  const inputLookupRef = useRef(null)
+  const {
+    clearContent, handleKeyDownDiacritics, handleChangeDiacritics,
+    handleBlurDiacritics, toggleDiacritics, closeDiacritics,
+    handleAddCharacter, handleClickDiacritics,
+    currentContent, showDiacritics,
+  } = useDiacritics(inputLookupRef, id, diacriticsId)
+  const id = `inputlookup-${props.property.key}`
+  const diacriticsId = `diacritics-${props.property.key}`
+
   const displayValidations = useSelector((state) => displayResourceValidations(state, props.property.rootSubjectKey))
   const errors = props.property.errors
   const readOnly = useSelector((state) => selectCurrentResourceIsReadOnly(state))
   const isRepeatable = props.propertyTemplate.repeatable
   const isDisabled = readOnly || (props.lookupValues.length > 0 && !isRepeatable)
 
-  // LookupString is what appears in the input. Query is sent to Lookup.
-  const [lookupString, setLookupString] = useState('')
+  // currentContent is what appears in the input. Query is sent to Lookup.
   const [query, setQuery] = useState('')
 
   const [showLookup, setShowLookup] = useState(false)
-
 
   let error
   const controlClasses = ['form-control']
@@ -35,16 +45,13 @@ const InputLookup = (props) => {
     error = errors.join(',')
   }
 
-  const handleLookupChange = (event) => {
-    event.preventDefault()
-    setLookupString(event.target.value)
-  }
-
-  const handleKeyPress = (event) => {
+  const handleKeyDown = (event) => {
     if (event.key === 'Enter') {
       event.preventDefault()
       lookup()
     }
+    // Handle any position changing
+    handleKeyDownDiacritics(event)
   }
 
   const handleSubmit = (event) => {
@@ -55,12 +62,18 @@ const InputLookup = (props) => {
   const hideLookup = (event) => {
     if (event) event.preventDefault()
     setShowLookup(false)
-    setLookupString('')
+    clearContent()
+  }
+
+  const onSelectionChanged = () => {
+    hideLookup()
+    closeDiacritics()
   }
 
   const lookup = () => {
     setShowLookup(true)
-    setQuery(lookupString)
+    closeDiacritics()
+    setQuery(currentContent)
   }
 
   const lookupSelection = props.lookupValues.map((lookupValue) => (
@@ -80,13 +93,24 @@ const InputLookup = (props) => {
     <React.Fragment>
       <div className="form-inline" style={{ marginBottom: '5px' }}>
         <label htmlFor={inputId}>Lookup</label>
-        <input id={inputId} type="text" className={controlClasses.join(' ')}
-               style={{ width: '750px', marginLeft: '5px' }}
-               onChange={handleLookupChange}
-               onKeyPress={handleKeyPress}
-               placeholder="Enter lookup query"
-               disabled={isDisabled}
-               value={ lookupString } />
+        <div className="input-group" onBlur={handleBlurDiacritics} id={id}>
+          <input id={inputId} type="text" className={controlClasses.join(' ')}
+                 style={{ width: '750px', marginLeft: '5px' }}
+                 onChange={handleChangeDiacritics}
+                 onKeyDown={handleKeyDown}
+                 placeholder="Enter lookup query"
+                 disabled={isDisabled}
+                 value={currentContent}
+                 onClick={handleClickDiacritics}
+                 ref={inputLookupRef} />
+          <div className="input-group-append" tabIndex="0">
+            <button className="btn btn-outline-primary"
+                    disabled={isDisabled}
+                    aria-label={`Select diacritics for ${props.propertyTemplate.label}`}
+                    data-testid={`Select diacritics for ${props.propertyTemplate.label}`}
+                    onClick={toggleDiacritics}>&auml;</button>
+          </div>
+        </div>
         <button className="btn btn-default"
                 type="submit"
                 title="Submit lookup"
@@ -101,6 +125,13 @@ const InputLookup = (props) => {
       <div className="row">
         { lookupSelection }
       </div>
+      <div className="row">
+        <DiacriticsSelection
+            id={diacriticsId}
+            handleAddCharacter={handleAddCharacter}
+            closeDiacritics={closeDiacritics}
+            showDiacritics={showDiacritics} />
+      </div>
       <ResourceList property={props.property} />
       <div className="row">
         <Lookup
@@ -108,6 +139,7 @@ const InputLookup = (props) => {
           propertyTemplate={props.propertyTemplate}
           show={showLookup}
           hideLookup={hideLookup}
+          onSelectionChanged={onSelectionChanged}
           query={query} />
       </div>
     </React.Fragment>

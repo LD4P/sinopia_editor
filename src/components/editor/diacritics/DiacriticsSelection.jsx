@@ -36,7 +36,7 @@ const DiacriticsSelection = (props) => {
     if (event.which === 8) event.preventDefault() // backspace should not be passed to the browser as it can cause the page to go back
   }
 
-  return (<div id={props.id} onKeyDown={keyPressHandler} role="presentation" tabIndex="0" >
+  return (<div id={props.id} onKeyDown={keyPressHandler} role="presentation" tabIndex="0" className="container">
     <div className="row">
       <section className="col-1 offset-11">
         <button className="btn btn-lg" onClick={closeHandler}>&times;</button>

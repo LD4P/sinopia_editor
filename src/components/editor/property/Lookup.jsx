@@ -40,7 +40,7 @@ const Lookup = (props) => {
       newProperty.values.push(newLiteralValue(props.property, item.content, null))
     }
     dispatch(addProperty(newProperty))
-    props.hideLookup()
+    props.onSelectionChanged()
   }
 
   if (!props.show || _.isEmpty(props.query)) return null
@@ -78,6 +78,7 @@ Lookup.propTypes = {
   show: PropTypes.bool,
   query: PropTypes.string.isRequired,
   hideLookup: PropTypes.func.isRequired,
+  onSelectionChanged: PropTypes.func.isRequired,
 }
 
 export default Lookup

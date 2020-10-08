@@ -13,13 +13,17 @@ import _ from 'lodash'
 import { addValue } from 'actions/resources'
 import { newLiteralValue } from 'utilities/valueFactory'
 import DiacriticsSelection from 'components/editor/diacritics/DiacriticsSelection'
+import useDiacritics from 'hooks/useDiacritics'
 
 const InputLiteral = (props) => {
   const inputLiteralRef = useRef(null)
   const [lang, setLang] = useState(defaultLanguageId)
-  const [showDiacritics, setShowDiacritics] = useState(false)
-  const [currentContent, setCurrentContent] = useState('')
-  const [currentPosition, setCurrentPosition] = useState(0)
+  const {
+    clearContent, handleKeyDownDiacritics, handleChangeDiacritics,
+    handleBlurDiacritics, toggleDiacritics, closeDiacritics,
+    handleAddCharacter, handleClickDiacritics,
+    currentContent, setCurrentContent, showDiacritics,
+  } = useDiacritics(inputLiteralRef, id, diacriticsId)
   const id = `inputliteral-${props.property.key}`
   const diacriticsId = `diacritics-${props.property.key}`
   const readOnly = useSelector((state) => selectCurrentResourceIsReadOnly(state))
@@ -27,12 +31,13 @@ const InputLiteral = (props) => {
   const disabled = readOnly || (!props.propertyTemplate.repeatable
                                 && props.property.valueKeys.length > 0)
 
+
   const addItem = () => {
     if (_.isEmpty(currentContent.trim())) return
 
     props.addValue(newLiteralValue(props.property, currentContent.trim(), lang))
-    setCurrentContent('')
-    setCurrentPosition(0)
+    clearContent()
+    closeDiacritics()
     setLang(defaultLanguageId)
   }
 
@@ -42,12 +47,7 @@ const InputLiteral = (props) => {
       event.preventDefault()
     }
     // Handle any position changing
-    setCurrentPosition(event.target.selectionStart)
-  }
-
-  const handleChange = (event) => {
-    setCurrentContent(event.target.value)
-    event.preventDefault()
+    handleKeyDownDiacritics(event)
   }
 
   const handleEdit = (content, lang) => {
@@ -57,33 +57,10 @@ const InputLiteral = (props) => {
   }
 
   const handleBlur = (event) => {
-    if (focusIn(event, diacriticsId)) {
-      setCurrentPosition(inputLiteralRef.current.selectionStart)
-      return
+    if (handleBlurDiacritics(event)) {
+      addItem()
     }
-    if (focusIn(event, id)) return
-
-    addItem()
-    setShowDiacritics(false)
   }
-
-  const toggleDiacritics = (event) => {
-    setShowDiacritics(!showDiacritics)
-
-    event.preventDefault()
-  }
-
-  const closeDiacritics = () => {
-    setShowDiacritics(false)
-    inputLiteralRef.current.focus()
-  }
-
-  const handleAddCharacter = (character) => {
-    setCurrentContent(currentContent.slice(0, currentPosition) + character + currentContent.slice(currentPosition))
-    setCurrentPosition(currentPosition + 1)
-  }
-
-  const handleClick = () => setCurrentPosition(inputLiteralRef.current.selectionStart)
 
   const addedList = props.property.valueKeys.map((valueKey) => (<InputValue key={valueKey}
                                                                             handleEdit={handleEdit}
@@ -95,19 +72,6 @@ const InputLiteral = (props) => {
   if (props.displayValidations && !_.isEmpty(props.property.errors)) {
     controlClasses += ' is-invalid'
     error = props.property.errors.join(',')
-  }
-
-  const focusIn = (event, checkId) => {
-    if (event.relatedTarget === null) return false
-
-    let node = event.relatedTarget
-
-    while (node !== null) {
-      if (node.id === checkId) return true
-      node = node.parentNode
-    }
-
-    return false
   }
 
   // TextareaAutosize does not disable well, so using a disabled input.
@@ -125,9 +89,9 @@ const InputLiteral = (props) => {
               required={required}
               className={controlClasses}
               placeholder={props.propertyTemplate.label}
-              onChange={handleChange}
+              onChange={handleChangeDiacritics}
               onKeyDown={handleKeyDown}
-              onClick={handleClick}
+              onClick={handleClickDiacritics}
               value={currentContent}
               ref={inputLiteralRef} />
         }
