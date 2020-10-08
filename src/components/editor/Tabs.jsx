@@ -2,6 +2,7 @@
 
 import React from 'react'
 import PropTypes from 'prop-types'
+import _ from 'lodash'
 
 const Tabs = (props) => {
   const children = props.children
@@ -48,10 +49,27 @@ const Tabs = (props) => {
     )
   }
 
+  const chunkedChildren = _.chunk(React.Children.toArray(children), 2)
+
+  const tabs = chunkedChildren.map((childPair) => (
+    <div className="row" key={`${childPair[0].props.eventKey}-div`}>
+      <div className="col-6">
+        {renderTab(childPair[0])}
+      </div>
+      { childPair[1]
+        && <div className="col-6">
+          {renderTab(childPair[1])}
+        </div>
+      }
+    </div>
+  ))
+
   return (
     <React.Fragment>
       <ul className="nav nav-tabs" role="tablist">
-        {React.Children.map(children, renderTab)}
+        <div className="container">
+          {tabs}
+        </div>
       </ul>
       <div className="tab-content">
         {React.Children.map(children, renderPanel)}
