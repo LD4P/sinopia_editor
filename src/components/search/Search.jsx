@@ -144,12 +144,12 @@ const Search = (props) => {
                        placeholder="Enter query string"
                        value={ queryString } />
                 <span className="input-group-btn">
-                  <button className="btn btn-default"
+                  <button className="btn btn-primary"
                           type="submit"
                           title="Submit search"
                           aria-label="Submit search"
                           data-testid="Submit search">
-                    <FontAwesomeIcon className="fa-search" icon={faSearch} />
+                          Search
                   </button>
                   <button className="btn btn-default"
                           type="button"
