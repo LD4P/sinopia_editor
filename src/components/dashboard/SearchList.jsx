@@ -40,7 +40,7 @@ const SearchList = (props) => {
   return (
     <div className="row">
       <div className="col">
-        <table className="table table-bordered search-list">
+        <table className="table table-bordered table-sm search-list">
           <thead>
             <tr>
               <th style={{ width: '30%' }}>
