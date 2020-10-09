@@ -10,7 +10,7 @@ import { selectNormValues, selectCurrentResourceIsReadOnly } from 'selectors/res
 import _ from 'lodash'
 import { removeValue } from 'actions/resources'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faGlobe, faSearch, faTrashAlt } from '@fortawesome/free-solid-svg-icons'
+import { faGlobe, faTrashAlt } from '@fortawesome/free-solid-svg-icons'
 import ResourceList from './ResourceList'
 import Lookup from './Lookup'
 import useDiacritics from 'hooks/useDiacritics'
@@ -92,10 +92,9 @@ const InputLookup = (props) => {
   return (
     <React.Fragment>
       <div className="form-inline" style={{ marginBottom: '5px' }}>
-        <label htmlFor={inputId}>Lookup</label>
         <div className="input-group" onBlur={handleBlurDiacritics} id={id}>
           <input id={inputId} type="text" className={controlClasses.join(' ')}
-                 style={{ width: '750px', marginLeft: '5px' }}
+                 style={{ width: '750px' }}
                  onChange={handleChangeDiacritics}
                  onKeyDown={handleKeyDown}
                  placeholder="Enter lookup query"
@@ -111,14 +110,15 @@ const InputLookup = (props) => {
                     onClick={toggleDiacritics}>&auml;</button>
           </div>
         </div>
-        <button className="btn btn-default"
+        <button className="btn btn-primary"
                 type="submit"
                 title="Submit lookup"
                 onClick={handleSubmit}
                 disabled={isDisabled}
+                style={{ marginLeft: '5px' }}
                 aria-label={`Submit lookup for ${props.propertyTemplate.label}`}
                 data-testid={`Submit lookup for ${props.propertyTemplate.label}`}>
-          <FontAwesomeIcon className="fa-search" icon={faSearch} />
+          Lookup
         </button>
       </div>
       {error && <span className="invalid-feedback">{error}</span>}
