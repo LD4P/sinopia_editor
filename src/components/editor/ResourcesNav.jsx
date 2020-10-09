@@ -34,11 +34,20 @@ const ResourcesNav = () => {
     }
     return (
       <li className={itemClasses.join(' ')} key={resourceKey}>
-        <div className="btn-group">
-          <a className="nav-link"
-             href="#resourceTemplate"
-             onClick={(event) => handleResourceNavClick(event, resourceKey)}>{navLabels[resourceKey]}</a>
-          {closeButton}
+        <div className="container">
+          <div className="row">
+            <div className="col"
+                 style={{ padding: '0px' }}>
+              <a className="nav-link"
+                 href="#resourceTemplate"
+                 onClick={(event) => handleResourceNavClick(event, resourceKey)}>{navLabels[resourceKey]}</a>
+            </div>
+            { closeButton
+              && <div className="col-1" style={{ padding: '0px' }}>
+                {closeButton}
+              </div>
+            }
+          </div>
         </div>
       </li>
     )
