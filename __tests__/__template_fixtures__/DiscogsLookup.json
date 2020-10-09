@@ -40,9 +40,15 @@
     "@type": [
       "http://sinopia.io/vocabulary/LookupPropertyTemplate"
     ],
-    "http://sinopia.io/vocabulary/hasAuthority": [
+     "http://sinopia.io/vocabulary/hasAuthority": [
       {
         "@id": "urn:discogs"
+      },
+      {
+        "@id": "urn:discogs:release"
+      },
+      {
+        "@id": "urn:discogs:master"
       }
     ]
   },

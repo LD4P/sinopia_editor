@@ -8,12 +8,9 @@ import { getContextValues, getContextValue } from 'utilities/QuestioningAuthorit
 class RenderLookupContext extends Component {
   // Discogs specific functions
   renderContext = (innerResult, authURI) => {
-    switch (authURI) {
-      case 'urn:discogs':
-        return this.buildDiscogsContext(innerResult)
-      default:
-        return this.renderContextContent(innerResult, authURI)
-    }
+    if (authURI.startsWith('urn:discogs')) return this.buildDiscogsContext(innerResult)
+
+    return this.renderContextContent(innerResult, authURI)
   }
 
   buildDiscogsContext = (innerResult) => {
