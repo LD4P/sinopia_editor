@@ -101,23 +101,23 @@ describe('editing a literal property', () => {
     expect(input).toHaveValue('Fo')
 
     // Click diacritic button
-    expect(screen.queryAllByText('Latin Extended')).toHaveLength(0)
+    expect(screen.queryAllByText('Latin')).toHaveLength(0)
     const diacriticBtn = screen.getByTestId('Select diacritics for Uber template1, property4')
     fireEvent.click(diacriticBtn)
 
     // Click a diacritic
-    await screen.findByText('Latin Extended')
-    fireEvent.change(screen.getByTestId('Select vocabulary'), { target: { value: 'latinextended' } })
+    await screen.findByText('Latin')
+    fireEvent.change(screen.getByTestId('Select vocabulary'), { target: { value: 'latin' } })
     fireEvent.click(await screen.findByText('ọ'))
     expect(input).toHaveValue('Foọ')
 
     // press backspace while the focus is on the diacritic panel and make sure we are still on the edit page
     fireEvent.keyDown(await screen.findByText('ọ'), { key: 'Backspace', code: 8, charCode: 8 })
-    expect(screen.queryAllByText('Latin Extended')).toHaveLength(1)
+    expect(screen.queryAllByText('Latin')).toHaveLength(1)
 
     // Close it
     fireEvent.click(diacriticBtn)
-    expect(screen.queryAllByText('Latin Extended')).toHaveLength(0)
+    expect(screen.queryAllByText('Latin')).toHaveLength(0)
   }, 15000)
 
   it('allows selecting a language', async () => {
