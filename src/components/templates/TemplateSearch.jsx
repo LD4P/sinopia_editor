@@ -65,14 +65,15 @@ const TemplateSearch = (props) => {
       <div id="search">
         <Alert text={error} />
         <div className="row">
-          <div className="col">
+          <div className="col-md-10">
             <form className="form-inline" onSubmit={(event) => event.preventDefault()}>
-              <div className="form-group" style={{ paddingBottom: '10px', paddingTop: '10px' }}>
-                <label className="font-weight-bold" htmlFor="searchInput">Find a resource template</label>&nbsp;
-                <div className="input-group" style={{ width: '750px', paddingLeft: '5px' }}>
+              <div className="form-group" style={{ paddingBottom: '10px', paddingTop: '10px', width: '100%' }}>
+                <div className="input-group">
+                  <label className="font-weight-bold" htmlFor="searchInput">Find a resource template</label>&nbsp;
                   <input id="searchInput"
                          type="text"
                          className="form-control"
+                         style ={{ marginLeft: '5px' }}
                          onChange={ updateSearch }
                          placeholder="Enter id, label, URI, remark, or author"
                          value={ queryString } />
@@ -90,7 +91,7 @@ const TemplateSearch = (props) => {
               </div>
             </form>
           </div>
-          <div className="col-sm-2">
+          <div className="col-md-2">
             <NewResourceTemplateButton history={props.history} />
           </div>
         </div>

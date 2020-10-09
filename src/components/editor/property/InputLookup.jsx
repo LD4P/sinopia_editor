@@ -94,7 +94,6 @@ const InputLookup = (props) => {
       <div className="form-inline" style={{ marginBottom: '5px' }}>
         <div className="input-group" onBlur={handleBlurDiacritics} id={id}>
           <input id={inputId} type="text" className={controlClasses.join(' ')}
-                 style={{ width: '750px' }}
                  onChange={handleChangeDiacritics}
                  onKeyDown={handleKeyDown}
                  placeholder="Enter lookup query"
@@ -109,17 +108,17 @@ const InputLookup = (props) => {
                     data-testid={`Select diacritics for ${props.propertyTemplate.label}`}
                     onClick={toggleDiacritics}>&auml;</button>
           </div>
+          <button className="btn btn-primary"
+                  type="submit"
+                  title="Submit lookup"
+                  onClick={handleSubmit}
+                  disabled={isDisabled}
+                  style={{ marginLeft: '5px' }}
+                  aria-label={`Submit lookup for ${props.propertyTemplate.label}`}
+                  data-testid={`Submit lookup for ${props.propertyTemplate.label}`}>
+            Lookup
+          </button>
         </div>
-        <button className="btn btn-primary"
-                type="submit"
-                title="Submit lookup"
-                onClick={handleSubmit}
-                disabled={isDisabled}
-                style={{ marginLeft: '5px' }}
-                aria-label={`Submit lookup for ${props.propertyTemplate.label}`}
-                data-testid={`Submit lookup for ${props.propertyTemplate.label}`}>
-          Lookup
-        </button>
       </div>
       {error && <span className="invalid-feedback">{error}</span>}
       <div className="row">
