@@ -76,17 +76,24 @@ const InputLookup = (props) => {
     setQuery(currentContent)
   }
 
-  const lookupSelection = props.lookupValues.map((lookupValue) => (
-    <div key={lookupValue.key} className="lookup-value">
-      <span key={lookupValue.key}>{lookupValue.label || lookupValue.literal}</span>
-      <a href={lookupValue.uri} aria-label={`Link to value ${lookupValue.uri}`} target="_new">
-        <span aria-hidden="true"><FontAwesomeIcon className="globe-icon" icon={faGlobe} /></span>
-      </a>
-      <button onClick={() => props.removeValue(lookupValue.key)}>
-        <FontAwesomeIcon className="trash-icon" icon={faTrashAlt} />
-      </button>
-    </div>
-  ))
+  const lookupSelection = props.lookupValues.map((lookupValue) => {
+    const label = lookupValue.label || lookupValue.literal
+
+    return (
+      <div key={lookupValue.key} className="lookup-value">
+        <span key={lookupValue.key}>{label}</span>
+        <a href={lookupValue.uri} aria-label={`Link to value ${lookupValue.uri}`} target="_new">
+          <span aria-hidden="true"><FontAwesomeIcon className="globe-icon" icon={faGlobe} /></span>
+        </a>
+        <button
+          onClick={() => props.removeValue(lookupValue.key)}
+          data-testid={`Remove ${label}`}
+          aria-label={`Remove ${label}`}>
+          <FontAwesomeIcon className="trash-icon" icon={faTrashAlt} />
+        </button>
+      </div>
+    )
+  })
 
   const inputId = `lookup-input-${props.property.key}`
   return (

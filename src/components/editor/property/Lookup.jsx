@@ -46,7 +46,7 @@ const Lookup = (props) => {
   if (!props.show || _.isEmpty(props.query)) return null
 
   return (
-    <div className="container">
+    <div className="container lookup">
 
       <div className="row">
         <div className="col-11">
