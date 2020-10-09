@@ -170,7 +170,8 @@ const orderedObjects = (subjectTerm, property, dataset, usedDataset) => {
   const quads = dataset.match(subjectTerm, rdf.namedNode(property.propertyTemplate.uri)).toArray()
   // Should only be one.
   if (quads.length > 1) {
-    throw `More than one quad for ordered property ${property.propertyTemplate.uri}: ${quads}`
+    console.error(`More than one quad for ordered property ${property.propertyTemplate.uri}.`)
+    return []
   }
   if (quads.length === 0) return []
   usedDataset.addAll(quads)

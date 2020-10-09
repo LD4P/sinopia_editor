@@ -166,6 +166,40 @@ describe('newResourceFromDataset', () => {
     })
   })
 
+  describe('loading a resource with more than one quad for ordered property', () => {
+    const store = mockStore(createState())
+
+    it('dispatches actions', async () => {
+      const extraRdf = `<> <http://id.loc.gov/ontologies/bibframe/uber/template1/property19> _:b1.
+_:b1 a <http://id.loc.gov/ontologies/bibframe/Uber4>;
+    <http://id.loc.gov/ontologies/bibframe/uber/template4/property1> "foo"@eng.
+<> <http://id.loc.gov/ontologies/bibframe/uber/template1/property19> _:b2.
+_:b2 a <http://id.loc.gov/ontologies/bibframe/Uber4>;
+    <http://id.loc.gov/ontologies/bibframe/uber/template4/property1> "bar"@eng.
+`
+      const dataset = await datasetFromN3(n3 + extraRdf)
+      const result = await store.dispatch(newResourceFromDataset(dataset, uri, null, 'testerrorkey'))
+      expect(result).toBe(true)
+
+      const actions = store.getActions()
+
+      const addSubjectAction = actions.find((action) => action.type === 'ADD_SUBJECT')
+      expect(safeAction(addSubjectAction)).toEqual(expectedAddResourceAction)
+
+      expect(actions).toHaveAction('SET_UNUSED_RDF', {
+        resourceKey: 'abc0',
+        rdf: `<> <http://id.loc.gov/ontologies/bibframe/uber/template1/property19> _:c14n0 .
+<> <http://id.loc.gov/ontologies/bibframe/uber/template1/property19> _:c14n1 .
+_:c14n0 <http://id.loc.gov/ontologies/bibframe/uber/template4/property1> "bar"@eng .
+_:c14n0 <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://id.loc.gov/ontologies/bibframe/Uber4> .
+_:c14n1 <http://id.loc.gov/ontologies/bibframe/uber/template4/property1> "foo"@eng .
+_:c14n1 <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://id.loc.gov/ontologies/bibframe/Uber4> .
+`,
+      })
+    })
+  })
+
+
   describe('loading a new resource', () => {
     const store = mockStore(createState())
 
