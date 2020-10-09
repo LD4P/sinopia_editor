@@ -1,66 +1,64 @@
 // Copyright 2019 Stanford University see LICENSE for license
 
-import React, { useState } from 'react'
+import React, { useState, useRef } from 'react'
 import { useSelector } from 'react-redux'
 import { postMarc, getMarcJob, getMarc } from 'sinopiaApi'
 import { selectCurrentResourceKey, selectNormSubject } from 'selectors/resources'
 import { selectSubjectTemplate } from 'selectors/templates'
 import { saveAs } from 'file-saver'
+import shortid from 'shortid'
 
 const MarcButton = () => {
+  const marcs = useRef({})
   const resourceKey = useSelector((state) => selectCurrentResourceKey(state))
   const resource = useSelector((state) => selectNormSubject(state, resourceKey))
   const subjectTemplate = useSelector((state) => selectSubjectTemplate(state, resource?.subjectTemplateKey))
-  const [marc, setMarc] = useState(false)
-  const [marcUrl, setMarcUrl] = useState(false)
-  const [error, setError] = useState(false)
+  const [, setRender] = useState(false)
 
   if (!resource?.uri || subjectTemplate?.class !== 'http://id.loc.gov/ontologies/bibframe/Instance') return null
 
-  const marcJobTimer = (marcJobUrl) => {
+  const marcJobTimer = (marcJobUrl, resourceKey) => {
     getMarcJob(marcJobUrl)
       .then(([url, body]) => {
         if (!url) {
-          setTimeout(marcJobTimer, 10000, marcJobUrl)
+          setTimeout(marcJobTimer, 10000, marcJobUrl, resourceKey)
           return
         }
-        setMarc(body)
-        setMarcUrl(url)
+        marcs.current[resourceKey] = { marc: body, marcUrl: url }
+        setRender(shortid.generate())
       })
-      .catch((err) => setError(err.message || error))
+      .catch((err) => marcs.current[resourceKey] = { error: err.message || err })
   }
 
   const handleRequest = (event) => {
-    setMarc(false)
-    setMarcUrl(false)
-    setError(false)
+    delete marcs.current[resourceKey]
     postMarc(resource.uri)
       .then((marcJobUrl) => {
-        marcJobTimer(marcJobUrl)
+        marcJobTimer(marcJobUrl, resourceKey)
       })
-      .catch((err) => setError(err.message || error))
+      .catch((err) => marcs.current[resourceKey] = { error: err.message || err })
     event.preventDefault()
   }
 
   const handleDownloadTxt = (event) => {
-    const blob = new Blob([marc], { type: 'text/plain;charset=utf-8' })
+    const blob = new Blob([marcs.current[resourceKey].marc], { type: 'text/plain;charset=utf-8' })
     saveAs(blob, `record-${resource.uri}.txt`)
     event.preventDefault()
   }
 
   const handleDownloadMarc = (event) => {
-    getMarc(marcUrl)
+    getMarc(marcs.current[resourceKey].marcUrl)
       .then((blob) => {
         saveAs(blob, `record-${resource.uri}.mar`)
       })
-      .catch((err) => setError(err.message || error))
+      .catch((err) => marcs.current[resourceKey] = { error: err.message || err })
     event.preventDefault()
   }
 
   const btnClasses = ['btn', 'dropdown-toggle']
-  if (marc) {
+  if (marcs.current[resourceKey]?.marc) {
     btnClasses.push('btn-success')
-  } else if (error) {
+  } else if (marcs.current[resourceKey]?.error) {
     btnClasses.push('btn-danger')
   } else {
     btnClasses.push('btn-primary')
@@ -78,20 +76,20 @@ const MarcButton = () => {
       </button>
       <div className="dropdown-menu" aria-labelledby="marcBtn">
         <button className="btn btn-link dropdown-item" onClick={(event) => handleRequest(event)}>Request conversion to MARC</button>
-        { marc
+        { marcs.current[resourceKey]?.marc
           && <React.Fragment>
             <button className="btn btn-link dropdown-item" onClick={(event) => handleDownloadTxt(event)}>Download text</button>
             <button className="btn btn-link dropdown-item" onClick={(event) => handleDownloadMarc(event)}>Download MARC</button>
             <pre style={{
               marginLeft: '10px', marginRight: '10px', paddingLeft: '10px', paddingRight: '10px', maxWidth: '750px',
-            }}>{marc}</pre>
+            }}>{marcs.current[resourceKey].marc}</pre>
           </React.Fragment>
         }
-        { error
+        { marcs.current[resourceKey]?.error
           && <div className="alert alert-danger" role="alert" style={{
             marginLeft: '10px', marginRight: '10px', paddingLeft: '10px', paddingRight: '10px',
           }}>
-            { error }
+            { marcs.current[resourceKey].marc }
           </div>
         }
       </div>
