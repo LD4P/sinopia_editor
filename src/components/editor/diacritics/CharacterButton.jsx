@@ -6,12 +6,17 @@ import PropTypes from 'prop-types'
 const CharacterButton = (props) => {
   const cleanCharacter = () => {
     // For some reason, some combining characters are precombined with ◌ (U+25CC)
+    let cleanChars = ''
     if (props.character.length > 1) {
       for (let i = 0; i < props.character.length; i++) {
-        if (props.character.codePointAt(i) !== 9676) return props.character[i]
+        if (props.character.codePointAt(i) !== 9676) {
+          cleanChars += props.character[i]
+        }
       }
+    } else {
+      cleanChars = props.character
     }
-    return props.character
+    return cleanChars
   }
 
   const handleClick = (event) => {
