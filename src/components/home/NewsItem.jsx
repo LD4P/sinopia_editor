@@ -9,10 +9,10 @@ const NewsItem = () => (
     <h4>Sinopia Version {version} highlights</h4>
     <p><i>For complete release notes see the <a href="https://github.com/LD4P/sinopia/wiki/Latest-Release,-What's-Next">Sinopia help site</a>.</i></p>
     <ul>
-      <li>Sinopia API allows external systems to request data, including query by date and type</li>
-      <li>Vocabulary of Sinopia-specific classes and properties published</li>
-      <li>Modal lookups make it easier to see context for external authorities</li>
-      <li>Preview available from Search</li>
+      <li>Dashboard includes records user worked on recently</li>
+      <li>Lookup enhancements: faster lookups; ability to page more results; ability to use diacritics in search string; result counts; dropdown lists sorted</li>
+      <li>Template creation enhancements: when nesting a template, choose from menu of existing templates;
+        when adding lookups, choose from menu of available lookups</li>
     </ul>
   </div>
 )
