@@ -274,7 +274,7 @@ button.btn-add-instance {
   display: flex;
   justify-content: center;
   align-items: center;
-  margin-right: 10px;
+  margin: 1px 0px 10px 15px;
 
   span {
     padding: 5px 12px 5px 12px;
@@ -295,8 +295,12 @@ button.btn-add-instance {
   }
 }
 
-.input-group-btn {
-  margin-left: 5px;
+.input-group {
+  width: 100% !important;
+
+   .input-group-btn {
+     margin-left: 5px;
+   }
 }
 
 .hidden {

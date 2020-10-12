@@ -137,7 +137,7 @@ const Search = (props) => {
               width: '750px', marginTop: '10px', paddingLeft: '5px', paddingBottom: '10px',
             }}>
               <label className="sr-only" htmlFor="searchInput">Query</label>
-              <div className="input-group" style={{ width: '100%' }}>
+              <div className="input-group">
                 <input id="searchInput" type="text" className="form-control"
                        onChange={ (event) => setQueryString(event.target.value) }
                        onKeyPress={handleKeyPress}
