@@ -58,7 +58,7 @@ describe('searching and viewing a resource', () => {
 
     // Modal has now rendered
     expect((await screen.findByTestId('view-resource-modal')).classList).toContain('show')
-    expect((await screen.findAllByText('Uber template1, property1', { selector: 'span' }))).toHaveLength(1)
+    expect((await screen.findAllByText('Uber template1, property1', { selector: 'label' }))).toHaveLength(1)
 
     // Edit controls are disabled in view modal
     screen.getAllByTestId('Remove Uber template3, property1').forEach((removeButton) => {

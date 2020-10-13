@@ -94,6 +94,7 @@ const InputList = (props) => {
           onBlur={selectionChanged}
           aria-label={`Select ${props.propertyTemplate.label}`}
           data-testid="list"
+          id={props.propertyLabelId}
         >{options}
         </select>
         {error && <span className="invalid-feedback">{error}</span>}
@@ -109,6 +110,7 @@ InputList.propTypes = {
   propertyTemplate: PropTypes.object.isRequired,
   values: PropTypes.array,
   addValue: PropTypes.func,
+  propertyLabelId: PropTypes.string.isRequired,
 }
 
 const mapStateToProps = (state, ownProps) => ({

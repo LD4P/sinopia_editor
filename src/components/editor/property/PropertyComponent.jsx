@@ -19,7 +19,7 @@ const PropertyComponent = (props) => {
       ))
     case 'InputLiteral':
       return (
-        <InputLiteral property={props.property} propertyTemplate={props.propertyTemplate} />
+        <InputLiteral propertyLabelId={props.propertyLabelId} property={props.property} propertyTemplate={props.propertyTemplate} />
       )
     case 'InputURI':
       return (
@@ -31,7 +31,7 @@ const PropertyComponent = (props) => {
       )
     case 'InputList':
       return (
-        <InputList property={props.property} propertyTemplate={props.propertyTemplate} />
+        <InputList propertyLabelId={props.propertyLabelId} property={props.property} propertyTemplate={props.propertyTemplate} />
       )
     default:
       return (
@@ -43,6 +43,7 @@ const PropertyComponent = (props) => {
 PropertyComponent.propTypes = {
   property: PropTypes.object.isRequired,
   propertyTemplate: PropTypes.object.isRequired,
+  propertyLabelId: PropTypes.string.isRequired,
 }
 
 export default PropertyComponent

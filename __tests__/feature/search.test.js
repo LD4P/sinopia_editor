@@ -163,7 +163,7 @@ describe('sinopia resource search', () => {
     await screen.findByText(/foo bar/)
     expect(searchSpinner.classList.contains('hidden')).toBe(true) // search spinner hidden again
 
-    // TODO: why don't filtering options show up in test UI?
+    // TODO: why don't filtering options show up in test UI? -- https://github.com/LD4P/sinopia_editor/issues/2499
     // screen.debug()
     // fireEvent.click(screen.getByText(/Filter by institution/, { selector: 'button' }))
     // fireEvent.click(screen.getByText('Cornell University'))
