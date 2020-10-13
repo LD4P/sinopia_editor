@@ -1,3 +1,5 @@
+// Copyright 2020 Stanford University see LICENSE for license
+
 import rdf from 'rdf-ext'
 import shortid from 'shortid'
 import _ from 'lodash'
@@ -158,6 +160,7 @@ const mergeValues = (valuesFromTemplates, valuesFromObjs) => {
 const valuesMapFor = (values) => {
   const valuesMap = {}
   values.forEach((value) => {
+    if (_.isEmpty(value)) return
     const subjectTemplateKey = value.valueSubject.subjectTemplate.key
     if (!valuesMap[subjectTemplateKey]) valuesMap[subjectTemplateKey] = []
     valuesMap[subjectTemplateKey].push(value)
