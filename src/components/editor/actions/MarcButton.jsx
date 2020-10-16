@@ -27,7 +27,10 @@ const MarcButton = () => {
         marcs.current[resourceKey] = { marc: body, marcUrl: url }
         setRender(shortid.generate())
       })
-      .catch((err) => marcs.current[resourceKey] = { error: err.message || err })
+      .catch((err) => {
+        marcs.current[resourceKey] = { error: err.message || err }
+        setRender(shortid.generate())
+      })
   }
 
   const handleRequest = (event) => {
@@ -36,7 +39,10 @@ const MarcButton = () => {
       .then((marcJobUrl) => {
         marcJobTimer(marcJobUrl, resourceKey)
       })
-      .catch((err) => marcs.current[resourceKey] = { error: err.message || err })
+      .catch((err) => {
+        marcs.current[resourceKey] = { error: err.message || err }
+        setRender(shortid.generate())
+      })
     event.preventDefault()
   }
 
@@ -89,7 +95,7 @@ const MarcButton = () => {
           && <div className="alert alert-danger" role="alert" style={{
             marginLeft: '10px', marginRight: '10px', paddingLeft: '10px', paddingRight: '10px',
           }}>
-            { marcs.current[resourceKey].marc }
+            { marcs.current[resourceKey].error }
           </div>
         }
       </div>
