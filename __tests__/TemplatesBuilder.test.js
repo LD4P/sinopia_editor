@@ -212,6 +212,7 @@ _:b1_c14n1 <http://www.w3.org/1999/02/22-rdf-syntax-ns#first> _:b5_c14n1 .
 _:b1_c14n1 <http://www.w3.org/1999/02/22-rdf-syntax-ns#rest> <http://www.w3.org/1999/02/22-rdf-syntax-ns#nil> .
 _:b5_c14n0 <http://sinopia.io/vocabulary/hasAuthority> <urn:discogs> .
 _:b5_c14n0 <http://sinopia.io/vocabulary/hasAuthority> <urn:ld4p:qa:agrovoc> .
+_:b5_c14n0 <http://sinopia.io/vocabulary/hasAuthority> <urn:ld4p:sinopia:bibframe:instance> .
 _:b5_c14n0 <http://sinopia.io/vocabulary/hasDefault> _:b5_c14n2 .
 _:b5_c14n0 <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://sinopia.io/vocabulary/LookupPropertyTemplate> .
 _:b5_c14n1 <http://sinopia.io/vocabulary/hasLookupAttributes> _:b5_c14n0 .
@@ -251,6 +252,12 @@ _:b5_c14n2 <http://www.w3.org/2000/01/rdf-schema#label> "URI1"@eng .`
           authority: 'agrovoc_ld4l_cache',
           subauthority: '',
           nonldLookup: false,
+        },
+        {
+          label: 'Sinopia BIBFRAME instance resources',
+          nonldLookup: false,
+          type: 'http://id.loc.gov/ontologies/bibframe/Instance',
+          uri: 'urn:ld4p:sinopia:bibframe:instance',
         },
       ],
       type: 'uri',
