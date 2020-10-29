@@ -52,7 +52,7 @@ const useResource = (errorKey, errorRef) => {
     if (event) event.preventDefault()
     // Check if already open
     if (resourceUriMap[resourceURI]) {
-      setCurrentResource(resourceUriMap[resourceURI])
+      dispatch(setCurrentResource(resourceUriMap[resourceURI]))
       setNavigateEditor('edit')
     } else {
       dispatch(loadResource(resourceURI, errorKey)).then((result) => {
