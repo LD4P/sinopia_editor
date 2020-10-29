@@ -184,9 +184,10 @@ export default class TemplatesBuilder {
       const authorityConfig = findAuthorityConfig(vocabUri)
       if (authorityConfig) {
         authority.label = authorityConfig.label
-        authority.authority = authorityConfig.authority
-        authority.subauthority = authorityConfig.subauthority
+        if (authorityConfig.authority) authority.authority = authorityConfig.authority
+        if (authorityConfig.subauthority !== undefined) authority.subauthority = authorityConfig.subauthority
         authority.nonldLookup = authorityConfig.nonldLookup || false
+        if (authorityConfig.type) authority.type = authorityConfig.type
       }
       return authority
     })
