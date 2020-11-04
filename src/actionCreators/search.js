@@ -16,7 +16,7 @@ export const fetchSinopiaSearchResults = (query, options) => (dispatch) => getSe
 
 export const fetchQASearchResults = (query, uri, options = {}) => (dispatch) => {
   const authorityConfig = findAuthorityConfig(uri)
-  const searchPromise = createLookupPromise(query, [authorityConfig], options)
+  const searchPromise = createLookupPromise(query, authorityConfig, options)
 
   return searchPromise.then((response) => {
     if (response.isError) {
