@@ -22,7 +22,8 @@ const ResourceList = (props) => {
   const subjectTemplate = useSelector((state) => selectSubjectTemplate(state, subject?.subjectTemplateKey))
 
   useEffect(() => {
-    const handleChange = (resourceTemplateId) => {
+    const handleChange = (resourceTemplateId, event) => {
+      event.preventDefault()
       dispatch(newResource(resourceTemplateId, newResourceErrorKey)).then((result) => {
         if (!result) window.scrollTo(0, topRef.current?.offsetTop)
       })
@@ -40,7 +41,7 @@ const ResourceList = (props) => {
                       href="#"
                       data-resource-id={hit.id}
                       key={shortid.generate()}
-                      onClick={() => { handleChange(hit.id) }}>
+                      onClick={(event) => { handleChange(hit.id, event) }}>
                 {hit.resourceLabel} ({hit.id})
               </button>,
             )
