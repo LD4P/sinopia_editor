@@ -11,12 +11,12 @@ assignees: ''
   - [ ] Updates `NewsItem.js` component.
   - [ ] Sinopia [Wiki](https://github.com/LD4P/sinopia/wiki/Latest-Release,-What's-Next)
 - [ ] Create release.
-  - [ ] Pull latest master.
+  - [ ] Pull latest main.
   - For the sinopia_editor only (sinopia_indexing_pipeline does not need to update the version number in the package.json file):
     - [ ] Check out a branch and update the version in *package.json*
     - [ ] `npm i` to regenerate *package-lock.json* (see note below)
     - [ ] `npm publish` to publish the version to [npm registry](https://npmjs.com).
-    - [ ] Commit change to branch and push; create PR for version bump.  (You can't push directly to master, since it's a protected branch).
+    - [ ] Commit change to branch and push; create PR for version bump.  (You can't push directly to main, since it's a protected branch).
     - [ ] Once PR is merged, publish a [new release](https://github.com/LD4P/sinopia_editor/releases/new) with a version like `v1.0.2` and wait for Circleci to complete building and pushing docker images.
 - [ ] AWS Images for supporting projects - the Sinopia stack requires
   a number of other projects to run successfully both locally and on AWS. If any of
