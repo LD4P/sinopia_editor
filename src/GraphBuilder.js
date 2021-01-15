@@ -3,6 +3,7 @@
 import N3Writer from 'n3/lib/N3Writer'
 import Stream from 'stream'
 import rdf from 'rdf-ext'
+import _ from 'lodash'
 
 /**
  * Builds RDF graphs for a full resource
@@ -55,11 +56,14 @@ export default class GraphBuilder {
     if (!this.shouldAddProperty(property)) return
 
     if (property.propertyTemplate.ordered) {
+      const values = property.values.filter((value) => this.checkValueHasValue(value))
+      if (_.isEmpty(values)) return
+
       let nextNode = rdf.blankNode()
       this.dataset.add(rdf.quad(subjectTerm, rdf.namedNode(property.propertyTemplate.uri), nextNode))
-      property.values.forEach((value, index) => {
+      values.forEach((value, index) => {
         const thisNode = nextNode
-        nextNode = index !== property.values.length - 1 ? rdf.blankNode() : rdf.namedNode('http://www.w3.org/1999/02/22-rdf-syntax-ns#nil')
+        nextNode = index !== values.length - 1 ? rdf.blankNode() : rdf.namedNode('http://www.w3.org/1999/02/22-rdf-syntax-ns#nil')
         this.dataset.add(rdf.quad(thisNode, rdf.namedNode('http://www.w3.org/1999/02/22-rdf-syntax-ns#rest'), nextNode))
         this.buildValue(value, thisNode, rdf.namedNode('http://www.w3.org/1999/02/22-rdf-syntax-ns#first'))
       })
@@ -115,7 +119,7 @@ export default class GraphBuilder {
   }
 
   checkPropertyHasValue(property) {
-    if (!property.values) return false
+    if (_.isEmpty(property.values)) return false
     return property.values.some((value) => this.checkValueHasValue(value))
   }
 

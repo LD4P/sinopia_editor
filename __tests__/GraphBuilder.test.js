@@ -179,6 +179,27 @@ _:c14n0 <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://id.loc.gov/ont
                       propertyTemplate: {
                         uri: 'http://id.loc.gov/ontologies/bibframe/uber/template4/property1',
                       },
+                      values: null,
+                    },
+                  ],
+                },
+              },
+              {
+                uri: null,
+                property: {
+                  propertyTemplate: {
+                    type: 'resource',
+                  },
+                },
+                valueSubject: {
+                  subjectTemplate: {
+                    class: 'http://id.loc.gov/ontologies/bibframe/Uber4',
+                  },
+                  properties: [
+                    {
+                      propertyTemplate: {
+                        uri: 'http://id.loc.gov/ontologies/bibframe/uber/template4/property1',
+                      },
                       values: [
                         {
                           literal: 'literal1',
@@ -223,6 +244,27 @@ _:c14n0 <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://id.loc.gov/ont
                           },
                         },
                       ],
+                    },
+                  ],
+                },
+              },
+              {
+                uri: null,
+                property: {
+                  propertyTemplate: {
+                    type: 'resource',
+                  },
+                },
+                valueSubject: {
+                  subjectTemplate: {
+                    class: 'http://id.loc.gov/ontologies/bibframe/Uber4',
+                  },
+                  properties: [
+                    {
+                      propertyTemplate: {
+                        uri: 'http://id.loc.gov/ontologies/bibframe/uber/template4/property1',
+                      },
+                      values: null,
                     },
                   ],
                 },
