@@ -399,3 +399,22 @@ describe('selecting a value from lookup', () => {
     await waitFor(() => expect(screen.queryByText('Shania Twain', { selector: 'div.lookup-value span' })).not.toBeInTheDocument())
   })
 })
+
+describe('adding a template from Sinopia lookup', () => {
+  const history = createHistory(['/editor/test:resource:SinopiaLookup'])
+
+  it('clicking on button creates new editor tab with template', async () => {
+    renderApp(null, history)
+
+    await screen.findByText('Testing sinopia lookup', { selector: 'h3' })
+
+    // Click Create New button
+    fireEvent.click(await screen.findByText(/Create New/))
+
+    // Click on available template button
+    fireEvent.click(await screen.getAllByRole('button', { name: /testing wikidata lookup \(test:resource:wikidatalookup\)/i })[0])
+
+    // New tab with template is now present
+    await screen.findByText('Testing wikidata lookup', { selector: 'a.nav-link' })
+  })
+})
