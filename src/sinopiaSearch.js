@@ -172,9 +172,13 @@ export const getTemplateSearchResultsByIds = (templateIds) => {
 const fetchTemplateSearchResults = async (body, hitsToResultFunc) => {
   if (Config.useResourceTemplateFixtures) {
     const results = await getFixtureTemplateSearchResults()
+
+    const term = body.query.bool.should[0].wildcard.id.value.replace(/\*/g, '')
+    // Filter by term, if term length is 0, return all hits
+    const filtered = results.filter((hit) => hit.resourceURI === term || term.length === 0)
     return {
-      totalHits: results.length,
-      results,
+      totalHits: filtered.length,
+      results: filtered,
       error: undefined,
     }
   }

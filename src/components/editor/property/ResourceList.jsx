@@ -8,6 +8,7 @@ import shortid from 'shortid'
 import { newResource } from 'actionCreators/resources'
 import { selectPropertyTemplate, selectSubjectTemplate } from 'selectors/templates'
 import { selectCurrentResourceIsReadOnly, selectNormSubject } from 'selectors/resources'
+import _ from 'lodash'
 
 export const newResourceErrorKey = 'newresource'
 
@@ -34,21 +35,20 @@ const ResourceList = (props) => {
       await Promise.all(authorities.map((authority) => getTemplateSearchResults(authority.type).then((response) => {
         if (response.error) return ''
         response.results?.forEach((hit) => {
-          if (hit.resourceURI === subjectTemplate.class) {
-            listItems.push(
-              <button disabled={readOnly}
-                      className="dropdown-item"
-                      href="#"
-                      data-resource-id={hit.id}
-                      key={shortid.generate()}
-                      onClick={(event) => { handleChange(hit.id, event) }}>
-                {hit.resourceLabel} ({hit.id})
-              </button>,
-            )
-          }
+          listItems.push(
+            <button disabled={readOnly}
+                    className="dropdown-item"
+                    href="#"
+                    data-resource-id={hit.id}
+                    key={shortid.generate()}
+                    onClick={(event) => { handleChange(hit.id, event) }}>
+              {hit.resourceLabel} ({hit.id})
+            </button>,
+          )
         })
       })))
-      setNewResourceList(listItems)
+      // De-dupicate with lodash
+      setNewResourceList(_.uniq(listItems))
     }
     getNewResourceList()
   }, [readOnly, dispatch, propertyTemplate.authorities, subjectTemplate.class])
