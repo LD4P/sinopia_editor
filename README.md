@@ -107,9 +107,7 @@ To run test non-interactively, execute `npm run cypress-run`.
 
 #### Cross Platform Testing
 
-We use open source BrowserStack accounts for cross-platform/browser testing. See the [Sinopia Editor wiki](https://github.com/LD4P/sinopia_editor/wiki/Cross-Platform-Browser-Testing) for more details about how to get an account.
-
-[![Browserstack](https://github.com/LD4P/sinopia_editor/wiki/images/Browserstack-logo.png)](https://www.browserstack.com)
+We use open source [![Browserstack](https://github.com/LD4P/sinopia_editor/wiki/images/Browserstack-logo.png)](https://www.browserstack.com) accounts for cross-platform/browser testing. See the [Sinopia Editor wiki](https://github.com/LD4P/sinopia_editor/wiki/Cross-Platform-Browser-Testing) for more details about how to get an account.
 
 #### Testing Honeybadger
 To trigger a test exception, doubleclick "The underdrawing for the new world of linked data in libraries" on the home page.
@@ -131,6 +129,9 @@ To use Mongo-Express:
 2. `docker-compose up -d`
 3. Browse to http://localhost:8082.
 
+### Weekly Dependency Update instructions
+
+See [dep_updates.md](https://github.com/LD4P/sinopia_editor/blob/main/dep_updates.md)
 
 #### Changes to environment variables
 
