@@ -19,7 +19,7 @@ const CloseButton = (props) => {
 
   const handleClick = (event) => {
     if (resourceHasChanged) {
-      dispatch(showModal('CloseResourceModal'))
+      dispatch(showModal(`CloseResourceModal-${resourceKey}`))
     } else {
       closeResource()
     }
