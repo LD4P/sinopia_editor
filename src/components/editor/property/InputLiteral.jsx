@@ -18,14 +18,14 @@ import useDiacritics from 'hooks/useDiacritics'
 const InputLiteral = (props) => {
   const inputLiteralRef = useRef(null)
   const [lang, setLang] = useState(defaultLanguageId)
+  const id = `inputliteral-${props.property.key}`
+  const diacriticsId = `diacritics-${props.property.key}`
   const {
     clearContent, handleKeyDownDiacritics, handleChangeDiacritics,
     handleBlurDiacritics, toggleDiacritics, closeDiacritics,
     handleAddCharacter, handleClickDiacritics,
     currentContent, setCurrentContent, showDiacritics,
   } = useDiacritics(inputLiteralRef, id, diacriticsId)
-  const id = `inputliteral-${props.property.key}`
-  const diacriticsId = `diacritics-${props.property.key}`
   const readOnly = useSelector((state) => selectCurrentResourceIsReadOnly(state))
 
   const disabled = readOnly || (!props.propertyTemplate.repeatable

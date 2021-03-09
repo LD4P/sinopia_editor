@@ -28,6 +28,8 @@ const useDiacritics = (inputRef, inputId, diacriticsId) => {
     if (focusIn(event, inputId)) return false
 
     setShowDiacritics(false)
+
+    return true
   }
 
   const toggleDiacritics = (event) => {
