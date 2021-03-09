@@ -18,14 +18,14 @@ import DiacriticsSelection from 'components/editor/diacritics/DiacriticsSelectio
 
 const InputLookup = (props) => {
   const inputLookupRef = useRef(null)
+  const id = `inputlookup-${props.property.key}`
+  const diacriticsId = `diacritics-${props.property.key}`
   const {
     clearContent, handleKeyDownDiacritics, handleChangeDiacritics,
     handleBlurDiacritics, toggleDiacritics, closeDiacritics,
     handleAddCharacter, handleClickDiacritics,
     currentContent, showDiacritics,
   } = useDiacritics(inputLookupRef, id, diacriticsId)
-  const id = `inputlookup-${props.property.key}`
-  const diacriticsId = `diacritics-${props.property.key}`
 
   const displayValidations = useSelector((state) => displayResourceValidations(state, props.property.rootSubjectKey))
   const errors = props.property.errors
