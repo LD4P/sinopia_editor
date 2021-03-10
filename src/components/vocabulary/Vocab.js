@@ -41,7 +41,7 @@ const vocabulary = {
   },
   hasResourceTemplate: {
     description: 'The template used in creating, editing, or updating a resource',
-    url: 'http://sinopia.io/vocabulary/hasRemark',
+    url: 'http://sinopia.io/vocabulary/hasResourceTemplate',
   },
   PropertyTemplate: {
     description: '',
@@ -51,9 +51,9 @@ const vocabulary = {
     description: 'Literal property value',
     url: 'http://sinopia.io/vocabulary/propertyType/literal',
   },
-  'propertyType/lookup': {
-    description: 'Property value is lookup ',
-    url: 'http://sinopia.io/vocabulary/propertyType/lookup',
+  'propertyType/resource': {
+    description: 'Resource property value',
+    url: 'http://sinopia.io/vocabulary/propertyType/resource',
   },
   'propertyType/uri': {
     description: 'URI property value',
