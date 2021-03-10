@@ -13,7 +13,7 @@ const CloseResourceModal = (props) => {
   const dispatch = useDispatch()
   const history = useHistory()
 
-  const show = useSelector((state) => selectModalType(state) === 'CloseResourceModal')
+  const show = useSelector((state) => selectModalType(state) === `CloseResourceModal-${props.resourceKey}`)
 
   const handleClose = (event) => {
     dispatch(hideModal())
