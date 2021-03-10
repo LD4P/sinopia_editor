@@ -31,12 +31,12 @@ describe('Sinopia Vocabulary', () => {
 
   it('displays a dereferenced element with a subelement', async () => {
     // React Router variables that have portions of the URL
-    const match = { params: { element: 'propertyType', sub: 'lookup' } }
+    const match = { params: { element: 'propertyType', sub: 'resource' } }
 
     renderComponent(<Vocab match={match} />)
 
     // Checks if resolved page has the correct Heading
-    await screen.findByText('propertyType/lookup', { selector: 'h1' })
+    await screen.findByText('propertyType/resource', { selector: 'h1' })
   })
 
   it('displays error page if the element does not exist', async () => {
