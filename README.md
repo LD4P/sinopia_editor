@@ -129,9 +129,9 @@ To use Mongo-Express:
 2. `docker-compose up -d`
 3. Browse to http://localhost:8082.
 
-### Weekly Dependency Update instructions
+### Release management (including weekly dependency update) instructions
 
-See [dep_updates.md](https://github.com/LD4P/sinopia_editor/blob/main/dep_updates.md)
+See the [release process](/release_process.md) checklist.
 
 #### Changes to environment variables
 
@@ -152,10 +152,6 @@ To proxy to development:
 3. Start the Sinopia Editor: `SINOPIA_API_BASE_URL=http://localhost:8080 SEARCH_HOST=http://localhost:8080 npm run dev-start`
 
 Note that proxying to other environments may require additional Cognito configuration.
-
-## Release Management
-
-The steps to create a tagged release are documented in the tagged-release ticket template. Please create a tagged-release ticket when performing a release.
 
 ## State model
 
