@@ -14,18 +14,18 @@ These instructions apply for major releases and dependency updates.
   - [ ] Update the version in *package.json*
   - [ ] `npm i` to regenerate *package-lock.json* (see note below)
   - [ ] `npm publish` to publish the version to [npm registry](https://npmjs.com).
-  - [ ] Commit change to branch and push and create PR for version bump.  (You can't push directly to main, since it's a protected branch).
-  - [ ] _Once PR is merged:_ Publish a [new release](https://github.com/LD4P/sinopia_editor/releases/new) with a version like `v1.0.2`.
-  - [ ] Wait for Circleci to complete building and pushing [docker images](https://hub.docker.com/repository/registry-1.docker.io/ld4p/sinopia_editor/tags?page=1&ordering=last_updated).
+  - [ ] Commit changes to branch, push to github and create PR for this version bump.  (You can't push directly to main, since it's a protected branch).
+  - [ ] _Once PR is merged:_ Publish a [new release](https://github.com/LD4P/sinopia_editor/releases/new) with a version like `v1.0.2` (release number matching what you put in package.json).
+  - [ ] Wait for Circleci to complete building and pushing [docker images](https://hub.docker.com/repository/registry-1.docker.io/ld4p/sinopia_editor/tags?page=1&ordering=last_updated). (Refresh until you see your release - see note below.)
 3. _If changes since last release:_ Create [Sinopia Indexing Pipeline](https://github.com/LD4P/sinopia_indexing_pipeline) release.
   - [ ] Publish a [new release](https://github.com/LD4P/sinopia_indexing_pipeline/releases/new) with a version like `v1.0.2`.
-  - [ ] Wait for Circleci to complete building and pushing [docker images](https://hub.docker.com/repository/registry-1.docker.io/ld4p/sinopia_indexing_pipeline/tags?page=1&ordering=last_updated).  
+  - [ ] Wait for Circleci to complete building and pushing [docker images](https://hub.docker.com/repository/registry-1.docker.io/ld4p/sinopia_indexing_pipeline/tags?page=1&ordering=last_updated). (Refresh until you see your release - see note below.)
 4. _If changes since last release:_ Create [Sinopia Exporter](https://github.com/LD4P/sinopia_exporter) release.
   - [ ] Publish a [new release](https://github.com/LD4P/sinopia_exporter/releases/new) with a version like `v1.0.2`.
-  - [ ] Wait for Circleci to complete building and pushing [docker images](https://hub.docker.com/repository/registry-1.docker.io/ld4p/sinopia_exporter/tags?page=1&ordering=last_updated).    
+  - [ ] Wait for Circleci to complete building and pushing [docker images](https://hub.docker.com/repository/registry-1.docker.io/ld4p/sinopia_exporter/tags?page=1&ordering=last_updated). (Refresh until you see your release - see note below.)
 5. _If changes since last release:_ Create [Sinopia API](https://github.com/LD4P/sinopia_api) release.
   - [ ] Publish a [new release](https://github.com/LD4P/sinopia_api/releases/new) with a version like `v1.0.2`.
-  - [ ] Wait for Circleci to complete building and pushing [docker images](https://hub.docker.com/repository/registry-1.docker.io/ld4p/sinopia_api/tags?page=1&ordering=last_updated).
+  - [ ] Wait for Circleci to complete building and pushing [docker images](https://hub.docker.com/repository/registry-1.docker.io/ld4p/sinopia_api/tags?page=1&ordering=last_updated). (Refresh until you see your release - see note below.)
 6. _For dependency update release:_ Deploy
   - [ ] Update [container definitions for stage](https://github.com/sul-dlss/terraform-aws/tree/master/organizations/staging/sinopia/container_definitions). Make sure to update versions in `homepage.json`, `sinopia_api.json`, `sinopia_export.json`, `sinopia_indexing_pipeline.json`, and `sinopia_reindex.json`.
   - [ ] Follow [instructions](https://github.com/sul-dlss/terraform-aws/tree/master/organizations/staging/sinopia#deploying-a-release-to-staging) for pushing a release to AWS staging.
