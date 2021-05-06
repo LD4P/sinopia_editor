@@ -13,6 +13,7 @@ import { loadResourceTemplateWithoutValidation } from './templates'
  */
 export const validateTemplates = (subjectTemplate, resourceTemplatePromises, errorKey) => (dispatch) => Promise.all([
   Promise.resolve(validateSubjectTemplate(subjectTemplate)),
+  Promise.resolve(validateSuppressible(subjectTemplate)),
   Promise.resolve(validatePropertyTemplates(subjectTemplate.propertyTemplates)),
   Promise.resolve(validateRepeatedPropertyTemplates(subjectTemplate.propertyTemplates)),
   dispatch(validateAllRefResourceTemplatesExist(subjectTemplate.propertyTemplates, resourceTemplatePromises)),
@@ -30,6 +31,14 @@ const validateSubjectTemplate = (template) => {
   if (!template.class) errors.push('Resource template class is missing from resource template.')
   if (!template.label) errors.push('Resource template label is missing from resource template.')
   return errors
+}
+
+const validateSuppressible = (template) => {
+  if (!template.suppressible) return []
+
+  if (template.propertyTemplates.length !== 1) return ['A suppressible template must have one property template.']
+  if (template.propertyTemplates[0].type !== 'uri') return ['The property for a suppressible template must be a URI or lookup.']
+  return []
 }
 
 const validatePropertyTemplates = (propertyTemplates) => {

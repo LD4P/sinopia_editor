@@ -12,6 +12,7 @@
       "author": "Justin Littman",
       "remark": "Template for testing purposes.",
       "date": "2020-07-27",
+      "suppressible": false,
       "propertyTemplateKeys": [
         "resourceTemplate:testing:uber1 > http://id.loc.gov/ontologies/bibframe/uber/template1/property1",
         "resourceTemplate:testing:uber1 > http://id.loc.gov/ontologies/bibframe/uber/template1/property2",
@@ -37,7 +38,8 @@
         "resourceTemplate:testing:uber1 > http://id.loc.gov/ontologies/bibframe/instanceOf",
         "resourceTemplate:testing:uber1 > http://id.loc.gov/ontologies/bibframe/hasItem",
         "resourceTemplate:testing:uber1 > http://id.loc.gov/ontologies/bibframe/itemOf",
-        "resourceTemplate:testing:uber1 > http://id.loc.gov/ontologies/bibframe/uber/template1/property20"
+        "resourceTemplate:testing:uber1 > http://id.loc.gov/ontologies/bibframe/uber/template1/property20",
+        "resourceTemplate:testing:uber1 > http://id.loc.gov/ontologies/bibframe/uber/template1/property21"
       ],
       "propertyTemplates": [
         {
@@ -374,8 +376,8 @@
             {
               "uri": "urn:ld4p:sinopia:bibframe:instance",
               "label": "Sinopia BIBFRAME instance resources",
-              "type": "http://id.loc.gov/ontologies/bibframe/Instance",
-              "nonldLookup": false
+              "nonldLookup": false,
+              "type": "http://id.loc.gov/ontologies/bibframe/Instance"
             }
           ],
           "type": "uri",
@@ -397,8 +399,8 @@
             {
               "uri": "urn:ld4p:sinopia:bibframe:instance",
               "label": "Sinopia BIBFRAME instance resources",
-              "type": "http://id.loc.gov/ontologies/bibframe/Instance",
-              "nonldLookup": false
+              "nonldLookup": false,
+              "type": "http://id.loc.gov/ontologies/bibframe/Instance"
             }
           ],
           "type": "uri",
@@ -456,8 +458,8 @@
             {
               "uri": "urn:ld4p:sinopia:bibframe:adminMetadata",
               "label": "Sinopia BIBFRAME admin metadata resources",
-              "type": "http://id.loc.gov/ontologies/bibframe/AdminMetadata",
-              "nonldLookup": false
+              "nonldLookup": false,
+              "type": "http://id.loc.gov/ontologies/bibframe/AdminMetadata"
             }
           ],
           "type": "uri",
@@ -479,8 +481,8 @@
             {
               "uri": "urn:ld4p:sinopia:bibframe:instance",
               "label": "Sinopia BIBFRAME instance resources",
-              "type": "http://id.loc.gov/ontologies/bibframe/Instance",
-              "nonldLookup": false
+              "nonldLookup": false,
+              "type": "http://id.loc.gov/ontologies/bibframe/Instance"
             }
           ],
           "type": "uri",
@@ -502,8 +504,8 @@
             {
               "uri": "urn:ld4p:sinopia:bibframe:work",
               "label": "Sinopia BIBFRAME work resources",
-              "type": "http://id.loc.gov/ontologies/bibframe/Work",
-              "nonldLookup": false
+              "nonldLookup": false,
+              "type": "http://id.loc.gov/ontologies/bibframe/Work"
             }
           ],
           "type": "uri",
@@ -525,8 +527,8 @@
             {
               "uri": "urn:ld4p:sinopia:bibframe:item",
               "label": "Sinopia BIBFRAME item resources",
-              "type": "http://id.loc.gov/ontologies/bibframe/Item",
-              "nonldLookup": false
+              "nonldLookup": false,
+              "type": "http://id.loc.gov/ontologies/bibframe/Item"
             }
           ],
           "type": "uri",
@@ -548,8 +550,8 @@
             {
               "uri": "urn:ld4p:sinopia:bibframe:instance",
               "label": "Sinopia BIBFRAME instance resources",
-              "type": "http://id.loc.gov/ontologies/bibframe/Instance",
-              "nonldLookup": false
+              "nonldLookup": false,
+              "type": "http://id.loc.gov/ontologies/bibframe/Instance"
             }
           ],
           "type": "uri",
@@ -579,6 +581,24 @@
           "authorities": [],
           "type": "literal",
           "component": "InputLiteral"
+        },
+        {
+          "key": "resourceTemplate:testing:uber1 > http://id.loc.gov/ontologies/bibframe/uber/template1/property21",
+          "subjectTemplateKey": "resourceTemplate:testing:uber1",
+          "label": "Uber template1, property21",
+          "uri": "http://id.loc.gov/ontologies/bibframe/uber/template1/property21",
+          "required": false,
+          "repeatable": true,
+          "ordered": false,
+          "remark": "Nested, repeatable, suppressible resource template.",
+          "remarkUrl": null,
+          "defaults": [],
+          "valueSubjectTemplateKeys": [
+            "resourceTemplate:testing:uber5"
+          ],
+          "authorities": [],
+          "type": "resource",
+          "component": "NestedResource"
         }
       ]
     },
@@ -587,13 +607,13 @@
         "key": "abc1",
         "values": [
           {
-            "key": "abc63",
+            "key": "abc64",
             "literal": null,
             "lang": null,
             "uri": null,
             "label": null,
             "valueSubject": {
-              "key": "abc43",
+              "key": "abc44",
               "uri": null,
               "subjectTemplate": {
                 "key": "resourceTemplate:testing:uber2",
@@ -604,6 +624,7 @@
                 "author": null,
                 "remark": "Template for testing purposes with single repeatable literal.",
                 "date": null,
+                "suppressible": false,
                 "propertyTemplateKeys": [
                   "resourceTemplate:testing:uber2 > http://id.loc.gov/ontologies/bibframe/uber/template2/property1"
                 ],
@@ -628,10 +649,10 @@
               },
               "properties": [
                 {
-                  "key": "abc50",
+                  "key": "abc51",
                   "values": [
                     {
-                      "key": "abc57",
+                      "key": "abc58",
                       "literal": "Uber template2, property1",
                       "lang": "eng",
                       "uri": null,
@@ -645,20 +666,20 @@
             }
           },
           {
-            "key": "abc64",
+            "key": "abc65",
             "literal": null,
             "lang": null,
             "uri": null,
             "label": null,
             "valueSubject": {
-              "key": "abc44",
+              "key": "abc45",
               "uri": null,
               "properties": [
                 {
-                  "key": "abc51",
+                  "key": "abc52",
                   "values": [
                     {
-                      "key": "abc58",
+                      "key": "abc59",
                       "literal": "Uber template2, property1b",
                       "lang": "eng",
                       "uri": null,
@@ -672,13 +693,13 @@
             }
           },
           {
-            "key": "abc62",
+            "key": "abc63",
             "literal": null,
             "lang": null,
             "uri": null,
             "label": null,
             "valueSubject": {
-              "key": "abc42",
+              "key": "abc43",
               "uri": null,
               "subjectTemplate": {
                 "key": "resourceTemplate:testing:uber3",
@@ -689,6 +710,7 @@
                 "author": null,
                 "remark": "Template for testing purposes with multiple literal.",
                 "date": null,
+                "suppressible": false,
                 "propertyTemplateKeys": [
                   "resourceTemplate:testing:uber3 > http://id.loc.gov/ontologies/bibframe/uber/template3/property1",
                   "resourceTemplate:testing:uber3 > http://id.loc.gov/ontologies/bibframe/uber/template3/property2"
@@ -730,10 +752,10 @@
               },
               "properties": [
                 {
-                  "key": "abc48",
+                  "key": "abc49",
                   "values": [
                     {
-                      "key": "abc55",
+                      "key": "abc56",
                       "literal": "Uber template3, property1",
                       "lang": "eng",
                       "uri": null,
@@ -744,10 +766,10 @@
                   "show": false
                 },
                 {
-                  "key": "abc49",
+                  "key": "abc50",
                   "values": [
                     {
-                      "key": "abc56",
+                      "key": "abc57",
                       "literal": "Uber template3, property2",
                       "lang": "eng",
                       "uri": null,
@@ -767,7 +789,7 @@
         "key": "abc2",
         "values": [
           {
-            "key": "abc29",
+            "key": "abc30",
             "literal": "Uber template1, property2",
             "lang": "eng",
             "uri": null,
@@ -786,7 +808,7 @@
         "key": "abc4",
         "values": [
           {
-            "key": "abc30",
+            "key": "abc31",
             "literal": "Uber template1, property4",
             "lang": "eng",
             "uri": null,
@@ -800,7 +822,7 @@
         "key": "abc5",
         "values": [
           {
-            "key": "abc31",
+            "key": "abc32",
             "literal": null,
             "lang": null,
             "uri": "ubertemplate1:property5",
@@ -814,7 +836,7 @@
         "key": "abc6",
         "values": [
           {
-            "key": "abc32",
+            "key": "abc33",
             "literal": null,
             "lang": null,
             "uri": "ubertemplate1:property6",
@@ -838,7 +860,7 @@
         "key": "abc9",
         "values": [
           {
-            "key": "abc33",
+            "key": "abc34",
             "literal": "Uber template1, property9",
             "lang": "eng",
             "uri": null,
@@ -852,7 +874,7 @@
         "key": "abc10",
         "values": [
           {
-            "key": "abc34",
+            "key": "abc35",
             "literal": null,
             "lang": null,
             "uri": "http://id.loc.gov/vocabulary/mrectype/analog",
@@ -866,7 +888,7 @@
         "key": "abc11",
         "values": [
           {
-            "key": "abc35",
+            "key": "abc36",
             "literal": null,
             "lang": null,
             "uri": "http://id.loc.gov/vocabulary/mrectype/digital",
@@ -880,7 +902,7 @@
         "key": "abc12",
         "values": [
           {
-            "key": "abc36",
+            "key": "abc37",
             "literal": null,
             "lang": null,
             "uri": "http://id.loc.gov/vocabulary/mrecmedium/mag",
@@ -894,7 +916,7 @@
         "key": "abc13",
         "values": [
           {
-            "key": "abc37",
+            "key": "abc38",
             "literal": null,
             "lang": null,
             "uri": "http://aims.fao.org/aos/agrovoc/c_35856",
@@ -908,7 +930,7 @@
         "key": "abc14",
         "values": [
           {
-            "key": "abc38",
+            "key": "abc39",
             "literal": null,
             "lang": null,
             "uri": "http://aims.fao.org/aos/agrovoc/c_331388",
@@ -922,7 +944,7 @@
         "key": "abc15",
         "values": [
           {
-            "key": "abc39",
+            "key": "abc40",
             "literal": null,
             "lang": null,
             "uri": "http://sws.geonames.org/5098279/",
@@ -936,7 +958,7 @@
         "key": "abc16",
         "values": [
           {
-            "key": "abc40",
+            "key": "abc41",
             "literal": null,
             "lang": null,
             "uri": "http://localhost:3000/resource/c7db5404-7d7d-40ac-b38e-c821d2c3ae3f",
@@ -950,7 +972,7 @@
         "key": "abc17",
         "values": [
           {
-            "key": "abc41",
+            "key": "abc42",
             "literal": null,
             "lang": null,
             "uri": "http://localhost:3000/resource/c7db5404-7d7d-40ac-b38e-c821d2c3ae3f",
@@ -964,13 +986,13 @@
         "key": "abc18",
         "values": [
           {
-            "key": "abc65",
+            "key": "abc66",
             "literal": null,
             "lang": null,
             "uri": null,
             "label": null,
             "valueSubject": {
-              "key": "abc45",
+              "key": "abc46",
               "uri": null,
               "subjectTemplate": {
                 "key": "resourceTemplate:testing:uber4",
@@ -981,6 +1003,7 @@
                 "author": null,
                 "remark": "Template for testing purposes with single repeatable, required literal.",
                 "date": null,
+                "suppressible": false,
                 "propertyTemplateKeys": [
                   "resourceTemplate:testing:uber4 > http://id.loc.gov/ontologies/bibframe/uber/template4/property1"
                 ],
@@ -1005,10 +1028,10 @@
               },
               "properties": [
                 {
-                  "key": "abc52",
+                  "key": "abc53",
                   "values": [
                     {
-                      "key": "abc59",
+                      "key": "abc60",
                       "literal": "Uber template4, property1",
                       "lang": "eng",
                       "uri": null,
@@ -1028,33 +1051,6 @@
         "key": "abc20",
         "values": [
           {
-            "key": "abc66",
-            "literal": null,
-            "lang": null,
-            "uri": null,
-            "label": null,
-            "valueSubject": {
-              "key": "abc46",
-              "uri": null,
-              "properties": [
-                {
-                  "key": "abc53",
-                  "values": [
-                    {
-                      "key": "abc60",
-                      "literal": "Uber template4, property1, first",
-                      "lang": "eng",
-                      "uri": null,
-                      "label": null,
-                      "valueSubject": null
-                    }
-                  ],
-                  "show": true
-                }
-              ]
-            }
-          },
-          {
             "key": "abc67",
             "literal": null,
             "lang": null,
@@ -1069,6 +1065,33 @@
                   "values": [
                     {
                       "key": "abc61",
+                      "literal": "Uber template4, property1, first",
+                      "lang": "eng",
+                      "uri": null,
+                      "label": null,
+                      "valueSubject": null
+                    }
+                  ],
+                  "show": true
+                }
+              ]
+            }
+          },
+          {
+            "key": "abc68",
+            "literal": null,
+            "lang": null,
+            "uri": null,
+            "label": null,
+            "valueSubject": {
+              "key": "abc48",
+              "uri": null,
+              "properties": [
+                {
+                  "key": "abc55",
+                  "values": [
+                    {
+                      "key": "abc62",
                       "literal": "Uber template4, property1, second",
                       "lang": "eng",
                       "uri": null,
@@ -1113,6 +1136,11 @@
         "key": "abc26",
         "values": [],
         "show": true
+      },
+      {
+        "key": "abc27",
+        "values": null,
+        "show": false
       }
     ],
     "group": "stanford"

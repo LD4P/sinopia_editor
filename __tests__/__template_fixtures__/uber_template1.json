@@ -1086,6 +1086,53 @@
     ]
   },
   {
+    "@id": "_:b72",
+    "@type": [
+      "http://sinopia.io/vocabulary/PropertyTemplate"
+    ],
+    "http://www.w3.org/2000/01/rdf-schema#label": [
+      {
+        "@value": "Uber template1, property21"
+      }
+    ],
+    "http://sinopia.io/vocabulary/hasRemark": [
+      {
+        "@value": "Nested, repeatable, suppressible resource template."
+      }
+    ],
+    "http://sinopia.io/vocabulary/hasPropertyUri": [
+      {
+        "@id": "http://id.loc.gov/ontologies/bibframe/uber/template1/property21"
+      }
+    ],
+    "http://sinopia.io/vocabulary/hasPropertyAttribute": [
+      {
+        "@id": "http://sinopia.io/vocabulary/propertyAttribute/repeatable"
+      }
+    ],
+    "http://sinopia.io/vocabulary/hasPropertyType": [
+      {
+        "@id": "http://sinopia.io/vocabulary/propertyType/resource"
+      }
+    ],
+    "http://sinopia.io/vocabulary/hasResourceAttributes": [
+      {
+        "@id": "_:b73"
+      }
+    ]
+  },
+  {
+    "@id": "_:b73",
+    "@type": [
+      "http://sinopia.io/vocabulary/ResourcePropertyTemplate"
+    ],
+    "http://sinopia.io/vocabulary/hasResourceTemplateId": [
+      {
+        "@id": "resourceTemplate:testing:uber5"
+      }
+    ]
+  },
+  {
     "@id": "_:b8",
     "@type": [
       "http://sinopia.io/vocabulary/PropertyTemplate"
@@ -1247,6 +1294,9 @@
           },
           {
             "@id": "_:b70"
+          },
+          {
+            "@id": "_:b72"
           }
         ]
       }

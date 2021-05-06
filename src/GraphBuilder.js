@@ -100,9 +100,33 @@ export default class GraphBuilder {
 
   buildValueSubject(value, subjectTerm, propertyTerm) {
     if (!this.shouldAddValueSubject(value)) return
-    const bnode = rdf.blankNode()
-    this.dataset.add(rdf.quad(subjectTerm, propertyTerm, bnode))
-    this.buildSubject(value.valueSubject, bnode)
+    if (value.valueSubject.subjectTemplate.suppressible) {
+      this.buildSuppressedValueSubject(value, subjectTerm, propertyTerm)
+    } else {
+      const bnode = rdf.blankNode()
+      this.dataset.add(rdf.quad(subjectTerm, propertyTerm, bnode))
+      this.buildSubject(value.valueSubject, bnode)
+    }
+  }
+
+  buildSuppressedValueSubject(value, subjectTerm, propertyTerm) {
+    const uriValues = value.valueSubject.properties[0].values.filter((value) => value.uri)
+    uriValues.forEach((uriValue) => {
+      this.buildUriValue(uriValue, subjectTerm, propertyTerm)
+      this.dataset.add(rdf.quad(rdf.namedNode(uriValue.uri),
+        rdf.namedNode('http://www.w3.org/1999/02/22-rdf-syntax-ns#type'),
+        rdf.namedNode(value.valueSubject.subjectTemplate.class)))
+    })
+    const literalValues = value.valueSubject.properties[0].values.filter((value) => value.literal)
+    if (!_.isEmpty(literalValues)) {
+      const bnode = rdf.blankNode()
+      const literalPropertyTerm = rdf.namedNode(value.valueSubject.properties[0].propertyTemplate.uri)
+      this.dataset.add(rdf.quad(subjectTerm, propertyTerm, bnode))
+      this.dataset.add(rdf.quad(bnode, rdf.namedNode('http://www.w3.org/1999/02/22-rdf-syntax-ns#type'), rdf.namedNode(value.valueSubject.subjectTemplate.class)))
+      literalValues.forEach((literalValue) => {
+        this.buildLiteralValue(literalValue, bnode, literalPropertyTerm)
+      })
+    }
   }
 
   // Add only if there is actually a value somewhere.
