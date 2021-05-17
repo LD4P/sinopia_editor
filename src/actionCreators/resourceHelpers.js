@@ -20,7 +20,7 @@ export const addResourceFromDataset = (dataset, uri, resourceTemplateId, errorKe
   const usedDataset = rdf.dataset()
   usedDataset.addAll(dataset.match(subjectTerm, rdf.namedNode('http://sinopia.io/vocabulary/hasResourceTemplate')))
   usedDataset.addAll(dataset.match(subjectTerm, rdf.namedNode('http://www.w3.org/1999/02/22-rdf-syntax-ns#type')))
-  return dispatch(recursiveResourceFromDataset(subjectTerm, newUri, resourceTemplateId, {}, dataset, usedDataset, errorKey))
+  return dispatch(recursiveResourceFromDataset(subjectTerm, newUri, resourceTemplateId, false, {}, dataset, usedDataset, errorKey))
     .then((resource) => {
       resource.group = group
       dispatch(addSubjectAction(resource))
@@ -63,11 +63,11 @@ const expandProperty = (property, errorKey) => (dispatch) => {
   return property
 }
 
-const recursiveResourceFromDataset = (subjectTerm, uri, resourceTemplateId, resourceTemplatePromises, dataset,
+const recursiveResourceFromDataset = (subjectTerm, uri, resourceTemplateId, suppress, resourceTemplatePromises, dataset,
   usedDataset, errorKey) => (dispatch) => dispatch(newSubject(uri, resourceTemplateId, resourceTemplatePromises, errorKey))
   .then((subject) => dispatch(newPropertiesFromTemplates(subject, true, errorKey))
     .then((properties) => Promise.all(
-      properties.map((property) => dispatch(newValuesFromDataset(subjectTerm, property, resourceTemplatePromises, dataset, usedDataset, errorKey))
+      properties.map((property) => dispatch(newValuesFromDataset(subjectTerm, property, suppress, resourceTemplatePromises, dataset, usedDataset, errorKey))
         .then((values) => {
           const compactValues = _.compact(values)
           if (!_.isEmpty(compactValues)) property.values = compactValues
@@ -104,10 +104,17 @@ export const newPropertiesFromTemplates = (subject, noDefaults, errorKey) => (di
   subject.subjectTemplate.propertyTemplates.map((propertyTemplate) => dispatch(newProperty(subject, propertyTemplate, noDefaults, errorKey))),
 )
 
-const newValuesFromDataset = (subjectTerm, property, resourceTemplatePromises, dataset, usedDataset, errorKey) => (dispatch) => {
-  // Get the objects for the values. How depends on whether property is ordered.
-  const objectsFunc = property.propertyTemplate.ordered ? orderedObjects : unorderedObjects
-  const objects = objectsFunc(subjectTerm, property, dataset, usedDataset)
+const newValuesFromDataset = (subjectTerm, property, suppress, resourceTemplatePromises, dataset, usedDataset, errorKey) => (dispatch) => {
+  // Get the objects for the values. How depends on whether property is ordered or suppressed.
+  let objects = null
+  if (suppress) {
+    objects = [subjectTerm]
+  } else if (property.propertyTemplate.ordered) {
+    objects = orderedObjects(subjectTerm, property, dataset, usedDataset)
+  } else {
+    objects = unorderedObjects(subjectTerm, property, dataset, usedDataset)
+  }
+
   if (property.propertyTemplate.type === 'resource') {
     // Get the values based on the template and the dataset then merge.
     const objPromises = _.compact(objects.map((obj) => dispatch(newNestedResourceFromObject(obj,
@@ -224,7 +231,8 @@ const newNestedResourceFromObject = (obj, property, resourceTemplatePromises, da
       usedDataset.addAll(typeQuads)
 
       // One resource template
-      return dispatch(recursiveResourceFromDataset(obj, null, compactChildRtIds[0], resourceTemplatePromises, dataset, usedDataset, errorKey))
+      const suppress = obj.termType === 'NamedNode'
+      return dispatch(recursiveResourceFromDataset(obj, null, compactChildRtIds[0], suppress, resourceTemplatePromises, dataset, usedDataset, errorKey))
         .then((subject) => newValueSubject(property, subject))
     })
 }

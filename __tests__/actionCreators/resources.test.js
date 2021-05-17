@@ -62,6 +62,9 @@ _:b2_c14n1 <http://id.loc.gov/ontologies/bibframe/uber/template2/property1> "Ube
 _:b2_c14n1 <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://id.loc.gov/ontologies/bibframe/Uber2> .
 _:b2_c14n2 <http://id.loc.gov/ontologies/bibframe/uber/template2/property1> "Uber template2, property1b"@eng .
 _:b2_c14n2 <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://id.loc.gov/ontologies/bibframe/Uber2> .
+<> <http://id.loc.gov/ontologies/bibframe/uber/template1/property21> <http://sinopia.io/ubertemplate5/property1> .
+<http://sinopia.io/ubertemplate5/property1> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://id.loc.gov/ontologies/bibframe/Uber5> .
+<http://sinopia.io/ubertemplate5/property1> <http://www.w3.org/2000/01/rdf-schema#label> "http://sinopia.io/ubertemplate5/property1" .
 `
 
 beforeAll(() => {
@@ -108,7 +111,62 @@ describe('newResourceFromDataset', () => {
     })
   })
 
-  describe('loading a legacy resource', () => {
+  describe('loading a legacy resource (suppressed nested resource that is not suppressed)', () => {
+    const n3 = `<> <http://id.loc.gov/ontologies/bibframe/uber/template1/property1> _:b2_c14n0 .
+    <> <http://id.loc.gov/ontologies/bibframe/uber/template1/property1> _:b2_c14n1 .
+    <> <http://id.loc.gov/ontologies/bibframe/uber/template1/property1> _:b2_c14n2 .
+    <> <http://id.loc.gov/ontologies/bibframe/uber/template1/property2> "Uber template1, property2"@eng .
+    <> <http://id.loc.gov/ontologies/bibframe/uber/template1/property4> "Uber template1, property4"@eng .
+    <> <http://id.loc.gov/ontologies/bibframe/uber/template1/property5> <ubertemplate1:property5> .
+    <> <http://id.loc.gov/ontologies/bibframe/uber/template1/property6> <ubertemplate1:property6> .
+    <> <http://sinopia.io/vocabulary/hasResourceTemplate> "resourceTemplate:testing:uber1" .
+    <> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://id.loc.gov/ontologies/bibframe/Uber1> .
+    <ubertemplate1:property5> <http://www.w3.org/2000/01/rdf-schema#label> "ubertemplate1:property5" .
+    <ubertemplate1:property6> <http://www.w3.org/2000/01/rdf-schema#label> "ubertemplate1:property6" .
+    _:b2_c14n0 <http://id.loc.gov/ontologies/bibframe/uber/template3/property1> "Uber template3, property1"@eng .
+    _:b2_c14n0 <http://id.loc.gov/ontologies/bibframe/uber/template3/property2> "Uber template3, property2"@eng .
+    _:b2_c14n0 <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://id.loc.gov/ontologies/bibframe/Uber3> .
+    _:b2_c14n1 <http://id.loc.gov/ontologies/bibframe/uber/template2/property1> "Uber template2, property1"@eng .
+    _:b2_c14n1 <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://id.loc.gov/ontologies/bibframe/Uber2> .
+    _:b2_c14n2 <http://id.loc.gov/ontologies/bibframe/uber/template2/property1> "Uber template2, property1b"@eng .
+    _:b2_c14n2 <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://id.loc.gov/ontologies/bibframe/Uber2> .
+    <> <http://id.loc.gov/ontologies/bibframe/uber/template1/property21> _:b2_c14n3 .
+    _:b2_c14n3 <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://id.loc.gov/ontologies/bibframe/Uber5> .
+    _:b2_c14n3 <http://id.loc.gov/ontologies/bibframe/uber/template5/property1> <http://sinopia.io/ubertemplate5/property1> .
+    `
+
+    const store = mockStore(createState())
+
+    it('dispatches actions', async () => {
+      const dataset = await datasetFromN3(n3.replace(/<>/g, `<${uri}>`))
+      const result = await store.dispatch(newResourceFromDataset(dataset, uri, null, 'testerrorkey'))
+      expect(result).toBe(true)
+
+      const actions = store.getActions()
+      // ADD_TEMPLATES is dispatched numerous times since mock store doesn't update state.
+      expect(actions).toHaveAction('ADD_TEMPLATES')
+
+      const addSubjectAction = actions.find((action) => action.type === 'ADD_SUBJECT')
+      expect(addSubjectAction).not.toBeNull()
+      // safeStringify is used because it removes circular references
+      expect(safeAction(addSubjectAction)).toEqual(expectedAddResourceAction)
+
+      // URI should be set for resource.
+      expect(addSubjectAction.payload.uri).toBe(uri)
+
+      // Roundtripped RDF should NOT match.
+      const actualRdf = new GraphBuilder(addSubjectAction.payload).graph.toCanonical()
+      const expectedGraph = await datasetFromN3(n3.replace(/<>/g, `<${uri}>`))
+      const expectedRdf = expectedGraph.toCanonical()
+      expect(actualRdf).not.toMatch(expectedRdf)
+
+      expect(actions).toHaveAction('SET_UNUSED_RDF', { resourceKey: 'abc0', rdf: null })
+      expect(actions).toHaveAction('SET_CURRENT_RESOURCE', 'abc0')
+      expect(actions).toHaveAction('LOAD_RESOURCE_FINISHED', 'abc0')
+    })
+  })
+
+  describe('loading a legacy resource (<> as root)', () => {
     // Legacy resources have <> as the root resource rather than <[uri]>.
     const store = mockStore(createState())
 
@@ -198,7 +256,6 @@ _:c14n1 <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://id.loc.gov/ont
       })
     })
   })
-
 
   describe('loading a new resource', () => {
     const store = mockStore(createState())

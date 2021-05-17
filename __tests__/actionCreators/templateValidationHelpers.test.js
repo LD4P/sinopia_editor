@@ -444,4 +444,127 @@ describe('validateTemplates()', () => {
       expect(store.getActions()).toHaveAction('ADD_ERROR', payload)
     })
   })
+
+  describe('a valid suppressible template', () => {
+    const subjectTemplate = {
+      key: 'pcc:bf2:Agent:Person',
+      uri: 'http://localhost:3000/resource/pcc:bf2:Agent:Person',
+      id: 'pcc:bf2:Agent:Person',
+      class: 'http://id.loc.gov/ontologies/bibframe/Person',
+      label: 'Agent--Person',
+      author: 'PCC',
+      remark: null,
+      date: '2020-09-20',
+      suppressible: true,
+      propertyTemplateKeys: [
+        'pcc:bf2:Agent:Person > http://www.w3.org/1999/02/22-rdf-syntax-ns#value',
+      ],
+      propertyTemplates: [
+        {
+          key: 'pcc:bf2:Agent:Person > http://www.w3.org/1999/02/22-rdf-syntax-ns#value',
+          subjectTemplateKey: 'pcc:bf2:Agent:Person',
+          label: 'Name of Person',
+          uri: 'http://www.w3.org/1999/02/22-rdf-syntax-ns#value',
+          required: false,
+          repeatable: true,
+          ordered: false,
+          remark: null,
+          remarkUrl: null,
+          defaults: [],
+          valueSubjectTemplateKeys: [],
+          authorities: [
+            {
+              uri: 'urn:ld4p:qa:names',
+              label: 'LOC all names (QA)',
+              authority: 'locnames_ld4l_cache',
+              subauthority: '',
+              nonldLookup: false,
+            },
+          ],
+          type: 'uri',
+          component: 'InputLookup',
+        },
+      ],
+    }
+
+    it('returns no errors', async () => {
+      const store = mockStore(createState())
+
+      expect(await store.dispatch(validateTemplates(subjectTemplate, {}, 'testerrorkey'))).toBe(true)
+      expect(store.getActions()).not.toHaveAction('ADD_ERROR')
+    })
+  })
+
+  describe('a suppressible template with wrong number of property templates', () => {
+    const subjectTemplate = {
+      key: 'pcc:bf2:Agent:Person',
+      uri: 'http://localhost:3000/resource/pcc:bf2:Agent:Person',
+      id: 'pcc:bf2:Agent:Person',
+      class: 'http://id.loc.gov/ontologies/bibframe/Person',
+      label: 'Agent--Person',
+      author: 'PCC',
+      remark: null,
+      date: '2020-09-20',
+      suppressible: true,
+      propertyTemplateKeys: [],
+      propertyTemplates: [],
+    }
+
+    it('returns error', async () => {
+      const store = mockStore(createState())
+
+      expect(await store.dispatch(validateTemplates(subjectTemplate, {}, 'testerrorkey'))).toBe(false)
+      const payload = {
+        errorKey: 'testerrorkey',
+        error: 'A suppressible template must have one property template.',
+      }
+      expect(store.getActions()).toHaveAction('ADD_ERROR', payload)
+    })
+  })
+
+  describe('a suppressible template with wrong type of property', () => {
+    const subjectTemplate = {
+      key: 'pcc:bf2:Agent:Person',
+      uri: 'http://localhost:3000/resource/pcc:bf2:Agent:Person',
+      id: 'pcc:bf2:Agent:Person',
+      class: 'http://id.loc.gov/ontologies/bibframe/Person',
+      label: 'Agent--Person',
+      author: 'PCC',
+      remark: null,
+      date: '2020-09-20',
+      suppressible: true,
+      propertyTemplateKeys: [
+        'pcc:bf2:Agent:Person > http://www.w3.org/1999/02/22-rdf-syntax-ns#value',
+      ],
+      propertyTemplates: [
+        {
+          key: 'pcc:bf2:Agent:Person > http://www.w3.org/1999/02/22-rdf-syntax-ns#value',
+          subjectTemplateKey: 'pcc:bf2:Agent:Person',
+          label: 'Name of Person',
+          uri: 'http://www.w3.org/1999/02/22-rdf-syntax-ns#value',
+          required: false,
+          repeatable: true,
+          ordered: false,
+          remark: null,
+          remarkUrl: null,
+          defaults: [],
+          valueSubjectTemplateKeys: [],
+          authorities: [],
+          type: 'literal',
+          component: 'InputLiteral',
+        },
+      ],
+    }
+
+    it('returns error', async () => {
+      const store = mockStore(createState())
+
+      expect(await store.dispatch(validateTemplates(subjectTemplate, {}, 'testerrorkey'))).toBe(false)
+      const payload = {
+        errorKey: 'testerrorkey',
+        error: 'The property for a suppressible template must be a URI or lookup.',
+      }
+      expect(store.getActions()).toHaveAction('ADD_ERROR', payload)
+    })
+  })
 })

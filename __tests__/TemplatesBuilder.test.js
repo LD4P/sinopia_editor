@@ -10,7 +10,8 @@ describe('TemplatesBuilder', () => {
 <> <http://sinopia.io/vocabulary/hasResourceId> <resourceTemplate:testing:uber1> .
 <> <http://sinopia.io/vocabulary/hasResourceTemplate> "sinopia:template:resource" .
 <> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://sinopia.io/vocabulary/ResourceTemplate> .
-<> <http://www.w3.org/2000/01/rdf-schema#label> "Uber template1"@eng .`
+<> <http://www.w3.org/2000/01/rdf-schema#label> "Uber template1"@eng .
+<> <http://sinopia.io/vocabulary/hasResourceAttribute> <http://sinopia.io/vocabulary/resourceAttribute/suppressible> .`
 
     const dataset = await datasetFromN3(rdf)
     const subjectTemplate = new TemplatesBuilder(dataset, '').build()
@@ -25,6 +26,7 @@ describe('TemplatesBuilder', () => {
       date: '2020-07-27',
       propertyTemplateKeys: [],
       propertyTemplates: [],
+      suppressible: true,
     })
   })
 

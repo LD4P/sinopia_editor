@@ -222,6 +222,7 @@ The following are only in the resource subject (that is, the base subject).
   author: <author>,
   remark: <remark>,
   date: <date>,
+  suppressible: <true | false>,
   propertyKeys: [key of property templates, ...]
 }
 ```

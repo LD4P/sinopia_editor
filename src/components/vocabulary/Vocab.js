@@ -19,6 +19,10 @@ const vocabulary = {
     description: 'Date associated with the template',
     url: 'http://sinopia.io/vocabulary/hasDate',
   },
+  hasPropertyAttribute: {
+    description: 'Attributes specific to a property (e.g., repeatable)',
+    url: 'http://sinopia.io/vocabulary/hasPropertyAttribute',
+  },
   hasPropertyTemplate: {
     description: 'Property template used by the resource template',
     url: 'http://sinopia.io/vocabulary/hasPropertyTemplate',
@@ -35,9 +39,9 @@ const vocabulary = {
     description: 'Comment or guiding statement intended to be presented as supplementary information in user display',
     url: 'https://sinopia.io/vocabulary/hasRemark',
   },
-  hasResourceAttributes: {
-    description: '',
-    url: 'http://sinopia.io/vocabulary/hasResourceAttributes',
+  hasResourceAttribute: {
+    description: 'Attributes specific to a resource (e.g., suppressible)',
+    url: 'http://sinopia.io/vocabulary/hasResourceAttribute',
   },
   hasResourceTemplate: {
     description: 'The template used in creating, editing, or updating a resource',

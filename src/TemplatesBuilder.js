@@ -20,6 +20,7 @@ export default class TemplatesBuilder {
   }
 
   buildSubjectTemplate() {
+    const resourceAttrValues = this.valuesFor(this.resourceTerm, 'http://sinopia.io/vocabulary/hasResourceAttribute')
     this.subjectTemplate = {
       // This key will be unique for resource templates
       key: this.valueFor(this.resourceTerm, 'http://sinopia.io/vocabulary/hasResourceId'),
@@ -30,6 +31,7 @@ export default class TemplatesBuilder {
       author: this.valueFor(this.resourceTerm, 'http://sinopia.io/vocabulary/hasAuthor'),
       remark: this.valueFor(this.resourceTerm, 'http://sinopia.io/vocabulary/hasRemark'),
       date: this.valueFor(this.resourceTerm, 'http://sinopia.io/vocabulary/hasDate'),
+      suppressible: resourceAttrValues.includes('http://sinopia.io/vocabulary/resourceAttribute/suppressible'),
       propertyTemplateKeys: [],
       propertyTemplates: [],
     }

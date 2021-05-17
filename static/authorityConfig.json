@@ -1918,5 +1918,10 @@
     "label": "authorities",
     "uri": "file:/authorityConfig.json",
     "component": "list"
+  },
+  {
+    "label": "resourceAttribute",
+    "uri": "file:/resourceAttribute.json",
+    "component": "list"
   }
 ]
