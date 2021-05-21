@@ -145,6 +145,7 @@ class Config {
       ld4p: 'LD4P',
       michigan: 'University of Michigan',
       minnesota: 'University of Minnesota',
+      mla: 'Music Library Association',
       nlm: 'National Library of Medicine',
       northwestern: 'Northwestern University',
       pcc: 'PCC',
