@@ -9,10 +9,9 @@ featureSetup()
 const rdf = `<> <http://sinopia.io/vocabulary/hasResourceTemplate> "resourceTemplate:testing:uber1";
     a <http://id.loc.gov/ontologies/bibframe/Uber1>;
     <http://id.loc.gov/ontologies/bibframe/uber/template1/property7> "Default literal1", "Default literal2";
-    <http://id.loc.gov/ontologies/bibframe/uber/template1/property8> <http://sinopia.io/defaultURI1>.
-<http://sinopia.io/defaultURI1> <http://www.w3.org/2000/01/rdf-schema#label> "Default URI1".
-<> <http://id.loc.gov/ontologies/bibframe/uber/template1/property8> <http://sinopia.io/defaultURI2>;
+    <http://id.loc.gov/ontologies/bibframe/uber/template1/property8> <http://sinopia.io/defaultURI1>, <http://sinopia.io/defaultURI2>;
     <http://id.loc.gov/ontologies/bibframe/uber/template1/property20> "Default required literal1", "Default required literal2".
+<http://sinopia.io/defaultURI1> <http://www.w3.org/2000/01/rdf-schema#label> "Default URI1".
 `
 
 describe('preview RDF after editing', () => {
