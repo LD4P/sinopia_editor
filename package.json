@@ -97,7 +97,7 @@
     "reselect": "^4.0.0",
     "set-value": "^3.0.2",
     "shortid": "^2.2.16",
-    "swagger-client": "^3.13.5",
+    "swagger-client": "^3.13.6",
     "uuid": "^8.3.1",
     "x2js": "^3.4.1"
   },
