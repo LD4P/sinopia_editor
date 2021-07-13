@@ -148,6 +148,7 @@ class Config {
       mla: 'Music Library Association',
       nlm: 'National Library of Medicine',
       northwestern: 'Northwestern University',
+      other: 'Other',
       pcc: 'PCC',
       penn: 'University of Pennsylvania',
       princeton: 'Princeton University',
