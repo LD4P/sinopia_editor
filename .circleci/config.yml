@@ -108,7 +108,7 @@ jobs:
             docker build -t ld4p/sinopia_editor:dev --build-arg SINOPIA_API_BASE_URL=$SINOPIA_API_BASE_URL_DEV --build-arg SINOPIA_ENV=DEV --build-arg SINOPIA_URI=$SINOPIA_URI_DEV --build-arg AWS_COGNITO_DOMAIN=$AWS_COGNITO_DOMAIN_DEV --build-arg COGNITO_CLIENT_ID=$COGNITO_CLIENT_ID_DEV --build-arg COGNITO_USER_POOL_ID=$COGNITO_USER_POOL_ID_DEV --build-arg INDEX_URL=$INDEX_URL_DEV --build-arg SEARCH_HOST=$INDEX_URL_DEV --build-arg EXPORT_BUCKET_URL=$EXPORT_BUCKET_URL_DEV --build-arg HONEYBADGER_API_KEY=$HONEYBADGER_API_KEY --build-arg HONEYBADGER_REVISION=$CIRCLE_SHA1 .
             docker push ld4p/sinopia_editor:latest
             docker push ld4p/sinopia_editor:dev
-  register_tag_image:
+  register_stage_image:
     <<: *defaults
     steps:
       - checkout
@@ -121,12 +121,26 @@ jobs:
           name: Build & Register Images
           command: |
             echo $DOCKER_PASS | docker login -u $DOCKER_USER --password-stdin
-            docker build -t ld4p/sinopia_editor:$CIRCLE_TAG-stage --build-arg SINOPIA_API_BASE_URL=$SINOPIA_API_BASE_URL_STAGE --build-arg SINOPIA_ENV=STAGE --build-arg SINOPIA_URI=$SINOPIA_URI_STAGE --build-arg AWS_COGNITO_DOMAIN=$AWS_COGNITO_DOMAIN_STAGE --build-arg COGNITO_CLIENT_ID=$COGNITO_CLIENT_ID_STAGE --build-arg COGNITO_USER_POOL_ID=$COGNITO_USER_POOL_ID_STAGE --build-arg INDEX_URL=$INDEX_URL_STAGE --build-arg SEARCH_HOST=$INDEX_URL_STAGE --build-arg EXPORT_BUCKET_URL=$EXPORT_BUCKET_URL_STAGE --build-arg HONEYBADGER_API_KEY=$HONEYBADGER_API_KEY --build-arg HONEYBADGER_REVISION=$CIRCLE_SHA1 .
-            docker build -t ld4p/sinopia_editor:$CIRCLE_TAG-prod --build-arg SINOPIA_API_BASE_URL=$SINOPIA_API_BASE_URL_PROD --build-arg SINOPIA_URI=$SINOPIA_URI_PROD --build-arg AWS_COGNITO_DOMAIN=$AWS_COGNITO_DOMAIN_PROD --build-arg COGNITO_CLIENT_ID=$COGNITO_CLIENT_ID_PROD --build-arg COGNITO_USER_POOL_ID=$COGNITO_USER_POOL_ID_PROD --build-arg INDEX_URL=$INDEX_URL_PROD --build-arg SEARCH_HOST=$INDEX_URL_PROD --build-arg EXPORT_BUCKET_URL=$EXPORT_BUCKET_URL_PROD --build-arg HONEYBADGER_API_KEY=$HONEYBADGER_API_KEY --build-arg HONEYBADGER_REVISION=$CIRCLE_SHA1 .
-            docker push ld4p/sinopia_editor:$CIRCLE_TAG-stage
-            docker push ld4p/sinopia_editor:$CIRCLE_TAG-prod
-
-  update_ecs:
+            docker build -t ld4p/sinopia_editor:release-stage --build-arg SINOPIA_API_BASE_URL=$SINOPIA_API_BASE_URL_STAGE --build-arg SINOPIA_ENV=STAGE --build-arg SINOPIA_URI=$SINOPIA_URI_STAGE --build-arg AWS_COGNITO_DOMAIN=$AWS_COGNITO_DOMAIN_STAGE --build-arg COGNITO_CLIENT_ID=$COGNITO_CLIENT_ID_STAGE --build-arg COGNITO_USER_POOL_ID=$COGNITO_USER_POOL_ID_STAGE --build-arg INDEX_URL=$INDEX_URL_STAGE --build-arg SEARCH_HOST=$INDEX_URL_STAGE --build-arg EXPORT_BUCKET_URL=$EXPORT_BUCKET_URL_STAGE --build-arg HONEYBADGER_API_KEY=$HONEYBADGER_API_KEY --build-arg HONEYBADGER_REVISION=$CIRCLE_SHA1 .
+            docker push ld4p/sinopia_editor:release-stage
+  register_stage_and_prod_image:
+    <<: *defaults
+    steps:
+      - checkout
+      - setup_remote_docker
+      - restore_cache: # gives us back matching node_modules
+          key: dependencies-prod-{{ checksum "package.json" }}
+      - attach_workspace:
+          at: .
+      - run:
+          name: Build & Register Images
+          command: |
+            echo $DOCKER_PASS | docker login -u $DOCKER_USER --password-stdin
+            docker build -t ld4p/sinopia_editor:release-stage --build-arg SINOPIA_API_BASE_URL=$SINOPIA_API_BASE_URL_STAGE --build-arg SINOPIA_ENV=STAGE --build-arg SINOPIA_URI=$SINOPIA_URI_STAGE --build-arg AWS_COGNITO_DOMAIN=$AWS_COGNITO_DOMAIN_STAGE --build-arg COGNITO_CLIENT_ID=$COGNITO_CLIENT_ID_STAGE --build-arg COGNITO_USER_POOL_ID=$COGNITO_USER_POOL_ID_STAGE --build-arg INDEX_URL=$INDEX_URL_STAGE --build-arg SEARCH_HOST=$INDEX_URL_STAGE --build-arg EXPORT_BUCKET_URL=$EXPORT_BUCKET_URL_STAGE --build-arg HONEYBADGER_API_KEY=$HONEYBADGER_API_KEY --build-arg HONEYBADGER_REVISION=$CIRCLE_SHA1 .
+            docker build -t ld4p/sinopia_editor:release-prod --build-arg SINOPIA_API_BASE_URL=$SINOPIA_API_BASE_URL_PROD --build-arg SINOPIA_URI=$SINOPIA_URI_PROD --build-arg AWS_COGNITO_DOMAIN=$AWS_COGNITO_DOMAIN_PROD --build-arg COGNITO_CLIENT_ID=$COGNITO_CLIENT_ID_PROD --build-arg COGNITO_USER_POOL_ID=$COGNITO_USER_POOL_ID_PROD --build-arg INDEX_URL=$INDEX_URL_PROD --build-arg SEARCH_HOST=$INDEX_URL_PROD --build-arg EXPORT_BUCKET_URL=$EXPORT_BUCKET_URL_PROD --build-arg HONEYBADGER_API_KEY=$HONEYBADGER_API_KEY --build-arg HONEYBADGER_REVISION=$CIRCLE_SHA1 .
+            docker push ld4p/sinopia_editor:release-stage
+            docker push ld4p/sinopia_editor:release-prod
+  update_ecs_dev:
     working_directory: ~/sinopia_editor
     docker: # NOT the default
       - image: circleci/python:3.7-stretch-node-browsers
@@ -149,7 +163,60 @@ jobs:
             cluster_arn=$(aws ecs list-clusters --region us-west-2 | jq --raw-output --exit-status '.clusterArns[] | select(contains(":cluster/sinopia-dev"))')
             # echo -n "task_arn=$task_arn\ncluster_arn=$cluster_arn\n"
             aws ecs update-service --service sinopia-homepage --region us-west-2 --cluster $cluster_arn --task-definition $task_arn --force-new-deployment
-
+  update_ecs_stage:
+    working_directory: ~/sinopia_editor
+    docker: # NOT the default
+      - image: circleci/python:3.7-stretch-node-browsers
+    steps:
+      - run: sudo pip install awscli
+      - run:
+          name: Update AWS ECS
+          command: |
+            mkdir ~/.aws
+            echo -e "[circle]\naws_access_key_id=$CIRCLE_ACCESS_KEY_ID\naws_secret_access_key=$CIRCLE_SECRET_KEY\n" > ~/.aws/credentials
+            unset AWS_SESSION_TOKEN
+            aws configure set region us-west-2
+            aws configure set output json
+            temp_creds=$(aws sts assume-role --role-session-name DevelopersRole --role-arn $STAGE_ROLE_ARN --profile circle | jq .Credentials)
+            export AWS_ACCESS_KEY_ID=$(echo "$temp_creds" | jq .AccessKeyId | xargs)
+            export AWS_SECRET_ACCESS_KEY=$(echo "$temp_creds" | jq .SecretAccessKey | xargs)
+            export AWS_SESSION_TOKEN=$(echo "$temp_creds" | jq .SessionToken | xargs)
+            aws configure list # Show confirmation of config
+            task_arn=$(aws ecs list-task-definitions --family-prefix sinopia-homepage --region us-west-2 --sort DESC --max-items 1 | jq --raw-output --exit-status '.taskDefinitionArns[]')
+            cluster_arn=$(aws ecs list-clusters --region us-west-2 | jq --raw-output --exit-status '.clusterArns[] | select(contains(":cluster/sinopia-staging"))')
+            aws ecs update-service --service sinopia-homepage --region us-west-2 --cluster $cluster_arn --task-definition $task_arn --force-new-deployment
+  update_ecs_stage_and_prod:
+    working_directory: ~/sinopia_editor
+    docker: # NOT the default
+      - image: circleci/python:3.7-stretch-node-browsers
+    steps:
+      - run: sudo pip install awscli
+      - run:
+          name: Update AWS ECS
+          command: |
+            mkdir ~/.aws
+            echo -e "[circle]\naws_access_key_id=$CIRCLE_ACCESS_KEY_ID\naws_secret_access_key=$CIRCLE_SECRET_KEY\n" > ~/.aws/credentials
+            unset AWS_SESSION_TOKEN
+            aws configure set region us-west-2
+            aws configure set output json
+            # Stage
+            temp_creds=$(aws sts assume-role --role-session-name DevelopersRole --role-arn $STAGE_ROLE_ARN --profile circle | jq .Credentials)
+            export AWS_ACCESS_KEY_ID=$(echo "$temp_creds" | jq .AccessKeyId | xargs)
+            export AWS_SECRET_ACCESS_KEY=$(echo "$temp_creds" | jq .SecretAccessKey | xargs)
+            export AWS_SESSION_TOKEN=$(echo "$temp_creds" | jq .SessionToken | xargs)
+            aws configure list # Show confirmation of config
+            task_arn=$(aws ecs list-task-definitions --family-prefix sinopia-homepage --region us-west-2 --sort DESC --max-items 1 | jq --raw-output --exit-status '.taskDefinitionArns[]')
+            cluster_arn=$(aws ecs list-clusters --region us-west-2 | jq --raw-output --exit-status '.clusterArns[] | select(contains(":cluster/sinopia-staging"))')
+            aws ecs update-service --service sinopia-homepage --region us-west-2 --cluster $cluster_arn --task-definition $task_arn --force-new-deployment
+            # Prod
+            temp_creds=$(aws sts assume-role --role-session-name DevelopersRole --role-arn $PROD_ROLE_ARN --profile circle | jq .Credentials)
+            export AWS_ACCESS_KEY_ID=$(echo "$temp_creds" | jq .AccessKeyId | xargs)
+            export AWS_SECRET_ACCESS_KEY=$(echo "$temp_creds" | jq .SecretAccessKey | xargs)
+            export AWS_SESSION_TOKEN=$(echo "$temp_creds" | jq .SessionToken | xargs)
+            aws configure list # Show confirmation of config
+            task_arn=$(aws ecs list-task-definitions --family-prefix sinopia-homepage --region us-west-2 --sort DESC --max-items 1 | jq --raw-output --exit-status '.taskDefinitionArns[]')
+            cluster_arn=$(aws ecs list-clusters --region us-west-2 | jq --raw-output --exit-status '.clusterArns[] | select(contains(":cluster/sinopia-production"))')
+            aws ecs update-service --service sinopia-homepage --region us-west-2 --cluster $cluster_arn --task-definition $task_arn --force-new-deployment
 workflows:
   version: 2
   build:
@@ -170,7 +237,7 @@ workflows:
               only:
                 - /.*/
             tags:
-              only:
+              ignore:
                 - /v.*/
       - test:
           requires:
@@ -180,7 +247,7 @@ workflows:
               only:
                 - /.*/
             tags:
-              only:
+              ignore:
                 - /v.*/
       - integration:
           filters:
@@ -188,7 +255,7 @@ workflows:
               only:
                 - /.*/
             tags:
-              only:
+              ignore:
                 - /v.*/
       - register_latest_image:
           requires:
@@ -200,7 +267,7 @@ workflows:
             tags:
               ignore:
                 - /v.*/
-      - register_tag_image:
+      - register_stage_image:
           requires:
             - build
           filters:
@@ -209,7 +276,49 @@ workflows:
                 - /.*/
             tags:
               only:
-                - /v.*/
-      - update_ecs:
+                - /v.[0-9\.]+-beta/
+          context: ld4p
+      - register_stage_and_prod_image:
+          requires:
+            - build
+          filters:
+            branches:
+              ignore:
+                - /.*/
+            tags:
+              only:
+                - /v.[0-9\.]+/
+          context: ld4p
+      - update_ecs_dev:
           requires:
             - register_latest_image
+          filters:
+            branches:
+              only:
+                - main
+            tags:
+              ignore:
+                - /v.*/
+          context: ld4p
+      - update_ecs_stage:
+          requires:
+            - register_stage_image
+          filters:
+            branches:
+              ignore:
+                - /.*/
+            tags:
+              only:
+                - /v.[0-9\.]+-beta/
+          context: ld4p
+      - update_ecs_stage_and_prod:
+          requires:
+            - register_stage_and_prod_image
+          filters:
+            branches:
+              ignore:
+                - /.*/
+            tags:
+              only:
+                - /v.[0-9\.]+/
+          context: ld4p
