@@ -237,7 +237,7 @@ workflows:
               only:
                 - /.*/
             tags:
-              only:
+              ignore:
                 - /v.*/
       - test:
           requires:
@@ -247,7 +247,7 @@ workflows:
               only:
                 - /.*/
             tags:
-              only:
+              ignore:
                 - /v.*/
       - integration:
           filters:
@@ -255,7 +255,7 @@ workflows:
               only:
                 - /.*/
             tags:
-              only:
+              ignore:
                 - /v.*/
       - register_latest_image:
           requires:
