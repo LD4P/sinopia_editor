@@ -22,6 +22,8 @@ These instructions apply for major releases and dependency updates.
   - [ ] Publish a [new release](https://github.com/LD4P/sinopia_exporter/releases/new) with a version like `v1.0.2`.
 5. _If changes since last release:_ Create [Sinopia API](https://github.com/LD4P/sinopia_api) release.
   - [ ] Publish a [new release](https://github.com/LD4P/sinopia_api/releases/new) with a version like `v1.0.2`.
+6. _If changes since last release:_ Create [RDF2MARC](https://github.com/LD4P/rdf2marc) release.
+  - [ ] Publish a [new release](https://github.com/LD4P/rdf2marc/releases/new) with a version like `v1.0.2`.
 
 ## Notes
 * If `package-lock.json` has links to unsecured `http://` registries, try deleting `package-lock.json`, remove the node modules `rm -rf ./node_modules`, run `npm cache clean --force`, and then run `npm i --prefer-online`.
