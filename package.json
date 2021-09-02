@@ -36,7 +36,7 @@
     "doc": "docs"
   },
   "scripts": {
-    "build": "webpack -p --progress --mode production",
+    "build": "webpack --progress --mode production",
     "dev-build": "webpack --progress --mode development",
     "dev-build-test": "npm run dev-build && npm run test",
     "dev-start": "webpack-dev-server --config ./webpack.config.js --mode development",
@@ -62,16 +62,18 @@
     "@rdfjs/serializer-jsonld-ext": "^2.0.0",
     "ajv": "^6.12.6",
     "bootstrap": "^4.6.0",
+    "buffer": "^6.0.3",
     "concat-stream": "^2.0.0",
     "cors": "^2.8.5",
     "crypto-js": "^3.3.0",
+    "crypto-browserify": "3.12.0",
     "dotenv": "^8.6.0",
     "eslint-utils": "^2.1.0",
     "event-stream": "^4.0.1",
     "express": "^4.16.4",
     "file-saver": "^2.0.5",
     "hookrouter": "^1.2.5",
-    "html-webpack-plugin": "^3.2.0",
+    "html-webpack-plugin": "^5.3.2",
     "identity-obj-proxy": "^3.0.0",
     "jquery": "^3.6.0",
     "jsonld-streaming-parser": "^2.4.0",
@@ -79,8 +81,9 @@
     "merge": "^2.1.1",
     "mixin-deep": ">=1.3.2",
     "n3": "^1.11.1",
-    "node-sass": "^4.14.1",
+    "node-sass": "^6.0.1",
     "popper.js": "^1.16.1",
+    "process": "^0.11.10",
     "query-string": "^6.14.1",
     "rdf-ext": "^1.3.5",
     "react": "^16.14.0",
@@ -97,6 +100,7 @@
     "reselect": "^4.0.0",
     "set-value": "^3.0.2",
     "shortid": "^2.2.16",
+    "stream-browserify": "^3.0.0",
     "swagger-client": "^3.16.0",
     "uuid": "^8.3.1",
     "x2js": "^3.4.1"
@@ -145,11 +149,11 @@
     "jsdom-global": "3.0.2",
     "raw-loader": "^4.0.2",
     "redux-mock-store": "^1.5.3",
-    "sass-loader": "^8.0.2",
+    "sass-loader": "^12.1.0",
     "style-loader": "^1.3.0",
-    "webpack": "^4.46.0",
-    "webpack-cli": "^3.3.12",
-    "webpack-dev-server": "^3.11.2"
+    "webpack": "^5.51.2",
+    "webpack-cli": "^4.8.0",
+    "webpack-dev-server": "^4.1.0"
   },
   "jest": {
     "setupFilesAfterEnv": [

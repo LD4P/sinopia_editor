@@ -53,12 +53,12 @@ class Config {
   }
 
   static get searchResultsPerPage() {
-    return process.env.SEARCH_RESULTS_PER_PAGE || 10
+    return 10
   }
 
   static get templateSearchResultsPerPage() {
     // This # should be large enough to return all results.
-    return process.env.TEMPLATE_SEARCH_RESULTS_PER_PAGE || 250
+    return 250
   }
 
 
@@ -66,11 +66,11 @@ class Config {
    * This is the public endpont for the sinopia search.
    */
   static get searchPath() {
-    return process.env.SEARCH_PATH || '/api/search/sinopia_resources/sinopia/_search'
+    return '/api/search/sinopia_resources/sinopia/_search'
   }
 
   static get templateSearchPath() {
-    return process.env.TEMPLATE_SEARCH_PATH || '/api/search/sinopia_templates/sinopia/_search'
+    return '/api/search/sinopia_templates/sinopia/_search'
   }
 
   static get sinopiaDomainName() {

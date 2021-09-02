@@ -51,12 +51,12 @@ app.post('/api/search/:index/sinopia/_search', (req, res) => {
     })
 })
 
+app.get('/', (req, res) => {
+  res.sendFile(`${__dirname}/dist/index.html`)
+})
+
 // Serve static assets to the browser, e.g., from src/styles/ and static/
 app.use(express.static(`${__dirname}/`))
-
-app.get('*', (req, res) => {
-  res.sendFile(`${__dirname}/index.html`)
-})
 
 app.listen(port, () => {
   console.info(`Sinopia Linked Data Editor running on ${port}`)
