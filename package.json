@@ -67,7 +67,6 @@
     "cors": "^2.8.5",
     "crypto-js": "^3.3.0",
     "crypto-browserify": "3.12.0",
-    "dotenv": "^8.6.0",
     "eslint-utils": "^2.1.0",
     "event-stream": "^4.0.1",
     "express": "^4.16.4",
