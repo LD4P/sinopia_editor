@@ -58,6 +58,10 @@ app.get('/', (req, res) => {
 // Serve static assets to the browser, e.g., from src/styles/ and static/
 app.use(express.static(`${__dirname}/`))
 
+app.get('*', (req, res) => {
+  res.sendFile(`${__dirname}/dist/index.html`)
+})
+
 app.listen(port, () => {
   console.info(`Sinopia Linked Data Editor running on ${port}`)
   console.info('Press Ctrl + C to stop.')
