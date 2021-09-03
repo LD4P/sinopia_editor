@@ -194,6 +194,10 @@
       "^.+\\.[jt]sx?$": "babel-jest"
     }
   },
+  "jest-junit": {
+    "outputDirectory": "test-results/jest",
+    "outputName": "jest-results.xml"
+  },
   "optionalDependencies": {
     "cypress": "^5.1.0"
   }
