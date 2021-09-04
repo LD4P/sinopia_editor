@@ -1,7 +1,7 @@
 // Copyright 2019 Stanford University see LICENSE for license
 
 import React from 'react'
-import { shallow } from 'enzyme'
+import { render } from '@testing-library/react'
 import RenderLookupContext from 'components/editor/property/RenderLookupContext'
 
 const contextPersonResult = {
@@ -135,47 +135,50 @@ const p4Props = {
 
 
 describe('<RenderLookupContext />', () => {
-  const wrapper = shallow(<RenderLookupContext.WrappedComponent {...plProps} />)
   it('displays label and additional context with order specified', () => {
-    const detailsContainer = wrapper.find('.details-container')
+    const { container } = render(<RenderLookupContext {...plProps} />)
+
+    const detailsContainer = container.querySelectorAll('.details-container')
     expect(detailsContainer.length).toEqual(3)
-    const label = detailsContainer.at(0)
-    expect(label.html()).toMatch('Twain, Mark, 1835-1910')
-    const dateDetails = detailsContainer.at(1)
-    expect(dateDetails.find('.context-field').html()).toMatch('Birth date')
-    expect(dateDetails.html()).toMatch('(edtf) 1835-11-30')
-    const details = detailsContainer.at(2)
-    expect(details.find('.context-field').contains('Occupation')).toEqual(true)
-    expect(details.contains('Lecturers, Humorists, Authors')).toEqual(true)
+    const label = detailsContainer[0]
+    expect(label).toHaveTextContent('Twain, Mark, 1835-1910')
+    const dateDetails = detailsContainer[1]
+    expect(dateDetails.querySelector('.context-field')).toHaveTextContent('Birth date')
+    expect(dateDetails).toHaveTextContent('(edtf) 1835-11-30')
+    const details = detailsContainer[2]
+    expect(details.querySelector('.context-field')).toHaveTextContent('Occupation')
+    expect(details).toHaveTextContent('Lecturers, Humorists, Authors')
   })
 
-  const genericWrapper = shallow(<RenderLookupContext.WrappedComponent {...p2Props} />)
   it('displays label additional context when no order specified for context values for that authority', () => {
-    const genericContainer = genericWrapper.find('.details-container')
+    const { container } = render(<RenderLookupContext {...p2Props} />)
+
+    const genericContainer = container.querySelectorAll('.details-container')
     expect(genericContainer.length).toEqual(2)
-    const genericLabel = genericContainer.at(0)
-    expect(genericLabel.contains('Biology')).toEqual(true)
-    const genericDetails = genericContainer.at(1)
-    expect(genericDetails.find('.context-field').contains('Additional Info')).toEqual(true)
-    expect(genericDetails.contains('Additional Information')).toEqual(true)
+    const genericLabel = genericContainer[0]
+    expect(genericLabel).toHaveTextContent('Biology')
+    const genericDetails = genericContainer[1]
+    expect(genericDetails.querySelector('.context-field')).toHaveTextContent('Additional Info')
+    expect(genericDetails).toHaveTextContent('Additional Information')
   })
 
-  const discogsWrapper = shallow(<RenderLookupContext.WrappedComponent {...p3Props} />)
   it('displays discogs label and context', () => {
-    expect(discogsWrapper.find('img').prop('src')).toEqual('https://imageurl.jpg')
-    const discogsDetailsContainer = discogsWrapper.find('.details-container')
-    expect(discogsDetailsContainer.contains('Frank Sinatra')).toEqual(true)
-    expect(discogsDetailsContainer.contains('(1963)')).toEqual(true)
-    expect(discogsDetailsContainer.contains('Reprise Records')).toEqual(true)
-    expect(discogsDetailsContainer.contains('Vinyl')).toEqual(true)
-    expect(discogsDetailsContainer.contains('Master')).toEqual(true)
+    const { container } = render(<RenderLookupContext {...p3Props} />)
+
+    expect(container.querySelector('img')).toHaveAttribute('src', 'https://imageurl.jpg')
+    const discogsDetailsContainers = container.querySelectorAll('.details-container')
+    expect(discogsDetailsContainers[0]).toHaveTextContent('Frank Sinatra')
+    expect(discogsDetailsContainers[0]).toHaveTextContent('(1963)')
+    expect(discogsDetailsContainers[2]).toHaveTextContent('Reprise Records')
+    expect(discogsDetailsContainers[1]).toHaveTextContent('Vinyl')
+    expect(discogsDetailsContainers[3]).toHaveTextContent('Master')
   })
 
-  const genreWrapper = shallow(<RenderLookupContext.WrappedComponent {...p4Props} />)
   it('displays nested object label', () => {
-    const genreContainer = genreWrapper.find('.details-container')
-    const genreDetails = genreContainer.at(1)
-    expect(genreDetails.find('.context-field').contains('Broader')).toEqual(true)
-    expect(genreDetails.contains('Animated films')).toEqual(true)
+    const { container } = render(<RenderLookupContext {...p4Props} />)
+    const genreContainer = container.querySelectorAll('.details-container')
+    const genreDetails = genreContainer[1]
+    expect(genreDetails.querySelector('.context-field')).toHaveTextContent('Broader')
+    expect(genreDetails).toHaveTextContent('Animated films')
   })
 })
