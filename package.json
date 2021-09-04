@@ -58,7 +58,7 @@
     "@fortawesome/fontawesome-svg-core": "^1.2.36",
     "@fortawesome/free-solid-svg-icons": "^5.15.4",
     "@fortawesome/react-fontawesome": "^0.1.15",
-    "@honeybadger-io/react": "0.0.6",
+    "@honeybadger-io/react": "^1.0.1",
     "@rdfjs/serializer-jsonld-ext": "^2.0.0",
     "bootstrap": "^4.6.0",
     "buffer": "^6.0.3",
