@@ -87,6 +87,24 @@ jobs:
           path: /home/circleci/sinopia_editor/videos
       - store_artifacts:
           path: /home/circleci/sinopia_editor/screenshots
+  test:
+    executor: default
+    steps:
+      - checkout
+      - node/install-packages
+      - run:
+          name: Setup Code Climate test-reporter
+          command: |
+            curl -L https://codeclimate.com/downloads/test-reporter/test-reporter-latest-linux-amd64 > ./cc-test-reporter
+            chmod +x ./cc-test-reporter
+            ./cc-test-reporter before-build
+      - run:
+          name: Run tests
+          command: npm run test
+      - run:
+          name: Send coverage report to Code Climate
+          command: |
+            ./cc-test-reporter after-build --coverage-input-type lcov --exit-code $?
   deploy-ecs:
     parameters:
       role-arn:
@@ -116,10 +134,10 @@ jobs:
 workflows:
   build:
     jobs:
-      - node/test:
-          name: test
-          run-command: jest-ci
-          version: << pipeline.parameters.node-version >>
+      - test:
+          # name: test
+          # run-command: jest-ci
+          # version: << pipeline.parameters.node-version >>
           filters:
             <<: *branch_only_filter
       - node/run:
@@ -173,7 +191,7 @@ workflows:
           tag: release-prod
           extra_build_args: --build-arg SINOPIA_API_BASE_URL=$SINOPIA_API_BASE_URL_PROD --build-arg SINOPIA_URI=$SINOPIA_URI_PROD --build-arg AWS_COGNITO_DOMAIN=$AWS_COGNITO_DOMAIN_PROD --build-arg COGNITO_CLIENT_ID=$COGNITO_CLIENT_ID_PROD --build-arg COGNITO_USER_POOL_ID=$COGNITO_USER_POOL_ID_PROD --build-arg INDEX_URL=$INDEX_URL_PROD --build-arg SEARCH_HOST=$INDEX_URL_PROD --build-arg EXPORT_BUCKET_URL=$EXPORT_BUCKET_URL_PROD --build-arg HONEYBADGER_API_KEY=$HONEYBADGER_API_KEY --build-arg HONEYBADGER_REVISION=$CIRCLE_SHA1
           filters:
-            <<: *release_only_filter            
+            <<: *release_only_filter
       - deploy-ecs:
           name: deploy-ecs-dev
           context: ld4p
