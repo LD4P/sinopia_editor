@@ -1,7 +1,7 @@
-import shortid from 'shortid'
+import { nanoid } from 'nanoid'
 
 const newValue = (property, literal, lang, uri, label, valueSubject) => ({
-  key: shortid.generate(),
+  key: nanoid(),
   property,
   literal,
   lang,

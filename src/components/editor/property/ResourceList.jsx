@@ -4,7 +4,7 @@ import React, { useEffect, useRef, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import PropTypes from 'prop-types'
 import { getTemplateSearchResults } from 'sinopiaSearch'
-import shortid from 'shortid'
+import { nanoid } from 'nanoid'
 import { newResource } from 'actionCreators/resources'
 import { selectPropertyTemplate, selectSubjectTemplate } from 'selectors/templates'
 import { selectCurrentResourceIsReadOnly, selectNormSubject } from 'selectors/resources'
@@ -40,7 +40,7 @@ const ResourceList = (props) => {
                     className="dropdown-item"
                     href="#"
                     data-resource-id={hit.id}
-                    key={shortid.generate()}
+                    key={nanoid()}
                     onClick={(event) => { handleChange(hit.id, event) }}>
               {hit.resourceLabel} ({hit.id})
             </button>,
