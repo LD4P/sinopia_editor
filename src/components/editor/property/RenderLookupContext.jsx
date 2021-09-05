@@ -2,7 +2,6 @@
 
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
-import { connect } from 'react-redux'
 import { getContextValues, getContextValue } from 'utilities/QuestioningAuthority'
 
 class RenderLookupContext extends Component {
@@ -126,4 +125,4 @@ RenderLookupContext.propTypes = {
 }
 
 
-export default connect(null, null)(RenderLookupContext)
+export default RenderLookupContext
