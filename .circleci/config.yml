@@ -135,9 +135,6 @@ workflows:
   build:
     jobs:
       - test:
-          # name: test
-          # run-command: jest-ci
-          # version: << pipeline.parameters.node-version >>
           filters:
             <<: *branch_only_filter
       - node/run:
