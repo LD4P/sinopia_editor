@@ -3,14 +3,13 @@
 import { fetchLookup } from 'actionCreators/lookups'
 import configureMockStore from 'redux-mock-store'
 import thunk from 'redux-thunk'
-import { nanoid } from 'nanoid'
+import shortid from 'shortid'
 import 'isomorphic-fetch'
 import { createState } from 'stateUtils'
 
 const mockStore = configureMockStore([thunk])
 
-jest.mock('nanoid')
-nanoid.mockReturnValue('abc123')
+shortid.generate = jest.fn().mockReturnValue('abc123')
 
 const uri = 'https://id.loc.gov/vocabulary/carriers'
 // Note that this has a duplicate to test de-duping.

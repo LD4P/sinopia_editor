@@ -4,7 +4,7 @@ import React, { useRef, useState } from 'react'
 import PropTypes from 'prop-types'
 import { bindActionCreators } from 'redux'
 import { connect, useSelector } from 'react-redux'
-import { nanoid } from 'nanoid'
+import shortid from 'shortid'
 import { displayResourceValidations } from 'selectors/errors'
 import { selectCurrentResourceIsReadOnly } from 'selectors/resources'
 import { addValue } from 'actions/resources'
@@ -75,7 +75,7 @@ const InputURI = (props) => {
     controlClasses += ' is-invalid'
     error = errors.join(', ')
   }
-  const id = nanoid()
+  const id = shortid.generate()
 
   return (
     <div className="form-group">

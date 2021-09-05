@@ -12,18 +12,17 @@ import thunk from 'redux-thunk'
 import { createState } from 'stateUtils'
 import GraphBuilder from 'GraphBuilder'
 import { datasetFromN3 } from 'utilities/Utilities'
-import { nanoid } from 'nanoid'
+import shortid from 'shortid'
 import _ from 'lodash'
 import FakeTimers from '@sinonjs/fake-timers'
 
 // This won't be required after Jest 27
 jest.useFakeTimers('modern')
-jest.mock('nanoid')
 
 let clock
 beforeEach(() => {
   let counter = 0
-  nanoid.mockImplementation(() => `abc${counter++}`)
+  shortid.generate = jest.fn().mockImplementation(() => `abc${counter++}`)
   clock = FakeTimers.install({ now: new Date('2020-08-20T11:34:40.887Z') })
 })
 

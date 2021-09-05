@@ -1,13 +1,13 @@
 // Copyright 2019 Stanford University see LICENSE for license
 
-import { nanoid } from 'nanoid'
+import shortid from 'shortid'
 import React, { useEffect, useState } from 'react'
 import PropTypes from 'prop-types'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faInfoCircle } from '@fortawesome/free-solid-svg-icons'
 
 const PropertyLabelInfoTooltip = (props) => {
-  const [key] = useState(`popover-${nanoid()}`)
+  const [key] = useState(`popover-${shortid.generate()}`)
 
   useEffect(() => {
     window.$(`#${key}`).popover()

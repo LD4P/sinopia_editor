@@ -6,13 +6,13 @@ import NestedPropertyHeader from './NestedPropertyHeader'
 import PropertyComponent from './PropertyComponent'
 import { selectNormProperty } from 'selectors/resources'
 import { connect } from 'react-redux'
-import { nanoid } from 'nanoid'
+import shortid from 'shortid'
 import useNavigableComponent from 'hooks/useNavigableComponent'
 import { selectPropertyTemplate } from 'selectors/templates'
 
 const NestedProperty = (props) => {
   const [navEl, navClickHandler] = useNavigableComponent(props.property.rootSubjectKey, props.property.rootPropertyKey, props.property.key)
-  const propertyLabelId = `labelled-by-${nanoid()}`
+  const propertyLabelId = `labelled-by-${shortid.generate()}`
   // onClick is to support left navigation, so ignoring jsx-ally seems reasonable.
   /* eslint-disable jsx-a11y/click-events-have-key-events */
   /* eslint-disable jsx-a11y/no-static-element-interactions */

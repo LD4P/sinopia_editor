@@ -14,7 +14,7 @@ import { expandProperty, contractProperty } from 'actionCreators/resources'
 import { selectNormProperty, selectCurrentResourceKey, selectCurrentResourceIsReadOnly } from 'selectors/resources'
 import { selectPropertyTemplate } from 'selectors/templates'
 import useNavigableComponent from 'hooks/useNavigableComponent'
-import { nanoid } from 'nanoid'
+import shortid from 'shortid'
 
 const PanelProperty = (props) => {
   // Null values indicates that can be added.
@@ -33,7 +33,7 @@ const PanelProperty = (props) => {
 
 
   // used to associate the PropertyComponent field to be labeled with the PropertyLabel
-  const propertyLabelId = `labelled-by-${nanoid()}`
+  const propertyLabelId = `labelled-by-${shortid.generate()}`
 
   // onClick is to support left navigation, so ignoring jsx-ally seems reasonable.
   /* eslint-disable jsx-a11y/click-events-have-key-events */

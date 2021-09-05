@@ -160,15 +160,15 @@ Note that proxying to other environments may require additional Cognito configur
 ```
 {
   subjects: {
-    <subject key [nanoid]>: {<subject>},
+    <subject key [shortid]>: {<subject>},
     ...
   }
   properties: {
-    <property key [nanoid]>: {<property>}
+    <property key [shortid]>: {<property>}
     ...
   }
   values: {
-    <value key, [nanoid]>: {<values>}
+    <value key, [shortid]>: {<values>}
     ...
   },
   subjectTemplates: {
@@ -185,7 +185,7 @@ Note that proxying to other environments may require additional Cognito configur
 ### Subject model
 ```
 {
-  key: <nanoid>
+  key: <shortid>
   uri: <uri|null>
   subjectTemplateKey: <key of subject template>,
   -> subjectTemplate: {subjectTemplate}
@@ -230,7 +230,7 @@ The following are only in the resource subject (that is, the base subject).
 ### Property model
 ```
 {
-  key: <nanoid>,
+  key: <shortid>,
   subjectKey: <key of subject>,
   -> subject: {<subject>}
   propertyTemplateKey: <key of property template>,
@@ -281,7 +281,7 @@ The following are only in the resource subject (that is, the base subject).
 ### Value model
 ```
 {
-  key: <nanoid>,
+  key: <shortid>,
   propertyKey: <key of property>,
   -> property: {<property>},
   literal: <literal>,

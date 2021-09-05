@@ -6,7 +6,7 @@ import { postMarc, getMarcJob, getMarc } from 'sinopiaApi'
 import { selectCurrentResourceKey, selectNormSubject } from 'selectors/resources'
 import { selectSubjectTemplate } from 'selectors/templates'
 import { saveAs } from 'file-saver'
-import { nanoid } from 'nanoid'
+import shortid from 'shortid'
 
 const MarcButton = () => {
   const marcs = useRef({})
@@ -25,11 +25,11 @@ const MarcButton = () => {
           return
         }
         marcs.current[resourceKey] = { marc: body, marcUrl: url }
-        setRender(nanoid())
+        setRender(shortid.generate())
       })
       .catch((err) => {
         marcs.current[resourceKey] = { error: err.message || err }
-        setRender(nanoid())
+        setRender(shortid.generate())
       })
   }
 
@@ -41,7 +41,7 @@ const MarcButton = () => {
       })
       .catch((err) => {
         marcs.current[resourceKey] = { error: err.message || err }
-        setRender(nanoid())
+        setRender(shortid.generate())
       })
     event.preventDefault()
   }

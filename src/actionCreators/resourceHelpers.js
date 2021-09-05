@@ -1,7 +1,7 @@
 // Copyright 2020 Stanford University see LICENSE for license
 
 import rdf from 'rdf-ext'
-import { nanoid } from 'nanoid'
+import shortid from 'shortid'
 import _ from 'lodash'
 import { loadResourceTemplate } from 'actionCreators/templates'
 import { addSubject as addSubjectAction } from 'actions/resources'
@@ -80,7 +80,7 @@ const recursiveResourceFromDataset = (subjectTerm, uri, resourceTemplateId, supp
       })))
 
 export const newSubject = (uri, resourceTemplateId, resourceTemplatePromises, errorKey) => (dispatch) => {
-  const key = nanoid()
+  const key = shortid.generate()
   return dispatch(loadResourceTemplate(resourceTemplateId, resourceTemplatePromises, errorKey))
     .then((subjectTemplate) => {
       // This handles if there was an error fetching resource template
@@ -260,7 +260,7 @@ const newUriFromObject = (obj, property, dataset, usedDataset) => {
 }
 
 const newProperty = (subject, propertyTemplate, noDefaults, errorKey) => (dispatch) => {
-  const key = nanoid()
+  const key = shortid.generate()
   const property = {
     key,
     subject,
@@ -316,7 +316,7 @@ export const newSubjectCopy = (subjectKey, value) => (dispatch, getState) => {
   if (value) value.valueSubject = newSubject
 
   // New key
-  const key = nanoid()
+  const key = shortid.generate()
   newSubject.key = key
 
   // Clear some values
@@ -337,7 +337,7 @@ const newPropertyCopy = (propertyKey, subject) => (dispatch, getState) => {
   subject.properties.push(newProperty)
 
   // New key
-  const key = nanoid()
+  const key = shortid.generate()
   newProperty.key = key
 
   // Clear some values
@@ -362,7 +362,7 @@ const newValueCopy = (valueKey, property) => (dispatch, getState) => {
   property.values.push(newValue)
 
   // New key
-  const key = nanoid()
+  const key = shortid.generate()
   newValue.key = key
 
   // Clear some values
