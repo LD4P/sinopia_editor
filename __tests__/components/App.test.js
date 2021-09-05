@@ -1,5 +1,5 @@
 // Copyright 2019 Stanford University see LICENSE for license
-import { fireEvent, wait, screen } from '@testing-library/react'
+import { fireEvent, waitFor, screen } from '@testing-library/react'
 import { createStore, renderApp, createHistory } from 'testUtils'
 import { createState } from 'stateUtils'
 import Config from 'Config'
@@ -27,7 +27,7 @@ describe('<App />', () => {
     const store = createStore()
     renderApp(store)
 
-    await wait(() => store.getState().entities.languages.size > 0)
+    await waitFor(() => store.getState().entities.languages.size > 0)
   })
 
   it('sets app version', async () => {
@@ -107,7 +107,7 @@ describe('<App />', () => {
       const history = createHistory(['/editor/resourceTemplate:bf2:Notex'])
       renderApp(null, history)
 
-      await wait(() => expect(history.location.pathname).toEqual('/templates'))
+      await waitFor(() => expect(history.location.pathname).toEqual('/templates'))
       await screen.findByText(/Error retrieving resourceTemplate:bf2:Notex/)
     })
 
