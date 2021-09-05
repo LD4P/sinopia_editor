@@ -43,11 +43,9 @@
     "eslint": "eslint --color -c .eslintrc.js --ext js,jsx --max-warnings 0 .",
     "eslint-fix": "eslint --color -c .eslintrc.js --ext js,jsx --fix .",
     "eslint-fix-single": "eslint --color -c .eslintrc.js --fix",
-    "jest-cov": "jest --coverage --colors --silent --runInBand",
-    "jest-ci": "jest  --colors --silent --ci --runInBand --coverage --reporters=default",
     "start": "npx babel-node server.js",
-    "test": "jest --colors --silent --detectOpenHandles",
-    "test-verbose": "jest --colors --runInBand",
+    "test": "jest --colors --silent",
+    "test-verbose": "jest --colors",
     "cypress-verify": "cypress verify",
     "cypress-open": "cypress open",
     "cypress-run": "cypress run -b chrome --headless"
