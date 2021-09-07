@@ -139,7 +139,17 @@ const aggregationsToResult = (aggs) => {
 
 export const getTemplateSearchResults = (query, options = {}) => {
   const body = getTemplateSearchResultsBody(query, options)
-  return fetchTemplateSearchResults(body, templateHitsToResult)
+  return fetchTemplateSearchResults(body, templateHitsToResult).then((searchResults) => {
+    if (Config.useResourceTemplateFixtures) {
+      const newResults = searchResults.results.filter((hit) => [hit.id, hit.resourceURI].includes(query) || query.length === 0)
+      return {
+        totalHits: newResults.length,
+        results: newResults,
+        error: undefined,
+      }
+    }
+    return searchResults
+  })
 }
 
 const getTemplateSearchResultsBody = (query, options) => {
@@ -166,19 +176,25 @@ export const getTemplateSearchResultsByIds = (templateIds) => {
     },
     size: templateIds.length,
   }
-  return fetchTemplateSearchResults(body, templateHitsToResult)
+  return fetchTemplateSearchResults(body, templateHitsToResult).then((searchResults) => {
+    if (Config.useResourceTemplateFixtures) {
+      const newResults = searchResults.results.filter((hit) => templateIds.includes(hit.id))
+      return {
+        totalHits: newResults.length,
+        results: newResults,
+        error: undefined,
+      }
+    }
+    return searchResults
+  })
 }
 
 const fetchTemplateSearchResults = async (body, hitsToResultFunc) => {
   if (Config.useResourceTemplateFixtures) {
     const results = await getFixtureTemplateSearchResults()
-
-    const term = body.query.bool.should[0].wildcard.id.value.replace(/\*/g, '')
-    // Filter by term, if term length is 0, return all hits
-    const filtered = results.filter((hit) => hit.resourceURI === term || term.length === 0)
     return {
-      totalHits: filtered.length,
-      results: filtered,
+      totalHits: results.length,
+      results,
       error: undefined,
     }
   }
