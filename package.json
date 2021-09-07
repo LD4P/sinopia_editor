@@ -44,8 +44,8 @@
     "eslint-fix": "eslint --color -c .eslintrc.js --ext js,jsx --fix .",
     "eslint-fix-single": "eslint --color -c .eslintrc.js --fix",
     "start": "npx babel-node server.js",
-    "test": "jest --colors --silent",
-    "test-verbose": "jest --colors",
+    "test": "jest --colors --silent --runInBand",
+    "test-verbose": "jest --colors --runInBand",
     "cypress-verify": "cypress verify",
     "cypress-open": "cypress open",
     "cypress-run": "cypress run -b chrome --headless"
