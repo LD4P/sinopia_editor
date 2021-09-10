@@ -1,6 +1,8 @@
 // Copyright 2019 Stanford University see LICENSE for license
 
-import React, { useState, useEffect, useRef } from 'react'
+import React, {
+  useState, useEffect, useLayoutEffect, useRef,
+} from 'react'
 import PropTypes from 'prop-types'
 
 const ExpiringMessage = (props) => {
@@ -13,7 +15,7 @@ const ExpiringMessage = (props) => {
     }
   })
 
-  useEffect(() => inputRef.current?.scrollIntoView({
+  useLayoutEffect(() => inputRef.current?.scrollIntoView({
     behavior: 'smooth',
     block: 'end',
   }))

@@ -1,4 +1,4 @@
-import { useEffect, useRef } from 'react'
+import { useLayoutEffect, useRef } from 'react'
 import { setCurrentComponent } from 'actions/index'
 import { useDispatch, useSelector } from 'react-redux'
 import { selectCurrentComponentKey } from 'selectors/index'
@@ -7,7 +7,7 @@ const useNavigableComponent = (rootSubjectKey, rootPropertyKey, componentKey) =>
   const navEl = useRef(null)
   const currentComponentKey = useSelector((state) => selectCurrentComponentKey(state, rootSubjectKey))
 
-  useEffect(() => {
+  useLayoutEffect(() => {
     if (componentKey === currentComponentKey && !isVisible(navEl.current)) navEl.current.scrollIntoView({ behavior: 'smooth' })
   })
 

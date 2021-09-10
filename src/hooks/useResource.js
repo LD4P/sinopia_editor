@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react'
+import { useLayoutEffect, useState } from 'react'
 import { useSelector, useDispatch } from 'react-redux'
 import { newResource, loadResource } from 'actionCreators/resources'
 import { selectErrors } from 'selectors/errors'
@@ -21,7 +21,7 @@ const useResource = (errorKey, errorRef) => {
 
   const [navigateEditor, setNavigateEditor] = useState(false)
 
-  useEffect(() => {
+  useLayoutEffect(() => {
     // Forces a wait until the root resource has been set in state
     if (navigateEditor && resource && _.isEmpty(errors)) {
       if (navigateEditor === 'new') {

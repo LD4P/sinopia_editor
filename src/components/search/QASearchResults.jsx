@@ -1,7 +1,7 @@
 // Copyright 2019 Stanford University see LICENSE for license
 
 import React, {
-  useMemo, useState, useEffect, useRef,
+  useMemo, useState, useEffect, useRef, useLayoutEffect,
 } from 'react'
 import { useSelector, useDispatch } from 'react-redux'
 import { clearErrors, addError } from 'actions/errors'
@@ -52,7 +52,7 @@ const QASearchResults = () => {
   }, [dispatch, resourceId, resourceURI, searchUri])
 
   const errors = useSelector((state) => selectErrors(state, searchQARetrieveErrorKey))
-  useEffect(() => {
+  useLayoutEffect(() => {
     if (!_.isEmpty(errors)) window.scrollTo(0, errorsRef.current.offsetTop)
   }, [errors])
 
