@@ -810,7 +810,8 @@ describe('setValueOrder()', () => {
     const oldState = createState({ hasResourceWithTwoNestedResources: true })
 
     expect(oldState.entities.properties.v1o90QO1Qx.valueKeys).toEqual(['VDOeQCnFA8', 'VDOeQCnFA9'])
-
+    const subjectKey = oldState.entities.properties.v1o90QO1Qx.subjectKey
+    expect(oldState.entities.subjects[subjectKey].changed).toBeFalsy
     const action = {
       type: 'SET_VALUE_ORDER',
       payload: {
@@ -820,6 +821,7 @@ describe('setValueOrder()', () => {
     }
 
     const newState = reducer(oldState.entities, action)
+    expect(newState.subjects[subjectKey].changed).toBeTruthy
 
     expect(newState.properties.v1o90QO1Qx.valueKeys).toEqual(['VDOeQCnFA9', 'VDOeQCnFA8'])
   })

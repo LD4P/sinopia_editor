@@ -494,8 +494,11 @@ export const setValueOrder = (state, action) => {
   const valueKey = action.payload.valueKey
   const value = state.values[valueKey]
 
-  const newState = stateWithNewProperty(state, value.propertyKey)
+  let newState = stateWithNewProperty(state, value.propertyKey)
   const newProperty = newState.properties[value.propertyKey]
+
+  // Set resource as changed if order changed (this enables the save button)
+  newState = setSubjectChanged(newState, newProperty.subjectKey, true)
 
   const index = action.payload.index
   const filterValueKeys = newProperty.valueKeys.filter((key) => key !== valueKey)
