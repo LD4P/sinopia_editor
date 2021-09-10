@@ -3,6 +3,7 @@ orbs:
   node: circleci/node@4.7.0
   docker: circleci/docker@1.7.0
   aws-cli: circleci/aws-cli@2.0
+  gh: circleci/github-cli@1.0.4
 parameters:
   node-version:
     type: string
@@ -131,6 +132,26 @@ jobs:
             task_arn=$(aws ecs list-task-definitions --family-prefix sinopia-homepage --sort DESC --max-items 1 | jq -r --exit-status '.taskDefinitionArns[]')
             cluster_arn=$(aws ecs list-clusters | jq --raw-output --exit-status '.clusterArns[] | select(contains(":cluster/<< parameters.cluster >>"))')
             aws ecs update-service --service sinopia-homepage --cluster $cluster_arn --task-definition $task_arn --force-new-deployment
+  dependency-update:
+    executor: default
+    steps:
+      - gh/setup
+      - gh/clone
+      - run:
+          name: Update dependencies
+          command: |
+            git config user.name "dlss-infra-bot"
+            git config user.email "dlss-infrastructure-team-owner@lists.stanford"
+            git checkout -b update-dependencies
+            repo_url=$(echo $CIRCLE_REPOSITORY_URL | sed -e "s/git@github\.com:/https:\/\/github.com\//" -e "s/\.git//")
+            git remote set-url origin $repo_url
+            git remote show origin
+            npm update
+            npm audit fix || echo "Outstanding fixes"
+            git add package-lock.json package.json && git commit -m "Update NPM dependencies"
+            if [ $? -eq 0 ]; then
+              git push origin update-dependencies && gh pr create --title "Update dependencies" --body ""
+            fi
 workflows:
   build:
     jobs:
@@ -214,3 +235,15 @@ workflows:
             - publish-prod
           filters:
             <<: *release_only_filter
+  dependency-update:
+    triggers:
+      - schedule:
+          # Mondays at 1am
+          cron: "0 1 * * 1"
+          filters:
+            branches:
+              only:
+                - main
+    jobs:
+      - dependency-update:
+          context: ld4p
