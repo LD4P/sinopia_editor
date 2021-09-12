@@ -13,7 +13,7 @@ const Alert = (props) => {
       <div className="col" style={{ marginTop: '10px' }}>
         <div className="alert alert-danger alert-dismissible" role="alert">
           { props.text }
-          <button type="button" className="close" data-dismiss="alert" aria-label="Close">
+          <button type="button" className="btn-close" data-bs-dismiss="alert" aria-label="Close">
             <span aria-hidden="true">&times;</span>
           </button>
         </div>

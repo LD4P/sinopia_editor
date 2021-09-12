@@ -61,7 +61,7 @@ describe('loading saved resource', () => {
       screen.getByPlaceholderText('Uber template1, property2')
 
       // confirm that the input field has an accessible label
-      screen.getByLabelText('Uber template3, property1')
+      screen.getByLabelText('Uber template3, property1', { selector: 'textarea' })
 
       // TODO: would expect this to work too, but it doesn't seem to, either in Firefox or in this test suite.
       // see https://github.com/LD4P/sinopia_editor/issues/2683

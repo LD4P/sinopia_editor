@@ -3,6 +3,7 @@
 import React from 'react'
 import ReactDOM from 'react-dom'
 import RootContainer from './components/RootContainer'
+import '@popperjs/core'
 import 'bootstrap'
 
 const root = document.createElement('div')

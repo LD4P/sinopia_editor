@@ -44,13 +44,15 @@ const CloseResourceModal = (props) => {
             </button>
           </div>
           <div className="modal-body rdf-modal-content">
-            <div className="row" style={{ marginLeft: '0', marginRight: '0' }}>
-              <button className="btn btn-link btn-sm" data-dismiss="modal" style={{ paddingRight: '20px' }} onClick={ handleClose }>
-                Cancel
-              </button>
-              <button className="btn btn-primary btn-sm" data-dismiss="modal" onClick={ handleCloseResource }>
-                Close
-              </button>
+            <div className="row">
+              <div className="col">
+                <button className="btn btn-link btn-sm" data-dismiss="modal" style={{ paddingRight: '20px' }} onClick={ handleClose }>
+                  Cancel
+                </button>
+                <button className="btn btn-primary btn-sm" data-dismiss="modal" onClick={ handleCloseResource }>
+                  Close
+                </button>
+              </div>
             </div>
           </div>
         </div>

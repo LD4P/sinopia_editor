@@ -6,8 +6,6 @@ import { featureSetup } from 'featureUtils'
 featureSetup()
 jest.mock('sinopiaSearch')
 
-// Mock jquery
-global.$ = jest.fn().mockReturnValue({ popover: jest.fn() })
 // Mock out document.elementFromPoint used by useNavigableComponent.
 global.document.elementFromPoint = jest.fn()
 // Mock out scrollIntoView used by useNavigableComponent. See https://github.com/jsdom/jsdom/issues/1695

@@ -2,10 +2,10 @@
 
 @import 'colors';
 @import 'bootstrap-variables';
-@import "~bootstrap/scss/bootstrap";
-@import url('https://fonts.googleapis.com/css2?family=Source+Sans+Pro&display=swap');
 @import 'variables';
+@import "~bootstrap/scss/bootstrap";
 @import 'bootstrap-override';
+@import url('https://fonts.googleapis.com/css2?family=Source+Sans+Pro&display=swap');
 
 .left-space {
     margin-left: 3px;
@@ -183,7 +183,7 @@ a.editor-subtitle {
 }
 
 .input-value {
-  marginTop: .25em;
+  margin-top: .25em;
 }
 
 .rdf-modal-content {
@@ -310,4 +310,10 @@ button.btn-add-instance {
 // Async typeahead
 div.rbt div {
   display: block !important;
+}
+
+button.close {
+  padding: 0px;
+  background-color: transparent;
+  border: 0px;
 }

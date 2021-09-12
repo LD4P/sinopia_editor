@@ -67,7 +67,7 @@ const InputList = (props) => {
                                                                             valueKey={valueKey} />))
 
   let error
-  let controlClasses = 'custom-select'
+  let controlClasses = 'form-select'
   if (props.displayValidations && !_.isEmpty(props.property.errors)) {
     controlClasses += ' is-invalid'
     error = props.property.errors.join(',')

@@ -17,9 +17,15 @@ const InputValue = (props) => {
   const isLiteral = props.propertyTemplate.type === 'literal'
   const label = props.value.literal || props.value.label || props.value.uri
 
-  const handleEditClick = () => {
+  const handleEditClick = (event) => {
+    event.preventDefault()
     props.removeValue(props.valueKey)
     props.handleEdit(label, props.value.lang)
+  }
+
+  const handleRemoveClick = (event) => {
+    event.preventDefault()
+    props.removeValue(props.valueKey)
   }
 
   return (<div className="input-value">
@@ -28,7 +34,7 @@ const InputValue = (props) => {
       {label}
       <button
         disabled={readOnly}
-        onClick={() => props.removeValue(props.valueKey)}
+        onClick={handleRemoveClick}
         aria-label={`Remove ${label}`}
         data-testid={`Remove ${label}`}
         className="close rbt-close rbt-token-remove-button">

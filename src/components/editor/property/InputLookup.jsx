@@ -80,7 +80,7 @@ const InputLookup = (props) => {
     const label = lookupValue.label || lookupValue.literal
 
     return (
-      <div key={lookupValue.key} className="lookup-value">
+      <div key={lookupValue.key} className="lookup-value col-md-auto px-0">
         <span key={lookupValue.key}>{label}</span>
         <a href={lookupValue.uri} aria-label={`Link to value ${lookupValue.uri}`} target="_new">
           <span aria-hidden="true"><FontAwesomeIcon className="globe-icon" icon={faGlobe} /></span>

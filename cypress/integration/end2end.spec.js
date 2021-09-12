@@ -23,7 +23,7 @@ describe('End-to-end test', () => {
   })
 
   it('Opens Linked Data Editor', () => {
-    cy.contains('a', 'Linked Data Editor').click()
+    cy.contains('a', 'Linked Data Editor').scrollIntoView().click()
     cy.url().should('include', '/dashboard')
 
     cy.contains('a', 'Resource Templates').click()
@@ -48,7 +48,7 @@ describe('End-to-end test', () => {
           cy.get('#resourceTextArea').paste(json)
           cy.get('#uriInput')
             .type('http://localhost:3000/resource/resourceTemplate:bf2:WorkTitle')
-          cy.get('button[type="submit"]:not(:disabled)').contains('Submit').click()
+          cy.get('button[type="submit"]:not(:disabled)').contains('Submit').click({ force: true })
           // eslint-disable-next-line cypress/no-unnecessary-waiting
           cy.wait(500)
 
@@ -91,7 +91,7 @@ describe('End-to-end test', () => {
   })
 
   it('Previews the RDF', () => {
-    cy.get('button[title="Preview RDF"]').first().click()
+    cy.get('button[title="Preview RDF"]').first().scrollIntoView().click()
     cy.get('select#rdfFormat').select('n-triples')
     cy.contains(`<> <http://id.loc.gov/ontologies/bibframe/mainTitle> "${title}"@eng .`)
     cy.contains('<> <http://sinopia.io/vocabulary/hasResourceTemplate> "resourceTemplate:bf2:WorkTitle" .')

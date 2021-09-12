@@ -9,14 +9,12 @@ import MarcButton from './actions/MarcButton'
 
 const EditorActions = () => (
   <div className="row">
-    <div className="col-md-5 offset-md-7 text-right">
-      <div style={{ display: 'inline-flex' }}>
-        <MarcButton />
-        <CopyToNewButton />
-        <PreviewButton />
-        <CloseButton />
-        <SaveAndPublishButton class="editor-save" />
-      </div>
+    <div className="d-flex justify-content-end">
+      <MarcButton />
+      <CopyToNewButton />
+      <PreviewButton />
+      <CloseButton />
+      <SaveAndPublishButton class="editor-save" />
     </div>
   </div>
 )

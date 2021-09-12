@@ -120,56 +120,50 @@ const Search = (props) => {
     <div id="search" ref={topRef}>
       <Header triggerEditorMenu={props.triggerHandleOffsetMenu} />
       <Alert text={error && `An error occurred while searching: ${error.toString()}`} />
-      <div className="row">
-        <div className="col">
-          <form className="form-inline" onSubmit={handleSubmit}>
-            <div className="form-group">
-              <label htmlFor="searchType">Search</label>&nbsp;
-              <select className="form-control" id="searchType"
-                      value={uri}
-                      onChange={ (event) => setUri(event.target.value) }
-                      onBlur={ (event) => setUri(event.target.value) }>
-                <option value={sinopiaSearchUri}>Sinopia</option>
-                {options}
-              </select>
-            </div>
-            <div className="form-group" style={{
-              width: '750px', marginTop: '10px', paddingLeft: '5px', paddingBottom: '10px',
-            }}>
-              <label className="sr-only" htmlFor="searchInput">Query</label>
-              <div className="input-group">
-                <input id="searchInput" type="text" className="form-control"
-                       onChange={ (event) => setQueryString(event.target.value) }
-                       onKeyPress={handleKeyPress}
-                       placeholder="Enter query string"
-                       value={ queryString } />
-                <span className="input-group-btn">
-                  <button className="btn btn-primary"
-                          type="submit"
-                          title="Submit search"
-                          aria-label="Submit search"
-                          data-testid="Submit search">
-                    Search
-                  </button>
-                  <button className="btn btn-default"
-                          type="button"
-                          aria-label="Clear query string"
-                          title="Clear query string"
-                          data-testid="Clear query string"
-                          onClick={() => {
-                            setQueryString('')
-                            setUri(sinopiaSearchUri)
-                            clearSearchResults()
-                          } }>
-                    <FontAwesomeIcon className="trash-icon" icon={faTrashAlt} />
-                  </button>
-                </span>
-              </div>
-            </div>
-          </form>
+      <form onSubmit={handleSubmit}>
+        <div className="row">
+          <label className="col-sm-auto col-form-label" htmlFor="searchType">Search</label>
+          <div className="col-sm-2 pe-0">
+            <select className="form-select" id="searchType"
+                    value={uri}
+                    onChange={ (event) => setUri(event.target.value) }
+                    onBlur={ (event) => setUri(event.target.value) }>
+              <option value={sinopiaSearchUri}>Sinopia</option>
+              {options}
+            </select>
+          </div>
+          <label className="sr-only" htmlFor="searchInput">Query</label>
+          <div className="col-sm-6 pe-0 ps-1">
+            <input id="searchInput" type="text" className="form-control"
+                   onChange={ (event) => setQueryString(event.target.value) }
+                   onKeyPress={handleKeyPress}
+                   placeholder="Enter query string"
+                   value={ queryString } />
+          </div>
+          <div className="col-sm-2">
+            <button className="btn btn-primary"
+                    type="submit"
+                    title="Submit search"
+                    aria-label="Submit search"
+                    data-testid="Submit search">
+              Search
+            </button>
+            <button className="btn btn-default"
+                    type="button"
+                    aria-label="Clear query string"
+                    title="Clear query string"
+                    data-testid="Clear query string"
+                    onClick={() => {
+                      setQueryString('')
+                      setUri(sinopiaSearchUri)
+                      clearSearchResults()
+                    } }>
+              <FontAwesomeIcon className="trash-icon" icon={faTrashAlt} />
+            </button>
+          </div>
         </div>
-      </div>
-      <div className="row" style={{ marginBottom: '10px' }}>
+      </form>
+      <div className="row my-2">
         <div className="col">
           <span className="text-muted">Sinopia search: use * as wildcard;
             default operator for multiple terms is AND; use | (pipe) as OR operator;
