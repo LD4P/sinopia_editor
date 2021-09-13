@@ -48,7 +48,7 @@ const SinopiaSearchResults = () => {
                   Class
                 </th>
                 <th style={{ width: '20%' }}>
-                  Institution
+                  Group
                 </th>
                 <th style={{ width: '10%' }}>
                   Modified

@@ -54,7 +54,7 @@ describe('<SinopiaSearchResults />', () => {
       // Search table headers
       screen.queryByText('Label / ID')
       screen.queryByText('Class')
-      screen.queryByText('Institution')
+      screen.queryByText('Group')
       screen.getByText('Modified', { selector: 'th' })
 
       // It has a sort button
