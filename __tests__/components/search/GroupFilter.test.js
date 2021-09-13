@@ -42,7 +42,7 @@ describe('<GroupFilter />', () => {
   it('does not render when no facet results', () => {
     renderComponent(<GroupFilter />)
 
-    expect(screen.queryByText('Filter by institution')).not.toBeInTheDocument()
+    expect(screen.queryByText('Filter by group')).not.toBeInTheDocument()
   })
 
   it('renders when results', () => {
@@ -52,7 +52,7 @@ describe('<GroupFilter />', () => {
     const store = createStore(createInitialState())
     const { container } = renderComponent(<GroupFilter />, store)
 
-    expect(screen.getByText('Filter by institution')).toBeInTheDocument()
+    expect(screen.getByText('Filter by group')).toBeInTheDocument()
     expect(screen.getByText('Stanford University (5)')).toBeInTheDocument()
     expect(screen.getByText('Princeton University (1)')).toBeInTheDocument()
 
@@ -68,7 +68,7 @@ describe('<GroupFilter />', () => {
     const { container } = renderComponent(<GroupFilter />, store)
 
     expect(container.querySelector('div.show')).not.toBeInTheDocument()
-    fireEvent.click(screen.getByText('Filter by institution'))
+    fireEvent.click(screen.getByText('Filter by group'))
     expect(container.querySelector('div.show')).toBeInTheDocument()
     fireEvent.click(screen.getByText('Stanford University (5)'))
 
@@ -100,7 +100,7 @@ describe('<GroupFilter />', () => {
     const store = createStore(createInitialState())
     const { container } = renderComponent(<GroupFilter />, store)
 
-    fireEvent.click(screen.getByText('Filter by institution'))
+    fireEvent.click(screen.getByText('Filter by group'))
     fireEvent.click(screen.getAllByText('Only')[0])
 
     // 3 checked
@@ -128,7 +128,7 @@ describe('<GroupFilter />', () => {
 
     const store = createStore(createInitialState())
     const { container } = renderComponent(<GroupFilter />, store)
-    fireEvent.click(screen.getByText('Filter by institution'))
+    fireEvent.click(screen.getByText('Filter by group'))
     fireEvent.click(screen.getByText('Stanford University (5)'))
 
     // 3 checked
@@ -139,7 +139,7 @@ describe('<GroupFilter />', () => {
 
     await waitFor(() => expect(container.querySelector('div.show')).not.toBeInTheDocument())
 
-    fireEvent.click(screen.getByText('Filter by institution'))
+    fireEvent.click(screen.getByText('Filter by group'))
     fireEvent.click(screen.getByText('Clear filter'))
 
     expect(mockGetSearchResults).toHaveBeenLastCalledWith('twain', {

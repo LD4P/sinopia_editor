@@ -71,7 +71,7 @@ const GroupFilter = () => {
   const dropDownMenuClasses = ['dropdown-menu']
   if (groupFilterShowDropdown) dropDownMenuClasses.push('show')
   return (
-    <div className="btn-group" role="group" aria-label="Filter by institution" style={{ marginLeft: '10px' }}>
+    <div className="btn-group" role="group" aria-label="Filter by group" style={{ marginLeft: '10px' }}>
       <div className="btn-group" role="group">
         <div className="dropdown">
           <button className="btn btn-secondary"
@@ -80,7 +80,7 @@ const GroupFilter = () => {
                   aria-haspopup="true"
                   aria-expanded={groupFilterShowDropdown}
                   onClick={() => setGroupFilterShowDropdown(!groupFilterShowDropdown)} >
-            Filter by institution
+            Filter by group
           </button>
           <div className={dropDownMenuClasses.join(' ')} aria-labelledby="groupFilterDropdownButton">
             {searchOptions.groupFilter
