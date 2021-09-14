@@ -90,6 +90,7 @@ const InputLiteral = (props) => {
               required={required}
               className={controlClasses}
               placeholder={props.propertyTemplate.label}
+              aria-label={props.propertyTemplate.label}
               onChange={handleChangeDiacritics}
               onKeyDown={handleKeyDown}
               onClick={handleClickDiacritics}

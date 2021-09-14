@@ -45,14 +45,13 @@ const InputLang = (props) => {
   }
 
   const close = (event) => {
-    props.hideModal()
     event.preventDefault()
+    props.hideModal()
   }
 
   const handleLangSubmit = (event) => {
-    props.languageSelected(props.value.key, lang)
     close(event)
-    event.preventDefault()
+    props.languageSelected(props.value.key, lang)
   }
 
   const modal = (

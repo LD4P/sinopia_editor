@@ -54,7 +54,7 @@ const ResourceList = (props) => {
   }, [readOnly, dispatch, propertyTemplate.authorities, subjectTemplate.class])
 
   const dropdown = (items) => <div className="dropdown">
-    <button className="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown"
+    <button className="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-bs-toggle="dropdown"
             aria-haspopup="true" aria-expanded="false" disabled={readOnly}>
       Create New
     </button>

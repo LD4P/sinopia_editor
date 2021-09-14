@@ -5,7 +5,7 @@ import NewsItem from './NewsItem'
 import LoginPanel from './LoginPanel'
 
 const NewsPanel = () => (
-  <div className="jumbotron banner center-block">
+  <div className="banner container-fluid py-5">
     <div className="card panel-news">
       <div className="card-body">
         <div className="row">

@@ -21,7 +21,7 @@ describe('Left-nav test', () => {
   })
 
   it('Opens Linked Data Editor', () => {
-    cy.contains('a', 'Linked Data Editor').click()
+    cy.contains('a', 'Linked Data Editor').scrollIntoView().click()
     cy.url().should('include', '/dashboard')
 
     cy.contains('a', 'Resource Templates').click()
@@ -31,7 +31,6 @@ describe('Left-nav test', () => {
   it('Uploads resource templates', () => {
     cy.get('#searchInput')
       .type('resourceTemplate:testing:uber1')
-      .should('have.value', 'resourceTemplate:testing:uber1')
     // eslint-disable-next-line cypress/no-unnecessary-waiting
     cy.wait(1000)
 
@@ -61,7 +60,7 @@ describe('Left-nav test', () => {
   })
 
   it('Opens a resource template', () => {
-    cy.contains('a', /^Uber template1$/).click()
+    cy.contains('a:visible', /^Uber template1$/).scrollIntoView().click()
     // eslint-disable-next-line cypress/no-unnecessary-waiting
     cy.wait(1000)
     cy.url().should('include', '/editor')
@@ -79,19 +78,19 @@ describe('Left-nav test', () => {
   })
 
   it('Removes child nav for contracting nested properties', () => {
-    cy.get('button[aria-label="Remove Uber template2, property1"]').click()
+    cy.get('button[aria-label="Remove Uber template2, property1"]').scrollIntoView().click()
     cy.get('.left-nav-header').should('not.contain', 'Uber template2, property1')
   })
 
   it('Removes child nav when contracting nested resources', () => {
-    cy.get('button[aria-label="Remove Uber template1, property1"]').click()
+    cy.get('button[aria-label="Remove Uber template1, property1"]').scrollIntoView().click()
     cy.get('.left-nav-header').should('not.contain', 'Uber template2')
   })
 
   it('Expands nav when clicked', () => {
     cy.get('.left-nav-header').should('not.contain', 'Uber template4')
     cy.get('.left-nav-header').should('not.contain', 'Uber template4, property1')
-    cy.get('button[aria-label="Go to Uber template1, property18"]').click()
+    cy.get('button[aria-label="Go to Uber template1, property18"]').scrollIntoView().click()
     cy.get('.left-nav-header').should('contain', 'Uber template4')
     cy.get('.left-nav-header').should('contain', 'Uber template4, property1')
   })
@@ -104,14 +103,14 @@ describe('Left-nav test', () => {
     // Verifies that tooltip pops up when clicked and hides when something else is clicked
     const tooltipText = 'Multiple nested, repeatable resource templates.'
     cy.get('body').should('not.contain', tooltipText)
-    cy.get('a[data-testid="Uber template1, property1"]').click()
+    cy.get('a[data-testid="Uber template1, property1"]').scrollIntoView().click()
     // Tooltip appears when clicked
     cy.get('body').should('contain', tooltipText)
     // And disappears when anything else is clicked
     cy.get('button[aria-label="Go to Uber template1, property1"]').click()
     cy.get('body').should('not.contain', tooltipText)
     // Clicks tooltip for property at the bottom of the page
-    cy.get('a[data-testid="Uber template1, property20"]').click()
+    cy.get('a[data-testid="Uber template1, property20"]').scrollIntoView().click()
     // Ensure the viewport didn't shift to the top of the package
     cy.get('a[data-testid="Uber template1, property20"]').should('be.visible')
   })
@@ -121,34 +120,34 @@ describe('Left-nav test', () => {
     cy.get('li.li-checked .left-nav-header').should('not.contain', 'Uber template4')
     cy.get('li.li-checked .left-nav-header').should('not.contain', 'Uber template4, property1')
     cy.get('div[data-label="Uber template1, property18"] textarea[placeholder="Uber template4, property1"]')
-      .type('foo{enter}')
+      .type('foo{enter}', { force: true })
     cy.get('li.li-checked .left-nav-header').should('contain', 'Uber template1, property18')
     cy.get('li.li-checked .left-nav-header').should('contain', 'Uber template4')
     cy.get('li.li-checked .left-nav-header').should('contain', 'Uber template4, property1')
   })
 
   it('Removing values removes check', () => {
-    cy.get('button[aria-label="Remove foo"]').click()
+    cy.get('button[aria-label="Remove foo"]').click({ force: true })
     cy.get('li.li-checked .left-nav-header').should('not.contain', 'Uber template1, property18')
     cy.get('li.li-checked .left-nav-header').should('not.contain', 'Uber template4')
     cy.get('li.li-checked .left-nav-header').should('not.contain', 'Uber template4, property1')
   })
 
   it('Marks properties with errors', () => {
-    cy.get('.left-nav-header.text-danger').should('not.contain', 'Uber template1, property4')
+    cy.get('.left-nav-header.text-danger').should('not.exist')
     cy.get('button.editor-save').first().click()
     cy.get('.left-nav-header.text-danger').should('contain', 'Uber template1, property4')
   })
 
   it('Fixing error removes marking as error', () => {
     cy.get('textarea[placeholder="Uber template1, property4"]')
-      .type('bar{enter}')
+      .type('bar{enter}', { force: true })
     cy.get('.left-nav-header.text-danger').should('not.contain', 'Uber template1, property4')
   })
 
   it('Highlights nav when panel clicked', () => {
     cy.get('button.btn-primary .left-nav-header').should('not.contain', 'Uber template1, property6')
-    cy.contains('button', 'Uber template1, property6').click()
+    cy.contains('button', 'Uber template1, property6').click({ force: true })
     cy.get('button.btn-primary .left-nav-header').should('contain', 'Uber template1, property6')
   })
 
@@ -179,7 +178,7 @@ const addResourceTemplate = (fixture, fixtureUri) => {
     // .type(json, {delay: 0})
     cy.get('#uriInput')
       .type(fixtureUri)
-    cy.get('button[type="submit"]:not(:disabled)').contains('Submit').click()
+    cy.get('button[type="submit"]:not(:disabled)').contains('Submit').scrollIntoView().click()
     // eslint-disable-next-line cypress/no-unnecessary-waiting
     cy.wait(500)
 
