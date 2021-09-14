@@ -71,13 +71,13 @@ const MarcButton = () => {
   }
 
   return (
-    <div className="btn-group dropleft">
+    <div className="btn-group dropstart">
       <button type="button"
               id="marcBtn"
               className={btnClasses.join(' ')}
               aria-label="MARC record"
               title="MARC record"
-              data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+              data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
         MARC
       </button>
       <div className="dropdown-menu" aria-labelledby="marcBtn">
