@@ -64,7 +64,7 @@
     "concat-stream": "^2.0.0",
     "cors": "^2.8.5",
     "crypto-browserify": "3.12.0",
-    "crypto-js": "^3.3.0",
+    "crypto-js": "^4.1.1",
     "dotenv": "^8.6.0",
     "event-stream": "^4.0.1",
     "express": "^4.16.4",
