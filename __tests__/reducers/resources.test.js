@@ -218,6 +218,7 @@ describe('addSubject()', () => {
           bfWorkRefs: [],
           changed: true,
           group: null,
+          editGroups: [],
           subjectTemplateKey: 'resourceTemplate:bf2:Identifiers:Barcode',
           descUriOrLiteralValueKeys: [],
           descWithErrorPropertyKeys: [],
@@ -257,6 +258,7 @@ describe('addSubject()', () => {
         descUriOrLiteralValueKeys: [],
         descWithErrorPropertyKeys: [],
         group: null,
+        editGroups: [],
         subjectTemplateKey: 'resourceTemplate:bf2:Identifiers:Barcode',
         valueSubjectOfKey: null,
       })
@@ -307,6 +309,7 @@ describe('addSubject()', () => {
         bfItemRefs: [],
         bfWorkRefs: [],
         group: null,
+        editGroups: [],
       })
       // Replaces values
       expect(newState.properties['KQEtq-vmq9']).not.toBeUndefined()
@@ -792,6 +795,7 @@ describe('setResourceGroup()', () => {
       payload: {
         resourceKey: 'abcde345',
         group: 'stanford',
+        editGroups: ['cornell'],
       },
     }
     const newState = reducer(oldState, action)
@@ -799,6 +803,7 @@ describe('setResourceGroup()', () => {
       subjects: {
         abcde345: {
           group: 'stanford',
+          editGroups: ['cornell'],
         },
       },
     })

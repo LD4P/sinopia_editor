@@ -25,7 +25,8 @@ const GroupChoiceModal = (props) => {
   }
 
   const saveAndClose = (event) => {
-    props.saveNewResource(props.resourceKey, selectedValue, resourceEditErrorKey(props.resourceKey))
+    // TODO: editGroups to be handled by https://github.com/LD4P/sinopia_editor/issues/2930
+    props.saveNewResource(props.resourceKey, selectedValue, [], resourceEditErrorKey(props.resourceKey))
     props.hideModal()
     event.preventDefault()
   }

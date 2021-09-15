@@ -26,7 +26,7 @@ const SaveAndPublishButton = (props) => {
   const resourceKey = useSelector((state) => selectCurrentResourceKey(state))
   const resource = useSelector((state) => selectNormSubject(state, resourceKey))
   const isSaved = !!resource.uri
-  const saveResource = () => dispatch(saveResourceAction(resourceKey, resourceEditErrorKey(resourceKey)))
+  const saveResource = () => dispatch(saveResourceAction(resourceKey, resource.group, resource.editGroups, resourceEditErrorKey(resourceKey)))
 
   const showGroupChooser = () => dispatch(showModalAction('GroupChoiceModal'))
   const showValidationErrors = () => dispatch(showValidationErrorsAction(resourceKey))

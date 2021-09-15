@@ -31,9 +31,9 @@ export const setCurrentResourceIsReadOnly = (readOnly) => ({
   payload: readOnly,
 })
 
-export const setResourceGroup = (resourceKey, group) => ({
+export const setResourceGroup = (resourceKey, group, editGroups) => ({
   type: 'SET_RESOURCE_GROUP',
-  payload: { resourceKey, group },
+  payload: { resourceKey, group, editGroups },
 })
 
 export const setUnusedRDF = (resourceKey, rdf) => ({

@@ -48,13 +48,13 @@ describe('End-to-end test', () => {
           cy.get('#resourceTextArea').paste(json)
           cy.get('#uriInput')
             .type('http://localhost:3000/resource/resourceTemplate:bf2:WorkTitle')
-          cy.get('button[type="submit"]:not(:disabled)').contains('Submit').click({ force: true })
+          cy.get('button[type="submit"]:not(:disabled)').contains('Submit').scrollIntoView().click()
           // eslint-disable-next-line cypress/no-unnecessary-waiting
           cy.wait(500)
 
           // Now on editor
           cy.url().should('include', '/editor')
-          cy.get('button.editor-save').contains('Save').click()
+          cy.get('button.editor-save').contains('Save').scrollIntoView().click()
 
           // Group choice modal
           cy.contains('Which group do you want to save to?')
@@ -99,7 +99,7 @@ describe('End-to-end test', () => {
   })
 
   it('Saves', () => {
-    cy.get('button.modal-save').click()
+    cy.get('button.modal-save').scrollIntoView().click({ force: true })
 
     cy.contains('Which group do you want to save to?')
     cy.get('div#group-choice-modal button').contains('Save').click()
@@ -166,6 +166,6 @@ describe('End-to-end test', () => {
   })
 
   it('Logs out', () => {
-    cy.contains('a', 'Logout').click()
+    cy.contains('a', 'Logout').scrollIntoView().click()
   })
 })

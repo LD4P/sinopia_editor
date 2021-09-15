@@ -206,6 +206,7 @@ The following are only in the resource subject (that is, the base subject).
 ```
 {
   group: <group that that resource belongs to>,
+  editGroups: [groups that can edit the resource],
   bfAdminMetadataRefs: [uri of referenced admin metadata resource, ...],
   bfWorkRefs: [uri of referenced Bibframe Work resource, ...],
   bfInstanceRefs: [uri of referenced Bibframe Instance resource, ...],

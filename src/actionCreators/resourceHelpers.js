@@ -14,7 +14,7 @@ import { newLiteralValue, newUriValue, newValueSubject } from 'utilities/valueFa
  * Helper methods that should only be used in 'actionCreators/resources'
  */
 
-export const addResourceFromDataset = (dataset, uri, resourceTemplateId, errorKey, asNewResource, group) => (dispatch) => {
+export const addResourceFromDataset = (dataset, uri, resourceTemplateId, errorKey, asNewResource, otherResourceAttrs = {}) => (dispatch) => {
   const subjectTerm = rdf.namedNode(chooseURI(dataset, uri))
   const newUri = asNewResource ? null : uri
   const usedDataset = rdf.dataset()
@@ -22,8 +22,7 @@ export const addResourceFromDataset = (dataset, uri, resourceTemplateId, errorKe
   usedDataset.addAll(dataset.match(subjectTerm, rdf.namedNode('http://www.w3.org/1999/02/22-rdf-syntax-ns#type')))
   return dispatch(recursiveResourceFromDataset(subjectTerm, newUri, resourceTemplateId, false, {}, dataset, usedDataset, errorKey))
     .then((resource) => {
-      resource.group = group
-      dispatch(addSubjectAction(resource))
+      dispatch(addSubjectAction(_.merge(resource, otherResourceAttrs)))
       return [resource, usedDataset]
     })
 }

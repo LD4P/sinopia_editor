@@ -50,7 +50,7 @@ export const getFixtureResource = (uri) => {
   }
 
   return {
-    id, uri, data: resource, group: 'stanford', timestamp: '2020-08-20T11:34:40.887Z',
+    id, uri, data: resource, group: 'stanford', editGroups: ['cornell'], timestamp: '2020-08-20T11:34:40.887Z',
   }
 }
 

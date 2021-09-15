@@ -3,6 +3,7 @@ import {
   selectSubject, selectProperty, selectValue,
   selectCurrentResourceIsReadOnly, selectFullSubject,
   resourceHasChangesSinceLastSave, selectResourceUriMap,
+  selectResourceGroup,
 } from 'selectors/resources'
 
 describe('selectSubject()', () => {
@@ -104,5 +105,12 @@ describe('selectResourceUriMap', () => {
       'http://localhost:3000/resource/f383bfff-5364-47a3-a081-8c9e2d79f43f': 't9zVwg2zO',
       'http://localhost:3000/resource/g493bfff-5364-47a3-a081-8c9e2d79f5fg': 'u0aWxh3a1',
     })
+  })
+})
+
+describe('selectResourceGroup', () => {
+  it('returns groups', () => {
+    const state = createState({ hasResourceWithNestedResource: true })
+    expect(selectResourceGroup(state, 'ljAblGiBW')).toEqual({ group: 'stanford', editGroups: ['cornell'] })
   })
 })
