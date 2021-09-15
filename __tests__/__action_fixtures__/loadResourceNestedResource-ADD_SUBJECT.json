@@ -926,6 +926,7 @@
         "show": false
       }
     ],
-    "group": "stanford"
+    "group": "stanford",
+    "editGroups": ["cornell"]
   }
 }

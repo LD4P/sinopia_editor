@@ -121,3 +121,5 @@ export const selectNormValues = (state, valueKeys) => {
   if (!valueKeys) return null
   return valueKeys.map((valueKey) => selectNormValue(state, valueKey))
 }
+
+export const selectResourceGroup = (state, resourceKey) => _.pick(selectNormSubject(state, resourceKey), ['group', 'editGroups'])

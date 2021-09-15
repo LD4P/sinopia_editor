@@ -95,6 +95,7 @@ const addSubjectToNewState = (state, subject, valueSubjectOfKey) => {
   // Add properties for resource (if root subject)
   if (newSubject.rootSubjectKey === newSubject.key) {
     if (_.isUndefined(newSubject.group)) newSubject.group = null
+    if (_.isUndefined(newSubject.editGroups)) newSubject.editGroups = []
     if (_.isUndefined(newSubject.bfAdminMetadataRefs)) newSubject.bfAdminMetadataRefs = []
     if (_.isUndefined(newSubject.bfItemRefs)) newSubject.bfItemRefs = []
     if (_.isUndefined(newSubject.bfInstanceRefs)) newSubject.bfInstanceRefs = []
@@ -486,6 +487,7 @@ export const setResourceGroup = (state, action) => {
   const newState = stateWithNewSubject(state, action.payload.resourceKey)
   const newSubject = newState.subjects[action.payload.resourceKey]
   newSubject.group = action.payload.group
+  newSubject.editGroups = [...action.payload.editGroups || []]
 
   return newState
 }

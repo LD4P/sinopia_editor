@@ -581,7 +581,7 @@ describe('saveNewResource', () => {
     const store = mockStore(createState({ hasResourceWithLiteral: true }))
     sinopiaApi.postResource = jest.fn().mockResolvedValue(uri)
 
-    await store.dispatch(saveNewResource('t9zVwg2zO', 'stanford', 'testerror'))
+    await store.dispatch(saveNewResource('t9zVwg2zO', 'stanford', ['cornell'], 'testerror'))
 
     const actions = store.getActions()
 
@@ -592,6 +592,11 @@ describe('saveNewResource', () => {
       modified: '2020-08-20T11:34:40.887Z',
       group: 'stanford',
       type: 'http://id.loc.gov/ontologies/bibframe/AbbreviatedTitle',
+    })
+    expect(actions).toHaveAction('SET_RESOURCE_GROUP', {
+      resourceKey: 't9zVwg2zO',
+      group: 'stanford',
+      editGroups: ['cornell'],
     })
 
     const saveResourceFinishedAction = actions.find((action) => action.type === 'SAVE_RESOURCE_FINISHED')
@@ -604,7 +609,7 @@ describe('saveNewResource', () => {
     const store = mockStore(createState({ hasResourceWithLiteral: true }))
     sinopiaApi.postResource.mockRejectedValue(new Error('Messed-up'))
 
-    await store.dispatch(saveNewResource('t9zVwg2zO', 'stanford', 'testerror'))
+    await store.dispatch(saveNewResource('t9zVwg2zO', 'stanford', ['cornell'], 'testerror'))
 
     const actions = store.getActions()
 
@@ -626,7 +631,7 @@ describe('saveResource', () => {
     state.entities.subjects.t9zVwg2zO.group = 'stanford'
     const store = mockStore(state)
 
-    await store.dispatch(saveResource('t9zVwg2zO', 'testerror'))
+    await store.dispatch(saveResource('t9zVwg2zO', 'stanford', ['cornell'], 'testerror'))
     const actions = store.getActions()
     expect(actions).toHaveAction('SAVE_RESOURCE_FINISHED')
     expect(actions).toHaveAction('ADD_RESOURCE_HISTORY', {
@@ -635,6 +640,11 @@ describe('saveResource', () => {
       group: 'stanford',
       modified: '2020-08-20T11:34:40.887Z',
     })
+    expect(actions).toHaveAction('SET_RESOURCE_GROUP', {
+      resourceKey: 't9zVwg2zO',
+      group: 'stanford',
+      editGroups: ['cornell'],
+    })
 
     expect(sinopiaApi.putUserHistory).toHaveBeenCalledWith('Foo McBar', 'resource', '3eb9f1444e9ec984fb165fc9c4de826a', 'https://api.sinopia.io/resource/0894a8b3')
   })
@@ -642,7 +652,7 @@ describe('saveResource', () => {
   it('error when trying to save existing resource', async () => {
     sinopiaApi.putResource = jest.fn().mockRejectedValue(new Error('Messed-up'))
     const store = mockStore(createState({ hasResourceWithLiteral: true }))
-    await store.dispatch(saveResource('t9zVwg2zO', 'testerror'))
+    await store.dispatch(saveResource('t9zVwg2zO', 'stanford', ['cornell'], 'testerror'))
     const actions = store.getActions()
     expect(actions).toHaveAction('ADD_ERROR', {
       errorKey: 'testerror',

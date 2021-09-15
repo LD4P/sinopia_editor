@@ -37,6 +37,7 @@ const resource = {
   bfItemRefs: [],
   bfWorkRefs: [],
   group: 'yale',
+  editGroups: 'cornell',
   types: [
     'https://w3id.org/arm/core/ontology/0.1/Enclosure',
   ],
@@ -111,7 +112,7 @@ describe('postResource', () => {
         json: jest.fn().mockResolvedValue(resource),
         ok: true,
       })
-      const result = await postResource(resource, currentUser, 'pcc')
+      const result = await postResource(resource, currentUser, 'pcc', ['cornell'])
       expect(result).toContain('http://localhost:3000/resource/')
     })
   })
@@ -133,7 +134,7 @@ describe('postResource', () => {
           property: { propertyTemplate: { type: 'literal' } },
         }],
       })
-      const result = await postResource(resource, currentUser, 'pcc')
+      const result = await postResource(resource, currentUser, 'pcc', ['cornell'])
       expect(result).toBe('http://localhost:3000/resource/resourceTemplate:bf2:Note')
     })
   })

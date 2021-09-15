@@ -35,7 +35,7 @@ export const loadResource = (uri, errorKey, asNewResource, readOnly) => (dispatc
     .then(([dataset, response]) => {
       if (!dataset) return false
       const resourceTemplateId = resourceTemplateIdFromDataset(uri, dataset)
-      return dispatch(addResourceFromDataset(dataset, uri, resourceTemplateId, errorKey, asNewResource, response.group))
+      return dispatch(addResourceFromDataset(dataset, uri, resourceTemplateId, errorKey, asNewResource, _.pick(response, ['group', 'editGroups'])))
         .then(([resource, usedDataset]) => {
           const unusedDataset = dataset.difference(usedDataset)
           dispatch(setUnusedRDF(resource.key, unusedDataset.size > 0 ? unusedDataset.toCanonical() : null))
@@ -141,15 +141,15 @@ const resourceTemplateIdFromDataset = (uri, dataset) => {
   return resourceTemplateId
 }
 
-// A thunk that publishes (saves) a new resource in Trellis
-export const saveNewResource = (resourceKey, group, errorKey) => (dispatch, getState) => {
+// A thunk that publishes (saves) a new resource
+export const saveNewResource = (resourceKey, group, editGroups, errorKey) => (dispatch, getState) => {
   const state = getState()
   const resource = selectFullSubject(state, resourceKey)
   const currentUser = selectUser(state)
   return postResource(resource, currentUser, group)
     .then((resourceUrl) => {
       dispatch(setBaseURL(resourceKey, resourceUrl))
-      dispatch(setResourceGroup(resourceKey, group))
+      dispatch(setResourceGroup(resourceKey, group, editGroups))
       dispatch(saveResourceFinished(resourceKey))
       dispatch(addUserResourceHistory(resourceUrl))
       dispatch(addResourceHistory(resourceUrl, resource.subjectTemplate.class, group))
@@ -160,14 +160,15 @@ export const saveNewResource = (resourceKey, group, errorKey) => (dispatch, getS
     })
 }
 
-// A thunk that saves an existing resource in Trellis
-export const saveResource = (resourceKey, errorKey) => (dispatch, getState) => {
+// A thunk that saves an existing resource
+export const saveResource = (resourceKey, group, editGroups, errorKey) => (dispatch, getState) => {
   const state = getState()
   const resource = selectFullSubject(state, resourceKey)
   const currentUser = selectUser(state)
 
-  return putResource(resource, currentUser)
+  return putResource(resource, currentUser, group, editGroups)
     .then(() => {
+      dispatch(setResourceGroup(resourceKey, group, editGroups))
       dispatch(saveResourceFinished(resourceKey))
       dispatch(addUserResourceHistory(resource.uri))
       dispatch(addResourceHistory(resource.uri, resource.subjectTemplate.class, resource.group))

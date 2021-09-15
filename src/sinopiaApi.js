@@ -40,20 +40,21 @@ export const fetchResource = (uri, isTemplate) => {
     })
 }
 
-// Publishes (saves) a new resource in Trellis
-export const postResource = (resource, currentUser, group) => {
+// Publishes (saves) a new resource
+export const postResource = (resource, currentUser, group, editGroups) => {
   const newResource = { ...resource }
   // Mint a uri. Resource templates use the template id.
   const resourceId = isTemplate(resource) ? templateIdFor(resource) : uuidv4()
   const uri = `${Config.sinopiaApiBase}/resource/${resourceId}`
   newResource.uri = uri
   newResource.group = group
-  return putResource(newResource, currentUser, 'POST')
+  newResource.editGroups = editGroups
+  return putResource(newResource, currentUser, group, editGroups, 'POST')
     .then(() => uri)
 }
 
-// Saves an existing resource in Trellis
-export const putResource = (resource, currentUser, method) => saveBodyForResource(resource, currentUser.username, resource.group)
+// Saves an existing resource
+export const putResource = (resource, currentUser, group, editGroups, method) => saveBodyForResource(resource, currentUser.username, group, editGroups)
   .then((body) => getJwt()
     .then((jwt) => fetch(resource.uri, {
       method: method || 'PUT',
@@ -137,7 +138,7 @@ export const putUserHistory = (userId, historyType, historyItemKey, historyItemP
 
 const userUrlFor = (userId) => `${Config.sinopiaApiBase}/user/${encodeURI(userId)}`
 
-const saveBodyForResource = (resource, user, group) => {
+const saveBodyForResource = (resource, user, group, editGroups) => {
   const dataset = new GraphBuilder(resource).graph
 
   return jsonldFromDataset(dataset)
@@ -145,6 +146,7 @@ const saveBodyForResource = (resource, user, group) => {
       data: jsonld,
       user,
       group,
+      editGroups,
       templateId: resource.subjectTemplate.id,
       types: [resource.subjectTemplate.class],
       bfAdminMetadataRefs: resource.bfAdminMetadataRefs,
@@ -177,7 +179,7 @@ const checkResp = (resp) => {
     .then((errors) => {
       // Assuming only one for now.
       const error = errors[0]
-      const newError = new Error(`${error.title}: ${error.details}`)
+      const newError = error.details ? new Error(`${error.title}: ${error.details}`) : new Error(`${error.title}`)
       newError.name = 'ApiError'
       throw newError
     })
