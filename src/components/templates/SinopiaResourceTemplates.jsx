@@ -29,7 +29,7 @@ const SinopiaResourceTemplates = () => {
       <div className="card" style={{ marginBottom: '20px' }}>
         <div className="card-header">
           <h3><button className="btn btn-link collapse-heading collapsed"
-                      data-toggle="collapse" data-target="#historicalTemplates">Most recently used templates</button>
+                      data-bs-toggle="collapse" data-bs-target="#historicalTemplates">Most recently used templates</button>
           </h3>
         </div>
         <div id="historicalTemplates" className="collapse" style={{ padding: '5px' }}>
