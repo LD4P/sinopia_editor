@@ -22,7 +22,11 @@ export const groupName = (uri) => {
   return groupNameFromGroup(groupSlug)
 }
 
-export const groupNameFromGroup = (group) => Config.groupsInSinopia[group] || 'Unknown'
+export const groupNameFromGroup = (groupId) => {
+  const group = Config.groupsInSinopia.data.find((group) => group.id === groupId)
+  if (group) { return group.label }
+  return 'Unknown'
+}
 
 export const resourceToName = (uri) => {
   if (!_.isString(uri)) return undefined
