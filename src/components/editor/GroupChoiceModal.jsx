@@ -1,9 +1,9 @@
 // Copyright 2019 Stanford University see LICENSE for license
 
 import React, { useState } from 'react'
-import { bindActionCreators } from 'redux'
-import { connect } from 'react-redux'
+import { useSelector, useDispatch } from 'react-redux'
 import PropTypes from 'prop-types'
+import { MultiSelect } from 'react-multi-select-component'
 import Config from 'Config'
 import { hideModal } from 'actions/modals'
 import { resourceEditErrorKey } from './Editor'
@@ -11,70 +11,91 @@ import { selectModalType } from 'selectors/modals'
 import { saveNewResource } from 'actionCreators/resources'
 import ModalWrapper, { useDisplayStyle, useModalCss } from '../ModalWrapper'
 import { selectCurrentResourceKey } from 'selectors/resources'
+import { selectGroups } from 'selectors/authenticate'
 
-const GroupChoiceModal = (props) => {
+const GroupChoiceModal = () => {
+  const resourceKey = useSelector((state) => selectCurrentResourceKey(state))
+  const modalType = useSelector((state) => selectModalType(state))
+  const userGroupIds = useSelector((state) => selectGroups(state))
+  const [ownerGroupId, setOwnerGroupId] = useState(userGroupIds[0])
+  const [editGroupValues, setEditGroupValues] = useState([])
+  const groupMap = Config.groupsInSinopia
+  const show = modalType === 'GroupChoiceModal'
+  const dispatch = useDispatch()
+
+  // TODO: Handle owner group in edit groups. Should be selected and disabled.
+
+  const ownerGroupOptions = userGroupIds.map((groupId) => <option key={groupId} value={ groupId }>{ groupMap[groupId] || groupId }</option>)
+
   // The ld4p group is only for templates
-  const groups = Object.entries(Config.groupsInSinopia)
-    .filter(([groupSlug]) => groupSlug !== 'ld4p')
+  const editGroupOptions = Object.entries(groupMap)
+    .filter(([groupId]) => ![ownerGroupId, 'ld4p'].includes(groupId))
     .sort(([, groupLabelA], [, groupLabelB]) => groupLabelA.localeCompare(groupLabelB))
+    .map(([value, label]) => ({ value, label, disabled: value === ownerGroupId }))
 
-  const [selectedValue, setSelectedValue] = useState(groups[0][0])
+  const handleOwnerChange = (event) => {
+    const newOwnerGroupId = event.target.value
+    setOwnerGroupId(newOwnerGroupId)
+    setEditGroupValues(editGroupValues.filter((groupValue) => groupValue.value !== newOwnerGroupId))
+    event.preventDefault()
+  }
 
-  const updateSelectedValue = (event) => {
-    setSelectedValue(event.target.value)
+  const handleEditChange = (values) => {
+    setEditGroupValues(values)
   }
 
   const saveAndClose = (event) => {
-    // TODO: editGroups to be handled by https://github.com/LD4P/sinopia_editor/issues/2930
-    props.saveNewResource(props.resourceKey, selectedValue, [], resourceEditErrorKey(props.resourceKey))
-    props.hideModal()
+    const editGroupIds = editGroupValues.map((editGroupValue) => editGroupValue.value)
+    dispatch(saveNewResource(resourceKey, ownerGroupId, editGroupIds, resourceEditErrorKey(resourceKey)))
+    dispatch(hideModal())
     event.preventDefault()
   }
 
   const close = (event) => {
-    props.hideModal()
+    dispatch(hideModal())
     event.preventDefault()
   }
 
   const modal = (
     <div>
-      <div className={ useModalCss(props.show) }
+      <div className={ useModalCss(show) }
            role="dialog"
            tabIndex="-1"
            id="group-choice-modal"
            data-testid="group-choice-modal"
-           style={{ display: useDisplayStyle(props.show) }}>
+           style={{ display: useDisplayStyle(show) }}>
         <div className="modal-dialog modal-lg" role="document">
           <div className="modal-content">
             <div className="modal-header prop-heading">
-              <h4 className="modal-title">
-                Which group do you want to save to?
-              </h4>
-              <button type="button" className="close" onClick={ close } aria-label="Close">
-                <span aria-hidden="true">&times;</span>
-              </button>
+              <button type="button" className="btn-close" onClick={ close } aria-label="Close"></button>
             </div>
             <div className="modal-body group-panel">
-              <div className="group-select-label">
-                Which group do you want to associate this record to?
-              </div>
+              <label htmlFor="ownerSelect"><h4>Who owns this?</h4></label>
+              <select
+                className="form-select mb-4"
+                id="ownerSelect"
+                onBlur={handleOwnerChange}
+                onChange={handleOwnerChange}
+                value={ownerGroupId}>
+                { ownerGroupOptions }
+              </select>
+              <h4 id="editSelectLabel">Who else can edit?</h4>
+              <MultiSelect
+                options={editGroupOptions}
+                value={editGroupValues}
+                onChange={handleEditChange}
+                hasSelectAll={false}
+                labelledBy="editSelectLabel"
+              />
               <div>
-                <form className="group-select-options" >
-                  <select className="form-control"
-                          data-testid="groupSelect"
-                          defaultValue={ selectedValue }
-                          onBlur={ (event) => updateSelectedValue(event)} >
-                    { groups.map((group, index) => <option key={index} value={ group[0] }>{ group[1] }</option>) }
-                  </select>
-                  <div className="group-choose-buttons">
-                    <button className="btn btn-link btn-sm" style={{ paddingRight: '20px' }} onClick={ close }>
-                      Cancel
-                    </button>
-                    <button className="btn btn-primary btn-sm" data-dismiss="modal" aria-label="Save Group" onClick={ saveAndClose }>
-                      Save
-                    </button>
-                  </div>
-                </form>
+                <div className="group-choose-buttons">
+                  <button className="btn btn-link btn-sm" style={{ paddingRight: '20px' }} onClick={ close }>
+                    Cancel
+                  </button>
+                  <button className="btn btn-primary btn-sm" data-dismiss="modal" aria-label="Save Group" onClick={ saveAndClose }>
+                    Save
+                  </button>
+                </div>
               </div>
             </div>
           </div>
@@ -89,17 +110,7 @@ const GroupChoiceModal = (props) => {
 GroupChoiceModal.propTypes = {
   closeGroupChooser: PropTypes.func,
   choose: PropTypes.func,
-  show: PropTypes.bool,
-  saveNewResource: PropTypes.func,
-  hideModal: PropTypes.func,
   resourceKey: PropTypes.string,
 }
 
-const mapStateToProps = (state) => ({
-  show: selectModalType(state) === 'GroupChoiceModal',
-  resourceKey: selectCurrentResourceKey(state),
-})
-
-const mapDispatchToProps = (dispatch) => bindActionCreators({ saveNewResource, hideModal }, dispatch)
-
-export default connect(mapStateToProps, mapDispatchToProps)(GroupChoiceModal)
+export default GroupChoiceModal

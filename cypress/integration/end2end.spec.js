@@ -57,7 +57,7 @@ describe('End-to-end test', () => {
           cy.get('button.editor-save').contains('Save').scrollIntoView().click()
 
           // Group choice modal
-          cy.contains('Which group do you want to save to?')
+          cy.contains('Who owns this?')
           cy.get('div#group-choice-modal button').contains('Save').click()
 
           // Waiting for indexing. If this proves problematic, can try a different approach.
@@ -101,7 +101,7 @@ describe('End-to-end test', () => {
   it('Saves', () => {
     cy.get('button.modal-save').scrollIntoView().click({ force: true })
 
-    cy.contains('Which group do you want to save to?')
+    cy.contains('Who owns this?')
     cy.get('div#group-choice-modal button').contains('Save').click()
 
     cy.contains('URI for this resource')

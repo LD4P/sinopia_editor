@@ -187,7 +187,7 @@ const addResourceTemplate = (fixture, fixtureUri) => {
     cy.get('button.editor-save').contains('Save').click()
 
     // Group choice modal
-    cy.contains('Which group do you want to save to?')
+    cy.contains('Who owns this?')
     cy.get('div#group-choice-modal button').contains('Save').click()
   })
 }

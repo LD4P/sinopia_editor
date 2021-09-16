@@ -24,10 +24,10 @@ describe('authenticate', () => {
   describe('successful', () => {
     sinopiaApi.fetchUser = jest.fn().mockResolvedValue(userData)
     it('dispatches actions to add user', async () => {
-      Auth.currentAuthenticatedUser.mockResolvedValue({ username: 'havram', something: 'else' })
+      Auth.currentAuthenticatedUser.mockResolvedValue({ username: 'havram', something: 'else', signInUserSession: { idToken: { payload: { 'cognito:groups': ['loc'] } } } })
       const store = mockStore({ authenticate: { user: undefined } })
       await store.dispatch(authenticate())
-      expect(store.getActions()).toHaveAction('SET_USER', { username: 'havram' })
+      expect(store.getActions()).toHaveAction('SET_USER', { username: 'havram', groups: ['loc'] })
       expect(sinopiaApi.fetchUser).toHaveBeenCalledWith('havram')
     })
   })
@@ -45,12 +45,12 @@ describe('signIn', () => {
   describe('successful', () => {
     sinopiaApi.fetchUser = jest.fn().mockResolvedValue(userData)
     it('dispatches actions to add user', async () => {
-      Auth.signIn.mockResolvedValue({ username: 'havram', something: 'else' })
+      Auth.signIn.mockResolvedValue({ username: 'havram', something: 'else', signInUserSession: { idToken: { payload: { 'cognito:groups': ['loc'] } } } })
       const store = mockStore()
       await store.dispatch(signIn('havram', 'm&rc', 'testerrorkey'))
 
       expect(Auth.signIn).toHaveBeenCalledWith('havram', 'm&rc')
-      expect(store.getActions()).toHaveAction('SET_USER', { username: 'havram' })
+      expect(store.getActions()).toHaveAction('SET_USER', { username: 'havram', groups: ['loc'] })
       expect(sinopiaApi.fetchUser).toHaveBeenCalledWith('havram')
     })
   })

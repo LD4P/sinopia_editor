@@ -15,7 +15,7 @@ describe('user authentication', () => {
   Auth.signOut.mockResolvedValue()
   Auth.currentAuthenticatedUser.mockRejectedValue()
   it('allows a logged in user to log out and allows a new one to login', async () => {
-    Auth.signIn.mockResolvedValue({ username: 'Baz Le Quux' })
+    Auth.signIn.mockResolvedValue({ username: 'Baz Le Quux', signInUserSession: { idToken: { payload: { 'cognito:groups': ['stanford'] } } } })
     renderApp()
     screen.getByText(/Foo McBar/) // user Foo McBar should be logged in already when using default test redux store
 

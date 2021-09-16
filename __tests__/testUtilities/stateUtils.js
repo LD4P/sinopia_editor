@@ -38,6 +38,7 @@ const buildAuthenticate = (state, options) => {
   state.authenticate = {
     user: {
       username: 'Foo McBar',
+      groups: ['stanford', 'pcc'],
     },
   }
 }
