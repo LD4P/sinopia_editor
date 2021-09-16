@@ -124,6 +124,7 @@ const hitsToResult = (hits) => (
       modified: row._source.modified,
       type: row._source.type,
       group: row._source.group,
+      editGroups: row._source.editGroups,
     })),
   }
 )

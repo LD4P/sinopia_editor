@@ -12,9 +12,11 @@ import { selectErrors } from 'selectors/errors'
 import { selectCurrentResourceKey } from 'selectors/resources'
 import _ from 'lodash'
 import Config from 'Config'
+import usePermissions from 'hooks/usePermissions'
 
 const NewResourceTemplateButton = (props) => {
   const dispatch = useDispatch()
+  const { canCreate } = usePermissions()
 
   const errors = useSelector((state) => selectErrors(state, newResourceErrorKey))
   const resourceKey = useSelector((state) => selectCurrentResourceKey(state))
@@ -34,6 +36,9 @@ const NewResourceTemplateButton = (props) => {
       setNavigateEditor(result)
     })
   }
+
+  if (!canCreate) return null
+
   return (
     <Link to={{ pathname: '/editor', state: { } }}
           onClick={(e) => handleClick(e)}>

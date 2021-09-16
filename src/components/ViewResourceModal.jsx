@@ -11,9 +11,11 @@ import { setCurrentResourceIsReadOnly } from 'actions/resources'
 import { selectModalType } from 'selectors/modals'
 import { selectCurrentResourceKey, selectNormSubject } from 'selectors/resources'
 import ResourceComponent from './editor/ResourceComponent'
+import usePermissions from 'hooks/usePermissions'
 
 const ViewResourceModal = (props) => {
   const dispatch = useDispatch()
+  const { canEdit, canCreate } = usePermissions()
 
   const show = useSelector((state) => selectModalType(state) === 'ViewResourceModal')
 
@@ -59,16 +61,20 @@ const ViewResourceModal = (props) => {
             { currentResource && <ResourceComponent /> }
           </div>
           <div className="modal-footer">
-            <button className="btn btn-primary btn-view-resource" onClick={ editAndClose } aria-label="Edit" data-testid="edit-resource">
-              <FontAwesomeIcon icon={faEdit} />
-              &nbsp;
-              Edit
-            </button>
-            <button className="btn btn-primary btn-view-resource" onClick={ copyAndClose } aria-label="Copy" data-testid="copy-resource">
-              <FontAwesomeIcon icon={faCopy} />
-              &nbsp;
-              Copy
-            </button>
+            { canEdit(currentResource)
+              && <button className="btn btn-primary btn-view-resource" onClick={ editAndClose } aria-label="Edit" data-testid="edit-resource">
+                <FontAwesomeIcon icon={faEdit} />
+                &nbsp;
+                Edit
+              </button>
+            }
+            { canCreate
+              && <button className="btn btn-primary btn-view-resource" onClick={ copyAndClose } aria-label="Copy" data-testid="copy-resource">
+                <FontAwesomeIcon icon={faCopy} />
+                &nbsp;
+                Copy
+              </button>
+            }
           </div>
         </div>
       </div>

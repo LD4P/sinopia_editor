@@ -35,10 +35,14 @@ const buildAuthenticate = (state, options) => {
 
   if (options.notAuthenticated) return
 
+  let groups = ['stanford', 'pcc']
+  if (options.noGroups) groups = []
+  if (options.otherGroups) groups = ['loc']
+
   state.authenticate = {
     user: {
       username: 'Foo McBar',
-      groups: ['stanford', 'pcc'],
+      groups,
     },
   }
 }
