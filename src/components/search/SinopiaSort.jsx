@@ -17,7 +17,6 @@ const SinopiaSort = () => {
 
   const getClasses = (sortField, sortOrder) => (curSortField === sortField && curSortOrder === sortOrder ? 'dropdown-item active' : 'dropdown-item')
 
-
   return (
     <div className="dropdown float-right">
       <button className="btn btn-secondary dropdown-toggle"

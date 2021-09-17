@@ -6,7 +6,6 @@ import { featureSetup } from 'featureUtils'
 jest.mock('sinopiaSearch')
 featureSetup({ noMockSinopiaApi: true })
 
-
 describe('an invalid resource template', () => {
   const history = createHistory(['/templates'])
   const store = createStore()

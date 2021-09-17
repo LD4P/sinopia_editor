@@ -78,7 +78,6 @@ const Tabs = (props) => {
   )
 }
 
-
 Tabs.propTypes = {
   activeKey: PropTypes.string,
   onSelect: PropTypes.func.isRequired,

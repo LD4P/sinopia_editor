@@ -133,7 +133,6 @@ const p4Props = {
   innerResult: genreResult,
 }
 
-
 describe('<RenderLookupContext />', () => {
   it('displays label and additional context with order specified', () => {
     const { container } = render(<RenderLookupContext {...plProps} />)

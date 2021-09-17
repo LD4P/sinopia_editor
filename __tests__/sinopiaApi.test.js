@@ -48,7 +48,6 @@ const resource = {
   uri: 'https://api.development.sinopia.io/resource/61f2f457-31f5-432c-8acf-b4037f77541f',
 }
 
-
 jest.spyOn(Auth, 'currentSession').mockResolvedValue({ idToken: { jwtToken: 'Secret-Token' } })
 
 // Saves global fetch in order to be restored after each test with mocked fetch

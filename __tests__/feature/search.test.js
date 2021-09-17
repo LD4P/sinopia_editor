@@ -144,7 +144,6 @@ describe('sinopia resource search', () => {
     global.fetch = originalFetch
   })
 
-
   it('allows the user to filter results', async () => {
     global.fetch = jest.fn().mockImplementation(() => Promise.resolve({ json: () => successResult }))
 

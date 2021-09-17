@@ -124,5 +124,4 @@ RenderLookupContext.propTypes = {
   authURI: PropTypes.string,
 }
 
-
 export default RenderLookupContext

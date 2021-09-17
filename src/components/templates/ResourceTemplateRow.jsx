@@ -7,7 +7,6 @@ import LongDate from 'components/LongDate'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faCopy, faEdit } from '@fortawesome/free-solid-svg-icons'
 
-
 /**
  * This is the list view of all the templates
  */

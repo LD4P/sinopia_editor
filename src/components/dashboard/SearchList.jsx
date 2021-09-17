@@ -8,7 +8,6 @@ import useSearch from 'hooks/useSearch'
 import { useHistory } from 'react-router-dom'
 import { selectSearchQuery } from 'selectors/search'
 
-
 /**
  * This is the list view of searches
  */

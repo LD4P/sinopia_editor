@@ -5,7 +5,6 @@ import Config from 'Config'
 describe('downloading a file that was exported from Sinopia AWS', () => {
   const history = createHistory(['/exports'])
 
-
   it('has a list of the downloadable zip files that were built', () => {
     renderApp(null, history)
 

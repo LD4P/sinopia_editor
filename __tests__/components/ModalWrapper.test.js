@@ -28,7 +28,6 @@ const testModal = () => {
     </div>)
 }
 
-
 describe('<ModalWrapper />, A wrapper for moving modals to a different location in the DOM', () => {
   setupModal()
 

@@ -21,5 +21,4 @@ const NewsPanel = () => (
   </div>
 )
 
-
 export default NewsPanel

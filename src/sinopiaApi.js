@@ -135,7 +135,6 @@ export const putUserHistory = (userId, historyType, historyItemKey, historyItemP
         .then(() => resp.json())))
 }
 
-
 const userUrlFor = (userId) => `${Config.sinopiaApiBase}/user/${encodeURI(userId)}`
 
 const saveBodyForResource = (resource, user, group, editGroups) => {

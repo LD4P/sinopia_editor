@@ -111,7 +111,6 @@ expect.extend({
       }
     }
 
-
     return {
       pass: true,
       message: () => `Expected ${pretty(value)} not to be value ${valueKey}`,

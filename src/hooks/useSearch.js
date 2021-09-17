@@ -35,7 +35,6 @@ const useSearch = () => {
     fetchSearchResults(queryString, uri, {}, 0)
   }
 
-
   return { fetchSearchResults, fetchNewSearchResults }
 }
 

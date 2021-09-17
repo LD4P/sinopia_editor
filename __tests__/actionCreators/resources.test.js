@@ -571,7 +571,6 @@ describe('addSiblingValueSubject', () => {
   })
 })
 
-
 describe('saveNewResource', () => {
   const uri = 'http://localhost:3000/resource/abcdeghij23455'
   sinopiaApi.putUserHistory = jest.fn().mockResolvedValue()
@@ -612,7 +611,6 @@ describe('saveNewResource', () => {
     await store.dispatch(saveNewResource('t9zVwg2zO', 'stanford', ['cornell'], 'testerror'))
 
     const actions = store.getActions()
-
 
     expect(actions).toHaveAction('ADD_ERROR', {
       errorKey: 'testerror',

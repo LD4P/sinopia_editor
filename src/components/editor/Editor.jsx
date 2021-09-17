@@ -16,7 +16,6 @@ import { useParams, useHistory } from 'react-router-dom'
 import { newResource as newResourceCreator } from 'actionCreators/resources'
 import { newResourceErrorKey } from '../templates/SinopiaResourceTemplates'
 
-
 // Error key for errors that occur while editing a resource.
 export const resourceEditErrorKey = (resourceKey) => `resourceedit-${resourceKey}`
 

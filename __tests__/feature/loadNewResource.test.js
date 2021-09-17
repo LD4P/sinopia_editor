@@ -56,7 +56,6 @@ describe('loading new resource', () => {
     expect(screen.queryByText('Uber template2', { selector: '.left-nav-header' })).not.toBeInTheDocument()
     expect(screen.queryByText('Uber template3', { selector: '.left-nav-header' })).not.toBeInTheDocument()
 
-
     fireEvent.click(screen.getByText('Uber template1, property18', { selector: '.left-nav-header' }))
 
     expect(await screen.findByText('Uber template4', { selector: '.left-nav-header' })).toBeInTheDocument()

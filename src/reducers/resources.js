@@ -261,7 +261,6 @@ const addValueToNewState = (state, value, siblingValueKey) => {
     newState = recursiveAncestorsFromValue(newState, newValue.key, addToDescUriOrLiteralValueKeysFunc(newValue.key))
   }
 
-
   // Errors
   newState = updateErrors(newState, newProperty.key)
 

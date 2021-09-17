@@ -31,7 +31,6 @@ const PanelProperty = (props) => {
     cardClassName.push('template')
   }
 
-
   // used to associate the PropertyComponent field to be labeled with the PropertyLabel
   const propertyLabelId = `labelled-by-${nanoid()}`
 

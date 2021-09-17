@@ -111,7 +111,6 @@ export const datasetFromJsonld = (jsonld) => {
     .then(() => dataset)
 }
 
-
 export const generateMD5 = (message) => CryptoJS.MD5(message).toString()
 
 export const findRootResourceTemplateId = (resourceURI, dataset) => {

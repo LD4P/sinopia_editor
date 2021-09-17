@@ -97,7 +97,6 @@ const TemplateSearch = (props) => {
         </div>
       </div>
 
-
       <SinopiaResourceTemplates history={props.history} />
       <SearchResultsPaging
         changePage={changePage}

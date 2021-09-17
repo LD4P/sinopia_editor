@@ -55,7 +55,6 @@ describe('selectCurrentResourceIsReadOnly()', () => {
   })
 })
 
-
 describe('selectFullSubject()', () => {
   it('returns null when no match', () => {
     const state = createState()

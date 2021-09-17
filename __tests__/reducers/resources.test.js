@@ -265,7 +265,6 @@ describe('addSubject()', () => {
     })
   })
 
-
   describe('existing subject with properties', () => {
     it('updates state', () => {
       const oldState = createState({ hasResourceWithLiteral: true })
@@ -546,7 +545,6 @@ describe('clearResourceFromEditor()', () => {
     expect(newState.resources).toStrictEqual([])
   })
 })
-
 
 describe('hideProperty()', () => {
   it('sets show to false for property', () => {

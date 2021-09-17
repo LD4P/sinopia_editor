@@ -28,7 +28,6 @@ const NewResourceTemplateButton = (props) => {
     }
   }, [navigateEditor, resourceKey, props.history, errors])
 
-
   const handleClick = (event) => {
     event.preventDefault()
     dispatch(newResource(Config.rootResourceTemplateId, newResourceErrorKey)).then((result) => {

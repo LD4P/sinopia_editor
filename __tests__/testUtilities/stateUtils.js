@@ -1012,5 +1012,4 @@ const buildResourceWithTwoNestedResources = (state, options) => {
   }
 }
 
-
 export const noop = () => {}

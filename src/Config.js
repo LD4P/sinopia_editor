@@ -61,7 +61,6 @@ class Config {
     return 250
   }
 
-
   /*
    * This is the public endpont for the sinopia search.
    */
@@ -88,7 +87,6 @@ class Config {
   static get awsClientID() {
     return process.env.COGNITO_CLIENT_ID || '2u6s7pqkc1grq1qs464fsi82at'
   }
-
 
   static get awsCognitoForgotPasswordUrl() {
     return `${this.awsCognitoDomain}/forgotPassword?response_type=token&client_id=${this.awsClientID}&redirect_uri=${this.sinopiaUrl}`
