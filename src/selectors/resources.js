@@ -123,3 +123,5 @@ export const selectNormValues = (state, valueKeys) => {
 }
 
 export const selectResourceGroup = (state, resourceKey) => _.pick(selectNormSubject(state, resourceKey), ['group', 'editGroups'])
+
+export const selectUri = (state, resourceKey) => state.entities.subjects[resourceKey]?.uri

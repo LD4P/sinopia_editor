@@ -25,6 +25,7 @@ describe('saving a resource', () => {
       // There is foo text.
       await waitFor(() => expect(screen.getByText('foo')).toHaveClass('rbt-token'))
 
+      expect(screen.queryByText('Permissions')).not.toBeInTheDocument()
       expect(saveBtn).not.toBeDisabled()
       fireEvent.click(saveBtn)
 
@@ -47,6 +48,7 @@ describe('saving a resource', () => {
       fireEvent.click(modalSave)
       // The resource is saves and is assigned a URI
       await screen.findByText(/URI for this resource/)
+      screen.getByText('Permissions')
     })
   })
 })

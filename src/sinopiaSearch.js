@@ -72,6 +72,10 @@ export const getSearchResultsWithFacets = async (query, options = {}) => {
 }
 
 export const getSearchResultsByUris = (resourceUris) => {
+  if (Config.useResourceTemplateFixtures
+    && resourceUris.length === 1
+    && hasFixtureResource(resourceUris[0])) return Promise.resolve(resourceSearchResults(resourceUris[0])[0])
+
   const body = {
     query: {
       terms: {
