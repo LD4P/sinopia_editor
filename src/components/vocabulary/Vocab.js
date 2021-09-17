@@ -5,7 +5,6 @@ import PropTypes from 'prop-types'
 import Header from '../Header'
 import _ from 'lodash'
 
-
 const vocabulary = {
   hasAuthor: {
     description: 'Contact information associated with the template',

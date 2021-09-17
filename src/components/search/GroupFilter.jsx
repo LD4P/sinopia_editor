@@ -67,7 +67,6 @@ const GroupFilter = () => {
     )
   })
 
-
   const dropDownMenuClasses = ['dropdown-menu']
   if (groupFilterShowDropdown) dropDownMenuClasses.push('show')
   return (

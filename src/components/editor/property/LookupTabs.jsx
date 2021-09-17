@@ -8,7 +8,6 @@ import LookupTab from './LookupTab'
 import _ from 'lodash'
 import { getLookupResult } from 'utilities/Lookup'
 
-
 const LookupTabs = (props) => {
   const [tabKey, setTabKey] = useState()
   const [, setTriggerRender] = useState('')

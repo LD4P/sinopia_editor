@@ -111,7 +111,6 @@ const mapStateToProps = (state, ownProps) => {
   }
 }
 
-
 const mapDispatchToProps = (dispatch) => bindActionCreators({ addSiblingValueSubject, removeValue, setValueOrder }, dispatch)
 
 export default connect(mapStateToProps, mapDispatchToProps)(NestedResourceActionButtons)

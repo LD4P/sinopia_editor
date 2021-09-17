@@ -67,7 +67,6 @@ const TypeFilter = () => {
     )
   })
 
-
   const dropDownMenuClasses = ['dropdown-menu']
   if (typeFilterShowDropdown) dropDownMenuClasses.push('show')
   return (

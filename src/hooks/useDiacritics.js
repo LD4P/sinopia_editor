@@ -63,7 +63,6 @@ const useDiacritics = (inputRef, inputId, diacriticsId) => {
 
   const handleClickDiacritics = () => setCurrentPosition(inputRef.current.selectionStart)
 
-
   return {
     clearContent,
     handleKeyDownDiacritics,

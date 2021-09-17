@@ -17,7 +17,6 @@ import _ from 'lodash'
 import { datasetFromN3 } from 'utilities/Utilities'
 import { selectSearchUri, selectSearchResults } from 'selectors/search'
 
-
 // Errors from retrieving a resource from this page.
 export const searchQARetrieveErrorKey = 'searchqaresource'
 

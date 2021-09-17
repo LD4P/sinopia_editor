@@ -6,7 +6,6 @@ import { findAuthorityConfig, sinopiaSearchUri } from 'utilities/authorityConfig
 import { addSearchHistory as addApiSearchHistory } from 'actionCreators/user'
 import { addSearchHistory } from 'actions/history'
 
-
 export const fetchSinopiaSearchResults = (query, options) => (dispatch) => getSearchResultsWithFacets(query, options)
   .then(([response, facetResponse]) => {
     dispatch(addSearchHistory(sinopiaSearchUri, 'Sinopia resources', query))

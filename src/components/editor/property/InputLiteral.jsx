@@ -31,7 +31,6 @@ const InputLiteral = (props) => {
   const disabled = readOnly || (!props.propertyTemplate.repeatable
                                 && props.property.valueKeys.length > 0)
 
-
   const addItem = () => {
     if (_.isEmpty(currentContent.trim())) return
 

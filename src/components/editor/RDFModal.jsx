@@ -63,5 +63,4 @@ const mapStateToProps = (state) => ({
   dataset: () => new GraphBuilder(selectFullSubject(state, selectCurrentResourceKey(state))).graph,
 })
 
-
 export default connect(mapStateToProps, null)(RDFModal)

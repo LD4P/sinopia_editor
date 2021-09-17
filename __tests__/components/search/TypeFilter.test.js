@@ -49,7 +49,6 @@ describe('<TypeFilter />', () => {
     const mockGetSearchResults = jest.fn()
     server.getSearchResultsWithFacets = mockGetSearchResults.mockResolvedValue([{}, undefined])
 
-
     const store = createStore(createInitialState())
     const { container } = renderComponent(<TypeFilter />, store)
 
