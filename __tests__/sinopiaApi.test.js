@@ -1,6 +1,6 @@
 // Copyright 2020 Stanford University see LICENSE for license
 import {
-  fetchResource, postResource, putResource,
+  fetchResource, postResource, putResource, getGroups,
   postMarc, getMarcJob, getMarc, fetchUser, putUserHistory,
 } from 'sinopiaApi'
 import { selectFullSubject } from 'selectors/resources'
@@ -55,6 +55,17 @@ const originalFetch = global.fetch
 
 afterEach(() => {
   global.fetch = originalFetch
+})
+
+describe('getGroups', () => {
+  it('retrieves list of groups', async () => {
+    const result = await getGroups()
+    expect(result.data).toEqual(expect.arrayContaining([
+      { id: 'stanford', label: 'Stanford University' },
+      { id: 'cornell', label: 'Cornell University' },
+    ]))
+    expect(result.data.length).toBeGreaterThanOrEqual(25)
+  })
 })
 
 describe('fetchResource', () => {

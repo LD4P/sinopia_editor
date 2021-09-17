@@ -3,10 +3,10 @@
 import N3Parser from 'n3/lib/N3Parser'
 import rdf from 'rdf-ext'
 import _ from 'lodash'
-import Config from 'Config'
 import CryptoJS from 'crypto-js'
 import { JsonLdParser } from 'jsonld-streaming-parser'
 import { Writer as N3Writer } from 'n3'
+import { groupsInSinopia } from 'selectors/groups'
 
 const concatStream = require('concat-stream')
 const Readable = require('stream').Readable
@@ -23,7 +23,7 @@ export const groupName = (uri) => {
 }
 
 export const groupNameFromGroup = (groupId) => {
-  const group = Config.groupsInSinopia.data.find((group) => group.id === groupId)
+  const group = groupsInSinopia.data.find((group) => group.id === groupId)
   if (group) { return group.label }
   return 'Unknown'
 }

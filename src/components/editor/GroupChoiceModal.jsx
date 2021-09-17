@@ -10,6 +10,8 @@ import { saveNewResource, saveResource as saveResourceAction } from 'actionCreat
 import ModalWrapper, { useDisplayStyle, useModalCss } from '../ModalWrapper'
 import { selectCurrentResourceKey, selectNormSubject } from 'selectors/resources'
 import { selectGroups } from 'selectors/authenticate'
+import { groupsInSinopia } from 'selectors/groups'
+import { groupNameFromGroup } from 'utilities/Utilities'
 import usePermissions from 'hooks/usePermissions'
 
 // The ld4p group is only for templates

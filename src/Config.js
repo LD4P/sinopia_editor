@@ -127,40 +127,6 @@ class Config {
   static get honeybadgerRevision() {
     return process.env.HONEYBADGER_REVISION || ''
   }
-
-  // TODO Use the sinopia_api groups endpoint to dynamically fetch this list (which should match below for now)
-  static get groupsInSinopia() {
-    return {
-      data:
-      [
-        { id: 'alberta', label: 'University of Alberta' },
-        { id: 'boulder', label: 'University of Colorado, Boulder' },
-        { id: 'chicago', label: 'University of Chicago' },
-        { id: 'cornell', label: 'Cornell University' },
-        { id: 'dlc', label: 'Library of Congress' },
-        { id: 'duke', label: 'Duke University' },
-        { id: 'frick', label: 'Frick Art Reference Library' },
-        { id: 'harvard', label: 'Harvard University' },
-        { id: 'hrc', label: 'University of Texas, Austin, Harry Ransom Center' },
-        { id: 'ld4p', label: 'LD4P' },
-        { id: 'michigan', label: 'University of Michigan' },
-        { id: 'minnesota', label: 'University of Minnesota' },
-        { id: 'mla', label: 'Music Library Association' },
-        { id: 'nlm', label: 'National Library of Medicine' },
-        { id: 'northwestern', label: 'Northwestern University' },
-        { id: 'other', label: 'Other' },
-        { id: 'pcc', label: 'PCC' },
-        { id: 'penn', label: 'University of Pennsylvania' },
-        { id: 'princeton', label: 'Princeton University' },
-        { id: 'stanford', label: 'Stanford University' },
-        { id: 'tamu', label: 'Texas A&M University' },
-        { id: 'ucdavis', label: 'University of California, Davis' },
-        { id: 'ucsd', label: 'University of California, San Diego' },
-        { id: 'washington', label: 'University of Washington' },
-        { id: 'yale', label: 'Yale University' },
-      ],
-    }
-  }
 }
 
 export default Config
