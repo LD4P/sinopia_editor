@@ -141,7 +141,7 @@ jobs:
           name: Update dependencies
           command: |
             git config user.name "dlss-infra-bot"
-            git config user.email "dlss-infrastructure-team-owner@lists.stanford"
+            git config user.email "dlss-infrastructure-team-owner@lists.stanford.edu"
             git checkout -b update-dependencies
             repo_url=$(echo $CIRCLE_REPOSITORY_URL | sed -e "s/git@github\.com:/https:\/\/github.com\//" -e "s/\.git//")
             git remote set-url origin $repo_url
