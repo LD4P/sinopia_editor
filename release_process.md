@@ -30,6 +30,12 @@ These instructions apply for major releases and dependency updates.
 * When naming a version, make sure to include the _v_: `v1.0.2`, NOT `1.0.2`.
 * Creating a new release will trigger CircleCI to build a docker image, push it to DockerHub, and update AWS for stage and production.
 
+## Create a release from a beta release
+1. Get the commit hash for the beta release.
+2. From the commandline, create a new tag: `git tag v3.2.0 ba99a63`
+3. Push the tag, `git push origin v3.2.0`.
+4. Publish a new release, selecting the newly created tag.
+
 ## Staging environment
 To deploy to stage only, append `-beta` to the version. For example, `v1.0.2-beta`.
 
