@@ -80,5 +80,7 @@ services:
     environment:
       MONGODB_HOST: mongo
       NO_AUTH: "true"
+      AWS_ACCESS_KEY_ID: ${DOCKER_AWS_ACCESS_KEY_ID}
+      AWS_SECRET_ACCESS_KEY: ${DOCKER_AWS_SECRET_ACCESS_KEY}
     depends_on:
       - mongo

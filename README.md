@@ -31,10 +31,12 @@ You can use the ["n"](https://www.npmjs.com/package/n) node package management t
 COGNITO_TEST_USER_NAME='sinopia-devs+client-tester@lists.stanford.edu' # a test user we have on dev and stage
 COGNITO_TEST_USER_PASS='<get this from shared_configs or another developer>' # not committing the real value to a public repo
 COGNITO_ADMIN_PASSWORD='<get this from shared_configs or another developer>'
+DOCKER_AWS_ACCESS_KEY_ID='<get this from shared_configs or another developer>'
+DOCKER_AWS_SECRET_ACCESS_KEY='<get this from shared_configs or another developer>'
 ```
 
 ## Running the application
-To start all of the supporting services (ElasticSearch, Trellis, etc.):
+To start all of the supporting services (ElasticSearch, API, etc.):
 `docker-compose up -d`
 
 Note that this will bring up the sinopia-editor app on port 8000, but it will NOT be in a mode where
