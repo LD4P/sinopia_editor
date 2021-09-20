@@ -79,6 +79,8 @@ export const getFixtureTemplateSearchResults = () => {
             remark: template.remark,
             resourceLabel: template.label,
             resourceURI: template.class,
+            group: 'stanford',
+            editGroups: ['cornell'],
             uri,
           }
           fixtureTemplateSearchResults.push(result)
@@ -102,6 +104,7 @@ export const resourceSearchResults = (uri) => {
             'http://id.loc.gov/ontologies/bibframe/Fixture',
           ],
           group: 'stanford',
+          editGroups: ['cornell'],
         },
       ],
     },

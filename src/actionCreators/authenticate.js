@@ -39,4 +39,4 @@ export const signOut = () => (dispatch) => Auth.signOut()
   })
 
 // Note: User model can be extended as we add additional attributes to Cognito.
-const toUser = (cognitoUser) => ({ username: cognitoUser.username, groups: cognitoUser.signInUserSession.idToken.payload['cognito:groups'] })
+const toUser = (cognitoUser) => ({ username: cognitoUser.username, groups: cognitoUser.signInUserSession.idToken.payload['cognito:groups'] || [] })
