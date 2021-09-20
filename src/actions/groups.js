@@ -1,8 +1,8 @@
 // Copyright 2021 Stanford University see LICENSE for license
 
-export const groupsReceived = (json) => ({
+export const groupsReceived = (groups) => ({
   type: 'GROUPS_RECEIVED',
-  payload: json,
+  payload: groups,
 })
 
 export const noop = () => {}

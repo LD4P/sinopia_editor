@@ -1,5 +1,5 @@
 // Copyright 2019 Stanford University see LICENSE for license
-import React, { useState, useEffect } from 'react'
+import React, { useState, useEffect, useMemo } from 'react'
 import { useSelector, useDispatch } from 'react-redux'
 import { fetchSinopiaSearchResults } from 'actionCreators/search'
 import {
@@ -7,7 +7,8 @@ import {
   selectSearchFacetResults,
 } from 'selectors/search'
 import _ from 'lodash'
-import { groupNameFromGroup } from 'utilities/Utilities'
+import { selectAllGroups } from 'selectors/groups'
+import { groupListToMap } from 'utilities/Utilities'
 
 const GroupFilter = () => {
   const dispatch = useDispatch()
@@ -16,6 +17,8 @@ const GroupFilter = () => {
   const groupFacetResults = useSelector((state) => selectSearchFacetResults(state, 'resource', 'groups'))
   const [groupFilterShowDropdown, setGroupFilterShowDropdown] = useState(false)
   const [selectedGroupFilters, setSelectedGroupFilters] = useState([])
+  const groupList = useSelector((state) => selectAllGroups(state))
+  const groupMap = useMemo(() => groupListToMap(groupList), [groupList])
 
   useEffect(() => {
     if (_.isEmpty(groupFacetResults)) return
@@ -59,7 +62,7 @@ const GroupFilter = () => {
                checked={selectedGroupFilters.includes(result.key)}
                onChange={() => toggleSelectedGroupFilter(result.key)}/>
         <label className="form-check-label" htmlFor={id}>
-          {groupNameFromGroup(result.key)} ({result.doc_count})
+          {groupMap[result.key]} ({result.doc_count})
         </label>
         &nbsp;&nbsp;
         <a href="#" onClick={() => handleOnly(result.key)}>Only</a>

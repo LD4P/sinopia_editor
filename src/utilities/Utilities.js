@@ -6,7 +6,6 @@ import _ from 'lodash'
 import CryptoJS from 'crypto-js'
 import { JsonLdParser } from 'jsonld-streaming-parser'
 import { Writer as N3Writer } from 'n3'
-import { groupsInSinopia } from 'selectors/groups'
 
 const concatStream = require('concat-stream')
 const Readable = require('stream').Readable
@@ -17,15 +16,10 @@ export const defaultLanguageId = 'eng'
 export const isResourceWithValueTemplateRef = (property) => property?.type === 'resource'
     && property?.valueConstraint?.valueTemplateRefs?.length > 0
 
-export const groupName = (uri) => {
-  const groupSlug = uri.split('/')[4]
-  return groupNameFromGroup(groupSlug)
-}
-
-export const groupNameFromGroup = (groupId) => {
-  const group = groupsInSinopia.data.find((group) => group.id === groupId)
-  if (group) { return group.label }
-  return 'Unknown'
+export const groupListToMap = (groupList) => {
+  const groupMap = {}
+  groupList.forEach((group) => groupMap[group.id] = group.label)
+  return groupMap
 }
 
 export const resourceToName = (uri) => {

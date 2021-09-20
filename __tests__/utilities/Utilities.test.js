@@ -3,14 +3,17 @@ import {
   isResourceWithValueTemplateRef,
   resourceToName,
   datasetFromN3,
-  groupName,
 } from 'utilities/Utilities'
+import { groupListToMap } from '../../src/utilities/Utilities'
 
 describe('Utilities', () => {
-  describe('groupName()', () => {
-    it('returns a group name from a URI', () => {
-      const uri = 'http://hostname/resource/pcc/objectidentifier'
-      expect(groupName(uri)).toEqual('PCC')
+  describe('groupListToMap()', () => {
+    it('returns a map from the provided group list', () => {
+      const groupList = [
+        { id: 'stanford', label: 'Stanford University' },
+        { id: 'cornell', label: 'Cornell University' },
+      ]
+      expect(groupListToMap(groupList)).toEqual({ stanford: 'Stanford University', cornell: 'Cornell University' })
     })
   })
   describe('isResourceWithValueTemplateRef()', () => {

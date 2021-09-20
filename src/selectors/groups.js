@@ -4,6 +4,6 @@ export const hasGroups = (state) => {
   state.entities.groups.length > 0
 }
 
-export const groupsInSinopia = (state) => state.entities.groups
+export const selectAllGroups = (state) => state.entities.groups
 
 export const noop = () => {}

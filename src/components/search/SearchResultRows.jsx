@@ -4,7 +4,6 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faCopy, faEdit, faEye } from '@fortawesome/free-solid-svg-icons'
-import { groupNameFromGroup } from 'utilities/Utilities'
 import LongDate from 'components/LongDate'
 import usePermissions from 'hooks/usePermissions'
 
@@ -12,7 +11,7 @@ import usePermissions from 'hooks/usePermissions'
  * Generates HTML rows of all search results
  */
 const SearchResultRows = ({
-  searchResults, handleEdit, handleCopy, handleView,
+  searchResults, handleEdit, handleCopy, handleView, groupMap,
 }) => {
   const { canEdit, canCreate } = usePermissions()
   return searchResults.map((row) => (
@@ -23,7 +22,7 @@ const SearchResultRows = ({
           { row.type?.map((type) => <li key={type}>{type}</li>) }
         </ul>
       </td>
-      <td>{ groupNameFromGroup(row.group) }</td>
+      <td>{ groupMap[row.group] }</td>
       <td><LongDate datetime={ row.modified } /></td>
       <td>
         <div className="btn-group" role="group" aria-label="Result Actions">
@@ -64,6 +63,7 @@ SearchResultRows.propTypes = {
   handleEdit: PropTypes.func,
   handleCopy: PropTypes.func,
   handleView: PropTypes.func,
+  groupMap: PropTypes.map,
 }
 
 export default SearchResultRows
