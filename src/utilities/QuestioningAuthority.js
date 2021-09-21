@@ -1,13 +1,14 @@
 // Copyright 2019 Stanford University see LICENSE for license
 /* eslint max-params: ["warn", 4] */
 
-import Swagger from 'swagger-client'
-import swaggerSpec from 'lib/apidoc.json'
-import Config from 'Config'
-import { findAuthorityConfig } from 'utilities/authorityConfig'
-import _ from 'lodash'
+import Swagger from "swagger-client"
+import swaggerSpec from "lib/apidoc.json"
+import Config from "Config"
+import { findAuthorityConfig } from "utilities/authorityConfig"
+import _ from "lodash"
 
-export const isContext = (propertyTemplate) => propertyTemplate?.subtype === 'context'
+export const isContext = (propertyTemplate) =>
+  propertyTemplate?.subtype === "context"
 
 export const createLookupPromise = (query, lookupConfig, options = {}) => {
   const authority = lookupConfig.authority
@@ -21,13 +22,13 @@ export const createLookupPromise = (query, lookupConfig, options = {}) => {
    */
 
   // default the API calls to their linked data values
-  let subAuthCall = 'GET_searchSubauthority'
-  let authorityCall = 'GET_searchAuthority'
+  let subAuthCall = "GET_searchSubauthority"
+  let authorityCall = "GET_searchAuthority"
 
   // Change the API calls if this is a non-linked data lookup
   if (lookupConfig.nonldLookup) {
-    subAuthCall = 'GET_nonldSearchWithSubauthority'
-    authorityCall = 'GET_nonldSearchAuthority'
+    subAuthCall = "GET_nonldSearchWithSubauthority"
+    authorityCall = "GET_nonldSearchAuthority"
   }
 
   /*
@@ -40,9 +41,8 @@ export const createLookupPromise = (query, lookupConfig, options = {}) => {
    */
   const actionFunction = subauthority ? subAuthCall : authorityCall
 
-  return Swagger({ spec: swaggerSpec }).then((client) => client
-    .apis
-    .SearchQuery?.[actionFunction]({
+  return Swagger({ spec: swaggerSpec }).then((client) =>
+    client.apis.SearchQuery?.[actionFunction]({
       q: query,
       vocab: authority,
       subauthority,
@@ -51,12 +51,12 @@ export const createLookupPromise = (query, lookupConfig, options = {}) => {
       context: true, // Always search to see if context is available
       response_header: true,
       startRecord: options.startOfRange ? options.startOfRange + 1 : 1,
-    })
-    .catch((err) => {
-      console.error('Error in executing lookup against source', err.toString())
+    }).catch((err) => {
+      console.error("Error in executing lookup against source", err.toString())
       // Return information along with the error in its own object
       return { isError: true, errorObject: err }
-    }))
+    })
+  )
 }
 
 /**
@@ -64,9 +64,9 @@ export const createLookupPromise = (query, lookupConfig, options = {}) => {
  * @param {string} uri of the resource
  * @param {string} searchUri uri of the endpoint from which to fetch
  * @param {string} format supported by QA
-  * @return {Promise<string>} the term as text
+ * @return {Promise<string>} the term as text
  */
-export const getTerm = (uri, id, searchUri, format = 'n3') => {
+export const getTerm = (uri, id, searchUri, format = "n3") => {
   const authorityConfig = findAuthorityConfig(searchUri)
   const authority = authorityConfig.authority
 
@@ -78,11 +78,12 @@ export const getTerm = (uri, id, searchUri, format = 'n3') => {
     }
     url = `${Config.qaUrl}/authorities/show/${path}/${id}?format=${format}`
   } else {
-    url = `${Config.qaUrl}/authorities/fetch/linked_data/${authority.toLowerCase()}?format=${format}&uri=${uri}`
+    url = `${
+      Config.qaUrl
+    }/authorities/fetch/linked_data/${authority.toLowerCase()}?format=${format}&uri=${uri}`
   }
 
-  return fetch(url)
-    .then((resp) => resp.text())
+  return fetch(url).then((resp) => resp.text())
 }
 
 /**

@@ -1,10 +1,10 @@
 /* eslint max-params: ["error", 5] */
-import { useState, useEffect } from 'react'
-import { useDispatch, useSelector } from 'react-redux'
-import { newResourceFromDataset } from 'actionCreators/resources'
-import { clearErrors } from 'actions/errors'
-import { selectCurrentResourceKey } from 'selectors/resources'
-import { useHistory } from 'react-router-dom'
+import { useState, useEffect } from "react"
+import { useDispatch, useSelector } from "react-redux"
+import { newResourceFromDataset } from "actionCreators/resources"
+import { clearErrors } from "actions/errors"
+import { selectCurrentResourceKey } from "selectors/resources"
+import { useHistory } from "react-router-dom"
 
 /**
  * Hook for transforming a resource to state and changing the page to the editor (i.e., /editor path).
@@ -13,7 +13,7 @@ import { useHistory } from 'react-router-dom'
  * @param {string} resourceTemplateId to use for the resource
  * @param {string} errorKey to use when adding errors to state
  * @param {Object} history react-router history object
-  * @return {[Object, rdf.Dataset, string]} resource state, unused RDF, error
+ * @return {[Object, rdf.Dataset, string]} resource state, unused RDF, error
  */
 const useRdfResource = (dataset, baseURI, resourceTemplateId, errorKey) => {
   const dispatch = useDispatch()
@@ -28,16 +28,23 @@ const useRdfResource = (dataset, baseURI, resourceTemplateId, errorKey) => {
       return
     }
     dispatch(clearErrors(errorKey))
-    dispatch(newResourceFromDataset(dataset, baseURI, resourceTemplateId, errorKey, true))
-      .then((result) => {
-        setNavigateEditor(result)
-      })
+    dispatch(
+      newResourceFromDataset(
+        dataset,
+        baseURI,
+        resourceTemplateId,
+        errorKey,
+        true
+      )
+    ).then((result) => {
+      setNavigateEditor(result)
+    })
   }, [dataset, baseURI, resourceTemplateId, dispatch, errorKey])
 
   useEffect(() => {
     // Forces a wait until the root resource has been set in state
     if (navigateEditor && hasResource) {
-      history.push('/editor')
+      history.push("/editor")
     }
   }, [navigateEditor, history, hasResource])
 }

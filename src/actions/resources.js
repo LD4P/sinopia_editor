@@ -1,20 +1,20 @@
 export const clearResource = (resourceKey) => ({
-  type: 'CLEAR_RESOURCE',
+  type: "CLEAR_RESOURCE",
   payload: resourceKey,
 })
 
 export const loadResourceFinished = (resourceKey) => ({
-  type: 'LOAD_RESOURCE_FINISHED',
+  type: "LOAD_RESOURCE_FINISHED",
   payload: resourceKey,
 })
 
 export const setBaseURL = (resourceKey, resourceURI) => ({
-  type: 'SET_BASE_URL',
+  type: "SET_BASE_URL",
   payload: { resourceKey, resourceURI },
 })
 
 export const saveResourceFinished = (resourceKey) => ({
-  type: 'SAVE_RESOURCE_FINISHED',
+  type: "SAVE_RESOURCE_FINISHED",
   payload: {
     resourceKey,
     timestamp: Date.now(),
@@ -22,47 +22,47 @@ export const saveResourceFinished = (resourceKey) => ({
 })
 
 export const setCurrentResource = (resourceKey) => ({
-  type: 'SET_CURRENT_RESOURCE',
+  type: "SET_CURRENT_RESOURCE",
   payload: resourceKey,
 })
 
 export const setCurrentResourceIsReadOnly = (readOnly) => ({
-  type: 'SET_CURRENT_RESOURCE_IS_READ_ONLY',
+  type: "SET_CURRENT_RESOURCE_IS_READ_ONLY",
   payload: readOnly,
 })
 
 export const setResourceGroup = (resourceKey, group, editGroups) => ({
-  type: 'SET_RESOURCE_GROUP',
+  type: "SET_RESOURCE_GROUP",
   payload: { resourceKey, group, editGroups },
 })
 
 export const setUnusedRDF = (resourceKey, rdf) => ({
-  type: 'SET_UNUSED_RDF',
+  type: "SET_UNUSED_RDF",
   payload: { resourceKey, rdf },
 })
 
 export const showProperty = (propertyKey) => ({
-  type: 'SHOW_PROPERTY',
+  type: "SHOW_PROPERTY",
   payload: propertyKey,
 })
 
 export const hideProperty = (propertyKey) => ({
-  type: 'HIDE_PROPERTY',
+  type: "HIDE_PROPERTY",
   payload: propertyKey,
 })
 
 export const addSubject = (subject) => ({
-  type: 'ADD_SUBJECT',
+  type: "ADD_SUBJECT",
   payload: subject,
 })
 
 export const addProperty = (property) => ({
-  type: 'ADD_PROPERTY',
+  type: "ADD_PROPERTY",
   payload: property,
 })
 
 export const addValue = (value, siblingValueKey) => ({
-  type: 'ADD_VALUE',
+  type: "ADD_VALUE",
   payload: {
     value,
     siblingValueKey,
@@ -70,17 +70,17 @@ export const addValue = (value, siblingValueKey) => ({
 })
 
 export const removeValue = (valueKey) => ({
-  type: 'REMOVE_VALUE',
+  type: "REMOVE_VALUE",
   payload: valueKey,
 })
 
 export const removeSubject = (subjectKey) => ({
-  type: 'REMOVE_SUBJECT',
+  type: "REMOVE_SUBJECT",
   payload: subjectKey,
 })
 
 export const setValueOrder = (valueKey, index) => ({
-  type: 'SET_VALUE_ORDER',
+  type: "SET_VALUE_ORDER",
   payload: {
     valueKey,
     index,

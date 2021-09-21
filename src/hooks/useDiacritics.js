@@ -1,8 +1,8 @@
-import { useState } from 'react'
+import { useState } from "react"
 
 const useDiacritics = (inputRef, inputId, diacriticsId) => {
   const [showDiacritics, setShowDiacritics] = useState(false)
-  const [currentContent, setCurrentContent] = useState('')
+  const [currentContent, setCurrentContent] = useState("")
   const [currentPosition, setCurrentPosition] = useState(0)
 
   const handleKeyDownDiacritics = (event) => {
@@ -11,7 +11,7 @@ const useDiacritics = (inputRef, inputId, diacriticsId) => {
   }
 
   const clearContent = () => {
-    setCurrentContent('')
+    setCurrentContent("")
     setCurrentPosition(0)
   }
 
@@ -57,11 +57,16 @@ const useDiacritics = (inputRef, inputId, diacriticsId) => {
   }
 
   const handleAddCharacter = (character) => {
-    setCurrentContent(currentContent.slice(0, currentPosition) + character + currentContent.slice(currentPosition))
+    setCurrentContent(
+      currentContent.slice(0, currentPosition) +
+        character +
+        currentContent.slice(currentPosition)
+    )
     setCurrentPosition(currentPosition + 1)
   }
 
-  const handleClickDiacritics = () => setCurrentPosition(inputRef.current.selectionStart)
+  const handleClickDiacritics = () =>
+    setCurrentPosition(inputRef.current.selectionStart)
 
   return {
     clearContent,

@@ -20,33 +20,40 @@ export const languagesReceived = (state, action) => {
   }
 }
 
-const createOptions = (json) => json.reduce((result, item) => {
-  // Object.getOwnPropertyDescriptor is necessary to handle the @
-  const id = Object.getOwnPropertyDescriptor(item, '@id').value.replace('http://id.loc.gov/vocabulary/iso639-2/', '')
-  const labelArrayDescr = Object.getOwnPropertyDescriptor(item, 'http://www.loc.gov/mads/rdf/v1#authoritativeLabel')
+const createOptions = (json) =>
+  json.reduce((result, item) => {
+    // Object.getOwnPropertyDescriptor is necessary to handle the @
+    const id = Object.getOwnPropertyDescriptor(item, "@id").value.replace(
+      "http://id.loc.gov/vocabulary/iso639-2/",
+      ""
+    )
+    const labelArrayDescr = Object.getOwnPropertyDescriptor(
+      item,
+      "http://www.loc.gov/mads/rdf/v1#authoritativeLabel"
+    )
 
-  // Some of the LOC items do not have labels so ignore them.
-  if (!labelArrayDescr) return result
-  const labelArray = labelArrayDescr.value
+    // Some of the LOC items do not have labels so ignore them.
+    if (!labelArrayDescr) return result
+    const labelArray = labelArrayDescr.value
 
-  let label = null
+    let label = null
 
-  // Looking for English label
-  labelArray.forEach((langItem) => {
-    if (langItem['@language'] === 'en') {
-      label = langItem['@value']
-    }
-  })
+    // Looking for English label
+    labelArray.forEach((langItem) => {
+      if (langItem["@language"] === "en") {
+        label = langItem["@value"]
+      }
+    })
 
-  // But not every language has an English label.
-  if (!label) return result
+    // But not every language has an English label.
+    if (!label) return result
 
-  result.push({ id, label })
-  return result
-}, [])
+    result.push({ id, label })
+    return result
+  }, [])
 
 const createMap = (options) => {
   const langMap = {}
-  options.forEach((item) => langMap[item.id] = item.label)
+  options.forEach((item) => (langMap[item.id] = item.label))
   return langMap
 }

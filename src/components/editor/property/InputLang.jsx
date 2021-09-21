@@ -1,15 +1,15 @@
 // Copyright 2019 Stanford University see LICENSE for license
 
-import React, { useState } from 'react'
-import { Typeahead } from 'react-bootstrap-typeahead'
-import PropTypes from 'prop-types'
-import { connect } from 'react-redux'
-import { selectModalType } from 'selectors/modals'
-import { languageSelected } from 'actions/languages'
-import { hideModal } from 'actions/modals'
-import { bindActionCreators } from 'redux'
-import ModalWrapper from 'components/ModalWrapper'
-import { selectLanguages, hasLanguages } from 'selectors/languages'
+import React, { useState } from "react"
+import { Typeahead } from "react-bootstrap-typeahead"
+import PropTypes from "prop-types"
+import { connect } from "react-redux"
+import { selectModalType } from "selectors/modals"
+import { languageSelected } from "actions/languages"
+import { hideModal } from "actions/modals"
+import { bindActionCreators } from "redux"
+import ModalWrapper from "components/ModalWrapper"
+import { selectLanguages, hasLanguages } from "selectors/languages"
 
 /**
  * Provides the RFC 5646 language tag for a literal element.
@@ -18,15 +18,16 @@ import { selectLanguages, hasLanguages } from 'selectors/languages'
  */
 const InputLang = (props) => {
   const [lang, setLang] = useState(props.lang)
-  const langPresent = typeof lang !== 'undefined'
-  const [languageSelectorEnabled, setLanguageSelectorEnabled] = useState(langPresent)
+  const langPresent = typeof lang !== "undefined"
+  const [languageSelectorEnabled, setLanguageSelectorEnabled] =
+    useState(langPresent)
 
-  const classes = ['modal', 'fade']
-  let display = 'none'
+  const classes = ["modal", "fade"]
+  let display = "none"
 
   if (props.show) {
-    classes.push('show')
-    display = 'block'
+    classes.push("show")
+    display = "block"
   }
 
   const selectLanguage = (selected) => {
@@ -55,7 +56,7 @@ const InputLang = (props) => {
   }
 
   const modal = (
-    <div className={ classes.join(' ') } style={{ display }}>
+    <div className={classes.join(" ")} style={{ display }}>
       <div className="modal-dialog" role="document">
         <div className="modal-content">
           <div className="modal-header">
@@ -63,45 +64,71 @@ const InputLang = (props) => {
           </div>
           <div className="modal-body">
             <div className="form-check">
-              <input type="radio" className="form-check-input" name="lang"
-                     id="present" value="present" defaultChecked={langPresent}
-                     onChange={enableLanguageSelector} />
-              <label className="form-check-label" htmlFor="present">Select language for {props.textValue}
+              <input
+                type="radio"
+                className="form-check-input"
+                name="lang"
+                id="present"
+                value="present"
+                defaultChecked={langPresent}
+                onChange={enableLanguageSelector}
+              />
+              <label className="form-check-label" htmlFor="present">
+                Select language for {props.textValue}
                 <Typeahead
                   disabled={!languageSelectorEnabled}
                   onChange={selectLanguage}
                   isLoading={props.loading}
                   options={props.options}
-                  emptyLabel={'retrieving list of languages...'}
+                  emptyLabel={"retrieving list of languages..."}
                   id="langComponent"
-                  inputProps={{ 'data-testid': `langComponent-${props.textValue}` }}
+                  inputProps={{
+                    "data-testid": `langComponent-${props.textValue}`,
+                  }}
                 />
               </label>
-              <p style={{ fontStyle: 'italic', marginTop: '10px' }}>or select</p>
+              <p style={{ fontStyle: "italic", marginTop: "10px" }}>
+                or select
+              </p>
             </div>
 
             <div className="form-check">
-              <input type="radio"
-                     className="form-check-input"
-                     name="lang"
-                     id={`noLangRadio-${props.textValue}`}
-                     data-testid={`noLangRadio-${props.textValue}`}
-                     value="absent"
-                     defaultChecked={!langPresent}
-                     onChange={disableLanguageSelector} />
-              <label className="form-check-label" htmlFor={`noLangRadio-${props.textValue}`}>No language specified</label>
+              <input
+                type="radio"
+                className="form-check-input"
+                name="lang"
+                id={`noLangRadio-${props.textValue}`}
+                data-testid={`noLangRadio-${props.textValue}`}
+                value="absent"
+                defaultChecked={!langPresent}
+                onChange={disableLanguageSelector}
+              />
+              <label
+                className="form-check-label"
+                htmlFor={`noLangRadio-${props.textValue}`}
+              >
+                No language specified
+              </label>
             </div>
           </div>
           <div className="modal-footer">
-            <button className="btn btn-link" onClick={ close }>Cancel</button>
-            <button className="btn btn-primary" onClick={ handleLangSubmit } data-testid={`submit-${props.textValue}`}>Submit</button>
+            <button className="btn btn-link" onClick={close}>
+              Cancel
+            </button>
+            <button
+              className="btn btn-primary"
+              onClick={handleLangSubmit}
+              data-testid={`submit-${props.textValue}`}
+            >
+              Submit
+            </button>
           </div>
         </div>
       </div>
     </div>
   )
 
-  return (<ModalWrapper modal={modal} />)
+  return <ModalWrapper modal={modal} />
 }
 
 InputLang.propTypes = {
@@ -126,6 +153,7 @@ const mapStateToProps = (state, ownProps) => {
   }
 }
 
-const mapDispatchToProps = (dispatch) => bindActionCreators({ hideModal, languageSelected }, dispatch)
+const mapDispatchToProps = (dispatch) =>
+  bindActionCreators({ hideModal, languageSelected }, dispatch)
 
 export default connect(mapStateToProps, mapDispatchToProps)(InputLang)

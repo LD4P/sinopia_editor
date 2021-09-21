@@ -1,5 +1,5 @@
 export const addTemplates = (subjectTemplate) => ({
-  type: 'ADD_TEMPLATES',
+  type: "ADD_TEMPLATES",
   payload: subjectTemplate,
 })
 

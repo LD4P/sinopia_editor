@@ -1,11 +1,11 @@
 // Copyright 2020 Stanford University see LICENSE for license
 
-import React from 'react'
-import PropTypes from 'prop-types'
-import RenderLookupContext from './RenderLookupContext'
-import _ from 'lodash'
-import SearchResultsPaging from '../../search/SearchResultsPaging'
-import Config from 'Config'
+import React from "react"
+import PropTypes from "prop-types"
+import RenderLookupContext from "./RenderLookupContext"
+import _ from "lodash"
+import SearchResultsPaging from "../../search/SearchResultsPaging"
+import Config from "Config"
 
 const LookupTab = (props) => {
   const query = props.query
@@ -26,33 +26,42 @@ const LookupTab = (props) => {
   }
 
   if (!props.result.totalHits) {
-    return (<strong>No results</strong>)
+    return <strong>No results</strong>
   }
 
   if (props.result.error) {
-    return (<span className="dropdown-error">{props.result.error}</span>)
+    return <span className="dropdown-error">{props.result.error}</span>
   }
 
-  const tabResults = props.result.results.map((hit) => (<div key={hit.uri}>
-    <button onClick={() => props.handleSelectionChanged(hit)} className="btn search-result">
-      { hit.context ? (
-        <RenderLookupContext innerResult={hit}
-                             authLabel={authorityConfig.label}
-                             authURI={authorityConfig.uri}></RenderLookupContext>
-      ) : hit.label
-      }
-    </button>
-  </div>))
+  const tabResults = props.result.results.map((hit) => (
+    <div key={hit.uri}>
+      <button
+        onClick={() => props.handleSelectionChanged(hit)}
+        className="btn search-result"
+      >
+        {hit.context ? (
+          <RenderLookupContext
+            innerResult={hit}
+            authLabel={authorityConfig.label}
+            authURI={authorityConfig.uri}
+          ></RenderLookupContext>
+        ) : (
+          hit.label
+        )}
+      </button>
+    </div>
+  ))
 
   return (
     <React.Fragment>
-      { tabResults }
+      {tabResults}
       <SearchResultsPaging
         key="search-paging"
         resultsPerPage={Config.maxRecordsForQALookups}
         startOfRange={props.result.options.startOfRange}
         totalResults={props.result.totalHits}
-        changePage={handleChangePage} />
+        changePage={handleChangePage}
+      />
     </React.Fragment>
   )
 }

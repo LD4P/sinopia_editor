@@ -1,6 +1,6 @@
 // Copyright 2020 Stanford University see LICENSE for license
 
-import PropTypes from 'prop-types'
+import PropTypes from "prop-types"
 
 const Tab = () => null
 

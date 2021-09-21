@@ -1,12 +1,13 @@
 // Copyright 2019 Stanford University see LICENSE for license
 
-import React from 'react'
-import { connect } from 'react-redux'
-import PropTypes from 'prop-types'
+import React from "react"
+import { connect } from "react-redux"
+import PropTypes from "prop-types"
 import {
-  selectSearchOptions, selectSearchQuery,
+  selectSearchOptions,
+  selectSearchQuery,
   selectSearchTotalResults,
-} from 'selectors/search'
+} from "selectors/search"
 
 // Renders the search results message after a search
 const SearchResultsMessage = (props) => {
@@ -14,15 +15,18 @@ const SearchResultsMessage = (props) => {
     return null
   }
 
-  const lastItemOnPage = props.startOfRange + props.resultsPerPage > props.totalResults
-    ? props.totalResults
-    : props.startOfRange + props.resultsPerPage
+  const lastItemOnPage =
+    props.startOfRange + props.resultsPerPage > props.totalResults
+      ? props.totalResults
+      : props.startOfRange + props.resultsPerPage
 
   if (props.totalResults === 0) {
     return (
       <div id="search-results-message" className="row">
         <div className="col">
-          <div><strong>Displaying 0 Search Results</strong></div>
+          <div>
+            <strong>Displaying 0 Search Results</strong>
+          </div>
         </div>
       </div>
     )
@@ -31,7 +35,12 @@ const SearchResultsMessage = (props) => {
   return (
     <div id="search-results-message" className="row">
       <div className="col">
-        <div><strong>Displaying {props.startOfRange + 1} - {lastItemOnPage} of {props.totalResults}</strong></div>
+        <div>
+          <strong>
+            Displaying {props.startOfRange + 1} - {lastItemOnPage} of{" "}
+            {props.totalResults}
+          </strong>
+        </div>
       </div>
     </div>
   )
@@ -45,10 +54,10 @@ SearchResultsMessage.propTypes = {
 }
 
 const mapStateToProps = (state) => {
-  const options = selectSearchOptions(state, 'resource')
+  const options = selectSearchOptions(state, "resource")
   return {
-    query: selectSearchQuery(state, 'resource'),
-    totalResults: selectSearchTotalResults(state, 'resource'),
+    query: selectSearchQuery(state, "resource"),
+    totalResults: selectSearchTotalResults(state, "resource"),
     startOfRange: options.startOfRange,
     resultsPerPage: options.resultsPerPage,
   }

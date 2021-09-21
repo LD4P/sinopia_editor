@@ -1,24 +1,24 @@
 // Copyright 2018 Stanford University see LICENSE for license
-import { setUser, removeUser } from 'reducers/authenticate'
+import { setUser, removeUser } from "reducers/authenticate"
 
-describe('setUser()', () => {
-  it('adds user to state', () => {
+describe("setUser()", () => {
+  it("adds user to state", () => {
     const state = {
       user: undefined,
     }
-    expect(setUser(state, { payload: { username: 'jfoo' } })).toEqual({
+    expect(setUser(state, { payload: { username: "jfoo" } })).toEqual({
       user: {
-        username: 'jfoo',
+        username: "jfoo",
       },
     })
   })
 })
 
-describe('removeUser()', () => {
-  it('removes user from state', () => {
+describe("removeUser()", () => {
+  it("removes user from state", () => {
     const state = {
       user: {
-        username: 'jfoo',
+        username: "jfoo",
       },
     }
     expect(removeUser(state)).toEqual({})

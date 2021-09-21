@@ -1,35 +1,44 @@
 // Copyright 2019 Stanford University see LICENSE for license
 
-import React from 'react'
-import { connect, useSelector } from 'react-redux'
-import PropTypes from 'prop-types'
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faAngleRight, faAngleDown, faTrashAlt } from '@fortawesome/free-solid-svg-icons'
-import PropertyLabel from './PropertyLabel'
-import PropertyLabelInfo from './PropertyLabelInfo'
-import { displayResourceValidations } from 'selectors/errors'
-import { showProperty, hideProperty } from 'actions/resources'
-import { resourceEditErrorKey } from '../Editor'
-import { selectCurrentResourceIsReadOnly } from 'selectors/resources'
-import _ from 'lodash'
-import { expandProperty, contractProperty } from 'actionCreators/resources'
-import { bindActionCreators } from 'redux'
+import React from "react"
+import { connect, useSelector } from "react-redux"
+import PropTypes from "prop-types"
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
+import {
+  faAngleRight,
+  faAngleDown,
+  faTrashAlt,
+} from "@fortawesome/free-solid-svg-icons"
+import PropertyLabel from "./PropertyLabel"
+import PropertyLabelInfo from "./PropertyLabelInfo"
+import { displayResourceValidations } from "selectors/errors"
+import { showProperty, hideProperty } from "actions/resources"
+import { resourceEditErrorKey } from "../Editor"
+import { selectCurrentResourceIsReadOnly } from "selectors/resources"
+import _ from "lodash"
+import { expandProperty, contractProperty } from "actionCreators/resources"
+import { bindActionCreators } from "redux"
 
 const NestedPropertyHeader = (props) => {
   const toggleIcon = props.property.show === true ? faAngleDown : faAngleRight
-  const toggleAria = props.property.show === true ? `Hide ${props.propertyTemplate.label}` : `Show ${props.propertyTemplate.label}`
+  const toggleAria =
+    props.property.show === true
+      ? `Hide ${props.propertyTemplate.label}`
+      : `Show ${props.propertyTemplate.label}`
   const trashIcon = faTrashAlt
 
-  const readOnly = useSelector((state) => selectCurrentResourceIsReadOnly(state))
+  const readOnly = useSelector((state) =>
+    selectCurrentResourceIsReadOnly(state)
+  )
 
   const isAdd = !readOnly && !props.property.valueKeys
 
   let error
-  let groupClasses = 'rOutline-header'
+  let groupClasses = "rOutline-header"
 
   if (props.displayValidations && !_.isEmpty(props.property.errors)) {
-    groupClasses += ' is-invalid'
-    error = props.property.errors.join(',')
+    groupClasses += " is-invalid"
+    error = props.property.errors.join(",")
   }
 
   const toggleProperty = () => {
@@ -43,41 +52,63 @@ const NestedPropertyHeader = (props) => {
   if (isAdd) {
     return (
       <div className={groupClasses}>
-        <button type="button"
-                className="btn btn-add btn-add-property"
-                onClick={() => props.expandProperty(props.property.key, resourceEditErrorKey(props.resourceKey))}
-                aria-label={`Add ${props.propertyTemplate.label}`}
-                data-testid={`Add ${props.propertyTemplate.label}`}
-                data-id={props.property.key}
-                id={props.property.key}>
-          + Add <strong><PropertyLabel forId={props.property.key} propertyTemplate={props.propertyTemplate} /></strong>
+        <button
+          type="button"
+          className="btn btn-add btn-add-property"
+          onClick={() =>
+            props.expandProperty(
+              props.property.key,
+              resourceEditErrorKey(props.resourceKey)
+            )
+          }
+          aria-label={`Add ${props.propertyTemplate.label}`}
+          data-testid={`Add ${props.propertyTemplate.label}`}
+          data-id={props.property.key}
+          id={props.property.key}
+        >
+          + Add{" "}
+          <strong>
+            <PropertyLabel
+              forId={props.property.key}
+              propertyTemplate={props.propertyTemplate}
+            />
+          </strong>
         </button>
-        <PropertyLabelInfo propertyTemplate={ props.propertyTemplate } />
-        { error && <span className="invalid-feedback">{error}</span>}
+        <PropertyLabelInfo propertyTemplate={props.propertyTemplate} />
+        {error && <span className="invalid-feedback">{error}</span>}
       </div>
     )
   }
 
   return (
     <div className={groupClasses}>
-      <button type="button"
-              className="btn btn-sm btn-toggle"
-              data-id={props.id}
-              disabled={isAdd}
-              aria-label={toggleAria}
-              data-testid={toggleAria}
-              onClick={() => toggleProperty()}>
+      <button
+        type="button"
+        className="btn btn-sm btn-toggle"
+        data-id={props.id}
+        disabled={isAdd}
+        aria-label={toggleAria}
+        data-testid={toggleAria}
+        onClick={() => toggleProperty()}
+      >
         <FontAwesomeIcon className="toggle-icon" icon={toggleIcon} />
       </button>
-      <strong><PropertyLabel forId={props.id} propertyTemplate={props.propertyTemplate} /></strong>
-      <PropertyLabelInfo propertyTemplate={ props.propertyTemplate } />
-      <button type="button"
-              className="btn btn-sm btn-remove pull-right"
-              disabled={readOnly}
-              onClick={() => props.contractProperty(props.property.key)}
-              aria-label={`Remove ${props.propertyTemplate.label}`}
-              data-testid={`Remove ${props.propertyTemplate.label}`}
-              data-id={props.property.key}>
+      <strong>
+        <PropertyLabel
+          forId={props.id}
+          propertyTemplate={props.propertyTemplate}
+        />
+      </strong>
+      <PropertyLabelInfo propertyTemplate={props.propertyTemplate} />
+      <button
+        type="button"
+        className="btn btn-sm btn-remove pull-right"
+        disabled={readOnly}
+        onClick={() => props.contractProperty(props.property.key)}
+        aria-label={`Remove ${props.propertyTemplate.label}`}
+        data-testid={`Remove ${props.propertyTemplate.label}`}
+        data-id={props.property.key}
+      >
         <FontAwesomeIcon className="trash-icon" icon={trashIcon} />
       </button>
     </div>
@@ -103,12 +134,25 @@ NestedPropertyHeader.propTypes = {
 
 const mapStateToProps = (state, ownProps) => ({
   collapsed: false,
-  displayValidations: displayResourceValidations(state, ownProps.property?.rootSubjectKey),
+  displayValidations: displayResourceValidations(
+    state,
+    ownProps.property?.rootSubjectKey
+  ),
   resourceKey: ownProps.property?.rootSubjectKey,
 })
 
-const mapDispatchToProps = (dispatch) => bindActionCreators({
-  expandProperty, contractProperty, showProperty, hideProperty,
-}, dispatch)
+const mapDispatchToProps = (dispatch) =>
+  bindActionCreators(
+    {
+      expandProperty,
+      contractProperty,
+      showProperty,
+      hideProperty,
+    },
+    dispatch
+  )
 
-export default connect(mapStateToProps, mapDispatchToProps)(NestedPropertyHeader)
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(NestedPropertyHeader)

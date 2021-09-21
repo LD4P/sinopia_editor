@@ -1,8 +1,8 @@
 // Copyright 2020 Stanford University see LICENSE for license
 
-import { renderApp } from 'testUtils'
-import { fireEvent, screen } from '@testing-library/react'
-import { featureSetup } from 'featureUtils'
+import { renderApp } from "testUtils"
+import { fireEvent, screen } from "@testing-library/react"
+import { featureSetup } from "featureUtils"
 
 featureSetup()
 
@@ -14,16 +14,18 @@ const rdf = `<> <http://sinopia.io/vocabulary/hasResourceTemplate> "resourceTemp
 <http://sinopia.io/defaultURI1> <http://www.w3.org/2000/01/rdf-schema#label> "Default URI1".
 `
 
-describe('preview RDF after editing', () => {
-  it('adds properties and then displays preview RDF model', async () => {
+describe("preview RDF after editing", () => {
+  it("adds properties and then displays preview RDF model", async () => {
     const { container } = renderApp()
 
     // Open the editor and then the templates tab
-    fireEvent.click(screen.getByText('Linked Data Editor', { selector: 'a' }))
-    fireEvent.click(screen.getByText('Resource Templates', { selector: 'a' }))
+    fireEvent.click(screen.getByText("Linked Data Editor", { selector: "a" }))
+    fireEvent.click(screen.getByText("Resource Templates", { selector: "a" }))
 
     // Click an existing resource template
-    fireEvent.click(await screen.findByText(/Uber template1/, { selector: 'a' }))
+    fireEvent.click(
+      await screen.findByText(/Uber template1/, { selector: "a" })
+    )
 
     // Click on the Preview RDF Button
     await screen.findByText(/Uber template1/)
@@ -31,10 +33,12 @@ describe('preview RDF after editing', () => {
 
     // Wait for RDF Preview Modal and selects turtle Format
     await screen.findByText(/RDF Preview/)
-    fireEvent.change(screen.getByLabelText('RDF Format Selection'), { target: { value: 'turtle' } })
+    fireEvent.change(screen.getByLabelText("RDF Format Selection"), {
+      target: { value: "turtle" },
+    })
 
     // Tests for presence of turtle RDF in the model
-    const rdfDisplay = await screen.findByTestId('rdf-display')
+    const rdfDisplay = await screen.findByTestId("rdf-display")
     expect(rdfDisplay.textContent).toContain(rdf)
   }, 15000)
 })

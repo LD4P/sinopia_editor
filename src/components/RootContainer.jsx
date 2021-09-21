@@ -1,17 +1,17 @@
 // Copyright 2019 Stanford University see LICENSE for license
 
-import React, { useState } from 'react'
-import { hot } from 'react-hot-loader'
-import { OffCanvas, OffCanvasBody, OffCanvasMenu } from 'react-offcanvas'
-import { BrowserRouter } from 'react-router-dom'
-import { Provider } from 'react-redux'
-import CanvasMenu from './menu/CanvasMenu'
-import App from './App'
-import store from '../store'
-import HoneybadgerNotifier from 'Honeybadger'
-import ErrorBoundary from '@honeybadger-io/react'
-import Amplify from '@aws-amplify/core'
-import Config from 'Config'
+import React, { useState } from "react"
+import { hot } from "react-hot-loader"
+import { OffCanvas, OffCanvasBody, OffCanvasMenu } from "react-offcanvas"
+import { BrowserRouter } from "react-router-dom"
+import { Provider } from "react-redux"
+import CanvasMenu from "./menu/CanvasMenu"
+import App from "./App"
+import store from "../store"
+import HoneybadgerNotifier from "Honeybadger"
+import ErrorBoundary from "@honeybadger-io/react"
+import Amplify from "@aws-amplify/core"
+import Config from "Config"
 
 // Configure Amplify (which supports Cognito / authentication)
 Amplify.configure({
@@ -25,16 +25,25 @@ Amplify.configure({
 const RootContainer = () => {
   const [isMenuOpened, setMenuOpened] = useState(false)
 
-  const offcanvasClass = isMenuOpened ? 'closeMargin' : null
+  const offcanvasClass = isMenuOpened ? "closeMargin" : null
 
   return (
     <ErrorBoundary honeybadger={HoneybadgerNotifier}>
       <div id="home-page">
-        <OffCanvas width={300} transitionDuration={300} isMenuOpened={isMenuOpened} position={'right'} effect={'overlay'}>
+        <OffCanvas
+          width={300}
+          transitionDuration={300}
+          isMenuOpened={isMenuOpened}
+          position={"right"}
+          effect={"overlay"}
+        >
           <OffCanvasBody className={offcanvasClass}>
             <BrowserRouter>
               <Provider store={store}>
-                <App isMenuOpened={isMenuOpened} handleOffsetMenu={() => setMenuOpened(!isMenuOpened)}/>
+                <App
+                  isMenuOpened={isMenuOpened}
+                  handleOffsetMenu={() => setMenuOpened(!isMenuOpened)}
+                />
               </Provider>
             </BrowserRouter>
           </OffCanvasBody>

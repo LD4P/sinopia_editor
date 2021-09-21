@@ -1,10 +1,13 @@
 // Copyright 2019 Stanford University see LICENSE for license
 
 import {
-  showModal, hideModal, clearModalMessages, addModalMessage,
-} from 'reducers/modals'
-import { createState } from 'stateUtils'
-import { createReducer } from 'reducers/index'
+  showModal,
+  hideModal,
+  clearModalMessages,
+  addModalMessage,
+} from "reducers/modals"
+import { createState } from "stateUtils"
+import { createReducer } from "reducers/index"
 
 const reducers = {
   ADD_MODAL_MESSAGE: addModalMessage,
@@ -15,26 +18,26 @@ const reducers = {
 
 const reducer = createReducer(reducers)
 
-describe('showModal and hideModal for RDFModal', () => {
-  it('sets the showRdfPreview to true', () => {
+describe("showModal and hideModal for RDFModal", () => {
+  it("sets the showRdfPreview to true", () => {
     const oldState = createState()
 
     const action = {
-      type: 'SHOW_MODAL',
-      payload: 'RDFModal',
+      type: "SHOW_MODAL",
+      payload: "RDFModal",
     }
 
     const newState = reducer(oldState.editor, action)
 
-    expect(newState.modal.name).toBe('RDFModal')
+    expect(newState.modal.name).toBe("RDFModal")
   })
 
-  it('sets the showRdfPreview to false', () => {
+  it("sets the showRdfPreview to false", () => {
     const oldState = createState()
-    oldState.editor.modal.name = 'RDFModal'
+    oldState.editor.modal.name = "RDFModal"
 
     const action = {
-      type: 'HIDE_MODAL',
+      type: "HIDE_MODAL",
     }
 
     const newState = reducer(oldState.editor, action)
@@ -42,13 +45,13 @@ describe('showModal and hideModal for RDFModal', () => {
   })
 })
 
-describe('clearModalMessages', () => {
-  it('sets the showRdfPreview to true', () => {
+describe("clearModalMessages", () => {
+  it("sets the showRdfPreview to true", () => {
     const oldState = createState()
-    oldState.editor.modal.messages = ['hello']
+    oldState.editor.modal.messages = ["hello"]
 
     const action = {
-      type: 'CLEAR_MODAL_MESSAGES',
+      type: "CLEAR_MODAL_MESSAGES",
     }
 
     const newState = reducer(oldState.editor, action)
@@ -57,25 +60,28 @@ describe('clearModalMessages', () => {
   })
 })
 
-describe('addModalMessage()', () => {
+describe("addModalMessage()", () => {
   const action = {
-    type: 'ADD_MODAL_MESSAGE',
-    payload: 'An exciting new message',
+    type: "ADD_MODAL_MESSAGE",
+    payload: "An exciting new message",
   }
 
-  it('adds message with no existing messages', () => {
+  it("adds message with no existing messages", () => {
     const oldState = createState()
 
     const newState = reducer(oldState.editor, action)
 
-    expect(newState.modal.messages).toEqual(['An exciting new message'])
+    expect(newState.modal.messages).toEqual(["An exciting new message"])
   })
 
-  it('adds message with existing messages', () => {
+  it("adds message with existing messages", () => {
     const oldState = createState()
-    oldState.editor.modal.messages = ['An existing message']
+    oldState.editor.modal.messages = ["An existing message"]
 
     const newState = reducer(oldState.editor, action)
-    expect(newState.modal.messages).toEqual(['An existing message', 'An exciting new message'])
+    expect(newState.modal.messages).toEqual([
+      "An existing message",
+      "An exciting new message",
+    ])
   })
 })

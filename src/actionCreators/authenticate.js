@@ -1,10 +1,10 @@
 // Copyright 2019 Stanford University see LICENSE for license
-import Auth from '@aws-amplify/auth'
+import Auth from "@aws-amplify/auth"
 
-import { setUser, removeUser } from 'actions/authenticate'
-import { addError, clearErrors } from 'actions/errors'
-import { hasUser } from 'selectors/authenticate'
-import { loadUserData } from 'actionCreators/user'
+import { setUser, removeUser } from "actions/authenticate"
+import { addError, clearErrors } from "actions/errors"
+import { hasUser } from "selectors/authenticate"
+import { loadUserData } from "actionCreators/user"
 
 export const authenticate = () => (dispatch, getState) => {
   if (hasUser(getState())) return Promise.resolve()
@@ -29,14 +29,18 @@ export const signIn = (username, password, errorKey) => (dispatch) => {
     })
 }
 
-export const signOut = () => (dispatch) => Auth.signOut()
-  .then(() => {
-    dispatch(removeUser())
-  })
-  .catch((err) => {
-    // Not displaying to user as no action user could take.
-    console.error(err)
-  })
+export const signOut = () => (dispatch) =>
+  Auth.signOut()
+    .then(() => {
+      dispatch(removeUser())
+    })
+    .catch((err) => {
+      // Not displaying to user as no action user could take.
+      console.error(err)
+    })
 
 // Note: User model can be extended as we add additional attributes to Cognito.
-const toUser = (cognitoUser) => ({ username: cognitoUser.username, groups: cognitoUser.signInUserSession.idToken.payload['cognito:groups'] || [] })
+const toUser = (cognitoUser) => ({
+  username: cognitoUser.username,
+  groups: cognitoUser.signInUserSession.idToken.payload["cognito:groups"] || [],
+})

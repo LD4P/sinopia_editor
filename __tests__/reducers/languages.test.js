@@ -1,11 +1,9 @@
 // Copyright 2020 Stanford University see LICENSE for license
 
-import {
-  languagesReceived, setLanguage,
-} from 'reducers/languages'
+import { languagesReceived, setLanguage } from "reducers/languages"
 
-import { createReducer } from 'reducers/index'
-import { createState } from 'stateUtils'
+import { createReducer } from "reducers/index"
+import { createState } from "stateUtils"
 
 const reducers = {
   LANGUAGE_SELECTED: setLanguage,
@@ -13,20 +11,20 @@ const reducers = {
 }
 const reducer = createReducer(reducers)
 
-describe('languagesReceived()', () => {
-  it('creates a hash of options that it renders in the form field', () => {
+describe("languagesReceived()", () => {
+  it("creates a hash of options that it renders in the form field", () => {
     const lcLanguage = [
       {
-        '@id': 'http://id.loc.gov/vocabulary/iso639-2/sna',
-        'http://www.loc.gov/mads/rdf/v1#authoritativeLabel': [
+        "@id": "http://id.loc.gov/vocabulary/iso639-2/sna",
+        "http://www.loc.gov/mads/rdf/v1#authoritativeLabel": [
           {
-            '@language': 'en',
-            '@value': 'Shona',
+            "@language": "en",
+            "@value": "Shona",
           },
         ],
       },
       {
-        '@id': 'http://id.loc.gov/vocabulary/languages/oops',
+        "@id": "http://id.loc.gov/vocabulary/languages/oops",
       },
     ]
 
@@ -35,30 +33,30 @@ describe('languagesReceived()', () => {
     }
 
     const action = {
-      type: 'LANGUAGES_RECEIVED',
+      type: "LANGUAGES_RECEIVED",
       payload: lcLanguage,
     }
 
     const newState = reducer(oldState, action)
     expect(newState).toEqual({
-      languageLookup: [{ id: 'sna', label: 'Shona' }],
-      languages: { sna: 'Shona' },
+      languageLookup: [{ id: "sna", label: "Shona" }],
+      languages: { sna: "Shona" },
     })
   })
 })
 
-describe('setLanguage', () => {
-  it('sets value language', () => {
+describe("setLanguage", () => {
+  it("sets value language", () => {
     const oldState = createState({ hasResourceWithLiteral: true })
     const action = {
-      type: 'LANGUAGE_SELECTED',
+      type: "LANGUAGE_SELECTED",
       payload: {
-        valueKey: 'CxGx7WMh2',
-        lang: 'spa',
+        valueKey: "CxGx7WMh2",
+        lang: "spa",
       },
     }
 
     const newState = reducer(oldState.entities, action)
-    expect(newState.values.CxGx7WMh2.lang).toBe('spa')
+    expect(newState.values.CxGx7WMh2.lang).toBe("spa")
   })
 })

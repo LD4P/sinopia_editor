@@ -5,12 +5,12 @@
  *  npm start  or node server.js
  */
 
-import express from 'express'
-import request from 'request'
-import bodyParser from 'body-parser'
-import Config from './src/Config'
-import _ from 'lodash'
-import cors from 'cors'
+import express from "express"
+import request from "request"
+import bodyParser from "body-parser"
+import Config from "./src/Config"
+import _ from "lodash"
+import cors from "cors"
 
 const port = 8000
 const app = express()
@@ -20,10 +20,10 @@ app.use(bodyParser.json()) // handle json data
 app.use(bodyParser.urlencoded({ extended: true })) // handle URL-encoded data
 
 app.use(cors())
-app.options('*', cors())
+app.options("*", cors())
 
 // ElasticSearch proxy middleware
-app.post('/api/search/:index/sinopia/_search', (req, res) => {
+app.post("/api/search/:index/sinopia/_search", (req, res) => {
   // Only use the method, path, and body from the original request: method and
   // path have already been validated above and the body must be a
   // JSON-serializeable entity
@@ -40,29 +40,33 @@ app.post('/api/search/:index/sinopia/_search', (req, res) => {
     body: req.body,
     json: true,
   })
-    .on('error', (err) => {
+    .on("error", (err) => {
       console.error(`error making request to ElasticSearch: ${err}`)
-      res.status(500).json({ error: 'server error: could not make request to ElasticSearch' })
+      res.status(500).json({
+        error: "server error: could not make request to ElasticSearch",
+      })
     })
     .pipe(res)
-    .on('error', (err) => {
+    .on("error", (err) => {
       console.error(`error returning ElasticSearch response: ${err}`)
-      res.status(500).json({ error: 'server error: could not send ElasticSearch response' })
+      res
+        .status(500)
+        .json({ error: "server error: could not send ElasticSearch response" })
     })
 })
 
-app.get('/', (req, res) => {
+app.get("/", (req, res) => {
   res.sendFile(`${__dirname}/dist/index.html`)
 })
 
 // Serve static assets to the browser, e.g., from src/styles/ and static/
 app.use(express.static(`${__dirname}/`))
 
-app.get('*', (req, res) => {
+app.get("*", (req, res) => {
   res.sendFile(`${__dirname}/dist/index.html`)
 })
 
 app.listen(port, () => {
   console.info(`Sinopia Linked Data Editor running on ${port}`)
-  console.info('Press Ctrl + C to stop.')
+  console.info("Press Ctrl + C to stop.")
 })

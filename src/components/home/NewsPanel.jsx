@@ -1,8 +1,8 @@
 // Copyright 2019 Stanford University see LICENSE for license
 
-import React from 'react'
-import NewsItem from './NewsItem'
-import LoginPanel from './LoginPanel'
+import React from "react"
+import NewsItem from "./NewsItem"
+import LoginPanel from "./LoginPanel"
 
 const NewsPanel = () => (
   <div className="banner container-fluid py-5">
