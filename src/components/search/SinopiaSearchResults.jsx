@@ -1,7 +1,7 @@
 // Copyright 2019 Stanford University see LICENSE for license
 /* eslint max-params: ["error", 4] */
 
-import React, { useRef } from 'react'
+import React, { useRef, useMemo } from 'react'
 import { useSelector } from 'react-redux'
 import { selectSearchResults } from 'selectors/search'
 import Alerts from '../Alerts'
@@ -11,12 +11,16 @@ import SearchResultRows from './SearchResultRows'
 import SinopiaSort from './SinopiaSort'
 import ViewResourceModal from '../ViewResourceModal'
 import useResource from 'hooks/useResource'
+import { selectAllGroups } from 'selectors/groups'
+import { groupListToMap } from 'utilities/Utilities'
 
 // Errors from retrieving a resource from this page.
 export const searchRetrieveErrorKey = 'searchresource'
 
 const SinopiaSearchResults = () => {
   const errorsRef = useRef(null)
+  const groupList = useSelector((state) => selectAllGroups(state))
+  const groupMap = useMemo(() => groupListToMap(groupList), [groupList])
 
   const { handleCopy, handleEdit, handleView } = useResource(searchRetrieveErrorKey, errorsRef)
 
@@ -62,7 +66,8 @@ const SinopiaSearchResults = () => {
               <SearchResultRows searchResults={searchResults}
                                 handleEdit={handleEdit}
                                 handleCopy={handleCopy}
-                                handleView={handleView} />
+                                handleView={handleView}
+                                groupMap={groupMap} />
             </tbody>
           </table>
         </div>
