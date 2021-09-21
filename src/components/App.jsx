@@ -19,6 +19,7 @@ import Vocab from './vocabulary/Vocab'
 import { setAppVersion } from 'actions/index'
 import { useDispatch, useSelector } from 'react-redux'
 import Package from '../../package.json'
+import { fetchGroups } from 'actionCreators/groups'
 import { fetchLanguages } from 'actionCreators/languages'
 import { fetchExports } from 'actionCreators/exports'
 import Exports, { exportsErrorKey } from './exports/Exports'
@@ -34,6 +35,7 @@ const App = (props) => {
   useEffect(() => {
     dispatch(setAppVersion(Package.version))
     dispatch(fetchLanguages())
+    dispatch(fetchGroups())
     dispatch(fetchExports(exportsErrorKey))
     dispatch(authenticate())
   }, [dispatch])

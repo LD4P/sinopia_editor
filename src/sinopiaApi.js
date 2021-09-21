@@ -40,6 +40,17 @@ export const fetchResource = (uri, isTemplate) => {
     })
 }
 
+// Fetches list of groups
+export const getGroups = () => fetch(`${Config.sinopiaApiBase}/groups`, {
+  method: 'GET',
+  headers: {
+    'Content-Type': 'application/json',
+  },
+})
+  .then((resp) => checkResp(resp))
+  .then((resp) => resp.json())
+  .then((json) => json.data)
+
 // Publishes (saves) a new resource
 export const postResource = (resource, currentUser, group, editGroups) => {
   const newResource = { ...resource }
@@ -173,7 +184,7 @@ const getJwt = () => Auth.currentSession()
   })
 
 const checkResp = (resp) => {
-  if (resp.ok) return Promise.resolve()
+  if (resp.ok) return Promise.resolve(resp)
   return resp.json()
     .then((errors) => {
       // Assuming only one for now.

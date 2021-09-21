@@ -7,7 +7,7 @@ import {
   selectSearchFacetResults,
 } from 'selectors/search'
 import _ from 'lodash'
-import { groupNameFromGroup } from 'utilities/Utilities'
+import { selectGroupMap } from 'selectors/groups'
 
 const GroupFilter = () => {
   const dispatch = useDispatch()
@@ -16,6 +16,7 @@ const GroupFilter = () => {
   const groupFacetResults = useSelector((state) => selectSearchFacetResults(state, 'resource', 'groups'))
   const [groupFilterShowDropdown, setGroupFilterShowDropdown] = useState(false)
   const [selectedGroupFilters, setSelectedGroupFilters] = useState([])
+  const groupMap = useSelector((state) => selectGroupMap(state))
 
   useEffect(() => {
     if (_.isEmpty(groupFacetResults)) return
@@ -59,7 +60,7 @@ const GroupFilter = () => {
                checked={selectedGroupFilters.includes(result.key)}
                onChange={() => toggleSelectedGroupFilter(result.key)}/>
         <label className="form-check-label" htmlFor={id}>
-          {groupNameFromGroup(result.key)} ({result.doc_count})
+          {groupMap[result.key] || 'Unknown'} ({result.doc_count})
         </label>
         &nbsp;&nbsp;
         <a href="#" onClick={() => handleOnly(result.key)}>Only</a>

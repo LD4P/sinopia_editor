@@ -3,16 +3,9 @@ import {
   isResourceWithValueTemplateRef,
   resourceToName,
   datasetFromN3,
-  groupName,
 } from 'utilities/Utilities'
 
 describe('Utilities', () => {
-  describe('groupName()', () => {
-    it('returns a group name from a URI', () => {
-      const uri = 'http://hostname/resource/pcc/objectidentifier'
-      expect(groupName(uri)).toEqual('PCC')
-    })
-  })
   describe('isResourceWithValueTemplateRef()', () => {
     it('returns true when there is a valueTemplateRef', () => {
       const templateWithValueTemplateRefs = {

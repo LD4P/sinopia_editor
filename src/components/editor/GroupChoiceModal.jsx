@@ -3,7 +3,6 @@
 import React, { useState } from 'react'
 import { useSelector, useDispatch } from 'react-redux'
 import { MultiSelect } from 'react-multi-select-component'
-import Config from 'Config'
 import { hideModal } from 'actions/modals'
 import { resourceEditErrorKey } from './Editor'
 import { selectModalType } from 'selectors/modals'
@@ -11,6 +10,7 @@ import { saveNewResource, saveResource as saveResourceAction } from 'actionCreat
 import ModalWrapper, { useDisplayStyle, useModalCss } from '../ModalWrapper'
 import { selectCurrentResourceKey, selectNormSubject } from 'selectors/resources'
 import { selectGroups } from 'selectors/authenticate'
+import { selectGroupMap } from 'selectors/groups'
 import usePermissions from 'hooks/usePermissions'
 
 // The ld4p group is only for templates
@@ -24,8 +24,8 @@ const GroupChoiceModal = () => {
   const resource = useSelector((state) => selectNormSubject(state, resourceKey))
   const modalType = useSelector((state) => selectModalType(state))
   const userGroupIds = useSelector((state) => selectGroups(state))
+  const groupMap = useSelector((state) => selectGroupMap(state))
   const [ownerGroupId, setOwnerGroupId] = useState(resource.group || userGroupIds[0])
-  const groupMap = Config.groupsInSinopia
   const [editGroupValues, setEditGroupValues] = useState(groupsToGroupValues(resource.editGroups, groupMap))
   const show = modalType === 'GroupChoiceModal'
   const ownerGroupLabel = groupMap[ownerGroupId]

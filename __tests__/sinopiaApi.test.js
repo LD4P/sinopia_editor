@@ -1,6 +1,6 @@
 // Copyright 2020 Stanford University see LICENSE for license
 import {
-  fetchResource, postResource, putResource,
+  fetchResource, postResource, putResource, getGroups,
   postMarc, getMarcJob, getMarc, fetchUser, putUserHistory,
 } from 'sinopiaApi'
 import { selectFullSubject } from 'selectors/resources'
@@ -55,6 +55,25 @@ const originalFetch = global.fetch
 
 afterEach(() => {
   global.fetch = originalFetch
+})
+
+describe('getGroups', () => {
+  const groups = [
+    { id: 'stanford', label: 'Stanford University' },
+    { id: 'cornell', label: 'Cornell University' },
+  ]
+
+  it('retrieves list of groups', async () => {
+    // mocks call to Sinopia API for a resource
+    global.fetch = jest.fn().mockResolvedValue({
+      json: jest.fn().mockResolvedValue({ data: groups }),
+      ok: true,
+    })
+
+    const result = await getGroups()
+    expect(result).toEqual(groups)
+    expect(global.fetch).toHaveBeenCalledWith('http://localhost:3000/groups', { method: 'GET', headers: { 'Content-Type': 'application/json' } })
+  })
 })
 
 describe('fetchResource', () => {

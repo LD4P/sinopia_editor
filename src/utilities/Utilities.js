@@ -3,7 +3,6 @@
 import N3Parser from 'n3/lib/N3Parser'
 import rdf from 'rdf-ext'
 import _ from 'lodash'
-import Config from 'Config'
 import CryptoJS from 'crypto-js'
 import { JsonLdParser } from 'jsonld-streaming-parser'
 import { Writer as N3Writer } from 'n3'
@@ -16,13 +15,6 @@ export const defaultLanguageId = 'eng'
 
 export const isResourceWithValueTemplateRef = (property) => property?.type === 'resource'
     && property?.valueConstraint?.valueTemplateRefs?.length > 0
-
-export const groupName = (uri) => {
-  const groupSlug = uri.split('/')[4]
-  return groupNameFromGroup(groupSlug)
-}
-
-export const groupNameFromGroup = (group) => Config.groupsInSinopia[group] || 'Unknown'
 
 export const resourceToName = (uri) => {
   if (!_.isString(uri)) return undefined

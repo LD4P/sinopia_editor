@@ -46,7 +46,7 @@ describe('saving a resource', () => {
       // A modal for group choice and save appears
       const modalSave = screen.getByRole('button', { name: 'Save Group' })
       fireEvent.click(modalSave)
-      // The resource is saves and is assigned a URI
+      // The resource is saved and is assigned a URI
       await screen.findByText(/URI for this resource/)
       screen.getByText('Permissions')
     })

@@ -127,37 +127,6 @@ class Config {
   static get honeybadgerRevision() {
     return process.env.HONEYBADGER_REVISION || ''
   }
-
-  // WARNING: the groups section in config/default.js in the sinopia_acl codebase *must* be kept in sync with this section
-  static get groupsInSinopia() {
-    return {
-      alberta: 'University of Alberta',
-      boulder: 'University of Colorado, Boulder',
-      chicago: 'University of Chicago',
-      cornell: 'Cornell University',
-      dlc: 'Library of Congress',
-      duke: 'Duke University',
-      frick: 'Frick Art Reference Library',
-      harvard: 'Harvard University',
-      hrc: 'University of Texas, Austin, Harry Ransom Center',
-      ld4p: 'LD4P',
-      michigan: 'University of Michigan',
-      minnesota: 'University of Minnesota',
-      mla: 'Music Library Association',
-      nlm: 'National Library of Medicine',
-      northwestern: 'Northwestern University',
-      other: 'Other',
-      pcc: 'PCC',
-      penn: 'University of Pennsylvania',
-      princeton: 'Princeton University',
-      stanford: 'Stanford University',
-      tamu: 'Texas A&M University',
-      ucdavis: 'University of California, Davis',
-      ucsd: 'University of California, San Diego',
-      washington: 'University of Washington',
-      yale: 'Yale University',
-    }
-  }
 }
 
 export default Config

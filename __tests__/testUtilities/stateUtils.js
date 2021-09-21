@@ -6,6 +6,7 @@ export const createState = (options = {}) => {
   const state = _.cloneDeep(initialState)
   buildAuthenticate(state, options)
   buildLanguages(state, options)
+  buildGroups(state, options)
   buildResourceWithLiteral(state, options)
   buildTwoLiteralResources(state, options)
   buildResourceWithUri(state, options)
@@ -19,6 +20,19 @@ export const createState = (options = {}) => {
   buildLookups(state, options)
 
   return state
+}
+const buildGroups = (state, options) => {
+  if (options.noGroupMap) return
+
+  state.entities.groupMap = {
+    stanford: 'Stanford University',
+    pcc: 'Program for Cooperative Cataloging',
+    cornell: 'Cornell University',
+    loc: 'Library of Congress',
+    yale: 'Yale University',
+    princeton: 'Princeton University',
+    duke: 'Duke University',
+  }
 }
 
 const buildExports = (state, options) => {
