@@ -2,13 +2,11 @@
 import { fireEvent, waitFor, screen } from "@testing-library/react"
 import { createStore, renderApp, createHistory } from "testUtils"
 import { createState } from "stateUtils"
-import Config from "Config"
 import Auth from "@aws-amplify/auth"
 import fetchMock from "fetch-mock-jest"
+import { featureSetup } from "featureUtils"
 
 jest.mock("@aws-amplify/auth")
-
-jest.spyOn(Config, "useResourceTemplateFixtures", "get").mockReturnValue(true)
 
 beforeEach(() => {
   fetchMock.mockReset()
@@ -30,10 +28,7 @@ beforeEach(() => {
   )
 })
 
-// Mock out document.elementFromPoint used by useNavigableComponent.
-global.document.elementFromPoint = jest.fn()
-// Mock out scrollIntoView used by useNavigableComponent. See https://github.com/jsdom/jsdom/issues/1695
-Element.prototype.scrollIntoView = jest.fn()
+featureSetup()
 
 describe("<App />", () => {
   beforeEach(() => {

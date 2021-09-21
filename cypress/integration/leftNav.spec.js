@@ -201,7 +201,7 @@ describe("Left-nav test", () => {
 
   it("Marks properties with errors", () => {
     cy.get(".left-nav-header.text-danger").should("not.exist")
-    cy.get("button.editor-save").first().click()
+    cy.get("button.editor-save").first().scrollIntoView().click({ force: true })
     cy.get(".left-nav-header.text-danger").should(
       "contain",
       "Uber template1, property4"
@@ -249,7 +249,7 @@ describe("Left-nav test", () => {
 })
 
 const addResourceTemplate = (fixture, fixtureUri) => {
-  cy.get("a").contains("Load RDF").click()
+  cy.get("a").contains("Load RDF").scrollIntoView().click({ force: true })
   cy.url().should("include", "/load")
   cy.contains("Load RDF into Editor")
   cy.fixture(fixture).then((json) => {
@@ -266,7 +266,10 @@ const addResourceTemplate = (fixture, fixtureUri) => {
 
     // Now on editor
     cy.url().should("include", "/editor")
-    cy.get("button.editor-save").contains("Save").click()
+    cy.get("button.editor-save")
+      .contains("Save")
+      .scrollIntoView()
+      .click({ force: true })
 
     // Group choice modal
     cy.contains("Who owns this?")

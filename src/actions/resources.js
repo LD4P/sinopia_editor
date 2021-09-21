@@ -69,6 +69,15 @@ export const addValue = (value, siblingValueKey) => ({
   },
 })
 
+export const updateLiteralValue = (valueKey, literal, lang) => ({
+  type: "UPDATE_LITERAL_VALUE",
+  payload: {
+    valueKey,
+    literal,
+    lang,
+  },
+})
+
 export const removeValue = (valueKey) => ({
   type: "REMOVE_VALUE",
   payload: valueKey,

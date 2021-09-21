@@ -19,6 +19,7 @@ import {
   setValueOrder,
   clearResourceFromEditor,
   saveResourceFinishedEditor,
+  updateLiteralValue,
 } from "reducers/resources"
 
 import { createState } from "stateUtils"
@@ -38,6 +39,7 @@ const reducers = {
   SET_RESOURCE_GROUP: setResourceGroup,
   SET_VALUE_ORDER: setValueOrder,
   SHOW_PROPERTY: showProperty,
+  UPDATE_LITERAL_VALUE: updateLiteralValue,
 }
 
 const reducer = createReducer(reducers)
@@ -183,18 +185,18 @@ describe("addProperty()", () => {
 
   describe("property with validation error", () => {
     it("adds error", () => {
-      const oldState = createState({ hasResourceWithLiteral: true })
+      const oldState = createState({ hasResourceWithUri: true })
       oldState.entities.propertyTemplates[
-        "ld4p:RT:bf2:Title:AbbrTitle > http://id.loc.gov/ontologies/bibframe/mainTitle"
+        "test:resource:SinopiaLookup > http://id.loc.gov/ontologies/bibframe/instanceOf"
       ].required = true
 
       const action = {
         type: "ADD_PROPERTY",
         payload: {
           key: "vmq88891",
-          subject: { key: "t9zVwg2zO" },
+          subject: { key: "wihOjn-0Z" },
           propertyTemplate: {
-            key: "ld4p:RT:bf2:Title:AbbrTitle > http://id.loc.gov/ontologies/bibframe/mainTitle",
+            key: "test:resource:SinopiaLookup > http://id.loc.gov/ontologies/bibframe/instanceOf",
           },
           values: [],
           show: true,
@@ -204,10 +206,10 @@ describe("addProperty()", () => {
       const newState = reducer(oldState.entities, action)
       expect(newState.properties.vmq88891).toStrictEqual({
         key: "vmq88891",
-        subjectKey: "t9zVwg2zO",
-        rootSubjectKey: "t9zVwg2zO",
+        subjectKey: "wihOjn-0Z",
+        rootSubjectKey: "wihOjn-0Z",
         propertyTemplateKey:
-          "ld4p:RT:bf2:Title:AbbrTitle > http://id.loc.gov/ontologies/bibframe/mainTitle",
+          "test:resource:SinopiaLookup > http://id.loc.gov/ontologies/bibframe/instanceOf",
         valueKeys: [],
         show: true,
         errors: ["Required"],
@@ -216,9 +218,9 @@ describe("addProperty()", () => {
         descWithErrorPropertyKeys: ["vmq88891"],
       })
 
-      expect(newState.subjects.t9zVwg2zO.descWithErrorPropertyKeys).toContain(
-        "vmq88891"
-      )
+      expect(
+        newState.subjects["wihOjn-0Z"].descWithErrorPropertyKeys
+      ).toContain("vmq88891")
     })
   })
 })
@@ -398,6 +400,7 @@ describe("addValue()", () => {
         uri: null,
         label: null,
         valueSubjectKey: null,
+        errors: [],
       })
       expect(newState.properties["JQEtq-vmq8"].valueKeys).toContain("DxGx7WMh3")
       expect(newState.properties["JQEtq-vmq8"].show).toBe(true)
@@ -406,6 +409,75 @@ describe("addValue()", () => {
       ).toContain("DxGx7WMh3")
       expect(newState.subjects.t9zVwg2zO.descUriOrLiteralValueKeys).toContain(
         "DxGx7WMh3"
+      )
+    })
+  })
+
+  describe("new blank literal value for required property", () => {
+    it("updates state", () => {
+      const oldState = createState({
+        hasResourceWithLiteral: true,
+        hasError: true,
+      })
+      oldState.entities.properties = {
+        "JQEtq-vmq8": {
+          key: "JQEtq-vmq8",
+          subjectKey: "t9zVwg2zO",
+          rootSubjectKey: "t9zVwg2zO",
+          rootPropertyKey: "JQEtq-vmq8",
+          propertyTemplateKey:
+            "ld4p:RT:bf2:Title:AbbrTitle > http://id.loc.gov/ontologies/bibframe/mainTitle",
+          valueKeys: [],
+          show: true,
+          errors: [],
+          descUriOrLiteralValueKeys: [],
+          descWithErrorPropertyKeys: [],
+        },
+      }
+      oldState.entities.values = []
+
+      const action = {
+        type: "ADD_VALUE",
+        payload: {
+          value: {
+            key: "DxGx7WMh3",
+            property: { key: "JQEtq-vmq8" },
+            literal: "",
+            lang: null,
+            uri: null,
+            label: null,
+            valueSubjectKey: null,
+          },
+        },
+      }
+
+      const newState = reducer(oldState.entities, action)
+
+      expect(newState.values.DxGx7WMh3).toStrictEqual({
+        key: "DxGx7WMh3",
+        propertyKey: "JQEtq-vmq8",
+        rootSubjectKey: "t9zVwg2zO",
+        rootPropertyKey: "JQEtq-vmq8",
+        literal: "",
+        lang: null,
+        uri: null,
+        label: null,
+        valueSubjectKey: null,
+        errors: ["Required"],
+      })
+      expect(newState.properties["JQEtq-vmq8"].valueKeys).toContain("DxGx7WMh3")
+      expect(newState.properties["JQEtq-vmq8"].show).toBe(true)
+      expect(
+        newState.properties["JQEtq-vmq8"].descUriOrLiteralValueKeys
+      ).not.toContain("DxGx7WMh3")
+      expect(
+        newState.subjects.t9zVwg2zO.descUriOrLiteralValueKeys
+      ).not.toContain("DxGx7WMh3")
+      expect(
+        newState.properties["JQEtq-vmq8"].descWithErrorPropertyKeys
+      ).toContain("JQEtq-vmq8")
+      expect(newState.subjects.t9zVwg2zO.descWithErrorPropertyKeys).toContain(
+        "JQEtq-vmq8"
       )
     })
   })
@@ -478,6 +550,7 @@ describe("addValue()", () => {
         uri: null,
         label: null,
         valueSubjectKey: "YPb8jaPW1",
+        errors: [],
       })
       // Replaces subjects
       expect(newState.subjects.YPb8jaPW1).not.toBeUndefined()
@@ -501,6 +574,7 @@ describe("addValue()", () => {
         uri: "http://localhost:3000/resource/85770f92-f8cf-48ee-970a-aefc97843749",
         label: null,
         valueSubjectKey: null,
+        errors: [],
       })
       expect(newState.properties["i0SAJP-Zhd"].valueKeys).toContain("DxGx7WMh3")
       expect(newState.properties["i0SAJP-Zhd"].show).toBe(true)
@@ -920,5 +994,90 @@ describe("setValueOrder()", () => {
       "VDOeQCnFA9",
       "VDOeQCnFA8",
     ])
+  })
+})
+
+describe("updateLiteralValue()", () => {
+  describe("update literal value", () => {
+    it("updates state", () => {
+      const oldState = createState({ hasResourceWithLiteral: true })
+
+      const action = {
+        type: "UPDATE_LITERAL_VALUE",
+        payload: {
+          valueKey: "CxGx7WMh2",
+          literal: "bar",
+          lang: "tai",
+        },
+      }
+
+      const newState = reducer(oldState.entities, action)
+
+      expect(newState.values.CxGx7WMh2).toStrictEqual({
+        key: "CxGx7WMh2",
+        propertyKey: "JQEtq-vmq8",
+        rootSubjectKey: "t9zVwg2zO",
+        rootPropertyKey: "JQEtq-vmq8",
+        literal: "bar",
+        lang: "tai",
+        uri: null,
+        label: null,
+        valueSubjectKey: null,
+        errors: [],
+      })
+      expect(newState.properties["JQEtq-vmq8"].valueKeys).toContain("CxGx7WMh2")
+      expect(
+        newState.properties["JQEtq-vmq8"].descUriOrLiteralValueKeys
+      ).toContain("CxGx7WMh2")
+      expect(newState.subjects.t9zVwg2zO.descUriOrLiteralValueKeys).toContain(
+        "CxGx7WMh2"
+      )
+    })
+  })
+
+  describe("update literal value with validation error", () => {
+    it("updates state", () => {
+      const oldState = createState({ hasResourceWithLiteral: true })
+      oldState.entities.propertyTemplates[
+        "ld4p:RT:bf2:Title:AbbrTitle > http://id.loc.gov/ontologies/bibframe/mainTitle"
+      ].required = true
+
+      const action = {
+        type: "UPDATE_LITERAL_VALUE",
+        payload: {
+          valueKey: "CxGx7WMh2",
+          literal: "",
+          lang: null,
+        },
+      }
+
+      const newState = reducer(oldState.entities, action)
+
+      expect(newState.values.CxGx7WMh2).toStrictEqual({
+        key: "CxGx7WMh2",
+        propertyKey: "JQEtq-vmq8",
+        rootSubjectKey: "t9zVwg2zO",
+        rootPropertyKey: "JQEtq-vmq8",
+        literal: "",
+        lang: null,
+        uri: null,
+        label: null,
+        valueSubjectKey: null,
+        errors: ["Required"],
+      })
+      expect(newState.properties["JQEtq-vmq8"].valueKeys).toContain("CxGx7WMh2")
+      expect(
+        newState.properties["JQEtq-vmq8"].descUriOrLiteralValueKeys
+      ).not.toContain("CxGx7WMh2")
+      expect(
+        newState.subjects.t9zVwg2zO.descUriOrLiteralValueKeys
+      ).not.toContain("CxGx7WMh2")
+      expect(
+        newState.properties["JQEtq-vmq8"].descWithErrorPropertyKeys
+      ).toContain("JQEtq-vmq8")
+      expect(newState.subjects.t9zVwg2zO.descWithErrorPropertyKeys).toContain(
+        "JQEtq-vmq8"
+      )
+    })
   })
 })

@@ -96,7 +96,7 @@ describe("End-to-end test", () => {
     cy.get('textarea[placeholder="Preferred Title for Work"]').type(
       `${title}{enter}`
     )
-    cy.get("div.rbt-token").contains(title)
+    cy.get('textarea[placeholder="Preferred Title for Work"]').contains(title)
   })
 
   it("Previews the RDF", () => {
@@ -147,7 +147,7 @@ describe("End-to-end test", () => {
 
     cy.contains("h3", "Work Title")
     cy.contains("URI for this resource")
-    cy.get("div.rbt-token").contains(title)
+    cy.get(".form-control").contains(title)
   })
 
   it("Logs out", () => {

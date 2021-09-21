@@ -62,10 +62,12 @@
                 "rootSubjectKey": "t9zVwg2zO",
                 "literal": "foo",
                 "lang": "eng",
+                "langLabel": "English",
                 "uri": null,
                 "label": null,
                 "valueSubject": null,
-                "rootPropertyKey": "JQEtq-vmq8"
+                "rootPropertyKey": "JQEtq-vmq8",
+                "errors": []
               }
             ]
           }

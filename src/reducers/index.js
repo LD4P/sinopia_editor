@@ -2,6 +2,8 @@
 
 import { combineReducers } from "redux"
 import { setUser, removeUser } from "./authenticate"
+import { setLanguage, languagesReceived } from "./languages"
+import { groupsReceived } from "./groups"
 import {
   setBaseURL,
   hideProperty,
@@ -21,9 +23,8 @@ import {
   setValueOrder,
   clearResourceFromEditor,
   saveResourceFinishedEditor,
+  updateLiteralValue,
 } from "./resources"
-import { setLanguage, languagesReceived } from "./languages"
-import { groupsReceived } from "./groups"
 import {
   hideValidationErrors,
   addError,
@@ -112,6 +113,7 @@ const entityHandlers = {
   SET_RESOURCE_GROUP: setResourceGroup,
   SET_VALUE_ORDER: setValueOrder,
   SHOW_PROPERTY: showProperty,
+  UPDATE_LITERAL_VALUE: updateLiteralValue,
 }
 
 const historyHandlers = {

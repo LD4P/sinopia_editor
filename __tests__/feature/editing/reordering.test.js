@@ -69,14 +69,14 @@ describe("reordering properties", () => {
 
     // Move "b" up
     nestedResources1[1].querySelector(".btn-moveup").click()
-    const values1 = panel.querySelectorAll("div.rbt-token")
+    const values1 = panel.querySelectorAll(".form-control")
     expect(values1[0]).toHaveTextContent(/b/)
     expect(values1[1]).toHaveTextContent(/a/)
     expect(values1[2]).toHaveTextContent(/c/)
 
     // Move "a" down
     nestedResources1[0].querySelector(".btn-movedown").click()
-    const values2 = panel.querySelectorAll("div.rbt-token")
+    const values2 = panel.querySelectorAll(".form-control")
     expect(values2[0]).toHaveTextContent(/b/)
     expect(values2[1]).toHaveTextContent(/c/)
     expect(values2[2]).toHaveTextContent(/a/)

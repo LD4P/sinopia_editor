@@ -12,7 +12,11 @@
       ],
       "http://id.loc.gov/ontologies/bibframe/uber/template3/property2": [
         {
-          "@value": "Uber template3, property2",
+          "@value": "Uber template3, property2, value1",
+          "@language": "eng"
+        },
+        {
+          "@value": "Uber template3, property2, value2",
           "@language": "eng"
         }
       ]

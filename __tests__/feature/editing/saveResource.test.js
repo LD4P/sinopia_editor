@@ -28,7 +28,7 @@ describe("saving a resource", () => {
 
       // There is foo text.
       await waitFor(() =>
-        expect(screen.getByText("foo")).toHaveClass("rbt-token")
+        expect(screen.getByText("foo")).toHaveClass("form-control")
       )
 
       expect(screen.queryByText("Permissions")).not.toBeInTheDocument()

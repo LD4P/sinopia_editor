@@ -129,14 +129,11 @@ describe("adding and removing properties", () => {
     expect(screen.queryAllByText("Default literal2")).toHaveLength(1)
 
     // Enter a new literal value
-    const input = screen.getByPlaceholderText("Uber template1, property7")
+    fireEvent.click(screen.getByTestId("Add another Uber template1, property7"))
+    const inputs = screen.queryAllByPlaceholderText("Uber template1, property7")
+    expect(inputs).toHaveLength(3)
+    const input = inputs[2]
     fireEvent.change(input, { target: { value: literalText } })
-    fireEvent.keyDown(input, { key: "Enter", code: 13, charCode: 13 })
-
-    // Bogus literal is there
-    await waitFor(() =>
-      expect(screen.getByText(literalText)).toHaveClass("rbt-token")
-    )
 
     // Now remove property7.
     fireEvent.click(screen.getByTestId("Remove Uber template1, property7"))

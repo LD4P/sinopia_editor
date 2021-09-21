@@ -25,59 +25,26 @@ describe("editing a literal property", () => {
       { key: "Enter", code: 13, charCode: 13 }
     )
 
-    // There is foo text. Perhaps check css.
+    // There is foo text.
     await waitFor(() =>
-      expect(screen.getByText("foo")).toHaveClass("rbt-token")
+      expect(screen.getByText("foo")).toHaveClass("form-control")
     )
     // There is remove button
-    expect(screen.getByTestId("Remove foo")).toHaveTextContent("×")
-    // There is edit button.
-    const editBtn = screen.getByTestId("Edit foo")
-    expect(editBtn).toHaveTextContent("Edit")
+    screen.getByTestId("Remove foo")
     // There is language button.
     expect(screen.getByTestId("Change language for foo")).toHaveTextContent(
-      "Language: English"
+      "English"
     )
-    // Input is disabled and empty
-    expect(
-      screen.getByPlaceholderText("Uber template1, property4")
-    ).toBeDisabled()
-    expect(
-      screen.getByPlaceholderText("Uber template1, property4")
-    ).toHaveValue("")
-
-    // Clicking edit
-    fireEvent.click(editBtn)
-    expect(
-      screen.getByPlaceholderText("Uber template1, property4")
-    ).not.toBeDisabled()
-    expect(
-      screen.getByPlaceholderText("Uber template1, property4")
-    ).toHaveValue("foo")
-    expect(screen.queryAllByText("foo").length).toBeLessThan(2)
 
     // Clicking remove
     fireEvent.change(screen.getByPlaceholderText("Uber template1, property4"), {
       target: { value: "foobar" },
     })
-    fireEvent.keyDown(
-      screen.getByPlaceholderText("Uber template1, property4"),
-      { key: "Enter", code: 13, charCode: 13 }
-    )
 
-    await waitFor(() =>
-      expect(screen.getByText("foobar")).toHaveClass("rbt-token")
-    )
     const removeBtn = screen.getByTestId("Remove foobar")
     fireEvent.click(removeBtn)
 
     expect(screen.queryAllByText("foobar")).toHaveLength(0)
-    expect(
-      screen.getByPlaceholderText("Uber template1, property4")
-    ).not.toBeDisabled()
-    expect(
-      screen.getByPlaceholderText("Uber template1, property4")
-    ).toHaveValue("")
   }, 15000)
 
   it("allows entering a repeatable literal", async () => {
@@ -88,39 +55,31 @@ describe("editing a literal property", () => {
     // Add two values
     const input = screen.getByPlaceholderText("Uber template1, property2")
     fireEvent.change(input, { target: { value: "foo" } })
+    fireEvent.click(screen.getByTestId("Add another Uber template1, property2"))
     fireEvent.keyDown(input, { key: "Enter", code: 13, charCode: 13 })
-    fireEvent.change(input, { target: { value: "bar" } })
-    fireEvent.keyDown(input, { key: "Enter", code: 13, charCode: 13 })
+    const inputs = screen.queryAllByPlaceholderText("Uber template1, property2")
+    expect(inputs).toHaveLength(2)
+    fireEvent.change(inputs[1], { target: { value: "bar" } })
+    fireEvent.keyDown(inputs[1], { key: "Enter", code: 13, charCode: 13 })
 
-    // There is foo text.
-    await waitFor(() =>
-      expect(screen.getByText("foo")).toHaveClass("rbt-token")
-    )
     // There is remove button
-    expect(screen.getByTestId("Remove foo")).toHaveTextContent("×")
-    // There is edit button.
-    expect(screen.getByTestId("Edit foo")).toHaveTextContent("Edit")
+    screen.getByTestId("Remove foo")
     // There is language button.
     expect(screen.getByTestId("Change language for foo")).toHaveTextContent(
-      "Language: English"
+      "English"
     )
 
     // And bar text.
-    await waitFor(() =>
-      expect(screen.getByText("bar")).toHaveClass("rbt-token")
-    )
     // There is remove button
-    expect(screen.getByTestId("Remove bar")).toHaveTextContent("×")
-    // There is edit button.
-    expect(screen.getByTestId("Edit bar")).toHaveTextContent("Edit")
+    screen.getByTestId("Remove bar")
     // There is language button.
     expect(screen.getByTestId("Change language for bar")).toHaveTextContent(
-      "Language: English"
+      "English"
     )
+    // An add another
+    screen.getByTestId("Add another Uber template1, property2")
 
     // Input is not disabled and empty
-    expect(input).not.toBeDisabled()
-    expect(input).toHaveValue("")
   }, 15000)
 
   it("allows entering diacritics", async () => {
@@ -138,9 +97,7 @@ describe("editing a literal property", () => {
 
     // Click diacritic button
     expect(screen.queryAllByText("Latin")).toHaveLength(0)
-    const diacriticBtn = screen.getByTestId(
-      "Select diacritics for Uber template1, property4"
-    )
+    const diacriticBtn = screen.getByTestId("Select diacritics for Fo")
     fireEvent.click(diacriticBtn)
 
     // Click a diacritic
@@ -176,11 +133,11 @@ describe("editing a literal property", () => {
 
     // There is foo text.
     await waitFor(() =>
-      expect(screen.getByText("foo")).toHaveClass("rbt-token")
+      expect(screen.getByText("foo")).toHaveClass("form-control")
     )
     // There is language button.
     const langBtn = screen.getByTestId("Change language for foo")
-    expect(langBtn).toHaveTextContent("Language: English")
+    expect(langBtn).toHaveTextContent("English")
 
     fireEvent.click(langBtn)
     // Using getByRole here and below because it limits to the visible modal.
@@ -200,7 +157,7 @@ describe("editing a literal property", () => {
         screen.queryAllByRole("heading", { name: "Languages" }).length
       ).toBeFalsy()
     )
-    expect(langBtn).toHaveTextContent("Language: Tai languages")
+    expect(langBtn).toHaveTextContent("Tai languages")
   }, 25000)
 
   it("allows selecting no language", async () => {
@@ -215,11 +172,11 @@ describe("editing a literal property", () => {
 
     // There is foo text.
     await waitFor(() =>
-      expect(screen.getByText("foo")).toHaveClass("rbt-token")
+      expect(screen.getByText("foo")).toHaveClass("form-control")
     )
     // There is language button.
     const langBtn = screen.getByTestId("Change language for foo")
-    expect(langBtn).toHaveTextContent("Language: English")
+    expect(langBtn).toHaveTextContent("English")
 
     fireEvent.click(langBtn)
     screen.getByRole("heading", { name: "Languages" })
@@ -233,6 +190,6 @@ describe("editing a literal property", () => {
         screen.queryAllByRole("heading", { name: "Languages" })
       ).toHaveLength(0)
     )
-    expect(langBtn).toHaveTextContent("Language: No language specified")
+    expect(langBtn).toHaveTextContent("No language specified")
   }, 15000)
 })

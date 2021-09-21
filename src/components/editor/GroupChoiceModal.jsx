@@ -23,7 +23,7 @@ const groupsToGroupValues = (groupIds, groupMap, ownerGroupId = null) =>
   groupIds
     .filter((groupId) => ownerGroupId !== groupId)
     .sort((groupId1, groupId2) =>
-      groupMap[groupId1].localeCompare(groupMap[groupId2])
+      groupMap[groupId1]?.localeCompare(groupMap[groupId2])
     )
     .map((groupId) => ({
       value: groupId,

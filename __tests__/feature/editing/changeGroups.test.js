@@ -47,8 +47,6 @@ describe("user that can edit, but not an owner, can view groups", () => {
     // A modal for group choice and save appears
     const modalSave = screen.getByRole("button", { name: "Save Group" })
     fireEvent.click(modalSave)
-    // screen.debug(container.querySelector('#resourceTemplate'))
-    // await screen.findByText(/URI for this resource/)
     await screen.findByText("Saved")
   }, 15000)
 })
