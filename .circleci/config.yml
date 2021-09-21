@@ -160,7 +160,7 @@ workflows:
             <<: *branch_only_filter
       - node/run:
           name: lint
-          npm-run: eslint
+          npm-run: lint
           version: << pipeline.parameters.node-version >>
           filters:
             <<: *branch_only_filter
