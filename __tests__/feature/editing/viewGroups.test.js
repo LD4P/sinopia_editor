@@ -1,37 +1,38 @@
-import { renderApp, createStore } from 'testUtils'
-import { fireEvent, screen } from '@testing-library/react'
-import { createState } from 'stateUtils'
-import { featureSetup } from 'featureUtils'
+import { renderApp, createStore } from "testUtils"
+import { fireEvent, screen } from "@testing-library/react"
+import { createState } from "stateUtils"
+import { featureSetup } from "featureUtils"
 
 featureSetup()
 
-describe('user that can edit, but not an owner, can view groups', () => {
-  const uri = 'http://localhost:3000/resource/c7db5404-7d7d-40ac-b38e-c821d2c3ae3f'
+describe("user that can edit, but not an owner, can view groups", () => {
+  const uri =
+    "http://localhost:3000/resource/c7db5404-7d7d-40ac-b38e-c821d2c3ae3f"
 
-  it('is a read-only view of groups', async () => {
+  it("is a read-only view of groups", async () => {
     const state = createState({ editGroups: true })
     const store = createStore(state)
     renderApp(store)
 
-    fireEvent.click(screen.getByText('Linked Data Editor', { selector: 'a' }))
-    fireEvent.click(screen.getByText('Search', { selector: 'a' }))
+    fireEvent.click(screen.getByText("Linked Data Editor", { selector: "a" }))
+    fireEvent.click(screen.getByText("Search", { selector: "a" }))
 
-    fireEvent.change(screen.getByLabelText('Query'), { target: { value: uri } })
-    fireEvent.click(screen.getByTestId('Submit search'))
+    fireEvent.change(screen.getByLabelText("Query"), { target: { value: uri } })
+    fireEvent.click(screen.getByTestId("Submit search"))
 
     await screen.findByText(uri)
-    fireEvent.click(screen.getByRole('button', { name: `Edit ${uri}` }))
+    fireEvent.click(screen.getByRole("button", { name: `Edit ${uri}` }))
 
-    await screen.findByText('Uber template1', { selector: 'h3' })
+    await screen.findByText("Uber template1", { selector: "h3" })
 
-    fireEvent.click(screen.getByText('Permissions'))
+    fireEvent.click(screen.getByText("Permissions"))
 
-    await screen.findByText('Who owns this?')
-    screen.getByText('Stanford University', { selector: 'p' })
-    screen.getByText('Cornell University', { selector: 'p' })
-    expect(screen.queryByLabelText('Save Group')).not.toBeInTheDocument()
+    await screen.findByText("Who owns this?")
+    screen.getByText("Stanford University", { selector: "p" })
+    screen.getByText("Cornell University", { selector: "p" })
+    expect(screen.queryByLabelText("Save Group")).not.toBeInTheDocument()
 
     // Click cancel
-    fireEvent.click(screen.getByLabelText('Cancel Save Group'))
+    fireEvent.click(screen.getByLabelText("Cancel Save Group"))
   })
 })

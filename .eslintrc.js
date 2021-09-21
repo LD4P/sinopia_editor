@@ -20,6 +20,7 @@ module.exports = {
     'plugin:security/recommended',
     'airbnb-base',
     'plugin:cypress/recommended',
+    'prettier'
   ],
   parser: 'babel-eslint',
   parserOptions: {
@@ -78,21 +79,15 @@ module.exports = {
     'import/no-unassigned-import': 'off',
     'import/order': 'off',
     'import/unambiguous': 'off',
-    indent: ['error', 2, {
-      SwitchCase: 1,
-      ignoredNodes: [
-        // Let react/jsx-indent-props govern JSX prop indentation
-        'JSXAttribute',
-      ],
-    }],
+    'indent': 'off', // Off for prettier
     'init-declarations': 'off',
     'jsx-a11y/anchor-is-valid': 'warn', // see #172
     'jsx-a11y/label-has-for': 'off', // see #173
     'jsx-a11y/no-onchange': 'warn', // The DropZone select form needs an onChange prop to set the state with the new group
     'jsx-a11y/no-noninteractive-tabindex': ['off', { roles: ['tooltip'] }],
-    'lines-around-comment': ['error', { allowBlockStart: true }],
+    'lines-around-comment': 'off', // Off for prettier
     'max-classes-per-file': 'off',
-    'max-len': ['error', { code: 164, ignoreComments: true }],
+    'max-len': 'off',
     'max-lines-per-function': 'off',
     'max-statements': 'off',
     'max-statements-per-line': 'off',
@@ -104,7 +99,7 @@ module.exports = {
     'no-alert': 'off',
     'no-await-in-loop': 'off',
     'no-console': ['warn', { allow: ['error', 'info'] }], // we want to see errors in the console
-    'no-extra-semi': 'error',
+    'no-extra-semi': 'off', // Off for prettier
     'no-inline-comments': 'off',
     'no-invalid-this': 'off',
     'no-magic-numbers': 'off',
@@ -133,16 +128,16 @@ module.exports = {
     'prefer-const': 'error',
     'prefer-destructuring': 'off',
     'prefer-reflect': 'off',
-    quotes: ['error', 'single'],
+    'quotes': 'off',
     'react-hooks/rules-of-hooks': 'error',
     'react-hooks/exhaustive-deps': 'warn',
-    'react/jsx-indent': ['error', 2],
-    'react/jsx-indent-props': ['error', 'first'],
+    'react/jsx-indent': 'off', // Off for prettier
+    'react/jsx-indent-props': 'off', // Off for prettier
     'require-await': 'off',
     'require-jsdoc': 'off',
     'require-unicode-regexp': 'off',
     'security/detect-object-injection': 'off',
-    semi: ['error', 'never'],
+    'semi': 'off', // Off for prettier,
     'sort-imports': 'off',
     'sort-keys': 'off',
     'valid-jsdoc': 'off',

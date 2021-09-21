@@ -1,11 +1,11 @@
 // Copyright 2019 Stanford University see LICENSE for license
 
-import React from 'react'
-import CopyToNewButton from './actions/CopyToNewButton'
-import PreviewButton from './actions/PreviewButton'
-import CloseButton from './actions/CloseButton'
-import SaveAndPublishButton from './actions/SaveAndPublishButton'
-import MarcButton from './actions/MarcButton'
+import React from "react"
+import CopyToNewButton from "./actions/CopyToNewButton"
+import PreviewButton from "./actions/PreviewButton"
+import CloseButton from "./actions/CloseButton"
+import SaveAndPublishButton from "./actions/SaveAndPublishButton"
+import MarcButton from "./actions/MarcButton"
 
 const EditorActions = () => (
   <div className="row">

@@ -1,7 +1,7 @@
 // Copyright 2019 Stanford University see LICENSE for license
 
-import PropTypes from 'prop-types'
-import React from 'react'
+import PropTypes from "prop-types"
+import React from "react"
 
 const Alert = (props) => {
   if (!props.text) {
@@ -10,10 +10,15 @@ const Alert = (props) => {
 
   return (
     <div className="row">
-      <div className="col" style={{ marginTop: '10px' }}>
+      <div className="col" style={{ marginTop: "10px" }}>
         <div className="alert alert-danger alert-dismissible" role="alert">
-          { props.text }
-          <button type="button" className="btn-close" data-bs-dismiss="alert" aria-label="Close">
+          {props.text}
+          <button
+            type="button"
+            className="btn-close"
+            data-bs-dismiss="alert"
+            aria-label="Close"
+          >
             <span aria-hidden="true">&times;</span>
           </button>
         </div>

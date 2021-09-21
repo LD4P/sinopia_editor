@@ -1,14 +1,14 @@
-   /* Copyright 2019 Stanford University see LICENSE for license */
+/* Copyright 2019 Stanford University see LICENSE for license */
 
-@import 'colors';
-@import 'bootstrap-variables';
-@import 'variables';
+@import "colors";
+@import "bootstrap-variables";
+@import "variables";
 @import "~bootstrap/scss/bootstrap";
-@import 'bootstrap-override';
-@import url('https://fonts.googleapis.com/css2?family=Source+Sans+Pro&display=swap');
+@import "bootstrap-override";
+@import url("https://fonts.googleapis.com/css2?family=Source+Sans+Pro&display=swap");
 
 .left-space {
-    margin-left: 3px;
+  margin-left: 3px;
 }
 
 .invalid-feedback {
@@ -28,12 +28,14 @@
   margin-left: 11px;
 }
 
-.btn-add, .btn-remove {
+.btn-add,
+.btn-remove {
   background-image: none;
   border-style: dashed;
 }
 
-.panel-heading > .btn-add, .panel-heading > .btn-remove {
+.panel-heading > .btn-add,
+.panel-heading > .btn-remove {
   float: right;
   margin-top: -5px;
   border-style: solid;
@@ -48,8 +50,8 @@
 }
 
 .homepage-navbar {
-  padding-bottom: 2% ;
-  padding-top:2%;
+  padding-bottom: 2%;
+  padding-top: 2%;
 }
 
 .info-icon {
@@ -60,7 +62,7 @@
 .panel-news {
   margin: 3% 10%;
   padding: 2%;
-  opacity:0.85;
+  opacity: 0.85;
   box-shadow: -3px 3px 10px 0px #999999;
 }
 
@@ -72,7 +74,7 @@
 .desc-panel h3 {
   font-weight: 600;
   margin-top: 5%;
-  margin-bottom: 2%
+  margin-bottom: 2%;
 }
 
 #footer {
@@ -81,7 +83,7 @@
 }
 
 .offcanvas-menu {
-  background-color: rgb(55,66,79);
+  background-color: rgb(55, 66, 79);
   height: 100%;
 }
 
@@ -103,7 +105,8 @@
   background-color: $prop-heading-bg !important;
   color: $prop-heading-color !important;
 
-  .tooltip-heading, .prop-remark  {
+  .tooltip-heading,
+  .prop-remark {
     color: $heading-icon-color;
   }
 }
@@ -114,10 +117,10 @@
 }
 
 .group-panel {
-  border-color: #8C8A83;
+  border-color: #8c8a83;
   border-style: solid;
   border-width: 1px;
-  background-color: #F8F6EF;
+  background-color: #f8f6ef;
   min-height: 200px;
   padding: 80px;
 }
@@ -147,27 +150,27 @@
 }
 
 .rOutline-property {
-  margin: .5em;
+  margin: 0.5em;
   border: 1px dotted;
   background-color: white;
-  margin: .5em;
-  padding: .25em;
+  margin: 0.5em;
+  padding: 0.25em;
 }
 
 .editor-navbar {
-  background-image: url('./editorheaderbg.png');
+  background-image: url("./editorheaderbg.png");
   padding-bottom: 1em;
   margin-bottom: 1em;
 }
 
-#footer-text{
+#footer-text {
   padding-left: 10%;
 }
 
 h1.editor-logo {
   text-decoration: none;
   font-family: "Copperplate Gothic Light";
-  color: #2F2424;
+  color: #2f2424;
   margin-top: 5px;
   padding-left: 25px;
   margin-bottom: 0px;
@@ -175,7 +178,7 @@ h1.editor-logo {
 
 a.editor-subtitle {
   font-family: "Copperplate Gothic Light";
-  color: #2F2424 !important;
+  color: #2f2424 !important;
 }
 
 .open-search-modal {
@@ -183,28 +186,28 @@ a.editor-subtitle {
 }
 
 .input-value {
-  margin-top: .25em;
+  margin-top: 0.25em;
 }
 
 .rdf-modal-content {
   padding: 20px 25px 20px 20px;
 }
 
-@import 'header';
-@import 'lookupContext';
+@import "header";
+@import "lookupContext";
 
 /** For lookup menu headers **/
 .dropdown-header {
-	font-weight:800;
-	color:#333;
-	background-color:#d3d3d3;
+  font-weight: 800;
+  color: #333;
+  background-color: #d3d3d3;
 }
 
-.dropdown-empty, .dropdown-error {
-	font-weight:400;
-	color: #999999;
+.dropdown-empty,
+.dropdown-error {
+  font-weight: 400;
+  color: #999999;
 }
-
 
 .dropdown-item.active {
   color: #000000;
@@ -235,8 +238,8 @@ button.btn-add-instance {
   text-decoration: underline;
 }
 
-@import 'resourceTabs';
-@import 'resourceNav';
+@import "resourceTabs";
+@import "resourceNav";
 
 .icon-lg {
   font-size: 20px;
@@ -289,7 +292,10 @@ button.btn-add-instance {
   }
 }
 
-.search-list, .resource-template-list, .search-results-list, .resource-list {
+.search-list,
+.resource-template-list,
+.search-results-list,
+.resource-list {
   thead {
     background-color: $spring-wood;
   }
@@ -298,9 +304,9 @@ button.btn-add-instance {
 .input-group {
   width: 100% !important;
 
-   .input-group-btn {
-     margin-left: 5px;
-   }
+  .input-group-btn {
+    margin-left: 5px;
+  }
 }
 
 .hidden {

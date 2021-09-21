@@ -1,12 +1,15 @@
 // Copyright 2019 Stanford University see LICENSE for license
 
-import { datasetFromJsonld, jsonldFromDataset } from 'utilities/Utilities'
-import Config from 'Config'
+import { datasetFromJsonld, jsonldFromDataset } from "utilities/Utilities"
+import Config from "Config"
 /* eslint-disable node/no-unpublished-import */
-import { hasFixtureResource, getFixtureResource } from '../__tests__/testUtilities/fixtureLoaderHelper'
-import GraphBuilder from 'GraphBuilder'
-import { v4 as uuidv4 } from 'uuid'
-import Auth from '@aws-amplify/auth'
+import {
+  hasFixtureResource,
+  getFixtureResource,
+} from "../__tests__/testUtilities/fixtureLoaderHelper"
+import GraphBuilder from "GraphBuilder"
+import { v4 as uuidv4 } from "uuid"
+import Auth from "@aws-amplify/auth"
 
 /**
  * Fetches a resource from the Sinopia API.
@@ -24,32 +27,33 @@ export const fetchResource = (uri, isTemplate) => {
       fetchPromise = Promise.reject(err)
     }
   } else if (Config.useResourceTemplateFixtures && isTemplate) {
-    fetchPromise = Promise.reject(new Error('Not found'))
+    fetchPromise = Promise.reject(new Error("Not found"))
   } else {
     fetchPromise = fetch(uri, {
-      headers: { Accept: 'application/json' },
-    })
-      .then((resp) => checkResp(resp)
-        .then(() => resp.json()))
+      headers: { Accept: "application/json" },
+    }).then((resp) => checkResp(resp).then(() => resp.json()))
   }
 
   return fetchPromise
-    .then((response) => Promise.all([datasetFromJsonld(response.data), Promise.resolve(response)]))
+    .then((response) =>
+      Promise.all([datasetFromJsonld(response.data), Promise.resolve(response)])
+    )
     .catch((err) => {
       throw new Error(`Error parsing resource: ${err.message || err}`)
     })
 }
 
 // Fetches list of groups
-export const getGroups = () => fetch(`${Config.sinopiaApiBase}/groups`, {
-  method: 'GET',
-  headers: {
-    'Content-Type': 'application/json',
-  },
-})
-  .then((resp) => checkResp(resp))
-  .then((resp) => resp.json())
-  .then((json) => json.data)
+export const getGroups = () =>
+  fetch(`${Config.sinopiaApiBase}/groups`, {
+    method: "GET",
+    headers: {
+      "Content-Type": "application/json",
+    },
+  })
+    .then((resp) => checkResp(resp))
+    .then((resp) => resp.json())
+    .then((json) => json.data)
 
 // Publishes (saves) a new resource
 export const postResource = (resource, currentUser, group, editGroups) => {
@@ -60,99 +64,110 @@ export const postResource = (resource, currentUser, group, editGroups) => {
   newResource.uri = uri
   newResource.group = group
   newResource.editGroups = editGroups
-  return putResource(newResource, currentUser, group, editGroups, 'POST')
-    .then(() => uri)
+  return putResource(newResource, currentUser, group, editGroups, "POST").then(
+    () => uri
+  )
 }
 
 // Saves an existing resource
-export const putResource = (resource, currentUser, group, editGroups, method) => saveBodyForResource(resource, currentUser.username, group, editGroups)
-  .then((body) => getJwt()
-    .then((jwt) => fetch(resource.uri, {
-      method: method || 'PUT',
-      headers: {
-        'Content-Type': 'application/json',
-        Authorization: `Bearer ${jwt}`,
-      },
-      body,
-    })
-      .then((resp) => checkResp(resp)
-        .then(() => true))))
+export const putResource = (resource, currentUser, group, editGroups, method) =>
+  saveBodyForResource(resource, currentUser.username, group, editGroups).then(
+    (body) =>
+      getJwt().then((jwt) =>
+        fetch(resource.uri, {
+          method: method || "PUT",
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${jwt}`,
+          },
+          body,
+        }).then((resp) => checkResp(resp).then(() => true))
+      )
+  )
 
 export const postMarc = (resourceUri) => {
-  const url = resourceUri.replace('resource', 'marc')
+  const url = resourceUri.replace("resource", "marc")
   return getJwt()
-    .then((jwt) => fetch(url, {
-      method: 'POST',
-      headers: {
-        Authorization: `Bearer ${jwt}`,
-      },
-    }))
-    .then((resp) => checkResp(resp)
-      .then(() => resp.headers.get('Content-Location')))
+    .then((jwt) =>
+      fetch(url, {
+        method: "POST",
+        headers: {
+          Authorization: `Bearer ${jwt}`,
+        },
+      })
+    )
+    .then((resp) =>
+      checkResp(resp).then(() => resp.headers.get("Content-Location"))
+    )
 }
 
-export const getMarcJob = (marcJobUrl) => fetch(marcJobUrl)
-  .then((resp) => checkResp(resp)
-    .then(() => {
+export const getMarcJob = (marcJobUrl) =>
+  fetch(marcJobUrl).then((resp) =>
+    checkResp(resp).then(() => {
       // Will return 200 if job is not yet completed.
       // Will return 303 if job completed. Fetch automatically redirects,
       // which retrieves the MARC text.
       if (!resp.redirected) return [undefined, undefined]
-      return resp.text()
-        .then((body) => [resp.url, body])
-    }))
+      return resp.text().then((body) => [resp.url, body])
+    })
+  )
 
-export const getMarc = (marcUrl, asText) => fetch(marcUrl, {
-  headers: {
-    Accept: asText ? 'text/plain' : 'application/marc',
-  },
-})
-  .then((resp) => checkResp(resp)
-    .then(() => resp.blob()))
-
-export const fetchUser = (userId) => fetch(userUrlFor(userId), {
-  headers: {
-    Accept: 'application/json',
-  },
-})
-  .then((resp) => {
-    if (resp.status === 404) return postUser(userId)
-    return checkResp(resp)
-      .then(() => resp.json())
-  })
-
-const postUser = (userId) => getJwt()
-  .then((jwt) => fetch(userUrlFor(userId), {
-    method: 'POST',
+export const getMarc = (marcUrl, asText) =>
+  fetch(marcUrl, {
     headers: {
-      Authorization: `Bearer ${jwt}`,
+      Accept: asText ? "text/plain" : "application/marc",
     },
-  })
-    .then((resp) => checkResp(resp)
-      .then(() => resp.json())))
+  }).then((resp) => checkResp(resp).then(() => resp.blob()))
 
-export const putUserHistory = (userId, historyType, historyItemKey, historyItemPayload) => {
-  const url = `${userUrlFor(userId)}/history/${historyType}/${encodeURI(historyItemKey)}`
-  return getJwt()
-    .then((jwt) => fetch(url, {
-      method: 'PUT',
+export const fetchUser = (userId) =>
+  fetch(userUrlFor(userId), {
+    headers: {
+      Accept: "application/json",
+    },
+  }).then((resp) => {
+    if (resp.status === 404) return postUser(userId)
+    return checkResp(resp).then(() => resp.json())
+  })
+
+const postUser = (userId) =>
+  getJwt().then((jwt) =>
+    fetch(userUrlFor(userId), {
+      method: "POST",
       headers: {
         Authorization: `Bearer ${jwt}`,
-        'Content-Type': 'application/json',
+      },
+    }).then((resp) => checkResp(resp).then(() => resp.json()))
+  )
+
+export const putUserHistory = (
+  userId,
+  historyType,
+  historyItemKey,
+  historyItemPayload
+) => {
+  const url = `${userUrlFor(userId)}/history/${historyType}/${encodeURI(
+    historyItemKey
+  )}`
+  return getJwt().then((jwt) =>
+    fetch(url, {
+      method: "PUT",
+      headers: {
+        Authorization: `Bearer ${jwt}`,
+        "Content-Type": "application/json",
       },
       body: JSON.stringify({ payload: historyItemPayload }),
-    })
-      .then((resp) => checkResp(resp)
-        .then(() => resp.json())))
+    }).then((resp) => checkResp(resp).then(() => resp.json()))
+  )
 }
 
-const userUrlFor = (userId) => `${Config.sinopiaApiBase}/user/${encodeURI(userId)}`
+const userUrlFor = (userId) =>
+  `${Config.sinopiaApiBase}/user/${encodeURI(userId)}`
 
 const saveBodyForResource = (resource, user, group, editGroups) => {
   const dataset = new GraphBuilder(resource).graph
 
-  return jsonldFromDataset(dataset)
-    .then((jsonld) => JSON.stringify({
+  return jsonldFromDataset(dataset).then((jsonld) =>
+    JSON.stringify({
       data: jsonld,
       user,
       group,
@@ -163,38 +178,48 @@ const saveBodyForResource = (resource, user, group, editGroups) => {
       bfItemRefs: resource.bfItemRefs,
       bfInstanceRefs: resource.bfInstanceRefs,
       bfWorkRefs: resource.bfWorkRefs,
-    }))
+    })
+  )
 }
 
-const isTemplate = (resource) => resource.subjectTemplate.id === Config.rootResourceTemplateId
+const isTemplate = (resource) =>
+  resource.subjectTemplate.id === Config.rootResourceTemplateId
 
 const templateIdFor = (resource) => {
-  const resourceIdProperty = resource.properties.find((property) => property.propertyTemplate.uri === 'http://sinopia.io/vocabulary/hasResourceId')
+  const resourceIdProperty = resource.properties.find(
+    (property) =>
+      property.propertyTemplate.uri ===
+      "http://sinopia.io/vocabulary/hasResourceId"
+  )
   return resourceIdProperty.values[0].literal
 }
 
-const getJwt = () => Auth.currentSession()
-  .then((data) => {
-    if (!data.idToken.jwtToken) throw new Error('jwt is undefined')
-    return data.idToken.jwtToken
-  })
-  .catch((err) => {
-    if (err) throw err
-    throw new Error('Error getting current authentication session')
-  })
+const getJwt = () =>
+  Auth.currentSession()
+    .then((data) => {
+      if (!data.idToken.jwtToken) throw new Error("jwt is undefined")
+      return data.idToken.jwtToken
+    })
+    .catch((err) => {
+      if (err) throw err
+      throw new Error("Error getting current authentication session")
+    })
 
 const checkResp = (resp) => {
   if (resp.ok) return Promise.resolve(resp)
-  return resp.json()
+  return resp
+    .json()
     .then((errors) => {
       // Assuming only one for now.
       const error = errors[0]
-      const newError = error.details ? new Error(`${error.title}: ${error.details}`) : new Error(`${error.title}`)
-      newError.name = 'ApiError'
+      const newError = error.details
+        ? new Error(`${error.title}: ${error.details}`)
+        : new Error(`${error.title}`)
+      newError.name = "ApiError"
       throw newError
     })
     .catch((err) => {
-      if (err.name === 'ApiError') throw err
+      if (err.name === "ApiError") throw err
       throw new Error(`Sinopia API returned ${resp.statusText}`)
     })
 }

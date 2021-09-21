@@ -1,12 +1,12 @@
 // Copyright 2019 Stanford University see LICENSE for license
 
-import React from 'react'
-import PropTypes from 'prop-types'
+import React from "react"
+import PropTypes from "prop-types"
 
 const CharacterButton = (props) => {
   const cleanCharacter = () => {
     // For some reason, some combining characters are precombined with ◌ (U+25CC)
-    let cleanChars = ''
+    let cleanChars = ""
     if (props.character.length > 1) {
       for (let i = 0; i < props.character.length; i++) {
         if (props.character.codePointAt(i) !== 9676) {
@@ -25,9 +25,13 @@ const CharacterButton = (props) => {
   }
 
   return (
-    <button className="btn btn-light"
-            style={{ margin: '3px' }}
-            onClick={handleClick}>{props.character}</button>
+    <button
+      className="btn btn-light"
+      style={{ margin: "3px" }}
+      onClick={handleClick}
+    >
+      {props.character}
+    </button>
   )
 }
 

@@ -1,46 +1,58 @@
 // Copyright 2018, 2019 Stanford University see LICENSE for license
 
-import { combineReducers } from 'redux'
+import { combineReducers } from "redux"
+import { setUser, removeUser } from "./authenticate"
 import {
-  setUser, removeUser,
-} from './authenticate'
+  setBaseURL,
+  hideProperty,
+  showProperty,
+  setUnusedRDF,
+  setCurrentResource,
+  setCurrentResourceIsReadOnly,
+  addSubject,
+  addProperty,
+  addValue,
+  removeValue,
+  removeSubject,
+  clearResource,
+  saveResourceFinished,
+  loadResourceFinished,
+  setResourceGroup,
+  setValueOrder,
+  clearResourceFromEditor,
+  saveResourceFinishedEditor,
+} from "./resources"
+import { setLanguage, languagesReceived } from "./languages"
+import { groupsReceived } from "./groups"
 import {
-  setBaseURL, hideProperty, showProperty,
-  setUnusedRDF, setCurrentResource, setCurrentResourceIsReadOnly,
-  addSubject, addProperty, addValue, removeValue,
-  removeSubject, clearResource,
-  saveResourceFinished, loadResourceFinished,
-  setResourceGroup, setValueOrder,
-  clearResourceFromEditor, saveResourceFinishedEditor,
-} from './resources'
-import {
-  setLanguage, languagesReceived,
-} from './languages'
-import { groupsReceived } from './groups'
-import {
-  hideValidationErrors, addError, clearErrors,
+  hideValidationErrors,
+  addError,
+  clearErrors,
   showValidationErrors,
-} from './errors'
+} from "./errors"
 import {
-  showModal, hideModal, addModalMessage, clearModalMessages,
-} from './modals'
-import { showCopyNewMessage } from './messages'
+  showModal,
+  hideModal,
+  addModalMessage,
+  clearModalMessages,
+} from "./modals"
+import { showCopyNewMessage } from "./messages"
+import { exportsReceived } from "./exports"
+import { addTemplates } from "./templates"
 import {
-  exportsReceived,
-} from './exports'
-import { addTemplates } from './templates'
-import {
-  addTemplateHistory, addTemplateHistoryByResult, addSearchHistory,
-  addResourceHistory, addResourceHistoryByResult,
-} from './history'
-import {
-  clearSearchResults, setSearchResults,
-} from './search'
-import {
-  lookupOptionsRetrieved,
-} from './lookups'
+  addTemplateHistory,
+  addTemplateHistoryByResult,
+  addSearchHistory,
+  addResourceHistory,
+  addResourceHistoryByResult,
+} from "./history"
+import { clearSearchResults, setSearchResults } from "./search"
+import { lookupOptionsRetrieved } from "./lookups"
 
-export const setAppVersion = (state, action) => ({ ...state, version: action.payload })
+export const setAppVersion = (state, action) => ({
+  ...state,
+  version: action.payload,
+})
 
 export const setCurrentComponent = (state, action) => ({
   ...state,
@@ -115,10 +127,12 @@ const searchHandlers = {
   SET_SEARCH_RESULTS: setSearchResults,
 }
 
-export const createReducer = (handlers) => (state = {}, action) => {
-  const fn = handlers[action.type]
-  return fn ? fn(state, action) : state
-}
+export const createReducer =
+  (handlers) =>
+  (state = {}, action) => {
+    const fn = handlers[action.type]
+    return fn ? fn(state, action) : state
+  }
 
 const appReducer = combineReducers({
   authenticate: createReducer(authHandlers),

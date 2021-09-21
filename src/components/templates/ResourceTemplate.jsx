@@ -1,13 +1,13 @@
 // Copyright 2019 Stanford University see LICENSE for license
 
-import React from 'react'
-import PropTypes from 'prop-types'
-import Header from '../Header'
-import TemplateSearch from './TemplateSearch'
+import React from "react"
+import PropTypes from "prop-types"
+import Header from "../Header"
+import TemplateSearch from "./TemplateSearch"
 
 const ResourceTemplate = (props) => (
   <section id="resourceTemplate">
-    <Header triggerEditorMenu={props.triggerHandleOffsetMenu}/>
+    <Header triggerEditorMenu={props.triggerHandleOffsetMenu} />
     <TemplateSearch history={props.history} />
   </section>
 )

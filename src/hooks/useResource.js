@@ -1,14 +1,16 @@
-import { useLayoutEffect, useState } from 'react'
-import { useSelector, useDispatch } from 'react-redux'
-import { newResource, loadResource } from 'actionCreators/resources'
-import { selectErrors } from 'selectors/errors'
+import { useLayoutEffect, useState } from "react"
+import { useSelector, useDispatch } from "react-redux"
+import { newResource, loadResource } from "actionCreators/resources"
+import { selectErrors } from "selectors/errors"
 import {
-  selectCurrentResourceKey, selectNormSubject, selectResourceUriMap,
-} from 'selectors/resources'
-import _ from 'lodash'
-import { showModal } from 'actions/modals'
-import { setCurrentResource } from 'actions/resources'
-import { useHistory } from 'react-router-dom'
+  selectCurrentResourceKey,
+  selectNormSubject,
+  selectResourceUriMap,
+} from "selectors/resources"
+import _ from "lodash"
+import { showModal } from "actions/modals"
+import { setCurrentResource } from "actions/resources"
+import { useHistory } from "react-router-dom"
 
 const useResource = (errorKey, errorRef) => {
   const dispatch = useDispatch()
@@ -24,10 +26,10 @@ const useResource = (errorKey, errorRef) => {
   useLayoutEffect(() => {
     // Forces a wait until the root resource has been set in state
     if (navigateEditor && resource && _.isEmpty(errors)) {
-      if (navigateEditor === 'new') {
+      if (navigateEditor === "new") {
         history.push(`/editor/${resource.subjectTemplateKey}`)
       } else {
-        history.push('/editor')
+        history.push("/editor")
       }
     } else if (!_.isEmpty(errors) && errorRef) {
       window.scrollTo(0, errorRef.current.offsetTop)
@@ -37,14 +39,14 @@ const useResource = (errorKey, errorRef) => {
   const handleNew = (resourceTemplateId, event) => {
     if (event) event.preventDefault()
     dispatch(newResource(resourceTemplateId, errorKey)).then((result) => {
-      if (result) setNavigateEditor('new')
+      if (result) setNavigateEditor("new")
     })
   }
 
   const handleCopy = (resourceURI, event) => {
     if (event) event.preventDefault()
     dispatch(loadResource(resourceURI, errorKey, true)).then((result) => {
-      if (result) setNavigateEditor('copy')
+      if (result) setNavigateEditor("copy")
     })
   }
 
@@ -53,10 +55,10 @@ const useResource = (errorKey, errorRef) => {
     // Check if already open
     if (resourceUriMap[resourceURI]) {
       dispatch(setCurrentResource(resourceUriMap[resourceURI]))
-      setNavigateEditor('edit')
+      setNavigateEditor("edit")
     } else {
       dispatch(loadResource(resourceURI, errorKey)).then((result) => {
-        if (result) setNavigateEditor('edit')
+        if (result) setNavigateEditor("edit")
       })
     }
   }
@@ -64,12 +66,15 @@ const useResource = (errorKey, errorRef) => {
   const handleView = (resourceURI, event) => {
     if (event) event.preventDefault()
     dispatch(loadResource(resourceURI, errorKey, false, true)).then(() => {
-      dispatch(showModal('ViewResourceModal'))
+      dispatch(showModal("ViewResourceModal"))
     })
   }
 
   return {
-    handleNew, handleCopy, handleEdit, handleView,
+    handleNew,
+    handleCopy,
+    handleEdit,
+    handleView,
   }
 }
 

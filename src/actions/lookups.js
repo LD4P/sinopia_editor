@@ -1,5 +1,5 @@
 export const lookupOptionsRetrieved = (uri, lookup) => ({
-  type: 'LOOKUP_OPTIONS_RETRIEVED',
+  type: "LOOKUP_OPTIONS_RETRIEVED",
   payload: {
     uri,
     lookup,

@@ -1,43 +1,53 @@
 // Copyright 2019 Stanford University see LICENSE for license
 
-import React, {
-  useState, useEffect, useCallback, useRef,
-} from 'react'
-import { useDispatch, useSelector } from 'react-redux'
-import PropTypes from 'prop-types'
-import Header from '../Header'
-import { clearSearchResults as clearSearchResultsAction } from 'actions/search'
-import SinopiaSearchResults from './SinopiaSearchResults'
-import QASearchResults from './QASearchResults'
-import SearchResultsPaging from './SearchResultsPaging'
-import SearchResultsMessage from './SearchResultsMessage'
-import Alert from '../Alert'
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faTrashAlt } from '@fortawesome/free-solid-svg-icons'
-import searchConfig from '../../../static/searchConfig.json'
+import React, { useState, useEffect, useCallback, useRef } from "react"
+import { useDispatch, useSelector } from "react-redux"
+import PropTypes from "prop-types"
+import Header from "../Header"
+import { clearSearchResults as clearSearchResultsAction } from "actions/search"
+import SinopiaSearchResults from "./SinopiaSearchResults"
+import QASearchResults from "./QASearchResults"
+import SearchResultsPaging from "./SearchResultsPaging"
+import SearchResultsMessage from "./SearchResultsMessage"
+import Alert from "../Alert"
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
+import { faTrashAlt } from "@fortawesome/free-solid-svg-icons"
+import searchConfig from "../../../static/searchConfig.json"
 import {
-  selectSearchError, selectSearchQuery, selectSearchUri, selectSearchOptions,
+  selectSearchError,
+  selectSearchQuery,
+  selectSearchUri,
+  selectSearchOptions,
   selectSearchTotalResults,
-} from 'selectors/search'
-import { sinopiaSearchUri } from 'utilities/authorityConfig'
-import useSearch from 'hooks/useSearch'
+} from "selectors/search"
+import { sinopiaSearchUri } from "utilities/authorityConfig"
+import useSearch from "hooks/useSearch"
 
 const Search = (props) => {
   const dispatch = useDispatch()
   const { fetchSearchResults, fetchNewSearchResults } = useSearch()
 
-  const searchOptions = useSelector((state) => selectSearchOptions(state, 'resource'))
-  const error = useSelector((state) => selectSearchError(state, 'resource'))
-  const searchUri = useSelector((state) => selectSearchUri(state, 'resource'))
-  const lastQueryString = useSelector((state) => selectSearchQuery(state, 'resource'))
-  const totalResults = useSelector((state) => selectSearchTotalResults(state, 'resource'))
+  const searchOptions = useSelector((state) =>
+    selectSearchOptions(state, "resource")
+  )
+  const error = useSelector((state) => selectSearchError(state, "resource"))
+  const searchUri = useSelector((state) => selectSearchUri(state, "resource"))
+  const lastQueryString = useSelector((state) =>
+    selectSearchQuery(state, "resource")
+  )
+  const totalResults = useSelector((state) =>
+    selectSearchTotalResults(state, "resource")
+  )
 
-  const clearSearchResults = useCallback(() => dispatch(clearSearchResultsAction('resource')), [dispatch])
+  const clearSearchResults = useCallback(
+    () => dispatch(clearSearchResultsAction("resource")),
+    [dispatch]
+  )
 
   const topRef = useRef(null)
   const loadingSearchRef = useRef(null)
 
-  const [queryString, setQueryString] = useState(lastQueryString || '')
+  const [queryString, setQueryString] = useState(lastQueryString || "")
   const [uri, setUri] = useState(searchUri || sinopiaSearchUri)
 
   useEffect(() => {
@@ -53,7 +63,7 @@ const Search = (props) => {
   }, [searchUri, setUri])
 
   const handleKeyPress = (event) => {
-    if (event.key === 'Enter') {
+    if (event.key === "Enter") {
       search()
       event.preventDefault()
     }
@@ -65,29 +75,40 @@ const Search = (props) => {
   }
 
   const search = () => {
-    if (queryString === '') {
+    if (queryString === "") {
       return
     }
     fetchNewSearchResults(queryString, uri)
-    if (loadingSearchRef.current) loadingSearchRef.current.classList.remove('hidden')
+    if (loadingSearchRef.current)
+      loadingSearchRef.current.classList.remove("hidden")
     clearSearchResults()
     if (error && topRef.current) window.scrollTo(0, topRef.current.offsetTop)
   }
 
   const changeSinopiaSearchPage = (startOfRange) => {
-    fetchSearchResults(queryString, sinopiaSearchUri, searchOptions, startOfRange)
+    fetchSearchResults(
+      queryString,
+      sinopiaSearchUri,
+      searchOptions,
+      startOfRange
+    )
   }
 
   const changeQASearchPage = (startOfRange) => {
     fetchSearchResults(queryString, uri, searchOptions, startOfRange)
   }
 
-  const options = searchConfig.map((config) => (<option key={config.uri} value={config.uri}>{config.label}</option>))
+  const options = searchConfig.map((config) => (
+    <option key={config.uri} value={config.uri}>
+      {config.label}
+    </option>
+  ))
 
   let results
 
   if (searchUri === sinopiaSearchUri) {
-    if (loadingSearchRef.current) loadingSearchRef.current.classList.add('hidden')
+    if (loadingSearchRef.current)
+      loadingSearchRef.current.classList.add("hidden")
     results = (
       <div>
         <SinopiaSearchResults {...props} key="search-results" />
@@ -96,12 +117,14 @@ const Search = (props) => {
           resultsPerPage={searchOptions.resultsPerPage}
           startOfRange={searchOptions.startOfRange}
           totalResults={totalResults}
-          changePage={changeSinopiaSearchPage} />
+          changePage={changeSinopiaSearchPage}
+        />
         <SearchResultsMessage />
       </div>
     )
   } else if (searchUri) {
-    if (loadingSearchRef.current) loadingSearchRef.current.classList.add('hidden')
+    if (loadingSearchRef.current)
+      loadingSearchRef.current.classList.add("hidden")
     results = (
       <div>
         <QASearchResults history={props.history} key="search-results" />
@@ -110,7 +133,8 @@ const Search = (props) => {
           resultsPerPage={searchOptions.resultsPerPage}
           startOfRange={searchOptions.startOfRange}
           totalResults={totalResults}
-          changePage={changeQASearchPage} />
+          changePage={changeQASearchPage}
+        />
         <SearchResultsMessage />
       </div>
     )
@@ -119,45 +143,62 @@ const Search = (props) => {
   return (
     <div id="search" ref={topRef}>
       <Header triggerEditorMenu={props.triggerHandleOffsetMenu} />
-      <Alert text={error && `An error occurred while searching: ${error.toString()}`} />
+      <Alert
+        text={error && `An error occurred while searching: ${error.toString()}`}
+      />
       <form onSubmit={handleSubmit}>
         <div className="row">
-          <label className="col-sm-auto col-form-label" htmlFor="searchType">Search</label>
+          <label className="col-sm-auto col-form-label" htmlFor="searchType">
+            Search
+          </label>
           <div className="col-sm-2 pe-0">
-            <select className="form-select" id="searchType"
-                    value={uri}
-                    onChange={ (event) => setUri(event.target.value) }
-                    onBlur={ (event) => setUri(event.target.value) }>
+            <select
+              className="form-select"
+              id="searchType"
+              value={uri}
+              onChange={(event) => setUri(event.target.value)}
+              onBlur={(event) => setUri(event.target.value)}
+            >
               <option value={sinopiaSearchUri}>Sinopia</option>
               {options}
             </select>
           </div>
-          <label className="sr-only" htmlFor="searchInput">Query</label>
+          <label className="sr-only" htmlFor="searchInput">
+            Query
+          </label>
           <div className="col-sm-6 pe-0 ps-1">
-            <input id="searchInput" type="text" className="form-control"
-                   onChange={ (event) => setQueryString(event.target.value) }
-                   onKeyPress={handleKeyPress}
-                   placeholder="Enter query string"
-                   value={ queryString } />
+            <input
+              id="searchInput"
+              type="text"
+              className="form-control"
+              onChange={(event) => setQueryString(event.target.value)}
+              onKeyPress={handleKeyPress}
+              placeholder="Enter query string"
+              value={queryString}
+            />
           </div>
           <div className="col-sm-2">
-            <button className="btn btn-primary"
-                    type="submit"
-                    title="Submit search"
-                    aria-label="Submit search"
-                    data-testid="Submit search">
+            <button
+              className="btn btn-primary"
+              type="submit"
+              title="Submit search"
+              aria-label="Submit search"
+              data-testid="Submit search"
+            >
               Search
             </button>
-            <button className="btn btn-default"
-                    type="button"
-                    aria-label="Clear query string"
-                    title="Clear query string"
-                    data-testid="Clear query string"
-                    onClick={() => {
-                      setQueryString('')
-                      setUri(sinopiaSearchUri)
-                      clearSearchResults()
-                    } }>
+            <button
+              className="btn btn-default"
+              type="button"
+              aria-label="Clear query string"
+              title="Clear query string"
+              data-testid="Clear query string"
+              onClick={() => {
+                setQueryString("")
+                setUri(sinopiaSearchUri)
+                clearSearchResults()
+              }}
+            >
               <FontAwesomeIcon className="trash-icon" icon={faTrashAlt} />
             </button>
           </div>
@@ -165,13 +206,22 @@ const Search = (props) => {
       </form>
       <div className="row my-2">
         <div className="col">
-          <span className="text-muted">Sinopia search: use * as wildcard;
-            default operator for multiple terms is AND; use | (pipe) as OR operator;
-            use quotation marks for exact match. For more details see <a href="https://github.com/LD4P/sinopia/wiki/Searching-in-Sinopia">Searching in Sinopia</a>.
+          <span className="text-muted">
+            Sinopia search: use * as wildcard; default operator for multiple
+            terms is AND; use | (pipe) as OR operator; use quotation marks for
+            exact match. For more details see{" "}
+            <a href="https://github.com/LD4P/sinopia/wiki/Searching-in-Sinopia">
+              Searching in Sinopia
+            </a>
+            .
           </span>
         </div>
       </div>
-      <div ref={loadingSearchRef} id="search-results-loading" className="hidden text-center">
+      <div
+        ref={loadingSearchRef}
+        id="search-results-loading"
+        className="hidden text-center"
+      >
         <div className="spinner-border" role="status">
           <span className="sr-only">Results Loading...</span>
         </div>

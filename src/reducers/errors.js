@@ -1,19 +1,23 @@
 // Copyright 2020 Stanford University see LICENSE for license
 
-import { hideModal } from './modals'
+import { hideModal } from "./modals"
 
 /**
  * Hide validation errors
  * @param {Object} state the previous redux state
  * @return {Object} the next redux state
  */
-export const hideValidationErrors = (state, action) => setValidationError(state, action.payload, false)
+export const hideValidationErrors = (state, action) =>
+  setValidationError(state, action.payload, false)
 
 export const addError = (state, action) => ({
   ...state,
   errors: {
     ...state.errors,
-    [action.payload.errorKey]: [...(state.errors[action.payload.errorKey] || []), action.payload.error],
+    [action.payload.errorKey]: [
+      ...(state.errors[action.payload.errorKey] || []),
+      action.payload.error,
+    ],
   },
 })
 

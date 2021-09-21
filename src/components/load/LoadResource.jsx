@@ -1,13 +1,13 @@
 // Copyright 2019 Stanford University see LICENSE for license
 
-import React from 'react'
-import PropTypes from 'prop-types'
-import Header from '../Header'
-import LoadByRDFForm from './LoadByRDFForm'
+import React from "react"
+import PropTypes from "prop-types"
+import Header from "../Header"
+import LoadByRDFForm from "./LoadByRDFForm"
 
 const LoadResource = (props) => (
   <div id="loadResource">
-    <Header triggerEditorMenu={props.triggerHandleOffsetMenu}/>
+    <Header triggerEditorMenu={props.triggerHandleOffsetMenu} />
     <LoadByRDFForm {...props} />
   </div>
 )

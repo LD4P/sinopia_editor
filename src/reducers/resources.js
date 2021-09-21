@@ -1,5 +1,5 @@
-import _ from 'lodash'
-import { resourceEditErrorKey } from 'components/editor/Editor'
+import _ from "lodash"
+import { resourceEditErrorKey } from "components/editor/Editor"
 
 export const setBaseURL = (state, action) => {
   const newState = stateWithNewSubject(state, action.payload.resourceKey)
@@ -22,7 +22,8 @@ export const hideProperty = (state, action) => {
   return newState
 }
 
-export const loadResourceFinished = (state, action) => setSubjectChanged(state, action.payload, false)
+export const loadResourceFinished = (state, action) =>
+  setSubjectChanged(state, action.payload, false)
 
 export const saveResourceFinishedEditor = (state, action) => ({
   ...state,
@@ -32,7 +33,8 @@ export const saveResourceFinishedEditor = (state, action) => ({
   },
 })
 
-export const saveResourceFinished = (state, action) => setSubjectChanged(state, action.payload.resourceKey, false)
+export const saveResourceFinished = (state, action) =>
+  setSubjectChanged(state, action.payload.resourceKey, false)
 
 export const setUnusedRDF = (state, action) => ({
   ...state,
@@ -60,7 +62,8 @@ export const setCurrentResourceIsReadOnly = (state, action) => ({
   currentResourceIsReadOnly: action.payload,
 })
 
-export const addSubject = (state, action) => addSubjectToNewState(state, _.cloneDeep(action.payload))
+export const addSubject = (state, action) =>
+  addSubjectToNewState(state, _.cloneDeep(action.payload))
 
 const addSubjectToNewState = (state, subject, valueSubjectOfKey) => {
   // Subject is already deep copied.
@@ -96,7 +99,8 @@ const addSubjectToNewState = (state, subject, valueSubjectOfKey) => {
   if (newSubject.rootSubjectKey === newSubject.key) {
     if (_.isUndefined(newSubject.group)) newSubject.group = null
     if (_.isUndefined(newSubject.editGroups)) newSubject.editGroups = []
-    if (_.isUndefined(newSubject.bfAdminMetadataRefs)) newSubject.bfAdminMetadataRefs = []
+    if (_.isUndefined(newSubject.bfAdminMetadataRefs))
+      newSubject.bfAdminMetadataRefs = []
     if (_.isUndefined(newSubject.bfItemRefs)) newSubject.bfItemRefs = []
     if (_.isUndefined(newSubject.bfInstanceRefs)) newSubject.bfInstanceRefs = []
     if (_.isUndefined(newSubject.bfWorkRefs)) newSubject.bfWorkRefs = []
@@ -106,11 +110,16 @@ const addSubjectToNewState = (state, subject, valueSubjectOfKey) => {
   if (newSubject.properties !== undefined) {
     // Remove existing properties
     const oldPropertyKeys = oldSubject?.propertyKeys || []
-    oldPropertyKeys.forEach((propertyKey) => newState = clearPropertyFromNewState(newState, propertyKey))
+    oldPropertyKeys.forEach(
+      (propertyKey) =>
+        (newState = clearPropertyFromNewState(newState, propertyKey))
+    )
 
     // Add new properties
     newSubject.propertyKeys = []
-    newSubject.properties.forEach((property) => newState = addPropertyToNewState(newState, property))
+    newSubject.properties.forEach(
+      (property) => (newState = addPropertyToNewState(newState, property))
+    )
     // Get a new reference to subject.
     newSubject = newState.subjects[subject.key]
     delete newSubject.properties
@@ -124,7 +133,8 @@ const addSubjectToNewState = (state, subject, valueSubjectOfKey) => {
   return newState
 }
 
-export const addProperty = (state, action) => addPropertyToNewState(state, _.cloneDeep(action.payload))
+export const addProperty = (state, action) =>
+  addPropertyToNewState(state, _.cloneDeep(action.payload))
 
 const addPropertyToNewState = (state, property) => {
   // Property has already been deep copied.
@@ -173,7 +183,11 @@ const addPropertyToNewState = (state, property) => {
   if (newProperty.values !== undefined) {
     const oldValueKeys = oldProperty?.valueKeys || []
     oldValueKeys.forEach((valueKey) => {
-      newState = removeBibframeRefs(newState, newState.values[valueKey], oldProperty)
+      newState = removeBibframeRefs(
+        newState,
+        newState.values[valueKey],
+        oldProperty
+      )
       newState = clearValueFromNewState(newState, valueKey)
     })
 
@@ -181,7 +195,9 @@ const addPropertyToNewState = (state, property) => {
     newProperty = newState.properties[newProperty.key]
     if (newProperty.values) {
       newProperty.valueKeys = []
-      newProperty.values.forEach((value) => newState = addValueToNewState(newState, value))
+      newProperty.values.forEach(
+        (value) => (newState = addValueToNewState(newState, value))
+      )
     } else {
       newProperty.valueKeys = null
     }
@@ -200,7 +216,12 @@ const addPropertyToNewState = (state, property) => {
   return newState
 }
 
-export const addValue = (state, action) => addValueToNewState(state, _.cloneDeep(action.payload.value), action.payload.siblingValueKey)
+export const addValue = (state, action) =>
+  addValueToNewState(
+    state,
+    _.cloneDeep(action.payload.value),
+    action.payload.siblingValueKey
+  )
 
 const addValueToNewState = (state, value, siblingValueKey) => {
   let newValue = value
@@ -248,7 +269,11 @@ const addValueToNewState = (state, value, siblingValueKey) => {
     newValue = newState.values[newValue.key]
     if (newValue.valueSubject) {
       newValue.valueSubjectKey = newValue.valueSubject.key
-      newState = addSubjectToNewState(newState, newValue.valueSubject, newValue.key)
+      newState = addSubjectToNewState(
+        newState,
+        newValue.valueSubject,
+        newValue.key
+      )
     } else {
       newValue.valueSubjectKey = null
     }
@@ -258,7 +283,11 @@ const addValueToNewState = (state, value, siblingValueKey) => {
 
   // Add value key to ancestors (for URIs and literals)
   if (!newValue.valueSubjectKey) {
-    newState = recursiveAncestorsFromValue(newState, newValue.key, addToDescUriOrLiteralValueKeysFunc(newValue.key))
+    newState = recursiveAncestorsFromValue(
+      newState,
+      newValue.key,
+      addToDescUriOrLiteralValueKeysFunc(newValue.key)
+    )
   }
 
   // Errors
@@ -282,28 +311,28 @@ const updateBibframeRefs = (state, value, property) => {
   const newSubject = newState.subjects[value.rootSubjectKey]
 
   switch (propertyTemplate.uri) {
-    case 'http://id.loc.gov/ontologies/bibframe/adminMetadata':
+    case "http://id.loc.gov/ontologies/bibframe/adminMetadata":
       // References admin metadata
-      addToKeyArray(newSubject, 'bfAdminMetadataRefs', value.uri)
+      addToKeyArray(newSubject, "bfAdminMetadataRefs", value.uri)
       break
-    case 'http://id.loc.gov/ontologies/bibframe/itemOf':
+    case "http://id.loc.gov/ontologies/bibframe/itemOf":
       // References instance
-      addToKeyArray(newSubject, 'bfInstanceRefs', value.uri)
+      addToKeyArray(newSubject, "bfInstanceRefs", value.uri)
       break
-    case 'http://id.loc.gov/ontologies/bibframe/hasItem':
+    case "http://id.loc.gov/ontologies/bibframe/hasItem":
       // References item
-      addToKeyArray(newSubject, 'bfItemRefs', value.uri)
+      addToKeyArray(newSubject, "bfItemRefs", value.uri)
       break
-    case 'http://id.loc.gov/ontologies/bibframe/instanceOf':
+    case "http://id.loc.gov/ontologies/bibframe/instanceOf":
       // References work
-      addToKeyArray(newSubject, 'bfWorkRefs', value.uri)
+      addToKeyArray(newSubject, "bfWorkRefs", value.uri)
       break
-    case 'http://id.loc.gov/ontologies/bibframe/hasInstance':
+    case "http://id.loc.gov/ontologies/bibframe/hasInstance":
       // References instance
-      addToKeyArray(newSubject, 'bfInstanceRefs', value.uri)
+      addToKeyArray(newSubject, "bfInstanceRefs", value.uri)
       break
     default:
-      // Nothing
+    // Nothing
   }
 
   return newState
@@ -321,12 +350,18 @@ export const removeValue = (state, action) => {
   // Remove from property
   let newState = stateWithNewProperty(state, value.propertyKey)
   const newProperty = newState.properties[value.propertyKey]
-  newProperty.valueKeys = [...newProperty.valueKeys].filter((valueKey) => valueKey !== value.key)
+  newProperty.valueKeys = [...newProperty.valueKeys].filter(
+    (valueKey) => valueKey !== value.key
+  )
 
   // Errors
   newState = updateErrors(newState, newProperty.key)
 
-  newState = recursiveAncestorsFromValue(newState, value.key, removeFromDescUriOrLiteralValueKeysFunc(value.key))
+  newState = recursiveAncestorsFromValue(
+    newState,
+    value.key,
+    removeFromDescUriOrLiteralValueKeysFunc(value.key)
+  )
 
   newState = removeBibframeRefs(newState, value, newProperty)
 
@@ -346,28 +381,28 @@ const removeBibframeRefs = (state, value, property) => {
   const newState = stateWithNewSubject(state, value.rootSubjectKey)
   const newSubject = newState.subjects[value.rootSubjectKey]
   switch (propertyTemplate.uri) {
-    case 'http://id.loc.gov/ontologies/bibframe/adminMetadata':
+    case "http://id.loc.gov/ontologies/bibframe/adminMetadata":
       // References admin metadata
-      removeFromKeyArray(newSubject, 'bfAdminMetadataRefs', value.uri)
+      removeFromKeyArray(newSubject, "bfAdminMetadataRefs", value.uri)
       break
-    case 'http://id.loc.gov/ontologies/bibframe/itemOf':
+    case "http://id.loc.gov/ontologies/bibframe/itemOf":
       // References instance
-      removeFromKeyArray(newSubject, 'bfInstanceRefs', value.uri)
+      removeFromKeyArray(newSubject, "bfInstanceRefs", value.uri)
       break
-    case 'http://id.loc.gov/ontologies/bibframe/hasItem':
+    case "http://id.loc.gov/ontologies/bibframe/hasItem":
       // References item
-      removeFromKeyArray(newSubject, 'bfItemRefs', value.uri)
+      removeFromKeyArray(newSubject, "bfItemRefs", value.uri)
       break
-    case 'http://id.loc.gov/ontologies/bibframe/instanceOf':
+    case "http://id.loc.gov/ontologies/bibframe/instanceOf":
       // References work
-      removeFromKeyArray(newSubject, 'bfWorkRefs', value.uri)
+      removeFromKeyArray(newSubject, "bfWorkRefs", value.uri)
       break
-    case 'http://id.loc.gov/ontologies/bibframe/hasInstance':
+    case "http://id.loc.gov/ontologies/bibframe/hasInstance":
       // References instance
-      removeFromKeyArray(newSubject, 'bfInstanceRefs', value.uri)
+      removeFromKeyArray(newSubject, "bfInstanceRefs", value.uri)
       break
     default:
-      // Nothing
+    // Nothing
   }
   return newState
 }
@@ -391,8 +426,12 @@ export const removeSubject = (state, action) => {
 }
 
 const errorsForProperty = (property, propertyTemplate) => {
-  if (propertyTemplate.type !== 'resource' && propertyTemplate.required && _.isEmpty(property.valueKeys)) {
-    return ['Required']
+  if (
+    propertyTemplate.type !== "resource" &&
+    propertyTemplate.required &&
+    _.isEmpty(property.valueKeys)
+  ) {
+    return ["Required"]
   }
   return []
 }
@@ -401,15 +440,26 @@ const updateErrors = (state, propertyKey) => {
   let newState = stateWithNewProperty(state, propertyKey)
   const newProperty = newState.properties[propertyKey]
 
-  const errors = errorsForProperty(newProperty, newState.propertyTemplates[newProperty.propertyTemplateKey])
+  const errors = errorsForProperty(
+    newProperty,
+    newState.propertyTemplates[newProperty.propertyTemplateKey]
+  )
   newProperty.errors = errors
 
   if (_.isEmpty(errors)) {
     // Remove key from descWithErrorPropertyKeys for self and ancestors.
-    newState = recursiveAncestorsFromProperty(newState, propertyKey, removeFromDescWithErrorPropertyKeysFunc(propertyKey))
+    newState = recursiveAncestorsFromProperty(
+      newState,
+      propertyKey,
+      removeFromDescWithErrorPropertyKeysFunc(propertyKey)
+    )
   } else {
     // Add key to descWithErrorPropertyKeys for self and ancestors.
-    newState = recursiveAncestorsFromProperty(newState, propertyKey, addToDescWithErrorPropertyKeysFunc(propertyKey))
+    newState = recursiveAncestorsFromProperty(
+      newState,
+      propertyKey,
+      addToDescWithErrorPropertyKeysFunc(propertyKey)
+    )
   }
   return newState
 }
@@ -430,7 +480,10 @@ export const clearResourceFromEditor = (state, action) => {
   }
 
   const resourceIndex = state.resources.indexOf(resourceKey)
-  newState.resources = [...state.resources.slice(0, resourceIndex), ...state.resources.slice(resourceIndex + 1)]
+  newState.resources = [
+    ...state.resources.slice(0, resourceIndex),
+    ...state.resources.slice(resourceIndex + 1),
+  ]
 
   if (state.currentResource === resourceKey) {
     newState.currentResource = _.first(newState.resources) || null
@@ -443,12 +496,16 @@ export const clearResourceFromEditor = (state, action) => {
   return newState
 }
 
-export const clearResource = (state, action) => clearSubjectFromNewState(state, action.payload)
+export const clearResource = (state, action) =>
+  clearSubjectFromNewState(state, action.payload)
 
 const clearSubjectFromNewState = (state, subjectKey) => {
   const subject = state.subjects[subjectKey]
   let newState = state
-  subject.propertyKeys.forEach((propertyKey) => newState = clearPropertyFromNewState(newState, propertyKey))
+  subject.propertyKeys.forEach(
+    (propertyKey) =>
+      (newState = clearPropertyFromNewState(newState, propertyKey))
+  )
   delete newState.subjects[subjectKey]
 
   return newState
@@ -458,11 +515,17 @@ const clearPropertyFromNewState = (state, propertyKey) => {
   const property = state.properties[propertyKey]
   let newState = state
   if (!_.isEmpty(property.valueKeys)) {
-    property.valueKeys.forEach((valueKey) => state = clearValueFromNewState(newState, valueKey))
+    property.valueKeys.forEach(
+      (valueKey) => (state = clearValueFromNewState(newState, valueKey))
+    )
   }
 
   // Remove error from ancestors
-  newState = recursiveAncestorsFromProperty(newState, propertyKey, removeFromDescWithErrorPropertyKeysFunc(propertyKey))
+  newState = recursiveAncestorsFromProperty(
+    newState,
+    propertyKey,
+    removeFromDescWithErrorPropertyKeysFunc(propertyKey)
+  )
 
   delete newState.properties[propertyKey]
 
@@ -472,10 +535,15 @@ const clearPropertyFromNewState = (state, propertyKey) => {
 const clearValueFromNewState = (state, valueKey) => {
   const value = state.values[valueKey]
   let newState = state
-  if (value.valueSubjectKey) newState = clearSubjectFromNewState(newState, value.valueSubjectKey)
+  if (value.valueSubjectKey)
+    newState = clearSubjectFromNewState(newState, value.valueSubjectKey)
 
   // Remove value key from ancestors' descUriOrLiteralValueKeys
-  newState = recursiveAncestorsFromValue(newState, valueKey, removeFromDescUriOrLiteralValueKeysFunc(valueKey))
+  newState = recursiveAncestorsFromValue(
+    newState,
+    valueKey,
+    removeFromDescUriOrLiteralValueKeysFunc(valueKey)
+  )
 
   delete newState.values[valueKey]
 
@@ -486,7 +554,7 @@ export const setResourceGroup = (state, action) => {
   const newState = stateWithNewSubject(state, action.payload.resourceKey)
   const newSubject = newState.subjects[action.payload.resourceKey]
   newSubject.group = action.payload.group
-  newSubject.editGroups = [...action.payload.editGroups || []]
+  newSubject.editGroups = [...(action.payload.editGroups || [])]
 
   return newState
 }
@@ -502,8 +570,14 @@ export const setValueOrder = (state, action) => {
   newState = setSubjectChanged(newState, newProperty.subjectKey, true)
 
   const index = action.payload.index
-  const filterValueKeys = newProperty.valueKeys.filter((key) => key !== valueKey)
-  newProperty.valueKeys = [...filterValueKeys.slice(0, index - 1), valueKey, ...filterValueKeys.slice(index - 1)]
+  const filterValueKeys = newProperty.valueKeys.filter(
+    (key) => key !== valueKey
+  )
+  newProperty.valueKeys = [
+    ...filterValueKeys.slice(0, index - 1),
+    valueKey,
+    ...filterValueKeys.slice(index - 1),
+  ]
 
   return newState
 }
@@ -551,7 +625,11 @@ const recursiveAncestorsFromSubject = (state, subjectKey, performFunc) => {
 
   const subject = state.subjects[subjectKey]
   if (!subject.valueSubjectOfKey) return newState
-  return recursiveAncestorsFromValue(newState, subject.valueSubjectOfKey, performFunc)
+  return recursiveAncestorsFromValue(
+    newState,
+    subject.valueSubjectOfKey,
+    performFunc
+  )
 }
 
 const recursiveAncestorsFromValue = (state, valueKey, performFunc) => {
@@ -559,7 +637,11 @@ const recursiveAncestorsFromValue = (state, valueKey, performFunc) => {
   newState = performFunc(state, newState, newState.values[valueKey])
 
   const value = state.values[valueKey]
-  return recursiveAncestorsFromProperty(newState, value.propertyKey, performFunc)
+  return recursiveAncestorsFromProperty(
+    newState,
+    value.propertyKey,
+    performFunc
+  )
 }
 
 const recursiveAncestorsFromProperty = (state, propertyKey, performFunc) => {
@@ -567,29 +649,63 @@ const recursiveAncestorsFromProperty = (state, propertyKey, performFunc) => {
   newState = performFunc(state, newState, newState.properties[propertyKey])
 
   const property = state.properties[propertyKey]
-  return recursiveAncestorsFromSubject(newState, property.subjectKey, performFunc)
+  return recursiveAncestorsFromSubject(
+    newState,
+    property.subjectKey,
+    performFunc
+  )
 }
 
-const removeFromDescWithErrorPropertyKeysFunc = (propertyKey) => (state, newState, newObj) => {
-  if (newObj.descWithErrorPropertyKeys === undefined || !newObj.descWithErrorPropertyKeys.includes(propertyKey)) return state
-  newObj.descWithErrorPropertyKeys = [...newObj.descWithErrorPropertyKeys].filter((checkPropertyKey) => propertyKey !== checkPropertyKey)
-  return newState
-}
+const removeFromDescWithErrorPropertyKeysFunc =
+  (propertyKey) => (state, newState, newObj) => {
+    if (
+      newObj.descWithErrorPropertyKeys === undefined ||
+      !newObj.descWithErrorPropertyKeys.includes(propertyKey)
+    )
+      return state
+    newObj.descWithErrorPropertyKeys = [
+      ...newObj.descWithErrorPropertyKeys,
+    ].filter((checkPropertyKey) => propertyKey !== checkPropertyKey)
+    return newState
+  }
 
-const addToDescWithErrorPropertyKeysFunc = (propertyKey) => (state, newState, newObj) => {
-  if (newObj.descWithErrorPropertyKeys === undefined || newObj.descWithErrorPropertyKeys.includes(propertyKey)) return state
-  newObj.descWithErrorPropertyKeys = [...newObj.descWithErrorPropertyKeys, propertyKey]
-  return newState
-}
+const addToDescWithErrorPropertyKeysFunc =
+  (propertyKey) => (state, newState, newObj) => {
+    if (
+      newObj.descWithErrorPropertyKeys === undefined ||
+      newObj.descWithErrorPropertyKeys.includes(propertyKey)
+    )
+      return state
+    newObj.descWithErrorPropertyKeys = [
+      ...newObj.descWithErrorPropertyKeys,
+      propertyKey,
+    ]
+    return newState
+  }
 
-const removeFromDescUriOrLiteralValueKeysFunc = (valueKey) => (state, newState, newObj) => {
-  if (newObj.descUriOrLiteralValueKeys === undefined || !newObj.descUriOrLiteralValueKeys.includes(valueKey)) return state
-  newObj.descUriOrLiteralValueKeys = [...newObj.descUriOrLiteralValueKeys].filter((checkValueKey) => valueKey !== checkValueKey)
-  return newState
-}
+const removeFromDescUriOrLiteralValueKeysFunc =
+  (valueKey) => (state, newState, newObj) => {
+    if (
+      newObj.descUriOrLiteralValueKeys === undefined ||
+      !newObj.descUriOrLiteralValueKeys.includes(valueKey)
+    )
+      return state
+    newObj.descUriOrLiteralValueKeys = [
+      ...newObj.descUriOrLiteralValueKeys,
+    ].filter((checkValueKey) => valueKey !== checkValueKey)
+    return newState
+  }
 
-const addToDescUriOrLiteralValueKeysFunc = (valueKey) => (state, newState, newObj) => {
-  if (newObj.descUriOrLiteralValueKeys === undefined || newObj.descUriOrLiteralValueKeys.includes(valueKey)) return state
-  newObj.descUriOrLiteralValueKeys = [...newObj.descUriOrLiteralValueKeys, valueKey]
-  return newState
-}
+const addToDescUriOrLiteralValueKeysFunc =
+  (valueKey) => (state, newState, newObj) => {
+    if (
+      newObj.descUriOrLiteralValueKeys === undefined ||
+      newObj.descUriOrLiteralValueKeys.includes(valueKey)
+    )
+      return state
+    newObj.descUriOrLiteralValueKeys = [
+      ...newObj.descUriOrLiteralValueKeys,
+      valueKey,
+    ]
+    return newState
+  }
