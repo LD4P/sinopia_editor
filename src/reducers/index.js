@@ -16,6 +16,7 @@ import {
 import {
   setLanguage, languagesReceived,
 } from './languages'
+import { groupsReceived } from './groups'
 import {
   hideValidationErrors, addError, clearErrors,
   showValidationErrors,
@@ -87,6 +88,7 @@ const entityHandlers = {
   CLEAR_RESOURCE: clearResource,
   EXPORTS_RECEIVED: exportsReceived,
   HIDE_PROPERTY: hideProperty,
+  GROUPS_RECEIVED: groupsReceived,
   LANGUAGES_RECEIVED: languagesReceived,
   LANGUAGE_SELECTED: setLanguage,
   LOAD_RESOURCE_FINISHED: loadResourceFinished,

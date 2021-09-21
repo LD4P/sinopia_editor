@@ -1,19 +1,23 @@
 // Copyright 2019 Stanford University see LICENSE for license
 
 import React from 'react'
+import { useSelector } from 'react-redux'
 import PropTypes from 'prop-types'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faCopy, faEdit, faEye } from '@fortawesome/free-solid-svg-icons'
 import LongDate from 'components/LongDate'
 import usePermissions from 'hooks/usePermissions'
+import { selectGroupMap } from 'selectors/groups'
 
 /**
  * Generates HTML rows of all search results
  */
 const SearchResultRows = ({
-  searchResults, handleEdit, handleCopy, handleView, groupMap,
+  searchResults, handleEdit, handleCopy, handleView,
 }) => {
   const { canEdit, canCreate } = usePermissions()
+  const groupMap = useSelector((state) => selectGroupMap(state))
+
   return searchResults.map((row) => (
     <tr key={row.uri}>
       <td>{ row.label }{ row.label !== row.uri && <React.Fragment><br />{ row.uri }</React.Fragment>}</td>
@@ -22,7 +26,7 @@ const SearchResultRows = ({
           { row.type?.map((type) => <li key={type}>{type}</li>) }
         </ul>
       </td>
-      <td>{ groupMap[row.group] }</td>
+      <td>{ groupMap[row.group] || 'Unknown'}</td>
       <td><LongDate datetime={ row.modified } /></td>
       <td>
         <div className="btn-group" role="group" aria-label="Result Actions">
@@ -63,7 +67,6 @@ SearchResultRows.propTypes = {
   handleEdit: PropTypes.func,
   handleCopy: PropTypes.func,
   handleView: PropTypes.func,
-  groupMap: PropTypes.map,
 }
 
 export default SearchResultRows

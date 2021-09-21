@@ -16,12 +16,6 @@ export const defaultLanguageId = 'eng'
 export const isResourceWithValueTemplateRef = (property) => property?.type === 'resource'
     && property?.valueConstraint?.valueTemplateRefs?.length > 0
 
-export const groupListToMap = (groupList) => {
-  const groupMap = {}
-  groupList.forEach((group) => groupMap[group.id] = group.label)
-  return groupMap
-}
-
 export const resourceToName = (uri) => {
   if (!_.isString(uri)) return undefined
 

@@ -32,7 +32,7 @@ export const initialState = {
   entities: {
     languageLookup: [],
     languages: {},
-    groups: [],
+    groupMap: {},
     lookups: {},
     exports: [],
     properties: {},

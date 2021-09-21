@@ -4,18 +4,8 @@ import {
   resourceToName,
   datasetFromN3,
 } from 'utilities/Utilities'
-import { groupListToMap } from '../../src/utilities/Utilities'
 
 describe('Utilities', () => {
-  describe('groupListToMap()', () => {
-    it('returns a map from the provided group list', () => {
-      const groupList = [
-        { id: 'stanford', label: 'Stanford University' },
-        { id: 'cornell', label: 'Cornell University' },
-      ]
-      expect(groupListToMap(groupList)).toEqual({ stanford: 'Stanford University', cornell: 'Cornell University' })
-    })
-  })
   describe('isResourceWithValueTemplateRef()', () => {
     it('returns true when there is a valueTemplateRef', () => {
       const templateWithValueTemplateRefs = {
