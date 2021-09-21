@@ -23,6 +23,7 @@ const ResourceList = (props) => {
   const subjectTemplate = useSelector((state) => selectSubjectTemplate(state, subject?.subjectTemplateKey))
 
   useEffect(() => {
+    let isMounted = true
     const handleChange = (resourceTemplateId, event) => {
       event.preventDefault()
       dispatch(newResource(resourceTemplateId, newResourceErrorKey)).then((result) => {
@@ -48,9 +49,10 @@ const ResourceList = (props) => {
         })
       })))
       // De-dupicate with lodash
-      setNewResourceList(_.uniq(listItems))
+      if (isMounted) setNewResourceList(_.uniq(listItems))
     }
     getNewResourceList()
+    return () => { isMounted = false }
   }, [readOnly, dispatch, propertyTemplate.authorities, subjectTemplate.class])
 
   const dropdown = (items) => <div className="dropdown">

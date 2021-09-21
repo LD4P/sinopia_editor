@@ -2,36 +2,41 @@
 
 import React, { useState } from 'react'
 import { useSelector, useDispatch } from 'react-redux'
-import PropTypes from 'prop-types'
 import { MultiSelect } from 'react-multi-select-component'
 import Config from 'Config'
 import { hideModal } from 'actions/modals'
 import { resourceEditErrorKey } from './Editor'
 import { selectModalType } from 'selectors/modals'
-import { saveNewResource } from 'actionCreators/resources'
+import { saveNewResource, saveResource as saveResourceAction } from 'actionCreators/resources'
 import ModalWrapper, { useDisplayStyle, useModalCss } from '../ModalWrapper'
-import { selectCurrentResourceKey } from 'selectors/resources'
+import { selectCurrentResourceKey, selectNormSubject } from 'selectors/resources'
 import { selectGroups } from 'selectors/authenticate'
+import usePermissions from 'hooks/usePermissions'
+
+// The ld4p group is only for templates
+const groupsToGroupValues = (groupIds, groupMap, ownerGroupId = null) => groupIds
+  .filter((groupId) => ![ownerGroupId, 'ld4p'].includes(groupId))
+  .sort((groupId1, groupId2) => groupMap[groupId1].localeCompare(groupMap[groupId2]))
+  .map((groupId) => ({ value: groupId, label: groupMap[groupId], disabled: groupId === ownerGroupId }))
 
 const GroupChoiceModal = () => {
   const resourceKey = useSelector((state) => selectCurrentResourceKey(state))
+  const resource = useSelector((state) => selectNormSubject(state, resourceKey))
   const modalType = useSelector((state) => selectModalType(state))
   const userGroupIds = useSelector((state) => selectGroups(state))
-  const [ownerGroupId, setOwnerGroupId] = useState(userGroupIds[0])
-  const [editGroupValues, setEditGroupValues] = useState([])
+  const [ownerGroupId, setOwnerGroupId] = useState(resource.group || userGroupIds[0])
   const groupMap = Config.groupsInSinopia
+  const [editGroupValues, setEditGroupValues] = useState(groupsToGroupValues(resource.editGroups, groupMap))
   const show = modalType === 'GroupChoiceModal'
+  const ownerGroupLabel = groupMap[ownerGroupId]
+  const editGroupLabels = editGroupValues.map((groupValue) => groupValue.label).join(', ')
+  const { canChangeGroups } = usePermissions()
+  const canChange = canChangeGroups(resource) || !resource.uri
   const dispatch = useDispatch()
-
-  // TODO: Handle owner group in edit groups. Should be selected and disabled.
 
   const ownerGroupOptions = userGroupIds.map((groupId) => <option key={groupId} value={ groupId }>{ groupMap[groupId] || groupId }</option>)
 
-  // The ld4p group is only for templates
-  const editGroupOptions = Object.entries(groupMap)
-    .filter(([groupId]) => ![ownerGroupId, 'ld4p'].includes(groupId))
-    .sort(([, groupLabelA], [, groupLabelB]) => groupLabelA.localeCompare(groupLabelB))
-    .map(([value, label]) => ({ value, label, disabled: value === ownerGroupId }))
+  const editGroupOptions = groupsToGroupValues(Object.keys(groupMap), groupMap, ownerGroupId)
 
   const handleOwnerChange = (event) => {
     const newOwnerGroupId = event.target.value
@@ -46,7 +51,11 @@ const GroupChoiceModal = () => {
 
   const saveAndClose = (event) => {
     const editGroupIds = editGroupValues.map((editGroupValue) => editGroupValue.value)
-    dispatch(saveNewResource(resourceKey, ownerGroupId, editGroupIds, resourceEditErrorKey(resourceKey)))
+    if (resource.uri) {
+      dispatch(saveResourceAction(resourceKey, ownerGroupId, editGroupIds, resourceEditErrorKey(resourceKey)))
+    } else {
+      dispatch(saveNewResource(resourceKey, ownerGroupId, editGroupIds, resourceEditErrorKey(resourceKey)))
+    }
     dispatch(hideModal())
     event.preventDefault()
   }
@@ -71,30 +80,38 @@ const GroupChoiceModal = () => {
             </div>
             <div className="modal-body group-panel">
               <label htmlFor="ownerSelect"><h4>Who owns this?</h4></label>
-              <select
-                className="form-select mb-4"
-                id="ownerSelect"
-                onBlur={handleOwnerChange}
-                onChange={handleOwnerChange}
-                value={ownerGroupId}>
-                { ownerGroupOptions }
-              </select>
+              { canChange
+                ? <select
+                  className="form-select mb-4"
+                  id="ownerSelect"
+                  onBlur={handleOwnerChange}
+                  onChange={handleOwnerChange}
+                  value={ownerGroupId}>
+                  { ownerGroupOptions }
+                </select>
+                : <p>{ownerGroupLabel}</p>
+              }
               <h4 id="editSelectLabel">Who else can edit?</h4>
-              <MultiSelect
-                options={editGroupOptions}
-                value={editGroupValues}
-                onChange={handleEditChange}
-                hasSelectAll={false}
-                labelledBy="editSelectLabel"
-              />
+              { canChange
+                ? <MultiSelect
+                  options={editGroupOptions}
+                  value={editGroupValues}
+                  onChange={handleEditChange}
+                  hasSelectAll={false}
+                  labelledBy="editSelectLabel"
+                />
+                : <p>{editGroupLabels} </p>
+              }
               <div>
                 <div className="group-choose-buttons">
-                  <button className="btn btn-link btn-sm" style={{ paddingRight: '20px' }} onClick={ close }>
+                  <button className="btn btn-link btn-sm" style={{ paddingRight: '20px' }} onClick={ close } aria-label="Cancel Save Group">
                     Cancel
                   </button>
-                  <button className="btn btn-primary btn-sm" data-dismiss="modal" aria-label="Save Group" onClick={ saveAndClose }>
-                    Save
-                  </button>
+                  { canChange
+                    && <button className="btn btn-primary btn-sm" data-dismiss="modal" aria-label="Save Group" onClick={ saveAndClose }>
+                      Save
+                    </button>
+                  }
                 </div>
               </div>
             </div>
@@ -105,12 +122,6 @@ const GroupChoiceModal = () => {
   )
 
   return (<ModalWrapper modal={modal} />)
-}
-
-GroupChoiceModal.propTypes = {
-  closeGroupChooser: PropTypes.func,
-  choose: PropTypes.func,
-  resourceKey: PropTypes.string,
 }
 
 export default GroupChoiceModal

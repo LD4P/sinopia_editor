@@ -5,6 +5,7 @@ import { useSelector, useDispatch } from 'react-redux'
 import PanelResource from './property/PanelResource'
 import CopyToNewMessage from './CopyToNewMessage'
 import ResourceURIMessage from './ResourceURIMessage'
+import PermissionsAction from './actions/PermissionsAction'
 import SaveAlert from './SaveAlert'
 import RDFDisplay from './RDFDisplay'
 import Alerts from '../Alerts'
@@ -54,7 +55,14 @@ const ResourceComponent = () => {
         <section>
           <h3>{subjectTemplate.label}</h3>
           <CopyToNewMessage />
-          <ResourceURIMessage />
+          <div className="row">
+            <div className="col-md-11">
+              <ResourceURIMessage />
+            </div>
+            <div className="col-md-1">
+              <PermissionsAction />
+            </div>
+          </div>
           <SaveAlert />
         </section>
         {

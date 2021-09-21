@@ -101,5 +101,5 @@ describe('searching and viewing a resource', () => {
     // Clear search button empties the search field
     fireEvent.click(screen.getByTestId('Clear query string', { selector: 'button' }))
     expect(await screen.getByLabelText('Query').value).toEqual('')
-  })
+  }, 10000)
 })

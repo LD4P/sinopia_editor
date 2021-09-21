@@ -38,6 +38,7 @@ const buildAuthenticate = (state, options) => {
   let groups = ['stanford', 'pcc']
   if (options.noGroups) groups = []
   if (options.otherGroups) groups = ['loc']
+  if (options.editGroups) groups = ['cornell']
 
   state.authenticate = {
     user: {
@@ -331,6 +332,8 @@ const buildTwoLiteralResources = (state, options) => {
       changed: false,
       descUriOrLiteralValueKeys: ['CxGx7WMh2'],
       descWithErrorPropertyKeys: [],
+      group: 'stanford',
+      editGroups: ['cornell'],
     },
     u0aWxh3a1: {
       key: 'u0aWxh3a1',
@@ -345,6 +348,8 @@ const buildTwoLiteralResources = (state, options) => {
       changed: false,
       descUriOrLiteralValueKeys: ['DyHy8XNi3'],
       descWithErrorPropertyKeys: [],
+      group: 'stanford',
+      editGroups: ['cornell'],
     },
   }
   state.entities.properties = {
