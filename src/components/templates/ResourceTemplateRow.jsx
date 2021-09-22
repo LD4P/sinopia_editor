@@ -1,18 +1,21 @@
 // Copyright 2019 Stanford University see LICENSE for license
 
 import React from "react"
+import { useSelector } from "react-redux"
 import PropTypes from "prop-types"
 import { Link } from "react-router-dom"
 import LongDate from "components/LongDate"
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
 import { faCopy, faEdit } from "@fortawesome/free-solid-svg-icons"
 import usePermissions from "hooks/usePermissions"
+import { selectGroupMap } from "selectors/groups"
 
 /**
  * This is the list view of all the templates
  */
 const ResourceTemplateRow = ({ row, handleClick, handleCopy, handleEdit }) => {
   const { canCreate, canEdit } = usePermissions()
+  const groupMap = useSelector((state) => selectGroupMap(state))
 
   return (
     <tr key={row.id}>
@@ -32,6 +35,9 @@ const ResourceTemplateRow = ({ row, handleClick, handleCopy, handleEdit }) => {
       </td>
       <td style={{ wordBreak: "break-all" }}>{row.resourceURI}</td>
       <td style={{ wordBreak: "break-all" }}>{row.author}</td>
+      <td style={{ wordBreak: "break-all" }}>
+        {groupMap[row.group] || "Unknown"}
+      </td>
       <td>
         <LongDate datetime={row.date} timeZone="UTC" />
       </td>

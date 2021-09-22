@@ -25,11 +25,12 @@ const ResourceTemplateSearchResult = (props) => {
         <table className="table table-bordered resource-template-list">
           <thead>
             <tr>
-              <th style={{ width: "30%" }}>Label / ID</th>
-              <th style={{ width: "20%" }}>Resource URI</th>
-              <th style={{ width: "12%" }}>Author</th>
+              <th style={{ width: "28%" }}>Label / ID</th>
+              <th style={{ width: "18%" }}>Resource URI</th>
+              <th style={{ width: "10%" }}>Author</th>
+              <th style={{ width: "8%" }}>Group</th>
               <th style={{ width: "10%" }}>Date</th>
-              <th style={{ width: "24%" }}>Guiding statement</th>
+              <th style={{ width: "22%" }}>Guiding statement</th>
               <th style={{ width: "4%" }} data-testid="action-col-header"></th>
             </tr>
           </thead>
