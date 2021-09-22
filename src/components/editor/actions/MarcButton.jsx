@@ -85,7 +85,7 @@ const MarcButton = () => {
   const dropDownItemBtnClasses = ["btn", "btn-secondary", "dropdown-item"]
 
   return (
-    <div className="btn-group dropstart">
+    <div className="view-resource-buttons btn-group dropstart">
       <button
         type="button"
         id="marcBtn"
