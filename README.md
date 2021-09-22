@@ -57,13 +57,28 @@ templates list page and fixture resources can be searched on by entering the res
 
 ## Developers
 
-### Linter for JavaScript
+### Linters for JavaScript
 
-To run eslint:
+There are two linters/formatters used in this project: eslint and prettier.
+They can be run together or individually.
+
+To run both:
+`npm run lint`
+
+To auto-fix errors in both (where possible):
+`npm run fix`
+
+To run just eslint:
 `npm run eslint`
 
-To automatically fix problems (where possible):
+To automatically fix just eslint problems (where possible):
 `npm run eslint-fix`
+
+To run just prettier:
+`npm run pretty`
+
+To automatically fix just prettier problems (where possible):
+`npm run pretty-fix`
 
 ### Unit, feature, and integration tests
 
@@ -77,6 +92,8 @@ To run a single test file:
 
 To run a single test:
 `npx jest __tests__/actionCreators/resources.test.js -t "newResourceFromN3 loading a resource dispatches actions"`
+
+Or temporarily change the test description from `it("does something")` to `it.only("does something")`.
 
 #### Adding new test fixtures
 If you have the docker environment running (and USE_FIXTURES env variable is false) you can use the `Load RDF tab`,
