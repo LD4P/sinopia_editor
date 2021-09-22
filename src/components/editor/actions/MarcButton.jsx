@@ -80,8 +80,9 @@ const MarcButton = () => {
   } else if (marcs.current[resourceKey]?.error) {
     btnClasses.push("btn-danger")
   } else {
-    btnClasses.push("btn-primary")
+    btnClasses.push("btn-secondary")
   }
+  const dropDownItemBtnClasses = ["btn", "btn-secondary", "dropdown-item"]
 
   return (
     <div className="btn-group dropstart">
@@ -99,7 +100,7 @@ const MarcButton = () => {
       </button>
       <div className="dropdown-menu" aria-labelledby="marcBtn">
         <button
-          className="btn btn-link dropdown-item"
+          className={dropDownItemBtnClasses.join(" ")}
           onClick={(event) => handleRequest(event)}
         >
           Request conversion to MARC
@@ -107,13 +108,13 @@ const MarcButton = () => {
         {marcs.current[resourceKey]?.marc && (
           <React.Fragment>
             <button
-              className="btn btn-link dropdown-item"
+              className={dropDownItemBtnClasses.join(" ")}
               onClick={(event) => handleDownloadTxt(event)}
             >
               Download text
             </button>
             <button
-              className="btn btn-link dropdown-item"
+              className={dropDownItemBtnClasses.join(" ")}
               onClick={(event) => handleDownloadMarc(event)}
             >
               Download MARC
