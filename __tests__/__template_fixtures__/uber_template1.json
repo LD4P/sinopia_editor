@@ -1133,6 +1133,32 @@
     ]
   },
   {
+    "@id": "_:b74",
+    "@type": [
+      "http://sinopia.io/vocabulary/PropertyTemplate"
+    ],
+    "http://www.w3.org/2000/01/rdf-schema#label": [
+      {
+        "@value": "Uber template1, property22 (rdfs label)"
+      }
+    ],
+    "http://sinopia.io/vocabulary/hasRemark": [
+      {
+        "@value": "rdfs label"
+      }
+    ],
+    "http://sinopia.io/vocabulary/hasPropertyUri": [
+      {
+        "@id": "http://id.loc.gov/ontologies/bibframe/uber/template1/property22"
+      }
+    ],
+    "http://sinopia.io/vocabulary/hasPropertyType": [
+      {
+        "@id": "http://sinopia.io/vocabulary/propertyType/literal"
+      }
+    ]
+  },
+  {
     "@id": "_:b8",
     "@type": [
       "http://sinopia.io/vocabulary/PropertyTemplate"
@@ -1297,6 +1323,9 @@
           },
           {
             "@id": "_:b72"
+          },
+          {
+            "@id": "_:b74"
           }
         ]
       }
