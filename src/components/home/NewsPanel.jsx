@@ -2,11 +2,15 @@
 
 import React from "react"
 import NewsItem from "./NewsItem"
+import UserNotifications from "./UserNotifications"
 import LoginPanel from "./LoginPanel"
 
 const NewsPanel = () => (
   <div className="banner container-fluid py-5">
     <div className="card panel-news">
+      <div className="col-md-12">
+        <UserNotifications />
+      </div>
       <div className="card-body">
         <div className="row">
           <div className="col-md-6">
