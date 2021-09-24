@@ -10,6 +10,7 @@ export const createState = (options = {}) => {
   buildResourceWithLiteral(state, options)
   buildTwoLiteralResources(state, options)
   buildResourceWithUri(state, options)
+  buildResourceWithLookup(state, options)
   buildResourceWithContractedLiteral(state, options)
   buildResourceWithNestedResource(state, options)
   buildResourceWithTwoNestedResources(state, options)
@@ -158,6 +159,7 @@ const buildTemplateWithLiteral = (state, options) => {
           "sinopia:template:resource > http://www.w3.org/2000/01/rdf-schema#label",
         ],
       },
+      labels: ["Resource Template (dummy)"],
     },
   }
   state.entities.properties = {
@@ -170,6 +172,7 @@ const buildTemplateWithLiteral = (state, options) => {
         "sinopia:template:resource > http://www.w3.org/2000/01/rdf-schema#label",
       errors: [],
       valueKeys: ["SgS9CqKjmb"],
+      labels: ["Resource Template (dummy)", "Note"],
     },
   }
   state.entities.values = {
@@ -243,6 +246,7 @@ const buildResourceWithLiteral = (state, options) => {
       changed: false,
       descUriOrLiteralValueKeys: ["CxGx7WMh2"],
       descWithErrorPropertyKeys: options.hasError ? ["JQEtq-vmq8"] : [],
+      labels: ["Abbreviated Title"],
     },
   }
   state.entities.properties = {
@@ -255,9 +259,10 @@ const buildResourceWithLiteral = (state, options) => {
         "ld4p:RT:bf2:Title:AbbrTitle > http://id.loc.gov/ontologies/bibframe/mainTitle",
       valueKeys: ["CxGx7WMh2"],
       show: true,
-      errors: options.hasError ? ["Required"] : [],
+      errors: [],
       descUriOrLiteralValueKeys: ["CxGx7WMh2"],
       descWithErrorPropertyKeys: options.hasError ? ["JQEtq-vmq8"] : [],
+      labels: ["Abbreviated Title", "Abbreviated Title"],
     },
   }
   state.entities.values = {
@@ -266,12 +271,12 @@ const buildResourceWithLiteral = (state, options) => {
       propertyKey: "JQEtq-vmq8",
       rootSubjectKey: "t9zVwg2zO",
       rootPropertyKey: "JQEtq-vmq8",
-      literal: "foo",
+      literal: options.hasError ? null : "foo",
       lang: "eng",
       uri: null,
       label: null,
       valueSubjectKey: null,
-      errors: [],
+      errors: options.hasError ? ["Literal required"] : [],
     },
   }
 }
@@ -352,6 +357,7 @@ const buildTwoLiteralResources = (state, options) => {
       descWithErrorPropertyKeys: [],
       group: "stanford",
       editGroups: ["cornell"],
+      labels: ["Abbreviated Title"],
     },
     u0aWxh3a1: {
       key: "u0aWxh3a1",
@@ -366,6 +372,7 @@ const buildTwoLiteralResources = (state, options) => {
       descWithErrorPropertyKeys: [],
       group: "stanford",
       editGroups: ["cornell"],
+      labels: ["Note"],
     },
   }
   state.entities.properties = {
@@ -381,6 +388,7 @@ const buildTwoLiteralResources = (state, options) => {
       errors: [],
       descUriOrLiteralValueKeys: ["CxGx7WMh2"],
       descWithErrorPropertyKeys: [],
+      labels: ["Abbreviated Title", "Abbreviated Title"],
     },
     "KRFur-wnr9": {
       key: "KRFur-wnr9",
@@ -394,6 +402,7 @@ const buildTwoLiteralResources = (state, options) => {
       errors: [],
       descUriOrLiteralValueKeys: ["DyHy8XNi3"],
       descWithErrorPropertyKeys: [],
+      labels: ["Note", "Note"],
     },
   }
   state.entities.values = {
@@ -426,6 +435,101 @@ const buildTwoLiteralResources = (state, options) => {
 
 const buildResourceWithUri = (state, options) => {
   if (!options.hasResourceWithUri) return
+
+  state.editor.currentResource = "wihOjn-0Z"
+  state.editor.resources = ["wihOjn-0Z"]
+  state.entities.subjectTemplates = {
+    "resourceTemplate:testing:uber5": {
+      key: "resourceTemplate:testing:uber5",
+      uri: "http://localhost:3000/resource/resourceTemplate:testing:uber5",
+      id: "resourceTemplate:testing:uber5",
+      class: "http://id.loc.gov/ontologies/bibframe/Uber5",
+      label: "Uber template5",
+      author: null,
+      remark: "Template for testing purposes with suppressed, repeatable URI.",
+      date: null,
+      suppressible: true,
+      propertyTemplateKeys: [
+        "resourceTemplate:testing:uber5 > http://id.loc.gov/ontologies/bibframe/uber/template5/property1",
+      ],
+      group: "stanford",
+      editGroups: ["cornell"],
+    },
+  }
+  state.entities.propertyTemplates = {
+    "resourceTemplate:testing:uber5 > http://id.loc.gov/ontologies/bibframe/uber/template5/property1":
+      {
+        key: "resourceTemplate:testing:uber5 > http://id.loc.gov/ontologies/bibframe/uber/template5/property1",
+        subjectTemplateKey: "resourceTemplate:testing:uber5",
+        label: "Uber template5, property1",
+        uri: "http://id.loc.gov/ontologies/bibframe/uber/template5/property1",
+        required: false,
+        repeatable: true,
+        ordered: false,
+        remark: "A repeatable URI",
+        remarkUrl: null,
+        defaults: [],
+        valueSubjectTemplateKeys: [],
+        authorities: [],
+        type: "uri",
+        component: "InputURI",
+      },
+  }
+
+  state.entities.subjects = {
+    FYPd18JgfhSGaeviY7NNu: {
+      key: "FYPd18JgfhSGaeviY7NNu",
+      uri: null,
+      descUriOrLiteralValueKeys: ["a_-Jp0pY6pH6ytCtfr-mx"],
+      descWithErrorPropertyKeys: [],
+      subjectTemplateKey: "resourceTemplate:testing:uber5",
+      valueSubjectOfKey: null,
+      rootSubjectKey: "FYPd18JgfhSGaeviY7NNu",
+      rootPropertyKey: null,
+      labels: ["Uber template5"],
+      group: null,
+      editGroups: [],
+      bfAdminMetadataRefs: [],
+      bfItemRefs: [],
+      bfInstanceRefs: [],
+      bfWorkRefs: [],
+      propertyKeys: ["RPaGmJ_8IQi8roZ1oj1uK"],
+    },
+  }
+  state.entities.properties = {
+    RPaGmJ_8IQi8roZ1oj1uK: {
+      key: "RPaGmJ_8IQi8roZ1oj1uK",
+      show: false,
+      subjectKey: "FYPd18JgfhSGaeviY7NNu",
+      propertyTemplateKey:
+        "resourceTemplate:testing:uber5 > http://id.loc.gov/ontologies/bibframe/uber/template5/property1",
+      descUriOrLiteralValueKeys: ["a_-Jp0pY6pH6ytCtfr-mx"],
+      descWithErrorPropertyKeys: [],
+      rootSubjectKey: "FYPd18JgfhSGaeviY7NNu",
+      labels: ["Uber template5", "Uber template5, property1"],
+      rootPropertyKey: "RPaGmJ_8IQi8roZ1oj1uK",
+      valueKeys: ["a_-Jp0pY6pH6ytCtfr-mx"],
+      errors: [],
+    },
+  }
+  state.entities.values = {
+    "a_-Jp0pY6pH6ytCtfr-mx": {
+      key: "a_-Jp0pY6pH6ytCtfr-mx",
+      literal: null,
+      lang: "eng",
+      uri: "https://id.loc.gov/authorities/names/n81079286",
+      label: "Kelsey, Michael R.",
+      propertyKey: "RPaGmJ_8IQi8roZ1oj1uK",
+      rootSubjectKey: "FYPd18JgfhSGaeviY7NNu",
+      rootPropertyKey: "RPaGmJ_8IQi8roZ1oj1uK",
+      valueSubjectKey: null,
+      errors: [],
+    },
+  }
+}
+
+const buildResourceWithLookup = (state, options) => {
+  if (!options.hasResourceWithLookup) return
 
   state.editor.currentResource = "wihOjn-0Z"
   state.editor.resources = ["wihOjn-0Z"]
@@ -471,7 +575,7 @@ const buildResourceWithUri = (state, options) => {
           },
         ],
         type: "uri",
-        component: "InputLookupSinopia",
+        component: "InputLookup",
       },
   }
 
@@ -495,6 +599,7 @@ const buildResourceWithUri = (state, options) => {
       changed: true,
       descUriOrLiteralValueKeys: ["s8-qt3-uu"],
       descWithErrorPropertyKeys: [],
+      labels: ["Testing sinopia lookup"],
     },
   }
   state.entities.properties = {
@@ -510,6 +615,7 @@ const buildResourceWithUri = (state, options) => {
       valueKeys: ["s8-qt3-uu"],
       descUriOrLiteralValueKeys: ["s8-qt3-uu"],
       descWithErrorPropertyKeys: [],
+      labels: ["Testing sinopia lookup", "Instance of (lookup)"],
     },
   }
   state.entities.values = {
@@ -518,9 +624,9 @@ const buildResourceWithUri = (state, options) => {
       rootSubjectKey: "wihOjn-0Z",
       rootPropertyKey: "i0SAJP-Zhd",
       literal: null,
-      lang: null,
+      lang: "eng",
       uri: "http://localhost:3000/resource/74770f92-f8cf-48ee-970a-aefc97843738",
-      label: "foo",
+      label: "How to Cook Everything Vegetarian",
       propertyKey: "i0SAJP-Zhd",
       valueSubjectKey: null,
       errors: [],
@@ -582,6 +688,7 @@ const buildResourceWithContractedLiteral = (state, options) => {
       editGroups: [],
       descUriOrLiteralValueKeys: [],
       descWithErrorPropertyKeys: [],
+      labels: ["Abbreviated Title"],
     },
   }
   state.entities.properties = {
@@ -597,6 +704,7 @@ const buildResourceWithContractedLiteral = (state, options) => {
       errors: [],
       descUriOrLiteralValueKeys: [],
       descWithErrorPropertyKeys: [],
+      labels: ["Abbreviated Title", "Abbreviated Title"],
     },
   }
   state.entities.values = {}
@@ -684,6 +792,7 @@ const buildResourceWithNestedResource = (state, options) => {
       editGroups: ["cornell"],
       descUriOrLiteralValueKeys: ["pRJ0lO_mT-"],
       descWithErrorPropertyKeys: options.hasError ? ["7caLbfwwle"] : [],
+      labels: ["Uber template1"],
     },
     XPb8jaPWo: {
       key: "XPb8jaPWo",
@@ -695,6 +804,7 @@ const buildResourceWithNestedResource = (state, options) => {
       propertyKeys: ["7caLbfwwle"],
       descUriOrLiteralValueKeys: ["pRJ0lO_mT-"],
       descWithErrorPropertyKeys: options.hasError ? ["7caLbfwwle"] : [],
+      labels: ["Uber template1", "Uber template1, property1", "Uber template2"],
     },
   }
   state.entities.properties = {
@@ -710,6 +820,7 @@ const buildResourceWithNestedResource = (state, options) => {
       errors: [],
       descUriOrLiteralValueKeys: ["pRJ0lO_mT-"],
       descWithErrorPropertyKeys: options.hasError ? ["7caLbfwwle"] : [],
+      labels: ["Uber template1", "Uber template1, property1"],
     },
     "7caLbfwwle": {
       key: "7caLbfwwle",
@@ -723,6 +834,12 @@ const buildResourceWithNestedResource = (state, options) => {
       errors: options.hasError ? ["Required"] : [],
       descUriOrLiteralValueKeys: ["pRJ0lO_mT-"],
       descWithErrorPropertyKeys: options.hasError ? ["7caLbfwwle"] : [],
+      labels: [
+        "Uber template1",
+        "Uber template1, property1",
+        "Uber template2",
+        "Uber template2, property1",
+      ],
     },
   }
   state.entities.values = {
@@ -808,6 +925,7 @@ const buildResourceWithContractedNestedResource = (state, options) => {
       editGroups: [],
       descUriOrLiteralValueKeys: [],
       descWithErrorPropertyKeys: [],
+      labels: ["Uber template1"],
     },
   }
   state.entities.properties = {
@@ -823,6 +941,7 @@ const buildResourceWithContractedNestedResource = (state, options) => {
       errors: [],
       descUriOrLiteralValueKeys: [],
       descWithErrorPropertyKeys: [],
+      labels: ["Uber template1", "Uber template1, property1"],
     },
   }
   state.entities.values = {}
@@ -942,6 +1061,7 @@ const buildResourceWithTwoNestedResources = (state, options) => {
       bfWorkRefs: [],
       group: null,
       editGroups: [],
+      labels: ["Uber template1"],
     },
     XPb8jaPWo: {
       key: "XPb8jaPWo",
@@ -949,6 +1069,7 @@ const buildResourceWithTwoNestedResources = (state, options) => {
       subjectTemplateKey: "resourceTemplate:testing:uber2",
       resourceKey: "ljAblGiBW",
       propertyKeys: ["7caLbfwwle"],
+      labels: ["Uber template2"],
     },
     XPb8jaPWp: {
       key: "XPb8jaPWp",
@@ -956,6 +1077,7 @@ const buildResourceWithTwoNestedResources = (state, options) => {
       subjectTemplateKey: "resourceTemplate:testing:uber2",
       resourceKey: "ljAblGiBW",
       propertyKeys: ["7caLbfwwlf"],
+      labels: ["Uber template2"],
     },
   }
   state.entities.properties = {
@@ -968,6 +1090,7 @@ const buildResourceWithTwoNestedResources = (state, options) => {
       valueKeys: ["VDOeQCnFA8", "VDOeQCnFA9"],
       show: true,
       errors: options.error || [],
+      labels: ["Uber template1", "Uber template1, property1"],
     },
     "7caLbfwwle": {
       key: "7caLbfwwle",
@@ -978,6 +1101,7 @@ const buildResourceWithTwoNestedResources = (state, options) => {
       valueKeys: ["pRJ0lO_mT-"],
       show: true,
       errors: [],
+      labels: ["Uber template2", "Uber template2, property1"],
     },
     "7caLbfwwlf": {
       key: "7caLbfwwlf",
@@ -988,6 +1112,7 @@ const buildResourceWithTwoNestedResources = (state, options) => {
       valueKeys: ["pRJ0lO_mU-"],
       show: true,
       errors: [],
+      labels: ["Uber template2", "Uber template2, property1"],
     },
   }
   state.entities.values = {

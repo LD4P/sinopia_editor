@@ -701,8 +701,8 @@
 			"values": [{
 				"key": "abc32",
 				"literal": null,
-				"lang": null,
-				"uri": "ubertemplate1:property5",
+				"lang": "eng",
+				"uri": "http://example.edu/ubertemplate1:property5",
 				"label": "ubertemplate1:property5",
 				"valueSubject": null
 			}],

@@ -33,6 +33,9 @@ export const isValidURI = (value) => {
   }
 }
 
+export const isHttp = (uri) =>
+  _.startsWith(uri, "http://") || _.startsWith(uri, "https://")
+
 /**
  * Loads N3 into a dataset.
  * @param {string} data that is the N3

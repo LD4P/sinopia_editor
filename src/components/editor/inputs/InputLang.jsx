@@ -17,7 +17,7 @@ import { selectLanguages, hasLanguages } from "selectors/languages"
  * See ISO 639 for the list of registered language codes
  */
 const InputLang = (props) => {
-  const [lang, setLang] = useState(props.lang)
+  const [lang, setLang] = useState(props.lang || "")
   const langPresent = typeof lang !== "undefined"
   const [languageSelectorEnabled, setLanguageSelectorEnabled] =
     useState(langPresent)
@@ -146,7 +146,7 @@ const mapStateToProps = (state, ownProps) => {
   const show = selectModalType(state) === `LanguageModal-${ownProps.value.key}`
   return {
     lang: ownProps.value.lang,
-    textValue: ownProps.value.literal,
+    textValue: ownProps.value.literal || ownProps.value.label || "",
     options: selectLanguages(state),
     loading: hasLanguages(state),
     show,

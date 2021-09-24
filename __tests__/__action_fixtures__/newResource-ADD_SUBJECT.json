@@ -917,7 +917,7 @@
           {
             "key": "abc42",
             "literal": null,
-            "lang": null,
+            "lang": "eng",
             "uri": "http://sinopia.io/defaultURI1",
             "label": "Default URI1",
             "valueSubject": null
@@ -925,7 +925,7 @@
           {
             "key": "abc43",
             "literal": null,
-            "lang": null,
+            "lang": "eng",
             "uri": "http://sinopia.io/defaultURI2",
             "label": null,
             "valueSubject": null

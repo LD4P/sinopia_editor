@@ -16,14 +16,17 @@ const LanguageButton = (props) => {
   }
 
   const languageLabel = props.language || "No language specified"
+  const label = `Change language for ${
+    props.value.literal || props.value.label || ""
+  }`
 
   return (
     <React.Fragment>
       <button
         id="language"
         onClick={handleClick}
-        aria-label={`Change language for ${props.value.literal}`}
-        data-testid={`Change language for ${props.value.literal}`}
+        aria-label={label}
+        data-testid={label}
         className="btn btn-link"
       >
         {languageLabel}

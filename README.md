@@ -217,6 +217,7 @@ Note that proxying to other environments may require additional Cognito configur
   descWithErrorPropertyKeys = [key of descendant property with an error, ...]
   valueSubjectOfKey: <if a nested subject, key of the value | null>
   -> properties: [{property}, ...]
+  labels = [labels of property/resource templates of self and ancestors, ...]
 }
 ```
 -> Added by selector, not stored in state.
@@ -267,6 +268,7 @@ The following are only in the resource subject (that is, the base subject).
   rootPropertyKey: <key of root property that this subject is part of; for root property is own key>
   descUriOrLiteralValueKeys = [key of descendant uri or literal Value, ...]
   descWithErrorPropertyKeys = [key of descendant or self Property with an error, ...]
+  labels = [labels of property/resource templates of self and ancestors, ...]
 }
 ```
 -> Added by selector, not stored in state.
@@ -310,7 +312,7 @@ The following are only in the resource subject (that is, the base subject).
   propertyKey: <key of property>,
   -> property: {<property>},
   literal: <literal>,
-  lang: <language for literal>,
+  lang: <language for literal or URI label>,
   -> langLabel: <label for language>,
   uri: <uri>,
   label: <label for uri>,

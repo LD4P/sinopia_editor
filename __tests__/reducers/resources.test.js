@@ -19,11 +19,12 @@ import {
   setValueOrder,
   clearResourceFromEditor,
   saveResourceFinishedEditor,
-  updateLiteralValue,
+  updateValue,
 } from "reducers/resources"
 
 import { createState } from "stateUtils"
 import { createReducer } from "reducers/index"
+import { nanoid } from "nanoid"
 
 const reducers = {
   ADD_PROPERTY: addProperty,
@@ -39,7 +40,7 @@ const reducers = {
   SET_RESOURCE_GROUP: setResourceGroup,
   SET_VALUE_ORDER: setValueOrder,
   SHOW_PROPERTY: showProperty,
-  UPDATE_LITERAL_VALUE: updateLiteralValue,
+  UPDATE_VALUE: updateValue,
 }
 
 const reducer = createReducer(reducers)
@@ -53,6 +54,9 @@ const editorReducers = {
 }
 
 const editorReducer = createReducer(editorReducers)
+
+jest.mock("nanoid")
+nanoid.mockReturnValue("abc123")
 
 describe("addProperty()", () => {
   describe("new property with no values", () => {
@@ -79,12 +83,13 @@ describe("addProperty()", () => {
         rootSubjectKey: "t9zVwg2zO",
         propertyTemplateKey:
           "ld4p:RT:bf2:Title:AbbrTitle > http://id.loc.gov/ontologies/bibframe/mainTitle",
-        valueKeys: [],
-        show: true,
+        valueKeys: ["abc123"],
+        show: false,
         errors: [],
         rootPropertyKey: "vmq88891",
         descUriOrLiteralValueKeys: [],
         descWithErrorPropertyKeys: [],
+        labels: ["Abbreviated Title", "Abbreviated Title"],
       })
       expect(newState.subjects.t9zVwg2zO.propertyKeys).toContain("vmq88891")
       expect(newState.subjects.t9zVwg2zO.changed).toBe(true)
@@ -114,7 +119,7 @@ describe("addProperty()", () => {
               valueSubject: null,
             },
           ],
-          show: true,
+          show: false,
           errors: [],
         },
       }
@@ -132,6 +137,7 @@ describe("addProperty()", () => {
         rootPropertyKey: "JQEtq-vmq8",
         descWithErrorPropertyKeys: [],
         descUriOrLiteralValueKeys: ["RxGx7WMh4"],
+        labels: ["Abbreviated Title", "Abbreviated Title"],
       })
       expect(newState.subjects.t9zVwg2zO.propertyKeys).toContain("JQEtq-vmq8")
       // Replaces values
@@ -143,7 +149,7 @@ describe("addProperty()", () => {
 
   describe("existing uri property with no values", () => {
     it("updates state", () => {
-      const oldState = createState({ hasResourceWithUri: true })
+      const oldState = createState({ hasResourceWithLookup: true })
 
       const action = {
         type: "ADD_PROPERTY",
@@ -172,6 +178,7 @@ describe("addProperty()", () => {
         rootPropertyKey: "i0SAJP-Zhd",
         descUriOrLiteralValueKeys: [],
         descWithErrorPropertyKeys: ["i0SAJP-Zhd"],
+        labels: ["Testing sinopia lookup", "Instance of (lookup)"],
       })
       expect(newState.subjects["wihOjn-0Z"].propertyKeys).toContain(
         "i0SAJP-Zhd"
@@ -185,7 +192,7 @@ describe("addProperty()", () => {
 
   describe("property with validation error", () => {
     it("adds error", () => {
-      const oldState = createState({ hasResourceWithUri: true })
+      const oldState = createState({ hasResourceWithLookup: true })
       oldState.entities.propertyTemplates[
         "test:resource:SinopiaLookup > http://id.loc.gov/ontologies/bibframe/instanceOf"
       ].required = true
@@ -200,7 +207,6 @@ describe("addProperty()", () => {
           },
           values: [],
           show: true,
-          errors: [],
         },
       }
       const newState = reducer(oldState.entities, action)
@@ -212,10 +218,11 @@ describe("addProperty()", () => {
           "test:resource:SinopiaLookup > http://id.loc.gov/ontologies/bibframe/instanceOf",
         valueKeys: [],
         show: true,
-        errors: ["Required"],
         rootPropertyKey: "vmq88891",
         descUriOrLiteralValueKeys: [],
         descWithErrorPropertyKeys: ["vmq88891"],
+        labels: ["Testing sinopia lookup", "Instance of (lookup)"],
+        errors: ["Required"],
       })
 
       expect(
@@ -229,6 +236,9 @@ describe("addSubject()", () => {
   describe("new subject with no properties and matching resource key", () => {
     it("updates state", () => {
       const oldState = createState()
+      oldState.entities.subjectTemplates[
+        "resourceTemplate:bf2:Identifiers:Barcode"
+      ] = { label: "Barcode" }
 
       const action = {
         type: "ADD_SUBJECT",
@@ -259,6 +269,7 @@ describe("addSubject()", () => {
           descWithErrorPropertyKeys: [],
           valueSubjectOfKey: null,
           rootPropertyKey: null,
+          labels: ["Barcode"],
         },
       })
     })
@@ -273,7 +284,7 @@ describe("addSubject()", () => {
         payload: {
           key: "45689df",
           properties: [],
-          subjectTemplate: { key: "resourceTemplate:bf2:Identifiers:Barcode" },
+          subjectTemplate: { key: "ld4p:RT:bf2:Title:AbbrTitle" },
           uri: null,
         },
       }
@@ -294,8 +305,9 @@ describe("addSubject()", () => {
         descWithErrorPropertyKeys: [],
         group: null,
         editGroups: [],
-        subjectTemplateKey: "resourceTemplate:bf2:Identifiers:Barcode",
+        subjectTemplateKey: "ld4p:RT:bf2:Title:AbbrTitle",
         valueSubjectOfKey: null,
+        labels: ["Abbreviated Title"],
       })
     })
   })
@@ -344,6 +356,7 @@ describe("addSubject()", () => {
         bfWorkRefs: [],
         group: null,
         editGroups: [],
+        labels: ["Abbreviated Title"],
       })
       // Replaces values
       expect(newState.properties["KQEtq-vmq9"]).not.toBeUndefined()
@@ -361,9 +374,9 @@ describe("addValue()", () => {
         property: { key: "i0SAJP-Zhd" },
         rootSubjectKey: "wihOjn-0Z",
         literal: null,
-        lang: null,
+        lang: "eng",
         uri: "http://localhost:3000/resource/85770f92-f8cf-48ee-970a-aefc97843749",
-        label: null,
+        label: "How to Cook Everything",
         valueSubjectKey: null,
       },
     },
@@ -463,7 +476,7 @@ describe("addValue()", () => {
         uri: null,
         label: null,
         valueSubjectKey: null,
-        errors: ["Required"],
+        errors: ["Literal required"],
       })
       expect(newState.properties["JQEtq-vmq8"].valueKeys).toContain("DxGx7WMh3")
       expect(newState.properties["JQEtq-vmq8"].show).toBe(true)
@@ -560,7 +573,7 @@ describe("addValue()", () => {
 
   describe("new uri value that is a bf Work ref", () => {
     it("updates state", () => {
-      const oldState = createState({ hasResourceWithUri: true })
+      const oldState = createState({ hasResourceWithLookup: true })
 
       const newState = reducer(oldState.entities, addUriAction)
 
@@ -570,9 +583,9 @@ describe("addValue()", () => {
         rootSubjectKey: "wihOjn-0Z",
         rootPropertyKey: "i0SAJP-Zhd",
         literal: null,
-        lang: null,
+        lang: "eng",
         uri: "http://localhost:3000/resource/85770f92-f8cf-48ee-970a-aefc97843749",
-        label: null,
+        label: "How to Cook Everything",
         valueSubjectKey: null,
         errors: [],
       })
@@ -590,7 +603,7 @@ describe("addValue()", () => {
 
   describe("new uri value that is a bf Instance ref", () => {
     it("updates state", () => {
-      const oldState = createState({ hasResourceWithUri: true })
+      const oldState = createState({ hasResourceWithLookup: true })
       oldState.entities.propertyTemplates[
         "test:resource:SinopiaLookup > http://id.loc.gov/ontologies/bibframe/instanceOf"
       ].uri = "http://id.loc.gov/ontologies/bibframe/hasInstance"
@@ -608,7 +621,7 @@ describe("addValue()", () => {
 
   describe("new uri value that is a bf Item ref", () => {
     it("updates state", () => {
-      const oldState = createState({ hasResourceWithUri: true })
+      const oldState = createState({ hasResourceWithLookup: true })
       // Ignore the key here.
       oldState.entities.propertyTemplates[
         "test:resource:SinopiaLookup > http://id.loc.gov/ontologies/bibframe/instanceOf"
@@ -627,7 +640,7 @@ describe("addValue()", () => {
 
   describe("new uri value that is a bf Admin Metadata ref", () => {
     it("updates state", () => {
-      const oldState = createState({ hasResourceWithUri: true })
+      const oldState = createState({ hasResourceWithLookup: true })
       // Ignore the key here.
       oldState.entities.propertyTemplates[
         "test:resource:SinopiaLookup > http://id.loc.gov/ontologies/bibframe/instanceOf"
@@ -729,7 +742,6 @@ describe("removeValue()", () => {
       expect(newState.properties["JQEtq-vmq8"].valueKeys).not.toContain(
         "CxGx7WMh2"
       )
-      expect(newState.properties["JQEtq-vmq8"].errors).toHaveLength(0)
       expect(
         newState.properties["JQEtq-vmq8"].descUriOrLiteralValueKeys
       ).not.toContain("CxGx7WMh2")
@@ -765,7 +777,6 @@ describe("removeValue()", () => {
       expect(newState.properties["JQEtq-vmq8"].valueKeys).not.toContain(
         "CxGx7WMh2"
       )
-      expect(newState.properties["JQEtq-vmq8"].errors).toHaveLength(0)
       expect(
         newState.properties["JQEtq-vmq8"].descUriOrLiteralValueKeys
       ).not.toContain("CxGx7WMh2")
@@ -997,13 +1008,13 @@ describe("setValueOrder()", () => {
   })
 })
 
-describe("updateLiteralValue()", () => {
+describe("updateValue()", () => {
   describe("update literal value", () => {
     it("updates state", () => {
       const oldState = createState({ hasResourceWithLiteral: true })
 
       const action = {
-        type: "UPDATE_LITERAL_VALUE",
+        type: "UPDATE_VALUE",
         payload: {
           valueKey: "CxGx7WMh2",
           literal: "bar",
@@ -1043,7 +1054,7 @@ describe("updateLiteralValue()", () => {
       ].required = true
 
       const action = {
-        type: "UPDATE_LITERAL_VALUE",
+        type: "UPDATE_VALUE",
         payload: {
           valueKey: "CxGx7WMh2",
           literal: "",
@@ -1063,7 +1074,7 @@ describe("updateLiteralValue()", () => {
         uri: null,
         label: null,
         valueSubjectKey: null,
-        errors: ["Required"],
+        errors: ["Literal required"],
       })
       expect(newState.properties["JQEtq-vmq8"].valueKeys).toContain("CxGx7WMh2")
       expect(
@@ -1078,6 +1089,122 @@ describe("updateLiteralValue()", () => {
       expect(newState.subjects.t9zVwg2zO.descWithErrorPropertyKeys).toContain(
         "JQEtq-vmq8"
       )
+    })
+  })
+
+  describe("update uri value", () => {
+    it("updates state", () => {
+      const oldState = createState({ hasResourceWithUri: true })
+
+      const action = {
+        type: "UPDATE_VALUE",
+        payload: {
+          valueKey: "a_-Jp0pY6pH6ytCtfr-mx",
+          uri: "http://id.loc.gov/authorities/names/nr2003037533",
+          label: "Laurent Martres",
+          lang: "eng",
+        },
+      }
+
+      const newState = reducer(oldState.entities, action)
+
+      expect(newState.values["a_-Jp0pY6pH6ytCtfr-mx"]).toStrictEqual({
+        key: "a_-Jp0pY6pH6ytCtfr-mx",
+        literal: null,
+        lang: "eng",
+        uri: "http://id.loc.gov/authorities/names/nr2003037533",
+        label: "Laurent Martres",
+        propertyKey: "RPaGmJ_8IQi8roZ1oj1uK",
+        rootSubjectKey: "FYPd18JgfhSGaeviY7NNu",
+        rootPropertyKey: "RPaGmJ_8IQi8roZ1oj1uK",
+        valueSubjectKey: null,
+        errors: [],
+      })
+      expect(newState.properties.RPaGmJ_8IQi8roZ1oj1uK.valueKeys).toContain(
+        "a_-Jp0pY6pH6ytCtfr-mx"
+      )
+      expect(
+        newState.properties.RPaGmJ_8IQi8roZ1oj1uK.descUriOrLiteralValueKeys
+      ).toContain("a_-Jp0pY6pH6ytCtfr-mx")
+      expect(
+        newState.subjects.FYPd18JgfhSGaeviY7NNu.descUriOrLiteralValueKeys
+      ).toContain("a_-Jp0pY6pH6ytCtfr-mx")
+    })
+  })
+
+  describe("update uri value missing uri", () => {
+    it("updates state", () => {
+      const oldState = createState({ hasResourceWithUri: true })
+
+      const action = {
+        type: "UPDATE_VALUE",
+        payload: {
+          valueKey: "a_-Jp0pY6pH6ytCtfr-mx",
+          uri: null,
+          label: "Laurent Martres",
+          lang: "eng",
+        },
+      }
+
+      const newState = reducer(oldState.entities, action)
+
+      expect(newState.values["a_-Jp0pY6pH6ytCtfr-mx"]).toStrictEqual({
+        key: "a_-Jp0pY6pH6ytCtfr-mx",
+        literal: null,
+        lang: "eng",
+        uri: null,
+        label: "Laurent Martres",
+        propertyKey: "RPaGmJ_8IQi8roZ1oj1uK",
+        rootSubjectKey: "FYPd18JgfhSGaeviY7NNu",
+        rootPropertyKey: "RPaGmJ_8IQi8roZ1oj1uK",
+        valueSubjectKey: null,
+        errors: ["URI required"],
+      })
+
+      expect(
+        newState.properties.RPaGmJ_8IQi8roZ1oj1uK.descWithErrorPropertyKeys
+      ).toContain("RPaGmJ_8IQi8roZ1oj1uK")
+      expect(
+        newState.subjects.FYPd18JgfhSGaeviY7NNu.descWithErrorPropertyKeys
+      ).toContain("RPaGmJ_8IQi8roZ1oj1uK")
+    })
+  })
+
+  describe("update uri value missing label", () => {
+    it("updates state", () => {
+      const oldState = createState({ hasResourceWithUri: true })
+
+      const action = {
+        type: "UPDATE_VALUE",
+        payload: {
+          valueKey: "a_-Jp0pY6pH6ytCtfr-mx",
+          uri: "http://id.loc.gov/authorities/names/nr2003037533",
+          label: null,
+          lang: null,
+        },
+      }
+
+      const newState = reducer(oldState.entities, action)
+
+      expect(newState.values["a_-Jp0pY6pH6ytCtfr-mx"]).toStrictEqual({
+        key: "a_-Jp0pY6pH6ytCtfr-mx",
+        literal: null,
+        lang: null,
+        uri: "http://id.loc.gov/authorities/names/nr2003037533",
+        label: null,
+        propertyKey: "RPaGmJ_8IQi8roZ1oj1uK",
+        rootSubjectKey: "FYPd18JgfhSGaeviY7NNu",
+        rootPropertyKey: "RPaGmJ_8IQi8roZ1oj1uK",
+        valueSubjectKey: null,
+        errors: ["Label required"],
+      })
+
+      expect(
+        newState.properties.RPaGmJ_8IQi8roZ1oj1uK.descWithErrorPropertyKeys
+      ).toContain("RPaGmJ_8IQi8roZ1oj1uK")
+      expect(
+        newState.subjects.FYPd18JgfhSGaeviY7NNu.descWithErrorPropertyKeys
+      ).toContain("RPaGmJ_8IQi8roZ1oj1uK")
     })
   })
 })

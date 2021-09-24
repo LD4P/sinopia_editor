@@ -89,6 +89,20 @@ describe("searching and viewing a resource", () => {
       screen.queryByText("Uber template1, property7")
     ).not.toBeInTheDocument()
 
+    // URIs are rendered.
+    screen.findByText(
+      "ubertemplate1:property5 [English]: http://example.edu/ubertemplate1:property5",
+      {
+        selector: "p",
+      }
+    )
+    screen.findByText("http://example.edu/ubertemplate1:property5", {
+      selector: "a",
+    })
+    screen.findByText("ubertemplate1:property6: ubertemplate1:property6", {
+      selector: "p",
+    })
+
     // Edit controls are disabled in view modal
     expect(screen.getByTestId("Remove analog")).toBeDisabled()
     screen.getAllByTestId(/Submit lookup/).forEach((lookupValueControl) => {

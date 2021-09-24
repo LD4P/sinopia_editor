@@ -5,6 +5,10 @@
       "key": "abc2",
       "property": {
         "key": "v1o90QO1Qx",
+        "labels": [
+          "Uber template1",
+          "Uber template1, property1"
+        ],
         "subjectKey": "ljAblGiBW",
         "rootSubjectKey": "ljAblGiBW",
         "rootPropertyKey": "v1o90QO1Qx",
@@ -16,6 +20,9 @@
         "descWithErrorPropertyKeys": [],
         "subject": {
           "key": "ljAblGiBW",
+          "labels": [
+            "Uber template1"
+          ],
           "uri": null,
           "rootSubjectKey": "ljAblGiBW",
           "rootPropertyKey": null,
