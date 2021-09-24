@@ -87,7 +87,7 @@ module.exports = {
     'jsx-a11y/no-noninteractive-tabindex': ['off', { roles: ['tooltip'] }],
     'lines-around-comment': 'off', // Off for prettier
     'max-classes-per-file': 'off',
-    'max-len': 'off',
+    'max-len': ['warn', {code: 120}],
     'max-lines-per-function': 'off',
     'max-statements': 'off',
     'max-statements-per-line': 'off',
