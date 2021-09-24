@@ -612,7 +612,7 @@ const stateWithNewValue = (state, valueKey) => ({
   },
 })
 
-const setSubjectChanged = (state, subjectKey, changed) => {
+export const setSubjectChanged = (state, subjectKey, changed) => {
   const newState = stateWithNewSubject(state, subjectKey)
   newState.subjects[subjectKey].changed = changed
 

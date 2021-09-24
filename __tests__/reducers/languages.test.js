@@ -48,6 +48,9 @@ describe("languagesReceived()", () => {
 describe("setLanguage", () => {
   it("sets value language", () => {
     const oldState = createState({ hasResourceWithLiteral: true })
+    const subjectKey = oldState.entities.properties["JQEtq-vmq8"].subjectKey
+    expect(oldState.entities.subjects[subjectKey].changed).toBeFalsy
+
     const action = {
       type: "LANGUAGE_SELECTED",
       payload: {
@@ -58,5 +61,6 @@ describe("setLanguage", () => {
 
     const newState = reducer(oldState.entities, action)
     expect(newState.values.CxGx7WMh2.lang).toBe("spa")
+    expect(newState.subjects[subjectKey].changed).toBeTruthy
   })
 })
