@@ -49,6 +49,8 @@
               "class": "http://id.loc.gov/ontologies/bibframe/Uber2",
               "label": "Uber template2",
               "remark": "Template for testing purposes with single repeatable literal.",
+              "group": "stanford",
+              "editGroups": ["cornell"],
               "propertyTemplateKeys": [
                 "resourceTemplate:testing:uber2 > http://id.loc.gov/ontologies/bibframe/uber/template2/property1"
               ],

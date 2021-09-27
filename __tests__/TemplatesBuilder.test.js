@@ -14,7 +14,9 @@ describe("TemplatesBuilder", () => {
 <> <http://sinopia.io/vocabulary/hasResourceAttribute> <http://sinopia.io/vocabulary/resourceAttribute/suppressible> .`
 
     const dataset = await datasetFromN3(rdf)
-    const subjectTemplate = new TemplatesBuilder(dataset, "").build()
+    const subjectTemplate = new TemplatesBuilder(dataset, "", "stanford", [
+      "cornell",
+    ]).build()
     expect(subjectTemplate).toStrictEqual({
       key: "resourceTemplate:testing:uber1",
       id: "resourceTemplate:testing:uber1",
@@ -27,6 +29,8 @@ describe("TemplatesBuilder", () => {
       propertyTemplateKeys: [],
       propertyTemplates: [],
       suppressible: true,
+      group: "stanford",
+      editGroups: ["cornell"],
     })
   })
 

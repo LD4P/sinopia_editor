@@ -12,6 +12,8 @@
       "author": "Justin Littman",
       "remark": "Template for testing purposes.",
       "date": "2020-07-27",
+      "group": "stanford",
+      "editGroups": ["cornell"],
       "suppressible": false,
       "propertyTemplateKeys": [
         "resourceTemplate:testing:uber1 > http://id.loc.gov/ontologies/bibframe/uber/template1/property1",
@@ -624,6 +626,8 @@
                 "author": null,
                 "remark": "Template for testing purposes with single repeatable literal.",
                 "date": null,
+                "group": "stanford",
+                "editGroups": ["cornell"],
                 "suppressible": false,
                 "propertyTemplateKeys": [
                   "resourceTemplate:testing:uber2 > http://id.loc.gov/ontologies/bibframe/uber/template2/property1"
@@ -710,6 +714,8 @@
                 "author": null,
                 "remark": "Template for testing purposes with multiple literal.",
                 "date": null,
+                "group": "stanford",
+                "editGroups": ["cornell"],
                 "suppressible": false,
                 "propertyTemplateKeys": [
                   "resourceTemplate:testing:uber3 > http://id.loc.gov/ontologies/bibframe/uber/template3/property1",
@@ -922,6 +928,8 @@
                 "author": null,
                 "remark": "Template for testing purposes with single repeatable, required literal.",
                 "date": null,
+                "group": "stanford",
+                "editGroups": ["cornell"],
                 "suppressible": false,
                 "propertyTemplateKeys": [
                   "resourceTemplate:testing:uber4 > http://id.loc.gov/ontologies/bibframe/uber/template4/property1"
@@ -1013,6 +1021,8 @@
                 "author": null,
                 "remark": "Template for testing purposes with suppressed, repeatable URI.",
                 "date": null,
+                "group": "stanford",
+                "editGroups": ["cornell"],
                 "suppressible": true,
                 "propertyTemplateKeys": [
                   "resourceTemplate:testing:uber5 > http://id.loc.gov/ontologies/bibframe/uber/template5/property1"

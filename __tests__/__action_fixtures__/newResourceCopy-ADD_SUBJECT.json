@@ -25,6 +25,8 @@
           "label": "Abbreviated Title",
           "author": "LD4P",
           "date": "2019-08-19",
+          "group": "stanford",
+          "editGroups": ["cornell"],
           "propertyTemplateKeys": [
             "ld4p:RT:bf2:Title:AbbrTitle > http://id.loc.gov/ontologies/bibframe/mainTitle"
           ]

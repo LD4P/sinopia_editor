@@ -3,11 +3,13 @@ import { findAuthorityConfig } from "utilities/authorityConfig"
 import rdf from "rdf-ext"
 
 export default class TemplatesBuilder {
-  constructor(dataset, uri) {
+  constructor(dataset, uri, group = null, editGroups = []) {
     this.dataset = dataset
     this.uri = uri
     this.resourceTerm = rdf.namedNode(uri)
     this.subjectTemplate = null
+    this.group = group
+    this.editGroups = editGroups
   }
 
   /**
@@ -60,6 +62,8 @@ export default class TemplatesBuilder {
       ),
       propertyTemplateKeys: [],
       propertyTemplates: [],
+      group: this.group,
+      editGroups: this.editGroups,
     }
   }
 
