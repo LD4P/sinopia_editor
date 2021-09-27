@@ -20,6 +20,8 @@ describe("addTemplateHistory", () => {
     author: "LD4P",
     remark: "Library of Congress Card Number",
     date: "2019-08-19",
+    group: "stanford",
+    editGroups: ["cornell"],
   }
 
   it("transforms to a result", () => {
@@ -35,6 +37,8 @@ describe("addTemplateHistory", () => {
         resourceLabel: "LCCN",
         resourceURI: "http://id.loc.gov/ontologies/bibframe/Lccn",
         uri: "http://localhost:3000/resource/ld4p:RT:bf2:Identifiers:LCCN",
+        group: "stanford",
+        editGroups: ["cornell"],
       },
     ])
   })
@@ -104,6 +108,8 @@ describe("addTemplateHistoryByResult", () => {
     resourceLabel: "LCCN",
     resourceURI: "http://id.loc.gov/ontologies/bibframe/Lccn",
     uri: "http://localhost:3000/resource/ld4p:RT:bf2:Identifiers:LCCN",
+    group: "stanford",
+    editGroups: ["cornell"],
   }
 
   it("adds to historical templates", () => {
@@ -137,6 +143,7 @@ describe("addResourceHistoryByResult", () => {
     type: ["http://id.loc.gov/ontologies/bibframe/TableOfContents"],
     modified: "2020-10-05T14:31:16.612Z",
     group: "stanford",
+    editGroups: ["cornell"],
   }
 
   it("adds to historical resources", () => {
@@ -154,7 +161,8 @@ describe("addResourceHistory", () => {
     resourceUri:
       "http://localhost:3000/resource/f383bfff-5364-47a3-a081-8c9e2d79f43f",
     type: "http://id.loc.gov/ontologies/bibframe/TableOfContents",
-    group: "cornell",
+    group: "stanford",
+    editGroups: ["cornell"],
     modified: "2020-10-05T14:38:19.704Z",
   }
 
@@ -169,7 +177,8 @@ describe("addResourceHistory", () => {
           "http://localhost:3000/resource/f383bfff-5364-47a3-a081-8c9e2d79f43f",
         type: ["http://id.loc.gov/ontologies/bibframe/TableOfContents"],
         modified: "2020-10-05T14:38:19.704Z",
-        group: "cornell",
+        group: "stanford",
+        editGroups: ["cornell"],
       },
     ])
   })

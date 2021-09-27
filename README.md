@@ -245,7 +245,10 @@ The following are only in the resource subject (that is, the base subject).
   remark: <remark>,
   date: <date>,
   suppressible: <true | false>,
-  propertyKeys: [key of property templates, ...]
+  propertyKeys: [key of property templates, ...],
+  group: <group that that template belongs to>,
+  editGroups: [groups that can edit the template],
+
 }
 ```
 

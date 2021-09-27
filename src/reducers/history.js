@@ -16,6 +16,8 @@ export const addTemplateHistory = (state, action) => {
     author: template.author,
     remark: template.remark,
     date: template.date,
+    group: template.group,
+    editGroups: template.editGroups,
   }
   return addTemplateResult(state, result)
 }
@@ -53,6 +55,7 @@ export const addResourceHistory = (state, action) => {
     type: [action.payload.type],
     modified: action.payload.modified,
     group: action.payload.group,
+    editGroups: action.payload.editGroups,
   }
   return addResourceResult(state, result)
 }

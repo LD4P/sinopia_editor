@@ -106,6 +106,8 @@ const buildTemplateWithLiteral = (state, options) => {
       author: null,
       remark: null,
       date: null,
+      group: "stanford",
+      editGroups: ["cornell"],
       propertyTemplateKeys: [
         "sinopia:template:resource > http://www.w3.org/2000/01/rdf-schema#label",
       ],
@@ -199,6 +201,8 @@ const buildResourceWithLiteral = (state, options) => {
       label: "Abbreviated Title",
       author: "LD4P",
       date: "2019-08-19",
+      group: "stanford",
+      editGroups: ["cornell"],
       propertyTemplateKeys: [
         "ld4p:RT:bf2:Title:AbbrTitle > http://id.loc.gov/ontologies/bibframe/mainTitle",
       ],
@@ -283,6 +287,8 @@ const buildTwoLiteralResources = (state, options) => {
       label: "Abbreviated Title",
       author: "LD4P",
       date: "2019-08-19",
+      group: "stanford",
+      editGroups: ["cornell"],
       propertyTemplateKeys: [
         "ld4p:RT:bf2:Title:AbbrTitle > http://id.loc.gov/ontologies/bibframe/mainTitle",
       ],
@@ -294,6 +300,8 @@ const buildTwoLiteralResources = (state, options) => {
       label: "Note",
       author: "LD4P",
       date: "2019-08-19",
+      group: "stanford",
+      editGroups: ["cornell"],
       propertyTemplateKeys: [
         "ld4p:RT:bf2:Note > http://id.loc.gov/ontologies/bibframe/note",
       ],
@@ -426,6 +434,8 @@ const buildResourceWithUri = (state, options) => {
       author: null,
       remark: "This hits elasticsearch",
       date: null,
+      group: "stanford",
+      editGroups: ["cornell"],
       propertyTemplateKeys: [
         "test:resource:SinopiaLookup > http://id.loc.gov/ontologies/bibframe/instanceOf",
       ],
@@ -526,6 +536,8 @@ const buildResourceWithContractedLiteral = (state, options) => {
       label: "Abbreviated Title",
       author: "LD4P",
       date: "2019-08-19",
+      group: "stanford",
+      editGroups: ["cornell"],
       propertyTemplateKeys: [
         "ld4p:RT:bf2:Title:AbbrTitle > http://id.loc.gov/ontologies/bibframe/mainTitle",
       ],
@@ -597,6 +609,8 @@ const buildResourceWithNestedResource = (state, options) => {
       class: "http://id.loc.gov/ontologies/bibframe/Uber1",
       label: "Uber template1",
       remark: "Template for testing purposes.",
+      group: "stanford",
+      editGroups: ["cornell"],
       propertyTemplateKeys: [
         "resourceTemplate:testing:uber1 > http://id.loc.gov/ontologies/bibframe/uber/template1/property1",
       ],
@@ -607,6 +621,8 @@ const buildResourceWithNestedResource = (state, options) => {
       class: "http://id.loc.gov/ontologies/bibframe/Uber2",
       label: "Uber template2",
       remark: "Template for testing purposes with single repeatable literal.",
+      group: "stanford",
+      editGroups: ["cornell"],
       propertyTemplateKeys: [
         "resourceTemplate:testing:uber2 > http://id.loc.gov/ontologies/bibframe/uber/template2/property1",
       ],
@@ -742,6 +758,8 @@ const buildResourceWithContractedNestedResource = (state, options) => {
       class: "http://id.loc.gov/ontologies/bibframe/Uber1",
       label: "Uber template1",
       remark: "Template for testing purposes.",
+      group: "stanford",
+      editGroups: ["cornell"],
       propertyTemplateKeys: [
         "resourceTemplate:testing:uber1 > http://id.loc.gov/ontologies/bibframe/uber/template1/property1",
       ],
@@ -851,6 +869,8 @@ const buildResourceWithTwoNestedResources = (state, options) => {
       class: "http://id.loc.gov/ontologies/bibframe/Uber1",
       label: "Uber template1",
       remark: "Template for testing purposes.",
+      group: "stanford",
+      editGroups: ["cornell"],
       propertyTemplateKeys: [
         "resourceTemplate:testing:uber1 > http://id.loc.gov/ontologies/bibframe/uber/template1/property1",
       ],
@@ -861,6 +881,8 @@ const buildResourceWithTwoNestedResources = (state, options) => {
       class: "http://id.loc.gov/ontologies/bibframe/Uber2",
       label: "Uber template2",
       remark: "Template for testing purposes with single repeatable literal.",
+      group: "stanford",
+      editGroups: ["cornell"],
       propertyTemplateKeys: [
         "resourceTemplate:testing:uber2 > http://id.loc.gov/ontologies/bibframe/uber/template2/property1",
       ],
