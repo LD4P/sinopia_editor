@@ -19,10 +19,9 @@ import { selectGroups } from "selectors/authenticate"
 import { selectGroupMap } from "selectors/groups"
 import usePermissions from "hooks/usePermissions"
 
-// The ld4p group is only for templates
 const groupsToGroupValues = (groupIds, groupMap, ownerGroupId = null) =>
   groupIds
-    .filter((groupId) => ![ownerGroupId, "ld4p"].includes(groupId))
+    .filter((groupId) => ownerGroupId !== groupId)
     .sort((groupId1, groupId2) =>
       groupMap[groupId1].localeCompare(groupMap[groupId2])
     )
