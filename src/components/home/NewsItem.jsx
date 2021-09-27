@@ -18,8 +18,11 @@ const NewsItem = () => (
     </p>
     <ul>
       <li>
-        Fixed template creation bugs involving invalid date format and changing
-        field order.
+        Permissions enabled. See{" "}
+        <a href="https://github.com/LD4P/sinopia/wiki/Permissions-in-Sinopia">
+          Permissions in Sinopia
+        </a>
+        .
       </li>
       <li>Multiple RDF-to-MARC conversion fixes and enhancements.</li>
     </ul>
