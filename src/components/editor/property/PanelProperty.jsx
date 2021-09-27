@@ -19,6 +19,7 @@ import {
 import { selectPropertyTemplate } from "selectors/templates"
 import useNavigableComponent from "hooks/useNavigableComponent"
 import { nanoid } from "nanoid"
+import _ from "lodash"
 
 const PanelProperty = (props) => {
   // Null values indicates that can be added.
@@ -43,6 +44,10 @@ const PanelProperty = (props) => {
 
   // used to associate the PropertyComponent field to be labeled with the PropertyLabel
   const propertyLabelId = `labelled-by-${nanoid()}`
+
+  // On preview, don't display empty properties.
+  if (readOnly && _.isEmpty(props.property.descUriOrLiteralValueKeys))
+    return null
 
   // onClick is to support left navigation, so ignoring jsx-ally seems reasonable.
   /* eslint-disable jsx-a11y/click-events-have-key-events */

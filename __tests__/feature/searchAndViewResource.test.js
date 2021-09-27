@@ -83,6 +83,12 @@ describe("searching and viewing a resource", () => {
       selector: "p",
     })
 
+    // Only properties with values are displayed.
+    screen.getByText("Uber template1, property9")
+    expect(
+      screen.queryByText("Uber template1, property7")
+    ).not.toBeInTheDocument()
+
     // Edit controls are disabled in view modal
     expect(screen.getByTestId("Remove analog")).toBeDisabled()
     screen.getAllByTestId(/Submit lookup/).forEach((lookupValueControl) => {
