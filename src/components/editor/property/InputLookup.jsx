@@ -16,7 +16,7 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
 import { faGlobe, faTrashAlt } from "@fortawesome/free-solid-svg-icons"
 import ResourceList from "./ResourceList"
 import Lookup from "./Lookup"
-import useDiacritics from "hooks/useDiacritics"
+import useDiacritics from "hooks/useDiacriticsLegacy"
 import DiacriticsSelection from "components/editor/diacritics/DiacriticsSelection"
 
 const InputLookup = (props) => {

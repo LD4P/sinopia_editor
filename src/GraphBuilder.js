@@ -97,7 +97,11 @@ export default class GraphBuilder {
         )
       })
     } else {
-      property.values.forEach((value) =>
+      const values = property.values.filter((value) =>
+        this.checkValueHasValue(value)
+      )
+
+      values.forEach((value) =>
         this.buildValue(
           value,
           subjectTerm,

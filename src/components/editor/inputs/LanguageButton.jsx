@@ -2,17 +2,13 @@
 
 import React from "react"
 import PropTypes from "prop-types"
-import { useDispatch, useSelector, connect } from "react-redux"
-import InputLang from "components/editor/inputs/InputLang"
+import { useDispatch, connect } from "react-redux"
+import InputLang from "./InputLang"
 import { showModal } from "actions/modals"
 import { selectLanguageLabel } from "selectors/languages"
-import { selectCurrentResourceIsReadOnly } from "selectors/resources"
 
 const LanguageButton = (props) => {
   const dispatch = useDispatch()
-  const readOnly = useSelector((state) =>
-    selectCurrentResourceIsReadOnly(state)
-  )
 
   const handleClick = (event) => {
     event.preventDefault()
@@ -24,14 +20,13 @@ const LanguageButton = (props) => {
   return (
     <React.Fragment>
       <button
-        disabled={readOnly}
         id="language"
         onClick={handleClick}
         aria-label={`Change language for ${props.value.literal}`}
         data-testid={`Change language for ${props.value.literal}`}
-        className="btn btn-sm btn-secondary btn-literal"
+        className="btn btn-link"
       >
-        Language: {languageLabel}
+        {languageLabel}
       </button>
       <InputLang value={props.value} />
     </React.Fragment>

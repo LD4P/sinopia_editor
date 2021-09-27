@@ -46,7 +46,7 @@
     "pretty": "prettier --check .",
     "pretty-fix": "prettier --write .",
     "fix": "npm run pretty-fix && npm run eslint-fix",
-    "lint": "npm run pretty && npm run eslint",    
+    "lint": "npm run pretty && npm run eslint",
     "start": "npx babel-node server.js",
     "test": "jest --colors --silent --runInBand",
     "test-verbose": "jest --colors --runInBand",
@@ -139,10 +139,11 @@
     "jest-localstorage-mock": "^2.4.17",
     "jest-mock-console": "^1.1.0",
     "jest-prop-type-error": "^1.1.0",
+    "jest-summarizing-reporter": "^1.1.4",
     "jsdom": "^17.0.0",
     "jsdom-global": "3.0.2",
-    "prettier": "2.4.0",
     "postcss-loader": "^6.1.1",
+    "prettier": "2.4.0",
     "raw-loader": "^4.0.2",
     "redux-mock-store": "^1.5.3",
     "sass-loader": "^12.1.0",
@@ -189,6 +190,9 @@
     "collectCoverage": true,
     "coverageReporters": [
       "lcov"
+    ],
+    "reporters": [
+      ["jest-summarizing-reporter", {"diffs": true}]
     ]
   },
   "optionalDependencies": {

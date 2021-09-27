@@ -136,3 +136,6 @@ export const datasetFromRdf = (rdf) => {
   }
   return datasetFromJsonld(json)
 }
+
+export const emptyValue = (value) =>
+  !value.literal && !value.uri && !value.subjectValueKey

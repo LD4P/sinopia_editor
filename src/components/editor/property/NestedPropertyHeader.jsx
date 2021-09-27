@@ -100,17 +100,18 @@ const NestedPropertyHeader = (props) => {
         />
       </strong>
       <PropertyLabelInfo propertyTemplate={props.propertyTemplate} />
-      <button
-        type="button"
-        className="btn btn-sm btn-remove pull-right"
-        disabled={readOnly}
-        onClick={() => props.contractProperty(props.property.key)}
-        aria-label={`Remove ${props.propertyTemplate.label}`}
-        data-testid={`Remove ${props.propertyTemplate.label}`}
-        data-id={props.property.key}
-      >
-        <FontAwesomeIcon className="trash-icon" icon={trashIcon} />
-      </button>
+      {!readOnly && (
+        <button
+          type="button"
+          className="btn btn-sm btn-remove pull-right"
+          onClick={() => props.contractProperty(props.property.key)}
+          aria-label={`Remove ${props.propertyTemplate.label}`}
+          data-testid={`Remove ${props.propertyTemplate.label}`}
+          data-id={props.property.key}
+        >
+          <FontAwesomeIcon className="trash-icon" icon={trashIcon} />
+        </button>
+      )}
     </div>
   )
 }

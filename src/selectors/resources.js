@@ -4,6 +4,7 @@ import {
   selectSubjectTemplate,
   selectPropertyTemplate,
 } from "selectors/templates"
+import { selectLanguageLabel } from "selectors/languages"
 
 // Always use selectNormSubject/Property/Value in components.
 // selectSubject/Property/Value can be used in actionCreators.
@@ -64,6 +65,8 @@ export const selectValue = (state, key) => {
   )
   newValue.property = newProperty
   newValue.valueSubject = selectSubject(state, newValue.valueSubjectKey)
+  if (newValue.lang)
+    newValue.langLabel = selectLanguageLabel(state, newValue.lang)
   return newValue
 }
 

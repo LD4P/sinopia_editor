@@ -1,4 +1,4 @@
-import { useLayoutEffect, useRef } from "react"
+import { useLayoutEffect, useRef, useState } from "react"
 import { setCurrentComponent } from "actions/index"
 import { useDispatch, useSelector } from "react-redux"
 import { selectCurrentComponentKey } from "selectors/index"
@@ -12,11 +12,18 @@ const useNavigableComponent = (
   const currentComponentKey = useSelector((state) =>
     selectCurrentComponentKey(state, rootSubjectKey)
   )
+  const [lastComponentKey, setLastComponentKey] = useState(null)
 
   useLayoutEffect(() => {
-    if (componentKey === currentComponentKey && !isVisible(navEl.current))
+    if (
+      componentKey === currentComponentKey &&
+      lastComponentKey !== currentComponentKey &&
+      !isVisible(navEl.current)
+    ) {
       navEl.current.scrollIntoView({ behavior: "smooth" })
-  })
+      setLastComponentKey(currentComponentKey)
+    }
+  }, [componentKey, currentComponentKey, lastComponentKey])
 
   // From  https://blogreact.com/check-element-is-in-viewport/
   const isVisible = (el) => {

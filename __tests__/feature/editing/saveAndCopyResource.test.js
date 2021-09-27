@@ -1,5 +1,5 @@
 import { renderApp, createHistory } from "testUtils"
-import { fireEvent, waitFor, screen } from "@testing-library/react"
+import { fireEvent, screen } from "@testing-library/react"
 import * as sinopiaApi from "sinopiaApi"
 
 import { featureSetup } from "featureUtils"
@@ -32,21 +32,12 @@ describe("saving a resource", () => {
       fireEvent.change(input, { target: { value: "foo" } })
       fireEvent.keyDown(input, { key: "Enter", code: 13, charCode: 13 })
 
-      // There is foo text. Perhaps check css.
-      await waitFor(() =>
-        expect(screen.getByText("foo")).toHaveClass("rbt-token")
-      )
       // There is remove button
-      expect(screen.getByTestId("Remove foo")).toHaveTextContent("×")
-      // There is edit button.
-      const editBtn = screen.getByTestId("Edit foo")
-      expect(editBtn).toHaveTextContent("Edit")
+      screen.getByTestId("Remove foo")
       // There is language button.
       expect(screen.getByTestId("Change language for foo")).toHaveTextContent(
-        "Language: English"
+        "English"
       )
-      // Input is Empty
-      expect(input).toHaveValue("")
 
       expect(saveBtn).not.toBeDisabled()
       fireEvent.click(saveBtn)
@@ -71,7 +62,6 @@ describe("saving a resource", () => {
       await screen.findAllByText("Title note", {
         selector: ".nav-item:not(.active) .nav-link",
       })
-      expect(editBtn).toHaveTextContent("Edit")
     })
   })
 })

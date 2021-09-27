@@ -75,22 +75,15 @@ describe("searching and viewing a resource", () => {
       })
     ).toHaveLength(1)
 
-    // Edit controls are disabled in view modal
-    screen
-      .getAllByTestId("Remove Uber template3, property1")
-      .forEach((removeButton) => {
-        expect(removeButton).toBeDisabled()
-      })
-    screen.getAllByText("ä").forEach((languageButton) => {
-      expect(languageButton).toBeDisabled()
+    // Literals are rendered
+    screen.findByText("Uber template3, property2, value1 [English]", {
+      selector: "p",
     })
-    expect(
-      screen.getByPlaceholderText("Uber template3, property1")
-    ).toBeDisabled()
-    expect(screen.getByTestId("Edit Uber template3, property1")).toBeDisabled()
-    expect(
-      screen.getByTestId("Change language for Uber template3, property1")
-    ).toBeDisabled()
+    screen.findByText("Uber template3, property2, value2 [English]", {
+      selector: "p",
+    })
+
+    // Edit controls are disabled in view modal
     expect(screen.getByTestId("Remove analog")).toBeDisabled()
     screen.getAllByTestId(/Submit lookup/).forEach((lookupValueControl) => {
       expect(lookupValueControl).toBeDisabled()

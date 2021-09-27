@@ -182,6 +182,7 @@ const buildTemplateWithLiteral = (state, options) => {
       label: null,
       propertyKey: "mLi9ZqIjjx",
       valueSubjectKey: null,
+      errors: [],
     },
   }
 }
@@ -270,6 +271,7 @@ const buildResourceWithLiteral = (state, options) => {
       uri: null,
       label: null,
       valueSubjectKey: null,
+      errors: [],
     },
   }
 }
@@ -405,6 +407,7 @@ const buildTwoLiteralResources = (state, options) => {
       uri: null,
       label: null,
       valueSubjectKey: null,
+      errors: [],
     },
     DyHy8XNi3: {
       key: "DyHy8XNi3",
@@ -416,6 +419,7 @@ const buildTwoLiteralResources = (state, options) => {
       uri: null,
       label: null,
       valueSubjectKey: null,
+      errors: [],
     },
   }
 }
@@ -519,6 +523,7 @@ const buildResourceWithUri = (state, options) => {
       label: "foo",
       propertyKey: "i0SAJP-Zhd",
       valueSubjectKey: null,
+      errors: [],
     },
   }
 }
@@ -731,6 +736,7 @@ const buildResourceWithNestedResource = (state, options) => {
       uri: null,
       label: null,
       valueSubjectKey: "XPb8jaPWo",
+      errors: [],
     },
     "pRJ0lO_mT-": {
       key: "pRJ0lO_mT-",
@@ -742,6 +748,7 @@ const buildResourceWithNestedResource = (state, options) => {
       uri: null,
       label: null,
       valueSubjectKey: null,
+      errors: [],
     },
   }
 }
@@ -993,6 +1000,7 @@ const buildResourceWithTwoNestedResources = (state, options) => {
       uri: null,
       label: null,
       valueSubjectKey: "XPb8jaPWo",
+      errors: [],
     },
     VDOeQCnFA9: {
       key: "VDOeQCnFA9",
@@ -1003,6 +1011,7 @@ const buildResourceWithTwoNestedResources = (state, options) => {
       uri: null,
       label: null,
       valueSubjectKey: "XPb8jaPWp",
+      errors: [],
     },
     "pRJ0lO_mT-": {
       key: "pRJ0lO_mT-",
@@ -1013,6 +1022,7 @@ const buildResourceWithTwoNestedResources = (state, options) => {
       uri: null,
       label: null,
       valueSubjectKey: null,
+      errors: [],
     },
     "pRJ0lO_mU-": {
       key: "pRJ0lO_mU-",
@@ -1023,6 +1033,7 @@ const buildResourceWithTwoNestedResources = (state, options) => {
       uri: null,
       label: null,
       valueSubjectKey: null,
+      errors: [],
     },
   }
 }

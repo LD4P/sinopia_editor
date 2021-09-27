@@ -17,14 +17,14 @@ ENV HONEYBADGER_API_KEY=$HONEYBADGER_API_KEY
 # Set environment variables from the build args
 ENV INDEX_URL ${INDEX_URL}
 
-# Everything that isn't in .dockerignore ships
-COPY --chown=circleci:circleci . .
-
-RUN mkdir dist
-RUN mkdir node_modules
+COPY --chown=circleci:circleci package.json .
+COPY --chown=circleci:circleci package-lock.json .
 
 # Install dependencies
 RUN npm install --no-optional
+
+# Everything that isn't in .dockerignore ships
+COPY --chown=circleci:circleci . .
 
 # Build the app *within* the container because environment variables are fixed at build-time
 RUN npm run build

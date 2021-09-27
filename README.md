@@ -311,11 +311,12 @@ The following are only in the resource subject (that is, the base subject).
   -> property: {<property>},
   literal: <literal>,
   lang: <language for literal>,
+  -> langLabel: <label for language>,
   uri: <uri>,
   label: <label for uri>,
   valueSubjectKey: <key for subject for a nested resource>,
   -> valueSubject: {<subject>}
--> index: <1 based index of the value (relative to siblings)>
+  -> index: <1 based index of the value (relative to siblings)>
   rootResourceKey: <key of root resource that this property is descendant of>
   rootPropertyKey: <key of root property that this subject is part of>
 }

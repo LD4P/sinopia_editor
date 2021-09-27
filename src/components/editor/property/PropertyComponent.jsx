@@ -1,50 +1,58 @@
 // Copyright 2019 Stanford University see LICENSE for license
 
 import React from "react"
+import { useSelector } from "react-redux"
 import PropTypes from "prop-types"
-import InputLiteral from "./InputLiteral"
+import InputLiteral from "../inputs/InputLiteral"
 import InputURI from "./InputURI"
 import InputList from "./InputList"
 import InputLookup from "./InputLookup"
 import NestedResource from "./NestedResource"
+import ReadOnlyInputLiteral from "../inputs/ReadOnlyInputLiteral"
 import Alert from "../../Alert"
+import { selectCurrentResourceIsReadOnly } from "selectors/resources"
+import { displayResourceValidations } from "selectors/errors"
 
 // Decides how to render this property.
-const PropertyComponent = (props) => {
+const PropertyComponent = ({ property, propertyTemplate, propertyLabelId }) => {
+  const readOnly = useSelector((state) =>
+    selectCurrentResourceIsReadOnly(state)
+  )
+  const displayValidations = useSelector((state) =>
+    displayResourceValidations(state, property.rootSubjectKey)
+  )
+
   // Might be tempted to use lazy / suspense here, but it forces a remounting of components.
-  switch (props.propertyTemplate.component) {
+  switch (propertyTemplate.component) {
     case "NestedResource":
-      return props.property.valueKeys.map((valueKey) => (
+      return property.valueKeys.map((valueKey) => (
         <NestedResource key={valueKey} valueKey={valueKey} />
       ))
     case "InputLiteral":
+      if (readOnly) {
+        return <ReadOnlyInputLiteral propertyKey={property.key} />
+      }
       return (
         <InputLiteral
-          propertyLabelId={props.propertyLabelId}
-          property={props.property}
-          propertyTemplate={props.propertyTemplate}
+          property={property}
+          propertyTemplate={propertyTemplate}
+          displayValidations={displayValidations}
         />
       )
     case "InputURI":
       return (
-        <InputURI
-          property={props.property}
-          propertyTemplate={props.propertyTemplate}
-        />
+        <InputURI property={property} propertyTemplate={propertyTemplate} />
       )
     case "InputLookup":
       return (
-        <InputLookup
-          property={props.property}
-          propertyTemplate={props.propertyTemplate}
-        />
+        <InputLookup property={property} propertyTemplate={propertyTemplate} />
       )
     case "InputList":
       return (
         <InputList
-          propertyLabelId={props.propertyLabelId}
-          property={props.property}
-          propertyTemplate={props.propertyTemplate}
+          propertyLabelId={propertyLabelId}
+          property={property}
+          propertyTemplate={propertyTemplate}
         />
       )
     default:
