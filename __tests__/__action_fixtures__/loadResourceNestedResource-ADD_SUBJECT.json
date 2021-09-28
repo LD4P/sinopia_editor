@@ -41,7 +41,8 @@
         "resourceTemplate:testing:uber1 > http://id.loc.gov/ontologies/bibframe/hasItem",
         "resourceTemplate:testing:uber1 > http://id.loc.gov/ontologies/bibframe/itemOf",
         "resourceTemplate:testing:uber1 > http://id.loc.gov/ontologies/bibframe/uber/template1/property20",
-        "resourceTemplate:testing:uber1 > http://id.loc.gov/ontologies/bibframe/uber/template1/property21"
+        "resourceTemplate:testing:uber1 > http://id.loc.gov/ontologies/bibframe/uber/template1/property21",
+        "resourceTemplate:testing:uber1 > http://www.w3.org/2000/01/rdf-schema#label"
       ],
       "propertyTemplates": [
         {
@@ -601,6 +602,22 @@
           "authorities": [],
           "type": "resource",
           "component": "NestedResource"
+        },
+        {
+          "key": "resourceTemplate:testing:uber1 > http://www.w3.org/2000/01/rdf-schema#label",
+          "subjectTemplateKey": "resourceTemplate:testing:uber1",
+          "label": "rdfs label",
+          "uri": "http://www.w3.org/2000/01/rdf-schema#label",
+          "required": false,
+          "repeatable": false,
+          "ordered": false,
+          "remark": "rdfs label",
+          "remarkUrl": null,
+          "defaults": [],
+          "valueSubjectTemplateKeys": [],
+          "authorities": [],
+          "type": "literal",
+          "component": "InputLiteral"
         }
       ]
     },
@@ -609,13 +626,13 @@
         "key": "abc1",
         "values": [
           {
-            "key": "abc41",
+            "key": "abc42",
             "literal": null,
             "lang": null,
             "uri": null,
             "label": null,
             "valueSubject": {
-              "key": "abc36",
+              "key": "abc37",
               "uri": null,
               "subjectTemplate": {
                 "key": "resourceTemplate:testing:uber2",
@@ -653,7 +670,7 @@
               },
               "properties": [
                 {
-                  "key": "abc38",
+                  "key": "abc39",
                   "values": null,
                   "show": false
                 }
@@ -661,13 +678,13 @@
             }
           },
           {
-            "key": "abc35",
+            "key": "abc36",
             "literal": null,
             "lang": null,
             "uri": null,
             "label": null,
             "valueSubject": {
-              "key": "abc30",
+              "key": "abc31",
               "uri": null,
               "subjectTemplate": {
                 "key": "resourceTemplate:testing:uber3",
@@ -722,10 +739,10 @@
               },
               "properties": [
                 {
-                  "key": "abc31",
+                  "key": "abc32",
                   "values": [
                     {
-                      "key": "abc33",
+                      "key": "abc34",
                       "literal": "Uber template3, property1",
                       "lang": "eng",
                       "uri": null,
@@ -736,10 +753,10 @@
                   "show": false
                 },
                 {
-                  "key": "abc32",
+                  "key": "abc33",
                   "values": [
                     {
-                      "key": "abc34",
+                      "key": "abc35",
                       "literal": "Uber template3, property2",
                       "lang": "eng",
                       "uri": null,
@@ -839,7 +856,7 @@
         "key": "abc18",
         "values": [
           {
-            "key": "abc29",
+            "key": "abc30",
             "literal": null,
             "lang": null,
             "uri": null,
@@ -883,7 +900,7 @@
               },
               "properties": [
                 {
-                  "key": "abc28",
+                  "key": "abc29",
                   "values": [],
                   "show": true
                 }
@@ -930,6 +947,11 @@
       },
       {
         "key": "abc27",
+        "values": null,
+        "show": false
+      },
+      {
+        "key": "abc28",
         "values": null,
         "show": false
       }
