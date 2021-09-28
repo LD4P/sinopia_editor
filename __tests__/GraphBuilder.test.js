@@ -64,6 +64,7 @@ describe("GraphBuilder", () => {
               {
                 uri: "http://sinopia.io/uri1",
                 label: "URI1",
+                lang: "eng",
                 // Value references its property.
                 property: {
                   propertyTemplate: {
@@ -90,7 +91,7 @@ describe("GraphBuilder", () => {
 <> <http://id.loc.gov/ontologies/bibframe/uber/template1/property8> <http://sinopia.io/uri2> .
 <> <http://sinopia.io/vocabulary/hasResourceTemplate> "resourceTemplate:testing:uber1" .
 <> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://id.loc.gov/ontologies/bibframe/Uber1> .
-<http://sinopia.io/uri1> <http://www.w3.org/2000/01/rdf-schema#label> "URI1" .`
+<http://sinopia.io/uri1> <http://www.w3.org/2000/01/rdf-schema#label> "URI1"@eng .`
       expect(new GraphBuilder(resource).graph.toCanonical()).toMatch(rdf)
     })
 

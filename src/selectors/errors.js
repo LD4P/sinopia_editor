@@ -23,42 +23,36 @@ export const hasValidationErrors = (state, resourceKey) => {
 export const selectErrors = (state, errorKey) =>
   state.editor.errors[errorKey] || []
 
-export const selectValidationErrors = (state, resourceKey) =>
-  findValidationErrors(state, resourceKey, [])
-
-// Searches the subject for errors. Also, sets label path for each error.
-const findValidationErrors = (state, subjectKey, labelPath) => {
-  const subject = selectSubject(state, subjectKey)
+export const selectValidationErrors = (state, resourceKey) => {
+  const subject = selectSubject(state, resourceKey)
   if (subject == null) return []
 
-  const newLabelPath = [...labelPath, subject.subjectTemplate.label]
   const errors = []
-  subject.propertyKeys.forEach((propertyKey) => {
+
+  subject.descWithErrorPropertyKeys.forEach((propertyKey) => {
     const property = selectProperty(state, propertyKey)
-    if (!_.isEmpty(property.errors)) {
+    if (property.descWithErrorPropertyKeys.length === 1) {
+      // This will go away when properties no longer have errors after input components are all refactored.
       property.errors.forEach((error) => {
         const newError = {
           message: error,
           propertyKey: property.key,
-          labelPath: [...newLabelPath, property.propertyTemplate.label],
+          labelPath: property.labels,
         }
         errors.push(newError)
       })
-    }
-    if (
-      property.propertyTemplate.type === "resource" &&
-      !_.isEmpty(property.values)
-    ) {
-      property.values.forEach((value) => {
-        if (value.valueSubjectKey) {
-          const childErrors = findValidationErrors(
-            state,
-            value.valueSubjectKey,
-            newLabelPath
-          )
-          childErrors.forEach((error) => errors.push(error))
-        }
-      })
+      if (property.values !== null) {
+        property.values.forEach((value) => {
+          value.errors.forEach((error) => {
+            const newError = {
+              message: error,
+              propertyKey: property.key,
+              labelPath: property.labels,
+            }
+            errors.push(newError)
+          })
+        })
+      }
     }
   })
   return errors

@@ -56,7 +56,7 @@ describe("selectValidationErrors()", () => {
     const state = createState({ hasResourceWithLiteral: true, hasError: true })
     const errors = selectValidationErrors(state, "t9zVwg2zO")
     expect(errors.length).toBe(1)
-    expect(errors[0].message).toEqual("Required")
+    expect(errors[0].message).toEqual("Literal required")
     expect(errors[0].propertyKey).toEqual("JQEtq-vmq8")
     expect(errors[0].labelPath).toEqual([
       "Abbreviated Title",
@@ -74,6 +74,7 @@ describe("selectValidationErrors()", () => {
     expect(errors[0].propertyKey).toEqual("7caLbfwwle")
     expect(errors[0].labelPath).toEqual([
       "Uber template1",
+      "Uber template1, property1",
       "Uber template2",
       "Uber template2, property1",
     ])

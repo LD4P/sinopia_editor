@@ -1,5 +1,5 @@
 import { renderApp, createHistory } from "testUtils"
-import { fireEvent, screen } from "@testing-library/react"
+import { fireEvent, screen, waitFor } from "@testing-library/react"
 import { featureSetup } from "featureUtils"
 
 featureSetup()
@@ -12,57 +12,59 @@ describe("editing a URI property", () => {
 
     await screen.findByText("Uber template1", { selector: "h3" })
 
-    // Add a value
-    const input = screen.getByPlaceholderText("Uber template1, property5")
-    fireEvent.change(input, {
+    // Add a URI
+    const uriInput = screen.getByPlaceholderText("Uber template1, property5")
+    fireEvent.change(uriInput, {
       target: { value: "http://id.loc.gov/authorities/names/n79032058" },
     })
-    fireEvent.keyPress(input, { key: "Enter", code: 13, charCode: 13 })
+    fireEvent.keyDown(uriInput, { key: "Enter", code: 13, charCode: 13 })
 
-    // // There is uri text.
+    const labelInput = screen.getByPlaceholderText(
+      "Label for Uber template1, property5"
+    )
+    fireEvent.change(labelInput, {
+      target: { value: "Wittgenstein, Ludwig, 1889-1951" },
+    })
+    fireEvent.keyDown(labelInput, { key: "Enter", code: 13, charCode: 13 })
+
+    // There is uri text.
     expect(
       screen.getByText("http://id.loc.gov/authorities/names/n79032058")
-    ).toHaveClass("rbt-token")
+    ).toHaveClass("form-control")
+    expect(screen.getByText("Wittgenstein, Ludwig, 1889-1951")).toHaveClass(
+      "form-control"
+    )
+
+    // There is a link out
+    screen.getByTestId("Link to http://id.loc.gov/authorities/names/n79032058")
+
+    // There is no add another
+    expect(
+      screen.queryByTestId("Add another Uber template1, property5")
+    ).not.toBeInTheDocument()
+
     // There is remove button
+    screen.getByTestId("Remove http://id.loc.gov/authorities/names/n79032058")
+    // There is language button.
     expect(
-      screen.getByTestId("Remove http://id.loc.gov/authorities/names/n79032058")
-    ).toHaveTextContent("×")
-    // There is edit button.
-    const editBtn = screen.getByTestId(
-      "Edit http://id.loc.gov/authorities/names/n79032058"
-    )
-    expect(editBtn).toHaveTextContent("Edit")
-    // Input is disabled and empty
-    expect(input).toBeDisabled()
-    expect(input).toHaveValue("")
+      screen.getByTestId("Change language for Wittgenstein, Ludwig, 1889-1951")
+    ).toHaveTextContent("English")
+  })
 
-    // Clicking edit
-    fireEvent.click(editBtn)
-    expect(input).not.toBeDisabled()
-    expect(input).toHaveValue("http://id.loc.gov/authorities/names/n79032058")
-    expect(
-      screen.queryAllByText("http://id.loc.gov/authorities/names/n79032058")
-    ).toHaveLength(0)
+  it("allows entering a non-HTTP URI", async () => {
+    renderApp(null, history)
 
-    // Clicking remove
-    fireEvent.change(input, {
-      target: { value: "http://id.loc.gov/authorities/names/n79056054" },
+    await screen.findByText("Uber template1", { selector: "h3" })
+
+    // Add a URI
+    const uriInput = screen.getByPlaceholderText("Uber template1, property5")
+    fireEvent.change(uriInput, {
+      target: { value: "foo:bar" },
     })
-    fireEvent.keyPress(input, { key: "Enter", code: 13, charCode: 13 })
+    fireEvent.keyDown(uriInput, { key: "Enter", code: 13, charCode: 13 })
 
-    expect(
-      screen.getByText("http://id.loc.gov/authorities/names/n79056054")
-    ).toHaveClass("rbt-token")
-    const removeBtn = screen.getByTestId(
-      "Remove http://id.loc.gov/authorities/names/n79056054"
-    )
-    fireEvent.click(removeBtn)
-
-    expect(
-      screen.queryAllByText("http://id.loc.gov/authorities/names/n79056054")
-    ).toHaveLength(0)
-    expect(input).not.toBeDisabled()
-    expect(input).toHaveValue("")
+    // There is a link out
+    expect(screen.queryByTestId("Link to foo:bar")).not.toBeInTheDocument()
   })
 
   it("allows entering a repeatable URI", async () => {
@@ -76,43 +78,132 @@ describe("editing a URI property", () => {
       target: { value: "http://id.loc.gov/authorities/names/n79032058" },
     })
     fireEvent.keyPress(input, { key: "Enter", code: 13, charCode: 13 })
-    fireEvent.change(input, {
+
+    // Add another
+    fireEvent.click(
+      screen.queryByTestId("Add another Uber template1, property6")
+    )
+    const inputs = screen.getAllByPlaceholderText("Uber template1, property6")
+    expect(inputs).toHaveLength(2)
+
+    const input2 = inputs[1]
+    fireEvent.change(input2, {
       target: { value: "http://id.loc.gov/authorities/names/n79056054" },
     })
-    fireEvent.keyPress(input, { key: "Enter", code: 13, charCode: 13 })
+    fireEvent.keyPress(input2, { key: "Enter", code: 13, charCode: 13 })
 
     // There is first uri.
     expect(
       screen.getByText("http://id.loc.gov/authorities/names/n79032058")
-    ).toHaveClass("rbt-token")
+    ).toHaveClass("form-control")
     // There is remove button
-    expect(
-      screen.getByTestId("Remove http://id.loc.gov/authorities/names/n79032058")
-    ).toHaveTextContent("×")
-    // There is edit button.
-    expect(
-      screen.getByTestId("Edit http://id.loc.gov/authorities/names/n79032058")
-    ).toHaveTextContent("Edit")
+    screen.getByTestId("Remove http://id.loc.gov/authorities/names/n79032058")
 
     // And second uri.
     expect(
       screen.getByText("http://id.loc.gov/authorities/names/n79056054")
-    ).toHaveClass("rbt-token")
+    ).toHaveClass("form-control")
     // There is remove button
-    expect(
-      screen.getByTestId("Remove http://id.loc.gov/authorities/names/n79056054")
-    ).toHaveTextContent("×")
-    // There is edit button.
-    expect(
-      screen.getByTestId("Edit http://id.loc.gov/authorities/names/n79056054")
-    ).toHaveTextContent("Edit")
-
-    // Input is not disabled and empty
-    expect(input).not.toBeDisabled()
-    expect(input).toHaveValue("")
+    screen.getByTestId("Remove http://id.loc.gov/authorities/names/n79056054")
   })
 
-  it("validates that a URI", async () => {
+  it("allows entering diacritics", async () => {
+    renderApp(null, history)
+
+    await screen.findByText("Uber template1", { selector: "h3" })
+
+    // Add a URI
+    const uriInput = screen.getByPlaceholderText("Uber template1, property5")
+    fireEvent.change(uriInput, {
+      target: { value: "foo:bar" },
+    })
+    fireEvent.keyDown(uriInput, { key: "Enter", code: 13, charCode: 13 })
+
+    // Add a label
+    const labelInput = screen.getByPlaceholderText(
+      "Label for Uber template1, property5"
+    )
+    // Yeah, these fireEvent's seem odd but they produce the desired effect.
+    fireEvent.change(labelInput, { target: { value: "Fo" } })
+    fireEvent.keyDown(labelInput, { key: "F", code: "KeyF", charCode: 70 })
+    fireEvent.keyDown(labelInput, { key: "o", code: "Keyo", charCode: 111 })
+    expect(labelInput).toHaveValue("Fo")
+
+    // Click diacritic button
+    expect(screen.queryAllByText("Latin")).toHaveLength(0)
+    const diacriticBtn = screen.getByTestId("Select diacritics for Fo")
+    fireEvent.click(diacriticBtn)
+
+    // Click a diacritic
+    await screen.findByText("Latin")
+    fireEvent.change(screen.getByTestId("Select vocabulary"), {
+      target: { value: "latin" },
+    })
+    fireEvent.click(await screen.findByText("ọ"))
+    expect(labelInput).toHaveValue("Foọ")
+
+    // press backspace while the focus is on the diacritic panel and make sure we are still on the edit page
+    fireEvent.keyDown(await screen.findByText("ọ"), {
+      key: "Backspace",
+      code: 8,
+      charCode: 8,
+    })
+    expect(screen.queryAllByText("Latin")).toHaveLength(1)
+
+    // Close it
+    fireEvent.click(diacriticBtn)
+    expect(screen.queryAllByText("Latin")).toHaveLength(0)
+  }, 15000)
+
+  it("allows selecting a language", async () => {
+    renderApp(null, history)
+
+    await screen.findByText("Uber template1", { selector: "h3" })
+
+    // Add a URI
+    const uriInput = screen.getByPlaceholderText("Uber template1, property5")
+    fireEvent.change(uriInput, {
+      target: { value: "foo:bar" },
+    })
+    fireEvent.keyDown(uriInput, { key: "Enter", code: 13, charCode: 13 })
+
+    // Add a label
+    const labelInput = screen.getByPlaceholderText(
+      "Label for Uber template1, property5"
+    )
+    fireEvent.change(labelInput, { target: { value: "foo" } })
+    fireEvent.keyDown(labelInput, { key: "Enter", code: 13, charCode: 13 })
+
+    // There is foo text.
+    await waitFor(() =>
+      expect(screen.getByText("foo")).toHaveClass("form-control")
+    )
+    // There is language button.
+    const langBtn = screen.getByTestId("Change language for foo")
+    expect(langBtn).toHaveTextContent("English")
+
+    fireEvent.click(langBtn)
+    // Using getByRole here and below because it limits to the visible modal.
+    screen.getByRole("heading", { name: "Languages" })
+
+    const langInput = screen.getByTestId("langComponent-foo")
+
+    fireEvent.click(langInput)
+    fireEvent.change(langInput, { target: { value: "Tai languages" } })
+    fireEvent.click(
+      screen.getByText("Tai languages", { selector: ".rbt-highlight-text" })
+    )
+    fireEvent.click(screen.getByRole("button", { name: "Submit" }))
+
+    await waitFor(() =>
+      expect(
+        screen.queryAllByRole("heading", { name: "Languages" }).length
+      ).toBeFalsy()
+    )
+    expect(langBtn).toHaveTextContent("Tai languages")
+  }, 25000)
+
+  it("validates that a valid URI", async () => {
     renderApp(null, history)
 
     await screen.findByText("Uber template1", { selector: "h3" })
@@ -120,9 +211,57 @@ describe("editing a URI property", () => {
     // Add a value
     const input = screen.getByPlaceholderText("Uber template1, property5")
     fireEvent.change(input, { target: { value: "foo" } })
-    fireEvent.keyPress(input, { key: "Enter", code: 13, charCode: 13 })
+    fireEvent.keyDown(input, { key: "Enter", code: 13, charCode: 13 })
 
-    screen.getByText("Not a valid URI.")
-    expect(input).toHaveValue("foo")
+    const saveBtn = screen.getAllByText("Save", { selector: "button" })[0] // there are multiple save buttons, grab the first
+    fireEvent.click(saveBtn)
+
+    await screen.findByText("Invalid URI")
+  })
+
+  it("validates that has a label", async () => {
+    renderApp(null, history)
+
+    await screen.findByText("Uber template1", { selector: "h3" })
+
+    // Add a value
+    const input = screen.getByPlaceholderText("Uber template1, property5")
+    fireEvent.change(input, {
+      target: { value: "http://id.loc.gov/authorities/names/n79032058" },
+    })
+    fireEvent.keyDown(input, { key: "Enter", code: 13, charCode: 13 })
+
+    const saveBtn = screen.getAllByText("Save", { selector: "button" })[0] // there are multiple save buttons, grab the first
+    fireEvent.click(saveBtn)
+
+    expect(
+      await screen.findByTestId(
+        "Label errors for http://id.loc.gov/authorities/names/n79032058"
+      )
+    ).toHaveTextContent("Label required")
+  })
+
+  it("validates that has a URI", async () => {
+    renderApp(null, history)
+
+    await screen.findByText("Uber template1", { selector: "h3" })
+
+    // Add a label
+    const labelInput = screen.getByPlaceholderText(
+      "Label for Uber template1, property5"
+    )
+    fireEvent.change(labelInput, {
+      target: { value: "Wittgenstein, Ludwig, 1889-1951" },
+    })
+    fireEvent.keyDown(labelInput, { key: "Enter", code: 13, charCode: 13 })
+
+    const saveBtn = screen.getAllByText("Save", { selector: "button" })[0] // there are multiple save buttons, grab the first
+    fireEvent.click(saveBtn)
+
+    expect(
+      await screen.findByTestId(
+        "URI errors for Wittgenstein, Ludwig, 1889-1951"
+      )
+    ).toHaveTextContent("URI required")
   })
 })

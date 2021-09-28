@@ -426,6 +426,7 @@ const newUriFromObject = (obj, property, dataset, usedDataset) => {
     .match(obj, rdf.namedNode("http://www.w3.org/2000/01/rdf-schema#label"))
     .toArray()
   let label = uri
+  let lang = null
   if (labelQuads.length > 0) {
     // First that doesn't start with http or first
     const labelQuad =
@@ -433,10 +434,11 @@ const newUriFromObject = (obj, property, dataset, usedDataset) => {
         (labelQuad) => !labelQuad.object.value.startsWith("http")
       ) || labelQuads[0]
     label = labelQuad.object.value
+    lang = labelQuad.object.language || null
     // Adding all to usedData, even though only using first. This is to avoid user confusion over extra triples, e.g., https://github.com/LD4P/sinopia_editor/issues/2634
     usedDataset.addAll(labelQuads)
   }
-  return newUriValue(property, uri, label)
+  return newUriValue(property, uri, label, lang)
 }
 
 const newProperty =

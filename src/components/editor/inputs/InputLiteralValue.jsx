@@ -39,7 +39,7 @@ const InputLiteralValue = ({
     id,
     diacriticsId,
     diacriticsBtnId,
-    value.literal
+    value.literal || ""
   )
 
   useEffect(() => {

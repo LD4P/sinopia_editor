@@ -70,11 +70,21 @@ export const addValue = (value, siblingValueKey) => ({
 })
 
 export const updateLiteralValue = (valueKey, literal, lang) => ({
-  type: "UPDATE_LITERAL_VALUE",
+  type: "UPDATE_VALUE",
   payload: {
     valueKey,
-    literal,
-    lang,
+    literal: literal || null,
+    lang: lang || null,
+  },
+})
+
+export const updateURIValue = (valueKey, uri, label, lang) => ({
+  type: "UPDATE_VALUE",
+  payload: {
+    valueKey,
+    uri: uri || null,
+    label: label || null,
+    lang: lang || null,
   },
 })
 

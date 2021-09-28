@@ -1,6 +1,7 @@
 import _ from "lodash"
 import { resourceEditErrorKey } from "components/editor/Editor"
-import { emptyValue } from "utilities/Utilities"
+import { emptyValue, isValidURI } from "utilities/Utilities"
+import { newBlankValue } from "utilities/valueFactory"
 
 export const setBaseURL = (state, action) => {
   const newState = stateWithNewSubject(state, action.payload.resourceKey)
@@ -86,14 +87,23 @@ const addSubjectToNewState = (state, subject, valueSubjectOfKey) => {
   // Add valueSubjectOf. If null, this is a root subject.
   newSubject.valueSubjectOfKey = valueSubjectOfKey || null
 
-  // Add rootSubjectKey and rootPropertyKey. If this is not a root subject, then need to find from parent.
+  // Add rootSubjectKey, rootPropertyKey, and labels. If this is not a root subject, then need to find from parent.
+  const subjectTemplate =
+    newState.subjectTemplates[newSubject.subjectTemplateKey]
   if (valueSubjectOfKey) {
     const parentValueSubject = newState.values[valueSubjectOfKey]
     newSubject.rootSubjectKey = parentValueSubject.rootSubjectKey
     newSubject.rootPropertyKey = parentValueSubject.rootPropertyKey
+    const parentValueSubjectProperty =
+      newState.properties[parentValueSubject.propertyKey]
+    newSubject.labels = [
+      ...parentValueSubjectProperty.labels,
+      subjectTemplate.label,
+    ]
   } else {
     newSubject.rootSubjectKey = newSubject.key
     newSubject.rootPropertyKey = null
+    newSubject.labels = [subjectTemplate.label]
   }
 
   // Add properties for resource (if root subject)
@@ -166,9 +176,12 @@ const addPropertyToNewState = (state, property) => {
   newProperty.descUriOrLiteralValueKeys = []
   newProperty.descWithErrorPropertyKeys = []
 
-  // Add root subject and property from subject
+  // Add root subject, property, and labels from subject
   const oldSubject = state.subjects[newProperty.subjectKey]
   newProperty.rootSubjectKey = oldSubject.rootSubjectKey
+  const propertyTemplate =
+    newState.propertyTemplates[newProperty.propertyTemplateKey]
+  newProperty.labels = [...oldSubject.labels, propertyTemplate.label]
   // If subject does not have a root property, then this is a root property.
   newProperty.rootPropertyKey = oldSubject.rootPropertyKey || newProperty.key
 
@@ -181,33 +194,36 @@ const addPropertyToNewState = (state, property) => {
   }
 
   // Remove existing values
-  if (newProperty.values !== undefined) {
-    const oldValueKeys = oldProperty?.valueKeys || []
-    oldValueKeys.forEach((valueKey) => {
-      newState = removeBibframeRefs(
-        newState,
-        newState.values[valueKey],
-        oldProperty
-      )
-      newState = clearValueFromNewState(newState, valueKey)
-    })
+  const oldValueKeys = oldProperty?.valueKeys || []
+  oldValueKeys.forEach((valueKey) => {
+    newState = removeBibframeRefs(
+      newState,
+      newState.values[valueKey],
+      oldProperty
+    )
+    newState = clearValueFromNewState(newState, valueKey)
+  })
 
-    // Add new values
-    newProperty = newState.properties[newProperty.key]
-    if (newProperty.values) {
-      newProperty.valueKeys = []
-      newProperty.values.forEach(
-        (value) => (newState = addValueToNewState(newState, value))
-      )
-    } else {
-      newProperty.valueKeys = null
-    }
-    newProperty = newState.properties[newProperty.key]
-    delete newProperty.values
+  // Add new values
+  newProperty = newState.properties[newProperty.key]
+  if (newProperty.values) {
+    newProperty.valueKeys = []
+    newProperty.values.forEach(
+      (value) => (newState = addValueToNewState(newState, value))
+    )
+  } else {
+    newProperty.valueKeys = null
   }
+  newProperty = newState.properties[newProperty.key]
+  delete newProperty.values
+
+  // Add a blank first value if necessary.
+  newState = addFirstValue(newState, newProperty)
+  newProperty = newState.properties[newProperty.key]
 
   // Errors
   newState = updatePropertyErrors(newState, newProperty.key)
+  newState = updateDescWithErrorPropertyKeys(newState, newProperty.key)
   newProperty = newState.properties[newProperty.key]
 
   // If changed, then set resource as changed.
@@ -224,7 +240,12 @@ export const addValue = (state, action) =>
     action.payload.siblingValueKey
   )
 
-const addValueToNewState = (state, value, siblingValueKey) => {
+const addValueToNewState = (
+  state,
+  value,
+  siblingValueKey = null,
+  show = true
+) => {
   let newValue = value
 
   // Property
@@ -239,11 +260,10 @@ const addValueToNewState = (state, value, siblingValueKey) => {
   // Add value to state
   let newState = stateWithNewValue(state, newValue.key)
   newState.values[newValue.key] = newValue
-  newState.values[newValue.key] = newValue
 
   // Add value to property
   newState = stateWithNewProperty(newState, newValue.propertyKey)
-  const newProperty = newState.properties[newValue.propertyKey]
+  let newProperty = newState.properties[newValue.propertyKey]
   const valueKeys = newProperty.valueKeys || []
   // Add if doesn't exist.
   if (valueKeys.indexOf(newValue.key) === -1) {
@@ -255,7 +275,7 @@ const addValueToNewState = (state, value, siblingValueKey) => {
     }
   }
   // Set to show
-  newProperty.show = true
+  newProperty.show = show
 
   // Add root subject and property from property
   newValue = newState.values[newValue.key]
@@ -297,8 +317,10 @@ const addValueToNewState = (state, value, siblingValueKey) => {
   }
 
   // Errors
-  newState = updatePropertyErrors(newState, newProperty.key)
   newState = updateValueErrors(newState, newValue.key)
+  newState = updateDescWithErrorPropertyKeys(newState, newProperty.key)
+  newValue = newState.values[newValue.key]
+  newProperty = newState.properties[newValue.propertyKey]
 
   // Update Bibframe refs
   newState = updateBibframeRefs(newState, newValue, newProperty)
@@ -312,19 +334,21 @@ const addValueToNewState = (state, value, siblingValueKey) => {
   return newState
 }
 
-export const updateLiteralValue = (state, action) => {
-  const { valueKey, literal, lang } = action.payload
+export const updateValue = (state, action) => {
+  const {
+    valueKey,
+    literal = null,
+    lang = null,
+    uri = null,
+    label = null,
+  } = action.payload
 
   const oldValue = state.values[valueKey]
-  const newValue = { ...oldValue, literal, lang }
 
-  let newState = {
-    ...state,
-    values: {
-      ...state.values,
-      [valueKey]: newValue,
-    },
-  }
+  // Add value to state
+  let newState = stateWithNewValue(state, valueKey)
+  newState.values[valueKey] = { ...oldValue, literal, lang, uri, label }
+  let newValue = newState.values[valueKey]
 
   // Add/remove value key to ancestors
   newState = recursiveAncestorsFromValue(
@@ -337,8 +361,15 @@ export const updateLiteralValue = (state, action) => {
 
   // Errors
   newState = updateValueErrors(newState, valueKey)
+  newState = updateDescWithErrorPropertyKeys(newState, newValue.propertyKey)
+
+  // Update Bibframe refs
+  newValue = newState.values[valueKey]
+  const newProperty = newState.properties[newValue.propertyKey]
+  newState = updateBibframeRefs(newState, newValue, newProperty)
 
   // If changed, then set resource as changed.
+  newValue = newState.values[newValue.key]
   if (!_.isEqual(newValue, oldValue)) {
     newState = setSubjectChanged(newState, newValue.rootSubjectKey, true)
   }
@@ -397,7 +428,7 @@ export const removeValue = (state, action) => {
   )
 
   // Errors
-  newState = updatePropertyErrors(newState, newProperty.key)
+  newState = updateValueErrors(newState, value.key)
 
   newState = recursiveAncestorsFromValue(
     newState,
@@ -413,7 +444,31 @@ export const removeValue = (state, action) => {
   // Set resource as changed
   newState = setSubjectChanged(newState, value.rootSubjectKey, true)
 
+  // Add a blank value if necessary.
+  newState = addFirstValue(newState, newProperty)
+
   return newState
+}
+
+const addFirstValue = (state, property) => {
+  // For URI and Literal component, if no values, add a value.
+  // Eventually, this will apply to other components as well.
+  const propertyTemplate = state.propertyTemplates[property.propertyTemplateKey]
+
+  if (
+    ["InputLiteral", "InputURI"].includes(propertyTemplate.component) &&
+    property.valueKeys !== null &&
+    _.isEmpty(property.valueKeys)
+  ) {
+    return addValueToNewState(
+      state,
+      newBlankValue(property),
+      null,
+      propertyTemplate.required
+    )
+  }
+
+  return state
 }
 
 const removeBibframeRefs = (state, value, property) => {
@@ -468,10 +523,11 @@ export const removeSubject = (state, action) => {
 }
 
 const errorsForProperty = (property, state) => {
-  // For now this is URI only. It will go away when InputURI is refactored.
+  // For now this is some components only. It will go away when they are refactored.
   const propertyTemplate = state.propertyTemplates[property.propertyTemplateKey]
   if (
-    propertyTemplate.type === "uri" &&
+    (propertyTemplate.component === "InputLookup" ||
+      propertyTemplate.component === "InputList") &&
     propertyTemplate.required &&
     _.isEmpty(property.valueKeys)
   ) {
@@ -481,70 +537,73 @@ const errorsForProperty = (property, state) => {
 }
 
 const errorsForValue = (value, state) => {
-  // For now, only for literal.
   const property = state.properties[value.propertyKey]
   const propertyTemplate = state.propertyTemplates[property.propertyTemplateKey]
-  // For now, only for literal.
-  if (propertyTemplate.type !== "literal") return []
-
-  // If this is first value, then must have a literal value.
+  // If this is first value, then must have a value.
+  const errors = []
   if (
     value.key === property.valueKeys[0] &&
     propertyTemplate.required &&
+    propertyTemplate.type === "literal" &&
     !value.literal
   )
-    return ["Required"]
+    errors.push("Literal required")
 
-  return []
+  if (propertyTemplate.type === "uri") {
+    if (value.key === property.valueKeys[0] && propertyTemplate.required) {
+      if (!value.uri) errors.push("URI required")
+      if (!value.label) errors.push("Label required")
+    } else {
+      if (value.uri && !value.label) errors.push("Label required")
+      if (!value.uri && value.label) errors.push("URI required")
+    }
+    if (value.uri && !isValidURI(value.uri)) errors.push("Invalid URI")
+  }
+
+  return errors
 }
 
-const updatePropertyErrors = (state, propertyKey) => {
-  let newState = stateWithNewProperty(state, propertyKey)
-  const newProperty = newState.properties[propertyKey]
-
-  const errors = errorsForProperty(newProperty, newState)
-  newProperty.errors = errors
-
-  if (_.isEmpty(errors)) {
-    // Remove key from descWithErrorPropertyKeys for self and ancestors.
-    newState = recursiveAncestorsFromProperty(
-      newState,
-      propertyKey,
-      removeFromDescWithErrorPropertyKeysFunc(propertyKey)
-    )
-  } else {
+const updateDescWithErrorPropertyKeys = (state, propertyKey) => {
+  if (propertyHasErrors(state, propertyKey)) {
     // Add key to descWithErrorPropertyKeys for self and ancestors.
-    newState = recursiveAncestorsFromProperty(
-      newState,
+    return recursiveAncestorsFromProperty(
+      state,
       propertyKey,
       addToDescWithErrorPropertyKeysFunc(propertyKey)
     )
   }
+  // Remove key from descWithErrorPropertyKeys for self and ancestors.
+  return recursiveAncestorsFromProperty(
+    state,
+    propertyKey,
+    removeFromDescWithErrorPropertyKeysFunc(propertyKey)
+  )
+}
+
+const propertyHasErrors = (state, propertyKey) => {
+  const property = state.properties[propertyKey]
+
+  if (!_.isEmpty(property.errors)) return true
+  if (property.valueKeys === null) return false
+  return property.valueKeys.some((valueKey) => {
+    const value = state.values[valueKey]
+    return !_.isEmpty(value?.errors)
+  })
+}
+
+const updatePropertyErrors = (state, propertyKey) => {
+  const newState = stateWithNewProperty(state, propertyKey)
+  const newProperty = newState.properties[propertyKey]
+  newProperty.errors = errorsForProperty(newProperty, newState)
+
   return newState
 }
 
 const updateValueErrors = (state, valueKey) => {
-  let newState = stateWithNewValue(state, valueKey)
+  const newState = stateWithNewValue(state, valueKey)
   const newValue = newState.values[valueKey]
+  newValue.errors = errorsForValue(newValue, newState)
 
-  const errors = errorsForValue(newValue, newState)
-  newValue.errors = errors
-
-  if (_.isEmpty(errors)) {
-    // Remove key from descWithErrorPropertyKeys for self and ancestors.
-    newState = recursiveAncestorsFromProperty(
-      newState,
-      newValue.propertyKey,
-      removeFromDescWithErrorPropertyKeysFunc(newValue.propertyKey)
-    )
-  } else {
-    // Add key to descWithErrorPropertyKeys for self and ancestors.
-    newState = recursiveAncestorsFromProperty(
-      newState,
-      newValue.propertyKey,
-      addToDescWithErrorPropertyKeysFunc(newValue.propertyKey)
-    )
-  }
   return newState
 }
 

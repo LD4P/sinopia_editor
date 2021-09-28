@@ -5,6 +5,10 @@
           "key": "abc2",
           "property": {
             "key": "v1o90QO1Qx",
+            "labels": [
+              "Uber template1",
+              "Uber template1, property1"
+            ],
             "subjectKey": "ljAblGiBW",
             "propertyTemplateKey": "resourceTemplate:testing:uber1 > http://id.loc.gov/ontologies/bibframe/uber/template1/property1",
             "rootPropertyKey": "v1o90QO1Qx",

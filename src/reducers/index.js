@@ -23,7 +23,7 @@ import {
   setValueOrder,
   clearResourceFromEditor,
   saveResourceFinishedEditor,
-  updateLiteralValue,
+  updateValue,
 } from "./resources"
 import {
   hideValidationErrors,
@@ -113,7 +113,7 @@ const entityHandlers = {
   SET_RESOURCE_GROUP: setResourceGroup,
   SET_VALUE_ORDER: setValueOrder,
   SHOW_PROPERTY: showProperty,
-  UPDATE_LITERAL_VALUE: updateLiteralValue,
+  UPDATE_VALUE: updateValue,
 }
 
 const historyHandlers = {

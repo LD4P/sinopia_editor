@@ -2,6 +2,10 @@
       "type": "ADD_PROPERTY",
       "payload": {
         "key": "JQEtq-vmq8",
+        "labels": [
+          "Abbreviated Title",
+          "Abbreviated Title"
+        ],
         "subjectKey": "t9zVwg2zO",
         "rootSubjectKey": "t9zVwg2zO",
         "rootPropertyKey": "JQEtq-vmq8",
@@ -13,6 +17,9 @@
         "errors": [],
         "subject": {
           "key": "t9zVwg2zO",
+          "labels": [
+            "Abbreviated Title"
+          ],
           "rootSubjectKey": "t9zVwg2zO",
           "rootPropertyKey": null,
           "descUriOrLiteralValueKeys": [],

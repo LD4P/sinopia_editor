@@ -135,7 +135,7 @@ export default class GraphBuilder {
         rdf.quad(
           valueTerm,
           rdf.namedNode("http://www.w3.org/2000/01/rdf-schema#label"),
-          rdf.literal(value.label)
+          rdf.literal(value.label, value.lang)
         )
       )
     }

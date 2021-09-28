@@ -156,7 +156,7 @@
       ],
       "http://id.loc.gov/ontologies/bibframe/uber/template1/property5": [
         {
-          "@id": "ubertemplate1:property5"
+          "@id": "http://example.edu/ubertemplate1:property5"
         }
       ],
       "http://id.loc.gov/ontologies/bibframe/uber/template1/property6": [
@@ -245,10 +245,11 @@
       ]
     },
     {
-      "@id": "ubertemplate1:property5",
+      "@id": "http://example.edu/ubertemplate1:property5",
       "http://www.w3.org/2000/01/rdf-schema#label": [
         {
-          "@value": "ubertemplate1:property5"
+          "@value": "ubertemplate1:property5",
+          "@language": "eng"
         }
       ]
     },
