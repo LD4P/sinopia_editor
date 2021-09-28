@@ -103,11 +103,14 @@ describe("searching and viewing a resource", () => {
       selector: "p",
     })
 
+    // Lookups are rendered
+    screen.findByText(
+      "corn sheller: http://aims.fao.org/aos/agrovoc/c_331388",
+      { selector: "a" }
+    )
+
     // Edit controls are disabled in view modal
     expect(screen.getByTestId("Remove analog")).toBeDisabled()
-    screen.getAllByTestId(/Submit lookup/).forEach((lookupValueControl) => {
-      expect(lookupValueControl).toBeDisabled()
-    })
     screen.getAllByTestId("list").forEach((listControl) => {
       expect(listControl).toBeDisabled()
     })

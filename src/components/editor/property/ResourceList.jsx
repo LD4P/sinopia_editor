@@ -87,7 +87,7 @@ const ResourceList = (props) => {
   const dropdown = (items) => (
     <div className="dropdown">
       <button
-        className="btn btn-secondary dropdown-toggle"
+        className="btn btn-secondary dropdown-toggle mb-1"
         type="button"
         id="dropdownMenuButton"
         data-bs-toggle="dropdown"

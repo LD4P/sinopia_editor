@@ -186,6 +186,7 @@ const buildTemplateWithLiteral = (state, options) => {
       propertyKey: "mLi9ZqIjjx",
       valueSubjectKey: null,
       errors: [],
+      component: "InputLiteralValue",
     },
   }
 }
@@ -277,6 +278,7 @@ const buildResourceWithLiteral = (state, options) => {
       label: null,
       valueSubjectKey: null,
       errors: options.hasError ? ["Literal required"] : [],
+      component: "InputLiteralValue",
     },
   }
 }
@@ -417,6 +419,7 @@ const buildTwoLiteralResources = (state, options) => {
       label: null,
       valueSubjectKey: null,
       errors: [],
+      component: "InputLiteralValue",
     },
     DyHy8XNi3: {
       key: "DyHy8XNi3",
@@ -429,6 +432,7 @@ const buildTwoLiteralResources = (state, options) => {
       label: null,
       valueSubjectKey: null,
       errors: [],
+      component: "InputLiteralValue",
     },
   }
 }
@@ -524,6 +528,7 @@ const buildResourceWithUri = (state, options) => {
       rootPropertyKey: "RPaGmJ_8IQi8roZ1oj1uK",
       valueSubjectKey: null,
       errors: [],
+      component: "InputURIValue",
     },
   }
 }
@@ -630,6 +635,7 @@ const buildResourceWithLookup = (state, options) => {
       propertyKey: "i0SAJP-Zhd",
       valueSubjectKey: null,
       errors: [],
+      component: "InputURIValue",
     },
   }
 }
@@ -854,6 +860,7 @@ const buildResourceWithNestedResource = (state, options) => {
       label: null,
       valueSubjectKey: "XPb8jaPWo",
       errors: [],
+      component: null,
     },
     "pRJ0lO_mT-": {
       key: "pRJ0lO_mT-",
@@ -866,6 +873,7 @@ const buildResourceWithNestedResource = (state, options) => {
       label: null,
       valueSubjectKey: null,
       errors: [],
+      component: "InputLiteralValue",
     },
   }
 }
@@ -1126,6 +1134,7 @@ const buildResourceWithTwoNestedResources = (state, options) => {
       label: null,
       valueSubjectKey: "XPb8jaPWo",
       errors: [],
+      component: null,
     },
     VDOeQCnFA9: {
       key: "VDOeQCnFA9",
@@ -1137,6 +1146,7 @@ const buildResourceWithTwoNestedResources = (state, options) => {
       label: null,
       valueSubjectKey: "XPb8jaPWp",
       errors: [],
+      component: null,
     },
     "pRJ0lO_mT-": {
       key: "pRJ0lO_mT-",
@@ -1148,6 +1158,7 @@ const buildResourceWithTwoNestedResources = (state, options) => {
       label: null,
       valueSubjectKey: null,
       errors: [],
+      component: "InputLiteralValue",
     },
     "pRJ0lO_mU-": {
       key: "pRJ0lO_mU-",
@@ -1159,6 +1170,7 @@ const buildResourceWithTwoNestedResources = (state, options) => {
       label: null,
       valueSubjectKey: null,
       errors: [],
+      component: "InputLiteralValue",
     },
   }
 }

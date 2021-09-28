@@ -1,7 +1,11 @@
 import _ from "lodash"
 import { resourceEditErrorKey } from "components/editor/Editor"
 import { emptyValue, isValidURI } from "utilities/Utilities"
-import { newBlankValue } from "utilities/valueFactory"
+import {
+  newBlankLiteralValue,
+  newBlankUriValue,
+  newBlankLookupValue,
+} from "utilities/valueFactory"
 
 export const setBaseURL = (state, action) => {
   const newState = stateWithNewSubject(state, action.payload.resourceKey)
@@ -343,14 +347,16 @@ export const updateValue = (state, action) => {
     lang = null,
     uri = null,
     label = null,
+    component = null,
   } = action.payload
 
   const oldValue = state.values[valueKey]
 
   // Add value to state
   let newState = stateWithNewValue(state, valueKey)
-  newState.values[valueKey] = { ...oldValue, literal, lang, uri, label }
-  let newValue = newState.values[valueKey]
+  let newValue = { ...oldValue, literal, lang, uri, label }
+  if (component) newValue.component = component
+  newState.values[valueKey] = newValue
 
   // Add/remove value key to ancestors
   newState = recursiveAncestorsFromValue(
@@ -476,22 +482,35 @@ export const removeValue = (state, action) => {
 const addFirstValue = (state, property) => {
   // For URI and Literal component, if no values, add a value.
   // Eventually, this will apply to other components as well.
+
+  if (property.valueKeys === null || !_.isEmpty(property.valueKeys))
+    return state
   const propertyTemplate = state.propertyTemplates[property.propertyTemplateKey]
-
-  if (
-    ["InputLiteral", "InputURI"].includes(propertyTemplate.component) &&
-    property.valueKeys !== null &&
-    _.isEmpty(property.valueKeys)
-  ) {
-    return addValueToNewState(
-      state,
-      newBlankValue(property),
-      null,
-      propertyTemplate.required
-    )
+  switch (propertyTemplate.component) {
+    case "InputLiteral":
+      return addValueToNewState(
+        state,
+        newBlankLiteralValue(property),
+        null,
+        propertyTemplate.required
+      )
+    case "InputURI":
+      return addValueToNewState(
+        state,
+        newBlankUriValue(property),
+        null,
+        propertyTemplate.required
+      )
+    case "InputLookup":
+      return addValueToNewState(
+        state,
+        newBlankLookupValue(property),
+        null,
+        propertyTemplate.required
+      )
+    default:
+      return state
   }
-
-  return state
 }
 
 const removeBibframeRefs = (state, value, property) => {
@@ -549,8 +568,7 @@ const errorsForProperty = (property, state) => {
   // For now this is some components only. It will go away when they are refactored.
   const propertyTemplate = state.propertyTemplates[property.propertyTemplateKey]
   if (
-    (propertyTemplate.component === "InputLookup" ||
-      propertyTemplate.component === "InputList") &&
+    propertyTemplate.component === "InputList" &&
     propertyTemplate.required &&
     _.isEmpty(property.valueKeys)
   ) {

@@ -15,6 +15,11 @@ const LookupTab = (props) => {
     props.handleChangePage(newStartOfRange, props.authorityConfig)
   }
 
+  const handleSelectionChanged = (item) => {
+    // Hardcoding to English. See https://github.com/LD4P/sinopia_editor/issues/3058
+    props.handleUpdateURI(item.uri, item.label, "eng")
+  }
+
   if (_.isEmpty(query)) return null
 
   if (!props.result) {
@@ -36,7 +41,7 @@ const LookupTab = (props) => {
   const tabResults = props.result.results.map((hit) => (
     <div key={hit.uri}>
       <button
-        onClick={() => props.handleSelectionChanged(hit)}
+        onClick={() => handleSelectionChanged(hit)}
         className="btn search-result"
       >
         {hit.context ? (
@@ -69,7 +74,7 @@ const LookupTab = (props) => {
 LookupTab.propTypes = {
   authorityConfig: PropTypes.object.isRequired,
   query: PropTypes.string,
-  handleSelectionChanged: PropTypes.func.isRequired,
+  handleUpdateURI: PropTypes.func.isRequired,
   handleChangePage: PropTypes.func.isRequired,
   result: PropTypes.object,
 }

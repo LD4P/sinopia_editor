@@ -7,7 +7,8 @@ const newValue = (
   lang = null,
   uri = null,
   label = null,
-  valueSubject = null
+  valueSubject = null,
+  component = null
 ) => ({
   key: nanoid(),
   property,
@@ -16,17 +17,31 @@ const newValue = (
   uri,
   label,
   valueSubject,
+  component,
 })
 
 export const newLiteralValue = (property, literal, lang = defaultLanguageId) =>
-  newValue(property, literal, lang, null, null, null)
+  newValue(property, literal, lang, null, null, null, "InputLiteralValue")
+
+export const newBlankLiteralValue = (property) =>
+  newValue(
+    property,
+    null,
+    defaultLanguageId,
+    null,
+    null,
+    null,
+    "InputLiteralValue"
+  )
 
 export const newUriValue = (property, uri, label, lang = defaultLanguageId) =>
-  newValue(property, null, lang, uri, label, null)
+  newValue(property, null, lang, uri, label, null, "InputURIValue")
 
-// URI or literal
-export const newBlankValue = (property) =>
-  newValue(property, null, defaultLanguageId, null, null, null)
+export const newBlankUriValue = (property) =>
+  newValue(property, null, defaultLanguageId, null, null, null, "InputURIValue")
+
+export const newBlankLookupValue = (property) =>
+  newValue(property, null, null, null, null, null, "InputLookupValue")
 
 export const newValueSubject = (property, subject) =>
   newValue(property, null, null, null, null, subject)

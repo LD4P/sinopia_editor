@@ -2,7 +2,7 @@
 
 import React from "react"
 import { render } from "@testing-library/react"
-import RenderLookupContext from "components/editor/property/RenderLookupContext"
+import RenderLookupContext from "components/editor/inputs/RenderLookupContext"
 
 const contextPersonResult = {
   uri: "http://id.loc.gov/rwo/agents/n79021164",
