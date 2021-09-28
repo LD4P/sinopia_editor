@@ -1139,7 +1139,7 @@
     ],
     "http://www.w3.org/2000/01/rdf-schema#label": [
       {
-        "@value": "Uber template1, property22 (rdfs label)"
+        "@value": "rdfs label"
       }
     ],
     "http://sinopia.io/vocabulary/hasRemark": [
@@ -1149,7 +1149,7 @@
     ],
     "http://sinopia.io/vocabulary/hasPropertyUri": [
       {
-        "@id": "http://id.loc.gov/ontologies/bibframe/uber/template1/property22"
+        "@id": "http://www.w3.org/2000/01/rdf-schema#label"
       }
     ],
     "http://sinopia.io/vocabulary/hasPropertyType": [

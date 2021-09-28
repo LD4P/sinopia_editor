@@ -282,6 +282,8 @@ const addValueToNewState = (
   newValue.rootSubjectKey = newProperty.rootSubjectKey
   newValue.rootPropertyKey = newProperty.rootPropertyKey
 
+  newState = updateResourceLabel(newState, newValue)
+
   // Remove existing value subject
   const oldValue = state.values[newValue.key]
   if (oldValue?.valueSubjectKey) {
@@ -368,6 +370,8 @@ export const updateValue = (state, action) => {
   const newProperty = newState.properties[newValue.propertyKey]
   newState = updateBibframeRefs(newState, newValue, newProperty)
 
+  newState = updateResourceLabel(newState, newValue)
+
   // If changed, then set resource as changed.
   newValue = newState.values[newValue.key]
   if (!_.isEqual(newValue, oldValue)) {
@@ -375,6 +379,25 @@ export const updateValue = (state, action) => {
   }
 
   return newState
+}
+
+// add rdfs:label to root resource if it's present
+const updateResourceLabel = (state, value) => {
+  const possibleLabelProperty = state.properties[value.propertyKey]
+  const propertyTemplate =
+    state.propertyTemplates[possibleLabelProperty.propertyTemplateKey]
+  const rootSubjectKey = possibleLabelProperty.rootSubjectKey
+  if (
+    propertyTemplate.uri === "http://www.w3.org/2000/01/rdf-schema#label" &&
+    possibleLabelProperty.subjectKey === rootSubjectKey
+  ) {
+    const labelValue = value.literal || "Unlabeled"
+    const newState = stateWithNewSubject(state, rootSubjectKey)
+    const newResourceSubject = newState.subjects[rootSubjectKey]
+    newResourceSubject.label = labelValue
+    return newState
+  }
+  return state
 }
 
 const updateBibframeRefs = (state, value, property) => {
