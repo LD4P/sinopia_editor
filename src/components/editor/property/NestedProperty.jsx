@@ -35,7 +35,6 @@ const NestedProperty = (props) => {
       {props.property.valueKeys && props.property.show && (
         <div className="rOutline-property">
           <PropertyComponent
-            propertyLabelId={propertyLabelId}
             property={props.property}
             propertyTemplate={props.propertyTemplate}
           />

@@ -1,5 +1,5 @@
 import { renderApp, createHistory } from "testUtils"
-import { fireEvent, screen } from "@testing-library/react"
+import { fireEvent, screen, waitFor } from "@testing-library/react"
 import { featureSetup } from "featureUtils"
 
 featureSetup()
@@ -7,10 +7,20 @@ featureSetup()
 describe("editing a list property", () => {
   const history = createHistory(["/editor/resourceTemplate:testing:uber1"])
 
-  it("allows selecting and removing a non-repeatable literal", async () => {
+  it("allows selecting and removing a non-repeatable list item", async () => {
     const { container } = renderApp(null, history)
 
     await screen.findByText("Uber template1", { selector: "h3" })
+
+    // Authorities list
+    expect(screen.getAllByText("Select from: type of recording")).toHaveLength(
+      2
+    )
+
+    // No add another
+    expect(
+      screen.queryByTestId("Add another Uber template1, property10")
+    ).not.toBeInTheDocument()
 
     const select = container.querySelector(
       'select[aria-label="Select Uber template1, property10"]'
@@ -20,22 +30,34 @@ describe("editing a list property", () => {
       target: { value: "http://id.loc.gov/vocabulary/mrectype/analog" },
     })
 
-    // There is analog text. Perhaps check css.
-    await screen.findByText("analog", { selector: ".rbt-token" })
-    // There is remove button
-    expect(await screen.findByTestId("Remove analog")).toHaveTextContent("×")
-    // There is no edit button.
-    expect(screen.queryByTestId("Edit analog")).not.toBeInTheDocument()
-
-    // Selector is disabled
-    expect(select).toBeDisabled()
-
-    const removeBtn = screen.getByTestId("Remove analog")
-    fireEvent.click(removeBtn)
-
     expect(
-      screen.queryByText("analog", { selector: ".rbt-token" })
-    ).not.toBeInTheDocument()
+      screen.getByText("http://id.loc.gov/vocabulary/mrectype/analog")
+    ).toHaveClass("form-control")
+    screen.getByText("analog", { selector: ".form-control" })
+
+    // No select
+    expect(select).not.toBeInTheDocument()
+
+    // Now remove it
+    fireEvent.click(
+      screen.getByTestId("Remove http://id.loc.gov/vocabulary/mrectype/analog")
+    )
+
+    // Value removed
+    await waitFor(() =>
+      expect(
+        screen.queryByText("http://id.loc.gov/vocabulary/mrectype/analog", {
+          selector: ".form-control",
+        })
+      ).not.toBeInTheDocument()
+    )
+
+    // Blank lookup
+    expect(
+      container.querySelector(
+        'select[aria-label="Select Uber template1, property10"]'
+      )
+    ).toHaveValue("default")
   }, 10000)
 
   it("allows entering a repeatable list", async () => {
@@ -51,15 +73,25 @@ describe("editing a list property", () => {
       target: { value: "http://id.loc.gov/vocabulary/mrectype/analog" },
     })
 
-    await screen.findByText("analog", { selector: ".rbt-token" })
+    expect(
+      screen.getByText("http://id.loc.gov/vocabulary/mrectype/analog")
+    ).toHaveClass("form-control")
 
-    expect(select).not.toBeDisabled()
+    fireEvent.click(
+      screen.getByTestId("Add another Uber template1, property11")
+    )
 
-    fireEvent.change(select, {
+    const select2 = container.querySelector(
+      'select[aria-label="Select Uber template1, property11"]'
+    )
+    expect(select2).toBeInTheDocument()
+    fireEvent.change(select2, {
       target: { value: "http://id.loc.gov/vocabulary/mrectype/digital" },
     })
 
-    await screen.findByText("digital", { selector: ".rbt-token" })
+    expect(
+      screen.getByText("http://id.loc.gov/vocabulary/mrectype/digital")
+    ).toHaveClass("form-control")
   }, 10000)
 
   it("displays items from multiple authorities", async () => {

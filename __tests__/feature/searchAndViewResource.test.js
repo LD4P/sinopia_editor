@@ -90,29 +90,26 @@ describe("searching and viewing a resource", () => {
     ).not.toBeInTheDocument()
 
     // URIs are rendered.
-    screen.findByText(
-      "ubertemplate1:property5 [English]: http://example.edu/ubertemplate1:property5",
-      {
-        selector: "p",
-      }
-    )
-    screen.findByText("http://example.edu/ubertemplate1:property5", {
+    screen.getByText(/ubertemplate1:property5 \[English\]:/, {
+      selector: "p",
+    })
+    screen.getByText("http://example.edu/ubertemplate1:property5", {
       selector: "a",
     })
-    screen.findByText("ubertemplate1:property6: ubertemplate1:property6", {
+    screen.getByText("ubertemplate1:property6: ubertemplate1:property6", {
       selector: "p",
     })
 
     // Lookups are rendered
-    screen.findByText(
-      "corn sheller: http://aims.fao.org/aos/agrovoc/c_331388",
-      { selector: "a" }
-    )
+    screen.getByText("corn sheller:", { selector: "p" })
+    screen.getByText("http://aims.fao.org/aos/agrovoc/c_331388", {
+      selector: "a",
+    })
 
-    // Edit controls are disabled in view modal
-    expect(screen.getByTestId("Remove analog")).toBeDisabled()
-    screen.getAllByTestId("list").forEach((listControl) => {
-      expect(listControl).toBeDisabled()
+    // Lists are rendered
+    screen.getByText("analog:", { selector: "p" })
+    screen.getByText("http://id.loc.gov/vocabulary/mrectype/analog", {
+      selector: "a",
     })
 
     // Modal has edit and copy buttons

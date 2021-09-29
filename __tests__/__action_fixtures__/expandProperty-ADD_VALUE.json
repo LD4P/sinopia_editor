@@ -15,7 +15,6 @@
         "propertyTemplateKey": "resourceTemplate:testing:uber1 > http://id.loc.gov/ontologies/bibframe/uber/template1/property1",
         "valueKeys": null,
         "show": true,
-        "errors": [],
         "descUriOrLiteralValueKeys": [],
         "descWithErrorPropertyKeys": [],
         "subject": {

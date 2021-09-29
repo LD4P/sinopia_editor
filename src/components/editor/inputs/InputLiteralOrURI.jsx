@@ -4,11 +4,13 @@ import PropTypes from "prop-types"
 import InputLiteralValue from "./InputLiteralValue"
 import InputURIValue from "./InputURIValue"
 import InputLookupValue from "./InputLookupValue"
+import InputListValue from "./InputListValue"
 import { addValue as addValueAction } from "actions/resources"
 import {
   newBlankLiteralValue,
   newBlankUriValue,
   newBlankLookupValue,
+  newBlankListValue,
 } from "utilities/valueFactory"
 import { selectProperty } from "selectors/resources"
 
@@ -34,6 +36,8 @@ const InputLiteralOrURI = ({
         return <InputURIValue key={value.key} {...props} />
       case "InputLookupValue":
         return <InputLookupValue key={value.key} {...props} />
+      case "InputListValue":
+        return <InputListValue key={value.key} {...props} />
       default:
         return <InputLiteralValue key={value.key} {...props} />
     }
@@ -49,6 +53,9 @@ const InputLiteralOrURI = ({
         break
       case "InputLookup":
         newValue = newBlankLookupValue(property)
+        break
+      case "InputList":
+        newValue = newBlankListValue(property)
         break
       default:
         newValue = newBlankLiteralValue(property)
