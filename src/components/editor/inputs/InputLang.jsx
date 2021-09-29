@@ -18,12 +18,15 @@ import { selectLanguages, hasLanguages } from "selectors/languages"
  */
 const InputLang = (props) => {
   const [lang, setLang] = useState(props.lang)
+  const [submitEnabled, setSubmitEnabled] = useState(true)
   const [radioButtonValue, setRadioButtonValue] = useState(
     props.lang === null ? "absent" : "present"
   )
 
   const classes = ["modal", "fade"]
   let display = "none"
+  const alertClasses = ["alert", "alert-danger"]
+  if (submitEnabled) alertClasses.push("hidden")
 
   if (props.show) {
     classes.push("show")
@@ -31,6 +34,7 @@ const InputLang = (props) => {
   }
 
   const selectLanguage = (selected) => {
+    setSubmitEnabled(true)
     if (selected.length === 1) {
       setLang(selected[0].id)
       setRadioButtonValue("present")
@@ -52,7 +56,7 @@ const InputLang = (props) => {
 
   const handleLangSubmit = (event) => {
     if (radioButtonValue === "present" && lang === null) {
-      alert("Please select a valid language.")
+      setSubmitEnabled(false)
       return false
     }
     close(event)
@@ -114,6 +118,9 @@ const InputLang = (props) => {
             </div>
           </div>
           <div className="modal-footer">
+            <span className={alertClasses.join(" ")}>
+              Please select a valid language.
+            </span>
             <button className="btn btn-link" onClick={close}>
               Cancel
             </button>
@@ -121,6 +128,7 @@ const InputLang = (props) => {
               className="btn btn-primary"
               onClick={handleLangSubmit}
               data-testid={`submit-${props.textValue}`}
+              disabled={!submitEnabled}
             >
               Submit
             </button>
