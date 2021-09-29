@@ -6,6 +6,7 @@ const resourceFilenames = {
   "c7db5404-7d7d-40ac-b38e-c821d2c3ae3f": "test.json",
   "c7db5404-7d7d-40ac-b38e-c821d2c3ae3f-invalid": "invalid_rt.json",
   "a4181509-8046-47c8-9327-6e576c517d70": "test2.json",
+  "9c5bd9f5-1804-45bd-99ed-b6e3774c896e": "instance.json",
 }
 
 const templateFilenames = {
@@ -29,6 +30,7 @@ const templateFilenames = {
   "resourceTemplate:testing:uber4": "uber_template4.json",
   "resourceTemplate:testing:uber5": "uber_template5.json",
   "sinopia:template:resource": "ResourceTemplate.json",
+  "resourceTemplate:bf2:Instance": "Instance.json",
 }
 
 export const hasFixtureResource = (uri) =>
