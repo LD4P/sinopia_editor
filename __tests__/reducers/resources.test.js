@@ -147,7 +147,7 @@ describe("addProperty()", () => {
     })
   })
 
-  describe("existing uri property with no values", () => {
+  describe("existing lookup property with no values", () => {
     it("updates state", () => {
       const oldState = createState({ hasResourceWithLookup: true })
 
@@ -161,7 +161,6 @@ describe("addProperty()", () => {
           },
           values: [],
           show: true,
-          errors: [],
         },
       }
 
@@ -172,9 +171,9 @@ describe("addProperty()", () => {
         rootSubjectKey: "wihOjn-0Z",
         propertyTemplateKey:
           "test:resource:SinopiaLookup > http://id.loc.gov/ontologies/bibframe/instanceOf",
-        valueKeys: [],
+        valueKeys: ["abc123"],
         show: true,
-        errors: ["Required"],
+        errors: [],
         rootPropertyKey: "i0SAJP-Zhd",
         descUriOrLiteralValueKeys: [],
         descWithErrorPropertyKeys: ["i0SAJP-Zhd"],
@@ -190,7 +189,7 @@ describe("addProperty()", () => {
     })
   })
 
-  describe("property with validation error", () => {
+  describe("lookup property with validation error", () => {
     it("adds error", () => {
       const oldState = createState({ hasResourceWithLookup: true })
       oldState.entities.propertyTemplates[
@@ -216,13 +215,13 @@ describe("addProperty()", () => {
         rootSubjectKey: "wihOjn-0Z",
         propertyTemplateKey:
           "test:resource:SinopiaLookup > http://id.loc.gov/ontologies/bibframe/instanceOf",
-        valueKeys: [],
+        valueKeys: ["abc123"],
         show: true,
         rootPropertyKey: "vmq88891",
         descUriOrLiteralValueKeys: [],
         descWithErrorPropertyKeys: ["vmq88891"],
         labels: ["Testing sinopia lookup", "Instance of (lookup)"],
-        errors: ["Required"],
+        errors: [],
       })
 
       expect(
@@ -1095,6 +1094,7 @@ describe("updateValue()", () => {
         label: null,
         valueSubjectKey: null,
         errors: [],
+        component: "InputLiteralValue",
       })
       expect(newState.properties["JQEtq-vmq8"].valueKeys).toContain("CxGx7WMh2")
       expect(
@@ -1135,6 +1135,7 @@ describe("updateValue()", () => {
         label: null,
         valueSubjectKey: null,
         errors: ["Literal required"],
+        component: "InputLiteralValue",
       })
       expect(newState.properties["JQEtq-vmq8"].valueKeys).toContain("CxGx7WMh2")
       expect(
@@ -1199,6 +1200,7 @@ describe("updateValue()", () => {
         label: null,
         valueSubjectKey: null,
         errors: [],
+        component: "InputLiteralValue",
       })
       expect(newState.properties["JQEtq-vmq8"].valueKeys).toContain("CxGx7WMh2")
       expect(newState.subjects.t9zVwg2zO.label).toEqual(newLabelValue)
@@ -1232,6 +1234,7 @@ describe("updateValue()", () => {
         rootPropertyKey: "RPaGmJ_8IQi8roZ1oj1uK",
         valueSubjectKey: null,
         errors: [],
+        component: "InputURIValue",
       })
       expect(newState.properties.RPaGmJ_8IQi8roZ1oj1uK.valueKeys).toContain(
         "a_-Jp0pY6pH6ytCtfr-mx"
@@ -1272,6 +1275,7 @@ describe("updateValue()", () => {
         rootPropertyKey: "RPaGmJ_8IQi8roZ1oj1uK",
         valueSubjectKey: null,
         errors: ["URI required"],
+        component: "InputURIValue",
       })
 
       expect(
@@ -1310,6 +1314,7 @@ describe("updateValue()", () => {
         rootPropertyKey: "RPaGmJ_8IQi8roZ1oj1uK",
         valueSubjectKey: null,
         errors: ["Label required"],
+        component: "InputURIValue",
       })
 
       expect(
@@ -1318,6 +1323,52 @@ describe("updateValue()", () => {
       expect(
         newState.subjects.FYPd18JgfhSGaeviY7NNu.descWithErrorPropertyKeys
       ).toContain("RPaGmJ_8IQi8roZ1oj1uK")
+    })
+  })
+
+  describe("update lookup value to uri", () => {
+    it("updates state", () => {
+      const oldState = createState({ hasResourceWithLookup: true })
+      oldState.entities.values["s8-qt3-uu"] = {
+        key: "s8-qt3-uu",
+        rootSubjectKey: "wihOjn-0Z",
+        rootPropertyKey: "i0SAJP-Zhd",
+        literal: null,
+        lang: null,
+        uri: null,
+        label: null,
+        propertyKey: "i0SAJP-Zhd",
+        valueSubjectKey: null,
+        errors: [],
+        component: "InputLookupValue",
+      }
+
+      const action = {
+        type: "UPDATE_VALUE",
+        payload: {
+          valueKey: "s8-qt3-uu",
+          uri: "http://id.loc.gov/authorities/names/nr2003037533",
+          label: "Laurent Martres",
+          lang: "eng",
+          component: "InputURIComponent",
+        },
+      }
+
+      const newState = reducer(oldState.entities, action)
+
+      expect(newState.values["s8-qt3-uu"]).toStrictEqual({
+        key: "s8-qt3-uu",
+        rootSubjectKey: "wihOjn-0Z",
+        rootPropertyKey: "i0SAJP-Zhd",
+        literal: null,
+        lang: "eng",
+        uri: "http://id.loc.gov/authorities/names/nr2003037533",
+        label: "Laurent Martres",
+        propertyKey: "i0SAJP-Zhd",
+        valueSubjectKey: null,
+        errors: [],
+        component: "InputURIComponent",
+      })
     })
   })
 })

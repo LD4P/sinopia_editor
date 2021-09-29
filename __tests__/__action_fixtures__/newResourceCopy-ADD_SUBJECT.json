@@ -74,7 +74,8 @@
                 "label": null,
                 "valueSubject": null,
                 "rootPropertyKey": "JQEtq-vmq8",
-                "errors": []
+                "errors": [],
+                "component": "InputLiteralValue"
               }
             ]
           }

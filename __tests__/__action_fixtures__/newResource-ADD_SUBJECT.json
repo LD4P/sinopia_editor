@@ -303,7 +303,14 @@
               "authority": "agrovoc_ld4l_cache",
               "subauthority": "",
               "nonldLookup": false
-            }
+            },
+            {
+              "authority": "getty_aat_ld4l_cache",
+              "label": "GETTY_AAT  (QA)",
+              "nonldLookup": false,
+              "subauthority": "",
+              "uri": "urn:ld4p:qa:gettyaat"
+            }            
           ],
           "type": "uri",
           "component": "InputLookup"
@@ -631,6 +638,7 @@
             "lang": null,
             "uri": null,
             "label": null,
+            "component": null,
             "valueSubject": {
               "key": "abc37",
               "uri": null,
@@ -683,6 +691,7 @@
             "lang": null,
             "uri": null,
             "label": null,
+            "component": null,
             "valueSubject": {
               "key": "abc38",
               "uri": null,
@@ -768,6 +777,7 @@
             "lang": null,
             "uri": null,
             "label": null,
+            "component": null,
             "valueSubject": {
               "key": "abc39",
               "uri": null,
@@ -820,6 +830,7 @@
             "lang": null,
             "uri": null,
             "label": null,
+            "component": null,
             "valueSubject": {
               "key": "abc40",
               "uri": null,
@@ -915,7 +926,8 @@
             "lang": null,
             "uri": null,
             "label": null,
-            "valueSubject": null
+            "valueSubject": null,
+            "component": "InputLiteralValue"
           },
           {
             "key": "abc42",
@@ -923,7 +935,8 @@
             "lang": null,
             "uri": null,
             "label": null,
-            "valueSubject": null
+            "valueSubject": null,
+            "component": "InputLiteralValue"
           }
         ],
         "show": true
@@ -937,7 +950,8 @@
             "lang": "eng",
             "uri": "http://sinopia.io/defaultURI1",
             "label": "Default URI1",
-            "valueSubject": null
+            "valueSubject": null,
+            "component": "InputURIValue"
           },
           {
             "key": "abc44",
@@ -945,7 +959,8 @@
             "lang": "eng",
             "uri": "http://sinopia.io/defaultURI2",
             "label": null,
-            "valueSubject": null
+            "valueSubject": null,
+            "component": "InputURIValue"
           }
         ],
         "show": true
@@ -1004,6 +1019,7 @@
             "lang": null,
             "uri": null,
             "label": null,
+            "component": null,
             "valueSubject": {
               "key": "abc45",
               "uri": null,
@@ -1062,6 +1078,7 @@
             "lang": null,
             "uri": null,
             "label": null,
+            "component": null,
             "valueSubject": {
               "key": "abc46",
               "uri": null,
@@ -1145,7 +1162,8 @@
             "lang": null,
             "uri": null,
             "label": null,
-            "valueSubject": null
+            "valueSubject": null,
+            "component": "InputLiteralValue"
           },
           {
             "key": "abc48",
@@ -1153,7 +1171,8 @@
             "lang": null,
             "uri": null,
             "label": null,
-            "valueSubject": null
+            "valueSubject": null,
+            "component": "InputLiteralValue"
           }
         ],
         "show": true
@@ -1167,6 +1186,7 @@
             "lang": null,
             "uri": null,
             "label": null,
+            "component": null,
             "valueSubject": {
               "key": "abc49",
               "uri": null,

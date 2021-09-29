@@ -76,6 +76,7 @@
       "lang": null,
       "uri": null,
       "label": null,
+      "component": null,
       "valueSubject": {
         "key": "abc0",
         "uri": null,

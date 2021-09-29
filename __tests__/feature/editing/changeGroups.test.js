@@ -48,5 +48,5 @@ describe("user that can edit, but not an owner, can view groups", () => {
     const modalSave = screen.getByRole("button", { name: "Save Group" })
     fireEvent.click(modalSave)
     await screen.findByText("Saved")
-  }, 15000)
+  }, 25000)
 })

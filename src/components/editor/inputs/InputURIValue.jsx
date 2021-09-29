@@ -1,40 +1,37 @@
 import React, { useRef, useEffect, useState } from "react"
-import { useSelector, useDispatch } from "react-redux"
+import { useDispatch } from "react-redux"
 import PropTypes from "prop-types"
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
-import {
-  faTrashAlt,
-  faExternalLinkAlt,
-} from "@fortawesome/free-solid-svg-icons"
+import { faExternalLinkAlt } from "@fortawesome/free-solid-svg-icons"
 import TextareaAutosize from "react-textarea-autosize"
-import { selectNormValue } from "selectors/resources"
 import {
   updateURIValue as updateURIValueAction,
   removeValue,
 } from "actions/resources"
 import LanguageButton from "./LanguageButton"
+import DiacriticsButton from "./DiacriticsButton"
 import DiacriticsSelection from "components/editor/diacritics/DiacriticsSelection"
 import useDiacritics from "hooks/useDiacritics"
 import { isHttp } from "utilities/Utilities"
+import RemoveButton from "./RemoveButton"
 import _ from "lodash"
 
 const InputURIValue = ({
-  valueKey,
+  value,
   propertyTemplate,
   displayValidations,
   shouldFocus,
 }) => {
   const dispatch = useDispatch()
-  const value = useSelector((state) => selectNormValue(state, valueKey))
   const inputURIRef = useRef(null)
   const inputLabelRef = useRef(null)
   const [focusHasBeenSet, setFocusHasBeenSet] = useState(false)
   const [currentURIContent, setCurrentURIContent] = useState(value.uri || "")
   const [showLink, setShowLink] = useState(isHttp(value.uri))
-  const uriId = `inputuri-${valueKey}`
-  const labelId = `inputuri-label-${valueKey}`
-  const diacriticsId = `diacritics-${valueKey}`
-  const diacriticsBtnId = `diacritics-btn-${valueKey}`
+  const uriId = `inputuri-${value.key}`
+  const labelId = `inputuri-label-${value.key}`
+  const diacriticsId = `diacritics-${value.key}`
+  const diacriticsBtnId = `diacritics-btn-${value.key}`
   const {
     showDiacritics,
     toggleDiacritics,
@@ -56,7 +53,7 @@ const InputURIValue = ({
     setShowLink(isHttp(currentURIContent))
     dispatch(
       updateURIValueAction(
-        valueKey,
+        value.key,
         currentURIContent,
         currentLabelContent,
         value.lang
@@ -79,7 +76,7 @@ const InputURIValue = ({
   }
 
   const handleRemoveClick = (event) => {
-    dispatch(removeValue(valueKey))
+    dispatch(removeValue(value.key))
     event.preventDefault()
   }
 
@@ -187,28 +184,19 @@ const InputURIValue = ({
           </div>
         </div>
         <div className="col-md-auto d-flex align-items-end">
-          <button
-            className="btn btn-link fs-4 py-0"
+          <DiacriticsButton
             id={diacriticsBtnId}
-            aria-label={`Select diacritics for ${currentLabelContent}`}
-            data-testid={`Select diacritics for ${currentLabelContent}`}
-            onClick={toggleDiacritics}
-            onBlur={handleLabelBlur}
-          >
-            &auml;
-          </button>
+            content={currentLabelContent}
+            handleClick={toggleDiacritics}
+            handleBlur={handleLabelBlur}
+          />
           <LanguageButton value={value} />
         </div>
         <div className="col-sm-1 d-flex align-items-end">
-          <button
-            type="button"
-            className="btn btn-sm"
-            aria-label={`Remove ${currentURIContent}`}
-            data-testid={`Remove ${currentURIContent}`}
-            onClick={handleRemoveClick}
-          >
-            <FontAwesomeIcon className="trash-icon" icon={faTrashAlt} />
-          </button>
+          <RemoveButton
+            content={currentURIContent}
+            handleClick={handleRemoveClick}
+          />
         </div>
       </div>
       <div className="row">
@@ -224,7 +212,7 @@ const InputURIValue = ({
 }
 
 InputURIValue.propTypes = {
-  valueKey: PropTypes.string.isRequired,
+  value: PropTypes.object.isRequired,
   propertyTemplate: PropTypes.object.isRequired,
   displayValidations: PropTypes.bool.isRequired,
   shouldFocus: PropTypes.bool.isRequired,

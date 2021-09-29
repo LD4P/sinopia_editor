@@ -75,7 +75,7 @@ const Tabs = (props) => {
 
   return (
     <React.Fragment>
-      <ul className="nav nav-tabs" role="tablist">
+      <ul className="nav nav-pills" role="tablist">
         <div className="container">{tabs}</div>
       </ul>
       <div className="tab-content">

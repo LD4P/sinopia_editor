@@ -272,7 +272,14 @@
 					"authority": "agrovoc_ld4l_cache",
 					"subauthority": "",
 					"nonldLookup": false
-				}],
+				}, {
+					"authority": "getty_aat_ld4l_cache",
+					"label": "GETTY_AAT  (QA)",
+					"nonldLookup": false,
+					"subauthority": "",
+					"uri": "urn:ld4p:qa:gettyaat"
+				}
+			],
 				"type": "uri",
 				"component": "InputLookup"
 			}, {
@@ -554,6 +561,7 @@
 				"lang": null,
 				"uri": null,
 				"label": null,
+				"component": null,
 				"valueSubject": {
 					"key": "abc46",
 					"uri": null,
@@ -597,7 +605,8 @@
 							"lang": "eng",
 							"uri": null,
 							"label": null,
-							"valueSubject": null
+							"valueSubject": null,
+							"component": "InputLiteralValue"
 						}],
 						"show": false
 					}]
@@ -608,6 +617,7 @@
 				"lang": null,
 				"uri": null,
 				"label": null,
+				"component": null,
 				"valueSubject": {
 					"key": "abc47",
 					"uri": null,
@@ -619,7 +629,8 @@
 							"lang": "eng",
 							"uri": null,
 							"label": null,
-							"valueSubject": null
+							"valueSubject": null,
+							"component": "InputLiteralValue"
 						}],
 						"show": false
 					}]
@@ -630,6 +641,7 @@
 				"lang": null,
 				"uri": null,
 				"label": null,
+				"component": null,
 				"valueSubject": {
 					"key": "abc45",
 					"uri": null,
@@ -688,7 +700,8 @@
 							"lang": "eng",
 							"uri": null,
 							"label": null,
-							"valueSubject": null
+							"valueSubject": null,
+							"component": "InputLiteralValue"
 						}],
 						"show": false
 					}, {
@@ -699,14 +712,16 @@
 							"lang": "eng",
 							"uri": null,
 							"label": null,
-							"valueSubject": null
+							"valueSubject": null,
+							"component": "InputLiteralValue"
 						}, {
 							"key": "abc60",
 							"literal": "Uber template3, property2, value2",
 							"lang": "eng",
 							"uri": null,
 							"label": null,
-							"valueSubject": null
+							"valueSubject": null,
+							"component": "InputLiteralValue"
 						}],
 						"show": false
 					}]
@@ -721,7 +736,8 @@
 				"lang": "eng",
 				"uri": null,
 				"label": null,
-				"valueSubject": null
+				"valueSubject": null,
+				"component": "InputLiteralValue"
 			}],
 			"show": false
 		}, {
@@ -736,7 +752,8 @@
 				"lang": "eng",
 				"uri": null,
 				"label": null,
-				"valueSubject": null
+				"valueSubject": null,
+				"component": "InputLiteralValue"
 			}],
 			"show": true
 		}, {
@@ -747,7 +764,8 @@
 				"lang": "eng",
 				"uri": "http://example.edu/ubertemplate1:property5",
 				"label": "ubertemplate1:property5",
-				"valueSubject": null
+				"valueSubject": null,
+				"component": "InputURIValue"
 			}],
 			"show": true
 		}, {
@@ -758,7 +776,8 @@
 				"lang": null,
 				"uri": "ubertemplate1:property6",
 				"label": "ubertemplate1:property6",
-				"valueSubject": null
+				"valueSubject": null,
+				"component": "InputURIValue"
 			}],
 			"show": true
 		}, {
@@ -777,7 +796,8 @@
 				"lang": "eng",
 				"uri": null,
 				"label": null,
-				"valueSubject": null
+				"valueSubject": null,
+				"component": "InputLiteralValue"
 			}],
 			"show": true
 		}, {
@@ -788,7 +808,8 @@
 				"lang": null,
 				"uri": "http://id.loc.gov/vocabulary/mrectype/analog",
 				"label": "analog",
-				"valueSubject": null
+				"valueSubject": null,
+				"component": "InputURIValue"
 			}],
 			"show": true
 		}, {
@@ -799,7 +820,8 @@
 				"lang": null,
 				"uri": "http://id.loc.gov/vocabulary/mrectype/digital",
 				"label": "digital",
-				"valueSubject": null
+				"valueSubject": null,
+				"component": "InputURIValue"
 			}],
 			"show": true
 		}, {
@@ -810,7 +832,8 @@
 				"lang": null,
 				"uri": "http://id.loc.gov/vocabulary/mrecmedium/mag",
 				"label": "magnetic",
-				"valueSubject": null
+				"valueSubject": null,
+				"component": "InputURIValue"
 			}],
 			"show": true
 		}, {
@@ -821,7 +844,8 @@
 				"lang": null,
 				"uri": "http://aims.fao.org/aos/agrovoc/c_35856",
 				"label": "summer squash",
-				"valueSubject": null
+				"valueSubject": null,
+				"component": "InputURIValue"
 			}],
 			"show": true
 		}, {
@@ -832,7 +856,8 @@
 				"lang": null,
 				"uri": "http://aims.fao.org/aos/agrovoc/c_331388",
 				"label": "corn sheller",
-				"valueSubject": null
+				"valueSubject": null,
+				"component": "InputURIValue"
 			}],
 			"show": true
 		}, {
@@ -843,7 +868,8 @@
 				"lang": null,
 				"uri": "http://sws.geonames.org/5098279/",
 				"label": "Freehold Borough High School (US)",
-				"valueSubject": null
+				"valueSubject": null,
+				"component": "InputURIValue"
 			}],
 			"show": true
 		}, {
@@ -854,7 +880,8 @@
 				"lang": null,
 				"uri": "http://localhost:3000/resource/c7db5404-7d7d-40ac-b38e-c821d2c3ae3f",
 				"label": "foo",
-				"valueSubject": null
+				"valueSubject": null,
+				"component": "InputURIValue"
 			}],
 			"show": true
 		}, {
@@ -865,7 +892,8 @@
 				"lang": null,
 				"uri": "http://localhost:3000/resource/c7db5404-7d7d-40ac-b38e-c821d2c3ae3f",
 				"label": "foo",
-				"valueSubject": null
+				"valueSubject": null,
+				"component": "InputURIValue"
 			}],
 			"show": true
 		}, {
@@ -876,6 +904,7 @@
 				"lang": null,
 				"uri": null,
 				"label": null,
+				"component": null,
 				"valueSubject": {
 					"key": "abc48",
 					"uri": null,
@@ -919,7 +948,8 @@
 							"lang": "eng",
 							"uri": null,
 							"label": null,
-							"valueSubject": null
+							"valueSubject": null,
+							"component": "InputLiteralValue"
 						}],
 						"show": true
 					}]
@@ -934,6 +964,7 @@
 				"lang": null,
 				"uri": null,
 				"label": null,
+				"component": null,
 				"valueSubject": {
 					"key": "abc49",
 					"uri": null,
@@ -945,7 +976,8 @@
 							"lang": "eng",
 							"uri": null,
 							"label": null,
-							"valueSubject": null
+							"valueSubject": null,
+							"component": "InputLiteralValue"
 						}],
 						"show": true
 					}]
@@ -956,6 +988,7 @@
 				"lang": null,
 				"uri": null,
 				"label": null,
+				"component": null,
 				"valueSubject": {
 					"key": "abc50",
 					"uri": null,
@@ -967,7 +1000,8 @@
 							"lang": "eng",
 							"uri": null,
 							"label": null,
-							"valueSubject": null
+							"valueSubject": null,
+							"component": "InputLiteralValue"
 						}],
 						"show": true
 					}]
@@ -1011,7 +1045,8 @@
 				"label": null,
 				"lang": "",
 				"uri": null,
-				"valueSubject": null
+				"valueSubject": null,
+				"component": "InputLiteralValue"
 			}]
 		}],
 		"group": "stanford",

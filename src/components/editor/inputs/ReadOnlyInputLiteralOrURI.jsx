@@ -3,11 +3,18 @@ import { useSelector } from "react-redux"
 import PropTypes from "prop-types"
 import { selectProperty } from "selectors/resources"
 import { isHttp } from "utilities/Utilities"
+import _ from "lodash"
 
-const ReadOnlyInputURI = ({ propertyKey }) => {
+const ReadOnlyInputLiteralOrURI = ({ propertyKey }) => {
   const property = useSelector((state) => selectProperty(state, propertyKey))
 
-  const inputValues = property.values.map((value) => {
+  const filteredValues = property.values.filter(
+    (value) => value.literal || value.uri
+  )
+
+  if (_.isEmpty(filteredValues)) return null
+
+  const uriValue = (value) => {
     const uri = isHttp(value.uri) ? (
       <a target="_blank" rel="noopener noreferrer" href={value.uri}>
         {value.uri}
@@ -25,13 +32,28 @@ const ReadOnlyInputURI = ({ propertyKey }) => {
       )
     }
     return <p key={value.key}>{uri}</p>
-  })
+  }
+
+  const literalValue = (value) => {
+    const language = value.langLabel || "No language specified"
+    return (
+      <p key={value.key}>
+        {value.literal} [{language}]
+      </p>
+    )
+  }
+
+  const inputValues = filteredValues.map((value) =>
+    value.component === "InputLiteralValue"
+      ? literalValue(value)
+      : uriValue(value)
+  )
 
   return <React.Fragment>{inputValues}</React.Fragment>
 }
 
-ReadOnlyInputURI.propTypes = {
+ReadOnlyInputLiteralOrURI.propTypes = {
   propertyKey: PropTypes.string.isRequired,
 }
 
-export default ReadOnlyInputURI
+export default ReadOnlyInputLiteralOrURI

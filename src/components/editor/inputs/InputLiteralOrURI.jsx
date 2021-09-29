@@ -1,10 +1,16 @@
 import React from "react"
-import { useDispatch } from "react-redux"
+import { useDispatch, useSelector } from "react-redux"
 import PropTypes from "prop-types"
 import InputLiteralValue from "./InputLiteralValue"
 import InputURIValue from "./InputURIValue"
+import InputLookupValue from "./InputLookupValue"
 import { addValue as addValueAction } from "actions/resources"
-import { newBlankValue } from "utilities/valueFactory"
+import {
+  newBlankLiteralValue,
+  newBlankUriValue,
+  newBlankLookupValue,
+} from "utilities/valueFactory"
+import { selectProperty } from "selectors/resources"
 
 const InputLiteralOrURI = ({
   property,
@@ -12,26 +18,42 @@ const InputLiteralOrURI = ({
   displayValidations,
 }) => {
   const dispatch = useDispatch()
-  const isLiteral = propertyTemplate.type === "literal"
+  const fullProperty = useSelector((state) =>
+    selectProperty(state, property.key)
+  )
 
-  const inputValues = property.valueKeys.map((valueKey) => {
+  const inputValues = fullProperty.values.map((value) => {
     const props = {
-      valueKey,
+      value,
       propertyTemplate,
       displayValidations,
       shouldFocus: property.valueKeys.length > 1,
     }
-    return isLiteral ? (
-      <InputLiteralValue key={valueKey} {...props} />
-    ) : (
-      <InputURIValue key={valueKey} {...props} />
-    )
+    switch (value.component) {
+      case "InputURIValue":
+        return <InputURIValue key={value.key} {...props} />
+      case "InputLookupValue":
+        return <InputLookupValue key={value.key} {...props} />
+      default:
+        return <InputLiteralValue key={value.key} {...props} />
+    }
   })
 
   const canAddAnother = propertyTemplate.repeatable
 
   const handleAddAnotherClick = (event) => {
-    dispatch(addValueAction(newBlankValue(property)))
+    let newValue
+    switch (propertyTemplate.component) {
+      case "InputURI":
+        newValue = newBlankUriValue(property)
+        break
+      case "InputLookup":
+        newValue = newBlankLookupValue(property)
+        break
+      default:
+        newValue = newBlankLiteralValue(property)
+    }
+    dispatch(addValueAction(newValue))
     event.preventDefault()
   }
 

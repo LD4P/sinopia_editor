@@ -480,6 +480,9 @@
     "http://sinopia.io/vocabulary/hasAuthority": [
       {
         "@id": "urn:ld4p:qa:agrovoc"
+      },
+      {
+        "@id": "urn:ld4p:qa:gettyaat"
       }
     ]
   },

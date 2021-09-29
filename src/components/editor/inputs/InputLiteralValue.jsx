@@ -1,29 +1,27 @@
 import React, { useRef, useEffect, useState } from "react"
-import { useSelector, useDispatch } from "react-redux"
+import { useDispatch } from "react-redux"
 import PropTypes from "prop-types"
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
-import { faTrashAlt } from "@fortawesome/free-solid-svg-icons"
 import TextareaAutosize from "react-textarea-autosize"
-import { selectNormValue } from "selectors/resources"
 import { updateLiteralValue, removeValue } from "actions/resources"
 import LanguageButton from "./LanguageButton"
+import DiacriticsButton from "./DiacriticsButton"
+import RemoveButton from "./RemoveButton"
 import DiacriticsSelection from "components/editor/diacritics/DiacriticsSelection"
 import useDiacritics from "hooks/useDiacritics"
 import _ from "lodash"
 
 const InputLiteralValue = ({
-  valueKey,
+  value,
   propertyTemplate,
   displayValidations,
   shouldFocus,
 }) => {
   const dispatch = useDispatch()
-  const value = useSelector((state) => selectNormValue(state, valueKey))
   const inputLiteralRef = useRef(null)
   const [focusHasBeenSet, setFocusHasBeenSet] = useState(false)
-  const id = `inputliteral-${valueKey}`
-  const diacriticsId = `diacritics-${valueKey}`
-  const diacriticsBtnId = `diacritics-btn-${valueKey}`
+  const id = `inputliteral-${value.key}`
+  const diacriticsId = `diacritics-${value.key}`
+  const diacriticsBtnId = `diacritics-btn-${value.key}`
   const {
     showDiacritics,
     toggleDiacritics,
@@ -51,19 +49,19 @@ const InputLiteralValue = ({
 
   const handleBlur = (event) => {
     if (handleBlurDiacritics(event)) {
-      dispatch(updateLiteralValue(valueKey, currentContent, value.lang))
+      dispatch(updateLiteralValue(value.key, currentContent, value.lang))
       event.preventDefault()
     }
   }
 
   const handleRemoveClick = (event) => {
-    dispatch(removeValue(valueKey))
+    dispatch(removeValue(value.key))
     event.preventDefault()
   }
 
   const handleKeyDown = (event) => {
     if (event.key === "Enter") {
-      dispatch(updateLiteralValue(valueKey, currentContent, value.lang))
+      dispatch(updateLiteralValue(value.key, currentContent, value.lang))
       event.preventDefault()
     }
     // Handle any position changing
@@ -94,28 +92,19 @@ const InputLiteralValue = ({
           <div className="invalid-feedback">{value.errors.join(", ")}</div>
         </div>
         <div className="col-md-auto">
-          <button
-            className="btn btn-link fs-4 py-0"
+          <DiacriticsButton
             id={diacriticsBtnId}
-            aria-label={`Select diacritics for ${currentContent}`}
-            data-testid={`Select diacritics for ${currentContent}`}
-            onClick={toggleDiacritics}
-            onBlur={handleBlur}
-          >
-            &auml;
-          </button>
+            content={currentContent}
+            handleClick={toggleDiacritics}
+            handleBlur={handleBlur}
+          />
           <LanguageButton value={value} />
         </div>
         <div className="col-sm-1">
-          <button
-            type="button"
-            className="btn btn-sm"
-            aria-label={`Remove ${currentContent}`}
-            data-testid={`Remove ${currentContent}`}
-            onClick={handleRemoveClick}
-          >
-            <FontAwesomeIcon className="trash-icon" icon={faTrashAlt} />
-          </button>
+          <RemoveButton
+            content={currentContent}
+            handleClick={handleRemoveClick}
+          />
         </div>
       </div>
       <div className="row">
@@ -131,7 +120,7 @@ const InputLiteralValue = ({
 }
 
 InputLiteralValue.propTypes = {
-  valueKey: PropTypes.string.isRequired,
+  value: PropTypes.object.isRequired,
   propertyTemplate: PropTypes.object.isRequired,
   displayValidations: PropTypes.bool.isRequired,
   shouldFocus: PropTypes.bool.isRequired,

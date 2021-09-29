@@ -40,8 +40,12 @@ describe("loading new resource", () => {
     screen.getByPlaceholderText("Uber template1, property2")
     screen.getByPlaceholderText("Uber template1, property4")
     screen.getByPlaceholderText("Uber template1, property5")
-    screen.getByTestId("Submit lookup for Uber template1, property15")
-    screen.getByTestId("Submit lookup for Uber template1, property16")
+    screen.getByPlaceholderText(
+      "Enter lookup query for Uber template1, property15"
+    )
+    screen.getByPlaceholderText(
+      "Enter lookup query for Uber template1, property16"
+    )
     expect(
       screen.getAllByText("Uber template4", { selector: "h5" })
     ).toHaveLength(2)

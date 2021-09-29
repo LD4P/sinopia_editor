@@ -2,14 +2,14 @@
 
 import React, { useState, useRef, useEffect } from "react"
 import PropTypes from "prop-types"
-import Tab from "../Tab"
-import Tabs from "../Tabs"
 import LookupTab from "./LookupTab"
 import _ from "lodash"
 import { getLookupResult } from "utilities/Lookup"
 
 const LookupTabs = (props) => {
-  const [tabKey, setTabKey] = useState()
+  const [currentAuthorityUri, setCurrentAuthorityUri] = useState(
+    props.authorityConfigs[0].uri
+  )
   const [, setTriggerRender] = useState("")
   // Using a ref so that can append to current list of results.
   const results = useRef({})
@@ -48,44 +48,56 @@ const LookupTabs = (props) => {
     )
   }
 
+  const handleTabClick = (event, authorityUri) => {
+    setCurrentAuthorityUri(authorityUri)
+    event.preventDefault()
+  }
+
+  /* eslint-disable jsx-a11y/anchor-is-valid */
   const tabs = props.authorityConfigs.map((authorityConfig) => {
     const totalHits = results.current[authorityConfig.uri]?.totalHits
     const title =
       totalHits !== undefined
         ? `${authorityConfig.label} (${totalHits})`
         : authorityConfig.label
+    const tabClasses = ["nav-link"]
+    if (currentAuthorityUri === authorityConfig.uri) tabClasses.push("active")
     return (
-      <Tab
-        key={authorityConfig.uri}
-        eventKey={authorityConfig.uri}
-        title={title}
-      >
-        <LookupTab
-          authorityConfig={authorityConfig}
-          query={props.query}
-          handleSelectionChanged={props.handleSelectionChanged}
-          handleChangePage={handleChangePage}
-          result={results.current[authorityConfig.uri]}
-        />
-      </Tab>
+      <li className="nav-item" key={authorityConfig.uri}>
+        <a
+          className={tabClasses.join(" ")}
+          href="#"
+          onClick={(event) => handleTabClick(event, authorityConfig.uri)}
+        >
+          {title}
+        </a>
+      </li>
     )
   })
+  /* eslint-enable jsx-a11y/anchor-is-valid */
+
+  const authorityConfig = props.authorityConfigs.find(
+    (authorityConfig) => authorityConfig.uri === currentAuthorityUri
+  )
 
   return (
-    <Tabs
-      id="controlled-tab-example"
-      activeKey={tabKey}
-      onSelect={(k) => setTabKey(k)}
-    >
-      {tabs}
-    </Tabs>
+    <React.Fragment>
+      {tabs.length > 1 && <ul className="nav nav-pills">{tabs}</ul>}
+      <LookupTab
+        authorityConfig={authorityConfig}
+        query={props.query}
+        handleUpdateURI={props.handleUpdateURI}
+        handleChangePage={handleChangePage}
+        result={results.current[currentAuthorityUri]}
+      />
+    </React.Fragment>
   )
 }
 
 LookupTabs.propTypes = {
   authorityConfigs: PropTypes.array.isRequired,
   query: PropTypes.string,
-  handleSelectionChanged: PropTypes.func.isRequired,
+  handleUpdateURI: PropTypes.func.isRequired,
 }
 
 export default LookupTabs

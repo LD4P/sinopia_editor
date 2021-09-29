@@ -303,6 +303,13 @@
               "authority": "agrovoc_ld4l_cache",
               "subauthority": "",
               "nonldLookup": false
+            },
+            {
+              "authority": "getty_aat_ld4l_cache",
+              "label": "GETTY_AAT  (QA)",
+              "nonldLookup": false,
+              "subauthority": "",
+              "uri": "urn:ld4p:qa:gettyaat"
             }
           ],
           "type": "uri",
@@ -631,6 +638,7 @@
             "lang": null,
             "uri": null,
             "label": null,
+            "component": null,
             "valueSubject": {
               "key": "abc37",
               "uri": null,
@@ -683,6 +691,7 @@
             "lang": null,
             "uri": null,
             "label": null,
+            "component": null,
             "valueSubject": {
               "key": "abc31",
               "uri": null,
@@ -747,7 +756,8 @@
                       "lang": "eng",
                       "uri": null,
                       "label": null,
-                      "valueSubject": null
+                      "valueSubject": null,
+                      "component": "InputLiteralValue"
                     }
                   ],
                   "show": false
@@ -761,7 +771,8 @@
                       "lang": "eng",
                       "uri": null,
                       "label": null,
-                      "valueSubject": null
+                      "valueSubject": null,
+                      "component": "InputLiteralValue"
                     }
                   ],
                   "show": false
@@ -861,6 +872,7 @@
             "lang": null,
             "uri": null,
             "label": null,
+            "component": null,
             "valueSubject": {
               "key": "abc19",
               "uri": null,

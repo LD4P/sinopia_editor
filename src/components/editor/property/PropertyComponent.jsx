@@ -5,10 +5,8 @@ import { useSelector } from "react-redux"
 import PropTypes from "prop-types"
 import InputLiteralOrURI from "../inputs/InputLiteralOrURI"
 import InputList from "./InputList"
-import InputLookup from "./InputLookup"
 import NestedResource from "./NestedResource"
-import ReadOnlyInputLiteral from "../inputs/ReadOnlyInputLiteral"
-import ReadOnlyInputURI from "../inputs/ReadOnlyInputURI"
+import ReadOnlyInputLiteralOrURI from "../inputs/ReadOnlyInputLiteralOrURI"
 import Alert from "../../Alert"
 import { selectCurrentResourceIsReadOnly } from "selectors/resources"
 import { displayResourceValidations } from "selectors/errors"
@@ -29,19 +27,10 @@ const PropertyComponent = ({ property, propertyTemplate, propertyLabelId }) => {
         <NestedResource key={valueKey} valueKey={valueKey} />
       ))
     case "InputLiteral":
-      if (readOnly) {
-        return <ReadOnlyInputLiteral propertyKey={property.key} />
-      }
-      return (
-        <InputLiteralOrURI
-          property={property}
-          propertyTemplate={propertyTemplate}
-          displayValidations={displayValidations}
-        />
-      )
     case "InputURI":
+    case "InputLookup":
       if (readOnly) {
-        return <ReadOnlyInputURI propertyKey={property.key} />
+        return <ReadOnlyInputLiteralOrURI propertyKey={property.key} />
       }
       return (
         <InputLiteralOrURI
@@ -49,10 +38,6 @@ const PropertyComponent = ({ property, propertyTemplate, propertyLabelId }) => {
           propertyTemplate={propertyTemplate}
           displayValidations={displayValidations}
         />
-      )
-    case "InputLookup":
-      return (
-        <InputLookup property={property} propertyTemplate={propertyTemplate} />
       )
     case "InputList":
       return (
