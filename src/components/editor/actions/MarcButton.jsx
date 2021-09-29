@@ -128,7 +128,7 @@ const MarcButton = () => {
                 maxWidth: "750px",
               }}
             >
-              {marcs.current[resourceKey].marc}
+              <bdi>{marcs.current[resourceKey].marc}</bdi>
             </pre>
           </React.Fragment>
         )}
