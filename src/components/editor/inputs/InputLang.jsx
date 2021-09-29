@@ -17,10 +17,10 @@ import { selectLanguages, hasLanguages } from "selectors/languages"
  * See ISO 639 for the list of registered language codes
  */
 const InputLang = (props) => {
-  const [lang, setLang] = useState(props.lang || "")
-  const langPresent = typeof lang !== "undefined"
-  const [languageSelectorEnabled, setLanguageSelectorEnabled] =
-    useState(langPresent)
+  const [lang, setLang] = useState(props.lang)
+  const [radioButtonValue, setRadioButtonValue] = useState(
+    props.lang === null ? "absent" : "present"
+  )
 
   const classes = ["modal", "fade"]
   let display = "none"
@@ -33,16 +33,16 @@ const InputLang = (props) => {
   const selectLanguage = (selected) => {
     if (selected.length === 1) {
       setLang(selected[0].id)
+      setRadioButtonValue("present")
     } else {
-      setLang(undefined)
+      setLang(null)
+      setRadioButtonValue("absent")
     }
   }
 
-  const enableLanguageSelector = () => setLanguageSelectorEnabled(true)
-
-  const disableLanguageSelector = () => {
-    setLanguageSelectorEnabled(false)
-    setLang(undefined)
+  const handleLanguageRadio = (event) => {
+    if (event.target.value === "absent") setLang(null)
+    setRadioButtonValue(event.target.value)
   }
 
   const close = (event) => {
@@ -51,6 +51,10 @@ const InputLang = (props) => {
   }
 
   const handleLangSubmit = (event) => {
+    if (radioButtonValue === "present" && lang === null) {
+      alert("Please select a valid language.")
+      return false
+    }
     close(event)
     props.languageSelected(props.value.key, lang)
   }
@@ -67,16 +71,15 @@ const InputLang = (props) => {
               <input
                 type="radio"
                 className="form-check-input"
-                name="lang"
                 id="present"
                 value="present"
-                defaultChecked={langPresent}
-                onChange={enableLanguageSelector}
+                checked={radioButtonValue === "present"}
+                onChange={handleLanguageRadio}
               />
               <label className="form-check-label" htmlFor="present">
                 Select language for {props.textValue}
                 <Typeahead
-                  disabled={!languageSelectorEnabled}
+                  disabled={radioButtonValue === "absent"}
                   onChange={selectLanguage}
                   isLoading={props.loading}
                   options={props.options}
@@ -96,12 +99,11 @@ const InputLang = (props) => {
               <input
                 type="radio"
                 className="form-check-input"
-                name="lang"
                 id={`noLangRadio-${props.textValue}`}
                 data-testid={`noLangRadio-${props.textValue}`}
                 value="absent"
-                defaultChecked={!langPresent}
-                onChange={disableLanguageSelector}
+                checked={radioButtonValue === "absent"}
+                onChange={handleLanguageRadio}
               />
               <label
                 className="form-check-label"
