@@ -528,6 +528,66 @@ describe("addValue()", () => {
     })
   })
 
+  describe("new rdfs label value for resource subject", () => {
+    it("updates state", () => {
+      const oldState = createState({ hasResourceWithLiteral: true })
+
+      // change propertyTemplate to be one for rdfs label
+      oldState.entities.propertyTemplates = {
+        "resourceTemplate:testing:uber1 > http://www.w3.org/2000/01/rdf-schema#label":
+          {
+            key: "resourceTemplate:testing:uber1 > http://www.w3.org/2000/01/rdf-schema#label",
+            subjectTemplateKey: "resourceTemplate:testing:uber1",
+            label: "rdfs label",
+            uri: "http://www.w3.org/2000/01/rdf-schema#label",
+            required: false,
+            repeatable: false,
+            defaults: [],
+            remarkUrl: null,
+            type: "literal",
+            component: "InputLiteral",
+            authorities: [],
+          },
+      }
+      oldState.entities.properties["JQEtq-vmq8"].propertyTemplateKey =
+        "resourceTemplate:testing:uber1 > http://www.w3.org/2000/01/rdf-schema#label"
+
+      const labelValue = "resource root subject label value!"
+      const action = {
+        type: "ADD_VALUE",
+        payload: {
+          value: {
+            key: "DxGx7WMh3",
+            property: { key: "JQEtq-vmq8" },
+            literal: labelValue,
+            lang: "eng",
+            uri: null,
+            label: null,
+            valueSubjectKey: null,
+          },
+        },
+      }
+
+      const newState = reducer(oldState.entities, action)
+
+      expect(newState.values.DxGx7WMh3).toStrictEqual({
+        key: "DxGx7WMh3",
+        propertyKey: "JQEtq-vmq8",
+        rootSubjectKey: "t9zVwg2zO",
+        rootPropertyKey: "JQEtq-vmq8",
+        literal: labelValue,
+        lang: "eng",
+        uri: null,
+        label: null,
+        valueSubjectKey: null,
+        errors: [],
+      })
+      expect(newState.properties["JQEtq-vmq8"].valueKeys).toContain("DxGx7WMh3")
+      expect(newState.properties["JQEtq-vmq8"].show).toBe(true)
+      expect(newState.subjects.t9zVwg2zO.label).toEqual(labelValue)
+    })
+  })
+
   describe("existing nested resource value", () => {
     it("updates state", () => {
       const oldState = createState({ hasResourceWithNestedResource: true })
@@ -1089,6 +1149,59 @@ describe("updateValue()", () => {
       expect(newState.subjects.t9zVwg2zO.descWithErrorPropertyKeys).toContain(
         "JQEtq-vmq8"
       )
+    })
+  })
+
+  describe("update rdfs label value for resource subject", () => {
+    it("updates state", () => {
+      const oldState = createState({ hasResourceWithLiteral: true })
+
+      // change propertyTemplate to be one for rdfs label
+      oldState.entities.propertyTemplates = {
+        "resourceTemplate:testing:uber1 > http://www.w3.org/2000/01/rdf-schema#label":
+          {
+            key: "resourceTemplate:testing:uber1 > http://www.w3.org/2000/01/rdf-schema#label",
+            subjectTemplateKey: "resourceTemplate:testing:uber1",
+            label: "rdfs label",
+            uri: "http://www.w3.org/2000/01/rdf-schema#label",
+            required: false,
+            repeatable: false,
+            defaults: [],
+            remarkUrl: null,
+            type: "literal",
+            component: "InputLiteral",
+            authorities: [],
+          },
+      }
+      oldState.entities.properties["JQEtq-vmq8"].propertyTemplateKey =
+        "resourceTemplate:testing:uber1 > http://www.w3.org/2000/01/rdf-schema#label"
+
+      const newLabelValue = "resource root subject NEW label value!"
+      const action = {
+        type: "UPDATE_VALUE",
+        payload: {
+          valueKey: "CxGx7WMh2",
+          literal: newLabelValue,
+          lang: null,
+        },
+      }
+
+      const newState = reducer(oldState.entities, action)
+
+      expect(newState.values.CxGx7WMh2).toStrictEqual({
+        key: "CxGx7WMh2",
+        propertyKey: "JQEtq-vmq8",
+        rootSubjectKey: "t9zVwg2zO",
+        rootPropertyKey: "JQEtq-vmq8",
+        literal: newLabelValue,
+        lang: null,
+        uri: null,
+        label: null,
+        valueSubjectKey: null,
+        errors: [],
+      })
+      expect(newState.properties["JQEtq-vmq8"].valueKeys).toContain("CxGx7WMh2")
+      expect(newState.subjects.t9zVwg2zO.label).toEqual(newLabelValue)
     })
   })
 
