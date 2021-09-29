@@ -4,7 +4,6 @@ import React from "react"
 import { useSelector } from "react-redux"
 import PropTypes from "prop-types"
 import InputLiteralOrURI from "../inputs/InputLiteralOrURI"
-import InputList from "./InputList"
 import NestedResource from "./NestedResource"
 import ReadOnlyInputLiteralOrURI from "../inputs/ReadOnlyInputLiteralOrURI"
 import Alert from "../../Alert"
@@ -12,7 +11,7 @@ import { selectCurrentResourceIsReadOnly } from "selectors/resources"
 import { displayResourceValidations } from "selectors/errors"
 
 // Decides how to render this property.
-const PropertyComponent = ({ property, propertyTemplate, propertyLabelId }) => {
+const PropertyComponent = ({ property, propertyTemplate }) => {
   const readOnly = useSelector((state) =>
     selectCurrentResourceIsReadOnly(state)
   )
@@ -29,6 +28,7 @@ const PropertyComponent = ({ property, propertyTemplate, propertyLabelId }) => {
     case "InputLiteral":
     case "InputURI":
     case "InputLookup":
+    case "InputList":
       if (readOnly) {
         return <ReadOnlyInputLiteralOrURI propertyKey={property.key} />
       }
@@ -39,14 +39,6 @@ const PropertyComponent = ({ property, propertyTemplate, propertyLabelId }) => {
           displayValidations={displayValidations}
         />
       )
-    case "InputList":
-      return (
-        <InputList
-          propertyLabelId={propertyLabelId}
-          property={property}
-          propertyTemplate={propertyTemplate}
-        />
-      )
     default:
       return <Alert text="No component." />
   }
@@ -55,7 +47,6 @@ const PropertyComponent = ({ property, propertyTemplate, propertyLabelId }) => {
 PropertyComponent.propTypes = {
   property: PropTypes.object.isRequired,
   propertyTemplate: PropTypes.object.isRequired,
-  propertyLabelId: PropTypes.string.isRequired,
 }
 
 export default PropertyComponent

@@ -322,6 +322,7 @@ The following are only in the resource subject (that is, the base subject).
   rootResourceKey: <key of root resource that this property is descendant of>
   rootPropertyKey: <key of root property that this subject is part of>
   component: <InputLiteralValue | InputURIValue | InputLookupValue | InputListValue>,
+  errors: [validation errors, ...]
 }
 ```
 -> Added by selector, not stored in state.

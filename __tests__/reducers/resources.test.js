@@ -73,7 +73,6 @@ describe("addProperty()", () => {
           },
           values: [],
           show: true,
-          errors: [],
         },
       }
       const newState = reducer(oldState.entities, action)
@@ -85,7 +84,6 @@ describe("addProperty()", () => {
           "ld4p:RT:bf2:Title:AbbrTitle > http://id.loc.gov/ontologies/bibframe/mainTitle",
         valueKeys: ["abc123"],
         show: false,
-        errors: [],
         rootPropertyKey: "vmq88891",
         descUriOrLiteralValueKeys: [],
         descWithErrorPropertyKeys: [],
@@ -120,7 +118,6 @@ describe("addProperty()", () => {
             },
           ],
           show: false,
-          errors: [],
         },
       }
 
@@ -133,7 +130,6 @@ describe("addProperty()", () => {
           "ld4p:RT:bf2:Title:AbbrTitle > http://id.loc.gov/ontologies/bibframe/mainTitle",
         valueKeys: ["RxGx7WMh4"],
         show: true,
-        errors: [],
         rootPropertyKey: "JQEtq-vmq8",
         descWithErrorPropertyKeys: [],
         descUriOrLiteralValueKeys: ["RxGx7WMh4"],
@@ -173,7 +169,6 @@ describe("addProperty()", () => {
           "test:resource:SinopiaLookup > http://id.loc.gov/ontologies/bibframe/instanceOf",
         valueKeys: ["abc123"],
         show: true,
-        errors: [],
         rootPropertyKey: "i0SAJP-Zhd",
         descUriOrLiteralValueKeys: [],
         descWithErrorPropertyKeys: ["i0SAJP-Zhd"],
@@ -221,7 +216,6 @@ describe("addProperty()", () => {
         descUriOrLiteralValueKeys: [],
         descWithErrorPropertyKeys: ["vmq88891"],
         labels: ["Testing sinopia lookup", "Instance of (lookup)"],
-        errors: [],
       })
 
       expect(
@@ -330,7 +324,6 @@ describe("addSubject()", () => {
               },
               valueKeys: [],
               show: true,
-              errors: [],
             },
           ],
           changed: false,
@@ -441,7 +434,6 @@ describe("addValue()", () => {
             "ld4p:RT:bf2:Title:AbbrTitle > http://id.loc.gov/ontologies/bibframe/mainTitle",
           valueKeys: [],
           show: true,
-          errors: [],
           descUriOrLiteralValueKeys: [],
           descWithErrorPropertyKeys: [],
         },
@@ -524,6 +516,64 @@ describe("addValue()", () => {
         "DxGx7WMh3",
         "def456",
       ])
+    })
+  })
+
+  describe("new blank list value for required property", () => {
+    it("updates state", () => {
+      const oldState = createState({
+        hasResourceWithList: true,
+      })
+      oldState.entities.propertyTemplates[
+        "resourceTemplate:testing:uber5 > http://id.loc.gov/ontologies/bibframe/uber/template5/property1"
+      ].required = true
+      oldState.entities.properties.RPaGmJ_8IQi8roZ1oj1uK.valueKeys = []
+
+      const action = {
+        type: "ADD_VALUE",
+        payload: {
+          value: {
+            key: "DxGx7WMh3",
+            property: { key: "RPaGmJ_8IQi8roZ1oj1uK" },
+            literal: null,
+            lang: null,
+            uri: null,
+            label: null,
+            valueSubjectKey: null,
+          },
+        },
+      }
+
+      const newState = reducer(oldState.entities, action)
+
+      expect(newState.values.DxGx7WMh3).toStrictEqual({
+        key: "DxGx7WMh3",
+        propertyKey: "RPaGmJ_8IQi8roZ1oj1uK",
+        rootSubjectKey: "FYPd18JgfhSGaeviY7NNu",
+        rootPropertyKey: "RPaGmJ_8IQi8roZ1oj1uK",
+        literal: null,
+        lang: null,
+        uri: null,
+        label: null,
+        valueSubjectKey: null,
+        errors: ["URI required", "Label required"],
+      })
+      expect(newState.properties.RPaGmJ_8IQi8roZ1oj1uK.valueKeys).toContain(
+        "DxGx7WMh3"
+      )
+      expect(newState.properties.RPaGmJ_8IQi8roZ1oj1uK.show).toBe(true)
+      expect(
+        newState.properties.RPaGmJ_8IQi8roZ1oj1uK.descUriOrLiteralValueKeys
+      ).not.toContain("RPaGmJ_8IQi8roZ1oj1uK")
+      expect(
+        newState.subjects.FYPd18JgfhSGaeviY7NNu.descUriOrLiteralValueKeys
+      ).not.toContain("RPaGmJ_8IQi8roZ1oj1uK")
+      expect(
+        newState.properties.RPaGmJ_8IQi8roZ1oj1uK.descWithErrorPropertyKeys
+      ).toContain("RPaGmJ_8IQi8roZ1oj1uK")
+      expect(
+        newState.subjects.FYPd18JgfhSGaeviY7NNu.descWithErrorPropertyKeys
+      ).toContain("RPaGmJ_8IQi8roZ1oj1uK")
     })
   })
 

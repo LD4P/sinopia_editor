@@ -70,7 +70,7 @@ describe("selectValidationErrors()", () => {
       hasError: true,
     })
     const errors = selectValidationErrors(state, "ljAblGiBW")
-    expect(errors[0].message).toEqual("Required")
+    expect(errors[0].message).toEqual("Literal required")
     expect(errors[0].propertyKey).toEqual("7caLbfwwle")
     expect(errors[0].labelPath).toEqual([
       "Uber template1",

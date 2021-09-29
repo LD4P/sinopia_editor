@@ -5,6 +5,7 @@ import {
   newBlankLiteralValue,
   newBlankUriValue,
   newBlankLookupValue,
+  newBlankListValue,
 } from "utilities/valueFactory"
 
 export const setBaseURL = (state, action) => {
@@ -226,7 +227,6 @@ const addPropertyToNewState = (state, property) => {
   newProperty = newState.properties[newProperty.key]
 
   // Errors
-  newState = updatePropertyErrors(newState, newProperty.key)
   newState = updateDescWithErrorPropertyKeys(newState, newProperty.key)
   newProperty = newState.properties[newProperty.key]
 
@@ -508,6 +508,13 @@ const addFirstValue = (state, property) => {
         null,
         propertyTemplate.required
       )
+    case "InputList":
+      return addValueToNewState(
+        state,
+        newBlankListValue(property),
+        null,
+        propertyTemplate.required
+      )
     default:
       return state
   }
@@ -564,19 +571,6 @@ export const removeSubject = (state, action) => {
   return newState
 }
 
-const errorsForProperty = (property, state) => {
-  // For now this is some components only. It will go away when they are refactored.
-  const propertyTemplate = state.propertyTemplates[property.propertyTemplateKey]
-  if (
-    propertyTemplate.component === "InputList" &&
-    propertyTemplate.required &&
-    _.isEmpty(property.valueKeys)
-  ) {
-    return ["Required"]
-  }
-  return []
-}
-
 const errorsForValue = (value, state) => {
   const property = state.properties[value.propertyKey]
   const propertyTemplate = state.propertyTemplates[property.propertyTemplateKey]
@@ -630,14 +624,6 @@ const propertyHasErrors = (state, propertyKey) => {
     const value = state.values[valueKey]
     return !_.isEmpty(value?.errors)
   })
-}
-
-const updatePropertyErrors = (state, propertyKey) => {
-  const newState = stateWithNewProperty(state, propertyKey)
-  const newProperty = newState.properties[propertyKey]
-  newProperty.errors = errorsForProperty(newProperty, newState)
-
-  return newState
 }
 
 const updateValueErrors = (state, valueKey) => {

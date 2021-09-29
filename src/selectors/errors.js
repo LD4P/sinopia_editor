@@ -31,28 +31,20 @@ export const selectValidationErrors = (state, resourceKey) => {
 
   subject.descWithErrorPropertyKeys.forEach((propertyKey) => {
     const property = selectProperty(state, propertyKey)
-    if (property.descWithErrorPropertyKeys.length === 1) {
-      // This will go away when properties no longer have errors after input components are all refactored.
-      property.errors.forEach((error) => {
-        const newError = {
-          message: error,
-          propertyKey: property.key,
-          labelPath: property.labels,
-        }
-        errors.push(newError)
-      })
-      if (property.values !== null) {
-        property.values.forEach((value) => {
-          value.errors.forEach((error) => {
-            const newError = {
-              message: error,
-              propertyKey: property.key,
-              labelPath: property.labels,
-            }
-            errors.push(newError)
-          })
+    if (
+      property.descWithErrorPropertyKeys.length === 1 &&
+      property.values !== null
+    ) {
+      property.values.forEach((value) => {
+        value.errors.forEach((error) => {
+          const newError = {
+            message: error,
+            propertyKey: property.key,
+            labelPath: property.labels,
+          }
+          errors.push(newError)
         })
-      }
+      })
     }
   })
   return errors

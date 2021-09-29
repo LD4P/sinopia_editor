@@ -21,7 +21,6 @@
               "VDOeQCnFA8"
             ],
             "show": true,
-            "errors": [],
             "propertyTemplate": {
               "key": "resourceTemplate:testing:uber1 > http://id.loc.gov/ontologies/bibframe/uber/template1/property1",
               "subjectTemplateKey": "resourceTemplate:testing:uber1",

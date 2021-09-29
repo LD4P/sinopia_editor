@@ -105,7 +105,6 @@ const PanelProperty = (props) => {
         {!isAdd && (
           <div className="card-body panel-property">
             <PropertyComponent
-              propertyLabelId={propertyLabelId}
               property={props.property}
               propertyTemplate={props.propertyTemplate}
             />

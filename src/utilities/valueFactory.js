@@ -43,5 +43,8 @@ export const newBlankUriValue = (property) =>
 export const newBlankLookupValue = (property) =>
   newValue(property, null, null, null, null, null, "InputLookupValue")
 
+export const newBlankListValue = (property) =>
+  newValue(property, null, null, null, null, null, "InputListValue")
+
 export const newValueSubject = (property, subject) =>
   newValue(property, null, null, null, null, subject)

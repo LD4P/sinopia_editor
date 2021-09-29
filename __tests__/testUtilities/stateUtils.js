@@ -11,6 +11,7 @@ export const createState = (options = {}) => {
   buildTwoLiteralResources(state, options)
   buildResourceWithUri(state, options)
   buildResourceWithLookup(state, options)
+  buildResourceWithList(state, options)
   buildResourceWithContractedLiteral(state, options)
   buildResourceWithNestedResource(state, options)
   buildResourceWithTwoNestedResources(state, options)
@@ -170,7 +171,6 @@ const buildTemplateWithLiteral = (state, options) => {
       subjectKey: "8VrbxGPeF",
       propertyTemplateKey:
         "sinopia:template:resource > http://www.w3.org/2000/01/rdf-schema#label",
-      errors: [],
       valueKeys: ["SgS9CqKjmb"],
       labels: ["Resource Template (dummy)", "Note"],
     },
@@ -260,7 +260,6 @@ const buildResourceWithLiteral = (state, options) => {
         "ld4p:RT:bf2:Title:AbbrTitle > http://id.loc.gov/ontologies/bibframe/mainTitle",
       valueKeys: ["CxGx7WMh2"],
       show: true,
-      errors: [],
       descUriOrLiteralValueKeys: ["CxGx7WMh2"],
       descWithErrorPropertyKeys: options.hasError ? ["JQEtq-vmq8"] : [],
       labels: ["Abbreviated Title", "Abbreviated Title"],
@@ -387,7 +386,6 @@ const buildTwoLiteralResources = (state, options) => {
         "ld4p:RT:bf2:Title:AbbrTitle > http://id.loc.gov/ontologies/bibframe/mainTitle",
       valueKeys: ["CxGx7WMh2"],
       show: true,
-      errors: [],
       descUriOrLiteralValueKeys: ["CxGx7WMh2"],
       descWithErrorPropertyKeys: [],
       labels: ["Abbreviated Title", "Abbreviated Title"],
@@ -513,7 +511,6 @@ const buildResourceWithUri = (state, options) => {
       labels: ["Uber template5", "Uber template5, property1"],
       rootPropertyKey: "RPaGmJ_8IQi8roZ1oj1uK",
       valueKeys: ["a_-Jp0pY6pH6ytCtfr-mx"],
-      errors: [],
     },
   }
   state.entities.values = {
@@ -529,6 +526,107 @@ const buildResourceWithUri = (state, options) => {
       valueSubjectKey: null,
       errors: [],
       component: "InputURIValue",
+    },
+  }
+}
+
+const buildResourceWithList = (state, options) => {
+  if (!options.hasResourceWithList) return
+
+  state.editor.currentResource = "wihOjn-0Z"
+  state.editor.resources = ["wihOjn-0Z"]
+  state.entities.subjectTemplates = {
+    "resourceTemplate:testing:uber5": {
+      key: "resourceTemplate:testing:uber5",
+      uri: "http://localhost:3000/resource/resourceTemplate:testing:uber5",
+      id: "resourceTemplate:testing:uber5",
+      class: "http://id.loc.gov/ontologies/bibframe/Uber5",
+      label: "Uber template5",
+      author: null,
+      remark: "Template for testing purposes with repeatable list.",
+      date: null,
+      suppressible: true,
+      propertyTemplateKeys: [
+        "resourceTemplate:testing:uber5 > http://id.loc.gov/ontologies/bibframe/uber/template5/property1",
+      ],
+      group: "stanford",
+      editGroups: ["cornell"],
+    },
+  }
+  state.entities.propertyTemplates = {
+    "resourceTemplate:testing:uber5 > http://id.loc.gov/ontologies/bibframe/uber/template5/property1":
+      {
+        key: "resourceTemplate:testing:uber5 > http://id.loc.gov/ontologies/bibframe/uber/template5/property1",
+        subjectTemplateKey: "resourceTemplate:testing:uber5",
+        label: "Uber template5, property1",
+        uri: "http://id.loc.gov/ontologies/bibframe/uber/template5/property1",
+        required: false,
+        repeatable: true,
+        ordered: false,
+        remark: "A repeatable list",
+        remarkUrl: null,
+        defaults: [],
+        valueSubjectTemplateKeys: [],
+        authorities: [
+          {
+            uri: "https://id.loc.gov/vocabulary/mrectype",
+            label: "type of recording",
+            nonldLookup: false,
+          },
+        ],
+        type: "uri",
+        component: "InputList",
+      },
+  }
+
+  state.entities.subjects = {
+    FYPd18JgfhSGaeviY7NNu: {
+      key: "FYPd18JgfhSGaeviY7NNu",
+      uri: null,
+      descUriOrLiteralValueKeys: ["a_-Jp0pY6pH6ytCtfr-mx"],
+      descWithErrorPropertyKeys: [],
+      subjectTemplateKey: "resourceTemplate:testing:uber5",
+      valueSubjectOfKey: null,
+      rootSubjectKey: "FYPd18JgfhSGaeviY7NNu",
+      rootPropertyKey: null,
+      labels: ["Uber template5"],
+      group: null,
+      editGroups: [],
+      bfAdminMetadataRefs: [],
+      bfItemRefs: [],
+      bfInstanceRefs: [],
+      bfWorkRefs: [],
+      propertyKeys: ["RPaGmJ_8IQi8roZ1oj1uK"],
+    },
+  }
+  state.entities.properties = {
+    RPaGmJ_8IQi8roZ1oj1uK: {
+      key: "RPaGmJ_8IQi8roZ1oj1uK",
+      show: false,
+      subjectKey: "FYPd18JgfhSGaeviY7NNu",
+      propertyTemplateKey:
+        "resourceTemplate:testing:uber5 > http://id.loc.gov/ontologies/bibframe/uber/template5/property1",
+      descUriOrLiteralValueKeys: ["a_-Jp0pY6pH6ytCtfr-mx"],
+      descWithErrorPropertyKeys: [],
+      rootSubjectKey: "FYPd18JgfhSGaeviY7NNu",
+      labels: ["Uber template5", "Uber template5, property1"],
+      rootPropertyKey: "RPaGmJ_8IQi8roZ1oj1uK",
+      valueKeys: ["a_-Jp0pY6pH6ytCtfr-mx"],
+    },
+  }
+  state.entities.values = {
+    "a_-Jp0pY6pH6ytCtfr-mx": {
+      key: "a_-Jp0pY6pH6ytCtfr-mx",
+      literal: null,
+      lang: null,
+      uri: null,
+      label: null,
+      propertyKey: "RPaGmJ_8IQi8roZ1oj1uK",
+      rootSubjectKey: "FYPd18JgfhSGaeviY7NNu",
+      rootPropertyKey: "RPaGmJ_8IQi8roZ1oj1uK",
+      valueSubjectKey: null,
+      errors: [],
+      component: "InputListValue",
     },
   }
 }
@@ -616,7 +714,6 @@ const buildResourceWithLookup = (state, options) => {
       subjectKey: "wihOjn-0Z",
       propertyTemplateKey:
         "test:resource:SinopiaLookup > http://id.loc.gov/ontologies/bibframe/instanceOf",
-      errors: [],
       valueKeys: ["s8-qt3-uu"],
       descUriOrLiteralValueKeys: ["s8-qt3-uu"],
       descWithErrorPropertyKeys: [],
@@ -707,7 +804,6 @@ const buildResourceWithContractedLiteral = (state, options) => {
         "ld4p:RT:bf2:Title:AbbrTitle > http://id.loc.gov/ontologies/bibframe/mainTitle",
       valueKeys: null,
       show: true,
-      errors: [],
       descUriOrLiteralValueKeys: [],
       descWithErrorPropertyKeys: [],
       labels: ["Abbreviated Title", "Abbreviated Title"],
@@ -823,7 +919,6 @@ const buildResourceWithNestedResource = (state, options) => {
         "resourceTemplate:testing:uber1 > http://id.loc.gov/ontologies/bibframe/uber/template1/property1",
       valueKeys: ["VDOeQCnFA8"],
       show: true,
-      errors: [],
       descUriOrLiteralValueKeys: ["pRJ0lO_mT-"],
       descWithErrorPropertyKeys: options.hasError ? ["7caLbfwwle"] : [],
       labels: ["Uber template1", "Uber template1, property1"],
@@ -837,7 +932,6 @@ const buildResourceWithNestedResource = (state, options) => {
         "resourceTemplate:testing:uber2 > http://id.loc.gov/ontologies/bibframe/uber/template2/property1",
       valueKeys: ["pRJ0lO_mT-"],
       show: true,
-      errors: options.hasError ? ["Required"] : [],
       descUriOrLiteralValueKeys: ["pRJ0lO_mT-"],
       descWithErrorPropertyKeys: options.hasError ? ["7caLbfwwle"] : [],
       labels: [
@@ -867,12 +961,12 @@ const buildResourceWithNestedResource = (state, options) => {
       propertyKey: "7caLbfwwle",
       rootSubjectKey: "ljAblGiBW",
       rootPropertyKey: "v1o90QO1Qx",
-      literal: "foo",
+      literal: options.hasError ? null : "foo",
       lang: "eng",
       uri: null,
       label: null,
       valueSubjectKey: null,
-      errors: [],
+      errors: options.hasError ? ["Literal required"] : [],
       component: "InputLiteralValue",
     },
   }
@@ -946,7 +1040,6 @@ const buildResourceWithContractedNestedResource = (state, options) => {
         "resourceTemplate:testing:uber1 > http://id.loc.gov/ontologies/bibframe/uber/template1/property1",
       valueKeys: null,
       show: true,
-      errors: [],
       descUriOrLiteralValueKeys: [],
       descWithErrorPropertyKeys: [],
       labels: ["Uber template1", "Uber template1, property1"],
@@ -1097,7 +1190,6 @@ const buildResourceWithTwoNestedResources = (state, options) => {
         "resourceTemplate:testing:uber1 > http://id.loc.gov/ontologies/bibframe/uber/template1/property1",
       valueKeys: ["VDOeQCnFA8", "VDOeQCnFA9"],
       show: true,
-      errors: options.error || [],
       labels: ["Uber template1", "Uber template1, property1"],
     },
     "7caLbfwwle": {
@@ -1108,7 +1200,6 @@ const buildResourceWithTwoNestedResources = (state, options) => {
         "resourceTemplate:testing:uber2 > http://id.loc.gov/ontologies/bibframe/uber/template2/property1",
       valueKeys: ["pRJ0lO_mT-"],
       show: true,
-      errors: [],
       labels: ["Uber template2", "Uber template2, property1"],
     },
     "7caLbfwwlf": {
@@ -1119,7 +1210,6 @@ const buildResourceWithTwoNestedResources = (state, options) => {
         "resourceTemplate:testing:uber2 > http://id.loc.gov/ontologies/bibframe/uber/template2/property1",
       valueKeys: ["pRJ0lO_mU-"],
       show: true,
-      errors: [],
       labels: ["Uber template2", "Uber template2, property1"],
     },
   }
@@ -1133,7 +1223,6 @@ const buildResourceWithTwoNestedResources = (state, options) => {
       uri: null,
       label: null,
       valueSubjectKey: "XPb8jaPWo",
-      errors: [],
       component: null,
     },
     VDOeQCnFA9: {
@@ -1145,7 +1234,6 @@ const buildResourceWithTwoNestedResources = (state, options) => {
       uri: null,
       label: null,
       valueSubjectKey: "XPb8jaPWp",
-      errors: [],
       component: null,
     },
     "pRJ0lO_mT-": {
@@ -1157,7 +1245,6 @@ const buildResourceWithTwoNestedResources = (state, options) => {
       uri: null,
       label: null,
       valueSubjectKey: null,
-      errors: [],
       component: "InputLiteralValue",
     },
     "pRJ0lO_mU-": {
@@ -1169,7 +1256,6 @@ const buildResourceWithTwoNestedResources = (state, options) => {
       uri: null,
       label: null,
       valueSubjectKey: null,
-      errors: [],
       component: "InputLiteralValue",
     },
   }
