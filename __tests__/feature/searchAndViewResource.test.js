@@ -121,7 +121,7 @@ describe("searching and viewing a resource", () => {
       screen.getByLabelText("Edit", { selector: "button", exact: true })
     )
     expect(
-      screen.getByText("Uber template1", { selector: "h3" })
+      screen.getByText("Example Label", { selector: "h3" })
     ).toBeInTheDocument()
     expect(
       screen.getByText("Copy URI", { selector: "button" })

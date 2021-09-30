@@ -248,6 +248,7 @@ const buildResourceWithLiteral = (state, options) => {
       descUriOrLiteralValueKeys: ["CxGx7WMh2"],
       descWithErrorPropertyKeys: options.hasError ? ["JQEtq-vmq8"] : [],
       labels: ["Abbreviated Title"],
+      label: "Abbreviated Title",
     },
   }
   state.entities.properties = {
@@ -359,6 +360,7 @@ const buildTwoLiteralResources = (state, options) => {
       group: "stanford",
       editGroups: ["cornell"],
       labels: ["Abbreviated Title"],
+      label: "Abbreviated Title",
     },
     u0aWxh3a1: {
       key: "u0aWxh3a1",
@@ -374,6 +376,7 @@ const buildTwoLiteralResources = (state, options) => {
       group: "stanford",
       editGroups: ["cornell"],
       labels: ["Note"],
+      label: "Note",
     },
   }
   state.entities.properties = {
@@ -792,6 +795,7 @@ const buildResourceWithContractedLiteral = (state, options) => {
       descUriOrLiteralValueKeys: [],
       descWithErrorPropertyKeys: [],
       labels: ["Abbreviated Title"],
+      // label: "Abbreviated Title"
     },
   }
   state.entities.properties = {

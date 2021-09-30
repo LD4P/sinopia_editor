@@ -120,6 +120,7 @@ const addSubjectToNewState = (state, subject, valueSubjectOfKey) => {
     if (_.isUndefined(newSubject.bfItemRefs)) newSubject.bfItemRefs = []
     if (_.isUndefined(newSubject.bfInstanceRefs)) newSubject.bfInstanceRefs = []
     if (_.isUndefined(newSubject.bfWorkRefs)) newSubject.bfWorkRefs = []
+    newSubject.label = subjectTemplate.label
   }
 
   const oldSubject = state.subjects[newSubject.key]
@@ -397,7 +398,7 @@ const updateResourceLabel = (state, value) => {
     propertyTemplate.uri === "http://www.w3.org/2000/01/rdf-schema#label" &&
     possibleLabelProperty.subjectKey === rootSubjectKey
   ) {
-    const labelValue = value.literal || "Unlabeled"
+    const labelValue = value.literal || possibleLabelProperty.labels[0]
     const newState = stateWithNewSubject(state, rootSubjectKey)
     const newResourceSubject = newState.subjects[rootSubjectKey]
     newResourceSubject.label = labelValue

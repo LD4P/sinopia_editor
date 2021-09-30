@@ -120,7 +120,7 @@ describe("viewing the dashboard", () => {
       // Click edit
       fireEvent.click(screen.getByTestId(`Edit ${uri}`))
       expect(
-        await screen.findAllByText("Uber template1", { selector: "h3" })
+        await screen.findAllByText("Example Label", { selector: "h3" })
       ).toHaveLength(1)
 
       fireEvent.click(screen.getByText("Dashboard", { selector: "a" }))

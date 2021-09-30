@@ -5,6 +5,7 @@
         "labels": [
           "Abbreviated Title"
         ],
+        "label": "Abbreviated Title",
         "rootSubjectKey": "t9zVwg2zO",
         "uri": null,
         "subjectTemplateKey": "ld4p:RT:bf2:Title:AbbrTitle",

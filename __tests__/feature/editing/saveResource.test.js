@@ -28,8 +28,13 @@ describe("saving a resource", () => {
 
       // There is foo text.
       await waitFor(() =>
-        expect(screen.getByText("foo")).toHaveClass("form-control")
+        expect(
+          screen.getByText("foo", { selector: ".form-control" })
+        ).toBeInTheDocument()
       )
+
+      // Check that the title of the document is set the same as the rdfs:label
+      screen.getByText("foo", { selector: "h3" })
 
       expect(screen.queryByText("Permissions")).not.toBeInTheDocument()
       expect(saveBtn).not.toBeDisabled()
