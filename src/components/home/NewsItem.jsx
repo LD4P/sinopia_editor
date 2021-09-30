@@ -17,14 +17,7 @@ const NewsItem = () => (
       </i>
     </p>
     <ul>
-      <li>
-        Permissions enabled. See{" "}
-        <a href="https://github.com/LD4P/sinopia/wiki/Permissions-in-Sinopia">
-          Permissions in Sinopia
-        </a>
-        .
-      </li>
-      <li>Multiple RDF-to-MARC conversion fixes and enhancements.</li>
+      <li>Improved input experience for literal, lookup, and URI fields. .</li>
     </ul>
   </div>
 )
