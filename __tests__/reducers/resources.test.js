@@ -263,6 +263,7 @@ describe("addSubject()", () => {
           valueSubjectOfKey: null,
           rootPropertyKey: null,
           labels: ["Barcode"],
+          label: "Barcode",
         },
       })
     })
@@ -301,6 +302,7 @@ describe("addSubject()", () => {
         subjectTemplateKey: "ld4p:RT:bf2:Title:AbbrTitle",
         valueSubjectOfKey: null,
         labels: ["Abbreviated Title"],
+        label: "Abbreviated Title",
       })
     })
   })
@@ -349,6 +351,7 @@ describe("addSubject()", () => {
         group: null,
         editGroups: [],
         labels: ["Abbreviated Title"],
+        label: "Abbreviated Title",
       })
       // Replaces values
       expect(newState.properties["KQEtq-vmq9"]).not.toBeUndefined()

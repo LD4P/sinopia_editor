@@ -20,7 +20,6 @@ import {
 } from "selectors/resources"
 import { selectErrors } from "selectors/errors"
 import { selectUnusedRDF } from "selectors/modals"
-import { selectSubjectTemplate } from "selectors/templates"
 import _ from "lodash"
 
 /**
@@ -30,9 +29,6 @@ const ResourceComponent = () => {
   const dispatch = useDispatch()
   const resourceKey = useSelector((state) => selectCurrentResourceKey(state))
   const resource = useSelector((state) => selectNormSubject(state, resourceKey))
-  const subjectTemplate = useSelector((state) =>
-    selectSubjectTemplate(state, resource.subjectTemplateKey)
-  )
   const errors = useSelector((state) =>
     selectErrors(state, resourceEditErrorKey(resourceKey))
   )
@@ -67,7 +63,7 @@ const ResourceComponent = () => {
         <Alerts errorKey={resourceEditErrorKey(resourceKey)} />
         <Alerts errorKey={newResourceErrorKey} />
         <section>
-          <h3>{subjectTemplate.label}</h3>
+          <h3>{resource.label}</h3>
           <CopyToNewMessage />
           <div className="row">
             <div className="col-md-11">
