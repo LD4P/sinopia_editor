@@ -6,8 +6,8 @@ import CloseButton from "./actions/CloseButton"
 import {
   selectCurrentResourceKey,
   selectResourceKeys,
+  selectNormSubject,
 } from "selectors/resources"
-import { selectSubjectTemplateFor } from "selectors/templates"
 import { setCurrentResource } from "actions/resources"
 
 const ResourcesNav = () => {
@@ -22,8 +22,7 @@ const ResourcesNav = () => {
   const navLabels = useSelector((state) => {
     const labels = {}
     resourceKeys.forEach((resourceKey) => {
-      const subjectTemplate = selectSubjectTemplateFor(state, resourceKey)
-      const resourceLabel = subjectTemplate.label
+      const resourceLabel = selectNormSubject(state, resourceKey).label
       labels[resourceKey] =
         resourceLabel.length > 38
           ? `${resourceLabel.slice(0, 38)}...`
