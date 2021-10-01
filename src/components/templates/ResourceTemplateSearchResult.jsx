@@ -31,7 +31,9 @@ const ResourceTemplateSearchResult = (props) => {
               <th style={{ width: "8%" }}>Group</th>
               <th style={{ width: "10%" }}>Date</th>
               <th style={{ width: "22%" }}>Guiding statement</th>
-              <th style={{ width: "4%" }} data-testid="action-col-header"></th>
+              <th style={{ width: "4%" }} data-testid="action-col-header">
+                Actions
+              </th>
             </tr>
           </thead>
           <tbody>{rows}</tbody>

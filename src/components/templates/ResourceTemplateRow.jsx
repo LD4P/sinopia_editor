@@ -6,9 +6,10 @@ import PropTypes from "prop-types"
 import { Link } from "react-router-dom"
 import LongDate from "components/LongDate"
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
-import { faCopy, faEdit } from "@fortawesome/free-solid-svg-icons"
+import { faCopy, faPencilAlt } from "@fortawesome/free-solid-svg-icons"
 import usePermissions from "hooks/usePermissions"
 import { selectGroupMap } from "selectors/groups"
+import { FileEarmarkPlusFill } from "react-bootstrap-icons"
 
 /**
  * This is the list view of all the templates
@@ -20,16 +21,7 @@ const ResourceTemplateRow = ({ row, handleClick, handleCopy, handleEdit }) => {
   return (
     <tr key={row.id}>
       <td style={{ wordBreak: "break-all" }} data-testid="name">
-        {canCreate ? (
-          <Link
-            to={{ pathname: "/editor", state: {} }}
-            onClick={(e) => handleClick(row.id, e)}
-          >
-            {row.resourceLabel}
-          </Link>
-        ) : (
-          <span>{row.resourceLabel}</span>
-        )}
+        <span>{row.resourceLabel}</span>
         <br />
         {row.id}
       </td>
@@ -44,16 +36,26 @@ const ResourceTemplateRow = ({ row, handleClick, handleCopy, handleEdit }) => {
       <td style={{ wordBreak: "break-all" }}>{row.remark}</td>
       <td>
         <div className="btn-group" role="group" aria-label="Result Actions">
+          {canCreate && (
+            <Link
+              data-testid={`createResource-${row.resourceLabel}`}
+              to={{ pathname: "/editor", state: {} }}
+              onClick={(e) => handleClick(row.id, e)}
+              title="Create resource"
+            >
+              <FileEarmarkPlusFill style={{ paddingRight: "10px" }} size={32} />
+            </Link>
+          )}
           {canEdit(row) && (
             <button
               type="button"
               className="btn btn-link"
-              title="Edit"
+              title="Edit template"
               aria-label={`Edit ${row.resourceLabel}`}
               data-testid={`Edit ${row.resourceLabel}`}
               onClick={(e) => handleEdit(row.uri, e)}
             >
-              <FontAwesomeIcon icon={faEdit} className="icon-lg" />
+              <FontAwesomeIcon icon={faPencilAlt} className="icon-lg" />
             </button>
           )}
           {canCreate && (
@@ -61,7 +63,7 @@ const ResourceTemplateRow = ({ row, handleClick, handleCopy, handleEdit }) => {
               type="button"
               className="btn btn-link"
               onClick={() => handleCopy(row.uri)}
-              title="Copy"
+              title="Copy template"
               data-testid={`Copy ${row.resourceLabel}`}
               aria-label={`Copy ${row.resourceLabel}`}
             >

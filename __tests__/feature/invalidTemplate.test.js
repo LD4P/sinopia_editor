@@ -45,9 +45,9 @@ describe("an invalid resource template", () => {
     await fireEvent.change(input, { target: { value: "Not found" } })
 
     // try to open the template
-    const link = await screen.findByText("Not found value template refs", {
-      selector: "a",
-    })
+    const link = await screen.findByTestId(
+      "createResource-Not found value template refs"
+    )
     fireEvent.click(link)
 
     // wait for the resource template to be loaded into the list of recently used templates
