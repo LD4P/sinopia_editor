@@ -18,6 +18,7 @@ const useNavigableComponent = (
     if (
       componentKey === currentComponentKey &&
       lastComponentKey !== currentComponentKey &&
+      navEl.current &&
       !isVisible(navEl.current)
     ) {
       navEl.current.scrollIntoView({ behavior: "smooth" })
