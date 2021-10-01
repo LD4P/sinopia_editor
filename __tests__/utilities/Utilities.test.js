@@ -101,9 +101,9 @@ describe("Utilities", () => {
     })
 
     it("returns the whole string when there is no last path part of the URI", () => {
-      const urn = "urn:trellis_sinopia_io"
+      const urn = "urn:sinopia_io"
 
-      expect(resourceToName(urn)).toEqual("urn:trellis_sinopia_io")
+      expect(resourceToName(urn)).toEqual("urn:sinopia_io")
     })
 
     it("returns an empty string when the URI is an empty string", () => {
