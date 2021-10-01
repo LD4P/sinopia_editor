@@ -28,8 +28,6 @@ const InputLang = (props) => {
 
   const classes = ["modal", "fade"]
   let display = "none"
-  const alertClasses = ["alert", "alert-danger"]
-  if (submitEnabled) alertClasses.push("hidden") // hide the alert if the submit button is enabled
 
   if (props.show) {
     classes.push("show")
@@ -128,9 +126,6 @@ const InputLang = (props) => {
             </div>
           </div>
           <div className="modal-footer">
-            <span className={alertClasses.join(" ")}>
-              Please select a valid language.
-            </span>
             <button className="btn btn-link" onClick={close}>
               Cancel
             </button>
