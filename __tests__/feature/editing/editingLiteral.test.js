@@ -143,6 +143,15 @@ describe("editing a literal property", () => {
     // Using getByRole here and below because it limits to the visible modal.
     screen.getByRole("heading", { name: "Languages" })
 
+    const radioButtons = await screen.findAllByRole("radio")
+
+    let checkedRadioButtons = radioButtons.filter((el) => el.checked)
+    let unCheckedRadioButtons = radioButtons.filter((el) => !el.checked)
+
+    // the correct "language selected" radio button is pre-checked
+    expect(checkedRadioButtons[0].value).toEqual("present")
+    expect(unCheckedRadioButtons[0].value).toEqual("absent")
+
     const langInput = screen.getByTestId("langComponent-foo")
 
     fireEvent.click(langInput)
@@ -150,6 +159,14 @@ describe("editing a literal property", () => {
     fireEvent.click(
       screen.getByText("Tai languages", { selector: ".rbt-highlight-text" })
     )
+
+    checkedRadioButtons = radioButtons.filter((el) => el.checked)
+    unCheckedRadioButtons = radioButtons.filter((el) => !el.checked)
+
+    // the correct "language selected" radio button is still checked
+    expect(checkedRadioButtons[0].value).toEqual("present")
+    expect(unCheckedRadioButtons[0].value).toEqual("absent")
+
     fireEvent.click(screen.getByRole("button", { name: "Submit" }))
 
     await waitFor(() =>
@@ -181,9 +198,25 @@ describe("editing a literal property", () => {
     fireEvent.click(langBtn)
     screen.getByRole("heading", { name: "Languages" })
 
+    const radioButtons = await screen.findAllByRole("radio")
+
+    let checkedRadioButtons = radioButtons.filter((el) => el.checked)
+    let unCheckedRadioButtons = radioButtons.filter((el) => !el.checked)
+
+    // the correct "language selected" radio button is pre-checked
+    expect(checkedRadioButtons[0].value).toEqual("present")
+    expect(unCheckedRadioButtons[0].value).toEqual("absent")
+
     // Using testid here because there are multiple modals.
     fireEvent.click(screen.getByTestId("noLangRadio-foo"))
     fireEvent.click(screen.getByTestId("submit-foo"))
+
+    checkedRadioButtons = radioButtons.filter((el) => el.checked)
+    unCheckedRadioButtons = radioButtons.filter((el) => !el.checked)
+
+    // the correct "no language selected" radio button is now checked
+    expect(checkedRadioButtons[0].value).toEqual("absent")
+    expect(unCheckedRadioButtons[0].value).toEqual("present")
 
     await waitFor(() =>
       expect(

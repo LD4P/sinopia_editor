@@ -17,10 +17,14 @@ import { selectLanguages, hasLanguages } from "selectors/languages"
  * See ISO 639 for the list of registered language codes
  */
 const InputLang = (props) => {
-  const [lang, setLang] = useState(props.lang || "")
-  const langPresent = typeof lang !== "undefined"
-  const [languageSelectorEnabled, setLanguageSelectorEnabled] =
-    useState(langPresent)
+  const noLangSelected = "absent" // the values of the radio buttons for when a language is selected or not
+  const langSelected = "present"
+
+  const [lang, setLang] = useState(props.lang)
+  const [submitEnabled, setSubmitEnabled] = useState(true)
+  const [radioButtonValue, setRadioButtonValue] = useState(
+    props.lang === null ? noLangSelected : langSelected
+  )
 
   const classes = ["modal", "fade"]
   let display = "none"
@@ -30,19 +34,27 @@ const InputLang = (props) => {
     display = "block"
   }
 
+  // This function is called when a user picks a language in the type ahead component:
+  //  (1) record the radio button checked in state
+  //  (2) if a language was selected, set it in state to this value and then select the correct radio button
+  //  (3) if no language was selected, set the language in state to null and then select the correct radio button
   const selectLanguage = (selected) => {
+    setSubmitEnabled(true)
     if (selected.length === 1) {
       setLang(selected[0].id)
+      setRadioButtonValue(langSelected)
     } else {
-      setLang(undefined)
+      setLang(null)
+      setRadioButtonValue(noLangSelected)
     }
   }
 
-  const enableLanguageSelector = () => setLanguageSelectorEnabled(true)
-
-  const disableLanguageSelector = () => {
-    setLanguageSelectorEnabled(false)
-    setLang(undefined)
+  // This function is called when a user clicks one of the radio buttons:
+  //  (1) select the correct radio button
+  //  (2) if they selected the "no language" radio button, set language in state to null
+  const handleLanguageRadio = (event) => {
+    if (event.target.value === noLangSelected) setLang(null)
+    setRadioButtonValue(event.target.value)
   }
 
   const close = (event) => {
@@ -51,6 +63,10 @@ const InputLang = (props) => {
   }
 
   const handleLangSubmit = (event) => {
+    if (radioButtonValue === langSelected && lang === null) {
+      setSubmitEnabled(false)
+      return false
+    }
     close(event)
     props.languageSelected(props.value.key, lang)
   }
@@ -67,16 +83,15 @@ const InputLang = (props) => {
               <input
                 type="radio"
                 className="form-check-input"
-                name="lang"
-                id="present"
-                value="present"
-                defaultChecked={langPresent}
-                onChange={enableLanguageSelector}
+                id={langSelected}
+                value={langSelected}
+                checked={radioButtonValue === langSelected}
+                onChange={handleLanguageRadio}
               />
-              <label className="form-check-label" htmlFor="present">
+              <label className="form-check-label" htmlFor={langSelected}>
                 Select language for {props.textValue}
                 <Typeahead
-                  disabled={!languageSelectorEnabled}
+                  disabled={radioButtonValue === noLangSelected}
                   onChange={selectLanguage}
                   isLoading={props.loading}
                   options={props.options}
@@ -96,12 +111,11 @@ const InputLang = (props) => {
               <input
                 type="radio"
                 className="form-check-input"
-                name="lang"
                 id={`noLangRadio-${props.textValue}`}
                 data-testid={`noLangRadio-${props.textValue}`}
-                value="absent"
-                defaultChecked={!langPresent}
-                onChange={disableLanguageSelector}
+                value={noLangSelected}
+                checked={radioButtonValue === noLangSelected}
+                onChange={handleLanguageRadio}
               />
               <label
                 className="form-check-label"
@@ -119,6 +133,7 @@ const InputLang = (props) => {
               className="btn btn-primary"
               onClick={handleLangSubmit}
               data-testid={`submit-${props.textValue}`}
+              disabled={!submitEnabled}
             >
               Submit
             </button>
