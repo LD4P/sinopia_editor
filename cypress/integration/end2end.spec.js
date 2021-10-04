@@ -87,7 +87,7 @@ describe("End-to-end test", () => {
   })
 
   it("Opens a resource template", () => {
-    cy.contains("a:visible", /^Work Title$/).click()
+    cy.get('a[data-testid="createResource-Work Title"]').click()
     cy.url().should("include", "/editor")
   })
 
@@ -142,7 +142,7 @@ describe("End-to-end test", () => {
   })
 
   it("Open existing resource in editor", () => {
-    cy.get("button[title=Edit]").click()
+    cy.get('button[title="Edit template"]').click()
     cy.url().should("include", "/editor")
 
     cy.contains("h3", "Work Title")
@@ -170,7 +170,7 @@ describe("End-to-end test", () => {
     cy.url().should("include", "/dashboard")
 
     cy.contains("h2", "Recent templates")
-    cy.contains("a", "Work Title")
+    cy.contains('a[data-testid="createResource-Work Title"]')
 
     cy.contains("h2", "Recent searches")
     cy.contains("table.search-list td", title)

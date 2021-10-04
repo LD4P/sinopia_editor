@@ -75,7 +75,7 @@ describe("Left-nav test", () => {
   })
 
   it("Opens a resource template", () => {
-    cy.contains("a:visible", /^Uber template1$/)
+    cy.get('a[data-testid="createResource-Uber template1"]')
       .scrollIntoView()
       .click()
     // eslint-disable-next-line cypress/no-unnecessary-waiting
