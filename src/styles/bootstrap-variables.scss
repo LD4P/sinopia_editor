@@ -1,14 +1,36 @@
 /* Copyright 2020 Stanford University see LICENSE for license */
 
 // Boostrap values overrides
+// See https://github.com/twbs/bootstrap/blob/main/scss/_variables.scss
+
+// Colors
+$white: #fff;
 $blue: $orient;
-$modal-backdrop-bg: white;
+
+// Color Themes
+$danger: $bright-red;
+
+// Options
+$enable-shadows: true;
+$enable-validation-icons: false;
+
+// Body
+$body-bg: $white-linen;
+
+// Links
+$link-color: $orient;
+
+// Tables
+$table-bg: $white;
+
+// Forms
+$input-bg: $white;
+
+// Modal
+$modal-backdrop-bg: $white;
 $modal-backdrop-opacity: 80%;
 $modal-content-border-radius: 2px;
-$enable-shadows: true;
 $modal-content-box-shadow-xs: 0 0.125rem 0.25rem rgba(black, 0.075) !default;
-$modal-content-border-color: $dusty-gray;
+$modal-content-border-color: $nobel;
 $modal-content-bg: $spring-wood;
-$link-color: $orient;
-$danger: $bright-red;
-$enable-validation-icons: false;
+

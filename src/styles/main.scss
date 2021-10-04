@@ -294,7 +294,7 @@ button.btn-add-instance {
 .search-results-list,
 .resource-list {
   thead {
-    background-color: $spring-wood;
+    background-color: $double-spanish-white;
   }
 }
 
@@ -313,4 +313,9 @@ button.btn-add-instance {
 // Async typeahead
 div.rbt div {
   display: block !important;
+}
+
+.expanding-section {
+  border-color: $nobel;
+  background-color: $solitude;
 }
