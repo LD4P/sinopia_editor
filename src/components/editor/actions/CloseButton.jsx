@@ -33,7 +33,7 @@ const CloseButton = (props) => {
     event.preventDefault()
   }
   const btnClass = props.css || "btn-primary"
-  const buttonLabel = props.label || "Close"
+  const buttonLabel = props.label
   const buttonClasses = `btn ${btnClass}`
 
   const closeResource = () => {

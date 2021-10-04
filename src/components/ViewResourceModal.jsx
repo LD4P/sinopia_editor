@@ -74,12 +74,10 @@ const ViewResourceModal = (props) => {
             <div className="view-resource-buttons">
               <button
                 type="button"
-                className="close modal-close"
+                className="btn-close"
                 onClick={close}
                 aria-label="Close"
-              >
-                <span aria-hidden="true">&times;</span>
-              </button>
+              ></button>
             </div>
           </div>
           <div className="modal-body view-resource-modal-content">

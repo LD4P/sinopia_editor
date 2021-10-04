@@ -28,7 +28,7 @@ const CanvasMenu = (props) => {
       <button
         type="button"
         aria-label="Close Help Menu"
-        className="btn btn-link pull-right"
+        className="btn-close pull-right"
         href="#"
         onClick={props.closeHandleMenu}
       >

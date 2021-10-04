@@ -37,9 +37,7 @@ const ResourcesNav = () => {
     if (active) {
       itemClasses.push("active")
     } else {
-      closeButton = (
-        <CloseButton label={"×"} css={"button"} resourceKey={resourceKey} />
-      )
+      closeButton = <CloseButton css={"btn-close"} resourceKey={resourceKey} />
     }
     return (
       <li className={itemClasses.join(" ")} key={resourceKey}>
@@ -54,11 +52,7 @@ const ResourcesNav = () => {
                 {navLabels[resourceKey]}
               </a>
             </div>
-            {closeButton && (
-              <div className="col-1" style={{ padding: "0px" }}>
-                {closeButton}
-              </div>
-            )}
+            {closeButton}
           </div>
         </div>
       </li>

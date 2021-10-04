@@ -70,12 +70,10 @@ const ResourceTemplateChoiceModal = (props) => {
             <h4 className="modal-title">Choose resource template</h4>
             <button
               type="button"
-              className="close"
+              className="btn-close"
               onClick={close}
               aria-label="Close"
-            >
-              <span aria-hidden="true">&times;</span>
-            </button>
+            ></button>
           </div>
           <form className="group-select-options">
             <div className="modal-body group-panel">

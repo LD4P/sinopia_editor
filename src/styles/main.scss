@@ -266,10 +266,6 @@ button.btn-add-instance {
   overflow-x: hidden;
 }
 
-.modal-close {
-  opacity: 1;
-}
-
 .lookup-value {
   background-color: $lookup-value-bg;
   font-weight: bold;
@@ -316,10 +312,4 @@ button.btn-add-instance {
 // Async typeahead
 div.rbt div {
   display: block !important;
-}
-
-button.close {
-  padding: 0px;
-  background-color: transparent;
-  border: 0px;
 }

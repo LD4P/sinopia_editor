@@ -13,7 +13,7 @@ const EditorActions = () => (
       <MarcButton />
       <CopyToNewButton />
       <PreviewButton />
-      <CloseButton />
+      <CloseButton label={"Close"} />
       <SaveAndPublishButton class="editor-save" />
     </div>
   </div>
