@@ -19,9 +19,7 @@ const Header = (props) => {
     <div className="editor-navbar">
       <div className="row">
         <div className="col-6">
-          <h1 className="editor-logo Display5">
-            LINKED DATA EDITOR{`${Config.sinopiaEnv}`}
-          </h1>
+          <h1 className="editor-logo">Sinopia{`${Config.sinopiaEnv}`}</h1>
         </div>
         <div className="col-6">
           <ul className="nav pull-right">
