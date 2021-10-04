@@ -51,7 +51,11 @@ const DiacriticsSelection = (props) => {
     >
       <div className="row">
         <section className="col-1 offset-11">
-          <button className="btn btn-lg" onClick={closeHandler}>
+          <button
+            className="btn btn-lg"
+            onClick={closeHandler}
+            aria-label="Close diacritics keyboard"
+          >
             &times;
           </button>
         </section>
