@@ -100,7 +100,10 @@ const LoadByRDFForm = () => {
 
       <form id="loadForm" onSubmit={handleSubmit}>
         <div className="form-group">
-          <label htmlFor="resourceTextArea">RDF</label>
+          <label htmlFor="resourceTextArea">
+            RDF (Accepts JSON-LD, Turtle, TriG, N-Triples, N-Quads, and
+            Notation3 (N3))
+          </label>
           <textarea
             className="form-control"
             id="resourceTextArea"
@@ -115,7 +118,9 @@ const LoadByRDFForm = () => {
           </p>
         </div>
         <div className="form-group">
-          <label htmlFor="uriInput">Base URI</label>
+          <label htmlFor="uriInput">
+            Base URI (Omit brackets. If base URI is &lt;&gt;, leave blank.)
+          </label>
           <input
             type="url"
             className="form-control"
@@ -128,6 +133,10 @@ const LoadByRDFForm = () => {
             Omit brackets. If base URI is &lt;&gt;, leave blank.
           </p>
         </div>
+        <p className="text-muted">
+          Clicking &ldquo;Submit&rdquo; will create a new resource that can be
+          saved in Sinopia.
+        </p>
         <button
           type="submit"
           disabled={_.isEmpty(rdf)}
@@ -135,9 +144,6 @@ const LoadByRDFForm = () => {
         >
           Submit
         </button>
-        <p className="text-muted">
-          This will create a new resource that can be saved in Sinopia.
-        </p>
       </form>
       <ResourceTemplateChoiceModal choose={chooseResourceTemplate} />
     </div>

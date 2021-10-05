@@ -22,7 +22,12 @@ describe("loading from RDF", () => {
 <> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://id.loc.gov/ontologies/bibframe/AbbreviatedTitle> .
       `
 
-      fireEvent.change(screen.getByLabelText("RDF"), { target: { value: rdf } })
+      fireEvent.change(
+        screen.getByLabelText(
+          "RDF (Accepts JSON-LD, Turtle, TriG, N-Triples, N-Quads, and Notation3 (N3))"
+        ),
+        { target: { value: rdf } }
+      )
       fireEvent.click(screen.getByText("Submit", { selector: "button" }))
 
       expect(
@@ -49,10 +54,20 @@ describe("loading from RDF", () => {
 <http://sinopia/c73d2fa9> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://id.loc.gov/ontologies/bibframe/AbbreviatedTitle> .
       `
 
-      fireEvent.change(screen.getByLabelText("RDF"), { target: { value: rdf } })
-      fireEvent.change(screen.getByLabelText("Base URI"), {
-        target: { value: "http://sinopia/c73d2fa9" },
-      })
+      fireEvent.change(
+        screen.getByLabelText(
+          "RDF (Accepts JSON-LD, Turtle, TriG, N-Triples, N-Quads, and Notation3 (N3))"
+        ),
+        { target: { value: rdf } }
+      )
+      fireEvent.change(
+        screen.getByLabelText(
+          "Base URI (Omit brackets. If base URI is <>, leave blank.)"
+        ),
+        {
+          target: { value: "http://sinopia/c73d2fa9" },
+        }
+      )
       fireEvent.click(screen.getByText("Submit", { selector: "button" }))
 
       expect(
@@ -79,7 +94,12 @@ describe("loading from RDF", () => {
 <http://sinopia/c73d2fa9> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://id.loc.gov/ontologies/bibframe/AbbreviatedTitle> .
       `
 
-      fireEvent.change(screen.getByLabelText("RDF"), { target: { value: rdf } })
+      fireEvent.change(
+        screen.getByLabelText(
+          "RDF (Accepts JSON-LD, Turtle, TriG, N-Triples, N-Quads, and Notation3 (N3))"
+        ),
+        { target: { value: rdf } }
+      )
       fireEvent.click(screen.getByText("Submit", { selector: "button" }))
 
       await screen.findByText("Base URI must be provided.")
@@ -112,7 +132,12 @@ describe("loading from RDF", () => {
 <> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://id.loc.gov/ontologies/bibframe/AbbreviatedTitle> .
       `
 
-      fireEvent.change(screen.getByLabelText("RDF"), { target: { value: rdf } })
+      fireEvent.change(
+        screen.getByLabelText(
+          "RDF (Accepts JSON-LD, Turtle, TriG, N-Triples, N-Quads, and Notation3 (N3))"
+        ),
+        { target: { value: rdf } }
+      )
       fireEvent.click(screen.getByText("Submit", { selector: "button" }))
 
       await waitFor(() => {
@@ -142,9 +167,14 @@ describe("loading from RDF", () => {
 
       screen.getByText("Load RDF into Editor")
 
-      fireEvent.change(screen.getByLabelText("RDF"), {
-        target: { value: "xyz" },
-      })
+      fireEvent.change(
+        screen.getByLabelText(
+          "RDF (Accepts JSON-LD, Turtle, TriG, N-Triples, N-Quads, and Notation3 (N3))"
+        ),
+        {
+          target: { value: "xyz" },
+        }
+      )
       fireEvent.click(screen.getByText("Submit", { selector: "button" }))
 
       await screen.findByText(/Error parsing/)
