@@ -1,4 +1,4 @@
-describe("Looking at the Help and Resources gutter", () => {
+describe("Looking at the Help gutter", () => {
   it("Opens the app", () => {
     cy.visit(Cypress.env("EDITOR_URL") || "http://localhost:8000/")
     cy.contains(
@@ -6,13 +6,13 @@ describe("Looking at the Help and Resources gutter", () => {
     )
   })
 
-  it("Opens help and resources", () => {
-    cy.contains("a", "Help and Resources").click()
+  it("Opens Help", () => {
+    cy.contains("a", "Help").click()
 
     cy.contains("Sinopia help site")
   })
 
-  it("Closes help and resources", () => {
+  it("Closes help", () => {
     cy.get('button[aria-label="Close Help Menu"]').click()
 
     cy.contains("Sinopia help site")
@@ -36,13 +36,13 @@ describe("Looking at the Help and Resources gutter", () => {
     cy.url().should("include", "/dashboard")
   })
 
-  it("Opens help and resources", () => {
-    cy.contains("a", "Help and Resources").click()
+  it("Opens Help", () => {
+    cy.contains("a", "Help").click()
 
     cy.contains("Sinopia help site")
   })
 
-  it("Closes help and resources", () => {
+  it("Closes Help", () => {
     cy.get('button[aria-label="Close Help Menu"]').click()
 
     cy.contains("Sinopia help site")
@@ -54,13 +54,13 @@ describe("Looking at the Help and Resources gutter", () => {
     cy.url().should("include", "/templates")
   })
 
-  it("Opens help and resources", () => {
-    cy.contains("a", "Help and Resources").click()
+  it("Opens Help", () => {
+    cy.contains("a", "Help").click()
 
     cy.contains("Sinopia help site")
   })
 
-  it("Closes help and resources", () => {
+  it("Closes Help", () => {
     cy.get('button[aria-label="Close Help Menu"]').click()
 
     cy.contains("Sinopia help site")
@@ -72,13 +72,13 @@ describe("Looking at the Help and Resources gutter", () => {
     cy.url().should("include", "/search")
   })
 
-  it("Opens help and resources", () => {
-    cy.contains("a", "Help and Resources").click()
+  it("Opens Help", () => {
+    cy.contains("a", "Help").click()
 
     cy.contains("Sinopia help site")
   })
 
-  it("Closes help and resources", () => {
+  it("Closes Help", () => {
     cy.get('button[aria-label="Close Help Menu"]').click()
 
     cy.contains("Sinopia help site")
@@ -91,13 +91,13 @@ describe("Looking at the Help and Resources gutter", () => {
     cy.url().should("include", "/load")
   })
 
-  it("Opens help and resources", () => {
-    cy.contains("a", "Help and Resources").click()
+  it("Opens Help", () => {
+    cy.contains("a", "Help").click()
 
     cy.contains("Sinopia help site")
   })
 
-  it("Closes help and resources", () => {
+  it("Closes Help", () => {
     cy.get('button[aria-label="Close Help Menu"]').click()
 
     cy.contains("Sinopia help site")
@@ -110,13 +110,13 @@ describe("Looking at the Help and Resources gutter", () => {
     cy.url().should("include", "/exports")
   })
 
-  it("Opens help and resources", () => {
-    cy.contains("a", "Help and Resources").click()
+  it("Opens Help", () => {
+    cy.contains("a", "Help").click()
 
     cy.contains("Sinopia help site")
   })
 
-  it("Closes help and resources", () => {
+  it("Closes Help", () => {
     cy.get('button[aria-label="Close Help Menu"]').click()
 
     cy.contains("Sinopia help site")

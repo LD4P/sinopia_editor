@@ -46,7 +46,7 @@ describe("<App />", () => {
 
     fireEvent.click(screen.getByText("Linked Data Editor"))
 
-    screen.getByText(/v\d+\.\d+\.\d+/)
+    screen.getByText(/Resource Templates/)
   })
 
   it("loads groups from sinopiaAPI into groupMap", async () => {

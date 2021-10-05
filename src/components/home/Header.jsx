@@ -25,6 +25,7 @@ const Header = (props) => (
               {props.currentUser.username}
             </span>
           </li>
+          <div className="nav-link">•</div>
           <li className="nav-item">
             <Link to="/dashboard" className="nav-link">
               Linked Data Editor
@@ -32,15 +33,17 @@ const Header = (props) => (
           </li>
         </React.Fragment>
       )}
+      <div className="nav-link">•</div>
       <li className="menu nav-item">
         <a
           href="#"
           className="help-resources nav-link"
           onClick={props.triggerHomePageMenu}
         >
-          Help and Resources
+          Help
         </a>
       </li>
+      <div className="nav-link">•</div>
       {props.currentUser && (
         <li className="nav-item">
           <a
