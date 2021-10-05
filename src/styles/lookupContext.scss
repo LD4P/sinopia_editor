@@ -1,20 +1,4 @@
 .lookup-search-results {
-  .nav-tabs {
-    margin-bottom: 1em;
-    border: 0;
-  }
-  .nav-tabs .nav-link {
-    border: 0;
-    font-size: larger;
-    font-weight: bold;
-    padding: 0 0.15em;
-    text-decoration: none;
-    &.active {
-      background-color: transparent;
-      border-bottom: 2px solid $gray-600;
-    }
-  }
-
   .btn.search-result {
     background-color: $pampas;
     border-radius: 0;
