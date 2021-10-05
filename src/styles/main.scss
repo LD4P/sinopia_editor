@@ -104,6 +104,7 @@
 .prop-heading {
   background-color: $prop-heading-bg !important;
   color: $prop-heading-color !important;
+  padding: 1rem 1rem 0 1rem;
 
   .tooltip-heading,
   .prop-remark {
@@ -114,6 +115,13 @@
 .panel-property {
   background-color: $prop-panel-bg;
   break-inside: avoid;
+  padding: 1rem;
+}
+
+.nested-resource {
+  background-color: $white-linen;
+  padding: 1rem;
+  margin-bottom: 1rem;
 }
 
 .group-panel {
