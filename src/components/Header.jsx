@@ -2,7 +2,7 @@
 
 import React from "react"
 import PropTypes from "prop-types"
-import { NavLink } from "react-router-dom"
+import { NavLink, useLocation } from "react-router-dom"
 import Config from "Config"
 import { connect } from "react-redux"
 import { selectUser } from "selectors/authenticate"
@@ -14,7 +14,9 @@ import usePermissions from "hooks/usePermissions"
 
 const Header = (props) => {
   const { canCreate } = usePermissions()
-
+  const location = useLocation()
+  const isActionsActive =
+    location.pathname === "/exports" || location.pathname === "/load"
   return (
     <React.Fragment>
       <div className="editor-navbar">
@@ -88,7 +90,17 @@ const Header = (props) => {
         </li>
 
         <li className="nav-item dropdown">
-        <a className="nav-link dropdown-toggle" data-bs-toggle="dropdown" href="#" role="button" aria-expanded="false">Actions</a>
+          <a
+            className={`nav-link dropdown-toggle ${
+              isActionsActive && "active"
+            }`}
+            data-bs-toggle="dropdown"
+            href="#"
+            role="button"
+            aria-expanded="false"
+          >
+            Actions
+          </a>
           <ul className="dropdown-menu">
             {canCreate && (
               <li>

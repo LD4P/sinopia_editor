@@ -42,6 +42,7 @@ describe("End-to-end test", () => {
     // Need to determine if should upload a resource template.
     cy.get("#resource-templates").then((rtDiv) => {
       if (rtDiv.find("div#no-rt-warning").length > 0) {
+        cy.get(".dropdown-toggle").click()
         cy.get("a").contains("Load RDF").click()
         cy.url().should("include", "/load")
         cy.contains("Load RDF into Editor")
