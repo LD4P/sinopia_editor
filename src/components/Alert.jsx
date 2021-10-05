@@ -18,9 +18,7 @@ const Alert = (props) => {
             className="btn-close"
             data-bs-dismiss="alert"
             aria-label="Close"
-          >
-            <span aria-hidden="true">&times;</span>
-          </button>
+          ></button>
         </div>
       </div>
     </div>

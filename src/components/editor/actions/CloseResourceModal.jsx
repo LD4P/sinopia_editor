@@ -51,12 +51,10 @@ const CloseResourceModal = (props) => {
             </h4>
             <button
               type="button"
-              className="close"
+              className="btn-close"
               onClick={handleClose}
               aria-label="Close"
-            >
-              <span aria-hidden="true">&times;</span>
-            </button>
+            ></button>
           </div>
           <div className="modal-body rdf-modal-content">
             <div className="row">
