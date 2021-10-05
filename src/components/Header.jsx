@@ -16,50 +16,53 @@ const Header = (props) => {
   const { canCreate } = usePermissions()
 
   return (
-    <div className="editor-navbar">
-      <div className="row">
-        <div className="col-6">
-          <h1 className="editor-logo">Sinopia{`${Config.sinopiaEnv}`}</h1>
-        </div>
-        <div className="col-6">
-          <ul className="nav pull-right">
-            <li className="nav-item">
-              <a className="nav-link" href="/">
-                <span className="editor-subtitle">SINOPIA</span>{" "}
-                <span className="editor-version">v{props.version}</span>
-              </a>
-            </li>
-            {props.currentUser && (
+    <React.Fragment>
+      <div className="editor-navbar">
+        <div className="row">
+          <div className="col-6">
+            <h1 className="editor-logo">Sinopia{`${Config.sinopiaEnv}`}</h1>
+          </div>
+          <div className="col-6">
+            <ul className="nav pull-right">
               <li className="nav-item">
-                <span className="nav-link editor-header-user">
-                  {props.currentUser.username}
-                </span>
+                <a className="nav-link" href="/">
+                  <span className="editor-subtitle">SINOPIA</span>{" "}
+                  <span className="editor-version">v{props.version}</span>
+                </a>
               </li>
-            )}
-            <li className="nav-item">
-              <a
-                href="#"
-                className="nav-link editor-help-resources"
-                onClick={props.triggerEditorMenu}
-              >
-                Help and Resources
-              </a>
-            </li>
-            {props.currentUser && (
+              {props.currentUser && (
+                <li className="nav-item">
+                  <span className="nav-link editor-header-user">
+                    {props.currentUser.username}
+                  </span>
+                </li>
+              )}
               <li className="nav-item">
                 <a
                   href="#"
-                  className="nav-link editor-header-logout"
-                  onClick={() => props.signOut()}
+                  className="nav-link editor-help-resources"
+                  onClick={props.triggerEditorMenu}
                 >
-                  Logout
+                  Help and Resources
                 </a>
               </li>
-            )}
-          </ul>
+              {props.currentUser && (
+                <li className="nav-item">
+                  <a
+                    href="#"
+                    className="nav-link editor-header-logout"
+                    onClick={() => props.signOut()}
+                  >
+                    Logout
+                  </a>
+                </li>
+              )}
+            </ul>
+          </div>
         </div>
       </div>
-      <ul className="nav nav-tabs editor-navtabs">
+
+      <ul className="nav editor-navtabs">
         {/* Navlinks enable highlighting the appropriate tab based on route, active style is defined in css */}
         <li className="nav-item">
           <NavLink className="nav-link" to="/dashboard">
@@ -96,7 +99,7 @@ const Header = (props) => {
           </NavLink>
         </li>
       </ul>
-    </div>
+    </React.Fragment>
   )
 }
 
