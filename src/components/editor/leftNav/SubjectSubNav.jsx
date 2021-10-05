@@ -6,6 +6,8 @@ import { displayResourceValidations } from "selectors/errors"
 import { selectNormSubject } from "selectors/resources"
 import { selectSubjectTemplate } from "selectors/templates"
 import PropertySubNav from "./PropertySubNav"
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
+import { faCircle } from "@fortawesome/free-solid-svg-icons"
 import _ from "lodash"
 
 const SubjectSubNav = (props) => {
@@ -18,8 +20,6 @@ const SubjectSubNav = (props) => {
   )
 
   const hasValue = !_.isEmpty(subject.descUriOrLiteralValueKeys)
-  const liClassNames = hasValue ? "li-checked" : ""
-
   const hasError = !_.isEmpty(subject.descWithErrorPropertyKeys)
   const displayValidations = useSelector((state) =>
     displayResourceValidations(state, subject?.rootSubjectKey)
@@ -42,7 +42,7 @@ const SubjectSubNav = (props) => {
   if (!subject) return null
 
   return (
-    <li className={liClassNames}>
+    <li>
       <button
         type="button"
         className="btn btn-link"
@@ -62,6 +62,7 @@ const SubjectSubNav = (props) => {
           {subjectTemplate.label}
         </span>
       </button>
+      {hasValue && (<FontAwesomeIcon icon={faCircle} size="xs"/>)}
       {subNavForSubject()}
     </li>
   )

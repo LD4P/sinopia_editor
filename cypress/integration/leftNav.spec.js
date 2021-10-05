@@ -128,14 +128,7 @@ describe("Left-nav test", () => {
     cy.get(".left-nav-header").should("contain", "Uber template4")
     cy.get(".left-nav-header").should("contain", "Uber template4, property1")
   })
-
-  it("Nav for properties with defaults are checked", () => {
-    cy.get("li.li-checked .left-nav-header").should(
-      "contain",
-      "Uber template1, property7"
-    )
-  })
-
+  
   it("Pops up tooltips for properties with remarks", () => {
     // Verifies that tooltip pops up when clicked and hides when something else is clicked
     const tooltipText = "Multiple nested, repeatable resource templates."
@@ -154,49 +147,6 @@ describe("Left-nav test", () => {
       .click()
     // Ensure the viewport didn't shift to the top of the package
     cy.get('a[data-testid="Uber template1, property20"]').should("be.visible")
-  })
-
-  it("Marks properties with values with a check", () => {
-    cy.get("li.li-checked .left-nav-header").should(
-      "not.contain",
-      "Uber template1, property18"
-    )
-    cy.get("li.li-checked .left-nav-header").should(
-      "not.contain",
-      "Uber template4"
-    )
-    cy.get("li.li-checked .left-nav-header").should(
-      "not.contain",
-      "Uber template4, property1"
-    )
-    cy.get(
-      'div[data-label="Uber template1, property18"] textarea[placeholder="Uber template4, property1"]'
-    ).type("foo{enter}", { force: true })
-    cy.get("li.li-checked .left-nav-header").should(
-      "contain",
-      "Uber template1, property18"
-    )
-    cy.get("li.li-checked .left-nav-header").should("contain", "Uber template4")
-    cy.get("li.li-checked .left-nav-header").should(
-      "contain",
-      "Uber template4, property1"
-    )
-  })
-
-  it("Removing values removes check", () => {
-    cy.get('button[aria-label="Remove foo"]').click({ force: true })
-    cy.get("li.li-checked .left-nav-header").should(
-      "not.contain",
-      "Uber template1, property18"
-    )
-    cy.get("li.li-checked .left-nav-header").should(
-      "not.contain",
-      "Uber template4"
-    )
-    cy.get("li.li-checked .left-nav-header").should(
-      "not.contain",
-      "Uber template4, property1"
-    )
   })
 
   it("Marks properties with errors", () => {

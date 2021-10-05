@@ -6,6 +6,8 @@ import { displayResourceValidations } from "selectors/errors"
 import { selectNormProperty, selectNormValues } from "selectors/resources"
 import { selectPropertyTemplate } from "selectors/templates"
 import SubjectSubNav from "./SubjectSubNav"
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
+import { faCircle } from "@fortawesome/free-solid-svg-icons"
 import _ from "lodash"
 
 const ActivePanelPropertyNav = (props) => {
@@ -21,7 +23,7 @@ const ActivePanelPropertyNav = (props) => {
   )
 
   const hasValue = !_.isEmpty(property.descUriOrLiteralValueKeys)
-  const liClassNames = hasValue ? ["li-checked"] : []
+  const liClassNames = []
 
   if (props.isTemplate) liClassNames.push("template")
 
@@ -68,6 +70,7 @@ const ActivePanelPropertyNav = (props) => {
           {propertyTemplate.label}
         </h5>
       </button>
+      {hasValue && (<FontAwesomeIcon icon={faCircle} size="xs"/>)}
       {subNavForProperty()}
     </li>
   )

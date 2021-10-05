@@ -5,6 +5,8 @@ import { useDispatch, useSelector } from "react-redux"
 import { displayResourceValidations } from "selectors/errors"
 import { selectNormProperty } from "selectors/resources"
 import { selectPropertyTemplate } from "selectors/templates"
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
+import { faCircle } from "@fortawesome/free-solid-svg-icons"
 import _ from "lodash"
 
 const PanelPropertyNav = (props) => {
@@ -17,8 +19,6 @@ const PanelPropertyNav = (props) => {
   )
 
   const hasValue = !_.isEmpty(property.descUriOrLiteralValueKeys)
-  const liClassNames = hasValue ? "li-checked" : ""
-
   const hasError = !_.isEmpty(property.descWithErrorPropertyKeys)
   const displayValidations = useSelector((state) =>
     displayResourceValidations(state, property?.rootSubjectKey)
@@ -29,7 +29,7 @@ const PanelPropertyNav = (props) => {
   if (!property) return null
 
   return (
-    <li className={liClassNames}>
+    <li>
       <button
         type="button"
         className="btn btn-link"
@@ -48,6 +48,7 @@ const PanelPropertyNav = (props) => {
         <h5 className={headingClassNames.join(" ")}>
           {propertyTemplate.label}
         </h5>
+        {hasValue && (<FontAwesomeIcon icon={faCircle} size="xs" />)}
       </button>
     </li>
   )
