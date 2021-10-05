@@ -69,6 +69,13 @@ const Header = (props) => {
             Dashboard
           </NavLink>
         </li>
+        {props.hasResource && canCreate && (
+          <li className="nav-item">
+            <NavLink className="nav-link" to="/editor">
+              Editor
+            </NavLink>
+          </li>
+        )}
         <li className="nav-item">
           <NavLink className="nav-link" to="/templates">
             Resource Templates
@@ -83,13 +90,6 @@ const Header = (props) => {
           <li className="nav-item">
             <NavLink className="nav-link" to="/load">
               Load RDF
-            </NavLink>
-          </li>
-        )}
-        {props.hasResource && canCreate && (
-          <li className="nav-item">
-            <NavLink className="nav-link" to="/editor">
-              Editor
             </NavLink>
           </li>
         )}
