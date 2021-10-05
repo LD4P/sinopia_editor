@@ -142,7 +142,7 @@ describe("End-to-end test", () => {
   })
 
   it("Open existing resource in editor", () => {
-    cy.get('button[title="Edit template"]').click()
+    cy.get("button[title=Edit]").click()
     cy.url().should("include", "/editor")
 
     cy.contains("h3", "Work Title")
@@ -170,7 +170,8 @@ describe("End-to-end test", () => {
     cy.url().should("include", "/dashboard")
 
     cy.contains("h2", "Recent templates")
-    cy.contains('a[data-testid="createResource-Work Title"]')
+    cy.get('a[data-testid="createResource-Work Title"]')
+    //    cy.contains('a[data-testid="createResource-Work Title"]')
 
     cy.contains("h2", "Recent searches")
     cy.contains("table.search-list td", title)
