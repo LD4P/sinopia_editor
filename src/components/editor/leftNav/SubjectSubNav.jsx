@@ -6,8 +6,7 @@ import { displayResourceValidations } from "selectors/errors"
 import { selectNormSubject } from "selectors/resources"
 import { selectSubjectTemplate } from "selectors/templates"
 import PropertySubNav from "./PropertySubNav"
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
-import { faCircle } from "@fortawesome/free-solid-svg-icons"
+import PresenceIndicator from "./PresenceIndicator"
 import _ from "lodash"
 
 const SubjectSubNav = (props) => {
@@ -19,7 +18,6 @@ const SubjectSubNav = (props) => {
     selectSubjectTemplate(state, subject?.subjectTemplateKey)
   )
 
-  const hasValue = !_.isEmpty(subject.descUriOrLiteralValueKeys)
   const hasError = !_.isEmpty(subject.descWithErrorPropertyKeys)
   const displayValidations = useSelector((state) =>
     displayResourceValidations(state, subject?.rootSubjectKey)
@@ -62,7 +60,7 @@ const SubjectSubNav = (props) => {
           {subjectTemplate.label}
         </span>
       </button>
-      {hasValue && (<FontAwesomeIcon icon={faCircle} size="xs"/>)}
+      <PresenceIndicator valueKeys={subject.descUriOrLiteralValueKeys} />
       {subNavForSubject()}
     </li>
   )

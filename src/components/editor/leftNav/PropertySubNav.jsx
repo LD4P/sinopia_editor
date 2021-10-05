@@ -6,8 +6,7 @@ import { displayResourceValidations } from "selectors/errors"
 import { selectNormProperty, selectNormValues } from "selectors/resources"
 import { selectPropertyTemplate } from "selectors/templates"
 import SubjectSubNav from "./SubjectSubNav"
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
-import { faCircle } from "@fortawesome/free-solid-svg-icons"
+import PresenceIndicator from "./PresenceIndicator"
 import _ from "lodash"
 
 const PropertySubNav = (props) => {
@@ -23,7 +22,6 @@ const PropertySubNav = (props) => {
     selectNormValues(state, property?.valueKeys)
   )
 
-  const hasValue = !_.isEmpty(property.descUriOrLiteralValueKeys)
   const hasError = !_.isEmpty(property.descWithErrorPropertyKeys)
   const displayValidations = useSelector((state) =>
     displayResourceValidations(state, property?.rootSubjectKey)
@@ -66,7 +64,7 @@ const PropertySubNav = (props) => {
           {propertyTemplate.label}
         </span>
       </button>
-      {hasValue && (<FontAwesomeIcon icon={faCircle} size="xs"/>)}
+      <PresenceIndicator valueKeys={property.descUriOrLiteralValueKeys} />
       {subNavForProperty()}
     </li>
   )

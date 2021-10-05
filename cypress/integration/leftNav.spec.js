@@ -128,7 +128,7 @@ describe("Left-nav test", () => {
     cy.get(".left-nav-header").should("contain", "Uber template4")
     cy.get(".left-nav-header").should("contain", "Uber template4, property1")
   })
-  
+
   it("Pops up tooltips for properties with remarks", () => {
     // Verifies that tooltip pops up when clicked and hides when something else is clicked
     const tooltipText = "Multiple nested, repeatable resource templates."

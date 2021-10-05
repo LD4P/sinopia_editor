@@ -5,8 +5,7 @@ import { useDispatch, useSelector } from "react-redux"
 import { displayResourceValidations } from "selectors/errors"
 import { selectNormProperty } from "selectors/resources"
 import { selectPropertyTemplate } from "selectors/templates"
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
-import { faCircle } from "@fortawesome/free-solid-svg-icons"
+import PresenceIndicator from "./PresenceIndicator"
 import _ from "lodash"
 
 const PanelPropertyNav = (props) => {
@@ -18,7 +17,6 @@ const PanelPropertyNav = (props) => {
     selectPropertyTemplate(state, property?.propertyTemplateKey)
   )
 
-  const hasValue = !_.isEmpty(property.descUriOrLiteralValueKeys)
   const hasError = !_.isEmpty(property.descWithErrorPropertyKeys)
   const displayValidations = useSelector((state) =>
     displayResourceValidations(state, property?.rootSubjectKey)
@@ -48,7 +46,7 @@ const PanelPropertyNav = (props) => {
         <h5 className={headingClassNames.join(" ")}>
           {propertyTemplate.label}
         </h5>
-        {hasValue && (<FontAwesomeIcon icon={faCircle} size="xs" />)}
+        <PresenceIndicator valueKeys={property.descUriOrLiteralValueKeys} />
       </button>
     </li>
   )
