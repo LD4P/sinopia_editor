@@ -86,17 +86,23 @@ const Header = (props) => {
             Search
           </NavLink>
         </li>
-        {canCreate && (
-          <li className="nav-item">
-            <NavLink className="nav-link" to="/load">
-              Load RDF
-            </NavLink>
-          </li>
-        )}
-        <li className="nav-item">
-          <NavLink className="nav-link" to="/exports">
-            Exports
-          </NavLink>
+
+        <li className="nav-item dropdown">
+        <a className="nav-link dropdown-toggle" data-bs-toggle="dropdown" href="#" role="button" aria-expanded="false">Actions</a>
+          <ul className="dropdown-menu">
+            {canCreate && (
+              <li>
+                <NavLink className="dropdown-item" to="/load">
+                  Load RDF
+                </NavLink>
+              </li>
+            )}
+            <li>
+              <NavLink className="dropdown-item" to="/exports">
+                Exports
+              </NavLink>
+            </li>
+          </ul>
         </li>
       </ul>
     </React.Fragment>
