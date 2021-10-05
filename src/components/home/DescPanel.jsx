@@ -32,7 +32,7 @@ const DescPanel = () => {
         Sinopia is developed by the{" "}
         <a href="http://www.ld4p.org">
           Linked Data for Production: Pathway to Implementation (LD4P2)
-        </a>
+        </a>{" "}
         project, a collaboration among Cornell University, Harvard University,
         the Library of Congress, Stanford University, the School of Library and
         Information Science at the University of Iowa, and the Program for
