@@ -87,7 +87,7 @@ describe("End-to-end test", () => {
   })
 
   it("Opens a resource template", () => {
-    cy.get('a[data-testid="createResource-Work Title"]').click()
+    cy.get('a[title="Create resource for Work Title"]').click()
     cy.url().should("include", "/editor")
   })
 
@@ -170,8 +170,7 @@ describe("End-to-end test", () => {
     cy.url().should("include", "/dashboard")
 
     cy.contains("h2", "Recent templates")
-    cy.get('a[data-testid="createResource-Work Title"]')
-    //    cy.contains('a[data-testid="createResource-Work Title"]')
+    cy.get('a[title="Create resource for Work Title"]')
 
     cy.contains("h2", "Recent searches")
     cy.contains("table.search-list td", title)

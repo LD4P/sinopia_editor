@@ -38,10 +38,10 @@ const ResourceTemplateRow = ({ row, handleClick, handleCopy, handleEdit }) => {
         <div className="btn-group" role="group" aria-label="Result Actions">
           {canCreate && (
             <Link
-              data-testid={`createResource-${row.resourceLabel}`}
               to={{ pathname: "/editor", state: {} }}
               onClick={(e) => handleClick(row.id, e)}
-              title="Create resource"
+              title={`Create resource for ${row.resourceLabel}`}
+              aria-label={`Create resource for ${row.resourceLabel}`}
             >
               <FileEarmarkPlusFill style={{ paddingRight: "10px" }} size={32} />
             </Link>
@@ -50,7 +50,7 @@ const ResourceTemplateRow = ({ row, handleClick, handleCopy, handleEdit }) => {
             <button
               type="button"
               className="btn btn-link"
-              title="Edit template"
+              title={`Edit ${row.resourceLabel}`}
               aria-label={`Edit ${row.resourceLabel}`}
               data-testid={`Edit ${row.resourceLabel}`}
               onClick={(e) => handleEdit(row.uri, e)}
@@ -63,7 +63,7 @@ const ResourceTemplateRow = ({ row, handleClick, handleCopy, handleEdit }) => {
               type="button"
               className="btn btn-link"
               onClick={() => handleCopy(row.uri)}
-              title="Copy template"
+              title={`Copy template ${row.resourceLabel}`}
               data-testid={`Copy ${row.resourceLabel}`}
               aria-label={`Copy ${row.resourceLabel}`}
             >

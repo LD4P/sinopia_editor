@@ -45,8 +45,8 @@ describe("an invalid resource template", () => {
     await fireEvent.change(input, { target: { value: "Not found" } })
 
     // try to open the template
-    const link = await screen.findByTestId(
-      "createResource-Not found value template refs"
+    const link = await screen.findByTitle(
+      "Create resource for Not found value template refs"
     )
     fireEvent.click(link)
 

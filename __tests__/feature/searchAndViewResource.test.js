@@ -129,7 +129,7 @@ describe("searching and viewing a resource", () => {
 
     // Make sure nav panel didn't disappear
     fireEvent.click(screen.getByText("Resource Templates", { selector: "a" }))
-    fireEvent.click(await screen.findByTestId("createResource-Title note"))
+    fireEvent.click(await screen.findByTitle("Create resource for Title note"))
     expect(
       await screen.findByTestId("Go to Note Text", { selector: "button" })
     ).toBeInTheDocument()

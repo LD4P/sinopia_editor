@@ -28,7 +28,7 @@ describe("viewing the dashboard", () => {
       await screen.findByText(/Uber template1/)
 
       // Click the resource template
-      fireEvent.click(screen.getByTestId("createResource-Uber template1"))
+      fireEvent.click(screen.getByTitle("Create resource for Uber template1"))
       await waitFor(() =>
         expect(
           screen.getAllByText("Uber template1", { selector: "h3" })
