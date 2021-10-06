@@ -5,6 +5,7 @@ import { useDispatch, useSelector } from "react-redux"
 import { displayResourceValidations } from "selectors/errors"
 import { selectNormProperty } from "selectors/resources"
 import { selectPropertyTemplate } from "selectors/templates"
+import PresenceIndicator from "./PresenceIndicator"
 import _ from "lodash"
 
 const PanelPropertyNav = (props) => {
@@ -16,9 +17,6 @@ const PanelPropertyNav = (props) => {
     selectPropertyTemplate(state, property?.propertyTemplateKey)
   )
 
-  const hasValue = !_.isEmpty(property.descUriOrLiteralValueKeys)
-  const liClassNames = hasValue ? "li-checked" : ""
-
   const hasError = !_.isEmpty(property.descWithErrorPropertyKeys)
   const displayValidations = useSelector((state) =>
     displayResourceValidations(state, property?.rootSubjectKey)
@@ -29,7 +27,7 @@ const PanelPropertyNav = (props) => {
   if (!property) return null
 
   return (
-    <li className={liClassNames}>
+    <li>
       <button
         type="button"
         className="btn btn-link"
@@ -48,6 +46,7 @@ const PanelPropertyNav = (props) => {
         <h5 className={headingClassNames.join(" ")}>
           {propertyTemplate.label}
         </h5>
+        <PresenceIndicator valueKeys={property.descUriOrLiteralValueKeys} />
       </button>
     </li>
   )

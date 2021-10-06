@@ -6,6 +6,7 @@ import { displayResourceValidations } from "selectors/errors"
 import { selectNormProperty, selectNormValues } from "selectors/resources"
 import { selectPropertyTemplate } from "selectors/templates"
 import SubjectSubNav from "./SubjectSubNav"
+import PresenceIndicator from "./PresenceIndicator"
 import _ from "lodash"
 
 const PropertySubNav = (props) => {
@@ -20,9 +21,6 @@ const PropertySubNav = (props) => {
   const values = useSelector((state) =>
     selectNormValues(state, property?.valueKeys)
   )
-
-  const hasValue = !_.isEmpty(property.descUriOrLiteralValueKeys)
-  const className = hasValue ? "li-checked" : ""
 
   const hasError = !_.isEmpty(property.descWithErrorPropertyKeys)
   const displayValidations = useSelector((state) =>
@@ -46,7 +44,7 @@ const PropertySubNav = (props) => {
   if (!property || property.valueKeys === null) return null
 
   return (
-    <li className={className}>
+    <li>
       <button
         type="button"
         className="btn btn-link"
@@ -66,6 +64,7 @@ const PropertySubNav = (props) => {
           {propertyTemplate.label}
         </span>
       </button>
+      <PresenceIndicator valueKeys={property.descUriOrLiteralValueKeys} />
       {subNavForProperty()}
     </li>
   )

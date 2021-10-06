@@ -24,11 +24,20 @@
 
     li {
       list-style-type: none;
+    }
 
-      &.li-checked {
-        list-style-type: "\f00c";
-        font-family: FontAwesome, "Source Sans Pro", sans-serif;
-      }
+    .left-nav-header {
+      display: inline;
+      margin-right: 0.4em;
+    }
+
+    .btn-link,
+    .btn-primary {
+      padding: 0.375rem 0;
+    }
+
+    .btn-link > .fa-circle {
+      color: $body-color;
     }
   }
 }
