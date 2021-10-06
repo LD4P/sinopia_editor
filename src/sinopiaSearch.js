@@ -37,7 +37,7 @@ export const getSearchResultsWithFacets = async (query, options = {}) => {
       bool: {
         must: {
           simple_query_string: {
-            fields: ["title^3", "subtitle^2", "uri^3", "text"],
+            fields: ["title^3", "subtitle^2", "uri^3", "text", "group"],
             default_operator: "AND",
             query,
           },
