@@ -112,10 +112,7 @@ const LoadByRDFForm = () => {
             onChange={(event) => changeRdf(event)}
             placeholder={rdfPlaceHolder}
           ></textarea>
-          <p className="text-muted">
-            Accepts JSON-LD, Turtle, TriG, N-Triples, N-Quads, and Notation3
-            (N3).
-          </p>
+          <p />
         </div>
         <div className="form-group">
           <label htmlFor="uriInput">
@@ -129,9 +126,7 @@ const LoadByRDFForm = () => {
             onChange={(event) => setBaseURI(event.target.value)}
             placeholder={baseURIPlaceholder}
           />
-          <p className="text-muted">
-            Omit brackets. If base URI is &lt;&gt;, leave blank.
-          </p>
+          <p />
         </div>
         <p className="text-muted">
           Clicking &ldquo;Submit&rdquo; will create a new resource that can be
