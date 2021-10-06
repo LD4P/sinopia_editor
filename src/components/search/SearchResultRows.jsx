@@ -4,7 +4,7 @@ import React from "react"
 import { useSelector } from "react-redux"
 import PropTypes from "prop-types"
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
-import { faCopy, faEdit, faEye } from "@fortawesome/free-solid-svg-icons"
+import { faCopy, faPencilAlt, faEye } from "@fortawesome/free-solid-svg-icons"
 import LongDate from "components/LongDate"
 import usePermissions from "hooks/usePermissions"
 import { selectGroupMap } from "selectors/groups"
@@ -62,7 +62,7 @@ const SearchResultRows = ({
               data-testid={`Edit ${row.label}`}
               onClick={(e) => handleEdit(row.uri, e)}
             >
-              <FontAwesomeIcon icon={faEdit} className="icon-lg" />
+              <FontAwesomeIcon icon={faPencilAlt} className="icon-lg" />
             </button>
           )}
           {canCreate && (
