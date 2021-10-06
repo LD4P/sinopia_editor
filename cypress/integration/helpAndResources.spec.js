@@ -85,6 +85,7 @@ describe("Looking at the Help and Resources gutter", () => {
   })
 
   it("Opens Load RDF", () => {
+    cy.get(".dropdown-toggle").click()
     cy.contains("a", "Load RDF").click()
 
     cy.url().should("include", "/load")
@@ -103,6 +104,7 @@ describe("Looking at the Help and Resources gutter", () => {
   })
 
   it("Opens Exports", () => {
+    cy.get(".dropdown-toggle").click()
     cy.contains("a", "Exports").click()
 
     cy.url().should("include", "/exports")

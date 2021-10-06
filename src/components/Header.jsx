@@ -2,7 +2,7 @@
 
 import React from "react"
 import PropTypes from "prop-types"
-import { NavLink } from "react-router-dom"
+import { NavLink, useLocation } from "react-router-dom"
 import Config from "Config"
 import { connect } from "react-redux"
 import { selectUser } from "selectors/authenticate"
@@ -14,58 +14,70 @@ import usePermissions from "hooks/usePermissions"
 
 const Header = (props) => {
   const { canCreate } = usePermissions()
-
+  const location = useLocation()
+  const isActionsActive =
+    location.pathname === "/exports" || location.pathname === "/load"
   return (
-    <div className="editor-navbar">
-      <div className="row">
-        <div className="col-6">
-          <h1 className="editor-logo">Sinopia{`${Config.sinopiaEnv}`}</h1>
-        </div>
-        <div className="col-6">
-          <ul className="nav pull-right">
-            <li className="nav-item">
-              <a className="nav-link" href="/">
-                <span className="editor-subtitle">SINOPIA</span>{" "}
-                <span className="editor-version">v{props.version}</span>
-              </a>
-            </li>
-            {props.currentUser && (
+    <React.Fragment>
+      <div className="editor-navbar">
+        <div className="row">
+          <div className="col-6">
+            <h1 className="editor-logo">Sinopia{`${Config.sinopiaEnv}`}</h1>
+          </div>
+          <div className="col-6">
+            <ul className="nav pull-right">
               <li className="nav-item">
-                <span className="nav-link editor-header-user">
-                  {props.currentUser.username}
-                </span>
+                <a className="nav-link" href="/">
+                  <span className="editor-subtitle">SINOPIA</span>{" "}
+                  <span className="editor-version">v{props.version}</span>
+                </a>
               </li>
-            )}
-            <li className="nav-item">
-              <a
-                href="#"
-                className="nav-link editor-help-resources"
-                onClick={props.triggerEditorMenu}
-              >
-                Help and Resources
-              </a>
-            </li>
-            {props.currentUser && (
+              {props.currentUser && (
+                <li className="nav-item">
+                  <span className="nav-link editor-header-user">
+                    {props.currentUser.username}
+                  </span>
+                </li>
+              )}
               <li className="nav-item">
                 <a
                   href="#"
-                  className="nav-link editor-header-logout"
-                  onClick={() => props.signOut()}
+                  className="nav-link editor-help-resources"
+                  onClick={props.triggerEditorMenu}
                 >
-                  Logout
+                  Help and Resources
                 </a>
               </li>
-            )}
-          </ul>
+              {props.currentUser && (
+                <li className="nav-item">
+                  <a
+                    href="#"
+                    className="nav-link editor-header-logout"
+                    onClick={() => props.signOut()}
+                  >
+                    Logout
+                  </a>
+                </li>
+              )}
+            </ul>
+          </div>
         </div>
       </div>
-      <ul className="nav nav-tabs editor-navtabs">
+
+      <ul className="nav editor-navtabs">
         {/* Navlinks enable highlighting the appropriate tab based on route, active style is defined in css */}
         <li className="nav-item">
           <NavLink className="nav-link" to="/dashboard">
             Dashboard
           </NavLink>
         </li>
+        {props.hasResource && canCreate && (
+          <li className="nav-item">
+            <NavLink className="nav-link" to="/editor">
+              Editor
+            </NavLink>
+          </li>
+        )}
         <li className="nav-item">
           <NavLink className="nav-link" to="/templates">
             Resource Templates
@@ -76,27 +88,36 @@ const Header = (props) => {
             Search
           </NavLink>
         </li>
-        {canCreate && (
-          <li className="nav-item">
-            <NavLink className="nav-link" to="/load">
-              Load RDF
-            </NavLink>
-          </li>
-        )}
-        {props.hasResource && canCreate && (
-          <li className="nav-item">
-            <NavLink className="nav-link" to="/editor">
-              Editor
-            </NavLink>
-          </li>
-        )}
-        <li className="nav-item">
-          <NavLink className="nav-link" to="/exports">
-            Exports
-          </NavLink>
+
+        <li className="nav-item dropdown">
+          <a
+            className={`nav-link dropdown-toggle ${
+              isActionsActive && "active"
+            }`}
+            data-bs-toggle="dropdown"
+            href="#"
+            role="button"
+            aria-expanded="false"
+          >
+            Actions
+          </a>
+          <ul className="dropdown-menu">
+            {canCreate && (
+              <li>
+                <NavLink className="dropdown-item" to="/load">
+                  Load RDF
+                </NavLink>
+              </li>
+            )}
+            <li>
+              <NavLink className="dropdown-item" to="/exports">
+                Exports
+              </NavLink>
+            </li>
+          </ul>
         </li>
       </ul>
-    </div>
+    </React.Fragment>
   )
 }
 
