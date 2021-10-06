@@ -35,9 +35,11 @@ const LoginPanel = () => {
       )}
       <form className="login-form" onSubmit={(event) => handleSubmit(event)}>
         <h4>Login to the Linked Data Editor</h4>
-        <div className="form-group">
-          <label htmlFor="username">
+        <div className="row mb-2">
+          <label htmlFor="username" className="col-sm-3 col-form-label">
             User name
+          </label>
+          <div className="col-sm-9">
             <input
               id="username"
               style={{ width: "300px" }}
@@ -48,11 +50,14 @@ const LoginPanel = () => {
               value={username}
               onChange={(event) => setUsername(event.target.value)}
             ></input>
-          </label>
+          </div>
         </div>
-        <div className="form-group">
-          <label htmlFor="password">
+        <div className="row">
+          <label htmlFor="password" className="col-sm-3 col-form-label">
             Password
+          </label>
+
+          <div className="col-sm-9">
             <input
               id="password"
               style={{ width: "300px" }}
@@ -63,10 +68,10 @@ const LoginPanel = () => {
               value={password}
               onChange={(event) => setPassword(event.target.value)}
             ></input>
-          </label>
+          </div>
         </div>
         <div className="row">
-          <div className="col-sm-4">
+          <div className="col-sm-3">
             <button className="btn btn-block btn-primary" type="submit">
               Login
             </button>

@@ -74,21 +74,25 @@ const RDFDisplay = (props) => {
 
   return (
     <div>
-      <form className="form-inline">
-        <label htmlFor="rdfFormat">Format: &nbsp;</label>
-        <select
-          className="form-control"
-          id="rdfFormat"
-          aria-label="RDF Format Selection"
-          onBlur={(event) => setFormat(event.target.value)}
-          onChange={(event) => setFormat(event.target.value)}
-          value={format}
-        >
-          <option value="jsonld">JSON-LD</option>
-          <option value="n-triples">N-Triples</option>
-          <option value="table">Table</option>
-          <option value="turtle">Turtle</option>
-        </select>
+      <form className="row mb-3">
+        <label htmlFor="rdfFormat" className="col-form-label col-sm-1">
+          Format:{" "}
+        </label>
+        <div className="col-sm-3">
+          <select
+            className="form-control"
+            id="rdfFormat"
+            aria-label="RDF Format Selection"
+            onBlur={(event) => setFormat(event.target.value)}
+            onChange={(event) => setFormat(event.target.value)}
+            value={format}
+          >
+            <option value="jsonld">JSON-LD</option>
+            <option value="n-triples">N-Triples</option>
+            <option value="table">Table</option>
+            <option value="turtle">Turtle</option>
+          </select>
+        </div>
       </form>
       {body}
     </div>
