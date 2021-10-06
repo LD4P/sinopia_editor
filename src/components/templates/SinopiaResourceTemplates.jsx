@@ -33,7 +33,7 @@ const SinopiaResourceTemplates = () => {
   let history
   if (!_.isEmpty(historicalTemplates)) {
     history = (
-      <div className="card" style={{ marginBottom: "20px" }}>
+      <div className="card expanding-section" style={{ marginBottom: "20px" }}>
         <div className="card-header">
           <h3>
             <button

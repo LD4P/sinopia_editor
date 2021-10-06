@@ -60,8 +60,8 @@ const PanelProperty = (props) => {
         data-label={props.propertyTemplate.label}
         style={{ marginBottom: "1em" }}
       >
-        <div className="card-header prop-heading">
-          <h5 className="card-title">
+        <div className="prop-heading">
+          <h5>
             <PropertyLabel
               forId={propertyLabelId}
               propertyTemplate={props.propertyTemplate}
@@ -103,7 +103,7 @@ const PanelProperty = (props) => {
           </h5>
         </div>
         {!isAdd && (
-          <div className="card-body panel-property">
+          <div className="panel-property">
             <PropertyComponent
               property={props.property}
               propertyTemplate={props.propertyTemplate}
