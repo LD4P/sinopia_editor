@@ -19,7 +19,7 @@ describe("loading new resource", () => {
     screen.getByText("Jul 27, 2020")
 
     // Click the resource template
-    fireEvent.click(screen.getByText("Uber template1", { selector: "a" }))
+    fireEvent.click(screen.getByTitle("Create resource for Uber template1"))
     await waitFor(() =>
       expect(
         screen.getAllByText("Uber template1", { selector: "h3" })

@@ -52,7 +52,7 @@ describe("searching and opening a resource", () => {
     await screen.findByText("resourceTemplate:bf2:Title:Note")
 
     // open the template
-    const link = await screen.findByText("Title note", { selector: "a" })
+    const link = await screen.findByTitle("Create resource for Title note")
     fireEvent.click(link)
     await act(() => promise)
 
@@ -83,7 +83,7 @@ describe("searching and opening a resource", () => {
     expect(rtHeaders).toHaveLength(2)
 
     // open the recenly used RTs and click
-    const rtLinks = screen.getAllByText("Title note", { selector: "a" })
+    const rtLinks = screen.getAllByTitle("Create resource for Title note")
     expect(rtLinks).toHaveLength(2)
     fireEvent.click(rtLinks[0])
     await screen.findByText("Title note", { selector: "h3" })

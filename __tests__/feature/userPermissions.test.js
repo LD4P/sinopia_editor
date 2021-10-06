@@ -77,7 +77,7 @@ describe("user permissions", () => {
     await screen.findByText("New template")
 
     // Templates are linked
-    screen.getByText("Uber template1", { selector: "a" })
+    screen.getByTitle("Create resource for Uber template1", { selector: "a" })
 
     // Can copy a template
     screen.getByRole("button", { name: "Copy Uber template1" })
@@ -118,7 +118,7 @@ describe("user permissions", () => {
     await screen.findByText("New template")
 
     // Templates are linked
-    screen.getByText("Uber template1", { selector: "a" })
+    screen.getByTitle("Create resource for Uber template1", { selector: "a" })
 
     // Can copy a template
     screen.getByRole("button", { name: "Copy Uber template1" })

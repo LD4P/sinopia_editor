@@ -23,8 +23,11 @@ describe("preview RDF after editing", () => {
     fireEvent.click(screen.getByText("Resource Templates", { selector: "a" }))
 
     // Click an existing resource template
+    await screen.findByText(/Uber template1/)
     fireEvent.click(
-      await screen.findByText(/Uber template1/, { selector: "a" })
+      screen.getByTitle("Create resource for Uber template1", {
+        selector: "a",
+      })
     )
 
     // Click on the Preview RDF Button
