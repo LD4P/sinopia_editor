@@ -4,7 +4,7 @@ import React from "react"
 import PropTypes from "prop-types"
 import { useDispatch, useSelector } from "react-redux"
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
-import { faCopy, faEdit } from "@fortawesome/free-solid-svg-icons"
+import { faCopy, faPencilAlt } from "@fortawesome/free-solid-svg-icons"
 import ModalWrapper, {
   useDisplayStyle,
   useModalCss,
@@ -92,7 +92,7 @@ const ViewResourceModal = (props) => {
                 aria-label="Edit"
                 data-testid="edit-resource"
               >
-                <FontAwesomeIcon icon={faEdit} />
+                <FontAwesomeIcon icon={faPencilAlt} />
                 &nbsp; Edit
               </button>
             )}
