@@ -26,12 +26,6 @@ const Header = (props) => {
           </div>
           <div className="col-6">
             <ul className="nav pull-right">
-              <li className="nav-item">
-                <a className="nav-link" href="/">
-                  <span className="editor-subtitle">SINOPIA</span>{" "}
-                  <span className="editor-version">v{props.version}</span>
-                </a>
-              </li>
               {props.currentUser && (
                 <li className="nav-item">
                   <span className="nav-link editor-header-user">
@@ -39,15 +33,19 @@ const Header = (props) => {
                   </span>
                 </li>
               )}
-              <li className="nav-item">
-                <a
-                  href="#"
-                  className="nav-link editor-help-resources"
-                  onClick={props.triggerEditorMenu}
-                >
-                  Help and Resources
-                </a>
-              </li>
+              <div className="nav-link">•</div>
+              {props.currentUser && (
+                <li className="nav-item">
+                  <a
+                    href="#"
+                    className="nav-link editor-help-resources"
+                    onClick={props.triggerEditorMenu}
+                  >
+                    Help
+                  </a>
+                </li>
+              )}
+              <div className="nav-link">•</div>
               {props.currentUser && (
                 <li className="nav-item">
                   <a
