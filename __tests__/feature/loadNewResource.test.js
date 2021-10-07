@@ -56,10 +56,8 @@ describe("loading new resource", () => {
       screen.getAllByText("Uber template2", { selector: "h5" })
     ).toHaveLength(2)
 
-    // Save button is disabled
-    expect(
-      screen.getAllByText("Save", { selector: "button" })[0]
-    ).toBeDisabled()
+    // Save button is enabled (we have defaults)
+    expect(screen.getAllByText("Save", { selector: "button" })[0]).toBeEnabled()
 
     // Only current property's subproperties are expanded in the nav panel
     expect(

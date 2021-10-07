@@ -926,7 +926,7 @@ describe("saveResourceFinished()", () => {
 })
 
 describe("loadResourceFinished()", () => {
-  it("sets resource as not changed", () => {
+  it("sets resource as not changed with no defaults", () => {
     const oldState = createState({ hasResourceWithLiteral: true })
     oldState.entities.subjects.t9zVwg2zO.changed = true
     const action = {
@@ -935,6 +935,20 @@ describe("loadResourceFinished()", () => {
     }
     const newState = reducer(oldState.entities, action)
     expect(newState.subjects.t9zVwg2zO.changed).toBe(false)
+  })
+
+  it("sets resource as changed with a default value", () => {
+    const oldState = createState({
+      hasResourceWithLiteral: true,
+      hasDefaultLiterals: true,
+    })
+    oldState.entities.subjects.t9zVwg2zO.changed = true
+    const action = {
+      type: "LOAD_RESOURCE_FINISHED",
+      payload: "t9zVwg2zO",
+    }
+    const newState = reducer(oldState.entities, action)
+    expect(newState.subjects.t9zVwg2zO.changed).toBe(true)
   })
 })
 

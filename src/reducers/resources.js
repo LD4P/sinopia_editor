@@ -29,8 +29,14 @@ export const hideProperty = (state, action) => {
   return newState
 }
 
-export const loadResourceFinished = (state, action) =>
-  setSubjectChanged(state, action.payload, false)
+export const loadResourceFinished = (state, action) => {
+  let numDefaults = 0
+  for (const property of Object.values(state.propertyTemplates)) {
+    numDefaults += property.defaults.length
+  }
+  // if we have any default values, consider this as changed to enable the Save button
+  return setSubjectChanged(state, action.payload, numDefaults > 0)
+}
 
 export const saveResourceFinishedEditor = (state, action) => ({
   ...state,

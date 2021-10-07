@@ -229,6 +229,18 @@ const buildResourceWithLiteral = (state, options) => {
         authorities: [],
       },
   }
+
+  if (options.hasDefaultLiterals) {
+    state.entities.propertyTemplates[
+      "ld4p:RT:bf2:Title:AbbrTitle > http://id.loc.gov/ontologies/bibframe/mainTitle"
+    ].defaults = [
+      {
+        literal: "Default literal1",
+        lang: null,
+      },
+    ]
+  }
+
   state.entities.subjects = {
     t9zVwg2zO: {
       key: "t9zVwg2zO",
