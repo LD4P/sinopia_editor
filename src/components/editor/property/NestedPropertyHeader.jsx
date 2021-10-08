@@ -4,11 +4,7 @@ import React from "react"
 import { connect } from "react-redux"
 import PropTypes from "prop-types"
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
-import {
-  faAngleRight,
-  faAngleDown,
-  faTrashAlt,
-} from "@fortawesome/free-solid-svg-icons"
+import { faTrashAlt } from "@fortawesome/free-solid-svg-icons"
 import PropertyLabel from "./PropertyLabel"
 import PropertyLabelInfo from "./PropertyLabelInfo"
 import { displayResourceValidations } from "selectors/errors"
@@ -17,10 +13,10 @@ import { resourceEditErrorKey } from "../Editor"
 import _ from "lodash"
 import { expandProperty, contractProperty } from "actionCreators/resources"
 import { bindActionCreators } from "redux"
+import ToggleButton from "../ToggleButton"
 
 const NestedPropertyHeader = (props) => {
-  const toggleIcon = props.property.show === true ? faAngleDown : faAngleRight
-  const toggleAria =
+  const toggleLabel =
     props.property.show === true
       ? `Hide ${props.propertyTemplate.label}`
       : `Show ${props.propertyTemplate.label}`
@@ -36,7 +32,8 @@ const NestedPropertyHeader = (props) => {
     error = props.property.errors.join(",")
   }
 
-  const toggleProperty = () => {
+  const toggleProperty = (event) => {
+    event.preventDefault()
     if (props.property.show) {
       props.hideProperty(props.property.key)
     } else {
@@ -77,17 +74,12 @@ const NestedPropertyHeader = (props) => {
 
   return (
     <div className={groupClasses}>
-      <button
-        type="button"
-        className="btn btn-sm btn-toggle"
-        data-id={props.id}
-        disabled={isAdd}
-        aria-label={toggleAria}
-        data-testid={toggleAria}
-        onClick={() => toggleProperty()}
-      >
-        <FontAwesomeIcon className="toggle-icon" icon={toggleIcon} />
-      </button>
+      <ToggleButton
+        handleClick={toggleProperty}
+        isExpanded={props.property.show}
+        isDisabled={isAdd}
+        label={toggleLabel}
+      />
       <strong>
         <PropertyLabel
           forId={props.id}

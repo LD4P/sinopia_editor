@@ -5,6 +5,8 @@ import {
   addSubject,
   addValue,
   clearResource,
+  hideNavProperty,
+  hideNavSubject,
   hideProperty,
   removeSubject,
   removeValue,
@@ -13,6 +15,8 @@ import {
   setCurrentEditResource,
   setCurrentPreviewResource,
   setUnusedRDF,
+  showNavProperty,
+  showNavSubject,
   showProperty,
   loadResourceFinished,
   setResourceGroup,
@@ -31,6 +35,8 @@ const reducers = {
   ADD_SUBJECT: addSubject,
   ADD_VALUE: addValue,
   CLEAR_RESOURCE: clearResource,
+  HIDE_NAV_PROPERTY: hideNavProperty,
+  HIDE_NAV_SUBJECT: hideNavSubject,
   HIDE_PROPERTY: hideProperty,
   LOAD_RESOURCE_FINISHED: loadResourceFinished,
   REMOVE_SUBJECT: removeSubject,
@@ -39,6 +45,8 @@ const reducers = {
   SET_BASE_URL: setBaseURL,
   SET_RESOURCE_GROUP: setResourceGroup,
   SET_VALUE_ORDER: setValueOrder,
+  SHOW_NAV_PROPERTY: showNavProperty,
+  SHOW_NAV_SUBJECT: showNavSubject,
   SHOW_PROPERTY: showProperty,
   UPDATE_VALUE: updateValue,
 }
@@ -84,6 +92,7 @@ describe("addProperty()", () => {
           "ld4p:RT:bf2:Title:AbbrTitle > http://id.loc.gov/ontologies/bibframe/mainTitle",
         valueKeys: ["abc123"],
         show: false,
+        showNav: false,
         rootPropertyKey: "vmq88891",
         descUriOrLiteralValueKeys: [],
         descWithErrorPropertyKeys: [],
@@ -97,6 +106,7 @@ describe("addProperty()", () => {
   describe("existing property with values", () => {
     it("updates state", () => {
       const oldState = createState({ hasResourceWithLiteral: true })
+      oldState.entities.properties["JQEtq-vmq8"].showNav = true
 
       const action = {
         type: "ADD_PROPERTY",
@@ -130,6 +140,7 @@ describe("addProperty()", () => {
           "ld4p:RT:bf2:Title:AbbrTitle > http://id.loc.gov/ontologies/bibframe/mainTitle",
         valueKeys: ["RxGx7WMh4"],
         show: true,
+        showNav: true,
         rootPropertyKey: "JQEtq-vmq8",
         descWithErrorPropertyKeys: [],
         descUriOrLiteralValueKeys: ["RxGx7WMh4"],
@@ -169,6 +180,7 @@ describe("addProperty()", () => {
           "test:resource:SinopiaLookup > http://id.loc.gov/ontologies/bibframe/instanceOf",
         valueKeys: ["abc123"],
         show: true,
+        showNav: false,
         rootPropertyKey: "i0SAJP-Zhd",
         descUriOrLiteralValueKeys: [],
         descWithErrorPropertyKeys: ["i0SAJP-Zhd"],
@@ -212,6 +224,7 @@ describe("addProperty()", () => {
           "test:resource:SinopiaLookup > http://id.loc.gov/ontologies/bibframe/instanceOf",
         valueKeys: ["abc123"],
         show: true,
+        showNav: false,
         rootPropertyKey: "vmq88891",
         descUriOrLiteralValueKeys: [],
         descWithErrorPropertyKeys: ["vmq88891"],
@@ -264,6 +277,7 @@ describe("addSubject()", () => {
           rootPropertyKey: null,
           labels: ["Barcode"],
           label: "Barcode",
+          showNav: false,
         },
       })
     })
@@ -303,6 +317,7 @@ describe("addSubject()", () => {
         valueSubjectOfKey: null,
         labels: ["Abbreviated Title"],
         label: "Abbreviated Title",
+        showNav: false,
       })
     })
   })
@@ -310,6 +325,7 @@ describe("addSubject()", () => {
   describe("existing subject with properties", () => {
     it("updates state", () => {
       const oldState = createState({ hasResourceWithLiteral: true })
+      oldState.entities.subjects.t9zVwg2zO.showNav = true
 
       const action = {
         type: "ADD_SUBJECT",
@@ -352,6 +368,7 @@ describe("addSubject()", () => {
         editGroups: [],
         labels: ["Abbreviated Title"],
         label: "Abbreviated Title",
+        showNav: true,
       })
       // Replaces values
       expect(newState.properties["KQEtq-vmq9"]).not.toBeUndefined()
@@ -824,6 +841,48 @@ describe("hideProperty()", () => {
   })
 })
 
+describe("hideNavProperty()", () => {
+  it("sets showNav to false for property", () => {
+    const oldState = {
+      properties: {
+        "kqKVn-1TbC": {
+          key: "kqKVn-1TbC",
+          showNav: true,
+        },
+      },
+    }
+
+    const action = {
+      type: "HIDE_NAV_PROPERTY",
+      payload: "kqKVn-1TbC",
+    }
+
+    const newState = reducer(oldState, action)
+    expect(newState.properties["kqKVn-1TbC"].showNav).toBeFalsy()
+  })
+})
+
+describe("hideNavSubject()", () => {
+  it("sets showNav to false for subject", () => {
+    const oldState = {
+      subjects: {
+        "kqKVn-1TbC": {
+          key: "kqKVn-1TbC",
+          showNav: true,
+        },
+      },
+    }
+
+    const action = {
+      type: "HIDE_NAV_SUBJECT",
+      payload: "kqKVn-1TbC",
+    }
+
+    const newState = reducer(oldState, action)
+    expect(newState.subjects["kqKVn-1TbC"].showNav).toBeFalsy()
+  })
+})
+
 describe("removeSubject()", () => {
   it("removes a subject from state", () => {
     const oldState = createState({ hasResourceWithLiteral: true })
@@ -1089,9 +1148,6 @@ describe("showProperty()", () => {
       properties: {
         "kqKVn-1TbC": {
           key: "kqKVn-1TbC",
-          subjectKey: "BraIA_lBw",
-          propertyTemplateKey:
-            "resourceTemplate:bf2:Identifiers:Barcode > http://www.w3.org/1999/02/22-rdf-syntax-ns#value",
           show: false,
         },
       },
@@ -1102,6 +1158,44 @@ describe("showProperty()", () => {
     }
     const newState = reducer(oldState, action)
     expect(newState.properties["kqKVn-1TbC"].show).toBeTruthy()
+  })
+})
+
+describe("showNavProperty()", () => {
+  it("sets showNav to true for property", () => {
+    const oldState = {
+      properties: {
+        "kqKVn-1TbC": {
+          key: "kqKVn-1TbC",
+          showNav: false,
+        },
+      },
+    }
+    const action = {
+      type: "SHOW_NAV_PROPERTY",
+      payload: "kqKVn-1TbC",
+    }
+    const newState = reducer(oldState, action)
+    expect(newState.properties["kqKVn-1TbC"].showNav).toBeTruthy()
+  })
+})
+
+describe("showNavSubject()", () => {
+  it("sets showNav to true for subject", () => {
+    const oldState = {
+      subjects: {
+        "kqKVn-1TbC": {
+          key: "kqKVn-1TbC",
+          showNav: false,
+        },
+      },
+    }
+    const action = {
+      type: "SHOW_NAV_SUBJECT",
+      payload: "kqKVn-1TbC",
+    }
+    const newState = reducer(oldState, action)
+    expect(newState.subjects["kqKVn-1TbC"].showNav).toBeTruthy()
   })
 })
 

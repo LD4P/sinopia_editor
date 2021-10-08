@@ -14,6 +14,7 @@
         "propertyTemplateKey": "ld4p:RT:bf2:Title:AbbrTitle > http://id.loc.gov/ontologies/bibframe/mainTitle",
         "valueKeys": null,
         "show": true,
+        "showNav": false,
         "subject": {
           "key": "t9zVwg2zO",
           "labels": [
@@ -36,6 +37,7 @@
           ],
           "changed": false,
           "valueSubjectOfKey": null,
+          "showNav": false,
           "subjectTemplate": {
             "key": "ld4p:RT:bf2:Title:AbbrTitle",
             "id": "ld4p:RT:bf2:Title:AbbrTitle",

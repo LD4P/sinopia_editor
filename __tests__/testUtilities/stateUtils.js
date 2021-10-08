@@ -149,6 +149,7 @@ const buildTemplateWithLiteral = (state, options) => {
       bfWorkRefs: [],
       propertyKeys: ["mLi9ZqIjjx"],
       changed: false,
+      showNav: false,
       subjectTemplate: {
         key: "sinopia:template:resource",
         uri: "http://localhost:3000/resource/sinopia:template:resource",
@@ -175,6 +176,7 @@ const buildTemplateWithLiteral = (state, options) => {
         "sinopia:template:resource > http://www.w3.org/2000/01/rdf-schema#label",
       valueKeys: ["SgS9CqKjmb"],
       labels: ["Resource Template (dummy)", "Note"],
+      showNav: false,
     },
   }
   state.entities.values = {
@@ -264,6 +266,7 @@ const buildResourceWithLiteral = (state, options) => {
       descWithErrorPropertyKeys: options.hasError ? ["JQEtq-vmq8"] : [],
       labels: ["Abbreviated Title"],
       label: "Abbreviated Title",
+      showNav: false,
     },
   }
   state.entities.properties = {
@@ -279,6 +282,7 @@ const buildResourceWithLiteral = (state, options) => {
       descUriOrLiteralValueKeys: ["CxGx7WMh2"],
       descWithErrorPropertyKeys: options.hasError ? ["JQEtq-vmq8"] : [],
       labels: ["Abbreviated Title", "Abbreviated Title"],
+      showNav: false,
     },
   }
   state.entities.values = {
@@ -378,6 +382,7 @@ const buildTwoLiteralResources = (state, options) => {
       editGroups: ["cornell"],
       labels: ["Abbreviated Title"],
       label: "Abbreviated Title",
+      showNav: false,
     },
     u0aWxh3a1: {
       key: "u0aWxh3a1",
@@ -394,6 +399,7 @@ const buildTwoLiteralResources = (state, options) => {
       editGroups: ["cornell"],
       labels: ["Note"],
       label: "Note",
+      showNav: false,
     },
   }
   state.entities.properties = {
@@ -409,6 +415,7 @@ const buildTwoLiteralResources = (state, options) => {
       descUriOrLiteralValueKeys: ["CxGx7WMh2"],
       descWithErrorPropertyKeys: [],
       labels: ["Abbreviated Title", "Abbreviated Title"],
+      showNav: false,
     },
     "KRFur-wnr9": {
       key: "KRFur-wnr9",
@@ -423,6 +430,7 @@ const buildTwoLiteralResources = (state, options) => {
       descUriOrLiteralValueKeys: ["DyHy8XNi3"],
       descWithErrorPropertyKeys: [],
       labels: ["Note", "Note"],
+      showNav: false,
     },
   }
   state.entities.values = {
@@ -517,6 +525,7 @@ const buildResourceWithUri = (state, options) => {
       bfInstanceRefs: [],
       bfWorkRefs: [],
       propertyKeys: ["RPaGmJ_8IQi8roZ1oj1uK"],
+      showNav: false,
     },
   }
   state.entities.properties = {
@@ -532,6 +541,7 @@ const buildResourceWithUri = (state, options) => {
       labels: ["Uber template5", "Uber template5, property1"],
       rootPropertyKey: "RPaGmJ_8IQi8roZ1oj1uK",
       valueKeys: ["a_-Jp0pY6pH6ytCtfr-mx"],
+      showNav: false,
     },
   }
   state.entities.values = {
@@ -619,6 +629,7 @@ const buildResourceWithList = (state, options) => {
       bfInstanceRefs: [],
       bfWorkRefs: [],
       propertyKeys: ["RPaGmJ_8IQi8roZ1oj1uK"],
+      showNav: false,
     },
   }
   state.entities.properties = {
@@ -634,6 +645,7 @@ const buildResourceWithList = (state, options) => {
       labels: ["Uber template5", "Uber template5, property1"],
       rootPropertyKey: "RPaGmJ_8IQi8roZ1oj1uK",
       valueKeys: ["a_-Jp0pY6pH6ytCtfr-mx"],
+      showNav: false,
     },
   }
   state.entities.values = {
@@ -726,6 +738,7 @@ const buildResourceWithLookup = (state, options) => {
       descUriOrLiteralValueKeys: ["s8-qt3-uu"],
       descWithErrorPropertyKeys: [],
       labels: ["Testing sinopia lookup"],
+      showNav: false,
     },
   }
   state.entities.properties = {
@@ -741,6 +754,7 @@ const buildResourceWithLookup = (state, options) => {
       descUriOrLiteralValueKeys: ["s8-qt3-uu"],
       descWithErrorPropertyKeys: [],
       labels: ["Testing sinopia lookup", "Instance of (lookup)"],
+      showNav: false,
     },
   }
   state.entities.values = {
@@ -816,7 +830,7 @@ const buildResourceWithContractedLiteral = (state, options) => {
       descUriOrLiteralValueKeys: [],
       descWithErrorPropertyKeys: [],
       labels: ["Abbreviated Title"],
-      // label: "Abbreviated Title"
+      showNav: false,
     },
   }
   state.entities.properties = {
@@ -832,6 +846,7 @@ const buildResourceWithContractedLiteral = (state, options) => {
       descUriOrLiteralValueKeys: [],
       descWithErrorPropertyKeys: [],
       labels: ["Abbreviated Title", "Abbreviated Title"],
+      showNav: false,
     },
   }
   state.entities.values = {}
@@ -922,6 +937,7 @@ const buildResourceWithNestedResource = (state, options) => {
       descUriOrLiteralValueKeys: ["pRJ0lO_mT-"],
       descWithErrorPropertyKeys: options.hasError ? ["7caLbfwwle"] : [],
       labels: ["Uber template1"],
+      showNav: false,
     },
     XPb8jaPWo: {
       key: "XPb8jaPWo",
@@ -934,6 +950,7 @@ const buildResourceWithNestedResource = (state, options) => {
       descUriOrLiteralValueKeys: ["pRJ0lO_mT-"],
       descWithErrorPropertyKeys: options.hasError ? ["7caLbfwwle"] : [],
       labels: ["Uber template1", "Uber template1, property1", "Uber template2"],
+      showNav: false,
     },
   }
   state.entities.properties = {
@@ -967,6 +984,7 @@ const buildResourceWithNestedResource = (state, options) => {
         "Uber template2",
         "Uber template2, property1",
       ],
+      showNav: false,
     },
   }
   state.entities.values = {
@@ -1056,6 +1074,7 @@ const buildResourceWithContractedNestedResource = (state, options) => {
       descUriOrLiteralValueKeys: [],
       descWithErrorPropertyKeys: [],
       labels: ["Uber template1"],
+      showNav: false,
     },
   }
   state.entities.properties = {
@@ -1071,6 +1090,7 @@ const buildResourceWithContractedNestedResource = (state, options) => {
       descUriOrLiteralValueKeys: [],
       descWithErrorPropertyKeys: [],
       labels: ["Uber template1", "Uber template1, property1"],
+      showNav: false,
     },
   }
   state.entities.values = {}
@@ -1193,6 +1213,7 @@ const buildResourceWithTwoNestedResources = (state, options) => {
       group: null,
       editGroups: [],
       labels: ["Uber template1"],
+      showNav: false,
     },
     XPb8jaPWo: {
       key: "XPb8jaPWo",
@@ -1201,6 +1222,7 @@ const buildResourceWithTwoNestedResources = (state, options) => {
       resourceKey: "ljAblGiBW",
       propertyKeys: ["7caLbfwwle"],
       labels: ["Uber template2"],
+      showNav: false,
     },
     XPb8jaPWp: {
       key: "XPb8jaPWp",
@@ -1209,6 +1231,7 @@ const buildResourceWithTwoNestedResources = (state, options) => {
       resourceKey: "ljAblGiBW",
       propertyKeys: ["7caLbfwwlf"],
       labels: ["Uber template2"],
+      showNav: false,
     },
   }
   state.entities.properties = {
@@ -1221,6 +1244,7 @@ const buildResourceWithTwoNestedResources = (state, options) => {
       valueKeys: ["VDOeQCnFA8", "VDOeQCnFA9"],
       show: true,
       labels: ["Uber template1", "Uber template1, property1"],
+      showNav: false,
     },
     "7caLbfwwle": {
       key: "7caLbfwwle",
@@ -1231,6 +1255,7 @@ const buildResourceWithTwoNestedResources = (state, options) => {
       valueKeys: ["pRJ0lO_mT-"],
       show: true,
       labels: ["Uber template2", "Uber template2, property1"],
+      showNav: false,
     },
     "7caLbfwwlf": {
       key: "7caLbfwwlf",
@@ -1241,6 +1266,7 @@ const buildResourceWithTwoNestedResources = (state, options) => {
       valueKeys: ["pRJ0lO_mU-"],
       show: true,
       labels: ["Uber template2", "Uber template2, property1"],
+      showNav: false,
     },
   }
   state.entities.values = {

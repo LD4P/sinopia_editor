@@ -22,6 +22,7 @@
       "Abbreviated Title"
     ],
     "label": "Abbreviated Title",
+    "showNav": false,
     "subjectTemplate": {
       "key": "ld4p:RT:bf2:Title:AbbrTitle",
       "id": "ld4p:RT:bf2:Title:AbbrTitle",
@@ -44,6 +45,7 @@
         "rootPropertyKey": "JQEtq-vmq8",
         "propertyTemplateKey": "ld4p:RT:bf2:Title:AbbrTitle > http://id.loc.gov/ontologies/bibframe/mainTitle",
         "show": true,
+        "showNav": false,
         "descUriOrLiteralValueKeys": [
           "CxGx7WMh2"
         ],

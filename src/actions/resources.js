@@ -51,6 +51,26 @@ export const hideProperty = (propertyKey) => ({
   payload: propertyKey,
 })
 
+export const showNavProperty = (propertyKey) => ({
+  type: "SHOW_NAV_PROPERTY",
+  payload: propertyKey,
+})
+
+export const hideNavProperty = (propertyKey) => ({
+  type: "HIDE_NAV_PROPERTY",
+  payload: propertyKey,
+})
+
+export const showNavSubject = (subjectKey) => ({
+  type: "SHOW_NAV_SUBJECT",
+  payload: subjectKey,
+})
+
+export const hideNavSubject = (subjectKey) => ({
+  type: "HIDE_NAV_SUBJECT",
+  payload: subjectKey,
+})
+
 export const addSubject = (subject) => ({
   type: "ADD_SUBJECT",
   payload: subject,

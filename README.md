@@ -218,6 +218,7 @@ Note that proxying to other environments may require additional Cognito configur
   valueSubjectOfKey: <if a nested subject, key of the value | null>
   -> properties: [{property}, ...]
   labels = [labels of property/resource templates of self and ancestors, ...]
+  showNav: <true | false>
 }
 ```
 -> Added by selector, not stored in state.
@@ -263,7 +264,8 @@ The following are only in the resource subject (that is, the base subject).
   -> propertyTemplate: {<propertyTemplate>},
   valueKeys: [key of value, ...] | null (if not expanded)
   -> values: [{value},...]
-  toggleOpen: <true | false>
+  show: <true | false>
+  showNav: <true | false>
   rootResourceKey: <key of root resource that this property is descendant of>
   rootPropertyKey: <key of root property that this subject is part of; for root property is own key>
   descUriOrLiteralValueKeys = [key of descendant uri or literal Value, ...]

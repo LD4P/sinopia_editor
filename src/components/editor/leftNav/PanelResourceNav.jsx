@@ -3,7 +3,6 @@
 import React from "react"
 import { useSelector } from "react-redux"
 import PropTypes from "prop-types"
-import PanelPropertyNav from "./PanelPropertyNav"
 import ActivePanelPropertyNav from "./ActivePanelPropertyNav"
 import { selectCurrentPropertyKey } from "selectors/index"
 
@@ -18,26 +17,16 @@ const PanelResourceNav = (props) => {
     classNames.push("template")
   }
 
-  const navItems = props.resource.propertyKeys.map((propertyKey) => {
-    if (propertyKey === currentPropertyKey) {
-      return (
-        <ActivePanelPropertyNav
-          key={propertyKey}
-          propertyKey={propertyKey}
-          isTemplate={isTemplate}
-        />
-      )
-    }
-    return (
-      <PanelPropertyNav
-        key={propertyKey}
-        propertyKey={propertyKey}
-        isTemplate={isTemplate}
-      />
-    )
-  })
+  const navItems = props.resource.propertyKeys.map((propertyKey) => (
+    <ActivePanelPropertyNav
+      key={propertyKey}
+      active={propertyKey === currentPropertyKey}
+      propertyKey={propertyKey}
+      isTemplate={isTemplate}
+    />
+  ))
   return (
-    <div className="col-sm-3 left-nav">
+    <div className="col-sm-4 left-nav">
       <div className={classNames.join(" ")} data-testid={classNames[1]}>
         <ul>{navItems}</ul>
       </div>
