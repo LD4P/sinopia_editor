@@ -107,7 +107,7 @@ describe("getSearchResults", () => {
         bool: {
           must: {
             simple_query_string: {
-              fields: ["title^3", "subtitle^2", "uri^3", "text", "group"],
+              fields: ["title^3", "subtitle^2", "uri^3", "text"],
               default_operator: "AND",
               query: "foo",
             },
@@ -143,7 +143,7 @@ describe("getSearchResults", () => {
         bool: {
           must: {
             simple_query_string: {
-              fields: ["title^3", "subtitle^2", "uri^3", "text", "group"],
+              fields: ["title^3", "subtitle^2", "uri^3", "text"],
               default_operator: "AND",
               query: "foo",
             },
@@ -323,7 +323,7 @@ describe("getSearchResultsWithFacets", () => {
         bool: {
           must: {
             simple_query_string: {
-              fields: ["title^3", "subtitle^2", "uri^3", "text", "group"],
+              fields: ["title^3", "subtitle^2", "uri^3", "text"],
               default_operator: "AND",
               query: "foo",
             },
@@ -372,7 +372,7 @@ describe("getSearchResultsWithFacets", () => {
         bool: {
           must: {
             simple_query_string: {
-              fields: ["title^3", "subtitle^2", "uri^3", "text", "group"],
+              fields: ["title^3", "subtitle^2", "uri^3", "text"],
               default_operator: "AND",
               query: "foo",
             },
