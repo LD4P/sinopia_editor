@@ -5,8 +5,7 @@ import Package from "../../../package.json"
 
 const NewsItem = () => (
   <div className="news-item" data-testid="news-item">
-    <h3>Latest news</h3>
-    <h4>Sinopia Version {Package.version} highlights</h4>
+    <h3>Sinopia Version {Package.version} highlights</h3>
     <p>
       <i>
         For complete release notes see the{" "}
@@ -17,7 +16,7 @@ const NewsItem = () => (
       </i>
     </p>
     <ul>
-      <li>Improved input experience for literal, lookup, and URI fields. .</li>
+      <li>Improved input experience for literal, lookup, and URI fields.</li>
     </ul>
   </div>
 )
