@@ -99,7 +99,7 @@ const LoadByRDFForm = () => {
       <Alerts errorKey={loadResourceByRDFErrorKey} />
 
       <form id="loadForm" onSubmit={handleSubmit}>
-        <div className="form-group">
+        <div className="mb-3">
           <label htmlFor="resourceTextArea">
             RDF (Accepts JSON-LD, Turtle, TriG, N-Triples, N-Quads, and
             Notation3 (N3))
@@ -114,7 +114,7 @@ const LoadByRDFForm = () => {
           ></textarea>
           <p />
         </div>
-        <div className="form-group">
+        <div className="mb-3">
           <label htmlFor="uriInput">
             Base URI (Omit brackets. If base URI is &lt;&gt;, leave blank.)
           </label>

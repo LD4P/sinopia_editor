@@ -92,47 +92,38 @@ const TemplateSearch = (props) => {
         <div className="row">
           <div className="col-md-10">
             <form
-              className="form-inline"
+              className="row mb-2 mt-2"
               onSubmit={(event) => event.preventDefault()}
             >
-              <div
-                className="form-group"
-                style={{
-                  paddingBottom: "10px",
-                  paddingTop: "10px",
-                  width: "100%",
-                }}
-              >
-                <div className="input-group">
-                  <label className="font-weight-bold" htmlFor="searchInput">
-                    Find a resource template
-                  </label>
-                  &nbsp;
-                  <input
-                    id="searchInput"
-                    type="text"
-                    className="form-control"
-                    style={{ marginLeft: "5px" }}
-                    onChange={updateSearch}
-                    placeholder="Enter id, label, URI, remark, or author"
-                    value={queryString}
-                  />
-                  <span className="input-group-btn">
-                    <button
-                      className="btn btn-default"
-                      type="button"
-                      aria-label="Clear query string"
-                      title="Clear query string"
-                      data-testid="Clear query string"
-                      onClick={() => setQueryString("")}
-                    >
-                      <FontAwesomeIcon
-                        className="trash-icon"
-                        icon={faTrashAlt}
-                      />
-                    </button>
-                  </span>
-                </div>
+              <div className="input-group">
+                <label
+                  className="font-weight-bold col-form-label"
+                  htmlFor="searchInput"
+                >
+                  Find a resource template
+                </label>
+                &nbsp;
+                <input
+                  id="searchInput"
+                  type="text"
+                  className="form-control"
+                  style={{ marginLeft: "5px" }}
+                  onChange={updateSearch}
+                  placeholder="Enter id, label, URI, remark, or author"
+                  value={queryString}
+                />
+                <span className="input-group-btn">
+                  <button
+                    className="btn btn-default"
+                    type="button"
+                    aria-label="Clear query string"
+                    title="Clear query string"
+                    data-testid="Clear query string"
+                    onClick={() => setQueryString("")}
+                  >
+                    <FontAwesomeIcon className="trash-icon" icon={faTrashAlt} />
+                  </button>
+                </span>
               </div>
             </form>
           </div>
