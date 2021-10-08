@@ -18,6 +18,10 @@ $primary-disabled: lighten(map-get($theme-colors, "secondary"), 20%);
 }
 
 .btn-link {
+  text-decoration: none;
+}
+
+.btn-link:hover {
   text-decoration: underline;
 }
 
@@ -27,6 +31,10 @@ body {
 }
 
 a {
+  text-decoration: none;
+}
+
+a:hover {
   text-decoration: underline;
 }
 
