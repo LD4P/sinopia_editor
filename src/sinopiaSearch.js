@@ -190,7 +190,14 @@ export const getTemplateSearchResults = (query, options = {}) => {
 }
 
 const getTemplateSearchResultsBody = (query, options) => {
-  const fields = ["id", "resourceLabel", "resourceURI", "remark", "author"]
+  const fields = [
+    "id",
+    "resourceLabel",
+    "resourceURI",
+    "remark",
+    "author",
+    "group",
+  ]
   const should = fields.map((field) => ({
     wildcard: { [field]: { value: `*${query}*` } },
   }))
