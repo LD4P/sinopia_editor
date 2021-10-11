@@ -94,7 +94,7 @@ const validatePropertyTemplate = (template) => {
     _.isEmpty(template.valueSubjectTemplateKeys)
   ) {
     errors.push(
-      `Referenced resource templates (valueTemplateRefs) are required for ${template.uri}.`
+      `The field "${template.label}" with property "${template.uri}" has type nested resource, but does not specify a template in Nested resource attributes.`
     )
   }
   return errors
