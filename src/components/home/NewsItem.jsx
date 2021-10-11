@@ -17,7 +17,9 @@ const NewsItem = () => (
       </i>
     </p>
     <ul>
-      <li>Improved input experience for literal, lookup, and URI fields. .</li>
+      <li>Accessibility improvements</li>
+      <li>Visual design improvements</li>
+      <li>Ability to define a label for a resource</li>
     </ul>
   </div>
 )
