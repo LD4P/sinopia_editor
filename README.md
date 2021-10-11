@@ -87,13 +87,13 @@ Tests are written with jest and react-testing-library.
 To run all of the tests:
 `npm test`
 
-To run a single test file:
+To run a single test file (and see console messages):
 `npx jest __tests__/actionCreators/resources.test.js`
 
-To run a single test:
+To run a single test (and see console messages):
 `npx jest __tests__/actionCreators/resources.test.js -t "newResourceFromN3 loading a resource dispatches actions"`
 
-Or temporarily change the test description from `it("does something")` to `it.only("does something")`.
+Or temporarily change the test description from `it("does something")` to `it.only("does something")` and run the single test file with `npx`.
 
 #### Adding new test fixtures
 If you have the docker environment running (and USE_FIXTURES env variable is false) you can use the `Load RDF tab`,
