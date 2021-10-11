@@ -22,7 +22,9 @@ const Header = (props) => {
       <div className="editor-navbar">
         <div className="row">
           <div className="col-6">
-            <h1 className="editor-logo">Sinopia{`${Config.sinopiaEnv}`}</h1>
+            <a href="/">
+              <h1 className="editor-logo">Sinopia{`${Config.sinopiaEnv}`}</h1>
+            </a>
           </div>
           <div className="col-6">
             <ul className="nav pull-right">
