@@ -750,7 +750,7 @@ describe("saveNewResource", () => {
 
     expect(actions).toHaveAction("ADD_ERROR", {
       errorKey: "testerror",
-      error: "Error saving: Messed-up",
+      error: "Error saving new resource: Messed-up",
     })
   })
 })

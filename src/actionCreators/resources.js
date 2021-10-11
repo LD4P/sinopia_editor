@@ -250,7 +250,9 @@ export const saveNewResource =
       })
       .catch((err) => {
         console.error(err)
-        dispatch(addError(errorKey, `Error saving: ${err.message || err}`))
+        dispatch(
+          addError(errorKey, `Error saving new resource: ${err.message || err}`)
+        )
       })
   }
 
