@@ -1,6 +1,6 @@
 // Copyright 2019 Stanford University see LICENSE for license
 
-import React, { useEffect } from "react"
+import React, { useEffect, useLayoutEffect } from "react"
 import { Helmet, HelmetProvider } from "react-helmet-async"
 import Config from "Config"
 import "react-bootstrap-typeahead/css/Typeahead.css"
@@ -26,6 +26,7 @@ import Exports, { exportsErrorKey } from "./exports/Exports"
 import { selectCurrentResourceKey } from "selectors/resources"
 import { authenticate } from "actionCreators/authenticate"
 import { hasUser as hasUserSelector } from "selectors/authenticate"
+import { selectModalType } from "selectors/modals"
 
 const FourOhFour = () => <h1>404</h1>
 
@@ -42,6 +43,21 @@ const App = (props) => {
 
   const hasResource = useSelector((state) => !!selectCurrentResourceKey(state))
   const hasUser = useSelector((state) => hasUserSelector(state))
+  const isModalOpen = useSelector((state) => selectModalType(state))
+
+  // We do not use standard bootstrap modals (i.e. they are not triggered automatically)
+  //  due to complexities in the interaction between JS and React/redux.
+  //  This effect is used to prevent scrolling and dim the background behind the modal
+  //  which is typically done automatically by bootstrap.
+  useLayoutEffect(() => {
+    const bodyRoot = document.getElementsByTagName("body")[0]
+    if (isModalOpen) {
+      // if *any* modals are open, prevent scrolling and dim the background
+      bodyRoot.classList.add("modal-open")
+    } else {
+      bodyRoot.classList.remove("modal-open")
+    }
+  }, [isModalOpen])
 
   const routesWithCurrentUser = (
     <Switch>
