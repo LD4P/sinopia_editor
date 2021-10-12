@@ -1,6 +1,7 @@
 // Copyright 2018 Stanford University see LICENSE for license
 
 import React from "react"
+import Package from "../../package.json"
 
 const Footer = () => (
   <div id="footer" className="row">
@@ -35,7 +36,8 @@ const Footer = () => (
           >
             Creative Commons CC0 1.0 Universal Public Domain Dedication
           </a>
-          . Published <a href="/vocabulary">Vocabulary</a>.
+          . Published <a href="/vocabulary">Vocabulary</a>. &nbsp; Sinopia v
+          {Package.version}
         </small>
       </p>
     </div>

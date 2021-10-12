@@ -9,7 +9,6 @@ import { selectUser } from "selectors/authenticate"
 import { signOut } from "actionCreators/authenticate"
 import { bindActionCreators } from "redux"
 import { selectCurrentResourceKey } from "selectors/resources"
-import { selectAppVersion } from "selectors/index"
 import usePermissions from "hooks/usePermissions"
 
 const Header = (props) => {
@@ -123,7 +122,6 @@ const Header = (props) => {
 
 Header.propTypes = {
   triggerEditorMenu: PropTypes.func,
-  version: PropTypes.string,
   hasResource: PropTypes.bool,
   currentUser: PropTypes.object,
   signOut: PropTypes.func,
@@ -132,7 +130,6 @@ Header.propTypes = {
 const mapStateToProps = (state) => ({
   currentUser: selectUser(state),
   hasResource: !!selectCurrentResourceKey(state),
-  version: selectAppVersion(state),
 })
 
 const mapDispatchToProps = (dispatch) =>

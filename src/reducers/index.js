@@ -50,11 +50,6 @@ import {
 import { clearSearchResults, setSearchResults } from "./search"
 import { lookupOptionsRetrieved } from "./lookups"
 
-export const setAppVersion = (state, action) => ({
-  ...state,
-  version: action.payload,
-})
-
 export const setCurrentComponent = (state, action) => ({
   ...state,
   currentComponent: {
@@ -69,10 +64,6 @@ export const setCurrentComponent = (state, action) => ({
 const authHandlers = {
   SET_USER: setUser,
   REMOVE_USER: removeUser,
-}
-
-const appHandlers = {
-  SET_APP_VERSION: setAppVersion,
 }
 
 const editorHandlers = {
@@ -138,7 +129,6 @@ export const createReducer =
 
 const appReducer = combineReducers({
   authenticate: createReducer(authHandlers),
-  app: createReducer(appHandlers),
   editor: createReducer(editorHandlers),
   entities: createReducer(entityHandlers),
   history: createReducer(historyHandlers),

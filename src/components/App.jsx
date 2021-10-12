@@ -16,9 +16,7 @@ import LoadResource from "./load/LoadResource"
 import Search from "./search/Search"
 import CanvasMenu from "./menu/CanvasMenu"
 import Vocab from "./vocabulary/Vocab"
-import { setAppVersion } from "actions/index"
 import { useDispatch, useSelector } from "react-redux"
-import Package from "../../package.json"
 import { fetchGroups } from "actionCreators/groups"
 import { fetchLanguages } from "actionCreators/languages"
 import { fetchExports } from "actionCreators/exports"
@@ -34,7 +32,6 @@ const App = (props) => {
   const dispatch = useDispatch()
 
   useEffect(() => {
-    dispatch(setAppVersion(Package.version))
     dispatch(fetchLanguages())
     dispatch(fetchGroups())
     dispatch(fetchExports(exportsErrorKey))
