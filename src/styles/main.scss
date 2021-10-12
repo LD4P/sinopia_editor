@@ -236,11 +236,6 @@ button.collapse-heading.collapsed::before {
   @extend .btn-link;
 }
 
-button.btn-add-instance {
-  color: white;
-  text-decoration: underline;
-}
-
 @import "resourceTabs";
 @import "resourceNav";
 

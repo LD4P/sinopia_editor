@@ -71,7 +71,7 @@ const PanelProperty = (props) => {
             {isAdd && !readOnly && (
               <button
                 type="button"
-                className="btn btn-sm btn-add btn-add-instance pull-right"
+                className="btn btn-sm btn-add btn-link pull-right"
                 onClick={() =>
                   props.expandProperty(
                     props.property.key,
