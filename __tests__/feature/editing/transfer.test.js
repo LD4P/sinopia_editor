@@ -74,7 +74,7 @@ describe("transfer saved non-bf:Instance when user belongs to a transfer group",
     await screen.findByText("Example Label", { selector: "h3" })
 
     expect(screen.queryByText("Export to Symphony")).not.toBeInTheDocument()
-  })
+  }, 10000)
 })
 
 describe("transfer saved bf:Instance when user does not belong to a transfer group", () => {
@@ -99,5 +99,5 @@ describe("transfer saved bf:Instance when user does not belong to a transfer gro
     })
 
     expect(screen.queryByText("Export to Symphony")).not.toBeInTheDocument()
-  })
+  }, 10000)
 })
