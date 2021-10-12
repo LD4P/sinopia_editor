@@ -2,6 +2,7 @@ import { useLayoutEffect, useRef, useState } from "react"
 import { setCurrentComponent } from "actions/index"
 import { useDispatch, useSelector } from "react-redux"
 import { selectCurrentComponentKey } from "selectors/index"
+import { selectModalType } from "selectors/modals"
 
 const useNavigableComponent = (
   rootSubjectKey,
@@ -13,8 +14,11 @@ const useNavigableComponent = (
     selectCurrentComponentKey(state, rootSubjectKey)
   )
   const [lastComponentKey, setLastComponentKey] = useState(null)
+  const isModalOpen = useSelector((state) => selectModalType(state))
 
   useLayoutEffect(() => {
+    if (isModalOpen) return // if any modal is open, do not scroll the page in response to clicks
+
     if (
       componentKey === currentComponentKey &&
       lastComponentKey !== currentComponentKey &&
@@ -24,7 +28,7 @@ const useNavigableComponent = (
       navEl.current.scrollIntoView({ behavior: "smooth" })
       setLastComponentKey(currentComponentKey)
     }
-  }, [componentKey, currentComponentKey, lastComponentKey])
+  }, [componentKey, currentComponentKey, lastComponentKey, isModalOpen])
 
   // From  https://blogreact.com/check-element-is-in-viewport/
   const isVisible = (el) => {

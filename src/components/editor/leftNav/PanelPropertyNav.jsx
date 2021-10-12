@@ -1,15 +1,14 @@
 import React from "react"
 import PropTypes from "prop-types"
-import { setCurrentComponent } from "actions/index"
-import { useDispatch, useSelector } from "react-redux"
+import { useSelector } from "react-redux"
 import { displayResourceValidations } from "selectors/errors"
 import { selectNormProperty } from "selectors/resources"
 import { selectPropertyTemplate } from "selectors/templates"
 import PresenceIndicator from "./PresenceIndicator"
+import useLeftNav from "hooks/useLeftNav"
 import _ from "lodash"
 
 const PanelPropertyNav = (props) => {
-  const dispatch = useDispatch()
   const property = useSelector((state) =>
     selectNormProperty(state, props.propertyKey)
   )
@@ -24,6 +23,8 @@ const PanelPropertyNav = (props) => {
   const headingClassNames = ["left-nav-header"]
   if (displayValidations && hasError) headingClassNames.push("text-danger")
 
+  const handleClick = useLeftNav(property)
+
   if (!property) return null
 
   return (
@@ -33,15 +34,7 @@ const PanelPropertyNav = (props) => {
         className="btn btn-link"
         aria-label={`Go to ${propertyTemplate.label}`}
         data-testid={`Go to ${propertyTemplate.label}`}
-        onClick={() =>
-          dispatch(
-            setCurrentComponent(
-              property.rootSubjectKey,
-              property.rootPropertyKey,
-              property.key
-            )
-          )
-        }
+        onClick={handleClick}
       >
         <h5 className={headingClassNames.join(" ")}>
           {propertyTemplate.label}
