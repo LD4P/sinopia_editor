@@ -175,6 +175,7 @@ const GroupChoiceModal = () => {
                       className="btn btn-primary btn-sm"
                       data-dismiss="modal"
                       aria-label="Save Group"
+                      data-testid="Save Group"
                       onClick={saveAndClose}
                     >
                       Save

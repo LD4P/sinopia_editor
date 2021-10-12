@@ -160,6 +160,23 @@ export const putUserHistory = (
   )
 }
 
+export const postTransfer = (resourceUri, group, target) => {
+  const url = `${resourceUri.replace(
+    "resource",
+    "transfer"
+  )}/${group}/${target}`
+  return getJwt()
+    .then((jwt) =>
+      fetch(url, {
+        method: "POST",
+        headers: {
+          Authorization: `Bearer ${jwt}`,
+        },
+      })
+    )
+    .then((resp) => checkResp(resp))
+}
+
 const userUrlFor = (userId) =>
   `${Config.sinopiaApiBase}/user/${encodeURI(userId)}`
 

@@ -19,6 +19,7 @@ import {
 import ResourceComponent from "./editor/ResourceComponent"
 import usePermissions from "hooks/usePermissions"
 import MarcButton from "./editor/actions/MarcButton"
+import TransferButtons from "./editor/actions/TransferButtons"
 
 const ViewResourceModal = (props) => {
   const dispatch = useDispatch()
@@ -85,6 +86,7 @@ const ViewResourceModal = (props) => {
           </div>
           <div className="modal-footer">
             <MarcButton />
+            <TransferButtons />
             {canEdit(currentResource) && (
               <button
                 className="btn btn-primary btn-view-resource"

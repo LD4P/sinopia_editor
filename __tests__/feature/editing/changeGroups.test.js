@@ -21,12 +21,10 @@ describe("user that can edit, but not an owner, can view groups", () => {
 
     fireEvent.change(screen.getByLabelText("Query"), { target: { value: uri } })
     fireEvent.click(screen.getByTestId("Submit search"))
-
     await screen.findByText(uri)
     fireEvent.click(screen.getByRole("button", { name: `Edit ${uri}` }))
 
     await screen.findByText("Example Label", { selector: "h3" })
-
     fireEvent.click(screen.getByText("Permissions"))
 
     // Change the owner
@@ -38,14 +36,13 @@ describe("user that can edit, but not an owner, can view groups", () => {
     expect(ownerSelect).toHaveValue("pcc")
 
     // Select editing groups
-    screen.getByLabelText("Who else can edit?")
+    screen.getByText("Who else can edit?")
     fireEvent.click(screen.getByText("Cornell University"))
     fireEvent.click(screen.getByText("Duke University"))
-
-    expect(screen.getByText("Cornell University, Duke University"))
+    screen.getByText("Cornell University, Duke University")
 
     // A modal for group choice and save appears
-    const modalSave = screen.getByRole("button", { name: "Save Group" })
+    const modalSave = screen.getByTestId("Save Group")
     fireEvent.click(modalSave)
     await screen.findByText("Saved")
   }, 25000)

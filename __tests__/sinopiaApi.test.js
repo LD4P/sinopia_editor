@@ -9,6 +9,7 @@ import {
   getMarc,
   fetchUser,
   putUserHistory,
+  postTransfer,
 } from "sinopiaApi"
 import { selectFullSubject } from "selectors/resources"
 import { selectUser } from "selectors/authenticate"
@@ -399,5 +400,27 @@ describe("putUserHistory", () => {
         body: '{"payload":"template1"}',
       }
     )
+  })
+})
+
+describe("postTransfer", () => {
+  describe("success", () => {
+    it("returns", async () => {
+      global.fetch = jest.fn().mockResolvedValue({
+        ok: true,
+      })
+
+      await postTransfer(resourceUri, "stanford", "ils")
+
+      expect(global.fetch).toHaveBeenCalledWith(
+        "https://api.development.sinopia.io/transfer/7b4c275d-b0c7-40a4-80b3-e95a0d9d987c/stanford/ils",
+        {
+          method: "POST",
+          headers: {
+            Authorization: "Bearer Secret-Token",
+          },
+        }
+      )
+    })
   })
 })

@@ -133,6 +133,16 @@ class Config {
   static get honeybadgerRevision() {
     return process.env.HONEYBADGER_REVISION || ""
   }
+
+  static get transferConfig() {
+    return {
+      ils: {
+        // group: label
+        stanford: "Symphony",
+      },
+      // Can add additional transfer targets, e.g., discovery
+    }
+  }
 }
 
 export default Config

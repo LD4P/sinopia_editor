@@ -23,6 +23,10 @@ import { newResourceErrorKey } from "../templates/SinopiaResourceTemplates"
 export const resourceEditErrorKey = (resourceKey) =>
   `resourceedit-${resourceKey}`
 
+// Error key for warnings that occur while editing a resource.
+export const resourceEditWarningKey = (resourceKey) =>
+  `resourceedit-warning-${resourceKey}`
+
 const Editor = (props) => {
   const dispatch = useDispatch()
   const history = useHistory()

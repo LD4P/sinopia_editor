@@ -6,11 +6,13 @@ import PreviewButton from "./actions/PreviewButton"
 import CloseButton from "./actions/CloseButton"
 import SaveAndPublishButton from "./actions/SaveAndPublishButton"
 import MarcButton from "./actions/MarcButton"
+import TransferButtons from "./actions/TransferButtons"
 
 const EditorActions = () => (
   <div className="row">
     <div className="d-flex justify-content-end">
       <MarcButton />
+      <TransferButtons />
       <CopyToNewButton />
       <PreviewButton />
       <CloseButton label={"Close"} />

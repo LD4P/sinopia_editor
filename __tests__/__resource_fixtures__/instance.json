@@ -1,0 +1,19 @@
+[
+  {
+    "@id": "http://localhost:3000/resource/9c5bd9f5-1804-45bd-99ed-b6e3774c896e",
+    "http://sinopia.io/vocabulary/hasResourceTemplate": [
+      {
+        "@value": "resourceTemplate:bf2:Instance"
+      }
+    ],
+    "@type": [
+      "http://id.loc.gov/ontologies/bibframe/Instance"
+    ],
+    "http://www.w3.org/2000/01/rdf-schema#label": [
+      {
+        "@value": "The Practitioner's Guide to Graph Data",
+        "@language": "eng"
+      }
+    ]
+  }
+]

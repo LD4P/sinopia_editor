@@ -10,7 +10,7 @@ import SaveAlert from "./SaveAlert"
 import RDFDisplay from "./RDFDisplay"
 import Alerts from "../Alerts"
 import { newResourceErrorKey } from "./property/ResourceList"
-import { resourceEditErrorKey } from "./Editor"
+import { resourceEditErrorKey, resourceEditWarningKey } from "./Editor"
 import { addError } from "actions/errors"
 import { datasetFromN3 } from "utilities/Utilities"
 import {
@@ -61,6 +61,7 @@ const ResourceComponent = () => {
     <div className="ResourceTemplate">
       <div id="resourceTemplate">
         <Alerts errorKey={resourceEditErrorKey(resourceKey)} />
+        <Alerts errorKey={resourceEditWarningKey(resourceKey)} />
         <Alerts errorKey={newResourceErrorKey} />
         <section>
           <h3>{resource.label}</h3>
