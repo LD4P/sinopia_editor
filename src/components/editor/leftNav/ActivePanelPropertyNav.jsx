@@ -7,6 +7,7 @@ import { selectNormProperty, selectNormValues } from "selectors/resources"
 import { selectPropertyTemplate } from "selectors/templates"
 import SubjectSubNav from "./SubjectSubNav"
 import PresenceIndicator from "./PresenceIndicator"
+import { selectModalType } from "selectors/modals"
 import _ from "lodash"
 
 const ActivePanelPropertyNav = (props) => {
@@ -44,6 +45,20 @@ const ActivePanelPropertyNav = (props) => {
     return <ul>{subNavItems}</ul>
   }
 
+  const isModalOpen = useSelector((state) => selectModalType(state))
+
+  const handleClick = (property) => {
+    if (isModalOpen) return // do not respond to clicks in the nav if any modal is open
+
+    dispatch(
+      setCurrentComponent(
+        property.rootSubjectKey,
+        property.rootPropertyKey,
+        property.key
+      )
+    )
+  }
+
   if (!property) return null
 
   // Render this property and any children value subjects (if a property type = resource).
@@ -54,15 +69,7 @@ const ActivePanelPropertyNav = (props) => {
         className="btn btn-primary"
         aria-label={`Go to ${propertyTemplate.label}`}
         data-testid={`Go to ${propertyTemplate.label}`}
-        onClick={() =>
-          dispatch(
-            setCurrentComponent(
-              property.rootSubjectKey,
-              property.rootPropertyKey,
-              property.key
-            )
-          )
-        }
+        onClick={() => handleClick(property)}
       >
         <h5 className={headingClassNames.join(" ")}>
           {propertyTemplate.label}

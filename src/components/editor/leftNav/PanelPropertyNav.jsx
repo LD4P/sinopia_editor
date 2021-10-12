@@ -6,6 +6,7 @@ import { displayResourceValidations } from "selectors/errors"
 import { selectNormProperty } from "selectors/resources"
 import { selectPropertyTemplate } from "selectors/templates"
 import PresenceIndicator from "./PresenceIndicator"
+import { selectModalType } from "selectors/modals"
 import _ from "lodash"
 
 const PanelPropertyNav = (props) => {
@@ -24,7 +25,21 @@ const PanelPropertyNav = (props) => {
   const headingClassNames = ["left-nav-header"]
   if (displayValidations && hasError) headingClassNames.push("text-danger")
 
+  const isModalOpen = useSelector((state) => selectModalType(state))
+
   if (!property) return null
+
+  const handleClick = (property) => {
+    if (isModalOpen) return // do not respond to clicks in the nav if any modal is open
+
+    dispatch(
+      setCurrentComponent(
+        property.rootSubjectKey,
+        property.rootPropertyKey,
+        property.key
+      )
+    )
+  }
 
   return (
     <li>
@@ -33,15 +48,7 @@ const PanelPropertyNav = (props) => {
         className="btn btn-link"
         aria-label={`Go to ${propertyTemplate.label}`}
         data-testid={`Go to ${propertyTemplate.label}`}
-        onClick={() =>
-          dispatch(
-            setCurrentComponent(
-              property.rootSubjectKey,
-              property.rootPropertyKey,
-              property.key
-            )
-          )
-        }
+        onClick={() => handleClick(property)}
       >
         <h5 className={headingClassNames.join(" ")}>
           {propertyTemplate.label}
