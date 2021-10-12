@@ -33,7 +33,7 @@ const Header = (props) => (
           </li>
         </React.Fragment>
       )}
-      <div className="nav-link">•</div>
+      {props.currentUser && <div className="nav-link">•</div>}
       <li className="menu nav-item">
         <a
           href="#"
@@ -43,7 +43,7 @@ const Header = (props) => (
           Help
         </a>
       </li>
-      <div className="nav-link">•</div>
+      {props.currentUser && <div className="nav-link">•</div>}
       {props.currentUser && (
         <li className="nav-item">
           <a
