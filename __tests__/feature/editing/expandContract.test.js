@@ -17,8 +17,8 @@ describe("expanding and contracting properties", () => {
     await screen.findByText("Uber template2", { selector: "h5" })
     await screen.findByText("Uber template3", { selector: "h5" })
 
-    // Add a nested property
-    fireEvent.click(screen.getByTestId("Add Uber template2, property1"))
+    // Show a nested property
+    fireEvent.click(screen.getByTestId("Show Uber template2, property1"))
     // Input box displayed
     await screen.findByPlaceholderText("Uber template2, property1")
 

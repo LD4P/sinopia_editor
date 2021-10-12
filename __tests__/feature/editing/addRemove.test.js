@@ -99,13 +99,15 @@ describe("adding and removing properties", () => {
 
     await screen.findByText("Uber template1", { selector: "h3" })
 
-    // Add a nested property (literal)
-    fireEvent.click(screen.getAllByTestId("Add Uber template2, property1")[0])
+    // Show a nested property (literal)
+    fireEvent.click(screen.getAllByTestId("Show Uber template2, property1")[0])
     // Input box displayed
     await screen.findByPlaceholderText("Uber template2, property1")
 
     // Now remove it.
-    fireEvent.click(screen.getByTestId("Remove Uber template2, property1"))
+    fireEvent.click(
+      screen.getAllByTestId("Remove Uber template2, property1")[0]
+    )
 
     // Input box removed.
     expect(
@@ -114,7 +116,7 @@ describe("adding and removing properties", () => {
     // Delete button removed
     expect(
       screen.queryAllByTestId("Remove Uber template2, property1")
-    ).toHaveLength(0)
+    ).toHaveLength(1)
   }, 15000)
 
   it("removes and adds a required property with defaults, leaving the defaults but deleting the user entered literal", async () => {

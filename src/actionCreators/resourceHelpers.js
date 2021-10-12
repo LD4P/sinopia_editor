@@ -456,8 +456,8 @@ const newProperty =
       if (!_.isEmpty(property.values)) property.show = true
     }
 
-    // If required and we do not already have some default values, then expand the property.
-    if (propertyTemplate.required && !property.values) {
+    // If we do not already have some default values, then expand the property.
+    if (!property.values) {
       property.show = true
       return dispatch(
         valuesForExpandedProperty(property, noDefaults, errorKey)

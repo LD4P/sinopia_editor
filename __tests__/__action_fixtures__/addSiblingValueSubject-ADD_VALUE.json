@@ -78,8 +78,8 @@
             "properties": [
               {
                 "key": "abc1",
-                "values": null,
-                "show": false
+                "values": [],
+                "show": true
               }
             ]
           }

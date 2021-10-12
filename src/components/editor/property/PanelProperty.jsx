@@ -94,10 +94,7 @@ const PanelProperty = (props) => {
                 onClick={() => props.contractProperty(props.property.key)}
                 data-id={props.id}
               >
-                <FontAwesomeIcon
-                  className="fa-inverse trash-icon"
-                  icon={trashIcon}
-                />
+                <FontAwesomeIcon className="trash-icon" icon={trashIcon} />
               </button>
             )}
           </h5>

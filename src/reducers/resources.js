@@ -487,8 +487,7 @@ export const removeValue = (state, action) => {
 }
 
 const addFirstValue = (state, property) => {
-  // For URI and Literal component, if no values, add a value.
-  // Eventually, this will apply to other components as well.
+  // If not a nested resource and if no values, add a value.
 
   if (property.valueKeys === null || !_.isEmpty(property.valueKeys))
     return state
