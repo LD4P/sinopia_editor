@@ -17,9 +17,10 @@ describe("user that can edit, but not an owner, can view groups", () => {
     renderApp(store)
 
     fireEvent.click(screen.getByText("Linked Data Editor", { selector: "a" }))
-    fireEvent.click(screen.getByText("Search", { selector: "a" }))
 
-    fireEvent.change(screen.getByLabelText("Query"), { target: { value: uri } })
+    fireEvent.change(screen.getByLabelText("Search"), {
+      target: { value: uri },
+    })
     fireEvent.click(screen.getByTestId("Submit search"))
     await screen.findByText(uri)
     fireEvent.click(screen.getByRole("button", { name: `Edit ${uri}` }))

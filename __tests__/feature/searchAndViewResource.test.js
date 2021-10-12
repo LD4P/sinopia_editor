@@ -43,9 +43,10 @@ describe("searching and viewing a resource", () => {
     renderApp()
 
     fireEvent.click(screen.getByText("Linked Data Editor", { selector: "a" }))
-    fireEvent.click(screen.getByText("Search", { selector: "a" }))
 
-    fireEvent.change(screen.getByLabelText("Query"), { target: { value: uri } })
+    fireEvent.change(screen.getByLabelText("Search"), {
+      target: { value: uri },
+    })
     fireEvent.click(screen.getByTestId("Submit search"))
 
     await screen.findByText(uri)
@@ -134,16 +135,7 @@ describe("searching and viewing a resource", () => {
       await screen.findByTestId("Go to Note Text", { selector: "button" })
     ).toBeInTheDocument()
 
-    // Switch back to search page
-    fireEvent.click(screen.getByText("Search", { selector: "a" }))
-
     // Confirm search query is still in place (stored in state and not cleared)
-    expect(await screen.getByLabelText("Query").value).toEqual(uri)
-
-    // Clear search button empties the search field
-    fireEvent.click(
-      screen.getByTestId("Clear query string", { selector: "button" })
-    )
-    expect(await screen.getByLabelText("Query").value).toEqual("")
+    expect(await screen.getByLabelText("Search").value).toEqual(uri)
   }, 10000)
 })

@@ -5,9 +5,11 @@ import {
 } from "actionCreators/search"
 import { setSearchResults } from "actions/search"
 import { sinopiaSearchUri } from "utilities/authorityConfig"
+import { useHistory } from "react-router-dom"
 
 const useSearch = () => {
   const dispatch = useDispatch()
+  const history = useHistory()
 
   const fetchQASearchResults = (
     queryString,
@@ -81,6 +83,7 @@ const useSearch = () => {
 
   const fetchNewSearchResults = (queryString, uri) => {
     fetchSearchResults(queryString, uri, {}, 0)
+    history.push("/search")
   }
 
   return { fetchSearchResults, fetchNewSearchResults }

@@ -1,7 +1,5 @@
-import React from "react"
+import { renderApp } from "testUtils"
 import { fireEvent, waitFor, screen } from "@testing-library/react"
-import Search from "components/search/Search"
-import { renderComponent } from "testUtils"
 import * as server from "sinopiaSearch"
 import Swagger from "swagger-client"
 import Config from "Config"
@@ -54,7 +52,8 @@ describe("<Search />", () => {
     }
     Swagger.mockResolvedValue(client)
 
-    const { container } = renderComponent(<Search history={{}} />)
+    renderApp()
+    fireEvent.click(screen.getByText("Linked Data Editor", { selector: "a" }))
 
     screen.getByLabelText("Search")
     // Sinopia is selected by default
@@ -68,12 +67,12 @@ describe("<Search />", () => {
     screen.getByText("SHAREVDE STANFORD")
 
     // Enter a query
-    fireEvent.change(screen.getByLabelText("Query"), {
+    fireEvent.change(screen.getByLabelText("Search"), {
       target: { value: "twain" },
     })
 
     // Click search
-    fireEvent.click(container.querySelector('button[type="submit"]'))
+    fireEvent.click(screen.getByTestId("Submit search"))
 
     // Display results
     await screen.findByText("Label / ID")
@@ -102,15 +101,16 @@ describe("<Search />", () => {
       },
     ])
 
-    const { container } = renderComponent(<Search history={{}} />)
+    renderApp()
+    fireEvent.click(screen.getByText("Linked Data Editor", { selector: "a" }))
 
     // Enter a query
-    fireEvent.change(screen.getByLabelText("Query"), {
+    fireEvent.change(screen.getByLabelText("Search"), {
       target: { value: "foo" },
     })
 
     // Click search
-    fireEvent.click(container.querySelector('button[type="submit"]'))
+    fireEvent.click(screen.getByTestId("Submit search"))
 
     // Called once
     expect(mockGetSearchResults).toBeCalledWith("foo", { startOfRange: 0 })
@@ -132,15 +132,16 @@ describe("<Search />", () => {
       },
     ])
 
-    renderComponent(<Search />)
+    renderApp()
+    fireEvent.click(screen.getByText("Linked Data Editor", { selector: "a" }))
 
     // Enter a query
-    fireEvent.change(screen.getByLabelText("Query"), {
+    fireEvent.change(screen.getByLabelText("Search"), {
       target: { value: "foo" },
     })
 
     // Hit enter
-    fireEvent.keyPress(screen.getByLabelText("Query"), {
+    fireEvent.keyPress(screen.getByLabelText("Search"), {
       key: "Enter",
       code: 13,
       charCode: 13,
@@ -153,10 +154,11 @@ describe("<Search />", () => {
   it("ignores when query is blank", () => {
     const mockGetSearchResults = jest.fn()
 
-    renderComponent(<Search />)
+    renderApp()
+    fireEvent.click(screen.getByText("Linked Data Editor", { selector: "a" }))
 
     // Hit enter
-    fireEvent.keyPress(screen.getByLabelText("Query"), {
+    fireEvent.keyPress(screen.getByLabelText("Search"), {
       key: "Enter",
       code: 13,
       charCode: 13,
@@ -175,15 +177,16 @@ describe("<Search />", () => {
       },
     ])
 
-    const { container } = renderComponent(<Search />)
+    renderApp()
+    fireEvent.click(screen.getByText("Linked Data Editor", { selector: "a" }))
 
     // Enter a query
-    fireEvent.change(screen.getByLabelText("Query"), {
+    fireEvent.change(screen.getByLabelText("Search"), {
       target: { value: "foo" },
     })
 
     // Click search
-    fireEvent.click(container.querySelector('button[type="submit"]'))
+    fireEvent.click(screen.getByTestId("Submit search"))
 
     await screen.findByText("An error occurred while searching: Error: Grrr...")
   })
@@ -217,15 +220,16 @@ describe("<Search />", () => {
       },
     ])
 
-    const { container } = renderComponent(<Search history={{}} />)
+    renderApp()
+    fireEvent.click(screen.getByText("Linked Data Editor", { selector: "a" }))
 
     // Enter a query
-    fireEvent.change(screen.getByLabelText("Query"), {
+    fireEvent.change(screen.getByLabelText("Search"), {
       target: { value: "foo" },
     })
 
     // Click search
-    fireEvent.click(container.querySelector('button[type="submit"]'))
+    fireEvent.click(screen.getByTestId("Submit search"))
 
     await screen.findByText("Sort by")
 

@@ -21,9 +21,8 @@ describe("transfer saved bf:Instance when user belongs to a transfer group", () 
     renderApp(store)
 
     fireEvent.click(screen.getByText("Linked Data Editor", { selector: "a" }))
-    fireEvent.click(screen.getByText("Search", { selector: "a" }))
 
-    fireEvent.change(screen.getByLabelText("Query"), {
+    fireEvent.change(screen.getByLabelText("Search"), {
       target: { value: bfUri },
     })
     fireEvent.click(screen.getByTestId("Submit search"))
@@ -61,9 +60,8 @@ describe("transfer saved non-bf:Instance when user belongs to a transfer group",
     renderApp(store)
 
     fireEvent.click(screen.getByText("Linked Data Editor", { selector: "a" }))
-    fireEvent.click(screen.getByText("Search", { selector: "a" }))
 
-    fireEvent.change(screen.getByLabelText("Query"), {
+    fireEvent.change(screen.getByLabelText("Search"), {
       target: { value: nonBfUri },
     })
     fireEvent.click(screen.getByTestId("Submit search"))
@@ -84,9 +82,8 @@ describe("transfer saved bf:Instance when user does not belong to a transfer gro
     renderApp(store)
 
     fireEvent.click(screen.getByText("Linked Data Editor", { selector: "a" }))
-    fireEvent.click(screen.getByText("Search", { selector: "a" }))
 
-    fireEvent.change(screen.getByLabelText("Query"), {
+    fireEvent.change(screen.getByLabelText("Search"), {
       target: { value: bfUri },
     })
     fireEvent.click(screen.getByTestId("Submit search"))

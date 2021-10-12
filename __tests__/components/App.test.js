@@ -153,11 +153,13 @@ describe("<App />", () => {
       await screen.findByText("Find a resource template")
     })
 
-    it("renders search for /search", () => {
+    it("renders search results for /search", () => {
+      const state = createState({ hasSearchResults: true })
+      const store = createStore(state)
       const history = createHistory(["/search"])
-      renderApp(null, history)
+      renderApp(store, history)
 
-      screen.getByLabelText("Query")
+      screen.getByText("Filter by class")
     })
 
     it("renders load for /load", () => {

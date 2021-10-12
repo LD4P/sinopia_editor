@@ -66,24 +66,6 @@ describe("Looking at the Help gutter", () => {
     cy.contains("Sinopia help site")
   })
 
-  it("Opens Search", () => {
-    cy.contains("a", "Search").click()
-
-    cy.url().should("include", "/search")
-  })
-
-  it("Opens Help", () => {
-    cy.contains("a", "Help").click()
-
-    cy.contains("Sinopia help site")
-  })
-
-  it("Closes Help", () => {
-    cy.get('button[aria-label="Close Help Menu"]').click()
-
-    cy.contains("Sinopia help site")
-  })
-
   it("Opens Load RDF", () => {
     cy.get(".dropdown-toggle").click()
     cy.contains("a", "Load RDF").click()
@@ -92,7 +74,7 @@ describe("Looking at the Help gutter", () => {
   })
 
   it("Opens Help", () => {
-    cy.contains("a", "Help").click()
+    cy.contains("a", "Help").click({ force: true })
 
     cy.contains("Sinopia help site")
   })

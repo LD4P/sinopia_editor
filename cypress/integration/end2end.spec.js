@@ -129,15 +129,9 @@ describe("End-to-end test", () => {
     // eslint-disable-next-line cypress/no-unnecessary-waiting
     cy.wait(10000)
 
-    cy.get("a").contains("Search").click()
-    cy.url().should("include", "/search")
-
-    // Test search clear button
-    cy.get('button[title="Clear query string"]').click()
-
     // Indexing latency is possible problem here.
     // Force is necessary because reflow of search inputs is suboptimal.
-    cy.get("input#searchInput").type(`${title}{enter}`, { force: true })
+    cy.get("input#search").type(`${title}{enter}`, { force: true })
 
     cy.contains(title)
   })

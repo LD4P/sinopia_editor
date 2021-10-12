@@ -74,15 +74,11 @@ describe("viewing the dashboard", () => {
       renderApp()
 
       fireEvent.click(screen.getByText("Linked Data Editor", { selector: "a" }))
-      fireEvent.click(screen.getByText("Search", { selector: "a" }))
 
-      fireEvent.change(
-        screen.getByLabelText("Query", { selector: "input#searchInput" }),
-        { target: { value: "asdfqwerty" } }
-      )
-      fireEvent.click(
-        screen.getByLabelText("Submit search", { selector: "button" })
-      )
+      fireEvent.change(screen.getByLabelText("Search"), {
+        target: { value: "asdfqwerty" },
+      })
+      fireEvent.click(screen.getByTestId("Submit search"))
 
       await screen.findByText(/Displaying 0 Search Results/)
 
@@ -107,9 +103,8 @@ describe("viewing the dashboard", () => {
       renderApp()
 
       fireEvent.click(screen.getByText("Linked Data Editor", { selector: "a" }))
-      fireEvent.click(screen.getByText("Search", { selector: "a" }))
 
-      fireEvent.change(screen.getByLabelText("Query"), {
+      fireEvent.change(screen.getByLabelText("Search"), {
         target: { value: uri },
       })
       fireEvent.click(screen.getByTestId("Submit search"))

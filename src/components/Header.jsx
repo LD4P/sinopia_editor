@@ -10,12 +10,14 @@ import { signOut } from "actionCreators/authenticate"
 import { bindActionCreators } from "redux"
 import { selectCurrentResourceKey } from "selectors/resources"
 import usePermissions from "hooks/usePermissions"
+import HeaderSearch from "./search/HeaderSearch"
 
 const Header = (props) => {
   const { canCreate } = usePermissions()
   const location = useLocation()
   const isActionsActive =
     location.pathname === "/exports" || location.pathname === "/load"
+
   return (
     <React.Fragment>
       <div className="editor-navbar">
@@ -62,60 +64,58 @@ const Header = (props) => {
           </div>
         </div>
       </div>
-
-      <ul className="nav editor-navtabs">
-        {/* Navlinks enable highlighting the appropriate tab based on route, active style is defined in css */}
-        <li className="nav-item">
-          <NavLink className="nav-link" to="/dashboard">
-            Dashboard
-          </NavLink>
-        </li>
-        {props.hasResource && canCreate && (
-          <li className="nav-item">
-            <NavLink className="nav-link" to="/editor">
-              Editor
-            </NavLink>
-          </li>
-        )}
-        <li className="nav-item">
-          <NavLink className="nav-link" to="/templates">
-            Resource Templates
-          </NavLink>
-        </li>
-        <li className="nav-item">
-          <NavLink className="nav-link" to="/search">
-            Search
-          </NavLink>
-        </li>
-
-        <li className="nav-item dropdown">
-          <a
-            className={`nav-link dropdown-toggle ${
-              isActionsActive && "active"
-            }`}
-            data-bs-toggle="dropdown"
-            href="#"
-            role="button"
-            aria-expanded="false"
-          >
-            Actions
-          </a>
-          <ul className="dropdown-menu">
-            {canCreate && (
-              <li>
-                <NavLink className="dropdown-item" to="/load">
-                  Load RDF
+      <nav className="navbar navbar-expand-lg editor-navtabs">
+        <div className="container-fluid pe-0">
+          <ul className="navbar-nav">
+            {/* Navlinks enable highlighting the appropriate tab based on route, active style is defined in css */}
+            <li className="nav-item">
+              <NavLink className="nav-link" to="/dashboard">
+                Dashboard
+              </NavLink>
+            </li>
+            {props.hasResource && canCreate && (
+              <li className="nav-item">
+                <NavLink className="nav-link" to="/editor">
+                  Editor
                 </NavLink>
               </li>
             )}
-            <li>
-              <NavLink className="dropdown-item" to="/exports">
-                Exports
+            <li className="nav-item">
+              <NavLink className="nav-link" to="/templates">
+                Resource Templates
               </NavLink>
             </li>
+            <li className="nav-item dropdown">
+              <a
+                className={`nav-link dropdown-toggle ${
+                  isActionsActive && "active"
+                }`}
+                data-bs-toggle="dropdown"
+                href="#"
+                role="button"
+                aria-expanded="false"
+              >
+                Actions
+              </a>
+              <ul className="dropdown-menu">
+                {canCreate && (
+                  <li>
+                    <NavLink className="dropdown-item" to="/load">
+                      Load RDF
+                    </NavLink>
+                  </li>
+                )}
+                <li>
+                  <NavLink className="dropdown-item" to="/exports">
+                    Exports
+                  </NavLink>
+                </li>
+              </ul>
+            </li>
           </ul>
-        </li>
-      </ul>
+          <HeaderSearch />
+        </div>
+      </nav>
     </React.Fragment>
   )
 }
