@@ -100,9 +100,9 @@ describe("End-to-end test", () => {
     cy.get('textarea[placeholder="Preferred Title for Work"]').contains(title)
   })
 
-  it("Previews the RDF", () => {
-    cy.get('button[title="Preview RDF"]').first().scrollIntoView().click()
-    cy.get("select#rdfFormat").select("n-triples")
+  it("Previews the resource", () => {
+    cy.get('button[title="Preview resource"]').first().scrollIntoView().click()
+    cy.get("select#format").select("n-triples")
     cy.contains(
       `<> <http://id.loc.gov/ontologies/bibframe/mainTitle> "${title}"@eng .`
     )

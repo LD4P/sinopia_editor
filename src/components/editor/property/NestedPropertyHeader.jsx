@@ -1,7 +1,7 @@
 // Copyright 2019 Stanford University see LICENSE for license
 
 import React from "react"
-import { connect, useSelector } from "react-redux"
+import { connect } from "react-redux"
 import PropTypes from "prop-types"
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
 import {
@@ -14,7 +14,6 @@ import PropertyLabelInfo from "./PropertyLabelInfo"
 import { displayResourceValidations } from "selectors/errors"
 import { showProperty, hideProperty } from "actions/resources"
 import { resourceEditErrorKey } from "../Editor"
-import { selectCurrentResourceIsReadOnly } from "selectors/resources"
 import _ from "lodash"
 import { expandProperty, contractProperty } from "actionCreators/resources"
 import { bindActionCreators } from "redux"
@@ -27,11 +26,7 @@ const NestedPropertyHeader = (props) => {
       : `Show ${props.propertyTemplate.label}`
   const trashIcon = faTrashAlt
 
-  const readOnly = useSelector((state) =>
-    selectCurrentResourceIsReadOnly(state)
-  )
-
-  const isAdd = !readOnly && !props.property.valueKeys
+  const isAdd = !props.readOnly && !props.property.valueKeys
 
   let error
   let groupClasses = "rOutline-header"
@@ -100,7 +95,7 @@ const NestedPropertyHeader = (props) => {
         />
       </strong>
       <PropertyLabelInfo propertyTemplate={props.propertyTemplate} />
-      {!readOnly && (
+      {!props.readOnly && (
         <button
           type="button"
           className="btn btn-sm btn-remove pull-right"
@@ -131,6 +126,7 @@ NestedPropertyHeader.propTypes = {
   id: PropTypes.string,
   resourceKey: PropTypes.string,
   propertyLabelId: PropTypes.string,
+  readOnly: PropTypes.bool.isRequired,
 }
 
 const mapStateToProps = (state, ownProps) => ({

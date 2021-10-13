@@ -8,28 +8,26 @@ import ModalWrapper, {
   useModalCss,
 } from "components/ModalWrapper"
 import { hideModal } from "actions/modals"
-import { setCurrentResourceIsReadOnly } from "actions/resources"
 import { selectModalType } from "selectors/modals"
 import {
-  selectCurrentResourceKey,
+  selectCurrentPreviewResourceKey,
   selectNormSubject,
 } from "selectors/resources"
-import ResourceComponent from "./editor/ResourceComponent"
+import { setCurrentPreviewResource } from "../../../actions/resources"
+import ResourceDisplay from "./ResourceDisplay"
 import usePermissions from "hooks/usePermissions"
-import MarcButton from "./editor/actions/MarcButton"
-import TransferButtons from "./editor/actions/TransferButtons"
+import MarcButton from "../actions/MarcButton"
+import TransferButtons from "../actions/TransferButtons"
 
-const ViewResourceModal = (props) => {
+const PreviewModal = (props) => {
   const dispatch = useDispatch()
   const { canEdit, canCreate } = usePermissions()
 
-  const show = useSelector(
-    (state) => selectModalType(state) === "ViewResourceModal"
-  )
+  const show = useSelector((state) => selectModalType(state) === "PreviewModal")
 
   // Ensure there is a current resource before attempting to render a resource component
   const currentResourceKey = useSelector((state) =>
-    selectCurrentResourceKey(state)
+    selectCurrentPreviewResourceKey(state)
   )
   const currentResource = useSelector((state) =>
     selectNormSubject(state, currentResourceKey)
@@ -37,7 +35,7 @@ const ViewResourceModal = (props) => {
 
   const close = (event) => {
     event.preventDefault()
-    dispatch(setCurrentResourceIsReadOnly(false))
+    dispatch(setCurrentPreviewResource(null))
     dispatch(hideModal())
   }
 
@@ -62,13 +60,13 @@ const ViewResourceModal = (props) => {
       style={{ display: useDisplayStyle(show) }}
     >
       <div
-        className="modal-dialog modal-dialog-scrollable view-resource-modal-dialog modal-lg"
+        className="modal-dialog modal-xl modal-dialog-scrollable"
         role="document"
       >
         <div className="modal-content">
           <div className="modal-header">
             <h4 className="modal-title" id="view-resource-modal-title">
-              View Resource
+              Preview Resource
             </h4>
             <div className="view-resource-buttons">
               <button
@@ -80,9 +78,11 @@ const ViewResourceModal = (props) => {
             </div>
           </div>
           <div className="modal-body view-resource-modal-content">
-            {currentResource && <ResourceComponent />}
+            {currentResource && (
+              <ResourceDisplay resourceKey={currentResourceKey} />
+            )}
           </div>
-          <div className="modal-footer view-resource-modal-footer">
+          <div className="modal-footer">
             <MarcButton />
             <TransferButtons />
             {canEdit(currentResource) && (
@@ -114,9 +114,9 @@ const ViewResourceModal = (props) => {
   return <ModalWrapper modal={modal} />
 }
 
-ViewResourceModal.propTypes = {
+PreviewModal.propTypes = {
   handleEdit: PropTypes.func.isRequired,
   handleCopy: PropTypes.func.isRequired,
 }
 
-export default ViewResourceModal
+export default PreviewModal

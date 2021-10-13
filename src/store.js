@@ -15,6 +15,7 @@ export const initialState = {
       timestamp: null,
     },
     currentResource: undefined,
+    currentPreviewResource: undefined,
     currentComponent: {},
     errors: {}, // {<error key>: [errors...]} or {<error key>: {<resourceKey>: [errors...]}}
     lastSave: {}, // {<resourceKey>: date}

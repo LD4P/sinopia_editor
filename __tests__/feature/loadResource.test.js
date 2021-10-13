@@ -39,9 +39,7 @@ describe("loading saved resource", () => {
 
       // Click edit
       fireEvent.click(screen.getByTestId(`Edit ${uri}`))
-      expect(
-        await screen.findAllByText("Example Label", { selector: "h3" })
-      ).toHaveLength(1)
+      await screen.findByText("Example Label", { selector: "h3" })
 
       // URI displayed
       screen.getByText(`URI for this resource: <${uri}>`)

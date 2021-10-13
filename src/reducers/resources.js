@@ -57,23 +57,31 @@ export const setUnusedRDF = (state, action) => ({
   },
 })
 
-export const setCurrentResource = (state, action) => {
+export const setCurrentEditResource = (state, action) => {
   const resourceKey = action.payload
   const newState = {
     ...state,
     currentResource: resourceKey,
   }
 
-  if (state.resources.indexOf(resourceKey) === -1) {
+  if (resourceKey && !state.resources.includes(resourceKey)) {
     newState.resources = [...state.resources, resourceKey]
   }
   return newState
 }
 
-export const setCurrentResourceIsReadOnly = (state, action) => ({
-  ...state,
-  currentResourceIsReadOnly: action.payload,
-})
+export const setCurrentPreviewResource = (state, action) => {
+  const resourceKey = action.payload
+  const newState = {
+    ...state,
+    currentPreviewResource: resourceKey,
+  }
+
+  if (resourceKey && !state.resources.includes(resourceKey)) {
+    newState.resources = [...state.resources, resourceKey]
+  }
+  return newState
+}
 
 export const addSubject = (state, action) =>
   addSubjectToNewState(state, _.cloneDeep(action.payload))

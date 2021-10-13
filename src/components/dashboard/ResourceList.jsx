@@ -4,7 +4,7 @@
 import React from "react"
 import PropTypes from "prop-types"
 import SearchResultRows from "../search/SearchResultRows"
-import ViewResourceModal from "../ViewResourceModal"
+import PreviewModal from "../editor/preview/PreviewModal"
 import useResource from "hooks/useResource"
 import { dashboardErrorKey } from "./Dashboard"
 
@@ -17,7 +17,7 @@ const ResourceList = (props) => {
 
   return (
     <React.Fragment>
-      <ViewResourceModal handleEdit={handleEdit} handleCopy={handleCopy} />
+      <PreviewModal handleEdit={handleEdit} handleCopy={handleCopy} />
       <div className="row">
         <div className="col">
           <table

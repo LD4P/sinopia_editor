@@ -18,8 +18,8 @@ const PreviewButton = () => {
     <button
       type="button"
       className="btn btn-link"
-      aria-label="Preview RDF"
-      title="Preview RDF"
+      aria-label="Preview resource"
+      title="Preview resource"
       onClick={handleClick}
     >
       <FontAwesomeIcon icon={faEye} className="icon-lg" />

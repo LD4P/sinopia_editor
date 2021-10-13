@@ -3,7 +3,6 @@ import {
   selectSubject,
   selectProperty,
   selectValue,
-  selectCurrentResourceIsReadOnly,
   selectFullSubject,
   resourceHasChangesSinceLastSave,
   selectResourceUriMap,
@@ -51,21 +50,6 @@ describe("selectValue()", () => {
     const value = selectValue(state, "CxGx7WMh2")
     expect(value).toBeValue("CxGx7WMh2")
     expect(value.langLabel).toEqual("English")
-  })
-})
-
-describe("selectCurrentResourceIsReadOnly()", () => {
-  it("returns undefined when current resource is not read-only", () => {
-    const state = createState()
-    expect(selectCurrentResourceIsReadOnly(state)).toBeUndefined()
-  })
-
-  it("returns true when current resource is read-only", () => {
-    const state = createState({
-      hasResourceWithLiteral: true,
-      readOnlyResource: true,
-    })
-    expect(selectCurrentResourceIsReadOnly(state)).toBe(true)
   })
 })
 

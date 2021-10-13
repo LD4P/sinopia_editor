@@ -54,7 +54,7 @@ describe("user permissions", () => {
 
     // Preview the resource
     fireEvent.click(screen.queryByRole("button", { name: `View ${uri}` }))
-    await screen.findByText("View Resource")
+    await screen.findByText("Preview Resource")
     // Cannot copy a resource
     expect(
       screen.queryByRole("button", { name: "Copy" })
@@ -97,7 +97,7 @@ describe("user permissions", () => {
 
     // Preview the resource
     fireEvent.click(screen.queryByRole("button", { name: `View ${uri}` }))
-    await screen.findByText("View Resource")
+    await screen.findByText("Preview Resource")
     // Can copy a resource
     screen.getByRole("button", { name: "Copy" })
     // Can edit a resource
@@ -142,7 +142,7 @@ describe("user permissions", () => {
 
     // Preview the resource
     fireEvent.click(screen.queryByRole("button", { name: `View ${uri}` }))
-    await screen.findByText("View Resource")
+    await screen.findByText("Preview Resource")
     // Can copy a resource
     screen.getByRole("button", { name: "Copy" })
     // Cannot edit a resource

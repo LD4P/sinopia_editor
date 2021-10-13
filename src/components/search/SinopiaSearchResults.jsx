@@ -9,7 +9,7 @@ import TypeFilter from "./TypeFilter"
 import GroupFilter from "./GroupFilter"
 import SearchResultRows from "./SearchResultRows"
 import SinopiaSort from "./SinopiaSort"
-import ViewResourceModal from "../ViewResourceModal"
+import PreviewModal from "../editor/preview/PreviewModal"
 import useResource from "hooks/useResource"
 
 // Errors from retrieving a resource from this page.
@@ -33,7 +33,7 @@ const SinopiaSearchResults = () => {
 
   return (
     <React.Fragment>
-      <ViewResourceModal handleEdit={handleEdit} handleCopy={handleCopy} />
+      <PreviewModal handleEdit={handleEdit} handleCopy={handleCopy} />
       <div ref={errorsRef}>
         <Alerts errorKey={searchRetrieveErrorKey} />
       </div>
