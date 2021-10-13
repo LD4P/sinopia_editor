@@ -246,13 +246,17 @@ button.collapse-heading.collapsed::before {
 .btn-view-resource {
   padding-left: 20px;
   padding-right: 20px;
-  margin-right: 20px;
+  margin-right: 5px;
   background-color: $link-color;
   border-color: $link-color;
 }
 
 .view-resource-buttons {
   padding-right: 20px;
+}
+
+.view-resource-modal-footer {
+  margin-right: 15px;
 }
 
 .view-resource-modal-content {

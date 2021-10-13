@@ -3,8 +3,6 @@
 import React from "react"
 import PropTypes from "prop-types"
 import { useDispatch, useSelector } from "react-redux"
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
-import { faCopy, faPencilAlt } from "@fortawesome/free-solid-svg-icons"
 import ModalWrapper, {
   useDisplayStyle,
   useModalCss,
@@ -84,7 +82,7 @@ const ViewResourceModal = (props) => {
           <div className="modal-body view-resource-modal-content">
             {currentResource && <ResourceComponent />}
           </div>
-          <div className="modal-footer">
+          <div className="modal-footer view-resource-modal-footer">
             <MarcButton />
             <TransferButtons />
             {canEdit(currentResource) && (
@@ -94,8 +92,7 @@ const ViewResourceModal = (props) => {
                 aria-label="Edit"
                 data-testid="edit-resource"
               >
-                <FontAwesomeIcon icon={faPencilAlt} />
-                &nbsp; Edit
+                Edit
               </button>
             )}
             {canCreate && (
@@ -105,8 +102,7 @@ const ViewResourceModal = (props) => {
                 aria-label="Copy"
                 data-testid="copy-resource"
               >
-                <FontAwesomeIcon icon={faCopy} />
-                &nbsp; Copy
+                Copy
               </button>
             )}
           </div>
