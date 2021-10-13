@@ -23,11 +23,11 @@ import {
   showProperty,
   setBaseURL,
   setCurrentResource,
+  setCurrentPreviewResource,
   saveResourceFinished,
   setUnusedRDF,
   loadResourceFinished,
   setResourceGroup,
-  setCurrentResourceIsReadOnly,
 } from "actions/resources"
 import { newValueSubject } from "utilities/valueFactory"
 import { selectUser } from "selectors/authenticate"
@@ -44,7 +44,7 @@ import { setCurrentComponent } from "actions/index"
  * @return {boolean} true if successful
  */
 export const loadResource =
-  (uri, errorKey, asNewResource, readOnly) => (dispatch) => {
+  (uri, errorKey, asNewResource, preview) => (dispatch) => {
     dispatch(clearErrors(errorKey))
     return fetchResource(uri)
       .then(([dataset, response]) => {
@@ -68,15 +68,18 @@ export const loadResource =
                 unusedDataset.size > 0 ? unusedDataset.toCanonical() : null
               )
             )
-            dispatch(setCurrentResource(resource.key))
-            dispatch(setCurrentResourceIsReadOnly(readOnly))
-            dispatch(
-              setCurrentComponent(
-                resource.key,
-                resource.properties[0].key,
-                resource.properties[0].key
+            if (preview) {
+              dispatch(setCurrentPreviewResource(resource.key))
+            } else {
+              dispatch(setCurrentResource(resource.key))
+              dispatch(
+                setCurrentComponent(
+                  resource.key,
+                  resource.properties[0].key,
+                  resource.properties[0].key
+                )
               )
-            )
+            }
             if (!asNewResource) {
               dispatch(addUserResourceHistory(uri))
               dispatch(

@@ -9,7 +9,10 @@ import {
 } from "selectors/resources"
 import _ from "lodash"
 import { showModal } from "actions/modals"
-import { setCurrentResource } from "actions/resources"
+import {
+  setCurrentResource,
+  setCurrentPreviewResource,
+} from "actions/resources"
 import { useHistory } from "react-router-dom"
 
 const useResource = (errorKey, errorRef) => {
@@ -18,7 +21,7 @@ const useResource = (errorKey, errorRef) => {
   const errors = useSelector((state) => selectErrors(state, errorKey))
   const resourceKey = useSelector((state) => selectCurrentResourceKey(state))
   const resource = useSelector((state) => selectNormSubject(state, resourceKey))
-  // These are resources that are already open in editor
+  // These are resources that are already loaded
   const resourceUriMap = useSelector((state) => selectResourceUriMap(state))
 
   const [navigateEditor, setNavigateEditor] = useState(false)
@@ -65,9 +68,14 @@ const useResource = (errorKey, errorRef) => {
 
   const handleView = (resourceURI, event) => {
     if (event) event.preventDefault()
-    dispatch(loadResource(resourceURI, errorKey, false, true)).then(() => {
-      dispatch(showModal("ViewResourceModal"))
-    })
+    if (resourceUriMap[resourceURI]) {
+      dispatch(setCurrentPreviewResource(resourceUriMap[resourceURI]))
+      dispatch(showModal("PreviewModal"))
+    } else {
+      dispatch(loadResource(resourceURI, errorKey, false, true)).then(() => {
+        dispatch(showModal("PreviewModal"))
+      })
+    }
   }
 
   return {

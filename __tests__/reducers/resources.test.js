@@ -10,8 +10,8 @@ import {
   removeValue,
   saveResourceFinished,
   setBaseURL,
-  setCurrentResource,
-  setCurrentResourceIsReadOnly,
+  setCurrentEditResource,
+  setCurrentPreviewResource,
   setUnusedRDF,
   showProperty,
   loadResourceFinished,
@@ -48,8 +48,8 @@ const reducer = createReducer(reducers)
 const editorReducers = {
   CLEAR_RESOURCE: clearResourceFromEditor,
   SAVE_RESOURCE_FINISHED: saveResourceFinishedEditor,
-  SET_CURRENT_RESOURCE: setCurrentResource,
-  SET_CURRENT_RESOURCE_IS_READ_ONLY: setCurrentResourceIsReadOnly,
+  SET_CURRENT_EDIT_RESOURCE: setCurrentEditResource,
+  SET_CURRENT_PREVIEW_RESOURCE: setCurrentPreviewResource,
   SET_UNUSED_RDF: setUnusedRDF,
 }
 
@@ -799,7 +799,6 @@ describe("clearResourceFromEditor()", () => {
     const newState = editorReducer(oldState.editor, action)
     expect(newState.errors["resourceedit-t9zVwg2zO"]).toBe(undefined)
     expect(newState.currentResource).toBe(null)
-    expect(newState.currentResourceIsReadOnly).toBe(undefined)
     expect(newState.resources).toStrictEqual([])
   })
 })
@@ -979,13 +978,13 @@ describe("setBaseURL()", () => {
   })
 })
 
-describe("setCurrentResource()", () => {
+describe("setCurrentEditResource()", () => {
   it("sets current resource if resource is in editor resources", () => {
     const oldState = createState({ hasResourceWithLiteral: true })
     oldState.editor.currentResource = "abc123"
 
     const action = {
-      type: "SET_CURRENT_RESOURCE",
+      type: "SET_CURRENT_EDIT_RESOURCE",
       payload: "t9zVwg2zO",
     }
 
@@ -999,7 +998,7 @@ describe("setCurrentResource()", () => {
     oldState.editor.resources = []
 
     const action = {
-      type: "SET_CURRENT_RESOURCE",
+      type: "SET_CURRENT_EDIT_RESOURCE",
       payload: "t9zVwg2zO",
     }
 
@@ -1007,35 +1006,62 @@ describe("setCurrentResource()", () => {
     expect(newState.currentResource).toBe("t9zVwg2zO")
     expect(newState.resources).toStrictEqual(["t9zVwg2zO"])
   })
+
+  it("sets current resource to null", () => {
+    const oldState = createState({ hasResourceWithLiteral: true })
+
+    const action = {
+      type: "SET_CURRENT_EDIT_RESOURCE",
+      payload: null,
+    }
+
+    const newState = editorReducer(oldState.editor, action)
+    expect(newState.currentResource).toBeNull()
+    expect(newState.resources).toStrictEqual(["t9zVwg2zO"])
+  })
 })
 
-describe("setCurrentResourceIsReadOnly()", () => {
-  it("sets current resource to read-only", () => {
+describe("setCurrentPreviewResource()", () => {
+  it("sets current preview resource if resource is in editor resources", () => {
     const oldState = createState({ hasResourceWithLiteral: true })
-    oldState.editor.currentResourceIsReadOnly = undefined
-    expect(oldState.editor.currentResourceIsReadOnly).toBeUndefined()
+    oldState.editor.currentPreviewResource = "abc123"
 
     const action = {
-      type: "SET_CURRENT_RESOURCE_IS_READ_ONLY",
-      payload: true,
+      type: "SET_CURRENT_PREVIEW_RESOURCE",
+      payload: "t9zVwg2zO",
     }
 
     const newState = editorReducer(oldState.editor, action)
-    expect(newState.currentResourceIsReadOnly).toBe(true)
+    expect(newState.currentPreviewResource).toBe("t9zVwg2zO")
+    expect(newState.resources).toStrictEqual(["t9zVwg2zO"])
   })
 
-  it("sets current resource to not read-only", () => {
+  it("sets current preview resource and adds to editor resources", () => {
     const oldState = createState({ hasResourceWithLiteral: true })
-    oldState.editor.currentResourceIsReadOnly = true
-    expect(oldState.editor.currentResourceIsReadOnly).toBe(true)
+    oldState.editor.resources = []
 
     const action = {
-      type: "SET_CURRENT_RESOURCE_IS_READ_ONLY",
-      payload: undefined,
+      type: "SET_CURRENT_PREVIEW_RESOURCE",
+      payload: "t9zVwg2zO",
     }
 
     const newState = editorReducer(oldState.editor, action)
-    expect(newState.currentResourceIsReadOnly).toBeUndefined()
+    expect(newState.currentPreviewResource).toBe("t9zVwg2zO")
+    expect(newState.resources).toStrictEqual(["t9zVwg2zO"])
+  })
+
+  it("sets current preview resource to null", () => {
+    const oldState = createState({ hasResourceWithLiteral: true })
+    oldState.currentPreviewResource = "abc123"
+
+    const action = {
+      type: "SET_CURRENT_PREVIEW_RESOURCE",
+      payload: null,
+    }
+
+    const newState = editorReducer(oldState.editor, action)
+    expect(newState.currentPreviewResource).toBeNull()
+    expect(newState.resources).toStrictEqual(["t9zVwg2zO"])
   })
 })
 

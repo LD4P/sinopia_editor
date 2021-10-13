@@ -5,7 +5,6 @@ import PropTypes from "prop-types"
 import { useSelector, useDispatch } from "react-redux"
 import ResourceComponent from "./ResourceComponent"
 import Header from "../Header"
-import RDFModal from "./RDFModal"
 import GroupChoiceModal from "./GroupChoiceModal"
 import EditorActions from "./EditorActions"
 import ErrorMessages from "./ErrorMessages"
@@ -18,6 +17,7 @@ import { selectCurrentResourceKey } from "selectors/resources"
 import { useParams, useHistory } from "react-router-dom"
 import { newResource as newResourceCreator } from "actionCreators/resources"
 import { newResourceErrorKey } from "../templates/SinopiaResourceTemplates"
+import EditorPreviewModal from "./preview/EditorPreviewModal"
 
 // Error key for errors that occur while editing a resource.
 export const resourceEditErrorKey = (resourceKey) =>
@@ -54,7 +54,7 @@ const Editor = (props) => {
     <div id="editor">
       <Header triggerEditorMenu={props.triggerHandleOffsetMenu} />
       <EditorActions />
-      <RDFModal />
+      <EditorPreviewModal />
       {displayErrors && hasErrors && <ErrorMessages />}
       <GroupChoiceModal />
       <ResourcesNav />

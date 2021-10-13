@@ -22,13 +22,13 @@ export const saveResourceFinished = (resourceKey) => ({
 })
 
 export const setCurrentResource = (resourceKey) => ({
-  type: "SET_CURRENT_RESOURCE",
+  type: "SET_CURRENT_EDIT_RESOURCE",
   payload: resourceKey,
 })
 
-export const setCurrentResourceIsReadOnly = (readOnly) => ({
-  type: "SET_CURRENT_RESOURCE_IS_READ_ONLY",
-  payload: readOnly,
+export const setCurrentPreviewResource = (resourceKey) => ({
+  type: "SET_CURRENT_PREVIEW_RESOURCE",
+  payload: resourceKey,
 })
 
 export const setResourceGroup = (resourceKey, group, editGroups) => ({

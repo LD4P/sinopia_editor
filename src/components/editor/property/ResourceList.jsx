@@ -10,10 +10,7 @@ import {
   selectPropertyTemplate,
   selectSubjectTemplate,
 } from "selectors/templates"
-import {
-  selectCurrentResourceIsReadOnly,
-  selectNormSubject,
-} from "selectors/resources"
+import { selectNormSubject } from "selectors/resources"
 import _ from "lodash"
 
 export const newResourceErrorKey = "newresource"
@@ -22,9 +19,6 @@ const ResourceList = (props) => {
   const dispatch = useDispatch()
   const [newResourceList, setNewResourceList] = useState([])
   const topRef = useRef(null)
-  const readOnly = useSelector((state) =>
-    selectCurrentResourceIsReadOnly(state)
-  )
 
   const propertyTemplate = useSelector((state) =>
     selectPropertyTemplate(state, props.property?.propertyTemplateKey)
@@ -59,7 +53,6 @@ const ResourceList = (props) => {
             response.results?.forEach((hit) => {
               listItems.push(
                 <button
-                  disabled={readOnly}
                   className="dropdown-item"
                   href="#"
                   data-resource-id={hit.id}
@@ -82,7 +75,7 @@ const ResourceList = (props) => {
     return () => {
       isMounted = false
     }
-  }, [readOnly, dispatch, propertyTemplate.authorities, subjectTemplate.class])
+  }, [dispatch, propertyTemplate.authorities, subjectTemplate.class])
 
   const dropdown = (items) => (
     <div className="dropdown">
@@ -93,7 +86,6 @@ const ResourceList = (props) => {
         data-bs-toggle="dropdown"
         aria-haspopup="true"
         aria-expanded="false"
-        disabled={readOnly}
       >
         Create New
       </button>

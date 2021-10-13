@@ -4,10 +4,10 @@ import * as sinopiaSearch from "sinopiaSearch"
 import { resourceSearchResults } from "fixtureLoaderHelper"
 import { featureSetup } from "featureUtils"
 
-featureSetup()
 jest.mock("sinopiaSearch")
+featureSetup()
 
-describe("searching and viewing a resource", () => {
+describe("searching and preview a resource", () => {
   sinopiaSearch.getTemplateSearchResults.mockResolvedValue({
     results: [
       {
@@ -56,7 +56,7 @@ describe("searching and viewing a resource", () => {
 
     // Modal hasn't rendered yet
     expect(
-      screen.queryByRole("dialog", { name: "View Resource" })
+      screen.queryByRole("dialog", { name: "Preview Resource" })
     ).not.toBeInTheDocument()
     expect(screen.getByTestId("view-resource-modal").classList).not.toContain(
       "show"
@@ -112,6 +112,14 @@ describe("searching and viewing a resource", () => {
     screen.getByText("http://id.loc.gov/vocabulary/mrectype/analog", {
       selector: "a",
     })
+
+    // Switch to turtle
+    fireEvent.change(screen.getByLabelText(/Format/), {
+      target: { value: "turtle" },
+    })
+    await screen.findByText(
+      /<http:\/\/sinopia.io\/vocabulary\/hasResourceTemplate> "resourceTemplate:testing:uber1";/
+    )
 
     // Modal has edit and copy buttons
     expect(screen.getByTestId("edit-resource")).toBeInTheDocument()

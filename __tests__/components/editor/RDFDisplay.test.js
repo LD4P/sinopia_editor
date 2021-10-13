@@ -1,8 +1,8 @@
 // Copyright 2019 Stanford University see LICENSE for license
 
 import React from "react"
-import { render, fireEvent, screen } from "@testing-library/react"
-import RDFDisplay from "components/editor/RDFDisplay"
+import { render, screen } from "@testing-library/react"
+import RDFDisplay from "components/editor/preview/RDFDisplay"
 import GraphBuilder from "GraphBuilder"
 import { createState } from "stateUtils"
 import {
@@ -17,11 +17,11 @@ describe("<RDFDisplay />", () => {
     selectFullSubject(state, selectCurrentResourceKey(state))
   ).graph
 
-  it("renders by default as a table", async () => {
-    const { container } = render(<RDFDisplay dataset={dataset} />)
-    await screen.findByText(/Format:/)
-    // Table is selected.
-    screen.getByDisplayValue("Table")
+  it("renders as a table", async () => {
+    const { container } = render(
+      <RDFDisplay dataset={dataset} format="table" />
+    )
+
     // There is a table
     expect(container.querySelector("table")).toBeInTheDocument()
     // With table headers
@@ -42,13 +42,7 @@ describe("<RDFDisplay />", () => {
   })
 
   it("renders N-Triples", async () => {
-    render(<RDFDisplay dataset={dataset} />)
-
-    await screen.findByText(/Format:/)
-
-    fireEvent.change(screen.getByLabelText(/Format/), {
-      target: { value: "n-triples" },
-    })
+    render(<RDFDisplay dataset={dataset} format="n-triples" />)
 
     await screen.findByText(
       /<https:\/\/api.sinopia.io\/resource\/0894a8b3> <http:\/\/id.loc.gov\/ontologies\/bibframe\/mainTitle> "foo"@eng \./
@@ -56,13 +50,7 @@ describe("<RDFDisplay />", () => {
   })
 
   it("renders Turtle", async () => {
-    render(<RDFDisplay dataset={dataset} />)
-
-    await screen.findByText(/Format:/)
-
-    fireEvent.change(screen.getByLabelText(/Format/), {
-      target: { value: "turtle" },
-    })
+    render(<RDFDisplay dataset={dataset} format="turtle" />)
 
     await screen.findByText(
       /<http:\/\/id.loc.gov\/ontologies\/bibframe\/mainTitle> "foo"@eng./
@@ -70,13 +58,7 @@ describe("<RDFDisplay />", () => {
   })
 
   it("renders JSON-LD", async () => {
-    render(<RDFDisplay dataset={dataset} />)
-
-    await screen.findByText(/Format:/)
-
-    fireEvent.change(screen.getByLabelText(/Format/), {
-      target: { value: "jsonld" },
-    })
+    render(<RDFDisplay dataset={dataset} format="jsonld" />)
 
     await screen.findByText(/"@value": "foo",/)
   }, 10000)
@@ -86,13 +68,7 @@ describe("<RDFDisplay />", () => {
       .spyOn(dataSetUtils, "jsonldFromDataset")
       .mockRejectedValueOnce(new Error("Alert error"))
 
-    render(<RDFDisplay dataset={dataset} />)
-
-    await screen.findByText(/Format:/)
-
-    fireEvent.change(screen.getByLabelText(/Format/), {
-      target: { value: "jsonld" },
-    })
+    render(<RDFDisplay dataset={dataset} format="jsonld" />)
 
     await screen.findByText(/Alert error/)
   })

@@ -7,14 +7,10 @@ import InputLiteralOrURI from "../inputs/InputLiteralOrURI"
 import NestedResource from "./NestedResource"
 import ReadOnlyInputLiteralOrURI from "../inputs/ReadOnlyInputLiteralOrURI"
 import Alert from "../../Alert"
-import { selectCurrentResourceIsReadOnly } from "selectors/resources"
 import { displayResourceValidations } from "selectors/errors"
 
 // Decides how to render this property.
-const PropertyComponent = ({ property, propertyTemplate }) => {
-  const readOnly = useSelector((state) =>
-    selectCurrentResourceIsReadOnly(state)
-  )
+const PropertyComponent = ({ property, propertyTemplate, readOnly }) => {
   const displayValidations = useSelector((state) =>
     displayResourceValidations(state, property.rootSubjectKey)
   )
@@ -23,7 +19,11 @@ const PropertyComponent = ({ property, propertyTemplate }) => {
   switch (propertyTemplate.component) {
     case "NestedResource":
       return property.valueKeys.map((valueKey) => (
-        <NestedResource key={valueKey} valueKey={valueKey} />
+        <NestedResource
+          key={valueKey}
+          valueKey={valueKey}
+          readOnly={readOnly}
+        />
       ))
     case "InputLiteral":
     case "InputURI":
@@ -47,6 +47,7 @@ const PropertyComponent = ({ property, propertyTemplate }) => {
 PropertyComponent.propTypes = {
   property: PropTypes.object.isRequired,
   propertyTemplate: PropTypes.object.isRequired,
+  readOnly: PropTypes.bool.isRequired,
 }
 
 export default PropertyComponent

@@ -31,12 +31,14 @@ const NestedProperty = (props) => {
         id={propertyLabelId}
         property={props.property}
         propertyTemplate={props.propertyTemplate}
+        readOnly={props.readOnly}
       />
       {props.property.valueKeys && props.property.show && (
         <div className="rOutline-property">
           <PropertyComponent
             property={props.property}
             propertyTemplate={props.propertyTemplate}
+            readOnly={props.readOnly}
           />
         </div>
       )}
@@ -48,6 +50,7 @@ NestedProperty.propTypes = {
   propertyKey: PropTypes.string.isRequired,
   property: PropTypes.object,
   propertyTemplate: PropTypes.object,
+  readOnly: PropTypes.bool.isRequired,
 }
 
 const mapStateToProps = (state, ourProps) => {

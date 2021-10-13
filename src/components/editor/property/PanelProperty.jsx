@@ -8,14 +8,10 @@ import PropertyComponent from "./PropertyComponent"
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
 import { faTrashAlt } from "@fortawesome/free-solid-svg-icons"
 import { bindActionCreators } from "redux"
-import { connect, useSelector } from "react-redux"
+import { connect } from "react-redux"
 import { resourceEditErrorKey } from "../Editor"
 import { expandProperty, contractProperty } from "actionCreators/resources"
-import {
-  selectNormProperty,
-  selectCurrentResourceKey,
-  selectCurrentResourceIsReadOnly,
-} from "selectors/resources"
+import { selectNormProperty } from "selectors/resources"
 import { selectPropertyTemplate } from "selectors/templates"
 import useNavigableComponent from "hooks/useNavigableComponent"
 import { nanoid } from "nanoid"
@@ -32,9 +28,6 @@ const PanelProperty = (props) => {
     props.propertyKey,
     props.propertyKey
   )
-  const readOnly = useSelector((state) =>
-    selectCurrentResourceIsReadOnly(state)
-  )
   const isTemplate = props.isTemplate
   const cardClassName = ["card"]
 
@@ -46,7 +39,7 @@ const PanelProperty = (props) => {
   const propertyLabelId = `labelled-by-${nanoid()}`
 
   // On preview, don't display empty properties.
-  if (readOnly && _.isEmpty(props.property.descUriOrLiteralValueKeys))
+  if (props.readOnly && _.isEmpty(props.property.descUriOrLiteralValueKeys))
     return null
 
   // onClick is to support left navigation, so ignoring jsx-ally seems reasonable.
@@ -68,7 +61,7 @@ const PanelProperty = (props) => {
             />
             <PropertyLabelInfo propertyTemplate={props.propertyTemplate} />
             {nbsp}
-            {isAdd && !readOnly && (
+            {isAdd && !props.readOnly && (
               <button
                 type="button"
                 className="btn btn-sm btn-add btn-link pull-right"
@@ -85,7 +78,7 @@ const PanelProperty = (props) => {
                 + Add
               </button>
             )}
-            {!isAdd && !isRequired && !readOnly && (
+            {!isAdd && !isRequired && !props.readOnly && (
               <button
                 type="button"
                 className="btn btn-sm btn-remove pull-right"
@@ -104,6 +97,7 @@ const PanelProperty = (props) => {
             <PropertyComponent
               property={props.property}
               propertyTemplate={props.propertyTemplate}
+              readOnly={props.readOnly}
             />
           </div>
         )}
@@ -122,6 +116,7 @@ PanelProperty.propTypes = {
   contractProperty: PropTypes.func,
   resourceKey: PropTypes.string.isRequired,
   isTemplate: PropTypes.bool,
+  readOnly: PropTypes.bool.isRequired,
 }
 
 const mapStateToProps = (state, ourProps) => {
@@ -132,7 +127,6 @@ const mapStateToProps = (state, ourProps) => {
       state,
       property?.propertyTemplateKey
     ),
-    resourceKey: selectCurrentResourceKey(state),
   }
 }
 

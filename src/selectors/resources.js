@@ -78,8 +78,8 @@ export const selectNormValue = (state, key) => state.entities.values[key]
 
 export const selectCurrentResourceKey = (state) => state.editor.currentResource
 
-export const selectCurrentResourceIsReadOnly = (state) =>
-  state.editor.currentResourceIsReadOnly
+export const selectCurrentPreviewResourceKey = (state) =>
+  state.editor.currentPreviewResource
 
 export const selectFullSubject = (state, key) => {
   const subject = selectNormSubject(state, key)

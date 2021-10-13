@@ -14,7 +14,7 @@ const rdf = `<> <http://sinopia.io/vocabulary/hasResourceTemplate> "resourceTemp
 <http://sinopia.io/defaultURI1> <http://www.w3.org/2000/01/rdf-schema#label> "Default URI1"@eng.
 `
 
-describe("preview RDF after editing", () => {
+describe("preview within editor", () => {
   it("adds properties and then displays preview RDF model", async () => {
     const { container } = renderApp()
 
@@ -32,16 +32,24 @@ describe("preview RDF after editing", () => {
 
     // Click on the Preview RDF Button
     await screen.findByText(/Uber template1/)
-    fireEvent.click(container.querySelector('button[aria-label="Preview RDF"]'))
+    fireEvent.click(
+      container.querySelector('button[aria-label="Preview resource"]')
+    )
 
     // Wait for RDF Preview Modal and selects turtle Format
-    await screen.findByText(/RDF Preview/)
-    fireEvent.change(screen.getByLabelText("RDF Format Selection"), {
+    await screen.findByText(/Preview/)
+    fireEvent.change(screen.getByLabelText(/Format/), {
       target: { value: "turtle" },
     })
 
     // Tests for presence of turtle RDF in the model
     const rdfDisplay = await screen.findByTestId("rdf-display")
     expect(rdfDisplay.textContent).toContain(rdf)
+
+    // Now test for form view
+    fireEvent.change(screen.getByLabelText(/Format/), {
+      target: { value: "form" },
+    })
+    screen.getByText("Default literal1 [No language specified]")
   }, 15000)
 })

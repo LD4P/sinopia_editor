@@ -123,7 +123,7 @@ describe("newResourceFromDataset", () => {
         resourceKey: "abc0",
         rdf: null,
       })
-      expect(actions).toHaveAction("SET_CURRENT_RESOURCE", "abc0")
+      expect(actions).toHaveAction("SET_CURRENT_EDIT_RESOURCE", "abc0")
       expect(actions).toHaveAction("LOAD_RESOURCE_FINISHED", "abc0")
     })
   })
@@ -187,7 +187,7 @@ describe("newResourceFromDataset", () => {
         resourceKey: "abc0",
         rdf: null,
       })
-      expect(actions).toHaveAction("SET_CURRENT_RESOURCE", "abc0")
+      expect(actions).toHaveAction("SET_CURRENT_EDIT_RESOURCE", "abc0")
       expect(actions).toHaveAction("LOAD_RESOURCE_FINISHED", "abc0")
     })
   })
@@ -407,11 +407,7 @@ describe("loadResource", () => {
       expect(actions).toHaveAction("CLEAR_ERRORS")
       expect(actions).toHaveAction("ADD_TEMPLATES")
       expect(actions).toHaveAction("SET_UNUSED_RDF")
-      expect(actions).toHaveAction("SET_CURRENT_RESOURCE")
-      expect(actions).toHaveAction(
-        "SET_CURRENT_RESOURCE_IS_READ_ONLY",
-        undefined
-      )
+      expect(actions).toHaveAction("SET_CURRENT_EDIT_RESOURCE")
       expect(actions).toHaveAction("LOAD_RESOURCE_FINISHED")
       expect(actions).toHaveAction("ADD_RESOURCE_HISTORY", {
         resourceUri:
@@ -446,11 +442,7 @@ describe("loadResource", () => {
       expect(actions).toHaveAction("ADD_TEMPLATES")
       expect(actions).toHaveAction("ADD_SUBJECT")
       expect(actions).toHaveAction("SET_UNUSED_RDF")
-      expect(actions).toHaveAction("SET_CURRENT_RESOURCE")
-      expect(actions).toHaveAction(
-        "SET_CURRENT_RESOURCE_IS_READ_ONLY",
-        undefined
-      )
+      expect(actions).toHaveAction("SET_CURRENT_EDIT_RESOURCE")
       expect(actions).toHaveAction("SET_CURRENT_COMPONENT", {
         rootSubjectKey: "abc0",
         rootPropertyKey: "abc1",
@@ -460,7 +452,7 @@ describe("loadResource", () => {
     })
   })
 
-  describe("loading a read-only resource", () => {
+  describe("loading a preview resource", () => {
     const store = mockStore(createState())
 
     it("dispatches actions", async () => {
@@ -475,8 +467,7 @@ describe("loadResource", () => {
       expect(actions).toHaveAction("CLEAR_ERRORS")
       expect(actions).toHaveAction("ADD_TEMPLATES")
       expect(actions).toHaveAction("SET_UNUSED_RDF")
-      expect(actions).toHaveAction("SET_CURRENT_RESOURCE")
-      expect(actions).toHaveAction("SET_CURRENT_RESOURCE_IS_READ_ONLY", true)
+      expect(actions).toHaveAction("SET_CURRENT_PREVIEW_RESOURCE")
       expect(actions).toHaveAction("LOAD_RESOURCE_FINISHED")
     })
   })
@@ -569,7 +560,7 @@ describe("newResource", () => {
         resourceKey: "abc0",
         rdf: null,
       })
-      expect(actions).toHaveAction("SET_CURRENT_RESOURCE", "abc0")
+      expect(actions).toHaveAction("SET_CURRENT_EDIT_RESOURCE", "abc0")
       expect(actions).toHaveAction("LOAD_RESOURCE_FINISHED", "abc0")
       expect(actions).toHaveAction("ADD_TEMPLATE_HISTORY")
       expect(actions).toHaveAction("SET_CURRENT_COMPONENT", {
@@ -627,7 +618,7 @@ describe("newResourceCopy", () => {
         resourceKey: "abc0",
         rdf: null,
       })
-      expect(actions).toHaveAction("SET_CURRENT_RESOURCE", "abc0")
+      expect(actions).toHaveAction("SET_CURRENT_EDIT_RESOURCE", "abc0")
       expect(actions).toHaveAction("SET_CURRENT_COMPONENT", {
         rootSubjectKey: "abc0",
         rootPropertyKey: "abc1",
