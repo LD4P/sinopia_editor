@@ -1,22 +1,23 @@
 import React from "react"
 import PropTypes from "prop-types"
-import { setCurrentComponent } from "actions/index"
-import { useDispatch, useSelector } from "react-redux"
+import { useSelector } from "react-redux"
 import { displayResourceValidations } from "selectors/errors"
 import { selectNormSubject } from "selectors/resources"
 import { selectSubjectTemplate } from "selectors/templates"
 import PropertySubNav from "./PropertySubNav"
 import PresenceIndicator from "./PresenceIndicator"
+import useLeftNav from "hooks/useLeftNav"
 import _ from "lodash"
 
 const SubjectSubNav = (props) => {
-  const dispatch = useDispatch()
   const subject = useSelector((state) =>
     selectNormSubject(state, props.subjectKey)
   )
   const subjectTemplate = useSelector((state) =>
     selectSubjectTemplate(state, subject?.subjectTemplateKey)
   )
+
+  const handleClick = useLeftNav(subject)
 
   const hasError = !_.isEmpty(subject.descWithErrorPropertyKeys)
   const displayValidations = useSelector((state) =>
@@ -46,15 +47,7 @@ const SubjectSubNav = (props) => {
         className="btn btn-link"
         aria-label={`Go to ${subjectTemplate.label}`}
         data-testid={`Go to ${subjectTemplate.label}`}
-        onClick={() =>
-          dispatch(
-            setCurrentComponent(
-              subject.rootSubjectKey,
-              subject.rootPropertyKey,
-              subject.key
-            )
-          )
-        }
+        onClick={handleClick}
       >
         <span className={headingClassNames.join(" ")}>
           {subjectTemplate.label}
