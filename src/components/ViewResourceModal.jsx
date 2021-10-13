@@ -82,7 +82,7 @@ const ViewResourceModal = (props) => {
           <div className="modal-body view-resource-modal-content">
             {currentResource && <ResourceComponent />}
           </div>
-          <div className="modal-footer">
+          <div className="modal-footer view-resource-modal-footer">
             <MarcButton />
             <TransferButtons />
             {canEdit(currentResource) && (
