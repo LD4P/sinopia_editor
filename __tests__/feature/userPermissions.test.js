@@ -37,9 +37,9 @@ describe("user permissions", () => {
       screen.queryByRole("button", { name: "Edit Uber template1" })
     ).not.toBeInTheDocument()
 
-    fireEvent.click(screen.getByText("Search", { selector: "a" }))
-
-    fireEvent.change(screen.getByLabelText("Query"), { target: { value: uri } })
+    fireEvent.change(screen.getByLabelText("Search"), {
+      target: { value: uri },
+    })
     fireEvent.click(screen.getByTestId("Submit search"))
 
     await screen.findByText(uri)
@@ -84,9 +84,9 @@ describe("user permissions", () => {
     // Can edit a template
     screen.getByRole("button", { name: "Edit Uber template1" })
 
-    fireEvent.click(screen.getByText("Search", { selector: "a" }))
-
-    fireEvent.change(screen.getByLabelText("Query"), { target: { value: uri } })
+    fireEvent.change(screen.getByLabelText("Search"), {
+      target: { value: uri },
+    })
     fireEvent.click(screen.getByTestId("Submit search"))
 
     await screen.findByText(uri)
@@ -127,9 +127,9 @@ describe("user permissions", () => {
       screen.queryByRole("button", { name: "Edit Uber template1" })
     ).not.toBeInTheDocument()
 
-    fireEvent.click(screen.getByText("Search", { selector: "a" }))
-
-    fireEvent.change(screen.getByLabelText("Query"), { target: { value: uri } })
+    fireEvent.change(screen.getByLabelText("Search"), {
+      target: { value: uri },
+    })
     fireEvent.click(screen.getByTestId("Submit search"))
 
     await screen.findByText(uri)

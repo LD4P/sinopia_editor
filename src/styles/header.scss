@@ -3,15 +3,16 @@
 }
 
 /** For header tabs **/
-.editor-navtabs {
+.navbar.editor-navtabs {
   color: #2f2424;
-  /** top right bottom left **/
-  margin: 0 5px -15px 5px;
-  border: 0px;
-  padding-bottom: 1em;
-  margin-bottom: 1em;
 
-  .nav-link.active {
+  a.nav-link {
+    padding-left: 1rem;
+    padding-right: 1rem;
+    padding-top: 0rem;
+  }
+
+  a.nav-link.active {
     font-weight: 900;
     text-decoration: underline;
   }
@@ -27,6 +28,9 @@
   a {
     color: #2f2424;
     font-weight: 500;
-    line-height: 1.2;
+  }
+
+  #search {
+    width: 500px;
   }
 }

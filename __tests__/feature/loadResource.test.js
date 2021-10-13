@@ -25,9 +25,8 @@ describe("loading saved resource", () => {
       renderApp()
 
       fireEvent.click(screen.getByText("Linked Data Editor", { selector: "a" }))
-      fireEvent.click(screen.getByText("Search", { selector: "a" }))
 
-      fireEvent.change(screen.getByLabelText("Query"), {
+      fireEvent.change(screen.getByLabelText("Search"), {
         target: { value: uri },
       })
       fireEvent.click(screen.getByTestId("Submit search"))
@@ -93,9 +92,8 @@ describe("loading saved resource", () => {
       renderApp()
 
       fireEvent.click(screen.getByText("Linked Data Editor", { selector: "a" }))
-      fireEvent.click(screen.getByText("Search", { selector: "a" }))
 
-      fireEvent.change(screen.getByLabelText("Query"), {
+      fireEvent.change(screen.getByLabelText("Search"), {
         target: { value: uri },
       })
       fireEvent.click(screen.getByTestId("Submit search"))
@@ -110,7 +108,6 @@ describe("loading saved resource", () => {
       fireEvent.click(screen.getByTestId(`Edit ${uri}`))
 
       // Error displayed and remain on search page.
-      screen.getByLabelText("Query")
       await screen.findByText(/Repeated property templates/)
     })
   })

@@ -1,5 +1,4 @@
 import { findByText, fireEvent, screen } from "@testing-library/react"
-
 import { renderApp } from "testUtils"
 import Config from "Config"
 import { featureSetup } from "featureUtils"
@@ -150,22 +149,13 @@ describe("sinopia resource search", () => {
     renderApp()
 
     fireEvent.click(screen.getByText(/Linked Data Editor/, { selector: "a" }))
-    fireEvent.click(screen.getByText(/Search/, { selector: "a" }))
 
-    const searchSpinner = document.querySelector("#search-results-loading")
-    expect(searchSpinner.classList.contains("hidden")).toBe(true) // search spinner starts as hidden
-
-    fireEvent.change(
-      screen.getByLabelText("Query", { selector: "input#searchInput" }),
-      { target: { value: "*" } }
-    )
-    fireEvent.click(
-      screen.getByLabelText("Submit search", { selector: "button" })
-    )
-    expect(searchSpinner.classList.contains("hidden")).toBe(false) // search spinner shown
+    fireEvent.change(screen.getByLabelText("Search"), {
+      target: { value: "*" },
+    })
+    fireEvent.click(screen.getByTestId("Submit search"))
 
     await screen.findByText(/foo bar/)
-    expect(searchSpinner.classList.contains("hidden")).toBe(true) // search spinner hidden again
 
     // TODO: why don't filtering options show up in test UI? -- https://github.com/LD4P/sinopia_editor/issues/2499
     // screen.debug()
@@ -181,14 +171,11 @@ describe("sinopia resource search", () => {
     renderApp()
 
     fireEvent.click(screen.getByText(/Linked Data Editor/, { selector: "a" }))
-    fireEvent.click(screen.getByText(/Search/, { selector: "a" }))
-    fireEvent.change(
-      screen.getByLabelText("Query", { selector: "input#searchInput" }),
-      { target: { value: "*" } }
-    )
-    fireEvent.click(
-      screen.getByLabelText("Submit search", { selector: "button" })
-    )
+
+    fireEvent.change(screen.getByLabelText("Search"), {
+      target: { value: "*" },
+    })
+    fireEvent.click(screen.getByTestId("Submit search", { selector: "button" }))
 
     await screen.findByText(/Displaying 1 - 3 of 3/)
 
@@ -230,14 +217,11 @@ describe("sinopia resource search", () => {
     renderApp()
 
     fireEvent.click(screen.getByText(/Linked Data Editor/, { selector: "a" }))
-    fireEvent.click(screen.getByText(/Search/, { selector: "a" }))
-    fireEvent.change(
-      screen.getByLabelText("Query", { selector: "input#searchInput" }),
-      { target: { value: "*" } }
-    )
-    fireEvent.click(
-      screen.getByLabelText("Submit search", { selector: "button" })
-    )
+
+    fireEvent.change(screen.getByLabelText("Search"), {
+      target: { value: "*" },
+    })
+    fireEvent.click(screen.getByTestId("Submit search"))
 
     // check results on page 1
     await screen.findByText(/Displaying 1 - 2 of 3/)
@@ -264,14 +248,11 @@ describe("sinopia resource search", () => {
     renderApp()
 
     fireEvent.click(screen.getByText(/Linked Data Editor/, { selector: "a" }))
-    fireEvent.click(screen.getByText(/Search/, { selector: "a" }))
-    fireEvent.change(
-      screen.getByLabelText("Query", { selector: "input#searchInput" }),
-      { target: { value: "asdfqwerty" } }
-    )
-    fireEvent.click(
-      screen.getByLabelText("Submit search", { selector: "button" })
-    )
+
+    fireEvent.change(screen.getByLabelText("Search"), {
+      target: { value: "asdfqwerty" },
+    })
+    fireEvent.click(screen.getByTestId("Submit search"))
 
     await screen.findByText(/Displaying 0 Search Results/)
   })
