@@ -3,7 +3,6 @@
 import React from "react"
 import PropTypes from "prop-types"
 import { Link } from "react-router-dom"
-import SinopiaLogo from "styles/sinopia-logo.png"
 import Config from "Config"
 import { connect } from "react-redux"
 import { selectUser } from "selectors/authenticate"
@@ -14,7 +13,7 @@ const Header = (props) => (
   <div className="navbar homepage-navbar">
     <div className="navbar-header">
       <a className="navbar-brand" href={`${Config.sinopiaUrl}`}>
-        <img src={SinopiaLogo} height="55px" alt="Sinopia logo" />
+        <h1 className="editor-logo"> Sinopia{`${Config.sinopiaEnv}`}</h1>
       </a>
     </div>
     <ul className="nav">
