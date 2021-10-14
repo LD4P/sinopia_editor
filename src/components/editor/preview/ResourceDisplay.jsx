@@ -29,6 +29,7 @@ const ResourceDisplay = ({ resourceKey, defaultFormat = "form" }) => {
             className="form-select"
             id="format"
             aria-label="Format Selection"
+            data-testid="Format Selection"
             onBlur={onChangeFormat}
             onChange={onChangeFormat}
             value={format}
