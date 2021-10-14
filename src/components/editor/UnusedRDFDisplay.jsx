@@ -36,14 +36,14 @@ const UnusedRDFDisplay = () => {
   if (!dataset) return null
 
   return (
-    <div className="alert alert-warning" role="alert">
-      <strong>Unable to load the entire resource.</strong> The unused triples
-      are:
+    <div className="rdf-display-panel">
       <div className="row mb-3">
-        <label htmlFor="rdfFormat" className="col-form-label col-sm-1">
-          Format:{" "}
-        </label>
-        <div className="col-sm-3">
+        <strong>
+          Unable to load the entire resource. The unused triples are listed
+          below.{" "}
+          <label htmlFor="rdfFormat" className="col-form-label pe-1">
+            View as:{" "}
+          </label>
           <select
             className="form-select"
             id="rdfFormat"
@@ -57,7 +57,7 @@ const UnusedRDFDisplay = () => {
             <option value="table">Table (RDF)</option>
             <option value="turtle">Turtle</option>
           </select>
-        </div>
+        </strong>
       </div>
       <RDFDisplay dataset={dataset} format={format} />
     </div>
