@@ -173,6 +173,9 @@ export default class TemplatesBuilder {
       ordered: propertyAttrValues.includes(
         "http://sinopia.io/vocabulary/propertyAttribute/ordered"
       ),
+      immutable: propertyAttrValues.includes(
+        "http://sinopia.io/vocabulary/propertyAttribute/immutable"
+      ),
       remark: this.valueFor(
         propertyTerm,
         "http://sinopia.io/vocabulary/hasRemark"

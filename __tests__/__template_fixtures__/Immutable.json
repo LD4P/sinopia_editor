@@ -1,0 +1,66 @@
+[
+  {
+    "@id": "_:b2",
+    "@type": [
+      "http://sinopia.io/vocabulary/PropertyTemplate"
+    ],
+    "http://www.w3.org/2000/01/rdf-schema#label": [
+      {
+        "@value": "Note"
+      }
+    ],
+    "http://sinopia.io/vocabulary/hasPropertyUri": [
+      {
+        "@id": "http://www.w3.org/2000/01/rdf-schema#label"
+      }
+    ],
+    "http://sinopia.io/vocabulary/hasPropertyType": [
+      {
+        "@id": "http://sinopia.io/vocabulary/propertyType/literal"
+      }
+    ],
+    "http://sinopia.io/vocabulary/hasPropertyAttribute": [
+      {
+        "@id": "http://sinopia.io/vocabulary/propertyAttribute/required"
+      },
+      {
+        "@id": "http://sinopia.io/vocabulary/propertyAttribute/immutable"
+      }
+    ]
+  },
+  {
+    "@id": "http://localhost:3000/resource/resourceTemplate:bf2:Note:Immutable",
+    "http://sinopia.io/vocabulary/hasResourceTemplate": [
+      {
+        "@value": "sinopia:template:resource"
+      }
+    ],
+    "@type": [
+      "http://sinopia.io/vocabulary/ResourceTemplate"
+    ],
+    "http://sinopia.io/vocabulary/hasResourceId": [
+      {
+        "@value": "resourceTemplate:bf2:Note:Immutable"
+      }
+    ],
+    "http://sinopia.io/vocabulary/hasClass": [
+      {
+        "@id": "http://id.loc.gov/ontologies/bibframe/Note"
+      }
+    ],
+    "http://www.w3.org/2000/01/rdf-schema#label": [
+      {
+        "@value": "Immutable note"
+      }
+    ],
+    "http://sinopia.io/vocabulary/hasPropertyTemplate": [
+      {
+        "@list": [
+          {
+            "@id": "_:b2"
+          }
+        ]
+      }
+    ]
+  }
+]
