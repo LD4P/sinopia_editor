@@ -231,6 +231,11 @@ button.collapse-heading.collapsed::before {
   @extend .btn-link;
 }
 
+.btn-no-outline {
+  border: 0px;
+  box-shadow: none !important;
+}
+
 @import "resourceTabs";
 @import "resourceNav";
 

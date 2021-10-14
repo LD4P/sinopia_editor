@@ -74,7 +74,7 @@ const MarcButton = () => {
     event.preventDefault()
   }
 
-  const btnClasses = ["btn", "dropdown-toggle"]
+  const btnClasses = ["btn", "dropdown-toggle", "btn-no-outline"]
   if (marcs.current[resourceKey]?.marc) {
     btnClasses.push("btn-success")
   } else if (marcs.current[resourceKey]?.error) {

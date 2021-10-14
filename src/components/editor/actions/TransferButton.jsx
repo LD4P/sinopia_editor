@@ -22,7 +22,7 @@ const TransferButton = ({ label, handleClick }) => {
   return (
     <button
       type="button"
-      className="btn btn-secondary"
+      className="btn btn-secondary btn-no-outline"
       onClick={handleBtnClick}
     >
       {btnText}
