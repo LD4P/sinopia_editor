@@ -26,7 +26,7 @@ const ResourceDisplay = ({ resourceKey, defaultFormat = "form" }) => {
         </label>
         <div className="col-sm-3">
           <select
-            className="form-control"
+            className="form-select"
             id="format"
             aria-label="Format Selection"
             onBlur={onChangeFormat}

@@ -45,7 +45,7 @@ const UnusedRDFDisplay = () => {
         </label>
         <div className="col-sm-3">
           <select
-            className="form-control"
+            className="form-select"
             id="rdfFormat"
             aria-label="RDF Format Selection"
             onBlur={onChangeFormat}
