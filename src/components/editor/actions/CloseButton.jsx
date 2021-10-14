@@ -32,7 +32,7 @@ const CloseButton = (props) => {
     }
     event.preventDefault()
   }
-  const btnClass = props.css || "btn-primary"
+  const btnClass = props.css || "btn-secondary"
   const buttonLabel = props.label
   const buttonClasses = `btn ${btnClass}`
 
