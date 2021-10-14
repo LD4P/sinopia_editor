@@ -5,10 +5,6 @@
       "key": "abc2",
       "property": {
         "key": "v1o90QO1Qx",
-        "labels": [
-          "Uber template1",
-          "Uber template1, property1"
-        ],
         "subjectKey": "ljAblGiBW",
         "rootSubjectKey": "ljAblGiBW",
         "rootPropertyKey": "v1o90QO1Qx",
@@ -17,11 +13,12 @@
         "show": true,
         "descUriOrLiteralValueKeys": [],
         "descWithErrorPropertyKeys": [],
+        "labels": [
+          "Uber template1",
+          "Uber template1, property1"
+        ],
         "subject": {
           "key": "ljAblGiBW",
-          "labels": [
-            "Uber template1"
-          ],
           "uri": null,
           "rootSubjectKey": "ljAblGiBW",
           "rootPropertyKey": null,
@@ -39,6 +36,9 @@
           "editGroups": [],
           "descUriOrLiteralValueKeys": [],
           "descWithErrorPropertyKeys": [],
+          "labels": [
+            "Uber template1"
+          ],
           "subjectTemplate": {
             "key": "resourceTemplate:testing:uber1",
             "id": "resourceTemplate:testing:uber1",
@@ -46,7 +46,9 @@
             "label": "Uber template1",
             "remark": "Template for testing purposes.",
             "group": "stanford",
-            "editGroups": ["cornell"],
+            "editGroups": [
+              "cornell"
+            ],
             "propertyTemplateKeys": [
               "resourceTemplate:testing:uber1 > http://id.loc.gov/ontologies/bibframe/uber/template1/property1"
             ]
@@ -59,6 +61,7 @@
           "uri": "http://id.loc.gov/ontologies/bibframe/uber/template1/property1",
           "required": false,
           "repeatable": true,
+          "immutable": false,
           "defaults": [],
           "remark": "Nested, repeatable resource template.",
           "remarkUrl": null,
@@ -75,7 +78,6 @@
       "lang": null,
       "uri": null,
       "label": null,
-      "component": null,
       "valueSubject": {
         "key": "abc0",
         "uri": null,
@@ -88,8 +90,6 @@
           "author": null,
           "remark": "Template for testing purposes with single repeatable literal.",
           "date": null,
-          "group": "stanford",
-          "editGroups": ["cornell"],
           "suppressible": false,
           "propertyTemplateKeys": [
             "resourceTemplate:testing:uber2 > http://id.loc.gov/ontologies/bibframe/uber/template2/property1"
@@ -103,6 +103,7 @@
               "required": false,
               "repeatable": true,
               "ordered": false,
+              "immutable": false,
               "remark": "A repeatable literal",
               "remarkUrl": null,
               "defaults": [],
@@ -111,6 +112,10 @@
               "type": "literal",
               "component": "InputLiteral"
             }
+          ],
+          "group": "stanford",
+          "editGroups": [
+            "cornell"
           ]
         },
         "properties": [
@@ -120,7 +125,8 @@
             "show": false
           }
         ]
-      }
+      },
+      "component": null
     }
   }
 }

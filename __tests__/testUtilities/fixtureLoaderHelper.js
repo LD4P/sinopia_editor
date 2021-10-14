@@ -13,6 +13,7 @@ const templateFilenames = {
   "test:resource:DiscogsLookup": "DiscogsLookup.json",
   "test:bf2:soundCharacteristics": "multiple_loc.json",
   "resourceTemplate:bf2:Note": "Note.json",
+  "resourceTemplate:bf2:Note:Immutable": "Immutable.json",
   "test:resource:SinopiaLookup": "SinopiaLookup.json",
   "resourceTemplate:bf2:Title": "Title.json",
   "resourceTemplate:bf2:Title:Note": "TitleNote.json",

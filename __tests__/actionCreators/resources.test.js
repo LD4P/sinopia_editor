@@ -643,6 +643,7 @@ describe("expandProperty", () => {
       const addValueAction = actions.find(
         (action) => action.type === "ADD_VALUE"
       )
+
       expect(safeAction(addValueAction)).toEqual(expectedAddValueAction)
 
       expect(actions).toHaveAction("ADD_TEMPLATES")
@@ -664,6 +665,7 @@ describe("expandProperty", () => {
       const addPropertyAction = actions.find(
         (action) => action.type === "ADD_PROPERTY"
       )
+
       expect(safeAction(addPropertyAction)).toEqual(expectedAddPropertyAction)
 
       expect(actions).toHaveAction("SHOW_PROPERTY", "JQEtq-vmq8")

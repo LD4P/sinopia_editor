@@ -50,6 +50,7 @@ _:b1_c14n1 <http://www.w3.org/1999/02/22-rdf-syntax-ns#rest> <http://www.w3.org/
 _:b1_c14n0 <http://sinopia.io/vocabulary/hasPropertyAttribute> <http://sinopia.io/vocabulary/propertyAttribute/repeatable> .
 _:b1_c14n0 <http://sinopia.io/vocabulary/hasPropertyAttribute> <http://sinopia.io/vocabulary/propertyAttribute/required> .
 _:b1_c14n0 <http://sinopia.io/vocabulary/hasPropertyAttribute> <http://sinopia.io/vocabulary/propertyAttribute/ordered> .
+_:b1_c14n0 <http://sinopia.io/vocabulary/hasPropertyAttribute> <http://sinopia.io/vocabulary/propertyAttribute/immutable> .
 _:b1_c14n0 <http://sinopia.io/vocabulary/hasPropertyType> <http://sinopia.io/vocabulary/propertyType/literal> .
 _:b1_c14n0 <http://sinopia.io/vocabulary/hasRemark> "A repeatable literal."@eng .
 _:b1_c14n0 <http://sinopia.io/vocabulary/hasRemarkUrl> <http://access.rdatoolkit.org/2.4.2.html> .
@@ -66,6 +67,7 @@ _:b1_c14n0 <http://www.w3.org/2000/01/rdf-schema#label> "Uber template1, propert
       required: true,
       repeatable: true,
       ordered: true,
+      immutable: true,
       remark: "A repeatable literal.",
       remarkUrl: "http://access.rdatoolkit.org/2.4.2.html",
       defaults: [],
@@ -104,6 +106,7 @@ _:b2_c14n1 <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://sinopia.io/
       required: false,
       repeatable: false,
       ordered: false,
+      immutable: false,
       remark: null,
       remarkUrl: null,
       defaults: [
@@ -150,6 +153,7 @@ _:b3_c14n3 <http://www.w3.org/2000/01/rdf-schema#label> "Uber template1, propert
       required: false,
       repeatable: false,
       ordered: false,
+      immutable: false,
       remark: null,
       remarkUrl: null,
       defaults: [
@@ -191,6 +195,7 @@ _:b4_c14n1 <http://www.w3.org/2000/01/rdf-schema#label> "Uber template1, propert
       required: false,
       repeatable: false,
       ordered: false,
+      immutable: false,
       remark: null,
       remarkUrl: null,
       defaults: [],
@@ -240,6 +245,7 @@ _:b5_c14n2 <http://www.w3.org/2000/01/rdf-schema#label> "URI1"@eng .`
       required: false,
       repeatable: false,
       ordered: false,
+      immutable: false,
       remark: null,
       remarkUrl: null,
       defaults: [{ uri: "http://sinopia.io/uri1", label: "URI1" }],

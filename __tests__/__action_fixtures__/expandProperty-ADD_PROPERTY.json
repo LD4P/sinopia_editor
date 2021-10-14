@@ -57,6 +57,7 @@
           "uri": "http://id.loc.gov/ontologies/bibframe/mainTitle",
           "required": false,
           "repeatable": false,
+          "immutable": false,
           "defaults": [],
           "remarkUrl": null,
           "type": "literal",
