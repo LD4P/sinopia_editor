@@ -98,6 +98,7 @@ const MarcButton = () => {
       >
         Request MARC
       </button>
+      <div className="separator-circle">•</div>
       <div className="dropdown-menu" aria-labelledby="marcBtn">
         <button
           className={dropDownItemBtnClasses.join(" ")}

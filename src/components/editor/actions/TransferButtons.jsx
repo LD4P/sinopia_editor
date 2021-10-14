@@ -58,7 +58,11 @@ const TransferButtons = () => {
     />
   ))
 
-  return <React.Fragment>{buttons}</React.Fragment>
+  return (
+    <React.Fragment>
+      {buttons} <div className="separator-circle">•</div>
+    </React.Fragment>
+  )
 }
 
 export default TransferButtons

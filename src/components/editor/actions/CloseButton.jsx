@@ -32,7 +32,11 @@ const CloseButton = (props) => {
     }
     event.preventDefault()
   }
-  const btnClass = props.css || "btn-secondary"
+  let btnClass = props.css || "btn-secondary"
+  // kludge to space circles between editor actions
+  if (btnClass === "editor-action-close") {
+    btnClass = "btn-secondary editor-action-close"
+  }
   const buttonLabel = props.label
   const buttonClasses = `btn ${btnClass}`
 

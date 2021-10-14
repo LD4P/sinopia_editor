@@ -12,7 +12,7 @@ const EditorActions = () => (
     <div className="d-flex justify-content-end">
       <MarcButton />
       <TransferButtons />
-      <CloseButton label={"Close"} />
+      <CloseButton css={"editor-action-close"} label={"Close"} />
       <SaveAndPublishButton class="editor-save" />
     </div>
   </div>

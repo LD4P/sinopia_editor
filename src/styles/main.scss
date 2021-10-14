@@ -234,11 +234,21 @@ button.collapse-heading.collapsed::before {
 .btn-no-outline {
   border: 0px;
   box-shadow: none !important;
+  margin-right: 0px;
 }
 
 .btn-no-outline.btn-danger {
   background-color: transparent;
   color: $bright-red;
+}
+
+.separator-circle {
+  margin-top: 0.4em;
+  color: #004372;
+}
+
+.editor-action-close {
+  margin-left: 1em;
 }
 
 @import "resourceTabs";
