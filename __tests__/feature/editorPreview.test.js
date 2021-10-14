@@ -38,7 +38,7 @@ describe("preview within editor", () => {
 
     // Wait for RDF Preview Modal and selects turtle Format
     await screen.findByText(/Preview/)
-    fireEvent.change(screen.getByLabelText(/Format/), {
+    fireEvent.change(screen.getByTestId("Format Selection"), {
       target: { value: "turtle" },
     })
 
@@ -47,7 +47,7 @@ describe("preview within editor", () => {
     expect(rdfDisplay.textContent).toContain(rdf)
 
     // Now test for form view
-    fireEvent.change(screen.getByLabelText(/Format/), {
+    fireEvent.change(screen.getByTestId("Format Selection"), {
       target: { value: "form" },
     })
     screen.getByText("Default literal1 [No language specified]")
