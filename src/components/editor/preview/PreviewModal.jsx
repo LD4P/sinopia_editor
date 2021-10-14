@@ -18,11 +18,11 @@ import ResourceDisplay from "./ResourceDisplay"
 import usePermissions from "hooks/usePermissions"
 import MarcButton from "../actions/MarcButton"
 import TransferButtons from "../actions/TransferButtons"
+import ResourcePreviewHeader from "./ResourcePreviewHeader"
 
 const PreviewModal = (props) => {
   const dispatch = useDispatch()
   const { canEdit, canCreate } = usePermissions()
-
   const show = useSelector((state) => selectModalType(state) === "PreviewModal")
 
   // Ensure there is a current resource before attempting to render a resource component
@@ -79,7 +79,10 @@ const PreviewModal = (props) => {
           </div>
           <div className="modal-body view-resource-modal-content">
             {currentResource && (
-              <ResourceDisplay resourceKey={currentResourceKey} />
+              <>
+                <ResourcePreviewHeader resource={currentResource} />
+                <ResourceDisplay resourceKey={currentResourceKey} />
+              </>
             )}
           </div>
           <div className="modal-footer">
