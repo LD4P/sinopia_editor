@@ -96,7 +96,7 @@ const MarcButton = () => {
         aria-haspopup="true"
         aria-expanded="false"
       >
-        MARC
+        Request MARC
       </button>
       <div className="dropdown-menu" aria-labelledby="marcBtn">
         <button
