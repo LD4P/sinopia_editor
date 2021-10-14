@@ -16,6 +16,7 @@
     .btn-primary {
       background-color: $vanilla;
       border-color: $vanilla;
+      margin-right: 3%;
     }
 
     button {
@@ -38,6 +39,11 @@
 
     .btn-link > .fa-circle {
       color: $body-color;
+      margin-bottom: 3%;
+    }
+
+    .fa-circle {
+      font-size: 60%;
     }
   }
 }
