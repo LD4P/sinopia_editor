@@ -236,6 +236,11 @@ button.collapse-heading.collapsed::before {
   box-shadow: none !important;
 }
 
+.btn-no-outline.btn-danger {
+  background-color: transparent;
+  color: $bright-red;
+}
+
 @import "resourceTabs";
 @import "resourceNav";
 
