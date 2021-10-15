@@ -19,6 +19,7 @@ services:
     environment:
       INDEX_URL: http://elasticsearch:9200
       MONGODB_HOST: mongo
+      API_BASE_URL: http://api:3000
     depends_on:
       - elasticsearch
       - mongo

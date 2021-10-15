@@ -40,7 +40,7 @@ describe("an invalid resource template", () => {
 
     // Search for a template
     const input = screen.getByPlaceholderText(
-      "Enter id, label, URI, remark, or author"
+      "Enter id, label, URI, remark, group, or author"
     )
     await fireEvent.change(input, { target: { value: "Not found" } })
 

@@ -40,7 +40,7 @@ describe("Copying a template resource", () => {
 
     // Search for the template resource
     const input = screen.getByPlaceholderText(
-      "Enter id, label, URI, remark, or author"
+      "Enter id, label, URI, remark, group, or author"
     )
     await fireEvent.change(input, { target: { value: "dummy" } })
     await screen.findByText("sinopia:template:resource")
