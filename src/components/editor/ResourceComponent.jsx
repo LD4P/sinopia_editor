@@ -5,6 +5,8 @@ import { useSelector } from "react-redux"
 import PanelResource from "./property/PanelResource"
 import CopyToNewMessage from "./CopyToNewMessage"
 import ResourceURIMessage from "./ResourceURIMessage"
+import CopyToNewButton from "./actions/CopyToNewButton"
+import PreviewButton from "./actions/PreviewButton"
 import PermissionsAction from "./actions/PermissionsAction"
 import SaveAlert from "./SaveAlert"
 import Alerts from "../Alerts"
@@ -41,7 +43,11 @@ const ResourceComponent = () => {
         <Alerts errorKey={resourceEditWarningKey(resourceKey)} />
         <Alerts errorKey={newResourceErrorKey} />
         <section>
-          <h3>{resource.label}</h3>
+          <h3>
+            {resource.label}
+            <CopyToNewButton />
+            <PreviewButton />
+          </h3>
           <CopyToNewMessage />
           <div className="row">
             <div className="col-md-11">

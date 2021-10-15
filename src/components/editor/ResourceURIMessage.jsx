@@ -32,7 +32,7 @@ const ResourceURIMessage = () => {
       URI for this resource: &lt;{uri}&gt;&nbsp;
       <button
         type="button"
-        className="btn btn-secondary btn-xs"
+        className="btn btn-secondary btn-sm"
         onClick={handleClick}
       >
         {copyText}
