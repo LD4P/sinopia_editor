@@ -109,7 +109,7 @@ const TemplateSearch = (props) => {
                   className="form-control"
                   style={{ marginLeft: "5px" }}
                   onChange={updateSearch}
-                  placeholder="Enter id, label, URI, remark, or author"
+                  placeholder="Enter id, label, URI, remark, group, or author"
                   value={queryString}
                 />
                 <span className="input-group-btn">

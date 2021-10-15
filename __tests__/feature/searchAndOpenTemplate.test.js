@@ -46,7 +46,7 @@ describe("searching and opening a resource", () => {
 
     // Search for a template
     const input = screen.getByPlaceholderText(
-      "Enter id, label, URI, remark, or author"
+      "Enter id, label, URI, remark, group, or author"
     )
     await fireEvent.change(input, { target: { value: queryString } })
     await screen.findByText("resourceTemplate:bf2:Title:Note")
@@ -70,8 +70,9 @@ describe("searching and opening a resource", () => {
       screen.getByTestId("Clear query string", { selector: "button" })
     )
     expect(
-      screen.getByPlaceholderText("Enter id, label, URI, remark, or author")
-        .value
+      screen.getByPlaceholderText(
+        "Enter id, label, URI, remark, group, or author"
+      ).value
     ).toEqual("")
 
     // see the recently used RTs

@@ -196,7 +196,7 @@ const getTemplateSearchResultsBody = (query, options) => {
     "resourceURI",
     "remark",
     "author",
-    "group",
+    "groupLabel",
   ]
   const should = fields.map((field) => ({
     wildcard: { [field]: { value: `*${query}*` } },
