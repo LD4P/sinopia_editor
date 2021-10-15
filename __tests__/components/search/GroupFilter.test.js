@@ -60,7 +60,7 @@ describe("<GroupFilter />", () => {
     expect(screen.getByText("Princeton University (1)")).toBeInTheDocument()
 
     // Everything checked
-    expect(container.querySelectorAll("input:checked")).toHaveLength(4)
+    expect(container.querySelectorAll("input:checked")).toHaveLength(5)
   })
 
   it("allows changing filters by unselecting", async () => {
@@ -73,19 +73,19 @@ describe("<GroupFilter />", () => {
     const store = createStore(createInitialState())
     const { container } = renderComponent(<GroupFilter />, store)
 
-    expect(container.querySelector("div.show")).not.toBeInTheDocument()
+    expect(container.querySelector(".show")).not.toBeInTheDocument()
     fireEvent.click(screen.getByText("Filter by group"))
-    expect(container.querySelector("div.show")).toBeInTheDocument()
+    expect(container.querySelector(".show")).toBeInTheDocument()
     fireEvent.click(screen.getByText("Stanford University (5)"))
 
-    // 3 checked
-    expect(container.querySelectorAll("input:checked").length).toBe(3)
+    // 4 checked
+    expect(container.querySelectorAll("input:checked").length).toBe(4)
 
     // Apply filter
     fireEvent.click(screen.getByText("Go"))
 
     await waitFor(() =>
-      expect(container.querySelector("div.show")).not.toBeInTheDocument()
+      expect(container.querySelector(".show")).not.toBeInTheDocument()
     )
 
     expect(mockGetSearchResults).toHaveBeenCalledWith("twain", {
@@ -97,7 +97,7 @@ describe("<GroupFilter />", () => {
     })
   })
 
-  it("allows selecting only", async () => {
+  it("allows selecting / deselecting all", async () => {
     const mockGetSearchResults = jest.fn()
     server.getSearchResultsWithFacets = mockGetSearchResults.mockResolvedValue([
       {},
@@ -108,25 +108,17 @@ describe("<GroupFilter />", () => {
     const { container } = renderComponent(<GroupFilter />, store)
 
     fireEvent.click(screen.getByText("Filter by group"))
-    fireEvent.click(screen.getAllByText("Only")[0])
+    // Deselect all
+    fireEvent.click(screen.getByText("Select/Deselect all"))
 
-    // 3 checked
-    expect(container.querySelectorAll("input:checked")).toHaveLength(1)
+    // none checked
+    expect(container.querySelectorAll("input:checked")).toHaveLength(0)
 
-    // Apply filter
-    fireEvent.click(screen.getByText("Go"))
+    // Select all
+    fireEvent.click(screen.getByText("Select/Deselect all"))
 
-    await waitFor(() =>
-      expect(container.querySelector("div.show")).not.toBeInTheDocument()
-    )
-
-    expect(mockGetSearchResults).toHaveBeenCalledWith("twain", {
-      resultsPerPage: 10,
-      startOfRange: 0,
-      sortField: undefined,
-      sortOrder: undefined,
-      groupFilter: ["stanford"],
-    })
+    // all checked
+    expect(container.querySelectorAll("input:checked")).toHaveLength(5)
   })
 
   it("allows clearing filters", async () => {
@@ -141,14 +133,14 @@ describe("<GroupFilter />", () => {
     fireEvent.click(screen.getByText("Filter by group"))
     fireEvent.click(screen.getByText("Stanford University (5)"))
 
-    // 3 checked
-    expect(container.querySelectorAll("input:checked").length).toBe(3)
+    // 4 checked
+    expect(container.querySelectorAll("input:checked").length).toBe(4)
 
     // Apply filter
     fireEvent.click(screen.getByText("Go"))
 
     await waitFor(() =>
-      expect(container.querySelector("div.show")).not.toBeInTheDocument()
+      expect(container.querySelector(".show")).not.toBeInTheDocument()
     )
 
     fireEvent.click(screen.getByText("Filter by group"))
@@ -159,7 +151,7 @@ describe("<GroupFilter />", () => {
       startOfRange: 0,
       sortField: undefined,
       sortOrder: undefined,
-      groupFilter: undefined,
+      groupFilter: null,
     })
   })
 })
