@@ -34,7 +34,7 @@ describe("transfer saved bf:Instance when user belongs to a transfer group", () 
       selector: "h3",
     })
 
-    const transferBtns = screen.getAllByText("Export to Symphony")
+    const transferBtns = screen.getAllByText("Export to Catalog")
     expect(transferBtns).toHaveLength(2)
 
     fireEvent.click(transferBtns[0])
@@ -49,7 +49,7 @@ describe("transfer unsaved bf:Instance when user belongs to a transfer group", (
 
     await screen.findByText("Uber template1", { selector: "h3" })
 
-    expect(screen.queryByText("Export to Symphony")).not.toBeInTheDocument()
+    expect(screen.queryByText("Export to Catalog")).not.toBeInTheDocument()
   })
 })
 
@@ -71,7 +71,7 @@ describe("transfer saved non-bf:Instance when user belongs to a transfer group",
 
     await screen.findByText("Example Label", { selector: "h3" })
 
-    expect(screen.queryByText("Export to Symphony")).not.toBeInTheDocument()
+    expect(screen.queryByText("Export to Catalog")).not.toBeInTheDocument()
   }, 10000)
 })
 
@@ -95,6 +95,6 @@ describe("transfer saved bf:Instance when user does not belong to a transfer gro
       selector: "h3",
     })
 
-    expect(screen.queryByText("Export to Symphony")).not.toBeInTheDocument()
+    expect(screen.queryByText("Export to Catalog")).not.toBeInTheDocument()
   }, 10000)
 })
