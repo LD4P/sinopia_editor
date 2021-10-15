@@ -18,7 +18,7 @@ import {
   showValidationErrors as showValidationErrorsAction,
   hideValidationErrors as hideValidationErrorsAction,
 } from "actions/errors"
-import { resourceEditErrorKey } from "../Editor"
+import { resourceEditWarningKey } from "../Editor"
 
 const SaveAndPublishButton = (props) => {
   const dispatch = useDispatch()
@@ -32,7 +32,7 @@ const SaveAndPublishButton = (props) => {
         resourceKey,
         resource.group,
         resource.editGroups,
-        resourceEditErrorKey(resourceKey)
+        resourceEditWarningKey(resourceKey)
       )
     )
 

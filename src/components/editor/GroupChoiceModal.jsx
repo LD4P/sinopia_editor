@@ -4,7 +4,7 @@ import React, { useState } from "react"
 import { useSelector, useDispatch } from "react-redux"
 import { MultiSelect } from "react-multi-select-component"
 import { hideModal } from "actions/modals"
-import { resourceEditErrorKey } from "./Editor"
+import { resourceEditWarningKey } from "./Editor"
 import { selectModalType } from "selectors/modals"
 import {
   saveNewResource,
@@ -89,7 +89,7 @@ const GroupChoiceModal = () => {
           resourceKey,
           ownerGroupId,
           editGroupIds,
-          resourceEditErrorKey(resourceKey)
+          resourceEditWarningKey(resourceKey)
         )
       )
     } else {
@@ -98,7 +98,7 @@ const GroupChoiceModal = () => {
           resourceKey,
           ownerGroupId,
           editGroupIds,
-          resourceEditErrorKey(resourceKey)
+          resourceEditWarningKey(resourceKey)
         )
       )
     }
