@@ -704,6 +704,7 @@ describe("saveNewResource", () => {
 
     const actions = store.getActions()
 
+    expect(actions).toHaveAction("CLEAR_ERRORS")
     expect(actions).toHaveAction("SET_BASE_URL")
     expect(actions).toHaveAction("SAVE_RESOURCE_FINISHED")
     expect(actions).toHaveAction("ADD_RESOURCE_HISTORY", {
@@ -764,6 +765,8 @@ describe("saveResource", () => {
       saveResource("t9zVwg2zO", "stanford", ["cornell"], "testerror")
     )
     const actions = store.getActions()
+
+    expect(actions).toHaveAction("CLEAR_ERRORS")
     expect(actions).toHaveAction("SAVE_RESOURCE_FINISHED")
     expect(actions).toHaveAction("ADD_RESOURCE_HISTORY", {
       resourceUri: "https://api.sinopia.io/resource/0894a8b3",

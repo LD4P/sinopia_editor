@@ -241,6 +241,9 @@ export const saveNewResource =
     const state = getState()
     const resource = selectFullSubject(state, resourceKey)
     const currentUser = selectUser(state)
+
+    dispatch(clearErrors(errorKey))
+
     return postResource(resource, currentUser, group, editGroups)
       .then((resourceUrl) => {
         dispatch(setBaseURL(resourceKey, resourceUrl))
@@ -265,6 +268,8 @@ export const saveResource =
     const state = getState()
     const resource = selectFullSubject(state, resourceKey)
     const currentUser = selectUser(state)
+
+    dispatch(clearErrors(errorKey))
 
     return putResource(resource, currentUser, group, editGroups)
       .then(() => {
