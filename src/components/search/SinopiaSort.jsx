@@ -31,7 +31,7 @@ const SinopiaSort = () => {
   return (
     <div className="dropdown float-right">
       <button
-        className="btn btn-secondary dropdown-toggle"
+        className="btn btn-secondary dropdown-toggle btn-filter"
         type="button"
         id="sortDropdownButton"
         data-bs-toggle="dropdown"
