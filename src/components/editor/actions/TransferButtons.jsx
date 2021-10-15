@@ -1,9 +1,7 @@
 import React, { useMemo } from "react"
 import { useSelector, useDispatch } from "react-redux"
-import {
-  selectCurrentResourceKey,
-  selectNormSubject,
-} from "selectors/resources"
+import PropTypes from "prop-types"
+import { selectNormSubject } from "selectors/resources"
 import { selectSubjectTemplate } from "selectors/templates"
 import { selectGroups } from "selectors/authenticate"
 import Config from "Config"
@@ -12,9 +10,8 @@ import { resourceEditWarningKey } from "components/editor/Editor"
 import { transfer } from "actionCreators/transfer"
 import _ from "lodash"
 
-const TransferButtons = () => {
+const TransferButtons = ({ resourceKey }) => {
   const dispatch = useDispatch()
-  const resourceKey = useSelector((state) => selectCurrentResourceKey(state))
   const resource = useSelector((state) => selectNormSubject(state, resourceKey))
   const subjectTemplate = useSelector((state) =>
     selectSubjectTemplate(state, resource?.subjectTemplateKey)
@@ -63,6 +60,10 @@ const TransferButtons = () => {
       {buttons} <div className="separator-circle">•</div>
     </React.Fragment>
   )
+}
+
+TransferButtons.propTypes = {
+  resourceKey: PropTypes.string.isRequired,
 }
 
 export default TransferButtons

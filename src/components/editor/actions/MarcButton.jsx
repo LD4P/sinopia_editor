@@ -2,18 +2,15 @@
 
 import React, { useState, useRef } from "react"
 import { useSelector } from "react-redux"
+import PropTypes from "prop-types"
 import { postMarc, getMarcJob, getMarc } from "sinopiaApi"
-import {
-  selectCurrentResourceKey,
-  selectNormSubject,
-} from "selectors/resources"
+import { selectNormSubject } from "selectors/resources"
 import { selectSubjectTemplate } from "selectors/templates"
 import { saveAs } from "file-saver"
 import { nanoid } from "nanoid"
 
-const MarcButton = () => {
+const MarcButton = ({ resourceKey }) => {
   const marcs = useRef({})
-  const resourceKey = useSelector((state) => selectCurrentResourceKey(state))
   const resource = useSelector((state) => selectNormSubject(state, resourceKey))
   const subjectTemplate = useSelector((state) =>
     selectSubjectTemplate(state, resource?.subjectTemplateKey)
@@ -150,6 +147,10 @@ const MarcButton = () => {
       </div>
     </div>
   )
+}
+
+MarcButton.propTypes = {
+  resourceKey: PropTypes.string.isRequired,
 }
 
 export default MarcButton
