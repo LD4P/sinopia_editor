@@ -138,7 +138,7 @@ class Config {
     return {
       ils: {
         // group: label
-        stanford: "Symphony",
+        stanford: "Catalog",
       },
       // Can add additional transfer targets, e.g., discovery
     }
