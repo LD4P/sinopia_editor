@@ -8,9 +8,9 @@ const PresenceIndicator = (props) => {
   if (_.isEmpty(props.valueKeys)) return null
 
   return (
-    <React.Fragment>
+    <span className="align-text-bottom">
       <FontAwesomeIcon icon={faCircle} size="xs" />
-    </React.Fragment>
+    </span>
   )
 }
 

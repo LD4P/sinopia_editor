@@ -6,6 +6,7 @@ import { selectNormProperty, selectNormValues } from "selectors/resources"
 import { selectPropertyTemplate } from "selectors/templates"
 import SubjectSubNav from "./SubjectSubNav"
 import PresenceIndicator from "./PresenceIndicator"
+import ToggleButton from "../ToggleButton"
 import useLeftNav from "hooks/useLeftNav"
 import _ from "lodash"
 
@@ -20,7 +21,7 @@ const ActivePanelPropertyNav = (props) => {
     selectPropertyTemplate(state, property?.propertyTemplateKey)
   )
 
-  const handleClick = useLeftNav(property)
+  const { handleNavClick, handleToggleClick, isExpanded } = useLeftNav(property)
 
   const liClassNames = []
 
@@ -33,42 +34,56 @@ const ActivePanelPropertyNav = (props) => {
   const headingClassNames = ["left-nav-header"]
   if (displayValidations && hasError) headingClassNames.push("text-danger")
 
-  const subNavForProperty = () => {
-    if (_.isEmpty(values) || propertyTemplate.type !== "resource") return []
+  if (!property) return null
 
+  let subNavForProperty
+  if (!_.isEmpty(values) && propertyTemplate.type === "resource") {
     const subNavItems = values.map((value) => (
       <SubjectSubNav
         key={value.valueSubjectKey}
         subjectKey={value.valueSubjectKey}
       />
     ))
-    return <ul>{subNavItems}</ul>
+    subNavForProperty = <ul>{subNavItems}</ul>
   }
 
-  if (!property) return null
+  const buttonClasses = ["btn", "d-inline-flex", "property-nav"]
+  if (props.active) buttonClasses.push("current")
+
+  const toggleLabel = isExpanded
+    ? `Hide navigation for ${propertyTemplate.label}`
+    : `Show navigation for ${propertyTemplate.label}`
 
   // Render this property and any children value subjects (if a property type = resource).
   return (
     <li className={liClassNames.join(" ")}>
+      {subNavForProperty && (
+        <ToggleButton
+          handleClick={handleToggleClick}
+          isExpanded={isExpanded}
+          label={toggleLabel}
+        />
+      )}
       <button
         type="button"
-        className="btn btn-primary"
+        className={buttonClasses.join(" ")}
         aria-label={`Go to ${propertyTemplate.label}`}
         data-testid={`Go to ${propertyTemplate.label}`}
-        onClick={handleClick}
+        onClick={handleNavClick}
       >
         <h5 className={headingClassNames.join(" ")}>
           {propertyTemplate.label}
         </h5>
+        <PresenceIndicator valueKeys={property.descUriOrLiteralValueKeys} />
       </button>
-      <PresenceIndicator valueKeys={property.descUriOrLiteralValueKeys} />
-      {subNavForProperty()}
+      {isExpanded && subNavForProperty}
     </li>
   )
 }
 
 ActivePanelPropertyNav.propTypes = {
   propertyKey: PropTypes.string.isRequired,
+  active: PropTypes.bool,
   isTemplate: PropTypes.bool,
 }
 

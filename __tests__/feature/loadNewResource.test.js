@@ -59,7 +59,10 @@ describe("loading new resource", () => {
     // Save button is enabled (we have defaults)
     expect(screen.getAllByText("Save", { selector: "button" })[0]).toBeEnabled()
 
-    // Only current property's subproperties are expanded in the nav panel
+    // Expand the property in the menu
+    fireEvent.click(
+      screen.getByTestId("Show navigation for Uber template1, property3")
+    )
     expect(
       screen.queryByText("Uber template2", { selector: ".left-nav-header" })
     ).toBeInTheDocument()
@@ -70,31 +73,24 @@ describe("loading new resource", () => {
       screen.queryByText("Uber template4", { selector: ".left-nav-header" })
     ).not.toBeInTheDocument()
 
-    fireEvent.click(screen.getByTestId("Go to Uber template1, property19"))
-
+    // Expand next level of nav
+    fireEvent.click(screen.getByTestId("Show navigation for Uber template2"))
     expect(
-      await screen.findByText("Uber template4", {
+      screen.queryByText("Uber template2, property1", {
         selector: ".left-nav-header",
       })
     ).toBeInTheDocument()
-    expect(
-      screen.queryByText("Uber template2", { selector: ".left-nav-header" })
-    ).not.toBeInTheDocument()
-    expect(
-      screen.queryByText("Uber template3", { selector: ".left-nav-header" })
-    ).not.toBeInTheDocument()
 
+    // Contract the property in the menu
+    fireEvent.click(screen.getByTestId("Hide navigation for Uber template2"))
+    expect(
+      screen.queryByText("Uber template2, property1", {
+        selector: ".left-nav-header",
+      })
+    ).not.toBeInTheDocument()
     fireEvent.click(
-      screen.getByText("Uber template1, property18", {
-        selector: ".left-nav-header",
-      })
+      screen.getByTestId("Hide navigation for Uber template1, property3")
     )
-
-    expect(
-      await screen.findByText("Uber template4", {
-        selector: ".left-nav-header",
-      })
-    ).toBeInTheDocument()
     expect(
       screen.queryByText("Uber template2", { selector: ".left-nav-header" })
     ).not.toBeInTheDocument()

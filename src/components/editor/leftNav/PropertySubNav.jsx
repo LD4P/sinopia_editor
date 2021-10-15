@@ -20,7 +20,7 @@ const PropertySubNav = (props) => {
     selectNormValues(state, property?.valueKeys)
   )
 
-  const handleClick = useLeftNav(property)
+  const { handleNavClick } = useLeftNav(property)
 
   const hasError = !_.isEmpty(property.descWithErrorPropertyKeys)
   const displayValidations = useSelector((state) =>
@@ -41,16 +41,14 @@ const PropertySubNav = (props) => {
     return <ul>{subNavItems}</ul>
   }
 
-  if (!property || property.valueKeys === null) return null
-
   return (
     <li>
       <button
         type="button"
-        className="btn btn-link"
+        className="btn property-nav"
         aria-label={`Go to ${propertyTemplate.label}`}
         data-testid={`Go to ${propertyTemplate.label}`}
-        onClick={handleClick}
+        onClick={handleNavClick}
       >
         <span className={headingClassNames.join(" ")}>
           {propertyTemplate.label}

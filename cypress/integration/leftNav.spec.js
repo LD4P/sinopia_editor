@@ -76,57 +76,55 @@ describe("Left-nav test", () => {
 
   it("Opens a resource template", () => {
     cy.get('a[title="Create resource for Uber template1"]')
+      .first()
       .scrollIntoView()
-      .click()
+      .click({ force: true })
     // eslint-disable-next-line cypress/no-unnecessary-waiting
     cy.wait(1000)
     cy.url().should("include", "/editor")
   })
 
-  it("Adds child nav for expanded nested resources", () => {
-    cy.get(".left-nav-header").should("contain", "Uber template2")
-    cy.get(".left-nav-header").should("contain", "Uber template3")
-  })
-
-  it("Adds child nav for expanding nested properties", () => {
+  it("Displays child nav when expanding nav", () => {
+    cy.get(".left-nav-header").should("not.contain", "Uber template2")
+    cy.get(".left-nav-header").should("not.contain", "Uber template3")
     cy.get(".left-nav-header").should(
       "not.contain",
       "Uber template2, property1"
     )
+
     cy.get(
-      'div[data-label="Uber template1, property1"] button[aria-label="Add Uber template2, property1"]'
+      'button[aria-label="Show navigation for Uber template1, property1"]'
     ).click()
+
+    cy.get(".left-nav-header").should("contain", "Uber template2")
+    cy.get(".left-nav-header").should("contain", "Uber template3")
+    cy.get(".left-nav-header").should(
+      "not.contain",
+      "Uber template2, property1"
+    )
+
+    cy.get('button[aria-label="Show navigation for Uber template2"]').click()
     cy.get(".left-nav-header").should("contain", "Uber template2, property1")
   })
 
-  it("Removes child nav for contracting nested properties", () => {
-    cy.get('button[aria-label="Remove Uber template2, property1"]')
-      .scrollIntoView()
-      .click()
+  it("Hides child nav when contracting nav", () => {
+    cy.get('button[aria-label="Hide navigation for Uber template2"]').click()
+    cy.get(".left-nav-header").should("contain", "Uber template2")
+    cy.get(".left-nav-header").should("contain", "Uber template3")
     cy.get(".left-nav-header").should(
       "not.contain",
       "Uber template2, property1"
     )
-  })
 
-  it("Removes child nav when contracting nested resources", () => {
-    cy.get('button[aria-label="Remove Uber template1, property1"]')
-      .scrollIntoView()
-      .click()
+    cy.get(
+      'button[aria-label="Hide navigation for Uber template1, property1"]'
+    ).click()
     cy.get(".left-nav-header").should("not.contain", "Uber template2")
-  })
-
-  it("Expands nav when clicked", () => {
-    cy.get(".left-nav-header").should("not.contain", "Uber template4")
+    cy.get(".left-nav-header").should("not.contain", "Uber template3")
     cy.get(".left-nav-header").should(
       "not.contain",
-      "Uber template4, property1"
+      "Uber template2, property1"
     )
-    cy.get('button[aria-label="Go to Uber template1, property18"]')
-      .scrollIntoView()
-      .click()
-    cy.get(".left-nav-header").should("contain", "Uber template4")
-    cy.get(".left-nav-header").should("contain", "Uber template4, property1")
   })
 
   it("Pops up tooltips for properties with remarks", () => {
@@ -170,12 +168,12 @@ describe("Left-nav test", () => {
   })
 
   it("Highlights nav when panel clicked", () => {
-    cy.get("button.btn-primary .left-nav-header").should(
+    cy.get("button.current .left-nav-header").should(
       "not.contain",
       "Uber template1, property6"
     )
     cy.contains("button", "Uber template1, property6").click({ force: true })
-    cy.get("button.btn-primary .left-nav-header").should(
+    cy.get("button.current .left-nav-header").should(
       "contain",
       "Uber template1, property6"
     )

@@ -4,6 +4,11 @@
     top: 0;
     overflow-y: auto;
     height: 100vh;
+    padding: 0.375rem;
+
+    & > ul {
+      padding-left: 0;
+    }
 
     // Templates have a different color than
     .template {
@@ -11,15 +16,6 @@
         background-color: $reno-sand;
         border-color: $reno-sand;
       }
-    }
-
-    .btn-primary {
-      background-color: $vanilla;
-      border-color: $vanilla;
-    }
-
-    button {
-      text-align: left; // Ensures the indent structure of the outline works when zoomed in.
     }
 
     li {
@@ -31,13 +27,23 @@
       margin-right: 0.4em;
     }
 
-    .btn-link,
-    .btn-primary {
-      padding: 0.375rem 0;
+    .btn {
+      color: $link-color;
+      h5 {
+        font-weight: bold;
+      }
     }
 
-    .btn-link > .fa-circle {
+    .current {
       color: $body-color;
+    }
+
+    .property-nav {
+      padding: 0.25rem 0.25rem 0.25rem 0.25rem;
+    }
+
+    .fa-circle {
+      font-size: 60%;
     }
   }
 }

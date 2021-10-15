@@ -29,6 +29,34 @@ export const hideProperty = (state, action) => {
   return newState
 }
 
+export const showNavProperty = (state, action) => {
+  const newState = stateWithNewProperty(state, action.payload)
+  newState.properties[action.payload].showNav = true
+
+  return newState
+}
+
+export const hideNavProperty = (state, action) => {
+  const newState = stateWithNewProperty(state, action.payload)
+  newState.properties[action.payload].showNav = false
+
+  return newState
+}
+
+export const showNavSubject = (state, action) => {
+  const newState = stateWithNewSubject(state, action.payload)
+  newState.subjects[action.payload].showNav = true
+
+  return newState
+}
+
+export const hideNavSubject = (state, action) => {
+  const newState = stateWithNewSubject(state, action.payload)
+  newState.subjects[action.payload].showNav = false
+
+  return newState
+}
+
 export const loadResourceFinished = (state, action) => {
   let numDefaults = 0
   for (const property of Object.values(state.propertyTemplates)) {
@@ -106,6 +134,11 @@ const addSubjectToNewState = (state, subject, valueSubjectOfKey) => {
   // Add valueSubjectOf. If null, this is a root subject.
   newSubject.valueSubjectOfKey = valueSubjectOfKey || null
 
+  const oldSubject = state.subjects[newSubject.key]
+
+  // Show nav
+  newSubject.showNav = oldSubject?.showNav || false
+
   // Add rootSubjectKey, rootPropertyKey, and labels. If this is not a root subject, then need to find from parent.
   const subjectTemplate =
     newState.subjectTemplates[newSubject.subjectTemplateKey]
@@ -137,7 +170,6 @@ const addSubjectToNewState = (state, subject, valueSubjectOfKey) => {
     newSubject.label = subjectTemplate.label
   }
 
-  const oldSubject = state.subjects[newSubject.key]
   if (newSubject.properties !== undefined) {
     // Remove existing properties
     const oldPropertyKeys = oldSubject?.propertyKeys || []
@@ -195,6 +227,9 @@ const addPropertyToNewState = (state, property) => {
 
   newProperty.descUriOrLiteralValueKeys = []
   newProperty.descWithErrorPropertyKeys = []
+
+  // Show nav
+  newProperty.showNav = oldProperty?.showNav || false
 
   // Add root subject, property, and labels from subject
   const oldSubject = state.subjects[newProperty.subjectKey]
