@@ -83,8 +83,12 @@ const PreviewModal = (props) => {
             )}
           </div>
           <div className="modal-footer">
-            <MarcButton />
-            <TransferButtons />
+            {currentResourceKey && (
+              <MarcButton resourceKey={currentResourceKey} />
+            )}
+            {currentResourceKey && (
+              <TransferButtons resourceKey={currentResourceKey} />
+            )}
             {canEdit(currentResource) && (
               <button
                 className="btn btn-primary btn-view-resource"
