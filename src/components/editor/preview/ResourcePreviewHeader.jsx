@@ -14,13 +14,13 @@ const ResourcePreviewHeader = ({ resource }) => {
     : editableBy
 
   const handleClick = (event) => {
-    event.preventDefault
+    event.preventDefault()
     setIsCollapsed(false)
   }
 
   return (
     <React.Fragment>
-      <div className="row">
+      <div id="previewHeader" className="row">
         <div className="col-12">
           <h3>{resource.label}</h3>
         </div>
