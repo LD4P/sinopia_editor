@@ -51,7 +51,7 @@ const ResourceComponent = () => {
           <CopyToNewMessage />
           <div className="row">
             <div className="col-md-11">
-              <ResourceURIMessage />
+              <ResourceURIMessage resourceKey={resourceKey} />
             </div>
             <div className="col-md-1">
               <PermissionsAction />
