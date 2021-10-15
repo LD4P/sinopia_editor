@@ -21,7 +21,9 @@ describe("<ResourcePreviewHeader />", () => {
       </Provider>
     )
     expect(header.getByText("Abbreviated Title")).toBeTruthy // label is shown
-    expect(header.getByText("cornell, stanford")).toBeTruthy // editable groups are shown
+    expect(header.getByText("Stanford University")).toBeTruthy // owner is shown with full group name
+    expect(header.getByText("Cornell University,")).toBeTruthy // editable groups are shown with full group name
+    expect(header.getByTestId("expand-groups-button")).toBeTruthy // expand button is shown (since there are more groups than can be shown)
     expect(header.getByText(/(https:\/\/api.sinopia.io\/resource\/0894a8b3)/))
       .toBeTruthy // URI is shown
   })
