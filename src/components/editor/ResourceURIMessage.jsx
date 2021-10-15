@@ -2,13 +2,12 @@
 
 import React, { useState, useEffect } from "react"
 import { useSelector } from "react-redux"
-import { selectCurrentResourceKey, selectUri } from "selectors/resources"
+import PropTypes from "prop-types"
+import { selectUri } from "selectors/resources"
 
 // Renders the resource URI message for saved resource
-const ResourceURIMessage = () => {
-  const resourceKey = useSelector((state) => selectCurrentResourceKey(state))
+const ResourceURIMessage = ({ resourceKey }) => {
   const uri = useSelector((state) => selectUri(state, resourceKey))
-
   const [copyText, setCopyText] = useState("Copy URI")
   const [timerId, setTimerId] = useState(false)
 
@@ -39,6 +38,10 @@ const ResourceURIMessage = () => {
       </button>
     </p>
   )
+}
+
+ResourceURIMessage.propTypes = {
+  resourceKey: PropTypes.string.isRequired,
 }
 
 export default ResourceURIMessage
