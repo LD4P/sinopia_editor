@@ -5,8 +5,17 @@ import { findAuthorityConfig } from "utilities/authorityConfig"
 
 describe("getLookupResult()", () => {
   sinopiaSearch.getLookupResult = jest.fn().mockResolvedValue({
-    totalHits: 0,
-    results: [],
+    totalHits: 1,
+    results: [
+      {
+        uri: "http://localhost:3000/resource/d336dee4-65e3-457f-9215-740531104681",
+        label: "Foo",
+        modified: "2021-10-15T21:10:12.615Z",
+        type: ["http://id.loc.gov/ontologies/bibframe/Instance"],
+        group: "other",
+        editGroups: [],
+      },
+    ],
     error: undefined,
   })
   describe("Sinopia lookup", () => {
@@ -14,15 +23,41 @@ describe("getLookupResult()", () => {
       const authorityConfig = findAuthorityConfig(
         "urn:ld4p:sinopia:bibframe:work"
       )
-      const result = await getLookupResult("lebowski", authorityConfig, 10)
+      const result = await getLookupResult("foo", authorityConfig, 10)
       expect(result).toEqual({
-        totalHits: 0,
-        results: [],
+        totalHits: 1,
+        results: [
+          {
+            context: [
+              {
+                property: "ID",
+                values: [
+                  "http://localhost:3000/resource/d336dee4-65e3-457f-9215-740531104681",
+                ],
+              },
+              {
+                property: "Class",
+                values: ["http://id.loc.gov/ontologies/bibframe/Instance"],
+              },
+              {
+                property: "Group",
+                values: ["other"],
+              },
+              {
+                property: "Modified",
+                values: ["2021-10-15T21:10:12.615Z"],
+              },
+            ],
+            id: "http://localhost:3000/resource/d336dee4-65e3-457f-9215-740531104681",
+            label: "Foo",
+            uri: "http://localhost:3000/resource/d336dee4-65e3-457f-9215-740531104681",
+          },
+        ],
         error: undefined,
-        authorityConfig,
+        ...authorityConfig,
       })
       expect(sinopiaSearch.getLookupResult).toHaveBeenCalledWith(
-        "lebowski",
+        "foo",
         authorityConfig,
         { startOfRange: 10 }
       )

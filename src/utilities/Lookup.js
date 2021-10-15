@@ -9,8 +9,27 @@ export const getLookupResult = (query, authorityConfig, startOfRange) => {
 
 const getSinopiaLookupResult = (query, authorityConfig, options) =>
   getSinopiaSearchLookupResult(query, authorityConfig, options).then(
-    (result) => ({ ...result, authorityConfig })
+    (result) => ({
+      ...authorityConfig,
+      error: result.error,
+      totalHits: result.totalHits,
+      results: adaptResults(result.results),
+    })
   )
+
+// Adapt Sinopia results to QA format
+const adaptResults = (results) =>
+  results.map((result) => ({
+    uri: result.uri,
+    id: result.uri,
+    label: result.label,
+    context: [
+      { property: "ID", values: [result.uri] },
+      { property: "Class", values: result.type },
+      { property: "Group", values: [result.group] },
+      { property: "Modified", values: [result.modified] },
+    ],
+  }))
 
 const getQALookupResult = (query, authorityConfig, options) =>
   createLookupPromise(query, authorityConfig, options).then((response) => {
