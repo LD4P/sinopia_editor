@@ -344,3 +344,18 @@ div.rbt div {
 .modal {
   background: rgba(0, 0, 0, 0.5);
 }
+
+.rdf-display-panel {
+  background-color: $greyblue;
+  border: 1px solid #979797;
+  padding: 1rem;
+  margin-bottom: 1rem;
+}
+
+.rdf-display-panel table th {
+  background-color: $greyblue;
+}
+
+.rdf-display-panel table td {
+  background-color: $greyblue;
+}
