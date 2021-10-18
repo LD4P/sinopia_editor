@@ -17,9 +17,10 @@ const NewsItem = () => (
       </i>
     </p>
     <ul>
-      <li>Accessibility improvements</li>
-      <li>Visual design improvements</li>
-      <li>Ability to define a label for a resource</li>
+      <li>Context for Sinopia lookups</li>
+      <li>Collapsible left navigation</li>
+      <li>Search moved to top navigation</li>
+      <li>RDF preview viewable even without edit permission</li>
     </ul>
   </div>
 )
