@@ -1015,7 +1015,13 @@ describe("setBaseURL()", () => {
     const oldState = {
       subjects: {
         abcde345: {
+          key: "abcde345",
           uri: "",
+          rootSubjectKey: "fghi678",
+        },
+        fghi678: {
+          key: "fghi678",
+          changed: false,
         },
       },
     }
@@ -1027,13 +1033,10 @@ describe("setBaseURL()", () => {
       },
     }
     const newState = reducer(oldState, action)
-    expect(newState).toStrictEqual({
-      subjects: {
-        abcde345: {
-          uri: "https://sinopia.io/stanford/456hkl",
-        },
-      },
-    })
+    expect(newState.subjects.abcde345.uri).toEqual(
+      "https://sinopia.io/stanford/456hkl"
+    )
+    expect(newState.subjects.fghi678.changed).toEqual(false)
   })
 })
 
@@ -1164,10 +1167,17 @@ describe("showProperty()", () => {
 describe("showNavProperty()", () => {
   it("sets showNav to true for property", () => {
     const oldState = {
+      subjects: {
+        "jqKVn-2TbC": {
+          key: "jqKVn-2TbC",
+          changed: false,
+        },
+      },
       properties: {
         "kqKVn-1TbC": {
           key: "kqKVn-1TbC",
           showNav: false,
+          rootSubjectKey: "jqKVn-2TbC",
         },
       },
     }
@@ -1176,7 +1186,8 @@ describe("showNavProperty()", () => {
       payload: "kqKVn-1TbC",
     }
     const newState = reducer(oldState, action)
-    expect(newState.properties["kqKVn-1TbC"].showNav).toBeTruthy()
+    expect(newState.properties["kqKVn-1TbC"].showNav).toBe(true)
+    expect(newState.subjects["jqKVn-2TbC"].changed).toBe(false)
   })
 })
 
@@ -1184,9 +1195,14 @@ describe("showNavSubject()", () => {
   it("sets showNav to true for subject", () => {
     const oldState = {
       subjects: {
+        "jqKVn-2TbC": {
+          key: "jqKVn-2TbC",
+          changed: false,
+        },
         "kqKVn-1TbC": {
           key: "kqKVn-1TbC",
           showNav: false,
+          rootSubjectKey: "jqKVn-2TbC",
         },
       },
     }
@@ -1195,7 +1211,8 @@ describe("showNavSubject()", () => {
       payload: "kqKVn-1TbC",
     }
     const newState = reducer(oldState, action)
-    expect(newState.subjects["kqKVn-1TbC"].showNav).toBeTruthy()
+    expect(newState.subjects["kqKVn-1TbC"].showNav).toBe(true)
+    expect(newState.subjects["jqKVn-2TbC"].changed).toBe(false)
   })
 })
 
@@ -1203,7 +1220,11 @@ describe("setResourceGroup()", () => {
   it("sets group", () => {
     const oldState = {
       subjects: {
-        abcde345: {},
+        abcde345: {
+          key: "abcde345",
+          changed: false,
+          rootSubjectKey: "abcde345",
+        },
       },
     }
     const action = {
@@ -1220,6 +1241,9 @@ describe("setResourceGroup()", () => {
         abcde345: {
           group: "stanford",
           editGroups: ["cornell"],
+          changed: true,
+          key: "abcde345",
+          rootSubjectKey: "abcde345",
         },
       },
     })

@@ -1,14 +1,13 @@
 // Copyright 2019 Stanford University see LICENSE for license
 
 import React from "react"
+import { useSelector, useDispatch } from "react-redux"
 import PropTypes from "prop-types"
 import PropertyLabel from "./PropertyLabel"
 import PropertyLabelInfo from "./PropertyLabelInfo"
 import PropertyComponent from "./PropertyComponent"
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
 import { faTrashAlt } from "@fortawesome/free-solid-svg-icons"
-import { bindActionCreators } from "redux"
-import { connect } from "react-redux"
 import { resourceEditErrorKey } from "../Editor"
 import { expandProperty, contractProperty } from "actionCreators/resources"
 import { selectNormProperty } from "selectors/resources"
@@ -17,18 +16,31 @@ import useNavigableComponent from "hooks/useNavigableComponent"
 import { nanoid } from "nanoid"
 import _ from "lodash"
 
-const PanelProperty = (props) => {
+const PanelProperty = ({
+  propertyKey,
+  resourceKey,
+  readOnly,
+  id,
+  isTemplate,
+}) => {
+  const dispatch = useDispatch()
+  const property = useSelector((state) =>
+    selectNormProperty(state, propertyKey)
+  )
+  const propertyTemplate = useSelector((state) =>
+    selectPropertyTemplate(state, property?.propertyTemplateKey)
+  )
+
   // Null values indicates that can be added.
-  const isAdd = !props.property.valueKeys
-  const isRequired = props.propertyTemplate.required
+  const isAdd = !property.valueKeys
+  const isRequired = propertyTemplate.required
   const nbsp = "\u00A0"
   const trashIcon = faTrashAlt
   const [navEl, navClickHandler] = useNavigableComponent(
-    props.resourceKey,
-    props.propertyKey,
-    props.propertyKey
+    resourceKey,
+    propertyKey,
+    propertyKey
   )
-  const isTemplate = props.isTemplate
   const cardClassName = ["card"]
 
   if (isTemplate) {
@@ -39,8 +51,7 @@ const PanelProperty = (props) => {
   const propertyLabelId = `labelled-by-${nanoid()}`
 
   // On preview, don't display empty properties.
-  if (props.readOnly && _.isEmpty(props.property.descUriOrLiteralValueKeys))
-    return null
+  if (readOnly && _.isEmpty(property.descUriOrLiteralValueKeys)) return null
 
   // onClick is to support left navigation, so ignoring jsx-ally seems reasonable.
   /* eslint-disable jsx-a11y/click-events-have-key-events */
@@ -50,42 +61,44 @@ const PanelProperty = (props) => {
       <div
         className={cardClassName.join(" ")}
         data-testid={cardClassName[1]}
-        data-label={props.propertyTemplate.label}
+        data-label={propertyTemplate.label}
         style={{ marginBottom: "1em" }}
       >
         <div className="prop-heading">
           <h5>
             <PropertyLabel
               forId={propertyLabelId}
-              propertyTemplate={props.propertyTemplate}
+              propertyTemplate={propertyTemplate}
             />
-            <PropertyLabelInfo propertyTemplate={props.propertyTemplate} />
+            <PropertyLabelInfo propertyTemplate={propertyTemplate} />
             {nbsp}
-            {isAdd && !props.readOnly && (
+            {isAdd && !readOnly && (
               <button
                 type="button"
                 className="btn btn-sm btn-add btn-link pull-right"
                 onClick={() =>
-                  props.expandProperty(
-                    props.property.key,
-                    resourceEditErrorKey(props.resourceKey)
+                  dispatch(
+                    expandProperty(
+                      property.key,
+                      resourceEditErrorKey(resourceKey)
+                    )
                   )
                 }
-                aria-label={`Add ${props.propertyTemplate.label}`}
-                data-testid={`Add ${props.propertyTemplate.label}`}
-                data-id={props.property.key}
+                aria-label={`Add ${propertyTemplate.label}`}
+                data-testid={`Add ${propertyTemplate.label}`}
+                data-id={property.key}
               >
                 + Add
               </button>
             )}
-            {!isAdd && !isRequired && !props.readOnly && (
+            {!isAdd && !isRequired && !readOnly && (
               <button
                 type="button"
                 className="btn btn-sm btn-remove pull-right"
-                aria-label={`Remove ${props.propertyTemplate.label}`}
-                data-testid={`Remove ${props.propertyTemplate.label}`}
-                onClick={() => props.contractProperty(props.property.key)}
-                data-id={props.id}
+                aria-label={`Remove ${propertyTemplate.label}`}
+                data-testid={`Remove ${propertyTemplate.label}`}
+                onClick={() => dispatch(contractProperty(property.key))}
+                data-id={id}
               >
                 <FontAwesomeIcon className="trash-icon" icon={trashIcon} />
               </button>
@@ -95,9 +108,9 @@ const PanelProperty = (props) => {
         {!isAdd && (
           <div className="panel-property">
             <PropertyComponent
-              property={props.property}
-              propertyTemplate={props.propertyTemplate}
-              readOnly={props.readOnly}
+              property={property}
+              propertyTemplate={propertyTemplate}
+              readOnly={readOnly}
             />
           </div>
         )}
@@ -107,30 +120,11 @@ const PanelProperty = (props) => {
 }
 
 PanelProperty.propTypes = {
-  float: PropTypes.number,
   id: PropTypes.string,
-  property: PropTypes.object,
-  propertyTemplate: PropTypes.object,
   propertyKey: PropTypes.string.isRequired,
-  expandProperty: PropTypes.func,
-  contractProperty: PropTypes.func,
   resourceKey: PropTypes.string.isRequired,
   isTemplate: PropTypes.bool,
   readOnly: PropTypes.bool.isRequired,
 }
 
-const mapStateToProps = (state, ourProps) => {
-  const property = selectNormProperty(state, ourProps.propertyKey)
-  return {
-    property,
-    propertyTemplate: selectPropertyTemplate(
-      state,
-      property?.propertyTemplateKey
-    ),
-  }
-}
-
-const mapDispatchToProps = (dispatch) =>
-  bindActionCreators({ expandProperty, contractProperty }, dispatch)
-
-export default connect(mapStateToProps, mapDispatchToProps)(PanelProperty)
+export default PanelProperty

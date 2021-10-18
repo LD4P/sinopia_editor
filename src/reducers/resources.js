@@ -1,61 +1,56 @@
 import _ from "lodash"
-import { resourceEditErrorKey } from "components/editor/Editor"
-import { emptyValue, isValidURI } from "utilities/Utilities"
+import {
+  resourceEditErrorKey,
+  resourceEditWarningKey,
+} from "components/editor/Editor"
+import { emptyValue } from "utilities/Utilities"
 import {
   newBlankLiteralValue,
   newBlankUriValue,
   newBlankLookupValue,
   newBlankListValue,
 } from "utilities/valueFactory"
+import {
+  mergeSubjectPropsToNewState,
+  mergePropertyPropsToNewState,
+  replaceSubjectInNewState,
+  replacePropertyInNewState,
+  replaceValueInNewState,
+  setSubjectChanged,
+  updateResourceLabel,
+  updateBibframeRefs,
+  removeBibframeRefs,
+  updateDescWithErrorPropertyKeys,
+  updateValueErrors,
+  removeFromDescUriOrLiteralValueKeys,
+  addToDescUriOrLiteralValueKeys,
+  clearSubjectFromNewState,
+  clearPropertyFromNewState,
+  clearValueFromNewState,
+} from "./resourceHelpers"
 
-export const setBaseURL = (state, action) => {
-  const newState = stateWithNewSubject(state, action.payload.resourceKey)
-  newState.subjects[action.payload.resourceKey].uri = action.payload.resourceURI
+export const setBaseURL = (state, action) =>
+  mergeSubjectPropsToNewState(state, action.payload.resourceKey, {
+    uri: action.payload.resourceURI,
+  })
 
-  return newState
-}
+export const showProperty = (state, action) =>
+  mergePropertyPropsToNewState(state, action.payload, { show: true })
 
-export const showProperty = (state, action) => {
-  const newState = stateWithNewProperty(state, action.payload)
-  newState.properties[action.payload].show = true
+export const hideProperty = (state, action) =>
+  mergePropertyPropsToNewState(state, action.payload, { show: false })
 
-  return newState
-}
+export const showNavProperty = (state, action) =>
+  mergePropertyPropsToNewState(state, action.payload, { showNav: true })
 
-export const hideProperty = (state, action) => {
-  const newState = stateWithNewProperty(state, action.payload)
-  newState.properties[action.payload].show = false
+export const hideNavProperty = (state, action) =>
+  mergePropertyPropsToNewState(state, action.payload, { showNav: false })
 
-  return newState
-}
+export const showNavSubject = (state, action) =>
+  mergeSubjectPropsToNewState(state, action.payload, { showNav: true })
 
-export const showNavProperty = (state, action) => {
-  const newState = stateWithNewProperty(state, action.payload)
-  newState.properties[action.payload].showNav = true
-
-  return newState
-}
-
-export const hideNavProperty = (state, action) => {
-  const newState = stateWithNewProperty(state, action.payload)
-  newState.properties[action.payload].showNav = false
-
-  return newState
-}
-
-export const showNavSubject = (state, action) => {
-  const newState = stateWithNewSubject(state, action.payload)
-  newState.subjects[action.payload].showNav = true
-
-  return newState
-}
-
-export const hideNavSubject = (state, action) => {
-  const newState = stateWithNewSubject(state, action.payload)
-  newState.subjects[action.payload].showNav = false
-
-  return newState
-}
+export const hideNavSubject = (state, action) =>
+  mergeSubjectPropsToNewState(state, action.payload, { showNav: false })
 
 export const loadResourceFinished = (state, action) => {
   let numDefaults = 0
@@ -112,15 +107,11 @@ export const setCurrentPreviewResource = (state, action) => {
 }
 
 export const addSubject = (state, action) =>
-  addSubjectToNewState(state, _.cloneDeep(action.payload))
+  addSubjectToNewState(state, action.payload)
 
 const addSubjectToNewState = (state, subject, valueSubjectOfKey) => {
-  // Subject is already deep copied.
-  let newSubject = subject
-
-  // Add subject to state
-  let newState = stateWithNewSubject(state, newSubject.key)
-  newState.subjects[newSubject.key] = newSubject
+  const newSubject = { ...subject }
+  const oldSubject = state.subjects[newSubject.key]
 
   newSubject.descUriOrLiteralValueKeys = []
   newSubject.descWithErrorPropertyKeys = []
@@ -134,20 +125,17 @@ const addSubjectToNewState = (state, subject, valueSubjectOfKey) => {
   // Add valueSubjectOf. If null, this is a root subject.
   newSubject.valueSubjectOfKey = valueSubjectOfKey || null
 
-  const oldSubject = state.subjects[newSubject.key]
-
   // Show nav
   newSubject.showNav = oldSubject?.showNav || false
 
   // Add rootSubjectKey, rootPropertyKey, and labels. If this is not a root subject, then need to find from parent.
-  const subjectTemplate =
-    newState.subjectTemplates[newSubject.subjectTemplateKey]
+  const subjectTemplate = state.subjectTemplates[newSubject.subjectTemplateKey]
   if (valueSubjectOfKey) {
-    const parentValueSubject = newState.values[valueSubjectOfKey]
+    const parentValueSubject = state.values[valueSubjectOfKey]
     newSubject.rootSubjectKey = parentValueSubject.rootSubjectKey
     newSubject.rootPropertyKey = parentValueSubject.rootPropertyKey
     const parentValueSubjectProperty =
-      newState.properties[parentValueSubject.propertyKey]
+      state.properties[parentValueSubject.propertyKey]
     newSubject.labels = [
       ...parentValueSubjectProperty.labels,
       subjectTemplate.label,
@@ -170,47 +158,36 @@ const addSubjectToNewState = (state, subject, valueSubjectOfKey) => {
     newSubject.label = subjectTemplate.label
   }
 
-  if (newSubject.properties !== undefined) {
-    // Remove existing properties
-    const oldPropertyKeys = oldSubject?.propertyKeys || []
-    oldPropertyKeys.forEach(
-      (propertyKey) =>
-        (newState = clearPropertyFromNewState(newState, propertyKey))
-    )
-
-    // Add new properties
-    newSubject.propertyKeys = []
-    newSubject.properties.forEach(
-      (property) => (newState = addPropertyToNewState(newState, property))
-    )
-    // Get a new reference to subject.
-    newSubject = newState.subjects[subject.key]
+  const newProperties = newSubject.properties
+  if (newProperties) {
     delete newSubject.properties
+    newSubject.propertyKeys = []
   }
 
-  // If changed, then set resource as changed.
-  if (!_.isEqual(newSubject, oldSubject)) {
-    newState = setSubjectChanged(newState, newSubject.rootSubjectKey, true)
+  let newState = replaceSubjectInNewState(state, newSubject)
+
+  // Remove existing properties
+  const oldPropertyKeys = oldSubject?.propertyKeys || []
+  oldPropertyKeys.forEach(
+    (propertyKey) =>
+      (newState = clearPropertyFromNewState(newState, propertyKey))
+  )
+
+  // Add new properties
+  if (newProperties) {
+    newProperties.forEach(
+      (property) => (newState = addPropertyToNewState(newState, property))
+    )
   }
 
   return newState
 }
 
 export const addProperty = (state, action) =>
-  addPropertyToNewState(state, _.cloneDeep(action.payload))
+  addPropertyToNewState(state, action.payload)
 
 const addPropertyToNewState = (state, property) => {
-  // Property has already been deep copied.
-  let newProperty = property
-
-  // Add property to state
-  let newState = {
-    ...state,
-    properties: {
-      ...state.properties,
-      [newProperty.key]: newProperty,
-    },
-  }
+  const newProperty = { ...property }
   const oldProperty = state.properties[newProperty.key]
 
   // Subject
@@ -235,17 +212,22 @@ const addPropertyToNewState = (state, property) => {
   const oldSubject = state.subjects[newProperty.subjectKey]
   newProperty.rootSubjectKey = oldSubject.rootSubjectKey
   const propertyTemplate =
-    newState.propertyTemplates[newProperty.propertyTemplateKey]
+    state.propertyTemplates[newProperty.propertyTemplateKey]
   newProperty.labels = [...oldSubject.labels, propertyTemplate.label]
   // If subject does not have a root property, then this is a root property.
   newProperty.rootPropertyKey = oldSubject.rootPropertyKey || newProperty.key
 
-  // Add property to subject
-  newState = stateWithNewSubject(newState, newProperty.subjectKey)
-  const newSubject = newState.subjects[newProperty.subjectKey]
-  // Add if doesn't exist.
-  if (newSubject.propertyKeys.indexOf(newProperty.key) === -1) {
-    newSubject.propertyKeys = [...newSubject.propertyKeys, newProperty.key]
+  const newValues = newProperty.values
+  newProperty.valueKeys = newValues ? [] : null
+  delete newProperty.values
+  let newState = replacePropertyInNewState(state, newProperty)
+
+  // Add property to subject if doesn't exist.
+  if (oldSubject.propertyKeys.indexOf(newProperty.key) === -1) {
+    const newPropertyKeys = [...oldSubject.propertyKeys, newProperty.key]
+    newState = mergeSubjectPropsToNewState(newState, oldSubject.key, {
+      propertyKeys: newPropertyKeys,
+    })
   }
 
   // Remove existing values
@@ -260,37 +242,24 @@ const addPropertyToNewState = (state, property) => {
   })
 
   // Add new values
-  newProperty = newState.properties[newProperty.key]
-  if (newProperty.values) {
-    newProperty.valueKeys = []
-    newProperty.values.forEach(
+  if (newValues) {
+    newValues.forEach(
       (value) => (newState = addValueToNewState(newState, value))
     )
-  } else {
-    newProperty.valueKeys = null
   }
-  newProperty = newState.properties[newProperty.key]
-  delete newProperty.values
-
   // Add a blank first value if necessary.
-  newState = addFirstValue(newState, newProperty)
-  newProperty = newState.properties[newProperty.key]
+  newState = addFirstValue(newState, newProperty.key)
 
   // Errors
   newState = updateDescWithErrorPropertyKeys(newState, newProperty.key)
-  newProperty = newState.properties[newProperty.key]
 
-  // If changed, then set resource as changed.
-  if (!_.isEqual(newProperty, oldProperty)) {
-    newState = setSubjectChanged(newState, newProperty.rootSubjectKey, true)
-  }
   return newState
 }
 
 export const addValue = (state, action) =>
   addValueToNewState(
     state,
-    _.cloneDeep(action.payload.value),
+    action.payload.value,
     action.payload.siblingValueKey
   )
 
@@ -300,24 +269,36 @@ const addValueToNewState = (
   siblingValueKey = null,
   show = true
 ) => {
-  let newValue = value
+  const newValue = { ...value }
+  const oldValue = state.values[newValue.key]
 
   // Property
   if (newValue.property) {
     newValue.propertyKey = newValue.property.key
     delete newValue.property
   }
+  const property = state.properties[newValue.propertyKey]
 
   // langLabel
   delete newValue.langLabel
 
+  // Add root subject and property from property
+  newValue.rootSubjectKey = property.rootSubjectKey
+  newValue.rootPropertyKey = property.rootPropertyKey
+
+  const newValueSubject = newValue.valueSubject
+  if (newValue.valueSubject) {
+    newValue.valueSubjectKey = newValue.valueSubject.key
+  } else {
+    newValue.valueSubjectKey = null
+  }
+  delete newValue.valueSubject
+
   // Add value to state
-  let newState = stateWithNewValue(state, newValue.key)
-  newState.values[newValue.key] = newValue
+  let newState = replaceValueInNewState(state, newValue)
 
   // Add value to property
-  newState = stateWithNewProperty(newState, newValue.propertyKey)
-  let newProperty = newState.properties[newValue.propertyKey]
+  const newProperty = { ...property }
   const valueKeys = newProperty.valueKeys || []
   // Add if doesn't exist.
   if (valueKeys.indexOf(newValue.key) === -1) {
@@ -330,63 +311,34 @@ const addValueToNewState = (
   }
   // Set to show
   newProperty.show = show
+  newState = replacePropertyInNewState(newState, newProperty)
 
-  // Add root subject and property from property
-  newValue = newState.values[newValue.key]
-  newValue.rootSubjectKey = newProperty.rootSubjectKey
-  newValue.rootPropertyKey = newProperty.rootPropertyKey
-
+  // Update resource label if this is an rdfs:label
   newState = updateResourceLabel(newState, newValue)
 
   // Remove existing value subject
-  const oldValue = state.values[newValue.key]
   if (oldValue?.valueSubjectKey) {
     newState = clearSubjectFromNewState(newState, oldValue.valueSubjectKey)
   }
 
-  // Add new value subject
-  if (newValue.valueSubject !== undefined) {
-    newValue = newState.values[newValue.key]
-    if (newValue.valueSubject) {
-      newValue.valueSubjectKey = newValue.valueSubject.key
-      newState = addSubjectToNewState(
-        newState,
-        newValue.valueSubject,
-        newValue.key
-      )
-    } else {
-      newValue.valueSubjectKey = null
-    }
-    newValue = newState.values[newValue.key]
-    delete newValue.valueSubject
-  }
-
-  // Add/remove value key to ancestors (for URIs and literals)
-  if (!newValue.valueSubjectKey) {
-    newState = recursiveAncestorsFromValue(
-      newState,
-      newValue.key,
-      emptyValue(newValue)
-        ? removeFromDescUriOrLiteralValueKeysFunc(newValue.key)
-        : addToDescUriOrLiteralValueKeysFunc(newValue.key)
-    )
+  if (newValueSubject) {
+    // Add new value subject
+    newState = addSubjectToNewState(newState, newValueSubject, newValue.key)
+  } else if (emptyValue(newValue)) {
+    // Remove value key to ancestors (for URIs and literals)
+    newState = removeFromDescUriOrLiteralValueKeys(newState, newValue.key)
+  } else {
+    // Add value key to ancestors (for URIs and literals)
+    newState = addToDescUriOrLiteralValueKeys(newState, newValue.key)
   }
 
   // Errors
   newState = updateValueErrors(newState, newValue.key)
   newState = updateDescWithErrorPropertyKeys(newState, newProperty.key)
-  newValue = newState.values[newValue.key]
-  newProperty = newState.properties[newValue.propertyKey]
 
   // Update Bibframe refs
-  newState = updateBibframeRefs(newState, newValue, newProperty)
+  newState = updateBibframeRefs(newState, newValue)
 
-  // If changed, then set resource as changed.
-  newValue = newState.values[newValue.key]
-  // Preventing marking changed when adding a blank value.
-  if (!_.isEqual(newValue, oldValue) && (oldValue || !emptyValue(newValue))) {
-    newState = setSubjectChanged(newState, newValue.rootSubjectKey, true)
-  }
   return newState
 }
 
@@ -402,137 +354,138 @@ export const updateValue = (state, action) => {
 
   const oldValue = state.values[valueKey]
 
-  // Add value to state
-  let newState = stateWithNewValue(state, valueKey)
-  let newValue = { ...oldValue, literal, lang, uri, label }
+  const newValue = { ...oldValue, literal, lang, uri, label }
   if (component) newValue.component = component
-  newState.values[valueKey] = newValue
+
+  let newState = replaceValueInNewState(state, newValue)
 
   // Add/remove value key to ancestors
-  newState = recursiveAncestorsFromValue(
-    newState,
-    newValue.key,
-    emptyValue(newValue)
-      ? removeFromDescUriOrLiteralValueKeysFunc(newValue.key)
-      : addToDescUriOrLiteralValueKeysFunc(newValue.key)
-  )
+  if (emptyValue(newValue)) {
+    newState = removeFromDescUriOrLiteralValueKeys(newState, newValue.key)
+  } else {
+    newState = addToDescUriOrLiteralValueKeys(newState, newValue.key)
+  }
 
   // Errors
   newState = updateValueErrors(newState, valueKey)
   newState = updateDescWithErrorPropertyKeys(newState, newValue.propertyKey)
 
   // Update Bibframe refs
-  newValue = newState.values[valueKey]
-  const newProperty = newState.properties[newValue.propertyKey]
-  newState = updateBibframeRefs(newState, newValue, newProperty)
+  newState = updateBibframeRefs(newState, newValue)
 
+  // Update resource label if this is an rdfs:label
   newState = updateResourceLabel(newState, newValue)
 
-  // If changed, then set resource as changed.
-  newValue = newState.values[newValue.key]
-  if (!_.isEqual(newValue, oldValue)) {
-    newState = setSubjectChanged(newState, newValue.rootSubjectKey, true)
-  }
-
   return newState
-}
-
-// add rdfs:label to root resource if it's present
-const updateResourceLabel = (state, value) => {
-  const possibleLabelProperty = state.properties[value.propertyKey]
-  const propertyTemplate =
-    state.propertyTemplates[possibleLabelProperty.propertyTemplateKey]
-  const rootSubjectKey = possibleLabelProperty.rootSubjectKey
-  if (
-    propertyTemplate.uri === "http://www.w3.org/2000/01/rdf-schema#label" &&
-    possibleLabelProperty.subjectKey === rootSubjectKey
-  ) {
-    const labelValue = value.literal || possibleLabelProperty.labels[0]
-    const newState = stateWithNewSubject(state, rootSubjectKey)
-    const newResourceSubject = newState.subjects[rootSubjectKey]
-    newResourceSubject.label = labelValue
-    return newState
-  }
-  return state
-}
-
-const updateBibframeRefs = (state, value, property) => {
-  if (!value.uri) return state
-  const propertyTemplate = state.propertyTemplates[property.propertyTemplateKey]
-  const newState = stateWithNewSubject(state, value.rootSubjectKey)
-  const newSubject = newState.subjects[value.rootSubjectKey]
-
-  switch (propertyTemplate.uri) {
-    case "http://id.loc.gov/ontologies/bibframe/adminMetadata":
-      // References admin metadata
-      addToKeyArray(newSubject, "bfAdminMetadataRefs", value.uri)
-      break
-    case "http://id.loc.gov/ontologies/bibframe/itemOf":
-      // References instance
-      addToKeyArray(newSubject, "bfInstanceRefs", value.uri)
-      break
-    case "http://id.loc.gov/ontologies/bibframe/hasItem":
-      // References item
-      addToKeyArray(newSubject, "bfItemRefs", value.uri)
-      break
-    case "http://id.loc.gov/ontologies/bibframe/instanceOf":
-      // References work
-      addToKeyArray(newSubject, "bfWorkRefs", value.uri)
-      break
-    case "http://id.loc.gov/ontologies/bibframe/hasInstance":
-      // References instance
-      addToKeyArray(newSubject, "bfInstanceRefs", value.uri)
-      break
-    default:
-    // Nothing
-  }
-
-  return newState
-}
-
-const addToKeyArray = (obj, key, value) => {
-  if (!obj[key].includes(value)) {
-    obj[key] = [...obj[key], value]
-  }
 }
 
 export const removeValue = (state, action) => {
   const value = state.values[action.payload]
 
   // Remove from property
-  let newState = stateWithNewProperty(state, value.propertyKey)
-  const newProperty = newState.properties[value.propertyKey]
-  newProperty.valueKeys = [...newProperty.valueKeys].filter(
+  const property = { ...state.properties[value.propertyKey] }
+  const valueKeys = [...property.valueKeys].filter(
     (valueKey) => valueKey !== value.key
   )
+  let newState = mergePropertyPropsToNewState(state, property.key, {
+    valueKeys,
+  })
 
   // Errors
   newState = updateValueErrors(newState, value.key)
 
-  newState = recursiveAncestorsFromValue(
-    newState,
-    value.key,
-    removeFromDescUriOrLiteralValueKeysFunc(value.key)
-  )
+  newState = removeFromDescUriOrLiteralValueKeys(newState, value.key)
 
-  newState = removeBibframeRefs(newState, value, newProperty)
+  newState = removeBibframeRefs(newState, value, property)
 
   // Recursively remove value
   newState = clearValueFromNewState(newState, value.key)
 
-  // Set resource as changed
-  newState = setSubjectChanged(newState, value.rootSubjectKey, true)
-
   // Add a blank value if necessary.
-  newState = addFirstValue(newState, newProperty)
+  newState = addFirstValue(newState, property.key)
 
   return newState
 }
 
-const addFirstValue = (state, property) => {
-  // For URI and Literal component, if no values, add a value.
-  // Eventually, this will apply to other components as well.
+export const removeSubject = (state, action) => {
+  const subject = state.subjects[action.payload]
 
+  // Recursively remove subject
+  let newState = clearSubjectFromNewState(state, subject.key)
+
+  if (subject.rootSubjectKey !== subject.key) {
+    newState = setSubjectChanged(newState, subject.rootSubjectKey, true)
+  }
+
+  return newState
+}
+
+export const clearResourceFromEditor = (state, action) => {
+  const resourceKey = action.payload
+  const newState = {
+    ...state,
+    errors: {
+      ...state.errors,
+    },
+    lastSave: {
+      ...state.lastSave,
+    },
+    unusedRDF: {
+      ...state.unusedRDF,
+    },
+  }
+
+  const resourceIndex = state.resources.indexOf(resourceKey)
+  newState.resources = [
+    ...state.resources.slice(0, resourceIndex),
+    ...state.resources.slice(resourceIndex + 1),
+  ]
+
+  if (state.currentResource === resourceKey) {
+    newState.currentResource = _.first(newState.resources) || null
+  }
+
+  delete newState.errors[resourceEditErrorKey(resourceKey)]
+  delete newState.errors[resourceEditWarningKey(resourceKey)]
+  delete newState.lastSave[resourceKey]
+  delete newState.unusedRDF[resourceKey]
+
+  return newState
+}
+
+export const clearResource = (state, action) =>
+  clearSubjectFromNewState(state, action.payload)
+
+export const setResourceGroup = (state, action) => {
+  const props = {
+    group: action.payload.group,
+    editGroups: [...(action.payload.editGroups || [])],
+  }
+  return mergeSubjectPropsToNewState(state, action.payload.resourceKey, props)
+}
+
+export const setValueOrder = (state, action) => {
+  const valueKey = action.payload.valueKey
+  const value = state.values[valueKey]
+
+  const newProperty = { ...state.properties[value.propertyKey] }
+
+  const index = action.payload.index
+  const filterValueKeys = newProperty.valueKeys.filter(
+    (key) => key !== valueKey
+  )
+  newProperty.valueKeys = [
+    ...filterValueKeys.slice(0, index - 1),
+    valueKey,
+    ...filterValueKeys.slice(index - 1),
+  ]
+
+  return replacePropertyInNewState(state, newProperty)
+}
+
+const addFirstValue = (state, propertyKey) => {
+  const property = state.properties[propertyKey]
+  // If no values, add a value.
   if (property.valueKeys === null || !_.isEmpty(property.valueKeys))
     return state
   const propertyTemplate = state.propertyTemplates[property.propertyTemplateKey]
@@ -570,362 +523,5 @@ const addFirstValue = (state, property) => {
   }
 }
 
-const removeBibframeRefs = (state, value, property) => {
-  if (!value.uri) return state
-
-  const propertyTemplate = state.propertyTemplates[property.propertyTemplateKey]
-  const newState = stateWithNewSubject(state, value.rootSubjectKey)
-  const newSubject = newState.subjects[value.rootSubjectKey]
-  switch (propertyTemplate.uri) {
-    case "http://id.loc.gov/ontologies/bibframe/adminMetadata":
-      // References admin metadata
-      removeFromKeyArray(newSubject, "bfAdminMetadataRefs", value.uri)
-      break
-    case "http://id.loc.gov/ontologies/bibframe/itemOf":
-      // References instance
-      removeFromKeyArray(newSubject, "bfInstanceRefs", value.uri)
-      break
-    case "http://id.loc.gov/ontologies/bibframe/hasItem":
-      // References item
-      removeFromKeyArray(newSubject, "bfItemRefs", value.uri)
-      break
-    case "http://id.loc.gov/ontologies/bibframe/instanceOf":
-      // References work
-      removeFromKeyArray(newSubject, "bfWorkRefs", value.uri)
-      break
-    case "http://id.loc.gov/ontologies/bibframe/hasInstance":
-      // References instance
-      removeFromKeyArray(newSubject, "bfInstanceRefs", value.uri)
-      break
-    default:
-    // Nothing
-  }
-  return newState
-}
-
-const removeFromKeyArray = (obj, key, value) => {
-  if (!obj[key].includes(value)) return
-  obj[key] = [...obj[key]].filter((checkValue) => checkValue !== value)
-}
-
-export const removeSubject = (state, action) => {
-  const subject = state.subjects[action.payload]
-
-  // Recursively remove subject
-  let newState = clearSubjectFromNewState(state, subject.key)
-
-  if (subject.rootSubjectKey !== subject.key) {
-    newState = setSubjectChanged(newState, subject.rootSubjectKey, true)
-  }
-
-  return newState
-}
-
-const errorsForValue = (value, state) => {
-  const property = state.properties[value.propertyKey]
-  const propertyTemplate = state.propertyTemplates[property.propertyTemplateKey]
-  // If this is first value, then must have a value.
-  const errors = []
-  if (
-    value.key === property.valueKeys[0] &&
-    propertyTemplate.required &&
-    propertyTemplate.type === "literal" &&
-    !value.literal
-  )
-    errors.push("Literal required")
-
-  if (propertyTemplate.type === "uri") {
-    if (value.key === property.valueKeys[0] && propertyTemplate.required) {
-      if (!value.uri) errors.push("URI required")
-      if (!value.label) errors.push("Label required")
-    } else {
-      if (value.uri && !value.label) errors.push("Label required")
-      if (!value.uri && value.label) errors.push("URI required")
-    }
-    if (value.uri && !isValidURI(value.uri)) errors.push("Invalid URI")
-  }
-
-  return errors
-}
-
-const updateDescWithErrorPropertyKeys = (state, propertyKey) => {
-  if (propertyHasErrors(state, propertyKey)) {
-    // Add key to descWithErrorPropertyKeys for self and ancestors.
-    return recursiveAncestorsFromProperty(
-      state,
-      propertyKey,
-      addToDescWithErrorPropertyKeysFunc(propertyKey)
-    )
-  }
-  // Remove key from descWithErrorPropertyKeys for self and ancestors.
-  return recursiveAncestorsFromProperty(
-    state,
-    propertyKey,
-    removeFromDescWithErrorPropertyKeysFunc(propertyKey)
-  )
-}
-
-const propertyHasErrors = (state, propertyKey) => {
-  const property = state.properties[propertyKey]
-
-  if (!_.isEmpty(property.errors)) return true
-  if (property.valueKeys === null) return false
-  return property.valueKeys.some((valueKey) => {
-    const value = state.values[valueKey]
-    return !_.isEmpty(value?.errors)
-  })
-}
-
-const updateValueErrors = (state, valueKey) => {
-  const newState = stateWithNewValue(state, valueKey)
-  const newValue = newState.values[valueKey]
-  newValue.errors = errorsForValue(newValue, newState)
-
-  return newState
-}
-
-export const clearResourceFromEditor = (state, action) => {
-  const resourceKey = action.payload
-  const newState = {
-    ...state,
-    errors: {
-      ...state.errors,
-    },
-    lastSave: {
-      ...state.lastSave,
-    },
-    unusedRDF: {
-      ...state.unusedRDF,
-    },
-  }
-
-  const resourceIndex = state.resources.indexOf(resourceKey)
-  newState.resources = [
-    ...state.resources.slice(0, resourceIndex),
-    ...state.resources.slice(resourceIndex + 1),
-  ]
-
-  if (state.currentResource === resourceKey) {
-    newState.currentResource = _.first(newState.resources) || null
-  }
-
-  delete newState.errors[resourceEditErrorKey(resourceKey)]
-  delete newState.lastSave[resourceKey]
-  delete newState.unusedRDF[resourceKey]
-
-  return newState
-}
-
-export const clearResource = (state, action) =>
-  clearSubjectFromNewState(state, action.payload)
-
-const clearSubjectFromNewState = (state, subjectKey) => {
-  const subject = state.subjects[subjectKey]
-  let newState = state
-  subject.propertyKeys.forEach(
-    (propertyKey) =>
-      (newState = clearPropertyFromNewState(newState, propertyKey))
-  )
-  delete newState.subjects[subjectKey]
-
-  return newState
-}
-
-const clearPropertyFromNewState = (state, propertyKey) => {
-  const property = state.properties[propertyKey]
-  let newState = state
-  if (!_.isEmpty(property.valueKeys)) {
-    property.valueKeys.forEach(
-      (valueKey) => (state = clearValueFromNewState(newState, valueKey))
-    )
-  }
-
-  // Remove error from ancestors
-  newState = recursiveAncestorsFromProperty(
-    newState,
-    propertyKey,
-    removeFromDescWithErrorPropertyKeysFunc(propertyKey)
-  )
-
-  delete newState.properties[propertyKey]
-
-  return newState
-}
-
-const clearValueFromNewState = (state, valueKey) => {
-  const value = state.values[valueKey]
-  let newState = state
-  if (value.valueSubjectKey)
-    newState = clearSubjectFromNewState(newState, value.valueSubjectKey)
-
-  // Remove value key from ancestors' descUriOrLiteralValueKeys
-  newState = recursiveAncestorsFromValue(
-    newState,
-    valueKey,
-    removeFromDescUriOrLiteralValueKeysFunc(valueKey)
-  )
-
-  delete newState.values[valueKey]
-
-  return newState
-}
-
-export const setResourceGroup = (state, action) => {
-  const newState = stateWithNewSubject(state, action.payload.resourceKey)
-  const newSubject = newState.subjects[action.payload.resourceKey]
-  newSubject.group = action.payload.group
-  newSubject.editGroups = [...(action.payload.editGroups || [])]
-
-  return newState
-}
-
-export const setValueOrder = (state, action) => {
-  const valueKey = action.payload.valueKey
-  const value = state.values[valueKey]
-
-  let newState = stateWithNewProperty(state, value.propertyKey)
-  const newProperty = newState.properties[value.propertyKey]
-
-  // Set resource as changed if order changed (this enables the save button)
-  newState = setSubjectChanged(newState, newProperty.subjectKey, true)
-
-  const index = action.payload.index
-  const filterValueKeys = newProperty.valueKeys.filter(
-    (key) => key !== valueKey
-  )
-  newProperty.valueKeys = [
-    ...filterValueKeys.slice(0, index - 1),
-    valueKey,
-    ...filterValueKeys.slice(index - 1),
-  ]
-
-  return newState
-}
-
-const stateWithNewSubject = (state, subjectKey) => ({
-  ...state,
-  subjects: {
-    ...state.subjects,
-    [subjectKey]: {
-      ...state.subjects[subjectKey],
-    },
-  },
-})
-
-const stateWithNewProperty = (state, propertyKey) => ({
-  ...state,
-  properties: {
-    ...state.properties,
-    [propertyKey]: {
-      ...state.properties[propertyKey],
-    },
-  },
-})
-
-const stateWithNewValue = (state, valueKey) => ({
-  ...state,
-  values: {
-    ...state.values,
-    [valueKey]: {
-      ...state.values[valueKey],
-    },
-  },
-})
-
-export const setSubjectChanged = (state, subjectKey, changed) => {
-  const newState = stateWithNewSubject(state, subjectKey)
-  newState.subjects[subjectKey].changed = changed
-
-  return newState
-}
-
-const recursiveAncestorsFromSubject = (state, subjectKey, performFunc) => {
-  let newState = stateWithNewSubject(state, subjectKey)
-  newState = performFunc(state, newState, newState.subjects[subjectKey])
-
-  const subject = state.subjects[subjectKey]
-  if (!subject.valueSubjectOfKey) return newState
-  return recursiveAncestorsFromValue(
-    newState,
-    subject.valueSubjectOfKey,
-    performFunc
-  )
-}
-
-const recursiveAncestorsFromValue = (state, valueKey, performFunc) => {
-  let newState = stateWithNewValue(state, valueKey)
-  newState = performFunc(state, newState, newState.values[valueKey])
-
-  const value = state.values[valueKey]
-  return recursiveAncestorsFromProperty(
-    newState,
-    value.propertyKey,
-    performFunc
-  )
-}
-
-const recursiveAncestorsFromProperty = (state, propertyKey, performFunc) => {
-  let newState = stateWithNewProperty(state, propertyKey)
-  newState = performFunc(state, newState, newState.properties[propertyKey])
-
-  const property = state.properties[propertyKey]
-  return recursiveAncestorsFromSubject(
-    newState,
-    property.subjectKey,
-    performFunc
-  )
-}
-
-const removeFromDescWithErrorPropertyKeysFunc =
-  (propertyKey) => (state, newState, newObj) => {
-    if (
-      newObj.descWithErrorPropertyKeys === undefined ||
-      !newObj.descWithErrorPropertyKeys.includes(propertyKey)
-    )
-      return state
-    newObj.descWithErrorPropertyKeys = [
-      ...newObj.descWithErrorPropertyKeys,
-    ].filter((checkPropertyKey) => propertyKey !== checkPropertyKey)
-    return newState
-  }
-
-const addToDescWithErrorPropertyKeysFunc =
-  (propertyKey) => (state, newState, newObj) => {
-    if (
-      newObj.descWithErrorPropertyKeys === undefined ||
-      newObj.descWithErrorPropertyKeys.includes(propertyKey)
-    )
-      return state
-    newObj.descWithErrorPropertyKeys = [
-      ...newObj.descWithErrorPropertyKeys,
-      propertyKey,
-    ]
-    return newState
-  }
-
-const removeFromDescUriOrLiteralValueKeysFunc =
-  (valueKey) => (state, newState, newObj) => {
-    if (
-      newObj.descUriOrLiteralValueKeys === undefined ||
-      !newObj.descUriOrLiteralValueKeys.includes(valueKey)
-    )
-      return state
-    newObj.descUriOrLiteralValueKeys = [
-      ...newObj.descUriOrLiteralValueKeys,
-    ].filter((checkValueKey) => valueKey !== checkValueKey)
-    return newState
-  }
-
-const addToDescUriOrLiteralValueKeysFunc =
-  (valueKey) => (state, newState, newObj) => {
-    if (
-      newObj.descUriOrLiteralValueKeys === undefined ||
-      newObj.descUriOrLiteralValueKeys.includes(valueKey)
-    )
-      return state
-    newObj.descUriOrLiteralValueKeys = [
-      ...newObj.descUriOrLiteralValueKeys,
-      valueKey,
-    ]
-    return newState
-  }
+// Re-export
+export { setSubjectChanged }
