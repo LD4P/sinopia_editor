@@ -1,18 +1,22 @@
 // Copyright 2019 Stanford University see LICENSE for license
 
 import React from "react"
-import { connect } from "react-redux"
+import { useSelector } from "react-redux"
 import PropTypes from "prop-types"
 import { selectValidationErrors } from "selectors/errors"
-import { selectCurrentResourceKey } from "selectors/resources"
 import Alert from "../Alert"
+import _ from "lodash"
 
-const ErrorMessages = (props) => {
-  if (props.errors.length === 0) {
-    return null
-  }
+const ErrorMessages = ({ resourceKey }) => {
+  // To determine if errors have changed, check length first and then isEqual.
+  // Most changes in errors will change the length, but not all.
+  const errors = useSelector(
+    (state) => selectValidationErrors(state, resourceKey),
+    (obj1, obj2) => obj1?.length === obj2?.length && _.isEqual(obj1, obj2)
+  )
+  if (_.isEmpty(errors)) return null
 
-  const errorList = props.errors.map((error) => (
+  const errorList = errors.map((error) => (
     <li key={error.propertyKey + error.message}>
       {error.labelPath.join(" > ")}: {error.message}
     </li>
@@ -26,15 +30,7 @@ const ErrorMessages = (props) => {
 }
 
 ErrorMessages.propTypes = {
-  errors: PropTypes.array,
-  displayValidations: PropTypes.bool,
+  resourceKey: PropTypes.string.isRequired,
 }
 
-const mapStateToProps = (state) => {
-  const resourceKey = selectCurrentResourceKey(state)
-  return {
-    errors: selectValidationErrors(state, resourceKey),
-  }
-}
-
-export default connect(mapStateToProps, {})(ErrorMessages)
+export default ErrorMessages
