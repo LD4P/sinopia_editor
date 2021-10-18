@@ -55,7 +55,9 @@ const Editor = (props) => {
       <Header triggerEditorMenu={props.triggerHandleOffsetMenu} />
       <EditorActions />
       <EditorPreviewModal />
-      {displayErrors && hasErrors && <ErrorMessages />}
+      {displayErrors && hasErrors && (
+        <ErrorMessages resourceKey={resourceKey} />
+      )}
       <GroupChoiceModal />
       <ResourcesNav />
       <ResourceComponent />
