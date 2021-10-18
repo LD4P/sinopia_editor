@@ -43,6 +43,8 @@ describe("adding and removing properties", () => {
 
     await screen.findByText("Uber template1", { selector: "h3" })
 
+    expect(screen.queryAllByText("Uber template2")).toHaveLength(2)
+
     // Get rid of Uber template1, property3
     fireEvent.click(screen.getByTestId("Remove Uber template1, property3"))
 
