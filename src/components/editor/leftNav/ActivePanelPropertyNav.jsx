@@ -13,7 +13,9 @@ import _ from "lodash"
 const ActivePanelPropertyNav = (props) => {
   const property = useSelector((state) => selectNormProperty(state, props.propertyKey))
   const values = useSelector((state) => selectNormValues(state, property.valueKeys))
-  const propertyTemplate = useSelector((state) => selectPropertyTemplate(state, property?.propertyTemplateKey))
+  const propertyTemplate = useSelector((state) =>
+    selectPropertyTemplate(state, property?.propertyTemplateKey)
+  )
 
   const { handleNavClick, handleToggleClick, isExpanded } = useLeftNav(property)
 
@@ -22,7 +24,9 @@ const ActivePanelPropertyNav = (props) => {
   if (props.isTemplate) liClassNames.push("template")
 
   const hasError = !_.isEmpty(property.descWithErrorPropertyKeys)
-  const displayValidations = useSelector((state) => displayResourceValidations(state, property?.rootSubjectKey))
+  const displayValidations = useSelector((state) =>
+    displayResourceValidations(state, property?.rootSubjectKey)
+  )
   const headingClassNames = ["left-nav-header"]
   if (displayValidations && hasError) headingClassNames.push("text-danger")
 

@@ -12,12 +12,16 @@ import _ from "lodash"
 
 const SubjectSubNav = (props) => {
   const subject = useSelector((state) => selectNormSubject(state, props.subjectKey))
-  const subjectTemplate = useSelector((state) => selectSubjectTemplate(state, subject?.subjectTemplateKey))
+  const subjectTemplate = useSelector((state) =>
+    selectSubjectTemplate(state, subject?.subjectTemplateKey)
+  )
 
   const { handleNavClick, handleToggleClick, isExpanded } = useLeftNav(subject)
 
   const hasError = !_.isEmpty(subject.descWithErrorPropertyKeys)
-  const displayValidations = useSelector((state) => displayResourceValidations(state, subject?.rootSubjectKey))
+  const displayValidations = useSelector((state) =>
+    displayResourceValidations(state, subject?.rootSubjectKey)
+  )
   const headingClassNames = ["left-nav-header"]
   if (displayValidations && hasError) headingClassNames.push("text-danger")
 
@@ -37,7 +41,9 @@ const SubjectSubNav = (props) => {
 
   return (
     <li>
-      {subNavForSubject && <ToggleButton handleClick={handleToggleClick} isExpanded={isExpanded} label={toggleLabel} />}
+      {subNavForSubject && (
+        <ToggleButton handleClick={handleToggleClick} isExpanded={isExpanded} label={toggleLabel} />
+      )}
       <button
         type="button"
         className="btn d-inline-flex property-nav"

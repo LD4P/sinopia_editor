@@ -1,7 +1,12 @@
 import _ from "lodash"
 import { resourceEditErrorKey, resourceEditWarningKey } from "components/editor/Editor"
 import { emptyValue } from "utilities/Utilities"
-import { newBlankLiteralValue, newBlankUriValue, newBlankLookupValue, newBlankListValue } from "utilities/valueFactory"
+import {
+  newBlankLiteralValue,
+  newBlankUriValue,
+  newBlankLookupValue,
+  newBlankListValue,
+} from "utilities/valueFactory"
 import {
   mergeSubjectPropsToNewState,
   mergePropertyPropsToNewState,
@@ -26,18 +31,23 @@ export const setBaseURL = (state, action) =>
     uri: action.payload.resourceURI,
   })
 
-export const showProperty = (state, action) => mergePropertyPropsToNewState(state, action.payload, { show: true })
+export const showProperty = (state, action) =>
+  mergePropertyPropsToNewState(state, action.payload, { show: true })
 
-export const hideProperty = (state, action) => mergePropertyPropsToNewState(state, action.payload, { show: false })
+export const hideProperty = (state, action) =>
+  mergePropertyPropsToNewState(state, action.payload, { show: false })
 
-export const showNavProperty = (state, action) => mergePropertyPropsToNewState(state, action.payload, { showNav: true })
+export const showNavProperty = (state, action) =>
+  mergePropertyPropsToNewState(state, action.payload, { showNav: true })
 
 export const hideNavProperty = (state, action) =>
   mergePropertyPropsToNewState(state, action.payload, { showNav: false })
 
-export const showNavSubject = (state, action) => mergeSubjectPropsToNewState(state, action.payload, { showNav: true })
+export const showNavSubject = (state, action) =>
+  mergeSubjectPropsToNewState(state, action.payload, { showNav: true })
 
-export const hideNavSubject = (state, action) => mergeSubjectPropsToNewState(state, action.payload, { showNav: false })
+export const hideNavSubject = (state, action) =>
+  mergeSubjectPropsToNewState(state, action.payload, { showNav: false })
 
 export const loadResourceFinished = (state, action) => {
   let numDefaults = 0
@@ -56,7 +66,8 @@ export const saveResourceFinishedEditor = (state, action) => ({
   },
 })
 
-export const saveResourceFinished = (state, action) => setSubjectChanged(state, action.payload.resourceKey, false)
+export const saveResourceFinished = (state, action) =>
+  setSubjectChanged(state, action.payload.resourceKey, false)
 
 export const setUnusedRDF = (state, action) => ({
   ...state,
@@ -148,7 +159,9 @@ const addSubjectToNewState = (state, subject, valueSubjectOfKey) => {
 
   // Remove existing properties
   const oldPropertyKeys = oldSubject?.propertyKeys || []
-  oldPropertyKeys.forEach((propertyKey) => (newState = clearPropertyFromNewState(newState, propertyKey)))
+  oldPropertyKeys.forEach(
+    (propertyKey) => (newState = clearPropertyFromNewState(newState, propertyKey))
+  )
 
   // Add new properties
   if (newProperties) {
@@ -301,7 +314,14 @@ const addValueToNewState = (state, value, siblingValueKey = null, show = true) =
 }
 
 export const updateValue = (state, action) => {
-  const { valueKey, literal = null, lang = null, uri = null, label = null, component = null } = action.payload
+  const {
+    valueKey,
+    literal = null,
+    lang = null,
+    uri = null,
+    label = null,
+    component = null,
+  } = action.payload
 
   const oldValue = state.values[valueKey]
 
@@ -385,7 +405,10 @@ export const clearResourceFromEditor = (state, action) => {
   }
 
   const resourceIndex = state.resources.indexOf(resourceKey)
-  newState.resources = [...state.resources.slice(0, resourceIndex), ...state.resources.slice(resourceIndex + 1)]
+  newState.resources = [
+    ...state.resources.slice(0, resourceIndex),
+    ...state.resources.slice(resourceIndex + 1),
+  ]
 
   if (state.currentResource === resourceKey) {
     newState.currentResource = _.first(newState.resources) || null
@@ -417,7 +440,11 @@ export const setValueOrder = (state, action) => {
 
   const index = action.payload.index
   const filterValueKeys = newProperty.valueKeys.filter((key) => key !== valueKey)
-  newProperty.valueKeys = [...filterValueKeys.slice(0, index - 1), valueKey, ...filterValueKeys.slice(index - 1)]
+  newProperty.valueKeys = [
+    ...filterValueKeys.slice(0, index - 1),
+    valueKey,
+    ...filterValueKeys.slice(index - 1),
+  ]
 
   return replacePropertyInNewState(state, newProperty)
 }
@@ -429,11 +456,21 @@ const addFirstValue = (state, propertyKey) => {
   const propertyTemplate = state.propertyTemplates[property.propertyTemplateKey]
   switch (propertyTemplate.component) {
     case "InputLiteral":
-      return addValueToNewState(state, newBlankLiteralValue(property), null, propertyTemplate.required)
+      return addValueToNewState(
+        state,
+        newBlankLiteralValue(property),
+        null,
+        propertyTemplate.required
+      )
     case "InputURI":
       return addValueToNewState(state, newBlankUriValue(property), null, propertyTemplate.required)
     case "InputLookup":
-      return addValueToNewState(state, newBlankLookupValue(property), null, propertyTemplate.required)
+      return addValueToNewState(
+        state,
+        newBlankLookupValue(property),
+        null,
+        propertyTemplate.required
+      )
     case "InputList":
       return addValueToNewState(state, newBlankListValue(property), null, propertyTemplate.required)
     default:

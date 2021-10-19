@@ -17,7 +17,9 @@ import ToggleButton from "../ToggleButton"
 
 const NestedPropertyHeader = (props) => {
   const toggleLabel =
-    props.property.show === true ? `Hide ${props.propertyTemplate.label}` : `Show ${props.propertyTemplate.label}`
+    props.property.show === true
+      ? `Hide ${props.propertyTemplate.label}`
+      : `Show ${props.propertyTemplate.label}`
   const trashIcon = faTrashAlt
 
   const isAdd = !props.readOnly && !props.property.valueKeys
@@ -45,7 +47,9 @@ const NestedPropertyHeader = (props) => {
         <button
           type="button"
           className="btn btn-add btn-add-property"
-          onClick={() => props.expandProperty(props.property.key, resourceEditErrorKey(props.resourceKey))}
+          onClick={() =>
+            props.expandProperty(props.property.key, resourceEditErrorKey(props.resourceKey))
+          }
           aria-label={`Add ${props.propertyTemplate.label}`}
           data-testid={`Add ${props.propertyTemplate.label}`}
           data-id={props.property.key}

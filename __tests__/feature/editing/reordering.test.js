@@ -1,5 +1,11 @@
 import { renderApp, createHistory } from "testUtils"
-import { fireEvent, screen, getAllByPlaceholderText, getByTestId, waitFor } from "@testing-library/react"
+import {
+  fireEvent,
+  screen,
+  getAllByPlaceholderText,
+  getByTestId,
+  waitFor,
+} from "@testing-library/react"
 import { featureSetup } from "featureUtils"
 
 featureSetup()
@@ -11,7 +17,9 @@ describe("reordering properties", () => {
 
     await screen.findByText("Uber template1", { selector: "h3" })
 
-    const nestedResource1 = container.querySelector('div[data-label="Uber template1, property19"] div.nested-resource')
+    const nestedResource1 = container.querySelector(
+      'div[data-label="Uber template1, property19"] div.nested-resource'
+    )
 
     // No arrows.
     expect(nestedResource1.querySelector(".btn-moveup")).toBeFalsy()
@@ -28,7 +36,9 @@ describe("reordering properties", () => {
     fireEvent.click(getByTestId(panel, "Add another Uber template4"))
     await waitFor(() =>
       expect(
-        container.querySelectorAll('div[data-label="Uber template1, property19"] div.nested-resource')
+        container.querySelectorAll(
+          'div[data-label="Uber template1, property19"] div.nested-resource'
+        )
       ).toHaveLength(3)
     )
 

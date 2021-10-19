@@ -7,7 +7,8 @@ import { transfer } from "actionCreators/transfer"
 
 const mockStore = configureMockStore([thunk])
 
-const resourceUri = "https://api.development.sinopia.io/resource/7b4c275d-b0c7-40a4-80b3-e95a0d9d987c"
+const resourceUri =
+  "https://api.development.sinopia.io/resource/7b4c275d-b0c7-40a4-80b3-e95a0d9d987c"
 
 describe("transfer", () => {
   describe("successful", () => {

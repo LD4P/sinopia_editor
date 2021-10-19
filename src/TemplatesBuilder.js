@@ -22,7 +22,10 @@ export default class TemplatesBuilder {
   }
 
   buildSubjectTemplate() {
-    const resourceAttrValues = this.valuesFor(this.resourceTerm, "http://sinopia.io/vocabulary/hasResourceAttribute")
+    const resourceAttrValues = this.valuesFor(
+      this.resourceTerm,
+      "http://sinopia.io/vocabulary/hasResourceAttribute"
+    )
     this.subjectTemplate = {
       // This key will be unique for resource templates
       key: this.valueFor(this.resourceTerm, "http://sinopia.io/vocabulary/hasResourceId"),
@@ -33,7 +36,9 @@ export default class TemplatesBuilder {
       author: this.valueFor(this.resourceTerm, "http://sinopia.io/vocabulary/hasAuthor"),
       remark: this.valueFor(this.resourceTerm, "http://sinopia.io/vocabulary/hasRemark"),
       date: this.valueFor(this.resourceTerm, "http://sinopia.io/vocabulary/hasDate"),
-      suppressible: resourceAttrValues.includes("http://sinopia.io/vocabulary/resourceAttribute/suppressible"),
+      suppressible: resourceAttrValues.includes(
+        "http://sinopia.io/vocabulary/resourceAttribute/suppressible"
+      ),
       propertyTemplateKeys: [],
       propertyTemplates: [],
       group: this.group,
@@ -54,8 +59,9 @@ export default class TemplatesBuilder {
 
   buildList(subjectTerm, objects) {
     objects.push(
-      this.dataset.match(subjectTerm, rdf.namedNode("http://www.w3.org/1999/02/22-rdf-syntax-ns#first")).toArray()[0]
-        .object
+      this.dataset
+        .match(subjectTerm, rdf.namedNode("http://www.w3.org/1999/02/22-rdf-syntax-ns#first"))
+        .toArray()[0].object
     )
     const restQuad = this.dataset
       .match(subjectTerm, rdf.namedNode("http://www.w3.org/1999/02/22-rdf-syntax-ns#rest"))
@@ -95,7 +101,10 @@ export default class TemplatesBuilder {
     const propertyTemplate = this.newBasePropertyTemplate(propertyTerm)
     propertyTemplate.type = "uri"
     propertyTemplate.component = "InputURI"
-    const attributeTerm = this.objectFor(propertyTerm, "http://sinopia.io/vocabulary/hasUriAttributes")
+    const attributeTerm = this.objectFor(
+      propertyTerm,
+      "http://sinopia.io/vocabulary/hasUriAttributes"
+    )
     if (attributeTerm) {
       propertyTemplate.defaults = this.defaultsForUri(attributeTerm)
     }
@@ -104,17 +113,28 @@ export default class TemplatesBuilder {
 
   newBasePropertyTemplate(propertyTerm) {
     const propertyUri = this.valueFor(propertyTerm, "http://sinopia.io/vocabulary/hasPropertyUri")
-    const propertyAttrValues = this.valuesFor(propertyTerm, "http://sinopia.io/vocabulary/hasPropertyAttribute")
+    const propertyAttrValues = this.valuesFor(
+      propertyTerm,
+      "http://sinopia.io/vocabulary/hasPropertyAttribute"
+    )
     return {
       // This key will be unique for resource templates, property templates.
       key: `${this.subjectTemplate.key} > ${propertyUri}`,
       subjectTemplateKey: this.subjectTemplate.key,
       label: this.valueFor(propertyTerm, "http://www.w3.org/2000/01/rdf-schema#label"),
       uri: propertyUri,
-      required: propertyAttrValues.includes("http://sinopia.io/vocabulary/propertyAttribute/required"),
-      repeatable: propertyAttrValues.includes("http://sinopia.io/vocabulary/propertyAttribute/repeatable"),
-      ordered: propertyAttrValues.includes("http://sinopia.io/vocabulary/propertyAttribute/ordered"),
-      immutable: propertyAttrValues.includes("http://sinopia.io/vocabulary/propertyAttribute/immutable"),
+      required: propertyAttrValues.includes(
+        "http://sinopia.io/vocabulary/propertyAttribute/required"
+      ),
+      repeatable: propertyAttrValues.includes(
+        "http://sinopia.io/vocabulary/propertyAttribute/repeatable"
+      ),
+      ordered: propertyAttrValues.includes(
+        "http://sinopia.io/vocabulary/propertyAttribute/ordered"
+      ),
+      immutable: propertyAttrValues.includes(
+        "http://sinopia.io/vocabulary/propertyAttribute/immutable"
+      ),
       remark: this.valueFor(propertyTerm, "http://sinopia.io/vocabulary/hasRemark"),
       remarkUrl: this.valueFor(propertyTerm, "http://sinopia.io/vocabulary/hasRemarkUrl"),
       defaults: [],
@@ -126,7 +146,10 @@ export default class TemplatesBuilder {
   newResourcePropertyTemplate(propertyTerm) {
     const propertyTemplate = this.newBasePropertyTemplate(propertyTerm)
     propertyTemplate.type = "resource"
-    const attributeTerm = this.objectFor(propertyTerm, "http://sinopia.io/vocabulary/hasResourceAttributes")
+    const attributeTerm = this.objectFor(
+      propertyTerm,
+      "http://sinopia.io/vocabulary/hasResourceAttributes"
+    )
     if (attributeTerm) {
       propertyTemplate.defaults = this.defaultsForUri(attributeTerm)
       propertyTemplate.valueSubjectTemplateKeys = this.valuesFor(
@@ -141,7 +164,10 @@ export default class TemplatesBuilder {
   newLookupPropertyTemplate(propertyTerm) {
     const propertyTemplate = this.newBasePropertyTemplate(propertyTerm)
     propertyTemplate.type = "uri"
-    const attributeTerm = this.objectFor(propertyTerm, "http://sinopia.io/vocabulary/hasLookupAttributes")
+    const attributeTerm = this.objectFor(
+      propertyTerm,
+      "http://sinopia.io/vocabulary/hasLookupAttributes"
+    )
     if (attributeTerm) {
       propertyTemplate.defaults = this.defaultsForUri(attributeTerm)
       propertyTemplate.authorities = this.newAuthorities(attributeTerm)
@@ -180,7 +206,10 @@ export default class TemplatesBuilder {
   }
 
   defaultsForLiteral(propertyTerm) {
-    const attributeTerm = this.objectFor(propertyTerm, "http://sinopia.io/vocabulary/hasLiteralAttributes")
+    const attributeTerm = this.objectFor(
+      propertyTerm,
+      "http://sinopia.io/vocabulary/hasLiteralAttributes"
+    )
     if (!attributeTerm) return []
 
     const defaultTerms = this.objectsFor(attributeTerm, "http://sinopia.io/vocabulary/hasDefault")
@@ -209,7 +238,8 @@ export default class TemplatesBuilder {
       if (authorityConfig) {
         authority.label = authorityConfig.label
         if (authorityConfig.authority) authority.authority = authorityConfig.authority
-        if (authorityConfig.subauthority !== undefined) authority.subauthority = authorityConfig.subauthority
+        if (authorityConfig.subauthority !== undefined)
+          authority.subauthority = authorityConfig.subauthority
         authority.nonldLookup = authorityConfig.nonldLookup || false
         if (authorityConfig.type) authority.type = authorityConfig.type
       }

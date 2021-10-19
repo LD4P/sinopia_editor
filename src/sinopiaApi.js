@@ -3,7 +3,10 @@
 import { datasetFromJsonld, jsonldFromDataset } from "utilities/Utilities"
 import Config from "Config"
 /* eslint-disable node/no-unpublished-import */
-import { hasFixtureResource, getFixtureResource } from "../__tests__/testUtilities/fixtureLoaderHelper"
+import {
+  hasFixtureResource,
+  getFixtureResource,
+} from "../__tests__/testUtilities/fixtureLoaderHelper"
 import GraphBuilder from "GraphBuilder"
 import { v4 as uuidv4 } from "uuid"
 import Auth from "@aws-amplify/auth"
@@ -205,7 +208,9 @@ const checkResp = (resp) => {
     .then((errors) => {
       // Assuming only one for now.
       const error = errors[0]
-      const newError = error.details ? new Error(`${error.title}: ${error.details}`) : new Error(`${error.title}`)
+      const newError = error.details
+        ? new Error(`${error.title}: ${error.details}`)
+        : new Error(`${error.title}`)
       newError.name = "ApiError"
       throw newError
     })

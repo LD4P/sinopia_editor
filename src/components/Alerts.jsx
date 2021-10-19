@@ -12,7 +12,9 @@ const Alerts = (props) => {
   const errors = useSelector((state) => selectErrors(state, props.errorKey))
   if (_.isEmpty(errors)) return null
 
-  const alerts = errors.map((error) => <Alert text={error} key={`${props.errorKey}-${generateMD5(error)}`} />)
+  const alerts = errors.map((error) => (
+    <Alert text={error} key={`${props.errorKey}-${generateMD5(error)}`} />
+  ))
 
   return <div id={`alerts-${props.errorKey}`}>{alerts}</div>
 }

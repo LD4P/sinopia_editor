@@ -20,7 +20,13 @@ const LanguageButton = (props) => {
 
   return (
     <React.Fragment>
-      <button id="language" onClick={handleClick} aria-label={label} data-testid={label} className="btn btn-link">
+      <button
+        id="language"
+        onClick={handleClick}
+        aria-label={label}
+        data-testid={label}
+        className="btn btn-link"
+      >
         {languageLabel}
       </button>
       <InputLang value={props.value} />

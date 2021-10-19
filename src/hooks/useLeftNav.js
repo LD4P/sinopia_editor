@@ -1,7 +1,12 @@
 import { useDispatch, useSelector } from "react-redux"
 import { setCurrentComponent } from "actions/index"
 import { selectModalType } from "selectors/modals"
-import { showNavProperty, hideNavProperty, showNavSubject, hideNavSubject } from "../actions/resources"
+import {
+  showNavProperty,
+  hideNavProperty,
+  showNavSubject,
+  hideNavSubject,
+} from "../actions/resources"
 
 const useLeftNav = (navObj) => {
   // navObj can be a subject or property.

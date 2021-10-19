@@ -42,7 +42,8 @@ export const hasFixtureResource = (uri) =>
 export const getFixtureResource = (uri) => {
   // A special URI for testing.
   if (uri === "http://error") throw new Error("Ooops")
-  if (uri === "http://localhost:3000/resource/ld4p:RT:bf2:xxx") throw new Error("Error retrieving resource: Not Found")
+  if (uri === "http://localhost:3000/resource/ld4p:RT:bf2:xxx")
+    throw new Error("Error retrieving resource: Not Found")
 
   const id = normUri(uri)
   // For some reason, require must have __xxx__ and cannot be provided in variable.

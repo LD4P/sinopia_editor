@@ -38,7 +38,11 @@ const ResourcePreviewHeader = ({ resource }) => {
           <p>
             {editableByText}
             {isCollapsed && (
-              <button data-testid="expand-groups-button" className="p-0 btn btn-link" onClick={handleClick}>
+              <button
+                data-testid="expand-groups-button"
+                className="p-0 btn btn-link"
+                onClick={handleClick}
+              >
                 ...
               </button>
             )}

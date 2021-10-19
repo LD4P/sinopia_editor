@@ -18,10 +18,23 @@ export const addResourceFromDataset =
     const subjectTerm = rdf.namedNode(chooseURI(dataset, uri))
     const newUri = asNewResource ? null : uri
     const usedDataset = rdf.dataset()
-    usedDataset.addAll(dataset.match(subjectTerm, rdf.namedNode("http://sinopia.io/vocabulary/hasResourceTemplate")))
-    usedDataset.addAll(dataset.match(subjectTerm, rdf.namedNode("http://www.w3.org/1999/02/22-rdf-syntax-ns#type")))
+    usedDataset.addAll(
+      dataset.match(subjectTerm, rdf.namedNode("http://sinopia.io/vocabulary/hasResourceTemplate"))
+    )
+    usedDataset.addAll(
+      dataset.match(subjectTerm, rdf.namedNode("http://www.w3.org/1999/02/22-rdf-syntax-ns#type"))
+    )
     return dispatch(
-      recursiveResourceFromDataset(subjectTerm, newUri, resourceTemplateId, false, {}, dataset, usedDataset, errorKey)
+      recursiveResourceFromDataset(
+        subjectTerm,
+        newUri,
+        resourceTemplateId,
+        false,
+        {},
+        dataset,
+        usedDataset,
+        errorKey
+      )
     ).then((resource) => {
       dispatch(addSubjectAction(_.merge(resource, otherResourceAttrs)))
       return [resource, usedDataset]
@@ -64,39 +77,51 @@ const expandProperty = (property, errorKey) => (dispatch) => {
 }
 
 const recursiveResourceFromDataset =
-  (subjectTerm, uri, resourceTemplateId, suppress, resourceTemplatePromises, dataset, usedDataset, errorKey) =>
+  (
+    subjectTerm,
+    uri,
+    resourceTemplateId,
+    suppress,
+    resourceTemplatePromises,
+    dataset,
+    usedDataset,
+    errorKey
+  ) =>
   (dispatch) =>
-    dispatch(newSubject(uri, resourceTemplateId, resourceTemplatePromises, errorKey)).then((subject) =>
-      dispatch(newPropertiesFromTemplates(subject, true, errorKey)).then((properties) =>
-        Promise.all(
-          properties.map((property) =>
-            dispatch(
-              newValuesFromDataset(
-                subjectTerm,
-                property,
-                suppress,
-                resourceTemplatePromises,
-                dataset,
-                usedDataset,
-                errorKey
-              )
-            ).then((values) => {
-              const compactValues = _.compact(values)
-              if (!_.isEmpty(compactValues)) property.values = compactValues
-              return compactValues
-            })
-          )
-        ).then(() => {
-          subject.properties = properties
-          return subject
-        })
-      )
+    dispatch(newSubject(uri, resourceTemplateId, resourceTemplatePromises, errorKey)).then(
+      (subject) =>
+        dispatch(newPropertiesFromTemplates(subject, true, errorKey)).then((properties) =>
+          Promise.all(
+            properties.map((property) =>
+              dispatch(
+                newValuesFromDataset(
+                  subjectTerm,
+                  property,
+                  suppress,
+                  resourceTemplatePromises,
+                  dataset,
+                  usedDataset,
+                  errorKey
+                )
+              ).then((values) => {
+                const compactValues = _.compact(values)
+                if (!_.isEmpty(compactValues)) property.values = compactValues
+                return compactValues
+              })
+            )
+          ).then(() => {
+            subject.properties = properties
+            return subject
+          })
+        )
     )
 
-export const newSubject = (uri, resourceTemplateId, resourceTemplatePromises, errorKey) => (dispatch) => {
-  const key = nanoid()
-  return dispatch(loadResourceTemplate(resourceTemplateId, resourceTemplatePromises, errorKey)).then(
-    (subjectTemplate) => {
+export const newSubject =
+  (uri, resourceTemplateId, resourceTemplatePromises, errorKey) => (dispatch) => {
+    const key = nanoid()
+    return dispatch(
+      loadResourceTemplate(resourceTemplateId, resourceTemplatePromises, errorKey)
+    ).then((subjectTemplate) => {
       // This handles if there was an error fetching resource template
       if (!subjectTemplate) {
         const err = new Error(`Unable to load ${resourceTemplateId}`)
@@ -111,9 +136,8 @@ export const newSubject = (uri, resourceTemplateId, resourceTemplatePromises, er
         subjectTemplate,
         properties: [],
       }
-    }
-  )
-}
+    })
+  }
 
 export const newPropertiesFromTemplates = (subject, noDefaults, errorKey) => (dispatch) =>
   Promise.all(
@@ -123,7 +147,8 @@ export const newPropertiesFromTemplates = (subject, noDefaults, errorKey) => (di
   )
 
 const newValuesFromDataset =
-  (subjectTerm, property, suppress, resourceTemplatePromises, dataset, usedDataset, errorKey) => (dispatch) => {
+  (subjectTerm, property, suppress, resourceTemplatePromises, dataset, usedDataset, errorKey) =>
+  (dispatch) => {
     // Get the objects for the values. How depends on whether property is ordered or suppressed.
     let objects = null
     if (suppress) {
@@ -138,7 +163,16 @@ const newValuesFromDataset =
       // Get the values based on the template and the dataset then merge.
       const objPromises = _.compact(
         objects.map((obj) =>
-          dispatch(newNestedResourceFromObject(obj, property, resourceTemplatePromises, dataset, usedDataset, errorKey))
+          dispatch(
+            newNestedResourceFromObject(
+              obj,
+              property,
+              resourceTemplatePromises,
+              dataset,
+              usedDataset,
+              errorKey
+            )
+          )
         )
       )
       return Promise.all(objPromises).then((valuesFromObjs) => {
@@ -241,14 +275,21 @@ const newNestedResourceFromObject =
   (obj, property, resourceTemplatePromises, dataset, usedDataset, errorKey) => (dispatch) => {
     // Only build this embedded resource if can find the resource template.
     // Multiple types may be provided.
-    const typeQuads = dataset.match(obj, rdf.namedNode("http://www.w3.org/1999/02/22-rdf-syntax-ns#type")).toArray()
+    const typeQuads = dataset
+      .match(obj, rdf.namedNode("http://www.w3.org/1999/02/22-rdf-syntax-ns#type"))
+      .toArray()
 
     // Among the valueTemplateRefs, find all of the resource templates that match a type.
     // Ideally, only want 1 but need to handle other cases.
     return Promise.all(
       typeQuads.map((typeQuad) =>
         dispatch(
-          selectResourceTemplateId(property.propertyTemplate, typeQuad.object.value, resourceTemplatePromises, errorKey)
+          selectResourceTemplateId(
+            property.propertyTemplate,
+            typeQuad.object.value,
+            resourceTemplatePromises,
+            errorKey
+          )
         )
       )
     ).then((childRtIds) => {
@@ -281,26 +322,31 @@ const newNestedResourceFromObject =
     })
   }
 
-const selectResourceTemplateId = (propertyTemplate, resourceURI, resourceTemplatePromises, errorKey) => (dispatch) =>
-  Promise.all(
-    // The keys are resource template ids. They may or may not be in state
-    propertyTemplate.valueSubjectTemplateKeys.map((resourceTemplateId) =>
-      dispatch(loadResourceTemplate(resourceTemplateId, resourceTemplatePromises, errorKey)).then((subjectTemplate) =>
-        subjectTemplate.class === resourceURI ? resourceTemplateId : undefined
+const selectResourceTemplateId =
+  (propertyTemplate, resourceURI, resourceTemplatePromises, errorKey) => (dispatch) =>
+    Promise.all(
+      // The keys are resource template ids. They may or may not be in state
+      propertyTemplate.valueSubjectTemplateKeys.map((resourceTemplateId) =>
+        dispatch(loadResourceTemplate(resourceTemplateId, resourceTemplatePromises, errorKey)).then(
+          (subjectTemplate) =>
+            subjectTemplate.class === resourceURI ? resourceTemplateId : undefined
+        )
       )
     )
-  )
 
 const newLiteralFromObject = (obj, property) => newLiteralValue(property, obj.value, obj.language)
 
 const newUriFromObject = (obj, property, dataset, usedDataset) => {
   const uri = obj.value
-  const labelQuads = dataset.match(obj, rdf.namedNode("http://www.w3.org/2000/01/rdf-schema#label")).toArray()
+  const labelQuads = dataset
+    .match(obj, rdf.namedNode("http://www.w3.org/2000/01/rdf-schema#label"))
+    .toArray()
   let label = uri
   let lang = null
   if (labelQuads.length > 0) {
     // First that doesn't start with http or first
-    const labelQuad = labelQuads.find((labelQuad) => !labelQuad.object.value.startsWith("http")) || labelQuads[0]
+    const labelQuad =
+      labelQuads.find((labelQuad) => !labelQuad.object.value.startsWith("http")) || labelQuads[0]
     label = labelQuad.object.value
     lang = labelQuad.object.language || null
     // Adding all to usedData, even though only using first.
@@ -378,9 +424,9 @@ export const newSubjectCopy = (subjectKey, value) => (dispatch, getState) => {
   newSubject.properties = []
 
   // Add properties
-  return Promise.all(subject.properties.map((property) => dispatch(newPropertyCopy(property.key, newSubject)))).then(
-    () => newSubject
-  )
+  return Promise.all(
+    subject.properties.map((property) => dispatch(newPropertyCopy(property.key, newSubject)))
+  ).then(() => newSubject)
 }
 
 const newPropertyCopy = (propertyKey, subject) => (dispatch, getState) => {
@@ -402,9 +448,9 @@ const newPropertyCopy = (propertyKey, subject) => (dispatch, getState) => {
 
   // Add values
   if (property.values) {
-    return Promise.all(property.values.map((value) => dispatch(newValueCopy(value.key, newProperty)))).then(
-      () => newProperty
-    )
+    return Promise.all(
+      property.values.map((value) => dispatch(newValueCopy(value.key, newProperty)))
+    ).then(() => newProperty)
   }
   return newProperty
 }

@@ -10,7 +10,10 @@ const NewsItem = () => (
     <p>
       <i>
         For complete release notes see the{" "}
-        <a href="https://github.com/LD4P/sinopia/wiki/Latest-Release,-What's-Next">Sinopia help site</a>.
+        <a href="https://github.com/LD4P/sinopia/wiki/Latest-Release,-What's-Next">
+          Sinopia help site
+        </a>
+        .
       </i>
     </p>
     <ul>

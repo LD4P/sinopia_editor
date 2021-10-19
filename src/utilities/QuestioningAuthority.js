@@ -77,7 +77,9 @@ export const getTerm = (uri, id, searchUri, format = "n3") => {
     }
     url = `${Config.qaUrl}/authorities/show/${path}/${id}?format=${format}`
   } else {
-    url = `${Config.qaUrl}/authorities/fetch/linked_data/${authority.toLowerCase()}?format=${format}&uri=${uri}`
+    url = `${
+      Config.qaUrl
+    }/authorities/fetch/linked_data/${authority.toLowerCase()}?format=${format}&uri=${uri}`
   }
 
   return fetch(url).then((resp) => resp.text())

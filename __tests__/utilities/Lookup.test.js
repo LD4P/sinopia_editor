@@ -52,7 +52,9 @@ describe("getLookupResult()", () => {
         error: undefined,
         ...authorityConfig,
       })
-      expect(sinopiaSearch.getLookupResult).toHaveBeenCalledWith("foo", authorityConfig, { startOfRange: 10 })
+      expect(sinopiaSearch.getLookupResult).toHaveBeenCalledWith("foo", authorityConfig, {
+        startOfRange: 10,
+      })
     })
   })
 
@@ -97,7 +99,9 @@ describe("getLookupResult()", () => {
         error: undefined,
         authorityConfig,
       })
-      expect(qaSearch.createLookupPromise).toHaveBeenCalledWith("corn", authorityConfig, { startOfRange: 5 })
+      expect(qaSearch.createLookupPromise).toHaveBeenCalledWith("corn", authorityConfig, {
+        startOfRange: 5,
+      })
     })
   })
   describe("QA lookup with bad total_records", () => {
@@ -141,7 +145,9 @@ describe("getLookupResult()", () => {
         error: undefined,
         authorityConfig,
       })
-      expect(qaSearch.createLookupPromise).toHaveBeenCalledWith("corn", authorityConfig, { startOfRange: 5 })
+      expect(qaSearch.createLookupPromise).toHaveBeenCalledWith("corn", authorityConfig, {
+        startOfRange: 5,
+      })
     })
   })
 })

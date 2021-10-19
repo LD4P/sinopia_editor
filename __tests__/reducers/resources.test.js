@@ -88,7 +88,8 @@ describe("addProperty()", () => {
         key: "vmq88891",
         subjectKey: "t9zVwg2zO",
         rootSubjectKey: "t9zVwg2zO",
-        propertyTemplateKey: "ld4p:RT:bf2:Title:AbbrTitle > http://id.loc.gov/ontologies/bibframe/mainTitle",
+        propertyTemplateKey:
+          "ld4p:RT:bf2:Title:AbbrTitle > http://id.loc.gov/ontologies/bibframe/mainTitle",
         valueKeys: ["abc123"],
         show: false,
         showNav: false,
@@ -135,7 +136,8 @@ describe("addProperty()", () => {
         key: "JQEtq-vmq8",
         subjectKey: "t9zVwg2zO",
         rootSubjectKey: "t9zVwg2zO",
-        propertyTemplateKey: "ld4p:RT:bf2:Title:AbbrTitle > http://id.loc.gov/ontologies/bibframe/mainTitle",
+        propertyTemplateKey:
+          "ld4p:RT:bf2:Title:AbbrTitle > http://id.loc.gov/ontologies/bibframe/mainTitle",
         valueKeys: ["RxGx7WMh4"],
         show: true,
         showNav: true,
@@ -174,7 +176,8 @@ describe("addProperty()", () => {
         key: "i0SAJP-Zhd",
         subjectKey: "wihOjn-0Z",
         rootSubjectKey: "wihOjn-0Z",
-        propertyTemplateKey: "test:resource:SinopiaLookup > http://id.loc.gov/ontologies/bibframe/instanceOf",
+        propertyTemplateKey:
+          "test:resource:SinopiaLookup > http://id.loc.gov/ontologies/bibframe/instanceOf",
         valueKeys: ["abc123"],
         show: true,
         showNav: false,
@@ -215,7 +218,8 @@ describe("addProperty()", () => {
         key: "vmq88891",
         subjectKey: "wihOjn-0Z",
         rootSubjectKey: "wihOjn-0Z",
-        propertyTemplateKey: "test:resource:SinopiaLookup > http://id.loc.gov/ontologies/bibframe/instanceOf",
+        propertyTemplateKey:
+          "test:resource:SinopiaLookup > http://id.loc.gov/ontologies/bibframe/instanceOf",
         valueKeys: ["abc123"],
         show: true,
         showNav: false,
@@ -234,7 +238,9 @@ describe("addSubject()", () => {
   describe("new subject with no properties and matching resource key", () => {
     it("updates state", () => {
       const oldState = createState()
-      oldState.entities.subjectTemplates["resourceTemplate:bf2:Identifiers:Barcode"] = { label: "Barcode" }
+      oldState.entities.subjectTemplates["resourceTemplate:bf2:Identifiers:Barcode"] = {
+        label: "Barcode",
+      }
 
       const action = {
         type: "ADD_SUBJECT",
@@ -436,7 +442,8 @@ describe("addValue()", () => {
           subjectKey: "t9zVwg2zO",
           rootSubjectKey: "t9zVwg2zO",
           rootPropertyKey: "JQEtq-vmq8",
-          propertyTemplateKey: "ld4p:RT:bf2:Title:AbbrTitle > http://id.loc.gov/ontologies/bibframe/mainTitle",
+          propertyTemplateKey:
+            "ld4p:RT:bf2:Title:AbbrTitle > http://id.loc.gov/ontologies/bibframe/mainTitle",
           valueKeys: [],
           show: true,
           descUriOrLiteralValueKeys: [],
@@ -550,10 +557,18 @@ describe("addValue()", () => {
       })
       expect(newState.properties.RPaGmJ_8IQi8roZ1oj1uK.valueKeys).toContain("DxGx7WMh3")
       expect(newState.properties.RPaGmJ_8IQi8roZ1oj1uK.show).toBe(true)
-      expect(newState.properties.RPaGmJ_8IQi8roZ1oj1uK.descUriOrLiteralValueKeys).not.toContain("RPaGmJ_8IQi8roZ1oj1uK")
-      expect(newState.subjects.FYPd18JgfhSGaeviY7NNu.descUriOrLiteralValueKeys).not.toContain("RPaGmJ_8IQi8roZ1oj1uK")
-      expect(newState.properties.RPaGmJ_8IQi8roZ1oj1uK.descWithErrorPropertyKeys).toContain("RPaGmJ_8IQi8roZ1oj1uK")
-      expect(newState.subjects.FYPd18JgfhSGaeviY7NNu.descWithErrorPropertyKeys).toContain("RPaGmJ_8IQi8roZ1oj1uK")
+      expect(newState.properties.RPaGmJ_8IQi8roZ1oj1uK.descUriOrLiteralValueKeys).not.toContain(
+        "RPaGmJ_8IQi8roZ1oj1uK"
+      )
+      expect(newState.subjects.FYPd18JgfhSGaeviY7NNu.descUriOrLiteralValueKeys).not.toContain(
+        "RPaGmJ_8IQi8roZ1oj1uK"
+      )
+      expect(newState.properties.RPaGmJ_8IQi8roZ1oj1uK.descWithErrorPropertyKeys).toContain(
+        "RPaGmJ_8IQi8roZ1oj1uK"
+      )
+      expect(newState.subjects.FYPd18JgfhSGaeviY7NNu.descWithErrorPropertyKeys).toContain(
+        "RPaGmJ_8IQi8roZ1oj1uK"
+      )
     })
   })
 
@@ -888,7 +903,9 @@ describe("removeValue()", () => {
         payload: "CxGx7WMh2",
       }
 
-      expect(oldState.entities.properties["JQEtq-vmq8"].descWithErrorPropertyKeys).toContain("JQEtq-vmq8")
+      expect(oldState.entities.properties["JQEtq-vmq8"].descWithErrorPropertyKeys).toContain(
+        "JQEtq-vmq8"
+      )
       expect(oldState.entities.subjects.t9zVwg2zO.descWithErrorPropertyKeys).toContain("JQEtq-vmq8")
 
       const newState = reducer(oldState.entities, action)
@@ -897,7 +914,9 @@ describe("removeValue()", () => {
       expect(newState.properties["JQEtq-vmq8"].descUriOrLiteralValueKeys).not.toContain("CxGx7WMh2")
       expect(newState.subjects.t9zVwg2zO.changed).toBe(true)
       expect(newState.subjects.t9zVwg2zO.descUriOrLiteralValueKeys).not.toContain("CxGx7WMh2")
-      expect(newState.properties["JQEtq-vmq8"].descWithErrorPropertyKeys).not.toContain("JQEtq-vmq8")
+      expect(newState.properties["JQEtq-vmq8"].descWithErrorPropertyKeys).not.toContain(
+        "JQEtq-vmq8"
+      )
       expect(newState.subjects.t9zVwg2zO.descWithErrorPropertyKeys).not.toContain("JQEtq-vmq8")
     })
   })
@@ -1076,7 +1095,9 @@ describe("setUnusedRDF()", () => {
     }
 
     const newState = editorReducer(oldState.editor, action)
-    expect(newState.unusedRDF.t9zVwg2zO).toBe("<> <http://www.w3.org/1999/02/22-rdf-syntax-ns#value> 'abcde' .")
+    expect(newState.unusedRDF.t9zVwg2zO).toBe(
+      "<> <http://www.w3.org/1999/02/22-rdf-syntax-ns#value> 'abcde' ."
+    )
   })
 })
 
@@ -1364,8 +1385,12 @@ describe("updateValue()", () => {
         component: "InputURIValue",
       })
       expect(newState.properties.RPaGmJ_8IQi8roZ1oj1uK.valueKeys).toContain("a_-Jp0pY6pH6ytCtfr-mx")
-      expect(newState.properties.RPaGmJ_8IQi8roZ1oj1uK.descUriOrLiteralValueKeys).toContain("a_-Jp0pY6pH6ytCtfr-mx")
-      expect(newState.subjects.FYPd18JgfhSGaeviY7NNu.descUriOrLiteralValueKeys).toContain("a_-Jp0pY6pH6ytCtfr-mx")
+      expect(newState.properties.RPaGmJ_8IQi8roZ1oj1uK.descUriOrLiteralValueKeys).toContain(
+        "a_-Jp0pY6pH6ytCtfr-mx"
+      )
+      expect(newState.subjects.FYPd18JgfhSGaeviY7NNu.descUriOrLiteralValueKeys).toContain(
+        "a_-Jp0pY6pH6ytCtfr-mx"
+      )
     })
   })
 
@@ -1399,8 +1424,12 @@ describe("updateValue()", () => {
         component: "InputURIValue",
       })
 
-      expect(newState.properties.RPaGmJ_8IQi8roZ1oj1uK.descWithErrorPropertyKeys).toContain("RPaGmJ_8IQi8roZ1oj1uK")
-      expect(newState.subjects.FYPd18JgfhSGaeviY7NNu.descWithErrorPropertyKeys).toContain("RPaGmJ_8IQi8roZ1oj1uK")
+      expect(newState.properties.RPaGmJ_8IQi8roZ1oj1uK.descWithErrorPropertyKeys).toContain(
+        "RPaGmJ_8IQi8roZ1oj1uK"
+      )
+      expect(newState.subjects.FYPd18JgfhSGaeviY7NNu.descWithErrorPropertyKeys).toContain(
+        "RPaGmJ_8IQi8roZ1oj1uK"
+      )
     })
   })
 
@@ -1434,8 +1463,12 @@ describe("updateValue()", () => {
         component: "InputURIValue",
       })
 
-      expect(newState.properties.RPaGmJ_8IQi8roZ1oj1uK.descWithErrorPropertyKeys).toContain("RPaGmJ_8IQi8roZ1oj1uK")
-      expect(newState.subjects.FYPd18JgfhSGaeviY7NNu.descWithErrorPropertyKeys).toContain("RPaGmJ_8IQi8roZ1oj1uK")
+      expect(newState.properties.RPaGmJ_8IQi8roZ1oj1uK.descWithErrorPropertyKeys).toContain(
+        "RPaGmJ_8IQi8roZ1oj1uK"
+      )
+      expect(newState.subjects.FYPd18JgfhSGaeviY7NNu.descWithErrorPropertyKeys).toContain(
+        "RPaGmJ_8IQi8roZ1oj1uK"
+      )
     })
   })
 

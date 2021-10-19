@@ -36,7 +36,11 @@ const Header = (props) => {
               <div className="nav-link">•</div>
               {props.currentUser && (
                 <li className="nav-item">
-                  <a href="#" className="nav-link editor-help-resources" onClick={props.triggerEditorMenu}>
+                  <a
+                    href="#"
+                    className="nav-link editor-help-resources"
+                    onClick={props.triggerEditorMenu}
+                  >
                     Help
                   </a>
                 </li>
@@ -44,7 +48,11 @@ const Header = (props) => {
               <div className="nav-link">•</div>
               {props.currentUser && (
                 <li className="nav-item">
-                  <a href="#" className="nav-link editor-header-logout" onClick={() => props.signOut()}>
+                  <a
+                    href="#"
+                    className="nav-link editor-header-logout"
+                    onClick={() => props.signOut()}
+                  >
                     Logout
                   </a>
                 </li>

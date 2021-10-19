@@ -17,7 +17,9 @@ const CloseButton = (props) => {
   if (props.resourceKey) {
     resourceKey = props.resourceKey
   }
-  const resourceHasChanged = useSelector((state) => resourceHasChangesSinceLastSave(state, resourceKey))
+  const resourceHasChanged = useSelector((state) =>
+    resourceHasChangesSinceLastSave(state, resourceKey)
+  )
 
   const handleClick = (event) => {
     if (resourceHasChanged) {
@@ -44,7 +46,13 @@ const CloseButton = (props) => {
   return (
     <React.Fragment>
       <CloseResourceModal resourceKey={resourceKey} />
-      <button type="button" className={buttonClasses} aria-label="Close" title="Close" onClick={handleClick}>
+      <button
+        type="button"
+        className={buttonClasses}
+        aria-label="Close"
+        title="Close"
+        onClick={handleClick}
+      >
         {buttonLabel}
       </button>
     </React.Fragment>

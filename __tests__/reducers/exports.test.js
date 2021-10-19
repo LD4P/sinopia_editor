@@ -9,7 +9,10 @@ const handlers = {
 const reducer = createReducer(handlers)
 
 describe("exportsReceived", () => {
-  const exportFilenames = ["alberta_2020-08-23T00:01:15.272Z.zip", "boulder_2020-08-23T00:01:14.781Z.zip"]
+  const exportFilenames = [
+    "alberta_2020-08-23T00:01:15.272Z.zip",
+    "boulder_2020-08-23T00:01:14.781Z.zip",
+  ]
 
   it("sets the list of export file names", () => {
     const action = {

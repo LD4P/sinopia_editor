@@ -35,7 +35,8 @@ const vocabulary = {
     url: "http://sinopia.io/vocabulary/hasPropertyUri",
   },
   hasRemark: {
-    description: "Comment or guiding statement intended to be presented as supplementary information in user display",
+    description:
+      "Comment or guiding statement intended to be presented as supplementary information in user display",
     url: "https://sinopia.io/vocabulary/hasRemark",
   },
   hasResourceAttribute: {
@@ -120,7 +121,12 @@ const AllProperties = () => (
 )
 
 const Vocab = (props) => {
-  const body = props.match.params.element === undefined ? <AllProperties /> : displayProperty(props.match.params)
+  const body =
+    props.match.params.element === undefined ? (
+      <AllProperties />
+    ) : (
+      displayProperty(props.match.params)
+    )
   return (
     <div id="vocabulary">
       <Header triggerHomePageMenu={props.triggerHandleOffsetMenu} />

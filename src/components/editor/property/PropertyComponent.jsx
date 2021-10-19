@@ -14,7 +14,9 @@ import { selectNormSubject } from "selectors/resources"
 const PropertyComponent = ({ property, propertyTemplate, readOnly }) => {
   const resource = useSelector((state) => selectNormSubject(state, property.rootSubjectKey))
 
-  const displayValidations = useSelector((state) => displayResourceValidations(state, property.rootSubjectKey))
+  const displayValidations = useSelector((state) =>
+    displayResourceValidations(state, property.rootSubjectKey)
+  )
 
   // Immutable properties cannot be changed once saved.
   const immutable = propertyTemplate.immutable && resource.uri

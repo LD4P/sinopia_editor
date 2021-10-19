@@ -18,7 +18,9 @@ import _ from "lodash"
  * @return {Promise<Object>} promise containing the result of the search.
  */
 export const getSearchResults = async (query, options = {}) =>
-  getSearchResultsWithFacets(query, { ...options, noFacetResults: true }).then(([results]) => results)
+  getSearchResultsWithFacets(query, { ...options, noFacetResults: true }).then(
+    ([results]) => results
+  )
 
 /**
  * Performs a search of Sinopia resources.
@@ -83,7 +85,11 @@ export const getSearchResultsWithFacets = async (query, options = {}) => {
 }
 
 export const getSearchResultsByUris = (resourceUris) => {
-  if (Config.useResourceTemplateFixtures && resourceUris.length === 1 && hasFixtureResource(resourceUris[0]))
+  if (
+    Config.useResourceTemplateFixtures &&
+    resourceUris.length === 1 &&
+    hasFixtureResource(resourceUris[0])
+  )
     return Promise.resolve(resourceSearchResults(resourceUris[0])[0])
 
   const body = {

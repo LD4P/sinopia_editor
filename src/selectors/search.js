@@ -6,7 +6,8 @@ export const selectSearchUri = (state, searchType) => state.search[searchType]?.
 
 export const selectSearchQuery = (state, searchType) => state.search[searchType]?.query
 
-export const selectSearchTotalResults = (state, searchType) => state.search[searchType]?.totalResults || 0
+export const selectSearchTotalResults = (state, searchType) =>
+  state.search[searchType]?.totalResults || 0
 
 export const selectSearchFacetResults = (state, searchType, facetType) =>
   state.search[searchType]?.facetResults[facetType] || []

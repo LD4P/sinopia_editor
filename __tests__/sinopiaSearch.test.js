@@ -76,7 +76,9 @@ describe("getSearchResults", () => {
   }
 
   it("performs a search with default sort order and returns results", async () => {
-    global.fetch = jest.fn().mockImplementation(() => Promise.resolve({ json: () => successResult }))
+    global.fetch = jest
+      .fn()
+      .mockImplementation(() => Promise.resolve({ json: () => successResult }))
 
     const results = await getSearchResults("foo")
     expect(results).toEqual({
@@ -124,7 +126,9 @@ describe("getSearchResults", () => {
   })
 
   it("performs a search with specified page and sort order and returns results", async () => {
-    global.fetch = jest.fn().mockImplementation(() => Promise.resolve({ json: () => successResult }))
+    global.fetch = jest
+      .fn()
+      .mockImplementation(() => Promise.resolve({ json: () => successResult }))
     await getSearchResults("foo", {
       startOfRange: 10,
       resultsPerPage: 15,
@@ -258,7 +262,9 @@ describe("getSearchResultsWithFacets", () => {
   }
 
   it("performs a search with defaults and returns results", async () => {
-    global.fetch = jest.fn().mockImplementation(() => Promise.resolve({ json: () => successResult }))
+    global.fetch = jest
+      .fn()
+      .mockImplementation(() => Promise.resolve({ json: () => successResult }))
 
     const results = await getSearchResultsWithFacets("foo")
     expect(results).toEqual([
@@ -339,7 +345,9 @@ describe("getSearchResultsWithFacets", () => {
   })
 
   it("performs a search with specified filters and no aggs and returns results", async () => {
-    global.fetch = jest.fn().mockImplementation(() => Promise.resolve({ json: () => successResult }))
+    global.fetch = jest
+      .fn()
+      .mockImplementation(() => Promise.resolve({ json: () => successResult }))
 
     await getSearchResultsWithFacets("foo", {
       typeFilter: ["http://id.loc.gov/ontologies/bibframe/AbbreviatedTitle"],
@@ -454,7 +462,9 @@ describe("getLookupResult", () => {
     }
 
     it("performs a search and returns result", async () => {
-      global.fetch = jest.fn().mockImplementationOnce(() => Promise.resolve({ json: () => instanceResult }))
+      global.fetch = jest
+        .fn()
+        .mockImplementationOnce(() => Promise.resolve({ json: () => instanceResult }))
 
       const result = await getLookupResult("foo", lookupConfig)
       expect(result).toEqual({
@@ -468,7 +478,9 @@ describe("getLookupResult", () => {
     const lookupConfig = findAuthorityConfig("urn:ld4p:sinopia:resourceTemplate")
 
     it("performs a search and returns result", async () => {
-      global.fetch = jest.fn().mockImplementationOnce(() => Promise.resolve({ json: () => templateResult }))
+      global.fetch = jest
+        .fn()
+        .mockImplementationOnce(() => Promise.resolve({ json: () => templateResult }))
 
       const result = await getLookupResult("foo", lookupConfig)
       expect(result).toEqual({
@@ -521,7 +533,9 @@ const templateResult = {
 
 describe("getTemplateSearchResults", () => {
   it("returns results", async () => {
-    global.fetch = jest.fn().mockImplementation(() => Promise.resolve({ json: () => templateResult }))
+    global.fetch = jest
+      .fn()
+      .mockImplementation(() => Promise.resolve({ json: () => templateResult }))
     const results = await getTemplateSearchResults("Cartographic:Item")
 
     expect(results).toEqual({
@@ -556,7 +570,9 @@ describe("getTemplateSearchResults", () => {
       error: "504: Gateway Timout",
     }
 
-    global.fetch = jest.fn().mockImplementation(() => Promise.resolve({ json: () => searchDownResult }))
+    global.fetch = jest
+      .fn()
+      .mockImplementation(() => Promise.resolve({ json: () => searchDownResult }))
     const results = await getTemplateSearchResults("Palo Alto")
     expect(results).toEqual({
       totalHits: 0,
@@ -568,7 +584,9 @@ describe("getTemplateSearchResults", () => {
 
 describe("getTemplateSearchResultsByIds", () => {
   it("returns results", async () => {
-    global.fetch = jest.fn().mockImplementation(() => Promise.resolve({ json: () => templateResult }))
+    global.fetch = jest
+      .fn()
+      .mockImplementation(() => Promise.resolve({ json: () => templateResult }))
     const results = await getTemplateSearchResultsByIds(["ld4p:RT:bf2:Cartographic:Item"])
 
     expect(results).toEqual({
@@ -626,7 +644,9 @@ describe("getSearchResultsByUris", () => {
   }
 
   it("performs a search and returns results", async () => {
-    global.fetch = jest.fn().mockImplementation(() => Promise.resolve({ json: () => successResult }))
+    global.fetch = jest
+      .fn()
+      .mockImplementation(() => Promise.resolve({ json: () => successResult }))
 
     const results = await getSearchResultsByUris([
       "http://localhost:3000/resource/3d831f47-e686-4b8f-9086-11383b2af762",

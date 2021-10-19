@@ -22,7 +22,10 @@ describe("<QASearchResults />", () => {
             },
             {
               property: "Type",
-              values: ["http://id.loc.gov/ontologies/bflc/Hub", "http://id.loc.gov/ontologies/bibframe/Work"],
+              values: [
+                "http://id.loc.gov/ontologies/bflc/Hub",
+                "http://id.loc.gov/ontologies/bibframe/Work",
+              ],
               selectable: false,
               drillable: false,
             },
@@ -47,7 +50,10 @@ describe("<QASearchResults />", () => {
             },
             {
               property: "Type",
-              values: ["http://id.loc.gov/ontologies/bibframe/Text", "http://id.loc.gov/ontologies/bibframe/Work"],
+              values: [
+                "http://id.loc.gov/ontologies/bibframe/Text",
+                "http://id.loc.gov/ontologies/bibframe/Work",
+              ],
               selectable: false,
               drillable: false,
             },
@@ -107,7 +113,10 @@ describe("<QASearchResults />", () => {
             },
             {
               property: "Type",
-              values: ["http://id.loc.gov/ontologies/bflc/Hub", "http://id.loc.gov/ontologies/bibframe/Work"],
+              values: [
+                "http://id.loc.gov/ontologies/bflc/Hub",
+                "http://id.loc.gov/ontologies/bibframe/Work",
+              ],
               selectable: false,
               drillable: false,
             },

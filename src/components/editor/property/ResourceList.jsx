@@ -17,9 +17,13 @@ const ResourceList = (props) => {
   const [newResourceList, setNewResourceList] = useState([])
   const topRef = useRef(null)
 
-  const propertyTemplate = useSelector((state) => selectPropertyTemplate(state, props.property?.propertyTemplateKey))
+  const propertyTemplate = useSelector((state) =>
+    selectPropertyTemplate(state, props.property?.propertyTemplateKey)
+  )
   const subject = useSelector((state) => selectNormSubject(state, props.property?.subjectKey))
-  const subjectTemplate = useSelector((state) => selectSubjectTemplate(state, subject?.subjectTemplateKey))
+  const subjectTemplate = useSelector((state) =>
+    selectSubjectTemplate(state, subject?.subjectTemplateKey)
+  )
 
   useEffect(() => {
     let isMounted = true

@@ -1,4 +1,9 @@
-import { loadUserData, addTemplateHistory, addResourceHistory, addSearchHistory } from "actionCreators/user"
+import {
+  loadUserData,
+  addTemplateHistory,
+  addResourceHistory,
+  addSearchHistory,
+} from "actionCreators/user"
 import * as sinopiaApi from "sinopiaApi"
 import configureMockStore from "redux-mock-store"
 import thunk from "redux-thunk"
@@ -31,7 +36,9 @@ describe("loadUserData()", () => {
         },
       },
     })
-    sinopiaSearch.getTemplateSearchResultsByIds = jest.fn().mockResolvedValue({ results: [{ id: "template1" }] })
+    sinopiaSearch.getTemplateSearchResultsByIds = jest
+      .fn()
+      .mockResolvedValue({ results: [{ id: "template1" }] })
     sinopiaSearch.getSearchResultsByUris = jest.fn().mockResolvedValue({
       results: [
         {
@@ -83,7 +90,9 @@ describe("addResourceHistory()", () => {
     const store = mockStore(createState())
 
     await store.dispatch(
-      addResourceHistory("https://api.development.sinopia.io/resource/3f90a592-5070-4244-a2d9-47f503329e39")
+      addResourceHistory(
+        "https://api.development.sinopia.io/resource/3f90a592-5070-4244-a2d9-47f503329e39"
+      )
     )
 
     expect(sinopiaApi.putUserHistory).toHaveBeenCalledWith(

@@ -23,7 +23,9 @@ describe("<RDFDisplay />", () => {
     screen.getByText("Object", "th")
     // And table rows
     expect(screen.getAllByText("https://api.sinopia.io/resource/0894a8b3", "td")).toHaveLength(3)
-    expect(screen.getAllByText("http://id.loc.gov/ontologies/bibframe/mainTitle", "td")).toHaveLength(1)
+    expect(
+      screen.getAllByText("http://id.loc.gov/ontologies/bibframe/mainTitle", "td")
+    ).toHaveLength(1)
     screen.getByText("foo [eng]", "td")
   })
 

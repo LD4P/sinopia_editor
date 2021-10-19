@@ -11,17 +11,20 @@ import { fetchResource } from "sinopiaApi"
  * A thunk that gets a resource template from state or the server.
  * @return [Object] subject template
  */
-export const loadResourceTemplate = (resourceTemplateId, resourceTemplatePromises, errorKey) => (dispatch) =>
-  dispatch(loadResourceTemplateWithoutValidation(resourceTemplateId, resourceTemplatePromises))
-    .then((subjectTemplate) =>
-      dispatch(validateTemplates(subjectTemplate, resourceTemplatePromises, errorKey)).then((isValid) =>
-        isValid ? subjectTemplate : null
+export const loadResourceTemplate =
+  (resourceTemplateId, resourceTemplatePromises, errorKey) => (dispatch) =>
+    dispatch(loadResourceTemplateWithoutValidation(resourceTemplateId, resourceTemplatePromises))
+      .then((subjectTemplate) =>
+        dispatch(validateTemplates(subjectTemplate, resourceTemplatePromises, errorKey)).then(
+          (isValid) => (isValid ? subjectTemplate : null)
+        )
       )
-    )
-    .catch((err) => {
-      dispatch(addError(errorKey, `Error retrieving ${resourceTemplateId}: ${err.message || err}`))
-      return null
-    })
+      .catch((err) => {
+        dispatch(
+          addError(errorKey, `Error retrieving ${resourceTemplateId}: ${err.message || err}`)
+        )
+        return null
+      })
 
 /**
  * A thunk that gets a resource template from state or the server and transforms to
@@ -46,12 +49,20 @@ export const loadResourceTemplateWithoutValidation =
 
     const templateUri = `${Config.sinopiaApiBase}/resource/${resourceTemplateId}`
 
-    const newResourceTemplatePromise = fetchResource(templateUri, true).then(([dataset, response]) => {
-      const subjectTemplate = new TemplatesBuilder(dataset, templateUri, response.group, response.editGroups).build()
-      dispatch(addTemplates(subjectTemplate))
-      return subjectTemplate
-    })
+    const newResourceTemplatePromise = fetchResource(templateUri, true).then(
+      ([dataset, response]) => {
+        const subjectTemplate = new TemplatesBuilder(
+          dataset,
+          templateUri,
+          response.group,
+          response.editGroups
+        ).build()
+        dispatch(addTemplates(subjectTemplate))
+        return subjectTemplate
+      }
+    )
 
-    if (resourceTemplatePromises) resourceTemplatePromises[resourceTemplateId] = newResourceTemplatePromise
+    if (resourceTemplatePromises)
+      resourceTemplatePromises[resourceTemplateId] = newResourceTemplatePromise
     return newResourceTemplatePromise
   }

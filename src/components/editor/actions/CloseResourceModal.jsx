@@ -13,7 +13,9 @@ const CloseResourceModal = (props) => {
   const dispatch = useDispatch()
   const history = useHistory()
 
-  const show = useSelector((state) => selectModalType(state) === `CloseResourceModal-${props.resourceKey}`)
+  const show = useSelector(
+    (state) => selectModalType(state) === `CloseResourceModal-${props.resourceKey}`
+  )
 
   const handleClose = (event) => {
     dispatch(hideModal())
@@ -40,8 +42,15 @@ const CloseResourceModal = (props) => {
       <div className="modal-dialog modal-lg">
         <div className="modal-content">
           <div className="modal-header" data-testid="close-resource-modal-header">
-            <h4 className="modal-title">Resource has unsaved changes. Are you sure you want to close?</h4>
-            <button type="button" className="btn-close" onClick={handleClose} aria-label="Close"></button>
+            <h4 className="modal-title">
+              Resource has unsaved changes. Are you sure you want to close?
+            </h4>
+            <button
+              type="button"
+              className="btn-close"
+              onClick={handleClose}
+              aria-label="Close"
+            ></button>
           </div>
           <div className="modal-body rdf-modal-content">
             <div className="row">
@@ -54,7 +63,11 @@ const CloseResourceModal = (props) => {
                 >
                   Cancel
                 </button>
-                <button className="btn btn-primary btn-sm" data-dismiss="modal" onClick={handleCloseResource}>
+                <button
+                  className="btn btn-primary btn-sm"
+                  data-dismiss="modal"
+                  onClick={handleCloseResource}
+                >
                   Close
                 </button>
               </div>

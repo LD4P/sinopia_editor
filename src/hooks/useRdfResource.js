@@ -28,9 +28,11 @@ const useRdfResource = (dataset, baseURI, resourceTemplateId, errorKey) => {
       return
     }
     dispatch(clearErrors(errorKey))
-    dispatch(newResourceFromDataset(dataset, baseURI, resourceTemplateId, errorKey, true)).then((result) => {
-      setNavigateEditor(result)
-    })
+    dispatch(newResourceFromDataset(dataset, baseURI, resourceTemplateId, errorKey, true)).then(
+      (result) => {
+        setNavigateEditor(result)
+      }
+    )
   }, [dataset, baseURI, resourceTemplateId, dispatch, errorKey])
 
   useEffect(() => {

@@ -36,10 +36,22 @@ describe("Left-nav test", () => {
     // Need to determine if should upload a resource template.
     cy.get("#resource-templates").then((rtDiv) => {
       if (rtDiv.find("div#no-rt-warning").length > 0) {
-        addResourceTemplate("uber_template1.txt", "http://localhost:3000/resource/resourceTemplate:testing:uber1")
-        addResourceTemplate("uber_template2.txt", "http://localhost:3000/resource/resourceTemplate:testing:uber2")
-        addResourceTemplate("uber_template3.txt", "http://localhost:3000/resource/resourceTemplate:testing:uber3")
-        addResourceTemplate("uber_template4.txt", "http://localhost:3000/resource/resourceTemplate:testing:uber4")
+        addResourceTemplate(
+          "uber_template1.txt",
+          "http://localhost:3000/resource/resourceTemplate:testing:uber1"
+        )
+        addResourceTemplate(
+          "uber_template2.txt",
+          "http://localhost:3000/resource/resourceTemplate:testing:uber2"
+        )
+        addResourceTemplate(
+          "uber_template3.txt",
+          "http://localhost:3000/resource/resourceTemplate:testing:uber3"
+        )
+        addResourceTemplate(
+          "uber_template4.txt",
+          "http://localhost:3000/resource/resourceTemplate:testing:uber4"
+        )
 
         // Waiting for indexing. If this proves problematic, can try a different approach.
         // eslint-disable-next-line cypress/no-unnecessary-waiting
@@ -58,7 +70,10 @@ describe("Left-nav test", () => {
   })
 
   it("Opens a resource template", () => {
-    cy.get('a[title="Create resource for Uber template1"]').first().scrollIntoView().click({ force: true })
+    cy.get('a[title="Create resource for Uber template1"]')
+      .first()
+      .scrollIntoView()
+      .click({ force: true })
     // eslint-disable-next-line cypress/no-unnecessary-waiting
     cy.wait(1000)
     cy.url().should("include", "/editor")

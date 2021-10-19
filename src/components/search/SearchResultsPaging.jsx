@@ -41,7 +41,10 @@ const SearchResultsPaging = (props) => {
   if (range.slice(-1)[0] === lastPage) range.pop()
 
   const elipsis = (
-    <li className="page-item" style={{ borderStyle: "hidden", marginLeft: "1px", marginRight: "1px" }}>
+    <li
+      className="page-item"
+      style={{ borderStyle: "hidden", marginLeft: "1px", marginRight: "1px" }}
+    >
       ...
     </li>
   )

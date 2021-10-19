@@ -24,7 +24,9 @@ describe("editing a list property", () => {
       target: { value: "http://id.loc.gov/vocabulary/mrectype/analog" },
     })
 
-    expect(screen.getByText("http://id.loc.gov/vocabulary/mrectype/analog")).toHaveClass("form-control")
+    expect(screen.getByText("http://id.loc.gov/vocabulary/mrectype/analog")).toHaveClass(
+      "form-control"
+    )
     screen.getByText("analog", { selector: ".form-control" })
 
     // No select
@@ -43,7 +45,9 @@ describe("editing a list property", () => {
     )
 
     // Blank lookup
-    expect(container.querySelector('select[aria-label="Select Uber template1, property10"]')).toHaveValue("default")
+    expect(
+      container.querySelector('select[aria-label="Select Uber template1, property10"]')
+    ).toHaveValue("default")
   }, 10000)
 
   it("allows entering a repeatable list", async () => {
@@ -57,17 +61,23 @@ describe("editing a list property", () => {
       target: { value: "http://id.loc.gov/vocabulary/mrectype/analog" },
     })
 
-    expect(screen.getByText("http://id.loc.gov/vocabulary/mrectype/analog")).toHaveClass("form-control")
+    expect(screen.getByText("http://id.loc.gov/vocabulary/mrectype/analog")).toHaveClass(
+      "form-control"
+    )
 
     fireEvent.click(screen.getByTestId("Add another Uber template1, property11"))
 
-    const select2 = container.querySelector('select[aria-label="Select Uber template1, property11"]')
+    const select2 = container.querySelector(
+      'select[aria-label="Select Uber template1, property11"]'
+    )
     expect(select2).toBeInTheDocument()
     fireEvent.change(select2, {
       target: { value: "http://id.loc.gov/vocabulary/mrectype/digital" },
     })
 
-    expect(screen.getByText("http://id.loc.gov/vocabulary/mrectype/digital")).toHaveClass("form-control")
+    expect(screen.getByText("http://id.loc.gov/vocabulary/mrectype/digital")).toHaveClass(
+      "form-control"
+    )
   }, 10000)
 
   it("displays items from multiple authorities", async () => {

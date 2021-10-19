@@ -2,7 +2,11 @@
 
 import React, { useState, useEffect } from "react"
 import { useDispatch } from "react-redux"
-import { datasetFromRdf, findRootResourceTemplateId, hasQuadsForRootResourceTemplateId } from "utilities/Utilities"
+import {
+  datasetFromRdf,
+  findRootResourceTemplateId,
+  hasQuadsForRootResourceTemplateId,
+} from "utilities/Utilities"
 import useRdfResource from "hooks/useRdfResource"
 import { clearErrors, addError } from "actions/errors"
 import { showModal } from "actions/modals"
@@ -76,7 +80,8 @@ const LoadByRDFForm = () => {
 <> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://id.loc.gov/ontologies/bibframe/Title> .
   `
 
-  const baseURIPlaceholder = "For example: https://api.sinopia.io/resource/e111a712-5a45-4c2a-9201-289b98d7452e."
+  const baseURIPlaceholder =
+    "For example: https://api.sinopia.io/resource/e111a712-5a45-4c2a-9201-289b98d7452e."
 
   return (
     <div>
@@ -99,7 +104,9 @@ const LoadByRDFForm = () => {
           <p />
         </div>
         <div className="mb-3">
-          <label htmlFor="uriInput">Base URI (Omit brackets. If base URI is &lt;&gt;, leave blank.)</label>
+          <label htmlFor="uriInput">
+            Base URI (Omit brackets. If base URI is &lt;&gt;, leave blank.)
+          </label>
           <input
             type="url"
             className="form-control"

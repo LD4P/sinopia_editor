@@ -4,15 +4,22 @@ import React from "react"
 import { useSelector, useDispatch } from "react-redux"
 import { selectCurrentResourceKey, selectUri } from "selectors/resources"
 import { showModal as showModalAction } from "actions/modals"
-import { displayResourceValidations, hasValidationErrors as hasValidationErrorsSelector } from "selectors/errors"
+import {
+  displayResourceValidations,
+  hasValidationErrors as hasValidationErrorsSelector,
+} from "selectors/errors"
 
 // Renders the permissions link for saved resource
 const PermissionsAction = () => {
   const resourceKey = useSelector((state) => selectCurrentResourceKey(state))
   const uri = useSelector((state) => selectUri(state, resourceKey))
 
-  const hasValidationErrors = useSelector((state) => hasValidationErrorsSelector(state, resourceKey))
-  const validationErrorsAreShowing = useSelector((state) => displayResourceValidations(state, resourceKey))
+  const hasValidationErrors = useSelector((state) =>
+    hasValidationErrorsSelector(state, resourceKey)
+  )
+  const validationErrorsAreShowing = useSelector((state) =>
+    displayResourceValidations(state, resourceKey)
+  )
 
   const dispatch = useDispatch()
   const showGroupChooser = () => dispatch(showModalAction("GroupChoiceModal"))

@@ -61,20 +61,26 @@ const App = (props) => {
       <Route
         exact
         path="/"
-        render={(renderProps) => <HomePage {...renderProps} triggerHandleOffsetMenu={props.handleOffsetMenu} />}
+        render={(renderProps) => (
+          <HomePage {...renderProps} triggerHandleOffsetMenu={props.handleOffsetMenu} />
+        )}
       />
       {!hasResource && (
         <Route
           exact
           path="/editor/:rtId"
-          render={(renderProps) => <Editor {...renderProps} triggerHandleOffsetMenu={props.handleOffsetMenu} />}
+          render={(renderProps) => (
+            <Editor {...renderProps} triggerHandleOffsetMenu={props.handleOffsetMenu} />
+          )}
         />
       )}
 
       {hasResource ? (
         <Route
           path="/editor"
-          render={(renderProps) => <Editor {...renderProps} triggerHandleOffsetMenu={props.handleOffsetMenu} />}
+          render={(renderProps) => (
+            <Editor {...renderProps} triggerHandleOffsetMenu={props.handleOffsetMenu} />
+          )}
         />
       ) : (
         <Redirect from="/editor" to="/templates" />
@@ -93,26 +99,36 @@ const App = (props) => {
       <Route
         exact
         path="/search"
-        render={(renderProps) => <Search {...renderProps} triggerHandleOffsetMenu={props.handleOffsetMenu} />}
+        render={(renderProps) => (
+          <Search {...renderProps} triggerHandleOffsetMenu={props.handleOffsetMenu} />
+        )}
       />
       <Route
         exact
         path="/load"
-        render={(renderProps) => <LoadResource {...renderProps} triggerHandleOffsetMenu={props.handleOffsetMenu} />}
+        render={(renderProps) => (
+          <LoadResource {...renderProps} triggerHandleOffsetMenu={props.handleOffsetMenu} />
+        )}
       />
       <Route
         exact
         path="/exports"
-        render={(renderProps) => <Exports {...renderProps} triggerHandleOffsetMenu={props.handleOffsetMenu} />}
+        render={(renderProps) => (
+          <Exports {...renderProps} triggerHandleOffsetMenu={props.handleOffsetMenu} />
+        )}
       />
       <Route
         exact
         path="/dashboard"
-        render={(renderProps) => <Dashboard {...renderProps} triggerHandleOffsetMenu={props.handleOffsetMenu} />}
+        render={(renderProps) => (
+          <Dashboard {...renderProps} triggerHandleOffsetMenu={props.handleOffsetMenu} />
+        )}
       />
       <Route
         path={["/vocabulary/:element/:sub", "/vocabulary/:element", "/vocabulary"]}
-        render={(renderProps) => <Vocab {...renderProps} triggerHandleOffsetMenu={props.handleOffsetMenu} />}
+        render={(renderProps) => (
+          <Vocab {...renderProps} triggerHandleOffsetMenu={props.handleOffsetMenu} />
+        )}
       />
       <Route path="/menu" render={(renderProps) => <CanvasMenu {...renderProps} />} />
       <Route id="404" component={FourOhFour} />
@@ -123,9 +139,15 @@ const App = (props) => {
     <Switch>
       <Route
         path={["/vocabulary/:element/:sub", "/vocabulary/:element", "/vocabulary"]}
-        render={(renderProps) => <Vocab {...renderProps} triggerHandleOffsetMenu={props.handleOffsetMenu} />}
+        render={(renderProps) => (
+          <Vocab {...renderProps} triggerHandleOffsetMenu={props.handleOffsetMenu} />
+        )}
       />
-      <Route render={(renderProps) => <HomePage {...renderProps} triggerHandleOffsetMenu={props.handleOffsetMenu} />} />
+      <Route
+        render={(renderProps) => (
+          <HomePage {...renderProps} triggerHandleOffsetMenu={props.handleOffsetMenu} />
+        )}
+      />
     </Switch>
   )
 

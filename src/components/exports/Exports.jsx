@@ -13,7 +13,10 @@ export const exportsErrorKey = "exports"
 const Exports = (props) => {
   const exportFiles = useSelector((state) => selectExports(state))
 
-  const sortedExportFiles = useMemo(() => exportFiles.sort((a, b) => a.localeCompare(b)), [exportFiles])
+  const sortedExportFiles = useMemo(
+    () => exportFiles.sort((a, b) => a.localeCompare(b)),
+    [exportFiles]
+  )
 
   const exportFileList = sortedExportFiles.map((exportFile) => (
     <li key={exportFile}>
@@ -29,7 +32,8 @@ const Exports = (props) => {
       <h3>Exports</h3>
       <Alerts errorKey={exportsErrorKey} />
       <p className="text-muted">
-        Exports are regenerated weekly. Each zip file contains separate files per record (as JSON-LD).
+        Exports are regenerated weekly. Each zip file contains separate files per record (as
+        JSON-LD).
       </p>
       <ul className="list-unstyled">{exportFileList}</ul>
     </div>

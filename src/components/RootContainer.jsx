@@ -40,7 +40,10 @@ const RootContainer = () => {
           <OffCanvasBody className={offcanvasClass}>
             <BrowserRouter>
               <Provider store={store}>
-                <App isMenuOpened={isMenuOpened} handleOffsetMenu={() => setMenuOpened(!isMenuOpened)} />
+                <App
+                  isMenuOpened={isMenuOpened}
+                  handleOffsetMenu={() => setMenuOpened(!isMenuOpened)}
+                />
               </Provider>
             </BrowserRouter>
           </OffCanvasBody>

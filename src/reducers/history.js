@@ -3,7 +3,8 @@
 import Config from "Config"
 import _ from "lodash"
 
-export const addTemplateHistoryByResult = (state, action) => addTemplateResult(state, action.payload)
+export const addTemplateHistoryByResult = (state, action) =>
+  addTemplateResult(state, action.payload)
 
 export const addTemplateHistory = (state, action) => {
   const template = action.payload
@@ -27,16 +28,25 @@ const addTemplateResult = (state, result) => {
 
   return {
     ...state,
-    templates: addToHistory(state.templates, result, (newItem, checkItem) => newItem.id !== checkItem.id),
+    templates: addToHistory(
+      state.templates,
+      result,
+      (newItem, checkItem) => newItem.id !== checkItem.id
+    ),
   }
 }
 
 export const addSearchHistory = (state, action) => ({
   ...state,
-  searches: addToHistory(state.searches, action.payload, (newItem, checkItem) => !_.isEqual(newItem, checkItem)),
+  searches: addToHistory(
+    state.searches,
+    action.payload,
+    (newItem, checkItem) => !_.isEqual(newItem, checkItem)
+  ),
 })
 
-export const addResourceHistoryByResult = (state, action) => addResourceResult(state, action.payload)
+export const addResourceHistoryByResult = (state, action) =>
+  addResourceResult(state, action.payload)
 
 export const addResourceHistory = (state, action) => {
   const result = {
@@ -52,7 +62,11 @@ export const addResourceHistory = (state, action) => {
 
 const addResourceResult = (state, result) => ({
   ...state,
-  resources: addToHistory(state.resources, result, (newItem, checkItem) => newItem.uri !== checkItem.uri),
+  resources: addToHistory(
+    state.resources,
+    result,
+    (newItem, checkItem) => newItem.uri !== checkItem.uri
+  ),
 })
 
 const addToHistory = (historyItems, newItem, compareFunc) => {

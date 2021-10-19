@@ -65,7 +65,9 @@ describe("searching and opening a resource", () => {
 
     // Clear search button empties the search field
     fireEvent.click(screen.getByTestId("Clear query string", { selector: "button" }))
-    expect(screen.getByPlaceholderText("Enter id, label, URI, remark, group, or author").value).toEqual("")
+    expect(
+      screen.getByPlaceholderText("Enter id, label, URI, remark, group, or author").value
+    ).toEqual("")
 
     // see the recently used RTs
     const histTemplateBtn = await screen.findByText("Most recently used templates")

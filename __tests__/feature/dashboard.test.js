@@ -29,7 +29,9 @@ describe("viewing the dashboard", () => {
 
       // Click the resource template
       fireEvent.click(screen.getByTitle("Create resource for Uber template1"))
-      await waitFor(() => expect(screen.getAllByText("Uber template1", { selector: "h3" })).toHaveLength(1))
+      await waitFor(() =>
+        expect(screen.getAllByText("Uber template1", { selector: "h3" })).toHaveLength(1)
+      )
 
       fireEvent.click(screen.getByText("Dashboard", { selector: "a" }))
 
@@ -89,7 +91,9 @@ describe("viewing the dashboard", () => {
   describe("when user uses a resource", () => {
     it("lists the resource", async () => {
       const uri = "http://localhost:3000/resource/c7db5404-7d7d-40ac-b38e-c821d2c3ae3f"
-      sinopiaSearch.getSearchResultsWithFacets = jest.fn().mockResolvedValue(resourceSearchResults(uri))
+      sinopiaSearch.getSearchResultsWithFacets = jest
+        .fn()
+        .mockResolvedValue(resourceSearchResults(uri))
 
       renderApp()
 

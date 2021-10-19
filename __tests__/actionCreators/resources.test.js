@@ -91,7 +91,9 @@ describe("newResourceFromDataset", () => {
 
     it("dispatches actions", async () => {
       const dataset = await datasetFromN3(n3.replace(/<>/g, `<${uri}>`))
-      const result = await store.dispatch(newResourceFromDataset(dataset, uri, null, "testerrorkey"))
+      const result = await store.dispatch(
+        newResourceFromDataset(dataset, uri, null, "testerrorkey")
+      )
       expect(result).toBe(true)
 
       const actions = store.getActions()
@@ -149,7 +151,9 @@ describe("newResourceFromDataset", () => {
 
     it("dispatches actions", async () => {
       const dataset = await datasetFromN3(n3.replace(/<>/g, `<${uri}>`))
-      const result = await store.dispatch(newResourceFromDataset(dataset, uri, null, "testerrorkey"))
+      const result = await store.dispatch(
+        newResourceFromDataset(dataset, uri, null, "testerrorkey")
+      )
       expect(result).toBe(true)
 
       const actions = store.getActions()
@@ -185,7 +189,9 @@ describe("newResourceFromDataset", () => {
 
     it("dispatches actions", async () => {
       const dataset = await datasetFromN3(n3)
-      const result = await store.dispatch(newResourceFromDataset(dataset, uri, null, "testerrorkey"))
+      const result = await store.dispatch(
+        newResourceFromDataset(dataset, uri, null, "testerrorkey")
+      )
       expect(result).toBe(true)
 
       const actions = store.getActions()
@@ -203,7 +209,9 @@ describe("newResourceFromDataset", () => {
 <x> <http://id.loc.gov/ontologies/bibframe/uber/template1/property6> <ubertemplate1:property6> .
 `
       const dataset = await datasetFromN3(n3 + extraRdf)
-      const result = await store.dispatch(newResourceFromDataset(dataset, uri, null, "testerrorkey"))
+      const result = await store.dispatch(
+        newResourceFromDataset(dataset, uri, null, "testerrorkey")
+      )
       expect(result).toBe(true)
 
       const actions = store.getActions()
@@ -225,7 +233,9 @@ describe("newResourceFromDataset", () => {
       const extraRdf = `<ubertemplate1:property5> <http://www.w3.org/2000/01/rdf-schema#label> "http://sinopia.io/ubertemplate1:property5" .
 `
       const dataset = await datasetFromN3(n3 + extraRdf)
-      const result = await store.dispatch(newResourceFromDataset(dataset, uri, null, "testerrorkey"))
+      const result = await store.dispatch(
+        newResourceFromDataset(dataset, uri, null, "testerrorkey")
+      )
       expect(result).toBe(true)
 
       const actions = store.getActions()
@@ -252,7 +262,9 @@ _:b2 a <http://id.loc.gov/ontologies/bibframe/Uber4>;
     <http://id.loc.gov/ontologies/bibframe/uber/template4/property1> "bar"@eng.
 `
       const dataset = await datasetFromN3(n3 + extraRdf)
-      const result = await store.dispatch(newResourceFromDataset(dataset, uri, null, "testerrorkey"))
+      const result = await store.dispatch(
+        newResourceFromDataset(dataset, uri, null, "testerrorkey")
+      )
       expect(result).toBe(true)
 
       const actions = store.getActions()
@@ -278,7 +290,9 @@ _:c14n1 <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://id.loc.gov/ont
 
     it("dispatches actions", async () => {
       const dataset = await datasetFromN3(n3.replace(/<>/g, `<${uri}>`))
-      const result = await store.dispatch(newResourceFromDataset(dataset, uri, null, "testerrorkey", true))
+      const result = await store.dispatch(
+        newResourceFromDataset(dataset, uri, null, "testerrorkey", true)
+      )
       expect(result).toBe(true)
 
       const actions = store.getActions()
@@ -304,7 +318,9 @@ _:c14n1 <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://id.loc.gov/ont
       // Change the hasResourceTemplate triple.
       const fixtureRdf = n3.replace(resourceTemplateId, `${resourceTemplateId}x`)
       const dataset = await datasetFromN3(fixtureRdf)
-      const result = await store.dispatch(newResourceFromDataset(dataset, uri, resourceTemplateId, "testerrorkey"))
+      const result = await store.dispatch(
+        newResourceFromDataset(dataset, uri, resourceTemplateId, "testerrorkey")
+      )
       expect(result).toBe(true)
 
       const actions = store.getActions()
@@ -320,7 +336,9 @@ _:c14n1 <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://id.loc.gov/ont
     it("dispatches actions", async () => {
       const fixtureRdf = n3.replace(resourceTemplateId, "rt:repeated:propertyURI:propertyLabel")
       const dataset = await datasetFromN3(fixtureRdf)
-      const result = await store.dispatch(newResourceFromDataset(dataset, uri, null, "testerrorkey"))
+      const result = await store.dispatch(
+        newResourceFromDataset(dataset, uri, null, "testerrorkey")
+      )
       expect(result).toBe(false)
 
       const actions = store.getActions()
@@ -474,7 +492,9 @@ describe("newResource", () => {
     const store = mockStore(createState())
 
     it("dispatches actions", async () => {
-      const result = await store.dispatch(newResource("resourceTemplate:testing:uber1", "testerrorkey"))
+      const result = await store.dispatch(
+        newResource("resourceTemplate:testing:uber1", "testerrorkey")
+      )
       expect(result).toBe(true)
 
       const actions = store.getActions()
@@ -510,7 +530,9 @@ describe("newResource", () => {
     const store = mockStore(createState())
 
     it("dispatches actions", async () => {
-      const result = await store.dispatch(newResource("rt:repeated:propertyURI:propertyLabel", "testerrorkey"))
+      const result = await store.dispatch(
+        newResource("rt:repeated:propertyURI:propertyLabel", "testerrorkey")
+      )
       expect(result).toBe(false)
 
       const actions = store.getActions()
@@ -632,7 +654,9 @@ describe("saveNewResource", () => {
       editGroups: ["cornell"],
     })
 
-    const saveResourceFinishedAction = actions.find((action) => action.type === "SAVE_RESOURCE_FINISHED")
+    const saveResourceFinishedAction = actions.find(
+      (action) => action.type === "SAVE_RESOURCE_FINISHED"
+    )
     expect(saveResourceFinishedAction.payload.resourceKey).toEqual("t9zVwg2zO")
 
     expect(sinopiaApi.putUserHistory).toHaveBeenCalledWith(

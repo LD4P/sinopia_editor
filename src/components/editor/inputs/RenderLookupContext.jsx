@@ -58,7 +58,8 @@ class RenderLookupContext extends Component {
       }
       return (
         <div className="context-container">
-          <div className="context-heading details-container"> {innerResult.label} </div> {contextContent}
+          <div className="context-heading details-container"> {innerResult.label} </div>{" "}
+          {contextContent}
         </div>
       )
     }

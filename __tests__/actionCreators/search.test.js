@@ -31,7 +31,9 @@ describe("fetchSinopiaSearchResults", () => {
   }
 
   it("dispatches actions", async () => {
-    server.getSearchResultsWithFacets = jest.fn().mockResolvedValue([mockSearchResults, mockFacetResults])
+    server.getSearchResultsWithFacets = jest
+      .fn()
+      .mockResolvedValue([mockSearchResults, mockFacetResults])
     sinopiaApi.putUserHistory = jest.fn().mockResolvedValue()
     const store = mockStore(createState())
     await store.dispatch(
@@ -93,7 +95,10 @@ describe("fetchQASearchResults", () => {
           },
           {
             property: "Type",
-            values: ["http://id.loc.gov/ontologies/bflc/Hub", "http://id.loc.gov/ontologies/bibframe/Work"],
+            values: [
+              "http://id.loc.gov/ontologies/bflc/Hub",
+              "http://id.loc.gov/ontologies/bibframe/Work",
+            ],
             selectable: false,
             drillable: false,
           },
@@ -118,7 +123,10 @@ describe("fetchQASearchResults", () => {
           },
           {
             property: "Type",
-            values: ["http://id.loc.gov/ontologies/bibframe/Text", "http://id.loc.gov/ontologies/bibframe/Work"],
+            values: [
+              "http://id.loc.gov/ontologies/bibframe/Text",
+              "http://id.loc.gov/ontologies/bibframe/Work",
+            ],
             selectable: false,
             drillable: false,
           },

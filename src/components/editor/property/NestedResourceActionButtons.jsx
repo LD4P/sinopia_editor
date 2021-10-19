@@ -7,7 +7,12 @@ import { connect } from "react-redux"
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
 import { faTrashAlt, faArrowUp, faArrowDown } from "@fortawesome/free-solid-svg-icons"
 import { resourceEditErrorKey } from "../Editor"
-import { selectCurrentResourceKey, selectNormProperty, selectNormSubject, selectNormValues } from "selectors/resources"
+import {
+  selectCurrentResourceKey,
+  selectNormProperty,
+  selectNormSubject,
+  selectNormValues,
+} from "selectors/resources"
 import { selectPropertyTemplate, selectSubjectTemplate } from "selectors/templates"
 import { addSiblingValueSubject } from "actionCreators/resources"
 import { removeValue, setValueOrder } from "actions/resources"
@@ -15,15 +20,20 @@ import _ from "lodash"
 
 const NestedResourceActionButtons = (props) => {
   // Show add button if repeatable and first value.
-  const showAddButton = props.propertyTemplate.repeatable && props.value.key === _.first(props.siblingValues).key
+  const showAddButton =
+    props.propertyTemplate.repeatable && props.value.key === _.first(props.siblingValues).key
   // Show delete button if more than one.
   const showRemoveButton = props.siblingValues.length > 1
   const showMoveUpButton = props.propertyTemplate.ordered && props.index > 1
-  const showMoveDownButton = props.propertyTemplate.ordered && props.index < props.property.valueKeys.length
+  const showMoveDownButton =
+    props.propertyTemplate.ordered && props.index < props.property.valueKeys.length
 
   const addAnother = (event) => {
     event.preventDefault()
-    return props.addSiblingValueSubject(_.last(props.siblingValues).key, resourceEditErrorKey(props.resourceKey))
+    return props.addSiblingValueSubject(
+      _.last(props.siblingValues).key,
+      resourceEditErrorKey(props.resourceKey)
+    )
   }
 
   const moveUp = (event) => {

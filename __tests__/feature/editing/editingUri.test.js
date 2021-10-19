@@ -26,7 +26,9 @@ describe("editing a URI property", () => {
     fireEvent.keyDown(labelInput, { key: "Enter", code: 13, charCode: 13 })
 
     // There is uri text.
-    expect(screen.getByText("http://id.loc.gov/authorities/names/n79032058")).toHaveClass("form-control")
+    expect(screen.getByText("http://id.loc.gov/authorities/names/n79032058")).toHaveClass(
+      "form-control"
+    )
     expect(screen.getByText("Wittgenstein, Ludwig, 1889-1951")).toHaveClass("form-control")
 
     // There is a link out
@@ -38,7 +40,9 @@ describe("editing a URI property", () => {
     // There is remove button
     screen.getByTestId("Remove http://id.loc.gov/authorities/names/n79032058")
     // There is language button.
-    expect(screen.getByTestId("Change language for Wittgenstein, Ludwig, 1889-1951")).toHaveTextContent("English")
+    expect(
+      screen.getByTestId("Change language for Wittgenstein, Ludwig, 1889-1951")
+    ).toHaveTextContent("English")
   })
 
   it("allows entering a non-HTTP URI", async () => {
@@ -81,12 +85,16 @@ describe("editing a URI property", () => {
     fireEvent.keyPress(input2, { key: "Enter", code: 13, charCode: 13 })
 
     // There is first uri.
-    expect(screen.getByText("http://id.loc.gov/authorities/names/n79032058")).toHaveClass("form-control")
+    expect(screen.getByText("http://id.loc.gov/authorities/names/n79032058")).toHaveClass(
+      "form-control"
+    )
     // There is remove button
     screen.getByTestId("Remove http://id.loc.gov/authorities/names/n79032058")
 
     // And second uri.
-    expect(screen.getByText("http://id.loc.gov/authorities/names/n79056054")).toHaveClass("form-control")
+    expect(screen.getByText("http://id.loc.gov/authorities/names/n79056054")).toHaveClass(
+      "form-control"
+    )
     // There is remove button
     screen.getByTestId("Remove http://id.loc.gov/authorities/names/n79056054")
   })
@@ -171,7 +179,9 @@ describe("editing a URI property", () => {
     fireEvent.click(screen.getByText("Tai languages", { selector: ".rbt-highlight-text" }))
     fireEvent.click(screen.getByRole("button", { name: "Submit" }))
 
-    await waitFor(() => expect(screen.queryAllByRole("heading", { name: "Languages" }).length).toBeFalsy())
+    await waitFor(() =>
+      expect(screen.queryAllByRole("heading", { name: "Languages" }).length).toBeFalsy()
+    )
     expect(langBtn).toHaveTextContent("Tai languages")
   }, 25000)
 
@@ -226,8 +236,8 @@ describe("editing a URI property", () => {
     const saveBtn = screen.getAllByText("Save", { selector: "button" })[0] // there are multiple save buttons, grab the first
     fireEvent.click(saveBtn)
 
-    expect(await screen.findByTestId("URI errors for Wittgenstein, Ludwig, 1889-1951")).toHaveTextContent(
-      "URI required"
-    )
+    expect(
+      await screen.findByTestId("URI errors for Wittgenstein, Ludwig, 1889-1951")
+    ).toHaveTextContent("URI required")
   })
 })

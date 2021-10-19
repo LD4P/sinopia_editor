@@ -32,8 +32,11 @@ export const newUriValue = (property, uri, label, lang = defaultLanguageId) =>
 export const newBlankUriValue = (property) =>
   newValue(property, null, defaultLanguageId, null, null, null, "InputURIValue")
 
-export const newBlankLookupValue = (property) => newValue(property, null, null, null, null, null, "InputLookupValue")
+export const newBlankLookupValue = (property) =>
+  newValue(property, null, null, null, null, null, "InputLookupValue")
 
-export const newBlankListValue = (property) => newValue(property, null, null, null, null, null, "InputListValue")
+export const newBlankListValue = (property) =>
+  newValue(property, null, null, null, null, null, "InputListValue")
 
-export const newValueSubject = (property, subject) => newValue(property, null, null, null, null, subject)
+export const newValueSubject = (property, subject) =>
+  newValue(property, null, null, null, null, subject)

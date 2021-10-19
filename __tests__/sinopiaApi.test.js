@@ -192,12 +192,15 @@ describe("putResource", () => {
         json: jest.fn().mockRejectedValue("Parse error"),
         statusText: "Cannot save resource",
       })
-      await expect(putResource(resource, currentUser)).rejects.toThrow("Sinopia API returned Cannot save resource")
+      await expect(putResource(resource, currentUser)).rejects.toThrow(
+        "Sinopia API returned Cannot save resource"
+      )
     })
   })
 })
 
-const resourceUri = "https://api.development.sinopia.io/resource/7b4c275d-b0c7-40a4-80b3-e95a0d9d987c"
+const resourceUri =
+  "https://api.development.sinopia.io/resource/7b4c275d-b0c7-40a4-80b3-e95a0d9d987c"
 const marcPostUrl = "https://api.development.sinopia.io/marc/7b4c275d-b0c7-40a4-80b3-e95a0d9d987c"
 const jobUrl =
   "https://api.development.sinopia.io/marc/7b4c275d-b0c7-40a4-80b3-e95a0d9d987c/job/jlittman/2020-09-10T12:01:58.114Z"
@@ -356,14 +359,17 @@ describe("putUserHistory", () => {
 
     expect(await putUserHistory("tmann", "template", "abc123", "template1")).toEqual(userData)
 
-    expect(global.fetch).toHaveBeenCalledWith("http://localhost:3000/user/tmann/history/template/abc123", {
-      method: "PUT",
-      headers: {
-        Authorization: "Bearer Secret-Token",
-        "Content-Type": "application/json",
-      },
-      body: '{"payload":"template1"}',
-    })
+    expect(global.fetch).toHaveBeenCalledWith(
+      "http://localhost:3000/user/tmann/history/template/abc123",
+      {
+        method: "PUT",
+        headers: {
+          Authorization: "Bearer Secret-Token",
+          "Content-Type": "application/json",
+        },
+        body: '{"payload":"template1"}',
+      }
+    )
   })
 })
 

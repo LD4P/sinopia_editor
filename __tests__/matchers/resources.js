@@ -76,7 +76,8 @@ expect.extend({
     if (property.subject.subjectTemplate == null) {
       return {
         pass: false,
-        message: () => `Expected ${pretty(property)} to have subject with subjectTemplate property.`,
+        message: () =>
+          `Expected ${pretty(property)} to have subject with subjectTemplate property.`,
       }
     }
 

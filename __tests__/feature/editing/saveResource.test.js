@@ -25,7 +25,9 @@ describe("saving a resource", () => {
       fireEvent.keyDown(input, { key: "Enter", code: 13, charCode: 13 })
 
       // There is foo text.
-      await waitFor(() => expect(screen.getByText("foo", { selector: ".form-control" })).toBeInTheDocument())
+      await waitFor(() =>
+        expect(screen.getByText("foo", { selector: ".form-control" })).toBeInTheDocument()
+      )
 
       // Check that the title of the document is set the same as the rdfs:label
       screen.getByText("foo", { selector: "h3" })

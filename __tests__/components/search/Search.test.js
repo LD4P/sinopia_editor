@@ -25,7 +25,10 @@ describe("<Search />", () => {
           },
           {
             property: "Type",
-            values: ["http://id.loc.gov/ontologies/bflc/Hub", "http://id.loc.gov/ontologies/bibframe/Work"],
+            values: [
+              "http://id.loc.gov/ontologies/bflc/Hub",
+              "http://id.loc.gov/ontologies/bibframe/Work",
+            ],
             selectable: false,
             drillable: false,
           },
@@ -235,7 +238,9 @@ describe("<Search />", () => {
     fireEvent.click(screen.getByText("Sort by"))
     fireEvent.click(screen.getByText("Modified date, newest first"))
 
-    await waitFor(() => expect(screen.queryByText("Relevance", { selector: "button.active" })).not.toBeInTheDocument())
+    await waitFor(() =>
+      expect(screen.queryByText("Relevance", { selector: "button.active" })).not.toBeInTheDocument()
+    )
     screen.getByText("Modified date, newest first", {
       selector: "button.active",
     })

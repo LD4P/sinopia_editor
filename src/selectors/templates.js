@@ -25,8 +25,8 @@ export const selectSubjectAndPropertyTemplates = (state, key) => {
   if (!subjectTemplate) return null
 
   const newSubjectTemplate = { ...subjectTemplate }
-  newSubjectTemplate.propertyTemplates = subjectTemplate.propertyTemplateKeys.map((propertyTemplateKey) =>
-    selectPropertyTemplate(state, propertyTemplateKey)
+  newSubjectTemplate.propertyTemplates = subjectTemplate.propertyTemplateKeys.map(
+    (propertyTemplateKey) => selectPropertyTemplate(state, propertyTemplateKey)
   )
 
   return newSubjectTemplate

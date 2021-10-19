@@ -30,7 +30,9 @@ const GroupChoiceModal = () => {
   const userGroupIds = useSelector((state) => selectGroups(state))
   const groupMap = useSelector((state) => selectGroupMap(state))
   const [ownerGroupId, setOwnerGroupId] = useState(resource.group || userGroupIds[0])
-  const [editGroupValues, setEditGroupValues] = useState(groupsToGroupValues(resource.editGroups, groupMap))
+  const [editGroupValues, setEditGroupValues] = useState(
+    groupsToGroupValues(resource.editGroups, groupMap)
+  )
   const show = modalType === "GroupChoiceModal"
   const ownerGroupLabel = groupMap[ownerGroupId]
   const editGroupLabels = editGroupValues.map((groupValue) => groupValue.label).join(", ")
@@ -60,9 +62,23 @@ const GroupChoiceModal = () => {
   const saveAndClose = (event) => {
     const editGroupIds = editGroupValues.map((editGroupValue) => editGroupValue.value)
     if (resource.uri) {
-      dispatch(saveResourceAction(resourceKey, ownerGroupId, editGroupIds, resourceEditWarningKey(resourceKey)))
+      dispatch(
+        saveResourceAction(
+          resourceKey,
+          ownerGroupId,
+          editGroupIds,
+          resourceEditWarningKey(resourceKey)
+        )
+      )
     } else {
-      dispatch(saveNewResource(resourceKey, ownerGroupId, editGroupIds, resourceEditWarningKey(resourceKey)))
+      dispatch(
+        saveNewResource(
+          resourceKey,
+          ownerGroupId,
+          editGroupIds,
+          resourceEditWarningKey(resourceKey)
+        )
+      )
     }
     dispatch(hideModal())
     event.preventDefault()
@@ -86,7 +102,12 @@ const GroupChoiceModal = () => {
         <div className="modal-dialog modal-lg" role="document">
           <div className="modal-content">
             <div className="modal-header prop-heading">
-              <button type="button" className="btn-close" onClick={close} aria-label="Close"></button>
+              <button
+                type="button"
+                className="btn-close"
+                onClick={close}
+                aria-label="Close"
+              ></button>
             </div>
             <div className="modal-body group-panel">
               <label htmlFor="ownerSelect">

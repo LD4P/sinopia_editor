@@ -66,7 +66,8 @@ const QASearchResults = () => {
           if (typeValues) types.push(...typeValues)
           const excludeProperties = ["Type", "Title", "Image URL"]
           result.context.forEach((context) => {
-            if (!excludeProperties.includes(context.property)) contexts[context.property] = context.values
+            if (!excludeProperties.includes(context.property))
+              contexts[context.property] = context.values
           })
         }
         return {

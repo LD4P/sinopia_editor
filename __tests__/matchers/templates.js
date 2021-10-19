@@ -8,16 +8,22 @@ expect.extend({
     }
 
     // Make sure the keys match and this is a subject template (indicated by having class)
-    if (subjectTemplate == null || subjectTemplate.key !== subjectTemplateKey || subjectTemplate.class === undefined) {
+    if (
+      subjectTemplate == null ||
+      subjectTemplate.key !== subjectTemplateKey ||
+      subjectTemplate.class === undefined
+    ) {
       return {
         pass: false,
-        message: () => `Expected ${pretty(subjectTemplate)} to be subject template ${subjectTemplateKey}`,
+        message: () =>
+          `Expected ${pretty(subjectTemplate)} to be subject template ${subjectTemplateKey}`,
       }
     }
 
     return {
       pass: true,
-      message: () => `Expected ${pretty(subjectTemplate)} not to be subject template ${subjectTemplateKey}`,
+      message: () =>
+        `Expected ${pretty(subjectTemplate)} not to be subject template ${subjectTemplateKey}`,
     }
   },
   toBePropertyTemplate(propertyTemplate, propertyTemplateKey) {
@@ -28,13 +34,15 @@ expect.extend({
     if (!equalsPropertyTemplate(propertyTemplate, propertyTemplateKey)) {
       return {
         pass: false,
-        message: () => `Expected ${pretty(propertyTemplate)} to be property template ${propertyTemplateKey}`,
+        message: () =>
+          `Expected ${pretty(propertyTemplate)} to be property template ${propertyTemplateKey}`,
       }
     }
 
     return {
       pass: true,
-      message: () => `Expected ${pretty(propertyTemplate)} not to be property template ${propertyTemplateKey}`,
+      message: () =>
+        `Expected ${pretty(propertyTemplate)} not to be property template ${propertyTemplateKey}`,
     }
   },
   toBePropertyTemplates(propertyTemplates, propertyTemplateKeys) {
@@ -45,7 +53,8 @@ expect.extend({
     if (propertyTemplates.length !== propertyTemplateKeys.length) {
       return {
         pass: false,
-        message: () => `Expected ${pretty(propertyTemplates)} to have length ${propertyTemplateKeys.length}`,
+        message: () =>
+          `Expected ${pretty(propertyTemplates)} to have length ${propertyTemplateKeys.length}`,
       }
     }
 
@@ -56,13 +65,15 @@ expect.extend({
     ) {
       return {
         pass: false,
-        message: () => `Expected ${pretty(propertyTemplates)} to be property templates ${propertyTemplateKeys}`,
+        message: () =>
+          `Expected ${pretty(propertyTemplates)} to be property templates ${propertyTemplateKeys}`,
       }
     }
 
     return {
       pass: true,
-      message: () => `Expected ${pretty(propertyTemplates)} not to be property template ${propertyTemplateKeys}`,
+      message: () =>
+        `Expected ${pretty(propertyTemplates)} not to be property template ${propertyTemplateKeys}`,
     }
   },
 })

@@ -125,7 +125,11 @@ const SearchFilter = ({ label, filterLabelFunc, facet, filterSearchOption }) => 
                   checked={allSelected}
                   onChange={toggleAllSelectedFilter}
                 />
-                <label className="form-check-label" htmlFor={`${id}-allNone`} onClick={toggleAllSelectedFilter}>
+                <label
+                  className="form-check-label"
+                  htmlFor={`${id}-allNone`}
+                  onClick={toggleAllSelectedFilter}
+                >
                   Select/Deselect all
                 </label>
               </div>
@@ -133,7 +137,12 @@ const SearchFilter = ({ label, filterLabelFunc, facet, filterSearchOption }) => 
           </li>
           {dropdownItems}
           {searchOptions[filterSearchOption] && (
-            <button type="button" className="dropdown-item" key="clear" onClick={() => clearFilter()}>
+            <button
+              type="button"
+              className="dropdown-item"
+              key="clear"
+              onClick={() => clearFilter()}
+            >
               Clear filter
             </button>
           )}

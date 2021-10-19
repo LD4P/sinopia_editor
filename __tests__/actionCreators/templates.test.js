@@ -79,7 +79,9 @@ describe("loadResourceTemplate()", () => {
     it("dispatches errors and returns empty", async () => {
       const store = mockStore(createState({ hasResourceWithLiteral: true }))
 
-      const subjectTemplate = await store.dispatch(loadResourceTemplate("ld4p:RT:bf2:xxx", {}, "testerrorkey"))
+      const subjectTemplate = await store.dispatch(
+        loadResourceTemplate("ld4p:RT:bf2:xxx", {}, "testerrorkey")
+      )
       expect(subjectTemplate).toBeNull()
 
       expect(store.getActions()).toEqual([
@@ -87,7 +89,8 @@ describe("loadResourceTemplate()", () => {
           type: "ADD_ERROR",
           payload: {
             errorKey: "testerrorkey",
-            error: "Error retrieving ld4p:RT:bf2:xxx: Error parsing resource: Error retrieving resource: Not Found",
+            error:
+              "Error retrieving ld4p:RT:bf2:xxx: Error parsing resource: Error retrieving resource: Not Found",
           },
         },
       ])

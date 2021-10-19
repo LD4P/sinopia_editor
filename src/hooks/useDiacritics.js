@@ -53,7 +53,9 @@ const useDiacritics = (inputRef, inputId, diacriticsId, diacriticsBtnId, default
   }
 
   const handleAddCharacter = (character) => {
-    setCurrentContent(currentContent.slice(0, currentPosition) + character + currentContent.slice(currentPosition))
+    setCurrentContent(
+      currentContent.slice(0, currentPosition) + character + currentContent.slice(currentPosition)
+    )
     setCurrentPosition(currentPosition + 1)
   }
 

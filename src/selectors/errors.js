@@ -7,7 +7,8 @@ import _ from "lodash"
  * @param {string} resourceKey of the resource to check; if omitted, current resource key is used
  * @return {boolean} true if resource validations should be displayed
  */
-export const displayResourceValidations = (state, resourceKey) => state.editor.resourceValidation[resourceKey] || false
+export const displayResourceValidations = (state, resourceKey) =>
+  state.editor.resourceValidation[resourceKey] || false
 
 export const hasValidationErrors = (state, resourceKey) => {
   if (!resourceKey) return false

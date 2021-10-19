@@ -98,7 +98,10 @@ const InputListValue = ({ value, propertyTemplate, displayValidations, shouldFoc
           <div className="invalid-feedback">{value.errors.join(", ")}</div>
         </div>
         <div className="col-sm-1">
-          <RemoveButton content={`select ${propertyTemplate.label}`} handleClick={handleRemoveClick} />
+          <RemoveButton
+            content={`select ${propertyTemplate.label}`}
+            handleClick={handleRemoveClick}
+          />
         </div>
       </div>
       <div className="row">

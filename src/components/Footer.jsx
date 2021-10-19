@@ -22,8 +22,8 @@ const Footer = () => (
           <a rel="grant noopener noreferrer" href="http://www.ld4p.org" target="_blank">
             Linked Data for Production 2 (LD4P2)
           </a>
-          , generously funded by the Andrew W. Mellon Foundation. All metadata available on Sinopia are published free
-          of restrictions, under the terms of the&nbsp;
+          , generously funded by the Andrew W. Mellon Foundation. All metadata available on Sinopia
+          are published free of restrictions, under the terms of the&nbsp;
           <a
             rel="license noopener noreferrer"
             href="https://creativecommons.org/publicdomain/zero/1.0/"

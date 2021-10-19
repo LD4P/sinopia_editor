@@ -80,7 +80,13 @@ const HeaderSearch = () => {
         >
           <FontAwesomeIcon className="info-icon" icon={faInfoCircle} />
         </a>
-        <select className="form-select" id="searchType" value={uri} onChange={handleUriChange} onBlur={handleUriChange}>
+        <select
+          className="form-select"
+          id="searchType"
+          value={uri}
+          onChange={handleUriChange}
+          onBlur={handleUriChange}
+        >
           <option value={sinopiaSearchUri}>Sinopia</option>
           {options}
         </select>

@@ -51,7 +51,9 @@ const result1 = {
       context: [
         {
           property: "Image URL",
-          values: ["https://img.discogs.com/3a11940a0981896d8eafe3d3f3690e94440eda7d/images/spacer.gif"],
+          values: [
+            "https://img.discogs.com/3a11940a0981896d8eafe3d3f3690e94440eda7d/images/spacer.gif",
+          ],
         },
         {
           property: "Year",
@@ -198,7 +200,9 @@ describe("selecting a value from lookup", () => {
     fireEvent.keyDown(labelInput, { key: "Enter", code: 13, charCode: 13 })
 
     // There is uri text.
-    expect(screen.getByText("http://id.loc.gov/authorities/names/n79032058")).toHaveClass("form-control")
+    expect(screen.getByText("http://id.loc.gov/authorities/names/n79032058")).toHaveClass(
+      "form-control"
+    )
     expect(screen.getByText("Wittgenstein, Ludwig, 1889-1951")).toHaveClass("form-control")
   })
 
@@ -344,7 +348,9 @@ describe("selecting a value from lookup", () => {
     expect(container.querySelector(".lookup")).not.toBeInTheDocument()
 
     // There is uri text.
-    expect(screen.getByText("https://www.discogs.com/artist/130060-Shania-Twain")).toHaveClass("form-control")
+    expect(screen.getByText("https://www.discogs.com/artist/130060-Shania-Twain")).toHaveClass(
+      "form-control"
+    )
     expect(screen.getByText("Shania Twain")).toHaveClass("form-control")
 
     // Now remove it
@@ -360,7 +366,9 @@ describe("selecting a value from lookup", () => {
     )
 
     // Blank lookup
-    expect(screen.getByPlaceholderText("Enter lookup query for Instance of (lookup)")).toHaveValue("")
+    expect(screen.getByPlaceholderText("Enter lookup query for Instance of (lookup)")).toHaveValue(
+      ""
+    )
   })
 })
 

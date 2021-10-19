@@ -9,7 +9,9 @@ describe("addTemplates", () => {
     id: "ld4p:RT:bf2:Title:AbbrTitle",
     class: "http://id.loc.gov/ontologies/bibframe/AbbreviatedTitle",
     label: "Abbreviated Title",
-    propertyTemplateKeys: ["ld4p:RT:bf2:Title:AbbrTitle > http://id.loc.gov/ontologies/bibframe/mainTitle"],
+    propertyTemplateKeys: [
+      "ld4p:RT:bf2:Title:AbbrTitle > http://id.loc.gov/ontologies/bibframe/mainTitle",
+    ],
     propertyTemplates: [
       {
         key: "ld4p:RT:bf2:Title:AbbrTitle > http://id.loc.gov/ontologies/bibframe/mainTitle",
@@ -38,7 +40,11 @@ describe("addTemplates", () => {
     expect(newSubjectTemplate.propertyTemplates).toBeUndefined()
 
     expect(
-      newState.propertyTemplates["ld4p:RT:bf2:Title:AbbrTitle > http://id.loc.gov/ontologies/bibframe/mainTitle"]
-    ).toBePropertyTemplate("ld4p:RT:bf2:Title:AbbrTitle > http://id.loc.gov/ontologies/bibframe/mainTitle")
+      newState.propertyTemplates[
+        "ld4p:RT:bf2:Title:AbbrTitle > http://id.loc.gov/ontologies/bibframe/mainTitle"
+      ]
+    ).toBePropertyTemplate(
+      "ld4p:RT:bf2:Title:AbbrTitle > http://id.loc.gov/ontologies/bibframe/mainTitle"
+    )
   })
 })

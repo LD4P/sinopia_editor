@@ -19,7 +19,9 @@ import _ from "lodash"
 const PanelProperty = ({ propertyKey, resourceKey, readOnly, id, isTemplate }) => {
   const dispatch = useDispatch()
   const property = useSelector((state) => selectNormProperty(state, propertyKey))
-  const propertyTemplate = useSelector((state) => selectPropertyTemplate(state, property?.propertyTemplateKey))
+  const propertyTemplate = useSelector((state) =>
+    selectPropertyTemplate(state, property?.propertyTemplateKey)
+  )
 
   // Null values indicates that can be added.
   const isAdd = !property.valueKeys
@@ -59,7 +61,9 @@ const PanelProperty = ({ propertyKey, resourceKey, readOnly, id, isTemplate }) =
               <button
                 type="button"
                 className="btn btn-sm btn-add btn-link pull-right"
-                onClick={() => dispatch(expandProperty(property.key, resourceEditErrorKey(resourceKey)))}
+                onClick={() =>
+                  dispatch(expandProperty(property.key, resourceEditErrorKey(resourceKey)))
+                }
                 aria-label={`Add ${propertyTemplate.label}`}
                 data-testid={`Add ${propertyTemplate.label}`}
                 data-id={property.key}
@@ -83,7 +87,11 @@ const PanelProperty = ({ propertyKey, resourceKey, readOnly, id, isTemplate }) =
         </div>
         {!isAdd && (
           <div className="panel-property">
-            <PropertyComponent property={property} propertyTemplate={propertyTemplate} readOnly={readOnly} />
+            <PropertyComponent
+              property={property}
+              propertyTemplate={propertyTemplate}
+              readOnly={readOnly}
+            />
           </div>
         )}
       </div>

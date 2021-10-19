@@ -13,7 +13,9 @@ import _ from "lodash"
 const TransferButtons = ({ resourceKey }) => {
   const dispatch = useDispatch()
   const resource = useSelector((state) => selectNormSubject(state, resourceKey))
-  const subjectTemplate = useSelector((state) => selectSubjectTemplate(state, resource?.subjectTemplateKey))
+  const subjectTemplate = useSelector((state) =>
+    selectSubjectTemplate(state, resource?.subjectTemplateKey)
+  )
   const userGroups = useSelector((state) => selectGroups(state))
 
   const transferTargets = useMemo(() => {

@@ -7,13 +7,17 @@ import { hideModal } from "./modals"
  * @param {Object} state the previous redux state
  * @return {Object} the next redux state
  */
-export const hideValidationErrors = (state, action) => setValidationError(state, action.payload, false)
+export const hideValidationErrors = (state, action) =>
+  setValidationError(state, action.payload, false)
 
 export const addError = (state, action) => ({
   ...state,
   errors: {
     ...state.errors,
-    [action.payload.errorKey]: [...(state.errors[action.payload.errorKey] || []), action.payload.error],
+    [action.payload.errorKey]: [
+      ...(state.errors[action.payload.errorKey] || []),
+      action.payload.error,
+    ],
   },
 })
 

@@ -31,7 +31,9 @@ describe("End-to-end test", () => {
   })
 
   it("Uploads a resource template", () => {
-    cy.get("#searchInput").type("resourceTemplate:bf2:WorkTitle").should("have.value", "resourceTemplate:bf2:WorkTitle")
+    cy.get("#searchInput")
+      .type("resourceTemplate:bf2:WorkTitle")
+      .should("have.value", "resourceTemplate:bf2:WorkTitle")
     // eslint-disable-next-line cypress/no-unnecessary-waiting
     cy.wait(1000)
 
@@ -90,8 +92,12 @@ describe("End-to-end test", () => {
     cy.get('button[title="Preview resource"]').first().scrollIntoView().click()
     cy.get("select#format").select("n-triples")
     cy.contains(`<> <http://id.loc.gov/ontologies/bibframe/mainTitle> "${title}"@eng .`)
-    cy.contains('<> <http://sinopia.io/vocabulary/hasResourceTemplate> "resourceTemplate:bf2:WorkTitle" .')
-    cy.contains("<> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://id.loc.gov/ontologies/bibframe/Title> .")
+    cy.contains(
+      '<> <http://sinopia.io/vocabulary/hasResourceTemplate> "resourceTemplate:bf2:WorkTitle" .'
+    )
+    cy.contains(
+      "<> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://id.loc.gov/ontologies/bibframe/Title> ."
+    )
   })
 
   it("Saves", () => {

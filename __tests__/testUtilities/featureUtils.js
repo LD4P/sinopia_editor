@@ -11,7 +11,8 @@ export const featureSetup = (opts = {}) => {
   window.scrollTo = jest.fn()
   // Mock out so does not try to update API.
   if (!opts.noMockSinopiaApi) jest.spyOn(sinopiaApi, "putUserHistory").mockResolvedValue()
-  if (!opts.noMockSinopiaSearch) jest.spyOn(sinopiaSearch, "getSearchResultsByUris").mockResolvedValue({ results: [] })
+  if (!opts.noMockSinopiaSearch)
+    jest.spyOn(sinopiaSearch, "getSearchResultsByUris").mockResolvedValue({ results: [] })
 }
 
 export const noop = () => {}

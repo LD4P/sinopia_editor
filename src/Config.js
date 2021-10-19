@@ -81,7 +81,10 @@ class Config {
   }
 
   static get awsCognitoDomain() {
-    return process.env.AWS_COGNITO_DOMAIN || "https://sinopia-development.auth.us-west-2.amazoncognito.com"
+    return (
+      process.env.AWS_COGNITO_DOMAIN ||
+      "https://sinopia-development.auth.us-west-2.amazoncognito.com"
+    )
   }
 
   static get awsClientID() {
@@ -123,7 +126,10 @@ class Config {
   }
 
   static get exportBucketUrl() {
-    return process.env.EXPORT_BUCKET_URL || "https://sinopia-exports-development.s3-us-west-2.amazonaws.com"
+    return (
+      process.env.EXPORT_BUCKET_URL ||
+      "https://sinopia-exports-development.s3-us-west-2.amazonaws.com"
+    )
   }
 
   static get honeybadgerApiKey() {

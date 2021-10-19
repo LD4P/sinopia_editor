@@ -158,7 +158,9 @@ describe("editing a literal property", () => {
 
     fireEvent.click(screen.getByRole("button", { name: "Submit" }))
 
-    await waitFor(() => expect(screen.queryAllByRole("heading", { name: "Languages" }).length).toBeFalsy())
+    await waitFor(() =>
+      expect(screen.queryAllByRole("heading", { name: "Languages" }).length).toBeFalsy()
+    )
     expect(langBtn).toHaveTextContent("Tai languages")
   }, 25000)
 
@@ -201,7 +203,9 @@ describe("editing a literal property", () => {
     expect(checkedRadioButtons[0].value).toEqual("absent")
     expect(unCheckedRadioButtons[0].value).toEqual("present")
 
-    await waitFor(() => expect(screen.queryAllByRole("heading", { name: "Languages" })).toHaveLength(0))
+    await waitFor(() =>
+      expect(screen.queryAllByRole("heading", { name: "Languages" })).toHaveLength(0)
+    )
     expect(langBtn).toHaveTextContent("No language specified")
   }, 15000)
 })

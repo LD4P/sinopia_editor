@@ -54,7 +54,9 @@ describe("Copying a template resource", () => {
 
     // But there is no resource URI for the unsaved copy
     expect(
-      screen.queryByText(/URI for this resource: <http:\/\/localhost:3000\/resource\/sinopia:template:resource>/)
+      screen.queryByText(
+        /URI for this resource: <http:\/\/localhost:3000\/resource\/sinopia:template:resource>/
+      )
     ).not.toBeInTheDocument()
 
     const saveBtn = await screen.findAllByRole("button", { name: "Save" })

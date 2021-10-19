@@ -22,7 +22,9 @@ const InputLang = (props) => {
 
   const [lang, setLang] = useState(props.lang)
   const [submitEnabled, setSubmitEnabled] = useState(true)
-  const [radioButtonValue, setRadioButtonValue] = useState(props.lang === null ? noLangSelected : langSelected)
+  const [radioButtonValue, setRadioButtonValue] = useState(
+    props.lang === null ? noLangSelected : langSelected
+  )
 
   const classes = ["modal", "fade"]
   let display = "none"
@@ -161,6 +163,7 @@ const mapStateToProps = (state, ownProps) => {
   }
 }
 
-const mapDispatchToProps = (dispatch) => bindActionCreators({ hideModal, languageSelected }, dispatch)
+const mapDispatchToProps = (dispatch) =>
+  bindActionCreators({ hideModal, languageSelected }, dispatch)
 
 export default connect(mapStateToProps, mapDispatchToProps)(InputLang)

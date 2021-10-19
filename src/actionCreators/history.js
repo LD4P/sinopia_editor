@@ -70,7 +70,9 @@ export const addResourceHistory = (resourceUri, type, group, modified) => (dispa
         return
       }
       if (response.results.length !== 1) {
-        dispatch(addResourceHistoryAction(resourceUri, type, group, modified || new Date().toISOString()))
+        dispatch(
+          addResourceHistoryAction(resourceUri, type, group, modified || new Date().toISOString())
+        )
       } else {
         dispatch(addResourceHistoryByResult(response.results[0]))
       }

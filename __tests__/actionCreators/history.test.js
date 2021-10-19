@@ -1,4 +1,9 @@
-import { loadTemplateHistory, loadSearchHistory, loadResourceHistory, addResourceHistory } from "actionCreators/history"
+import {
+  loadTemplateHistory,
+  loadSearchHistory,
+  loadResourceHistory,
+  addResourceHistory,
+} from "actionCreators/history"
 import Config from "Config"
 import configureMockStore from "redux-mock-store"
 import thunk from "redux-thunk"
@@ -43,7 +48,10 @@ describe("loadTemplateHistory()", () => {
       },
     ])
 
-    expect(sinopiaSearch.getTemplateSearchResultsByIds).toHaveBeenCalledWith(["template1", "template2"])
+    expect(sinopiaSearch.getTemplateSearchResultsByIds).toHaveBeenCalledWith([
+      "template1",
+      "template2",
+    ])
   })
 })
 
@@ -77,7 +85,9 @@ describe("loadResourceHistory()", () => {
   const uri1 = "http://localhost:3000/resource/c7db5404-7d7d-40ac-b38e-c821d2c3ae3f"
   const uri2 = "http://localhost:3000/resource/65753d03-8202-463e-8cef-3e5f6f3897a4"
 
-  sinopiaSearch.getSearchResultsByUris = jest.fn().mockResolvedValue({ results: [{ uri: uri1 }, { uri: uri2 }] })
+  sinopiaSearch.getSearchResultsByUris = jest
+    .fn()
+    .mockResolvedValue({ results: [{ uri: uri1 }, { uri: uri2 }] })
   it("fetches from search and dispatches", async () => {
     const store = mockStore(createState())
     await store.dispatch(loadResourceHistory([uri1, uri2]))
@@ -109,7 +119,9 @@ describe("addResourceHistory()", () => {
       sinopiaSearch.getSearchResultsByUris = jest.fn().mockResolvedValue({ results: [{ uri }] })
 
       const store = mockStore(createState())
-      await store.dispatch(addResourceHistory(uri, "http://id.loc.gov/ontologies/bibframe/Work", "stanford"))
+      await store.dispatch(
+        addResourceHistory(uri, "http://id.loc.gov/ontologies/bibframe/Work", "stanford")
+      )
 
       expect(store.getActions()).toEqual([
         {
@@ -129,7 +141,9 @@ describe("addResourceHistory()", () => {
       sinopiaSearch.getSearchResultsByUris = jest.fn().mockResolvedValue({ results: [] })
 
       const store = mockStore(createState())
-      await store.dispatch(addResourceHistory(uri, "http://id.loc.gov/ontologies/bibframe/Work", "stanford"))
+      await store.dispatch(
+        addResourceHistory(uri, "http://id.loc.gov/ontologies/bibframe/Work", "stanford")
+      )
 
       expect(store.getActions()).toEqual([
         {

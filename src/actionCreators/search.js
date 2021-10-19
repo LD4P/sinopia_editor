@@ -32,7 +32,9 @@ export const fetchQASearchResults =
 
     return searchPromise.then((response) => {
       if (response.isError) {
-        dispatch(setSearchResults("resource", uri, [], 0, {}, query, options, response.errorObject.message))
+        dispatch(
+          setSearchResults("resource", uri, [], 0, {}, query, options, response.errorObject.message)
+        )
       } else {
         dispatch(addSearchHistory(uri, authorityConfig.label, query))
         dispatch(addApiSearchHistory(uri, query))

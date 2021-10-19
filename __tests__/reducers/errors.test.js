@@ -49,7 +49,10 @@ describe("addError()", () => {
     }
 
     const newState = reducer(oldState, action)
-    expect(newState.errors.er345v2).toStrictEqual(["Existing validation error", "Second validation error"])
+    expect(newState.errors.er345v2).toStrictEqual([
+      "Existing validation error",
+      "Second validation error",
+    ])
   })
 })
 

@@ -66,20 +66,34 @@ export default class GraphBuilder {
       if (_.isEmpty(values)) return
 
       let nextNode = rdf.blankNode()
-      this.dataset.add(rdf.quad(subjectTerm, rdf.namedNode(property.propertyTemplate.uri), nextNode))
+      this.dataset.add(
+        rdf.quad(subjectTerm, rdf.namedNode(property.propertyTemplate.uri), nextNode)
+      )
       values.forEach((value, index) => {
         const thisNode = nextNode
         nextNode =
           index !== values.length - 1
             ? rdf.blankNode()
             : rdf.namedNode("http://www.w3.org/1999/02/22-rdf-syntax-ns#nil")
-        this.dataset.add(rdf.quad(thisNode, rdf.namedNode("http://www.w3.org/1999/02/22-rdf-syntax-ns#rest"), nextNode))
-        this.buildValue(value, thisNode, rdf.namedNode("http://www.w3.org/1999/02/22-rdf-syntax-ns#first"))
+        this.dataset.add(
+          rdf.quad(
+            thisNode,
+            rdf.namedNode("http://www.w3.org/1999/02/22-rdf-syntax-ns#rest"),
+            nextNode
+          )
+        )
+        this.buildValue(
+          value,
+          thisNode,
+          rdf.namedNode("http://www.w3.org/1999/02/22-rdf-syntax-ns#first")
+        )
       })
     } else {
       const values = property.values.filter((value) => this.checkValueHasValue(value))
 
-      values.forEach((value) => this.buildValue(value, subjectTerm, rdf.namedNode(property.propertyTemplate.uri)))
+      values.forEach((value) =>
+        this.buildValue(value, subjectTerm, rdf.namedNode(property.propertyTemplate.uri))
+      )
     }
   }
 
@@ -139,7 +153,9 @@ export default class GraphBuilder {
     const literalValues = value.valueSubject.properties[0].values.filter((value) => value.literal)
     if (!_.isEmpty(literalValues)) {
       const bnode = rdf.blankNode()
-      const literalPropertyTerm = rdf.namedNode(value.valueSubject.properties[0].propertyTemplate.uri)
+      const literalPropertyTerm = rdf.namedNode(
+        value.valueSubject.properties[0].propertyTemplate.uri
+      )
       this.dataset.add(rdf.quad(subjectTerm, propertyTerm, bnode))
       this.dataset.add(
         rdf.quad(

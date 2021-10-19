@@ -23,12 +23,16 @@ describe("loading from RDF", () => {
       `
 
       fireEvent.change(
-        screen.getByLabelText("RDF (Accepts JSON-LD, Turtle, TriG, N-Triples, N-Quads, and Notation3 (N3))"),
+        screen.getByLabelText(
+          "RDF (Accepts JSON-LD, Turtle, TriG, N-Triples, N-Quads, and Notation3 (N3))"
+        ),
         { target: { value: rdf } }
       )
       fireEvent.click(screen.getByText("Submit", { selector: "button" }))
 
-      expect((await screen.findAllByText("Abbreviated Title", { selector: "h3" })).length).toBeTruthy()
+      expect(
+        (await screen.findAllByText("Abbreviated Title", { selector: "h3" })).length
+      ).toBeTruthy()
 
       screen.getByText("foo")
     })
@@ -50,15 +54,22 @@ describe("loading from RDF", () => {
       `
 
       fireEvent.change(
-        screen.getByLabelText("RDF (Accepts JSON-LD, Turtle, TriG, N-Triples, N-Quads, and Notation3 (N3))"),
+        screen.getByLabelText(
+          "RDF (Accepts JSON-LD, Turtle, TriG, N-Triples, N-Quads, and Notation3 (N3))"
+        ),
         { target: { value: rdf } }
       )
-      fireEvent.change(screen.getByLabelText("Base URI (Omit brackets. If base URI is <>, leave blank.)"), {
-        target: { value: "http://sinopia/c73d2fa9" },
-      })
+      fireEvent.change(
+        screen.getByLabelText("Base URI (Omit brackets. If base URI is <>, leave blank.)"),
+        {
+          target: { value: "http://sinopia/c73d2fa9" },
+        }
+      )
       fireEvent.click(screen.getByText("Submit", { selector: "button" }))
 
-      expect((await screen.findAllByText("Abbreviated Title", { selector: "h3" })).length).toBeTruthy()
+      expect(
+        (await screen.findAllByText("Abbreviated Title", { selector: "h3" })).length
+      ).toBeTruthy()
 
       screen.getByText("foo")
     })
@@ -80,7 +91,9 @@ describe("loading from RDF", () => {
       `
 
       fireEvent.change(
-        screen.getByLabelText("RDF (Accepts JSON-LD, Turtle, TriG, N-Triples, N-Quads, and Notation3 (N3))"),
+        screen.getByLabelText(
+          "RDF (Accepts JSON-LD, Turtle, TriG, N-Triples, N-Quads, and Notation3 (N3))"
+        ),
         { target: { value: rdf } }
       )
       fireEvent.click(screen.getByText("Submit", { selector: "button" }))
@@ -116,7 +129,9 @@ describe("loading from RDF", () => {
       `
 
       fireEvent.change(
-        screen.getByLabelText("RDF (Accepts JSON-LD, Turtle, TriG, N-Triples, N-Quads, and Notation3 (N3))"),
+        screen.getByLabelText(
+          "RDF (Accepts JSON-LD, Turtle, TriG, N-Triples, N-Quads, and Notation3 (N3))"
+        ),
         { target: { value: rdf } }
       )
       fireEvent.click(screen.getByText("Submit", { selector: "button" }))
@@ -147,7 +162,9 @@ describe("loading from RDF", () => {
       screen.getByText("Load RDF into Editor")
 
       fireEvent.change(
-        screen.getByLabelText("RDF (Accepts JSON-LD, Turtle, TriG, N-Triples, N-Quads, and Notation3 (N3))"),
+        screen.getByLabelText(
+          "RDF (Accepts JSON-LD, Turtle, TriG, N-Triples, N-Quads, and Notation3 (N3))"
+        ),
         {
           target: { value: "xyz" },
         }

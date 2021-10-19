@@ -8,7 +8,12 @@ import Alert from "../Alert"
 import SinopiaResourceTemplates from "./SinopiaResourceTemplates"
 import SearchResultsPaging from "components/search/SearchResultsPaging"
 import NewResourceTemplateButton from "./NewResourceTemplateButton"
-import { selectSearchError, selectSearchQuery, selectSearchOptions, selectSearchTotalResults } from "selectors/search"
+import {
+  selectSearchError,
+  selectSearchQuery,
+  selectSearchOptions,
+  selectSearchTotalResults,
+} from "selectors/search"
 import PropTypes from "prop-types"
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
 import { faTrashAlt } from "@fortawesome/free-solid-svg-icons"
@@ -27,7 +32,10 @@ const TemplateSearch = (props) => {
   const [queryString, setQueryString] = useState(lastQueryString || "")
   const [startOfRange, setStartOfRange] = useState(0)
 
-  const clearSearchResults = useCallback(() => dispatch(clearSearchResultsAction("template")), [dispatch])
+  const clearSearchResults = useCallback(
+    () => dispatch(clearSearchResultsAction("template")),
+    [dispatch]
+  )
 
   useEffect(() => {
     if (!queryString) clearSearchResults()

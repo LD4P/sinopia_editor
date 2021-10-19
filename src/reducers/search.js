@@ -16,7 +16,9 @@ export const setSearchResults = (state, action) => ({
     facetResults: action.payload.facetResults || {},
     query: action.payload.query,
     options: {
-      resultsPerPage: action.payload.options?.resultsPerPage || defaultSearchResultsPerPage(action.payload.searchType),
+      resultsPerPage:
+        action.payload.options?.resultsPerPage ||
+        defaultSearchResultsPerPage(action.payload.searchType),
       startOfRange: action.payload.options?.startOfRange || 0,
       sortField: action.payload.options?.sortField,
       sortOrder: action.payload.options?.sortOrder,

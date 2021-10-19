@@ -111,7 +111,10 @@ export const generateMD5 = (message) => CryptoJS.MD5(message).toString()
 
 export const findRootResourceTemplateId = (resourceURI, dataset) => {
   const rtQuads = dataset
-    .match(rdf.namedNode(resourceURI), rdf.namedNode("http://sinopia.io/vocabulary/hasResourceTemplate"))
+    .match(
+      rdf.namedNode(resourceURI),
+      rdf.namedNode("http://sinopia.io/vocabulary/hasResourceTemplate")
+    )
     .toArray()
   if (rtQuads.length !== 1) {
     return null

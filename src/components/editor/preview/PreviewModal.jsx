@@ -56,7 +56,12 @@ const PreviewModal = (props) => {
               Preview Resource
             </h4>
             <div className="view-resource-buttons">
-              <button type="button" className="btn-close" onClick={close} aria-label="Close"></button>
+              <button
+                type="button"
+                className="btn-close"
+                onClick={close}
+                aria-label="Close"
+              ></button>
             </div>
           </div>
           <div className="modal-body view-resource-modal-content">

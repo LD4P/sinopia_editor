@@ -6,7 +6,9 @@ import { selectModalType } from "selectors/modals"
 
 const useNavigableComponent = (rootSubjectKey, rootPropertyKey, componentKey) => {
   const navEl = useRef(null)
-  const currentComponentKey = useSelector((state) => selectCurrentComponentKey(state, rootSubjectKey))
+  const currentComponentKey = useSelector((state) =>
+    selectCurrentComponentKey(state, rootSubjectKey)
+  )
   const [lastComponentKey, setLastComponentKey] = useState(null)
   const isModalOpen = useSelector((state) => selectModalType(state))
 

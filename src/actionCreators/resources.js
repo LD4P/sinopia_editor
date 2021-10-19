@@ -57,17 +57,30 @@ export const loadResource = (uri, errorKey, asNewResource, preview) => (dispatch
       )
         .then(([resource, usedDataset]) => {
           const unusedDataset = dataset.difference(usedDataset)
-          dispatch(setUnusedRDF(resource.key, unusedDataset.size > 0 ? unusedDataset.toCanonical() : null))
+          dispatch(
+            setUnusedRDF(resource.key, unusedDataset.size > 0 ? unusedDataset.toCanonical() : null)
+          )
           if (preview) {
             dispatch(setCurrentPreviewResource(resource.key))
           } else {
             dispatch(setCurrentResource(resource.key))
-            dispatch(setCurrentComponent(resource.key, resource.properties[0].key, resource.properties[0].key))
+            dispatch(
+              setCurrentComponent(
+                resource.key,
+                resource.properties[0].key,
+                resource.properties[0].key
+              )
+            )
           }
           if (!asNewResource) {
             dispatch(addUserResourceHistory(uri))
             dispatch(
-              addResourceHistory(resource.uri, resource.subjectTemplate.class, response.group, response.timestamp)
+              addResourceHistory(
+                resource.uri,
+                resource.subjectTemplate.class,
+                response.group,
+                response.timestamp
+              )
             )
             dispatch(loadResourceFinished(resource.key))
           }
@@ -103,7 +116,9 @@ export const newResource = (resourceTemplateId, errorKey) => (dispatch) => {
       dispatch(addUserTemplateHistory(resourceTemplateId))
       // This will mark the resource has unchanged.
       dispatch(loadResourceFinished(resource.key))
-      dispatch(setCurrentComponent(resource.key, resource.properties[0].key, resource.properties[0].key))
+      dispatch(
+        setCurrentComponent(resource.key, resource.properties[0].key, resource.properties[0].key)
+      )
       return true
     })
     .catch((err) => {
@@ -125,7 +140,13 @@ export const newResourceCopy = (resourceKey) => (dispatch) =>
       dispatch(addSubjectAction(newResource))
       dispatch(setCurrentResource(newResource.key))
       dispatch(setUnusedRDF(newResource.key, null))
-      dispatch(setCurrentComponent(newResource.key, newResource.properties[0].key, newResource.properties[0].key))
+      dispatch(
+        setCurrentComponent(
+          newResource.key,
+          newResource.properties[0].key,
+          newResource.properties[0].key
+        )
+      )
     })
     .catch((err) => {
       console.error(err)
@@ -140,25 +161,33 @@ export const newResourceCopy = (resourceKey) => (dispatch) =>
  * @param {boolean} asNewResource if true, does not set URI for the resource.
  * @return {boolean} true if successful
  */
-export const newResourceFromDataset = (dataset, uri, resourceTemplateId, errorKey, asNewResource) => (dispatch) => {
-  const newResourceTemplateId = resourceTemplateId || resourceTemplateIdFromDataset(chooseURI(dataset, uri), dataset)
-  return dispatch(addResourceFromDataset(dataset, uri, newResourceTemplateId, errorKey, asNewResource))
-    .then(([resource, usedDataset]) => {
-      const unusedDataset = dataset.difference(usedDataset)
-      dispatch(setUnusedRDF(resource.key, unusedDataset.size > 0 ? unusedDataset.toCanonical() : null))
-      dispatch(setCurrentResource(resource.key))
-      if (!asNewResource) dispatch(loadResourceFinished(resource.key))
-      return true
-    })
-    .catch((err) => {
-      // ResourceTemplateErrors have already been dispatched.
-      if (err.name !== "ResourceTemplateError") {
-        console.error(err)
-        dispatch(addError(errorKey, `Error retrieving ${resourceTemplateId}: ${err.message || err}`))
-      }
-      return false
-    })
-}
+export const newResourceFromDataset =
+  (dataset, uri, resourceTemplateId, errorKey, asNewResource) => (dispatch) => {
+    const newResourceTemplateId =
+      resourceTemplateId || resourceTemplateIdFromDataset(chooseURI(dataset, uri), dataset)
+    return dispatch(
+      addResourceFromDataset(dataset, uri, newResourceTemplateId, errorKey, asNewResource)
+    )
+      .then(([resource, usedDataset]) => {
+        const unusedDataset = dataset.difference(usedDataset)
+        dispatch(
+          setUnusedRDF(resource.key, unusedDataset.size > 0 ? unusedDataset.toCanonical() : null)
+        )
+        dispatch(setCurrentResource(resource.key))
+        if (!asNewResource) dispatch(loadResourceFinished(resource.key))
+        return true
+      })
+      .catch((err) => {
+        // ResourceTemplateErrors have already been dispatched.
+        if (err.name !== "ResourceTemplateError") {
+          console.error(err)
+          dispatch(
+            addError(errorKey, `Error retrieving ${resourceTemplateId}: ${err.message || err}`)
+          )
+        }
+        return false
+      })
+  }
 
 const resourceTemplateIdFromDataset = (uri, dataset) => {
   const resourceTemplateId = findRootResourceTemplateId(uri, dataset)
@@ -170,26 +199,27 @@ const resourceTemplateIdFromDataset = (uri, dataset) => {
 }
 
 // A thunk that publishes (saves) a new resource
-export const saveNewResource = (resourceKey, group, editGroups, errorKey) => (dispatch, getState) => {
-  const state = getState()
-  const resource = selectFullSubject(state, resourceKey)
-  const currentUser = selectUser(state)
+export const saveNewResource =
+  (resourceKey, group, editGroups, errorKey) => (dispatch, getState) => {
+    const state = getState()
+    const resource = selectFullSubject(state, resourceKey)
+    const currentUser = selectUser(state)
 
-  dispatch(clearErrors(errorKey))
+    dispatch(clearErrors(errorKey))
 
-  return postResource(resource, currentUser, group, editGroups)
-    .then((resourceUrl) => {
-      dispatch(setBaseURL(resourceKey, resourceUrl))
-      dispatch(setResourceGroup(resourceKey, group, editGroups))
-      dispatch(saveResourceFinished(resourceKey))
-      dispatch(addUserResourceHistory(resourceUrl))
-      dispatch(addResourceHistory(resourceUrl, resource.subjectTemplate.class, group))
-    })
-    .catch((err) => {
-      console.error(err)
-      dispatch(addError(errorKey, `Error saving new resource: ${err.message || err}`))
-    })
-}
+    return postResource(resource, currentUser, group, editGroups)
+      .then((resourceUrl) => {
+        dispatch(setBaseURL(resourceKey, resourceUrl))
+        dispatch(setResourceGroup(resourceKey, group, editGroups))
+        dispatch(saveResourceFinished(resourceKey))
+        dispatch(addUserResourceHistory(resourceUrl))
+        dispatch(addResourceHistory(resourceUrl, resource.subjectTemplate.class, group))
+      })
+      .catch((err) => {
+        console.error(err)
+        dispatch(addError(errorKey, `Error saving new resource: ${err.message || err}`))
+      })
+  }
 
 // A thunk that saves an existing resource
 export const saveResource = (resourceKey, group, editGroups, errorKey) => (dispatch, getState) => {
@@ -252,11 +282,12 @@ export const contractProperty = (propertyKey) => (dispatch, getState) => {
  */
 export const addSiblingValueSubject = (valueKey, errorKey) => (dispatch, getState) => {
   const value = selectValue(getState(), valueKey)
-  return dispatch(newSubject(null, value.valueSubject.subjectTemplate.id, {}, errorKey)).then((subject) =>
-    dispatch(newPropertiesFromTemplates(subject, false, errorKey)).then((properties) => {
-      subject.properties = properties
-      const newValue = newValueSubject(value.property, subject)
-      return dispatch(addValueAction(newValue, valueKey))
-    })
+  return dispatch(newSubject(null, value.valueSubject.subjectTemplate.id, {}, errorKey)).then(
+    (subject) =>
+      dispatch(newPropertiesFromTemplates(subject, false, errorKey)).then((properties) => {
+        subject.properties = properties
+        const newValue = newValueSubject(value.property, subject)
+        return dispatch(addValueAction(newValue, valueKey))
+      })
   )
 }

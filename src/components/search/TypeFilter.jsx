@@ -2,6 +2,8 @@
 import React from "react"
 import SearchFilter from "./SearchFilter"
 
-const TypeFilter = () => <SearchFilter label="Filter by class" facet="types" filterSearchOption="typeFilter" />
+const TypeFilter = () => (
+  <SearchFilter label="Filter by class" facet="types" filterSearchOption="typeFilter" />
+)
 
 export default TypeFilter

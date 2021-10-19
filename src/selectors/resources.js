@@ -13,7 +13,9 @@ export const selectSubject = (state, key) => {
 
   const newSubject = { ...subject }
   newSubject.subjectTemplate = selectSubjectTemplate(state, newSubject.subjectTemplateKey)
-  newSubject.properties = newSubject.propertyKeys.map((propertyKey) => selectNormProperty(state, propertyKey))
+  newSubject.properties = newSubject.propertyKeys.map((propertyKey) =>
+    selectNormProperty(state, propertyKey)
+  )
   return newSubject
 }
 
@@ -83,7 +85,9 @@ export const selectFullProperty = (state, key, subject) => {
   newProperty.propertyTemplate = selectPropertyTemplate(state, newProperty.propertyTemplateKey)
   newProperty.values = null
   if (property.valueKeys)
-    newProperty.values = newProperty.valueKeys.map((valueKey) => selectFullValue(state, valueKey, newProperty))
+    newProperty.values = newProperty.valueKeys.map((valueKey) =>
+      selectFullValue(state, valueKey, newProperty)
+    )
   return newProperty
 }
 

@@ -26,7 +26,9 @@ const NestedResource = (props) => {
         <section className="col-md-6">
           <h5>{props.subjectTemplate.label}</h5>
         </section>
-        <section className="col-md-6">{!props.readOnly && <NestedResourceActionButtons value={props.value} />}</section>
+        <section className="col-md-6">
+          {!props.readOnly && <NestedResourceActionButtons value={props.value} />}
+        </section>
       </div>
       <div>
         {props.valueSubject.propertyKeys.map((propertyKey) => (

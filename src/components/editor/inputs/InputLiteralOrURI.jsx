@@ -6,7 +6,12 @@ import InputURIValue from "./InputURIValue"
 import InputLookupValue from "./InputLookupValue"
 import InputListValue from "./InputListValue"
 import { addValue as addValueAction } from "actions/resources"
-import { newBlankLiteralValue, newBlankUriValue, newBlankLookupValue, newBlankListValue } from "utilities/valueFactory"
+import {
+  newBlankLiteralValue,
+  newBlankUriValue,
+  newBlankLookupValue,
+  newBlankListValue,
+} from "utilities/valueFactory"
 import { selectProperty } from "selectors/resources"
 
 const InputLiteralOrURI = ({ property, propertyTemplate, displayValidations }) => {
