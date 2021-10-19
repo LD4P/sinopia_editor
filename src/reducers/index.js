@@ -54,16 +54,32 @@ import {
 import { clearSearchResults, setSearchResults } from "./search"
 import { lookupOptionsRetrieved } from "./lookups"
 
-export const setCurrentComponent = (state, action) => ({
-  ...state,
-  currentComponent: {
-    ...state.currentComponent,
-    [action.payload.rootSubjectKey]: {
-      component: action.payload.key,
-      property: action.payload.rootPropertyKey,
+export const setCurrentComponent = (state, action) => {
+  const rootSubjectKey = action.payload.rootSubjectKey
+  const componentKey = action.payload.key
+  const rootPropertyKey = action.payload.rootPropertyKey
+
+  // Don't change if modal open
+  if (state.modal.name) return state
+
+  const currentComponent = state.currentComponent[rootSubjectKey]
+  if (
+    currentComponent?.component === componentKey &&
+    currentComponent?.property === rootPropertyKey
+  )
+    return state
+
+  return {
+    ...state,
+    currentComponent: {
+      ...state.currentComponent,
+      [rootSubjectKey]: {
+        component: componentKey,
+        property: rootPropertyKey,
+      },
     },
-  },
-})
+  }
+}
 
 const authHandlers = {
   SET_USER: setUser,

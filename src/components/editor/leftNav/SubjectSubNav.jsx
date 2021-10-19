@@ -9,6 +9,7 @@ import PresenceIndicator from "./PresenceIndicator"
 import useLeftNav from "hooks/useLeftNav"
 import ToggleButton from "../ToggleButton"
 import _ from "lodash"
+import useNavLink from "hooks/useNavLink"
 
 const SubjectSubNav = (props) => {
   const subject = useSelector((state) =>
@@ -18,7 +19,8 @@ const SubjectSubNav = (props) => {
     selectSubjectTemplate(state, subject?.subjectTemplateKey)
   )
 
-  const { handleNavClick, handleToggleClick, isExpanded } = useLeftNav(subject)
+  const { handleToggleClick, isExpanded } = useLeftNav(subject)
+  const { navLinkId, handleNavLinkClick } = useNavLink(subject)
 
   const hasError = !_.isEmpty(subject.descWithErrorPropertyKeys)
   const displayValidations = useSelector((state) =>
@@ -42,7 +44,7 @@ const SubjectSubNav = (props) => {
     : `Show navigation for ${subjectTemplate.label}`
 
   return (
-    <li>
+    <li id={navLinkId}>
       {subNavForSubject && (
         <ToggleButton
           handleClick={handleToggleClick}
@@ -55,7 +57,7 @@ const SubjectSubNav = (props) => {
         className="btn d-inline-flex property-nav"
         aria-label={`Go to ${subjectTemplate.label}`}
         data-testid={`Go to ${subjectTemplate.label}`}
-        onClick={handleNavClick}
+        onClick={handleNavLinkClick}
       >
         <span className={headingClassNames.join(" ")}>
           {subjectTemplate.label}

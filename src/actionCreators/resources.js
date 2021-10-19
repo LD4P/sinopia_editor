@@ -71,7 +71,6 @@ export const loadResource =
             if (preview) {
               dispatch(setCurrentPreviewResource(resource.key))
             } else {
-              dispatch(setCurrentResource(resource.key))
               dispatch(
                 setCurrentComponent(
                   resource.key,
@@ -79,6 +78,7 @@ export const loadResource =
                   resource.properties[0].key
                 )
               )
+              dispatch(setCurrentResource(resource.key))
             }
             if (!asNewResource) {
               dispatch(addUserResourceHistory(uri))
@@ -125,12 +125,6 @@ export const newResource = (resourceTemplateId, errorKey) => (dispatch) => {
   dispatch(clearErrors(errorKey))
   return dispatch(addEmptyResource(resourceTemplateId, errorKey))
     .then((resource) => {
-      dispatch(setCurrentResource(resource.key))
-      dispatch(setUnusedRDF(resource.key, null))
-      dispatch(addTemplateHistory(resource.subjectTemplate))
-      dispatch(addUserTemplateHistory(resourceTemplateId))
-      // This will mark the resource has unchanged.
-      dispatch(loadResourceFinished(resource.key))
       dispatch(
         setCurrentComponent(
           resource.key,
@@ -138,6 +132,12 @@ export const newResource = (resourceTemplateId, errorKey) => (dispatch) => {
           resource.properties[0].key
         )
       )
+      dispatch(setCurrentResource(resource.key))
+      dispatch(setUnusedRDF(resource.key, null))
+      dispatch(addTemplateHistory(resource.subjectTemplate))
+      dispatch(addUserTemplateHistory(resourceTemplateId))
+      // This will mark the resource has unchanged.
+      dispatch(loadResourceFinished(resource.key))
       return true
     })
     .catch((err) => {
@@ -162,8 +162,6 @@ export const newResourceCopy = (resourceKey) => (dispatch) =>
   dispatch(newSubjectCopy(resourceKey))
     .then((newResource) => {
       dispatch(addSubjectAction(newResource))
-      dispatch(setCurrentResource(newResource.key))
-      dispatch(setUnusedRDF(newResource.key, null))
       dispatch(
         setCurrentComponent(
           newResource.key,
@@ -171,6 +169,8 @@ export const newResourceCopy = (resourceKey) => (dispatch) =>
           newResource.properties[0].key
         )
       )
+      dispatch(setCurrentResource(newResource.key))
+      dispatch(setUnusedRDF(newResource.key, null))
     })
     .catch((err) => {
       console.error(err)
