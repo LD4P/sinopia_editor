@@ -2,7 +2,7 @@
 
 import React from "react"
 import { useDispatch, useSelector } from "react-redux"
-import { selectModalType } from "selectors/modals"
+import { isCurrentModal } from "selectors/modals"
 import { hideModal } from "actions/modals"
 import ModalWrapper, { useDisplayStyle, useModalCss } from "../../ModalWrapper"
 import SaveAndPublishButton from "../actions/SaveAndPublishButton"
@@ -11,7 +11,7 @@ import { selectCurrentResourceKey } from "selectors/resources"
 
 const EditorPreviewModal = () => {
   const dispatch = useDispatch()
-  const show = useSelector((state) => selectModalType(state)) === "RDFModal"
+  const show = useSelector((state) => isCurrentModal(state, "RDFModal"))
   const resourceKey = useSelector((state) => selectCurrentResourceKey(state))
 
   const handleClose = (event) => {

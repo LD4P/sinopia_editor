@@ -8,12 +8,12 @@ import ModalWrapper, {
   useModalCss,
 } from "components/ModalWrapper"
 import { hideModal } from "actions/modals"
-import { selectModalType } from "selectors/modals"
+import { isCurrentModal } from "selectors/modals"
 import {
   selectCurrentPreviewResourceKey,
   selectNormSubject,
 } from "selectors/resources"
-import { setCurrentPreviewResource } from "../../../actions/resources"
+import { setCurrentPreviewResource } from "actions/resources"
 import ResourceDisplay from "./ResourceDisplay"
 import usePermissions from "hooks/usePermissions"
 import MarcButton from "../actions/MarcButton"
@@ -23,7 +23,7 @@ import ResourcePreviewHeader from "./ResourcePreviewHeader"
 const PreviewModal = (props) => {
   const dispatch = useDispatch()
   const { canEdit, canCreate } = usePermissions()
-  const show = useSelector((state) => selectModalType(state) === "PreviewModal")
+  const show = useSelector((state) => isCurrentModal(state, "PreviewModal"))
 
   // Ensure there is a current resource before attempting to render a resource component
   const currentResourceKey = useSelector((state) =>

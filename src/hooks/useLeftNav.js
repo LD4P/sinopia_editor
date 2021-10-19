@@ -1,6 +1,6 @@
 import { useDispatch, useSelector } from "react-redux"
 import { setCurrentComponent } from "actions/index"
-import { selectModalType } from "selectors/modals"
+import { isModalOpen as isModalOpenSelector } from "selectors/modals"
 import {
   showNavProperty,
   hideNavProperty,
@@ -11,7 +11,7 @@ import {
 const useLeftNav = (navObj) => {
   // navObj can be a subject or property.
   const dispatch = useDispatch()
-  const isModalOpen = useSelector((state) => selectModalType(state))
+  const isModalOpen = useSelector((state) => isModalOpenSelector(state))
   const isExpanded = navObj.showNav
 
   const handleNavClick = (event) => {
