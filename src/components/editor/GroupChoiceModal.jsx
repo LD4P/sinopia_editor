@@ -5,7 +5,7 @@ import { useSelector, useDispatch } from "react-redux"
 import { MultiSelect } from "react-multi-select-component"
 import { hideModal } from "actions/modals"
 import { resourceEditWarningKey } from "./Editor"
-import { selectModalType } from "selectors/modals"
+import { isCurrentModal } from "selectors/modals"
 import {
   saveNewResource,
   saveResource as saveResourceAction,
@@ -34,7 +34,7 @@ const groupsToGroupValues = (groupIds, groupMap, ownerGroupId = null) =>
 const GroupChoiceModal = () => {
   const resourceKey = useSelector((state) => selectCurrentResourceKey(state))
   const resource = useSelector((state) => selectNormSubject(state, resourceKey))
-  const modalType = useSelector((state) => selectModalType(state))
+  const show = useSelector((state) => isCurrentModal(state, "GroupChoiceModal"))
   const userGroupIds = useSelector((state) => selectGroups(state))
   const groupMap = useSelector((state) => selectGroupMap(state))
   const [ownerGroupId, setOwnerGroupId] = useState(
@@ -43,7 +43,6 @@ const GroupChoiceModal = () => {
   const [editGroupValues, setEditGroupValues] = useState(
     groupsToGroupValues(resource.editGroups, groupMap)
   )
-  const show = modalType === "GroupChoiceModal"
   const ownerGroupLabel = groupMap[ownerGroupId]
   const editGroupLabels = editGroupValues
     .map((groupValue) => groupValue.label)

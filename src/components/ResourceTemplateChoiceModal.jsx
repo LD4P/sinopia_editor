@@ -10,14 +10,14 @@ import PropTypes from "prop-types"
 import { hideModal } from "actions/modals"
 import { Typeahead, withAsync } from "react-bootstrap-typeahead"
 import { getTemplateSearchResults } from "sinopiaSearch"
-import { selectModalType } from "selectors/modals"
+import { isCurrentModal } from "selectors/modals"
 
 const AsyncTypeahead = withAsync(Typeahead)
 
 const ResourceTemplateChoiceModal = (props) => {
   const dispatch = useDispatch()
-  const show = useSelector(
-    (state) => selectModalType(state) === "ResourceTemplateChoiceModal"
+  const show = useSelector((state) =>
+    isCurrentModal(state, "ResourceTemplateChoiceModal")
   )
 
   const [isLoading, setLoading] = useState(false)

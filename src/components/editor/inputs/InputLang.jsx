@@ -4,7 +4,7 @@ import React, { useState } from "react"
 import { Typeahead } from "react-bootstrap-typeahead"
 import PropTypes from "prop-types"
 import { connect } from "react-redux"
-import { selectModalType } from "selectors/modals"
+import { isCurrentModal } from "selectors/modals"
 import { languageSelected } from "actions/languages"
 import { hideModal } from "actions/modals"
 import { bindActionCreators } from "redux"
@@ -158,7 +158,7 @@ InputLang.propTypes = {
 }
 
 const mapStateToProps = (state, ownProps) => {
-  const show = selectModalType(state) === `LanguageModal-${ownProps.value.key}`
+  const show = isCurrentModal(state, `LanguageModal-${ownProps.value.key}`)
   return {
     lang: ownProps.value.lang,
     textValue: ownProps.value.literal || ownProps.value.label || "",

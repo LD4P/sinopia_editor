@@ -24,7 +24,7 @@ import Exports, { exportsErrorKey } from "./exports/Exports"
 import { selectCurrentResourceKey } from "selectors/resources"
 import { authenticate } from "actionCreators/authenticate"
 import { hasUser as hasUserSelector } from "selectors/authenticate"
-import { selectModalType } from "selectors/modals"
+import { isModalOpen as isModalOpenSelector } from "selectors/modals"
 
 const FourOhFour = () => <h1>404</h1>
 
@@ -40,7 +40,7 @@ const App = (props) => {
 
   const hasResource = useSelector((state) => !!selectCurrentResourceKey(state))
   const hasUser = useSelector((state) => hasUserSelector(state))
-  const isModalOpen = useSelector((state) => selectModalType(state))
+  const isModalOpen = useSelector((state) => isModalOpenSelector(state))
 
   // We do not use standard bootstrap modals (i.e. they are not triggered automatically)
   //  due to complexities in the interaction between JS and React/redux.

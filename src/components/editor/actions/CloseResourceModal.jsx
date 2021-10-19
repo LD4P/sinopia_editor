@@ -6,16 +6,15 @@ import { hideModal } from "actions/modals"
 import { useDispatch, useSelector } from "react-redux"
 import { clearResource } from "actions/resources"
 import ModalWrapper, { useDisplayStyle, useModalCss } from "../../ModalWrapper"
-import { selectModalType } from "selectors/modals"
+import { isCurrentModal } from "selectors/modals"
 import { useHistory } from "react-router-dom"
 
 const CloseResourceModal = (props) => {
   const dispatch = useDispatch()
   const history = useHistory()
 
-  const show = useSelector(
-    (state) =>
-      selectModalType(state) === `CloseResourceModal-${props.resourceKey}`
+  const show = useSelector((state) =>
+    isCurrentModal(state, `CloseResourceModal-${props.resourceKey}`)
   )
 
   const handleClose = (event) => {
