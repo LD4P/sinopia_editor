@@ -1,4 +1,4 @@
-import { selectProperty, selectSubject } from "./resources"
+import { selectProperty, selectSubject, selectNormSubject } from "./resources"
 import _ from "lodash"
 
 /**
@@ -7,19 +7,17 @@ import _ from "lodash"
  * @param {string} resourceKey of the resource to check; if omitted, current resource key is used
  * @return {boolean} true if resource validations should be displayed
  */
-export const displayResourceValidations = (state, resourceKey) => state.editor.resourceValidation[resourceKey] || false
+export const displayResourceValidations = (state, resourceKey) => !!state.editor.resourceValidation[resourceKey]
 
 export const hasValidationErrors = (state, resourceKey) => {
-  if (!resourceKey) return false
-
-  const subject = selectSubject(state, resourceKey)
-  return !_.isEmpty(subject.descWithErrorPropertyKeys)
+  const subject = selectNormSubject(state, resourceKey)
+  return !_.isEmpty(subject?.descWithErrorPropertyKeys)
 }
 
 /**
  * @returns {function} a function that returns the errors for an error key
  */
-export const selectErrors = (state, errorKey) => state.editor.errors[errorKey] || []
+export const selectErrors = (state, errorKey) => state.editor.errors[errorKey]
 
 export const selectValidationErrors = (state, resourceKey) => {
   const subject = selectSubject(state, resourceKey)
