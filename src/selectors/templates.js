@@ -34,3 +34,9 @@ export const selectSubjectAndPropertyTemplates = (state, key) => {
 
   return newSubjectTemplate
 }
+
+export const selectSubjectTemplateForSubject = (state, subjectKey) => {
+  const subjectTemplateKey =
+    state.entities.subjects[subjectKey]?.subjectTemplateKey
+  return selectSubjectTemplate(state, subjectTemplateKey)
+}
