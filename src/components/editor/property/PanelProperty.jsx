@@ -12,7 +12,7 @@ import { resourceEditErrorKey } from "../Editor"
 import { expandProperty, contractProperty } from "actionCreators/resources"
 import { selectNormProperty } from "selectors/resources"
 import { selectPropertyTemplate } from "selectors/templates"
-import useNavigableComponent from "hooks/useNavigableComponent"
+import useNavTarget from "hooks/useNavTarget"
 import { nanoid } from "nanoid"
 import _ from "lodash"
 
@@ -36,11 +36,8 @@ const PanelProperty = ({
   const isRequired = propertyTemplate.required
   const nbsp = "\u00A0"
   const trashIcon = faTrashAlt
-  const [navEl, navClickHandler] = useNavigableComponent(
-    resourceKey,
-    propertyKey,
-    propertyKey
-  )
+  const { handleNavTargetClick, navTargetId } = useNavTarget(property)
+
   const cardClassName = ["card"]
 
   if (isTemplate) {
@@ -57,7 +54,7 @@ const PanelProperty = ({
   /* eslint-disable jsx-a11y/click-events-have-key-events */
   /* eslint-disable jsx-a11y/no-static-element-interactions */
   return (
-    <div ref={navEl} onClick={navClickHandler}>
+    <div onClick={handleNavTargetClick} id={navTargetId}>
       <div
         className={cardClassName.join(" ")}
         data-testid={cardClassName[1]}

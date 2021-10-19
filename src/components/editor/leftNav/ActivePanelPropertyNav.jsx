@@ -9,6 +9,7 @@ import PresenceIndicator from "./PresenceIndicator"
 import ToggleButton from "../ToggleButton"
 import useLeftNav from "hooks/useLeftNav"
 import _ from "lodash"
+import useNavLink from "hooks/useNavLink"
 
 const ActivePanelPropertyNav = (props) => {
   const property = useSelector((state) =>
@@ -21,7 +22,9 @@ const ActivePanelPropertyNav = (props) => {
     selectPropertyTemplate(state, property?.propertyTemplateKey)
   )
 
-  const { handleNavClick, handleToggleClick, isExpanded } = useLeftNav(property)
+  const { handleToggleClick, isExpanded } = useLeftNav(property)
+  const { navLinkId, isCurrentProperty, handleNavLinkClick } =
+    useNavLink(property)
 
   const liClassNames = []
 
@@ -48,7 +51,7 @@ const ActivePanelPropertyNav = (props) => {
   }
 
   const buttonClasses = ["btn", "d-inline-flex", "property-nav"]
-  if (props.active) buttonClasses.push("current")
+  if (isCurrentProperty) buttonClasses.push("current")
 
   const toggleLabel = isExpanded
     ? `Hide navigation for ${propertyTemplate.label}`
@@ -56,7 +59,7 @@ const ActivePanelPropertyNav = (props) => {
 
   // Render this property and any children value subjects (if a property type = resource).
   return (
-    <li className={liClassNames.join(" ")}>
+    <li className={liClassNames.join(" ")} id={navLinkId}>
       {subNavForProperty && (
         <ToggleButton
           handleClick={handleToggleClick}
@@ -69,7 +72,7 @@ const ActivePanelPropertyNav = (props) => {
         className={buttonClasses.join(" ")}
         aria-label={`Go to ${propertyTemplate.label}`}
         data-testid={`Go to ${propertyTemplate.label}`}
-        onClick={handleNavClick}
+        onClick={handleNavLinkClick}
       >
         <h5 className={headingClassNames.join(" ")}>
           {propertyTemplate.label}
@@ -83,7 +86,6 @@ const ActivePanelPropertyNav = (props) => {
 
 ActivePanelPropertyNav.propTypes = {
   propertyKey: PropTypes.string.isRequired,
-  active: PropTypes.bool,
   isTemplate: PropTypes.bool,
 }
 

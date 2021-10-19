@@ -6,8 +6,8 @@ import { selectNormProperty, selectNormValues } from "selectors/resources"
 import { selectPropertyTemplate } from "selectors/templates"
 import SubjectSubNav from "./SubjectSubNav"
 import PresenceIndicator from "./PresenceIndicator"
-import useLeftNav from "hooks/useLeftNav"
 import _ from "lodash"
+import useNavLink from "hooks/useNavLink"
 
 const PropertySubNav = (props) => {
   const property = useSelector((state) =>
@@ -20,7 +20,7 @@ const PropertySubNav = (props) => {
     selectNormValues(state, property?.valueKeys)
   )
 
-  const { handleNavClick } = useLeftNav(property)
+  const { navLinkId, handleNavLinkClick } = useNavLink(property)
 
   const hasError = !_.isEmpty(property.descWithErrorPropertyKeys)
   const displayValidations = useSelector((state) =>
@@ -42,13 +42,13 @@ const PropertySubNav = (props) => {
   }
 
   return (
-    <li>
+    <li id={navLinkId}>
       <button
         type="button"
         className="btn property-nav"
         aria-label={`Go to ${propertyTemplate.label}`}
         data-testid={`Go to ${propertyTemplate.label}`}
-        onClick={handleNavClick}
+        onClick={handleNavLinkClick}
       >
         <span className={headingClassNames.join(" ")}>
           {propertyTemplate.label}
