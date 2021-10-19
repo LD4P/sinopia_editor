@@ -1,12 +1,6 @@
 // Copyright 2019 Stanford University see LICENSE for license
 
-import React, {
-  useMemo,
-  useState,
-  useEffect,
-  useRef,
-  useLayoutEffect,
-} from "react"
+import React, { useMemo, useState, useEffect, useRef, useLayoutEffect } from "react"
 import { useSelector, useDispatch } from "react-redux"
 import { clearErrors, addError } from "actions/errors"
 import { showModal } from "actions/modals"
@@ -29,9 +23,7 @@ const QASearchResults = () => {
 
   const errorsRef = useRef(null)
 
-  const searchResults = useSelector((state) =>
-    selectSearchResults(state, "resource")
-  )
+  const searchResults = useSelector((state) => selectSearchResults(state, "resource"))
   const searchUri = useSelector((state) => selectSearchUri(state, "resource"))
 
   const [resourceURI, setResourceURI] = useState(null)
@@ -39,12 +31,7 @@ const QASearchResults = () => {
   const [resourceId, setResourceId] = useState(null)
   const [resourceTemplateId, setResourceTemplateId] = useState(null)
   const [dataset, setDataset] = useState(null)
-  useRdfResource(
-    dataset,
-    resourceURI,
-    resourceTemplateId,
-    searchQARetrieveErrorKey
-  )
+  useRdfResource(dataset, resourceURI, resourceTemplateId, searchQARetrieveErrorKey)
 
   // Retrieve N3 from QA
   useEffect(() => {
@@ -56,18 +43,12 @@ const QASearchResults = () => {
       .then((resourceN3) => {
         datasetFromN3(resourceN3)
           .then((newDataset) => setDataset(newDataset))
-          .catch((err) =>
-            dispatch(addError(`Error parsing resource: ${err.message || err}`))
-          )
+          .catch((err) => dispatch(addError(`Error parsing resource: ${err.message || err}`)))
       })
-      .catch((err) =>
-        dispatch(addError(`Error retrieving resource: ${err.message || err}`))
-      )
+      .catch((err) => dispatch(addError(`Error retrieving resource: ${err.message || err}`)))
   }, [dispatch, resourceId, resourceURI, searchUri])
 
-  const errors = useSelector((state) =>
-    selectErrors(state, searchQARetrieveErrorKey)
-  )
+  const errors = useSelector((state) => selectErrors(state, searchQARetrieveErrorKey))
   useLayoutEffect(() => {
     if (!_.isEmpty(errors)) window.scrollTo(0, errorsRef.current.offsetTop)
   }, [errors])
@@ -85,8 +66,7 @@ const QASearchResults = () => {
           if (typeValues) types.push(...typeValues)
           const excludeProperties = ["Type", "Title", "Image URL"]
           result.context.forEach((context) => {
-            if (!excludeProperties.includes(context.property))
-              contexts[context.property] = context.values
+            if (!excludeProperties.includes(context.property)) contexts[context.property] = context.values
           })
         }
         return {

@@ -1,8 +1,5 @@
 // Copyright 2019 Stanford University see LICENSE for license
-import {
-  fetchSinopiaSearchResults,
-  fetchQASearchResults,
-} from "actionCreators/search"
+import { fetchSinopiaSearchResults, fetchQASearchResults } from "actionCreators/search"
 import * as server from "sinopiaSearch"
 import Swagger from "swagger-client"
 import configureMockStore from "redux-mock-store"
@@ -34,9 +31,7 @@ describe("fetchSinopiaSearchResults", () => {
   }
 
   it("dispatches actions", async () => {
-    server.getSearchResultsWithFacets = jest
-      .fn()
-      .mockResolvedValue([mockSearchResults, mockFacetResults])
+    server.getSearchResultsWithFacets = jest.fn().mockResolvedValue([mockSearchResults, mockFacetResults])
     sinopiaApi.putUserHistory = jest.fn().mockResolvedValue()
     const store = mockStore(createState())
     await store.dispatch(
@@ -98,10 +93,7 @@ describe("fetchQASearchResults", () => {
           },
           {
             property: "Type",
-            values: [
-              "http://id.loc.gov/ontologies/bflc/Hub",
-              "http://id.loc.gov/ontologies/bibframe/Work",
-            ],
+            values: ["http://id.loc.gov/ontologies/bflc/Hub", "http://id.loc.gov/ontologies/bibframe/Work"],
             selectable: false,
             drillable: false,
           },
@@ -126,10 +118,7 @@ describe("fetchQASearchResults", () => {
           },
           {
             property: "Type",
-            values: [
-              "http://id.loc.gov/ontologies/bibframe/Text",
-              "http://id.loc.gov/ontologies/bibframe/Work",
-            ],
+            values: ["http://id.loc.gov/ontologies/bibframe/Text", "http://id.loc.gov/ontologies/bibframe/Work"],
             selectable: false,
             drillable: false,
           },
@@ -184,9 +173,7 @@ describe("fetchQASearchResults", () => {
   })
 
   it("dispatches action when error", async () => {
-    const mockActionFunction = jest
-      .fn()
-      .mockRejectedValue(new Error("Ooops..."))
+    const mockActionFunction = jest.fn().mockRejectedValue(new Error("Ooops..."))
     const client = {
       apis: { SearchQuery: { GET_searchAuthority: mockActionFunction } },
     }

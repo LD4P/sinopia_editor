@@ -3,27 +3,14 @@ import React, { useState, useEffect } from "react"
 import { useSelector, useDispatch } from "react-redux"
 import PropTypes from "prop-types"
 import { fetchSinopiaSearchResults } from "actionCreators/search"
-import {
-  selectSearchOptions,
-  selectSearchQuery,
-  selectSearchFacetResults,
-} from "selectors/search"
+import { selectSearchOptions, selectSearchQuery, selectSearchFacetResults } from "selectors/search"
 import _ from "lodash"
 
-const SearchFilter = ({
-  label,
-  filterLabelFunc,
-  facet,
-  filterSearchOption,
-}) => {
+const SearchFilter = ({ label, filterLabelFunc, facet, filterSearchOption }) => {
   const dispatch = useDispatch()
   const query = useSelector((state) => selectSearchQuery(state, "resource"))
-  const searchOptions = useSelector((state) =>
-    selectSearchOptions(state, "resource")
-  )
-  const facetResults = useSelector((state) =>
-    selectSearchFacetResults(state, "resource", facet)
-  )
+  const searchOptions = useSelector((state) => selectSearchOptions(state, "resource"))
+  const facetResults = useSelector((state) => selectSearchFacetResults(state, "resource", facet))
   const [showDropdown, setShowDropdown] = useState(false)
   const [selectedFilters, setSelectedFilters] = useState([])
   const [allSelected, setAllSelected] = useState(true)
@@ -80,7 +67,8 @@ const SearchFilter = ({
 
   if (_.isEmpty(facetResults)) return null
 
-  // This is acceptable because complaint is with clickable labels. However, the checkbox is still available for keyboard use.
+  // This is acceptable because complaint is with clickable labels. However, the checkbox is still
+  // available for keyboard use.
   /* eslint-disable jsx-a11y/click-events-have-key-events */
   /* eslint-disable jsx-a11y/no-noninteractive-element-interactions */
   const dropdownItems = facetResults.map((result) => {
@@ -101,8 +89,7 @@ const SearchFilter = ({
               htmlFor={key}
               onClick={(event) => toggleSelectedFilter(event, result.key)}
             >
-              {filterLabelFunc ? filterLabelFunc(result.key) : result.key} (
-              {result.doc_count})
+              {filterLabelFunc ? filterLabelFunc(result.key) : result.key} ({result.doc_count})
             </label>
           </div>
         </button>
@@ -138,11 +125,7 @@ const SearchFilter = ({
                   checked={allSelected}
                   onChange={toggleAllSelectedFilter}
                 />
-                <label
-                  className="form-check-label"
-                  htmlFor={`${id}-allNone`}
-                  onClick={toggleAllSelectedFilter}
-                >
+                <label className="form-check-label" htmlFor={`${id}-allNone`} onClick={toggleAllSelectedFilter}>
                   Select/Deselect all
                 </label>
               </div>
@@ -150,22 +133,13 @@ const SearchFilter = ({
           </li>
           {dropdownItems}
           {searchOptions[filterSearchOption] && (
-            <button
-              type="button"
-              className="dropdown-item"
-              key="clear"
-              onClick={() => clearFilter()}
-            >
+            <button type="button" className="dropdown-item" key="clear" onClick={() => clearFilter()}>
               Clear filter
             </button>
           )}
         </ul>
       </div>
-      <button
-        type="button"
-        className="btn btn-primary"
-        onClick={() => handleFilter()}
-      >
+      <button type="button" className="btn btn-primary" onClick={() => handleFilter()}>
         Go
       </button>
     </div>

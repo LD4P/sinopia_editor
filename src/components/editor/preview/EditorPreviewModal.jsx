@@ -32,20 +32,10 @@ const EditorPreviewModal = () => {
         <div className="modal-content">
           <div className="modal-header" data-testid="rdf-modal-header">
             <h4 className="modal-title">Preview</h4>
-            <button
-              type="button"
-              className="btn-close"
-              onClick={handleClose}
-              aria-label="Close"
-            ></button>
+            <button type="button" className="btn-close" onClick={handleClose} aria-label="Close"></button>
           </div>
           <div className="modal-body rdf-modal-content">
-            {show && (
-              <ResourceDisplay
-                resourceKey={resourceKey}
-                defaultFormat="table"
-              />
-            )}
+            {show && <ResourceDisplay resourceKey={resourceKey} defaultFormat="table" />}
           </div>
           <div className="modal-footer">
             <SaveAndPublishButton class="modal-save" />

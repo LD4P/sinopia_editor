@@ -32,9 +32,7 @@ describe("preview within editor", () => {
 
     // Click on the Preview RDF Button
     await screen.findByText(/Uber template1/)
-    fireEvent.click(
-      container.querySelector('button[aria-label="Preview resource"]')
-    )
+    fireEvent.click(container.querySelector('button[aria-label="Preview resource"]'))
 
     // Wait for RDF Preview Modal and selects turtle Format
     await screen.findByText(/Preview/)

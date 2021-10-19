@@ -14,8 +14,7 @@ const SerializerJsonld = require("@rdfjs/serializer-jsonld-ext")
 export const defaultLanguageId = "eng"
 
 export const isResourceWithValueTemplateRef = (property) =>
-  property?.type === "resource" &&
-  property?.valueConstraint?.valueTemplateRefs?.length > 0
+  property?.type === "resource" && property?.valueConstraint?.valueTemplateRefs?.length > 0
 
 export const resourceToName = (uri) => {
   if (!_.isString(uri)) return undefined
@@ -33,8 +32,7 @@ export const isValidURI = (value) => {
   }
 }
 
-export const isHttp = (uri) =>
-  _.startsWith(uri, "http://") || _.startsWith(uri, "https://")
+export const isHttp = (uri) => _.startsWith(uri, "http://") || _.startsWith(uri, "https://")
 
 /**
  * Loads N3 into a dataset.
@@ -113,10 +111,7 @@ export const generateMD5 = (message) => CryptoJS.MD5(message).toString()
 
 export const findRootResourceTemplateId = (resourceURI, dataset) => {
   const rtQuads = dataset
-    .match(
-      rdf.namedNode(resourceURI),
-      rdf.namedNode("http://sinopia.io/vocabulary/hasResourceTemplate")
-    )
+    .match(rdf.namedNode(resourceURI), rdf.namedNode("http://sinopia.io/vocabulary/hasResourceTemplate"))
     .toArray()
   if (rtQuads.length !== 1) {
     return null
@@ -140,5 +135,4 @@ export const datasetFromRdf = (rdf) => {
   return datasetFromJsonld(json)
 }
 
-export const emptyValue = (value) =>
-  !value.literal && !value.uri && !value.subjectValueKey
+export const emptyValue = (value) => !value.literal && !value.uri && !value.subjectValueKey

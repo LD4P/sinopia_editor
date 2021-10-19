@@ -8,14 +8,12 @@ export const getLookupResult = (query, authorityConfig, startOfRange) => {
 }
 
 const getSinopiaLookupResult = (query, authorityConfig, options) =>
-  getSinopiaSearchLookupResult(query, authorityConfig, options).then(
-    (result) => ({
-      ...authorityConfig,
-      error: result.error,
-      totalHits: result.totalHits,
-      results: adaptResults(result.results),
-    })
-  )
+  getSinopiaSearchLookupResult(query, authorityConfig, options).then((result) => ({
+    ...authorityConfig,
+    error: result.error,
+    totalHits: result.totalHits,
+    results: adaptResults(result.results),
+  }))
 
 // Adapt Sinopia results to QA format
 const adaptResults = (results) =>
@@ -40,9 +38,7 @@ const getQALookupResult = (query, authorityConfig, options) =>
       results: response.body.results,
       // Some QA authorities return total_records like 'NOT_REPORTED'.
       // This may need more sophisticated handling in future.
-      totalHits: Number.isInteger(totalRecords)
-        ? totalRecords
-        : response.body.results.length,
+      totalHits: Number.isInteger(totalRecords) ? totalRecords : response.body.results.length,
     }
   })
 

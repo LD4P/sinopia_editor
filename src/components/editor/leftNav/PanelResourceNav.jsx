@@ -7,11 +7,8 @@ import ActivePanelPropertyNav from "./ActivePanelPropertyNav"
 import { selectCurrentPropertyKey } from "selectors/index"
 
 const PanelResourceNav = (props) => {
-  const currentPropertyKey = useSelector((state) =>
-    selectCurrentPropertyKey(state, props.resource?.key)
-  )
-  const isTemplate =
-    props.resource.subjectTemplateKey === "sinopia:template:resource"
+  const currentPropertyKey = useSelector((state) => selectCurrentPropertyKey(state, props.resource?.key))
+  const isTemplate = props.resource.subjectTemplateKey === "sinopia:template:resource"
   const classNames = ["resource-nav-list-group"]
   if (isTemplate) {
     classNames.push("template")

@@ -3,11 +3,7 @@
 import React from "react"
 import { connect } from "react-redux"
 import PropTypes from "prop-types"
-import {
-  selectSearchOptions,
-  selectSearchQuery,
-  selectSearchTotalResults,
-} from "selectors/search"
+import { selectSearchOptions, selectSearchQuery, selectSearchTotalResults } from "selectors/search"
 
 // Renders the search results message after a search
 const SearchResultsMessage = (props) => {
@@ -37,8 +33,7 @@ const SearchResultsMessage = (props) => {
       <div className="col">
         <div>
           <strong>
-            Displaying {props.startOfRange + 1} - {lastItemOnPage} of{" "}
-            {props.totalResults}
+            Displaying {props.startOfRange + 1} - {lastItemOnPage} of {props.totalResults}
           </strong>
         </div>
       </div>

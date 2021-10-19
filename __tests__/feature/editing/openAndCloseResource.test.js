@@ -5,10 +5,7 @@ import { featureSetup } from "featureUtils"
 
 featureSetup()
 
-const history = createHistory([
-  "/editor/ld4p:RT:bf2:Title:AbbrTitle",
-  "/editor/ld4p:RT:bf2:Note",
-])
+const history = createHistory(["/editor/ld4p:RT:bf2:Title:AbbrTitle", "/editor/ld4p:RT:bf2:Note"])
 
 describe("switching between multiple resources", () => {
   const state = createState({ hasTwoLiteralResources: true })

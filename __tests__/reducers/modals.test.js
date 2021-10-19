@@ -1,11 +1,6 @@
 // Copyright 2019 Stanford University see LICENSE for license
 
-import {
-  showModal,
-  hideModal,
-  clearModalMessages,
-  addModalMessage,
-} from "reducers/modals"
+import { showModal, hideModal, clearModalMessages, addModalMessage } from "reducers/modals"
 import { createState } from "stateUtils"
 import { createReducer } from "reducers/index"
 
@@ -79,9 +74,6 @@ describe("addModalMessage()", () => {
     oldState.editor.modal.messages = ["An existing message"]
 
     const newState = reducer(oldState.editor, action)
-    expect(newState.modal.messages).toEqual([
-      "An existing message",
-      "An exciting new message",
-    ])
+    expect(newState.modal.messages).toEqual(["An existing message", "An exciting new message"])
   })
 })

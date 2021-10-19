@@ -34,9 +34,7 @@ describe("Config", () => {
     })
 
     it("aws cognito domain has static value", () => {
-      expect(Config.awsCognitoDomain).toEqual(
-        "https://sinopia-development.auth.us-west-2.amazoncognito.com"
-      )
+      expect(Config.awsCognitoDomain).toEqual("https://sinopia-development.auth.us-west-2.amazoncognito.com")
     })
 
     it("sinopia help and resource menu content has a link to github pages", () => {
@@ -104,9 +102,7 @@ describe("Config", () => {
     })
 
     it("aws cognito domain overrides static value", () => {
-      expect(Config.awsCognitoDomain).toEqual(
-        "https://sinopia-foo.amazoncognito.com"
-      )
+      expect(Config.awsCognitoDomain).toEqual("https://sinopia-foo.amazoncognito.com")
     })
 
     it("max records for lookups/QA environment variable overrides static value", () => {

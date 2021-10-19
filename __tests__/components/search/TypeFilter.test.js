@@ -47,10 +47,7 @@ describe("<TypeFilter />", () => {
 
   it("renders when results", () => {
     const mockGetSearchResults = jest.fn()
-    server.getSearchResultsWithFacets = mockGetSearchResults.mockResolvedValue([
-      {},
-      undefined,
-    ])
+    server.getSearchResultsWithFacets = mockGetSearchResults.mockResolvedValue([{}, undefined])
 
     const store = createStore(createInitialState())
     const { container } = renderComponent(<TypeFilter />, store)
@@ -65,10 +62,7 @@ describe("<TypeFilter />", () => {
 
   it("allows changing filters by unselecting", async () => {
     const mockGetSearchResults = jest.fn()
-    server.getSearchResultsWithFacets = mockGetSearchResults.mockResolvedValue([
-      {},
-      undefined,
-    ])
+    server.getSearchResultsWithFacets = mockGetSearchResults.mockResolvedValue([{}, undefined])
 
     const store = createStore(createInitialState())
     const { container } = renderComponent(<TypeFilter />, store)
@@ -76,9 +70,7 @@ describe("<TypeFilter />", () => {
     expect(container.querySelector(".show")).not.toBeInTheDocument()
     fireEvent.click(screen.getByText("Filter by class"))
     expect(container.querySelector(".show")).toBeInTheDocument()
-    fireEvent.click(
-      screen.getByText("http://id.loc.gov/ontologies/bibframe/Title (5)")
-    )
+    fireEvent.click(screen.getByText("http://id.loc.gov/ontologies/bibframe/Title (5)"))
 
     // 4 checked
     expect(container.querySelectorAll("input:checked")).toHaveLength(4)
@@ -86,9 +78,7 @@ describe("<TypeFilter />", () => {
     // Apply filter
     fireEvent.click(screen.getByText("Go"))
 
-    await waitFor(() =>
-      expect(container.querySelector(".show")).not.toBeInTheDocument()
-    )
+    await waitFor(() => expect(container.querySelector(".show")).not.toBeInTheDocument())
 
     expect(mockGetSearchResults).toHaveBeenCalledWith("twain", {
       resultsPerPage: 10,
@@ -105,10 +95,7 @@ describe("<TypeFilter />", () => {
 
   it("allows selecting / deselecting all", async () => {
     const mockGetSearchResults = jest.fn()
-    server.getSearchResultsWithFacets = mockGetSearchResults.mockResolvedValue([
-      {},
-      undefined,
-    ])
+    server.getSearchResultsWithFacets = mockGetSearchResults.mockResolvedValue([{}, undefined])
 
     const store = createStore(createInitialState())
     const { container } = renderComponent(<TypeFilter />, store)
@@ -129,18 +116,13 @@ describe("<TypeFilter />", () => {
 
   it("allows clearing filters", async () => {
     const mockGetSearchResults = jest.fn()
-    server.getSearchResultsWithFacets = mockGetSearchResults.mockResolvedValue([
-      {},
-      facetResults,
-    ])
+    server.getSearchResultsWithFacets = mockGetSearchResults.mockResolvedValue([{}, facetResults])
 
     const store = createStore(createInitialState())
     const { container } = renderComponent(<TypeFilter />, store)
 
     fireEvent.click(screen.getByText("Filter by class"))
-    fireEvent.click(
-      screen.getByText("http://id.loc.gov/ontologies/bibframe/Title (5)")
-    )
+    fireEvent.click(screen.getByText("http://id.loc.gov/ontologies/bibframe/Title (5)"))
 
     // 4 checked
     expect(container.querySelectorAll("input:checked")).toHaveLength(4)
@@ -148,9 +130,7 @@ describe("<TypeFilter />", () => {
     // Apply filter
     fireEvent.click(screen.getByText("Go"))
 
-    await waitFor(() =>
-      expect(container.querySelector(".show")).not.toBeInTheDocument()
-    )
+    await waitFor(() => expect(container.querySelector(".show")).not.toBeInTheDocument())
 
     fireEvent.click(screen.getByText("Filter by class"))
     fireEvent.click(screen.getByText("Clear filter"))

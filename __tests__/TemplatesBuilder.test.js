@@ -14,9 +14,7 @@ describe("TemplatesBuilder", () => {
 <> <http://sinopia.io/vocabulary/hasResourceAttribute> <http://sinopia.io/vocabulary/resourceAttribute/suppressible> .`
 
     const dataset = await datasetFromN3(rdf)
-    const subjectTemplate = new TemplatesBuilder(dataset, "", "stanford", [
-      "cornell",
-    ]).build()
+    const subjectTemplate = new TemplatesBuilder(dataset, "", "stanford", ["cornell"]).build()
     expect(subjectTemplate).toStrictEqual({
       key: "resourceTemplate:testing:uber1",
       id: "resourceTemplate:testing:uber1",
@@ -199,10 +197,7 @@ _:b4_c14n1 <http://www.w3.org/2000/01/rdf-schema#label> "Uber template1, propert
       remark: null,
       remarkUrl: null,
       defaults: [],
-      valueSubjectTemplateKeys: [
-        "resourceTemplate:testing:uber2",
-        "resourceTemplate:testing:uber3",
-      ],
+      valueSubjectTemplateKeys: ["resourceTemplate:testing:uber2", "resourceTemplate:testing:uber3"],
       authorities: [],
       component: "NestedResource",
       type: "resource",

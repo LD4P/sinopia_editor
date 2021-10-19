@@ -4,10 +4,7 @@ import PropTypes from "prop-types"
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
 import { faExternalLinkAlt } from "@fortawesome/free-solid-svg-icons"
 import TextareaAutosize from "react-textarea-autosize"
-import {
-  updateURIValue as updateURIValueAction,
-  removeValue,
-} from "actions/resources"
+import { updateURIValue as updateURIValueAction, removeValue } from "actions/resources"
 import LanguageButton from "./LanguageButton"
 import DiacriticsButton from "./DiacriticsButton"
 import DiacriticsSelection from "components/editor/diacritics/DiacriticsSelection"
@@ -16,12 +13,7 @@ import { isHttp } from "utilities/Utilities"
 import RemoveButton from "./RemoveButton"
 import _ from "lodash"
 
-const InputURIValue = ({
-  value,
-  propertyTemplate,
-  displayValidations,
-  shouldFocus,
-}) => {
+const InputURIValue = ({ value, propertyTemplate, displayValidations, shouldFocus }) => {
   const dispatch = useDispatch()
   const inputURIRef = useRef(null)
   const inputLabelRef = useRef(null)
@@ -42,23 +34,10 @@ const InputURIValue = ({
     handleKeyDownDiacritics,
     handleAddCharacter,
     handleClickDiacritics,
-  } = useDiacritics(
-    inputLabelRef,
-    labelId,
-    diacriticsId,
-    diacriticsBtnId,
-    value.label || ""
-  )
+  } = useDiacritics(inputLabelRef, labelId, diacriticsId, diacriticsBtnId, value.label || "")
   const updateURIValue = () => {
     setShowLink(isHttp(currentURIContent))
-    dispatch(
-      updateURIValueAction(
-        value.key,
-        currentURIContent,
-        currentLabelContent,
-        value.lang
-      )
-    )
+    dispatch(updateURIValueAction(value.key, currentURIContent, currentLabelContent, value.lang))
   }
 
   useEffect(() => {
@@ -108,13 +87,11 @@ const InputURIValue = ({
 
   const uriControlClasses = ["form-control"]
   const uriErrors = value.errors.filter((error) => error !== "Label required")
-  if (displayValidations && !_.isEmpty(uriErrors))
-    uriControlClasses.push("is-invalid")
+  if (displayValidations && !_.isEmpty(uriErrors)) uriControlClasses.push("is-invalid")
 
   const labelControlClasses = ["form-control"]
   const labelErrors = value.errors.filter((error) => error === "Label required")
-  if (displayValidations && !_.isEmpty(labelErrors))
-    labelControlClasses.push("is-invalid")
+  if (displayValidations && !_.isEmpty(labelErrors)) labelControlClasses.push("is-invalid")
 
   return (
     <React.Fragment>
@@ -135,10 +112,7 @@ const InputURIValue = ({
             ref={inputURIRef}
             id={uriId}
           />
-          <div
-            className="invalid-feedback"
-            data-testid={`URI errors for ${currentLabelContent}`}
-          >
+          <div className="invalid-feedback" data-testid={`URI errors for ${currentLabelContent}`}>
             {uriErrors.join(", ")}
           </div>
         </div>
@@ -151,10 +125,7 @@ const InputURIValue = ({
               aria-label={`Link to ${currentURIContent}`}
               data-testid={`Link to ${currentURIContent}`}
             >
-              <FontAwesomeIcon
-                className="info-icon  ms-0"
-                icon={faExternalLinkAlt}
-              />
+              <FontAwesomeIcon className="info-icon  ms-0" icon={faExternalLinkAlt} />
             </a>
           </div>
         )}
@@ -176,10 +147,7 @@ const InputURIValue = ({
             ref={inputLabelRef}
             id={labelId}
           />
-          <div
-            className="invalid-feedback"
-            data-testid={`Label errors for ${currentURIContent}`}
-          >
+          <div className="invalid-feedback" data-testid={`Label errors for ${currentURIContent}`}>
             {labelErrors.join(", ")}
           </div>
         </div>
@@ -193,10 +161,7 @@ const InputURIValue = ({
           <LanguageButton value={value} />
         </div>
         <div className="col-sm-1 d-flex align-items-end">
-          <RemoveButton
-            content={currentURIContent}
-            handleClick={handleRemoveClick}
-          />
+          <RemoveButton content={currentURIContent} handleClick={handleRemoveClick} />
         </div>
       </div>
       <div className="row">

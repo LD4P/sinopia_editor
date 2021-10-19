@@ -10,9 +10,7 @@ describe("<SinopiaSort />", () => {
     renderComponent(<SinopiaSort />)
     screen.getByText("Sort by")
     screen.getByText("Label, ascending")
-    expect(
-      screen.queryByText("Label, ascending", { selector: ".active" })
-    ).not.toBeInTheDocument()
+    expect(screen.queryByText("Label, ascending", { selector: ".active" })).not.toBeInTheDocument()
 
     screen.getByText("Relevance", { selector: ".active" })
   })

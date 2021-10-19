@@ -3,11 +3,7 @@
 import React from "react"
 import PropTypes from "prop-types"
 import { useSelector } from "react-redux"
-import {
-  selectHistoricalTemplates,
-  selectHistoricalSearches,
-  selectHistoricalResources,
-} from "selectors/history"
+import { selectHistoricalTemplates, selectHistoricalSearches, selectHistoricalResources } from "selectors/history"
 import Header from "../Header"
 import ResourceList from "./ResourceList"
 import ResourceTemplateSearchResult from "../templates/ResourceTemplateSearchResult"
@@ -19,21 +15,12 @@ import useResource from "hooks/useResource"
 export const dashboardErrorKey = "dashboard"
 
 const Dashboard = (props) => {
-  const historicalTemplates = useSelector((state) =>
-    selectHistoricalTemplates(state)
-  )
-  const historicalSearches = useSelector((state) =>
-    selectHistoricalSearches(state)
-  )
-  const historicalResources = useSelector((state) =>
-    selectHistoricalResources(state)
-  )
+  const historicalTemplates = useSelector((state) => selectHistoricalTemplates(state))
+  const historicalSearches = useSelector((state) => selectHistoricalSearches(state))
+  const historicalResources = useSelector((state) => selectHistoricalResources(state))
   const { handleNew, handleCopy, handleEdit } = useResource(dashboardErrorKey)
 
-  const showWelcome =
-    _.isEmpty(historicalTemplates) &&
-    _.isEmpty(historicalSearches) &&
-    _.isEmpty(historicalResources)
+  const showWelcome = _.isEmpty(historicalTemplates) && _.isEmpty(historicalSearches) && _.isEmpty(historicalResources)
 
   return (
     <section id="dashboard">
@@ -43,8 +30,8 @@ const Dashboard = (props) => {
         <div>
           <h2>Welcome to Sinopia.</h2>
           <p>
-            As you use Sinopia, your most recently used templates, resources,
-            and searches will appear on this dashboard.
+            As you use Sinopia, your most recently used templates, resources, and searches will appear on this
+            dashboard.
           </p>
         </div>
       )}

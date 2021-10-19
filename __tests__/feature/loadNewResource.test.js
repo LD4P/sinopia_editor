@@ -20,11 +20,7 @@ describe("loading new resource", () => {
 
     // Click the resource template
     fireEvent.click(screen.getByTitle("Create resource for Uber template1"))
-    await waitFor(() =>
-      expect(
-        screen.getAllByText("Uber template1", { selector: "h3" })
-      ).toHaveLength(1)
-    )
+    await waitFor(() => expect(screen.getAllByText("Uber template1", { selector: "h3" })).toHaveLength(1))
 
     // Not duplicating testing of rendering of resource template from loadResource test.
 
@@ -40,38 +36,20 @@ describe("loading new resource", () => {
     screen.getByPlaceholderText("Uber template1, property2")
     screen.getByPlaceholderText("Uber template1, property4")
     screen.getByPlaceholderText("Uber template1, property5")
-    screen.getByPlaceholderText(
-      "Enter lookup query for Uber template1, property15"
-    )
-    screen.getByPlaceholderText(
-      "Enter lookup query for Uber template1, property16"
-    )
-    expect(
-      screen.getAllByText("Uber template4", { selector: "h5" })
-    ).toHaveLength(2)
-    expect(
-      screen.getAllByPlaceholderText("Uber template4, property1")
-    ).toHaveLength(2)
-    expect(
-      screen.getAllByText("Uber template2", { selector: "h5" })
-    ).toHaveLength(2)
+    screen.getByPlaceholderText("Enter lookup query for Uber template1, property15")
+    screen.getByPlaceholderText("Enter lookup query for Uber template1, property16")
+    expect(screen.getAllByText("Uber template4", { selector: "h5" })).toHaveLength(2)
+    expect(screen.getAllByPlaceholderText("Uber template4, property1")).toHaveLength(2)
+    expect(screen.getAllByText("Uber template2", { selector: "h5" })).toHaveLength(2)
 
     // Save button is enabled (we have defaults)
     expect(screen.getAllByText("Save", { selector: "button" })[0]).toBeEnabled()
 
     // Expand the property in the menu
-    fireEvent.click(
-      screen.getByTestId("Show navigation for Uber template1, property3")
-    )
-    expect(
-      screen.queryByText("Uber template2", { selector: ".left-nav-header" })
-    ).toBeInTheDocument()
-    expect(
-      screen.queryByText("Uber template3", { selector: ".left-nav-header" })
-    ).toBeInTheDocument()
-    expect(
-      screen.queryByText("Uber template4", { selector: ".left-nav-header" })
-    ).not.toBeInTheDocument()
+    fireEvent.click(screen.getByTestId("Show navigation for Uber template1, property3"))
+    expect(screen.queryByText("Uber template2", { selector: ".left-nav-header" })).toBeInTheDocument()
+    expect(screen.queryByText("Uber template3", { selector: ".left-nav-header" })).toBeInTheDocument()
+    expect(screen.queryByText("Uber template4", { selector: ".left-nav-header" })).not.toBeInTheDocument()
 
     // Expand next level of nav
     fireEvent.click(screen.getByTestId("Show navigation for Uber template2"))
@@ -88,14 +66,8 @@ describe("loading new resource", () => {
         selector: ".left-nav-header",
       })
     ).not.toBeInTheDocument()
-    fireEvent.click(
-      screen.getByTestId("Hide navigation for Uber template1, property3")
-    )
-    expect(
-      screen.queryByText("Uber template2", { selector: ".left-nav-header" })
-    ).not.toBeInTheDocument()
-    expect(
-      screen.queryByText("Uber template3", { selector: ".left-nav-header" })
-    ).not.toBeInTheDocument()
+    fireEvent.click(screen.getByTestId("Hide navigation for Uber template1, property3"))
+    expect(screen.queryByText("Uber template2", { selector: ".left-nav-header" })).not.toBeInTheDocument()
+    expect(screen.queryByText("Uber template3", { selector: ".left-nav-header" })).not.toBeInTheDocument()
   }, 15000)
 })

@@ -50,10 +50,7 @@ describe("addTemplateHistory", () => {
     state = addTemplateHistory(state, { payload: { key: "template2" } })
     state = addTemplateHistory(state, { payload: { key: "template1" } })
 
-    expect(state.templates.map((template) => template.id)).toEqual([
-      "template1",
-      "template2",
-    ])
+    expect(state.templates.map((template) => template.id)).toEqual(["template1", "template2"])
   })
 
   it("limits to 10", () => {
@@ -138,8 +135,7 @@ describe("addSearchHistory", () => {
 describe("addResourceHistoryByResult", () => {
   const result = {
     uri: "http://localhost:3000/resource/3d831f47-e686-4b8f-9086-11383b2af762",
-    label:
-      "http://localhost:3000/resource/3d831f47-e686-4b8f-9086-11383b2af762",
+    label: "http://localhost:3000/resource/3d831f47-e686-4b8f-9086-11383b2af762",
     type: ["http://id.loc.gov/ontologies/bibframe/TableOfContents"],
     modified: "2020-10-05T14:31:16.612Z",
     group: "stanford",
@@ -158,8 +154,7 @@ describe("addResourceHistoryByResult", () => {
 
 describe("addResourceHistory", () => {
   const resource = {
-    resourceUri:
-      "http://localhost:3000/resource/f383bfff-5364-47a3-a081-8c9e2d79f43f",
+    resourceUri: "http://localhost:3000/resource/f383bfff-5364-47a3-a081-8c9e2d79f43f",
     type: "http://id.loc.gov/ontologies/bibframe/TableOfContents",
     group: "stanford",
     editGroups: ["cornell"],
@@ -173,8 +168,7 @@ describe("addResourceHistory", () => {
     expect(newState.resources).toEqual([
       {
         uri: "http://localhost:3000/resource/f383bfff-5364-47a3-a081-8c9e2d79f43f",
-        label:
-          "http://localhost:3000/resource/f383bfff-5364-47a3-a081-8c9e2d79f43f",
+        label: "http://localhost:3000/resource/f383bfff-5364-47a3-a081-8c9e2d79f43f",
         type: ["http://id.loc.gov/ontologies/bibframe/TableOfContents"],
         modified: "2020-10-05T14:38:19.704Z",
         group: "stanford",

@@ -15,10 +15,7 @@ describe("export", () => {
       text: () => mockTextPromise,
     })
 
-    beforeEach(
-      () =>
-        (global.fetch = jest.fn().mockImplementation(() => mockFetchPromise))
-    )
+    beforeEach(() => (global.fetch = jest.fn().mockImplementation(() => mockFetchPromise)))
 
     it("dispatches actions", async () => {
       const store = mockStore({ entities: { exports: [] } })
@@ -27,10 +24,7 @@ describe("export", () => {
         { type: "CLEAR_ERRORS", payload: "testerrorkey" },
         {
           type: "EXPORTS_RECEIVED",
-          payload: [
-            "alberta_2019-10-28T16:44:08.978Z.zip",
-            "boulder_2019-10-28T16:44:10.116Z.zip",
-          ],
+          payload: ["alberta_2019-10-28T16:44:08.978Z.zip", "boulder_2019-10-28T16:44:10.116Z.zip"],
         },
       ])
     })
@@ -39,10 +33,7 @@ describe("export", () => {
   describe("when error", () => {
     const mockFetchPromise = Promise.reject(new Error("S3 fail"))
 
-    beforeEach(
-      () =>
-        (global.fetch = jest.fn().mockImplementation(() => mockFetchPromise))
-    )
+    beforeEach(() => (global.fetch = jest.fn().mockImplementation(() => mockFetchPromise)))
 
     it("dispatches actions", async () => {
       const store = mockStore({ entities: { exports: [] } })

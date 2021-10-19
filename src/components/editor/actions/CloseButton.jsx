@@ -4,10 +4,7 @@ import React from "react"
 import PropTypes from "prop-types"
 import { useDispatch, useSelector } from "react-redux"
 import { clearResource } from "actions/resources"
-import {
-  resourceHasChangesSinceLastSave,
-  selectCurrentResourceKey,
-} from "selectors/resources"
+import { resourceHasChangesSinceLastSave, selectCurrentResourceKey } from "selectors/resources"
 import { useHistory } from "react-router-dom"
 import CloseResourceModal from "./CloseResourceModal"
 import { showModal } from "actions/modals"
@@ -20,9 +17,7 @@ const CloseButton = (props) => {
   if (props.resourceKey) {
     resourceKey = props.resourceKey
   }
-  const resourceHasChanged = useSelector((state) =>
-    resourceHasChangesSinceLastSave(state, resourceKey)
-  )
+  const resourceHasChanged = useSelector((state) => resourceHasChangesSinceLastSave(state, resourceKey))
 
   const handleClick = (event) => {
     if (resourceHasChanged) {
@@ -49,13 +44,7 @@ const CloseButton = (props) => {
   return (
     <React.Fragment>
       <CloseResourceModal resourceKey={resourceKey} />
-      <button
-        type="button"
-        className={buttonClasses}
-        aria-label="Close"
-        title="Close"
-        onClick={handleClick}
-      >
+      <button type="button" className={buttonClasses} aria-label="Close" title="Close" onClick={handleClick}>
         {buttonLabel}
       </button>
     </React.Fragment>

@@ -2,32 +2,27 @@
 import { setSearchResults } from "actions/search"
 import { getSearchResultsWithFacets } from "sinopiaSearch"
 import { createLookupPromise } from "utilities/QuestioningAuthority"
-import {
-  findAuthorityConfig,
-  sinopiaSearchUri,
-} from "utilities/authorityConfig"
+import { findAuthorityConfig, sinopiaSearchUri } from "utilities/authorityConfig"
 import { addSearchHistory as addApiSearchHistory } from "actionCreators/user"
 import { addSearchHistory } from "actions/history"
 
 export const fetchSinopiaSearchResults = (query, options) => (dispatch) =>
-  getSearchResultsWithFacets(query, options).then(
-    ([response, facetResponse]) => {
-      dispatch(addSearchHistory(sinopiaSearchUri, "Sinopia resources", query))
-      dispatch(addApiSearchHistory(sinopiaSearchUri, query))
-      dispatch(
-        setSearchResults(
-          "resource",
-          sinopiaSearchUri,
-          response.results,
-          response.totalHits,
-          facetResponse || {},
-          query,
-          options,
-          response.error
-        )
+  getSearchResultsWithFacets(query, options).then(([response, facetResponse]) => {
+    dispatch(addSearchHistory(sinopiaSearchUri, "Sinopia resources", query))
+    dispatch(addApiSearchHistory(sinopiaSearchUri, query))
+    dispatch(
+      setSearchResults(
+        "resource",
+        sinopiaSearchUri,
+        response.results,
+        response.totalHits,
+        facetResponse || {},
+        query,
+        options,
+        response.error
       )
-    }
-  )
+    )
+  })
 
 export const fetchQASearchResults =
   (query, uri, options = {}) =>
@@ -37,18 +32,7 @@ export const fetchQASearchResults =
 
     return searchPromise.then((response) => {
       if (response.isError) {
-        dispatch(
-          setSearchResults(
-            "resource",
-            uri,
-            [],
-            0,
-            {},
-            query,
-            options,
-            response.errorObject.message
-          )
-        )
+        dispatch(setSearchResults("resource", uri, [], 0, {}, query, options, response.errorObject.message))
       } else {
         dispatch(addSearchHistory(uri, authorityConfig.label, query))
         dispatch(addApiSearchHistory(uri, query))

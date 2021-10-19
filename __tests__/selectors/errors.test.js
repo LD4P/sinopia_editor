@@ -1,9 +1,5 @@
 import { createState } from "stateUtils"
-import {
-  displayResourceValidations,
-  selectErrors,
-  selectValidationErrors,
-} from "selectors/errors"
+import { displayResourceValidations, selectErrors, selectValidationErrors } from "selectors/errors"
 
 describe("displayResourceValidations()", () => {
   it("defaults to false", () => {
@@ -58,10 +54,7 @@ describe("selectValidationErrors()", () => {
     expect(errors.length).toBe(1)
     expect(errors[0].message).toEqual("Literal required")
     expect(errors[0].propertyKey).toEqual("JQEtq-vmq8")
-    expect(errors[0].labelPath).toEqual([
-      "Abbreviated Title",
-      "Abbreviated Title",
-    ])
+    expect(errors[0].labelPath).toEqual(["Abbreviated Title", "Abbreviated Title"])
   })
 
   it("returns errors for a property with a nested resource given a subject key", () => {

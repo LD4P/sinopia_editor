@@ -16,9 +16,7 @@ const NewResourceTemplateButton = (props) => {
   const dispatch = useDispatch()
   const { canCreate } = usePermissions()
 
-  const errors = useSelector((state) =>
-    selectErrors(state, newResourceErrorKey)
-  )
+  const errors = useSelector((state) => selectErrors(state, newResourceErrorKey))
   const resourceKey = useSelector((state) => selectCurrentResourceKey(state))
 
   const [navigateEditor, setNavigateEditor] = useState(false)
@@ -32,9 +30,7 @@ const NewResourceTemplateButton = (props) => {
 
   const handleClick = (event) => {
     event.preventDefault()
-    dispatch(
-      newResource(Config.rootResourceTemplateId, newResourceErrorKey)
-    ).then((result) => {
+    dispatch(newResource(Config.rootResourceTemplateId, newResourceErrorKey)).then((result) => {
       setNavigateEditor(result)
     })
   }
@@ -42,10 +38,7 @@ const NewResourceTemplateButton = (props) => {
   if (!canCreate) return null
 
   return (
-    <Link
-      to={{ pathname: "/editor", state: {} }}
-      onClick={(e) => handleClick(e)}
-    >
+    <Link to={{ pathname: "/editor", state: {} }} onClick={(e) => handleClick(e)}>
       <button className="btn btn-primary" style={{ marginTop: "10px" }}>
         New template
       </button>

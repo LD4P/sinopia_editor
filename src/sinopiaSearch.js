@@ -18,9 +18,7 @@ import _ from "lodash"
  * @return {Promise<Object>} promise containing the result of the search.
  */
 export const getSearchResults = async (query, options = {}) =>
-  getSearchResultsWithFacets(query, { ...options, noFacetResults: true }).then(
-    ([results]) => results
-  )
+  getSearchResultsWithFacets(query, { ...options, noFacetResults: true }).then(([results]) => results)
 
 /**
  * Performs a search of Sinopia resources.
@@ -52,18 +50,14 @@ export const getSearchResultsWithFacets = async (query, options = {}) => {
   if (options.typeFilter) {
     termsFilters.push({
       terms: {
-        type: Array.isArray(options.typeFilter)
-          ? options.typeFilter
-          : [options.typeFilter],
+        type: Array.isArray(options.typeFilter) ? options.typeFilter : [options.typeFilter],
       },
     })
   }
   if (options.groupFilter) {
     termsFilters.push({
       terms: {
-        group: Array.isArray(options.groupFilter)
-          ? options.groupFilter
-          : [options.groupFilter],
+        group: Array.isArray(options.groupFilter) ? options.groupFilter : [options.groupFilter],
       },
     })
   }
@@ -89,11 +83,7 @@ export const getSearchResultsWithFacets = async (query, options = {}) => {
 }
 
 export const getSearchResultsByUris = (resourceUris) => {
-  if (
-    Config.useResourceTemplateFixtures &&
-    resourceUris.length === 1 &&
-    hasFixtureResource(resourceUris[0])
-  )
+  if (Config.useResourceTemplateFixtures && resourceUris.length === 1 && hasFixtureResource(resourceUris[0]))
     return Promise.resolve(resourceSearchResults(resourceUris[0])[0])
 
   const body = {
@@ -171,33 +161,23 @@ const aggregationsToResult = (aggs) => {
 
 export const getTemplateSearchResults = (query, options = {}) => {
   const body = getTemplateSearchResultsBody(query, options)
-  return fetchTemplateSearchResults(body, templateHitsToResult).then(
-    (searchResults) => {
-      if (Config.useResourceTemplateFixtures) {
-        const newResults = searchResults.results.filter(
-          (hit) =>
-            [hit.id, hit.resourceURI].includes(query) || query.length === 0
-        )
-        return {
-          totalHits: newResults.length,
-          results: newResults,
-          error: undefined,
-        }
+  return fetchTemplateSearchResults(body, templateHitsToResult).then((searchResults) => {
+    if (Config.useResourceTemplateFixtures) {
+      const newResults = searchResults.results.filter(
+        (hit) => [hit.id, hit.resourceURI].includes(query) || query.length === 0
+      )
+      return {
+        totalHits: newResults.length,
+        results: newResults,
+        error: undefined,
       }
-      return searchResults
     }
-  )
+    return searchResults
+  })
 }
 
 const getTemplateSearchResultsBody = (query, options) => {
-  const fields = [
-    "id",
-    "resourceLabel",
-    "resourceURI",
-    "remark",
-    "author",
-    "groupLabel",
-  ]
+  const fields = ["id", "resourceLabel", "resourceURI", "remark", "author", "groupLabel"]
   const should = fields.map((field) => ({
     wildcard: { [field]: { value: `*${query}*` } },
   }))
@@ -222,21 +202,17 @@ export const getTemplateSearchResultsByIds = (templateIds) => {
     },
     size: templateIds.length,
   }
-  return fetchTemplateSearchResults(body, templateHitsToResult).then(
-    (searchResults) => {
-      if (Config.useResourceTemplateFixtures) {
-        const newResults = searchResults.results.filter((hit) =>
-          templateIds.includes(hit.id)
-        )
-        return {
-          totalHits: newResults.length,
-          results: newResults,
-          error: undefined,
-        }
+  return fetchTemplateSearchResults(body, templateHitsToResult).then((searchResults) => {
+    if (Config.useResourceTemplateFixtures) {
+      const newResults = searchResults.results.filter((hit) => templateIds.includes(hit.id))
+      return {
+        totalHits: newResults.length,
+        results: newResults,
+        error: undefined,
       }
-      return searchResults
     }
-  )
+    return searchResults
+  })
 }
 
 const fetchTemplateSearchResults = async (body, hitsToResultFunc) => {

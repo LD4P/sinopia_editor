@@ -5,44 +5,25 @@ import PropTypes from "prop-types"
 import { bindActionCreators } from "redux"
 import { connect } from "react-redux"
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
-import {
-  faTrashAlt,
-  faArrowUp,
-  faArrowDown,
-} from "@fortawesome/free-solid-svg-icons"
+import { faTrashAlt, faArrowUp, faArrowDown } from "@fortawesome/free-solid-svg-icons"
 import { resourceEditErrorKey } from "../Editor"
-import {
-  selectCurrentResourceKey,
-  selectNormProperty,
-  selectNormSubject,
-  selectNormValues,
-} from "selectors/resources"
-import {
-  selectPropertyTemplate,
-  selectSubjectTemplate,
-} from "selectors/templates"
+import { selectCurrentResourceKey, selectNormProperty, selectNormSubject, selectNormValues } from "selectors/resources"
+import { selectPropertyTemplate, selectSubjectTemplate } from "selectors/templates"
 import { addSiblingValueSubject } from "actionCreators/resources"
 import { removeValue, setValueOrder } from "actions/resources"
 import _ from "lodash"
 
 const NestedResourceActionButtons = (props) => {
   // Show add button if repeatable and first value.
-  const showAddButton =
-    props.propertyTemplate.repeatable &&
-    props.value.key === _.first(props.siblingValues).key
+  const showAddButton = props.propertyTemplate.repeatable && props.value.key === _.first(props.siblingValues).key
   // Show delete button if more than one.
   const showRemoveButton = props.siblingValues.length > 1
   const showMoveUpButton = props.propertyTemplate.ordered && props.index > 1
-  const showMoveDownButton =
-    props.propertyTemplate.ordered &&
-    props.index < props.property.valueKeys.length
+  const showMoveDownButton = props.propertyTemplate.ordered && props.index < props.property.valueKeys.length
 
   const addAnother = (event) => {
     event.preventDefault()
-    return props.addSiblingValueSubject(
-      _.last(props.siblingValues).key,
-      resourceEditErrorKey(props.resourceKey)
-    )
+    return props.addSiblingValueSubject(_.last(props.siblingValues).key, resourceEditErrorKey(props.resourceKey))
   }
 
   const moveUp = (event) => {
@@ -125,39 +106,22 @@ const mapStateToProps = (state, ownProps) => {
   const values = selectNormValues(state, property?.valueKeys) || []
 
   const siblingValues = values.filter((siblingValue) => {
-    const siblingValueSubject = selectNormSubject(
-      state,
-      siblingValue.valueSubjectKey
-    )
-    return (
-      siblingValueSubject.subjectTemplateKey === valueSubject.subjectTemplateKey
-    )
+    const siblingValueSubject = selectNormSubject(state, siblingValue.valueSubjectKey)
+    return siblingValueSubject.subjectTemplateKey === valueSubject.subjectTemplateKey
   })
 
   return {
     property,
     valueSubject,
     siblingValues,
-    propertyTemplate: selectPropertyTemplate(
-      state,
-      property?.propertyTemplateKey
-    ),
-    subjectTemplate: selectSubjectTemplate(
-      state,
-      valueSubject?.subjectTemplateKey
-    ),
+    propertyTemplate: selectPropertyTemplate(state, property?.propertyTemplateKey),
+    subjectTemplate: selectSubjectTemplate(state, valueSubject?.subjectTemplateKey),
     resourceKey: selectCurrentResourceKey(state),
     index: values.indexOf(ownProps.value) + 1,
   }
 }
 
 const mapDispatchToProps = (dispatch) =>
-  bindActionCreators(
-    { addSiblingValueSubject, removeValue, setValueOrder },
-    dispatch
-  )
+  bindActionCreators({ addSiblingValueSubject, removeValue, setValueOrder }, dispatch)
 
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps
-)(NestedResourceActionButtons)
+export default connect(mapStateToProps, mapDispatchToProps)(NestedResourceActionButtons)

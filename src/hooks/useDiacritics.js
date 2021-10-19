@@ -1,12 +1,6 @@
 import { useState } from "react"
 
-const useDiacritics = (
-  inputRef,
-  inputId,
-  diacriticsId,
-  diacriticsBtnId,
-  defaultContent
-) => {
+const useDiacritics = (inputRef, inputId, diacriticsId, diacriticsBtnId, defaultContent) => {
   const [showDiacritics, setShowDiacritics] = useState(false)
   const [currentContent, setCurrentContent] = useState(defaultContent)
   const [currentPosition, setCurrentPosition] = useState(0)
@@ -59,11 +53,7 @@ const useDiacritics = (
   }
 
   const handleAddCharacter = (character) => {
-    setCurrentContent(
-      currentContent.slice(0, currentPosition) +
-        character +
-        currentContent.slice(currentPosition)
-    )
+    setCurrentContent(currentContent.slice(0, currentPosition) + character + currentContent.slice(currentPosition))
     setCurrentPosition(currentPosition + 1)
   }
 

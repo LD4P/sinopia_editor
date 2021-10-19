@@ -40,10 +40,7 @@ const LookupTab = (props) => {
 
   const tabResults = props.result.results.map((hit) => (
     <div key={hit.uri}>
-      <button
-        onClick={() => handleSelectionChanged(hit)}
-        className="btn search-result"
-      >
+      <button onClick={() => handleSelectionChanged(hit)} className="btn search-result">
         {hit.context ? (
           <RenderLookupContext
             innerResult={hit}

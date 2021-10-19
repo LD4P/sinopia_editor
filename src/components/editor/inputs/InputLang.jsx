@@ -22,9 +22,7 @@ const InputLang = (props) => {
 
   const [lang, setLang] = useState(props.lang)
   const [submitEnabled, setSubmitEnabled] = useState(true)
-  const [radioButtonValue, setRadioButtonValue] = useState(
-    props.lang === null ? noLangSelected : langSelected
-  )
+  const [radioButtonValue, setRadioButtonValue] = useState(props.lang === null ? noLangSelected : langSelected)
 
   const classes = ["modal", "fade"]
   let display = "none"
@@ -102,9 +100,7 @@ const InputLang = (props) => {
                   }}
                 />
               </label>
-              <p style={{ fontStyle: "italic", marginTop: "10px" }}>
-                or select
-              </p>
+              <p style={{ fontStyle: "italic", marginTop: "10px" }}>or select</p>
             </div>
 
             <div className="form-check">
@@ -117,10 +113,7 @@ const InputLang = (props) => {
                 checked={radioButtonValue === noLangSelected}
                 onChange={handleLanguageRadio}
               />
-              <label
-                className="form-check-label"
-                htmlFor={`noLangRadio-${props.textValue}`}
-              >
+              <label className="form-check-label" htmlFor={`noLangRadio-${props.textValue}`}>
                 No language specified
               </label>
             </div>
@@ -168,7 +161,6 @@ const mapStateToProps = (state, ownProps) => {
   }
 }
 
-const mapDispatchToProps = (dispatch) =>
-  bindActionCreators({ hideModal, languageSelected }, dispatch)
+const mapDispatchToProps = (dispatch) => bindActionCreators({ hideModal, languageSelected }, dispatch)
 
 export default connect(mapStateToProps, mapDispatchToProps)(InputLang)

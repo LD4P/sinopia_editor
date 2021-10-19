@@ -129,9 +129,7 @@ describe("<SearchResultsPaging />", () => {
         startOfRange={0}
       />
     )
-    fireEvent.click(
-      screen.getByText("3", { selector: "li:nth-child(5) > button" })
-    )
+    fireEvent.click(screen.getByText("3", { selector: "li:nth-child(5) > button" }))
     expect(mockChangePage).toHaveBeenCalledWith(10)
   })
   it("clicking first goes to first page", () => {

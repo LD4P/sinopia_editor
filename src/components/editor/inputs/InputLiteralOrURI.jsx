@@ -6,23 +6,12 @@ import InputURIValue from "./InputURIValue"
 import InputLookupValue from "./InputLookupValue"
 import InputListValue from "./InputListValue"
 import { addValue as addValueAction } from "actions/resources"
-import {
-  newBlankLiteralValue,
-  newBlankUriValue,
-  newBlankLookupValue,
-  newBlankListValue,
-} from "utilities/valueFactory"
+import { newBlankLiteralValue, newBlankUriValue, newBlankLookupValue, newBlankListValue } from "utilities/valueFactory"
 import { selectProperty } from "selectors/resources"
 
-const InputLiteralOrURI = ({
-  property,
-  propertyTemplate,
-  displayValidations,
-}) => {
+const InputLiteralOrURI = ({ property, propertyTemplate, displayValidations }) => {
   const dispatch = useDispatch()
-  const fullProperty = useSelector((state) =>
-    selectProperty(state, property.key)
-  )
+  const fullProperty = useSelector((state) => selectProperty(state, property.key))
 
   const inputValues = fullProperty.values.map((value) => {
     const props = {

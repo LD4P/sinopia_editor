@@ -51,9 +51,7 @@ const result1 = {
       context: [
         {
           property: "Image URL",
-          values: [
-            "https://img.discogs.com/3a11940a0981896d8eafe3d3f3690e94440eda7d/images/spacer.gif",
-          ],
+          values: ["https://img.discogs.com/3a11940a0981896d8eafe3d3f3690e94440eda7d/images/spacer.gif"],
         },
         {
           property: "Year",
@@ -152,17 +150,13 @@ describe("selecting a value from lookup", () => {
   const history = createHistory(["/editor/test:resource:DiscogsLookup"])
 
   it("allows manually entering a literal", async () => {
-    lookup.getLookupResult = jest
-      .fn()
-      .mockResolvedValue({ results: [], totalHits: 0 })
+    lookup.getLookupResult = jest.fn().mockResolvedValue({ results: [], totalHits: 0 })
 
     const { container } = renderApp(null, history)
 
     await screen.findByText("Testing discogs lookup", { selector: "h3" })
 
-    const input = screen.getByPlaceholderText(
-      "Enter lookup query for Instance of (lookup)"
-    )
+    const input = screen.getByPlaceholderText("Enter lookup query for Instance of (lookup)")
 
     fireEvent.change(input, { target: { value: "test" } })
     expect(input).toHaveValue("test")
@@ -182,9 +176,7 @@ describe("selecting a value from lookup", () => {
   })
 
   it("allows manually entering a uri", async () => {
-    lookup.getLookupResult = jest
-      .fn()
-      .mockResolvedValue({ results: [], totalHits: 0 })
+    lookup.getLookupResult = jest.fn().mockResolvedValue({ results: [], totalHits: 0 })
 
     renderApp(null, history)
 
@@ -199,21 +191,15 @@ describe("selecting a value from lookup", () => {
     })
     fireEvent.keyDown(uriInput, { key: "Enter", code: 13, charCode: 13 })
 
-    const labelInput = screen.getByPlaceholderText(
-      "Label for Instance of (lookup)"
-    )
+    const labelInput = screen.getByPlaceholderText("Label for Instance of (lookup)")
     fireEvent.change(labelInput, {
       target: { value: "Wittgenstein, Ludwig, 1889-1951" },
     })
     fireEvent.keyDown(labelInput, { key: "Enter", code: 13, charCode: 13 })
 
     // There is uri text.
-    expect(
-      screen.getByText("http://id.loc.gov/authorities/names/n79032058")
-    ).toHaveClass("form-control")
-    expect(screen.getByText("Wittgenstein, Ludwig, 1889-1951")).toHaveClass(
-      "form-control"
-    )
+    expect(screen.getByText("http://id.loc.gov/authorities/names/n79032058")).toHaveClass("form-control")
+    expect(screen.getByText("Wittgenstein, Ludwig, 1889-1951")).toHaveClass("form-control")
   })
 
   it("allows entering diacritics", async () => {
@@ -222,9 +208,7 @@ describe("selecting a value from lookup", () => {
     await screen.findByText("Testing discogs lookup", { selector: "h3" })
 
     // Add a value
-    const input = screen.getByPlaceholderText(
-      "Enter lookup query for Instance of (lookup)"
-    )
+    const input = screen.getByPlaceholderText("Enter lookup query for Instance of (lookup)")
 
     // Yeah, these fireEvent's seem odd but they produce the desired effect.
     fireEvent.change(input, { target: { value: "Fo" } })
@@ -312,9 +296,7 @@ describe("selecting a value from lookup", () => {
 
     await screen.findByText("Testing discogs lookup", { selector: "h3" })
 
-    const input = screen.getByPlaceholderText(
-      "Enter lookup query for Instance of (lookup)"
-    )
+    const input = screen.getByPlaceholderText("Enter lookup query for Instance of (lookup)")
 
     fireEvent.change(input, { target: { value: "twain" } })
     expect(input).toHaveValue("twain")
@@ -324,9 +306,7 @@ describe("selecting a value from lookup", () => {
     expect(container.querySelector(".lookup")).toBeInTheDocument()
 
     // Pagination only appears for 1 tab.
-    await waitFor(() =>
-      expect(container.querySelectorAll(".pagination")).toHaveLength(1)
-    )
+    await waitFor(() => expect(container.querySelectorAll(".pagination")).toHaveLength(1))
 
     // Click next page
     fireEvent.click(screen.getByText("›", { selector: "button" }))
@@ -343,9 +323,7 @@ describe("selecting a value from lookup", () => {
     // List the authorities
     screen.getByText("Lookup with: Discogs, Discogs Releases, Discogs Masters")
 
-    const input = screen.getByPlaceholderText(
-      "Enter lookup query for Instance of (lookup)"
-    )
+    const input = screen.getByPlaceholderText("Enter lookup query for Instance of (lookup)")
 
     fireEvent.change(input, { target: { value: "twain" } })
     expect(input).toHaveValue("twain")
@@ -360,42 +338,29 @@ describe("selecting a value from lookup", () => {
     await screen.findByText("Discogs (4830)")
 
     // Add the lookup
-    fireEvent.click(
-      screen.getByText("Shania Twain", { selector: ".context-heading" })
-    )
+    fireEvent.click(screen.getByText("Shania Twain", { selector: ".context-heading" }))
 
     // Lookup closes
     expect(container.querySelector(".lookup")).not.toBeInTheDocument()
 
     // There is uri text.
-    expect(
-      screen.getByText("https://www.discogs.com/artist/130060-Shania-Twain")
-    ).toHaveClass("form-control")
+    expect(screen.getByText("https://www.discogs.com/artist/130060-Shania-Twain")).toHaveClass("form-control")
     expect(screen.getByText("Shania Twain")).toHaveClass("form-control")
 
     // Now remove it
-    fireEvent.click(
-      screen.getByTestId(
-        "Remove https://www.discogs.com/artist/130060-Shania-Twain"
-      )
-    )
+    fireEvent.click(screen.getByTestId("Remove https://www.discogs.com/artist/130060-Shania-Twain"))
 
     // Value removed
     await waitFor(() =>
       expect(
-        screen.queryByText(
-          "https://www.discogs.com/artist/130060-Shania-Twain",
-          {
-            selector: ".form-control",
-          }
-        )
+        screen.queryByText("https://www.discogs.com/artist/130060-Shania-Twain", {
+          selector: ".form-control",
+        })
       ).not.toBeInTheDocument()
     )
 
     // Blank lookup
-    expect(
-      screen.getByPlaceholderText("Enter lookup query for Instance of (lookup)")
-    ).toHaveValue("")
+    expect(screen.getByPlaceholderText("Enter lookup query for Instance of (lookup)")).toHaveValue("")
   })
 })
 

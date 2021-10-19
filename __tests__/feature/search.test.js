@@ -142,9 +142,7 @@ describe("sinopia resource search", () => {
   })
 
   it("allows the user to filter results", async () => {
-    global.fetch = jest
-      .fn()
-      .mockImplementation(() => Promise.resolve({ json: () => successResult }))
+    global.fetch = jest.fn().mockImplementation(() => Promise.resolve({ json: () => successResult }))
 
     renderApp()
 
@@ -164,9 +162,7 @@ describe("sinopia resource search", () => {
   })
 
   it("allows the user to sort results", async () => {
-    global.fetch = jest
-      .fn()
-      .mockImplementation(() => Promise.resolve({ json: () => successResult }))
+    global.fetch = jest.fn().mockImplementation(() => Promise.resolve({ json: () => successResult }))
 
     renderApp()
 
@@ -185,20 +181,14 @@ describe("sinopia resource search", () => {
     await findByText(resources[1], /foo/)
     await findByText(resources[2], /baz/)
 
-    global.fetch = jest
-      .fn()
-      .mockImplementation(() =>
-        Promise.resolve({ json: () => successResultResorted })
-      )
+    global.fetch = jest.fn().mockImplementation(() => Promise.resolve({ json: () => successResultResorted }))
 
     fireEvent.click(screen.getByText(/Sort by/, { selector: "button" }))
     fireEvent.click(screen.getByText(/Label, ascending/))
 
     await screen.findByText(/Displaying 1 - 3 of 3/)
 
-    const resourcesResorted = screen.getAllByText(
-      /http:\/\/platform:8080\/resource\//
-    )
+    const resourcesResorted = screen.getAllByText(/http:\/\/platform:8080\/resource\//)
     expect(resourcesResorted).toHaveLength(3)
     await findByText(resourcesResorted[0], /baz/)
     await findByText(resourcesResorted[1], /foo bar/)
@@ -208,11 +198,7 @@ describe("sinopia resource search", () => {
   it("pages results when the total number exceeds searchResultsPerPage", async () => {
     jest.spyOn(Config, "searchResultsPerPage", "get").mockReturnValue(2)
 
-    global.fetch = jest
-      .fn()
-      .mockImplementation(() =>
-        Promise.resolve({ json: () => successResultPage1 })
-      )
+    global.fetch = jest.fn().mockImplementation(() => Promise.resolve({ json: () => successResultPage1 }))
 
     renderApp()
 
@@ -228,11 +214,7 @@ describe("sinopia resource search", () => {
     await screen.findByText(/foo bar/)
     expect(screen.queryByText(/baz/)).not.toBeInTheDocument()
 
-    global.fetch = jest
-      .fn()
-      .mockImplementation(() =>
-        Promise.resolve({ json: () => successResultPage2 })
-      )
+    global.fetch = jest.fn().mockImplementation(() => Promise.resolve({ json: () => successResultPage2 }))
 
     // confirm moving to the next page works
     fireEvent.click(screen.getByLabelText("2", { selector: "button" }))
@@ -241,9 +223,7 @@ describe("sinopia resource search", () => {
   })
 
   it("displays an appropriate message when there are no results for the search term(s)", async () => {
-    global.fetch = jest
-      .fn()
-      .mockImplementation(() => Promise.resolve({ json: () => noResult }))
+    global.fetch = jest.fn().mockImplementation(() => Promise.resolve({ json: () => noResult }))
 
     renderApp()
 

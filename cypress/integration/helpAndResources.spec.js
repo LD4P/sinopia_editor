@@ -1,9 +1,7 @@
 describe("Looking at the Help gutter", () => {
   it("Opens the app", () => {
     cy.visit(Cypress.env("EDITOR_URL") || "http://localhost:8000/")
-    cy.contains(
-      "The underdrawing for the new world of linked data in libraries"
-    )
+    cy.contains("The underdrawing for the new world of linked data in libraries")
   })
 
   it("Opens Help", () => {

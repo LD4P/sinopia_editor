@@ -3,19 +3,13 @@
 import React from "react"
 import { useSelector, useDispatch } from "react-redux"
 import CloseButton from "./actions/CloseButton"
-import {
-  selectCurrentResourceKey,
-  selectResourceKeys,
-  selectNormSubject,
-} from "selectors/resources"
+import { selectCurrentResourceKey, selectResourceKeys, selectNormSubject } from "selectors/resources"
 import { setCurrentResource } from "actions/resources"
 
 const ResourcesNav = () => {
   const dispatch = useDispatch()
 
-  const currentResourceKey = useSelector((state) =>
-    selectCurrentResourceKey(state)
-  )
+  const currentResourceKey = useSelector((state) => selectCurrentResourceKey(state))
 
   const resourceKeys = useSelector((state) => selectResourceKeys(state))
 
@@ -23,10 +17,7 @@ const ResourcesNav = () => {
     const labels = {}
     resourceKeys.forEach((resourceKey) => {
       const resourceLabel = selectNormSubject(state, resourceKey).label
-      labels[resourceKey] =
-        resourceLabel.length > 38
-          ? `${resourceLabel.slice(0, 38)}...`
-          : resourceLabel
+      labels[resourceKey] = resourceLabel.length > 38 ? `${resourceLabel.slice(0, 38)}...` : resourceLabel
     })
     return labels
   })
@@ -60,14 +51,8 @@ const ResourcesNav = () => {
   }
 
   const generateNavItems = () =>
-    resourceKeys.map((resourceKey) =>
-      createResourceTemplateNavItem(
-        resourceKey,
-        resourceKey === currentResourceKey
-      )
-    )
-  const resourceTemplateNavItems =
-    resourceKeys.length > 1 ? generateNavItems() : []
+    resourceKeys.map((resourceKey) => createResourceTemplateNavItem(resourceKey, resourceKey === currentResourceKey))
+  const resourceTemplateNavItems = resourceKeys.length > 1 ? generateNavItems() : []
 
   const handleResourceNavClick = (event, resourceKey) => {
     event.preventDefault()
@@ -79,9 +64,7 @@ const ResourcesNav = () => {
   return (
     <div className="row">
       <div className="col">
-        <ul className="nav nav-tabs resources-nav-tabs">
-          {resourceTemplateNavItems}
-        </ul>
+        <ul className="nav nav-tabs resources-nav-tabs">{resourceTemplateNavItems}</ul>
       </div>
     </div>
   )

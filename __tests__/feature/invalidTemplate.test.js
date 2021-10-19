@@ -39,15 +39,11 @@ describe("an invalid resource template", () => {
     renderApp(store, history)
 
     // Search for a template
-    const input = screen.getByPlaceholderText(
-      "Enter id, label, URI, remark, group, or author"
-    )
+    const input = screen.getByPlaceholderText("Enter id, label, URI, remark, group, or author")
     await fireEvent.change(input, { target: { value: "Not found" } })
 
     // try to open the template
-    const link = await screen.findByTitle(
-      "Create resource for Not found value template refs"
-    )
+    const link = await screen.findByTitle("Create resource for Not found value template refs")
     fireEvent.click(link)
 
     // wait for the resource template to be loaded into the list of recently used templates
@@ -56,9 +52,7 @@ describe("an invalid resource template", () => {
     await act(() => promise)
 
     // check that the dismissable error message appears
-    screen.findByText(
-      "The following referenced resource templates are not available in Sinopia:"
-    )
+    screen.findByText("The following referenced resource templates are not available in Sinopia:")
     screen.findByText("x", { selector: "button" })
   })
 })

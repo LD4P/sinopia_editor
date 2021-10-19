@@ -21,12 +21,7 @@ const NestedProperty = (props) => {
   /* eslint-disable jsx-a11y/click-events-have-key-events */
   /* eslint-disable jsx-a11y/no-static-element-interactions */
   return (
-    <div
-      ref={navEl}
-      onClick={navClickHandler}
-      className="rtOutline"
-      data-label={props.propertyTemplate.label}
-    >
+    <div ref={navEl} onClick={navClickHandler} className="rtOutline" data-label={props.propertyTemplate.label}>
       <NestedPropertyHeader
         id={propertyLabelId}
         property={props.property}
@@ -57,10 +52,7 @@ const mapStateToProps = (state, ourProps) => {
   const property = selectNormProperty(state, ourProps.propertyKey)
   return {
     property,
-    propertyTemplate: selectPropertyTemplate(
-      state,
-      property?.propertyTemplateKey
-    ),
+    propertyTemplate: selectPropertyTemplate(state, property?.propertyTemplateKey),
   }
 }
 

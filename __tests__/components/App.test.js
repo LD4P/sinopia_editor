@@ -91,9 +91,7 @@ describe("<App />", () => {
 
   describe("when user is not authenticated", () => {
     beforeEach(() => {
-      Auth.currentAuthenticatedUser.mockRejectedValue(
-        new Error("Not authenticated")
-      )
+      Auth.currentAuthenticatedUser.mockRejectedValue(new Error("Not authenticated"))
     })
 
     const state = createState({ notAuthenticated: true })
@@ -140,9 +138,7 @@ describe("<App />", () => {
       const history = createHistory(["/editor/resourceTemplate:bf2:Notex"])
       renderApp(null, history)
 
-      await waitFor(() =>
-        expect(history.location.pathname).toEqual("/templates")
-      )
+      await waitFor(() => expect(history.location.pathname).toEqual("/templates"))
       await screen.findByText(/Error retrieving resourceTemplate:bf2:Notex/)
     })
 

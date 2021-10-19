@@ -16,31 +16,17 @@ import useNavigableComponent from "hooks/useNavigableComponent"
 import { nanoid } from "nanoid"
 import _ from "lodash"
 
-const PanelProperty = ({
-  propertyKey,
-  resourceKey,
-  readOnly,
-  id,
-  isTemplate,
-}) => {
+const PanelProperty = ({ propertyKey, resourceKey, readOnly, id, isTemplate }) => {
   const dispatch = useDispatch()
-  const property = useSelector((state) =>
-    selectNormProperty(state, propertyKey)
-  )
-  const propertyTemplate = useSelector((state) =>
-    selectPropertyTemplate(state, property?.propertyTemplateKey)
-  )
+  const property = useSelector((state) => selectNormProperty(state, propertyKey))
+  const propertyTemplate = useSelector((state) => selectPropertyTemplate(state, property?.propertyTemplateKey))
 
   // Null values indicates that can be added.
   const isAdd = !property.valueKeys
   const isRequired = propertyTemplate.required
   const nbsp = "\u00A0"
   const trashIcon = faTrashAlt
-  const [navEl, navClickHandler] = useNavigableComponent(
-    resourceKey,
-    propertyKey,
-    propertyKey
-  )
+  const [navEl, navClickHandler] = useNavigableComponent(resourceKey, propertyKey, propertyKey)
   const cardClassName = ["card"]
 
   if (isTemplate) {
@@ -66,24 +52,14 @@ const PanelProperty = ({
       >
         <div className="prop-heading">
           <h5>
-            <PropertyLabel
-              forId={propertyLabelId}
-              propertyTemplate={propertyTemplate}
-            />
+            <PropertyLabel forId={propertyLabelId} propertyTemplate={propertyTemplate} />
             <PropertyLabelInfo propertyTemplate={propertyTemplate} />
             {nbsp}
             {isAdd && !readOnly && (
               <button
                 type="button"
                 className="btn btn-sm btn-add btn-link pull-right"
-                onClick={() =>
-                  dispatch(
-                    expandProperty(
-                      property.key,
-                      resourceEditErrorKey(resourceKey)
-                    )
-                  )
-                }
+                onClick={() => dispatch(expandProperty(property.key, resourceEditErrorKey(resourceKey)))}
                 aria-label={`Add ${propertyTemplate.label}`}
                 data-testid={`Add ${propertyTemplate.label}`}
                 data-id={property.key}
@@ -107,11 +83,7 @@ const PanelProperty = ({
         </div>
         {!isAdd && (
           <div className="panel-property">
-            <PropertyComponent
-              property={property}
-              propertyTemplate={propertyTemplate}
-              readOnly={readOnly}
-            />
+            <PropertyComponent property={property} propertyTemplate={propertyTemplate} readOnly={readOnly} />
           </div>
         )}
       </div>

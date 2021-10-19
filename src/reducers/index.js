@@ -29,18 +29,8 @@ import {
   saveResourceFinishedEditor,
   updateValue,
 } from "./resources"
-import {
-  hideValidationErrors,
-  addError,
-  clearErrors,
-  showValidationErrors,
-} from "./errors"
-import {
-  showModal,
-  hideModal,
-  addModalMessage,
-  clearModalMessages,
-} from "./modals"
+import { hideValidationErrors, addError, clearErrors, showValidationErrors } from "./errors"
+import { showModal, hideModal, addModalMessage, clearModalMessages } from "./modals"
 import { showCopyNewMessage } from "./messages"
 import { exportsReceived } from "./exports"
 import { addTemplates } from "./templates"

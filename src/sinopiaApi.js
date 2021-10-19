@@ -3,10 +3,7 @@
 import { datasetFromJsonld, jsonldFromDataset } from "utilities/Utilities"
 import Config from "Config"
 /* eslint-disable node/no-unpublished-import */
-import {
-  hasFixtureResource,
-  getFixtureResource,
-} from "../__tests__/testUtilities/fixtureLoaderHelper"
+import { hasFixtureResource, getFixtureResource } from "../__tests__/testUtilities/fixtureLoaderHelper"
 import GraphBuilder from "GraphBuilder"
 import { v4 as uuidv4 } from "uuid"
 import Auth from "@aws-amplify/auth"
@@ -35,9 +32,7 @@ export const fetchResource = (uri, isTemplate) => {
   }
 
   return fetchPromise
-    .then((response) =>
-      Promise.all([datasetFromJsonld(response.data), Promise.resolve(response)])
-    )
+    .then((response) => Promise.all([datasetFromJsonld(response.data), Promise.resolve(response)]))
     .catch((err) => {
       throw new Error(`Error parsing resource: ${err.message || err}`)
     })
@@ -64,25 +59,22 @@ export const postResource = (resource, currentUser, group, editGroups) => {
   newResource.uri = uri
   newResource.group = group
   newResource.editGroups = editGroups
-  return putResource(newResource, currentUser, group, editGroups, "POST").then(
-    () => uri
-  )
+  return putResource(newResource, currentUser, group, editGroups, "POST").then(() => uri)
 }
 
 // Saves an existing resource
 export const putResource = (resource, currentUser, group, editGroups, method) =>
-  saveBodyForResource(resource, currentUser.username, group, editGroups).then(
-    (body) =>
-      getJwt().then((jwt) =>
-        fetch(resource.uri, {
-          method: method || "PUT",
-          headers: {
-            "Content-Type": "application/json",
-            Authorization: `Bearer ${jwt}`,
-          },
-          body,
-        }).then((resp) => checkResp(resp).then(() => true))
-      )
+  saveBodyForResource(resource, currentUser.username, group, editGroups).then((body) =>
+    getJwt().then((jwt) =>
+      fetch(resource.uri, {
+        method: method || "PUT",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${jwt}`,
+        },
+        body,
+      }).then((resp) => checkResp(resp).then(() => true))
+    )
   )
 
 export const postMarc = (resourceUri) => {
@@ -96,9 +88,7 @@ export const postMarc = (resourceUri) => {
         },
       })
     )
-    .then((resp) =>
-      checkResp(resp).then(() => resp.headers.get("Content-Location"))
-    )
+    .then((resp) => checkResp(resp).then(() => resp.headers.get("Content-Location")))
 }
 
 export const getMarcJob = (marcJobUrl) =>
@@ -139,15 +129,8 @@ const postUser = (userId) =>
     }).then((resp) => checkResp(resp).then(() => resp.json()))
   )
 
-export const putUserHistory = (
-  userId,
-  historyType,
-  historyItemKey,
-  historyItemPayload
-) => {
-  const url = `${userUrlFor(userId)}/history/${historyType}/${encodeURI(
-    historyItemKey
-  )}`
+export const putUserHistory = (userId, historyType, historyItemKey, historyItemPayload) => {
+  const url = `${userUrlFor(userId)}/history/${historyType}/${encodeURI(historyItemKey)}`
   return getJwt().then((jwt) =>
     fetch(url, {
       method: "PUT",
@@ -161,10 +144,7 @@ export const putUserHistory = (
 }
 
 export const postTransfer = (resourceUri, group, target) => {
-  const url = `${resourceUri.replace(
-    "resource",
-    "transfer"
-  )}/${group}/${target}`
+  const url = `${resourceUri.replace("resource", "transfer")}/${group}/${target}`
   return getJwt()
     .then((jwt) =>
       fetch(url, {
@@ -177,8 +157,7 @@ export const postTransfer = (resourceUri, group, target) => {
     .then((resp) => checkResp(resp))
 }
 
-const userUrlFor = (userId) =>
-  `${Config.sinopiaApiBase}/user/${encodeURI(userId)}`
+const userUrlFor = (userId) => `${Config.sinopiaApiBase}/user/${encodeURI(userId)}`
 
 const saveBodyForResource = (resource, user, group, editGroups) => {
   const dataset = new GraphBuilder(resource).graph
@@ -199,14 +178,11 @@ const saveBodyForResource = (resource, user, group, editGroups) => {
   )
 }
 
-const isTemplate = (resource) =>
-  resource.subjectTemplate.id === Config.rootResourceTemplateId
+const isTemplate = (resource) => resource.subjectTemplate.id === Config.rootResourceTemplateId
 
 const templateIdFor = (resource) => {
   const resourceIdProperty = resource.properties.find(
-    (property) =>
-      property.propertyTemplate.uri ===
-      "http://sinopia.io/vocabulary/hasResourceId"
+    (property) => property.propertyTemplate.uri === "http://sinopia.io/vocabulary/hasResourceId"
   )
   return resourceIdProperty.values[0].literal
 }
@@ -229,9 +205,7 @@ const checkResp = (resp) => {
     .then((errors) => {
       // Assuming only one for now.
       const error = errors[0]
-      const newError = error.details
-        ? new Error(`${error.title}: ${error.details}`)
-        : new Error(`${error.title}`)
+      const newError = error.details ? new Error(`${error.title}: ${error.details}`) : new Error(`${error.title}`)
       newError.name = "ApiError"
       throw newError
     })

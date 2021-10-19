@@ -19,9 +19,7 @@ const SearchRow = (props) => (
           title="Search"
           aria-label={`Search ${props.row.query} (${props.row.authorityLabel})`}
           data-testid={`Search ${props.row.query} (${props.row.authorityLabel})`}
-          onClick={(e) =>
-            props.handleSearch(props.row.query, props.row.authorityUri, e)
-          }
+          onClick={(e) => props.handleSearch(props.row.query, props.row.authorityUri, e)}
         >
           <FontAwesomeIcon icon={faSearch} className="icon-lg" />
         </button>

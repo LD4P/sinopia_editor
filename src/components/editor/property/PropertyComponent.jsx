@@ -12,13 +12,9 @@ import { selectNormSubject } from "selectors/resources"
 
 // Decides how to render this property.
 const PropertyComponent = ({ property, propertyTemplate, readOnly }) => {
-  const resource = useSelector((state) =>
-    selectNormSubject(state, property.rootSubjectKey)
-  )
+  const resource = useSelector((state) => selectNormSubject(state, property.rootSubjectKey))
 
-  const displayValidations = useSelector((state) =>
-    displayResourceValidations(state, property.rootSubjectKey)
-  )
+  const displayValidations = useSelector((state) => displayResourceValidations(state, property.rootSubjectKey))
 
   // Immutable properties cannot be changed once saved.
   const immutable = propertyTemplate.immutable && resource.uri
@@ -27,11 +23,7 @@ const PropertyComponent = ({ property, propertyTemplate, readOnly }) => {
   switch (propertyTemplate.component) {
     case "NestedResource":
       return property.valueKeys.map((valueKey) => (
-        <NestedResource
-          key={valueKey}
-          valueKey={valueKey}
-          readOnly={readOnly}
-        />
+        <NestedResource key={valueKey} valueKey={valueKey} readOnly={readOnly} />
       ))
     case "InputLiteral":
     case "InputURI":

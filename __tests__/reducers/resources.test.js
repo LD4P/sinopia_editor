@@ -88,8 +88,7 @@ describe("addProperty()", () => {
         key: "vmq88891",
         subjectKey: "t9zVwg2zO",
         rootSubjectKey: "t9zVwg2zO",
-        propertyTemplateKey:
-          "ld4p:RT:bf2:Title:AbbrTitle > http://id.loc.gov/ontologies/bibframe/mainTitle",
+        propertyTemplateKey: "ld4p:RT:bf2:Title:AbbrTitle > http://id.loc.gov/ontologies/bibframe/mainTitle",
         valueKeys: ["abc123"],
         show: false,
         showNav: false,
@@ -136,8 +135,7 @@ describe("addProperty()", () => {
         key: "JQEtq-vmq8",
         subjectKey: "t9zVwg2zO",
         rootSubjectKey: "t9zVwg2zO",
-        propertyTemplateKey:
-          "ld4p:RT:bf2:Title:AbbrTitle > http://id.loc.gov/ontologies/bibframe/mainTitle",
+        propertyTemplateKey: "ld4p:RT:bf2:Title:AbbrTitle > http://id.loc.gov/ontologies/bibframe/mainTitle",
         valueKeys: ["RxGx7WMh4"],
         show: true,
         showNav: true,
@@ -176,8 +174,7 @@ describe("addProperty()", () => {
         key: "i0SAJP-Zhd",
         subjectKey: "wihOjn-0Z",
         rootSubjectKey: "wihOjn-0Z",
-        propertyTemplateKey:
-          "test:resource:SinopiaLookup > http://id.loc.gov/ontologies/bibframe/instanceOf",
+        propertyTemplateKey: "test:resource:SinopiaLookup > http://id.loc.gov/ontologies/bibframe/instanceOf",
         valueKeys: ["abc123"],
         show: true,
         showNav: false,
@@ -186,9 +183,7 @@ describe("addProperty()", () => {
         descWithErrorPropertyKeys: ["i0SAJP-Zhd"],
         labels: ["Testing sinopia lookup", "Instance of (lookup)"],
       })
-      expect(newState.subjects["wihOjn-0Z"].propertyKeys).toContain(
-        "i0SAJP-Zhd"
-      )
+      expect(newState.subjects["wihOjn-0Z"].propertyKeys).toContain("i0SAJP-Zhd")
       expect(newState.values["s8-qt3-uu"]).toBeUndefined()
       expect(newState.subjects["wihOjn-0Z"].changed).toBe(true)
       // Removes from bfWorkRefs
@@ -220,8 +215,7 @@ describe("addProperty()", () => {
         key: "vmq88891",
         subjectKey: "wihOjn-0Z",
         rootSubjectKey: "wihOjn-0Z",
-        propertyTemplateKey:
-          "test:resource:SinopiaLookup > http://id.loc.gov/ontologies/bibframe/instanceOf",
+        propertyTemplateKey: "test:resource:SinopiaLookup > http://id.loc.gov/ontologies/bibframe/instanceOf",
         valueKeys: ["abc123"],
         show: true,
         showNav: false,
@@ -231,9 +225,7 @@ describe("addProperty()", () => {
         labels: ["Testing sinopia lookup", "Instance of (lookup)"],
       })
 
-      expect(
-        newState.subjects["wihOjn-0Z"].descWithErrorPropertyKeys
-      ).toContain("vmq88891")
+      expect(newState.subjects["wihOjn-0Z"].descWithErrorPropertyKeys).toContain("vmq88891")
     })
   })
 })
@@ -242,9 +234,7 @@ describe("addSubject()", () => {
   describe("new subject with no properties and matching resource key", () => {
     it("updates state", () => {
       const oldState = createState()
-      oldState.entities.subjectTemplates[
-        "resourceTemplate:bf2:Identifiers:Barcode"
-      ] = { label: "Barcode" }
+      oldState.entities.subjectTemplates["resourceTemplate:bf2:Identifiers:Barcode"] = { label: "Barcode" }
 
       const action = {
         type: "ADD_SUBJECT",
@@ -429,12 +419,8 @@ describe("addValue()", () => {
       })
       expect(newState.properties["JQEtq-vmq8"].valueKeys).toContain("DxGx7WMh3")
       expect(newState.properties["JQEtq-vmq8"].show).toBe(true)
-      expect(
-        newState.properties["JQEtq-vmq8"].descUriOrLiteralValueKeys
-      ).toContain("DxGx7WMh3")
-      expect(newState.subjects.t9zVwg2zO.descUriOrLiteralValueKeys).toContain(
-        "DxGx7WMh3"
-      )
+      expect(newState.properties["JQEtq-vmq8"].descUriOrLiteralValueKeys).toContain("DxGx7WMh3")
+      expect(newState.subjects.t9zVwg2zO.descUriOrLiteralValueKeys).toContain("DxGx7WMh3")
     })
   })
 
@@ -450,8 +436,7 @@ describe("addValue()", () => {
           subjectKey: "t9zVwg2zO",
           rootSubjectKey: "t9zVwg2zO",
           rootPropertyKey: "JQEtq-vmq8",
-          propertyTemplateKey:
-            "ld4p:RT:bf2:Title:AbbrTitle > http://id.loc.gov/ontologies/bibframe/mainTitle",
+          propertyTemplateKey: "ld4p:RT:bf2:Title:AbbrTitle > http://id.loc.gov/ontologies/bibframe/mainTitle",
           valueKeys: [],
           show: true,
           descUriOrLiteralValueKeys: [],
@@ -491,28 +476,17 @@ describe("addValue()", () => {
       })
       expect(newState.properties["JQEtq-vmq8"].valueKeys).toContain("DxGx7WMh3")
       expect(newState.properties["JQEtq-vmq8"].show).toBe(true)
-      expect(
-        newState.properties["JQEtq-vmq8"].descUriOrLiteralValueKeys
-      ).not.toContain("DxGx7WMh3")
-      expect(
-        newState.subjects.t9zVwg2zO.descUriOrLiteralValueKeys
-      ).not.toContain("DxGx7WMh3")
-      expect(
-        newState.properties["JQEtq-vmq8"].descWithErrorPropertyKeys
-      ).toContain("JQEtq-vmq8")
-      expect(newState.subjects.t9zVwg2zO.descWithErrorPropertyKeys).toContain(
-        "JQEtq-vmq8"
-      )
+      expect(newState.properties["JQEtq-vmq8"].descUriOrLiteralValueKeys).not.toContain("DxGx7WMh3")
+      expect(newState.subjects.t9zVwg2zO.descUriOrLiteralValueKeys).not.toContain("DxGx7WMh3")
+      expect(newState.properties["JQEtq-vmq8"].descWithErrorPropertyKeys).toContain("JQEtq-vmq8")
+      expect(newState.subjects.t9zVwg2zO.descWithErrorPropertyKeys).toContain("JQEtq-vmq8")
     })
   })
 
   describe("new literal value with siblingValueKey", () => {
     it("updates state", () => {
       const oldState = createState({ hasResourceWithLiteral: true })
-      oldState.entities.properties["JQEtq-vmq8"].valueKeys = [
-        "abc123",
-        "def456",
-      ]
+      oldState.entities.properties["JQEtq-vmq8"].valueKeys = ["abc123", "def456"]
 
       const action = {
         type: "ADD_VALUE",
@@ -531,11 +505,7 @@ describe("addValue()", () => {
       }
 
       const newState = reducer(oldState.entities, action)
-      expect(newState.properties["JQEtq-vmq8"].valueKeys).toEqual([
-        "abc123",
-        "DxGx7WMh3",
-        "def456",
-      ])
+      expect(newState.properties["JQEtq-vmq8"].valueKeys).toEqual(["abc123", "DxGx7WMh3", "def456"])
     })
   })
 
@@ -578,22 +548,12 @@ describe("addValue()", () => {
         valueSubjectKey: null,
         errors: ["URI required", "Label required"],
       })
-      expect(newState.properties.RPaGmJ_8IQi8roZ1oj1uK.valueKeys).toContain(
-        "DxGx7WMh3"
-      )
+      expect(newState.properties.RPaGmJ_8IQi8roZ1oj1uK.valueKeys).toContain("DxGx7WMh3")
       expect(newState.properties.RPaGmJ_8IQi8roZ1oj1uK.show).toBe(true)
-      expect(
-        newState.properties.RPaGmJ_8IQi8roZ1oj1uK.descUriOrLiteralValueKeys
-      ).not.toContain("RPaGmJ_8IQi8roZ1oj1uK")
-      expect(
-        newState.subjects.FYPd18JgfhSGaeviY7NNu.descUriOrLiteralValueKeys
-      ).not.toContain("RPaGmJ_8IQi8roZ1oj1uK")
-      expect(
-        newState.properties.RPaGmJ_8IQi8roZ1oj1uK.descWithErrorPropertyKeys
-      ).toContain("RPaGmJ_8IQi8roZ1oj1uK")
-      expect(
-        newState.subjects.FYPd18JgfhSGaeviY7NNu.descWithErrorPropertyKeys
-      ).toContain("RPaGmJ_8IQi8roZ1oj1uK")
+      expect(newState.properties.RPaGmJ_8IQi8roZ1oj1uK.descUriOrLiteralValueKeys).not.toContain("RPaGmJ_8IQi8roZ1oj1uK")
+      expect(newState.subjects.FYPd18JgfhSGaeviY7NNu.descUriOrLiteralValueKeys).not.toContain("RPaGmJ_8IQi8roZ1oj1uK")
+      expect(newState.properties.RPaGmJ_8IQi8roZ1oj1uK.descWithErrorPropertyKeys).toContain("RPaGmJ_8IQi8roZ1oj1uK")
+      expect(newState.subjects.FYPd18JgfhSGaeviY7NNu.descWithErrorPropertyKeys).toContain("RPaGmJ_8IQi8roZ1oj1uK")
     })
   })
 
@@ -603,20 +563,19 @@ describe("addValue()", () => {
 
       // change propertyTemplate to be one for rdfs label
       oldState.entities.propertyTemplates = {
-        "resourceTemplate:testing:uber1 > http://www.w3.org/2000/01/rdf-schema#label":
-          {
-            key: "resourceTemplate:testing:uber1 > http://www.w3.org/2000/01/rdf-schema#label",
-            subjectTemplateKey: "resourceTemplate:testing:uber1",
-            label: "rdfs label",
-            uri: "http://www.w3.org/2000/01/rdf-schema#label",
-            required: false,
-            repeatable: false,
-            defaults: [],
-            remarkUrl: null,
-            type: "literal",
-            component: "InputLiteral",
-            authorities: [],
-          },
+        "resourceTemplate:testing:uber1 > http://www.w3.org/2000/01/rdf-schema#label": {
+          key: "resourceTemplate:testing:uber1 > http://www.w3.org/2000/01/rdf-schema#label",
+          subjectTemplateKey: "resourceTemplate:testing:uber1",
+          label: "rdfs label",
+          uri: "http://www.w3.org/2000/01/rdf-schema#label",
+          required: false,
+          repeatable: false,
+          defaults: [],
+          remarkUrl: null,
+          type: "literal",
+          component: "InputLiteral",
+          authorities: [],
+        },
       }
       oldState.entities.properties["JQEtq-vmq8"].propertyTemplateKey =
         "resourceTemplate:testing:uber1 > http://www.w3.org/2000/01/rdf-schema#label"
@@ -909,16 +868,10 @@ describe("removeValue()", () => {
 
       const newState = reducer(oldState.entities, action)
       expect(newState.values.CxGx7WMh2).toBe(undefined)
-      expect(newState.properties["JQEtq-vmq8"].valueKeys).not.toContain(
-        "CxGx7WMh2"
-      )
-      expect(
-        newState.properties["JQEtq-vmq8"].descUriOrLiteralValueKeys
-      ).not.toContain("CxGx7WMh2")
+      expect(newState.properties["JQEtq-vmq8"].valueKeys).not.toContain("CxGx7WMh2")
+      expect(newState.properties["JQEtq-vmq8"].descUriOrLiteralValueKeys).not.toContain("CxGx7WMh2")
       expect(newState.subjects.t9zVwg2zO.changed).toBe(true)
-      expect(
-        newState.subjects.t9zVwg2zO.descUriOrLiteralValueKeys
-      ).not.toContain("CxGx7WMh2")
+      expect(newState.subjects.t9zVwg2zO.descUriOrLiteralValueKeys).not.toContain("CxGx7WMh2")
     })
   })
   describe("with an error", () => {
@@ -935,31 +888,17 @@ describe("removeValue()", () => {
         payload: "CxGx7WMh2",
       }
 
-      expect(
-        oldState.entities.properties["JQEtq-vmq8"].descWithErrorPropertyKeys
-      ).toContain("JQEtq-vmq8")
-      expect(
-        oldState.entities.subjects.t9zVwg2zO.descWithErrorPropertyKeys
-      ).toContain("JQEtq-vmq8")
+      expect(oldState.entities.properties["JQEtq-vmq8"].descWithErrorPropertyKeys).toContain("JQEtq-vmq8")
+      expect(oldState.entities.subjects.t9zVwg2zO.descWithErrorPropertyKeys).toContain("JQEtq-vmq8")
 
       const newState = reducer(oldState.entities, action)
       expect(newState.values.CxGx7WMh2).toBe(undefined)
-      expect(newState.properties["JQEtq-vmq8"].valueKeys).not.toContain(
-        "CxGx7WMh2"
-      )
-      expect(
-        newState.properties["JQEtq-vmq8"].descUriOrLiteralValueKeys
-      ).not.toContain("CxGx7WMh2")
+      expect(newState.properties["JQEtq-vmq8"].valueKeys).not.toContain("CxGx7WMh2")
+      expect(newState.properties["JQEtq-vmq8"].descUriOrLiteralValueKeys).not.toContain("CxGx7WMh2")
       expect(newState.subjects.t9zVwg2zO.changed).toBe(true)
-      expect(
-        newState.subjects.t9zVwg2zO.descUriOrLiteralValueKeys
-      ).not.toContain("CxGx7WMh2")
-      expect(
-        newState.properties["JQEtq-vmq8"].descWithErrorPropertyKeys
-      ).not.toContain("JQEtq-vmq8")
-      expect(
-        newState.subjects.t9zVwg2zO.descWithErrorPropertyKeys
-      ).not.toContain("JQEtq-vmq8")
+      expect(newState.subjects.t9zVwg2zO.descUriOrLiteralValueKeys).not.toContain("CxGx7WMh2")
+      expect(newState.properties["JQEtq-vmq8"].descWithErrorPropertyKeys).not.toContain("JQEtq-vmq8")
+      expect(newState.subjects.t9zVwg2zO.descWithErrorPropertyKeys).not.toContain("JQEtq-vmq8")
     })
   })
 })
@@ -1033,9 +972,7 @@ describe("setBaseURL()", () => {
       },
     }
     const newState = reducer(oldState, action)
-    expect(newState.subjects.abcde345.uri).toEqual(
-      "https://sinopia.io/stanford/456hkl"
-    )
+    expect(newState.subjects.abcde345.uri).toEqual("https://sinopia.io/stanford/456hkl")
     expect(newState.subjects.fghi678.changed).toEqual(false)
   })
 })
@@ -1139,9 +1076,7 @@ describe("setUnusedRDF()", () => {
     }
 
     const newState = editorReducer(oldState.editor, action)
-    expect(newState.unusedRDF.t9zVwg2zO).toBe(
-      "<> <http://www.w3.org/1999/02/22-rdf-syntax-ns#value> 'abcde' ."
-    )
+    expect(newState.unusedRDF.t9zVwg2zO).toBe("<> <http://www.w3.org/1999/02/22-rdf-syntax-ns#value> 'abcde' .")
   })
 })
 
@@ -1254,10 +1189,7 @@ describe("setValueOrder()", () => {
   it("sets value order", () => {
     const oldState = createState({ hasResourceWithTwoNestedResources: true })
 
-    expect(oldState.entities.properties.v1o90QO1Qx.valueKeys).toEqual([
-      "VDOeQCnFA8",
-      "VDOeQCnFA9",
-    ])
+    expect(oldState.entities.properties.v1o90QO1Qx.valueKeys).toEqual(["VDOeQCnFA8", "VDOeQCnFA9"])
     const subjectKey = oldState.entities.properties.v1o90QO1Qx.subjectKey
     expect(oldState.entities.subjects[subjectKey].changed).toBeFalsy
     const action = {
@@ -1271,10 +1203,7 @@ describe("setValueOrder()", () => {
     const newState = reducer(oldState.entities, action)
     expect(newState.subjects[subjectKey].changed).toBeTruthy
 
-    expect(newState.properties.v1o90QO1Qx.valueKeys).toEqual([
-      "VDOeQCnFA9",
-      "VDOeQCnFA8",
-    ])
+    expect(newState.properties.v1o90QO1Qx.valueKeys).toEqual(["VDOeQCnFA9", "VDOeQCnFA8"])
   })
 })
 
@@ -1308,12 +1237,8 @@ describe("updateValue()", () => {
         component: "InputLiteralValue",
       })
       expect(newState.properties["JQEtq-vmq8"].valueKeys).toContain("CxGx7WMh2")
-      expect(
-        newState.properties["JQEtq-vmq8"].descUriOrLiteralValueKeys
-      ).toContain("CxGx7WMh2")
-      expect(newState.subjects.t9zVwg2zO.descUriOrLiteralValueKeys).toContain(
-        "CxGx7WMh2"
-      )
+      expect(newState.properties["JQEtq-vmq8"].descUriOrLiteralValueKeys).toContain("CxGx7WMh2")
+      expect(newState.subjects.t9zVwg2zO.descUriOrLiteralValueKeys).toContain("CxGx7WMh2")
     })
   })
 
@@ -1349,18 +1274,10 @@ describe("updateValue()", () => {
         component: "InputLiteralValue",
       })
       expect(newState.properties["JQEtq-vmq8"].valueKeys).toContain("CxGx7WMh2")
-      expect(
-        newState.properties["JQEtq-vmq8"].descUriOrLiteralValueKeys
-      ).not.toContain("CxGx7WMh2")
-      expect(
-        newState.subjects.t9zVwg2zO.descUriOrLiteralValueKeys
-      ).not.toContain("CxGx7WMh2")
-      expect(
-        newState.properties["JQEtq-vmq8"].descWithErrorPropertyKeys
-      ).toContain("JQEtq-vmq8")
-      expect(newState.subjects.t9zVwg2zO.descWithErrorPropertyKeys).toContain(
-        "JQEtq-vmq8"
-      )
+      expect(newState.properties["JQEtq-vmq8"].descUriOrLiteralValueKeys).not.toContain("CxGx7WMh2")
+      expect(newState.subjects.t9zVwg2zO.descUriOrLiteralValueKeys).not.toContain("CxGx7WMh2")
+      expect(newState.properties["JQEtq-vmq8"].descWithErrorPropertyKeys).toContain("JQEtq-vmq8")
+      expect(newState.subjects.t9zVwg2zO.descWithErrorPropertyKeys).toContain("JQEtq-vmq8")
     })
   })
 
@@ -1370,20 +1287,19 @@ describe("updateValue()", () => {
 
       // change propertyTemplate to be one for rdfs label
       oldState.entities.propertyTemplates = {
-        "resourceTemplate:testing:uber1 > http://www.w3.org/2000/01/rdf-schema#label":
-          {
-            key: "resourceTemplate:testing:uber1 > http://www.w3.org/2000/01/rdf-schema#label",
-            subjectTemplateKey: "resourceTemplate:testing:uber1",
-            label: "rdfs label",
-            uri: "http://www.w3.org/2000/01/rdf-schema#label",
-            required: false,
-            repeatable: false,
-            defaults: [],
-            remarkUrl: null,
-            type: "literal",
-            component: "InputLiteral",
-            authorities: [],
-          },
+        "resourceTemplate:testing:uber1 > http://www.w3.org/2000/01/rdf-schema#label": {
+          key: "resourceTemplate:testing:uber1 > http://www.w3.org/2000/01/rdf-schema#label",
+          subjectTemplateKey: "resourceTemplate:testing:uber1",
+          label: "rdfs label",
+          uri: "http://www.w3.org/2000/01/rdf-schema#label",
+          required: false,
+          repeatable: false,
+          defaults: [],
+          remarkUrl: null,
+          type: "literal",
+          component: "InputLiteral",
+          authorities: [],
+        },
       }
       oldState.entities.properties["JQEtq-vmq8"].propertyTemplateKey =
         "resourceTemplate:testing:uber1 > http://www.w3.org/2000/01/rdf-schema#label"
@@ -1447,15 +1363,9 @@ describe("updateValue()", () => {
         errors: [],
         component: "InputURIValue",
       })
-      expect(newState.properties.RPaGmJ_8IQi8roZ1oj1uK.valueKeys).toContain(
-        "a_-Jp0pY6pH6ytCtfr-mx"
-      )
-      expect(
-        newState.properties.RPaGmJ_8IQi8roZ1oj1uK.descUriOrLiteralValueKeys
-      ).toContain("a_-Jp0pY6pH6ytCtfr-mx")
-      expect(
-        newState.subjects.FYPd18JgfhSGaeviY7NNu.descUriOrLiteralValueKeys
-      ).toContain("a_-Jp0pY6pH6ytCtfr-mx")
+      expect(newState.properties.RPaGmJ_8IQi8roZ1oj1uK.valueKeys).toContain("a_-Jp0pY6pH6ytCtfr-mx")
+      expect(newState.properties.RPaGmJ_8IQi8roZ1oj1uK.descUriOrLiteralValueKeys).toContain("a_-Jp0pY6pH6ytCtfr-mx")
+      expect(newState.subjects.FYPd18JgfhSGaeviY7NNu.descUriOrLiteralValueKeys).toContain("a_-Jp0pY6pH6ytCtfr-mx")
     })
   })
 
@@ -1489,12 +1399,8 @@ describe("updateValue()", () => {
         component: "InputURIValue",
       })
 
-      expect(
-        newState.properties.RPaGmJ_8IQi8roZ1oj1uK.descWithErrorPropertyKeys
-      ).toContain("RPaGmJ_8IQi8roZ1oj1uK")
-      expect(
-        newState.subjects.FYPd18JgfhSGaeviY7NNu.descWithErrorPropertyKeys
-      ).toContain("RPaGmJ_8IQi8roZ1oj1uK")
+      expect(newState.properties.RPaGmJ_8IQi8roZ1oj1uK.descWithErrorPropertyKeys).toContain("RPaGmJ_8IQi8roZ1oj1uK")
+      expect(newState.subjects.FYPd18JgfhSGaeviY7NNu.descWithErrorPropertyKeys).toContain("RPaGmJ_8IQi8roZ1oj1uK")
     })
   })
 
@@ -1528,12 +1434,8 @@ describe("updateValue()", () => {
         component: "InputURIValue",
       })
 
-      expect(
-        newState.properties.RPaGmJ_8IQi8roZ1oj1uK.descWithErrorPropertyKeys
-      ).toContain("RPaGmJ_8IQi8roZ1oj1uK")
-      expect(
-        newState.subjects.FYPd18JgfhSGaeviY7NNu.descWithErrorPropertyKeys
-      ).toContain("RPaGmJ_8IQi8roZ1oj1uK")
+      expect(newState.properties.RPaGmJ_8IQi8roZ1oj1uK.descWithErrorPropertyKeys).toContain("RPaGmJ_8IQi8roZ1oj1uK")
+      expect(newState.subjects.FYPd18JgfhSGaeviY7NNu.descWithErrorPropertyKeys).toContain("RPaGmJ_8IQi8roZ1oj1uK")
     })
   })
 

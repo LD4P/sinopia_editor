@@ -12,16 +12,10 @@ import { nanoid } from "nanoid"
 const MarcButton = ({ resourceKey }) => {
   const marcs = useRef({})
   const resource = useSelector((state) => selectNormSubject(state, resourceKey))
-  const subjectTemplate = useSelector((state) =>
-    selectSubjectTemplate(state, resource?.subjectTemplateKey)
-  )
+  const subjectTemplate = useSelector((state) => selectSubjectTemplate(state, resource?.subjectTemplateKey))
   const [, setRender] = useState(false)
 
-  if (
-    !resource?.uri ||
-    subjectTemplate?.class !== "http://id.loc.gov/ontologies/bibframe/Instance"
-  )
-    return null
+  if (!resource?.uri || subjectTemplate?.class !== "http://id.loc.gov/ontologies/bibframe/Instance") return null
 
   const marcJobTimer = (marcJobUrl, resourceKey) => {
     getMarcJob(marcJobUrl)
@@ -65,9 +59,7 @@ const MarcButton = ({ resourceKey }) => {
       .then((blob) => {
         saveAs(blob, `record-${resource.uri}.mar`)
       })
-      .catch(
-        (err) => (marcs.current[resourceKey] = { error: err.message || err })
-      )
+      .catch((err) => (marcs.current[resourceKey] = { error: err.message || err }))
     event.preventDefault()
   }
 
@@ -97,24 +89,15 @@ const MarcButton = ({ resourceKey }) => {
       </button>
       <div className="separator-circle">•</div>
       <div className="dropdown-menu" aria-labelledby="marcBtn">
-        <button
-          className={dropDownItemBtnClasses.join(" ")}
-          onClick={(event) => handleRequest(event)}
-        >
+        <button className={dropDownItemBtnClasses.join(" ")} onClick={(event) => handleRequest(event)}>
           Request conversion to MARC
         </button>
         {marcs.current[resourceKey]?.marc && (
           <React.Fragment>
-            <button
-              className={dropDownItemBtnClasses.join(" ")}
-              onClick={(event) => handleDownloadTxt(event)}
-            >
+            <button className={dropDownItemBtnClasses.join(" ")} onClick={(event) => handleDownloadTxt(event)}>
               Download text
             </button>
-            <button
-              className={dropDownItemBtnClasses.join(" ")}
-              onClick={(event) => handleDownloadMarc(event)}
-            >
+            <button className={dropDownItemBtnClasses.join(" ")} onClick={(event) => handleDownloadMarc(event)}>
               Download MARC
             </button>
             <pre

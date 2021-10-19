@@ -3,20 +3,12 @@
 import React, { useEffect, useRef, useState, useCallback } from "react"
 import { getTemplateSearchResults } from "sinopiaSearch"
 import { useDispatch, useSelector } from "react-redux"
-import {
-  clearSearchResults as clearSearchResultsAction,
-  setSearchResults,
-} from "actions/search"
+import { clearSearchResults as clearSearchResultsAction, setSearchResults } from "actions/search"
 import Alert from "../Alert"
 import SinopiaResourceTemplates from "./SinopiaResourceTemplates"
 import SearchResultsPaging from "components/search/SearchResultsPaging"
 import NewResourceTemplateButton from "./NewResourceTemplateButton"
-import {
-  selectSearchError,
-  selectSearchQuery,
-  selectSearchOptions,
-  selectSearchTotalResults,
-} from "selectors/search"
+import { selectSearchError, selectSearchQuery, selectSearchOptions, selectSearchTotalResults } from "selectors/search"
 import PropTypes from "prop-types"
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
 import { faTrashAlt } from "@fortawesome/free-solid-svg-icons"
@@ -28,23 +20,14 @@ const TemplateSearch = (props) => {
   const tokens = useRef([])
 
   const error = useSelector((state) => selectSearchError(state, "template"))
-  const lastQueryString = useSelector((state) =>
-    selectSearchQuery(state, "template")
-  )
-  const searchOptions = useSelector((state) =>
-    selectSearchOptions(state, "template")
-  )
-  const totalResults = useSelector((state) =>
-    selectSearchTotalResults(state, "template")
-  )
+  const lastQueryString = useSelector((state) => selectSearchQuery(state, "template"))
+  const searchOptions = useSelector((state) => selectSearchOptions(state, "template"))
+  const totalResults = useSelector((state) => selectSearchTotalResults(state, "template"))
 
   const [queryString, setQueryString] = useState(lastQueryString || "")
   const [startOfRange, setStartOfRange] = useState(0)
 
-  const clearSearchResults = useCallback(
-    () => dispatch(clearSearchResultsAction("template")),
-    [dispatch]
-  )
+  const clearSearchResults = useCallback(() => dispatch(clearSearchResultsAction("template")), [dispatch])
 
   useEffect(() => {
     if (!queryString) clearSearchResults()
@@ -91,15 +74,9 @@ const TemplateSearch = (props) => {
         <Alert text={error} />
         <div className="row">
           <div className="col-md-10">
-            <form
-              className="row mb-2 mt-2"
-              onSubmit={(event) => event.preventDefault()}
-            >
+            <form className="row mb-2 mt-2" onSubmit={(event) => event.preventDefault()}>
               <div className="input-group">
-                <label
-                  className="font-weight-bold col-form-label"
-                  htmlFor="searchInput"
-                >
+                <label className="font-weight-bold col-form-label" htmlFor="searchInput">
                   Find a resource template
                 </label>
                 &nbsp;

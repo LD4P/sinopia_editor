@@ -20,21 +20,18 @@ describe("editing a literal property", () => {
     fireEvent.change(screen.getByPlaceholderText("Uber template1, property4"), {
       target: { value: "foo" },
     })
-    fireEvent.keyDown(
-      screen.getByPlaceholderText("Uber template1, property4"),
-      { key: "Enter", code: 13, charCode: 13 }
-    )
+    fireEvent.keyDown(screen.getByPlaceholderText("Uber template1, property4"), {
+      key: "Enter",
+      code: 13,
+      charCode: 13,
+    })
 
     // There is foo text.
-    await waitFor(() =>
-      expect(screen.getByText("foo")).toHaveClass("form-control")
-    )
+    await waitFor(() => expect(screen.getByText("foo")).toHaveClass("form-control"))
     // There is remove button
     screen.getByTestId("Remove foo")
     // There is language button.
-    expect(screen.getByTestId("Change language for foo")).toHaveTextContent(
-      "English"
-    )
+    expect(screen.getByTestId("Change language for foo")).toHaveTextContent("English")
 
     // Clicking remove
     fireEvent.change(screen.getByPlaceholderText("Uber template1, property4"), {
@@ -65,17 +62,13 @@ describe("editing a literal property", () => {
     // There is remove button
     screen.getByTestId("Remove foo")
     // There is language button.
-    expect(screen.getByTestId("Change language for foo")).toHaveTextContent(
-      "English"
-    )
+    expect(screen.getByTestId("Change language for foo")).toHaveTextContent("English")
 
     // And bar text.
     // There is remove button
     screen.getByTestId("Remove bar")
     // There is language button.
-    expect(screen.getByTestId("Change language for bar")).toHaveTextContent(
-      "English"
-    )
+    expect(screen.getByTestId("Change language for bar")).toHaveTextContent("English")
     // An add another
     screen.getByTestId("Add another Uber template1, property2")
 
@@ -132,9 +125,7 @@ describe("editing a literal property", () => {
     fireEvent.keyDown(input, { key: "Enter", code: 13, charCode: 13 })
 
     // There is foo text.
-    await waitFor(() =>
-      expect(screen.getByText("foo")).toHaveClass("form-control")
-    )
+    await waitFor(() => expect(screen.getByText("foo")).toHaveClass("form-control"))
     // There is language button.
     const langBtn = screen.getByTestId("Change language for foo")
     expect(langBtn).toHaveTextContent("English")
@@ -156,9 +147,7 @@ describe("editing a literal property", () => {
 
     fireEvent.click(langInput)
     fireEvent.change(langInput, { target: { value: "Tai languages" } })
-    fireEvent.click(
-      screen.getByText("Tai languages", { selector: ".rbt-highlight-text" })
-    )
+    fireEvent.click(screen.getByText("Tai languages", { selector: ".rbt-highlight-text" }))
 
     checkedRadioButtons = radioButtons.filter((el) => el.checked)
     unCheckedRadioButtons = radioButtons.filter((el) => !el.checked)
@@ -169,11 +158,7 @@ describe("editing a literal property", () => {
 
     fireEvent.click(screen.getByRole("button", { name: "Submit" }))
 
-    await waitFor(() =>
-      expect(
-        screen.queryAllByRole("heading", { name: "Languages" }).length
-      ).toBeFalsy()
-    )
+    await waitFor(() => expect(screen.queryAllByRole("heading", { name: "Languages" }).length).toBeFalsy())
     expect(langBtn).toHaveTextContent("Tai languages")
   }, 25000)
 
@@ -188,9 +173,7 @@ describe("editing a literal property", () => {
     fireEvent.keyDown(input, { key: "Enter", code: 13, charCode: 13 })
 
     // There is foo text.
-    await waitFor(() =>
-      expect(screen.getByText("foo")).toHaveClass("form-control")
-    )
+    await waitFor(() => expect(screen.getByText("foo")).toHaveClass("form-control"))
     // There is language button.
     const langBtn = screen.getByTestId("Change language for foo")
     expect(langBtn).toHaveTextContent("English")
@@ -218,11 +201,7 @@ describe("editing a literal property", () => {
     expect(checkedRadioButtons[0].value).toEqual("absent")
     expect(unCheckedRadioButtons[0].value).toEqual("present")
 
-    await waitFor(() =>
-      expect(
-        screen.queryAllByRole("heading", { name: "Languages" })
-      ).toHaveLength(0)
-    )
+    await waitFor(() => expect(screen.queryAllByRole("heading", { name: "Languages" })).toHaveLength(0))
     expect(langBtn).toHaveTextContent("No language specified")
   }, 15000)
 })

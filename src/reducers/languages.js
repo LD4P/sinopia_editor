@@ -30,14 +30,8 @@ export const languagesReceived = (state, action) => {
 const createOptions = (json) =>
   json.reduce((result, item) => {
     // Object.getOwnPropertyDescriptor is necessary to handle the @
-    const id = Object.getOwnPropertyDescriptor(item, "@id").value.replace(
-      "http://id.loc.gov/vocabulary/iso639-2/",
-      ""
-    )
-    const labelArrayDescr = Object.getOwnPropertyDescriptor(
-      item,
-      "http://www.loc.gov/mads/rdf/v1#authoritativeLabel"
-    )
+    const id = Object.getOwnPropertyDescriptor(item, "@id").value.replace("http://id.loc.gov/vocabulary/iso639-2/", "")
+    const labelArrayDescr = Object.getOwnPropertyDescriptor(item, "http://www.loc.gov/mads/rdf/v1#authoritativeLabel")
 
     // Some of the LOC items do not have labels so ignore them.
     if (!labelArrayDescr) return result

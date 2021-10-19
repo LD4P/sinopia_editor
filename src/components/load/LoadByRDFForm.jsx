@@ -2,11 +2,7 @@
 
 import React, { useState, useEffect } from "react"
 import { useDispatch } from "react-redux"
-import {
-  datasetFromRdf,
-  findRootResourceTemplateId,
-  hasQuadsForRootResourceTemplateId,
-} from "utilities/Utilities"
+import { datasetFromRdf, findRootResourceTemplateId, hasQuadsForRootResourceTemplateId } from "utilities/Utilities"
 import useRdfResource from "hooks/useRdfResource"
 import { clearErrors, addError } from "actions/errors"
 import { showModal } from "actions/modals"
@@ -25,12 +21,7 @@ const LoadByRDFForm = () => {
   const [rdf, setRdf] = useState("")
   const [dataset, setDataset] = useState(false)
   const [resourceTemplateId, setResourceTemplateId] = useState("")
-  useRdfResource(
-    dataset,
-    baseURI,
-    resourceTemplateId,
-    loadResourceByRDFErrorKey
-  )
+  useRdfResource(dataset, baseURI, resourceTemplateId, loadResourceByRDFErrorKey)
 
   // Passed into resource template chooser to allow it to pass back selected resource template id.
   const chooseResourceTemplate = (resourceTemplateId) => {
@@ -61,17 +52,12 @@ const LoadByRDFForm = () => {
       .then((newDataset) => {
         // Determine if base URI must be provided.
         if (!hasQuadsForRootResourceTemplateId(baseURI, newDataset)) {
-          dispatch(
-            addError(loadResourceByRDFErrorKey, "Base URI must be provided.")
-          )
+          dispatch(addError(loadResourceByRDFErrorKey, "Base URI must be provided."))
           return
         }
 
         // Determine if need to ask for resource template id.
-        const resourceTemplateId = findRootResourceTemplateId(
-          baseURI,
-          newDataset
-        )
+        const resourceTemplateId = findRootResourceTemplateId(baseURI, newDataset)
         if (resourceTemplateId) {
           setResourceTemplateId(resourceTemplateId)
         } else {
@@ -90,8 +76,7 @@ const LoadByRDFForm = () => {
 <> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://id.loc.gov/ontologies/bibframe/Title> .
   `
 
-  const baseURIPlaceholder =
-    "For example: https://api.sinopia.io/resource/e111a712-5a45-4c2a-9201-289b98d7452e."
+  const baseURIPlaceholder = "For example: https://api.sinopia.io/resource/e111a712-5a45-4c2a-9201-289b98d7452e."
 
   return (
     <div>
@@ -101,8 +86,7 @@ const LoadByRDFForm = () => {
       <form id="loadForm" onSubmit={handleSubmit}>
         <div className="mb-3">
           <label htmlFor="resourceTextArea">
-            RDF (Accepts JSON-LD, Turtle, TriG, N-Triples, N-Quads, and
-            Notation3 (N3))
+            RDF (Accepts JSON-LD, Turtle, TriG, N-Triples, N-Quads, and Notation3 (N3))
           </label>
           <textarea
             className="form-control"
@@ -115,9 +99,7 @@ const LoadByRDFForm = () => {
           <p />
         </div>
         <div className="mb-3">
-          <label htmlFor="uriInput">
-            Base URI (Omit brackets. If base URI is &lt;&gt;, leave blank.)
-          </label>
+          <label htmlFor="uriInput">Base URI (Omit brackets. If base URI is &lt;&gt;, leave blank.)</label>
           <input
             type="url"
             className="form-control"
@@ -129,14 +111,9 @@ const LoadByRDFForm = () => {
           <p />
         </div>
         <p className="text-muted">
-          Clicking &ldquo;Submit&rdquo; will create a new resource that can be
-          saved in Sinopia.
+          Clicking &ldquo;Submit&rdquo; will create a new resource that can be saved in Sinopia.
         </p>
-        <button
-          type="submit"
-          disabled={_.isEmpty(rdf)}
-          className="btn btn-primary"
-        >
+        <button type="submit" disabled={_.isEmpty(rdf)} className="btn btn-primary">
           Submit
         </button>
       </form>

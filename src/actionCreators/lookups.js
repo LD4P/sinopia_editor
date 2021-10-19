@@ -55,11 +55,8 @@ const responseToOptions = (json) => {
       const newId = nanoid()
       const item = Object.getOwnPropertyDescriptor(json, i)
       const uri = item.value["@id"]
-      const labels =
-        item.value["http://www.loc.gov/mads/rdf/v1#authoritativeLabel"]
-      labels.forEach((label) =>
-        opts.push({ id: newId, label: label["@value"], uri })
-      )
+      const labels = item.value["http://www.loc.gov/mads/rdf/v1#authoritativeLabel"]
+      labels.forEach((label) => opts.push({ id: newId, label: label["@value"], uri }))
     } catch (err) {
       // Ignore
     }

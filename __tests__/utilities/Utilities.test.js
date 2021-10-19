@@ -1,9 +1,5 @@
 // Copyright 2019 Stanford University see LICENSE for license
-import {
-  isResourceWithValueTemplateRef,
-  resourceToName,
-  datasetFromN3,
-} from "utilities/Utilities"
+import { isResourceWithValueTemplateRef, resourceToName, datasetFromN3 } from "utilities/Utilities"
 
 describe("Utilities", () => {
   describe("isResourceWithValueTemplateRef()", () => {
@@ -16,9 +12,7 @@ describe("Utilities", () => {
         },
       }
 
-      expect(
-        isResourceWithValueTemplateRef(templateWithValueTemplateRefs)
-      ).toBeTruthy()
+      expect(isResourceWithValueTemplateRef(templateWithValueTemplateRefs)).toBeTruthy()
     })
 
     it("returns true when there are multiple valueTemplateRefs", () => {
@@ -26,16 +20,11 @@ describe("Utilities", () => {
         propertyURI: "http://id.loc.gov/ontologies/bibframe/note",
         type: "resource",
         valueConstraint: {
-          valueTemplateRefs: [
-            "resourceTemplate:bf2:Note",
-            "resourceTemplate:bf2:Note2",
-          ],
+          valueTemplateRefs: ["resourceTemplate:bf2:Note", "resourceTemplate:bf2:Note2"],
         },
       }
 
-      expect(
-        isResourceWithValueTemplateRef(templateWithTwoValueTemplateRefs)
-      ).toBeTruthy()
+      expect(isResourceWithValueTemplateRef(templateWithTwoValueTemplateRefs)).toBeTruthy()
     })
 
     it("returns false when valueTemplateRefs is empty", () => {

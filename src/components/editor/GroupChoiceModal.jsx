@@ -6,15 +6,9 @@ import { MultiSelect } from "react-multi-select-component"
 import { hideModal } from "actions/modals"
 import { resourceEditWarningKey } from "./Editor"
 import { selectModalType } from "selectors/modals"
-import {
-  saveNewResource,
-  saveResource as saveResourceAction,
-} from "actionCreators/resources"
+import { saveNewResource, saveResource as saveResourceAction } from "actionCreators/resources"
 import ModalWrapper, { useDisplayStyle, useModalCss } from "../ModalWrapper"
-import {
-  selectCurrentResourceKey,
-  selectNormSubject,
-} from "selectors/resources"
+import { selectCurrentResourceKey, selectNormSubject } from "selectors/resources"
 import { selectGroups } from "selectors/authenticate"
 import { selectGroupMap } from "selectors/groups"
 import usePermissions from "hooks/usePermissions"
@@ -22,9 +16,7 @@ import usePermissions from "hooks/usePermissions"
 const groupsToGroupValues = (groupIds, groupMap, ownerGroupId = null) =>
   groupIds
     .filter((groupId) => ownerGroupId !== groupId)
-    .sort((groupId1, groupId2) =>
-      groupMap[groupId1]?.localeCompare(groupMap[groupId2])
-    )
+    .sort((groupId1, groupId2) => groupMap[groupId1]?.localeCompare(groupMap[groupId2]))
     .map((groupId) => ({
       value: groupId,
       label: groupMap[groupId],
@@ -37,17 +29,11 @@ const GroupChoiceModal = () => {
   const modalType = useSelector((state) => selectModalType(state))
   const userGroupIds = useSelector((state) => selectGroups(state))
   const groupMap = useSelector((state) => selectGroupMap(state))
-  const [ownerGroupId, setOwnerGroupId] = useState(
-    resource.group || userGroupIds[0]
-  )
-  const [editGroupValues, setEditGroupValues] = useState(
-    groupsToGroupValues(resource.editGroups, groupMap)
-  )
+  const [ownerGroupId, setOwnerGroupId] = useState(resource.group || userGroupIds[0])
+  const [editGroupValues, setEditGroupValues] = useState(groupsToGroupValues(resource.editGroups, groupMap))
   const show = modalType === "GroupChoiceModal"
   const ownerGroupLabel = groupMap[ownerGroupId]
-  const editGroupLabels = editGroupValues
-    .map((groupValue) => groupValue.label)
-    .join(", ")
+  const editGroupLabels = editGroupValues.map((groupValue) => groupValue.label).join(", ")
   const { canChangeGroups } = usePermissions()
   const canChange = canChangeGroups(resource) || !resource.uri
   const dispatch = useDispatch()
@@ -58,20 +44,12 @@ const GroupChoiceModal = () => {
     </option>
   ))
 
-  const editGroupOptions = groupsToGroupValues(
-    Object.keys(groupMap),
-    groupMap,
-    ownerGroupId
-  )
+  const editGroupOptions = groupsToGroupValues(Object.keys(groupMap), groupMap, ownerGroupId)
 
   const handleOwnerChange = (event) => {
     const newOwnerGroupId = event.target.value
     setOwnerGroupId(newOwnerGroupId)
-    setEditGroupValues(
-      editGroupValues.filter(
-        (groupValue) => groupValue.value !== newOwnerGroupId
-      )
-    )
+    setEditGroupValues(editGroupValues.filter((groupValue) => groupValue.value !== newOwnerGroupId))
     event.preventDefault()
   }
 
@@ -80,27 +58,11 @@ const GroupChoiceModal = () => {
   }
 
   const saveAndClose = (event) => {
-    const editGroupIds = editGroupValues.map(
-      (editGroupValue) => editGroupValue.value
-    )
+    const editGroupIds = editGroupValues.map((editGroupValue) => editGroupValue.value)
     if (resource.uri) {
-      dispatch(
-        saveResourceAction(
-          resourceKey,
-          ownerGroupId,
-          editGroupIds,
-          resourceEditWarningKey(resourceKey)
-        )
-      )
+      dispatch(saveResourceAction(resourceKey, ownerGroupId, editGroupIds, resourceEditWarningKey(resourceKey)))
     } else {
-      dispatch(
-        saveNewResource(
-          resourceKey,
-          ownerGroupId,
-          editGroupIds,
-          resourceEditWarningKey(resourceKey)
-        )
-      )
+      dispatch(saveNewResource(resourceKey, ownerGroupId, editGroupIds, resourceEditWarningKey(resourceKey)))
     }
     dispatch(hideModal())
     event.preventDefault()
@@ -124,12 +86,7 @@ const GroupChoiceModal = () => {
         <div className="modal-dialog modal-lg" role="document">
           <div className="modal-content">
             <div className="modal-header prop-heading">
-              <button
-                type="button"
-                className="btn-close"
-                onClick={close}
-                aria-label="Close"
-              ></button>
+              <button type="button" className="btn-close" onClick={close} aria-label="Close"></button>
             </div>
             <div className="modal-body group-panel">
               <label htmlFor="ownerSelect">

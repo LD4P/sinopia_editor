@@ -6,8 +6,7 @@ import * as sinopiaApi from "sinopiaApi"
 
 featureSetup()
 
-const uri =
-  "http://localhost:3000/resource/c7db5404-7d7d-40ac-b38e-c821d2c3ae3f"
+const uri = "http://localhost:3000/resource/c7db5404-7d7d-40ac-b38e-c821d2c3ae3f"
 jest.spyOn(sinopiaApi, "putResource").mockResolvedValue(true)
 
 describe("user that can edit, but not an owner, can view groups", () => {

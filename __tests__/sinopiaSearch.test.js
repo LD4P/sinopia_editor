@@ -76,9 +76,7 @@ describe("getSearchResults", () => {
   }
 
   it("performs a search with default sort order and returns results", async () => {
-    global.fetch = jest
-      .fn()
-      .mockImplementation(() => Promise.resolve({ json: () => successResult }))
+    global.fetch = jest.fn().mockImplementation(() => Promise.resolve({ json: () => successResult }))
 
     const results = await getSearchResults("foo")
     expect(results).toEqual({
@@ -118,20 +116,15 @@ describe("getSearchResults", () => {
       size: 10,
       sort: ["_score"],
     }
-    expect(global.fetch).toHaveBeenCalledWith(
-      "/api/search/sinopia_resources/sinopia/_search",
-      {
-        body: JSON.stringify(body),
-        headers: { "Content-Type": "application/json" },
-        method: "POST",
-      }
-    )
+    expect(global.fetch).toHaveBeenCalledWith("/api/search/sinopia_resources/sinopia/_search", {
+      body: JSON.stringify(body),
+      headers: { "Content-Type": "application/json" },
+      method: "POST",
+    })
   })
 
   it("performs a search with specified page and sort order and returns results", async () => {
-    global.fetch = jest
-      .fn()
-      .mockImplementation(() => Promise.resolve({ json: () => successResult }))
+    global.fetch = jest.fn().mockImplementation(() => Promise.resolve({ json: () => successResult }))
     await getSearchResults("foo", {
       startOfRange: 10,
       resultsPerPage: 15,
@@ -158,20 +151,15 @@ describe("getSearchResults", () => {
         },
       ],
     }
-    expect(global.fetch).toHaveBeenCalledWith(
-      "/api/search/sinopia_resources/sinopia/_search",
-      {
-        body: JSON.stringify(body),
-        headers: { "Content-Type": "application/json" },
-        method: "POST",
-      }
-    )
+    expect(global.fetch).toHaveBeenCalledWith("/api/search/sinopia_resources/sinopia/_search", {
+      body: JSON.stringify(body),
+      headers: { "Content-Type": "application/json" },
+      method: "POST",
+    })
   })
 
   it("performs a search and handles ES error", async () => {
-    global.fetch = jest
-      .fn()
-      .mockImplementation(() => Promise.resolve({ json: () => errorResult }))
+    global.fetch = jest.fn().mockImplementation(() => Promise.resolve({ json: () => errorResult }))
 
     const results = await getSearchResults("foo")
     expect(results).toEqual({
@@ -182,9 +170,7 @@ describe("getSearchResults", () => {
   })
 
   it("performs a search and handles raised error", async () => {
-    global.fetch = jest
-      .fn()
-      .mockImplementation(() => Promise.reject(new Error("Frickin network")))
+    global.fetch = jest.fn().mockImplementation(() => Promise.reject(new Error("Frickin network")))
 
     const results = await getSearchResults("foo")
     expect(results).toEqual({
@@ -272,9 +258,7 @@ describe("getSearchResultsWithFacets", () => {
   }
 
   it("performs a search with defaults and returns results", async () => {
-    global.fetch = jest
-      .fn()
-      .mockImplementation(() => Promise.resolve({ json: () => successResult }))
+    global.fetch = jest.fn().mockImplementation(() => Promise.resolve({ json: () => successResult }))
 
     const results = await getSearchResultsWithFacets("foo")
     expect(results).toEqual([
@@ -347,20 +331,15 @@ describe("getSearchResultsWithFacets", () => {
         },
       },
     }
-    expect(global.fetch).toHaveBeenCalledWith(
-      "/api/search/sinopia_resources/sinopia/_search",
-      {
-        body: JSON.stringify(body),
-        headers: { "Content-Type": "application/json" },
-        method: "POST",
-      }
-    )
+    expect(global.fetch).toHaveBeenCalledWith("/api/search/sinopia_resources/sinopia/_search", {
+      body: JSON.stringify(body),
+      headers: { "Content-Type": "application/json" },
+      method: "POST",
+    })
   })
 
   it("performs a search with specified filters and no aggs and returns results", async () => {
-    global.fetch = jest
-      .fn()
-      .mockImplementation(() => Promise.resolve({ json: () => successResult }))
+    global.fetch = jest.fn().mockImplementation(() => Promise.resolve({ json: () => successResult }))
 
     await getSearchResultsWithFacets("foo", {
       typeFilter: ["http://id.loc.gov/ontologies/bibframe/AbbreviatedTitle"],
@@ -380,9 +359,7 @@ describe("getSearchResultsWithFacets", () => {
           filter: [
             {
               terms: {
-                type: [
-                  "http://id.loc.gov/ontologies/bibframe/AbbreviatedTitle",
-                ],
+                type: ["http://id.loc.gov/ontologies/bibframe/AbbreviatedTitle"],
               },
             },
             {
@@ -397,14 +374,11 @@ describe("getSearchResultsWithFacets", () => {
       size: 10,
       sort: ["_score"],
     }
-    expect(global.fetch).toHaveBeenCalledWith(
-      "/api/search/sinopia_resources/sinopia/_search",
-      {
-        body: JSON.stringify(body),
-        headers: { "Content-Type": "application/json" },
-        method: "POST",
-      }
-    )
+    expect(global.fetch).toHaveBeenCalledWith("/api/search/sinopia_resources/sinopia/_search", {
+      body: JSON.stringify(body),
+      headers: { "Content-Type": "application/json" },
+      method: "POST",
+    })
   })
 })
 
@@ -443,9 +417,7 @@ describe("getLookupResult", () => {
       },
     }
     it("performs a search and returns result", async () => {
-      global.fetch = jest
-        .fn()
-        .mockImplementation(() => Promise.resolve({ json: () => workResult }))
+      global.fetch = jest.fn().mockImplementation(() => Promise.resolve({ json: () => workResult }))
 
       const result = await getLookupResult("foo", lookupConfig)
       expect(result).toEqual({
@@ -464,9 +436,7 @@ describe("getLookupResult", () => {
   })
 
   describe("for a non-template authority with no results", () => {
-    const lookupConfig = findAuthorityConfig(
-      "urn:ld4p:sinopia:bibframe:instance"
-    )
+    const lookupConfig = findAuthorityConfig("urn:ld4p:sinopia:bibframe:instance")
     const instanceResult = {
       took: 5,
       timed_out: false,
@@ -484,11 +454,7 @@ describe("getLookupResult", () => {
     }
 
     it("performs a search and returns result", async () => {
-      global.fetch = jest
-        .fn()
-        .mockImplementationOnce(() =>
-          Promise.resolve({ json: () => instanceResult })
-        )
+      global.fetch = jest.fn().mockImplementationOnce(() => Promise.resolve({ json: () => instanceResult }))
 
       const result = await getLookupResult("foo", lookupConfig)
       expect(result).toEqual({
@@ -499,24 +465,17 @@ describe("getLookupResult", () => {
   })
 
   describe("for template authority", () => {
-    const lookupConfig = findAuthorityConfig(
-      "urn:ld4p:sinopia:resourceTemplate"
-    )
+    const lookupConfig = findAuthorityConfig("urn:ld4p:sinopia:resourceTemplate")
 
     it("performs a search and returns result", async () => {
-      global.fetch = jest
-        .fn()
-        .mockImplementationOnce(() =>
-          Promise.resolve({ json: () => templateResult })
-        )
+      global.fetch = jest.fn().mockImplementationOnce(() => Promise.resolve({ json: () => templateResult }))
 
       const result = await getLookupResult("foo", lookupConfig)
       expect(result).toEqual({
         totalHits: 1,
         results: [
           {
-            label:
-              "Cartographic Item (BIBFRAME) (ld4p:RT:bf2:Cartographic:Item)",
+            label: "Cartographic Item (BIBFRAME) (ld4p:RT:bf2:Cartographic:Item)",
             uri: "ld4p:RT:bf2:Cartographic:Item",
           },
         ],
@@ -562,9 +521,7 @@ const templateResult = {
 
 describe("getTemplateSearchResults", () => {
   it("returns results", async () => {
-    global.fetch = jest
-      .fn()
-      .mockImplementation(() => Promise.resolve({ json: () => templateResult }))
+    global.fetch = jest.fn().mockImplementation(() => Promise.resolve({ json: () => templateResult }))
     const results = await getTemplateSearchResults("Cartographic:Item")
 
     expect(results).toEqual({
@@ -583,16 +540,13 @@ describe("getTemplateSearchResults", () => {
       error: undefined,
     })
 
-    expect(global.fetch).toHaveBeenCalledWith(
-      "/api/search/sinopia_templates/sinopia/_search",
-      {
-        body: '{"query":{"bool":{"should":[{"wildcard":{"id":{"value":"*Cartographic:Item*"}}},{"wildcard":{"resourceLabel":{"value":"*Cartographic:Item*"}}},{"wildcard":{"resourceURI":{"value":"*Cartographic:Item*"}}},{"wildcard":{"remark":{"value":"*Cartographic:Item*"}}},{"wildcard":{"author":{"value":"*Cartographic:Item*"}}},{"wildcard":{"groupLabel":{"value":"*Cartographic:Item*"}}}]}},"sort":[{"resourceLabel":"asc"}],"size":250,"from":0}',
-        headers: {
-          "Content-Type": "application/json",
-        },
-        method: "POST",
-      }
-    )
+    expect(global.fetch).toHaveBeenCalledWith("/api/search/sinopia_templates/sinopia/_search", {
+      body: '{"query":{"bool":{"should":[{"wildcard":{"id":{"value":"*Cartographic:Item*"}}},{"wildcard":{"resourceLabel":{"value":"*Cartographic:Item*"}}},{"wildcard":{"resourceURI":{"value":"*Cartographic:Item*"}}},{"wildcard":{"remark":{"value":"*Cartographic:Item*"}}},{"wildcard":{"author":{"value":"*Cartographic:Item*"}}},{"wildcard":{"groupLabel":{"value":"*Cartographic:Item*"}}}]}},"sort":[{"resourceLabel":"asc"}],"size":250,"from":0}',
+      headers: {
+        "Content-Type": "application/json",
+      },
+      method: "POST",
+    })
   })
 
   it("returns 504 timeout error if Sinopia server is unavailable", async () => {
@@ -602,11 +556,7 @@ describe("getTemplateSearchResults", () => {
       error: "504: Gateway Timout",
     }
 
-    global.fetch = jest
-      .fn()
-      .mockImplementation(() =>
-        Promise.resolve({ json: () => searchDownResult })
-      )
+    global.fetch = jest.fn().mockImplementation(() => Promise.resolve({ json: () => searchDownResult }))
     const results = await getTemplateSearchResults("Palo Alto")
     expect(results).toEqual({
       totalHits: 0,
@@ -618,12 +568,8 @@ describe("getTemplateSearchResults", () => {
 
 describe("getTemplateSearchResultsByIds", () => {
   it("returns results", async () => {
-    global.fetch = jest
-      .fn()
-      .mockImplementation(() => Promise.resolve({ json: () => templateResult }))
-    const results = await getTemplateSearchResultsByIds([
-      "ld4p:RT:bf2:Cartographic:Item",
-    ])
+    global.fetch = jest.fn().mockImplementation(() => Promise.resolve({ json: () => templateResult }))
+    const results = await getTemplateSearchResultsByIds(["ld4p:RT:bf2:Cartographic:Item"])
 
     expect(results).toEqual({
       totalHits: 1,
@@ -641,16 +587,13 @@ describe("getTemplateSearchResultsByIds", () => {
       error: undefined,
     })
 
-    expect(global.fetch).toHaveBeenCalledWith(
-      "/api/search/sinopia_templates/sinopia/_search",
-      {
-        body: '{"query":{"terms":{"id":["ld4p:RT:bf2:Cartographic:Item"]}},"size":1}',
-        headers: {
-          "Content-Type": "application/json",
-        },
-        method: "POST",
-      }
-    )
+    expect(global.fetch).toHaveBeenCalledWith("/api/search/sinopia_templates/sinopia/_search", {
+      body: '{"query":{"terms":{"id":["ld4p:RT:bf2:Cartographic:Item"]}},"size":1}',
+      headers: {
+        "Content-Type": "application/json",
+      },
+      method: "POST",
+    })
   })
 })
 
@@ -671,8 +614,7 @@ describe("getSearchResultsByUris", () => {
           _score: 1,
           _source: {
             uri: "http://localhost:3000/resource/3d831f47-e686-4b8f-9086-11383b2af762",
-            label:
-              "http://localhost:3000/resource/3d831f47-e686-4b8f-9086-11383b2af762",
+            label: "http://localhost:3000/resource/3d831f47-e686-4b8f-9086-11383b2af762",
             text: ["ld4p:RT:bf2:Contents", "Foobar"],
             modified: "2020-10-05T14:31:16.563Z",
             type: ["http://id.loc.gov/ontologies/bibframe/TableOfContents"],
@@ -684,9 +626,7 @@ describe("getSearchResultsByUris", () => {
   }
 
   it("performs a search and returns results", async () => {
-    global.fetch = jest
-      .fn()
-      .mockImplementation(() => Promise.resolve({ json: () => successResult }))
+    global.fetch = jest.fn().mockImplementation(() => Promise.resolve({ json: () => successResult }))
 
     const results = await getSearchResultsByUris([
       "http://localhost:3000/resource/3d831f47-e686-4b8f-9086-11383b2af762",
@@ -696,8 +636,7 @@ describe("getSearchResultsByUris", () => {
       results: [
         {
           uri: "http://localhost:3000/resource/3d831f47-e686-4b8f-9086-11383b2af762",
-          label:
-            "http://localhost:3000/resource/3d831f47-e686-4b8f-9086-11383b2af762",
+          label: "http://localhost:3000/resource/3d831f47-e686-4b8f-9086-11383b2af762",
           modified: "2020-10-05T14:31:16.563Z",
           type: ["http://id.loc.gov/ontologies/bibframe/TableOfContents"],
           group: "stanford",
@@ -705,13 +644,10 @@ describe("getSearchResultsByUris", () => {
         },
       ],
     })
-    expect(global.fetch).toHaveBeenCalledWith(
-      "/api/search/sinopia_resources/sinopia/_search",
-      {
-        body: '{"query":{"terms":{"uri":["http://localhost:3000/resource/3d831f47-e686-4b8f-9086-11383b2af762"]}},"size":1}',
-        headers: { "Content-Type": "application/json" },
-        method: "POST",
-      }
-    )
+    expect(global.fetch).toHaveBeenCalledWith("/api/search/sinopia_resources/sinopia/_search", {
+      body: '{"query":{"terms":{"uri":["http://localhost:3000/resource/3d831f47-e686-4b8f-9086-11383b2af762"]}},"size":1}',
+      headers: { "Content-Type": "application/json" },
+      method: "POST",
+    })
   })
 })

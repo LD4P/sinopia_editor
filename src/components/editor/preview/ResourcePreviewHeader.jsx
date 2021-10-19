@@ -15,9 +15,7 @@ const ResourcePreviewHeader = ({ resource }) => {
   const maxGroupDisplay = 20
   const shouldTruncate = editableBy.length > maxGroupDisplay
   const [isCollapsed, setIsCollapsed] = useState(shouldTruncate)
-  const editableByText = isCollapsed
-    ? editableBy.slice(0, maxGroupDisplay - 1)
-    : editableBy
+  const editableByText = isCollapsed ? editableBy.slice(0, maxGroupDisplay - 1) : editableBy
 
   const handleClick = (event) => {
     event.preventDefault()
@@ -40,11 +38,7 @@ const ResourcePreviewHeader = ({ resource }) => {
           <p>
             {editableByText}
             {isCollapsed && (
-              <button
-                data-testid="expand-groups-button"
-                className="p-0 btn btn-link"
-                onClick={handleClick}
-              >
+              <button data-testid="expand-groups-button" className="p-0 btn btn-link" onClick={handleClick}>
                 ...
               </button>
             )}

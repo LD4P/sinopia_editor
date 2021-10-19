@@ -1742,12 +1742,7 @@
       "response_header": {
         "type": "object",
         "items": {
-          "required": [
-            "start_record",
-            "requested_records",
-            "retrieved_records",
-            "total_records"
-          ],
+          "required": ["start_record", "requested_records", "retrieved_records", "total_records"],
           "properties": {
             "start_record": {
               "type": "integer"

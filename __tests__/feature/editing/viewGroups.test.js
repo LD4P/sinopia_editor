@@ -6,8 +6,7 @@ import { featureSetup } from "featureUtils"
 featureSetup()
 
 describe("user that can edit, but not an owner, can view groups", () => {
-  const uri =
-    "http://localhost:3000/resource/c7db5404-7d7d-40ac-b38e-c821d2c3ae3f"
+  const uri = "http://localhost:3000/resource/c7db5404-7d7d-40ac-b38e-c821d2c3ae3f"
 
   it("is a read-only view of groups", async () => {
     const state = createState({ editGroups: true })

@@ -15,8 +15,7 @@ import HeaderSearch from "./search/HeaderSearch"
 const Header = (props) => {
   const { canCreate } = usePermissions()
   const location = useLocation()
-  const isActionsActive =
-    location.pathname === "/exports" || location.pathname === "/load"
+  const isActionsActive = location.pathname === "/exports" || location.pathname === "/load"
 
   return (
     <React.Fragment>
@@ -31,19 +30,13 @@ const Header = (props) => {
             <ul className="nav pull-right">
               {props.currentUser && (
                 <li className="nav-item">
-                  <span className="nav-link editor-header-user">
-                    {props.currentUser.username}
-                  </span>
+                  <span className="nav-link editor-header-user">{props.currentUser.username}</span>
                 </li>
               )}
               <div className="nav-link">•</div>
               {props.currentUser && (
                 <li className="nav-item">
-                  <a
-                    href="#"
-                    className="nav-link editor-help-resources"
-                    onClick={props.triggerEditorMenu}
-                  >
+                  <a href="#" className="nav-link editor-help-resources" onClick={props.triggerEditorMenu}>
                     Help
                   </a>
                 </li>
@@ -51,11 +44,7 @@ const Header = (props) => {
               <div className="nav-link">•</div>
               {props.currentUser && (
                 <li className="nav-item">
-                  <a
-                    href="#"
-                    className="nav-link editor-header-logout"
-                    onClick={() => props.signOut()}
-                  >
+                  <a href="#" className="nav-link editor-header-logout" onClick={() => props.signOut()}>
                     Logout
                   </a>
                 </li>
@@ -87,9 +76,7 @@ const Header = (props) => {
             </li>
             <li className="nav-item dropdown">
               <a
-                className={`nav-link dropdown-toggle ${
-                  isActionsActive && "active"
-                }`}
+                className={`nav-link dropdown-toggle ${isActionsActive && "active"}`}
                 data-bs-toggle="dropdown"
                 href="#"
                 role="button"
@@ -132,7 +119,6 @@ const mapStateToProps = (state) => ({
   hasResource: !!selectCurrentResourceKey(state),
 })
 
-const mapDispatchToProps = (dispatch) =>
-  bindActionCreators({ signOut }, dispatch)
+const mapDispatchToProps = (dispatch) => bindActionCreators({ signOut }, dispatch)
 
 export default connect(mapStateToProps, mapDispatchToProps)(Header)

@@ -53,9 +53,7 @@ const resource = {
   uri: "https://api.development.sinopia.io/resource/61f2f457-31f5-432c-8acf-b4037f77541f",
 }
 
-jest
-  .spyOn(Auth, "currentSession")
-  .mockResolvedValue({ idToken: { jwtToken: "Secret-Token" } })
+jest.spyOn(Auth, "currentSession").mockResolvedValue({ idToken: { jwtToken: "Secret-Token" } })
 
 // Saves global fetch in order to be restored after each test with mocked fetch
 const originalFetch = global.fetch
@@ -89,23 +87,17 @@ describe("getGroups", () => {
 describe("fetchResource", () => {
   describe("when using fixtures", () => {
     // This forces Sinopia parsing_exception to use fixtures
-    jest
-      .spyOn(Config, "useResourceTemplateFixtures", "get")
-      .mockReturnValue(true)
+    jest.spyOn(Config, "useResourceTemplateFixtures", "get").mockReturnValue(true)
 
     it("retrieves resource template", async () => {
-      const result = await fetchResource(
-        "http://localhost:3000/resource/resourceTemplate:bf2:Note"
-      )
+      const result = await fetchResource("http://localhost:3000/resource/resourceTemplate:bf2:Note")
       expect(result).toBeTruthy()
       expect(result[1].id).toBe("resourceTemplate:bf2:Note")
     })
 
     it("errors if fixture does not exist", async () => {
       expect.assertions(1)
-      await expect(
-        fetchResource("http://localhost:3000/resource/ld4p:RT:bf2:xxx")
-      ).rejects.toThrow(
+      await expect(fetchResource("http://localhost:3000/resource/ld4p:RT:bf2:xxx")).rejects.toThrow(
         "Error parsing resource: Error retrieving resource: Not Found"
       )
     })
@@ -133,9 +125,7 @@ describe("fetchResource", () => {
         ok: false,
       })
 
-      await expect(
-        fetchResource("http://api.sinopia.io/resource/12334")
-      ).rejects.toThrow(
+      await expect(fetchResource("http://api.sinopia.io/resource/12334")).rejects.toThrow(
         "Error parsing resource: Sinopia API returned failed to retrieve uri"
       )
     })
@@ -154,9 +144,7 @@ describe("postResource", () => {
         json: jest.fn().mockResolvedValue(resource),
         ok: true,
       })
-      const result = await postResource(resource, currentUser, "pcc", [
-        "cornell",
-      ])
+      const result = await postResource(resource, currentUser, "pcc", ["cornell"])
       expect(result).toContain("http://localhost:3000/resource/")
     })
   })
@@ -180,12 +168,8 @@ describe("postResource", () => {
           },
         ],
       })
-      const result = await postResource(resource, currentUser, "pcc", [
-        "cornell",
-      ])
-      expect(result).toBe(
-        "http://localhost:3000/resource/resourceTemplate:bf2:Note"
-      )
+      const result = await postResource(resource, currentUser, "pcc", ["cornell"])
+      expect(result).toBe("http://localhost:3000/resource/resourceTemplate:bf2:Note")
     })
   })
 })
@@ -208,17 +192,13 @@ describe("putResource", () => {
         json: jest.fn().mockRejectedValue("Parse error"),
         statusText: "Cannot save resource",
       })
-      await expect(putResource(resource, currentUser)).rejects.toThrow(
-        "Sinopia API returned Cannot save resource"
-      )
+      await expect(putResource(resource, currentUser)).rejects.toThrow("Sinopia API returned Cannot save resource")
     })
   })
 })
 
-const resourceUri =
-  "https://api.development.sinopia.io/resource/7b4c275d-b0c7-40a4-80b3-e95a0d9d987c"
-const marcPostUrl =
-  "https://api.development.sinopia.io/marc/7b4c275d-b0c7-40a4-80b3-e95a0d9d987c"
+const resourceUri = "https://api.development.sinopia.io/resource/7b4c275d-b0c7-40a4-80b3-e95a0d9d987c"
+const marcPostUrl = "https://api.development.sinopia.io/marc/7b4c275d-b0c7-40a4-80b3-e95a0d9d987c"
 const jobUrl =
   "https://api.development.sinopia.io/marc/7b4c275d-b0c7-40a4-80b3-e95a0d9d987c/job/jlittman/2020-09-10T12:01:58.114Z"
 const marcUrl =
@@ -248,9 +228,7 @@ describe("postMarc", () => {
     it("throws", async () => {
       global.fetch = jest.fn().mockResolvedValue({
         ok: false,
-        json: jest
-          .fn()
-          .mockResolvedValue([{ title: "Ooops!", details: "It failed." }]),
+        json: jest.fn().mockResolvedValue([{ title: "Ooops!", details: "It failed." }]),
       })
 
       await expect(postMarc(resourceUri)).rejects.toThrow("Ooops!: It failed.")
@@ -261,9 +239,7 @@ describe("postMarc", () => {
 describe("getMarcJob", () => {
   describe("job not completed", () => {
     it("returns undefined", async () => {
-      global.fetch = jest
-        .fn()
-        .mockResolvedValue({ ok: true, redirected: false })
+      global.fetch = jest.fn().mockResolvedValue({ ok: true, redirected: false })
 
       expect(await getMarcJob(jobUrl)).toEqual([undefined, undefined])
       expect(global.fetch).toHaveBeenCalledWith(jobUrl)
@@ -287,9 +263,7 @@ describe("getMarcJob", () => {
     it("throws", async () => {
       global.fetch = jest.fn().mockResolvedValue({
         ok: false,
-        json: jest
-          .fn()
-          .mockResolvedValue([{ title: "Ooops!", details: "It failed." }]),
+        json: jest.fn().mockResolvedValue([{ title: "Ooops!", details: "It failed." }]),
       })
 
       await expect(getMarcJob(jobUrl)).rejects.toThrow("Ooops!: It failed.")
@@ -330,9 +304,7 @@ describe("getMarc", () => {
     it("throws", async () => {
       global.fetch = jest.fn().mockResolvedValue({
         ok: false,
-        json: jest
-          .fn()
-          .mockResolvedValue([{ title: "Ooops!", details: "It failed." }]),
+        json: jest.fn().mockResolvedValue([{ title: "Ooops!", details: "It failed." }]),
       })
 
       await expect(getMarc(marcUrl)).rejects.toThrow("Ooops!: It failed.")
@@ -365,15 +337,12 @@ describe("fetchUser", () => {
 
       expect(await fetchUser("tmann")).toEqual(userData)
 
-      expect(global.fetch).toHaveBeenCalledWith(
-        "http://localhost:3000/user/tmann",
-        {
-          method: "POST",
-          headers: {
-            Authorization: "Bearer Secret-Token",
-          },
-        }
-      )
+      expect(global.fetch).toHaveBeenCalledWith("http://localhost:3000/user/tmann", {
+        method: "POST",
+        headers: {
+          Authorization: "Bearer Secret-Token",
+        },
+      })
     })
   })
 })
@@ -385,21 +354,16 @@ describe("putUserHistory", () => {
       json: jest.fn().mockResolvedValue(userData),
     })
 
-    expect(
-      await putUserHistory("tmann", "template", "abc123", "template1")
-    ).toEqual(userData)
+    expect(await putUserHistory("tmann", "template", "abc123", "template1")).toEqual(userData)
 
-    expect(global.fetch).toHaveBeenCalledWith(
-      "http://localhost:3000/user/tmann/history/template/abc123",
-      {
-        method: "PUT",
-        headers: {
-          Authorization: "Bearer Secret-Token",
-          "Content-Type": "application/json",
-        },
-        body: '{"payload":"template1"}',
-      }
-    )
+    expect(global.fetch).toHaveBeenCalledWith("http://localhost:3000/user/tmann/history/template/abc123", {
+      method: "PUT",
+      headers: {
+        Authorization: "Bearer Secret-Token",
+        "Content-Type": "application/json",
+      },
+      body: '{"payload":"template1"}',
+    })
   })
 })
 

@@ -3,11 +3,7 @@ import { useDispatch } from "react-redux"
 import PropTypes from "prop-types"
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
 import { faSearch } from "@fortawesome/free-solid-svg-icons"
-import {
-  updateLiteralValue,
-  updateURIValue,
-  removeValue,
-} from "actions/resources"
+import { updateLiteralValue, updateURIValue, removeValue } from "actions/resources"
 import DiacriticsSelection from "components/editor/diacritics/DiacriticsSelection"
 import useDiacritics from "hooks/useDiacritics"
 import DiacriticsButton from "./DiacriticsButton"
@@ -17,12 +13,7 @@ import ResourceList from "../property/ResourceList"
 import RemoveButton from "./RemoveButton"
 import _ from "lodash"
 
-const InputLookupValue = ({
-  value,
-  propertyTemplate,
-  displayValidations,
-  shouldFocus,
-}) => {
+const InputLookupValue = ({ value, propertyTemplate, displayValidations, shouldFocus }) => {
   const dispatch = useDispatch()
   const inputRef = useRef(null)
   const [focusHasBeenSet, setFocusHasBeenSet] = useState(false)
@@ -78,9 +69,7 @@ const InputLookupValue = ({
   const handleOwnUriClick = (event) => {
     hideLookup()
     closeDiacritics()
-    dispatch(
-      updateURIValue(value.key, null, null, defaultLanguageId, "InputURIValue")
-    )
+    dispatch(updateURIValue(value.key, null, null, defaultLanguageId, "InputURIValue"))
     event.preventDefault()
   }
 
@@ -100,34 +89,20 @@ const InputLookupValue = ({
   const handleUpdateLiteral = (literal) => {
     hideLookup()
     closeDiacritics()
-    dispatch(
-      updateLiteralValue(
-        value.key,
-        literal,
-        defaultLanguageId,
-        "InputLiteralValue"
-      )
-    )
+    dispatch(updateLiteralValue(value.key, literal, defaultLanguageId, "InputLiteralValue"))
   }
 
-  const authorityLabels = propertyTemplate.authorities.map(
-    (authority) => authority.label
-  )
+  const authorityLabels = propertyTemplate.authorities.map((authority) => authority.label)
 
   const controlClasses = ["form-control"]
-  if (displayValidations && !_.isEmpty(value.errors))
-    controlClasses.push("is-invalid")
+  if (displayValidations && !_.isEmpty(value.errors)) controlClasses.push("is-invalid")
 
   return (
     <React.Fragment>
       <div className="row my-2">
         <div className="col">
           <div className="form-label text-end">
-            <button
-              type="button"
-              className="btn btn-link py-0 pe-0"
-              onClick={handleOwnUriClick}
-            >
+            <button type="button" className="btn btn-link py-0 pe-0" onClick={handleOwnUriClick}>
               Enter your own URI and label
             </button>
           </div>
@@ -166,17 +141,12 @@ const InputLookupValue = ({
           />
         </div>
         <div className="col-sm-1 d-flex align-items-end">
-          <RemoveButton
-            content={currentContent}
-            handleClick={handleRemoveClick}
-          />
+          <RemoveButton content={currentContent} handleClick={handleRemoveClick} />
         </div>
       </div>
       <div className="row">
         <div className="col">
-          <div className="form-text mt-0 mb-2">
-            Lookup with: {authorityLabels.join(", ")}
-          </div>
+          <div className="form-text mt-0 mb-2">Lookup with: {authorityLabels.join(", ")}</div>
         </div>
       </div>
       <div className="row">

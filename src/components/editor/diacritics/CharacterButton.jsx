@@ -25,11 +25,7 @@ const CharacterButton = (props) => {
   }
 
   return (
-    <button
-      className="btn btn-light"
-      style={{ margin: "3px" }}
-      onClick={handleClick}
-    >
+    <button className="btn btn-light" style={{ margin: "3px" }} onClick={handleClick}>
       {props.character}
     </button>
   )

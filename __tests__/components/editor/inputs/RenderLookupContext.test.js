@@ -120,14 +120,10 @@ describe("<RenderLookupContext />", () => {
     const label = detailsContainer[0]
     expect(label).toHaveTextContent("Twain, Mark, 1835-1910")
     const dateDetails = detailsContainer[1]
-    expect(dateDetails.querySelector(".context-field")).toHaveTextContent(
-      "Birth date"
-    )
+    expect(dateDetails.querySelector(".context-field")).toHaveTextContent("Birth date")
     expect(dateDetails).toHaveTextContent("(edtf) 1835-11-30")
     const details = detailsContainer[2]
-    expect(details.querySelector(".context-field")).toHaveTextContent(
-      "Occupation"
-    )
+    expect(details.querySelector(".context-field")).toHaveTextContent("Occupation")
     expect(details).toHaveTextContent("Lecturers, Humorists, Authors")
   })
 
@@ -139,21 +135,15 @@ describe("<RenderLookupContext />", () => {
     const genericLabel = genericContainer[0]
     expect(genericLabel).toHaveTextContent("Biology")
     const genericDetails = genericContainer[1]
-    expect(genericDetails.querySelector(".context-field")).toHaveTextContent(
-      "Additional Info"
-    )
+    expect(genericDetails.querySelector(".context-field")).toHaveTextContent("Additional Info")
     expect(genericDetails).toHaveTextContent("Additional Information")
   })
 
   it("displays discogs label and context", () => {
     const { container } = render(<RenderLookupContext {...p3Props} />)
 
-    expect(container.querySelector("img")).toHaveAttribute(
-      "src",
-      "https://imageurl.jpg"
-    )
-    const discogsDetailsContainers =
-      container.querySelectorAll(".details-container")
+    expect(container.querySelector("img")).toHaveAttribute("src", "https://imageurl.jpg")
+    const discogsDetailsContainers = container.querySelectorAll(".details-container")
     expect(discogsDetailsContainers[0]).toHaveTextContent("Frank Sinatra")
     expect(discogsDetailsContainers[0]).toHaveTextContent("(1963)")
     expect(discogsDetailsContainers[2]).toHaveTextContent("Reprise Records")
@@ -165,9 +155,7 @@ describe("<RenderLookupContext />", () => {
     const { container } = render(<RenderLookupContext {...p4Props} />)
     const genreContainer = container.querySelectorAll(".details-container")
     const genreDetails = genreContainer[1]
-    expect(genreDetails.querySelector(".context-field")).toHaveTextContent(
-      "Broader"
-    )
+    expect(genreDetails.querySelector(".context-field")).toHaveTextContent("Broader")
     expect(genreDetails).toHaveTextContent("Animated films")
   })
 })

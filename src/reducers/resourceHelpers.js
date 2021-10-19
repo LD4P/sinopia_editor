@@ -68,14 +68,12 @@ export const replaceValueInNewState = (state, value) => {
     },
   }
   // Preventing marking changed when adding a blank value.
-  if (unchanged(oldValue, value) || !oldValue || emptyValue(value))
-    return newState
+  if (unchanged(oldValue, value) || !oldValue || emptyValue(value)) return newState
 
   return setSubjectChanged(newState, value.rootSubjectKey, true)
 }
 
-const unchanged = (oldObj, newObj) =>
-  _.isEqual(cleanObj(oldObj), cleanObj(newObj))
+const unchanged = (oldObj, newObj) => _.isEqual(cleanObj(oldObj), cleanObj(newObj))
 
 const cleanObj = (obj) => _.omit(obj, ["show", "showNav", "changed", "uri"])
 
@@ -85,8 +83,7 @@ export const setSubjectChanged = (state, subjectKey, changed) =>
 // add rdfs:label to root resource if it's present
 export const updateResourceLabel = (state, value) => {
   const possibleLabelProperty = state.properties[value.propertyKey]
-  const propertyTemplate =
-    state.propertyTemplates[possibleLabelProperty.propertyTemplateKey]
+  const propertyTemplate = state.propertyTemplates[possibleLabelProperty.propertyTemplateKey]
   const rootSubjectKey = possibleLabelProperty.rootSubjectKey
   if (
     propertyTemplate.uri === "http://www.w3.org/2000/01/rdf-schema#label" &&
@@ -214,11 +211,7 @@ const recursiveAncestorsFromSubject = (state, subjectKey, performFunc) => {
   const newState = replaceSubjectInNewState(state, newSubject)
 
   if (!newSubject.valueSubjectOfKey) return newState
-  return recursiveAncestorsFromValue(
-    newState,
-    newSubject.valueSubjectOfKey,
-    performFunc
-  )
+  return recursiveAncestorsFromValue(newState, newSubject.valueSubjectOfKey, performFunc)
 }
 
 const recursiveAncestorsFromValue = (state, valueKey, performFunc) => {
@@ -230,11 +223,7 @@ const recursiveAncestorsFromValue = (state, valueKey, performFunc) => {
   performFunc(newValue)
   const newState = replaceValueInNewState(state, newValue)
 
-  return recursiveAncestorsFromProperty(
-    newState,
-    newValue.propertyKey,
-    performFunc
-  )
+  return recursiveAncestorsFromProperty(newState, newValue.propertyKey, performFunc)
 }
 
 const recursiveAncestorsFromProperty = (state, propertyKey, performFunc) => {
@@ -245,86 +234,48 @@ const recursiveAncestorsFromProperty = (state, propertyKey, performFunc) => {
   performFunc(newProperty)
   const newState = replacePropertyInNewState(state, newProperty)
 
-  return recursiveAncestorsFromSubject(
-    newState,
-    newProperty.subjectKey,
-    performFunc
-  )
+  return recursiveAncestorsFromSubject(newState, newProperty.subjectKey, performFunc)
 }
 
 const removeFromDescWithErrorPropertyKeysFunc = (propertyKey) => (newObj) => {
-  if (
-    newObj.descWithErrorPropertyKeys !== undefined &&
-    newObj.descWithErrorPropertyKeys.includes(propertyKey)
-  ) {
-    newObj.descWithErrorPropertyKeys = [
-      ...newObj.descWithErrorPropertyKeys,
-    ].filter((checkPropertyKey) => propertyKey !== checkPropertyKey)
+  if (newObj.descWithErrorPropertyKeys !== undefined && newObj.descWithErrorPropertyKeys.includes(propertyKey)) {
+    newObj.descWithErrorPropertyKeys = [...newObj.descWithErrorPropertyKeys].filter(
+      (checkPropertyKey) => propertyKey !== checkPropertyKey
+    )
   }
 }
 
 const addToDescWithErrorPropertyKeysFunc = (propertyKey) => (newObj) => {
-  if (
-    newObj.descWithErrorPropertyKeys !== undefined &&
-    !newObj.descWithErrorPropertyKeys.includes(propertyKey)
-  ) {
-    newObj.descWithErrorPropertyKeys = [
-      ...newObj.descWithErrorPropertyKeys,
-      propertyKey,
-    ]
+  if (newObj.descWithErrorPropertyKeys !== undefined && !newObj.descWithErrorPropertyKeys.includes(propertyKey)) {
+    newObj.descWithErrorPropertyKeys = [...newObj.descWithErrorPropertyKeys, propertyKey]
   }
 }
 
 const removeFromDescUriOrLiteralValueKeysFunc = (valueKey) => (newObj) => {
-  if (
-    newObj.descUriOrLiteralValueKeys !== undefined &&
-    newObj.descUriOrLiteralValueKeys.includes(valueKey)
-  ) {
-    newObj.descUriOrLiteralValueKeys = [
-      ...newObj.descUriOrLiteralValueKeys,
-    ].filter((checkValueKey) => valueKey !== checkValueKey)
+  if (newObj.descUriOrLiteralValueKeys !== undefined && newObj.descUriOrLiteralValueKeys.includes(valueKey)) {
+    newObj.descUriOrLiteralValueKeys = [...newObj.descUriOrLiteralValueKeys].filter(
+      (checkValueKey) => valueKey !== checkValueKey
+    )
   }
 }
 
 const addToDescUriOrLiteralValueKeysFunc = (valueKey) => (newObj) => {
-  if (
-    newObj.descUriOrLiteralValueKeys !== undefined &&
-    !newObj.descUriOrLiteralValueKeys.includes(valueKey)
-  ) {
-    newObj.descUriOrLiteralValueKeys = [
-      ...newObj.descUriOrLiteralValueKeys,
-      valueKey,
-    ]
+  if (newObj.descUriOrLiteralValueKeys !== undefined && !newObj.descUriOrLiteralValueKeys.includes(valueKey)) {
+    newObj.descUriOrLiteralValueKeys = [...newObj.descUriOrLiteralValueKeys, valueKey]
   }
 }
 
 const addToDescWithErrorPropertyKeys = (state, propertyKey) =>
-  recursiveAncestorsFromProperty(
-    state,
-    propertyKey,
-    addToDescWithErrorPropertyKeysFunc(propertyKey)
-  )
+  recursiveAncestorsFromProperty(state, propertyKey, addToDescWithErrorPropertyKeysFunc(propertyKey))
 
 const removeFromDescWithErrorPropertyKeys = (state, propertyKey) =>
-  recursiveAncestorsFromProperty(
-    state,
-    propertyKey,
-    removeFromDescWithErrorPropertyKeysFunc(propertyKey)
-  )
+  recursiveAncestorsFromProperty(state, propertyKey, removeFromDescWithErrorPropertyKeysFunc(propertyKey))
 
 export const removeFromDescUriOrLiteralValueKeys = (state, valueKey) =>
-  recursiveAncestorsFromValue(
-    state,
-    valueKey,
-    removeFromDescUriOrLiteralValueKeysFunc(valueKey)
-  )
+  recursiveAncestorsFromValue(state, valueKey, removeFromDescUriOrLiteralValueKeysFunc(valueKey))
 
 export const addToDescUriOrLiteralValueKeys = (state, valueKey) =>
-  recursiveAncestorsFromValue(
-    state,
-    valueKey,
-    addToDescUriOrLiteralValueKeysFunc(valueKey)
-  )
+  recursiveAncestorsFromValue(state, valueKey, addToDescUriOrLiteralValueKeysFunc(valueKey))
 
 export const clearSubjectFromNewState = (state, subjectKey) => {
   const subject = state.subjects[subjectKey]
@@ -332,10 +283,7 @@ export const clearSubjectFromNewState = (state, subjectKey) => {
     ...state,
     subjects: _.omit(state.subjects, [subjectKey]),
   }
-  subject.propertyKeys.forEach(
-    (propertyKey) =>
-      (newState = clearPropertyFromNewState(newState, propertyKey))
-  )
+  subject.propertyKeys.forEach((propertyKey) => (newState = clearPropertyFromNewState(newState, propertyKey)))
 
   return newState
 }
@@ -349,9 +297,7 @@ export const clearPropertyFromNewState = (state, propertyKey) => {
   }
 
   if (!_.isEmpty(property.valueKeys)) {
-    property.valueKeys.forEach(
-      (valueKey) => (newState = clearValueFromNewState(newState, valueKey))
-    )
+    property.valueKeys.forEach((valueKey) => (newState = clearValueFromNewState(newState, valueKey)))
   }
 
   // Remove error from ancestors
@@ -366,8 +312,7 @@ export const clearValueFromNewState = (state, valueKey) => {
     ...state,
     values: _.omit(state.values, [valueKey]),
   }
-  if (value.valueSubjectKey)
-    newState = clearSubjectFromNewState(newState, value.valueSubjectKey)
+  if (value.valueSubjectKey) newState = clearSubjectFromNewState(newState, value.valueSubjectKey)
 
   // Remove value key from ancestors' descUriOrLiteralValueKeys
   newState = removeFromDescUriOrLiteralValueKeys(newState, valueKey)

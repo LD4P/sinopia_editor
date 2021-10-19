@@ -3,16 +3,10 @@
 import React from "react"
 import PropTypes from "prop-types"
 import { useDispatch, useSelector } from "react-redux"
-import ModalWrapper, {
-  useDisplayStyle,
-  useModalCss,
-} from "components/ModalWrapper"
+import ModalWrapper, { useDisplayStyle, useModalCss } from "components/ModalWrapper"
 import { hideModal } from "actions/modals"
 import { selectModalType } from "selectors/modals"
-import {
-  selectCurrentPreviewResourceKey,
-  selectNormSubject,
-} from "selectors/resources"
+import { selectCurrentPreviewResourceKey, selectNormSubject } from "selectors/resources"
 import { setCurrentPreviewResource } from "../../../actions/resources"
 import ResourceDisplay from "./ResourceDisplay"
 import usePermissions from "hooks/usePermissions"
@@ -26,12 +20,8 @@ const PreviewModal = (props) => {
   const show = useSelector((state) => selectModalType(state) === "PreviewModal")
 
   // Ensure there is a current resource before attempting to render a resource component
-  const currentResourceKey = useSelector((state) =>
-    selectCurrentPreviewResourceKey(state)
-  )
-  const currentResource = useSelector((state) =>
-    selectNormSubject(state, currentResourceKey)
-  )
+  const currentResourceKey = useSelector((state) => selectCurrentPreviewResourceKey(state))
+  const currentResource = useSelector((state) => selectNormSubject(state, currentResourceKey))
 
   const close = (event) => {
     event.preventDefault()
@@ -59,22 +49,14 @@ const PreviewModal = (props) => {
       aria-labelledby="view-resource-modal-title"
       style={{ display: useDisplayStyle(show) }}
     >
-      <div
-        className="modal-dialog modal-xl modal-dialog-scrollable"
-        role="document"
-      >
+      <div className="modal-dialog modal-xl modal-dialog-scrollable" role="document">
         <div className="modal-content">
           <div className="modal-header">
             <h4 className="modal-title" id="view-resource-modal-title">
               Preview Resource
             </h4>
             <div className="view-resource-buttons">
-              <button
-                type="button"
-                className="btn-close"
-                onClick={close}
-                aria-label="Close"
-              ></button>
+              <button type="button" className="btn-close" onClick={close} aria-label="Close"></button>
             </div>
           </div>
           <div className="modal-body view-resource-modal-content">
@@ -86,12 +68,8 @@ const PreviewModal = (props) => {
             )}
           </div>
           <div className="modal-footer">
-            {currentResourceKey && (
-              <MarcButton resourceKey={currentResourceKey} />
-            )}
-            {currentResourceKey && (
-              <TransferButtons resourceKey={currentResourceKey} />
-            )}
+            {currentResourceKey && <MarcButton resourceKey={currentResourceKey} />}
+            {currentResourceKey && <TransferButtons resourceKey={currentResourceKey} />}
             {canEdit(currentResource) && (
               <button
                 className="btn btn-primary btn-view-resource"

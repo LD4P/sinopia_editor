@@ -3,8 +3,6 @@
 import Config from "Config"
 
 export const defaultSearchResultsPerPage = (searchType) =>
-  searchType === "template"
-    ? Config.templateSearchResultsPerPage
-    : Config.searchResultsPerPage
+  searchType === "template" ? Config.templateSearchResultsPerPage : Config.searchResultsPerPage
 
 export const noop = () => {}

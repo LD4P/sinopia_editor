@@ -39,10 +39,7 @@ const UnusedRDFDisplay = () => {
     <div className="rdf-display-panel">
       <div className="row mb-3 gx-2">
         <div className="col-auto">
-          <strong>
-            Unable to load the entire resource. The unused triples are listed
-            below.{" "}
-          </strong>
+          <strong>Unable to load the entire resource. The unused triples are listed below. </strong>
           <label htmlFor="rdfFormat" className="col-form-label">
             View as:
           </label>

@@ -5,9 +5,7 @@ describe("Left-nav test", () => {
 
   it("Opens the app", () => {
     cy.visit(Cypress.env("EDITOR_URL") || "http://localhost:8000/")
-    cy.contains(
-      "The underdrawing for the new world of linked data in libraries"
-    )
+    cy.contains("The underdrawing for the new world of linked data in libraries")
   })
 
   it("Logs in", () => {
@@ -38,22 +36,10 @@ describe("Left-nav test", () => {
     // Need to determine if should upload a resource template.
     cy.get("#resource-templates").then((rtDiv) => {
       if (rtDiv.find("div#no-rt-warning").length > 0) {
-        addResourceTemplate(
-          "uber_template1.txt",
-          "http://localhost:3000/resource/resourceTemplate:testing:uber1"
-        )
-        addResourceTemplate(
-          "uber_template2.txt",
-          "http://localhost:3000/resource/resourceTemplate:testing:uber2"
-        )
-        addResourceTemplate(
-          "uber_template3.txt",
-          "http://localhost:3000/resource/resourceTemplate:testing:uber3"
-        )
-        addResourceTemplate(
-          "uber_template4.txt",
-          "http://localhost:3000/resource/resourceTemplate:testing:uber4"
-        )
+        addResourceTemplate("uber_template1.txt", "http://localhost:3000/resource/resourceTemplate:testing:uber1")
+        addResourceTemplate("uber_template2.txt", "http://localhost:3000/resource/resourceTemplate:testing:uber2")
+        addResourceTemplate("uber_template3.txt", "http://localhost:3000/resource/resourceTemplate:testing:uber3")
+        addResourceTemplate("uber_template4.txt", "http://localhost:3000/resource/resourceTemplate:testing:uber4")
 
         // Waiting for indexing. If this proves problematic, can try a different approach.
         // eslint-disable-next-line cypress/no-unnecessary-waiting
@@ -63,10 +49,7 @@ describe("Left-nav test", () => {
         cy.get("a").contains("Resource Templates").click()
         cy.url().should("include", "/templates")
 
-        cy.get("#searchInput").should(
-          "have.value",
-          "resourceTemplate:testing:uber1"
-        )
+        cy.get("#searchInput").should("have.value", "resourceTemplate:testing:uber1")
 
         // eslint-disable-next-line cypress/no-unnecessary-waiting
         cy.wait(1000)
@@ -75,10 +58,7 @@ describe("Left-nav test", () => {
   })
 
   it("Opens a resource template", () => {
-    cy.get('a[title="Create resource for Uber template1"]')
-      .first()
-      .scrollIntoView()
-      .click({ force: true })
+    cy.get('a[title="Create resource for Uber template1"]').first().scrollIntoView().click({ force: true })
     // eslint-disable-next-line cypress/no-unnecessary-waiting
     cy.wait(1000)
     cy.url().should("include", "/editor")
@@ -87,21 +67,13 @@ describe("Left-nav test", () => {
   it("Displays child nav when expanding nav", () => {
     cy.get(".left-nav-header").should("not.contain", "Uber template2")
     cy.get(".left-nav-header").should("not.contain", "Uber template3")
-    cy.get(".left-nav-header").should(
-      "not.contain",
-      "Uber template2, property1"
-    )
+    cy.get(".left-nav-header").should("not.contain", "Uber template2, property1")
 
-    cy.get(
-      'button[aria-label="Show navigation for Uber template1, property1"]'
-    ).click()
+    cy.get('button[aria-label="Show navigation for Uber template1, property1"]').click()
 
     cy.get(".left-nav-header").should("contain", "Uber template2")
     cy.get(".left-nav-header").should("contain", "Uber template3")
-    cy.get(".left-nav-header").should(
-      "not.contain",
-      "Uber template2, property1"
-    )
+    cy.get(".left-nav-header").should("not.contain", "Uber template2, property1")
 
     cy.get('button[aria-label="Show navigation for Uber template2"]').click()
     cy.get(".left-nav-header").should("contain", "Uber template2, property1")
@@ -111,38 +83,26 @@ describe("Left-nav test", () => {
     cy.get('button[aria-label="Hide navigation for Uber template2"]').click()
     cy.get(".left-nav-header").should("contain", "Uber template2")
     cy.get(".left-nav-header").should("contain", "Uber template3")
-    cy.get(".left-nav-header").should(
-      "not.contain",
-      "Uber template2, property1"
-    )
+    cy.get(".left-nav-header").should("not.contain", "Uber template2, property1")
 
-    cy.get(
-      'button[aria-label="Hide navigation for Uber template1, property1"]'
-    ).click()
+    cy.get('button[aria-label="Hide navigation for Uber template1, property1"]').click()
     cy.get(".left-nav-header").should("not.contain", "Uber template2")
     cy.get(".left-nav-header").should("not.contain", "Uber template3")
-    cy.get(".left-nav-header").should(
-      "not.contain",
-      "Uber template2, property1"
-    )
+    cy.get(".left-nav-header").should("not.contain", "Uber template2, property1")
   })
 
   it("Pops up tooltips for properties with remarks", () => {
     // Verifies that tooltip pops up when clicked and hides when something else is clicked
     const tooltipText = "Multiple nested, repeatable resource templates."
     cy.get("body").should("not.contain", tooltipText)
-    cy.get('a[data-testid="Uber template1, property1"]')
-      .scrollIntoView()
-      .click()
+    cy.get('a[data-testid="Uber template1, property1"]').scrollIntoView().click()
     // Tooltip appears when clicked
     cy.get("body").should("contain", tooltipText)
     // And disappears when anything else is clicked
     cy.get('button[aria-label="Go to Uber template1, property1"]').click()
     cy.get("body").should("not.contain", tooltipText)
     // Clicks tooltip for property at the bottom of the page
-    cy.get('a[data-testid="Uber template1, property20"]')
-      .scrollIntoView()
-      .click()
+    cy.get('a[data-testid="Uber template1, property20"]').scrollIntoView().click()
     // Ensure the viewport didn't shift to the top of the package
     cy.get('a[data-testid="Uber template1, property20"]').should("be.visible")
   })
@@ -150,33 +110,18 @@ describe("Left-nav test", () => {
   it("Marks properties with errors", () => {
     cy.get(".left-nav-header.text-danger").should("not.exist")
     cy.get("button.editor-save").first().scrollIntoView().click({ force: true })
-    cy.get(".left-nav-header.text-danger").should(
-      "contain",
-      "Uber template1, property4"
-    )
+    cy.get(".left-nav-header.text-danger").should("contain", "Uber template1, property4")
   })
 
   it("Fixing error removes marking as error", () => {
-    cy.get('textarea[placeholder="Uber template1, property4"]').type(
-      "bar{enter}",
-      { force: true }
-    )
-    cy.get(".left-nav-header.text-danger").should(
-      "not.contain",
-      "Uber template1, property4"
-    )
+    cy.get('textarea[placeholder="Uber template1, property4"]').type("bar{enter}", { force: true })
+    cy.get(".left-nav-header.text-danger").should("not.contain", "Uber template1, property4")
   })
 
   it("Highlights nav when panel clicked", () => {
-    cy.get("button.current .left-nav-header").should(
-      "not.contain",
-      "Uber template1, property6"
-    )
+    cy.get("button.current .left-nav-header").should("not.contain", "Uber template1, property6")
     cy.contains("button", "Uber template1, property6").click({ force: true })
-    cy.get("button.current .left-nav-header").should(
-      "contain",
-      "Uber template1, property6"
-    )
+    cy.get("button.current .left-nav-header").should("contain", "Uber template1, property6")
   })
 
   // This test passes locally, but does not pass in Circle.
@@ -205,19 +150,13 @@ const addResourceTemplate = (fixture, fixtureUri) => {
     cy.get("#resourceTextArea").paste(json)
     // .type(json, {delay: 0})
     cy.get("#uriInput").type(fixtureUri)
-    cy.get('button[type="submit"]:not(:disabled)')
-      .contains("Submit")
-      .scrollIntoView()
-      .click()
+    cy.get('button[type="submit"]:not(:disabled)').contains("Submit").scrollIntoView().click()
     // eslint-disable-next-line cypress/no-unnecessary-waiting
     cy.wait(500)
 
     // Now on editor
     cy.url().should("include", "/editor")
-    cy.get("button.editor-save")
-      .contains("Save")
-      .scrollIntoView()
-      .click({ force: true })
+    cy.get("button.editor-save").contains("Save").scrollIntoView().click({ force: true })
 
     // Group choice modal
     cy.contains("Who owns this?")

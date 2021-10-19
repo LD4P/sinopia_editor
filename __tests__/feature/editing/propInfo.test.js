@@ -16,9 +16,7 @@ describe("getting property related info from a resource", () => {
     expect(infoIcon3).toHaveAttribute("data-bs-content", "A literal")
 
     // if the remark is a Url
-    const infoLink = container.querySelector(
-      'a[href="http://access.rdatoolkit.org/1.0.html"]'
-    )
+    const infoLink = container.querySelector('a[href="http://access.rdatoolkit.org/1.0.html"]')
 
     expect(infoLink).toHaveClass("prop-remark")
   })
@@ -31,18 +29,12 @@ describe("getting property related info from a resource", () => {
     const infoIcon1 = await screen.findByRole("link", {
       name: "Uber template1, property18",
     })
-    expect(infoIcon1).toHaveAttribute(
-      "data-bs-content",
-      "Mandatory nested resource templates."
-    )
+    expect(infoIcon1).toHaveAttribute("data-bs-content", "Mandatory nested resource templates.")
 
     // Finds the nested property info (tooltip remark is text)
     const nestedInfoIcons = await screen.findAllByRole("link", {
       name: "Uber template4, property1",
     })
-    expect(nestedInfoIcons[0]).toHaveAttribute(
-      "data-bs-content",
-      "A repeatable, required literal"
-    )
+    expect(nestedInfoIcons[0]).toHaveAttribute("data-bs-content", "A repeatable, required literal")
   }, 10000)
 })

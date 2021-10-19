@@ -109,11 +109,7 @@ describe("validateTemplates()", () => {
     it("returns no errors", async () => {
       const store = mockStore(createState())
 
-      expect(
-        await store.dispatch(
-          validateTemplates(subjectTemplate, {}, "testerrorkey")
-        )
-      ).toBe(true)
+      expect(await store.dispatch(validateTemplates(subjectTemplate, {}, "testerrorkey"))).toBe(true)
       expect(store.getActions()).toHaveAction("ADD_TEMPLATES")
       expect(store.getActions()).not.toHaveAction("ADD_ERROR")
     })
@@ -135,11 +131,7 @@ describe("validateTemplates()", () => {
     it("returns error", async () => {
       const store = mockStore(createState())
 
-      expect(
-        await store.dispatch(
-          validateTemplates(subjectTemplate, {}, "testerrorkey")
-        )
-      ).toBe(false)
+      expect(await store.dispatch(validateTemplates(subjectTemplate, {}, "testerrorkey"))).toBe(false)
       const payload1 = {
         errorKey: "testerrorkey",
         error: "Resource template id is missing from resource template.",
@@ -189,11 +181,7 @@ describe("validateTemplates()", () => {
     it("returns error", async () => {
       const store = mockStore(createState())
 
-      expect(
-        await store.dispatch(
-          validateTemplates(subjectTemplate, {}, "testerrorkey")
-        )
-      ).toBe(false)
+      expect(await store.dispatch(validateTemplates(subjectTemplate, {}, "testerrorkey"))).toBe(false)
       const payload = {
         errorKey: "testerrorkey",
         error: "Property template URI is required.",
@@ -211,9 +199,7 @@ describe("validateTemplates()", () => {
       author: undefined,
       remark: undefined,
       date: undefined,
-      propertyTemplateKeys: [
-        "ld4p:RT:bf2:Title:AbbrTitle > http://id.loc.gov/ontologies/bibframe/mainTitle",
-      ],
+      propertyTemplateKeys: ["ld4p:RT:bf2:Title:AbbrTitle > http://id.loc.gov/ontologies/bibframe/mainTitle"],
       propertyTemplates: [
         {
           key: "ld4p:RT:bf2:Title:AbbrTitle > http://id.loc.gov/ontologies/bibframe/mainTitle",
@@ -235,15 +221,10 @@ describe("validateTemplates()", () => {
     it("returns error", async () => {
       const store = mockStore(createState())
 
-      expect(
-        await store.dispatch(
-          validateTemplates(subjectTemplate, {}, "testerrorkey")
-        )
-      ).toBe(false)
+      expect(await store.dispatch(validateTemplates(subjectTemplate, {}, "testerrorkey"))).toBe(false)
       const payload1 = {
         errorKey: "testerrorkey",
-        error:
-          "Property template label is required for http://id.loc.gov/ontologies/bibframe/mainTitle.",
+        error: "Property template label is required for http://id.loc.gov/ontologies/bibframe/mainTitle.",
       }
       expect(store.getActions()).toHaveAction("ADD_ERROR", payload1)
       const payload2 = {
@@ -254,8 +235,7 @@ describe("validateTemplates()", () => {
       expect(store.getActions()).toHaveAction("ADD_ERROR", payload2)
       const payload3 = {
         errorKey: "testerrorkey",
-        error:
-          "Cannot determine component for http://id.loc.gov/ontologies/bibframe/mainTitle.",
+        error: "Cannot determine component for http://id.loc.gov/ontologies/bibframe/mainTitle.",
       }
       expect(store.getActions()).toHaveAction("ADD_ERROR", payload3)
     })
@@ -270,9 +250,7 @@ describe("validateTemplates()", () => {
       author: undefined,
       remark: undefined,
       date: undefined,
-      propertyTemplateKeys: [
-        "test:resource:SinopiaLookup > http://id.loc.gov/ontologies/bibframe/instanceOf",
-      ],
+      propertyTemplateKeys: ["test:resource:SinopiaLookup > http://id.loc.gov/ontologies/bibframe/instanceOf"],
       propertyTemplates: [
         {
           key: "test:resource:SinopiaLookup > http://id.loc.gov/ontologies/bibframe/instanceOf",
@@ -295,11 +273,7 @@ describe("validateTemplates()", () => {
     it("returns error", async () => {
       const store = mockStore(createState())
 
-      expect(
-        await store.dispatch(
-          validateTemplates(subjectTemplate, {}, "testerrorkey")
-        )
-      ).toBe(false)
+      expect(await store.dispatch(validateTemplates(subjectTemplate, {}, "testerrorkey"))).toBe(false)
       const payload = {
         errorKey: "testerrorkey",
         error:
@@ -359,11 +333,7 @@ describe("validateTemplates()", () => {
     it("returns error", async () => {
       const store = mockStore(createState())
 
-      expect(
-        await store.dispatch(
-          validateTemplates(subjectTemplate, {}, "testerrorkey")
-        )
-      ).toBe(false)
+      expect(await store.dispatch(validateTemplates(subjectTemplate, {}, "testerrorkey"))).toBe(false)
       const payload = {
         errorKey: "testerrorkey",
         error:
@@ -423,11 +393,7 @@ describe("validateTemplates()", () => {
     it("returns error", async () => {
       const store = mockStore(createState())
 
-      expect(
-        await store.dispatch(
-          validateTemplates(subjectTemplate, {}, "testerrorkey")
-        )
-      ).toBe(false)
+      expect(await store.dispatch(validateTemplates(subjectTemplate, {}, "testerrorkey"))).toBe(false)
       const payload = {
         errorKey: "testerrorkey",
         error:
@@ -446,9 +412,7 @@ describe("validateTemplates()", () => {
       author: "LD4P",
       remark: "based on LC template ld4p:RT:bf2:RareMat:Instance",
       date: "2019-08-19",
-      propertyTemplateKeys: [
-        "test:RT:bf2:RareMat:Instance > http://id.loc.gov/ontologies/bibframe/genreForm",
-      ],
+      propertyTemplateKeys: ["test:RT:bf2:RareMat:Instance > http://id.loc.gov/ontologies/bibframe/genreForm"],
       propertyTemplates: [
         {
           key: "test:RT:bf2:RareMat:Instance > http://id.loc.gov/ontologies/bibframe/genreForm",
@@ -462,10 +426,7 @@ describe("validateTemplates()", () => {
           remarkUrl: null,
           type: "resource",
           component: "NestedResource",
-          valueSubjectTemplateKeys: [
-            "ld4p:RT:bf2:Form",
-            "ld4p:RT:bf2:RareMat:RBMS",
-          ],
+          valueSubjectTemplateKeys: ["ld4p:RT:bf2:Form", "ld4p:RT:bf2:RareMat:RBMS"],
           authorities: [],
         },
       ],
@@ -474,11 +435,7 @@ describe("validateTemplates()", () => {
     it("returns error", async () => {
       const store = mockStore(createState())
 
-      expect(
-        await store.dispatch(
-          validateTemplates(subjectTemplate, {}, "testerrorkey")
-        )
-      ).toBe(false)
+      expect(await store.dispatch(validateTemplates(subjectTemplate, {}, "testerrorkey"))).toBe(false)
       const payload = {
         errorKey: "testerrorkey",
         error:
@@ -499,9 +456,7 @@ describe("validateTemplates()", () => {
       remark: null,
       date: "2020-09-20",
       suppressible: true,
-      propertyTemplateKeys: [
-        "pcc:bf2:Agent:Person > http://www.w3.org/1999/02/22-rdf-syntax-ns#value",
-      ],
+      propertyTemplateKeys: ["pcc:bf2:Agent:Person > http://www.w3.org/1999/02/22-rdf-syntax-ns#value"],
       propertyTemplates: [
         {
           key: "pcc:bf2:Agent:Person > http://www.w3.org/1999/02/22-rdf-syntax-ns#value",
@@ -533,11 +488,7 @@ describe("validateTemplates()", () => {
     it("returns no errors", async () => {
       const store = mockStore(createState())
 
-      expect(
-        await store.dispatch(
-          validateTemplates(subjectTemplate, {}, "testerrorkey")
-        )
-      ).toBe(true)
+      expect(await store.dispatch(validateTemplates(subjectTemplate, {}, "testerrorkey"))).toBe(true)
       expect(store.getActions()).not.toHaveAction("ADD_ERROR")
     })
   })
@@ -560,11 +511,7 @@ describe("validateTemplates()", () => {
     it("returns error", async () => {
       const store = mockStore(createState())
 
-      expect(
-        await store.dispatch(
-          validateTemplates(subjectTemplate, {}, "testerrorkey")
-        )
-      ).toBe(false)
+      expect(await store.dispatch(validateTemplates(subjectTemplate, {}, "testerrorkey"))).toBe(false)
       const payload = {
         errorKey: "testerrorkey",
         error: "A suppressible template must have one property template.",
@@ -584,9 +531,7 @@ describe("validateTemplates()", () => {
       remark: null,
       date: "2020-09-20",
       suppressible: true,
-      propertyTemplateKeys: [
-        "pcc:bf2:Agent:Person > http://www.w3.org/1999/02/22-rdf-syntax-ns#value",
-      ],
+      propertyTemplateKeys: ["pcc:bf2:Agent:Person > http://www.w3.org/1999/02/22-rdf-syntax-ns#value"],
       propertyTemplates: [
         {
           key: "pcc:bf2:Agent:Person > http://www.w3.org/1999/02/22-rdf-syntax-ns#value",
@@ -610,15 +555,10 @@ describe("validateTemplates()", () => {
     it("returns error", async () => {
       const store = mockStore(createState())
 
-      expect(
-        await store.dispatch(
-          validateTemplates(subjectTemplate, {}, "testerrorkey")
-        )
-      ).toBe(false)
+      expect(await store.dispatch(validateTemplates(subjectTemplate, {}, "testerrorkey"))).toBe(false)
       const payload = {
         errorKey: "testerrorkey",
-        error:
-          "The property for a suppressible template must be a URI or lookup.",
+        error: "The property for a suppressible template must be a URI or lookup.",
       }
       expect(store.getActions()).toHaveAction("ADD_ERROR", payload)
     })

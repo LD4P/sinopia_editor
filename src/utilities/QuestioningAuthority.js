@@ -7,8 +7,7 @@ import Config from "Config"
 import { findAuthorityConfig } from "utilities/authorityConfig"
 import _ from "lodash"
 
-export const isContext = (propertyTemplate) =>
-  propertyTemplate?.subtype === "context"
+export const isContext = (propertyTemplate) => propertyTemplate?.subtype === "context"
 
 export const createLookupPromise = (query, lookupConfig, options = {}) => {
   const authority = lookupConfig.authority
@@ -33,9 +32,9 @@ export const createLookupPromise = (query, lookupConfig, options = {}) => {
 
   /*
    * Return the promise
-   * Since we don't want promise.all to fail if
-   * one of the lookups fails, we want a catch statement
-   * at this level which will then return the error. Subauthorities require a different API call than authorities so need to check if subauthority is available
+   * Since we don't want promise.all to fail if one of the lookups fails, we want a catch statement
+   * at this level which will then return the error. Subauthorities require a different API call than authorities
+   * so need to check if subauthority is available.
    * The only difference between this call and the next one is the call to Get_searchSubauthority instead of
    * Get_searchauthority.  Passing API call in a variable name/dynamically, thanks @mjgiarlo
    */
@@ -78,9 +77,7 @@ export const getTerm = (uri, id, searchUri, format = "n3") => {
     }
     url = `${Config.qaUrl}/authorities/show/${path}/${id}?format=${format}`
   } else {
-    url = `${
-      Config.qaUrl
-    }/authorities/fetch/linked_data/${authority.toLowerCase()}?format=${format}&uri=${uri}`
+    url = `${Config.qaUrl}/authorities/fetch/linked_data/${authority.toLowerCase()}?format=${format}&uri=${uri}`
   }
 
   return fetch(url).then((resp) => resp.text())

@@ -1,12 +1,7 @@
 import { useDispatch, useSelector } from "react-redux"
 import { setCurrentComponent } from "actions/index"
 import { selectModalType } from "selectors/modals"
-import {
-  showNavProperty,
-  hideNavProperty,
-  showNavSubject,
-  hideNavSubject,
-} from "../actions/resources"
+import { showNavProperty, hideNavProperty, showNavSubject, hideNavSubject } from "../actions/resources"
 
 const useLeftNav = (navObj) => {
   // navObj can be a subject or property.
@@ -19,13 +14,7 @@ const useLeftNav = (navObj) => {
 
     if (isModalOpen) return // do not respond to clicks in the nav if any modal is open
 
-    dispatch(
-      setCurrentComponent(
-        navObj.rootSubjectKey,
-        navObj.rootPropertyKey,
-        navObj.key
-      )
-    )
+    dispatch(setCurrentComponent(navObj.rootSubjectKey, navObj.rootPropertyKey, navObj.key))
   }
 
   const handleToggleClick = (event) => {

@@ -4,15 +4,9 @@ import { useDispatch, useSelector } from "react-redux"
 import { selectCurrentComponentKey } from "selectors/index"
 import { selectModalType } from "selectors/modals"
 
-const useNavigableComponent = (
-  rootSubjectKey,
-  rootPropertyKey,
-  componentKey
-) => {
+const useNavigableComponent = (rootSubjectKey, rootPropertyKey, componentKey) => {
   const navEl = useRef(null)
-  const currentComponentKey = useSelector((state) =>
-    selectCurrentComponentKey(state, rootSubjectKey)
-  )
+  const currentComponentKey = useSelector((state) => selectCurrentComponentKey(state, rootSubjectKey))
   const [lastComponentKey, setLastComponentKey] = useState(null)
   const isModalOpen = useSelector((state) => selectModalType(state))
 
@@ -38,12 +32,7 @@ const useNavigableComponent = (
     const efp = (x, y) => document.elementFromPoint(x, y)
 
     // Return false if it's not in the viewport
-    if (
-      rect.right < 0 ||
-      rect.bottom < 0 ||
-      rect.left > vWidth ||
-      rect.top > vHeight
-    ) {
+    if (rect.right < 0 || rect.bottom < 0 || rect.left > vWidth || rect.top > vHeight) {
       return false
     }
 

@@ -12,12 +12,7 @@ import { selectGroupMap } from "selectors/groups"
 /**
  * Generates HTML rows of all search results
  */
-const SearchResultRows = ({
-  searchResults,
-  handleEdit,
-  handleCopy,
-  handleView,
-}) => {
+const SearchResultRows = ({ searchResults, handleEdit, handleCopy, handleView }) => {
   const { canEdit, canCreate } = usePermissions()
   const groupMap = useSelector((state) => selectGroupMap(state))
 

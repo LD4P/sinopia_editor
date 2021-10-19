@@ -49,9 +49,7 @@ app.post("/api/search/:index/sinopia/_search", (req, res) => {
     .pipe(res)
     .on("error", (err) => {
       console.error(`error returning ElasticSearch response: ${err}`)
-      res
-        .status(500)
-        .json({ error: "server error: could not send ElasticSearch response" })
+      res.status(500).json({ error: "server error: could not send ElasticSearch response" })
     })
 })
 

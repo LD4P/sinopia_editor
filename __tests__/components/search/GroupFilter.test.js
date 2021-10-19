@@ -47,10 +47,7 @@ describe("<GroupFilter />", () => {
 
   it("renders when results", () => {
     const mockGetSearchResults = jest.fn()
-    server.getSearchResultsWithFacets = mockGetSearchResults.mockResolvedValue([
-      {},
-      undefined,
-    ])
+    server.getSearchResultsWithFacets = mockGetSearchResults.mockResolvedValue([{}, undefined])
 
     const store = createStore(createInitialState())
     const { container } = renderComponent(<GroupFilter />, store)
@@ -65,10 +62,7 @@ describe("<GroupFilter />", () => {
 
   it("allows changing filters by unselecting", async () => {
     const mockGetSearchResults = jest.fn()
-    server.getSearchResultsWithFacets = mockGetSearchResults.mockResolvedValue([
-      {},
-      undefined,
-    ])
+    server.getSearchResultsWithFacets = mockGetSearchResults.mockResolvedValue([{}, undefined])
 
     const store = createStore(createInitialState())
     const { container } = renderComponent(<GroupFilter />, store)
@@ -84,9 +78,7 @@ describe("<GroupFilter />", () => {
     // Apply filter
     fireEvent.click(screen.getByText("Go"))
 
-    await waitFor(() =>
-      expect(container.querySelector(".show")).not.toBeInTheDocument()
-    )
+    await waitFor(() => expect(container.querySelector(".show")).not.toBeInTheDocument())
 
     expect(mockGetSearchResults).toHaveBeenCalledWith("twain", {
       resultsPerPage: 10,
@@ -99,10 +91,7 @@ describe("<GroupFilter />", () => {
 
   it("allows selecting / deselecting all", async () => {
     const mockGetSearchResults = jest.fn()
-    server.getSearchResultsWithFacets = mockGetSearchResults.mockResolvedValue([
-      {},
-      undefined,
-    ])
+    server.getSearchResultsWithFacets = mockGetSearchResults.mockResolvedValue([{}, undefined])
 
     const store = createStore(createInitialState())
     const { container } = renderComponent(<GroupFilter />, store)
@@ -123,10 +112,7 @@ describe("<GroupFilter />", () => {
 
   it("allows clearing filters", async () => {
     const mockGetSearchResults = jest.fn()
-    server.getSearchResultsWithFacets = mockGetSearchResults.mockResolvedValue([
-      {},
-      facetResults,
-    ])
+    server.getSearchResultsWithFacets = mockGetSearchResults.mockResolvedValue([{}, facetResults])
 
     const store = createStore(createInitialState())
     const { container } = renderComponent(<GroupFilter />, store)
@@ -139,9 +125,7 @@ describe("<GroupFilter />", () => {
     // Apply filter
     fireEvent.click(screen.getByText("Go"))
 
-    await waitFor(() =>
-      expect(container.querySelector(".show")).not.toBeInTheDocument()
-    )
+    await waitFor(() => expect(container.querySelector(".show")).not.toBeInTheDocument())
 
     fireEvent.click(screen.getByText("Filter by group"))
     fireEvent.click(screen.getByText("Clear filter"))

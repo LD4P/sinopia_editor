@@ -1,10 +1,6 @@
 // Copyright 2018 Stanford University see LICENSE for license
 
-import {
-  fireEvent,
-  screen,
-  waitForElementToBeRemoved,
-} from "@testing-library/react"
+import { fireEvent, screen, waitForElementToBeRemoved } from "@testing-library/react"
 import { createState } from "stateUtils"
 import { createStore, renderApp } from "testUtils"
 import Auth from "@aws-amplify/auth"
@@ -63,9 +59,7 @@ describe("user authentication", () => {
     renderApp(store)
 
     // confirm that it appears user is not logged in
-    expect(
-      screen.queryByText("Logout", { selector: "a" })
-    ).not.toBeInTheDocument()
+    expect(screen.queryByText("Logout", { selector: "a" })).not.toBeInTheDocument()
     screen.getByText(/Latest news/)
     screen.getByText(/Sinopia Version \d+.\d+.\d+ highlights/)
     screen.getByText("Sinopia help site", { selector: "a" })

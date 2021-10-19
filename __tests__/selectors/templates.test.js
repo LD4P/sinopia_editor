@@ -9,10 +9,7 @@ describe("selectSubjectAndPropertyTemplates()", () => {
 
   it("returns templates", () => {
     const state = createState({ hasResourceWithLiteral: true })
-    const subjectTemplate = selectSubjectAndPropertyTemplates(
-      state,
-      "ld4p:RT:bf2:Title:AbbrTitle"
-    )
+    const subjectTemplate = selectSubjectAndPropertyTemplates(state, "ld4p:RT:bf2:Title:AbbrTitle")
     expect(subjectTemplate).toBeSubjectTemplate("ld4p:RT:bf2:Title:AbbrTitle")
     expect(subjectTemplate.propertyTemplates).toBePropertyTemplates([
       "ld4p:RT:bf2:Title:AbbrTitle > http://id.loc.gov/ontologies/bibframe/mainTitle",

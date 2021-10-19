@@ -82,9 +82,7 @@ describe("createLookupPromise()", () => {
 
 describe("getTerm", () => {
   beforeEach(() => {
-    global.fetch = jest
-      .fn()
-      .mockImplementation(() => Promise.resolve({ text: () => "n3" }))
+    global.fetch = jest.fn().mockImplementation(() => Promise.resolve({ text: () => "n3" }))
   })
 
   it("fetches N3 from QA with uri", async () => {
@@ -101,9 +99,7 @@ describe("getTerm", () => {
     expect(global.fetch).toHaveBeenCalledWith(url)
   })
   it("fetches N3 from QA with id", async () => {
-    global.fetch = jest
-      .fn()
-      .mockImplementation(() => Promise.resolve({ text: () => "n3" }))
+    global.fetch = jest.fn().mockImplementation(() => Promise.resolve({ text: () => "n3" }))
 
     const term = await getTerm(
       "https://www.discogs.com/Shania-Twain-Shania-Twain/master/132553",
@@ -113,8 +109,7 @@ describe("getTerm", () => {
     expect(term).toBe("n3")
 
     expect(global.fetch).toHaveBeenCalledTimes(1)
-    const url =
-      "https://lookup.ld4l.org/authorities/show/discogs/master/132553?format=n3"
+    const url = "https://lookup.ld4l.org/authorities/show/discogs/master/132553?format=n3"
     expect(global.fetch).toHaveBeenCalledWith(url)
   })
 })

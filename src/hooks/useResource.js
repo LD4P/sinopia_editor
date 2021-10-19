@@ -2,17 +2,10 @@ import { useLayoutEffect, useState } from "react"
 import { useSelector, useDispatch } from "react-redux"
 import { newResource, loadResource } from "actionCreators/resources"
 import { selectErrors } from "selectors/errors"
-import {
-  selectCurrentResourceKey,
-  selectNormSubject,
-  selectResourceUriMap,
-} from "selectors/resources"
+import { selectCurrentResourceKey, selectNormSubject, selectResourceUriMap } from "selectors/resources"
 import _ from "lodash"
 import { showModal } from "actions/modals"
-import {
-  setCurrentResource,
-  setCurrentPreviewResource,
-} from "actions/resources"
+import { setCurrentResource, setCurrentPreviewResource } from "actions/resources"
 import { useHistory } from "react-router-dom"
 
 const useResource = (errorKey, errorRef) => {

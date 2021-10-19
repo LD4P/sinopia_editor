@@ -35,8 +35,7 @@ const vocabulary = {
     url: "http://sinopia.io/vocabulary/hasPropertyUri",
   },
   hasRemark: {
-    description:
-      "Comment or guiding statement intended to be presented as supplementary information in user display",
+    description: "Comment or guiding statement intended to be presented as supplementary information in user display",
     url: "https://sinopia.io/vocabulary/hasRemark",
   },
   hasResourceAttribute: {
@@ -44,8 +43,7 @@ const vocabulary = {
     url: "http://sinopia.io/vocabulary/hasResourceAttribute",
   },
   hasResourceTemplate: {
-    description:
-      "The template used in creating, editing, or updating a resource",
+    description: "The template used in creating, editing, or updating a resource",
     url: "http://sinopia.io/vocabulary/hasResourceTemplate",
   },
   PropertyTemplate: {
@@ -103,10 +101,7 @@ const displayProperty = (params) => {
 const AllProperties = () => (
   <div>
     <h1>Vocabulary</h1>
-    <p>
-      Sinopia uses a number of properties and classes for adding and editing RDF
-      resources.
-    </p>
+    <p>Sinopia uses a number of properties and classes for adding and editing RDF resources.</p>
     {Object.keys(vocabulary).map((key) => {
       const element = vocabulary[key]
       return (
@@ -125,12 +120,7 @@ const AllProperties = () => (
 )
 
 const Vocab = (props) => {
-  const body =
-    props.match.params.element === undefined ? (
-      <AllProperties />
-    ) : (
-      displayProperty(props.match.params)
-    )
+  const body = props.match.params.element === undefined ? <AllProperties /> : displayProperty(props.match.params)
   return (
     <div id="vocabulary">
       <Header triggerHomePageMenu={props.triggerHandleOffsetMenu} />

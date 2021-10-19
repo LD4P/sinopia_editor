@@ -22,17 +22,11 @@ import useSearch from "hooks/useSearch"
 const Search = (props) => {
   const { fetchSearchResults } = useSearch()
 
-  const searchOptions = useSelector((state) =>
-    selectSearchOptions(state, "resource")
-  )
+  const searchOptions = useSelector((state) => selectSearchOptions(state, "resource"))
   const error = useSelector((state) => selectSearchError(state, "resource"))
   const uri = useSelector((state) => selectSearchUri(state, "resource"))
-  const queryString = useSelector((state) =>
-    selectSearchQuery(state, "resource")
-  )
-  const totalResults = useSelector((state) =>
-    selectSearchTotalResults(state, "resource")
-  )
+  const queryString = useSelector((state) => selectSearchQuery(state, "resource"))
+  const totalResults = useSelector((state) => selectSearchTotalResults(state, "resource"))
 
   const changeSearchPage = (startOfRange) => {
     fetchSearchResults(queryString, uri, searchOptions, startOfRange)
@@ -41,14 +35,8 @@ const Search = (props) => {
   return (
     <div id="search">
       <Header triggerEditorMenu={props.triggerHandleOffsetMenu} />
-      <Alert
-        text={error && `An error occurred while searching: ${error.toString()}`}
-      />
-      {uri === sinopiaSearchUri ? (
-        <SinopiaSearchResults />
-      ) : (
-        <QASearchResults />
-      )}
+      <Alert text={error && `An error occurred while searching: ${error.toString()}`} />
+      {uri === sinopiaSearchUri ? <SinopiaSearchResults /> : <QASearchResults />}
       <SearchResultsPaging
         resultsPerPage={searchOptions.resultsPerPage}
         startOfRange={searchOptions.startOfRange}

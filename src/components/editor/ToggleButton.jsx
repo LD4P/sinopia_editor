@@ -5,12 +5,7 @@ import PropTypes from "prop-types"
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
 import { faAngleRight, faAngleDown } from "@fortawesome/free-solid-svg-icons"
 
-const ToggleButton = ({
-  handleClick,
-  isExpanded,
-  label,
-  isDisabled = false,
-}) => (
+const ToggleButton = ({ handleClick, isExpanded, label, isDisabled = false }) => (
   <button
     type="button"
     className="btn btn-toggle align-baseline"
@@ -20,10 +15,7 @@ const ToggleButton = ({
     aria-expanded={isExpanded ? "true" : "false"}
     onClick={handleClick}
   >
-    <FontAwesomeIcon
-      className="toggle-icon"
-      icon={isExpanded ? faAngleDown : faAngleRight}
-    />
+    <FontAwesomeIcon className="toggle-icon" icon={isExpanded ? faAngleDown : faAngleRight} />
   </button>
 )
 

@@ -20,9 +20,7 @@ describe("getLookupResult()", () => {
   })
   describe("Sinopia lookup", () => {
     it("returns result", async () => {
-      const authorityConfig = findAuthorityConfig(
-        "urn:ld4p:sinopia:bibframe:work"
-      )
+      const authorityConfig = findAuthorityConfig("urn:ld4p:sinopia:bibframe:work")
       const result = await getLookupResult("foo", authorityConfig, 10)
       expect(result).toEqual({
         totalHits: 1,
@@ -31,9 +29,7 @@ describe("getLookupResult()", () => {
             context: [
               {
                 property: "ID",
-                values: [
-                  "http://localhost:3000/resource/d336dee4-65e3-457f-9215-740531104681",
-                ],
+                values: ["http://localhost:3000/resource/d336dee4-65e3-457f-9215-740531104681"],
               },
               {
                 property: "Class",
@@ -56,11 +52,7 @@ describe("getLookupResult()", () => {
         error: undefined,
         ...authorityConfig,
       })
-      expect(sinopiaSearch.getLookupResult).toHaveBeenCalledWith(
-        "foo",
-        authorityConfig,
-        { startOfRange: 10 }
-      )
+      expect(sinopiaSearch.getLookupResult).toHaveBeenCalledWith("foo", authorityConfig, { startOfRange: 10 })
     })
   })
 
@@ -105,11 +97,7 @@ describe("getLookupResult()", () => {
         error: undefined,
         authorityConfig,
       })
-      expect(qaSearch.createLookupPromise).toHaveBeenCalledWith(
-        "corn",
-        authorityConfig,
-        { startOfRange: 5 }
-      )
+      expect(qaSearch.createLookupPromise).toHaveBeenCalledWith("corn", authorityConfig, { startOfRange: 5 })
     })
   })
   describe("QA lookup with bad total_records", () => {
@@ -153,11 +141,7 @@ describe("getLookupResult()", () => {
         error: undefined,
         authorityConfig,
       })
-      expect(qaSearch.createLookupPromise).toHaveBeenCalledWith(
-        "corn",
-        authorityConfig,
-        { startOfRange: 5 }
-      )
+      expect(qaSearch.createLookupPromise).toHaveBeenCalledWith("corn", authorityConfig, { startOfRange: 5 })
     })
   })
 })

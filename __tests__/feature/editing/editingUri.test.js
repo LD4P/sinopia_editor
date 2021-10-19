@@ -19,36 +19,26 @@ describe("editing a URI property", () => {
     })
     fireEvent.keyDown(uriInput, { key: "Enter", code: 13, charCode: 13 })
 
-    const labelInput = screen.getByPlaceholderText(
-      "Label for Uber template1, property5"
-    )
+    const labelInput = screen.getByPlaceholderText("Label for Uber template1, property5")
     fireEvent.change(labelInput, {
       target: { value: "Wittgenstein, Ludwig, 1889-1951" },
     })
     fireEvent.keyDown(labelInput, { key: "Enter", code: 13, charCode: 13 })
 
     // There is uri text.
-    expect(
-      screen.getByText("http://id.loc.gov/authorities/names/n79032058")
-    ).toHaveClass("form-control")
-    expect(screen.getByText("Wittgenstein, Ludwig, 1889-1951")).toHaveClass(
-      "form-control"
-    )
+    expect(screen.getByText("http://id.loc.gov/authorities/names/n79032058")).toHaveClass("form-control")
+    expect(screen.getByText("Wittgenstein, Ludwig, 1889-1951")).toHaveClass("form-control")
 
     // There is a link out
     screen.getByTestId("Link to http://id.loc.gov/authorities/names/n79032058")
 
     // There is no add another
-    expect(
-      screen.queryByTestId("Add another Uber template1, property5")
-    ).not.toBeInTheDocument()
+    expect(screen.queryByTestId("Add another Uber template1, property5")).not.toBeInTheDocument()
 
     // There is remove button
     screen.getByTestId("Remove http://id.loc.gov/authorities/names/n79032058")
     // There is language button.
-    expect(
-      screen.getByTestId("Change language for Wittgenstein, Ludwig, 1889-1951")
-    ).toHaveTextContent("English")
+    expect(screen.getByTestId("Change language for Wittgenstein, Ludwig, 1889-1951")).toHaveTextContent("English")
   })
 
   it("allows entering a non-HTTP URI", async () => {
@@ -80,9 +70,7 @@ describe("editing a URI property", () => {
     fireEvent.keyPress(input, { key: "Enter", code: 13, charCode: 13 })
 
     // Add another
-    fireEvent.click(
-      screen.queryByTestId("Add another Uber template1, property6")
-    )
+    fireEvent.click(screen.queryByTestId("Add another Uber template1, property6"))
     const inputs = screen.getAllByPlaceholderText("Uber template1, property6")
     expect(inputs).toHaveLength(2)
 
@@ -93,16 +81,12 @@ describe("editing a URI property", () => {
     fireEvent.keyPress(input2, { key: "Enter", code: 13, charCode: 13 })
 
     // There is first uri.
-    expect(
-      screen.getByText("http://id.loc.gov/authorities/names/n79032058")
-    ).toHaveClass("form-control")
+    expect(screen.getByText("http://id.loc.gov/authorities/names/n79032058")).toHaveClass("form-control")
     // There is remove button
     screen.getByTestId("Remove http://id.loc.gov/authorities/names/n79032058")
 
     // And second uri.
-    expect(
-      screen.getByText("http://id.loc.gov/authorities/names/n79056054")
-    ).toHaveClass("form-control")
+    expect(screen.getByText("http://id.loc.gov/authorities/names/n79056054")).toHaveClass("form-control")
     // There is remove button
     screen.getByTestId("Remove http://id.loc.gov/authorities/names/n79056054")
   })
@@ -120,9 +104,7 @@ describe("editing a URI property", () => {
     fireEvent.keyDown(uriInput, { key: "Enter", code: 13, charCode: 13 })
 
     // Add a label
-    const labelInput = screen.getByPlaceholderText(
-      "Label for Uber template1, property5"
-    )
+    const labelInput = screen.getByPlaceholderText("Label for Uber template1, property5")
     // Yeah, these fireEvent's seem odd but they produce the desired effect.
     fireEvent.change(labelInput, { target: { value: "Fo" } })
     fireEvent.keyDown(labelInput, { key: "F", code: "KeyF", charCode: 70 })
@@ -168,16 +150,12 @@ describe("editing a URI property", () => {
     fireEvent.keyDown(uriInput, { key: "Enter", code: 13, charCode: 13 })
 
     // Add a label
-    const labelInput = screen.getByPlaceholderText(
-      "Label for Uber template1, property5"
-    )
+    const labelInput = screen.getByPlaceholderText("Label for Uber template1, property5")
     fireEvent.change(labelInput, { target: { value: "foo" } })
     fireEvent.keyDown(labelInput, { key: "Enter", code: 13, charCode: 13 })
 
     // There is foo text.
-    await waitFor(() =>
-      expect(screen.getByText("foo")).toHaveClass("form-control")
-    )
+    await waitFor(() => expect(screen.getByText("foo")).toHaveClass("form-control"))
     // There is language button.
     const langBtn = screen.getByTestId("Change language for foo")
     expect(langBtn).toHaveTextContent("English")
@@ -190,16 +168,10 @@ describe("editing a URI property", () => {
 
     fireEvent.click(langInput)
     fireEvent.change(langInput, { target: { value: "Tai languages" } })
-    fireEvent.click(
-      screen.getByText("Tai languages", { selector: ".rbt-highlight-text" })
-    )
+    fireEvent.click(screen.getByText("Tai languages", { selector: ".rbt-highlight-text" }))
     fireEvent.click(screen.getByRole("button", { name: "Submit" }))
 
-    await waitFor(() =>
-      expect(
-        screen.queryAllByRole("heading", { name: "Languages" }).length
-      ).toBeFalsy()
-    )
+    await waitFor(() => expect(screen.queryAllByRole("heading", { name: "Languages" }).length).toBeFalsy())
     expect(langBtn).toHaveTextContent("Tai languages")
   }, 25000)
 
@@ -235,9 +207,7 @@ describe("editing a URI property", () => {
     fireEvent.click(saveBtn)
 
     expect(
-      await screen.findByTestId(
-        "Label errors for http://id.loc.gov/authorities/names/n79032058"
-      )
+      await screen.findByTestId("Label errors for http://id.loc.gov/authorities/names/n79032058")
     ).toHaveTextContent("Label required")
   })
 
@@ -247,9 +217,7 @@ describe("editing a URI property", () => {
     await screen.findByText("Uber template1", { selector: "h3" })
 
     // Add a label
-    const labelInput = screen.getByPlaceholderText(
-      "Label for Uber template1, property5"
-    )
+    const labelInput = screen.getByPlaceholderText("Label for Uber template1, property5")
     fireEvent.change(labelInput, {
       target: { value: "Wittgenstein, Ludwig, 1889-1951" },
     })
@@ -258,10 +226,8 @@ describe("editing a URI property", () => {
     const saveBtn = screen.getAllByText("Save", { selector: "button" })[0] // there are multiple save buttons, grab the first
     fireEvent.click(saveBtn)
 
-    expect(
-      await screen.findByTestId(
-        "URI errors for Wittgenstein, Ludwig, 1889-1951"
-      )
-    ).toHaveTextContent("URI required")
+    expect(await screen.findByTestId("URI errors for Wittgenstein, Ludwig, 1889-1951")).toHaveTextContent(
+      "URI required"
+    )
   })
 })

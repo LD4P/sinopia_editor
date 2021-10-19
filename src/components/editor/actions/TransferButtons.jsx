@@ -13,9 +13,7 @@ import _ from "lodash"
 const TransferButtons = ({ resourceKey }) => {
   const dispatch = useDispatch()
   const resource = useSelector((state) => selectNormSubject(state, resourceKey))
-  const subjectTemplate = useSelector((state) =>
-    selectSubjectTemplate(state, resource?.subjectTemplateKey)
-  )
+  const subjectTemplate = useSelector((state) => selectSubjectTemplate(state, resource?.subjectTemplateKey))
   const userGroups = useSelector((state) => selectGroups(state))
 
   const transferTargets = useMemo(() => {
@@ -32,18 +30,13 @@ const TransferButtons = ({ resourceKey }) => {
   if (!resource?.uri) return null
 
   // Resource must be a bf:Instance
-  if (
-    subjectTemplate?.class !== "http://id.loc.gov/ontologies/bibframe/Instance"
-  )
-    return null
+  if (subjectTemplate?.class !== "http://id.loc.gov/ontologies/bibframe/Instance") return null
 
   // Must be targets
   if (_.isEmpty(transferTargets)) return null
 
   const handleClick = (event, group, target) => {
-    dispatch(
-      transfer(resource.uri, group, target, resourceEditWarningKey(resourceKey))
-    )
+    dispatch(transfer(resource.uri, group, target, resourceEditWarningKey(resourceKey)))
     event.preventDefault()
   }
 

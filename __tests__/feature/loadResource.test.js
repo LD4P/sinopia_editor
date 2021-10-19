@@ -16,11 +16,8 @@ describe("loading saved resource", () => {
 
   describe("when RDF", () => {
     it("opens the resource", async () => {
-      const uri =
-        "http://localhost:3000/resource/c7db5404-7d7d-40ac-b38e-c821d2c3ae3f"
-      sinopiaSearch.getSearchResultsWithFacets.mockResolvedValue(
-        resourceSearchResults(uri)
-      )
+      const uri = "http://localhost:3000/resource/c7db5404-7d7d-40ac-b38e-c821d2c3ae3f"
+      sinopiaSearch.getSearchResultsWithFacets.mockResolvedValue(resourceSearchResults(uri))
 
       renderApp()
 
@@ -59,13 +56,9 @@ describe("loading saved resource", () => {
       // Show input components
       screen.getByTestId("Hide Uber template3, property1")
       screen.getByTestId("Hide Uber template3, property2")
-      expect(
-        screen.getAllByTestId("Hide Uber template2, property1")
-      ).toHaveLength(2)
+      expect(screen.getAllByTestId("Hide Uber template2, property1")).toHaveLength(2)
       screen.getByPlaceholderText("Uber template3, property1")
-      expect(
-        screen.getAllByPlaceholderText("Uber template3, property2")
-      ).toHaveLength(2)
+      expect(screen.getAllByPlaceholderText("Uber template3, property2")).toHaveLength(2)
       screen.getByPlaceholderText("Uber template1, property2")
 
       // confirm that the input field has an accessible label
@@ -81,11 +74,8 @@ describe("loading saved resource", () => {
 
   describe("when invalid resource template", () => {
     it("displays error", async () => {
-      const uri =
-        "http://localhost:3000/resource/c7db5404-7d7d-40ac-b38e-c821d2c3ae3f-invalid"
-      sinopiaSearch.getSearchResultsWithFacets.mockResolvedValue(
-        resourceSearchResults(uri)
-      )
+      const uri = "http://localhost:3000/resource/c7db5404-7d7d-40ac-b38e-c821d2c3ae3f-invalid"
+      sinopiaSearch.getSearchResultsWithFacets.mockResolvedValue(resourceSearchResults(uri))
 
       renderApp()
 

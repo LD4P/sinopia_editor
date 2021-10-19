@@ -12,9 +12,7 @@ import { selectSearchQuery } from "selectors/search"
 
 const HeaderSearch = () => {
   const [uri, setUri] = useState(sinopiaSearchUri)
-  const lastQueryString = useSelector((state) =>
-    selectSearchQuery(state, "resource")
-  )
+  const lastQueryString = useSelector((state) => selectSearchQuery(state, "resource"))
   const [query, setQuery] = useState("")
   const popoverRef = useRef()
   const { fetchNewSearchResults } = useSearch()
@@ -32,7 +30,9 @@ const HeaderSearch = () => {
   useEffect(() => {
     const popover = new Popover(popoverRef.current, {
       content:
-        'Sinopia search: use * as wildcard; default operator for multiple terms is AND; use | (pipe) as OR operator; use quotation marks for exact match. For more details see <a href="https://github.com/LD4P/sinopia/wiki/Searching-in-Sinopia">Searching in Sinopia</a>',
+        "Sinopia search: use * as wildcard; default operator for multiple terms is AND; use | (pipe) as OR operator; " +
+        "use quotation marks for exact match. For more details see " +
+        '<a href="https://github.com/LD4P/sinopia/wiki/Searching-in-Sinopia">Searching in Sinopia</a>',
       html: true,
     })
 
@@ -80,13 +80,7 @@ const HeaderSearch = () => {
         >
           <FontAwesomeIcon className="info-icon" icon={faInfoCircle} />
         </a>
-        <select
-          className="form-select"
-          id="searchType"
-          value={uri}
-          onChange={handleUriChange}
-          onBlur={handleUriChange}
-        >
+        <select className="form-select" id="searchType" value={uri} onChange={handleUriChange} onBlur={handleUriChange}>
           <option value={sinopiaSearchUri}>Sinopia</option>
           {options}
         </select>

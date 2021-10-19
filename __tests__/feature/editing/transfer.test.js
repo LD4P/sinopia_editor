@@ -6,11 +6,9 @@ import * as sinopiaApi from "sinopiaApi"
 
 featureSetup()
 
-const bfUri =
-  "http://localhost:3000/resource/9c5bd9f5-1804-45bd-99ed-b6e3774c896e"
+const bfUri = "http://localhost:3000/resource/9c5bd9f5-1804-45bd-99ed-b6e3774c896e"
 
-const nonBfUri =
-  "http://localhost:3000/resource/c7db5404-7d7d-40ac-b38e-c821d2c3ae3f"
+const nonBfUri = "http://localhost:3000/resource/c7db5404-7d7d-40ac-b38e-c821d2c3ae3f"
 
 jest.spyOn(sinopiaApi, "postTransfer").mockResolvedValue()
 

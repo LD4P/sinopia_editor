@@ -11,15 +11,9 @@ import useLeftNav from "hooks/useLeftNav"
 import _ from "lodash"
 
 const ActivePanelPropertyNav = (props) => {
-  const property = useSelector((state) =>
-    selectNormProperty(state, props.propertyKey)
-  )
-  const values = useSelector((state) =>
-    selectNormValues(state, property.valueKeys)
-  )
-  const propertyTemplate = useSelector((state) =>
-    selectPropertyTemplate(state, property?.propertyTemplateKey)
-  )
+  const property = useSelector((state) => selectNormProperty(state, props.propertyKey))
+  const values = useSelector((state) => selectNormValues(state, property.valueKeys))
+  const propertyTemplate = useSelector((state) => selectPropertyTemplate(state, property?.propertyTemplateKey))
 
   const { handleNavClick, handleToggleClick, isExpanded } = useLeftNav(property)
 
@@ -28,9 +22,7 @@ const ActivePanelPropertyNav = (props) => {
   if (props.isTemplate) liClassNames.push("template")
 
   const hasError = !_.isEmpty(property.descWithErrorPropertyKeys)
-  const displayValidations = useSelector((state) =>
-    displayResourceValidations(state, property?.rootSubjectKey)
-  )
+  const displayValidations = useSelector((state) => displayResourceValidations(state, property?.rootSubjectKey))
   const headingClassNames = ["left-nav-header"]
   if (displayValidations && hasError) headingClassNames.push("text-danger")
 
@@ -39,10 +31,7 @@ const ActivePanelPropertyNav = (props) => {
   let subNavForProperty
   if (!_.isEmpty(values) && propertyTemplate.type === "resource") {
     const subNavItems = values.map((value) => (
-      <SubjectSubNav
-        key={value.valueSubjectKey}
-        subjectKey={value.valueSubjectKey}
-      />
+      <SubjectSubNav key={value.valueSubjectKey} subjectKey={value.valueSubjectKey} />
     ))
     subNavForProperty = <ul>{subNavItems}</ul>
   }
@@ -58,11 +47,7 @@ const ActivePanelPropertyNav = (props) => {
   return (
     <li className={liClassNames.join(" ")}>
       {subNavForProperty && (
-        <ToggleButton
-          handleClick={handleToggleClick}
-          isExpanded={isExpanded}
-          label={toggleLabel}
-        />
+        <ToggleButton handleClick={handleToggleClick} isExpanded={isExpanded} label={toggleLabel} />
       )}
       <button
         type="button"
@@ -71,9 +56,7 @@ const ActivePanelPropertyNav = (props) => {
         data-testid={`Go to ${propertyTemplate.label}`}
         onClick={handleNavClick}
       >
-        <h5 className={headingClassNames.join(" ")}>
-          {propertyTemplate.label}
-        </h5>
+        <h5 className={headingClassNames.join(" ")}>{propertyTemplate.label}</h5>
         <PresenceIndicator valueKeys={property.descUriOrLiteralValueKeys} />
       </button>
       {isExpanded && subNavForProperty}

@@ -11,9 +11,7 @@ describe("<SinopiaSearchResults />", () => {
     const { container } = renderComponent(<SinopiaSearchResults />)
 
     it("does not contain the main div", () => {
-      expect(
-        container.querySelector("div#search-results")
-      ).not.toBeInTheDocument()
+      expect(container.querySelector("div#search-results")).not.toBeInTheDocument()
       expect(screen.queryByText("Filter by class")).not.toBeInTheDocument()
     })
   })
@@ -52,9 +50,7 @@ describe("<SinopiaSearchResults />", () => {
       const { container } = renderComponent(<SinopiaSearchResults />, store)
 
       expect(container.querySelector("div#search-results")).toBeInTheDocument()
-      expect(
-        container.querySelector("table#search-results-list")
-      ).toBeInTheDocument()
+      expect(container.querySelector("table#search-results-list")).toBeInTheDocument()
 
       // Search table headers
       screen.queryByText("Label / ID")

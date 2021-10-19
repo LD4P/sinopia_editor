@@ -1,15 +1,7 @@
 import _ from "lodash"
-import {
-  resourceEditErrorKey,
-  resourceEditWarningKey,
-} from "components/editor/Editor"
+import { resourceEditErrorKey, resourceEditWarningKey } from "components/editor/Editor"
 import { emptyValue } from "utilities/Utilities"
-import {
-  newBlankLiteralValue,
-  newBlankUriValue,
-  newBlankLookupValue,
-  newBlankListValue,
-} from "utilities/valueFactory"
+import { newBlankLiteralValue, newBlankUriValue, newBlankLookupValue, newBlankListValue } from "utilities/valueFactory"
 import {
   mergeSubjectPropsToNewState,
   mergePropertyPropsToNewState,
@@ -34,23 +26,18 @@ export const setBaseURL = (state, action) =>
     uri: action.payload.resourceURI,
   })
 
-export const showProperty = (state, action) =>
-  mergePropertyPropsToNewState(state, action.payload, { show: true })
+export const showProperty = (state, action) => mergePropertyPropsToNewState(state, action.payload, { show: true })
 
-export const hideProperty = (state, action) =>
-  mergePropertyPropsToNewState(state, action.payload, { show: false })
+export const hideProperty = (state, action) => mergePropertyPropsToNewState(state, action.payload, { show: false })
 
-export const showNavProperty = (state, action) =>
-  mergePropertyPropsToNewState(state, action.payload, { showNav: true })
+export const showNavProperty = (state, action) => mergePropertyPropsToNewState(state, action.payload, { showNav: true })
 
 export const hideNavProperty = (state, action) =>
   mergePropertyPropsToNewState(state, action.payload, { showNav: false })
 
-export const showNavSubject = (state, action) =>
-  mergeSubjectPropsToNewState(state, action.payload, { showNav: true })
+export const showNavSubject = (state, action) => mergeSubjectPropsToNewState(state, action.payload, { showNav: true })
 
-export const hideNavSubject = (state, action) =>
-  mergeSubjectPropsToNewState(state, action.payload, { showNav: false })
+export const hideNavSubject = (state, action) => mergeSubjectPropsToNewState(state, action.payload, { showNav: false })
 
 export const loadResourceFinished = (state, action) => {
   let numDefaults = 0
@@ -69,8 +56,7 @@ export const saveResourceFinishedEditor = (state, action) => ({
   },
 })
 
-export const saveResourceFinished = (state, action) =>
-  setSubjectChanged(state, action.payload.resourceKey, false)
+export const saveResourceFinished = (state, action) => setSubjectChanged(state, action.payload.resourceKey, false)
 
 export const setUnusedRDF = (state, action) => ({
   ...state,
@@ -106,8 +92,7 @@ export const setCurrentPreviewResource = (state, action) => {
   return newState
 }
 
-export const addSubject = (state, action) =>
-  addSubjectToNewState(state, action.payload)
+export const addSubject = (state, action) => addSubjectToNewState(state, action.payload)
 
 const addSubjectToNewState = (state, subject, valueSubjectOfKey) => {
   const newSubject = { ...subject }
@@ -134,12 +119,8 @@ const addSubjectToNewState = (state, subject, valueSubjectOfKey) => {
     const parentValueSubject = state.values[valueSubjectOfKey]
     newSubject.rootSubjectKey = parentValueSubject.rootSubjectKey
     newSubject.rootPropertyKey = parentValueSubject.rootPropertyKey
-    const parentValueSubjectProperty =
-      state.properties[parentValueSubject.propertyKey]
-    newSubject.labels = [
-      ...parentValueSubjectProperty.labels,
-      subjectTemplate.label,
-    ]
+    const parentValueSubjectProperty = state.properties[parentValueSubject.propertyKey]
+    newSubject.labels = [...parentValueSubjectProperty.labels, subjectTemplate.label]
   } else {
     newSubject.rootSubjectKey = newSubject.key
     newSubject.rootPropertyKey = null
@@ -150,8 +131,7 @@ const addSubjectToNewState = (state, subject, valueSubjectOfKey) => {
   if (newSubject.rootSubjectKey === newSubject.key) {
     if (_.isUndefined(newSubject.group)) newSubject.group = null
     if (_.isUndefined(newSubject.editGroups)) newSubject.editGroups = []
-    if (_.isUndefined(newSubject.bfAdminMetadataRefs))
-      newSubject.bfAdminMetadataRefs = []
+    if (_.isUndefined(newSubject.bfAdminMetadataRefs)) newSubject.bfAdminMetadataRefs = []
     if (_.isUndefined(newSubject.bfItemRefs)) newSubject.bfItemRefs = []
     if (_.isUndefined(newSubject.bfInstanceRefs)) newSubject.bfInstanceRefs = []
     if (_.isUndefined(newSubject.bfWorkRefs)) newSubject.bfWorkRefs = []
@@ -168,23 +148,17 @@ const addSubjectToNewState = (state, subject, valueSubjectOfKey) => {
 
   // Remove existing properties
   const oldPropertyKeys = oldSubject?.propertyKeys || []
-  oldPropertyKeys.forEach(
-    (propertyKey) =>
-      (newState = clearPropertyFromNewState(newState, propertyKey))
-  )
+  oldPropertyKeys.forEach((propertyKey) => (newState = clearPropertyFromNewState(newState, propertyKey)))
 
   // Add new properties
   if (newProperties) {
-    newProperties.forEach(
-      (property) => (newState = addPropertyToNewState(newState, property))
-    )
+    newProperties.forEach((property) => (newState = addPropertyToNewState(newState, property)))
   }
 
   return newState
 }
 
-export const addProperty = (state, action) =>
-  addPropertyToNewState(state, action.payload)
+export const addProperty = (state, action) => addPropertyToNewState(state, action.payload)
 
 const addPropertyToNewState = (state, property) => {
   const newProperty = { ...property }
@@ -211,8 +185,7 @@ const addPropertyToNewState = (state, property) => {
   // Add root subject, property, and labels from subject
   const oldSubject = state.subjects[newProperty.subjectKey]
   newProperty.rootSubjectKey = oldSubject.rootSubjectKey
-  const propertyTemplate =
-    state.propertyTemplates[newProperty.propertyTemplateKey]
+  const propertyTemplate = state.propertyTemplates[newProperty.propertyTemplateKey]
   newProperty.labels = [...oldSubject.labels, propertyTemplate.label]
   // If subject does not have a root property, then this is a root property.
   newProperty.rootPropertyKey = oldSubject.rootPropertyKey || newProperty.key
@@ -233,19 +206,13 @@ const addPropertyToNewState = (state, property) => {
   // Remove existing values
   const oldValueKeys = oldProperty?.valueKeys || []
   oldValueKeys.forEach((valueKey) => {
-    newState = removeBibframeRefs(
-      newState,
-      newState.values[valueKey],
-      oldProperty
-    )
+    newState = removeBibframeRefs(newState, newState.values[valueKey], oldProperty)
     newState = clearValueFromNewState(newState, valueKey)
   })
 
   // Add new values
   if (newValues) {
-    newValues.forEach(
-      (value) => (newState = addValueToNewState(newState, value))
-    )
+    newValues.forEach((value) => (newState = addValueToNewState(newState, value)))
   }
   // Add a blank first value if necessary.
   newState = addFirstValue(newState, newProperty.key)
@@ -257,18 +224,9 @@ const addPropertyToNewState = (state, property) => {
 }
 
 export const addValue = (state, action) =>
-  addValueToNewState(
-    state,
-    action.payload.value,
-    action.payload.siblingValueKey
-  )
+  addValueToNewState(state, action.payload.value, action.payload.siblingValueKey)
 
-const addValueToNewState = (
-  state,
-  value,
-  siblingValueKey = null,
-  show = true
-) => {
+const addValueToNewState = (state, value, siblingValueKey = null, show = true) => {
   const newValue = { ...value }
   const oldValue = state.values[newValue.key]
 
@@ -343,14 +301,7 @@ const addValueToNewState = (
 }
 
 export const updateValue = (state, action) => {
-  const {
-    valueKey,
-    literal = null,
-    lang = null,
-    uri = null,
-    label = null,
-    component = null,
-  } = action.payload
+  const { valueKey, literal = null, lang = null, uri = null, label = null, component = null } = action.payload
 
   const oldValue = state.values[valueKey]
 
@@ -384,9 +335,7 @@ export const removeValue = (state, action) => {
 
   // Remove from property
   const property = { ...state.properties[value.propertyKey] }
-  const valueKeys = [...property.valueKeys].filter(
-    (valueKey) => valueKey !== value.key
-  )
+  const valueKeys = [...property.valueKeys].filter((valueKey) => valueKey !== value.key)
   let newState = mergePropertyPropsToNewState(state, property.key, {
     valueKeys,
   })
@@ -436,10 +385,7 @@ export const clearResourceFromEditor = (state, action) => {
   }
 
   const resourceIndex = state.resources.indexOf(resourceKey)
-  newState.resources = [
-    ...state.resources.slice(0, resourceIndex),
-    ...state.resources.slice(resourceIndex + 1),
-  ]
+  newState.resources = [...state.resources.slice(0, resourceIndex), ...state.resources.slice(resourceIndex + 1)]
 
   if (state.currentResource === resourceKey) {
     newState.currentResource = _.first(newState.resources) || null
@@ -453,8 +399,7 @@ export const clearResourceFromEditor = (state, action) => {
   return newState
 }
 
-export const clearResource = (state, action) =>
-  clearSubjectFromNewState(state, action.payload)
+export const clearResource = (state, action) => clearSubjectFromNewState(state, action.payload)
 
 export const setResourceGroup = (state, action) => {
   const props = {
@@ -471,14 +416,8 @@ export const setValueOrder = (state, action) => {
   const newProperty = { ...state.properties[value.propertyKey] }
 
   const index = action.payload.index
-  const filterValueKeys = newProperty.valueKeys.filter(
-    (key) => key !== valueKey
-  )
-  newProperty.valueKeys = [
-    ...filterValueKeys.slice(0, index - 1),
-    valueKey,
-    ...filterValueKeys.slice(index - 1),
-  ]
+  const filterValueKeys = newProperty.valueKeys.filter((key) => key !== valueKey)
+  newProperty.valueKeys = [...filterValueKeys.slice(0, index - 1), valueKey, ...filterValueKeys.slice(index - 1)]
 
   return replacePropertyInNewState(state, newProperty)
 }
@@ -486,38 +425,17 @@ export const setValueOrder = (state, action) => {
 const addFirstValue = (state, propertyKey) => {
   const property = state.properties[propertyKey]
   // If no values, add a value.
-  if (property.valueKeys === null || !_.isEmpty(property.valueKeys))
-    return state
+  if (property.valueKeys === null || !_.isEmpty(property.valueKeys)) return state
   const propertyTemplate = state.propertyTemplates[property.propertyTemplateKey]
   switch (propertyTemplate.component) {
     case "InputLiteral":
-      return addValueToNewState(
-        state,
-        newBlankLiteralValue(property),
-        null,
-        propertyTemplate.required
-      )
+      return addValueToNewState(state, newBlankLiteralValue(property), null, propertyTemplate.required)
     case "InputURI":
-      return addValueToNewState(
-        state,
-        newBlankUriValue(property),
-        null,
-        propertyTemplate.required
-      )
+      return addValueToNewState(state, newBlankUriValue(property), null, propertyTemplate.required)
     case "InputLookup":
-      return addValueToNewState(
-        state,
-        newBlankLookupValue(property),
-        null,
-        propertyTemplate.required
-      )
+      return addValueToNewState(state, newBlankLookupValue(property), null, propertyTemplate.required)
     case "InputList":
-      return addValueToNewState(
-        state,
-        newBlankListValue(property),
-        null,
-        propertyTemplate.required
-      )
+      return addValueToNewState(state, newBlankListValue(property), null, propertyTemplate.required)
     default:
       return state
   }

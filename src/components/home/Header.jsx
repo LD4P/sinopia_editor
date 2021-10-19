@@ -20,9 +20,7 @@ const Header = (props) => (
       {props.currentUser && (
         <React.Fragment>
           <li className="nav-item">
-            <span className="nav-link editor-header-user">
-              {props.currentUser.username}
-            </span>
+            <span className="nav-link editor-header-user">{props.currentUser.username}</span>
           </li>
           <div className="nav-link">•</div>
           <li className="nav-item">
@@ -34,22 +32,14 @@ const Header = (props) => (
       )}
       {props.currentUser && <div className="nav-link">•</div>}
       <li className="menu nav-item">
-        <a
-          href="#"
-          className="help-resources nav-link"
-          onClick={props.triggerHomePageMenu}
-        >
+        <a href="#" className="help-resources nav-link" onClick={props.triggerHomePageMenu}>
           Help
         </a>
       </li>
       {props.currentUser && <div className="nav-link">•</div>}
       {props.currentUser && (
         <li className="nav-item">
-          <a
-            href="#"
-            className="nav-link editor-header-logout"
-            onClick={() => props.signOut()}
-          >
+          <a href="#" className="nav-link editor-header-logout" onClick={() => props.signOut()}>
             Logout
           </a>
         </li>
@@ -68,7 +58,6 @@ const mapStateToProps = (state) => ({
   currentUser: selectUser(state),
 })
 
-const mapDispatchToProps = (dispatch) =>
-  bindActionCreators({ signOut }, dispatch)
+const mapDispatchToProps = (dispatch) => bindActionCreators({ signOut }, dispatch)
 
 export default connect(mapStateToProps, mapDispatchToProps)(Header)

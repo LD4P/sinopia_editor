@@ -6,9 +6,7 @@ import { selectSearchOptions, selectSearchQuery } from "selectors/search"
 
 const SinopiaSort = () => {
   const query = useSelector((state) => selectSearchQuery(state, "resource"))
-  const searchOptions = useSelector((state) =>
-    selectSearchOptions(state, "resource")
-  )
+  const searchOptions = useSelector((state) => selectSearchOptions(state, "resource"))
   const curSortField = searchOptions.sortField
   const curSortOrder = searchOptions.sortOrder
 
@@ -24,9 +22,7 @@ const SinopiaSort = () => {
     )
 
   const getClasses = (sortField, sortOrder) =>
-    curSortField === sortField && curSortOrder === sortOrder
-      ? "dropdown-item active"
-      : "dropdown-item"
+    curSortField === sortField && curSortOrder === sortOrder ? "dropdown-item active" : "dropdown-item"
 
   return (
     <div className="dropdown float-right">
@@ -40,10 +36,7 @@ const SinopiaSort = () => {
       >
         Sort by
       </button>
-      <div
-        className="dropdown-menu dropdown-menu-right"
-        aria-labelledby="sortDropdownButton"
-      >
+      <div className="dropdown-menu dropdown-menu-right" aria-labelledby="sortDropdownButton">
         <button
           type="button"
           className={getClasses("label", "asc")}

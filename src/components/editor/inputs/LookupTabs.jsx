@@ -7,9 +7,7 @@ import _ from "lodash"
 import { getLookupResult } from "utilities/Lookup"
 
 const LookupTabs = (props) => {
-  const [currentAuthorityUri, setCurrentAuthorityUri] = useState(
-    props.authorityConfigs[0].uri
-  )
+  const [currentAuthorityUri, setCurrentAuthorityUri] = useState(props.authorityConfigs[0].uri)
   const [, setTriggerRender] = useState("")
   // Using a ref so that can append to current list of results.
   const results = useRef({})
@@ -19,9 +17,7 @@ const LookupTabs = (props) => {
 
     // Clear the results.
     // No re-render, so change not visible to user.
-    props.authorityConfigs.forEach(
-      (authorityConfig) => delete results.current[authorityConfig.uri]
-    )
+    props.authorityConfigs.forEach((authorityConfig) => delete results.current[authorityConfig.uri])
 
     props.authorityConfigs.forEach((authorityConfig) => {
       getLookupResult(props.query, authorityConfig, 0).then((result) => {
@@ -38,14 +34,12 @@ const LookupTabs = (props) => {
     // No re-render, so change not visible to user.
     delete results.current[authorityConfig.uri]
 
-    getLookupResult(props.query, authorityConfig, newStartOfRange).then(
-      (result) => {
-        result.options = { startOfRange: newStartOfRange }
-        results.current[authorityConfig.uri] = result
-        // Changing state triggers re-render.
-        setTriggerRender(result)
-      }
-    )
+    getLookupResult(props.query, authorityConfig, newStartOfRange).then((result) => {
+      result.options = { startOfRange: newStartOfRange }
+      results.current[authorityConfig.uri] = result
+      // Changing state triggers re-render.
+      setTriggerRender(result)
+    })
   }
 
   const handleTabClick = (event, authorityUri) => {
@@ -56,19 +50,12 @@ const LookupTabs = (props) => {
   /* eslint-disable jsx-a11y/anchor-is-valid */
   const tabs = props.authorityConfigs.map((authorityConfig) => {
     const totalHits = results.current[authorityConfig.uri]?.totalHits
-    const title =
-      totalHits !== undefined
-        ? `${authorityConfig.label} (${totalHits})`
-        : authorityConfig.label
+    const title = totalHits !== undefined ? `${authorityConfig.label} (${totalHits})` : authorityConfig.label
     const tabClasses = ["nav-link"]
     if (currentAuthorityUri === authorityConfig.uri) tabClasses.push("active")
     return (
       <li className="nav-item" key={authorityConfig.uri}>
-        <a
-          className={tabClasses.join(" ")}
-          href="#"
-          onClick={(event) => handleTabClick(event, authorityConfig.uri)}
-        >
+        <a className={tabClasses.join(" ")} href="#" onClick={(event) => handleTabClick(event, authorityConfig.uri)}>
           {title}
         </a>
       </li>
@@ -76,9 +63,7 @@ const LookupTabs = (props) => {
   })
   /* eslint-enable jsx-a11y/anchor-is-valid */
 
-  const authorityConfig = props.authorityConfigs.find(
-    (authorityConfig) => authorityConfig.uri === currentAuthorityUri
-  )
+  const authorityConfig = props.authorityConfigs.find((authorityConfig) => authorityConfig.uri === currentAuthorityUri)
 
   return (
     <React.Fragment>

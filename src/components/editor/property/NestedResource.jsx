@@ -26,19 +26,11 @@ const NestedResource = (props) => {
         <section className="col-md-6">
           <h5>{props.subjectTemplate.label}</h5>
         </section>
-        <section className="col-md-6">
-          {!props.readOnly && (
-            <NestedResourceActionButtons value={props.value} />
-          )}
-        </section>
+        <section className="col-md-6">{!props.readOnly && <NestedResourceActionButtons value={props.value} />}</section>
       </div>
       <div>
         {props.valueSubject.propertyKeys.map((propertyKey) => (
-          <NestedProperty
-            key={propertyKey}
-            propertyKey={propertyKey}
-            readOnly={props.readOnly}
-          />
+          <NestedProperty key={propertyKey} propertyKey={propertyKey} readOnly={props.readOnly} />
         ))}
       </div>
     </div>
@@ -59,10 +51,7 @@ const mapStateToProps = (state, ourProps) => {
   return {
     value,
     valueSubject,
-    subjectTemplate: selectSubjectTemplate(
-      state,
-      valueSubject?.subjectTemplateKey
-    ),
+    subjectTemplate: selectSubjectTemplate(state, valueSubject?.subjectTemplateKey),
   }
 }
 

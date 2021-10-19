@@ -2,16 +2,12 @@
 
 import React, { Component } from "react"
 import PropTypes from "prop-types"
-import {
-  getContextValues,
-  getContextValue,
-} from "utilities/QuestioningAuthority"
+import { getContextValues, getContextValue } from "utilities/QuestioningAuthority"
 
 class RenderLookupContext extends Component {
   // Discogs specific functions
   renderContext = (innerResult, authURI) => {
-    if (authURI.startsWith("urn:discogs"))
-      return this.buildDiscogsContext(innerResult)
+    if (authURI.startsWith("urn:discogs")) return this.buildDiscogsContext(innerResult)
 
     return this.renderContextContent(innerResult, authURI)
   }
@@ -58,18 +54,11 @@ class RenderLookupContext extends Component {
       if (authURI in authorityToContextOrderMap) {
         contextContent = this.generateOrderedContextView(authURI, context)
       } else {
-        contextContent = this.generateDefaultContextView(
-          context,
-          mainLabelProperty
-        )
+        contextContent = this.generateDefaultContextView(context, mainLabelProperty)
       }
       return (
         <div className="context-container">
-          <div className="context-heading details-container">
-            {" "}
-            {innerResult.label}{" "}
-          </div>{" "}
-          {contextContent}
+          <div className="context-heading details-container"> {innerResult.label} </div> {contextContent}
         </div>
       )
     }
@@ -96,19 +85,12 @@ class RenderLookupContext extends Component {
 
   generateOrderedContextView = (authURI, context) => {
     // Map context to hash that allows for selection of specific properties
-    const contextHash = context.reduce(
-      (map, obj) => ((map[obj.property] = obj), map),
-      {}
-    )
+    const contextHash = context.reduce((map, obj) => ((map[obj.property] = obj), map), {})
     const propertyOrder = authorityToContextOrderMap[authURI]
     const contextContent = propertyOrder.map((property, index) => {
       if (property in contextHash) {
         const innerDivKey = `c${index}`
-        return this.displayValues(
-          contextHash[property].values,
-          innerDivKey,
-          property
-        )
+        return this.displayValues(contextHash[property].values, innerDivKey, property)
       }
     })
     return contextContent

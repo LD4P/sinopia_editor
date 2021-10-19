@@ -5,10 +5,7 @@ import {
   addResourceHistoryByResult,
   addResourceHistory as addResourceHistoryAction,
 } from "actions/history"
-import {
-  getTemplateSearchResultsByIds,
-  getSearchResultsByUris,
-} from "sinopiaSearch"
+import { getTemplateSearchResultsByIds, getSearchResultsByUris } from "sinopiaSearch"
 import _ from "lodash"
 import { findAuthorityConfig } from "utilities/authorityConfig"
 
@@ -39,9 +36,7 @@ export const loadSearchHistory = (searches) => (dispatch) => {
     const authorityConfig = findAuthorityConfig(search.authorityUri)
     if (!authorityConfig) return
 
-    dispatch(
-      addSearchHistory(search.authorityUri, authorityConfig.label, search.query)
-    )
+    dispatch(addSearchHistory(search.authorityUri, authorityConfig.label, search.query))
   })
 }
 
@@ -66,27 +61,19 @@ export const loadResourceHistory = (resourceUris) => (dispatch) => {
     .catch((err) => console.error(err))
 }
 
-export const addResourceHistory =
-  (resourceUri, type, group, modified) => (dispatch) => {
-    // Try to find it by search. If not available, just use the resource.
-    getSearchResultsByUris([resourceUri])
-      .then((response) => {
-        if (response.error) {
-          console.error(response.error)
-          return
-        }
-        if (response.results.length !== 1) {
-          dispatch(
-            addResourceHistoryAction(
-              resourceUri,
-              type,
-              group,
-              modified || new Date().toISOString()
-            )
-          )
-        } else {
-          dispatch(addResourceHistoryByResult(response.results[0]))
-        }
-      })
-      .catch((err) => console.error(err))
-  }
+export const addResourceHistory = (resourceUri, type, group, modified) => (dispatch) => {
+  // Try to find it by search. If not available, just use the resource.
+  getSearchResultsByUris([resourceUri])
+    .then((response) => {
+      if (response.error) {
+        console.error(response.error)
+        return
+      }
+      if (response.results.length !== 1) {
+        dispatch(addResourceHistoryAction(resourceUri, type, group, modified || new Date().toISOString()))
+      } else {
+        dispatch(addResourceHistoryByResult(response.results[0]))
+      }
+    })
+    .catch((err) => console.error(err))
+}

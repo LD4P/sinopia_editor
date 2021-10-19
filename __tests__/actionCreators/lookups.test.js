@@ -73,9 +73,7 @@ const carriers = [
 
 describe("fetchLookup", () => {
   it("fetches the lookup, transforms it, and adds to state", async () => {
-    global.fetch = jest
-      .fn()
-      .mockImplementation(() => Promise.resolve({ json: () => carriers }))
+    global.fetch = jest.fn().mockImplementation(() => Promise.resolve({ json: () => carriers }))
 
     const store = mockStore(createState())
     await store.dispatch(fetchLookup(uri))
@@ -102,9 +100,7 @@ describe("fetchLookup", () => {
   })
 
   it("handles fetch error and adds to state", async () => {
-    global.fetch = jest
-      .fn()
-      .mockImplementation(() => Promise.reject(new Error("fail")))
+    global.fetch = jest.fn().mockImplementation(() => Promise.reject(new Error("fail")))
 
     const store = mockStore(createState())
     await store.dispatch(fetchLookup(uri))

@@ -48,8 +48,7 @@ const mockStore = configureMockStore([thunk])
 // This removes circular references.
 const safeAction = (action) => JSON.parse(JSON.safeStringify(action))
 
-const uri =
-  "http://localhost:3000/resource/c7db5404-7d7d-40ac-b38e-c821d2c3ae3f"
+const uri = "http://localhost:3000/resource/c7db5404-7d7d-40ac-b38e-c821d2c3ae3f"
 const resourceTemplateId = "resourceTemplate:testing:uber1"
 
 const n3 = `<> <http://id.loc.gov/ontologies/bibframe/uber/template1/property1> _:b2_c14n0 .
@@ -92,18 +91,14 @@ describe("newResourceFromDataset", () => {
 
     it("dispatches actions", async () => {
       const dataset = await datasetFromN3(n3.replace(/<>/g, `<${uri}>`))
-      const result = await store.dispatch(
-        newResourceFromDataset(dataset, uri, null, "testerrorkey")
-      )
+      const result = await store.dispatch(newResourceFromDataset(dataset, uri, null, "testerrorkey"))
       expect(result).toBe(true)
 
       const actions = store.getActions()
       // ADD_TEMPLATES is dispatched numerous times since mock store doesn't update state.
       expect(actions).toHaveAction("ADD_TEMPLATES")
 
-      const addSubjectAction = actions.find(
-        (action) => action.type === "ADD_SUBJECT"
-      )
+      const addSubjectAction = actions.find((action) => action.type === "ADD_SUBJECT")
       expect(addSubjectAction).not.toBeNull()
       // safeStringify is used because it removes circular references
       expect(safeAction(addSubjectAction)).toEqual(expectedAddResourceAction)
@@ -112,9 +107,7 @@ describe("newResourceFromDataset", () => {
       expect(addSubjectAction.payload.uri).toBe(uri)
 
       // As a bonus check, roundtrip to RDF.
-      const actualRdf = new GraphBuilder(
-        addSubjectAction.payload
-      ).graph.toCanonical()
+      const actualRdf = new GraphBuilder(addSubjectAction.payload).graph.toCanonical()
       const expectedGraph = await datasetFromN3(n3.replace(/<>/g, `<${uri}>`))
       const expectedRdf = expectedGraph.toCanonical()
       expect(actualRdf).toMatch(expectedRdf)
@@ -156,18 +149,14 @@ describe("newResourceFromDataset", () => {
 
     it("dispatches actions", async () => {
       const dataset = await datasetFromN3(n3.replace(/<>/g, `<${uri}>`))
-      const result = await store.dispatch(
-        newResourceFromDataset(dataset, uri, null, "testerrorkey")
-      )
+      const result = await store.dispatch(newResourceFromDataset(dataset, uri, null, "testerrorkey"))
       expect(result).toBe(true)
 
       const actions = store.getActions()
       // ADD_TEMPLATES is dispatched numerous times since mock store doesn't update state.
       expect(actions).toHaveAction("ADD_TEMPLATES")
 
-      const addSubjectAction = actions.find(
-        (action) => action.type === "ADD_SUBJECT"
-      )
+      const addSubjectAction = actions.find((action) => action.type === "ADD_SUBJECT")
       expect(addSubjectAction).not.toBeNull()
       // safeStringify is used because it removes circular references
       expect(safeAction(addSubjectAction)).toEqual(expectedAddResourceAction)
@@ -176,9 +165,7 @@ describe("newResourceFromDataset", () => {
       expect(addSubjectAction.payload.uri).toBe(uri)
 
       // Roundtripped RDF should NOT match.
-      const actualRdf = new GraphBuilder(
-        addSubjectAction.payload
-      ).graph.toCanonical()
+      const actualRdf = new GraphBuilder(addSubjectAction.payload).graph.toCanonical()
       const expectedGraph = await datasetFromN3(n3.replace(/<>/g, `<${uri}>`))
       const expectedRdf = expectedGraph.toCanonical()
       expect(actualRdf).not.toMatch(expectedRdf)
@@ -198,16 +185,12 @@ describe("newResourceFromDataset", () => {
 
     it("dispatches actions", async () => {
       const dataset = await datasetFromN3(n3)
-      const result = await store.dispatch(
-        newResourceFromDataset(dataset, uri, null, "testerrorkey")
-      )
+      const result = await store.dispatch(newResourceFromDataset(dataset, uri, null, "testerrorkey"))
       expect(result).toBe(true)
 
       const actions = store.getActions()
 
-      const addSubjectAction = actions.find(
-        (action) => action.type === "ADD_SUBJECT"
-      )
+      const addSubjectAction = actions.find((action) => action.type === "ADD_SUBJECT")
       expect(safeAction(addSubjectAction)).toEqual(expectedAddResourceAction)
     })
   })
@@ -220,16 +203,12 @@ describe("newResourceFromDataset", () => {
 <x> <http://id.loc.gov/ontologies/bibframe/uber/template1/property6> <ubertemplate1:property6> .
 `
       const dataset = await datasetFromN3(n3 + extraRdf)
-      const result = await store.dispatch(
-        newResourceFromDataset(dataset, uri, null, "testerrorkey")
-      )
+      const result = await store.dispatch(newResourceFromDataset(dataset, uri, null, "testerrorkey"))
       expect(result).toBe(true)
 
       const actions = store.getActions()
 
-      const addSubjectAction = actions.find(
-        (action) => action.type === "ADD_SUBJECT"
-      )
+      const addSubjectAction = actions.find((action) => action.type === "ADD_SUBJECT")
       expect(safeAction(addSubjectAction)).toEqual(expectedAddResourceAction)
 
       expect(actions).toHaveAction("SET_UNUSED_RDF", {
@@ -246,16 +225,12 @@ describe("newResourceFromDataset", () => {
       const extraRdf = `<ubertemplate1:property5> <http://www.w3.org/2000/01/rdf-schema#label> "http://sinopia.io/ubertemplate1:property5" .
 `
       const dataset = await datasetFromN3(n3 + extraRdf)
-      const result = await store.dispatch(
-        newResourceFromDataset(dataset, uri, null, "testerrorkey")
-      )
+      const result = await store.dispatch(newResourceFromDataset(dataset, uri, null, "testerrorkey"))
       expect(result).toBe(true)
 
       const actions = store.getActions()
 
-      const addSubjectAction = actions.find(
-        (action) => action.type === "ADD_SUBJECT"
-      )
+      const addSubjectAction = actions.find((action) => action.type === "ADD_SUBJECT")
       expect(safeAction(addSubjectAction)).toEqual(expectedAddResourceAction)
 
       expect(actions).toHaveAction("SET_UNUSED_RDF", {
@@ -277,16 +252,12 @@ _:b2 a <http://id.loc.gov/ontologies/bibframe/Uber4>;
     <http://id.loc.gov/ontologies/bibframe/uber/template4/property1> "bar"@eng.
 `
       const dataset = await datasetFromN3(n3 + extraRdf)
-      const result = await store.dispatch(
-        newResourceFromDataset(dataset, uri, null, "testerrorkey")
-      )
+      const result = await store.dispatch(newResourceFromDataset(dataset, uri, null, "testerrorkey"))
       expect(result).toBe(true)
 
       const actions = store.getActions()
 
-      const addSubjectAction = actions.find(
-        (action) => action.type === "ADD_SUBJECT"
-      )
+      const addSubjectAction = actions.find((action) => action.type === "ADD_SUBJECT")
       expect(safeAction(addSubjectAction)).toEqual(expectedAddResourceAction)
 
       expect(actions).toHaveAction("SET_UNUSED_RDF", {
@@ -307,23 +278,17 @@ _:c14n1 <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://id.loc.gov/ont
 
     it("dispatches actions", async () => {
       const dataset = await datasetFromN3(n3.replace(/<>/g, `<${uri}>`))
-      const result = await store.dispatch(
-        newResourceFromDataset(dataset, uri, null, "testerrorkey", true)
-      )
+      const result = await store.dispatch(newResourceFromDataset(dataset, uri, null, "testerrorkey", true))
       expect(result).toBe(true)
 
       const actions = store.getActions()
 
-      const addSubjectAction = actions.find(
-        (action) => action.type === "ADD_SUBJECT"
-      )
+      const addSubjectAction = actions.find((action) => action.type === "ADD_SUBJECT")
 
       // URI should not be set for resource.
       expect(addSubjectAction.payload.uri).toBeNull()
 
-      const newExpectedAddResourceAction = _.cloneDeep(
-        expectedAddResourceAction
-      )
+      const newExpectedAddResourceAction = _.cloneDeep(expectedAddResourceAction)
       newExpectedAddResourceAction.payload.uri = null
       expect(safeAction(addSubjectAction)).toEqual(newExpectedAddResourceAction)
 
@@ -337,21 +302,14 @@ _:c14n1 <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://id.loc.gov/ont
 
     it("dispatches actions", async () => {
       // Change the hasResourceTemplate triple.
-      const fixtureRdf = n3.replace(
-        resourceTemplateId,
-        `${resourceTemplateId}x`
-      )
+      const fixtureRdf = n3.replace(resourceTemplateId, `${resourceTemplateId}x`)
       const dataset = await datasetFromN3(fixtureRdf)
-      const result = await store.dispatch(
-        newResourceFromDataset(dataset, uri, resourceTemplateId, "testerrorkey")
-      )
+      const result = await store.dispatch(newResourceFromDataset(dataset, uri, resourceTemplateId, "testerrorkey"))
       expect(result).toBe(true)
 
       const actions = store.getActions()
 
-      const addSubjectAction = actions.find(
-        (action) => action.type === "ADD_SUBJECT"
-      )
+      const addSubjectAction = actions.find((action) => action.type === "ADD_SUBJECT")
       expect(safeAction(addSubjectAction)).toEqual(expectedAddResourceAction)
     })
   })
@@ -360,14 +318,9 @@ _:c14n1 <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://id.loc.gov/ont
     const store = mockStore(createState())
 
     it("dispatches actions", async () => {
-      const fixtureRdf = n3.replace(
-        resourceTemplateId,
-        "rt:repeated:propertyURI:propertyLabel"
-      )
+      const fixtureRdf = n3.replace(resourceTemplateId, "rt:repeated:propertyURI:propertyLabel")
       const dataset = await datasetFromN3(fixtureRdf)
-      const result = await store.dispatch(
-        newResourceFromDataset(dataset, uri, null, "testerrorkey")
-      )
+      const result = await store.dispatch(newResourceFromDataset(dataset, uri, null, "testerrorkey"))
       expect(result).toBe(false)
 
       const actions = store.getActions()
@@ -385,21 +338,16 @@ describe("loadResource", () => {
     const expectedAddResourceAction = require("../__action_fixtures__/loadResource-ADD_SUBJECT.json")
     const store = mockStore(createState())
     sinopiaApi.putUserHistory = jest.fn().mockResolvedValue()
-    sinopiaSearch.getSearchResultsByUris = jest
-      .fn()
-      .mockResolvedValue({ results: [] })
+    sinopiaSearch.getSearchResultsByUris = jest.fn().mockResolvedValue({ results: [] })
 
     it("dispatches actions", async () => {
-      const uri =
-        "http://localhost:3000/resource/c7db5404-7d7d-40ac-b38e-c821d2c3ae3f"
+      const uri = "http://localhost:3000/resource/c7db5404-7d7d-40ac-b38e-c821d2c3ae3f"
       const result = await store.dispatch(loadResource(uri, "testerrorkey"))
       expect(result).toBe(true)
 
       const actions = store.getActions()
 
-      const addSubjectAction = actions.find(
-        (action) => action.type === "ADD_SUBJECT"
-      )
+      const addSubjectAction = actions.find((action) => action.type === "ADD_SUBJECT")
       expect(addSubjectAction).not.toBeNull()
       // safeStringify is used because it removes circular references
       expect(safeAction(addSubjectAction)).toEqual(expectedAddResourceAction)
@@ -410,8 +358,7 @@ describe("loadResource", () => {
       expect(actions).toHaveAction("SET_CURRENT_EDIT_RESOURCE")
       expect(actions).toHaveAction("LOAD_RESOURCE_FINISHED")
       expect(actions).toHaveAction("ADD_RESOURCE_HISTORY", {
-        resourceUri:
-          "http://localhost:3000/resource/c7db5404-7d7d-40ac-b38e-c821d2c3ae3f",
+        resourceUri: "http://localhost:3000/resource/c7db5404-7d7d-40ac-b38e-c821d2c3ae3f",
         type: "http://id.loc.gov/ontologies/bibframe/Uber1",
         group: "stanford",
         modified: "2020-08-20T11:34:40.887Z",
@@ -430,11 +377,8 @@ describe("loadResource", () => {
     const store = mockStore(createState())
 
     it("dispatches actions", async () => {
-      const uri =
-        "http://localhost:3000/resource/c7db5404-7d7d-40ac-b38e-c821d2c3ae3f"
-      const result = await store.dispatch(
-        loadResource(uri, "testerrorkey", true)
-      )
+      const uri = "http://localhost:3000/resource/c7db5404-7d7d-40ac-b38e-c821d2c3ae3f"
+      const result = await store.dispatch(loadResource(uri, "testerrorkey", true))
       expect(result).toBe(true)
 
       const actions = store.getActions()
@@ -456,11 +400,8 @@ describe("loadResource", () => {
     const store = mockStore(createState())
 
     it("dispatches actions", async () => {
-      const uri =
-        "http://localhost:3000/resource/c7db5404-7d7d-40ac-b38e-c821d2c3ae3f"
-      const result = await store.dispatch(
-        loadResource(uri, "testerrorkey", false, true)
-      )
+      const uri = "http://localhost:3000/resource/c7db5404-7d7d-40ac-b38e-c821d2c3ae3f"
+      const result = await store.dispatch(loadResource(uri, "testerrorkey", false, true))
       expect(result).toBe(true)
 
       const actions = store.getActions()
@@ -476,8 +417,7 @@ describe("loadResource", () => {
     const store = mockStore(createState())
 
     it("dispatches actions", async () => {
-      const uri =
-        "http://localhost:3000/resource/c7db5404-7d7d-40ac-b38e-c821d2c3ae3f-invalid"
+      const uri = "http://localhost:3000/resource/c7db5404-7d7d-40ac-b38e-c821d2c3ae3f-invalid"
       const result = await store.dispatch(loadResource(uri, "testerrorkey"))
       expect(result).toBe(false)
 
@@ -496,9 +436,7 @@ describe("loadResource", () => {
 
     it("dispatches actions", async () => {
       // http://error is a special URI that will cause an error to be thrown.
-      const result = await store.dispatch(
-        loadResource("http://error", "testerrorkey")
-      )
+      const result = await store.dispatch(loadResource("http://error", "testerrorkey"))
       expect(result).toBe(false)
 
       const actions = store.getActions()
@@ -514,21 +452,16 @@ describe("loadResource", () => {
     const store = mockStore(createState())
     const expectedAddResourceNestedResourceAction = require("../__action_fixtures__/loadResourceNestedResource-ADD_SUBJECT.json")
     it("should have nested resources from loading resource and templates", async () => {
-      const uri =
-        "http://localhost:3000/resource/a4181509-8046-47c8-9327-6e576c517d70"
+      const uri = "http://localhost:3000/resource/a4181509-8046-47c8-9327-6e576c517d70"
       const result = await store.dispatch(loadResource(uri, "testerrorkey"))
       expect(result).toBe(true)
 
       const actions = store.getActions()
 
-      const addSubjectAction = actions.find(
-        (action) => action.type === "ADD_SUBJECT"
-      )
+      const addSubjectAction = actions.find((action) => action.type === "ADD_SUBJECT")
       expect(addSubjectAction).not.toBeNull()
       // safeStringify is used because it removes circular references
-      expect(safeAction(addSubjectAction)).toEqual(
-        expectedAddResourceNestedResourceAction
-      )
+      expect(safeAction(addSubjectAction)).toEqual(expectedAddResourceNestedResourceAction)
     })
   })
 })
@@ -541,18 +474,14 @@ describe("newResource", () => {
     const store = mockStore(createState())
 
     it("dispatches actions", async () => {
-      const result = await store.dispatch(
-        newResource("resourceTemplate:testing:uber1", "testerrorkey")
-      )
+      const result = await store.dispatch(newResource("resourceTemplate:testing:uber1", "testerrorkey"))
       expect(result).toBe(true)
 
       const actions = store.getActions()
       // ADD_TEMPLATES is dispatched numerous times since mock store doesn't update state.
       expect(actions).toHaveAction("ADD_TEMPLATES")
 
-      const addSubjectAction = actions.find(
-        (action) => action.type === "ADD_SUBJECT"
-      )
+      const addSubjectAction = actions.find((action) => action.type === "ADD_SUBJECT")
 
       expect(safeAction(addSubjectAction)).toEqual(expectedAddResourceAction)
 
@@ -581,9 +510,7 @@ describe("newResource", () => {
     const store = mockStore(createState())
 
     it("dispatches actions", async () => {
-      const result = await store.dispatch(
-        newResource("rt:repeated:propertyURI:propertyLabel", "testerrorkey")
-      )
+      const result = await store.dispatch(newResource("rt:repeated:propertyURI:propertyLabel", "testerrorkey"))
       expect(result).toBe(false)
 
       const actions = store.getActions()
@@ -608,9 +535,7 @@ describe("newResourceCopy", () => {
 
       const actions = store.getActions()
 
-      const addSubjectAction = actions.find(
-        (action) => action.type === "ADD_SUBJECT"
-      )
+      const addSubjectAction = actions.find((action) => action.type === "ADD_SUBJECT")
 
       expect(safeAction(addSubjectAction)).toEqual(expectedAddResourceAction)
 
@@ -631,18 +556,14 @@ describe("newResourceCopy", () => {
 describe("expandProperty", () => {
   describe("expand a nested resource", () => {
     const expectedAddValueAction = require("../__action_fixtures__/expandProperty-ADD_VALUE.json")
-    const store = mockStore(
-      createState({ hasResourceWithContractedNestedResource: true })
-    )
+    const store = mockStore(createState({ hasResourceWithContractedNestedResource: true }))
 
     it("dispatches actions", async () => {
       await store.dispatch(expandProperty("v1o90QO1Qx", "testerrorkey"))
 
       const actions = store.getActions()
 
-      const addValueAction = actions.find(
-        (action) => action.type === "ADD_VALUE"
-      )
+      const addValueAction = actions.find((action) => action.type === "ADD_VALUE")
 
       expect(safeAction(addValueAction)).toEqual(expectedAddValueAction)
 
@@ -653,18 +574,14 @@ describe("expandProperty", () => {
 
   describe("expand a literal", () => {
     const expectedAddPropertyAction = require("../__action_fixtures__/expandProperty-ADD_PROPERTY.json")
-    const store = mockStore(
-      createState({ hasResourceWithContractedLiteral: true })
-    )
+    const store = mockStore(createState({ hasResourceWithContractedLiteral: true }))
 
     it("dispatches actions", async () => {
       await store.dispatch(expandProperty("JQEtq-vmq8", "testerrorkey"))
 
       const actions = store.getActions()
 
-      const addPropertyAction = actions.find(
-        (action) => action.type === "ADD_PROPERTY"
-      )
+      const addPropertyAction = actions.find((action) => action.type === "ADD_PROPERTY")
 
       expect(safeAction(addPropertyAction)).toEqual(expectedAddPropertyAction)
 
@@ -690,17 +607,13 @@ describe("addSiblingValueSubject", () => {
 describe("saveNewResource", () => {
   const uri = "http://localhost:3000/resource/abcdeghij23455"
   sinopiaApi.putUserHistory = jest.fn().mockResolvedValue()
-  sinopiaSearch.getSearchResultsByUris = jest
-    .fn()
-    .mockResolvedValue({ results: [] })
+  sinopiaSearch.getSearchResultsByUris = jest.fn().mockResolvedValue({ results: [] })
 
   it("saves a new resource", async () => {
     const store = mockStore(createState({ hasResourceWithLiteral: true }))
     sinopiaApi.postResource = jest.fn().mockResolvedValue(uri)
 
-    await store.dispatch(
-      saveNewResource("t9zVwg2zO", "stanford", ["cornell"], "testerror")
-    )
+    await store.dispatch(saveNewResource("t9zVwg2zO", "stanford", ["cornell"], "testerror"))
 
     const actions = store.getActions()
 
@@ -719,9 +632,7 @@ describe("saveNewResource", () => {
       editGroups: ["cornell"],
     })
 
-    const saveResourceFinishedAction = actions.find(
-      (action) => action.type === "SAVE_RESOURCE_FINISHED"
-    )
+    const saveResourceFinishedAction = actions.find((action) => action.type === "SAVE_RESOURCE_FINISHED")
     expect(saveResourceFinishedAction.payload.resourceKey).toEqual("t9zVwg2zO")
 
     expect(sinopiaApi.putUserHistory).toHaveBeenCalledWith(
@@ -736,9 +647,7 @@ describe("saveNewResource", () => {
     const store = mockStore(createState({ hasResourceWithLiteral: true }))
     sinopiaApi.postResource.mockRejectedValue(new Error("Messed-up"))
 
-    await store.dispatch(
-      saveNewResource("t9zVwg2zO", "stanford", ["cornell"], "testerror")
-    )
+    await store.dispatch(saveNewResource("t9zVwg2zO", "stanford", ["cornell"], "testerror"))
 
     const actions = store.getActions()
 
@@ -751,9 +660,7 @@ describe("saveNewResource", () => {
 
 describe("saveResource", () => {
   sinopiaApi.putUserHistory = jest.fn().mockResolvedValue()
-  sinopiaSearch.getSearchResultsByUris = jest
-    .fn()
-    .mockResolvedValue({ results: [] })
+  sinopiaSearch.getSearchResultsByUris = jest.fn().mockResolvedValue({ results: [] })
 
   it("saves an existing resource", async () => {
     sinopiaApi.putResource = jest.fn().mockResolvedValue("t9zVwg2zO")
@@ -761,9 +668,7 @@ describe("saveResource", () => {
     state.entities.subjects.t9zVwg2zO.group = "stanford"
     const store = mockStore(state)
 
-    await store.dispatch(
-      saveResource("t9zVwg2zO", "stanford", ["cornell"], "testerror")
-    )
+    await store.dispatch(saveResource("t9zVwg2zO", "stanford", ["cornell"], "testerror"))
     const actions = store.getActions()
 
     expect(actions).toHaveAction("CLEAR_ERRORS")
@@ -791,9 +696,7 @@ describe("saveResource", () => {
   it("error when trying to save existing resource", async () => {
     sinopiaApi.putResource = jest.fn().mockRejectedValue(new Error("Messed-up"))
     const store = mockStore(createState({ hasResourceWithLiteral: true }))
-    await store.dispatch(
-      saveResource("t9zVwg2zO", "stanford", ["cornell"], "testerror")
-    )
+    await store.dispatch(saveResource("t9zVwg2zO", "stanford", ["cornell"], "testerror"))
     const actions = store.getActions()
     expect(actions).toHaveAction("ADD_ERROR", {
       errorKey: "testerror",

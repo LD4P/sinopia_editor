@@ -9,10 +9,7 @@ import GroupChoiceModal from "./GroupChoiceModal"
 import EditorActions from "./EditorActions"
 import ErrorMessages from "./ErrorMessages"
 import ResourcesNav from "./ResourcesNav"
-import {
-  displayResourceValidations,
-  hasValidationErrors,
-} from "selectors/errors"
+import { displayResourceValidations, hasValidationErrors } from "selectors/errors"
 import { selectCurrentResourceKey } from "selectors/resources"
 import { useParams, useHistory } from "react-router-dom"
 import { newResource as newResourceCreator } from "actionCreators/resources"
@@ -20,12 +17,10 @@ import { newResourceErrorKey } from "../templates/SinopiaResourceTemplates"
 import EditorPreviewModal from "./preview/EditorPreviewModal"
 
 // Error key for errors that occur while editing a resource.
-export const resourceEditErrorKey = (resourceKey) =>
-  `resourceedit-${resourceKey}`
+export const resourceEditErrorKey = (resourceKey) => `resourceedit-${resourceKey}`
 
 // Error key for warnings that occur while editing a resource.
-export const resourceEditWarningKey = (resourceKey) =>
-  `resourceedit-warning-${resourceKey}`
+export const resourceEditWarningKey = (resourceKey) => `resourceedit-warning-${resourceKey}`
 
 const Editor = (props) => {
   const dispatch = useDispatch()
@@ -33,12 +28,8 @@ const Editor = (props) => {
   const { rtId } = useParams()
 
   const resourceKey = useSelector((state) => selectCurrentResourceKey(state))
-  const displayErrors = useSelector((state) =>
-    displayResourceValidations(state, resourceKey)
-  )
-  const hasErrors = useSelector((state) =>
-    hasValidationErrors(state, resourceKey)
-  )
+  const displayErrors = useSelector((state) => displayResourceValidations(state, resourceKey))
+  const hasErrors = useSelector((state) => hasValidationErrors(state, resourceKey))
 
   useEffect(() => {
     if (!resourceKey && rtId) {
@@ -55,9 +46,7 @@ const Editor = (props) => {
       <Header triggerEditorMenu={props.triggerHandleOffsetMenu} />
       <EditorActions />
       <EditorPreviewModal />
-      {displayErrors && hasErrors && (
-        <ErrorMessages resourceKey={resourceKey} />
-      )}
+      {displayErrors && hasErrors && <ErrorMessages resourceKey={resourceKey} />}
       <GroupChoiceModal />
       <ResourcesNav />
       <ResourceComponent />

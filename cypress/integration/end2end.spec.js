@@ -7,9 +7,7 @@ describe("End-to-end test", () => {
 
   it("Opens the app", () => {
     cy.visit(Cypress.env("EDITOR_URL") || "http://localhost:8000/")
-    cy.contains(
-      "The underdrawing for the new world of linked data in libraries"
-    )
+    cy.contains("The underdrawing for the new world of linked data in libraries")
   })
 
   it("Logs in", () => {
@@ -33,9 +31,7 @@ describe("End-to-end test", () => {
   })
 
   it("Uploads a resource template", () => {
-    cy.get("#searchInput")
-      .type("resourceTemplate:bf2:WorkTitle")
-      .should("have.value", "resourceTemplate:bf2:WorkTitle")
+    cy.get("#searchInput").type("resourceTemplate:bf2:WorkTitle").should("have.value", "resourceTemplate:bf2:WorkTitle")
     // eslint-disable-next-line cypress/no-unnecessary-waiting
     cy.wait(1000)
 
@@ -49,13 +45,8 @@ describe("End-to-end test", () => {
         cy.fixture("WorkTitle.txt").then((json) => {
           // Type is to slow. See https://github.com/cypress-io/cypress/issues/1123
           cy.get("#resourceTextArea").paste(json)
-          cy.get("#uriInput").type(
-            "http://localhost:3000/resource/resourceTemplate:bf2:WorkTitle"
-          )
-          cy.get('button[type="submit"]:not(:disabled)')
-            .contains("Submit")
-            .scrollIntoView()
-            .click()
+          cy.get("#uriInput").type("http://localhost:3000/resource/resourceTemplate:bf2:WorkTitle")
+          cy.get('button[type="submit"]:not(:disabled)').contains("Submit").scrollIntoView().click()
           // eslint-disable-next-line cypress/no-unnecessary-waiting
           cy.wait(500)
 
@@ -75,10 +66,7 @@ describe("End-to-end test", () => {
           cy.get("a").contains("Resource Templates").click()
           cy.url().should("include", "/templates")
 
-          cy.get("#searchInput").should(
-            "have.value",
-            "resourceTemplate:bf2:WorkTitle"
-          )
+          cy.get("#searchInput").should("have.value", "resourceTemplate:bf2:WorkTitle")
 
           // eslint-disable-next-line cypress/no-unnecessary-waiting
           cy.wait(1000)
@@ -94,24 +82,16 @@ describe("End-to-end test", () => {
 
   it("Populates a resource template", () => {
     // Add a value for the Preferred Title
-    cy.get('textarea[placeholder="Preferred Title for Work"]').type(
-      `${title}{enter}`
-    )
+    cy.get('textarea[placeholder="Preferred Title for Work"]').type(`${title}{enter}`)
     cy.get('textarea[placeholder="Preferred Title for Work"]').contains(title)
   })
 
   it("Previews the resource", () => {
     cy.get('button[title="Preview resource"]').first().scrollIntoView().click()
     cy.get("select#format").select("n-triples")
-    cy.contains(
-      `<> <http://id.loc.gov/ontologies/bibframe/mainTitle> "${title}"@eng .`
-    )
-    cy.contains(
-      '<> <http://sinopia.io/vocabulary/hasResourceTemplate> "resourceTemplate:bf2:WorkTitle" .'
-    )
-    cy.contains(
-      "<> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://id.loc.gov/ontologies/bibframe/Title> ."
-    )
+    cy.contains(`<> <http://id.loc.gov/ontologies/bibframe/mainTitle> "${title}"@eng .`)
+    cy.contains('<> <http://sinopia.io/vocabulary/hasResourceTemplate> "resourceTemplate:bf2:WorkTitle" .')
+    cy.contains("<> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://id.loc.gov/ontologies/bibframe/Title> .")
   })
 
   it("Saves", () => {

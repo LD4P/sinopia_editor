@@ -18,14 +18,9 @@ export const searchRetrieveErrorKey = "searchresource"
 const SinopiaSearchResults = () => {
   const errorsRef = useRef(null)
 
-  const { handleCopy, handleEdit, handleView } = useResource(
-    searchRetrieveErrorKey,
-    errorsRef
-  )
+  const { handleCopy, handleEdit, handleView } = useResource(searchRetrieveErrorKey, errorsRef)
 
-  const searchResults = useSelector((state) =>
-    selectSearchResults(state, "resource")
-  )
+  const searchResults = useSelector((state) => selectSearchResults(state, "resource"))
 
   if (searchResults.length === 0) {
     return null
@@ -45,10 +40,7 @@ const SinopiaSearchResults = () => {
       </div>
       <div id="search-results" className="row">
         <div className="col">
-          <table
-            className="table table-bordered search-results-list"
-            id="search-results-list"
-          >
+          <table className="table table-bordered search-results-list" id="search-results-list">
             <thead>
               <tr>
                 <th style={{ width: "35%" }}>Label / ID</th>

@@ -3,16 +3,7 @@ export const clearSearchResults = (searchType) => ({
   payload: searchType,
 })
 
-export const setSearchResults = (
-  searchType,
-  uri,
-  results,
-  totalResults,
-  facetResults,
-  query,
-  options,
-  error
-) => ({
+export const setSearchResults = (searchType, uri, results, totalResults, facetResults, query, options, error) => ({
   type: "SET_SEARCH_RESULTS",
   payload: {
     searchType,

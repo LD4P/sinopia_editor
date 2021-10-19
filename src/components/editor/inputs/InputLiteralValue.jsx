@@ -10,12 +10,7 @@ import DiacriticsSelection from "components/editor/diacritics/DiacriticsSelectio
 import useDiacritics from "hooks/useDiacritics"
 import _ from "lodash"
 
-const InputLiteralValue = ({
-  value,
-  propertyTemplate,
-  displayValidations,
-  shouldFocus,
-}) => {
+const InputLiteralValue = ({ value, propertyTemplate, displayValidations, shouldFocus }) => {
   const dispatch = useDispatch()
   const inputLiteralRef = useRef(null)
   const [focusHasBeenSet, setFocusHasBeenSet] = useState(false)
@@ -32,13 +27,7 @@ const InputLiteralValue = ({
     handleKeyDownDiacritics,
     handleAddCharacter,
     handleClickDiacritics,
-  } = useDiacritics(
-    inputLiteralRef,
-    id,
-    diacriticsId,
-    diacriticsBtnId,
-    value.literal || ""
-  )
+  } = useDiacritics(inputLiteralRef, id, diacriticsId, diacriticsBtnId, value.literal || "")
 
   useEffect(() => {
     if (value.literal === "" && !focusHasBeenSet && shouldFocus) {
@@ -69,8 +58,7 @@ const InputLiteralValue = ({
   }
 
   const controlClasses = ["form-control"]
-  if (displayValidations && !_.isEmpty(value.errors))
-    controlClasses.push("is-invalid")
+  if (displayValidations && !_.isEmpty(value.errors)) controlClasses.push("is-invalid")
 
   return (
     <React.Fragment>
@@ -101,10 +89,7 @@ const InputLiteralValue = ({
           <LanguageButton value={value} />
         </div>
         <div className="col-sm-1">
-          <RemoveButton
-            content={currentContent}
-            handleClick={handleRemoveClick}
-          />
+          <RemoveButton content={currentContent} handleClick={handleRemoveClick} />
         </div>
       </div>
       <div className="row">

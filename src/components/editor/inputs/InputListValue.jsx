@@ -7,12 +7,7 @@ import { selectLookup } from "selectors/lookups"
 import RemoveButton from "./RemoveButton"
 import _ from "lodash"
 
-const InputListValue = ({
-  value,
-  propertyTemplate,
-  displayValidations,
-  shouldFocus,
-}) => {
+const InputListValue = ({ value, propertyTemplate, displayValidations, shouldFocus }) => {
   const dispatch = useDispatch()
   const inputLiteralRef = useRef(null)
   const [focusHasBeenSet, setFocusHasBeenSet] = useState(false)
@@ -59,10 +54,7 @@ const InputListValue = ({
 
   const handleChange = (event) => {
     const item = itemMap[event.target.value]
-    if (item)
-      dispatch(
-        updateURIValue(value.key, item.uri, item.label, null, "InputURIValue")
-      )
+    if (item) dispatch(updateURIValue(value.key, item.uri, item.label, null, "InputURIValue"))
     event.preventDefault()
   }
 
@@ -83,12 +75,9 @@ const InputListValue = ({
   }, [authorityMap, propertyTemplate.authorities])
 
   const controlClasses = ["form-select"]
-  if (displayValidations && !_.isEmpty(value.errors))
-    controlClasses.push("is-invalid")
+  if (displayValidations && !_.isEmpty(value.errors)) controlClasses.push("is-invalid")
 
-  const authorityLabels = propertyTemplate.authorities.map(
-    (authority) => authority.label
-  )
+  const authorityLabels = propertyTemplate.authorities.map((authority) => authority.label)
 
   return (
     <React.Fragment>
@@ -109,17 +98,12 @@ const InputListValue = ({
           <div className="invalid-feedback">{value.errors.join(", ")}</div>
         </div>
         <div className="col-sm-1">
-          <RemoveButton
-            content={`select ${propertyTemplate.label}`}
-            handleClick={handleRemoveClick}
-          />
+          <RemoveButton content={`select ${propertyTemplate.label}`} handleClick={handleRemoveClick} />
         </div>
       </div>
       <div className="row">
         <div className="col">
-          <div className="form-text mt-0 mb-2">
-            Select from: {authorityLabels.join(", ")}
-          </div>
+          <div className="form-text mt-0 mb-2">Select from: {authorityLabels.join(", ")}</div>
         </div>
       </div>
     </React.Fragment>

@@ -1,11 +1,6 @@
 // Copyright 2019 Stanford University see LICENSE for license
 
-import {
-  addError,
-  clearErrors,
-  hideValidationErrors,
-  showValidationErrors,
-} from "reducers/errors"
+import { addError, clearErrors, hideValidationErrors, showValidationErrors } from "reducers/errors"
 
 import { createReducer } from "reducers/index"
 
@@ -54,10 +49,7 @@ describe("addError()", () => {
     }
 
     const newState = reducer(oldState, action)
-    expect(newState.errors.er345v2).toStrictEqual([
-      "Existing validation error",
-      "Second validation error",
-    ])
+    expect(newState.errors.er345v2).toStrictEqual(["Existing validation error", "Second validation error"])
   })
 })
 

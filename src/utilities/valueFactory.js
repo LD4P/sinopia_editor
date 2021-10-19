@@ -24,15 +24,7 @@ export const newLiteralValue = (property, literal, lang = defaultLanguageId) =>
   newValue(property, literal, lang, null, null, null, "InputLiteralValue")
 
 export const newBlankLiteralValue = (property) =>
-  newValue(
-    property,
-    null,
-    defaultLanguageId,
-    null,
-    null,
-    null,
-    "InputLiteralValue"
-  )
+  newValue(property, null, defaultLanguageId, null, null, null, "InputLiteralValue")
 
 export const newUriValue = (property, uri, label, lang = defaultLanguageId) =>
   newValue(property, null, lang, uri, label, null, "InputURIValue")
@@ -40,11 +32,8 @@ export const newUriValue = (property, uri, label, lang = defaultLanguageId) =>
 export const newBlankUriValue = (property) =>
   newValue(property, null, defaultLanguageId, null, null, null, "InputURIValue")
 
-export const newBlankLookupValue = (property) =>
-  newValue(property, null, null, null, null, null, "InputLookupValue")
+export const newBlankLookupValue = (property) => newValue(property, null, null, null, null, null, "InputLookupValue")
 
-export const newBlankListValue = (property) =>
-  newValue(property, null, null, null, null, null, "InputListValue")
+export const newBlankListValue = (property) => newValue(property, null, null, null, null, null, "InputListValue")
 
-export const newValueSubject = (property, subject) =>
-  newValue(property, null, null, null, null, subject)
+export const newValueSubject = (property, subject) => newValue(property, null, null, null, null, subject)

@@ -16,15 +16,11 @@ describe("adding and removing properties", () => {
     fireEvent.click(screen.getByTestId("Remove Uber template1, property2"))
 
     // Input box removed.
-    expect(
-      await screen.queryAllByPlaceholderText("Uber template1, property2")
-    ).toHaveLength(0)
+    expect(await screen.queryAllByPlaceholderText("Uber template1, property2")).toHaveLength(0)
     // Add button displayed.
     screen.getByTestId("Add Uber template1, property2")
     // Remove button removed.
-    expect(
-      screen.queryAllByTestId("Remove Uber template1, property2")
-    ).toHaveLength(0)
+    expect(screen.queryAllByTestId("Remove Uber template1, property2")).toHaveLength(0)
 
     // Now add it.
     expect(screen.getAllByText(/Uber template1, property2$/)).toHaveLength(2) // do not want to match property20!
@@ -33,9 +29,7 @@ describe("adding and removing properties", () => {
     // Input box displayed
     await screen.findByPlaceholderText("Uber template1, property2")
     // Add button removed.
-    expect(
-      screen.queryAllByTestId("Add Uber template1, property2")
-    ).toHaveLength(0)
+    expect(screen.queryAllByTestId("Add Uber template1, property2")).toHaveLength(0)
   }, 15000)
 
   it("adds and removes repeatable nested resources", async () => {
@@ -57,9 +51,7 @@ describe("adding and removing properties", () => {
     fireEvent.click(screen.getByTestId("Add another Uber template2"))
 
     // Two resource properties
-    await waitFor(() =>
-      expect(screen.queryAllByText("Uber template2")).toHaveLength(2)
-    )
+    await waitFor(() => expect(screen.queryAllByText("Uber template2")).toHaveLength(2))
     // Two remove buttons
     const removeBtns = screen.queryAllByTestId("Remove Uber template2")
     expect(removeBtns).toHaveLength(2)
@@ -91,9 +83,7 @@ describe("adding and removing properties", () => {
     // No remove
     expect(screen.queryAllByTestId("Remove Uber template2")).toHaveLength(0)
     // No add another
-    expect(screen.queryAllByTestId("Add another Uber template2")).toHaveLength(
-      0
-    )
+    expect(screen.queryAllByTestId("Add another Uber template2")).toHaveLength(0)
   }, 15000)
 
   it("adds and removes nested inputs", async () => {
@@ -110,13 +100,9 @@ describe("adding and removing properties", () => {
     fireEvent.click(screen.getByTestId("Remove Uber template2, property1"))
 
     // Input box removed.
-    expect(
-      await screen.queryAllByPlaceholderText("Uber template2, property1")
-    ).toHaveLength(0)
+    expect(await screen.queryAllByPlaceholderText("Uber template2, property1")).toHaveLength(0)
     // Delete button removed
-    expect(
-      screen.queryAllByTestId("Remove Uber template2, property1")
-    ).toHaveLength(0)
+    expect(screen.queryAllByTestId("Remove Uber template2, property1")).toHaveLength(0)
   }, 15000)
 
   it("removes and adds a required property with defaults, leaving the defaults but deleting the user entered literal", async () => {
@@ -146,9 +132,7 @@ describe("adding and removing properties", () => {
     expect(screen.queryAllByText(literalText)).toHaveLength(0)
 
     // Remove button removed.
-    expect(
-      screen.queryAllByTestId("Remove Uber template1, property7")
-    ).toHaveLength(0)
+    expect(screen.queryAllByTestId("Remove Uber template1, property7")).toHaveLength(0)
 
     // Now add back property7.
     fireEvent.click(screen.getByTestId("Add Uber template1, property7"))

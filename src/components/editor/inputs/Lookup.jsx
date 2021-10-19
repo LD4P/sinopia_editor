@@ -5,14 +5,7 @@ import PropTypes from "prop-types"
 import LookupTabs from "./LookupTabs"
 import _ from "lodash"
 
-const Lookup = ({
-  query,
-  hideLookup,
-  propertyTemplate,
-  show,
-  handleUpdateURI,
-  handleUpdateLiteral,
-}) => {
+const Lookup = ({ query, hideLookup, propertyTemplate, show, handleUpdateURI, handleUpdateLiteral }) => {
   const handleLiteralClick = (event) => {
     event.preventDefault()
     handleUpdateLiteral(query)
@@ -44,11 +37,7 @@ const Lookup = ({
       </div>
       <div className="row">
         <div className="col lookup-search-results">
-          <LookupTabs
-            authorityConfigs={propertyTemplate.authorities}
-            query={query}
-            handleUpdateURI={handleUpdateURI}
-          />
+          <LookupTabs authorityConfigs={propertyTemplate.authorities} query={query} handleUpdateURI={handleUpdateURI} />
         </div>
       </div>
     </div>

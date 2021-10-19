@@ -1,5 +1,3 @@
-export const selectCopyToNewMessageOldUri = (state) =>
-  state.editor.copyToNewMessage.oldUri
+export const selectCopyToNewMessageOldUri = (state) => state.editor.copyToNewMessage.oldUri
 
-export const selectCopyToNewMessageTimestamp = (state) =>
-  state.editor.copyToNewMessage.timestamp
+export const selectCopyToNewMessageTimestamp = (state) => state.editor.copyToNewMessage.timestamp

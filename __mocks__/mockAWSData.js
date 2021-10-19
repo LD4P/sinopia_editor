@@ -18,15 +18,9 @@ const mockAWSReponse = {
   username: "fake",
 }
 const mockAWSsigniture = "fake-signature"
-const mockHeader = Buffer.from(JSON.stringify(mockAWSHeader))
-  .toString("base64")
-  .slice(0, -2)
-const mockToken = Buffer.from(JSON.stringify(mockAWSReponse))
-  .toString("base64")
-  .slice(0, -2)
-const mockSignature = Buffer.from(JSON.stringify(mockAWSsigniture))
-  .toString("base64")
-  .slice(0, -2)
+const mockHeader = Buffer.from(JSON.stringify(mockAWSHeader)).toString("base64").slice(0, -2)
+const mockToken = Buffer.from(JSON.stringify(mockAWSReponse)).toString("base64").slice(0, -2)
+const mockSignature = Buffer.from(JSON.stringify(mockAWSsigniture)).toString("base64").slice(0, -2)
 const mockJWTString = `${mockHeader}.${mockToken}.${mockSignature}`
 
 module.exports = mockJWTString

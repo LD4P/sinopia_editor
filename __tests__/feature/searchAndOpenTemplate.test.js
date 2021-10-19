@@ -45,9 +45,7 @@ describe("searching and opening a resource", () => {
     const queryString = "title"
 
     // Search for a template
-    const input = screen.getByPlaceholderText(
-      "Enter id, label, URI, remark, group, or author"
-    )
+    const input = screen.getByPlaceholderText("Enter id, label, URI, remark, group, or author")
     await fireEvent.change(input, { target: { value: queryString } })
     await screen.findByText("resourceTemplate:bf2:Title:Note")
 
@@ -66,19 +64,11 @@ describe("searching and opening a resource", () => {
     expect(input.value).toEqual(queryString)
 
     // Clear search button empties the search field
-    fireEvent.click(
-      screen.getByTestId("Clear query string", { selector: "button" })
-    )
-    expect(
-      screen.getByPlaceholderText(
-        "Enter id, label, URI, remark, group, or author"
-      ).value
-    ).toEqual("")
+    fireEvent.click(screen.getByTestId("Clear query string", { selector: "button" }))
+    expect(screen.getByPlaceholderText("Enter id, label, URI, remark, group, or author").value).toEqual("")
 
     // see the recently used RTs
-    const histTemplateBtn = await screen.findByText(
-      "Most recently used templates"
-    )
+    const histTemplateBtn = await screen.findByText("Most recently used templates")
     fireEvent.click(histTemplateBtn)
     const rtHeaders = screen.getAllByText("Label / ID")
     expect(rtHeaders).toHaveLength(2)

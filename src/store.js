@@ -74,10 +74,6 @@ if (process.env.NODE_ENV === "development") {
   composeEnhancers = compose
 }
 
-const store = createStore(
-  reducer,
-  initialState,
-  composeEnhancers(applyMiddleware(thunk))
-)
+const store = createStore(reducer, initialState, composeEnhancers(applyMiddleware(thunk)))
 
 export default store

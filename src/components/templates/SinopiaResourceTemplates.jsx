@@ -16,19 +16,12 @@ export const newResourceErrorKey = "newresource"
  * This is the list view of all the templates
  */
 const SinopiaResourceTemplates = () => {
-  const searchResults = useSelector((state) =>
-    selectSearchResults(state, "template")
-  )
-  const historicalTemplates = useSelector((state) =>
-    selectHistoricalTemplates(state)
-  )
+  const searchResults = useSelector((state) => selectSearchResults(state, "template"))
+  const historicalTemplates = useSelector((state) => selectHistoricalTemplates(state))
 
   const topRef = useRef(null)
 
-  const { handleNew, handleCopy, handleEdit } = useResource(
-    newResourceErrorKey,
-    topRef
-  )
+  const { handleNew, handleCopy, handleEdit } = useResource(newResourceErrorKey, topRef)
 
   let history
   if (!_.isEmpty(historicalTemplates)) {
@@ -45,11 +38,7 @@ const SinopiaResourceTemplates = () => {
             </button>
           </h3>
         </div>
-        <div
-          id="historicalTemplates"
-          className="collapse"
-          style={{ padding: "5px" }}
-        >
+        <div id="historicalTemplates" className="collapse" style={{ padding: "5px" }}>
           <ResourceTemplateSearchResult
             results={historicalTemplates}
             handleClick={handleNew}

@@ -8,9 +8,7 @@ featureSetup()
 
 jest
   .spyOn(sinopiaApi, "postResource")
-  .mockResolvedValue(
-    "http://localhost:3000/resource/c7db5404-7d7d-40ac-b38e-c821d2c3ae3f"
-  )
+  .mockResolvedValue("http://localhost:3000/resource/c7db5404-7d7d-40ac-b38e-c821d2c3ae3f")
 
 describe("saving a resource", () => {
   describe("after opening a new resource", () => {
@@ -21,9 +19,7 @@ describe("saving a resource", () => {
       await screen.findByText("Title note", { selector: "h3" })
 
       const saveBtn = screen.getAllByText("Save", { selector: "button" })[0] // there are multiple save buttons, grab the first
-      const copyBtn = await screen.getAllByTestId(
-        "Copy this resource to a new resource"
-      )[0]
+      const copyBtn = await screen.getAllByTestId("Copy this resource to a new resource")[0]
 
       expect(saveBtn).toBeDisabled()
       expect(copyBtn).toBeDisabled()
@@ -35,9 +31,7 @@ describe("saving a resource", () => {
       // There is remove button
       screen.getByTestId("Remove foo")
       // There is language button.
-      expect(screen.getByTestId("Change language for foo")).toHaveTextContent(
-        "English"
-      )
+      expect(screen.getByTestId("Change language for foo")).toHaveTextContent("English")
 
       expect(saveBtn).not.toBeDisabled()
       fireEvent.click(saveBtn)
@@ -51,9 +45,7 @@ describe("saving a resource", () => {
       // The copy resource button is active
       expect(copyBtn).not.toBeDisabled()
       fireEvent.click(copyBtn)
-      screen.findByText(
-        /Copied http:\/\/localhost\/something\/or\/other to new resource./
-      )
+      screen.findByText(/Copied http:\/\/localhost\/something\/or\/other to new resource./)
 
       // There are nav tabs and a duplicate resource with the same content
       await screen.findAllByText("foo", {

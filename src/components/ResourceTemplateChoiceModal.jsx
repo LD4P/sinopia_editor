@@ -2,10 +2,7 @@
 
 import React, { useState, useCallback } from "react"
 import { useDispatch, useSelector } from "react-redux"
-import ModalWrapper, {
-  useDisplayStyle,
-  useModalCss,
-} from "components/ModalWrapper"
+import ModalWrapper, { useDisplayStyle, useModalCss } from "components/ModalWrapper"
 import PropTypes from "prop-types"
 import { hideModal } from "actions/modals"
 import { Typeahead, withAsync } from "react-bootstrap-typeahead"
@@ -16,9 +13,7 @@ const AsyncTypeahead = withAsync(Typeahead)
 
 const ResourceTemplateChoiceModal = (props) => {
   const dispatch = useDispatch()
-  const show = useSelector(
-    (state) => selectModalType(state) === "ResourceTemplateChoiceModal"
-  )
+  const show = useSelector((state) => selectModalType(state) === "ResourceTemplateChoiceModal")
 
   const [isLoading, setLoading] = useState(false)
   const [options, setOptions] = useState([])
@@ -68,12 +63,7 @@ const ResourceTemplateChoiceModal = (props) => {
         <div className="modal-content">
           <div className="modal-header prop-heading">
             <h4 className="modal-title">Choose resource template</h4>
-            <button
-              type="button"
-              className="btn-close"
-              onClick={close}
-              aria-label="Close"
-            ></button>
+            <button type="button" className="btn-close" onClick={close} aria-label="Close"></button>
           </div>
           <form className="group-select-options">
             <div className="modal-body group-panel">
@@ -93,17 +83,10 @@ const ResourceTemplateChoiceModal = (props) => {
                 id={"template-lookup"}
               />
               <div className="group-choose-buttons">
-                <button
-                  className="btn btn-link"
-                  style={{ paddingRight: "20px" }}
-                  onClick={close}
-                >
+                <button className="btn btn-link" style={{ paddingRight: "20px" }} onClick={close}>
                   Cancel
                 </button>
-                <button
-                  className="btn btn-primary btn-sm"
-                  onClick={(event) => saveAndClose(event)}
-                >
+                <button className="btn btn-primary btn-sm" onClick={(event) => saveAndClose(event)}>
                   Save
                 </button>
               </div>

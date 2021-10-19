@@ -27,9 +27,7 @@ const ResourceTemplateRow = ({ row, handleClick, handleCopy, handleEdit }) => {
       </td>
       <td style={{ wordBreak: "break-all" }}>{row.resourceURI}</td>
       <td style={{ wordBreak: "break-all" }}>{row.author}</td>
-      <td style={{ wordBreak: "break-all" }}>
-        {groupMap[row.group] || "Unknown"}
-      </td>
+      <td style={{ wordBreak: "break-all" }}>{groupMap[row.group] || "Unknown"}</td>
       <td>
         <LongDate datetime={row.date} timeZone="UTC" />
       </td>

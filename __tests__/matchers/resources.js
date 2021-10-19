@@ -10,36 +10,27 @@ expect.extend({
     if (subject == null || subject.key !== subjectKey) {
       return {
         pass: false,
-        message: () =>
-          `Expected ${pretty(subject)} to be subject ${subjectKey}`,
+        message: () => `Expected ${pretty(subject)} to be subject ${subjectKey}`,
       }
     }
 
     if (subject.subjectTemplate == null) {
       return {
         pass: false,
-        message: () =>
-          `Expected ${pretty(subject)} to have subjectTemplate property.`,
+        message: () => `Expected ${pretty(subject)} to have subjectTemplate property.`,
       }
     }
 
-    if (
-      subject.properties == null ||
-      subject.properties.length !== subject.propertyKeys.length
-    ) {
+    if (subject.properties == null || subject.properties.length !== subject.propertyKeys.length) {
       return {
         pass: false,
-        message: () =>
-          `Expected ${pretty(subject)} to have properties ${
-            subject.propertyKeys
-          }.`,
+        message: () => `Expected ${pretty(subject)} to have properties ${subject.propertyKeys}.`,
       }
     }
 
     return {
       pass: true,
-      message: () =>
-        `Expected ${pretty(subject)} not to be subject ${subjectKey}`,
+      message: () => `Expected ${pretty(subject)} not to be subject ${subjectKey}`,
     }
   },
   toBeProperty(property, propertyKey) {
@@ -50,16 +41,14 @@ expect.extend({
     if (property == null || property.key !== propertyKey) {
       return {
         pass: false,
-        message: () =>
-          `Expected ${pretty(property)} to be property ${propertyKey}`,
+        message: () => `Expected ${pretty(property)} to be property ${propertyKey}`,
       }
     }
 
     if (property.propertyTemplate == null) {
       return {
         pass: false,
-        message: () =>
-          `Expected ${pretty(property)} to have propertyTemplate property.`,
+        message: () => `Expected ${pretty(property)} to have propertyTemplate property.`,
       }
     }
 
@@ -73,8 +62,7 @@ expect.extend({
     if (property.valueKeys.length !== property.values.length) {
       return {
         pass: false,
-        message: () =>
-          `Expected ${pretty(property)} to have values ${property.valueKeys}.`,
+        message: () => `Expected ${pretty(property)} to have values ${property.valueKeys}.`,
       }
     }
 
@@ -88,17 +76,13 @@ expect.extend({
     if (property.subject.subjectTemplate == null) {
       return {
         pass: false,
-        message: () =>
-          `Expected ${pretty(
-            property
-          )} to have subject with subjectTemplate property.`,
+        message: () => `Expected ${pretty(property)} to have subject with subjectTemplate property.`,
       }
     }
 
     return {
       pass: true,
-      message: () =>
-        `Expected ${pretty(property)} not to be property ${propertyKey}`,
+      message: () => `Expected ${pretty(property)} not to be property ${propertyKey}`,
     }
   },
   toBeValue(value, valueKey) {
@@ -123,10 +107,7 @@ expect.extend({
     if (value.valueSubjectKey != null && value.valueSubject == null) {
       return {
         pass: false,
-        message: () =>
-          `Expected ${pretty(value)} to have valueSubject ${
-            value.valueSubjectKey
-          }.`,
+        message: () => `Expected ${pretty(value)} to have valueSubject ${value.valueSubjectKey}.`,
       }
     }
 

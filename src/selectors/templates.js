@@ -4,8 +4,7 @@
  * @param [string] key
  * @return [Object] subject template
  */
-export const selectSubjectTemplate = (state, key) =>
-  state.entities.subjectTemplates[key]
+export const selectSubjectTemplate = (state, key) => state.entities.subjectTemplates[key]
 
 /**
  * Selects a property template by key.
@@ -13,8 +12,7 @@ export const selectSubjectTemplate = (state, key) =>
  * @param [string] key
  * @return [Object] property template
  */
-export const selectPropertyTemplate = (state, key) =>
-  state.entities.propertyTemplates[key]
+export const selectPropertyTemplate = (state, key) => state.entities.propertyTemplates[key]
 
 /**
  * Selects a subject template and associated property templates by key.
@@ -27,10 +25,9 @@ export const selectSubjectAndPropertyTemplates = (state, key) => {
   if (!subjectTemplate) return null
 
   const newSubjectTemplate = { ...subjectTemplate }
-  newSubjectTemplate.propertyTemplates =
-    subjectTemplate.propertyTemplateKeys.map((propertyTemplateKey) =>
-      selectPropertyTemplate(state, propertyTemplateKey)
-    )
+  newSubjectTemplate.propertyTemplates = subjectTemplate.propertyTemplateKeys.map((propertyTemplateKey) =>
+    selectPropertyTemplate(state, propertyTemplateKey)
+  )
 
   return newSubjectTemplate
 }

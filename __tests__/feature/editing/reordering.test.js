@@ -1,11 +1,5 @@
 import { renderApp, createHistory } from "testUtils"
-import {
-  fireEvent,
-  screen,
-  getAllByPlaceholderText,
-  getByTestId,
-  waitFor,
-} from "@testing-library/react"
+import { fireEvent, screen, getAllByPlaceholderText, getByTestId, waitFor } from "@testing-library/react"
 import { featureSetup } from "featureUtils"
 
 featureSetup()
@@ -17,33 +11,24 @@ describe("reordering properties", () => {
 
     await screen.findByText("Uber template1", { selector: "h3" })
 
-    const nestedResource1 = container.querySelector(
-      'div[data-label="Uber template1, property19"] div.nested-resource'
-    )
+    const nestedResource1 = container.querySelector('div[data-label="Uber template1, property19"] div.nested-resource')
 
     // No arrows.
     expect(nestedResource1.querySelector(".btn-moveup")).toBeFalsy()
     expect(nestedResource1.querySelector(".btn-movedown")).toBeFalsy()
 
     // Add a value
-    const inputs1 = getAllByPlaceholderText(
-      nestedResource1,
-      "Uber template4, property1"
-    )
+    const inputs1 = getAllByPlaceholderText(nestedResource1, "Uber template4, property1")
     fireEvent.change(inputs1[0], { target: { value: "a" } })
     fireEvent.keyDown(inputs1[0], { key: "Enter", code: 13, charCode: 13 })
 
     // Add more nested resources
-    const panel = container.querySelector(
-      'div[data-label="Uber template1, property19"]'
-    )
+    const panel = container.querySelector('div[data-label="Uber template1, property19"]')
     fireEvent.click(getByTestId(panel, "Add another Uber template4"))
     fireEvent.click(getByTestId(panel, "Add another Uber template4"))
     await waitFor(() =>
       expect(
-        container.querySelectorAll(
-          'div[data-label="Uber template1, property19"] div.nested-resource'
-        )
+        container.querySelectorAll('div[data-label="Uber template1, property19"] div.nested-resource')
       ).toHaveLength(3)
     )
 

@@ -8,8 +8,7 @@ import { featureSetup } from "featureUtils"
 featureSetup()
 
 describe("user permissions", () => {
-  const uri =
-    "http://localhost:3000/resource/c7db5404-7d7d-40ac-b38e-c821d2c3ae3f"
+  const uri = "http://localhost:3000/resource/c7db5404-7d7d-40ac-b38e-c821d2c3ae3f"
 
   it("does not allow a group-less user to create or edit", async () => {
     const state = createState({ noGroups: true })
@@ -29,13 +28,9 @@ describe("user permissions", () => {
     screen.getByText("Uber template1", { selector: "span" })
 
     // Cannot copy a template
-    expect(
-      screen.queryByRole("button", { name: "Copy Uber template1" })
-    ).not.toBeInTheDocument()
+    expect(screen.queryByRole("button", { name: "Copy Uber template1" })).not.toBeInTheDocument()
     // Cannot edit a template
-    expect(
-      screen.queryByRole("button", { name: "Edit Uber template1" })
-    ).not.toBeInTheDocument()
+    expect(screen.queryByRole("button", { name: "Edit Uber template1" })).not.toBeInTheDocument()
 
     fireEvent.change(screen.getByLabelText("Search"), {
       target: { value: uri },
@@ -44,25 +39,17 @@ describe("user permissions", () => {
 
     await screen.findByText(uri)
     // Cannot copy a resource
-    expect(
-      screen.queryByRole("button", { name: `Copy ${uri}` })
-    ).not.toBeInTheDocument()
+    expect(screen.queryByRole("button", { name: `Copy ${uri}` })).not.toBeInTheDocument()
     // Cannot edit a resource
-    expect(
-      screen.queryByRole("button", { name: `Edit ${uri}` })
-    ).not.toBeInTheDocument()
+    expect(screen.queryByRole("button", { name: `Edit ${uri}` })).not.toBeInTheDocument()
 
     // Preview the resource
     fireEvent.click(screen.queryByRole("button", { name: `View ${uri}` }))
     await screen.findByText("Preview Resource")
     // Cannot copy a resource
-    expect(
-      screen.queryByRole("button", { name: "Copy" })
-    ).not.toBeInTheDocument()
+    expect(screen.queryByRole("button", { name: "Copy" })).not.toBeInTheDocument()
     // Cannot edit a resource
-    expect(
-      screen.queryByRole("button", { name: "Edit" })
-    ).not.toBeInTheDocument()
+    expect(screen.queryByRole("button", { name: "Edit" })).not.toBeInTheDocument()
   })
 
   it("allows a user with groups to create or edit", async () => {
@@ -123,9 +110,7 @@ describe("user permissions", () => {
     // Can copy a template
     screen.getByRole("button", { name: "Copy Uber template1" })
     // Cannot edit a template
-    expect(
-      screen.queryByRole("button", { name: "Edit Uber template1" })
-    ).not.toBeInTheDocument()
+    expect(screen.queryByRole("button", { name: "Edit Uber template1" })).not.toBeInTheDocument()
 
     fireEvent.change(screen.getByLabelText("Search"), {
       target: { value: uri },
@@ -136,9 +121,7 @@ describe("user permissions", () => {
     // Can copy a resource
     screen.getByRole("button", { name: `Copy ${uri}` })
     // Cannot edit a resource
-    expect(
-      screen.queryByRole("button", { name: `Edit ${uri}` })
-    ).not.toBeInTheDocument()
+    expect(screen.queryByRole("button", { name: `Edit ${uri}` })).not.toBeInTheDocument()
 
     // Preview the resource
     fireEvent.click(screen.queryByRole("button", { name: `View ${uri}` }))
@@ -146,8 +129,6 @@ describe("user permissions", () => {
     // Can copy a resource
     screen.getByRole("button", { name: "Copy" })
     // Cannot edit a resource
-    expect(
-      screen.queryByRole("button", { name: "Edit" })
-    ).not.toBeInTheDocument()
+    expect(screen.queryByRole("button", { name: "Edit" })).not.toBeInTheDocument()
   })
 })

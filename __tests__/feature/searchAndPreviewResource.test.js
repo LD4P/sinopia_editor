@@ -10,11 +10,8 @@ featureSetup()
 describe("searching and preview a resource", () => {
   describe("for a resource that is not a BF:instance", () => {
     // Setup search component to return known resource
-    const uri =
-      "http://localhost:3000/resource/c7db5404-7d7d-40ac-b38e-c821d2c3ae3f"
-    sinopiaSearch.getSearchResultsWithFacets.mockResolvedValue(
-      resourceSearchResults(uri)
-    )
+    const uri = "http://localhost:3000/resource/c7db5404-7d7d-40ac-b38e-c821d2c3ae3f"
+    sinopiaSearch.getSearchResultsWithFacets.mockResolvedValue(resourceSearchResults(uri))
 
     it("renders a modal without edit controls", async () => {
       renderApp()
@@ -27,26 +24,18 @@ describe("searching and preview a resource", () => {
       fireEvent.click(screen.getByTestId("Submit search"))
 
       await screen.findByText(uri)
-      expect(
-        screen.getByText("http://id.loc.gov/ontologies/bibframe/Fixture")
-      ).toBeInTheDocument()
+      expect(screen.getByText("http://id.loc.gov/ontologies/bibframe/Fixture")).toBeInTheDocument()
 
       // Modal hasn't rendered yet
-      expect(
-        screen.queryByRole("dialog", { name: "Preview Resource" })
-      ).not.toBeInTheDocument()
-      expect(screen.getByTestId("view-resource-modal").classList).not.toContain(
-        "show"
-      )
+      expect(screen.queryByRole("dialog", { name: "Preview Resource" })).not.toBeInTheDocument()
+      expect(screen.getByTestId("view-resource-modal").classList).not.toContain("show")
 
       // Click the view icon next to the search result row
       expect(screen.getByTestId(`View ${uri}`)).toBeInTheDocument()
       fireEvent.click(screen.getByTestId(`View ${uri}`))
 
       // Modal has now rendered
-      expect(
-        (await screen.findByTestId("view-resource-modal")).classList
-      ).toContain("show")
+      expect((await screen.findByTestId("view-resource-modal")).classList).toContain("show")
       expect(
         await screen.findAllByText("Uber template1, property1", {
           selector: "label",
@@ -63,9 +52,7 @@ describe("searching and preview a resource", () => {
 
       // Only properties with values are displayed.
       screen.getByText("Uber template1, property9")
-      expect(
-        screen.queryByText("Uber template1, property7")
-      ).not.toBeInTheDocument()
+      expect(screen.queryByText("Uber template1, property7")).not.toBeInTheDocument()
 
       // URIs are rendered.
       screen.getByText(/ubertemplate1:property5 \[English\]:/, {
@@ -103,32 +90,18 @@ describe("searching and preview a resource", () => {
       expect(screen.getByTestId("copy-resource")).toBeInTheDocument()
 
       // But on MARC and Export buttons
-      expect(
-        screen.queryByText("Request MARC", { selector: "button" })
-      ).not.toBeInTheDocument()
-      expect(
-        screen.queryByText(/Export to/, { selector: "button" })
-      ).not.toBeInTheDocument()
+      expect(screen.queryByText("Request MARC", { selector: "button" })).not.toBeInTheDocument()
+      expect(screen.queryByText(/Export to/, { selector: "button" })).not.toBeInTheDocument()
 
       // Edit button opens the editor with existing resource
-      fireEvent.click(
-        screen.getByLabelText("Edit", { selector: "button", exact: true })
-      )
-      expect(
-        screen.getByText("Example Label", { selector: "h3" })
-      ).toBeInTheDocument()
-      expect(
-        screen.getByText("Copy URI", { selector: "button" })
-      ).toBeInTheDocument()
+      fireEvent.click(screen.getByLabelText("Edit", { selector: "button", exact: true }))
+      expect(screen.getByText("Example Label", { selector: "h3" })).toBeInTheDocument()
+      expect(screen.getByText("Copy URI", { selector: "button" })).toBeInTheDocument()
 
       // Make sure nav panel didn't disappear
       fireEvent.click(screen.getByText("Resource Templates", { selector: "a" }))
-      fireEvent.click(
-        await screen.findByTitle("Create resource for Title note")
-      )
-      expect(
-        await screen.findByTestId("Go to Note Text", { selector: "button" })
-      ).toBeInTheDocument()
+      fireEvent.click(await screen.findByTitle("Create resource for Title note"))
+      expect(await screen.findByTestId("Go to Note Text", { selector: "button" })).toBeInTheDocument()
 
       // Confirm search query is still in place (stored in state and not cleared)
       expect(await screen.getByLabelText("Search").value).toEqual(uri)
@@ -137,11 +110,8 @@ describe("searching and preview a resource", () => {
 
   describe("for a resource that is a BF:instance", () => {
     // Setup search component to return known resource
-    const uri =
-      "http://localhost:3000/resource/9c5bd9f5-1804-45bd-99ed-b6e3774c896e"
-    sinopiaSearch.getSearchResultsWithFacets.mockResolvedValue(
-      resourceSearchResults(uri)
-    )
+    const uri = "http://localhost:3000/resource/9c5bd9f5-1804-45bd-99ed-b6e3774c896e"
+    sinopiaSearch.getSearchResultsWithFacets.mockResolvedValue(resourceSearchResults(uri))
 
     it.only("renders a modal without edit controls but with MARC button and Export button", async () => {
       renderApp()
@@ -154,26 +124,18 @@ describe("searching and preview a resource", () => {
       fireEvent.click(screen.getByTestId("Submit search"))
 
       await screen.findByText(uri)
-      expect(
-        screen.getByText("http://id.loc.gov/ontologies/bibframe/Fixture")
-      ).toBeInTheDocument()
+      expect(screen.getByText("http://id.loc.gov/ontologies/bibframe/Fixture")).toBeInTheDocument()
 
       // Modal hasn't rendered yet
-      expect(
-        screen.queryByRole("dialog", { name: "Preview Resource" })
-      ).not.toBeInTheDocument()
-      expect(screen.getByTestId("view-resource-modal").classList).not.toContain(
-        "show"
-      )
+      expect(screen.queryByRole("dialog", { name: "Preview Resource" })).not.toBeInTheDocument()
+      expect(screen.getByTestId("view-resource-modal").classList).not.toContain("show")
 
       // Click the view icon next to the search result row
       expect(screen.getByTestId(`View ${uri}`)).toBeInTheDocument()
       fireEvent.click(screen.getByTestId(`View ${uri}`))
 
       // Modal has now rendered
-      expect(
-        (await screen.findByTestId("view-resource-modal")).classList
-      ).toContain("show")
+      expect((await screen.findByTestId("view-resource-modal")).classList).toContain("show")
       expect(
         await screen.findAllByText("Note", {
           selector: "label",

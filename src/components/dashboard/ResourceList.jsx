@@ -20,10 +20,7 @@ const ResourceList = (props) => {
       <PreviewModal handleEdit={handleEdit} handleCopy={handleCopy} />
       <div className="row">
         <div className="col">
-          <table
-            className="table table-bordered resource-list"
-            id="resource-list"
-          >
+          <table className="table table-bordered resource-list" id="resource-list">
             <thead>
               <tr>
                 <th style={{ width: "35%" }}>Label / ID</th>

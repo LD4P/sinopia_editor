@@ -11,12 +11,7 @@ const useSearch = () => {
   const dispatch = useDispatch()
   const history = useHistory()
 
-  const fetchQASearchResults = (
-    queryString,
-    uri,
-    searchOptions,
-    startOfRange
-  ) => {
+  const fetchQASearchResults = (queryString, uri, searchOptions, startOfRange) => {
     dispatch(
       fetchQASearchResultsCreator(queryString, uri, {
         ...searchOptions,
@@ -40,11 +35,7 @@ const useSearch = () => {
     })
   }
 
-  const fetchSinopiaSearchResults = (
-    queryString,
-    searchOptions,
-    startOfRange
-  ) => {
+  const fetchSinopiaSearchResults = (queryString, searchOptions, startOfRange) => {
     dispatch(
       fetchSinopiaSearchResultsCreator(queryString, {
         ...searchOptions,
@@ -68,12 +59,7 @@ const useSearch = () => {
     })
   }
 
-  const fetchSearchResults = (
-    queryString,
-    uri,
-    searchOptions,
-    startOfRange
-  ) => {
+  const fetchSearchResults = (queryString, uri, searchOptions, startOfRange) => {
     if (uri === sinopiaSearchUri) {
       fetchSinopiaSearchResults(queryString, searchOptions, startOfRange)
     } else {

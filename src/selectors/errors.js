@@ -7,8 +7,7 @@ import _ from "lodash"
  * @param {string} resourceKey of the resource to check; if omitted, current resource key is used
  * @return {boolean} true if resource validations should be displayed
  */
-export const displayResourceValidations = (state, resourceKey) =>
-  state.editor.resourceValidation[resourceKey] || false
+export const displayResourceValidations = (state, resourceKey) => state.editor.resourceValidation[resourceKey] || false
 
 export const hasValidationErrors = (state, resourceKey) => {
   if (!resourceKey) return false
@@ -20,8 +19,7 @@ export const hasValidationErrors = (state, resourceKey) => {
 /**
  * @returns {function} a function that returns the errors for an error key
  */
-export const selectErrors = (state, errorKey) =>
-  state.editor.errors[errorKey] || []
+export const selectErrors = (state, errorKey) => state.editor.errors[errorKey] || []
 
 export const selectValidationErrors = (state, resourceKey) => {
   const subject = selectSubject(state, resourceKey)
@@ -31,10 +29,7 @@ export const selectValidationErrors = (state, resourceKey) => {
 
   subject.descWithErrorPropertyKeys.forEach((propertyKey) => {
     const property = selectProperty(state, propertyKey)
-    if (
-      property.descWithErrorPropertyKeys.length === 1 &&
-      property.values !== null
-    ) {
+    if (property.descWithErrorPropertyKeys.length === 1 && property.values !== null) {
       property.values.forEach((value) => {
         value.errors.forEach((error) => {
           const newError = {

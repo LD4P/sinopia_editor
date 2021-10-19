@@ -33,13 +33,7 @@ const RDFDisplay = ({ format, dataset }) => {
 
   if (format === "table") {
     const rows = dataset.toArray().map((quad) => (
-      <tr
-        key={[
-          quad.subject.value,
-          quad.predicate.value,
-          quad.object.value,
-        ].concat("-")}
-      >
+      <tr key={[quad.subject.value, quad.predicate.value, quad.object.value].concat("-")}>
         <td>{quad.subject.value || "<>"}</td>
         <td>{quad.predicate.value}</td>
         <td>
@@ -49,10 +43,7 @@ const RDFDisplay = ({ format, dataset }) => {
       </tr>
     ))
     return (
-      <table
-        className="table table-striped table-sm"
-        style={{ backgroundColor: "white" }}
-      >
+      <table className="table table-striped table-sm" style={{ backgroundColor: "white" }}>
         <thead>
           <tr>
             <th scope="col">Subject</th>

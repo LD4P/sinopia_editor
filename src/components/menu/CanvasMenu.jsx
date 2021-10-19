@@ -15,11 +15,7 @@ const CanvasMenu = (props) => {
       .then((response) => response.text())
       .then((data) => setContent(data))
       .catch((error) =>
-        console.error(
-          `Error loading ${
-            Config.sinopiaHelpAndResourcesMenuContent
-          }: ${error.toString()}`
-        )
+        console.error(`Error loading ${Config.sinopiaHelpAndResourcesMenuContent}: ${error.toString()}`)
       )
   }, [])
 

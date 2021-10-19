@@ -28,11 +28,7 @@ export const renderComponent = (component, store, history) => {
 }
 
 export const createStore = (initialState) => {
-  return createReduxStore(
-    appReducer,
-    initialState || createState(),
-    applyMiddleware(thunk)
-  )
+  return createReduxStore(appReducer, initialState || createState(), applyMiddleware(thunk))
 }
 
 export const createHistory = (initialEntries) => {

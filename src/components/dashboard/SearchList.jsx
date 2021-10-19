@@ -29,11 +29,7 @@ const SearchList = (props) => {
   }
 
   const rows = props.searches.map((row) => (
-    <SearchRow
-      row={row}
-      key={`${row.authorityUri}-${row.query}`}
-      handleSearch={handleSearch}
-    />
+    <SearchRow row={row} key={`${row.authorityUri}-${row.query}`} handleSearch={handleSearch} />
   ))
 
   return (

@@ -25,9 +25,7 @@ describe("expanding and contracting properties", () => {
     // Hide
     fireEvent.click(screen.getByTestId("Hide Uber template2, property1"))
     // Input box not displayed
-    expect(
-      screen.queryAllByPlaceholderText("Uber template2, property1")
-    ).toHaveLength(0)
+    expect(screen.queryAllByPlaceholderText("Uber template2, property1")).toHaveLength(0)
 
     // Show
     fireEvent.click(screen.getByTestId("Show Uber template2, property1"))

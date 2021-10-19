@@ -8,9 +8,7 @@ import _ from "lodash"
 const ReadOnlyInputLiteralOrURI = ({ propertyKey }) => {
   const property = useSelector((state) => selectProperty(state, propertyKey))
 
-  const filteredValues = property.values.filter(
-    (value) => value.literal || value.uri
-  )
+  const filteredValues = property.values.filter((value) => value.literal || value.uri)
 
   if (_.isEmpty(filteredValues)) return null
 
@@ -44,9 +42,7 @@ const ReadOnlyInputLiteralOrURI = ({ propertyKey }) => {
   }
 
   const inputValues = filteredValues.map((value) =>
-    value.component === "InputLiteralValue"
-      ? literalValue(value)
-      : uriValue(value)
+    value.component === "InputLiteralValue" ? literalValue(value) : uriValue(value)
   )
 
   return <React.Fragment>{inputValues}</React.Fragment>
