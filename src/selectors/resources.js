@@ -177,3 +177,6 @@ export const selectSiblingValues = (state, valueKey) => {
     )
   })
 }
+
+export const selectResourceLabel = (state, subjectKey) =>
+  selectNormSubject(state, subjectKey)?.label
