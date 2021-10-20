@@ -23,10 +23,10 @@ describe("displayResourceValidations()", () => {
 })
 
 describe("selectErrors()", () => {
-  it("returns an empty array if there are no editor errors", () => {
+  it("returns undefined if there are no editor errors", () => {
     const state = createState()
     const errors = selectErrors(state, null)
-    expect(errors.length).toBe(0)
+    expect(errors).toBe(undefined)
   })
 
   it("returns errors for a given error key", () => {

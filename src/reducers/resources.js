@@ -299,15 +299,16 @@ const addValueToNewState = (
 
   // Add value to property
   const newProperty = { ...property }
-  const valueKeys = newProperty.valueKeys || []
+  const newValueKeys = [...(newProperty.valueKeys || [])]
   // Add if doesn't exist.
-  if (valueKeys.indexOf(newValue.key) === -1) {
+  if (newValueKeys.indexOf(newValue.key) === -1) {
     if (siblingValueKey) {
       const index = newProperty.valueKeys.indexOf(siblingValueKey)
-      newProperty.valueKeys.splice(index + 1, 0, newValue.key)
+      newValueKeys.splice(index + 1, 0, newValue.key)
     } else {
-      newProperty.valueKeys = [...valueKeys, newValue.key]
+      newValueKeys.push(newValue.key)
     }
+    newProperty.valueKeys = newValueKeys
   }
   // Set to show
   newProperty.show = show
