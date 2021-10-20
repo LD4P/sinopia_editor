@@ -1,17 +1,21 @@
 // Copyright 2019 Stanford University see LICENSE for license
 
 import React, { useState, useRef } from "react"
-import { useSelector } from "react-redux"
+import { useSelector, shallowEqual } from "react-redux"
 import PropTypes from "prop-types"
 import { postMarc, getMarcJob, getMarc } from "sinopiaApi"
-import { selectNormSubject } from "selectors/resources"
+import { selectPickSubject } from "selectors/resources"
 import { selectSubjectTemplate } from "selectors/templates"
 import { saveAs } from "file-saver"
 import { nanoid } from "nanoid"
 
 const MarcButton = ({ resourceKey }) => {
   const marcs = useRef({})
-  const resource = useSelector((state) => selectNormSubject(state, resourceKey))
+  const resource = useSelector(
+    (state) =>
+      selectPickSubject(state, resourceKey, ["uri", "subjectTemplateKey"]),
+    shallowEqual
+  )
   const subjectTemplate = useSelector((state) =>
     selectSubjectTemplate(state, resource?.subjectTemplateKey)
   )
