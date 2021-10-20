@@ -160,3 +160,20 @@ export const selectResourceGroup = (state, resourceKey) =>
 
 export const selectUri = (state, resourceKey) =>
   state.entities.subjects[resourceKey]?.uri
+
+export const selectSiblingValues = (state, valueKey) => {
+  const value = selectNormValue(state, valueKey)
+  const property = selectNormProperty(state, value?.propertyKey)
+  const valueSubject = selectNormSubject(state, value?.valueSubjectKey)
+  const values = selectNormValues(state, property?.valueKeys) || []
+
+  return values.filter((siblingValue) => {
+    const siblingValueSubject = selectNormSubject(
+      state,
+      siblingValue.valueSubjectKey
+    )
+    return (
+      siblingValueSubject.subjectTemplateKey === valueSubject.subjectTemplateKey
+    )
+  })
+}
