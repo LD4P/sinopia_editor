@@ -1,6 +1,6 @@
 import React from "react"
 import PropTypes from "prop-types"
-import { useSelector } from "react-redux"
+import { useSelector, shallowEqual } from "react-redux"
 import { displayResourceValidations } from "selectors/errors"
 import { selectNormProperty, selectNormValues } from "selectors/resources"
 import { selectPropertyTemplate } from "selectors/templates"
@@ -15,11 +15,15 @@ const ActivePanelPropertyNav = (props) => {
   const property = useSelector((state) =>
     selectNormProperty(state, props.propertyKey)
   )
-  const values = useSelector((state) =>
-    selectNormValues(state, property.valueKeys)
+  const values = useSelector(
+    (state) => selectNormValues(state, property.valueKeys),
+    shallowEqual
   )
   const propertyTemplate = useSelector((state) =>
     selectPropertyTemplate(state, property?.propertyTemplateKey)
+  )
+  const displayValidations = useSelector((state) =>
+    displayResourceValidations(state, property?.rootSubjectKey)
   )
 
   const { handleToggleClick, isExpanded } = useLeftNav(property)
@@ -31,9 +35,6 @@ const ActivePanelPropertyNav = (props) => {
   if (props.isTemplate) liClassNames.push("template")
 
   const hasError = !_.isEmpty(property.descWithErrorPropertyKeys)
-  const displayValidations = useSelector((state) =>
-    displayResourceValidations(state, property?.rootSubjectKey)
-  )
   const headingClassNames = ["left-nav-header"]
   if (displayValidations && hasError) headingClassNames.push("text-danger")
 
