@@ -1,12 +1,12 @@
 // Copyright 2019 Stanford University see LICENSE for license
 
-import React, { useState, useEffect } from "react"
-import { useSelector, useDispatch } from "react-redux"
+import React from "react"
+import { useSelector, useDispatch, shallowEqual } from "react-redux"
 import PropTypes from "prop-types"
 import { saveResource as saveResourceAction } from "actionCreators/resources"
 import {
   resourceHasChangesSinceLastSave,
-  selectNormSubject,
+  selectPickSubject,
   selectCurrentResourceKey,
 } from "selectors/resources"
 import {
@@ -24,24 +24,12 @@ const SaveAndPublishButton = (props) => {
   const dispatch = useDispatch()
 
   const resourceKey = useSelector((state) => selectCurrentResourceKey(state))
-  const resource = useSelector((state) => selectNormSubject(state, resourceKey))
-  const isSaved = !!resource.uri
-  const saveResource = () =>
-    dispatch(
-      saveResourceAction(
-        resourceKey,
-        resource.group,
-        resource.editGroups,
-        resourceEditWarningKey(resourceKey)
-      )
-    )
-
-  const showGroupChooser = () => dispatch(showModalAction("GroupChoiceModal"))
-  const showValidationErrors = () =>
-    dispatch(showValidationErrorsAction(resourceKey))
-  const hideValidationErrors = () =>
-    dispatch(hideValidationErrorsAction(resourceKey))
-
+  // selectPickSubject and shallowEqual prevents rerender from unrelated changed.
+  const resource = useSelector(
+    (state) =>
+      selectPickSubject(state, resourceKey, ["group", "editGroups", "uri"]),
+    shallowEqual
+  )
   const resourceHasChanged = useSelector((state) =>
     resourceHasChangesSinceLastSave(state)
   )
@@ -51,38 +39,43 @@ const SaveAndPublishButton = (props) => {
   const validationErrorsAreShowing = useSelector((state) =>
     displayResourceValidations(state, resourceKey)
   )
-  const [isDisabled, setIsDisabled] = useState(true)
 
-  useEffect(() => {
-    // Disabled if resource has not changed or resource has changed but isSaved and there are validation errors.
-    setIsDisabled(
-      !resourceHasChanged || (validationErrorsAreShowing && hasValidationErrors)
-    )
-  }, [resourceHasChanged, validationErrorsAreShowing, hasValidationErrors])
-
-  const save = () => {
-    if (formIsValid()) {
-      if (isSaved) {
-        saveResource()
-      } else {
-        showGroupChooser()
-      }
-    }
-  }
+  const isSaved = !!resource.uri
+  const isDisabled =
+    !resourceHasChanged || (validationErrorsAreShowing && hasValidationErrors)
 
   const formIsValid = () => {
     if (hasValidationErrors) {
-      showValidationErrors()
+      dispatch(showValidationErrorsAction(resourceKey))
       return false
     }
-    hideValidationErrors()
+    dispatch(hideValidationErrorsAction(resourceKey))
     return true
+  }
+
+  const handleClick = (event) => {
+    event.preventDefault()
+    if (formIsValid()) {
+      if (isSaved) {
+        dispatch(
+          saveResourceAction(
+            resourceKey,
+            resource.group,
+            resource.editGroups,
+            resourceEditWarningKey(resourceKey)
+          )
+        )
+      } else {
+        // Show group chooser
+        dispatch(showModalAction("GroupChoiceModal"))
+      }
+    }
   }
 
   return (
     <button
       className={`btn btn-primary ${props.class}`}
-      onClick={save}
+      onClick={handleClick}
       aria-label="Save"
       disabled={isDisabled}
     >

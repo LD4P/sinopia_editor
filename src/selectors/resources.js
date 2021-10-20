@@ -180,3 +180,8 @@ export const selectSiblingValues = (state, valueKey) => {
 
 export const selectResourceLabel = (state, subjectKey) =>
   selectNormSubject(state, subjectKey)?.label
+
+// Only select certain properties from a subject.
+// Note that this will return a unique object every time.
+export const selectPickSubject = (state, key, props) =>
+  _.pick(state.entities.subjects[key], props)
